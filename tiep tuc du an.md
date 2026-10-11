@@ -99,3 +99,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Yêu cầu vận hành: nếu thao tác cập nhật GitHub bị chặn, lượt sau **phải đọc lại file và thử lưu lại phần còn thiếu**, xác minh commit và nội dung; không báo đã lưu khi chưa có commit.
 - Khôi phục phần ghi chép bị chặn ở lượt trước: phân tích ARM64 của `DuoNaviDashboard.dylib` gốc đã được báo trong chat: `CBSlotPillView initWithSlotIndex:` tại `0x841c0`, `initWithFrame:` tại `0x84208` với kích thước 76 x 22 pt, cornerRadius 11 pt, nền RGB (16,18,26), alpha 0.88, borderWidth 0.6 pt; các hằng số được mô tả đọc từ arm64 slice có offset 0x4000. **Đây là số liệu báo cáo từ lượt phân tích trước, chưa được kiểm chứng lại trong lượt này**, cần xác minh lại trên DEB gốc trước khi dùng làm cơ sở patch hoặc khẳng định là số liệu đã kiểm chứng độc lập. File chứng cứ local từng được báo `/mnt/data/DuoNavi_UI_binary_audit_2026-10-11.md`, `/mnt/data/DuoNavi_UI_reverse_evidence_2026-10-11.zip`, không xác nhận đã có trên GitHub.
 - Trạng thái: DuoFace 1.0.3-9 người dùng xác nhận cài và mở trên iPhone; chưa test CarPlay. Không chỉnh sửa mã, build hoặc deploy trong checkpoint này.
+
+
+## Checkpoint 2026-10-11 — người dùng xác nhận ảnh chính là UI DuoNavi gốc
+- **Xác nhận mới trực tiếp từ người dùng:** ảnh 1536×922 đã gửi trong chat là **giao diện DuoNavi gốc**, không phải ảnh minh họa hay một tweak khác. Thay thế đánh giá trước đó 'chưa rõ ảnh có phải DuoNavi' bằng xác nhận nguồn ảnh từ người dùng; không diễn đạt như đã tự xác minh nguồn ảnh độc lập.
+- Ảnh là chuẩn trực quan cho việc thiết kế DuoFace khác biệt: khung viền xanh bo góc của hai app, pill toolbar trên mỗi cửa sổ (ba chấm, expand), nút tròn swap giữa hai app, divider kéo tỷ lệ, CarPlay dock bên trái.
+- Cách làm cập nhật: lấy ảnh này làm baseline thị giác, đối chiếu từng thành phần với mã UI gốc; dựng mockup UI V2 để người dùng duyệt **trước khi sửa binary hoặc build**; giữ nguyên logic split, chọn app, swap, fullscreen, kéo divider và không thay DuoNavi gốc.
+- Chưa sửa mã, chưa build, chưa deploy. Ảnh người dùng gửi chỉ nằm trong chat trừ khi được đưa vào repo và xác minh thành công.
