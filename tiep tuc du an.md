@@ -477,3 +477,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — user báo build xong
 - Người dùng thông báo `Build xong rồi`. Đây là **báo cáo của người dùng**, chưa có ID run mới hoặc bằng chứng job/artifact được kiểm chứng từ GitHub connector.
 - Không nhầm với run 38151758510 đã thất bại; cần link/ID run mới để đọc `fetch_workflow_run_jobs`, `fetch_workflow_run_artifacts`, log nếu cần. Nếu có DEB test, xác minh package ID `com.duoface.visualhook-test`, kiến trúc rootless, payload và filter trước khi cài. Không publish Sileo tự động.
+
+
+## Checkpoint 2026-10-11 — user xác nhận build xanh, yêu cầu tự kiểm tra
+- User khẳng định build mới nhất xanh và yêu cầu assistant tự biết workflow mình tạo, không tiếp tục đòi link. Đã dùng `search_commits` kiểm tra repo, xác nhận commit workflow sửa `0f1ff2e` có trong lịch sử; chưa có run ID mới qua connector (công cụ không cung cấp list runs), nên **không tuyên bố đã tự xác minh success/artifact**.
+- Workflow `.github/workflows/duoface-hook-check.yml` đầu ra dự kiến `duoface-hook-arm64-test` với `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`, gói thử `com.duoface.visualhook-test`, không phải cập nhật DuoFace chính. Cần kiểm chứng artifact/run, filter và thử trên thiết bị trước khi release. Không tự publish Sileo.
