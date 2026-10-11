@@ -1,8 +1,9 @@
 // DuoFace visual-only runtime hook; UNVERIFIED on device, do not publish yet.
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <dlfcn.h>
 // Minimal ABI declaration: resolve the substrate hook symbol at link/runtime.
-extern void MSHookMessageEx(Class cls, SEL sel, IMP replacement, IMP *original);
+typedef void (*DFHookFn)(Class cls, SEL sel, IMP replacement, IMP *original);
 
 static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/VisualAssets/";
 static char kOverlayKey;
@@ -84,11 +85,14 @@ static void DFSplashLayout(UIView *self, SEL cmd) {
     self.backgroundColor = [UIColor colorWithRed:0.035 green:0.025 blue:0.035 alpha:1.0];
 }
 __attribute__((constructor)) static void DFInit(void) {
+    // Fail closed when the active injection environment does not export Substrate.
+    DFHookFn hook = (DFHookFn)dlsym(RTLD_DEFAULT, "MSHookMessageEx");
+    if (!hook) return;
     Class button = objc_getClass("UIButton");
     Class splash = objc_getClass("CBSplitSplashScreenView");
     if (button) {
-        MSHookMessageEx(button, @selector(didMoveToWindow), (IMP)DFButtonDidMove, &oldButtonDidMove);
-        MSHookMessageEx(button, @selector(layoutSubviews), (IMP)DFButtonLayout, &oldButtonLayout);
+        hook(button, @selector(didMoveToWindow), (IMP)DFButtonDidMove, &oldButtonDidMove);
+        hook(button, @selector(layoutSubviews), (IMP)DFButtonLayout, &oldButtonLayout);
     }
-    if (splash) MSHookMessageEx(splash, @selector(layoutSubviews), (IMP)DFSplashLayout, &oldSplashLayout);
+    if (splash) hook(splash, @selector(layoutSubviews), (IMP)DFSplashLayout, &oldSplashLayout);
 }
