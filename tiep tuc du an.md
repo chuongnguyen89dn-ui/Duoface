@@ -161,3 +161,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - **Người dùng đã duyệt chính thức** mẫu nút chọn ứng dụng trong ảnh upload `F721EFDC-E56A-4C31-B325-F635E8B3FEB7.png`: hai thanh ngang đen viền bạc, nét đỏ mảnh, vòng tròn trên lệch phải và dưới lệch trái, mỗi vòng chứa logo hai khuôn mặt trắng/đen DuoFace; giữ nguyên hình đã duyệt, không tự ý thiết kế lại. File ảnh nằm trong chat và được mount ở `/mnt/data/F721EFDC-E56A-4C31-B325-F635E8B3FEB7.png`, **chưa xác nhận đã lưu file ảnh vào GitHub**.
 - Người dùng hỏi ý tưởng nút phóng to. **Đề xuất, chưa duyệt:** nút tròn trong suốt, hai mũi tên chéo hướng ra ngoài với nét đỏ ánh kim, đầu bạc và thân đen; trạng thái thu nhỏ là hai mũi tên hướng vào trong. Tránh đặt logo hai mặt nguyên vẹn vào nút nhỏ gây khó nhận biết. Chỉ đổi hình ảnh, tuyệt đối không đổi logic fullscreen, callback, hit area hoặc các chức năng khác.
 - Chưa sửa mã, build hay deploy. Tiếp theo: tạo hình riêng nút phóng to để người dùng duyệt, không kèm giao diện CarPlay.
+
+
+## Checkpoint 2026-10-11 — mẫu phóng to 4 góc theo ảnh người dùng
+- Người dùng cung cấp `IMG_7918.jpeg` (ảnh biểu tượng fullscreen gồm 4 góc dạng chữ L tách rời) và yêu cầu thiết kế **nút phóng to từ logo DuoFace** theo đúng bố cục này. Đã tạo một ảnh đề xuất riêng qua công cụ tạo ảnh trong chat: bốn góc L đen/bạc với ánh đỏ, chi tiết khuôn mặt trắng ở góc trên phải, khuôn mặt đen ở góc dưới trái; không có giao diện CarPlay. **Chưa được người dùng duyệt** và chưa xác nhận file ảnh đã lưu lên GitHub.
+- Yêu cầu bất biến: chỉ thay hình ảnh nút fullscreen trên control hiện có; không thay bất kỳ chức năng, callback, vùng chạm, logic split/fullscreen/restore, không sửa DuoNavi gốc. Nút chọn app hai thanh đã duyệt ở checkpoint trước; nút swap hai mặt đã duyệt.
+- Chưa sửa mã, build hoặc deploy.
