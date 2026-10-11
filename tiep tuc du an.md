@@ -308,3 +308,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã tìm thêm các selector tương tác swap: `moveButtonTouchUp:` tại `0xfee04`, `handleMoveButtonLongPress:` tại `0xfee18`, `initWithTarget:action:` tại `0xfee20`, `setMinimumPressDuration:` tại `0xfee2c`. Swap có ít nhất touch-down, touch-up và long-press; **không được thay button/control/gesture**, chỉ image rendering.
 - Dòng `0xfec0c–0xfec18`: renderer đọc `bounds` của `CBDividerView` và chọn d2 hoặc d3 theo cờ w19; tại `0xfec2c–0xfec48` chọn SF Symbol 11.5/12.5 pt. Không thể suy ra frame swap 11.5/12.5 pt.
 - Chưa xác định đúng điểm gọi `setImage`/`addTarget` và frame swap từ disassembly đầy đủ. Không có DEB mới; cần disassemble tiếp vùng `0xff100–0xff3bc` và giải selector tại từng `objc_msgSend`.
+
+
+## Checkpoint 2026-10-11 — đã tìm đúng lệnh gọi thực tế cho swap renderer
+- Đọc file thực `/mnt/data/duonavi_swap_renderer_trace.txt` trong container, đoạn `0xff128–0xff274`. Chọn biểu tượng theo hướng split: `0xff138` `@"arrow.left.arrow.right"`, `0xff140` `@"arrow.up.arrow.down"`, `0xff144` `csel x0,x9,x8,eq`. Gọi `UIImage systemImageNamed:withConfiguration:` tại `0xff158–0xff16c` (`x1=[sp,#0x90]` là selector đã nạp tại `0xfed68`), `UIButton setImage:forState:` tại `0xff184–0xff194` (`x1=[sp,#0x88]` là selector đã nạp tại `0xfed74`; x2=image, x3=0).
+- Callback giữ nguyên: `UIButton addTarget:action:forControlEvents:` tại `0xff1d0–0xff218`, x1=[sp,#0x18] selector, x3 touchDown=[sp,#0x78] w4=1, touchUp=[sp,#0x58] w4=0x40, touchUp=[sp,#0x50] w4=0x180. `UILongPressGestureRecognizer initWithTarget:action:` `0xff220–0xff230`, setMinimumPressDuration `0xff238–0xff240`, addGestureRecognizer `0xff244–0xff250`. Do not modify.
+- Lưu ý: disassembler auto-comment các objc_msgSend là `addSubview:` dù x1 thực sự là selector khác; chỉ kết luận bằng truy vết x1.
+- **Đã xác minh site swap setImage 0xff194; chưa patch/build DEB**. Cần tiếp tục xác minh frame swap từ renderer/layout và sau đó chỉ thay visual assets.
