@@ -106,3 +106,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Ảnh là chuẩn trực quan cho việc thiết kế DuoFace khác biệt: khung viền xanh bo góc của hai app, pill toolbar trên mỗi cửa sổ (ba chấm, expand), nút tròn swap giữa hai app, divider kéo tỷ lệ, CarPlay dock bên trái.
 - Cách làm cập nhật: lấy ảnh này làm baseline thị giác, đối chiếu từng thành phần với mã UI gốc; dựng mockup UI V2 để người dùng duyệt **trước khi sửa binary hoặc build**; giữ nguyên logic split, chọn app, swap, fullscreen, kéo divider và không thay DuoNavi gốc.
 - Chưa sửa mã, chưa build, chưa deploy. Ảnh người dùng gửi chỉ nằm trong chat trừ khi được đưa vào repo và xác minh thành công.
+
+
+## Checkpoint 2026-10-11 — dựng ảnh xem trước DuoFace UI V2
+- Đã mở ảnh gốc người dùng xác nhận `/mnt/data/D51EF8A9-82C8-4602-97C1-57CDA0E023DD.jpeg` (1536x922) và tạo **mockup ảnh thực tế** `/mnt/data/DuoFace_UI_V2_preview.png` (1536x1062) bằng script `/mnt/data/make_duoface_preview.py` (Pillow). Đây là **ảnh mô phỏng overlay**, không phải screenshot runtime hoặc DEB đã sửa. Ảnh/script mới chỉ ở container tạm, **chưa được upload vào GitHub**.
+- Mockup đổi pill cũ thành thanh tiêu đề MAPS/MEDIA có nút menu và fullscreen, thu nhỏ swap giữa divider, thêm tay nắm kéo, viền mảnh; giữ hình bản đồ/video/dock gốc làm nền. Cần người dùng duyệt hoặc yêu cầu điều chỉnh trước khi sửa mã.
+- Không chỉnh sửa DuoFace binary, không build, không deploy, không tác động DuoNavi gốc. Bước tiếp: chốt bản vẽ, xác minh hook/runtime, thực hiện từng phần có kiểm thử; phải lưu ảnh/script vào repo khi có cách upload bền vững, không nhầm đường dẫn container là GitHub.
