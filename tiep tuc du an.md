@@ -276,3 +276,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — người dùng xác nhận fullscreen/restore là MỘT nút
 - Yêu cầu làm rõ: phóng to và thu nhỏ là **cùng một điều khiển trên giao diện**, chỉ khác hành động theo trạng thái; không thiết kế hoặc thêm nút thứ tư. Dùng **một biểu tượng fullscreen DuoFace đã duyệt** cho cả trạng thái expand và restore, giữ nguyên hành động `expandTapped:` / `restoreTapped:`, cách chuyển trạng thái, frame/hit area và UI split. Phân biệt hai action trong binary không có nghĩa cần hai icon hoặc hai nút hiển thị đồng thời.
 - Chưa sửa code hay build DEB trong lượt này; đây là cập nhật yêu cầu và xác nhận cách triển khai đúng.
+
+
+## Checkpoint 2026-10-11 — phương pháp xác định đúng 3 nút từ hàm symbol/action
+- Người dùng yêu cầu truy các hàm chứa nút `…` hoặc mũi tên. Phương pháp: tìm SF Symbol `ellipsis`, `arrow.*`/selector `systemImageNamed:withConfiguration:`, `setImage:forState:` rồi truy `addTarget:action:forControlEvents:` để phân biệt nút. Đã có `dotsTapped:` (app picker), `expandTapped:`/`restoreTapped:` (cùng một điều khiển fullscreen), `CBDividerView` + `arrow.left.arrow.right`/`arrow.up.arrow.down` (swap). Không chỉ dựa vào chữ `arrow` vì có thể trùng ở thành phần khác.
+- Yêu cầu visual-only, giữ nguyên frame/hit area/callback, chỉ thay image. Chưa patch/build trong lượt này.
