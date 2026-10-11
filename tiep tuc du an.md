@@ -361,3 +361,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — phát hiện tên DuoNavi còn sót trong UI Cài đặt
 - Người dùng gửi ảnh chụp app DuoFace trên iPhone: trang `Cài Đặt`, mục `Tự Động Mở Khi Kết Nối` vẫn hiển thị phụ đề **`Tự mở DuoNavi khi cắm CarPlay`**. Đây là bằng chứng trực quan về chuỗi hiển thị còn mang thương hiệu cũ; chưa xác định chuỗi nằm ở binary, resource hay localized string. Yêu cầu sửa thành **`Tự mở DuoFace khi cắm CarPlay`** và rà các chuỗi hiển thị DuoNavi khác, KHÔNG thay package identifiers, class names, paths, behavior hoặc settings keys nếu chưa xác minh vì có thể gây lỗi chức năng.
 - Patch splash slogan staging trước đây không sửa chuỗi này. Chưa sửa code/build mới trong lượt này. Bước tiếp: kiểm tra string table/resource và binary DuoFaceUI.app để xác định chính xác nguồn chuỗi rồi patch text-only, kiểm tra UI thực tế.
+
+
+## Checkpoint 2026-10-11 — KHÔI PHỤC khẩu hiệu splash đã duyệt, sửa thiếu sót
+- Người dùng hỏi `Vậy khẩu hiệu của ta đâu?`. Đã đọc lại đầu mối handoff, dòng 8 xác nhận chính xác thương hiệu: **DuoFace — TWO FACES ONE SCREEN** (không dấu chấm cuối câu), logo hai mặt nạ trắng/đen với điểm nhấn đỏ.
+- Quy tắc splash mới: hiển thị **logo DuoFace + chữ DuoFace + khẩu hiệu TWO FACES ONE SCREEN + thanh loading gốc** trên nền đen/đỏ/chrome, không có ba nút điều khiển, không có `TWO SCREENS. ZERO LIMITS.` hay `WORKS WITH APPLE CARPLAY`.
+- **ĐÍNH CHÍNH**: stage patch `scripts/patch_splash_stage.py` chỉ thay khẩu hiệu DuoNavi bằng dấu cách, **chưa hiển thị khẩu hiệu DuoFace**. Vì vậy stage hiện tại không đạt yêu cầu. Không được phát hành stage DEB lên Sileo. Bước tiếp: sửa renderer splash để thay nhãn cũ bằng nhãn DuoFace thực, giữ loading/animation; thử runtime trước phát hành.
