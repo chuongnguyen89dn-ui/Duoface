@@ -495,3 +495,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Source khai báo `MSHookMessageEx` nhưng link dylib dùng `-undefined dynamic_lookup` và không chỉ rõ dependency substrate; build xanh chưa chứng minh symbol resolve khi inject.
 - Source hook toàn bộ `UIButton didMoveToWindow/layoutSubviews`; filter plist nhắm `com.apple.CarPlay` và `com.apple.springboard` chưa được xác minh đúng process. Source ẩn `button.imageView` sau khi tải ảnh nhưng chưa có test UI/runtime.
 - Cần trước khi test: xác minh tiến trình/bundle đích, asset thực tế, cơ chế link và load substrate, fail-safe cho nút gốc, kiểm tra contents DEB. Không được xem bản test là release chính.
+
+
+## Checkpoint 2026-10-11 — sửa fail-safe symbol hook
+- Đã sửa `src/DuoFaceVisualHook.m` commit `ec2129671e301b4337c4cdfdf2e435a4cabbb9f7`: thay khai báo liên kết trực tiếp `MSHookMessageEx` bằng `typedef DFHookFn`, `#import <dlfcn.h>`, gọi `dlsym(RTLD_DEFAULT, "MSHookMessageEx")` ở constructor và return nếu thiếu; các hook sử dụng con trỏ đã resolve. Đã đọc lại file GitHub, xác minh có thay đổi.
+- Không tuyên bố runtime pass hoặc build pass sau commit; push source có thể kích hoạt workflow tự động. Không phát hành Sileo.
+- Vẫn chặn test DEB: thiếu asset PNG trong package, chưa xác minh process/filter và icon runtime. Tiếp theo cần kiểm tra artifact build mới và đóng gói đủ assets, sau đó test an toàn trên iPhone.
