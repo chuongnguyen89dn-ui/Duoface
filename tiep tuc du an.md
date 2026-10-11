@@ -73,3 +73,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã đọc các file tại /mnt/data: `DuoNaviUI.zip` chứa `DuoNaviUI.app/` với 19 AppIcon PNG, Info.plist và binary; `DuoNaviDashboard.zip` chứa `DuoNaviDashboard.dylib`. Gói gốc tại `/mnt/data/duoface_work/orig/var/jb/Library/Application Support/DuoNavi/` có `duonavi-logo.png`, `duonavi-logo-vert.png`, `duonavi-icon.png`. Bảng ghép icon đã có tại `/mnt/data/duonavi_assets_contact_sheet.png` (chỉ local, không khẳng định đã đưa lên GitHub).
 - Tìm web `DuoNavi CarPlay tweak app screenshots interface`: **chưa tìm được screenshot DuoNavi xác thực**; ảnh Airaw/DuoDash/CarPlay thường không được gán nhãn DuoNavi. Không tự chế ảnh và nhận là ảnh thật.
 - Tiếp theo: tìm ảnh thực tế trong nguồn chính thức, lịch sử repo hoặc video, và/hoặc chụp app DuoNavi đang chạy trên thiết bị khi có quyền truy cập; nếu không có, thông báo rõ giới hạn. Không sửa code DuoFace khi người dùng chỉ yêu cầu tìm ảnh.
+
+
+## Checkpoint 2026-10-11 — ảnh tham chiếu giao diện split CarPlay
+- Người dùng cung cấp ảnh tham chiếu trong chat (file tải lên `D51EF8A9-82C8-4602-97C1-57CDA0E023DD.jpeg`; file này không mặc nhiên nằm trên GitHub). Ảnh 1536×922 thể hiện Google Maps bên trái, video bên phải, dock CarPlay trái; khung viền xanh bo tròn mỗi cửa sổ; hai thanh nổi dạng viên thuốc trên cùng có nút ba chấm và phóng to; nút tròn xanh hai mũi tên giữa hai cửa sổ.
+- Người dùng muốn hình ảnh các thành phần giao diện tương tự được **trích/đối chiếu từ DEB DuoNavi gốc**, không phải icon/logo. Ảnh tham chiếu không tự chứng minh đó là DuoNavi; cần xác minh nguồn. Chưa xác minh những phần tử có được vẽ bởi `DuoNaviDashboard.dylib` hay không. Không nhận diện ảnh này là screenshot gốc khi chưa có bằng chứng.
+- Bước tiếp: phân tích assets/binary và nếu có thể trích screenshot thực tế; bảo toàn DuoFace đang cài được, không thay đổi mã khi chưa có yêu cầu.
