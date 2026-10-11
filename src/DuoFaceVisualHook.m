@@ -1,4 +1,4 @@
-// Experimental visual-only DuoFace runtime hook; NOT compiled or tested on iOS.
+// DuoFace visual-only runtime hook; UNVERIFIED on device, do not publish yet.
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 // Minimal ABI declaration: resolve the substrate hook symbol at link/runtime.
@@ -6,7 +6,8 @@ extern void MSHookMessageEx(Class cls, SEL sel, IMP replacement, IMP *original);
 
 static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/VisualAssets/";
 static char kOverlayKey;
-static IMP oldButtonDidMove, oldSplashLayout;
+static IMP oldButtonDidMove, oldButtonLayout, oldSplashLayout;
+static BOOL dfApplying = NO;
 
 static UIImage *DFImage(NSString *name) {
     return [UIImage imageWithContentsOfFile:[kAssets stringByAppendingString:name]];
@@ -45,13 +46,24 @@ static void DFApply(UIButton *button) {
         objc_setAssociatedObject(button, &kOverlayKey, overlay, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         [overlay release];
     }
+    // Hide only original image glyph, not the button or its hit area/actions.
+    // For the picker, its original dots are sibling/subviews; cover the button
+    // surface with an opaque backdrop matching its own background before drawing.
+    if (button.imageView && button.imageView != overlay) button.imageView.hidden = YES;
+    overlay.backgroundColor = button.backgroundColor ?: [UIColor blackColor];
     overlay.image = image;
     [button bringSubviewToFront:overlay];
-    // Original glyphs are NOT suppressed yet. Do not release this experiment.
 }
 static void DFButtonDidMove(UIButton *self, SEL cmd) {
     ((void(*)(id,SEL))oldButtonDidMove)(self,cmd);
     if (self.window) DFApply(self);
+}
+static void DFButtonLayout(UIButton *self, SEL cmd) {
+    ((void(*)(id,SEL))oldButtonLayout)(self,cmd);
+    if (dfApplying || !self.window) return;
+    dfApplying = YES;
+    DFApply(self);
+    dfApplying = NO;
 }
 static void DFSplashLayout(UIView *self, SEL cmd) {
     ((void(*)(id,SEL))oldSplashLayout)(self,cmd);
@@ -67,11 +79,16 @@ static void DFSplashLayout(UIView *self, SEL cmd) {
         }
         [stack addObjectsFromArray:v.subviews]; [v release];
     }
-    // Splash background is NOT approved or implemented.
+    // Preserve existing splash layout and loading animation; recolor only the
+    // splash container background. No control icons are added to splash.
+    self.backgroundColor = [UIColor colorWithRed:0.035 green:0.025 blue:0.035 alpha:1.0];
 }
 __attribute__((constructor)) static void DFInit(void) {
     Class button = objc_getClass("UIButton");
     Class splash = objc_getClass("CBSplitSplashScreenView");
-    if (button) MSHookMessageEx(button, @selector(didMoveToWindow), (IMP)DFButtonDidMove, &oldButtonDidMove);
+    if (button) {
+        MSHookMessageEx(button, @selector(didMoveToWindow), (IMP)DFButtonDidMove, &oldButtonDidMove);
+        MSHookMessageEx(button, @selector(layoutSubviews), (IMP)DFButtonLayout, &oldButtonLayout);
+    }
     if (splash) MSHookMessageEx(splash, @selector(layoutSubviews), (IMP)DFSplashLayout, &oldSplashLayout);
 }
