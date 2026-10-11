@@ -31,7 +31,7 @@ jobs:
           CLANG="$(xcrun --find clang)"
           "$CLANG" -target arm64-apple-ios15.0 -isysroot "$SDK" \
             -I"$THEOS/include" -I"$THEOS/include/_fallback" \
-            -fobjc-arc -fsyntax-only src/DuoFaceVisualHook.m
+            -fno-objc-arc -fsyntax-only src/DuoFaceVisualHook.m
       - name: Mark compile-only limitations
         run: |
           echo 'Compile check only: no runtime UI verification, no DEB, no Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
