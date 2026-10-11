@@ -240,3 +240,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã kiểm tra local có baseline `DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb`, logo DuoFace trong `Library/Application Support/DuoFace/`; ba ảnh `app_picker_APPROVED.png`, `fullscreen_APPROVED.png`, `swap_APPROVED_REFERENCE_MOCKUP.png` mới là ảnh thiết kế kích thước lớn, **chưa phải icon runtime**, swap là mockup; splash concept chưa được duyệt và có 3 nút sai. Script splash text trên GitHub mới xử lý literal, **chưa có hook thay nút hay nền**.
 - Quyết định an toàn: **KHÔNG đóng gói/phát hành một DEB nửa vời** và không tự báo hoàn tất. Bản 1.0.3-9 Sileo giữ nguyên. Bước cần làm trước khi xuất DEB: dựng icon runtime chính xác từ approved assets, triển khai hook render-only cho 3 nút với frame gốc, nền splash sạch, test binary/package và workflow; rồi build version >1.0.3-9 và kiểm chứng Sileo.
 - Trong lượt này **chưa build hoặc phát hành DEB mới**. Không được nói đã làm được khi chưa có artifacts.
+
+
+## Checkpoint 2026-10-11 — người dùng yêu cầu thời hạn và nguyên nhân chậm DEB
+- Người dùng hỏi khi nào có DEB và vì sao không thực hiện. Thực tế: chưa có bản visual patch ba nút và nền splash tích hợp vào workflow; chưa có Actions build/test mới. Không có cơ sở đưa ETA. Nguyên nhân tiến độ chậm là trợ lý làm script/checkpoint phụ thay vì triển khai end-to-end; không phải do thiếu nguồn Sileo .9.
+- Yêu cầu không đổi: chỉ chấp nhận bản DuoFace DEB mới hoàn chỉnh trên Sileo, giữ nguyên chức năng/kích thước nút; không được tuyên bố hoàn thành khi thiếu build và xác minh. Không thay đổi mã hay workflow trong lượt này.
