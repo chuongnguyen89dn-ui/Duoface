@@ -1,4 +1,4 @@
-name: DuoFace visual hook compile check (no publish)
+name: DuoFace visual hook build (test artifact only)
 on:
   workflow_dispatch:
   push:
@@ -33,6 +33,25 @@ jobs:
           "$CLANG" -target arm64-apple-ios15.0 -isysroot "$SDK" \
             -I"$THEOS/include" -I"$THEOS/include/_fallback" \
             -fno-objc-arc -fsyntax-only src/DuoFaceVisualHook.m
-      - name: Mark compile-only limitations
+      - name: Build and sign ARM64 test hook dylib
+        shell: bash
         run: |
-          echo 'Compile check only: no runtime UI verification, no DEB, no Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+          mkdir -p dist
+          "$(xcrun --find clang)" -target arm64-apple-ios15.0 -isysroot "$SDKROOT" \
+            -fno-objc-arc -dynamiclib -undefined dynamic_lookup \
+            -framework UIKit -framework Foundation \
+            -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib \
+            -o dist/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
+          ldid -S dist/DuoFaceVisualHook.dylib
+          file dist/DuoFaceVisualHook.dylib
+          shasum -a 256 dist/DuoFaceVisualHook.dylib | tee dist/SHA256SUMS
+      - name: Upload unsigned-installation test artifact (NOT a DEB)
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-hook-arm64-test
+          path: dist/
+          if-no-files-found: error
+      - name: Mark build limitations
+        run: |
+          echo 'ARM64 signed hook artifact only. No injection verification, no DEB, no Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
