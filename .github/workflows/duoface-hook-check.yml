@@ -18,6 +18,7 @@ jobs:
           set -euo pipefail
           brew install ldid
           git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           SDK="$(find "$RUNNER_TEMP/theos/sdks" -maxdepth 1 -type d -name '*.sdk' | sort -V | tail -1)"
           test -n "$SDK"
