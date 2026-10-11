@@ -1,0 +1,37 @@
+name: DuoFace visual hook compile check (no publish)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/DuoFaceVisualHook.m'
+      - '.github/workflows/duoface-hook-check.yml'
+permissions:
+  contents: read
+jobs:
+  compile-hook:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install iOS build prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install ldid
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          SDK="$(find "$RUNNER_TEMP/theos/sdks" -maxdepth 1 -type d -name '*.sdk' | sort -V | tail -1)"
+          test -n "$SDK"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          echo "SDKROOT=$SDK" >> "$GITHUB_ENV"
+      - name: Compile ARM64 rootless hook without publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$SDKROOT"
+          CLANG="$(xcrun --find clang)"
+          "$CLANG" -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -I"$THEOS/include" -I"$THEOS/include/_fallback" \
+            -fobjc-arc -fsyntax-only src/DuoFaceVisualHook.m
+      - name: Mark compile-only limitations
+        run: |
+          echo 'Compile check only: no runtime UI verification, no DEB, no Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
