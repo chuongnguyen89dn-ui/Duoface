@@ -86,3 +86,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã chạy `strings -a /mnt/data/duoface_work/orig/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib | grep -Ei 'cornerRadius|borderWidth|swap|expand|arrow|divider|pill'`. Xác nhận chuỗi/class: `CBSlotPillView`, `CBMultitaskingPillView`, `CBDividerView`, `CBSplitContainerView`, `CBSlotPillHitButton`; selector `handleDividerSwapPressed:`, `handleDividerPan:isVertical:state:`, `expandTapped:`, `setCornerRadius:`, `setBorderWidth:`, `setBorderColor:`; SF Symbols `arrow.left.arrow.right.circle.fill`, `arrow.up.left.and.arrow.down.right`.
 - Kết luận **đã kiểm chứng bằng strings**: DEB gốc có code/metadata điều khiển pill, chia màn, swap, expand và bo viền. **Chưa xác minh** màu sắc, tọa độ, kích thước, hiển thị thực tế hay ảnh mẫu do người dùng gửi là screenshot chính DuoNavi. Không có ảnh PNG riêng của các điều khiển này; nhiều khả năng UIKit/SF Symbols dựng lúc chạy.
 - Không sửa code/deploy. Bước tiếp: disassembly theo từng class và selector để xác minh hình dạng/behavior; đối chiếu runtime trên CarPlay thực.
+
+
+## Checkpoint 2026-10-11 — phương án tùy chỉnh giao diện (chưa thực hiện)
+- Người dùng hỏi cách thay đổi giao diện các điều khiển DuoNavi trong DuoFace: viền bo góc, thanh pill, nút ba chấm, expand/fullscreen, swap, divider.
+- Đề xuất kỹ thuật: ưu tiên lớp tùy chỉnh runtime trong tweak DuoFace thay vì patch byte trực tiếp vào DuoNaviDashboard.dylib; giữ nguyên hành vi chọn app, split ratio kéo, swap và fullscreen. Để cấu hình riêng các thuộc tính UIKit (cornerRadius, borderWidth, borderColor, backgroundColor, frame) và các biểu tượng SF Symbols; cần xác minh điểm hook, tương thích runtime và kiểm tra CarPlay thực tế trước khi tuyên bố khả thi/hoàn tất.
+- Đây là **đề xuất**, chưa chỉnh sửa mã, chưa build hay deploy. Không được thay đổi DuoNavi gốc. Trạng thái DuoFace 1.0.3-9: người dùng xác nhận cài và mở app trên iPhone; chưa test CarPlay.
