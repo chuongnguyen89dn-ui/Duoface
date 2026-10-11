@@ -150,3 +150,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Người dùng **đã duyệt mẫu nút hoán đổi** ở ảnh mockup mới: logo hai khuôn mặt trắng/đen viền đỏ, hình tròn, vùng xung quanh trong suốt, chỉ nội dung logo nổi; tự ẩn khi không sử dụng. Logo nguồn do người dùng gửi trong chat (`A50B1544-2793-44A5-95EF-22A921B76B14.jpeg`); ảnh mockup đã tạo trong chat (`a_crisp_high_resolution_ui_mockup_composite_image.png`). Đây là mẫu giao diện được duyệt, **chưa được cài vào DEB**. Thời gian tự ẩn chưa được chốt; không tự ý thay timeout gốc vì yêu cầu tuyệt đối không đổi chức năng.
 - Người dùng hỏi phương án thiết kế hai nút còn lại theo màu chủ đạo logo. Đề xuất **chưa duyệt**: nút `•••` trắng bạc trên nền đen kính mờ với nét nhấn đỏ; nút phóng to/thu nhỏ dùng biểu tượng mũi tên chéo trắng bạc, hiệu ứng đỏ khi chạm; giữ hai nút trong pill chung, viền bạc mảnh, bo tròn, nền trong suốt. Không thay target/action, vùng cảm ứng, logic, hoặc hành vi tự ẩn.
 - Chưa sửa code, build, deploy. Cần duyệt mẫu hai nút bằng hình trực quan trước khi can thiệp UI.
+
+
+## Checkpoint 2026-10-11 — người dùng yêu cầu chỉ thiết kế nút chọn ứng dụng
+- Người dùng sửa yêu cầu: **chỉ xuất hình riêng của nút `…`**, không tạo mockup CarPlay. Hình tham chiếu người dùng gửi `IMG_7917.jpeg`: hai thanh ngang, mỗi thanh một vòng tròn rỗng; vòng tròn trên lệch phải, dưới lệch trái. Giữ bố cục, làm thanh mảnh, nền ngoài trong suốt, phối màu nhận diện DuoFace. Không tự ý biến bố cục thành hình mặt người/chi tiết khác nếu chưa được duyệt.
+- Đã tạo một phương án hình riêng qua công cụ tạo ảnh trong chat, chưa được người dùng duyệt. **Chưa sửa DEB/code/build/deploy**. Yêu cầu bất biến: chỉ thay hình ảnh, không thay bất kỳ chức năng hoặc vùng chạm/callback nào.
