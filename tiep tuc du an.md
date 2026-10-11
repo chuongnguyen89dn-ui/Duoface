@@ -447,3 +447,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — làm rõ phạm vi DuoNavi/DuoFace trong Sileo
 - User đính chính cụ thể: `Trên sileo chỉ duoface. Ko có duonavi`. Đây là **trạng thái danh sách gói trên kho Sileo theo xác nhận của user**, KHÔNG phải bằng chứng về danh sách app đang cài trên iPhone. Sửa cách hiểu ở checkpoint trước (đã diễn giải sai thành `trên máy`).
 - Kho Sileo hiện user chỉ muốn/nhìn thấy DuoFace; không đưa DuoNavi lên kho và không tự phục hồi DuoNavi. Không thay đổi chức năng, dữ liệu DuoFace hiện có. Chưa tự xác minh nội dung repo Sileo qua API trong lượt này.
+
+
+## Checkpoint 2026-10-11 — tạo CI đóng gói DEB test nhanh
+- User yêu cầu làm nhanh. Đã sửa `.github/workflows/duoface-hook-check.yml`, commit **`c8df98b78a119dd467c5a8029197634f5df1bcee`**: sau compile/link/sign dylib, tạo package **riêng** `com.duoface.visualhook-test` version `1.0.3-10~hooktest` arch `iphoneos-arm64`, đặt signed dylib + filter plist dưới `var/jb/Library/MobileSubstrate/DynamicLibraries/`, `dpkg-deb --build --root-owner-group`, xuất `dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb` và checksum, upload artifact `duoface-hook-arm64-test`. Đây KHÔNG phải gói chính `com.duoface.app`.
+- **CHƯA xác minh GitHub Actions chạy xanh hoặc artifact tồn tại**; bundle filter hiện dùng `com.apple.CarPlay` và `com.apple.springboard` CHƯA xác minh khớp process đích; hook dùng MSHookMessageEx dynamic lookup và cần tweak injection tương thích. Có nguy cơ crash nếu cài không đúng môi trường. **Không đề nghị user cài trên máy chính trước khi xác minh**. Không publish Sileo, không sửa carplaydsp.
+- Tiếp: xem run mới của commit `c8df98b`, sửa lỗi build, xác định bundle ID/process thực tế từ binary/source và kiểm tra filter, sau đó chỉ cung cấp gói cài có cảnh báo/test phù hợp.
