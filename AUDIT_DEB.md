@@ -1,0 +1,1 @@
+Bản kiểm kê chi tiết các DEB và payload được lưu trong gói bàn giao ZIP cục bộ dưới tên `duoface_inventory.md`. Các file DEB nhị phân chưa được tải lên GitHub vì thao tác ghi file hiện tại chỉ hỗ trợ nội dung văn bản. Trạng thái `1.0.3-6`: chưa được xác nhận cài thành công. Không tuyên bố hoàn tất 100% khi GitHub chưa chứa các nhị phân.
