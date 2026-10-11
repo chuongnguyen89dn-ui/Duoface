@@ -155,3 +155,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — người dùng yêu cầu chỉ thiết kế nút chọn ứng dụng
 - Người dùng sửa yêu cầu: **chỉ xuất hình riêng của nút `…`**, không tạo mockup CarPlay. Hình tham chiếu người dùng gửi `IMG_7917.jpeg`: hai thanh ngang, mỗi thanh một vòng tròn rỗng; vòng tròn trên lệch phải, dưới lệch trái. Giữ bố cục, làm thanh mảnh, nền ngoài trong suốt, phối màu nhận diện DuoFace. Không tự ý biến bố cục thành hình mặt người/chi tiết khác nếu chưa được duyệt.
 - Đã tạo một phương án hình riêng qua công cụ tạo ảnh trong chat, chưa được người dùng duyệt. **Chưa sửa DEB/code/build/deploy**. Yêu cầu bất biến: chỉ thay hình ảnh, không thay bất kỳ chức năng hoặc vùng chạm/callback nào.
+
+
+## Checkpoint 2026-10-11 — chốt nút chọn ứng dụng; đề xuất nút phóng to
+- **Người dùng đã duyệt chính thức** mẫu nút chọn ứng dụng trong ảnh upload `F721EFDC-E56A-4C31-B325-F635E8B3FEB7.png`: hai thanh ngang đen viền bạc, nét đỏ mảnh, vòng tròn trên lệch phải và dưới lệch trái, mỗi vòng chứa logo hai khuôn mặt trắng/đen DuoFace; giữ nguyên hình đã duyệt, không tự ý thiết kế lại. File ảnh nằm trong chat và được mount ở `/mnt/data/F721EFDC-E56A-4C31-B325-F635E8B3FEB7.png`, **chưa xác nhận đã lưu file ảnh vào GitHub**.
+- Người dùng hỏi ý tưởng nút phóng to. **Đề xuất, chưa duyệt:** nút tròn trong suốt, hai mũi tên chéo hướng ra ngoài với nét đỏ ánh kim, đầu bạc và thân đen; trạng thái thu nhỏ là hai mũi tên hướng vào trong. Tránh đặt logo hai mặt nguyên vẹn vào nút nhỏ gây khó nhận biết. Chỉ đổi hình ảnh, tuyệt đối không đổi logic fullscreen, callback, hit area hoặc các chức năng khác.
+- Chưa sửa mã, build hay deploy. Tiếp theo: tạo hình riêng nút phóng to để người dùng duyệt, không kèm giao diện CarPlay.
