@@ -245,3 +245,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — người dùng yêu cầu thời hạn và nguyên nhân chậm DEB
 - Người dùng hỏi khi nào có DEB và vì sao không thực hiện. Thực tế: chưa có bản visual patch ba nút và nền splash tích hợp vào workflow; chưa có Actions build/test mới. Không có cơ sở đưa ETA. Nguyên nhân tiến độ chậm là trợ lý làm script/checkpoint phụ thay vì triển khai end-to-end; không phải do thiếu nguồn Sileo .9.
 - Yêu cầu không đổi: chỉ chấp nhận bản DuoFace DEB mới hoàn chỉnh trên Sileo, giữ nguyên chức năng/kích thước nút; không được tuyên bố hoàn thành khi thiếu build và xác minh. Không thay đổi mã hay workflow trong lượt này.
+
+
+## Checkpoint 2026-10-11 — tránh phát hành nhầm bản dở
+- User yêu cầu hành động, không tiếp tục lời hứa. Đã kiểm tra file local: baseline `/mnt/data/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb`, ảnh thiết kế `/mnt/data/DuoFace_visual_assets_2026-10-11/`; script repack trên GitHub.
+- Đã thử nối patch splash text vào script repack tại commit `9851b0c...`, nhưng nhận ra workflow push main tự động xuất bản cùng version `1.0.3-9` trong khi ba nút và nền chưa xong, nên **hoàn tác ngay**. Lần đầu hoàn tác thất bại vì chèn chuỗi literal `\\n`; đã sửa chính xác và xác minh blob SHA gốc `c7dd5c49c0089af316e112bf5d4704113d34b1e3` ở commit `a680158e911b230089d8d1e31e4915a6d8c42db1`. Không có thay đổi logic repack còn tồn tại. Workflow auto-trigger có thể chạy từ commit; cần kiểm tra Actions thực tế, chưa xác minh deploy.
+- Không có DEB visual hoàn chỉnh; không được tuyên bố có. Hạn chế kỹ thuật: các nút nằm trong Mach-O, không có hook thay icon đã thực hiện, assets vẫn là mockup; chỉ thay C-string chưa đáp ứng yêu cầu. Cần phát triển/kiểm chứng toàn bộ patch offline hoặc trên nhánh riêng trước khi merge main để tránh kích hoạt Pages sai phiên bản.
