@@ -64,3 +64,12 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 **CHƯA XÁC NHẬN:** nguyên nhân cài thất bại; chữ ký và chức năng CarPlay của 1.0.3-6; độc lập runtime hoàn toàn; bản DuoNavi gốc đã được đối chiếu byte-for-byte; upload DEB lên GitHub.
 
 **Không được ghi công việc là hoàn tất** cho tới khi các bước này có bằng chứng. Tài liệu này là hồ sơ bàn giao sống, không phải xác nhận phát hành.
+
+
+## Checkpoint 2026-10-11 — cài DuoFace và tìm ảnh giao diện DuoNavi
+- Người dùng xác nhận DuoFace 1.0.3-9 đã cài thành công bằng Sileo và mở được app trên iPhone; **CarPlay chưa test**, không được ghi là đã hoạt động trên màn hình xe.
+- Lịch sử lỗi: 1.0.3-6 rootful `./Applications/DuoFaceUI.app` gặp read-only filesystem; 1.0.3-7 trùng `/var/jb/usr/bin/cboptimize` với `com.duonavi.app 1.0.3`. Workflow phát hành và repack nằm tại `chuongnguyen89dn-ui/carplaydsp`, nhánh main, `.github/workflows/build.yml`, `scripts/repack-duoface-rootless.py`. 1.0.3-9 yêu cầu Sileo restart sau cài. Kết quả thành công chỉ dựa trên phản hồi người dùng.
+- Yêu cầu mới nhất: tìm và gửi tất cả **hình ảnh giao diện thật DuoNavi**; phân biệt screenshot thực tế với icon/logo/ảnh tweak khác.
+- Đã đọc các file tại /mnt/data: `DuoNaviUI.zip` chứa `DuoNaviUI.app/` với 19 AppIcon PNG, Info.plist và binary; `DuoNaviDashboard.zip` chứa `DuoNaviDashboard.dylib`. Gói gốc tại `/mnt/data/duoface_work/orig/var/jb/Library/Application Support/DuoNavi/` có `duonavi-logo.png`, `duonavi-logo-vert.png`, `duonavi-icon.png`. Bảng ghép icon đã có tại `/mnt/data/duonavi_assets_contact_sheet.png` (chỉ local, không khẳng định đã đưa lên GitHub).
+- Tìm web `DuoNavi CarPlay tweak app screenshots interface`: **chưa tìm được screenshot DuoNavi xác thực**; ảnh Airaw/DuoDash/CarPlay thường không được gán nhãn DuoNavi. Không tự chế ảnh và nhận là ảnh thật.
+- Tiếp theo: tìm ảnh thực tế trong nguồn chính thức, lịch sử repo hoặc video, và/hoặc chụp app DuoNavi đang chạy trên thiết bị khi có quyền truy cập; nếu không có, thông báo rõ giới hạn. Không sửa code DuoFace khi người dùng chỉ yêu cầu tìm ảnh.
