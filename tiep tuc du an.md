@@ -466,3 +466,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã xác minh run `38151758510`, job `114506485652`: compile/link/sign SUCCESS, package DEB FAILURE, upload skipped; lỗi `dpkg-deb: command not found` đã được ghi trong checkpoint trước. Workflow hiện tại có `brew install ldid dpkg` (bản sửa đã hiện diện trên GitHub); **chưa có bằng chứng run sau sửa đã PASS**.
 - Workflow hiện chỉ tạo **gói hook thử riêng** `com.duoface.visualhook-test`, không phải bản nâng cấp chính `com.duoface.app`; filter `com.apple.CarPlay`/`com.apple.springboard` chưa xác minh; chưa test runtime, chưa được xem là DEB DuoFace giao diện hoàn chỉnh. Không publish Sileo.
 - Bước tiếp: xác định run mới sau commit `0f1ff2e`, đọc jobs/log/artifact, sửa nếu lỗi; sau đó xác minh process injection/filter và chuẩn bị gói thử có thể test an toàn trước khi phát hành bản chính. Không tự thêm DuoNavi lên Sileo; giữ chức năng gốc.
+
+
+## Checkpoint 2026-10-11 — kiểm tra lại run 38151758510
+- Đã gọi GitHub connector `fetch_workflow_run_jobs` và `fetch_workflow_run_artifacts` cho run `38151758510`: job `114506485652` vẫn `completed/failure`, bước compile/link/sign SUCCESS, package DEB FAILURE, upload skipped, artifacts `[]`.
+- Thử GitHub API workflow runs qua web không truy cập được; **chưa xác minh được run mới sau commit `0f1ff2e`**. Không suy diễn bản sửa đã build xanh; không có DEB mới được xác minh, chưa publish Sileo.
+- Bước tiếp: tìm run mới bằng GitHub Actions UI/API khi có quyền truy xuất; lấy job/log/artifact, xử lý lỗi tiếp theo, kiểm chứng bundle filter trước khi thử trên iPhone.
