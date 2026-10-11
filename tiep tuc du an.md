@@ -271,3 +271,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - **Nút restore** có symbol `arrow.down.right.and.arrow.up.left` ở `0x84afc–0x84b2c`, pointSize **11 pt** ở `0x84ad8`; action `restoreTapped:` ở `0x84b70–0x84b84`. Phần frame restore ở `0x84a90–0x84aa8` sử dụng `d0=-11,d1=-10,d2=-11,d3=-10` qua selector được load trong x28 (cần giải quyết selector thật; không được gọi đây là frame 80×22). Không sửa trạng thái hide/show trong `layoutSubviews`.
 - **Nút swap**: `CBDividerView` dùng `CBDividerButtonInfo setIconName:` và `configureWithButtonConfigs:`; chưa xác nhận frame swap. Không gán kích thước nút app picker cho swap.
 - **Chưa patch icon hay build DEB**. Bước kế tiếp: truy đúng `CBDividerView configureWithButtonConfigs:` và frame swap, sau đó triển khai renderer-only patch.
+
+
+## Checkpoint 2026-10-11 — người dùng xác nhận fullscreen/restore là MỘT nút
+- Yêu cầu làm rõ: phóng to và thu nhỏ là **cùng một điều khiển trên giao diện**, chỉ khác hành động theo trạng thái; không thiết kế hoặc thêm nút thứ tư. Dùng **một biểu tượng fullscreen DuoFace đã duyệt** cho cả trạng thái expand và restore, giữ nguyên hành động `expandTapped:` / `restoreTapped:`, cách chuyển trạng thái, frame/hit area và UI split. Phân biệt hai action trong binary không có nghĩa cần hai icon hoặc hai nút hiển thị đồng thời.
+- Chưa sửa code hay build DEB trong lượt này; đây là cập nhật yêu cầu và xác nhận cách triển khai đúng.
