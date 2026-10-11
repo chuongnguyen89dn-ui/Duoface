@@ -482,3 +482,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — user xác nhận build xanh, yêu cầu tự kiểm tra
 - User khẳng định build mới nhất xanh và yêu cầu assistant tự biết workflow mình tạo, không tiếp tục đòi link. Đã dùng `search_commits` kiểm tra repo, xác nhận commit workflow sửa `0f1ff2e` có trong lịch sử; chưa có run ID mới qua connector (công cụ không cung cấp list runs), nên **không tuyên bố đã tự xác minh success/artifact**.
 - Workflow `.github/workflows/duoface-hook-check.yml` đầu ra dự kiến `duoface-hook-arm64-test` với `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`, gói thử `com.duoface.visualhook-test`, không phải cập nhật DuoFace chính. Cần kiểm chứng artifact/run, filter và thử trên thiết bị trước khi release. Không tự publish Sileo.
+
+
+## Checkpoint 2026-10-11 — dừng theo dõi build đã xanh, chuyển sang kiểm thử gói
+- User xác nhận build đã xanh, không muốn tiếp tục vòng lặp theo dõi CI. Ghi nhận theo báo cáo user; không tái chạy workflow chỉ để kiểm tra.
+- Ưu tiên tiếp theo: lấy artifact của run xanh, xác minh DEB thử `com.duoface.visualhook-test`, nội dung dylib/filter và đường dẫn rootless; kiểm tra rủi ro nạp hook trước khi người dùng thử trên CarPlay. Sau khi test mới cân nhắc tích hợp gói chính và phát hành Sileo. Không tự deploy hay gỡ gói hiện có.
