@@ -118,3 +118,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Người dùng xác nhận **đúng ba mục cần sửa**: nút ba chấm `…` (chọn app), nút phóng to cạnh nó, và nút hoán đổi hai ứng dụng. Lo ngại: nút trong DEB gốc được dựng bằng code chứ không phải ảnh, liệu có thiết kế theo ý muốn được không.
 - Giải thích/đề xuất kỹ thuật (CHƯA KIỂM CHỨNG RUNTIME): giao diện UIKit dựng bằng code vẫn có thể thay màu, bo góc, vị trí, SF Symbols hoặc dùng vector/PNG; có thể dựng control mới và nối event tới selector gốc hoặc hook ở lớp controller. Cần xác minh từng selector và nơi gắn view trước khi sửa. Không được suy ra chỉ từ tên hàm rằng có thể hook an toàn.
 - Hướng ưu tiên: **giữ hành vi split/app picker/expand/swap gốc**, chỉ thay visual của ba nút; thiết kế hình trước, kiểm thử trên CarPlay sau. Không thay divider logic và không sửa DuoNavi gốc. Chưa có thay đổi code/build/deploy.
+
+
+## Checkpoint 2026-10-11 — thay icon swap bằng logo hai mặt người DuoFace
+- Người dùng hỏi xác nhận: nút swap trong ảnh DuoNavi gốc là biểu tượng hai mũi tên trái/phải, và có thể đổi sang logo hai mặt người của DuoFace không. **Xác nhận**: ảnh người dùng cung cấp thể hiện nút tròn xanh hai mũi tên ở ranh giới hai app; binary có chuỗi SF Symbol `arrow.left.arrow.right.circle.fill` (chưa tự kiểm tra lại binary trong lượt này).
+- Yêu cầu thiết kế mới: thay **chỉ biểu tượng hiển thị** của nút swap bằng logo hai mặt người DuoFace; vẫn nhấn để đổi vị trí hai app, không phá chức năng kéo divider, không sửa DuoNavi gốc. PNG trong suốt hoặc vector đều là hướng kỹ thuật khả thi, nhưng cần kiểm tra nơi tạo button/hit area và ảnh logo hiện có trước khi thực thi. **Chưa chỉnh code, build hoặc deploy**.
