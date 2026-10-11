@@ -188,3 +188,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Người dùng hỏi thanh loading có thể đổi mẫu và cách đổi. Đã đề xuất ba mẫu **chưa duyệt**: (1) thanh ngang đen viền bạc, vệt đỏ ánh kim; (2) hai luồng trắng/đỏ hội tụ; (3) ba vạch sáng tối giản. Khuyến nghị mẫu (1) vì có thể giữ nguyên view/animation gốc, chỉ đổi phần hiển thị.
 - Kỹ thuật: splash class `CBSplitSplashScreenView` có `_progressView`, `_progressGradient`, `startLoadingAnimation`. Phải trace đúng đoạn khởi tạo gradient/màu và runtime view trước khi patch; chưa xác minh chính xác điểm hook. Thay hình ảnh/gradient/bo góc không được đổi thời gian, trạng thái, tiến trình khởi tạo, callback, CarPlay hoặc logic khác. Phương án thay cả kiểu loading bằng overlay có rủi ro cao hơn, chỉ làm sau khi kiểm chứng.
 - Chưa có mẫu loading được người dùng duyệt; chưa chỉnh code, build, deploy. Ba mẫu nút DuoFace đã duyệt vẫn giữ nguyên.
+
+
+## Checkpoint 2026-10-11 — giải thích cơ chế chuyển động loading, chưa xác minh kiểu animation
+- Người dùng hỏi thanh loading hoạt động/chuyển động bằng cơ chế nào. Đã giải thích từ chứng cứ hiện có: `CBSplitSplashScreenView` có `_progressView`, `_progressGradient`, selector `startLoadingAnimation`; giao diện được tạo/điều khiển bằng code, không phải GIF/video đã chứng minh. Hai khả năng kỹ thuật: thay đổi width/progress hoặc dịch chuyển gradient/vệt sáng; **chưa thể xác định chính xác kiểu animation từ screenshot tĩnh và tên selector**.
+- Để kết luận cần disassemble `startLoadingAnimation` và xác định `CABasicAnimation`/`CAKeyframeAnimation` hoặc UIView animation, keyPath (`locations`, `position`, `bounds`, `transform`...), duration, repeatCount, timingFunction và stop trigger trong binary gốc; không tự tuyên bố có progress thực hoặc % hoàn tất nếu chưa có chứng cứ.
+- Không sửa mã, build hoặc deploy. Giữ yêu cầu tuyệt đối chỉ thay visual, không thay hoạt động/timing của loading.
