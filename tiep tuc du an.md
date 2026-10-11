@@ -315,3 +315,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Callback giữ nguyên: `UIButton addTarget:action:forControlEvents:` tại `0xff1d0–0xff218`, x1=[sp,#0x18] selector, x3 touchDown=[sp,#0x78] w4=1, touchUp=[sp,#0x58] w4=0x40, touchUp=[sp,#0x50] w4=0x180. `UILongPressGestureRecognizer initWithTarget:action:` `0xff220–0xff230`, setMinimumPressDuration `0xff238–0xff240`, addGestureRecognizer `0xff244–0xff250`. Do not modify.
 - Lưu ý: disassembler auto-comment các objc_msgSend là `addSubview:` dù x1 thực sự là selector khác; chỉ kết luận bằng truy vết x1.
 - **Đã xác minh site swap setImage 0xff194; chưa patch/build DEB**. Cần tiếp tục xác minh frame swap từ renderer/layout và sau đó chỉ thay visual assets.
+
+
+## Checkpoint 2026-10-11 — XÁC MINH kích thước khung swap từ layout ARM64
+- Đọc binary thực `/mnt/data/duoface_work/orig/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib` bằng `llvm-objdump --macho --disassemble`, đối chiếu ObjC metadata `/mnt/data/duonavi_ui_objc_metadata.txt`: `-[CBDividerView layoutSubviews]` IMP `0xff410`, gọi `updateGripLayout` IMP **`0xff460`**.
+- Trong `updateGripLayout`: `0xff4ac–0xff4b8` gọi `bounds` và chọn chiều `d2` hoặc `d3` theo hướng split; `0xff4c0` đọc ngưỡng double tại pool `0x312488` (chưa giải mã số ngưỡng); `0xff4c8` `fmov d0,#30.0`, `0xff4cc` `fmov d1,#28.0`, `0xff4d0` `fcsel d8,d1,d0,mi`. Tức kích thước nút swap **28×28 pt khi chiều tham chiếu < ngưỡng, còn lại 30×30 pt**.
+- Trong cùng hàm, `0xff6a8–0xff6c0` nạp `x0` từ nút đang xử lý, `x1` selector `setFrame:` đã lưu `[sp,#0x8]`, `d0=d10`, `d1=d9`, `d2=d8`, `d3=d8`, `bl objc_msgSend` tại **`0xff6c0`**. Xác nhận khung swap là vuông 28 hoặc 30 pt. Vị trí d10,d9 tính từ relativePos và bounds, không đổi.
+- **KHÔNG sửa khung/vùng chạm**. Chỉ thay image theo thiết kế DuoFace. Đây là kết quả phân tích xác minh bằng binary, **chưa patch hay build DEB**.
