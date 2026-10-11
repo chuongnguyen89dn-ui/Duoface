@@ -112,3 +112,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã mở ảnh gốc người dùng xác nhận `/mnt/data/D51EF8A9-82C8-4602-97C1-57CDA0E023DD.jpeg` (1536x922) và tạo **mockup ảnh thực tế** `/mnt/data/DuoFace_UI_V2_preview.png` (1536x1062) bằng script `/mnt/data/make_duoface_preview.py` (Pillow). Đây là **ảnh mô phỏng overlay**, không phải screenshot runtime hoặc DEB đã sửa. Ảnh/script mới chỉ ở container tạm, **chưa được upload vào GitHub**.
 - Mockup đổi pill cũ thành thanh tiêu đề MAPS/MEDIA có nút menu và fullscreen, thu nhỏ swap giữa divider, thêm tay nắm kéo, viền mảnh; giữ hình bản đồ/video/dock gốc làm nền. Cần người dùng duyệt hoặc yêu cầu điều chỉnh trước khi sửa mã.
 - Không chỉnh sửa DuoFace binary, không build, không deploy, không tác động DuoNavi gốc. Bước tiếp: chốt bản vẽ, xác minh hook/runtime, thực hiện từng phần có kiểm thử; phải lưu ảnh/script vào repo khi có cách upload bền vững, không nhầm đường dẫn container là GitHub.
+
+
+## Checkpoint 2026-10-11 — xác nhận ba nút phải thiết kế lại, tách UI và hành vi
+- Người dùng xác nhận **đúng ba mục cần sửa**: nút ba chấm `…` (chọn app), nút phóng to cạnh nó, và nút hoán đổi hai ứng dụng. Lo ngại: nút trong DEB gốc được dựng bằng code chứ không phải ảnh, liệu có thiết kế theo ý muốn được không.
+- Giải thích/đề xuất kỹ thuật (CHƯA KIỂM CHỨNG RUNTIME): giao diện UIKit dựng bằng code vẫn có thể thay màu, bo góc, vị trí, SF Symbols hoặc dùng vector/PNG; có thể dựng control mới và nối event tới selector gốc hoặc hook ở lớp controller. Cần xác minh từng selector và nơi gắn view trước khi sửa. Không được suy ra chỉ từ tên hàm rằng có thể hook an toàn.
+- Hướng ưu tiên: **giữ hành vi split/app picker/expand/swap gốc**, chỉ thay visual của ba nút; thiết kế hình trước, kiểm thử trên CarPlay sau. Không thay divider logic và không sửa DuoNavi gốc. Chưa có thay đổi code/build/deploy.
