@@ -1,7 +1,9 @@
 // Experimental visual-only DuoFace runtime hook; NOT compiled or tested on iOS.
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
-#import <substrate.h>
+#include <objc/runtime.h>
+// Minimal ABI declaration: resolve the substrate hook symbol at link/runtime.
+extern void MSHookMessageEx(Class cls, SEL sel, IMP replacement, IMP *original);
 
 static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/VisualAssets/";
 static char kOverlayKey;
