@@ -46,7 +46,30 @@ jobs:
           ldid -S dist/DuoFaceVisualHook.dylib
           file dist/DuoFaceVisualHook.dylib
           shasum -a 256 dist/DuoFaceVisualHook.dylib | tee dist/SHA256SUMS
-      - name: Upload unsigned-installation test artifact (NOT a DEB)
+      - name: Package separate rootless test tweak DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          PKG="$RUNNER_TEMP/duoface-testpkg"
+          mkdir -p "$PKG/DEBIAN" "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          cp dist/DuoFaceVisualHook.dylib "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/"
+          cat > "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist" <<'PLIST'
+          { Filter = { Bundles = ( "com.apple.CarPlay", "com.apple.springboard" ); }; }
+          PLIST
+          cat > "$PKG/DEBIAN/control" <<'CONTROL'
+          Package: com.duoface.visualhook-test
+          Name: DuoFace Visual Hook TEST
+          Version: 1.0.3-10~hooktest
+          Architecture: iphoneos-arm64
+          Description: Experimental visual hook; not verified on CarPlay
+          Maintainer: DuoFace
+          Section: Tweaks
+          Priority: optional
+          CONTROL
+          dpkg-deb --build --root-owner-group "$PKG" dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb
+          dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb
+          shasum -a 256 dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb >> dist/SHA256SUMS
+      - name: Upload test artifact (NOT Sileo release)
         uses: actions/upload-artifact@v4
         with:
           name: duoface-hook-arm64-test
@@ -54,4 +77,4 @@ jobs:
           if-no-files-found: error
       - name: Mark build limitations
         run: |
-          echo 'ARM64 signed hook artifact only. No injection verification, no DEB, no Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Standalone experimental rootless hook test DEB; bundle filter unverified. No Sileo publish.' >> "$GITHUB_STEP_SUMMARY"
