@@ -144,3 +144,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Phạm vi: thay hình/icon nút `…`, fullscreen và swap (hai mũi tên -> logo hai mặt người DuoFace) trên control hiện có. Không đổi target/action, callback, recognizer, vùng chạm, vị trí/logic divider, kéo tỷ lệ, chọn app, swap, fullscreen/restore, xử lý orientation, hoặc bất kỳ hành vi nào. Không thay DuoNavi gốc.
 - Triển khai chỉ khi chứng minh được hook thuần hiển thị (UIImage/UIImageView/UIButton image) không ảnh hưởng hành vi; kiểm tra trước/sau và test CarPlay. Nếu không chứng minh được, dừng thay đổi và báo rủi ro, không tự thay logic để đạt mục tiêu.
 - Chưa chỉnh mã/build/deploy trong lượt này.
+
+
+## Checkpoint 2026-10-11 — duyệt logo swap và ý tưởng hai nút còn lại
+- Người dùng **đã duyệt mẫu nút hoán đổi** ở ảnh mockup mới: logo hai khuôn mặt trắng/đen viền đỏ, hình tròn, vùng xung quanh trong suốt, chỉ nội dung logo nổi; tự ẩn khi không sử dụng. Logo nguồn do người dùng gửi trong chat (`A50B1544-2793-44A5-95EF-22A921B76B14.jpeg`); ảnh mockup đã tạo trong chat (`a_crisp_high_resolution_ui_mockup_composite_image.png`). Đây là mẫu giao diện được duyệt, **chưa được cài vào DEB**. Thời gian tự ẩn chưa được chốt; không tự ý thay timeout gốc vì yêu cầu tuyệt đối không đổi chức năng.
+- Người dùng hỏi phương án thiết kế hai nút còn lại theo màu chủ đạo logo. Đề xuất **chưa duyệt**: nút `•••` trắng bạc trên nền đen kính mờ với nét nhấn đỏ; nút phóng to/thu nhỏ dùng biểu tượng mũi tên chéo trắng bạc, hiệu ứng đỏ khi chạm; giữ hai nút trong pill chung, viền bạc mảnh, bo tròn, nền trong suốt. Không thay target/action, vùng cảm ứng, logic, hoặc hành vi tự ẩn.
+- Chưa sửa code, build, deploy. Cần duyệt mẫu hai nút bằng hình trực quan trước khi can thiệp UI.
