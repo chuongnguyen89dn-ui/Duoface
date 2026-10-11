@@ -442,3 +442,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — xác nhận mới của user về DuoNavi gốc
 - User: `Ko còn duonavi gốc nào trên đó cả`. Cập nhật thông tin **theo báo cáo người dùng**: tại nơi user đang nói đến (máy/kho đang sử dụng) không còn DuoNavi gốc. Phát biểu trước đó `giữ nguyên DuoNavi gốc` không còn phù hợp làm mô tả trạng thái hiện tại; KHÔNG tự nhận đã xác minh trên thiết bị hay GitHub. Nếu cần phân biệt thiết bị với kho, hỏi user khi việc triển khai phụ thuộc chi tiết này.
 - Mục tiêu tiếp tục: build DuoFace độc lập, bảo toàn chức năng và dữ liệu hiện có, không tự xóa/khôi phục DuoNavi; không publish Sileo khi chưa kiểm thử. CI workflow commit `97767a4` vẫn chưa có log success được xác minh.
+
+
+## Checkpoint 2026-10-11 — làm rõ phạm vi DuoNavi/DuoFace trong Sileo
+- User đính chính cụ thể: `Trên sileo chỉ duoface. Ko có duonavi`. Đây là **trạng thái danh sách gói trên kho Sileo theo xác nhận của user**, KHÔNG phải bằng chứng về danh sách app đang cài trên iPhone. Sửa cách hiểu ở checkpoint trước (đã diễn giải sai thành `trên máy`).
+- Kho Sileo hiện user chỉ muốn/nhìn thấy DuoFace; không đưa DuoNavi lên kho và không tự phục hồi DuoNavi. Không thay đổi chức năng, dữ liệu DuoFace hiện có. Chưa tự xác minh nội dung repo Sileo qua API trong lượt này.
