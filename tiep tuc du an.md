@@ -487,3 +487,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-11 — dừng theo dõi build đã xanh, chuyển sang kiểm thử gói
 - User xác nhận build đã xanh, không muốn tiếp tục vòng lặp theo dõi CI. Ghi nhận theo báo cáo user; không tái chạy workflow chỉ để kiểm tra.
 - Ưu tiên tiếp theo: lấy artifact của run xanh, xác minh DEB thử `com.duoface.visualhook-test`, nội dung dylib/filter và đường dẫn rootless; kiểm tra rủi ro nạp hook trước khi người dùng thử trên CarPlay. Sau khi test mới cân nhắc tích hợp gói chính và phát hành Sileo. Không tự deploy hay gỡ gói hiện có.
+
+
+## Checkpoint 2026-10-11 — tiếp tục kiểm toán hook
+- Đã đọc `src/DuoFaceVisualHook.m`, `.github/workflows/duoface-hook-check.yml`, `README.md` trên main. Không chạy lại CI, không phát hành.
+- Xác định workflow không đóng gói ba PNG cần tại `/var/jb/Library/Application Support/DuoFace/VisualAssets/`; nếu không có sẵn trên máy thì không đổi icon.
+- Source khai báo `MSHookMessageEx` nhưng link dylib dùng `-undefined dynamic_lookup` và không chỉ rõ dependency substrate; build xanh chưa chứng minh symbol resolve khi inject.
+- Source hook toàn bộ `UIButton didMoveToWindow/layoutSubviews`; filter plist nhắm `com.apple.CarPlay` và `com.apple.springboard` chưa được xác minh đúng process. Source ẩn `button.imageView` sau khi tải ảnh nhưng chưa có test UI/runtime.
+- Cần trước khi test: xác minh tiến trình/bundle đích, asset thực tế, cơ chế link và load substrate, fail-safe cho nút gốc, kiểm tra contents DEB. Không được xem bản test là release chính.
