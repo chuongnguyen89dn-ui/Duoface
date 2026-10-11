@@ -472,3 +472,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã gọi GitHub connector `fetch_workflow_run_jobs` và `fetch_workflow_run_artifacts` cho run `38151758510`: job `114506485652` vẫn `completed/failure`, bước compile/link/sign SUCCESS, package DEB FAILURE, upload skipped, artifacts `[]`.
 - Thử GitHub API workflow runs qua web không truy cập được; **chưa xác minh được run mới sau commit `0f1ff2e`**. Không suy diễn bản sửa đã build xanh; không có DEB mới được xác minh, chưa publish Sileo.
 - Bước tiếp: tìm run mới bằng GitHub Actions UI/API khi có quyền truy xuất; lấy job/log/artifact, xử lý lỗi tiếp theo, kiểm chứng bundle filter trước khi thử trên iPhone.
+
+
+## Checkpoint 2026-10-11 — user báo build xong
+- Người dùng thông báo `Build xong rồi`. Đây là **báo cáo của người dùng**, chưa có ID run mới hoặc bằng chứng job/artifact được kiểm chứng từ GitHub connector.
+- Không nhầm với run 38151758510 đã thất bại; cần link/ID run mới để đọc `fetch_workflow_run_jobs`, `fetch_workflow_run_artifacts`, log nếu cần. Nếu có DEB test, xác minh package ID `com.duoface.visualhook-test`, kiến trúc rootless, payload và filter trước khi cài. Không publish Sileo tự động.
