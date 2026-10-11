@@ -167,3 +167,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Người dùng cung cấp `IMG_7918.jpeg` (ảnh biểu tượng fullscreen gồm 4 góc dạng chữ L tách rời) và yêu cầu thiết kế **nút phóng to từ logo DuoFace** theo đúng bố cục này. Đã tạo một ảnh đề xuất riêng qua công cụ tạo ảnh trong chat: bốn góc L đen/bạc với ánh đỏ, chi tiết khuôn mặt trắng ở góc trên phải, khuôn mặt đen ở góc dưới trái; không có giao diện CarPlay. **Chưa được người dùng duyệt** và chưa xác nhận file ảnh đã lưu lên GitHub.
 - Yêu cầu bất biến: chỉ thay hình ảnh nút fullscreen trên control hiện có; không thay bất kỳ chức năng, callback, vùng chạm, logic split/fullscreen/restore, không sửa DuoNavi gốc. Nút chọn app hai thanh đã duyệt ở checkpoint trước; nút swap hai mặt đã duyệt.
 - Chưa sửa mã, build hoặc deploy.
+
+
+## Checkpoint 2026-10-11 — CHỐT CHÍNH THỨC CẢ BA MẪU NÚT DUOFACE
+- Người dùng **DUYỆT CHÍNH THỨC** mẫu fullscreen bốn góc L trong ảnh tạo trước đó (`a_clean_high_contrast_futuristic_graphic_icon_il.png`, ảnh chat), theo tham chiếu người dùng `IMG_7918.jpeg`: bốn góc tách rời đen/bạc/đỏ, khuôn mặt trắng ở góc trên phải, mặt đen ở góc dưới trái. Không tự ý sửa mẫu.
+- Ba mẫu đã duyệt: (1) swap: huy hiệu tròn chứa logo hai khuôn mặt trắng/đen, nền xung quanh trong suốt, tự ẩn theo hành vi gốc; (2) app-picker `…`: hai thanh ngang đen viền bạc ánh đỏ mảnh, mỗi đầu tròn chứa logo hai khuôn mặt, thanh trên đầu tròn bên phải, thanh dưới bên trái, ảnh người dùng chốt `F721EFDC-E56A-4C31-B325-F635E8B3FEB7.png`; (3) fullscreen: bốn góc L theo ảnh được duyệt lượt này.
+- **BẤT BIẾN:** CHỈ thay hình ảnh, tuyệt đối không đổi chức năng, callback, target/action, gesture, hit area, thời gian tự ẩn, logic chia màn, kéo divider, swap, fullscreen/restore; không sửa DuoNavi gốc.
+- Trạng thái: chỉ duyệt thiết kế; chưa sửa code, chưa build DEB, chưa deploy hoặc test CarPlay. File ảnh tham chiếu/ảnh tạo hiện trong chat và đường dẫn container, **chưa xác nhận có bản ảnh lưu bền vững trong GitHub**. Trước khi thực thi phải lưu assets chuẩn vào repo và xác minh byte/đường dẫn.
