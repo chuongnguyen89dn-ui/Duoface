@@ -667,3 +667,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User explicitly requires immediate replacement of startup background image and removal of Apple CarPlay promotional text, replaced with exact slogan `TWO FACES ONE SCREEN`; also replace visible DuoNavi branding with DuoFace. Preserve original loading behavior and all CarPlay functionality.
 - A new splash visual demo was generated in this conversation, but is NOT installed in the DEB or committed to GitHub. The demo's design is not yet approved as the final splash asset. Do not claim deployed.
 - Next: obtain/commit approved image asset to this repo, inspect actual original splash assets and runtime code, integrate replacement into full main DEB workflow, verify package contents and runtime, then publish version bump through carplaydsp Sileo workflow. Existing 1.0.3-11 does not implement this replacement.
+
+
+## 2026-10-12 — rejected splash demo, approved identity reaffirmed
+- User explicitly REJECTED newly generated cyan/magenta faces splash demo as NOT their logo. NEVER use or publish this generated demo.
+- Previously approved DuoFace identity: two BLACK and WHITE faces with RED lips, DuoFace wordmark, slogan `TWO FACES ONE SCREEN` without periods. Approved horizontal, square/vertical, and icon-only variants exist; do not invent replacements. Recover the actual approved source assets before any splash implementation.
+- Startup requirement remains: replace DuoNavi startup background/logo and Apple CarPlay promotional wording using approved artwork and exact slogan, preserving animation/functionality. No splash change committed to DEB yet.
