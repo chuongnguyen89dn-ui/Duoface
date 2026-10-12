@@ -1,12 +1,7 @@
-name: DuoFace visual hook build (test artifact only) # rebuild requested 2026-10-12
+name: Compile current DuoFace visual hook
 on:
+  workflow_call:
   workflow_dispatch:
-  push:
-    paths:
-      - 'src/DuoFaceVisualHook.m'
-      - '.github/workflows/duoface-hook-check.yml'
-      - 'DuoFace_GitHub_upload_ready.zip'
-      - 'assets/VisualAssets/**'
 permissions:
   contents: read
 jobs:
@@ -14,112 +9,29 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Extract approved DuoFace PNGs from uploaded ZIP
+      - name: Compile and sign current ARM64 hook
         shell: bash
         run: |
           set -euo pipefail
-          if [ -f DuoFace_GitHub_upload_ready.zip ]; then
-            python3 - <<'PY'
-          import io, pathlib, zipfile
-          archive = pathlib.Path("DuoFace_GitHub_upload_ready.zip")
-          target = pathlib.Path("assets/VisualAssets")
-          target.mkdir(parents=True, exist_ok=True)
-          with zipfile.ZipFile(archive) as z:
-              for name in ("duoface-picker.png", "duoface-swap.png"):
-                  matches = [n for n in z.namelist() if pathlib.PurePosixPath(n).name == name and not n.endswith("/")]
-                  if len(matches) != 1:
-                      raise SystemExit(f"Expected exactly one {name} in ZIP; found {len(matches)}")
-                  data = z.read(matches[0])
-                  if data[:4] != bytes((137, 80, 78, 71)):
-                      raise SystemExit(f"Invalid PNG signature: {name}")
-                  (target / name).write_bytes(data)
-                  print(f"Extracted {name}: {len(data)} bytes")
-          PY
-          fi
-          for name in duoface-picker.png duoface-swap.png; do
-            test -s "assets/VisualAssets/$name" || { echo "::error::Missing $name"; exit 1; }
-          done
-      - name: Install iOS build prerequisites
-        shell: bash
-        run: |
-          set -euo pipefail
-          brew install ldid dpkg
-          export PATH="$(brew --prefix)/bin:$PATH"
-          command -v dpkg-deb
-          command -v ldid
-          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
-          rm -rf "$RUNNER_TEMP/theos/sdks"
-          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
-          SDK="$(find "$RUNNER_TEMP/theos/sdks" -maxdepth 1 -type d -name '*.sdk' | sort -V | tail -1)"
-          test -n "$SDK"
-          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
-          echo "SDKROOT=$SDK" >> "$GITHUB_ENV"
-      - name: Compile ARM64 rootless hook without publishing
-        shell: bash
-        run: |
-          set -euo pipefail
-          SDK="$SDKROOT"
-          CLANG="$(xcrun --find clang)"
-          "$CLANG" -target arm64-apple-ios15.0 -isysroot "$SDK" \
-            -I"$THEOS/include" -I"$THEOS/include/_fallback" \
-            -fno-objc-arc -fsyntax-only src/DuoFaceVisualHook.m
-      - name: Build and sign ARM64 test hook dylib
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p dist
-          "$(xcrun --find clang)" -target arm64-apple-ios15.0 -isysroot "$SDKROOT" \
-            -fno-objc-arc -dynamiclib -undefined dynamic_lookup \
-            -framework UIKit -framework Foundation \
+          brew install ldid
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          mkdir -p dist/current-hook
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceVisualHook.m
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -dynamiclib \
+            -framework UIKit -framework Foundation -framework QuartzCore \
             -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib \
-            -o dist/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
-          ldid -S dist/DuoFaceVisualHook.dylib
-          file dist/DuoFaceVisualHook.dylib
-          shasum -a 256 dist/DuoFaceVisualHook.dylib | tee dist/SHA256SUMS
-      - name: Package separate rootless test tweak DEB
-        shell: bash
-        run: |
-          set -euo pipefail
-          PKG="$RUNNER_TEMP/duoface-testpkg"
-          mkdir -p "$PKG/DEBIAN" "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries"
-          cp dist/DuoFaceVisualHook.dylib "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/"
-          # Package existing approved PNGs when present; do not invent replacements.
-          ASSET_SRC="assets/VisualAssets"
-          ASSET_DEST="$PKG/var/jb/Library/Application Support/DuoFace/VisualAssets"
-          mkdir -p "$ASSET_DEST"
-          for name in duoface-picker.png duoface-swap.png; do
-            test -s "$ASSET_SRC/$name" || { echo "::error::Missing approved DuoFace asset: $ASSET_SRC/$name"; exit 1; }
-            cp "$ASSET_SRC/$name" "$ASSET_DEST/$name"
-          done
-          cat > "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist" <<'PLIST'
-          { Filter = { Bundles = ( "com.apple.CarPlay", "com.apple.springboard" ); }; }
-          PLIST
-          cat > "$PKG/DEBIAN/control" <<'CONTROL'
-          Package: com.duoface.visualhook-test
-          Name: DuoFace Visual Hook TEST
-          Version: 1.0.3-10~hooktest
-          Architecture: iphoneos-arm64
-          Description: Experimental visual hook; not verified on CarPlay
-          Maintainer: DuoFace
-          Section: Tweaks
-          Priority: optional
-          CONTROL
-          dpkg-deb --build --root-owner-group "$PKG" dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb
-          dpkg-deb --field dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb Package Architecture
-          dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb | tee dist/DEB_CONTENTS.txt
-          grep -q 'DuoFaceVisualHook.dylib' dist/DEB_CONTENTS.txt
-          grep -q 'DuoFaceVisualHook.plist' dist/DEB_CONTENTS.txt
-          for name in duoface-picker.png duoface-swap.png; do
-            grep -q "$name" dist/DEB_CONTENTS.txt
-          done
-          echo 'Picker and swap PNGs included; fullscreen retains original icon; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
-          shasum -a 256 dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb >> dist/SHA256SUMS
-      - name: Upload test artifact (NOT Sileo release)
-        uses: actions/upload-artifact@v4
+            -o dist/current-hook/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
+          ldid -S dist/current-hook/DuoFaceVisualHook.dylib
+          ldid -e dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/entitlements.plist
+          file dist/current-hook/DuoFaceVisualHook.dylib
+          xcrun lipo -verify_arch arm64 dist/current-hook/DuoFaceVisualHook.dylib
+          shasum -a 256 src/DuoFaceVisualHook.m dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/SHA256SUMS
+          printf '%s\n' "$GITHUB_SHA" > dist/current-hook/SOURCE_COMMIT.txt
+      - uses: actions/upload-artifact@v4
         with:
-          name: duoface-hook-arm64-test
-          path: dist/
+          name: duoface-current-hook-${{ github.sha }}
+          path: dist/current-hook/
           if-no-files-found: error
-      - name: Mark build limitations
-        run: |
-          echo 'Standalone experimental rootless hook test DEB; bundle filter unverified. No Sileo publish.' >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,999 @@
+CLASS CBSlotPillView
+ IVAR _dotViews offset 8
+ IVAR _isFocusedMode offset 16
+ IVAR _showsExpandButton offset 17
+ IVAR _isCompactMode offset 18
+ IVAR _onPillTapped offset 24
+ IVAR _onPillLongPressed offset 32
+ IVAR _onExpandTapped offset 40
+ IVAR _onRestoreTapped offset 48
+ IVAR _slotIndex offset 56
+ IVAR _dotsButton offset 64
+ IVAR _expandButton offset 72
+ IVAR _restoreButton offset 80
+ IVAR _separatorView offset 88
+ METHOD initWithSlotIndex: 0x841c0
+ METHOD layoutSubviews 0x84c30
+ METHOD updateBoundsSize 0x85184
+ METHOD setShowsExpandButton: 0x852f0
+ METHOD setFocusedMode: 0x85308
+ METHOD setCompactMode: 0x85320
+ METHOD pointInside:withEvent: 0x85348
+ METHOD handleLongPress: 0x853f0
+ METHOD dotsTapped: 0x85580
+ METHOD expandTapped: 0x85698
+ METHOD restoreTapped: 0x857b0
+ METHOD bounceButton: 0x85904
+ METHOD onPillTapped 0x85b1c
+ METHOD setOnPillTapped: 0x85b2c
+ METHOD onPillLongPressed 0x85b38
+ METHOD setOnPillLongPressed: 0x85b48
+ METHOD onExpandTapped 0x85b54
+ METHOD setOnExpandTapped: 0x85b64
+ METHOD onRestoreTapped 0x85b70
+ METHOD setOnRestoreTapped: 0x85b80
+ METHOD slotIndex 0x85b8c
+ METHOD setSlotIndex: 0x85b9c
+ METHOD isFocusedMode 0x85bac
+ METHOD setIsFocusedMode: 0x85bbc
+ METHOD showsExpandButton 0x85bcc
+ METHOD isCompactMode 0x85bdc
+ METHOD setIsCompactMode: 0x85bec
+ METHOD dotsButton 0x85bfc
+ METHOD setDotsButton: 0x85c0c
+ METHOD expandButton 0x85c20
+ METHOD setExpandButton: 0x85c30
+ METHOD restoreButton 0x85c44
+ METHOD setRestoreButton: 0x85c54
+ METHOD separatorView 0x85c68
+ METHOD setSeparatorView: 0x85c78
+ METHOD .cxx_destruct 0x85c8c
+CLASS CBSplitSplashScreenView
+ IVAR _glowImageView offset 8
+ IVAR _horizonLineView offset 16
+ IVAR _horizonGradient offset 24
+ IVAR _horizonDashedMask offset 32
+ IVAR _logoImageView offset 40
+ IVAR _trackView offset 48
+ IVAR _progressView offset 56
+ IVAR _progressGradient offset 64
+ IVAR _badgeLabel offset 72
+ IVAR _isDismissing offset 80
+ IVAR _hasStartedAnimation offset 81
+ IVAR _animationStartTime offset 88
+ IVAR _onWillDismiss offset 96
+ IVAR _onDismissed offset 104
+ METHOD initWithFrame: 0xb6358
+ METHOD layoutSubviews 0xb6fdc
+ METHOD startLoadingAnimation 0xb73bc
+ METHOD handleTap: 0xb75e4
+ METHOD isDismissing 0xb766c
+ METHOD dismissAnimated: 0xb767c
+ METHOD dismissAnimated:completion: 0xb768c
+ METHOD dealloc 0xb7924
+ METHOD onWillDismiss 0xb7a08
+ METHOD setOnWillDismiss: 0xb7a18
+ METHOD onDismissed 0xb7a24
+ METHOD setOnDismissed: 0xb7a34
+ METHOD .cxx_destruct 0xb7a40
+CLASS CBDividerView
+ IVAR _isVertical offset 8
+ IVAR _isBlinking offset 9
+ IVAR _moveButtons offset 16
+ IVAR _buttonConfigs offset 24
+ IVAR _onPanChanged offset 32
+ IVAR _onActivity offset 40
+ METHOD initWithFrame:isVertical: 0xfe7dc
+ METHOD gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer: 0xfea48
+ METHOD configureWithButtonConfigs: 0xfea50
+ METHOD layoutSubviews 0xff410
+ METHOD updateGripLayout 0xff460
+ METHOD pointInside:withEvent: 0xff728
+ METHOD hitTest:withEvent: 0xff974
+ METHOD moveButtonTouchDown: 0xffbf8
+  ffbf8: sub sp, sp, #0x60
+  ffbfc: stp x22, x21, [sp, #0x30]
+  ffc00: stp x20, x19, [sp, #0x40]
+  ffc04: stp x29, x30, [sp, #0x50]
+  ffc08: add x29, sp, #0x50
+  ffc0c: mov x20, x0
+  ffc10: mov x0, x2
+  ffc14: bl #0x2ecd3c
+  ffc18: mov x19, x0
+  ffc1c: adrp x8, #0x37e000
+  ffc20: ldr x21, [x8, #0x8d0]
+  ffc24: mov x0, x20
+  ffc28: mov x1, x21
+  ffc2c: bl #0x2ecd00
+  ffc30: mov x29, x29
+  ffc34: bl #0x2ecd60
+  ffc38: mov x22, x0
+  ffc3c: bl #0x2ecd30
+  ffc40: cbz x22, #0xffc6c
+  ffc44: mov x0, x20
+  ffc48: mov x1, x21
+  ffc4c: bl #0x2ecd00
+  ffc50: mov x29, x29
+  ffc54: bl #0x2ecd60
+  ffc58: mov x20, x0
+  ffc5c: ldr x8, [x0, #0x10]
+  ffc60: blr x8
+  ffc64: mov x0, x20
+  ffc68: bl #0x2ecd30
+  ffc6c: adrp x8, #0x37f000
+  ffc70: ldr x20, [x8, #0x858]
+  ffc74: adrp x8, #0x344000
+  ffc78: ldr x8, [x8, #0x120]
+  ffc7c: str x8, [sp, #8]
+  ffc80: adrp x8, #0x30f000
+  ffc84: ldr d0, [x8, #0x968]
+  ffc88: adr x8, #0xffcf4
+  ffc8c: nop 
+  ffc90: adrp x9, #0x344000
+  ffc94: add x9, x9, #0x658
+  ffc98: str d0, [sp, #0x10]
+  ffc9c: stp x8, x9, [sp, #0x18]
+  ffca0: str x19, [sp, #0x28]
+  ffca4: adrp x8, #0x37d000
+  ffca8: ldr x21, [x8, #0xab8]
+  ffcac: mov x0, x19
+  ffcb0: bl #0x2ecd3c
+  ffcb4: mov x19, x0
+  ffcb8: adrp x8, #0x310000
+  ffcbc: ldr d0, [x8, #0xcc8]
+  ffcc0: add x2, sp, #8
+  ffcc4: mov x0, x20
+  ffcc8: mov x1, x21
+  ffccc: bl #0x2ecd00
+  ffcd0: ldr x0, [sp, #0x28]
+  ffcd4: bl #0x2ecd30
+  ffcd8: mov x0, x19
+  ffcdc: bl #0x2ecd30
+  ffce0: ldp x29, x30, [sp, #0x50]
+  ffce4: ldp x20, x19, [sp, #0x40]
+  ffce8: ldp x22, x21, [sp, #0x30]
+  ffcec: add sp, sp, #0x60
+  ffcf0: ret 
+  ffcf4: sub sp, sp, #0xc0
+  ffcf8: stp d9, d8, [sp, #0x60]
+  ffcfc: stp x26, x25, [sp, #0x70]
+  ffd00: stp x24, x23, [sp, #0x80]
+  ffd04: stp x22, x21, [sp, #0x90]
+  ffd08: stp x20, x19, [sp, #0xa0]
+  ffd0c: stp x29, x30, [sp, #0xb0]
+  ffd10: add x29, sp, #0xb0
+  ffd14: mov x19, x0
+  ffd18: ldr x0, [x0, #0x20]
+  ffd1c: adrp x8, #0x37d000
+  ffd20: ldr x1, [x8, #0x988]
+  ffd24: fmov d8, #1.00000000
+  ffd28: mov v0.16b, v8.16b
+  ffd2c: bl #0x2ecd00
+  ffd30: adrp x25, #0x37f000
+  ffd34: ldr x0, [x25, #0x818]
+  ffd38: adrp x8, #0x37d000
+  ffd3c: ldr x1, [x8, #0xb68]
+  ffd40: adrp x8, #0x311000
+  ffd44: ldr d0, [x8, #0x720]
+  ffd48: nop 
+  ffd4c: ldr d1, [x8, #0x728]
+  ffd50: mov v2.16b, v8.16b
+  ffd54: mov v3.16b, v8.16b
+  ffd58: bl #0x2ecd00
+  ffd5c: mov x29, x29
+  ffd60: bl #0x2ecd60
+  ffd64: mov x20, x0
+  ffd68: ldr x0, [x19, #0x20]
+  ffd6c: adrp x8, #0x37d000
+  ffd70: ldr x1, [x8, #0x9d8]
+  ffd74: mov x2, x20
+  ffd78: bl #0x2ecd00
+  ffd7c: mov x0, x20
+  ffd80: bl #0x2ecd30
+  ffd84: ldr x0, [x25, #0x818]
+  ffd88: adrp x8, #0x37d000
+  ffd8c: ldr x20, [x8, #0xa98]
+  ffd90: mov x1, x20
+  ffd94: bl #0x2ecd00
+  ffd98: mov x29, x29
+  ffd9c: bl #0x2ecd60
+  ffda0: bl #0x2ecd48
+  ffda4: mov x21, x0
+  ffda8: adrp x8, #0x37d000
+  ffdac: ldr x1, [x8, #0xa40]
+  ffdb0: bl #0x2ecd00
+  ffdb4: mov x22, x0
+  ffdb8: ldr x0, [x19, #0x20]
+  ffdbc: adrp x8, #0x37d000
+  ffdc0: ldr x23, [x8, #0xa18]
+  ffdc4: mov x1, x23
+  ffdc8: bl #0x2ecd00
+  ffdcc: mov x29, x29
+  ffdd0: bl #0x2ecd60
+  ffdd4: mov x24, x0
+  ffdd8: adrp x8, #0x37d000
+  ffddc: ldr x1, [x8, #0xa48]
+  ffde0: mov x2, x22
+  ffde4: bl #0x2ecd00
+  ffde8: mov x0, x24
+  ffdec: bl #0x2ecd30
+  ffdf0: mov x0, x21
+  ffdf4: bl #0x2ecd30
+  ffdf8: ldr x0, [x19, #0x20]
+  ffdfc: mov x1, x23
+  ffe00: bl #0x2ecd00
+  ffe04: mov x29, x29
+  ffe08: bl #0x2ecd60
+  ffe0c: mov x21, x0
+  ffe10: adrp x8, #0x37d000
+  ffe14: ldr x1, [x8, #0xa30]
+  ffe18: mov v0.16b, v8.16b
+  ffe1c: bl #0x2ecd00
+  ffe20: mov x0, x21
+  ffe24: bl #0x2ecd30
+  ffe28: ldr x0, [x25, #0x818]
+  ffe2c: mov x1, x20
+  ffe30: bl #0x2ecd00
+  ffe34: mov x29, x29
+  ffe38: bl #0x2ecd60
+  ffe3c: mov x20, x0
+  ffe40: ldr x0, [x19, #0x20]
+  ffe44: adrp x8, #0x37d000
+  ffe48: ldr x1, [x8, #0xa68]
+  ffe4c: mov x2, x20
+  ffe50: bl #0x2ecd00
+  ffe54: mov x0, x20
+  ffe58: bl #0x2ecd30
+  ffe5c: adrp x8, #0x30f000
+  ffe60: ldr d0, [x8, #0xab8]
+  ffe64: add x8, sp, #0x30
+  ffe68: mov v1.16b, v0.16b
+  ffe6c: bl #0x2ec82c
+  ffe70: ldr x0, [x19, #0x20]
+  ffe74: ldp q0, q1, [sp, #0x30]
+  ffe78: stp q0, q1, [sp]
+  ffe7c: ldr q0, [sp, #0x50]
+  ffe80: str q0, [sp, #0x20]
+  ffe84: adrp x8, #0x37d000
+  ffe88: ldr x1, [x8, #0xe30]
+  ffe8c: mov x2, sp
+  ffe90: bl #0x2ecd00
+  ffe94: ldp x29, x30, [sp, #0xb0]
+  ffe98: ldp x20, x19, [sp, #0xa0]
+  ffe9c: ldp x22, x21, [sp, #0x90]
+  ffea0: ldp x24, x23, [sp, #0x80]
+  ffea4: ldp x26, x25, [sp, #0x70]
+  ffea8: ldp d9, d8, [sp, #0x60]
+  ffeac: add sp, sp, #0xc0
+  ffeb0: ret 
+ METHOD moveButtonTouchUp: 0xffeb4
+  ffeb4: sub sp, sp, #0xa0
+  ffeb8: stp d9, d8, [sp, #0x60]
+  ffebc: stp x22, x21, [sp, #0x70]
+  ffec0: stp x20, x19, [sp, #0x80]
+  ffec4: stp x29, x30, [sp, #0x90]
+  ffec8: add x29, sp, #0x90
+  ffecc: mov x19, x0
+  ffed0: mov x0, x2
+  ffed4: bl #0x2ecd3c
+  ffed8: mov x20, x0
+  ffedc: adrp x8, #0x37e000
+  ffee0: ldr x21, [x8, #0x8d0]
+  ffee4: mov x0, x19
+  ffee8: mov x1, x21
+  ffeec: bl #0x2ecd00
+  ffef0: mov x29, x29
+  ffef4: bl #0x2ecd60
+  ffef8: mov x22, x0
+  ffefc: bl #0x2ecd30
+  fff00: cbz x22, #0xfff2c
+  fff04: mov x0, x19
+  fff08: mov x1, x21
+  fff0c: bl #0x2ecd00
+  fff10: mov x29, x29
+  fff14: bl #0x2ecd60
+  fff18: mov x21, x0
+  fff1c: ldr x8, [x0, #0x10]
+  fff20: blr x8
+  fff24: mov x0, x21
+  fff28: bl #0x2ecd30
+  fff2c: adrp x8, #0x37f000
+  fff30: adrp x22, #0x344000
+  fff34: ldr x22, [x22, #0x120]
+  fff38: ldr x21, [x8, #0x858]
+  fff3c: str x22, [sp, #0x30]
+  fff40: adrp x8, #0x30f000
+  fff44: ldr d8, [x8, #0x968]
+  fff48: adr x8, #0x1000c4
+  fff4c: nop 
+  fff50: str d8, [sp, #0x38]
+  fff54: adrp x9, #0x344000
+  fff58: add x9, x9, #0x7b8
+  fff5c: stp x8, x9, [sp, #0x40]
+  fff60: str x19, [sp, #0x50]
+  fff64: mov x0, x20
+  fff68: bl #0x2ecd3c
+  fff6c: str x0, [sp, #0x58]
+  fff70: str x22, [sp]
+  fff74: adr x8, #0x1002b4
+  fff78: nop 
+  fff7c: str d8, [sp, #8]
+  fff80: adrp x9, #0x345000
+  fff84: add x9, x9, #0x68
+  fff88: stp x8, x9, [sp, #0x10]
+  fff8c: str x19, [sp, #0x20]
+  fff90: bl #0x2ecd3c
+  fff94: mov x20, x0
+  fff98: str x0, [sp, #0x28]
+  fff9c: adrp x8, #0x37d000
+  fffa0: ldr x1, [x8, #0xf48]
+  fffa4: adrp x8, #0x310000
+  fffa8: ldr d0, [x8, #0xcd0]
+  fffac: nop 
+  fffb0: ldr d2, [x8, #0xcd8]
+  fffb4: adrp x8, #0x30f000
+  fffb8: ldr d3, [x8, #0xac8]
+  fffbc: fmov d1, xzr
+  fffc0: add x3, sp, #0x30
+  fffc4: mov x4, sp
+  fffc8: mov x0, x21
+  fffcc: mov w2, #0x20000
+  fffd0: bl #0x2ecd00
+  fffd4: adrp x8, #0x37f000
+  fffd8: ldrsw x8, [x8, #0xdf0]
+  fffdc: ldr x0, [x19, x8]
+  fffe0: adrp x8, #0x37e000
+  fffe4: ldr x1, [x8, #0x8d8]
+  fffe8: mov x2, x20
+  fffec: bl #0x2ecd00
+  ffff0: mov x8, #0x7fffffffffffffff
+  ffff4: cmp x0, x8
+  ffff8: b.eq #0x100094
+  ffffc: mov x21, x0
+  100000: adrp x8, #0x37f000
+  100004: ldrsw x22, [x8, #0xdf4]
+  100008: ldr x0, [x19, x22]
+  10000c: adrp x8, #0x37d000
+  100010: ldr x1, [x8, #0x620]
+  100014: bl #0x2ecd00
+  100018: cmp x21, x0
+  10001c: b.hs #0x100094
+  100020: ldr x0, [x19, x22]
+  100024: adrp x8, #0x37d000
+  100028: ldr x1, [x8, #0x8b8]
+  10002c: mov x2, x21
+  100030: bl #0x2ecd00
+  100034: mov x29, x29
+  100038: bl #0x2ecd60
+  10003c: mov x19, x0
+  100040: adrp x8, #0x37e000
+  100044: ldr x21, [x8, #0x8e0]
+  100048: mov x1, x21
+  10004c: bl #0x2ecd00
+  100050: mov x29, x29
+  100054: bl #0x2ecd60
+  100058: mov x22, x0
+  10005c: bl #0x2ecd30
+  100060: cbz x22, #0x10008c
+  100064: mov x0, x19
+  100068: mov x1, x21
+  10006c: bl #0x2ecd00
+  100070: mov x29, x29
+  100074: bl #0x2ecd60
+  100078: mov x21, x0
+  10007c: ldr x8, [x0, #0x10]
+  100080: blr x8
+  100084: mov x0, x21
+  100088: bl #0x2ecd30
+  10008c: mov x0, x19
+  100090: bl #0x2ecd30
+  100094: ldr x0, [sp, #0x28]
+  100098: bl #0x2ecd30
+  10009c: ldr x0, [sp, #0x58]
+  1000a0: bl #0x2ecd30
+  1000a4: mov x0, x20
+  1000a8: bl #0x2ecd30
+  1000ac: ldp x29, x30, [sp, #0x90]
+  1000b0: ldp x20, x19, [sp, #0x80]
+  1000b4: ldp x22, x21, [sp, #0x70]
+  1000b8: ldp d9, d8, [sp, #0x60]
+  1000bc: add sp, sp, #0xa0
+  1000c0: ret 
+  1000c4: sub sp, sp, #0x80
+  1000c8: stp x26, x25, [sp, #0x30]
+  1000cc: stp x24, x23, [sp, #0x40]
+  1000d0: stp x22, x21, [sp, #0x50]
+  1000d4: stp x20, x19, [sp, #0x60]
+  1000d8: stp x29, x30, [sp, #0x70]
+  1000dc: add x29, sp, #0x70
+  1000e0: mov x19, x0
+  1000e4: adrp x8, #0x37f000
+  1000e8: ldrsw x8, [x8, #0xdec]
+  1000ec: ldp x9, x0, [x0, #0x20]
+  1000f0: ldrb w8, [x9, x8]
+  1000f4: adrp x9, #0x37d000
+  1000f8: ldr x1, [x9, #0x988]
+  1000fc: cbz w8, #0x100264
+  100100: adrp x8, #0x311000
+  100104: ldr d0, [x8, #0x6d0]
+  100108: bl #0x2ecd00
+  10010c: adrp x25, #0x37f000
+  100110: ldr x0, [x25, #0x818]
+  100114: adrp x8, #0x37d000
+  100118: ldr x1, [x8, #0xb68]
+  10011c: adrp x8, #0x310000
+  100120: ldr d0, [x8, #0xc68]
+  100124: nop 
+  100128: ldr d1, [x8, #0xc70]
+  10012c: nop 
+  100130: ldr d2, [x8, #0xc78]
+  100134: adrp x8, #0x30f000
+  100138: ldr d3, [x8, #0xab8]
+  10013c: bl #0x2ecd00
+  100140: mov x29, x29
+  100144: bl #0x2ecd60
+  100148: mov x20, x0
+  10014c: ldr x0, [x19, #0x28]
+  100150: adrp x8, #0x37d000
+  100154: ldr x1, [x8, #0x9d8]
+  100158: mov x2, x20
+  10015c: bl #0x2ecd00
+  100160: mov x0, x20
+  100164: bl #0x2ecd30
+  100168: ldr x0, [x25, #0x818]
+  10016c: adrp x8, #0x37d000
+  100170: ldr x20, [x8, #0xa38]
+  100174: adrp x8, #0x311000
+  100178: ldr d1, [x8, #0x708]
+  10017c: fmov d0, #1.00000000
+  100180: mov x1, x20
+  100184: bl #0x2ecd00
+  100188: mov x29, x29
+  10018c: bl #0x2ecd60
+  100190: bl #0x2ecd48
+  100194: mov x21, x0
+  100198: adrp x8, #0x37d000
+  10019c: ldr x1, [x8, #0xa40]
+  1001a0: bl #0x2ecd00
+  1001a4: mov x22, x0
+  1001a8: ldr x0, [x19, #0x28]
+  1001ac: adrp x8, #0x37d000
+  1001b0: ldr x23, [x8, #0xa18]
+  1001b4: mov x1, x23
+  1001b8: bl #0x2ecd00
+  1001bc: mov x29, x29
+  1001c0: bl #0x2ecd60
+  1001c4: mov x24, x0
+  1001c8: adrp x8, #0x37d000
+  1001cc: ldr x1, [x8, #0xa48]
+  1001d0: mov x2, x22
+  1001d4: bl #0x2ecd00
+  1001d8: mov x0, x24
+  1001dc: bl #0x2ecd30
+  1001e0: mov x0, x21
+  1001e4: bl #0x2ecd30
+  1001e8: ldr x0, [x19, #0x28]
+  1001ec: mov x1, x23
+  1001f0: bl #0x2ecd00
+  1001f4: mov x29, x29
+  1001f8: bl #0x2ecd60
+  1001fc: mov x21, x0
+  100200: adrp x8, #0x37d000
+  100204: ldr x1, [x8, #0xa30]
+  100208: adrp x8, #0x30f000
+  10020c: ldr d0, [x8, #0xac8]
+  100210: bl #0x2ecd00
+  100214: mov x0, x21
+  100218: bl #0x2ecd30
+  10021c: ldr x0, [x25, #0x818]
+  100220: adrp x8, #0x310000
+  100224: ldr d0, [x8, #0xca0]
+  100228: adrp x8, #0x30f000
+  10022c: ldr d1, [x8, #0xaf8]
+  100230: mov x1, x20
+  100234: bl #0x2ecd00
+  100238: mov x29, x29
+  10023c: bl #0x2ecd60
+  100240: mov x20, x0
+  100244: ldr x0, [x19, #0x28]
+  100248: adrp x8, #0x37d000
+  10024c: ldr x1, [x8, #0xa68]
+  100250: mov x2, x20
+  100254: bl #0x2ecd00
+  100258: mov x0, x20
+  10025c: bl #0x2ecd30
+  100260: b #0x10026c
+  100264: fmov d0, xzr
+  100268: bl #0x2ecd00
+  10026c: ldr x0, [x19, #0x28]
+  100270: adrp x8, #0x344000
+  100274: ldr x8, [x8, #0x10]
+  100278: ldp q0, q1, [x8]
+  10027c: stp q0, q1, [sp]
+  100280: ldr q0, [x8, #0x20]
+  100284: str q0, [sp, #0x20]
+  100288: adrp x8, #0x37d000
+  10028c: ldr x1, [x8, #0xe30]
+  100290: mov x2, sp
+  100294: bl #0x2ecd00
+  100298: ldp x29, x30, [sp, #0x70]
+  10029c: ldp x20, x19, [sp, #0x60]
+  1002a0: ldp x22, x21, [sp, #0x50]
+  1002a4: ldp x24, x23, [sp, #0x40]
+  1002a8: ldp x26, x25, [sp, #0x30]
+  1002ac: add sp, sp, #0x80
+  1002b0: ret 
+  1002b4: ldr x8, [x0, #0x20]
+  1002b8: adrp x9, #0x37f000
+  1002bc: ldrsw x9, [x9, #0xdec]
+  1002c0: ldrb w8, [x8, x9]
+  1002c4: cbz w8, #0x1002cc
+  1002c8: ret 
+  1002cc: ldr x0, [x0, #0x28]
+  1002d0: adrp x8, #0x37d000
+  1002d4: ldr x1, [x8, #0x980]
+  1002d8: mov w2, #1
+  1002dc: b #0x2ecd00
+ METHOD moveButtonTouchCancelled: 0x1002e0
+  1002e0: sub sp, sp, #0xa0
+  1002e4: stp d9, d8, [sp, #0x60]
+  1002e8: stp x22, x21, [sp, #0x70]
+  1002ec: stp x20, x19, [sp, #0x80]
+  1002f0: stp x29, x30, [sp, #0x90]
+  1002f4: add x29, sp, #0x90
+  1002f8: mov x19, x0
+  1002fc: mov x0, x2
+  100300: bl #0x2ecd3c
+  100304: adrp x8, #0x37f000
+  100308: adrp x21, #0x344000
+  10030c: ldr x21, [x21, #0x120]
+  100310: ldr x20, [x8, #0x858]
+  100314: str x21, [sp, #0x30]
+  100318: adrp x8, #0x30f000
+  10031c: ldr d8, [x8, #0x968]
+  100320: adr x8, #0x1003d8
+  100324: nop 
+  100328: str d8, [sp, #0x38]
+  10032c: adrp x9, #0x344000
+  100330: add x9, x9, #0x7b8
+  100334: stp x8, x9, [sp, #0x40]
+  100338: str x19, [sp, #0x50]
+  10033c: bl #0x2ecd3c
+  100340: str x0, [sp, #0x58]
+  100344: str x21, [sp]
+  100348: str d8, [sp, #8]
+  10034c: adr x8, #0x1005c8
+  100350: nop 
+  100354: adrp x9, #0x345000
+  100358: add x9, x9, #0x68
+  10035c: stp x8, x9, [sp, #0x10]
+  100360: stp x19, x0, [sp, #0x20]
+  100364: adrp x8, #0x37d000
+  100368: ldr x19, [x8, #0xf48]
+  10036c: bl #0x2ecd3c
+  100370: mov x21, x0
+  100374: adrp x8, #0x310000
+  100378: ldr d0, [x8, #0xcd0]
+  10037c: nop 
+  100380: ldr d2, [x8, #0xcd8]
+  100384: adrp x8, #0x30f000
+  100388: ldr d3, [x8, #0xac8]
+  10038c: fmov d1, xzr
+  100390: add x3, sp, #0x30
+  100394: mov x4, sp
+  100398: mov x0, x20
+  10039c: mov x1, x19
+  1003a0: mov w2, #0x20000
+  1003a4: bl #0x2ecd00
+  1003a8: ldr x0, [sp, #0x28]
+  1003ac: bl #0x2ecd30
+  1003b0: ldr x0, [sp, #0x58]
+  1003b4: bl #0x2ecd30
+  1003b8: mov x0, x21
+  1003bc: bl #0x2ecd30
+  1003c0: ldp x29, x30, [sp, #0x90]
+  1003c4: ldp x20, x19, [sp, #0x80]
+  1003c8: ldp x22, x21, [sp, #0x70]
+  1003cc: ldp d9, d8, [sp, #0x60]
+  1003d0: add sp, sp, #0xa0
+  1003d4: ret 
+  1003d8: sub sp, sp, #0x80
+  1003dc: stp x26, x25, [sp, #0x30]
+  1003e0: stp x24, x23, [sp, #0x40]
+  1003e4: stp x22, x21, [sp, #0x50]
+  1003e8: stp x20, x19, [sp, #0x60]
+  1003ec: stp x29, x30, [sp, #0x70]
+  1003f0: add x29, sp, #0x70
+  1003f4: mov x19, x0
+  1003f8: adrp x8, #0x37f000
+  1003fc: ldrsw x8, [x8, #0xdec]
+  100400: ldp x9, x0, [x0, #0x20]
+  100404: ldrb w8, [x9, x8]
+  100408: adrp x9, #0x37d000
+  10040c: ldr x1, [x9, #0x988]
+  100410: cbz w8, #0x100578
+  100414: adrp x8, #0x311000
+  100418: ldr d0, [x8, #0x6d0]
+  10041c: bl #0x2ecd00
+  100420: adrp x25, #0x37f000
+  100424: ldr x0, [x25, #0x818]
+  100428: adrp x8, #0x37d000
+  10042c: ldr x1, [x8, #0xb68]
+  100430: adrp x8, #0x310000
+  100434: ldr d0, [x8, #0xc68]
+  100438: nop 
+  10043c: ldr d1, [x8, #0xc70]
+  100440: nop 
+  100444: ldr d2, [x8, #0xc78]
+  100448: adrp x8, #0x30f000
+  10044c: ldr d3, [x8, #0xab8]
+  100450: bl #0x2ecd00
+  100454: mov x29, x29
+  100458: bl #0x2ecd60
+  10045c: mov x20, x0
+  100460: ldr x0, [x19, #0x28]
+  100464: adrp x8, #0x37d000
+  100468: ldr x1, [x8, #0x9d8]
+  10046c: mov x2, x20
+  100470: bl #0x2ecd00
+  100474: mov x0, x20
+  100478: bl #0x2ecd30
+  10047c: ldr x0, [x25, #0x818]
+  100480: adrp x8, #0x37d000
+  100484: ldr x20, [x8, #0xa38]
+  100488: adrp x8, #0x311000
+  10048c: ldr d1, [x8, #0x708]
+  100490: fmov d0, #1.00000000
+  100494: mov x1, x20
+  100498: bl #0x2ecd00
+  10049c: mov x29, x29
+  1004a0: bl #0x2ecd60
+  1004a4: bl #0x2ecd48
+  1004a8: mov x21, x0
+  1004ac: adrp x8, #0x37d000
+  1004b0: ldr x1, [x8, #0xa40]
+  1004b4: bl #0x2ecd00
+  1004b8: mov x22, x0
+  1004bc: ldr x0, [x19, #0x28]
+  1004c0: adrp x8, #0x37d000
+  1004c4: ldr x23, [x8, #0xa18]
+  1004c8: mov x1, x23
+  1004cc: bl #0x2ecd00
+  1004d0: mov x29, x29
+  1004d4: bl #0x2ecd60
+  1004d8: mov x24, x0
+  1004dc: adrp x8, #0x37d000
+  1004e0: ldr x1, [x8, #0xa48]
+  1004e4: mov x2, x22
+  1004e8: bl #0x2ecd00
+  1004ec: mov x0, x24
+  1004f0: bl #0x2ecd30
+  1004f4: mov x0, x21
+  1004f8: bl #0x2ecd30
+  1004fc: ldr x0, [x19, #0x28]
+  100500: mov x1, x23
+  100504: bl #0x2ecd00
+  100508: mov x29, x29
+  10050c: bl #0x2ecd60
+  100510: mov x21, x0
+  100514: adrp x8, #0x37d000
+  100518: ldr x1, [x8, #0xa30]
+  10051c: adrp x8, #0x30f000
+  100520: ldr d0, [x8, #0xac8]
+  100524: bl #0x2ecd00
+  100528: mov x0, x21
+  10052c: bl #0x2ecd30
+  100530: ldr x0, [x25, #0x818]
+  100534: adrp x8, #0x310000
+  100538: ldr d0, [x8, #0xca0]
+  10053c: adrp x8, #0x30f000
+  100540: ldr d1, [x8, #0xaf8]
+  100544: mov x1, x20
+  100548: bl #0x2ecd00
+  10054c: mov x29, x29
+  100550: bl #0x2ecd60
+  100554: mov x20, x0
+  100558: ldr x0, [x19, #0x28]
+  10055c: adrp x8, #0x37d000
+  100560: ldr x1, [x8, #0xa68]
+  100564: mov x2, x20
+  100568: bl #0x2ecd00
+  10056c: mov x0, x20
+  100570: bl #0x2ecd30
+  100574: b #0x100580
+  100578: fmov d0, xzr
+  10057c: bl #0x2ecd00
+  100580: ldr x0, [x19, #0x28]
+  100584: adrp x8, #0x344000
+  100588: ldr x8, [x8, #0x10]
+  10058c: ldp q0, q1, [x8]
+  100590: stp q0, q1, [sp]
+  100594: ldr q0, [x8, #0x20]
+  100598: str q0, [sp, #0x20]
+  10059c: adrp x8, #0x37d000
+  1005a0: ldr x1, [x8, #0xe30]
+  1005a4: mov x2, sp
+  1005a8: bl #0x2ecd00
+  1005ac: ldp x29, x30, [sp, #0x70]
+  1005b0: ldp x20, x19, [sp, #0x60]
+  1005b4: ldp x22, x21, [sp, #0x50]
+  1005b8: ldp x24, x23, [sp, #0x40]
+  1005bc: ldp x26, x25, [sp, #0x30]
+  1005c0: add sp, sp, #0x80
+  1005c4: ret 
+  1005c8: ldr x8, [x0, #0x20]
+  1005cc: adrp x9, #0x37f000
+  1005d0: ldrsw x9, [x9, #0xdec]
+  1005d4: ldrb w8, [x8, x9]
+  1005d8: cbz w8, #0x1005e0
+  1005dc: ret 
+  1005e0: ldr x0, [x0, #0x28]
+  1005e4: adrp x8, #0x37d000
+  1005e8: ldr x1, [x8, #0x980]
+  1005ec: mov w2, #1
+  1005f0: b #0x2ecd00
+ METHOD handleMoveButtonLongPress: 0x1005f4
+  1005f4: sub sp, sp, #0xa0
+  1005f8: stp d9, d8, [sp, #0x50]
+  1005fc: stp x24, x23, [sp, #0x60]
+  100600: stp x22, x21, [sp, #0x70]
+  100604: stp x20, x19, [sp, #0x80]
+  100608: stp x29, x30, [sp, #0x90]
+  10060c: add x29, sp, #0x90
+  100610: mov x21, x0
+  100614: mov x0, x2
+  100618: bl #0x2ecd3c
+  10061c: mov x19, x0
+  100620: adrp x8, #0x37d000
+  100624: ldr x1, [x8, #0xe50]
+  100628: bl #0x2ecd00
+  10062c: cmp x0, #1
+  100630: b.ne #0x10083c
+  100634: adrp x8, #0x37e000
+  100638: ldr x20, [x8, #0x8d0]
+  10063c: mov x0, x21
+  100640: mov x1, x20
+  100644: bl #0x2ecd00
+  100648: mov x29, x29
+  10064c: bl #0x2ecd60
+  100650: mov x22, x0
+  100654: bl #0x2ecd30
+  100658: cbz x22, #0x100684
+  10065c: mov x0, x21
+  100660: mov x1, x20
+  100664: bl #0x2ecd00
+  100668: mov x29, x29
+  10066c: bl #0x2ecd60
+  100670: mov x20, x0
+  100674: ldr x8, [x0, #0x10]
+  100678: blr x8
+  10067c: mov x0, x20
+  100680: bl #0x2ecd30
+  100684: adrp x8, #0x37e000
+  100688: ldr x1, [x8, #0x2f0]
+  10068c: mov x0, x19
+  100690: bl #0x2ecd00
+  100694: mov x29, x29
+  100698: bl #0x2ecd60
+  10069c: mov x20, x0
+  1006a0: adrp x8, #0x37f000
+  1006a4: ldrsw x8, [x8, #0xdf0]
+  1006a8: ldr x0, [x21, x8]
+  1006ac: adrp x8, #0x37e000
+  1006b0: ldr x1, [x8, #0x8d8]
+  1006b4: mov x2, x20
+  1006b8: bl #0x2ecd00
+  1006bc: mov x8, #0x7fffffffffffffff
+  1006c0: cmp x0, x8
+  1006c4: b.eq #0x100834
+  1006c8: mov x22, x0
+  1006cc: adrp x8, #0x37f000
+  1006d0: ldrsw x23, [x8, #0xdf4]
+  1006d4: ldr x0, [x21, x23]
+  1006d8: adrp x8, #0x37d000
+  1006dc: ldr x1, [x8, #0x620]
+  1006e0: bl #0x2ecd00
+  1006e4: cmp x22, x0
+  1006e8: b.hs #0x100834
+  1006ec: ldr x0, [x21, x23]
+  1006f0: adrp x8, #0x37d000
+  1006f4: ldr x1, [x8, #0x8b8]
+  1006f8: mov x2, x22
+  1006fc: bl #0x2ecd00
+  100700: mov x29, x29
+  100704: bl #0x2ecd60
+  100708: mov x21, x0
+  10070c: adrp x8, #0x37f000
+  100710: ldr x22, [x8, #0x858]
+  100714: adrp x23, #0x344000
+  100718: ldr x23, [x23, #0x120]
+  10071c: str x23, [sp, #0x28]
+  100720: adrp x8, #0x30f000
+  100724: ldr d8, [x8, #0x968]
+  100728: str d8, [sp, #0x30]
+  10072c: adr x8, #0x100860
+  100730: nop 
+  100734: adrp x9, #0x344000
+  100738: add x9, x9, #0x658
+  10073c: stp x8, x9, [sp, #0x38]
+  100740: mov x0, x20
+  100744: bl #0x2ecd3c
+  100748: str x0, [sp, #0x48]
+  10074c: str x23, [sp]
+  100750: str d8, [sp, #8]
+  100754: adr x8, #0x10090c
+  100758: nop 
+  10075c: adrp x9, #0x344000
+  100760: add x9, x9, #0x818
+  100764: stp x8, x9, [sp, #0x10]
+  100768: bl #0x2ecd3c
+  10076c: str x0, [sp, #0x20]
+  100770: adrp x8, #0x37d000
+  100774: ldr x1, [x8, #0xb30]
+  100778: adrp x8, #0x310000
+  10077c: ldr d0, [x8, #0xcd0]
+  100780: add x2, sp, #0x28
+  100784: mov x3, sp
+  100788: mov x0, x22
+  10078c: bl #0x2ecd00
+  100790: adrp x8, #0x37e000
+  100794: ldr x22, [x8, #0x8e8]
+  100798: mov x0, x21
+  10079c: mov x1, x22
+  1007a0: bl #0x2ecd00
+  1007a4: mov x29, x29
+  1007a8: bl #0x2ecd60
+  1007ac: mov x23, x0
+  1007b0: bl #0x2ecd30
+  1007b4: cbz x23, #0x1007cc
+  1007b8: mov x0, x21
+  1007bc: mov x1, x22
+  1007c0: bl #0x2ecd00
+  1007c4: mov x29, x29
+  1007c8: b #0x100804
+  1007cc: adrp x8, #0x37e000
+  1007d0: ldr x22, [x8, #0x8e0]
+  1007d4: mov x0, x21
+  1007d8: mov x1, x22
+  1007dc: bl #0x2ecd00
+  1007e0: mov x29, x29
+  1007e4: bl #0x2ecd60
+  1007e8: mov x23, x0
+  1007ec: bl #0x2ecd30
+  1007f0: cbz x23, #0x10081c
+  1007f4: mov x0, x21
+  1007f8: mov x1, x22
+  1007fc: bl #0x2ecd00
+  100800: mov x29, x29
+  100804: bl #0x2ecd60
+  100808: mov x22, x0
+  10080c: ldr x8, [x0, #0x10]
+  100810: blr x8
+  100814: mov x0, x22
+  100818: bl #0x2ecd30
+  10081c: ldr x0, [sp, #0x20]
+  100820: bl #0x2ecd30
+  100824: ldr x0, [sp, #0x48]
+  100828: bl #0x2ecd30
+  10082c: mov x0, x21
+  100830: bl #0x2ecd30
+  100834: mov x0, x20
+  100838: bl #0x2ecd30
+  10083c: mov x0, x19
+  100840: bl #0x2ecd30
+  100844: ldp x29, x30, [sp, #0x90]
+  100848: ldp x20, x19, [sp, #0x80]
+  10084c: ldp x22, x21, [sp, #0x70]
+  100850: ldp x24, x23, [sp, #0x60]
+  100854: ldp d9, d8, [sp, #0x50]
+  100858: add sp, sp, #0xa0
+  10085c: ret 
+  100860: sub sp, sp, #0x80
+  100864: stp x20, x19, [sp, #0x60]
+  100868: stp x29, x30, [sp, #0x70]
+  10086c: add x29, sp, #0x70
+  100870: mov x19, x0
+  100874: adrp x8, #0x312000
+  100878: ldr d0, [x8, #0x490]
+  10087c: add x8, sp, #0x30
+  100880: mov v1.16b, v0.16b
+  100884: bl #0x2ec82c
+  100888: ldr x0, [x19, #0x20]
+  10088c: ldp q0, q1, [sp, #0x30]
+  100890: stp q0, q1, [sp]
+  100894: ldr q0, [sp, #0x50]
+  100898: str q0, [sp, #0x20]
+  10089c: adrp x8, #0x37d000
+  1008a0: ldr x1, [x8, #0xe30]
+  1008a4: mov x2, sp
+  1008a8: bl #0x2ecd00
+  1008ac: adrp x8, #0x37f000
+  1008b0: ldr x0, [x8, #0x818]
+  1008b4: adrp x8, #0x37d000
+  1008b8: ldr x1, [x8, #0xb68]
+  1008bc: adrp x8, #0x30f000
+  1008c0: ldr d1, [x8, #0xac8]
+  1008c4: fmov d2, #1.00000000
+  1008c8: fmov d0, xzr
+  1008cc: mov v3.16b, v2.16b
+  1008d0: bl #0x2ecd00
+  1008d4: mov x29, x29
+  1008d8: bl #0x2ecd60
+  1008dc: mov x20, x0
+  1008e0: ldr x0, [x19, #0x20]
+  1008e4: adrp x8, #0x37d000
+  1008e8: ldr x1, [x8, #0x9d8]
+  1008ec: mov x2, x20
+  1008f0: bl #0x2ecd00
+  1008f4: mov x0, x20
+  1008f8: bl #0x2ecd30
+  1008fc: ldp x29, x30, [sp, #0x70]
+  100900: ldp x20, x19, [sp, #0x60]
+  100904: add sp, sp, #0x80
+  100908: ret 
+  10090c: sub sp, sp, #0x50
+  100910: stp x20, x19, [sp, #0x30]
+  100914: stp x29, x30, [sp, #0x40]
+  100918: add x29, sp, #0x40
+  10091c: adrp x8, #0x37f000
+  100920: adrp x9, #0x344000
+  100924: ldr x9, [x9, #0x120]
+  100928: ldr x19, [x8, #0x858]
+  10092c: str x9, [sp, #8]
+  100930: adrp x8, #0x30f000
+  100934: ldr d0, [x8, #0x968]
+  100938: adr x8, #0x100990
+  10093c: nop 
+  100940: str d0, [sp, #0x10]
+  100944: adrp x9, #0x344000
+  100948: add x9, x9, #0x658
+  10094c: stp x8, x9, [sp, #0x18]
+  100950: ldr x0, [x0, #0x20]
+  100954: bl #0x2ecd3c
+  100958: str x0, [sp, #0x28]
+  10095c: adrp x8, #0x37d000
+  100960: ldr x1, [x8, #0xab8]
+  100964: adrp x8, #0x30f000
+  100968: ldr d0, [x8, #0xac0]
+  10096c: add x2, sp, #8
+  100970: mov x0, x19
+  100974: bl #0x2ecd00
+  100978: ldr x0, [sp, #0x28]
+  10097c: bl #0x2ecd30
+  100980: ldp x29, x30, [sp, #0x40]
+  100984: ldp x20, x19, [sp, #0x30]
+  100988: add sp, sp, #0x50
+  10098c: ret 
+  100990: sub sp, sp, #0x40
+  100994: stp x29, x30, [sp, #0x30]
+  100998: add x29, sp, #0x30
+  10099c: ldr x0, [x0, #0x20]
+  1009a0: adrp x8, #0x344000
+  1009a4: ldr x8, [x8, #0x10]
+  1009a8: ldp q0, q1, [x8]
+  1009ac: stp q0, q1, [sp]
+  1009b0: ldr q0, [x8, #0x20]
+  1009b4: str q0, [sp, #0x20]
+  1009b8: adrp x8, #0x37d000
+  1009bc: ldr x1, [x8, #0xe30]
+  1009c0: mov x2, sp
+  1009c4: bl #0x2ecd00
+  1009c8: ldp x29, x30, [sp, #0x30]
+  1009cc: add sp, sp, #0x40
+  1009d0: ret 
+ METHOD startBlinking 0x1009d4
+ METHOD stopBlinking 0x1010bc
+ METHOD handlePan: 0x10152c
+ METHOD isVertical 0x101668
+ METHOD setIsVertical: 0x101678
+ METHOD isBlinking 0x101688
+ METHOD setIsBlinking: 0x101698
+ METHOD moveButtons 0x1016a8
+ METHOD setMoveButtons: 0x1016b8
+ METHOD buttonConfigs 0x1016cc
+ METHOD setButtonConfigs: 0x1016dc
+ METHOD onPanChanged 0x1016f0
+ METHOD setOnPanChanged: 0x101700
+ METHOD onActivity 0x10170c
+ METHOD setOnActivity: 0x10171c
+ METHOD .cxx_destruct 0x101728

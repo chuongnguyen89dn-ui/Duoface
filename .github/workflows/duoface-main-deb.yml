@@ -1,71 +1,69 @@
-name: Build DuoFace 1.0.3-11 integrated test (no Sileo publish)
+name: Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - '.github/workflows/duoface-main-deb.yml'
+      - '.github/workflows/duoface-hook-check.yml'
+      - 'src/DuoFaceVisualHook.m'
+      - 'scripts/build_visual_release.py'
+      - 'DuoFace_5_images_REVIEW_before_upload.zip'
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: duoface-main-visual-build
+  cancel-in-progress: false
 jobs:
-  main-deb:
+  compile:
+    uses: ./.github/workflows/duoface-hook-check.yml
+  package:
+    needs: compile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install packaging tools
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image and package inspection dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y dpkg-dev unzip
-      - name: Fetch pinned DuoFace payload and verified repacker
+          python -m pip install Pillow==11.3.0
+          command -v dpkg-deb
+      - uses: actions/download-artifact@v4
+        with:
+          name: duoface-current-hook-${{ github.sha }}
+          path: current-hook
+      - name: Verify same-commit hook and build complete DEB
         shell: bash
         run: |
           set -euo pipefail
-          curl -fL --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/7b0f00320e3d9d8f2a7896bed562ef275f9a2540/DuoFace_FULL_HANDOFF_2026-10-11.zip' -o /tmp/duoface-handoff.zip
-          mkdir -p /tmp/duoface-input dist/main
-          unzip -j /tmp/duoface-handoff.zip 'files/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb' -d /tmp/duoface-input
-          printf '%s  %s\n' '2120480166170c5f71b12a595bed7a5ab892fbd84038ef878eca8e8243062e9a' /tmp/duoface-input/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb | sha256sum -c -
-          curl -fL --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/carplaydsp/main/scripts/repack-duoface-rootless.py' -o /tmp/repack-duoface-rootless.py
-          python3 /tmp/repack-duoface-rootless.py /tmp/duoface-input/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb dist/main/com.duoface.app_1.0.3-9_iphoneos-arm64.deb
-      - name: Merge previously compiled visual hook into main package
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          gh run download 38191513319 --name duoface-hook-arm64-test --dir /tmp/visualhook
-          HOOK=$(find /tmp/visualhook -type f -name 'DuoFaceVisualHook_TEST_*.deb' -print -quit)
-          test -n "$HOOK"
-          mkdir -p /tmp/duoface-main-root /tmp/duoface-hook-root
-          dpkg-deb -R dist/main/com.duoface.app_1.0.3-9_iphoneos-arm64.deb /tmp/duoface-main-root
-          dpkg-deb -R "$HOOK" /tmp/duoface-hook-root
-          test -f /tmp/duoface-main-root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib
-          cp -a /tmp/duoface-hook-root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib /tmp/duoface-main-root/var/jb/Library/MobileSubstrate/DynamicLibraries/
-          cp -a /tmp/duoface-hook-root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist /tmp/duoface-main-root/var/jb/Library/MobileSubstrate/DynamicLibraries/
-          mkdir -p '/tmp/duoface-main-root/var/jb/Library/Application Support/DuoFace/VisualAssets'
-          cp -a '/tmp/duoface-hook-root/var/jb/Library/Application Support/DuoFace/VisualAssets/.' '/tmp/duoface-main-root/var/jb/Library/Application Support/DuoFace/VisualAssets/'
-          sed -i 's/^Version:.*/Version: 1.0.3-11~integratedtest/' /tmp/duoface-main-root/DEBIAN/control
-          dpkg-deb --build --root-owner-group /tmp/duoface-main-root dist/main/com.duoface.app_1.0.3-11_integratedtest_iphoneos-arm64.deb
-          rm dist/main/com.duoface.app_1.0.3-9_iphoneos-arm64.deb
-      - name: Validate rootless package and document evidence
-        shell: bash
-        run: |
-          set -euo pipefail
-          DEB=dist/main/com.duoface.app_1.0.3-11_integratedtest_iphoneos-arm64.deb
-          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.app
-          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
-          dpkg-deb --contents "$DEB" > dist/main/CONTENTS.txt
-          dpkg-deb --info "$DEB" > dist/main/INFO.txt
-          grep -Fq 'var/jb/Applications/DuoFaceUI.app/' dist/main/CONTENTS.txt
-          grep -Fq 'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib' dist/main/CONTENTS.txt
-          if dpkg-deb -f "$DEB" | grep -Eiq '^(Conflicts|Replaces|Breaks):.*(duonavi|com\.duonavi)'; then exit 1; fi
-          grep -Fq 'DuoFaceVisualHook.dylib' dist/main/CONTENTS.txt
-          grep -Fq 'DuoFaceVisualHook.plist' dist/main/CONTENTS.txt
-          grep -Fq 'duoface-picker.png' dist/main/CONTENTS.txt
-          grep -Fq 'duoface-swap.png' dist/main/CONTENTS.txt
-          test "$(dpkg-deb -f "$DEB" Version)" = '1.0.3-11~integratedtest'
-          sha256sum "$DEB" > dist/main/SHA256SUMS
-          echo 'Main DuoFace package, static validation only. Device/CarPlay unverified. NOT published to Sileo.' > dist/main/README.txt
+          test "$(cat current-hook/SOURCE_COMMIT.txt)" = "$GITHUB_SHA"
+          python scripts/build_visual_release.py --hook current-hook/DuoFaceVisualHook.dylib --output dist/visual-1.0.3-12
+          python - <<'PY'
+          import json, os, pathlib
+          out=pathlib.Path('dist/visual-1.0.3-12')
+          record={k:os.environ[k] for k in ('GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REPOSITORY')}
+          record['run_url']='https://github.com/'+record['GITHUB_REPOSITORY']+'/actions/runs/'+record['GITHUB_RUN_ID']
+          (out/'SOURCE.json').write_text(json.dumps(record,indent=2)+'\n')
+          PY
+          cp current-hook/SHA256SUMS dist/visual-1.0.3-12/HOOK_SHA256SUMS
+          cp current-hook/entitlements.plist dist/visual-1.0.3-12/HOOK_ENTITLEMENTS.plist
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-main-integrated-1-0-3-11-test
-          path: dist/main/
+          name: duoface-full-1.0.3-12-visualtest
+          path: dist/visual-1.0.3-12/
           if-no-files-found: error
+      - name: Persist DEB and verification to this project repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --ff-only origin main
+          git add dist/visual-1.0.3-12/
+          git diff --cached --quiet || git commit -m "build: persist DuoFace 1.0.3-12 DEB and exact artwork verification"
+          git push origin HEAD:main
+      - name: State verification boundary
+        run: echo 'Compile, signing and package checks passed. iPhone/CarPlay runtime test pending. No Sileo publication.' >> "$GITHUB_STEP_SUMMARY"
