@@ -508,3 +508,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã thử cập nhật workflow thêm bước kiểm tra `dpkg-deb -f` package/architecture, `dpkg-deb --contents` và file cảnh báo thiếu PNG/filter chưa xác minh. GitHub connector từ chối thao tác ghi do kiểm tra an toàn; **workflow chưa thay đổi, chưa có DEB mới, chưa có test build**.
 - Đầu ra hiện tại vẫn là gói thử `com.duoface.visualhook-test` không kèm assets; không được gọi là bản DuoFace hoàn chỉnh hoặc publish Sileo.
 - Tiếp theo: khôi phục quyền ghi workflow, thêm kiểm tra payload và assets thật, xác minh build/artifact; kiểm tra bundle filter/runtime trước khi test trên máy.
+
+
+## Checkpoint 2026-10-12 — cập nhật workflow kiểm tra DEB
+- User yêu cầu `Làm`. Đã sửa `.github/workflows/duoface-hook-check.yml` commit `929d5f9a0453d4be9e0487fd0f8a4265f33e709a`.
+- Sau `dpkg-deb --build`, workflow chạy `dpkg-deb --field ... Package Architecture`, ghi `dpkg-deb --contents` vào `dist/DEB_CONTENTS.txt`, và `grep -q` xác minh hai tên `DuoFaceVisualHook.dylib` và `DuoFaceVisualHook.plist`. Artifact `duoface-hook-arm64-test` vẫn chứa `dist/`.
+- Đã fetch lại workflow từ GitHub, xác nhận thay đổi. Chưa xác minh run/build mới, chưa tải artifact thực tế. Kiểm tra grep hiện chỉ xác nhận tên trong listing, chưa kiểm chứng asset PNG hoặc runtime.
+- Chưa publish Sileo. Tiếp theo: xác minh build và cải thiện gói với assets đầy đủ, filter đúng process và thử nghiệm trên iPhone.
