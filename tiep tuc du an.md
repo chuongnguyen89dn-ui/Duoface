@@ -958,3 +958,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — iPhone 2 find command reported no output (ambiguous)
 - User says 'Ko có phản hồi' after instructed `find /var/jb -name '*duonavi*.data'` in NewTerm root shell. This may mean no matching files OR command still running; prompt return was not confirmed. No screenshot yet. Do NOT conclude `com.duonavi.license.data` is absent.
 - Earlier command was limited to `/var/jb`, and case-sensitive lowercase `duonavi`, so it could miss runtime data under `/var/mobile` or differently named files. Next read-only command suggested: `find /var/mobile -name '*.data'` after checking `root#` returned. If long-running, interrupt safely and use targeted directory checks. No changes to phone or packages.
+
+## 2026-10-12 — user correction: do not repeat license.data search on iPhone 2
+- User explicitly states they ALREADY reported that `com.duonavi.license.data` could not be found on iPhone 2. Do not ask again to search via Filza or NewTerm. Accept as user-reported finding; earlier `/var/jb` root search also showed no matching name, but cannot prove absolute filesystem absence.
+- Existing observations: iPhone 1 has 1020-byte license.data, 39-day and 5-year term changes reported effective, and 39-day DEB used successfully on CarPlay. iPhone 2 can install/open same DEB but is not activated; user did not find license.data.
+- Next: analyze already obtained binary strings and historical package/config data for legitimate license generation/storage flow, without repeating phone searches or claiming an unverified bypass. No code changes or deployment in this turn.
