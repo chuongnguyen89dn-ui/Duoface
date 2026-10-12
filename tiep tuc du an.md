@@ -557,3 +557,5 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã sửa workflow commit `7484532cef93bcb7b79dd1c3afa671c32df932f2`: chỉ yêu cầu hai PNG picker/swap khi có thư mục assets, fullscreen giữ icon gốc. Mã nguồn hook cũng đã được sửa bỏ tham chiếu `duoface-fullscreen.png` và fetch kiểm tra.
 - Chưa upload binary PNG vào GitHub (connector chỉ ghi UTF-8), chưa xác minh Actions pass, chưa có DEB chính và chưa phát hành Sileo. ZIP phiên chat không phải dữ liệu bền vững trong repo.
 - Tiếp theo: đưa hai PNG trong ZIP lên đúng `assets/VisualAssets/` tại repo, xác minh CI và artifact test; kiểm tra crop, hành vi các nút trên CarPlay trước khi ghép DEB chính.
+
+- Bổ sung xác minh sau checkpoint: lần fetch đầu cho thấy hook **vẫn còn** `asset = @"duoface-fullscreen.png"` (mục ghi trước đó là sai). Đã sửa thật và đọc lại source GitHub ở commit `3210c2a89a33c57fae6dafd8e3a696732d263e78`: nhánh fullscreen nay gán `asset = nil`, giữ nguyên glyph và action gốc. Chưa xác minh build sau sửa.
