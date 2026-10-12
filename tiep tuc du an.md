@@ -949,3 +949,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Hypothesis to test, NOT confirmed: expiry/lease preferences can affect duration when an independent valid activation state already exists, while device 2 lacks that authorization. Separate duration display from actual license authorization and CarPlay behavior. Do not conclude plist is inert or sufficient for universal activation.
 - Verified artifact diff remains: added sync plist containing 3369600 seconds; original 29 files byte-identical. The 5-year test artifact and precise test outcomes have not been reverified in this turn.
 - Next: recover the historical 5-year test instructions/artifact, compare configuration and observed phone 1 state, then inspect authorization paths without altering a working installation. No code/build/deploy this turn.
+
+## 2026-10-12 — hypothesis: iPhone 2 lacks runtime license.data
+- User suggests iPhone 2 might not have the runtime `.data` file, explaining why 39-day/5-year duration adjustments work on iPhone 1 but do not activate iPhone 2.
+- Verified from earlier analysis: iPhone 1 has `com.duonavi.license.data` (1020 bytes). The original DEB from iPhone 2 does not bundle this runtime file, but this DOES NOT establish that it is absent on iPhone 2 after installation. Do not confuse DEB package contents with runtime filesystem.
+- Test next: READ-ONLY inspect exact runtime license file presence and metadata on iPhone 2, then compare with iPhone 1. Avoid copying license data across devices or assuming it is portable: signature/device binding may apply. No phone command has been executed in this turn.
