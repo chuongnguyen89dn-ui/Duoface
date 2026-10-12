@@ -655,3 +655,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — user reports integrated build green; export initiated
 - User reports GitHub Actions `duoface-main-deb.yml` 1.0.3-11 integrated test is GREEN; this is user-provided evidence, not independently verified run ID/log/artifact. Do not call device/CarPlay verified.
 - Created `.github/workflows/duoface-main-export.yml` commit `b97107336094652e3997c2c7cc8a19dd1d731d84` (readback verified). Workflow auto-triggers from this file push, uses `gh run list --workflow duoface-main-deb.yml --status success` then `gh run download` named `duoface-main-integrated-1-0-3-11-test`; checks exact DEB filename, computes SHA256, commits binary and evidence to `dist/main-export/`, and uploads a separate artifact. No Sileo publish. Export success and file NOT YET verified; check `dist/main-export/README.txt`, `SHA256SUMS`, binary, and exporter logs if absent.
+
+
+## 2026-10-12 — correction: splash and DuoNavi branding requirement omitted
+- User reiterated existing requirement: replace startup splash image/logo and all visible DuoNavi text with approved DuoFace branding; retain original split-screen functions and animations. This requirement was NOT implemented in 1.0.3-11; previous claims of completed branding must not be inferred from green build.
+- Source inspection `src/DuoFaceVisualHook.m`: splash hook only changes slogan, hides one label and recolors background. `duoface-main-deb.yml` only integrates picker/swap PNGs. No verified startup-logo asset replacement or complete DuoNavi-text audit.
+- 1.0.3-11 was selected for Sileo publishing in carplaydsp commit 5edf70a, but Pages live status remains unverified. Next identify actual splash/logo files and visible strings in unpacked full payload, replace with approved assets, build and validate updated DEB, then publish after verification. Do not invent asset filenames or claim complete before checks.
