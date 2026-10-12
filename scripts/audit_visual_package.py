@@ -51,6 +51,36 @@ def main():
             result['original_archive_member'] = member
         result['original'] = inspect_deb(original, tmp / 'original')
         result['integrated_1_0_3_11'] = inspect_deb(ROOT / 'dist/main-export/com.duoface.app_1.0.3-11_integratedtest_iphoneos-arm64.deb', tmp / 'integrated')
+        with zipfile.ZipFile(ROOT / 'DuoFace_FULL_HANDOFF_2026-10-11.zip') as z:
+            baseline = tmp / 'baseline.deb'
+            baseline.write_bytes(z.read('files/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb'))
+        result['baseline_1_0_3_6'] = inspect_deb(baseline, tmp / 'baseline')
+        old_zip_images = []
+        with zipfile.ZipFile(ROOT / 'DuoFace_GitHub_upload_ready.zip') as z:
+            for name in z.namelist():
+                if name.endswith('.png'):
+                    old_zip_images.append({'path': name, 'sha256': sha(z.read(name))})
+        result['old_build_zip_images'] = old_zip_images
+        result['image_provenance'] = []
+        for im in result['integrated_1_0_3_11']['images']:
+            if '/Application Support/' not in im['path']:
+                continue
+            result['image_provenance'].append({
+                'packaged_image': im,
+                'identical_baseline_images': [x['path'] for x in result['baseline_1_0_3_6']['images'] if x['sha256'] == im['sha256']],
+                'identical_old_build_zip_images': [x['path'] for x in old_zip_images if x['sha256'] == im['sha256']],
+                'identical_new_review_images': [x['path'] for x in result['review_images'] if x['sha256'] == im['sha256']],
+            })
+        result['fullscreen_png_packaged'] = any('fullscreen' in x['path'].lower() for x in result['integrated_1_0_3_11']['images'])
+        result['packaged_hook_filter'] = (tmp / 'integrated/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist').read_text()
+    result['workflow_input_evidence'] = {}
+    for name in ('duoface-hook-check.yml', 'duoface-main-deb.yml'):
+        content = (ROOT / '.github/workflows' / name).read_text()
+        result['workflow_input_evidence'][name] = {
+            'reads_new_review_zip': 'DuoFace_5_images_REVIEW_before_upload.zip' in content,
+            'reads_old_build_zip': 'DuoFace_GitHub_upload_ready.zip' in content,
+            'reuses_hook_run_38191513319': 'gh run download 38191513319' in content,
+        }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 if __name__ == '__main__':
