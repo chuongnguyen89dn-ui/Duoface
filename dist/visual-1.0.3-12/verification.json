@@ -1,0 +1,128 @@
+{
+  "version": "1.0.3-12~visualtest",
+  "base_sha256": "100566ae52190f8b948c4acc2f4a9d4f10cfa155164efe457ad805a864ebedc7",
+  "hook_sha256": "448d03dce87f2886401269805f703ec5bf9662dedc74ea932541aa7b22160ca4",
+  "changed_files": [
+    "DEBIAN/control",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png",
+    "var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png",
+    "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png",
+    "var/jb/Library/Application Support/DuoFace/duoface-icon.png",
+    "var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png",
+    "var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist"
+  ],
+  "added_files": [
+    "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png",
+    "var/jb/Library/Application Support/DuoFace/asset-manifest.json"
+  ],
+  "unchanged_existing_files": 10,
+  "asset_manifest": {
+    "source_zip": "DuoFace_5_images_REVIEW_before_upload.zip",
+    "sources": {
+      "01_DuoFace_icon_original.jpeg": "01f1b3d68a3ce4b5fc224035542fb7c16475eec60c3a94950a2c4993ba44c238",
+      "02_DuoFace_logo_layout_original.png": "eb4646249ac0c2d05417d61013c68a76ffc5d7705d7823d5f570778cb45a5df9",
+      "03_Swap_round_button_demo.png": "cddc0985f514b64574cf2717245e17df1e602d28a0ec985865869ece8493adeb",
+      "04_Fullscreen_button_design.png": "51c261268493393003eeb77636b4b9813abb908dba8a0359c56b41b5f371f125",
+      "05_Picker_button.png": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+    },
+    "outputs": {
+      "VisualAssets/duoface-fullscreen.png": {
+        "pixels": [
+          88,
+          88
+        ],
+        "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36"
+      },
+      "VisualAssets/duoface-picker.png": {
+        "pixels": [
+          256,
+          70
+        ],
+        "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+      },
+      "VisualAssets/duoface-swap.png": {
+        "pixels": [
+          120,
+          120
+        ],
+        "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275"
+      },
+      "duoface-icon.png": {
+        "pixels": [
+          256,
+          256
+        ],
+        "sha256": "03f0a9e31bffced19419f06193d866bb2d66d824c5ba10c5c24eee8718217def"
+      },
+      "duoface-logo-vert.png": {
+        "pixels": [
+          640,
+          640
+        ],
+        "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2"
+      },
+      "duoface-logo.png": {
+        "pixels": [
+          960,
+          240
+        ],
+        "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
+      }
+    },
+    "logo_panel_crops": {
+      "horizontal": [
+        0,
+        0,
+        1256,
+        793
+      ],
+      "vertical": [
+        1261,
+        3,
+        1980,
+        790
+      ],
+      "horizontal_content": [
+        81,
+        144,
+        1217,
+        581
+      ],
+      "vertical_content": [
+        65,
+        48,
+        654,
+        672
+      ]
+    }
+  },
+  "hook_filter": [
+    "com.apple.CarPlayApp",
+    "com.apple.CarPlay",
+    "com.apple.dashboard",
+    "com.apple.springboard",
+    "com.apple.SpringBoard",
+    "com.duoface.duofaceui"
+  ],
+  "native_app_and_dashboard_byte_identical": true,
+  "runtime_device_test": "NOT_PERFORMED",
+  "deb_sha256": "a4b1ed0ef049d3fd5af10f5a0067b7f5ed5890a2ed29e39d3060d4cfcd4feddd"
+}

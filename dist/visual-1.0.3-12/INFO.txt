@@ -1,0 +1,15 @@
+ new Debian package, version 2.0.
+ size 2226798 bytes: control archive=1449 bytes.
+     323 bytes,    10 lines      control
+    2956 bytes,    82 lines   *  postinst             #!/bin/sh
+      75 bytes,     3 lines   *  prerm                #!/bin/sh
+ Package: com.duoface.app
+ Name: DuoFace
+ Description: DuoFace full-payload rootless test, runtime and signature unverified.
+ Maintainer: DuoFace Team
+ Author: DuoFace Team
+ Section: Tweaks
+ Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)
+ Architecture: iphoneos-arm64
+ Version: 1.0.3-12~visualtest
+ Installed-Size: 10253
