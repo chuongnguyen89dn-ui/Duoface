@@ -608,3 +608,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã dùng GitHub connector đọc run `38151758510`, job `114506485652`: compile syntax PASS, build/sign dylib PASS, package DEB FAIL, artifact skipped. Log nguyên văn: `/Users/runner/work/_temp/2b858eda-51da-4a04-b2df-58558c60320a.sh: line 18: dpkg-deb: command not found`; exit 127. Đây là run cũ 2026-10-11, không suy diễn run mới thất bại.
 - Đã cập nhật workflow `.github/workflows/duoface-hook-check.yml` commit `12f39f9891dc6c9ce350096ef849782c6922c254`: sau `brew install ldid dpkg`, export Homebrew bin vào PATH và kiểm tra `command -v dpkg-deb`, `command -v ldid`; GitHub fetch xác minh file mới. Push này kích hoạt build test qua path filter.
 - Chưa có run ID của build mới, chưa xác nhận artifact. Workflow vẫn là visual hook test, không phải gói DuoFace chính. Tiếp tục kiểm tra Actions mới và artifact, sau đó xử lý DEB chính.
+
+
+## 2026-10-12 — correction from user's GitHub Actions screenshot
+- Screenshot supplied by user confirms workflow DuoFace visual hook build run #20 (`42a35ab`), #21 (`db7a3bc`), #22 (`12f39f9`) all green SUCCESS. #19 (`835e4e1`) failed. Prior claim that current builds were failing was wrong: old run `38151758510` is not a current run. Do not patch build based on old logs.
+- Next: locate run ID and artifact for #22 and inspect DEB. Workflow is visualhook-test, not final DuoFace app; do not claim final DEB ready.
