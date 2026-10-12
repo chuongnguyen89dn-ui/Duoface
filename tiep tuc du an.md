@@ -1048,3 +1048,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — verified native executable inventory
 - Verified `dist/visual-1.0.3-12/CONTENTS.txt`: iPhone executable `var/jb/Applications/DuoFaceUI.app/DuoFaceUI` (2456784 bytes) and CarPlay library `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib` (7540464 bytes). These were dated 2026-10-11, unlike visual-only hook `DuoFaceVisualHook.dylib` (71632 bytes) dated 2026-10-12. No evidence the native license checks were removed.
 - Preserve v12 visuals and all known-good artifacts. No native source patch, DEB build, Sileo release or real-device test has been performed. Next: establish controlled native source or reimplementation, then test parity without modifying original working iPhone.
+
+## 2026-10-12 — standalone CarPlay branch initialized
+- New isolated branch `duoface-carplay-standalone` created from main. Existing 1.0.3-12 files on main untouched.
+- Commits: `c232f252056dea39f755c23d98b8e496b83618d9` (standalone README), `395714881cd035cda0abe9fd1c3f430508cff511` (independent Objective-C preview `standalone/src/Preview.m`), `b69115d252ca1ed3f6d87a67dda35125a89700bb` (macOS iOS ARM64 syntax-check workflow `.github/workflows/standalone-compile.yml`). Files re-fetched and verified.
+- Scope of current code: visual preview only, not a complete CarPlay split application, not packaged as DEB, not installed or tested. No licensing dependency or DuoNavi binary is imported by new source. Workflow run result not yet verified.
+- Next: verify CI compile status, fix compiler errors if any, implement a usable independent CarPlay app UI and safe packaging in this branch; do not publish to Sileo or overwrite v12 until install/runtime validation.
