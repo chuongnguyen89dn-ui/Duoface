@@ -796,3 +796,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - USER-CONFIRMED: f34e0feeac1f0494eada75529b69314a358943a2438577000d08336efdf1c6b9 is a DuoNavi TRIAL CODE, not a verified 5-year activation/license code or UID. Earlier description as a 5-year activation code was corrected by user.
 - OBSERVED: 64 hexadecimal characters, SHA-256-like format only. GitHub indexed source searches for exact code, UID, UDID, license, activation returned no matches; binary behavior NOT examined and no claim of device binding is established.
 - NEXT: identify whether trial code is universal or device-specific through authorized app UI/logs or original binary/license validation evidence; do not infer UID from format or change license behavior without a separate explicit task. Sileo publisher verification remains outstanding.
+
+## 2026-10-12 — two DuoNavi trial codes from different iPhones
+- USER-CONFIRMED: iPhone 1 DuoNavi trial code f34e0feeac1f0494eada75529b69314a358943a2438577000d08336efdf1c6b9; DIFFERENT iPhone 2 DuoNavi trial code 9cca87f3a2dd73a76275a202d51e3df12240808080059286f22213365043e5ee.
+- OBSERVED: two distinct 64-hex trial codes on different devices. This is compatible with device-specific code issuance, but does NOT prove UDID/UID hashing or device binding; could be per-install or server-issued randomness. Exact second code search in indexed DuoFace/carplaydsp returned no match.
+- NEXT EVIDENCE: check whether each trial code is stable across relaunch/reinstall and whether it is accepted on the other iPhone; inspect original binary or app's authorized diagnostics if available. No license code changes authorized. Existing Sileo deployment verification remains pending.
