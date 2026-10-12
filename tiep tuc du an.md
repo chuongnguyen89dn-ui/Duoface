@@ -661,3 +661,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User reiterated existing requirement: replace startup splash image/logo and all visible DuoNavi text with approved DuoFace branding; retain original split-screen functions and animations. This requirement was NOT implemented in 1.0.3-11; previous claims of completed branding must not be inferred from green build.
 - Source inspection `src/DuoFaceVisualHook.m`: splash hook only changes slogan, hides one label and recolors background. `duoface-main-deb.yml` only integrates picker/swap PNGs. No verified startup-logo asset replacement or complete DuoNavi-text audit.
 - 1.0.3-11 was selected for Sileo publishing in carplaydsp commit 5edf70a, but Pages live status remains unverified. Next identify actual splash/logo files and visible strings in unpacked full payload, replace with approved assets, build and validate updated DEB, then publish after verification. Do not invent asset filenames or claim complete before checks.
+
+
+## 2026-10-12 — splash replacement requested and demo shown
+- User explicitly requires immediate replacement of startup background image and removal of Apple CarPlay promotional text, replaced with exact slogan `TWO FACES ONE SCREEN`; also replace visible DuoNavi branding with DuoFace. Preserve original loading behavior and all CarPlay functionality.
+- A new splash visual demo was generated in this conversation, but is NOT installed in the DEB or committed to GitHub. The demo's design is not yet approved as the final splash asset. Do not claim deployed.
+- Next: obtain/commit approved image asset to this repo, inspect actual original splash assets and runtime code, integrate replacement into full main DEB workflow, verify package contents and runtime, then publish version bump through carplaydsp Sileo workflow. Existing 1.0.3-11 does not implement this replacement.
