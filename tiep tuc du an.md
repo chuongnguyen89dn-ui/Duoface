@@ -583,3 +583,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## Checkpoint 2026-10-12 — user báo đã upload PNG
 - User xác nhận "Up lên rồi". Đã kiểm tra ngay qua GitHub connector trên default branch repo `chuongnguyen89dn-ui/Duoface`: `assets/VisualAssets/duoface-picker.png` và `assets/VisualAssets/duoface-swap.png` đều trả 404 NOT_FOUND; GitHub search theo tên hai PNG trong repo trả 0 kết quả. Vì vậy **chưa xác minh được upload tại đường dẫn workflow yêu cầu**; có thể khác nhánh/thư mục hoặc chưa xuất hiện.
 - Chưa chạy lại workflow/không công bố DEB thành công. Cần xác định đúng nhánh và đường dẫn hai PNG hoặc commit upload, rồi mới chạy kiểm tra CI.
+
+
+## Checkpoint 2026-10-12 — nhận đúng ZIP từ user trên GitHub
+- User cung cấp link `https://github.com/chuongnguyen89dn-ui/Duoface/blob/main/DuoFace_GitHub_upload_ready.zip`. GitHub `fetch_file` trả `UnicodeDecodeError` khi đọc file ZIP nhị phân (không phải 404), chứng tỏ path tồn tại nhưng connector không giải mã binary dạng text.
+- Đã sửa workflow `.github/workflows/duoface-hook-check.yml` commit `42a35ab897d27282050b0331b4a40366c4af0a15`: thêm trigger ZIP/asset, thêm bước Python `zipfile` tự giải nén hai PNG theo basename, xác minh có đúng 1 file mỗi loại và signature PNG, sau đó đóng DEB test. Đã fetch lại workflow xác nhận code tồn tại. Chưa xác minh run CI hoặc DEB chạy trên thiết bị. Không phát hành Sileo.
+- Bước tiếp theo: mở GitHub Actions của repo, kiểm tra run mới từ commit `42a35ab`; nếu fail lấy log sửa, nếu pass lấy artifact test và thử trên CarPlay trước khi đưa vào DEB chính.
