@@ -53,6 +53,16 @@ jobs:
           PKG="$RUNNER_TEMP/duoface-testpkg"
           mkdir -p "$PKG/DEBIAN" "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries"
           cp dist/DuoFaceVisualHook.dylib "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/"
+          # Package existing approved PNGs when present; do not invent replacements.
+          ASSET_SRC="assets/VisualAssets"
+          ASSET_DEST="$PKG/var/jb/Library/Application Support/DuoFace/VisualAssets"
+          if [ -d "$ASSET_SRC" ]; then
+            mkdir -p "$ASSET_DEST"
+            for name in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
+              test -s "$ASSET_SRC/$name"
+              cp "$ASSET_SRC/$name" "$ASSET_DEST/$name"
+            done
+          fi
           cat > "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist" <<'PLIST'
           { Filter = { Bundles = ( "com.apple.CarPlay", "com.apple.springboard" ); }; }
           PLIST
