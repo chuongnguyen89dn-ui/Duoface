@@ -1054,3 +1054,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Commits: `c232f252056dea39f755c23d98b8e496b83618d9` (standalone README), `395714881cd035cda0abe9fd1c3f430508cff511` (independent Objective-C preview `standalone/src/Preview.m`), `b69115d252ca1ed3f6d87a67dda35125a89700bb` (macOS iOS ARM64 syntax-check workflow `.github/workflows/standalone-compile.yml`). Files re-fetched and verified.
 - Scope of current code: visual preview only, not a complete CarPlay split application, not packaged as DEB, not installed or tested. No licensing dependency or DuoNavi binary is imported by new source. Workflow run result not yet verified.
 - Next: verify CI compile status, fix compiler errors if any, implement a usable independent CarPlay app UI and safe packaging in this branch; do not publish to Sileo or overwrite v12 until install/runtime validation.
+
+## 2026-10-12 — device 1 expiry changed after DuoNavi uninstall
+- NEW USER OBSERVATION (not yet independently verified): iPhone device 1 previously showed about 1800 days of usage after editing local trial expiration; after uninstalling the original DuoNavi app, it shows only 4 days remaining.
+- This supersedes the assumption that device 1's long trial duration was independent of the original DuoNavi installation. Causality remains unproven: shared license data, removed dependency, or refreshed app state are hypotheses only.
+- User requested pause. Do not remove more license files, reinstall or deploy anything to device 1 before capturing read-only evidence. Standalone branch remains isolated; v12 on main unchanged.
+- Next: confirm which app displays 4 days and whether CarPlay still launches; collect read-only installed package status and relevant logs before choosing a fix.
