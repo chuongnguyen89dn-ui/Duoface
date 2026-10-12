@@ -1060,3 +1060,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - This supersedes the assumption that device 1's long trial duration was independent of the original DuoNavi installation. Causality remains unproven: shared license data, removed dependency, or refreshed app state are hypotheses only.
 - User requested pause. Do not remove more license files, reinstall or deploy anything to device 1 before capturing read-only evidence. Standalone branch remains isolated; v12 on main unchanged.
 - Next: confirm which app displays 4 days and whether CarPlay still launches; collect read-only installed package status and relevant logs before choosing a fix.
+
+## 2026-10-12 — 4-day countdown location confirmed
+- USER CONFIRMATION: after uninstalling original DuoNavi from device 1, the 4 days remaining is displayed **inside the DuoFace app**, not in iOS Settings; DuoFace has no entry in Settings. This clarifies the prior observation but does not establish the license storage or validation path.
+- Do not confuse in-app expiry with a Settings tweak panel. No device modifications performed. Next read-only question: does DuoFace still open on the actual CarPlay screen? Preserve existing working installation and logs.
