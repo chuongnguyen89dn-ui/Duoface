@@ -1,0 +1,46 @@
+name: Build DuoFace main DEB (no Sileo publish)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/duoface-main-deb.yml'
+permissions:
+  contents: read
+jobs:
+  main-deb:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev unzip
+      - name: Fetch pinned DuoFace payload and verified repacker
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/7b0f00320e3d9d8f2a7896bed562ef275f9a2540/DuoFace_FULL_HANDOFF_2026-10-11.zip' -o /tmp/duoface-handoff.zip
+          mkdir -p /tmp/duoface-input dist/main
+          unzip -j /tmp/duoface-handoff.zip 'files/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb' -d /tmp/duoface-input
+          printf '%s  %s\n' '2120480166170c5f71b12a595bed7a5ab892fbd84038ef878eca8e8243062e9a' /tmp/duoface-input/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb | sha256sum -c -
+          curl -fL --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/carplaydsp/main/scripts/repack-duoface-rootless.py' -o /tmp/repack-duoface-rootless.py
+          python3 /tmp/repack-duoface-rootless.py /tmp/duoface-input/DuoFace_1.0.3-6_FULL_PAYLOAD_ROOTLESS_UNVERIFIED.deb dist/main/com.duoface.app_1.0.3-9_iphoneos-arm64.deb
+      - name: Validate rootless package and document evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEB=dist/main/com.duoface.app_1.0.3-9_iphoneos-arm64.deb
+          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.app
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          dpkg-deb --contents "$DEB" > dist/main/CONTENTS.txt
+          dpkg-deb --info "$DEB" > dist/main/INFO.txt
+          grep -Fq 'var/jb/Applications/DuoFaceUI.app/' dist/main/CONTENTS.txt
+          grep -Fq 'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib' dist/main/CONTENTS.txt
+          if dpkg-deb -f "$DEB" | grep -Eiq '^(Conflicts|Replaces|Breaks):.*(duonavi|com\.duonavi)'; then exit 1; fi
+          sha256sum "$DEB" > dist/main/SHA256SUMS
+          echo 'Main DuoFace package, static validation only. Device/CarPlay unverified. NOT published to Sileo.' > dist/main/README.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-main-rootless-deb-test
+          path: dist/main/
+          if-no-files-found: error
