@@ -801,3 +801,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - USER-CONFIRMED: iPhone 1 DuoNavi trial code f34e0feeac1f0494eada75529b69314a358943a2438577000d08336efdf1c6b9; DIFFERENT iPhone 2 DuoNavi trial code 9cca87f3a2dd73a76275a202d51e3df12240808080059286f22213365043e5ee.
 - OBSERVED: two distinct 64-hex trial codes on different devices. This is compatible with device-specific code issuance, but does NOT prove UDID/UID hashing or device binding; could be per-install or server-issued randomness. Exact second code search in indexed DuoFace/carplaydsp returned no match.
 - NEXT EVIDENCE: check whether each trial code is stable across relaunch/reinstall and whether it is accepted on the other iPhone; inspect original binary or app's authorized diagnostics if available. No license code changes authorized. Existing Sileo deployment verification remains pending.
+
+## 2026-10-12 — iPhone 2 trial code associated with device screenshot
+- USER-CONFIRMED: the iPhone shown in Settings > General > About screenshot is iPhone 2, corresponding to DuoNavi trial code beginning 9cca87f3 (full code documented in preceding checkpoint).
+- OBSERVED screenshot: About screen with hardware identifiers such as IMEI/MEID, Wi-Fi/Bluetooth addresses; UDID not shown. Do not transcribe or persist these sensitive device identifiers.
+- INTERPRETATION: different trial codes on two phones is compatible with per-device issuance, but does not establish a UID/UDID/IMEI hash or exact licensing mechanism.
+- NEXT: without reinstalling, reopen DuoNavi on iPhone 2 and check whether the trial code stays identical. No code/build/deploy changes in this checkpoint.
