@@ -38,7 +38,7 @@ jobs:
           with urllib.request.urlopen(req,timeout=90) as r: data=r.read()
           out=pathlib.Path('dist/test-artifacts');out.mkdir(parents=True,exist_ok=True)
           with zipfile.ZipFile(io.BytesIO(data)) as z:
-              debs=[n for n in z.namelist() if n.endswith('.deb') and '/' not in n.strip('/')]
+              debs=[n for n in z.namelist() if n.endswith('.deb') and not n.endswith('/')]
               if len(debs)!=1:raise SystemExit('Expected exactly one root-level DEB; found '+str(debs))
               name=pathlib.PurePosixPath(debs[0]).name
               payload=z.read(debs[0])
