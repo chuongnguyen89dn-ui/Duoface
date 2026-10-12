@@ -56,13 +56,11 @@ jobs:
           # Package existing approved PNGs when present; do not invent replacements.
           ASSET_SRC="assets/VisualAssets"
           ASSET_DEST="$PKG/var/jb/Library/Application Support/DuoFace/VisualAssets"
-          if [ -d "$ASSET_SRC" ]; then
-            mkdir -p "$ASSET_DEST"
-            for name in duoface-picker.png duoface-swap.png; do
-              test -s "$ASSET_SRC/$name"
-              cp "$ASSET_SRC/$name" "$ASSET_DEST/$name"
-            done
-          fi
+          mkdir -p "$ASSET_DEST"
+          for name in duoface-picker.png duoface-swap.png; do
+            test -s "$ASSET_SRC/$name" || { echo "::error::Missing approved DuoFace asset: $ASSET_SRC/$name"; exit 1; }
+            cp "$ASSET_SRC/$name" "$ASSET_DEST/$name"
+          done
           cat > "$PKG/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist" <<'PLIST'
           { Filter = { Bundles = ( "com.apple.CarPlay", "com.apple.springboard" ); }; }
           PLIST
@@ -81,14 +79,10 @@ jobs:
           dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb | tee dist/DEB_CONTENTS.txt
           grep -q 'DuoFaceVisualHook.dylib' dist/DEB_CONTENTS.txt
           grep -q 'DuoFaceVisualHook.plist' dist/DEB_CONTENTS.txt
-          if [ -d assets/VisualAssets ]; then
-            for name in duoface-picker.png duoface-swap.png; do
-              grep -q "$name" dist/DEB_CONTENTS.txt
-            done
-            echo 'Picker and swap PNGs included; fullscreen retains original icon; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
-          else
-            echo 'TEST ONLY: DuoFace PNG assets not present in repository.' > dist/BUILD_LIMITATIONS.txt
-          fi
+          for name in duoface-picker.png duoface-swap.png; do
+            grep -q "$name" dist/DEB_CONTENTS.txt
+          done
+          echo 'Picker and swap PNGs included; fullscreen retains original icon; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
           shasum -a 256 dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb >> dist/SHA256SUMS
       - name: Upload test artifact (NOT Sileo release)
         uses: actions/upload-artifact@v4
