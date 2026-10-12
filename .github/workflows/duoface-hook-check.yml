@@ -67,7 +67,10 @@ jobs:
           Priority: optional
           CONTROL
           dpkg-deb --build --root-owner-group "$PKG" dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb
-          dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb
+          dpkg-deb --field dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb Package Architecture
+          dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb | tee dist/DEB_CONTENTS.txt
+          grep -q 'DuoFaceVisualHook.dylib' dist/DEB_CONTENTS.txt
+          grep -q 'DuoFaceVisualHook.plist' dist/DEB_CONTENTS.txt
           shasum -a 256 dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb >> dist/SHA256SUMS
       - name: Upload test artifact (NOT Sileo release)
         uses: actions/upload-artifact@v4
