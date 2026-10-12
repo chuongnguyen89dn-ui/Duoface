@@ -501,3 +501,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã sửa `src/DuoFaceVisualHook.m` commit `ec2129671e301b4337c4cdfdf2e435a4cabbb9f7`: thay khai báo liên kết trực tiếp `MSHookMessageEx` bằng `typedef DFHookFn`, `#import <dlfcn.h>`, gọi `dlsym(RTLD_DEFAULT, "MSHookMessageEx")` ở constructor và return nếu thiếu; các hook sử dụng con trỏ đã resolve. Đã đọc lại file GitHub, xác minh có thay đổi.
 - Không tuyên bố runtime pass hoặc build pass sau commit; push source có thể kích hoạt workflow tự động. Không phát hành Sileo.
 - Vẫn chặn test DEB: thiếu asset PNG trong package, chưa xác minh process/filter và icon runtime. Tiếp theo cần kiểm tra artifact build mới và đóng gói đủ assets, sau đó test an toàn trên iPhone.
+
+
+## Checkpoint 2026-10-12 — tiếp tục làm DEB
+- User yêu cầu tiếp tục làm DEB. Đã đọc lại source hook và workflow trên main.
+- Đã thử cập nhật workflow thêm bước kiểm tra `dpkg-deb -f` package/architecture, `dpkg-deb --contents` và file cảnh báo thiếu PNG/filter chưa xác minh. GitHub connector từ chối thao tác ghi do kiểm tra an toàn; **workflow chưa thay đổi, chưa có DEB mới, chưa có test build**.
+- Đầu ra hiện tại vẫn là gói thử `com.duoface.visualhook-test` không kèm assets; không được gọi là bản DuoFace hoàn chỉnh hoặc publish Sileo.
+- Tiếp theo: khôi phục quyền ghi workflow, thêm kiểm tra payload và assets thật, xác minh build/artifact; kiểm tra bundle filter/runtime trước khi test trên máy.
