@@ -602,3 +602,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User yêu cầu chạy Actions build. Đã cập nhật `.github/workflows/duoface-hook-check.yml` trên `main` bằng commit `db7a3bce07c3d6c5a92c0b8984468ae650781d4c`, chỉ sửa tên workflow (thêm chú thích) để kích hoạt push path filter. Đã fetch lại file và xác minh nội dung commit.
 - Đây là workflow tạo `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb` (gói hook thử nghiệm), không phải DEB chính. Chưa có run ID/status/artifact xác nhận.
 - Tiếp: lấy kết quả run của commit `db7a3bc`, nếu fail đọc log và sửa; nếu success kiểm tra artifact, rồi chuyển sang đóng DEB chính.
+
+
+## 2026-10-12 — log build thật và sửa dpkg-deb
+- Đã dùng GitHub connector đọc run `38151758510`, job `114506485652`: compile syntax PASS, build/sign dylib PASS, package DEB FAIL, artifact skipped. Log nguyên văn: `/Users/runner/work/_temp/2b858eda-51da-4a04-b2df-58558c60320a.sh: line 18: dpkg-deb: command not found`; exit 127. Đây là run cũ 2026-10-11, không suy diễn run mới thất bại.
+- Đã cập nhật workflow `.github/workflows/duoface-hook-check.yml` commit `12f39f9891dc6c9ce350096ef849782c6922c254`: sau `brew install ldid dpkg`, export Homebrew bin vào PATH và kiểm tra `command -v dpkg-deb`, `command -v ldid`; GitHub fetch xác minh file mới. Push này kích hoạt build test qua path filter.
+- Chưa có run ID của build mới, chưa xác nhận artifact. Workflow vẫn là visual hook test, không phải gói DuoFace chính. Tiếp tục kiểm tra Actions mới và artifact, sau đó xử lý DEB chính.
