@@ -1,0 +1,64 @@
+name: Export latest successful DuoFace test DEB
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/duoface-artifact-export.yml'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find latest successful visual hook run and export its DEB
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,urllib.request,pathlib,zipfile,io,hashlib
+          repo=os.environ['GH_REPOSITORY']
+          headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
+          base='https://api.github.com/repos/'+repo
+          def get(path):
+              with urllib.request.urlopen(urllib.request.Request(base+path,headers=headers),timeout=40) as r:return json.load(r)
+          runs=get('/actions/workflows/duoface-hook-check.yml/runs?status=success&per_page=20')['workflow_runs']
+          if not runs: raise SystemExit('No successful visual hook build runs')
+          found=None
+          for run in runs:
+              arts=get('/actions/runs/'+str(run['id'])+'/artifacts?per_page=100')['artifacts']
+              found=next(((run,a) for a in arts if a['name']=='duoface-hook-arm64-test' and not a['expired']),None)
+              if found:break
+          if not found:raise SystemExit('No unexpired DuoFace test artifact')
+          run,art=found
+          req=urllib.request.Request(base+'/actions/artifacts/'+str(art['id'])+'/zip',headers=headers)
+          with urllib.request.urlopen(req,timeout=90) as r: data=r.read()
+          out=pathlib.Path('dist/test-artifacts');out.mkdir(parents=True,exist_ok=True)
+          with zipfile.ZipFile(io.BytesIO(data)) as z:
+              debs=[n for n in z.namelist() if n.endswith('.deb') and '/' not in n.strip('/')]
+              if len(debs)!=1:raise SystemExit('Expected exactly one root-level DEB; found '+str(debs))
+              name=pathlib.PurePosixPath(debs[0]).name
+              payload=z.read(debs[0])
+          (out/name).write_bytes(payload)
+          record={'run_id':run['id'],'run_number':run['run_number'],'run_url':run['html_url'],'artifact_id':art['id'],'file':name,'sha256':hashlib.sha256(payload).hexdigest(),'bytes':len(payload),'warning':'EXPERIMENTAL VISUAL HOOK TEST ONLY; NOT THE MAIN DUOFACE DEB'}
+          (out/'latest.json').write_text(json.dumps(record,indent=2)+'\n')
+          print(json.dumps(record,indent=2))
+          PY
+      - name: Upload DEB and metadata to this workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-exported-test-deb
+          path: dist/test-artifacts/
+          if-no-files-found: error
+      - name: Commit test DEB into repo for stable download
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/test-artifacts/
+          if ! git diff --cached --quiet; then
+            git commit -m "build: export verified DuoFace test DEB [skip ci]"
+            git push
+          fi
