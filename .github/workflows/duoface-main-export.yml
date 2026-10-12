@@ -1,0 +1,60 @@
+name: Export successful DuoFace integrated DEB to GitHub
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/duoface-main-export.yml'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find and download successful integrated package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run list --workflow duoface-main-deb.yml --status success --limit 20 --json databaseId,headSha,conclusion > /tmp/duoface-main-runs.json
+          python3 - <<'PY'
+          import json
+          runs=json.load(open('/tmp/duoface-main-runs.json'))
+          with open('/tmp/duoface-main-runs.txt','w') as f:
+              for run in runs:
+                  f.write(str(run['databaseId'])+' '+run['headSha']+'\n')
+          PY
+          mkdir -p dist/main-export
+          selected=''
+          while read -r run sha; do
+            rm -rf /tmp/duoface-main-download
+            mkdir -p /tmp/duoface-main-download
+            if gh run download "$run" --name duoface-main-integrated-1-0-3-11-test --dir /tmp/duoface-main-download; then
+              selected="$run"
+              echo "$sha" > /tmp/duoface-main-source-sha
+              break
+            fi
+          done < /tmp/duoface-main-runs.txt
+          test -n "$selected"
+          test -f /tmp/duoface-main-download/com.duoface.app_1.0.3-11_integratedtest_iphoneos-arm64.deb
+          cp /tmp/duoface-main-download/* dist/main-export/
+          (cd dist/main-export && sha256sum com.duoface.app_1.0.3-11_integratedtest_iphoneos-arm64.deb > SHA256SUMS)
+          printf 'Source run: %s\nSource commit: %s\nTEST ONLY: CarPlay not verified. NOT released to Sileo.\n' "$selected" "$(cat /tmp/duoface-main-source-sha)" > dist/main-export/README.txt
+      - name: Preserve download in GitHub repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f dist/main-export/
+          if ! git diff --cached --quiet; then
+            git commit -m 'build: export DuoFace 1.0.3-11 integrated test DEB [skip ci]'
+            git push
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-main-1-0-3-11-export
+          path: dist/main-export/
+          if-no-files-found: error
