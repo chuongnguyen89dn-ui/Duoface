@@ -845,3 +845,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - COMMAND: Python `plistlib.load(open('/mnt/data/com.duonavi.sync.plist','rb'))`; `file`, `ls -l`.
 - VERIFIED: exactly one dictionary key `lastAttemptTimestamp` (integer `1791779850`). No expiry, entitlement, remaining-days or activation key. Timestamp indicates a sync attempt, NOT expiration.
 - NEXT: seek actual license/entitlement source via authorized app diagnostics or other application data; do not alter sync timestamp as if it renewed the license. No DEB build, deployment, or license change.
+
+## 2026-10-12 — iPhone 2 cannot locate license data file
+- User reports `com.duonavi.license.data` cannot be found on iPhone 2. iPhone 2 shows expired; iPhone 1 shows 1823 days remaining. User wants explanation without repeating previous broad file searches.
+- Hypotheses only: license file created only after activation/sync, file at a different path or app sandbox, or entitlement stored in Keychain/server. File absence is not proof of cause. DEB bytes on iPhone 2 matched previously documented original package hash.
+- Next: use the exact known path of yesterday's iPhone 1 `com.duonavi.license.data` if recovered from history; check same path on iPhone 2. Avoid modifying entitlement data or claiming renewal.
