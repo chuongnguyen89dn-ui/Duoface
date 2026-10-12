@@ -58,7 +58,7 @@ jobs:
           ASSET_DEST="$PKG/var/jb/Library/Application Support/DuoFace/VisualAssets"
           if [ -d "$ASSET_SRC" ]; then
             mkdir -p "$ASSET_DEST"
-            for name in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
+            for name in duoface-picker.png duoface-swap.png; do
               test -s "$ASSET_SRC/$name"
               cp "$ASSET_SRC/$name" "$ASSET_DEST/$name"
             done
@@ -85,7 +85,7 @@ jobs:
             for name in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
               grep -q "$name" dist/DEB_CONTENTS.txt
             done
-            echo 'Approved PNG assets included; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
+            echo 'Picker and swap PNGs included; fullscreen retains original icon; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
           else
             echo 'TEST ONLY: DuoFace PNG assets not present in repository.' > dist/BUILD_LIMITATIONS.txt
           fi
