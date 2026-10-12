@@ -522,3 +522,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã sửa `src/DuoFaceVisualHook.m` commit `8352be3e6333ed80702223ed79ef5aa30d2720b4`: bỏ lệnh `button.imageView.hidden = YES`, đổi overlay background sang `UIColor clearColor` để không che toàn bộ nền nút. Đã fetch xác minh thay đổi trên GitHub. Đây chỉ là bước giảm rủi ro; có thể hình mới chồng glyph gốc nếu PNG được nạp, nên vẫn cần kiểm thử và điều chỉnh.
 - Chưa có asset PNG đóng trong DEB, chưa có bản DuoFace chính tích hợp, chưa có runtime test hoặc release Sileo. Không tuyên bố hoàn thành.
 - Tiếp theo: lấy đúng asset đã duyệt từ nguồn gốc và đúng DEB chính; kiểm chứng đường dẫn/packaging, tích hợp thay hình nút theo cách bảo toàn thao tác, build gói cài và test trước release.
+
+
+## Checkpoint 2026-10-12 — yêu cầu hoàn thành DuoFace
+- User yêu cầu tiếp tục ngay 4 bước đã thống nhất. Đã đọc lại đầu mối, README và workflow.
+- Đã sửa `.github/workflows/duoface-hook-check.yml` commit `c434806d50e59c8594bfed9ee6ed03ca3bb06132`, thêm `dist/BUILD_LIMITATIONS.txt` cảnh báo rõ test DEB chưa chứa PNG. Không thay đổi logic split/fullscreen.
+- Không có bằng chứng PNG đã duyệt hoặc DEB DuoFace chính hiện diện trong repo qua các file đã kiểm tra; chưa thể khẳng định tích hợp chính đã thực hiện. Chưa xác minh Actions build mới, chưa test iPhone, chưa publish Sileo.
+- Tiếp theo: xác định và lấy đúng bộ ảnh đã duyệt và gói DuoFace chính; tích hợp assets vào gói chính, kiểm chứng payload và test CarPlay trước khi phát hành.
