@@ -876,3 +876,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - GitHub `fetch_file` with base64 and utf-8 each returned empty `content` (length 0) but metadata SHA, consistent with unsupported binary transfer. Container curl to raw.githubusercontent.com failed: `Could not resolve host: raw.githubusercontent.com`.
 - IMPORTANT CORRECTION: prior claim that no GitHub handoff archive existed was wrong. The ZIP exists, but its contents and whether it includes `DuoNavi_1.0.3_5years_UNSIGNED_TEST.deb` remain UNVERIFIED. Do not infer the archive contains that DEB or activation codes.
 - NEXT: obtain actual ZIP bytes via GitHub raw download in an environment with network or user upload, enumerate archive entries, extract candidate five-year DEB, inspect package payload for the two 64-hex trial codes and compare binary hashes against original. No build/activation/deployment.
+
+## 2026-10-12 — uploaded 39-day DEB searched for iPhone 1 code
+- Uploaded actual file `/mnt/data/DuoNavi_1.0.3_39day_LOCAL_TEST_UNSIGNED.deb` (39-day LOCAL TEST UNSIGNED, NOT the five-year DEB); size 1,390,000 bytes, SHA256 `4f5b8ccda0db63ddc55decc4168ff2c1f2ef4218695ad411a7a1f622ff733011`.
+- Executed Python pathlib/subprocess/hashlib: `dpkg-deb -x <uploaded file> <temp dir>` returned 0; 30 regular extracted files.
+- Scanned all extracted files for exact iPhone 1 64-character hex trial code (prefix `f34e0fee`), its first 16 ASCII characters and raw 32-byte hex-decoded representation. All yielded zero matches. Full ASCII trial code absent from original .deb bytes too.
+- This only excludes literal representations; runtime generated or externally stored code not excluded. This does NOT answer whether separate five-year DEB contains the code. No binary changes/build/deployment.
