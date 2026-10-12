@@ -543,3 +543,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã cắt kỹ thuật từ hai ảnh đầu thành `duoface-swap.png` (crop 120,605,640,1090) và `duoface-picker.png` (crop 225,450,1310,745), lưu tạm `/mnt/data/duoface_assets/VisualAssets/`; tạo `/mnt/data/DuoFace_approved_button_assets_partial.zip` (2 PNG). Chưa có PNG fullscreen riêng: tham chiếu dùng glyph fullscreen gốc; không tự tạo thiết kế mới.
 - GitHub connector create_file/update_file chỉ nhận UTF-8 text, không hỗ trợ đưa binary PNG trực tiếp; chưa upload hai PNG lên GitHub, chưa build DEB hoàn chỉnh hay publish Sileo. ZIP hiện là artifact phiên chat, không phải lưu bền vững vào repo.
 - Bước tiếp theo: đưa hai PNG vào repo qua công cụ hỗ trợ binary hoặc Git trên máy, điều chỉnh workflow cho trường hợp fullscreen giữ glyph gốc, kiểm tra độ trong suốt/crop, test runtime rồi mới release.
+
+
+## Checkpoint 2026-10-12 — user làm rõ ảnh nút hoán đổi
+- User xác nhận ảnh mới `/mnt/data/AF277BDD-DB71-49C3-93E0-B2DA8F692F51.jpeg` là **thiết kế chi tiết nút hoán đổi ứng dụng**, không phải ảnh tham khảo chung. Ảnh mô tả nút tròn hai mặt trắng/đen, các trạng thái bình thường, chạm (viền sáng) và tự ẩn; bên phải mô tả nhóm nút ba chấm/fullscreen vẫn giữ chức năng gốc.
+- Yêu cầu hiện hành: dùng thiết kế này làm chuẩn cho nút hoán đổi, giữ nguyên chức năng split, divider, chọn app, fullscreen; không tạo hình mới nếu user chưa yêu cầu.
+- Phân biệt ảnh: hai ảnh PNG trước là bản thiết kế đồ họa; ảnh JPEG này xác nhận bố cục và trạng thái swap. Bản ZIP cắt thử trước chưa được kiểm chứng đúng kích thước/runtime, không coi là asset đã tích hợp.
+- Chưa sửa mã, chưa upload binary PNG vào GitHub và chưa có DEB mới trong lượt này. Bước tiếp theo: tạo asset đúng theo bản duyệt và test hiển thị trên thiết bị trước khi phát hành.
