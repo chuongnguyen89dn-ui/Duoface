@@ -807,3 +807,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - OBSERVED screenshot: About screen with hardware identifiers such as IMEI/MEID, Wi-Fi/Bluetooth addresses; UDID not shown. Do not transcribe or persist these sensitive device identifiers.
 - INTERPRETATION: different trial codes on two phones is compatible with per-device issuance, but does not establish a UID/UDID/IMEI hash or exact licensing mechanism.
 - NEXT: without reinstalling, reopen DuoNavi on iPhone 2 and check whether the trial code stays identical. No code/build/deploy changes in this checkpoint.
+
+## 2026-10-12 — DuoNavi 5-year package on second iPhone: CarPlay license block
+- USER-REPORTED: installing the purported 5-year DuoNavi version on iPhone 2 does not activate it.
+- USER-PROVIDED CARPLAY PHOTO: modal title 'Bản Quyền Chưa Kích Hoạt'; text 'Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để kích hoạt bản quyền trước'; button 'Đã hiểu'. The app launches in CarPlay but license gate blocks entry. This is UI evidence of not-activated state, not proof of specific UID/UDID mechanism.
+- ANALYSIS: DEB install and paid license entitlement are distinct. Plausible causes: per-device binding, server/account validation, or local activation state. Do not claim 5-year entitlement transferable or infer hash algorithm from two trial codes.
+- NEXT: inspect the DuoNavi iPhone app's own activation status on iPhone 2 and compare with authorized original device, without exposing IMEI/UDID or secrets; if necessary inspect local license-validation paths/logs, preserving original package and avoiding unsupported bypass assumptions.
