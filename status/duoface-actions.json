@@ -1,0 +1,358 @@
+{
+  "checked_at_utc": "2026-10-12T07:27:38.638082+00:00",
+  "repository": "chuongnguyen89dn-ui/Duoface",
+  "total_actions_runs": 34,
+  "counts_scope": "by_workflow counts are for latest 100 runs only",
+  "by_workflow_recent": {
+    "DuoFace Actions status snapshot": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 0,
+      "other": 1
+    },
+    "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "Export successful DuoFace integrated DEB to GitHub": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Build DuoFace 1.0.3-11 integrated test (no Sileo publish)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "Build DuoFace main DEB (no Sileo publish)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Export latest successful DuoFace test DEB": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "DuoFace visual hook build (test artifact only)": {
+      "recent_runs": 16,
+      "success": 14,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace visual hook compile check (no publish)": {
+      "recent_runs": 6,
+      "success": 3,
+      "failure": 3,
+      "other": 0
+    }
+  },
+  "latest_runs": [
+    {
+      "id": 38217845098,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 1,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38217845098",
+      "created_at": "2026-10-12T07:27:30Z",
+      "head_sha": "bb10d20c3c6c01d909eaf3d16bac3beb7c81ef9d"
+    },
+    {
+      "id": 38200927380,
+      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380",
+      "created_at": "2026-10-12T03:44:14Z",
+      "head_sha": "d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf"
+    },
+    {
+      "id": 38200855366,
+      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200855366",
+      "created_at": "2026-10-12T03:43:07Z",
+      "head_sha": "7782762af37149731bd8a53825ebe144322a7379"
+    },
+    {
+      "id": 38197389691,
+      "name": "Export successful DuoFace integrated DEB to GitHub",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38197389691",
+      "created_at": "2026-10-12T02:50:42Z",
+      "head_sha": "b97107336094652e3997c2c7cc8a19dd1d731d84"
+    },
+    {
+      "id": 38197234081,
+      "name": "Build DuoFace 1.0.3-11 integrated test (no Sileo publish)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38197234081",
+      "created_at": "2026-10-12T02:48:22Z",
+      "head_sha": "ee5bdbe7be0ab902d13742db17e0ed7820f984c6"
+    },
+    {
+      "id": 38197216045,
+      "name": "Build DuoFace 1.0.3-11 integrated test (no Sileo publish)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38197216045",
+      "created_at": "2026-10-12T02:48:05Z",
+      "head_sha": "ae302f7969c26f9de7686f8e0976eaaef185a610"
+    },
+    {
+      "id": 38196996605,
+      "name": "Build DuoFace main DEB (no Sileo publish)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38196996605",
+      "created_at": "2026-10-12T02:44:51Z",
+      "head_sha": "49992b94188e34696aa217ccaa244cc1005be396"
+    },
+    {
+      "id": 38195789473,
+      "name": "Export latest successful DuoFace test DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38195789473",
+      "created_at": "2026-10-12T02:26:28Z",
+      "head_sha": "640d6e4a29ca8e5a351ee0f1a35f45debacd6c47"
+    },
+    {
+      "id": 38192201114,
+      "name": "Export latest successful DuoFace test DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38192201114",
+      "created_at": "2026-10-12T01:31:08Z",
+      "head_sha": "ae7017d2e4bdf84c306e39727cf8cebfa77ca096"
+    },
+    {
+      "id": 38192067242,
+      "name": "Export latest successful DuoFace test DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38192067242",
+      "created_at": "2026-10-12T01:29:15Z",
+      "head_sha": "722e91f2fe43ffddf958c87a4c0c8379bfe195ce"
+    },
+    {
+      "id": 38191941675,
+      "name": "Export latest successful DuoFace test DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38191941675",
+      "created_at": "2026-10-12T01:27:15Z",
+      "head_sha": "d1c0bfe371c949245e1018f77e0c312ae33db5f3"
+    },
+    {
+      "id": 38191863890,
+      "name": "Export latest successful DuoFace test DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38191863890",
+      "created_at": "2026-10-12T01:26:02Z",
+      "head_sha": "5f96631277772fcd87fe0e164d462c0a68c44280"
+    },
+    {
+      "id": 38191513319,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38191513319",
+      "created_at": "2026-10-12T01:20:34Z",
+      "head_sha": "12f39f9891dc6c9ce350096ef849782c6922c254"
+    },
+    {
+      "id": 38191372746,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38191372746",
+      "created_at": "2026-10-12T01:18:23Z",
+      "head_sha": "db7a3bce07c3d6c5a92c0b8984468ae650781d4c"
+    },
+    {
+      "id": 38190656162,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38190656162",
+      "created_at": "2026-10-12T01:07:25Z",
+      "head_sha": "42a35ab897d27282050b0331b4a40366c4af0a15"
+    },
+    {
+      "id": 38189583399,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38189583399",
+      "created_at": "2026-10-12T00:50:57Z",
+      "head_sha": "835e4e1ea4f2f9e06f2c1e2112b30d930f1bf0b4"
+    },
+    {
+      "id": 38189378926,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38189378926",
+      "created_at": "2026-10-12T00:47:46Z",
+      "head_sha": "670082aabeaad66c78058cde6a5ee9eab6489503"
+    },
+    {
+      "id": 38189158836,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38189158836",
+      "created_at": "2026-10-12T00:44:22Z",
+      "head_sha": "3210c2a89a33c57fae6dafd8e3a696732d263e78"
+    },
+    {
+      "id": 38189120286,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38189120286",
+      "created_at": "2026-10-12T00:43:44Z",
+      "head_sha": "7484532cef93bcb7b79dd1c3afa671c32df932f2"
+    },
+    {
+      "id": 38188547864,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38188547864",
+      "created_at": "2026-10-12T00:34:51Z",
+      "head_sha": "b0479d90309184091aebed28bc72b1e2ce36ee73"
+    },
+    {
+      "id": 38188349991,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38188349991",
+      "created_at": "2026-10-12T00:31:45Z",
+      "head_sha": "954e9283c9cda3cabe4a9049169e6537d4d6fd8d"
+    },
+    {
+      "id": 38188230247,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38188230247",
+      "created_at": "2026-10-12T00:30:03Z",
+      "head_sha": "c434806d50e59c8594bfed9ee6ed03ca3bb06132"
+    },
+    {
+      "id": 38187936834,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38187936834",
+      "created_at": "2026-10-12T00:25:21Z",
+      "head_sha": "8352be3e6333ed80702223ed79ef5aa30d2720b4"
+    },
+    {
+      "id": 38187809064,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38187809064",
+      "created_at": "2026-10-12T00:23:20Z",
+      "head_sha": "929d5f9a0453d4be9e0487fd0f8a4265f33e709a"
+    },
+    {
+      "id": 38155833726,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38155833726",
+      "created_at": "2026-10-11T16:31:38Z",
+      "head_sha": "ec2129671e301b4337c4cdfdf2e435a4cabbb9f7"
+    },
+    {
+      "id": 38152364529,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38152364529",
+      "created_at": "2026-10-11T15:41:57Z",
+      "head_sha": "0f1ff2e2866c0fa8dec45c075cf42039804233c7"
+    },
+    {
+      "id": 38151758510,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38151758510",
+      "created_at": "2026-10-11T15:33:17Z",
+      "head_sha": "c8df98b78a119dd467c5a8029197634f5df1bcee"
+    },
+    {
+      "id": 38151444936,
+      "name": "DuoFace visual hook build (test artifact only)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38151444936",
+      "created_at": "2026-10-11T15:28:57Z",
+      "head_sha": "97767a4c084f4df7315cab2f90153ff419c402a8"
+    },
+    {
+      "id": 38151335357,
+      "name": "DuoFace visual hook compile check (no publish)",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38151335357",
+      "created_at": "2026-10-11T15:27:19Z",
+      "head_sha": "7f1f53ae3b94f30cde0f008cb2211331fd11c3fb"
+    },
+    {
+      "id": 38150825226,
+      "name": "DuoFace visual hook compile check (no publish)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38150825226",
+      "created_at": "2026-10-11T15:19:57Z",
+      "head_sha": "ef7d25336835fdd1335b69c77e59397aa9eea403"
+    }
+  ]
+}
