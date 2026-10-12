@@ -1,4 +1,4 @@
-name: Export latest successful DuoFace test DEB
+name: Export latest successful DuoFace test DEB # retry export
 on:
   workflow_dispatch:
   push:
