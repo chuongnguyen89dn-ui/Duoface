@@ -515,3 +515,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Sau `dpkg-deb --build`, workflow chạy `dpkg-deb --field ... Package Architecture`, ghi `dpkg-deb --contents` vào `dist/DEB_CONTENTS.txt`, và `grep -q` xác minh hai tên `DuoFaceVisualHook.dylib` và `DuoFaceVisualHook.plist`. Artifact `duoface-hook-arm64-test` vẫn chứa `dist/`.
 - Đã fetch lại workflow từ GitHub, xác nhận thay đổi. Chưa xác minh run/build mới, chưa tải artifact thực tế. Kiểm tra grep hiện chỉ xác nhận tên trong listing, chưa kiểm chứng asset PNG hoặc runtime.
 - Chưa publish Sileo. Tiếp theo: xác minh build và cải thiện gói với assets đầy đủ, filter đúng process và thử nghiệm trên iPhone.
+
+
+## Checkpoint 2026-10-12 — ưu tiên hoàn tất app, sửa fallback nút
+- User phản ánh đã mất 12 giờ và yêu cầu làm xong DuoFace, chỉ thay hình nút trên app gốc, không viết lại ứng dụng hoặc phá split/divider.
+- Đã sửa `src/DuoFaceVisualHook.m` commit `8352be3e6333ed80702223ed79ef5aa30d2720b4`: bỏ lệnh `button.imageView.hidden = YES`, đổi overlay background sang `UIColor clearColor` để không che toàn bộ nền nút. Đã fetch xác minh thay đổi trên GitHub. Đây chỉ là bước giảm rủi ro; có thể hình mới chồng glyph gốc nếu PNG được nạp, nên vẫn cần kiểm thử và điều chỉnh.
+- Chưa có asset PNG đóng trong DEB, chưa có bản DuoFace chính tích hợp, chưa có runtime test hoặc release Sileo. Không tuyên bố hoàn thành.
+- Tiếp theo: lấy đúng asset đã duyệt từ nguồn gốc và đúng DEB chính; kiểm chứng đường dẫn/packaging, tích hợp thay hình nút theo cách bảo toàn thao tác, build gói cài và test trước release.
