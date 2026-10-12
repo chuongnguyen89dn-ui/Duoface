@@ -50,8 +50,8 @@ static void DFApply(UIButton *button) {
     // Hide only original image glyph, not the button or its hit area/actions.
     // For the picker, its original dots are sibling/subviews; cover the button
     // surface with an opaque backdrop matching its own background before drawing.
-    if (button.imageView && button.imageView != overlay) button.imageView.hidden = YES;
-    overlay.backgroundColor = button.backgroundColor ?: [UIColor blackColor];
+    // Keep original glyph as fallback: do not hide it until assets and runtime are validated.
+    overlay.backgroundColor = [UIColor clearColor];
     overlay.image = image;
     [button bringSubviewToFront:overlay];
 }
