@@ -813,3 +813,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - USER-PROVIDED CARPLAY PHOTO: modal title 'Bản Quyền Chưa Kích Hoạt'; text 'Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để kích hoạt bản quyền trước'; button 'Đã hiểu'. The app launches in CarPlay but license gate blocks entry. This is UI evidence of not-activated state, not proof of specific UID/UDID mechanism.
 - ANALYSIS: DEB install and paid license entitlement are distinct. Plausible causes: per-device binding, server/account validation, or local activation state. Do not claim 5-year entitlement transferable or infer hash algorithm from two trial codes.
 - NEXT: inspect the DuoNavi iPhone app's own activation status on iPhone 2 and compare with authorized original device, without exposing IMEI/UDID or secrets; if necessary inspect local license-validation paths/logs, preserving original package and avoiding unsupported bypass assumptions.
+
+## 2026-10-12 — confirmed license status on iPhone 2
+- USER-CONFIRMED: DuoNavi iPhone app on device 2 shows 'Hết hạn. Chạm để gia hạn' ('Expired. Tap to renew'). Its CarPlay screen shows 'Bản Quyền Chưa Kích Hoạt'.
+- OBSERVED/INTERPRETATION: the app recognizes an expired license state; merely installing the so-called five-year DEB does not transfer an active five-year entitlement. This does NOT prove which identifier, if any, is used for binding.
+- NEXT: compare the activation/license status and expiry date on iPhone 1 versus iPhone 2, and inspect legitimate renewal/restore flow. Do not modify app licensing or assume UID hash relationship. No code, package, or deployment changed.
