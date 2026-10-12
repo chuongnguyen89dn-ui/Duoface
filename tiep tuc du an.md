@@ -529,3 +529,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã sửa `.github/workflows/duoface-hook-check.yml` commit `c434806d50e59c8594bfed9ee6ed03ca3bb06132`, thêm `dist/BUILD_LIMITATIONS.txt` cảnh báo rõ test DEB chưa chứa PNG. Không thay đổi logic split/fullscreen.
 - Không có bằng chứng PNG đã duyệt hoặc DEB DuoFace chính hiện diện trong repo qua các file đã kiểm tra; chưa thể khẳng định tích hợp chính đã thực hiện. Chưa xác minh Actions build mới, chưa test iPhone, chưa publish Sileo.
 - Tiếp theo: xác định và lấy đúng bộ ảnh đã duyệt và gói DuoFace chính; tích hợp assets vào gói chính, kiểm chứng payload và test CarPlay trước khi phát hành.
+
+
+## Checkpoint 2026-10-12 — xác minh thiếu file ảnh
+- Đã gọi GitHub fetch_file cho `assets/VisualAssets/duoface-picker.png`, `assets/VisualAssets/duoface-fullscreen.png`, `assets/VisualAssets/duoface-swap.png` trên repo `chuongnguyen89dn-ui/Duoface`: cả ba trả về `NOT_FOUND` HTTP 404.
+- Chưa thể xác nhận DEB chứa ảnh đã duyệt; không coi gói hook thử là ứng dụng DuoFace hoàn chỉnh. Không build hay phát hành Sileo trong lượt này.
+- Tiếp theo: tìm bản ảnh đã duyệt ở nguồn khác hoặc nhận đúng file, đưa vào các đường dẫn trên, rồi chạy và kiểm tra gói DEB.
