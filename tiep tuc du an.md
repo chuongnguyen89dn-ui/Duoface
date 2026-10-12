@@ -818,3 +818,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - USER-CONFIRMED: DuoNavi iPhone app on device 2 shows 'Hết hạn. Chạm để gia hạn' ('Expired. Tap to renew'). Its CarPlay screen shows 'Bản Quyền Chưa Kích Hoạt'.
 - OBSERVED/INTERPRETATION: the app recognizes an expired license state; merely installing the so-called five-year DEB does not transfer an active five-year entitlement. This does NOT prove which identifier, if any, is used for binding.
 - NEXT: compare the activation/license status and expiry date on iPhone 1 versus iPhone 2, and inspect legitimate renewal/restore flow. Do not modify app licensing or assume UID hash relationship. No code, package, or deployment changed.
+
+## 2026-10-12 — license comparison between two iPhones
+- USER-CONFIRMED: iPhone 1 DuoNavi shows 1823 days remaining on its five-year license; iPhone 2 DuoNavi shows 'Hết hạn. Chạm để gia hạn' and its CarPlay component shows 'Bản Quyền Chưa Kích Hoạt'.
+- OBSERVED: distinct activation/entitlement states across devices despite installing DuoNavi on both. Strong evidence that copying/installing a DEB does not transfer entitlement; possible per-device or per-account/server license state, but NO confirmation that trial codes are UID/UDID hashes.
+- NEXT: inspect authorized activation/restore mechanisms and compare iPhone 1 vs 2 status without copying sensitive identifiers; for DuoFace, avoid claiming image rebranding removes license checks. No code or release changes in this checkpoint.
