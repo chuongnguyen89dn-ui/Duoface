@@ -1,0 +1,17 @@
+name: Standalone CarPlay compile check
+on:
+  workflow_dispatch:
+  push:
+    branches: [duoface-carplay-standalone]
+    paths: ['standalone/src/**', '.github/workflows/standalone-compile.yml']
+permissions:
+  contents: read
+jobs:
+  compile:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check iOS ARM64 source
+        run: |
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -fsyntax-only standalone/src/Preview.m
