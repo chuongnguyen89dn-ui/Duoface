@@ -764,3 +764,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Working dir /workspace/scratch/043a7954858f/Duoface. Exact analysis command: python scripts/inspect_visual_methods.py '../deb-inspect/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib' > audit/visual-methods-arm64.txt.
 - Next: commit these files atomically, inspect new Actions run/logs, fix only observed failures, verify persisted DEB/checksums and embedded artwork. Then actual iPhone/CarPlay install/test (picker, expand/restore, swap, divider drag, splash/loading); distinguish that test from compile/package validation.
 - References checked: https://theos.dev/docs/rootless and Theos Substrate header for rootless paths/hook API.
+
+## 2026-10-12 — first visual12 run diagnostic and targeted correction
+- Source implementation committed 7782762af37149731bd8a53825ebe144322a7379, readback verified. Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200855366; compile job114653725574 failed, package skipped.
+- CONFIRMED from job logs: clang syntax check (-Wall -Wextra -Werror), dynamic-library link and ldid signing all passed; file identified Mach-O64 arm64. Failure was ONLY verification command ordering: lipo interpreted trailing dylib path as another architecture after -verify_arch. Exact diagnostic saved audit/visual12-first-run-error.txt.
+- Fixed xcrun lipo invocation to place input before -verify_arch arm64. Native source unchanged. New commit triggers same pipeline; no need to change SDK/code or restart unrelated work. Await new run and artifact.

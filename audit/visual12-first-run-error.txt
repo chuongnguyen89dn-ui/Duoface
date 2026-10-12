@@ -1,0 +1,36 @@
+2026-10-12T03:43:24.0660690Z dist/current-hook/DuoFaceVisualHook.dylib: Mach-O 64-bit dynamically linked shared library arm64
+2026-10-12T03:43:24.6187750Z error: /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo: unknown architecture specification flag: dist/current-hook/DuoFaceVisualHook.dylib in specifying -verify_arch operation
+2026-10-12T03:43:24.6190330Z /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo: known architecture flags are: any little big ppc64 x86_64 x86_64h arm64 ppc970-64 arm64_32 arm64e ppc i386 m68k hppa sparc m88k i860 veo arm ppc601 ppc603 ppc603e ppc603ev ppc604 ppc604e ppc750 ppc7400 ppc7450 ppc970 i486 i486SX pentium i586 pentpro i686 pentIIm3 pentIIm5 pentium4 m68030 m68040 hppa7100LC veo1 veo2 veo3 veo4 armv4t armv5 xscale armv6 armv6m armv7 armv7f armv7s armv7k armv7m armv7em armv8m.main armv8m.base armv8.1m.main arm64v8
+2026-10-12T03:43:24.6197990Z usage: lipo <input_file> <command> [<options> ...]
+2026-10-12T03:43:24.6198250Z   command is one of:
+2026-10-12T03:43:24.6198430Z     -archs
+2026-10-12T03:43:24.6198570Z     -create
+2026-10-12T03:43:24.6198730Z     -detailed_info
+2026-10-12T03:43:24.6198930Z     -extract <arch_type> [-extract <arch_type> ...]
+2026-10-12T03:43:24.6199270Z     -extract_family <arch_type> [-extract_family <arch_type> ...]
+2026-10-12T03:43:24.6199530Z     -info
+2026-10-12T03:43:24.6199720Z     -remove <arch_type> [-remove <arch_type> ...]
+2026-10-12T03:43:24.6200070Z     -replace <arch_type> <file_name> [-replace <arch_type> <file_name> ...]
+2026-10-12T03:43:24.6200410Z     -thin <arch_type>
+2026-10-12T03:43:24.6200620Z     -verify_arch <arch_type> ...
+2026-10-12T03:43:24.6200830Z   options are one or more of:
+2026-10-12T03:43:24.6201040Z     -arch <arch_type> <input_file>
+2026-10-12T03:43:24.6201240Z     -hideARM64
+2026-10-12T03:43:24.6201430Z     -output <output_file>
+2026-10-12T03:43:24.6201640Z     -segalign <arch_type> <alignment>
+2026-10-12T03:43:24.6210070Z ##[error]Process completed with exit code 1.
+2026-10-12T03:43:24.6324530Z Post job cleanup.
+2026-10-12T03:43:24.7246480Z [command]/opt/homebrew/bin/git version
+2026-10-12T03:43:24.7602780Z git version 2.55.0
+2026-10-12T03:43:24.7620420Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/ab98d3cc-add6-47f8-a1d8-c1bf0b090561/.gitconfig'
+2026-10-12T03:43:24.7626880Z Temporarily overriding HOME='/Users/runner/work/_temp/ab98d3cc-add6-47f8-a1d8-c1bf0b090561' before making global git config changes
+2026-10-12T03:43:24.7627690Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-12T03:43:24.7630750Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/Duoface/Duoface
+2026-10-12T03:43:24.7694990Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-12T03:43:24.7758060Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-12T03:43:24.8445840Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-12T03:43:24.8491510Z http.https://github.com/.extraheader
+2026-10-12T03:43:24.8497940Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-12T03:43:24.8553270Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-12T03:43:24.9208800Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-12T03:43:24.9265990Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url

@@ -27,7 +27,7 @@ jobs:
           ldid -S dist/current-hook/DuoFaceVisualHook.dylib
           ldid -e dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/entitlements.plist
           file dist/current-hook/DuoFaceVisualHook.dylib
-          xcrun lipo -verify_arch arm64 dist/current-hook/DuoFaceVisualHook.dylib
+          xcrun lipo dist/current-hook/DuoFaceVisualHook.dylib -verify_arch arm64
           shasum -a 256 src/DuoFaceVisualHook.m dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/SHA256SUMS
           printf '%s\n' "$GITHUB_SHA" > dist/current-hook/SOURCE_COMMIT.txt
       - uses: actions/upload-artifact@v4
