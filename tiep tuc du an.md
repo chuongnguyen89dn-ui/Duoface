@@ -596,3 +596,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã chạy Python kiểm thử đúng thuật toán giải nén của workflow trong thư mục tạm từ `/mnt/data/DuoFace_GitHub_upload_ready.zip`: `PASS duoface-picker.png 15225`, `PASS duoface-swap.png 13277`, `ZIP EXTRACTION TEST PASS`; hai PNG có signature hợp lệ. Đây là test local trên bản ZIP đã tạo, chưa xác nhận bytes ZIP remote trùng.
 - GitHub `fetch_commit_workflow_runs` với commit `42a35ab897d27282050b0331b4a40366c4af0a15` và `c8252ed9bccacb6440f76544f68b70e8af510c4c` đều trả `workflow_runs: []`; API connector này chỉ trả run kích hoạt bởi pull request nên không đủ kết luận push workflow không chạy. Web GitHub Actions trả cache miss; container git không thể truy cập github.com (DNS). Không có quyền dispatch workflow trong connector hiện có. Chưa xác nhận build hoặc artifact.
 - Tiếp theo: truy cập run Actions thực tế qua URL repo hoặc cung cấp run ID, lấy job logs và sửa nếu lỗi; chỉ sau khi build test pass và test CarPlay mới cân nhắc DEB chính/Sileo.
+
+
+## 2026-10-12 — kích hoạt CI build
+- User yêu cầu chạy Actions build. Đã cập nhật `.github/workflows/duoface-hook-check.yml` trên `main` bằng commit `db7a3bce07c3d6c5a92c0b8984468ae650781d4c`, chỉ sửa tên workflow (thêm chú thích) để kích hoạt push path filter. Đã fetch lại file và xác minh nội dung commit.
+- Đây là workflow tạo `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb` (gói hook thử nghiệm), không phải DEB chính. Chưa có run ID/status/artifact xác nhận.
+- Tiếp: lấy kết quả run của commit `db7a3bc`, nếu fail đọc log và sửa; nếu success kiểm tra artifact, rồi chuyển sang đóng DEB chính.
