@@ -622,3 +622,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 
 ## 2026-10-12 — retry GitHub-side DEB export
 - User clarified all work and DEB export must happen within GitHub repo/Actions, not ChatGPT local files. Checked `dist/test-artifacts/latest.json`: 404 at time of check. Updated `.github/workflows/duoface-artifact-export.yml` workflow name to trigger retry by push; commit `d1c0bfe371c949245e1018f77e0c312ae33db5f3`, fetched back and verified. No DEB or exporter success yet verified. Next check `dist/test-artifacts/latest.json` and exporter run status; if missing, diagnose actual exporter job and fix. Do not mistake visual hook test DEB for final DuoFace app.
+
+
+## 2026-10-12 — artifact exporter ZIP path fix
+- Fixed `.github/workflows/duoface-artifact-export.yml` artifact ZIP extraction to accept nested `.deb` paths (previous filter only accepted ZIP-root DEBs). GitHub commit `ae7017d2e4bdf84c306e39727cf8cebfa77ca096`, readback verified. `dist/test-artifacts/latest.json` still 404 at immediate check; success not confirmed. Next: inspect exporter run and exported files. No final DuoFace DEB verified.
