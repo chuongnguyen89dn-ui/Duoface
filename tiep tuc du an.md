@@ -693,3 +693,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User identified error: prior `DuoFace_5_approved_images_for_GitHub.zip` omitted the Swap/change-app button, wrongly substituting divider bar. That ZIP is SUPERSEDED and must NOT be uploaded.
 - Corrected ZIP created and validated locally: `/mnt/data/DuoFace_5_images_CORRECTED_with_SWAP.zip` (1,968,941 bytes), exactly five images: `01_logo/DuoFace_icon_approved.jpeg`, `02_logo/DuoFace_horizontal_vertical_approved.png`, `03_buttons/duoface-swap.png`, `03_buttons/DuoFace_fullscreen_design.png`, `03_buttons/duoface-picker.png`; plus `README_AND_SHA256.txt`. Swap and Picker copied unchanged from existing project assets. Fullscreen remains design reference, not target-DEB-sized. ZIP testzip passed. Local attachment is not GitHub persistence; user must upload it.
 - User requires exact target pixel dimensions extracted from original DEB; still unverified. No DEB build/deploy in this turn.
+
+
+## 2026-10-12 — SWAP asset incorrectly identified; ZIP REJECTED
+- User showed actual `duoface-swap.png` content: stylized red/black graphic. User explicitly rejects this as the intended app-switch (Swap) button. Filename is NOT proof of correctness.
+- PRIOR ZIP `DuoFace_5_images_CORRECTED_with_SWAP.zip` IS INVALID / REJECTED; do not upload, build or deploy from it. Earlier ZIP also invalid.
+- Need retrieve exact user-approved app-switch button design from original project/history or ask for original image if unrecoverable; compare visually before packaging. Preserve two approved logo images. Do not claim five approved images are ready.
