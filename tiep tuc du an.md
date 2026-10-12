@@ -882,3 +882,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Executed Python pathlib/subprocess/hashlib: `dpkg-deb -x <uploaded file> <temp dir>` returned 0; 30 regular extracted files.
 - Scanned all extracted files for exact iPhone 1 64-character hex trial code (prefix `f34e0fee`), its first 16 ASCII characters and raw 32-byte hex-decoded representation. All yielded zero matches. Full ASCII trial code absent from original .deb bytes too.
 - This only excludes literal representations; runtime generated or externally stored code not excluded. This does NOT answer whether separate five-year DEB contains the code. No binary changes/build/deployment.
+
+## 2026-10-12 — collect installed DuoNavi state from iPhone 2
+- New user request: original iPhone 2 DEB may omit runtime state; collect a more complete copy FROM the installed phone to diagnose different license statuses. Do not modify/remove/reinstall app.
+- Plan: first identify installed paths via `dpkg -L com.duonavi.app` and `dpkg-query -s com.duonavi.app`; archive actual installed app/tweak resources and selected relevant preference/license diagnostic files, excluding unrelated Keychain and secrets. Compare hashes of installed binaries with original DEB, separately investigate runtime license state. The installed copy is NOT a more complete vendor-signed DEB; app data lives separately.
+- No device access from this session; provide user device-side commands and request resulting sanitized archive. No build/deploy performed.
