@@ -891,3 +891,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — iPhone 2 requires sudo
 - User clarified commands on iPhone 2 must use `sudo` (not bare dpkg/tar). Corrected instructions: `sudo dpkg -L com.duonavi.app`, `sudo mkdir -p /var/mobile/Documents/DuoNavi_Backup`, `sudo tar -czf /var/mobile/Documents/DuoNavi_Backup/installed-app.tar.gz /var/jb/Applications/DuoNaviUI.app /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib`.
 - Paths must be checked against actual `dpkg -L` output; backup includes installed app/tweak, not separately stored license state. No command was executed on user phone by assistant. Never request sudo password.
+
+## 2026-10-12 — iPhone 2 dpkg listing screenshot
+- User screenshot shows `sudo dpkg -L com.duonavi.app` completed successfully at mobile shell prompt (`Carplay-Receiver:~ mobile%`). Visible paths include `/var/jb/Library/Application Support/DuoNavi/` (PNG image resources), `/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib`, `DuoNaviDashboard.plist`, and `/var/jb/etc/sudoers.d/duonavi`. This is package-installed content; no runtime license file yet confirmed.
+- Next read-only on device: `sudo ls -la "/var/jb/Library/Application Support/DuoNavi/"` and `sudo find "/var/jb/Library/Application Support/DuoNavi" -type f \( -iname '*license*' -o -iname '*activ*' -o -iname '*trial*' \) -print`.
+- Do not confuse listing of package files with application runtime state; do not overwrite or remove installed files. Await terminal output before identifying exact license location.
