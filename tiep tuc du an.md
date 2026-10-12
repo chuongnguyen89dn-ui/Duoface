@@ -639,3 +639,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - GitHub `dist/test-artifacts/SHA256SUMS` fetched: `bf32a7e2cf1ae5a1d5c172771f2c5d74b49ed936f1e0b146a898aba83da12448` for `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`.
 - Fetching binary path returns UnicodeDecodeError (rather than 404), confirming GitHub file exists but text connector cannot decode binary. Stable repo raw URL: `https://github.com/chuongnguyen89dn-ui/Duoface/raw/refs/heads/main/dist/test-artifacts/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`.
 - Export workflow success is evidenced by committed outputs; actual iPhone/CarPlay functionality NOT tested. Next work is MAIN DuoFace DEB, not this test hook.
+
+
+## 2026-10-12 — main DuoFace DEB build workflow
+- Located actual DuoFace repacker at `chuongnguyen89dn-ui/carplaydsp/main/scripts/repack-duoface-rootless.py`; existing Sileo workflow in `carplaydsp/.github/workflows/build.yml` uses pinned handoff ZIP `Duoface@7b0f003.../DuoFace_FULL_HANDOFF_2026-10-11.zip`, inner 1.0.3-6 DEB SHA256 `2120480166170c5f71b12a595bed7a5ab892fbd84038ef878eca8e8243062e9a`, and repacks to `com.duoface.app_1.0.3-9_iphoneos-arm64.deb`. Handoff notes user previously installed 1.0.3-9 on iPhone; CarPlay untested.
+- Added `.github/workflows/duoface-main-deb.yml` commit `49992b94188e34696aa217ccaa244cc1005be396`, verified fetch. Push triggers Ubuntu Actions build of MAIN DuoFace DEB (not visual hook), SHA check, dpkg metadata/content validation and artifact upload `duoface-main-rootless-deb-test`; DOES NOT publish Sileo or change existing CarPlayDSP deployment. Current run and output NOT verified yet. Next inspect workflow run and artifact, fix only evidenced failures, then request actual iPhone/CarPlay test before release.
