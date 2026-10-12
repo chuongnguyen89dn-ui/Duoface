@@ -559,3 +559,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Tiếp theo: đưa hai PNG trong ZIP lên đúng `assets/VisualAssets/` tại repo, xác minh CI và artifact test; kiểm tra crop, hành vi các nút trên CarPlay trước khi ghép DEB chính.
 
 - Bổ sung xác minh sau checkpoint: lần fetch đầu cho thấy hook **vẫn còn** `asset = @"duoface-fullscreen.png"` (mục ghi trước đó là sai). Đã sửa thật và đọc lại source GitHub ở commit `3210c2a89a33c57fae6dafd8e3a696732d263e78`: nhánh fullscreen nay gán `asset = nil`, giữ nguyên glyph và action gốc. Chưa xác minh build sau sửa.
+
+
+## Checkpoint 2026-10-12 — sửa nhầm số lượng ảnh
+- User hỏi vì sao chỉ có 2 PNG khi đã cung cấp 3 ảnh. Đã xác nhận: có 3 ảnh thiết kế đầu tiên và 1 ảnh bổ sung sau về trạng thái swap, tổng 4 ảnh tham chiếu. Hai PNG trước chỉ là crop tạm cho picker/swap, không phải toàn bộ ảnh đã duyệt.
+- Đã tạo và kiểm tra ZIP `/mnt/data/DuoFace_assets_and_all_references.zip` gồm 4 file nguồn trong `reference/` và 2 PNG crop trong `assets/VisualAssets/`; README ghi rõ chưa có bộ trạng thái hoàn chỉnh. ZIP tồn tại ở môi trường phiên chat, chưa được đưa lên GitHub.
+- Chưa có 3 PNG asset chức năng hoàn chỉnh, chưa có DEB chính mới hoặc test CarPlay. Không phát hành Sileo. Tiếp theo: xác minh asset trạng thái swap từ thiết kế, đưa các PNG lên repo bằng công cụ hỗ trợ binary, kiểm tra CI/runtime.
