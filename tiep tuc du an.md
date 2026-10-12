@@ -578,3 +578,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã kiểm tra file thật tại `/mnt/data/duoface_git_assets/`: picker 15,225 bytes, swap 13,277 bytes; tạo `/mnt/data/DuoFace_GitHub_upload_ready.zip` 29,114 bytes chứa đúng `assets/VisualAssets/duoface-picker.png`, `assets/VisualAssets/duoface-swap.png` và README. Đã kiểm tra định dạng PNG.
 - Đã xác nhận GitHub connector có `create_blob` hỗ trợ base64, nhưng phiên tool không có đường truyền trực tiếp bytes từ container sang tham số connector; Git trong container cũng chưa có thông tin xác thực GitHub. Chưa push PNG, chưa build DEB; không tuyên bố đã upload.
 - Bước tiếp theo: chuyển bytes PNG sang GitHub Git blobs bằng một cầu nối file/connector có hỗ trợ source_file_ref hoặc tải 2 PNG qua giao diện GitHub, xác nhận trên repo rồi chạy workflow, kiểm tra artifact.
+
+
+## Checkpoint 2026-10-12 — user báo đã upload PNG
+- User xác nhận "Up lên rồi". Đã kiểm tra ngay qua GitHub connector trên default branch repo `chuongnguyen89dn-ui/Duoface`: `assets/VisualAssets/duoface-picker.png` và `assets/VisualAssets/duoface-swap.png` đều trả 404 NOT_FOUND; GitHub search theo tên hai PNG trong repo trả 0 kết quả. Vì vậy **chưa xác minh được upload tại đường dẫn workflow yêu cầu**; có thể khác nhánh/thư mục hoặc chưa xuất hiện.
+- Chưa chạy lại workflow/không công bố DEB thành công. Cần xác định đúng nhánh và đường dẫn hai PNG hoặc commit upload, rồi mới chạy kiểm tra CI.
