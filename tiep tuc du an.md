@@ -968,3 +968,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User clarified the most recently uploaded `com.duonavi.license.data` was mistakenly taken from iPhone 1, NOT iPhone 2. Do not treat it as evidence of a license file on iPhone 2.
 - Its previously observed 1020-byte binary data and `f34e0fee...` identifier are consistent with iPhone 1. iPhone 2 license file remains not found by the user; iPhone 2 still not activated after installing the 39-day DEB. iPhone 1 reportedly operated normally on CarPlay and showed changed durations (39 days / five years).
 - Next: no repeat search of iPhone 1; distinguish device-1 runtime authorization from device-2 lack of activation using existing evidence. No code/build/deploy in this turn.
+
+## 2026-10-12 — correction: license.data DOES contain device-1 matching code bytes
+- User pointed out prior contradictory assistant response: it incorrectly said `com.duonavi.license.data` contained no usage/trial code, while later using matching bytes to identify device 1.
+- Correct factual statement from prior inspection: 1020-byte file uploaded from iPhone 1 contains byte sequence at offset 0x20 beginning `f34e0feeac1f0494...`, matching prefix of the previously observed 64-character hex trial code for iPhone 1. This establishes code-related content exists in the file. It does NOT establish whether the code is UDID, trial identifier, activation token, or cryptographic input.
+- Do not repeat false claim 'no code in file'. Distinguish observable bytes from unverified semantics. User confirmed file provenance as iPhone 1. No code/build/deploy in this turn.
