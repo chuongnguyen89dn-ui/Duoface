@@ -632,3 +632,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Screenshot at 09:25 local shows `Export latest successful DuoFace test DEB` runs #1 (`5f96631`), #2 (`d1c0bfe`), #3 (`722e91f`), #4 (`ae7017d`) ALL FAILED (10–12 sec). Previous retries did not fix it; exact failing step/log still unavailable. Do not claim DEB exported.
 - Replaced Python urllib/API ZIP exporter with GitHub CLI `gh run list` and `gh run download`, checking exactly one DEB and writing SHA256SUMS; `.github/workflows/duoface-artifact-export.yml` commit `640d6e4a29ca8e5a351ee0f1a35f45debacd6c47`, verified readback. Push should trigger another Actions run, NOT yet verified. Main DuoFace package is still NOT built by this exporter.
 - Next: read latest exporter job logs and correct exact failure; check `dist/test-artifacts/README.txt` and DEB on repo. Do not release test hook as main DuoFace.
+
+
+## 2026-10-12 — verified exported test DEB now exists
+- GitHub `dist/test-artifacts/README.txt` fetched: `Source run: 38191513319`, explicitly `TEST HOOK ONLY; NOT FINAL DUOFACE APP`.
+- GitHub `dist/test-artifacts/SHA256SUMS` fetched: `bf32a7e2cf1ae5a1d5c172771f2c5d74b49ed936f1e0b146a898aba83da12448` for `DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`.
+- Fetching binary path returns UnicodeDecodeError (rather than 404), confirming GitHub file exists but text connector cannot decode binary. Stable repo raw URL: `https://github.com/chuongnguyen89dn-ui/Duoface/raw/refs/heads/main/dist/test-artifacts/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb`.
+- Export workflow success is evidenced by committed outputs; actual iPhone/CarPlay functionality NOT tested. Next work is MAIN DuoFace DEB, not this test hook.
