@@ -1,5 +1,13 @@
 # DUOFACE — TIẾP TỤC DỰ ÁN (HỒ SƠ BÀN GIAO CHÍNH)
 
+## CURRENT CHECKPOINT — 2026-10-12 10:45 ICT
+- Latest complete DEB: dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb, Version 1.0.3-12~visualtest.
+- Build SUCCESS: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380 (source d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf). Binary/assets/report persisted by Actions commit 7627aab2af879ed3713a4c2f128ec322627f5760.
+- SHA256 a4b1ed0ef049d3fd5af10f5a0067b7f5ed5890a2ed29e39d3060d4cfcd4feddd; 2,226,798 bytes.
+- VERIFIED: signed ARM64 hook; source/artifact same commit; all six new/generated asset hashes inside DEB; app icons resized at original sizes; native DuoFaceUI and DuoFaceDashboard binaries unchanged. New Swap is round twin faces, fullscreen image present; native view hooks wired in source.
+- NOT VERIFIED: installation and actual iPhone/CarPlay behavior. No Sileo publication. Next action: install this exact DEB and validate startup logo/slogan/loading, picker, fullscreen/restore, divider swap and drag; use [DuoFaceVisual12] device log lines if a visual does not appear. Do not rebuild unchanged code while waiting for device evidence.
+
+
 Cập nhật: 2026-10-11. Repository: chuongnguyen89dn-ui/Duoface. Trạng thái: CHƯA CÓ BẢN DUOFACE ĐƯỢC XÁC NHẬN CÀI/CHẠY THÀNH CÔNG.
 
 ## 1. Yêu cầu bất biến của chủ dự án
@@ -769,3 +777,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Source implementation committed 7782762af37149731bd8a53825ebe144322a7379, readback verified. Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200855366; compile job114653725574 failed, package skipped.
 - CONFIRMED from job logs: clang syntax check (-Wall -Wextra -Werror), dynamic-library link and ldid signing all passed; file identified Mach-O64 arm64. Failure was ONLY verification command ordering: lipo interpreted trailing dylib path as another architecture after -verify_arch. Exact diagnostic saved audit/visual12-first-run-error.txt.
 - Fixed xcrun lipo invocation to place input before -verify_arch arm64. Native source unchanged. New commit triggers same pipeline; no need to change SDK/code or restart unrelated work. Await new run and artifact.
+
+## 2026-10-12 — 1.0.3-12 build, persistence and independent package verification completed
+- GitHub run38200927380: compile job114653952208 SUCCESS, package job114654031858 SUCCESS (including repository push). Source d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf. Artifact11725147347 duoface-full-1.0.3-12-visualtest. Hook artifact11725506688. Log excerpts: audit/visual12-build-log-excerpt.txt.
+- CONFIRMED remote output commit7627aab2af879ed3713a4c2f128ec322627f5760 contains complete DEB, SOURCE.json, SHA256SUMS, INFO/CONTENTS, verification.json, hook signature/hash evidence and six prepared PNGs + asset-manifest.json under dist/visual-1.0.3-12/.
+- Independent inspection AFTER fetching output from GitHub: git show origin/main:dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb > ../verified12.deb; git show origin/main:dist/visual-1.0.3-12/verification.json > ../verification12.json; dpkg-deb -x ../verified12.deb ../verified12-root. SHA256/size matched; each of six installed PNG hashes and dimensions matched generated manifest; direct bytes comparison of DuoFaceUI and DuoFaceDashboard with earlier unpacked1.0.3-11 passed. Viewed actual unpacked Swap/Fullscreen again: correct round twin-face graphic and four-corners graphic.
+- Installed images: /var/jb/Library/Application Support/DuoFace/duoface-icon.png256x256, duoface-logo.png960x240, duoface-logo-vert.png640x640; VisualAssets/duoface-picker.png256x70, duoface-swap.png120x120, duoface-fullscreen.png88x88. Source artwork hashes retained in generated manifest. Local preflight used Pillow12.3.0, GitHub build pinned11.3.0; final acceptance is based on actual GitHub-built package, not local preview assumptions.
+- No real device/simulator CarPlay test performed, no Sileo deploy. User receives exact DEB link for device validation; do not describe compile/package success as guaranteed runtime success. Original animations/actions not changed in source; runtime behavior still requires device evidence.

@@ -1,0 +1,45 @@
+Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380
+Source d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf
+
+COMPILE
+2026-10-12T03:44:25.4021410Z [36;1m  -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceVisualHook.m[0m
+2026-10-12T03:44:25.4027270Z [36;1m  -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib \[0m
+2026-10-12T03:44:25.4028750Z [36;1m  -o dist/current-hook/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m[0m
+2026-10-12T03:44:25.4030380Z [36;1mldid -S dist/current-hook/DuoFaceVisualHook.dylib[0m
+2026-10-12T03:44:25.4032220Z [36;1mldid -e dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/entitlements.plist[0m
+2026-10-12T03:44:25.4034160Z [36;1mfile dist/current-hook/DuoFaceVisualHook.dylib[0m
+2026-10-12T03:44:25.4035860Z [36;1mxcrun lipo dist/current-hook/DuoFaceVisualHook.dylib -verify_arch arm64[0m
+2026-10-12T03:44:25.4037990Z [36;1mshasum -a 256 src/DuoFaceVisualHook.m dist/current-hook/DuoFaceVisualHook.dylib > dist/current-hook/SHA256SUMS[0m
+2026-10-12T03:44:32.6458930Z dist/current-hook/DuoFaceVisualHook.dylib: Mach-O 64-bit dynamically linked shared library arm64
+2026-10-12T03:44:33.6951850Z Artifact name is valid!
+2026-10-12T03:44:34.4839420Z SHA256 digest of uploaded artifact zip is 2227b5789cb3cb6c3510b6b472ca58606f1ab2b4313e2601b84bad2f2b16f3f4
+2026-10-12T03:44:34.7735000Z Artifact duoface-current-hook-d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf.zip successfully finalized. Artifact ID 11725506688
+2026-10-12T03:44:34.7736530Z Artifact duoface-current-hook-d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf has been successfully uploaded! Final size is 7332 bytes. Artifact ID is 11725506688
+2026-10-12T03:44:34.7737970Z Artifact download URL: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380/artifacts/11725506688
+
+PACKAGE
+2026-10-12T03:44:47.8712798Z dpkg-deb: building package 'com.duoface.app' in 'dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'.
+2026-10-12T03:44:49.9508083Z {"package": "dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb", "sha256": "a4b1ed0ef049d3fd5af10f5a0067b7f5ed5890a2ed29e39d3060d4cfcd4feddd", "native_binaries_preserved": true, "device_test": "NOT_PERFORMED"}
+2026-10-12T03:44:51.4472239Z Artifact duoface-full-1.0.3-12-visualtest.zip successfully finalized. Artifact ID 11725147347
+2026-10-12T03:44:51.4479332Z Artifact download URL: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380/artifacts/11725147347
+2026-10-12T03:44:51.4581725Z [36;1mgit diff --cached --quiet || git commit -m "build: persist DuoFace 1.0.3-12 DEB and exact artwork verification"[0m
+2026-10-12T03:44:51.9379013Z [main 7627aab] build: persist DuoFace 1.0.3-12 DEB and exact artwork verification
+2026-10-12T03:44:51.9379768Z  16 files changed, 286 insertions(+)
+2026-10-12T03:44:51.9380233Z  create mode 100644 dist/visual-1.0.3-12/CONTENTS.txt
+2026-10-12T03:44:51.9380844Z  create mode 100644 dist/visual-1.0.3-12/HOOK_ENTITLEMENTS.plist
+2026-10-12T03:44:51.9381434Z  create mode 100644 dist/visual-1.0.3-12/HOOK_SHA256SUMS
+2026-10-12T03:44:51.9382070Z  create mode 100644 dist/visual-1.0.3-12/INFO.txt
+2026-10-12T03:44:51.9382586Z  create mode 100644 dist/visual-1.0.3-12/README.txt
+2026-10-12T03:44:51.9383082Z  create mode 100644 dist/visual-1.0.3-12/SHA256SUMS
+2026-10-12T03:44:51.9383835Z  create mode 100644 dist/visual-1.0.3-12/SOURCE.json
+2026-10-12T03:44:51.9384604Z  create mode 100644 dist/visual-1.0.3-12/assets/VisualAssets/duoface-fullscreen.png
+2026-10-12T03:44:51.9385417Z  create mode 100644 dist/visual-1.0.3-12/assets/VisualAssets/duoface-picker.png
+2026-10-12T03:44:51.9385902Z  create mode 100644 dist/visual-1.0.3-12/assets/VisualAssets/duoface-swap.png
+2026-10-12T03:44:51.9386378Z  create mode 100644 dist/visual-1.0.3-12/assets/asset-manifest.json
+2026-10-12T03:44:51.9386837Z  create mode 100644 dist/visual-1.0.3-12/assets/duoface-icon.png
+2026-10-12T03:44:51.9387264Z  create mode 100644 dist/visual-1.0.3-12/assets/duoface-logo-vert.png
+2026-10-12T03:44:51.9387729Z  create mode 100644 dist/visual-1.0.3-12/assets/duoface-logo.png
+2026-10-12T03:44:51.9388219Z  create mode 100644 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb
+2026-10-12T03:44:51.9388734Z  create mode 100644 dist/visual-1.0.3-12/verification.json
+2026-10-12T03:44:53.6267992Z To https://github.com/chuongnguyen89dn-ui/Duoface
+2026-10-12T03:44:53.6268738Z    d2784ff..7627aab  HEAD -> main
