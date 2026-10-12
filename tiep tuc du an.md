@@ -963,3 +963,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User explicitly states they ALREADY reported that `com.duonavi.license.data` could not be found on iPhone 2. Do not ask again to search via Filza or NewTerm. Accept as user-reported finding; earlier `/var/jb` root search also showed no matching name, but cannot prove absolute filesystem absence.
 - Existing observations: iPhone 1 has 1020-byte license.data, 39-day and 5-year term changes reported effective, and 39-day DEB used successfully on CarPlay. iPhone 2 can install/open same DEB but is not activated; user did not find license.data.
 - Next: analyze already obtained binary strings and historical package/config data for legitimate license generation/storage flow, without repeating phone searches or claiming an unverified bypass. No code changes or deployment in this turn.
+
+## 2026-10-12 — uploaded license.data provenance confirmed as iPhone 1
+- User clarified the most recently uploaded `com.duonavi.license.data` was mistakenly taken from iPhone 1, NOT iPhone 2. Do not treat it as evidence of a license file on iPhone 2.
+- Its previously observed 1020-byte binary data and `f34e0fee...` identifier are consistent with iPhone 1. iPhone 2 license file remains not found by the user; iPhone 2 still not activated after installing the 39-day DEB. iPhone 1 reportedly operated normally on CarPlay and showed changed durations (39 days / five years).
+- Next: no repeat search of iPhone 1; distinguish device-1 runtime authorization from device-2 lack of activation using existing evidence. No code/build/deploy in this turn.
