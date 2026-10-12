@@ -618,3 +618,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — export artifact without user-supplied run links
 - Created `.github/workflows/duoface-artifact-export.yml` commit `5f96631277772fcd87fe0e164d462c0a68c44280` (verified by fetch). Push triggers workflow. It uses GitHub Actions token to find latest successful `duoface-hook-check.yml` run with unexpired `duoface-hook-arm64-test` artifact, downloads ZIP, extracts one DEB, writes SHA256/metadata to `dist/test-artifacts/latest.json`, uploads artifact and commits DEB to `dist/test-artifacts/` for stable retrieval. Does NOT publish Sileo.
 - Pending: verify exporter run success and `dist/test-artifacts/latest.json` exists, then inspect actual DEB. Exported package is visualhook-test, NOT final DuoFace app.
+
+
+## 2026-10-12 — retry GitHub-side DEB export
+- User clarified all work and DEB export must happen within GitHub repo/Actions, not ChatGPT local files. Checked `dist/test-artifacts/latest.json`: 404 at time of check. Updated `.github/workflows/duoface-artifact-export.yml` workflow name to trigger retry by push; commit `d1c0bfe371c949245e1018f77e0c312ae33db5f3`, fetched back and verified. No DEB or exporter success yet verified. Next check `dist/test-artifacts/latest.json` and exporter run status; if missing, diagnose actual exporter job and fix. Do not mistake visual hook test DEB for final DuoFace app.
