@@ -626,3 +626,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 
 ## 2026-10-12 — artifact exporter ZIP path fix
 - Fixed `.github/workflows/duoface-artifact-export.yml` artifact ZIP extraction to accept nested `.deb` paths (previous filter only accepted ZIP-root DEBs). GitHub commit `ae7017d2e4bdf84c306e39727cf8cebfa77ca096`, readback verified. `dist/test-artifacts/latest.json` still 404 at immediate check; success not confirmed. Next: inspect exporter run and exported files. No final DuoFace DEB verified.
+
+
+## 2026-10-12 — exporter failures confirmed by user screenshot
+- Screenshot at 09:25 local shows `Export latest successful DuoFace test DEB` runs #1 (`5f96631`), #2 (`d1c0bfe`), #3 (`722e91f`), #4 (`ae7017d`) ALL FAILED (10–12 sec). Previous retries did not fix it; exact failing step/log still unavailable. Do not claim DEB exported.
+- Replaced Python urllib/API ZIP exporter with GitHub CLI `gh run list` and `gh run download`, checking exactly one DEB and writing SHA256SUMS; `.github/workflows/duoface-artifact-export.yml` commit `640d6e4a29ca8e5a351ee0f1a35f45debacd6c47`, verified readback. Push should trigger another Actions run, NOT yet verified. Main DuoFace package is still NOT built by this exporter.
+- Next: read latest exporter job logs and correct exact failure; check `dist/test-artifacts/README.txt` and DEB on repo. Do not release test hook as main DuoFace.
