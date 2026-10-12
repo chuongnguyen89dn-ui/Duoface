@@ -673,3 +673,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User explicitly REJECTED newly generated cyan/magenta faces splash demo as NOT their logo. NEVER use or publish this generated demo.
 - Previously approved DuoFace identity: two BLACK and WHITE faces with RED lips, DuoFace wordmark, slogan `TWO FACES ONE SCREEN` without periods. Approved horizontal, square/vertical, and icon-only variants exist; do not invent replacements. Recover the actual approved source assets before any splash implementation.
 - Startup requirement remains: replace DuoNavi startup background/logo and Apple CarPlay promotional wording using approved artwork and exact slogan, preserving animation/functionality. No splash change committed to DEB yet.
+
+
+## 2026-10-12 — user reuploaded approved DuoFace artwork
+- Received two exact user-uploaded images in current chat: icon JPEG 1254x1254, 226299 bytes, SHA256 `01f1b3d68a3ce4b5fc224035542fb7c16475eec60c3a94950a2c4993ba44c238`; combined layout PNG 1983x793, 876637 bytes, SHA256 `eb4646249ac0c2d05417d61013c68a76ffc5d7705d7823d5f570778cb45a5df9`.
+- Images visually confirm black/white twin faces with red lips, DuoFace wordmark and `TWO FACES ONE SCREEN`. These are USER-PROVIDED APPROVED REFERENCES, not the rejected cyan/pink demo.
+- User explicitly requested immediate persistent GitHub upload of both images AND three previously designed button images. Current GitHub connector exposes only UTF-8 text create/update, not direct binary upload; binary image commits have NOT been verified. Three original button image files are not present in the current two uploads; must recover originals, not invent them.
+- Next action: persist exact binary bytes (or lossless base64 chunks plus reconstruction and checksums) to this repository; verify commit and reconstructed SHA256; recover three approved button assets and repeat. Do not claim completed upload until verified.
