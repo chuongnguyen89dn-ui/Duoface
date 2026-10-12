@@ -535,3 +535,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã gọi GitHub fetch_file cho `assets/VisualAssets/duoface-picker.png`, `assets/VisualAssets/duoface-fullscreen.png`, `assets/VisualAssets/duoface-swap.png` trên repo `chuongnguyen89dn-ui/Duoface`: cả ba trả về `NOT_FOUND` HTTP 404.
 - Chưa thể xác nhận DEB chứa ảnh đã duyệt; không coi gói hook thử là ứng dụng DuoFace hoàn chỉnh. Không build hay phát hành Sileo trong lượt này.
 - Tiếp theo: tìm bản ảnh đã duyệt ở nguồn khác hoặc nhận đúng file, đưa vào các đường dẫn trên, rồi chạy và kiểm tra gói DEB.
+
+
+## Checkpoint 2026-10-12 — tìm lại ảnh và nhận mockup nút từ user
+- Đã tìm được ba PNG logo DuoFace cũ trong ChatGPT Library: `Biểu tượng DuoFace song diện sang trọng.png`, `Logo DuoFace hai mặt đỏ đen.png`, `Biểu tượng song diện trắng đen ánh đỏ.png`; đã materialize thành công vào `/mnt/data/duoface_recovered/`. Đây là logo thương hiệu, không phải ba asset nút theo tên hook.
+- User cung cấp ba ảnh trong chat hiện tại: `/mnt/data/8800B3EA-7AC1-4C56-A2F2-DEF2A2EE20C7.png` (mockup góc/hoán đổi, 1254x1254), `/mnt/data/02CB5630-6B78-4F08-9EE3-FC0638EC44FF.png` (mockup thanh chọn app, 1536x1024), `/mnt/data/C19C6117-5237-4F2B-B21E-EF2D3FAAD929.jpeg` (tham chiếu vị trí trạng thái CarPlay, 1536x768).
+- Đã cắt kỹ thuật từ hai ảnh đầu thành `duoface-swap.png` (crop 120,605,640,1090) và `duoface-picker.png` (crop 225,450,1310,745), lưu tạm `/mnt/data/duoface_assets/VisualAssets/`; tạo `/mnt/data/DuoFace_approved_button_assets_partial.zip` (2 PNG). Chưa có PNG fullscreen riêng: tham chiếu dùng glyph fullscreen gốc; không tự tạo thiết kế mới.
+- GitHub connector create_file/update_file chỉ nhận UTF-8 text, không hỗ trợ đưa binary PNG trực tiếp; chưa upload hai PNG lên GitHub, chưa build DEB hoàn chỉnh hay publish Sileo. ZIP hiện là artifact phiên chat, không phải lưu bền vững vào repo.
+- Bước tiếp theo: đưa hai PNG vào repo qua công cụ hỗ trợ binary hoặc Git trên máy, điều chỉnh workflow cho trường hợp fullscreen giữ glyph gốc, kiểm tra độ trong suốt/crop, test runtime rồi mới release.
