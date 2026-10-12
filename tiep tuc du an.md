@@ -613,3 +613,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — correction from user's GitHub Actions screenshot
 - Screenshot supplied by user confirms workflow DuoFace visual hook build run #20 (`42a35ab`), #21 (`db7a3bc`), #22 (`12f39f9`) all green SUCCESS. #19 (`835e4e1`) failed. Prior claim that current builds were failing was wrong: old run `38151758510` is not a current run. Do not patch build based on old logs.
 - Next: locate run ID and artifact for #22 and inspect DEB. Workflow is visualhook-test, not final DuoFace app; do not claim final DEB ready.
+
+
+## 2026-10-12 — export artifact without user-supplied run links
+- Created `.github/workflows/duoface-artifact-export.yml` commit `5f96631277772fcd87fe0e164d462c0a68c44280` (verified by fetch). Push triggers workflow. It uses GitHub Actions token to find latest successful `duoface-hook-check.yml` run with unexpired `duoface-hook-arm64-test` artifact, downloads ZIP, extracts one DEB, writes SHA256/metadata to `dist/test-artifacts/latest.json`, uploads artifact and commits DEB to `dist/test-artifacts/` for stable retrieval. Does NOT publish Sileo.
+- Pending: verify exporter run success and `dist/test-artifacts/latest.json` exists, then inspect actual DEB. Exported package is visualhook-test, NOT final DuoFace app.
