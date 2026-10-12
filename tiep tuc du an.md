@@ -887,3 +887,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - New user request: original iPhone 2 DEB may omit runtime state; collect a more complete copy FROM the installed phone to diagnose different license statuses. Do not modify/remove/reinstall app.
 - Plan: first identify installed paths via `dpkg -L com.duonavi.app` and `dpkg-query -s com.duonavi.app`; archive actual installed app/tweak resources and selected relevant preference/license diagnostic files, excluding unrelated Keychain and secrets. Compare hashes of installed binaries with original DEB, separately investigate runtime license state. The installed copy is NOT a more complete vendor-signed DEB; app data lives separately.
 - No device access from this session; provide user device-side commands and request resulting sanitized archive. No build/deploy performed.
+
+## 2026-10-12 — iPhone 2 requires sudo
+- User clarified commands on iPhone 2 must use `sudo` (not bare dpkg/tar). Corrected instructions: `sudo dpkg -L com.duonavi.app`, `sudo mkdir -p /var/mobile/Documents/DuoNavi_Backup`, `sudo tar -czf /var/mobile/Documents/DuoNavi_Backup/installed-app.tar.gz /var/jb/Applications/DuoNaviUI.app /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib`.
+- Paths must be checked against actual `dpkg -L` output; backup includes installed app/tweak, not separately stored license state. No command was executed on user phone by assistant. Never request sudo password.
