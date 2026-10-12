@@ -550,3 +550,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Yêu cầu hiện hành: dùng thiết kế này làm chuẩn cho nút hoán đổi, giữ nguyên chức năng split, divider, chọn app, fullscreen; không tạo hình mới nếu user chưa yêu cầu.
 - Phân biệt ảnh: hai ảnh PNG trước là bản thiết kế đồ họa; ảnh JPEG này xác nhận bố cục và trạng thái swap. Bản ZIP cắt thử trước chưa được kiểm chứng đúng kích thước/runtime, không coi là asset đã tích hợp.
 - Chưa sửa mã, chưa upload binary PNG vào GitHub và chưa có DEB mới trong lượt này. Bước tiếp theo: tạo asset đúng theo bản duyệt và test hiển thị trên thiết bị trước khi phát hành.
+
+
+## Checkpoint 2026-10-12 — chuẩn bị 2 PNG nút cho repo
+- User yêu cầu thực hiện theo ảnh nút hoán đổi đã duyệt. Đã tạo `/mnt/data/DuoFace_assets_for_GitHub.zip` chứa `assets/VisualAssets/duoface-picker.png` (1085x295), `assets/VisualAssets/duoface-swap.png` (520x485) và `README_UPLOAD.txt`; đã kiểm tra PNG và ZIP. Đây là crop thử từ ảnh user, chưa xác minh hiển thị đúng trên CarPlay.
+- Đã sửa workflow commit `7484532cef93bcb7b79dd1c3afa671c32df932f2`: chỉ yêu cầu hai PNG picker/swap khi có thư mục assets, fullscreen giữ icon gốc. Mã nguồn hook cũng đã được sửa bỏ tham chiếu `duoface-fullscreen.png` và fetch kiểm tra.
+- Chưa upload binary PNG vào GitHub (connector chỉ ghi UTF-8), chưa xác minh Actions pass, chưa có DEB chính và chưa phát hành Sileo. ZIP phiên chat không phải dữ liệu bền vững trong repo.
+- Tiếp theo: đưa hai PNG trong ZIP lên đúng `assets/VisualAssets/` tại repo, xác minh CI và artifact test; kiểm tra crop, hành vi các nút trên CarPlay trước khi ghép DEB chính.
