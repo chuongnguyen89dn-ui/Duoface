@@ -5,6 +5,8 @@ on:
     paths:
       - 'src/DuoFaceVisualHook.m'
       - '.github/workflows/duoface-hook-check.yml'
+      - 'DuoFace_GitHub_upload_ready.zip'
+      - 'assets/VisualAssets/**'
 permissions:
   contents: read
 jobs:
@@ -12,6 +14,31 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Extract approved DuoFace PNGs from uploaded ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f DuoFace_GitHub_upload_ready.zip ]; then
+            python3 - <<'PY'
+          import io, pathlib, zipfile
+          archive = pathlib.Path("DuoFace_GitHub_upload_ready.zip")
+          target = pathlib.Path("assets/VisualAssets")
+          target.mkdir(parents=True, exist_ok=True)
+          with zipfile.ZipFile(archive) as z:
+              for name in ("duoface-picker.png", "duoface-swap.png"):
+                  matches = [n for n in z.namelist() if pathlib.PurePosixPath(n).name == name and not n.endswith("/")]
+                  if len(matches) != 1:
+                      raise SystemExit(f"Expected exactly one {name} in ZIP; found {len(matches)}")
+                  data = z.read(matches[0])
+                  if data[:4] != bytes((137, 80, 78, 71)):
+                      raise SystemExit(f"Invalid PNG signature: {name}")
+                  (target / name).write_bytes(data)
+                  print(f"Extracted {name}: {len(data)} bytes")
+          PY
+          fi
+          for name in duoface-picker.png duoface-swap.png; do
+            test -s "assets/VisualAssets/$name" || { echo "::error::Missing $name"; exit 1; }
+          done
       - name: Install iOS build prerequisites
         shell: bash
         run: |
