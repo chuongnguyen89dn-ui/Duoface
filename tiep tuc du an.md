@@ -830,3 +830,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - REPO HANDOFF CHECK: `DuoNavi_1.0.3_5years_UNSIGNED_TEST.deb` listed as locally created UNSIGNED TEST package, not original release; original `/mnt/data/com.duonavi.app_1.0.3_iphoneos-arm64(1).deb` and (2) had SHA256 `99ff5b886276d868f139bb24b1ee8800c01551c139dca2523a42ada88061fe7f`. Older local paths may not be present in current runtime.
 - STATUS: no verified named supplementary file from iPhone 1 establishing a transferable 5-year license; cannot claim that expiry field alone produces a valid five-year activation. Device 2 reports expired; device 1 reports 1823 days remaining.
 - NEXT: if necessary inspect actual available original package and app-owned activation status/restore records without exposing device identifiers or secrets; never confuse `com.duonavi.sync.plist` with proven license file.
+
+## 2026-10-12 — pending second-device DEB comparison
+- USER PLAN: extract the installed DuoNavi DEB from iPhone 2 (currently expired) and upload it for comparison with the previous first-device package and yesterday's trial five-year modification. File NOT YET RECEIVED.
+- AGREED SCOPE: inspect package metadata, files, hashes, binary/config differences and any license-state references; determine whether entitlement state is in DEB vs separate device/server records. Do NOT assume modifying expiry creates a valid five-year license or claim renewal before real test. Do not uninstall existing app while collecting evidence.
+- NEXT: wait for user-provided DEB; verify package identity/SHA, unpack safely and compare with repository-backed known baseline; document exact evidence and result. No new DEB build or deployment yet.
