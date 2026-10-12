@@ -1091,3 +1091,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Both DuoFaceUI and DuoFaceDashboard contain license-sync/validation methods and com.duoface.license.sync, /api/v1/license/sync; dashboard has watchdog and license-block logs. Neither binary contains readable ASCII `com.duonavi` or `license.data`, so actual file read path is NOT established.
 - Device 1 user-provided file has 7-day timestamp pair Oct 10–17, 2026, consistent with ~4 days UI. Do not assert direct file access from correlation. No binary edits, no device actions, no Sileo publication.
 - Next: read-only runtime file access evidence or static code reference analysis; avoid changing v12.
+
+## 2026-10-12 — device 1 reinstall experiment: 1.0.3 vs 1.0.4
+- User-reported real device-1 sequence: after reinstalling original DuoNavi, UI still showed 4 days; after installing an earlier modified DuoNavi 1.0.3 package claiming five-year duration over it, UI returned to about 1800 days. Publisher now offers version 1.0.4, but installing 1.0.3 over it returns displayed app version to 1.0.3 and UI to ~1800 days.
+- This is device-observed UI behavior, NOT proof that server accepted a five-year license or that CarPlay will work beyond original trial expiry. Which part of the modified package changes the displayed duration is not yet established. Distinguish this DuoNavi experiment from DuoFace 12 and its unchanged native license code.
+- No modifications or deployments by assistant in this checkpoint. Next read-only: compare original and modified 1.0.3 package files, data timestamps and app runtime logs; preserve device 1.
