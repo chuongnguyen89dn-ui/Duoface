@@ -699,3 +699,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User showed actual `duoface-swap.png` content: stylized red/black graphic. User explicitly rejects this as the intended app-switch (Swap) button. Filename is NOT proof of correctness.
 - PRIOR ZIP `DuoFace_5_images_CORRECTED_with_SWAP.zip` IS INVALID / REJECTED; do not upload, build or deploy from it. Earlier ZIP also invalid.
 - Need retrieve exact user-approved app-switch button design from original project/history or ask for original image if unrecoverable; compare visually before packaging. Preserve two approved logo images. Do not claim five approved images are ready.
+
+
+## 2026-10-12 — exact 1.0.3-11 button hook audit
+- Inspected current `src/DuoFaceVisualHook.m` GitHub blob `7a28449c298f9f4f98e56743406cf529307c2337`.
+- `DFApply` maps `dotsTapped:` to `duoface-picker.png`; `expandTapped:` / `restoreTapped:` explicitly to `nil` (fullscreen remains ORIGINAL); `CBDividerView` button with `moveButtonTouchDown:` / `moveButtonTouchUp:` to `duoface-swap.png` overlay. This mapping DOES NOT prove a real app swap control; may instead target divider move/drag button. The image itself was user-rejected. Runtime not verified.
+- Previous statement '1.0.3-11 has replaced app-switch button' is NOT established. Correct implementation requires identify actual swap action from binary/source and apply user-approved circular two-face design without changing original action, then device test. No code modified this turn.
