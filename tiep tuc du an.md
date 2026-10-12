@@ -565,3 +565,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User hỏi vì sao chỉ có 2 PNG khi đã cung cấp 3 ảnh. Đã xác nhận: có 3 ảnh thiết kế đầu tiên và 1 ảnh bổ sung sau về trạng thái swap, tổng 4 ảnh tham chiếu. Hai PNG trước chỉ là crop tạm cho picker/swap, không phải toàn bộ ảnh đã duyệt.
 - Đã tạo và kiểm tra ZIP `/mnt/data/DuoFace_assets_and_all_references.zip` gồm 4 file nguồn trong `reference/` và 2 PNG crop trong `assets/VisualAssets/`; README ghi rõ chưa có bộ trạng thái hoàn chỉnh. ZIP tồn tại ở môi trường phiên chat, chưa được đưa lên GitHub.
 - Chưa có 3 PNG asset chức năng hoàn chỉnh, chưa có DEB chính mới hoặc test CarPlay. Không phát hành Sileo. Tiếp theo: xác minh asset trạng thái swap từ thiết kế, đưa các PNG lên repo bằng công cụ hỗ trợ binary, kiểm tra CI/runtime.
+
+
+## Checkpoint 2026-10-12 — DEB fail-closed khi thiếu PNG
+- Đã kiểm tra ZIP `/mnt/data/DuoFace_assets_and_all_references.zip`: chứa 4 ảnh tham chiếu, 2 PNG crop `duoface-picker.png` (1085x295 RGBA), `duoface-swap.png` (520x485 RGBA). Đã chuẩn bị hai bản PNG thu nhỏ tại `/mnt/data/duoface_git_assets/` (picker 256x70, 15225 bytes; swap 96x90, 13277 bytes), chưa đưa lên repo; file chỉ ở phiên làm việc.
+- Đã sửa `.github/workflows/duoface-hook-check.yml` commit `835e4e1ea4f2f9e06f2c1e2112b30d930f1bf0b4`: đóng gói DEB yêu cầu hai PNG phải tồn tại và không rỗng, nếu thiếu thì báo `::error::Missing approved DuoFace asset` và fail; bỏ nhánh coi DEB thiếu ảnh là thành công. Đã đọc lại file GitHub và xác minh.
+- Hiện GitHub chưa có hai PNG tại đường dẫn được workflow yêu cầu, do đó build tiếp theo có thể fail ở bước đóng gói; đây là trạng thái có chủ đích để tránh phát hành DEB thiếu chức năng. Chưa kiểm chứng run mới, chưa có DEB hoàn chỉnh, chưa test CarPlay hoặc phát hành Sileo.
+- Bước tiếp theo: dùng phương thức hỗ trợ file nhị phân (Git push hoặc GitHub Git blobs) để đưa hai PNG vào `assets/VisualAssets/`, kiểm tra chất lượng crop và CI; sau đó mới tính tích hợp DEB chính.
