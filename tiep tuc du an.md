@@ -900,3 +900,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 11:57 ICT — iPhone 2 NewTerm root shell confirmed
 - User screenshot shows command `sudo -s` executed and shell prompt changed to `root#` (root shell on Dopamine rootless preboot path). This is NOT output from the proposed license-file search; no license file discovered yet.
 - Because user cannot paste long commands, next instruction is short `ls "/var/jb/Library/Application Support/DuoNavi"` without sudo, to list known installed app-support directory. Read-only. Await screenshot. Do not claim activation success.
+
+## 2026-10-12 — feasibility request: independent full-feature DuoFace without legacy license
+- User asks whether the current DuoNavi DEB can be copied with full features without its licensing mechanism. No implementation authorized beyond feasibility research in this turn.
+- Existing static findings: both DuoNaviUI and DuoNaviDashboard.dylib contain license-related logic; cryptographic verification and server download messages exist. Removing UI alone cannot establish functionality. No evidence that a patched DEB retains full iPhone + CarPlay behavior.
+- Feasible project direction: develop an independently licensed/open implementation of the desired features using authorized source/assets, test on iPhone and real CarPlay, package for Sileo. Do not assert a binary patch already works, do not remove entitlement checks in a distributed third-party binary without rights/verification.
+- No code, build, or deployment performed. Next: establish source ownership/rights and inventory core functional requirements, then design/test independent replacement against real CarPlay.
