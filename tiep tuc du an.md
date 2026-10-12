@@ -906,3 +906,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Existing static findings: both DuoNaviUI and DuoNaviDashboard.dylib contain license-related logic; cryptographic verification and server download messages exist. Removing UI alone cannot establish functionality. No evidence that a patched DEB retains full iPhone + CarPlay behavior.
 - Feasible project direction: develop an independently licensed/open implementation of the desired features using authorized source/assets, test on iPhone and real CarPlay, package for Sileo. Do not assert a binary patch already works, do not remove entitlement checks in a distributed third-party binary without rights/verification.
 - No code, build, or deployment performed. Next: establish source ownership/rights and inventory core functional requirements, then design/test independent replacement against real CarPlay.
+
+## 2026-10-12 — GPT-training skill consultation before further DuoFace work
+- User explicitly requests consultation of `chuongnguyen89dn-ui/Gpt-training-` skills BEFORE doing further development.
+- VERIFIED fetched from Gpt-training- main: `SKILL_INDEX.md` (SHA eadf6ea4bcdc890eea0febaf03ad27e33130ad7e), `PROJECT_INSTRUCTIONS.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`, `README.md`. GitHub code search `zip` in central repo returned no results; no ZIP skill content was read or claimed.
+- Applicable: verify rootless/rootful paths, DEB control/payload/scripts, signing and CarPlay native components; preserve original functionality; separate source/build/DEB/Sileo/real device validation; read project handoff and artifacts first, test smallest changes and commit checkpoint. Target work repo is `Duoface`, not `Gpt-training-`.
+- Current project checkpoint still reports visual 1.0.3-12 build successful but not real-device validated. No binary modifications, build, deploy or license changes made in this consultation.
