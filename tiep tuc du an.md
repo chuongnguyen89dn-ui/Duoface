@@ -896,3 +896,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User screenshot shows `sudo dpkg -L com.duonavi.app` completed successfully at mobile shell prompt (`Carplay-Receiver:~ mobile%`). Visible paths include `/var/jb/Library/Application Support/DuoNavi/` (PNG image resources), `/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib`, `DuoNaviDashboard.plist`, and `/var/jb/etc/sudoers.d/duonavi`. This is package-installed content; no runtime license file yet confirmed.
 - Next read-only on device: `sudo ls -la "/var/jb/Library/Application Support/DuoNavi/"` and `sudo find "/var/jb/Library/Application Support/DuoNavi" -type f \( -iname '*license*' -o -iname '*activ*' -o -iname '*trial*' \) -print`.
 - Do not confuse listing of package files with application runtime state; do not overwrite or remove installed files. Await terminal output before identifying exact license location.
+
+## 2026-10-12 11:57 ICT — iPhone 2 NewTerm root shell confirmed
+- User screenshot shows command `sudo -s` executed and shell prompt changed to `root#` (root shell on Dopamine rootless preboot path). This is NOT output from the proposed license-file search; no license file discovered yet.
+- Because user cannot paste long commands, next instruction is short `ls "/var/jb/Library/Application Support/DuoNavi"` without sudo, to list known installed app-support directory. Read-only. Await screenshot. Do not claim activation success.
