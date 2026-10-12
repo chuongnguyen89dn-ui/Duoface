@@ -589,3 +589,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User cung cấp link `https://github.com/chuongnguyen89dn-ui/Duoface/blob/main/DuoFace_GitHub_upload_ready.zip`. GitHub `fetch_file` trả `UnicodeDecodeError` khi đọc file ZIP nhị phân (không phải 404), chứng tỏ path tồn tại nhưng connector không giải mã binary dạng text.
 - Đã sửa workflow `.github/workflows/duoface-hook-check.yml` commit `42a35ab897d27282050b0331b4a40366c4af0a15`: thêm trigger ZIP/asset, thêm bước Python `zipfile` tự giải nén hai PNG theo basename, xác minh có đúng 1 file mỗi loại và signature PNG, sau đó đóng DEB test. Đã fetch lại workflow xác nhận code tồn tại. Chưa xác minh run CI hoặc DEB chạy trên thiết bị. Không phát hành Sileo.
 - Bước tiếp theo: mở GitHub Actions của repo, kiểm tra run mới từ commit `42a35ab`; nếu fail lấy log sửa, nếu pass lấy artifact test và thử trên CarPlay trước khi đưa vào DEB chính.
+
+
+## Checkpoint 2026-10-12 — kiểm thử giải nén ZIP và giới hạn xác minh Actions
+- Đọc handoff và workflow `duoface-hook-check.yml` trên repo. User đã upload ZIP `DuoFace_GitHub_upload_ready.zip` vào root nhánh main; `fetch_file` trả UnicodeDecodeError do ZIP binary (không phải 404).
+- Đã chạy Python kiểm thử đúng thuật toán giải nén của workflow trong thư mục tạm từ `/mnt/data/DuoFace_GitHub_upload_ready.zip`: `PASS duoface-picker.png 15225`, `PASS duoface-swap.png 13277`, `ZIP EXTRACTION TEST PASS`; hai PNG có signature hợp lệ. Đây là test local trên bản ZIP đã tạo, chưa xác nhận bytes ZIP remote trùng.
+- GitHub `fetch_commit_workflow_runs` với commit `42a35ab897d27282050b0331b4a40366c4af0a15` và `c8252ed9bccacb6440f76544f68b70e8af510c4c` đều trả `workflow_runs: []`; API connector này chỉ trả run kích hoạt bởi pull request nên không đủ kết luận push workflow không chạy. Web GitHub Actions trả cache miss; container git không thể truy cập github.com (DNS). Không có quyền dispatch workflow trong connector hiện có. Chưa xác nhận build hoặc artifact.
+- Tiếp theo: truy cập run Actions thực tế qua URL repo hoặc cung cấp run ID, lấy job logs và sửa nếu lỗi; chỉ sau khi build test pass và test CarPlay mới cân nhắc DEB chính/Sileo.
