@@ -30,7 +30,7 @@ static void DFApply(UIButton *button) {
     NSString *asset = nil;
     if (DFHasAction(button, @"dotsTapped:")) asset = @"duoface-picker.png";
     else if (DFHasAction(button, @"expandTapped:") || DFHasAction(button, @"restoreTapped:"))
-        asset = @"duoface-fullscreen.png";
+        asset = nil; // Keep original fullscreen control; no replacement PNG approved.
     else if (DFInsideClass(button, @"CBDividerView") &&
              (DFHasAction(button, @"moveButtonTouchDown:") || DFHasAction(button, @"moveButtonTouchUp:")))
         asset = @"duoface-swap.png";
