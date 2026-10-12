@@ -81,7 +81,14 @@ jobs:
           dpkg-deb --contents dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb | tee dist/DEB_CONTENTS.txt
           grep -q 'DuoFaceVisualHook.dylib' dist/DEB_CONTENTS.txt
           grep -q 'DuoFaceVisualHook.plist' dist/DEB_CONTENTS.txt
-          printf '%s\n' 'TEST ONLY: no DuoFace PNG assets are bundled; visual replacement is not complete.' > dist/BUILD_LIMITATIONS.txt
+          if [ -d assets/VisualAssets ]; then
+            for name in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
+              grep -q "$name" dist/DEB_CONTENTS.txt
+            done
+            echo 'Approved PNG assets included; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
+          else
+            echo 'TEST ONLY: DuoFace PNG assets not present in repository.' > dist/BUILD_LIMITATIONS.txt
+          fi
           shasum -a 256 dist/DuoFaceVisualHook_TEST_1.0.3-10_iphoneos-arm64.deb >> dist/SHA256SUMS
       - name: Upload test artifact (NOT Sileo release)
         uses: actions/upload-artifact@v4
