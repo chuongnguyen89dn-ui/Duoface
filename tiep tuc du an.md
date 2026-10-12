@@ -1080,3 +1080,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - `dist/visual-1.0.3-12/SOURCE.json` identifies successful build source SHA `d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf`, run `38200927380` (artifact verified earlier). v12 retains v11's native app and dashboard unchanged, adding visual hook/assets.
 - Conclusion: package manager treats v12 as update to DuoFace v11, not direct overwrite of a separately named DuoNavi package. This does not establish the exact installed package/version on device 1, nor explain why expiry fell to 4 days after DuoNavi removal.
 - Next: inspect maintainer scripts and `Info.plist`/filter contents, preferably via safe read-only inspection, then determine whether any original DuoNavi shared paths are referenced. No device changes or deployment.
+
+## 2026-10-12 — verified DuoFace package identity versus DuoNavi license filename
+- Verified from main `dist/visual-1.0.3-12/INFO.txt` and `CONTENTS.txt`: package ID `com.duoface.app`, app `DuoFaceUI.app`, executable `DuoFaceUI`, CarPlay library `DuoFaceDashboard.dylib`, visual hook `DuoFaceVisualHook.dylib`. `src/DuoFaceVisualHook.m` uses DuoFace asset paths and only visual hooks.
+- `com.duonavi.license.data` is a historical license filename; filename alone does NOT establish whether DuoFace reads it. Need actual binary string/reference or runtime file-access evidence. No current device-1 file bytes available, so cannot calculate expiration from it. Do not confuse package identity with license storage.
+- No source changes, no installation or deployment. Next: read-only inspect binary references and actual device-1 file access; preserve existing v12.
