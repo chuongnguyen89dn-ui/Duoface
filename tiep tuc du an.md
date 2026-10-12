@@ -954,3 +954,7 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User suggests iPhone 2 might not have the runtime `.data` file, explaining why 39-day/5-year duration adjustments work on iPhone 1 but do not activate iPhone 2.
 - Verified from earlier analysis: iPhone 1 has `com.duonavi.license.data` (1020 bytes). The original DEB from iPhone 2 does not bundle this runtime file, but this DOES NOT establish that it is absent on iPhone 2 after installation. Do not confuse DEB package contents with runtime filesystem.
 - Test next: READ-ONLY inspect exact runtime license file presence and metadata on iPhone 2, then compare with iPhone 1. Avoid copying license data across devices or assuming it is portable: signature/device binding may apply. No phone command has been executed in this turn.
+
+## 2026-10-12 — iPhone 2 find command reported no output (ambiguous)
+- User says 'Ko có phản hồi' after instructed `find /var/jb -name '*duonavi*.data'` in NewTerm root shell. This may mean no matching files OR command still running; prompt return was not confirmed. No screenshot yet. Do NOT conclude `com.duonavi.license.data` is absent.
+- Earlier command was limited to `/var/jb`, and case-sensitive lowercase `duonavi`, so it could miss runtime data under `/var/mobile` or differently named files. Next read-only command suggested: `find /var/mobile -name '*.data'` after checking `root#` returned. If long-running, interrupt safely and use targeted directory checks. No changes to phone or packages.
