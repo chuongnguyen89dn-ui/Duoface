@@ -572,3 +572,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Đã sửa `.github/workflows/duoface-hook-check.yml` commit `835e4e1ea4f2f9e06f2c1e2112b30d930f1bf0b4`: đóng gói DEB yêu cầu hai PNG phải tồn tại và không rỗng, nếu thiếu thì báo `::error::Missing approved DuoFace asset` và fail; bỏ nhánh coi DEB thiếu ảnh là thành công. Đã đọc lại file GitHub và xác minh.
 - Hiện GitHub chưa có hai PNG tại đường dẫn được workflow yêu cầu, do đó build tiếp theo có thể fail ở bước đóng gói; đây là trạng thái có chủ đích để tránh phát hành DEB thiếu chức năng. Chưa kiểm chứng run mới, chưa có DEB hoàn chỉnh, chưa test CarPlay hoặc phát hành Sileo.
 - Bước tiếp theo: dùng phương thức hỗ trợ file nhị phân (Git push hoặc GitHub Git blobs) để đưa hai PNG vào `assets/VisualAssets/`, kiểm tra chất lượng crop và CI; sau đó mới tính tích hợp DEB chính.
+
+
+## Checkpoint 2026-10-12 — chuẩn bị ZIP upload PNG
+- Đã kiểm tra file thật tại `/mnt/data/duoface_git_assets/`: picker 15,225 bytes, swap 13,277 bytes; tạo `/mnt/data/DuoFace_GitHub_upload_ready.zip` 29,114 bytes chứa đúng `assets/VisualAssets/duoface-picker.png`, `assets/VisualAssets/duoface-swap.png` và README. Đã kiểm tra định dạng PNG.
+- Đã xác nhận GitHub connector có `create_blob` hỗ trợ base64, nhưng phiên tool không có đường truyền trực tiếp bytes từ container sang tham số connector; Git trong container cũng chưa có thông tin xác thực GitHub. Chưa push PNG, chưa build DEB; không tuyên bố đã upload.
+- Bước tiếp theo: chuyển bytes PNG sang GitHub Git blobs bằng một cầu nối file/connector có hỗ trợ source_file_ref hoặc tải 2 PNG qua giao diện GitHub, xác nhận trên repo rồi chạy workflow, kiểm tra artifact.
