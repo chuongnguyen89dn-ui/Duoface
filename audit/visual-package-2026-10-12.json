@@ -1,0 +1,448 @@
+{
+  "review_zip_sha256": "1e0d836771d108de30e19a5eade3cc72ccf580f9652a1e79d63cfeaf8ff992ff",
+  "review_images": [
+    {
+      "path": "01_DuoFace_icon_original.jpeg",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "sha256": "01f1b3d68a3ce4b5fc224035542fb7c16475eec60c3a94950a2c4993ba44c238"
+    },
+    {
+      "path": "02_DuoFace_logo_layout_original.png",
+      "pixels": [
+        1983,
+        793
+      ],
+      "sha256": "eb4646249ac0c2d05417d61013c68a76ffc5d7705d7823d5f570778cb45a5df9"
+    },
+    {
+      "path": "03_Swap_round_button_demo.png",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "sha256": "cddc0985f514b64574cf2717245e17df1e602d28a0ec985865869ece8493adeb"
+    },
+    {
+      "path": "04_Fullscreen_button_design.png",
+      "pixels": [
+        1254,
+        1254
+      ],
+      "sha256": "51c261268493393003eeb77636b4b9813abb908dba8a0359c56b41b5f371f125"
+    },
+    {
+      "path": "05_Picker_button.png",
+      "pixels": [
+        256,
+        70
+      ],
+      "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+    }
+  ],
+  "limitations": [
+    "Static audit only; no iPhone/CarPlay runtime verification.",
+    "Selector strings do not establish the target-action wiring.",
+    "Review ZIP is not evidence of approval for all five images."
+  ],
+  "review_readme": "DUOFACE - 5 IMAGE REVIEW PACKAGE\nExactly five images, unchanged source bytes. No DEB resizing.\nIMPORTANT: Only images 01 and 02 are confirmed approved originals.\n03 is newly generated circular swap demo; 04 is design reference; 05 is existing picker asset.\nDo not treat this ZIP as five approved/production-ready images.\n\n01_DuoFace_icon_original.jpeg | 1254x1254 | 226299 bytes | SHA256 01f1b3d68a3ce4b5fc224035542fb7c16475eec60c3a94950a2c4993ba44c238 | User-uploaded approved icon\n02_DuoFace_logo_layout_original.png | 1983x793 | 876637 bytes | SHA256 eb4646249ac0c2d05417d61013c68a76ffc5d7705d7823d5f570778cb45a5df9 | User-uploaded approved horizontal and vertical logos\n03_Swap_round_button_demo.png | 1254x1254 | 1413443 bytes | SHA256 cddc0985f514b64574cf2717245e17df1e602d28a0ec985865869ece8493adeb | Circular swap button newly generated from user mockup; not yet approved\n04_Fullscreen_button_design.png | 1254x1254 | 1022504 bytes | SHA256 51c261268493393003eeb77636b4b9813abb908dba8a0359c56b41b5f371f125 | Fullscreen four-corners button design reference\n05_Picker_button.png | 256x70 | 15225 bytes | SHA256 16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a | Existing picker button asset; not separately approved\n",
+  "original_archive_member": "files/com.duonavi.app_1.0.3_iphoneos-arm64(2).deb",
+  "original": {
+    "sha256": "99ff5b886276d868f139bb24b1ee8800c01551c139dca2523a42ada88061fe7f",
+    "images": [
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29.png",
+        "pixels": [
+          29,
+          29
+        ],
+        "sha256": "ee80e6fa985c810594e9a9d71a9345754a258e1fd003e09e1928f0a1ccbe27ac"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@2x.png",
+        "pixels": [
+          58,
+          58
+        ],
+        "sha256": "57b53e56337554990e8fb5a942408c9ad639bc4c922e9fc516a0937e9ff8dc5c"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon29x29@3x.png",
+        "pixels": [
+          87,
+          87
+        ],
+        "sha256": "6ed032ef6def302b730c1a3b0d7f2780608e774e0699c045d57db8ca18bd099e"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40.png",
+        "pixels": [
+          40,
+          40
+        ],
+        "sha256": "bf8f1a8ecd6aacfa4629c9270931810813a1c4988761a7f9719125c0d99cc680"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@2x.png",
+        "pixels": [
+          80,
+          80
+        ],
+        "sha256": "21a34128183099a44a7c6e704132082c58c1c40b60c8f84d35eabf339acb83f1"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon40x40@3x.png",
+        "pixels": [
+          120,
+          120
+        ],
+        "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50.png",
+        "pixels": [
+          50,
+          50
+        ],
+        "sha256": "c9b0bee8fc96ee428b1b01a5dcc1e91d2519c507b54352948ea8c97e44c4b0fe"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon50x50@2x.png",
+        "pixels": [
+          100,
+          100
+        ],
+        "sha256": "2c5eb7cd7305f16e2f897d1ecdcb217aa40389cdc44307e2506cb21098c9e26e"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57.png",
+        "pixels": [
+          57,
+          57
+        ],
+        "sha256": "eedd555f14f961e136dbbe82538490d43dcb44005a0533f7e2bc23b00faf1cbd"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@2x.png",
+        "pixels": [
+          114,
+          114
+        ],
+        "sha256": "6775b1cdd74e7e7ece5ff59f1ef0b6a4dfa2d8d02cd344494a4dd154d34ae688"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon57x57@3x.png",
+        "pixels": [
+          171,
+          171
+        ],
+        "sha256": "2dc50b732978993fa86c73363ef34032911fe58b95231d63e78f984c529a8927"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60.png",
+        "pixels": [
+          60,
+          60
+        ],
+        "sha256": "4db4e1af06c3a1da875b999a3c4cacee6860145f22f30058b8275f3ce5687c0e"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@2x.png",
+        "pixels": [
+          120,
+          120
+        ],
+        "sha256": "d74c578b1052c39c611c16c1f5422cc0722124f7a20fc58734cb03ba19f3f805"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon60x60@3x.png",
+        "pixels": [
+          180,
+          180
+        ],
+        "sha256": "84a8b781eb530fc1d7b151c808b7b74180821521f0ae210024d5016dee10b187"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72.png",
+        "pixels": [
+          72,
+          72
+        ],
+        "sha256": "5ac4c55f52533820d590636d24169514c9f41b8219633970e091f955c14951a1"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon72x72@2x.png",
+        "pixels": [
+          144,
+          144
+        ],
+        "sha256": "25ca49474d902148a8162992ce00d69f19b70127a1d451baee4463ca22975051"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76.png",
+        "pixels": [
+          76,
+          76
+        ],
+        "sha256": "9ebf4e4d31b21ff82d73deef8d6d4625482fac27ee7a0684a8fba9a7c256fd1a"
+      },
+      {
+        "path": "var/jb/Applications/DuoNaviUI.app/AppIcon76x76@2x.png",
+        "pixels": [
+          152,
+          152
+        ],
+        "sha256": "2038ffa9fed00b065491d4f6b3771ff648ce3f44ccce7c50383d3596e83a322e"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-icon.png",
+        "pixels": [
+          256,
+          256
+        ],
+        "sha256": "8f5ea15b4cd6a14ef23c50d9f794f327b0a16dac8765c386279cafbb99fecd14"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo-vert.png",
+        "pixels": [
+          640,
+          640
+        ],
+        "sha256": "9e098245d3147a0e6bb834af71f6ae4462d60a4c058399dfd97fffa57221924d"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoNavi/duonavi-logo.png",
+        "pixels": [
+          960,
+          240
+        ],
+        "sha256": "c177d9534f5d044ff7367da5c1a1dcd846bd008ddc19a0a99a8f856dc9781b14"
+      }
+    ],
+    "binaries": []
+  },
+  "integrated_1_0_3_11": {
+    "sha256": "100566ae52190f8b948c4acc2f4a9d4f10cfa155164efe457ad805a864ebedc7",
+    "images": [
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png",
+        "pixels": [
+          29,
+          29
+        ],
+        "sha256": "7a0aa2e3364fe2183639ba8ac8e302c9b4c18266264860d68cf9cf1e1e2a88a4"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png",
+        "pixels": [
+          58,
+          58
+        ],
+        "sha256": "78af322184d0b36b4c30c301f0ef7dda85bb32f7ffec9866e518a3f0c7e58394"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png",
+        "pixels": [
+          87,
+          87
+        ],
+        "sha256": "4308f04fdbc1a094a63cae8b26b42894b68411b5bc482572f715f3f43a50d619"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png",
+        "pixels": [
+          40,
+          40
+        ],
+        "sha256": "3a808e97c61aaf6e3a16a72222d9340c40c79bffc556256697f43f269d991391"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png",
+        "pixels": [
+          80,
+          80
+        ],
+        "sha256": "84e60d374c9511d7b25000c76f0b25d7d0b2ef646e7fcd76d41ddf1c1892759a"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png",
+        "pixels": [
+          120,
+          120
+        ],
+        "sha256": "3f59cf6680df8296b6519cbb44eede53b2c61f90e3d16a0f50914c2067486cf5"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png",
+        "pixels": [
+          50,
+          50
+        ],
+        "sha256": "2b1dfe0665562d675606a2a12ec75daf45d43515d46ff0bc703cacab22283e50"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png",
+        "pixels": [
+          100,
+          100
+        ],
+        "sha256": "bdee7308755a2ecc3611ff0f11869cc3cfa8a01436b5555949cceb26c80ebf0c"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png",
+        "pixels": [
+          57,
+          57
+        ],
+        "sha256": "ce212292a8f7f9ebd640f397b2d291f2cef809524254e22bcac982e47125801b"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png",
+        "pixels": [
+          114,
+          114
+        ],
+        "sha256": "2e8c02b2deb8211f395162df706adba7722288c5ce28316782a57556acd3c3a7"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png",
+        "pixels": [
+          171,
+          171
+        ],
+        "sha256": "96754d2e4a6c54b20eec55af82105df2b2c80e37ef432bb975bc12ba744341be"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png",
+        "pixels": [
+          60,
+          60
+        ],
+        "sha256": "2857381787eb81c76fb5e25e06a174d6c97e95b84a65e1b889d4783b056c9e2a"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png",
+        "pixels": [
+          120,
+          120
+        ],
+        "sha256": "3f59cf6680df8296b6519cbb44eede53b2c61f90e3d16a0f50914c2067486cf5"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png",
+        "pixels": [
+          180,
+          180
+        ],
+        "sha256": "135cedc58a0d87fe2767c174c85c73e655d84a0124b2b40fce9e5478e6419d02"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png",
+        "pixels": [
+          72,
+          72
+        ],
+        "sha256": "8348d5bbd024fdb2b3cf1609ec976106b13e2b74682eaaa2254fc975f3c87a13"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png",
+        "pixels": [
+          144,
+          144
+        ],
+        "sha256": "69d9ebf2a1f480ab8119776c47159dd55af78a855b76f5ff6c5b9a45f46f9047"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png",
+        "pixels": [
+          76,
+          76
+        ],
+        "sha256": "ecbe17baf428865e6366c188ed8571f163132aff595bb4ff235d01c077d0b295"
+      },
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png",
+        "pixels": [
+          152,
+          152
+        ],
+        "sha256": "df889c57eb985a38e9de388c63bd654db235abd635d57c0654e337531a330b7e"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-picker.png",
+        "pixels": [
+          256,
+          70
+        ],
+        "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png",
+        "pixels": [
+          96,
+          90
+        ],
+        "sha256": "bf30d3d0040c1587a126ed1cf9c7f55d2a97900b23c16719165e457a88e55e3f"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-icon.png",
+        "pixels": [
+          256,
+          256
+        ],
+        "sha256": "140bdd98224b7bac215401148e673f5a3a5f38a2ba100932466dc3c5c0e960ca"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png",
+        "pixels": [
+          640,
+          640
+        ],
+        "sha256": "5b1f7587739a42c7730ae07200d3ec1b43690925b3f7e2ce5cc9003c77e0bcc8"
+      },
+      {
+        "path": "var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+        "pixels": [
+          960,
+          240
+        ],
+        "sha256": "6b379d758910aef178d3e1608b64d67c2370cea99e0fdfd508159434784b0686"
+      }
+    ],
+    "binaries": [
+      {
+        "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+        "selected_strings": [
+          "/Library/Application Support/CarBridge/duoface-logo.png",
+          "/Library/Application Support/DuoFace/duoface-logo.png",
+          "/var/jb/Library/Application Support/CarBridge/duoface-logo.png",
+          "/var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+          "TWO SCREENS. ZERO LIMITS.",
+          "WORKS WITH APPLE CARPLAY"
+        ],
+        "duonavi_case_insensitive_occurrences": 0
+      },
+      {
+        "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+        "selected_strings": [
+          "/Library/Application Support/CarBridge/duoface-logo.png",
+          "/Library/Application Support/DuoFace/duoface-logo.png",
+          "/var/jb/Library/Application Support/CarBridge/duoface-logo.png",
+          "/var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+          "TWO SCREENS. ZERO LIMITS.",
+          "WORKS WITH APPLE CARPLAY",
+          "expandTapped:",
+          "handleDividerSwapPressed:",
+          "moveButtonTouchDown:",
+          "moveButtonTouchUp:",
+          "restoreTapped:"
+        ],
+        "duonavi_case_insensitive_occurrences": 0
+      }
+    ]
+  }
+}
