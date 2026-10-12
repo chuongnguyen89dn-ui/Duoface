@@ -82,7 +82,7 @@ jobs:
           grep -q 'DuoFaceVisualHook.dylib' dist/DEB_CONTENTS.txt
           grep -q 'DuoFaceVisualHook.plist' dist/DEB_CONTENTS.txt
           if [ -d assets/VisualAssets ]; then
-            for name in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
+            for name in duoface-picker.png duoface-swap.png; do
               grep -q "$name" dist/DEB_CONTENTS.txt
             done
             echo 'Picker and swap PNGs included; fullscreen retains original icon; CarPlay runtime unverified.' > dist/BUILD_LIMITATIONS.txt
