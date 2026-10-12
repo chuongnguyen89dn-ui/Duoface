@@ -1085,3 +1085,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Verified from main `dist/visual-1.0.3-12/INFO.txt` and `CONTENTS.txt`: package ID `com.duoface.app`, app `DuoFaceUI.app`, executable `DuoFaceUI`, CarPlay library `DuoFaceDashboard.dylib`, visual hook `DuoFaceVisualHook.dylib`. `src/DuoFaceVisualHook.m` uses DuoFace asset paths and only visual hooks.
 - `com.duonavi.license.data` is a historical license filename; filename alone does NOT establish whether DuoFace reads it. Need actual binary string/reference or runtime file-access evidence. No current device-1 file bytes available, so cannot calculate expiration from it. Do not confuse package identity with license storage.
 - No source changes, no installation or deployment. Next: read-only inspect binary references and actual device-1 file access; preserve existing v12.
+
+## 2026-10-12 — direct v12 DEB extraction and license binary strings
+- Downloaded original GitHub Actions artifact ID 11725147347 from run 38200927380, verified DEB SHA256 a4b1ed0ef049d3fd5af10f5a0067b7f5ed5890a2ed29e39d3060d4cfcd4feddd; extracted with unzip and dpkg-deb -R, scanned binaries read-only. Complete evidence: `standalone/research/DEB12_LICENSE_INSPECTION.md` commit `bcd9aa1027e436b66561461b01e943297752a53d`.
+- Both DuoFaceUI and DuoFaceDashboard contain license-sync/validation methods and com.duoface.license.sync, /api/v1/license/sync; dashboard has watchdog and license-block logs. Neither binary contains readable ASCII `com.duonavi` or `license.data`, so actual file read path is NOT established.
+- Device 1 user-provided file has 7-day timestamp pair Oct 10–17, 2026, consistent with ~4 days UI. Do not assert direct file access from correlation. No binary edits, no device actions, no Sileo publication.
+- Next: read-only runtime file access evidence or static code reference analysis; avoid changing v12.
