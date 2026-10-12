@@ -839,3 +839,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — locating expiration metadata on iPhone 2
 - User asks which file identifies expiry date like yesterday. Verified uploaded `/mnt/data/com.duonavi.app_1.0.3_iphoneos-arm64 2.deb`: SHA256 `99ff5b886276d868f139bb24b1ee8800c01551c139dca2523a42ada88061fe7f`, size 1388712 bytes. Command: `dpkg-deb -c '/mnt/data/com.duonavi.app_1.0.3_iphoneos-arm64 2.deb' | grep -Ei 'plist|license|sync|sqlite|db'`; output only `var/jb/Applications/DuoNaviUI.app/Info.plist` (2303 bytes) and `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist` (1446 bytes). Thus `com.duonavi.sync.plist` is NOT inside this DEB; previous mention may refer to separate device preferences and is not verified on device 2.
 - Next: inspect `/var/mobile/Library/Preferences/` on device 2 for DuoNavi-named plist, initially names and redacted expiry keys only; no IMEI, UDID, token or secrets. Other possibilities are app container, Keychain, or server; no proof of a portable license file. No patch/build/deploy.
+
+## 2026-10-12 — second iPhone sync plist inspection
+- USER UPLOAD: `/mnt/data/com.duonavi.sync.plist`, 252 bytes, XML plist.
+- COMMAND: Python `plistlib.load(open('/mnt/data/com.duonavi.sync.plist','rb'))`; `file`, `ls -l`.
+- VERIFIED: exactly one dictionary key `lastAttemptTimestamp` (integer `1791779850`). No expiry, entitlement, remaining-days or activation key. Timestamp indicates a sync attempt, NOT expiration.
+- NEXT: seek actual license/entitlement source via authorized app diagnostics or other application data; do not alter sync timestamp as if it renewed the license. No DEB build, deployment, or license change.
