@@ -936,3 +936,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - NEW USER OBSERVATION: copying/installing the 39-day DEB on iPhone 2 allows the application to open ('vẫn mở được'). Do NOT automatically equate iPhone app launch with fully activated CarPlay dashboard; clarify this distinction once.
 - Relevant verified package difference: added `var/mobile/Library/Preferences/com.duonavi.sync.plist` with `leaseSeconds=3369600`, `status=SUCCESS`, `expiresAt=1794973960`, `actualExpireTimestamp=1794973960`; original 29 files identical. It is a hypothesis, not proof, that plist affects license state. The app may open without active entitlement while CarPlay remains blocked.
 - User already confirmed 39-day DEB had installed and fully worked on iPhone 1 CarPlay. iPhone 2 CarPlay behavior of this DEB NOT YET confirmed. No changes/build/deploy in this turn.
+
+## 2026-10-12 — decisive correction: 39-day DEB does NOT activate iPhone 2
+- USER CONFIRMED: 39-day DEB installs and opens on iPhone 2 but license is STILL NOT ACTIVATED. Do not equate app opening with successful license activation or functional CarPlay use on device 2.
+- User previously confirmed the same DEB worked normally on iPhone 1 including CarPlay. Verified package difference from original is only added `var/mobile/Library/Preferences/com.duonavi.sync.plist` with `leaseSeconds=3369600` and `status=SUCCESS`; this is insufficient to activate device 2.
+- Updated assessment: license authorization likely depends on separate local device state and/or cryptographically validated server-provided data; exact mechanism not yet proven. Stop treating arbitrary leaseSeconds/status changes as license activation. Preserve existing working device 1, inspect independent authorization evidence on device 2 without claiming a fix.
+- No code changes, new DEB build, Sileo publication, or CarPlay device-2 functional validation this turn.
