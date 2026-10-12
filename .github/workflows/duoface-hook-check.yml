@@ -44,6 +44,9 @@ jobs:
         run: |
           set -euo pipefail
           brew install ldid dpkg
+          export PATH="$(brew --prefix)/bin:$PATH"
+          command -v dpkg-deb
+          command -v ldid
           git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
           rm -rf "$RUNNER_TEMP/theos/sdks"
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
