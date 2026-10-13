@@ -1145,3 +1145,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Run `38341244821` FAILED package job `115112605145` due to `SyntaxError: unterminated string literal (detected at line 171)`; compile-hook SUCCESS. Exact root cause: malformed residual Python fragment appended after script `__main__`, unrelated to native feature functionality.
 - Removed the trailing malformed fragment from `scripts/build_visual_release.py` in commit `30a43dc5fe12b93c472b8b4d510f26c1aca45f94`; readback confirms file ends at `build(args.hook,args.output)`, original package ID and six-field sync preference logic retained.
 - Automatic workflow run `38341557570` queued at last check. Need inspect its package job and output before declaring success. No CarPlay device validation or Sileo publication.
+
+
+## 2026-10-13 — SUCCESS verified original-ID experimental five-year DuoFace v12 DEB
+- GitHub Actions run `38341557570` completed SUCCESS, source commit `30a43dc5fe12b93c472b8b4d510f26c1aca45f94`. Both compile/sign hook and package jobs SUCCESS; artifact uploaded and DEB committed to GitHub in `154a0f30bbc6bf487686a52ff194255ca9c9f99d`.
+- Verified persisted `dist/visual-1.0.3-12/INFO.txt`: internal `Package: com.duonavi.app`, `Version: 1.0.3-12~visualtest`, `Architecture: iphoneos-arm64`, `Name: DuoFace`. Note filename remains `com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb` but internal ID is original DuoNavi; avoid misleading filename interpretation.
+- Verified `dist/visual-1.0.3-12/SOURCE.json` maps source commit and run. `verification.json`: added `var/mobile/Library/Preferences/com.duonavi.sync.plist` alongside new visual assets, original DuoFace app/dashboard binaries byte-identical, runtime test `NOT_PERFORMED`. SHA256 DEB `ed50ed8258762510974c763c15e9d59e082dea3474d618e9626141c8df9182e5`.
+- The sync plist is experimental and DOES NOT establish a valid 5-year activation. No device/CarPlay functional regression test; no Sileo publication. Next: download test DEB from repo path, verify actual installed license display and picker/fullscreen/swap/drag on test device, avoid installing over working DuoNavi unless intentionally replacing.
