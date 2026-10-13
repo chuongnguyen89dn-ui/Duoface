@@ -1549,3 +1549,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Examined actual Airaw.dylib strings for bounds, frames, host/logical sizes, scale and recreation. Found `hostBounds`, `updateFrameWithSettingsBlock:`, `appViewWithSize:`, `setFrame:`, `setBounds:`, `preferredChromeSizeForHostSize:`, and LayerHost log showing `host`, `logical`, `scale`, `recreate` on size change.
 - Verified evidence and limits in `docs/airaw_fullscreen_geometry_markers.md`, commit `618ed2df82a6cae17e8619bcfcbb925b1c5079ea` (readback verified). No actual before/after fullscreen pixel sizes found; these hosted-scene markers may be from another subsystem, not yet linked to fullscreen toggle.
 - Next: call graph from fullscreen toggle to dock visibility and window geometry; capture real before/after CarPlay window frames on iOS16 test device; only then patch v12. No v12 changes/build/test.
+
+
+### 2026-10-13 — Executed Airaw selector-pointer test
+- Ran Python pointer decoding against locally extracted user-provided Airaw.dylib, with arm64 fat slice offset 0x4000. Observed 0x80c68 -> `layoutSubviews`, 0x7e8a0 -> `isChk`, 0x7f998 -> `setIsChk:`; this static test PASS. Details and exact command `docs/fullscreen_selector_test_20261013.md` commit `ab8b0d9ba0a68894266bced60e937038b620355b` (readback verified).
+- Existing `runtime/VisualOnlyPrototype.xm` scans `expandTapped:` and `restoreTapped:` solely for icon overlays; these existing actions maximize one pane, not full app.
+- No new fullscreen geometry hook identified, no v12 DEB built, no CarPlay device runtime test. Next focus exclusively on `DBApplicationViewController` frame/bounds and native chrome fullscreen toggle call graph; test on iOS16 before release. Preserve v12 day/package state.
