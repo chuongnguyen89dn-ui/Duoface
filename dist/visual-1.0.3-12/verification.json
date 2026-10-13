@@ -1,4 +1,6 @@
 {
+  "package_id": "com.duonavi.app",
+  "five_year_sync_preference": "experimental_not_verified_activation",
   "version": "1.0.3-12~visualtest",
   "base_sha256": "100566ae52190f8b948c4acc2f4a9d4f10cfa155164efe457ad805a864ebedc7",
   "hook_sha256": "9837f20ded87a8d3747abc99788adb30be24d1fb406ef9bbd11236c5d9e3adfc",
@@ -31,7 +33,8 @@
   ],
   "added_files": [
     "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png",
-    "var/jb/Library/Application Support/DuoFace/asset-manifest.json"
+    "var/jb/Library/Application Support/DuoFace/asset-manifest.json",
+    "var/mobile/Library/Preferences/com.duonavi.sync.plist"
   ],
   "unchanged_existing_files": 10,
   "asset_manifest": {
@@ -124,5 +127,5 @@
   ],
   "native_app_and_dashboard_byte_identical": true,
   "runtime_device_test": "NOT_PERFORMED",
-  "deb_sha256": "f10d36eac32a3b55ffad47b22bf8ba4c544a1d2474eea503d287f6f03dac962e"
+  "deb_sha256": "ed50ed8258762510974c763c15e9d59e082dea3474d618e9626141c8df9182e5"
 }
