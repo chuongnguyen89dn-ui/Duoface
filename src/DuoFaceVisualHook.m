@@ -10,6 +10,22 @@
 typedef void (*DFHookFn)(Class, SEL, IMP, IMP *);
 static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/";
 static char kOverlayKey;
+static char kVisualOnlyKey;
+static IMP oldButtonSetBackgroundColor, oldLayerSetBorderWidth, oldLayerSetBorderColor;
+static BOOL visualSetterHooksInstalled;
+static void DFSetButtonBackgroundColor(UIButton *button, SEL cmd, UIColor *color) {
+    if (objc_getAssociatedObject(button, &kVisualOnlyKey)) color = [UIColor clearColor];
+    ((void (*)(id, SEL, id))oldButtonSetBackgroundColor)(button, cmd, color);
+}
+static void DFSetLayerBorderWidth(CALayer *layer, SEL cmd, CGFloat width) {
+    if (objc_getAssociatedObject(layer, &kVisualOnlyKey)) width = 0;
+    ((void (*)(id, SEL, CGFloat))oldLayerSetBorderWidth)(layer, cmd, width);
+}
+static void DFSetLayerBorderColor(CALayer *layer, SEL cmd, CGColorRef color) {
+    if (objc_getAssociatedObject(layer, &kVisualOnlyKey)) color = [UIColor clearColor].CGColor;
+    ((void (*)(id, SEL, CGColorRef))oldLayerSetBorderColor)(layer, cmd, color);
+}
+
 static IMP oldPillLayout, oldDividerLayout, oldSplashLayout;
 static BOOL pillInstalled, dividerInstalled, splashInstalled;
 static BOOL pickerLogged, fullscreenLogged, swapLogged, splashLogged;
@@ -52,6 +68,8 @@ static BOOL DFApplyButton(id value, NSString *asset, BOOL round) {
     overlay.layer.cornerRadius = round ? MIN(button.bounds.size.width, button.bounds.size.height)/2.0 : 0;
     // Keep the working DuoFace overlay, but suppress only native button artwork.
     // Do not remove UIButton, its handlers, gesture recognizers or unrelated layers.
+    objc_setAssociatedObject(button, &kVisualOnlyKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(button.layer, &kVisualOnlyKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     button.imageView.hidden = YES;
     for (NSUInteger state = 0; state < 16; state++) {
         UIControlState controlState = (UIControlState)state;
@@ -135,6 +153,12 @@ static void DFInstall(void) {
         if (handle) hook = (DFHookFn)dlsym(handle, "MSHookMessageEx");
     }
     if (!hook) return;
+    if (!visualSetterHooksInstalled) {
+        hook(objc_getClass("UIButton"), @selector(setBackgroundColor:), (IMP)DFSetButtonBackgroundColor, &oldButtonSetBackgroundColor);
+        hook(objc_getClass("CALayer"), @selector(setBorderWidth:), (IMP)DFSetLayerBorderWidth, &oldLayerSetBorderWidth);
+        hook(objc_getClass("CALayer"), @selector(setBorderColor:), (IMP)DFSetLayerBorderColor, &oldLayerSetBorderColor);
+        visualSetterHooksInstalled = YES;
+    }
     Class pill = objc_getClass("CBSlotPillView");
     Class divider = objc_getClass("CBDividerView");
     Class splash = objc_getClass("CBSplitSplashScreenView");
