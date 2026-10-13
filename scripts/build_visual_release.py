@@ -29,6 +29,7 @@ DYLIB = 'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib
 FILTER = DYLIB.replace('.dylib', '.plist')
 APP = 'var/jb/Applications/DuoFaceUI.app/'
 VERSION = '1.0.3-12~visualtest'
+ORIGINAL_ID = 'com.duonavi.app'
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
@@ -114,7 +115,108 @@ def build(hook, output):
             fitted(icon,size).convert('RGB').save(p)
             icons.append(str(p.relative_to(root)))
         ctl=root/'DEBIAN/control'
-        ctl.write_text(re.sub(r'^Version:.*$', 'Version: '+VERSION, ctl.read_text(),flags=re.M))
+        ctl.write_text(re.sub(r'^Package:.*
+        if (root/'DEBIAN/md5sums').exists():
+            lines=[]
+            for p in sorted(root.rglob('*')):
+                if p.is_file() and not p.is_symlink() and not str(p.relative_to(root)).startswith('DEBIAN/'):
+                    lines.append(hashlib.md5(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(root)))
+            (root/'DEBIAN/md5sums').write_text('\n'.join(lines)+'\n')
+        after=file_map(root)
+        changed=sorted(k for k in before if before[k]!=after.get(k))
+        allowed={DYLIB,FILTER,'DEBIAN/control','DEBIAN/md5sums',*icons}
+        assert all(k in allowed or k.startswith(ASSET) for k in changed), changed
+        assert set(before)<=set(after), 'Files unexpectedly removed'
+        # Verify final installed assets against the exact generated manifest.
+        for name,meta in manifest['outputs'].items():
+            p=root/ASSET/name
+            assert sha(p.read_bytes())==meta['sha256']
+            assert list(Image.open(p).size)==meta['pixels']
+        for rel in (APP+'DuoFaceUI','var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'):
+            assert before[rel]==after[rel], 'Native behavior binary changed'
+        report={'package_id':ORIGINAL_ID,'five_year_sync_preference':'experimental_not_verified_activation','version':VERSION,'base_sha256':BASE_SHA,'hook_sha256':sha(hook_bytes),'changed_files':changed,'added_files':sorted(set(after)-set(before)),'unchanged_existing_files':len(before)-len(changed),'asset_manifest':manifest,'hook_filter':bundles,'native_app_and_dashboard_byte_identical':True,'runtime_device_test':'NOT_PERFORMED'}
+        deb=output/'com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'
+        subprocess.run(['dpkg-deb','--build','--root-owner-group',str(root),str(deb)],check=True)
+        check=Path(tmp)/'check'
+        subprocess.run(['dpkg-deb','-x',str(deb),str(check)],check=True)
+        for name,meta in manifest['outputs'].items():
+            assert sha((check/ASSET/name).read_bytes())==meta['sha256']
+        assert subprocess.check_output(['dpkg-deb','-f',str(deb),'Version'],text=True).strip()==VERSION
+        assert subprocess.check_output(['dpkg-deb','-f',str(deb),'Package'],text=True).strip()==ORIGINAL_ID
+        report['deb_sha256']=sha(deb.read_bytes())
+        (output/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
+        (output/'SHA256SUMS').write_text(report['deb_sha256']+'  '+deb.name+'\n')
+        (output/'CONTENTS.txt').write_text(subprocess.check_output(['dpkg-deb','-c',str(deb)],text=True))
+        (output/'INFO.txt').write_text(subprocess.check_output(['dpkg-deb','-I',str(deb)],text=True))
+        (output/'README.txt').write_text('DuoFace full app 1.0.3-12 visual test. Current-run signed hook and uploaded artwork. Package verification passed; real iPhone/CarPlay testing pending. No Sileo publication.\n')
+        shutil.copytree(root/ASSET,output/'assets',dirs_exist_ok=True)
+        print(json.dumps({'package':str(deb),'sha256':report['deb_sha256'],'native_binaries_preserved':True,'device_test':'NOT_PERFORMED'}))
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--prepare-only',type=Path)
+    parser.add_argument('--hook',type=Path)
+    parser.add_argument('--output',type=Path,default=ROOT/'dist/visual-1.0.3-12')
+    args=parser.parse_args()
+    if args.prepare_only:
+        print(json.dumps(prepare(args.prepare_only),indent=2))
+    else:
+        if not args.hook:parser.error('--hook is required')
+        build(args.hook,args.output)
+, 'Package: '+ORIGINAL_ID, re.sub(r'^Version:.*
+        if (root/'DEBIAN/md5sums').exists():
+            lines=[]
+            for p in sorted(root.rglob('*')):
+                if p.is_file() and not p.is_symlink() and not str(p.relative_to(root)).startswith('DEBIAN/'):
+                    lines.append(hashlib.md5(p.read_bytes()).hexdigest()+'  '+str(p.relative_to(root)))
+            (root/'DEBIAN/md5sums').write_text('\n'.join(lines)+'\n')
+        after=file_map(root)
+        changed=sorted(k for k in before if before[k]!=after.get(k))
+        allowed={DYLIB,FILTER,'DEBIAN/control','DEBIAN/md5sums',*icons}
+        assert all(k in allowed or k.startswith(ASSET) for k in changed), changed
+        assert set(before)<=set(after), 'Files unexpectedly removed'
+        # Verify final installed assets against the exact generated manifest.
+        for name,meta in manifest['outputs'].items():
+            p=root/ASSET/name
+            assert sha(p.read_bytes())==meta['sha256']
+            assert list(Image.open(p).size)==meta['pixels']
+        for rel in (APP+'DuoFaceUI','var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'):
+            assert before[rel]==after[rel], 'Native behavior binary changed'
+        report={'version':VERSION,'base_sha256':BASE_SHA,'hook_sha256':sha(hook_bytes),'changed_files':changed,'added_files':sorted(set(after)-set(before)),'unchanged_existing_files':len(before)-len(changed),'asset_manifest':manifest,'hook_filter':bundles,'native_app_and_dashboard_byte_identical':True,'runtime_device_test':'NOT_PERFORMED'}
+        deb=output/'com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'
+        subprocess.run(['dpkg-deb','--build','--root-owner-group',str(root),str(deb)],check=True)
+        check=Path(tmp)/'check'
+        subprocess.run(['dpkg-deb','-x',str(deb),str(check)],check=True)
+        for name,meta in manifest['outputs'].items():
+            assert sha((check/ASSET/name).read_bytes())==meta['sha256']
+        assert subprocess.check_output(['dpkg-deb','-f',str(deb),'Version'],text=True).strip()==VERSION
+        assert subprocess.check_output(['dpkg-deb','-f',str(deb),'Package'],text=True).strip()=='com.duoface.app'
+        report['deb_sha256']=sha(deb.read_bytes())
+        (output/'verification.json').write_text(json.dumps(report,indent=2)+'\n')
+        (output/'SHA256SUMS').write_text(report['deb_sha256']+'  '+deb.name+'\n')
+        (output/'CONTENTS.txt').write_text(subprocess.check_output(['dpkg-deb','-c',str(deb)],text=True))
+        (output/'INFO.txt').write_text(subprocess.check_output(['dpkg-deb','-I',str(deb)],text=True))
+        (output/'README.txt').write_text('DuoFace full app 1.0.3-12 visual test. Current-run signed hook and uploaded artwork. Package verification passed; real iPhone/CarPlay testing pending. No Sileo publication.\n')
+        shutil.copytree(root/ASSET,output/'assets',dirs_exist_ok=True)
+        print(json.dumps({'package':str(deb),'sha256':report['deb_sha256'],'native_binaries_preserved':True,'device_test':'NOT_PERFORMED'}))
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--prepare-only',type=Path)
+    parser.add_argument('--hook',type=Path)
+    parser.add_argument('--output',type=Path,default=ROOT/'dist/visual-1.0.3-12')
+    args=parser.parse_args()
+    if args.prepare_only:
+        print(json.dumps(prepare(args.prepare_only),indent=2))
+    else:
+        if not args.hook:parser.error('--hook is required')
+        build(args.hook,args.output)
+, 'Version: '+VERSION, ctl.read_text(),flags=re.M), flags=re.M))
+        # Experimental preference supplied in DuoNavi_1.0.3_5years_UNSIGNED_TEST(1).deb.
+        # These fields are not an independently authenticated entitlement.
+        sync_path = root/'var/mobile/Library/Preferences/com.duonavi.sync.plist'
+        sync_path.parent.mkdir(parents=True,exist_ok=True)
+        sync_path.write_bytes(plistlib.dumps({'leaseSeconds':157766400,'expiresAt':1949370760,'actualExpireTimestamp':1949370760,'lastAttemptTimestamp':1791700039,'lastSyncTimestamp':1791604360,'status':'SUCCESS'}))
         if (root/'DEBIAN/md5sums').exists():
             lines=[]
             for p in sorted(root.rglob('*')):
