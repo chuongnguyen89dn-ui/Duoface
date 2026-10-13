@@ -1456,3 +1456,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 
 ### 2026-10-13 — Checked license data files in locally available 1.0.4 candidate
 - Ran `dpkg-deb -c /mnt/data/duoface_extract/com.duoface.voice104.test_1.0.4-5_iphoneos-arm64.deb | grep -Ei 'license|sync.plist|duonavi.plist|postinst|prerm'` and `find /mnt/data/duoface_license_audit/root -type f | grep -Ei 'license|sync.plist|duonavi.plist'`; no matching license/preferences files were present. `license_findings.json` identifies candidate package `com.duoface.voice104.test`, version `1.0.4-5~duofacetest`; this is not an independent unpack of the original upstream 1.0.4 DEB. Previous 1020-byte `com.duonavi.license.data` was reportedly found on a test iPhone, not established as bundled in DEB. No device-specific entitlement can be read from this candidate. Next: inspect original `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb` separately if downloaded, or collect actual preferences from authorized test device.
+
+
+### 2026-10-13 — New request: duration in 1.0.4 + V12 UI
+- User explicitly requests modifying the duration in the existing DuoNavi 1.0.4 package integrated with V12 interface; preserve V12 appearance and current functions. This supersedes merely investigating which plist controls displayed days.
+- User repeatedly confirms editing com.duonavi.sync.plist has previously changed displayed days; current device shows just over 3 days with leaseSeconds=324200. User observation accepted as tested by user, not independently reproduced here.
+- Current checkpoint: existing handoff says scripts/build_duoface104_native_candidate.py creates com.duoface.voice104.test, but no evidence that the candidate contains the user-requested final V12 integration or that it has an authorized 5-year entitlement. No DEB rebuilt, no Sileo publish or device test performed in this turn.
+- Next: verify exact V12-integrated 1.0.4 artifact, package ID, and legitimate license configuration/entitlement source; avoid inserting device-specific license blobs or treating UI plist changes as server authorization. Preserve current working build.
