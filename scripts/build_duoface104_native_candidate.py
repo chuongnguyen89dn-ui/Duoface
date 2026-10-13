@@ -54,6 +54,14 @@ def main():
   for name in ('duonavi-icon.png','duonavi-logo.png','duonavi-logo-vert.png'):
    candidate=old_brand/name
    if candidate.is_file():candidate.unlink();removed_original_brand.append(str(candidate.relative_to(root)))
+  # Preserve the existing v12 preference file unchanged when packaging 1.0.4.
+  preference='var/mobile/Library/Preferences/com.duonavi.sync.plist'
+  preference_source=old/preference
+  assert preference_source.is_file(), 'v12 source is missing its existing preference file'
+  preference_target=root/preference
+  preference_target.parent.mkdir(parents=True,exist_ok=True)
+  shutil.copy2(preference_source,preference_target)
+  assert preference_source.read_bytes()==preference_target.read_bytes()
   meta=app/'Info.plist';info=plistlib.loads(meta.read_bytes())
   for key,val in [('CFBundleDisplayName','DuoFace'),('CFBundleName','DuoFace'),('CFBundleShortVersionString','1.0.4'),('CFBundleVersion','1.0.4')]:info[key]=val
   meta.write_bytes(plistlib.dumps(info))
@@ -74,6 +82,6 @@ def main():
   sums=root/'DEBIAN/md5sums'
   if sums.exists():sums.write_text('\n'.join(hashlib.md5(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root)) for f in sorted(root.rglob('*')) if f.is_file() and 'DEBIAN' not in f.relative_to(root).parts)+'\n')
   run('dpkg-deb','--build','--root-owner-group',str(root),str(a.output))
-  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'v12_appicons_verified':len(icon_names),'v12_app_visual_resources_copied':v12_app_visuals,'startup_runtime_verified':False,'v12_visual_assets_verified':required,'removed_original_branding':removed_original_brand,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
+  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'v12_appicons_verified':len(icon_names),'v12_app_visual_resources_copied':v12_app_visuals,'startup_runtime_verified':False,'v12_visual_assets_verified':required,'removed_original_branding':removed_original_brand,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False,'existing_v12_preference_preserved':True,'preference_sha256':hashlib.sha256(preference_target.read_bytes()).hexdigest()}
   a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
