@@ -1531,3 +1531,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Local binary audit of user-provided Airaw 1.7.1k: `airaw_audit/fullscreen_symbols.txt` confirms `requestFullscreenToggle`, `setNativeChromeHidden:`, `DBDockWindow`, plus native fullscreen-related strings. This is string/symbol evidence only, not verified call flow or working DuoFace hook.
 - Attempted direct v12 download from GitHub raw in container: `curl: (6) Could not resolve host: raw.githubusercontent.com`. No v12 DEB locally; no binary patch, build, or device test.
 - User requires immediate focus only on whole-app fullscreen hiding CarPlay sidebar; preserve both panes and all v12 features/days. Next: obtain v12 binary via CI artifact or binary-capable transport, reverse-engineer Airaw fullscreen call sites and iOS-specific sidebar class, implement isolated hook and verify before packaging.
+
+
+### 2026-10-13 — Airaw fullscreen batch audit
+- Verified user-supplied Airaw 1.7.1k DEB's Host Menu preference explicitly says fullscreen button and host menu, separate from Split View; confirmed relevant binary selectors, CarPlay dock/application window classes, fullscreen state constants, and dock class hook callsites.
+- Complete evidence/limitations saved at `docs/airaw_fullscreen_batch_audit_20261013.md`, commit `654b2709996e96ba7d389042f5319e29f2afdcc3`, readback verified.
+- No verified hide-sidebar + resize-host call sequence yet. No v12 code modified, build, or device test. Next: resolve selector and implementation call flow from Airaw Mach-O, then implement isolated opt-in fullscreen on v12 with rollback.
