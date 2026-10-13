@@ -115,7 +115,12 @@ def build(hook, output):
             fitted(icon,size).convert('RGB').save(p)
             icons.append(str(p.relative_to(root)))
         ctl=root/'DEBIAN/control'
-        ctl.write_text(re.sub(r'^Package:.*
+        control_lines = ctl.read_text().splitlines()
+        control_lines = [('Package: '+ORIGINAL_ID) if line.startswith('Package: ') else (('Version: '+VERSION) if line.startswith('Version: ') else line) for line in control_lines]
+        ctl.write_text(chr(10).join(control_lines)+chr(10))
+        sync_path = root/'var/mobile/Library/Preferences/com.duonavi.sync.plist'
+        sync_path.parent.mkdir(parents=True,exist_ok=True)
+        sync_path.write_bytes(plistlib.dumps({'leaseSeconds':157766400,'expiresAt':1949370760,'actualExpireTimestamp':1949370760,'lastAttemptTimestamp':1791700039,'lastSyncTimestamp':1791604360,'status':'SUCCESS'}))
         if (root/'DEBIAN/md5sums').exists():
             lines=[]
             for p in sorted(root.rglob('*')):
