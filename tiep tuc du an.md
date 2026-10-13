@@ -1303,3 +1303,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 
 ## 2026-10-13 — User rejects incomplete DEB delivery
 - User explicitly objects to exporting/delivering DEB while required 1.0.4 functionality is missing. Acknowledge prior `1.0.4-4~v12delta` was only structural test, not acceptable completed release. Do NOT offer/publish further DEB as finished until native 1.0.4 features are implemented into v12 baseline and validated; distinguish locally packaged test artifacts from fully working deliverables. Preserve Sileo v12. No code changes or tests in this turn.
+
+
+## 2026-10-13 — Fast recheck two local DEBs
+- Executed Python tempfile extraction via `dpkg-deb -x` on `/mnt/data/com.duonavi.app_1.0.4-4_duoface_v12delta_iphoneos-arm64.deb` and `/mnt/data/com.duonavi.app_1.0.4-5_duoface_native104_TEST_iphoneos-arm64.deb`; searched Dashboard binary bytes for `CBVoiceSessionManager`, `CBVoiceAudioCapture`, `CBVoiceDirectiveDispatcher`.
+- v12delta: single `DuoFaceDashboard.dylib` 7,540,464 bytes; 0/3 markers. native104 TEST: single `DuoNaviDashboard.dylib` 7,921,472 bytes; 3/3 markers. Thus neither artifact combines v12 Dashboard and new 1.0.4 native voice functionality. This is static verification only, not device test. No DEB rebuilt or Sileo modified. Next: obtain compatible native 1.0.4 feature source or implement validated integration adapter on v12; reject packaging-only workaround.
