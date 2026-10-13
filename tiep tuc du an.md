@@ -1497,3 +1497,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Output local: `/mnt/data/com.duonavi.app_1.0.4-5_duoface_v12_with_sync_iphoneos-arm64.deb`; SHA256 `59432290f5c7eaca790787b54dc77a5700602beff21afd2cec9e62bca07248b3`.
 - Verified `dpkg-deb -f OUTPUT Package` = `com.duonavi.app`; `var/mobile/Library/Preferences/com.duonavi.sync.plist` present; original application payload retained. Device acceptance / install not tested. This is still a research candidate; no Sileo publish.
 - Output DEB exists only in conversation runtime, not committed to GitHub. Next: persist binary or reconstruction inputs to repository, test on device before distribution.
+
+
+### 2026-10-13 — New requirement: optional true CarPlay fullscreen, preserve original functionality
+- USER REQUIREMENT (not implemented): In DuoFace, a toggle should hide the system CarPlay sidebar/bar and expand the ENTIRE existing DuoFace split interface across the freed display area, keeping both app panes; toggle off must restore sidebar and the exact prior split layout. This is NOT the existing single-pane expandTapped:/restoreTapped: function.
+- NON-NEGOTIABLE: Preserve all original DuoFace functions and behavior: split panes, resize, swap, app selection, audio, controls, package ID, licensing/state, and unrelated code. Implement as a separately switchable module, OFF by default, with fail-safe restoration. No changes to original functionality without verified need and user approval.
+- RESEARCH STATUS: CarPlay Split maximized mode is NOT proven true fullscreen; do not use it as evidence. Candidate external references for further verification include Airaw/CarBridge fullscreen, CarPlayEnable and CarFlex. No implementation, build, installation, or real-device test yet. Verify the actual sidebar-owning CarPlay system class on target iOS before coding.
+- NEXT: Compare primary-source documentation and source code for fullscreen/sidebar handling; inspect actual DuoFace binary/classes and UI lifecycle; develop isolated proof of concept with rollback before any release. Do not overwrite the working Sileo package.
