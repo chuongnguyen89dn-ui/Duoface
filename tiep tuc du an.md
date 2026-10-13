@@ -1063,3 +1063,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - `src/DuoFaceVisualHook.m` includes border runner and installs hooks on verified `CBBridgedSplitApp` alongside existing visual-only button hooks; integration commit `af1699e17904a2d52f272aa7dbe104c2c6dcdd1b`. GitHub readback confirmed both source files.
 - **Not verified**: macOS iOS SDK compile, runtime animation seam/speed, whether native start/stop argument is always UIView, layout resizing under device, and two-pane simultaneous behavior. No GitHub Actions run, DEB build, Sileo upload, installation or device test. Existing workflow `.github/workflows/duoface-hook-check.yml` can compile hook on macOS but produces dylib artifact; user has prohibited DEB output, not necessarily source-only compile.
 - Next: perform iOS SDK syntax/build check (hook only, no DEB) and review runtime behavior in Simulator or on CarPlay; fix any compiler/runtime issues before packaging when user authorizes. Preserve divider drag, app picker, fullscreen and license.
+
+
+## 2026-10-13 — USER CLARIFICATION: border runner targets existing DuoFace v12
+- User explicitly clarified the red/white running border is a **preparation for integration into the already completed DuoFace DEB v12**, which has the approved replacement UI buttons. It is NOT a new project, new UI baseline, or replacement of v12 with original DuoNavi.
+- Preserve v12 visual assets, picker/fullscreen/swap button hooks, logo, native split/divider drag, existing working features and package identity. Integrate border runner into v12's existing `DuoFaceVisualHook` and eventual v12-derived packaging only, without overwriting previous button changes.
+- User's prior constraint remains: **do not build/export a DEB yet**. Current state is source integration committed, iOS compile and real-device verification pending. When authorized to package, use verified v12 artifact and existing build workflow, not a fresh original package.
