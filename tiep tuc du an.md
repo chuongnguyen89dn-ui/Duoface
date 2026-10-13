@@ -1069,3 +1069,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User explicitly clarified the red/white running border is a **preparation for integration into the already completed DuoFace DEB v12**, which has the approved replacement UI buttons. It is NOT a new project, new UI baseline, or replacement of v12 with original DuoNavi.
 - Preserve v12 visual assets, picker/fullscreen/swap button hooks, logo, native split/divider drag, existing working features and package identity. Integrate border runner into v12's existing `DuoFaceVisualHook` and eventual v12-derived packaging only, without overwriting previous button changes.
 - User's prior constraint remains: **do not build/export a DEB yet**. Current state is source integration committed, iOS compile and real-device verification pending. When authorized to package, use verified v12 artifact and existing build workflow, not a fresh original package.
+
+
+## 2026-10-13 — USER REQUIREMENT: replace button artwork natively, no overlay
+- User confirms existing v12 overlay buttons ARE FUNCTIONAL on their device, but explicitly rejects image-on-image overlay because old visual effects remain visible underneath.
+- Required: replace ONLY the three button visuals (picker, fullscreen/restore, divider move/swap candidate) on existing native controls; preserve exact original button objects, targets/actions, gestures, layout, split ratio dragging, fullscreen and all CarPlay functionality. Do not change functionality.
+- Remove v12 overlay mechanism for these buttons in a future source change; set artwork directly on native button states and selectively suppress only obsolete visual backgrounds/effect layers after verifying their ownership. Do NOT indiscriminately delete layers or animations; confirm actual swap target and device behavior. User's observed v12 functionality is user-reported, not independently device-tested.
+- Border runner remains separate and targets the v12-derived package. NO DEB build/export yet under existing instruction. This checkpoint records the revised requirement; implementation has NOT yet been made or verified.
