@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/duoface-104-voice-candidate.yml'
+      - 'scripts/build_duoface104_native_candidate.py'
 permissions:
   contents: read
 jobs:
