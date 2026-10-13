@@ -1474,3 +1474,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Updated `scripts/build_duoface104_native_candidate.py` at commit `9bbd12e9c8a53b1c05a0cc0aab14fdb141759a58`: after extracting both input DEBs, require `var/mobile/Library/Preferences/com.duonavi.sync.plist` in V12, copy its bytes unchanged into the native 1.0.4 candidate, assert byte equality and report SHA256. GitHub source reread confirmed.
 - Existing workflow `.github/workflows/duoface-104-voice-candidate.yml` triggers on script pushes. Build result, output artifact and device behavior have NOT been verified in this checkpoint; current Sileo release untouched.
 - Next: inspect Actions run for commit 9bbd12e, ensure V12 input DEB contains preference file and that CI passes; check report SHA256 and artifact. If input lacks file, retrieve original user-owned preference from known prior five-year DEB rather than inventing values. Do not publish research candidate automatically.
+
+
+### 2026-10-13 — Trigger 104+V12 packaging with preserved usage preference
+- Existing V12 sync preference preservation script committed at `9bbd12e9c8a53b1c05a0cc0aab14fdb141759a58`, source readback verified.
+- Updated `.github/workflows/duoface-104-voice-candidate.yml` commit `a0996f86a857175f930fcc0ece3dfafc1322c9e3`: assert `existing_v12_preference_preserved=true` and a 64-character SHA256 in output report. This workflow has push trigger on this path, but `fetch_commit_workflow_runs` returned no runs (connector limits results to pull-request-triggered runs). Therefore actual CI status and DEB creation are UNVERIFIED, not SUCCESS.
+- Next: open GitHub Actions runs for commit a0996f8, inspect package job, report and uploaded artifact; fix any failures, verify DEB includes `var/mobile/Library/Preferences/com.duonavi.sync.plist` unchanged. Do not publish to Sileo automatically.
