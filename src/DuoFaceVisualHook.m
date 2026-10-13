@@ -59,6 +59,14 @@ static BOOL DFApplyButton(id value, NSString *asset, BOOL round) {
             [button setBackgroundImage:nil forState:controlState];
     }
     button.backgroundColor = [UIColor clearColor];
+    // Remove native badge chrome, but preserve UIButton and its blink transform.
+    // This intentionally leaves the parent layer's transform/animations intact.
+    button.layer.borderWidth = 0.0;
+    button.layer.borderColor = [UIColor clearColor].CGColor;
+    button.layer.shadowOpacity = 0.0f;
+    button.layer.shadowRadius = 0.0f;
+    button.layer.shadowColor = [UIColor clearColor].CGColor;
+    button.layer.shadowOffset = CGSizeZero;
     [button bringSubviewToFront:overlay];
     return YES;
 }
