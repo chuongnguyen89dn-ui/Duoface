@@ -1525,3 +1525,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User supplied `com.999.airaw_1.7.1k_iphoneos-arm64.deb`, SHA256 `7819fb51c069211a68823c7c0998ca1b7edb733a276a639ad341406b31be88fc` (8,527,360 bytes). Successfully extracted locally via `dpkg-deb -x`; main Airaw.dylib arm64+arm64e SHA256 `46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d`.
 - Verified binary fullscreen/chrome strings include `toggleFullscreen`, `requestFullscreenToggle`, `setDefaultAppChromeHidden:`, `setNativeChromeHidden:`, `DBDockWindow`, `DBStatusBarWindow`, `CARStatusBarWindow`. Details and commands in `docs/airaw_171k_fullscreen_binary_findings.md` (commit 4e7d688bb389c3ec2a546fe53bc5488f802a8b03; readback verified).
 - No Airaw source code recovered and no CarPlay runtime or fullscreen behavior tested. Next: disassemble relevant callsites, map system sidebar class for iOS 16.7.x and implement independent optional fullscreen hook in a new v12 test build; preserve original v12 and licensing; do not transplant Airaw binary.
+
+
+### 2026-10-13 — Fast Airaw-to-v12 analysis checkpoint
+- Local binary audit of user-provided Airaw 1.7.1k: `airaw_audit/fullscreen_symbols.txt` confirms `requestFullscreenToggle`, `setNativeChromeHidden:`, `DBDockWindow`, plus native fullscreen-related strings. This is string/symbol evidence only, not verified call flow or working DuoFace hook.
+- Attempted direct v12 download from GitHub raw in container: `curl: (6) Could not resolve host: raw.githubusercontent.com`. No v12 DEB locally; no binary patch, build, or device test.
+- User requires immediate focus only on whole-app fullscreen hiding CarPlay sidebar; preserve both panes and all v12 features/days. Next: obtain v12 binary via CI artifact or binary-capable transport, reverse-engineer Airaw fullscreen call sites and iOS-specific sidebar class, implement isolated hook and verify before packaging.
