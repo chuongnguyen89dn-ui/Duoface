@@ -1,0 +1,45 @@
+name: Audit original DuoNavi 1.0.4 license files
+on:
+  push:
+    paths:
+      - .github/workflows/audit-original-104-license.yml
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect original DEB only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out/root
+          ORIGINAL=dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb
+          test -f "$ORIGINAL"
+          sha256sum "$ORIGINAL" | tee out/original-deb-sha256.txt
+          dpkg-deb -f "$ORIGINAL" | tee out/original-control.txt
+          dpkg-deb -c "$ORIGINAL" > out/original-files.txt
+          dpkg-deb -R "$ORIGINAL" out/root
+          find out/root -type f | sort > out/extracted-files.txt
+          grep -Ei 'license|duonavi|sync|trial|preference|\.data$' out/extracted-files.txt > out/relevant-paths.txt || true
+          find out/root -type f \( -name 'com.duonavi.license.data' -o -name 'com.duonavi.sync.plist' -o -name 'com.duonavi.plist' \) -print > out/exact-license-paths.txt
+          find out/root/DEBIAN -maxdepth 1 -type f -print -exec sh -c 'echo "--- $1"; cat "$1"' sh {} \; > out/maintainer-scripts.txt
+          echo '=== ORIGINAL DEB ==='
+          cat out/original-control.txt
+          echo '=== EXACT LICENSE FILES ==='
+          cat out/exact-license-paths.txt
+          echo '=== RELEVANT PATHS ==='
+          cat out/relevant-paths.txt
+          echo '=== SUMMARY ==='
+          wc -l out/extracted-files.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-104-license-audit
+          path: |
+            out/original-deb-sha256.txt
+            out/original-control.txt
+            out/original-files.txt
+            out/extracted-files.txt
+            out/relevant-paths.txt
+            out/exact-license-paths.txt
+            out/maintainer-scripts.txt
