@@ -41,7 +41,8 @@ def main():
    elif line.startswith('Icon:'):line='Icon: https://chuongnguyen89dn-ui.github.io/carplaydsp/duoface-icon.png'
    out.append(line)
   ctl.write_text('\n'.join(out)+'\n')
-  assert 'Package: com.duoface.voice104.test' in ctl.read_text()\n  now=files(root);assert set(orig)<=set(now)
+  assert 'Package: com.duoface.voice104.test' in ctl.read_text()
+  now=files(root);assert set(orig)<=set(now)
   dashboard='var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib'
   assert now[dashboard]==orig[dashboard] and b'CBVoiceSessionManager' in (root/dashboard).read_bytes()
   assert not (root/'var/jb/Applications/DuoFaceUI.app').exists()
