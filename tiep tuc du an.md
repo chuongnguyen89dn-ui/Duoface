@@ -1560,3 +1560,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ### 2026-10-13 — Executed fullscreen toggle callsite scan
 - Ran local `python /mnt/data/airaw_audit/fullscreen_selector_refs_scan.py` against extracted Airaw 1.7.1k arm64; located `toggleFullscreen` selector dispatch via NSDistributedNotificationCenter at 0x254fc->0x25514 and 0x2b0bc->0x2b0d4. Accessor registration-only loads found for `setSavedRect:`, `setSavedEdgeInsets:`, `setIsFull:`; see `docs/airaw_fullscreen_toggle_callsites.md`.
 - No proven host resize path, no numeric before/after fullscreen geometry, no v12 code modification/build/device test. Next trace notification receiver and actual frame mutations; preserve v12 package/days.
+
+
+### 2026-10-13 — Focused multi-file fullscreen scope audit
+- Inspected all Airaw preference plist files plus main Airaw dylib locally. `Root.plist` explicitly separates `Host Menu` fullscreen (`AirawChromeController`) from Split View Native/Standard/Shared. Main dylib includes host-fullscreen notification and state selectors, savedRect/insets and setFrame, but also *separate* nativeSplitFullscreen and postNativeSplitLayout: paths which must not be transplanted as whole-app fullscreen.
+- Evidence: `docs/airaw_fullscreen_scope_batch_20261013.md`. No actual fullscreen before/after geometry or verified receiver yet; no v12 patch/build/device test. Next trace host-fullscreen receiver and host window frame changes.
