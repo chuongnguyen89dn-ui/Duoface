@@ -18,6 +18,14 @@ def main():
   root=Path(d)/"root";v=Path(d)/"v12"
   run("dpkg-deb","-R",str(a.base),str(root));run("dpkg-deb","-R",str(a.v12),str(v))
   before=snapshot(root)
+  app=root/"var/jb/Applications/DuoNaviUI.app"
+  vapp=v/"var/jb/Applications/DuoFaceUI.app"
+  info=app/"Info.plist";meta=plistlib.loads(info.read_bytes())
+  meta["CFBundleDisplayName"]="DuoFace";meta["CFBundleName"]="DuoFace"
+  info.write_bytes(plistlib.dumps(meta))
+  for icon in app.glob("AppIcon*.png"):
+   original=vapp/icon.name
+   if original.exists():shutil.copy2(original,icon)
   for ext in (".dylib",".plist"):
    target=root/(HOOK+ext);target.parent.mkdir(parents=True,exist_ok=True)
    shutil.copy2(v/(HOOK+ext),target)
@@ -33,7 +41,10 @@ def main():
   if sums.exists():
    sums.write_text("\n".join(hashlib.md5(x.read_bytes()).hexdigest()+"  "+str(x.relative_to(root)) for x in sorted(root.rglob("*")) if x.is_file() and not str(x.relative_to(root)).startswith("DEBIAN/"))+"\n")
   after=snapshot(root);changed=[k for k in before if after.get(k)!=before[k]]
-  assert set(before)<=set(after) and set(changed)<={"DEBIAN/control","DEBIAN/md5sums"},changed
+  allowed={"DEBIAN/control","DEBIAN/md5sums","var/jb/Applications/DuoNaviUI.app/Info.plist"}
+  assert set(before)<=set(after) and all(k in allowed or k.startswith("var/jb/Applications/DuoNaviUI.app/AppIcon") for k in changed),changed
+  for critical in ("var/jb/Applications/DuoNaviUI.app/DuoNaviUI","var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib","var/jb/usr/libexec/cboptimize_helper"):
+   assert before[critical]==after[critical],critical
   a.output.parent.mkdir(parents=True,exist_ok=True)
   run("dpkg-deb","--build","--root-owner-group",str(root),str(a.output))
   assert subprocess.check_output(["dpkg-deb","-f",str(a.output),"Package"],text=True).strip()=="com.duonavi.app"
