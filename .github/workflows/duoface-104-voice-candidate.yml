@@ -26,6 +26,8 @@ jobs:
           r=json.load(open('out/report.json'))
           assert r['visual_hook_targets_upstream_app'] is True
           assert r['native_104_missing']==3
+          assert r['existing_v12_preference_preserved'] is True
+          assert len(r['preference_sha256'])==64
           assert r['v12_appicons_verified']==18
           assert len(r['v12_visual_assets_verified'])==6
           assert len(r['removed_original_branding'])==3
