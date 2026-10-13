@@ -1,106 +1,119 @@
-// DuoFace border runner source only; do not package until reviewed and tested.
-// Hooks the original start/stop border methods without changing their timing.
+// Source-only visual feature. Keep original start/stop methods and native layout.
+// Compiled into DuoFaceVisualHook.m by an explicit #include; no standalone target.
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
-#import <objc/message.h>
+#import <dispatch/dispatch.h>
 #import <math.h>
 
-static char DFRunnerKey;
-static IMP DFOriginalStart;
-static IMP DFOriginalStop;
-static const CGFloat DFRunnerWidth = 1.0;
-static const CFTimeInterval DFRunnerLap = 1.0;
+static char DFRunnerAssociation;
+static IMP DFNativeBorderStart = NULL, DFNativeBorderStop = NULL;
+static BOOL DFBorderHooksInstalled = NO;
+static const CGFloat DFLineWidth = 1.0;
+static const CFTimeInterval DFLapSeconds = 1.0;
 
-@interface DFBorderRunner : NSObject
-@property(nonatomic, retain) CAShapeLayer *red;
-@property(nonatomic, retain) CAShapeLayer *white;
+@interface DFBorderEffect : NSObject {
+@public
+    NSMutableArray *_layers;
+    CGRect _lastBounds;
+}
 @end
-@implementation DFBorderRunner
-@synthesize red = _red, white = _white;
-- (void)dealloc { [_red release]; [_white release]; [super dealloc]; }
+@implementation DFBorderEffect
+- (id)init { if ((self = [super init])) { _layers = [[NSMutableArray alloc] init]; _lastBounds = CGRectNull; } return self; }
+- (void)dealloc { [_layers release]; [super dealloc]; }
 @end
 
-static CAKeyframeAnimation *DFSegment(NSString *key, CGFloat begin, CGFloat end) {
+static CAKeyframeAnimation *DFRunnerAnimation(NSString *key, CGFloat from, CGFloat to, CFTimeInterval beginTime) {
     CAKeyframeAnimation *a = [CAKeyframeAnimation animationWithKeyPath:key];
-    a.values = @[@(begin), @(end)];
+    a.values = @[@(from), @(to)];
     a.keyTimes = @[@0, @1];
     a.calculationMode = kCAAnimationLinear;
-    a.duration = DFRunnerLap;
+    a.duration = DFLapSeconds;
+    a.beginTime = beginTime;
     a.repeatCount = HUGE_VALF;
     a.removedOnCompletion = YES;
     return a;
 }
-
-static void DFAnimateSegment(CAShapeLayer *layer, CGFloat tail, CGFloat head) {
-    // Two synchronized endpoints. Values may extend beyond [0,1] and are clipped by CA.
-    [layer addAnimation:DFSegment(@"strokeStart", tail, tail + 1.0) forKey:@"dfStart"];
-    [layer addAnimation:DFSegment(@"strokeEnd", head, head + 1.0) forKey:@"dfEnd"];
+static void DFConfigureLayer(CAShapeLayer *layer, UIBezierPath *path, CGRect bounds) {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    layer.frame = bounds;
+    layer.path = path.CGPath;
+    layer.lineWidth = DFLineWidth;
+    layer.lineCap = kCALineCapRound;
+    layer.lineJoin = kCALineJoinRound;
+    layer.fillColor = [UIColor clearColor].CGColor;
+    [CATransaction commit];
 }
-
-static void DFRunnerLayout(UIView *view, DFBorderRunner *runner) {
+static void DFLayoutEffect(UIView *view, DFBorderEffect *effect) {
     CGRect b = view.bounds;
-    if (CGRectIsEmpty(b)) return;
-    CGFloat radius = MIN(10.0, MIN(b.size.width, b.size.height) / 2.0);
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(b, 0.5, 0.5)
-                                                   cornerRadius:radius];
-    for (CAShapeLayer *layer in @[runner.red, runner.white]) {
-        layer.frame = b;
-        layer.path = path.CGPath;
-        layer.lineWidth = DFRunnerWidth;
-        layer.fillColor = [UIColor clearColor].CGColor;
-        layer.lineCap = kCALineCapRound;
-    }
+    if (CGRectIsEmpty(b) || CGRectEqualToRect(effect->_lastBounds,b)) return;
+    effect->_lastBounds = b;
+    CGRect inset = CGRectInset(CGRectMake(0,0,b.size.width,b.size.height),0.5,0.5);
+    CGFloat radius = MIN(10.0,MIN(inset.size.width,inset.size.height)*0.5);
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:inset cornerRadius:radius];
+    for (CAShapeLayer *layer in effect->_layers) DFConfigureLayer(layer,path,b);
 }
-
-static void DFStartRunner(UIView *view) {
+static void DFStopEffect(UIView *view) {
     if (![view isKindOfClass:[UIView class]]) return;
-    DFBorderRunner *runner = objc_getAssociatedObject(view, &DFRunnerKey);
-    if (!runner) {
-        runner = [[[DFBorderRunner alloc] init] autorelease];
-        runner.red = [CAShapeLayer layer];
-        runner.white = [CAShapeLayer layer];
-        runner.red.strokeColor = [UIColor colorWithRed:1 green:0.09 blue:0.22 alpha:1].CGColor;
-        runner.white.strokeColor = [UIColor whiteColor].CGColor;
-        runner.red.actions = @{@"path":[NSNull null], @"bounds":[NSNull null], @"position":[NSNull null]};
-        runner.white.actions = runner.red.actions;
-        [view.layer addSublayer:runner.red];
-        [view.layer addSublayer:runner.white];
-        objc_setAssociatedObject(view, &DFRunnerKey, runner, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    DFBorderEffect *effect = objc_getAssociatedObject(view,&DFRunnerAssociation);
+    if (!effect) return;
+    for (CALayer *layer in effect->_layers) {
+        [layer removeAllAnimations];
+        [layer removeFromSuperlayer];
     }
-    DFRunnerLayout(view, runner);
-    [runner.red removeAllAnimations];
-    [runner.white removeAllAnimations];
-    DFAnimateSegment(runner.red, -0.18, 0.0);
-    DFAnimateSegment(runner.white, -0.055, 0.0);
+    objc_setAssociatedObject(view,&DFRunnerAssociation,nil,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
-static void DFStopRunner(UIView *view) {
-    DFBorderRunner *runner = objc_getAssociatedObject(view, &DFRunnerKey);
-    if (!runner) return;
-    [runner.red removeFromSuperlayer];
-    [runner.white removeFromSuperlayer];
-    objc_setAssociatedObject(view, &DFRunnerKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+static void DFStartEffect(UIView *view) {
+    if (![view isKindOfClass:[UIView class]] || CGRectIsEmpty(view.bounds)) return;
+    DFStopEffect(view);
+    DFBorderEffect *effect = [[[DFBorderEffect alloc] init] autorelease];
+    // Duplicate each segment shifted by -1 lap. This makes the wrap seam continuous.
+    NSArray *colors = @[
+        (id)[UIColor colorWithRed:1 green:0.09 blue:0.22 alpha:1].CGColor,
+        (id)[UIColor whiteColor].CGColor
+    ];
+    CGFloat lengths[2] = {0.18,0.055};
+    CFTimeInterval t = [view.layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    for (NSUInteger colorIndex=0; colorIndex<2; colorIndex++) {
+        for (NSUInteger copy=0; copy<2; copy++) {
+            CAShapeLayer *layer = [CAShapeLayer layer];
+            layer.strokeColor = (CGColorRef)[colors objectAtIndex:colorIndex];
+            layer.strokeStart = 0;
+            layer.strokeEnd = 0;
+            [view.layer addSublayer:layer];
+            [effect->_layers addObject:layer];
+            CGFloat offset = copy == 0 ? 0 : -1;
+            CGFloat len = lengths[colorIndex];
+            [layer addAnimation:DFRunnerAnimation(@"strokeStart",offset-len,offset+1-len,t) forKey:@"dfStart"];
+            [layer addAnimation:DFRunnerAnimation(@"strokeEnd",offset,offset+1,t) forKey:@"dfEnd"];
+        }
+    }
+    effect->_lastBounds = CGRectNull;
+    DFLayoutEffect(view,effect);
+    objc_setAssociatedObject(view,&DFRunnerAssociation,effect,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
-static void DFStartBorder(id self, SEL cmd, id view) {
-    ((void (*)(id,SEL,id))DFOriginalStart)(self,cmd,view);
-    if ([NSThread isMainThread]) DFStartRunner(view);
-    else dispatch_async(dispatch_get_main_queue(), ^{ DFStartRunner(view); });
+static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
+    ((void(*)(id,SEL,id))DFNativeBorderStart)(self,cmd,view);
+    if ([NSThread isMainThread]) DFStartEffect(view);
+    else dispatch_async(dispatch_get_main_queue(), ^{ DFStartEffect(view); });
 }
-static void DFStopBorder(id self, SEL cmd, id view) {
-    ((void (*)(id,SEL,id))DFOriginalStop)(self,cmd,view);
-    if ([NSThread isMainThread]) DFStopRunner(view);
-    else dispatch_async(dispatch_get_main_queue(), ^{ DFStopRunner(view); });
+static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
+    ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
+    if ([NSThread isMainThread]) DFStopEffect(view);
+    else dispatch_async(dispatch_get_main_queue(), ^{ DFStopEffect(view); });
 }
-
-// Call this from existing visual hook's DFInstall after Substrate is available.
-// Class name must be checked against original ObjC metadata before activation.
-void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *)) {
-    if (!controller || !hook || DFOriginalStart || DFOriginalStop) return;
-    SEL start = sel_registerName("startContainerBorderBlinking:");
-    SEL stop = sel_registerName("stopContainerBorderBlinking:");
-    if (!class_getInstanceMethod(controller,start) || !class_getInstanceMethod(controller,stop)) return;
-    hook(controller,start,(IMP)DFStartBorder,&DFOriginalStart);
-    hook(controller,stop,(IMP)DFStopBorder,&DFOriginalStop);
+static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *)) {
+    if (DFBorderHooksInstalled || !controller || !hook) return;
+    SEL start = @selector(startContainerBorderBlinking:);
+    SEL stop = @selector(stopContainerBorderBlinking:);
+    // Exact class CBBridgedSplitApp and selector signatures verified in original ObjC metadata.
+    Method m1 = class_getInstanceMethod(controller,start);
+    Method m2 = class_getInstanceMethod(controller,stop);
+    if (!m1 || !m2) return;
+    if (strcmp(method_getTypeEncoding(m1),"v24@0:8@16") ||
+        strcmp(method_getTypeEncoding(m2),"v24@0:8@16")) return;
+    hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
+    hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
+    DFBorderHooksInstalled = (DFNativeBorderStart != NULL && DFNativeBorderStop != NULL);
 }
