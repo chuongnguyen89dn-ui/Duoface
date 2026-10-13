@@ -1543,3 +1543,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Read DEB package structure, Airaw/AirawViet/ARWWidgetInfo dylibs, Host Menu preferences, hook disassembly and other dock-root references. Full results `docs/airaw_fullscreen_multicomponent_conclusion.md`, commit 79824ee71e9511c339e25dda136838f30c041eec (readback verified).
 - Confirmed dock hook at arm64 0x42f30, implementation 0x43a30 calls original pointer first then helper 0x4af40; Host Menu fullscreen is distinct from Split View. Cannot yet prove which selector hides sidebar and which resizes app; no v12 fullscreen build or device test.
 - Next: resolve selector reference 0x80000+0xc68 and helper 0x4af40, trace window resize behavior, then add isolated opt-in v12 fullscreen hook with safe rollback. Preserve existing package ID, usage-days and original functions.
+
+
+### 2026-10-13 — Fullscreen geometry priority
+- Examined actual Airaw.dylib strings for bounds, frames, host/logical sizes, scale and recreation. Found `hostBounds`, `updateFrameWithSettingsBlock:`, `appViewWithSize:`, `setFrame:`, `setBounds:`, `preferredChromeSizeForHostSize:`, and LayerHost log showing `host`, `logical`, `scale`, `recreate` on size change.
+- Verified evidence and limits in `docs/airaw_fullscreen_geometry_markers.md`, commit `618ed2df82a6cae17e8619bcfcbb925b1c5079ea` (readback verified). No actual before/after fullscreen pixel sizes found; these hosted-scene markers may be from another subsystem, not yet linked to fullscreen toggle.
+- Next: call graph from fullscreen toggle to dock visibility and window geometry; capture real before/after CarPlay window frames on iOS16 test device; only then patch v12. No v12 changes/build/test.
