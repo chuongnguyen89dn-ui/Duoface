@@ -1,0 +1,36 @@
+name: Package isolated native 1.0.4 voice research candidate (not for installation)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/duoface-104-voice-candidate.yml'
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package isolated native candidate and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python3 scripts/build_duoface104_native_candidate.py --base dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb --v12 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb --output out/com.duoface.voice104.test_1.0.4-5_iphoneos-arm64.deb --report out/report.json
+          test "$(dpkg-deb -f out/*.deb Package)" = "com.duoface.voice104.test"
+          python3 - <<'PY'
+          import json
+          r=json.load(open('out/report.json'))
+          assert r['visual_hook_targets_upstream_app'] is True
+          assert r['native_104_missing']==0
+          assert r['install_safe_verified'] is False
+          assert r['runtime_verified'] is False
+          PY
+          sha256sum out/*.deb > out/SHA256SUMS
+          printf '%s\n' 'RESEARCH ONLY: Do not install; native UI, bundle identity and CarPlay runtime remain unverified. Not published to Sileo.' > out/DO_NOT_INSTALL.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native104-voice-research-NOT-INSTALLABLE
+          path: out/
+          if-no-files-found: error
