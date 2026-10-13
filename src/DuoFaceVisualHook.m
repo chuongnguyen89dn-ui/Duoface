@@ -5,6 +5,8 @@
 #import <dlfcn.h>
 #import <mach-o/dyld.h>
 #import <dispatch/dispatch.h>
+#import <string.h>
+#include "DuoFaceBorderRunner.m"
 typedef void (*DFHookFn)(Class, SEL, IMP, IMP *);
 static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/";
 static char kOverlayKey;
@@ -107,7 +109,7 @@ static void DFSplashLayout(UIView *self, SEL cmd) {
     }
 }
 static void DFInstall(void) {
-    if (pillInstalled && dividerInstalled && splashInstalled) return;
+    if (pillInstalled && dividerInstalled && splashInstalled && DFBorderHooksInstalled) return;
     DFHookFn hook = (DFHookFn)dlsym(RTLD_DEFAULT, "MSHookMessageEx");
     static BOOL triedLibrary;
     if (!hook && !triedLibrary) {
@@ -120,6 +122,8 @@ static void DFInstall(void) {
     Class pill = objc_getClass("CBSlotPillView");
     Class divider = objc_getClass("CBDividerView");
     Class splash = objc_getClass("CBSplitSplashScreenView");
+    Class split = objc_getClass("CBBridgedSplitApp");
+    DFInstallBorderRunner(split,hook);
     if (pill && !pillInstalled) {
         hook(pill, @selector(layoutSubviews), (IMP)DFPillLayout, &oldPillLayout);
         pillInstalled=YES; NSLog(@"[DuoFaceVisual12] CBSlotPillView hook installed");
