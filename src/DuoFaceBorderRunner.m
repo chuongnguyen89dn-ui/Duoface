@@ -9,6 +9,8 @@
 static char DFRunnerAssociation;
 static IMP DFNativeBorderStart = NULL, DFNativeBorderStop = NULL;
 static BOOL DFBorderHooksInstalled = NO;
+static IMP DFNativeSplitLayout = NULL;
+static NSHashTable *DFActiveBorderViews = nil;
 static const CGFloat DFLineWidth = 1.0;
 static const CFTimeInterval DFLapSeconds = 1.0;
 
@@ -63,6 +65,7 @@ static void DFStopEffect(UIView *view) {
         [layer removeFromSuperlayer];
     }
     objc_setAssociatedObject(view,&DFRunnerAssociation,nil,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [DFActiveBorderViews removeObject:view];
 }
 static void DFStartEffect(UIView *view) {
     if (![view isKindOfClass:[UIView class]] || CGRectIsEmpty(view.bounds)) return;
@@ -92,16 +95,34 @@ static void DFStartEffect(UIView *view) {
     effect->_lastBounds = CGRectNull;
     DFLayoutEffect(view,effect);
     objc_setAssociatedObject(view,&DFRunnerAssociation,effect,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if (!DFActiveBorderViews) DFActiveBorderViews = [[NSHashTable weakObjectsHashTable] retain];
+    [DFActiveBorderViews addObject:view];
 }
 static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStart)(self,cmd,view);
-    if ([NSThread isMainThread]) DFStartEffect(view);
-    else dispatch_async(dispatch_get_main_queue(), ^{ DFStartEffect(view); });
+    void (^update)(void) = ^{
+        if ([view isKindOfClass:[UIView class]]) {
+            [view.layer removeAnimationForKey:@"borderPulse"];
+            view.layer.borderColor = [UIColor colorWithRed:0.72 green:0 blue:0.13 alpha:0.35].CGColor;
+            DFStartEffect(view);
+        }
+    };
+    if ([NSThread isMainThread]) update(); else dispatch_async(dispatch_get_main_queue(),update);
 }
 static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
-    if ([NSThread isMainThread]) DFStopEffect(view);
-    else dispatch_async(dispatch_get_main_queue(), ^{ DFStopEffect(view); });
+    void (^update)(void) = ^{
+        DFStopEffect(view);
+        if ([view isKindOfClass:[UIView class]]) view.layer.borderColor = [UIColor colorWithRed:0.72 green:0 blue:0.13 alpha:0.35].CGColor;
+    };
+    if ([NSThread isMainThread]) update(); else dispatch_async(dispatch_get_main_queue(),update);
+}
+static void DFSplitLayoutHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSplitLayout)(self,cmd);
+    for (UIView *view in [DFActiveBorderViews allObjects]) {
+        DFBorderEffect *effect = objc_getAssociatedObject(view,&DFRunnerAssociation);
+        if (effect) DFLayoutEffect(view,effect);
+    }
 }
 static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *)) {
     if (DFBorderHooksInstalled || !controller || !hook) return;
@@ -113,6 +134,8 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     if (!m1 || !m2) return;
     if (strcmp(method_getTypeEncoding(m1),"v24@0:8@16") ||
         strcmp(method_getTypeEncoding(m2),"v24@0:8@16")) return;
+    SEL layout = @selector(layoutSplitViews);
+    if (class_getInstanceMethod(controller,layout)) hook(controller,layout,(IMP)DFSplitLayoutHook,&DFNativeSplitLayout);
     hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
     hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
     DFBorderHooksInstalled = (DFNativeBorderStart != NULL && DFNativeBorderStop != NULL);
