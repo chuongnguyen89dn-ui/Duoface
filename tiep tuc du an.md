@@ -1359,3 +1359,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Phát hiện quan trọng: `build_duoface104_native_candidate.py` vẫn dùng 1.0.4 làm base và chỉ chép hook/assets v12; chưa chứng minh giữ được giao diện v12 trên thiết bị. `build_visual_release.py` là luồng đóng gói v12 cũ, không tích hợp mã giọng nói native 1.0.4. Không phát hành Sileo hay thay đổi DEB đang hoạt động.
 - Kiểm chứng: chỉ xác nhận file source được cập nhật; **chưa chạy script audit với hai DEB trong cùng runtime, chưa build, chưa kiểm thử CarPlay**, không khẳng định tương thích.
 - Bước tiếp theo: tải/kiểm tra hai DEB `dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb` và `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb`, chạy `python3 scripts/duoface_104_hook_contract.py --v12 <v12.deb> --upstream <104.deb> --output <report.json>` trong môi trường có `dpkg-deb`; kiểm tra filter/CFBundleIdentifier, các class/ivar; chỉ tạo DEB thử riêng nếu qua kiểm tra tĩnh và không làm thay đổi bản Sileo hiện hành.
+
+
+### 2026-10-13 — DEB binary access blocker verified
+- Confirmed `dpkg-deb` exists locally, but `git ls-remote https://github.com/chuongnguyen89dn-ui/Duoface.git HEAD` failed `Could not resolve host: github.com`.
+- GitHub `fetch_blob` for upstream 1.0.4 DEB SHA `617fe1e132f362784880899af80146afa85b3492` failed `UnicodeDecodeError: 'utf-8' codec can't decode byte 0x8b in position 133: invalid start byte` (binary decoding not supported by that action).
+- No local DuoFace or DuoNavi DEB present. Read-only binary audit not executed; no build or Sileo publish. Keep v12 untouched.
+- Resume by obtaining DEB bytes through binary-capable GitHub artifact/file transfer or enabled network, then execute `python3 scripts/duoface_104_hook_contract.py --v12 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb --upstream dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb --output duoface-104-hook-contract-report.json`.
