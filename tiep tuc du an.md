@@ -1426,3 +1426,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ### 2026-10-13 — v12 artwork transfer CI failure and correction
 - Run `38367974938` at commit `6259165` FAILED in final workflow assertion, not packaging: log generated candidate DEB SHA256 `0feb12f5084072995e321a510e8a28b414e2669015cddc6c2892f58b51d43718`, `v12_appicons_verified=18`, six assets, three deliberately removed original logo PNGs, `native_104_missing=3`. Old CI incorrectly asserted `native_104_missing==0`; `AssertionError` in inline Python, exit 1. No artifact upload for failed run.
 - Fixed `.github/workflows/duoface-104-voice-candidate.yml` at commit `2db09f80f1e85aeb15277903d0ee51e231c8634a`: expect exactly three deliberately removed logos, 18 icons, six visual assets; GitHub readback confirmed. Push should trigger a new Actions run. No Sileo deployment. NEXT inspect new run, report and artifact; native branding/runtime/license not yet verified.
+
+
+### 2026-10-13 — Visual-transfer candidate build SUCCESS
+- GitHub Actions run `38368823663` (`https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38368823663`), commit `2db09f80f1e85aeb15277903d0ee51e231c8634a`, completed SUCCESS; job `115200420604` SUCCESS. Artifact `11797871705` name `duoface-native104-voice-research-NOT-INSTALLABLE`, 2,605,016 bytes, not expired at check.
+- Candidate has 18 v12 icons and six DuoFace visual assets, removes three old DuoNavi PNGs, preserves native 1.0.4 Dashboard. Build success is static packaging only: no verified CarPlay visual/runtime behavior, installation safety or five-year activation. No Sileo publication. Next: audit installed native image loading and runtime hook; inspect duration/license UI before any production release.
