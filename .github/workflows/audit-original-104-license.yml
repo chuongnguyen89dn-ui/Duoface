@@ -30,6 +30,11 @@ jobs:
           cat out/exact-license-paths.txt
           echo '=== RELEVANT PATHS ==='
           cat out/relevant-paths.txt
+          echo '=== TRIAL STRINGS ORIGINAL BINARY ==='
+          find out/root -type f \( -name '*.dylib' -o -name 'DuoNaviUI' \) -print0 | while IFS= read -r -d '' binary; do
+            echo "FILE: $binary" | tee -a out/trial-strings.txt
+            strings -a -t x "$binary" | grep -Ei -C 3 'day free trial|day trial|days remaining|Trial Already Used|trialDays|trialDuration|trialPeriod|freeTrial|trial.*day|day.*trial|license.*seconds|leaseSeconds' | tee -a out/trial-strings.txt || true
+          done
           echo '=== SUMMARY ==='
           wc -l out/extracted-files.txt
       - uses: actions/upload-artifact@v4
@@ -43,3 +48,4 @@ jobs:
             out/relevant-paths.txt
             out/exact-license-paths.txt
             out/maintainer-scripts.txt
+            out/trial-strings.txt
