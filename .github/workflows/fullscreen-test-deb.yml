@@ -1,0 +1,56 @@
+name: DuoFace fullscreen test DEB
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - runtime/DuoFaceFullscreenBridge.xm
+      - Makefile.fullscreen
+      - .github/workflows/fullscreen-test-deb.yml
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Theos
+        run: |
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile bridge
+        run: |
+          cp Makefile.fullscreen Makefile
+          make clean package FINALPACKAGE=1
+          find .theos -type f -name 'DuoFaceFullscreenBridge.dylib' -print
+      - name: Package on original v12
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'
+          test -s "$BASE"
+          mkdir -p "$RUNNER_TEMP/duoface-test"
+          dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-test"
+          DYLIB="$(find .theos -type f -name 'DuoFaceFullscreenBridge.dylib' | head -n 1)"
+          test -s "$DYLIB"
+          DST="$RUNNER_TEMP/duoface-test/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          install -m 755 "$DYLIB" "$DST/DuoFaceFullscreenBridge.dylib"
+          python3 - <<'PY'
+          import plistlib,os
+          from pathlib import Path
+          dst=Path(os.environ['RUNNER_TEMP'])/'duoface-test/var/jb/Library/MobileSubstrate/DynamicLibraries'
+          p=dst/'DuoFaceDashboard.plist'
+          data=plistlib.loads(p.read_bytes())
+          (dst/'DuoFaceFullscreenBridge.plist').write_bytes(plistlib.dumps(data))
+          ctrl=Path(os.environ['RUNNER_TEMP'])/'duoface-test/DEBIAN/control'
+          s=ctrl.read_text()
+          import re
+          s=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12~fullscreen-test1', s)
+          ctrl.write_text(s)
+          PY
+          mkdir -p artifacts
+          dpkg-deb --build "$RUNNER_TEMP/duoface-test" artifacts/com.duonavi.app_1.0.3-12_fullscreen-test1_iphoneos-arm64.deb
+          dpkg-deb -c artifacts/*.deb | grep -E 'DuoFaceFullscreenBridge|DuoFaceDashboard.dylib'
+          shasum -a 256 artifacts/*.deb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-fullscreen-test1
+          path: artifacts/*.deb
