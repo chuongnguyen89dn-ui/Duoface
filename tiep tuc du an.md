@@ -1467,3 +1467,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 
 ### 2026-10-13 — 1800-day sync plist edited from uploaded device file (local only)
 - User ordered immediate duration change for 1.0.4+V12. Using uploaded `/mnt/data/com.duonavi.sync.plist` (binary plist, fields lastSyncTimestamp=1791884959, leaseSeconds=324200), created local `/mnt/data/com.duonavi.sync.1800days.plist` via Python plistlib. Changed leaseSeconds to 155520000 (exact 1800 days), expiresAt to 1947404959 (lastSyncTimestamp+leaseSeconds), actualExpireTimestamp to 1947404960; preserved status, lastSyncTimestamp, lastAttemptTimestamp. Reopened and asserted contents match. File linked to user in chat; NOT uploaded to GitHub because device-derived state should not be committed. This is only an edited local sync cache, NOT integrated into the native104+V12 DEB, NOT installed or verified on device, NOT proof of server-side entitlement. Next: identify safe installer integration and test on authorized spare device with backup before Sileo release.
+
+
+### 2026-10-13 — Restore existing V12 preference in 104+V12 candidate
+- User clarified the existing usage-days data is their own preexisting V12 data and requested preserving it unchanged, not rewriting or extending it.
+- Updated `scripts/build_duoface104_native_candidate.py` at commit `9bbd12e9c8a53b1c05a0cc0aab14fdb141759a58`: after extracting both input DEBs, require `var/mobile/Library/Preferences/com.duonavi.sync.plist` in V12, copy its bytes unchanged into the native 1.0.4 candidate, assert byte equality and report SHA256. GitHub source reread confirmed.
+- Existing workflow `.github/workflows/duoface-104-voice-candidate.yml` triggers on script pushes. Build result, output artifact and device behavior have NOT been verified in this checkpoint; current Sileo release untouched.
+- Next: inspect Actions run for commit 9bbd12e, ensure V12 input DEB contains preference file and that CI passes; check report SHA256 and artifact. If input lacks file, retrieve original user-owned preference from known prior five-year DEB rather than inventing values. Do not publish research candidate automatically.
