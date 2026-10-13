@@ -1633,3 +1633,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Committed `Makefile.fullscreen` at `e3644dc1d5cda9130433fe2748c3c1abf412e14a`, rootless Theos target compiling `runtime/DuoFaceFullscreenBridge.xm`.
 - Committed `.github/workflows/fullscreen-test-deb.yml` at `c1a2d8163a5ff319b93734802bbfc8b363122b56`, macOS-15 runner clones Theos+SDK, compiles fullscreen bridge, unpacks original `dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb`, inserts only `DuoFaceFullscreenBridge.dylib` and injection plist, changes version to `1.0.3-12~fullscreen-test1`, packages and uploads `duoface-fullscreen-test1` artifact. No Airaw binaries/files included. Original v12 and Sileo not overwritten.
 - **Status: CI workflow committed, not yet confirmed run/green/artifact**. Must inspect GitHub Actions run/log and fix any errors; only after artifact exists claim built. Existing bridge calls `%orig` in expand/restore so may also invoke original per-pane maximize; user tests actual behavior. Current user requested no waiting for device validation before producing DEB.
+
+
+### 2026-10-13 — Fullscreen CI run 38410449784 failure diagnosed and fixed
+- GitHub Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38410449784, job 115341079555, status failure at `Prepare Theos`, downstream compile/package skipped.
+- Exact error: `fatal: destination path '/Users/runner/work/_temp/theos/sdks' already exists and is not an empty directory.` exit 128. Cause: `git clone --recursive` of Theos already creates sdks dir; next unconditional clone to same path fails.
+- Updated `.github/workflows/fullscreen-test-deb.yml`: check whether any `*.sdk` is present; only remove/reclone sdks if none. Commit `77107e18da06adde4685602b30a0455f2bd18d6f`, GitHub readback verified.
+- A new push-triggered run should start because workflow path is included in push paths; **not yet verified build success or artifact**. Next: inspect new run, correct compile/package errors as needed; do not claim DEB available before artifact verified.
