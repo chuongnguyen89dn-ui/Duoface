@@ -35,7 +35,8 @@ def main():
   meta.write_bytes(plistlib.dumps(info))
   ctl=root/'DEBIAN/control';out=[]
   for line in ctl.read_text().splitlines():
-   if line.startswith('Package:'):line='Package: com.duoface.voice104.test'\n   elif line.startswith('Version:'):line='Version: 1.0.4-5~duofacetest'
+   if line.startswith('Package:'):line='Package: com.duoface.voice104.test'
+   elif line.startswith('Version:'):line='Version: 1.0.4-5~duofacetest'
    elif line.startswith('Name:'):line='Name: DuoFace'
    elif line.startswith('Icon:'):line='Icon: https://chuongnguyen89dn-ui.github.io/carplaydsp/duoface-icon.png'
    out.append(line)
