@@ -88,8 +88,8 @@ static void DFStartEffect(UIView *view) {
             [effect->_layers addObject:layer];
             CGFloat offset = copy == 0 ? 0 : -1;
             CGFloat len = lengths[colorIndex];
-            [layer addAnimation:DFRunnerAnimation(@"strokeStart",offset-len,offset+1-len,t) forKey:@"dfStart"];
-            [layer addAnimation:DFRunnerAnimation(@"strokeEnd",offset,offset+1,t) forKey:@"dfEnd"];
+            [layer addAnimation:DFRunnerAnimation(@"strokeStart",offset,offset+1,t) forKey:@"dfStart"];
+            [layer addAnimation:DFRunnerAnimation(@"strokeEnd",offset+len,offset+1+len,t) forKey:@"dfEnd"];
         }
     }
     effect->_lastBounds = CGRectNull;
