@@ -1565,3 +1565,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ### 2026-10-13 — Focused multi-file fullscreen scope audit
 - Inspected all Airaw preference plist files plus main Airaw dylib locally. `Root.plist` explicitly separates `Host Menu` fullscreen (`AirawChromeController`) from Split View Native/Standard/Shared. Main dylib includes host-fullscreen notification and state selectors, savedRect/insets and setFrame, but also *separate* nativeSplitFullscreen and postNativeSplitLayout: paths which must not be transplanted as whole-app fullscreen.
 - Evidence: `docs/airaw_fullscreen_scope_batch_20261013.md`. No actual fullscreen before/after geometry or verified receiver yet; no v12 patch/build/device test. Next trace host-fullscreen receiver and host window frame changes.
+
+
+### 2026-10-13 — Re-ran fullscreen selector scan and attempted v12 retrieval
+- Local command `python /mnt/data/airaw_audit/fullscreen_selector_refs_scan.py`: confirmed `toggleFullscreen` dispatch at arm64 0x254fc and 0x2b0bc. Script did not resolve callsites for `setFrame:`, `setBounds:`, `setNativeChromeHidden:` or `setDefaultAppChromeHidden:`. This scan's limited pattern matching is not proof that no callsites exist.
+- Attempted `curl -L --max-time 12 -o /mnt/data/duoface_v12.deb https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/main/dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb`; failed `curl: (6) Could not resolve host: raw.githubusercontent.com`. No v12 DEB available locally; no modification, build or device test.
+- Next: obtain v12 via GitHub CI or supported binary transport; trace fullscreen receiver and actual frame changes, create isolated test DEB, preserve working v12 and package/day state.
