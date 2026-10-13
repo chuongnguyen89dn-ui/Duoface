@@ -1488,3 +1488,12 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Commands: `dpkg-deb -R <uploaded.deb> <tmp>/pkg`; `mkdir -p <tmp>/pkg/var/mobile/Library/Preferences`; `cp /mnt/data/com.duonavi.sync.plist <tmp>/pkg/var/mobile/Library/Preferences/com.duonavi.sync.plist`; `chmod 644 ...`; `dpkg-deb --build --root-owner-group <tmp>/pkg /mnt/data/com.duoface.voice104.test_1.0.4-5_with_existing_sync_iphoneos-arm64.deb`; `dpkg-deb -c` and `dpkg-deb -x` + `cmp` PASS.
 - Output local file SHA256 `edec1a66b6b7cd83ce24e14144bec4481562930a2b73e6e579d5230fa8196258`; linked to user in chat. NOT uploaded to GitHub or Sileo. This is a research candidate, installation behavior/usage-day recognition unverified.
 - Next: obtain confirmed V12 original plist if provenance is important; optionally upload tested artifact to correct repo via supported binary upload mechanism; do not claim CI or device validation.
+
+
+### 2026-10-13 — Local DEB repack ID to original (verified)
+- User requested match original DuoNavi package ID for 104+V12 candidate.
+- Input local: `/mnt/data/com.duoface.voice104.test_1.0.4-5_with_existing_sync_iphoneos-arm64.deb` (not yet persisted to GitHub).
+- Executed locally: `dpkg-deb -R INPUT TMP/pkg`; changed only `DEBIAN/control` Package from `com.duoface.voice104.test` to `com.duonavi.app`; `dpkg-deb -b --root-owner-group TMP/pkg OUTPUT`.
+- Output local: `/mnt/data/com.duonavi.app_1.0.4-5_duoface_v12_with_sync_iphoneos-arm64.deb`; SHA256 `59432290f5c7eaca790787b54dc77a5700602beff21afd2cec9e62bca07248b3`.
+- Verified `dpkg-deb -f OUTPUT Package` = `com.duonavi.app`; `var/mobile/Library/Preferences/com.duonavi.sync.plist` present; original application payload retained. Device acceptance / install not tested. This is still a research candidate; no Sileo publish.
+- Output DEB exists only in conversation runtime, not committed to GitHub. Next: persist binary or reconstruction inputs to repository, test on device before distribution.
