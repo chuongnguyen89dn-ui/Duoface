@@ -35,12 +35,12 @@ def main():
   meta.write_bytes(plistlib.dumps(info))
   ctl=root/'DEBIAN/control';out=[]
   for line in ctl.read_text().splitlines():
-   if line.startswith('Version:'):line='Version: 1.0.4-5~duofacetest'
+   if line.startswith('Package:'):line='Package: com.duoface.voice104.test'\n   elif line.startswith('Version:'):line='Version: 1.0.4-5~duofacetest'
    elif line.startswith('Name:'):line='Name: DuoFace'
    elif line.startswith('Icon:'):line='Icon: https://chuongnguyen89dn-ui.github.io/carplaydsp/duoface-icon.png'
    out.append(line)
   ctl.write_text('\n'.join(out)+'\n')
-  now=files(root);assert set(orig)<=set(now)
+  assert 'Package: com.duoface.voice104.test' in ctl.read_text()\n  now=files(root);assert set(orig)<=set(now)
   dashboard='var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib'
   assert now[dashboard]==orig[dashboard] and b'CBVoiceSessionManager' in (root/dashboard).read_bytes()
   assert not (root/'var/jb/Applications/DuoFaceUI.app').exists()
@@ -48,6 +48,6 @@ def main():
   sums=root/'DEBIAN/md5sums'
   if sums.exists():sums.write_text('\n'.join(hashlib.md5(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root)) for f in sorted(root.rglob('*')) if f.is_file() and 'DEBIAN' not in f.relative_to(root).parts)+'\n')
   run('dpkg-deb','--build','--root-owner-group',str(root),str(a.output))
-  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
+  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
   a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
