@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-13T16:05:34.083588+00:00",
+  "checked_at_utc": "2026-10-13T21:20:10.648847+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 62,
+  "total_actions_runs": 63,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
     },
@@ -85,11 +85,21 @@
   },
   "latest_runs": [
     {
+      "id": 38469788238,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 6,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38469788238",
+      "created_at": "2026-10-13T21:19:59Z",
+      "head_sha": "c4b72e89df7bc367457d1e8b66877e5dbab826ca"
+    },
+    {
       "id": 38427605869,
       "name": "DuoFace Actions status snapshot",
       "run_number": 5,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38427605869",
       "created_at": "2026-10-13T16:05:23Z",
       "head_sha": "3b885c945d09072a6a107d2f46de8554d9434397"
@@ -373,16 +383,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38217845098",
       "created_at": "2026-10-12T07:27:30Z",
       "head_sha": "bb10d20c3c6c01d909eaf3d16bac3beb7c81ef9d"
-    },
-    {
-      "id": 38200927380,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38200927380",
-      "created_at": "2026-10-12T03:44:14Z",
-      "head_sha": "d2784ff02d7d3b43aff2c1a8fc5119bb87f94dbf"
     }
   ]
 }
