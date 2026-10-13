@@ -1555,3 +1555,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Ran Python pointer decoding against locally extracted user-provided Airaw.dylib, with arm64 fat slice offset 0x4000. Observed 0x80c68 -> `layoutSubviews`, 0x7e8a0 -> `isChk`, 0x7f998 -> `setIsChk:`; this static test PASS. Details and exact command `docs/fullscreen_selector_test_20261013.md` commit `ab8b0d9ba0a68894266bced60e937038b620355b` (readback verified).
 - Existing `runtime/VisualOnlyPrototype.xm` scans `expandTapped:` and `restoreTapped:` solely for icon overlays; these existing actions maximize one pane, not full app.
 - No new fullscreen geometry hook identified, no v12 DEB built, no CarPlay device runtime test. Next focus exclusively on `DBApplicationViewController` frame/bounds and native chrome fullscreen toggle call graph; test on iOS16 before release. Preserve v12 day/package state.
+
+
+### 2026-10-13 — Executed fullscreen toggle callsite scan
+- Ran local `python /mnt/data/airaw_audit/fullscreen_selector_refs_scan.py` against extracted Airaw 1.7.1k arm64; located `toggleFullscreen` selector dispatch via NSDistributedNotificationCenter at 0x254fc->0x25514 and 0x2b0bc->0x2b0d4. Accessor registration-only loads found for `setSavedRect:`, `setSavedEdgeInsets:`, `setIsFull:`; see `docs/airaw_fullscreen_toggle_callsites.md`.
+- No proven host resize path, no numeric before/after fullscreen geometry, no v12 code modification/build/device test. Next trace notification receiver and actual frame mutations; preserve v12 package/days.
