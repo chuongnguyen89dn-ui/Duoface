@@ -47,7 +47,7 @@ static void DFApplyFullscreen(BOOL enable) {
 static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 
 // Host controller is captured by its existing layout callback.
-// The existing split app controls and target-actions are NOT modified.
+// Bind the existing DuoFace fullscreen pill action to the host fullscreen bridge.
 %hook DBApplicationViewController
 - (void)viewDidLayoutSubviews {
     %orig;
@@ -65,3 +65,19 @@ static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 + (void)toggle { DFToggleFullscreen(); }
 + (void)restore { DFApplyFullscreen(NO); }
 @end
+
+// Bind to DuoFace v12's known expand/restore controls without altering their
+// button target-action lists. The fullscreen bridge runs after the original
+// action so the original split-pane behavior is preserved by default.
+// For whole-host fullscreen, the user can reverse this order if device tests
+// show the original per-pane animation conflicts with host layout.
+%hook CBSlotPillView
+- (void)expandTapped:(id)sender {
+    %orig;
+    dispatch_async(dispatch_get_main_queue(), ^{ DFApplyFullscreen(YES); });
+}
+- (void)restoreTapped:(id)sender {
+    %orig;
+    dispatch_async(dispatch_get_main_queue(), ^{ DFApplyFullscreen(NO); });
+}
+%end
