@@ -1537,3 +1537,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Verified user-supplied Airaw 1.7.1k DEB's Host Menu preference explicitly says fullscreen button and host menu, separate from Split View; confirmed relevant binary selectors, CarPlay dock/application window classes, fullscreen state constants, and dock class hook callsites.
 - Complete evidence/limitations saved at `docs/airaw_fullscreen_batch_audit_20261013.md`, commit `654b2709996e96ba7d389042f5319e29f2afdcc3`, readback verified.
 - No verified hide-sidebar + resize-host call sequence yet. No v12 code modified, build, or device test. Next: resolve selector and implementation call flow from Airaw Mach-O, then implement isolated opt-in fullscreen on v12 with rollback.
+
+
+### 2026-10-13 — Consolidated Airaw fullscreen multi-component analysis
+- Read DEB package structure, Airaw/AirawViet/ARWWidgetInfo dylibs, Host Menu preferences, hook disassembly and other dock-root references. Full results `docs/airaw_fullscreen_multicomponent_conclusion.md`, commit 79824ee71e9511c339e25dda136838f30c041eec (readback verified).
+- Confirmed dock hook at arm64 0x42f30, implementation 0x43a30 calls original pointer first then helper 0x4af40; Host Menu fullscreen is distinct from Split View. Cannot yet prove which selector hides sidebar and which resizes app; no v12 fullscreen build or device test.
+- Next: resolve selector reference 0x80000+0xc68 and helper 0x4af40, trace window resize behavior, then add isolated opt-in v12 fullscreen hook with safe rollback. Preserve existing package ID, usage-days and original functions.
