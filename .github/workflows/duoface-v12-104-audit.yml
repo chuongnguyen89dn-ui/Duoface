@@ -1,0 +1,25 @@
+name: Audit DuoFace v12 vs native 1.0.4 (no publish)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check package inputs and compare hook contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          dpkg-deb --version
+          test -s dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb
+          test -s dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb
+          python3 scripts/duoface_104_hook_contract.py --v12 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb --upstream dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb --output duoface-104-hook-contract-report.json
+          cat duoface-104-hook-contract-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-v12-104-hook-contract
+          path: duoface-104-hook-contract-report.json
+          if-no-files-found: warn
