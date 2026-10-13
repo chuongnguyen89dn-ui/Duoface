@@ -1048,3 +1048,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ## 2026-10-12 — verified native executable inventory
 - Verified `dist/visual-1.0.3-12/CONTENTS.txt`: iPhone executable `var/jb/Applications/DuoFaceUI.app/DuoFaceUI` (2456784 bytes) and CarPlay library `var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib` (7540464 bytes). These were dated 2026-10-11, unlike visual-only hook `DuoFaceVisualHook.dylib` (71632 bytes) dated 2026-10-12. No evidence the native license checks were removed.
 - Preserve v12 visuals and all known-good artifacts. No native source patch, DEB build, Sileo release or real-device test has been performed. Next: establish controlled native source or reimplementation, then test parity without modifying original working iPhone.
+
+
+## 2026-10-13 — red/white border runner source-only prototype
+- User approved implementing red-and-white perimeter-running effect matching supplied 8-second video; explicitly **do not build/export DEB yet**. Preserve original two adjacent panes, 1pt border, 10pt radius, native start/stop timing, divider, gestures, CarPlay functionality, and existing working v12 package.
+- Created `src/DuoFaceBorderRunner.m` at commit `3f0cccb5e7be4bdf6f7b015dcf65573a06f6d1c9` (GitHub read-back confirmed). It is an isolated source-only prototype: two CAShapeLayer runners, 1.0s repeat, red/white, original-method wrapper design. **Not wired into `src/DuoFaceVisualHook.m`, not built, not installed or tested.**
+- Important next work: verify actual ObjC controller class and target view argument in original dylib metadata, correct wraparound rendering and layer bounds updates, compile-test source, then integrate carefully with visual hook. Respect user's explicit no-DEB-build instruction until changed. No changes to original native dylib or licensing.
