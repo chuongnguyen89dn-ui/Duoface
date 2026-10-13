@@ -13,6 +13,18 @@ def main():
   hook='var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook'
   for ext in ['.dylib','.plist']:
    src=old/(hook+ext);dst=root/(hook+ext);dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
+  # Preserve v12 injection targets and include the upstream app bundle identifier.
+  # Without this, the visual hook is not injected into DuoNaviUI.app.
+  hook_plist=root/(hook+'.plist')
+  hook_config=plistlib.loads(hook_plist.read_bytes())
+  upstream_app_info=plistlib.loads((root/'var/jb/Applications/DuoNaviUI.app/Info.plist').read_bytes())
+  upstream_bundle=upstream_app_info['CFBundleIdentifier']
+  filt=hook_config.setdefault('Filter',{})
+  bundles=list(filt.get('Bundles',[]))
+  if upstream_bundle not in bundles: bundles.append(upstream_bundle)
+  filt['Bundles']=bundles
+  hook_plist.write_bytes(plistlib.dumps(hook_config))
+  assert upstream_bundle in plistlib.loads(hook_plist.read_bytes())['Filter']['Bundles']
   assets='var/jb/Library/Application Support/DuoFace';shutil.copytree(old/assets,root/assets,dirs_exist_ok=True)
   app=root/'var/jb/Applications/DuoNaviUI.app';oldapp=old/'var/jb/Applications/DuoFaceUI.app'
   for icon in app.glob('AppIcon*.png'):
@@ -36,6 +48,6 @@ def main():
   sums=root/'DEBIAN/md5sums'
   if sums.exists():sums.write_text('\n'.join(hashlib.md5(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root)) for f in sorted(root.rglob('*')) if f.is_file() and 'DEBIAN' not in f.relative_to(root).parts)+'\n')
   run('dpkg-deb','--build','--root-owner-group',str(root),str(a.output))
-  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
+  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
   a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
