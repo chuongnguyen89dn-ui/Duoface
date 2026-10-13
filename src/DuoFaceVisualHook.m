@@ -50,7 +50,15 @@ static BOOL DFApplyButton(id value, NSString *asset, BOOL round) {
     overlay.image = image;
     overlay.clipsToBounds = round;
     overlay.layer.cornerRadius = round ? MIN(button.bounds.size.width, button.bounds.size.height)/2.0 : 0;
+    // Keep the working DuoFace overlay, but suppress only native button artwork.
+    // Do not remove UIButton, its handlers, gesture recognizers or unrelated layers.
     button.imageView.hidden = YES;
+    for (NSUInteger state = 0; state < 16; state++) {
+        UIControlState controlState = (UIControlState)state;
+        if ([button backgroundImageForState:controlState])
+            [button setBackgroundImage:nil forState:controlState];
+    }
+    button.backgroundColor = [UIColor clearColor];
     [button bringSubviewToFront:overlay];
     return YES;
 }
