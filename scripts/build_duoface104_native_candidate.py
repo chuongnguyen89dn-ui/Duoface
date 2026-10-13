@@ -27,9 +27,20 @@ def main():
   assert upstream_bundle in plistlib.loads(hook_plist.read_bytes())['Filter']['Bundles']
   assets='var/jb/Library/Application Support/DuoFace';shutil.copytree(old/assets,root/assets,dirs_exist_ok=True)
   app=root/'var/jb/Applications/DuoNaviUI.app';oldapp=old/'var/jb/Applications/DuoFaceUI.app'
-  for icon in app.glob('AppIcon*.png'):
-   src=oldapp/icon.name
-   if src.is_file():shutil.copy2(src,icon)
+  icon_names=sorted(p.name for p in oldapp.glob('AppIcon*.png'))
+  assert len(icon_names)==18, f'Expected 18 v12 AppIcons, found {len(icon_names)}'
+  assert sorted(p.name for p in app.glob('AppIcon*.png'))==icon_names, 'Upstream AppIcon inventory differs'
+  for name in icon_names:
+   shutil.copy2(oldapp/name,app/name)
+   assert hashlib.sha256((app/name).read_bytes()).digest()==hashlib.sha256((oldapp/name).read_bytes()).digest()
+  required=['duoface-icon.png','duoface-logo.png','duoface-logo-vert.png','VisualAssets/duoface-picker.png','VisualAssets/duoface-fullscreen.png','VisualAssets/duoface-swap.png']
+  assert all((root/assets/name).is_file() for name in required), 'Missing v12 visual asset'
+  # Keep the native 1.0.4 executable and Dashboard; old brand PNGs are superseded by the v12 hook.
+  old_brand=root/'var/jb/Library/Application Support/DuoNavi'
+  removed_original_brand=[]
+  for name in ('duonavi-icon.png','duonavi-logo.png','duonavi-logo-vert.png'):
+   candidate=old_brand/name
+   if candidate.is_file():candidate.unlink();removed_original_brand.append(str(candidate.relative_to(root)))
   meta=app/'Info.plist';info=plistlib.loads(meta.read_bytes())
   for key,val in [('CFBundleDisplayName','DuoFace'),('CFBundleName','DuoFace'),('CFBundleShortVersionString','1.0.4'),('CFBundleVersion','1.0.4')]:info[key]=val
   meta.write_bytes(plistlib.dumps(info))
@@ -42,7 +53,7 @@ def main():
    out.append(line)
   ctl.write_text('\n'.join(out)+'\n')
   assert 'Package: com.duoface.voice104.test' in ctl.read_text()
-  now=files(root);assert set(orig)<=set(now)
+  now=files(root);assert set(orig)-set(now)==set(removed_original_brand), 'Unexpected original file removal'
   dashboard='var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib'
   assert now[dashboard]==orig[dashboard] and b'CBVoiceSessionManager' in (root/dashboard).read_bytes()
   assert not (root/'var/jb/Applications/DuoFaceUI.app').exists()
@@ -50,6 +61,6 @@ def main():
   sums=root/'DEBIAN/md5sums'
   if sums.exists():sums.write_text('\n'.join(hashlib.md5(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root)) for f in sorted(root.rglob('*')) if f.is_file() and 'DEBIAN' not in f.relative_to(root).parts)+'\n')
   run('dpkg-deb','--build','--root-owner-group',str(root),str(a.output))
-  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
+  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'v12_appicons_verified':len(icon_names),'v12_visual_assets_verified':required,'removed_original_branding':removed_original_brand,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
   a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
