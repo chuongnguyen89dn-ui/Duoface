@@ -33,6 +33,19 @@ def main():
   for name in icon_names:
    shutil.copy2(oldapp/name,app/name)
    assert hashlib.sha256((app/name).read_bytes()).digest()==hashlib.sha256((oldapp/name).read_bytes()).digest()
+  # Carry every standalone v12 UI resource, including any startup/splash resource,
+  # without replacing native 1.0.4 executables or Info.plist.
+  visual_ext={'.png','.jpg','.jpeg','.webp','.heic','.pdf','.car','.nib','.storyboard','.strings'}
+  v12_app_visuals=[]
+  for src in sorted(oldapp.rglob('*')):
+   if not src.is_file() or src.suffix.lower() not in visual_ext:continue
+   rel=src.relative_to(oldapp)
+   dest=app/rel
+   dest.parent.mkdir(parents=True,exist_ok=True)
+   shutil.copy2(src,dest)
+   assert hashlib.sha256(src.read_bytes()).digest()==hashlib.sha256(dest.read_bytes()).digest()
+   v12_app_visuals.append(str(rel))
+  assert len(v12_app_visuals)>=18, 'v12 application UI resource transfer incomplete'
   required=['duoface-icon.png','duoface-logo.png','duoface-logo-vert.png','VisualAssets/duoface-picker.png','VisualAssets/duoface-fullscreen.png','VisualAssets/duoface-swap.png']
   assert all((root/assets/name).is_file() for name in required), 'Missing v12 visual asset'
   # Keep the native 1.0.4 executable and Dashboard; old brand PNGs are superseded by the v12 hook.
@@ -61,6 +74,6 @@ def main():
   sums=root/'DEBIAN/md5sums'
   if sums.exists():sums.write_text('\n'.join(hashlib.md5(f.read_bytes()).hexdigest()+'  '+str(f.relative_to(root)) for f in sorted(root.rglob('*')) if f.is_file() and 'DEBIAN' not in f.relative_to(root).parts)+'\n')
   run('dpkg-deb','--build','--root-owner-group',str(root),str(a.output))
-  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'v12_appicons_verified':len(icon_names),'v12_visual_assets_verified':required,'removed_original_branding':removed_original_brand,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
+  report={'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'native_104_files':len(orig),'native_104_missing':len(set(orig)-set(now)),'added_files':sorted(set(now)-set(orig)),'visual_hook_targets_upstream_app':upstream_bundle in bundles,'package_identity':'com.duoface.voice104.test','install_safe_verified':False,'v12_appicons_verified':len(icon_names),'v12_app_visual_resources_copied':v12_app_visuals,'startup_runtime_verified':False,'v12_visual_assets_verified':required,'removed_original_branding':removed_original_brand,'native_branding_complete':False,'runtime_verified':False,'sileo_published':False}
   a.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
