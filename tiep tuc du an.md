@@ -1612,3 +1612,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - The earlier `com.duonavi.app_1.0.3-12_airawtest1_iphoneos-arm64.deb` merged all 83 Airaw files and **does not satisfy this requirement**; DO NOT recommend installing, deploying to Sileo, or treating it as the target build.
 - Confirmed current container holds original user-uploaded v12 DEB and Airaw DEB; original v12 contains DuoFaceDashboard.dylib and DuoFaceVisualHook.dylib. No verified minimal fullscreen hook integrated or tested yet.
 - Next action: isolate host scene/chrome transitions from Airaw callbacks and implement a dedicated fullscreen-only bridge/hook for v12; compile an isolated DEB, static-validate and only then test on CarPlay. Do not copy whole Airaw dylib without proving irrelevant code is excluded.
+
+
+### 2026-10-13 — User authorized code-only connection; device test belongs to user
+- User explicitly directed to wire known DuoFace v12 expand/restore actions without waiting for device test. Updated `runtime/DuoFaceFullscreenBridge.xm` commit `c7fdb9f455964cb7cbafb603885a9b5870940292`, readback verified.
+- Added Logos hooks to `CBSlotPillView -expandTapped:` and `-restoreTapped:`; each calls `%orig` then schedules `DFApplyFullscreen(YES/NO)` on main queue. Uses existing host bridge, no Airaw payload. **Important caveat:** `%orig` retains original per-pane maximize behavior; user requires whole two-pane fullscreen, so this may conflict and must be checked by user. Also actual owning class of actions is unverified.
+- Status: source connected and committed only; **not compiled, packaged, installed, or device tested**. Next inspect actual v12 class ownership, remove conflicting per-pane behavior if verified, compile isolated DEB while preserving original v12 and publish only as a test artifact.
