@@ -17,6 +17,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python3 -m py_compile scripts/build_duoface104_native_candidate.py
           mkdir -p out
           python3 scripts/build_duoface104_native_candidate.py --base dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb --v12 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb --output out/com.duoface.voice104.test_1.0.4-5_iphoneos-arm64.deb --report out/report.json
           test "$(dpkg-deb -f out/*.deb Package)" = "com.duoface.voice104.test"
