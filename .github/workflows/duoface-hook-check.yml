@@ -21,7 +21,7 @@ jobs:
             -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceVisualHook.m
           xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
             -fno-objc-arc -fblocks -dynamiclib \
-            -framework UIKit -framework Foundation -framework QuartzCore \
+            -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
             -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib \
             -o dist/current-hook/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
           ldid -S dist/current-hook/DuoFaceVisualHook.dylib
