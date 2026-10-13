@@ -1511,3 +1511,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - True fullscreen means the ENTIRE two-pane DuoFace UI fills the CarPlay display and the SYSTEM sidebar disappears; NOT maximizing one pane. Toggle back must restore sidebar and exact prior split layout. Feature default OFF and isolated/rollback-capable.
 - Verified repository evidence: v12 DEB exists at the above path; `scripts/build_visual_release.py` repackages an earlier baseline and does NOT implement system sidebar fullscreen; `runtime/VisualOnlyPrototype.xm` is experimental visual-only and explicitly does not modify frames/actions. Therefore no fullscreen build/test can be claimed.
 - Next: download/extract the exact v12 DEB; record original package file list and SHA256, inspect Dashboard and hook symbols and CarPlay sidebar owner on target iOS; design isolated optional toggle with fail-safe; create a NEW test DEB only after source-level compatibility and rollback checks, never overwrite v12 or publish to Sileo automatically.
+
+
+### 2026-10-13 — V12 fullscreen baseline audit checkpoint
+- Confirmed v12 artifact at `dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb`; INFO.txt says package com.duonavi.app, version 1.0.3-12~visualtest; Actions run 38364094806.
+- Added read-only inspection script `scripts/audit_v12_fullscreen_baseline.py` in commit 7e57d9e34f0daee64c1082c445611ccd62597f42; GitHub readback verified.
+- Command from repo root: `python3 scripts/audit_v12_fullscreen_baseline.py dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb --out audit/v12_fullscreen_baseline.json`.
+- Script execution blocked: shell cannot access github.com; GitHub connector cannot mount binary into shell. No true fullscreen implementation, test DEB, Sileo release, or device verification yet.
+- Next: run audit via GitHub Actions on repository v12, then inspect CarPlay system sidebar classes and implement an isolated optional fullscreen hook preserving original v12 and restore behavior.
