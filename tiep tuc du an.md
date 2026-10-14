@@ -1710,3 +1710,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User requests research into integrating fullscreen into existing round DuoFace split-screen/logo control rather than a new top-right floating button. Historical project discussions distinguish round white/black two-face SWAP button, picker, and four-corner fullscreen icon; earlier constraint was to preserve existing callbacks, touch targets and split behavior.
 - Recommended design pending actual binary/UI validation: group fullscreen control alongside the existing round control with a separate hit target, retaining swap's existing tap behavior; same fullscreen hit target should restore. Do not repurpose swap tap or overlap its hit area.
 - Current committed bridge `4505266` instead creates a separate overlay button at x=max(8,width-60), y=60; no new code changes this turn. Next inspect actual v12 round control container and layout/hit-testing before implementing grouped placement; verify on device. No Sileo release.
+
+
+### 2026-10-14 — Visible fullscreen toggle test build green (run 38501704384)
+- Verified https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38501704384, job `115649925340`, all steps SUCCESS; head `4505266f4b3d09e57a7c6d80ea6ed59ab76e4f44`.
+- Package `com.duonavi.app_1.0.3-12_fullscreen-test1_iphoneos-arm64.deb`, SHA256 `d67f2bda5909e812c6589b642b0ad5b4ce9414a27210ccade06e334342e95ab6` (build log). Existing `DuoFaceDashboard.dylib` 7,540,464 bytes, new `DuoFaceFullscreenBridge.dylib` 69,120 bytes and bridge plist 1,213 bytes listed in DEB.
+- Uploaded artifact `duoface-fullscreen-test1` ID `11866376350`, ZIP size 2,036,342 bytes, ZIP SHA256 `1b2a3833e2f6b0489e58d7c92abdbd50b44ffe1a3e3a7b261815cb93b7187fc7`, download https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38501704384/artifacts/11866376350.
+- Next: user installs test DEB and confirms whether button appears, can toggle fullscreen/restore, and original split/swap works. Fullscreen behavior not verified on device; button is separate top-right overlay, NOT yet integrated into existing round logo cluster. Do not publish to Sileo.
