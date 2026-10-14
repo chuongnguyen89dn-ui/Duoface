@@ -72,4 +72,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dist/candidates/fullscreen-adapter1/
           git commit -m "artifact: retain fullscreen adapter candidate DEB [skip ci]"
-          git push origin HEAD:main
+          # A checkpoint can advance main while the DEB is compiling.
+          # Keep the artifact commit and replay it onto the latest branch.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Could not persist candidate after three push attempts" >&2
+          exit 1
