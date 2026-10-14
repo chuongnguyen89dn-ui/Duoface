@@ -6,6 +6,7 @@
 #import <dispatch/dispatch.h>
 #import <math.h>
 #import <string.h>
+#import <stdlib.h>
 
 static char DFRunnerAssociation;
 static IMP DFNativeBorderStart = NULL, DFNativeBorderStop = NULL;
@@ -210,12 +211,21 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
     Method focus=class_getInstanceMethod(controller,@selector(focusSlot:animated:));
     Method restore=class_getInstanceMethod(controller,@selector(restoreSplitAnimated:));
-    // Exact runtime signatures matter: focusSlot:animated: = integer, BOOL;
-    // restoreSplitAnimated: = BOOL. Skip hooks rather than guessing on mismatch.
-    const char *focusSig=focus?method_getTypeEncoding(focus):NULL;
-    const char *restoreSig=restore?method_getTypeEncoding(restore):NULL;
-    if (focus && restore && focusSig && restoreSig &&
-        strstr(focusSig,"qB") && strstr(restoreSig,":B")) {
+    // Check argument types by index; ObjC encodings contain stack offsets between them.
+    BOOL safe=NO;
+    if (focus && restore && method_getNumberOfArguments(focus)==4 &&
+        method_getNumberOfArguments(restore)==3) {
+        char *slotType=method_copyArgumentType(focus,2);
+        char *focusAnimated=method_copyArgumentType(focus,3);
+        char *restoreAnimated=method_copyArgumentType(restore,2);
+        safe=slotType && !strcmp(slotType,@encode(NSInteger)) &&
+            focusAnimated && (!strcmp(focusAnimated,"B") || !strcmp(focusAnimated,"c")) &&
+            restoreAnimated && (!strcmp(restoreAnimated,"B") || !strcmp(restoreAnimated,"c"));
+        if (slotType) free(slotType);
+        if (focusAnimated) free(focusAnimated);
+        if (restoreAnimated) free(restoreAnimated);
+    }
+    if (safe) {
         hook(controller,@selector(focusSlot:animated:),(IMP)DFFocusSlotHook,&DFNativeFocusSlot);
         hook(controller,@selector(restoreSplitAnimated:),(IMP)DFRestoreSplitHook,&DFNativeRestoreSplit);
     }
