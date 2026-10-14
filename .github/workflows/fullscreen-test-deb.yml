@@ -5,6 +5,7 @@ on:
     paths:
       - runtime/DuoFaceFullscreenBridge.xm
       - Makefile.fullscreen
+      - DuoFaceFullscreenBridge.plist
       - .github/workflows/fullscreen-test-deb.yml
 jobs:
   build:
