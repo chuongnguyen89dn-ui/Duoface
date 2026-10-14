@@ -260,7 +260,7 @@ DISASSEMBLY 0x14c94-0x15068
 00014f50: mov      x0, x23                                       
 00014f54: bl       #0x49c00                                      fileExistsAtPath:
 00014f58: tbnz     w0, #0, #0x14fa0                              
-00014f5c: ldr      x0, [x24, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+00014f5c: ldr      x0, [x24, #0x168]                             
 00014f60: bl       #0x493e0                                      defaultManager
 00014f64: mov      x23, x0                                       
 00014f68: adrp     x0, #0x6f000                                  
@@ -309,7 +309,7 @@ DISASSEMBLY 0x14c94-0x15068
 00015014: ldp      x24, x23, [sp, #0x10]                         
 00015018: ldp      x28, x27, [sp], #0x50                         
 0001501c: ret                                                    
-00015020: ldr      x0, [x24, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+00015020: ldr      x0, [x24, #0x168]                             
 00015024: bl       #0x493e0                                      defaultManager
 00015028: mov      x23, x0                                       
 0001502c: adrp     x0, #0x6f000                                  
@@ -391,7 +391,7 @@ DISASSEMBLY 0xcb40-0xcd54
 0000cba4: mov      x0, x20                                       
 0000cba8: bl       #0x49c00                                      fileExistsAtPath:
 0000cbac: tbnz     w0, #0, #0xcc38                               
-0000cbb0: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000cbb0: ldr      x0, [x21, #0x168]                             
 0000cbb4: bl       #0x493e0                                      defaultManager
 0000cbb8: mov      x20, x0                                       
 0000cbbc: adrp     x0, #0x6f000                                  
@@ -408,7 +408,7 @@ DISASSEMBLY 0xcb40-0xcd54
 0000cbe8: mov      x0, x20                                       
 0000cbec: bl       #0x49c00                                      fileExistsAtPath:
 0000cbf0: tbnz     w0, #0, #0xcc38                               
-0000cbf4: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000cbf4: ldr      x0, [x21, #0x168]                             
 0000cbf8: bl       #0x493e0                                      defaultManager
 0000cbfc: mov      x20, x0                                       
 0000cc00: adrp     x0, #0x6f000                                  
@@ -526,7 +526,7 @@ DISASSEMBLY 0xdcf8-0xdf0c
 0000dd5c: mov      x0, x20                                       
 0000dd60: bl       #0x49c00                                      fileExistsAtPath:
 0000dd64: tbnz     w0, #0, #0xddf0                               
-0000dd68: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000dd68: ldr      x0, [x21, #0x168]                             
 0000dd6c: bl       #0x493e0                                      defaultManager
 0000dd70: mov      x20, x0                                       
 0000dd74: adrp     x0, #0x6f000                                  
@@ -543,7 +543,7 @@ DISASSEMBLY 0xdcf8-0xdf0c
 0000dda0: mov      x0, x20                                       
 0000dda4: bl       #0x49c00                                      fileExistsAtPath:
 0000dda8: tbnz     w0, #0, #0xddf0                               
-0000ddac: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000ddac: ldr      x0, [x21, #0x168]                             
 0000ddb0: bl       #0x493e0                                      defaultManager
 0000ddb4: mov      x20, x0                                       
 0000ddb8: adrp     x0, #0x6f000                                  
@@ -726,7 +726,7 @@ DISASSEMBLY 0x19c7c-0x19f44
 00019de4: bl       #0x49c00                                      fileExistsAtPath:
 00019de8: mov      x20, x19                                      
 00019dec: tbnz     w0, #0, #0x19e80                              
-00019df0: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+00019df0: ldr      x0, [x21, #0x168]                             
 00019df4: bl       #0x493e0                                      defaultManager
 00019df8: mov      x20, x0                                       
 00019dfc: adrp     x0, #0x6f000                                  
@@ -744,7 +744,7 @@ DISASSEMBLY 0x19c7c-0x19f44
 00019e2c: bl       #0x49c00                                      fileExistsAtPath:
 00019e30: mov      x20, x19                                      
 00019e34: tbnz     w0, #0, #0x19e80                              
-00019e38: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+00019e38: ldr      x0, [x21, #0x168]                             
 00019e3c: bl       #0x493e0                                      defaultManager
 00019e40: mov      x20, x0                                       
 00019e44: adrp     x0, #0x6f000                                  

@@ -1,0 +1,659 @@
+BINARY SHA256 46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d
+ARM64 slice 0x4000; source-bound rebases only; no runtime claims
+CHECKPOINT POINTER 0x800ca0 OUTSIDE ARM64 VM DATA; likely checkpoint typo
+CHECKPOINT POINTER 0x80ca0 SEL carplayFullscreen
+CHECKPOINT POINTER 0x6f578 NSString 'arrow.up.left.and.arrow.down.right'
+
+CLASS METHOD OWNERS
+-[ARWCarPlayManager requestFullscreenToggle] IMP 0x19c7c entry 0x53034
+-[ARWCarPlayManager setFullscreenButtonHidden:] IMP 0x19cb0 entry 0x53040
+-[ARWCarPlayManager setDefaultAppChromeHidden:] IMP 0x19d78 entry 0x5304c
+-[ARWCarPlayManager setNativeChromeHidden:] IMP 0x19f44 entry 0x53058
+-[ARWCarPlayManager requestNativeSplitWithSecondary:nativeIdentifier:nativeFullscreen:] IMP 0x1a0e4 entry 0x53070
+-[ARWCarPlayManager postNativeSplitLayout:nativeOnLeft:vertical:fullscreen:baseRect:] IMP 0x1a3ac entry 0x53088
+-[ARWCarPlayManager postNativeSplitFullscreen:] IMP 0x1a6bc entry 0x530a0
+-[ARWCarPlayWindowManager launchNativeSplitWithSecondaryIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x1c1fc entry 0x53284
+-[ARWAppWindow setFullScreenBtn] IMP 0x21340 entry 0x52e50
+-[ARWAppWindow hostMenu] IMP 0x21aec entry 0x52ebc
+-[ARWAppWindow setHostMenu:] IMP 0x21af4 entry 0x52ec8
+-[ARWAppWindow isFullscreen] IMP 0x21b5c entry 0x52f64
+-[ARWAppWindow setIsFullscreen:] IMP 0x21b64 entry 0x52f70
+-[ARWHostedSceneWindow setFullScreenBtn] IMP 0x23378 entry 0x541a8
+-[ARWHostedSceneWindow hostMenu] IMP 0x24310 entry 0x54280
+-[ARWHostedSceneWindow setHostMenu:] IMP 0x24318 entry 0x5428c
+-[ARWHostedSceneWindow isFullscreen] IMP 0x24340 entry 0x542c8
+-[ARWHostedSceneWindow setIsFullscreen:] IMP 0x24348 entry 0x542d4
+-[ARWNativeSplitWindow initWithSecondaryBundleIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x25288 entry 0x544d0
+-[ARWNativeSplitWindow toggleFullscreen] IMP 0x27e94 entry 0x545b4
+-[ARWSplitWindow toggleFullscreen] IMP 0x2e808 entry 0x54f80
+
+DISASSEMBLY 0xab80-0xacbc
+0000ab80: adrp     x8, #0x81000                                  
+0000ab84: ldr      x0, [x8, #0x1c0]                              [0x811c0] CLASS _OBJC_CLASS_$_NSBundle
+0000ab88: bl       #0x4c2e0                                      mainBundle
+0000ab8c: bl       #0x48720                                      bundleIdentifier
+0000ab90: adrp     x2, #0x6f000                                  
+0000ab94: add      x2, x2, #0x298                                NSString 'com.apple.CarPlayApp'
+0000ab98: bl       #0x4b040                                      isEqualToString:
+0000ab9c: cbz      w0, #0xc264                                   
+0000aba0: adrp     x8, #0x81000                                  
+0000aba4: ldr      x0, [x8, #0x1d8]                              [0x811d8] CLASS ARWUtils
+0000aba8: bl       #0x513c0                                      sharedInstance
+0000abac: bl       #0x4b780                                      kEnabled
+0000abb0: cbz      w0, #0xc264                                   
+0000abb4: mov      w0, #2                                        
+0000abb8: mov      w1, #0x10                                     
+0000abbc: mov      w2, #0                                        
+0000abc0: mov      w3, #0                                        
+0000abc4: bl       #0x462ac                                      
+0000abc8: cbz      w0, #0xb714                                   
+0000abcc: adrp     x0, #0x57000                                  
+0000abd0: add      x0, x0, #0x9f3                                'DBStatusBarWindow'
+0000abd4: bl       #0x46e18                                      
+0000abd8: mov      x19, x0                                       
+0000abdc: adrp     x22, #0x57000                                 
+0000abe0: add      x22, x22, #0xa05                              'T'
+0000abe4: adrp     x25, #0x57000                                 
+0000abe8: add      x25, x25, #0x9a5                              'B'
+0000abec: str      x22, [sp, #0x438]                             
+0000abf0: str      x25, [sp, #0x440]                             
+0000abf4: adrp     x23, #0x57000                                 
+0000abf8: add      x23, x23, #0xa07                              'N'
+0000abfc: adrp     x24, #0x56000                                 
+0000ac00: add      x24, x24, #0x799                              ''
+0000ac04: str      x23, [sp, #0x448]                             
+0000ac08: str      x24, [sp, #0x450]                             
+0000ac0c: adrp     x1, #0x57000                                  
+0000ac10: add      x1, x1, #0xa09                                'isChk'
+0000ac14: add      x2, sp, #0x438                                
+0000ac18: mov      w3, #2                                        
+0000ac1c: bl       #0x46c50                                      
+0000ac20: str      x25, [sp]                                     
+0000ac24: adrp     x20, #0x57000                                 
+0000ac28: add      x20, x20, #0xa0f                              '%s@:'
+0000ac2c: add      x0, sp, #0x30                                 
+0000ac30: mov      w1, #0x400                                    
+0000ac34: mov      x2, x20                                       
+0000ac38: bl       #0x46f14                                      
+0000ac3c: adrp     x8, #0x7e000                                  
+0000ac40: ldr      x1, [x8, #0x8a0]                              [0x7e8a0] SEL isChk
+0000ac44: adrp     x2, #0x9000                                   
+0000ac48: add      x2, x2, #0xae8                                
+0000ac4c: add      x3, sp, #0x30                                 
+0000ac50: mov      x0, x19                                       
+0000ac54: bl       #0x46c44                                      
+0000ac58: str      x25, [sp]                                     
+0000ac5c: adrp     x21, #0x57000                                 
+0000ac60: add      x21, x21, #0xa14                              'v@:%s'
+0000ac64: add      x0, sp, #0x30                                 
+0000ac68: mov      w1, #0x400                                    
+0000ac6c: mov      x2, x21                                       
+0000ac70: bl       #0x46f14                                      
+0000ac74: adrp     x8, #0x7f000                                  
+0000ac78: ldr      x1, [x8, #0x998]                              [0x7f998] SEL setIsChk:
+0000ac7c: adrp     x2, #0x9000                                   
+0000ac80: add      x2, x2, #0xb18                                
+0000ac84: add      x3, sp, #0x30                                 
+0000ac88: mov      x0, x19                                       
+0000ac8c: bl       #0x46c44                                      
+0000ac90: adrp     x8, #0x80000                                  
+0000ac94: ldr      x1, [x8, #0xc68]                              [0x80c68] SEL layoutSubviews
+0000ac98: adrp     x2, #0xc000                                   
+0000ac9c: add      x2, x2, #0x2a0                                
+0000aca0: adrp     x3, #0x83000                                  
+0000aca4: add      x3, x3, #0x180                                
+0000aca8: mov      x0, x19                                       
+0000acac: bl       #0x46b9c                                      
+0000acb0: adrp     x0, #0x57000                                  
+0000acb4: add      x0, x0, #0xa1a                                'DBApplicationSceneViewController'
+0000acb8: bl       #0x46e18                                      
+
+DISASSEMBLY 0xb714-0xb808
+0000b714: adrp     x0, #0x57000                                  
+0000b718: add      x0, x0, #0xb56                                'CARStatusBarWindow'
+0000b71c: bl       #0x46e18                                      
+0000b720: mov      x19, x0                                       
+0000b724: adrp     x22, #0x57000                                 
+0000b728: add      x22, x22, #0xa05                              'T'
+0000b72c: adrp     x25, #0x57000                                 
+0000b730: add      x25, x25, #0x9a5                              'B'
+0000b734: str      x22, [sp, #0x438]                             
+0000b738: str      x25, [sp, #0x440]                             
+0000b73c: adrp     x23, #0x57000                                 
+0000b740: add      x23, x23, #0xa07                              'N'
+0000b744: adrp     x24, #0x56000                                 
+0000b748: add      x24, x24, #0x799                              ''
+0000b74c: str      x23, [sp, #0x448]                             
+0000b750: str      x24, [sp, #0x450]                             
+0000b754: adrp     x1, #0x57000                                  
+0000b758: add      x1, x1, #0xa09                                'isChk'
+0000b75c: add      x2, sp, #0x438                                
+0000b760: mov      w3, #2                                        
+0000b764: bl       #0x46c50                                      
+0000b768: str      x25, [sp]                                     
+0000b76c: adrp     x20, #0x57000                                 
+0000b770: add      x20, x20, #0xa0f                              '%s@:'
+0000b774: add      x0, sp, #0x30                                 
+0000b778: mov      w1, #0x400                                    
+0000b77c: mov      x2, x20                                       
+0000b780: bl       #0x46f14                                      
+0000b784: adrp     x8, #0x7e000                                  
+0000b788: ldr      x1, [x8, #0x8a0]                              [0x7e8a0] SEL isChk
+0000b78c: adrp     x2, #0xa000                                   
+0000b790: add      x2, x2, #0x31c                                
+0000b794: add      x3, sp, #0x30                                 
+0000b798: mov      x0, x19                                       
+0000b79c: bl       #0x46c44                                      
+0000b7a0: str      x25, [sp]                                     
+0000b7a4: adrp     x21, #0x57000                                 
+0000b7a8: add      x21, x21, #0xa14                              'v@:%s'
+0000b7ac: add      x0, sp, #0x30                                 
+0000b7b0: mov      w1, #0x400                                    
+0000b7b4: mov      x2, x21                                       
+0000b7b8: bl       #0x46f14                                      
+0000b7bc: adrp     x8, #0x7f000                                  
+0000b7c0: ldr      x1, [x8, #0x998]                              [0x7f998] SEL setIsChk:
+0000b7c4: adrp     x2, #0xa000                                   
+0000b7c8: add      x2, x2, #0x34c                                
+0000b7cc: add      x3, sp, #0x30                                 
+0000b7d0: mov      x0, x19                                       
+0000b7d4: bl       #0x46c44                                      
+0000b7d8: adrp     x8, #0x80000                                  
+0000b7dc: ldr      x1, [x8, #0xc68]                              [0x80c68] SEL layoutSubviews
+0000b7e0: adrp     x2, #0xd000                                   
+0000b7e4: add      x2, x2, #0x458                                
+0000b7e8: adrp     x3, #0x83000                                  
+0000b7ec: add      x3, x3, #0x1a0                                
+0000b7f0: mov      x0, x19                                       
+0000b7f4: bl       #0x46b9c                                      
+0000b7f8: adrp     x0, #0x57000                                  
+0000b7fc: add      x0, x0, #0xb69                                'CARApplicationSceneViewController'
+0000b800: bl       #0x46e18                                      
+0000b804: mov      x19, x0                                       
+
+DISASSEMBLY 0xc2a0-0xc374
+0000c2a0: sub      sp, sp, #0x60                                 
+0000c2a4: stp      x22, x21, [sp, #0x30]                         
+0000c2a8: stp      x20, x19, [sp, #0x40]                         
+0000c2ac: stp      x29, x30, [sp, #0x50]                         
+0000c2b0: add      x29, sp, #0x50                                
+0000c2b4: mov      x19, x0                                       
+0000c2b8: adrp     x8, #0x83000                                  
+0000c2bc: ldr      x8, [x8, #0x180]                              [0x83180] 
+0000c2c0: blr      x8                                            
+0000c2c4: mov      x0, x19                                       
+0000c2c8: bl       #0x4af40                                      isChk
+0000c2cc: tbnz     w0, #0, #0xc360                               
+0000c2d0: adrp     x20, #0x83000                                 
+0000c2d4: ldr      x0, [x20, #0x1c0]                             [0x831c0] 
+0000c2d8: cbnz     x0, #0xc2ec                                   
+0000c2dc: adrp     x0, #0x56000                                  
+0000c2e0: add      x0, x0, #0x7f6                                'NSDistributedNotificationCenter'
+0000c2e4: bl       #0x46e18                                      
+0000c2e8: str      x0, [x20, #0x1c0]                             
+0000c2ec: bl       #0x493a0                                      defaultCenter
+0000c2f0: mov      x20, x0                                       
+0000c2f4: adrp     x8, #0x6c000                                  
+0000c2f8: add      x8, x8, #0xdd0                                NSString 'jp.airaw.carplay.chrome'
+0000c2fc: ldr      x21, [x8]                                     [0x6cdd0] NSString 'jp.airaw.carplay.chrome'
+0000c300: adrp     x8, #0x81000                                  
+0000c304: ldr      x0, [x8, #0x230]                              [0x81230] CLASS _OBJC_CLASS_$_NSOperationQueue
+0000c308: bl       #0x4c340                                      mainQueue
+0000c30c: mov      x4, x0                                        
+0000c310: adrp     x8, #0x6c000                                  
+0000c314: ldr      x8, [x8, #0x3a8]                              [0x6c3a8] 
+0000c318: str      x8, [sp, #8]                                  
+0000c31c: adrp     x8, #0x5a000                                  
+0000c320: ldr      d0, [x8, #0x8e0]                              [0x5a8e0] ''
+0000c324: adrp     x8, #0xe000                                   
+0000c328: add      x8, x8, #0x610                                
+0000c32c: str      d0, [sp, #0x10]                               
+0000c330: adrp     x9, #0x6c000                                  
+0000c334: add      x9, x9, #0x778                                
+0000c338: stp      x8, x9, [sp, #0x18]                           
+0000c33c: str      x19, [sp, #0x28]                              
+0000c340: add      x5, sp, #8                                    
+0000c344: mov      x0, x20                                       
+0000c348: mov      x2, x21                                       
+0000c34c: mov      x3, #0                                        
+0000c350: bl       #0x47a20                                      addObserverForName:object:queue:usingBlock:
+0000c354: mov      x0, x19                                       
+0000c358: mov      w2, #1                                        
+0000c35c: bl       #0x4f320                                      setIsChk:
+0000c360: ldp      x29, x30, [sp, #0x50]                         
+0000c364: ldp      x20, x19, [sp, #0x40]                         
+0000c368: ldp      x22, x21, [sp, #0x30]                         
+0000c36c: add      sp, sp, #0x60                                 
+0000c370: ret                                                    
+
+DISASSEMBLY 0xc408-0xc64c
+0000c408: stp      x22, x21, [sp, #-0x30]!                       
+0000c40c: stp      x20, x19, [sp, #0x10]                         
+0000c410: stp      x29, x30, [sp, #0x20]                         
+0000c414: add      x29, sp, #0x20                                
+0000c418: sub      sp, sp, #0x430                                
+0000c41c: mov      x19, x0                                       
+0000c420: adrp     x8, #0x6c000                                  
+0000c424: ldr      x8, [x8, #0x3d0]                              [0x6c3d0] 
+0000c428: ldr      x8, [x8]                                      
+0000c42c: stur     x8, [x29, #-0x28]                             
+0000c430: adrp     x8, #0x83000                                  
+0000c434: ldr      x8, [x8, #0x190]                              [0x83190] 
+0000c438: blr      x8                                            
+0000c43c: adrp     x21, #0x81000                                 
+0000c440: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000c444: bl       #0x493e0                                      defaultManager
+0000c448: mov      x20, x0                                       
+0000c44c: adrp     x0, #0x6f000                                  
+0000c450: add      x0, x0, #0x2b8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle'
+0000c454: bl       #0x49c20                                      fileSystemRepresentation
+0000c458: add      x1, sp, #0x28                                 
+0000c45c: bl       #0x4118                                       
+0000c460: mov      x2, x0                                        
+0000c464: cbz      x0, #0xc478                                   
+0000c468: adrp     x8, #0x81000                                  
+0000c46c: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c470: bl       #0x51b40                                      stringWithUTF8String:
+0000c474: mov      x2, x0                                        
+0000c478: mov      x0, x20                                       
+0000c47c: bl       #0x49c00                                      fileExistsAtPath:
+0000c480: tbnz     w0, #0, #0xc50c                               
+0000c484: ldr      x0, [x21, #0x168]                             
+0000c488: bl       #0x493e0                                      defaultManager
+0000c48c: mov      x20, x0                                       
+0000c490: adrp     x0, #0x6f000                                  
+0000c494: add      x0, x0, #0x2d8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle/AirawSplitNative'
+0000c498: bl       #0x49c20                                      fileSystemRepresentation
+0000c49c: add      x1, sp, #0x28                                 
+0000c4a0: bl       #0x4118                                       
+0000c4a4: mov      x2, x0                                        
+0000c4a8: cbz      x0, #0xc4bc                                   
+0000c4ac: adrp     x8, #0x81000                                  
+0000c4b0: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c4b4: bl       #0x51b40                                      stringWithUTF8String:
+0000c4b8: mov      x2, x0                                        
+0000c4bc: mov      x0, x20                                       
+0000c4c0: bl       #0x49c00                                      fileExistsAtPath:
+0000c4c4: tbnz     w0, #0, #0xc50c                               
+0000c4c8: ldr      x0, [x21, #0x168]                             
+0000c4cc: bl       #0x493e0                                      defaultManager
+0000c4d0: mov      x20, x0                                       
+0000c4d4: adrp     x0, #0x6f000                                  
+0000c4d8: add      x0, x0, #0x2f8                                NSString '/Library/MobileSubstrate/DynamicLibraries/AirawSplitNative.dylib'
+0000c4dc: bl       #0x49c20                                      fileSystemRepresentation
+0000c4e0: add      x1, sp, #0x28                                 
+0000c4e4: bl       #0x4118                                       
+0000c4e8: mov      x2, x0                                        
+0000c4ec: cbz      x0, #0xc500                                   
+0000c4f0: adrp     x8, #0x81000                                  
+0000c4f4: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c4f8: bl       #0x51b40                                      stringWithUTF8String:
+0000c4fc: mov      x2, x0                                        
+0000c500: mov      x0, x20                                       
+0000c504: bl       #0x49c00                                      fileExistsAtPath:
+0000c508: tbz      w0, #0, #0xc608                               
+0000c50c: mov      x0, x19                                       
+0000c510: bl       #0x4a6e0                                      identifier
+0000c514: bl       #0xeb54                                       
+0000c518: tbz      w0, #0, #0xc608                               
+0000c51c: fmov     d0, #1.00000000                               
+0000c520: mov      x0, x19                                       
+0000c524: bl       #0x50140                                      setNativeScaleRatio:
+0000c528: mov      x0, x19                                       
+0000c52c: mov      w2, #0                                        
+0000c530: bl       #0x50160                                      setNativeScaleUserAdjusted:
+0000c534: adrp     x8, #0x81000                                  
+0000c538: ldr      x0, [x8, #0x238]                              [0x81238] CLASS ARWCarPlayManager
+0000c53c: bl       #0x513c0                                      sharedInstance
+0000c540: mov      w2, #0                                        
+0000c544: bl       #0x4eac0                                      setDefaultAppChromeHidden:
+0000c548: adrp     x20, #0x83000                                 
+0000c54c: ldr      x0, [x20, #0x1c0]                             [0x831c0] 
+0000c550: cbnz     x0, #0xc564                                   
+0000c554: adrp     x0, #0x56000                                  
+0000c558: add      x0, x0, #0x7f6                                'NSDistributedNotificationCenter'
+0000c55c: bl       #0x46e18                                      
+0000c560: str      x0, [x20, #0x1c0]                             
+0000c564: bl       #0x493a0                                      defaultCenter
+0000c568: adrp     x8, #0x80000                                  
+0000c56c: ldr      x3, [x8, #0xca0]                              [0x80ca0] SEL carplayFullscreen
+0000c570: adrp     x8, #0x6c000                                  
+0000c574: add      x8, x8, #0xdc8                                NSString 'jp.airaw.host.fullscreen'
+0000c578: ldr      x4, [x8]                                      [0x6cdc8] NSString 'jp.airaw.host.fullscreen'
+0000c57c: mov      x2, x19                                       
+0000c580: mov      x5, #0                                        
+0000c584: bl       #0x47a00                                      addObserver:selector:name:object:
+0000c588: ldr      x0, [x20, #0x1c0]                             
+0000c58c: cbnz     x0, #0xc5a0                                   
+0000c590: adrp     x0, #0x56000                                  
+0000c594: add      x0, x0, #0x7f6                                'NSDistributedNotificationCenter'
+0000c598: bl       #0x46e18                                      
+0000c59c: str      x0, [x20, #0x1c0]                             
+0000c5a0: bl       #0x493a0                                      defaultCenter
+0000c5a4: adrp     x8, #0x80000                                  
+0000c5a8: ldr      x3, [x8, #0xca8]                              [0x80ca8] SEL arwHandleNativeSplit:
+0000c5ac: adrp     x8, #0x6c000                                  
+0000c5b0: add      x8, x8, #0xde0                                NSString 'jp.airaw.nativeSplit'
+0000c5b4: ldr      x4, [x8]                                      [0x6cde0] NSString 'jp.airaw.nativeSplit'
+0000c5b8: mov      x2, x19                                       
+0000c5bc: mov      x5, #0                                        
+0000c5c0: bl       #0x47a00                                      addObserver:selector:name:object:
+0000c5c4: mov      x0, x19                                       
+0000c5c8: bl       #0x4dda0                                      scene
+0000c5cc: adrp     x8, #0x6c000                                  
+0000c5d0: ldr      x8, [x8, #0x3a8]                              [0x6c3a8] 
+0000c5d4: str      x8, [sp]                                      
+0000c5d8: adrp     x8, #0x5a000                                  
+0000c5dc: ldr      d0, [x8, #0x8e0]                              [0x5a8e0] ''
+0000c5e0: adrp     x8, #0xe000                                   
+0000c5e4: add      x8, x8, #0xd04                                
+0000c5e8: str      d0, [sp, #8]                                  
+0000c5ec: adrp     x9, #0x6c000                                  
+0000c5f0: add      x9, x9, #0x7a8                                
+0000c5f4: stp      x8, x9, [sp, #0x10]                           
+0000c5f8: str      x19, [sp, #0x20]                              
+0000c5fc: mov      x2, sp                                        
+0000c600: bl       #0x52300                                      updateSettingsWithBlock:
+0000c604: b        #0xc61c                                       
+0000c608: adrp     x8, #0x81000                                  
+0000c60c: ldr      x0, [x8, #0x238]                              [0x81238] CLASS ARWCarPlayManager
+0000c610: bl       #0x513c0                                      sharedInstance
+0000c614: mov      w2, #1                                        
+0000c618: bl       #0x4eea0                                      setFullscreenButtonHidden:
+0000c61c: ldur     x8, [x29, #-0x28]                             
+0000c620: adrp     x9, #0x6c000                                  
+0000c624: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+0000c628: ldr      x9, [x9]                                      
+0000c62c: cmp      x9, x8                                        
+0000c630: b.ne     #0xc648                                       
+0000c634: add      sp, sp, #0x430                                
+0000c638: ldp      x29, x30, [sp, #0x20]                         
+0000c63c: ldp      x20, x19, [sp, #0x10]                         
+0000c640: ldp      x22, x21, [sp], #0x30                         
+0000c644: ret                                                    
+0000c648: bl       #0x46c2c                                      
+
+DISASSEMBLY 0xc9e8-0xcb40
+0000c9e8: cmp      x9, x8                                        
+0000c9ec: b.ne     #0xca08                                       
+0000c9f0: add      sp, sp, #0x480                                
+0000c9f4: ldp      x29, x30, [sp, #0x30]                         
+0000c9f8: ldp      x20, x19, [sp, #0x20]                         
+0000c9fc: ldp      x22, x21, [sp, #0x10]                         
+0000ca00: ldp      d9, d8, [sp], #0x40                           
+0000ca04: ret                                                    
+0000ca08: bl       #0x46c2c                                      
+0000ca0c: mov      x19, x0                                       
+0000ca10: add      x0, sp, #0x78                                 
+0000ca14: mov      w1, #8                                        
+0000ca18: bl       #0x46c08                                      
+0000ca1c: b        #0xca24                                       
+0000ca20: mov      x19, x0                                       
+0000ca24: mov      x0, x19                                       
+0000ca28: bl       #0x46c14                                      
+0000ca2c: sub      sp, sp, #0x50                                 
+0000ca30: stp      x20, x19, [sp, #0x30]                         
+0000ca34: stp      x29, x30, [sp, #0x40]                         
+0000ca38: add      x29, sp, #0x40                                
+0000ca3c: mov      x19, x0                                       
+0000ca40: bl       #0x4b2c0                                      isNativeSplit
+0000ca44: cbz      w0, #0xca60                                   
+0000ca48: adrp     x8, #0x81000                                  
+0000ca4c: ldr      x0, [x8, #0x238]                              [0x81238] CLASS ARWCarPlayManager
+0000ca50: bl       #0x513c0                                      sharedInstance
+0000ca54: bl       #0x49a40                                      endNativeSplit
+0000ca58: mov      x0, x19                                       
+0000ca5c: bl       #0x48280                                      arwRestoreNativeSceneFromSplit
+0000ca60: mov      x0, x19                                       
+0000ca64: bl       #0x48260                                      arwRemoveHostMenu
+0000ca68: fmov     d0, #1.00000000                               
+0000ca6c: mov      x0, x19                                       
+0000ca70: bl       #0x50140                                      setNativeScaleRatio:
+0000ca74: mov      x0, x19                                       
+0000ca78: mov      w2, #0                                        
+0000ca7c: bl       #0x50160                                      setNativeScaleUserAdjusted:
+0000ca80: mov      x0, x19                                       
+0000ca84: mov      w2, #0                                        
+0000ca88: bl       #0x4f3e0                                      setIsFull:
+0000ca8c: mov      x0, x19                                       
+0000ca90: bl       #0x4dda0                                      scene
+0000ca94: adrp     x8, #0x6c000                                  
+0000ca98: ldr      x8, [x8, #0x3a8]                              [0x6c3a8] 
+0000ca9c: str      x8, [sp, #8]                                  
+0000caa0: adrp     x8, #0x5a000                                  
+0000caa4: ldr      d0, [x8, #0x8e0]                              [0x5a8e0] ''
+0000caa8: adrp     x8, #0xe000                                   
+0000caac: add      x8, x8, #0xf70                                
+0000cab0: str      d0, [sp, #0x10]                               
+0000cab4: adrp     x9, #0x6c000                                  
+0000cab8: add      x9, x9, #0x7a8                                
+0000cabc: stp      x8, x9, [sp, #0x18]                           
+0000cac0: str      x19, [sp, #0x28]                              
+0000cac4: add      x2, sp, #8                                    
+0000cac8: bl       #0x52300                                      updateSettingsWithBlock:
+0000cacc: ldp      x29, x30, [sp, #0x40]                         
+0000cad0: ldp      x20, x19, [sp, #0x30]                         
+0000cad4: add      sp, sp, #0x50                                 
+0000cad8: ret                                                    
+0000cadc: b        #0x4c6a0                                      nativeScaleUserAdjusted
+0000cae0: sub      sp, sp, #0x50                                 
+0000cae4: stp      x20, x19, [sp, #0x30]                         
+0000cae8: stp      x29, x30, [sp, #0x40]                         
+0000caec: add      x29, sp, #0x40                                
+0000caf0: mov      x19, x0                                       
+0000caf4: bl       #0x4dda0                                      scene
+0000caf8: adrp     x8, #0x6c000                                  
+0000cafc: ldr      x8, [x8, #0x3a8]                              [0x6c3a8] 
+0000cb00: str      x8, [sp, #8]                                  
+0000cb04: adrp     x8, #0x5a000                                  
+0000cb08: ldr      d0, [x8, #0x8e0]                              [0x5a8e0] ''
+0000cb0c: adrp     x8, #0xf000                                   
+0000cb10: add      x8, x8, #0x90                                 
+0000cb14: str      d0, [sp, #0x10]                               
+0000cb18: adrp     x9, #0x6c000                                  
+0000cb1c: add      x9, x9, #0x7a8                                
+0000cb20: stp      x8, x9, [sp, #0x18]                           
+0000cb24: str      x19, [sp, #0x28]                              
+0000cb28: add      x2, sp, #8                                    
+0000cb2c: bl       #0x52300                                      updateSettingsWithBlock:
+0000cb30: ldp      x29, x30, [sp, #0x40]                         
+0000cb34: ldp      x20, x19, [sp, #0x30]                         
+0000cb38: add      sp, sp, #0x50                                 
+0000cb3c: ret                                                    
+
+DISASSEMBLY 0xe610-0xe660
+0000e610: stp      x20, x19, [sp, #-0x20]!                       
+0000e614: stp      x29, x30, [sp, #0x10]                         
+0000e618: add      x29, sp, #0x10                                
+0000e61c: mov      x19, x0                                       
+0000e620: mov      x0, x1                                        
+0000e624: bl       #0x523e0                                      userInfo
+0000e628: adrp     x8, #0x6c000                                  
+0000e62c: add      x8, x8, #0xe50                                NSString 'nativeChromeHidden'
+0000e630: ldr      x2, [x8]                                      [0x6ce50] NSString 'nativeChromeHidden'
+0000e634: bl       #0x4c9e0                                      objectForKeyedSubscript:
+0000e638: cbz      x0, #0xe654                                   
+0000e63c: bl       #0x48580                                      boolValue
+0000e640: mov      x2, x0                                        
+0000e644: ldr      x0, [x19, #0x20]                              
+0000e648: ldp      x29, x30, [sp, #0x10]                         
+0000e64c: ldp      x20, x19, [sp], #0x20                         
+0000e650: b        #0x4f040                                      setHidden:
+0000e654: ldp      x29, x30, [sp, #0x10]                         
+0000e658: ldp      x20, x19, [sp], #0x20                         
+0000e65c: ret                                                    
+
+DISASSEMBLY 0xed04-0xedb8
+0000ed04: stp      x20, x19, [sp, #-0x20]!                       
+0000ed08: stp      x29, x30, [sp, #0x10]                         
+0000ed0c: add      x29, sp, #0x10                                
+0000ed10: cbz      x1, #0xed28                                   
+0000ed14: mov      x20, x1                                       
+0000ed18: mov      x19, x0                                       
+0000ed1c: ldr      x0, [x0, #0x20]                               
+0000ed20: bl       #0x499a0                                      edgeInfoSaved
+0000ed24: tbz      w0, #0, #0xed34                               
+0000ed28: ldp      x29, x30, [sp, #0x10]                         
+0000ed2c: ldp      x20, x19, [sp], #0x20                         
+0000ed30: ret                                                    
+0000ed34: ldr      x0, [x19, #0x20]                              
+0000ed38: mov      w2, #0                                        
+0000ed3c: bl       #0x4f3e0                                      setIsFull:
+0000ed40: mov      x0, x20                                       
+0000ed44: bl       #0x4db40                                      safeAreaInsetsPortrait
+0000ed48: ldr      x0, [x19, #0x20]                              
+0000ed4c: bl       #0x50880                                      setSavedEdgeInsets:
+0000ed50: mov      x0, x20                                       
+0000ed54: bl       #0x49dc0                                      frame
+0000ed58: ldr      x0, [x19, #0x20]                              
+0000ed5c: bl       #0x508a0                                      setSavedRect:
+0000ed60: ldr      x0, [x19, #0x20]                              
+0000ed64: mov      w2, #1                                        
+0000ed68: ldp      x29, x30, [sp, #0x10]                         
+0000ed6c: ldp      x20, x19, [sp], #0x20                         
+0000ed70: b        #0x4ec80                                      setEdgeInfoSaved:
+0000ed74: ldr      x1, [x1, #0x28]                               
+0000ed78: add      x0, x0, #0x28                                 
+0000ed7c: mov      w2, #0x83                                     
+0000ed80: b        #0x46bfc                                      
+0000ed84: ldr      x0, [x0, #0x28]                               
+0000ed88: mov      w1, #0x83                                     
+0000ed8c: b        #0x46c08                                      
+0000ed90: ldr      x8, [x0, #0x20]                               
+0000ed94: ldr      x8, [x8, #8]                                  
+0000ed98: ldr      x0, [x8, #0x28]                               
+0000ed9c: b        #0x481c0                                      arwExitNativeFullscreen
+0000eda0: ldr      x1, [x1, #0x20]                               
+0000eda4: add      x0, x0, #0x20                                 
+0000eda8: mov      w2, #8                                        
+0000edac: b        #0x46bfc                                      
+0000edb0: ldr      x0, [x0, #0x20]                               
+0000edb4: mov      w1, #8                                        
+
+DISASSEMBLY 0xf1a0-0xf1e0
+0000f1a0: cbz      x1, #0xf1dc                                   
+0000f1a4: stp      x29, x30, [sp, #-0x10]!                       
+0000f1a8: mov      x29, sp                                       
+0000f1ac: adrp     x8, #0x6c000                                  
+0000f1b0: ldr      x8, [x8, #0x1f8]                              [0x6c1f8] 
+0000f1b4: ldp      d0, d1, [x8]                                  
+0000f1b8: ldp      d2, d3, [x8, #0x10]                           
+0000f1bc: mov      x0, x1                                        
+0000f1c0: bl       #0x50860                                      setSafeAreaInsetsPortrait:
+0000f1c4: adrp     x8, #0x81000                                  
+0000f1c8: ldr      x0, [x8, #0x238]                              [0x81238] CLASS ARWCarPlayManager
+0000f1cc: bl       #0x513c0                                      sharedInstance
+0000f1d0: mov      w2, #1                                        
+0000f1d4: ldp      x29, x30, [sp], #0x10                         
+0000f1d8: b        #0x4eac0                                      setDefaultAppChromeHidden:
+0000f1dc: ret                                                    
+
+DISASSEMBLY 0x462ac-0x4645c
+000462ac: sub      sp, sp, #0x40                                 
+000462b0: stp      x22, x21, [sp, #0x10]                         
+000462b4: stp      x20, x19, [sp, #0x20]                         
+000462b8: stp      x29, x30, [sp, #0x30]                         
+000462bc: adrp     x8, #0x6c000                                  
+000462c0: ldr      x8, [x8, #0x3d0]                              [0x6c3d0] 
+000462c4: ldr      x8, [x8]                                      
+000462c8: str      x8, [sp, #8]                                  
+000462cc: adrp     x8, #0x84000                                  
+000462d0: ldr      x8, [x8, #0xe8]                               [0x840e8] 
+000462d4: cmn      x8, #1                                        
+000462d8: b.ne     #0x46320                                      
+000462dc: adrp     x8, #0x84000                                  
+000462e0: ldr      x8, [x8, #0xf0]                               [0x840f0] 
+000462e4: cbz      x8, #0x46350                                  
+000462e8: lsl      w8, w1, #0x10                                 
+000462ec: bfi      w8, w2, #8, #8                                
+000462f0: bfxil    w8, w3, #0, #8                                
+000462f4: stp      w0, w8, [sp]                                  
+000462f8: mov      x1, sp                                        
+000462fc: mov      w0, #1                                        
+00046300: bl       #0x46c38                                      
+00046304: ldr      x8, [sp, #8]                                  
+00046308: adrp     x9, #0x6c000                                  
+0004630c: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+00046310: ldr      x9, [x9]                                      
+00046314: cmp      x9, x8                                        
+00046318: b.eq     #0x463c0                                      
+0004631c: b        #0x46400                                      
+00046320: mov      x19, x3                                       
+00046324: mov      x21, x2                                       
+00046328: mov      x20, x1                                       
+0004632c: mov      x22, x0                                       
+00046330: bl       #0x469ac                                      
+00046334: mov      x0, x22                                       
+00046338: mov      x1, x20                                       
+0004633c: mov      x2, x21                                       
+00046340: mov      x3, x19                                       
+00046344: adrp     x8, #0x84000                                  
+00046348: ldr      x8, [x8, #0xf0]                               [0x840f0] 
+0004634c: cbnz     x8, #0x462e8                                  
+00046350: adrp     x8, #0x84000                                  
+00046354: ldr      x8, [x8, #0xe0]                               [0x840e0] 
+00046358: cmn      x8, #1                                        
+0004635c: b.ne     #0x46404                                      
+00046360: adrp     x8, #0x84000                                  
+00046364: ldr      w8, [x8, #0xd0]                               [0x840d0] 
+00046368: cmp      w8, w1                                        
+0004636c: b.gt     #0x463a4                                      
+00046370: b.ge     #0x46394                                      
+00046374: mov      w0, #0                                        
+00046378: ldr      x8, [sp, #8]                                  
+0004637c: adrp     x9, #0x6c000                                  
+00046380: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+00046384: ldr      x9, [x9]                                      
+00046388: cmp      x9, x8                                        
+0004638c: b.eq     #0x463c0                                      
+00046390: b        #0x46400                                      
+00046394: adrp     x8, #0x84000                                  
+00046398: ldr      w8, [x8, #0xd4]                               [0x840d4] 
+0004639c: cmp      w8, w2                                        
+000463a0: b.le     #0x463d4                                      
+000463a4: mov      w0, #1                                        
+000463a8: ldr      x8, [sp, #8]                                  
+000463ac: adrp     x9, #0x6c000                                  
+000463b0: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+000463b4: ldr      x9, [x9]                                      
+000463b8: cmp      x9, x8                                        
+000463bc: b.ne     #0x46400                                      
+000463c0: ldp      x29, x30, [sp, #0x30]                         
+000463c4: ldp      x20, x19, [sp, #0x20]                         
+000463c8: ldp      x22, x21, [sp, #0x10]                         
+000463cc: add      sp, sp, #0x40                                 
+000463d0: ret                                                    
+000463d4: b.lt     #0x46374                                      
+000463d8: adrp     x8, #0x84000                                  
+000463dc: ldr      w8, [x8, #0xd8]                               [0x840d8] 
+000463e0: cmp      w8, w3                                        
+000463e4: cset     w0, ge                                        
+000463e8: ldr      x8, [sp, #8]                                  
+000463ec: adrp     x9, #0x6c000                                  
+000463f0: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+000463f4: ldr      x9, [x9]                                      
+000463f8: cmp      x9, x8                                        
+000463fc: b.eq     #0x463c0                                      
+00046400: bl       #0x46c2c                                      
+00046404: mov      x19, x3                                       
+00046408: mov      x21, x2                                       
+0004640c: mov      x20, x1                                       
+00046410: bl       #0x469c0                                      
+00046414: mov      x1, x20                                       
+00046418: mov      x2, x21                                       
+0004641c: mov      x3, x19                                       
+00046420: adrp     x8, #0x84000                                  
+00046424: ldr      w8, [x8, #0xd0]                               [0x840d0] 
+00046428: cmp      w8, w1                                        
+0004642c: b.gt     #0x463a4                                      
+00046430: b        #0x46370                                      
+00046434: mov      w0, #0                                        
+00046438: b        #0x4643c                                      
+0004643c: sub      sp, sp, #0xc0                                 
+00046440: stp      x28, x27, [sp, #0x60]                         
+00046444: stp      x26, x25, [sp, #0x70]                         
+00046448: stp      x24, x23, [sp, #0x80]                         
+0004644c: stp      x22, x21, [sp, #0x90]                         
+00046450: stp      x20, x19, [sp, #0xa0]                         
+00046454: stp      x29, x30, [sp, #0xb0]                         
+00046458: adrp     x8, #0x6c000                                  

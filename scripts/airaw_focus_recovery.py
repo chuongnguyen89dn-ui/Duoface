@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Read-only, hash-pinned Airaw 1.7.1k arm64 evidence recovery. Needs capstone.
-Usage: python3 scripts/airaw_focus_recovery.py /path/to/Airaw.dylib
+Usage: python3 scripts/airaw_focus_recovery.py /path/to/Airaw.dylib [0xSTART:0xEND ...]
 Only applies to the verified binary; no patching or device execution.
 """
 import hashlib, struct, sys
@@ -89,21 +89,32 @@ ranges=[(0x13db0,0x13dcc),(0x14208,0x14224),(0x14488,0x144a4),
         (0x14c94,0x15068),(0xc54c,0xc588),(0xd704,0xd740),
         (0xcb40,0xcd54),(0xdcf8,0xdf0c),(0x19c7c,0x19f44),
         (0x43a30,0x43b04),(0x451f0,0x45254),(0x45b50,0x45bf8),(0x45d20,0x45d90)]
+if len(sys.argv)>2:
+    ranges=[tuple(int(part,0) for part in item.split(':')) for item in sys.argv[2:]]
+    assert all(len(item)==2 and 0<=item[0]<item[1]<=0x469d4 for item in ranges)
 for start,end in ranges:
     print(f'\nDISASSEMBLY {start:#x}-{end:#x}')
     regs={}
     for ins in md.disasm(p[start:end],start):
         note=''
         op=ins.operands
-        if ins.mnemonic=='adrp': regs[op[0].reg]=op[1].imm
+        def regkey(reg):
+            name=ins.reg_name(reg)
+            return 'x'+name[1:] if name.startswith('w') else name
+        old=dict(regs)
+        for reg in ins.regs_access()[1]: regs.pop(regkey(reg),None)
+        if ins.mnemonic=='adrp': regs[regkey(op[0].reg)]=op[1].imm
         elif ins.mnemonic=='add' and len(op)==3 and op[2].type==2:
-            if op[1].reg in regs:
-                addr=regs[op[1].reg]+op[2].imm;regs[op[0].reg]=addr;note=label(addr)
+            if regkey(op[1].reg) in old:
+                addr=old[regkey(op[1].reg)]+op[2].imm;regs[regkey(op[0].reg)]=addr;note=label(addr)
         elif ins.mnemonic=='ldr' and len(op)==2 and op[1].type==3:
-            base=regs.get(op[1].mem.base)
+            base=old.get(regkey(op[1].mem.base))
             if base is not None:
                 addr=base+op[1].mem.disp;note=f'[{addr:#x}] '+label(addr)
-            regs.pop(op[0].reg,None)
         elif ins.mnemonic in ('bl','b') and op and op[0].type==2:
             note=stubs.get(op[0].imm,'')
+        if ins.mnemonic in ('bl','blr'):
+            for j in range(19): regs.pop('x'+str(j),None)
+        elif ins.mnemonic in ('b','br','ret','cbz','cbnz','tbz','tbnz') or ins.mnemonic.startswith('b.'):
+            regs.clear() # conservative at control-flow boundaries; no stale inferred addresses
         print(f'{ins.address:08x}: {ins.mnemonic:8s} {ins.op_str:45s} {note}')
