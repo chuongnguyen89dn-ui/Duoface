@@ -5,7 +5,7 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 
-static void DFInstallToggle(UIView *pill);
+// No fullscreen UI may be attached to the DuoFace split pill.
 static BOOL DFHostFull = NO;
 static __weak UIViewController *DFHostController;
 static CGRect DFSavedFrame;
@@ -107,53 +107,12 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 @end
 
 
-// Install adjacent to the real split-screen pill, not an unverified host controller.
-// Window coordinates keep the button visible even if the pill clips its children.
-static void DFInstallToggle(UIView *pill) {
-    UIWindow *window = pill.window;
-    if (!window || CGRectIsEmpty(pill.bounds)) return;
-    UIButton *button = (UIButton *)[window viewWithTag:20261014];
-    if (button && ![button isKindOfClass:[UIButton class]]) return;
-    if (!button) {
-        button = [UIButton buttonWithType:UIButtonTypeSystem];
-        button.tag = 20261014;
-        button.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
-        button.tintColor = [UIColor whiteColor];
-        button.layer.cornerRadius = 12;
-        [button setTitle:@"⛶" forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont boldSystemFontOfSize:28];
-        button.accessibilityLabel = @"Toggle CarPlay fullscreen";
-        [button addTarget:[DuoFaceFullscreenAction class] action:@selector(toggleFromButton:) forControlEvents:UIControlEventTouchUpInside];
-        [window addSubview:button];
-        NSLog(@"[DuoFaceFullscreen] button installed on CBSlotPillView window");
-    }
-    CGRect pillFrame = [pill convertRect:pill.bounds toView:window];
-    CGFloat side = 44.0;
-    CGFloat x = CGRectGetMaxX(pillFrame) + 8.0;
-    if (x + side > CGRectGetWidth(window.bounds) - 8.0)
-        x = CGRectGetMinX(pillFrame) - side - 8.0;
-    x = MAX(8.0, MIN(x, CGRectGetWidth(window.bounds)-side-8.0));
-    CGFloat y = MAX(8.0, MIN(CGRectGetMidY(pillFrame)-side/2.0, CGRectGetHeight(window.bounds)-side-8.0));
-    button.frame = CGRectMake(x, y, side, side);
-    [window bringSubviewToFront:button];
-}
-@implementation DuoFaceFullscreenAction (Button)
-+ (void)toggleFromButton:(UIButton *)sender {
-    DFToggleFullscreen();
-    [sender setTitle:(DFHostFull ? @"⤢" : @"⛶") forState:UIControlStateNormal];
-}
-@end
-
 // Bind to DuoFace v12's known expand/restore controls without altering their
 // button target-action lists. The fullscreen bridge runs after the original
 // action so the original split-pane behavior is preserved by default.
 // For whole-host fullscreen, the user can reverse this order if device tests
 // show the original per-pane animation conflicts with host layout.
 %hook CBSlotPillView
-- (void)layoutSubviews {
-    %orig;
-    DFInstallToggle((UIView *)self);
-}
 - (void)expandTapped:(id)sender {
     %orig;
     dispatch_async(dispatch_get_main_queue(), ^{ DFRequestFullscreen(@YES); });
