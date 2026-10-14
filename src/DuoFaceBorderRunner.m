@@ -218,7 +218,8 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
         char *slotType=method_copyArgumentType(focus,2);
         char *focusAnimated=method_copyArgumentType(focus,3);
         char *restoreAnimated=method_copyArgumentType(restore,2);
-        safe=slotType && !strcmp(slotType,@encode(NSInteger)) &&
+        safe=slotType && (!strcmp(slotType,@encode(NSInteger)) ||
+            !strcmp(slotType,@encode(NSUInteger))) &&
             focusAnimated && (!strcmp(focusAnimated,"B") || !strcmp(focusAnimated,"c")) &&
             restoreAnimated && (!strcmp(restoreAnimated,"B") || !strcmp(restoreAnimated,"c"));
         if (slotType) free(slotType);
