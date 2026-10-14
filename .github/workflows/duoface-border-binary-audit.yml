@@ -42,6 +42,22 @@ jobs:
               out.extend(hits if hits else ['NO_MATCH - inspect address slide/symbols and full disasm artifact'])
           Path('audit-output/border-methods.txt').write_text('\n'.join(out)+'\n')
           PY
+          export DASH_FILE="$DASH"
+          python3 - <<'PYCOLORS'
+          from pathlib import Path
+          import struct,os
+          data=Path(os.environ['DASH_FILE']).read_bytes()
+          refs=[0x311718,0x30faf8,0x311708,0x311738]
+          rows=['UIColor constant bytes read from actual menu-zoom2 Dashboard binary']
+          for base in (0,0x4000):
+              rows.append('fat slice base '+hex(base))
+              for addr in refs:
+                  pos=base+addr
+                  val=struct.unpack_from('<d',data,pos)[0] if pos+8<=len(data) else None
+                  rows.append(f'{addr:#x} offset {pos:#x}: {val!r}')
+          Path('audit-output/border-color-constants.txt').write_text('\n'.join(rows)+'\n')
+          print('\n'.join(rows))
+          PYCOLORS
           cat audit-output/border-methods.txt
           xcrun otool -arch arm64 -tvV "$DASH" > audit-output/otool-arm64.txt
           python3 - <<'PYFOCUS'
@@ -69,6 +85,7 @@ jobs:
           cp audit-output/native-blue-border-trace.txt audit/border-current-deb/native-blue-border-trace.txt
           cp audit-output/deb-sha256.txt audit/border-current-deb/deb-sha256.txt
           cp audit-output/dashboard-sha256.txt audit/border-current-deb/dashboard-sha256.txt
+          cp audit-output/border-color-constants.txt audit/border-current-deb/border-color-constants.txt
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add audit/border-current-deb/
