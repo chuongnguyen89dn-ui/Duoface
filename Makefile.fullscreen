@@ -4,7 +4,7 @@ THEOS_PACKAGE_SCHEME := rootless
 INSTALL_TARGET_PROCESSES := SpringBoard
 include $(THEOS)/makefiles/common.mk
 TWEAK_NAME := DuoFaceFullscreenBridge
-DuoFaceFullscreenBridge_FILES := runtime/fullscreen/DFRuntimeEntry.mm runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFStatusBarControl.xm runtime/fullscreen/DFRestoreMenu.mm runtime/fullscreen/DFFullscreenCoordinator.mm
+DuoFaceFullscreenBridge_FILES := runtime/fullscreen/DFRuntimeEntry.mm runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFPickerZoomMenu.xm runtime/fullscreen/DFFullscreenCoordinator.mm
 DuoFaceFullscreenBridge_CFLAGS := -fobjc-arc -Wall -Wextra
 DuoFaceFullscreenBridge_FRAMEWORKS := UIKit Foundation
 include $(THEOS_MAKE_PATH)/tweak.mk

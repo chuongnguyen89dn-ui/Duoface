@@ -1,5 +1,6 @@
 #import "DFFullscreenTransport.h"
 #import "DFHostGeometry.h"
+#import "DFPickerZoomMenu.h"
 #import <objc/message.h>
 
 // Separate namespace prevents collisions with an installed copy of Airaw.
@@ -102,6 +103,7 @@ static BOOL DFToken(id token) {
         self.leaseOwner = nil; self.leaseDeadline = 0;
     }
     [self publish:requestID client:client reason:reason];
+    DFPickerZoomMenuRefresh();
 }
 - (void)handleState:(NSDictionary *)info {
     if (![info[@"active"] isKindOfClass:NSNumber.class] ||
@@ -128,6 +130,7 @@ static BOOL DFToken(id token) {
         if (self.leaseOwner && (DFNow() > self.leaseDeadline || !DFHostIsExpanded())) {
             DFHostRestore(); self.leaseOwner = nil;
             [self publish:nil client:nil reason:@"host lease ended"];
+            DFPickerZoomMenuRefresh();
         }
     } else if (self.ownsFullscreen) {
         [self send:@"renew" enabled:YES requestID:nil];
@@ -162,6 +165,7 @@ BOOL DFStartFullscreenTransport(BOOL springBoard, void (^stateChanged)(NSDiction
                 transport.leaseOwner = nil; transport.leaseDeadline = 0;
             }
             [transport publish:nil client:nil reason:nil];
+            DFPickerZoomMenuRefresh();
         });
         [transport publish:nil client:nil reason:nil];
     } else DFQueryFullscreenHost();
