@@ -1,0 +1,26 @@
+name: DuoFace fullscreen adapter compile check
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - runtime/fullscreen/**
+      - Makefile.fullscreen-adapter-check
+      - .github/workflows/fullscreen-adapter-check.yml
+jobs:
+  compile:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Theos
+        run: |
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid
+      - name: Compile staged adapter only
+        run: |
+          cp Makefile.fullscreen-adapter-check Makefile
+          make clean all FINALPACKAGE=1
+          find .theos -type f -name 'DuoFaceFullscreenAdapterCheck.dylib' -print
+      # No DEB packaging, runtime install, or Sileo publication from this check.

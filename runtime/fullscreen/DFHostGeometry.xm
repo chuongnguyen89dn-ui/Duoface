@@ -4,6 +4,7 @@
 #import "DFHostGeometry.h"
 #import <objc/runtime.h>
 #import <math.h>
+typedef void (^DFHostCompletion)(void);
 
 @interface CBWindow : NSObject
 + (CGRect)carPlayScreenBounds;
@@ -14,7 +15,8 @@
 @property(nonatomic, readonly) BOOL isVisible;
 - (void)resizeWindows;
 - (void)show;
-- (void)hide:(BOOL)animated;
+// ObjC metadata v24@0:8@?16: this argument is a completion block, NOT a BOOL.
+- (void)hide:(DFHostCompletion)completion;
 - (void)destroyWindows;
 @end
 
@@ -53,6 +55,7 @@ static DFHostSnapshot *DFSnapshot;
 static BOOL DFExpanded;
 static BOOL DFRelayoutInProgress;
 static BOOL DFHooksInstalled;
+static __weak CBWindow *DFHidingWindow;
 static void (^DFLifecycleCallback)(void);
 
 static CBBridgeManager *DFManager(void) {
@@ -78,7 +81,7 @@ BOOL DFHostCanExpand(void) {
     CBWindow *window = manager.window;
     id app = manager.currentApp;
     Class splitClass = NSClassFromString(@"CBBridgedSplitApp");
-    if (!DFHooksInstalled || !manager.activated || !window.isVisible ||
+    if (!DFHooksInstalled || !manager.activated || !window.isVisible || window == DFHidingWindow ||
         !splitClass || ![app isKindOfClass:splitClass]) return NO;
     UIView *view = [app view];
     return window.rootWindow && !window.rootWindow.hidden && window.contentView &&
@@ -192,12 +195,18 @@ BOOL DFHostSetExpanded(BOOL expanded, NSString **reason) {
     if (DFExpanded && self == DFSnapshot.window && !DFRelayoutInProgress) DFRelayout();
 }
 - (void)show {
+    if (self == DFHidingWindow) DFHidingWindow = nil;
     %orig;
     if (DFLifecycleCallback) DFLifecycleCallback();
 }
-- (void)hide:(BOOL)animated {
+- (void)hide:(DFHostCompletion)completion {
     if (self == DFSnapshot.window) DFHostRestore();
-    %orig;
+    DFHidingWindow = self;
+    DFHostCompletion wrapped = ^{
+        if (completion) completion();
+        if (DFLifecycleCallback) DFLifecycleCallback();
+    };
+    %orig(wrapped);
     if (DFLifecycleCallback) DFLifecycleCallback();
 }
 - (void)destroyWindows {

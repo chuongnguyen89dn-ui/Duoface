@@ -2121,3 +2121,10 @@ Không dừng ở báo cáo. Đã viết runtime/fullscreen/DFHostGeometry.h và
 Bằng chứng mới bổ trợ: CBBridgedSplitApp.layoutSplitViews bắt đầu0x1044f8 gọi CBWindow.carPlayUsableBounds ở0x10454c, dùng bounds của view và có refreshSceneLayout; không thay focusSlot/ratio.
 Trạng thái source STAGED: chưa thêm vào Makefile host4, chưa gọi DFInstallHostGeometryHooks, chưa compile, chưa tạo DEB hoặc sửa Sileo.
 Tiếp theo ngay: module IPC request/result/state giữa SpringBoard và Dashboard; compile staged adapter trên GitHub Actions trước khi ghép UI/menu.
+
+## 2026-10-14 — Triển khai bước 2: IPC staged + sửa ABI hide:, bắt đầu compile
+
+Đã kiểm encoding v12: CBWindow.hide: = v24@0:8@?16, đối số là completion BLOCK chứ không phải BOOL. Sửa ngay bản staged trước khi compile; callback gốc được giữ, thông báo lifecycle cả lúc bắt đầu hide và sau completion. hostCanExpand từ chối window đang hide.
+Đã viết DFFullscreenTransport.h/.mm: NSDistributedNotificationCenter, command/state namespace riêng com.duoface.fullscreen.*.v1, request ID + sequence chống request cũ, ACK geometry, timeout3s gửi restore, lease6s/heartbeat2s tự restore khi Dashboard mất. ACK enter đến muộn sau timeout không gia hạn fullscreen.
+Thêm Makefile.fullscreen-adapter-check và workflow fullscreen-adapter-check.yml (macos-15/Theos, compile-only). Push này kích hoạt kiểm tra biên dịch staged adapter; chưa đóng DEB, chưa đổi Makefile.fullscreen/filter/runtime host4. Chưa có kết quả compile tại thời điểm commit.
+Tiếp tục ngay: đọc log compile, sửa lỗi nếu có; sau đó nối Dashboard chrome và control/menu Airaw. Không dùng compile-only làm bằng chứng thiết bị hoạt động.
