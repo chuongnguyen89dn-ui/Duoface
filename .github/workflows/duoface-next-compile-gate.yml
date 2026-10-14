@@ -58,13 +58,19 @@ jobs:
             s=subprocess.run(['strings',str(p)],capture_output=True,text=True,check=True).stdout
             return {t:t in s for t in terms}
           bm=hints(bridge,['Zoom In','Zoom Out','Close App','CBMultitaskingOverlayView','com.duoface.fullscreen.picker.v1'])
-          hm=hints(hook,['[DuoFaceBorder] START','[DuoFaceBorder] install','borderPulse','dfStart','dfEnd','CBBridgedSplitApp'])
+          hm=hints(hook,['[DuoFaceBorder] RED ON user activity','[DuoFaceBorder] RED OFF native idle','[DuoFaceBorder] install','borderPulse','CBBridgedSplitApp'])
           assert all(bm.values()),bm
           assert all(hm.values()),hm
+          # Old red-white runner animations are explicitly forbidden by user.
+          assert not any(t in hook.read_bytes().decode('latin1') for t in ('dfStart','dfEnd'))
+          visual=pathlib.Path('src/DuoFaceBorderRunner.m').read_text()
+          assert 'DFRunnerAnimation' not in visual
+          assert 'DFSetBorderVisible(view,NO)' in visual
+          assert 'DFSetBorderVisible(view,!DFFocusHidden(self))' in visual
           out={'source_commit':os.environ['GITHUB_SHA'],'status':'COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS',
             'bridge_sha256':sha(bridge),'visual_hook_sha256':sha(hook),
             'menu_markers':bm,'border_markers':hm,
-            'approved_menu_height_pt':40,'border_logo_red':'#E3020F',
+            'approved_menu_height_pt':40,'border_logo_red':'#E3020F','border_behavior':'red_on_native_activity_clear_on_native_idle',
             'deb_built':False,'sileo_published':False}
           p=root/'audit/duoface-next-compile-20261014.json'
           p.parent.mkdir(parents=True,exist_ok=True)
