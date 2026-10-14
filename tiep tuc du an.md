@@ -2244,3 +2244,25 @@ Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.
 5. Build DEB **candidate** riêng trên GitHub, không tự phát hành Sileo; kiểm thử thật enter → menu reachable → exit → sidebar/2-pane restored → Home → lặp lại. Chỉ xác nhận FULL PASS sau device test.
 
 **Trạng thái:** mới nghiên cứu xác nhận kiến trúc, ghi yêu cầu/đường gọi; CHƯA chỉnh source, CHƯA có build mới hoặc deploy. Commit nền trước cập nhật: `2f69a033e9bf2fbe362b0afda7d4702c45b20c0d`.
+
+
+## 2026-10-14 — Đính chính sau ảnh fullscreen: menu ứng dụng KHÔNG tồn tại khi mở rộng
+
+### Bằng chứng mới từ người dùng (ảnh chụp fullscreen và trạng thái chia hai pane)
+- Khi nhấn phóng to, **menu chọn ứng dụng/tab 'Ứng dụng' biến mất hoàn toàn**, chỉ còn nội dung phóng to và điều khiển **Thu nhỏ** của Airaw adapter. Khi thu nhỏ thành công mới trở lại bố cục hai pane, rồi mới có thể mở menu ứng dụng.
+- Người dùng xác nhận **nút thu nhỏ hiện bị thanh trắng chồng lên/chặn**, do đó đang không thực hiện được đường thoát fullscreen bằng giao diện.
+- Điều này **phủ định giả định** trong checkpoint `8dd9c5c` rằng cùng một nút nằm trong menu chọn ứng dụng có thể thực hiện cả hai chiều. Không được xóa thanh trắng và điều khiển restore khi chưa có đường thoát thay thế **tồn tại, bấm được trong fullscreen**. Không yêu cầu người dùng mở menu đã bị ẩn.
+
+### Đối chiếu code, cơ chế và quyết định cập nhật
+- `DFRestoreMenu.mm` hiện đặt `grabberPill` 48×5 màu trắng và menu panel 68 điểm; `hitTest:` nhận tap ở grabber mở panel, nút thoát `closeButton` nằm bên trong. Đây là thành phần có thể che/cản trực tiếp nút thu nhỏ trong ảnh. Chưa có log/touch tracing chứng minh chính xác lớp nào ăn sự kiện — ghi đây là giả thuyết phù hợp source và ảnh, không tuyên bố root cause runtime chắc chắn.
+- `DFHostGeometry.xm` giữ đường hồi phục `DFHostRestore()` để trả lại `CBWindow`, renderSize, 2 pane. `DFRestoreMenu.onCloseRequested` đang gọi trực tiếp `DFHostRestore()`; KHÔNG được xóa đường restore đó.
+- **Thiết kế khả dụng sau đính chính:** khi ở bố cục thường, chỉ cần nút **Phóng to** cạnh tab 'Ứng dụng' trong menu chọn app (sau khi xác minh đúng view controller). Khi ở fullscreen, **phải có nút Thu nhỏ riêng nằm trong vùng fullscreen**, tối thiểu 44×44 điểm vùng chạm, hiển thị sẵn để nhấn một lần, không phụ thuộc thanh trắng/grabber/tap-to-reveal hay menu chọn app. Có thể dùng lại callback `onCloseRequested` và `DFHostRestore()`. Thanh trắng mới được bỏ **sau khi nút Thu nhỏ thay thế có đường hit-test rõ ràng và CI/device kiểm chứng**.
+- Lệnh tiến/thoái dùng cùng host state để đồng bộ; khi exit phải khôi phục chrome/sidebar/split; khi app mất focus thì rollback vẫn chạy. Không đổi picker v12, package ID/ngày, tỷ lệ split. Đây là yêu cầu mới thay thế phần "một nút trong menu cho cả hai trạng thái" của checkpoint trước, giữ nguyên lịch sử tại mục cũ.
+
+### Bước tiếp theo
+1. Sửa **điều khiển restore fullscreen trước**: tách hit target Thu nhỏ khỏi grabberPill, xóa vùng trắng gây chồng lấp sau khi kiểm tra chức năng; tránh thêm overlay ở Home/menu và tránh che video.
+2. Tạo candidate CI riêng, log kiểm chứng mọi callback restore, không đưa lên Sileo khi chưa test thực.
+3. Dò host picker v12 và thêm chữ/nút Phóng to cạnh 'Ứng dụng' chỉ trong trạng thái bình thường.
+4. Device test: bố cục hai pane -> chọn Phóng to -> fullscreen -> có nút Thu nhỏ -> 1 lần bấm hồi phục hai pane và menu -> lặp lại.
+
+**Tình trạng:** mới xác nhận lại yêu cầu/kiến trúc; chưa có bằng chứng nút restore mới hoạt động, không tuyên bố đã sửa chức năng.
