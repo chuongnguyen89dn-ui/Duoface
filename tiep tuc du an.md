@@ -2045,3 +2045,26 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 Evidence mới: audit/airaw-restore-eligibility-20261014.txt. Có thể tái tạo bằng scripts/airaw_focus_recovery.py với ranges 0xeb54:0xed04 0xca2c:0xcad8 0xef70:0xf1a0.
 V12 repo dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb có blob ef6df3b3a84e1c43049bf66c093365fe996f67fd; Contents trả content rỗng (>1MB), fetch_blob lỗi UTF-8 cho binary. Chưa lấy được bytes v12 qua hai đường đó; không được coi merged package là v12 đã đối chiếu.
 Trạng thái: chưa sửa runtime, chưa build, chưa device PASS. Tiếp tục lấy đúng v12 để xác minh host/scene, sau đó mới tích hợp đường scene/chrome/restore đã truy được.
+
+
+## 2026-10-14 — Checkpoint v12 host thật; lưu ngay khi xác minh
+
+Yêu cầu người dùng nhắc lại: trong cùng phiên, mỗi phát hiện phải ghi ngay vào tiếp tục dự án, không chờ cuối phiên.
+
+Đã tải được v12 qua raw.githubusercontent.com (fetch_blob connector lỗi decode binary; không còn bị chặn lấy file):
+- dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb: 2,231,998 bytes; SHA256 8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a; tự tính Git blob ef6df3b3a84e1c43049bf66c093365fe996f67fd KHỚP GitHub.
+- Dashboard v12: 7,540,464 bytes; SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce. Không dùng merged package thay thế.
+- Info.plist của DuoFaceUI có CFBundleIdentifier=com.duoface.duofaceui. Không được lấy package com.duonavi.app làm scene ID đã xác minh.
+
+Phát hiện host:
+- ObjC metadata xác định CBWindow.resizeWindows IMP 0xb1aac, show 0xb1d98; class methods carPlayScreenBounds 0xb0704, carPlayContentInsets 0xb0c98, carPlayUsableBounds 0xb0ef4.
+- resizeWindows gọi cả carPlayScreenBounds và carPlayUsableBounds; show gọi resizeWindows trước khi hiện rootWindow. Phải truy hoàn chỉnh geometry và owner; chỉ thay DB scene/frame có thể không tác động host CBWindow.
+- CBDashboardShared có currentRootStatusBarVC, currentAppDockVC, rootVC, homeVC.
+- CBBridgeManager có window/currentApp/activated; CBBridgeManagerDashboard có handleStateDict:, bridgeDidActivate:, bridgeDidDeactivate.
+- handleStateDict: 0x2a45f4 đọc state[activated].boolValue và state[bundleIdentifier]; gọi bridgeDidActivate: hoặc bridgeDidDeactivate. Hai hàm tiếp theo setActivated YES/NO, setAppDockActiveBundleID:, setHomeButtonInApp:. Đây là đường trạng thái bridge có bằng chứng; chưa chứng minh scene com.duonavi.app tồn tại.
+- CBBridgedSplitApp có layoutSplitViews, focusSlot:animated:, restoreSplitAnimated:. Không gọi focusSlot để làm fullscreen toàn bộ hai pane.
+
+Đã viết script read-only hash-pinned scripts/v12_host_recovery.py, dùng Capstone 5.0.7 đọc metadata/stubs/selectors/CFString và các dải ARM64. Evidence: audit/v12-host-path-20261014.txt.
+Lệnh tái tạo: python3 scripts/v12_host_recovery.py PATH_TO_DuoFaceDashboard.dylib 0xb1aac:0xb1ec0 0x2a3600:0x2a37f0 0x2a45f4:0x2a47fc > audit/v12-host-path-20261014.txt.
+Đã sửa bộ giải CFString ascii/UTF-16 và bổ sung ADR/LDR literal trước khi lưu evidence; không dùng các nhãn unicode lỗi tạm thời.
+Tiếp theo chính xác: giải CBWindow.resizeWindows/carPlayUsableBounds, nối trạng thái Dashboard với host SpringBoard và đường chrome Airaw. Chưa sửa runtime, chưa có build mới hoặc device PASS; giữ v12/split/package/day data.

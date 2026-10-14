@@ -1,0 +1,763 @@
+V12 DASHBOARD SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce
+ARM64 slice 0x4000; static metadata/disassembly only
+-[CBBridgedUIAppView initWithBundleIdentifier:] IMP 0xac6f4
+-[CBBridgedUIAppView initWithBundleIdentifier:scale:] IMP 0xac704
+-[CBBridgedUIAppView setAppScale:] IMP 0xac83c
+-[CBBridgedUIAppView setAudioOnlyBackgroundMode:] IMP 0xac858
+-[CBBridgedUIAppView layoutSubviews] IMP 0xac8f0
+-[CBBridgedUIAppView hitTest:withEvent:] IMP 0xac940
+-[CBBridgedUIAppView touchesBegan:withEvent:] IMP 0xaca6c
+-[CBBridgedUIAppView calculateNativeSizeForSlotRect:] IMP 0xacc28
+-[CBBridgedUIAppView updateLayout] IMP 0xacc6c
+-[CBBridgedUIAppView updateSceneSettingsFrame] IMP 0xad5bc
+-[CBBridgedUIAppView updateSceneFrame] IMP 0xade4c
+-[CBBridgedUIAppView refreshSceneLayout] IMP 0xade58
+-[CBBridgedUIAppView startInParentViewController:] IMP 0xadf30
+-[CBBridgedUIAppView start] IMP 0xaf00c
+-[CBBridgedUIAppView dismiss] IMP 0xaf01c
+-[CBBridgedUIAppView dealloc] IMP 0xaf1d8
+-[CBBridgedUIAppView bundleIdentifier] IMP 0xaf224
+-[CBBridgedUIAppView setBundleIdentifier:] IMP 0xaf234
+-[CBBridgedUIAppView appViewController] IMP 0xaf240
+-[CBBridgedUIAppView setAppViewController:] IMP 0xaf250
+-[CBBridgedUIAppView wrapperView] IMP 0xaf264
+-[CBBridgedUIAppView setWrapperView:] IMP 0xaf274
+-[CBBridgedUIAppView appScale] IMP 0xaf288
+-[CBBridgedUIAppView hosting] IMP 0xaf298
+-[CBBridgedUIAppView setHosting:] IMP 0xaf2a8
+-[CBBridgedUIAppView invalidated] IMP 0xaf2b8
+-[CBBridgedUIAppView setInvalidated:] IMP 0xaf2c8
+-[CBBridgedUIAppView audioOnlyBackgroundMode] IMP 0xaf2d8
+-[CBBridgedUIAppView .cxx_destruct] IMP 0xaf2e8
+-[CBWindow initWithAppFrame:] IMP 0xaf4bc
+-[CBWindow getCarPlayDisplay] IMP 0xb0ff0
+-[CBWindow createWindows] IMP 0xb1064
+-[CBWindow multitaskingOverlay] IMP 0xb1974
+-[CBWindow resizeWindows] IMP 0xb1aac
+-[CBWindow show] IMP 0xb1d98
+-[CBWindow hide:] IMP 0xb1ec0
+-[CBWindow isDisplayValid] IMP 0xb20a4
+-[CBWindow destroyWindows] IMP 0xb21f8
+-[CBWindow dismiss] IMP 0xb258c
+-[CBWindow dealloc] IMP 0xb2598
+-[CBWindow showAppPickerForSlot:] IMP 0xb25e4
+-[CBWindow showLayoutChooser] IMP 0xb2694
+-[CBWindow showRecentApps] IMP 0xb273c
+-[CBWindow appFrame] IMP 0xb27e4
+-[CBWindow setAppFrame:] IMP 0xb27f0
+-[CBWindow rootWindow] IMP 0xb2804
+-[CBWindow setRootWindow:] IMP 0xb280c
+-[CBWindow rootViewController] IMP 0xb2818
+-[CBWindow setRootViewController:] IMP 0xb2820
+-[CBWindow contentView] IMP 0xb282c
+-[CBWindow setContentView:] IMP 0xb2834
+-[CBWindow multitaskingPill] IMP 0xb2840
+-[CBWindow setMultitaskingPill:] IMP 0xb2848
+-[CBWindow setMultitaskingOverlay:] IMP 0xb2854
+-[CBWindow isVisible] IMP 0xb2860
+-[CBWindow setIsVisible:] IMP 0xb2868
+-[CBWindow .cxx_destruct] IMP 0xb2870
++[CBWindow activeCarPlayWindow] IMP 0xaf554
++[CBWindow resetCachedBounds] IMP 0xaf570
++[CBWindow carPlayWindowScene] IMP 0xaf690
++[CBWindow carPlayUIScreen] IMP 0xafe60
++[CBWindow carPlayCADisplay] IMP 0xafffc
++[CBWindow carPlayScreenScale] IMP 0xb059c
++[CBWindow carPlayScreenBounds] IMP 0xb0704
++[CBWindow carPlayContentInsets] IMP 0xb0c98
++[CBWindow carPlayUsableBounds] IMP 0xb0ef4
+-[CBSplitContainerView layoutSubviews] IMP 0x101790
+-[CBSplitContainerView hitTest:withEvent:] IMP 0x10182c
+-[CBSplitContainerView touchesBegan:withEvent:] IMP 0x1018e8
+-[CBSplitContainerView splitApp] IMP 0x101958
+-[CBSplitContainerView setSplitApp:] IMP 0x101978
+-[CBSplitContainerView .cxx_destruct] IMP 0x10198c
+-[CBBridgedSplitApp initWithBundleIdentifier:frame:] IMP 0x1025d4
+-[CBBridgedSplitApp initWithBundleIdentifier:frame:showSplash:] IMP 0x1025e4
+-[CBBridgedSplitApp handleDividerPan:isVertical:state:] IMP 0x103ee0
+-[CBBridgedSplitApp layoutSplitViews] IMP 0x1044f8
+-[CBBridgedSplitApp focusSlot:animated:] IMP 0x105890
+-[CBBridgedSplitApp restoreSplitAnimated:] IMP 0x105e2c
+-[CBBridgedSplitApp toggleFocusForSlot:] IMP 0x106518
+-[CBBridgedSplitApp rotateAllSlotsClockwise] IMP 0x106560
+-[CBBridgedSplitApp configureDividerButtons] IMP 0x1067a4
+-[CBBridgedSplitApp updateScale:forSlot:] IMP 0x108dd8
+-[CBBridgedSplitApp moveSlot:direction:] IMP 0x108f28
+-[CBBridgedSplitApp handleDividerSwapPressed:] IMP 0x108fc8
+-[CBBridgedSplitApp swapSlot:withSlot:] IMP 0x10915c
+-[CBBridgedSplitApp replaceAppInSlot:withBundleIdentifier:] IMP 0x1098c0
+-[CBBridgedSplitApp restartSlot:] IMP 0x109fe4
+-[CBBridgedSplitApp restartAppWithBundleIdentifier:] IMP 0x10a8b8
+-[CBBridgedSplitApp removeAppWithBundleIdentifier:] IMP 0x10a9f0
+-[CBBridgedSplitApp closeSlot:] IMP 0x10ab28
+-[CBBridgedSplitApp closeAllSlots] IMP 0x10b0b8
+-[CBBridgedSplitApp persistSlotOrder] IMP 0x10b4ac
+-[CBBridgedSplitApp start] IMP 0x10bb0c
+-[CBBridgedSplitApp startInParentViewController:] IMP 0x10bb1c
+-[CBBridgedSplitApp stop] IMP 0x10beec
+-[CBBridgedSplitApp noteUserActivity] IMP 0x10c378
+-[CBBridgedSplitApp startBlinkingSession] IMP 0x10c464
+-[CBBridgedSplitApp stopBlinkingSession] IMP 0x11f558
+-[CBBridgedSplitApp startContainerBorderBlinking:] IMP 0x11fa88
+-[CBBridgedSplitApp stopContainerBorderBlinking:] IMP 0x11fcd4
+-[CBBridgedSplitApp splashScreenView] IMP 0x11fddc
+-[CBBridgedSplitApp setSplashScreenView:] IMP 0x11fdec
+-[CBBridgedSplitApp appViews] IMP 0x11fe00
+-[CBBridgedSplitApp setAppViews:] IMP 0x11fe10
+-[CBBridgedSplitApp placeholders] IMP 0x11fe24
+-[CBBridgedSplitApp setPlaceholders:] IMP 0x11fe34
+-[CBBridgedSplitApp containers] IMP 0x11fe48
+-[CBBridgedSplitApp setContainers:] IMP 0x11fe58
+-[CBBridgedSplitApp dividers] IMP 0x11fe6c
+-[CBBridgedSplitApp setDividers:] IMP 0x11fe7c
+-[CBBridgedSplitApp slotPills] IMP 0x11fe90
+-[CBBridgedSplitApp setSlotPills:] IMP 0x11fea0
+-[CBBridgedSplitApp splitPreset] IMP 0x11feb4
+-[CBBridgedSplitApp setSplitPreset:] IMP 0x11fec4
+-[CBBridgedSplitApp splitRatio] IMP 0x11fed4
+-[CBBridgedSplitApp setSplitRatio:] IMP 0x11fee4
+-[CBBridgedSplitApp focusedSlotIndex] IMP 0x11fef4
+-[CBBridgedSplitApp setFocusedSlotIndex:] IMP 0x11ff04
+-[CBBridgedSplitApp isTransitioningFocus] IMP 0x11ff14
+-[CBBridgedSplitApp setIsTransitioningFocus:] IMP 0x11ff24
+-[CBBridgedSplitApp .cxx_destruct] IMP 0x11ff34
++[CBDashboardShared setCurrentDashboardRootVC:] IMP 0x121460
++[CBDashboardShared currentDashboardRootVC] IMP 0x121470
++[CBDashboardShared setCurrentAppDockVC:] IMP 0x12148c
++[CBDashboardShared currentAppDockVC] IMP 0x12149c
++[CBDashboardShared setCurrentRootStatusBarVC:] IMP 0x1214b8
++[CBDashboardShared currentRootStatusBarVC] IMP 0x1214c8
++[CBDashboardShared carApp] IMP 0x1214e4
++[CBDashboardShared dashboard] IMP 0x121580
++[CBDashboardShared rootVC] IMP 0x121634
++[CBDashboardShared homeVC] IMP 0x1216e0
++[CBDashboardShared folderController] IMP 0x121758
++[CBDashboardShared appDockVC] IMP 0x1217d8
+-[CBBridgeManager trackBridgedBundleID:] IMP 0x280b60
+-[CBBridgeManager runningBridgedApplications] IMP 0x280d48
+-[CBBridgeManager renderSizeForBundleID:] IMP 0x24c920
+-[CBBridgeManager supportsInterfaceOrientation:forBundleID:] IMP 0x24d118
+-[CBBridgeManager switchToSplitWithLeft:right:ratio:] IMP 0x24d120
+-[CBBridgeManager switchToMultiSplitMode:apps:ratio:] IMP 0x24d228
+-[CBBridgeManager handleSettingsChanged] IMP 0x267764
+-[CBBridgeManager showAppPickerForSlot:] IMP 0x27fee4
+-[CBBridgeManager showLayoutChooser] IMP 0x280014
+-[CBBridgeManager updateScale:forSlot:] IMP 0x280130
+-[CBBridgeManager showRecentApps] IMP 0x280208
+-[CBBridgeManager registerForNotifications] IMP 0x1d07fc
+-[CBBridgeManager receivedDashboardReadyNotification:] IMP 0x1d0f10
+-[CBBridgeManager receivedMetricsUpdatedNotification:] IMP 0x1d1400
+-[CBBridgeManager sendStateToApp:shouldBridge:] IMP 0x1d1624
+-[CBBridgeManager saveBridgeStateToDisk] IMP 0x1fd280
+-[CBBridgeManager clearBridgeStateOnDisk] IMP 0x229748
+-[CBBridgeManager syncDashboardPolicySignalToDisk] IMP 0x229e8c
+-[CBBridgeManager receivedAppRequestNotification:] IMP 0x248e70
+-[CBBridgeManager isUIAppBridging] IMP 0x249154
+-[CBBridgeManager shouldBridge:] IMP 0x2491b0
+-[CBBridgeManager isCurrentlyBridging:] IMP 0x24960c
+-[CBBridgeManager receivedStateChangeRequestNotificiation:] IMP 0x24968c
+-[CBBridgeManager receivedDockTapNotification:] IMP 0x249868
+-[CBBridgeManager notifyStateUpdated] IMP 0x249a54
+-[CBBridgeManager evictAppFromPhoneScreen:completion:] IMP 0x24a024
+-[CBBridgeManager scheduleMandatoryDisconnectWatchdog] IMP 0x1b9420
+-[CBBridgeManager cancelMandatoryDisconnectWatchdog] IMP 0x1cce6c
+-[CBBridgeManager enforceMandatoryDisconnectKill] IMP 0x1cceac
+-[CBBridgeManager terminateApplicationWithBundleID:] IMP 0x1cd780
+-[CBBridgeManager restartApplicationWithBundleID:] IMP 0x1cde94
+-[CBBridgeManager terminateAllBridgedApplications] IMP 0x1ce480
+-[CBBridgeManager collectActiveAndSessionAppBundleIDs] IMP 0x1cf0b0
+-[CBBridgeManager killProcessesForBundleIdentifiers:] IMP 0x1cf874
+-[CBBridgeManager acquireCarPlaySleepAssertion] IMP 0x19eaf8
+-[CBBridgeManager releaseCarPlaySleepAssertion] IMP 0x19eb90
+-[CBBridgeManager effectiveAutoLaunchBundleID] IMP 0x19ec10
+-[CBBridgeManager scheduleAutoResumeFallback] IMP 0x19ed98
+-[CBBridgeManager performAutoResume] IMP 0x19ee24
+-[CBBridgeManager handleGenericScreenOrCarPlayNotification:] IMP 0x1b816c
+-[CBBridgeManager handleScreenDidDisconnect:] IMP 0x1b82e0
+-[CBBridgeManager handleScreenDidConnect:] IMP 0x1b86c8
+-[CBBridgeManager handleCarPlayConnectionChanged:] IMP 0x1b8a1c
+-[CBBridgeManager init] IMP 0x12192c
+-[CBBridgeManager renderSize] IMP 0x13ae78
+-[CBBridgeManager requestStateChangeWithDictionary:] IMP 0x13aee8
+-[CBBridgeManager requestStateChange:] IMP 0x13b158
+-[CBBridgeManager loadNewAppFromCurrentRequest:] IMP 0x153544
+-[CBBridgeManager deactivateCurrentApp] IMP 0x19d458
+-[CBBridgeManager dismiss:] IMP 0x19d870
+-[CBBridgeManager terminate] IMP 0x19d910
+-[CBBridgeManager appForBundleIdentifier:frame:] IMP 0x19d984
+-[CBBridgeManager window] IMP 0x19daf0
+-[CBBridgeManager setWindow:] IMP 0x19daf8
+-[CBBridgeManager currentApp] IMP 0x19db04
+-[CBBridgeManager setCurrentApp:] IMP 0x19db0c
+-[CBBridgeManager bundleIdentifier] IMP 0x19db2c
+-[CBBridgeManager setBundleIdentifier:] IMP 0x19db38
+-[CBBridgeManager activated] IMP 0x19db40
+-[CBBridgeManager setActivated:] IMP 0x19db48
+-[CBBridgeManager appFrame] IMP 0x19db50
+-[CBBridgeManager setAppFrame:] IMP 0x19db5c
+-[CBBridgeManager setRenderSize:] IMP 0x19db70
+-[CBBridgeManager autoResumeBundleID] IMP 0x19db7c
+-[CBBridgeManager setAutoResumeBundleID:] IMP 0x19db88
+-[CBBridgeManager .cxx_destruct] IMP 0x19db90
++[CBBridgeManager sharedInstance] IMP 0x121884
++[CBBridgeManager sharedInstanceIfExists] IMP 0x121920
+-[CBBridgeManagerDashboard init] IMP 0x282cc4
+-[CBBridgeManagerDashboard registerForNotifications] IMP 0x282d2c
+-[CBBridgeManagerDashboard handleScreenDidDisconnect:] IMP 0x283064
+-[CBBridgeManagerDashboard handleScreenDidConnect:] IMP 0x283a3c
+-[CBBridgeManagerDashboard startBridging:] IMP 0x2a33c0
+-[CBBridgeManagerDashboard startBridging:withCompletion:] IMP 0x2a33d0
+-[CBBridgeManagerDashboard stopBridging] IMP 0x2a3434
+-[CBBridgeManagerDashboard stopBridgingWithCompletion:] IMP 0x2a3444
+-[CBBridgeManagerDashboard prepareAndRequestActivation:] IMP 0x2a3478
+-[CBBridgeManagerDashboard prepareHomeScreenForBridge:] IMP 0x2a3600
+-[CBBridgeManagerDashboard closeOfficialTopApp:] IMP 0x2a37f0
+-[CBBridgeManagerDashboard requestActivation:] IMP 0x2a3ad0
+-[CBBridgeManagerDashboard requestDismiss] IMP 0x2a3d34
+-[CBBridgeManagerDashboard requestStateChange:] IMP 0x2a3f04
+-[CBBridgeManagerDashboard handleSBStateChange:] IMP 0x2a4418
+-[CBBridgeManagerDashboard handleStateDict:] IMP 0x2a45f4
+-[CBBridgeManagerDashboard bridgeDidActivate:] IMP 0x2a4738
+-[CBBridgeManagerDashboard bridgeDidDeactivate] IMP 0x2a47ac
+-[CBBridgeManagerDashboard handleDockIconTap:] IMP 0x2a47fc
+-[CBBridgeManagerDashboard setAppDockActiveBundleID:] IMP 0x2a4934
+-[CBBridgeManagerDashboard setHomeButtonInApp:] IMP 0x2a4a3c
+-[CBBridgeManagerDashboard updateCarPlayMetrics] IMP 0x2a4c24
+-[CBBridgeManagerDashboard getAppFrame] IMP 0x2a5fd8
+-[CBBridgeManagerDashboard getDockDimension] IMP 0x2a6228
+-[CBBridgeManagerDashboard getDockWidth] IMP 0x2a63c8
+-[CBBridgeManagerDashboard getDockEdge] IMP 0x2a63d4
+-[CBBridgeManagerDashboard activated] IMP 0x2a64c8
+-[CBBridgeManagerDashboard setActivated:] IMP 0x2a64d0
+-[CBBridgeManagerDashboard pending] IMP 0x2a64d8
+-[CBBridgeManagerDashboard setPending:] IMP 0x2a64e0
+-[CBBridgeManagerDashboard pendingCompletion] IMP 0x2a64e8
+-[CBBridgeManagerDashboard setPendingCompletion:] IMP 0x2a64f4
+-[CBBridgeManagerDashboard .cxx_destruct] IMP 0x2a64fc
++[CBBridgeManagerDashboard sharedInstance] IMP 0x282c28
++[CBBridgeManagerDashboard isOfficialApp:] IMP 0x283c4c
++[CBBridgeManagerDashboard isBridgedApp:] IMP 0x283ea8
++[CBBridgeManagerDashboard isDashboardPolicySignalActive] IMP 0x284068
++[CBBridgeManagerDashboard shouldInterceptLaunchForApp:] IMP 0x2a314c
++[CBBridgeManagerDashboard bridgedApps] IMP 0x2a3364
+
+DISASSEMBLY 0xb1aac-0xb1ec0
+000b1aac: sub      sp, sp, #0xa0                                 
+000b1ab0: stp      d15, d14, [sp, #0x10]                         
+000b1ab4: stp      d13, d12, [sp, #0x20]                         
+000b1ab8: stp      d11, d10, [sp, #0x30]                         
+000b1abc: stp      d9, d8, [sp, #0x40]                           
+000b1ac0: stp      x26, x25, [sp, #0x50]                         
+000b1ac4: stp      x24, x23, [sp, #0x60]                         
+000b1ac8: stp      x22, x21, [sp, #0x70]                         
+000b1acc: stp      x20, x19, [sp, #0x80]                         
+000b1ad0: stp      x29, x30, [sp, #0x90]                         
+000b1ad4: add      x29, sp, #0x90                                
+000b1ad8: mov      x19, x0                                       
+000b1adc: adrp     x20, #0x37f000                                
+000b1ae0: ldr      x0, [x20, #0x910]                             [0x37f910] CLASS CBWindow
+000b1ae4: adrp     x8, #0x37e000                                 
+000b1ae8: ldr      x1, [x8, #0x4e0]                              [0x37e4e0] SEL carPlayScreenBounds
+000b1aec: bl       #0x2ecd00                                     _objc_msgSend
+000b1af0: mov      v8.16b, v0.16b                                
+000b1af4: mov      v9.16b, v1.16b                                
+000b1af8: mov      v10.16b, v2.16b                               
+000b1afc: mov      v11.16b, v3.16b                               
+000b1b00: ldr      x0, [x20, #0x910]                             [0x37f910] CLASS CBWindow
+000b1b04: adrp     x8, #0x37e000                                 
+000b1b08: ldr      x1, [x8, #0x320]                              [0x37e320] SEL carPlayUsableBounds
+000b1b0c: bl       #0x2ecd00                                     _objc_msgSend
+000b1b10: mov      v12.16b, v0.16b                               
+000b1b14: mov      v13.16b, v1.16b                               
+000b1b18: mov      v14.16b, v2.16b                               
+000b1b1c: mov      v15.16b, v3.16b                               
+000b1b20: ldr      x0, [x19, #0x20]                              
+000b1b24: adrp     x22, #0x37d000                                
+000b1b28: adrp     x24, #0x37f000                                
+000b1b2c: adrp     x25, #0x37d000                                
+000b1b30: adrp     x23, #0x37d000                                
+000b1b34: cbz      x0, #0xb1b80                                  
+000b1b38: ldr      x1, [x22, #0xa10]                             
+000b1b3c: mov      v0.16b, v8.16b                                
+000b1b40: mov      v1.16b, v9.16b                                
+000b1b44: mov      v2.16b, v10.16b                               
+000b1b48: mov      v3.16b, v11.16b                               
+000b1b4c: bl       #0x2ecd00                                     _objc_msgSend
+000b1b50: ldr      x0, [x24, #0x818]                             
+000b1b54: ldr      x1, [x25, #0x9d0]                             
+000b1b58: bl       #0x2ecd00                                     _objc_msgSend
+000b1b5c: mov      x29, x29                                      
+000b1b60: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1b64: mov      x20, x0                                       
+000b1b68: ldr      x0, [x19, #0x20]                              
+000b1b6c: ldr      x1, [x23, #0x9d8]                             
+000b1b70: mov      x2, x20                                       
+000b1b74: bl       #0x2ecd00                                     _objc_msgSend
+000b1b78: mov      x0, x20                                       
+000b1b7c: bl       #0x2ecd30                                     _objc_release
+000b1b80: ldr      x0, [x19, #0x28]                              
+000b1b84: cbz      x0, #0xb1be4                                  
+000b1b88: adrp     x8, #0x37e000                                 
+000b1b8c: ldr      x20, [x8, #0x2f0]                             [0x37e2f0] SEL view
+000b1b90: mov      x1, x20                                       
+000b1b94: bl       #0x2ecd00                                     _objc_msgSend
+000b1b98: mov      x29, x29                                      
+000b1b9c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1ba0: mov      x21, x0                                       
+000b1ba4: bl       #0x2ecd30                                     _objc_release
+000b1ba8: cbz      x21, #0xb1be4                                 
+000b1bac: ldr      x0, [x19, #0x28]                              
+000b1bb0: mov      x1, x20                                       
+000b1bb4: bl       #0x2ecd00                                     _objc_msgSend
+000b1bb8: mov      x29, x29                                      
+000b1bbc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1bc0: mov      x20, x0                                       
+000b1bc4: ldr      x1, [x22, #0xa10]                             
+000b1bc8: mov      v0.16b, v8.16b                                
+000b1bcc: mov      v1.16b, v9.16b                                
+000b1bd0: mov      v2.16b, v10.16b                               
+000b1bd4: mov      v3.16b, v11.16b                               
+000b1bd8: bl       #0x2ecd00                                     _objc_msgSend
+000b1bdc: mov      x0, x20                                       
+000b1be0: bl       #0x2ecd30                                     _objc_release
+000b1be4: ldr      x0, [x19, #0x30]                              
+000b1be8: cbz      x0, #0xb1c90                                  
+000b1bec: ldr      x1, [x22, #0xa10]                             
+000b1bf0: mov      v0.16b, v12.16b                               
+000b1bf4: mov      v1.16b, v13.16b                               
+000b1bf8: mov      v2.16b, v14.16b                               
+000b1bfc: mov      v3.16b, v15.16b                               
+000b1c00: bl       #0x2ecd00                                     _objc_msgSend
+000b1c04: ldr      x0, [x24, #0x818]                             
+000b1c08: ldr      x1, [x25, #0x9d0]                             
+000b1c0c: bl       #0x2ecd00                                     _objc_msgSend
+000b1c10: mov      x29, x29                                      
+000b1c14: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1c18: mov      x20, x0                                       
+000b1c1c: ldr      x0, [x19, #0x30]                              
+000b1c20: ldr      x1, [x23, #0x9d8]                             
+000b1c24: mov      x2, x20                                       
+000b1c28: bl       #0x2ecd00                                     _objc_msgSend
+000b1c2c: mov      x0, x20                                       
+000b1c30: bl       #0x2ecd30                                     _objc_release
+000b1c34: ldr      x0, [x19, #0x30]                              
+000b1c38: adrp     x8, #0x37e000                                 
+000b1c3c: ldr      x1, [x8, #0x548]                              [0x37e548] SEL setEffect:
+000b1c40: mov      x2, #0                                        
+000b1c44: bl       #0x2ecd00                                     _objc_msgSend
+000b1c48: ldr      x0, [x19, #0x30]                              
+000b1c4c: adrp     x8, #0x37d000                                 
+000b1c50: ldr      x1, [x8, #0xdf8]                              [0x37ddf8] SEL setClipsToBounds:
+000b1c54: mov      w2, #1                                        
+000b1c58: bl       #0x2ecd00                                     _objc_msgSend
+000b1c5c: ldr      x0, [x19, #0x30]                              
+000b1c60: adrp     x8, #0x37d000                                 
+000b1c64: ldr      x1, [x8, #0xa18]                              [0x37da18] SEL layer
+000b1c68: bl       #0x2ecd00                                     _objc_msgSend
+000b1c6c: mov      x29, x29                                      
+000b1c70: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1c74: mov      x20, x0                                       
+000b1c78: adrp     x8, #0x37d000                                 
+000b1c7c: ldr      x1, [x8, #0xa28]                              [0x37da28] SEL setMasksToBounds:
+000b1c80: mov      w2, #0                                        
+000b1c84: bl       #0x2ecd00                                     _objc_msgSend
+000b1c88: mov      x0, x20                                       
+000b1c8c: bl       #0x2ecd30                                     _objc_release
+000b1c90: ldr      x0, [x19, #0x40]                              
+000b1c94: cbz      x0, #0xb1d10                                  
+000b1c98: adrp     x8, #0x37d000                                 
+000b1c9c: ldr      x20, [x8, #0xe40]                             [0x37de40] SEL superview
+000b1ca0: mov      x1, x20                                       
+000b1ca4: bl       #0x2ecd00                                     _objc_msgSend
+000b1ca8: mov      x29, x29                                      
+000b1cac: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1cb0: mov      x21, x0                                       
+000b1cb4: bl       #0x2ecd30                                     _objc_release
+000b1cb8: ldr      x0, [x19, #0x40]                              
+000b1cbc: cbz      x21, #0xb1cf8                                 
+000b1cc0: mov      x1, x20                                       
+000b1cc4: bl       #0x2ecd00                                     _objc_msgSend
+000b1cc8: mov      x29, x29                                      
+000b1ccc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1cd0: mov      x20, x0                                       
+000b1cd4: adrp     x8, #0x37d000                                 
+000b1cd8: ldr      x1, [x8, #0x9b0]                              [0x37d9b0] SEL bounds
+000b1cdc: bl       #0x2ecd00                                     _objc_msgSend
+000b1ce0: ldr      x0, [x19, #0x40]                              
+000b1ce4: ldr      x1, [x22, #0xa10]                             
+000b1ce8: bl       #0x2ecd00                                     _objc_msgSend
+000b1cec: mov      x0, x20                                       
+000b1cf0: bl       #0x2ecd30                                     _objc_release
+000b1cf4: b        #0xb1d10                                      
+000b1cf8: ldr      x1, [x22, #0xa10]                             
+000b1cfc: fmov     d0, xzr                                       
+000b1d00: fmov     d1, xzr                                       
+000b1d04: mov      v2.16b, v14.16b                               
+000b1d08: mov      v3.16b, v15.16b                               
+000b1d0c: bl       #0x2ecd00                                     _objc_msgSend
+000b1d10: mov      v0.16b, v8.16b                                
+000b1d14: mov      v1.16b, v9.16b                                
+000b1d18: mov      v2.16b, v10.16b                               
+000b1d1c: mov      v3.16b, v11.16b                               
+000b1d20: bl       #0x2ec9d0                                     _NSStringFromCGRect
+000b1d24: mov      x29, x29                                      
+000b1d28: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1d2c: mov      x19, x0                                       
+000b1d30: mov      v0.16b, v12.16b                               
+000b1d34: mov      v1.16b, v13.16b                               
+000b1d38: mov      v2.16b, v14.16b                               
+000b1d3c: mov      v3.16b, v15.16b                               
+000b1d40: bl       #0x2ec9d0                                     _NSStringFromCGRect
+000b1d44: mov      x29, x29                                      
+000b1d48: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1d4c: mov      x20, x0                                       
+000b1d50: stp      x19, x0, [sp]                                 
+000b1d54: adrp     x0, #0x370000                                 
+000b1d58: add      x0, x0, #0xe68                                NSString '[DuoFaceWindow] resizeWindows completed: screenBounds=%@, usableBounds=%@'
+000b1d5c: bl       #0x2ec9ac                                     _NSLog
+000b1d60: mov      x0, x20                                       
+000b1d64: bl       #0x2ecd30                                     _objc_release
+000b1d68: mov      x0, x19                                       
+000b1d6c: ldp      x29, x30, [sp, #0x90]                         
+000b1d70: ldp      x20, x19, [sp, #0x80]                         
+000b1d74: ldp      x22, x21, [sp, #0x70]                         
+000b1d78: ldp      x24, x23, [sp, #0x60]                         
+000b1d7c: ldp      x26, x25, [sp, #0x50]                         
+000b1d80: ldp      d9, d8, [sp, #0x40]                           
+000b1d84: ldp      d11, d10, [sp, #0x30]                         
+000b1d88: ldp      d13, d12, [sp, #0x20]                         
+000b1d8c: ldp      d15, d14, [sp, #0x10]                         
+000b1d90: add      sp, sp, #0xa0                                 
+000b1d94: b        #0x2ecd30                                     _objc_release
+000b1d98: sub      sp, sp, #0x50                                 
+000b1d9c: stp      x22, x21, [sp, #0x20]                         
+000b1da0: stp      x20, x19, [sp, #0x30]                         
+000b1da4: stp      x29, x30, [sp, #0x40]                         
+000b1da8: add      x29, sp, #0x40                                
+000b1dac: mov      x19, x0                                       
+000b1db0: adrp     x8, #0x37e000                                 
+000b1db4: ldr      x1, [x8, #0x448]                              [0x37e448] SEL resizeWindows
+000b1db8: bl       #0x2ecd00                                     _objc_msgSend
+000b1dbc: ldr      x0, [x19, #0x20]                              
+000b1dc0: adrp     x8, #0x37d000                                 
+000b1dc4: ldr      x1, [x8, #0xa18]                              [0x37da18] SEL layer
+000b1dc8: bl       #0x2ecd00                                     _objc_msgSend
+000b1dcc: mov      x29, x29                                      
+000b1dd0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1dd4: mov      x20, x0                                       
+000b1dd8: adrp     x8, #0x37e000                                 
+000b1ddc: ldr      x1, [x8, #0x550]                              [0x37e550] SEL removeAllAnimations
+000b1de0: bl       #0x2ecd00                                     _objc_msgSend
+000b1de4: mov      x0, x20                                       
+000b1de8: bl       #0x2ecd30                                     _objc_release
+000b1dec: ldr      x0, [x19, #0x20]                              
+000b1df0: adrp     x8, #0x37d000                                 
+000b1df4: ldr      x1, [x8, #0x988]                              [0x37d988] SEL setAlpha:
+000b1df8: fmov     d0, #1.00000000                               
+000b1dfc: bl       #0x2ecd00                                     _objc_msgSend
+000b1e00: ldr      x0, [x19, #0x20]                              
+000b1e04: adrp     x8, #0x37d000                                 
+000b1e08: ldr      x1, [x8, #0x980]                              [0x37d980] SEL setHidden:
+000b1e0c: mov      w2, #0                                        
+000b1e10: bl       #0x2ecd00                                     _objc_msgSend
+000b1e14: ldr      x0, [x19, #0x20]                              
+000b1e18: adrp     x8, #0x37e000                                 
+000b1e1c: ldr      x20, [x8, #0x558]                             [0x37e558] SEL makeKeyAndVisible
+000b1e20: adrp     x8, #0x37d000                                 
+000b1e24: ldr      x1, [x8, #0x5d8]                              [0x37d5d8] SEL respondsToSelector:
+000b1e28: mov      x2, x20                                       
+000b1e2c: bl       #0x2ecd00                                     _objc_msgSend
+000b1e30: cbz      w0, #0xb1e40                                  
+000b1e34: ldr      x0, [x19, #0x20]                              
+000b1e38: mov      x1, x20                                       
+000b1e3c: bl       #0x2ecd00                                     _objc_msgSend
+000b1e40: mov      w8, #1                                        
+000b1e44: strb     w8, [x19, #0x18]                              
+000b1e48: ldr      x20, [x19, #0x20]                             
+000b1e4c: adrp     x8, #0x37e000                                 
+000b1e50: ldr      x1, [x8, #0x560]                              [0x37e560] SEL frame
+000b1e54: mov      x0, x20                                       
+000b1e58: bl       #0x2ecd00                                     _objc_msgSend
+000b1e5c: bl       #0x2ec9d0                                     _NSStringFromCGRect
+000b1e60: mov      x29, x29                                      
+000b1e64: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+000b1e68: mov      x21, x0                                       
+000b1e6c: ldr      x0, [x19, #0x20]                              
+000b1e70: adrp     x8, #0x37d000                                 
+000b1e74: ldr      x1, [x8, #0xe70]                              [0x37de70] SEL isHidden
+000b1e78: bl       #0x2ecd00                                     _objc_msgSend
+000b1e7c: mov      x22, x0                                       
+000b1e80: ldr      x0, [x19, #0x20]                              
+000b1e84: adrp     x8, #0x37e000                                 
+000b1e88: ldr      x1, [x8, #0x568]                              [0x37e568] SEL windowLevel
+000b1e8c: bl       #0x2ecd00                                     _objc_msgSend
+000b1e90: str      d0, [sp, #0x18]                               
+000b1e94: stp      x21, x22, [sp, #8]                            
+000b1e98: str      x20, [sp]                                     
+000b1e9c: adrp     x0, #0x370000                                 
+000b1ea0: add      x0, x0, #0xe88                                NSString '[DuoFaceWindow] show: _rootWindow=%@, frame=%@, hidden=%d, level=%.1f'
+000b1ea4: bl       #0x2ec9ac                                     _NSLog
+000b1ea8: mov      x0, x21                                       
+000b1eac: ldp      x29, x30, [sp, #0x40]                         
+000b1eb0: ldp      x20, x19, [sp, #0x30]                         
+000b1eb4: ldp      x22, x21, [sp, #0x20]                         
+000b1eb8: add      sp, sp, #0x50                                 
+000b1ebc: b        #0x2ecd30                                     _objc_release
+
+DISASSEMBLY 0x2a3600-0x2a37f0
+002a3600: sub      sp, sp, #0xd0                                 
+002a3604: stp      d9, d8, [sp, #0x80]                           
+002a3608: stp      x24, x23, [sp, #0x90]                         
+002a360c: stp      x22, x21, [sp, #0xa0]                         
+002a3610: stp      x20, x19, [sp, #0xb0]                         
+002a3614: stp      x29, x30, [sp, #0xc0]                         
+002a3618: add      x29, sp, #0xc0                                
+002a361c: mov      x20, x0                                       
+002a3620: mov      x0, x2                                        
+002a3624: bl       #0x2ecd3c                                     _objc_retain
+002a3628: mov      x19, x0                                       
+002a362c: cbz      x0, #0x2a377c                                 
+002a3630: add      x8, sp, #0x60                                 
+002a3634: stp      xzr, x8, [sp, #0x60]                          
+002a3638: nop                                                    
+002a363c: ldr      d0, #0x30f978                                 
+002a3640: str      d0, [sp, #0x70]                               
+002a3644: nop                                                    
+002a3648: ldr      x21, #0x344120                                
+002a364c: strb     wzr, [sp, #0x78]                              
+002a3650: str      x21, [sp, #0x30]                              
+002a3654: nop                                                    
+002a3658: ldr      d8, #0x30f968                                 
+002a365c: adr      x9, #0x2a37bc                                 
+002a3660: nop                                                    
+002a3664: str      d8, [sp, #0x38]                               
+002a3668: adr      x10, #0x3453a8                                
+002a366c: nop                                                    
+002a3670: stp      x9, x10, [sp, #0x40]                          
+002a3674: str      x8, [sp, #0x58]                               
+002a3678: mov      x0, x19                                       
+002a367c: bl       #0x2ecd3c                                     _objc_retain
+002a3680: str      x0, [sp, #0x50]                               
+002a3684: mov      x0, #0                                        
+002a3688: mov      w1, #0xb280                                   
+002a368c: movk     w1, #0xee6, lsl #16                           
+002a3690: bl       #0x2ecb50                                     _dispatch_time
+002a3694: mov      x22, x0                                       
+002a3698: str      x21, [sp, #8]                                 
+002a369c: str      d8, [sp, #0x10]                               
+002a36a0: adr      x8, #0x2a37e4                                 
+002a36a4: nop                                                    
+002a36a8: adr      x9, #0x344a68                                 
+002a36ac: nop                                                    
+002a36b0: stp      x8, x9, [sp, #0x18]                           
+002a36b4: add      x0, sp, #0x30                                 
+002a36b8: bl       #0x2ecd3c                                     _objc_retain
+002a36bc: mov      x21, x0                                       
+002a36c0: str      x0, [sp, #0x28]                               
+002a36c4: nop                                                    
+002a36c8: ldr      x1, #0x344148                                 
+002a36cc: add      x2, sp, #8                                    
+002a36d0: mov      x0, x22                                       
+002a36d4: bl       #0x2ecb20                                     _dispatch_after
+002a36d8: nop                                                    
+002a36dc: ldr      x0, #0x37fa28                                 CLASS CBDashboardShared
+002a36e0: nop                                                    
+002a36e4: ldr      x1, #0x37ead0                                 SEL dashboard
+002a36e8: bl       #0x2ecd00                                     _objc_msgSend
+002a36ec: mov      x29, x29                                      
+002a36f0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002a36f4: mov      x22, x0                                       
+002a36f8: cbz      x0, #0x2a3744                                 
+002a36fc: nop                                                    
+002a3700: ldr      x23, #0x37ee90                                SEL showingApp
+002a3704: nop                                                    
+002a3708: ldr      x1, #0x37d5d8                                 SEL respondsToSelector:
+002a370c: mov      x0, x22                                       
+002a3710: mov      x2, x23                                       
+002a3714: bl       #0x2ecd00                                     _objc_msgSend
+002a3718: cbz      w0, #0x2a3744                                 
+002a371c: mov      x0, x22                                       
+002a3720: mov      x1, x23                                       
+002a3724: bl       #0x2ecd00                                     _objc_msgSend
+002a3728: cbz      w0, #0x2a3744                                 
+002a372c: nop                                                    
+002a3730: ldr      x1, #0x37ee98                                 SEL closeOfficialTopApp:
+002a3734: mov      x0, x20                                       
+002a3738: mov      x2, x21                                       
+002a373c: bl       #0x2ecd00                                     _objc_msgSend
+002a3740: b        #0x2a3750                                     
+002a3744: ldr      x8, [x21, #0x10]                              
+002a3748: mov      x0, x21                                       
+002a374c: blr      x8                                            
+002a3750: mov      x0, x22                                       
+002a3754: bl       #0x2ecd30                                     _objc_release
+002a3758: ldr      x0, [sp, #0x28]                               
+002a375c: bl       #0x2ecd30                                     _objc_release
+002a3760: mov      x0, x21                                       
+002a3764: bl       #0x2ecd30                                     _objc_release
+002a3768: ldr      x0, [sp, #0x50]                               
+002a376c: bl       #0x2ecd30                                     _objc_release
+002a3770: add      x0, sp, #0x60                                 
+002a3774: mov      w1, #8                                        
+002a3778: bl       #0x2eca6c                                     __Block_object_dispose
+002a377c: mov      x0, x19                                       
+002a3780: bl       #0x2ecd30                                     _objc_release
+002a3784: ldp      x29, x30, [sp, #0xc0]                         
+002a3788: ldp      x20, x19, [sp, #0xb0]                         
+002a378c: ldp      x22, x21, [sp, #0xa0]                         
+002a3790: ldp      x24, x23, [sp, #0x90]                         
+002a3794: ldp      d9, d8, [sp, #0x80]                           
+002a3798: add      sp, sp, #0xd0                                 
+002a379c: ret                                                    
+002a37a0: mov      x19, x0                                       
+002a37a4: add      x0, sp, #0x60                                 
+002a37a8: mov      w1, #8                                        
+002a37ac: bl       #0x2eca6c                                     __Block_object_dispose
+002a37b0: mov      x0, x19                                       
+002a37b4: bl       #0x2eca84                                     __Unwind_Resume
+002a37b8: brk      #1                                            
+002a37bc: ldr      x8, [x0, #0x28]                               
+002a37c0: ldr      x8, [x8, #8]                                  
+002a37c4: ldrb     w9, [x8, #0x18]                               
+002a37c8: cbz      w9, #0x2a37d0                                 
+002a37cc: ret                                                    
+002a37d0: mov      w9, #1                                        
+002a37d4: strb     w9, [x8, #0x18]                               
+002a37d8: ldr      x0, [x0, #0x20]                               
+002a37dc: ldr      x1, [x0, #0x10]                               
+002a37e0: br       x1                                            
+002a37e4: ldr      x0, [x0, #0x20]                               
+002a37e8: ldr      x1, [x0, #0x10]                               
+002a37ec: br       x1                                            
+
+DISASSEMBLY 0x2a45f4-0x2a47fc
+002a45f4: stp      x24, x23, [sp, #-0x40]!                       
+002a45f8: stp      x22, x21, [sp, #0x10]                         
+002a45fc: stp      x20, x19, [sp, #0x20]                         
+002a4600: stp      x29, x30, [sp, #0x30]                         
+002a4604: add      x29, sp, #0x30                                
+002a4608: mov      x20, x0                                       
+002a460c: mov      x0, x2                                        
+002a4610: bl       #0x2ecd3c                                     _objc_retain
+002a4614: mov      x19, x0                                       
+002a4618: nop                                                    
+002a461c: ldr      x1, #0x37ee10                                 SEL setPending:
+002a4620: mov      x0, x20                                       
+002a4624: mov      w2, #0                                        
+002a4628: bl       #0x2ecd00                                     _objc_msgSend
+002a462c: nop                                                    
+002a4630: ldr      x21, #0x37d560                                SEL objectForKeyedSubscript:
+002a4634: adr      x2, #0x372508                                 NSString 'activated'
+002a4638: nop                                                    
+002a463c: mov      x0, x19                                       
+002a4640: mov      x1, x21                                       
+002a4644: bl       #0x2ecd00                                     _objc_msgSend
+002a4648: mov      x29, x29                                      
+002a464c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002a4650: mov      x22, x0                                       
+002a4654: nop                                                    
+002a4658: ldr      x1, #0x37d5e8                                 SEL boolValue
+002a465c: bl       #0x2ecd00                                     _objc_msgSend
+002a4660: mov      x23, x0                                       
+002a4664: mov      x0, x22                                       
+002a4668: bl       #0x2ecd30                                     _objc_release
+002a466c: cbz      w23, #0x2a46b0                                
+002a4670: adr      x2, #0x36ed28                                 NSString 'bundleIdentifier'
+002a4674: nop                                                    
+002a4678: mov      x0, x19                                       
+002a467c: mov      x1, x21                                       
+002a4680: bl       #0x2ecd00                                     _objc_msgSend
+002a4684: mov      x29, x29                                      
+002a4688: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002a468c: mov      x21, x0                                       
+002a4690: nop                                                    
+002a4694: ldr      x1, #0x37eed8                                 SEL bridgeDidActivate:
+002a4698: mov      x0, x20                                       
+002a469c: mov      x2, x21                                       
+002a46a0: bl       #0x2ecd00                                     _objc_msgSend
+002a46a4: mov      x0, x21                                       
+002a46a8: bl       #0x2ecd30                                     _objc_release
+002a46ac: b        #0x2a46c0                                     
+002a46b0: nop                                                    
+002a46b4: ldr      x1, #0x37ee20                                 SEL bridgeDidDeactivate
+002a46b8: mov      x0, x20                                       
+002a46bc: bl       #0x2ecd00                                     _objc_msgSend
+002a46c0: nop                                                    
+002a46c4: ldr      x1, #0x37eee0                                 SEL pendingCompletion
+002a46c8: mov      x0, x20                                       
+002a46cc: bl       #0x2ecd00                                     _objc_msgSend
+002a46d0: mov      x29, x29                                      
+002a46d4: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002a46d8: mov      x22, x0                                       
+002a46dc: nop                                                    
+002a46e0: ldr      x1, #0x37d818                                 SEL copy
+002a46e4: bl       #0x2ecd00                                     _objc_msgSend
+002a46e8: mov      x21, x0                                       
+002a46ec: mov      x0, x22                                       
+002a46f0: bl       #0x2ecd30                                     _objc_release
+002a46f4: nop                                                    
+002a46f8: ldr      x1, #0x37ee18                                 SEL setPendingCompletion:
+002a46fc: mov      x0, x20                                       
+002a4700: mov      x2, #0                                        
+002a4704: bl       #0x2ecd00                                     _objc_msgSend
+002a4708: cbz      x21, #0x2a4718                                
+002a470c: ldr      x8, [x21, #0x10]                              
+002a4710: mov      x0, x21                                       
+002a4714: blr      x8                                            
+002a4718: mov      x0, x21                                       
+002a471c: bl       #0x2ecd30                                     _objc_release
+002a4720: mov      x0, x19                                       
+002a4724: ldp      x29, x30, [sp, #0x30]                         
+002a4728: ldp      x20, x19, [sp, #0x20]                         
+002a472c: ldp      x22, x21, [sp, #0x10]                         
+002a4730: ldp      x24, x23, [sp], #0x40                         
+002a4734: b        #0x2ecd30                                     _objc_release
+002a4738: stp      x22, x21, [sp, #-0x30]!                       
+002a473c: stp      x20, x19, [sp, #0x10]                         
+002a4740: stp      x29, x30, [sp, #0x20]                         
+002a4744: add      x29, sp, #0x20                                
+002a4748: mov      x19, x0                                       
+002a474c: nop                                                    
+002a4750: ldr      x20, #0x37ed80                                SEL setActivated:
+002a4754: mov      x0, x2                                        
+002a4758: bl       #0x2ecd3c                                     _objc_retain
+002a475c: mov      x21, x0                                       
+002a4760: mov      x0, x19                                       
+002a4764: mov      x1, x20                                       
+002a4768: mov      w2, #1                                        
+002a476c: bl       #0x2ecd00                                     _objc_msgSend
+002a4770: nop                                                    
+002a4774: ldr      x1, #0x37eee8                                 SEL setAppDockActiveBundleID:
+002a4778: mov      x0, x19                                       
+002a477c: mov      x2, x21                                       
+002a4780: bl       #0x2ecd00                                     _objc_msgSend
+002a4784: mov      x0, x21                                       
+002a4788: bl       #0x2ecd30                                     _objc_release
+002a478c: nop                                                    
+002a4790: ldr      x1, #0x37eef0                                 SEL setHomeButtonInApp:
+002a4794: mov      x0, x19                                       
+002a4798: mov      w2, #1                                        
+002a479c: ldp      x29, x30, [sp, #0x20]                         
+002a47a0: ldp      x20, x19, [sp, #0x10]                         
+002a47a4: ldp      x22, x21, [sp], #0x30                         
+002a47a8: b        #0x2ecd00                                     _objc_msgSend
+002a47ac: stp      x20, x19, [sp, #-0x20]!                       
+002a47b0: stp      x29, x30, [sp, #0x10]                         
+002a47b4: add      x29, sp, #0x10                                
+002a47b8: mov      x19, x0                                       
+002a47bc: nop                                                    
+002a47c0: ldr      x1, #0x37ed80                                 SEL setActivated:
+002a47c4: mov      w2, #0                                        
+002a47c8: bl       #0x2ecd00                                     _objc_msgSend
+002a47cc: nop                                                    
+002a47d0: ldr      x1, #0x37eee8                                 SEL setAppDockActiveBundleID:
+002a47d4: mov      x0, x19                                       
+002a47d8: mov      x2, #0                                        
+002a47dc: bl       #0x2ecd00                                     _objc_msgSend
+002a47e0: nop                                                    
+002a47e4: ldr      x1, #0x37eef0                                 SEL setHomeButtonInApp:
+002a47e8: mov      x0, x19                                       
+002a47ec: mov      w2, #0                                        
+002a47f0: ldp      x29, x30, [sp, #0x10]                         
+002a47f4: ldp      x20, x19, [sp], #0x20                         
+002a47f8: b        #0x2ecd00                                     _objc_msgSend
