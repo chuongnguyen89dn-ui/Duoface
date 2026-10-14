@@ -1,0 +1,51 @@
+name: DuoFace border binary read-only audit
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-border-binary-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract current DEB and disassemble actual native border methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          mkdir -p audit-output unpacked
+          FILE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
+          test -s "$FILE"
+          shasum -a 256 "$FILE" | tee audit-output/deb-sha256.txt
+          dpkg-deb -x "$FILE" unpacked
+          find unpacked -type f \( -name '*Dashboard*.dylib' -o -name 'DuoFaceVisualHook.dylib' \) | tee audit-output/dylib-paths.txt
+          DASH="$(find unpacked -type f -name 'DuoFaceDashboard.dylib' | head -1)"
+          test -s "$DASH"
+          file "$DASH" | tee audit-output/dashboard-file.txt
+          shasum -a 256 "$DASH" | tee audit-output/dashboard-sha256.txt
+          xcrun llvm-objdump --macho --arch=arm64 --disassemble --no-show-raw-insn "$DASH" > audit-output/full-disasm.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          lines=Path('audit-output/full-disasm.txt').read_text(errors='replace').splitlines()
+          targets=[('startContainerBorderBlinking',0x11fa88,0x11fcd4),('stopContainerBorderBlinking',0x11fcd4,0x11fddc)]
+          out=[]
+          for label,start,end in targets:
+              out.append(f'===== {label} [0x{start:x}, 0x{end:x}) =====')
+              hits=[]
+              for i,line in enumerate(lines):
+                  m=re.match(r'^\s*([0-9a-fA-F]+):',line)
+                  if m and start <= int(m.group(1),16) < end: hits.append(line)
+              out.extend(hits if hits else ['NO_MATCH - inspect address slide/symbols and full disasm artifact'])
+          Path('audit-output/border-methods.txt').write_text('\n'.join(out)+'\n')
+          PY
+          cat audit-output/border-methods.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-border-binary-readonly
+          path: audit-output/
+          if-no-files-found: warn
