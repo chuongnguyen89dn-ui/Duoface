@@ -101,8 +101,17 @@ static void DFStartEffect(UIView *view) {
     // Restarting the animation every time hides the moving segments at t=0.
     DFBorderEffect *existing=objc_getAssociatedObject(view,&DFRunnerAssociation);
     BOOL alive=existing && existing->_layers.count==5;
-    if (alive) for (CALayer *layer in existing->_layers) {
-        if (layer.superlayer!=view.layer) { alive=NO; break; }
+    if (alive) {
+        NSUInteger index=0;
+        for (CALayer *layer in existing->_layers) {
+            if (layer.superlayer!=view.layer ||
+                (index>0 && (![layer animationForKey:@"dfStart"] ||
+                             ![layer animationForKey:@"dfEnd"]))) {
+                alive=NO;
+                break;
+            }
+            index++;
+        }
     }
     if (alive) {
         DFLayoutEffect(view,existing);
