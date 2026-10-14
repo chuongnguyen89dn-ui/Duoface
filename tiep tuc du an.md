@@ -2143,3 +2143,14 @@ Phát hiện mới lưu ngay: Airaw PrefAPIState0x8320–0x83d0 dùng kFullBtn_x
 Evidence audit/airaw-button-defaults-20261014.txt.
 Compile chrome run38521352434/job115711530500 FAILED: Logos sinh C++ thiếu đóng block khi đặt %orig và code cùng một dòng trong hook. Đã đọc lỗi và sửa hooks sang nhiều dòng; áp dụng luôn cho status control. Log audit/fullscreen-adapter-compile-38521352434.txt. Push này chạy lại compile cả host/IPC/chrome/control.
 Trạng thái: vẫn staged, chưa DEB mới. Tiếp tục menu thu nhỏ/coordinator; không coi lỗi compile đã hết cho đến run mới xác nhận.
+
+## 2026-10-14 — Staged coordinator và control thu nhỏ đã nối vào host
+
+Thêm DFRestoreMenu và DFFullscreenCoordinator; build check compile toàn bộ module.
+- Close control Airaw đã giải: symbol arrow.down.right.and.arrow.up.left, point20/weight5/template, UIButton custom44x44, radius12, white icon, white fill alpha0.12; iOS15 dùng filledButtonConfiguration. addTarget didTapSettings → onCloseRequested → restore.
+- Geometry TOP mặc định: grabber48x5/radius2.5, panel x12/y0/height68, width=max(160,hostWidth-24); close control centerY và right-10. Blur style20; timer auto-hide5s. Evidence audit/airaw-restore-control-20261014.txt.
+- PHẠM VI CHÍNH XÁC: DFRestoreMenu là phần close/fullscreen của menu Airaw default TOP, không phải toàn bộ ARWHostMenuView. Chưa port edge trái/phải/dưới, scale, app-library, Control Center; vùng bắt chạm adapter được giới hạn quanh grabber để hai pane không bị che tương tác. Không gọi nó là copy byte-for-byte/toàn bộ UI Airaw.
+- DFHostGeometry bắt buộc gắn được restore control vào app.view.superview trước khi trả enter-success. Restore xóa callback/menu và trả geometry. Bấm close phát lifecycle state sang Dashboard.
+- Coordinator: nút → distributed request → host geometry+restore-control ACK → hide chrome; thất bại bất kỳ bước nào gửi restore, không đánh dấu full chỉ vì đã bấm.
+- Transport query lại khi idle để bắt phiên bridge khởi động sau hook; có timeout/lease rollback.
+Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.xm, chưa đổi filter/đóng DEB. Push này compile phần coordinator/menu mới. Tiếp tục kiểm log và các tình huống restore trước khi ghép candidate.

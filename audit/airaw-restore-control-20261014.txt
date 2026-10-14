@@ -1,0 +1,462 @@
+BINARY SHA256 46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d
+ARM64 slice 0x4000; source-bound rebases only; no runtime claims
+CHECKPOINT POINTER 0x800ca0 OUTSIDE ARM64 VM DATA; likely checkpoint typo
+CHECKPOINT POINTER 0x80ca0 SEL carplayFullscreen
+CHECKPOINT POINTER 0x6f578 NSString 'arrow.up.left.and.arrow.down.right'
+
+CLASS METHOD OWNERS
+-[ARWCarPlayManager requestFullscreenToggle] IMP 0x19c7c entry 0x53034
+-[ARWCarPlayManager setFullscreenButtonHidden:] IMP 0x19cb0 entry 0x53040
+-[ARWCarPlayManager setDefaultAppChromeHidden:] IMP 0x19d78 entry 0x5304c
+-[ARWCarPlayManager setNativeChromeHidden:] IMP 0x19f44 entry 0x53058
+-[ARWCarPlayManager requestNativeSplitWithSecondary:nativeIdentifier:nativeFullscreen:] IMP 0x1a0e4 entry 0x53070
+-[ARWCarPlayManager postNativeSplitLayout:nativeOnLeft:vertical:fullscreen:baseRect:] IMP 0x1a3ac entry 0x53088
+-[ARWCarPlayManager postNativeSplitFullscreen:] IMP 0x1a6bc entry 0x530a0
+-[ARWCarPlayWindowManager launchNativeSplitWithSecondaryIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x1c1fc entry 0x53284
+-[ARWAppWindow setFullScreenBtn] IMP 0x21340 entry 0x52e50
+-[ARWAppWindow hostMenu] IMP 0x21aec entry 0x52ebc
+-[ARWAppWindow setHostMenu:] IMP 0x21af4 entry 0x52ec8
+-[ARWAppWindow isFullscreen] IMP 0x21b5c entry 0x52f64
+-[ARWAppWindow setIsFullscreen:] IMP 0x21b64 entry 0x52f70
+-[ARWHostedSceneWindow setFullScreenBtn] IMP 0x23378 entry 0x541a8
+-[ARWHostedSceneWindow hostMenu] IMP 0x24310 entry 0x54280
+-[ARWHostedSceneWindow setHostMenu:] IMP 0x24318 entry 0x5428c
+-[ARWHostedSceneWindow isFullscreen] IMP 0x24340 entry 0x542c8
+-[ARWHostedSceneWindow setIsFullscreen:] IMP 0x24348 entry 0x542d4
+-[ARWNativeSplitWindow initWithSecondaryBundleIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x25288 entry 0x544d0
+-[ARWNativeSplitWindow toggleFullscreen] IMP 0x27e94 entry 0x545b4
+-[ARWSplitWindow toggleFullscreen] IMP 0x2e808 entry 0x54f80
+
+DISASSEMBLY 0x36790-0x367a0
+00036790: adrp     x8, #0x81000                                  
+00036794: ldr      x0, [x8, #0x3d8]                              [0x813d8] CLASS _OBJC_CLASS_$_UIBlurEffect
+00036798: mov      w2, #0x14                                     
+0003679c: b        #0x499e0                                      effectWithStyle:
+
+DISASSEMBLY 0x36f80-0x371dc
+00036f80: adrp     x8, #0x81000                                  
+00036f84: ldr      x0, [x8, #0x138]                              [0x81138] CLASS _OBJC_CLASS_$_UIColor
+00036f88: adrp     x8, #0x5a000                                  
+00036f8c: ldr      d1, [x8, #0xa90]                              [0x5aa90] '�\x1e��Q��?ףp=\n��?�(\\����?'
+00036f90: fmov     d0, #1.00000000                               
+00036f94: b        #0x48c40                                      colorWithWhite:alpha:
+00036f98: adrp     x8, #0x81000                                  
+00036f9c: ldr      x0, [x8, #0x138]                              [0x81138] CLASS _OBJC_CLASS_$_UIColor
+00036fa0: fmov     d0, #1.00000000                               
+00036fa4: fmov     d1, #1.00000000                               
+00036fa8: b        #0x48c40                                      colorWithWhite:alpha:
+00036fac: stp      x20, x19, [sp, #-0x20]!                       
+00036fb0: stp      x29, x30, [sp, #0x10]                         
+00036fb4: add      x29, sp, #0x10                                
+00036fb8: mov      x19, x2                                       
+00036fbc: adrp     x8, #0x81000                                  
+00036fc0: ldr      x0, [x8, #0x288]                              [0x81288] CLASS _OBJC_CLASS_$_UIImageSymbolConfiguration
+00036fc4: mov      w2, #5                                        
+00036fc8: bl       #0x48cc0                                      configurationWithPointSize:weight:
+00036fcc: mov      x3, x0                                        
+00036fd0: adrp     x8, #0x81000                                  
+00036fd4: ldr      x0, [x8, #0x210]                              [0x81210] CLASS _OBJC_CLASS_$_UIImage
+00036fd8: mov      x2, x19                                       
+00036fdc: bl       #0x51dc0                                      systemImageNamed:withConfiguration:
+00036fe0: mov      w2, #2                                        
+00036fe4: ldp      x29, x30, [sp, #0x10]                         
+00036fe8: ldp      x20, x19, [sp], #0x20                         
+00036fec: b        #0x4a820                                      imageWithRenderingMode:
+00036ff0: stp      d9, d8, [sp, #-0x40]!                         
+00036ff4: stp      x22, x21, [sp, #0x10]                         
+00036ff8: stp      x20, x19, [sp, #0x20]                         
+00036ffc: stp      x29, x30, [sp, #0x30]                         
+00037000: add      x29, sp, #0x30                                
+00037004: cbz      x2, #0x37114                                  
+00037008: fmov     d8, d1                                        
+0003700c: mov      x19, x2                                       
+00037010: mov      x20, x0                                       
+00037014: mov      x2, x3                                        
+00037018: bl       #0x49900                                      dockIconNamed:pointSize:
+0003701c: mov      x22, x0                                       
+00037020: mov      x0, x19                                       
+00037024: mov      w2, #2                                        
+00037028: bl       #0x50580                                      setOverrideUserInterfaceStyle:
+0003702c: mov      x0, x20                                       
+00037030: bl       #0x498c0                                      dockButtonIconColor
+00037034: mov      x2, x0                                        
+00037038: mov      x0, x19                                       
+0003703c: bl       #0x50e80                                      setTintColor:
+00037040: mov      x0, x19                                       
+00037044: mov      w2, #1                                        
+00037048: bl       #0x4e780                                      setClipsToBounds:
+0003704c: mov      x0, x19                                       
+00037050: bl       #0x4bda0                                      layer
+00037054: fmov     d0, d8                                        
+00037058: bl       #0x4e920                                      setCornerRadius:
+0003705c: mov      w0, #2                                        
+00037060: mov      w1, #0xf                                      
+00037064: mov      w2, #0                                        
+00037068: mov      w3, #0                                        
+0003706c: bl       #0x462ac                                      
+00037070: cbz      w0, #0x37128                                  
+00037074: adrp     x8, #0x81000                                  
+00037078: ldr      x0, [x8, #0x440]                              [0x81440] CLASS _OBJC_CLASS_$_UIButtonConfiguration
+0003707c: bl       #0x49c80                                      filledButtonConfiguration
+00037080: mov      x21, x0                                       
+00037084: mov      x2, x22                                       
+00037088: bl       #0x4f240                                      setImage:
+0003708c: mov      x0, x20                                       
+00037090: bl       #0x498c0                                      dockButtonIconColor
+00037094: mov      x2, x0                                        
+00037098: mov      x0, x21                                       
+0003709c: bl       #0x4e580                                      setBaseForegroundColor:
+000370a0: mov      x0, x20                                       
+000370a4: bl       #0x498a0                                      dockButtonFillColor
+000370a8: mov      x2, x0                                        
+000370ac: mov      x0, x21                                       
+000370b0: bl       #0x4e560                                      setBaseBackgroundColor:
+000370b4: mov      x0, x21                                       
+000370b8: mov      x2, #-1                                       
+000370bc: bl       #0x4e940                                      setCornerStyle:
+000370c0: adrp     x8, #0x6c000                                  
+000370c4: ldr      x8, [x8, #0x1b0]                              [0x6c1b0] 
+000370c8: ldp      d0, d1, [x8]                                  
+000370cc: ldp      d2, d3, [x8, #0x10]                           
+000370d0: mov      x0, x21                                       
+000370d4: bl       #0x4e7e0                                      setContentInsets:
+000370d8: mov      x0, x21                                       
+000370dc: bl       #0x484a0                                      background
+000370e0: mov      x20, x0                                       
+000370e4: fmov     d0, d8                                        
+000370e8: bl       #0x4e920                                      setCornerRadius:
+000370ec: mov      x0, x21                                       
+000370f0: mov      x2, x20                                       
+000370f4: bl       #0x4e4a0                                      setBackground:
+000370f8: mov      x0, x19                                       
+000370fc: mov      x2, x21                                       
+00037100: ldp      x29, x30, [sp, #0x30]                         
+00037104: ldp      x20, x19, [sp, #0x20]                         
+00037108: ldp      x22, x21, [sp, #0x10]                         
+0003710c: ldp      d9, d8, [sp], #0x40                           
+00037110: b        #0x4e7c0                                      setConfiguration:
+00037114: ldp      x29, x30, [sp, #0x30]                         
+00037118: ldp      x20, x19, [sp, #0x20]                         
+0003711c: ldp      x22, x21, [sp, #0x10]                         
+00037120: ldp      d9, d8, [sp], #0x40                           
+00037124: ret                                                    
+00037128: mov      x0, x19                                       
+0003712c: mov      x2, x22                                       
+00037130: mov      x3, #0                                        
+00037134: bl       #0x4f260                                      setImage:forState:
+00037138: mov      x0, x20                                       
+0003713c: bl       #0x498a0                                      dockButtonFillColor
+00037140: mov      x2, x0                                        
+00037144: mov      x0, x19                                       
+00037148: ldp      x29, x30, [sp, #0x30]                         
+0003714c: ldp      x20, x19, [sp, #0x20]                         
+00037150: ldp      x22, x21, [sp, #0x10]                         
+00037154: ldp      d9, d8, [sp], #0x40                           
+00037158: b        #0x4e4c0                                      setBackgroundColor:
+0003715c: stp      x22, x21, [sp, #-0x30]!                       
+00037160: stp      x20, x19, [sp, #0x10]                         
+00037164: stp      x29, x30, [sp, #0x20]                         
+00037168: add      x29, sp, #0x20                                
+0003716c: mov      x19, x3                                       
+00037170: mov      x20, x2                                       
+00037174: mov      x21, x0                                       
+00037178: adrp     x8, #0x81000                                  
+0003717c: ldr      x0, [x8, #0x280]                              [0x81280] CLASS _OBJC_CLASS_$_UIButton
+00037180: mov      x2, #0                                        
+00037184: bl       #0x487a0                                      buttonWithType:
+00037188: mov      x22, x0                                       
+0003718c: mov      x2, x19                                       
+00037190: bl       #0x4e0e0                                      setAccessibilityLabel:
+00037194: mov      x8, #0x4046000000000000                       
+00037198: fmov     d2, x8                                        
+0003719c: fmov     d0, xzr                                       
+000371a0: fmov     d1, xzr                                       
+000371a4: mov      x0, x22                                       
+000371a8: fmov     d3, d2                                        
+000371ac: bl       #0x4ede0                                      setFrame:
+000371b0: fmov     d0, #20.00000000                              
+000371b4: fmov     d1, #12.00000000                              
+000371b8: mov      x0, x21                                       
+000371bc: mov      x2, x22                                       
+000371c0: mov      x3, x20                                       
+000371c4: bl       #0x48040                                      applyDockButtonAppearance:systemName:pointSize:cornerRadius:
+000371c8: mov      x0, x22                                       
+000371cc: ldp      x29, x30, [sp, #0x20]                         
+000371d0: ldp      x20, x19, [sp, #0x10]                         
+000371d4: ldp      x22, x21, [sp], #0x30                         
+000371d8: ret                                                    
+
+DISASSEMBLY 0x37c68-0x37ca8
+00037c68: adrp     x2, #0x70000                                  
+00037c6c: add      x2, x2, #0xc78                                NSString 'arrow.down.right.and.arrow.up.left'
+00037c70: adrp     x3, #0x71000                                  
+00037c74: add      x3, x3, #0xf58                                NSString 'Exit Full Screen'
+00037c78: mov      x0, x19                                       
+00037c7c: bl       #0x498e0                                      dockIconButtonWithSystemName:accessibilityLabel:
+00037c80: mov      x2, x0                                        
+00037c84: mov      x0, x19                                       
+00037c88: bl       #0x4e7a0                                      setCloseButton:
+00037c8c: mov      x0, x19                                       
+00037c90: bl       #0x48b40                                      closeButton
+00037c94: adrp     x8, #0x81000                                  
+00037c98: ldr      x3, [x8, #0x78]                               [0x81078] SEL didTapSettings
+00037c9c: mov      x2, x19                                       
+00037ca0: mov      w4, #0x40                                     
+00037ca4: bl       #0x47a60                                      addTarget:action:forControlEvents:
+
+DISASSEMBLY 0x37e68-0x37e98
+00037e68: mov      x0, x19                                       
+00037e6c: bl       #0x499c0                                      effectView
+00037e70: bl       #0x48ee0                                      contentView
+00037e74: mov      x21, x0                                       
+00037e78: mov      x0, x19                                       
+00037e7c: bl       #0x524e0                                      verticalLayoutScale
+00037e80: fmov     d13, d0                                       
+00037e84: mov      x0, x19                                       
+00037e88: bl       #0x48060                                      applyDockChromeForScale:
+00037e8c: mov      x0, x19                                       
+00037e90: bl       #0x4b120                                      isHorizontalEdge
+00037e94: cbz      w0, #0x38298                                  
+
+DISASSEMBLY 0x380c0-0x38144
+000380c0: mov      x0, x19                                       
+000380c4: bl       #0x48b40                                      closeButton
+000380c8: bl       #0x48960                                      centerYAnchor
+000380cc: mov      x22, x0                                       
+000380d0: mov      x0, x21                                       
+000380d4: bl       #0x48960                                      centerYAnchor
+000380d8: mov      x2, x0                                        
+000380dc: mov      x0, x22                                       
+000380e0: bl       #0x48dc0                                      constraintEqualToAnchor:
+000380e4: str      x0, [sp, #0x188]                              
+000380e8: mov      x0, x19                                       
+000380ec: bl       #0x48b40                                      closeButton
+000380f0: bl       #0x4dac0                                      rightAnchor
+000380f4: mov      x22, x0                                       
+000380f8: mov      x0, x21                                       
+000380fc: bl       #0x4dac0                                      rightAnchor
+00038100: mov      x2, x0                                        
+00038104: fmov     d0, #-10.00000000                             
+00038108: mov      x0, x22                                       
+0003810c: bl       #0x48de0                                      constraintEqualToAnchor:constant:
+00038110: str      x0, [sp, #0x190]                              
+00038114: mov      x0, x19                                       
+00038118: bl       #0x48b40                                      closeButton
+0003811c: bl       #0x52720                                      widthAnchor
+00038120: fmov     d0, d8                                        
+00038124: bl       #0x48e00                                      constraintEqualToConstant:
+00038128: str      x0, [sp, #0x198]                              
+0003812c: mov      x0, x19                                       
+00038130: bl       #0x48b40                                      closeButton
+00038134: bl       #0x4a3c0                                      heightAnchor
+00038138: fmov     d0, d8                                        
+0003813c: bl       #0x48e00                                      constraintEqualToConstant:
+00038140: str      x0, [sp, #0x1a0]                              
+
+DISASSEMBLY 0x389dc-0x38b1c
+000389dc: stp      d13, d12, [sp, #-0x50]!                       
+000389e0: stp      d11, d10, [sp, #0x10]                         
+000389e4: stp      d9, d8, [sp, #0x20]                           
+000389e8: stp      x20, x19, [sp, #0x30]                         
+000389ec: stp      x29, x30, [sp, #0x40]                         
+000389f0: add      x29, sp, #0x40                                
+000389f4: mov      x19, x0                                       
+000389f8: bl       #0x4a260                                      grabberView
+000389fc: bl       #0x485e0                                      bounds
+00038a00: fmov     d13, d2                                       
+00038a04: fmov     d12, d3                                       
+00038a08: adrp     x8, #0x6c000                                  
+00038a0c: ldr      x8, [x8, #0x300]                              [0x6c300] 
+00038a10: ldp      d8, d9, [x8]                                  
+00038a14: ldp      d10, d11, [x8, #0x10]                         
+00038a18: mov      x0, x19                                       
+00038a1c: bl       #0x4c480                                      menuEdge
+00038a20: cmp      x0, #1                                        
+00038a24: b.gt     #0x38a58                                      
+00038a28: cbz      x0, #0x38a8c                                  
+00038a2c: cmp      x0, #1                                        
+00038a30: b.ne     #0x38aec                                      
+00038a34: mov      x8, #-0x3fb8000000000000                      
+00038a38: fmov     d0, x8                                        
+00038a3c: fadd     d0, d13, d0                                   
+00038a40: fmov     d1, #0.50000000                               
+00038a44: fmul     d8, d0, d1                                    
+00038a48: fmov     d0, #-5.00000000                              
+00038a4c: fadd     d9, d12, d0                                   
+00038a50: fmov     d11, #5.00000000                              
+00038a54: b        #0x38aa8                                      
+00038a58: cmp      x0, #2                                        
+00038a5c: b.eq     #0x38ab4                                      
+00038a60: cmp      x0, #3                                        
+00038a64: b.ne     #0x38aec                                      
+00038a68: fmov     d0, #-5.00000000                              
+00038a6c: fadd     d8, d13, d0                                   
+00038a70: mov      x8, #-0x3fb8000000000000                      
+00038a74: fmov     d0, x8                                        
+00038a78: fadd     d0, d12, d0                                   
+00038a7c: fmov     d1, #0.50000000                               
+00038a80: fmul     d9, d0, d1                                    
+00038a84: fmov     d10, #5.00000000                              
+00038a88: b        #0x38ad0                                      
+00038a8c: mov      x8, #-0x3fb8000000000000                      
+00038a90: fmov     d0, x8                                        
+00038a94: fadd     d0, d13, d0                                   
+00038a98: fmov     d1, #0.50000000                               
+00038a9c: fmul     d8, d0, d1                                    
+00038aa0: fmov     d11, #5.00000000                              
+00038aa4: fmov     d9, xzr                                       
+00038aa8: mov      x8, #0x4048000000000000                       
+00038aac: fmov     d10, x8                                       
+00038ab0: b        #0x38ad8                                      
+00038ab4: mov      x8, #-0x3fb8000000000000                      
+00038ab8: fmov     d0, x8                                        
+00038abc: fadd     d0, d12, d0                                   
+00038ac0: fmov     d1, #0.50000000                               
+00038ac4: fmul     d9, d0, d1                                    
+00038ac8: fmov     d10, #5.00000000                              
+00038acc: fmov     d8, xzr                                       
+00038ad0: mov      x8, #0x4048000000000000                       
+00038ad4: fmov     d11, x8                                       
+00038ad8: mov      x0, x19                                       
+00038adc: bl       #0x4a1c0                                      grabberPill
+00038ae0: bl       #0x4bda0                                      layer
+00038ae4: fmov     d0, #2.50000000                               
+00038ae8: bl       #0x4e920                                      setCornerRadius:
+00038aec: mov      x0, x19                                       
+00038af0: bl       #0x4a1c0                                      grabberPill
+00038af4: fmov     d0, d8                                        
+00038af8: fmov     d1, d9                                        
+00038afc: fmov     d2, d10                                       
+00038b00: fmov     d3, d11                                       
+00038b04: ldp      x29, x30, [sp, #0x40]                         
+00038b08: ldp      x20, x19, [sp, #0x30]                         
+00038b0c: ldp      d9, d8, [sp, #0x20]                           
+00038b10: ldp      d11, d10, [sp, #0x10]                         
+00038b14: ldp      d13, d12, [sp], #0x50                         
+00038b18: b        #0x4ede0                                      setFrame:
+
+DISASSEMBLY 0x38b1c-0x38c70
+00038b1c: stp      d9, d8, [sp, #-0x30]!                         
+00038b20: stp      x20, x19, [sp, #0x10]                         
+00038b24: stp      x29, x30, [sp, #0x20]                         
+00038b28: add      x29, sp, #0x20                                
+00038b2c: mov      x19, x0                                       
+00038b30: bl       #0x4b120                                      isHorizontalEdge
+00038b34: cbz      w0, #0x38b60                                  
+00038b38: mov      x0, x19                                       
+00038b3c: bl       #0x485e0                                      bounds
+00038b40: fmov     d0, #-24.00000000                             
+00038b44: fadd     d0, d2, d0                                    
+00038b48: mov      x8, #0x4064000000000000                       
+00038b4c: fmov     d1, x8                                        
+00038b50: fmaxnm   d0, d0, d1                                    
+00038b54: mov      x8, #0x4051000000000000                       
+00038b58: fmov     d8, x8                                        
+00038b5c: b        #0x38b94                                      
+00038b60: mov      x0, x19                                       
+00038b64: bl       #0x524e0                                      verticalLayoutScale
+00038b68: fmov     d9, d0                                        
+00038b6c: mov      x0, x19                                       
+00038b70: bl       #0x52120                                      unscaledVerticalContentExtent
+00038b74: fmul     d8, d9, d0                                    
+00038b78: mov      x0, x19                                       
+00038b7c: bl       #0x48480                                      availableVerticalPanelHeight
+00038b80: fcmp     d8, d0                                        
+00038b84: fcsel    d8, d8, d0, mi                                
+00038b88: mov      x0, x19                                       
+00038b8c: fmov     d0, d9                                        
+00038b90: bl       #0x52520                                      verticalPanelThicknessForScale:
+00038b94: fmov     d1, d8                                        
+00038b98: ldp      x29, x30, [sp, #0x20]                         
+00038b9c: ldp      x20, x19, [sp, #0x10]                         
+00038ba0: ldp      d9, d8, [sp], #0x30                           
+00038ba4: ret                                                    
+00038ba8: stp      d11, d10, [sp, #-0x40]!                       
+00038bac: stp      d9, d8, [sp, #0x10]                           
+00038bb0: stp      x20, x19, [sp, #0x20]                         
+00038bb4: stp      x29, x30, [sp, #0x30]                         
+00038bb8: add      x29, sp, #0x30                                
+00038bbc: mov      x19, x0                                       
+00038bc0: bl       #0x4cd80                                      panelSize
+00038bc4: fmov     d8, d0                                        
+00038bc8: fmov     d9, d1                                        
+00038bcc: mov      x0, x19                                       
+00038bd0: bl       #0x485e0                                      bounds
+00038bd4: fmov     d11, d2                                       
+00038bd8: fmov     d10, d3                                       
+00038bdc: mov      x0, x19                                       
+00038be0: bl       #0x4c480                                      menuEdge
+00038be4: cmp      x0, #1                                        
+00038be8: b.gt     #0x38c00                                      
+00038bec: cbz      x0, #0x38c38                                  
+00038bf0: cmp      x0, #1                                        
+00038bf4: b.ne     #0x38c24                                      
+00038bf8: fsub     d1, d10, d9                                   
+00038bfc: b        #0x38c3c                                      
+00038c00: cmp      x0, #2                                        
+00038c04: b.eq     #0x38c44                                      
+00038c08: cmp      x0, #3                                        
+00038c0c: b.ne     #0x38c24                                      
+00038c10: fsub     d0, d11, d8                                   
+00038c14: fsub     d1, d10, d9                                   
+00038c18: fmov     d2, #0.50000000                               
+00038c1c: fmul     d1, d1, d2                                    
+00038c20: b        #0x38c54                                      
+00038c24: adrp     x8, #0x6c000                                  
+00038c28: ldr      x8, [x8, #0x300]                              [0x6c300] 
+00038c2c: ldp      d0, d1, [x8]                                  
+00038c30: ldp      d8, d9, [x8, #0x10]                           
+00038c34: b        #0x38c54                                      
+00038c38: fmov     d1, xzr                                       
+00038c3c: fmov     d0, #12.00000000                              
+00038c40: b        #0x38c54                                      
+00038c44: fsub     d0, d10, d9                                   
+00038c48: fmov     d1, #0.50000000                               
+00038c4c: fmul     d1, d0, d1                                    
+00038c50: fmov     d0, xzr                                       
+00038c54: fmov     d2, d8                                        
+00038c58: fmov     d3, d9                                        
+00038c5c: ldp      x29, x30, [sp, #0x30]                         
+00038c60: ldp      x20, x19, [sp, #0x20]                         
+00038c64: ldp      d9, d8, [sp, #0x10]                           
+00038c68: ldp      d11, d10, [sp], #0x40                         
+00038c6c: ret                                                    
+
+DISASSEMBLY 0x3b20c-0x3b2a0
+0003b20c: stp      x20, x19, [sp, #-0x20]!                       
+0003b210: stp      x29, x30, [sp, #0x10]                         
+0003b214: add      x29, sp, #0x10                                
+0003b218: mov      x19, x0                                       
+0003b21c: bl       #0x4ca20                                      onCloseRequested
+0003b220: cbz      x0, #0x3b23c                                  
+0003b224: mov      x0, x19                                       
+0003b228: bl       #0x4ca20                                      onCloseRequested
+0003b22c: ldr      x1, [x0, #0x10]                               
+0003b230: ldp      x29, x30, [sp, #0x10]                         
+0003b234: ldp      x20, x19, [sp], #0x20                         
+0003b238: br       x1                                            
+0003b23c: ldp      x29, x30, [sp, #0x10]                         
+0003b240: ldp      x20, x19, [sp], #0x20                         
+0003b244: ret                                                    
+0003b248: stp      x20, x19, [sp, #-0x20]!                       
+0003b24c: stp      x29, x30, [sp, #0x10]                         
+0003b250: add      x29, sp, #0x10                                
+0003b254: mov      x19, x0                                       
+0003b258: bl       #0x48460                                      autoHideTimer
+0003b25c: bl       #0x4ae40                                      invalidate
+0003b260: adrp     x8, #0x81000                                  
+0003b264: ldr      x0, [x8, #0x258]                              [0x81258] CLASS _OBJC_CLASS_$_NSTimer
+0003b268: adrp     x8, #0x7e000                                  
+0003b26c: ldr      x3, [x8, #0x5c8]                              [0x7e5c8] SEL hideMenu
+0003b270: fmov     d0, #5.00000000                               
+0003b274: mov      x2, x19                                       
+0003b278: mov      x4, #0                                        
+0003b27c: mov      w5, #0                                        
+0003b280: bl       #0x4df00                                      scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:
+0003b284: mov      x2, x0                                        
+0003b288: mov      x0, x19                                       
+0003b28c: bl       #0x4e440                                      setAutoHideTimer:
+0003b290: mov      x0, x19                                       
+0003b294: ldp      x29, x30, [sp, #0x10]                         
+0003b298: ldp      x20, x19, [sp], #0x20                         
+0003b29c: b        #0x48860                                      cancelGrabberFadeTimer

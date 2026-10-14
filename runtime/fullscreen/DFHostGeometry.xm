@@ -2,6 +2,7 @@
 // CBWindow geometry: 0xb1aac; split layout: 0x1044f8; owner: 0x2ca140.
 // This module changes neither licensing nor split/focus selection.
 #import "DFHostGeometry.h"
+#import "DFRestoreMenu.h"
 #import <objc/runtime.h>
 #import <math.h>
 typedef void (^DFHostCompletion)(void);
@@ -47,6 +48,7 @@ typedef void (^DFHostCompletion)(void);
 @property(nonatomic) CGRect contentFrame;
 @property(nonatomic) CGRect appViewFrame;
 @property(nonatomic) CGAffineTransform appViewTransform;
+@property(nonatomic, strong) DFRestoreMenu *menu;
 @end
 @implementation DFHostSnapshot
 @end
@@ -112,6 +114,7 @@ static void DFRelayout(void) {
         [DFSnapshot.app layoutSplitViews];
         [view setNeedsLayout];
         [view layoutIfNeeded];
+        [DFSnapshot.menu alignToHostView];
     } @finally {
         DFRelayoutInProgress = NO;
     }
@@ -124,6 +127,8 @@ void DFHostRestore(void) {
     BOOL sameOwner = DFSameOwner();
     DFExpanded = NO; // Disable the usable-bounds override before restoring.
     DFSnapshot = nil;
+    [saved.menu clearCallbacks];
+    [saved.menu removeFromSuperview];
     if (sameOwner) {
         saved.manager.appFrame = saved.managerFrame;
         saved.manager.renderSize = saved.renderSize;
@@ -178,6 +183,16 @@ BOOL DFHostSetExpanded(BOOL expanded, NSString **reason) {
     if (!applied) {
         DFHostRestore();
         if (reason) *reason = @"content geometry did not match CarPlay display";
+        return NO;
+    }
+    saved.menu = [[DFRestoreMenu alloc] initWithFrame:CGRectZero];
+    saved.menu.onCloseRequested = ^{
+        DFHostRestore();
+        if (DFLifecycleCallback) DFLifecycleCallback();
+    };
+    if (![saved.menu installOnContainer:saved.appView.superview alignedToHostView:saved.appView]) {
+        DFHostRestore();
+        if (reason) *reason = @"restore control could not attach to the split host";
         return NO;
     }
     NSLog(@"[DuoFaceFullscreen] host geometry applied %@", NSStringFromCGRect(actual));

@@ -131,6 +131,8 @@ static BOOL DFToken(id token) {
         }
     } else if (self.ownsFullscreen) {
         [self send:@"renew" enabled:YES requestID:nil];
+    } else if (!self.pendingID) {
+        [self send:@"query" enabled:NO requestID:nil];
     }
 }
 @end

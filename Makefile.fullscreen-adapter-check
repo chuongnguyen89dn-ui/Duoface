@@ -3,7 +3,7 @@ ARCHS := arm64
 THEOS_PACKAGE_SCHEME := rootless
 include $(THEOS)/makefiles/common.mk
 TWEAK_NAME := DuoFaceFullscreenAdapterCheck
-DuoFaceFullscreenAdapterCheck_FILES := runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFStatusBarControl.xm
+DuoFaceFullscreenAdapterCheck_FILES := runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFStatusBarControl.xm runtime/fullscreen/DFRestoreMenu.mm runtime/fullscreen/DFFullscreenCoordinator.mm
 DuoFaceFullscreenAdapterCheck_CFLAGS := -fobjc-arc -Wall -Wextra
 DuoFaceFullscreenAdapterCheck_FRAMEWORKS := UIKit Foundation
 include $(THEOS_MAKE_PATH)/tweak.mk
