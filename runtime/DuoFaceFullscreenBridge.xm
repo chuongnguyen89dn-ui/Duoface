@@ -170,9 +170,9 @@ static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
 }
 - (void)pressed:(id)sender {
     NSLog(@"[DuoFaceFullscreen] pressed visible=%d scene=%@ host=%@", DFVisible, DFScene, DFHostController);
-    if (!DFVisible && DFHostController) {
-        DFScene = DFHostController;
-        DFVisible = YES;
+    if (!DFVisible || !DFScene) {
+        NSLog(@"[DuoFaceFullscreen] ignored: DuoFace scene not active");
+        return;
     }
     DFToggleFullscreen();
 }
