@@ -104,7 +104,7 @@ def macho_strings(binary):
             continue
         if matching(string):
             counts["cfstring"] += 1
-            if counts["cfstring"] <= 180:
+            if counts["cfstring"] <= 180 or string in VI_LABELS or string.startswith(('TAB_', 'OVERLAY_')):
                 print(f"  CFSTRING addr=0x{at:x} target=0x{target:x} flags=0x{flags:x} value={string!r}")
 
     print("=== MATCHING ASCII/UTF8 STRING TABLE VALUES ===")
@@ -129,7 +129,7 @@ def macho_strings(binary):
         for idx, term in enumerate(utf16.split("\x00")):
             if matching(term):
                 counts["ustring"] += 1
-                if counts["ustring"] <= 120:
+                if counts["ustring"] <= 120 or term in VI_LABELS:
                     print(f"  __ustring match_index={idx} value={term[:200]!r}")
     print(f"COUNTS {counts}")
 
