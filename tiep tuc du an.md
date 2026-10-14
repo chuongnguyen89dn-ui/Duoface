@@ -2320,3 +2320,15 @@ Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.
 - Chữ thật UTF16LE trong `DuoFaceUI`: "Ứng dụng" offset `0xe41a0`, "Bố cục" `0xe578e`, "Đang mở" `0xe5aaa`. Trong `DuoFaceDashboard.dylib`: tương ứng `0x33ddda`, `0x33f3c8`, `0x33f6e4` (offset toàn file).
 - CFString Dashboard: `TAB_APPLICATIONS` address `0x346f88`, `TAB_LAYOUT` `0x348fe8`, `TAB_RECENT` `0x349008`. UI owner `CBMultitaskingOverlayView`: `_appSegmentBtn` ivar `0x80`, `_layoutSegmentBtn` `0x88`, `_recentSegmentBtn` `0x90`; method `initWithFrame:` `0xa0420`, `cb_onLanguageChanged:` `0xa0b64`, `setupCardContent` `0xa2a58`.
 - Tiếp tục truy callsite translation/title + layout của 3 UIButton bằng disassembly. **Chưa thay đổi UI, build DEB hoặc Sileo**; bắt buộc trình vị trí mới cho người dùng duyệt trước khi đóng gói.
+
+
+### Đã truy đúng hàm dựng ba tab bằng chuỗi tiếng Việt / khóa dịch
+
+- Chính xác theo gợi ý tìm chữ của người dùng, full scan `audit/v12-picker-text-probe-20261014.txt` đã xác minh 3 CFString tiếng Việt trong Dashboard v12 đã hash-verified: `Ứng dụng` addr `0x3673c8` target `0x339dda` (byte-offset toàn dylib `0x33ddda`); `Bố cục` addr `0x368208` target `0x33b6d6` (toàn file `0x33f3c8`); `Đang mở` addr `0x368228` target `0x33b6e4` (toàn file `0x33f6e4`). Đồng thời ba chữ cũng có trong `DuoFaceUI` riêng; không nhầm iPhone app với CarPlay picker.
+- **Đường dựng tab đã tìm ra, không còn là giả thuyết:** `-[CBMultitaskingOverlayView setupCardContent]` IMP `0xa2a58`, disassembly `audit/v12-picker-header-20261014.txt`:
+  - `0xa34d8` tham chiếu CLASS `CBLocalization`; `0xa34e0` gọi `localizedStringForKey:` với **`TAB_APPS`** ở `0xa34e8` (**LƯU Ý: khóa của chính overlay là TAB_APPS, không phải TAB_APPLICATIONS** xuất hiện ở phần khác của binary); `0xa3504` `setTitle:forState:`, `0xa352c–0xa353c` addTarget selector `switchToAppPickerMode` event 0x40.
+  - `0xa3800` tham chiếu `TAB_LAYOUT`, sau đó `setTitle:forState:`; `0xa3840–0xa3850` nối action `switchToLayoutChooserMode`.
+  - `0xa3af0` tham chiếu `TAB_RECENT`, sau đó `setTitle:forState:`; `0xa3b2c–0xa3b3c` nối `switchToRecentMode`.
+- Ivars cùng owner `CBMultitaskingOverlayView`: `_appSegmentBtn` offset `0x80`, `_layoutSegmentBtn` `0x88`, `_recentSegmentBtn` `0x90`. Hàng "Ứng dụng/Bố cục/Đang mở" thực sự do overlay này tạo, không phải native statusbar/dock. `cb_onLanguageChanged:` IMP `0xa0b64` gọi `loadInstalledApps`, `setupCardContent`, `setNeedsLayout`, xác nhận title được rebuild khi đổi ngôn ngữ.
+- Các bản kiểm tra **read-only**, không build DEB: `38535827086` SUCCESS, `38535853720` SUCCESS; cập nhật probe/script commit `2f622a7`, workflow `579005e`; evidence trong hai file audit đã được đọc lại từ GitHub.
+- **Kết luận triển khai:** vị trí chèn nút "Phóng to" được truy tới class và function có thật. Nếu người dùng duyệt, phải nghiên cứu frame/superview của `appSegmentBtn` trong `setupCardContent`/layout và cài cạnh nó, không gắn lên bar hoặc video. Khi fullscreen overlay menu biến mất, cần giữ một đường `Thu nhỏ` độc lập đã được duyệt. **Tuyệt đối chưa sửa UI/khởi chạy DEB trước khi người dùng đồng ý.**
