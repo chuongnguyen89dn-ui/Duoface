@@ -97,8 +97,28 @@ static void DFStopEffect(UIView *view) {
 }
 static void DFStartEffect(UIView *view) {
     if (![view isKindOfClass:[UIView class]] || CGRectIsEmpty(view.bounds)) return;
+    // The native blink-session owner may call start again while already active.
+    // Restarting the animation every time hides the moving segments at t=0.
+    DFBorderEffect *existing=objc_getAssociatedObject(view,&DFRunnerAssociation);
+    BOOL alive=existing && existing->_layers.count==5;
+    if (alive) for (CALayer *layer in existing->_layers) {
+        if (layer.superlayer!=view.layer) { alive=NO; break; }
+    }
+    if (alive) {
+        DFLayoutEffect(view,existing);
+        return;
+    }
     DFStopEffect(view);
     DFBorderEffect *effect = [[[DFBorderEffect alloc] init] autorelease];
+    // Opaque full-perimeter BLACK backing masks any old native blue glow
+    // under our animated red/white segments. Never paint over CarPlay content.
+    CAShapeLayer *backing=[CAShapeLayer layer];
+    backing.strokeColor=[UIColor blackColor].CGColor;
+    backing.zPosition=1000.0;
+    backing.strokeStart=0;
+    backing.strokeEnd=1;
+    [view.layer addSublayer:backing];
+    [effect->_layers addObject:backing];
     // Duplicate each segment shifted by -1 lap. This makes the wrap seam continuous.
     NSArray *colors = @[
         (id)(DFBorderLogoRed()).CGColor,
@@ -110,6 +130,7 @@ static void DFStartEffect(UIView *view) {
         for (NSUInteger copy=0; copy<2; copy++) {
             CAShapeLayer *layer = [CAShapeLayer layer];
             layer.strokeColor = (CGColorRef)[colors objectAtIndex:colorIndex];
+            layer.zPosition=1001.0+(CGFloat)colorIndex;
             layer.strokeStart = 0;
             layer.strokeEnd = 0;
             [view.layer addSublayer:layer];
@@ -166,6 +187,7 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
         if ([view isKindOfClass:[UIView class]]) {
             DFTrackBorderView(view);
             objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            NSLog(@"[DuoFaceBorder] START view=%p focus=%d bounds=%@",view,DFFocusHidden(self),NSStringFromCGRect(view.bounds));
             if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
             // Black baseline is visible wherever moving red/white strokes leave a gap.
             DFSetBorderColor(view,[UIColor blackColor]);
@@ -179,6 +201,7 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     void (^update)(void) = ^{
         DFTrackBorderView(view);
         objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        NSLog(@"[DuoFaceBorder] STOP view=%p focus=%d",view,DFFocusHidden(self));
         DFStopEffect(view);
         if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
         // The final static border uses the same red sampled by the menu from the approved logo.
@@ -202,9 +225,16 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     // Exact class CBBridgedSplitApp and selector signatures verified in original ObjC metadata.
     Method m1 = class_getInstanceMethod(controller,start);
     Method m2 = class_getInstanceMethod(controller,stop);
-    if (!m1 || !m2) return;
+    if (!m1 || !m2) {
+        NSLog(@"[DuoFaceBorder] native start/stop selectors missing");
+        return;
+    }
     if (strcmp(method_getTypeEncoding(m1),"v24@0:8@16") ||
-        strcmp(method_getTypeEncoding(m2),"v24@0:8@16")) return;
+        strcmp(method_getTypeEncoding(m2),"v24@0:8@16")) {
+        NSLog(@"[DuoFaceBorder] signature mismatch start=%s stop=%s",
+              method_getTypeEncoding(m1),method_getTypeEncoding(m2));
+        return;
+    }
     SEL layout = @selector(layoutSplitViews);
     if (class_getInstanceMethod(controller,layout)) hook(controller,layout,(IMP)DFSplitLayoutHook,&DFNativeSplitLayout);
     hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
@@ -231,4 +261,7 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
         hook(controller,@selector(restoreSplitAnimated:),(IMP)DFRestoreSplitHook,&DFNativeRestoreSplit);
     }
     DFBorderHooksInstalled = (DFNativeBorderStart != NULL && DFNativeBorderStop != NULL);
+    NSLog(@"[DuoFaceBorder] install %@ start=%p stop=%p focus=%p restore=%p",
+          DFBorderHooksInstalled?@"OK":@"FAILED",
+          DFNativeBorderStart,DFNativeBorderStop,DFNativeFocusSlot,DFNativeRestoreSplit);
 }
