@@ -10,6 +10,9 @@ static BOOL DFHostFull = NO;
 static __weak UIViewController *DFHostController;
 static CGRect DFSavedFrame;
 static BOOL DFHasSavedFrame = NO;
+static __weak UIViewController *DFScene = nil;
+static __weak UIButton *DFBarButton = nil;
+static BOOL DFVisible = NO;
 
 static BOOL DFSendBool(id obj, NSString *name, BOOL value) {
     SEL sel = NSSelectorFromString(name);
@@ -110,9 +113,6 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 // Split-pill actions deliberately remain untouched. Fullscreen must be triggered
 // exclusively by the future top CarPlay status-bar control while DuoFace is visible.
 
-static __weak UIViewController *DFScene = nil;
-static __weak UIButton *DFBarButton = nil;
-static BOOL DFVisible = NO;
 static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = !DFVisible; }
 static NSString *DFSceneID(id scene) {
     for (NSString *key in @[@"appIdentifier", @"applicationIdentifier", @"bundleIdentifier"]) {
@@ -137,12 +137,24 @@ static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
     DFUpdateButton();
 }
 %hook DBApplicationSceneViewController
-- (void)viewDidAppear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, YES); }
-- (void)viewDidDisappear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, NO); }
+- (void)viewDidAppear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, YES);
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, NO);
+}
 %end
 %hook CARApplicationSceneViewController
-- (void)viewDidAppear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, YES); }
-- (void)viewDidDisappear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, NO); }
+- (void)viewDidAppear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, YES);
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, NO);
+}
 %end
 
 @interface DFBarAction : NSObject
@@ -178,11 +190,20 @@ static void DFInstallBar(UIViewController *host) {
     DFUpdateButton();
 }
 %hook DBRootStatusBarViewController
-- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
 %end
 %hook CARRootStatusBarViewController
-- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
 %end
 %hook DBDockRootViewController
-- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
 %end
