@@ -1648,3 +1648,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Cause: previous workflow fix stored literal `\\n` text within shell `if` command instead of real newlines, producing incomplete Bash syntax.
 - Fixed `.github/workflows/fullscreen-test-deb.yml` by replacing malformed conditional with two real shell lines (`rm -rf .../sdks`, then `git clone .../sdks`); commit `89af2af305b81dd15498f30116cc4121fc820d84`, readback verified.
 - Still no verified green run or DEB artifact. Next inspect run triggered by this commit, resolve next errors, verify package contains compiled bridge and preserves v12.
+
+
+### 2026-10-14 — Fullscreen CI preflight and YAML packaging fix
+- User instructed immediate rework after reading central Gpt-training- skills. Verified original v12 DEB locally with `dpkg-deb -f` (`Package: com.duonavi.app`, `Version: 1.0.3-12~visualtest`); extracted and verified `DuoFaceDashboard.plist` and `DuoFaceVisualHook.plist` filters. Verified base DEB path exists on GitHub `dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb` (blob SHA ef6df3b3a84e1c43049bf66c093365fe996f67fd).
+- Reviewed `.github/workflows/fullscreen-test-deb.yml` and found another defect: unindented `python3` here-document body would break YAML parsing. Replaced it with inline `python3 -c` that copies plist filter and changes version in extracted DEB; commit `5215b06d7d246ce6f4df66d72027ea7dbe91d454`, GitHub readback verified.
+- Existing bridge source still experimental; no green build/artifact confirmed yet. Next inspect Actions run after commit 5215b06, fix any compilation errors, validate new DEB and provide artifact for user testing. Do not publish to Sileo or claim CarPlay test.
