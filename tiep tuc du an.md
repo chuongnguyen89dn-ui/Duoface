@@ -1947,3 +1947,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User provided GitHub Actions run `38513700341`, job `115687663737`. Read live steps and job logs: `Compile bridge` failed, `Package on original v12` and `upload-artifact` skipped. Theos clang errors in `runtime/DuoFaceFullscreenBridge.xm`: line 21 `use of undeclared identifier 'DFScene'`; line 22 `use of undeclared identifier 'DFVisible'`; line 141 `function definition is not allowed here`; line 188 `expected '}'`. Exit code 2.
 - Fixed by moving DFScene/DFBarButton/DFVisible declarations before DFApplyFullscreen and expanding inline Logos hooks to multiline `%orig;` blocks. Commit `2ea00cd3c5410284f0c0ab8ecf1869cde9209ded`, verified source readback.
 - Workflow is configured for push on source change; NEW run status not yet confirmed. Next: inspect newest run and logs, fix any further errors, verify DEB artifact. No CarPlay device PASS or Sileo deployment.
+
+
+### 2026-10-14 — Fullscreen experimental DEB build PASS
+- GitHub Actions run `38514055041`, job `115688751314` on main commit `2ea00cd3c5410284f0c0ab8ecf1869cde9209ded`: completed SUCCESS. Verified `Compile bridge`, `Package on original v12`, `upload-artifact` all SUCCESS.
+- Artifact `duoface-fullscreen-diag3` ID `11870284097`, size 2,036,038 bytes, SHA256 artifact ZIP `daa40e115fd2d6c3d4c8434c43278e0664350514c9d09099c9db9b9fab38a8b0`, expires 2027-01-12. URL https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38514055041
+- This proves CI compilation/DEB packaging only; DOES NOT prove button visible, app identity recognized, fullscreen works, or restore works on actual CarPlay. Do not publish Sileo until device test.
