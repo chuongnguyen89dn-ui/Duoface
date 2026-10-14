@@ -1801,3 +1801,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Both 0x25514 and 0x2b0d4 call addObserver:selector:name:object: with x2=x19 (observer), x3=selector toggleFullscreen from selref 0x80498, x4 loaded from data slot 0x6cdc8, x5=0 (object nil). This pinpoints the SAME notification-name data slot for both registrations.
 - At VM address 0x6cdc8 raw 64-bit value is 0x00100000000703d8 (encoded pointer, NOT a plain C string); neighboring 0x6cdc0 is 0x00100000000703b8. The target 0x703d8 has non-printable bytes; decoding must account for chained-fixup/rebase or ObjC constant-string structure. Do not claim notification name until decoded.
 - Still missing two requested edges: who posts this notification and where fullscreenBtn registers its press action. Next focus only on pointer 0x6cdc8 decoding and postNotification/addTarget callsites; no unrelated scanning.
+
+
+### 2026-10-14 — Focused xref check of fullscreen notification emitter
+- Reused local `/mnt/data/airaw_focus/arm64_disasm.txt` and original Airaw.dylib, without scanning the 83-file payload again.
+- Verified the emitter instructions at ARM64 0x19c7c–0x19cac: objc_getClass(NSDistributedNotificationCenter), defaultCenter, load name from data slot 0x6cdc8, nil object/userInfo, tail branch to stub 0x4d040. Prior analysis resolves this stub as postNotificationName:object:userInfo:.
+- Exact disassembly search for a direct `bl`/`b` or ADR target of 0x19c7c found zero references; raw arm64 slice search for 4- and 8-byte absolute values 0x19c7c also found zero. This is a NEGATIVE result for those methods only, not proof of no caller; Objective-C method lists and chained fixups remain possible.
+- The existing 11-instruction ADRP/LDR scan found only five selector refs: three fullscreenBtn property registrations (0x13c18, 0x14070, 0x142f0) and two toggleFullscreen notification observer registrations (0x254f8, 0x2b0b8). It found NO addTarget or requestFullscreenToggle xref, but scan is incomplete and must not be treated as proof of absence.
+- NEXT ONLY: decode ObjC method-list/IMP references to 0x19c7c, then use wider dataflow for fullscreenBtn creation and action registration. No DuoFace modification or DEB build.
