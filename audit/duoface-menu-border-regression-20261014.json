@@ -1,0 +1,233 @@
+{
+  "menu-zoom2": {
+    "deb_sha256": "0a44524456caa6a530fd1e605020f592e79500738de643a59ef0ff8e02296ad4",
+    "payload": {
+      "DuoFaceFullscreenBridge": {
+        "present": true,
+        "sha256": "d8821c62f0d00f89811669d5d34110b944ad5e2678cdbfab83835415ee67be9e",
+        "bytes": 107968,
+        "symbol_hints": {
+          "Zoom In": true,
+          "Zoom Out": true,
+          "Close App": true,
+          "borderPulse": false,
+          "dfStart": false,
+          "DuoFaceVisual12": false,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": true
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard"
+            ],
+            "Executables": [
+              "CarPlay",
+              "CarPlayApp",
+              "Dashboard",
+              "SpringBoard"
+            ]
+          }
+        }
+      },
+      "DuoFaceVisualHook": {
+        "present": true,
+        "sha256": "9837f20ded87a8d3747abc99788adb30be24d1fb406ef9bbd11236c5d9e3adfc",
+        "bytes": 77744,
+        "symbol_hints": {
+          "Zoom In": false,
+          "Zoom Out": false,
+          "Close App": false,
+          "borderPulse": true,
+          "dfStart": true,
+          "DuoFaceVisual12": true,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": false
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard",
+              "com.apple.SpringBoard",
+              "com.duoface.duofaceui"
+            ]
+          }
+        }
+      },
+      "DuoFaceDashboard": {
+        "present": true,
+        "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+        "bytes": 7540464,
+        "symbol_hints": {
+          "Zoom In": false,
+          "Zoom Out": false,
+          "Close App": false,
+          "borderPulse": true,
+          "dfStart": false,
+          "DuoFaceVisual12": false,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": true
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard",
+              "com.apple.SpringBoard",
+              "com.google.ios.youtube",
+              "com.google.ios.youtubemusic",
+              "com.netflix.Netflix",
+              "org.videolan.vlc-ios",
+              "com.apple.mobilesafari",
+              "tv.twitch",
+              "com.zhiliaoapp.musically",
+              "com.google.Maps",
+              "com.waze.iphone",
+              "com.spotify.client",
+              "com.apple.Preferences",
+              "com.apple.mobilenotes",
+              "com.apple.mobilephone",
+              "com.apple.Music",
+              "com.google.chrome.ios",
+              "com.apple.BarcodeScanner",
+              "com.apple.PrintKit.Print-Center",
+              "com.duoface.duofaceui"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "border-focus-red1": {
+    "deb_sha256": "c3566c8149e0a71f961c22ebbddb5c9e1893a57b44117d45e95c8a1349284d97",
+    "payload": {
+      "DuoFaceFullscreenBridge": {
+        "present": true,
+        "sha256": "a2e6af3e3b9c7c9e25856cc9476c8b86854507dc0e289ee63d482e17da5571ac",
+        "bytes": 108032,
+        "symbol_hints": {
+          "Zoom In": true,
+          "Zoom Out": true,
+          "Close App": true,
+          "borderPulse": false,
+          "dfStart": false,
+          "DuoFaceVisual12": false,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": true
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard"
+            ],
+            "Executables": [
+              "CarPlay",
+              "CarPlayApp",
+              "Dashboard",
+              "SpringBoard"
+            ]
+          }
+        }
+      },
+      "DuoFaceVisualHook": {
+        "present": true,
+        "sha256": "872bca74268569d183374a75b69388e0f3f0cba3edc5e9a1e0fd175de729959c",
+        "bytes": 95120,
+        "symbol_hints": {
+          "Zoom In": false,
+          "Zoom Out": false,
+          "Close App": false,
+          "borderPulse": true,
+          "dfStart": true,
+          "DuoFaceVisual12": true,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": false
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard",
+              "com.apple.SpringBoard",
+              "com.duoface.duofaceui"
+            ]
+          }
+        }
+      },
+      "DuoFaceDashboard": {
+        "present": true,
+        "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+        "bytes": 7540464,
+        "symbol_hints": {
+          "Zoom In": false,
+          "Zoom Out": false,
+          "Close App": false,
+          "borderPulse": true,
+          "dfStart": false,
+          "DuoFaceVisual12": false,
+          "CBBridgedSplitApp": true,
+          "CBMultitaskingOverlayView": true
+        },
+        "filter": {
+          "Filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard",
+              "com.apple.SpringBoard",
+              "com.google.ios.youtube",
+              "com.google.ios.youtubemusic",
+              "com.netflix.Netflix",
+              "org.videolan.vlc-ios",
+              "com.apple.mobilesafari",
+              "tv.twitch",
+              "com.zhiliaoapp.musically",
+              "com.google.Maps",
+              "com.waze.iphone",
+              "com.spotify.client",
+              "com.apple.Preferences",
+              "com.apple.mobilenotes",
+              "com.apple.mobilephone",
+              "com.apple.Music",
+              "com.google.chrome.ios",
+              "com.apple.BarcodeScanner",
+              "com.apple.PrintKit.Print-Center",
+              "com.duoface.duofaceui"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "compare": {
+    "DuoFaceFullscreenBridge": {
+      "same_sha": false,
+      "menu_zoom2_sha": "d8821c62f0d00f89811669d5d34110b944ad5e2678cdbfab83835415ee67be9e",
+      "red1_sha": "a2e6af3e3b9c7c9e25856cc9476c8b86854507dc0e289ee63d482e17da5571ac"
+    },
+    "DuoFaceVisualHook": {
+      "same_sha": false,
+      "menu_zoom2_sha": "9837f20ded87a8d3747abc99788adb30be24d1fb406ef9bbd11236c5d9e3adfc",
+      "red1_sha": "872bca74268569d183374a75b69388e0f3f0cba3edc5e9a1e0fd175de729959c"
+    },
+    "DuoFaceDashboard": {
+      "same_sha": true,
+      "menu_zoom2_sha": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "red1_sha": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce"
+    }
+  }
+}
