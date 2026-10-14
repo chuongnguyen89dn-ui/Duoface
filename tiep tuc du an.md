@@ -1965,3 +1965,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User confirms no fullscreen button in any prior test. Source change commit `714cc939fa2b332db393895718b70df896653f57`: `DFUpdateButton` now leaves installed control visible regardless of unverified scene match; sets yellow foreground, blue rounded background, label `FULL` to distinguish the control in a screenshot. If pressed without scene match, logs diagnostic instead of toggling wrong app. Source readback verified.
 - IMPORTANT: diagnostic may show on CarPlay Home/other apps, contrary to final desired behavior; this is a temporary injection/host visibility probe only. Do not ship to Sileo. If still absent, suspect injection/filter/hook or wrong controller. Restore DuoFace-only gating once root cause is verified.
 - Next: inspect GitHub Actions run for this commit, retrieve DEB, test visibility, then fix host/scene routing and remove diagnostic behavior.
+
+
+### 2026-10-14 — FULL button diagnostic CI passed
+- Verified live GitHub Actions run `38515112186`, job `115692049416`: status completed, conclusion success. Artifact `duoface-fullscreen-diag3`, ID `11871386849`, size `2035765` bytes, nonexpired. Artifact head SHA `714cc939fa2b332db393895718b70df896653f57`, exactly diagnostic with visible yellow `FULL` label and blue background.
+- Device test NOT yet supplied. This CI PASS only proves packaging, not actual button display. Next: device photo of CarPlay with this exact DEB, then inspect injection/filter if FULL still absent. No Sileo release.
