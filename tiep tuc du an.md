@@ -1672,3 +1672,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User reported no new run after adding `DuoFaceFullscreenBridge.plist`. Verified `.github/workflows/fullscreen-test-deb.yml` push paths omitted this plist, so its commit did not trigger workflow.
 - Updated push paths to include `DuoFaceFullscreenBridge.plist`, retaining `workflow_dispatch`, bridge source, Makefile and workflow paths; commit `4e285d25c32ac519d2f729f17272cd0640f47479`. Readback confirmed exact file contents.
 - The workflow file itself is in its push paths, so this commit is eligible to trigger a new Actions run. Trigger/run success not yet verified. Next read new run jobs/log, fix staging/packaging failures, validate artifact and only then provide DEB for device testing.
+
+
+### 2026-10-14 — Fullscreen run 38499190048: remove redundant Theos package step
+- Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38499190048 job 115641823052: Prepare Theos SUCCESS; brew tools SUCCESS; Logos preprocess, arm64 compile/link/sign and stage SUCCESS. Compile step failed only at `make package`: `make package requires you to have a control file either in the layout/DEBIAN/ directory or in the project root`.
+- Workflow already has a separate step to extract original v12 DEB and inject compiled bridge. Fixed compile step to `make clean all FINALPACKAGE=1` instead of redundant Theos `make clean package FINALPACKAGE=1`; commit `b1baf13a9f0bb8e5a5880aea85172e4e971605fc`, readback verified.
+- Next inspect workflow run after this commit; validate extraction, filter injection, dpkg-deb and uploaded artifact. No successful artifact/device test confirmed yet.
