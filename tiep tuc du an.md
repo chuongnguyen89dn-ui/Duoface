@@ -2109,3 +2109,15 @@ Tiếp theo: adapter phải có phần SpringBoard (CBWindow/content geometry/re
 Đã cập nhật docs/fullscreen-root-cause-20261014.md tổng hợp bằng chứng v12 + process ownership + content bounds + restore. Evidence mới audit/airaw-host-menu-20261014.txt.
 Root causes xác định trong source/binary: filter thiếu SpringBoard; event local không đi sang owner CBWindow; chọn native scene/package ID chưa được chứng minh; gửi chrome selector sai owner; chỉ đổi view frame thay vì vùng content/scene settings; state báo full ngay cả khi chrome thất bại; thiếu menu thu nhỏ/restore gốc. Không khẳng định thứ tự lỗi runtime khi chưa có device log.
 Điểm tiếp theo: triển khai adapter Dashboard↔SpringBoard và phần host-menu tương ứng Airaw; ACK/restore theo owner thật, giữ layoutSplitViews. Chưa sửa runtime, chưa đóng DEB mới, không phát hành Sileo hoặc báo device PASS.
+
+## 2026-10-14 — Triển khai bước 1: host geometry v12 (đã viết, chưa compile)
+
+Không dừng ở báo cáo. Đã viết runtime/fullscreen/DFHostGeometry.h và .xm.
+- Module SpringBoard riêng, gate bằng CBBridgeManager.activated + CBWindow.isVisible + currentApp thuộc CBBridgedSplitApp + app.view thật nằm trong contentView. Không dùng package ID làm scene gate.
+- Hook CBWindow.carPlayUsableBounds chỉ trong phiên fullscreen của đúng owner; gọi resizeWindows và layoutSplitViews để giữ cả hai pane.
+- Snapshot manager.appFrame/renderSize, window.appFrame, content.frame, app view frame/transform; restore trước hide/destroy/deactivate. Owner thay đổi thì không áp snapshot cũ lên phiên mới.
+- Chỉ trả geometry success sau khi content.frame khớp carPlayScreenBounds; không tự tuyên bố chrome/fullscreen toàn hệ thống thành công.
+- Từ chối root transform không identity thay vì reset đoán mò.
+Bằng chứng mới bổ trợ: CBBridgedSplitApp.layoutSplitViews bắt đầu0x1044f8 gọi CBWindow.carPlayUsableBounds ở0x10454c, dùng bounds của view và có refreshSceneLayout; không thay focusSlot/ratio.
+Trạng thái source STAGED: chưa thêm vào Makefile host4, chưa gọi DFInstallHostGeometryHooks, chưa compile, chưa tạo DEB hoặc sửa Sileo.
+Tiếp theo ngay: module IPC request/result/state giữa SpringBoard và Dashboard; compile staged adapter trên GitHub Actions trước khi ghép UI/menu.
