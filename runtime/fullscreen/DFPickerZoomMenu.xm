@@ -20,22 +20,57 @@ static UIButton *DFTab(id overlay, const char *name) {
     id value = ivar ? object_getIvar(overlay, ivar) : nil;
     return [value isKindOfClass:UIButton.class] ? value : nil;
 }
+static const void *DFStackIconKey=&DFStackIconKey;
 static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *font) {
     [b setTitle:title forState:UIControlStateNormal];
-    [b setImage:[UIImage systemImageNamed:symbol withConfiguration:
-        [UIImageSymbolConfiguration configurationWithPointSize:10 weight:UIImageSymbolWeightMedium]]
-        forState:UIControlStateNormal];
-    if (font) b.titleLabel.font = font;
-    b.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    b.semanticContentAttribute = UISemanticContentAttributeForceLeftToRight;
-    // Small native 10/11pt labels remain legible across CarPlay widths.
-    b.imageEdgeInsets = UIEdgeInsetsZero;
-    b.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 0);
-    b.contentEdgeInsets = UIEdgeInsetsMake(0, 2, 0, 2);
-    b.titleLabel.adjustsFontSizeToFitWidth = YES;
-    b.titleLabel.minimumScaleFactor = 0.85;
-    b.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    b.tintColor = [UIColor colorWithWhite:0.72 alpha:1];
+    UIImage *image=[UIImage systemImageNamed:symbol withConfiguration:
+        [UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightRegular]];
+    UIImageView *icon=objc_getAssociatedObject(b,DFStackIconKey);
+    if (!icon) {
+        icon=[UIImageView new];
+        icon.contentMode=UIViewContentModeScaleAspectFit;
+        icon.userInteractionEnabled=NO;
+        [b addSubview:icon];
+        objc_setAssociatedObject(b,DFStackIconKey,icon,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    icon.image=image;
+    icon.tintColor=b.tintColor;
+    icon.frame=CGRectMake((CGRectGetWidth(b.bounds)-16)/2.0,3,16,16);
+    [b setImage:nil forState:UIControlStateNormal];
+    if (font) b.titleLabel.font=font;
+    b.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    b.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    b.titleLabel.textAlignment=NSTextAlignmentCenter;
+    b.titleEdgeInsets=UIEdgeInsetsMake(19,0,0,0);
+    b.contentEdgeInsets=UIEdgeInsetsZero;
+    b.titleLabel.adjustsFontSizeToFitWidth=YES;
+    b.titleLabel.minimumScaleFactor=0.85;
+    b.titleLabel.lineBreakMode=NSLineBreakByClipping;
+}
+static UIColor *DFApprovedLogoRed(void) {
+    static UIColor *accent=nil;
+    if (accent) return accent;
+    UIImage *logo=[UIImage imageWithContentsOfFile:
+        @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
+    if (!logo.CGImage) return nil;
+    uint8_t pixels[32*16*4]={0};
+    CGColorSpaceRef space=CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx=CGBitmapContextCreate(pixels,32,16,8,32*4,space,
+        kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(space);
+    if (!ctx) return nil;
+    CGContextDrawImage(ctx,CGRectMake(0,0,32,16),logo.CGImage);
+    CGContextRelease(ctx);
+    int best=-1,score=0;
+    for (int i=0;i<32*16;i++) {
+        int r=pixels[i*4],g=pixels[i*4+1],bl=pixels[i*4+2],alpha=pixels[i*4+3];
+        int strength=r-MAX(g,bl);
+        if (alpha>180 && r>100 && strength>score) {score=strength;best=i;}
+    }
+    if (best<0) return nil;
+    accent=[UIColor colorWithRed:pixels[best*4]/255.0
+        green:pixels[best*4+1]/255.0 blue:pixels[best*4+2]/255.0 alpha:1];
+    return accent;
 }
 // DuoFace v12 already installs this APPROVED 960x240 asset in the base DEB.
 // Never draw or synthesize a substitute. When absent, restore the native title.
@@ -46,47 +81,28 @@ static UIImage *DFPickerApprovedHeaderLogo(void) {
     return image;
 }
 static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
-                                      CGFloat rightEdge) {
-    // Header ivar is a UIImageView, NOT one of the three segment buttons.
-    Ivar iconIvar = class_getInstanceVariable(object_getClass(overlay), "_headerIcon");
-    Ivar labelIvar = class_getInstanceVariable(object_getClass(overlay), "_titleLabel");
-    id iconObject = iconIvar ? object_getIvar(overlay, iconIvar) : nil;
-    id labelObject = labelIvar ? object_getIvar(overlay, labelIvar) : nil;
-    if (![iconObject isKindOfClass:UIImageView.class] ||
-        ![labelObject isKindOfClass:UILabel.class]) return CGRectNull;
-    UIImageView *headerIcon = iconObject;
-    UILabel *title = labelObject;
-    UIImage *logo = DFPickerApprovedHeaderLogo();
+                                      CGFloat leftEdge, CGFloat rightEdge, CGFloat rowTop) {
+    Ivar iconIvar=class_getInstanceVariable(object_getClass(overlay),"_headerIcon");
+    Ivar labelIvar=class_getInstanceVariable(object_getClass(overlay),"_titleLabel");
+    id iconObj=iconIvar?object_getIvar(overlay,iconIvar):nil;
+    id labelObj=labelIvar?object_getIvar(overlay,labelIvar):nil;
+    if (![iconObj isKindOfClass:UIImageView.class] ||
+        ![labelObj isKindOfClass:UILabel.class]) return CGRectNull;
+    UIImageView *headerIcon=iconObj;
+    UILabel *title=labelObj;
+    UIImage *logo=DFPickerApprovedHeaderLogo();
     if (!logo || !headerIcon.superview || !title.superview ||
-        ![headerIcon isDescendantOfView:overlay] ||
-        ![rowParent isDescendantOfView:overlay]) {
-        title.hidden = NO; // Do not hide native header when logo cannot load.
-        return CGRectNull;
-    }
-    // Derive current native header origin/height every setup/layout pass.
-    // Bounds converted between common ancestor views, even before window attach.
-    CGRect iconRect = [rowParent convertRect:headerIcon.frame fromView:headerIcon.superview];
-    CGRect labelRect = [rowParent convertRect:title.frame fromView:title.superview];
-    CGFloat x = CGRectGetMinX(iconRect);
-    CGFloat centerY = CGRectGetMidY(labelRect);
-    if (!isfinite(x) || !isfinite(centerY)) return CGRectNull;
-    CGFloat desiredHeight = MIN(34.0, MAX(24.0, CGRectGetHeight(labelRect)));
-    // Keep space for all FOUR menu items + trailing gap before the native X.
-    CGFloat allowed = rightEdge - x - 4.0*76.0 - 18.0;
-    CGFloat width = MIN(logo.size.width / logo.size.height * desiredHeight,
-                        MAX(0.0, allowed));
-    if (!isfinite(width) || width < 68.0) {
-        title.hidden = NO;
-        return CGRectNull;
-    }
-    CGFloat height = width * logo.size.height / logo.size.width;
-    CGRect target = CGRectMake(x, centerY - height/2.0, width, height);
-    // Convert from menu row coordinates into the existing header parent.
-    headerIcon.frame = [headerIcon.superview convertRect:target fromView:rowParent];
-    headerIcon.image = logo;
-    headerIcon.contentMode = UIViewContentModeScaleAspectFit;
-    headerIcon.clipsToBounds = YES;
-    title.hidden = YES;
+        ![rowParent isDescendantOfView:overlay]) {title.hidden=NO;return CGRectNull;}
+    CGFloat width=rightEdge-leftEdge;
+    if (!isfinite(width) || width<100) {title.hidden=NO;return CGRectNull;}
+    // Same left/right edges as the four-column 40pt menu, separate row above.
+    CGFloat logoHeight=MIN(30.0,MAX(18.0,rowTop-4.0));
+    CGRect target=CGRectMake(leftEdge,rowTop-logoHeight-2.0,width,logoHeight);
+    headerIcon.frame=[headerIcon.superview convertRect:target fromView:rowParent];
+    headerIcon.image=logo;
+    headerIcon.contentMode=UIViewContentModeScaleAspectFit;
+    headerIcon.clipsToBounds=YES;
+    title.hidden=YES;
     return target;
 }
 static void DFLayoutPicker(UIView *overlay) {
@@ -113,65 +129,50 @@ static void DFLayoutPicker(UIView *overlay) {
     CGFloat height=CGRectGetHeight(a);
     if (!isfinite(nativeLeft) || !isfinite(right) || !isfinite(top) ||
         height<12 || right-nativeLeft<100) return;
-    // Photo menu-zoom1: the native 3-tab top-right strip was divided into 4.
-    // Use the otherwise empty space between the DuoFace logo and the last tab.
-    CGRect header=DFNativeHeaderLogoFrame(overlay,parent,right);
-    CGFloat left=nativeLeft;
-    if (!CGRectIsNull(header)) left=MIN(nativeLeft,CGRectGetMaxX(header)+10.0);
-    else {
-        Ivar titleIvar=class_getInstanceVariable(object_getClass(overlay),"_titleLabel");
-        id value=titleIvar?object_getIvar(overlay,titleIvar):nil;
-        if ([value isKindOfClass:UILabel.class] && [value superview]) {
-            UILabel *titleView=value;
-            CGRect titleRect=[parent convertRect:titleView.frame fromView:titleView.superview];
-            left=MIN(left,CGRectGetMaxX(titleRect)+10.0);
-        }
-    }
-    left=MAX(left,CGRectGetMinX(parent.bounds)+4.0);
+    // User-approved two full-width rows: logo above, four equal columns below.
+    CGFloat left=MAX(CGRectGetMinX(parent.bounds)+4.0,nativeLeft);
     CGFloat col=(right-left)/4.0;
     if (col<53.0) {
-        // Do not force text into unusable slots or collide with the header.
-        NSLog(@"[DuoFaceFullscreen] picker row too narrow %.1f",col);
+        NSLog(@"[DuoFaceFullscreen] picker 40pt row too narrow %.1f",col);
         return;
     }
-    app.frame=CGRectMake(left,top,col,height);
-    zoom.frame=CGRectMake(left+col,top,col,height);
-    style.frame=CGRectMake(left+2*col,top,col,height);
-    close.frame=CGRectMake(left+3*col,top,col,height);
-    zoom.layer.cornerRadius=app.layer.cornerRadius;
+    (void)DFNativeHeaderLogoFrame(overlay,parent,left,right,top);
+    const CGFloat menuHeight=40.0;
+    app.frame=CGRectMake(left,top,col,menuHeight);
+    zoom.frame=CGRectMake(left+col,top,col,menuHeight);
+    style.frame=CGRectMake(left+2*col,top,col,menuHeight);
+    close.frame=CGRectMake(left+3*col,top,col,menuHeight);
+    UIFont *font=[UIFont systemFontOfSize:10.0];
     BOOL expanded=DFHostIsExpanded();
     zoom.enabled=expanded || DFHostCanExpand();
-    zoom.alpha=zoom.enabled ? 1.0 : 0.5;
-    NSString *title=expanded?@"Zoom Out":@"Zoom In";
-    zoom.accessibilityLabel=title;
-    UIFont *font=app.titleLabel.font;
-    if (!font) font=[UIFont systemFontOfSize:10.0];
-    // All tabs keep the same font. Reduce only when the longest complete
-    // label+outlined icon needs it; never truncate or substitute ellipses.
-    CGFloat fullWidth=[@"Close App" sizeWithAttributes:@{NSFontAttributeName:font}].width
-                      + 14.0 + 5.0 + 8.0;
-    CGFloat needed=MAX(fullWidth,
-        [title sizeWithAttributes:@{NSFontAttributeName:font}].width+27.0);
-    if (col<needed) {
-        CGFloat fontSize=MAX(8.0,font.pointSize*((col-16.0)/MAX(1.0,needed-16.0)));
-        font=[font fontWithSize:fontSize];
-    }
+    zoom.alpha=zoom.enabled?1.0:0.5;
+    NSString *zoomTitle=expanded?@"Zoom Out":@"Zoom In";
+    zoom.accessibilityLabel=zoomTitle;
     DFDecorate(app,@"App",@"square.grid.2x2",font);
+    DFDecorate(zoom,zoomTitle,expanded?@"arrow.down.right.and.arrow.up.left":
+        @"arrow.up.left.and.arrow.down.right",font);
     DFDecorate(style,@"Style",@"rectangle.3.group",font);
     DFDecorate(close,@"Close App",@"xmark.circle",font);
-    DFDecorate(zoom,title,expanded?@"arrow.down.right.and.arrow.up.left":
-                @"arrow.up.left.and.arrow.down.right",font);
-    zoom.backgroundColor=expanded?[UIColor colorWithRed:0.76 green:0.10 blue:0.14 alpha:1]:
-                                UIColor.clearColor;
-    [zoom setTitleColor:expanded?UIColor.whiteColor:
-        [UIColor colorWithWhite:0.68 alpha:1] forState:UIControlStateNormal];
-    if (expanded) {
-        zoom.tintColor=UIColor.whiteColor;
-        for (UIButton *native in @[app,style,close]) {
-            native.backgroundColor=UIColor.clearColor;
-            [native setTitleColor:[UIColor colorWithWhite:0.68 alpha:1]
-                          forState:UIControlStateNormal];
-        }
+    UIColor *accent=DFApprovedLogoRed();
+    // Selection follows the actual picker mode, not fullscreen state.
+    Ivar modeIvar=class_getInstanceVariable(object_getClass(overlay),"_overlayMode");
+    NSInteger mode=modeIvar?[(NSNumber *)object_getIvar(overlay,modeIvar) integerValue]:0;
+    for (UIButton *button in @[app,zoom,style,close]) {
+        button.layer.cornerRadius=0;
+        button.layer.borderWidth=0;
+        button.backgroundColor=UIColor.clearColor;
+        button.tintColor=[UIColor colorWithWhite:0.85 alpha:1];
+        [button setTitleColor:[UIColor colorWithWhite:0.85 alpha:1] forState:UIControlStateNormal];
+    }
+    UIButton *selected=mode==1?style:(mode==2?close:app);
+    selected.backgroundColor=accent?:UIColor.clearColor;
+    [selected setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    // Zoom only highlights while its own control is pressed, never permanently.
+    UIImageView *selectedIcon=objc_getAssociatedObject(selected,DFStackIconKey);
+    if (selectedIcon) selectedIcon.tintColor=UIColor.whiteColor;
+    for (UIButton *button in @[app,zoom,style,close]) {
+        UIImageView *icon=objc_getAssociatedObject(button,DFStackIconKey);
+        if (icon && button!=selected) icon.tintColor=button.tintColor;
     }
     [DFOverlays addObject:overlay];
 }
