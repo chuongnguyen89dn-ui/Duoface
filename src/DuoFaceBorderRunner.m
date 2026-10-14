@@ -14,12 +14,19 @@ static BOOL DFBorderHooksInstalled = NO;
 static IMP DFNativeSplitLayout = NULL;
 static IMP DFNativeFocusSlot = NULL, DFNativeRestoreSplit = NULL;
 static char DFFocusAssociation, DFRunningAssociation;
-static NSHashTable *DFKnownBorderViews = nil;
+static char DFKnownBorderViewsKey;
 static BOOL DFFocusHidden(id controller) { return [objc_getAssociatedObject(controller,&DFFocusAssociation) boolValue]; }
-static void DFTrackBorderView(UIView *view) {
+static NSHashTable *DFKnownBorderViewsFor(id controller) {
+    NSHashTable *views=objc_getAssociatedObject(controller,&DFKnownBorderViewsKey);
+    if (!views) {
+        views=[NSHashTable weakObjectsHashTable];
+        objc_setAssociatedObject(controller,&DFKnownBorderViewsKey,views,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return views;
+}
+static void DFTrackBorderView(id controller, UIView *view) {
     if (![view isKindOfClass:[UIView class]]) return;
-    if (!DFKnownBorderViews) DFKnownBorderViews=[[NSHashTable weakObjectsHashTable] retain];
-    [DFKnownBorderViews addObject:view];
+    [DFKnownBorderViewsFor(controller) addObject:view];
 }
 
 static NSHashTable *DFActiveBorderViews = nil;
@@ -167,7 +174,7 @@ static void DFHideBorderForFocus(UIView *view) {
 }
 static void DFUpdateFocusBorders(id controller) {
     BOOL focused=DFFocusHidden(controller);
-    for (UIView *view in [DFKnownBorderViews allObjects]) {
+    for (UIView *view in [DFKnownBorderViewsFor(controller) allObjects]) {
         if (focused) DFHideBorderForFocus(view);
         else {
             if ([objc_getAssociatedObject(view,&DFRunningAssociation) boolValue]) {
@@ -194,7 +201,7 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     (void)self; (void)cmd;
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
-            DFTrackBorderView(view);
+            DFTrackBorderView(self,view);
             objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             NSLog(@"[DuoFaceBorder] START view=%p focus=%d bounds=%@",view,DFFocusHidden(self),NSStringFromCGRect(view.bounds));
             if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
@@ -208,7 +215,7 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
 static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
     void (^update)(void) = ^{
-        DFTrackBorderView(view);
+        DFTrackBorderView(self,view);
         objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         NSLog(@"[DuoFaceBorder] STOP view=%p focus=%d",view,DFFocusHidden(self));
         DFStopEffect(view);
@@ -224,7 +231,7 @@ static void DFSplitLayoutHook(id self, SEL cmd) {
     if (DFFocusHidden(self)) { DFUpdateFocusBorders(self); return; }
     // A native start can fire before the container gets nonzero bounds.
     // Track that start and attach the runner as soon as native layout completes.
-    for (UIView *view in [DFKnownBorderViews allObjects]) {
+    for (UIView *view in [DFKnownBorderViewsFor(self) allObjects]) {
         DFBorderEffect *effect=objc_getAssociatedObject(view,&DFRunnerAssociation);
         if ([objc_getAssociatedObject(view,&DFRunningAssociation) boolValue] && !effect) {
             if (!CGRectIsEmpty(view.bounds)) {
