@@ -2603,3 +2603,8 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 ### 2026-10-14 — VERIFIED ORIGINAL HEIGHTS from v12 disassembly
 - Đã tra `audit/v12-picker-header-20261014.txt`: tại `0xA2D98–0xA2DA8`, so sánh chiều rộng view với threshold rồi `fcsel d14,24,28` → **chiều cao hàng menu gốc 24 pt (compact) hoặc 28 pt (regular)**. Tại `0xA3430–0xA3450`, `d11=d14−2`, setFrame native `_appSegmentBtn` chiều cao **22 pt hoặc 26 pt**; các nút còn lại dùng cùng d11. Đây là **kết quả từ mã máy**, không phải đoán.
 - Đề xuất menu mới 64 pt so với **chiều cao nút gốc**: tăng **42 pt (compact)** hoặc **38 pt (regular)**, tương ứng ~2.91x hoặc ~2.46x. Nếu so với **chiều cao cả hàng**: tăng 40 pt hoặc 36 pt. 64 pt vẫn là **đề xuất chờ duyệt**, chưa chỉnh source, chưa build/export DEB.
+
+
+### 2026-10-14 — USER REJECTS 64pt AS OVERSIZED; revised PROPOSAL 40pt
+- Người dùng phản đối đề xuất 64pt vì hàng menu sẽ gần như to bằng biểu tượng ứng dụng trong grid; cần menu nhỏ gọn, tương xứng với UI gốc. **Đề xuất 64pt bị rút lại, KHÔNG triển khai.**
+- Đề xuất mới **CHƯA CHỐT**: chiều cao **toàn hàng menu 40pt** (không phải chiều cao icon hay file logo), icon outline khoảng **16pt**, chữ **10pt**, khoảng icon–chữ **3pt**, khoảng đệm còn lại; tăng **12–16pt so với hàng native 24/28pt**. Cần kiểm tra không lấn grid, hai hàng logo/menu cùng lề ngang. Không tự ý thay logo/icon đã duyệt; không đóng DEB.
