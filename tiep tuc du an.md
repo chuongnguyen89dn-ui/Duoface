@@ -1886,3 +1886,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User explicitly rejected assistant-invented placement in `CBSlotPillView`; requirement is to replicate Airaw fullscreen button's actual Host Menu/status bar location and mechanism. Preserve existing DuoFace split UI untouched.
 - Removed fullscreen button creation and `CBSlotPillView.layoutSubviews` placement from `runtime/DuoFaceFullscreenBridge.xm` in commit `e639666c89bd85d3113d1ca09ee4cd17c4bc36d7`. Constructor diagnostic and existing fullscreen bridge remain. This does NOT yet implement Airaw Host Menu button; it prevents repeating incorrect UI placement.
 - Next: trace Airaw's `ARWHostMenuView` actual owner, mounting point, layout and `requestFullscreenToggle` target from binary; implement only when verified. No on-device test or build claimed.
+
+
+### 2026-10-14 — User clarified fullscreen visibility requirement
+- Requirement supersedes earlier app-detection speculation: show Airaw-style fullscreen control on TOP CarPlay bar ONLY while DuoFace interface is open; hide on CarPlay Home; clicking expands DuoFace; leaving DuoFace restores layout. Do not place inside CBSlotPillView or change split controls.
+- Current `runtime/DuoFaceFullscreenBridge.xm` has no top-bar button and still hooks `CBSlotPillView expandTapped:/restoreTapped:` (coupling to split UI). No implementation or device test confirmed in this checkpoint.
+- Next: locate actual DuoFace visibility lifecycle and CarPlay status bar host; implement button conditioned on DuoFace visibility, decouple split pill actions, test build and device before Sileo release.
