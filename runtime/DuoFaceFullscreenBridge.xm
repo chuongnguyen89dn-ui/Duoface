@@ -46,6 +46,7 @@ static void DFApplyFullscreen(BOOL enable) {
 }
 static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 
+// Fullscreen UI control will be bound after verifying the CarPlay host lifecycle.
 // Host controller is captured by its existing layout callback.
 // Bind the existing DuoFace fullscreen pill action to the host fullscreen bridge.
 %hook DBApplicationViewController
