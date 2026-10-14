@@ -1704,3 +1704,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Rechecked existing bridge source. A prior large update was rejected by tool safety checker, but a small documentation-only update succeeded, commit `17d121933eba2c34c0673890fd2cbdef4575e342`; therefore GitHub repository is writable.
 - Added visible `UIButton` overlay to `DBApplicationViewController.viewDidLayoutSubviews` via `DFInstallToggle`, with tag deduplication, fullscreen/restore glyph, and `DuoFaceFullscreenAction.toggleFromButton:` calling existing `DFToggleFullscreen()`. Commit `4505266f4b3d09e57a7c6d80ea6ed59ab76e4f44`; verified by refetching source. Existing v12 bridge behavior retained.
 - Caveat: `DBApplicationViewController` runtime presence and true whole-screen takeover remain unverified. New push should trigger `.github/workflows/fullscreen-test-deb.yml`; inspect next run and fix compiler errors before device test. Do not release Sileo yet.
+
+
+### 2026-10-14 — Fullscreen placement decision under investigation
+- User requests research into integrating fullscreen into existing round DuoFace split-screen/logo control rather than a new top-right floating button. Historical project discussions distinguish round white/black two-face SWAP button, picker, and four-corner fullscreen icon; earlier constraint was to preserve existing callbacks, touch targets and split behavior.
+- Recommended design pending actual binary/UI validation: group fullscreen control alongside the existing round control with a separate hit target, retaining swap's existing tap behavior; same fullscreen hit target should restore. Do not repurpose swap tap or overlap its hit area.
+- Current committed bridge `4505266` instead creates a separate overlay button at x=max(8,width-60), y=60; no new code changes this turn. Next inspect actual v12 round control container and layout/hit-testing before implementing grouped placement; verify on device. No Sileo release.
