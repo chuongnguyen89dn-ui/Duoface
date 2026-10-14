@@ -2221,3 +2221,26 @@ Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.
 - **Sileo:** chưa có bằng chứng phiên bản adapter1 đã triển khai lên source Sileo; không được thông báo là đã cập nhật Sileo. Bản được người dùng chụp màn hình còn nút mũi tên vàng, khớp kiểu UI bridge thử nghiệm cũ trong source nhưng chưa có dữ liệu gói cài thực tế để kết luận chắc.
 - **Không nhầm cấp độ:** compile PASS và tạo DEB PASS, nhưng chưa xác nhận nút fullscreen Airaw trên CarPlay hoạt động, chưa xác nhận điều kiện chỉ hiện khi mở app, thu nhỏ/khôi phục hai pane hoặc không còn nút cũ. Không triển khai Sileo trước khi có kết quả test thiết bị được xác minh.
 - **Tiếp nối ngay:** đối chiếu `dpkg -s com.duonavi.app` và các dylib/plist liên quan trên thiết bị; xác minh version và nút cũ đang được nạp, sau đó thử DEB GitHub candidate với nhật ký runtime. Giữ bản v12 và cơ chế ngày/split/picker hiện có. Không tự khởi động lại phân tích Airaw từ đầu.
+
+
+## 2026-10-14 — Yêu cầu mới: chuyển nút fullscreen thành toggle trong menu Ứng dụng, bỏ thanh trắng
+
+### Yêu cầu người dùng mới nhất (thay đổi chủ đích UI)
+- Người dùng cung cấp hai ảnh thật và **xác nhận chức năng phóng to hai pane đang hoạt động** trên thiết bị. Đánh dấu **device-observed ENTER fullscreen PASS** cho bản người dùng đang thử, nhưng KHÔNG suy ra đúng commit/bản DEB đã cài và chưa có bằng chứng auto-restore/menu-toggle.
+- **Thanh trắng không phải Home indicator vô hại**: khi chạm sẽ mở menu nổi có nút **thu nhỏ** theo Airaw. Người dùng yêu cầu **bỏ toàn bộ thanh trắng và menu thu nhỏ nổi đi kèm**, chuyển chức năng thu nhỏ vào chính nút fullscreen mới.
+- Thay nút fullscreen hiện đang đè lên top bar thành **một nút/chữ dạng pill ngay bên cạnh tab 'Ứng dụng' màu xanh, trong hàng tiêu đề menu chọn app** (phương án 2 đã chọn). Cùng MỘT điều khiển phải vận hành cả hai trạng thái **Phóng to ↔ Thu nhỏ**; không còn hai nút rời, không cài overlay fullscreen trên DuoFace Home hay split cluster. Giữ layout/picker/split/tỷ lệ pane và dữ liệu ngày hiện có.
+- **Điều kiện bắt buộc trước khi gỡ thanh trắng:** phải chứng minh người dùng vẫn mở/truy cập được menu chọn app khi fullscreen, vì nếu menu bị che/mất thì nút thu nhỏ sẽ không thể bấm. Không thể tự nhận giữ hoạt động bình thường khi chưa tích hợp và thử trên thiết bị.
+
+### Đối chiếu source đã xác minh
+- `runtime/fullscreen/DFRestoreMenu.mm`: `grabberPill` màu trắng, 48×5, `toggleMenu:` mở `panel`, `closeButton` gọi `didTapSettings` → `onCloseRequested`. `runtime/fullscreen/DFHostGeometry.xm` tạo `DFRestoreMenu` khi `DFHostSetExpanded(YES)` thành công; `onCloseRequested` hiện gọi trực tiếp `DFHostRestore()` và publish lifecycle state. `DFHostRestore` trả `CBWindow`, `renderSize`, split layout về snapshot. Thanh trắng thuộc chính code adapter, không phải chỉ là home indicator của iOS.
+- `runtime/fullscreen/DFFullscreenCoordinator.mm`: `DFEnterFullscreen()` dùng `DFRequestHostFullscreen(YES)`; `DFRefreshControl()` cố tình ẩn nút top bar khi `DFFullscreenConfirmed`. Chưa có action toggle ở menu app, chưa có đường từ nút chọn app sang `DFRequestHostFullscreen(NO)` để thu nhỏ. `runtime/fullscreen/DFFullscreenTransport.mm` **đã hỗ trợ** `DFRequestHostFullscreen(NO)` và ACK/owner state, nên có thể tái dùng cơ chế rollback hiện có, không viết host layout lại.
+- Menu 'Ứng dụng/Bố cục/Đang mở' trong ảnh thuộc UI picker DuoFace v12; code UIKit tạo header/menu chưa định vị tại source (dashboard dylib nhị phân). Cần xác định controller/địa chỉ view gốc bằng audit trước khi hook; không giả định API selector.
+
+### Quyết định và bước tiếp theo (chưa thực hiện code)
+1. Dò đúng header menu chọn app của binary v12 (đã có trong `dist/visual-1.0.3-12`), tìm action/controller để chèn pill đồng cấp, không che các tab cũ.
+2. Bổ sung *một* toggle ở coordinator: nếu host chưa expanded → `DFRequestHostFullscreen(YES)`; nếu expanded → `DFRequestHostFullscreen(NO)`, chờ ACK rồi `DFDashboardRestoreChrome()`, đồng bộ nhãn Tràn màn hình/Thu nhỏ, chặn bấm lặp và tự rollback khi host đổi trạng thái.
+3. Kiểm tra cơ chế mở menu chọn app **khi fullscreen**; nếu bị che, phải giải quyết đường truy cập bằng cơ chế UI v12 có thật trước, không xóa lối thoát duy nhất.
+4. Sau khi chứng minh điểm 3, bỏ tạo `DFRestoreMenu` và white `grabberPill`, bỏ nút top bar chồng lấn; giữ `DFHostRestore()` nguyên để khôi phục layout khi exit, lease timeout, mất owner/deactivate.
+5. Build DEB **candidate** riêng trên GitHub, không tự phát hành Sileo; kiểm thử thật enter → menu reachable → exit → sidebar/2-pane restored → Home → lặp lại. Chỉ xác nhận FULL PASS sau device test.
+
+**Trạng thái:** mới nghiên cứu xác nhận kiến trúc, ghi yêu cầu/đường gọi; CHƯA chỉnh source, CHƯA có build mới hoặc deploy. Commit nền trước cập nhật: `2f69a033e9bf2fbe362b0afda7d4702c45b20c0d`.
