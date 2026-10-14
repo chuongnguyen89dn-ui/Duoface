@@ -1654,3 +1654,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User instructed immediate rework after reading central Gpt-training- skills. Verified original v12 DEB locally with `dpkg-deb -f` (`Package: com.duonavi.app`, `Version: 1.0.3-12~visualtest`); extracted and verified `DuoFaceDashboard.plist` and `DuoFaceVisualHook.plist` filters. Verified base DEB path exists on GitHub `dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb` (blob SHA ef6df3b3a84e1c43049bf66c093365fe996f67fd).
 - Reviewed `.github/workflows/fullscreen-test-deb.yml` and found another defect: unindented `python3` here-document body would break YAML parsing. Replaced it with inline `python3 -c` that copies plist filter and changes version in extracted DEB; commit `5215b06d7d246ce6f4df66d72027ea7dbe91d454`, GitHub readback verified.
 - Existing bridge source still experimental; no green build/artifact confirmed yet. Next inspect Actions run after commit 5215b06, fix any compilation errors, validate new DEB and provide artifact for user testing. Do not publish to Sileo or claim CarPlay test.
+
+
+### 2026-10-14 — Fullscreen CI run 38497621872 signer failure
+- Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38497621872 job 115636914463: Prepare Theos SUCCESS; Logos preprocess, arm64 compile and link of `runtime/DuoFaceFullscreenBridge.xm` SUCCESS; signing failed with exact `/bin/bash: ldid: command not found` (Error 127). Packaging and artifact upload SKIPPED.
+- Updated `.github/workflows/fullscreen-test-deb.yml` to install `ldid` and `dpkg` via Homebrew, verify both commands exist, before compile; commit `1ffa708e463917a52ef9911aab254e521c15ed75`, readback verified.
+- Next: inspect next workflow run triggered by commit 1ffa708, resolve any tool installation/package failures, confirm artifact, check original v12 package ID and split functionality unchanged. No green build or device test verified yet.
