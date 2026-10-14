@@ -28,9 +28,66 @@ static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *f
     if (font) b.titleLabel.font = font;
     b.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     b.semanticContentAttribute = UISemanticContentAttributeForceLeftToRight;
-    b.imageEdgeInsets = UIEdgeInsetsMake(0, -2, 0, 2);
-    b.titleEdgeInsets = UIEdgeInsetsMake(0, 2, 0, -2);
+    // Small native 10/11pt labels remain legible across CarPlay widths.
+    b.imageEdgeInsets = UIEdgeInsetsZero;
+    b.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 0);
+    b.contentEdgeInsets = UIEdgeInsetsMake(0, 2, 0, 2);
+    b.titleLabel.adjustsFontSizeToFitWidth = YES;
+    b.titleLabel.minimumScaleFactor = 0.85;
+    b.titleLabel.lineBreakMode = NSLineBreakByClipping;
     b.tintColor = [UIColor colorWithWhite:0.72 alpha:1];
+}
+// DuoFace v12 already installs this APPROVED 960x240 asset in the base DEB.
+// Never draw or synthesize a substitute. When absent, restore the native title.
+static UIImage *DFPickerApprovedHeaderLogo(void) {
+    static UIImage *image;
+    if (!image) image = [UIImage imageWithContentsOfFile:
+        @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
+    return image;
+}
+static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
+                                      CGFloat rightEdge) {
+    // Header ivar is a UIImageView, NOT one of the three segment buttons.
+    Ivar iconIvar = class_getInstanceVariable(object_getClass(overlay), "_headerIcon");
+    Ivar labelIvar = class_getInstanceVariable(object_getClass(overlay), "_titleLabel");
+    id iconObject = iconIvar ? object_getIvar(overlay, iconIvar) : nil;
+    id labelObject = labelIvar ? object_getIvar(overlay, labelIvar) : nil;
+    if (![iconObject isKindOfClass:UIImageView.class] ||
+        ![labelObject isKindOfClass:UILabel.class]) return CGRectNull;
+    UIImageView *headerIcon = iconObject;
+    UILabel *title = labelObject;
+    UIImage *logo = DFPickerApprovedHeaderLogo();
+    if (!logo || !headerIcon.superview || !title.superview ||
+        ![headerIcon isDescendantOfView:overlay] ||
+        ![rowParent isDescendantOfView:overlay]) {
+        title.hidden = NO; // Do not hide native header when logo cannot load.
+        return CGRectNull;
+    }
+    // Derive current native header origin/height every setup/layout pass.
+    // Bounds converted between common ancestor views, even before window attach.
+    CGRect iconRect = [rowParent convertRect:headerIcon.frame fromView:headerIcon.superview];
+    CGRect labelRect = [rowParent convertRect:title.frame fromView:title.superview];
+    CGFloat x = CGRectGetMinX(iconRect);
+    CGFloat centerY = CGRectGetMidY(labelRect);
+    if (!isfinite(x) || !isfinite(centerY)) return CGRectNull;
+    CGFloat desiredHeight = MIN(34.0, MAX(24.0, CGRectGetHeight(labelRect)));
+    // Keep space for all FOUR menu items + trailing gap before the native X.
+    CGFloat allowed = rightEdge - x - 4.0*76.0 - 18.0;
+    CGFloat width = MIN(logo.size.width / logo.size.height * desiredHeight,
+                        MAX(0.0, allowed));
+    if (!isfinite(width) || width < 68.0) {
+        title.hidden = NO;
+        return CGRectNull;
+    }
+    CGFloat height = width * logo.size.height / logo.size.width;
+    CGRect target = CGRectMake(x, centerY - height/2.0, width, height);
+    // Convert from menu row coordinates into the existing header parent.
+    headerIcon.frame = [headerIcon.superview convertRect:target fromView:rowParent];
+    headerIcon.image = logo;
+    headerIcon.contentMode = UIViewContentModeScaleAspectFit;
+    headerIcon.clipsToBounds = YES;
+    title.hidden = YES;
+    return target;
 }
 static void DFLayoutPicker(UIView *overlay) {
     UIButton *app=DFTab(overlay,"_appSegmentBtn");
@@ -50,11 +107,33 @@ static void DFLayoutPicker(UIView *overlay) {
         [zoom removeFromSuperview]; [parent addSubview:zoom];
     }
     CGRect a=app.frame,b=style.frame,c=close.frame;
-    CGFloat left=fmin(CGRectGetMinX(a),fmin(CGRectGetMinX(b),CGRectGetMinX(c)));
+    CGFloat nativeLeft=fmin(CGRectGetMinX(a),fmin(CGRectGetMinX(b),CGRectGetMinX(c)));
     CGFloat right=fmax(CGRectGetMaxX(a),fmax(CGRectGetMaxX(b),CGRectGetMaxX(c)));
     CGFloat top=fmin(CGRectGetMinY(a),fmin(CGRectGetMinY(b),CGRectGetMinY(c)));
-    CGFloat height=CGRectGetHeight(a), col=(right-left)/4.0;
-    if (!isfinite(col) || !isfinite(top) || col<25 || height<12) return;
+    CGFloat height=CGRectGetHeight(a);
+    if (!isfinite(nativeLeft) || !isfinite(right) || !isfinite(top) ||
+        height<12 || right-nativeLeft<100) return;
+    // Photo menu-zoom1: the native 3-tab top-right strip was divided into 4.
+    // Use the otherwise empty space between the DuoFace logo and the last tab.
+    CGRect header=DFNativeHeaderLogoFrame(overlay,parent,right);
+    CGFloat left=nativeLeft;
+    if (!CGRectIsNull(header)) left=MIN(nativeLeft,CGRectGetMaxX(header)+10.0);
+    else {
+        Ivar titleIvar=class_getInstanceVariable(object_getClass(overlay),"_titleLabel");
+        id value=titleIvar?object_getIvar(overlay,titleIvar):nil;
+        if ([value isKindOfClass:UILabel.class] && [value superview]) {
+            UILabel *titleView=value;
+            CGRect titleRect=[parent convertRect:titleView.frame fromView:titleView.superview];
+            left=MIN(left,CGRectGetMaxX(titleRect)+10.0);
+        }
+    }
+    left=MAX(left,CGRectGetMinX(parent.bounds)+4.0);
+    CGFloat col=(right-left)/4.0;
+    if (col<53.0) {
+        // Do not force text into unusable slots or collide with the header.
+        NSLog(@"[DuoFaceFullscreen] picker row too narrow %.1f",col);
+        return;
+    }
     app.frame=CGRectMake(left,top,col,height);
     zoom.frame=CGRectMake(left+col,top,col,height);
     style.frame=CGRectMake(left+2*col,top,col,height);
@@ -66,6 +145,17 @@ static void DFLayoutPicker(UIView *overlay) {
     NSString *title=expanded?@"Zoom Out":@"Zoom In";
     zoom.accessibilityLabel=title;
     UIFont *font=app.titleLabel.font;
+    if (!font) font=[UIFont systemFontOfSize:10.0];
+    // All tabs keep the same font. Reduce only when the longest complete
+    // label+outlined icon needs it; never truncate or substitute ellipses.
+    CGFloat fullWidth=[@"Close App" sizeWithAttributes:@{NSFontAttributeName:font}].width
+                      + 14.0 + 5.0 + 8.0;
+    CGFloat needed=MAX(fullWidth,
+        [title sizeWithAttributes:@{NSFontAttributeName:font}].width+27.0);
+    if (col<needed) {
+        CGFloat fontSize=MAX(8.0,font.pointSize*((col-16.0)/MAX(1.0,needed-16.0)));
+        font=[font fontWithSize:fontSize];
+    }
     DFDecorate(app,@"App",@"square.grid.2x2",font);
     DFDecorate(style,@"Style",@"rectangle.3.group",font);
     DFDecorate(close,@"Close App",@"xmark.circle",font);

@@ -43,9 +43,9 @@ jobs:
           test -s "$DYLIB"
           DST="$RUNNER_TEMP/duoface-test/var/jb/Library/MobileSubstrate/DynamicLibraries"
           install -m 755 "$DYLIB" "$DST/DuoFaceFullscreenBridge.dylib"
-          python3 -c 'import os,plistlib,re; from pathlib import Path; base=Path(os.environ["RUNNER_TEMP"])/"duoface-test"; dst=base/"var/jb/Library/MobileSubstrate/DynamicLibraries"; src=Path("DuoFaceFullscreenBridge.plist"); (dst/"DuoFaceFullscreenBridge.plist").write_bytes(plistlib.dumps(plistlib.loads(src.read_bytes()))); ctrl=base/"DEBIAN/control"; ctrl.write_text(re.sub(r"(?m)^Version:.*$", "Version: 1.0.3-12+menu-zoom1", ctrl.read_text()))'
+          python3 -c 'import os,plistlib,re; from pathlib import Path; base=Path(os.environ["RUNNER_TEMP"])/"duoface-test"; dst=base/"var/jb/Library/MobileSubstrate/DynamicLibraries"; src=Path("DuoFaceFullscreenBridge.plist"); (dst/"DuoFaceFullscreenBridge.plist").write_bytes(plistlib.dumps(plistlib.loads(src.read_bytes()))); ctrl=base/"DEBIAN/control"; ctrl.write_text(re.sub(r"(?m)^Version:.*$", "Version: 1.0.3-12+menu-zoom2", ctrl.read_text()))'
           mkdir -p artifacts
-          dpkg-deb --build "$RUNNER_TEMP/duoface-test" artifacts/com.duonavi.app_1.0.3-12_menu-zoom1_iphoneos-arm64.deb
+          dpkg-deb --build "$RUNNER_TEMP/duoface-test" artifacts/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb
           python3 - <<'PY'
           import os, plistlib
           from pathlib import Path
@@ -53,11 +53,21 @@ jobs:
           p = base / "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist"
           print("ACTUAL BRIDGE FILTER:", plistlib.loads(p.read_bytes()))
           PY
-          dpkg-deb -c artifacts/*.deb | grep -E 'DuoFaceFullscreenBridge|DuoFaceDashboard.dylib'
+          dpkg-deb -c artifacts/*.deb | grep -E 'DuoFaceFullscreenBridge|DuoFaceDashboard.dylib|duoface-logo.png'
+          # Assert the approved 960x240 logo is really inside THIS candidate DEB.
+          python3 - <<'PYLOGO'
+          import hashlib, os
+          from pathlib import Path
+          asset = Path(os.environ['RUNNER_TEMP']) / 'duoface-test/var/jb/Library/Application Support/DuoFace/duoface-logo.png'
+          expected = '78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
+          digest = hashlib.sha256(asset.read_bytes()).hexdigest()
+          assert digest == expected, (str(asset), digest)
+          print('APPROVED_PICKER_LOGO_IN_DEB_SHA256', digest)
+          PYLOGO
           shasum -a 256 artifacts/*.deb
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-menu-zoom1
+          name: duoface-menu-zoom2
           path: artifacts/*.deb
 
       - name: Persist candidate DEB in DuoFace repository (not Sileo)
@@ -65,12 +75,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p dist/candidates/menu-zoom1
-          cp artifacts/*.deb dist/candidates/menu-zoom1/
-          shasum -a 256 dist/candidates/menu-zoom1/*.deb > dist/candidates/menu-zoom1/SHA256SUMS.txt
+          mkdir -p dist/candidates/menu-zoom2
+          cp artifacts/*.deb dist/candidates/menu-zoom2/
+          shasum -a 256 dist/candidates/menu-zoom2/*.deb > dist/candidates/menu-zoom2/SHA256SUMS.txt
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/candidates/menu-zoom1/
+          git add dist/candidates/menu-zoom2/
           git commit -m "artifact: retain fullscreen adapter candidate DEB [skip ci]"
           # A checkpoint can advance main while the DEB is compiling.
           # Keep the artifact commit and replay it onto the latest branch.
