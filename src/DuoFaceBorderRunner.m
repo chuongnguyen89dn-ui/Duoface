@@ -112,7 +112,9 @@ static void DFStartEffect(UIView *view) {
     [DFActiveBorderViews addObject:view];
 }
 static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
-    ((void(*)(id,SEL,id))DFNativeBorderStart)(self,cmd,view);
+    // Original start creates the blue infinite borderColor animation (0x11fa88).
+    // Do not invoke it: this replacement owns border visuals during the running phase.
+    (void)self; (void)cmd;
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
             DFEnforceRedBorder(view);
