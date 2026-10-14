@@ -17,6 +17,11 @@ jobs:
           rm -rf "$RUNNER_TEMP/theos/sdks"
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Install signing and packaging tools
+        run: |
+          brew install ldid dpkg
+          command -v ldid
+          command -v dpkg-deb
       - name: Compile bridge
         run: |
           cp Makefile.fullscreen Makefile
