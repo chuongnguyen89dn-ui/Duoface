@@ -19,10 +19,12 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           brew install ldid dpkg
-      - name: Compile current 40pt Zoom menu and fullscreen bridge (not stale base binary)
+      - name: Compile current 30pt inline-logo Zoom menu and fullscreen bridge
         run: |
           set -euo pipefail
-          grep -q 'menuHeight=40.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'logoSlotWidth=col' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'menuFrame.origin.x=sideInset+logoSlotWidth' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFMenuZoomEvent' runtime/fullscreen/DFPickerZoomMenu.xm
@@ -42,7 +44,7 @@ jobs:
           xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -dynamiclib -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib -o artifacts/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
           ldid -S artifacts/DuoFaceVisualHook.dylib
           xcrun lipo artifacts/DuoFaceVisualHook.dylib -verify_arch arm64
-      - name: Preserve v12 assets and native dashboard, inject BOTH up-to-date UI and border hooks
+      - name: Preserve v12 assets and native dashboard; inject approved UI and idle border hooks
         shell: bash
         run: |
           set -euo pipefail
