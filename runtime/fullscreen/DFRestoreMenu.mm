@@ -1,14 +1,12 @@
 #import "DFRestoreMenu.h"
 
-// Source-bound values: audit/airaw-restore-control-20261014.txt.
-// This is the fullscreen-only TOP-edge reconstruction, not the whole Airaw menu.
+// Fullscreen-only recovery control for the v12 split host.
+// The old Airaw-inspired white grabber overlaid its own close target on
+// some CarPlay screen geometries. A directly tappable exit button replaces
+// the grabber + tap-to-reveal panel, without changing the host restore path.
 @interface DFRestoreMenu ()
 @property(nonatomic, weak) UIView *hostView;
-@property(nonatomic, strong) UIView *grabberPill;
-@property(nonatomic, strong) UIVisualEffectView *panel;
 @property(nonatomic, strong) UIButton *closeButton;
-@property(nonatomic, strong) NSTimer *autoHideTimer;
-@property(nonatomic) BOOL menuVisible;
 @end
 
 @implementation DFRestoreMenu
@@ -16,104 +14,74 @@
     if (!(self = [super initWithFrame:frame])) return nil;
     self.backgroundColor = UIColor.clearColor;
     self.clipsToBounds = NO;
-    self.grabberPill = [UIView new];
-    self.grabberPill.backgroundColor = UIColor.whiteColor;
-    self.grabberPill.layer.cornerRadius = 2.5;
-    self.grabberPill.userInteractionEnabled = NO;
-    [self addSubview:self.grabberPill];
-    self.panel = [[UIVisualEffectView alloc] initWithEffect:
-        [UIBlurEffect effectWithStyle:(UIBlurEffectStyle)20]];
-    self.panel.hidden = YES;
-    [self addSubview:self.panel];
-    self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.closeButton.frame = CGRectMake(0, 0, 44, 44);
-    self.closeButton.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-    self.closeButton.tintColor = UIColor.whiteColor;
-    self.closeButton.clipsToBounds = YES;
-    self.closeButton.layer.cornerRadius = 12;
-    UIImage *image = [[UIImage systemImageNamed:@"arrow.down.right.and.arrow.up.left"
-        withConfiguration:[UIImageSymbolConfiguration configurationWithPointSize:20
-        weight:(UIImageSymbolWeight)5]] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    UIColor *fill = [UIColor colorWithWhite:1 alpha:0.12];
-    if (@available(iOS 15.0, *)) {
-        UIButtonConfiguration *configuration = [UIButtonConfiguration filledButtonConfiguration];
-        configuration.image = image;
-        configuration.baseForegroundColor = UIColor.whiteColor;
-        configuration.baseBackgroundColor = fill;
-        configuration.cornerStyle = UIButtonConfigurationCornerStyleFixed;
-        configuration.contentInsets = NSDirectionalEdgeInsetsZero;
-        UIBackgroundConfiguration *background = configuration.background;
-        background.cornerRadius = 12;
-        configuration.background = background;
-        self.closeButton.configuration = configuration;
-    } else {
-        [self.closeButton setImage:image forState:UIControlStateNormal];
-        self.closeButton.backgroundColor = fill;
-    }
-    self.closeButton.accessibilityLabel = @"Exit Full Screen";
-    [self.closeButton addTarget:self action:@selector(didTapSettings)
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 44, 44);
+    button.tintColor = UIColor.whiteColor;
+    button.backgroundColor = [UIColor colorWithWhite:0.08 alpha:0.88];
+    button.layer.cornerRadius = 12.0;
+    button.clipsToBounds = YES;
+    button.accessibilityLabel = @"Thu nhỏ";
+    button.accessibilityHint = @"Khôi phục bố cục chia hai màn hình";
+    UIImage *image = [UIImage systemImageNamed:@"arrow.down.right.and.arrow.up.left"
+        withConfiguration:[UIImageSymbolConfiguration
+            configurationWithPointSize:20 weight:UIImageSymbolWeightMedium]];
+    [button setImage:image forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(didTapRestore:)
         forControlEvents:UIControlEventTouchUpInside];
-    [self.panel.contentView addSubview:self.closeButton];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleMenu:)];
-    tap.cancelsTouchesInView = NO;
-    [self addGestureRecognizer:tap];
+    [self addSubview:button];
+    self.closeButton = button;
     return self;
 }
+
 - (BOOL)installOnContainer:(UIView *)container alignedToHostView:(UIView *)hostView {
     if (!container || !hostView || container.window != hostView.window || !hostView.window) return NO;
     self.hostView = hostView;
     [container addSubview:self];
     [self alignToHostView];
-    return self.superview == container && self.bounds.size.width > 0;
+    BOOL installed = self.superview == container &&
+                     self.bounds.size.width >= 44 &&
+                     self.closeButton.superview == self &&
+                     self.closeButton.enabled;
+    NSLog(@"[DuoFaceFullscreen] restore control installed=%d", installed);
+    return installed;
 }
+
 - (void)alignToHostView {
     UIView *host = self.hostView;
     if (!host || !self.superview) return;
     CGRect rect = [self.superview convertRect:host.bounds fromView:host];
-    // Airaw default horizontal chrome height = screenPointsToLocal(96)+72 at scale1.
-    self.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 168);
+    // An edge-aligned 44pt button replaces the 168pt transparent grabber area.
+    self.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 52);
     [self setNeedsLayout];
     [self.superview bringSubviewToFront:self];
 }
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat width = self.bounds.size.width;
-    // Airaw top grabber: centered 48x5, radius2.5. Horizontal panel: x12,y0,h68.
-    self.grabberPill.frame = CGRectMake((width-48)*0.5, 0, 48, 5);
-    self.panel.frame = CGRectMake(12, 0, MAX(160, width-24), 68);
-    self.closeButton.frame = CGRectMake(self.panel.bounds.size.width-10-44, (68-44)*0.5, 44, 44);
+    self.closeButton.frame = CGRectMake(MAX(0.0, (width - 44.0) * 0.5),
+                                        4.0, 44.0, 44.0);
 }
+
+// Forward touches only inside the visible 44x44 exit button.
+// Both video/map panes receive all other touches as before.
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if (self.hidden || self.alpha < 0.01 || !self.userInteractionEnabled) return nil;
-    if (self.menuVisible && CGRectContainsPoint(self.panel.frame, point)) {
-        return [self.panel hitTest:[self.panel convertPoint:point fromView:self] withEvent:event];
-    }
-    // Keep the two app panes touchable; reserve only the top grabber target.
-    CGRect target = CGRectInset(self.grabberPill.frame, -24, -24);
-    return CGRectContainsPoint(target, point) ? self : nil;
+    if (self.hidden || self.alpha < 0.01 || !self.userInteractionEnabled ||
+        !self.closeButton.enabled || self.closeButton.hidden) return nil;
+    if (!CGRectContainsPoint(self.closeButton.frame, point)) return nil;
+    CGPoint local = [self.closeButton convertPoint:point fromView:self];
+    return [self.closeButton hitTest:local withEvent:event];
 }
-- (void)toggleMenu:(UITapGestureRecognizer *)tap {
-    CGPoint point = [tap locationInView:self];
-    if (self.menuVisible && CGRectContainsPoint(self.panel.frame, point)) return;
-    if (self.menuVisible) [self hideMenu];
-    else {
-        self.menuVisible = YES; self.panel.hidden = NO; self.grabberPill.hidden = YES;
-        [self.autoHideTimer invalidate];
-        __weak DFRestoreMenu *weakSelf = self;
-        self.autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO
-            block:^(NSTimer *timer) { (void)timer; [weakSelf hideMenu]; }];
-    }
-}
-- (void)hideMenu {
-    [self.autoHideTimer invalidate]; self.autoHideTimer = nil;
-    self.menuVisible = NO; self.panel.hidden = YES; self.grabberPill.hidden = NO;
-}
-- (void)didTapSettings {
-    // Airaw 0x3b20c: onCloseRequested block -> arwExitNativeFullscreen.
+
+- (void)didTapRestore:(UIButton *)sender {
+    (void)sender;
+    NSLog(@"[DuoFaceFullscreen] direct restore button tapped");
     if (self.onCloseRequested) self.onCloseRequested();
 }
+
 - (void)clearCallbacks {
-    [self hideMenu]; self.onCloseRequested = nil; self.hostView = nil;
+    self.onCloseRequested = nil;
+    self.hostView = nil;
 }
-- (void)dealloc { [self.autoHideTimer invalidate]; }
 @end
