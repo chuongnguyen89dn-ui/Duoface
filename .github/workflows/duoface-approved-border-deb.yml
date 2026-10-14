@@ -1,6 +1,6 @@
-name: Build DuoFace border/focus candidate (manual-only)
-# Regression correction: NEVER rebuild/replace the proven menu-zoom2 fullscreen bridge.
-# Manual trigger only; do not auto-package when fixing source.
+name: Build DuoFace NEXT candidate with 40pt picker and border (manual-only)
+# Source-of-truth is latest 40pt menu and border source, NOT pre-40pt menu-zoom2 binary.
+# Manual dispatch only on explicit user request to package a NEW candidate.
 on:
   workflow_dispatch:
 permissions:
@@ -18,6 +18,21 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           brew install ldid dpkg
+      - name: Compile current 40pt Zoom menu and fullscreen bridge (not stale base binary)
+        run: |
+          set -euo pipefail
+          grep -q 'menuHeight=40.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFMenuZoomEvent' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFPickerZoomMenu.xm' Makefile.fullscreen
+          cp Makefile.fullscreen Makefile
+          make clean all FINALPACKAGE=1
+          BRIDGE="$(find .theos -name 'DuoFaceFullscreenBridge.dylib' -type f | head -1)"
+          test -s "$BRIDGE"
+          mkdir -p artifacts
+          cp "$BRIDGE" artifacts/DuoFaceFullscreenBridge.dylib
+          file artifacts/DuoFaceFullscreenBridge.dylib
       - name: Compile exact current DuoFace border visual hook
         run: |
           set -euo pipefail
@@ -26,21 +41,21 @@ jobs:
           xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -dynamiclib -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib -o artifacts/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
           ldid -S artifacts/DuoFaceVisualHook.dylib
           xcrun lipo artifacts/DuoFaceVisualHook.dylib -verify_arch arm64
-      - name: Repack retained menu-zoom2 baseline with only refreshed hooks
+      - name: Preserve v12 assets and native dashboard, inject BOTH up-to-date UI and border hooks
         shell: bash
         run: |
           set -euo pipefail
           BASE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
           test -s "$BASE"
-          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/border-focus-red1
+          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/border-focus-red2
           dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
           ROOT="$RUNNER_TEMP/duoface-approved"
           DEST="$ROOT/var/jb/Library/MobileSubstrate/DynamicLibraries"
           test -s "$DEST/DuoFaceDashboard.dylib"
           test -s "$DEST/DuoFaceVisualHook.plist"
           cp artifacts/DuoFaceVisualHook.dylib "$DEST/DuoFaceVisualHook.dylib"
-          # IMPORTANT: the known working fullscreen/menu bridge stays byte-identical to menu-zoom2.
-          test -s "$DEST/DuoFaceFullscreenBridge.dylib"
+          # The packaged old menu-zoom2 bridge predates the approved 40pt layout. Replace it with latest checked source.
+          cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
           python3 - <<'PY'
           from pathlib import Path
           import os,re,hashlib,plistlib
@@ -52,26 +67,26 @@ jobs:
           assert native.stat().st_size>100000
           control=root/'DEBIAN/control'
           ctl=control.read_text()
-          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+border-focus-red1',ctl)
+          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+border-focus-red2',ctl)
           control.write_text(ctl)
           for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
             assert dylib.read_bytes()[:4] in [bytes.fromhex('cffaedfe'),bytes.fromhex('cafebabe')]
           print('BASE_SHA256',hashlib.sha256(base.read_bytes()).hexdigest())
-          print('PRESERVED_BRIDGE_SHA256',hashlib.sha256((root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib').read_bytes()).hexdigest())
+          print('LATEST_BRIDGE_SHA256',hashlib.sha256((root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib').read_bytes()).hexdigest())
           print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
           print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
           PY
-          OUT='dist/candidates/border-focus-red1/com.duonavi.app_1.0.3-12_border-focus-red1_iphoneos-arm64.deb'
+          OUT='dist/candidates/border-focus-red2/com.duonavi.app_1.0.3-12_border-focus-red2_iphoneos-arm64.deb'
           dpkg-deb --build --root-owner-group "$ROOT" "$OUT"
-          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+border-focus-red1'
+          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+border-focus-red2'
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duonavi.app'
-          shasum -a 256 "$OUT" | tee dist/candidates/border-focus-red1/SHA256SUMS.txt
+          shasum -a 256 "$OUT" | tee dist/candidates/border-focus-red2/SHA256SUMS.txt
           cp "$OUT" artifacts/
-          cp dist/candidates/border-focus-red1/SHA256SUMS.txt artifacts/
+          cp dist/candidates/border-focus-red2/SHA256SUMS.txt artifacts/
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-border-focus-red1
+          name: duoface-border-focus-red2
           path: |
             artifacts/*.deb
             artifacts/SHA256SUMS.txt
@@ -82,7 +97,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/candidates/border-focus-red1/
+          git add dist/candidates/border-focus-red2/
           git commit -m 'artifact: persist owner-approved border/focus DuoFace DEB [skip ci]'
           for attempt in 1 2 3; do
             git fetch origin main
