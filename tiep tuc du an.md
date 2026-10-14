@@ -2567,3 +2567,8 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 - Để bảo đảm ràng buộc thật, đã **loại trigger `push`**, giữ `workflow_dispatch` thủ công, ở 5 workflows có khả năng tạo/exports DEB: `.github/workflows/fullscreen-test-deb.yml`, `duoface-main-deb.yml`, `duoface-main-export.yml`, `duoface-artifact-export.yml`, `duoface-104-voice-candidate.yml`. Các workflow compile-only `fullscreen-adapter-check.yml` và các tác vụ read-only vẫn được phép tự chạy trên commit source.
 - Yêu cầu UI mới: ảnh trên máy báo cả khi chọn App/Style thì nền đỏ **Zoom** vẫn không thay đổi. Cần sửa logic selected-state theo tab gốc đang được chọn, Zoom **chỉ** có nền đỏ khi Zoom thực sự được chọn; không dùng `DFHostIsExpanded()` để áp màu tab một cách cố định sau khi người dùng chuyển App/Style/Close App. Giữ nguyên Zoom pipeline và callback native.
 - Tại lúc ghi đây: **chưa chỉnh fix màu**, chưa có compile kết quả mới. Đã có source logo/header mới từ phiên trước, chỉ chuẩn bị compile test sau khi chỉnh logic, không đóng gói.
+
+
+### 2026-10-14 — Chốt bỏ viền menu và đường phân cách
+- Người dùng yêu cầu bỏ viền quanh vùng hàng menu và bỏ đường gạch ngang ngăn cách hàng App / Zoom In–Out / Style / Close App với lưới app. Giữ viền ngoài cửa sổ, app grid, nút X và các callback. Giữ nền đỏ chỉ ở tab đang chọn, không ghim tại Zoom. Đây là yêu cầu giao diện mới, **chưa xác nhận đã thực thi hoặc test**.
+- Chỉ sửa source và compile-only; **KHÔNG build/export DEB hoặc Sileo trước khi được yêu cầu rõ ràng**. Tiếp theo tìm đúng border/separator trong native picker và sửa scoped, không tác động divider chia hai ô CarPlay.
