@@ -2608,3 +2608,7 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 ### 2026-10-14 — USER REJECTS 64pt AS OVERSIZED; revised PROPOSAL 40pt
 - Người dùng phản đối đề xuất 64pt vì hàng menu sẽ gần như to bằng biểu tượng ứng dụng trong grid; cần menu nhỏ gọn, tương xứng với UI gốc. **Đề xuất 64pt bị rút lại, KHÔNG triển khai.**
 - Đề xuất mới **CHƯA CHỐT**: chiều cao **toàn hàng menu 40pt** (không phải chiều cao icon hay file logo), icon outline khoảng **16pt**, chữ **10pt**, khoảng icon–chữ **3pt**, khoảng đệm còn lại; tăng **12–16pt so với hàng native 24/28pt**. Cần kiểm tra không lấn grid, hai hàng logo/menu cùng lề ngang. Không tự ý thay logo/icon đã duyệt; không đóng DEB.
+
+
+### 2026-10-14 — App grid cell measurement investigation
+- Người dùng yêu cầu tìm kích thước **ô ứng dụng trong lưới menu**. Đã kiểm tra `docs/duoface-picker-header-background-png-audit-20261014.md`, `docs/duoface-v12-picker-style-20261014.md`, `audit/v12-picker-header-20261014.txt`, `audit/v12-picker-route-20261014.txt`, `scripts/v12_picker_style_probe.py`: không có kích thước ô app grid đã xác minh; audit route chỉ có `CBDashboardSettings.gridCols/gridRows` (đây là setting dashboard, không chứng minh kích thước cell picker). GitHub code search các từ grid/itemSize/UICollectionViewFlowLayout không trả kết quả. Chưa thể kết luận con số pt. Cần phân tích binary phần picker grid (không phải header), xác định class item/cell và công thức frame thực, phân biệt cell với image icon. Không sửa source, không build DEB.
