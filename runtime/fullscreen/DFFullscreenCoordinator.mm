@@ -71,9 +71,17 @@ BOOL DFStartFullscreenAdapter(void) {
     if (DFAdapterStarted) return YES;
     NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
     if ([bundle isEqualToString:@"com.apple.springboard"]) {
-        if (!DFStartFullscreenTransport(YES,nil)) return NO;
-        DFAdapterStarted=DFInstallPickerZoomMenuHooks();
-        return DFAdapterStarted;
+        // The picker UI (including 40pt Zoom item) must not disappear just
+        // because host transport initializes late during CarPlay startup.
+        BOOL pickerReady=DFInstallPickerZoomMenuHooks();
+        BOOL transportReady=DFStartFullscreenTransport(YES,nil);
+        if (!pickerReady || !transportReady) {
+            NSLog(@"[DuoFaceFullscreen] bootstrap pending picker=%d transport=%d",
+                  pickerReady,transportReady);
+            return NO; // Existing entrypoint retries; picker hook stays installed.
+        }
+        DFAdapterStarted=YES;
+        return YES;
     }
     if (![@[@"com.apple.carplayapp",@"com.apple.carplay",@"com.apple.dashboard"]
         containsObject:bundle]) return NO;
