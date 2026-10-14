@@ -1,0 +1,65 @@
+name: DuoFace v12 picker UI static audit
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - scripts/v12_host_recovery.py
+      - .github/workflows/duoface-v12-picker-audit.yml
+permissions:
+  contents: write
+jobs:
+  trace:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract and verify unmodified v12 Dashboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, os, subprocess, tarfile
+          from pathlib import Path
+          source=Path('dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb')
+          assert hashlib.sha256(source.read_bytes()).hexdigest()=='8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a'
+          command=subprocess.Popen(['dpkg-deb','--fsys-tarfile',str(source)],stdout=subprocess.PIPE)
+          extracted=False
+          print('=== ORIGINAL V12 PAYLOAD (filtered UI resources) ===')
+          with tarfile.open(fileobj=command.stdout,mode='r|') as tar:
+              for member in tar:
+                  name=member.name
+                  if ('DuoFace' in name or 'DuoNavi' in name or '.lproj' in name) and not name.endswith(('.png','.jpg','.jpeg')):
+                      print(name)
+                  if name.endswith('/DuoFaceDashboard.dylib'):
+                      binary=tar.extractfile(member).read()
+                      assert hashlib.sha256(binary).hexdigest()=='bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce'
+                      dest=Path(os.environ['RUNNER_TEMP'])/'DuoFaceDashboard.dylib'
+                      dest.write_bytes(binary)
+                      extracted=True
+          assert command.wait()==0
+          assert extracted, 'v12 Dashboard not found'
+          print('DuoFaceDashboard hash verified')
+          PY
+      - name: Trace real picker entrypoints and probable header owners (NO DEB BUILD)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/picker-venv"
+          "$RUNNER_TEMP/picker-venv/bin/python" -m pip install capstone==5.0.7
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" --picker 0xb25e4:0xb273c 0x27fee4:0x280208 > audit/v12-picker-route-20261014.txt
+          wc -l audit/v12-picker-route-20261014.txt
+          grep -E 'showAppPickerForSlot|OWNER .*Picker|PICKER-SPECIFIC|DISASSEMBLY' audit/v12-picker-route-20261014.txt | head -80 || true
+      - name: Save static audit evidence to this repo (no installation)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/v12-picker-route-20261014.txt
+          git commit -m "audit: retain exact v12 picker call graph [skip ci]"
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 2
+          done
+          exit 1
