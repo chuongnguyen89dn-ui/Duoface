@@ -1970,3 +1970,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ### 2026-10-14 — FULL button diagnostic CI passed
 - Verified live GitHub Actions run `38515112186`, job `115692049416`: status completed, conclusion success. Artifact `duoface-fullscreen-diag3`, ID `11871386849`, size `2035765` bytes, nonexpired. Artifact head SHA `714cc939fa2b332db393895718b70df896653f57`, exactly diagnostic with visible yellow `FULL` label and blue background.
 - Device test NOT yet supplied. This CI PASS only proves packaging, not actual button display. Next: device photo of CarPlay with this exact DEB, then inspect injection/filter if FULL still absent. No Sileo release.
+
+
+### 2026-10-14 — Device second photo NO FULL; found packaging filter mismatch
+- User supplied second CarPlay photo after run 38515112186. Yellow `FULL` diagnostic button is ABSENT, despite diagnostic removing DFVisible hide condition. Device observation proves no visible button; do not claim injection confirmed.
+- Inspected successful run job 115692049416 logs: `ACTUAL BRIDGE FILTER` contained ONLY `Bundles` list copied from baseline `DuoFaceDashboard.plist`, with no `Executables` filter. Workflow explicitly used `src=dst/"DuoFaceDashboard.plist"` when writing `DuoFaceFullscreenBridge.plist`. This is a verified packaging mismatch; whether it fully explains invisible button still requires device test.
+- Updated root `DuoFaceFullscreenBridge.plist` with CarPlay Bundles and Executables at commit `d5a417db73b52653d55f4b378b290ed16ea15a67`.
+- Updated `.github/workflows/fullscreen-test-deb.yml` to package dedicated `DuoFaceFullscreenBridge.plist` rather than copying dashboard filter: commit `85a0ad4d7ccbf13720dd53d2ff7d055b240ff6a5`. Renamed version/artifact to `fullscreen-host4`: commit `7d413f25196cde18cb9f4a2612b4666a56c590ca`. Readback verified workflow content. No new run status verified yet.
+- Next: inspect latest Actions build, verify `ACTUAL BRIDGE FILTER` includes `Executables`, then device test. If absent again, investigate host classes/runtime and process injection rather than UI cosmetics. Keep split pill untouched, no Sileo release.
