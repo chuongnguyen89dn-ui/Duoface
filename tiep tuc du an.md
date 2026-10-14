@@ -1872,3 +1872,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User installed fullscreen-test2 artifact from GitHub Actions run 38508980835 and reports fullscreen button STILL NOT VISIBLE on CarPlay. Both test1 and test2 have failed visibility despite CI build success. Treat this as confirmed user-reported device result, not a CI issue.
 - Root cause NOT YET ESTABLISHED. Need verify actual tweak injection into CarPlay process, runtime class/method existence and lifecycle, and Airaw's actual Host Menu/status bar attachment point. Do not keep guessing button coordinates or claim Airaw-equivalent UI.
 - Next action: add diagnostic logging for dylib constructor/process identity and hook class availability; confirm real device logs before another UI relocation or DEB. No code or build changes in this checkpoint.
+
+
+### 2026-10-14 — Airaw mechanism verification and injection diagnostic3
+- Device reports test1 and test2 buttons ABSENT despite successful builds. Root cause not yet established.
+- Re-inspected original `/mnt/data/airaw_focus/var/jb/Library/MobileSubstrate/DynamicLibraries/Airaw.dylib` ARM64 disassembly: `requestFullscreenToggle` at 0x19c7c calls `NSDistributedNotificationCenter defaultCenter` and posts exact `jp.airaw.host.fullscreen` event. Airaw dylib contains strings `ARWHostMenuView`, `DBRootStatusBarViewController`, `DBDockRootViewController`, `fullscreenBtn`; class ownership/actual positioning not yet proven. DuoFace's local NSNotificationCenter event is NOT the same mechanism.
+- Added constructor diagnostic in `runtime/DuoFaceFullscreenBridge.xm` at commit `8df744bc3fddbc5b0c58f3fee8979103586d76f3`: log `[DuoFaceFullscreen] LOADED` process name, bundle ID and availability of DBApplicationViewController, CBSlotPillView, DBRootStatusBarViewController, DBDockRootViewController. No unrelated behavior changed.
+- Workflow `.github/workflows/fullscreen-test-deb.yml` renamed test artifact and version to `fullscreen-diag3` at commit `1568be961143221d75cdb05506b09e1ead0de666`; push should trigger build. Verify Actions run, download diagnostic DEB and collect CarPlay logs; no on-device PASS claimed.
+- NEXT: inspect real `[DuoFaceFullscreen] LOADED` logs to determine injected process and actual class availability. Then trace Airaw Host Menu lifecycle and integrate correct button; do not guess screen coordinates again.
