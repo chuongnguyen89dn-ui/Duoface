@@ -153,7 +153,9 @@ static void DFLayoutPicker(UIView *overlay) {
     UIButton *close=DFTab(overlay,"_recentSegmentBtn");
     if (!app || !style || !close || !app.superview ||
         style.superview!=app.superview || close.superview!=app.superview) return;
-    UIView *parent=app.superview;
+    UIView *parent=app.superview; // Native rounded menu-background container.
+    UIView *contentView=parent.superview; // Native sheet content, not menu container.
+    if (!contentView) return;
     UIButton *zoom=objc_getAssociatedObject(overlay,DFZoomKey);
     if (!zoom) {
         zoom=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -180,19 +182,32 @@ static void DFLayoutPicker(UIView *overlay) {
         NSLog(@"[DuoFaceFullscreen] picker column too narrow %.1f",col);
         return;
     }
-    CGFloat nativeBottom=top+height;
-    CGFloat logoTop=CGRectGetMinY(parent.bounds)+4.0;
-    CGFloat safeHeight=CGRectGetHeight(parent.bounds)-40.0-90.0-12.0;
+    // Native menu background is only 22/26pt tall and clips its children.
+    // Resize the parent itself, rather than pushing child buttons outside it.
+    CGRect nativeMenuFrame=parent.frame;
+    CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
+    CGFloat logoTop=CGRectGetMinY(contentView.bounds)+4.0;
+    CGFloat safeHeight=CGRectGetHeight(contentView.bounds)-40.0-90.0-12.0;
     CGFloat logoHeight=MIN(width/4.0,MAX(16.0,safeHeight));
-    CGRect logoFrame=DFNativeHeaderLogoFrame(overlay,parent,left,right,
-                                             logoTop,logoHeight);
-    CGFloat menuTop=CGRectIsNull(logoFrame)?top:CGRectGetMaxY(logoFrame)+4.0;
+    CGFloat logoLeft=CGRectGetMinX(nativeMenuFrame)+left;
+    CGRect logoFrame=DFNativeHeaderLogoFrame(overlay,contentView,logoLeft,
+                                             logoLeft+width,logoTop,logoHeight);
+    CGFloat menuTop=CGRectIsNull(logoFrame)?CGRectGetMinY(nativeMenuFrame):
+                    CGRectGetMaxY(logoFrame)+4.0;
     const CGFloat menuHeight=40.0;
-    app.frame=CGRectMake(left,menuTop,col,menuHeight);
-    zoom.frame=CGRectMake(left+col,menuTop,col,menuHeight);
-    style.frame=CGRectMake(left+2*col,menuTop,col,menuHeight);
-    close.frame=CGRectMake(left+3*col,menuTop,col,menuHeight);
-    DFReflowPickerContent(parent,overlay,@[app,zoom,style,close],
+    CGRect menuFrame=parent.frame;
+    menuFrame.origin.y=menuTop;
+    menuFrame.size.height=menuHeight;
+    parent.frame=menuFrame;
+    parent.backgroundColor=UIColor.clearColor;
+    parent.layer.cornerRadius=0.0;
+    parent.layer.borderWidth=0.0;
+    // Its children still receive taps through the original native container.
+    app.frame=CGRectMake(left,0,col,menuHeight);
+    zoom.frame=CGRectMake(left+col,0,col,menuHeight);
+    style.frame=CGRectMake(left+2*col,0,col,menuHeight);
+    close.frame=CGRectMake(left+3*col,0,col,menuHeight);
+    DFReflowPickerContent(contentView,overlay,@[parent],
                           nativeBottom,menuTop+menuHeight+2.0);
     // Preserve the native font weight; only set approved 10pt size.
     UIFont *originalFont=app.titleLabel.font?:[UIFont systemFontOfSize:10.0];
