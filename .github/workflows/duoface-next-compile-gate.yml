@@ -8,6 +8,7 @@ on:
       - 'runtime/fullscreen/**'
       - '.github/workflows/duoface-next-compile-gate.yml'
   workflow_dispatch:
+  workflow_call:
 permissions:
   contents: write
 jobs:
