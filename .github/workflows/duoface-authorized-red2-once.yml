@@ -1,0 +1,14 @@
+name: Owner-approved DuoFace red2 test DEB one-shot
+# This workflow exists solely for the user's explicit request to package a test DEB.
+# Triggered when this file is added. Does not publish to Sileo.
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-authorized-red2-once.yml'
+permissions:
+  contents: write
+jobs:
+  owner-approved-test-build:
+    uses: ./.github/workflows/duoface-approved-border-deb.yml
+    permissions:
+      contents: write
