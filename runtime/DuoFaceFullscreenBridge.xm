@@ -113,7 +113,7 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 // Split-pill actions deliberately remain untouched. Fullscreen must be triggered
 // exclusively by the future top CarPlay status-bar control while DuoFace is visible.
 
-static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = NO; }
+static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = !DFVisible; }
 static NSString *DFSceneID(id scene) {
     for (NSString *key in @[@"appIdentifier", @"applicationIdentifier", @"bundleIdentifier"]) {
         SEL selector = NSSelectorFromString(key);
