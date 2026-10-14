@@ -10,6 +10,16 @@ static char DFRunnerAssociation;
 static IMP DFNativeBorderStart = NULL, DFNativeBorderStop = NULL;
 static BOOL DFBorderHooksInstalled = NO;
 static IMP DFNativeSplitLayout = NULL;
+static IMP DFNativeFocusSlot = NULL, DFNativeRestoreSplit = NULL;
+static char DFFocusAssociation;
+static NSHashTable *DFKnownBorderViews = nil;
+static BOOL DFFocusHidden(id controller) { return [objc_getAssociatedObject(controller,&DFFocusAssociation) boolValue]; }
+static void DFTrackBorderView(UIView *view) {
+    if (![view isKindOfClass:[UIView class]]) return;
+    if (!DFKnownBorderViews) DFKnownBorderViews=[[NSHashTable weakObjectsHashTable] retain];
+    [DFKnownBorderViews addObject:view];
+}
+
 static NSHashTable *DFActiveBorderViews = nil;
 static const CGFloat DFLineWidth = 1.0;
 static const CFTimeInterval DFLapSeconds = 1.0;
@@ -114,12 +124,41 @@ static void DFStartEffect(UIView *view) {
     if (!DFActiveBorderViews) DFActiveBorderViews = [[NSHashTable weakObjectsHashTable] retain];
     [DFActiveBorderViews addObject:view];
 }
+static void DFHideBorderForFocus(UIView *view) {
+    if (![view isKindOfClass:[UIView class]]) return;
+    DFStopEffect(view);
+    [view.layer removeAnimationForKey:@"borderPulse"];
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    view.layer.borderColor=[UIColor clearColor].CGColor;
+    [CATransaction commit];
+}
+static void DFUpdateFocusBorders(id controller) {
+    BOOL focused=DFFocusHidden(controller);
+    for (UIView *view in [DFKnownBorderViews allObjects]) {
+        if (focused) DFHideBorderForFocus(view);
+        else DFSetBorderColor(view,DFBorderLogoRed());
+    }
+}
+static void DFFocusSlotHook(id self, SEL cmd, NSInteger slot, BOOL animated) {
+    objc_setAssociatedObject(self,&DFFocusAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    DFUpdateFocusBorders(self);
+    ((void(*)(id,SEL,NSInteger,BOOL))DFNativeFocusSlot)(self,cmd,slot,animated);
+    DFUpdateFocusBorders(self);
+}
+static void DFRestoreSplitHook(id self, SEL cmd, BOOL animated) {
+    ((void(*)(id,SEL,BOOL))DFNativeRestoreSplit)(self,cmd,animated);
+    objc_setAssociatedObject(self,&DFFocusAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    DFUpdateFocusBorders(self);
+}
 static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     // Original start creates the blue infinite borderColor animation (0x11fa88).
     // Do not invoke it: this replacement owns border visuals during the running phase.
     (void)self; (void)cmd;
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
+            DFTrackBorderView(view);
+            if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
             // Black baseline is visible wherever moving red/white strokes leave a gap.
             DFSetBorderColor(view,[UIColor blackColor]);
             DFStartEffect(view);
@@ -130,7 +169,9 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
 static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
     void (^update)(void) = ^{
+        DFTrackBorderView(view);
         DFStopEffect(view);
+        if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
         // The final static border uses the same red sampled by the menu from the approved logo.
         UIColor *red=DFBorderLogoRed();
         DFSetBorderColor(view,red);
@@ -139,6 +180,7 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
 }
 static void DFSplitLayoutHook(id self, SEL cmd) {
     ((void(*)(id,SEL))DFNativeSplitLayout)(self,cmd);
+    if (DFFocusHidden(self)) { DFUpdateFocusBorders(self); return; }
     for (UIView *view in [DFActiveBorderViews allObjects]) {
         DFBorderEffect *effect = objc_getAssociatedObject(view,&DFRunnerAssociation);
         if (effect) DFLayoutEffect(view,effect);
@@ -158,5 +200,11 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     if (class_getInstanceMethod(controller,layout)) hook(controller,layout,(IMP)DFSplitLayoutHook,&DFNativeSplitLayout);
     hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
     hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
+    Method focus=class_getInstanceMethod(controller,@selector(focusSlot:animated:));
+    Method restore=class_getInstanceMethod(controller,@selector(restoreSplitAnimated:));
+    if (focus && restore) {
+        hook(controller,@selector(focusSlot:animated:),(IMP)DFFocusSlotHook,&DFNativeFocusSlot);
+        hook(controller,@selector(restoreSplitAnimated:),(IMP)DFRestoreSplitHook,&DFNativeRestoreSplit);
+    }
     DFBorderHooksInstalled = (DFNativeBorderStart != NULL && DFNativeBorderStop != NULL);
 }
