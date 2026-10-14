@@ -1,0 +1,13 @@
+name: Verify owner-approved native idle border source once (no DEB)
+# One-shot compile-only trigger for revised interaction border. No packaging.
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-native-idle-ci-once.yml'
+permissions:
+  contents: write
+jobs:
+  ci-owner:
+    uses: ./.github/workflows/duoface-next-compile-gate.yml
+    permissions:
+      contents: write
