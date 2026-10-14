@@ -1816,3 +1816,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Verified 0x19c7c–0x19cac obtains NSDistributedNotificationCenter.defaultCenter, loads notification name from 0x6cdc8, passes nil object and nil userInfo, then tailcalls 0x4d040 (previously resolved postNotificationName:object:userInfo:).
 - Checked direct disassembly branches to 0x19c7c: none. Checked 32-bit relative pointers in __objc_const vicinity 0x74000–0x85000 against 0x19c7c and 0x19c80: none. These negative checks do not prove the callback is absent; pointer encoding and metadata ownership remain unresolved.
 - No proven fullscreenBtn target/action, no DuoFace edits or build. Next work must establish the actual button event callback, not repeat selector-string scans.
+
+
+### 2026-10-14 — Focused binary sweep for fullscreen emitter pointer
+- Reused original Airaw 1.7.1k dylib and existing arm64 disassembly; created local `/mnt/data/airaw_focus/find_function_fixups.py` to enumerate all chained-fixup rebase targets in ARM64 __DATA_CONST and __DATA.
+- Verified no rebase target equals 0x19c7c, 0x19c80 or 0x19cac; also no plain 32/64-bit absolute byte matches in original dylib for those values. This excludes those direct pointer forms only, NOT ObjC relative method entries or other indirect calls.
+- Prior verified emitter: 0x19c7c sends notification `jp.airaw.host.fullscreen` through NSDistributedNotificationCenter. Button target/action remains unproven.
+- Next narrow work: decode relative ObjC method-list entries and registration of fullscreenBtn UIControl. No DuoFace edit or build.
