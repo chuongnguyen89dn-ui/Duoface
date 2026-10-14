@@ -1666,3 +1666,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38498338046 job 115639134687: Theos preparation and brew signing/packaging tools SUCCESS; Logos preprocess, arm64 compile, link and ldid sign SUCCESS; stage FAILED: `You are missing a filter property list. Make sure it’s named "DuoFaceFullscreenBridge.plist" or "Filter.plist".` Package and upload skipped.
 - Created `DuoFaceFullscreenBridge.plist` at repo root, Theos-required substrate filter with CarPlay executable/bundle selectors; commit `d6056dadf663f22ca86b3e43f1eb56b4202994eb`, readback verified. Runtime filter/process correctness requires device validation against original v12 filter.
 - Next: check workflow run from commit d6056da, verify stage, package and artifact; compare bridge filter against actual v12 substrate filter before device testing. No successful DEB confirmed.
+
+
+### 2026-10-14 — Restore automatic fullscreen workflow trigger
+- User reported no new run after adding `DuoFaceFullscreenBridge.plist`. Verified `.github/workflows/fullscreen-test-deb.yml` push paths omitted this plist, so its commit did not trigger workflow.
+- Updated push paths to include `DuoFaceFullscreenBridge.plist`, retaining `workflow_dispatch`, bridge source, Makefile and workflow paths; commit `4e285d25c32ac519d2f729f17272cd0640f47479`. Readback confirmed exact file contents.
+- The workflow file itself is in its push paths, so this commit is eligible to trigger a new Actions run. Trigger/run success not yet verified. Next read new run jobs/log, fix staging/packaging failures, validate artifact and only then provide DEB for device testing.
