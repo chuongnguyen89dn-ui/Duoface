@@ -1,0 +1,102 @@
+name: Build approved DuoFace border and focus candidate DEB
+# Explicit user approval received 2026-10-14. One-shot trigger from workflow creation.
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-approved-border-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Theos and packaging dependencies
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid dpkg
+      - name: Compile exact current UI bridge
+        run: |
+          set -euo pipefail
+          cp Makefile.fullscreen Makefile
+          make clean all FINALPACKAGE=1
+          BRIDGE="$(find .theos -name 'DuoFaceFullscreenBridge.dylib' -type f | head -1)"
+          test -s "$BRIDGE"
+          mkdir -p artifacts
+          cp "$BRIDGE" artifacts/DuoFaceFullscreenBridge.dylib
+      - name: Compile exact current DuoFace border visual hook
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceVisualHook.m
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -dynamiclib -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib -o artifacts/DuoFaceVisualHook.dylib src/DuoFaceVisualHook.m
+          ldid -S artifacts/DuoFaceVisualHook.dylib
+          xcrun lipo artifacts/DuoFaceVisualHook.dylib -verify_arch arm64
+      - name: Repack retained menu-zoom2 baseline with only refreshed hooks
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
+          test -s "$BASE"
+          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/border-focus-red1
+          dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
+          ROOT="$RUNNER_TEMP/duoface-approved"
+          DEST="$ROOT/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          test -s "$DEST/DuoFaceDashboard.dylib"
+          test -s "$DEST/DuoFaceVisualHook.plist"
+          cp artifacts/DuoFaceVisualHook.dylib "$DEST/DuoFaceVisualHook.dylib"
+          cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,re,hashlib,plistlib
+          root=Path(os.environ['RUNNER_TEMP'])/'duoface-approved'
+          base=Path('dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb')
+          logo=root/'var/jb/Library/Application Support/DuoFace/duoface-logo.png'
+          assert hashlib.sha256(logo.read_bytes()).hexdigest()=='78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
+          native=root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'
+          assert native.stat().st_size>100000
+          control=root/'DEBIAN/control'
+          ctl=control.read_text()
+          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+border-focus-red1',ctl)
+          control.write_text(ctl)
+          for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
+            dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
+            assert dylib.read_bytes()[:4] in [bytes.fromhex('cffaedfe'),bytes.fromhex('cafebabe')]
+          print('BASE_SHA256',hashlib.sha256(base.read_bytes()).hexdigest())
+          print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
+          print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
+          PY
+          OUT='dist/candidates/border-focus-red1/com.duonavi.app_1.0.3-12_border-focus-red1_iphoneos-arm64.deb'
+          dpkg-deb --build --root-owner-group "$ROOT" "$OUT"
+          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+border-focus-red1'
+          test "$(dpkg-deb -f "$OUT" Package)" = 'com.duonavi.app'
+          shasum -a 256 "$OUT" | tee dist/candidates/border-focus-red1/SHA256SUMS.txt
+          cp "$OUT" artifacts/
+          cp dist/candidates/border-focus-red1/SHA256SUMS.txt artifacts/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-border-focus-red1
+          path: |
+            artifacts/*.deb
+            artifacts/SHA256SUMS.txt
+          if-no-files-found: error
+      - name: Commit exact candidate to DuoFace repository only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/candidates/border-focus-red1/
+          git commit -m 'artifact: persist owner-approved border/focus DuoFace DEB [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main && exit 0
+            sleep 2
+          done
+          exit 1
