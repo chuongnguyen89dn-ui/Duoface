@@ -1,0 +1,213 @@
+000000000011fa88	stp	d9, d8, [sp, #-0x70]!
+000000000011fa8c	stp	x28, x27, [sp, #0x10]
+000000000011fa90	stp	x26, x25, [sp, #0x20]
+000000000011fa94	stp	x24, x23, [sp, #0x30]
+000000000011fa98	stp	x22, x21, [sp, #0x40]
+000000000011fa9c	stp	x20, x19, [sp, #0x50]
+000000000011faa0	stp	x29, x30, [sp, #0x60]
+000000000011faa4	add	x29, sp, #0x60
+000000000011faa8	mov	x20, x2
+000000000011faac	adrp	x8, 606 ; 0x37d000
+000000000011fab0	ldr	x21, [x8, #0xa18] ; Objc selector ref: layer
+000000000011fab4	mov	x0, x2
+000000000011fab8	bl	0x2ecd3c ; symbol stub for: _objc_retain
+000000000011fabc	mov	x19, x0
+000000000011fac0	mov	x0, x20
+000000000011fac4	mov	x1, x21
+000000000011fac8	bl	0x2ecd00 ; Objc message: -[x0 layer]
+000000000011facc	mov	x29, x29
+000000000011fad0	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fad4	mov	x23, x0
+000000000011fad8	adrp	x8, 606 ; 0x37d000
+000000000011fadc	ldr	x1, [x8, #0xb10] ; Objc selector ref: removeAnimationForKey:
+000000000011fae0	adrp	x22, 594 ; 0x371000
+000000000011fae4	add	x22, x22, #0x268 ; Objc cfstring ref: @"bad cfstring ref"
+000000000011fae8	mov	x2, x22
+000000000011faec	bl	0x2ecd00 ; Objc message: -[x0 removeAnimationForKey:]
+000000000011faf0	mov	x0, x23
+000000000011faf4	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011faf8	adrp	x8, 608 ; 0x37f000
+000000000011fafc	ldr	x0, [x8, #0x860] ; Objc class ref: _OBJC_CLASS_$_CABasicAnimation
+000000000011fb00	adrp	x8, 606 ; 0x37d000
+000000000011fb04	ldr	x1, [x8, #0xac0] ; Objc selector ref: animationWithKeyPath:
+000000000011fb08	adrp	x2, 594 ; 0x371000
+000000000011fb0c	add	x2, x2, #0x288 ; Objc cfstring ref: @"bad cfstring ref"
+000000000011fb10	bl	0x2ecd00 ; Objc message: +[CABasicAnimation animationWithKeyPath:]
+000000000011fb14	mov	x29, x29
+000000000011fb18	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fb1c	mov	x23, x0
+000000000011fb20	adrp	x27, 608 ; 0x37f000
+000000000011fb24	ldr	x0, [x27, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+000000000011fb28	adrp	x8, 606 ; 0x37d000
+000000000011fb2c	ldr	x24, [x8, #0xb68] ; Objc selector ref: colorWithRed:green:blue:alpha:
+000000000011fb30	adrp	x8, 498 ; 0x311000
+000000000011fb34	ldr	d1, [x8, #0x718]
+000000000011fb38	adrp	x8, 496 ; 0x30f000
+000000000011fb3c	ldr	d8, [x8, #0xaf8]
+000000000011fb40	adrp	x8, 498 ; 0x311000
+000000000011fb44	ldr	d3, [x8, #0x708]
+000000000011fb48	fmov	d0, xzr
+000000000011fb4c	mov	x1, x24
+000000000011fb50	mov.16b	v2, v8
+000000000011fb54	bl	0x2ecd00 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+000000000011fb58	mov	x29, x29
+000000000011fb5c	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fb60	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+000000000011fb64	mov	x25, x0
+000000000011fb68	adrp	x8, 606 ; 0x37d000
+000000000011fb6c	ldr	x26, [x8, #0xa40] ; Objc selector ref: CGColor
+000000000011fb70	mov	x1, x26
+000000000011fb74	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+000000000011fb78	mov	x2, x0
+000000000011fb7c	adrp	x8, 606 ; 0x37d000
+000000000011fb80	ldr	x1, [x8, #0xad8] ; Objc selector ref: setFromValue:
+000000000011fb84	mov	x0, x23
+000000000011fb88	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+000000000011fb8c	mov	x0, x25
+000000000011fb90	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fb94	ldr	x0, [x27, #0x818]
+000000000011fb98	adrp	x8, 498 ; 0x311000
+000000000011fb9c	ldr	d1, [x8, #0x738]
+000000000011fba0	fmov	d2, #1.00000000
+000000000011fba4	fmov	d0, xzr
+000000000011fba8	mov	x1, x24
+000000000011fbac	mov.16b	v3, v8
+000000000011fbb0	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+000000000011fbb4	mov	x29, x29
+000000000011fbb8	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fbbc	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+000000000011fbc0	mov	x24, x0
+000000000011fbc4	mov	x1, x26
+000000000011fbc8	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+000000000011fbcc	mov	x2, x0
+000000000011fbd0	adrp	x8, 606 ; 0x37d000
+000000000011fbd4	ldr	x1, [x8, #0xae0] ; Objc selector ref: setToValue:
+000000000011fbd8	mov	x0, x23
+000000000011fbdc	bl	0x2ecd00 ; Objc message: -[x0 setToValue:]
+000000000011fbe0	mov	x0, x24
+000000000011fbe4	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fbe8	adrp	x8, 606 ; 0x37d000
+000000000011fbec	ldr	x1, [x8, #0xac8] ; Objc selector ref: setDuration:
+000000000011fbf0	fmov	d0, #0.50000000
+000000000011fbf4	mov	x0, x23
+000000000011fbf8	bl	0x2ecd00 ; Objc message: -[x0 setDuration:]
+000000000011fbfc	adrp	x8, 606 ; 0x37d000
+000000000011fc00	ldr	x1, [x8, #0xaf8] ; Objc selector ref: setAutoreverses:
+000000000011fc04	mov	x0, x23
+000000000011fc08	mov	w2, #0x1
+000000000011fc0c	bl	0x2ecd00 ; Objc message: -[x0 setAutoreverses:]
+000000000011fc10	adrp	x8, 606 ; 0x37d000
+000000000011fc14	ldr	x1, [x8, #0xb00] ; Objc selector ref: setRepeatCount:
+000000000011fc18	mov	w8, #0x7f800000
+000000000011fc1c	fmov	s0, w8
+000000000011fc20	mov	x0, x23
+000000000011fc24	bl	0x2ecd00 ; Objc message: -[x0 setRepeatCount:]
+000000000011fc28	adrp	x8, 608 ; 0x37f000
+000000000011fc2c	ldr	x0, [x8, #0x868] ; Objc class ref: _OBJC_CLASS_$_CAMediaTimingFunction
+000000000011fc30	adrp	x8, 549 ; 0x344000
+000000000011fc34	ldr	x8, [x8, #0x158] ; literal pool symbol address: _kCAMediaTimingFunctionEaseInEaseOut
+000000000011fc38	ldr	x2, [x8]
+000000000011fc3c	adrp	x8, 606 ; 0x37d000
+000000000011fc40	ldr	x1, [x8, #0xae8] ; Objc selector ref: functionWithName:
+000000000011fc44	bl	0x2ecd00 ; Objc message: +[CAMediaTimingFunction functionWithName:]
+000000000011fc48	mov	x29, x29
+000000000011fc4c	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fc50	mov	x24, x0
+000000000011fc54	adrp	x8, 606 ; 0x37d000
+000000000011fc58	ldr	x1, [x8, #0xaf0] ; Objc selector ref: setTimingFunction:
+000000000011fc5c	mov	x0, x23
+000000000011fc60	mov	x2, x24
+000000000011fc64	bl	0x2ecd00 ; Objc message: -[x0 setTimingFunction:]
+000000000011fc68	mov	x0, x24
+000000000011fc6c	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fc70	mov	x0, x20
+000000000011fc74	mov	x1, x21
+000000000011fc78	bl	0x2ecd00 ; Objc message: -[x0 setTimingFunction:]
+000000000011fc7c	mov	x29, x29
+000000000011fc80	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fc84	mov	x20, x0
+000000000011fc88	mov	x0, x19
+000000000011fc8c	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fc90	adrp	x8, 606 ; 0x37d000
+000000000011fc94	ldr	x1, [x8, #0xb08] ; Objc selector ref: addAnimation:forKey:
+000000000011fc98	mov	x0, x20
+000000000011fc9c	mov	x2, x23
+000000000011fca0	mov	x3, x22
+000000000011fca4	bl	0x2ecd00 ; Objc message: -[x0 addAnimation:forKey:]
+000000000011fca8	mov	x0, x20
+000000000011fcac	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fcb0	mov	x0, x23
+000000000011fcb4	ldp	x29, x30, [sp, #0x60]
+000000000011fcb8	ldp	x20, x19, [sp, #0x50]
+000000000011fcbc	ldp	x22, x21, [sp, #0x40]
+000000000011fcc0	ldp	x24, x23, [sp, #0x30]
+000000000011fcc4	ldp	x26, x25, [sp, #0x20]
+000000000011fcc8	ldp	x28, x27, [sp, #0x10]
+000000000011fccc	ldp	d9, d8, [sp], #0x70
+000000000011fcd0	b	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fcd4	stp	x24, x23, [sp, #-0x40]!
+000000000011fcd8	stp	x22, x21, [sp, #0x10]
+000000000011fcdc	stp	x20, x19, [sp, #0x20]
+000000000011fce0	stp	x29, x30, [sp, #0x30]
+000000000011fce4	add	x29, sp, #0x30
+000000000011fce8	mov	x20, x2
+000000000011fcec	adrp	x8, 606 ; 0x37d000
+000000000011fcf0	ldr	x21, [x8, #0xa18] ; Objc selector ref: layer
+000000000011fcf4	mov	x0, x2
+000000000011fcf8	bl	0x2ecd3c ; symbol stub for: _objc_retain
+000000000011fcfc	mov	x19, x0
+000000000011fd00	mov	x0, x20
+000000000011fd04	mov	x1, x21
+000000000011fd08	bl	0x2ecd00 ; Objc message: -[x0 layer]
+000000000011fd0c	mov	x29, x29
+000000000011fd10	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fd14	mov	x22, x0
+000000000011fd18	adrp	x8, 606 ; 0x37d000
+000000000011fd1c	ldr	x1, [x8, #0xb10] ; Objc selector ref: removeAnimationForKey:
+000000000011fd20	adrp	x2, 594 ; 0x371000
+000000000011fd24	add	x2, x2, #0x268 ; Objc cfstring ref: @"bad cfstring ref"
+000000000011fd28	bl	0x2ecd00 ; Objc message: -[x0 removeAnimationForKey:]
+000000000011fd2c	mov	x0, x22
+000000000011fd30	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fd34	adrp	x8, 608 ; 0x37f000
+000000000011fd38	ldr	x0, [x8, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+000000000011fd3c	adrp	x8, 606 ; 0x37d000
+000000000011fd40	ldr	x1, [x8, #0xb68] ; Objc selector ref: colorWithRed:green:blue:alpha:
+000000000011fd44	adrp	x8, 498 ; 0x311000
+000000000011fd48	ldr	d0, [x8, #0xa90]
+000000000011fd4c	nop
+000000000011fd50	ldr	d1, [x8, #0x798]
+000000000011fd54	adrp	x8, 496 ; 0x30f000
+000000000011fd58	ldr	d2, [x8, #0xaf8]
+000000000011fd5c	adrp	x8, 498 ; 0x311000
+000000000011fd60	ldr	d3, [x8, #0x708]
+000000000011fd64	bl	0x2ecd00 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+000000000011fd68	mov	x29, x29
+000000000011fd6c	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fd70	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+000000000011fd74	mov	x22, x0
+000000000011fd78	adrp	x8, 606 ; 0x37d000
+000000000011fd7c	ldr	x1, [x8, #0xa40] ; Objc selector ref: CGColor
+000000000011fd80	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+000000000011fd84	mov	x23, x0
+000000000011fd88	mov	x0, x20
+000000000011fd8c	mov	x1, x21
+000000000011fd90	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+000000000011fd94	mov	x29, x29
+000000000011fd98	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+000000000011fd9c	mov	x20, x0
+000000000011fda0	mov	x0, x19
+000000000011fda4	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fda8	adrp	x8, 606 ; 0x37d000
+000000000011fdac	ldr	x1, [x8, #0xa48] ; Objc selector ref: setBorderColor:
+000000000011fdb0	mov	x0, x20
+000000000011fdb4	mov	x2, x23
+000000000011fdb8	bl	0x2ecd00 ; Objc message: -[x0 setBorderColor:]
+000000000011fdbc	mov	x0, x20
+000000000011fdc0	bl	0x2ecd30 ; symbol stub for: _objc_release
+000000000011fdc4	mov	x0, x22
+000000000011fdc8	ldp	x29, x30, [sp, #0x30]
+000000000011fdcc	ldp	x20, x19, [sp, #0x20]
+000000000011fdd0	ldp	x22, x21, [sp, #0x10]
+000000000011fdd4	ldp	x24, x23, [sp], #0x40
+000000000011fdd8	b	0x2ecd30 ; symbol stub for: _objc_release
