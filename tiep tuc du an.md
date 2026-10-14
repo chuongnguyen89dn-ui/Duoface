@@ -2628,3 +2628,8 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 - Người dùng **CHỐT** chiều cao **toàn hàng menu = 40pt**, thay thế các đề xuất 64pt và trạng thái 40pt chờ duyệt. **DỪNG tìm kích thước ô app grid**; không cần phân tích binary grid thêm cho quyết định này.
 - Hàng logo ngang DuoFace và hàng menu bên dưới phải có **cùng chiều ngang hữu dụng**, mép trái/phải thẳng hàng; không hiểu thành hai hàng có chiều cao bằng nhau. Menu gồm **4 cột đồng đều** App / Zoom In–Out / Style / Close App; mỗi cột icon outline đã duyệt **trên**, chữ **dưới**, căn giữa đều; không viền bo/tab group, không separator với app grid. Selected background chỉ áp đúng tab được chọn, không ghim Zoom.
 - Giữ nguyên approved logo asset, native callbacks App/Style/Close App, Zoom adapter, app grid, nút X, split, licensing. Đây là **quyết định thiết kế được duyệt**, CHƯA phải source đã chỉnh/test; KHÔNG build/export DEB hoặc Sileo cho đến khi người dùng yêu cầu rõ.
+
+
+### 2026-10-14 — User correction: old fullscreen button already removed
+- Người dùng xác nhận **đã hoàn tất gỡ nút phóng to/thu nhỏ cũ và đã chuyển thao tác Zoom vào mục Zoom In/Out trong menu** ở bản hiện hành. KHÔNG đưa hai việc này vào danh sách chưa làm, KHÔNG tái tạo nút fullscreen riêng và KHÔNG sửa lại Zoom pipeline nếu không có bằng chứng lỗi/yêu cầu mới. Đây là xác nhận từ người dùng, chưa phải kết quả build/test mới do phiên này thực hiện.
+- Phạm vi tiếp theo CHỈ là chỉnh UI theo quyết định đã duyệt: logo ngang đúng asset; hàng logo và menu bằng nhau về chiều ngang/căn hai mép; hàng menu 40pt; 4 cột đều App/Zoom In–Out/Style/Close App, icon trên chữ dưới; không khung bo/đường phân cách; selected highlight đúng mục. Giữ nguyên các callback và app grid. Chưa build/export DEB khi chưa được yêu cầu.
