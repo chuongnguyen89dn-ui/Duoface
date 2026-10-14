@@ -1959,3 +1959,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - User provided a CarPlay display photo after successful build run 38514055041. Observed left blue CarPlay dock, YouTube and map split layout; no fullscreen icon on the top/CarPlay bar. User asked 'Nút nào?'. This is a DEVICE FAILURE for button visibility; CI success was only compile/package.
 - Source inspection: DFInstallBar attaches to DBRootStatusBarViewController/CARRootStatusBarViewController/DBDockRootViewController and DFUpdateButton hides when `DFVisible == NO`. `DFVisible` only becomes YES if scene's direct appIdentifier/applicationIdentifier/bundleIdentifier exactly equals `com.duonavi.app`. No evidence this condition is true on device; injection and hook callbacks also unverified. Do not claim a verified root cause yet.
 - NEXT: verify dylib injection and scene identity using device logs or targeted diagnostic build; correct visibility gating and actual bar host. Keep split-pill untouched. Do not release to Sileo yet.
+
+
+### 2026-10-14 — Visible top-bar diagnostic (NOT release)
+- User confirms no fullscreen button in any prior test. Source change commit `714cc939fa2b332db393895718b70df896653f57`: `DFUpdateButton` now leaves installed control visible regardless of unverified scene match; sets yellow foreground, blue rounded background, label `FULL` to distinguish the control in a screenshot. If pressed without scene match, logs diagnostic instead of toggling wrong app. Source readback verified.
+- IMPORTANT: diagnostic may show on CarPlay Home/other apps, contrary to final desired behavior; this is a temporary injection/host visibility probe only. Do not ship to Sileo. If still absent, suspect injection/filter/hook or wrong controller. Restore DuoFace-only gating once root cause is verified.
+- Next: inspect GitHub Actions run for this commit, retrieve DEB, test visibility, then fix host/scene routing and remove diagnostic behavior.
