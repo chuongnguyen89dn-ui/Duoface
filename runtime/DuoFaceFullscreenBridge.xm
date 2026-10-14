@@ -168,7 +168,14 @@ static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
     dispatch_once(&once, ^{ instance = [DFBarAction new]; });
     return instance;
 }
-- (void)pressed:(id)sender { if (DFVisible) DFToggleFullscreen(); else NSLog(@"[DuoFaceFullscreen] button pressed, target scene not identified"); }
+- (void)pressed:(id)sender {
+    NSLog(@"[DuoFaceFullscreen] pressed visible=%d scene=%@ host=%@", DFVisible, DFScene, DFHostController);
+    if (!DFVisible && DFHostController) {
+        DFScene = DFHostController;
+        DFVisible = YES;
+    }
+    DFToggleFullscreen();
+}
 @end
 static void DFInstallBar(UIViewController *host) {
     if (!host || !host.view) return;
