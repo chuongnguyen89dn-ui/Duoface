@@ -84,7 +84,7 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
           objc_getClass("DBDockRootViewController") != Nil);
 }
 
-// Fullscreen UI control will be bound after verifying the CarPlay host lifecycle.
+// Fullscreen control must be owned by a CarPlay top-bar controller and gated by the active DuoFace application scene.
 // Host controller is captured by its existing layout callback.
 // Bind the existing DuoFace fullscreen pill action to the host fullscreen bridge.
 %hook DBApplicationViewController
