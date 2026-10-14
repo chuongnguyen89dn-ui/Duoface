@@ -1823,3 +1823,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Verified no rebase target equals 0x19c7c, 0x19c80 or 0x19cac; also no plain 32/64-bit absolute byte matches in original dylib for those values. This excludes those direct pointer forms only, NOT ObjC relative method entries or other indirect calls.
 - Prior verified emitter: 0x19c7c sends notification `jp.airaw.host.fullscreen` through NSDistributedNotificationCenter. Button target/action remains unproven.
 - Next narrow work: decode relative ObjC method-list entries and registration of fullscreenBtn UIControl. No DuoFace edit or build.
+
+
+### 2026-10-14 — User-requested full 83-file Airaw payload scan
+- Actual command: `dpkg-deb -x /mnt/data/com.999.airaw_1.7.1k_iphoneos-arm64.deb /mnt/data/airaw_focus` (payload already extracted); Python `os.walk` binary byte search over 83 payload files (excluding four local .py/.txt analysis artifacts). Confirmed 83 payload files.
+- Exact keyword findings: `jp.airaw.host.fullscreen` 2, `fullscreenBtn` 4, `requestFullscreenToggle` 2, `toggleFullscreen` 2, `ARWHostMenuView` 12 — ALL appear ONLY in `var/jb/Library/MobileSubstrate/DynamicLibraries/Airaw.dylib`. `addTarget:action:forControlEvents:` occurs twice in `Airaw.dylib` and twice in `var/jb/Library/PreferenceBundles/Airaw.bundle/Airaw` (each universal binary two architecture slices).
+- Preference executable Airaw contains textual descriptions of fullscreen overlay/status bar orange dot and generic addTarget selector; no exact fullscreen notification or fullscreenBtn selector. AirawViet.dylib has translation text only for these keywords. Therefore no evidence that other 82 payload files implement the specific fullscreen button callback; Airaw.dylib remains principal code target. This is a scoped byte-string scan, NOT exhaustive proof against indirect calls.
+- Exact remaining task: derive fullscreenBtn event target/action within Airaw.dylib, including indirect selectors/method metadata; do not repeat the 83-file scan. No DuoFace modification/build.
