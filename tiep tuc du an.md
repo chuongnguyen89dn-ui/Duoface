@@ -1880,3 +1880,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Added constructor diagnostic in `runtime/DuoFaceFullscreenBridge.xm` at commit `8df744bc3fddbc5b0c58f3fee8979103586d76f3`: log `[DuoFaceFullscreen] LOADED` process name, bundle ID and availability of DBApplicationViewController, CBSlotPillView, DBRootStatusBarViewController, DBDockRootViewController. No unrelated behavior changed.
 - Workflow `.github/workflows/fullscreen-test-deb.yml` renamed test artifact and version to `fullscreen-diag3` at commit `1568be961143221d75cdb05506b09e1ead0de666`; push should trigger build. Verify Actions run, download diagnostic DEB and collect CarPlay logs; no on-device PASS claimed.
 - NEXT: inspect real `[DuoFaceFullscreen] LOADED` logs to determine injected process and actual class availability. Then trace Airaw Host Menu lifecycle and integrate correct button; do not guess screen coordinates again.
+
+
+### 2026-10-14 — User correction: DO NOT place fullscreen beside split controls
+- User explicitly rejected assistant-invented placement in `CBSlotPillView`; requirement is to replicate Airaw fullscreen button's actual Host Menu/status bar location and mechanism. Preserve existing DuoFace split UI untouched.
+- Removed fullscreen button creation and `CBSlotPillView.layoutSubviews` placement from `runtime/DuoFaceFullscreenBridge.xm` in commit `e639666c89bd85d3113d1ca09ee4cd17c4bc36d7`. Constructor diagnostic and existing fullscreen bridge remain. This does NOT yet implement Airaw Host Menu button; it prevents repeating incorrect UI placement.
+- Next: trace Airaw's `ARWHostMenuView` actual owner, mounting point, layout and `requestFullscreenToggle` target from binary; implement only when verified. No on-device test or build claimed.
