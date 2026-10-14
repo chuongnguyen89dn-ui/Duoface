@@ -1,0 +1,468 @@
+V12 DASHBOARD SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce
+ARM64 slice 0x4000; static metadata/disassembly only
+-[CBBridgedUIAppView initWithBundleIdentifier:] IMP 0xac6f4
+-[CBBridgedUIAppView initWithBundleIdentifier:scale:] IMP 0xac704
+-[CBBridgedUIAppView setAppScale:] IMP 0xac83c
+-[CBBridgedUIAppView setAudioOnlyBackgroundMode:] IMP 0xac858
+-[CBBridgedUIAppView layoutSubviews] IMP 0xac8f0
+-[CBBridgedUIAppView hitTest:withEvent:] IMP 0xac940
+-[CBBridgedUIAppView touchesBegan:withEvent:] IMP 0xaca6c
+-[CBBridgedUIAppView calculateNativeSizeForSlotRect:] IMP 0xacc28
+-[CBBridgedUIAppView updateLayout] IMP 0xacc6c
+-[CBBridgedUIAppView updateSceneSettingsFrame] IMP 0xad5bc
+-[CBBridgedUIAppView updateSceneFrame] IMP 0xade4c
+-[CBBridgedUIAppView refreshSceneLayout] IMP 0xade58
+-[CBBridgedUIAppView startInParentViewController:] IMP 0xadf30
+-[CBBridgedUIAppView start] IMP 0xaf00c
+-[CBBridgedUIAppView dismiss] IMP 0xaf01c
+-[CBBridgedUIAppView dealloc] IMP 0xaf1d8
+-[CBBridgedUIAppView bundleIdentifier] IMP 0xaf224
+-[CBBridgedUIAppView setBundleIdentifier:] IMP 0xaf234
+-[CBBridgedUIAppView appViewController] IMP 0xaf240
+-[CBBridgedUIAppView setAppViewController:] IMP 0xaf250
+-[CBBridgedUIAppView wrapperView] IMP 0xaf264
+-[CBBridgedUIAppView setWrapperView:] IMP 0xaf274
+-[CBBridgedUIAppView appScale] IMP 0xaf288
+-[CBBridgedUIAppView hosting] IMP 0xaf298
+-[CBBridgedUIAppView setHosting:] IMP 0xaf2a8
+-[CBBridgedUIAppView invalidated] IMP 0xaf2b8
+-[CBBridgedUIAppView setInvalidated:] IMP 0xaf2c8
+-[CBBridgedUIAppView audioOnlyBackgroundMode] IMP 0xaf2d8
+-[CBBridgedUIAppView .cxx_destruct] IMP 0xaf2e8
+-[CBWindow initWithAppFrame:] IMP 0xaf4bc
+-[CBWindow getCarPlayDisplay] IMP 0xb0ff0
+-[CBWindow createWindows] IMP 0xb1064
+-[CBWindow multitaskingOverlay] IMP 0xb1974
+-[CBWindow resizeWindows] IMP 0xb1aac
+-[CBWindow show] IMP 0xb1d98
+-[CBWindow hide:] IMP 0xb1ec0
+-[CBWindow isDisplayValid] IMP 0xb20a4
+-[CBWindow destroyWindows] IMP 0xb21f8
+-[CBWindow dismiss] IMP 0xb258c
+-[CBWindow dealloc] IMP 0xb2598
+-[CBWindow showAppPickerForSlot:] IMP 0xb25e4
+-[CBWindow showLayoutChooser] IMP 0xb2694
+-[CBWindow showRecentApps] IMP 0xb273c
+-[CBWindow appFrame] IMP 0xb27e4
+-[CBWindow setAppFrame:] IMP 0xb27f0
+-[CBWindow rootWindow] IMP 0xb2804
+-[CBWindow setRootWindow:] IMP 0xb280c
+-[CBWindow rootViewController] IMP 0xb2818
+-[CBWindow setRootViewController:] IMP 0xb2820
+-[CBWindow contentView] IMP 0xb282c
+-[CBWindow setContentView:] IMP 0xb2834
+-[CBWindow multitaskingPill] IMP 0xb2840
+-[CBWindow setMultitaskingPill:] IMP 0xb2848
+-[CBWindow setMultitaskingOverlay:] IMP 0xb2854
+-[CBWindow isVisible] IMP 0xb2860
+-[CBWindow setIsVisible:] IMP 0xb2868
+-[CBWindow .cxx_destruct] IMP 0xb2870
++[CBWindow activeCarPlayWindow] IMP 0xaf554
++[CBWindow resetCachedBounds] IMP 0xaf570
++[CBWindow carPlayWindowScene] IMP 0xaf690
++[CBWindow carPlayUIScreen] IMP 0xafe60
++[CBWindow carPlayCADisplay] IMP 0xafffc
++[CBWindow carPlayScreenScale] IMP 0xb059c
++[CBWindow carPlayScreenBounds] IMP 0xb0704
++[CBWindow carPlayContentInsets] IMP 0xb0c98
++[CBWindow carPlayUsableBounds] IMP 0xb0ef4
+-[CBSplitContainerView layoutSubviews] IMP 0x101790
+-[CBSplitContainerView hitTest:withEvent:] IMP 0x10182c
+-[CBSplitContainerView touchesBegan:withEvent:] IMP 0x1018e8
+-[CBSplitContainerView splitApp] IMP 0x101958
+-[CBSplitContainerView setSplitApp:] IMP 0x101978
+-[CBSplitContainerView .cxx_destruct] IMP 0x10198c
+-[CBBridgedSplitApp initWithBundleIdentifier:frame:] IMP 0x1025d4
+-[CBBridgedSplitApp initWithBundleIdentifier:frame:showSplash:] IMP 0x1025e4
+-[CBBridgedSplitApp handleDividerPan:isVertical:state:] IMP 0x103ee0
+-[CBBridgedSplitApp layoutSplitViews] IMP 0x1044f8
+-[CBBridgedSplitApp focusSlot:animated:] IMP 0x105890
+-[CBBridgedSplitApp restoreSplitAnimated:] IMP 0x105e2c
+-[CBBridgedSplitApp toggleFocusForSlot:] IMP 0x106518
+-[CBBridgedSplitApp rotateAllSlotsClockwise] IMP 0x106560
+-[CBBridgedSplitApp configureDividerButtons] IMP 0x1067a4
+-[CBBridgedSplitApp updateScale:forSlot:] IMP 0x108dd8
+-[CBBridgedSplitApp moveSlot:direction:] IMP 0x108f28
+-[CBBridgedSplitApp handleDividerSwapPressed:] IMP 0x108fc8
+-[CBBridgedSplitApp swapSlot:withSlot:] IMP 0x10915c
+-[CBBridgedSplitApp replaceAppInSlot:withBundleIdentifier:] IMP 0x1098c0
+-[CBBridgedSplitApp restartSlot:] IMP 0x109fe4
+-[CBBridgedSplitApp restartAppWithBundleIdentifier:] IMP 0x10a8b8
+-[CBBridgedSplitApp removeAppWithBundleIdentifier:] IMP 0x10a9f0
+-[CBBridgedSplitApp closeSlot:] IMP 0x10ab28
+-[CBBridgedSplitApp closeAllSlots] IMP 0x10b0b8
+-[CBBridgedSplitApp persistSlotOrder] IMP 0x10b4ac
+-[CBBridgedSplitApp start] IMP 0x10bb0c
+-[CBBridgedSplitApp startInParentViewController:] IMP 0x10bb1c
+-[CBBridgedSplitApp stop] IMP 0x10beec
+-[CBBridgedSplitApp noteUserActivity] IMP 0x10c378
+-[CBBridgedSplitApp startBlinkingSession] IMP 0x10c464
+-[CBBridgedSplitApp stopBlinkingSession] IMP 0x11f558
+-[CBBridgedSplitApp startContainerBorderBlinking:] IMP 0x11fa88
+-[CBBridgedSplitApp stopContainerBorderBlinking:] IMP 0x11fcd4
+-[CBBridgedSplitApp splashScreenView] IMP 0x11fddc
+-[CBBridgedSplitApp setSplashScreenView:] IMP 0x11fdec
+-[CBBridgedSplitApp appViews] IMP 0x11fe00
+-[CBBridgedSplitApp setAppViews:] IMP 0x11fe10
+-[CBBridgedSplitApp placeholders] IMP 0x11fe24
+-[CBBridgedSplitApp setPlaceholders:] IMP 0x11fe34
+-[CBBridgedSplitApp containers] IMP 0x11fe48
+-[CBBridgedSplitApp setContainers:] IMP 0x11fe58
+-[CBBridgedSplitApp dividers] IMP 0x11fe6c
+-[CBBridgedSplitApp setDividers:] IMP 0x11fe7c
+-[CBBridgedSplitApp slotPills] IMP 0x11fe90
+-[CBBridgedSplitApp setSlotPills:] IMP 0x11fea0
+-[CBBridgedSplitApp splitPreset] IMP 0x11feb4
+-[CBBridgedSplitApp setSplitPreset:] IMP 0x11fec4
+-[CBBridgedSplitApp splitRatio] IMP 0x11fed4
+-[CBBridgedSplitApp setSplitRatio:] IMP 0x11fee4
+-[CBBridgedSplitApp focusedSlotIndex] IMP 0x11fef4
+-[CBBridgedSplitApp setFocusedSlotIndex:] IMP 0x11ff04
+-[CBBridgedSplitApp isTransitioningFocus] IMP 0x11ff14
+-[CBBridgedSplitApp setIsTransitioningFocus:] IMP 0x11ff24
+-[CBBridgedSplitApp .cxx_destruct] IMP 0x11ff34
++[CBDashboardShared setCurrentDashboardRootVC:] IMP 0x121460
++[CBDashboardShared currentDashboardRootVC] IMP 0x121470
++[CBDashboardShared setCurrentAppDockVC:] IMP 0x12148c
++[CBDashboardShared currentAppDockVC] IMP 0x12149c
++[CBDashboardShared setCurrentRootStatusBarVC:] IMP 0x1214b8
++[CBDashboardShared currentRootStatusBarVC] IMP 0x1214c8
++[CBDashboardShared carApp] IMP 0x1214e4
++[CBDashboardShared dashboard] IMP 0x121580
++[CBDashboardShared rootVC] IMP 0x121634
++[CBDashboardShared homeVC] IMP 0x1216e0
++[CBDashboardShared folderController] IMP 0x121758
++[CBDashboardShared appDockVC] IMP 0x1217d8
+-[CBBridgeManager trackBridgedBundleID:] IMP 0x280b60
+-[CBBridgeManager runningBridgedApplications] IMP 0x280d48
+-[CBBridgeManager renderSizeForBundleID:] IMP 0x24c920
+-[CBBridgeManager supportsInterfaceOrientation:forBundleID:] IMP 0x24d118
+-[CBBridgeManager switchToSplitWithLeft:right:ratio:] IMP 0x24d120
+-[CBBridgeManager switchToMultiSplitMode:apps:ratio:] IMP 0x24d228
+-[CBBridgeManager handleSettingsChanged] IMP 0x267764
+-[CBBridgeManager showAppPickerForSlot:] IMP 0x27fee4
+-[CBBridgeManager showLayoutChooser] IMP 0x280014
+-[CBBridgeManager updateScale:forSlot:] IMP 0x280130
+-[CBBridgeManager showRecentApps] IMP 0x280208
+-[CBBridgeManager registerForNotifications] IMP 0x1d07fc
+-[CBBridgeManager receivedDashboardReadyNotification:] IMP 0x1d0f10
+-[CBBridgeManager receivedMetricsUpdatedNotification:] IMP 0x1d1400
+-[CBBridgeManager sendStateToApp:shouldBridge:] IMP 0x1d1624
+-[CBBridgeManager saveBridgeStateToDisk] IMP 0x1fd280
+-[CBBridgeManager clearBridgeStateOnDisk] IMP 0x229748
+-[CBBridgeManager syncDashboardPolicySignalToDisk] IMP 0x229e8c
+-[CBBridgeManager receivedAppRequestNotification:] IMP 0x248e70
+-[CBBridgeManager isUIAppBridging] IMP 0x249154
+-[CBBridgeManager shouldBridge:] IMP 0x2491b0
+-[CBBridgeManager isCurrentlyBridging:] IMP 0x24960c
+-[CBBridgeManager receivedStateChangeRequestNotificiation:] IMP 0x24968c
+-[CBBridgeManager receivedDockTapNotification:] IMP 0x249868
+-[CBBridgeManager notifyStateUpdated] IMP 0x249a54
+-[CBBridgeManager evictAppFromPhoneScreen:completion:] IMP 0x24a024
+-[CBBridgeManager scheduleMandatoryDisconnectWatchdog] IMP 0x1b9420
+-[CBBridgeManager cancelMandatoryDisconnectWatchdog] IMP 0x1cce6c
+-[CBBridgeManager enforceMandatoryDisconnectKill] IMP 0x1cceac
+-[CBBridgeManager terminateApplicationWithBundleID:] IMP 0x1cd780
+-[CBBridgeManager restartApplicationWithBundleID:] IMP 0x1cde94
+-[CBBridgeManager terminateAllBridgedApplications] IMP 0x1ce480
+-[CBBridgeManager collectActiveAndSessionAppBundleIDs] IMP 0x1cf0b0
+-[CBBridgeManager killProcessesForBundleIdentifiers:] IMP 0x1cf874
+-[CBBridgeManager acquireCarPlaySleepAssertion] IMP 0x19eaf8
+-[CBBridgeManager releaseCarPlaySleepAssertion] IMP 0x19eb90
+-[CBBridgeManager effectiveAutoLaunchBundleID] IMP 0x19ec10
+-[CBBridgeManager scheduleAutoResumeFallback] IMP 0x19ed98
+-[CBBridgeManager performAutoResume] IMP 0x19ee24
+-[CBBridgeManager handleGenericScreenOrCarPlayNotification:] IMP 0x1b816c
+-[CBBridgeManager handleScreenDidDisconnect:] IMP 0x1b82e0
+-[CBBridgeManager handleScreenDidConnect:] IMP 0x1b86c8
+-[CBBridgeManager handleCarPlayConnectionChanged:] IMP 0x1b8a1c
+-[CBBridgeManager init] IMP 0x12192c
+-[CBBridgeManager renderSize] IMP 0x13ae78
+-[CBBridgeManager requestStateChangeWithDictionary:] IMP 0x13aee8
+-[CBBridgeManager requestStateChange:] IMP 0x13b158
+-[CBBridgeManager loadNewAppFromCurrentRequest:] IMP 0x153544
+-[CBBridgeManager deactivateCurrentApp] IMP 0x19d458
+-[CBBridgeManager dismiss:] IMP 0x19d870
+-[CBBridgeManager terminate] IMP 0x19d910
+-[CBBridgeManager appForBundleIdentifier:frame:] IMP 0x19d984
+-[CBBridgeManager window] IMP 0x19daf0
+-[CBBridgeManager setWindow:] IMP 0x19daf8
+-[CBBridgeManager currentApp] IMP 0x19db04
+-[CBBridgeManager setCurrentApp:] IMP 0x19db0c
+-[CBBridgeManager bundleIdentifier] IMP 0x19db2c
+-[CBBridgeManager setBundleIdentifier:] IMP 0x19db38
+-[CBBridgeManager activated] IMP 0x19db40
+-[CBBridgeManager setActivated:] IMP 0x19db48
+-[CBBridgeManager appFrame] IMP 0x19db50
+-[CBBridgeManager setAppFrame:] IMP 0x19db5c
+-[CBBridgeManager setRenderSize:] IMP 0x19db70
+-[CBBridgeManager autoResumeBundleID] IMP 0x19db7c
+-[CBBridgeManager setAutoResumeBundleID:] IMP 0x19db88
+-[CBBridgeManager .cxx_destruct] IMP 0x19db90
++[CBBridgeManager sharedInstance] IMP 0x121884
++[CBBridgeManager sharedInstanceIfExists] IMP 0x121920
+-[CBBridgeManagerDashboard init] IMP 0x282cc4
+-[CBBridgeManagerDashboard registerForNotifications] IMP 0x282d2c
+-[CBBridgeManagerDashboard handleScreenDidDisconnect:] IMP 0x283064
+-[CBBridgeManagerDashboard handleScreenDidConnect:] IMP 0x283a3c
+-[CBBridgeManagerDashboard startBridging:] IMP 0x2a33c0
+-[CBBridgeManagerDashboard startBridging:withCompletion:] IMP 0x2a33d0
+-[CBBridgeManagerDashboard stopBridging] IMP 0x2a3434
+-[CBBridgeManagerDashboard stopBridgingWithCompletion:] IMP 0x2a3444
+-[CBBridgeManagerDashboard prepareAndRequestActivation:] IMP 0x2a3478
+-[CBBridgeManagerDashboard prepareHomeScreenForBridge:] IMP 0x2a3600
+-[CBBridgeManagerDashboard closeOfficialTopApp:] IMP 0x2a37f0
+-[CBBridgeManagerDashboard requestActivation:] IMP 0x2a3ad0
+-[CBBridgeManagerDashboard requestDismiss] IMP 0x2a3d34
+-[CBBridgeManagerDashboard requestStateChange:] IMP 0x2a3f04
+-[CBBridgeManagerDashboard handleSBStateChange:] IMP 0x2a4418
+-[CBBridgeManagerDashboard handleStateDict:] IMP 0x2a45f4
+-[CBBridgeManagerDashboard bridgeDidActivate:] IMP 0x2a4738
+-[CBBridgeManagerDashboard bridgeDidDeactivate] IMP 0x2a47ac
+-[CBBridgeManagerDashboard handleDockIconTap:] IMP 0x2a47fc
+-[CBBridgeManagerDashboard setAppDockActiveBundleID:] IMP 0x2a4934
+-[CBBridgeManagerDashboard setHomeButtonInApp:] IMP 0x2a4a3c
+-[CBBridgeManagerDashboard updateCarPlayMetrics] IMP 0x2a4c24
+-[CBBridgeManagerDashboard getAppFrame] IMP 0x2a5fd8
+-[CBBridgeManagerDashboard getDockDimension] IMP 0x2a6228
+-[CBBridgeManagerDashboard getDockWidth] IMP 0x2a63c8
+-[CBBridgeManagerDashboard getDockEdge] IMP 0x2a63d4
+-[CBBridgeManagerDashboard activated] IMP 0x2a64c8
+-[CBBridgeManagerDashboard setActivated:] IMP 0x2a64d0
+-[CBBridgeManagerDashboard pending] IMP 0x2a64d8
+-[CBBridgeManagerDashboard setPending:] IMP 0x2a64e0
+-[CBBridgeManagerDashboard pendingCompletion] IMP 0x2a64e8
+-[CBBridgeManagerDashboard setPendingCompletion:] IMP 0x2a64f4
+-[CBBridgeManagerDashboard .cxx_destruct] IMP 0x2a64fc
++[CBBridgeManagerDashboard sharedInstance] IMP 0x282c28
++[CBBridgeManagerDashboard isOfficialApp:] IMP 0x283c4c
++[CBBridgeManagerDashboard isBridgedApp:] IMP 0x283ea8
++[CBBridgeManagerDashboard isDashboardPolicySignalActive] IMP 0x284068
++[CBBridgeManagerDashboard shouldInterceptLaunchForApp:] IMP 0x2a314c
++[CBBridgeManagerDashboard bridgedApps] IMP 0x2a3364
+IVAR CBBridgedUIAppView._hosting offset 0x8
+IVAR CBBridgedUIAppView._invalidated offset 0x9
+IVAR CBBridgedUIAppView._audioOnlyBackgroundMode offset 0xa
+IVAR CBBridgedUIAppView._bundleIdentifier offset 0x10
+IVAR CBBridgedUIAppView._appViewController offset 0x18
+IVAR CBBridgedUIAppView._wrapperView offset 0x20
+IVAR CBBridgedUIAppView._appScale offset 0x28
+IVAR CBWindow._boundDisplay offset 0x8
+IVAR CBWindow._boundDisplayConfig offset 0x10
+IVAR CBWindow._isVisible offset 0x18
+IVAR CBWindow._rootWindow offset 0x20
+IVAR CBWindow._rootViewController offset 0x28
+IVAR CBWindow._contentView offset 0x30
+IVAR CBWindow._multitaskingPill offset 0x38
+IVAR CBWindow._multitaskingOverlay offset 0x40
+IVAR CBWindow._appFrame offset 0x48
+IVAR CBSplitContainerView._splitApp offset 0x8
+IVAR CBBridgedSplitApp._dragStartRatio offset 0x8
+IVAR CBBridgedSplitApp._isBlinking offset 0x10
+IVAR CBBridgedSplitApp._blinkingIdleTimer offset 0x18
+IVAR CBBridgedSplitApp._lastActivityTime offset 0x20
+IVAR CBBridgedSplitApp._isTransitioningFocus offset 0x28
+IVAR CBBridgedSplitApp._splashScreenView offset 0x30
+IVAR CBBridgedSplitApp._appViews offset 0x38
+IVAR CBBridgedSplitApp._placeholders offset 0x40
+IVAR CBBridgedSplitApp._containers offset 0x48
+IVAR CBBridgedSplitApp._dividers offset 0x50
+IVAR CBBridgedSplitApp._slotPills offset 0x58
+IVAR CBBridgedSplitApp._splitPreset offset 0x60
+IVAR CBBridgedSplitApp._splitRatio offset 0x68
+IVAR CBBridgedSplitApp._focusedSlotIndex offset 0x70
+IVAR CBBridgeManager._activated offset 0x8
+IVAR CBBridgeManager._isAutoResuming offset 0x9
+IVAR CBBridgeManager._autoResumeRetryCount offset 0x10
+IVAR CBBridgeManager._isApplyingSplitMode offset 0x18
+IVAR CBBridgeManager._sessionBridgedBundleIDs offset 0x20
+IVAR CBBridgeManager._disconnectWatchdogToken offset 0x28
+IVAR CBBridgeManager._autoResumeBundleID offset 0x30
+IVAR CBBridgeManager._bundleIdentifier offset 0x38
+IVAR CBBridgeManager._window offset 0x40
+IVAR CBBridgeManager._currentApp offset 0x48
+IVAR CBBridgeManager._licenseWarningModal offset 0x50
+IVAR CBBridgeManager._licenseWatchdogTimer offset 0x58
+IVAR CBBridgeManager._appFrame offset 0x60
+IVAR CBBridgeManager._renderSize offset 0x80
+IVAR CBBridgeManagerDashboard._activated offset 0x8
+IVAR CBBridgeManagerDashboard._pending offset 0x9
+IVAR CBBridgeManagerDashboard._pendingCompletion offset 0x10
+
+DISASSEMBLY 0x6500-0x6644
+00006500: adrp     x2, #0x346000                                 
+00006504: add      x2, x2, #0xa8                                 NSString 'com.apple.CarPlayApp'
+00006508: mov      x0, x19                                       
+0000650c: mov      x1, x21                                       
+00006510: bl       #0x2ecd00                                     _objc_msgSend
+00006514: cbz      x0, #0x6584                                   
+00006518: adrp     x2, #0x346000                                 
+0000651c: add      x2, x2, #0xc8                                 NSString 'com.apple.CarPlay'
+00006520: mov      x0, x19                                       
+00006524: mov      x1, x21                                       
+00006528: bl       #0x2ecd00                                     _objc_msgSend
+0000652c: cbz      x0, #0x6584                                   
+00006530: adrp     x2, #0x346000                                 
+00006534: add      x2, x2, #0xe8                                 NSString 'com.apple.dashboard'
+00006538: mov      x0, x19                                       
+0000653c: mov      x1, x21                                       
+00006540: bl       #0x2ecd00                                     _objc_msgSend
+00006544: cbz      x0, #0x6584                                   
+00006548: mov      x0, x19                                       
+0000654c: mov      x1, x22                                       
+00006550: bl       #0x2ecd00                                     _objc_msgSend
+00006554: mov      x29, x29                                      
+00006558: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+0000655c: mov      x22, x0                                       
+00006560: adrp     x8, #0x37d000                                 
+00006564: ldr      x1, [x8, #0x458]                              [0x37d458] SEL hasPrefix:
+00006568: adrp     x2, #0x346000                                 
+0000656c: add      x2, x2, #0x108                                NSString 'com.apple.carplay'
+00006570: bl       #0x2ecd00                                     _objc_msgSend
+00006574: mov      x23, x0                                       
+00006578: mov      x0, x22                                       
+0000657c: bl       #0x2ecd30                                     _objc_release
+00006580: cbz      w23, #0x65c0                                  
+00006584: str      x19, [sp]                                     
+00006588: adrp     x0, #0x346000                                 
+0000658c: add      x0, x0, #0x128                                NSString '[DuoFace] Initializing DashBoard hooks in process: %@'
+00006590: bl       #0x2ec9ac                                     _NSLog
+00006594: bl       #0x2ec644                                     
+00006598: mov      x0, x20                                       
+0000659c: bl       #0x2ecd30                                     _objc_release
+000065a0: mov      x0, x19                                       
+000065a4: bl       #0x2ecd30                                     _objc_release
+000065a8: ldp      x29, x30, [sp, #0x50]                         
+000065ac: ldp      x20, x19, [sp, #0x40]                         
+000065b0: ldp      x22, x21, [sp, #0x30]                         
+000065b4: ldp      x24, x23, [sp, #0x20]                         
+000065b8: add      sp, sp, #0x60                                 
+000065bc: ret                                                    
+000065c0: adrp     x2, #0x346000                                 
+000065c4: add      x2, x2, #0x148                                NSString 'com.apple.springboard'
+000065c8: mov      x0, x19                                       
+000065cc: mov      x1, x21                                       
+000065d0: bl       #0x2ecd00                                     _objc_msgSend
+000065d4: cbz      x0, #0x6620                                   
+000065d8: adrp     x2, #0x346000                                 
+000065dc: add      x2, x2, #0x188                                NSString 'com.duoface.duofaceui'
+000065e0: mov      x0, x19                                       
+000065e4: mov      x1, x21                                       
+000065e8: bl       #0x2ecd00                                     _objc_msgSend
+000065ec: cbz      x0, #0x6634                                   
+000065f0: str      x19, [sp]                                     
+000065f4: adrp     x0, #0x346000                                 
+000065f8: add      x0, x0, #0x1c8                                NSString '[DuoFace] Initializing App hooks for target app: %@'
+000065fc: bl       #0x2ec9ac                                     _NSLog
+00006600: bl       #0x2ec680                                     
+00006604: b        #0x6598                                       
+00006608: adrp     x0, #0x381000                                 
+0000660c: add      x0, x0, #0x30                                 
+00006610: adrp     x1, #0x344000                                 
+00006614: add      x1, x1, #0x230                                
+00006618: bl       #0x2ecb38                                     _dispatch_once
+0000661c: b        #0x633c                                       
+00006620: adrp     x0, #0x346000                                 
+00006624: add      x0, x0, #0x168                                NSString '[DuoFace] Initializing SpringBoard hooks...'
+00006628: bl       #0x2ec9ac                                     _NSLog
+0000662c: bl       #0x2ec60c                                     
+00006630: b        #0x6598                                       
+00006634: adrp     x0, #0x346000                                 
+00006638: add      x0, x0, #0x1a8                                NSString '[DuoFace] Loaded in CarbrigdeUI for tweak detection.'
+0000663c: bl       #0x2ec9ac                                     _NSLog
+00006640: b        #0x6598                                       
+
+DISASSEMBLY 0x2ec60c-0x2ec680
+002ec60c: stp      x29, x30, [sp, #-0x10]!                       
+002ec610: mov      x29, sp                                       
+002ec614: adr      x0, #0x374188                                 NSString '[DuoFace] Initializing SpringBoard Modular Hooks...'
+002ec618: nop                                                    
+002ec61c: bl       #0x2ec9ac                                     _NSLog
+002ec620: bl       #0x2c7c54                                     
+002ec624: bl       #0x2c9854                                     
+002ec628: bl       #0x2ca174                                     
+002ec62c: bl       #0x2b3094                                     
+002ec630: adr      x0, #0x3741a8                                 NSString '[DuoFace] SpringBoard Modular Hooks initialized successfully.'
+002ec634: nop                                                    
+002ec638: bl       #0x2ec9ac                                     _NSLog
+002ec63c: ldp      x29, x30, [sp], #0x10                         
+002ec640: ret                                                    
+002ec644: stp      x29, x30, [sp, #-0x10]!                       
+002ec648: mov      x29, sp                                       
+002ec64c: adr      x0, #0x3741c8                                 NSString '[DuoFace] Initializing DashBoard Modular Hooks...'
+002ec650: nop                                                    
+002ec654: bl       #0x2ec9ac                                     _NSLog
+002ec658: bl       #0x2cb5c0                                     
+002ec65c: bl       #0x2cce28                                     
+002ec660: bl       #0x2cebc0                                     
+002ec664: bl       #0x2e8978                                     
+002ec668: bl       #0x2e9d48                                     
+002ec66c: adr      x0, #0x3741e8                                 NSString '[DuoFace] DashBoard Modular Hooks initialized successfully.'
+002ec670: nop                                                    
+002ec674: bl       #0x2ec9ac                                     _NSLog
+002ec678: ldp      x29, x30, [sp], #0x10                         
+002ec67c: ret                                                    
+
+DISASSEMBLY 0x2c9854-0x2c98dc
+002c9854: stp      x20, x19, [sp, #-0x20]!                       
+002c9858: stp      x29, x30, [sp, #0x10]                         
+002c985c: add      x29, sp, #0x10                                
+002c9860: adr      x0, #0x30defd                                 'FBApplicationProcess'
+002c9864: nop                                                    
+002c9868: bl       #0x2eccd0                                     _objc_getClass
+002c986c: nop                                                    
+002c9870: ldr      x1, #0x37f390                                 SEL _processDidExitWithContext:
+002c9874: adr      x2, #0x2c98dc                                 
+002c9878: nop                                                    
+002c987c: adr      x3, #0x382180                                 
+002c9880: nop                                                    
+002c9884: bl       #0x2ec9a0                                     _MSHookMessageEx
+002c9888: adr      x0, #0x30df12                                 'SpringBoard'
+002c988c: nop                                                    
+002c9890: bl       #0x2eccd0                                     _objc_getClass
+002c9894: mov      x19, x0                                       
+002c9898: nop                                                    
+002c989c: ldr      x1, #0x37f398                                 SEL applicationDidFinishLaunching:
+002c98a0: adr      x2, #0x2c9a04                                 
+002c98a4: nop                                                    
+002c98a8: adr      x3, #0x382188                                 
+002c98ac: nop                                                    
+002c98b0: bl       #0x2ec9a0                                     _MSHookMessageEx
+002c98b4: nop                                                    
+002c98b8: ldr      x1, #0x37e5b0                                 SEL sendEvent:
+002c98bc: adr      x2, #0x2c9a30                                 
+002c98c0: nop                                                    
+002c98c4: adr      x3, #0x382190                                 
+002c98c8: nop                                                    
+002c98cc: mov      x0, x19                                       
+002c98d0: ldp      x29, x30, [sp, #0x10]                         
+002c98d4: ldp      x20, x19, [sp], #0x20                         
+002c98d8: b        #0x2ec9a0                                     _MSHookMessageEx
+
+DISASSEMBLY 0x2c9a04-0x2c9a30
+002c9a04: stp      x29, x30, [sp, #-0x10]!                       
+002c9a08: mov      x29, sp                                       
+002c9a0c: nop                                                    
+002c9a10: ldr      x8, #0x382188                                 
+002c9a14: blr      x8                                            
+002c9a18: nop                                                    
+002c9a1c: ldr      x0, #0x344148                                 
+002c9a20: adr      x1, #0x345cf8                                 
+002c9a24: nop                                                    
+002c9a28: ldp      x29, x30, [sp], #0x10                         
+002c9a2c: b        #0x2ecb2c                                     _dispatch_async
+
+DISASSEMBLY 0x2ca140-0x2ca174
+002ca140: stp      x29, x30, [sp, #-0x10]!                       
+002ca144: mov      x29, sp                                       
+002ca148: adr      x0, #0x373648                                 NSString '[DuoFace] SpringBoard finished launching, safely initializing CBBridgeManager...'
+002ca14c: nop                                                    
+002ca150: bl       #0x2ec9ac                                     _NSLog
+002ca154: nop                                                    
+002ca158: ldr      x0, #0x37f8d8                                 CLASS CBBridgeManager
+002ca15c: nop                                                    
+002ca160: ldr      x1, #0x37d518                                 SEL sharedInstance
+002ca164: bl       #0x2ecd00                                     _objc_msgSend
+002ca168: mov      x29, x29                                      
+002ca16c: ldp      x29, x30, [sp], #0x10                         
+002ca170: b        #0x2ecdc0                                     _objc_unsafeClaimAutoreleasedReturnValue

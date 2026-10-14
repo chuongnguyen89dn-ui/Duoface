@@ -2079,3 +2079,17 @@ Evidence: audit/v12-geometry-chain-20261014.txt; script scripts/v12_host_recover
 Kết luận mới: sửa scene DB đơn lẻ không đủ cho v12; cần thay vùng contentView/usable bounds của CBWindow đồng thời giữ layoutSplitViews và chrome phía Dashboard.
 Tiếp tục: xác định process khởi tạo CBBridgeManager/CBWindow và receiver IPC, rồi thiết kế enter/restore có xác nhận trạng thái, tránh đánh dấu fullscreen khi không thực hiện được.
 Chưa sửa runtime/build; chưa device PASS.
+
+## 2026-10-14 — Root cause bổ sung: bridge không được inject vào owner thật
+
+Đã chứng minh process ownership, không chỉ suy ra từ tên log:
+- Constructor v12 0x6500–0x6640 tách DashBoard/CarPlay và com.apple.springboard.
+- Nhánh SpringBoard gọi 0x2ec60c → 0x2c9854 → hook applicationDidFinishLaunching: với IMP 0x2c9a04.
+- IMP đó dispatch block descriptor 0x345cf8, invoke 0x2ca140. Block lấy class CBBridgeManager và gọi sharedInstance tại 0x2ca164.
+- Như vậy CBBridgeManager/CBWindow được khởi tạo phía SpringBoard; Dashboard quản lý dock/state qua CBBridgeManagerDashboard.
+- Filter DuoFaceFullscreenBridge.plist hiện tại chỉ có CarPlayApp/CarPlay/dashboard (và Executables tương ứng), KHÔNG có SpringBoard. Đây là thiếu sót kiến trúc xác định trong source: bridge không chạy trong process sở hữu cửa sổ hai pane.
+- NSNotificationCenter nội bộ của bridge hiện tại cũng không vượt qua ranh giới process này.
+
+Evidence tái tạo: audit/v12-process-ownership-20261014.txt. Block invoke đọc trực tiếp QWORD tại 0x345cf8+0x10 = 0x2ca140.
+Tiếp theo: adapter phải có phần SpringBoard (CBWindow/content geometry/restore) và phần Dashboard (nút/statusbar chrome), giao tiếp có ACK; gate theo trạng thái bridge thật, không so package ID với native scene. Giữ nguyên cơ chế split/licensing. Không gọi Airaw native-scene path là cơ chế DuoFace tương đương khi chưa nối CBWindow.
+Đây là checkpoint phân tích; chưa sửa filter/runtime hoặc build.
