@@ -2,6 +2,11 @@ name: Compile current DuoFace visual hook
 on:
   workflow_call:
   workflow_dispatch:
+  push:
+    paths:
+      - 'src/DuoFaceVisualHook.m'
+      - 'src/DuoFaceBorderRunner.m'
+      - '.github/workflows/duoface-hook-check.yml'
 permissions:
   contents: read
 jobs:
