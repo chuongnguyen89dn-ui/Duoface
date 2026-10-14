@@ -2879,3 +2879,8 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 
 ### 2026-10-14 — Reattempt native DEB split-ratio audit
 - User ordered retry; only DuoFace repo. Reused EXISTING `.github/workflows/duoface-border-binary-audit.yml` instead of creating a new workflow. Commit `adcd54f13fef5e03f626060a88e7ab4898ccc811` successfully updated targets to include `handleDividerPan` [0x103ee0,0x1044f8), `layoutSplitViews` [0x1044f8,0x105890), `splitRatioSetter` [0x11fee4,0x11ff30), alongside original border methods. Readback verified. Workflow is push-triggered for changes to itself and reads the existing `menu-zoom2` DEB's native Dashboard. At checkpoint existing audit output `audit/border-current-deb/native-blue-border-trace.txt` still lacks divider analysis, so exact clamp unknown until new run persists output; do not claim run PASS or a numeric limit. No runtime source edits, DEB packaging, or Sileo.
+
+### 2026-10-14 — Scope correction from user: menu ONLY
+- User confirms split-screen red interaction border (previous item 5) is ALREADY COMPLETE in the earlier DEB. DO NOT modify, rework, or retest border as part of this request.
+- Remaining approved work only: (1) approved horizontal DuoFace logo inline at 30pt height with original aspect; (2) compact App / Zoom In-Out / Style / Close App tab widths and gaps, preserving original actions and selected red; (3) prevent Close App overlap with native X, X closes picker; (4) remove outer picker border and menu/grid horizontal separator only.
+- Do not change divider ratio, fullscreen, other features, or build/deploy unless separately authorized. This is scope confirmation, not an implementation or test result.
