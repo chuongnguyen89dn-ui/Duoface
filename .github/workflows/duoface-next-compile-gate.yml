@@ -27,10 +27,11 @@ jobs:
       - name: Compile latest 40pt picker and fullscreen functions
         run: |
           set -euo pipefail
-          grep -q 'menuHeight=40.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
           # On actual red2 device photo width/4 made an oversized header; cap it at approved compact 40pt row.
-          grep -q 'logoHeight=MIN(width/4.0,menuHeight)' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'sheetWidth-2.0\*sideInset' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'logoSlotWidth=col' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'menuFrame.origin.x=sideInset+logoSlotWidth' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'usableWidth=sheetWidth-2.0\*sideInset' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFFullscreenCoordinator.mm
           cp Makefile.fullscreen Makefile
@@ -44,7 +45,9 @@ jobs:
           xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" -fno-objc-arc -fblocks -dynamiclib -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib -o "$RUNNER_TEMP/DuoFaceVisualHook.dylib" src/DuoFaceVisualHook.m
           xcrun lipo "$RUNNER_TEMP/DuoFaceVisualHook.dylib" -verify_arch arm64
           grep -q 'DFBorderLogoRed' src/DuoFaceBorderRunner.m
-          grep -q 'DFHideBorderForFocus' src/DuoFaceBorderRunner.m
+          grep -q 'DFSetBorderVisible(view,NO)' src/DuoFaceBorderRunner.m
+          grep -q 'startBlinkingSession' src/DuoFaceBorderRunner.m
+          grep -q 'stopBlinkingSession' src/DuoFaceBorderRunner.m
       - name: Save exact compile results, source checks and hook markers
         shell: bash
         run: |
@@ -71,7 +74,7 @@ jobs:
           out={'source_commit':os.environ['GITHUB_SHA'],'status':'COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS',
             'bridge_sha256':sha(bridge),'visual_hook_sha256':sha(hook),
             'menu_markers':bm,'border_markers':hm,
-            'approved_menu_height_pt':40,'border_logo_red':'#E3020F','border_behavior':'red_on_native_activity_clear_on_native_idle',
+            'approved_menu_height_pt':30,'logo_inline_with_menu':True,'border_logo_red':'#E3020F','border_behavior':'red_on_native_activity_clear_on_native_idle',
             'deb_built':False,'sileo_published':False}
           p=root/'audit/duoface-next-compile-20261014.json'
           p.parent.mkdir(parents=True,exist_ok=True)
