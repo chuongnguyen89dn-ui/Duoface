@@ -43,6 +43,8 @@ print("DASHBOARD_SHA256", EXPECTED_DASH)
 constant_offsets = {
     "app_tab_color_r_or_g": 0x30fac0,
     "app_tab_color_b": 0x311730,
+    "tab_selected_blue_red": 0x311720,
+    "tab_selected_blue_green": 0x311728,
     "app_tab_color_alpha": 0x3116d0,
     "tab_selected_title_gray": 0x311798,
     "tab_border_white_alpha": 0x311778,
