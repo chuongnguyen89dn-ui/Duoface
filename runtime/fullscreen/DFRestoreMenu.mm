@@ -101,7 +101,7 @@
         [self.autoHideTimer invalidate];
         __weak DFRestoreMenu *weakSelf = self;
         self.autoHideTimer = [NSTimer scheduledTimerWithTimeInterval:5 repeats:NO
-            block:^(NSTimer *timer) { [weakSelf hideMenu]; }];
+            block:^(NSTimer *timer) { (void)timer; [weakSelf hideMenu]; }];
     }
 }
 - (void)hideMenu {
