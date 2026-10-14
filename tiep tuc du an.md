@@ -1754,3 +1754,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Reopened actual original Airaw 1.7.1k DEB at `/mnt/data/com.999.airaw_1.7.1k_iphoneos-arm64.deb`, prior `/mnt/data/airaw_fullscreen_all83_report.md` and `/mnt/data/airaw_fullscreen_deep_trace_20261013.md`. Previous keyword scan covered 83 files, 11 keyword hits; identified `Airaw.dylib` and Host Menu preferences but did NOT trace button event handler.
 - Ran `llvm-objdump --macho --objc-meta-data Airaw.dylib` (output `/mnt/data/airaw_objc_full.txt`, 15515 bytes), which lists ObjC sections/pointers but did not resolve target/action owner; `llvm-objdump --macho --section=__objc_selrefs --full-contents` confirms selrefs section. These are local-only diagnostics, not a verified handler.
 - Correct next method: parse chained-fixup ObjC metadata and disassemble callsites around button creation / `addTarget:action:forControlEvents:` or gesture registration, resolve class+selector+IMP, then verify fullscreen enter/restore calls. No claim of button handler found; no DuoFace modification/build. Avoid repeated keyword scans.
+
+
+### 2026-10-14 — Airaw button accessor verified
+- Local disassembly of original Airaw 1.7.1k shows fullscreenBtn injected into DBDockRootViewController and DBRootStatusBarViewController. Implementations 0x136fc/0x13708 and 0x13844/0x13850 call objc_getAssociatedObject / objc_setAssociatedObject, respectively: these are property accessors, NOT the button press handler.
+- Need follow uses of fullscreenBtn getter and UIControl addTarget or gesture selector. No handler confirmed, no DuoFace build.
