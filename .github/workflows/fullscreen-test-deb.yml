@@ -40,12 +40,19 @@ jobs:
           test -s "$DYLIB"
           DST="$RUNNER_TEMP/duoface-test/var/jb/Library/MobileSubstrate/DynamicLibraries"
           install -m 755 "$DYLIB" "$DST/DuoFaceFullscreenBridge.dylib"
-          python3 -c 'import os,plistlib,re; from pathlib import Path; base=Path(os.environ["RUNNER_TEMP"])/"duoface-test"; dst=base/"var/jb/Library/MobileSubstrate/DynamicLibraries"; src=dst/"DuoFaceDashboard.plist"; (dst/"DuoFaceFullscreenBridge.plist").write_bytes(plistlib.dumps(plistlib.loads(src.read_bytes()))); ctrl=base/"DEBIAN/control"; ctrl.write_text(re.sub(r"(?m)^Version:.*$", "Version: 1.0.3-12~fullscreen-test1", ctrl.read_text()))'
+          python3 -c 'import os,plistlib,re; from pathlib import Path; base=Path(os.environ["RUNNER_TEMP"])/"duoface-test"; dst=base/"var/jb/Library/MobileSubstrate/DynamicLibraries"; src=dst/"DuoFaceDashboard.plist"; (dst/"DuoFaceFullscreenBridge.plist").write_bytes(plistlib.dumps(plistlib.loads(src.read_bytes()))); ctrl=base/"DEBIAN/control"; ctrl.write_text(re.sub(r"(?m)^Version:.*$", "Version: 1.0.3-12~fullscreen-test2", ctrl.read_text()))'
           mkdir -p artifacts
-          dpkg-deb --build "$RUNNER_TEMP/duoface-test" artifacts/com.duonavi.app_1.0.3-12_fullscreen-test1_iphoneos-arm64.deb
+          dpkg-deb --build "$RUNNER_TEMP/duoface-test" artifacts/com.duonavi.app_1.0.3-12_fullscreen-test2_iphoneos-arm64.deb
+          python3 - <<'PY'
+          import os, plistlib
+          from pathlib import Path
+          base = Path(os.environ["RUNNER_TEMP"]) / "duoface-test"
+          p = base / "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist"
+          print("ACTUAL BRIDGE FILTER:", plistlib.loads(p.read_bytes()))
+          PY
           dpkg-deb -c artifacts/*.deb | grep -E 'DuoFaceFullscreenBridge|DuoFaceDashboard.dylib'
           shasum -a 256 artifacts/*.deb
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-fullscreen-test1
+          name: duoface-fullscreen-test2
           path: artifacts/*.deb
