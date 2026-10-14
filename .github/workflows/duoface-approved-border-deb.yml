@@ -77,8 +77,10 @@ jobs:
             symbols=subprocess.run(['strings',str(dylib)],text=True,capture_output=True,check=True).stdout
             required=(['Zoom In','Zoom Out','Close App','CBMultitaskingOverlayView']
                       if name=='DuoFaceFullscreenBridge' else
-                      ['[DuoFaceBorder] install','[DuoFaceBorder] START','dfStart','dfEnd','borderPulse'])
+                      ['[DuoFaceBorder] install','[DuoFaceBorder] RED ON user activity','[DuoFaceBorder] RED OFF native idle','borderPulse'])
             assert all(token in symbols for token in required),(name,required)
+            if name=='DuoFaceVisualHook':
+              assert 'dfStart' not in symbols and 'dfEnd' not in symbols, 'old runner must be removed'
             filter_file=dylib.with_suffix('.plist')
             assert filter_file.exists(),name
             flt=plistlib.loads(filter_file.read_bytes())['Filter']
