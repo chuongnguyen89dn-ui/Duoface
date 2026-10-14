@@ -100,8 +100,14 @@ static void DFLayoutPicker(UIView *overlay) {
 @end
 %group DFPickerZoom
 %hook CBMultitaskingOverlayView
-- (void)setupCardContent { %orig; DFLayoutPicker((UIView *)self); }
-- (void)layoutSubviews { %orig; DFLayoutPicker((UIView *)self); }
+- (void)setupCardContent {
+    %orig;
+    DFLayoutPicker((UIView *)self);
+}
+- (void)layoutSubviews {
+    %orig;
+    DFLayoutPicker((UIView *)self);
+}
 %end
 %end
 BOOL DFInstallPickerZoomMenuHooks(void) {
