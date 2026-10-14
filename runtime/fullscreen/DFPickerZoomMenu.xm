@@ -209,7 +209,9 @@ static void DFLayoutPicker(UIView *overlay) {
     if (mode==0) active=app;
     else if (mode==1) active=style;
     else if (mode==2) active=close;
-    if (expanded) active=zoom;
+    // Do not pin the red highlight to Zoom while a native App/Style/Close
+    // tab is actually selected. Preserve native overlayMode as source of truth.
+    if (expanded && mode<0) active=zoom;
     UIColor *originalActiveColor=active.backgroundColor;
     UIColor *red=DFApprovedLogoRed();
     UIColor *inactiveText=[UIColor colorWithWhite:0.68 alpha:1.0];
