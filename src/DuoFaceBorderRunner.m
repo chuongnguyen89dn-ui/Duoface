@@ -5,13 +5,14 @@
 #import <objc/runtime.h>
 #import <dispatch/dispatch.h>
 #import <math.h>
+#import <string.h>
 
 static char DFRunnerAssociation;
 static IMP DFNativeBorderStart = NULL, DFNativeBorderStop = NULL;
 static BOOL DFBorderHooksInstalled = NO;
 static IMP DFNativeSplitLayout = NULL;
 static IMP DFNativeFocusSlot = NULL, DFNativeRestoreSplit = NULL;
-static char DFFocusAssociation;
+static char DFFocusAssociation, DFRunningAssociation;
 static NSHashTable *DFKnownBorderViews = nil;
 static BOOL DFFocusHidden(id controller) { return [objc_getAssociatedObject(controller,&DFFocusAssociation) boolValue]; }
 static void DFTrackBorderView(UIView *view) {
@@ -137,7 +138,12 @@ static void DFUpdateFocusBorders(id controller) {
     BOOL focused=DFFocusHidden(controller);
     for (UIView *view in [DFKnownBorderViews allObjects]) {
         if (focused) DFHideBorderForFocus(view);
-        else DFSetBorderColor(view,DFBorderLogoRed());
+        else {
+            if ([objc_getAssociatedObject(view,&DFRunningAssociation) boolValue]) {
+                DFSetBorderColor(view,[UIColor blackColor]);
+                DFStartEffect(view);
+            } else DFSetBorderColor(view,DFBorderLogoRed());
+        }
     }
 }
 static void DFFocusSlotHook(id self, SEL cmd, NSInteger slot, BOOL animated) {
@@ -158,6 +164,7 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
             DFTrackBorderView(view);
+            objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
             // Black baseline is visible wherever moving red/white strokes leave a gap.
             DFSetBorderColor(view,[UIColor blackColor]);
@@ -170,6 +177,7 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
     void (^update)(void) = ^{
         DFTrackBorderView(view);
+        objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         DFStopEffect(view);
         if (DFFocusHidden(self)) { DFHideBorderForFocus(view); return; }
         // The final static border uses the same red sampled by the menu from the approved logo.
@@ -202,7 +210,12 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
     Method focus=class_getInstanceMethod(controller,@selector(focusSlot:animated:));
     Method restore=class_getInstanceMethod(controller,@selector(restoreSplitAnimated:));
-    if (focus && restore) {
+    // Exact runtime signatures matter: focusSlot:animated: = integer, BOOL;
+    // restoreSplitAnimated: = BOOL. Skip hooks rather than guessing on mismatch.
+    const char *focusSig=focus?method_getTypeEncoding(focus):NULL;
+    const char *restoreSig=restore?method_getTypeEncoding(restore):NULL;
+    if (focus && restore && focusSig && restoreSig &&
+        strstr(focusSig,"qB") && strstr(restoreSig,":B")) {
         hook(controller,@selector(focusSlot:animated:),(IMP)DFFocusSlotHook,&DFNativeFocusSlot);
         hook(controller,@selector(restoreSplitAnimated:),(IMP)DFRestoreSplitHook,&DFNativeRestoreSplit);
     }
