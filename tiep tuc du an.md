@@ -2128,3 +2128,10 @@ Tiếp theo ngay: module IPC request/result/state giữa SpringBoard và Dashboa
 Đã viết DFFullscreenTransport.h/.mm: NSDistributedNotificationCenter, command/state namespace riêng com.duoface.fullscreen.*.v1, request ID + sequence chống request cũ, ACK geometry, timeout3s gửi restore, lease6s/heartbeat2s tự restore khi Dashboard mất. ACK enter đến muộn sau timeout không gia hạn fullscreen.
 Thêm Makefile.fullscreen-adapter-check và workflow fullscreen-adapter-check.yml (macos-15/Theos, compile-only). Push này kích hoạt kiểm tra biên dịch staged adapter; chưa đóng DEB, chưa đổi Makefile.fullscreen/filter/runtime host4. Chưa có kết quả compile tại thời điểm commit.
 Tiếp tục ngay: đọc log compile, sửa lỗi nếu có; sau đó nối Dashboard chrome và control/menu Airaw. Không dùng compile-only làm bằng chứng thiết bị hoạt động.
+
+## 2026-10-14 — Compile host+IPC PASS; viết module chrome staged
+
+Run 38521107579, job115710756930, source5d009bb3bcedd9d2165a94419893adf25c2451d5: compile DFHostGeometry.xm và DFFullscreenTransport.mm arm64, link/strip/sign SUCCESS. Đã đọc decoded log; không có lỗi compile, linker báo -multiply_defined obsolete. Evidence audit/fullscreen-adapter-compile-38521107579.txt. Đây là compile-only, không phải device PASS.
+Đã thêm DFDashboardChrome.h/.xm: theo receiver Airaw0xe610, hook DBStatusBarWindow.layoutSubviews (fallback CARStatusBarWindow), track weak windows, snapshot hidden riêng từng window, ẩn và restore đúng hidden gốc. Không bê hook dock iOS26 vào iOS16. Không báo chrome success khi chưa quan sát được statusbar window.
+Đã đưa module chrome vào Makefile.fullscreen-adapter-check; push này chạy kiểm tra compile phần mới. Vẫn chưa gắn adapter staged vào host4/DEB.
+Tiếp tục: hoàn thiện button/menu và state coordinator, rồi mới thay entry point/filter và đóng DEB ứng viên. Không dừng ở checkpoint này.

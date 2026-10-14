@@ -1,0 +1,17 @@
+Run 38521107579; job 115710756930; source 5d009bb3bcedd9d2165a94419893adf25c2451d5; conclusion success.
+Compile/link excerpt from decoded job log; not device testing.
+2026-10-14T06:16:03.3379520Z [0;36m==> [1;39mCleaning…[m
+2026-10-14T06:16:03.4357110Z [0;36m==> [1;36mNotice:[m Build may be slow as Theos isn’t using all available CPU cores on this computer. Consider upgrading GNU Make: https://theos.dev/docs/parallel-building
+2026-10-14T06:16:03.5861220Z [1;31m> [1;3;39mMaking all for tweak DuoFaceFullscreenAdapterCheck…[m
+2026-10-14T06:16:05.5600750Z [0;31m==> [1;39mPreprocessing runtime/fullscreen/DFHostGeometry.xm…[m
+2026-10-14T06:16:05.7141620Z [0;32m==> [1;39mCompiling runtime/fullscreen/DFHostGeometry.xm (arm64)…[m
+2026-10-14T06:16:22.9011100Z [0;32m==> [1;39mCompiling runtime/fullscreen/DFFullscreenTransport.mm (arm64)…[m
+2026-10-14T06:16:23.1057750Z [0;33m==> [1;39mLinking tweak DuoFaceFullscreenAdapterCheck (arm64)…[m
+2026-10-14T06:16:23.2887290Z ld: warning: -multiply_defined is obsolete
+2026-10-14T06:16:23.4471310Z [0;34m==> [1;39mGenerating debug symbols for DuoFaceFullscreenAdapterCheck…[m
+2026-10-14T06:16:23.5747510Z [0;34m==> [1;39mStripping DuoFaceFullscreenAdapterCheck (arm64)…[m
+2026-10-14T06:16:23.5950400Z [0;34m==> [1;39mSigning DuoFaceFullscreenAdapterCheck…[m
+2026-10-14T06:16:23.6521700Z .theos/obj/DuoFaceFullscreenAdapterCheck.dylib
+2026-10-14T06:16:23.6523380Z .theos/obj/arm64/DuoFaceFullscreenAdapterCheck.dylib.dSYM/Contents/Resources/DWARF/DuoFaceFullscreenAdapterCheck.dylib
+2026-10-14T06:16:23.6525240Z .theos/obj/arm64/DuoFaceFullscreenAdapterCheck.dylib
+2026-10-14T06:16:23.6825510Z Post job cleanup.
