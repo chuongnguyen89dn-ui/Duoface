@@ -1,9 +1,7 @@
 name: Export successful DuoFace integrated DEB to GitHub
+# DEB packaging/export is owner-approved ONLY. No push-triggered package builds.
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/duoface-main-export.yml'
 permissions:
   actions: read
   contents: write

@@ -1,14 +1,7 @@
 name: Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)
+# DEB packaging/export is owner-approved ONLY. No push-triggered package builds.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/duoface-main-deb.yml'
-      - '.github/workflows/duoface-hook-check.yml'
-      - 'src/DuoFaceVisualHook.m'
-      - 'scripts/build_visual_release.py'
-      - 'DuoFace_5_images_REVIEW_before_upload.zip'
 permissions:
   contents: write
 concurrency:
