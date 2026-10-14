@@ -1660,3 +1660,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38497621872 job 115636914463: Prepare Theos SUCCESS; Logos preprocess, arm64 compile and link of `runtime/DuoFaceFullscreenBridge.xm` SUCCESS; signing failed with exact `/bin/bash: ldid: command not found` (Error 127). Packaging and artifact upload SKIPPED.
 - Updated `.github/workflows/fullscreen-test-deb.yml` to install `ldid` and `dpkg` via Homebrew, verify both commands exist, before compile; commit `1ffa708e463917a52ef9911aab254e521c15ed75`, readback verified.
 - Next: inspect next workflow run triggered by commit 1ffa708, resolve any tool installation/package failures, confirm artifact, check original v12 package ID and split functionality unchanged. No green build or device test verified yet.
+
+
+### 2026-10-14 — Fullscreen run 38498338046 missing tweak filter
+- Run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38498338046 job 115639134687: Theos preparation and brew signing/packaging tools SUCCESS; Logos preprocess, arm64 compile, link and ldid sign SUCCESS; stage FAILED: `You are missing a filter property list. Make sure it’s named "DuoFaceFullscreenBridge.plist" or "Filter.plist".` Package and upload skipped.
+- Created `DuoFaceFullscreenBridge.plist` at repo root, Theos-required substrate filter with CarPlay executable/bundle selectors; commit `d6056dadf663f22ca86b3e43f1eb56b4202994eb`, readback verified. Runtime filter/process correctness requires device validation against original v12 filter.
+- Next: check workflow run from commit d6056da, verify stage, package and artifact; compare bridge filter against actual v12 substrate filter before device testing. No successful DEB confirmed.
