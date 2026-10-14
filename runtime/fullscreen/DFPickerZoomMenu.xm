@@ -157,19 +157,27 @@ static void DFLayoutPicker(UIView *overlay) {
     }
     const CGFloat menuHeight=30.0;
     const CGFloat sideInset=8.0;
-    CGFloat usableWidth=sheetWidth-2.0*sideInset;
-    CGFloat col=usableWidth/5.0;
-    CGFloat logoSlotWidth=col; // Never bigger than one icon+label menu item.
-    CGFloat menuWidth=4.0*col;
+    // Compact intrinsic widths, leaving the native X its own unobstructed
+    // hit region. Never stretch the menu parent over the close button.
+    const CGFloat logoWidth=120.0; // Approved PNG 960x240 at 30pt height.
+    const CGFloat gap=3.0;
+    const CGFloat xReserved=38.0;
+    CGFloat available=sheetWidth-2.0*sideInset-logoWidth-xReserved-gap;
+    if (available<152.0) { NSLog(@"[DuoFaceFullscreen] insufficient picker row width"); return; }
+    const CGFloat desired[4]={43.0,63.0,47.0,70.0};
+    CGFloat widths[4]={0};
+    CGFloat total=desired[0]+desired[1]+desired[2]+desired[3]+3.0*gap;
+    CGFloat scale=MIN(1.0,available/total);
+    CGFloat menuWidth=0.0;
+    for (int i=0;i<4;i++) { widths[i]=floor(desired[i]*scale); menuWidth+=widths[i]; }
+    menuWidth+=3.0*gap;
     CGRect nativeMenuFrame=parent.frame;
     CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
     CGFloat menuTop=CGRectGetMinY(nativeMenuFrame);
-    // Reuse the exact 960x240 approved asset, aspect-fit into the left slot.
-    // Reposition the existing _headerIcon; hide its old native title.
     DFNativeHeaderLogoFrame(overlay,contentView,sideInset,
-                            sideInset+logoSlotWidth,menuTop,menuHeight);
+                            sideInset+logoWidth,menuTop,menuHeight);
     CGRect menuFrame=nativeMenuFrame;
-    menuFrame.origin.x=sideInset+logoSlotWidth;
+    menuFrame.origin.x=sideInset+logoWidth+gap;
     menuFrame.origin.y=menuTop;
     menuFrame.size.width=menuWidth;
     menuFrame.size.height=menuHeight;
@@ -177,12 +185,22 @@ static void DFLayoutPicker(UIView *overlay) {
     parent.backgroundColor=UIColor.clearColor;
     parent.layer.cornerRadius=0.0;
     parent.layer.borderWidth=0.0;
-    // Keep native button objects, targets and actions, only resize their frames.
-    app.frame=CGRectMake(0,0,col,menuHeight);
-    zoom.frame=CGRectMake(col,0,col,menuHeight);
-    style.frame=CGRectMake(2*col,0,col,menuHeight);
-    close.frame=CGRectMake(3*col,0,col,menuHeight);
-    // Native cards/grid need at most the 30pt row's small extra height.
+    CGFloat x=0.0;
+    UIButton *buttons[4]={app,zoom,style,close};
+    for (int i=0;i<4;i++) {
+        buttons[i].frame=CGRectMake(x,0,widths[i],menuHeight);
+        x+=widths[i]+gap;
+    }
+    // Remove picker-only outer and separator borders; the split-pane
+    // interaction border is owned separately by DuoFaceBorderRunner.
+    overlay.layer.borderWidth=0.0;
+    contentView.layer.borderWidth=0.0;
+    for (UIView *v in contentView.subviews) {
+        if (v==parent) continue;
+        if (CGRectGetHeight(v.bounds)<=2.0 && CGRectGetWidth(v.bounds)>sheetWidth*0.55) {
+            v.hidden=YES; // Native decorative horizontal separator only.
+        }
+    }
     DFReflowPickerContent(contentView,overlay,@[parent],
                           nativeBottom,menuTop+menuHeight+2.0);
     // Preserve the native font weight; only set approved 10pt size.
