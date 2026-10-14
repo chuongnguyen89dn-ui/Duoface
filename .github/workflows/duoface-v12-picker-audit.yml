@@ -59,6 +59,12 @@ jobs:
           "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0xa0420:0xa0aec 0xa0b64:0xa0c48 0xa28e8:0xa2a58 0xa2a58:0xa3e5c 0xa9a88:0xa9ce0 > audit/v12-picker-header-20261014.txt
           wc -l audit/v12-picker-route-20261014.txt audit/v12-picker-header-20261014.txt
           grep -E 'showAppPickerForSlot|OWNER .*Picker|PICKER-SPECIFIC|DISASSEMBLY' audit/v12-picker-route-20261014.txt | head -80 || true
+      - name: Trace sheetCard geometry from original v12 (read only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0xa0420:0xa0aec 0xa28e8:0xa2a58 0xa2a58:0xa2c40 > audit/v12-picker-sheet-geometry-20261014.txt
+          grep -E 'DISASSEMBLY|SEL (setFrame:|setBounds:|bounds|frame|addSubview:|contentView|setCenter:|setTransform:)' audit/v12-picker-sheet-geometry-20261014.txt | head -100 || true
       - name: Trace picker access and dismiss path in fullscreen host (read only)
         shell: bash
         run: |
@@ -87,7 +93,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
+          git add audit/v12-picker-sheet-geometry-20261014.txt audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
           git commit -m "audit: retain exact v12 picker call graph [skip ci]"
           for attempt in 1 2 3; do
             git fetch origin main
