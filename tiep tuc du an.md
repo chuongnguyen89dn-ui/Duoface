@@ -2033,3 +2033,15 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Improved `scripts/airaw_focus_recovery.py` to allow explicit address ranges and invalidate address annotations on register writes/calls/control-flow boundaries. Previous raw instruction disassembly remains valid; stale linear address annotations are superseded by regenerated `audit/airaw-focus-recovery-20261014.txt`.
 - Commands: `python Duoface/scripts/airaw_focus_recovery.py Duoface/audit/Airaw-1.7.1k-reference.dylib 0xab80:0xacbc 0xb714:0xb808 0xc2a0:0xc374 0xc408:0xc64c 0xc9e8:0xcb40 0xe610:0xe660 0xed04:0xedb8 0xf1a0:0xf1e0 0x462ac:0x4645c > Duoface/audit/airaw-scene-settings-20261014.txt` — exit 0. Default evidence regenerated. No runtime edit, new DEB, device test or Sileo deploy.
 - NEXT (continuing): resolve full restore path and module-dependent routing; inspect native v12 controller/scene mapping, then choose proven path for complete integration.
+
+
+## 2026-10-14 — Checkpoint restore và eligibility, tiếp tục điều tra
+
+Đã giải thêm bằng đúng Airaw SHA256 46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d:
+- Eligibility helper 0xeb54–0xecfc yêu cầu module AirawSplitNative tồn tại, identifier có độ dài, và identifier thuộc NSArray kARWNativeSplitEnabledApps trong /var/mobile/Library/Preferences/jp.dcsyhi.airawData.plist. Đây là gate riêng của Airaw, không phải chứng minh bundle/scene DuoFace.
+- Exit IMP 0xca2c gọi arwRemoveHostMenu, reset nativeScaleRatio=1, nativeScaleUserAdjusted=NO, isFull=NO; gọi scene.updateSettingsWithBlock: với block 0xef70.
+- Block restore 0xef70–0xf08c khôi phục safeAreaInsetsPortrait từ savedEdgeInsets và settings.frame từ savedRect, hiện view, alpha=1, transform identity, view.frame=savedRect, bringSubviewToFront, manager.setDefaultAppChromeHidden:NO. Vì vậy chỉ đổi view.frame ở bridge hiện tại không tương đương đường khôi phục này.
+- Block layout 0xf090–0xf19c lấy arwNativeDisplayRect, bỏ kích thước không dương, zero insets khi full/native split; nếu không full và đã snapshot thì dùng savedEdgeInsets; cập nhật cả settings.frame và view.frame.
+Evidence mới: audit/airaw-restore-eligibility-20261014.txt. Có thể tái tạo bằng scripts/airaw_focus_recovery.py với ranges 0xeb54:0xed04 0xca2c:0xcad8 0xef70:0xf1a0.
+V12 repo dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb có blob ef6df3b3a84e1c43049bf66c093365fe996f67fd; Contents trả content rỗng (>1MB), fetch_blob lỗi UTF-8 cho binary. Chưa lấy được bytes v12 qua hai đường đó; không được coi merged package là v12 đã đối chiếu.
+Trạng thái: chưa sửa runtime, chưa build, chưa device PASS. Tiếp tục lấy đúng v12 để xác minh host/scene, sau đó mới tích hợp đường scene/chrome/restore đã truy được.
