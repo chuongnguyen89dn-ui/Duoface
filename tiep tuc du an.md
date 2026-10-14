@@ -1953,3 +1953,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - GitHub Actions run `38514055041`, job `115688751314` on main commit `2ea00cd3c5410284f0c0ab8ecf1869cde9209ded`: completed SUCCESS. Verified `Compile bridge`, `Package on original v12`, `upload-artifact` all SUCCESS.
 - Artifact `duoface-fullscreen-diag3` ID `11870284097`, size 2,036,038 bytes, SHA256 artifact ZIP `daa40e115fd2d6c3d4c8434c43278e0664350514c9d09099c9db9b9fab38a8b0`, expires 2027-01-12. URL https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38514055041
 - This proves CI compilation/DEB packaging only; DOES NOT prove button visible, app identity recognized, fullscreen works, or restore works on actual CarPlay. Do not publish Sileo until device test.
+
+
+### 2026-10-14 — Device photo: fullscreen button NOT visible
+- User provided a CarPlay display photo after successful build run 38514055041. Observed left blue CarPlay dock, YouTube and map split layout; no fullscreen icon on the top/CarPlay bar. User asked 'Nút nào?'. This is a DEVICE FAILURE for button visibility; CI success was only compile/package.
+- Source inspection: DFInstallBar attaches to DBRootStatusBarViewController/CARRootStatusBarViewController/DBDockRootViewController and DFUpdateButton hides when `DFVisible == NO`. `DFVisible` only becomes YES if scene's direct appIdentifier/applicationIdentifier/bundleIdentifier exactly equals `com.duonavi.app`. No evidence this condition is true on device; injection and hook callbacks also unverified. Do not claim a verified root cause yet.
+- NEXT: verify dylib injection and scene identity using device logs or targeted diagnostic build; correct visibility gating and actual bar host. Keep split-pill untouched. Do not release to Sileo yet.
