@@ -113,7 +113,7 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 // Split-pill actions deliberately remain untouched. Fullscreen must be triggered
 // exclusively by the future top CarPlay status-bar control while DuoFace is visible.
 
-static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = !DFVisible; }
+static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = NO; }
 static NSString *DFSceneID(id scene) {
     for (NSString *key in @[@"appIdentifier", @"applicationIdentifier", @"bundleIdentifier"]) {
         SEL selector = NSSelectorFromString(key);
@@ -168,7 +168,7 @@ static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
     dispatch_once(&once, ^{ instance = [DFBarAction new]; });
     return instance;
 }
-- (void)pressed:(id)sender { if (DFVisible) DFToggleFullscreen(); }
+- (void)pressed:(id)sender { if (DFVisible) DFToggleFullscreen(); else NSLog(@"[DuoFaceFullscreen] button pressed, target scene not identified"); }
 @end
 static void DFInstallBar(UIViewController *host) {
     if (!host || !host.view) return;
@@ -178,7 +178,10 @@ static void DFInstallBar(UIViewController *host) {
         button.tag = 871204;
         button.frame = CGRectMake(MAX(0, CGRectGetWidth(host.view.bounds) - 50), 2, 44, 44);
         button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        button.tintColor = UIColor.whiteColor;
+        button.tintColor = UIColor.yellowColor;
+        button.backgroundColor = [UIColor colorWithRed:0.15 green:0.3 blue:0.9 alpha:0.95];
+        button.layer.cornerRadius = 8;
+        [button setTitle:@"FULL" forState:UIControlStateNormal];
         if (@available(iOS 13.0, *)) {
             [button setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"] forState:UIControlStateNormal];
         }
