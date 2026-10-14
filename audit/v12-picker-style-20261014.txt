@@ -1,0 +1,137 @@
+SOURCE v12 dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb
+DEB_SHA256 8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a
+DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce
+
+=== EXACT BINARY DOUBLE CONSTANTS ===
+0x30fac0 app_tab_color_r_or_g           float64=0.18 raw=0ad7a3703d0ac73f
+0x311730 app_tab_color_b                float64=0.22 raw=295c8fc2f528cc3f
+0x3116d0 app_tab_color_alpha            float64=0.9 raw=cdccccccccccec3f
+0x311798 tab_selected_title_gray        float64=0.68 raw=c3f5285c8fc2e53f
+0x311778 tab_border_white_alpha         float64=0.16 raw=7b14ae47e17ac43f
+0x310cd8 content_label_min_scale        float64=0.7 raw=666666666666e63f
+0x30fac8 tab_blue_or_tint_red           float64=0.8 raw=9a9999999999e93f
+0x311790 tab_blue_or_tint_green         float64=0.14 raw=ec51b81e85ebc13f
+0x311788 tab_background_extra_blue      float64=0.17 raw=c3f5285c8fc2c53f
+0x311780 tab_background_extra_red       float64=0.13 raw=a4703d0ad7a3c03f
+0x311728 picker_icon_tint               float64=0.52 raw=a4703d0ad7a3e03f
+0x311770 compact_height_threshold       float64=440 raw=0000000000807b40
+0x311760 compact_width_threshold        float64=380 raw=0000000000c07740
+0x311758 picker_width_threshold         float64=680 raw=0000000000408540
+0x311738 picker_alpha_or_font           float64=0.65 raw=cdcccccccccce43f
+0x310cd0 second_picker_default          float64=0.12 raw=b81e85eb51b8be3f
+GLOBAL_POINTER 0x3440c0 raw64=0x0000000000000000 UIFont weight unresolved statically
+GLOBAL_POINTER 0x3440c8 raw64=0x0000000000000000 UIFont weight unresolved statically
+
+=== EXACT RELEVANT CALLSITE ANNOTATIONS FROM PINNED V12 ===
+
+[HEADER_LABEL_FONT_AND_TITLE] 0xa2e48-0xa2f1c
+000a2e60: ldr      x1, [x8, #0xa88]                              [0x37da88] SEL systemFontOfSize:weight:
+000a2e88: ldr      x1, [x8, #0xa90]                              [0x37da90] SEL setFont:
+000a2ea8: ldr      x1, [x8, #0xa98]                              [0x37da98] SEL whiteColor
+000a2ec8: ldr      x1, [x8, #0xaa0]                              [0x37daa0] SEL setTextColor:
+000a2ee4: ldr      x1, [x8, #0x38]                               [0x37e038] SEL setAdjustsFontSizeToFitWidth:
+000a2ef8: ldr      x1, [x8, #0x40]                               [0x37e040] SEL setMinimumScaleFactor:
+000a2f00: ldr      d0, [x8, #0xcd8]                              [0x310cd8] 
+000a2f10: ldr      x1, [x8, #0x48]                               [0x37e048] SEL setLineBreakMode:
+
+[MENU_BACKGROUND_FRAME_BORDER] 0xa2fb0-0xa3158
+000a2fb0: ldr      x1, [x8, #0xe90]                              [0x37de90] SEL buttonWithType:
+000a2fd0: fcmp     d0, d13                                       
+000a2fd4: fmov     d0, #26.00000000                              
+000a2fd8: fcsel    d12, d10, d0, mi                              
+000a2fdc: fsub     d0, d8, d12                                   
+000a2fe0: fmov     d1, #-8.00000000                              
+000a2fe4: fadd     d0, d0, d1                                    
+000a2fe8: fmov     d1, #6.00000000                               
+000a2fec: fmov     d2, #4.00000000                               
+000a2ff0: fcsel    d1, d2, d1, mi                                
+000a2ff8: ldr      x1, [x8, #0xa10]                              [0x37da10] SEL setFrame:
+000a3000: fmov     d3, #5.00000000                               
+000a3004: fcsel    d13, d2, d3, mi                               
+000a3020: ldr      d0, [x8, #0xac0]                              [0x30fac0] 
+000a3028: ldr      d2, [x8, #0x730]                              [0x311730] 
+000a3030: ldr      d3, [x8, #0x6d0]                              [0x3116d0] 
+000a3050: ldr      x26, [x8, #0x9d8]                             [0x37d9d8] SEL setBackgroundColor:
+000a306c: fmov     d10, #0.50000000                              
+000a3070: fmul     d12, d12, d10                                 
+000a3078: ldr      x23, [x8, #0xa18]                             [0x37da18] SEL layer
+000a3098: ldr      x1, [x8, #0xa20]                              [0x37da20] SEL setCornerRadius:
+000a30d0: ldr      x1, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+000a30f4: ldr      x1, [x8, #0xa38]                              [0x37da38] SEL colorWithWhite:alpha:
+000a3100: ldr      d1, [x8, #0x778]                              [0x311778] 
+000a3104: fmov     d12, #1.00000000                              
+000a3124: ldr      x1, [x8, #0xa40]                              [0x37da40] SEL CGColor
+000a3154: ldr      x1, [x8, #0xa48]                              [0x37da48] SEL setBorderColor:
+
+[FIRST_APP_TAB_FRAME_AND_TRANSLATED_TITLE] 0xa33d0-0xa3540
+000a33e0: fmov     d0, #-4.00000000                              
+000a33e4: fadd     d0, d15, d0                                   
+000a33e8: fmov     d1, #3.00000000                               
+000a33ec: fdiv     d0, d0, d1                                    
+000a3430: fmov     d0, #-2.00000000                              
+000a3434: fadd     d11, d14, d0                                  
+000a3454: fmul     d10, d11, d10                                 
+000a34d8: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+000a34e0: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+000a34e8: add      x2, x2, #0xfc8                                NSString 'TAB_APPS'
+000a3504: ldr      x1, [x8, #0x50]                               [0x37e050] SEL setTitle:forState:
+000a352c: ldr      x3, [x8, #0x58]                               [0x37e058] SEL switchToAppPickerMode
+
+[APP_TAB_SELECTED_VS_INACTIVE_STYLES] 0xa3540-0xa3730
+000a3558: fmov     d10, #11.00000000                             
+000a355c: fmov     d14, #10.00000000                             
+000a35a4: ldr      d0, [x25, #0x798]                             
+000a35a8: fmov     d1, #1.00000000                               
+000a35c4: ldr      x19, [x8, #0x60]                              [0x37e060] SEL setTitleColor:forState:
+000a35ec: fcmp     d8, d9                                        
+000a35f0: fcsel    d0, d14, d10, mi                              
+000a3614: ldr      x24, [x8, #0x68]                              [0x37e068] SEL titleLabel
+000a362c: fmov     d2, #1.00000000                               
+000a3694: ldr      x19, [x8, #0x60]                              [0x37e060] SEL setTitleColor:forState:
+000a36bc: fcmp     d8, d9                                        
+000a36c0: fcsel    d0, d14, d12, mi                              
+000a36c4: fmov     d12, #1.00000000                              
+000a36e8: ldr      x24, [x8, #0x68]                              [0x37e068] SEL titleLabel
+
+[SECOND_LAYOUT_TAB] 0xa3730-0xa39f0
+000a3764: fadd     d0, d13, d12                                  
+000a37f8: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+000a3800: add      x2, x2, #0xfe8                                NSString 'TAB_LAYOUT'
+000a3840: ldr      x3, [x8, #0x70]                               [0x37e070] SEL switchToLayoutChooserMode
+000a386c: fmov     d2, #1.00000000                               
+000a38ec: fcmp     d8, d9                                        
+000a38f0: fmov     d0, #11.00000000                              
+000a38f4: fmov     d1, #10.00000000                              
+000a38f8: fcsel    d0, d1, d0, mi                                
+000a392c: ldr      x1, [x8, #0x9d0]                              [0x37d9d0] SEL clearColor
+000a3968: ldr      d0, [x8, #0x798]                              [0x311798] 
+000a396c: fmov     d1, #1.00000000                               
+000a39a8: fcmp     d8, d9                                        
+000a39ac: fmov     d0, #11.00000000                              
+000a39b0: fmov     d1, #10.00000000                              
+000a39b4: fcsel    d0, d1, d0, mi                                
+
+[THIRD_RECENT_TAB] 0xa3a00-0xa3d00
+000a3a50: fadd     d1, d13, d13                                  
+000a3a54: fadd     d0, d1, d12                                   
+000a3a58: fsub     d1, d15, d1                                   
+000a3a5c: fmov     d2, #-3.00000000                              
+000a3a60: fadd     d2, d1, d2                                    
+000a3ae8: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+000a3af0: add      x2, x2, #8                                    NSString 'TAB_RECENT'
+000a3b2c: ldr      x3, [x8, #0x78]                               [0x37e078] SEL switchToRecentMode
+000a3b58: fmov     d2, #1.00000000                               
+000a3bdc: fcmp     d8, d9                                        
+000a3be0: fmov     d0, #11.00000000                              
+000a3be4: fmov     d1, #10.00000000                              
+000a3be8: fcsel    d0, d1, d0, mi                                
+000a3c28: ldr      x1, [x8, #0x9d0]                              [0x37d9d0] SEL clearColor
+000a3c68: ldr      d0, [x8, #0x798]                              [0x311798] 
+000a3c6c: fmov     d1, #1.00000000                               
+000a3cac: fcmp     d8, d9                                        
+000a3cb0: fmov     d0, #11.00000000                              
+000a3cb4: fmov     d1, #10.00000000                              
+000a3cb8: fcsel    d0, d1, d0, mi                                
+
+VERDICT: the three segment buttons are state-dependent and share their parent layout. Replicate style at runtime from the existing UIButton and its selected/unselected siblings; do NOT guess colors, font weights, frame width or make a video overlay.
+NO DEB BUILT
