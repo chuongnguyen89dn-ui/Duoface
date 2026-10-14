@@ -74,6 +74,16 @@ static void DFRequestFullscreen(NSNumber *enabled) {
 }
 static void DFToggleFullscreen(void) { DFRequestFullscreen(nil); }
 
+// Diagnostic: constructor runs only if the dylib is actually injected into this process.
+__attribute__((constructor)) static void DFBridgeLoaded(void) {
+    NSLog(@"[DuoFaceFullscreen] LOADED process=%@ bundle=%@ DBApplicationVC=%d CBSlotPillView=%d DBRootStatusBarVC=%d DBDockRootVC=%d",
+          [NSProcessInfo processInfo].processName, [NSBundle mainBundle].bundleIdentifier,
+          objc_getClass("DBApplicationViewController") != Nil,
+          objc_getClass("CBSlotPillView") != Nil,
+          objc_getClass("DBRootStatusBarViewController") != Nil,
+          objc_getClass("DBDockRootViewController") != Nil);
+}
+
 // Fullscreen UI control will be bound after verifying the CarPlay host lifecycle.
 // Host controller is captured by its existing layout callback.
 // Bind the existing DuoFace fullscreen pill action to the host fullscreen bridge.
