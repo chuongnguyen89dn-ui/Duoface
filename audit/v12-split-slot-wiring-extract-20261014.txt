@@ -1,0 +1,276 @@
+00102ee0: nop                                                    
+00102ee4: ldr      d14, [x17, #0x918]                            [0x311918] 
+00102ee8: nop                                                    
+00102eec: ldr      d15, [x17, #0xaf0]                            [0x311af0] 
+00102ef0: add      x17, sp, #0x228                               
+00102ef4: add      x17, x17, #0x20                               
+00102ef8: fmov     d11, #1.00000000                              
+00102efc: ldr      x8, [x8, #0x800]                              [0x37e800] SEL initWithBundleIdentifier:
+00102f00: str      x8, [sp, #0xa8]                               
+00102f04: ldr      x28, [x9, #0x9b0]                             [0x37d9b0] SEL bounds
+00102f08: ldr      x8, [x10, #0xa10]                             [0x37da10] SEL setFrame:
+00102f0c: str      x8, [sp, #0x1a8]                              
+00102f10: ldr      x8, [x11, #0x808]                             [0x37e808] SEL initWithSlotIndex:
+00102f14: str      x8, [sp, #0x188]                              
+00102f18: ldr      x8, [x12, #0x958]                             [0x37e958] SEL setOnTap:
+00102f1c: str      x8, [sp, #0x98]                               
+00102f20: ldr      x9, [x13, #0x810]                             [0x37e810] SEL setShowsExpandButton:
+00102f24: ldr      x8, [x14, #0x960]                             [0x37e960] SEL setCompactMode:
+00102f28: stp      x8, x9, [sp, #0x80]                           
+00102f2c: ldr      x8, [x15, #0x120]                             [0x37e120] SEL bringSubviewToFront:
+00102f30: stp      x8, x17, [sp, #0x170]                         
+00102f34: ldr      x9, [x16, #0x820]                             [0x37e820] SEL setOnPillTapped:
+00102f38: adrp     x8, #0x37e000                                 
+00102f3c: ldr      x8, [x8, #0x828]                              [0x37e828] SEL setOnPillLongPressed:
+00102f40: stp      x8, x9, [sp, #0x70]                           
+00102f44: adrp     x8, #0x37e000                                 
+00102f48: ldr      x9, [x8, #0x970]                              [0x37e970] SEL setOnExpandTapped:
+00102f4c: nop                                                    
+00102f50: ldr      x8, [x8, #0x980]                              [0x37e980] SEL setOnRestoreTapped:
+00102f54: stp      x8, x9, [sp, #0x60]                           
+00102f58: adrp     x8, #0x37d000                                 
+00102f5c: ldr      x8, [x8, #0x568]                              [0x37d568] SEL length
+00102f60: str      x8, [sp, #0x58]                               
+00102f64: ldp      x0, x1, [sp, #0x1b0]                          
+00102f68: bl       #0x2ecd00                                     _objc_msgSend
+00102f6c: cmp      x24, x0                                       
+00102f70: b.hs     #0x1035ac                                     
+00102f74: ldr      x0, [sp, #0x1b0]                              
+00102f78: ldr      x1, [sp, #0x160]                              
+00102f7c: mov      x2, x24                                       
+00102f80: bl       #0x2ecd00                                     _objc_msgSend
+00102f84: mov      x29, x29                                      
+00102f88: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00102f8c: mov      x19, x0                                       
+00102f90: ldr      x1, [sp, #0x120]                              
+--
+00103b10: stp      x22, x21, [sp, #-0x30]!                       
+00103b14: stp      x20, x19, [sp, #0x10]                         
+00103b18: stp      x29, x30, [sp, #0x20]                         
+00103b1c: add      x29, sp, #0x20                                
+00103b20: mov      x19, x0                                       
+00103b24: add      x20, x0, #0x20                                
+00103b28: mov      x0, x20                                       
+00103b2c: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103b30: mov      x21, x0                                       
+00103b34: bl       #0x2ecd30                                     _objc_release
+00103b38: cbz      x21, #0x103b70                                
+00103b3c: mov      x0, x20                                       
+00103b40: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103b44: mov      x20, x0                                       
+00103b48: ldr      x2, [x19, #0x28]                              
+00103b4c: adrp     x8, #0x37e000                                 
+00103b50: ldr      x1, [x8, #0x968]                              [0x37e968] SEL focusSlot:animated:
+00103b54: mov      w3, #1                                        
+00103b58: bl       #0x2ecd00                                     _objc_msgSend
+00103b5c: mov      x0, x20                                       
+00103b60: ldp      x29, x30, [sp, #0x20]                         
+00103b64: ldp      x20, x19, [sp, #0x10]                         
+00103b68: ldp      x22, x21, [sp], #0x30                         
+00103b6c: b        #0x2ecd30                                     _objc_release
+00103b70: ldp      x29, x30, [sp, #0x20]                         
+00103b74: ldp      x20, x19, [sp, #0x10]                         
+00103b78: ldp      x22, x21, [sp], #0x30                         
+00103b7c: ret                                                    
+00103b80: stp      x20, x19, [sp, #-0x20]!                       
+00103b84: stp      x29, x30, [sp, #0x10]                         
+00103b88: add      x29, sp, #0x10                                
+00103b8c: add      x19, x0, #0x20                                
+00103b90: mov      x0, x19                                       
+00103b94: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103b98: mov      x20, x0                                       
+00103b9c: bl       #0x2ecd30                                     _objc_release
+00103ba0: cbz      x20, #0x103bd0                                
+00103ba4: mov      x0, x19                                       
+00103ba8: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103bac: mov      x19, x0                                       
+00103bb0: adrp     x8, #0x37e000                                 
+00103bb4: ldr      x1, [x8, #0x978]                              [0x37e978] SEL restoreSplitAnimated:
+00103bb8: mov      w2, #1                                        
+00103bbc: bl       #0x2ecd00                                     _objc_msgSend
+00103bc0: mov      x0, x19                                       
+00103bc4: ldp      x29, x30, [sp, #0x10]                         
+00103bc8: ldp      x20, x19, [sp], #0x20                         
+00103bcc: b        #0x2ecd30                                     _objc_release
+00103bd0: ldp      x29, x30, [sp, #0x10]                         
+00103bd4: ldp      x20, x19, [sp], #0x20                         
+00103bd8: ret                                                    
+00103bdc: stp      d9, d8, [sp, #-0x70]!                         
+00103be0: stp      x28, x27, [sp, #0x10]                         
+00103be4: stp      x26, x25, [sp, #0x20]                         
+00103be8: stp      x24, x23, [sp, #0x30]                         
+00103bec: stp      x22, x21, [sp, #0x40]                         
+00103bf0: stp      x20, x19, [sp, #0x50]                         
+00103bf4: stp      x29, x30, [sp, #0x60]                         
+--
+00103e5c: mov      x20, x0                                       
+00103e60: bl       #0x2ecd30                                     _objc_release
+00103e64: cbz      x20, #0x103ed4                                
+00103e68: mov      x0, x19                                       
+00103e6c: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103e70: mov      x20, x0                                       
+00103e74: adrp     x8, #0x37e000                                 
+00103e78: ldr      x1, [x8, #0x9b0]                              [0x37e9b0] SEL setSplashScreenView:
+00103e7c: mov      x2, #0                                        
+00103e80: bl       #0x2ecd00                                     _objc_msgSend
+00103e84: mov      x0, x20                                       
+00103e88: bl       #0x2ecd30                                     _objc_release
+00103e8c: mov      x0, x19                                       
+00103e90: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103e94: mov      x20, x0                                       
+00103e98: adrp     x8, #0x37e000                                 
+00103e9c: ldr      x1, [x8, #0x900]                              [0x37e900] SEL layoutSplitViews
+00103ea0: bl       #0x2ecd00                                     _objc_msgSend
+00103ea4: mov      x0, x20                                       
+00103ea8: bl       #0x2ecd30                                     _objc_release
+00103eac: mov      x0, x19                                       
+00103eb0: bl       #0x2eccf4                                     _objc_loadWeakRetained
+00103eb4: mov      x19, x0                                       
+00103eb8: adrp     x8, #0x37e000                                 
+00103ebc: ldr      x1, [x8, #0x9b8]                              [0x37e9b8] SEL startBlinkingSession
+00103ec0: bl       #0x2ecd00                                     _objc_msgSend
+00103ec4: mov      x0, x19                                       
+00103ec8: ldp      x29, x30, [sp, #0x10]                         
+00103ecc: ldp      x20, x19, [sp], #0x20                         
+00103ed0: b        #0x2ecd30                                     _objc_release
+00103ed4: ldp      x29, x30, [sp, #0x10]                         
+00103ed8: ldp      x20, x19, [sp], #0x20                         
+00103edc: ret                                                    
+--
+00103fd8: adrp     x8, #0x30f000                                 
+00103fdc: ldr      d1, [x8, #0xb18]                              [0x30fb18] 
+00103fe0: fmax     d0, d0, d1                                    
+00103fe4: nop                                                    
+00103fe8: ldr      d1, [x8, #0xb20]                              [0x30fb20] 
+00103fec: fmin     d0, d0, d1                                    
+00103ff0: adrp     x8, #0x37f000                                 
+00103ff4: ldrsw    x8, [x8, #0xe1c]                              
+00103ff8: str      d0, [x21, x8]                                 
+00103ffc: ldur     x8, [x29, #-0x90]                             
+00104000: adrp     x9, #0x344000                                 
+00104004: ldr      x9, [x9, #0x140]                              [0x344140] 
+00104008: ldr      x9, [x9]                                      
+0010400c: cmp      x9, x8                                        
+00104010: b.ne     #0x1044f4                                     
+00104014: adrp     x8, #0x37e000                                 
+00104018: ldr      x1, [x8, #0x900]                              [0x37e900] SEL layoutSplitViews
+0010401c: mov      x0, x21                                       
+00104020: add      sp, sp, #0x1b0                                
+00104024: ldp      x29, x30, [sp, #0x80]                         
+00104028: ldp      x20, x19, [sp, #0x70]                         
+0010402c: ldp      x22, x21, [sp, #0x60]                         
+00104030: ldp      x24, x23, [sp, #0x50]                         
+00104034: ldp      x26, x25, [sp, #0x40]                         
+00104038: ldp      x28, x27, [sp, #0x30]                         
+0010403c: ldp      d9, d8, [sp, #0x20]                           
+00104040: ldp      d11, d10, [sp, #0x10]                         
+00104044: ldp      d13, d12, [sp], #0x90                         
+00104048: b        #0x2ecd00                                     _objc_msgSend
+0010404c: sub      x8, x3, #3                                    
+00104050: cmp      x8, #1                                        
+00104054: b.hi     #0x104468                                     
+00104058: adrp     x8, #0x37f000                                 
+--
+0010420c: adrp     x8, #0x381000                                 
+00104210: ldr      x8, [x8, #0x648]                              [0x381648] 
+00104214: cmn      x8, #1                                        
+00104218: b.ne     #0x1044dc                                     
+0010421c: adrp     x8, #0x381000                                 
+00104220: ldr      x0, [x8, #0x640]                              [0x381640] 
+00104224: bl       #0x2ecd3c                                     _objc_retain
+00104228: mov      x1, x0                                        
+0010422c: str      x0, [x20, #0x638]                             
+00104230: str      x22, [sp, #8]                                 
+00104234: mov      x0, x23                                       
+00104238: mov      x2, #0                                        
+0010423c: mov      x3, #0                                        
+00104240: mov      w4, #1                                        
+00104244: bl       #0x2ec7d8                                     _CFNotificationCenterPostNotification
+00104248: adrp     x8, #0x37e000                                 
+0010424c: ldr      x1, [x8, #0x900]                              [0x37e900] SEL layoutSplitViews
+00104250: mov      x0, x21                                       
+00104254: bl       #0x2ecd00                                     _objc_msgSend
+00104258: movi     v0.16b, #0                                    
+0010425c: stp      q0, q0, [sp, #0x80]                           
+00104260: stp      q0, q0, [sp, #0x60]                           
+00104264: adrp     x8, #0x37f000                                 
+00104268: ldrsw    x27, [x8, #0xe24]                             
+0010426c: ldr      x0, [x21, x27]                                
+00104270: bl       #0x2ecd3c                                     _objc_retain
+00104274: mov      x24, x0                                       
+00104278: adrp     x8, #0x37d000                                 
+0010427c: ldr      x28, [x8, #0x898]                             [0x37d898] SEL countByEnumeratingWithState:objects:count:
+00104280: add      x2, sp, #0x60                                 
+00104284: add      x3, sp, #0x120                                
+00104288: mov      x1, x28                                       
+0010428c: mov      w4, #0x10                                     
+--
+00104754: ldr      x8, [x8, #0x120]                              [0x37e120] SEL bringSubviewToFront:
+00104758: str      x8, [sp, #0xc8]                               
+0010475c: adrp     x8, #0x37d000                                 
+00104760: ldr      x8, [x8, #0x420]                              [0x37d420] SEL bundleIdentifier
+00104764: stp      x8, x9, [sp, #0x60]                           
+00104768: adrp     x8, #0x37d000                                 
+0010476c: ldr      x9, [x8, #0x568]                              [0x37d568] SEL length
+00104770: adrp     x8, #0x37e000                                 
+00104774: ldr      x8, [x8, #0x2c0]                              [0x37e2c0] SEL refreshSceneLayout
+00104778: stp      x8, x9, [sp, #0x28]                           
+0010477c: adrp     x8, #0x37d000                                 
+00104780: ldr      x9, [x8, #0xf00]                              [0x37df00] SEL setNeedsLayout
+00104784: nop                                                    
+00104788: ldr      x8, [x8, #0xe70]                              [0x37de70] SEL isHidden
+0010478c: stp      x8, x9, [sp, #0x38]                           
+00104790: adrp     x8, #0x37e000                                 
+00104794: ldr      x9, [x8, #0x9f0]                              [0x37e9f0] SEL setFocusedMode:
+00104798: nop                                                    
+0010479c: ldr      x8, [x8, #0x960]                              [0x37e960] SEL setCompactMode:
+001047a0: stp      x8, x9, [sp, #0x50]                           
+001047a4: adrp     x8, #0x37f000                                 
+001047a8: adrp     x9, #0x37f000                                 
+001047ac: fmov     d11, #1.00000000                              
+001047b0: adrp     x10, #0x311000                                
+001047b4: ldr      d12, [x10, #0xa90]                            [0x311a90] 
+001047b8: nop                                                    
+001047bc: ldr      d13, [x10, #0x798]                            [0x311798] 
+001047c0: adrp     x10, #0x30f000                                
+001047c4: ldr      d14, [x10, #0xaf8]                            [0x30faf8] 
+001047c8: adrp     x10, #0x311000                                
+001047cc: ldr      d15, [x10, #0x708]                            [0x311708] 
+001047d0: ldrsw    x22, [x8, #0xe34]                             
+001047d4: ldrsw    x26, [x9, #0xe24]                             
+--
+00104f64: adrp     x8, #0x37e000                                 
+00104f68: ldr      x10, [x8, #0x9e8]                             [0x37e9e8] SEL setAudioOnlyBackgroundMode:
+00104f6c: adrp     x8, #0x37d000                                 
+00104f70: ldr      x8, [x8, #0x420]                              [0x37d420] SEL bundleIdentifier
+00104f74: stp      x8, x10, [sp, #0x50]                          
+00104f78: adrp     x8, #0x37d000                                 
+00104f7c: ldr      x10, [x8, #0x568]                             [0x37d568] SEL length
+00104f80: adrp     x8, #0x37e000                                 
+00104f84: ldr      x8, [x8, #0x2b8]                              [0x37e2b8] SEL updateLayout
+00104f88: stp      x8, x10, [sp, #8]                             
+00104f8c: adrp     x8, #0x37d000                                 
+00104f90: ldr      x10, [x8, #0xf00]                             [0x37df00] SEL setNeedsLayout
+00104f94: nop                                                    
+00104f98: ldr      x8, [x8, #0xe70]                              [0x37de70] SEL isHidden
+00104f9c: stp      x8, x10, [sp, #0x18]                          
+00104fa0: adrp     x8, #0x37e000                                 
+00104fa4: ldr      x10, [x8, #0x810]                             [0x37e810] SEL setShowsExpandButton:
+00104fa8: nop                                                    
+00104fac: ldr      x8, [x8, #0x9f0]                              [0x37e9f0] SEL setFocusedMode:
+00104fb0: stp      x8, x10, [sp, #0x40]                          
+00104fb4: adrp     x8, #0x37e000                                 
+00104fb8: ldr      x8, [x8, #0x960]                              [0x37e960] SEL setCompactMode:
+00104fbc: str      x8, [sp, #0x38]                               
+00104fc0: ldr      x21, [x21, #0x620]                            
+00104fc4: adrp     x8, #0x311000                                 
+00104fc8: ldr      d9, [x8, #0xa90]                              [0x311a90] 
+00104fcc: nop                                                    
+00104fd0: ldr      d11, [x8, #0x798]                             [0x311798] 
+00104fd4: adrp     x8, #0x30f000                                 
+00104fd8: ldr      d12, [x8, #0xaf8]                             [0x30faf8] 
+00104fdc: adrp     x8, #0x311000                                 
+00104fe0: ldr      d13, [x8, #0x708]                             [0x311708] 
+00104fe4: nop                                                    
+00104fe8: ldr      d0, [x8, #0xaf0]                              [0x311af0] 
+00104fec: str      d0, [sp, #0x30]                               
