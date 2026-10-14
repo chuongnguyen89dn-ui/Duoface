@@ -163,15 +163,21 @@ static void DFLayoutPicker(UIView *overlay) {
     // Resize the parent itself, rather than pushing child buttons outside it.
     CGRect nativeMenuFrame=parent.frame;
     CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
+    // The logo PNG is 4:1 but it MUST NOT consume a quarter of the
+    // sheet width in vertical space. That caused the giant header seen on
+    // the installed red2 photo, pushing native Style cards to the bottom.
+    // Its ROW spans the same usable width as the 40pt menu; the PNG itself
+    // is aspect-fit inside a compact header (no stretching/cropping).
+    const CGFloat menuHeight=40.0;
     CGFloat logoTop=CGRectGetMinY(contentView.bounds)+4.0;
-    CGFloat safeHeight=CGRectGetHeight(contentView.bounds)-40.0-90.0-12.0;
-    CGFloat logoHeight=MIN(width/4.0,MAX(16.0,safeHeight));
+    CGFloat safeHeight=CGRectGetHeight(contentView.bounds)-menuHeight-90.0-12.0;
+    CGFloat logoHeight=MIN(width/4.0,menuHeight);
+    logoHeight=MIN(logoHeight,MAX(16.0,safeHeight));
     CGFloat logoLeft=sideInset;
     CGRect logoFrame=DFNativeHeaderLogoFrame(overlay,contentView,logoLeft,
                                              logoLeft+width,logoTop,logoHeight);
     CGFloat menuTop=CGRectIsNull(logoFrame)?CGRectGetMinY(nativeMenuFrame):
                     CGRectGetMaxY(logoFrame)+4.0;
-    const CGFloat menuHeight=40.0;
     CGRect menuFrame=parent.frame;
     menuFrame.origin.x=sideInset;
     menuFrame.origin.y=menuTop;
