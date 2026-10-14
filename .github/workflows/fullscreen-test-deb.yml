@@ -14,7 +14,8 @@ jobs:
       - name: Prepare Theos
         run: |
           git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
-          if [ -z "$(find "$RUNNER_TEMP/theos/sdks" -maxdepth 1 -name "*.sdk" -print -quit 2>/dev/null)" ]; then\n            rm -rf "$RUNNER_TEMP/theos/sdks"\n            git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"\n          fi
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
       - name: Compile bridge
         run: |
