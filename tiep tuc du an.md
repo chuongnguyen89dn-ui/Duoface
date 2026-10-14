@@ -1640,3 +1640,11 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Exact error: `fatal: destination path '/Users/runner/work/_temp/theos/sdks' already exists and is not an empty directory.` exit 128. Cause: `git clone --recursive` of Theos already creates sdks dir; next unconditional clone to same path fails.
 - Updated `.github/workflows/fullscreen-test-deb.yml`: check whether any `*.sdk` is present; only remove/reclone sdks if none. Commit `77107e18da06adde4685602b30a0455f2bd18d6f`, GitHub readback verified.
 - A new push-triggered run should start because workflow path is included in push paths; **not yet verified build success or artifact**. Next: inspect new run, correct compile/package errors as needed; do not claim DEB available before artifact verified.
+
+
+### 2026-10-14 — Fullscreen CI run 38412232084 Bash syntax failure
+- Inspected run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38412232084, job 115347249787, `Prepare Theos` failed exit 2; compile and package skipped.
+- Exact log: `/Users/runner/work/_temp/75d23b59-306a-4d80-a747-11143006f250.sh: line 4: syntax error: unexpected end of file`.
+- Cause: previous workflow fix stored literal `\\n` text within shell `if` command instead of real newlines, producing incomplete Bash syntax.
+- Fixed `.github/workflows/fullscreen-test-deb.yml` by replacing malformed conditional with two real shell lines (`rm -rf .../sdks`, then `git clone .../sdks`); commit `89af2af305b81dd15498f30116cc4121fc820d84`, readback verified.
+- Still no verified green run or DEB artifact. Next inspect run triggered by this commit, resolve next errors, verify package contains compiled bridge and preserves v12.
