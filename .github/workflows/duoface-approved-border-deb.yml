@@ -47,6 +47,7 @@ jobs:
           set -euo pipefail
           BASE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
           test -s "$BASE"
+          test ! -e dist/candidates/border-focus-red2/com.duonavi.app_1.0.3-12_border-focus-red2_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
           mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/border-focus-red2
           dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
           ROOT="$RUNNER_TEMP/duoface-approved"
@@ -58,13 +59,13 @@ jobs:
           cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
           python3 - <<'PY'
           from pathlib import Path
-          import os,re,hashlib,plistlib
+          import os,re,hashlib,plistlib,subprocess
           root=Path(os.environ['RUNNER_TEMP'])/'duoface-approved'
           base=Path('dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb')
           logo=root/'var/jb/Library/Application Support/DuoFace/duoface-logo.png'
           assert hashlib.sha256(logo.read_bytes()).hexdigest()=='78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
           native=root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'
-          assert native.stat().st_size>100000
+          assert hashlib.sha256(native.read_bytes()).hexdigest()=='bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce'
           control=root/'DEBIAN/control'
           ctl=control.read_text()
           ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+border-focus-red2',ctl)
@@ -72,6 +73,23 @@ jobs:
           for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
             assert dylib.read_bytes()[:4] in [bytes.fromhex('cffaedfe'),bytes.fromhex('cafebabe')]
+            symbols=subprocess.run(['strings',str(dylib)],text=True,capture_output=True,check=True).stdout
+            required=(['Zoom In','Zoom Out','Close App','CBMultitaskingOverlayView']
+                      if name=='DuoFaceFullscreenBridge' else
+                      ['[DuoFaceBorder] install','[DuoFaceBorder] START','dfStart','dfEnd','borderPulse'])
+            assert all(token in symbols for token in required),(name,required)
+            filter_file=dylib.with_suffix('.plist')
+            assert filter_file.exists(),name
+            flt=plistlib.loads(filter_file.read_bytes())['Filter']
+            assert 'com.apple.springboard' in [b.lower() for b in flt.get('Bundles',[])],name
+          md5=root/'DEBIAN/md5sums'
+          if md5.exists():
+            entries=[]
+            for p in sorted(root.rglob('*')):
+              rel=p.relative_to(root)
+              if p.is_file() and not p.is_symlink() and rel.parts[0]!='DEBIAN':
+                entries.append(hashlib.md5(p.read_bytes()).hexdigest()+'  '+str(rel))
+            md5.write_text('\n'.join(entries)+'\n')
           print('BASE_SHA256',hashlib.sha256(base.read_bytes()).hexdigest())
           print('LATEST_BRIDGE_SHA256',hashlib.sha256((root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib').read_bytes()).hexdigest())
           print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
