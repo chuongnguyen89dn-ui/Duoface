@@ -18,8 +18,8 @@ static BOOL DFSendBool(id obj, NSString *name, BOOL value) {
     return YES;
 }
 static void DFApplyFullscreen(BOOL enable) {
-    UIViewController *host = DFHostController;
-    if (!host || !host.view || !host.view.superview) {
+    UIViewController *host = DFScene ?: DFHostController;
+    if ((enable && !DFVisible) || !host || !host.view || !host.view.superview) {
         NSLog(@"[DuoFaceFullscreen] host unavailable; no change");
         return;
     }
@@ -143,4 +143,46 @@ static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
 %hook CARApplicationSceneViewController
 - (void)viewDidAppear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, YES); }
 - (void)viewDidDisappear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, NO); }
+%end
+
+@interface DFBarAction : NSObject
++ (instancetype)shared;
+- (void)pressed:(id)sender;
+@end
+@implementation DFBarAction
++ (instancetype)shared {
+    static DFBarAction *instance;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ instance = [DFBarAction new]; });
+    return instance;
+}
+- (void)pressed:(id)sender { if (DFVisible) DFToggleFullscreen(); }
+@end
+static void DFInstallBar(UIViewController *host) {
+    if (!host || !host.view) return;
+    UIButton *button = (UIButton *)[host.view viewWithTag:871204];
+    if (!button) {
+        button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.tag = 871204;
+        button.frame = CGRectMake(MAX(0, CGRectGetWidth(host.view.bounds) - 50), 2, 44, 44);
+        button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        button.tintColor = UIColor.whiteColor;
+        if (@available(iOS 13.0, *)) {
+            [button setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"] forState:UIControlStateNormal];
+        }
+        [button addTarget:[DFBarAction shared] action:@selector(pressed:) forControlEvents:UIControlEventTouchUpInside];
+        [host.view addSubview:button];
+        NSLog(@"[DuoFaceFullscreen] bar installed %@", NSStringFromClass(host.class));
+    }
+    DFBarButton = button;
+    DFUpdateButton();
+}
+%hook DBRootStatusBarViewController
+- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
+%end
+%hook CARRootStatusBarViewController
+- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
+%end
+%hook DBDockRootViewController
+- (void)viewDidLayoutSubviews { %orig; DFInstallBar((UIViewController *)self); }
 %end
