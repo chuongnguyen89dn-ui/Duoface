@@ -41,7 +41,7 @@ static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *f
     }
     icon.image=image;
     icon.tintColor=b.tintColor;
-    icon.frame=CGRectMake((CGRectGetWidth(b.bounds)-16)/2.0,3,16,16);
+    icon.frame=CGRectMake((CGRectGetWidth(b.bounds)-16)/2.0,1,16,16);
     [b setImage:nil forState:UIControlStateNormal];
     if (font) b.titleLabel.font=font;
     b.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
@@ -67,8 +67,8 @@ static UIImage *DFPickerApprovedHeaderLogo(void) {
         @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
     return image;
 }
-// Reuse the installed 960x240 DuoFace artwork. Equal outer bounds are critical:
-// both logo row and 4-column menu span [leftEdge, rightEdge].
+// Reuse the approved 960x240 artwork in a compact leading menu slot.
+// The logo stays on the SAME row as four native menu buttons.
 static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
                                       CGFloat leftEdge, CGFloat rightEdge,
                                       CGFloat rowTop, CGFloat rowHeight) {
@@ -87,7 +87,7 @@ static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
         return CGRectNull;
     }
     CGFloat width=rightEdge-leftEdge;
-    if (!isfinite(width) || width<100.0 || !isfinite(rowTop) ||
+    if (!isfinite(width) || width<32.0 || !isfinite(rowTop) ||
         !isfinite(rowHeight) || rowHeight<16.0) {
         title.hidden=NO;
         return CGRectNull;
@@ -100,8 +100,8 @@ static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
     title.hidden=YES;
     return target;
 }
-// The v12 native content views are laid out for 22/26pt tabs. The 40pt
-// stacked row takes more space: move only content starting below those tabs,
+// The v12 native content views are laid out for 22/26pt tabs. The 30pt
+// single row takes a few more points: move only overlapping content below,
 // leaving the native header, X, buttons, callbacks, and sheet untouched.
 static void DFReflowPickerContent(UIView *parent, UIView *overlay,
                                   NSArray<UIView *> *menuButtons,
@@ -147,51 +147,42 @@ static void DFLayoutPicker(UIView *overlay) {
     } else if (zoom.superview!=parent) {
         [zoom removeFromSuperview]; [parent addSubview:zoom];
     }
-    // The native three-segment row occupies only part of the picker sheet.
-    // Dividing that small native width into four caused col<53 and left Zoom
-    // at CGRectZero (invisible). Use the actual sheet content width instead.
+    // 2026-10-14 owner override: ONE native-height ROW, not a giant 2-row
+    // logo banner. Leftmost slot = the approved horizontal DuoFace logo;
+    // four equally wide native App / Zoom / Style / Close App slots follow.
     CGFloat sheetWidth=CGRectGetWidth(contentView.bounds);
     if (!isfinite(sheetWidth) || sheetWidth<148.0) {
         NSLog(@"[DuoFaceFullscreen] picker sheet width invalid %.1f",sheetWidth);
         return;
     }
-    CGFloat sideInset=8.0;
-    CGFloat left=0.0;
-    CGFloat width=sheetWidth-2.0*sideInset;
-    CGFloat col=width/4.0;
-    // Native menu background is only 22/26pt tall and clips its children.
-    // Resize the parent itself, rather than pushing child buttons outside it.
+    const CGFloat menuHeight=30.0;
+    const CGFloat sideInset=8.0;
+    CGFloat usableWidth=sheetWidth-2.0*sideInset;
+    CGFloat col=usableWidth/5.0;
+    CGFloat logoSlotWidth=col; // Never bigger than one icon+label menu item.
+    CGFloat menuWidth=4.0*col;
     CGRect nativeMenuFrame=parent.frame;
     CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
-    // The logo PNG is 4:1 but it MUST NOT consume a quarter of the
-    // sheet width in vertical space. That caused the giant header seen on
-    // the installed red2 photo, pushing native Style cards to the bottom.
-    // Its ROW spans the same usable width as the 40pt menu; the PNG itself
-    // is aspect-fit inside a compact header (no stretching/cropping).
-    const CGFloat menuHeight=40.0;
-    CGFloat logoTop=CGRectGetMinY(contentView.bounds)+4.0;
-    CGFloat safeHeight=CGRectGetHeight(contentView.bounds)-menuHeight-90.0-12.0;
-    CGFloat logoHeight=MIN(width/4.0,menuHeight);
-    logoHeight=MIN(logoHeight,MAX(16.0,safeHeight));
-    CGFloat logoLeft=sideInset;
-    CGRect logoFrame=DFNativeHeaderLogoFrame(overlay,contentView,logoLeft,
-                                             logoLeft+width,logoTop,logoHeight);
-    CGFloat menuTop=CGRectIsNull(logoFrame)?CGRectGetMinY(nativeMenuFrame):
-                    CGRectGetMaxY(logoFrame)+4.0;
-    CGRect menuFrame=parent.frame;
-    menuFrame.origin.x=sideInset;
+    CGFloat menuTop=CGRectGetMinY(nativeMenuFrame);
+    // Reuse the exact 960x240 approved asset, aspect-fit into the left slot.
+    // Reposition the existing _headerIcon; hide its old native title.
+    DFNativeHeaderLogoFrame(overlay,contentView,sideInset,
+                            sideInset+logoSlotWidth,menuTop,menuHeight);
+    CGRect menuFrame=nativeMenuFrame;
+    menuFrame.origin.x=sideInset+logoSlotWidth;
     menuFrame.origin.y=menuTop;
-    menuFrame.size.width=width;
+    menuFrame.size.width=menuWidth;
     menuFrame.size.height=menuHeight;
     parent.frame=menuFrame;
     parent.backgroundColor=UIColor.clearColor;
     parent.layer.cornerRadius=0.0;
     parent.layer.borderWidth=0.0;
-    // Its children still receive taps through the original native container.
-    app.frame=CGRectMake(left,0,col,menuHeight);
-    zoom.frame=CGRectMake(left+col,0,col,menuHeight);
-    style.frame=CGRectMake(left+2*col,0,col,menuHeight);
-    close.frame=CGRectMake(left+3*col,0,col,menuHeight);
+    // Keep native button objects, targets and actions, only resize their frames.
+    app.frame=CGRectMake(0,0,col,menuHeight);
+    zoom.frame=CGRectMake(col,0,col,menuHeight);
+    style.frame=CGRectMake(2*col,0,col,menuHeight);
+    close.frame=CGRectMake(3*col,0,col,menuHeight);
+    // Native cards/grid need at most the 30pt row's small extra height.
     DFReflowPickerContent(contentView,overlay,@[parent],
                           nativeBottom,menuTop+menuHeight+2.0);
     // Preserve the native font weight; only set approved 10pt size.
