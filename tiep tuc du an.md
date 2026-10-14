@@ -1717,3 +1717,8 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Package `com.duonavi.app_1.0.3-12_fullscreen-test1_iphoneos-arm64.deb`, SHA256 `d67f2bda5909e812c6589b642b0ad5b4ce9414a27210ccade06e334342e95ab6` (build log). Existing `DuoFaceDashboard.dylib` 7,540,464 bytes, new `DuoFaceFullscreenBridge.dylib` 69,120 bytes and bridge plist 1,213 bytes listed in DEB.
 - Uploaded artifact `duoface-fullscreen-test1` ID `11866376350`, ZIP size 2,036,342 bytes, ZIP SHA256 `1b2a3833e2f6b0489e58d7c92abdbd50b44ffe1a3e3a7b261815cb93b7187fc7`, download https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38501704384/artifacts/11866376350.
 - Next: user installs test DEB and confirms whether button appears, can toggle fullscreen/restore, and original split/swap works. Fullscreen behavior not verified on device; button is separate top-right overlay, NOT yet integrated into existing round logo cluster. Do not publish to Sileo.
+
+
+### 2026-10-14 — Screenshot confirms new fullscreen button not visible
+- User supplied photo of live CarPlay showing DuoFace split-screen video+map. The new `⛶` overlay from build run `38501704384` is not visible. The diagonal-arrow control inside video is player-level maximize, not confirmed whole-CarPlay fullscreen. Treat visible-toggle test as FAILED on device; do not instruct user to click a nonexistent button.
+- Likely integration point `DBApplicationViewController.viewDidLayoutSubviews` or its view hierarchy is incorrect/unreached, but root cause not proven without runtime logs or binary/UI inspection. Next inspect actual v12 dashboard UI symbols and target view/control, add diagnostic log or attach control to verified live container, rebuild and retest. Preserve original v12 and no Sileo release.
