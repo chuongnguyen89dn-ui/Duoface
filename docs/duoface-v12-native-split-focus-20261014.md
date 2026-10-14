@@ -51,3 +51,11 @@ Binary: DuoFaceDashboard.dylib, SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df801
 5. Giữ v12, split ratio/picker của 3 tab, day data, package ID và giao diện khác. Không thay source runtime trong bước nghiên cứu này.
 
 **Trạng thái:** phân tích native callchain DONE bằng SHA/hash & CI; CHƯA patch runtime, CHƯA đóng DEB, CHƯA test CarPlay với menu 4 tab. Giữ checkpoint này làm nguồn tiếp nối, không quay về lập luận sai “không thể thu nhỏ chỉ vì picker menu biến mất”.
+
+
+## Bổ sung truy nguyên khác biệt giữa pill và menu
+
+- Block **onPillTapped** tại **0x103A78** (được gắn gần **0x103454–0x10345C**) lấy CBBridgeManager.sharedInstance, truyền slotIndex captured tại offset +0x20 vào **showAppPickerForSlot:** ở **0x103AB0–0x103AB4**.
+- CBBridgeManager.showAppPickerForSlot: IMP **0x27FEE4** kiểm tra currentApp có phải CBBridgedSplitApp; nếu đang có focusedSlotIndex hợp lệ thì **restoreSplitAnimated:NO** (0x27FF80), tiếp đến gọi CBWindow.showAppPickerForSlot: (0x27FFDC). Nói cách khác, **nút “...” trên từng pill mới là lối mở picker**, còn nút Phóng to/Thu nhỏ gốc thuộc **cùng pill của từng pane**, không phải một trong ba nút tab của picker.
+- Vì vậy mô tả người dùng “menu biến mất khi phóng lớn nhưng vẫn nhấn lại được nút thu nhỏ” phù hợp với **lifecycle khác nhau** của 2 nhóm view: CBSlotPillView là điều khiển slot, CBMultitaskingOverlayView là menu tạm. Không được đổ lỗi chỉ cho menu ẩn và đề xuất gesture vuốt nếu chưa nghiên cứu đúng slot-pill.
+- Native toggleFocusForSlot: có thể được dùng làm logic tham chiếu hoặc đưa vào action của UI mới, nhưng **không phải** host fullscreen của adapter Airaw. Việc nhân bản UI tab picker mà không có cơ chế giữ hit target khi overlay đóng vẫn là rủi ro kỹ thuật độc lập.
