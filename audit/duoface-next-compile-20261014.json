@@ -1,8 +1,8 @@
 {
-  "source_commit": "0e741b98f88bb452c2f829f721ae4698ea2e94af",
+  "source_commit": "0ba90cdcaceb8e5fe5294733000974b5c9cb2731",
   "status": "COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS",
-  "bridge_sha256": "e785ced567f584517583d7ac58dc1162913adb4f04742c0c34bacfe25a35ebbb",
-  "visual_hook_sha256": "3947fe6bff7fb1545fdd8fbf1e80de72b921ba72851035c4ae6550177eb7d50b",
+  "bridge_sha256": "20129bbe423a36a5932913eb917e8e19dd190c0c34d18df86bf0d955999d9c40",
+  "visual_hook_sha256": "692d1ecfe9e2753cfd9a5a13b4382653fd121525da3752e058def990c18c8d0d",
   "menu_markers": {
     "Zoom In": true,
     "Zoom Out": true,
@@ -11,15 +11,16 @@
     "com.duoface.fullscreen.picker.v1": true
   },
   "border_markers": {
-    "[DuoFaceBorder] START": true,
+    "[DuoFaceBorder] RED ON user activity": true,
+    "[DuoFaceBorder] RED OFF native idle": true,
     "[DuoFaceBorder] install": true,
     "borderPulse": true,
-    "dfStart": true,
-    "dfEnd": true,
     "CBBridgedSplitApp": true
   },
-  "approved_menu_height_pt": 40,
+  "approved_menu_height_pt": 30,
+  "logo_inline_with_menu": true,
   "border_logo_red": "#E3020F",
+  "border_behavior": "red_on_native_activity_clear_on_native_idle",
   "deb_built": false,
   "sileo_published": false
 }
