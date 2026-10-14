@@ -1759,3 +1759,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 ### 2026-10-14 — Airaw button accessor verified
 - Local disassembly of original Airaw 1.7.1k shows fullscreenBtn injected into DBDockRootViewController and DBRootStatusBarViewController. Implementations 0x136fc/0x13708 and 0x13844/0x13850 call objc_getAssociatedObject / objc_setAssociatedObject, respectively: these are property accessors, NOT the button press handler.
 - Need follow uses of fullscreenBtn getter and UIControl addTarget or gesture selector. No handler confirmed, no DuoFace build.
+
+
+### 2026-10-14 — Focused Airaw fullscreen button: third controller fallback
+- Re-opened original `/mnt/data/com.999.airaw_1.7.1k_iphoneos-arm64.deb`, extracted `Airaw.dylib` and existing full disassembly `/mnt/data/airaw_button_disasm_20261014.txt`.
+- At disassembly `0x15ca0–0x15d60`, code resolves `CARRootStatusBarViewController` and adds `fullscreenBtn` property with `_class_addProperty`, then two `_class_addMethod` calls; this is an additional compatibility fallback beyond `DBDockRootViewController` and `DBRootStatusBarViewController`.
+- Binary contains `addTarget:action:forControlEvents:` and `requestFullscreenToggle`/`toggleFullscreen` selectors, but no verified callsite linking fullscreenBtn to action yet. Accessor registrations are not touch handlers. Next identify target/action registration from controller hooks and confirm handler before any DuoFace modification.
+- No DuoFace code change, build, or device test in this checkpoint.
