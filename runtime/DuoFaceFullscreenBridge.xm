@@ -107,18 +107,5 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 @end
 
 
-// Bind to DuoFace v12's known expand/restore controls without altering their
-// button target-action lists. The fullscreen bridge runs after the original
-// action so the original split-pane behavior is preserved by default.
-// For whole-host fullscreen, the user can reverse this order if device tests
-// show the original per-pane animation conflicts with host layout.
-%hook CBSlotPillView
-- (void)expandTapped:(id)sender {
-    %orig;
-    dispatch_async(dispatch_get_main_queue(), ^{ DFRequestFullscreen(@YES); });
-}
-- (void)restoreTapped:(id)sender {
-    %orig;
-    dispatch_async(dispatch_get_main_queue(), ^{ DFRequestFullscreen(@NO); });
-}
-%end
+// Split-pill actions deliberately remain untouched. Fullscreen must be triggered
+// exclusively by the future top CarPlay status-bar control while DuoFace is visible.
