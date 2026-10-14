@@ -219,6 +219,9 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   CFSTRING addr=0x351388 target=0x300a0a flags=0x7c8 value='2 Apps Horizontal (Haut / Bas)'
   CFSTRING addr=0x3513a8 target=0x300a29 flags=0x7c8 value='3 Colonnes (3 Apps)'
   CFSTRING addr=0x351448 target=0x300abf flags=0x7c8 value='4 Apps (Grille 2x2)'
+  CFSTRING addr=0x3673c8 target=0x339dda flags=0x7d0 value='Ứng dụng'
+  CFSTRING addr=0x368208 target=0x33b6d6 flags=0x7d0 value='Bố cục'
+  CFSTRING addr=0x368228 target=0x33b6e4 flags=0x7d0 value='Đang mở'
 === MATCHING ASCII/UTF8 STRING TABLE VALUES ===
   __cstring addr=0x2fb405 value='[DuoFace] Initializing App hooks for target app: %@'
   __cstring addr=0x2fb779 value='TAB_APPLICATIONS'
@@ -521,6 +524,8 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   __ustring match_index=2441 value='3 ứng dụng chia 3 cột'
   __ustring match_index=2446 value='4 ứng dụng chia đều 4 ô'
   __ustring match_index=2447 value='Bố cục đa nhiệm'
+  __ustring match_index=2469 value='Bố cục'
+  __ustring match_index=2470 value='Đang mở'
 COUNTS {'cfstring': 536, 'cstring': 446, 'ustring': 195}
 RESOURCE ./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist length=1446
 FILE ./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib size=77744
