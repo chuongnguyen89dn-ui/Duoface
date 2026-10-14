@@ -2510,3 +2510,12 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 - Adapter compile workflow **38549177453**, URL https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38549177453, job **115802641289**: đang `in_progress` (Prepare Theos). Hai workflow tự kích hoạt bởi commit source.
 - Expected artifact nếu build thành công: `dist/candidates/menu-zoom1/com.duonavi.app_1.0.3-12_menu-zoom1_iphoneos-arm64.deb`; đây là **đường dẫn kỳ vọng, chưa xác nhận tồn tại**. Sileo không thay đổi.
 - Bước tiếp: kiểm tra run 38549177499 + 38549177453, nếu fail lấy lỗi build thật và sửa; nếu PASS kiểm hash/đường dẫn candidate, đối chiếu DEB đóng gói không chứa UI adapter2 cũ, lưu kết quả và đưa user test menu trên CarPlay (chưa có device PASS).
+
+
+### 2026-10-14 — CI đầu tiên FAIL; sửa đúng lỗi, đang verify lượt sau
+- Run **38549177499** (job **115802641570**): `completed/failure` tại `Compile bridge`, GitHub log nguyên văn:
+  `runtime/fullscreen/DFPickerZoomMenu.xm:104:184: error: function definition is not allowed here`; `runtime/fullscreen/DFPickerZoomMenu.xm:118:2: error: expected '}'`. **Nguyên nhân:** hai hook Logos viết một dòng có `%orig;` dẫn đến preprocess không khép ngoặc; không phải bug thao tác Zoom thiết bị.
+- Đã sửa source `runtime/fullscreen/DFPickerZoomMenu.xm` dùng thân method nhiều dòng chuẩn Logos, commit **52d96522eb0c09cccbe75cc16162d239e7ae2358**. Actions compile DEB chạy lại **38549419459**; workflow compile-check khác **38549419223**. Ở lần kiểm tra gần nhất cả hai `in_progress`, chưa kết luận.
+- Run **38549177453** (job **115802641289**): `completed/failure` do **linker** `Undefined symbols for architecture arm64: _DFInstallPickerZoomMenuHooks, _DFPickerZoomMenuRefresh`; vì `Makefile.fullscreen-adapter-check` cũ vẫn link `DFStatusBarControl.xm DFRestoreMenu.mm`, thiếu `DFPickerZoomMenu.xm`.
+- Đã sửa Makefile audit/check không còn link UI cũ mà link `DFPickerZoomMenu.xm`, commit **9f8ce9e58f9cad50079b9ec7e5ed96ea3fb62713**; run mới **38549495151** (`in_progress` lần kiểm tra cuối). DEB workflow đã link module mới chính xác từ commit 05a28f6; file check cũ chỉ gây fail riêng trong compile-check.
+- **Chưa có** binary `menu-zoom1` xác nhận, chưa Sileo, chưa device test. Tiếp tục theo dõi 38549419459 và 38549495151, đọc lỗi cụ thể nếu fail, lưu SHA256/CI+artifact nếu PASS. Tránh re-analyze fullscreen gốc.
