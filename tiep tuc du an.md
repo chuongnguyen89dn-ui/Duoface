@@ -1921,3 +1921,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Same installer registers `NSDistributedNotificationCenter` observer (`0x14e50`), block callback `0x14e70`. The callback retrieves the stored button (`0x14ea4–0x14eb4`), branches on notification name (`0x14ebc–0x14f10`), sets hidden state (`0x14fa4–0x14fac`) and updates stored visibility property (`0x14fc4–0x14fe8`). This establishes a button state machine driven by cross-process notifications rather than a fixed always-on control.
 - The three host controller hook implementations all call the installer, but actual on-device class availability and app-specific notifications still need verification. The target DuoFace behavior remains: top status-bar button only when DuoFace app scene is active; hide on Home, restore when leaving, leave split pill untouched.
 - No new code or DEB build in this step; continue tracing scene notifications/identity and implement guarded status bar hook.
+
+
+### 2026-10-14 — User mandates complete Airaw mechanism, not cosmetic button
+- User explicitly rejects adding a standalone button without full event/scene/fullscreen wiring; wants transplant of Airaw's verified behavior into DuoFace. Must integrate app-scene lifecycle, top bar button, state notifications, frame/chrome save/restore as one unit.
+- Verified local original `Airaw.dylib` disassembly `0x14c94–0x14dcc`: guard existing fullscreenBtn, create control, init CGRect, attach UIControl touch-up-inside, addSubview to status bar controller.view, save reference. `0x14e50` registers distributed notification state observer, `0x14e70` reacts to visibility/state changes. `0x1499c` wraps original controller initializer and forwards to installer. This alone does not establish full app-identity gating or exact fullscreen frame behavior.
+- Current repo bridge has only a host frame hack and no top bar button; do not claim ready or build cosmetic-only DEB. Next implementation must target real scene identity and correct status bar class, then compile and test; do not touch CBSlotPillView.
+- No source modification or new DEB in this checkpoint.
