@@ -2598,3 +2598,8 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 ### 2026-10-14 — PROPOSAL (not approved): vertical icon/label menu 64pt
 - Đề xuất để người dùng duyệt, **chưa chốt/triển khai**: hàng menu cao **64 pt**, icon outline **22×22 pt**, font **11 pt**, cách icon–chữ **6 pt**, padding dọc khoảng **9–10 pt**, mỗi mục chiếm **1/4 chiều ngang hữu dụng** của hàng. Hai hàng logo/menu căn cùng lề theo frame native thực, không dùng kích thước PNG để suy ra kích thước row. Không border/rounded tab, không separator. Nếu sheet thiếu cao thì cân đối spacing thay vì đè grid.
 - Đây là thông số thiết kế **đề xuất**, KHÔNG phải số đo gốc, không coi đã được chủ dự án phê duyệt. Chưa sửa source, chưa build/export DEB; chỉ được compile-only khi cần.
+
+
+### 2026-10-14 — VERIFIED ORIGINAL HEIGHTS from v12 disassembly
+- Đã tra `audit/v12-picker-header-20261014.txt`: tại `0xA2D98–0xA2DA8`, so sánh chiều rộng view với threshold rồi `fcsel d14,24,28` → **chiều cao hàng menu gốc 24 pt (compact) hoặc 28 pt (regular)**. Tại `0xA3430–0xA3450`, `d11=d14−2`, setFrame native `_appSegmentBtn` chiều cao **22 pt hoặc 26 pt**; các nút còn lại dùng cùng d11. Đây là **kết quả từ mã máy**, không phải đoán.
+- Đề xuất menu mới 64 pt so với **chiều cao nút gốc**: tăng **42 pt (compact)** hoặc **38 pt (regular)**, tương ứng ~2.91x hoặc ~2.46x. Nếu so với **chiều cao cả hàng**: tăng 40 pt hoặc 36 pt. 64 pt vẫn là **đề xuất chờ duyệt**, chưa chỉnh source, chưa build/export DEB.
