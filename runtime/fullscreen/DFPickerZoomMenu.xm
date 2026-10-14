@@ -147,22 +147,18 @@ static void DFLayoutPicker(UIView *overlay) {
     } else if (zoom.superview!=parent) {
         [zoom removeFromSuperview]; [parent addSubview:zoom];
     }
-    CGRect a=app.frame,b=style.frame,c=close.frame;
-    CGFloat nativeLeft=fmin(CGRectGetMinX(a),fmin(CGRectGetMinX(b),CGRectGetMinX(c)));
-    CGFloat right=fmax(CGRectGetMaxX(a),fmax(CGRectGetMaxX(b),CGRectGetMaxX(c)));
-    CGFloat top=fmin(CGRectGetMinY(a),fmin(CGRectGetMinY(b),CGRectGetMinY(c)));
-    CGFloat height=CGRectGetHeight(a);
-    if (!isfinite(nativeLeft) || !isfinite(right) || !isfinite(top) ||
-        height<12 || right-nativeLeft<100) return;
-    // Approved two rows: original horizontal logo above 40pt menu.
-    // Both rows align on exactly the same native left and right edges.
-    CGFloat left=MAX(CGRectGetMinX(parent.bounds)+4.0,nativeLeft);
-    CGFloat width=right-left;
-    CGFloat col=width/4.0;
-    if (col<53.0) {
-        NSLog(@"[DuoFaceFullscreen] picker column too narrow %.1f",col);
+    // The native three-segment row occupies only part of the picker sheet.
+    // Dividing that small native width into four caused col<53 and left Zoom
+    // at CGRectZero (invisible). Use the actual sheet content width instead.
+    CGFloat sheetWidth=CGRectGetWidth(contentView.bounds);
+    if (!isfinite(sheetWidth) || sheetWidth<148.0) {
+        NSLog(@"[DuoFaceFullscreen] picker sheet width invalid %.1f",sheetWidth);
         return;
     }
+    CGFloat sideInset=8.0;
+    CGFloat left=0.0;
+    CGFloat width=sheetWidth-2.0*sideInset;
+    CGFloat col=width/4.0;
     // Native menu background is only 22/26pt tall and clips its children.
     // Resize the parent itself, rather than pushing child buttons outside it.
     CGRect nativeMenuFrame=parent.frame;
@@ -170,14 +166,16 @@ static void DFLayoutPicker(UIView *overlay) {
     CGFloat logoTop=CGRectGetMinY(contentView.bounds)+4.0;
     CGFloat safeHeight=CGRectGetHeight(contentView.bounds)-40.0-90.0-12.0;
     CGFloat logoHeight=MIN(width/4.0,MAX(16.0,safeHeight));
-    CGFloat logoLeft=CGRectGetMinX(nativeMenuFrame)+left;
+    CGFloat logoLeft=sideInset;
     CGRect logoFrame=DFNativeHeaderLogoFrame(overlay,contentView,logoLeft,
                                              logoLeft+width,logoTop,logoHeight);
     CGFloat menuTop=CGRectIsNull(logoFrame)?CGRectGetMinY(nativeMenuFrame):
                     CGRectGetMaxY(logoFrame)+4.0;
     const CGFloat menuHeight=40.0;
     CGRect menuFrame=parent.frame;
+    menuFrame.origin.x=sideInset;
     menuFrame.origin.y=menuTop;
+    menuFrame.size.width=width;
     menuFrame.size.height=menuHeight;
     parent.frame=menuFrame;
     parent.backgroundColor=UIColor.clearColor;
