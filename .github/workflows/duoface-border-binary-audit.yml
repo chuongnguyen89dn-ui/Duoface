@@ -31,7 +31,7 @@ jobs:
           from pathlib import Path
           import re
           lines=Path('audit-output/full-disasm.txt').read_text(errors='replace').splitlines()
-          targets=[('startContainerBorderBlinking',0x11fa88,0x11fcd4),('stopContainerBorderBlinking',0x11fcd4,0x11fddc)]
+          targets=[('startContainerBorderBlinking',0x11fa88,0x11fcd4),('stopContainerBorderBlinking',0x11fcd4,0x11fddc),('handleDividerPan',0x103ee0,0x1044f8),('layoutSplitViews',0x1044f8,0x105890),('splitRatioSetter',0x11fee4,0x11ff30)]
           out=[]
           for label,start,end in targets:
               out.append(f'===== {label} [0x{start:x}, 0x{end:x}) =====')
