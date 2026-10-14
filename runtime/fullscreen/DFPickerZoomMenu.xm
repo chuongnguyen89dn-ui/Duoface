@@ -153,26 +153,15 @@ static void DFLayoutPicker(UIView *overlay) {
         @"arrow.up.left.and.arrow.down.right",font);
     DFDecorate(style,@"Style",@"rectangle.3.group",font);
     DFDecorate(close,@"Close App",@"xmark.circle",font);
-    UIColor *accent=DFApprovedLogoRed();
+    (void)DFApprovedLogoRed();
     // Selection follows the actual picker mode, not fullscreen state.
-    Ivar modeIvar=class_getInstanceVariable(object_getClass(overlay),"_overlayMode");
-    NSInteger mode=modeIvar?[(NSNumber *)object_getIvar(overlay,modeIvar) integerValue]:0;
+    // Preserve the native picker selection and its existing color handling.
+    // No additional mode ivar reads or forced tab selection.
     for (UIButton *button in @[app,zoom,style,close]) {
         button.layer.cornerRadius=0;
         button.layer.borderWidth=0;
-        button.backgroundColor=UIColor.clearColor;
-        button.tintColor=[UIColor colorWithWhite:0.85 alpha:1];
-        [button setTitleColor:[UIColor colorWithWhite:0.85 alpha:1] forState:UIControlStateNormal];
-    }
-    UIButton *selected=mode==1?style:(mode==2?close:app);
-    selected.backgroundColor=accent?:UIColor.clearColor;
-    [selected setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-    // Zoom only highlights while its own control is pressed, never permanently.
-    UIImageView *selectedIcon=objc_getAssociatedObject(selected,DFStackIconKey);
-    if (selectedIcon) selectedIcon.tintColor=UIColor.whiteColor;
-    for (UIButton *button in @[app,zoom,style,close]) {
         UIImageView *icon=objc_getAssociatedObject(button,DFStackIconKey);
-        if (icon && button!=selected) icon.tintColor=button.tintColor;
+        if (icon) icon.tintColor=button.tintColor;
     }
     [DFOverlays addObject:overlay];
 }
