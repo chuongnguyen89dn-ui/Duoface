@@ -2266,3 +2266,12 @@ Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.
 4. Device test: bố cục hai pane -> chọn Phóng to -> fullscreen -> có nút Thu nhỏ -> 1 lần bấm hồi phục hai pane và menu -> lặp lại.
 
 **Tình trạng:** mới xác nhận lại yêu cầu/kiến trúc; chưa có bằng chứng nút restore mới hoạt động, không tuyên bố đã sửa chức năng.
+
+
+### 2026-10-14 — Đã sửa code restore trực tiếp, tạo candidate adapter2
+
+- Source commit `be7378dfd357f274a792a6edc055164c5880d891` trên `main` sau khi đọc source cũ và handoff. **Đã viết** `runtime/fullscreen/DFRestoreMenu.mm`: loại bỏ `grabberPill` màu trắng, `toggleMenu:` và `UIVisualEffectView` trung gian; thay bằng **UIButton Thu nhỏ luôn hiển thị 44×44** (icon `arrow.down.right.and.arrow.up.left`) ngay tại mép màn fullscreen. `hitTest:withEvent:` chỉ nhận điểm nằm trong khung nút rồi chuyển trực tiếp cho UIButton, không chặn chạm video/map bên ngoài. `didTapRestore:` log click và gọi nguyên `onCloseRequested`, từ đó `DFHostRestore()` + lifecycle publish trên SpringBoard, không đụng thuật toán 2 pane.
+- Workflow `.github/workflows/fullscreen-test-deb.yml` được đổi riêng sang **candidate `fullscreen-adapter2`**, không ghi đè `fullscreen-adapter1`. Giữ gói v12 gốc `dist/visual-1.0.3-12`, không thay đổi ID/ngày, chưa Sileo.
+- GitHub xác nhận commit/ref `be7378d` push thành công; compile-only Actions run `38531875996` và candidate DEB run `38531876025` được tự kích hoạt (đều `in_progress` ở lần kiểm tra ngay sau push). Link: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38531875996 và https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38531876025 .
+- **Chưa xác nhận** 2 job mới build thành công, chưa có artifact adapter2 hay test thiết bị. Thay đổi này là phương án loại bỏ thanh trắng gây chồng lấn **trong fullscreen**, không phải nút Phóng to trong menu ứng dụng: mục menu vẫn phải tìm đúng UI controller v12 trước khi hook.
+- Bước kế cụ thể: check hai run; đọc log compile/upload/archive, kiểm DEB `dist/candidates/fullscreen-adapter2/` và hash; thiết bị thử: fullscreen -> nút Thu nhỏ 44×44 bấm 1 lần -> khôi phục 2 pane và menu. Nếu nút không nhận click, dựa log `[DuoFaceFullscreen] direct restore button tapped` để lần ngược hit-testing, không khẳng định fix thành công khi chỉ CI xanh.
