@@ -5,6 +5,7 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 
+static void DFInstallToggle(UIViewController *host);
 static BOOL DFHostFull = NO;
 static __weak UIViewController *DFHostController;
 static CGRect DFSavedFrame;
@@ -53,6 +54,7 @@ static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 - (void)viewDidLayoutSubviews {
     %orig;
     DFHostController = (UIViewController *)self;
+    DFInstallToggle((UIViewController *)self);
 }
 %end
 
@@ -65,6 +67,31 @@ static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 @implementation DuoFaceFullscreenAction
 + (void)toggle { DFToggleFullscreen(); }
 + (void)restore { DFApplyFullscreen(NO); }
+@end
+
+
+static void DFInstallToggle(UIViewController *host) {
+    UIView *view = host.view;
+    if (!view || [view viewWithTag:20261014]) return;
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.tag = 20261014;
+    button.frame = CGRectMake(MAX(8, CGRectGetWidth(view.bounds)-60), 60, 48, 48);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    button.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+    button.tintColor = [UIColor whiteColor];
+    button.layer.cornerRadius = 12;
+    [button setTitle:@"⛶" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:28];
+    button.accessibilityLabel = @"Toggle CarPlay fullscreen";
+    [button addTarget:[DuoFaceFullscreenAction class] action:@selector(toggleFromButton:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+    NSLog(@"[DuoFaceFullscreen] toggle installed");
+}
+@implementation DuoFaceFullscreenAction (Button)
++ (void)toggleFromButton:(UIButton *)sender {
+    DFToggleFullscreen();
+    [sender setTitle:(DFHostFull ? @"⤢" : @"⛶") forState:UIControlStateNormal];
+}
 @end
 
 // Bind to DuoFace v12's known expand/restore controls without altering their
