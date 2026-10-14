@@ -5,7 +5,7 @@ on:
       - '.github/workflows/duoface-border-binary-audit.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   inspect:
     runs-on: macos-15
@@ -43,9 +43,40 @@ jobs:
           Path('audit-output/border-methods.txt').write_text('\n'.join(out)+'\n')
           PY
           cat audit-output/border-methods.txt
+          xcrun otool -arch arm64 -tvV "$DASH" > audit-output/otool-arm64.txt
+          python3 - <<'PYFOCUS'
+          from pathlib import Path
+          import re
+          out=[]
+          for line in Path('audit-output/otool-arm64.txt').read_text(errors='replace').splitlines():
+              m=re.match(r'^([0-9a-fA-F]{8,16})\s',line)
+              if m and (0x11fa88<=int(m.group(1),16)<0x11fddc):out.append(line)
+          Path('audit-output/native-blue-border-trace.txt').write_text('\n'.join(out)+'\n')
+          PYFOCUS
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: duoface-border-binary-readonly
           path: audit-output/
           if-no-files-found: warn
+
+      - name: Persist small native border trace in DuoFace repo
+        if: success() && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/border-current-deb
+          cp audit-output/native-blue-border-trace.txt audit/border-current-deb/native-blue-border-trace.txt
+          cp audit-output/deb-sha256.txt audit/border-current-deb/deb-sha256.txt
+          cp audit-output/dashboard-sha256.txt audit/border-current-deb/dashboard-sha256.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/border-current-deb/
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: persist actual menu-zoom2 native border ARM64 trace [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main && exit 0
+          done
+          exit 1
