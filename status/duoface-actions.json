@@ -1,19 +1,25 @@
 {
-  "checked_at_utc": "2026-10-14T01:16:27.324635+00:00",
+  "checked_at_utc": "2026-10-14T06:15:53.920061+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 64,
+  "total_actions_runs": 91,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 7,
-      "success": 6,
+      "recent_runs": 8,
+      "success": 7,
+      "failure": 0,
+      "other": 1
+    },
+    "DuoFace fullscreen adapter compile check": {
+      "recent_runs": 1,
+      "success": 0,
       "failure": 0,
       "other": 1
     },
     "DuoFace fullscreen test DEB": {
-      "recent_runs": 2,
-      "success": 0,
-      "failure": 2,
+      "recent_runs": 27,
+      "success": 19,
+      "failure": 8,
       "other": 0
     },
     "Package isolated native 1.0.4 voice research candidate (not for installation)": {
@@ -85,11 +91,281 @@
   },
   "latest_runs": [
     {
+      "id": 38521178478,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 8,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38521178478",
+      "created_at": "2026-10-14T06:15:43Z",
+      "head_sha": "5d009bb3bcedd9d2165a94419893adf25c2451d5"
+    },
+    {
+      "id": 38521107579,
+      "name": "DuoFace fullscreen adapter compile check",
+      "run_number": 1,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38521107579",
+      "created_at": "2026-10-14T06:15:03Z",
+      "head_sha": "5d009bb3bcedd9d2165a94419893adf25c2451d5"
+    },
+    {
+      "id": 38516659443,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38516659443",
+      "created_at": "2026-10-14T05:26:37Z",
+      "head_sha": "aab0b9b706691dc1becd44dba38cc9f5f70cb77c"
+    },
+    {
+      "id": 38516641066,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38516641066",
+      "created_at": "2026-10-14T05:26:24Z",
+      "head_sha": "a4dfe78df5ce2f13909e9167fa4ce28f3771c129"
+    },
+    {
+      "id": 38516401356,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38516401356",
+      "created_at": "2026-10-14T05:23:47Z",
+      "head_sha": "58c0dbb19669750f3bec46d328f802908c3b9776"
+    },
+    {
+      "id": 38515665038,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38515665038",
+      "created_at": "2026-10-14T05:15:32Z",
+      "head_sha": "7d413f25196cde18cb9f4a2612b4666a56c590ca"
+    },
+    {
+      "id": 38515648775,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38515648775",
+      "created_at": "2026-10-14T05:15:22Z",
+      "head_sha": "85a0ad4d7ccbf13720dd53d2ff7d055b240ff6a5"
+    },
+    {
+      "id": 38515614253,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38515614253",
+      "created_at": "2026-10-14T05:15:00Z",
+      "head_sha": "d5a417db73b52653d55f4b378b290ed16ea15a67"
+    },
+    {
+      "id": 38515112186,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38515112186",
+      "created_at": "2026-10-14T05:09:17Z",
+      "head_sha": "714cc939fa2b332db393895718b70df896653f57"
+    },
+    {
+      "id": 38514055041,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38514055041",
+      "created_at": "2026-10-14T04:57:07Z",
+      "head_sha": "2ea00cd3c5410284f0c0ab8ecf1869cde9209ded"
+    },
+    {
+      "id": 38513700341,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38513700341",
+      "created_at": "2026-10-14T04:53:02Z",
+      "head_sha": "4b3ff5e5ee03e128ce84263f0f059c1a0a4aa487"
+    },
+    {
+      "id": 38513680279,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38513680279",
+      "created_at": "2026-10-14T04:52:48Z",
+      "head_sha": "430bb2a32dc5dbb8544f7bdedfe4d352589a4bc4"
+    },
+    {
+      "id": 38513589689,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38513589689",
+      "created_at": "2026-10-14T04:51:46Z",
+      "head_sha": "1b4606aa13e0fa87a2332c4188921dae67c94909"
+    },
+    {
+      "id": 38512376097,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38512376097",
+      "created_at": "2026-10-14T04:37:47Z",
+      "head_sha": "0ae364c1edd104f7ec275dd9ddf1da28a97d6054"
+    },
+    {
+      "id": 38509921476,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38509921476",
+      "created_at": "2026-10-14T04:09:12Z",
+      "head_sha": "e639666c89bd85d3113d1ca09ee4cd17c4bc36d7"
+    },
+    {
+      "id": 38509858588,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38509858588",
+      "created_at": "2026-10-14T04:08:28Z",
+      "head_sha": "1568be961143221d75cdb05506b09e1ead0de666"
+    },
+    {
+      "id": 38509851531,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38509851531",
+      "created_at": "2026-10-14T04:08:23Z",
+      "head_sha": "8df744bc3fddbc5b0c58f3fee8979103586d76f3"
+    },
+    {
+      "id": 38508980835,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38508980835",
+      "created_at": "2026-10-14T03:58:15Z",
+      "head_sha": "a086e414bb91d0e02078040e6caa8172637e3995"
+    },
+    {
+      "id": 38508970637,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38508970637",
+      "created_at": "2026-10-14T03:58:08Z",
+      "head_sha": "ece3fb805c36077a7c194201089940a30477c3a0"
+    },
+    {
+      "id": 38508194686,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38508194686",
+      "created_at": "2026-10-14T03:49:01Z",
+      "head_sha": "13d67066eeaaa55a0fa00730c93162c63aad72ef"
+    },
+    {
+      "id": 38501704384,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38501704384",
+      "created_at": "2026-10-14T02:34:04Z",
+      "head_sha": "4505266f4b3d09e57a7c6d80ea6ed59ab76e4f44"
+    },
+    {
+      "id": 38501675038,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38501675038",
+      "created_at": "2026-10-14T02:33:43Z",
+      "head_sha": "17d121933eba2c34c0673890fd2cbdef4575e342"
+    },
+    {
+      "id": 38499679584,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38499679584",
+      "created_at": "2026-10-14T02:10:52Z",
+      "head_sha": "b1baf13a9f0bb8e5a5880aea85172e4e971605fc"
+    },
+    {
+      "id": 38499190048,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38499190048",
+      "created_at": "2026-10-14T02:05:20Z",
+      "head_sha": "4e285d25c32ac519d2f729f17272cd0640f47479"
+    },
+    {
+      "id": 38498338046,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38498338046",
+      "created_at": "2026-10-14T01:55:48Z",
+      "head_sha": "1ffa708e463917a52ef9911aab254e521c15ed75"
+    },
+    {
+      "id": 38497621872,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38497621872",
+      "created_at": "2026-10-14T01:47:45Z",
+      "head_sha": "5215b06d7d246ce6f4df66d72027ea7dbe91d454"
+    },
+    {
+      "id": 38497386596,
+      "name": "DuoFace fullscreen test DEB",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38497386596",
+      "created_at": "2026-10-14T01:45:04Z",
+      "head_sha": "89af2af305b81dd15498f30116cc4121fc820d84"
+    },
+    {
       "id": 38494800843,
       "name": "DuoFace Actions status snapshot",
       "run_number": 7,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38494800843",
       "created_at": "2026-10-14T01:16:18Z",
       "head_sha": "37eb404951b49570e1b722dee7fc4569fb675e40"
@@ -113,276 +389,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38427605869",
       "created_at": "2026-10-13T16:05:23Z",
       "head_sha": "3b885c945d09072a6a107d2f46de8554d9434397"
-    },
-    {
-      "id": 38412232084,
-      "name": "DuoFace fullscreen test DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38412232084",
-      "created_at": "2026-10-13T14:18:33Z",
-      "head_sha": "77107e18da06adde4685602b30a0455f2bd18d6f"
-    },
-    {
-      "id": 38410449784,
-      "name": "DuoFace fullscreen test DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38410449784",
-      "created_at": "2026-10-13T14:06:01Z",
-      "head_sha": "c1a2d8163a5ff319b93734802bbfc8b363122b56"
-    },
-    {
-      "id": 38384795644,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38384795644",
-      "created_at": "2026-10-13T10:38:54Z",
-      "head_sha": "a0996f86a857175f930fcc0ece3dfafc1322c9e3"
-    },
-    {
-      "id": 38384566096,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38384566096",
-      "created_at": "2026-10-13T10:36:52Z",
-      "head_sha": "9bbd12e9c8a53b1c05a0cc0aab14fdb141759a58"
-    },
-    {
-      "id": 38382488505,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38382488505",
-      "created_at": "2026-10-13T10:18:47Z",
-      "head_sha": "5758469d4c4363dbf1d84af54e146fc418e12f84"
-    },
-    {
-      "id": 38375972728,
-      "name": "Audit original DuoNavi 1.0.4 license files",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38375972728",
-      "created_at": "2026-10-13T09:23:36Z",
-      "head_sha": "8148c4e3e7e72db5909a4ad4bdaa5ebb0f0b3437"
-    },
-    {
-      "id": 38375799196,
-      "name": "Audit original DuoNavi 1.0.4 license files",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38375799196",
-      "created_at": "2026-10-13T09:22:09Z",
-      "head_sha": "3595e3bd68d584352f9531f09b545456adaf82ae"
-    },
-    {
-      "id": 38368823663,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38368823663",
-      "created_at": "2026-10-13T08:22:31Z",
-      "head_sha": "2db09f80f1e85aeb15277903d0ee51e231c8634a"
-    },
-    {
-      "id": 38367974938,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38367974938",
-      "created_at": "2026-10-13T08:15:03Z",
-      "head_sha": "6259165666c2ac383b81b3bdc147d8acac6fa938"
-    },
-    {
-      "id": 38365558359,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38365558359",
-      "created_at": "2026-10-13T07:53:13Z",
-      "head_sha": "bd93f93c4e76d95dee58ed11352e05df9cd77e4f"
-    },
-    {
-      "id": 38365540930,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38365540930",
-      "created_at": "2026-10-13T07:53:03Z",
-      "head_sha": "22a16f67488a4a01df4f5820a1e47d6ef6425975"
-    },
-    {
-      "id": 38365344280,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38365344280",
-      "created_at": "2026-10-13T07:51:15Z",
-      "head_sha": "8e3e4842f67e0c6ffbd20b3157cc66c43d0c39a6"
-    },
-    {
-      "id": 38365134508,
-      "name": "Package isolated native 1.0.4 voice research candidate (not for installation)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38365134508",
-      "created_at": "2026-10-13T07:49:22Z",
-      "head_sha": "4378e2ea425ac3184479b9781bfb02d040594b61"
-    },
-    {
-      "id": 38364975085,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38364975085",
-      "created_at": "2026-10-13T07:47:54Z",
-      "head_sha": "6950869232735773801ef868bfc8d242e7659b1a"
-    },
-    {
-      "id": 38364428466,
-      "name": "Audit DuoFace v12 vs native 1.0.4 (no publish)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38364428466",
-      "created_at": "2026-10-13T07:42:54Z",
-      "head_sha": "f5febf1aa038ea5444e2e2ce66828e99f6cf82ef"
-    },
-    {
-      "id": 38364094806,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38364094806",
-      "created_at": "2026-10-13T07:39:53Z",
-      "head_sha": "3c2d01887d36f55d8abbe1bbe0fffb33ce236cdb"
-    },
-    {
-      "id": 38341557570,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38341557570",
-      "created_at": "2026-10-13T03:24:29Z",
-      "head_sha": "30a43dc5fe12b93c472b8b4d510f26c1aca45f94"
-    },
-    {
-      "id": 38341244821,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38341244821",
-      "created_at": "2026-10-13T03:20:29Z",
-      "head_sha": "4ea9363958344bfccc2bef4aad5c7b6e0cb7b3d2"
-    },
-    {
-      "id": 38341163100,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38341163100",
-      "created_at": "2026-10-13T03:19:30Z",
-      "head_sha": "cd5b16d8d3755ec93d4f3a22fc214cb579e953a5"
-    },
-    {
-      "id": 38340065810,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38340065810",
-      "created_at": "2026-10-13T03:05:50Z",
-      "head_sha": "1a52fc96f6bea427ef1be1e6d8cfa6fc3a54b633"
-    },
-    {
-      "id": 38339654416,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38339654416",
-      "created_at": "2026-10-13T03:00:51Z",
-      "head_sha": "77fc6db9d2aa6fb42e999da089cd8366639c4859"
-    },
-    {
-      "id": 38339262936,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38339262936",
-      "created_at": "2026-10-13T02:56:05Z",
-      "head_sha": "7b9b13ad25f6a2966bb330a7428e3877b3417ebb"
-    },
-    {
-      "id": 38337862496,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38337862496",
-      "created_at": "2026-10-13T02:38:46Z",
-      "head_sha": "1e01cf187194f0025694623e9cb95888e40d3748"
-    },
-    {
-      "id": 38336494537,
-      "name": "Build DuoFace 1.0.3-12 uploaded artwork (no Sileo publish)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38336494537",
-      "created_at": "2026-10-13T02:21:27Z",
-      "head_sha": "af1699e17904a2d52f272aa7dbe104c2c6dcdd1b"
-    },
-    {
-      "id": 38329046348,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38329046348",
-      "created_at": "2026-10-13T00:48:21Z",
-      "head_sha": "7f1c78e86b4a892f59c4bd5841b906960e79d7e0"
-    },
-    {
-      "id": 38288038418,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38288038418",
-      "created_at": "2026-10-12T18:00:42Z",
-      "head_sha": "6e3df7971618f4c50c874d4ac52e3d8e2a41b6f4"
-    },
-    {
-      "id": 38225881027,
-      "name": "Standalone CarPlay compile check",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38225881027",
-      "created_at": "2026-10-12T08:48:45Z",
-      "head_sha": "b69115d252ca1ed3f6d87a67dda35125a89700bb"
     }
   ]
 }
