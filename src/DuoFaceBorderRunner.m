@@ -222,9 +222,17 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
 static void DFSplitLayoutHook(id self, SEL cmd) {
     ((void(*)(id,SEL))DFNativeSplitLayout)(self,cmd);
     if (DFFocusHidden(self)) { DFUpdateFocusBorders(self); return; }
-    for (UIView *view in [DFActiveBorderViews allObjects]) {
-        DFBorderEffect *effect = objc_getAssociatedObject(view,&DFRunnerAssociation);
-        if (effect) DFLayoutEffect(view,effect);
+    // A native start can fire before the container gets nonzero bounds.
+    // Track that start and attach the runner as soon as native layout completes.
+    for (UIView *view in [DFKnownBorderViews allObjects]) {
+        DFBorderEffect *effect=objc_getAssociatedObject(view,&DFRunnerAssociation);
+        if ([objc_getAssociatedObject(view,&DFRunningAssociation) boolValue] && !effect) {
+            if (!CGRectIsEmpty(view.bounds)) {
+                DFSetBorderColor(view,[UIColor blackColor]);
+                DFStartEffect(view);
+                NSLog(@"[DuoFaceBorder] delayed START after native layout %@",NSStringFromCGRect(view.bounds));
+            }
+        } else if (effect) DFLayoutEffect(view,effect);
     }
 }
 static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *)) {
