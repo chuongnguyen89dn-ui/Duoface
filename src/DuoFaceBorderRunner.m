@@ -13,6 +13,19 @@ static IMP DFNativeSplitLayout = NULL;
 static NSHashTable *DFActiveBorderViews = nil;
 static const CGFloat DFLineWidth = 1.0;
 static const CFTimeInterval DFLapSeconds = 1.0;
+// Final/idle state is opaque DuoFace red; never expose native blue underneath the runner.
+static CGColorRef DFRedBorderColor(void) {
+    return [UIColor colorWithRed:1.0 green:0.09 blue:0.22 alpha:1.0].CGColor;
+}
+static void DFEnforceRedBorder(UIView *view) {
+    if (![view isKindOfClass:[UIView class]]) return;
+    [view.layer removeAnimationForKey:@"borderPulse"];
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    view.layer.borderColor = DFRedBorderColor();
+    [CATransaction commit];
+}
+
 
 @interface DFBorderEffect : NSObject {
 @public
@@ -102,8 +115,7 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStart)(self,cmd,view);
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
-            [view.layer removeAnimationForKey:@"borderPulse"];
-            view.layer.borderColor = [UIColor colorWithRed:0.72 green:0 blue:0.13 alpha:0.35].CGColor;
+            DFEnforceRedBorder(view);
             DFStartEffect(view);
         }
     };
@@ -113,7 +125,7 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
     void (^update)(void) = ^{
         DFStopEffect(view);
-        if ([view isKindOfClass:[UIView class]]) view.layer.borderColor = [UIColor colorWithRed:0.72 green:0 blue:0.13 alpha:0.35].CGColor;
+        DFEnforceRedBorder(view);
     };
     if ([NSThread isMainThread]) update(); else dispatch_async(dispatch_get_main_queue(),update);
 }
