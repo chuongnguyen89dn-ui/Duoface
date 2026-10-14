@@ -1,9 +1,7 @@
-name: Build approved DuoFace border and focus candidate DEB
-# Explicit user approval received 2026-10-14. One-shot trigger from workflow creation.
+name: Build DuoFace border/focus candidate (manual-only)
+# Regression correction: NEVER rebuild/replace the proven menu-zoom2 fullscreen bridge.
+# Manual trigger only; do not auto-package when fixing source.
 on:
-  push:
-    paths:
-      - '.github/workflows/duoface-approved-border-deb.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,15 +18,6 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           brew install ldid dpkg
-      - name: Compile exact current UI bridge
-        run: |
-          set -euo pipefail
-          cp Makefile.fullscreen Makefile
-          make clean all FINALPACKAGE=1
-          BRIDGE="$(find .theos -name 'DuoFaceFullscreenBridge.dylib' -type f | head -1)"
-          test -s "$BRIDGE"
-          mkdir -p artifacts
-          cp "$BRIDGE" artifacts/DuoFaceFullscreenBridge.dylib
       - name: Compile exact current DuoFace border visual hook
         run: |
           set -euo pipefail
@@ -50,7 +39,8 @@ jobs:
           test -s "$DEST/DuoFaceDashboard.dylib"
           test -s "$DEST/DuoFaceVisualHook.plist"
           cp artifacts/DuoFaceVisualHook.dylib "$DEST/DuoFaceVisualHook.dylib"
-          cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
+          # IMPORTANT: the known working fullscreen/menu bridge stays byte-identical to menu-zoom2.
+          test -s "$DEST/DuoFaceFullscreenBridge.dylib"
           python3 - <<'PY'
           from pathlib import Path
           import os,re,hashlib,plistlib
@@ -68,6 +58,7 @@ jobs:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
             assert dylib.read_bytes()[:4] in [bytes.fromhex('cffaedfe'),bytes.fromhex('cafebabe')]
           print('BASE_SHA256',hashlib.sha256(base.read_bytes()).hexdigest())
+          print('PRESERVED_BRIDGE_SHA256',hashlib.sha256((root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib').read_bytes()).hexdigest())
           print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
           print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
           PY
