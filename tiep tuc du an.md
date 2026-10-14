@@ -1809,3 +1809,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Exact disassembly search for a direct `bl`/`b` or ADR target of 0x19c7c found zero references; raw arm64 slice search for 4- and 8-byte absolute values 0x19c7c also found zero. This is a NEGATIVE result for those methods only, not proof of no caller; Objective-C method lists and chained fixups remain possible.
 - The existing 11-instruction ADRP/LDR scan found only five selector refs: three fullscreenBtn property registrations (0x13c18, 0x14070, 0x142f0) and two toggleFullscreen notification observer registrations (0x254f8, 0x2b0b8). It found NO addTarget or requestFullscreenToggle xref, but scan is incomplete and must not be treated as proof of absence.
 - NEXT ONLY: decode ObjC method-list/IMP references to 0x19c7c, then use wider dataflow for fullscreenBtn creation and action registration. No DuoFace modification or DEB build.
+
+
+### 2026-10-14 — Focused callback verification at 0x19c7c
+- Reused original Airaw 1.7.1k binary and `/mnt/data/airaw_focus/arm64_disasm.txt`; no new broad scan.
+- Verified 0x19c7c–0x19cac obtains NSDistributedNotificationCenter.defaultCenter, loads notification name from 0x6cdc8, passes nil object and nil userInfo, then tailcalls 0x4d040 (previously resolved postNotificationName:object:userInfo:).
+- Checked direct disassembly branches to 0x19c7c: none. Checked 32-bit relative pointers in __objc_const vicinity 0x74000–0x85000 against 0x19c7c and 0x19c80: none. These negative checks do not prove the callback is absent; pointer encoding and metadata ownership remain unresolved.
+- No proven fullscreenBtn target/action, no DuoFace edits or build. Next work must establish the actual button event callback, not repeat selector-string scans.
