@@ -45,7 +45,34 @@ static void DFApplyFullscreen(BOOL enable) {
         NSLog(@"[DuoFaceFullscreen] restore");
     }
 }
-static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
+// Airaw 1.7.1k method requestFullscreenToggle sends this exact name.
+// Use a local listener so the test remains functional without Airaw installed.
+static NSString * const kDFFullscreenEvent = @"jp.airaw.host.fullscreen";
+@interface DFFullscreenEventReceiver : NSObject
++ (instancetype)shared;
+- (void)received:(NSNotification *)note;
+@end
+@implementation DFFullscreenEventReceiver
++ (instancetype)shared {
+    static DFFullscreenEventReceiver *receiver;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        receiver = [DFFullscreenEventReceiver new];
+        [[NSNotificationCenter defaultCenter] addObserver:receiver selector:@selector(received:) name:kDFFullscreenEvent object:nil];
+    });
+    return receiver;
+}
+- (void)received:(NSNotification *)note {
+    NSNumber *enabled = [note.userInfo objectForKey:@"enabled"];
+    DFApplyFullscreen(enabled ? enabled.boolValue : !DFHostFull);
+}
+@end
+static void DFRequestFullscreen(NSNumber *enabled) {
+    [DFFullscreenEventReceiver shared];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDFFullscreenEvent object:nil
+                                                     userInfo:enabled ? @{@"enabled":enabled} : nil];
+}
+static void DFToggleFullscreen(void) { DFRequestFullscreen(nil); }
 
 // Fullscreen UI control will be bound after verifying the CarPlay host lifecycle.
 // Host controller is captured by its existing layout callback.
@@ -66,7 +93,7 @@ static void DFToggleFullscreen(void) { DFApplyFullscreen(!DFHostFull); }
 @end
 @implementation DuoFaceFullscreenAction
 + (void)toggle { DFToggleFullscreen(); }
-+ (void)restore { DFApplyFullscreen(NO); }
++ (void)restore { DFRequestFullscreen(@NO); }
 @end
 
 
@@ -102,10 +129,10 @@ static void DFInstallToggle(UIViewController *host) {
 %hook CBSlotPillView
 - (void)expandTapped:(id)sender {
     %orig;
-    dispatch_async(dispatch_get_main_queue(), ^{ DFApplyFullscreen(YES); });
+    dispatch_async(dispatch_get_main_queue(), ^{ DFRequestFullscreen(@YES); });
 }
 - (void)restoreTapped:(id)sender {
     %orig;
-    dispatch_async(dispatch_get_main_queue(), ^{ DFApplyFullscreen(NO); });
+    dispatch_async(dispatch_get_main_queue(), ^{ DFRequestFullscreen(@NO); });
 }
 %end
