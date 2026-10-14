@@ -2135,3 +2135,11 @@ Run 38521107579, job115710756930, source5d009bb3bcedd9d2165a94419893adf25c2451d5
 Đã thêm DFDashboardChrome.h/.xm: theo receiver Airaw0xe610, hook DBStatusBarWindow.layoutSubviews (fallback CARStatusBarWindow), track weak windows, snapshot hidden riêng từng window, ẩn và restore đúng hidden gốc. Không bê hook dock iOS26 vào iOS16. Không báo chrome success khi chưa quan sát được statusbar window.
 Đã đưa module chrome vào Makefile.fullscreen-adapter-check; push này chạy kiểm tra compile phần mới. Vẫn chưa gắn adapter staged vào host4/DEB.
 Tiếp tục: hoàn thiện button/menu và state coordinator, rồi mới thay entry point/filter và đóng DEB ứng viên. Không dừng ở checkpoint này.
+
+## 2026-10-14 — Nút Airaw đã dựng theo hằng gốc; sửa lỗi Logos trong compile chrome
+
+Phát hiện mới lưu ngay: Airaw PrefAPIState0x8320–0x83d0 dùng kFullBtn_x mặc định12.5, kFullBtn_y mặc định42 (float0x42280000), kFull_size mặc định20. Installer0x14c94 dùng chính frame này, symbol pointSize10/weight3, backgroundImage, white tint. Không phải nút44x44 vàng/xanh FULL.
+Đã viết DFStatusBarControl.h/.xm theo các hằng trên, target controller sở hữu nút; tên action có prefix DuoFace để không xung đột Airaw cài sẵn. Theo thứ tự khả dụng gốc DBDockRootViewController → DBRootStatusBarViewController → CARRootStatusBarViewController, chỉ một family. Mọi nút được track và update, mặc định hidden; chưa bật khi chưa có coordinator.
+Evidence audit/airaw-button-defaults-20261014.txt.
+Compile chrome run38521352434/job115711530500 FAILED: Logos sinh C++ thiếu đóng block khi đặt %orig và code cùng một dòng trong hook. Đã đọc lỗi và sửa hooks sang nhiều dòng; áp dụng luôn cho status control. Log audit/fullscreen-adapter-compile-38521352434.txt. Push này chạy lại compile cả host/IPC/chrome/control.
+Trạng thái: vẫn staged, chưa DEB mới. Tiếp tục menu thu nhỏ/coordinator; không coi lỗi compile đã hết cho đến run mới xác nhận.

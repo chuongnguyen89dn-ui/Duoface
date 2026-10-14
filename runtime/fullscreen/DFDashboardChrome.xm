@@ -51,12 +51,18 @@ BOOL DFDashboardSetChromeHidden(BOOL hidden, NSString **reason) {
 
 %group DFDashboardChromeDB
 %hook DBStatusBarWindow
-- (void)layoutSubviews { %orig; DFObserveChromeWindow((UIWindow *)self); }
+- (void)layoutSubviews {
+    %orig;
+    DFObserveChromeWindow((UIWindow *)self);
+}
 %end
 %end
 %group DFDashboardChromeCAR
 %hook CARStatusBarWindow
-- (void)layoutSubviews { %orig; DFObserveChromeWindow((UIWindow *)self); }
+- (void)layoutSubviews {
+    %orig;
+    DFObserveChromeWindow((UIWindow *)self);
+}
 %end
 %end
 

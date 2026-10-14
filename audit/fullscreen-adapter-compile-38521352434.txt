@@ -1,0 +1,15 @@
+Run 38521352434; job 115711530500; source 05d02806f990ef7a8272d39d0ee370438474f3c8; failure.
+2026-10-14T06:18:55.5640910Z [0;31m==> [1;39mPreprocessing runtime/fullscreen/DFDashboardChrome.xm…[m
+2026-10-14T06:18:55.8416180Z [0;32m==> [1;39mCompiling runtime/fullscreen/DFDashboardChrome.xm (arm64)…[m
+2026-10-14T06:18:56.1150610Z [1mruntime/fullscreen/DFDashboardChrome.xm:57:152: [0m[0;1;31merror: [0m[1mfunction declared in block scope cannot have 'static' storage class[0m
+2026-10-14T06:18:56.1153670Z    57 | static void (*_logos_orig$DFDashboardChromeCAR$CARStatusBarWindow$layoutSubviews)(_LOGOS_SELF_TYPE_NORMAL CARStatusBarWindow* _LOGOS_SELF_CONST, SEL); static void _logos_method$DFDashboardChromeCAR$CARStatusBarWindow$layoutSubviews(_LOGOS_SELF_TYPE_NORMAL CARStatusBarWindow* _LOGOS_SELF_CONST, SEL); [0m
+2026-10-14T06:18:56.1158140Z [0m[1mruntime/fullscreen/DFDashboardChrome.xm:59:178: [0m[0;1;31merror: [0m[1mfunction definition is not allowed here[0m
+2026-10-14T06:18:56.1161170Z    59 | static void _logos_method$DFDashboardChromeCAR$CARStatusBarWindow$layoutSubviews(_LOGOS_SELF_TYPE_NORMAL CARStatusBarWindow* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) { _logos_orig$DFDashboardChromeCAR$CARStatusBarWindow$layoutSubviews(self, _cmd);[0m
+2026-10-14T06:18:56.1167070Z [0m[1mruntime/fullscreen/DFDashboardChrome.xm:78:2: [0m[0;1;31merror: [0m[1mexpected '}'[0m
+2026-10-14T06:18:56.1178220Z [0m[1mruntime/fullscreen/DFDashboardChrome.xm:54:175: [0m[0;1;36mnote: [0mto match this '{'[0m
+2026-10-14T06:18:56.1179510Z    54 | static void _logos_method$DFDashboardChromeDB$DBStatusBarWindow$layoutSubviews(_LOGOS_SELF_TYPE_NORMAL DBStatusBarWindow* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) { _logos_orig$DFDashboardChromeDB$DBStatusBarWindow$layoutSubviews(self, _cmd);[0m
+2026-10-14T06:18:56.1207550Z make[3]: *** [/Users/runner/work/Duoface/Duoface/.theos/obj/arm64/runtime/fullscreen/DFDashboardChrome.xm.a4247872.o] Error 1
+2026-10-14T06:18:56.1209200Z rm /Users/runner/work/Duoface/Duoface/.theos/obj/arm64/runtime/fullscreen/DFDashboardChrome.xm.mm
+2026-10-14T06:18:56.1215090Z make[2]: *** [/Users/runner/work/Duoface/Duoface/.theos/obj/arm64/DuoFaceFullscreenAdapterCheck.dylib] Error 2
+2026-10-14T06:18:56.1221350Z make[1]: *** [internal-library-all_] Error 2
+2026-10-14T06:18:56.1235820Z make: *** [DuoFaceFullscreenAdapterCheck.all.tweak.variables] Error 2

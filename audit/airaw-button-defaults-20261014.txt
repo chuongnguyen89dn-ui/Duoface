@@ -1,0 +1,200 @@
+BINARY SHA256 46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d
+ARM64 slice 0x4000; source-bound rebases only; no runtime claims
+CHECKPOINT POINTER 0x800ca0 OUTSIDE ARM64 VM DATA; likely checkpoint typo
+CHECKPOINT POINTER 0x80ca0 SEL carplayFullscreen
+CHECKPOINT POINTER 0x6f578 NSString 'arrow.up.left.and.arrow.down.right'
+
+CLASS METHOD OWNERS
+-[ARWCarPlayManager requestFullscreenToggle] IMP 0x19c7c entry 0x53034
+-[ARWCarPlayManager setFullscreenButtonHidden:] IMP 0x19cb0 entry 0x53040
+-[ARWCarPlayManager setDefaultAppChromeHidden:] IMP 0x19d78 entry 0x5304c
+-[ARWCarPlayManager setNativeChromeHidden:] IMP 0x19f44 entry 0x53058
+-[ARWCarPlayManager requestNativeSplitWithSecondary:nativeIdentifier:nativeFullscreen:] IMP 0x1a0e4 entry 0x53070
+-[ARWCarPlayManager postNativeSplitLayout:nativeOnLeft:vertical:fullscreen:baseRect:] IMP 0x1a3ac entry 0x53088
+-[ARWCarPlayManager postNativeSplitFullscreen:] IMP 0x1a6bc entry 0x530a0
+-[ARWCarPlayWindowManager launchNativeSplitWithSecondaryIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x1c1fc entry 0x53284
+-[ARWAppWindow setFullScreenBtn] IMP 0x21340 entry 0x52e50
+-[ARWAppWindow hostMenu] IMP 0x21aec entry 0x52ebc
+-[ARWAppWindow setHostMenu:] IMP 0x21af4 entry 0x52ec8
+-[ARWAppWindow isFullscreen] IMP 0x21b5c entry 0x52f64
+-[ARWAppWindow setIsFullscreen:] IMP 0x21b64 entry 0x52f70
+-[ARWHostedSceneWindow setFullScreenBtn] IMP 0x23378 entry 0x541a8
+-[ARWHostedSceneWindow hostMenu] IMP 0x24310 entry 0x54280
+-[ARWHostedSceneWindow setHostMenu:] IMP 0x24318 entry 0x5428c
+-[ARWHostedSceneWindow isFullscreen] IMP 0x24340 entry 0x542c8
+-[ARWHostedSceneWindow setIsFullscreen:] IMP 0x24348 entry 0x542d4
+-[ARWNativeSplitWindow initWithSecondaryBundleIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x25288 entry 0x544d0
+-[ARWNativeSplitWindow toggleFullscreen] IMP 0x27e94 entry 0x545b4
+-[ARWSplitWindow toggleFullscreen] IMP 0x2e808 entry 0x54f80
+
+DISASSEMBLY 0x8320-0x83d4
+00008320: ldr      x0, [x19, #8]                                 
+00008324: adrp     x2, #0x6e000                                  
+00008328: add      x2, x2, #0xc98                                NSString 'kFullBtn_y'
+0000832c: bl       #0x4c9e0                                      objectForKeyedSubscript:
+00008330: cbz      x0, #0x834c                                   
+00008334: ldr      x0, [x19, #8]                                 
+00008338: adrp     x2, #0x6e000                                  
+0000833c: add      x2, x2, #0xc98                                NSString 'kFullBtn_y'
+00008340: bl       #0x4c9e0                                      objectForKeyedSubscript:
+00008344: bl       #0x49ce0                                      floatValue
+00008348: b        #0x8354                                       
+0000834c: mov      w8, #0x42280000                               
+00008350: fmov     s0, w8                                        
+00008354: mov      x0, x19                                       
+00008358: bl       #0x4ee80                                      setFull_y:
+0000835c: ldr      x0, [x19, #8]                                 
+00008360: adrp     x2, #0x6e000                                  
+00008364: add      x2, x2, #0xcb8                                NSString 'kFullBtn_x'
+00008368: bl       #0x4c9e0                                      objectForKeyedSubscript:
+0000836c: cbz      x0, #0x8388                                   
+00008370: ldr      x0, [x19, #8]                                 
+00008374: adrp     x2, #0x6e000                                  
+00008378: add      x2, x2, #0xcb8                                NSString 'kFullBtn_x'
+0000837c: bl       #0x4c9e0                                      objectForKeyedSubscript:
+00008380: bl       #0x49ce0                                      floatValue
+00008384: b        #0x838c                                       
+00008388: fmov     s0, #12.50000000                              
+0000838c: mov      x0, x19                                       
+00008390: bl       #0x4ee60                                      setFull_x:
+00008394: ldr      x0, [x19, #8]                                 
+00008398: adrp     x2, #0x6e000                                  
+0000839c: add      x2, x2, #0xcd8                                NSString 'kFull_size'
+000083a0: bl       #0x4c9e0                                      objectForKeyedSubscript:
+000083a4: cbz      x0, #0x83c0                                   
+000083a8: ldr      x0, [x19, #8]                                 
+000083ac: adrp     x2, #0x6e000                                  
+000083b0: add      x2, x2, #0xcd8                                NSString 'kFull_size'
+000083b4: bl       #0x4c9e0                                      objectForKeyedSubscript:
+000083b8: bl       #0x49ce0                                      floatValue
+000083bc: b        #0x83c4                                       
+000083c0: fmov     s0, #20.00000000                              
+000083c4: mov      x0, x19                                       
+000083c8: ldp      x29, x30, [sp, #0x10]                         
+000083cc: ldp      x20, x19, [sp], #0x20                         
+000083d0: b        #0x4ee40                                      setFull_size:
+
+DISASSEMBLY 0x13b98-0x13bc8
+00013b98: adrp     x22, #0x57000                                 
+00013b9c: add      x22, x22, #0x506                              '@'
+00013ba0: cbnz     x8, #0x13bb8                                  
+00013ba4: adrp     x0, #0x58000                                  
+00013ba8: add      x0, x0, #0x1c                                 'DBDockRootViewController'
+00013bac: bl       #0x46e18                                      
+00013bb0: str      x0, [x19, #0x950]                             
+00013bb4: cbz      x0, #0x13ff0                                  
+00013bb8: adrp     x0, #0x58000                                  
+00013bbc: add      x0, x0, #0x1c                                 'DBDockRootViewController'
+00013bc0: bl       #0x46e18                                      
+00013bc4: mov      x19, x0                                       
+
+DISASSEMBLY 0x13ff0-0x14038
+00013ff0: adrp     x19, #0x83000                                 
+00013ff4: ldr      x8, [x19, #0x968]                             [0x83968] 
+00013ff8: cbnz     x8, #0x14010                                  
+00013ffc: adrp     x0, #0x57000                                  
+00014000: add      x0, x0, #0xf3d                                'DBRootStatusBarViewController'
+00014004: bl       #0x46e18                                      
+00014008: str      x0, [x19, #0x968]                             
+0001400c: cbz      x0, #0x14290                                  
+00014010: adrp     x0, #0x57000                                  
+00014014: add      x0, x0, #0xf3d                                'DBRootStatusBarViewController'
+00014018: bl       #0x46e18                                      
+0001401c: mov      x19, x0                                       
+00014020: adrp     x8, #0x58000                                  
+00014024: add      x8, x8, #0x236                                '@"UIButton"'
+00014028: str      x26, [sp, #0x428]                             
+0001402c: str      x8, [sp, #0x430]                              
+00014030: str      x24, [sp, #0x438]                             
+00014034: str      x23, [sp, #0x440]                             
+
+DISASSEMBLY 0x14290-0x142b0
+00014290: adrp     x0, #0x57000                                  
+00014294: add      x0, x0, #0xffd                                'CARRootStatusBarViewController'
+00014298: bl       #0x46e18                                      
+0001429c: mov      x21, x0                                       
+000142a0: adrp     x8, #0x58000                                  
+000142a4: add      x8, x8, #0x236                                '@"UIButton"'
+000142a8: str      x26, [sp, #0x428]                             
+000142ac: str      x8, [sp, #0x430]                              
+
+DISASSEMBLY 0x14c94-0x14dd0
+00014c94: sub      sp, sp, #0x80                                 
+00014c98: stp      d11, d10, [sp, #0x30]                         
+00014c9c: stp      d9, d8, [sp, #0x40]                           
+00014ca0: stp      x22, x21, [sp, #0x50]                         
+00014ca4: stp      x20, x19, [sp, #0x60]                         
+00014ca8: stp      x29, x30, [sp, #0x70]                         
+00014cac: add      x29, sp, #0x70                                
+00014cb0: mov      x19, x0                                       
+00014cb4: adrp     x2, #0x6f000                                  
+00014cb8: add      x2, x2, #0x558                                NSString 'fullscreenBtn'
+00014cbc: bl       #0x52460                                      valueForKey:
+00014cc0: cbnz     x0, #0x14dd0                                  
+00014cc4: adrp     x8, #0x81000                                  
+00014cc8: ldr      x0, [x8, #0x1d8]                              [0x811d8] CLASS ARWUtils
+00014ccc: bl       #0x513c0                                      sharedInstance
+00014cd0: mov      x20, x0                                       
+00014cd4: bl       #0x470c0                                      PrefAPIState
+00014cd8: adrp     x8, #0x81000                                  
+00014cdc: ldr      x0, [x8, #0x280]                              [0x81280] CLASS _OBJC_CLASS_$_UIButton
+00014ce0: bl       #0x46dc4                                      
+00014ce4: mov      x21, x0                                       
+00014ce8: mov      x0, x20                                       
+00014cec: bl       #0x49ec0                                      full_x
+00014cf0: fcvt     d8, s0                                        
+00014cf4: mov      x0, x20                                       
+00014cf8: bl       #0x49ee0                                      full_y
+00014cfc: fcvt     d9, s0                                        
+00014d00: mov      x0, x20                                       
+00014d04: bl       #0x49ea0                                      full_size
+00014d08: fcvt     d10, s0                                       
+00014d0c: mov      x0, x20                                       
+00014d10: bl       #0x49ea0                                      full_size
+00014d14: fcvt     d3, s0                                        
+00014d18: mov      x0, x21                                       
+00014d1c: fmov     d0, d8                                        
+00014d20: fmov     d1, d9                                        
+00014d24: fmov     d2, d10                                       
+00014d28: bl       #0x4a9c0                                      initWithFrame:
+00014d2c: mov      x20, x0                                       
+00014d30: adrp     x8, #0x81000                                  
+00014d34: ldr      x21, [x8, #0x210]                             [0x81210] CLASS _OBJC_CLASS_$_UIImage
+00014d38: adrp     x8, #0x81000                                  
+00014d3c: ldr      x0, [x8, #0x288]                              [0x81288] CLASS _OBJC_CLASS_$_UIImageSymbolConfiguration
+00014d40: fmov     d0, #10.00000000                              
+00014d44: mov      w2, #3                                        
+00014d48: bl       #0x48cc0                                      configurationWithPointSize:weight:
+00014d4c: mov      x3, x0                                        
+00014d50: adrp     x2, #0x6f000                                  
+00014d54: add      x2, x2, #0x578                                NSString 'arrow.up.left.and.arrow.down.right'
+00014d58: mov      x0, x21                                       
+00014d5c: bl       #0x51dc0                                      systemImageNamed:withConfiguration:
+00014d60: mov      x2, x0                                        
+00014d64: mov      x0, x20                                       
+00014d68: mov      x3, #0                                        
+00014d6c: bl       #0x4e4e0                                      setBackgroundImage:forState:
+00014d70: adrp     x8, #0x80000                                  
+00014d74: ldr      x3, [x8, #0xca0]                              [0x80ca0] SEL carplayFullscreen
+00014d78: mov      x0, x20                                       
+00014d7c: mov      x2, x19                                       
+00014d80: mov      w4, #0x40                                     
+00014d84: bl       #0x47a60                                      addTarget:action:forControlEvents:
+00014d88: mov      x0, x20                                       
+00014d8c: mov      w2, #1                                        
+00014d90: bl       #0x4f040                                      setHidden:
+00014d94: adrp     x8, #0x81000                                  
+00014d98: ldr      x0, [x8, #0x138]                              [0x81138] CLASS _OBJC_CLASS_$_UIColor
+00014d9c: bl       #0x52640                                      whiteColor
+00014da0: mov      x2, x0                                        
+00014da4: mov      x0, x20                                       
+00014da8: bl       #0x50e80                                      setTintColor:
+00014dac: mov      x0, x19                                       
+00014db0: bl       #0x52560                                      view
+00014db4: mov      x2, x20                                       
+00014db8: bl       #0x47a40                                      addSubview:
+00014dbc: adrp     x3, #0x6f000                                  
+00014dc0: add      x3, x3, #0x558                                NSString 'fullscreenBtn'
+00014dc4: mov      x0, x19                                       
+00014dc8: mov      x2, x20                                       
+00014dcc: bl       #0x51100                                      setValue:forKey:
