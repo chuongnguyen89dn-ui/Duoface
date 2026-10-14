@@ -109,3 +109,38 @@ __attribute__((constructor)) static void DFBridgeLoaded(void) {
 
 // Split-pill actions deliberately remain untouched. Fullscreen must be triggered
 // exclusively by the future top CarPlay status-bar control while DuoFace is visible.
+
+static __weak UIViewController *DFScene = nil;
+static __weak UIButton *DFBarButton = nil;
+static BOOL DFVisible = NO;
+static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = !DFVisible; }
+static NSString *DFSceneID(id scene) {
+    for (NSString *key in @[@"appIdentifier", @"applicationIdentifier", @"bundleIdentifier"]) {
+        SEL selector = NSSelectorFromString(key);
+        if ([scene respondsToSelector:selector]) {
+            id value = ((id (*)(id, SEL))objc_msgSend)(scene, selector);
+            if ([value isKindOfClass:[NSString class]]) return value;
+        }
+    }
+    return nil;
+}
+static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
+    NSString *identifier = DFSceneID(scene);
+    if (appeared && [identifier isEqualToString:@"com.duonavi.app"]) {
+        DFScene = scene;
+        DFVisible = YES;
+    } else if (!appeared && scene == DFScene) {
+        if (DFHostFull) DFApplyFullscreen(NO);
+        DFVisible = NO;
+        DFScene = nil;
+    }
+    DFUpdateButton();
+}
+%hook DBApplicationSceneViewController
+- (void)viewDidAppear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, YES); }
+- (void)viewDidDisappear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, NO); }
+%end
+%hook CARApplicationSceneViewController
+- (void)viewDidAppear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, YES); }
+- (void)viewDidDisappear:(BOOL)animated { %orig; DFSceneChanged((UIViewController *)self, NO); }
+%end
