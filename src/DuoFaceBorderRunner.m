@@ -11,6 +11,7 @@
 
 static IMP DFNativeBorderStart=NULL, DFNativeBorderStop=NULL;
 static IMP DFNativeSplitLayout=NULL, DFNativeFocusSlot=NULL, DFNativeRestoreSplit=NULL;
+static IMP DFNativeSessionStart=NULL, DFNativeSessionStop=NULL;
 static BOOL DFBorderHooksInstalled=NO;
 static char DFFocusAssociation, DFRunningAssociation, DFKnownBorderViewsKey;
 static const CGFloat DFVisibleLineWidth=1.0;
@@ -105,6 +106,24 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     if ([NSThread isMainThread]) update();
     else dispatch_async(dispatch_get_main_queue(),update);
 }
+// Mirror the SAME native interaction session that shows and hides the
+// switch/divider controls. Calling %orig/IMP retains their exact idle timer.
+static void DFSessionStartHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSessionStart)(self,cmd);
+    for (UIView *view in [DFKnownBorderViewsFor(self) allObjects]) {
+        objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    DFUpdateFocusBorders(self);
+    NSLog(@"[DuoFaceBorder] native interaction session START");
+}
+static void DFSessionStopHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSessionStop)(self,cmd);
+    for (UIView *view in [DFKnownBorderViewsFor(self) allObjects]) {
+        objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    DFUpdateFocusBorders(self);
+    NSLog(@"[DuoFaceBorder] native interaction session IDLE");
+}
 static void DFSplitLayoutHook(id self, SEL cmd) {
     ((void(*)(id,SEL))DFNativeSplitLayout)(self,cmd);
     DFUpdateFocusBorders(self);
@@ -130,6 +149,18 @@ static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,I
     if (class_getInstanceMethod(controller,layout)) hook(controller,layout,(IMP)DFSplitLayoutHook,&DFNativeSplitLayout);
     hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
     hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
+    // Explicit native interaction-session hooks ensure red is hidden on
+    // inactivity even if native code bypasses a per-container STOP callback.
+    Method startSession=class_getInstanceMethod(controller,@selector(startBlinkingSession));
+    Method stopSession=class_getInstanceMethod(controller,@selector(stopBlinkingSession));
+    if (startSession && stopSession &&
+        method_getNumberOfArguments(startSession)==2 &&
+        method_getNumberOfArguments(stopSession)==2 &&
+        method_getTypeEncoding(startSession)[0]=='v' &&
+        method_getTypeEncoding(stopSession)[0]=='v') {
+        hook(controller,@selector(startBlinkingSession),(IMP)DFSessionStartHook,&DFNativeSessionStart);
+        hook(controller,@selector(stopBlinkingSession),(IMP)DFSessionStopHook,&DFNativeSessionStop);
+    } else NSLog(@"[DuoFaceBorder] native activity session hook unavailable; using per-container START/STOP");
     Method focus=class_getInstanceMethod(controller,@selector(focusSlot:animated:));
     Method restore=class_getInstanceMethod(controller,@selector(restoreSplitAnimated:));
     // Check argument types by index; ObjC encodings contain stack offsets between them.
