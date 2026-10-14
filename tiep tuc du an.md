@@ -1928,3 +1928,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Verified local original `Airaw.dylib` disassembly `0x14c94–0x14dcc`: guard existing fullscreenBtn, create control, init CGRect, attach UIControl touch-up-inside, addSubview to status bar controller.view, save reference. `0x14e50` registers distributed notification state observer, `0x14e70` reacts to visibility/state changes. `0x1499c` wraps original controller initializer and forwards to installer. This alone does not establish full app-identity gating or exact fullscreen frame behavior.
 - Current repo bridge has only a host frame hack and no top bar button; do not claim ready or build cosmetic-only DEB. Next implementation must target real scene identity and correct status bar class, then compile and test; do not touch CBSlotPillView.
 - No source modification or new DEB in this checkpoint.
+
+
+### 2026-10-14 — GitHub write recovered after blocked large source edit
+- Attempted one large source update for Airaw-like status bar and scene lifecycle; tool safety check blocked it before GitHub commit. Verified `runtime/DuoFaceFullscreenBridge.xm` remained unchanged at SHA `f55e2f63eb39c1aef757e10413c84b4d5065916d`.
+- Retried a small, scoped documentation change in same source file; GitHub update succeeded at commit `1b4606aa13e0fa87a2332c4188921dae67c94909` and readback confirmed. This does NOT implement fullscreen or produce a DEB.
+- NEXT: apply smaller source commits implementing active DuoFace scene detection, top status bar button and fullscreen restore; verify compile via `.github/workflows/fullscreen-test-deb.yml`; test on CarPlay before Sileo. Preserve split controls.
