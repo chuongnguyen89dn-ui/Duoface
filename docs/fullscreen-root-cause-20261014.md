@@ -2,6 +2,8 @@
 
 ## Kết luận
 
+**Cập nhật sau khi giải đúng v12:** bridge hiện tại điều khiển sai kiến trúc host. Hai pane nằm trong `CBWindow` do `CBBridgeManager` khởi tạo ở **SpringBoard**. Filter fullscreen chỉ inject Dashboard/CarPlay, không inject SpringBoard; event nội bộ không sang được owner này. `CBWindow.resizeWindows` đã đặt rootWindow phủ màn hình, nhưng đặt contentView theo **carPlayUsableBounds**, còn trừ sidebar. Vì vậy đổi frame của native DB scene không giải quyết vùng chứa hai pane. Đây là các thiếu sót xác định từ binary/source; chưa có log thiết bị để kết luận thứ tự các lỗi xảy ra trong lần bấm cụ thể.
+
 Ở main `4f4281d64f9ea26d616f4e7516a3fa4be8722a5a`, bridge chưa triển khai đầy đủ đường fullscreen của Airaw. Có lỗi kiến trúc xác định được từ source, độc lập với việc CI xanh. Chưa có log thiết bị để xác định nhánh nào đã chặn đúng lần bấm người dùng báo lỗi; không gọi đây là bản sửa đã chạy được.
 
 Phạm vi: v12, cả hai pane, ẩn/hiện sidebar, khôi phục layout, nút chỉ trong DuoFace. Giữ package ID, dữ liệu ngày, split/swap/picker và Sileo. Không sửa runtime hoặc phát hành trong lần điều tra này.
@@ -57,3 +59,31 @@ Phạm vi: v12, cả hai pane, ẩn/hiện sidebar, khôi phục layout, nút ch
 4. Khi đủ call graph: thay bridge bằng module đầy đủ state/scene/chrome/restore, cập nhật mọi host button, bảo toàn cả hai pane. Chỉ build sau thay đổi có chứng cứ và kiểm tra rollback. Source changed ≠ build ≠ device PASS.
 
 Hoàn tất ở lượt này: điều tra, khôi phục reference, giải target/action/owner và chrome receiver, sửa hồ sơ sai. Chưa sửa chức năng runtime, chưa có DEB mới, chưa test thiết bị và chưa phát hành Sileo.
+
+## Bổ sung đã xác minh: v12 và ranh giới process
+
+- Gói v12 tải trực tiếp từ repo: 2,231,998 bytes, SHA256 `8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a`; Git blob tự tính `ef6df3b3a84e1c43049bf66c093365fe996f67fd`, khớp API. Dashboard: SHA256 `bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce`. Gói này đã ở dist trong repo; không cần lưu bản sao.
+- DuoFaceUI Info.plist ghi `com.duoface.duofaceui`. Đây là bundle UI cấu hình, không đủ để nhận diện phiên split. Package `com.duonavi.app` cũng không phải bằng chứng native-scene ID.
+- Constructor `0x6500–0x6640` tách CarPlay và SpringBoard. Nhánh SpringBoard → `0x2ec60c` → `0x2c9854` → hook `applicationDidFinishLaunching:` IMP `0x2c9a04` → block `0x345cf8`, invoke `0x2ca140` → `CBBridgeManager.sharedInstance` tại `0x2ca164`.
+- `CBWindow.resizeWindows` IMP `0xb1aac`: `_rootWindow` offset `0x20` và `_rootViewController` offset `0x28` dùng screen bounds; `_contentView` offset `0x30` dùng usable bounds. `carPlayUsableBounds` IMP `0xb0ef4` trừ content insets, có fallback khi chiều quá nhỏ.
+- `CBBridgeManager.receivedMetricsUpdatedNotification:` IMP `0x1d1400` dispatch main block `0x1d1498` để cập nhật appFrame, renderSize và window.resizeWindows. Cuối block gọi currentApp.layoutSubviews chỉ khi receiver hỗ trợ; metadata không chứng minh CBBridgedSplitApp có method này.
+- `CBSplitContainerView.layoutSubviews` IMP `0x101790` gọi `splitApp.layoutSplitViews`. Đây là điểm giữ cả hai pane, không phải `focusSlot:animated:`.
+- `CBBridgeManagerDashboard.handleStateDict:` IMP `0x2a45f4` đọc activated và bundleIdentifier, gọi bridgeDidActivate:/bridgeDidDeactivate. Hai hàm cập nhật activated, dock active ID và trạng thái Home. Gate mới cần dựa trạng thái bridge này và host thật.
+- Evidence: `audit/v12-host-path-20261014.txt`, `audit/v12-geometry-chain-20261014.txt`, `audit/v12-process-ownership-20261014.txt`; script hash-pinned `scripts/v12_host_recovery.py`.
+
+## Bổ sung đã xác minh: đường thu nhỏ của Airaw
+
+Airaw không chỉ giữ nguyên nút top bar rồi đổi icon. `setDefaultAppChromeHidden:YES` gửi nativeChromeHidden=YES và fullscreenButtonHidden=YES khi có module native; lúc đó scene cài **ARWHostMenuView** riêng.
+
+- Đăng ký `arwInstallHostMenuIfNeeded` tại `0xb584` nối IMP `0xc794`; tạo ARWHostMenuView bằng `initWithHostWidth:hostMode:` với hostMode=0, host width từ scene.view.bounds.
+- `0xea84` cài menu lên scene.view.superview (fallback scene.view), alignedToHostView là scene.view; không cài vào split pill.
+- `setOnCloseRequested:` tại `0xc960` nhận block invoke `0xed90`; block này gọi **arwExitNativeFullscreen** tại `0xed9c`.
+- `arwRemoveHostMenu` IMP `0xc738` hideMenu, clearCallbacks, removeFromSuperview và setHostMenu:nil.
+- Exit `0xca2c` → settings block `0xef70`: khôi phục savedEdgeInsets, savedRect cho scene settings, rồi view frame, alpha, transform, và manager.setDefaultAppChromeHidden:NO.
+- Điều kiện Airaw nguyên bản vẫn yêu cầu module native và selected app. Không được xóa điều kiện rồi tuyên bố đó là bản port hoàn chỉnh của DuoFace.
+
+Evidence: `audit/airaw-host-menu-20261014.txt`, `audit/airaw-restore-eligibility-20261014.txt`. Phần host menu này cũng chưa tồn tại trong bridge hiện tại.
+
+## Điểm tiếp nối triển khai sau điều tra
+
+Các bước cũ về việc tìm owner/scene đã được giải ở trên. Việc tiếp theo là adapter hai process: Dashboard sở hữu button/chrome; SpringBoard sở hữu CBWindow/content geometry và split layout. Cần snapshot/restore đúng owner, ACK kết quả qua IPC, khôi phục khi phiên bridge đóng, và control thu nhỏ tương ứng host menu Airaw. Nút chỉ hiện theo phiên bridge thực. Không sửa logic focus/split/picker, package ID hoặc dữ liệu ngày. Phải hoàn thành phần host menu và đường IPC trước khi đóng DEB ứng viên; CI xanh không thay thế kiểm tra thiết bị.

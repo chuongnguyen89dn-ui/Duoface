@@ -1,0 +1,409 @@
+BINARY SHA256 46115c8f0a1d2d81cf4c003be58468d2a9b5c69e595f0f68d5fff5de53be4a9d
+ARM64 slice 0x4000; source-bound rebases only; no runtime claims
+CHECKPOINT POINTER 0x800ca0 OUTSIDE ARM64 VM DATA; likely checkpoint typo
+CHECKPOINT POINTER 0x80ca0 SEL carplayFullscreen
+CHECKPOINT POINTER 0x6f578 NSString 'arrow.up.left.and.arrow.down.right'
+
+CLASS METHOD OWNERS
+-[ARWCarPlayManager requestFullscreenToggle] IMP 0x19c7c entry 0x53034
+-[ARWCarPlayManager setFullscreenButtonHidden:] IMP 0x19cb0 entry 0x53040
+-[ARWCarPlayManager setDefaultAppChromeHidden:] IMP 0x19d78 entry 0x5304c
+-[ARWCarPlayManager setNativeChromeHidden:] IMP 0x19f44 entry 0x53058
+-[ARWCarPlayManager requestNativeSplitWithSecondary:nativeIdentifier:nativeFullscreen:] IMP 0x1a0e4 entry 0x53070
+-[ARWCarPlayManager postNativeSplitLayout:nativeOnLeft:vertical:fullscreen:baseRect:] IMP 0x1a3ac entry 0x53088
+-[ARWCarPlayManager postNativeSplitFullscreen:] IMP 0x1a6bc entry 0x530a0
+-[ARWCarPlayWindowManager launchNativeSplitWithSecondaryIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x1c1fc entry 0x53284
+-[ARWAppWindow setFullScreenBtn] IMP 0x21340 entry 0x52e50
+-[ARWAppWindow hostMenu] IMP 0x21aec entry 0x52ebc
+-[ARWAppWindow setHostMenu:] IMP 0x21af4 entry 0x52ec8
+-[ARWAppWindow isFullscreen] IMP 0x21b5c entry 0x52f64
+-[ARWAppWindow setIsFullscreen:] IMP 0x21b64 entry 0x52f70
+-[ARWHostedSceneWindow setFullScreenBtn] IMP 0x23378 entry 0x541a8
+-[ARWHostedSceneWindow hostMenu] IMP 0x24310 entry 0x54280
+-[ARWHostedSceneWindow setHostMenu:] IMP 0x24318 entry 0x5428c
+-[ARWHostedSceneWindow isFullscreen] IMP 0x24340 entry 0x542c8
+-[ARWHostedSceneWindow setIsFullscreen:] IMP 0x24348 entry 0x542d4
+-[ARWNativeSplitWindow initWithSecondaryBundleIdentifier:nativeIdentifier:nativeFullscreen:] IMP 0x25288 entry 0x544d0
+-[ARWNativeSplitWindow toggleFullscreen] IMP 0x27e94 entry 0x545b4
+-[ARWSplitWindow toggleFullscreen] IMP 0x2e808 entry 0x54f80
+
+DISASSEMBLY 0xb55c-0xb5bc
+0000b55c: adrp     x8, #0x7d000                                  
+0000b560: ldr      x1, [x8, #0xd68]                              [0x7dd68] SEL arwRemoveHostMenu
+0000b564: adrp     x2, #0xc000                                   
+0000b568: add      x2, x2, #0x738                                
+0000b56c: add      x3, sp, #0x30                                 
+0000b570: mov      x0, x19                                       
+0000b574: bl       #0x46c44                                      
+0000b578: ldr      q0, [sp, #0x20]                               
+0000b57c: str      s0, [sp, #0x30]                               
+0000b580: adrp     x8, #0x7d000                                  
+0000b584: ldr      x1, [x8, #0xd58]                              [0x7dd58] SEL arwInstallHostMenuIfNeeded
+0000b588: adrp     x2, #0xc000                                   
+0000b58c: add      x2, x2, #0x794                                
+0000b590: add      x3, sp, #0x30                                 
+0000b594: mov      x0, x19                                       
+0000b598: bl       #0x46c44                                      
+0000b59c: ldr      q0, [sp, #0x20]                               
+0000b5a0: str      s0, [sp, #0x30]                               
+0000b5a4: adrp     x8, #0x7d000                                  
+0000b5a8: ldr      x1, [x8, #0xd40]                              [0x7dd40] SEL arwExitNativeFullscreen
+0000b5ac: adrp     x2, #0xc000                                   
+0000b5b0: add      x2, x2, #0xa2c                                
+0000b5b4: add      x3, sp, #0x30                                 
+0000b5b8: mov      x0, x19                                       
+
+DISASSEMBLY 0xc738-0xca2c
+0000c738: stp      x20, x19, [sp, #-0x20]!                       
+0000c73c: stp      x29, x30, [sp, #0x10]                         
+0000c740: add      x29, sp, #0x10                                
+0000c744: mov      x19, x0                                       
+0000c748: bl       #0x4a5e0                                      hostMenu
+0000c74c: cbz      x0, #0xc788                                   
+0000c750: mov      x0, x19                                       
+0000c754: bl       #0x4a5e0                                      hostMenu
+0000c758: bl       #0x4a3e0                                      hideMenu
+0000c75c: mov      x0, x19                                       
+0000c760: bl       #0x4a5e0                                      hostMenu
+0000c764: bl       #0x48aa0                                      clearCallbacks
+0000c768: mov      x0, x19                                       
+0000c76c: bl       #0x4a5e0                                      hostMenu
+0000c770: bl       #0x4d680                                      removeFromSuperview
+0000c774: mov      x0, x19                                       
+0000c778: mov      x2, #0                                        
+0000c77c: ldp      x29, x30, [sp, #0x10]                         
+0000c780: ldp      x20, x19, [sp], #0x20                         
+0000c784: b        #0x4f180                                      setHostMenu:
+0000c788: ldp      x29, x30, [sp, #0x10]                         
+0000c78c: ldp      x20, x19, [sp], #0x20                         
+0000c790: ret                                                    
+0000c794: stp      d9, d8, [sp, #-0x40]!                         
+0000c798: stp      x22, x21, [sp, #0x10]                         
+0000c79c: stp      x20, x19, [sp, #0x20]                         
+0000c7a0: stp      x29, x30, [sp, #0x30]                         
+0000c7a4: add      x29, sp, #0x30                                
+0000c7a8: sub      sp, sp, #0x480                                
+0000c7ac: mov      x19, x0                                       
+0000c7b0: adrp     x8, #0x6c000                                  
+0000c7b4: ldr      x8, [x8, #0x3d0]                              [0x6c3d0] 
+0000c7b8: ldr      x8, [x8]                                      
+0000c7bc: stur     x8, [x29, #-0x38]                             
+0000c7c0: adrp     x21, #0x81000                                 
+0000c7c4: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+0000c7c8: bl       #0x493e0                                      defaultManager
+0000c7cc: mov      x20, x0                                       
+0000c7d0: adrp     x0, #0x6f000                                  
+0000c7d4: add      x0, x0, #0x2b8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle'
+0000c7d8: bl       #0x49c20                                      fileSystemRepresentation
+0000c7dc: add      x1, sp, #0x78                                 
+0000c7e0: bl       #0x4118                                       
+0000c7e4: mov      x2, x0                                        
+0000c7e8: cbz      x0, #0xc7fc                                   
+0000c7ec: adrp     x8, #0x81000                                  
+0000c7f0: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c7f4: bl       #0x51b40                                      stringWithUTF8String:
+0000c7f8: mov      x2, x0                                        
+0000c7fc: mov      x0, x20                                       
+0000c800: bl       #0x49c00                                      fileExistsAtPath:
+0000c804: tbnz     w0, #0, #0xc890                               
+0000c808: ldr      x0, [x21, #0x168]                             
+0000c80c: bl       #0x493e0                                      defaultManager
+0000c810: mov      x20, x0                                       
+0000c814: adrp     x0, #0x6f000                                  
+0000c818: add      x0, x0, #0x2d8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle/AirawSplitNative'
+0000c81c: bl       #0x49c20                                      fileSystemRepresentation
+0000c820: add      x1, sp, #0x78                                 
+0000c824: bl       #0x4118                                       
+0000c828: mov      x2, x0                                        
+0000c82c: cbz      x0, #0xc840                                   
+0000c830: adrp     x8, #0x81000                                  
+0000c834: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c838: bl       #0x51b40                                      stringWithUTF8String:
+0000c83c: mov      x2, x0                                        
+0000c840: mov      x0, x20                                       
+0000c844: bl       #0x49c00                                      fileExistsAtPath:
+0000c848: tbnz     w0, #0, #0xc890                               
+0000c84c: ldr      x0, [x21, #0x168]                             
+0000c850: bl       #0x493e0                                      defaultManager
+0000c854: mov      x20, x0                                       
+0000c858: adrp     x0, #0x6f000                                  
+0000c85c: add      x0, x0, #0x2f8                                NSString '/Library/MobileSubstrate/DynamicLibraries/AirawSplitNative.dylib'
+0000c860: bl       #0x49c20                                      fileSystemRepresentation
+0000c864: add      x1, sp, #0x78                                 
+0000c868: bl       #0x4118                                       
+0000c86c: mov      x2, x0                                        
+0000c870: cbz      x0, #0xc884                                   
+0000c874: adrp     x8, #0x81000                                  
+0000c878: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+0000c87c: bl       #0x51b40                                      stringWithUTF8String:
+0000c880: mov      x2, x0                                        
+0000c884: mov      x0, x20                                       
+0000c888: bl       #0x49c00                                      fileExistsAtPath:
+0000c88c: cbz      w0, #0xc9d8                                   
+0000c890: mov      x0, x19                                       
+0000c894: bl       #0x4a5e0                                      hostMenu
+0000c898: cbnz     x0, #0xc9d8                                   
+0000c89c: adrp     x8, #0x81000                                  
+0000c8a0: ldr      x0, [x8, #0x240]                              [0x81240] CLASS ARWHostMenuView
+0000c8a4: bl       #0x46dc4                                      
+0000c8a8: mov      x20, x0                                       
+0000c8ac: mov      x0, x19                                       
+0000c8b0: bl       #0x52560                                      view
+0000c8b4: bl       #0x485e0                                      bounds
+0000c8b8: mov      x0, x20                                       
+0000c8bc: fmov     d0, d2                                        
+0000c8c0: mov      x2, #0                                        
+0000c8c4: bl       #0x4aa40                                      initWithHostWidth:hostMode:
+0000c8c8: mov      x2, x0                                        
+0000c8cc: mov      x0, x19                                       
+0000c8d0: bl       #0x4f180                                      setHostMenu:
+0000c8d4: mov      x0, x19                                       
+0000c8d8: bl       #0xea84                                       
+0000c8dc: mov      x0, x19                                       
+0000c8e0: bl       #0x4a6e0                                      identifier
+0000c8e4: mov      x20, x0                                       
+0000c8e8: mov      x0, x19                                       
+0000c8ec: bl       #0x4a5e0                                      hostMenu
+0000c8f0: mov      x2, x20                                       
+0000c8f4: bl       #0x4f160                                      setHostBundleIdentifier:
+0000c8f8: add      x8, sp, #0x78                                 
+0000c8fc: stp      xzr, x8, [sp, #0x78]                          
+0000c900: adrp     x9, #0x5a000                                  
+0000c904: ldr      d0, [x9, #0x930]                              [0x5a930] ''
+0000c908: str      d0, [sp, #0x88]                               
+0000c90c: adrp     x9, #0xe000                                   
+0000c910: add      x9, x9, #0xd74                                
+0000c914: adrp     x10, #0xe000                                  
+0000c918: add      x10, x10, #0xd84                              
+0000c91c: stp      x9, x10, [sp, #0x90]                          
+0000c920: adrp     x20, #0x6c000                                 
+0000c924: ldr      x20, [x20, #0x3a8]                            [0x6c3a8] 
+0000c928: str      x19, [sp, #0xa0]                              
+0000c92c: str      x20, [sp, #0x50]                              
+0000c930: adrp     x9, #0x5a000                                  
+0000c934: ldr      d8, [x9, #0x8e0]                              [0x5a8e0] ''
+0000c938: adrp     x9, #0xe000                                   
+0000c93c: add      x9, x9, #0xd90                                
+0000c940: str      d8, [sp, #0x58]                               
+0000c944: adrp     x10, #0x6c000                                 
+0000c948: add      x10, x10, #0x7d8                              
+0000c94c: stp      x9, x10, [sp, #0x60]                          
+0000c950: str      x8, [sp, #0x70]                               
+0000c954: mov      x0, x19                                       
+0000c958: bl       #0x4a5e0                                      hostMenu
+0000c95c: add      x2, sp, #0x50                                 
+0000c960: bl       #0x503c0                                      setOnCloseRequested:
+0000c964: str      x20, [sp, #0x28]                              
+0000c968: str      d8, [sp, #0x30]                               
+0000c96c: adrp     x8, #0xe000                                   
+0000c970: add      x8, x8, #0xdbc                                
+0000c974: adrp     x9, #0x6c000                                  
+0000c978: add      x9, x9, #0x838                                
+0000c97c: stp      x8, x9, [sp, #0x38]                           
+0000c980: add      x8, sp, #0x78                                 
+0000c984: str      x8, [sp, #0x48]                               
+0000c988: mov      x0, x19                                       
+0000c98c: bl       #0x4a5e0                                      hostMenu
+0000c990: add      x2, sp, #0x28                                 
+0000c994: bl       #0x504e0                                      setOnSplitAppSelected:
+0000c998: str      x20, [sp]                                     
+0000c99c: str      d8, [sp, #8]                                  
+0000c9a0: adrp     x8, #0xe000                                   
+0000c9a4: add      x8, x8, #0xf24                                
+0000c9a8: adrp     x9, #0x6c000                                  
+0000c9ac: add      x9, x9, #0x868                                
+0000c9b0: stp      x8, x9, [sp, #0x10]                           
+0000c9b4: add      x8, sp, #0x78                                 
+0000c9b8: str      x8, [sp, #0x20]                               
+0000c9bc: mov      x0, x19                                       
+0000c9c0: bl       #0x4a5e0                                      hostMenu
+0000c9c4: mov      x2, sp                                        
+0000c9c8: bl       #0x50480                                      setOnScaleChanged:
+0000c9cc: add      x0, sp, #0x78                                 
+0000c9d0: mov      w1, #8                                        
+0000c9d4: bl       #0x46c08                                      
+0000c9d8: ldur     x8, [x29, #-0x38]                             
+0000c9dc: adrp     x9, #0x6c000                                  
+0000c9e0: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+0000c9e4: ldr      x9, [x9]                                      
+0000c9e8: cmp      x9, x8                                        
+0000c9ec: b.ne     #0xca08                                       
+0000c9f0: add      sp, sp, #0x480                                
+0000c9f4: ldp      x29, x30, [sp, #0x30]                         
+0000c9f8: ldp      x20, x19, [sp, #0x20]                         
+0000c9fc: ldp      x22, x21, [sp, #0x10]                         
+0000ca00: ldp      d9, d8, [sp], #0x40                           
+0000ca04: ret                                                    
+0000ca08: bl       #0x46c2c                                      
+0000ca0c: mov      x19, x0                                       
+0000ca10: add      x0, sp, #0x78                                 
+0000ca14: mov      w1, #8                                        
+0000ca18: bl       #0x46c08                                      
+0000ca1c: b        #0xca24                                       
+0000ca20: mov      x19, x0                                       
+0000ca24: mov      x0, x19                                       
+0000ca28: bl       #0x46c14                                      
+
+DISASSEMBLY 0xed90-0xedbc
+0000ed90: ldr      x8, [x0, #0x20]                               
+0000ed94: ldr      x8, [x8, #8]                                  
+0000ed98: ldr      x0, [x8, #0x28]                               
+0000ed9c: b        #0x481c0                                      arwExitNativeFullscreen
+0000eda0: ldr      x1, [x1, #0x20]                               
+0000eda4: add      x0, x0, #0x20                                 
+0000eda8: mov      w2, #8                                        
+0000edac: b        #0x46bfc                                      
+0000edb0: ldr      x0, [x0, #0x20]                               
+0000edb4: mov      w1, #8                                        
+0000edb8: b        #0x46c08                                      
+
+DISASSEMBLY 0xea84-0xeb04
+0000ea84: stp      x22, x21, [sp, #-0x30]!                       
+0000ea88: stp      x20, x19, [sp, #0x10]                         
+0000ea8c: stp      x29, x30, [sp, #0x20]                         
+0000ea90: add      x29, sp, #0x20                                
+0000ea94: mov      x21, x0                                       
+0000ea98: bl       #0x4a5e0                                      hostMenu
+0000ea9c: mov      x19, x0                                       
+0000eaa0: mov      x0, x21                                       
+0000eaa4: bl       #0x52560                                      view
+0000eaa8: cbz      x19, #0xeac0                                  
+0000eaac: mov      x20, x0                                       
+0000eab0: cbz      x0, #0xeac0                                   
+0000eab4: mov      x0, x21                                       
+0000eab8: bl       #0x4b2c0                                      isNativeSplit
+0000eabc: tbz      w0, #0, #0xead0                               
+0000eac0: ldp      x29, x30, [sp, #0x20]                         
+0000eac4: ldp      x20, x19, [sp, #0x10]                         
+0000eac8: ldp      x22, x21, [sp], #0x30                         
+0000eacc: ret                                                    
+0000ead0: mov      x0, x19                                       
+0000ead4: mov      w2, #0                                        
+0000ead8: bl       #0x4f040                                      setHidden:
+0000eadc: mov      x0, x20                                       
+0000eae0: bl       #0x51be0                                      superview
+0000eae4: cmp      x0, #0                                        
+0000eae8: csel     x2, x20, x0, eq                               
+0000eaec: mov      x0, x19                                       
+0000eaf0: mov      x3, x20                                       
+0000eaf4: ldp      x29, x30, [sp, #0x20]                         
+0000eaf8: ldp      x20, x19, [sp, #0x10]                         
+0000eafc: ldp      x22, x21, [sp], #0x30                         
+0000eb00: b        #0x4ad80                                      installOnContainer:alignedToHostView:
+
+DISASSEMBLY 0x19d78-0x19f44
+00019d78: stp      x24, x23, [sp, #-0x40]!                       
+00019d7c: stp      x22, x21, [sp, #0x10]                         
+00019d80: stp      x20, x19, [sp, #0x20]                         
+00019d84: stp      x29, x30, [sp, #0x30]                         
+00019d88: add      x29, sp, #0x30                                
+00019d8c: sub      sp, sp, #0x430                                
+00019d90: mov      x19, x2                                       
+00019d94: adrp     x8, #0x6c000                                  
+00019d98: ldr      x8, [x8, #0x3d0]                              [0x6c3d0] 
+00019d9c: ldr      x8, [x8]                                      
+00019da0: stur     x8, [x29, #-0x38]                             
+00019da4: adrp     x21, #0x81000                                 
+00019da8: ldr      x0, [x21, #0x168]                             [0x81168] CLASS _OBJC_CLASS_$_NSFileManager
+00019dac: bl       #0x493e0                                      defaultManager
+00019db0: mov      x20, x0                                       
+00019db4: adrp     x0, #0x6f000                                  
+00019db8: add      x0, x0, #0x2b8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle'
+00019dbc: bl       #0x49c20                                      fileSystemRepresentation
+00019dc0: add      x1, sp, #0x28                                 
+00019dc4: bl       #0x4118                                       
+00019dc8: mov      x2, x0                                        
+00019dcc: cbz      x0, #0x19de0                                  
+00019dd0: adrp     x8, #0x81000                                  
+00019dd4: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+00019dd8: bl       #0x51b40                                      stringWithUTF8String:
+00019ddc: mov      x2, x0                                        
+00019de0: mov      x0, x20                                       
+00019de4: bl       #0x49c00                                      fileExistsAtPath:
+00019de8: mov      x20, x19                                      
+00019dec: tbnz     w0, #0, #0x19e80                              
+00019df0: ldr      x0, [x21, #0x168]                             
+00019df4: bl       #0x493e0                                      defaultManager
+00019df8: mov      x20, x0                                       
+00019dfc: adrp     x0, #0x6f000                                  
+00019e00: add      x0, x0, #0x2d8                                NSString '/Library/PreferenceBundles/AirawSplitNative.bundle/AirawSplitNative'
+00019e04: bl       #0x49c20                                      fileSystemRepresentation
+00019e08: add      x1, sp, #0x28                                 
+00019e0c: bl       #0x4118                                       
+00019e10: mov      x2, x0                                        
+00019e14: cbz      x0, #0x19e28                                  
+00019e18: adrp     x8, #0x81000                                  
+00019e1c: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+00019e20: bl       #0x51b40                                      stringWithUTF8String:
+00019e24: mov      x2, x0                                        
+00019e28: mov      x0, x20                                       
+00019e2c: bl       #0x49c00                                      fileExistsAtPath:
+00019e30: mov      x20, x19                                      
+00019e34: tbnz     w0, #0, #0x19e80                              
+00019e38: ldr      x0, [x21, #0x168]                             
+00019e3c: bl       #0x493e0                                      defaultManager
+00019e40: mov      x20, x0                                       
+00019e44: adrp     x0, #0x6f000                                  
+00019e48: add      x0, x0, #0x2f8                                NSString '/Library/MobileSubstrate/DynamicLibraries/AirawSplitNative.dylib'
+00019e4c: bl       #0x49c20                                      fileSystemRepresentation
+00019e50: add      x1, sp, #0x28                                 
+00019e54: bl       #0x4118                                       
+00019e58: mov      x2, x0                                        
+00019e5c: cbz      x0, #0x19e70                                  
+00019e60: adrp     x8, #0x81000                                  
+00019e64: ldr      x0, [x8, #0x178]                              [0x81178] CLASS _OBJC_CLASS_$_NSString
+00019e68: bl       #0x51b40                                      stringWithUTF8String:
+00019e6c: mov      x2, x0                                        
+00019e70: mov      x0, x20                                       
+00019e74: bl       #0x49c00                                      fileExistsAtPath:
+00019e78: eor      w8, w0, #1                                    
+00019e7c: orr      w20, w8, w19                                  
+00019e80: adrp     x0, #0x56000                                  
+00019e84: add      x0, x0, #0x7f6                                'NSDistributedNotificationCenter'
+00019e88: bl       #0x46e18                                      
+00019e8c: bl       #0x493a0                                      defaultCenter
+00019e90: mov      x21, x0                                       
+00019e94: adrp     x8, #0x6c000                                  
+00019e98: add      x8, x8, #0xdd0                                NSString 'jp.airaw.carplay.chrome'
+00019e9c: ldr      x22, [x8]                                     [0x6cdd0] NSString 'jp.airaw.carplay.chrome'
+00019ea0: adrp     x8, #0x6c000                                  
+00019ea4: add      x8, x8, #0xe48                                NSString 'fullscreenButtonHidden'
+00019ea8: ldr      x8, [x8]                                      [0x6ce48] NSString 'fullscreenButtonHidden'
+00019eac: str      x8, [sp, #8]                                  
+00019eb0: adrp     x23, #0x81000                                 
+00019eb4: ldr      x0, [x23, #0x1f0]                             [0x811f0] CLASS _OBJC_CLASS_$_NSNumber
+00019eb8: mov      x2, x20                                       
+00019ebc: bl       #0x4c860                                      numberWithBool:
+00019ec0: str      x0, [sp, #0x18]                               
+00019ec4: adrp     x8, #0x6c000                                  
+00019ec8: add      x8, x8, #0xe50                                NSString 'nativeChromeHidden'
+00019ecc: ldr      x8, [x8]                                      [0x6ce50] NSString 'nativeChromeHidden'
+00019ed0: str      x8, [sp, #0x10]                               
+00019ed4: ldr      x0, [x23, #0x1f0]                             [0x811f0] CLASS _OBJC_CLASS_$_NSNumber
+00019ed8: mov      x2, x19                                       
+00019edc: bl       #0x4c860                                      numberWithBool:
+00019ee0: str      x0, [sp, #0x20]                               
+00019ee4: adrp     x8, #0x81000                                  
+00019ee8: ldr      x0, [x8, #0x1d0]                              [0x811d0] CLASS _OBJC_CLASS_$_NSDictionary
+00019eec: add      x2, sp, #0x18                                 
+00019ef0: add      x3, sp, #8                                    
+00019ef4: mov      w4, #2                                        
+00019ef8: bl       #0x49520                                      dictionaryWithObjects:forKeys:count:
+00019efc: mov      x4, x0                                        
+00019f00: mov      x0, x21                                       
+00019f04: mov      x2, x22                                       
+00019f08: mov      x3, #0                                        
+00019f0c: bl       #0x4d040                                      postNotificationName:object:userInfo:
+00019f10: ldur     x8, [x29, #-0x38]                             
+00019f14: adrp     x9, #0x6c000                                  
+00019f18: ldr      x9, [x9, #0x3d0]                              [0x6c3d0] 
+00019f1c: ldr      x9, [x9]                                      
+00019f20: cmp      x9, x8                                        
+00019f24: b.ne     #0x19f40                                      
+00019f28: add      sp, sp, #0x430                                
+00019f2c: ldp      x29, x30, [sp, #0x30]                         
+00019f30: ldp      x20, x19, [sp, #0x20]                         
+00019f34: ldp      x22, x21, [sp, #0x10]                         
+00019f38: ldp      x24, x23, [sp], #0x40                         
+00019f3c: ret                                                    
+00019f40: bl       #0x46c2c                                      

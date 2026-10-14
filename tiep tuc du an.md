@@ -1,3 +1,5 @@
+> ACTIVE CHECKPOINT 2026-10-14: đã giải owner v12 (SpringBoard CBBridgeManager/CBWindow), vùng content còn trừ sidebar, trạng thái Dashboard, và callback thu nhỏ Airaw. Đọc docs/fullscreen-root-cause-20261014.md cùng các checkpoint 2026-10-14 cuối file trước khi tiếp tục. Runtime host4 chưa sửa; chưa có DEB mới/device PASS. Mỗi phát hiện phải lưu ngay vào file này.
+
 # DUOFACE — TIẾP TỤC DỰ ÁN (HỒ SƠ BÀN GIAO CHÍNH)
 
 ## ACTIVE FULLSCREEN CHECKPOINT — 2026-10-14 (supersedes older CURRENT CHECKPOINT below for fullscreen)
@@ -2093,3 +2095,17 @@ Chưa sửa runtime/build; chưa device PASS.
 Evidence tái tạo: audit/v12-process-ownership-20261014.txt. Block invoke đọc trực tiếp QWORD tại 0x345cf8+0x10 = 0x2ca140.
 Tiếp theo: adapter phải có phần SpringBoard (CBWindow/content geometry/restore) và phần Dashboard (nút/statusbar chrome), giao tiếp có ACK; gate theo trạng thái bridge thật, không so package ID với native scene. Giữ nguyên cơ chế split/licensing. Không gọi Airaw native-scene path là cơ chế DuoFace tương đương khi chưa nối CBWindow.
 Đây là checkpoint phân tích; chưa sửa filter/runtime hoặc build.
+
+
+## 2026-10-14 — Checkpoint nút thu nhỏ Airaw và kết luận nguyên nhân
+
+Đã truy đúng phần bridge còn thiếu:
+- arwInstallHostMenuIfNeeded đăng ký 0xb584 → IMP0xc794. Tạo ARWHostMenuView initWithHostWidth:hostMode: với hostMode=0, width từ scene.view.bounds.
+- helper0xea84 dùng installOnContainer:alignedToHostView: với container=scene.view.superview (fallback view). Đây là menu host riêng, không nằm trong split pill.
+- setOnCloseRequested: tại0xc960 nhận block invoke0xed90; block gọi arwExitNativeFullscreen ở0xed9c.
+- arwRemoveHostMenu IMP0xc738 hideMenu, clearCallbacks, removeFromSuperview, setHostMenu:nil.
+- manager.setDefaultAppChromeHidden:YES gửi nativeChromeHidden YES và fullscreenButtonHidden YES khi module native tồn tại. Vì vậy đường gốc ẩn nút top bar rồi dùng menu host để thu nhỏ; bridge hiện tại chưa có menu/callback này.
+
+Đã cập nhật docs/fullscreen-root-cause-20261014.md tổng hợp bằng chứng v12 + process ownership + content bounds + restore. Evidence mới audit/airaw-host-menu-20261014.txt.
+Root causes xác định trong source/binary: filter thiếu SpringBoard; event local không đi sang owner CBWindow; chọn native scene/package ID chưa được chứng minh; gửi chrome selector sai owner; chỉ đổi view frame thay vì vùng content/scene settings; state báo full ngay cả khi chrome thất bại; thiếu menu thu nhỏ/restore gốc. Không khẳng định thứ tự lỗi runtime khi chưa có device log.
+Điểm tiếp theo: triển khai adapter Dashboard↔SpringBoard và phần host-menu tương ứng Airaw; ACK/restore theo owner thật, giữ layoutSplitViews. Chưa sửa runtime, chưa đóng DEB mới, không phát hành Sileo hoặc báo device PASS.
