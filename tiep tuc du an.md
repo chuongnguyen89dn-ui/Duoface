@@ -2633,3 +2633,7 @@ Người dùng yêu cầu sửa kế hoạch xuất DEB vì thiếu mô tả **i
 ### 2026-10-14 — User correction: old fullscreen button already removed
 - Người dùng xác nhận **đã hoàn tất gỡ nút phóng to/thu nhỏ cũ và đã chuyển thao tác Zoom vào mục Zoom In/Out trong menu** ở bản hiện hành. KHÔNG đưa hai việc này vào danh sách chưa làm, KHÔNG tái tạo nút fullscreen riêng và KHÔNG sửa lại Zoom pipeline nếu không có bằng chứng lỗi/yêu cầu mới. Đây là xác nhận từ người dùng, chưa phải kết quả build/test mới do phiên này thực hiện.
 - Phạm vi tiếp theo CHỈ là chỉnh UI theo quyết định đã duyệt: logo ngang đúng asset; hàng logo và menu bằng nhau về chiều ngang/căn hai mép; hàng menu 40pt; 4 cột đều App/Zoom In–Out/Style/Close App, icon trên chữ dưới; không khung bo/đường phân cách; selected highlight đúng mục. Giữ nguyên các callback và app grid. Chưa build/export DEB khi chưa được yêu cầu.
+
+
+### 2026-10-14 — Remove redundant picker mode handling
+- User clarified old DEB already handles selected tab and its highlight; do not reimplement. Corrected source `runtime/fullscreen/DFPickerZoomMenu.xm` in commit `0b5ee0a1759e0f29d37a011d9b8ec85aa30de568`: removed newly added `_overlayMode` object read and forced selected-tab background logic, retaining existing native picker selection and callbacks. Read-back verified absence of `modeIvar`. 40pt menu layout and original logo path remain. No DEB build/device test performed. Next: verify visual layout and native selection without changing functionality; compile before any package export.
