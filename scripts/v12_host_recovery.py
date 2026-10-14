@@ -91,7 +91,7 @@ if picker_mode:
     import re
     print('\n=== PICKER/APP MENU UI OWNER CANDIDATES (static class metadata) ===')
     owner_pattern = re.compile(
-        r'picker|menu|tab|folder|grid|app(list|switch|select|dock|cell|icon)|'
+        r'picker|menu|tab|folder|grid|multitask|overlay|app(list|switch|select|dock|cell|icon)|'
         r'recent|popover|sheet|layout|dashboard|header|category|segmented|'
         r'collection|carplay|split|bridge|window', re.I)
     candidates = sorted({name for name, _, _, _ in methods
@@ -100,8 +100,12 @@ if picker_mode:
         entries = [(kind, sel, imp) for cls, kind, sel, imp in methods if cls == name]
         print(f'OWNER {name} method_count={len(entries)}')
         for kind, sel, imp in entries:
-            if len(entries) <= 45 or owner_pattern.search(sel) or sel.startswith(('viewDid','init','loadView','setUp','build','configure')):
+            if name == 'CBMultitaskingOverlayView' or len(entries) <= 45 or owner_pattern.search(sel) or sel.startswith(('viewDid','init','loadView','setUp','build','configure')):
                 print(f'  {kind}[{name} {sel}] IMP {imp:#x}')
+    print('\n=== PICKER HEADER OWNER IVARS ===')
+    for name, field, offset in ivars:
+        if name == 'CBMultitaskingOverlayView' or owner_pattern.search(name):
+            print(f'  IVAR {name}.{field} offset {offset:#x}')
     print('\n=== PICKER-SPECIFIC METHODS across ALL classes ===')
     action = re.compile(r'picker|selectApp|showApps|showRecent|open.*Menu|app.*Grid|'
                         r'folder|tabBar|segment|layoutButton|present.*App|open.*App', re.I)
