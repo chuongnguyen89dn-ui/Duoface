@@ -23,8 +23,8 @@ jobs:
         run: |
           set -euo pipefail
           grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'logoSlotWidth=col' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'menuFrame.origin.x=sideInset+logoSlotWidth' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'const CGFloat logoWidth=120.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'menuFrame.origin.x=sideInset+logoWidth+gap' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFMenuZoomEvent' runtime/fullscreen/DFPickerZoomMenu.xm
