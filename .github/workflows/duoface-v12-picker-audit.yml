@@ -74,13 +74,20 @@ jobs:
           "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x105890:0x105e2c 0x105e2c:0x106518 0x106518:0x106560 0x1067a4:0x106f00 0x27fee4:0x280014 > audit/v12-split-focus-restore-chain-20261014.txt
           wc -l audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt
           grep -E "DISASSEMBLY|SEL (setOnExpandTapped:|setOnRestoreTapped:|setFocusedMode:|setShowsExpandButton:|toggleFocusForSlot:|restoreSplitAnimated:|focusSlot:animated:|showAppPickerForSlot:)" audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt | head -120 || true
+      - name: Trace slot-pill callback binding and split focus layout (READ ONLY)
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x1025e4:0x103ee0 0x103ee0:0x1044f8 0x1044f8:0x105890 0x106f00:0x108dd8 > audit/v12-split-slot-wiring-full-20261014.txt
+          grep -C 16 -E 'SEL (setOnExpandTapped:|setOnRestoreTapped:|setOnPillTapped:|setFocusedMode:|setShowsExpandButton:|toggleFocusForSlot:|restoreSplitAnimated:|focusSlot:animated:|onExpandTapped|onRestoreTapped|setSlotIndex:|layoutSplitViews)' audit/v12-split-slot-wiring-full-20261014.txt > audit/v12-split-slot-wiring-extract-20261014.txt
+          wc -l audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
       - name: Save static audit evidence to this repo (no installation)
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt
+          git add audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
           git commit -m "audit: retain exact v12 picker call graph [skip ci]"
           for attempt in 1 2 3; do
             git fetch origin main
