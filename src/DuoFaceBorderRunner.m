@@ -13,16 +13,39 @@ static IMP DFNativeSplitLayout = NULL;
 static NSHashTable *DFActiveBorderViews = nil;
 static const CGFloat DFLineWidth = 1.0;
 static const CFTimeInterval DFLapSeconds = 1.0;
-// Final/idle state is opaque DuoFace red; never expose native blue underneath the runner.
-static CGColorRef DFRedBorderColor(void) {
-    return [UIColor colorWithRed:1.0 green:0.09 blue:0.22 alpha:1.0].CGColor;
+// Match the approved installed logo instead of inventing another red palette.
+static UIColor *DFBorderLogoRed(void) {
+    static UIColor *accent = nil;
+    if (accent) return accent;
+    UIImage *logo = [UIImage imageWithContentsOfFile:
+        @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
+    if (!logo.CGImage) return nil;
+    uint8_t pixels[32*16*4] = {0};
+    CGColorSpaceRef space = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(pixels,32,16,8,32*4,space,
+        kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(space);
+    if (!ctx) return nil;
+    CGContextDrawImage(ctx,CGRectMake(0,0,32,16),logo.CGImage);
+    CGContextRelease(ctx);
+    int best=-1, score=0;
+    for (int n=0;n<32*16;n++) {
+        int red=pixels[n*4], green=pixels[n*4+1];
+        int blue=pixels[n*4+2], alpha=pixels[n*4+3];
+        int strength=red-MAX(green,blue);
+        if (alpha>180 && red>100 && strength>score) {score=strength;best=n;}
+    }
+    if (best<0) return nil;
+    accent=[[UIColor colorWithRed:pixels[best*4]/255.0
+        green:pixels[best*4+1]/255.0 blue:pixels[best*4+2]/255.0 alpha:1] retain];
+    return accent;
 }
-static void DFEnforceRedBorder(UIView *view) {
+static void DFSetBorderColor(UIView *view, UIColor *color) {
     if (![view isKindOfClass:[UIView class]]) return;
     [view.layer removeAnimationForKey:@"borderPulse"];
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    view.layer.borderColor = DFRedBorderColor();
+    view.layer.borderColor = color.CGColor;
     [CATransaction commit];
 }
 
@@ -86,7 +109,7 @@ static void DFStartEffect(UIView *view) {
     DFBorderEffect *effect = [[[DFBorderEffect alloc] init] autorelease];
     // Duplicate each segment shifted by -1 lap. This makes the wrap seam continuous.
     NSArray *colors = @[
-        (id)[UIColor colorWithRed:1 green:0.09 blue:0.22 alpha:1].CGColor,
+        (id)(DFBorderLogoRed() ?: [UIColor whiteColor]).CGColor,
         (id)[UIColor whiteColor].CGColor
     ];
     CGFloat lengths[2] = {0.18,0.055};
@@ -117,7 +140,8 @@ static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
     (void)self; (void)cmd;
     void (^update)(void) = ^{
         if ([view isKindOfClass:[UIView class]]) {
-            DFEnforceRedBorder(view);
+            // Black baseline is visible wherever moving red/white strokes leave a gap.
+            DFSetBorderColor(view,[UIColor blackColor]);
             DFStartEffect(view);
         }
     };
@@ -127,7 +151,9 @@ static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
     ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
     void (^update)(void) = ^{
         DFStopEffect(view);
-        DFEnforceRedBorder(view);
+        // The final static border uses the same red sampled by the menu from the approved logo.
+        UIColor *red=DFBorderLogoRed();
+        DFSetBorderColor(view,red ?: [UIColor blackColor]);
     };
     if ([NSThread isMainThread]) update(); else dispatch_async(dispatch_get_main_queue(),update);
 }
