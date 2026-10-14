@@ -86,7 +86,43 @@ for name, field, offset in ivars:
     if name in focus: print(f'IVAR {name}.{field} offset {offset:#x}')
 
 md = Cs(CS_ARCH_ARM64, CS_MODE_ARM); md.detail = True
-for item in sys.argv[2:]:
+picker_mode = '--picker' in sys.argv[2:]
+if picker_mode:
+    import re
+    print('\n=== PICKER/APP MENU UI OWNER CANDIDATES (static class metadata) ===')
+    owner_pattern = re.compile(
+        r'picker|menu|tab|folder|grid|app(list|switch|select|dock|cell|icon)|'
+        r'recent|popover|sheet|layout|dashboard|header|category|segmented|'
+        r'collection|carplay|split|bridge|window', re.I)
+    candidates = sorted({name for name, _, _, _ in methods
+                         if owner_pattern.search(name)})
+    for name in candidates:
+        entries = [(kind, sel, imp) for cls, kind, sel, imp in methods if cls == name]
+        print(f'OWNER {name} method_count={len(entries)}')
+        for kind, sel, imp in entries:
+            if len(entries) <= 45 or owner_pattern.search(sel) or sel.startswith(('viewDid','init','loadView','setUp','build','configure')):
+                print(f'  {kind}[{name} {sel}] IMP {imp:#x}')
+    print('\n=== PICKER-SPECIFIC METHODS across ALL classes ===')
+    action = re.compile(r'picker|selectApp|showApps|showRecent|open.*Menu|app.*Grid|'
+                        r'folder|tabBar|segment|layoutButton|present.*App|open.*App', re.I)
+    for name, kind, sel, imp in methods:
+        if action.search(sel):
+            print(f'{kind}[{name} {sel}] IMP {imp:#x}')
+    print('\n=== STRINGS potentially naming menu tabs ===')
+    needles = re.compile(
+        r'pick|menu|tab|recent|layout|app(lication|s|Grid|List|Picker)|'
+        r'category|opened|folder|\\u1ee8ng|\\u1ed1 c\\u1ee5c|'
+        r'\\u0110ang m\\u1edf', re.I)
+    for sec in ('__cstring', '__objc_methname'):
+        if sec not in sections: continue
+        base, length, _, _ = sections[sec]
+        for offset, raw_string in enumerate(p[base:base+length].split(b'\\0')):
+            if not raw_string or len(raw_string) > 180: continue
+            text_value = raw_string.decode('utf-8', errors='replace')
+            if needles.search(text_value): print(f'  {sec}: {text_value}')
+    print('=== END PICKER UI METADATA ===')
+
+for item in (arg for arg in sys.argv[2:] if arg != '--picker'):
     begin, end = (int(x, 0) for x in item.split(':'))
     assert 0 <= begin < end <= sections['__text'][0]+sections['__text'][1]
     print(f'\nDISASSEMBLY {begin:#x}-{end:#x}')
