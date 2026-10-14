@@ -2154,3 +2154,12 @@ Thêm DFRestoreMenu và DFFullscreenCoordinator; build check compile toàn bộ 
 - Coordinator: nút → distributed request → host geometry+restore-control ACK → hide chrome; thất bại bất kỳ bước nào gửi restore, không đánh dấu full chỉ vì đã bấm.
 - Transport query lại khi idle để bắt phiên bridge khởi động sau hook; có timeout/lease rollback.
 Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.xm, chưa đổi filter/đóng DEB. Push này compile phần coordinator/menu mới. Tiếp tục kiểm log và các tình huống restore trước khi ghép candidate.
+
+
+## 2026-10-14 — Tiếp tục fullscreen adapter từ run lỗi 38522121364
+
+- Kiểm tra trạng thái repo `chuongnguyen89dn-ui/Duoface`, nhánh `main`, HEAD trước sửa `94df910be4cebf313ac435dc5337338f1ff1d676`; không có job chạy tại thời điểm khảo sát (run mới chỉ được tạo sau commit sửa).
+- Workflow `.github/workflows/fullscreen-adapter-check.yml`, run `38522121364`, job `115713982715`, `completed/failure`. Đã đọc log thật: `runtime/fullscreen/DFRestoreMenu.mm:104:30: error: unused parameter 'timer' [-Werror,-Wunused-parameter]`; `make` exit 2. Host/IPC/chrome/control đã đi qua bước compile, lỗi dừng tại DFRestoreMenu, nên `DFFullscreenCoordinator.mm` chưa được biên dịch ở run này.
+- Thay đổi có chủ đích duy nhất: tại `runtime/fullscreen/DFRestoreMenu.mm`, callback NSTimer thêm `(void)timer;` để khắc phục chính xác lỗi `-Werror`; không thay đổi cơ chế callback, UI hay host geometry. Đã commit `284df8a803720215618dfa8538b1ef45707dbc40` (`fix: consume scheduled timer parameter in fullscreen restore menu`), GitHub trả content SHA `8df41aeb78077a7e2736ca72c9c0c3a678302e67`.
+- Run mới `38525482080` được kích hoạt từ commit `284df8a` (trạng thái khi tra cứu: `queued`; chưa xác minh thành công). Link: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38525482080 . Không nhận thành công cho đến khi đọc kết quả và log.
+- Tiếp theo chính xác: kiểm tra run `38525482080`; nếu fail, đọc job log, sửa đúng lỗi, commit và kiểm lại. Nếu compile-only pass, kiểm tra logic/entrypoint và lọc process SpringBoard trước khi xây DEB ứng viên; bảo toàn v12, split ratio, ngày và nguồn Sileo. Chưa sửa runtime host4/filter/DEB/Sileo, chưa device PASS.
