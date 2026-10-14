@@ -1892,3 +1892,10 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Requirement supersedes earlier app-detection speculation: show Airaw-style fullscreen control on TOP CarPlay bar ONLY while DuoFace interface is open; hide on CarPlay Home; clicking expands DuoFace; leaving DuoFace restores layout. Do not place inside CBSlotPillView or change split controls.
 - Current `runtime/DuoFaceFullscreenBridge.xm` has no top-bar button and still hooks `CBSlotPillView expandTapped:/restoreTapped:` (coupling to split UI). No implementation or device test confirmed in this checkpoint.
 - Next: locate actual DuoFace visibility lifecycle and CarPlay status bar host; implement button conditioned on DuoFace visibility, decouple split pill actions, test build and device before Sileo release.
+
+
+### 2026-10-14 — Removed unintended fullscreen coupling to split pill
+- Verified source `runtime/DuoFaceFullscreenBridge.xm` still hooked `CBSlotPillView expandTapped:/restoreTapped:` despite user requirement for separate Airaw-style TOP status bar control.
+- Commit `0ae364c1edd104f7ec275dd9ddf1da28a97d6054` removes both CBSlotPillView hooks; fetched file again and confirmed absence, while DBApplicationViewController hook remains. This is a SOURCE correction, not a working fullscreen button.
+- Independently checked local Airaw 1.7.1k ARM64 disassembly: hook IMPs `0x14630`, `0x147b0`, `0x1499c` all branch to common `0x14c94`; within it `0x14d78–0x14d84` sets UIControl event 0x40 and `0x14db0–0x14db8` adds a view. Exact class and superview still need proof. Source disassembly path `/mnt/data/airaw_focus/arm64_disasm.txt` is session-local only.
+- NEXT: trace receiver/superview of `0x14db8`, identify CarPlay top bar host and DuoFace visible lifecycle; implement conditional button only on DuoFace screen, hide on Home, restore when leaving. Existing workflow triggers on source push; verify run/build separately. No device PASS or Sileo publication claimed.
