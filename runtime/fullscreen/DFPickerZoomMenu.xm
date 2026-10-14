@@ -53,30 +53,11 @@ static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *f
     b.titleLabel.minimumScaleFactor=0.85;
     b.titleLabel.lineBreakMode=NSLineBreakByClipping;
 }
+// One canonical accent sampled from the approved, installed horizontal logo.
+// audit/approved-logo-red.json: SHA256 78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089
+// RGB (227,2,15), #E3020F. Shared with src/DuoFaceBorderRunner.m.
 static UIColor *DFApprovedLogoRed(void) {
-    static UIColor *accent=nil;
-    if (accent) return accent;
-    UIImage *logo=[UIImage imageWithContentsOfFile:
-        @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
-    if (!logo.CGImage) return nil;
-    uint8_t pixels[32*16*4]={0};
-    CGColorSpaceRef space=CGColorSpaceCreateDeviceRGB();
-    CGContextRef ctx=CGBitmapContextCreate(pixels,32,16,8,32*4,space,
-        kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Big);
-    CGColorSpaceRelease(space);
-    if (!ctx) return nil;
-    CGContextDrawImage(ctx,CGRectMake(0,0,32,16),logo.CGImage);
-    CGContextRelease(ctx);
-    int best=-1,score=0;
-    for (int i=0;i<32*16;i++) {
-        int r=pixels[i*4],g=pixels[i*4+1],bl=pixels[i*4+2],alpha=pixels[i*4+3];
-        int strength=r-MAX(g,bl);
-        if (alpha>180 && r>100 && strength>score) {score=strength;best=i;}
-    }
-    if (best<0) return nil;
-    accent=[UIColor colorWithRed:pixels[best*4]/255.0
-        green:pixels[best*4+1]/255.0 blue:pixels[best*4+2]/255.0 alpha:1];
-    return accent;
+    return [UIColor colorWithRed:227.0/255.0 green:2.0/255.0 blue:15.0/255.0 alpha:1.0];
 }
 // DuoFace v12 already installs this APPROVED 960x240 asset in the base DEB.
 // Never draw or synthesize a substitute. When absent, restore the native title.
