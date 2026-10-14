@@ -2068,3 +2068,14 @@ Phát hiện host:
 Lệnh tái tạo: python3 scripts/v12_host_recovery.py PATH_TO_DuoFaceDashboard.dylib 0xb1aac:0xb1ec0 0x2a3600:0x2a37f0 0x2a45f4:0x2a47fc > audit/v12-host-path-20261014.txt.
 Đã sửa bộ giải CFString ascii/UTF-16 và bổ sung ADR/LDR literal trước khi lưu evidence; không dùng các nhãn unicode lỗi tạm thời.
 Tiếp theo chính xác: giải CBWindow.resizeWindows/carPlayUsableBounds, nối trạng thái Dashboard với host SpringBoard và đường chrome Airaw. Chưa sửa runtime, chưa có build mới hoặc device PASS; giữ v12/split/package/day data.
+
+## 2026-10-14 — Checkpoint geometry v12, lưu ngay sau khi giải
+
+Evidence: audit/v12-geometry-chain-20261014.txt; script scripts/v12_host_recovery.py bổ sung ObjC ivar offsets.
+- CBWindow._rootWindow=offset0x20, _rootViewController=0x28, _contentView=0x30. Đối chiếu resizeWindows đã lưu: rootWindow và rootViewController.view nhận carPlayScreenBounds; contentView nhận carPlayUsableBounds. Đây là vùng thực tế còn chừa sidebar dù root window đã phủ cả màn hình.
+- carPlayUsableBounds 0xb0ef4 lấy carPlayScreenBounds và carPlayContentInsets, trừ trái/phải/trên/dưới. Có fallback nếu kích thước <100. Khi đủ kích thước, x=screen.x+left, y=screen.y+top, w=screen.w-left-right, h=screen.h-top-bottom.
+- CBBridgeManager.receivedMetricsUpdatedNotification: 0x1d1400 dispatch main block 0x1d1498: tính usableBounds, setAppFrame, setRenderSize với kích thước nhân2 rồi làm tròn; gọi window.resizeWindows. Cuối block chỉ gọi currentApp.layoutSubviews nếu respondsToSelector; không được mặc định CBBridgedSplitApp có method đó.
+- CBSplitContainerView.layoutSubviews 0x101790 gọi splitApp.layoutSplitViews 0x101808. Đường resize cả hai pane nằm ở container này, khác focusSlot/restoreSplit.
+Kết luận mới: sửa scene DB đơn lẻ không đủ cho v12; cần thay vùng contentView/usable bounds của CBWindow đồng thời giữ layoutSplitViews và chrome phía Dashboard.
+Tiếp tục: xác định process khởi tạo CBBridgeManager/CBWindow và receiver IPC, rồi thiết kế enter/restore có xác nhận trạng thái, tránh đánh dấu fullscreen khi không thực hiện được.
+Chưa sửa runtime/build; chưa device PASS.

@@ -54,10 +54,17 @@ def label(a):
 print('V12 DASHBOARD SHA256', expected)
 print('ARM64 slice 0x4000; static metadata/disassembly only')
 methods = []
+ivars = []
 start, size, _, _ = sections['__objc_classlist']
 for a in range(start, start+size, 8):
     cls = u64(a)
     name = string(u64(u64(cls+32)+24))
+    table = u64(u64(cls+32)+48)
+    if table:
+        stride, count = u32(table), u32(table+4)
+        for j in range(count):
+            e = table+8+j*stride
+            ivars.append((name, string(u64(e+8)), u32(u64(e))))
     for kind, owner in [('-', cls), ('+', u64(cls))]:
         m = u64(u64(owner+32)+32)
         if not m: continue
@@ -75,6 +82,8 @@ focus = {'CBWindow', 'CBBridgeManager', 'CBBridgeManagerDashboard', 'CBDashboard
 for name, kind, sel, imp in methods:
     if name in focus and 'license' not in sel.lower():
         print(f'{kind}[{name} {sel}] IMP {imp:#x}')
+for name, field, offset in ivars:
+    if name in focus: print(f'IVAR {name}.{field} offset {offset:#x}')
 
 md = Cs(CS_ARCH_ARM64, CS_MODE_ARM); md.detail = True
 for item in sys.argv[2:]:
