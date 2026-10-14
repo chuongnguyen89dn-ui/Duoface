@@ -39,7 +39,8 @@ static void DFRemoveLegacyBorderEffects(UIView *view) {
     // Remove only our old red/white runner and black backing layers, if any.
     // The native blue borderColor animation is intentionally never started.
     [view.layer removeAnimationForKey:@"borderPulse"];
-    for (CALayer *layer in [view.layer.sublayers copy]) {
+    NSArray *layers=[NSArray arrayWithArray:(view.layer.sublayers?:@[])];
+    for (CALayer *layer in layers) {
         if ([layer isKindOfClass:[CAShapeLayer class]] &&
             layer.zPosition>=1000.0 && layer.zPosition<=1003.0) {
             [layer removeAllAnimations];
