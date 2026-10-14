@@ -1866,3 +1866,9 @@ Các file DEB được liệt kê là file cục bộ của phiên làm việc C
 - Run 38508980835: build job 115672873772 completed SUCCESS; compile, package, upload steps successful. Artifact `duoface-fullscreen-test2`, ID 11869266581, 2,035,141-byte ZIP, SHA256 `17af3447bc5c296b3951b21c7d2abc698f5f5b82b1ea7327dce4559f60fe4a16`; download https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38508980835/artifacts/11869266581 . Built head commit a086e414bb91d0e02078040e6caa8172637e3995.
 - CI log shows DEB `artifacts/com.duonavi.app_1.0.3-12_fullscreen-test2_iphoneos-arm64.deb` (package `com.duonavi.app`). ACTUAL BRIDGE FILTER printed with bundles including `com.apple.CarPlayApp`, `com.apple.CarPlay`, `com.apple.dashboard`, SpringBoard and additional apps; workflow copies base DuoFaceDashboard.plist rather than standalone filter. This confirms packaging, not runtime injection.
 - Device visibility/function for test2 NOT YET TESTED. Next: install and inspect CarPlay; if absent, obtain runtime log and verify whether CBSlotPillView is instantiated in injected process. Do not publish to Sileo before on-device PASS.
+
+
+### 2026-10-14 — User device result: fullscreen-test2 FAIL
+- User installed fullscreen-test2 artifact from GitHub Actions run 38508980835 and reports fullscreen button STILL NOT VISIBLE on CarPlay. Both test1 and test2 have failed visibility despite CI build success. Treat this as confirmed user-reported device result, not a CI issue.
+- Root cause NOT YET ESTABLISHED. Need verify actual tweak injection into CarPlay process, runtime class/method existence and lifecycle, and Airaw's actual Host Menu/status bar attachment point. Do not keep guessing button coordinates or claim Airaw-equivalent UI.
+- Next action: add diagnostic logging for dylib constructor/process identity and hook class availability; confirm real device logs before another UI relocation or DEB. No code or build changes in this checkpoint.
