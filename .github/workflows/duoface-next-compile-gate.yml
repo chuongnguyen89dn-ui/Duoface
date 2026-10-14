@@ -29,9 +29,9 @@ jobs:
           set -euo pipefail
           grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
           # On actual red2 device photo width/4 made an oversized header; cap it at approved compact 40pt row.
-          grep -q 'logoSlotWidth=col' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'menuFrame.origin.x=sideInset+logoSlotWidth' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'usableWidth=sheetWidth-2.0\*sideInset' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'logoWidth=120.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'xReserved=38.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'available=sheetWidth-2.0\*sideInset-logoWidth-xReserved-gap' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFFullscreenCoordinator.mm
           cp Makefile.fullscreen Makefile
