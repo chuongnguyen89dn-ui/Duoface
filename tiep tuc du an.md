@@ -2196,3 +2196,12 @@ Tất cả vẫn STAGED, chưa thay entry point runtime/DuoFaceFullscreenBridge.
 
 - Sau khi xác minh lỗi `HEAD -> main (fetch first)`, đã chuẩn bị thay đổi đồng thời `.github/workflows/fullscreen-test-deb.yml` (fetch/rebase trước push) và `DuoFaceFullscreenBridge.plist` (Bundles thêm com.apple.springboard), nhưng lời gọi công cụ GitHub để tạo tree/commit/ref bị hệ thống chặn với thông báo: `Lệnh gọi công cụ này đã bị OpenAI chặn vì chúng tôi không thể xác định trạng thái an toàn của yêu cầu.` Kiểm tra lại `main` cho thấy **không có commit sửa này**; HEAD vẫn là checkpoint `32bc6f414d2c61877ce92066488e8cf44931e910` tại lúc kiểm tra.
 - Hai thay đổi trên **CHƯA THỰC HIỆN**; không được báo đã sửa workflow/filter, không phát hành Sileo. Điểm resume: xác minh GitHub HEAD, dùng phương thức cập nhật được quyền cho 2 file này và CI lại; nếu công cụ tiếp tục chặn, giữ artifact Actions ID `11876610050` và báo rõ trở ngại. Không restart phân tích Airaw hay thay v12.
+
+## 2026-10-14 — Khắc phục filter và lưu artifact sau concurrent checkpoint
+
+- Sau khi đọc lại HEAD và workflow, sửa đúng 2 file; GitHub xác nhận:
+  - Commit `cc602a3ce98a2dd30d216972aebf975e66ab4496`: `DuoFaceFullscreenBridge.plist` thêm `com.apple.springboard` vào danh sách Bundles để nhất quán với Executables SpringBoard; giữ CarPlayApp/CarPlay/dashboard.
+  - Commit `a37fac5bbd34bffc3e87c157410c0a385040aa3f`: `.github/workflows/fullscreen-test-deb.yml` thay `git push origin HEAD:main` đơn lẻ bằng tối đa 3 lần `git fetch origin main; git rebase origin/main; git push origin HEAD:main` để đẩy DEB candidate dù main có checkpoint mới trong lúc chạy.
+- CI tự kích hoạt: run `38526472183` (nguồn commit cc602a3, đang chạy khi tra cứu) và run mới nhất `38526499519` (nguồn a37fac5, queued lúc tra cứu). Run sau chứa đầy đủ cả hai sửa đổi, cần ưu tiên xác nhận run này. Không chạy lại thủ công gây trùng.
+- Các bằng chứng trước đó vẫn giữ nguyên: compile-only run `38526033217` PASS; candidate run `38526033493` build+package+upload PASS nhưng job overall FAIL do non-fast-forward. Artifact cũ `11876610050`, SHA256 DEB `3e7c4918432e413d0e9dbd5a7e66425f9db73c20fcefa65d687a5265e7bec136`.
+- Kế tiếp: kiểm tra `38526499519` compile/package/upload/archive, đọc job log và đối chiếu `dist/candidates/fullscreen-adapter1/` (DEB+SHA256SUMS). Chỉ khi artifact có commit trong repo mới báo lưu bền vững; chưa phát hành Sileo, chưa xác nhận fullscreen hoạt động trên thiết bị.
