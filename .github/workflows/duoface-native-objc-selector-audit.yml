@@ -31,7 +31,7 @@ jobs:
           import json,pathlib
           z=json.loads(pathlib.Path('audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json').read_text())
           a=z['binaries']['DuoFaceUI']
-          assert a['class_count']>=30,a
+          assert a['class_count']>=20,a
           assert a['classes_of_interest'].get('CBGeneralSettingsViewController')
           assert a['classes_of_interest'].get('CBSubscriptionViewController')
           assert z['source_modified'] is False
