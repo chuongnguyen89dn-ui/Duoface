@@ -77,7 +77,7 @@ for a in range(start, start+size, 8):
                 imp = e+8+i32(e+8)
             else: sel, imp = string(u64(e)), u64(e+16)
             methods.append((name, kind, sel, imp))
-focus = {'CBWindow', 'CBBridgeManager', 'CBBridgeManagerDashboard', 'CBDashboardShared',
+focus = {'CBLocalization', 'CBWindow', 'CBBridgeManager', 'CBBridgeManagerDashboard', 'CBDashboardShared',
          'CBSplitContainerView', 'CBBridgedSplitApp', 'CBBridgedUIAppView'}
 for name, kind, sel, imp in methods:
     if name in focus and 'license' not in sel.lower():
