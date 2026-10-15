@@ -138,7 +138,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x280d48:0x281e48 0xa6e90:0xa7170 0xa7520:0xa7790 > audit/v12-picker-running-status-20261015.txt
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x280d48:0x282780 0xa6e90:0xa7170 0xa7520:0xa7790 > audit/v12-picker-running-status-20261015.txt
           grep -E 'DISASSEMBLY|SEL (runningBridgedApplications|objectForKeyedSubscript:|boolValue|intValue|integerValue|runningApplication|processIdentifier)|NSString (.*inActiveSlot|.*slotIndex|.*pid|.*OVERLAY_RUNNING_TAG|.*OVERLAY_PID_TAG|.*OVERLAY_BACKGROUND_TAG)' audit/v12-picker-running-status-20261015.txt | head -110 || true
       - name: Audit menu-only transparent logo preview (NO DEB)
         shell: bash
