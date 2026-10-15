@@ -1,0 +1,39 @@
+{
+  "status": "NATIVE11_SIGNED_DEB_EXACT_52_LITERAL_CONTENT_REMOVALS_8_CARPLAY_GUARD_PASS",
+  "native11_deb_sha256": "f51180308e7bfd3a86af011c7370290eee4be59d6c7aced5c5ff790e685dc2c5",
+  "native10_reference_sha256": "3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native11",
+  "changed_only_52_selected_license_literal_contents": true,
+  "selected_literal_count": 52,
+  "selected_string_bytes_removed": 1816,
+  "all_objc_and_machine_code_sections_unchanged": true,
+  "all_8_carplay_detection_method_bodies_unchanged": true,
+  "all_other_payload_entries_unchanged": true,
+  "all_md5sums_verified": true,
+  "signed_arm64_rootless": true,
+  "objc_license_metadata_still_exists": true,
+  "full_license_runtime_removed": false,
+  "runtime_localization_lookup_proven_safe": false,
+  "device_tested": false,
+  "published_to_sileo": false,
+  "rollback_native10_unchanged": true,
+  "binaries": {
+    "DuoFaceUI": {
+      "exact_erase_ranges": 23,
+      "original_nonzero_bytes_removed": 663,
+      "code_text_and_metadata_byte_identical": true,
+      "CarPlay_method_bodies_byte_identical": 4,
+      "full_screen_logo_and_other_payload_preserved": true,
+      "sha256_signed_binary": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"
+    },
+    "DuoFaceDashboard": {
+      "exact_erase_ranges": 29,
+      "original_nonzero_bytes_removed": 1153,
+      "code_text_and_metadata_byte_identical": true,
+      "CarPlay_method_bodies_byte_identical": 4,
+      "full_screen_logo_and_other_payload_preserved": true,
+      "sha256_signed_binary": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+    }
+  }
+}
