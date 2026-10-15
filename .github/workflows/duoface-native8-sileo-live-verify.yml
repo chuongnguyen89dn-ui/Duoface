@@ -1,0 +1,121 @@
+name: DuoFace native8 - verify independent public Sileo index and DEB
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - '.github/workflows/duoface-native8-sileo-live-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-native:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check live native8 APT index, unchanged legacy package and exact DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          dir="$RUNNER_TEMP/duoface-live"
+          mkdir -p "$dir"
+          cd "$dir"
+          # Pages and the independent CI verifier can begin in any order.
+          # Poll for Pages native8 metadata before verifying the immutable artifact.
+          found=0
+          for attempt in $(seq 1 35); do
+            curl --fail --location --retry 3 --retry-delay 4 --retry-connrefused "$base/Packages" -o Packages
+            if grep -Fq 'Version: 0.1.0~native8' Packages; then found=1; break; fi
+            echo "Waiting for Pages native8 index, attempt $attempt"
+            sleep 12
+          done
+          test "$found" = '1'
+          curl --fail --location --retry 8 --retry-delay 7 --retry-connrefused "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decompressed
+          cmp Packages Packages.decompressed
+          python3 - <<'PY'
+          import pathlib,json
+          text=pathlib.Path('Packages').read_text()
+          packs=[]
+          for block in text.split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if line.startswith(' ') or ': ' not in line:continue
+                  k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'):packs.append(d)
+          tests=[p for p in packs if p['Package']=='com.duoface.independent']
+          old=[p for p in packs if p['Package']=='com.duonavi.app']
+          assert len(tests)==1, f'Khong dung 1 test package: {len(tests)}'
+          assert len(old)==1, f'Bi anh huong goi DuoFace cu: {len(old)}'
+          p=tests[0]
+          assert p['Version']=='0.1.0~native8',p
+          assert p['Architecture']=='iphoneos-arm64',p
+          assert p['Filename'].endswith('/com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb'),p
+          assert p['SHA256']=='c4b5e07f20ca0c819e0e43c8cbbf7e560da961db8c7e74c82a7a4f6fc0274cec',p
+          assert p['Icon'].endswith('/duoface-icon.png'),p
+          pathlib.Path('native-metadata.json').write_text(json.dumps(p,ensure_ascii=False,indent=2)+'\n')
+          print('INDEX_NATIVE8_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl --fail --location --retry 8 --retry-delay 7 --retry-connrefused \
+            "$base/debs/com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb" \
+            -o native.deb
+          echo 'c4b5e07f20ca0c819e0e43c8cbbf7e560da961db8c7e74c82a7a4f6fc0274cec  native.deb' | sha256sum -c -
+          test "$(dpkg-deb -f native.deb Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f native.deb Version)" = '0.1.0~native8'
+          test "$(dpkg-deb -f native.deb Architecture)" = 'iphoneos-arm64'
+          # Verify exact native8 combined release from published Pages; do NOT claim device test.
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('native.deb')
+          expected='c4b5e07f20ca0c819e0e43c8cbbf7e560da961db8c7e74c82a7a4f6fc0274cec'
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==expected
+          print('NATIVE8_PUBLIC_DEB_EXACT_SHA_MATCHES_SIGNED_GITHUB_ARTIFACT')
+          PY
+          dpkg-deb -c native.deb > contents.txt
+          grep -F 'DuoFaceUI.app/DuoFaceUI' contents.txt
+          grep -F 'A_DuoFaceNativeNoLease.dylib' contents.txt
+          grep -F 'DuoFaceDashboard.dylib' contents.txt
+          grep -F 'DuoFaceFullscreenBridge.dylib' contents.txt
+          grep -F 'DuoFaceVisualHook.dylib' contents.txt
+          grep -F 'DuoFaceVisualHook.plist' contents.txt
+          dpkg-deb --ctrl-tarfile native.deb | tar -xOf - ./preinst > native-preinst.txt
+          sh -n native-preinst.txt
+          grep -Fq 'dpkg-query -S' native-preinst.txt
+          grep -Fq 'exit 1' native-preinst.txt
+          # Exhaustive byte scan: all paths, symlink targets, every extracted
+          # arm64 binary, UTF16 language strings, and DEBIAN control scripts.
+          python3 "$GITHUB_WORKSPACE/migration/full_payload/native_test/audit_branding.py" \
+            --deb native.deb --out native8-brand-audit.json
+          python3 - <<'PY'
+          import json,pathlib
+          report=json.loads(pathlib.Path('native8-brand-audit.json').read_text())
+          assert report['strict_byte_level_zero_matches']
+          assert not report['affected_paths']
+          assert not report['total_detected_by_brand_encoding']
+          print('NATIVE8_NO_LEGACY_BRAND_IN_PUBLIC_DEB_PASS')
+          PY
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          b=pathlib.Path('native.deb')
+          f=json.loads(pathlib.Path('native-metadata.json').read_text())
+          assert b.stat().st_size==int(f['Size'])
+          assert hashlib.sha256(b.read_bytes()).hexdigest()==f['SHA256']
+          print('SILEO_NATIVE8_INDEX_AND_DOWNLOAD_EXACT_HASH_PASS_PENDING_DEVICE_TEST')
+          PY
+      - name: Bao cao Sileo thuc te
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native-sileo-live-${{github.run_id}}
+          path: |
+            ${{runner.temp}}/duoface-live/native-metadata.json
+            ${{runner.temp}}/duoface-live/Packages
+            ${{runner.temp}}/duoface-live/Packages.gz
+            ${{runner.temp}}/duoface-live/contents.txt
+            ${{runner.temp}}/duoface-live/native-preinst.txt
+            ${{runner.temp}}/duoface-live/native8-brand-audit.json
+          if-no-files-found: warn
