@@ -1,0 +1,60 @@
+name: DuoFace native4 - independent executable regression
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/verify_native4_regression.py'
+      - '.github/workflows/duoface-native4-excision-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native4-regression
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact DEBs and all non-target ARM64 code remains intact
+        run: |
+          set -euo pipefail
+          echo '7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df  dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb' | sha256sum -c -
+          echo '517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244  dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb' | sha256sum -c -
+          python3 migration/full_payload/native_test/verify_native4_regression.py \
+            --out audit/payload-migration/NATIVE4_EXECUTABLE_REGRESSION.json \
+            | tee "$RUNNER_TEMP/native4-regression.log"
+          python3 - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path('audit/payload-migration/NATIVE4_EXECUTABLE_REGRESSION.json').read_text())
+          assert r['status']=='NATIVE4_ALL_NON_TARGET_MACHINE_INSTRUCTIONS_IDENTICAL'
+          assert r['original_payload_files_byte_identical_except_rewritten_binaries']>=35
+          assert not r['device_tested']
+          assert not r['all_license_code_physically_removed']
+          assert sum(v['verified_method_count'] for v in r['executable_validation'].values())>=290
+          print('NATIVE4_REMOVED_METHOD_BYTE_RANGES_VERIFIED_PASS')
+          PY
+      - name: Persist independent regression proof in DuoFace
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE4_EXECUTABLE_REGRESSION.json
+          git commit -m 'audit: native4 proves every non-target machine-code byte identical [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native4-regression-${{github.run_id}}
+          path: |
+            audit/payload-migration/NATIVE4_EXECUTABLE_REGRESSION.json
+            ${{runner.temp}}/native4-regression.log
+          if-no-files-found: warn
