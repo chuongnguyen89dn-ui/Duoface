@@ -1,0 +1,401 @@
+{
+  "status": "READONLY_NATIVE2_BRAND_CONTEXT",
+  "files": [
+    {
+      "file": "./var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+      "brand": "DuoNavi",
+      "encoding": "utf16-le",
+      "match_count": 434,
+      "distinct_static_contexts": [
+        {
+          "offset_hex": "0xc05d8",
+          "surrounding_static_string": "تم حظر تشغيل DuoNavi حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection."
+        },
+        {
+          "offset_hex": "0xc07fc",
+          "surrounding_static_string": "(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoNavi)."
+        },
+        {
+          "offset_hex": "0xc0ab0",
+          "surrounding_static_string": "سيتم استعادة جميع إعدادات DuoNavi إلى الوضع الافتراضي."
+        },
+        {
+          "offset_hex": "0xc0f22",
+          "surrounding_static_string": "فتح DuoNavi تلقائياً عند اتصال CarPlay"
+        },
+        {
+          "offset_hex": "0xc0f96",
+          "surrounding_static_string": "DuoNavi (تقسيم الشاشة)"
+        },
+        {
+          "offset_hex": "0xc1812",
+          "surrounding_static_string": "فريق DuoNavi"
+        },
+        {
+          "offset_hex": "0xc20f4",
+          "surrounding_static_string": "افتح DuoNavi على iPhone لتفعيل أذونات التطبيقات."
+        },
+        {
+          "offset_hex": "0xc2246",
+          "surrounding_static_string": "يرجى التوقف بأمان وفتح DuoNavi على iPhone لإضافة تطبيقات."
+        },
+        {
+          "offset_hex": "0xc26a4",
+          "surrounding_static_string": "يرجى التوقف بأمان وفتح DuoNavi على iPhone لتفعيل الترخيص قبل المتابعة."
+        },
+        {
+          "offset_hex": "0xc275a",
+          "surrounding_static_string": "انتهت فترة الترخيص. يرجى التوقف بأمان وفتح DuoNavi على iPhone للتجديد."
+        },
+        {
+          "offset_hex": "0xc27b8",
+          "surrounding_static_string": "انتهت صلاحية ترخيص DuoNavi لـ CarPlay. يرجى التجديد أو إدخال رمز التفعيل لمواصلة استخدام التطبيق على شاشة سيا"
+        },
+        {
+          "offset_hex": "0xc2882",
+          "surrounding_static_string": "يتطلب DuoNavi ترخيصاً سارياً للعمل على CarPlay. يرجى التفعيل للبدء."
+        },
+        {
+          "offset_hex": "0xc3006",
+          "surrounding_static_string": "عضو DuoNavi Pro"
+        },
+        {
+          "offset_hex": "0xc31f0",
+          "surrounding_static_string": "تم التحقق بواسطة خادم DuoNavi"
+        },
+        {
+          "offset_hex": "0xc3200",
+          "surrounding_static_string": "DuoNavi VIP مدى الحياة"
+        },
+        {
+          "offset_hex": "0xc32c0",
+          "surrounding_static_string": "DuoNavi ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert"
+        },
+        {
+          "offset_hex": "0xc3580",
+          "surrounding_static_string": "(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoNavi nicht blockiert)."
+        },
+        {
+          "offset_hex": "0xc369e",
+          "surrounding_static_string": "Alle DuoNavi-Einstellungen werden auf die Werkseinstellungen zurückgesetzt."
+        },
+        {
+          "offset_hex": "0xc394c",
+          "surrounding_static_string": "DuoNavi automatisch bei CarPlay-Verbindung öffnen"
+        },
+        {
+          "offset_hex": "0xc427c",
+          "surrounding_static_string": "Öffnen Sie DuoNavi auf dem iPhone, um App-Berechtigungen zu aktivieren."
+        },
+        {
+          "offset_hex": "0xc43b2",
+          "surrounding_static_string": "Halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Apps hinzuzufügen."
+        },
+        {
+          "offset_hex": "0xc46d6",
+          "surrounding_static_string": "Bitte halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Ihre Lizenz zu aktivieren."
+        }
+      ]
+    },
+    {
+      "file": "./var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+      "brand": "DuoNavi",
+      "encoding": "utf16-be",
+      "match_count": 420,
+      "distinct_static_contexts": [
+        {
+          "offset_hex": "0xc05d7",
+          "surrounding_static_string": "*مؠ-ظرؠ*شغيلؠDuoNavi -اليًاخ (يئةؠ'لجيلبريكؠ'لخاصةؠ(كؠ#وقفتؠTweak Injection."
+        },
+        {
+          "offset_hex": "0xc07fb",
+          "surrounding_static_string": "ؠAتأكدؠEنؠ#نهؠDاؠJحظرؠDuoNavi)."
+        },
+        {
+          "offset_hex": "0xc0aaf",
+          "surrounding_static_string": "3يتمؠ'ستعادةؠ,ميعؠ%عداداتؠDuoNavi %لىؠ'لوضعؠ'لافتراضيخ"
+        },
+        {
+          "offset_hex": "0xc0f21",
+          "surrounding_static_string": "AتحؠDuoNavi *لقائياًؠ9ندؠ'تصالؠCarPlay"
+        },
+        {
+          "offset_hex": "0xc0f95",
+          "surrounding_static_string": "DuoNavi (*قسيمؠ'لشاشةة"
+        },
+        {
+          "offset_hex": "0xc1811",
+          "surrounding_static_string": "AريقؠDuoNavi"
+        },
+        {
+          "offset_hex": "0xc20f3",
+          "surrounding_static_string": "'فتحؠDuoNavi 9لىؠiPhone Dتفعيلؠ#ذوناتؠ'لتطبيقاتخ"
+        },
+        {
+          "offset_hex": "0xc2245",
+          "surrounding_static_string": "Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dإضافةؠ*طبيقاتخ"
+        },
+        {
+          "offset_hex": "0xc26a3",
+          "surrounding_static_string": "Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dتفعيلؠ'لترخيصؠBبلؠ'لمتابعةخ"
+        },
+        {
+          "offset_hex": "0xc2759",
+          "surrounding_static_string": "'نتهتؠAترةؠ'لترخيصخ Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dلتجديدخ"
+        },
+        {
+          "offset_hex": "0xc27b7",
+          "surrounding_static_string": "'نتهتؠ5لاحيةؠ*رخيصؠDuoNavi DـؠCarPlay. Jرجىؠ'لتجديدؠ#وؠ%دخالؠ1مزؠ'لتفعيلؠDمواصلةؠ'ستخدامؠ'لتطبيقؠ9لىؠ4اشةؠ3يا"
+        },
+        {
+          "offset_hex": "0xc2881",
+          "surrounding_static_string": "JتطلبؠDuoNavi *رخيصاًؠ3ارياًؠDلعملؠ9لىؠCarPlay. Jرجىؠ'لتفعيلؠDلبدءخ"
+        },
+        {
+          "offset_hex": "0xc3005",
+          "surrounding_static_string": "9ضوؠDuoNavi Pro"
+        },
+        {
+          "offset_hex": "0xc31ef",
+          "surrounding_static_string": "*مؠ'لتحققؠ(واسطةؠ.ادمؠDuoNavi"
+        },
+        {
+          "offset_hex": "0xc31ff",
+          "surrounding_static_string": "DuoNavi VIP Eدىؠ'لحياة"
+        },
+        {
+          "offset_hex": "0xc32bf",
+          "surrounding_static_string": "DuoNavi ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert"
+        },
+        {
+          "offset_hex": "0xc357f",
+          "surrounding_static_string": "(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoNavi nicht blockiert)."
+        },
+        {
+          "offset_hex": "0xc369d",
+          "surrounding_static_string": "Alle DuoNavi-Einstellungen werden auf die Werkseinstellungen zurückgesetzt."
+        },
+        {
+          "offset_hex": "0xc394b",
+          "surrounding_static_string": "DuoNavi automatisch bei CarPlay-Verbindung öffnen"
+        },
+        {
+          "offset_hex": "0xc427b",
+          "surrounding_static_string": "Öffnen Sie DuoNavi auf dem iPhone, um App-Berechtigungen zu aktivieren."
+        },
+        {
+          "offset_hex": "0xc43b1",
+          "surrounding_static_string": "Halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Apps hinzuzufügen."
+        },
+        {
+          "offset_hex": "0xc46d5",
+          "surrounding_static_string": "Bitte halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Ihre Lizenz zu aktivieren."
+        }
+      ]
+    },
+    {
+      "file": "./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+      "brand": "DuoNavi",
+      "encoding": "utf16-le",
+      "match_count": 428,
+      "distinct_static_contexts": [
+        {
+          "offset_hex": "0x31c4ac",
+          "surrounding_static_string": "تم حظر تشغيل DuoNavi حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection."
+        },
+        {
+          "offset_hex": "0x31c6d0",
+          "surrounding_static_string": "(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoNavi)."
+        },
+        {
+          "offset_hex": "0x31c984",
+          "surrounding_static_string": "سيتم استعادة جميع إعدادات DuoNavi إلى الوضع الافتراضي."
+        },
+        {
+          "offset_hex": "0x31cdf6",
+          "surrounding_static_string": "فتح DuoNavi تلقائياً عند اتصال CarPlay"
+        },
+        {
+          "offset_hex": "0x31ce6a",
+          "surrounding_static_string": "DuoNavi (تقسيم الشاشة)"
+        },
+        {
+          "offset_hex": "0x31d6e6",
+          "surrounding_static_string": "فريق DuoNavi"
+        },
+        {
+          "offset_hex": "0x31dfc8",
+          "surrounding_static_string": "افتح DuoNavi على iPhone لتفعيل أذونات التطبيقات."
+        },
+        {
+          "offset_hex": "0x31e11a",
+          "surrounding_static_string": "يرجى التوقف بأمان وفتح DuoNavi على iPhone لإضافة تطبيقات."
+        },
+        {
+          "offset_hex": "0x31e578",
+          "surrounding_static_string": "يرجى التوقف بأمان وفتح DuoNavi على iPhone لتفعيل الترخيص قبل المتابعة."
+        },
+        {
+          "offset_hex": "0x31e62e",
+          "surrounding_static_string": "انتهت فترة الترخيص. يرجى التوقف بأمان وفتح DuoNavi على iPhone للتجديد."
+        },
+        {
+          "offset_hex": "0x31e68c",
+          "surrounding_static_string": "انتهت صلاحية ترخيص DuoNavi لـ CarPlay. يرجى التجديد أو إدخال رمز التفعيل لمواصلة استخدام التطبيق على شاشة سيا"
+        },
+        {
+          "offset_hex": "0x31e756",
+          "surrounding_static_string": "يتطلب DuoNavi ترخيصاً سارياً للعمل على CarPlay. يرجى التفعيل للبدء."
+        },
+        {
+          "offset_hex": "0x31eeda",
+          "surrounding_static_string": "عضو DuoNavi Pro"
+        },
+        {
+          "offset_hex": "0x31f0c4",
+          "surrounding_static_string": "تم التحقق بواسطة خادم DuoNavi"
+        },
+        {
+          "offset_hex": "0x31f0d4",
+          "surrounding_static_string": "DuoNavi VIP مدى الحياة"
+        },
+        {
+          "offset_hex": "0x31f194",
+          "surrounding_static_string": "DuoNavi ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert"
+        },
+        {
+          "offset_hex": "0x31f454",
+          "surrounding_static_string": "(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoNavi nicht blockiert)."
+        },
+        {
+          "offset_hex": "0x31f572",
+          "surrounding_static_string": "Alle DuoNavi-Einstellungen werden auf die Werkseinstellungen zurückgesetzt."
+        },
+        {
+          "offset_hex": "0x31f820",
+          "surrounding_static_string": "DuoNavi automatisch bei CarPlay-Verbindung öffnen"
+        },
+        {
+          "offset_hex": "0x320150",
+          "surrounding_static_string": "Öffnen Sie DuoNavi auf dem iPhone, um App-Berechtigungen zu aktivieren."
+        },
+        {
+          "offset_hex": "0x320286",
+          "surrounding_static_string": "Halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Apps hinzuzufügen."
+        },
+        {
+          "offset_hex": "0x3205aa",
+          "surrounding_static_string": "Bitte halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Ihre Lizenz zu aktivieren."
+        }
+      ]
+    },
+    {
+      "file": "./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+      "brand": "DuoNavi",
+      "encoding": "utf16-be",
+      "match_count": 414,
+      "distinct_static_contexts": [
+        {
+          "offset_hex": "0x31c4ab",
+          "surrounding_static_string": "*مؠ-ظرؠ*شغيلؠDuoNavi -اليًاخ (يئةؠ'لجيلبريكؠ'لخاصةؠ(كؠ#وقفتؠTweak Injection."
+        },
+        {
+          "offset_hex": "0x31c6cf",
+          "surrounding_static_string": "ؠAتأكدؠEنؠ#نهؠDاؠJحظرؠDuoNavi)."
+        },
+        {
+          "offset_hex": "0x31c983",
+          "surrounding_static_string": "3يتمؠ'ستعادةؠ,ميعؠ%عداداتؠDuoNavi %لىؠ'لوضعؠ'لافتراضيخ"
+        },
+        {
+          "offset_hex": "0x31cdf5",
+          "surrounding_static_string": "AتحؠDuoNavi *لقائياًؠ9ندؠ'تصالؠCarPlay"
+        },
+        {
+          "offset_hex": "0x31ce69",
+          "surrounding_static_string": "DuoNavi (*قسيمؠ'لشاشةة"
+        },
+        {
+          "offset_hex": "0x31d6e5",
+          "surrounding_static_string": "AريقؠDuoNavi"
+        },
+        {
+          "offset_hex": "0x31dfc7",
+          "surrounding_static_string": "'فتحؠDuoNavi 9لىؠiPhone Dتفعيلؠ#ذوناتؠ'لتطبيقاتخ"
+        },
+        {
+          "offset_hex": "0x31e119",
+          "surrounding_static_string": "Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dإضافةؠ*طبيقاتخ"
+        },
+        {
+          "offset_hex": "0x31e577",
+          "surrounding_static_string": "Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dتفعيلؠ'لترخيصؠBبلؠ'لمتابعةخ"
+        },
+        {
+          "offset_hex": "0x31e62d",
+          "surrounding_static_string": "'نتهتؠAترةؠ'لترخيصخ Jرجىؠ'لتوقفؠ(أمانؠHفتحؠDuoNavi 9لىؠiPhone Dلتجديدخ"
+        },
+        {
+          "offset_hex": "0x31e68b",
+          "surrounding_static_string": "'نتهتؠ5لاحيةؠ*رخيصؠDuoNavi DـؠCarPlay. Jرجىؠ'لتجديدؠ#وؠ%دخالؠ1مزؠ'لتفعيلؠDمواصلةؠ'ستخدامؠ'لتطبيقؠ9لىؠ4اشةؠ3يا"
+        },
+        {
+          "offset_hex": "0x31e755",
+          "surrounding_static_string": "JتطلبؠDuoNavi *رخيصاًؠ3ارياًؠDلعملؠ9لىؠCarPlay. Jرجىؠ'لتفعيلؠDلبدءخ"
+        },
+        {
+          "offset_hex": "0x31eed9",
+          "surrounding_static_string": "9ضوؠDuoNavi Pro"
+        },
+        {
+          "offset_hex": "0x31f0c3",
+          "surrounding_static_string": "*مؠ'لتحققؠ(واسطةؠ.ادمؠDuoNavi"
+        },
+        {
+          "offset_hex": "0x31f0d3",
+          "surrounding_static_string": "DuoNavi VIP Eدىؠ'لحياة"
+        },
+        {
+          "offset_hex": "0x31f193",
+          "surrounding_static_string": "DuoNavi ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert"
+        },
+        {
+          "offset_hex": "0x31f453",
+          "surrounding_static_string": "(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoNavi nicht blockiert)."
+        },
+        {
+          "offset_hex": "0x31f571",
+          "surrounding_static_string": "Alle DuoNavi-Einstellungen werden auf die Werkseinstellungen zurückgesetzt."
+        },
+        {
+          "offset_hex": "0x31f81f",
+          "surrounding_static_string": "DuoNavi automatisch bei CarPlay-Verbindung öffnen"
+        },
+        {
+          "offset_hex": "0x32014f",
+          "surrounding_static_string": "Öffnen Sie DuoNavi auf dem iPhone, um App-Berechtigungen zu aktivieren."
+        },
+        {
+          "offset_hex": "0x320285",
+          "surrounding_static_string": "Halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Apps hinzuzufügen."
+        },
+        {
+          "offset_hex": "0x3205a9",
+          "surrounding_static_string": "Bitte halten Sie sicher an und öffnen Sie DuoNavi auf dem iPhone, um Ihre Lizenz zu aktivieren."
+        }
+      ]
+    },
+    {
+      "file": "./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+      "brand": "Airaw",
+      "encoding": "ascii",
+      "match_count": 1,
+      "distinct_static_contexts": [
+        {
+          "offset_hex": "0xff8b",
+          "surrounding_static_string": "Airaw-compatible statusbar window has not been observed"
+        }
+      ]
+    }
+  ]
+}
