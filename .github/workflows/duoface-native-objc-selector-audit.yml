@@ -1,0 +1,61 @@
+name: DuoFace native settings ObjC selector map
+
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/inspect_objc_methods.py'
+      - '.github/workflows/duoface-native-objc-selector-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-native-objc-selector-audit
+  cancel-in-progress: false
+
+jobs:
+  map-original-classes:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect signed original DuoFace runtime class metadata
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          python3 migration/full_payload/native_test/inspect_objc_methods.py \
+            --deb dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb \
+            --out audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json
+          python3 - <<'PY'
+          import json,pathlib
+          z=json.loads(pathlib.Path('audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json').read_text())
+          a=z['binaries']['DuoFaceUI']
+          assert a['class_count']>=30,a
+          assert a['classes_of_interest'].get('CBGeneralSettingsViewController')
+          assert a['classes_of_interest'].get('CBSubscriptionViewController')
+          assert z['source_modified'] is False
+          print('DUOFACE_SETTINGS_SELECTOR_MAPPING_PASS')
+          PY
+      - name: Save bounded source metadata to project branch
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json
+          git commit -m 'audit: map original settings ObjC selectors for native2 [skip ci]'
+          for i in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-original-ui-objc-map-${{github.run_id}}
+          path: audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json
+          if-no-files-found: warn
