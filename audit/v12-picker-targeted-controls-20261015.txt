@@ -5414,3 +5414,103 @@ DISASSEMBLY 0xa7f20-0xa9024
 000a9018: ldp      x20, x19, [sp, #0x30]                         
 000a901c: add      sp, sp, #0x50                                 
 000a9020: ret                                                    
+
+DISASSEMBLY 0x85d58-0x85ee0
+00085d58: sub      sp, sp, #0x40                                 
+00085d5c: stp      x22, x21, [sp, #0x10]                         
+00085d60: stp      x20, x19, [sp, #0x20]                         
+00085d64: stp      x29, x30, [sp, #0x30]                         
+00085d68: add      x29, sp, #0x30                                
+00085d6c: mov      x19, x1                                       
+00085d70: cmp      x0, #8                                        
+00085d74: b.hi     #0x85db4                                      
+00085d78: adrp     x8, #0x310000                                 
+00085d7c: add      x8, x8, #0xd10                                
+00085d80: adr      x9, #0x85d90                                  
+00085d84: ldrb     w10, [x8, x0]                                 
+00085d88: add      x9, x9, x10, lsl #2                           
+00085d8c: br       x9                                            
+00085d90: adrp     x8, #0x37f000                                 
+00085d94: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+00085d98: adrp     x8, #0x37d000                                 
+00085d9c: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085da0: adrp     x2, #0x348000                                 
+00085da4: add      x2, x2, #0xa48                                NSString 'SLOT_SINGLE'
+00085da8: bl       #0x2ecd00                                     _objc_msgSend
+00085dac: mov      x29, x29                                      
+00085db0: b        #0x860d4                                      
+00085db4: adrp     x8, #0x37f000                                 
+00085db8: ldr      x20, [x8, #0x708]                             [0x37f708] 
+00085dbc: nop                                                    
+00085dc0: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+00085dc4: adrp     x8, #0x37d000                                 
+00085dc8: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085dcc: adrp     x2, #0x348000                                 
+00085dd0: add      x2, x2, #0xe08                                NSString 'SLOT_N'
+00085dd4: bl       #0x2ecd00                                     _objc_msgSend
+00085dd8: mov      x29, x29                                      
+00085ddc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00085de0: mov      x21, x0                                       
+00085de4: add      x8, x19, #1                                   
+00085de8: adrp     x9, #0x37d000                                 
+00085dec: ldr      x1, [x9, #0x498]                              [0x37d498] SEL stringWithFormat:
+00085df0: str      x8, [sp]                                      
+00085df4: mov      x0, x20                                       
+00085df8: mov      x2, x21                                       
+00085dfc: bl       #0x2ecd00                                     _objc_msgSend
+00085e00: mov      x29, x29                                      
+00085e04: b        #0x85f98                                      
+00085e08: adrp     x8, #0x37f000                                 
+00085e0c: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+00085e10: adrp     x8, #0x37d000                                 
+00085e14: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085e18: cbz      x19, #0x85fac                                 
+00085e1c: adrp     x2, #0x348000                                 
+00085e20: add      x2, x2, #0xac8                                NSString 'SLOT_RIGHT_COL'
+00085e24: bl       #0x2ecd00                                     _objc_msgSend
+00085e28: mov      x29, x29                                      
+00085e2c: b        #0x860d4                                      
+00085e30: adrp     x8, #0x37f000                                 
+00085e34: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+00085e38: adrp     x8, #0x37d000                                 
+00085e3c: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085e40: cbz      x19, #0x85fc0                                 
+00085e44: adrp     x2, #0x348000                                 
+00085e48: add      x2, x2, #0xb48                                NSString 'SLOT_BOTTOM_ROW'
+00085e4c: bl       #0x2ecd00                                     _objc_msgSend
+00085e50: mov      x29, x29                                      
+00085e54: b        #0x860d4                                      
+00085e58: adrp     x8, #0x37f000                                 
+00085e5c: cbz      x19, #0x85fd4                                 
+00085e60: ldr      x0, [x8, #0x740]                              
+00085e64: adrp     x8, #0x37d000                                 
+00085e68: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085e6c: cmp      x19, #1                                       
+00085e70: b.ne     #0x86074                                      
+00085e74: adrp     x2, #0x348000                                 
+00085e78: add      x2, x2, #0xb88                                NSString 'SLOT_MID_COL'
+00085e7c: bl       #0x2ecd00                                     _objc_msgSend
+00085e80: mov      x29, x29                                      
+00085e84: b        #0x860d4                                      
+00085e88: adrp     x8, #0x37f000                                 
+00085e8c: cbz      x19, #0x85ff4                                 
+00085e90: ldr      x0, [x8, #0x740]                              
+00085e94: adrp     x8, #0x37d000                                 
+00085e98: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085e9c: cmp      x19, #1                                       
+00085ea0: b.ne     #0x86088                                      
+00085ea4: adrp     x2, #0x348000                                 
+00085ea8: add      x2, x2, #0xcc8                                NSString 'SLOT_FRAME_SUB_TOP'
+00085eac: bl       #0x2ecd00                                     _objc_msgSend
+00085eb0: mov      x29, x29                                      
+00085eb4: b        #0x860d4                                      
+00085eb8: adrp     x8, #0x37f000                                 
+00085ebc: cbz      x19, #0x86014                                 
+00085ec0: ldr      x0, [x8, #0x740]                              
+00085ec4: adrp     x8, #0x37d000                                 
+00085ec8: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+00085ecc: cmp      x19, #1                                       
+00085ed0: b.ne     #0x8609c                                      
+00085ed4: adrp     x2, #0x348000                                 
+00085ed8: add      x2, x2, #0xd08                                NSString 'SLOT_FRAME_SUB_BOTTOM'
+00085edc: bl       #0x2ecd00                                     _objc_msgSend
