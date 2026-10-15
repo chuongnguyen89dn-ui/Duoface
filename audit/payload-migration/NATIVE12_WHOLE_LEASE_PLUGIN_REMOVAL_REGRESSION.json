@@ -1,0 +1,22 @@
+{
+  "status": "NATIVE12_WHOLE_LICENSE_BRIDGE_FILE_REMOVAL_BYTE_EXACT_PASS",
+  "native12_deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "baseline_sha256": "f51180308e7bfd3a86af011c7370290eee4be59d6c7aced5c5ff790e685dc2c5",
+  "removed_exactly_two_files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.plist"
+  ],
+  "removed_total_uncompressed_bytes": 92815,
+  "all_remaining_payload_file_bytes_identical": true,
+  "all_8_carplay_method_bytes_identical": true,
+  "all_312_license_method_stubs_identical": true,
+  "all_visual_assets_and_fullscreen_identical": true,
+  "all_other_code_and_ObjC_metadata_identical": true,
+  "md5sums_verified": true,
+  "rootless_package_id_and_architecture_verified": true,
+  "remaining_original_license_metadata_erased": false,
+  "static_QA_does_not_prove_runtime_safety": true,
+  "device_tested": false,
+  "sileo_deployed": false,
+  "native10_rollback_preserved": true
+}

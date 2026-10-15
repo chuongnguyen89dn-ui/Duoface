@@ -1,0 +1,45 @@
+{
+  "status": "NATIVE12_WHOLE_OBSOLETE_LEASE_HOOK_LIBRARY_AND_FILTER_REMOVED_FROM_REAL_DEB",
+  "source_native11_sha256": "f51180308e7bfd3a86af011c7370290eee4be59d6c7aced5c5ff790e685dc2c5",
+  "source_native10_verified_by_user_sha256": "3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native12",
+  "architecture": "iphoneos-arm64",
+  "files_physically_removed": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.plist"
+  ],
+  "bytes_removed_uncompressed": 92815,
+  "size_by_removed_file": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.plist": 511,
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/A_DuoFaceNativeNoLease.dylib": 92304
+  },
+  "selector_hooks_previously_neutralized_in_native4": {
+    "DuoFaceUI": {
+      "license_manager_hook_selectors_previously_neutralized": 6,
+      "bridge_hook_selectors_previously_neutralized": 0
+    },
+    "DuoFaceDashboard": {
+      "license_manager_hook_selectors_previously_neutralized": 6,
+      "bridge_hook_selectors_previously_neutralized": 4
+    }
+  },
+  "matching_hook_selector_count": 10,
+  "all_other_payload_files_byte_identical": true,
+  "all_8_carplay_method_bodies_byte_identical": true,
+  "all_app_and_dashboard_code_and_objc_metadata_byte_identical": true,
+  "full_screen_logo_divider_ui_unchanged": true,
+  "main_macho_license_class_metadata_still_present": true,
+  "all_license_code_and_metadata_fully_removed": false,
+  "dynamic_objc_or_process_dependency_proven_absent": false,
+  "only_existing_files_changed": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums"
+  ],
+  "baseline_module_load_name_references_in_other_files": {},
+  "new_deb_on_sileo": false,
+  "device_tested": false,
+  "native10_and_native11_rollback_preserved": true,
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "deb_size": 1724592
+}
