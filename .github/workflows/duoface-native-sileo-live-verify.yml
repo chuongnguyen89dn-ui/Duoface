@@ -1,0 +1,90 @@
+name: DuoFace native UI goc - verify public Sileo index and DEB
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - '.github/workflows/duoface-native-sileo-live-verify.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-native:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Kiem tra chi muc Sileo va giu nguon DuoFace cu
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          dir="$RUNNER_TEMP/duoface-live"
+          mkdir -p "$dir"
+          cd "$dir"
+          curl --fail --location --retry 8 --retry-delay 7 --retry-connrefused "$base/Packages" -o Packages
+          curl --fail --location --retry 8 --retry-delay 7 --retry-connrefused "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decompressed
+          cmp Packages Packages.decompressed
+          python3 - <<'PY'
+          import pathlib,json
+          text=pathlib.Path('Packages').read_text()
+          packs=[]
+          for block in text.split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if line.startswith(' ') or ': ' not in line:continue
+                  k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'):packs.append(d)
+          tests=[p for p in packs if p['Package']=='com.duoface.independent']
+          old=[p for p in packs if p['Package']=='com.duonavi.app']
+          assert len(tests)==1, f'Khong dung 1 test package: {len(tests)}'
+          assert len(old)==1, f'Bi anh huong goi DuoFace cu: {len(old)}'
+          p=tests[0]
+          assert p['Version']=='0.1.0~native1',p
+          assert p['Architecture']=='iphoneos-arm64',p
+          assert p['Filename'].endswith('/com.duoface.independent_0.1.0~native1_iphoneos-arm64.deb'),p
+          assert p['SHA256']=='16fd5fcbad7eba98de91a2e7a1200793509640cc47decbcca30491a45a6b9a13',p
+          assert p['Icon'].endswith('/duoface-icon.png'),p
+          pathlib.Path('native-metadata.json').write_text(json.dumps(p,ensure_ascii=False,indent=2)+'\n')
+          print('INDEX_NATIVE1_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl --fail --location --retry 8 --retry-delay 7 --retry-connrefused \
+            "$base/debs/com.duoface.independent_0.1.0~native1_iphoneos-arm64.deb" \
+            -o native.deb
+          echo '16fd5fcbad7eba98de91a2e7a1200793509640cc47decbcca30491a45a6b9a13  native.deb' | sha256sum -c -
+          test "$(dpkg-deb -f native.deb Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f native.deb Version)" = '0.1.0~native1'
+          test "$(dpkg-deb -f native.deb Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c native.deb > contents.txt
+          grep -F 'DuoFaceUI.app/DuoFaceUI' contents.txt
+          grep -F 'A_DuoFaceNativeNoLease.dylib' contents.txt
+          grep -F 'DuoFaceDashboard.dylib' contents.txt
+          grep -F 'DuoFaceFullscreenBridge.dylib' contents.txt
+          grep -F 'DuoFaceVisualHook.dylib' contents.txt
+          ! grep -Fq 'com.duonavi.sync.plist' contents.txt
+          dpkg-deb --ctrl-tarfile native.deb | tar -xOf - ./preinst > native-preinst.txt
+          grep -Fq 'com.duonavi.app' native-preinst.txt
+          grep -Fq 'exit 1' native-preinst.txt
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          b=pathlib.Path('native.deb')
+          f=json.loads(pathlib.Path('native-metadata.json').read_text())
+          assert b.stat().st_size==int(f['Size'])
+          assert hashlib.sha256(b.read_bytes()).hexdigest()==f['SHA256']
+          print('SILEO_NATIVE1_LIVE_PASSED_NOT_DEVICE_TESTED')
+          PY
+      - name: Bao cao Sileo thuc te
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native-sileo-live-${{github.run_id}}
+          path: |
+            ${{runner.temp}}/duoface-live/native-metadata.json
+            ${{runner.temp}}/duoface-live/Packages
+            ${{runner.temp}}/duoface-live/Packages.gz
+            ${{runner.temp}}/duoface-live/contents.txt
+            ${{runner.temp}}/duoface-live/native-preinst.txt
+          if-no-files-found: warn
