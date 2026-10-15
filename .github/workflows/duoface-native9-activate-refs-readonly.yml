@@ -1,0 +1,74 @@
+name: DuoFace native9 - read-only reference map for remaining Activate labels
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_native9_activate_refs.py'
+      - '.github/workflows/duoface-native9-activate-refs-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-activate-refs
+  cancel-in-progress: false
+jobs:
+  trace-activate-string-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Confirm native9 DEB source hash and reconcile static ARM64 references
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' \
+            'e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e' \
+            'dist/payload-migration/native9/com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb' \
+            | sha256sum -c -
+          python3 -m py_compile scripts/audit_duoface_native9_activate_refs.py
+          python3 scripts/audit_duoface_native9_activate_refs.py \
+            --out audit/payload-migration/NATIVE9_ACTIVATE_REFS_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path('audit/payload-migration/NATIVE9_ACTIVATE_REFS_READONLY.json')
+          r=json.loads(f.read_text(encoding='utf-8'))
+          assert r['status']=='NATIVE9_ACTIVATE_LITERAL_STATIC_REFERENCE_MAP_READONLY'
+          assert r['native9_deb_sha256']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert set(r['results'])=={'DuoFaceUI','DuoFaceDashboard'}
+          assert r['results']['DuoFaceUI']['literal_file_offset']==719363
+          assert r['results']['DuoFaceDashboard']['literal_file_offset']==3132199
+          assert all(not row['proven_unused_or_safe_to_mask'] and
+                     not row['proven_user_visible_UI'] and
+                     not row['runtime_dynamic_callers_checked']
+                     for row in r['results'].values())
+          assert not r['selective_mask_is_approved']
+          assert not r['deb_built'] and not r['sileo_changed']
+          assert not r['carplay_host_or_split_pan_modified']
+          print('NATIVE9_ACTIVATE_READONLY_POINTER_AND_ARM64_MAP_PASS_NO_DEB')
+          PY
+      - name: Persist verified static reference map to GitHub
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_ACTIVATE_REFS_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: native9 exact Activate string ARM64/ObjC references only, no patch [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-activate-static-refs
+          path: audit/payload-migration/NATIVE9_ACTIVATE_REFS_READONLY.json
+          if-no-files-found: warn
