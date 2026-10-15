@@ -37,3 +37,14 @@
 ## State of execution
 - This document records **static binary evidence and an icon design recommendation only**. Native status icon implementation has NOT been committed or device-tested; no DEB built, no Sileo release.
 - Next: implement status glyphs by scoping to exact native `setupRecentAppsCards...` and key/value owner after preserving original data and actions, compile only, then checkpoint. First verify UI hierarchy and accessibility on device following a separate approved future DEB build.
+
+
+## Owner's final override — red background, green Live, no status text (supersedes draft icon proposals)
+- Latest owner statement 2026-10-15: **keep DEB native status logic and dot-only design; red = background/off-slot; green = Live/active CarPlay slot; no gray, blue or yellow; no text and PID beneath app name.** This supersedes the three-color **icon design proposal** earlier in this report (that earlier section is history only, NOT an instruction to implement).
+- Source **implemented**, file `runtime/fullscreen/DFPickerZoomMenu.xm`, commit `e8a148c72194255ea434ac66c3adc44f19257014`, fetched blob `929eaa65fa89c87d820e5cfb647834e3de70a2e6`:
+  - `DFBuildingNativeRecentRows` scoped TRUE only around `%orig` in `-[CBMultitaskingOverlayView setupRecentAppsCardsInCardW:cardH:contentY:]`, reset to previous state afterward.
+  - `+[CBLocalization localizedStringForKey:]` intercepted **only when scoped and on main thread**. `OVERLAY_RUNNING_TAG`→`🟢`; `OVERLAY_PID_TAG`→`🔴`; `OVERLAY_BACKGROUND_TAG`→`🔴`. All other localized keys and UI call the original implementation unchanged. Native formatting ignores unused PID/slot parameters once format has no placeholders; UILabel frames and action targets untouched.
+  - No new indicator shape or labels; uses filled colored dots like the original screenshot, but changes yellow background dot to owner's requested RED. Removing text includes `Chạy ngầm`, `PID ...`, `Đang chạy`, `(Cột Trái)/(Cột Phải)` because these are native status localization key outputs.
+  - No attempt to claim PID-less off-slot has a confirmed running OS process; red identifies the native non-active/background branch only. No gray icon added.
+- Original callbacks `restartSingleAppTapped:`, `closeSingleAppTapped:` and `closeAllBridgedAppsTapped:` remain unmodified; compact title `Clear All` and menu header remain unchanged.
+- This is **source-only**. No DEB built, no Sileo, no CarPlay device validation. Compile-only runs for exact source commit: `38670313408` and `38670313509`; get final conclusions and log/evidence hashes before claiming CI PASS.
