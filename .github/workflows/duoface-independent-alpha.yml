@@ -1,12 +1,8 @@
 name: Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)
 
+# Chỉ đóng DEB khi yêu cầu chủ động, tránh build nhiều bản alpha trùng phiên bản
+# trong khi đang chuyển 100% giao diện và tính năng đã duyệt.
 on:
-  push:
-    branches:
-      - feature/duoface-independent-core
-    paths:
-      - 'independent/engine/**'
-      - '.github/workflows/duoface-independent-alpha.yml'
   workflow_dispatch:
 
 permissions:
