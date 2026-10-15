@@ -1,5 +1,17 @@
 # Bàn giao dự án DuoFace mới
 
+## Checkpoint 2026-10-15 — native10 experimental DEB built and verified
+
+- Latest user request: retry a real-device experiment, keeping the tested native9 package available for rollback.
+- Repository: chuongnguyen89dn-ui/Duoface; code branch: feature/duoface-exact-payload-migration. Main is used for this handoff document only.
+- Source created and committed: migration/full_payload/native_test/build_native10_lifecycle_trial.py (commit 389b471c47fb29933c864ec0b31e0ec90965a263), verify_native10_lifecycle_trial.py (commit 7b83e76bb5f39b7e7374cdffb3ed54968400cd9d), and .github/workflows/duoface-native10-lifecycle-trial-deb.yml (commit a81698a32a8c10cde833fc5b8848ad3bc4971ef3).
+- Build workflow run 38757634916, job 116500175929: all observed build, regression, GitHub commit and artifact upload steps SUCCESS. Artifact git commit b66e436fa06e85dc188c650fa9597336475997ff.
+- Package path: dist/payload-migration/native10/com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb. File SHA256 3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29, size 1,734,096 bytes. Package ID com.duoface.independent, architecture iphoneos-arm64.
+- QA reports: dist/payload-migration/native10/BAO_CAO.json Git blob 5f5f60558c8569ad452d29590f4ea67dbea6828a; audit/payload-migration/NATIVE10_19_LIFECYCLE_TRIAL_REGRESSION.json Git blob 5da33eda2a121baa08c47f61bc037b5236816582. Status NATIVE10_STRUCTURE_CODE_SCOPE_AND_EIGHT_CARPLAY_SHA_PASS. All 19 specified method bodies changed; all 8 CarPlay screen method bodies byte-identical to native9; other code, ObjC metadata, original fullscreen library, logo module and package data unchanged.
+- Important limitation: this is a structural-only check, not a device/runtime test. Modified Objective-C initializer, singleton and teardown methods may prevent app or CarPlay operation, even though their code spans do not overlap the eight CarPlay methods.
+- Immutable known-good rollback: native9 DEB at dist/payload-migration/native9/com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb, SHA256 e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e; current published Sileo remains native9 at this checkpoint. Do not overwrite old DEBs.
+- Next: publish only this exact pinned native10 DEB via the existing carplaydsp independent package block; verify Pages, Packages index and public DEB SHA; provide user a concrete downgrade path and request real-device test. No claim of runtime PASS before user confirms.
+
 ## Checkpoint 2026-10-15 — User approved a real-device trial, GitHub update blocked
 
 - User requests moving beyond static assessment into a reversible real-device test. Previously validated native9 remains the live Sileo package.
