@@ -26,6 +26,41 @@ static UIButton *DFTab(id overlay, const char *name) {
     id value = ivar ? object_getIvar(overlay, ivar) : nil;
     return [value isKindOfClass:UIButton.class] ? value : nil;
 }
+// The native v12 picker owns the dimming view, shadow carrier and blur card.
+// Keep those UIKit views in place: dimming-view's tap recognizer dismisses the
+// picker and its alpha must stay 1. Only clear their visual chrome.
+static UIView *DFPickerNativeViewIvar(id overlay, const char *name) {
+    Ivar ivar=class_getInstanceVariable(object_getClass(overlay),name);
+    id object=ivar?object_getIvar(overlay,ivar):nil;
+    return [object isKindOfClass:UIView.class]?(UIView *)object:nil;
+}
+static void DFClearNativePickerChrome(UIView *overlay) {
+    UIView *dim=DFPickerNativeViewIvar(overlay,"_dimBackground");
+    UIView *shadow=DFPickerNativeViewIvar(overlay,"_cardShadowContainer");
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (dim) {
+        dim.backgroundColor=UIColor.clearColor;
+        dim.layer.borderWidth=0.0;
+        // Do not hide the dim view or clear its alpha: that would disable
+        // the original tap-outside-to-dismiss gesture.
+    }
+    if (shadow) {
+        shadow.backgroundColor=UIColor.clearColor;
+        shadow.layer.borderWidth=0.0;
+        shadow.layer.shadowOpacity=0.0f;
+    }
+    if (card) {
+        card.backgroundColor=UIColor.clearColor;
+        card.layer.borderWidth=0.0;
+        card.layer.shadowOpacity=0.0f;
+        if ([card isKindOfClass:UIVisualEffectView.class]) {
+            UIVisualEffectView *blur=(UIVisualEffectView *)card;
+            blur.effect=nil;
+            blur.contentView.backgroundColor=UIColor.clearColor;
+            blur.contentView.layer.borderWidth=0.0;
+        }
+    }
+}
 static const void *DFStackIconKey=&DFStackIconKey;
 static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *font) {
     [b setTitle:title forState:UIControlStateNormal];
@@ -191,9 +226,11 @@ static void DFLayoutPicker(UIView *overlay) {
         buttons[i].frame=CGRectMake(x,0,widths[i],menuHeight);
         x+=widths[i]+gap;
     }
-    // Remove picker-only outer and separator borders; the split-pane
-    // interaction border is owned separately by DuoFaceBorderRunner.
+    // Native _sheetCard (UIVisualEffectView) owns the actual blur and 1pt
+    // outline. Preserve its hierarchy, native X and dismiss recognizer.
+    DFClearNativePickerChrome(overlay);
     overlay.layer.borderWidth=0.0;
+    contentView.backgroundColor=UIColor.clearColor;
     contentView.layer.borderWidth=0.0;
     for (UIView *v in contentView.subviews) {
         if (v==parent) continue;
@@ -209,13 +246,13 @@ static void DFLayoutPicker(UIView *overlay) {
     BOOL expanded=DFHostIsExpanded();
     zoom.enabled=expanded || DFHostCanExpand();
     zoom.alpha=zoom.enabled?1.0:0.5;
-    NSString *zoomTitle=expanded?@"Zoom Out":@"Zoom In";
-    zoom.accessibilityLabel=zoomTitle;
+    NSString *zoomTitle=@"Zoom";
+    zoom.accessibilityLabel=expanded?@"Zoom Out":@"Zoom In";
     DFDecorate(app,@"App",@"square.grid.2x2",font);
     DFDecorate(zoom,zoomTitle,expanded?@"arrow.down.right.and.arrow.up.left":
         @"arrow.up.left.and.arrow.down.right",font);
     DFDecorate(style,@"Style",@"rectangle.3.group",font);
-    DFDecorate(close,@"Close App",@"xmark.circle",font);
+    DFDecorate(close,@"Close",@"xmark.circle",font);
     // Getter is present in the original v12 class (IMP 0xABA54).
     // The original actions set the mode, so no duplicate event handlers.
     NSInteger mode=[overlay respondsToSelector:@selector(overlayMode)]?
