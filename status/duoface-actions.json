@@ -1,16 +1,124 @@
 {
-  "checked_at_utc": "2026-10-15T05:56:53.983007+00:00",
+  "checked_at_utc": "2026-10-15T11:40:58.576763+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 258,
+  "total_actions_runs": 293,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 2,
+      "success": 1,
       "failure": 0,
       "other": 1
     },
+    "DuoFace native UI goc - verify public Sileo index and DEB": {
+      "recent_runs": 5,
+      "success": 5,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native5 - independent CarPlay code and UI regression": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native5 - reversible residual license quarantine DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native4 - independent executable regression": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace native4 - embedded code removal candidate DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native4 runtime code inventory": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native3 - ensure machine instructions and install safety": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native3 - brand-zero gate on actual DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native3 - exhaustive legacy branding scan": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "Build DuoFace Native2 - hide obsolete licence/date settings, preserve CarPlay original": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native settings ObjC selector map": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace native date/license UI surface read-only audit": {
+      "recent_runs": 3,
+      "success": 3,
+      "failure": 0,
+      "other": 0
+    },
+    "Build DuoFace Mới native test giữ nguyên 100 phần trăm UI gốc": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace - kiem tra dong goi goc truoc ban test native": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace - chứng minh khôi phục nguyên byte bản sao staging": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace - kiểm kê và sao chép nguyên ruột (KHÔNG phát hành)": {
+      "recent_runs": 4,
+      "success": 4,
+      "failure": 0,
+      "other": 0
+    },
     "Xac minh goi DuoFace Moi tren nguon Sileo dang hoat dong": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "Kiem chung ban di tru DuoFace alpha2 (khong tu phat hanh)": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
@@ -35,14 +143,14 @@
       "other": 0
     },
     "DuoFace NEXT UI and border compile-only gate": {
-      "recent_runs": 28,
-      "success": 14,
-      "failure": 14,
+      "recent_runs": 17,
+      "success": 9,
+      "failure": 8,
       "other": 0
     },
     "DuoFace fullscreen adapter compile check": {
-      "recent_runs": 14,
-      "success": 13,
+      "recent_runs": 8,
+      "success": 7,
       "failure": 1,
       "other": 0
     },
@@ -59,330 +167,312 @@
       "other": 0
     },
     "DuoFace v12 picker UI static audit": {
-      "recent_runs": 17,
-      "success": 16,
+      "recent_runs": 7,
+      "success": 6,
       "failure": 1,
-      "other": 0
-    },
-    "Build DuoFace compact picker menu candidate (manual-only)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Build DuoFace red3 30pt inline logo and idle red border (manual-only)": {
-      "recent_runs": 3,
-      "success": 1,
-      "failure": 2,
-      "other": 0
-    },
-    "DuoFace border binary read-only audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 38689549365,
+      "id": 38729045440,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 13,
+      "run_number": 14,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38689549365",
-      "created_at": "2026-10-15T05:56:43Z",
-      "head_sha": "1d5554d4b24faf322a916d8b334d09bfaa0944fe"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38729045440",
+      "created_at": "2026-10-15T11:40:47Z",
+      "head_sha": "bb1db200dd60b830ed1cad391adbdf3b6ea468d6"
     },
     {
-      "id": 38689115404,
-      "name": "Xac minh goi DuoFace Moi tren nguon Sileo dang hoat dong",
+      "id": 38725496808,
+      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38689115404",
-      "created_at": "2026-10-15T05:52:03Z",
-      "head_sha": "6045179a1a37fcce81dc6926243819b8d5c02e37"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38725496808",
+      "created_at": "2026-10-15T11:10:51Z",
+      "head_sha": "837317a1c3eb0baa2bfe87d0585ede036e307a59"
     },
     {
-      "id": 38688216990,
-      "name": "Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)",
+      "id": 38725232790,
+      "name": "DuoFace native5 - independent CarPlay code and UI regression",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38725232790",
+      "created_at": "2026-10-15T11:08:34Z",
+      "head_sha": "34b17d370cb9adb5d1ba63c147fca3d153cfa5ed"
+    },
+    {
+      "id": 38724832704,
+      "name": "DuoFace native5 - reversible residual license quarantine DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38724832704",
+      "created_at": "2026-10-15T11:05:12Z",
+      "head_sha": "a3c5767f02037ab699bebd3489911c8748d1afc1"
+    },
+    {
+      "id": 38722020376,
+      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38722020376",
+      "created_at": "2026-10-15T10:41:12Z",
+      "head_sha": "be167643e6565ede69f8b2ec38959d1734a7b46f"
+    },
+    {
+      "id": 38721748764,
+      "name": "DuoFace native4 - independent executable regression",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38688216990",
-      "created_at": "2026-10-15T05:42:17Z",
-      "head_sha": "aa9cab5faa8dace1daa2f347a801db1de5938d9e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721748764",
+      "created_at": "2026-10-15T10:38:53Z",
+      "head_sha": "d60b4c7f1e448cbe248c4821bbfd31431e062ee8"
     },
     {
-      "id": 38687917279,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 26,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687917279",
-      "created_at": "2026-10-15T05:38:58Z",
-      "head_sha": "3844d9641acd6b6c14486a35e917a77492918967"
-    },
-    {
-      "id": 38687886637,
-      "name": "Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)",
+      "id": 38721666462,
+      "name": "DuoFace native4 - independent executable regression",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687886637",
-      "created_at": "2026-10-15T05:38:38Z",
-      "head_sha": "c26c350ce05442e3d3a064101de3c4c5dea40a61"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721666462",
+      "created_at": "2026-10-15T10:38:10Z",
+      "head_sha": "9db742438dbf6490089b4b906e5d16e57d887e3f"
     },
     {
-      "id": 38687771159,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 25,
+      "id": 38721372578,
+      "name": "DuoFace native4 - embedded code removal candidate DEB",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687771159",
-      "created_at": "2026-10-15T05:37:19Z",
-      "head_sha": "ee60196e9503e94d8566190f0c0f2aec4914782b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721372578",
+      "created_at": "2026-10-15T10:35:39Z",
+      "head_sha": "942f8f164eb5511b8919040a6053f66ca3b518c1"
     },
     {
-      "id": 38687766230,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 24,
+      "id": 38720812678,
+      "name": "DuoFace native4 runtime code inventory",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687766230",
-      "created_at": "2026-10-15T05:37:16Z",
-      "head_sha": "d6b433b66e5f657972b7680c81ba0cfc23ae75b7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38720812678",
+      "created_at": "2026-10-15T10:30:57Z",
+      "head_sha": "cb7c5db369f4b5c50cd20a7a714ed11cb2f7bc92"
     },
     {
-      "id": 38687762545,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 23,
+      "id": 38719351008,
+      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687762545",
-      "created_at": "2026-10-15T05:37:13Z",
-      "head_sha": "40dd28e82b001ac46ecc30264a58095d19fb9ec9"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38719351008",
+      "created_at": "2026-10-15T10:18:44Z",
+      "head_sha": "2c5252d8dd19dbd235b6f4f86a9959fe2b097634"
     },
     {
-      "id": 38687758493,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 22,
+      "id": 38718992400,
+      "name": "DuoFace native3 - ensure machine instructions and install safety",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687758493",
-      "created_at": "2026-10-15T05:37:11Z",
-      "head_sha": "ca2f9b1e0d15f8cf0512ac23d3ebb09c3da6335a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38718992400",
+      "created_at": "2026-10-15T10:15:41Z",
+      "head_sha": "da88652780333a260b7820b79587a9d2d5c1ddbc"
     },
     {
-      "id": 38687754054,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 21,
+      "id": 38718598923,
+      "name": "DuoFace native3 - brand-zero gate on actual DEB",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687754054",
-      "created_at": "2026-10-15T05:37:08Z",
-      "head_sha": "d682c5cdca2906dc2bb6edb1c276e01662dba731"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38718598923",
+      "created_at": "2026-10-15T10:12:26Z",
+      "head_sha": "32238cbed74203fd5c01d1cb2b1a9416b0ac1440"
     },
     {
-      "id": 38687748861,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 20,
+      "id": 38717994687,
+      "name": "DuoFace native3 - exhaustive legacy branding scan",
+      "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687748861",
-      "created_at": "2026-10-15T05:37:05Z",
-      "head_sha": "0530d371d65b25685dd0b5f36cc7f4ee5e3718d8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38717994687",
+      "created_at": "2026-10-15T10:07:24Z",
+      "head_sha": "e6d635262d19c8edf91e83872305364f702814bb"
     },
     {
-      "id": 38687730191,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 19,
+      "id": 38717725536,
+      "name": "DuoFace native3 - exhaustive legacy branding scan",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687730191",
-      "created_at": "2026-10-15T05:36:52Z",
-      "head_sha": "06d3f36c87ec547ced5f84314cf0aa5636d0d28f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38717725536",
+      "created_at": "2026-10-15T10:05:13Z",
+      "head_sha": "bc62dcbad155a66faa5a78fae251b86ca1ebb50c"
     },
     {
-      "id": 38687726139,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 18,
+      "id": 38711414564,
+      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687726139",
-      "created_at": "2026-10-15T05:36:50Z",
-      "head_sha": "ada24287b28de505ca35733debe659d80db9d116"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38711414564",
+      "created_at": "2026-10-15T09:13:55Z",
+      "head_sha": "465a5aa890b52139756834a0849f9e793bed2091"
     },
     {
-      "id": 38687722618,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 17,
+      "id": 38710799434,
+      "name": "Build DuoFace Native2 - hide obsolete licence/date settings, preserve CarPlay original",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687722618",
-      "created_at": "2026-10-15T05:36:47Z",
-      "head_sha": "0c4817fae21d187c488f3c89b8095ba97b85432f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38710799434",
+      "created_at": "2026-10-15T09:08:55Z",
+      "head_sha": "54d4cc33d9ae484fac1e8d8dafdad44df1a8c8e2"
     },
     {
-      "id": 38687718303,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687718303",
-      "created_at": "2026-10-15T05:36:44Z",
-      "head_sha": "d07b07a21d3f3da72bcb2a94889f1ef56ae89b30"
-    },
-    {
-      "id": 38687714762,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687714762",
-      "created_at": "2026-10-15T05:36:41Z",
-      "head_sha": "bb329e93508a8581dd0c28c2beded08c131ceb98"
-    },
-    {
-      "id": 38687710555,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687710555",
-      "created_at": "2026-10-15T05:36:38Z",
-      "head_sha": "4624afb2d70f38ee070bf498499dae7f04f510bd"
-    },
-    {
-      "id": 38687684888,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687684888",
-      "created_at": "2026-10-15T05:36:21Z",
-      "head_sha": "24f7eb4d86ea130c923183ef1535a93cd5854614"
-    },
-    {
-      "id": 38687680765,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687680765",
-      "created_at": "2026-10-15T05:36:19Z",
-      "head_sha": "164af1667c699a275e82277ccdb58de612290aee"
-    },
-    {
-      "id": 38687675184,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687675184",
-      "created_at": "2026-10-15T05:36:15Z",
-      "head_sha": "392c7d1ab6a6d7708fe591d93e242a4f6619e24d"
-    },
-    {
-      "id": 38687669937,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687669937",
-      "created_at": "2026-10-15T05:36:12Z",
-      "head_sha": "121287e2e98cac7c68e4d1aad83546fb6a0578a5"
-    },
-    {
-      "id": 38687665031,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687665031",
-      "created_at": "2026-10-15T05:36:09Z",
-      "head_sha": "09799e2eb176eb997e010207e455efd6655d9ae7"
-    },
-    {
-      "id": 38687659811,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687659811",
-      "created_at": "2026-10-15T05:36:05Z",
-      "head_sha": "0842a1dc56fd103dcd8e46f126e0d09e6607c8cc"
-    },
-    {
-      "id": 38687654166,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687654166",
-      "created_at": "2026-10-15T05:36:02Z",
-      "head_sha": "04b16d354bb0ca32c07a374b2c6aad809ee095af"
-    },
-    {
-      "id": 38687649345,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687649345",
-      "created_at": "2026-10-15T05:35:59Z",
-      "head_sha": "f1f7424e9cecfe677b517900ea697100412f4bb6"
-    },
-    {
-      "id": 38687642469,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687642469",
-      "created_at": "2026-10-15T05:35:54Z",
-      "head_sha": "9e58e6af9091ef927ebfaffe1fa816b935adf496"
-    },
-    {
-      "id": 38687638604,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687638604",
-      "created_at": "2026-10-15T05:35:52Z",
-      "head_sha": "6bd2ab8fca53c612e907333968a058ffffcd061b"
-    },
-    {
-      "id": 38686933037,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "id": 38710092872,
+      "name": "DuoFace native settings ObjC selector map",
       "run_number": 3,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686933037",
-      "created_at": "2026-10-15T05:28:04Z",
-      "head_sha": "8a5a4f37ae92c89620a349a138b5dd148a3f1b9e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38710092872",
+      "created_at": "2026-10-15T09:03:11Z",
+      "head_sha": "588ed70810d08b60ee5aa5bcb63e6f324c639ccf"
     },
     {
-      "id": 38686738047,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "id": 38709916101,
+      "name": "DuoFace native settings ObjC selector map",
       "run_number": 2,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686738047",
-      "created_at": "2026-10-15T05:25:50Z",
-      "head_sha": "d41984cbcd7f74cb17231db554f2cd8d641baa4b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709916101",
+      "created_at": "2026-10-15T09:01:43Z",
+      "head_sha": "0857986d52ddd0f9067c4f9cdceeb657ad5feca7"
     },
     {
-      "id": 38686641800,
-      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "id": 38709735260,
+      "name": "DuoFace native settings ObjC selector map",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686641800",
-      "created_at": "2026-10-15T05:24:46Z",
-      "head_sha": "59a7335b0510c8a20d7e1349110c91b343cb6fc5"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709735260",
+      "created_at": "2026-10-15T09:00:17Z",
+      "head_sha": "6c659099f3f0dca660db97bc44e2caa682930fd2"
+    },
+    {
+      "id": 38709316701,
+      "name": "DuoFace native date/license UI surface read-only audit",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709316701",
+      "created_at": "2026-10-15T08:56:51Z",
+      "head_sha": "df27a23c37ec95a4f6049d1d6398fbc056bc07f9"
+    },
+    {
+      "id": 38709161559,
+      "name": "DuoFace native date/license UI surface read-only audit",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709161559",
+      "created_at": "2026-10-15T08:55:33Z",
+      "head_sha": "c9de3d4e61973c103478e4442cf63c4061233e7b"
+    },
+    {
+      "id": 38708952481,
+      "name": "DuoFace native date/license UI surface read-only audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38708952481",
+      "created_at": "2026-10-15T08:53:50Z",
+      "head_sha": "eb8c229a3508850e2fb804a885cf23c538fd477e"
+    },
+    {
+      "id": 38704471434,
+      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38704471434",
+      "created_at": "2026-10-15T08:16:19Z",
+      "head_sha": "8bbf5acf553db735917f3cc3b63e4e35490f5fc1"
+    },
+    {
+      "id": 38704082085,
+      "name": "Build DuoFace Mới native test giữ nguyên 100 phần trăm UI gốc",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38704082085",
+      "created_at": "2026-10-15T08:13:00Z",
+      "head_sha": "76370cfd78422ac66226ead426db4053bdfc5db7"
+    },
+    {
+      "id": 38703465229,
+      "name": "DuoFace - kiem tra dong goi goc truoc ban test native",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38703465229",
+      "created_at": "2026-10-15T08:07:41Z",
+      "head_sha": "e109e5c5362e2c6869a3a8148dadc7142554808a"
+    },
+    {
+      "id": 38700062567,
+      "name": "DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38700062567",
+      "created_at": "2026-10-15T07:38:02Z",
+      "head_sha": "7bf47b884bc96376acdbdabdbcaae4c7c1328cf9"
+    },
+    {
+      "id": 38699821782,
+      "name": "DuoFace - chứng minh khôi phục nguyên byte bản sao staging",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699821782",
+      "created_at": "2026-10-15T07:35:51Z",
+      "head_sha": "51576b011bf1cf1de410f560ea33f707e20d3bf0"
+    },
+    {
+      "id": 38699683930,
+      "name": "DuoFace - chứng minh khôi phục nguyên byte bản sao staging",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699683930",
+      "created_at": "2026-10-15T07:34:38Z",
+      "head_sha": "a3c632fb80bcca576d90e03791a31798db1e6147"
+    },
+    {
+      "id": 38699336589,
+      "name": "DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699336589",
+      "created_at": "2026-10-15T07:31:33Z",
+      "head_sha": "12c666a71a7ee78ca44f182bb5eb1070317b0537"
+    },
+    {
+      "id": 38699289424,
+      "name": "DuoFace - kiểm kê và sao chép nguyên ruột (KHÔNG phát hành)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699289424",
+      "created_at": "2026-10-15T07:31:07Z",
+      "head_sha": "6a030d412e55930a18213b0af8a5cd7fd00a3a5d"
     }
   ]
 }
