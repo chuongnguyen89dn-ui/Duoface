@@ -9,6 +9,8 @@ cc -Wall -Wextra -Werror tests/layouts.c -lm -o "$BUILD_DIR/layout-tests"
 "$BUILD_DIR/layout-tests"
 rm -rf "$STAGING"
 mkdir -p "$STAGING/DEBIAN" "$STAGING/var/jb/Applications/DuoFaceIndependent.app" "$STAGING/var/jb/Library/MobileSubstrate/DynamicLibraries"
+# Chuyển đúng bytes của MỌI ảnh đã duyệt; không đụng vào đường dẫn tài sản DuoNavi cũ.
+python3 assets/transfer_approved_assets.py "$STAGING"
 APP="$STAGING/var/jb/Applications/DuoFaceIndependent.app"
 DYLIB="$STAGING/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceIndependent.dylib"
 if [[ "$(uname -s)" == Darwin ]]; then
