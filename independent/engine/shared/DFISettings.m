@@ -15,7 +15,7 @@
  if(p.section==0){c.textLabel.text=DFIT(@"Bật DuoFace Mới",@"Enable DuoFace Mới");key=@"enabled";}
  if(p.section==1){c.textLabel.text=@[DFIT(@"Tự mở khi kết nối",@"Auto start"),DFIT(@"Đóng app cũ khi đổi khung",@"Close replaced apps"),DFIT(@"Đóng app khi ngắt CarPlay",@"Close on disconnect")][p.row];key=@[@"autoStart",@"closeReplaced",@"closeDisconnect"][p.row];}
  if(p.section==2){c.textLabel.text=p.row==0?DFIT(@"Ngôn ngữ",@"Language"):DFIT(@"Cỡ chữ của Split",@"Split text size");c.detailTextLabel.text=p.row==0?DFIT(@"Tiếng Việt",@"English"):@[DFIT(@"Nhỏ",@"Small"),DFIT(@"Vừa",@"Medium"),DFIT(@"Lớn",@"Large")][MIN(2,MAX(0,[DFIPref(@"textSize") integerValue]))];}
- if(p.section==3){c.textLabel.text=@[DFIT(@"Thông tin màn hình xe",@"Car display information"),DFIT(@"Xuất log",@"Export logs"),DFIT(@"Ghi hiệu năng",@"Record performance"),DFIT(@"Xuất log hiệu năng",@"Export performance log"),DFIT(@"Phiên bản",@"Version")][p.row];if(p.row==2)key=@"perfEnabled";if(p.row==4)c.detailTextLabel.text=@"0.1.0~alpha1";}
+ if(p.section==3){c.textLabel.text=@[DFIT(@"Thông tin màn hình xe",@"Car display information"),DFIT(@"Xuất log",@"Export logs"),DFIT(@"Ghi hiệu năng",@"Record performance"),DFIT(@"Xuất log hiệu năng",@"Export performance log"),DFIT(@"Phiên bản",@"Version")][p.row];if(p.row==2)key=@"perfEnabled";if(p.row==4)c.detailTextLabel.text=@"0.1.0~alpha2";}
  if(key){UISwitch *s=[UISwitch new];s.accessibilityIdentifier=key;s.on=[key isEqual:@"enabled"]?DFIEnabled():[DFIPref(key) boolValue];[s addTarget:self action:@selector(toggle:) forControlEvents:UIControlEventValueChanged];c.accessoryView=s;c.selectionStyle=UITableViewCellSelectionStyleNone;}
  else if(!(p.section==3&&p.row==4))c.accessoryType=UITableViewCellAccessoryDisclosureIndicator;return c;
 }
