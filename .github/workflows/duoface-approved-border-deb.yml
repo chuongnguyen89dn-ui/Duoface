@@ -1,7 +1,7 @@
-name: Build DuoFace opaque picker candidate (manual-only)
-# Base menu-inline-live1 is used ONLY for immutable assets/native v12 dashboard and package identity.
+name: Build DuoFace restored native picker backdrop candidate (manual-only)
+# Base installed menu-opaque1 is used ONLY for immutable assets/native v12 dashboard and package identity.
 # Preserve every installed payload byte except the source-built fullscreen bridge; no Sileo.
-# Manual dispatch only on explicit user request to package a NEW candidate.
+# Explicit owner approval required before dispatching this unique NEW candidate; no automatic DEB.
 on:
   workflow_dispatch:
   workflow_call:
@@ -57,10 +57,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BASE='dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb'
+          BASE='dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb'
           test -s "$BASE"
-          test ! -e dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
-          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/menu-opaque1
+          test ! -e dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
+          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/menu-native1
           dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
           ROOT="$RUNNER_TEMP/duoface-approved"
           DEST="$ROOT/var/jb/Library/MobileSubstrate/DynamicLibraries"
@@ -71,7 +71,7 @@ jobs:
           # Replace obsolete picker bridge with current source-built implementation.
           cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
           chmod 755 "$DEST/DuoFaceFullscreenBridge.dylib"
-          # Installed menu-inline-live1 already contains both approved logos.
+          # Installed menu-opaque1 already contains both approved logos.
           # Do not copy or replace them. Verify their exact hashes below.
           ALPHA_DEST="$ROOT/var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png"
           test -s "$ALPHA_DEST"
@@ -79,8 +79,8 @@ jobs:
           from pathlib import Path
           import os,re,hashlib,plistlib,subprocess
           root=Path(os.environ['RUNNER_TEMP'])/'duoface-approved'
-          base=Path('dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb')
-          assert hashlib.sha256(base.read_bytes()).hexdigest()=='b25145b741f28729e1f426b022c7044551fc379dce59ca15b41d7943a14dd245', 'installed base changed'
+          base=Path('dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb')
+          assert hashlib.sha256(base.read_bytes()).hexdigest()=='33c820ca014b94d0a0691daf556b0e4eafd0afe56d6cec4b73eb127a52d83404', 'installed base changed'
           logo=root/'var/jb/Library/Application Support/DuoFace/duoface-logo.png'
           assert hashlib.sha256(logo.read_bytes()).hexdigest()=='78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
           alpha=root/'var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png'
@@ -99,7 +99,7 @@ jobs:
           assert subprocess.check_output(['dpkg-deb','-f',str(base),'Architecture'],text=True).strip().startswith('iphoneos-')
           control=root/'DEBIAN/control'
           ctl=control.read_text()
-          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+menu-opaque1',ctl)
+          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+menu-native1',ctl)
           control.write_text(ctl)
           for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
@@ -148,11 +148,11 @@ jobs:
           print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
           print('ALPHA_MENU_LOGO_SHA256',alpha_sha)
           PY
-          OUT='dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb'
+          OUT='dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb'
           dpkg-deb --build --root-owner-group "$ROOT" "$OUT"
-          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+menu-opaque1'
+          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+menu-native1'
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duonavi.app'
-          shasum -a 256 "$OUT" | tee dist/candidates/menu-opaque1/SHA256SUMS.txt
+          shasum -a 256 "$OUT" | tee dist/candidates/menu-native1/SHA256SUMS.txt
           # Verify actual DEB EXTRACTED payload, not merely the staging directory.
           EXTRACT="$RUNNER_TEMP/duoface-menu-inline-extract"
           mkdir -p "$EXTRACT"
@@ -160,10 +160,10 @@ jobs:
           python3 - <<'PY'
           import hashlib,json,os,subprocess
           from pathlib import Path
-          out=Path('dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb')
+          out=Path('dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb')
           staged=Path(os.environ['RUNNER_TEMP'])/'duoface-approved'
           extracted=Path(os.environ['RUNNER_TEMP'])/'duoface-menu-inline-extract'
-          base=Path('dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb')
+          base=Path('dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb')
           rels=[
             'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib',
             'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib',
@@ -182,7 +182,7 @@ jobs:
           get=lambda file,key:subprocess.check_output(['dpkg-deb','-f',str(file),key],text=True).strip()
           assert get(out,'Package')==get(base,'Package')=='com.duonavi.app'
           assert get(out,'Architecture')==get(base,'Architecture')
-          assert get(out,'Version')=='1.0.3-12+menu-opaque1'
+          assert get(out,'Version')=='1.0.3-12+menu-native1'
           data={
             'status':'PACKAGE_BUILT_NOT_DEVICE_TESTED_NOT_SILEO',
             'source_commit':os.environ['GITHUB_SHA'],
@@ -202,14 +202,14 @@ jobs:
           print(report.read_text())
           PY
           dpkg-deb -I "$OUT"
-          dpkg-deb -c "$OUT" > dist/candidates/menu-opaque1/CONTENTS.txt
+          dpkg-deb -c "$OUT" > dist/candidates/menu-native1/CONTENTS.txt
           cp "$OUT" artifacts/
-          cp dist/candidates/menu-opaque1/SHA256SUMS.txt artifacts/
-          cp dist/candidates/menu-opaque1/BUILD_AUDIT.json artifacts/
-          cp dist/candidates/menu-opaque1/CONTENTS.txt artifacts/
+          cp dist/candidates/menu-native1/SHA256SUMS.txt artifacts/
+          cp dist/candidates/menu-native1/BUILD_AUDIT.json artifacts/
+          cp dist/candidates/menu-native1/CONTENTS.txt artifacts/
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-menu-opaque1
+          name: duoface-menu-native1
           path: |
             artifacts/*.deb
             artifacts/SHA256SUMS.txt
@@ -222,8 +222,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/candidates/menu-opaque1/
-          git commit -m 'artifact: persist verified DuoFace menu-opaque1 DEB [skip ci]'
+          git add dist/candidates/menu-native1/
+          git commit -m 'artifact: persist verified DuoFace menu-native1 DEB [skip ci]'
           for attempt in 1 2 3; do
             git fetch origin main
             git rebase origin/main
