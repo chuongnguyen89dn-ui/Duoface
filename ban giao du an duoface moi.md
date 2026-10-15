@@ -381,6 +381,14 @@
 - **Hướng tiếp:** giữ nguyên `native1` và giao diện gốc, test mở CarPlay và chọn hai ứng dụng trên máy thứ hai; nếu thành công, test thao tác còn lại và khởi động lại. Ghi lỗi/log nếu phát sinh, không quay lại UI alpha2.
 
 
+### 2026-10-15 — XÁC NHẬN TEST THIẾT BỊ: native1 hoạt động tốt cả hai máy; yêu cầu tiếp tục dọn ngày/giấy phép
+
+- **Người dùng xác nhận mới nhất:** “Tất cả đều hoạt động tốt. Bây giờ bạn tiếp tục bỏ những j về ngày sử dụng hay giấy phép ra khỏi deb mới tiếp đi. Đừng sợ. Nếu lỗi ta có thể quay lại. Ko j bằng việc test thực tế.” Đây là **kết quả test thực tế** mới thay thế trạng thái còn phải test cơ bản ở các mốc trước.
+- **Kết quả thực địa:** `com.duoface.independent 0.1.0~native1` đã cài trên máy thứ nhất và thứ hai; người dùng xác nhận toàn bộ chức năng họ đã thử hoạt động tốt và thiết bị thứ hai trước đây không cài được bản cũ. Mốc xác minh độc lập hoàn toàn mã thời hạn vẫn chưa thể suy ra chỉ từ hoạt động đang chạy.
+- **Chỉ đạo phiên này:** tiếp tục tinh giản những phần liên quan ngày sử dụng, giấy phép trong **DEB MỚI**; phải giữ nguyên mọi thành phần/cử chỉ/UI đã chạy tốt. Ưu tiên phiên bản native2 tách biệt để người dùng kiểm thử và có đường quay về native1. Không sửa/ghi đè file native1 cũ; thay đúng package `com.duoface.independent` theo workflow Sileo sau khi chạy QA và xác nhận hash/deploy. Không quay lại alpha2.
+- **Trạng thái bắt đầu:** đã đọc handoff, nguồn kỹ năng `Gpt-training-/SKILL_INDEX.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`, source `native_test/{DuoFaceNoLeaseBridge.mm,build_native_trial.py}`, CI `duoface-native-trial-build.yml`. Nhánh feature head `87a7b6bd270bbe11dacab3da71c0d9e74ab07c20`; 12 Actions gần nhất không chạy. Build native1 hiện nay giữ nguyên 37 file nguồn và chỉ loại `com.duonavi.sync.plist`; các phần license bên trong nhị phân UI/Dashboard vẫn là phân tích kỹ thuật cần theo dõi. **Chưa phát hành native2 tại thời điểm lưu checkpoint.**
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
