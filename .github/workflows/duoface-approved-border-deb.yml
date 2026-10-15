@@ -1,5 +1,6 @@
-name: Build DuoFace compact picker menu candidate (manual-only)
-# Use newest 30pt inline-logo menu and native activity red border source; menu-zoom2 DEB serves as original assets/base only.
+name: Build DuoFace menu inline Live candidate (manual-only)
+# Base menu-zoom2 is used ONLY for immutable assets/native v12 dashboard and package identity.
+# Install latest source-built bridge, original activity border hook and menu-only alpha logo.
 # Manual dispatch only on explicit user request to package a NEW candidate.
 on:
   workflow_dispatch:
@@ -29,6 +30,19 @@ jobs:
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFMenuZoomEvent' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFPickerZoomMenu.xm' Makefile.fullscreen
+          grep -q 'DFRestyleOneRecentAppRow' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFRestyleNativeRecentAppRows' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFRestyleRecentClearAll' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFBuildingNativeRecentRows' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'OVERLAY_RUNNING_TAG' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'OVERLAY_PID_TAG' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'OVERLAY_BACKGROUND_TAG' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'arrow.clockwise' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'xmark.circle' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'duoface-logo-picker-alpha-v2.png' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFClearNativePickerChrome' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
+          test -s dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png
           cp Makefile.fullscreen Makefile
           make clean all FINALPACKAGE=1
           BRIDGE="$(find .theos -name 'DuoFaceFullscreenBridge.dylib' -type f | head -1)"
@@ -50,16 +64,24 @@ jobs:
           set -euo pipefail
           BASE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
           test -s "$BASE"
-          test ! -e dist/candidates/menu-compact1/com.duonavi.app_1.0.3-12_menu-compact1_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
-          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/menu-compact1
+          test ! -e dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
+          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/menu-inline-live1
           dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
           ROOT="$RUNNER_TEMP/duoface-approved"
           DEST="$ROOT/var/jb/Library/MobileSubstrate/DynamicLibraries"
           test -s "$DEST/DuoFaceDashboard.dylib"
           test -s "$DEST/DuoFaceVisualHook.plist"
+          test -s "$DEST/DuoFaceFullscreenBridge.plist"
           cp artifacts/DuoFaceVisualHook.dylib "$DEST/DuoFaceVisualHook.dylib"
-          # Replace obsolete picker bridge with latest 30pt inline-logo Zoom+Style source.
+          # Replace obsolete picker bridge with current source-built implementation.
           cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
+          # CRITICAL: preserve the old opaque splash PNG; install menu-specific
+          # alpha artwork under its exact runtime lookup name, as a NEW file.
+          ALPHA='dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png'
+          ALPHA_DEST="$ROOT/var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png"
+          test -s "$ALPHA"
+          test ! -e "$ALPHA_DEST" || { echo 'Alpha menu logo already in base: unexpected overwrite' >&2; exit 1; }
+          cp "$ALPHA" "$ALPHA_DEST"
           python3 - <<'PY'
           from pathlib import Path
           import os,re,hashlib,plistlib,subprocess
@@ -67,19 +89,32 @@ jobs:
           base=Path('dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb')
           logo=root/'var/jb/Library/Application Support/DuoFace/duoface-logo.png'
           assert hashlib.sha256(logo.read_bytes()).hexdigest()=='78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
+          alpha=root/'var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png'
+          alpha_sha='43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7'
+          data=alpha.read_bytes()
+          assert hashlib.sha256(data).hexdigest()==alpha_sha,'menu-only alpha logo was missing or damaged'
+          import struct
+          assert data[:8]==bytes.fromhex('89504e470d0a1a0a'), 'invalid PNG header'
+          assert struct.unpack('>II',data[16:24])==(627,228),'wrong cropped asset dimensions'
+          assert data[25]==6,'expected RGBA alpha PNG'
           native=root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'
           assert hashlib.sha256(native.read_bytes()).hexdigest()=='bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce'
+          assert subprocess.check_output(['dpkg-deb','-f',str(base),'Package'],text=True).strip()=='com.duonavi.app'
+          assert subprocess.check_output(['dpkg-deb','-f',str(base),'Architecture'],text=True).strip().startswith('iphoneos-')
           control=root/'DEBIAN/control'
           ctl=control.read_text()
-          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+menu-compact1',ctl)
+          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+menu-inline-live1',ctl)
           control.write_text(ctl)
           for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
             assert dylib.read_bytes()[:4] in [bytes.fromhex('cffaedfe'),bytes.fromhex('cafebabe')]
             symbols=subprocess.run(['strings',str(dylib)],text=True,capture_output=True,check=True).stdout
-            required=(['Zoom In','Zoom Out','Close App','CBMultitaskingOverlayView']
+            required=(['Zoom','Close','Clear All','CBMultitaskingOverlayView','CBLocalization',
+                       'OVERLAY_RUNNING_TAG','OVERLAY_PID_TAG','OVERLAY_BACKGROUND_TAG',
+                       'arrow.clockwise','xmark.circle','duoface-logo-picker-alpha-v2.png']
                       if name=='DuoFaceFullscreenBridge' else
-                      ['[DuoFaceBorder] install','[DuoFaceBorder] RED ON user activity','[DuoFaceBorder] RED OFF native idle','borderPulse'])
+                      ['[DuoFaceBorder] install','[DuoFaceBorder] RED ON user activity',
+                       '[DuoFaceBorder] RED OFF native idle','borderPulse'])
             assert all(token in symbols for token in required),(name,required)
             if name=='DuoFaceVisualHook':
               assert 'dfStart' not in symbols and 'dfEnd' not in symbols, 'old runner must be removed'
@@ -99,20 +134,75 @@ jobs:
           print('LATEST_BRIDGE_SHA256',hashlib.sha256((root/'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib').read_bytes()).hexdigest())
           print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
           print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
+          print('ALPHA_MENU_LOGO_SHA256',alpha_sha)
           PY
-          OUT='dist/candidates/menu-compact1/com.duonavi.app_1.0.3-12_menu-compact1_iphoneos-arm64.deb'
+          OUT='dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb'
           dpkg-deb --build --root-owner-group "$ROOT" "$OUT"
-          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+menu-compact1'
+          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+menu-inline-live1'
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duonavi.app'
-          shasum -a 256 "$OUT" | tee dist/candidates/menu-compact1/SHA256SUMS.txt
+          shasum -a 256 "$OUT" | tee dist/candidates/menu-inline-live1/SHA256SUMS.txt
+          # Verify actual DEB EXTRACTED payload, not merely the staging directory.
+          EXTRACT="$RUNNER_TEMP/duoface-menu-inline-extract"
+          mkdir -p "$EXTRACT"
+          dpkg-deb -x "$OUT" "$EXTRACT"
+          python3 - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          out=Path('dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb')
+          staged=Path(os.environ['RUNNER_TEMP'])/'duoface-approved'
+          extracted=Path(os.environ['RUNNER_TEMP'])/'duoface-menu-inline-extract'
+          base=Path('dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb')
+          rels=[
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib',
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib',
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib',
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist',
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist',
+            'var/jb/Library/Application Support/DuoFace/duoface-logo.png',
+            'var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png']
+          sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+          for rel in rels:
+              assert (extracted/rel).is_file(), ('missing DEB payload',rel)
+              assert sha(extracted/rel)==sha(staged/rel),('staged and packed content differ',rel)
+          assert sha(extracted/rels[0])=='bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce'
+          assert sha(extracted/rels[-1])=='43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7'
+          assert sha(extracted/rels[-2])=='78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089'
+          get=lambda file,key:subprocess.check_output(['dpkg-deb','-f',str(file),key],text=True).strip()
+          assert get(out,'Package')==get(base,'Package')=='com.duonavi.app'
+          assert get(out,'Architecture')==get(base,'Architecture')
+          assert get(out,'Version')=='1.0.3-12+menu-inline-live1'
+          data={
+            'status':'PACKAGE_BUILT_NOT_DEVICE_TESTED_NOT_SILEO',
+            'source_commit':os.environ['GITHUB_SHA'],
+            'base_deb':str(base),'base_sha256':sha(base),
+            'candidate_deb':str(out),'candidate_sha256':sha(out),
+            'control':{k:get(out,k) for k in ['Package','Architecture','Version']},
+            'dylib_sha256':{Path(r).name:sha(extracted/r) for r in rels[:3]},
+            'preserved_native_sha256':sha(extracted/rels[0]),
+            'logo_original_sha256':sha(extracted/rels[-2]),
+            'logo_alpha_v2_sha256':sha(extracted/rels[-1]),
+            'installer':'rootless','sileo_published':False,
+            'device_tested':False,
+            'validated_payload_paths':rels,
+          }
+          report=out.parent/'BUILD_AUDIT.json'
+          report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\\n')
+          print(report.read_text())
+          PY
+          dpkg-deb -I "$OUT"
+          dpkg-deb -c "$OUT" > dist/candidates/menu-inline-live1/CONTENTS.txt
           cp "$OUT" artifacts/
-          cp dist/candidates/menu-compact1/SHA256SUMS.txt artifacts/
+          cp dist/candidates/menu-inline-live1/SHA256SUMS.txt artifacts/
+          cp dist/candidates/menu-inline-live1/BUILD_AUDIT.json artifacts/
+          cp dist/candidates/menu-inline-live1/CONTENTS.txt artifacts/
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-menu-compact1
+          name: duoface-menu-inline-live1
           path: |
             artifacts/*.deb
             artifacts/SHA256SUMS.txt
+            artifacts/BUILD_AUDIT.json
+            artifacts/CONTENTS.txt
           if-no-files-found: error
       - name: Commit exact candidate to DuoFace repository only
         shell: bash
@@ -120,8 +210,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/candidates/menu-compact1/
-          git commit -m 'artifact: persist owner-approved border/focus DuoFace DEB [skip ci]'
+          git add dist/candidates/menu-inline-live1/
+          git commit -m 'artifact: persist verified DuoFace menu-inline-live1 DEB [skip ci]'
           for attempt in 1 2 3; do
             git fetch origin main
             git rebase origin/main
