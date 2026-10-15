@@ -1,0 +1,28 @@
+{
+  "status": "NATIVE6_EXACT_ZERO_ERASURE_BINARY_REGRESSION_PASS",
+  "source_native5_sha256": "9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26",
+  "native6_sha256": "88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15",
+  "verified": {
+    "DuoFaceUI": {
+      "erased_literals": 13,
+      "erased_bytes": 627,
+      "all_machine_code_identical": true,
+      "all_other_macho_sections_byte_identical": true,
+      "objc_metadata_preserved": true
+    },
+    "DuoFaceDashboard": {
+      "erased_literals": 13,
+      "erased_bytes": 627,
+      "all_machine_code_identical": true,
+      "all_other_macho_sections_byte_identical": true,
+      "objc_metadata_preserved": true
+    }
+  },
+  "untouched_payload_file_count": 37,
+  "methods_removed_physically": 0,
+  "objc_classes_and_selectors_removed_physically": 0,
+  "presentation_literal_bytes_physically_zeroed": 1254,
+  "machine_code_changed": false,
+  "license_business_logic_proven_fully_removed": false,
+  "device_tested": false
+}
