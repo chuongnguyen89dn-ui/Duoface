@@ -5,7 +5,8 @@ on:
     branches:
       - feature/duoface-exact-payload-migration
     paths:
-      - 'migration/full_payload/**'
+      - 'migration/full_payload/prepare_exact_copy.py'
+      - 'migration/full_payload/test_exact_copy.py'
       - '.github/workflows/duoface-exact-payload-audit.yml'
   workflow_dispatch:
 
