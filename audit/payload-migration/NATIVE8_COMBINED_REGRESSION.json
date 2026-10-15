@@ -1,0 +1,35 @@
+{
+  "status": "NATIVE8_CARPLAY_CODE_IDENTICAL_AND_GRIP_HOOK_DELTA_PASS",
+  "native6_baseline_sha256": "88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15",
+  "native8_sha256": "c4b5e07f20ca0c819e0e43c8cbbf7e560da961db8c7e74c82a7a4f6fc0274cec",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native8",
+  "verified_binary_display_mappings": {
+    "DuoFaceUI": {
+      "masked_user_visible_cstrings": 39,
+      "selected_literal_bytes": 1516,
+      "actual_changed_literal_bytes": 1321,
+      "machine_code_unchanged": true,
+      "objc_class_selector_metadata_unchanged": true,
+      "carplay_lifecycle_and_detectors_unchanged": true
+    },
+    "DuoFaceDashboard": {
+      "masked_user_visible_cstrings": 39,
+      "selected_literal_bytes": 1516,
+      "actual_changed_literal_bytes": 1321,
+      "machine_code_unchanged": true,
+      "objc_class_selector_metadata_unchanged": true,
+      "carplay_lifecycle_and_detectors_unchanged": true
+    }
+  },
+  "only_hook_and_two_binary_literal_data_changed": true,
+  "identical_other_payload_files": 36,
+  "unchanged_carplay_split_code_and_lifecycle": true,
+  "unchanged_objc_selectors_classes_keys": true,
+  "logo_grip_hook_verified_present": true,
+  "logo_long_hold_threshold_seconds": 0.3,
+  "rootless_architecture": "iphoneos-arm64",
+  "device_tested": false,
+  "sileo_published": false,
+  "license_subsystem_fully_removed": false
+}

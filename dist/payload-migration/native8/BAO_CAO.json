@@ -1,0 +1,822 @@
+{
+  "status": "NATIVE8_TWO_SCOPE_STAGED_LICENSE_COPY_AND_LOGO_DRAG_NEEDS_DEVICE_QA",
+  "baseline_native6_sha256": "88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native8",
+  "target_rootless_architecture": "iphoneos-arm64",
+  "license_ui_strings_selected": 39,
+  "license_ui_literal_occurrences_hidden": 78,
+  "license_ui_selected_bytes": 3032,
+  "actual_changed_literal_bytes_expected": 2642,
+  "masks": [
+    {
+      "binary": "DuoFaceUI",
+      "label": "Connect to CarPlay to start your %ld-day free trial, or choose a plan below to activate.",
+      "file_offset": 718554,
+      "byte_count": 88,
+      "native6_sha256": "c3474542be6e832fb2944275223bd294c0f407a5344fa7ad3d4a9d2480ee36f4",
+      "native7_sha256": "dc67caa9aac417368bd860fbeba738aa722b40a5d93f32c857ef614c3999c52f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Connect to CarPlay for a free trial, or choose a plan below to activate.",
+      "file_offset": 718676,
+      "byte_count": 72,
+      "native6_sha256": "b0642d7bcdb28d21e5c2eba0f1039b0ae9abbd4fcacdf39114105428f445de06",
+      "native7_sha256": "77a87d3d0e2739e428a6934ae43a897af930e13b7ab1dbc07ffe1ae46468d02e",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "OR REDEEM GIFTCODE",
+      "file_offset": 718822,
+      "byte_count": 18,
+      "native6_sha256": "b7d5599a840d932f08da2c301e7f00ce067ac4c2245b7a95b59294ada10144f5",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "%ld-day trial ($0)",
+      "file_offset": 719166,
+      "byte_count": 18,
+      "native6_sha256": "c9929e751540674d3965e19b9d313a319ec037422c8a4d779783d79d0afbd592",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Enter giftcode...",
+      "file_offset": 719345,
+      "byte_count": 17,
+      "native6_sha256": "11c27b32d3314aca71ef1b0f81f3dc2c323779737de9a291b8b1ef9047522a58",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Please enter a giftcode before activating.",
+      "file_offset": 719516,
+      "byte_count": 42,
+      "native6_sha256": "4487aba242abc424c673310e8843dbf3041412ea33a1c97c40daf6f7968420e3",
+      "native7_sha256": "5ae0803a5af15dd7461d3c49afe61ce92f51c628be37fcb636b992d493ea57bf",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Giftcode is invalid or already used.",
+      "file_offset": 719720,
+      "byte_count": 36,
+      "native6_sha256": "9edae44c74720d43519e50d84cbfe7e3fc76671c6a72b8fbc8e6dca89792bdf2",
+      "native7_sha256": "74a591c730d59955782f2cce54a4a37c1e94b67197409b3fd91565669037dbf4",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Activated Successfully!",
+      "file_offset": 719757,
+      "byte_count": 23,
+      "native6_sha256": "6480215de499ad5c5f400fd347dd02643ae423a567245bf53d83fc3c8e61ee67",
+      "native7_sha256": "56d624e8862ff6a2a8aaf44f8df0ed4177b2303a8831c1ecb06a577026647e4f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "DuoFace Pro license activated. All CarPlay multitasking features are ready to use!",
+      "file_offset": 720344,
+      "byte_count": 82,
+      "native6_sha256": "694d55f530e92b3790b997ccd31741acd8befbf80c5aed33421a7bb6c291a92f",
+      "native7_sha256": "d211ee989d8055be8025e61d849bdc12914aa879b9d8837c93ffc2a73040afb7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Awaiting Payment",
+      "file_offset": 720427,
+      "byte_count": 16,
+      "native6_sha256": "de6fd5b41006412229d87a35411613a2d216df31eb0bad2e20964db0348b486c",
+      "native7_sha256": "38113c36d1f8eb3558d5868d285a7ddcba11128374fd2f13537255c351ea8c2f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Order Expired",
+      "file_offset": 720539,
+      "byte_count": 13,
+      "native6_sha256": "55afb6b2b5cb9fe0dac1c57fe65c3962f6c0fada182deaa497bcc12d6869010d",
+      "native7_sha256": "a453c4f4c4b8f0c24bb773c31918b1f9da54669808ab34813e67061ceb342af0",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Activate Now",
+      "file_offset": 728135,
+      "byte_count": 12,
+      "native6_sha256": "24c04b80af643a5b19b56543284f91160b92a343b4874891f2d92644b5cc11f2",
+      "native7_sha256": "05a8475feebbfea685ece06045be63722edc61bb2ade8060a9f03aed6d49f454",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Lifetime license on this device.",
+      "file_offset": 728321,
+      "byte_count": 32,
+      "native6_sha256": "189571159524024c165bc01d235be9356a65a524b9bfa58a0a033c26be588de4",
+      "native7_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Connect to CarPlay to start your %ld-day free trial, or select a plan below.",
+      "file_offset": 728354,
+      "byte_count": 76,
+      "native6_sha256": "df0e93c0622ad5d93f3776f1daff88aff23ddc544c78a43341cb569715ba99cb",
+      "native7_sha256": "dba37325f45918ca2041050788269439198346fe808008048ad35e1a0f1be95b",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Connect to CarPlay to start your free trial, or select a plan below.",
+      "file_offset": 728431,
+      "byte_count": 68,
+      "native6_sha256": "9ebf166381e7c38e2e56e78d324baa7e6a207b5f13d0a71778849fb893c58563",
+      "native7_sha256": "4028d38bc0fab49dadbbed4107b6db6d5b420b0989ca4aa0af284ce4bdd9e29a",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Resume Pending Payment Page",
+      "file_offset": 728775,
+      "byte_count": 27,
+      "native6_sha256": "54aaa6aa5908d9a905810214cbd781251dc12bcc0f3de2f7a23dd818e09796b2",
+      "native7_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Enter activation code from your reseller or direct purchase:",
+      "file_offset": 728803,
+      "byte_count": 60,
+      "native6_sha256": "201b867783b3c69fac5526d3d6581f0060229cd2d8f55be07ee1c87c8e7f3890",
+      "native7_sha256": "6a9c3911d69fdb86d4b5a6b93dbdd9d5d3b1125551416b7af129b29936ae48e2",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Don't have a code? Contact your reseller or support team for quick activation.",
+      "file_offset": 728864,
+      "byte_count": 78,
+      "native6_sha256": "0b0e6c61c01ba4847ceee89c402c410b24db8103a014474898390ccbad5f245a",
+      "native7_sha256": "e63d8e07c766e6b600a7abb0d2e3449f550c28df2c56380807539c5b69b76a5b",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Enter activation code...",
+      "file_offset": 728943,
+      "byte_count": 24,
+      "native6_sha256": "056fb9f9490fe072ed2ced8b4e2aff729904a8321a5a8b7ab4f2cac623a0da89",
+      "native7_sha256": "c8b62e5b36b239e5e54135ee61c9ee54aae1526c30d2f8c484d19efc5f1fba65",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Reopen Payment Page",
+      "file_offset": 729062,
+      "byte_count": 19,
+      "native6_sha256": "0b7c77c77ce4ba915bca8785e596485372c2f833dc9d91c75684a184ef5a16e6",
+      "native7_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Please enter an activation code before continuing.",
+      "file_offset": 729129,
+      "byte_count": 50,
+      "native6_sha256": "7b500a228609fa49f8cca62562325d9f13f900eefd4c63791ca94b7cc78cd220",
+      "native7_sha256": "4c38d6d8bd1c5a3061e0c20067679faa28868831d7b838800e3b64729af34354",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Activation code is invalid or already used.",
+      "file_offset": 729180,
+      "byte_count": 43,
+      "native6_sha256": "e656943af68cd81a60d2a123d81d3d3758d6001d338eebfb55577d35c9d2f6ec",
+      "native7_sha256": "60a355a027f488d1a5a6558105f11d8c5c7c62deac3f33a0c1ba598263d51865",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "License Sync Incomplete",
+      "file_offset": 729311,
+      "byte_count": 23,
+      "native6_sha256": "9399dcb120071e0520fc00a505f4cf16dc09e717346ab6b3aca85db7234e6727",
+      "native7_sha256": "56d624e8862ff6a2a8aaf44f8df0ed4177b2303a8831c1ecb06a577026647e4f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "DuoFace Pro license activated successfully. Connect to CarPlay to enjoy multitasking!",
+      "file_offset": 729516,
+      "byte_count": 85,
+      "native6_sha256": "9de36c6ca4ac0745da4ef1c1dad76526881ec3739933edb1cccc6e3253073f3d",
+      "native7_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Unable to load subscription plans. Please check your network connection and try again.",
+      "file_offset": 729744,
+      "byte_count": 86,
+      "native6_sha256": "b303142f4e8a6e36a3a92bfea9651b870081777956d72e0e0721cf47c1728792",
+      "native7_sha256": "f58a84ba4ea67afeb6ce4ae23dec47a561a58e25ace7961b086a80110c1e5e31",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Loading subscription plans...",
+      "file_offset": 729926,
+      "byte_count": 29,
+      "native6_sha256": "9e9bda70ee95519fc854e33829e5a8ae67b9f857ee13974e92ceb7c9fd18a1fe",
+      "native7_sha256": "0f234ed575224010430042b7a7b9482508e131cad194cf64f2ab7cb71a9c4d39",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "License Duration",
+      "file_offset": 729961,
+      "byte_count": 16,
+      "native6_sha256": "ef0b975aa914c75686ba9b2a80934a2e261aa1933a4ee2e4b19090841931ebc5",
+      "native7_sha256": "38113c36d1f8eb3558d5868d285a7ddcba11128374fd2f13537255c351ea8c2f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Licencia no activada",
+      "file_offset": 732578,
+      "byte_count": 20,
+      "native6_sha256": "7bb650543ed76f12968217b3db654096d0593ec1c3bb6fa718705d7edb18178f",
+      "native7_sha256": "1e8a105dbcab2f5d6b30a670c0ff91942f4db62401e669331037101e94198250",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Licencia caducada",
+      "file_offset": 732599,
+      "byte_count": 17,
+      "native6_sha256": "7b6a2919cd2dfbdcdb6e9f6878792089c02f24de62caecc30a4ebe56a9e09fc8",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Guarda este ID de dispositivo para transferir tu licencia a otro equipo (hasta 10 veces).",
+      "file_offset": 732916,
+      "byte_count": 89,
+      "native6_sha256": "4a16fc6fa5e79905055ac937671941d7702d747264089180bd8975a5964839dd",
+      "native7_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Estado de licencia",
+      "file_offset": 733090,
+      "byte_count": 18,
+      "native6_sha256": "8a410bf32b68779e0b6fdb2ef82a9f31c9dfccb2e0c467773f2d3bc62821562b",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Entrez le code d'activation de votre revendeur ou du support :",
+      "file_offset": 734634,
+      "byte_count": 62,
+      "native6_sha256": "0e2190db94a153c590459e4298c6ee1a9ff68cb24b0acda41cb6682bfae682f7",
+      "native7_sha256": "31c9dd7608d344d6e58970a41e372bca5af91ba98e6ebcc3b79e6180b97d31a2",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Expiration serveur",
+      "file_offset": 734799,
+      "byte_count": 18,
+      "native6_sha256": "ae6f7f135a4914fa59a12b2c18a9a6a792be9ba6b4431bd5baa96b6850ad4993",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Statut de licence",
+      "file_offset": 734818,
+      "byte_count": 17,
+      "native6_sha256": "bd9939495cc986ee0e034fdf5997ca33abcaff88556bfbccdc7047bc9e05da32",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Voer activatiecode van verkoper of ondersteuning in:",
+      "file_offset": 755307,
+      "byte_count": 52,
+      "native6_sha256": "aba1b6eafaf6eee1e0d074c5188acd0c049f7fd6a8d06741fe90905eba5c1da6",
+      "native7_sha256": "c5b31636f65ba0a1cdc4a022ff267da0170f56e22a2f16a1419e56883509a982",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Licencja nieaktywna",
+      "file_offset": 756746,
+      "byte_count": 19,
+      "native6_sha256": "256bced2cd65fd28400542be227336bfa01c28f07bf9e84859d75292bbec2180",
+      "native7_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Licencja nieaktywowana",
+      "file_offset": 756766,
+      "byte_count": 22,
+      "native6_sha256": "49af8088faf35139778efcdf23a0cd2ff90ce2424ca65431c6ebd3c29be75ce6",
+      "native7_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Okres licencji",
+      "file_offset": 756863,
+      "byte_count": 14,
+      "native6_sha256": "0477d347f18fa66c3e590c70b4cf4382dac7b9e288b2af9a6fc7e57f59ef0eea",
+      "native7_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "label": "Status licencji",
+      "file_offset": 756897,
+      "byte_count": 15,
+      "native6_sha256": "4367ab2b154c8b16df644d7b8aef6325817c2f2b6496963bcb30973def5420e9",
+      "native7_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Connect to CarPlay to start your %ld-day free trial, or choose a plan below to activate.",
+      "file_offset": 3131175,
+      "byte_count": 88,
+      "native6_sha256": "c3474542be6e832fb2944275223bd294c0f407a5344fa7ad3d4a9d2480ee36f4",
+      "native7_sha256": "dc67caa9aac417368bd860fbeba738aa722b40a5d93f32c857ef614c3999c52f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Connect to CarPlay for a free trial, or choose a plan below to activate.",
+      "file_offset": 3131297,
+      "byte_count": 72,
+      "native6_sha256": "b0642d7bcdb28d21e5c2eba0f1039b0ae9abbd4fcacdf39114105428f445de06",
+      "native7_sha256": "77a87d3d0e2739e428a6934ae43a897af930e13b7ab1dbc07ffe1ae46468d02e",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "OR REDEEM GIFTCODE",
+      "file_offset": 3131553,
+      "byte_count": 18,
+      "native6_sha256": "b7d5599a840d932f08da2c301e7f00ce067ac4c2245b7a95b59294ada10144f5",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "%ld-day trial ($0)",
+      "file_offset": 3131897,
+      "byte_count": 18,
+      "native6_sha256": "c9929e751540674d3965e19b9d313a319ec037422c8a4d779783d79d0afbd592",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Enter giftcode...",
+      "file_offset": 3132159,
+      "byte_count": 17,
+      "native6_sha256": "11c27b32d3314aca71ef1b0f81f3dc2c323779737de9a291b8b1ef9047522a58",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Please enter a giftcode before activating.",
+      "file_offset": 3132550,
+      "byte_count": 42,
+      "native6_sha256": "4487aba242abc424c673310e8843dbf3041412ea33a1c97c40daf6f7968420e3",
+      "native7_sha256": "5ae0803a5af15dd7461d3c49afe61ce92f51c628be37fcb636b992d493ea57bf",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Giftcode is invalid or already used.",
+      "file_offset": 3132960,
+      "byte_count": 36,
+      "native6_sha256": "9edae44c74720d43519e50d84cbfe7e3fc76671c6a72b8fbc8e6dca89792bdf2",
+      "native7_sha256": "74a591c730d59955782f2cce54a4a37c1e94b67197409b3fd91565669037dbf4",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Activated Successfully!",
+      "file_offset": 3133021,
+      "byte_count": 23,
+      "native6_sha256": "6480215de499ad5c5f400fd347dd02643ae423a567245bf53d83fc3c8e61ee67",
+      "native7_sha256": "56d624e8862ff6a2a8aaf44f8df0ed4177b2303a8831c1ecb06a577026647e4f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "DuoFace Pro license activated. All CarPlay multitasking features are ready to use!",
+      "file_offset": 3133998,
+      "byte_count": 82,
+      "native6_sha256": "694d55f530e92b3790b997ccd31741acd8befbf80c5aed33421a7bb6c291a92f",
+      "native7_sha256": "d211ee989d8055be8025e61d849bdc12914aa879b9d8837c93ffc2a73040afb7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Awaiting Payment",
+      "file_offset": 3134109,
+      "byte_count": 16,
+      "native6_sha256": "de6fd5b41006412229d87a35411613a2d216df31eb0bad2e20964db0348b486c",
+      "native7_sha256": "38113c36d1f8eb3558d5868d285a7ddcba11128374fd2f13537255c351ea8c2f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Order Expired",
+      "file_offset": 3134275,
+      "byte_count": 13,
+      "native6_sha256": "55afb6b2b5cb9fe0dac1c57fe65c3962f6c0fada182deaa497bcc12d6869010d",
+      "native7_sha256": "a453c4f4c4b8f0c24bb773c31918b1f9da54669808ab34813e67061ceb342af0",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Activate Now",
+      "file_offset": 3142436,
+      "byte_count": 12,
+      "native6_sha256": "24c04b80af643a5b19b56543284f91160b92a343b4874891f2d92644b5cc11f2",
+      "native7_sha256": "05a8475feebbfea685ece06045be63722edc61bb2ade8060a9f03aed6d49f454",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Lifetime license on this device.",
+      "file_offset": 3142622,
+      "byte_count": 32,
+      "native6_sha256": "189571159524024c165bc01d235be9356a65a524b9bfa58a0a033c26be588de4",
+      "native7_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Connect to CarPlay to start your %ld-day free trial, or select a plan below.",
+      "file_offset": 3142655,
+      "byte_count": 76,
+      "native6_sha256": "df0e93c0622ad5d93f3776f1daff88aff23ddc544c78a43341cb569715ba99cb",
+      "native7_sha256": "dba37325f45918ca2041050788269439198346fe808008048ad35e1a0f1be95b",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Connect to CarPlay to start your free trial, or select a plan below.",
+      "file_offset": 3142732,
+      "byte_count": 68,
+      "native6_sha256": "9ebf166381e7c38e2e56e78d324baa7e6a207b5f13d0a71778849fb893c58563",
+      "native7_sha256": "4028d38bc0fab49dadbbed4107b6db6d5b420b0989ca4aa0af284ce4bdd9e29a",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Resume Pending Payment Page",
+      "file_offset": 3143076,
+      "byte_count": 27,
+      "native6_sha256": "54aaa6aa5908d9a905810214cbd781251dc12bcc0f3de2f7a23dd818e09796b2",
+      "native7_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Enter activation code from your reseller or direct purchase:",
+      "file_offset": 3143104,
+      "byte_count": 60,
+      "native6_sha256": "201b867783b3c69fac5526d3d6581f0060229cd2d8f55be07ee1c87c8e7f3890",
+      "native7_sha256": "6a9c3911d69fdb86d4b5a6b93dbdd9d5d3b1125551416b7af129b29936ae48e2",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Don't have a code? Contact your reseller or support team for quick activation.",
+      "file_offset": 3143165,
+      "byte_count": 78,
+      "native6_sha256": "0b0e6c61c01ba4847ceee89c402c410b24db8103a014474898390ccbad5f245a",
+      "native7_sha256": "e63d8e07c766e6b600a7abb0d2e3449f550c28df2c56380807539c5b69b76a5b",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Enter activation code...",
+      "file_offset": 3143244,
+      "byte_count": 24,
+      "native6_sha256": "056fb9f9490fe072ed2ced8b4e2aff729904a8321a5a8b7ab4f2cac623a0da89",
+      "native7_sha256": "c8b62e5b36b239e5e54135ee61c9ee54aae1526c30d2f8c484d19efc5f1fba65",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Reopen Payment Page",
+      "file_offset": 3143363,
+      "byte_count": 19,
+      "native6_sha256": "0b7c77c77ce4ba915bca8785e596485372c2f833dc9d91c75684a184ef5a16e6",
+      "native7_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Please enter an activation code before continuing.",
+      "file_offset": 3143430,
+      "byte_count": 50,
+      "native6_sha256": "7b500a228609fa49f8cca62562325d9f13f900eefd4c63791ca94b7cc78cd220",
+      "native7_sha256": "4c38d6d8bd1c5a3061e0c20067679faa28868831d7b838800e3b64729af34354",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Activation code is invalid or already used.",
+      "file_offset": 3143481,
+      "byte_count": 43,
+      "native6_sha256": "e656943af68cd81a60d2a123d81d3d3758d6001d338eebfb55577d35c9d2f6ec",
+      "native7_sha256": "60a355a027f488d1a5a6558105f11d8c5c7c62deac3f33a0c1ba598263d51865",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "License Sync Incomplete",
+      "file_offset": 3143612,
+      "byte_count": 23,
+      "native6_sha256": "9399dcb120071e0520fc00a505f4cf16dc09e717346ab6b3aca85db7234e6727",
+      "native7_sha256": "56d624e8862ff6a2a8aaf44f8df0ed4177b2303a8831c1ecb06a577026647e4f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "DuoFace Pro license activated successfully. Connect to CarPlay to enjoy multitasking!",
+      "file_offset": 3143817,
+      "byte_count": 85,
+      "native6_sha256": "9de36c6ca4ac0745da4ef1c1dad76526881ec3739933edb1cccc6e3253073f3d",
+      "native7_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Unable to load subscription plans. Please check your network connection and try again.",
+      "file_offset": 3144045,
+      "byte_count": 86,
+      "native6_sha256": "b303142f4e8a6e36a3a92bfea9651b870081777956d72e0e0721cf47c1728792",
+      "native7_sha256": "f58a84ba4ea67afeb6ce4ae23dec47a561a58e25ace7961b086a80110c1e5e31",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Loading subscription plans...",
+      "file_offset": 3144227,
+      "byte_count": 29,
+      "native6_sha256": "9e9bda70ee95519fc854e33829e5a8ae67b9f857ee13974e92ceb7c9fd18a1fe",
+      "native7_sha256": "0f234ed575224010430042b7a7b9482508e131cad194cf64f2ab7cb71a9c4d39",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "License Duration",
+      "file_offset": 3144262,
+      "byte_count": 16,
+      "native6_sha256": "ef0b975aa914c75686ba9b2a80934a2e261aa1933a4ee2e4b19090841931ebc5",
+      "native7_sha256": "38113c36d1f8eb3558d5868d285a7ddcba11128374fd2f13537255c351ea8c2f",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Licencia no activada",
+      "file_offset": 3146879,
+      "byte_count": 20,
+      "native6_sha256": "7bb650543ed76f12968217b3db654096d0593ec1c3bb6fa718705d7edb18178f",
+      "native7_sha256": "1e8a105dbcab2f5d6b30a670c0ff91942f4db62401e669331037101e94198250",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Licencia caducada",
+      "file_offset": 3146900,
+      "byte_count": 17,
+      "native6_sha256": "7b6a2919cd2dfbdcdb6e9f6878792089c02f24de62caecc30a4ebe56a9e09fc8",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Guarda este ID de dispositivo para transferir tu licencia a otro equipo (hasta 10 veces).",
+      "file_offset": 3147217,
+      "byte_count": 89,
+      "native6_sha256": "4a16fc6fa5e79905055ac937671941d7702d747264089180bd8975a5964839dd",
+      "native7_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Estado de licencia",
+      "file_offset": 3147391,
+      "byte_count": 18,
+      "native6_sha256": "8a410bf32b68779e0b6fdb2ef82a9f31c9dfccb2e0c467773f2d3bc62821562b",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Entrez le code d'activation de votre revendeur ou du support :",
+      "file_offset": 3148935,
+      "byte_count": 62,
+      "native6_sha256": "0e2190db94a153c590459e4298c6ee1a9ff68cb24b0acda41cb6682bfae682f7",
+      "native7_sha256": "31c9dd7608d344d6e58970a41e372bca5af91ba98e6ebcc3b79e6180b97d31a2",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Expiration serveur",
+      "file_offset": 3149100,
+      "byte_count": 18,
+      "native6_sha256": "ae6f7f135a4914fa59a12b2c18a9a6a792be9ba6b4431bd5baa96b6850ad4993",
+      "native7_sha256": "c1351524deb822571814168e7950a8f3e94bbbc966cf7094b93f578c8196a6ac",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Statut de licence",
+      "file_offset": 3149119,
+      "byte_count": 17,
+      "native6_sha256": "bd9939495cc986ee0e034fdf5997ca33abcaff88556bfbccdc7047bc9e05da32",
+      "native7_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Voer activatiecode van verkoper of ondersteuning in:",
+      "file_offset": 3169608,
+      "byte_count": 52,
+      "native6_sha256": "aba1b6eafaf6eee1e0d074c5188acd0c049f7fd6a8d06741fe90905eba5c1da6",
+      "native7_sha256": "c5b31636f65ba0a1cdc4a022ff267da0170f56e22a2f16a1419e56883509a982",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Licencja nieaktywna",
+      "file_offset": 3171047,
+      "byte_count": 19,
+      "native6_sha256": "256bced2cd65fd28400542be227336bfa01c28f07bf9e84859d75292bbec2180",
+      "native7_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Licencja nieaktywowana",
+      "file_offset": 3171067,
+      "byte_count": 22,
+      "native6_sha256": "49af8088faf35139778efcdf23a0cd2ff90ce2424ca65431c6ebd3c29be75ce6",
+      "native7_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Okres licencji",
+      "file_offset": 3171164,
+      "byte_count": 14,
+      "native6_sha256": "0477d347f18fa66c3e590c70b4cf4382dac7b9e288b2af9a6fc7e57f59ef0eea",
+      "native7_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "label": "Status licencji",
+      "file_offset": 3171198,
+      "byte_count": 15,
+      "native6_sha256": "4367ab2b154c8b16df644d7b8aef6325817c2f2b6496963bcb30973def5420e9",
+      "native7_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+      "section": "__cstring",
+      "state": "temporarily_hidden_native7"
+    }
+  ],
+  "replaced_hook": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+  "original_hook_sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+  "new_hook_sha256": "f879eb8fd619ab8c7d2abd7c09bc36890cb0426ec5e0aca8f6c2a3c0fc3fce37",
+  "hook_compiled_input_sha256": "64899f1f250d962dc9b976575172045cae86fc28c07eb7142768076d5030d327",
+  "hook_source_sha256": "1b120aba8c5e269ff45be9c19018aadc06adce260b6f42fa75a3da909a877e68",
+  "grip_source_sha256": "36c251bbbc716d53c5d9b1e2d1396c0357e94e911308b59161b3d3901f57c058",
+  "hold_duration_seconds": 0.3,
+  "changed_payload_and_control_paths": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+  ],
+  "unchanged_payload_files": 39,
+  "signing": {
+    "DuoFaceUI": "no_embedded_entitlements_found",
+    "DuoFaceDashboard": "no_embedded_entitlements_found",
+    "DuoFaceVisualHook": "no_embedded_entitlements_found"
+  },
+  "carplay_host_and_detectors_modified": false,
+  "native_host_code_modified": false,
+  "objc_class_selector_metadata_modified": false,
+  "license_full_removal_claimed": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "native6_rollback_preserved": true,
+  "deb_sha256": "c4b5e07f20ca0c819e0e43c8cbbf7e560da961db8c7e74c82a7a4f6fc0274cec",
+  "deb_size": 1734676
+}
