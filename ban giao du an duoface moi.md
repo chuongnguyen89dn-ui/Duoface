@@ -373,6 +373,14 @@
 - Ảnh bằng chứng hiện thuộc cuộc trò chuyện, không tuyên bố đã tải tệp ảnh lên GitHub.
 
 
+### 2026-10-15 — Người dùng xác nhận native1 cài được trên thiết bị thứ hai
+
+- **Thông tin mới từ người dùng:** “ở máy 2 trc đây ko cài đc bản 1 thì đã cài đc bản mới này. Ko còn tuỳ thuộc vào mã máy nữa”. Máy thứ hai trước đây không cài được DuoFace bản cũ, hiện **cài đặt thành công** bản DuoFace Mới `0.1.0~native1`. Đây là báo cáo thử nghiệm thực tế của người dùng, không phải suy đoán từ CI.
+- **Phạm vi đã xác nhận:** cài được trên máy thứ hai, một thiết bị mà phiên bản cũ gặp trở ngại. Máy thứ nhất đã được xác nhận hiển thị giao diện DuoFace trên CarPlay khi hết hạn (mốc trước).
+- **Chưa kiểm chứng:** máy thứ hai có mở và chạy chia màn hình CarPlay, hai app live, Zoom/Style/Close hay không; chưa có log chứng minh mọi nhánh ràng buộc mã thiết bị đã bị loại bỏ hoàn toàn. Không đánh đồng cài thành công với toàn bộ chức năng/giấy phép độc lập.
+- **Hướng tiếp:** giữ nguyên `native1` và giao diện gốc, test mở CarPlay và chọn hai ứng dụng trên máy thứ hai; nếu thành công, test thao tác còn lại và khởi động lại. Ghi lỗi/log nếu phát sinh, không quay lại UI alpha2.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
