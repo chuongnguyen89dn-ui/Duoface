@@ -1,0 +1,64 @@
+name: DuoFace native date/license UI surface read-only audit
+
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/inspect_license_ui.py'
+      - '.github/workflows/duoface-native-license-ui-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-native-license-ui-audit
+  cancel-in-progress: false
+
+jobs:
+  examine-user-interface:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install DEB tools and verify original archive
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          source='dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a' "$source" | shasum -a 256 -c -
+      - name: Inspect ObjC class metadata for date/license settings only
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/inspect_license_ui.py \
+            --deb dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb \
+            --output audit/payload-migration/NATIVE_LICENSE_UI_SURFACE.json
+          python3 - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path('audit/payload-migration/NATIVE_LICENSE_UI_SURFACE.json').read_text())
+          assert r['status']=='READ_ONLY_ORIGINAL_SETTINGS_LICENSE_SURFACE_AUDIT'
+          assert not r['source_modified'] and len(r['binaries'])==2
+          print('NATIVE_LICENSE_UI_READONLY_AUDIT_PASS')
+          PY
+      - name: Commit bounded audit report to DuoFace branch
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE_LICENSE_UI_SURFACE.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: record original DuoFace native license UI selectors [skip ci]'
+          for i in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native-license-ui-audit-${{github.run_id}}
+          path: audit/payload-migration/NATIVE_LICENSE_UI_SURFACE.json
+          if-no-files-found: warn
