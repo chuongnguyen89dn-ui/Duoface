@@ -1,0 +1,63 @@
+name: Kiem tra bien dich DuoFace doc lap (khong dong DEB)
+
+on:
+  push:
+    branches:
+      - feature/duoface-independent-core
+    paths:
+      - 'independent/**'
+      - 'Makefile.independent'
+      - 'DuoFaceIndependentProbe.plist'
+      - '.github/workflows/duoface-independent-compile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-and-compile:
+    runs-on: macos-15
+    steps:
+      - name: Lay ma nguon dung nhanh
+        uses: actions/checkout@v4
+      - name: Kiem tra phu thuoc va co an toan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 independent/tests/validate_probe.py | tee "$RUNNER_TEMP/duoface-static.json"
+          python3 -m py_compile independent/tests/validate_probe.py
+      - name: Cai cong cu bien dich Theos iOS
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid
+      - name: Bien dich thu vien do doc lap, khong tao goi cai dat
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp Makefile.independent Makefile
+          make clean all
+          dylib="$(find .theos -type f -name 'DuoFaceIndependentProbe.dylib' -print -quit)"
+          test -n "$dylib"
+          file "$dylib" | tee "$RUNNER_TEMP/duoface-dylib-file.txt"
+          xcrun lipo "$dylib" -verify_arch arm64
+          shasum -a 256 "$dylib" | tee "$RUNNER_TEMP/duoface-dylib-sha256.txt"
+          xcrun otool -L "$dylib" | tee "$RUNNER_TEMP/duoface-dylib-libraries.txt"
+          ! xcrun otool -L "$dylib" | grep -Eiq 'duonavi|airaw'
+          test "$(find . -name '*.deb' -type f | wc -l | tr -d ' ')" = '0'
+          echo 'COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS' | tee "$RUNNER_TEMP/duoface-status.txt"
+      - name: Tai bang chung khong chua DEB
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-independent-compile-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/duoface-static.json
+            ${{ runner.temp }}/duoface-dylib-file.txt
+            ${{ runner.temp }}/duoface-dylib-sha256.txt
+            ${{ runner.temp }}/duoface-dylib-libraries.txt
+            ${{ runner.temp }}/duoface-status.txt
+          if-no-files-found: warn
