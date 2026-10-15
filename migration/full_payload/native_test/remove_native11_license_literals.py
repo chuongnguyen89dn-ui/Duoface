@@ -70,7 +70,8 @@ def erase_binary(original:bytes, binary:str, inventory:dict, protected:dict):
     assert len(allowed_sections)>=1
     candidates=[r for r in inventory["string_rows"]
                 if r["binary"]==binary and selected(r)]
-    assert len(candidates)==26,(binary,len(candidates))
+    expected_by_binary = {"DuoFaceUI": 23, "DuoFaceDashboard": 29}
+    assert len(candidates)==expected_by_binary[binary],(binary,len(candidates))
     assert len({r["file_offset"] for r in candidates})==len(candidates)
     mutable=bytearray(original)
     intervals=[]
@@ -100,7 +101,7 @@ def erase_binary(original:bytes, binary:str, inventory:dict, protected:dict):
             "original_string_content_physically_present_after":False,
             "objc_metadata_or_binary_layout_removed":False,
         })
-    assert len(audit)==26
+    assert len(audit)==expected_by_binary[binary]
     candidate=bytes(mutable)
     assert len(candidate)==len(original)
     changes={i for i,(x,y) in enumerate(zip(original,candidate)) if x!=y}
