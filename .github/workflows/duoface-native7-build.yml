@@ -1,0 +1,104 @@
+name: DuoFace native7 - staged residual UI hide preserving CarPlay
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native7.py'
+      - 'migration/full_payload/native_test/verify_native7.py'
+      - '.github/workflows/duoface-native7-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native7
+  cancel-in-progress: false
+jobs:
+  stage-and-verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin native6 baseline and verify host build tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          file='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          printf '%s  %s\n' '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' "$file" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native7.py migration/full_payload/native_test/verify_native7.py
+      - name: Hide only 78 literal occurrences, never mutate CarPlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native7 audit/payload-migration
+          python3 migration/full_payload/native_test/build_native7.py \
+            --out 'dist/payload-migration/native7/com.duoface.independent_0.1.0~native7_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native7/BAO_CAO.json'
+          python3 migration/full_payload/native_test/verify_native7.py \
+            --deb 'dist/payload-migration/native7/com.duoface.independent_0.1.0~native7_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native7/BAO_CAO.json' \
+            --out audit/payload-migration/NATIVE7_CARPLAY_AND_RUNTIME_REGRESSION.json
+      - name: Recheck rootless package and legacy-brand byte-scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native7/com.duoface.independent_0.1.0~native7_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out 'dist/payload-migration/native7/BRAND_ZERO_AUDIT.json'
+          python3 - <<'PY'
+          import json,hashlib,pathlib
+          p=pathlib.Path('dist/payload-migration/native7')
+          r=json.loads((p/'BAO_CAO.json').read_text())
+          q=json.loads(pathlib.Path('audit/payload-migration/NATIVE7_CARPLAY_AND_RUNTIME_REGRESSION.json').read_text())
+          brand=json.loads((p/'BRAND_ZERO_AUDIT.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native7_iphoneos-arm64.deb'
+          assert r['presentation_labels_masked']==39 and r['presentation_literal_occurrences_masked']==78
+          assert r['presentation_bytes_masked']==sum(v['masked_bytes'] for v in q['verified_binaries'].values())
+          assert r['source_native6_sha256']==q['source_native6_sha256']
+          assert q['all_carplay_code_identical'] and q['objc_class_and_selector_metadata_preserved']
+          assert q['all_dealloc_and_carplay_detection_code_identical']
+          assert q['unrelated_payload_files_identical']>=37
+          assert brand['strict_byte_level_zero_matches'] and not brand['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==r['deb_sha256']
+          print('NATIVE7_PRESENTATION_ONLY_CARPLAY_REGRESSION_PASS')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native7'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native7' gt '0.1.0~native6'
+          mkdir -p "$RUNNER_TEMP/native7-unpack"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native7-unpack"
+          for rel in var/jb/Applications/DuoFaceUI.app/DuoFaceUI var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib; do
+            test "$(lipo -archs "$RUNNER_TEMP/native7-unpack/$rel")" = 'arm64'
+            otool -L "$RUNNER_TEMP/native7-unpack/$rel" > /dev/null
+          done
+          shasum -a 256 "$deb"
+      - name: Persist candidate and regression evidence in feature branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native7/*.deb dist/payload-migration/native7/*.json audit/payload-migration/NATIVE7_CARPLAY_AND_RUNTIME_REGRESSION.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: native7 staged display-only hides and CarPlay regression [skip ci]'
+          for attempt in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: CI artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native7-${{github.run_id}}
+          path: |
+            dist/payload-migration/native7/*.deb
+            dist/payload-migration/native7/*.json
+            audit/payload-migration/NATIVE7_CARPLAY_AND_RUNTIME_REGRESSION.json
+          if-no-files-found: warn
