@@ -1,0 +1,73 @@
+name: DuoFace native9 - 19 license lifecycle hide candidates, preserve only 8 CarPlay methods
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_native9_lifecycle19_hide_plan.py'
+      - '.github/workflows/duoface-native9-lifecycle19-hide-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-lifecycle19-hide-plan
+  cancel-in-progress: false
+jobs:
+  trace-nineteen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inventory exactly 19 target IMPs and verify 8 immutable CarPlay methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/audit_duoface_native9_lifecycle19_hide_plan.py
+          python3 scripts/audit_duoface_native9_lifecycle19_hide_plan.py \
+            --out audit/payload-migration/NATIVE9_19_LIFECYCLE_HIDE_PLAN_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('audit/payload-migration/NATIVE9_19_LIFECYCLE_HIDE_PLAN_READONLY.json').read_text())
+          assert report['status']=='NATIVE9_19_LIFECYCLE_HIDE_REQUEST_REGISTERED_8_CARPLAY_ONLY_PERMANENT_EXCEPTION'
+          assert report['source_deb_sha256']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert report['license_ledger_count']==320
+          assert report['already_neutralized_native4']==291
+          assert report['already_neutralized_native5']==2
+          assert report['eight_carplay_permanently_retained']==8
+          assert report['nineteen_lifecycle_now_targeted_for_further_hide']==19
+          assert report['structural_disjoint_from_8_carplay']
+          assert not report['nineteen_lifecycle_safe_to_noop_without_runtime_proof']
+          assert not report['code_patched'] and not report['deb_built'] and not report['sileo_changed']
+          assert sum(x['lifecycle_hide_target_count'] for x in report['by_binary'].values())==19
+          assert sum(x['carplay_exact_keep_count'] for x in report['by_binary'].values())==8
+          assert all(x['head32_matches_native3'] and
+                     x['native9_function_span_matches_native3']
+                     for v in report['by_binary'].values()
+                     for x in v['lifecycle_targets'])
+          print('NATIVE9_19_LIFECYCLE_TARGETS_AND_8_CARPLAY_IMMUTABLE_SPANS_PASS')
+          PY
+      - name: Commit evidence as a nonexecuting staged plan
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_19_LIFECYCLE_HIDE_PLAN_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: 19 lifecycle hide targets staged; 8 CarPlay exact byte guard; no deb [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-lifecycle19-hide-readonly
+          path: audit/payload-migration/NATIVE9_19_LIFECYCLE_HIDE_PLAN_READONLY.json
+          if-no-files-found: warn
