@@ -53,6 +53,14 @@
 - **Đầu mối kỹ thuật:** `migration/full_payload/KET_QUA_CHUYEN_NGUYEN_RUOT.md`, `prepare_exact_copy.py`, `audit_license_boundary.py`, `verify_archive.py`; `.github/workflows/duoface-exact-payload-audit.yml`, `duoface-license-boundary-audit.yml`, `duoface-staging-restore-test.yml`. Truy commit nhánh feature trước khi tiếp tục; lưu mọi phát hiện mới vào hồ sơ này.
 
 
+### 2026-10-15 — Giải đáp yêu cầu “xóa các hàm cấp phép trong CBBridgeManager”
+
+- **Câu hỏi:** “`CBBridgeManager` vừa quản lý chia màn hình, vừa chứa những hàm liên quan đến giấy phép. thì xóa đi hàm giấy phép ko đc?”
+- **Bằng chứng mới xác minh chính xác từ disassembly có sẵn:** `audit/v12-picker-close-app-chain-20261014.txt`, `-[CBBridgeManager deactivateCurrentApp]` tại IMP `0x19d458` gọi `objc_msgSend` selector `stopLicenseWatchdogTimer` tại `0x19d4b0–0x19d4b8`, ngay sau đó gọi `dismissLicenseWarningModal` tại `0x19d4c0–0x19d4c8`, rồi gọi `clearBridgeStateOnDisk`. Đây là liên kết **có thật giữa lifecycle host và các hàm liên quan giấy phép**, không chỉ trùng tên phương thức trong cùng class.
+- **Phân biệt điều đã chứng minh và chưa chứng minh:** Nếu có **mã nguồn có quyền sửa**, việc tách/xóa xử lý cấp phép rồi biên dịch lại có thể khả thi; đối với `DuoFaceDashboard.dylib` đã biên dịch sẵn, xóa mục phương thức khỏi ObjC metadata không tương đương xóa mã nguồn: chỗ gọi có thể lỗi selector/ảnh hưởng lifecycle. **Chưa đủ cơ sở kết luận tách được hoàn toàn, chưa có chứng cứ chạy ổn sau thay đổi.**
+- **Quyết định kỹ thuật:** không xóa mù các hàm hoặc tự sửa nhị phân để đánh lừa hệ thống cấp phép. Ưu tiên xác định ranh giới thật giữa luồng kích hoạt, trạng thái license và vòng đời quản lý scene, giữ nguyên 40 file đã sao chép; nếu nguồn lõi hiện tại không cho tách sạch, phải nêu rõ giới hạn, không tự thay toàn bộ UI bằng alpha2 sai thiết kế.
+- **Trạng thái:** lượt này chỉ kiểm chứng callsite và cập nhật phân tích; **không thay đổi nhị phân**, không build DEB, không Sileo.
+
 ## 1. Nhận diện dự án và quyết định mới nhất
 
 - **Repository duy nhất:** `chuongnguyen89dn-ui/Duoface` (`https://github.com/chuongnguyen89dn-ui/Duoface`). Không nhầm với repo `Gpt-training-` (chỉ cung cấp kỹ năng), `carplaydsp`/`Duoface` khác hoặc repo của DuoNavi.
