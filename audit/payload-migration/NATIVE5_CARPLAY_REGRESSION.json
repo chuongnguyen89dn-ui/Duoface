@@ -1,0 +1,26 @@
+{
+  "status": "NATIVE5_NATIVE_CARPLAY_CODE_AND_UNRELATED_ASSETS_BYTE_IDENTICAL",
+  "source_native4_sha256": "517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244",
+  "native5_sha256": "9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26",
+  "unchanged_all_other_payload_file_count": 37,
+  "target_binary_checks": {
+    "DuoFaceUI": {
+      "masked_presentation_literals": 13,
+      "temporary_expiry_methods": 2,
+      "verified_edited_byte_intervals": 15,
+      "text_code_outside_expiry_methods_byte_identical": true,
+      "objc_classes_and_selectors_preserved": true
+    },
+    "DuoFaceDashboard": {
+      "masked_presentation_literals": 13,
+      "temporary_expiry_methods": 0,
+      "verified_edited_byte_intervals": 13,
+      "text_code_outside_expiry_methods_byte_identical": true,
+      "objc_classes_and_selectors_preserved": true
+    }
+  },
+  "no_extra_machine_code_changed": true,
+  "no_deletion_of_selectors_or_class_lifecycle": true,
+  "device_tested": false,
+  "approval_required_before_physical_delete": true
+}
