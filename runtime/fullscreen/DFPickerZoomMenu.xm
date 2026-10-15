@@ -15,6 +15,9 @@ static const void *DFZoomKey = &DFZoomKey;
 static BOOL DFHookReady;
 // Scoped exclusively to native app-picker card construction. No global plus replacement.
 static BOOL DFBuildingNativeAddTile;
+// Scope native class-localized status strings strictly to construction of the
+// Close/recent rows; never change stored PID/slot data or other screens.
+static BOOL DFBuildingNativeRecentRows;
 @interface NSObject (DFDistributedPost)
 + (id)defaultCenter;
 - (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info;
@@ -394,7 +397,14 @@ static void DFLayoutPicker(UIView *overlay) {
 - (void)setupRecentAppsCardsInCardW:(double)cardW
                               cardH:(double)cardH
                            contentY:(double)contentY {
+    // The original renderer chooses one of three localized status keys:
+    // active CarPlay slot, off-slot PID, or off-slot/no confirmed PID.
+    // Keep that decision and all native buttons. Localize only the visible
+    // status output to the two owner-approved color dots.
+    BOOL wasBuilding=DFBuildingNativeRecentRows;
+    DFBuildingNativeRecentRows=YES;
     %orig;
+    DFBuildingNativeRecentRows=wasBuilding;
     DFRestyleRecentClearAll((UIView *)self);
 }
 - (void)setupCardContent {
@@ -404,6 +414,20 @@ static void DFLayoutPicker(UIView *overlay) {
 - (void)layoutSubviews {
     %orig;
     DFLayoutPicker((UIView *)self);
+}
+%end
+%hook CBLocalization
++ (NSString *)localizedStringForKey:(NSString *)key {
+    // The key owner is verified in v12 DuoFaceDashboard.dylib at 0xA75B8
+    // (RUNNING_TAG), 0xA769C (PID_TAG), and 0xA7700 (BACKGROUND_TAG).
+    // Native stringWithFormat ignores surplus PID/slot arguments when there
+    // is no format placeholder. The corresponding UILabel stays native.
+    if (DFBuildingNativeRecentRows && NSThread.isMainThread) {
+        if ([key isEqualToString:@"OVERLAY_RUNNING_TAG"]) return @"🟢";
+        if ([key isEqualToString:@"OVERLAY_PID_TAG"] ||
+            [key isEqualToString:@"OVERLAY_BACKGROUND_TAG"]) return @"🔴";
+    }
+    return %orig;
 }
 %end
 %hook UIImage
