@@ -3,13 +3,13 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
-## TRẠNG THÁI HIỆN TẠI — 15/10/2026, đã viết mã thử nghiệm độc lập
+## TRẠNG THÁI HIỆN TẠI — 15/10/2026, đã biên dịch thành công các tệp mã nhưng CI đang xác minh lại
 
-- **Nhánh độc lập:** `feature/duoface-independent-core`, nguồn `main` từ `5313d965d56b9325a7d93f74b84a6f7214893df8`. Mã nguồn đã đẩy lên GitHub tại commit **`59a7335b0510c8a20d7e1349110c91b343cb6fc5`**; hoàn toàn tách khỏi bản DEB hiện tại.
-- **Mã đã viết:** `independent/DFIProbe.mm` (phát hiện lớp/tiến trình CarPlay, chỉ chạy nếu có tệp kích hoạt `/var/mobile/Library/Preferences/com.duoface.independent.probe.enabled`), `independent/DFISplitLayout.{h,mm}` (bố cục hai view chứa scene thực đã được bên ngoài cung cấp, an toàn khi tháo/đổi tỷ lệ), `Makefile.independent`, `DuoFaceIndependentProbe.plist`, `independent/tests/validate_probe.py`.
-- **Đã bắt đầu kiểm thử biên dịch thực tế:** workflow `.github/workflows/duoface-independent-compile.yml`, chạy trên macOS/Theos nhánh độc lập; run **`38686641800`** xuất hiện trên GitHub, lần đầu kiểm tra **`queued`** tại commit `59a7335b`. Chưa được phép gọi PASS hay build DEB.
-- **Giới hạn:** Đây mới là mã thử nghiệm và công cụ đo; **chưa khởi chạy được hai ứng dụng CarPlay thật, chưa có DEB độc lập, chưa cài thử hoặc phát hành Sileo**. `DFISplitLayout` chỉ bố trí hai host nếu những host thật được cung cấp; chưa có phần tạo scene CarPlay tương ứng.
-- **Bước tiếp ngay:** kiểm tra run `38686641800` đến trạng thái cuối và log. Nếu lỗi thì sửa tại nhánh riêng, biên dịch lại. Khi mã probe compile PASS, xác định trên iOS đích các class/scene owner trước khi tạo bộ quản lý host hai app.
+- Nhánh thử nghiệm `feature/duoface-independent-core` có mã đo lớp CarPlay, quan sát workspace và bố cục hai view thật: `independent/DFIProbe.mm`, `independent/DFISplitLayout.h`, `independent/DFISplitLayout.mm`, `Makefile.independent`, `DuoFaceIndependentProbe.plist`, tệp kiểm tra tĩnh và workflow. Có hướng dẫn `docs/kiem-tra-probe-duoface-doc-lap.md`.
+- **Bằng chứng biên dịch trực tiếp:** run `38686738047`, job `116263204183`: bước kiểm tra tĩnh SUCCESS; Theos SDK + ldid SUCCESS; log thực đã biên dịch/link/ký `DuoFaceIndependentProbe.dylib` arm64, SHA256 `792844fd8c970eb9ddcd5a5b3162401f39d961053a2104c60a83daaccf2f275b`, `otool -L` không thấy DuoNavi/Airaw. **Workflow tổng thể FAILED** do câu kiểm tra nhầm toàn bộ DEB cũ trong `dist/` là output mới.
+- **Đã sửa lỗi kiểm tra chính xác:** file `.github/workflows/duoface-independent-compile.yml` commit `8a5a4f37ae92c89620a349a138b5dd148a3f1b9e`, chỉ quét `.theos` và `packages` cho DEB mới. Run **`38686933037` đang xếp hàng** tại checkpoint này. Trước đó run `38686641800` FAILED vì `git clone` thư mục SDK có sẵn (đã sửa trong commit `d41984cb`).
+- **Không ngộ nhận:** Chưa có minh chứng chạy độc lập trên iPhone; hai ứng dụng/scene thực chưa được tạo; không có DEB mới, không cài lên thiết bị, không Sileo.
+- **Bước tiếp:** xác minh kết quả cuối của run `38686933037`; nếu PASS chốt mã probe/host-layout compile-only. Sau đó xây module khởi tạo hai scene thật dựa trên số liệu runtime đích và kiểm tra trên máy khi có gói thử được phép build.
 
 
 ## 1. Nhận diện dự án và quyết định mới nhất
@@ -120,6 +120,14 @@
 - CI biên dịch: workflow `duoface-independent-compile.yml` chỉ chạy khi push thay đổi mã của nhánh độc lập, `contents:read`, macOS Theos `make clean all` và upload **log/chỉ số**, cấm tạo `.deb`. Đã xác nhận GitHub run **38686641800** trạng thái ban đầu **queued**, link `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686641800`. **CHƯA có kết quả biên dịch** tại checkpoint này.
 - Không thay đổi: `main` mã app gốc, tệp `tiep tuc du an.md` lịch sử, bản DEB `menu-native1`, Sileo/thiết bị.
 - Điểm tiếp: xem run `38686641800` và log lỗi chính xác, sửa trên nhánh riêng nếu cần; ghi lại SHA/run/artifact; chưa có kiểm thử chức năng khi chưa cài lên iPhone.
+
+
+### 2026-10-15 — Phát hiện và sửa hai lỗi CI, biên dịch được thư viện arm64
+
+- CI **38686641800** (job `116262901186`) hoàn thành **failure**, không phải lỗi source: bước Theos clone làm `git clone theos/sdks` đè đường dẫn `$RUNNER_TEMP/theos/sdks` đã tồn tại; log nguyên văn: `fatal: destination path '/Users/runner/work/_temp/theos/sdks' already exists and is not an empty directory.` Sửa workflow thêm `rm -rf "$RUNNER_TEMP/theos/sdks"` trước clone, commit **`d41984cbcd7f74cb17231db554f2cd8d641baa4b`**.
+- CI **38686738047** (job **116263204183**) hoàn thành **failure**, nhưng các bước kiểm tra tĩnh + chuẩn bị SDK **success**; log đã xác minh `Compiling independent/DFIProbe.mm (arm64)`, `Compiling independent/DFISplitLayout.mm (arm64)`, `Linking tweak DuoFaceIndependentProbe (arm64)`, `Signing DuoFaceIndependentProbe`. `file` xác nhận `Mach-O 64-bit dynamically linked shared library arm64`; SHA256 **`792844fd8c970eb9ddcd5a5b3162401f39d961053a2104c60a83daaccf2f275b`**. `otool -L` có UIKit/Foundation/objc/libSystem, không thấy tên thư viện DuoNavi hoặc Airaw.
+- **Nguyên nhân failure run 38686738047:** sau biên dịch, step kiểm tra `test "$(find . -name '*.deb' -type f | wc -l | tr -d ' ')" = '0'` sai phạm vi vì repo đã có nhiều DEB lịch sử dưới `dist/`. Không tạo DEB nào trong workflow. Đã thay câu kiểm tra bằng chỉ quét `.theos` và đảm bảo không tạo `packages`, commit **`8a5a4f37ae92c89620a349a138b5dd148a3f1b9e`**. GitHub tự mở run **38686933037** lúc kiểm tra: **queued**. Chưa xác nhận conclusion của run mới.
+- Có thêm hướng dẫn `docs/kiem-tra-probe-duoface-doc-lap.md` tại commit **`733dc893dc1cc594eb4cf8868d98264cce08e7f1`**, ghi rõ quy trình đo trên iPhone về sau nhưng chưa thực hiện. Không tác động bản ổn định/DEB/Sileo.
 
 
 ---
