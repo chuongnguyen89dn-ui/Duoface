@@ -127,8 +127,19 @@ static NSArray *DFIAvailableApps(void) {
  self.grips=grips;self.lines=lines;
  self.edge=[self button:@"ellipsis" label:DFIT(@"Mở thanh công cụ",@"Show toolbar") action:@selector(edgeTap)];self.edge.layer.cornerRadius=12;self.edge.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];[self.view addSubview:self.edge];
  self.toolbar=[self glass];self.toolbar.hidden=YES;self.toolbarStack=[[UIStackView alloc]init];self.toolbarStack.distribution=UIStackViewDistributionFillEqually;[self.toolbar.contentView addSubview:self.toolbarStack];
- NSArray *symbols=@[@"rectangle.split.2x1",@"arrow.left.arrow.right",@"square.stack",@"xmark"],*labels=@[DFIT(@"Bố cục",@"Layout"),DFIT(@"Đổi chỗ",@"Swap"),DFIT(@"Đa nhiệm",@"Tasks"),DFIT(@"Thoát",@"Exit")],*actions=@[@"layouts",@"swapPanes",@"tasks",@"exitSplit"];
- for(int i=0;i<4;i++){UIButton *b=[self button:symbols[i] label:labels[i] action:NSSelectorFromString(actions[i])];b.titleLabel.font=[UIFont systemFontOfSize:10];[b setTitle:[@" " stringByAppendingString:labels[i]] forState:0];[self.toolbarStack addArrangedSubview:b];}
+ NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
+     @"rectangle.3.group",@"xmark.circle"],*labels=@[@"App",@"Zoom",@"Style",@"Close"],
+     *actions=@[@"showAppMenu",@"toggleZoom",@"layouts",@"tasks"];
+ self.approvedLogo=[[UIImageView alloc]initWithImage:DFIApprovedHeaderLogo()];
+ self.approvedLogo.contentMode=UIViewContentModeScaleAspectFit;
+ self.approvedLogo.backgroundColor=UIColor.clearColor;
+ [self.toolbar.contentView addSubview:self.approvedLogo];
+ for(int i=0;i<4;i++){
+  UIButton *b=[self button:symbols[i] label:labels[i] action:NSSelectorFromString(actions[i])];
+  b.tag=i;
+  DFIStyleApprovedTab(b,labels[i],symbols[i],i==0);
+  [self.toolbarStack addArrangedSubview:b];
+ }
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
  for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
