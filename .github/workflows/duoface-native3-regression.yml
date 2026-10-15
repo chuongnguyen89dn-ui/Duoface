@@ -1,0 +1,73 @@
+name: DuoFace native3 - ensure machine instructions and install safety
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/native_test/verify_native3_text.py'
+      - 'migration/full_payload/native_test/test_native3_guard.py'
+      - '.github/workflows/duoface-native3-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect-original-executables:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: SHA256 verify both native2 and native3 immutable inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' \
+            '0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60' \
+            'dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb' | sha256sum -c -
+          printf '%s  %s\n' \
+            '7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df' \
+            'dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb' | sha256sum -c -
+      - name: Compare every original MachO instruction byte and other payload bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/verify_native3_text.py \
+            --report audit/payload-migration/NATIVE3_MACHINE_CODE_REGRESSION.json
+          python3 migration/full_payload/native_test/test_native3_guard.py
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb 'dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb' \
+            --out "$RUNNER_TEMP/native3-scan-independent.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          r=json.loads(pathlib.Path('audit/payload-migration/NATIVE3_MACHINE_CODE_REGRESSION.json').read_text())
+          assert r['status']=='NATIVE3_MACHO_INSTRUCTIONS_IDENTICAL_AND_ALL_OTHER_DATA_FILES_BYTE_IDENTICAL'
+          assert r['instruction_sections_byte_identical'] and len(r['changed_macho_files'])==3
+          s=json.loads(pathlib.Path(os.environ['RUNNER_TEMP'],'native3-scan-independent.json').read_text())
+          assert s['strict_byte_level_zero_matches'],s['affected_paths']
+          print('NATIVE3_FULL_REGRESSION_PASS (not a device test)')
+          PY
+      - name: Save machine instruction proof to GitHub DuoFace
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE3_MACHINE_CODE_REGRESSION.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: native3 original CarPlay instructions remain byte-identical [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native3-regression-${{github.run_id}}
+          path: audit/payload-migration/NATIVE3_MACHINE_CODE_REGRESSION.json
+          if-no-files-found: warn
