@@ -3,6 +3,9 @@
   "source_sha256": "ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a",
   "binaries": {
     "Applications/DuoFaceUI.app/DuoFaceUI": {
+      "objc_classes": [],
+      "settings_candidate_classes": [],
+      "settings_candidate_method_names": {},
       "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
       "matching_ascii_strings": [
         "checkAndPresentLicenseModalIfNeeded",
@@ -364,6 +367,9 @@
       "matching_metadata_line_count": 152
     },
     "Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "objc_classes": [],
+      "settings_candidate_classes": [],
+      "settings_candidate_method_names": {},
       "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
       "matching_ascii_strings": [
         "deactivateCurrentApp",
