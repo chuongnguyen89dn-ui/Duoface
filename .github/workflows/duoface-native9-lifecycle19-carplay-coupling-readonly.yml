@@ -1,0 +1,72 @@
+name: DuoFace native9 - 19 lifecycle to 8 CarPlay ownership map, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_native9_lifecycle19_carplay_coupling.py'
+      - '.github/workflows/duoface-native9-lifecycle19-carplay-coupling-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-lifecycle19-carplay-coupling
+  cancel-in-progress: false
+jobs:
+  audit-ownership:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Classify all 19 lifecycle methods versus 8 immutable CarPlay methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/audit_duoface_native9_lifecycle19_carplay_coupling.py
+          python3 scripts/audit_duoface_native9_lifecycle19_carplay_coupling.py \
+            --out audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json').read_text())
+          assert a['status']=='NATIVE9_LIFECYCLE19_CARPLAY_CLASS_COUPLING_STATIC_PASS_NO_BINARY_EDITS'
+          assert a['native9_qa_reference_sha256']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert a['lifecycle_count']==len(a['target_rows'])==19
+          assert a['carplay_detection_immutability_guard_count']==len(a['immutable_carplay_methods'])==8
+          assert a['shared_manager_lifecycle_methods_with_8_carplay_routines']==6
+          assert a['license_ui_only_teardown_methods']==13
+          assert not a['all_19_can_safely_be_removed_now']
+          assert not a['all_19_have_final_proof_of_no_runtime_callers']
+          assert not a['zeroing_dealloc_or_objc_strong_cleanup_is_approved']
+          assert not a['zeroing_init_or_singleton_method_is_approved']
+          assert not a['deb_built'] and not a['sileo_modified'] and not a['new_binary_created']
+          assert all(m['same_class_carplay_methods_protected']==4
+                     for m in a['target_rows'] if m['class']=='CBLicenseSyncManager')
+          assert all(m['same_class_carplay_methods_protected']==0
+                     for m in a['target_rows'] if m['class']!='CBLicenseSyncManager')
+          print('LIFECYCLE19_REQUIRES_6_SHARED_MANAGER_ABI_AND_13_ARC_CLEANUP_PROOF_PASS')
+          PY
+      - name: Persist separate scope report; never alter or repackage tested DEB
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: lifecycle19 CarPlay coupling and cleanup ownership, no binary changes [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-lifecycle19-carplay-dependency-map
+          path: audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json
+          if-no-files-found: warn
