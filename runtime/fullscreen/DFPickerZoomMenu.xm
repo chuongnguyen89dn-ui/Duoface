@@ -39,6 +39,14 @@ static UIView *DFPickerNativeViewIvar(id overlay, const char *name) {
     id object=ivar?object_getIvar(overlay,ivar):nil;
     return [object isKindOfClass:UIView.class]?(UIView *)object:nil;
 }
+// Device-confirmed fix: this panel MUST cover the keyboard/map beneath it.
+// Keep the native sheet and existing 30pt logo/menu/card/buttons untouched.
+// Use an opaque deep-blue backing close to the installed v12 picker color.
+// Never paint the underlying CarPlay app or the full-window dimming view.
+static UIColor *DFPickerOpaqueSheetColor(void) {
+    return [UIColor colorWithRed:29.0/255.0 green:47.0/255.0
+                           blue:82.0/255.0 alpha:1.0];
+}
 static void DFClearNativePickerChrome(UIView *overlay) {
     UIView *dim=DFPickerNativeViewIvar(overlay,"_dimBackground");
     UIView *shadow=DFPickerNativeViewIvar(overlay,"_cardShadowContainer");
@@ -61,7 +69,7 @@ static void DFClearNativePickerChrome(UIView *overlay) {
         if ([card isKindOfClass:UIVisualEffectView.class]) {
             UIVisualEffectView *blur=(UIVisualEffectView *)card;
             blur.effect=nil;
-            blur.contentView.backgroundColor=UIColor.clearColor;
+            blur.contentView.backgroundColor=DFPickerOpaqueSheetColor();
             blur.contentView.layer.borderWidth=0.0;
         }
     }
@@ -453,7 +461,7 @@ static void DFLayoutPicker(UIView *overlay) {
     // outline. Preserve its hierarchy, native X and dismiss recognizer.
     DFClearNativePickerChrome(overlay);
     overlay.layer.borderWidth=0.0;
-    contentView.backgroundColor=UIColor.clearColor;
+    contentView.backgroundColor=DFPickerOpaqueSheetColor();
     contentView.layer.borderWidth=0.0;
     for (UIView *v in contentView.subviews) {
         if (v==parent) continue;
