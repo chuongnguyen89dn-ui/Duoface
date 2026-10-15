@@ -1,0 +1,14 @@
+name: Owner-approved DuoFace opaque menu-only DEB one-shot
+# Trigger ONLY by the creation of this exact file; no recurring build,
+# no Sileo publication. User explicitly approved a background-only DEB.
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-menu-opaque1-once.yml'
+permissions:
+  contents: write
+jobs:
+  build-opaque-sheet-only:
+    uses: ./.github/workflows/duoface-approved-border-deb.yml
+    permissions:
+      contents: write
