@@ -15,67 +15,93 @@
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100032ee4",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x32ee4",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100034c0c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x34c0c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100036974",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x36974",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100038654",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x38654",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10003a384",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x3a384",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10003c08c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x3c08c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10003ddac",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x3ddac",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10003fae4",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x3fae4",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10004520c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x4520c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100046f2c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x46f2c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x100048c5c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x48c5c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x10004a98c",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x4a98c",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
               "adr_pc_hex": "0x1000500d4",
-              "virtual_literal_hex": "0x1000efee8"
+              "virtual_literal_hex": "0x1000efee8",
+              "candidate_code_file_offset_hex": "0x500d4",
+              "overlaps_native4_neutralized_method_span": false
             }
           ],
           "direct_arm64_load_count": 13,
@@ -107,7 +133,10 @@
       "candidate_direct_arm64_address_load_count": 0,
       "proven_unused_or_safe_to_mask": false,
       "proven_user_visible_UI": false,
-      "runtime_dynamic_callers_checked": false
+      "runtime_dynamic_callers_checked": false,
+      "cfstring_arm64_reference_heuristics_total": 13,
+      "cfstring_arm64_ref_inside_native4_inert_spans": 0,
+      "cfstring_arm64_ref_outside_native4_inert_spans": 13
     },
     "DuoFaceDashboard": {
       "binary_sha256": "9bf5724a127ac18189d8c1becbc0e457b51b6ae7d9c58a0e5ad90633757b77ca",
@@ -122,79 +151,105 @@
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0xa4fc",
               "add_pc_hex": "0xa500",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0xa500",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0xc224",
               "add_pc_hex": "0xc228",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0xc228",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0xdf8c",
               "add_pc_hex": "0xdf90",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0xdf90",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0xfc6c",
               "add_pc_hex": "0xfc70",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0xfc70",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x1199c",
               "add_pc_hex": "0x119a0",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x119a0",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x136a4",
               "add_pc_hex": "0x136a8",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x136a8",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x153c4",
               "add_pc_hex": "0x153c8",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x153c8",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x170fc",
               "add_pc_hex": "0x17100",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x17100",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x1c824",
               "add_pc_hex": "0x1c828",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x1c828",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x1e544",
               "add_pc_hex": "0x1e548",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x1e548",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x20274",
               "add_pc_hex": "0x20278",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x20278",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x21fa4",
               "add_pc_hex": "0x21fa8",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x21fa8",
+              "overlaps_native4_neutralized_method_span": false
             },
             {
               "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
               "adrp_pc_hex": "0x276ec",
               "add_pc_hex": "0x276f0",
-              "virtual_literal_hex": "0x34a688"
+              "virtual_literal_hex": "0x34a688",
+              "candidate_code_file_offset_hex": "0x276f0",
+              "overlaps_native4_neutralized_method_span": false
             }
           ],
           "direct_arm64_load_count": 13,
@@ -226,7 +281,10 @@
       "candidate_direct_arm64_address_load_count": 0,
       "proven_unused_or_safe_to_mask": false,
       "proven_user_visible_UI": false,
-      "runtime_dynamic_callers_checked": false
+      "runtime_dynamic_callers_checked": false,
+      "cfstring_arm64_reference_heuristics_total": 13,
+      "cfstring_arm64_ref_inside_native4_inert_spans": 0,
+      "cfstring_arm64_ref_outside_native4_inert_spans": 13
     }
   },
   "selective_mask_is_approved": false,
