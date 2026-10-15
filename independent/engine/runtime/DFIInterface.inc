@@ -177,6 +177,33 @@ static NSArray *DFIAvailableApps(void) {
 - (void)armHide {
  [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.tableView.dragging||weak.list.tableView.decelerating){[weak armHide];return;}[weak dismissPanel];weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}];
 }
+- (void)updateApprovedTabs {
+ NSArray *titles=@[@"App",@"Zoom",@"Style",@"Close"];
+ NSArray *symbols=@[@"square.grid.2x2",
+      DFIChromeZoomRequested()?@"arrow.down.right.and.arrow.up.left":@"arrow.up.left.and.arrow.down.right",
+      @"rectangle.3.group",@"xmark.circle"];
+ for(UIView *view in self.toolbarStack.arrangedSubviews){
+     if(![view isKindOfClass:UIButton.class])continue;
+     UIButton *button=(UIButton *)view;
+     NSInteger index=button.tag;
+     if(index<0 || index>=4)continue;
+     DFIStyleApprovedTab(button,titles[index],symbols[index],index==self.selectedTab);
+ }
+}
+- (void)showAppMenu {
+ self.selectedTab=0;[self updateApprovedTabs];
+ NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
+ NSInteger pane=MAX(0,MIN(count-1,self.activePane));
+ [self choose:self.paneButtons[pane]];
+}
+- (void)toggleZoom {
+ [self dismissPanel];
+ BOOL expanded=!DFIChromeZoomRequested();
+ DFIChromeSetZoom(expanded);
+ self.selectedTab=1;[self updateApprovedTabs];
+ [self message:expanded?@"Zoom In":@"Zoom Out"];
+ [self armHide];
+}
 - (void)menu{[self dismissPanel];self.toolbar.hidden=!self.toolbar.hidden;[self armHide];[self.view setNeedsLayout];}
 - (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
 - (void)dismissPanel{[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;[self.panel removeFromSuperview];self.panel=nil;}
