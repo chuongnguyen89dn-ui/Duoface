@@ -1,0 +1,79 @@
+name: DuoFace native11 - prove physical removal of obsolete license strings (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/remove_native11_license_literals.py'
+      - '.github/workflows/duoface-native11-remove-license-strings-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native11-license-string-erase-audit
+  cancel-in-progress: false
+jobs:
+  audit-erase-literals-in-memory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect exact native10 source and proven signed package SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' \
+            '3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29' \
+            'dist/payload-migration/native10/com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb' \
+            | sha256sum -c -
+          python3 -m py_compile migration/full_payload/native_test/remove_native11_license_literals.py
+      - name: Test real literal removal in RAM, preserve all code and eight CarPlay methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/remove_native11_license_literals.py \
+            --audit-out audit/payload-migration/NATIVE11_LICENSE_LITERAL_REMOVAL_IN_MEMORY_ONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('audit/payload-migration/NATIVE11_LICENSE_LITERAL_REMOVAL_IN_MEMORY_ONLY.json')
+          r=json.loads(path.read_text(encoding='utf-8'))
+          assert r['status']=='NATIVE11_EXACT_52_LICENSE_STRINGS_ERASED_IN_UNSIGNED_MEMORY_ONLY'
+          assert r['source_native10_sha256']=='3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29'
+          assert r['count_physically_erased_literal_contents']==52
+          assert r['category_counts']=={'localization_lookup_key_preserve':40,'diagnostic_log_preserve':12}
+          assert r['remaining_catalog_entries_not_erased_by_this_step']==126
+          assert r['the_8_carplay_detection_method_bodies_unchanged']
+          assert r['all_original_312_method_code_bodies_unchanged']
+          assert r['objc_class_method_metadata_remains'] and not r['objc_metadata_physically_removed']
+          assert r['may_break_runtime_localization_lookup']
+          assert not r['signed'] and not r['deb_built'] and not r['sileo_changed']
+          assert not r['staged_unsigned_binaries_written']
+          assert len(r['erased_literal_records'])==52
+          assert all(not x['original_string_content_physically_present_after'] for x in r['erased_literal_records'])
+          print('NATIVE11_SELECTED_52_LICENSE_STRING_BYTES_REMOVED_NO_NATIVE10_CHANGE_PASS')
+          PY
+      - name: Persist only the JSON proof, never change a published DEB
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE11_LICENSE_LITERAL_REMOVAL_IN_MEMORY_ONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: verified 52 obsolete license string contents removed in memory only [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native11-license-string-removal-audit
+          path: audit/payload-migration/NATIVE11_LICENSE_LITERAL_REMOVAL_IN_MEMORY_ONLY.json
+          if-no-files-found: warn
