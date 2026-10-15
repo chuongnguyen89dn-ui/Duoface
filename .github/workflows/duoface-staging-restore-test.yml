@@ -1,0 +1,61 @@
+name: DuoFace - chứng minh khôi phục nguyên byte bản sao staging
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/verify_archive.py'
+      - '.github/workflows/duoface-staging-restore-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-restoration:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Đọc hash nguồn của bản sao đã lưu
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum -c dist/payload-migration/SHA256SUMS.txt
+          tar -tzf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz | head -n 8
+
+      - name: Phục hồi logic từng file trực tiếp từ TAR (không ghi ra đĩa)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/payload-migration
+          expected="$(awk '{print $1}' dist/payload-migration/SHA256SUMS.txt)"
+          python3 migration/full_payload/verify_archive.py \
+            --archive dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz \
+            --report dist/payload-migration/EXACT_COPY_AUDIT.json \
+            --expected-sha256 "$expected" | tee audit/payload-migration/ARCHIVE_RESTORE_AUDIT.json
+          test ! -e dist/payload-migration/*.deb
+
+      - name: Lưu bằng chứng thực tế vào repo DuoFace
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/ARCHIVE_RESTORE_AUDIT.json
+          git commit -m 'audit: verify restoration of entire DuoFace payload staging [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-staging-restore-${{ github.run_id }}
+          path: audit/payload-migration/ARCHIVE_RESTORE_AUDIT.json
+          if-no-files-found: warn
