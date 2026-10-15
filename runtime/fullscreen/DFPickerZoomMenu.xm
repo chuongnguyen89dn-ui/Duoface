@@ -105,7 +105,7 @@ static UIImage *DFPickerApprovedHeaderLogo(void) {
     if (!image) {
         NSString *root=@"/var/jb/Library/Application Support/DuoFace/";
         image=[UIImage imageWithContentsOfFile:
-            [root stringByAppendingString:@"duoface-logo-picker-alpha.png"]];
+            [root stringByAppendingString:@"duoface-logo-picker-alpha-v2.png"]];
         if (!image) image=[UIImage imageWithContentsOfFile:
             [root stringByAppendingString:@"duoface-logo.png"]];
     }
