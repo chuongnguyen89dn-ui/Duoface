@@ -313,7 +313,7 @@ IVAR CBBridgeManagerDashboard._activated offset 0x8
 IVAR CBBridgeManagerDashboard._pending offset 0x9
 IVAR CBBridgeManagerDashboard._pendingCompletion offset 0x10
 
-DISASSEMBLY 0x280d48-0x281e48
+DISASSEMBLY 0x280d48-0x282780
 00280d48: stp      d9, d8, [sp, #-0x70]!                         
 00280d4c: stp      x28, x27, [sp, #0x10]                         
 00280d50: stp      x26, x25, [sp, #0x20]                         
@@ -1402,6 +1402,596 @@ DISASSEMBLY 0x280d48-0x281e48
 00281e3c: mov      x23, x0                                       
 00281e40: b        #0x281e48                                     
 00281e44: mov      x23, #0                                       
+00281e48: ldr      x27, [sp, #0x168]                             
+00281e4c: ldr      x0, [sp, #0x218]                              
+00281e50: bl       #0x2ecd30                                     _objc_release
+00281e54: cmp      x23, #0                                       
+00281e58: cset     w8, ne                                        
+00281e5c: ldr      w9, [sp, #0xbc]                               
+00281e60: orr      w8, w9, w8                                    
+00281e64: tbnz     w8, #0, #0x281ef4                             
+00281e68: ldr      x23, [sp, #0xb0]                              
+00281e6c: mov      x0, x23                                       
+00281e70: ldr      x1, [sp, #0x1f8]                              
+00281e74: mov      x2, x27                                       
+00281e78: bl       #0x2ecd00                                     _objc_msgSend
+00281e7c: cbz      w0, #0x281edc                                 
+00281e80: mov      x0, x23                                       
+00281e84: ldr      x1, [sp, #0x118]                              
+00281e88: mov      x2, x27                                       
+00281e8c: mov      x3, x25                                       
+00281e90: bl       #0x2ecd00                                     _objc_msgSend
+00281e94: mov      x29, x29                                      
+00281e98: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281e9c: mov      x23, x0                                       
+00281ea0: cbz      x0, #0x281ee4                                 
+00281ea4: mov      x0, x23                                       
+00281ea8: ldr      x1, [sp, #0x1f8]                              
+00281eac: ldr      x27, [sp, #0x1a0]                             
+00281eb0: mov      x2, x27                                       
+00281eb4: bl       #0x2ecd00                                     _objc_msgSend
+00281eb8: cbz      w0, #0x281ee4                                 
+00281ebc: mov      x0, x23                                       
+00281ec0: ldr      x1, [sp, #0x110]                              
+00281ec4: mov      x2, x27                                       
+00281ec8: bl       #0x2ecd00                                     _objc_msgSend
+00281ecc: mov      x29, x29                                      
+00281ed0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281ed4: mov      x27, x0                                       
+00281ed8: b        #0x281ee8                                     
+00281edc: mov      x23, #0                                       
+00281ee0: b        #0x281f08                                     
+00281ee4: mov      x27, #0                                       
+00281ee8: mov      x0, x23                                       
+00281eec: bl       #0x2ecd30                                     _objc_release
+00281ef0: mov      x23, x27                                      
+00281ef4: cbz      x23, #0x281f08                                
+00281ef8: mov      x0, x23                                       
+00281efc: ldr      x1, [sp, #0x238]                              
+00281f00: bl       #0x2ecd00                                     _objc_msgSend
+00281f04: cbnz     x0, #0x281f84                                 
+00281f08: mov      x0, x25                                       
+00281f0c: ldr      x1, [sp, #0x138]                              
+00281f10: adr      x2, #0x36fe28                                 NSString '.'
+00281f14: nop                                                    
+00281f18: bl       #0x2ecd00                                     _objc_msgSend
+00281f1c: mov      x29, x29                                      
+00281f20: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281f24: str      x0, [sp, #0x218]                              
+00281f28: ldr      x1, [sp, #0x130]                              
+00281f2c: bl       #0x2ecd00                                     _objc_msgSend
+00281f30: mov      x29, x29                                      
+00281f34: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281f38: mov      x24, x0                                       
+00281f3c: ldr      x1, [sp, #0x128]                              
+00281f40: bl       #0x2ecd00                                     _objc_msgSend
+00281f44: mov      x29, x29                                      
+00281f48: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281f4c: mov      x27, x0                                       
+00281f50: cmp      x0, #0                                        
+00281f54: csel     x0, x25, x0, eq                               
+00281f58: bl       #0x2ecd3c                                     _objc_retain
+00281f5c: str      x0, [sp, #0x200]                              
+00281f60: mov      x0, x23                                       
+00281f64: bl       #0x2ecd30                                     _objc_release
+00281f68: mov      x0, x27                                       
+00281f6c: bl       #0x2ecd30                                     _objc_release
+00281f70: mov      x0, x24                                       
+00281f74: bl       #0x2ecd30                                     _objc_release
+00281f78: ldr      x0, [sp, #0x218]                              
+00281f7c: bl       #0x2ecd30                                     _objc_release
+00281f80: ldr      x23, [sp, #0x200]                             
+00281f84: str      x23, [sp, #0x218]                             
+00281f88: ldr      x0, [sp, #0xc8]                               
+00281f8c: ldr      x1, [sp, #0x1f8]                              
+00281f90: ldr      x2, [sp, #0x178]                              
+00281f94: bl       #0x2ecd00                                     _objc_msgSend
+00281f98: cbz      w0, #0x281fc4                                 
+00281f9c: ldr      x0, [sp, #0xc8]                               
+00281fa0: ldr      x1, [sp, #0x178]                              
+00281fa4: mov      x2, x25                                       
+00281fa8: mov      w3, #0                                        
+00281fac: mov      v0.16b, v8.16b                                
+00281fb0: bl       #0x2ecd00                                     _objc_msgSend
+00281fb4: mov      x29, x29                                      
+00281fb8: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281fbc: mov      x24, x0                                       
+00281fc0: cbnz     x0, #0x281fe8                                 
+00281fc4: nop                                                    
+00281fc8: ldr      x0, #0x37f840                                 
+00281fcc: ldr      x1, [sp, #0x170]                              
+00281fd0: adr      x2, #0x36fde8                                 NSString 'app.fill'
+00281fd4: nop                                                    
+00281fd8: bl       #0x2ecd00                                     _objc_msgSend
+00281fdc: mov      x29, x29                                      
+00281fe0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00281fe4: mov      x24, x0                                       
+00281fe8: nop                                                    
+00281fec: ldr      x0, #0x37fa18                                 CLASS CBAppMetadataItem
+00281ff0: bl       #0x2ecc40                                     _objc_alloc_init
+00281ff4: mov      x23, x0                                       
+00281ff8: ldr      x1, [sp, #0x160]                              
+00281ffc: ldr      x2, [sp, #0x218]                              
+00282000: bl       #0x2ecd00                                     _objc_msgSend
+00282004: mov      x0, x23                                       
+00282008: ldr      x1, [sp, #0x158]                              
+0028200c: str      x24, [sp, #0x200]                             
+00282010: mov      x2, x24                                       
+00282014: bl       #0x2ecd00                                     _objc_msgSend
+00282018: mov      x0, x23                                       
+0028201c: ldr      x1, [sp, #0x150]                              
+00282020: ldr      w24, [sp, #0xdc]                              
+00282024: mov      x2, x24                                       
+00282028: bl       #0x2ecd00                                     _objc_msgSend
+0028202c: ldr      x0, [sp, #0x120]                              
+00282030: ldr      x1, [sp, #0x148]                              
+00282034: mov      x2, x23                                       
+00282038: mov      x3, x25                                       
+0028203c: bl       #0x2ecd00                                     _objc_msgSend
+00282040: mov      x0, x23                                       
+00282044: bl       #0x2ecd30                                     _objc_release
+00282048: mov      x0, x24                                       
+0028204c: ldr      x27, [sp, #0x228]                             
+00282050: ldr      x24, [sp, #0x1e8]                             
+00282054: ldr      x8, [sp, #0x208]                              
+00282058: cbz      x8, #0x282090                                 
+0028205c: ldr      x0, [sp, #0x1d8]                              
+00282060: ldr      x1, [sp, #0x210]                              
+00282064: mov      x2, x25                                       
+00282068: bl       #0x2ecd00                                     _objc_msgSend
+0028206c: mov      x29, x29                                      
+00282070: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282074: mov      x27, x0                                       
+00282078: ldr      x1, [sp, #0x180]                              
+0028207c: bl       #0x2ecd00                                     _objc_msgSend
+00282080: mov      x23, x0                                       
+00282084: mov      x0, x27                                       
+00282088: bl       #0x2ecd30                                     _objc_release
+0028208c: b        #0x2820ac                                     
+00282090: ldr      w8, [sp, #0x1e0]                              
+00282094: cmp      w8, #1                                        
+00282098: b.lt     #0x282294                                     
+0028209c: ldr      w8, [sp, #0x144]                              
+002820a0: orr      w8, w8, w0                                    
+002820a4: tbz      w8, #0, #0x282294                             
+002820a8: mov      x23, #-1                                      
+002820ac: adr      x8, #0x36ed28                                 NSString 'bundleIdentifier'
+002820b0: nop                                                    
+002820b4: str      x8, [sp, #0x300]                              
+002820b8: adr      x8, #0x36fda8                                 NSString 'displayName'
+002820bc: nop                                                    
+002820c0: str      x8, [sp, #0x308]                              
+002820c4: ldr      x8, [sp, #0x218]                              
+002820c8: cmp      x8, #0                                        
+002820cc: csel     x8, x25, x8, eq                               
+002820d0: str      x25, [sp, #0x338]                             
+002820d4: str      x8, [sp, #0x340]                              
+002820d8: adr      x8, #0x36fdc8                                 NSString 'icon'
+002820dc: nop                                                    
+002820e0: str      x8, [sp, #0x310]                              
+002820e4: ldr      x8, [sp, #0x200]                              
+002820e8: cbz      x8, #0x2820f4                                 
+002820ec: str      wzr, [sp, #0x144]                             
+002820f0: b        #0x282124                                     
+002820f4: nop                                                    
+002820f8: ldr      x0, #0x37f840                                 
+002820fc: ldr      x1, [sp, #0x170]                              
+00282100: adr      x2, #0x36fde8                                 NSString 'app.fill'
+00282104: nop                                                    
+00282108: bl       #0x2ecd00                                     _objc_msgSend
+0028210c: mov      x29, x29                                      
+00282110: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282114: mov      w8, #1                                        
+00282118: str      w8, [sp, #0x144]                              
+0028211c: str      x0, [sp, #0xd0]                               
+00282120: mov      x8, x0                                        
+00282124: ldr      w25, [sp, #0x1e0]                             
+00282128: cmp      w25, #0                                       
+0028212c: cset     w2, gt                                        
+00282130: ldr      x9, [sp, #0x208]                              
+00282134: cmp      x9, #0                                        
+00282138: cset     w27, ne                                       
+0028213c: str      x8, [sp, #0x348]                              
+00282140: adr      x8, #0x3728c8                                 NSString 'isRunning'
+00282144: nop                                                    
+00282148: str      x8, [sp, #0x318]                              
+0028214c: adrp     x24, #0x37f000                                
+00282150: ldr      x0, [x24, #0x7f8]                             [0x37f7f8] 
+00282154: ldr      x26, [sp, #0x1d0]                             
+00282158: mov      x1, x26                                       
+0028215c: bl       #0x2ecd00                                     _objc_msgSend
+00282160: mov      x29, x29                                      
+00282164: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282168: str      x0, [sp, #0x208]                              
+0028216c: str      x0, [sp, #0x350]                              
+00282170: adr      x8, #0x36ff48                                 NSString 'inActiveSlot'
+00282174: nop                                                    
+00282178: str      x8, [sp, #0x320]                              
+0028217c: ldr      x0, [x24, #0x7f8]                             [0x37f7f8] 
+00282180: mov      x1, x26                                       
+00282184: mov      x2, x27                                       
+00282188: bl       #0x2ecd00                                     _objc_msgSend
+0028218c: mov      x29, x29                                      
+00282190: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282194: mov      x27, x0                                       
+00282198: str      x0, [sp, #0x358]                              
+0028219c: adr      x8, #0x36ff68                                 NSString 'slotIndex'
+002821a0: nop                                                    
+002821a4: str      x8, [sp, #0x328]                              
+002821a8: ldr      x0, [x24, #0x7f8]                             [0x37f7f8] 
+002821ac: ldr      x1, [sp, #0x1c8]                              
+002821b0: mov      x2, x23                                       
+002821b4: bl       #0x2ecd00                                     _objc_msgSend
+002821b8: mov      x29, x29                                      
+002821bc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002821c0: mov      x23, x0                                       
+002821c4: str      x0, [sp, #0x360]                              
+002821c8: adr      x8, #0x36ff88                                 NSString 'pid'
+002821cc: nop                                                    
+002821d0: str      x8, [sp, #0x330]                              
+002821d4: ldr      x0, [x24, #0x7f8]                             [0x37f7f8] 
+002821d8: ldr      x1, [sp, #0x1c0]                              
+002821dc: mov      x2, x25                                       
+002821e0: bl       #0x2ecd00                                     _objc_msgSend
+002821e4: mov      x29, x29                                      
+002821e8: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002821ec: mov      x24, x0                                       
+002821f0: str      x0, [sp, #0x368]                              
+002821f4: nop                                                    
+002821f8: ldr      x0, #0x37f750                                 
+002821fc: add      x2, sp, #0x338                                
+00282200: add      x3, sp, #0x300                                
+00282204: ldr      x1, [sp, #0x1b8]                              
+00282208: mov      w4, #7                                        
+0028220c: bl       #0x2ecd00                                     _objc_msgSend
+00282210: mov      x29, x29                                      
+00282214: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282218: mov      x26, x0                                       
+0028221c: ldr      x0, [sp, #0xe0]                               
+00282220: ldr      x1, [sp, #0x1b0]                              
+00282224: mov      x2, x26                                       
+00282228: bl       #0x2ecd00                                     _objc_msgSend
+0028222c: mov      x0, x26                                       
+00282230: bl       #0x2ecd30                                     _objc_release
+00282234: mov      x0, x24                                       
+00282238: bl       #0x2ecd30                                     _objc_release
+0028223c: mov      x0, x23                                       
+00282240: bl       #0x2ecd30                                     _objc_release
+00282244: mov      x0, x27                                       
+00282248: bl       #0x2ecd30                                     _objc_release
+0028224c: ldr      x0, [sp, #0x208]                              
+00282250: bl       #0x2ecd30                                     _objc_release
+00282254: ldr      w8, [sp, #0x144]                              
+00282258: cbz      w8, #0x282264                                 
+0028225c: ldr      x0, [sp, #0xd0]                               
+00282260: bl       #0x2ecd30                                     _objc_release
+00282264: ldr      x27, [sp, #0x228]                             
+00282268: adr      x23, #0x372868                                NSString 'com.apple.webkit.'
+0028226c: nop                                                    
+00282270: ldr      x24, [sp, #0x1e8]                             
+00282274: ldr      x26, [sp, #0x220]                             
+00282278: ldr      x0, [sp, #0x200]                              
+0028227c: bl       #0x2ecd30                                     _objc_release
+00282280: ldr      x0, [sp, #0x218]                              
+00282284: bl       #0x2ecd30                                     _objc_release
+00282288: ldr      x0, [sp, #0x1a8]                              
+0028228c: bl       #0x2ecd30                                     _objc_release
+00282290: b        #0x281c1c                                     
+00282294: adr      x23, #0x372868                                NSString 'com.apple.webkit.'
+00282298: nop                                                    
+0028229c: b        #0x282278                                     
+002822a0: add      x2, sp, #0x240                                
+002822a4: add      x3, sp, #0x370                                
+002822a8: mov      x0, x26                                       
+002822ac: ldr      x1, [sp, #0xf8]                               
+002822b0: mov      w4, #0x10                                     
+002822b4: bl       #0x2ecd00                                     _objc_msgSend
+002822b8: mov      x21, x0                                       
+002822bc: cbnz     x0, #0x281a4c                                 
+002822c0: mov      x0, x26                                       
+002822c4: bl       #0x2ecd30                                     _objc_release
+002822c8: nop                                                    
+002822cc: ldr      x1, #0x37e030                                 SEL sortUsingComparator:
+002822d0: adr      x2, #0x345788                                 
+002822d4: nop                                                    
+002822d8: ldr      x21, [sp, #0xe0]                              
+002822dc: mov      x0, x21                                       
+002822e0: bl       #0x2ecd00                                     _objc_msgSend
+002822e4: nop                                                    
+002822e8: ldr      x1, #0x37d818                                 SEL copy
+002822ec: mov      x0, x21                                       
+002822f0: bl       #0x2ecd00                                     _objc_msgSend
+002822f4: mov      x19, x0                                       
+002822f8: ldr      x0, [sp, #0x120]                              
+002822fc: bl       #0x2ecd30                                     _objc_release
+00282300: ldr      x0, [sp, #0x230]                              
+00282304: bl       #0x2ecd30                                     _objc_release
+00282308: mov      x0, x26                                       
+0028230c: bl       #0x2ecd30                                     _objc_release
+00282310: ldr      x0, [sp, #0xb0]                               
+00282314: bl       #0x2ecd30                                     _objc_release
+00282318: mov      x0, x27                                       
+0028231c: bl       #0x2ecd30                                     _objc_release
+00282320: ldr      x0, [sp, #0x1d8]                              
+00282324: bl       #0x2ecd30                                     _objc_release
+00282328: ldr      x0, [sp, #0xe8]                               
+0028232c: bl       #0x2ecd30                                     _objc_release
+00282330: ldr      x0, [sp, #0xa8]                               
+00282334: bl       #0x2ecd30                                     _objc_release
+00282338: mov      x0, x21                                       
+0028233c: bl       #0x2ecd30                                     _objc_release
+00282340: ldur     x8, [x29, #-0x70]                             
+00282344: nop                                                    
+00282348: ldr      x9, #0x344140                                 
+0028234c: ldr      x9, [x9]                                      
+00282350: cmp      x9, x8                                        
+00282354: b.ne     #0x2823f8                                     
+00282358: mov      x0, x19                                       
+0028235c: add      sp, sp, #0x500                                
+00282360: ldp      x29, x30, [sp, #0x60]                         
+00282364: ldp      x20, x19, [sp, #0x50]                         
+00282368: ldp      x22, x21, [sp, #0x40]                         
+0028236c: ldp      x24, x23, [sp, #0x30]                         
+00282370: ldp      x26, x25, [sp, #0x20]                         
+00282374: ldp      x28, x27, [sp, #0x10]                         
+00282378: ldp      d9, d8, [sp], #0x70                           
+0028237c: b        #0x2ecc7c                                     _objc_autoreleaseReturnValue
+00282380: adr      x0, #0x381a88                                 
+00282384: nop                                                    
+00282388: adr      x1, #0x3457c8                                 
+0028238c: nop                                                    
+00282390: bl       #0x2ecb38                                     _dispatch_once
+00282394: b        #0x281844                                     
+00282398: adr      x0, #0x381a78                                 
+0028239c: nop                                                    
+002823a0: adr      x1, #0x3457a8                                 
+002823a4: nop                                                    
+002823a8: bl       #0x2ecb38                                     _dispatch_once
+002823ac: b        #0x281868                                     
+002823b0: adr      x0, #0x381a98                                 
+002823b4: nop                                                    
+002823b8: adr      x1, #0x3457e8                                 
+002823bc: nop                                                    
+002823c0: bl       #0x2ecb38                                     _dispatch_once
+002823c4: b        #0x281888                                     
+002823c8: adr      x0, #0x381aa8                                 
+002823cc: nop                                                    
+002823d0: adr      x1, #0x345808                                 
+002823d4: nop                                                    
+002823d8: bl       #0x2ecb38                                     _dispatch_once
+002823dc: b        #0x2818a8                                     
+002823e0: adr      x0, #0x381ab8                                 
+002823e4: nop                                                    
+002823e8: adr      x1, #0x345828                                 
+002823ec: nop                                                    
+002823f0: bl       #0x2ecb38                                     _dispatch_once
+002823f4: b        #0x2819e0                                     
+002823f8: bl       #0x2eca9c                                     ___stack_chk_fail
+002823fc: stp      x26, x25, [sp, #-0x50]!                       
+00282400: stp      x24, x23, [sp, #0x10]                         
+00282404: stp      x22, x21, [sp, #0x20]                         
+00282408: stp      x20, x19, [sp, #0x30]                         
+0028240c: stp      x29, x30, [sp, #0x40]                         
+00282410: add      x29, sp, #0x40                                
+00282414: mov      x20, x2                                       
+00282418: mov      x0, x1                                        
+0028241c: bl       #0x2ecd3c                                     _objc_retain
+00282420: mov      x19, x0                                       
+00282424: mov      x0, x20                                       
+00282428: bl       #0x2ecd3c                                     _objc_retain
+0028242c: mov      x20, x0                                       
+00282430: nop                                                    
+00282434: ldr      x21, #0x37d560                                SEL objectForKeyedSubscript:
+00282438: adr      x23, #0x36ff48                                NSString 'inActiveSlot'
+0028243c: nop                                                    
+00282440: mov      x0, x19                                       
+00282444: mov      x1, x21                                       
+00282448: mov      x2, x23                                       
+0028244c: bl       #0x2ecd00                                     _objc_msgSend
+00282450: mov      x29, x29                                      
+00282454: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282458: mov      x24, x0                                       
+0028245c: nop                                                    
+00282460: ldr      x25, #0x37d5e8                                SEL boolValue
+00282464: mov      x1, x25                                       
+00282468: bl       #0x2ecd00                                     _objc_msgSend
+0028246c: mov      x22, x0                                       
+00282470: mov      x0, x24                                       
+00282474: bl       #0x2ecd30                                     _objc_release
+00282478: mov      x0, x20                                       
+0028247c: mov      x1, x21                                       
+00282480: mov      x2, x23                                       
+00282484: bl       #0x2ecd00                                     _objc_msgSend
+00282488: mov      x29, x29                                      
+0028248c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282490: mov      x24, x0                                       
+00282494: mov      x1, x25                                       
+00282498: bl       #0x2ecd00                                     _objc_msgSend
+0028249c: mov      x23, x0                                       
+002824a0: mov      x0, x24                                       
+002824a4: bl       #0x2ecd30                                     _objc_release
+002824a8: eor      w8, w22, #1                                   
+002824ac: tbnz     w23, #0, #0x2824bc                            
+002824b0: cbnz     w8, #0x2824bc                                 
+002824b4: mov      x21, #-1                                      
+002824b8: b        #0x2825c4                                     
+002824bc: eor      w9, w23, #1                                   
+002824c0: orr      w10, w22, w9                                  
+002824c4: cmp      w10, #1                                       
+002824c8: b.ne     #0x282540                                     
+002824cc: orr      w8, w8, w9                                    
+002824d0: tbz      w8, #0, #0x282548                             
+002824d4: adr      x22, #0x36fda8                                NSString 'displayName'
+002824d8: nop                                                    
+002824dc: mov      x0, x19                                       
+002824e0: mov      x1, x21                                       
+002824e4: mov      x2, x22                                       
+002824e8: bl       #0x2ecd00                                     _objc_msgSend
+002824ec: mov      x29, x29                                      
+002824f0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002824f4: mov      x23, x0                                       
+002824f8: mov      x0, x20                                       
+002824fc: mov      x1, x21                                       
+00282500: mov      x2, x22                                       
+00282504: bl       #0x2ecd00                                     _objc_msgSend
+00282508: mov      x29, x29                                      
+0028250c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282510: mov      x22, x0                                       
+00282514: nop                                                    
+00282518: ldr      x1, #0x37e028                                 SEL localizedCaseInsensitiveCompare:
+0028251c: mov      x0, x23                                       
+00282520: mov      x2, x22                                       
+00282524: bl       #0x2ecd00                                     _objc_msgSend
+00282528: mov      x21, x0                                       
+0028252c: mov      x0, x22                                       
+00282530: bl       #0x2ecd30                                     _objc_release
+00282534: mov      x0, x23                                       
+00282538: bl       #0x2ecd30                                     _objc_release
+0028253c: b        #0x2825c4                                     
+00282540: mov      w21, #1                                       
+00282544: b        #0x2825c4                                     
+00282548: adr      x22, #0x36ff68                                NSString 'slotIndex'
+0028254c: nop                                                    
+00282550: mov      x0, x19                                       
+00282554: mov      x1, x21                                       
+00282558: mov      x2, x22                                       
+0028255c: bl       #0x2ecd00                                     _objc_msgSend
+00282560: mov      x29, x29                                      
+00282564: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+00282568: mov      x23, x0                                       
+0028256c: nop                                                    
+00282570: ldr      x24, #0x37d660                                SEL integerValue
+00282574: mov      x1, x24                                       
+00282578: bl       #0x2ecd00                                     _objc_msgSend
+0028257c: mov      x25, x0                                       
+00282580: mov      x0, x23                                       
+00282584: bl       #0x2ecd30                                     _objc_release
+00282588: mov      x0, x20                                       
+0028258c: mov      x1, x21                                       
+00282590: mov      x2, x22                                       
+00282594: bl       #0x2ecd00                                     _objc_msgSend
+00282598: mov      x29, x29                                      
+0028259c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+002825a0: mov      x21, x0                                       
+002825a4: mov      x1, x24                                       
+002825a8: bl       #0x2ecd00                                     _objc_msgSend
+002825ac: mov      x22, x0                                       
+002825b0: mov      x0, x21                                       
+002825b4: bl       #0x2ecd30                                     _objc_release
+002825b8: cmp      x25, x22                                      
+002825bc: cset     w8, gt                                        
+002825c0: csinv    x21, x8, xzr, ge                              
+002825c4: mov      x0, x20                                       
+002825c8: bl       #0x2ecd30                                     _objc_release
+002825cc: mov      x0, x19                                       
+002825d0: bl       #0x2ecd30                                     _objc_release
+002825d4: mov      x0, x21                                       
+002825d8: ldp      x29, x30, [sp, #0x40]                         
+002825dc: ldp      x20, x19, [sp, #0x30]                         
+002825e0: ldp      x22, x21, [sp, #0x20]                         
+002825e4: ldp      x24, x23, [sp, #0x10]                         
+002825e8: ldp      x26, x25, [sp], #0x50                         
+002825ec: ret                                                    
+002825f0: sub      sp, sp, #0x140                                
+002825f4: stp      x28, x27, [sp, #0x110]                        
+002825f8: stp      x20, x19, [sp, #0x120]                        
+002825fc: stp      x29, x30, [sp, #0x130]                        
+00282600: add      x29, sp, #0x130                               
+00282604: mov      x9, #0                                        
+00282608: nop                                                    
+0028260c: ldr      x8, #0x344140                                 
+00282610: ldr      x8, [x8]                                      
+00282614: stur     x8, [x29, #-0x28]                             
+00282618: adr      x8, #0x3161db                                 
+0028261c: nop                                                    
+00282620: mov      w10, #0x6c                                    
+00282624: add      w10, w10, #0x17                               
+00282628: mov      x11, #-0x3333333333333334                     
+0028262c: movk     x11, #0xcccd                                  
+00282630: mov      w12, #0x2b                                    
+00282634: mov      w13, #-0x5b                                   
+00282638: mov      w14, #0xaa                                    
+0028263c: mov      x15, sp                                       
+00282640: umulh    x16, x9, x11                                  
+00282644: lsr      x16, x16, #2                                  
+00282648: add      w16, w16, w16, lsl #2                         
+0028264c: madd     w17, w9, w12, w10                             
+00282650: ldrb     w0, [x8, x9]                                  
+00282654: eor      w1, w9, w13                                   
+00282658: orr      w2, w1, w0                                    
+0028265c: lsl      w2, w2, #1                                    
+00282660: add      w0, w1, w0                                    
+00282664: sub      w0, w2, w0                                    
+00282668: sub      w16, w9, w16                                  
+0028266c: add      w1, w16, #1                                   
+00282670: and      w0, w0, #0xff                                 
+00282674: lsr      w1, w0, w1                                    
+00282678: eor      w16, w16, #7                                  
+0028267c: lsl      w16, w0, w16                                  
+00282680: orr      w16, w1, w16                                  
+00282684: orr      w0, w17, w16                                  
+00282688: lsl      w0, w0, #1                                    
+0028268c: add      w16, w17, w16                                 
+00282690: sub      w16, w0, w16                                  
+00282694: sub      w16, w16, #0x5d                               
+00282698: add      x17, x9, #1                                   
+0028269c: mul      w0, w17, w9                                   
+002826a0: eor      w1, w16, w14                                  
+002826a4: tst      w0, #1                                        
+002826a8: csel     w16, w16, w1, eq                              
+002826ac: strb     w16, [x15, x9]                                
+002826b0: mov      x9, x17                                       
+002826b4: cmp      x17, #0x1f                                    
+002826b8: b.ne     #0x282640                                     
+002826bc: strb     wzr, [sp, #0x1f]                              
+002826c0: nop                                                    
+002826c4: ldr      x0, #0x37f708                                 
+002826c8: bl       #0x2ecc34                                     _objc_alloc
+002826cc: nop                                                    
+002826d0: ldr      x1, #0x37d500                                 SEL initWithBytes:length:encoding:
+002826d4: mov      x2, sp                                        
+002826d8: mov      w3, #0x1f                                     
+002826dc: mov      w4, #4                                        
+002826e0: bl       #0x2ecd00                                     _objc_msgSend
+002826e4: mov      x19, x0                                       
+002826e8: movi     v0.16b, #0                                    
+002826ec: stp      q0, q0, [sp]                                  
+002826f0: stp      q0, q0, [sp, #0x20]                           
+002826f4: stp      q0, q0, [sp, #0x40]                           
+002826f8: stp      q0, q0, [sp, #0x60]                           
+002826fc: stp      q0, q0, [sp, #0x80]                           
+00282700: stp      q0, q0, [sp, #0xa0]                           
+00282704: stp      q0, q0, [sp, #0xc0]                           
+00282708: adr      x8, #0x346288                                 NSString ''
+0028270c: nop                                                    
+00282710: cmp      x0, #0                                        
+00282714: csel     x0, x8, x0, eq                                
+00282718: stp      q0, q0, [sp, #0xe0]                           
+0028271c: bl       #0x2ecd3c                                     _objc_retain
+00282720: mov      x20, x0                                       
+00282724: mov      x0, x19                                       
+00282728: bl       #0x2ecd30                                     _objc_release
+0028272c: adrp     x8, #0x381000                                 
+00282730: ldr      x0, [x8, #0xa70]                              [0x381a70] 
+00282734: str      x20, [x8, #0xa70]                             
+00282738: bl       #0x2ecd30                                     _objc_release
+0028273c: ldur     x8, [x29, #-0x28]                             
+00282740: nop                                                    
+00282744: ldr      x9, #0x344140                                 
+00282748: ldr      x9, [x9]                                      
+0028274c: cmp      x9, x8                                        
+00282750: b.ne     #0x282768                                     
+00282754: ldp      x29, x30, [sp, #0x130]                        
+00282758: ldp      x20, x19, [sp, #0x120]                        
+0028275c: ldp      x28, x27, [sp, #0x110]                        
+00282760: add      sp, sp, #0x140                                
+00282764: ret                                                    
+00282768: bl       #0x2eca9c                                     ___stack_chk_fail
+0028276c: sub      sp, sp, #0x140                                
+00282770: stp      x28, x27, [sp, #0x110]                        
+00282774: stp      x20, x19, [sp, #0x120]                        
+00282778: stp      x29, x30, [sp, #0x130]                        
+0028277c: add      x29, sp, #0x130                               
 
 DISASSEMBLY 0xa6e90-0xa7170
 000a6e90: str      x2, [sp, #0x168]                              
