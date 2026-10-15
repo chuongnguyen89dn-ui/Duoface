@@ -188,6 +188,15 @@
 - **Công việc tiếp:** kiểm thử scene chủ bằng log iPhone trong bản alpha, kết nối logic App/Zoom/Style/Close, icon dấu chấm xanh/đỏ và fullscreen toàn màn vào lõi này; tăng version, build, cập nhật dòng package pin trong `carplaydsp/build.yml`, chạy xác minh Pages như mẫu. Giữ mọi thành quả cũ/DEB lịch sử.
 
 
+### 2026-10-15 13:28 +07 — Phản hồi thử nghiệm alpha1 trên thiết bị thật và điều tra ban đầu
+
+- **BẰNG CHỨNG NGƯỜI DÙNG:** ảnh người dùng gửi cho thấy giao diện chia màn hình 3 vùng (hai vùng phía trên, một vùng dưới), thanh kéo giữa, các nút ba chấm; người dùng xác nhận giao diện hiện và điều khiển được, có mục trong Settings. **Ban đầu có thể mở app, về sau chọn app bị crash.** Không thấy biểu tượng DuoFace Mới trên màn hình chính để bật/tắt. Đây là báo cáo kiểm thử thiết bị đầu tiên; **chưa xác minh 2 scene đồng thời ổn định**, không ghi là PASS.
+- **PHÁT HIỆN XÁC THỰC TỪ SOURCE:** `independent/engine/app/Info.plist` trên nhánh `feature/duoface-independent-core`, Git blob `5bf01a6424856ae1c4f8f3694ad4d27a81cf389f`, khai báo `SBAppTags = [hidden]`. Đây là nguyên nhân trực tiếp có thể giải thích biểu tượng không hiện trên màn hình chính; **chưa sửa** để không gây tác động ngoài yêu cầu xác nhận.
+- **Vị trí cần truy crash:** `independent/engine/runtime/DFIRuntime.m` (Git blob `161d3e0663c9088df0b7a32ca2ec3e237cd9d4e6`) có `DFISceneHost`, `pollScene`, `updateSettings:withTransitionContext:completion:`, quản lý scene handle, savedSettings, scene closure và class riêng SpringBoard. Cần lấy log `/var/mobile/Library/Logs/DuoFaceIndependent-runtime.log` và crash log SpringBoard khi nhấn chọn app, xác định stack trước khi sửa.
+- **Quyết định:** bảo toàn logic chia vùng đang chạy, ưu tiên điều tra crash, sau đó bỏ tag `hidden` nếu người dùng muốn biểu tượng app trên màn hình iPhone. Không suy diễn nguyên nhân crash khi chưa có crash report. Chưa tạo bản DEB tiếp theo, chưa cập nhật Sileo trong lượt này.
+- **Bước tiếp:** truy chuỗi chọn app trong `DFIRuntime.m`, kiểm tra lifecycle scene, thêm bảo vệ cần thiết, kiểm thử build; tăng version, phát hành Sileo với SHA-pinned và xác minh nguồn; đề nghị user cung cấp crash log nếu không thể xác định từ source.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
