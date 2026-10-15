@@ -4,6 +4,20 @@ FILE ./var/jb/Applications/DuoFaceUI.app/DuoFaceUI size=2456784
   BYTE_MATCH label='Ứng dụng' encoding=utf-16le offset=0xe41a0
   BYTE_MATCH label='Bố cục' encoding=utf-16le offset=0xe578e
   BYTE_MATCH label='Đang mở' encoding=utf-16le offset=0xe5aaa
+  BYTE_MATCH label='Cột Trái' encoding=utf-16le offset=0xe57d2
+  BYTE_MATCH label='Cột Phải' encoding=utf-16le offset=0xe57e4
+  BYTE_MATCH label='Mở lại' encoding=utf-16le offset=0xe5c1c
+  BYTE_MATCH label='Thêm App' encoding=utf-16le offset=0xe5c2a
+  BYTE_MATCH label='Thêm App' encoding=utf-16be offset=0xe5c29
+  BYTE_MATCH label='Đóng tất cả' encoding=utf-16le offset=0xe5bf2
+  BYTE_MATCH label='Đang hoạt động' encoding=utf-16le offset=0xe5b78
+  BYTE_MATCH label='Cột Trái' encoding=utf-16le offset=0xe57d2
+  BYTE_MATCH label='Cột Phải' encoding=utf-16le offset=0xe57e4
+  BYTE_MATCH label='OVERLAY_RESTART_SINGLE' encoding=utf-8 offset=0xb3208
+  BYTE_MATCH label='OVERLAY_CLOSE_SINGLE' encoding=utf-8 offset=0xb31f3
+  BYTE_MATCH label='OVERLAY_CLOSE_ALL' encoding=utf-8 offset=0xb31e1
+  BYTE_MATCH label='OVERLAY_RUNNING_TAG' encoding=utf-8 offset=0xb32a9
+  BYTE_MATCH label='OVERLAY_ACTIVE_COUNT' encoding=utf-8 offset=0xb31ba
   BYTE_MATCH label='Applications' encoding=utf-8 offset=0xa8d3e
   BYTE_MATCH label='Apps' encoding=utf-8 offset=0xa97c6
   BYTE_MATCH label='Apps' encoding=utf-16le offset=0xc376a
@@ -24,6 +38,20 @@ FILE ./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib si
   BYTE_MATCH label='Ứng dụng' encoding=utf-16le offset=0x33ddda
   BYTE_MATCH label='Bố cục' encoding=utf-16le offset=0x33f3c8
   BYTE_MATCH label='Đang mở' encoding=utf-16le offset=0x33f6e4
+  BYTE_MATCH label='Cột Trái' encoding=utf-16le offset=0x33f40c
+  BYTE_MATCH label='Cột Phải' encoding=utf-16le offset=0x33f41e
+  BYTE_MATCH label='Mở lại' encoding=utf-16le offset=0x33f856
+  BYTE_MATCH label='Thêm App' encoding=utf-16le offset=0x33f864
+  BYTE_MATCH label='Thêm App' encoding=utf-16be offset=0x33f863
+  BYTE_MATCH label='Đóng tất cả' encoding=utf-16le offset=0x33f82c
+  BYTE_MATCH label='Đang hoạt động' encoding=utf-16le offset=0x33f7b2
+  BYTE_MATCH label='Cột Trái' encoding=utf-16le offset=0x33f40c
+  BYTE_MATCH label='Cột Phải' encoding=utf-16le offset=0x33f41e
+  BYTE_MATCH label='OVERLAY_RESTART_SINGLE' encoding=utf-8 offset=0x300125
+  BYTE_MATCH label='OVERLAY_CLOSE_SINGLE' encoding=utf-8 offset=0x300110
+  BYTE_MATCH label='OVERLAY_CLOSE_ALL' encoding=utf-8 offset=0x3000fe
+  BYTE_MATCH label='OVERLAY_RUNNING_TAG' encoding=utf-8 offset=0x3001c6
+  BYTE_MATCH label='OVERLAY_ACTIVE_COUNT' encoding=utf-8 offset=0x3000d7
   BYTE_MATCH label='Applications' encoding=utf-8 offset=0x2f78d6
   BYTE_MATCH label='Apps' encoding=utf-8 offset=0x4fd2
   BYTE_MATCH label='Apps' encoding=utf-16le offset=0x31f63e
@@ -45,6 +73,12 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   CFSTRING addr=0x348f88 target=0x2fc08e flags=0x7c8 value='OVERLAY_RECENT'
   CFSTRING addr=0x348fe8 target=0x2fc0a6 flags=0x7c8 value='TAB_LAYOUT'
   CFSTRING addr=0x349008 target=0x2fc0b1 flags=0x7c8 value='TAB_RECENT'
+  CFSTRING addr=0x3490a8 target=0x2fc0d7 flags=0x7c8 value='OVERLAY_ACTIVE_COUNT'
+  CFSTRING addr=0x349128 target=0x2fc0fe flags=0x7c8 value='OVERLAY_CLOSE_ALL'
+  CFSTRING addr=0x349168 target=0x2fc110 flags=0x7c8 value='OVERLAY_CLOSE_SINGLE'
+  CFSTRING addr=0x3491a8 target=0x2fc125 flags=0x7c8 value='OVERLAY_RESTART_SINGLE'
+  CFSTRING addr=0x3491e8 target=0x2fc13c flags=0x7c8 value='OVERLAY_ADD_APP'
+  CFSTRING addr=0x349368 target=0x2fc1c6 flags=0x7c8 value='OVERLAY_RUNNING_TAG'
   CFSTRING addr=0x349c48 target=0x2fc4fd flags=0x7c8 value='Unlock full split-screen and multitasking on CarPlay.'
   CFSTRING addr=0x349de8 target=0x2fc5bc flags=0x7c8 value='SUB_SEGMENT_ONLINE'
   CFSTRING addr=0x349e28 target=0x2fc5cf flags=0x7c8 value='SUB_SEGMENT_GIFTCODE'
@@ -213,15 +247,61 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   CFSTRING addr=0x3512c8 target=0x31fd76 flags=0x7d0 value='Exécutez 1 à 4 apps en même temps'
   CFSTRING addr=0x3512e8 target=0x31fdba flags=0x7d0 value="Activez le multi-fenêtrage sur CarPlay. Touchez la barre supérieure (•••) de chaque fenêtre pour changer d'app ou agrandir."
   CFSTRING addr=0x351308 target=0x31feb2 flags=0x7d0 value="Touchez chaque emplacement pour choisir l'app à afficher simultanément sur l'écran du véhicule."
-  CFSTRING addr=0x351328 target=0x31ff72 flags=0x7d0 value='Sélectionner une application'
-  CFSTRING addr=0x351348 target=0x31ffac flags=0x7d0 value='1 App (Plein écran)'
-  CFSTRING addr=0x351368 target=0x3009e8 flags=0x7c8 value='2 Apps Vertical (Gauche | Droite)'
-  CFSTRING addr=0x351388 target=0x300a0a flags=0x7c8 value='2 Apps Horizontal (Haut / Bas)'
-  CFSTRING addr=0x3513a8 target=0x300a29 flags=0x7c8 value='3 Colonnes (3 Apps)'
-  CFSTRING addr=0x351448 target=0x300abf flags=0x7c8 value='4 Apps (Grille 2x2)'
+  CFSTRING addr=0x367088 target=0x3398d4 flags=0x7d0 value='DuoNavi đang bị chặn và không thể hoạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc "Tweak Injection" (hoặc Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu bạn có cài Choicy, hãy chắc chắn không chặn DuoNavi).'
+  CFSTRING addr=0x3671a8 target=0x339c28 flags=0x7d0 value='Tìm kiếm ứng dụng...'
+  CFSTRING addr=0x367248 target=0x339cea flags=0x7d0 value='Ứng Dụng'
   CFSTRING addr=0x3673c8 target=0x339dda flags=0x7d0 value='Ứng dụng'
+  CFSTRING addr=0x3674c8 target=0x339f22 flags=0x7d0 value='%lu ứng dụng'
+  CFSTRING addr=0x367508 target=0x339f62 flags=0x7d0 value='Hiển Thị Ứng Dụng Trên CarPlay'
+  CFSTRING addr=0x367528 target=0x339fa0 flags=0x7d0 value='Bật công tắc để đưa ứng dụng lên màn hình CarPlay.'
+  CFSTRING addr=0x367548 target=0x33a006 flags=0x7d0 value='Mặc định các ứng dụng Dẫn đường & Giải trí được kích hoạt sẵn trên CarPlay. Các ứng dụng khác bạn có thể gạt công tắc để bật theo nhu cầu. Chạm vào dòng app để cấu hình độ phân giải DPI.'
+  CFSTRING addr=0x367668 target=0x33a2e4 flags=0x7d0 value='ỨNG DỤNG NGƯỜI DÙNG'
+  CFSTRING addr=0x367688 target=0x33a30c flags=0x7d0 value='ỨNG DỤNG HỆ THỐNG'
+  CFSTRING addr=0x3676c8 target=0x33a34e flags=0x7d0 value='THÔNG TIN ỨNG DỤNG'
+  CFSTRING addr=0x367708 target=0x33a38a flags=0x7d0 value='Kiểu Bố Cục Chia Màn Hình (9 Presets)'
+  CFSTRING addr=0x367728 target=0x33a3d6 flags=0x7d0 value='Gán Ứng Dụng Cho Từng Vị Trí'
+  CFSTRING addr=0x367788 target=0x33a47a flags=0x7d0 value='Ứng Dụng Tự Mở'
+  CFSTRING addr=0x367868 target=0x33a5fa flags=0x7d0 value='Ngôn Ngữ Ứng Dụng'
+  CFSTRING addr=0x367aa8 target=0x33ab06 flags=0x7d0 value='Ứng Dụng Bản Đồ Mặc Định'
+  CFSTRING addr=0x367b48 target=0x33ac48 flags=0x7d0 value='Chạy đồng thời từ 1 đến 4 ứng dụng song song'
+  CFSTRING addr=0x367ba8 target=0x33acc0 flags=0x7d0 value='Ẩn Tên Ứng Dụng'
+  CFSTRING addr=0x367be8 target=0x33ad1e flags=0x7d0 value='Bật Tất Cả Ứng Dụng'
+  CFSTRING addr=0x367c08 target=0x33ad46 flags=0x7d0 value='Tắt Tất Cả Ứng Dụng'
+  CFSTRING addr=0x367c88 target=0x33ae7e flags=0x7d0 value='Chạy đồng thời từ 1 đến 4 ứng dụng cùng lúc'
+  CFSTRING addr=0x367cc8 target=0x33afce flags=0x7d0 value='Nhấn vào từng vị trí để chọn ứng dụng bạn muốn hiển thị đồng thời trên màn hình ô tô.'
+  CFSTRING addr=0x367e08 target=0x33b21a flags=0x7d0 value='Bố Cục Tùy Chỉnh'
+  CFSTRING addr=0x367e28 target=0x33b23c flags=0x7d0 value='1 ứng dụng toàn màn hình'
+  CFSTRING addr=0x367e48 target=0x33b26e flags=0x7d0 value='2 ứng dụng song song'
+  CFSTRING addr=0x367e68 target=0x33b298 flags=0x7d0 value='2 ứng dụng xếp tầng'
+  CFSTRING addr=0x367e88 target=0x33b2c0 flags=0x7d0 value='3 ứng dụng chia 3 cột'
+  CFSTRING addr=0x367f28 target=0x33b398 flags=0x7d0 value='4 ứng dụng chia đều 4 ô'
+  CFSTRING addr=0x367f48 target=0x33b3c8 flags=0x7d0 value='Bố cục đa nhiệm'
+  CFSTRING addr=0x367f68 target=0x33b3e8 flags=0x7d0 value='Ứng Dụng Duy Nhất'
+  CFSTRING addr=0x3681c8 target=0x33b6b8 flags=0x7d0 value='Bố Cục'
+  CFSTRING addr=0x3681e8 target=0x33b6c6 flags=0x7d0 value='Đang Mở'
   CFSTRING addr=0x368208 target=0x33b6d6 flags=0x7d0 value='Bố cục'
   CFSTRING addr=0x368228 target=0x33b6e4 flags=0x7d0 value='Đang mở'
+  CFSTRING addr=0x368248 target=0x33b6f4 flags=0x7d0 value='Chưa Có Ứng Dụng Kích Hoạt'
+  CFSTRING addr=0x368268 target=0x33b72a flags=0x7d0 value='Mở ứng dụng DuoNavi trên iPhone để bật quyền truy cập cho ứng dụng.'
+  CFSTRING addr=0x368288 target=0x33b7b2 flags=0x7d0 value='Đang hoạt động: %lu ứng dụng'
+  CFSTRING addr=0x3682a8 target=0x33b7ec flags=0x7d0 value='Không có ứng dụng nào đang mở'
+  CFSTRING addr=0x368328 target=0x33b864 flags=0x7d0 value='Thêm App'
+  CFSTRING addr=0x368348 target=0x33b876 flags=0x7d0 value='Thêm Ứng Dụng'
+  CFSTRING addr=0x368368 target=0x33b892 flags=0x7d0 value='Dừng xe an toàn và mở DuoNavi trên iPhone để chọn thêm ứng dụng.'
+  CFSTRING addr=0x368388 target=0x33b914 flags=0x7d0 value='Tất Cả Ứng Dụng Đã Đóng'
+  CFSTRING addr=0x3683a8 target=0x33b944 flags=0x7d0 value='Bộ nhớ RAM đang ở trạng thái tối ưu. Không có ứng dụng chạy ngầm.'
+  CFSTRING addr=0x368488 target=0x33bac0 flags=0x7d0 value='Đang mở chế độ chia đôi màn hình.'
+  CFSTRING addr=0x3684c8 target=0x33bb36 flags=0x7d0 value='Bạn có thể nói: Chỉ đường đến, Mở ứng dụng, Phát nhạc, Tắt màn hình, hoặc Chia đôi màn hình.'
+  CFSTRING addr=0x3684e8 target=0x33bbf0 flags=0x7d0 value='Tôi chưa hiểu lệnh này. Bạn có thể nói: Chỉ đường đến, hoặc Mở ứng dụng.'
+  CFSTRING addr=0x368528 target=0x33bcae flags=0x7d0 value='Đang mở %@'
+  CFSTRING addr=0x368548 target=0x33bcc4 flags=0x7d0 value='Không tìm thấy ứng dụng %@ trên iPhone.'
+  CFSTRING addr=0x3685c8 target=0x33bd8a flags=0x7d0 value='Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để kích hoạt bản quyền trước khi tiếp tục.'
+  CFSTRING addr=0x3685e8 target=0x33be5e flags=0x7d0 value='Thời hạn sử dụng đã kết thúc. Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để gia hạn.'
+  CFSTRING addr=0x368628 target=0x33bf5a flags=0x7d0 value='Bản quyền DuoNavi trên xe đã kết thúc. Vui lòng gia hạn hoặc nhập mã kích hoạt để tiếp tục sử dụng ứng dụng trên CarPlay.'
+  CFSTRING addr=0x368848 target=0x33c484 flags=0x7d0 value='2-3 ứng dụng'
+  CFSTRING addr=0x3692e8 target=0x33d98a flags=0x7d0 value='Không thể tải danh sách gói cước từ máy chủ. Vui lòng mở lại ứng dụng hoặc thử lại sau.'
+  CFSTRING addr=0x36e208 target=0x341646 flags=0x7d0 value='mở ứng dụng'
+  CFSTRING addr=0x36e288 target=0x341698 flags=0x7d0 value='bật ứng dụng'
 === MATCHING ASCII/UTF8 STRING TABLE VALUES ===
   __cstring addr=0x2fb405 value='[DuoFace] Initializing App hooks for target app: %@'
   __cstring addr=0x2fb779 value='TAB_APPLICATIONS'
@@ -229,6 +309,12 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   __cstring addr=0x2fc08e value='OVERLAY_RECENT'
   __cstring addr=0x2fc0a6 value='TAB_LAYOUT'
   __cstring addr=0x2fc0b1 value='TAB_RECENT'
+  __cstring addr=0x2fc0d7 value='OVERLAY_ACTIVE_COUNT'
+  __cstring addr=0x2fc0fe value='OVERLAY_CLOSE_ALL'
+  __cstring addr=0x2fc110 value='OVERLAY_CLOSE_SINGLE'
+  __cstring addr=0x2fc125 value='OVERLAY_RESTART_SINGLE'
+  __cstring addr=0x2fc13c value='OVERLAY_ADD_APP'
+  __cstring addr=0x2fc1c6 value='OVERLAY_RUNNING_TAG'
   __cstring addr=0x2fc4fd value='Unlock full split-screen and multitasking on CarPlay.'
   __cstring addr=0x2fc5bc value='SUB_SEGMENT_ONLINE'
   __cstring addr=0x2fc5cf value='SUB_SEGMENT_GIFTCODE'
@@ -397,12 +483,6 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   __cstring addr=0x303035 value='Cambia app: %@'
   __cstring addr=0x303044 value='Recenti'
   __cstring addr=0x30304c value='Nessuna app abilitata'
-  __cstring addr=0x303062 value='Apri DuoFace su iPhone per abilitare le autorizzazioni delle app.'
-  __cstring addr=0x3030a4 value='In esecuzione: %lu app'
-  __cstring addr=0x3030bb value='Nessuna app in esecuzione'
-  __cstring addr=0x3030f4 value='Parcheggia in sicurezza e apri DuoFace su iPhone per aggiungere altre app.'
-  __cstring addr=0x303149 value='Tutte le app sono chiuse'
-  __cstring addr=0x3031c8 value='Puoi dire: Naviga verso, Apri app, Riproduci musica, Spegni schermo o Schermo diviso.'
 === MATCHING UTF16LE SECTION VALUES ===
   __ustring match_index=234 value='DuoNavi ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1n...).\n2. Suchen '
   __ustring match_index=242 value='Navigations- und Unterhaltungs-Apps sind standardmäßig aktiviert. Weitere Apps können nach Bedarf aktiviert werden. Tippen Sie auf eine App, um die DPI-Auflösung anzupassen.'
@@ -524,9 +604,33 @@ DASHBOARD_SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003c
   __ustring match_index=2441 value='3 ứng dụng chia 3 cột'
   __ustring match_index=2446 value='4 ứng dụng chia đều 4 ô'
   __ustring match_index=2447 value='Bố cục đa nhiệm'
+  __ustring match_index=2448 value='Ứng Dụng Duy Nhất'
+  __ustring match_index=2467 value='Bố Cục'
+  __ustring match_index=2468 value='Đang Mở'
   __ustring match_index=2469 value='Bố cục'
   __ustring match_index=2470 value='Đang mở'
-COUNTS {'cfstring': 536, 'cstring': 446, 'ustring': 195}
+  __ustring match_index=2471 value='Chưa Có Ứng Dụng Kích Hoạt'
+  __ustring match_index=2472 value='Mở ứng dụng DuoNavi trên iPhone để bật quyền truy cập cho ứng dụng.'
+  __ustring match_index=2473 value='Đang hoạt động: %lu ứng dụng'
+  __ustring match_index=2474 value='Không có ứng dụng nào đang mở'
+  __ustring match_index=2478 value='Thêm App'
+  __ustring match_index=2479 value='Thêm Ứng Dụng'
+  __ustring match_index=2480 value='Dừng xe an toàn và mở DuoNavi trên iPhone để chọn thêm ứng dụng.'
+  __ustring match_index=2481 value='Tất Cả Ứng Dụng Đã Đóng'
+  __ustring match_index=2482 value='Bộ nhớ RAM đang ở trạng thái tối ưu. Không có ứng dụng chạy ngầm.'
+  __ustring match_index=2489 value='Đang mở chế độ chia đôi màn hình.'
+  __ustring match_index=2491 value='Bạn có thể nói: Chỉ đường đến, Mở ứng dụng, Phát nhạc, Tắt màn hình, hoặc Chia đôi màn hình.'
+  __ustring match_index=2492 value='Tôi chưa hiểu lệnh này. Bạn có thể nói: Chỉ đường đến, hoặc Mở ứng dụng.'
+  __ustring match_index=2494 value='Đang mở %@'
+  __ustring match_index=2495 value='Không tìm thấy ứng dụng %@ trên iPhone.'
+  __ustring match_index=2499 value='Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để kích hoạt bản quyền trước khi tiếp tục.'
+  __ustring match_index=2500 value='Thời hạn sử dụng đã kết thúc. Vui lòng dừng đỗ xe an toàn và mở ứng dụng DuoNavi trên iPhone để gia hạn.'
+  __ustring match_index=2502 value='Bản quyền DuoNavi trên xe đã kết thúc. Vui lòng gia hạn hoặc nhập mã kích hoạt để tiếp tục sử dụng ứng dụng trên CarPlay.'
+  __ustring match_index=2519 value='2-3 ứng dụng'
+  __ustring match_index=2604 value='Không thể tải danh sách gói cước từ máy chủ. Vui lòng mở lại ứng dụng hoặc thử lại sau.'
+  __ustring match_index=3196 value='mở ứng dụng'
+  __ustring match_index=3200 value='bật ứng dụng'
+COUNTS {'cfstring': 542, 'cstring': 452, 'ustring': 195}
 RESOURCE ./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist length=1446
 FILE ./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib size=77744
   BYTE_MATCH label='Layout' encoding=utf-8 offset=0x73d0
