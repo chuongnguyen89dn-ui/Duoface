@@ -16,7 +16,9 @@ static BOOL DFGripHooksInstalled;
 @public
     UIButton *pressed;            // assign only; view/button lifetime owns the session
     BOOL holdRecognized;          // latched until next touch-down to prevent late onSwap
-    BOOL dividerPanOwned;         // only if pan BEGAN on the logo
+    BOOL dividerPanOwned;         // long hold owns a later pan, not a quick drag
+    BOOL nativeDividerPanActive;  // native ratio resize already started
+    BOOL nativeDividerPanMoved;   // latch until next touch-down, protect onSwap
     BOOL changedPosition;
     BOOL hasPosition;
     NSUInteger savedButtonIndex;
@@ -85,6 +87,8 @@ static void DFLogoGripDown(id divider, SEL cmd, UIControl *sender) {
         session->holdRecognized=NO;
         session->changedPosition=NO;
         session->dividerPanOwned=NO;
+        session->nativeDividerPanActive=NO;
+        session->nativeDividerPanMoved=NO;
     }
     ((void (*)(id, SEL, id))oldDFGripTouchDown)(divider, cmd, sender);
 }
@@ -92,7 +96,8 @@ static void DFLogoGripDown(id divider, SEL cmd, UIControl *sender) {
 static void DFLogoGripUp(id divider, SEL cmd, UIControl *sender) {
     DFLogoGripSession *session=DFLogoSession(divider, NO);
     // Do not allow a late native UIControl touch-up to call onSwap after a hold.
-    if (session && session->holdRecognized && sender==session->pressed) {
+    if (session && (session->holdRecognized || session->nativeDividerPanMoved) &&
+        sender==session->pressed) {
         if (oldDFGripTouchCancel)
             ((void (*)(id, SEL, id))oldDFGripTouchCancel)(
                 divider, @selector(moveButtonTouchCancelled:), sender);
@@ -153,6 +158,10 @@ static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)
     DFLogoGripSession *session=DFLogoSession(divider, YES);
     UIGestureRecognizerState state=recognizer.state;
     if (state==UIGestureRecognizerStateBegan) {
+        // The first recognized gesture owns the touch: if the user already
+        // dragged the split divider, NEVER hijack it into a logo drag.
+        if (session->nativeDividerPanActive || session->nativeDividerPanMoved)
+            return;
         session->pressed=button;
         session->holdRecognized=YES;
         session->changedPosition=NO;
@@ -171,29 +180,30 @@ static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)
     }
 }
 
-static BOOL DFLogoTouchStartsOnButton(id divider, UIGestureRecognizer *pan) {
-    CGPoint pos=[pan locationInView:(UIView *)divider];
-    for (id item in DFGripArray(divider, "_moveButtons")) {
-        if (![item isKindOfClass:[UIButton class]]) continue;
-        UIButton *button=(UIButton *)item;
-        CGRect hit=CGRectInset(button.frame, -4.0, -4.0);
-        if (CGRectContainsPoint(hit, pos)) return YES;
-    }
-    return NO;
-}
 static void DFLogoDividerPan(id divider, SEL cmd, UIGestureRecognizer *pan) {
     DFLogoGripSession *session=DFLogoSession(divider, YES);
-    if (pan.state==UIGestureRecognizerStateBegan) {
-        // Capture only pans which STARTED on a logo, not drags beginning on
-        // the divider elsewhere. This keeps native splitRatio pan intact.
+    UIGestureRecognizerState state=pan.state;
+    if (state==UIGestureRecognizerStateBegan) {
+        // Preserve native splitRatio drag EVEN when it starts on the logo:
+        // a pan recognized BEFORE the 0.30s hold belongs to the divider.
+        // Only a long press which was already recognized may own a later pan.
         session->dividerPanOwned=
-            (session->pressed && DFLogoIsButton(divider, session->pressed)) ||
-            DFLogoTouchStartsOnButton(divider, pan);
+            session->holdRecognized && session->pressed &&
+            DFLogoIsButton(divider, session->pressed);
+        session->nativeDividerPanActive=!session->dividerPanOwned;
     }
     BOOL swallow=session->dividerPanOwned;
-    if (pan.state==UIGestureRecognizerStateEnded ||
-        pan.state==UIGestureRecognizerStateCancelled ||
-        pan.state==UIGestureRecognizerStateFailed) session->dividerPanOwned=NO;
+    if (state==UIGestureRecognizerStateChanged &&
+        session->nativeDividerPanActive && !swallow && session->pressed)
+        session->nativeDividerPanMoved=YES;
+    if (state==UIGestureRecognizerStateEnded ||
+        state==UIGestureRecognizerStateCancelled ||
+        state==UIGestureRecognizerStateFailed) {
+        session->dividerPanOwned=NO;
+        session->nativeDividerPanActive=NO;
+        // nativeDividerPanMoved stays set until the next touch-down to avoid
+        // any late touchUpInside erroneously swapping while resizing.
+    }
     if (!swallow)
         ((void (*)(id, SEL, id))oldDFGripDividerPan)(divider, cmd, pan);
 }
