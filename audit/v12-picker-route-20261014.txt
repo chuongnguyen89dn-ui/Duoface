@@ -1,5 +1,11 @@
 V12 DASHBOARD SHA256 bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce
 ARM64 slice 0x4000; static metadata/disassembly only
+METHOD_TYPE -[CBMultitaskingOverlayView layoutSubviews] 'v16@0:8' IMP 0xa28e8
+METHOD_TYPE -[CBMultitaskingOverlayView setupCardContent] 'v16@0:8' IMP 0xa2a58
+METHOD_TYPE -[CBMultitaskingOverlayView setupAppPickerCardsInCardW:cardH:contentY:] 'v40@0:8d16d24d32' IMP 0xa3e5c
+METHOD_TYPE -[CBMultitaskingOverlayView setupRecentAppsCardsInCardW:cardH:contentY:] 'v40@0:8d16d24d32' IMP 0xa678c
+METHOD_TYPE -[CBMultitaskingOverlayView addMoreAppsTapped:] 'v24@0:8@16' IMP 0xa7f20
+METHOD_TYPE -[CBMultitaskingOverlayView restartSingleAppTapped:] 'v24@0:8@16' IMP 0xa91ec
 -[CBLocalization init] IMP 0x7098
 -[CBLocalization reloadLanguage] IMP 0x7ea0
 -[CBLocalization activeLanguageCode] IMP 0x83b8
