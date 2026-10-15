@@ -1,0 +1,120 @@
+name: DuoFace native12 - remove entire redundant license hook module from package, NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native12_without_lease_bridge.py'
+      - 'migration/full_payload/native_test/verify_native12_without_lease_bridge.py'
+      - '.github/workflows/duoface-native12-remove-entire-lease-plugin.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-remove-license-hook-plugin
+  cancel-in-progress: false
+jobs:
+  remove-and-verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify immutable reference package and source-only bridge hook overlap
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          file='dist/payload-migration/native11/com.duoface.independent_0.1.0~native11_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'f51180308e7bfd3a86af011c7370290eee4be59d6c7aced5c5ff790e685dc2c5' "$file" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_without_lease_bridge.py migration/full_payload/native_test/verify_native12_without_lease_bridge.py
+          python3 - <<'PY'
+          import sys
+          sys.path.insert(0,'migration/full_payload/native_test')
+          from build_native12_without_lease_bridge import source_check
+          r=source_check()
+          assert len(r)==2 and all(x['license_manager_hook_selectors_previously_neutralized']==6 for x in r.values())
+          assert r['DuoFaceDashboard']['bridge_hook_selectors_previously_neutralized']==4
+          print('NOLEASE_BRIDGE_10_TARGETS_ALREADY_IN_291_NEUTRALIZED_BODY_INVENTORY_PASS')
+          PY
+      - name: Build native12 actual DEB without obsolete lease-only dylib and plist
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native12 audit/payload-migration
+          file='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          test ! -e "$file"
+          python3 migration/full_payload/native_test/build_native12_without_lease_bridge.py \
+            --out "$file" --report dist/payload-migration/native12/BAO_CAO.json
+      - name: Verify DEB still preserves all original CarPlay/visual code and every other file byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          file='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/verify_native12_without_lease_bridge.py \
+            --deb "$file" --report dist/payload-migration/native12/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE12_WHOLE_LEASE_PLUGIN_REMOVAL_REGRESSION.json
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$file" --out dist/payload-migration/native12/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('dist/payload-migration/native12')
+          deb=p/'com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          a=json.loads((p/'BAO_CAO.json').read_text())
+          q=json.loads(Path('audit/payload-migration/NATIVE12_WHOLE_LEASE_PLUGIN_REMOVAL_REGRESSION.json').read_text())
+          brand=json.loads((p/'BRAND_ZERO_AUDIT.json').read_text())
+          assert a['status']=='NATIVE12_WHOLE_OBSOLETE_LEASE_HOOK_LIBRARY_AND_FILTER_REMOVED_FROM_REAL_DEB'
+          assert q['status']=='NATIVE12_WHOLE_LICENSE_BRIDGE_FILE_REMOVAL_BYTE_EXACT_PASS'
+          assert len(a['files_physically_removed'])==len(q['removed_exactly_two_files'])==2
+          assert all('A_DuoFaceNativeNoLease' in s for s in a['files_physically_removed'])
+          assert q['all_8_carplay_method_bytes_identical'] and q['all_312_license_method_stubs_identical']
+          assert q['all_visual_assets_and_fullscreen_identical']
+          assert q['md5sums_verified'] and q['static_QA_does_not_prove_runtime_safety']
+          assert not q['device_tested'] and not q['sileo_deployed']
+          assert not a['all_license_code_and_metadata_fully_removed']
+          assert brand['strict_byte_level_zero_matches'] and not brand['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==q['native12_deb_sha256']==a['deb_sha256']
+          print('NATIVE12_EXACT_WHOLE_OBSOLETE_LICENSE_TWEAK_REMOVED_DEB_QA_PASS')
+          PY
+          test "$(dpkg-deb -f "$file" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$file" Architecture)" = 'iphoneos-arm64'
+          test "$(dpkg-deb -f "$file" Version)" = '0.1.0~native12'
+          dpkg --compare-versions '0.1.0~native12' gt '0.1.0~native11'
+          mkdir -p "$RUNNER_TEMP/native12"
+          dpkg-deb -x "$file" "$RUNNER_TEMP/native12"
+          for name in DuoFaceDashboard DuoFaceVisualHook DuoFaceLogoGripOnly; do
+            dylib="$RUNNER_TEMP/native12/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            test -s "$dylib"
+            test "$(lipo -archs "$dylib")" = 'arm64'
+            otool -L "$dylib" > /dev/null
+          done
+          ! dpkg-deb -c "$file" | grep -F 'A_DuoFaceNativeNoLease'
+          shasum -a 256 "$file"
+      - name: Commit physical-removal candidate and audit; do NOT alter Sileo
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12/*.deb dist/payload-migration/native12/*.json \
+            audit/payload-migration/NATIVE12_WHOLE_LEASE_PLUGIN_REMOVAL_REGRESSION.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: physically remove obsolete NoLease module and filter in native12 [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-entire-license-hook-removal
+          path: |
+            dist/payload-migration/native12/*.deb
+            dist/payload-migration/native12/*.json
+            audit/payload-migration/NATIVE12_WHOLE_LEASE_PLUGIN_REMOVAL_REGRESSION.json
+          if-no-files-found: warn
