@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-15T20:22:55.002179+00:00",
+  "checked_at_utc": "2026-10-15T23:42:26.345147+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 328,
+  "total_actions_runs": 329,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
     },
@@ -275,19 +275,29 @@
       "other": 0
     },
     "Kiem tra bien dich DuoFace doc lap (khong dong DEB)": {
-      "recent_runs": 26,
+      "recent_runs": 25,
       "success": 23,
-      "failure": 3,
+      "failure": 2,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 38825154099,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 17,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38825154099",
+      "created_at": "2026-10-15T23:42:14Z",
+      "head_sha": "7d0cec80ee317b64b7090d0aba1fd7f03961efc0"
+    },
+    {
       "id": 38801443711,
       "name": "DuoFace Actions status snapshot",
       "run_number": 16,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38801443711",
       "created_at": "2026-10-15T20:22:44Z",
       "head_sha": "be905085fc2e5460833795b2ce655b9da6f54f7d"
@@ -571,16 +581,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38734324935",
       "created_at": "2026-10-15T12:23:56Z",
       "head_sha": "c6add6f468e65dd9c397775f442b58c3bc257732"
-    },
-    {
-      "id": 38732477874,
-      "name": "DuoFace read-only divider button mobility audit - NO DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38732477874",
-      "created_at": "2026-10-15T12:09:06Z",
-      "head_sha": "40d919e7dbe50f1780bd980261e448b3d438373a"
     }
   ]
 }
