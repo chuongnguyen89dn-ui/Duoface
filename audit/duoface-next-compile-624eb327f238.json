@@ -1,0 +1,25 @@
+{
+  "source_commit": "624eb327f2385ac20ae385074080a8330d14916a",
+  "status": "COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS",
+  "bridge_sha256": "1a197dbfc9d95a25c3843a6757c4382416ec88454ef307f475eecf173a1e88c3",
+  "visual_hook_sha256": "692d1ecfe9e2753cfd9a5a13b4382653fd121525da3752e058def990c18c8d0d",
+  "menu_markers": {
+    "Zoom": true,
+    "Close": true,
+    "CBMultitaskingOverlayView": true,
+    "com.duoface.fullscreen.picker.v1": true
+  },
+  "border_markers": {
+    "[DuoFaceBorder] RED ON user activity": true,
+    "[DuoFaceBorder] RED OFF native idle": true,
+    "[DuoFaceBorder] install": true,
+    "borderPulse": true,
+    "CBBridgedSplitApp": true
+  },
+  "approved_menu_height_pt": 30,
+  "logo_inline_with_menu": true,
+  "border_logo_red": "#E3020F",
+  "border_behavior": "red_on_native_activity_clear_on_native_idle",
+  "deb_built": false,
+  "sileo_published": false
+}
