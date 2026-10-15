@@ -20,7 +20,7 @@ assert "NSString *zoomTitle=@\"Zoom\";" in src
 assert 'DFDecorate(close,@"Close"' in src
 assert "DFClearNativePickerChrome(overlay)" in src
 assert 'DFBuildingNativeAddTile' in src
-match=re.search(r"const CGFloat desired\\[4\\]=\\{([^}]+)\\};",src)
+match=re.search(r"const CGFloat desired\[4\]=\{([^}]+)\};",src)
 assert match
 widths=[float(v.strip()) for v in match.group(1).split(",")]
 assert len(widths)==4
