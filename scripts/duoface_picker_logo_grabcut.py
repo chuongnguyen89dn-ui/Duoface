@@ -62,7 +62,7 @@ rgba.putalpha(alpha_img)
 bbox = rgba.getbbox()
 assert bbox is not None
 rgba = rgba.crop(bbox)
-output = base / "duoface-logo-picker-grabcut-preview.png"
+output = base / "duoface-logo-picker-alpha-v2.png"
 rgba.save(output, optimize=True)
 checker = Image.new("RGBA", rgba.size, (0, 0, 0, 0))
 d = ImageDraw.Draw(checker)
@@ -76,7 +76,7 @@ preview.parent.mkdir(parents=True, exist_ok=True)
 checker.convert("RGB").save(preview, optimize=True)
 report = Path("audit/duoface-picker-logo-grabcut-report.json")
 report.write_text(json.dumps({
-    "status": "PREVIEW_ONLY_NOT_APPROVED_NOT_DEVICE_PASS",
+    "status": "MENU_ONLY_ALPHA_CANDIDATE_NOT_DEVICE_PASS",
     "source_sha256": sha, "source": str(original),
     "candidate": str(output),
     "candidate_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
