@@ -147,6 +147,34 @@ def inspect(binary: Path):
         except (ValueError, IndexError, struct.error):
             return "UNRESOLVED"
 
+    # Inspect the actual UIView/recognizer hit-test gates, not an inferred
+    # UIKit behavior. The offset at 0x37fdec is the _isBlinking ivar offset.
+    # pointInside: returns NO directly on a zero flag (0xff784->0xff7c4).
+    # hitTest: returns nil on a zero flag (0xffa20->0xffb84).
+    hit_testing = {
+        "pointInside_method": "CBDividerView.pointInside:withEvent: IMP 0xff728",
+        "pointInside_flag_gate": "0xff778-0xff784 loads _isBlinking and returns NO when zero",
+        "hitTest_method": "CBDividerView.hitTest:withEvent: IMP 0xff974",
+        "hitTest_flag_gate": "0xffa1c-0xffa24 loads _isBlinking and returns nil when zero",
+        "blink_offset_global_ref": "0x37fdec",
+        "detected_ivar_offset": num(0x37fdec, "<i"),
+        "objc_property_ivar": "_isBlinking",
+        "visibility_selectors": {
+            "hidden_0x37de70": selref(0x37de70),
+            "alpha_0x37de78": selref(0x37de78),
+            "first_hit_test_0x37e5b8": selref(0x37e5b8),
+            "point_inside_0x37e5a8": selref(0x37e5a8),
+            "divider_pan_location_0x37de48": selref(0x37de48),
+            "divider_pan_state_0x37de50": selref(0x37de50),
+            "divider_pan_translation_0x37de40": selref(0x37de40),
+        },
+        "visibility_thresholds": {
+            "pointInside_alpha_min_double_0x310c60": float(num(0x310c60, "<d")),
+            "hitTest_alpha_min_double_0x311948": float(num(0x311948, "<d"))
+        },
+        "diagnosis_scope": "Static gates only. If _isBlinking is false, touches will not reach divider; runtime trace needed to determine why on installed device.",
+    }
+    assert hit_testing["detected_ivar_offset"]==9, hit_testing
     press_config = {
         "minimum_press_duration_seconds": minimum_press_duration,
         "constant_vmaddr": "0x310cb0",
@@ -164,6 +192,7 @@ def inspect(binary: Path):
     }
     note = {
         "press_config": press_config,
+        "hit_testing": hit_testing,
         "status": "READ_ONLY_STATIC_AUDIT_NOT_DEVICE_TEST",
         "binary_name": binary.name,
         "binary_sha256": hashlib.sha256(raw).hexdigest(),
