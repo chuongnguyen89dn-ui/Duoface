@@ -69,7 +69,41 @@ static NSArray *DFIAvailableApps(void) {
 - (void)viewDidLoad{[super viewDidLoad];self.tableView.backgroundColor=UIColor.clearColor;self.tableView.rowHeight=40;self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;}
 - (NSInteger)tableView:(UITableView *)v numberOfRowsInSection:(NSInteger)s{return self.rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)v cellForRowAtIndexPath:(NSIndexPath *)p{
- UITableViewCell *c=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];c.backgroundColor=UIColor.clearColor;c.textLabel.text=self.rows[p.row][@"title"];c.textLabel.font=[UIFont systemFontOfSize:DFIFontSize()];c.textLabel.textColor=UIColor.whiteColor;c.textLabel.adjustsFontSizeToFitWidth=YES;return c;
+ NSDictionary *item=self.rows[p.row];
+ UITableViewCell *c=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+ c.backgroundColor=UIColor.clearColor;
+ c.textLabel.text=item[@"title"];
+ c.textLabel.font=[UIFont systemFontOfSize:MIN(16,MAX(12,DFIFontSize()))];
+ c.textLabel.textColor=UIColor.whiteColor;
+ c.textLabel.adjustsFontSizeToFitWidth=YES;
+ NSString *bid=item[@"id"];
+ if([bid isKindOfClass:NSString.class] && bid.length && ![bid isEqual:@"*"]){
+   UIImage *icon=nil;
+   SEL iconSel=NSSelectorFromString(@"_applicationIconImageForBundleIdentifier:format:scale:");
+   if([UIImage respondsToSelector:iconSel]){
+     @try {icon=((UIImage *(*)(id,SEL,id,NSInteger,CGFloat))objc_msgSend)(
+                UIImage.class,iconSel,bid,0,UIScreen.mainScreen.scale);}
+     @catch(NSException *e){DFILog(e.reason);}
+   }
+   c.imageView.image=icon?:[UIImage systemImageNamed:@"square.grid.2x2"];
+   c.imageView.tintColor=UIColor.whiteColor;
+ }
+ if([item[@"type"] isEqual:@"recent"]){
+   BOOL live=[item[@"live"] boolValue];
+   UIColor *color=live?DFIApprovedLiveGreen():DFIApprovedRed();
+   UILabel *dot=[UILabel new];dot.text=@"●";dot.font=[UIFont systemFontOfSize:14];
+   dot.textColor=color;dot.textAlignment=NSTextAlignmentCenter;dot.frame=CGRectMake(0,0,16,28);
+   UIButton *action=[UIButton buttonWithType:UIButtonTypeSystem];
+   action.tag=p.row;action.tintColor=color;action.frame=CGRectMake(0,0,35,36);
+   [action setImage:[UIImage systemImageNamed:live?@"arrow.clockwise":@"xmark.circle"] forState:UIControlStateNormal];
+   action.accessibilityLabel=live?@"Refresh":@"Đóng ứng dụng";
+   [action addTarget:self action:@selector(recentAction:) forControlEvents:UIControlEventTouchUpInside];
+   UIStackView *right=[[UIStackView alloc]initWithArrangedSubviews:@[dot,action]];
+   right.axis=UILayoutConstraintAxisHorizontal;right.spacing=2;
+   right.alignment=UIStackViewAlignmentCenter;right.frame=CGRectMake(0,0,53,36);
+   c.accessoryView=right;
+ }
+ return c;
 }
 - (void)tableView:(UITableView *)v didSelectRowAtIndexPath:(NSIndexPath *)p{[v deselectRowAtIndexPath:p animated:YES];if(self.touch)self.touch();if(self.pick)self.pick(self.rows[p.row]);}
 - (void)recentAction:(UIButton *)sender{
