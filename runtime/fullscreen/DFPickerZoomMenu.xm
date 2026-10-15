@@ -184,7 +184,7 @@ static void DFLayoutPicker(UIView *overlay) {
     }
     // 2026-10-14 owner override: ONE native-height ROW, not a giant 2-row
     // logo banner. Leftmost slot = the approved horizontal DuoFace logo;
-    // four equally wide native App / Zoom / Style / Close App slots follow.
+    // four compact native App / Zoom / Style / Close slots follow.
     CGFloat sheetWidth=CGRectGetWidth(contentView.bounds);
     if (!isfinite(sheetWidth) || sheetWidth<148.0) {
         NSLog(@"[DuoFaceFullscreen] picker sheet width invalid %.1f",sheetWidth);
@@ -195,16 +195,26 @@ static void DFLayoutPicker(UIView *overlay) {
     // Compact intrinsic widths, leaving the native X its own unobstructed
     // hit region. Never stretch the menu parent over the close button.
     const CGFloat logoWidth=120.0; // Approved PNG 960x240 at 30pt height.
-    const CGFloat gap=3.0;
-    const CGFloat xReserved=38.0;
-    CGFloat available=sheetWidth-2.0*sideInset-logoWidth-xReserved-gap;
-    if (available<152.0) { NSLog(@"[DuoFaceFullscreen] insufficient picker row width"); return; }
-    const CGFloat desired[4]={43.0,63.0,47.0,70.0};
+    // Buttons use their abbreviated labels; distribute the remaining
+    // horizontal room over the logo-to-App, three tab, and Close-to-X gaps.
+    // The last 48pt plus the side inset belongs exclusively to native X.
+    const CGFloat xReserved=48.0;
+    const CGFloat desired[4]={43.0,51.0,47.0,51.0};
+    const CGFloat buttonTotal=192.0;
+    CGFloat available=sheetWidth-2.0*sideInset-logoWidth-xReserved;
+    CGFloat gap=MAX(6.0,(available-buttonTotal)/5.0);
+    CGFloat buttonSpace=available-5.0*gap;
+    CGFloat scale=MIN(1.0,buttonSpace/buttonTotal);
+    if (!isfinite(scale) || scale<0.72) {
+        NSLog(@"[DuoFaceFullscreen] insufficient safe picker width %.1f",sheetWidth);
+        return;
+    }
     CGFloat widths[4]={0};
-    CGFloat total=desired[0]+desired[1]+desired[2]+desired[3]+3.0*gap;
-    CGFloat scale=MIN(1.0,available/total);
     CGFloat menuWidth=0.0;
-    for (int i=0;i<4;i++) { widths[i]=floor(desired[i]*scale); menuWidth+=widths[i]; }
+    for (int i=0;i<4;i++) {
+        widths[i]=floor(desired[i]*scale);
+        menuWidth+=widths[i];
+    }
     menuWidth+=3.0*gap;
     CGRect nativeMenuFrame=parent.frame;
     CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
