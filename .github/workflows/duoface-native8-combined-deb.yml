@@ -1,0 +1,132 @@
+name: DuoFace native8 - combined license UI hide plus movable divider logo DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native8.py'
+      - 'migration/full_payload/native_test/verify_native8.py'
+      - '.github/workflows/duoface-native8-combined-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native8-combined-release
+  cancel-in-progress: false
+jobs:
+  build-and-verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin working native6 and check required exact sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          printf '%s  %s\n' '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' "$base" | shasum -a 256 -c -
+          grep -Fq '#include "DFDividerLogoGrip.inc"' src/DuoFaceVisualHook.m
+          grep -Fq 'kDFLogoHoldThreshold = 0.30' src/DFDividerLogoGrip.inc
+          grep -Fq 'DFInstallLogoGripHooks(hook, divider)' src/DuoFaceVisualHook.m
+          python3 -m py_compile migration/full_payload/native_test/build_native8.py migration/full_payload/native_test/verify_native8.py scripts/check_duoface_grip_routes.py
+          python3 scripts/check_duoface_grip_routes.py
+      - name: Compile source-owned logo drag and existing visuals into ARM64 hook
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          mkdir -p "$RUNNER_TEMP/duoface-native8"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceVisualHook.m
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -dynamiclib \
+            -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
+            -Wl,-install_name,@rpath/DuoFaceVisualHook.dylib \
+            -o "$RUNNER_TEMP/duoface-native8/DuoFaceVisualHook.dylib" src/DuoFaceVisualHook.m
+          xcrun lipo "$RUNNER_TEMP/duoface-native8/DuoFaceVisualHook.dylib" -verify_arch arm64
+          file "$RUNNER_TEMP/duoface-native8/DuoFaceVisualHook.dylib"
+          otool -L "$RUNNER_TEMP/duoface-native8/DuoFaceVisualHook.dylib" > /dev/null
+      - name: Build ONE new rootless native8 DEB from pinned native6
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native8 audit/payload-migration
+          test ! -e 'dist/payload-migration/native8/com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/build_native8.py \
+            --hook "$RUNNER_TEMP/duoface-native8/DuoFaceVisualHook.dylib" \
+            --out 'dist/payload-migration/native8/com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native8/BAO_CAO.json'
+      - name: Verify exact presentation strings, full CarPlay code, ObjC and native hook
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native8/com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/verify_native8.py \
+            --deb "$deb" \
+            --report dist/payload-migration/native8/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE8_COMBINED_REGRESSION.json
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out dist/payload-migration/native8/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('dist/payload-migration/native8')
+          deb=root/'com.duoface.independent_0.1.0~native8_iphoneos-arm64.deb'
+          a=json.loads((root/'BAO_CAO.json').read_text())
+          b=json.loads(Path('audit/payload-migration/NATIVE8_COMBINED_REGRESSION.json').read_text())
+          c=json.loads((root/'BRAND_ZERO_AUDIT.json').read_text())
+          assert a['license_ui_strings_selected']==39 and a['license_ui_literal_occurrences_hidden']==78
+          assert b['status']=='NATIVE8_CARPLAY_CODE_IDENTICAL_AND_GRIP_HOOK_DELTA_PASS'
+          assert b['unchanged_carplay_split_code_and_lifecycle']
+          assert b['unchanged_objc_selectors_classes_keys']
+          assert b['logo_grip_hook_verified_present'] and b['logo_long_hold_threshold_seconds']==0.30
+          assert c['strict_byte_level_zero_matches'] and not c['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==a['deb_sha256']
+          print('NATIVE8_LICENSE_LABELS_AND_LOGO_DRAG_BINARY_REGRESSION_PASS')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native8'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native8' gt '0.1.0~native6'
+          mkdir -p "$RUNNER_TEMP/native8-unpacked"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native8-unpacked"
+          for rel in \
+            var/jb/Applications/DuoFaceUI.app/DuoFaceUI \
+            var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib \
+            var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib; do
+            test "$(lipo -archs "$RUNNER_TEMP/native8-unpacked/$rel")" = 'arm64'
+            otool -L "$RUNNER_TEMP/native8-unpacked/$rel" > /dev/null
+          done
+          test -s "$RUNNER_TEMP/native8-unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist"
+          shasum -a 256 "$deb"
+      - name: Commit binary DEB and exact regression report into correct repo
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native8/*.deb dist/payload-migration/native8/*.json audit/payload-migration/NATIVE8_COMBINED_REGRESSION.json audit/divider/GRIP_GESTURE_SOURCE_ONLY_QA.json
+          git diff --cached --quiet && { echo 'NO_NEW_NATIVE8_CANDIDATE'; exit 0; }
+          git commit -m 'artifact: native8 integrated source logo grip and approved UI display masks [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Attach installable native8 DEB and QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native8-integrated
+          path: |
+            dist/payload-migration/native8/*.deb
+            dist/payload-migration/native8/*.json
+            audit/payload-migration/NATIVE8_COMBINED_REGRESSION.json
+            audit/divider/GRIP_GESTURE_SOURCE_ONLY_QA.json
+          if-no-files-found: warn
