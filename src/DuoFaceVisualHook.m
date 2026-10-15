@@ -88,6 +88,9 @@ static BOOL DFApplyButton(id value, NSString *asset, BOOL round) {
     [button bringSubviewToFront:overlay];
     return YES;
 }
+// The source-only feature uses native UIButton and Objective-C callbacks.
+#include "DFDividerLogoGrip.inc"
+
 static void DFPillLayout(UIView *self, SEL cmd) {
     ((void(*)(id,SEL))oldPillLayout)(self, cmd);
     if (DFApplyButton(DFObjectIvar(self, "_dotsButton"), @"VisualAssets/duoface-picker.png", NO)) {
@@ -105,12 +108,18 @@ static void DFPillLayout(UIView *self, SEL cmd) {
 }
 static void DFDividerLayout(UIView *self, SEL cmd) {
     ((void(*)(id,SEL))oldDividerLayout)(self, cmd);
+    // Retain the moved BUTTON's hitbox as well as its overlay across layouts.
+    if (DFGripHooksInstalled && DFLogoRestorePositionBeforeLayout(self))
+        ((void (*)(id, SEL))objc_msgSend)(self, @selector(updateGripLayout));
     id buttons = DFObjectIvar(self, "_moveButtons");
     if (![buttons isKindOfClass:[NSArray class]]) return;
-    for (id button in buttons)
+    for (id button in buttons) {
+        if (DFGripHooksInstalled) DFLogoSetNativeHoldThreshold((UIButton *)button);
         if (DFApplyButton(button, @"VisualAssets/duoface-swap.png", YES) && !swapLogged) {
-            NSLog(@"[DuoFaceVisual12] divider applied; touch/long-press/pan unchanged"); swapLogged=YES;
+            NSLog(@"[DuoFaceVisual12] divider native tap preserved; hold=0.30s logo position only; split-pan outside unchanged");
+            swapLogged=YES;
         }
+    }
 }
 static void DFSplashLayout(UIView *self, SEL cmd) {
     ((void(*)(id,SEL))oldSplashLayout)(self, cmd);
@@ -143,7 +152,8 @@ static void DFSplashLayout(UIView *self, SEL cmd) {
     }
 }
 static void DFInstall(void) {
-    if (pillInstalled && dividerInstalled && splashInstalled && DFBorderHooksInstalled) return;
+    if (pillInstalled && dividerInstalled && splashInstalled &&
+        DFBorderHooksInstalled && DFGripHooksInstalled) return;
     DFHookFn hook = (DFHookFn)dlsym(RTLD_DEFAULT, "MSHookMessageEx");
     static BOOL triedLibrary;
     if (!hook && !triedLibrary) {
@@ -167,6 +177,10 @@ static void DFInstall(void) {
     if (pill && !pillInstalled) {
         hook(pill, @selector(layoutSubviews), (IMP)DFPillLayout, &oldPillLayout);
         pillInstalled=YES; NSLog(@"[DuoFaceVisual12] CBSlotPillView hook installed");
+    }
+    if (divider && !DFGripHooksInstalled) {
+        if (!DFInstallLogoGripHooks(hook, divider))
+            NSLog(@"[DuoFaceGrip] native grip methods unavailable; original gestures preserved");
     }
     if (divider && !dividerInstalled) {
         hook(divider, @selector(layoutSubviews), (IMP)DFDividerLayout, &oldDividerLayout);
