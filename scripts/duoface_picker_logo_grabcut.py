@@ -34,10 +34,14 @@ mask[max_rgb >= 125] = cv2.GC_FGD
 # Protect its central shaded surfaces from being learned as black backdrop.
 cv2.ellipse(mask, (309, 111), (26, 56), -12, 0, 360, cv2.GC_FGD, -1)
 cv2.ellipse(mask, (311, 163), (16, 28), -19, 0, 360, cv2.GC_FGD, -1)
+# In the first preview, the dark face's lower jaw was incorrectly removed.
+# Place additional sure-foreground seeds INSIDE the shaded lower cheek.
+cv2.ellipse(mask, (312, 186), (21, 21), -21, 0, 360, cv2.GC_FGD, -1)
+cv2.ellipse(mask, (304, 201), (13, 15), -33, 0, 360, cv2.GC_FGD, -1)
 
 # Only the near-black region outside the artwork is an unambiguous seed.
 outside = np.ones((height, width), dtype=bool)
-outside[6:230, 160:809] = False
+outside[:, 160:809] = False
 mask[outside & (max_rgb < 12)] = cv2.GC_BGD
 
 bg = np.zeros((1, 65), np.float64)
@@ -45,6 +49,12 @@ fg = np.zeros((1, 65), np.float64)
 cv2.grabCut(cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR), mask, None,
             bg, fg, 6, cv2.GC_INIT_WITH_MASK)
 foreground = np.logical_or(mask == cv2.GC_FGD, mask == cv2.GC_PR_FGD)
+# Reclaim dark metallic gradients immediately adjacent to verified text
+# strokes; don't make the silver logo lettering hollow on lighter CarPlay.
+text_window = np.zeros((height, width), dtype=bool)
+text_window[70:210, 380:805] = True
+near_letters = cv2.dilate(foreground.astype("uint8"), np.ones((11,11),np.uint8))>0
+foreground |= text_window & near_letters & (max_rgb > 10)
 alpha_img = Image.fromarray((foreground * 255).astype("uint8"), "L")
 alpha_img = alpha_img.filter(ImageFilter.GaussianBlur(radius=0.65))
 rgba = image.convert("RGBA")
