@@ -1,0 +1,70 @@
+name: DuoFace native9 - locate Activate static load owning functions READ-ONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_native9_activate_callsite_owners.py'
+      - '.github/workflows/duoface-native9-activate-owner-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-activate-owner-readonly
+  cancel-in-progress: false
+jobs:
+  read-only-owners:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Identify genuine Objective-C methods containing native9 Activate CFString xrefs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/audit_duoface_native9_activate_callsite_owners.py
+          python3 scripts/audit_duoface_native9_activate_callsite_owners.py \
+            --out audit/payload-migration/NATIVE9_ACTIVATE_CALLSITE_OWNERS_READONLY.json
+          python3 - <<'PY'
+          import json
+          p='audit/payload-migration/NATIVE9_ACTIVATE_CALLSITE_OWNERS_READONLY.json'
+          j=json.load(open(p))
+          assert j['status']=='NATIVE9_ACTIVATE_CFSTRING_CODE_OWNER_MAP_STATIC_ONLY'
+          assert j['sha256_native9_deb']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert j['total_cfstring_address_load_candidates']==26
+          assert set(j['binaries'])=={'DuoFaceUI','DuoFaceDashboard'}
+          assert all(r['all_objc_methods_seen']>250 and
+                     r['source_reference_count']==13 and
+                     len(r['callsite_candidates'])==13 and
+                     all(not x['native4_inert_span'] for x in r['callsite_candidates'])
+                     for r in j['binaries'].values())
+          assert j['not_proven_exclusively_visible_ui']
+          assert j['not_proven_unused_or_safe_to_mask']
+          assert not j['original_package_modified']
+          assert not j['deb_built'] and not j['sileo_changed']
+          print('NATIVE9_ACTIVATE_OWNER_STATIC_MAP_PERSIST_ONLY_PASS')
+          PY
+      - name: Commit audit only to correct DuoFace source branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_ACTIVATE_CALLSITE_OWNERS_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: native9 Activate instruction owner trace, read-only no deb [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-activate-owners-readonly
+          path: audit/payload-migration/NATIVE9_ACTIVATE_CALLSITE_OWNERS_READONLY.json
+          if-no-files-found: warn
