@@ -118,7 +118,8 @@ static void DFRestyleRecentClearAll(UIView *overlay) {
             UILabel *label=(UILabel *)view;
             NSString *title=[label.text stringByTrimmingCharactersInSet:
                 NSCharacterSet.whitespaceAndNewlineCharacterSet];
-            if ([title rangeOfString:@"Đang hoạt động"
+            if (title.length>0 &&
+                [title rangeOfString:@"Đang hoạt động"
                             options:NSCaseInsensitiveSearch].location==0)
                 heading=label;
         }
