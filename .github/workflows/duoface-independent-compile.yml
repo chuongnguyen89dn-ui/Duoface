@@ -48,7 +48,8 @@ jobs:
           shasum -a 256 "$dylib" | tee "$RUNNER_TEMP/duoface-dylib-sha256.txt"
           xcrun otool -L "$dylib" | tee "$RUNNER_TEMP/duoface-dylib-libraries.txt"
           ! xcrun otool -L "$dylib" | grep -Eiq 'duonavi|airaw'
-          test "$(find . -name '*.deb' -type f | wc -l | tr -d ' ')" = '0'
+          test "$(find .theos -name '*.deb' -type f | wc -l | tr -d ' ')" = '0'
+          test ! -d packages
           echo 'COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS' | tee "$RUNNER_TEMP/duoface-status.txt"
       - name: Tai bang chung khong chua DEB
         if: always()
