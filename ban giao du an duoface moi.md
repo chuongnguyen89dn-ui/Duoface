@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## CHECKPOINT TIẾP NỐI — 15/10/2026: native6 code/QA đã commit, Actions đang chạy
+
+- **Feature HEAD sau code/CI:** `dd5edb679dd78fa5efa7f2377ba07fd595303199` (trước đó `49f81963b048f2d622aac307f5efc36c1603c7a1` tạo `migration/full_payload/native_test/build_native6.py`, `522e4ff1e44a7f3aa08ab73a6ad6d21bb136f523` tạo `verify_native6.py`). Workflow `.github/workflows/duoface-native6-build.yml`.
+- **Run thực tế:** `38730145042` (https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38730145042), **in_progress khi ghi mốc**, chưa có kết quả; không báo build PASS hoặc DEB đã đưa lên Sileo.
+- **Thay đổi thiết kế:** dựa trên DEB native5 pinned SHA256 `9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26`, script thay **26 byte span chuỗi trình bày** đã bị che bằng spaces ở native5 thành byte NUL (xóa dữ liệu literal mà không dịch Mach-O offsets); giữ nguyên **hai ABI-compatible inert stub** `XXRootViewController` vì selector/method table còn có thể được runtime gọi; không thay bất kỳ host/Zoom/CarPlay/lifecycle code. Báo cáo sẽ ghi `full_license_removed:false`; KHÔNG gọi việc zero span là đã xóa selector/class.
+- **QA độc lập có trong CI:** `verify_native6.py` kiểm chính xác 26 span SHA, mọi section Mach-O khác nguyên byte, tất cả máy lệnh `__text`, ObjC metadata và hai accessor stubs không thay; giữ 37+ payload file khác và package id `com.duoface.independent`; báo cáo dự kiến `audit/payload-migration/NATIVE6_BINARY_REGRESSION.json`, DEB/report trong `dist/payload-migration/native6/` nếu run PASS và bot push artifact thành công.
+- **Trạng thái rõ ràng:** đã lưu mã + workflow trên GitHub, **CHƯA build verified, CHƯA phát hành, CHƯA device test native6**. User chỉ báo native5 hoạt động tốt. Repo `carplaydsp` chưa thay. Lỗi cần xem trong run và sửa trên feature. Nếu PASS cần lấy SHA/commit/artifact rồi mới quyết định pin Sileo/verify public; native5 ở Sileo và native4 rollback giữ nguyên.
+- **Kỹ năng:** đã đọc `Gpt-training-/SKILL_INDEX.md`, `AGENTS.md`, `PROJECT_INSTRUCTIONS.md`, `DEB_IPA_SKILL.md`; tìm thấy `skills/02-ios-deb-ipa-carplay.zip` nhưng công cụ GitHub trả `GitHub Fetch only accepts UTF-8 text` khi thử blob ZIP, container không thể kết nối raw.githubusercontent.com. Chưa đọc trực tiếp ZIP, không tuyên bố đã đọc.
+
 ## CHECKPOINT YÊU CẦU MỚI — 15/10/2026: người dùng xác nhận native5 hoạt động tốt, yêu cầu xóa phần đã ẩn
 
 - **Phản hồi thực tế trong phiên:** “Duoface sau khi ẩn 2 mục giấy phép vẫn hoạt động tốt. Cho nên là bây giờ xoá các mục ẩn đi đc rồi. Bạn xác nhận trong đó còn mục giấy phép j nx hay ko?” Đây là xác nhận **native5 chạy tốt theo người dùng**, thay thế cột trạng thái `native5 CHƯA DEVICE TEST` ở các checkpoint cũ; **không tự suy diễn** đã thử đủ cả hai iPhone hoặc từng mục Zoom/Style/respring nếu không được nói rõ.
