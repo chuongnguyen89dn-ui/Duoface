@@ -1,0 +1,398 @@
+{
+  "status": "NATIVE5_CURATED_PHYSICAL_REMOVAL_CANDIDATES_PENDING_DEVICE_TEST",
+  "candidate_version": "0.1.0~native5",
+  "candidate_sha256": "9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26",
+  "source_method_inventory": "dist/payload-migration/native5/DANH_SACH_CHO_XOA.json",
+  "already_neutralized_in_native4": {
+    "method_bodies": {
+      "DuoFaceUI": 248,
+      "DuoFaceDashboard": 43
+    },
+    "total": 291,
+    "next": "Review call graphs before deleting selector metadata; no need to neutralize these a second time"
+  },
+  "trial_hidden_in_native5": {
+    "expiry_state_methods": [
+      {
+        "binary": "DuoFaceUI",
+        "class": "XXRootViewController",
+        "selector": "isShowingExpiredModal",
+        "signature": "B16@0:8",
+        "file_offset": 35920,
+        "byte_count": 16,
+        "sha256_before": "d4f027ff78e495abdb8bcf80c7e3395a0dea649ca5f082e7feac438d413db5e1",
+        "sha256_after": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "XXRootViewController",
+        "selector": "setIsShowingExpiredModal:",
+        "signature": "v20@0:8B16",
+        "file_offset": 35936,
+        "byte_count": 16,
+        "sha256_before": "ae6cff6b10c2a57ce949b450ec6d5b2461b924510389e4b91cfe97c6025a861c",
+        "sha256_after": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+      }
+    ],
+    "presentation_literals": [
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "License Expired",
+        "file_offset": 727712,
+        "byte_count": 15,
+        "sha256_before": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+        "sha256_after": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "License Not Activated",
+        "file_offset": 727690,
+        "byte_count": 21,
+        "sha256_before": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+        "sha256_after": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "License Status",
+        "file_offset": 718278,
+        "byte_count": 14,
+        "sha256_before": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+        "sha256_after": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "DuoFace Pro License",
+        "file_offset": 718012,
+        "byte_count": 19,
+        "sha256_before": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+        "sha256_after": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "SUBSCRIPTION & LICENSE",
+        "file_offset": 717855,
+        "byte_count": 22,
+        "sha256_before": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+        "sha256_after": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "ENTER ACTIVATION CODE (GIFTCODE)",
+        "file_offset": 728637,
+        "byte_count": 32,
+        "sha256_before": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+        "sha256_after": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "License Download Incomplete",
+        "file_offset": 719890,
+        "byte_count": 27,
+        "sha256_before": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+        "sha256_after": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "Activation Failed",
+        "file_offset": 719702,
+        "byte_count": 17,
+        "sha256_before": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+        "sha256_after": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "Lifetime license. All features are permanently available.",
+        "file_offset": 718329,
+        "byte_count": 57,
+        "sha256_before": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+        "sha256_after": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+        "file_offset": 728049,
+        "byte_count": 85,
+        "sha256_before": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+        "sha256_after": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+        "file_offset": 727923,
+        "byte_count": 125,
+        "sha256_before": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+        "sha256_after": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+        "file_offset": 727818,
+        "byte_count": 104,
+        "sha256_before": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+        "sha256_after": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "original_label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+        "file_offset": 727728,
+        "byte_count": 89,
+        "sha256_before": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+        "sha256_after": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "License Expired",
+        "file_offset": 3142013,
+        "byte_count": 15,
+        "sha256_before": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+        "sha256_after": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "License Not Activated",
+        "file_offset": 3141991,
+        "byte_count": 21,
+        "sha256_before": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+        "sha256_after": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "License Status",
+        "file_offset": 3130874,
+        "byte_count": 14,
+        "sha256_before": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+        "sha256_after": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "DuoFace Pro License",
+        "file_offset": 3130568,
+        "byte_count": 19,
+        "sha256_before": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+        "sha256_after": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "SUBSCRIPTION & LICENSE",
+        "file_offset": 3130411,
+        "byte_count": 22,
+        "sha256_before": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+        "sha256_after": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "ENTER ACTIVATION CODE (GIFTCODE)",
+        "file_offset": 3142938,
+        "byte_count": 32,
+        "sha256_before": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+        "sha256_after": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "License Download Incomplete",
+        "file_offset": 3133228,
+        "byte_count": 27,
+        "sha256_before": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+        "sha256_after": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "Activation Failed",
+        "file_offset": 3132908,
+        "byte_count": 17,
+        "sha256_before": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+        "sha256_after": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "Lifetime license. All features are permanently available.",
+        "file_offset": 3130950,
+        "byte_count": 57,
+        "sha256_before": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+        "sha256_after": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+        "file_offset": 3142350,
+        "byte_count": 85,
+        "sha256_before": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+        "sha256_after": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+        "file_offset": 3142224,
+        "byte_count": 125,
+        "sha256_before": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+        "sha256_after": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+        "file_offset": 3142119,
+        "byte_count": 104,
+        "sha256_before": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+        "sha256_after": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "original_label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+        "file_offset": 3142029,
+        "byte_count": 89,
+        "sha256_before": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+        "sha256_after": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d"
+      }
+    ]
+  },
+  "blocked_from_deletion_without_dependency_proof": {
+    "runtime_lifecycle": [
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionViewController",
+        "selector": "dealloc"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionViewController",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseExpiredModalViewController",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionCheckoutCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionHardwareIDCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionGiftcodeInputCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionGiftcodeRedeemCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionPendingOrderCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionPlanCardCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionVIPCardCell",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionOrderCoordinator",
+        "selector": "dealloc"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBSubscriptionOrderCoordinator",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "init"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "sharedInstance"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "init"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": ".cxx_destruct"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "sharedInstance"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseWarningModalView",
+        "selector": ".cxx_destruct"
+      }
+    ],
+    "carplay_screen_detection": [
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnected"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreen:"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnectedExcludingScreen:"
+      },
+      {
+        "binary": "DuoFaceUI",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnected"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnected"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreen:"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnectedExcludingScreen:"
+      },
+      {
+        "binary": "DuoFaceDashboard",
+        "class": "CBLicenseSyncManager",
+        "selector": "isCarPlayScreenConnected"
+      }
+    ]
+  },
+  "requirements": [
+    "User reports native5 iPhone and CarPlay feature tests pass on both devices, including selecting two apps, Zoom/Style/Close, reconnection",
+    "Trace all callers for expired-state accessors and localization strings; retain Objective-C metadata and ABI if callers exist",
+    "Remove only confirmed unreachable literals/logic in a new binary, compare machine instruction differences and safe rollback",
+    "Do not touch CarPlay screen detection, dealloc, .cxx_destruct or sharedInstance without a dependency map",
+    "Build new DEB, CI, Sileo Pages and verify public downloaded SHA before claiming delivery"
+  ],
+  "current_release_is_complete_license_removal": false,
+  "device_tested": false
+}
