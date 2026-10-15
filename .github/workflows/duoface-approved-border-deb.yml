@@ -1,4 +1,4 @@
-name: Build DuoFace red3 30pt inline logo and idle red border (manual-only)
+name: Build DuoFace compact picker menu candidate (manual-only)
 # Use newest 30pt inline-logo menu and native activity red border source; menu-zoom2 DEB serves as original assets/base only.
 # Manual dispatch only on explicit user request to package a NEW candidate.
 on:
@@ -50,8 +50,8 @@ jobs:
           set -euo pipefail
           BASE='dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb'
           test -s "$BASE"
-          test ! -e dist/candidates/border-focus-red3/com.duonavi.app_1.0.3-12_border-focus-red3_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
-          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/border-focus-red3
+          test ! -e dist/candidates/menu-compact1/com.duonavi.app_1.0.3-12_menu-compact1_iphoneos-arm64.deb || { echo 'Candidate already exists: do not overwrite' >&2; exit 1; }
+          mkdir -p "$RUNNER_TEMP/duoface-approved" dist/candidates/menu-compact1
           dpkg-deb -R "$BASE" "$RUNNER_TEMP/duoface-approved"
           ROOT="$RUNNER_TEMP/duoface-approved"
           DEST="$ROOT/var/jb/Library/MobileSubstrate/DynamicLibraries"
@@ -71,7 +71,7 @@ jobs:
           assert hashlib.sha256(native.read_bytes()).hexdigest()=='bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce'
           control=root/'DEBIAN/control'
           ctl=control.read_text()
-          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+border-focus-red3',ctl)
+          ctl=re.sub(r'(?m)^Version:.*$', 'Version: 1.0.3-12+menu-compact1',ctl)
           control.write_text(ctl)
           for name in ['DuoFaceVisualHook','DuoFaceFullscreenBridge']:
             dylib=root/f'var/jb/Library/MobileSubstrate/DynamicLibraries/{name}.dylib'
@@ -100,16 +100,16 @@ jobs:
           print('NATIVE_DASHBOARD_SHA256',hashlib.sha256(native.read_bytes()).hexdigest())
           print('LOGO_SHA256',hashlib.sha256(logo.read_bytes()).hexdigest())
           PY
-          OUT='dist/candidates/border-focus-red3/com.duonavi.app_1.0.3-12_border-focus-red3_iphoneos-arm64.deb'
+          OUT='dist/candidates/menu-compact1/com.duonavi.app_1.0.3-12_menu-compact1_iphoneos-arm64.deb'
           dpkg-deb --build --root-owner-group "$ROOT" "$OUT"
-          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+border-focus-red3'
+          test "$(dpkg-deb -f "$OUT" Version)" = '1.0.3-12+menu-compact1'
           test "$(dpkg-deb -f "$OUT" Package)" = 'com.duonavi.app'
-          shasum -a 256 "$OUT" | tee dist/candidates/border-focus-red3/SHA256SUMS.txt
+          shasum -a 256 "$OUT" | tee dist/candidates/menu-compact1/SHA256SUMS.txt
           cp "$OUT" artifacts/
-          cp dist/candidates/border-focus-red3/SHA256SUMS.txt artifacts/
+          cp dist/candidates/menu-compact1/SHA256SUMS.txt artifacts/
       - uses: actions/upload-artifact@v4
         with:
-          name: duoface-border-focus-red3
+          name: duoface-menu-compact1
           path: |
             artifacts/*.deb
             artifacts/SHA256SUMS.txt
@@ -120,7 +120,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/candidates/border-focus-red3/
+          git add dist/candidates/menu-compact1/
           git commit -m 'artifact: persist owner-approved border/focus DuoFace DEB [skip ci]'
           for attempt in 1 2 3; do
             git fetch origin main
