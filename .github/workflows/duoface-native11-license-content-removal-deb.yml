@@ -1,0 +1,125 @@
+name: DuoFace native11 - actually remove 52 obsolete license string contents in new DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native11_removed_license_strings.py'
+      - 'migration/full_payload/native_test/verify_native11_removed_license_strings.py'
+      - '.github/workflows/duoface-native11-license-content-removal-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native11-real-license-string-removal
+  cancel-in-progress: false
+jobs:
+  signed-native11-release-candidate:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin user-tested native10 and 52 exact removals
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          source='dist/payload-migration/native10/com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb'
+          printf '%s  %s\n' \
+            '3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29' \
+            "$source" | shasum -a 256 -c -
+          python3 -m py_compile \
+            migration/full_payload/native_test/build_native11_removed_license_strings.py \
+            migration/full_payload/native_test/verify_native11_removed_license_strings.py
+          python3 - <<'PY'
+          import json
+          r=json.load(open('audit/payload-migration/NATIVE11_LICENSE_LITERAL_REMOVAL_IN_MEMORY_ONLY.json'))
+          assert r['status']=='NATIVE11_EXACT_52_LICENSE_STRINGS_ERASED_IN_UNSIGNED_MEMORY_ONLY'
+          assert r['count_physically_erased_literal_contents']==52
+          assert r['total_erased_original_nonzero_bytes']==1816
+          assert not r['deb_built']
+          print('PINNED_TESTED_NATIVE10_AND_EXACT_52_REMOVAL_MANIFEST_PASS')
+          PY
+      - name: Build and sign a real independent native11 rootless DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native11 audit/payload-migration
+          file='dist/payload-migration/native11/com.duoface.independent_0.1.0~native11_iphoneos-arm64.deb'
+          test ! -e "$file"
+          python3 migration/full_payload/native_test/build_native11_removed_license_strings.py \
+            --out "$file" --report dist/payload-migration/native11/BAO_CAO.json
+      - name: Verify exact original literal removal plus preserved CarPlay, UI and ABI
+        shell: bash
+        run: |
+          set -euo pipefail
+          file='dist/payload-migration/native11/com.duoface.independent_0.1.0~native11_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/verify_native11_removed_license_strings.py \
+            --deb "$file" --report dist/payload-migration/native11/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE11_REAL_LICENSE_LITERAL_REMOVAL_REGRESSION.json
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$file" --out dist/payload-migration/native11/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('dist/payload-migration/native11')
+          deb=root/'com.duoface.independent_0.1.0~native11_iphoneos-arm64.deb'
+          package=json.loads((root/'BAO_CAO.json').read_text())
+          verify=json.loads(Path('audit/payload-migration/NATIVE11_REAL_LICENSE_LITERAL_REMOVAL_REGRESSION.json').read_text())
+          brand=json.loads((root/'BRAND_ZERO_AUDIT.json').read_text())
+          assert package['status']=='NATIVE11_SIGNED_DEB_52_OLD_LICENSE_STRING_CONTENTS_PHYSICALLY_ERASED'
+          assert verify['status']=='NATIVE11_SIGNED_DEB_EXACT_52_LITERAL_CONTENT_REMOVALS_8_CARPLAY_GUARD_PASS'
+          assert package['erased_string_count']==verify['selected_literal_count']==52
+          assert package['byte_erased_count']==verify['selected_string_bytes_removed']==1816
+          assert verify['all_8_carplay_detection_method_bodies_unchanged']
+          assert verify['all_objc_and_machine_code_sections_unchanged']
+          assert verify['all_other_payload_entries_unchanged']
+          assert verify['all_md5sums_verified']
+          assert verify['full_license_runtime_removed'] is False
+          assert verify['runtime_localization_lookup_proven_safe'] is False
+          assert brand['strict_byte_level_zero_matches'] and not brand['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==package['deb_sha256']==verify['native11_deb_sha256']
+          print('NATIVE11_REAL_SIGNED_DEB_52_LICENSE_STRING_CONTENTS_REMOVED_QA_PASS')
+          PY
+          test "$(dpkg-deb -f "$file" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$file" Version)" = '0.1.0~native11'
+          test "$(dpkg-deb -f "$file" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native11' gt '0.1.0~native10'
+          mkdir -p "$RUNNER_TEMP/native11"
+          dpkg-deb -x "$file" "$RUNNER_TEMP/native11"
+          for name in DuoFaceDashboard DuoFaceLogoGripOnly DuoFaceVisualHook; do
+            dylib="$RUNNER_TEMP/native11/var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib"
+            test -s "$dylib"
+            test "$(lipo -archs "$dylib")" = 'arm64'
+            otool -L "$dylib" > /dev/null
+          done
+          shasum -a 256 "$file"
+      - name: Persist real DEB and verification reports to project feature, no Sileo release
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native11/*.deb \
+            dist/payload-migration/native11/*.json \
+            audit/payload-migration/NATIVE11_REAL_LICENSE_LITERAL_REMOVAL_REGRESSION.json
+          if git diff --cached --quiet; then echo 'ALREADY_SAVED'; exit 0; fi
+          git commit -m 'artifact: signed native11 with 52 license string contents actually removed [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native11-actual-removal-signed-deb
+          path: |
+            dist/payload-migration/native11/*.deb
+            dist/payload-migration/native11/*.json
+            audit/payload-migration/NATIVE11_REAL_LICENSE_LITERAL_REMOVAL_REGRESSION.json
+          if-no-files-found: warn
