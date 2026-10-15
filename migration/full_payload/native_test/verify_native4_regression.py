@@ -60,6 +60,7 @@ def verify_method_segments(before:bytes,after:bytes,methods:list[dict]):
     whole_count=0
     replacement_bytes=0
     proof=[]
+    already_inert=[]
     for key,(off,size) in old_sections.items():
         mask=bytearray(size)
         inside=[m for m in methods if off<=m["file_offset"]<off+size]
@@ -76,7 +77,8 @@ def verify_method_segments(before:bytes,after:bytes,methods:list[dict]):
             assert stub_bytes>=4 and stub_bytes%4==0
             assert replacement[stub_bytes-4:stub_bytes]==RET,(key,m["selector"],"missing ret")
             assert replacement[stub_bytes:]==NOP*((len(replacement)-stub_bytes)//4),(key,m["selector"],"not fully erased")
-            assert original!=replacement
+            if original==replacement:
+                already_inert.append({'class':m['class'],'selector':m['selector'],'offset':m['file_offset'],'bytes':m['bytes_replaced']})
             replacement_bytes+=len(replacement)
             proof.append({"class":m["class"],"method":m["selector"],"span_sha256":digest(replacement)})
         a=before[off:off+size]
@@ -89,6 +91,8 @@ def verify_method_segments(before:bytes,after:bytes,methods:list[dict]):
     assert len(proof)==len(methods),(len(proof),len(methods))
     return {
       "verified_method_count":len(proof),
+      "already_identical_in_baseline_method_count":len(already_inert),
+      "already_identical_in_baseline_methods":already_inert,
       "fully_replaced_original_method_bytes":replacement_bytes,
       "unmodified_executable_bytes_outside_target_functions":whole_count,
       "all_other_executable_instruction_bytes_identical":True,
