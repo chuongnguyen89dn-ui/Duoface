@@ -76,6 +76,14 @@ for a in range(start, start+size, 8):
                 sel = string(target if flags & 0x40000000 else u64(target))
                 imp = e+8+i32(e+8)
             else: sel, imp = string(u64(e)), u64(e+16)
+            if name == 'CBMultitaskingOverlayView' and sel in (
+                'setupAppPickerCardsInCardW:cardH:contentY:',
+                'setupRecentAppsCardsInCardW:cardH:contentY:',
+                'addMoreAppsTapped:', 'restartSingleAppTapped:',
+                'setupCardContent', 'layoutSubviews',
+            ):
+                typ = string(e+4+i32(e+4)) if flags & 0x80000000 else string(u64(e+8))
+                print(f'METHOD_TYPE {kind}[{name} {sel}] {typ!r} IMP {imp:#x}')
             methods.append((name, kind, sel, imp))
 focus = {'CBLocalization', 'CBWindow', 'CBBridgeManager', 'CBBridgeManagerDashboard', 'CBDashboardShared',
          'CBSplitContainerView', 'CBBridgedSplitApp', 'CBBridgedUIAppView'}
