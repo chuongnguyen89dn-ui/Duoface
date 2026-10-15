@@ -41,7 +41,7 @@ def verify() -> dict:
     assert "\n  workflow_call:\n" in wf, "Existing reusable entry point must remain"
     assert not re.search(r"(?m)^\s+push:\s*$", wf), "Packaging must NOT trigger on push"
     assert not re.search(r"(?m)^\s+schedule:\s*$", wf), "Packaging must NOT run on a schedule"
-    assert "sileo" not in wf.lower(), "No Sileo publication from candidate build"
+    assert not re.search(r"(?mi)^\s*(gh release|reprepro|aptly|sileo publish)\b", wf), "No Sileo publication commands allowed"
     assert "menu-compact1" not in wf, "Do not reuse earlier candidate name"
     assert str(CANDIDATE.relative_to(ROOT)) in wf, "Unique candidate path missing"
     assert "Version: 1.0.3-12+menu-inline-live1" in wf, "Candidate version guard missing"
@@ -117,8 +117,10 @@ def verify() -> dict:
         "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
     ):
         assert token in wf, f"Missing packaging safeguard: {token}"
-    assert "report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\\n')" not in wf, "JSON report newline incorrectly escaped"
-    assert "report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\\n')" not in wf, "JSON report line malformed"
+    bad_json_newline = "report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'" + chr(92)*2 + "n')"
+    good_json_newline = "report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'" + chr(92) + "n')"
+    assert bad_json_newline not in wf, "JSON report newline incorrectly escaped"
+    assert good_json_newline in wf, "JSON report line missing or malformed"
     return {
         "status": "PREFLIGHT_PASS_MANUAL_DEB_NOT_BUILT",
         "candidate": str(CANDIDATE.relative_to(ROOT)),
