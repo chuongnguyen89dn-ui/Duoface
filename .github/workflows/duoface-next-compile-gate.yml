@@ -80,7 +80,7 @@ jobs:
             'menu_markers':bm,'border_markers':hm,
             'approved_menu_height_pt':30,'logo_inline_with_menu':True,'border_logo_red':'#E3020F','border_behavior':'red_on_native_activity_clear_on_native_idle',
             'deb_built':False,'sileo_published':False}
-          p=root/'audit/duoface-next-compile-20261014.json'
+          p=root/'audit'/('duoface-next-compile-'+os.environ['GITHUB_SHA'][:12]+'.json')
           p.parent.mkdir(parents=True,exist_ok=True)
           p.write_text(json.dumps(out,indent=2)+'\n')
           print(p.read_text())
@@ -91,7 +91,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add audit/duoface-next-compile-20261014.json
+          git add "audit/duoface-next-compile-${GITHUB_SHA:0:12}.json"
           git diff --cached --quiet && exit 0
           git commit -m 'ci: persist DuoFace next compile-only evidence [skip ci]'
           for try in 1 2 3; do
