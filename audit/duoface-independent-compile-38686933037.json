@@ -1,0 +1,69 @@
+{
+  "ngay_kiem_tra_utc": "2026-10-15T05:29:43Z",
+  "repo": "chuongnguyen89dn-ui/Duoface",
+  "branch": "feature/duoface-independent-core",
+  "commit_ci": "8a5a4f37ae92c89620a349a138b5dd148a3f1b9e",
+  "workflow": ".github/workflows/duoface-independent-compile.yml",
+  "run_id": 38686933037,
+  "job_id": 116263824980,
+  "run_url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686933037",
+  "run_conclusion": "success",
+  "steps": {
+    "checkout": "success",
+    "python_static_validate": "success",
+    "theos_sdk_ldid": "success",
+    "compile_and_link_arm64": "success",
+    "audit_no_new_deb": "success",
+    "upload_text_evidence": "success"
+  },
+  "source_files": [
+    "independent/DFIProbe.mm",
+    "independent/DFISplitLayout.h",
+    "independent/DFISplitLayout.mm",
+    "independent/tests/validate_probe.py",
+    "Makefile.independent",
+    "DuoFaceIndependentProbe.plist"
+  ],
+  "executable": "DuoFaceIndependentProbe.dylib",
+  "architecture": "arm64",
+  "built_location_ci": ".theos/obj/debug/DuoFaceIndependentProbe.dylib",
+  "compiled_binary_sha256": "acbbf8ce4b8a99b42f3786691e976cb5bf77cbc8a94db03e9bc2b9781571e709",
+  "binary_not_committed": true,
+  "linked_duonavi_or_airaw": false,
+  "compile_only": true,
+  "created_new_deb": false,
+  "deployed_to_sileo": false,
+  "device_tested": false,
+  "two_carplay_scenes_running_verified": false,
+  "artifact_id": 11949972916,
+  "artifact_name": "duoface-independent-compile-38686933037",
+  "artifact_zip_sha256": "7a5415b9741fcf652e4bb5bacba32db438ab56816b4b3442f8958c25dced35c4",
+  "errors_preceding_runs": [
+    {
+      "run": 38686641800,
+      "cause": "theos/sdks directory existed before clone",
+      "fix_commit": "d41984cbcd7f74cb17231db554f2cd8d641baa4b"
+    },
+    {
+      "run": 38686738047,
+      "cause": "no-new-deb assertion mistakenly counted existing dist/*.deb",
+      "fix_commit": "8a5a4f37ae92c89620a349a138b5dd148a3f1b9e"
+    }
+  ],
+  "exact_ci_commands": [
+    "python3 independent/tests/validate_probe.py",
+    "python3 -m py_compile independent/tests/validate_probe.py",
+    "git clone --depth 1 --recursive https://github.com/theos/theos.git \"$RUNNER_TEMP/theos\"",
+    "rm -rf \"$RUNNER_TEMP/theos/sdks\"",
+    "git clone --depth 1 https://github.com/theos/sdks.git \"$RUNNER_TEMP/theos/sdks\"",
+    "brew install ldid",
+    "cp Makefile.independent Makefile",
+    "make clean all",
+    "xcrun lipo \"$dylib\" -verify_arch arm64",
+    "shasum -a 256 \"$dylib\"",
+    "xcrun otool -L \"$dylib\"",
+    "test \"$(find .theos -name '*.deb' -type f | wc -l | tr -d ' ')\" = '0'",
+    "test ! -d packages"
+  ],
+  "status": "COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS"
+}
