@@ -1,0 +1,80 @@
+name: DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/audit_license_boundary.py'
+      - '.github/workflows/duoface-license-boundary-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-license-boundary-analysis
+  cancel-in-progress: false
+
+jobs:
+  analyze-original:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xác minh đúng nguồn DuoFace đã duyệt
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a' "$deb" | sha256sum -c -
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/duoface-binary-audit"
+          python3 -m venv "$RUNNER_TEMP/duoface-capstone"
+          "$RUNNER_TEMP/duoface-capstone/bin/pip" -q install 'capstone==5.0.7'
+
+      - name: Đọc phương thức Objective-C và các cạnh lời gọi tĩnh, KHÔNG PATCH
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/payload-migration
+          "$RUNNER_TEMP/duoface-capstone/bin/python" migration/full_payload/audit_license_boundary.py \
+            --dashboard "$RUNNER_TEMP/duoface-binary-audit/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --report audit/payload-migration/LICENSE_BOUNDARY_AUDIT.json | tee "$RUNNER_TEMP/boundary-summary.json"
+          python3 - <<'PY'
+          import json,pathlib
+          x=json.loads(pathlib.Path('audit/payload-migration/LICENSE_BOUNDARY_AUDIT.json').read_text())
+          assert x['status']=='BINARY_LICENSE_AND_HOST_BOUNDARY_PARTIAL_NOT_SEPARATED'
+          assert not x['license_subsystem_separable_by_file']
+          assert not x['independent_release_ready']
+          assert x['cb_bridge_manager_host_methods']
+          assert x['license_method_owners']
+          print('BOUNDARY_STATIC_PASS_BUT_LICENSE_NOT_SEPARATED')
+          PY
+
+      - name: Lưu báo cáo phục hồi vào chính repo DuoFace
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/LICENSE_BOUNDARY_AUDIT.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: ket qua objc license host danh dau phu thuoc chua tach [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+
+      - name: Lưu bằng chứng kiểm kê license/host
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-license-boundary-${{ github.run_id }}
+          path: |
+            audit/payload-migration/LICENSE_BOUNDARY_AUDIT.json
+            ${{ runner.temp }}/boundary-summary.json
+          if-no-files-found: warn
