@@ -1,0 +1,76 @@
+name: DuoFace native9 - comprehensive license vs CarPlay READ-ONLY audit, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_native9_license_keep_vs_hide.py'
+      - '.github/workflows/duoface-native9-license-boundary-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-license-boundary-readonly
+  cancel-in-progress: false
+jobs:
+  license-boundary-inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reconcile exact original Objective-C method stubs and remaining license strings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/audit_duoface_native9_license_keep_vs_hide.py
+          python3 scripts/audit_duoface_native9_license_keep_vs_hide.py \
+            --out audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json').read_text())
+          assert report['status']=='NATIVE9_LICENSE_BOUNDARY_METHOD_AND_STRING_ACCOUNTING_PASS_READONLY'
+          assert report['native9_deb_sha256']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert report['method_count']==320 and len(report['method_rows'])==320
+          assert report['method_counts']['original_license_related_body_inert_since_native4_keep_ABI']==291
+          assert report['method_counts']['expired_modal_state_staged_inert_keep_ABI']==2
+          assert report['method_counts']['CARPLAY_CRITICAL_KEEP_ORIGINAL_IMPLEMENTATION']==8
+          assert report['method_counts']['OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION']==19
+          assert report['string_count']==256 and len(report['string_rows'])==256
+          assert report['string_counts']['39_ui_literals_already_masked_in_native9']==78
+          assert report['string_counts']['opaque_string_callsite_unknown_preserve']==88
+          assert report['string_counts']['possible_visible_activate_label_unverified']==2
+          assert report['proven_previously_zeroed_text_occurrences']==26
+          assert report['created_new_deb'] is False
+          assert report['sileo_changed_by_this_audit'] is False
+          assert report['all_license_metadata_or_runtime_removed'] is False
+          assert report['dynamic_dispatch_fully_resolved'] is False
+          print('NATIVE9_READONLY_LICENSE_BOUNDARY_ACCOUNTING_PASS_NO_DEB_NO_SILEO')
+          PY
+      - name: Commit read-only inventory and preserve tested native9 package
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json
+          if git diff --cached --quiet; then
+            echo 'NATIVE9_LICENSE_AUDIT_ALREADY_PERSISTED'
+            exit 0
+          fi
+          git commit -m 'audit: preserve exact native9 license-vs-CarPlay boundary, READ ONLY [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-license-keep-vs-hide-readonly
+          path: audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json
+          if-no-files-found: warn
