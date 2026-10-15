@@ -22,7 +22,8 @@ jobs:
         run: |
           set -euo pipefail
           sha256sum -c dist/payload-migration/SHA256SUMS.txt
-          tar -tzf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz | head -n 8
+          tar -tzf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz > "$RUNNER_TEMP/staging-entries.txt"
+          head -n 8 "$RUNNER_TEMP/staging-entries.txt"
 
       - name: Phục hồi logic từng file trực tiếp từ TAR (không ghi ra đĩa)
         shell: bash
