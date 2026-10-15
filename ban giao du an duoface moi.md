@@ -363,6 +363,16 @@
 - Điểm tiếp tục: lấy phản hồi thực từ native1; xem `[DuoFaceNativeTrial]`, iPhone/CarPlay app selection, Zoom/menu đúng gốc; xử lý nếu lỗi; nâng version và test lại Sileo. Không tái dựng UI alpha2 hoặc tự ý sửa gói cũ.
 
 
+### 2026-10-15 — Kết quả thử nghiệm thực tế native1 do người dùng xác nhận
+
+- Người dùng xác nhận đã gỡ DuoFace cũ. Ảnh Sileo do người dùng gửi cho thấy DuoFace Mới phiên bản 0.1.0~native1 được cài (dấu tích xanh).
+- Ảnh CarPlay người dùng gửi trước đó cho thấy giao diện DuoFace gồm hai vùng, viền đỏ, logo và một vùng hiển thị bản đồ. Người dùng xác nhận thời hạn ngày đã hết nhưng vẫn mở được giao diện CarPlay.
+- Kết luận đã có bằng chứng: bản native1 có thể khởi tạo và hiển thị giao diện chia màn hình trên CarPlay trong điều kiện người dùng xác nhận đã hết hạn. Đây là kết quả thiết bị, không chỉ kết quả build.
+- Chưa kiểm chứng: chọn ứng dụng vào vùng trống, hai ứng dụng chạy đồng thời, đổi ứng dụng, Zoom, Style, Close App, độ ổn định sau khởi động lại và mức độ độc lập hoàn toàn khỏi giấy phép.
+- Việc tiếp theo: tiếp tục test từng chức năng trên thiết bị, ghi nhận thao tác gây lỗi và crash log; không thay đổi giao diện đã hoàn thiện hoặc tự dựng lại alpha2.
+- Ảnh bằng chứng hiện thuộc cuộc trò chuyện, không tuyên bố đã tải tệp ảnh lên GitHub.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
