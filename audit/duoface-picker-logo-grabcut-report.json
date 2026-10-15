@@ -1,0 +1,20 @@
+{
+  "status": "PREVIEW_ONLY_NOT_APPROVED_NOT_DEVICE_PASS",
+  "source_sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089",
+  "source": "dist/visual-1.0.3-12/assets/duoface-logo.png",
+  "candidate": "dist/visual-1.0.3-12/assets/duoface-logo-picker-grabcut-preview.png",
+  "candidate_sha256": "dce0910ad903f9a2e7f0cef718abb15d32fc113b15f1d98d09ad94dbcf1eaab7",
+  "checkerboard_preview": "audit/duoface-picker-logo-grabcut-checkerboard.png",
+  "foreground_pixels": 44469,
+  "output_dimensions": [
+    627,
+    228
+  ],
+  "bounds": [
+    167,
+    12,
+    794,
+    240
+  ],
+  "guard": "preserve original assets, all color values are taken from approved source"
+}
