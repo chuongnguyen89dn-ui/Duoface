@@ -76,6 +76,21 @@ assert bounds is not None
 result = result.crop(bounds)
 OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 result.save(OUTPUT, optimize=True)
+# Static visual validation against a contrasting checkerboard, not a UI mock.
+# This helps detect leftover opaque black rectangles and lost dark-face pixels.
+from PIL import ImageDraw
+checker = Image.new("RGBA", result.size, (0, 0, 0, 0))
+draw = ImageDraw.Draw(checker)
+tile = 20
+for yy in range(0, result.height, tile):
+    for xx in range(0, result.width, tile):
+        tone = 190 if (xx // tile + yy // tile) % 2 else 235
+        draw.rectangle((xx, yy, xx + tile - 1, yy + tile - 1),
+                       fill=(tone, tone, tone, 255))
+checker.alpha_composite(result)
+preview = Path("audit/duoface-picker-logo-alpha-checkerboard.png")
+preview.parent.mkdir(parents=True, exist_ok=True)
+checker.convert("RGB").save(preview, optimize=True)
 REPORT.parent.mkdir(parents=True, exist_ok=True)
 report = {
     "status": "ALPHA_PREVIEW_NOT_DEVICE_VALIDATED_NOT_DEB",
@@ -83,6 +98,7 @@ report = {
     "source_sha256": SOURCE_SHA,
     "candidate": str(OUTPUT),
     "candidate_sha256": hashlib.sha256(OUTPUT.read_bytes()).hexdigest(),
+    "checkerboard_preview": str(preview),
     "source_dimensions": [w, h],
     "foreground_bounds": list(bounds),
     "output_dimensions": list(result.size),
