@@ -40,6 +40,7 @@ class MachObjC:
         self.sections=[]
         self.segments=[]
         self.starts_info=None
+        self.symtab_info=None
         cur=32
         for _ in range(struct.unpack_from("<I",blob,16)[0]):
             cmd,size=struct.unpack_from("<II",blob,cur)
@@ -58,6 +59,8 @@ class MachObjC:
                     self.sections.append((sg,sec,va,length,fo))
             elif cmd==0x26:
                 self.starts_info=struct.unpack_from("<II",blob,cur+8)
+            elif cmd==0x2:
+                self.symtab_info=struct.unpack_from("<IIII",blob,cur+8)
             cur+=size
         assert self.segments and self.starts_info
         self.function_starts=self.read_function_starts()
@@ -100,6 +103,26 @@ class MachObjC:
             delta_sum+=n
             result.append(base+delta_sum)
         assert len(result)>100
+        return result
+
+    def function_symbols(self) -> dict[int,list[str]]:
+        if self.symtab_info is None:
+            return {}
+        symoff,nsyms,stroff,strsize=self.symtab_info
+        if symoff+nsyms*16>len(self.blob) or stroff+strsize>len(self.blob):
+            return {}
+        result={}
+        for i in range(nsyms):
+            at=symoff+i*16
+            strx,kind,section,desc,vm=struct.unpack_from("<IBBHQ",self.blob,at)
+            if (kind&0x0e)!=0x0e or not vm or strx>=strsize:
+                continue
+            a=stroff+strx
+            b=self.blob.find(b"\0",a,stroff+strsize)
+            if b<0:continue
+            name=self.blob[a:b].decode("utf-8","replace")
+            if 0<len(name)<=150 and all(32<=ord(c)<127 for c in name):
+                result.setdefault(vm,[]).append(name)
         return result
 
     def all_objc_methods(self) -> tuple[list[dict],list[str]]:
@@ -172,6 +195,7 @@ def main(out: Path) -> None:
             original=(folder/rel).read_bytes()
             parser=MachObjC(original)
             methods,warnings=parser.all_objc_methods()
+            function_symbols=parser.function_symbols()
             owners={}
             for m in methods:
                 owners.setdefault(m["imp_vm"],[]).append(m)
@@ -204,6 +228,8 @@ def main(out: Path) -> None:
                         "inside_function_start_interval":start<=vm<end,
                         "source_instruction_kind":ref["kind"],
                         "owners":owner_rows,
+                        "symbols_at_function_start":function_symbols.get(start,[])[:12],
+                        "symbol_table_function_exact_match":bool(function_symbols.get(start)),
                         "owner_mapping_is_complete":bool(owner_rows),
                         "native4_inert_span":ref["overlaps_native4_neutralized_method_span"],
                     })
@@ -214,6 +240,9 @@ def main(out: Path) -> None:
                 "binary_sha256":hashlib.sha256(original).hexdigest(),
                 "all_objc_methods_seen":len(methods),
                 "function_starts_seen":len(starts),
+                "all_named_symbol_addresses_seen":len(function_symbols),
+                "callsite_symbols_exact":sum(
+                    bool(x["symbols_at_function_start"]) for x in xrefs),
                 "warnings":warnings,
                 "source_reference_count":len(xrefs),
                 "mapped_to_an_objc_owner":sum(bool(x["owners"]) for x in xrefs),
