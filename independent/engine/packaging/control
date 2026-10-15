@@ -1,0 +1,9 @@
+Package: com.duoface.independent
+Name: DuoFace Mới (Thử nghiệm)
+Version: 0.1.0~alpha1
+Architecture: iphoneos-arm64
+Maintainer: chuongnguyen89dn-ui
+Author: chuongnguyen89dn-ui
+Section: Tweaks
+Depends: preferenceloader, firmware (>= 16.0), firmware (<< 17.0), mobilesubstrate (>= 0.9.5000) | ellekit
+Description: DuoFace doc lap - ban thu nghiem quan ly ung dung CarPlay, chua xac nhan tren thiet bi. Giao dien cu chua chuyen het.
