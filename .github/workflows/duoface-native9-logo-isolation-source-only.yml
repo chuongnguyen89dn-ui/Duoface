@@ -1,0 +1,81 @@
+name: DuoFace native9 isolated logo grip - compile and source QA only, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'src/DFDividerLogoGrip.inc'
+      - 'src/DuoFaceLogoGripOnly.m'
+      - 'scripts/check_duoface_native9_isolation.py'
+      - '.github/workflows/duoface-native9-logo-isolation-source-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-logo-isolation
+  cancel-in-progress: false
+jobs:
+  compile-and-audit:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Review source-only invariants for ratio, fullscreen and graphics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/check_duoface_native9_isolation.py
+          python3 scripts/check_duoface_native9_isolation.py --out audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json
+          python3 - <<'PY'
+          import json
+          report=json.load(open('audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json'))
+          assert report['case_count']>=15 and all(report['cases'].values())
+          assert report['generated_new_deb'] is False and report['sileo_modified'] is False
+          print('NATIVE9_STANDALONE_NO_VISUAL_OR_RATIO_OVERRIDES_STATIC_PASS')
+          PY
+      - name: Compile isolated hook against native iOS 15+ SDK, no packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          mkdir -p "$RUNNER_TEMP/duoface-grip-only"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only \
+            src/DuoFaceLogoGripOnly.m
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -dynamiclib \
+            -framework UIKit -framework Foundation -framework QuartzCore \
+            -Wl,-install_name,@rpath/DuoFaceLogoGripOnly.dylib \
+            -o "$RUNNER_TEMP/duoface-grip-only/DuoFaceLogoGripOnly.dylib" \
+            src/DuoFaceLogoGripOnly.m
+          xcrun lipo "$RUNNER_TEMP/duoface-grip-only/DuoFaceLogoGripOnly.dylib" -verify_arch arm64
+          otool -L "$RUNNER_TEMP/duoface-grip-only/DuoFaceLogoGripOnly.dylib" > /dev/null
+          strings "$RUNNER_TEMP/duoface-grip-only/DuoFaceLogoGripOnly.dylib" | grep -Fq 'native divider pan'
+          ! nm -a "$RUNNER_TEMP/duoface-grip-only/DuoFaceLogoGripOnly.dylib" | grep -Fq '_DFLogoDividerPan'
+          shasum -a 256 src/DuoFaceLogoGripOnly.m src/DFDividerLogoGrip.inc
+      - name: Save source-only QA report for cross-chat handoff
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: native9 isolated grip no divider ratio or fullscreen override [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-source-only
+          path: |
+            audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json
+          if-no-files-found: warn
