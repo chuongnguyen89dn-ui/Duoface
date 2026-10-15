@@ -39,37 +39,23 @@ static UIView *DFPickerNativeViewIvar(id overlay, const char *name) {
     id object=ivar?object_getIvar(overlay,ivar):nil;
     return [object isKindOfClass:UIView.class]?(UIView *)object:nil;
 }
-// Device-confirmed fix: this panel MUST cover the keyboard/map beneath it.
-// Keep the native sheet and existing 30pt logo/menu/card/buttons untouched.
-// Use an opaque deep-blue backing close to the installed v12 picker color.
-// Never paint the underlying CarPlay app or the full-window dimming view.
-static UIColor *DFPickerOpaqueSheetColor(void) {
-    return [UIColor colorWithRed:29.0/255.0 green:47.0/255.0
-                           blue:82.0/255.0 alpha:1.0];
-}
+// Preserve the ORIGINAL v12 picker materials instead of painting a guessed
+// color. CBMultitaskingOverlayView.initWithFrame: (0xA0420) creates the
+// original UIBlurEffect style 0x12 and installs its native tinted contentView,
+// dimBackground and cardShadowContainer. Do not clear/replace those visuals;
+// only suppress the user-rejected picker outline. Native dismiss gestures,
+// hitboxes, rounded corners and the original blur stay intact.
 static void DFClearNativePickerChrome(UIView *overlay) {
     UIView *dim=DFPickerNativeViewIvar(overlay,"_dimBackground");
     UIView *shadow=DFPickerNativeViewIvar(overlay,"_cardShadowContainer");
     UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
-    if (dim) {
-        dim.backgroundColor=UIColor.clearColor;
-        dim.layer.borderWidth=0.0;
-        // Do not hide the dim view or clear its alpha: that would disable
-        // the original tap-outside-to-dismiss gesture.
-    }
-    if (shadow) {
-        shadow.backgroundColor=UIColor.clearColor;
-        shadow.layer.borderWidth=0.0;
-        shadow.layer.shadowOpacity=0.0f;
-    }
+    if (dim) dim.layer.borderWidth=0.0;
+    if (shadow) shadow.layer.borderWidth=0.0;
     if (card) {
-        card.backgroundColor=UIColor.clearColor;
         card.layer.borderWidth=0.0;
-        card.layer.shadowOpacity=0.0f;
         if ([card isKindOfClass:UIVisualEffectView.class]) {
             UIVisualEffectView *blur=(UIVisualEffectView *)card;
-            blur.effect=nil;
-            blur.contentView.backgroundColor=DFPickerOpaqueSheetColor();
+            // Leave blur.effect AND blur.contentView.backgroundColor untouched.
             blur.contentView.layer.borderWidth=0.0;
         }
     }
@@ -461,7 +447,7 @@ static void DFLayoutPicker(UIView *overlay) {
     // outline. Preserve its hierarchy, native X and dismiss recognizer.
     DFClearNativePickerChrome(overlay);
     overlay.layer.borderWidth=0.0;
-    contentView.backgroundColor=DFPickerOpaqueSheetColor();
+    // Preserve the native _sheetCard contentView tint from v12 initWithFrame:.
     contentView.layer.borderWidth=0.0;
     for (UIView *v in contentView.subviews) {
         if (v==parent) continue;
