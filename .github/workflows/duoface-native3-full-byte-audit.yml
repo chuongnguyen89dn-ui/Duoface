@@ -6,6 +6,7 @@ on:
       - feature/duoface-exact-payload-migration
     paths:
       - 'migration/full_payload/native_test/audit_branding.py'
+      - 'migration/full_payload/native_test/inspect_brand_context.py'
       - '.github/workflows/duoface-native3-full-byte-audit.yml'
   workflow_dispatch:
 
@@ -29,6 +30,8 @@ jobs:
           printf '%s  %s\n' '0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60' "$deb" | sha256sum -c -
           python3 migration/full_payload/native_test/audit_branding.py \
             --deb "$deb" --out audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          python3 migration/full_payload/native_test/inspect_brand_context.py \
+            --deb "$deb" --out audit/payload-migration/NATIVE2_LEGACY_BRAND_CONTEXT.json
           python3 - <<'PY'
           import json,pathlib
           p=pathlib.Path('audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json')
@@ -47,7 +50,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          git add audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json audit/payload-migration/NATIVE2_LEGACY_BRAND_CONTEXT.json
           git diff --cached --quiet && exit 0
           git commit -m 'audit: full byte-level DuoNavi Airaw scan of current working native2 [skip ci]'
           for n in 1 2 3 4; do
@@ -61,5 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: duoface-native2-brand-inventory-${{github.run_id}}
-          path: audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          path: |
+            audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+            audit/payload-migration/NATIVE2_LEGACY_BRAND_CONTEXT.json
           if-no-files-found: warn
