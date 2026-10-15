@@ -1,0 +1,497 @@
+{
+  "all_staged_entries": {
+    "DEBIAN": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "DEBIAN/control": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "ff536797e65af82617a7f22a6f22dffda0c492c39f50e8884e7f7b0731be067b",
+      "size": 325
+    },
+    "DEBIAN/postinst": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "0169a68214100f0a8673a7413e00c07b673d6e99d2c426209858bfe7b5225852",
+      "size": 2956
+    },
+    "DEBIAN/prerm": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "065ba87d5c252ea464cea91b297da14a4658f4f9ff928520093ebe24d2dceec5",
+      "size": 75
+    },
+    "var": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Applications": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Applications/DuoFaceUI.app": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "71debbd1ec86ddc0f81ec912b81270cd015e0cbc72b21ba4657d7a89a65c9b66",
+      "size": 1625
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "7cd2974d10f2ec892957a0e5995f43e81ba0d73efe701d45719765cc57de77cf",
+      "size": 4927
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon29x29@3x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "444a05ca1cf748cfd7440fa390e758d3a2e9e365701d3c9787374ae055171295",
+      "size": 9504
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "9934e080e8d4fe2c7c1ee5feda7f3d1b0ceeabf8dd65834d03fa0baadd49d1ed",
+      "size": 2650
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "9ab7dc6d37efbed691648cf545ffd490125e24d1a78a3f11043b167c780f5ff6",
+      "size": 8309
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon40x40@3x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d",
+      "size": 16021
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon50x50.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "a3d6c1fb86f75aab76dda4dd51368ab903f23cd98be1522edab6a684d23ff420",
+      "size": 3845
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon50x50@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "a0b2483b684eec28c813a0ba13bf25700c240681905cfd26e86320c96f7a063c",
+      "size": 11898
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "02954587d7cff643f4805a79df90da4c5d5a4eb7ab5026eb71698b42af85ee52",
+      "size": 4818
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "a6ef5deaa71c36aaea9e2646f1b9759f62b792a6a0ff3b9720bda88258aecacd",
+      "size": 14778
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon57x57@3x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "5d796161858e6dc07bf90283f1528149a5be01437ed242095cb3af3ebc2425bf",
+      "size": 28859
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "e0cd867606e62b90c9dc9962520ca1d760b47ba7dd9593505f826e757625cb11",
+      "size": 5185
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "ca2e7402c268eb08ecb031b24bce4fd8c9bfde7c169431f7aa860070e6964e7d",
+      "size": 16021
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon60x60@3x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "6cf13a7c3e5aac30d0232a53b8388ae6623b43259afd125ef88e2ff509604d12",
+      "size": 31467
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon72x72.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "0480a1a0adbc74d7e3272c82e7b0f8fe86352b44c99e7c151aea76eaa085f3ac",
+      "size": 7026
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon72x72@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "ca01ebbfc396c8f6e1ebffa03c80df4714fc099c6decce0e49ab58eafe3a79a5",
+      "size": 21616
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon76x76.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "df2a07dc88e81ed07a33fc51161510d1404fc59df0e5231cc7c7e94ac261371c",
+      "size": 7628
+    },
+    "var/jb/Applications/DuoFaceUI.app/AppIcon76x76@2x.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "3e875d60e256732dbbc2774ed88cbce098fdf81d684e9724d7bbe7c6b17dc3a8",
+      "size": 23597
+    },
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "size": 2456784
+    },
+    "var/jb/Applications/DuoFaceUI.app/Info.plist": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "d34a7d08c593dd2ee29b0fbe79d51b369253a8728282b1fff2b757302b7a5e67",
+      "size": 2303
+    },
+    "var/jb/Library": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/Application Support": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/Application Support/DuoFace": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/Application Support/DuoFace/VisualAssets": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-fullscreen.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "10e52f01a16cb7d34a81330373a290bcac1bdb0ba9c91119527ef3dcb13cdb36",
+      "size": 6400
+    },
+    "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-picker.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "16a959b71a0d3d8ef86e2ac9163024af457aec180770c757fe4b16d2b0a85f8a",
+      "size": 15225
+    },
+    "var/jb/Library/Application Support/DuoFace/VisualAssets/duoface-swap.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "d3ec77c783a186896d63bb08732ee78e427f16e1c127c0785b36bf5eaa037275",
+      "size": 22085
+    },
+    "var/jb/Library/Application Support/DuoFace/asset-manifest.json": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "5b5eaf4958ae7e2898c69f2b2dc95672aecb08d6ca5952d13df513c56d7ede29",
+      "size": 1998
+    },
+    "var/jb/Library/Application Support/DuoFace/duoface-icon.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "03f0a9e31bffced19419f06193d866bb2d66d824c5ba10c5c24eee8718217def",
+      "size": 64297
+    },
+    "var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7",
+      "size": 143191
+    },
+    "var/jb/Library/Application Support/DuoFace/duoface-logo-vert.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "7fa216e2fa89e4fc32e49045ab29d72f6bee3fef4f974444c98fb5bd631e25d2",
+      "size": 378795
+    },
+    "var/jb/Library/Application Support/DuoFace/duoface-logo.png": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089",
+      "size": 147482
+    },
+    "var/jb/Library/MobileSubstrate": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "size": 7540464
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "584038db14fd6d61b7e56e096b6ca2f020dd8b4f97fb5485ee72763d817fcd10",
+      "size": 1446
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "e70d7705e808a16ae1a0792f27fca26196b7f1f2c108d8997d750c136e838561",
+      "size": 124976
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "d0d7082b78fb83dc15d0a02cb6e247486d982d9870871e698c2a64b70c1bf2af",
+      "size": 594
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+      "size": 75536
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "9b3e9dc8b5e1d195b5b0fe0a6c6f12104a17683273582408c8a398f1a8529966",
+      "size": 511
+    },
+    "var/jb/etc": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/etc/sudoers.d": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/etc/sudoers.d/duoface": {
+      "kind": "file",
+      "mode": "0o644",
+      "sha256": "72fd64f87a8564969df22bedc7c2e36e46776b3ad6bc4d2014f4b8029599ac5a",
+      "size": 28
+    },
+    "var/jb/usr": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/usr/bin": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/usr/bin/duoface-cboptimize": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "73b19cdafe1624f089d54ae06aa0f00b1545ca5f11fd62fc6e69dcf44417eb46",
+      "size": 3364
+    },
+    "var/jb/usr/lib": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/usr/lib/ellekit": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/usr/libexec": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/jb/usr/libexec/duoface_cboptimize_helper": {
+      "kind": "file",
+      "mode": "0o755",
+      "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+      "size": 150528
+    },
+    "var/mobile": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/mobile/Library": {
+      "kind": "directory",
+      "mode": "0o755"
+    },
+    "var/mobile/Library/Preferences": {
+      "kind": "directory",
+      "mode": "0o755"
+    }
+  },
+  "approved_source": "dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb",
+  "binary_code_patched": false,
+  "binary_component_hashes": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "license_marker_offsets_hex": {
+        "/api/v1/license/sync": [
+          "0xbdfdd",
+          "0x1e9fdd"
+        ],
+        "com.duoface.license.sync": [
+          "0xbdb09",
+          "0x1e9b09"
+        ],
+        "installAndVerifyLicensePayload:errorMsg:": [
+          "0xace12",
+          "0x1d8dd2"
+        ],
+        "isLicenseCurrentlyValid": [
+          "0xa99cf",
+          "0x1d598f"
+        ],
+        "remainingLicenseSeconds": [
+          "0xaf429",
+          "0x1db3e9"
+        ]
+      },
+      "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "size": 2456784
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "license_marker_offsets_hex": {
+        "/api/v1/license/sync": [
+          "0x30c412",
+          "0x6a8336"
+        ],
+        "LICENSE_KILL_TRACE": [
+          "0x30da32",
+          "0x30daae",
+          "0x30db07",
+          "0x30db52",
+          "0x30dbaa",
+          "0x30dcfc",
+          "0x30dde1",
+          "0x30f331",
+          "0x30f387",
+          "0x30f3cf"
+        ],
+        "com.duoface.license.sync": [
+          "0x30bf3e",
+          "0x6a7e62"
+        ],
+        "installAndVerifyLicensePayload:errorMsg:": [
+          "0x2f92b5",
+          "0x6951d9"
+        ],
+        "isLicenseCurrentlyValid": [
+          "0x2f931a",
+          "0x69523e"
+        ],
+        "licenseWatchdogTimerFired:": [
+          "0x2fd301",
+          "0x30ddf5",
+          "0x699225",
+          "0x6a9d19"
+        ],
+        "remainingLicenseSeconds": [
+          "0x2f9332",
+          "0x695256"
+        ]
+      },
+      "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "size": 7540464
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "license_marker_offsets_hex": {},
+      "sha256": "e70d7705e808a16ae1a0792f27fca26196b7f1f2c108d8997d750c136e838561",
+      "size": 124976
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+      "license_marker_offsets_hex": {},
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+      "size": 75536
+    }
+  },
+  "byte_identical_files": true,
+  "copied_file_count": 40,
+  "device_tested": false,
+  "excluded_only": [
+    "var/mobile/Library/Preferences/com.duonavi.sync.plist"
+  ],
+  "license_check_code_still_present": true,
+  "license_markers_in_binaries": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "/api/v1/license/sync": [
+        "0xbdfdd",
+        "0x1e9fdd"
+      ],
+      "com.duoface.license.sync": [
+        "0xbdb09",
+        "0x1e9b09"
+      ],
+      "installAndVerifyLicensePayload:errorMsg:": [
+        "0xace12",
+        "0x1d8dd2"
+      ],
+      "isLicenseCurrentlyValid": [
+        "0xa99cf",
+        "0x1d598f"
+      ],
+      "remainingLicenseSeconds": [
+        "0xaf429",
+        "0x1db3e9"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "/api/v1/license/sync": [
+        "0x30c412",
+        "0x6a8336"
+      ],
+      "LICENSE_KILL_TRACE": [
+        "0x30da32",
+        "0x30daae",
+        "0x30db07",
+        "0x30db52",
+        "0x30dbaa",
+        "0x30dcfc",
+        "0x30dde1",
+        "0x30f331",
+        "0x30f387",
+        "0x30f3cf"
+      ],
+      "com.duoface.license.sync": [
+        "0x30bf3e",
+        "0x6a7e62"
+      ],
+      "installAndVerifyLicensePayload:errorMsg:": [
+        "0x2f92b5",
+        "0x6951d9"
+      ],
+      "isLicenseCurrentlyValid": [
+        "0x2f931a",
+        "0x69523e"
+      ],
+      "licenseWatchdogTimerFired:": [
+        "0x2fd301",
+        "0x30ddf5",
+        "0x699225",
+        "0x6a9d19"
+      ],
+      "remainingLicenseSeconds": [
+        "0x2f9332",
+        "0x695256"
+      ]
+    }
+  },
+  "new_package_id_applied": false,
+  "original_app_bundle_id": "com.duoface.duofaceui",
+  "published_to_sileo": false,
+  "remaining_problem": "Hai binary DuoFaceUI và DuoFaceDashboard vẫn có logic cấp phép nhúng. Chưa chứng minh chức năng chạy độc lập. Không đưa staging này lên Sileo.",
+  "source_control": {
+    "Architecture": "iphoneos-arm64",
+    "Package": "com.duonavi.app",
+    "Version": "1.0.3-12+menu-native1"
+  },
+  "source_file_count": 41,
+  "source_sha256": "ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a",
+  "staging_is_installable": false,
+  "staging_root": "/home/runner/work/_temp/duoface-exact-stage",
+  "status": "EXACT_PAYLOAD_STAGED_LICENSE_CODE_EMBEDDED_NOT_INDEPENDENT"
+}
