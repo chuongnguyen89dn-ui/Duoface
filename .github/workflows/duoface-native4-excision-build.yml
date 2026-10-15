@@ -1,0 +1,114 @@
+name: DuoFace native4 - embedded code removal candidate DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native4.py'
+      - '.github/workflows/duoface-native4-excision-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native4-build
+  cancel-in-progress: false
+jobs:
+  build-testable-candidate:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install package/signing tools and lock input
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          source='dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb'
+          printf '%s  %s\n' '7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df' "$source" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native4.py
+      - name: Make experimental native4 without changing picker/CarPlay assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native4
+          python3 migration/full_payload/native_test/build_native4.py \
+            --out 'dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native4/BAO_CAO.json' \
+            | tee "$RUNNER_TEMP/native4-build.txt"
+      - name: Verify signed ARM64 functions, immutable other payload, no vendor names
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb'
+          dpkg-deb -f "$deb" | tee "$RUNNER_TEMP/native4-control.txt"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native4'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native4' gt '0.1.0~native3'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out 'dist/payload-migration/native4/BRAND_ZERO_AUDIT.json'
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('dist/payload-migration/native4')
+          p=root/'com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb'
+          r=json.loads((root/'BAO_CAO.json').read_text())
+          b=json.loads((root/'BRAND_ZERO_AUDIT.json').read_text())
+          assert r['status']=='NATIVE4_EXPERIMENTAL_CODE_BODIES_REPLACED_NOT_CARPLAY_TESTED'
+          assert r['package']=='com.duoface.independent' and r['version']=='0.1.0~native4'
+          assert not r['all_embedded_license_code_proven_removed']
+          assert not r['device_tested'] and not r['sileo_published']
+          assert r['source_native3_preserved_for_rollback']
+          assert len(r['changed_payload_paths'])==4
+          assert r['method_bodies']['DuoFaceUI']['method_body_count']>170
+          assert r['method_bodies']['DuoFaceDashboard']['method_body_count']>=35
+          assert r['method_bodies']['DuoFaceUI']['method_bytes_overwritten']>10000
+          assert r['method_bodies']['DuoFaceDashboard']['method_bytes_overwritten']>10000
+          assert b['strict_byte_level_zero_matches']
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==r['deb_sha256']
+          print('NATIVE4_REMOVAL_CANDIDATE_BUILT_STILL_REQUIRES_REAL_DEVICE_TEST')
+          PY
+          dpkg-deb -c "$deb" > "$RUNNER_TEMP/native4-contents.txt"
+          grep -F 'DuoFaceUI.app/DuoFaceUI' "$RUNNER_TEMP/native4-contents.txt"
+          grep -F 'DuoFaceDashboard.dylib' "$RUNNER_TEMP/native4-contents.txt"
+          grep -F 'DuoFaceFullscreenBridge.dylib' "$RUNNER_TEMP/native4-contents.txt"
+          grep -F 'A_DuoFaceNativeNoLease.dylib' "$RUNNER_TEMP/native4-contents.txt"
+          ! grep -iEq 'Airaw|DuoNavi' "$RUNNER_TEMP/native4-contents.txt"
+          mkdir -p "$RUNNER_TEMP/unpacked"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/unpacked"
+          for file in \
+            'var/jb/Applications/DuoFaceUI.app/DuoFaceUI' \
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'
+          do
+            test "$(lipo -archs "$RUNNER_TEMP/unpacked/$file")" = 'arm64'
+            otool -L "$RUNNER_TEMP/unpacked/$file" | tail -n +2 | tee "$RUNNER_TEMP/native4-linked-libraries.txt"
+          done
+          shasum -a 256 "$deb" | tee "$RUNNER_TEMP/native4-sha256.txt"
+      - name: Save candidate and regression report to DuoFace branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native4/*.deb dist/payload-migration/native4/*.json
+          git commit -m 'artifact: native4 removal candidate and audit (device not yet tested) [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Save CI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native4-deb-${{github.run_id}}
+          path: |
+            dist/payload-migration/native4/*.deb
+            dist/payload-migration/native4/*.json
+            ${{runner.temp}}/native4-build.txt
+            ${{runner.temp}}/native4-control.txt
+            ${{runner.temp}}/native4-contents.txt
+            ${{runner.temp}}/native4-linked-libraries.txt
+            ${{runner.temp}}/native4-sha256.txt
+          if-no-files-found: warn
