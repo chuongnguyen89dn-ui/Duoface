@@ -31,7 +31,7 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           brew install ldid
-      - name: Compile latest 30pt transparent picker and fullscreen functions
+      - name: Compile 30pt picker with opaque background and preserved fullscreen functions
         run: |
           set -euo pipefail
           grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
@@ -40,6 +40,9 @@ jobs:
           grep -q 'xReserved=48.0' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'available=sheetWidth-2.0\*sideInset-logoWidth-xReserved' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFClearNativePickerChrome' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFPickerOpaqueSheetColor' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'blur.contentView.backgroundColor=DFPickerOpaqueSheetColor()' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'contentView.backgroundColor=DFPickerOpaqueSheetColor()' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'blur.effect=nil' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'NSString \*zoomTitle=@"Zoom"' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFDecorate(close,@"Close"' runtime/fullscreen/DFPickerZoomMenu.xm
