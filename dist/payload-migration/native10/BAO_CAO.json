@@ -1,0 +1,218 @@
+{
+  "status": "NATIVE10_EXPERIMENTAL_ONLY_NOT_DEVICE_TESTED",
+  "source_sha256": "e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e",
+  "version": "0.1.0~native10",
+  "package": "com.duoface.independent",
+  "architecture": "iphoneos-arm64",
+  "modified_method_count": 19,
+  "carplay_method_byte_guard_count": 8,
+  "modified_files": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "unchanged_other_payload_files": 42,
+  "patches": [
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "dealloc",
+      "offset": 111492,
+      "span_length": 224,
+      "before_sha256": "e0eb66c878198e1705fc3922c87408a513f2e85619602323422e23b66933e2e6",
+      "after_sha256": "a4d8ef1d8ccd6c6310c0ff15d6f3be8708662f3db4c0d16769c22cb80abaf63b",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": ".cxx_destruct",
+      "offset": 138568,
+      "span_length": 176,
+      "before_sha256": "75a9bb00fcfa6625588e5cf1761a4593ff1e0a4d6480c37eee9e75631c5bf595",
+      "after_sha256": "902b0cb5139d6bb796bd6aa36e54ef98d95734dc57ab35db38d080668ed8655d",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": ".cxx_destruct",
+      "offset": 150256,
+      "span_length": 224,
+      "before_sha256": "2bc1b484b04b1288909acb2f25660795548ff985b07da6be6a5789a698586ac6",
+      "after_sha256": "a4d8ef1d8ccd6c6310c0ff15d6f3be8708662f3db4c0d16769c22cb80abaf63b",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": ".cxx_destruct",
+      "offset": 152908,
+      "span_length": 80,
+      "before_sha256": "8612fcbfd1e46638785021594a5f2ee2af23f9245ca00c45bd08a31b47b2d981",
+      "after_sha256": "c0b5e4d59609887ecad85f90dc2c59fea122ecd3f35704b06cb6bd16d3bd9143",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": ".cxx_destruct",
+      "offset": 157044,
+      "span_length": 80,
+      "before_sha256": "8bd28903e2eeb6e165e10c6133acc773eabd1c90bea7e0c3de0add6835cbbd80",
+      "after_sha256": "c0b5e4d59609887ecad85f90dc2c59fea122ecd3f35704b06cb6bd16d3bd9143",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": ".cxx_destruct",
+      "offset": 159808,
+      "span_length": 80,
+      "before_sha256": "40fae556c4d0d91bdfca76af7de85cf35bc9fbb1fdb1bbb4b2093d76575b3055",
+      "after_sha256": "c0b5e4d59609887ecad85f90dc2c59fea122ecd3f35704b06cb6bd16d3bd9143",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": ".cxx_destruct",
+      "offset": 162304,
+      "span_length": 80,
+      "before_sha256": "4bb52fd4444480f435458ca1803806194c55400031d27fb786b42f8d9a9ffbc1",
+      "after_sha256": "c0b5e4d59609887ecad85f90dc2c59fea122ecd3f35704b06cb6bd16d3bd9143",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": ".cxx_destruct",
+      "offset": 166616,
+      "span_length": 140,
+      "before_sha256": "e4ef66397232e277e447050aa5c48ccd73a0dcd5968f4c0fcc2a6c9b466ad34d",
+      "after_sha256": "e7f4933ef14f69793e803682ed53ff4cf49dc9acaf317c0e9514d59712ba55dc",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": ".cxx_destruct",
+      "offset": 170764,
+      "span_length": 124,
+      "before_sha256": "bfff20903a46ee974043441c955e99a18368095981027d6b74fa41e94ec934ae",
+      "after_sha256": "27d00a6574ba3871fb87fda4c3a525f83bdf08ed123ebb6b97f4a065b7984720",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": ".cxx_destruct",
+      "offset": 178652,
+      "span_length": 204,
+      "before_sha256": "cc00eb670dfbddab94a97426b2af0edb1d8942697e57720cbc1bc892a8c4fbe5",
+      "after_sha256": "c0ffc26e6edefec865f7bae3d59a289626c6902daddafcfdb3c4b4e4faa6859c",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "dealloc",
+      "offset": 178856,
+      "span_length": 76,
+      "before_sha256": "d488b2dd639c5b90554871dd5504f67e3813edc962b9f3553b291865ee98e7fa",
+      "after_sha256": "e9293f02b534e082d97399b4355bc092e715aa15a701d2b9ba6d7a82c1e91fd1",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": ".cxx_destruct",
+      "offset": 192684,
+      "span_length": 128,
+      "before_sha256": "e36cede7423afda969b97ddd2ec0204c4d17a07ca3bf3dd6ee3f21623d0db3c7",
+      "after_sha256": "2a8168048eb079204783bb7643ca5eb468685c73ec9505a3a93e21652813f8a0",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "init",
+      "offset": 364960,
+      "span_length": 108,
+      "before_sha256": "d2a34e640239de2bd13c031fe42eb9fe68228a65a0dcc2b711f832f9857ec274",
+      "after_sha256": "58132013de037c59a8297eb8948e6cf83c2b1d53bdb84480cd71b8fb2c37d087",
+      "may_break_runtime": "RET_SELF_WITHOUT_SUPER_INIT_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": ".cxx_destruct",
+      "offset": 658568,
+      "span_length": 12,
+      "before_sha256": "7c502d29f04c28a16ac4ae01549bdbbf47c7952aca809ae78c92cfd891578019",
+      "after_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "sharedInstance",
+      "offset": 364852,
+      "span_length": 64,
+      "before_sha256": "c60c3c3e3379ac783cd1c0866251a10b0652b00f81bb1922483a89fdebf27603",
+      "after_sha256": "bb51cf71b524f06fe577acfc9a4dc3f85f66f524934664dfc1f2bd6ab36b27d3",
+      "may_break_runtime": "RET_NIL_SINGLETON_BREAKS_CARPLAY_POTENTIALLY"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "init",
+      "offset": 235416,
+      "span_length": 108,
+      "before_sha256": "69540fb59d000f89164e0acf5e17b7cbfa8c3913b76620d63cf08b60ea747d48",
+      "after_sha256": "58132013de037c59a8297eb8948e6cf83c2b1d53bdb84480cd71b8fb2c37d087",
+      "may_break_runtime": "RET_SELF_WITHOUT_SUPER_INIT_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": ".cxx_destruct",
+      "offset": 529060,
+      "span_length": 12,
+      "before_sha256": "929f4e18acf6c605ff6a1cd5db008543693f4ddc46c6a0b40b36a35b9bff85ad",
+      "after_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "sharedInstance",
+      "offset": 235308,
+      "span_length": 64,
+      "before_sha256": "f46647a25b8f5a5769ed800c0b93e8a4293d3e735a6b0a3936368f7e6a83946e",
+      "after_sha256": "bb51cf71b524f06fe577acfc9a4dc3f85f66f524934664dfc1f2bd6ab36b27d3",
+      "may_break_runtime": "RET_NIL_SINGLETON_BREAKS_CARPLAY_POTENTIALLY"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": ".cxx_destruct",
+      "offset": 758836,
+      "span_length": 184,
+      "before_sha256": "03c3c5ec6c62008fad7e00c3a9fe11dffa54cd55d4d7624665f15b53a4951901",
+      "after_sha256": "bb018d93c5ceaecee779a9259c368387f4f38975f6976d233b068d8160a5a3fd",
+      "may_break_runtime": "VOID_RET_NO_IVAR_CLEANUP_BREAKS_LIFECYCLE"
+    }
+  ],
+  "preserved_signing": {
+    "DuoFaceUI": "no_embedded_entitlements_found",
+    "DuoFaceDashboard": "no_embedded_entitlements_found"
+  },
+  "native9_rollback_preserved": true,
+  "runtime_safety_proven": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "deb_sha256": "3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29",
+  "deb_size": 1734096
+}

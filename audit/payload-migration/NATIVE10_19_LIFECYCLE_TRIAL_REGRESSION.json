@@ -1,0 +1,30 @@
+{
+  "status": "NATIVE10_STRUCTURE_CODE_SCOPE_AND_EIGHT_CARPLAY_SHA_PASS",
+  "deb_sha256": "3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native10",
+  "changes_by_binary": {
+    "DuoFaceUI": {
+      "patched_method_bodies": 15,
+      "actual_changed_text_bytes": 1537,
+      "all_non_target_text_bytes_identical": true,
+      "obj_c_and_visible_UI_literals_identical": true
+    },
+    "DuoFaceDashboard": {
+      "patched_method_bodies": 4,
+      "actual_changed_text_bytes": 366,
+      "all_non_target_text_bytes_identical": true,
+      "obj_c_and_visible_UI_literals_identical": true
+    }
+  },
+  "all_8_carplay_code_bodies_byte_identical": true,
+  "all_other_package_payload_files_byte_identical": true,
+  "native9_visual_fullscreen_divider_logo_unchanged": true,
+  "all_existing_objc_metadata_and_literals_identical": true,
+  "all_19_target_methods_changed": true,
+  "device_runtime_safety_proven": false,
+  "may_crash_or_prevent_carplay_connecting": true,
+  "device_tested": false,
+  "sileo_published": false,
+  "rollback_native9_sha256": "e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e"
+}
