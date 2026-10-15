@@ -19,7 +19,7 @@ import runpy
 import sys
 
 EXPECTED_DASH = "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce"
-LICENSE_RE = re.compile(r"licens|trial|expir|watchdog|activation|entitlement", re.I)
+LICENSE_RE = re.compile(r"licens|trial|expir|entitlement", re.I) # Khong suy dien watchdog/chuc nang activation la giay phep
 HOST_RE = re.compile(r"split|bridge|dashboard|window|picker|layout|scene|slot|restore|focus", re.I)
 INTERESTING = {
     "init", "deactivateCurrentApp", "loadNewAppFromCurrentRequest:",
