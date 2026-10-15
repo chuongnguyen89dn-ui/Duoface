@@ -2,6 +2,7 @@
 // Native6 ARM64: CBDividerView.longPress is 0.4s; user approved 0.30s.
 // Tap -> original onSwap. Hold -> move logo along divider, never onRotate.
 // Keep the native divider pan callback/ratio unchanged for touches off logo.
+// The original logo's UIButton owns a long press; unlike handlePan it does not resize the split.
 // Included by DuoFaceVisualHook.m after DFObjectIvar and DFHookFn are declared.
 #import <objc/message.h>
 #import <math.h>
@@ -16,9 +17,9 @@ static BOOL DFGripHooksInstalled;
 @public
     UIButton *pressed;            // assign only; view/button lifetime owns the session
     BOOL holdRecognized;          // latched until next touch-down to prevent late onSwap
-    BOOL dividerPanOwned;         // long hold owns a later pan, not a quick drag
-    BOOL nativeDividerPanActive;  // native ratio resize already started
-    BOOL nativeDividerPanMoved;   // latch until next touch-down, protect onSwap
+    BOOL logoTouchActive;       // set by native UIControlEventTouchDown on the logo
+    BOOL dividerPanOwned;       // only for a touch that started on UIButton logo
+    BOOL panOnLogoMoved;        // prevent late onSwap for a logo-drag that did not hold
     BOOL changedPosition;
     BOOL hasPosition;
     NSUInteger savedButtonIndex;
@@ -87,8 +88,8 @@ static void DFLogoGripDown(id divider, SEL cmd, UIControl *sender) {
         session->holdRecognized=NO;
         session->changedPosition=NO;
         session->dividerPanOwned=NO;
-        session->nativeDividerPanActive=NO;
-        session->nativeDividerPanMoved=NO;
+        session->logoTouchActive=YES;
+        session->panOnLogoMoved=NO;
     }
     ((void (*)(id, SEL, id))oldDFGripTouchDown)(divider, cmd, sender);
 }
@@ -96,8 +97,11 @@ static void DFLogoGripDown(id divider, SEL cmd, UIControl *sender) {
 static void DFLogoGripUp(id divider, SEL cmd, UIControl *sender) {
     DFLogoGripSession *session=DFLogoSession(divider, NO);
     // Do not allow a late native UIControl touch-up to call onSwap after a hold.
-    if (session && (session->holdRecognized || session->nativeDividerPanMoved) &&
-        sender==session->pressed) {
+    BOOL consumed=(session && sender==session->pressed &&
+                   (session->holdRecognized || session->panOnLogoMoved));
+    if (session && sender==session->pressed) session->logoTouchActive=NO;
+    if (consumed) {
+        // A held/dragged logo is NOT a swap, even when UIKit emits late TouchUpInside.
         if (oldDFGripTouchCancel)
             ((void (*)(id, SEL, id))oldDFGripTouchCancel)(
                 divider, @selector(moveButtonTouchCancelled:), sender);
@@ -158,11 +162,10 @@ static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)
     DFLogoGripSession *session=DFLogoSession(divider, YES);
     UIGestureRecognizerState state=recognizer.state;
     if (state==UIGestureRecognizerStateBegan) {
-        // The first recognized gesture owns the touch: if the user already
-        // dragged the split divider, NEVER hijack it into a logo drag.
-        if (session->nativeDividerPanActive || session->nativeDividerPanMoved)
-            return;
+        // The native UIButton long-press is the logo gesture. It is NOT
+        // the divider's split-ratio pan, which remains a separate recognizer.
         session->pressed=button;
+        session->logoTouchActive=YES;
         session->holdRecognized=YES;
         session->changedPosition=NO;
         // Intentionally DO NOT call original onRotate. Holding stationary
@@ -177,6 +180,7 @@ static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)
         // Keep the hold latch until the next physical touch-down. It suppresses
         // a possible late native TouchUpInside -> onSwap event.
         session->dividerPanOwned=NO;
+        session->logoTouchActive=NO;
     }
 }
 
@@ -184,25 +188,24 @@ static void DFLogoDividerPan(id divider, SEL cmd, UIGestureRecognizer *pan) {
     DFLogoGripSession *session=DFLogoSession(divider, YES);
     UIGestureRecognizerState state=pan.state;
     if (state==UIGestureRecognizerStateBegan) {
-        // Preserve native splitRatio drag EVEN when it starts on the logo:
-        // a pan recognized BEFORE the 0.30s hold belongs to the divider.
-        // Only a long press which was already recognized may own a later pan.
+        // The native hit-test route sends a logo touch into its own UIButton.
+        // Preserve that isolation: the divider pan must NOT adjust splitRatio
+        // when this touch started on a logo (regardless of hold duration).
+        // Touches starting elsewhere remain fully owned by native handlePan:.
         session->dividerPanOwned=
-            session->holdRecognized && session->pressed &&
+            session->logoTouchActive && session->pressed &&
             DFLogoIsButton(divider, session->pressed);
-        session->nativeDividerPanActive=!session->dividerPanOwned;
     }
     BOOL swallow=session->dividerPanOwned;
-    if (state==UIGestureRecognizerStateChanged &&
-        session->nativeDividerPanActive && !swallow && session->pressed)
-        session->nativeDividerPanMoved=YES;
+    if (state==UIGestureRecognizerStateChanged && swallow)
+        session->panOnLogoMoved=YES;
     if (state==UIGestureRecognizerStateEnded ||
         state==UIGestureRecognizerStateCancelled ||
         state==UIGestureRecognizerStateFailed) {
         session->dividerPanOwned=NO;
-        session->nativeDividerPanActive=NO;
-        // nativeDividerPanMoved stays set until the next touch-down to avoid
-        // any late touchUpInside erroneously swapping while resizing.
+        if (swallow) session->logoTouchActive=NO;
+        // panOnLogoMoved remains latched until the next touch-down, guarding
+        // against a late native TouchUpInside callback falsely swapping apps.
     }
     if (!swallow)
         ((void (*)(id, SEL, id))oldDFGripDividerPan)(divider, cmd, pan);
