@@ -96,6 +96,8 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic) CGFloat fraction,secondary;
 @property(nonatomic) BOOL shuttingDown;
 @property(nonatomic,strong) UILabel *statusLabel;
+@property(nonatomic,strong) UIImageView *approvedLogo;
+@property(nonatomic) NSInteger activePane,selectedTab;
 @end
 @implementation DFISplitController
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{return UIInterfaceOrientationMaskAll;}
@@ -110,7 +112,7 @@ static NSArray *DFIAvailableApps(void) {
  [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
- self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;
+ self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;
  self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
   UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;[self.view addSubview:p];[panes addObject:p];
