@@ -1,0 +1,104 @@
+{
+  "status": "STATIC_GEOMETRY_NOT_DEVICE_PASS",
+  "source_sha256": "a0c357b64306c1f113ce634168fd4a4be8095c0eaf9669ddc51d118c2aeb9ee0",
+  "menu_height_pt": 30.0,
+  "logo_slot_width_pt": 120.0,
+  "native_x_reserved_pt": 48.0,
+  "checks": [
+    {
+      "sheet_width": 350,
+      "status": "native_fallback_no_overlap",
+      "scale": 0.708
+    },
+    {
+      "sheet_width": 360,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 134.0,
+      "tabs_right": 295.0,
+      "reserved_x_left": 304.0,
+      "gap": 6.0,
+      "scale": 0.76
+    },
+    {
+      "sheet_width": 390,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 134.0,
+      "tabs_right": 326.0,
+      "reserved_x_left": 334.0,
+      "gap": 6.0,
+      "scale": 0.917
+    },
+    {
+      "sheet_width": 420,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 136.8,
+      "tabs_right": 355.2,
+      "reserved_x_left": 364.0,
+      "gap": 8.8,
+      "scale": 1.0
+    },
+    {
+      "sheet_width": 480,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 148.8,
+      "tabs_right": 403.2,
+      "reserved_x_left": 424.0,
+      "gap": 20.8,
+      "scale": 1.0
+    },
+    {
+      "sheet_width": 520,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 156.8,
+      "tabs_right": 435.2,
+      "reserved_x_left": 464.0,
+      "gap": 28.8,
+      "scale": 1.0
+    },
+    {
+      "sheet_width": 550,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 162.8,
+      "tabs_right": 459.2,
+      "reserved_x_left": 494.0,
+      "gap": 34.8,
+      "scale": 1.0
+    },
+    {
+      "sheet_width": 600,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 172.8,
+      "tabs_right": 499.2,
+      "reserved_x_left": 544.0,
+      "gap": 44.8,
+      "scale": 1.0
+    },
+    {
+      "sheet_width": 720,
+      "status": "safe_static_layout",
+      "logo_left": 8.0,
+      "logo_right": 128.0,
+      "tabs_left": 196.8,
+      "tabs_right": 595.2,
+      "reserved_x_left": 664.0,
+      "gap": 68.8,
+      "scale": 1.0
+    }
+  ],
+  "deb_built": false,
+  "device_tested": false
+}
