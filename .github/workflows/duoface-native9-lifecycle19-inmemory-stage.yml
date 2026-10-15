@@ -1,0 +1,68 @@
+name: DuoFace native9 - simulate 19 lifecycle code hides, keep 8 CarPlay, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/stage_duoface_native9_lifecycle19_structural_patch.py'
+      - '.github/workflows/duoface-native9-lifecycle19-inmemory-stage.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-lifecycle19-inmemory-stage
+  cancel-in-progress: false
+jobs:
+  prove-structural-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: In-memory stage 19 ABI-shaped neutralizations WITHOUT publishing unsafe executable
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/stage_duoface_native9_lifecycle19_structural_patch.py
+          python3 scripts/stage_duoface_native9_lifecycle19_structural_patch.py \
+            --out audit/payload-migration/NATIVE9_19_LIFECYCLE_INMEMORY_PATCH_PREVIEW.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('audit/payload-migration/NATIVE9_19_LIFECYCLE_INMEMORY_PATCH_PREVIEW.json').read_text())
+          assert r['status']=='NATIVE9_19_LIFECYCLE_PREVIEW_ABI_PATCHES_STRUCTURAL_PASS_UNSAFE_FOR_RELEASE'
+          assert r['source_sha256']=='e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e'
+          assert r['all_requested_lifecycle_body_candidates']==19
+          assert r['preserved_original_carplay_count']==8
+          assert len(r['patch_rows'])==19 and len(r['carplay_original_checksums'])==8
+          assert r['estimated_changed_bytes_preview']>0
+          assert all(not x['allowed_for_deployment'] for x in r['patch_rows'])
+          assert r['method_return_shapes_pass']
+          assert not r['method_runtime_lifecycle_safe']
+          assert not r['carplay_runtime_safe_after_preview']
+          assert not r['proposed_binary_written'] and not r['deb_built'] and not r['sileo_changed']
+          print('NATIVE9_19_LIFECYCLE_PREVIEW_ONLY_8_CARPLAY_BYTE_GUARDS_PASS_UNSAFE_TO_PUBLISH')
+          PY
+      - name: Persist exact patch offsets/hashes as evidence only
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE9_19_LIFECYCLE_INMEMORY_PATCH_PREVIEW.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: exact reversible 19 lifecycle code-blanking preview, unsafe for deployment [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-lifecycle19-inmemory-preview-no-deb
+          path: audit/payload-migration/NATIVE9_19_LIFECYCLE_INMEMORY_PATCH_PREVIEW.json
+          if-no-files-found: warn
