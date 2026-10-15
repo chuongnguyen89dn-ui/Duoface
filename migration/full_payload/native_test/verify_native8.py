@@ -144,7 +144,10 @@ def verify():
                 assert "divider native tap preserved" in hook_strings, "Lost divider hook"
             else:
                 assert marker in hook_strings, (marker, "missing in source-built hook")
-        assert len(before) >= 40
+        # Baseline has extra DEBIAN control files excluded by dpkg-deb -x;
+        # do not assume a 40-file data payload. Assert actual invariants.
+        assert len(before) >= len(allowed) + 30
+        assert len(before) == len(after)
         assert sum(x["actual_changed_literal_bytes"] for x in checks.values()) == (
             report["actual_changed_literal_bytes_expected"])
         assert sum(x["selected_literal_bytes"] for x in checks.values()) == (
