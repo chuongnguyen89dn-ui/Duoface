@@ -185,6 +185,20 @@ static NSArray *DFIAvailableApps(void) {
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
  for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
 }
+- (void)updateInteractionBorders {
+ // Bản duyệt: đỏ #E3020F, rộng 1pt, không nhấp nháy, ẩn khi tập trung một ô
+ // hoặc thanh điều khiển về trạng thái nghỉ.
+ [CATransaction begin];[CATransaction setDisableActions:YES];
+ for(int i=0;i<3;i++){
+     BOOL active=self.hosts[i]!=NSNull.null &&
+         !self.toolbar.hidden && self.maximized<0 &&
+         !CGRectIsEmpty(self.panes[i].frame);
+     self.panes[i].layer.borderWidth=active?1.0:0.0;
+     self.panes[i].layer.borderColor=
+         (active?DFIApprovedRed():UIColor.clearColor).CGColor;
+ }
+ [CATransaction commit];
+}
 - (void)viewDidLayoutSubviews {
  [super viewDidLayoutSubviews];if(self.shuttingDown)return;
  DFIPerfCount(@"layout_passes");
@@ -214,6 +228,7 @@ static NSArray *DFIAvailableApps(void) {
   self.panel.frame=CGRectMake(x,MAX(0,y),w,h);if(self.list)self.list.view.frame=self.panel.contentView.bounds;
   else {NSArray *buttons=self.panel.contentView.subviews;CGFloat bw=w/4,bh=h/MAX(1,ceil((double)buttons.count/4.0));for(NSUInteger i=0;i<buttons.count;i++)[buttons[i] setFrame:CGRectMake((i%4)*bw,(i/4)*bh,bw,bh)];}
  }
+ [self updateInteractionBorders];
 }
 - (void)armHide {
  [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.tableView.dragging||weak.list.tableView.decelerating){[weak armHide];return;}[weak dismissPanel];weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}];
