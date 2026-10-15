@@ -5,6 +5,83 @@
   "results": {
     "DuoFaceUI": {
       "binary_sha256": "3740e24660d886dc13957672216b18130553bc7e67b95150bfafd57fd2c809c3",
+      "cfstring_object_reference_candidates": [
+        {
+          "candidate_cfstring_vm_hex": "0x1000efee8",
+          "candidate_cfstring_file_offset_hex": "0xefee8",
+          "stored_string_length": 8,
+          "length_matches_literal": true,
+          "direct_arm64_address_loads_to_cfstring_object": [
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100032ee4",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100034c0c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100036974",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100038654",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10003a384",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10003c08c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10003ddac",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10003fae4",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10004520c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100046f2c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x100048c5c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x10004a98c",
+              "virtual_literal_hex": "0x1000efee8"
+            },
+            {
+              "kind": "ADR_STATIC_ADDRESS_CANDIDATE",
+              "adr_pc_hex": "0x1000500d4",
+              "virtual_literal_hex": "0x1000efee8"
+            }
+          ],
+          "direct_arm64_load_count": 13,
+          "proven_exclusively_visible_UI": false
+        }
+      ],
       "text_literal": "Activate",
       "literal_file_offset": 719363,
       "literal_sha256": "24433c70eba5b15368fe2e1dda94fe3d61db2357aa144363b9ab487e60235ab2",
@@ -34,6 +111,96 @@
     },
     "DuoFaceDashboard": {
       "binary_sha256": "9bf5724a127ac18189d8c1becbc0e457b51b6ae7d9c58a0e5ad90633757b77ca",
+      "cfstring_object_reference_candidates": [
+        {
+          "candidate_cfstring_vm_hex": "0x34a688",
+          "candidate_cfstring_file_offset_hex": "0x34a688",
+          "stored_string_length": 8,
+          "length_matches_literal": true,
+          "direct_arm64_address_loads_to_cfstring_object": [
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0xa4fc",
+              "add_pc_hex": "0xa500",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0xc224",
+              "add_pc_hex": "0xc228",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0xdf8c",
+              "add_pc_hex": "0xdf90",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0xfc6c",
+              "add_pc_hex": "0xfc70",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x1199c",
+              "add_pc_hex": "0x119a0",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x136a4",
+              "add_pc_hex": "0x136a8",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x153c4",
+              "add_pc_hex": "0x153c8",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x170fc",
+              "add_pc_hex": "0x17100",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x1c824",
+              "add_pc_hex": "0x1c828",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x1e544",
+              "add_pc_hex": "0x1e548",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x20274",
+              "add_pc_hex": "0x20278",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x21fa4",
+              "add_pc_hex": "0x21fa8",
+              "virtual_literal_hex": "0x34a688"
+            },
+            {
+              "kind": "ADRP_ADD_STATIC_ADDRESS_CANDIDATE",
+              "adrp_pc_hex": "0x276ec",
+              "add_pc_hex": "0x276f0",
+              "virtual_literal_hex": "0x34a688"
+            }
+          ],
+          "direct_arm64_load_count": 13,
+          "proven_exclusively_visible_UI": false
+        }
+      ],
       "text_literal": "Activate",
       "literal_file_offset": 3132199,
       "literal_sha256": "24433c70eba5b15368fe2e1dda94fe3d61db2357aa144363b9ab487e60235ab2",
