@@ -125,12 +125,19 @@ jobs:
           print('FULL_LINES',len(lines),'FILTERED_LINES',len(selected))
           print('FULL_REPORT',p,'FILTERED_REPORT',summary)
           PY
+      - name: Trace CBLocalization Vietnamese slot and recent-app text mapping (READ ONLY)
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x7098:0x7ea0 0x85e4:0x8b0c > audit/v12-picker-localization-table-20261015.txt
+          grep -E "CBLocalization|SLOT|LEFT|RIGHT|OVERLAY_|Cột|Mở lại|Thêm App|Việt|viTable|localiz|DISASSEMBLY" audit/v12-picker-localization-table-20261015.txt | head -100 || true
       - name: Save static audit evidence to this repo (no installation)
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/v12-picker-localization-table-20261015.txt
           git add audit/v12-picker-targeted-controls-20261015.txt audit/v12-picker-targeted-extract-20261015.txt
           git add audit/v12-picker-close-target-20261014.txt audit/v12-picker-close-app-chain-20261014.txt audit/v12-picker-sheet-geometry-20261014.txt audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
           git commit -m "audit: retain exact v12 picker call graph [skip ci]"
