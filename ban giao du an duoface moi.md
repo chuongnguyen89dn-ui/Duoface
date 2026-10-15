@@ -3,6 +3,14 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
+## YÊU CẦU BẮT BUỘC MỚI NHẤT — BẢO TOÀN 100% DUOFACE ĐÃ HOÀN THIỆN
+
+- **Người dùng xác nhận hai lần: “giữ toàn bộ 100”.** Yêu cầu này **thay thế** các diễn đạt cũ “giữ tối đa”, “giữ nếu có thể”. Khi chuyển sang lõi độc lập **không được tự ý loại bỏ hoặc thay đổi** bất kỳ chức năng, thao tác, giao diện hay tài nguyên nào đã hoàn thiện và được duyệt trong DuoFace trước đó.
+- **Phải giữ nguyên 100% phần người dùng nhìn thấy và sử dụng:** logo/bảng màu/hình ảnh gốc; nền menu native đã duyệt (không xanh lạ, không trong suốt gây chồng ứng dụng); bố cục, kích thước, khoảng cách, tên các mục App – Zoom In/Zoom Out – Style – Close App, icon menu; dòng `logo ứng dụng – tên ứng dụng – chấm xanh/đỏ`, nút Refresh xanh và X trong vòng tròn đỏ; Clear All, trạng thái/viền, chọn ứng dụng, đổi ứng dụng, hoán đổi hai ô, chia màn hình, điều chỉnh tỉ lệ, focus/restore, phóng to/thu nhỏ toàn giao diện, đóng ứng dụng và toàn bộ hành vi đã chốt khác. Đối chiếu DEB/mã/ảnh gốc để đảm bảo không thiếu mục.
+- **Chỉ được thay thế lớp triển khai bên trong** còn phụ thuộc DuoNavi: scene/window host, adapter, cơ chế điều phối, đường gọi tới lớp/thư viện nhị phân DuoNavi. Bản độc lập sử dụng `com.duoface.independent`, không cần kích hoạt, giấy phép, ngày sử dụng, máy chủ hay thư viện DuoNavi.
+- **Tiêu chí bắt buộc:** lập bảng đối chiếu từng chức năng giữa bản đã duyệt và bản độc lập, kiểm tra bằng mã nguồn/DEB, thử nghiệm trên iPhone jailbreak + CarPlay, xác nhận không còn crash. Không được báo đã đạt 100% nếu còn thiếu chức năng, giao diện khác bản đã duyệt, hoặc chưa có bằng chứng kiểm thử. Nếu có trở ngại kỹ thuật phải giữ nguyên yêu cầu và ghi rõ mục chưa đạt, **không tự ý giảm phạm vi** để build nhanh.
+- **Bảo toàn bản đang dùng:** không ghi đè, xóa, làm hỏng DEB cũ; phát hành bản thử qua Sileo với package ID mới và đánh dấu thử nghiệm. Không chuyển 100% có nghĩa là đã đạt 100%: hiện đây là **yêu cầu nghiệm thu**, chưa phải kết quả thực thi.
+
 ## TRẠNG THÁI HIỆN TẠI — 15/10/2026: DuoFace Mới alpha1 đã lên Sileo và kiểm tra nguồn trực tiếp THÀNH CÔNG
 
 - **Gói Sileo ĐÃ XUẤT BẢN:** **DuoFace Mới (Thử nghiệm)**, `Package: com.duoface.independent`, `Version: 0.1.0~alpha1`, `Architecture: iphoneos-arm64`. Nguồn `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, hoàn toàn khác `com.duonavi.app`, `com.duoface.app` và `com.chuong.carplaysplit`.
@@ -206,6 +214,14 @@
 - **Package/Sileo:** tiếp tục `com.duoface.independent`, nâng version mỗi bản, dùng nguồn Sileo đã xác minh `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Không yêu cầu người dùng tải DEB liên tục.
 - **Bước kỹ thuật ngay sau đây:** đối chiếu `runtime/fullscreen/`, `src/DuoFaceVisualHook.m`, menu/logo/assets và cơ chế tương tác của DEB cũ với `independent/engine/runtime/DFIRuntime.m`. Lập bảng từng tính năng: nguồn hiện tại, phụ thuộc CB/DuoNavi, API nội bộ mới thay thế, cách test; chuyển từng lớp giao diện/chức năng; xử lý crash, build, Sileo, kiểm thử thiết bị. Không cần dựng lại UI alpha riêng.
 - **Tình trạng lượt này:** chỉ chốt hướng và lưu bàn giao; **chưa sửa code, chưa build hay phát hành**.
+
+
+### 2026-10-15 — Chốt yêu cầu bảo toàn 100% DuoFace
+
+- **Nguyên văn yêu cầu mới nhắc lại hai lần:** “giữ toàn bộ 100”. Người dùng yêu cầu giữ nguyên **toàn bộ** giao diện, logo/tài nguyên, nút, menu, hành vi, khả năng chia màn hình và fullscreen cùng các chức năng đã hoàn thiện ở bản DuoFace cũ, không phải giữ một phần.
+- **Quyết định thay thế:** các cách nói trước đây “giữ tối đa” / “giữ nếu có thể” không còn là tiêu chí chấp nhận. Chỉ thay phần phụ thuộc DuoNavi bên trong, không được xóa hoặc làm khác những gì người dùng đã chốt.
+- **Kiểm chứng:** đây mới là yêu cầu/phạm vi và tiêu chí nghiệm thu; **chưa phát triển hoặc test chứng minh chuyển được 100%**. Lỗi chọn app crash ở alpha1 vẫn tồn tại theo phản hồi thiết bị, phải được xử lý khi chuyển lõi. Mọi bản alpha lên Sileo phải ghi đúng tình trạng.
+- **Bước tiếp:** lập kiểm kê đối chiếu tính năng–đồ họa giữa `menu-native1` và mã DuoFace với `independent/engine`, ghi các phần còn thiếu và phụ thuộc CB*; chuyển mã/UI vào lõi độc lập, build và thử nghiệm từng nhóm; cuối cùng xác nhận tương đương 100% trên CarPlay thật.
 
 
 ---
