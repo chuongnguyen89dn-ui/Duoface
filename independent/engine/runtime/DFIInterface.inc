@@ -128,8 +128,11 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSArray<UIView *> *lines;
 @property(nonatomic,strong) UIButton *edge;
 @property(nonatomic,strong) UIVisualEffectView *toolbar;
-@property(nonatomic,strong) UIStackView *toolbarStack;
+@property(nonatomic,strong) UIView *toolbarStack;
 @property(nonatomic,strong) UIVisualEffectView *panel;
+@property(nonatomic,strong) UIControl *pickerShade;
+@property(nonatomic,strong) UIButton *pickerClose;
+@property(nonatomic) BOOL interactionActive;
 @property(nonatomic,strong) DFIList *list;
 @property(nonatomic,strong) NSTimer *hideTimer;
 @property(nonatomic) NSInteger layoutKind,maximized,panelPane;
@@ -153,7 +156,7 @@ static NSArray *DFIAvailableApps(void) {
  [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
- self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.pendingPanes=[NSMutableSet set];
+ self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.interactionActive=NO;self.pendingPanes=[NSMutableSet set];
  self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
   UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;[self.view addSubview:p];[panes addObject:p];
@@ -167,7 +170,10 @@ static NSArray *DFIAvailableApps(void) {
  }
  self.grips=grips;self.lines=lines;
  self.edge=[self button:@"ellipsis" label:DFIT(@"Mở thanh công cụ",@"Show toolbar") action:@selector(edgeTap)];self.edge.layer.cornerRadius=12;self.edge.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];[self.view addSubview:self.edge];
- self.toolbar=[self glass];self.toolbar.hidden=YES;self.toolbarStack=[[UIStackView alloc]init];self.toolbarStack.distribution=UIStackViewDistributionFillEqually;[self.toolbar.contentView addSubview:self.toolbarStack];
+ // Toolbar chỉ là PHẦN ĐẦU picker, không được gắn trực tiếp trên màn chia ô.
+ self.toolbar=[[UIVisualEffectView alloc]initWithEffect:nil];self.toolbar.backgroundColor=UIColor.clearColor;
+ self.toolbarStack=[UIView new];self.toolbarStack.backgroundColor=UIColor.clearColor;
+ [self.toolbar.contentView addSubview:self.toolbarStack];
  NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
      @"rectangle.3.group",@"xmark.circle"],*labels=@[@"App",@"Zoom",@"Style",@"Close"],
      *actions=@[@"showAppMenu",@"toggleZoom",@"layouts",@"tasks"];
@@ -179,7 +185,7 @@ static NSArray *DFIAvailableApps(void) {
   UIButton *b=[self button:symbols[i] label:labels[i] action:NSSelectorFromString(actions[i])];
   b.tag=i;
   DFIStyleApprovedTab(b,labels[i],symbols[i],i==0);
-  [self.toolbarStack addArrangedSubview:b];
+  [self.toolbarStack addSubview:b];
  }
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
@@ -238,7 +244,7 @@ static NSArray *DFIAvailableApps(void) {
  NSArray *symbols=@[@"square.grid.2x2",
       DFIChromeZoomRequested()?@"arrow.down.right.and.arrow.up.left":@"arrow.up.left.and.arrow.down.right",
       @"rectangle.3.group",@"xmark.circle"];
- for(UIView *view in self.toolbarStack.arrangedSubviews){
+ for(UIView *view in self.toolbarStack.subviews){
      if(![view isKindOfClass:UIButton.class])continue;
      UIButton *button=(UIButton *)view;
      NSInteger index=button.tag;
