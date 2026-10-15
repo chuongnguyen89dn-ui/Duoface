@@ -49,6 +49,9 @@ jobs:
           test -s "$BRIDGE"
           mkdir -p artifacts
           cp "$BRIDGE" artifacts/DuoFaceFullscreenBridge.dylib
+          xcrun lipo artifacts/DuoFaceFullscreenBridge.dylib -verify_arch arm64
+          ldid -S artifacts/DuoFaceFullscreenBridge.dylib
+          test -s artifacts/DuoFaceFullscreenBridge.dylib
           file artifacts/DuoFaceFullscreenBridge.dylib
       - name: Compile exact current DuoFace border visual hook
         run: |
@@ -75,6 +78,7 @@ jobs:
           cp artifacts/DuoFaceVisualHook.dylib "$DEST/DuoFaceVisualHook.dylib"
           # Replace obsolete picker bridge with current source-built implementation.
           cp artifacts/DuoFaceFullscreenBridge.dylib "$DEST/DuoFaceFullscreenBridge.dylib"
+          chmod 755 "$DEST/DuoFaceFullscreenBridge.dylib" "$DEST/DuoFaceVisualHook.dylib"
           # CRITICAL: preserve the old opaque splash PNG; install menu-specific
           # alpha artwork under its exact runtime lookup name, as a NEW file.
           ALPHA='dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png'
@@ -186,7 +190,7 @@ jobs:
             'validated_payload_paths':rels,
           }
           report=out.parent/'BUILD_AUDIT.json'
-          report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\\n')
+          report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
           print(report.read_text())
           PY
           dpkg-deb -I "$OUT"
