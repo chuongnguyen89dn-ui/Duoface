@@ -161,7 +161,11 @@ static NSArray *DFIAvailableApps(void) {
   else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-.5,r.size.width,1);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
   [self.grips[i] viewWithTag:77].frame=vertical?CGRectMake(16.5,8,3,28):CGRectMake(8,16.5,28,3);
  }
- CGFloat width=MIN(350,bounds.size.width-16);self.toolbar.frame=CGRectMake((bounds.size.width-width)/2,bounds.size.height-42,width,36);self.toolbarStack.frame=self.toolbar.bounds;
+ CGFloat width=MIN(390,MAX(240,bounds.size.width-16));
+ self.toolbar.frame=CGRectMake((bounds.size.width-width)/2,bounds.size.height-44,width,36);
+ CGFloat logoWidth=MIN(120,MAX(56,width*0.30));
+ self.approvedLogo.frame=CGRectMake(6,3,logoWidth-4,30);
+ self.toolbarStack.frame=CGRectMake(logoWidth+8,0,MAX(80,width-logoWidth-12),36);
  self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-26,40,24);self.edge.hidden=!self.toolbar.hidden;
  self.statusLabel.frame=CGRectMake(8,4,bounds.size.width-16,34);
  if(self.panel){CGFloat desired=self.list?MIN(120,MAX(40,self.list.rows.count*40)):88;CGFloat w=MIN(220,bounds.size.width-16),h=MIN(desired,bounds.size.height-54);CGFloat x=(bounds.size.width-w)/2,y=bounds.size.height-h-46;
