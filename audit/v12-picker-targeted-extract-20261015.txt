@@ -1,0 +1,364 @@
+SOURCE: audit/v12-picker-targeted-controls-20261015.txt
+DASHBOARD: bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce
+L322: 000a0494: bl       #0x2ecd00                                     _objc_msgSend
+L323: 000a0498: mov      x29, x29                                      
+L324: 000a049c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L325: 000a04a0: mov      x21, x0                                       
+L326: 000a04a4: adrp     x8, #0x37d000                                 
+L327: 000a04a8: ldr      x1, [x8, #0x9d8]                              [0x37d9d8] SEL setBackgroundColor:
+L328: 000a04ac: mov      x0, x19                                       
+L329: 000a04b0: mov      x26, x1                                       
+L330: 000a04b4: mov      x2, x21                                       
+L331: 000a04b8: bl       #0x2ecd00                                     _objc_msgSend
+L332: 000a04bc: mov      x0, x21                                       
+L333: 000a04c0: bl       #0x2ecd30                                     _objc_release
+L548: 000a081c: mov      x1, x21                                       
+L549: 000a0820: bl       #0x2ecd00                                     _objc_msgSend
+L550: 000a0824: adrp     x8, #0x37f000                                 
+L551: 000a0828: ldr      x0, [x8, #0x828]                              [0x37f828] 
+L552: 000a082c: adrp     x8, #0x37d000                                 
+L553: 000a0830: ldr      x1, [x8, #0xa00]                              [0x37da00] SEL effectWithStyle:
+L554: 000a0834: mov      w2, #0x12                                     
+L555: 000a0838: bl       #0x2ecd00                                     _objc_msgSend
+L556: 000a083c: mov      x29, x29                                      
+L557: 000a0840: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L558: 000a0844: mov      x26, x0                                       
+L559: 000a0848: adrp     x8, #0x37f000                                 
+L560: 000a084c: ldr      x0, [x8, #0x830]                              [0x37f830] 
+L561: 000a0850: bl       #0x2ecc34                                     _objc_alloc
+L562: 000a0854: adrp     x8, #0x37d000                                 
+L563: 000a0858: ldr      x1, [x8, #0xa08]                              [0x37da08] SEL initWithEffect:
+L564: 000a085c: mov      x2, x26                                       
+L565: 000a0860: bl       #0x2ecd00                                     _objc_msgSend
+L566: 000a0864: adrp     x8, #0x37f000                                 
+L567: 000a0868: ldrsw    x22, [x8, #0xca4]                             
+L568: 000a086c: ldr      x8, [x19, x22]                                
+L569: 000a0870: str      x0, [x19, x22]                                
+L612: 000a091c: bl       #0x2ecd00                                     _objc_msgSend
+L613: 000a0920: mov      x29, x29                                      
+L614: 000a0924: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L615: 000a0928: mov      x21, x0                                       
+L616: 000a092c: adrp     x8, #0x37d000                                 
+L617: 000a0930: ldr      x1, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+L618: 000a0934: fmov     d8, #1.00000000                               
+L619: 000a0938: mov      v0.16b, v8.16b                                
+L620: 000a093c: bl       #0x2ecd00                                     _objc_msgSend
+L621: 000a0940: mov      x0, x21                                       
+L622: 000a0944: bl       #0x2ecd30                                     _objc_release
+L623: 000a0948: adrp     x27, #0x37f000                                
+L639: 000a0988: bl       #0x2ecd00                                     _objc_msgSend
+L640: 000a098c: mov      x29, x29                                      
+L641: 000a0990: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L642: 000a0994: mov      x24, x0                                       
+L643: 000a0998: adrp     x8, #0x37d000                                 
+L644: 000a099c: ldr      x1, [x8, #0xa48]                              [0x37da48] SEL setBorderColor:
+L645: 000a09a0: mov      x2, x23                                       
+L646: 000a09a4: bl       #0x2ecd00                                     _objc_msgSend
+L647: 000a09a8: mov      x0, x24                                       
+L648: 000a09ac: bl       #0x2ecd30                                     _objc_release
+L649: 000a09b0: mov      x0, x21                                       
+L650: 000a09b4: bl       #0x2ecd30                                     _objc_release
+L1260: 000a452c: mov      x29, x29                                      
+L1261: 000a4530: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L1262: 000a4534: mov      x24, x20                                      
+L1263: 000a4538: mov      x20, x0                                       
+L1264: 000a453c: adrp     x8, #0x37d000                                 
+L1265: 000a4540: ldr      x1, [x8, #0x9d8]                              [0x37d9d8] SEL setBackgroundColor:
+L1266: 000a4544: mov      x0, x19                                       
+L1267: 000a4548: mov      x2, x20                                       
+L1268: 000a454c: bl       #0x2ecd00                                     _objc_msgSend
+L1269: 000a4550: mov      x0, x20                                       
+L1270: 000a4554: bl       #0x2ecd30                                     _objc_release
+L1271: 000a4558: adrp     x8, #0x37f000                                 
+L1285: 000a4590: bl       #0x2ecd00                                     _objc_msgSend
+L1286: 000a4594: mov      x21, x0                                       
+L1287: 000a4598: adrp     x8, #0x37f000                                 
+L1288: 000a459c: ldr      x0, [x8, #0x840]                              [0x37f840] 
+L1289: 000a45a0: adrp     x8, #0x37d000                                 
+L1290: 000a45a4: ldr      x1, [x8, #0xa50]                              [0x37da50] SEL systemImageNamed:
+L1291: 000a45a8: adrp     x2, #0x36f000                                 
+L1292: 000a45ac: add      x2, x2, #0xea8                                NSString 'square.stack.3d.up.slash'
+L1293: 000a45b0: bl       #0x2ecd00                                     _objc_msgSend
+L1294: 000a45b4: mov      x29, x29                                      
+L1295: 000a45b8: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L1296: 000a45bc: mov      x20, x0                                       
+L1630: 000a4af4: adrp     x8, #0x37e000                                 
+L1631: 000a4af8: ldr      x9, [x8, #0x100]                              [0x37e100] SEL setTag:
+L1632: 000a4afc: adrp     x8, #0x37d000                                 
+L1633: 000a4b00: ldr      x27, [x8, #0x9d0]                             [0x37d9d0] SEL clearColor
+L1634: 000a4b04: nop                                                    
+L1635: 000a4b08: ldr      x15, [x8, #0x9d8]                             [0x37d9d8] SEL setBackgroundColor:
+L1636: 000a4b0c: nop                                                    
+L1637: 000a4b10: ldr      x8, [x8, #0xa18]                              [0x37da18] SEL layer
+L1638: 000a4b14: str      x8, [sp, #0x260]                              
+L1639: 000a4b18: adrp     x8, #0x37d000                                 
+L1640: 000a4b1c: ldr      x8, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+L1641: 000a4b20: str      x8, [sp, #0x1e8]                              
+L1642: 000a4b24: adrp     x8, #0x37d000                                 
+L1643: 000a4b28: ldr      x8, [x8, #0xdf8]                              [0x37ddf8] SEL setClipsToBounds:
+L1644: 000a4b2c: str      x8, [sp, #0x1b8]                              
+L1645: 000a4b30: adrp     x8, #0x37e000                                 
+L1646: 000a4b34: ldr      x8, [x8, #0x108]                              [0x37e108] SEL appSelected:
+L1719: 000a4c58: ldr      x9, [x9, #0x550]                              [0x37d550] SEL arrayWithObjects:count:
+L1720: 000a4c5c: stp      x9, x15, [sp, #0x130]                         
+L1721: 000a4c60: adrp     x9, #0x37e000                                 
+L1722: 000a4c64: ldr      x15, [x9, #0x110]                             [0x37e110] SEL configurationWithPaletteColors:
+L1723: 000a4c68: adrp     x9, #0x37d000                                 
+L1724: 000a4c6c: ldr      x9, [x9, #0xa50]                              [0x37da50] SEL systemImageNamed:
+L1725: 000a4c70: stp      x9, x15, [sp, #0x120]                         
+L1726: 000a4c74: adrp     x9, #0x37e000                                 
+L1727: 000a4c78: ldr      x15, [x9, #0x118]                             [0x37e118] SEL imageWithConfiguration:
+L1728: 000a4c7c: adrp     x9, #0x37d000                                 
+L1729: 000a4c80: ldr      x9, [x9, #0xdb8]                              [0x37ddb8] SEL blackColor
+L1730: 000a4c84: stp      x9, x15, [sp, #0x110]                         
+L2353: 000a5640: nop                                                    
+L2354: 000a5644: ldr      x21, [x8, #0xa10]                             [0x37da10] SEL setFrame:
+L2355: 000a5648: nop                                                    
+L2356: 000a564c: ldr      x27, [x8, #0x9d0]                             [0x37d9d0] SEL clearColor
+L2357: 000a5650: nop                                                    
+L2358: 000a5654: ldr      x23, [x8, #0x9d8]                             [0x37d9d8] SEL setBackgroundColor:
+L2359: 000a5658: nop                                                    
+L2360: 000a565c: mov      x9, x24                                       
+L2361: 000a5660: ldr      x24, [x8, #0xdf8]                             [0x37ddf8] SEL setClipsToBounds:
+L2362: 000a5664: ldr      x22, [x9, #0xeb0]                             
+L2363: 000a5668: nop                                                    
+L2364: 000a566c: ldr      x25, [x8, #0xa18]                             [0x37da18] SEL layer
+L2370: 000a5684: ldr      x9, [x8]                                      
+L2371: 000a5688: adrp     x8, #0x37d000                                 
+L2372: 000a568c: ldr      x8, [x8, #0xe88]                              [0x37de88] SEL setCornerCurve:
+L2373: 000a5690: stp      x8, x9, [sp, #0x1d8]                          
+L2374: 000a5694: adrp     x8, #0x37d000                                 
+L2375: 000a5698: ldr      x8, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+L2376: 000a569c: str      x8, [sp, #0x1e8]                              
+L2377: 000a56a0: adrp     x8, #0x37d000                                 
+L2378: 000a56a4: fadd     d8, d12, d10                                  
+L2379: 000a56a8: ldr      d10, [sp, #0x220]                             
+L2380: 000a56ac: fadd     d15, d10, d13                                 
+L2381: 000a56b0: ldr      s0, [sp, #0x298]                              
+L2439: 000a5798: mov      x0, x19                                       
+L2440: 000a579c: mov      x1, x24                                       
+L2441: 000a57a0: mov      w2, #0                                        
+L2442: 000a57a4: bl       #0x2ecd00                                     _objc_msgSend
+L2443: 000a57a8: adrp     x8, #0x37e000                                 
+L2444: 000a57ac: ldr      x3, [x8, #0x128]                              [0x37e128] SEL addMoreAppsTapped:
+L2445: 000a57b0: mov      x0, x19                                       
+L2446: 000a57b4: mov      x1, x22                                       
+L2447: 000a57b8: mov      x2, x26                                       
+L2448: 000a57bc: mov      w4, #0x40                                     
+L2449: 000a57c0: bl       #0x2ecd00                                     _objc_msgSend
+L2450: 000a57c4: adrp     x8, #0x37f000                                 
+L2542: 000a5934: bl       #0x2ecd00                                     _objc_msgSend
+L2543: 000a5938: mov      x29, x29                                      
+L2544: 000a593c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L2545: 000a5940: mov      x24, x0                                       
+L2546: 000a5944: adrp     x8, #0x37d000                                 
+L2547: 000a5948: ldr      x1, [x8, #0xa48]                              [0x37da48] SEL setBorderColor:
+L2548: 000a594c: mov      x2, x23                                       
+L2549: 000a5950: bl       #0x2ecd00                                     _objc_msgSend
+L2550: 000a5954: mov      x0, x24                                       
+L2551: 000a5958: bl       #0x2ecd30                                     _objc_release
+L2552: 000a595c: mov      x0, x22                                       
+L2553: 000a5960: bl       #0x2ecd30                                     _objc_release
+L2589: 000a59f0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L2590: 000a59f4: mov      x24, x0                                       
+L2591: 000a59f8: adrp     x8, #0x37f000                                 
+L2592: 000a59fc: ldr      x0, [x8, #0x840]                              [0x37f840] 
+L2593: 000a5a00: adrp     x8, #0x37d000                                 
+L2594: 000a5a04: ldr      x1, [x8, #0xed0]                              [0x37ded0] SEL systemImageNamed:withConfiguration:
+L2595: 000a5a08: adrp     x2, #0x36f000                                 
+L2596: 000a5a0c: add      x2, x2, #0xf08                                NSString 'plus'
+L2597: 000a5a10: mov      x3, x24                                       
+L2598: 000a5a14: bl       #0x2ecd00                                     _objc_msgSend
+L2599: 000a5a18: mov      x29, x29                                      
+L2600: 000a5a1c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L2667: 000a5b28: adrp     x8, #0x37f000                                 
+L2668: 000a5b2c: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+L2669: 000a5b30: adrp     x8, #0x37d000                                 
+L2670: 000a5b34: ldr      x1, [x8, #0x5a8]                              [0x37d5a8] SEL localizedStringForKey:
+L2671: 000a5b38: adrp     x2, #0x349000                                 
+L2672: 000a5b3c: add      x2, x2, #0x1e8                                NSString 'OVERLAY_ADD_APP'
+L2673: 000a5b40: bl       #0x2ecd00                                     _objc_msgSend
+L2674: 000a5b44: mov      x29, x29                                      
+L2675: 000a5b48: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L2676: 000a5b4c: mov      x20, x0                                       
+L2677: 000a5b50: adrp     x8, #0x37d000                                 
+L2678: 000a5b54: ldr      x1, [x8, #0xaa8]                              [0x37daa8] SEL setText:
+L3004: 000a6ad8: bl       #0x2ecd00                                     _objc_msgSend
+L3005: 000a6adc: mov      x29, x29                                      
+L3006: 000a6ae0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L3007: 000a6ae4: mov      x19, x0                                       
+L3008: 000a6ae8: adrp     x8, #0x37d000                                 
+L3009: 000a6aec: ldr      x1, [x8, #0x9d8]                              [0x37d9d8] SEL setBackgroundColor:
+L3010: 000a6af0: str      x1, [sp, #0x180]                              
+L3011: 000a6af4: mov      x0, x24                                       
+L3012: 000a6af8: mov      x2, x19                                       
+L3013: 000a6afc: bl       #0x2ecd00                                     _objc_msgSend
+L3014: 000a6b00: mov      x0, x19                                       
+L3015: 000a6b04: bl       #0x2ecd30                                     _objc_release
+L3049: 000a6b8c: bl       #0x2ecd00                                     _objc_msgSend
+L3050: 000a6b90: mov      x29, x29                                      
+L3051: 000a6b94: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L3052: 000a6b98: mov      x19, x0                                       
+L3053: 000a6b9c: adrp     x8, #0x37d000                                 
+L3054: 000a6ba0: ldr      x1, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+L3055: 000a6ba4: adrp     x8, #0x30f000                                 
+L3056: 000a6ba8: ldr      d0, [x8, #0xac8]                              [0x30fac8] 
+L3057: 000a6bac: stur     x1, [x29, #-0xe8]                             
+L3058: 000a6bb0: str      d0, [sp, #0x120]                              
+L3059: 000a6bb4: bl       #0x2ecd00                                     _objc_msgSend
+L3060: 000a6bb8: mov      x0, x19                                       
+L3086: 000a6c20: bl       #0x2ecd00                                     _objc_msgSend
+L3087: 000a6c24: mov      x29, x29                                      
+L3088: 000a6c28: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L3089: 000a6c2c: mov      x21, x0                                       
+L3090: 000a6c30: adrp     x8, #0x37d000                                 
+L3091: 000a6c34: ldr      x1, [x8, #0xa48]                              [0x37da48] SEL setBorderColor:
+L3092: 000a6c38: stur     x1, [x29, #-0xf8]                             
+L3093: 000a6c3c: mov      x2, x20                                       
+L3094: 000a6c40: bl       #0x2ecd00                                     _objc_msgSend
+L3095: 000a6c44: mov      x0, x21                                       
+L3096: 000a6c48: bl       #0x2ecd30                                     _objc_release
+L3097: 000a6c4c: mov      x0, x19                                       
+L3102: 000a6c60: stur     x1, [x29, #-0x100]                            
+L3103: 000a6c64: mov      w2, #1                                        
+L3104: 000a6c68: bl       #0x2ecd00                                     _objc_msgSend
+L3105: 000a6c6c: ldr      x0, [x23, #0x740]                             
+L3106: 000a6c70: adrp     x2, #0x349000                                 
+L3107: 000a6c74: add      x2, x2, #0x128                                NSString 'OVERLAY_CLOSE_ALL'
+L3108: 000a6c78: ldur     x22, [x29, #-0xc8]                            
+L3109: 000a6c7c: mov      x1, x22                                       
+L3110: 000a6c80: bl       #0x2ecd00                                     _objc_msgSend
+L3111: 000a6c84: mov      x29, x29                                      
+L3112: 000a6c88: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L3113: 000a6c8c: mov      x19, x0                                       
+L3321: 000a6fcc: adrp     x10, #0x37e000                                
+L3322: 000a6fd0: ldr      x8, [x8, #0x170]                              [0x37e170] SEL setAccessibilityIdentifier:
+L3323: 000a6fd4: stp      x8, x12, [sp, #0x70]                          
+L3324: 000a6fd8: ldr      x8, [x9, #0x180]                              [0x37e180] SEL closeSingleAppTapped:
+L3325: 000a6fdc: str      x8, [sp, #0x30]                               
+L3326: 000a6fe0: ldr      x8, [x10, #0x178]                             [0x37e178] SEL restartSingleAppTapped:
+L3327: 000a6fe4: stp      x8, x11, [sp, #0x40]                          
+L3328: 000a6fe8: adrp     x8, #0x310000                                 
+L3329: 000a6fec: ldr      d14, [x8, #0xcd0]                             [0x310cd0] 
+L3330: 000a6ff0: adrp     x8, #0x311000                                 
+L3331: 000a6ff4: ldr      d0, [x8, #0x778]                              [0x311778] 
+L3332: 000a6ff8: str      d0, [sp, #0x68]                               
+L3695: 000a75a4: ldr      x19, [x8, #0x708]                             [0x37f708] 
+L3696: 000a75a8: nop                                                    
+L3697: 000a75ac: ldr      x0, [x8, #0x740]                              [0x37f740] CLASS CBLocalization
+L3698: 000a75b0: ldur     x1, [x29, #-0xc8]                             
+L3699: 000a75b4: adrp     x2, #0x349000                                 
+L3700: 000a75b8: add      x2, x2, #0x368                                NSString 'OVERLAY_RUNNING_TAG'
+L3701: 000a75bc: bl       #0x2ecd00                                     _objc_msgSend
+L3702: 000a75c0: mov      x29, x29                                      
+L3703: 000a75c4: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L3704: 000a75c8: mov      x24, x0                                       
+L3705: 000a75cc: str      x26, [sp]                                     
+L3706: 000a75d0: mov      x0, x19                                       
+L3720: 000a7608: mov      x0, x24                                       
+L3721: 000a760c: bl       #0x2ecd30                                     _objc_release
+L3722: 000a7610: ldr      x8, [sp, #0x40]                               
+L3723: 000a7614: str      x8, [sp, #0x1b8]                              
+L3724: 000a7618: adrp     x8, #0x349000                                 
+L3725: 000a761c: add      x8, x8, #0x1a8                                NSString 'OVERLAY_RESTART_SINGLE'
+L3726: 000a7620: b        #0xa7738                                      
+L3727: 000a7624: ldr      x21, [sp, #0x1e8]                             
+L3728: 000a7628: ldr      x0, [x27, #0x818]                             
+L3729: 000a762c: adrp     x8, #0x311000                                 
+L3730: 000a7630: ldr      d1, [x8, #0x700]                              [0x311700] 
+L3731: 000a7634: adrp     x8, #0x30f000                                 
+L3790: 000a7720: mov      x2, x26                                       
+L3791: 000a7724: bl       #0x2ecd00                                     _objc_msgSend
+L3792: 000a7728: ldr      x8, [sp, #0x30]                               
+L3793: 000a772c: str      x8, [sp, #0x1b8]                              
+L3794: 000a7730: adrp     x8, #0x349000                                 
+L3795: 000a7734: add      x8, x8, #0x168                                NSString 'OVERLAY_CLOSE_SINGLE'
+L3796: 000a7738: str      x8, [sp, #0x1a0]                              
+L3797: 000a773c: ldr      x23, [sp, #0x180]                             
+L3798: 000a7740: ldr      x28, [sp, #0x150]                             
+L3799: 000a7744: ldr      x24, [sp, #0x1f8]                             
+L3800: 000a7748: ldr      x21, [sp, #0x1a8]                             
+L3801: 000a774c: mov      x0, x26                                       
+L4056: 000a7b48: bl       #0x2ecd00                                     _objc_msgSend
+L4057: 000a7b4c: mov      x20, x0                                       
+L4058: 000a7b50: adrp     x8, #0x37f000                                 
+L4059: 000a7b54: ldr      x0, [x8, #0x840]                              [0x37f840] 
+L4060: 000a7b58: adrp     x8, #0x37d000                                 
+L4061: 000a7b5c: ldr      x1, [x8, #0xa50]                              [0x37da50] SEL systemImageNamed:
+L4062: 000a7b60: adrp     x2, #0x36f000                                 
+L4063: 000a7b64: add      x2, x2, #0xf28                                NSString 'checkmark.shield.fill'
+L4064: 000a7b68: bl       #0x2ecd00                                     _objc_msgSend
+L4065: 000a7b6c: mov      x29, x29                                      
+L4066: 000a7b70: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4067: 000a7b74: mov      x25, x22                                      
+L4410: 000a80c8: mov      x29, x29                                      
+L4411: 000a80cc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4412: 000a80d0: mov      x24, x23                                      
+L4413: 000a80d4: mov      x23, x0                                       
+L4414: 000a80d8: adrp     x8, #0x37d000                                 
+L4415: 000a80dc: ldr      x28, [x8, #0x9d8]                             [0x37d9d8] SEL setBackgroundColor:
+L4416: 000a80e0: mov      x0, x27                                       
+L4417: 000a80e4: mov      x1, x28                                       
+L4418: 000a80e8: str      x28, [sp, #0xd8]                              
+L4419: 000a80ec: mov      x2, x23                                       
+L4420: 000a80f0: bl       #0x2ecd00                                     _objc_msgSend
+L4421: 000a80f4: mov      x0, x23                                       
+L4601: 000a83c4: mov      x0, x23                                       
+L4602: 000a83c8: bl       #0x2ecd30                                     _objc_release
+L4603: 000a83cc: adrp     x8, #0x37f000                                 
+L4604: 000a83d0: ldr      x0, [x8, #0x828]                              [0x37f828] 
+L4605: 000a83d4: adrp     x8, #0x37d000                                 
+L4606: 000a83d8: ldr      x1, [x8, #0xa00]                              [0x37da00] SEL effectWithStyle:
+L4607: 000a83dc: mov      w2, #0x12                                     
+L4608: 000a83e0: bl       #0x2ecd00                                     _objc_msgSend
+L4609: 000a83e4: mov      x29, x29                                      
+L4610: 000a83e8: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4611: 000a83ec: mov      x19, x0                                       
+L4612: 000a83f0: str      x0, [sp, #0x90]                               
+L4613: 000a83f4: adrp     x8, #0x37f000                                 
+L4614: 000a83f8: ldr      x0, [x8, #0x830]                              [0x37f830] 
+L4615: 000a83fc: bl       #0x2ecc34                                     _objc_alloc
+L4616: 000a8400: adrp     x8, #0x37d000                                 
+L4617: 000a8404: ldr      x1, [x8, #0xa08]                              [0x37da08] SEL initWithEffect:
+L4618: 000a8408: mov      x2, x19                                       
+L4619: 000a840c: bl       #0x2ecd00                                     _objc_msgSend
+L4620: 000a8410: mov      x23, x0                                       
+L4621: 000a8414: mov      x0, x24                                       
+L4622: 000a8418: str      x24, [sp, #0x60]                              
+L4623: 000a841c: mov      x1, x21                                       
+L4674: 000a84e8: bl       #0x2ecd00                                     _objc_msgSend
+L4675: 000a84ec: mov      x29, x29                                      
+L4676: 000a84f0: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4677: 000a84f4: mov      x21, x0                                       
+L4678: 000a84f8: adrp     x8, #0x37d000                                 
+L4679: 000a84fc: ldr      x1, [x8, #0xa30]                              [0x37da30] SEL setBorderWidth:
+L4680: 000a8500: fmov     d10, #1.00000000                              
+L4681: 000a8504: mov      v0.16b, v10.16b                               
+L4682: 000a8508: bl       #0x2ecd00                                     _objc_msgSend
+L4683: 000a850c: mov      x0, x21                                       
+L4684: 000a8510: bl       #0x2ecd30                                     _objc_release
+L4685: 000a8514: mov      x19, x20                                      
+L4701: 000a8554: bl       #0x2ecd00                                     _objc_msgSend
+L4702: 000a8558: mov      x29, x29                                      
+L4703: 000a855c: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4704: 000a8560: mov      x25, x0                                       
+L4705: 000a8564: adrp     x8, #0x37d000                                 
+L4706: 000a8568: ldr      x1, [x8, #0xa48]                              [0x37da48] SEL setBorderColor:
+L4707: 000a856c: mov      x2, x22                                       
+L4708: 000a8570: bl       #0x2ecd00                                     _objc_msgSend
+L4709: 000a8574: mov      x0, x25                                       
+L4710: 000a8578: bl       #0x2ecd30                                     _objc_release
+L4711: 000a857c: mov      x0, x21                                       
+L4712: 000a8580: bl       #0x2ecd30                                     _objc_release
+L4844: 000a8790: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
+L4845: 000a8794: mov      x21, x0                                       
+L4846: 000a8798: adrp     x8, #0x37f000                                 
+L4847: 000a879c: ldr      x0, [x8, #0x840]                              [0x37f840] 
+L4848: 000a87a0: adrp     x8, #0x37d000                                 
+L4849: 000a87a4: ldr      x1, [x8, #0xed0]                              [0x37ded0] SEL systemImageNamed:withConfiguration:
+L4850: 000a87a8: adrp     x2, #0x36f000                                 
+L4851: 000a87ac: add      x2, x2, #0xfc8                                NSString 'iphone.and.arrow.forward'
+L4852: 000a87b0: mov      x3, x21                                       
+L4853: 000a87b4: bl       #0x2ecd00                                     _objc_msgSend
+L4854: 000a87b8: mov      x29, x29                                      
+L4855: 000a87bc: bl       #0x2ecd60                                     _objc_retainAutoreleasedReturnValue
