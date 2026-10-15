@@ -1,14 +1,158 @@
 {
-  "checked_at_utc": "2026-10-15T11:40:58.576763+00:00",
+  "checked_at_utc": "2026-10-15T17:08:47.993209+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 293,
+  "total_actions_runs": 327,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace native12 - remove entire redundant license hook module from package, NO Sileo": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace native11 - actually remove 52 obsolete license string contents in new DEB": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace native11 - prove physical removal of obsolete license strings (NO DEB)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native10 - verify published Sileo, untouched legacy app, and exact downloaded DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native10 - isolated lifecycle device trial with verified rollback": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - 19 lifecycle to 8 CarPlay ownership map, NO DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - simulate 19 lifecycle code hides, keep 8 CarPlay, NO DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - 19 license lifecycle hide candidates, preserve only 8 CarPlay methods": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - locate Activate static load owning functions READ-ONLY": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - read-only reference map for remaining Activate labels": {
+      "recent_runs": 3,
+      "success": 3,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - comprehensive license vs CarPlay READ-ONLY audit, NO DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - verify published Sileo, untouched legacy app, and exact downloaded DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 - restore original visuals, keep logo drag, build verified DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native9 isolated logo grip - compile and source QA only, NO DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace logo hold 0.30s - source-only gesture QA, NO DEB": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native8 - verify independent public Sileo index and DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native8 - combined license UI hide plus movable divider logo DEB": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "Compile current DuoFace visual hook": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace NEXT UI and border compile-only gate": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace read-only divider button mobility audit - NO DEB": {
+      "recent_runs": 3,
+      "success": 3,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native7 - staged residual UI hide preserving CarPlay": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace new - residual license survey without touching CarPlay": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native6 - verify independent public Sileo index and DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace native6 - remove inactive presentation string bytes and verify": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
     },
     "DuoFace native UI goc - verify public Sileo index and DEB": {
       "recent_runs": 5,
@@ -141,338 +285,308 @@
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "DuoFace NEXT UI and border compile-only gate": {
-      "recent_runs": 17,
-      "success": 9,
-      "failure": 8,
-      "other": 0
-    },
-    "DuoFace fullscreen adapter compile check": {
-      "recent_runs": 8,
-      "success": 7,
-      "failure": 1,
-      "other": 0
-    },
-    "Owner-approved DuoFace opaque menu-only DEB one-shot": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Build DuoFace menu inline Live candidate (manual-only)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace v12 picker UI static audit": {
-      "recent_runs": 7,
-      "success": 6,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 38729045440,
+      "id": 38774841024,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 14,
+      "run_number": 15,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38729045440",
-      "created_at": "2026-10-15T11:40:47Z",
-      "head_sha": "bb1db200dd60b830ed1cad391adbdf3b6ea468d6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38774841024",
+      "created_at": "2026-10-15T17:08:32Z",
+      "head_sha": "082fd25714effb4b9040ff0382b5c070808a475f"
     },
     {
-      "id": 38725496808,
-      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38725496808",
-      "created_at": "2026-10-15T11:10:51Z",
-      "head_sha": "837317a1c3eb0baa2bfe87d0585ede036e307a59"
-    },
-    {
-      "id": 38725232790,
-      "name": "DuoFace native5 - independent CarPlay code and UI regression",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38725232790",
-      "created_at": "2026-10-15T11:08:34Z",
-      "head_sha": "34b17d370cb9adb5d1ba63c147fca3d153cfa5ed"
-    },
-    {
-      "id": 38724832704,
-      "name": "DuoFace native5 - reversible residual license quarantine DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38724832704",
-      "created_at": "2026-10-15T11:05:12Z",
-      "head_sha": "a3c5767f02037ab699bebd3489911c8748d1afc1"
-    },
-    {
-      "id": 38722020376,
-      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38722020376",
-      "created_at": "2026-10-15T10:41:12Z",
-      "head_sha": "be167643e6565ede69f8b2ec38959d1734a7b46f"
-    },
-    {
-      "id": 38721748764,
-      "name": "DuoFace native4 - independent executable regression",
+      "id": 38764890758,
+      "name": "DuoFace native12 - remove entire redundant license hook module from package, NO Sileo",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721748764",
-      "created_at": "2026-10-15T10:38:53Z",
-      "head_sha": "d60b4c7f1e448cbe248c4821bbfd31431e062ee8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38764890758",
+      "created_at": "2026-10-15T15:57:38Z",
+      "head_sha": "268cf7ca8561232f42be2e531aee4d357566f01f"
     },
     {
-      "id": 38721666462,
-      "name": "DuoFace native4 - independent executable regression",
+      "id": 38764760728,
+      "name": "DuoFace native12 - remove entire redundant license hook module from package, NO Sileo",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721666462",
-      "created_at": "2026-10-15T10:38:10Z",
-      "head_sha": "9db742438dbf6490089b4b906e5d16e57d887e3f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38764760728",
+      "created_at": "2026-10-15T15:56:45Z",
+      "head_sha": "17aa6601868f74a69ec979350eb49fb3fa6e2e55"
     },
     {
-      "id": 38721372578,
-      "name": "DuoFace native4 - embedded code removal candidate DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38721372578",
-      "created_at": "2026-10-15T10:35:39Z",
-      "head_sha": "942f8f164eb5511b8919040a6053f66ca3b518c1"
-    },
-    {
-      "id": 38720812678,
-      "name": "DuoFace native4 runtime code inventory",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38720812678",
-      "created_at": "2026-10-15T10:30:57Z",
-      "head_sha": "cb7c5db369f4b5c50cd20a7a714ed11cb2f7bc92"
-    },
-    {
-      "id": 38719351008,
-      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38719351008",
-      "created_at": "2026-10-15T10:18:44Z",
-      "head_sha": "2c5252d8dd19dbd235b6f4f86a9959fe2b097634"
-    },
-    {
-      "id": 38718992400,
-      "name": "DuoFace native3 - ensure machine instructions and install safety",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38718992400",
-      "created_at": "2026-10-15T10:15:41Z",
-      "head_sha": "da88652780333a260b7820b79587a9d2d5c1ddbc"
-    },
-    {
-      "id": 38718598923,
-      "name": "DuoFace native3 - brand-zero gate on actual DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38718598923",
-      "created_at": "2026-10-15T10:12:26Z",
-      "head_sha": "32238cbed74203fd5c01d1cb2b1a9416b0ac1440"
-    },
-    {
-      "id": 38717994687,
-      "name": "DuoFace native3 - exhaustive legacy branding scan",
+      "id": 38763339090,
+      "name": "DuoFace native11 - actually remove 52 obsolete license string contents in new DEB",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38717994687",
-      "created_at": "2026-10-15T10:07:24Z",
-      "head_sha": "e6d635262d19c8edf91e83872305364f702814bb"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38763339090",
+      "created_at": "2026-10-15T15:46:54Z",
+      "head_sha": "68291b47ea3a3bf779081d0c4d83e25d5445a797"
     },
     {
-      "id": 38717725536,
-      "name": "DuoFace native3 - exhaustive legacy branding scan",
+      "id": 38763011099,
+      "name": "DuoFace native11 - actually remove 52 obsolete license string contents in new DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38763011099",
+      "created_at": "2026-10-15T15:44:42Z",
+      "head_sha": "3f6597bd89ff22e074729a190703c85751ca1fe0"
+    },
+    {
+      "id": 38761802623,
+      "name": "DuoFace native11 - prove physical removal of obsolete license strings (NO DEB)",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38717725536",
-      "created_at": "2026-10-15T10:05:13Z",
-      "head_sha": "bc62dcbad155a66faa5a78fae251b86ca1ebb50c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38761802623",
+      "created_at": "2026-10-15T15:36:20Z",
+      "head_sha": "f785790653830d0e6a1a6a721add86e86528e081"
     },
     {
-      "id": 38711414564,
-      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
+      "id": 38758035865,
+      "name": "DuoFace native10 - verify published Sileo, untouched legacy app, and exact downloaded DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38711414564",
-      "created_at": "2026-10-15T09:13:55Z",
-      "head_sha": "465a5aa890b52139756834a0849f9e793bed2091"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38758035865",
+      "created_at": "2026-10-15T15:10:54Z",
+      "head_sha": "b460719de974238b98d53a2f02c240165f3b103d"
     },
     {
-      "id": 38710799434,
-      "name": "Build DuoFace Native2 - hide obsolete licence/date settings, preserve CarPlay original",
+      "id": 38757634916,
+      "name": "DuoFace native10 - isolated lifecycle device trial with verified rollback",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38710799434",
-      "created_at": "2026-10-15T09:08:55Z",
-      "head_sha": "54d4cc33d9ae484fac1e8d8dafdad44df1a8c8e2"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38757634916",
+      "created_at": "2026-10-15T15:08:12Z",
+      "head_sha": "a81698a32a8c10cde833fc5b8848ad3bc4971ef3"
     },
     {
-      "id": 38710092872,
-      "name": "DuoFace native settings ObjC selector map",
+      "id": 38755688100,
+      "name": "DuoFace native9 - 19 lifecycle to 8 CarPlay ownership map, NO DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38755688100",
+      "created_at": "2026-10-15T14:55:07Z",
+      "head_sha": "6ce91412fc2893a19109b08469da7e2b92b3a07b"
+    },
+    {
+      "id": 38755539443,
+      "name": "DuoFace native9 - simulate 19 lifecycle code hides, keep 8 CarPlay, NO DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38755539443",
+      "created_at": "2026-10-15T14:54:07Z",
+      "head_sha": "b982c713468249ad44645aac9bd74a48d3914310"
+    },
+    {
+      "id": 38754997526,
+      "name": "DuoFace native9 - 19 license lifecycle hide candidates, preserve only 8 CarPlay methods",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38754997526",
+      "created_at": "2026-10-15T14:50:30Z",
+      "head_sha": "aec75d601c74d49ff823e796a11c5a8ebf262273"
+    },
+    {
+      "id": 38754191939,
+      "name": "DuoFace native9 - locate Activate static load owning functions READ-ONLY",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38754191939",
+      "created_at": "2026-10-15T14:45:08Z",
+      "head_sha": "a2a1e239910a804aaf915600bd188264089b4d59"
+    },
+    {
+      "id": 38753987791,
+      "name": "DuoFace native9 - locate Activate static load owning functions READ-ONLY",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38753987791",
+      "created_at": "2026-10-15T14:43:48Z",
+      "head_sha": "a3de7a20c0bd017e9b61c3e2827cf95aaa7a146f"
+    },
+    {
+      "id": 38753026088,
+      "name": "DuoFace native9 - read-only reference map for remaining Activate labels",
       "run_number": 3,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38710092872",
-      "created_at": "2026-10-15T09:03:11Z",
-      "head_sha": "588ed70810d08b60ee5aa5bcb63e6f324c639ccf"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38753026088",
+      "created_at": "2026-10-15T14:37:16Z",
+      "head_sha": "da4183ae2dcd43ab8ebe66bee5b445a7f33d3ee0"
     },
     {
-      "id": 38709916101,
-      "name": "DuoFace native settings ObjC selector map",
+      "id": 38752675384,
+      "name": "DuoFace native9 - read-only reference map for remaining Activate labels",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709916101",
-      "created_at": "2026-10-15T09:01:43Z",
-      "head_sha": "0857986d52ddd0f9067c4f9cdceeb657ad5feca7"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38752675384",
+      "created_at": "2026-10-15T14:34:56Z",
+      "head_sha": "a22d4cfafd51aeddc6966a87add94f6b7c683b96"
     },
     {
-      "id": 38709735260,
-      "name": "DuoFace native settings ObjC selector map",
+      "id": 38752397415,
+      "name": "DuoFace native9 - read-only reference map for remaining Activate labels",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38752397415",
+      "created_at": "2026-10-15T14:33:02Z",
+      "head_sha": "698111bf2e36876a30799925d0cbf75995c74242"
+    },
+    {
+      "id": 38751758482,
+      "name": "DuoFace native9 - comprehensive license vs CarPlay READ-ONLY audit, NO DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38751758482",
+      "created_at": "2026-10-15T14:28:48Z",
+      "head_sha": "a4f10d5436526a9fea588c2ab589f808c7c5ac77"
+    },
+    {
+      "id": 38747812468,
+      "name": "DuoFace native9 - verify published Sileo, untouched legacy app, and exact downloaded DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38747812468",
+      "created_at": "2026-10-15T14:02:06Z",
+      "head_sha": "98ea02d1b1ec3f4dc297cb3278753a45dbd62195"
+    },
+    {
+      "id": 38747484350,
+      "name": "DuoFace native9 - restore original visuals, keep logo drag, build verified DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38747484350",
+      "created_at": "2026-10-15T13:59:53Z",
+      "head_sha": "7693a0ef58bfe7395a4a06c00e845baf19c8e193"
+    },
+    {
+      "id": 38746174099,
+      "name": "DuoFace native9 isolated logo grip - compile and source QA only, NO DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38746174099",
+      "created_at": "2026-10-15T13:50:43Z",
+      "head_sha": "d5aece1681783e3ffc6ec5f81b323d482aedabe1"
+    },
+    {
+      "id": 38745774555,
+      "name": "DuoFace logo hold 0.30s - source-only gesture QA, NO DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38745774555",
+      "created_at": "2026-10-15T13:47:57Z",
+      "head_sha": "72d5d4ca01c1ad3e6fc057aec1e325d47a22edb3"
+    },
+    {
+      "id": 38738052933,
+      "name": "DuoFace native8 - verify independent public Sileo index and DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38738052933",
+      "created_at": "2026-10-15T12:52:50Z",
+      "head_sha": "5685c87e34e3fe4a12612abbc83ab549820c5fd4"
+    },
+    {
+      "id": 38737290575,
+      "name": "DuoFace native8 - combined license UI hide plus movable divider logo DEB",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38737290575",
+      "created_at": "2026-10-15T12:47:02Z",
+      "head_sha": "8c5e52bf122ad52bc7bcb89211c7eb9946f3173c"
+    },
+    {
+      "id": 38737102034,
+      "name": "DuoFace native8 - combined license UI hide plus movable divider logo DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709735260",
-      "created_at": "2026-10-15T09:00:17Z",
-      "head_sha": "6c659099f3f0dca660db97bc44e2caa682930fd2"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38737102034",
+      "created_at": "2026-10-15T12:45:34Z",
+      "head_sha": "bfcca4f0b2ebe1b58bf4fd59ef39ad28a1afaf5e"
     },
     {
-      "id": 38709316701,
-      "name": "DuoFace native date/license UI surface read-only audit",
+      "id": 38735669085,
+      "name": "DuoFace logo hold 0.30s - source-only gesture QA, NO DEB",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38735669085",
+      "created_at": "2026-10-15T12:34:25Z",
+      "head_sha": "c93621c434d9feaf0bc3217b8c43a4483341252c"
+    },
+    {
+      "id": 38735280075,
+      "name": "Compile current DuoFace visual hook",
+      "run_number": 30,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38735280075",
+      "created_at": "2026-10-15T12:31:22Z",
+      "head_sha": "892f19a7b113b34d10916dbab6d0bb9c444cbf0c"
+    },
+    {
+      "id": 38735280059,
+      "name": "DuoFace NEXT UI and border compile-only gate",
+      "run_number": 41,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38735280059",
+      "created_at": "2026-10-15T12:31:22Z",
+      "head_sha": "892f19a7b113b34d10916dbab6d0bb9c444cbf0c"
+    },
+    {
+      "id": 38734324935,
+      "name": "DuoFace read-only divider button mobility audit - NO DEB",
       "run_number": 3,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709316701",
-      "created_at": "2026-10-15T08:56:51Z",
-      "head_sha": "df27a23c37ec95a4f6049d1d6398fbc056bc07f9"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38734324935",
+      "created_at": "2026-10-15T12:23:56Z",
+      "head_sha": "c6add6f468e65dd9c397775f442b58c3bc257732"
     },
     {
-      "id": 38709161559,
-      "name": "DuoFace native date/license UI surface read-only audit",
+      "id": 38732477874,
+      "name": "DuoFace read-only divider button mobility audit - NO DEB",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38709161559",
-      "created_at": "2026-10-15T08:55:33Z",
-      "head_sha": "c9de3d4e61973c103478e4442cf63c4061233e7b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38732477874",
+      "created_at": "2026-10-15T12:09:06Z",
+      "head_sha": "40d919e7dbe50f1780bd980261e448b3d438373a"
     },
     {
-      "id": 38708952481,
-      "name": "DuoFace native date/license UI surface read-only audit",
+      "id": 38731604460,
+      "name": "DuoFace read-only divider button mobility audit - NO DEB",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38708952481",
-      "created_at": "2026-10-15T08:53:50Z",
-      "head_sha": "eb8c229a3508850e2fb804a885cf23c538fd477e"
-    },
-    {
-      "id": 38704471434,
-      "name": "DuoFace native UI goc - verify public Sileo index and DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38704471434",
-      "created_at": "2026-10-15T08:16:19Z",
-      "head_sha": "8bbf5acf553db735917f3cc3b63e4e35490f5fc1"
-    },
-    {
-      "id": 38704082085,
-      "name": "Build DuoFace Mới native test giữ nguyên 100 phần trăm UI gốc",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38704082085",
-      "created_at": "2026-10-15T08:13:00Z",
-      "head_sha": "76370cfd78422ac66226ead426db4053bdfc5db7"
-    },
-    {
-      "id": 38703465229,
-      "name": "DuoFace - kiem tra dong goi goc truoc ban test native",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38703465229",
-      "created_at": "2026-10-15T08:07:41Z",
-      "head_sha": "e109e5c5362e2c6869a3a8148dadc7142554808a"
-    },
-    {
-      "id": 38700062567,
-      "name": "DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38700062567",
-      "created_at": "2026-10-15T07:38:02Z",
-      "head_sha": "7bf47b884bc96376acdbdabdbcaae4c7c1328cf9"
-    },
-    {
-      "id": 38699821782,
-      "name": "DuoFace - chứng minh khôi phục nguyên byte bản sao staging",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699821782",
-      "created_at": "2026-10-15T07:35:51Z",
-      "head_sha": "51576b011bf1cf1de410f560ea33f707e20d3bf0"
-    },
-    {
-      "id": 38699683930,
-      "name": "DuoFace - chứng minh khôi phục nguyên byte bản sao staging",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699683930",
-      "created_at": "2026-10-15T07:34:38Z",
-      "head_sha": "a3c632fb80bcca576d90e03791a31798db1e6147"
-    },
-    {
-      "id": 38699336589,
-      "name": "DuoFace - phân tích ranh giới nhị phân giấy phép/host (chỉ đọc)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699336589",
-      "created_at": "2026-10-15T07:31:33Z",
-      "head_sha": "12c666a71a7ee78ca44f182bb5eb1070317b0537"
-    },
-    {
-      "id": 38699289424,
-      "name": "DuoFace - kiểm kê và sao chép nguyên ruột (KHÔNG phát hành)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38699289424",
-      "created_at": "2026-10-15T07:31:07Z",
-      "head_sha": "6a030d412e55930a18213b0af8a5cd7fd00a3a5d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38731604460",
+      "created_at": "2026-10-15T12:01:59Z",
+      "head_sha": "5f8a173117be7267a25d6369e3bfe5d787e256ff"
     }
   ]
 }
