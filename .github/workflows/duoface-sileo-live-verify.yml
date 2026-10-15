@@ -1,0 +1,77 @@
+name: Xac minh goi DuoFace Moi tren nguon Sileo dang hoat dong
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/duoface-independent-core
+    paths:
+      - .github/workflows/duoface-sileo-live-verify.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tai truc tiep chi muc va DEB tu trang Sileo da phat hanh
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          mkdir -p "$RUNNER_TEMP/duoface-sileo-check"
+          cd "$RUNNER_TEMP/duoface-sileo-check"
+          curl --fail --location --retry 6 --retry-delay 5 --retry-connrefused "$base/Packages" -o Packages
+          curl --fail --location --retry 6 --retry-delay 5 --retry-connrefused "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.unpacked
+          cmp Packages Packages.unpacked
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os, hashlib
+          data=Path('Packages').read_text()
+          stanzas=[]
+          for part in data.strip().split('\n\n'):
+              fields={}
+              for line in part.splitlines():
+                  if line.startswith(' ') or ': ' not in line: continue
+                  k,v=line.split(': ',1);fields[k]=v
+              if fields.get('Package'): stanzas.append(fields)
+          chosen=[s for s in stanzas if s.get('Package')=='com.duoface.independent']
+          assert len(chosen)==1, f'Sileo phai co 1 goi DuoFace moi, dang co {len(chosen)}'
+          old=[s for s in stanzas if s.get('Package')=='com.duonavi.app']
+          assert len(old)>=1, 'Khong tim thay goi cu duoc giu lai'
+          f=chosen[0]
+          assert f['Version']=='0.1.0~alpha1', f
+          assert f['Architecture']=='iphoneos-arm64', f
+          assert f['Filename'].endswith('debs/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb'), f
+          assert f.get('Icon','').endswith('/duoface-icon.png'), f
+          assert f.get('SHA256')=='e1ac3ec78285924308bdb5f7a2d503c39cbf567f8a8293ad87ea1dc551d99439', f
+          Path('expected.json').write_text(json.dumps(f,indent=2,ensure_ascii=False)+'\n')
+          print('APT_PKG_INDEX_PASS',f['Package'],f['Version'],f['Filename'])
+          print('APT_OLD_PKG_PRESERVED',len(old))
+          PY
+          curl --fail --location --retry 6 --retry-delay 5 --retry-connrefused "$base/debs/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb" -o duoface.deb
+          echo 'e1ac3ec78285924308bdb5f7a2d503c39cbf567f8a8293ad87ea1dc551d99439  duoface.deb' | sha256sum -c -
+          test "$(dpkg-deb -f duoface.deb Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f duoface.deb Version)" = '0.1.0~alpha1'
+          test "$(dpkg-deb -f duoface.deb Architecture)" = 'iphoneos-arm64'
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('duoface.deb')
+          f=json.loads(pathlib.Path('expected.json').read_text())
+          assert p.stat().st_size==int(f['Size'])
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==f['SHA256']
+          print('SILEO_LIVE_VERIFIED: APT, GZIP, DEB, SHA256, ID, VERSION, ARCH, OLD_PKG')
+          PY
+      - name: Luu bang chung kiem tra tu nguon Sileo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-sileo-live-check-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/duoface-sileo-check/expected.json
+            ${{ runner.temp }}/duoface-sileo-check/Packages
+            ${{ runner.temp }}/duoface-sileo-check/Packages.gz
+          if-no-files-found: warn
