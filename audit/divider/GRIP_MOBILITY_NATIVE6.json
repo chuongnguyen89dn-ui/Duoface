@@ -1,4 +1,19 @@
 {
+  "press_config": {
+    "minimum_press_duration_seconds": 0.4,
+    "constant_vmaddr": "0x310cb0",
+    "load_instruction": "0xfedfc: ldr d11, [x8,#0xcb0] (x8 page=0x310000)",
+    "pass_argument": "0xff23c: mov v0.16b,v11.16b",
+    "setter_invocation": "0xff240: objc_msgSend, setMinimumPressDuration:",
+    "long_press_handler": "0x1005f4 handleMoveButtonLongPress:",
+    "long_press_state_check": "0x10062c cmp x0,#1; only recognizer Began triggers original handler",
+    "long_press_state_selector": "state",
+    "touch_up_callback_selector": "onSwap",
+    "long_press_callback_selector": "onRotate",
+    "non_swapping_pan_owner": "CBDividerView.handlePan: -> onPanChanged / CBBridgedSplitApp.handleDividerPan:isVertical:state:",
+    "interpretation": "Long hold already has an independent callback. Do not assume it suppresses UIControl touch-up; device reports hold also swaps.",
+    "observational_limit": "This is configured recognition delay, not total finger-down to visible swap, and not device-measured timing."
+  },
   "status": "READ_ONLY_STATIC_AUDIT_NOT_DEVICE_TEST",
   "binary_name": "DuoFaceDashboard.dylib",
   "binary_sha256": "6278cf23ddd78026a67b95de704331d5143dac5e43b97eb25cf3c98f10228788",
@@ -198,6 +213,13 @@
           "signature": "v24@0:8@16",
           "span_bytes_inspected": 992,
           "instruction_count": 248
+        },
+        {
+          "name": "handlePan:",
+          "imp": "0x10152c",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 316,
+          "instruction_count": 79
         }
       ]
     },

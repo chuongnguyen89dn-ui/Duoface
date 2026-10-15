@@ -2212,6 +2212,87 @@ CLASS CBDividerView -[handleMoveButtonLongPress:] IMP 0x1005f4 signature=v24@0:8
 001009cc: add      sp, sp, #0x40
 001009d0: ret      
 
+CLASS CBDividerView -[handlePan:] IMP 0x10152c signature=v24@0:8@16 bytes=316
+0010152c: stp      d9, d8, [sp, #-0x40]!
+00101530: stp      x22, x21, [sp, #0x10]
+00101534: stp      x20, x19, [sp, #0x20]
+00101538: stp      x29, x30, [sp, #0x30]
+0010153c: add      x29, sp, #0x30
+00101540: mov      x20, x0
+00101544: mov      x0, x2
+00101548: bl       #0x2ecd3c
+0010154c: mov      x19, x0
+00101550: adrp     x8, #0x37e000
+00101554: ldr      x21, [x8, #0x8d0]
+00101558: mov      x0, x20
+0010155c: mov      x1, x21
+00101560: bl       #0x2ecd00
+00101564: mov      x29, x29
+00101568: bl       #0x2ecd60
+0010156c: mov      x22, x0
+00101570: bl       #0x2ecd30
+00101574: cbz      x22, #0x1015a0
+00101578: mov      x0, x20
+0010157c: mov      x1, x21
+00101580: bl       #0x2ecd00
+00101584: mov      x29, x29
+00101588: bl       #0x2ecd60
+0010158c: mov      x21, x0
+00101590: ldr      x8, [x0, #0x10]
+00101594: blr      x8
+00101598: mov      x0, x21
+0010159c: bl       #0x2ecd30
+001015a0: adrp     x8, #0x37d000
+001015a4: ldr      x1, [x8, #0xe40]
+001015a8: mov      x0, x20
+001015ac: bl       #0x2ecd00
+001015b0: mov      x29, x29
+001015b4: bl       #0x2ecd60
+001015b8: mov      x21, x0
+001015bc: adrp     x8, #0x37d000
+001015c0: ldr      x1, [x8, #0xe48]
+001015c4: mov      x0, x19
+001015c8: mov      x2, x21
+001015cc: bl       #0x2ecd00
+001015d0: mov      v8.16b, v0.16b
+001015d4: mov      v9.16b, v1.16b
+001015d8: mov      x0, x21
+001015dc: bl       #0x2ecd30
+001015e0: adrp     x8, #0x37e000
+001015e4: ldr      x21, [x8, #0x8f0]
+001015e8: mov      x0, x20
+001015ec: mov      x1, x21
+001015f0: bl       #0x2ecd00
+001015f4: mov      x29, x29
+001015f8: bl       #0x2ecd60
+001015fc: mov      x22, x0
+00101600: bl       #0x2ecd30
+00101604: cbz      x22, #0x101650
+00101608: mov      x0, x20
+0010160c: mov      x1, x21
+00101610: bl       #0x2ecd00
+00101614: mov      x29, x29
+00101618: bl       #0x2ecd60
+0010161c: mov      x20, x0
+00101620: adrp     x8, #0x37d000
+00101624: ldr      x1, [x8, #0xe50]
+00101628: mov      x0, x19
+0010162c: bl       #0x2ecd00
+00101630: mov      x1, x0
+00101634: ldr      x8, [x20, #0x10]
+00101638: mov      x0, x20
+0010163c: mov      v0.16b, v8.16b
+00101640: mov      v1.16b, v9.16b
+00101644: blr      x8
+00101648: mov      x0, x20
+0010164c: bl       #0x2ecd30
+00101650: mov      x0, x19
+00101654: ldp      x29, x30, [sp, #0x30]
+00101658: ldp      x20, x19, [sp, #0x20]
+0010165c: ldp      x22, x21, [sp, #0x10]
+00101660: ldp      d9, d8, [sp], #0x40
+00101664: b        #0x2ecd30
+
 CLASS CBBridgedSplitApp -[handleDividerPan:isVertical:state:] IMP 0x103ee0 signature=v44@0:8{CGPoint=dd}16B32q36 bytes=1560
 00103ee0: stp      d13, d12, [sp, #-0x90]!
 00103ee4: stp      d11, d10, [sp, #0x10]
