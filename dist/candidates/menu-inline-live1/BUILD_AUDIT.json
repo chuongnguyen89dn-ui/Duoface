@@ -1,0 +1,33 @@
+{
+  "status": "PACKAGE_BUILT_NOT_DEVICE_TESTED_NOT_SILEO",
+  "source_commit": "8133717e2062bebfda176c52551072575015479b",
+  "base_deb": "dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb",
+  "base_sha256": "0a44524456caa6a530fd1e605020f592e79500738de643a59ef0ff8e02296ad4",
+  "candidate_deb": "dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb",
+  "candidate_sha256": "b25145b741f28729e1f426b022c7044551fc379dce59ca15b41d7943a14dd245",
+  "control": {
+    "Package": "com.duonavi.app",
+    "Architecture": "iphoneos-arm64",
+    "Version": "1.0.3-12+menu-inline-live1"
+  },
+  "dylib_sha256": {
+    "DuoFaceDashboard.dylib": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+    "DuoFaceFullscreenBridge.dylib": "c61c3f5dc765fcef4077094752df05a270151395ed2557d0f1f3e339b48f8fc4",
+    "DuoFaceVisualHook.dylib": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d"
+  },
+  "preserved_native_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+  "logo_original_sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089",
+  "logo_alpha_v2_sha256": "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7",
+  "installer": "rootless",
+  "sileo_published": false,
+  "device_tested": false,
+  "validated_payload_paths": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist",
+    "var/jb/Library/Application Support/DuoFace/duoface-logo.png",
+    "var/jb/Library/Application Support/DuoFace/duoface-logo-picker-alpha-v2.png"
+  ]
+}
