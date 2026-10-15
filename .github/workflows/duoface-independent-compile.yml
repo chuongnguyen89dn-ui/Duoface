@@ -5,7 +5,10 @@ on:
     branches:
       - feature/duoface-independent-core
     paths:
-      - 'independent/**'
+      - 'independent/DFIProbe.mm'
+      - 'independent/DFISplitLayout.h'
+      - 'independent/DFISplitLayout.mm'
+      - 'independent/tests/validate_probe.py'
       - 'Makefile.independent'
       - 'DuoFaceIndependentProbe.plist'
       - '.github/workflows/duoface-independent-compile.yml'
