@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-15T17:08:47.993209+00:00",
+  "checked_at_utc": "2026-10-15T20:22:55.002179+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 327,
+  "total_actions_runs": 328,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 3,
-      "success": 2,
+      "recent_runs": 4,
+      "success": 3,
       "failure": 0,
       "other": 1
     },
@@ -279,21 +279,25 @@
       "success": 23,
       "failure": 3,
       "other": 0
-    },
-    "Owner-approved DuoFace ORIGINAL native menu backdrop DEB one-shot": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 38801443711,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 16,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38801443711",
+      "created_at": "2026-10-15T20:22:44Z",
+      "head_sha": "be905085fc2e5460833795b2ce655b9da6f54f7d"
+    },
+    {
       "id": 38774841024,
       "name": "DuoFace Actions status snapshot",
       "run_number": 15,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38774841024",
       "created_at": "2026-10-15T17:08:32Z",
       "head_sha": "082fd25714effb4b9040ff0382b5c070808a475f"
@@ -577,16 +581,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38732477874",
       "created_at": "2026-10-15T12:09:06Z",
       "head_sha": "40d919e7dbe50f1780bd980261e448b3d438373a"
-    },
-    {
-      "id": 38731604460,
-      "name": "DuoFace read-only divider button mobility audit - NO DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38731604460",
-      "created_at": "2026-10-15T12:01:59Z",
-      "head_sha": "5f8a173117be7267a25d6369e3bfe5d787e256ff"
     }
   ]
 }
