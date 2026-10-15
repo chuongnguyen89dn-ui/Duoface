@@ -14,6 +14,29 @@
     "interpretation": "Long hold already has an independent callback. Do not assume it suppresses UIControl touch-up; device reports hold also swaps.",
     "observational_limit": "This is configured recognition delay, not total finger-down to visible swap, and not device-measured timing."
   },
+  "hit_testing": {
+    "pointInside_method": "CBDividerView.pointInside:withEvent: IMP 0xff728",
+    "pointInside_flag_gate": "0xff778-0xff784 loads _isBlinking and returns NO when zero",
+    "hitTest_method": "CBDividerView.hitTest:withEvent: IMP 0xff974",
+    "hitTest_flag_gate": "0xffa1c-0xffa24 loads _isBlinking and returns nil when zero",
+    "blink_offset_global_ref": "0x37fdec",
+    "detected_ivar_offset": 9,
+    "objc_property_ivar": "_isBlinking",
+    "visibility_selectors": {
+      "hidden_0x37de70": "isHidden",
+      "alpha_0x37de78": "alpha",
+      "first_hit_test_0x37e5b8": "isUserInteractionEnabled",
+      "point_inside_0x37e5a8": "pointInside:withEvent:",
+      "divider_pan_location_0x37de48": "translationInView:",
+      "divider_pan_state_0x37de50": "state",
+      "divider_pan_translation_0x37de40": "superview"
+    },
+    "visibility_thresholds": {
+      "pointInside_alpha_min_double_0x310c60": 0.05,
+      "hitTest_alpha_min_double_0x311948": 0.01
+    },
+    "diagnosis_scope": "Static gates only. If _isBlinking is false, touches will not reach divider; runtime trace needed to determine why on installed device."
+  },
   "status": "READ_ONLY_STATIC_AUDIT_NOT_DEVICE_TEST",
   "binary_name": "DuoFaceDashboard.dylib",
   "binary_sha256": "6278cf23ddd78026a67b95de704331d5143dac5e43b97eb25cf3c98f10228788",
