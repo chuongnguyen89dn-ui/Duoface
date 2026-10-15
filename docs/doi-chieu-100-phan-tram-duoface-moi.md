@@ -6,11 +6,11 @@
 
 | Thành phần người dùng đã chốt | Vị trí gốc để đối chiếu | Vị trí chuyển sang lõi độc lập | Tình trạng |
 | --- | --- | --- | --- |
-| Logo ngang nguyên bản 960×240, đúng màu đỏ #E3020F | `assets/duoface-logo.png`; `DFPickerZoomMenu.xm` | `assets/transfer_approved_assets.py`, `runtime/DFIApprovedVisuals.h` | Đã viết chuyển bytes và màu; chờ đóng gói/so SHA và test hiển thị |
-| Logo picker alpha v2 (đã duyệt) | `assets/duoface-logo-picker-alpha-v2.png` | script chuyển ảnh / `DFIApprovedHeaderLogo()` | Đã viết; chưa test kích thước ảnh hiển thị |
-| Logo dọc, biểu tượng, toàn bộ ảnh swap/fullscreen/picker, asset manifest | `dist/visual-1.0.3-12/assets/**` | `assets/transfer_approved_assets.py` vào `Application Support/DuoFaceIndependent/` | Đã viết chuyển MỌI tệp và 7 SHA bắt buộc; chưa chạy CI kiểm tra gói mới |
-| Menu ngang Logo – App – Zoom – Style – Close | `DFPickerZoomMenu.xm` | `DFIInterface.inc`, `DFIApprovedVisuals.h` | Đã đưa thứ tự/nút vào mã; chưa xác nhận bố cục thực tế |
-| Font menu 10pt, icon SF Symbols, trạng thái chọn màu đỏ | `DFPickerZoomMenu.xm` | `DFIStyleApprovedTab`, `updateApprovedTabs` | Đã có nguồn, chờ biên dịch và test thiết bị |
+| Logo ngang nguyên bản 960×240, đúng màu đỏ #E3020F | `assets/duoface-logo.png`; `DFPickerZoomMenu.xm` | `assets/transfer_approved_assets.py`, `runtime/DFIApprovedVisuals.h` | Đã chuyển byte; 7 SHA đã xác minh trong DEB alpha2 (run 38695321782); chưa test hiển thị |
+| Logo picker alpha v2 (đã duyệt) | `assets/duoface-logo-picker-alpha-v2.png` | script chuyển ảnh / `DFIApprovedHeaderLogo()` | Đã đóng gói nguyên byte (CI PASS); chưa test kích thước hiển thị |
+| Logo dọc, biểu tượng, toàn bộ ảnh swap/fullscreen/picker, asset manifest | `dist/visual-1.0.3-12/assets/**` | `assets/transfer_approved_assets.py` vào `Application Support/DuoFaceIndependent/` | Đã đóng gói 10/10 tệp và xác minh 7 SHA (run 38695321782 success); chưa nghiệm thu UI |
+| Menu ngang Logo – App – Zoom – Style – Close | `DFPickerZoomMenu.xm` | `DFIInterface.inc`, `DFIApprovedVisuals.h` | Đã biên dịch alpha2 (CI PASS); chưa xác nhận bố cục thực tế |
+| Font menu 10pt, icon SF Symbols, trạng thái chọn màu đỏ | `DFPickerZoomMenu.xm` | `DFIStyleApprovedTab`, `updateApprovedTabs` | Đã biên dịch alpha2 (CI PASS), chờ test thiết bị |
 | Nền menu native dark, không viền/đường kẻ, không xanh lạ | `DFPickerZoomMenu.xm` / `menu-native1` | `DFIInterface.inc` thiết lập material dark và bỏ viền | **Chưa xác minh** giống đúng native picker |
 | Chọn ứng dụng theo ô; đổi app | `DFPickerZoomMenu.xm` / `DuoFaceDashboard.dylib` | `DFIAvailableApps`, `DFISplitController.choose/openBundle` | Bản alpha1 đã mở được lần đầu; sau đó có crash trên thiết bị; **chưa đạt** |
 | Dòng logo app – tên app – chấm xanh/đỏ | `DFPickerZoomMenu.xm` (`DFRestyleOneRecentAppRow`) | `DFIList cellForRowAtIndexPath:` | Đã viết lại; chờ test icon thật, kích thước/chấm |
@@ -23,7 +23,7 @@
 | Phóng riêng ô/focus/restore | `DuoFaceBorderRunner.m` / `audit/v12-split-focus-restore-chain-20261014.txt` | `DFISplitController.maximized/edgeTap/drag` | Có mã nguồn, chờ kiểm thử cách thao tác |
 | Viền báo tập trung hoạt động màu đỏ chính xác | `src/DuoFaceBorderRunner.m` | Cần lớp overlay/pane tương đương trong `DFIInterface.inc` | **CHƯA CHUYỂN ĐẦY ĐỦ** |
 | Close App không chồng nút X đóng menu | `DFPickerZoomMenu.xm` | `DFIInterface.inc` (sheet/toolbar độc lập) | Cần test vùng bấm và cơ chế ẩn menu |
-| Ẩn/hiện app DuoFace trên iPhone theo yêu cầu | Bản mới alpha1 từng có `SBAppTags:hidden` | `independent/engine/app/Info.plist` đã bỏ hidden | Đã sửa nguồn, chưa xác minh biểu tượng trên máy sau update |
+| Ẩn/hiện app DuoFace trên iPhone theo yêu cầu | Bản mới alpha1 từng có `SBAppTags:hidden` | `independent/engine/app/Info.plist` đã bỏ hidden | Đã gỡ hidden, CI xác nhận Info.plist không ẩn, chưa xác minh trên máy |
 | Tự mở/kết nối/ngắt CarPlay, lưu cài đặt UI | `DuoFaceDashboard` / code `DFIRuntime.m` | `DFIConnectionChanged`, `DFIStop`, prefs ID mới | Có nguồn chạy trong alpha1; chờ regression |
 | Không cần DuoNavi/giấy phép/ngày/token/UID | `menu-native1` vẫn chứa `DuoFaceDashboard.dylib` và `com.duonavi.sync.plist` | package `com.duoface.independent` tự xây từ scene host riêng; verify_package.py | alpha1 đã xác minh không chứa DLL/plist DuoNavi, phải tái kiểm bản di trú |
 | Giữ bản DuoFace đã duyệt an toàn | `main/dist/candidates/menu-native1/` | mã thử riêng `feature/duoface-independent-core`, asset path mới | **Đã bảo toàn**, không ghi đè cài đặt cũ |
@@ -39,6 +39,6 @@
 
 ## Kết quả thực tế đến lúc viết
 
-- **Đã sửa nguồn chứ chưa chốt 100%:** logo, màu, menu 4 mục, icon hiển thị iPhone, nút Refresh/X/Clear All, adapter zoom, asset transfer.
+- **ĐÃ BUILD & TEST ĐÓNG GÓI, chưa chốt 100%:** run 38695321782 completed/success; mã alpha2, đủ 10 tệp ảnh/7 SHA kiểm chứng, logo, menu 4 mục, icon iPhone, Refresh/X/Clear All, adapter zoom. SHA256 DEB e0b9f509a847da56a90dc390394e808e5418cf402989e00fa321e89e0f4f5d19.
 - **Lỗi người dùng đã báo:** crash sau thao tác chọn app nhiều lần; chưa có stack trace để kết luận. Mã đã bổ sung guard chọn trùng khi scene đang tạo, nhưng chưa được xác nhận trên thiết bị.
-- **Tiếp theo:** chạy CI build thử (không phát hành bản hoàn chỉnh), xem lỗi compile và SHA asset, sau đó kiểm tra UI/missing behaviors; đặc biệt viền đỏ và Zoom geometry, app lifecycle.
+- **Tiếp theo:** kiểm tra UI/những hành vi còn thiếu trên thiết bị, xin log lỗi chọn app, sau đó kiểm tra Zoom geometry; đặc biệt viền đỏ và Zoom geometry, app lifecycle.
