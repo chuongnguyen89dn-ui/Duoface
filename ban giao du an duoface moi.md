@@ -234,6 +234,17 @@
 - **Tình trạng:** đã phân tích nguồn, bước ghi sửa mã bắt đầu sau checkpoint này. Chưa sửa hoặc build/deploy tại thời điểm ghi.
 
 
+### 2026-10-15 — Đã chuyển mã tài nguyên và một phần giao diện chuẩn sang lõi độc lập (CHƯA BUILD)
+
+- **Nguồn và nhánh:** `Duoface/feature/duoface-independent-core`, giữ nguyên `main` cũ. Mã thay đổi đã được commit thực tế: `assets/transfer_approved_assets.py` (`37e59988`), `build.sh` (`9bf8851d`), `verify_package.py` (`ccaac08b`), `app/Info.plist` (`a0396212`), `runtime/DFIApprovedVisuals.h` (`cfa46b7e`), `runtime/DFIChrome.inc` (`1a0cc7c6`), `DFIRuntime.m` (`0f97e1c4`), `DFIInterface.inc` mới nhất (`312ebd74`).
+- **Asset transfer:** script `independent/engine/assets/transfer_approved_assets.py` copy nguyên byte **mọi file** trong `dist/visual-1.0.3-12/assets/**`, kiểm SHA256 cho 7 ảnh gốc, lưu vào `/var/jb/Library/Application Support/DuoFaceIndependent/`, không trùng thư mục `DuoFace/` của bản cũ, và tạo `asset-transfer-manifest.json`. `independent/engine/build.sh` gọi script; `verify_package.py` kiểm lại SHA manifest + không mang DuoNavi plist/binary; **chưa có bằng chứng build chạy trong lượt này**.
+- **Các chức năng đang chuyển:** logo ngang đúng source, đỏ #E3020F, menu App/Zoom/Style/Close cùng 10pt và active màu đỏ, bỏ border viền menu; danh sách ứng dụng có icon/tên/chấm xanh đỏ và nút Refresh hoặc X, Clear All; Swap/Thoát giữ ở Style; viền đỏ 1pt khi tương tác, ẩn khi nghỉ/phóng 1 ô; app icon iPhone bỏ `SBAppTags:hidden`; Zoom qua adapter chrome riêng và thông báo. Trước đây bản alpha menu khác, các thay đổi này **chưa xác minh biên dịch hoặc nghiệm thu thực tế**.
+- **Bảo vệ crash bước đầu:** `DFIInterface.inc` thêm `pendingPanes` để chặn thao tác chọn trùng khi scene đang mở; đây là phòng vệ có căn cứ chứ không phải xác định nguyên nhân crash. Chưa có log crash SpringBoard từ thiết bị.
+- **Kiểm kê 100% được lưu:** `docs/doi-chieu-100-phan-tram-duoface-moi.md` nhánh feature commit `190cc099` liệt kê các chức năng đã duyệt, nguồn gốc, nơi di trú và mục thiếu/test. Chưa nhận 100% vì còn nhiều mục chưa test, Zoom hình học cũ chưa chứng minh, scene lifecycle còn lỗi báo cáo.
+- **CI:** đã thay `.github/workflows/duoface-independent-alpha.yml` sang `workflow_dispatch` thủ công, commit `a15c4139` để tránh xuất bản trùng package alpha1 khi đang di trú; không đổi bản đã có trên Sileo. **Bước kế:** kiểm tra tính đúng đắn nguồn bằng CI, sửa lỗi compile, đóng DEB ứng viên `0.1.0~alpha2` tách biệt, kiểm nghiệm tài nguyên/ID, rồi chỉ sau khi đủ bằng chứng mới đưa bản thử lên Sileo theo cách tăng version.
+- **Nhắc rõ:** người dùng yêu cầu bảo toàn **100%**. Chưa có xác nhận 100% đã hoàn thành. Không được lặng lẽ bỏ chức năng chưa chuyển.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
