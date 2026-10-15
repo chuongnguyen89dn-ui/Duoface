@@ -1,0 +1,530 @@
+{
+  "bounded_static_analysis_only": true,
+  "cb_bridge_manager_host_methods": [
+    {
+      "imp_hex": "0x280b60",
+      "kind": "-",
+      "selector": "trackBridgedBundleID:"
+    },
+    {
+      "imp_hex": "0x280d48",
+      "kind": "-",
+      "selector": "runningBridgedApplications"
+    },
+    {
+      "imp_hex": "0x24d120",
+      "kind": "-",
+      "selector": "switchToSplitWithLeft:right:ratio:"
+    },
+    {
+      "imp_hex": "0x24d228",
+      "kind": "-",
+      "selector": "switchToMultiSplitMode:apps:ratio:"
+    },
+    {
+      "imp_hex": "0x27fee4",
+      "kind": "-",
+      "selector": "showAppPickerForSlot:"
+    },
+    {
+      "imp_hex": "0x280014",
+      "kind": "-",
+      "selector": "showLayoutChooser"
+    },
+    {
+      "imp_hex": "0x280130",
+      "kind": "-",
+      "selector": "updateScale:forSlot:"
+    },
+    {
+      "imp_hex": "0x1d0f10",
+      "kind": "-",
+      "selector": "receivedDashboardReadyNotification:"
+    },
+    {
+      "imp_hex": "0x1d1624",
+      "kind": "-",
+      "selector": "sendStateToApp:shouldBridge:"
+    },
+    {
+      "imp_hex": "0x1fd280",
+      "kind": "-",
+      "selector": "saveBridgeStateToDisk"
+    },
+    {
+      "imp_hex": "0x229748",
+      "kind": "-",
+      "selector": "clearBridgeStateOnDisk"
+    },
+    {
+      "imp_hex": "0x229e8c",
+      "kind": "-",
+      "selector": "syncDashboardPolicySignalToDisk"
+    },
+    {
+      "imp_hex": "0x2491b0",
+      "kind": "-",
+      "selector": "shouldBridge:"
+    },
+    {
+      "imp_hex": "0x1ce480",
+      "kind": "-",
+      "selector": "terminateAllBridgedApplications"
+    },
+    {
+      "imp_hex": "0x19daf0",
+      "kind": "-",
+      "selector": "window"
+    },
+    {
+      "imp_hex": "0x19daf8",
+      "kind": "-",
+      "selector": "setWindow:"
+    }
+  ],
+  "cb_bridge_manager_license_related_methods": [
+    {
+      "imp_hex": "0x1b9420",
+      "kind": "-",
+      "selector": "scheduleMandatoryDisconnectWatchdog"
+    },
+    {
+      "imp_hex": "0x1cce6c",
+      "kind": "-",
+      "selector": "cancelMandatoryDisconnectWatchdog"
+    },
+    {
+      "imp_hex": "0x185110",
+      "kind": "-",
+      "selector": "presentLicenseWarningModalWithType:"
+    },
+    {
+      "imp_hex": "0x185450",
+      "kind": "-",
+      "selector": "dismissLicenseWarningModal"
+    },
+    {
+      "imp_hex": "0x185494",
+      "kind": "-",
+      "selector": "startLicenseWatchdogTimer"
+    },
+    {
+      "imp_hex": "0x1854fc",
+      "kind": "-",
+      "selector": "stopLicenseWatchdogTimer"
+    },
+    {
+      "imp_hex": "0x185540",
+      "kind": "-",
+      "selector": "licenseWatchdogTimerFired:"
+    },
+    {
+      "imp_hex": "0x19db18",
+      "kind": "-",
+      "selector": "licenseWarningModal"
+    },
+    {
+      "imp_hex": "0x19db20",
+      "kind": "-",
+      "selector": "setLicenseWarningModal:"
+    }
+  ],
+  "cb_bridge_manager_method_count": 75,
+  "cb_bridged_split_app_method_count": 49,
+  "cb_picker_method_count": 66,
+  "dynamic_dispatch_fully_resolved": false,
+  "independent_release_ready": false,
+  "known_original_v12_app_license_markers": true,
+  "license_method_owners": [
+    {
+      "class": "CBBridgeManager",
+      "license_related_methods": [
+        {
+          "imp_hex": "0x1b9420",
+          "kind": "-",
+          "selector": "scheduleMandatoryDisconnectWatchdog"
+        },
+        {
+          "imp_hex": "0x1cce6c",
+          "kind": "-",
+          "selector": "cancelMandatoryDisconnectWatchdog"
+        },
+        {
+          "imp_hex": "0x185110",
+          "kind": "-",
+          "selector": "presentLicenseWarningModalWithType:"
+        },
+        {
+          "imp_hex": "0x185450",
+          "kind": "-",
+          "selector": "dismissLicenseWarningModal"
+        },
+        {
+          "imp_hex": "0x185494",
+          "kind": "-",
+          "selector": "startLicenseWatchdogTimer"
+        },
+        {
+          "imp_hex": "0x1854fc",
+          "kind": "-",
+          "selector": "stopLicenseWatchdogTimer"
+        },
+        {
+          "imp_hex": "0x185540",
+          "kind": "-",
+          "selector": "licenseWatchdogTimerFired:"
+        },
+        {
+          "imp_hex": "0x19db18",
+          "kind": "-",
+          "selector": "licenseWarningModal"
+        },
+        {
+          "imp_hex": "0x19db20",
+          "kind": "-",
+          "selector": "setLicenseWarningModal:"
+        }
+      ]
+    },
+    {
+      "class": "CBBridgeManagerDashboard",
+      "license_related_methods": [
+        {
+          "imp_hex": "0x2a3478",
+          "kind": "-",
+          "selector": "prepareAndRequestActivation:"
+        },
+        {
+          "imp_hex": "0x2a3ad0",
+          "kind": "-",
+          "selector": "requestActivation:"
+        }
+      ]
+    },
+    {
+      "class": "CBLicenseSyncManager",
+      "license_related_methods": [
+        {
+          "imp_hex": "0x3adb8",
+          "kind": "-",
+          "selector": "isLicenseCurrentlyValid"
+        },
+        {
+          "imp_hex": "0x4d19c",
+          "kind": "-",
+          "selector": "remainingLicenseSeconds"
+        },
+        {
+          "imp_hex": "0x5fbac",
+          "kind": "-",
+          "selector": "checkAndSyncLicenseIfNeeded"
+        },
+        {
+          "imp_hex": "0x5fc4c",
+          "kind": "-",
+          "selector": "checkAndSyncLicenseIfNeededWithSource:"
+        },
+        {
+          "imp_hex": "0x730b4",
+          "kind": "-",
+          "selector": "resolvedLicenseServerEndpoint"
+        },
+        {
+          "imp_hex": "0x74694",
+          "kind": "-",
+          "selector": "installAndVerifyLicensePayload:errorMsg:"
+        },
+        {
+          "imp_hex": "0x80c40",
+          "kind": "-",
+          "selector": "actualLicenseExpirationTimestamp"
+        },
+        {
+          "imp_hex": "0x80e04",
+          "kind": "-",
+          "selector": "setActualLicenseExpirationTimestamp:"
+        },
+        {
+          "imp_hex": "0x80fa0",
+          "kind": "-",
+          "selector": "actualLicenseTierName"
+        },
+        {
+          "imp_hex": "0x810e8",
+          "kind": "-",
+          "selector": "setActualLicenseTierName:"
+        }
+      ]
+    }
+  ],
+  "license_subsystem_separable_by_file": false,
+  "method_count": 757,
+  "method_metadata_source": "scripts/v12_host_recovery.py",
+  "next": "Phải truy điều kiện khởi tạo/scene và quyết định kiểm tra license theo call graph thực trước khi kết luận khả năng giữ nguyên binary mà không phụ thuộc license. Không sửa/giả giấy phép.",
+  "objc_class_count": 36,
+  "selected_method_address_and_static_edges": [
+    {
+      "bounded_disassembly": "0x128 bytes",
+      "class": "CBLocalization",
+      "direct_calls_within_methods": [],
+      "imp": "0x7098",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBAssistantManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x2e990",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x138 bytes",
+      "class": "CBDashboardSettings",
+      "direct_calls_within_methods": [],
+      "imp": "0x36054",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x68 bytes",
+      "class": "CBHttpClient",
+      "direct_calls_within_methods": [],
+      "imp": "0x38a04",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x6c bytes",
+      "class": "CBLicenseSyncManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x39798",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBLicenseSyncManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x3adb8",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "isLicenseCurrentlyValid"
+    },
+    {
+      "bounded_disassembly": "0xb0 bytes",
+      "class": "CBWindow",
+      "direct_calls_within_methods": [],
+      "imp": "0xb25e4",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "showAppPickerForSlot:"
+    },
+    {
+      "bounded_disassembly": "0xa8 bytes",
+      "class": "CBWindow",
+      "direct_calls_within_methods": [],
+      "imp": "0xb2694",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "showLayoutChooser"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgedSplitApp",
+      "direct_calls_within_methods": [],
+      "imp": "0x105890",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "focusSlot:animated:"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgedSplitApp",
+      "direct_calls_within_methods": [],
+      "imp": "0x105e2c",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "restoreSplitAnimated:"
+    },
+    {
+      "bounded_disassembly": "0x108 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x24d120",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "switchToSplitWithLeft:right:ratio:"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x24d228",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "switchToMultiSplitMode:apps:ratio:"
+    },
+    {
+      "bounded_disassembly": "0x130 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x27fee4",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "showAppPickerForSlot:"
+    },
+    {
+      "bounded_disassembly": "0x11c bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x280014",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "showLayoutChooser"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x1d1624",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "sendStateToApp:shouldBridge:"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x1b9420",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "scheduleMandatoryDisconnectWatchdog"
+    },
+    {
+      "bounded_disassembly": "0x40 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x1cce6c",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "cancelMandatoryDisconnectWatchdog"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x12192c",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x153544",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "loadNewAppFromCurrentRequest:"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x185110",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "presentLicenseWarningModalWithType:"
+    },
+    {
+      "bounded_disassembly": "0x44 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x185450",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "dismissLicenseWarningModal"
+    },
+    {
+      "bounded_disassembly": "0x68 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x185494",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "startLicenseWatchdogTimer"
+    },
+    {
+      "bounded_disassembly": "0x44 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x1854fc",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "stopLicenseWatchdogTimer"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x185540",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "licenseWatchdogTimerFired:"
+    },
+    {
+      "bounded_disassembly": "0x300 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x19d458",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "deactivateCurrentApp"
+    },
+    {
+      "bounded_disassembly": "0x8 bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x19db18",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "licenseWarningModal"
+    },
+    {
+      "bounded_disassembly": "0xc bytes",
+      "class": "CBBridgeManager",
+      "direct_calls_within_methods": [],
+      "imp": "0x19db20",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "setLicenseWarningModal:"
+    },
+    {
+      "bounded_disassembly": "0x68 bytes",
+      "class": "CBBridgeManagerDashboard",
+      "direct_calls_within_methods": [],
+      "imp": "0x282cc4",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    },
+    {
+      "bounded_disassembly": "0x144 bytes",
+      "class": "CBAppStateListener",
+      "direct_calls_within_methods": [],
+      "imp": "0x2ab0a0",
+      "kind": "-",
+      "objc_msgSend_edges_not_resolved": true,
+      "selector": "init"
+    }
+  ],
+  "source_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+  "status": "BINARY_LICENSE_AND_HOST_BOUNDARY_PARTIAL_NOT_SEPARATED"
+}
