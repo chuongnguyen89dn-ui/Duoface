@@ -1,0 +1,65 @@
+name: DuoFace native3 - exhaustive legacy branding scan
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/native_test/audit_branding.py'
+      - '.github/workflows/duoface-native3-full-byte-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-native3-brand-audit
+  cancel-in-progress: false
+
+jobs:
+  inventory-native2:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify baseline native2 archive and scan every byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb'
+          printf '%s  %s\n' '0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60' "$deb" | sha256sum -c -
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json')
+          x=json.loads(p.read_text())
+          assert x['status']=='NATIVE_DEB_FULL_BYTE_BRAND_AUDIT'
+          assert x['control']['Package']=='com.duoface.independent'
+          assert x['control']['Version']=='0.1.0~native2'
+          assert x['data_entries']>25
+          print('NATIVE2_FULL_SCAN_COMPLETE_BRANDS_PRESENT' if x['affected_paths'] else 'NATIVE2_FULL_SCAN_ZERO_MATCH')
+          PY
+      - name: Persist verified baseline counts to correct DuoFace branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: full byte-level DuoNavi Airaw scan of current working native2 [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native2-brand-inventory-${{github.run_id}}
+          path: audit/payload-migration/NATIVE2_ALL_LEGACY_BRANDS.json
+          if-no-files-found: warn
