@@ -84,16 +84,6 @@
   ],
   "cb_bridge_manager_license_related_methods": [
     {
-      "imp_hex": "0x1b9420",
-      "kind": "-",
-      "selector": "scheduleMandatoryDisconnectWatchdog"
-    },
-    {
-      "imp_hex": "0x1cce6c",
-      "kind": "-",
-      "selector": "cancelMandatoryDisconnectWatchdog"
-    },
-    {
       "imp_hex": "0x185110",
       "kind": "-",
       "selector": "presentLicenseWarningModalWithType:"
@@ -140,16 +130,6 @@
       "class": "CBBridgeManager",
       "license_related_methods": [
         {
-          "imp_hex": "0x1b9420",
-          "kind": "-",
-          "selector": "scheduleMandatoryDisconnectWatchdog"
-        },
-        {
-          "imp_hex": "0x1cce6c",
-          "kind": "-",
-          "selector": "cancelMandatoryDisconnectWatchdog"
-        },
-        {
           "imp_hex": "0x185110",
           "kind": "-",
           "selector": "presentLicenseWarningModalWithType:"
@@ -183,21 +163,6 @@
           "imp_hex": "0x19db20",
           "kind": "-",
           "selector": "setLicenseWarningModal:"
-        }
-      ]
-    },
-    {
-      "class": "CBBridgeManagerDashboard",
-      "license_related_methods": [
-        {
-          "imp_hex": "0x2a3478",
-          "kind": "-",
-          "selector": "prepareAndRequestActivation:"
-        },
-        {
-          "imp_hex": "0x2a3ad0",
-          "kind": "-",
-          "selector": "requestActivation:"
         }
       ]
     },
@@ -397,24 +362,6 @@
       "kind": "-",
       "objc_msgSend_edges_not_resolved": true,
       "selector": "sendStateToApp:shouldBridge:"
-    },
-    {
-      "bounded_disassembly": "0x300 bytes",
-      "class": "CBBridgeManager",
-      "direct_calls_within_methods": [],
-      "imp": "0x1b9420",
-      "kind": "-",
-      "objc_msgSend_edges_not_resolved": true,
-      "selector": "scheduleMandatoryDisconnectWatchdog"
-    },
-    {
-      "bounded_disassembly": "0x40 bytes",
-      "class": "CBBridgeManager",
-      "direct_calls_within_methods": [],
-      "imp": "0x1cce6c",
-      "kind": "-",
-      "objc_msgSend_edges_not_resolved": true,
-      "selector": "cancelMandatoryDisconnectWatchdog"
     },
     {
       "bounded_disassembly": "0x300 bytes",
