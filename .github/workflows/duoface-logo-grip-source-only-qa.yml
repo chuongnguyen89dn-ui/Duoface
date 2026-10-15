@@ -1,0 +1,64 @@
+name: DuoFace logo hold 0.30s - source-only gesture QA, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/check_duoface_grip_routes.py'
+      - 'src/DFDividerLogoGrip.inc'
+      - 'src/DuoFaceVisualHook.m'
+      - 'audit/divider/GRIP_MOBILITY_NATIVE6.json'
+      - '.github/workflows/duoface-logo-grip-source-only-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  static-route-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify source-only no package, no Sileo
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/check_duoface_grip_routes.py
+          python3 scripts/check_duoface_grip_routes.py
+          python3 - <<'PY'
+          import json
+          p='audit/divider/GRIP_GESTURE_SOURCE_ONLY_QA.json'
+          r=json.load(open(p))
+          assert r['status']=='PASS_STATIC_SOURCE_ROUTE_AUDIT_ONLY'
+          assert r['user_hold_threshold_seconds']==0.3
+          assert r['not_runtime_or_device_test']
+          assert r['not_package_or_sileo']
+          print('DUOFACE_LOGO_GRIP_ROUTE_SOURCE_ONLY_PASS_NO_DEB')
+          PY
+      - name: Commit exact source-only audit
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/divider/GRIP_GESTURE_SOURCE_ONLY_QA.json
+          if git diff --cached --quiet; then
+            echo 'UNCHANGED_STATIC_AUDIT'
+            exit 0
+          fi
+          git commit -m 'audit: persist 0.30s logo/ratio static-source regression [skip ci]'
+          for retry in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Source-only regression JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-logo-grip-source-qa
+          path: audit/divider/GRIP_GESTURE_SOURCE_ONLY_QA.json
+          if-no-files-found: warn
