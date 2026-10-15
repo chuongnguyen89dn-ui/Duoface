@@ -96,12 +96,19 @@ static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *f
 static UIColor *DFApprovedLogoRed(void) {
     return [UIColor colorWithRed:227.0/255.0 green:2.0/255.0 blue:15.0/255.0 alpha:1.0];
 }
-// DuoFace v12 already installs this APPROVED 960x240 asset in the base DEB.
-// Never draw or synthesize a substitute. When absent, restore the native title.
+// MENU ONLY: prefer the cropped, alpha-transparent derivative of the
+// unchanged approved logo. Preserve the original asset for splash and elsewhere.
+// The packaging step must install the derivative into the rootless support path
+// before any separately authorized DEB build; otherwise use the original.
 static UIImage *DFPickerApprovedHeaderLogo(void) {
     static UIImage *image;
-    if (!image) image = [UIImage imageWithContentsOfFile:
-        @"/var/jb/Library/Application Support/DuoFace/duoface-logo.png"];
+    if (!image) {
+        NSString *root=@"/var/jb/Library/Application Support/DuoFace/";
+        image=[UIImage imageWithContentsOfFile:
+            [root stringByAppendingString:@"duoface-logo-picker-alpha.png"]];
+        if (!image) image=[UIImage imageWithContentsOfFile:
+            [root stringByAppendingString:@"duoface-logo.png"]];
+    }
     return image;
 }
 // Reuse the approved 960x240 artwork in a compact leading menu slot.
@@ -133,6 +140,9 @@ static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
     headerIcon.frame=[headerIcon.superview convertRect:target fromView:rowParent];
     headerIcon.image=logo;
     headerIcon.contentMode=UIViewContentModeScaleAspectFit;
+    headerIcon.backgroundColor=UIColor.clearColor;
+    headerIcon.opaque=NO;
+    headerIcon.layer.borderWidth=0.0;
     headerIcon.clipsToBounds=YES;
     title.hidden=YES;
     return target;
