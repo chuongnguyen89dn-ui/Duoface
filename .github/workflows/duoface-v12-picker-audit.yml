@@ -8,6 +8,7 @@ on:
       - scripts/v12_picker_style_probe.py
       - scripts/duoface_picker_logo_alpha.py
       - scripts/duoface_picker_logo_grabcut.py
+      - scripts/duoface_picker_layout_sanity.py
       - .github/workflows/duoface-v12-picker-audit.yml
 permissions:
   contents: write
@@ -163,6 +164,11 @@ jobs:
           assert Path(report['candidate']).stat().st_size>1024
           assert Path(report['checkerboard_preview']).stat().st_size>1024
           PY
+      - name: Verify picker row geometry without compiling a DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/duoface_picker_layout_sanity.py
       - name: Save static audit evidence to this repo (no installation)
         shell: bash
         run: |
@@ -170,6 +176,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add audit/v12-picker-localization-table-20261015.txt
+          git add audit/duoface-picker-layout-sanity-20261015.json
           git add dist/visual-1.0.3-12/assets/duoface-logo-picker-grabcut-preview.png audit/duoface-picker-logo-grabcut-report.json audit/duoface-picker-logo-grabcut-checkerboard.png
           git add dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha.png audit/duoface-picker-logo-alpha-report.json audit/duoface-picker-logo-alpha-checkerboard.png
           git add audit/v12-picker-targeted-controls-20261015.txt audit/v12-picker-targeted-extract-20261015.txt
