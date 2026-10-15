@@ -153,6 +153,144 @@ static void DFRestyleRecentClearAll(UIView *overlay) {
     clearAll.accessibilityLabel=@"Clear All";
     heading.hidden=YES;
 }
+// Original v12 builds each recent-app card as a 56pt row with a 20pt
+// UIImageView, a title UILabel (top), a secondary status UILabel (below),
+// and a native UIButton on the right. All four are children of that row:
+// see v12 host audit 0xA71B0, 0xA7320, 0xA73E8, 0xA74C4, 0xA7770.
+// Reflow these EXISTING controls; do not create a second close/restart button.
+static const void *DFRecentInlineStatusKey=&DFRecentInlineStatusKey;
+static NSInteger DFNativeSingleAppAction(UIButton *button) {
+    for (id target in button.allTargets) {
+        NSArray<NSString *> *actions=
+            [button actionsForTarget:target
+                    forControlEvent:UIControlEventTouchUpInside];
+        if ([actions containsObject:@"restartSingleAppTapped:"]) return 1;
+        if ([actions containsObject:@"closeSingleAppTapped:"]) return 2;
+    }
+    return 0;
+}
+static BOOL DFRestyleOneRecentAppRow(UIView *row) {
+    if (CGRectGetWidth(row.bounds)<140.0 ||
+        CGRectGetHeight(row.bounds)<32.0) return NO;
+    UILabel *status=objc_getAssociatedObject(row,DFRecentInlineStatusKey);
+    UILabel *name=nil;
+    UIImageView *logo=nil;
+    UIButton *action=nil;
+    NSInteger kind=0;
+    for (UIView *view in row.subviews) {
+        if ([view isKindOfClass:UILabel.class]) {
+            UILabel *label=(UILabel *)view;
+            if (!status && ([label.text isEqualToString:@"🟢"] ||
+                            [label.text isEqualToString:@"🔴"])) status=label;
+            else if (label!=status && label.text.length>0 && !name) name=label;
+        } else if ([view isKindOfClass:UIImageView.class]) {
+            UIImageView *candidate=(UIImageView *)view;
+            if (!logo && candidate.image &&
+                CGRectGetWidth(candidate.frame)<=44.0 &&
+                CGRectGetHeight(candidate.frame)<=44.0) logo=candidate;
+        } else if ([view isKindOfClass:UIButton.class]) {
+            NSInteger originalAction=DFNativeSingleAppAction((UIButton *)view);
+            if (originalAction) {
+                action=(UIButton *)view;
+                kind=originalAction;
+            }
+        }
+    }
+    // Associated pointer survives subsequent native layout passes. If the
+    // saved status was encountered before the title, locate the title now.
+    if (status && !name) {
+        for (UIView *view in row.subviews) {
+            if ([view isKindOfClass:UILabel.class] && view!=status &&
+                ((UILabel *)view).text.length>0) {
+                name=(UILabel *)view;
+                break;
+            }
+        }
+    }
+    if (!name || !status || status.superview!=row || !logo ||
+        !action || !kind) return NO;
+    // A native active-slot row has Restart; every off-slot row has Close.
+    // Require the original status and action to agree instead of guessing.
+    BOOL live=(kind==1);
+    if (!objc_getAssociatedObject(row,DFRecentInlineStatusKey)) {
+        if (live!=[status.text isEqualToString:@"🟢"]) return NO;
+        objc_setAssociatedObject(row,DFRecentInlineStatusKey,status,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    CGFloat centerY=CGRectGetMidY(row.bounds);
+    CGRect logoFrame=logo.frame;
+    logoFrame.origin.y=round(centerY-CGRectGetHeight(logoFrame)/2.0);
+    logo.frame=logoFrame;
+    CGFloat left=MAX(CGRectGetMaxX(logoFrame)+8.0,
+                     CGRectGetMinX(name.frame));
+    CGFloat actionLeft=CGRectGetMinX(action.frame);
+    CGFloat maxNameWidth=actionLeft-10.0-left-16.0-5.0;
+    if (maxNameWidth<28.0) return NO;
+    UIFont *nameFont=name.font?:[UIFont systemFontOfSize:13.0];
+    CGFloat needed=ceil([name.text sizeWithAttributes:
+        @{NSFontAttributeName:nameFont}].width)+3.0;
+    CGFloat nameWidth=MAX(24.0,MIN(maxNameWidth,needed));
+    CGFloat nameHeight=MIN(21.0,MAX(16.0,CGRectGetHeight(name.frame)));
+    name.frame=CGRectMake(round(left),
+        round(centerY-nameHeight/2.0),nameWidth,nameHeight);
+    name.numberOfLines=1;
+    name.lineBreakMode=NSLineBreakByTruncatingTail;
+    // 14pt regular filled-circle glyph renders as a restrained ~9-10pt dot.
+    // Keep it five points beyond the actual (possibly truncated) app title.
+    status.text=@"●";
+    status.font=[UIFont systemFontOfSize:14.0 weight:UIFontWeightRegular];
+    status.textAlignment=NSTextAlignmentCenter;
+    status.frame=CGRectMake(CGRectGetMaxX(name.frame)+5.0,
+                             round(centerY-10.0),16.0,20.0);
+    UIColor *color=live?
+        [UIColor colorWithRed:52.0/255.0 green:199.0/255.0
+                        blue:89.0/255.0 alpha:1.0]:
+        DFApprovedLogoRed();
+    status.textColor=color;
+    status.accessibilityLabel=live?@"Live":@"Chạy ngầm";
+    // Only replace the glyph of the ORIGINAL native action control. Its
+    // target/selector/accessibilityIdentifier and broad hitbox are retained.
+    NSString *symbol=live?@"arrow.clockwise":@"xmark.circle";
+    UIImage *glyph=[UIImage systemImageNamed:symbol withConfiguration:
+        [UIImageSymbolConfiguration configurationWithPointSize:18.0
+                                                        weight:UIImageSymbolWeightRegular]];
+    if (glyph) {
+        UIImage *template=[glyph imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [action setImage:template forState:UIControlStateNormal];
+        [action setImage:template forState:UIControlStateHighlighted];
+    }
+    [action setTitle:@"" forState:UIControlStateNormal];
+    [action setTitle:@"" forState:UIControlStateHighlighted];
+    action.tintColor=color;
+    action.backgroundColor=UIColor.clearColor;
+    action.layer.borderWidth=0.0;
+    action.layer.borderColor=UIColor.clearColor.CGColor;
+    action.imageEdgeInsets=UIEdgeInsetsZero;
+    action.titleEdgeInsets=UIEdgeInsetsZero;
+    action.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    action.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    CGRect buttonFrame=action.frame;
+    buttonFrame.origin.y=round(centerY-CGRectGetHeight(buttonFrame)/2.0);
+    action.frame=buttonFrame;
+    action.accessibilityLabel=live?@"Mở lại":@"Đóng ứng dụng";
+    return YES;
+}
+static void DFRestyleRecentRowDescendants(UIView *view, NSUInteger depth) {
+    if (depth>8) return;
+    if (DFRestyleOneRecentAppRow(view)) return;
+    for (UIView *child in view.subviews) {
+        if ([child isKindOfClass:UILabel.class] ||
+            [child isKindOfClass:UIImageView.class] ||
+            [child isKindOfClass:UIButton.class]) continue;
+        DFRestyleRecentRowDescendants(child,depth+1);
+    }
+}
+static void DFRestyleNativeRecentAppRows(UIView *overlay) {
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (![card isKindOfClass:UIVisualEffectView.class]) return;
+    DFRestyleRecentRowDescendants(
+        ((UIVisualEffectView *)card).contentView,0);
+}
 // One canonical accent sampled from the approved, installed horizontal logo.
 // audit/approved-logo-red.json: SHA256 78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089
 // RGB (227,2,15), #E3020F. Shared with src/DuoFaceBorderRunner.m.
@@ -363,7 +501,10 @@ static void DFLayoutPicker(UIView *overlay) {
         UIImageView *icon=objc_getAssociatedObject(button,DFStackIconKey);
         if (icon) icon.tintColor=textColor;
     }
-    if (mode==2) DFRestyleRecentClearAll(overlay);
+    if (mode==2) {
+        DFRestyleRecentClearAll(overlay);
+        DFRestyleNativeRecentAppRows(overlay);
+    }
     [DFOverlays addObject:overlay];
 }
 @implementation DFZoomAction
@@ -406,6 +547,7 @@ static void DFLayoutPicker(UIView *overlay) {
     %orig;
     DFBuildingNativeRecentRows=wasBuilding;
     DFRestyleRecentClearAll((UIView *)self);
+    DFRestyleNativeRecentAppRows((UIView *)self);
 }
 - (void)setupCardContent {
     %orig;
