@@ -1,0 +1,72 @@
+name: DuoFace new - residual license survey without touching CarPlay
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native6_residual_license.py'
+      - '.github/workflows/duoface-native6-residual-inventory.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native6-residual-inventory
+  cancel-in-progress: false
+jobs:
+  static-survey:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check known-good native6 DEB and scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          file='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          printf '%s  %s\n' '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' "$file" | sha256sum -c -
+          python3 -m py_compile migration/full_payload/native_test/audit_native6_residual_license.py
+          test "$(dpkg-deb -f "$file" Package)" = "com.duoface.independent"
+      - name: Survey residual strings and runtime names - no patches
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/audit_native6_residual_license.py \
+            --expected-sha '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' \
+            --out audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json
+          python3 - <<'PY'
+          import json
+          o=json.load(open('audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json'))
+          assert o['raw_deb_unchanged']
+          assert not o['safe_to_delete_dynamic_objc_metadata_without_call_graph']
+          assert not o['safe_to_delete_lifecycle_without_call_graph']
+          assert sum(v['retained_carplay_method_count'] for v in o['binaries'].values())==8
+          assert sum(v['retained_lifecycle_count'] for v in o['binaries'].values())==19
+          assert sum(v['neutralized_expiry_state_count'] for v in o['binaries'].values())==2
+          assert sum(v['neutralized_legacy_method_count'] for v in o['binaries'].values())==291
+          print('CARPLAY_AND_LIFECYCLE_PRESERVATION_SURVEY_PASS')
+          PY
+      - name: Preserve exact survey evidence in DuoFace only
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: residual DuoFace Mới licensing references without changing CarPlay [skip ci]'
+          for attempt in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Keep inventory artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duo-new-native6-residual-${{github.run_id}}
+          path: audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json
+          if-no-files-found: warn
