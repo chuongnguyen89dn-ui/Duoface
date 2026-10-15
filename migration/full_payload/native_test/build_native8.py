@@ -86,7 +86,8 @@ def build():
         signing["DuoFaceVisualHook"] = preserve_entitlements_and_resign(
             stage / HOOK_REL, original_hook, root, "DuoFaceVisualHook"
         )
-        assert sha((stage / HOOK_REL).read_bytes()) != sha(original_hook)
+        new_hook_signed_sha256 = sha((stage / HOOK_REL).read_bytes())
+        assert new_hook_signed_sha256 != sha(original_hook)
         assert (stage / HOOK_FILTER_REL).is_file()
         assert not hits((stage / HOOK_REL).read_bytes())
 
@@ -142,8 +143,7 @@ def build():
         "masks": records,
         "replaced_hook": HOOK_REL,
         "original_hook_sha256": sha(original_hook),
-        "new_hook_sha256": sha((stage / HOOK_REL).read_bytes()) if stage.exists() else
-            "sha_verified_during_build",
+        "new_hook_sha256": new_hook_signed_sha256,
         "hook_compiled_input_sha256": sha(new_hook),
         "hook_source_sha256": sha(hook_source.read_bytes()),
         "grip_source_sha256": sha(grip_source.read_bytes()),
