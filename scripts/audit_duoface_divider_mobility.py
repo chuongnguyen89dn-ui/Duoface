@@ -22,7 +22,7 @@ RELEVANT_METHODS = {
     "CBDividerView": {
         "initWithFrame:isVertical:", "configureWithButtonConfigs:",
         "layoutSubviews", "updateGripLayout", "handleMoveButtonLongPress:",
-        "moveButtonTouchDown:", "moveButtonTouchUp:", "moveButtonTouchCancelled:",
+        "moveButtonTouchDown:", "moveButtonTouchUp:", "moveButtonTouchCancelled:", "handlePan:",
         "gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:",
         "pointInside:withEvent:", "hitTest:withEvent:"
     },
@@ -131,7 +131,39 @@ def inspect(binary: Path):
     assert any(x["name"] == "_moveButtons" for x in div["ivars"])
     assert any(x["name"] == "_buttonConfigs" for x in div["ivars"])
     assert any(x["name"] == "updateGripLayout" for x in div["target_method_details"])
+    # Proven instruction chain (ARM64, generic arm64 native6):
+    # 0xfedfc ldr d11, [0x310cb0] -> 0xff23c mov v0, v11 ->
+    # 0xff240 objc_msgSend selector setMinimumPressDuration:.
+    # These are runtime values from the actual binary, not UIKit defaults.
+    try:
+        minimum_press_duration = float(num(0x310cb0, "<d"))
+        assert 0.05 <= minimum_press_duration <= 5.0
+    except (ValueError, AssertionError, struct.error) as exc:
+        raise AssertionError("Cannot resolve original press-duration constant") from exc
+
+    def selref(vm_address):
+        try:
+            return str_at(num(vm_address))
+        except (ValueError, IndexError, struct.error):
+            return "UNRESOLVED"
+
+    press_config = {
+        "minimum_press_duration_seconds": minimum_press_duration,
+        "constant_vmaddr": "0x310cb0",
+        "load_instruction": "0xfedfc: ldr d11, [x8,#0xcb0] (x8 page=0x310000)",
+        "pass_argument": "0xff23c: mov v0.16b,v11.16b",
+        "setter_invocation": "0xff240: objc_msgSend, setMinimumPressDuration:",
+        "long_press_handler": "0x1005f4 handleMoveButtonLongPress:",
+        "long_press_state_check": "0x10062c cmp x0,#1; only recognizer Began triggers original handler",
+        "long_press_state_selector": selref(0x37de50),
+        "touch_up_callback_selector": selref(0x37e8e0),
+        "long_press_callback_selector": selref(0x37e8e8),
+        "non_swapping_pan_owner": "CBDividerView.handlePan: -> onPanChanged / CBBridgedSplitApp.handleDividerPan:isVertical:state:",
+        "interpretation": "Long hold already has an independent callback. Do not assume it suppresses UIControl touch-up; device reports hold also swaps.",
+        "observational_limit": "This is configured recognition delay, not total finger-down to visible swap, and not device-measured timing.",
+    }
     note = {
+        "press_config": press_config,
         "status": "READ_ONLY_STATIC_AUDIT_NOT_DEVICE_TEST",
         "binary_name": binary.name,
         "binary_sha256": hashlib.sha256(raw).hexdigest(),
