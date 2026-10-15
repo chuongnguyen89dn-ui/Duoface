@@ -1,0 +1,15 @@
+name: Owner-approved DuoFace ORIGINAL native menu backdrop DEB one-shot
+# User requested DEB after reviewing that ONLY the menu's synthetic bright-blue
+# sheet background is removed and the ORIGINAL v12 material is restored.
+# One creation-triggered run only. No Sileo, no recurring package, no overwrite.
+on:
+  push:
+    paths:
+      - '.github/workflows/duoface-menu-native1-once.yml'
+permissions:
+  contents: write
+jobs:
+  build-native-menu-only:
+    uses: ./.github/workflows/duoface-approved-border-deb.yml
+    permissions:
+      contents: write
