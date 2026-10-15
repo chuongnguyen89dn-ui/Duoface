@@ -1,14 +1,26 @@
 {
-  "checked_at_utc": "2026-10-14T21:47:25.265201+00:00",
+  "checked_at_utc": "2026-10-15T00:34:43.927332+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 168,
+  "total_actions_runs": 172,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "Build DuoFace compact picker menu candidate (manual-only)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Build DuoFace red3 30pt inline logo and idle red border (manual-only)": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
     },
     "DuoFace NEXT UI and border compile-only gate": {
       "recent_runs": 16,
@@ -25,12 +37,6 @@
     "DuoFace border binary read-only audit": {
       "recent_runs": 4,
       "success": 4,
-      "failure": 0,
-      "other": 0
-    },
-    "Build DuoFace red3 30pt inline logo and idle red border (manual-only)": {
-      "recent_runs": 1,
-      "success": 1,
       "failure": 0,
       "other": 0
     },
@@ -71,8 +77,8 @@
       "other": 0
     },
     "DuoFace fullscreen test DEB": {
-      "recent_runs": 28,
-      "success": 23,
+      "recent_runs": 24,
+      "success": 19,
       "failure": 5,
       "other": 0
     },
@@ -85,11 +91,51 @@
   },
   "latest_runs": [
     {
+      "id": 38660813768,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 12,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38660813768",
+      "created_at": "2026-10-15T00:34:34Z",
+      "head_sha": "f92cb54f3b884a7a8a1f2767b5078b24434b1367"
+    },
+    {
+      "id": 38659711965,
+      "name": "Build DuoFace compact picker menu candidate (manual-only)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38659711965",
+      "created_at": "2026-10-15T00:23:04Z",
+      "head_sha": "c2dca6de80fde39b96c9bdc3d294689151f08dbe"
+    },
+    {
+      "id": 38658951165,
+      "name": "Build DuoFace red3 30pt inline logo and idle red border (manual-only)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38658951165",
+      "created_at": "2026-10-15T00:15:11Z",
+      "head_sha": "40298cf3e07d7852bfb2834472726d9a41d56e05"
+    },
+    {
+      "id": 38645244731,
+      "name": "Build DuoFace red3 30pt inline logo and idle red border (manual-only)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38645244731",
+      "created_at": "2026-10-14T22:06:11Z",
+      "head_sha": "40298cf3e07d7852bfb2834472726d9a41d56e05"
+    },
+    {
       "id": 38642914917,
       "name": "DuoFace Actions status snapshot",
       "run_number": 11,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38642914917",
       "created_at": "2026-10-14T21:47:15Z",
       "head_sha": "0f91d9b0573316de206a7497d2894a45af738043"
@@ -343,46 +389,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579698405",
       "created_at": "2026-10-14T14:20:52Z",
       "head_sha": "9733bf1b11ea8e13b044dbfef26030e364fc57c3"
-    },
-    {
-      "id": 38579698153,
-      "name": "Compile current DuoFace visual hook",
-      "run_number": 26,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579698153",
-      "created_at": "2026-10-14T14:20:52Z",
-      "head_sha": "9733bf1b11ea8e13b044dbfef26030e364fc57c3"
-    },
-    {
-      "id": 38579561595,
-      "name": "Compile current DuoFace visual hook",
-      "run_number": 25,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579561595",
-      "created_at": "2026-10-14T14:19:58Z",
-      "head_sha": "bd00f103cb71d0a23248d96f97500ca1d13b5dd5"
-    },
-    {
-      "id": 38579561593,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579561593",
-      "created_at": "2026-10-14T14:19:58Z",
-      "head_sha": "bd00f103cb71d0a23248d96f97500ca1d13b5dd5"
-    },
-    {
-      "id": 38579203059,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579203059",
-      "created_at": "2026-10-14T14:17:33Z",
-      "head_sha": "4f738a2fda2b2cebb4a08960daeacadd457c334b"
     }
   ]
 }
