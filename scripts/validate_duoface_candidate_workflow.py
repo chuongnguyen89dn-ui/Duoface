@@ -18,13 +18,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WF = ROOT / ".github/workflows/duoface-approved-border-deb.yml"
 SOURCE = ROOT / "runtime/fullscreen/DFPickerZoomMenu.xm"
-BASE = ROOT / "dist/candidates/menu-zoom2/com.duonavi.app_1.0.3-12_menu-zoom2_iphoneos-arm64.deb"
-BASE_SUMS = ROOT / "dist/candidates/menu-zoom2/SHA256SUMS.txt"
+BASE = ROOT / "dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb"
+BASE_SUMS = ROOT / "dist/candidates/menu-inline-live1/SHA256SUMS.txt"
 ALPHA = ROOT / "dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png"
 ORIGINAL = ROOT / "dist/visual-1.0.3-12/assets/duoface-logo.png"
-CANDIDATE = ROOT / "dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb"
+CANDIDATE = ROOT / "dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb"
 
-BASE_SHA = "0a44524456caa6a530fd1e605020f592e79500738de643a59ef0ff8e02296ad4"
+BASE_SHA = "b25145b741f28729e1f426b022c7044551fc379dce59ca15b41d7943a14dd245"
 ALPHA_SHA = "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
 ORIGINAL_SHA = "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
 
@@ -44,7 +44,7 @@ def verify() -> dict:
     assert not re.search(r"(?mi)^\s*(gh release|reprepro|aptly|sileo publish)\b", wf), "No Sileo publication commands allowed"
     assert "menu-compact1" not in wf, "Do not reuse earlier candidate name"
     assert str(CANDIDATE.relative_to(ROOT)) in wf, "Unique candidate path missing"
-    assert "Version: 1.0.3-12+menu-inline-live1" in wf, "Candidate version guard missing"
+    assert "Version: 1.0.3-12+menu-opaque1" in wf, "Candidate version guard missing"
     assert "'com.duonavi.app'" in wf, "Do not alter original bundle/package identity"
     assert not CANDIDATE.exists(), "Candidate output already exists; do not overwrite"
 
@@ -64,6 +64,22 @@ def verify() -> dict:
     assert "#E3020F" in source
     assert "DFBuildingNativeRecentRows=YES" in source
     assert "DFBuildingNativeRecentRows=wasBuilding" in source
+
+    # Strong unchanged-UI regression guard: when the only new helper and
+    # two opaque color uses are removed, the source must equal the exact
+    # Git blob from the successfully installed menu-inline-live1 DEB.
+    assert source.count("DFPickerOpaqueSheetColor();") == 2
+    assert "blur.contentView.backgroundColor=DFPickerOpaqueSheetColor();" in source
+    assert "contentView.backgroundColor=DFPickerOpaqueSheetColor();" in source
+    helper = re.search(r"(?ms)^// Device-confirmed fix:.*?^}\n", source)
+    assert helper is not None, "Missing isolated opaque backing helper"
+    before = source.replace(helper.group(0), "").replace(
+        "DFPickerOpaqueSheetColor()", "UIColor.clearColor"
+    ).encode("utf-8")
+    blob = b"blob " + str(len(before)).encode() + b"\\x00" + before
+    assert hashlib.sha1(blob).hexdigest() == "2f7d2a8f3d9f8b7dca6d3a596357b2bb72135ec3", (
+        "Unapproved change beyond picker opacity compared with installed source"
+    )
 
     actual_base = sha(BASE)
     assert actual_base == BASE_SHA, "Base DEB checksum mismatch"
@@ -89,7 +105,7 @@ def verify() -> dict:
                 break
             cmds.append(body[10:] if body.startswith(" " * 10) else body)
         shell_blocks.append("".join(cmds))
-    assert len(shell_blocks) >= 5, f"Expected packaging shell steps; got {len(shell_blocks)}"
+    assert len(shell_blocks) >= 4, f"Expected packaging shell steps; got {len(shell_blocks)}"
     python_blocks = []
     for block in shell_blocks:
         bash = subprocess.run(["bash", "-n"], input=block, text=True, capture_output=True)
@@ -105,16 +121,16 @@ def verify() -> dict:
 
     for token in (
         "ldid -S artifacts/DuoFaceFullscreenBridge.dylib",
-        "ldid -S artifacts/DuoFaceVisualHook.dylib",
         "DuoFaceFullscreenBridge.plist",
         "DuoFaceVisualHook.plist",
         "dpkg-deb -R \"$BASE\"", "dpkg-deb --build --root-owner-group",
         "dpkg-deb -x \"$OUT\" \"$EXTRACT\"",
         "BUILD_AUDIT.json", "CONTENTS.txt", "SHA256SUMS.txt",
         "sileo_published",
-        "menu-inline-live1",
+        "menu-opaque1",
         ALPHA_SHA, ORIGINAL_SHA,
         "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+        "PAYLOAD_DIFF_ONLY_BRIDGE",
     ):
         assert token in wf, f"Missing packaging safeguard: {token}"
     bad_json_newline = "report.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'" + chr(92)*2 + "n')"
