@@ -1,0 +1,108 @@
+name: DuoFace native6 - remove inactive presentation string bytes and verify
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native6.py'
+      - 'migration/full_payload/native_test/verify_native6.py'
+      - '.github/workflows/duoface-native6-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native6-build
+  cancel-in-progress: false
+jobs:
+  build-verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify toolchain and pin known-good native5
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          deb='dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb'
+          printf '%s  %s\n' '9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26' "$deb" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native6.py migration/full_payload/native_test/verify_native6.py
+      - name: Erase previously blanked literal data without moving pointers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native6 audit/payload-migration
+          python3 migration/full_payload/native_test/build_native6.py \
+            --out dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb \
+            --report dist/payload-migration/native6/BAO_CAO.json
+          python3 migration/full_payload/native_test/verify_native6.py \
+            --deb dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb \
+            --build-report dist/payload-migration/native6/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE6_BINARY_REGRESSION.json
+      - name: Independent DEB, branding and version regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out dist/payload-migration/native6/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import json, hashlib, pathlib
+          p=pathlib.Path('dist/payload-migration/native6')
+          report=json.loads((p/'BAO_CAO.json').read_text())
+          verify=json.loads(pathlib.Path('audit/payload-migration/NATIVE6_BINARY_REGRESSION.json').read_text())
+          scan=json.loads((p/'BRAND_ZERO_AUDIT.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          assert report['zero_erased_presentation_literals']==26
+          assert report['zero_erased_data_bytes']==verify['presentation_literal_bytes_physically_zeroed']
+          assert report['source_native5_sha256']==verify['source_native5_sha256']
+          assert not verify['machine_code_changed']
+          assert verify['methods_removed_physically']==0
+          assert verify['objc_classes_and_selectors_removed_physically']==0
+          assert verify['untouched_payload_file_count']>=37
+          assert scan['strict_byte_level_zero_matches'] and not scan['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==report['deb_sha256']
+          print('NATIVE6_ZERO_ERASE_AND_CARPLAY_SECTIONS_PASS')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native6'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native6' gt '0.1.0~native5'
+          mkdir -p "$RUNNER_TEMP/native6"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native6"
+          for rel in var/jb/Applications/DuoFaceUI.app/DuoFaceUI var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib; do
+            test "$(lipo -archs "$RUNNER_TEMP/native6/$rel")" = 'arm64'
+            otool -L "$RUNNER_TEMP/native6/$rel" > /dev/null
+          done
+          shasum -a 256 "$deb"
+      - name: Preserve candidate and independent QA evidence in DuoFace
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native6/*.deb dist/payload-migration/native6/*.json audit/payload-migration/NATIVE6_BINARY_REGRESSION.json
+          if git diff --cached --quiet; then
+            echo 'NO_NEW_NATIVE6_ARTIFACT'
+            exit 0
+          fi
+          git commit -m 'artifact: native6 literal data erased and independent byte-level QA [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Attach DEB and checks
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native6
+          path: |
+            dist/payload-migration/native6/*.deb
+            dist/payload-migration/native6/*.json
+            audit/payload-migration/NATIVE6_BINARY_REGRESSION.json
+          if-no-files-found: warn
