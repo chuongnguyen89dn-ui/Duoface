@@ -1,0 +1,191 @@
+{
+  "binary_contracts": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "bytes": 2456784,
+      "exact_string_counts": {
+        "/Library/Application Support/DuoFace": 8
+      },
+      "linked_libraries": [
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/SafariServices.framework/SafariServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices (compatibility version 1.0.0, current version 1228.0.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/CoreServices.framework/CoreServices (compatibility version 1.0.0, current version 1228.0.0)"
+      ],
+      "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "bytes": 7540464,
+      "exact_string_counts": {
+        "/Library/Application Support/DuoFace": 16,
+        "DuoFaceDashboard": 10,
+        "com.duoface.duofaceui": 2
+      },
+      "linked_libraries": [
+        "@rpath/DuoFaceDashboard.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 6441.1.101)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1690.5.4)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/System/Library/Frameworks/AVFoundation.framework/AVFoundation (compatibility version 1.0.0, current version 2.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/usr/lib/libsqlite3.dylib (compatibility version 9.0.0, current version 346.0.0)",
+        "/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport (compatibility version 1.0.0, current version 29.0.0)",
+        "/System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices (compatibility version 1.0.0, current version 1.0.0)",
+        "/System/Library/Frameworks/Speech.framework/Speech (compatibility version 1.0.0, current version 1.0.0, weak)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)",
+        "/System/Library/Frameworks/AVFAudio.framework/AVFAudio (compatibility version 1.0.0, current version 1.0.0)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "bytes": 124976,
+      "exact_string_counts": {
+        "/Library/Application Support/DuoFace": 1,
+        "DuoFaceFullscreenBridge": 4
+      },
+      "linked_libraries": [
+        "@rpath/DuoFaceFullscreenBridge.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1900.180.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "@rpath/CydiaSubstrate.framework/CydiaSubstrate (compatibility version 0.0.0, current version 0.0.0)"
+      ],
+      "sha256": "e70d7705e808a16ae1a0792f27fca26196b7f1f2c108d8997d750c136e838561"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+      "bytes": 75536,
+      "exact_string_counts": {
+        "/Library/Application Support/DuoFace": 1,
+        "DuoFaceVisualHook": 4
+      },
+      "linked_libraries": [
+        "@rpath/DuoFaceVisualHook.dylib (compatibility version 0.0.0, current version 0.0.0)",
+        "/System/Library/Frameworks/UIKit.framework/UIKit (compatibility version 1.0.0, current version 8506.1.101)",
+        "/System/Library/Frameworks/Foundation.framework/Foundation (compatibility version 300.0.0, current version 3502.0.0)",
+        "/System/Library/Frameworks/QuartzCore.framework/QuartzCore (compatibility version 1.2.0, current version 1.11.0)",
+        "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics (compatibility version 64.0.0, current version 1889.5.3)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)",
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 3502.0.0)",
+        "/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)"
+      ],
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d"
+    },
+    "var/jb/usr/libexec/duoface_cboptimize_helper": {
+      "bytes": 150528,
+      "exact_string_counts": {},
+      "linked_libraries": [
+        "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation (compatibility version 150.0.0, current version 1971.0.0)",
+        "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit (compatibility version 1.0.0, current version 275.0.0)",
+        "/System/Library/Frameworks/Security.framework/Security (compatibility version 1.0.0, current version 60420.102.1)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.100.3)"
+      ],
+      "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906"
+    }
+  },
+  "control": {
+    "Architecture": "iphoneos-arm64",
+    "Conflicts": "",
+    "Depends": "mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)",
+    "Package": "com.duonavi.app",
+    "Replaces": "",
+    "Version": "1.0.3-12+menu-native1"
+  },
+  "need_new_bundle_id_and_gating": true,
+  "next_step": "Tạo bản thử nghiệm original UI + package ID riêng; không tự ghi đè binary/helper khi bản cũ còn cài; cần kiểm tra lifecycle trên iPhone.",
+  "original_info_and_filters": {
+    "var/jb/Applications/DuoFaceUI.app/Info.plist": {
+      "CFBundleDisplayName": "DuoFace",
+      "CFBundleExecutable": "DuoFaceUI",
+      "CFBundleIdentifier": "com.duoface.duofaceui",
+      "CFBundleName": "DuoFace",
+      "CFBundleURLTypes": null,
+      "LSBackgroundOnly": null,
+      "SBAppTags": null,
+      "UIBackgroundModes": null,
+      "UIRequiredDeviceCapabilities": [
+        "arm64"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist": {
+      "Enabled": null,
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist": {
+      "Enabled": null,
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "Dashboard",
+          "SpringBoard"
+        ]
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist": {
+      "Enabled": null,
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    }
+  },
+  "original_postinst_exists": true,
+  "original_prerm_exists": true,
+  "safe_coinstall_same_paths": false,
+  "source_sha256": "ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a",
+  "state": "ORIGINAL_CODE_UNCHANGED_READ_ONLY"
+}
