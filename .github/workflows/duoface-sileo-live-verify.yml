@@ -43,19 +43,19 @@ jobs:
           old=[s for s in stanzas if s.get('Package')=='com.duonavi.app']
           assert len(old)>=1, 'Khong tim thay goi cu duoc giu lai'
           f=chosen[0]
-          assert f['Version']=='0.1.0~alpha1', f
+          assert f['Version']=='0.1.0~alpha2', f
           assert f['Architecture']=='iphoneos-arm64', f
-          assert f['Filename'].endswith('debs/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb'), f
+          assert f['Filename'].endswith('debs/com.duoface.independent_0.1.0~alpha2_iphoneos-arm64.deb'), f
           assert f.get('Icon','').endswith('/duoface-icon.png'), f
-          assert f.get('SHA256')=='e1ac3ec78285924308bdb5f7a2d503c39cbf567f8a8293ad87ea1dc551d99439', f
+          assert f.get('SHA256')=='e0b9f509a847da56a90dc390394e808e5418cf402989e00fa321e89e0f4f5d19', f
           Path('expected.json').write_text(json.dumps(f,indent=2,ensure_ascii=False)+'\n')
           print('APT_PKG_INDEX_PASS',f['Package'],f['Version'],f['Filename'])
           print('APT_OLD_PKG_PRESERVED',len(old))
           PY
-          curl --fail --location --retry 6 --retry-delay 5 --retry-connrefused "$base/debs/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb" -o duoface.deb
-          echo 'e1ac3ec78285924308bdb5f7a2d503c39cbf567f8a8293ad87ea1dc551d99439  duoface.deb' | sha256sum -c -
+          curl --fail --location --retry 6 --retry-delay 5 --retry-connrefused "$base/debs/com.duoface.independent_0.1.0~alpha2_iphoneos-arm64.deb" -o duoface.deb
+          echo 'e0b9f509a847da56a90dc390394e808e5418cf402989e00fa321e89e0f4f5d19  duoface.deb' | sha256sum -c -
           test "$(dpkg-deb -f duoface.deb Package)" = 'com.duoface.independent'
-          test "$(dpkg-deb -f duoface.deb Version)" = '0.1.0~alpha1'
+          test "$(dpkg-deb -f duoface.deb Version)" = '0.1.0~alpha2'
           test "$(dpkg-deb -f duoface.deb Architecture)" = 'iphoneos-arm64'
           python3 - <<'PY'
           import hashlib,json,pathlib
