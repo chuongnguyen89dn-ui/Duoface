@@ -62,11 +62,13 @@ static void DFLogoSetRelativePos(id info, double pos) {
     ((void (*)(id, SEL, double))objc_msgSend)(info, @selector(setRelativePos:), pos);
 }
 
-static void DFLogoRestorePositionBeforeLayout(id divider) {
+static BOOL DFLogoRestorePositionBeforeLayout(id divider) {
     DFLogoGripSession *session=DFLogoSession(divider, NO);
-    if (!session || !session->hasPosition) return;
+    if (!session || !session->hasPosition) return NO;
     id info=DFLogoConfigAtIndex(divider, session->savedButtonIndex);
-    if (info) DFLogoSetRelativePos(info, session->savedRelativePos);
+    if (!info) return NO;
+    DFLogoSetRelativePos(info, session->savedRelativePos);
+    return YES;
 }
 
 static void DFLogoSetNativeHoldThreshold(UIButton *button) {
