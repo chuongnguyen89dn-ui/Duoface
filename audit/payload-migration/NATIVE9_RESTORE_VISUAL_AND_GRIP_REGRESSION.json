@@ -1,0 +1,48 @@
+{
+  "status": "NATIVE9_BYTE_EXACT_ORIGINAL_VISUAL_AND_NATIVE_RATIO_GUARD_PASS",
+  "native6_reference_sha256": "88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15",
+  "native9_sha256": "e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native9",
+  "rootless_architecture": "iphoneos-arm64",
+  "native6_original_visual_dylib_byte_identical": true,
+  "original_visual_dylib_sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+  "original_visual_filter_byte_identical": true,
+  "grip_filter_exact_copy_of_original": true,
+  "new_grip_dylib_sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+  "only_added_paths": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist"
+  ],
+  "only_changed_existing_payload": [
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "unchanged_other_existing_payload": 37,
+  "license_copy_mask_checks": {
+    "DuoFaceUI": {
+      "masked_user_visible_cstrings": 39,
+      "selected_literal_bytes": 1516,
+      "actual_changed_literal_bytes": 1321,
+      "machine_code_unchanged": true,
+      "objc_class_selector_metadata_unchanged": true,
+      "carplay_lifecycle_and_detectors_unchanged": true
+    },
+    "DuoFaceDashboard": {
+      "masked_user_visible_cstrings": 39,
+      "selected_literal_bytes": 1516,
+      "actual_changed_literal_bytes": 1321,
+      "machine_code_unchanged": true,
+      "objc_class_selector_metadata_unchanged": true,
+      "carplay_lifecycle_and_detectors_unchanged": true
+    }
+  },
+  "native_host_code_and_objc_metadata_unchanged": true,
+  "legacy_ui_and_youtube_fullscreen_binary_untouched": true,
+  "native_divider_pan_unhooked_by_new_module": true,
+  "logo_hold_seconds": 0.3,
+  "md5sums_verified_all_payload": true,
+  "not_claiming_device_success": true,
+  "device_tested_for_this_candidate": false,
+  "sileo_deployed": false
+}
