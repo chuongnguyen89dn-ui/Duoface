@@ -105,7 +105,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0xa0420:0xa0aec 0xa28e8:0xa2a58 0xa3e5c:0xa5d18 0xa678c:0xa7f20 0xa7f20:0xa9024 > audit/v12-picker-targeted-controls-20261015.txt
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0xa0420:0xa0aec 0xa28e8:0xa2a58 0xa3e5c:0xa5d18 0xa678c:0xa7f20 0xa7f20:0xa9024 0x85d58:0x85ee0 > audit/v12-picker-targeted-controls-20261015.txt
           python3 - <<'PY'
           from pathlib import Path
           p=Path('audit/v12-picker-targeted-controls-20261015.txt')
