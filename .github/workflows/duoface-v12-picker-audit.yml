@@ -6,6 +6,7 @@ on:
       - scripts/v12_host_recovery.py
       - scripts/v12_picker_text_probe.py
       - scripts/v12_picker_style_probe.py
+      - scripts/duoface_picker_logo_alpha.py
       - .github/workflows/duoface-v12-picker-audit.yml
 permissions:
   contents: write
@@ -131,6 +132,21 @@ jobs:
           set -euo pipefail
           "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x7098:0x7ea0 0x85e4:0x8b0c > audit/v12-picker-localization-table-20261015.txt
           grep -E "CBLocalization|SLOT|LEFT|RIGHT|OVERLAY_|Cột|Mở lại|Thêm App|Việt|viTable|localiz|DISASSEMBLY" audit/v12-picker-localization-table-20261015.txt | head -100 || true
+      - name: Audit menu-only transparent logo preview (NO DEB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user Pillow
+          python3 scripts/duoface_picker_logo_alpha.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("audit/duoface-picker-logo-alpha-report.json").read_text())
+          assert r["status"]=="ALPHA_PREVIEW_NOT_DEVICE_VALIDATED_NOT_DEB"
+          assert r["canvas_pixels_removed"]>100000
+          assert Path(r["candidate"]).stat().st_size>1024
+          print("Transparent candidate saved for image inspection; no DEB generated.")
+          PY
       - name: Save static audit evidence to this repo (no installation)
         shell: bash
         run: |
@@ -138,6 +154,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add audit/v12-picker-localization-table-20261015.txt
+          git add dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha.png audit/duoface-picker-logo-alpha-report.json
           git add audit/v12-picker-targeted-controls-20261015.txt audit/v12-picker-targeted-extract-20261015.txt
           git add audit/v12-picker-close-target-20261014.txt audit/v12-picker-close-app-chain-20261014.txt audit/v12-picker-sheet-geometry-20261014.txt audit/v12-picker-route-20261014.txt audit/v12-picker-text-probe-20261014.txt audit/v12-picker-header-20261014.txt audit/v12-picker-style-20261014.txt audit/v12-picker-fullscreen-access-20261014.txt audit/v12-split-pill-button-chain-20261014.txt audit/v12-split-focus-restore-chain-20261014.txt audit/v12-split-slot-wiring-full-20261014.txt audit/v12-split-slot-wiring-extract-20261014.txt
           git commit -m "audit: retain exact v12 picker call graph [skip ci]"
