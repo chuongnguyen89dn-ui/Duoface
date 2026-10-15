@@ -197,6 +197,17 @@
 - **Bước tiếp:** truy chuỗi chọn app trong `DFIRuntime.m`, kiểm tra lifecycle scene, thêm bảo vệ cần thiết, kiểm thử build; tăng version, phát hành Sileo với SHA-pinned và xác minh nguồn; đề nghị user cung cấp crash log nếu không thể xác định từ source.
 
 
+### 2026-10-15 — Chốt kết thúc thử nghiệm giao diện lõi, chuyển sang di trú DuoFace độc lập
+
+- **YÊU CẦU MỚI NHẤT:** chủ dự án xác nhận giai đoạn thử nghiệm alpha với giao diện 3 vùng đã đủ để quyết định hướng đi. **Không tiếp tục làm đẹp/phát triển UI alpha**. Mục tiêu từ đây là **mang các chức năng DuoFace đã hoàn thiện trước đây sang lõi hoạt động độc lập, không còn phụ thuộc DuoNavi**.
+- **Phạm vi giữ nguyên:** logo gốc, bảng màu/nền menu đã duyệt, App, Zoom In/Out, Style, Close App, cách chia màn hình, thao tác và các chi tiết đã chốt. Không tự ý làm lại chức năng đã xong. Bản DuoFace cũ và lịch sử chỉ để đối chiếu, không xóa hay ghi đè.
+- **Phần phải thay:** mọi đường gọi tới binary/lớp riêng của DuoNavi, điều kiện giấy phép/ngày/server/thiết bị của họ; kết nối lại giao diện DuoFace với scene/window host độc lập do chính dự án quản lý. Không dùng thư viện nhị phân DuoNavi/Airaw/DuoDash trong gói mới.
+- **Rủi ro đã ghi nhận từ test thực tế:** alpha hiển thị/chỉnh bố cục được, nhưng chọn app bị crash sau lần đầu; chưa xác minh nhiều app chạy bền vững. Phải khắc phục đường chọn app/scene lifecycle trong lúc di trú, không tuyên bố lõi đã ổn định.
+- **Package/Sileo:** tiếp tục `com.duoface.independent`, nâng version mỗi bản, dùng nguồn Sileo đã xác minh `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Không yêu cầu người dùng tải DEB liên tục.
+- **Bước kỹ thuật ngay sau đây:** đối chiếu `runtime/fullscreen/`, `src/DuoFaceVisualHook.m`, menu/logo/assets và cơ chế tương tác của DEB cũ với `independent/engine/runtime/DFIRuntime.m`. Lập bảng từng tính năng: nguồn hiện tại, phụ thuộc CB/DuoNavi, API nội bộ mới thay thế, cách test; chuyển từng lớp giao diện/chức năng; xử lý crash, build, Sileo, kiểm thử thiết bị. Không cần dựng lại UI alpha riêng.
+- **Tình trạng lượt này:** chỉ chốt hướng và lưu bàn giao; **chưa sửa code, chưa build hay phát hành**.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
