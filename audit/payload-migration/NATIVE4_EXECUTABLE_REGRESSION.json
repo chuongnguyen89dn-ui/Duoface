@@ -1,0 +1,1500 @@
+{
+  "status": "NATIVE4_ALL_NON_TARGET_MACHINE_INSTRUCTIONS_IDENTICAL",
+  "source_native3_sha256": "7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df",
+  "native4_sha256": "517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244",
+  "original_payload_files_byte_identical_except_rewritten_binaries": 37,
+  "correctly_modified_original_files": [
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "executable_validation": {
+    "DuoFaceUI": {
+      "verified_method_count": 248,
+      "already_identical_in_baseline_method_count": 1,
+      "already_identical_in_baseline_methods": [
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:setCheckStatusButtonChecking:",
+          "offset": 137636,
+          "bytes": 4
+        }
+      ],
+      "fully_replaced_original_method_bytes": 276524,
+      "unmodified_executable_bytes_outside_target_functions": 359536,
+      "all_other_executable_instruction_bytes_identical": true,
+      "all_removed_functions_return_using_original_ABI_stubs": true,
+      "methods_new_span_sha256": [
+        {
+          "class": "XXRootViewController",
+          "method": "checkAndPresentLicenseModalIfNeeded",
+          "span_sha256": "012f4e62bc1732bbed4c7465736da87c98ad0a359afe75f7a32d17d800c54f48"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "method": "openSubscriptionScreen",
+          "span_sha256": "621d46c6f84957d80ae4bc30ac6aef01915d82b293fedae8368fde043c7a52fc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "viewDidLoad",
+          "span_sha256": "9aeefef944849177b4fa86e48c27980cf43e312e143410f1126505d087ffd6ef"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "viewWillAppear:",
+          "span_sha256": "8c01dfbec59f4fd849734939950840596717972d0ec5afc98959b095d5ab7481"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "viewWillDisappear:",
+          "span_sha256": "72f86d2d0f607e39bb1f79e1e7d41e5d9530387c69c418510efaedd72a9458b8"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "keyboardWillShow:",
+          "span_sha256": "f1145ffc8aaf678de40a1b2593d0543ef48c73c5da2f3a71b730b14bc8ece082"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "keyboardWillHide:",
+          "span_sha256": "c8255631e8394adf1bd0d3af0a8762497b3ffd88858e82963bf75a9ccbc1ce29"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "dismissKeyboard",
+          "span_sha256": "b923749644acd3f33127f21478d32a4ad38f38edecee550ab8979c97f2982034"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setupTableView",
+          "span_sha256": "5a12e712f52834c1abb6e12368ad1304d1d733d861b479359b4bafc214a6b272"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setupTableHeader",
+          "span_sha256": "6eb01aeb06104e83956975397330a11ee095ad77d65440af9fa0a78e79d6d8e6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "isVIPActiveWithSufficientDays",
+          "span_sha256": "76cb0851d88b432f6788425f98d262f8d5dfeb60e6b83a941b019b2ce4c15278"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "updateTableHeaderForCurrentState",
+          "span_sha256": "7664db18c256208ec310fe7dc8e86b6bb1aa7d4db13bf3d88d14ff061c30d60d"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "modeSegmentChanged:",
+          "span_sha256": "421f90deb8f2f08924bd9048d2213682f8d15a587845723a0ce483b4e750000e"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "numberOfSectionsInTableView:",
+          "span_sha256": "af1bd1aad42851b0a974fc2b0eecaa7c7df961d9b1dacefdf42096c539a595bd"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView:numberOfRowsInSection:",
+          "span_sha256": "a30112f7de6c9bb78ad8622cd14a4d9a890a2c1120645bc3fbe31773bc40f485"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView:titleForHeaderInSection:",
+          "span_sha256": "000b7c6e5027f1327a44bfa214289d40d4b0014b7b24553d6bf8585c4dd9ad23"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView:titleForFooterInSection:",
+          "span_sha256": "259e7b53c866065ea6b510aa1d25d9055689d66f1987c399f395ea82e13458cb"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView:cellForRowAtIndexPath:",
+          "span_sha256": "53112b8e5702608bae67983253a71bf89b92aebd87c782c1b5516af30200a044"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView:didSelectRowAtIndexPath:",
+          "span_sha256": "a2ed689cd8dc08d41298d8715c9da45da45b28838b1a97efd161ba3cac5420d0"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "fetchPlansFromServer",
+          "span_sha256": "ed0828639469350053e7228c87ef58c51e05f936e5b3b7b646a1c09b55395f0a"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "handleLanguageChanged",
+          "span_sha256": "42d2e38dccb9d4025d920ec1027657772d60eb4a33361e92e00823bdff38aa61"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "formattedPriceForPlan:",
+          "span_sha256": "972b7cd86ac30f0771857733201f1c6fd7015b0687203270a5f11124407bec49"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "displayNameForTier:",
+          "span_sha256": "6414bc9a3591d291e910694979c4167dfc6cbabebfb142eeb675a045002dceba"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "currentCheckoutButtonTitle",
+          "span_sha256": "afed55612c9f773f53bf95a3bd7566d4794385f5716b3f5e05a0db421be385c8"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "showPlansLoadFailureAlertWithError:",
+          "span_sha256": "cbbf1426b915e3a6329a7a31885a35200789ebc4092628abccd44a7d372d0ad5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "checkoutCellDidTapCheckout:",
+          "span_sha256": "d5dc91825beb498004e87052385140500eed6bd71c6ac453486e51af70d70c45"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "pendingOrderCellDidTapResume:",
+          "span_sha256": "7dd4fa0b8c89c5d07a4a93821b10fd330db9ef0f12e8fa680a5c3372c057c1b5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "pendingOrderCellDidTapCheckStatus:",
+          "span_sha256": "7dd4fa0b8c89c5d07a4a93821b10fd330db9ef0f12e8fa680a5c3372c057c1b5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "pendingOrderCellDidTapCancel:",
+          "span_sha256": "7dd4fa0b8c89c5d07a4a93821b10fd330db9ef0f12e8fa680a5c3372c057c1b5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "giftcodeInputCellDidTapPaste:",
+          "span_sha256": "29b7c2fc3b6c411821325a8ba6df6bdd42e83fad6e943c68b7214988a73a0e92"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "giftcodeRedeemCellDidTapRedeem:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "hardwareIDCellDidTapCopy:",
+          "span_sha256": "d2bdffc7b2f63ff3adada3b7de1f20def6a35d1e1dd46eafd9f2e4915af46986"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "redeemGiftCodeTapped",
+          "span_sha256": "8cc189236249cee331c984801c983b943d46884859f520a3eacc1d11ac2c2957"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setGiftRedeemLoading:",
+          "span_sha256": "4a03182dde83ccd8e0f3de346a8d5ea2fb3f4973596ad524a56a988bd7d3ac40"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "textFieldShouldReturn:",
+          "span_sha256": "76cb0851d88b432f6788425f98d262f8d5dfeb60e6b83a941b019b2ce4c15278"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinatorDidUpdatePendingOrder:",
+          "span_sha256": "7dd4fa0b8c89c5d07a4a93821b10fd330db9ef0f12e8fa680a5c3372c057c1b5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinatorDidClearPendingOrder:",
+          "span_sha256": "7dd4fa0b8c89c5d07a4a93821b10fd330db9ef0f12e8fa680a5c3372c057c1b5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinatorDidCompletePaymentSuccessfully:",
+          "span_sha256": "99afb9b64c149c1181b13e1e140899cc5d458b98cd8c690cb1207bf4883a8e44"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinator:shouldPresentAlert:",
+          "span_sha256": "c8255631e8394adf1bd0d3af0a8762497b3ffd88858e82963bf75a9ccbc1ce29"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinator:shouldPresentSafari:",
+          "span_sha256": "c8255631e8394adf1bd0d3af0a8762497b3ffd88858e82963bf75a9ccbc1ce29"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinator:setCheckoutLoading:",
+          "span_sha256": "2471ad1b891acc196b61d01c8713d95b0e4941a254d9f6c5eacb53d02443bf7a"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinator:setCheckStatusButtonChecking:",
+          "span_sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "showAlertWithTitle:message:",
+          "span_sha256": "c75e2b461ff6739727f2b4f0d8b769abde1dc7cf786908cc60f1153dece5fd31"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "tableView",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setTableView:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "segmentedHeaderView",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setSegmentedHeaderView:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "modeSegmentedControl",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setModeSegmentedControl:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "currentMode",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setCurrentMode:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "plansData",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setPlansData:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "rawPlansData",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setRawPlansData:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "selectedTierIndex",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setSelectedTierIndex:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "isLoadingPlans",
+          "span_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setIsLoadingPlans:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "plansLoadFailed",
+          "span_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setPlansLoadFailed:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "orderCoordinator",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setOrderCoordinator:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "isCheckoutLoading",
+          "span_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setIsCheckoutLoading:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "giftCodeTextField",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setGiftCodeTextField:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "giftRedeemCell",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setGiftRedeemCell:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "isGiftRedeeming",
+          "span_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "method": "setIsGiftRedeeming:",
+          "span_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "modalWithActivateHandler:dismissHandler:",
+          "span_sha256": "50107f9abe74af6d70de8588d297422b58516689fe298b5888c4fcb14cfcc072"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "viewDidLoad",
+          "span_sha256": "adca186e7f0971f58d60685d56d8acf9153cada8d167364c0df1fe3b91ee6e4f"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "viewWillAppear:",
+          "span_sha256": "c75e2b461ff6739727f2b4f0d8b769abde1dc7cf786908cc60f1153dece5fd31"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setupBackdrop",
+          "span_sha256": "86a06d4d08a91cced94d30c6de17db844f2ea2ef2d5dfe04367e3ba7fbc2a6cb"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setupCardView",
+          "span_sha256": "1ec5d9d60288bcb6416c58409a5c01b895ca8ad34a6fd543abc665688df10be8"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setupContent",
+          "span_sha256": "320cffe0e3694fac6c3b00f47f3992370cae7b05853b07f6ca89792b07d6fda3"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "handleActivateTapped",
+          "span_sha256": "f9035a34785190ef6044b5814b01d17d789a6210521b28fde339851349a3a7cb"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "handleLaterTapped",
+          "span_sha256": "f9035a34785190ef6044b5814b01d17d789a6210521b28fde339851349a3a7cb"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "dismissWithCompletion:",
+          "span_sha256": "2e01685b308522c490b342449bfbb62d8d785766a84c6c80a4b340c5cfe6482d"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "onActivateTapped",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setOnActivateTapped:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "onDismissTapped",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setOnDismissTapped:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "blurBackdrop",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setBlurBackdrop:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "dimmerOverlay",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setDimmerOverlay:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "cardView",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setCardView:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "iconImageView",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setIconImageView:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "titleLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setTitleLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "messageLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setMessageLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "activateButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setActivateButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "laterButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method": "setLaterButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "0f11baf41025be8881483ecf98ba77544b19e3976c95a7d78caa5d6af94ef3ba"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "configureWithTitle:loading:",
+          "span_sha256": "b6547344a884deae7efa1d515376301cc2b52af507f58db28cbbbe3fcec785d3"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "checkoutTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "delegate",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "setDelegate:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "checkoutButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "setCheckoutButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "checkoutSpinner",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method": "setCheckoutSpinner:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "306db98094f0447e6fd1a6a055d88d24df4c46908dc77e278f48879b0f171195"
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "method": "configureWithExpirationTimestamp:",
+          "span_sha256": "c75e2b461ff6739727f2b4f0d8b769abde1dc7cf786908cc60f1153dece5fd31"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "c3fe11e46e46ed2f870991a1ff2630ec2d32a4ada073b969f6f3446ee6354af2"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "configureWithHardwareHash:",
+          "span_sha256": "6598303ba025915ac7ea6de32b0e0e8cbf67609a510299220dcf45847fd68877"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "copyTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "delegate",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "setDelegate:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "hwLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "setHwLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "clipboardButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method": "setClipboardButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "c277f5585d0b6f4422636feab2410193010189177ba7e527e93bf83b6f56e5bd"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "pasteTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "delegate",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "setDelegate:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "textField",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "setTextField:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "pasteButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method": "setPasteButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "ab797918b1d98a0f281c66c4fd447c0e3028f8ec26c2908ea074df24a18ca2d2"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "redeemTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "setLoading:",
+          "span_sha256": "f9035a34785190ef6044b5814b01d17d789a6210521b28fde339851349a3a7cb"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "delegate",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "setDelegate:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "redeemButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "setRedeemButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "spinner",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method": "setSpinner:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "f6939b48007dc6bd2b5c053c4f65b3ee8174b5cfbf649dddf92487ccae68f653"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "configureWithTitle:description:",
+          "span_sha256": "e183a42122e837eca2af8275f98ca2ef1517c40dc43f8a096422d2b2367b1c84"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "resumeTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "checkStatusTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "cancelTapped",
+          "span_sha256": "c7f835307a1b0442175f7888f44721b8e906d028766b264aa92e890e784683c8"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "delegate",
+          "span_sha256": "1e32db8712931597a5a4fcf1087856e73cd9b1c04c43c869ad6f7ada152ec46d"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setDelegate:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "titleLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setTitleLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "descLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setDescLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "resumeBtn",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setResumeBtn:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "checkStatusButton",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setCheckStatusButton:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "cancelBtn",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method": "setCancelBtn:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "34ce1fa2e28085e64c920eedffc2b8dc70e233ea3011a75995568a0b43809252"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "configureWithPlan:selected:formattedPrice:",
+          "span_sha256": "330eb32a94cc73bd1a6dbee351bfca59032e5675c5e8ec3d0eea62e69461cd37"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "nameLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "setNameLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "badgeLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "setBadgeLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "descLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "setDescLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "priceLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "setPriceLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "checkIcon",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method": "setCheckIcon:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "eab396580f3b2765cb9a44c670efe2cecff55a2a23286d2a865a06dd2f4b62fe"
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "method": "configureWithLoading:failed:",
+          "span_sha256": "f1145ffc8aaf678de40a1b2593d0543ef48c73c5da2f3a71b730b14bc8ece082"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "initWithStyle:reuseIdentifier:",
+          "span_sha256": "f0d0d395ab0753d260bc8624811e6f02e1e1bffbd16206b0d27067aaa8744162"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "keyLabel",
+          "span_sha256": "34ec260ff2a04620401a46b05acde3a02a9b3aaebd356e785c3fb2a82fd76ec9"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "valueLabel",
+          "span_sha256": "3a6c2f759eeb93a0e6501758d110a41d7efeabdddc262033ff7f691b4f1b6a6f"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "keyValuePairWithKeyLabel:valueLabel:",
+          "span_sha256": "31f88d89f4960f1ea6b73251a5b5dfb77f971364dc6db2160435d0f0e36d2af3"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "configureWithExpirationTimestamp:tierName:",
+          "span_sha256": "75e5d8c2885ade80b60b6872d3d1c5f586cb6da4976142791388928f227d4a2a"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "badgeIcon",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setBadgeIcon:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "titleLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setTitleLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "statusPillLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setStatusPillLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "durationKeyLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setDurationKeyLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "durationValueLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setDurationValueLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "serverExpiryKeyLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setServerExpiryKeyLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "serverExpiryValueLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setServerExpiryValueLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "licenseValidationKeyLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setLicenseValidationKeyLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "licenseValidationValueLabel",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method": "setLicenseValidationValueLabel:",
+          "span_sha256": "719c1b56961a3563fb35abc8c3cfdd13dba56050fd091cf8fcd0528d2f1f70f5"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "hasActivePendingOrder",
+          "span_sha256": "b9f57a33977de118d2cdab5fa83993ff34ff1d0f77e557584ed09e9db0505dae"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "currentServerBaseURL",
+          "span_sha256": "63d29686abd75d349d4a30661df1cbedc259a181384363f9a9ee5ea325bbc66e"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "fetchActivePendingOrderFromServer",
+          "span_sha256": "f1145ffc8aaf678de40a1b2593d0543ef48c73c5da2f3a71b730b14bc8ece082"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "startCheckoutForTier:forceNew:",
+          "span_sha256": "6faba043c4e003cf57059a7c67c2aef4dcd5ddd9b9e15ade477867b80ec6db37"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "resumePayment",
+          "span_sha256": "a71dfe247b8ef1edf1e68fd8d9f4e32fe158c13d1db6b5dc4caacecf5329bcad"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "checkStatusManual",
+          "span_sha256": "7124e023ec84c58171ff197d3ca54ab0fe14502cca2ee39b0903744210deca04"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "cancelActiveOrderWithCompletion:",
+          "span_sha256": "6f32b09c7d2e8ba13de5420b2e57e0c0f2f45859e09b6acb49fe7d0f091fd731"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "requestCancelPendingOrder",
+          "span_sha256": "4b605baf9d09d4dcd4431a5e5cd0004f549d5344c48fc470762926620c1bb401"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "openPaymentGatewayURL:",
+          "span_sha256": "7c127a95a90b215e7837a4d36c8907b43f99697086b95c5ed3c9ec36d33d2011"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "safariViewControllerDidFinish:",
+          "span_sha256": "116391612da9b97b48e5a87dbfcaefb4eaff6b23838e387e1ec3132aee080d23"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "startPollingOrderStatus:",
+          "span_sha256": "902b0cb5139d6bb796bd6aa36e54ef98d95734dc57ab35db38d080668ed8655d"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "stopPollingOrderStatus",
+          "span_sha256": "2aab6c1948b8a2019b9e10e97863dd811debc32f6cfedf960b4dad84275e3bf4"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "pollTimerFired",
+          "span_sha256": "a4d8ef1d8ccd6c6310c0ff15d6f3be8708662f3db4c0d16769c22cb80abaf63b"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "checkOrderStatusOnce:",
+          "span_sha256": "a49867264b021878ef11caba6200ac22cc881b4d7181c8079b18c69d6ed0e146"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "handlePaymentCompletedSuccess",
+          "span_sha256": "d94bd84994b1f057bb4af7171af4f9134dad4b8180bea89dea47521199cf4201"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "showAlertWithTitle:message:",
+          "span_sha256": "238a53054961f49b2c367879c468552c6ee555137f1f6707b8c09ff898048ec2"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "delegate",
+          "span_sha256": "2cd0282fdc3b25b91a76b8d6588e364e761c2e4eff7b1b31d3417f07843bf77a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setDelegate:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activeOrderId",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActiveOrderId:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activePaymentUrl",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActivePaymentUrl:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activeTierName",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActiveTierName:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activeAmountCrypto",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActiveAmountCrypto:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activeCurrency",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActiveCurrency:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "activeNetwork",
+          "span_sha256": "ee96fe3379c5bf488dbe0dad24e3067f3f489bf44f22cdc6a669b9bcc469c37a"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setActiveNetwork:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "pollTimer",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setPollTimer:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "safariVC",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method": "setSafariVC:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "deviceHardwareHashHex",
+          "span_sha256": "d8932b9cf75e8efef7d9f8ef35ae02f2921bcba7eca1525cb96c1ff0a107f403"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "isLicenseCurrentlyValid",
+          "span_sha256": "d5b5f009068d06a3375aee11cc9a9f942ccd34cef6fbe4854ea43b212c7ea74d"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "remainingLicenseSeconds",
+          "span_sha256": "4b18e4996af975c0ccf357708a85d1aa7bf2155ca9f6acf756f15f330a78d036"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "checkAndSyncLicenseIfNeeded",
+          "span_sha256": "3f67394fa4cacfc750e4fc5f6662d4d8a36f7c1b14c09f06697a2bb8cb2e091c"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "checkAndSyncLicenseIfNeededWithSource:",
+          "span_sha256": "238a53054961f49b2c367879c468552c6ee555137f1f6707b8c09ff898048ec2"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "forceSyncWithCompletion:",
+          "span_sha256": "265dc766ddd4965e13aeabd1625b110f4e5d06e58165aac81633fda8d5d144da"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "formatBaseURLString:",
+          "span_sha256": "23aae77952b2fa5fb60b50374eb679a82daf300c2062f492bc47dc87414b8aae"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedBackendBaseURL",
+          "span_sha256": "725ec7d6dd22749ea54a3b1b8af0b67bd19c921e1302679f9b0c8e20b5947261"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedBackendBaseURL",
+          "span_sha256": "63d29686abd75d349d4a30661df1cbedc259a181384363f9a9ee5ea325bbc66e"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedLicenseServerEndpoint",
+          "span_sha256": "62705a5a7e25d88171294226494f55d5b247aa9bb2b4712b9f54d6645eeb7bf1"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "performSyncWithForce:isManualUserAction:completion:",
+          "span_sha256": "ebe9178bd34eb6acdb6f9118f8ab7e73982f2a3198f1144ff690916f6cbd2691"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "performSyncWithForce:isManualUserAction:source:completion:",
+          "span_sha256": "e444d9e4a8e75c0e4b9a68403b58bace8ea88f507bd7e384a3d51e1444628841"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "installAndVerifyLicensePayload:errorMsg:",
+          "span_sha256": "b337fabe755ca81ab851d91329b188a0e984131abb0bc958c03fdb8972cf3c33"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "actualLicenseExpirationTimestamp",
+          "span_sha256": "a174650b062467c5321952c1e3e7a7c1ea23f197ab3d225d0db5d8542e6f2a31"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setActualLicenseExpirationTimestamp:",
+          "span_sha256": "566b262ba25ad7369d55b807846365e13a14e8b1bb8c0530586b3d682fc1412c"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "actualLicenseTierName",
+          "span_sha256": "26878803275d696eeb453a93e2bcd6dfdd1b2d0e3aec85eae440a56aa6e679fe"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setActualLicenseTierName:",
+          "span_sha256": "42d2e38dccb9d4025d920ec1027657772d60eb4a33361e92e00823bdff38aa61"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "isSyncing",
+          "span_sha256": "2f6110664dbd16b514a0c2c7c8326932a36e85d2f15b91e57ca76efd2c7a625a"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setIsSyncing:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "syncQueue",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setSyncQueue:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "lastAttemptTimestamp",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setLastAttemptTimestamp:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        }
+      ]
+    },
+    "DuoFaceDashboard": {
+      "verified_method_count": 43,
+      "already_identical_in_baseline_method_count": 0,
+      "already_identical_in_baseline_methods": [],
+      "fully_replaced_original_method_bytes": 316564,
+      "unmodified_executable_bytes_outside_target_functions": 2723980,
+      "all_other_executable_instruction_bytes_identical": true,
+      "all_removed_functions_return_using_original_ABI_stubs": true,
+      "methods_new_span_sha256": [
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "deviceHardwareHashHex",
+          "span_sha256": "d8932b9cf75e8efef7d9f8ef35ae02f2921bcba7eca1525cb96c1ff0a107f403"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "isLicenseCurrentlyValid",
+          "span_sha256": "d5b5f009068d06a3375aee11cc9a9f942ccd34cef6fbe4854ea43b212c7ea74d"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "remainingLicenseSeconds",
+          "span_sha256": "4b18e4996af975c0ccf357708a85d1aa7bf2155ca9f6acf756f15f330a78d036"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "checkAndSyncLicenseIfNeeded",
+          "span_sha256": "3f67394fa4cacfc750e4fc5f6662d4d8a36f7c1b14c09f06697a2bb8cb2e091c"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "checkAndSyncLicenseIfNeededWithSource:",
+          "span_sha256": "238a53054961f49b2c367879c468552c6ee555137f1f6707b8c09ff898048ec2"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "forceSyncWithCompletion:",
+          "span_sha256": "265dc766ddd4965e13aeabd1625b110f4e5d06e58165aac81633fda8d5d144da"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "formatBaseURLString:",
+          "span_sha256": "23aae77952b2fa5fb60b50374eb679a82daf300c2062f492bc47dc87414b8aae"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedBackendBaseURL",
+          "span_sha256": "725ec7d6dd22749ea54a3b1b8af0b67bd19c921e1302679f9b0c8e20b5947261"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedBackendBaseURL",
+          "span_sha256": "63d29686abd75d349d4a30661df1cbedc259a181384363f9a9ee5ea325bbc66e"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "resolvedLicenseServerEndpoint",
+          "span_sha256": "62705a5a7e25d88171294226494f55d5b247aa9bb2b4712b9f54d6645eeb7bf1"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "performSyncWithForce:isManualUserAction:completion:",
+          "span_sha256": "ebe9178bd34eb6acdb6f9118f8ab7e73982f2a3198f1144ff690916f6cbd2691"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "performSyncWithForce:isManualUserAction:source:completion:",
+          "span_sha256": "e444d9e4a8e75c0e4b9a68403b58bace8ea88f507bd7e384a3d51e1444628841"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "installAndVerifyLicensePayload:errorMsg:",
+          "span_sha256": "b337fabe755ca81ab851d91329b188a0e984131abb0bc958c03fdb8972cf3c33"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "actualLicenseExpirationTimestamp",
+          "span_sha256": "a174650b062467c5321952c1e3e7a7c1ea23f197ab3d225d0db5d8542e6f2a31"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setActualLicenseExpirationTimestamp:",
+          "span_sha256": "566b262ba25ad7369d55b807846365e13a14e8b1bb8c0530586b3d682fc1412c"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "actualLicenseTierName",
+          "span_sha256": "26878803275d696eeb453a93e2bcd6dfdd1b2d0e3aec85eae440a56aa6e679fe"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setActualLicenseTierName:",
+          "span_sha256": "42d2e38dccb9d4025d920ec1027657772d60eb4a33361e92e00823bdff38aa61"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "isSyncing",
+          "span_sha256": "2f6110664dbd16b514a0c2c7c8326932a36e85d2f15b91e57ca76efd2c7a625a"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setIsSyncing:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "syncQueue",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setSyncQueue:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "lastAttemptTimestamp",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "setLastAttemptTimestamp:",
+          "span_sha256": "5815fa81ae0dfc292103586ff7fcade32cd0bb635d633fabefb1c25cf0d9ec6f"
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "method": "initWithFrame:",
+          "span_sha256": "4d51ef3bafc3f3f63beff8f18fa2e02ccdb10f8d7811498534fecf91d8512508"
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "method": "drawRect:",
+          "span_sha256": "c723e793fdbdf69f42ddde247f497663c0d9456c5511c9ce0f8fd97346d0aead"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "initWithFrame:modalType:",
+          "span_sha256": "2bbd1257eb947478d63e808d8e30be09d10f253b6262be86598c8ea47d7a8cec"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "setupSubviews",
+          "span_sha256": "8b5510dd9dbe615fd849dcc02aa0d02de8a26c8772a120736d5dac9e090bacb4"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "setModalType:",
+          "span_sha256": "db39e5be176d4e06a29edd12d44a37582ccf7e866d0faec0bad927ae1fb1061e"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "updateContentForType:",
+          "span_sha256": "2eedab60ba9ca715d50e7792b6c0d6f951762b4ceffbcd602a371d5d9dcb9f21"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "layoutSubviews",
+          "span_sha256": "8b0ad6d04c324b757b85528dd72bcacb76a48e3b45adf3c3fbb68639486aff78"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "handleDismissButtonTap:",
+          "span_sha256": "72f86d2d0f607e39bb1f79e1e7d41e5d9530387c69c418510efaedd72a9458b8"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "showAnimated:",
+          "span_sha256": "6ba4e6987e60b455b158216288ec8b11a09455f90a2b5a588f50d6c7bdbffe51"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "dismissAnimated:",
+          "span_sha256": "99afb9b64c149c1181b13e1e140899cc5d458b98cd8c690cb1207bf4883a8e44"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "onDismiss",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "setOnDismiss:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "modalType",
+          "span_sha256": "f75c32367978e9ab8c0adbb3c85434b88e66c3570aed6a498ff7a2c94980da3b"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "presentLicenseWarningModalWithType:",
+          "span_sha256": "1bbcbaf690f882e74f763d3344b8314c84ed6725884a777e9f21e6d2f5d8494c"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "dismissLicenseWarningModal",
+          "span_sha256": "b923749644acd3f33127f21478d32a4ad38f38edecee550ab8979c97f2982034"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "startLicenseWatchdogTimer",
+          "span_sha256": "621d46c6f84957d80ae4bc30ac6aef01915d82b293fedae8368fde043c7a52fc"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "stopLicenseWatchdogTimer",
+          "span_sha256": "b923749644acd3f33127f21478d32a4ad38f38edecee550ab8979c97f2982034"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "licenseWatchdogTimerFired:",
+          "span_sha256": "a7d6af4158244bf8112cb7b9e22abe2024251d6f6d255891ec22f0855b19a63d"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "licenseWarningModal",
+          "span_sha256": "d3c844a0173107453aa9896cdb7276470625501e7ff067cd764c7a160ece5ca3"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "setLicenseWarningModal:",
+          "span_sha256": "d2fae472ecfb790b938dc5e15831210e7ecc637970ede9421b9a4631d50ca484"
+        }
+      ]
+    }
+  },
+  "device_tested": false,
+  "remaining_original_selectors_and_strings": true,
+  "all_license_code_physically_removed": false,
+  "note": "Even a rigorous executable diff cannot establish CarPlay behavior; this is an experimental DEB for test."
+}
