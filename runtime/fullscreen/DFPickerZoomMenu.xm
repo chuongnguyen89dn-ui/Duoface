@@ -13,6 +13,8 @@ static NSString * const DFMenuZoomEvent = @"com.duoface.fullscreen.picker.v1";
 static NSHashTable<UIView *> *DFOverlays;
 static const void *DFZoomKey = &DFZoomKey;
 static BOOL DFHookReady;
+// Scoped exclusively to native app-picker card construction. No global plus replacement.
+static BOOL DFBuildingNativeAddTile;
 @interface NSObject (DFDistributedPost)
 + (id)defaultCenter;
 - (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info;
@@ -304,7 +306,18 @@ static void DFLayoutPicker(UIView *overlay) {
 }
 @end
 %group DFPickerZoom
+// The v12 IMP is void(self,SEL,double,double,double), verified in
+// audit/v12-picker-targeted-controls-20261015.txt at 0xa3e5c.
+// Its only SF symbol 'plus' belongs to the native Add App tile.
 %hook CBMultitaskingOverlayView
+- (void)setupAppPickerCardsInCardW:(double)cardW
+                             cardH:(double)cardH
+                          contentY:(double)contentY {
+    BOOL previous=DFBuildingNativeAddTile;
+    DFBuildingNativeAddTile=YES;
+    %orig;
+    DFBuildingNativeAddTile=previous;
+}
 - (void)setupCardContent {
     %orig;
     DFLayoutPicker((UIView *)self);
@@ -312,6 +325,16 @@ static void DFLayoutPicker(UIView *overlay) {
 - (void)layoutSubviews {
     %orig;
     DFLayoutPicker((UIView *)self);
+}
+%end
+%hook UIImage
++ (UIImage *)systemImageNamed:(NSString *)name
+           withConfiguration:(UIImageSymbolConfiguration *)configuration {
+    if (DFBuildingNativeAddTile && [name isEqualToString:@"plus"]) {
+        UIImage *dots=%orig(@"ellipsis",configuration);
+        if (dots) return dots;
+    }
+    return %orig;
 }
 %end
 %end
