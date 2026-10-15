@@ -1,0 +1,66 @@
+name: DuoFace native5 - independent CarPlay code and UI regression
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/verify_native5.py'
+      - '.github/workflows/duoface-native5-regression.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native5-regression
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lock native4 and native5 exact SHA256
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' '517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244' 'dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb' | sha256sum -c -
+          printf '%s  %s\n' '9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26' 'dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb' | sha256sum -c -
+      - name: Check every non-target CarPlay instruction stays identical
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/verify_native5.py \
+            --out audit/payload-migration/NATIVE5_CARPLAY_REGRESSION.json
+          python3 - <<'PY'
+          import json,pathlib
+          obj=json.loads(pathlib.Path('audit/payload-migration/NATIVE5_CARPLAY_REGRESSION.json').read_text())
+          assert obj['status']=='NATIVE5_NATIVE_CARPLAY_CODE_AND_UNRELATED_ASSETS_BYTE_IDENTICAL'
+          assert obj['no_extra_machine_code_changed']
+          assert obj['unchanged_all_other_payload_file_count']>=35
+          assert obj['target_binary_checks']['DuoFaceUI']['temporary_expiry_methods']==2
+          assert obj['target_binary_checks']['DuoFaceDashboard']['temporary_expiry_methods']==0
+          assert sum(x['masked_presentation_literals'] for x in obj['target_binary_checks'].values())==26
+          assert not obj['device_tested']
+          print('NATIVE5_FULL_REGRESSION_PASS_DEVICE_TEST_STILL_REQUIRED')
+          PY
+      - name: Persist independent byte proof to DuoFace feature branch
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE5_CARPLAY_REGRESSION.json
+          git commit -m 'audit: native5 exact CarPlay code/asset diff outside 2 expiry methods and 26 text spans [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Keep regression proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native5-regression-${{github.run_id}}
+          path: audit/payload-migration/NATIVE5_CARPLAY_REGRESSION.json
+          if-no-files-found: warn
