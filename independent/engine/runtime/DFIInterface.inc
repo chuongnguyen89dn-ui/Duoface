@@ -248,7 +248,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
 - (void)dismissPanel{[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;[self.panel removeFromSuperview];self.panel=nil;}
 - (void)showRows:(NSArray *)rows pane:(NSInteger)pane pick:(void(^)(NSDictionary *))pick {
- [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFIList *list=[DFIList new];list.rows=rows;list.pick=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
+ [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFIList *list=[DFIList new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
 - (void)choose:(UIButton *)button {
  NSInteger index=button.tag;
