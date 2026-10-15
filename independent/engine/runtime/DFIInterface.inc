@@ -138,6 +138,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) UILabel *statusLabel;
 @property(nonatomic,strong) UIImageView *approvedLogo;
 @property(nonatomic) NSInteger activePane,selectedTab;
+@property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
 @implementation DFISplitController
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{return UIInterfaceOrientationMaskAll;}
@@ -152,7 +153,7 @@ static NSArray *DFIAvailableApps(void) {
  [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
- self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;
+ self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.pendingPanes=[NSMutableSet set];
  self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
   UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;[self.view addSubview:p];[panes addObject:p];
@@ -261,15 +262,20 @@ static NSArray *DFIAvailableApps(void) {
 - (void)openBundle:(NSString *)bid pane:(NSInteger)pane {
  DFIPerfMark(@"open_app",@{@"pane":@(pane)});
  if(self.shuttingDown||pane<0||pane>2||!DFIEnabled()||[DFITerminating containsObject:bid])return;
+ if([self.pendingPanes containsObject:@(pane)]) {
+     [self message:@"Đang chuyển ứng dụng, vui lòng đợi…"];
+     return;
+ }
  for(id h in self.hosts)if(h!=NSNull.null&&[[h bundleID]isEqual:bid])return;
- NSError *error=nil;DFISceneHost *host=[[DFISceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self message:error.localizedDescription];return;}
+ [self.pendingPanes addObject:@(pane)];
+ NSError *error=nil;DFISceneHost *host=[[DFISceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self.pendingPanes removeObject:@(pane)];[self message:error.localizedDescription?:@"Không mở được ứng dụng"];return;}
  id previous=self.hosts[pane];NSString *old=previous==NSNull.null?nil:[previous bundleID];if(previous!=NSNull.null)[previous close];self.hosts[pane]=host;
  __weak typeof(self) weak=self;__weak DFISceneHost *wh=host;
- host.failure=^(NSString *reason){DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound)return;s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
- host.ready=^{DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound){s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
+ host.failure=^(NSString *reason){DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound)return;s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
+ host.ready=^{DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound){s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
  [self.emptyButtons[pane]setTitle:DFIT(@"Đang mở…",@"Opening…") forState:0];self.emptyButtons[pane].hidden=NO;self.emptyButtons[pane].enabled=NO;
  @try{[host attachTo:self container:self.panes[pane]];[DFIManaged addObject:bid];DFISetObject(DFIStateMonitor,@"updateInterestedBundleIDs:",DFIManaged.allObjects);[self.panes[pane]bringSubviewToFront:self.emptyButtons[pane]];[host resizeTo:self.panes[pane].bounds.size];DFIWritePreference(@[@"left",@"right",@"third"][pane],bid);}
- @catch(NSException *e){[host close];self.hosts[pane]=NSNull.null;self.emptyButtons[pane].enabled=YES;[self.emptyButtons[pane]setTitle:e.reason forState:0];}
+ @catch(NSException *e){[self.pendingPanes removeObject:@(pane)];[host close];self.hosts[pane]=NSNull.null;self.emptyButtons[pane].enabled=YES;[self.emptyButtons[pane]setTitle:e.reason forState:0];}
  if(old&&[DFIPref(@"closeReplaced")boolValue])DFITerminate(old,nil,^(NSString *status){[weak message:status];});
 }
 - (void)saveLayout{DFIWritePreference(@"layout",@(self.layoutKind));DFIWritePreference(@"fraction",@(self.fraction));DFIWritePreference(@"secondary",@(self.secondary));}
@@ -366,6 +372,6 @@ static NSArray *DFIAvailableApps(void) {
 - (void)exitSplit{DFIStop();}
 - (void)shutdown {
  DFIPerfMark(@"shutdown",nil);
- if(self.shuttingDown)return;self.shuttingDown=YES;[self.hideTimer invalidate];[self dismissPanel];for(id host in self.hosts)if(host!=NSNull.null)[host close];[self.hosts removeAllObjects];
+ if(self.shuttingDown)return;self.shuttingDown=YES;[self.pendingPanes removeAllObjects];[self.hideTimer invalidate];[self dismissPanel];for(id host in self.hosts)if(host!=NSNull.null)[host close];[self.hosts removeAllObjects];
 }
 @end
