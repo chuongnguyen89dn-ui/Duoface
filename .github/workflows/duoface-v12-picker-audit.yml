@@ -134,6 +134,12 @@ jobs:
           set -euo pipefail
           "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x7098:0x7ea0 0x85e4:0x8b0c > audit/v12-picker-localization-table-20261015.txt
           grep -E "CBLocalization|SLOT|LEFT|RIGHT|OVERLAY_|Cột|Mở lại|Thêm App|Việt|viTable|localiz|DISASSEMBLY" audit/v12-picker-localization-table-20261015.txt | head -100 || true
+      - name: Trace original running, active-slot, background and PID status (READ ONLY)
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/picker-venv/bin/python" scripts/v12_host_recovery.py "$RUNNER_TEMP/DuoFaceDashboard.dylib" 0x280d48:0x281e48 0xa6e90:0xa7170 0xa7520:0xa7790 > audit/v12-picker-running-status-20261015.txt
+          grep -E 'DISASSEMBLY|SEL (runningBridgedApplications|objectForKeyedSubscript:|boolValue|intValue|integerValue|runningApplication|processIdentifier)|NSString (.*inActiveSlot|.*slotIndex|.*pid|.*OVERLAY_RUNNING_TAG|.*OVERLAY_PID_TAG|.*OVERLAY_BACKGROUND_TAG)' audit/v12-picker-running-status-20261015.txt | head -110 || true
       - name: Audit menu-only transparent logo preview (NO DEB)
         shell: bash
         run: |
@@ -175,6 +181,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/v12-picker-running-status-20261015.txt
           git add audit/v12-picker-localization-table-20261015.txt
           git add audit/duoface-picker-layout-sanity-20261015.json
           git add dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png audit/duoface-picker-logo-grabcut-report.json audit/duoface-picker-logo-grabcut-checkerboard.png
