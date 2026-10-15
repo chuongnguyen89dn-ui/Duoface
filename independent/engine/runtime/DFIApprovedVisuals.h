@@ -22,29 +22,40 @@ static inline UIImage *DFIApprovedHeaderLogo(void) {
     UIImage *logo = DFIApprovedArtwork(@"duoface-logo-picker-alpha-v2.png");
     return logo ?: DFIApprovedArtwork(@"duoface-logo.png");
 }
+// Một dòng 30pt như picker v12: SF Symbol 16pt ở trên, nhãn 10pt ở dưới.
+// Không dùng imageEdgeInsets âm: ở iOS16 UIButtonConfiguration có thể bỏ qua.
 static inline void DFIStyleApprovedTab(UIButton *button, NSString *title,
                                        NSString *symbol, BOOL selected) {
-    UIColor *tint = selected ? UIColor.whiteColor :
+    UIColor *color = selected ? UIColor.whiteColor :
         [UIColor colorWithWhite:0.68 alpha:1.0];
-    button.layer.borderWidth = 0;
-    button.layer.cornerRadius = 0;
-    button.backgroundColor = selected ? DFIApprovedRed() : UIColor.clearColor;
-    button.tintColor = tint;
+    button.layer.borderWidth=0;
+    button.layer.cornerRadius=0;
+    button.backgroundColor=selected?DFIApprovedRed():UIColor.clearColor;
+    button.tintColor=color;
     [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:tint forState:UIControlStateNormal];
-    UIImage *glyph = [UIImage systemImageNamed:symbol withConfiguration:
-        [UIImageSymbolConfiguration configurationWithPointSize:15
-                weight:UIImageSymbolWeightRegular]];
-    if (glyph) [button setImage:[glyph imageWithRenderingMode:
-                                 UIImageRenderingModeAlwaysTemplate]
-                         forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:10];
-    button.titleLabel.adjustsFontSizeToFitWidth = YES;
-    button.titleLabel.minimumScaleFactor = 0.85;
-    button.titleLabel.lineBreakMode = NSLineBreakByClipping;
-    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    button.titleEdgeInsets = UIEdgeInsetsMake(18,-17,0,0);
-    button.imageEdgeInsets = UIEdgeInsetsMake(0,12,12,-12);
-    button.accessibilityLabel = title;
+    [button setTitleColor:color forState:UIControlStateNormal];
+    [button setImage:nil forState:UIControlStateNormal];
+    button.titleLabel.font=[UIFont systemFontOfSize:10];
+    button.titleLabel.textAlignment=NSTextAlignmentCenter;
+    button.titleLabel.adjustsFontSizeToFitWidth=YES;
+    button.titleLabel.minimumScaleFactor=0.85;
+    button.titleLabel.lineBreakMode=NSLineBreakByClipping;
+    button.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    button.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    button.contentEdgeInsets=UIEdgeInsetsZero;
+    button.titleEdgeInsets=UIEdgeInsetsMake(19,0,0,0);
+    UIImageView *icon=(UIImageView *)[button viewWithTag:8162];
+    if(![icon isKindOfClass:UIImageView.class]) {
+        icon=[UIImageView new];icon.tag=8162;
+        icon.contentMode=UIViewContentModeScaleAspectFit;
+        icon.userInteractionEnabled=NO;
+        [button addSubview:icon];
+    }
+    UIImage *image=[UIImage systemImageNamed:symbol withConfiguration:
+        [UIImageSymbolConfiguration configurationWithPointSize:16
+                            weight:UIImageSymbolWeightRegular]];
+    icon.image=[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    icon.tintColor=color;
+    icon.frame=CGRectMake((CGRectGetWidth(button.bounds)-16)/2,1,16,16);
+    button.accessibilityLabel=title;
 }
