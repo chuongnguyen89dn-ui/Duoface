@@ -3,6 +3,13 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
+## TRẠNG THÁI HIỆN TẠI — 15/10/2026, bắt đầu phát triển độc lập
+
+- **Đang thực hiện, đã xác minh trên GitHub:** đã tạo nhánh `feature/duoface-independent-core` từ `main` commit `5313d965d56b9325a7d93f74b84a6f7214893df8`; nhánh mới đạt commit `366084e81527c291ce9dd20fb1fe4980d4d60d61`.
+- **Đã hoàn thành mốc khởi động:** bảng kiểm kê kỹ thuật `docs/khoi-dong-duoface-doc-lap.md` trên nhánh mới, Git blob `c84dad1f185a7f7ebad14933c658fcf893381c39`; đối chiếu mã nguồn thực tế và điểm còn phụ thuộc `CBWindow`, `CBBridgeManager`, `CBBridgedSplitApp`, `CBMultitaskingOverlayView`.
+- **Chưa hoàn thành:** chưa viết lõi hai cửa sổ độc lập; chưa tạo gói `com.duoface.app`; chưa biên dịch, đóng DEB hay thử chạy trên thiết bị.
+- **Bước tới:** xây dựng phép kiểm tra hiện diện lớp chủ CarPlay/scene và nguyên mẫu hai vùng chứa trên nhánh riêng; chưa thay đổi bản đang cài. Chỉ đề nghị đóng DEB khi người dùng yêu cầu rõ.
+
 ## 1. Nhận diện dự án và quyết định mới nhất
 
 - **Repository duy nhất:** `chuongnguyen89dn-ui/Duoface` (`https://github.com/chuongnguyen89dn-ui/Duoface`). Không nhầm với repo `Gpt-training-` (chỉ cung cấp kỹ năng), `carplaydsp`/`Duoface` khác hoặc repo của DuoNavi.
@@ -90,6 +97,16 @@
 - **Thay đổi:** chuyển nguyên vẹn nội dung bàn giao từ file tên tiếng Anh `DUOFACE_INDEPENDENT_HANDOFF.md` sang tên tiếng Việt, giữ lịch sử và đường dẫn tham chiếu cũ; cập nhật liên kết trong `README.md` và xóa **chỉ** file tên tiếng Anh vừa tạo nhằm tránh hai đầu mối cùng hoạt động.
 - **Không thay đổi:** `tiep tuc du an.md` của các phiên bản kế thừa DuoNavi, mã nguồn chương trình, gói DEB, quy trình build hay phát hành. Hồ sơ được giữ trong đúng kho `chuongnguyen89dn-ui/Duoface`.
 - **Điểm tiếp nối:** kiểm tra GitHub chỉ còn một đầu mối của hướng DuoFace mới với tên tiếng Việt; sau đó triển khai lõi DuoFace độc lập khi người dùng giao nhiệm vụ phát triển.
+
+### 2026-10-15 — Bắt đầu thực hiện công việc DuoFace độc lập
+
+- **Ý người dùng:** “bây giờ ta bắt đầu từ đâu?”; bám quyết định đã chốt: DuoFace mới không phụ thuộc lõi hoặc giấy phép DuoNavi; bảo toàn thành quả đã phát triển. Không yêu cầu đóng DEB trong lượt này.
+- **Kiểm tra nơi làm việc:** GitHub `chuongnguyen89dn-ui/Duoface` nhánh `main` tại `5313d965d56b9325a7d93f74b84a6f7214893df8`. Bản đối chiếu vẫn `menu-native1` SHA256 `ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a`; run `38679315617` success, chưa được xác nhận thiết bị/Sileo. Mười lăm run gần nhất trong kết quả API không có run `in_progress`/`queued`.
+- **Hành động GitHub đã xác minh:** tạo nhánh `feature/duoface-independent-core` tại main HEAD trước thay đổi; thêm báo cáo `docs/khoi-dong-duoface-doc-lap.md`, commit `366084e81527c291ce9dd20fb1fe4980d4d60d61`, Git blob `c84dad1f185a7f7ebad14933c658fcf893381c39`. Đã đọc lại nhánh, tài liệu, mã nguồn; **không sửa lõi kế thừa và không build**.
+- **Kết luận kiểm tra nguồn:** `DFHostGeometry.xm` vẫn gọi `CB*` để quản lý window/host; `DFPickerZoomMenu.xm` móc `CBMultitaskingOverlayView`; `DuoFaceVisualHook.m`/`DuoFaceBorderRunner.m` cần class của bản kế thừa. Kênh fullscreen và chrome do DuoFace viết có thể giữ logic sau khi đổi phần nhận lệnh, nhưng chưa chứng minh chạy độc lập. **Điểm nghẽn đầu tiên là host hai app scenes**, không phải menu, màu nền hay cơ chế cấp phép.
+- **Bước tiếp theo có thể thực hiện ngay:** viết probe/nguồn thử trên nhánh này để xác nhận tiến trình sở hữu CarPlay, class/window/scene API sẵn có, khởi tạo hai host độc lập có khôi phục an toàn; kiểm tra compile tĩnh trước, chỉ đóng/cài DEB theo yêu cầu riêng. Tiêu chí đầu tiên: chạy hai app trên màn CarPlay mà không cài/lấy dữ liệu DuoNavi; log chứng minh hai scene, chạm riêng, thay tỷ lệ và thoát an toàn.
+- **Không thay đổi:** `main` runtime, `tiep tuc du an.md` cũ, tất cả DEB, Sileo, giấy phép và dữ liệu ngày của phiên bản kế thừa.
+
 
 ---
 
