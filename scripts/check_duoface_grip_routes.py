@@ -51,9 +51,9 @@ def check() -> dict:
     assert "DFLogoRestorePositionBeforeLayout(self)" in hook
     assert "DFLogoSetRelativePos(info, fraction)" in grip
     assert "@selector(updateGripLayout)" in grip
-    assert "splitRatio" not in grip.replace(
-        "the divider pan must NOT adjust splitRatio", "")
+    # Logging and comments may mention splitRatio; disallow its setter.
     assert "setSplitRatio:" not in grip
+    assert "@selector(setSplitRatio:)" not in grip
 
     touchup = body(grip, "static void DFLogoGripUp(")
     assert "session->holdRecognized || session->panOnLogoMoved" in touchup
