@@ -10,10 +10,25 @@ import argparse, hashlib, json, pathlib, struct, subprocess, tempfile
 def inspect(path: pathlib.Path):
     full=path.read_bytes()
     data=full
-    if full[:4] not in (b"\xcf\xfa\xed\xfe",b"\xfe\xed\xfa\xcf"):
-        raise ValueError("Expected thin 64-bit Mach-O; do not guess fat slice")
-    le=full[:4]==b"\xcf\xfa\xed\xfe"
-    if not le:raise ValueError("Not little-endian Mach-O arm64")
+    if full[:4] in (bytes.fromhex("cafebabe"),bytes.fromhex("cafebabf")):
+        n=struct.unpack_from(">I",full,4)[0]
+        assert 1<=n<=12, "Unexpected FAT Mach-O arch count"
+        wide=full[:4]==bytes.fromhex("cafebabf")
+        found=[]
+        for i in range(n):
+            pos=8+i*(32 if wide else 20)
+            cputype=struct.unpack_from(">I",full,pos)[0]
+            if wide:
+                start,size=struct.unpack_from(">QQ",full,pos+8)
+            else:
+                start,size=struct.unpack_from(">II",full,pos+8)
+            if cputype==0x0100000c and start>0 and size>1000 and start+size<=len(full):
+                found.append((start,size))
+        if not found:raise ValueError("No valid arm64 slice in fat Mach-O")
+        start,size=found[0]
+        data=full[start:start+size]
+    if data[:4]!=bytes.fromhex("cffaedfe"):
+        raise ValueError(f"Expected arm64 64-bit Mach-O slice, got {data[:4].hex()}")
     def rd(fmt,offset):
         if offset<0 or offset+struct.calcsize(fmt)>len(data):raise ValueError(f"out of range {offset:#x}")
         return struct.unpack_from(fmt,data,offset)[0]
