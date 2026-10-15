@@ -1,0 +1,114 @@
+name: Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)
+
+on:
+  push:
+    branches:
+      - feature/duoface-independent-core
+    paths:
+      - 'independent/engine/**'
+      - '.github/workflows/duoface-independent-alpha.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-independent-alpha
+  cancel-in-progress: false
+
+jobs:
+  build-independent:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Công cụ đóng gói iPhone jailbreak
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install ldid dpkg
+          xcrun --sdk iphoneos --show-sdk-path
+      - name: Lấy đúng biểu tượng gốc DuoFace; không thiết kế hình khác
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="dist/visual-1.0.3-12/assets/duoface-icon.png"
+          test "$(git hash-object "$src")" = '80d59baa4ae0704e997a6ef0d36bb3c2aa847c65'
+          mkdir -p independent/engine/app
+          sips -s format png -z 120 120 "$src" --out 'independent/engine/app/AppIcon60x60@2x.png'
+          sips -s format png -z 180 180 "$src" --out 'independent/engine/app/AppIcon60x60@3x.png'
+      - name: Thử 2592 bố cục, biên dịch nhị phân và đóng gói ID riêng
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash independent/engine/build.sh
+          p='independent/engine/packages/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb'
+          test -s "$p"
+          test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$p" Version)" = '0.1.0~alpha1'
+          test "$(dpkg-deb -f "$p" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$p" | tee "$RUNNER_TEMP/duoface-independent-contents.txt"
+          dpkg-deb -c "$p" | grep -F 'DuoFaceIndependent.dylib'
+          ! dpkg-deb -c "$p" | grep -Eiq 'DuoNavi|DuoFaceDashboard|CarPlaySplit|Airaw'
+          dpkg-deb -f "$p" | tee "$RUNNER_TEMP/duoface-independent-control.txt"
+          shasum -a 256 "$p" | tee "$RUNNER_TEMP/duoface-independent-sha256.txt"
+      - name: Kiểm tra tách biệt khỏi các gói đang dùng
+        shell: bash
+        run: |
+          set -euo pipefail
+          p='independent/engine/packages/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb'
+          python3 independent/engine/verify_package.py "$p"
+          python3 - <<'PY'
+          import pathlib,tarfile,io,subprocess,plistlib
+          b=pathlib.Path('independent/engine/packages/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb')
+          d=subprocess.check_output(['dpkg-deb','--fsys-tarfile',str(b)])
+          with tarfile.open(fileobj=io.BytesIO(d),mode='r:') as t:
+              files={f.name.removeprefix('./'):t.extractfile(f).read() for f in t.getmembers() if f.isfile()}
+          names=list(files)
+          assert not any('duonavi' in x.lower() or 'airaw' in x.lower() or 'carplaysplit' in x.lower() for x in names)
+          assert 'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceIndependent.dylib' in files
+          assert b'com.chuong.carplaysplit' not in files['var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceIndependent.dylib']
+          assert 'var/jb/Applications/DuoFaceIndependent.app/Info.plist' in files
+          info=plistlib.loads(files['var/jb/Applications/DuoFaceIndependent.app/Info.plist'])
+          assert info['CFBundleIdentifier']=='com.duoface.independent'
+          print('PACKAGE_PATHS_IDENTITY_PASS_NOT_DEVICE_TESTED')
+          PY
+      - name: Lưu DEB và báo cáo kiểm thử vào đúng nhánh của dự án
+        shell: bash
+        env:
+          TARGET_REF: feature/duoface-independent-core
+        run: |
+          set -euo pipefail
+          mkdir -p dist/independent/alpha1
+          p='independent/engine/packages/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb'
+          cp "$p" dist/independent/alpha1/
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib
+          p=pathlib.Path('dist/independent/alpha1/com.duoface.independent_0.1.0~alpha1_iphoneos-arm64.deb')
+          report={'goi':'com.duoface.independent','phien_ban':'0.1.0~alpha1',
+             'ket_qua':'DA_DONG_DEB_CHUA_THU_THIET_BI',
+             'nguon_commit':os.environ['GITHUB_SHA'],
+             'run_id':os.environ['GITHUB_RUN_ID'],
+             'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'kich_thuoc':p.stat().st_size,
+             'da_bien_dich':True,'thu_carplay_thuc_te':False,'sileo_da_phat_hanh':False,
+             'loi_nhac':'Bo chia scene dua tren nguon doc lap, chua xac minh chay tren iPhone thuc te.'}
+          out=p.parent/'BAO_CAO.json'
+          out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          print(out.read_text())
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/independent/alpha1/
+          git commit -m 'artifact: giữ bản DuoFace mới alpha1 và SHA256 [skip ci]'
+          git push origin "HEAD:$TARGET_REF"
+      - name: Lưu bản DEB và kiểm chứng cho truy xuất khi cần
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-independent-alpha1-${{ github.run_id }}
+          path: |
+            independent/engine/packages/*.deb
+            dist/independent/alpha1/BAO_CAO.json
+            ${{ runner.temp }}/duoface-independent-control.txt
+            ${{ runner.temp }}/duoface-independent-contents.txt
+            ${{ runner.temp }}/duoface-independent-sha256.txt
+          if-no-files-found: warn
