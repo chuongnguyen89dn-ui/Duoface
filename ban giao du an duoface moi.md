@@ -3,7 +3,7 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
-## CHECKPOINT THỰC THI MỚI NHẤT — 15/10/2026: native2 đã lên Sileo, chờ test iPhone; native1 đã xác nhận tốt trên 2 máy
+## CHECKPOINT THỰC THI MỚI NHẤT — 15/10/2026: native2 Sileo PASS, iPhone đã xác nhận ẩn ngày/kích hoạt; CarPlay native2 chưa kiểm
 
 - **Yêu cầu đang áp dụng:** User xác nhận **native1 chạy tốt trên cả 2 iPhone** (trước đây máy 2 không cài được bản cũ); muốn tiếp tục **bỏ phần ngày sử dụng/giấy phép khỏi DEB mới** theo từng lần build và test thật, có thể quay lại bản đang hoạt động. **Không viết lại UI/CarPlay** hoặc nhận định sai về quyền sở hữu dự án. Đã ghi quy tắc giao tiếp bắt buộc ở các mục dưới.
 - **Đã làm mốc này:** kiểm tra metadata ObjC nhị phân gốc bằng `migration/full_payload/native_test/{inspect_license_ui.py,inspect_objc_methods.py}`. Runs `38709316701`, `38710092872` SUCCESS, báo cáo `audit/payload-migration/{NATIVE_LICENSE_UI_SURFACE.json,ORIGINAL_SETTINGS_OBJC_METHODS.json}`. Tìm ra class gốc `CBGeneralSettingsViewController` (data source của settings, mở đăng ký), `XXRootViewController` (expiry modal); khác lớp CarPlay host/picker.
@@ -409,6 +409,16 @@
 - **Live verification:** `Duoface` native2 verifier run `38711414564` success, job `116343425177`. Direct public Packages and Packages.gz matched, native2 DEB downloaded and SHA matched (`native.deb: OK`), legacy index preserved. Artifact `11961155782`.
 - **Không quên phản hồi:** native1 đã được người dùng chứng thực chạy tốt trên 2 thiết bị; riêng native2 chưa có báo cáo thiết bị, không biến green build thành nghiệm thu tính năng. Ngoài settings UI, code license trong original binaries **vẫn tồn tại**, không khẳng định xóa hoàn toàn.
 - **Rollback và test:** `migration/full_payload/native_test/HUONG_DAN_TEST_NATIVE2.md`; native1 SHA `16fd5fcbad7eba98de91a2e7a1200793509640cc47decbcca30491a45a6b9a13` tại commit `6c6a1f6a1a4802373be14ddfb92c71e28a880d49`. Test mới chỉ được coi PASS sau khi thử CarPlay và app Cài đặt trên iPhone.
+
+
+### 2026-10-15 — TEST THẬT native2: đã biến mất mục ngày sử dụng và kích hoạt trên iPhone
+
+- **Lời người dùng:** “Tốt. Mở app trên iphone ko còn mục hiện ngày và kích hoạt nữa. Bạn xác nhận đã loại bỏ toàn bộ nội dung đó chưa?” Đây là kết quả **kiểm thử thực tế mới** trên ứng dụng DuoFace Mới `0.1.0~native2`, nâng từ native1.
+- **ĐÃ XÁC NHẬN trên iPhone bởi người dùng:** mục ngày sử dụng và mục kích hoạt không còn hiển thị khi mở ứng dụng. Mã tính năng `DuoFaceNative2UICleanup.mm` đã biên dịch và phân phối thành công; dấu hiệu trực quan trùng với mục tiêu lọc các dòng ngày/license/subscription. Không tự tuyên bố mọi nhánh ẩn popup đã được thử.
+- **Chưa loại hoàn toàn khỏi binary:** `DuoFaceUI` và `DuoFaceDashboard.dylib` vẫn nguyên byte so với DEB gốc, các class/chuỗi `CBLicenseSyncManager`, `isLicenseCurrentlyValid`, `remainingLicenseSeconds`, `actualLicenseExpirationTimestamp`, đồng bộ máy chủ và một số mã cảnh báo/hết hạn **vẫn có trong hai binary**. Native1 add-on cũng còn logic xử lý các lời gọi đó; native2 tập trung loại bề mặt hiển thị. Vì thế, **đã loại hiển thị, chưa loại hết toàn bộ nội dung/mã giấy phép**. Không sử dụng cách nói đã gỡ sạch.
+- **CarPlay native2 vẫn chưa được người dùng xác nhận riêng** ở thời điểm hiện tại. Kết quả “tất cả hoạt động tốt trên hai máy” trước đó là cho native1, không được gán tự động cho native2.
+- **Cách tiếp tục:** giữ native2 trên Sileo và `native1` trên GitHub nguyên vẹn làm rollback. Xin người dùng xác nhận CarPlay native2 vẫn chia 2 app, Zoom, Style, Close ổn định. Sau đó tiếp tục nghiên cứu tách/chuyển các chức năng phụ thuộc license còn nhúng mà không sửa/đổi 37 tệp gốc, không dựng UI alpha2. Nếu lỗi cần ghi thao tác và log rồi rollback.
+- **Build/đối chiếu:** `native2` DEB `dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb`, SHA256 `0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60`, build `38710799434`, Sileo deploy `38711100288`, live verify `38711414564` success; chứng cứ UI từ phản hồi người dùng trong chat, **không có ảnh hay crash log đính kèm cho native2**.
 
 
 ---
