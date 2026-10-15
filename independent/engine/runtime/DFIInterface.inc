@@ -1,4 +1,5 @@
 // Independent UI, loaded after DFISceneHost so all scene lifetime operations stay shared.
+#import "DFIApprovedVisuals.h"
 static void DFIStop(void);
 static NSMutableSet<NSString *> *DFIManaged;
 static NSMutableSet<NSString *> *DFITerminating;
@@ -103,7 +104,7 @@ static NSArray *DFIAvailableApps(void) {
  UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setImage:[UIImage systemImageNamed:symbol] forState:UIControlStateNormal];b.tintColor=UIColor.whiteColor;b.accessibilityLabel=label;[b addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];return b;
 }
 - (UIVisualEffectView *)glass {
- UIVisualEffectView *v=[[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark]];v.layer.cornerRadius=12;v.clipsToBounds=YES;v.layer.borderWidth=.5;v.layer.borderColor=[UIColor.whiteColor colorWithAlphaComponent:.25].CGColor;[self.view addSubview:v];return v;
+ UIVisualEffectView *v=[[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark]];v.layer.cornerRadius=12;v.clipsToBounds=YES;v.layer.borderWidth=0;v.layer.borderColor=UIColor.clearColor.CGColor;[self.view addSubview:v];return v;
 }
 - (void)viewDidLoad {
  [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
