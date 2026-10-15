@@ -10,7 +10,10 @@
 static const NSTimeInterval kDFLogoHoldThreshold = 0.30;
 static char kDFLogoGripStateKey;
 static IMP oldDFGripTouchDown, oldDFGripTouchUp, oldDFGripTouchCancel;
-static IMP oldDFGripLongPress, oldDFGripDividerPan;
+static IMP oldDFGripLongPress;
+#ifndef DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
+static IMP oldDFGripDividerPan;
+#endif
 static BOOL DFGripHooksInstalled;
 
 @interface DFLogoGripSession : NSObject {
@@ -186,6 +189,10 @@ static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)
     }
 }
 
+#ifndef DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
+// Legacy experimental hook used by native8; the repaired standalone module
+// deliberately skips it, so UIKit/native handlePan: keeps the entire ratio
+// gesture lifecycle unchanged (Began, Changed, Ended and Cancelled).
 static void DFLogoDividerPan(id divider, SEL cmd, UIGestureRecognizer *pan) {
     DFLogoGripSession *session=DFLogoSession(divider, YES);
     UIGestureRecognizerState state=pan.state;
@@ -213,6 +220,8 @@ static void DFLogoDividerPan(id divider, SEL cmd, UIGestureRecognizer *pan) {
         ((void (*)(id, SEL, id))oldDFGripDividerPan)(divider, cmd, pan);
 }
 
+#endif // !DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
+
 static BOOL DFInstallLogoGripHooks(DFHookFn hook, Class divider) {
     if (DFGripHooksInstalled) return YES;
     Class info=objc_getClass("CBDividerButtonInfo");
@@ -225,8 +234,10 @@ static BOOL DFInstallLogoGripHooks(DFHookFn hook, Class divider) {
         @selector(moveButtonTouchDown:),
         @selector(moveButtonTouchUp:),
         @selector(moveButtonTouchCancelled:),
-        @selector(handleMoveButtonLongPress:),
-        @selector(handlePan:)
+        @selector(handleMoveButtonLongPress:)
+#ifndef DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
+        ,@selector(handlePan:)
+#endif
     };
     for (NSUInteger i=0;i<sizeof(selectors)/sizeof(selectors[0]);i++)
         if (!class_getInstanceMethod(divider, selectors[i])) return NO;
@@ -239,9 +250,15 @@ static BOOL DFInstallLogoGripHooks(DFHookFn hook, Class divider) {
          (IMP)DFLogoGripCancel, &oldDFGripTouchCancel);
     hook(divider, @selector(handleMoveButtonLongPress:),
          (IMP)DFLogoGripHold, &oldDFGripLongPress);
+#ifndef DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
     hook(divider, @selector(handlePan:),
          (IMP)DFLogoDividerPan, &oldDFGripDividerPan);
+#endif
     DFGripHooksInstalled=YES;
+#ifdef DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN
+    NSLog(@"[DuoFaceGrip] threshold=0.30s; tap=onSwap; hold=move logo; native handlePan: untouched");
+#else
     NSLog(@"[DuoFaceGrip] threshold=0.30s; tap=onSwap; hold=move logo; other pan=splitRatio");
+#endif
     return YES;
 }
