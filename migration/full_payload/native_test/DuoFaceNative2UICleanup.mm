@@ -4,6 +4,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
 
 static NSInteger (*DFIOriginalSettingsRows)(id,SEL,UITableView *,NSInteger)=NULL;
 static UITableViewCell *(*DFIOriginalSettingsCell)(id,SEL,UITableView *,NSIndexPath *)=NULL;
