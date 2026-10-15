@@ -1,0 +1,53 @@
+{
+  "status": "NATIVE3_MACHO_INSTRUCTIONS_IDENTICAL_AND_ALL_OTHER_DATA_FILES_BYTE_IDENTICAL",
+  "changed_macho_files": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "old_sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "new_sha256": "5e0d8c83c302b0bf9adb5095000a085a15f2a7c28775bdbb0fd615e8002b8b80",
+      "old_file_bytes": 2456784,
+      "new_file_bytes": 2462784,
+      "instruction_sections": {
+        "100000c/0:__TEXT/__text": {
+          "sha256": "5a77c64067f1b2b34da37c5921d9634c2b6b2eb97e669ec49db93cdc16b59616",
+          "size": 636060
+        },
+        "100000c/2:__TEXT/__text": {
+          "sha256": "49ba01dae244eeccdfdebe87b34945c8762aa547cd0c42be5d261181e3900d71",
+          "size": 641420
+        }
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "old_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "new_sha256": "ca4a04817bd36ff911ba11f76a802b462e9e8875171768a061cead10803ef87d",
+      "old_file_bytes": 7540464,
+      "new_file_bytes": 7575264,
+      "instruction_sections": {
+        "100000c/0:__TEXT/__text": {
+          "sha256": "4706649c089b264a0e29f5cdc4632f600481c78d50ca365b3c81d4a5eec2c9ff",
+          "size": 3040544
+        },
+        "100000c/2:__TEXT/__text": {
+          "sha256": "e73cd5e68c9cb2f2827e524c1ac258f6fee9008f681096b030b9af5f229f33ff",
+          "size": 3074176
+        }
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "old_sha256": "e70d7705e808a16ae1a0792f27fca26196b7f1f2c108d8997d750c136e838561",
+      "new_sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+      "old_file_bytes": 124976,
+      "new_file_bytes": 124976,
+      "instruction_sections": {
+        "100000c/0:__TEXT/__text": {
+          "sha256": "4f9b00e84c27de8ea9e862dec32187e3b3188558a3517bbcf77e3eac469ba9bd",
+          "size": 35000
+        }
+      }
+    }
+  },
+  "unchanged_other_payload_file_count": 36,
+  "instruction_sections_byte_identical": true,
+  "device_tested": false,
+  "note": "Byte-identical instructions do not prove unchanged runtime behavior where display strings are accessed; test real CarPlay."
+}
