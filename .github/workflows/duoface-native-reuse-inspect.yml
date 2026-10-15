@@ -1,0 +1,72 @@
+name: DuoFace - kiem tra dong goi goc truoc ban test native
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/native_test/inspect_original.py'
+      - '.github/workflows/duoface-native-reuse-inspect.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-native-reuse-inspect
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm original DEB and add dpkg
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          deb='dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a' "$deb" | shasum -a 256 -c -
+      - name: Inspect exact UI bundle and original CarPlay filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/inspect_original.py \
+            --deb 'dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb' \
+            --out 'audit/payload-migration/ORIGINAL_RUNTIME_CONTRACT.json' | tee "$RUNNER_TEMP/native-contract-summary.txt"
+          python3 - <<'PY'
+          import json,pathlib
+          x=json.loads(pathlib.Path('audit/payload-migration/ORIGINAL_RUNTIME_CONTRACT.json').read_text())
+          assert x['state']=='ORIGINAL_CODE_UNCHANGED_READ_ONLY'
+          assert x['original_info_and_filters']['var/jb/Applications/DuoFaceUI.app/Info.plist']['CFBundleIdentifier']
+          assert len(x['binary_contracts'])==5
+          assert not x['safe_coinstall_same_paths']
+          print('NATIVE_RUNTIME_CONTRACT_AUDIT_PASS')
+          PY
+      - name: Commit audit to correct feature branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/ORIGINAL_RUNTIME_CONTRACT.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: luu thong tin filter/Info goc de goi DuoFace moi dung tinh nang [skip ci]'
+          for i in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-original-contract-${{github.run_id}}
+          path: |
+            audit/payload-migration/ORIGINAL_RUNTIME_CONTRACT.json
+            ${{runner.temp}}/native-contract-summary.txt
+          if-no-files-found: warn
