@@ -1,0 +1,2968 @@
+{
+  "status": "NATIVE4_EXPERIMENTAL_CODE_BODIES_REPLACED_NOT_CARPLAY_TESTED",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native4",
+  "baseline_native3_sha256": "7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df",
+  "method_bodies": {
+    "DuoFaceUI": {
+      "original_sha256": "5e0d8c83c302b0bf9adb5095000a085a15f2a7c28775bdbb0fd615e8002b8b80",
+      "patched_sha256": "7652484421d90aeeac2124d2bd929b7c38cff709eb2652d469a157eaa9adf8f4",
+      "original_arches": [
+        "arm64:0",
+        "arm64:2"
+      ],
+      "packaged_arches": [
+        "arm64"
+      ],
+      "method_body_count": 248,
+      "method_bytes_overwritten": 276524,
+      "patched_methods": [
+        {
+          "class": "XXRootViewController",
+          "selector": "checkAndPresentLicenseModalIfNeeded",
+          "original_type": "v16@0:8",
+          "file_offset": 33608,
+          "bytes_replaced": 908,
+          "previous_span_sha256": "336ac87df94227ad3711bd006d0552ebd4da0cc141039329a6d82b1e41a9c0de",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "selector": "openSubscriptionScreen",
+          "original_type": "v16@0:8",
+          "file_offset": 54004,
+          "bytes_replaced": 104,
+          "previous_span_sha256": "3f7e64d638096e8768b325bf80ba844ca310301c9f7ecf2661ac0772f0772976",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewDidLoad",
+          "original_type": "v16@0:8",
+          "file_offset": 109844,
+          "bytes_replaced": 932,
+          "previous_span_sha256": "a978523a8dcf1bdc4dadf19ebb797b161dff05106d3efad30bb03aa7fddd115d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewWillAppear:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 110904,
+          "bytes_replaced": 296,
+          "previous_span_sha256": "a4f029566514777eb4d4fda0ec9b2c56812a0949d9e72b814efef52df3882605",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewWillDisappear:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 111380,
+          "bytes_replaced": 112,
+          "previous_span_sha256": "168ef20d4bd56bad2ce4a58b283f8bb899c3aa5350d0f1b96b9183f265ebaca8",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "keyboardWillShow:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 111716,
+          "bytes_replaced": 608,
+          "previous_span_sha256": "e2e41e25ecdcbd382dee0e656f9b418068fb1a95949fbaf174d85a5b92c9353d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "keyboardWillHide:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 112324,
+          "bytes_replaced": 228,
+          "previous_span_sha256": "01ca5ea6eac97b318c4e136fe3e43b1bbf07c2da515c752009244c223439a56f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "dismissKeyboard",
+          "original_type": "v16@0:8",
+          "file_offset": 112552,
+          "bytes_replaced": 68,
+          "previous_span_sha256": "e95a3b4fdf2b6adece759b4ab8bab463569d42d8449f6b74eca7d67e2c835e00",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setupTableView",
+          "original_type": "v16@0:8",
+          "file_offset": 112620,
+          "bytes_replaced": 1400,
+          "previous_span_sha256": "10f5ace739322dff5c1b1b972341d0645ccb80850232cfef2f4f797f773c6476",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setupTableHeader",
+          "original_type": "v16@0:8",
+          "file_offset": 114020,
+          "bytes_replaced": 1468,
+          "previous_span_sha256": "20ea1c1f34359294165d6981fa74731dc32eddc049eff65ce050231aa850f9cf",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isVIPActiveWithSufficientDays",
+          "original_type": "B16@0:8",
+          "file_offset": 115488,
+          "bytes_replaced": 208,
+          "previous_span_sha256": "6349e0e6cb8e983c56d57609eecbdc32e4d7a7d2858856be380f31152c22d5b0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "updateTableHeaderForCurrentState",
+          "original_type": "v16@0:8",
+          "file_offset": 115696,
+          "bytes_replaced": 280,
+          "previous_span_sha256": "3fbe5f2d067d7a20e21bb9fb50203055e208d73c90815e50d6eb8c83e3c742a7",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "modeSegmentChanged:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 115976,
+          "bytes_replaced": 252,
+          "previous_span_sha256": "e05eb0a33cacb6a4e4cbccc70a2d349df519ae5a188e83aea4668541b2972203",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "numberOfSectionsInTableView:",
+          "original_type": "q24@0:8@16",
+          "file_offset": 116228,
+          "bytes_replaced": 116,
+          "previous_span_sha256": "0d97908828ce99ef1d899aa27cdc4916508988d4fb29c1713bac97e812de6603",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:numberOfRowsInSection:",
+          "original_type": "q32@0:8@16q24",
+          "file_offset": 116344,
+          "bytes_replaced": 444,
+          "previous_span_sha256": "1a8912cd85d3e7e69e56166ce0b2fe3939c3710095f84471d2d63a5033dd3360",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:titleForHeaderInSection:",
+          "original_type": "@32@0:8@16q24",
+          "file_offset": 116788,
+          "bytes_replaced": 336,
+          "previous_span_sha256": "34ac0018b476c58f8c7ac0677e46bb2186d85f2a95e564fd6bff2daed2a393c8",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:titleForFooterInSection:",
+          "original_type": "@32@0:8@16q24",
+          "file_offset": 117124,
+          "bytes_replaced": 300,
+          "previous_span_sha256": "63a53d6f8081540d7e024636b66d34b37a440d2beb5a72a3e70b74c9efe17cac",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:cellForRowAtIndexPath:",
+          "original_type": "@32@0:8@16@24",
+          "file_offset": 117424,
+          "bytes_replaced": 2488,
+          "previous_span_sha256": "5e73212991b702c726650f9fb680ca9262e6bbc97d2b883a49720d66e462b797",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:didSelectRowAtIndexPath:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 119912,
+          "bytes_replaced": 604,
+          "previous_span_sha256": "c1492974d98eb9c7ca448a0bc1fb94eef2bd1bacee804d2b7831fe6b99d9001f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "fetchPlansFromServer",
+          "original_type": "v16@0:8",
+          "file_offset": 120516,
+          "bytes_replaced": 868,
+          "previous_span_sha256": "fa57ebed8e80af594da053f5b9e4b14db40bdb4c41c10745612b1549f00b68e3",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "handleLanguageChanged",
+          "original_type": "v16@0:8",
+          "file_offset": 122940,
+          "bytes_replaced": 392,
+          "previous_span_sha256": "093785117549a96cfa03dcaf932baeba65fe69e0a36f64f99e90d3572755b68b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "formattedPriceForPlan:",
+          "original_type": "@24@0:8@16",
+          "file_offset": 123332,
+          "bytes_replaced": 476,
+          "previous_span_sha256": "33f05cefa85eb642e2168e192d732751678c2193e3601ed3eb995c8f6e760d4a",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "displayNameForTier:",
+          "original_type": "@24@0:8@16",
+          "file_offset": 123808,
+          "bytes_replaced": 880,
+          "previous_span_sha256": "95f7a038bcb4440cd69fac3a1bffdcb367ef12ac0ad8346f10ace405f2223ed5",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "currentCheckoutButtonTitle",
+          "original_type": "@16@0:8",
+          "file_offset": 124688,
+          "bytes_replaced": 1100,
+          "previous_span_sha256": "52f368335e03b465711e27302d11d742cafb484030067e0bc747c01aef6ce738",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "showPlansLoadFailureAlertWithError:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 125788,
+          "bytes_replaced": 696,
+          "previous_span_sha256": "9d7f0b370cafd784e05fa9b2200c33762574f810ea79223b896f0fc7b780b0cd",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "checkoutCellDidTapCheckout:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 126500,
+          "bytes_replaced": 1944,
+          "previous_span_sha256": "01e0eae6ab2260af7740a6898d924c3341ff7bcede4b287c243e1671e4badbcc",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapResume:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 128984,
+          "bytes_replaced": 64,
+          "previous_span_sha256": "7d81df1a070c9fc5c020ae1384db75334e4f99b54dab9e3936bfe5a6cbb48a47",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapCheckStatus:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 129048,
+          "bytes_replaced": 64,
+          "previous_span_sha256": "a3e9ce792acbac21b6c11972bbce213573bc95cadf0c037152e85d2560f78b99",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapCancel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 129112,
+          "bytes_replaced": 64,
+          "previous_span_sha256": "deb93cfc36fe01b7c2bee329cd2642b44f22e731f56d2d414ad8bf34ee848173",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftcodeInputCellDidTapPaste:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 129176,
+          "bytes_replaced": 404,
+          "previous_span_sha256": "d9cb2d6744cb63dc83bcf86771336d5a9190747a0a306208bd5f048861b397f5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftcodeRedeemCellDidTapRedeem:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 129580,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "f0d201423616c12f454b63e9d51546e076d0d715ad541fcd99c91623005dcf3e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "hardwareIDCellDidTapCopy:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 129592,
+          "bytes_replaced": 516,
+          "previous_span_sha256": "d69642df706027ad0c66fa315b25016e2aa6ec9a9566c126e7260c963999b625",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "redeemGiftCodeTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 130132,
+          "bytes_replaced": 1156,
+          "previous_span_sha256": "583544a7c736737a4ec580d7e6bf24bcd57edb1b10695e129abda5e6cf287229",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftRedeemLoading:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 136392,
+          "bytes_replaced": 92,
+          "previous_span_sha256": "62261618b6b8822ab225989060c0a67ae2a9f7409872bd90abd92d08b7805ed7",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "textFieldShouldReturn:",
+          "original_type": "B24@0:8@16",
+          "file_offset": 136484,
+          "bytes_replaced": 208,
+          "previous_span_sha256": "26dd686c0cfc4460d9e51bcfd59c9d8b0eefd6143db726824b36e11fbdb9c1d0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidUpdatePendingOrder:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 136692,
+          "bytes_replaced": 64,
+          "previous_span_sha256": "2eb42e420d4abbd5b593768000e86d1ee9a9a79fb69d19b5a033ee3ecf04123a",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidClearPendingOrder:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 136756,
+          "bytes_replaced": 64,
+          "previous_span_sha256": "812c15b7944c1de1465bc98bb0838d3635468ffeb6d077aa9bc4ff11171629bb",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidCompletePaymentSuccessfully:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 136820,
+          "bytes_replaced": 272,
+          "previous_span_sha256": "d61107462b40acbe12cdb3b5bdd8d59a804205fcc24d96322886b61b5a23334c",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:shouldPresentAlert:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 137092,
+          "bytes_replaced": 228,
+          "previous_span_sha256": "a506db15153a453b2137824d6d572caecf89d3b966d1ac12b3eaa0053cd01580",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:shouldPresentSafari:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 137320,
+          "bytes_replaced": 228,
+          "previous_span_sha256": "7fb1796d217258f63ca241f9d56c9c501d4f097401c9b46ccbf5fe769d3feaac",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:setCheckoutLoading:",
+          "original_type": "v28@0:8@16B24",
+          "file_offset": 137548,
+          "bytes_replaced": 88,
+          "previous_span_sha256": "c1fb707ee8760006124c063080e8ade22b59ba10ab2804a3081b4033bc3100f5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:setCheckStatusButtonChecking:",
+          "original_type": "v28@0:8@16B24",
+          "file_offset": 137636,
+          "bytes_replaced": 4,
+          "previous_span_sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "showAlertWithTitle:message:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 137640,
+          "bytes_replaced": 416,
+          "previous_span_sha256": "6496ea701654f062b9f5e2f94fc5721f2316342d161d2d0d1a456d62853f950e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView",
+          "original_type": "@16@0:8",
+          "file_offset": 138056,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "e08e3a7ba4d81014080e8a3b3fb70d41832ff4720e95ac7561e48dbf1724dfbb",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setTableView:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138072,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "a90e4f9ab6ac1e3e5a8b9933f7bcb2a0646c5404f3e3a61e2330b02f7332de61",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "segmentedHeaderView",
+          "original_type": "@16@0:8",
+          "file_offset": 138092,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "9045f876f7cadab55ceb5f9a3383c4e2670b60ad9868dad41ea1fa05abd37f34",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setSegmentedHeaderView:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138108,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "746269dee775eb884e0fe128a8d1d93479635e8b1788190a84ba329fb6243854",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "modeSegmentedControl",
+          "original_type": "@16@0:8",
+          "file_offset": 138128,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "99ca3be138db3c2a094a27b2e1a47acdd175fd73ce2679b9e4af9e4eef08a698",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setModeSegmentedControl:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138144,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "e8be99f3960e3e38edadc367d7e3a60bd3832d9b16e9207b49350581a6db6969",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "currentMode",
+          "original_type": "q16@0:8",
+          "file_offset": 138164,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "b083e7233174a96beddd1453721d84a42fa3e337a5360460d15822bfb2aaf1d9",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setCurrentMode:",
+          "original_type": "v24@0:8q16",
+          "file_offset": 138180,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "c1027b065cbb927a50ac457807896233186e7a434c3ca27b841891093e373532",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "plansData",
+          "original_type": "@16@0:8",
+          "file_offset": 138196,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "bbd6b74719e94c3bab7ddc22ab60798c216bebd434be89b30a8532701e7e73e4",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setPlansData:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138212,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "c88494ce3128ed29f693db05a369581e6dd6465253ff1610bf25161d4929b6c5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "rawPlansData",
+          "original_type": "@16@0:8",
+          "file_offset": 138232,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "4acef521535630649c56efc9bbc9d52c328146c78966b3886b9b3d920a3d90e2",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setRawPlansData:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138248,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "9c72d4ac111988f866710180a4657816902d19bf2968483ba4f0433d1ed11eb1",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "selectedTierIndex",
+          "original_type": "q16@0:8",
+          "file_offset": 138268,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "537eb57a3ed999298b65e9a72c300242c7f2906ef17ba5498d979e3d48d90601",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setSelectedTierIndex:",
+          "original_type": "v24@0:8q16",
+          "file_offset": 138284,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "f9744a465127025bb44224880bc9ae5242da3c115248085b59d9e91e9fbf286c",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isLoadingPlans",
+          "original_type": "B16@0:8",
+          "file_offset": 138300,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "de9e650f941b0b848987379ca03a7ffc8080130bf87c8b8b0edc3427ad0595aa",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsLoadingPlans:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 138316,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "139db5d51d5baad1ce2cbe8d1cebb65eb2a58fa477876b565329590805689530",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "plansLoadFailed",
+          "original_type": "B16@0:8",
+          "file_offset": 138332,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "c24c200849efd862aa624acafa5e23b9675a07ff66de6b9c59e0233b5033cd85",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setPlansLoadFailed:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 138348,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "90208642e7481f15fad3361686ffff4bbf88b2fb08eb76a54b96e5fd8aa3ec01",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator",
+          "original_type": "@16@0:8",
+          "file_offset": 138364,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "3690eb156db8a1c578d7a5be8d1429dc7da1d46e8018f41564cbf8811358e085",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setOrderCoordinator:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138380,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "dae04fbc18783ccb8bad4fedc1620f272c7875c73c8ec3e8da0034fb0d3a5bdb",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isCheckoutLoading",
+          "original_type": "B16@0:8",
+          "file_offset": 138400,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "d8d2d37232510ea1fa6ad46ec37f840220fd7e18b94df76fbc62428bc875bb76",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsCheckoutLoading:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 138416,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "e7ec4fc697ac9b2e7bbe0f3e38a2cde938abaf7378f51cac49210ed7da50fd89",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftCodeTextField",
+          "original_type": "@16@0:8",
+          "file_offset": 138432,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "4cf34276eade5f5507cf0ff030c415e7f40003024d3b614b582ad42979700501",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftCodeTextField:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138464,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "a30bfac118bdc117e284c567eed77229978cfdb9677eba76c70d99672b6d741d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftRedeemCell",
+          "original_type": "@16@0:8",
+          "file_offset": 138484,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "5992ef1c71f45f96a6e91670279981d08a6cf20f0e13ff4564aa112ca878c4c8",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftRedeemCell:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 138516,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "fb538ca8cd26cf17fa16a7e87ddb29f5a2afe80e475589bb26bd042e5842f77e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isGiftRedeeming",
+          "original_type": "B16@0:8",
+          "file_offset": 138536,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "db9e4eec48a8f3089cbef1e33852c84726175b32f1d17356ae9300b980c71d95",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsGiftRedeeming:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 138552,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "866a0c48d33f91371f1e2a6fbb3c6045714935ba98ed10b3b5e4432c29bcd8b1",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "modalWithActivateHandler:dismissHandler:",
+          "original_type": "@32@0:8@?16@?24",
+          "file_offset": 140400,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "5e32e02474ac656a25c0886b6626e927180704db1f9926c9acd73dc85a4e78fa",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "viewDidLoad",
+          "original_type": "v16@0:8",
+          "file_offset": 140572,
+          "bytes_replaced": 212,
+          "previous_span_sha256": "1eaf13d803a63fbe1aa15987c109a141f3a140337bb4f3d26b94448fd61c9cb3",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "viewWillAppear:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 140784,
+          "bytes_replaced": 416,
+          "previous_span_sha256": "b4df41a66a344be23741bb16cb2c53ac172010dd8928f0b007c887de854e7f57",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupBackdrop",
+          "original_type": "v16@0:8",
+          "file_offset": 141484,
+          "bytes_replaced": 616,
+          "previous_span_sha256": "34944ded464619b9c91318d006a8a2d693001acc2114fdcea06de8e7e11ae797",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupCardView",
+          "original_type": "v16@0:8",
+          "file_offset": 142100,
+          "bytes_replaced": 1620,
+          "previous_span_sha256": "0e50eac3f9ec8e775221512f3d6211c6ff3d7921e9cd53e146a2bfe40551006e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupContent",
+          "original_type": "v16@0:8",
+          "file_offset": 143720,
+          "bytes_replaced": 5056,
+          "previous_span_sha256": "0f5f63c96f26eb368735e79bb4a92b29f57446debfc6f43532d91b0ae8dfd3a2",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "handleActivateTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 148776,
+          "bytes_replaced": 156,
+          "previous_span_sha256": "ab2e2a3f9a506c3f1261aba1b9b8f58f6028609bf72c4edbb55b8f0d6a364e31",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "handleLaterTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 149060,
+          "bytes_replaced": 156,
+          "previous_span_sha256": "4e8e22ea7c93ef496dd5c63328807ded5029b3520897da82b5cb7406243b1ce1",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "dismissWithCompletion:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 149344,
+          "bytes_replaced": 208,
+          "previous_span_sha256": "83203d763ad2c707feb3ba32f0f584629c08eed06474c5f1080f96598f8ae64f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "onActivateTapped",
+          "original_type": "@?16@0:8",
+          "file_offset": 149912,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "62e0982a0722baf42197fa3f1c12d82c98efd98e29a55028c512196979218c85",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setOnActivateTapped:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 149928,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "bc18413a59193ca91ae988e0e35247d5a7480bbce84d632d7c59c9bd884628d2",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "onDismissTapped",
+          "original_type": "@?16@0:8",
+          "file_offset": 149940,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "1fc926cb216198fd66db6b13bd73119645c83de0e452212bf865436199c3c166",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setOnDismissTapped:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 149956,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "ce48ad6f6f2b88b29bbe49ce742b9e1acdd5743c96258e145687b00abe9476dd",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "blurBackdrop",
+          "original_type": "@16@0:8",
+          "file_offset": 149968,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "a9dcb6fd837adbddf8d89a50b61bf0ce0baf2ff3a3b42ec29a55d3ca423efe28",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setBlurBackdrop:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 149984,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "fa5ce00ac2ce332d14709e7798e6d0c7cd6f922baa3eb6ac57e3a51ff2fdb02a",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "dimmerOverlay",
+          "original_type": "@16@0:8",
+          "file_offset": 150004,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "7c842fa906fd81d1b7773487bfea8db65994e1b9653cac2f695c07f8395aaa39",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setDimmerOverlay:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150020,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "f3e72336ad0996f035fc455f930ef92aca6ae38afd10bf9b0179f43ab49bf7fd",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "cardView",
+          "original_type": "@16@0:8",
+          "file_offset": 150040,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "643e57af223bb46f59e327e71bbb6364e5db462e47073f3353995eb837edfcb5",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setCardView:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150056,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "691a8952cd8f28d8d543ce17ea1e0deeb558f497febf0b46fd6d1f4aa7400062",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "iconImageView",
+          "original_type": "@16@0:8",
+          "file_offset": 150076,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "800877fb92036e9c5b00654a3a02e5c4c4b2b5d51c6c9ef7697cb20a61555347",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setIconImageView:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150092,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "98ffdf6ed62756beb39a7680dc7acbd3b3367904a21e98b55078d30018798e4d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "titleLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 150112,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "8603e0a43dcf2d64d0a0501653039bb3fe4a86bef505c3a65b632bf3aa63f5ca",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setTitleLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150128,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "04b495bb28b7bb0741f9cb24f624e9b6aa54927426608a0a8aec74efebd17bff",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "messageLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 150148,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "29c3914fcf320e8cb8f45419bf751182a170b90e61de701be7dbb2c737a664c6",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setMessageLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150164,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "e0b36cd50bc3b4140ce98ae2efe53332221c8142ae23a950fd95b4a25a5f7aae",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "activateButton",
+          "original_type": "@16@0:8",
+          "file_offset": 150184,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "4fc87c3ffa2bc8b4d6afc00dd83802fc74226779b2cfb565aa4454d00dd15d9d",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setActivateButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150200,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "204c8077c8a7a8982875f3b859542f13cef11860995d56db198ece4dcd1af511",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "laterButton",
+          "original_type": "@16@0:8",
+          "file_offset": 150220,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "d6455cea0510aa0caaea3427c55bf21d57b874a65878eaac7a1a9a5dfe38138d",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setLaterButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 150236,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "cd5dc9944e0755a324e13955a9fa3ede851f215acd831bcc0b5ccfda8c280452",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 150480,
+          "bytes_replaced": 1888,
+          "previous_span_sha256": "a43622ecaf0222e2028a0855eb1bb4d11689c94f55292b2f8fc678fd0984a3aa",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "configureWithTitle:loading:",
+          "original_type": "v28@0:8@16B24",
+          "file_offset": 152368,
+          "bytes_replaced": 244,
+          "previous_span_sha256": "6ad10e79eb07a534aaefc3a71536f9dabba8bc6566d7c101210e8550def33701",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 152612,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "cdd5f9f565181cbec6e1a15ea43631503aed7f9ba39cff0145991fa79a64aa0f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 152784,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "6a6419a10efd57a60e9a5f35303689114d07f7a8f335efa0e6c5c7d9c7c0cbaa",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 152816,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "3284fc84911fd4d59876a0a360e09b5e255cedc06e56528acf03d11dbb32b146",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutButton",
+          "original_type": "@16@0:8",
+          "file_offset": 152836,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "767ac6765462c11d31cfd7b3d14c3924691c870c52202f90b5367efb7d37a2ea",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setCheckoutButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 152852,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "47868e8a44c6f6b86a97759e3401f410116f55d6fc4f92cf8fc7f49729a73ce3",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutSpinner",
+          "original_type": "@16@0:8",
+          "file_offset": 152872,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "110263870629085409bc5a77cf8f6936388b22e90484edaa271e0a48e93863a0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setCheckoutSpinner:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 152888,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "438e31958cc64591a923c6dcb264ddbae2b755cff5d9394b681c2cb8242aa4b6",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 152988,
+          "bytes_replaced": 708,
+          "previous_span_sha256": "6820c71f51619891404e2c8e992087105c1154d9186b248bfbf6d257fba1ddf9",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "selector": "configureWithExpirationTimestamp:",
+          "original_type": "v24@0:8Q16",
+          "file_offset": 153696,
+          "bytes_replaced": 416,
+          "previous_span_sha256": "7b6af597d89a8b100353cae63e54d55e49ae2ebb8c20cc0f3c22196740bb505f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 154112,
+          "bytes_replaced": 2212,
+          "previous_span_sha256": "a514449d56194bbc327a9e489eac16f501db06685bd9a1751bf806a58a5a5e93",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "configureWithHardwareHash:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 156324,
+          "bytes_replaced": 424,
+          "previous_span_sha256": "054bdfb931a58512c3db238ebc0db81c2dd51291b1aff29f63a698b7a468364e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "copyTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 156748,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "312dcab57190d0e766c94a5e1564df5e7f5c1fc200193c6b7bf746bec4505dd8",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 156920,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "e8d34fd9fd78987225d6ff1fe9d3bacdbdd9efddf5a5f129a4c8441ab7a7f0b9",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 156952,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "e40dccd2e623b98b2ae78797d0b1360ebfd4993c05269e563886ea6c4f4a00f6",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "hwLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 156972,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "526d486e384a0fc1fab9a6cd493538a53807b94c4146d3aeba1030389363b3b0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setHwLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 156988,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "766d8ebf37f6a6418192d4edef837b7e6bd2740bfb003b47c4c67801aaeef6ee",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "clipboardButton",
+          "original_type": "@16@0:8",
+          "file_offset": 157008,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "4419eb460a6d31766b7987c02f11795b654bec944753b49f3f79bc61c5164db6",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setClipboardButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 157024,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "cc82fec3615c3d89aa8e877d38c11bbccc358b6494db8889ae557de7c5ed1247",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 157124,
+          "bytes_replaced": 2388,
+          "previous_span_sha256": "2acb41c00ec59195b475afff908124eb01463d01d7ddfe3372ba3f04ab4f45ca",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "pasteTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 159512,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "313bbeb7a9712973a1d5af3d04f950d5f1090b391be8068b3074a722df7d4113",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 159684,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "bcff26dc8d7d76569e4a37726cdc37316442ad6d29e903bb7a7ae0b651971dbc",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 159716,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "004058b83aa1fab519919e7571d00245bafb9d8a13a9aa8dcc26a87f610bc423",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "textField",
+          "original_type": "@16@0:8",
+          "file_offset": 159736,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "8faadcbd9425f48c08593c3103d9091cb9ec0ccabaef716694dd8a5459b22a6c",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setTextField:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 159752,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "f967823da41c314428a834ffbab9e8ecb4aa70016e5a5aa4280bdd402daf1c28",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "pasteButton",
+          "original_type": "@16@0:8",
+          "file_offset": 159772,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "710078fca119c86ee35269df43d905c7c3686d5d95182f9f2256640b939f78da",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setPasteButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 159788,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "7acda8188f69b6616735ff6bebf768efb2ef093c0ed0ed231a658e7096d5ca69",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 159888,
+          "bytes_replaced": 1964,
+          "previous_span_sha256": "cf6032ef5f8afaad50972cafdb5b1aab94559a5b08c6a5a599cef6197bfb69c9",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "redeemTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 161852,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "5a0cab2c345e29ce84c66753dd522ecd7767e3a43d3d9b3ed2ec4765fd11bcef",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setLoading:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 162024,
+          "bytes_replaced": 156,
+          "previous_span_sha256": "03dcf0fce7a72ecd3802df6887013d28eb8c69a7dffdc0ba1639e61d3610f074",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 162180,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "06984c98889fddfead843d1a9314fa7f29e572efca234e891e39cfb620f1be64",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 162212,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "0f758b393f9c912564687db9056bcf5b28947f86e844cd318b47aeca72b24e22",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "redeemButton",
+          "original_type": "@16@0:8",
+          "file_offset": 162232,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "1bfb83235c615f9d326ce36ef69fbbba0e4b767c3724f15cea4dfb7dc77f333c",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setRedeemButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 162248,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "47ac9a026338f55d1c0345fb3bbacf5660815832a82733a5b95962091d8895da",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "spinner",
+          "original_type": "@16@0:8",
+          "file_offset": 162268,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "c14d647001cef87bd04e80662a0a95f28a2d2978979e5715df4b0328ea7fa3eb",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setSpinner:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 162284,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "5e3917b827cba415a9dc57f0e9e46b6e0260e7fd96334bd71ab9c9eb86731a14",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 162384,
+          "bytes_replaced": 3292,
+          "previous_span_sha256": "e669c7a33dbfe618c79c921fa920d96f0fc2cf1f190657b49327a0503282fb9e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "configureWithTitle:description:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 165676,
+          "bytes_replaced": 192,
+          "previous_span_sha256": "4caf6eec5735a81c3a030df1a6c5a420fd161f382ec5d9bdc2038d757810ff32",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "resumeTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 165868,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "74bab01e81b416b26fec00453f5161e280510062f5d2b913bfb4cf4bccb5243d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "checkStatusTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 166040,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "f5cf0c6d8bfbc2b7f7c4957946c8eaecf46f341ec1361fff50e4a27fbd60f075",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "cancelTapped",
+          "original_type": "v16@0:8",
+          "file_offset": 166212,
+          "bytes_replaced": 172,
+          "previous_span_sha256": "07331143c66b9b281e86df13c199aac26d69b3df8c4cb6353389b9869dff21ab",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 166384,
+          "bytes_replaced": 32,
+          "previous_span_sha256": "684e7adcf537ea0002a015eb2fefe6ba30a285fb8c847ec8801ef5d849832714",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166416,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "3f54f3b4c6b2d0ef7d9ccb01105d1c7257d7642c41173da86d46e7cdb8b45700",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "titleLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 166436,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "2e4ae0e2671bac8d3b5ed61757a32683c38575c435bc62697e79f3db6b0a207b",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setTitleLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166452,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "3b0bccbb72a5703373417b847257bdd36da66abcb7a24b2be56feb762a5ae25f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "descLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 166472,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "4f4fcdfc752acc04da073f281b08c8e500195795dcc521a8f44140ce38f6a8c0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setDescLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166488,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "81e554d06249c8703fdd5b9af0422690a8e75827178122df987391ae0c9e84f8",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "resumeBtn",
+          "original_type": "@16@0:8",
+          "file_offset": 166508,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "7c07b06708311701bdebf128c81fe4a84baa7dc8b545412db56d2ba8ead88779",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setResumeBtn:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166524,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "239067f5acb1f4f46f7d413139c91928730ad3cad31250e5aef3036603c2235e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "checkStatusButton",
+          "original_type": "@16@0:8",
+          "file_offset": 166544,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "30dcb2c46d47df5a6aafdb70c67f372fd5ce06aa319e3a774863bdffb1488e02",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setCheckStatusButton:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166560,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "cfffc5bd20dd0b50bfe34b247eda8856a14a4a7e79a03f04d479cf78a2a066bd",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "cancelBtn",
+          "original_type": "@16@0:8",
+          "file_offset": 166580,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "8b11e72b79c7aeec9b30cf5f87c8cce9d8ed410c47cd03408a0b3b16eb79ab23",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setCancelBtn:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 166596,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "7b6efe85e5009e053f6a573eb30e7e79902a67ac622bd3141b19f05d7cddbd85",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 166756,
+          "bytes_replaced": 2544,
+          "previous_span_sha256": "702e2fec8007db378a9067256aa11974d11ba0201dfb27e422c000284741e93e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "configureWithPlan:selected:formattedPrice:",
+          "original_type": "v36@0:8@16B24@28",
+          "file_offset": 169300,
+          "bytes_replaced": 1284,
+          "previous_span_sha256": "8d4acca1fbc3f8fcf00b891f6d9ae82763781b2db74ae89c6872f14946071f5b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "nameLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 170584,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "22d69e4154fbd4337a9d872ac2d7ba6c84fcba48b4dff96af484cd6c0ea2c1ac",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setNameLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 170600,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "5eaaf06a99e1cfa78a5563fc0e4d473e8da031c0c231f59ba027c9e3da9cd400",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "badgeLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 170620,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "6f6ce87c9c15f17a783a8e870395e81de0f68d4607ecba4007a3ae83fcae317a",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setBadgeLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 170636,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "6f7dd5eef6319515a1a3623ea1c6f15b2a79fd34c9f5dc92dfb55dbaaa171255",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "descLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 170656,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "7c60d4fb4ad9887948fa32db8c464a06d94c57e75da8c54b66776d96fd1d2edb",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setDescLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 170672,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "26da0ec492c166e1fd2a40e2a38dc988c3d996b3cfd7c5efcba6e54528567e33",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "priceLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 170692,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "1c65c229a047917a893fffafabfcb4d2c4f60aeaf2324d2bf697679bcfea3bd3",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setPriceLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 170708,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "a9bb2d6b3f283cd88adb9b48709d186a07c325635ea54eeb7acfd1e94df69e54",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "checkIcon",
+          "original_type": "@16@0:8",
+          "file_offset": 170728,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "42febd9571e27ad50764efe7a799e26a4d9cb2b27ce3951ca1db6b4fdbf0a023",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setCheckIcon:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 170744,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "b453454691967eafb2f2dc5198713f2a273c1618fd5b27f51c5e98b816c93078",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 170888,
+          "bytes_replaced": 720,
+          "previous_span_sha256": "15ebc0e05efa4d896cec9e37ddc2f348d3fde6f25c787a7a86d4af1cb151899e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "selector": "configureWithLoading:failed:",
+          "original_type": "v24@0:8B16B20",
+          "file_offset": 171608,
+          "bytes_replaced": 608,
+          "previous_span_sha256": "4b721508a0dfff4338af9fa916ad7932bde691be6ee66d40aa1413366621e744",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "original_type": "@32@0:8q16@24",
+          "file_offset": 172216,
+          "bytes_replaced": 3668,
+          "previous_span_sha256": "fbb211ccdcbe700794e889efa5563bda807b04551a6407c53c8cf96e981f9059",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "keyLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 175884,
+          "bytes_replaced": 208,
+          "previous_span_sha256": "f51260fb1464ff4675f8d1c4a6c4ec755b30094acf8d573843072ff4ce0fcc40",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "valueLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 176092,
+          "bytes_replaced": 228,
+          "previous_span_sha256": "e591b65d05163ab017af6562d29daa03d55142353b2ae8fd76c76ad52ba68f0b",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "keyValuePairWithKeyLabel:valueLabel:",
+          "original_type": "@32@0:8@16@24",
+          "file_offset": 176320,
+          "bytes_replaced": 196,
+          "previous_span_sha256": "b7b71a9bf3b459bbbdd2b4f86dfd0f13644801cb5c69083164f5d079b6877b8a",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "configureWithExpirationTimestamp:tierName:",
+          "original_type": "v32@0:8Q16@24",
+          "file_offset": 176516,
+          "bytes_replaced": 1812,
+          "previous_span_sha256": "7ce6d34a1a26db592476be99cf9805da40798953b33da3d6ecc1cc48ad87bb1b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "badgeIcon",
+          "original_type": "@16@0:8",
+          "file_offset": 178328,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "630eac70bbd8ce522d07ded0bfc2b9813923734a27b5941fd04373946ae9872a",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setBadgeIcon:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178344,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "47ecd88da306a30d98804cb9655ce900fde707c120fc83751295ce9621fad851",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "titleLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178364,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "5d0ef95c5da8c60d08f215ecdbb7d4fbcf1603a63d0ab1a573e58a6a11ea414f",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setTitleLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178380,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "66ac824a52e15a835586182f40b41ec90f697496cd0a0e0872590bc02fe2f5ba",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "statusPillLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178400,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "bded36106bb0a23b4755bd1e6178eea926a9064a14ba07e125eeff048fa89af1",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setStatusPillLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178416,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "399d51366bef399a581215795686b2b609838556ade567f72c2d5425f692dd88",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "durationKeyLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178436,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "9f4d47ffb92ef17dfb31f9b455963161019f8775de32484b5220ac3f18f940a0",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setDurationKeyLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178452,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "e01acc5a03d904163fc29a81aa37a37003c1b41a9bcb4cd0c4e4606caee260d2",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "durationValueLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178472,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "e591af64567682ce9a18b757ca10779abbcf6c1051fa6448a30fb24b2e842d71",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setDurationValueLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178488,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "0c53993d0ae49108686bfee6e7167fa8b6fa46b9ff6d05e367e31b518a9165c5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "serverExpiryKeyLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178508,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "0084fe8892e2d25dee0f9f62395e3b16528499745815c8c5c6fa18e8a31d97e5",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setServerExpiryKeyLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178524,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "b05d837e836161d4d2ba254b036180550d8dcc7cfa6ae26797c66bf6464b4f6d",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "serverExpiryValueLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178544,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "4d44e89f79366cdf457f04da947a47142ae62da8bdc248081ab29fd350cfa78a",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setServerExpiryValueLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178560,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "6a51d6e5581a63cae5f2112d52514d23469da95eda6594b2ecfd223fd35a83a4",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "licenseValidationKeyLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178580,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "856b0d6827046f378d078215d22db051eb47fbf1cbc8f1233dd67209150cfe03",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setLicenseValidationKeyLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178596,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "3e68d5c5ad5235276faf6dede6f686cd74f485fd933b4620403c484d79455841",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "licenseValidationValueLabel",
+          "original_type": "@16@0:8",
+          "file_offset": 178616,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "e5414fd88c80b6abff8906db8e228be415cf1559dc88191e7548f5daf715648d",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setLicenseValidationValueLabel:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 178632,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "d397380a95423d859b4810ce1483b23878aa1d91f57ae9b4e8cae29f713cf5f1",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "hasActivePendingOrder",
+          "original_type": "B16@0:8",
+          "file_offset": 178932,
+          "bytes_replaced": 152,
+          "previous_span_sha256": "83ce3b7ecb9f187912603435d54482e3f38023a112b1ea9f02a442ce14cc6fa5",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "currentServerBaseURL",
+          "original_type": "@16@0:8",
+          "file_offset": 179084,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "f81ca8965dbf6c604a709a485cbd395c9160c198e5ec7020d37f89e21f27b1fc",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "fetchActivePendingOrderFromServer",
+          "original_type": "v16@0:8",
+          "file_offset": 179104,
+          "bytes_replaced": 608,
+          "previous_span_sha256": "f5b5dce3ebb11d47f924d810d4603fe49bac1e2437e7c5973cd74797493e7b23",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "startCheckoutForTier:forceNew:",
+          "original_type": "v28@0:8@16B24",
+          "file_offset": 181044,
+          "bytes_replaced": 940,
+          "previous_span_sha256": "c830aee39b3696a0f9822e006318ea7c49b15b2351858a8fc60e435f569350f7",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "resumePayment",
+          "original_type": "v16@0:8",
+          "file_offset": 183704,
+          "bytes_replaced": 168,
+          "previous_span_sha256": "ff2267282527dfea5b7dc4256665c8d8f575045a48cc79074471d5ec0b562c98",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "checkStatusManual",
+          "original_type": "v16@0:8",
+          "file_offset": 183872,
+          "bytes_replaced": 716,
+          "previous_span_sha256": "19649a84a6302ecc1744575eb6e3700d5c3b700bb4766ce5d8c251d3f720603a",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "cancelActiveOrderWithCompletion:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 186012,
+          "bytes_replaced": 744,
+          "previous_span_sha256": "5e6f039ad0a981862bc98a4eadd3ee40d349825038dca8e0a5ff03395b5bec9e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "requestCancelPendingOrder",
+          "original_type": "v16@0:8",
+          "file_offset": 187260,
+          "bytes_replaced": 636,
+          "previous_span_sha256": "5b2d4086bf35ef4a237a2c6263eef8748a2dcd05ede9362daccc08aab065eae3",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "openPaymentGatewayURL:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 188404,
+          "bytes_replaced": 216,
+          "previous_span_sha256": "9a190f19ccc06519ac4f89ced1f7e3384a956433e625d63a1c99ec99aa007f09",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "safariViewControllerDidFinish:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 188620,
+          "bytes_replaced": 324,
+          "previous_span_sha256": "ebb6f008365c7fa462865d48175762cd3f7ceb049023c1320baaa2a9d320c168",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "startPollingOrderStatus:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 189112,
+          "bytes_replaced": 176,
+          "previous_span_sha256": "cf14c0a4a49c5c5383295b85b1076cb6bda81f6fa38872ac10b1c6dd0cd49582",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "stopPollingOrderStatus",
+          "original_type": "v16@0:8",
+          "file_offset": 189288,
+          "bytes_replaced": 148,
+          "previous_span_sha256": "80a28734d326a60daae57fdd1b99b39a2c5d2535091d9e388aa8bfafac2060a3",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "pollTimerFired",
+          "original_type": "v16@0:8",
+          "file_offset": 189436,
+          "bytes_replaced": 224,
+          "previous_span_sha256": "d0fde2f2491c3d4d050bdb8482fee1f86a8c27aa0d340af1dd3745feb32c1636",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "checkOrderStatusOnce:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 189660,
+          "bytes_replaced": 528,
+          "previous_span_sha256": "8aaa21f6cad995003fe5021b7388b2d89dae8d636291af6809c15d3009b97d00",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "handlePaymentCompletedSuccess",
+          "original_type": "v16@0:8",
+          "file_offset": 190840,
+          "bytes_replaced": 464,
+          "previous_span_sha256": "74ab4b54931590c05deca49dc7578caa6b6cb3b676d38573bb3f7745c5bff239",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "showAlertWithTitle:message:",
+          "original_type": "v32@0:8@16@24",
+          "file_offset": 192232,
+          "bytes_replaced": 256,
+          "previous_span_sha256": "3f51d192993f5560f53571e691d97afa60f5073707583f65d8e3a9bbaa788494",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "delegate",
+          "original_type": "@16@0:8",
+          "file_offset": 192488,
+          "bytes_replaced": 24,
+          "previous_span_sha256": "818d2770a68c3e915476704ab86f55a3d146e61a338d48441f6b9f647f00897e",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setDelegate:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192512,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "cd85a9388362b30193835a84639d6ce7134c2be7cbb4642c6e5970a4226c4d8e",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeOrderId",
+          "original_type": "@16@0:8",
+          "file_offset": 192524,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "76ce3c3fe71f8750e3fdc6d5f4812b1eb86bc9592bc6ba6fc46ad658524e32ea",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveOrderId:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192536,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "dcc6b3cd284d1648e0cb210924d01fa88ed4f80d90e4c35d2aba7b017d8c4e28",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activePaymentUrl",
+          "original_type": "@16@0:8",
+          "file_offset": 192544,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "71e2ea5eca73e5a3d82e499dfe6e6d1da5f1190e6b0b32e71fb014c6a5c5ccf6",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActivePaymentUrl:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192556,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "e8f593b51a2e31f9f9d013e037f273f16fdcc40e16083ecd76d450c78df66dcc",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeTierName",
+          "original_type": "@16@0:8",
+          "file_offset": 192564,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "2640fc39f851c68332b745d115a74d66ae7de7fbc2d89678a0e7a89a2cce5510",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveTierName:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192576,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "032987fdfb0d581d2c318c1419ae3b8b9fa47bba51e24ee342c65edf7c430016",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeAmountCrypto",
+          "original_type": "@16@0:8",
+          "file_offset": 192584,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "c62945e70dfd7cda76e8b225a83c422444a11dd83f35c4fd91710ceb4b48a65f",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveAmountCrypto:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192596,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "4937c8508e2381d392d6b6bab24295bba5329153c9cb2eab0fe484d2d9361c0b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeCurrency",
+          "original_type": "@16@0:8",
+          "file_offset": 192604,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "ee12dfc907eb2227ac7bf5891050e7dcb88b1904cb615a4c4fc89857c526f1f1",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveCurrency:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192616,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "70306981558e598865be45b76a682be6d2b238e50ce5df10d04e3e30dee7ac03",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeNetwork",
+          "original_type": "@16@0:8",
+          "file_offset": 192624,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "ff277df0fed8b06362e79febf0f4a2db34d42e2b3d8548a7e1651f88ca6246e3",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveNetwork:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192636,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "e988ae7636375a44d6285e80b36689ff9f50a296449742df2ed0d15b9c8d216f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "pollTimer",
+          "original_type": "@16@0:8",
+          "file_offset": 192644,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "ac1915dbf8ae56825a9e0c79c21190a655d4b32b9c10f299546aad7c9ecadc66",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setPollTimer:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192652,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "13a8c7dfbb6e4ac265526d22536977f5737dea0c5f6157c34009eafea7818e81",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "safariVC",
+          "original_type": "@16@0:8",
+          "file_offset": 192664,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "62c64bd585db7a91917843362bb75aa8dd20b002bce4874891b0b3ec8fd242b9",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setSafariVC:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 192672,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "ec8f1aa1de3e7a148719f8c5e77669936b333e07c3b2ee1e4eaf80c789fca7f0",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "deviceHardwareHashHex",
+          "original_type": "@16@0:8",
+          "file_offset": 365068,
+          "bytes_replaced": 5556,
+          "previous_span_sha256": "d8beabd8c6608dc17896baf43867a46eb89c2b62e0c4264c9dca37f6bf2d99bc",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isLicenseCurrentlyValid",
+          "original_type": "B16@0:8",
+          "file_offset": 370624,
+          "bytes_replaced": 74724,
+          "previous_span_sha256": "e054c056fc63d8a42ea68125b14f02934479b6e8d28b136e494066b5e1b28b6f",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "remainingLicenseSeconds",
+          "original_type": "Q16@0:8",
+          "file_offset": 445348,
+          "bytes_replaced": 74696,
+          "previous_span_sha256": "2e1b61951850cbaf398cd8f52a19fa88073b1f83ad7869cefb1534eec45d898c",
+          "stub_bytes": 12,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeeded",
+          "original_type": "v16@0:8",
+          "file_offset": 521652,
+          "bytes_replaced": 160,
+          "previous_span_sha256": "32b9e9f3cc5dc9628d94a63818fd41d696e872ade481ad505fc1d34418bdd666",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeededWithSource:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 521812,
+          "bytes_replaced": 256,
+          "previous_span_sha256": "d600665c19bed495ea4083536518889c27596bd95a9f9bb70a3c2fec1b1dec46",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "forceSyncWithCompletion:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 597616,
+          "bytes_replaced": 180,
+          "previous_span_sha256": "6d47a2215c49e5edcb3fad9692e1e3097e3e0dc241600974a3aebd4c73bc8d6b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "formatBaseURLString:",
+          "original_type": "@24@0:8@16",
+          "file_offset": 597900,
+          "bytes_replaced": 912,
+          "previous_span_sha256": "12da9449a4056fd339527aad3089c6e2595700d632cdbe9ca0074ee90df07db1",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "original_type": "@16@0:8",
+          "file_offset": 598812,
+          "bytes_replaced": 1000,
+          "previous_span_sha256": "598d466a8d6cefd8acb963f327e5de5a2a5dd27c759637dda47b072b699d9f7e",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "original_type": "@16@0:8",
+          "file_offset": 600692,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "a6024f4c148deb136d7f8a12ec6536a87b461b190829cc9ec99e3774184daa21",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedLicenseServerEndpoint",
+          "original_type": "@16@0:8",
+          "file_offset": 600712,
+          "bytes_replaced": 220,
+          "previous_span_sha256": "ad07d341f93788ad1ee621203cd2694fd93c9af1f195f4aaa004c340fa510fee",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:completion:",
+          "original_type": "v32@0:8B16B20@?24",
+          "file_offset": 600932,
+          "bytes_replaced": 144,
+          "previous_span_sha256": "24674b7295e12863f01bed80cf967a931b81329a4c833e56d687562bd2af0f0b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+          "original_type": "v40@0:8B16B20@24@?32",
+          "file_offset": 601076,
+          "bytes_replaced": 1392,
+          "previous_span_sha256": "8f12bb755ea7de42163c4f1f6f8a2262a6c6c568e644cde77ca448566652c0f5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "installAndVerifyLicensePayload:errorMsg:",
+          "original_type": "B32@0:8@16^@24",
+          "file_offset": 606328,
+          "bytes_replaced": 50604,
+          "previous_span_sha256": "253350f299450f71f8f21976c010e3916531a56fe7b68423f3de5d7fc266a184",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseExpirationTimestamp",
+          "original_type": "Q16@0:8",
+          "file_offset": 656932,
+          "bytes_replaced": 452,
+          "previous_span_sha256": "14eba7c129fce12e2d7b4e8756f6873862ac7452e698d6aff969f3a019bfc998",
+          "stub_bytes": 12,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseExpirationTimestamp:",
+          "original_type": "v24@0:8Q16",
+          "file_offset": 657384,
+          "bytes_replaced": 412,
+          "previous_span_sha256": "136636ad254a25b9196122d154fd313c963c9fcafb280a1d89b1d6b966f90219",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseTierName",
+          "original_type": "@16@0:8",
+          "file_offset": 657796,
+          "bytes_replaced": 328,
+          "previous_span_sha256": "9bfe1d4dd02850f94daaf2d0389fd0610767ca71a9fa8f4d80c2b04cf82a2cad",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseTierName:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 658124,
+          "bytes_replaced": 392,
+          "previous_span_sha256": "52590386de3c725925e4914917745163acc8fd8a7bc1f5214ddc1b18fb1f77f0",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isSyncing",
+          "original_type": "B16@0:8",
+          "file_offset": 658516,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "04d63990d737e9b1c54f43eb89304f2b27873d85e0b71a0f00dd4109dbb6e578",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setIsSyncing:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 658524,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "a5ac2e1427b1a331e4cd0daa76179facdf641f1d8998c684a1c8da5c41a992e4",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "syncQueue",
+          "original_type": "@16@0:8",
+          "file_offset": 658532,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "dfb556a413c8bda5332942d0202e8d5f1e52f45158aec3676294cf11ad5909cb",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setSyncQueue:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 658540,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "9349913db362bcb1341cfec8564df02a383a2269e7ca51012c037272fbe71df5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "lastAttemptTimestamp",
+          "original_type": "Q16@0:8",
+          "file_offset": 658552,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setLastAttemptTimestamp:",
+          "original_type": "v24@0:8Q16",
+          "file_offset": 658560,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "fd5a38b21e2c2a1d2f45df7f615c42543bc346bb6d3709f12bf5db29d67ad268",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        }
+      ],
+      "selector_tables_left_for_compatibility": true
+    },
+    "DuoFaceDashboard": {
+      "original_sha256": "ca4a04817bd36ff911ba11f76a802b462e9e8875171768a061cead10803ef87d",
+      "patched_sha256": "c5cb384c304f81859ebf7027a1bc2e33731effbaf517bf721aed5309c7901408",
+      "original_arches": [
+        "arm64:0",
+        "arm64:2"
+      ],
+      "packaged_arches": [
+        "arm64"
+      ],
+      "method_body_count": 43,
+      "method_bytes_overwritten": 316564,
+      "patched_methods": [
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "deviceHardwareHashHex",
+          "original_type": "@16@0:8",
+          "file_offset": 235524,
+          "bytes_replaced": 5556,
+          "previous_span_sha256": "e884f4b5ee9b9565de827b2d91a77d3c123cf37e05c3fe1fbc3b9fb2e648a4aa",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isLicenseCurrentlyValid",
+          "original_type": "B16@0:8",
+          "file_offset": 241080,
+          "bytes_replaced": 74724,
+          "previous_span_sha256": "9936eaabc8b23aa022ea7398cfc400df8b9eb71c4acc7d670c4731de113d314b",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "remainingLicenseSeconds",
+          "original_type": "Q16@0:8",
+          "file_offset": 315804,
+          "bytes_replaced": 74696,
+          "previous_span_sha256": "5af403c6df4ea40d9667833a661ff9cfd73b40ab37a0ebf535b7d9ea22ce0034",
+          "stub_bytes": 12,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeeded",
+          "original_type": "v16@0:8",
+          "file_offset": 392108,
+          "bytes_replaced": 160,
+          "previous_span_sha256": "329fc43710cabc586b6c2630498bc7013e3953e95688d6dad63ae481dbf11384",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeededWithSource:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 392268,
+          "bytes_replaced": 256,
+          "previous_span_sha256": "4fc2d28f092fe84e7cf78f2e40b2d78a8622c8f96b2c57f84cebd4cd529e81da",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "forceSyncWithCompletion:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 468072,
+          "bytes_replaced": 180,
+          "previous_span_sha256": "8457c1e638acc06d9c1ce0d00e2d2316436834de3136cd0482e3c31f1432290b",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "formatBaseURLString:",
+          "original_type": "@24@0:8@16",
+          "file_offset": 468408,
+          "bytes_replaced": 912,
+          "previous_span_sha256": "1197f0689d0a961fb92eb115e88c1d7cfd1f03c9b226213526bfd56835ba06f6",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "original_type": "@16@0:8",
+          "file_offset": 469320,
+          "bytes_replaced": 1000,
+          "previous_span_sha256": "e8a3d35bcd73e43733983f81e2c215060ebb2767c52da5203e1652854c00eec3",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "original_type": "@16@0:8",
+          "file_offset": 471200,
+          "bytes_replaced": 20,
+          "previous_span_sha256": "befd5225eb47ceec13f2790e78eb3e1c4a193c79ea74db846b46283060d97eb6",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedLicenseServerEndpoint",
+          "original_type": "@16@0:8",
+          "file_offset": 471220,
+          "bytes_replaced": 220,
+          "previous_span_sha256": "2925730780c7d17d865751d0f0c83d9afe74caba12ab0e6db2415cc1842db7e1",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:completion:",
+          "original_type": "v32@0:8B16B20@?24",
+          "file_offset": 471440,
+          "bytes_replaced": 144,
+          "previous_span_sha256": "707230d5cb67778ce39fe467523886bcd0f86d8c754bc419345856d0b6234768",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+          "original_type": "v40@0:8B16B20@24@?32",
+          "file_offset": 471584,
+          "bytes_replaced": 1392,
+          "previous_span_sha256": "b2717702d38e9f34120e4956797dc1f5d9ed1a0e09f7c4def1aff59d7e6add94",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "installAndVerifyLicensePayload:errorMsg:",
+          "original_type": "B32@0:8@16^@24",
+          "file_offset": 476820,
+          "bytes_replaced": 50604,
+          "previous_span_sha256": "34a288e2a16e28753fd4678a482122558e816e498740dcd1498ccbfd8a975386",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseExpirationTimestamp",
+          "original_type": "Q16@0:8",
+          "file_offset": 527424,
+          "bytes_replaced": 452,
+          "previous_span_sha256": "6e5d668e1f8aed8b73d614e187a34b51f68129773d8d62a7dc36684e701eef69",
+          "stub_bytes": 12,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseExpirationTimestamp:",
+          "original_type": "v24@0:8Q16",
+          "file_offset": 527876,
+          "bytes_replaced": 412,
+          "previous_span_sha256": "8f6664e213f17841dcba070b1521a32b84f83ea98cc2d567a2be35569cdcdcc1",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseTierName",
+          "original_type": "@16@0:8",
+          "file_offset": 528288,
+          "bytes_replaced": 328,
+          "previous_span_sha256": "677aa02769a772fb23bb422fff8fa5a8d73443649ab4e8b99b47d1145d8c976c",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseTierName:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 528616,
+          "bytes_replaced": 392,
+          "previous_span_sha256": "c49a2237961637ab12e55e94178314ca319178fa0ffef206106f0d557847f1d6",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isSyncing",
+          "original_type": "B16@0:8",
+          "file_offset": 529008,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "04d63990d737e9b1c54f43eb89304f2b27873d85e0b71a0f00dd4109dbb6e578",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setIsSyncing:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 529016,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "a5ac2e1427b1a331e4cd0daa76179facdf641f1d8998c684a1c8da5c41a992e4",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "syncQueue",
+          "original_type": "@16@0:8",
+          "file_offset": 529024,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "dfb556a413c8bda5332942d0202e8d5f1e52f45158aec3676294cf11ad5909cb",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setSyncQueue:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 529032,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "a34f1d733b60594f49f4b97e3100d51ad1ab1f5eb3332a2d4c748603bec940df",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "lastAttemptTimestamp",
+          "original_type": "Q16@0:8",
+          "file_offset": 529044,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setLastAttemptTimestamp:",
+          "original_type": "v24@0:8Q16",
+          "file_offset": 529052,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "fd5a38b21e2c2a1d2f45df7f615c42543bc346bb6d3709f12bf5db29d67ad268",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "selector": "initWithFrame:",
+          "original_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "file_offset": 752436,
+          "bytes_replaced": 152,
+          "previous_span_sha256": "2b1ac3ffaa0c59da344ac55ae488696a0b768c6c02fd9eeb3183054d756708b5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "selector": "drawRect:",
+          "original_type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "file_offset": 752588,
+          "bytes_replaced": 1080,
+          "previous_span_sha256": "284e4c31edb18ce9f56e7e5996fef8e1e2828028c8202d4473484e7bbe5ad9d5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "initWithFrame:modalType:",
+          "original_type": "@56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48",
+          "file_offset": 753668,
+          "bytes_replaced": 236,
+          "previous_span_sha256": "875c90289a8116c2bb2fb305dceff4502733de154254c2a8eb1e0811c95cf97f",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setupSubviews",
+          "original_type": "v16@0:8",
+          "file_offset": 753904,
+          "bytes_replaced": 2392,
+          "previous_span_sha256": "f6e8602e1c7df099d582ecc57cf81f0a5327582128a70aa39c27f6ba3ec49cb5",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setModalType:",
+          "original_type": "v24@0:8q16",
+          "file_offset": 756296,
+          "bytes_replaced": 24,
+          "previous_span_sha256": "3eea48816594a43a0d7f9e956a611fd036eceb3075fd859b3be5e93557af75e4",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "updateContentForType:",
+          "original_type": "v24@0:8q16",
+          "file_offset": 756320,
+          "bytes_replaced": 768,
+          "previous_span_sha256": "782a3757e395e588c80e8a672e8876e6fcdb21d1370468b3539c1e7a24407d45",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "layoutSubviews",
+          "original_type": "v16@0:8",
+          "file_offset": 757088,
+          "bytes_replaced": 600,
+          "previous_span_sha256": "545d1e8c5c2fe2182e690e281ce5a2a6025a6a1368a4c06cd2d51f4ae0b38bf0",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "handleDismissButtonTap:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 757688,
+          "bytes_replaced": 112,
+          "previous_span_sha256": "3d04e861d906944c1a53e1a193513e6a40bb98be2f64b6f458d43f0b304d1dd4",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "showAnimated:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 757800,
+          "bytes_replaced": 328,
+          "previous_span_sha256": "840f7d5515918ea93fe2cdcd18788ca4da2d1124432091080ed4ae8ff64a3274",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "dismissAnimated:",
+          "original_type": "v20@0:8B16",
+          "file_offset": 758240,
+          "bytes_replaced": 272,
+          "previous_span_sha256": "1375f0ea630d513f3dc3e3e552607a36f000eccab20804360de870795129b68a",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "onDismiss",
+          "original_type": "@?16@0:8",
+          "file_offset": 758792,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "fe3e201ed83476acaf4449ac8658ac4a87d1c813a0c257d3ef4925be011aa21c",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setOnDismiss:",
+          "original_type": "v24@0:8@?16",
+          "file_offset": 758808,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "d663b1dbc6e80d84cf6dfdd5e7f1899da72c1ddd5b96b1124665ac805643bb36",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "modalType",
+          "original_type": "q16@0:8",
+          "file_offset": 758820,
+          "bytes_replaced": 16,
+          "previous_span_sha256": "04b5fad6966b86276b41bcb987af18d2b7b026b51d4dca67ecbdedbdaeaef130",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "presentLicenseWarningModalWithType:",
+          "original_type": "v24@0:8q16",
+          "file_offset": 1593616,
+          "bytes_replaced": 724,
+          "previous_span_sha256": "03117a2bd85112116bf0c2ce4cdd4099883a2ce69c2d943e9ee80b1c9b79ab87",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "dismissLicenseWarningModal",
+          "original_type": "v16@0:8",
+          "file_offset": 1594448,
+          "bytes_replaced": 68,
+          "previous_span_sha256": "4b775e712571156a36854c9291026cf239909b274d9d4920d29b2539c3d1c141",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "startLicenseWatchdogTimer",
+          "original_type": "v16@0:8",
+          "file_offset": 1594516,
+          "bytes_replaced": 104,
+          "previous_span_sha256": "d81e3d03d05ee7c14511750d6d6d174acf73f61749f11a2cacf5951281ae57e0",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "stopLicenseWatchdogTimer",
+          "original_type": "v16@0:8",
+          "file_offset": 1594620,
+          "bytes_replaced": 68,
+          "previous_span_sha256": "500d0ac262f9332c887dfbc34d0faced9e9ec43ee76327358fc5c2e239c88c96",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "licenseWatchdogTimerFired:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 1594688,
+          "bytes_replaced": 98072,
+          "previous_span_sha256": "fef263b885d43b51cee502521339371ca5478af9bb002cd97a5ccdea6c16662a",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "licenseWarningModal",
+          "original_type": "@16@0:8",
+          "file_offset": 1694488,
+          "bytes_replaced": 8,
+          "previous_span_sha256": "989bb1a041c93e09fa2954014eaba1a46b19128664c6bbb210694e0989f09532",
+          "stub_bytes": 8,
+          "remaining_original_instruction_bytes_inside_span": 0
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "setLicenseWarningModal:",
+          "original_type": "v24@0:8@16",
+          "file_offset": 1694496,
+          "bytes_replaced": 12,
+          "previous_span_sha256": "7bccce140c806a20f2520c01e39681a553f9cf945ae2744bff6334deccad9037",
+          "stub_bytes": 4,
+          "remaining_original_instruction_bytes_inside_span": 0
+        }
+      ],
+      "selector_tables_left_for_compatibility": true
+    }
+  },
+  "changed_payload_paths": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "untouched_original_files": 40,
+  "compiled_original_carplay_picker_source_rewritten": false,
+  "all_embedded_license_strings_removed": false,
+  "all_embedded_license_code_proven_removed": false,
+  "what_removed": "Selected original method implementation bodies replaced by ABI-compatible inert return stubs; selector metadata retained.",
+  "no_remote_license_sync_in_replaced_methods": true,
+  "other_unknown_code_paths_may_still_exist": true,
+  "source_native3_preserved_for_rollback": true,
+  "device_tested": false,
+  "sileo_published": false,
+  "deb_sha256": "517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244",
+  "deb_size": 1732240
+}
