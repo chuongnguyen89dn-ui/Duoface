@@ -1,0 +1,3231 @@
+{
+  "status": "NATIVE5_RESIDUAL_LICENSE_DELETION_LEDGER_PENDING_REAL_DEVICE_APPROVAL",
+  "baseline_native4_sha256": "517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244",
+  "all_method_inventory": [
+    {
+      "binary": "DuoFaceUI",
+      "class": "XXRootViewController",
+      "selector": "checkAndPresentLicenseModalIfNeeded",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "XXRootViewController",
+      "selector": "isShowingExpiredModal",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "temporarily_disabled_native5",
+      "next_step": "Check callers; decide whether to remove storage and selector after native5 device PASS"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "XXRootViewController",
+      "selector": "setIsShowingExpiredModal:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "temporarily_disabled_native5",
+      "next_step": "Check callers; decide whether to remove storage and selector after native5 device PASS"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBGeneralSettingsViewController",
+      "selector": "openSubscriptionScreen",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "viewDidLoad",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "viewWillAppear:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "viewWillDisappear:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "dealloc",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "keyboardWillShow:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "keyboardWillHide:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "dismissKeyboard",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setupTableView",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setupTableHeader",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "isVIPActiveWithSufficientDays",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "updateTableHeaderForCurrentState",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "modeSegmentChanged:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "numberOfSectionsInTableView:",
+      "kind": "-",
+      "method_type": "q24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView:numberOfRowsInSection:",
+      "kind": "-",
+      "method_type": "q32@0:8@16q24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView:titleForHeaderInSection:",
+      "kind": "-",
+      "method_type": "@32@0:8@16q24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView:titleForFooterInSection:",
+      "kind": "-",
+      "method_type": "@32@0:8@16q24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView:cellForRowAtIndexPath:",
+      "kind": "-",
+      "method_type": "@32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView:didSelectRowAtIndexPath:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "fetchPlansFromServer",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "handleLanguageChanged",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "formattedPriceForPlan:",
+      "kind": "-",
+      "method_type": "@24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "displayNameForTier:",
+      "kind": "-",
+      "method_type": "@24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "currentCheckoutButtonTitle",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "showPlansLoadFailureAlertWithError:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "checkoutCellDidTapCheckout:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "pendingOrderCellDidTapResume:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "pendingOrderCellDidTapCheckStatus:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "pendingOrderCellDidTapCancel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "giftcodeInputCellDidTapPaste:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "giftcodeRedeemCellDidTapRedeem:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "hardwareIDCellDidTapCopy:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "redeemGiftCodeTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setGiftRedeemLoading:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "textFieldShouldReturn:",
+      "kind": "-",
+      "method_type": "B24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinatorDidUpdatePendingOrder:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinatorDidClearPendingOrder:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinatorDidCompletePaymentSuccessfully:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinator:shouldPresentAlert:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinator:shouldPresentSafari:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinator:setCheckoutLoading:",
+      "kind": "-",
+      "method_type": "v28@0:8@16B24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinator:setCheckStatusButtonChecking:",
+      "kind": "-",
+      "method_type": "v28@0:8@16B24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "showAlertWithTitle:message:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "tableView",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setTableView:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "segmentedHeaderView",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setSegmentedHeaderView:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "modeSegmentedControl",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setModeSegmentedControl:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "currentMode",
+      "kind": "-",
+      "method_type": "q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setCurrentMode:",
+      "kind": "-",
+      "method_type": "v24@0:8q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "plansData",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setPlansData:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "rawPlansData",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setRawPlansData:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "selectedTierIndex",
+      "kind": "-",
+      "method_type": "q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setSelectedTierIndex:",
+      "kind": "-",
+      "method_type": "v24@0:8q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "isLoadingPlans",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setIsLoadingPlans:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "plansLoadFailed",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setPlansLoadFailed:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "orderCoordinator",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setOrderCoordinator:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "isCheckoutLoading",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setIsCheckoutLoading:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "giftCodeTextField",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setGiftCodeTextField:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "giftRedeemCell",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setGiftRedeemCell:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "isGiftRedeeming",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": "setIsGiftRedeeming:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionViewController",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "viewDidLoad",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "viewWillAppear:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setupBackdrop",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setupCardView",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setupContent",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "handleActivateTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "handleLaterTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "dismissWithCompletion:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "onActivateTapped",
+      "kind": "-",
+      "method_type": "@?16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setOnActivateTapped:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "onDismissTapped",
+      "kind": "-",
+      "method_type": "@?16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setOnDismissTapped:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "blurBackdrop",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setBlurBackdrop:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "dimmerOverlay",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setDimmerOverlay:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "cardView",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setCardView:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "iconImageView",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setIconImageView:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "titleLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setTitleLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "messageLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setMessageLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "activateButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setActivateButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "laterButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "setLaterButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseExpiredModalViewController",
+      "selector": "modalWithActivateHandler:dismissHandler:",
+      "kind": "+",
+      "method_type": "@32@0:8@?16@?24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "configureWithTitle:loading:",
+      "kind": "-",
+      "method_type": "v28@0:8@16B24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "checkoutTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "checkoutButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "setCheckoutButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "checkoutSpinner",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": "setCheckoutSpinner:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionCheckoutCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPStatusCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPStatusCell",
+      "selector": "configureWithExpirationTimestamp:",
+      "kind": "-",
+      "method_type": "v24@0:8Q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "configureWithHardwareHash:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "copyTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "hwLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "setHwLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "clipboardButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": "setClipboardButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionHardwareIDCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "pasteTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "textField",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "setTextField:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "pasteButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": "setPasteButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "redeemTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "setLoading:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "redeemButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "setRedeemButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "spinner",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": "setSpinner:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "configureWithTitle:description:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "resumeTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "checkStatusTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "cancelTapped",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "titleLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setTitleLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "descLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setDescLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "resumeBtn",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setResumeBtn:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "checkStatusButton",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setCheckStatusButton:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "cancelBtn",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": "setCancelBtn:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPendingOrderCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "configureWithPlan:selected:formattedPrice:",
+      "kind": "-",
+      "method_type": "v36@0:8@16B24@28",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "nameLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "setNameLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "badgeLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "setBadgeLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "descLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "setDescLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "priceLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "setPriceLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "checkIcon",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": "setCheckIcon:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionPlanCardCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionStatusCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionStatusCell",
+      "selector": "configureWithLoading:failed:",
+      "kind": "-",
+      "method_type": "v24@0:8B16B20",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "initWithStyle:reuseIdentifier:",
+      "kind": "-",
+      "method_type": "@32@0:8q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "keyLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "valueLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "keyValuePairWithKeyLabel:valueLabel:",
+      "kind": "-",
+      "method_type": "@32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "configureWithExpirationTimestamp:tierName:",
+      "kind": "-",
+      "method_type": "v32@0:8Q16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "badgeIcon",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setBadgeIcon:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "titleLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setTitleLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "statusPillLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setStatusPillLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "durationKeyLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setDurationKeyLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "durationValueLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setDurationValueLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "serverExpiryKeyLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setServerExpiryKeyLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "serverExpiryValueLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setServerExpiryValueLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "licenseValidationKeyLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setLicenseValidationKeyLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "licenseValidationValueLabel",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": "setLicenseValidationValueLabel:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionVIPCardCell",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "dealloc",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "hasActivePendingOrder",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "currentServerBaseURL",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "fetchActivePendingOrderFromServer",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "startCheckoutForTier:forceNew:",
+      "kind": "-",
+      "method_type": "v28@0:8@16B24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "resumePayment",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "checkStatusManual",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "cancelActiveOrderWithCompletion:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "requestCancelPendingOrder",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "openPaymentGatewayURL:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "safariViewControllerDidFinish:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "startPollingOrderStatus:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "stopPollingOrderStatus",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "pollTimerFired",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "checkOrderStatusOnce:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "handlePaymentCompletedSuccess",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "showAlertWithTitle:message:",
+      "kind": "-",
+      "method_type": "v32@0:8@16@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "delegate",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setDelegate:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activeOrderId",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActiveOrderId:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activePaymentUrl",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActivePaymentUrl:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activeTierName",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActiveTierName:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activeAmountCrypto",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActiveAmountCrypto:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activeCurrency",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActiveCurrency:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "activeNetwork",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setActiveNetwork:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "pollTimer",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setPollTimer:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "safariVC",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": "setSafariVC:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBSubscriptionOrderCoordinator",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "init",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "deviceHardwareHashHex",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isLicenseCurrentlyValid",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "remainingLicenseSeconds",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "checkAndSyncLicenseIfNeeded",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "checkAndSyncLicenseIfNeededWithSource:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "forceSyncWithCompletion:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedBackendBaseURL",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedLicenseServerEndpoint",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "performSyncWithForce:isManualUserAction:completion:",
+      "kind": "-",
+      "method_type": "v32@0:8B16B20@?24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+      "kind": "-",
+      "method_type": "v40@0:8B16B20@24@?32",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "installAndVerifyLicensePayload:errorMsg:",
+      "kind": "-",
+      "method_type": "B32@0:8@16^@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "actualLicenseExpirationTimestamp",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "setActualLicenseExpirationTimestamp:",
+      "kind": "-",
+      "method_type": "v24@0:8Q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "actualLicenseTierName",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "setActualLicenseTierName:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isSyncing",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "setIsSyncing:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "syncQueue",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "setSyncQueue:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "lastAttemptTimestamp",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "setLastAttemptTimestamp:",
+      "kind": "-",
+      "method_type": "v24@0:8Q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "sharedInstance",
+      "kind": "+",
+      "method_type": "@16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreen:",
+      "kind": "+",
+      "method_type": "B24@0:8@16",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnectedExcludingScreen:",
+      "kind": "+",
+      "method_type": "B24@0:8@16",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "kind": "+",
+      "method_type": "B16@0:8",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "formatBaseURLString:",
+      "kind": "+",
+      "method_type": "@24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedBackendBaseURL",
+      "kind": "+",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "init",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "deviceHardwareHashHex",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isLicenseCurrentlyValid",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "remainingLicenseSeconds",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "checkAndSyncLicenseIfNeeded",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "checkAndSyncLicenseIfNeededWithSource:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "forceSyncWithCompletion:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedBackendBaseURL",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedLicenseServerEndpoint",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "performSyncWithForce:isManualUserAction:completion:",
+      "kind": "-",
+      "method_type": "v32@0:8B16B20@?24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+      "kind": "-",
+      "method_type": "v40@0:8B16B20@24@?32",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "installAndVerifyLicensePayload:errorMsg:",
+      "kind": "-",
+      "method_type": "B32@0:8@16^@24",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "actualLicenseExpirationTimestamp",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "setActualLicenseExpirationTimestamp:",
+      "kind": "-",
+      "method_type": "v24@0:8Q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "actualLicenseTierName",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "setActualLicenseTierName:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isSyncing",
+      "kind": "-",
+      "method_type": "B16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "setIsSyncing:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "syncQueue",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "setSyncQueue:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "lastAttemptTimestamp",
+      "kind": "-",
+      "method_type": "Q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "setLastAttemptTimestamp:",
+      "kind": "-",
+      "method_type": "v24@0:8Q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "sharedInstance",
+      "kind": "+",
+      "method_type": "@16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreen:",
+      "kind": "+",
+      "method_type": "B24@0:8@16",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnectedExcludingScreen:",
+      "kind": "+",
+      "method_type": "B24@0:8@16",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "kind": "+",
+      "method_type": "B16@0:8",
+      "state": "retain_carplay_screen_detection",
+      "next_step": "Keep until code ownership refactoring; active CarPlay screen tracking"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "formatBaseURLString:",
+      "kind": "+",
+      "method_type": "@24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseSyncManager",
+      "selector": "resolvedBackendBaseURL",
+      "kind": "+",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseShieldIconView",
+      "selector": "initWithFrame:",
+      "kind": "-",
+      "method_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseShieldIconView",
+      "selector": "drawRect:",
+      "kind": "-",
+      "method_type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "initWithFrame:modalType:",
+      "kind": "-",
+      "method_type": "@56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "setupSubviews",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "setModalType:",
+      "kind": "-",
+      "method_type": "v24@0:8q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "updateContentForType:",
+      "kind": "-",
+      "method_type": "v24@0:8q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "layoutSubviews",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "handleDismissButtonTap:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "showAnimated:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "dismissAnimated:",
+      "kind": "-",
+      "method_type": "v20@0:8B16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "onDismiss",
+      "kind": "-",
+      "method_type": "@?16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "setOnDismiss:",
+      "kind": "-",
+      "method_type": "v24@0:8@?16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": "modalType",
+      "kind": "-",
+      "method_type": "q16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBLicenseWarningModalView",
+      "selector": ".cxx_destruct",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retain_runtime_lifecycle",
+      "next_step": "Do not remove until object allocation/caller graph proves dead"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "presentLicenseWarningModalWithType:",
+      "kind": "-",
+      "method_type": "v24@0:8q16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "dismissLicenseWarningModal",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "startLicenseWatchdogTimer",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "stopLicenseWatchdogTimer",
+      "kind": "-",
+      "method_type": "v16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "licenseWatchdogTimerFired:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "licenseWarningModal",
+      "kind": "-",
+      "method_type": "@16@0:8",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "class": "CBBridgeManager",
+      "selector": "setLicenseWarningModal:",
+      "kind": "-",
+      "method_type": "v24@0:8@16",
+      "state": "retained_compatibility_or_unverified",
+      "next_step": "Investigate callers and original binary reference paths before deletion"
+    }
+  ],
+  "ui_literal_hidden_records": [
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 727712,
+      "section": "__TEXT,__cstring",
+      "label": "License Expired",
+      "encoding": "utf-8",
+      "byte_count": 15,
+      "before_sha256": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+      "after_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 727690,
+      "section": "__TEXT,__cstring",
+      "label": "License Not Activated",
+      "encoding": "utf-8",
+      "byte_count": 21,
+      "before_sha256": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+      "after_sha256": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 718278,
+      "section": "__TEXT,__cstring",
+      "label": "License Status",
+      "encoding": "utf-8",
+      "byte_count": 14,
+      "before_sha256": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+      "after_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 718012,
+      "section": "__TEXT,__cstring",
+      "label": "DuoFace Pro License",
+      "encoding": "utf-8",
+      "byte_count": 19,
+      "before_sha256": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+      "after_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 717855,
+      "section": "__TEXT,__cstring",
+      "label": "SUBSCRIPTION & LICENSE",
+      "encoding": "utf-8",
+      "byte_count": 22,
+      "before_sha256": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+      "after_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 728637,
+      "section": "__TEXT,__cstring",
+      "label": "ENTER ACTIVATION CODE (GIFTCODE)",
+      "encoding": "utf-8",
+      "byte_count": 32,
+      "before_sha256": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+      "after_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 719890,
+      "section": "__TEXT,__cstring",
+      "label": "License Download Incomplete",
+      "encoding": "utf-8",
+      "byte_count": 27,
+      "before_sha256": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+      "after_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 719702,
+      "section": "__TEXT,__cstring",
+      "label": "Activation Failed",
+      "encoding": "utf-8",
+      "byte_count": 17,
+      "before_sha256": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+      "after_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 718329,
+      "section": "__TEXT,__cstring",
+      "label": "Lifetime license. All features are permanently available.",
+      "encoding": "utf-8",
+      "byte_count": 57,
+      "before_sha256": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+      "after_sha256": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 728049,
+      "section": "__TEXT,__cstring",
+      "label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+      "encoding": "utf-8",
+      "byte_count": 85,
+      "before_sha256": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+      "after_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 727923,
+      "section": "__TEXT,__cstring",
+      "label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+      "encoding": "utf-8",
+      "byte_count": 125,
+      "before_sha256": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+      "after_sha256": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 727818,
+      "section": "__TEXT,__cstring",
+      "label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+      "encoding": "utf-8",
+      "byte_count": 104,
+      "before_sha256": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+      "after_sha256": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "file_offset": 727728,
+      "section": "__TEXT,__cstring",
+      "label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+      "encoding": "utf-8",
+      "byte_count": 89,
+      "before_sha256": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+      "after_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142013,
+      "section": "__TEXT,__cstring",
+      "label": "License Expired",
+      "encoding": "utf-8",
+      "byte_count": 15,
+      "before_sha256": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+      "after_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3141991,
+      "section": "__TEXT,__cstring",
+      "label": "License Not Activated",
+      "encoding": "utf-8",
+      "byte_count": 21,
+      "before_sha256": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+      "after_sha256": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3130874,
+      "section": "__TEXT,__cstring",
+      "label": "License Status",
+      "encoding": "utf-8",
+      "byte_count": 14,
+      "before_sha256": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+      "after_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3130568,
+      "section": "__TEXT,__cstring",
+      "label": "DuoFace Pro License",
+      "encoding": "utf-8",
+      "byte_count": 19,
+      "before_sha256": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+      "after_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3130411,
+      "section": "__TEXT,__cstring",
+      "label": "SUBSCRIPTION & LICENSE",
+      "encoding": "utf-8",
+      "byte_count": 22,
+      "before_sha256": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+      "after_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142938,
+      "section": "__TEXT,__cstring",
+      "label": "ENTER ACTIVATION CODE (GIFTCODE)",
+      "encoding": "utf-8",
+      "byte_count": 32,
+      "before_sha256": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+      "after_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3133228,
+      "section": "__TEXT,__cstring",
+      "label": "License Download Incomplete",
+      "encoding": "utf-8",
+      "byte_count": 27,
+      "before_sha256": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+      "after_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3132908,
+      "section": "__TEXT,__cstring",
+      "label": "Activation Failed",
+      "encoding": "utf-8",
+      "byte_count": 17,
+      "before_sha256": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+      "after_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3130950,
+      "section": "__TEXT,__cstring",
+      "label": "Lifetime license. All features are permanently available.",
+      "encoding": "utf-8",
+      "byte_count": 57,
+      "before_sha256": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+      "after_sha256": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142350,
+      "section": "__TEXT,__cstring",
+      "label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+      "encoding": "utf-8",
+      "byte_count": 85,
+      "before_sha256": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+      "after_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142224,
+      "section": "__TEXT,__cstring",
+      "label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+      "encoding": "utf-8",
+      "byte_count": 125,
+      "before_sha256": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+      "after_sha256": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142119,
+      "section": "__TEXT,__cstring",
+      "label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+      "encoding": "utf-8",
+      "byte_count": 104,
+      "before_sha256": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+      "after_sha256": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "file_offset": 3142029,
+      "section": "__TEXT,__cstring",
+      "label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+      "encoding": "utf-8",
+      "byte_count": 89,
+      "before_sha256": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+      "after_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+      "state": "temporarily_hidden_native5",
+      "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+    }
+  ],
+  "method_hidden_records": [
+    {
+      "binary": "DuoFaceUI",
+      "class": "XXRootViewController",
+      "selector": "isShowingExpiredModal",
+      "signature": "B16@0:8",
+      "file_offset": 35920,
+      "byte_count": 16,
+      "before_sha256": "d4f027ff78e495abdb8bcf80c7e3395a0dea649ca5f082e7feac438d413db5e1",
+      "after_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4",
+      "replacement": "ABI-compatible false getter/no-op setter; original selector metadata retained",
+      "state": "temporarily_disabled_native5",
+      "next_after_device_pass": "Candidate to remove unused expiry-state storage/calls after static caller audit; retain ABI if needed"
+    },
+    {
+      "binary": "DuoFaceUI",
+      "class": "XXRootViewController",
+      "selector": "setIsShowingExpiredModal:",
+      "signature": "v20@0:8B16",
+      "file_offset": 35936,
+      "byte_count": 16,
+      "before_sha256": "ae6cff6b10c2a57ce949b450ec6d5b2461b924510389e4b91cfe97c6025a861c",
+      "after_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc",
+      "replacement": "ABI-compatible false getter/no-op setter; original selector metadata retained",
+      "state": "temporarily_disabled_native5",
+      "next_after_device_pass": "Candidate to remove unused expiry-state storage/calls after static caller audit; retain ABI if needed"
+    }
+  ],
+  "caution": "class names, Objective-C selector strings and lifecycle logic remain for ABI; hiding text or neutralizing a method is NOT proof of full removal",
+  "next_after_carplay_pass": "Audit dynamic callers/initialization and physical delete only separately verified unused code/data.",
+  "device_tested": false
+}

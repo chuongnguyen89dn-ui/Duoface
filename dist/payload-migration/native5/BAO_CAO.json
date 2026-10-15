@@ -1,0 +1,355 @@
+{
+  "status": "NATIVE5_STAGED_EXPIRED_UI_HIDDEN_NEEDS_DEVICE_TEST",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native5",
+  "source_native4_sha256": "517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244",
+  "changed_paths": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "untouched_files": 40,
+  "new_expired_state_methods_neutralized": 2,
+  "hidden_literal_count": 26,
+  "changed_binaries": {
+    "DuoFaceUI": {
+      "method_flags": [
+        {
+          "class": "XXRootViewController",
+          "selector": "isShowingExpiredModal",
+          "signature": "B16@0:8",
+          "file_offset": 35920,
+          "byte_count": 16,
+          "before_sha256": "d4f027ff78e495abdb8bcf80c7e3395a0dea649ca5f082e7feac438d413db5e1",
+          "after_sha256": "9dc486621e585d3372ab095751dfe9e1bb13f3050d65d9fe82e4e8eb46adeba4",
+          "replacement": "ABI-compatible false getter/no-op setter; original selector metadata retained",
+          "state": "temporarily_disabled_native5",
+          "next_after_device_pass": "Candidate to remove unused expiry-state storage/calls after static caller audit; retain ABI if needed"
+        },
+        {
+          "class": "XXRootViewController",
+          "selector": "setIsShowingExpiredModal:",
+          "signature": "v20@0:8B16",
+          "file_offset": 35936,
+          "byte_count": 16,
+          "before_sha256": "ae6cff6b10c2a57ce949b450ec6d5b2461b924510389e4b91cfe97c6025a861c",
+          "after_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc",
+          "replacement": "ABI-compatible false getter/no-op setter; original selector metadata retained",
+          "state": "temporarily_disabled_native5",
+          "next_after_device_pass": "Candidate to remove unused expiry-state storage/calls after static caller audit; retain ABI if needed"
+        }
+      ],
+      "masked_ui_literals": [
+        {
+          "file_offset": 727712,
+          "section": "__TEXT,__cstring",
+          "label": "License Expired",
+          "encoding": "utf-8",
+          "byte_count": 15,
+          "before_sha256": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+          "after_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 727690,
+          "section": "__TEXT,__cstring",
+          "label": "License Not Activated",
+          "encoding": "utf-8",
+          "byte_count": 21,
+          "before_sha256": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+          "after_sha256": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 718278,
+          "section": "__TEXT,__cstring",
+          "label": "License Status",
+          "encoding": "utf-8",
+          "byte_count": 14,
+          "before_sha256": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+          "after_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 718012,
+          "section": "__TEXT,__cstring",
+          "label": "DuoFace Pro License",
+          "encoding": "utf-8",
+          "byte_count": 19,
+          "before_sha256": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+          "after_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 717855,
+          "section": "__TEXT,__cstring",
+          "label": "SUBSCRIPTION & LICENSE",
+          "encoding": "utf-8",
+          "byte_count": 22,
+          "before_sha256": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+          "after_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 728637,
+          "section": "__TEXT,__cstring",
+          "label": "ENTER ACTIVATION CODE (GIFTCODE)",
+          "encoding": "utf-8",
+          "byte_count": 32,
+          "before_sha256": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+          "after_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 719890,
+          "section": "__TEXT,__cstring",
+          "label": "License Download Incomplete",
+          "encoding": "utf-8",
+          "byte_count": 27,
+          "before_sha256": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+          "after_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 719702,
+          "section": "__TEXT,__cstring",
+          "label": "Activation Failed",
+          "encoding": "utf-8",
+          "byte_count": 17,
+          "before_sha256": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+          "after_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 718329,
+          "section": "__TEXT,__cstring",
+          "label": "Lifetime license. All features are permanently available.",
+          "encoding": "utf-8",
+          "byte_count": 57,
+          "before_sha256": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+          "after_sha256": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 728049,
+          "section": "__TEXT,__cstring",
+          "label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+          "encoding": "utf-8",
+          "byte_count": 85,
+          "before_sha256": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+          "after_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 727923,
+          "section": "__TEXT,__cstring",
+          "label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+          "encoding": "utf-8",
+          "byte_count": 125,
+          "before_sha256": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+          "after_sha256": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 727818,
+          "section": "__TEXT,__cstring",
+          "label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+          "encoding": "utf-8",
+          "byte_count": 104,
+          "before_sha256": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+          "after_sha256": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 727728,
+          "section": "__TEXT,__cstring",
+          "label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+          "encoding": "utf-8",
+          "byte_count": 89,
+          "before_sha256": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+          "after_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        }
+      ],
+      "before_sha256": "7652484421d90aeeac2124d2bd929b7c38cff709eb2652d469a157eaa9adf8f4",
+      "mask_count": 13,
+      "code_signing": "no_embedded_entitlements_found",
+      "after_sha256": "436331004f3ad1e60c4429e3d1d8877dbaf55c707acf9d640aaf5693278cb3c5"
+    },
+    "DuoFaceDashboard": {
+      "method_flags": [],
+      "masked_ui_literals": [
+        {
+          "file_offset": 3142013,
+          "section": "__TEXT,__cstring",
+          "label": "License Expired",
+          "encoding": "utf-8",
+          "byte_count": 15,
+          "before_sha256": "7314f40b4560b3e2c9e4afa2e34dc4912b5eae224ea8de87b7878bf65af16c0b",
+          "after_sha256": "bb8b46d8b46a7639dbb02cffd8c1e5ab062577bc8273804f8676bee0d52f0afd",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3141991,
+          "section": "__TEXT,__cstring",
+          "label": "License Not Activated",
+          "encoding": "utf-8",
+          "byte_count": 21,
+          "before_sha256": "ed6f174a0e13c5c939839be35099ad379675a52880cf9fe376d8d2b07f9dbea3",
+          "after_sha256": "e3e7a7180f67f37248875bcec5572819606853c0d58901c6d6d4aad6b2c8f671",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3130874,
+          "section": "__TEXT,__cstring",
+          "label": "License Status",
+          "encoding": "utf-8",
+          "byte_count": 14,
+          "before_sha256": "acf7f4125713e736d365c96b01ef8866fc2cc5e619b3543bdf09f7c3ea166b34",
+          "after_sha256": "38efaf2b168584163af87bf614fc13260d0c81fb5431d01086ad4e9ae3b5ab8a",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3130568,
+          "section": "__TEXT,__cstring",
+          "label": "DuoFace Pro License",
+          "encoding": "utf-8",
+          "byte_count": 19,
+          "before_sha256": "a8c5be21805fb3d3da57c6ad1d02574e770ae9f81b2b317dc1751b891d3c82d8",
+          "after_sha256": "b5cf2c9abac9278d89afa2b98124242f4c9ffae92d42400ccc621fc312818580",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3130411,
+          "section": "__TEXT,__cstring",
+          "label": "SUBSCRIPTION & LICENSE",
+          "encoding": "utf-8",
+          "byte_count": 22,
+          "before_sha256": "54e7f36a129ec677e55a56e479a25f8fa7fac2ce5b9728af4434c7e85ec96e4f",
+          "after_sha256": "b366daa7039bf7ca3d119d056909a7f2a6bb952085c68e99d253075e1fafe4cc",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3142938,
+          "section": "__TEXT,__cstring",
+          "label": "ENTER ACTIVATION CODE (GIFTCODE)",
+          "encoding": "utf-8",
+          "byte_count": 32,
+          "before_sha256": "9438d906b17d47087b7bd1f7133212655217ec0927048a9722933709f958f63e",
+          "after_sha256": "85e7eac2862f1cbd85bc18769c75172c3fdcd899ab468b9e973d59ec620d9991",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3133228,
+          "section": "__TEXT,__cstring",
+          "label": "License Download Incomplete",
+          "encoding": "utf-8",
+          "byte_count": 27,
+          "before_sha256": "bd8189352ff98ab0888fcdd79d1675da2b702709daa4d9dc964e88f0498b4c58",
+          "after_sha256": "c855f6f20bdee5fc61d961c003930aee1237c20a2dacab58852e4fbde39976dd",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3132908,
+          "section": "__TEXT,__cstring",
+          "label": "Activation Failed",
+          "encoding": "utf-8",
+          "byte_count": 17,
+          "before_sha256": "9e3a102b53dacf8e3fb97419a1ffb2bf67a011e83c02dbee1329bec2db48dfca",
+          "after_sha256": "279e3d23f9a5f4897568ca0c78084fafd747252578fdb5748635299f491d8ff7",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3130950,
+          "section": "__TEXT,__cstring",
+          "label": "Lifetime license. All features are permanently available.",
+          "encoding": "utf-8",
+          "byte_count": 57,
+          "before_sha256": "3e0509f5f85e72f7083b9b71ea1cb1b39222fb4d939096973640ccbc00ad294d",
+          "after_sha256": "615533f7ee17d3208d63783b36a767057514ed2243341d3d62c8a2140e73a637",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3142350,
+          "section": "__TEXT,__cstring",
+          "label": "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+          "encoding": "utf-8",
+          "byte_count": 85,
+          "before_sha256": "f5968d7766fe9032b1be016697f3c2b8b3e606e018daddb7b8d2f0548e091b31",
+          "after_sha256": "60aa29b8527028e7f993b8a632f416b4a034d61dc410bcb5bc635598a7a6f7d9",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3142224,
+          "section": "__TEXT,__cstring",
+          "label": "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+          "encoding": "utf-8",
+          "byte_count": 125,
+          "before_sha256": "750039aecb1a5b2f75fdd38792b5f8827e1cd7ad39e77cb0e49079a6bf5bbe1a",
+          "after_sha256": "239973016cf97b33ba1549fe1510c63ca8e8deffaa6f58fc0b6cd3f56ed0e9a8",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3142119,
+          "section": "__TEXT,__cstring",
+          "label": "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+          "encoding": "utf-8",
+          "byte_count": 104,
+          "before_sha256": "f2ed86c6ad7a29f30fe435eaca7aece6f9dae0a198186b59e5de1a0b93220f6c",
+          "after_sha256": "fe213f6da8dee71419b1d43624516965cd27228a78fcd64e6b5013f3e6288a64",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        },
+        {
+          "file_offset": 3142029,
+          "section": "__TEXT,__cstring",
+          "label": "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+          "encoding": "utf-8",
+          "byte_count": 89,
+          "before_sha256": "009d945d316e7310234f023d282cfbba2d4a575b0409795c7545e62ffb43eccd",
+          "after_sha256": "588f3a034a27a5ad3020317c9b9d917f669eee2d59bac43bdc6f5d6a751dcd0d",
+          "state": "temporarily_hidden_native5",
+          "next_after_device_pass": "Candidate for physical deletion only after verifying no referenced localization/data keys"
+        }
+      ],
+      "before_sha256": "c5cb384c304f81859ebf7027a1bc2e33731effbaf517bf721aed5309c7901408",
+      "mask_count": 13,
+      "code_signing": "no_embedded_entitlements_found",
+      "after_sha256": "a63355877b02934cc60f702eb1b88ce3acbda3126bfd89a759e80dda5dbd9066"
+    }
+  },
+  "zero_old_brand_matches": true,
+  "remaining_license_class_and_selector_metadata": true,
+  "full_license_removal": false,
+  "same_native_carplay_source_and_resources": true,
+  "native4_rollback_file_preserved": true,
+  "device_tested": false,
+  "sileo_published": false,
+  "deb_sha256": "9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26",
+  "deb_size": 1730336
+}
