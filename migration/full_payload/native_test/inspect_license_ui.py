@@ -31,7 +31,7 @@ def scan(file: pathlib.Path):
         t=line.strip()
         if MATCH.search(t) and len(t)<200 and "://" not in t:
             if t not in metadata: metadata.append(t)
-    classes=list(dict.fromkeys(re.findall(r"_OBJC_CLASS_\\$_([A-Za-z_][A-Za-z_0-9]+)",met)))
+    classes=list(dict.fromkeys(re.findall(r"_OBJC_CLASS_\$_([A-Za-z_][A-Za-z_0-9]+)",met)))
     # Only target the app's settings and subscription UI. Native CarPlay menus
     # remain out of scope, with unmodified UIViewController classes.
     settings_classes=[n for n in classes if re.search(
@@ -45,7 +45,7 @@ def scan(file: pathlib.Path):
         records=[]
         for line in lines[anchor:anchor+120]:
             t=line.strip()
-            if re.match(r"^name\\s+0x[0-9a-fA-F]+\\s+",t):
+            if re.match(r"^name\s+0x[0-9a-fA-F]+\s+",t):
                 if len(t)<210 and "://" not in t:records.append(t)
         details[cls]=records[:80]
     return {
