@@ -24,14 +24,18 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
           brew install ldid
-      - name: Compile latest 40pt picker and fullscreen functions
+      - name: Compile latest 30pt transparent picker and fullscreen functions
         run: |
           set -euo pipefail
           grep -q 'menuHeight=30.0' runtime/fullscreen/DFPickerZoomMenu.xm
-          # On actual red2 device photo width/4 made an oversized header; cap it at approved compact 40pt row.
+          # Keep 120pt approved header and reserve the native close X hit region.
           grep -q 'logoWidth=120.0' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'xReserved=38.0' runtime/fullscreen/DFPickerZoomMenu.xm
-          grep -q 'available=sheetWidth-2.0\*sideInset-logoWidth-xReserved-gap' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'xReserved=48.0' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'available=sheetWidth-2.0\*sideInset-logoWidth-xReserved' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFClearNativePickerChrome' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'blur.effect=nil' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'NSString \*zoomTitle=@"Zoom"' runtime/fullscreen/DFPickerZoomMenu.xm
+          grep -q 'DFDecorate(close,@"Close"' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFApprovedLogoRed' runtime/fullscreen/DFPickerZoomMenu.xm
           grep -q 'DFInstallPickerZoomMenuHooks' runtime/fullscreen/DFFullscreenCoordinator.mm
           cp Makefile.fullscreen Makefile
