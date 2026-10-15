@@ -15,14 +15,27 @@ from pathlib import Path
 SOURCE = Path("dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb")
 DEB_SHA = "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a"
 DASH_SHA = "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce"
-VI_LABELS = ("Ứng dụng", "Bố cục", "Đang mở")
-TERMS = VI_LABELS + (
+VI_LABELS = (
+    "Ứng dụng", "Bố cục", "Đang mở",
+    "Cột Trái", "Cột trái", "Cột Phải", "Cột phải",
+    "Mở lại", "Thêm App", "Thêm ứng dụng", "Đóng tất cả",
+    "Đang hoạt động", "Cột Trái", "Cột Phải",
+)
+FOCUS_KEYS = (
+    "OVERLAY_RESTART_SINGLE", "OVERLAY_CLOSE_SINGLE", "OVERLAY_CLOSE_ALL",
+    "OVERLAY_RUNNING_TAG", "OVERLAY_ADD_MORE", "OVERLAY_ACTIVE_COUNT",
+    "OVERLAY_LEFT", "OVERLAY_RIGHT", "LEFT_SLOT", "RIGHT_SLOT",
+)
+
+TERMS = VI_LABELS + FOCUS_KEYS + (
     "Applications", "Apps", "App Picker", "Recent", "Layout", "Open",
     "appSegment", "layoutSegment", "recentSegment", "MultitaskingOverlay",
 )
 REGEX = re.compile(
     r"ứng\s*dụng|bố\s*cục|đang\s*mở|\bapps?\b|application|recent|"
-    r"layout|app.?picker|multitasking|segment", re.I
+    r"layout|app.?picker|multitasking|segment|cột\\s*(?:trái|phải)|"
+    r"mở\\s*lại|thêm\\s*(?:app|ứng\\s*dụng)|đóng\\s*tất\\s*cả|"
+    r"OVERLAY_(?:RESTART|CLOSE|ADD|RUNNING|ACTIVE|LEFT|RIGHT)|(?:LEFT|RIGHT)_SLOT", re.I
 )
 
 def u32(buf, off):
@@ -104,7 +117,7 @@ def macho_strings(binary):
             continue
         if matching(string):
             counts["cfstring"] += 1
-            if counts["cfstring"] <= 180 or string in VI_LABELS or string.startswith(('TAB_', 'OVERLAY_')):
+            if counts["cfstring"] <= 180 or any(k.lower() in string.lower() for k in VI_LABELS + FOCUS_KEYS) or string.startswith(('TAB_', 'OVERLAY_')):
                 print(f"  CFSTRING addr=0x{at:x} target=0x{target:x} flags=0x{flags:x} value={string!r}")
 
     print("=== MATCHING ASCII/UTF8 STRING TABLE VALUES ===")
@@ -118,7 +131,7 @@ def macho_strings(binary):
                 value = part.decode("utf-8", "replace")
                 if matching(value):
                     counts["cstring"] += 1
-                    if counts["cstring"] <= 180:
+                    if counts["cstring"] <= 180 or any(k.lower() in value.lower() for k in VI_LABELS + FOCUS_KEYS):
                         print(f"  {sec} addr=0x{i:x} value={value!r}")
             i += len(part)+1
 
@@ -129,7 +142,7 @@ def macho_strings(binary):
         for idx, term in enumerate(utf16.split("\x00")):
             if matching(term):
                 counts["ustring"] += 1
-                if counts["ustring"] <= 120 or term in VI_LABELS:
+                if counts["ustring"] <= 120 or any(k.lower() in term.lower() for k in VI_LABELS + FOCUS_KEYS):
                     print(f"  __ustring match_index={idx} value={term[:200]!r}")
     print(f"COUNTS {counts}")
 
