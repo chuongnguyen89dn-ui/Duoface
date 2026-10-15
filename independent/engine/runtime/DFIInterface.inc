@@ -63,14 +63,20 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSArray<NSDictionary *> *rows;
 @property(nonatomic,copy) void(^pick)(NSDictionary *);
 @property(nonatomic,copy) void(^touch)(void);
+@property(nonatomic,copy) void(^act)(NSDictionary *row);
 @end
 @implementation DFIList
-- (void)viewDidLoad{[super viewDidLoad];self.tableView.backgroundColor=UIColor.clearColor;self.tableView.rowHeight=40;self.tableView.separatorColor=[UIColor.whiteColor colorWithAlphaComponent:.14];}
+- (void)viewDidLoad{[super viewDidLoad];self.tableView.backgroundColor=UIColor.clearColor;self.tableView.rowHeight=40;self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;}
 - (NSInteger)tableView:(UITableView *)v numberOfRowsInSection:(NSInteger)s{return self.rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)v cellForRowAtIndexPath:(NSIndexPath *)p{
  UITableViewCell *c=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];c.backgroundColor=UIColor.clearColor;c.textLabel.text=self.rows[p.row][@"title"];c.textLabel.font=[UIFont systemFontOfSize:DFIFontSize()];c.textLabel.textColor=UIColor.whiteColor;c.textLabel.adjustsFontSizeToFitWidth=YES;return c;
 }
 - (void)tableView:(UITableView *)v didSelectRowAtIndexPath:(NSIndexPath *)p{[v deselectRowAtIndexPath:p animated:YES];if(self.touch)self.touch();if(self.pick)self.pick(self.rows[p.row]);}
+- (void)recentAction:(UIButton *)sender{
+ if(sender.tag<0||sender.tag>=self.rows.count)return;
+ if(self.touch)self.touch();
+ if(self.act)self.act(self.rows[sender.tag]);
+}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)v{if(self.touch)self.touch();}
 @end
 @interface DFILayoutIcon : UIButton
