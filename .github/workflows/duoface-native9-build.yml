@@ -1,0 +1,138 @@
+name: DuoFace native9 - restore original visuals, keep logo drag, build verified DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native9.py'
+      - 'migration/full_payload/native_test/verify_native9.py'
+      - '.github/workflows/duoface-native9-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native9-build-preserve-visual
+  cancel-in-progress: false
+jobs:
+  build-native9:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin original native6 DEB, feature and audit source
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          source='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          printf '%s  %s\n' '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' "$source" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native9.py migration/full_payload/native_test/verify_native9.py scripts/check_duoface_native9_isolation.py
+          python3 scripts/check_duoface_native9_isolation.py --out audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json'))
+          assert a['status']=='SOURCE_ONLY_NATIVE9_LOGO_ISOLATION_ROUTE_PASS'
+          assert a['case_count']==16 and all(a['cases'].values())
+          PY
+      - name: Compile surgical logo-only dylib with Apple iPhoneOS SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          mkdir -p "$RUNNER_TEMP/native9"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -fsyntax-only src/DuoFaceLogoGripOnly.m
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -isysroot "$SDK" \
+            -fno-objc-arc -fblocks -Wall -Wextra -Werror -dynamiclib \
+            -framework UIKit -framework Foundation -framework QuartzCore \
+            -Wl,-install_name,@rpath/DuoFaceLogoGripOnly.dylib \
+            -o "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" src/DuoFaceLogoGripOnly.m
+          xcrun lipo "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" -verify_arch arm64
+          otool -L "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" > /dev/null
+          test -s "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib"
+          strings "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" | grep -Fq 'native divider pan'
+          ! nm -a "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" | grep -Fq '_DFLogoDividerPan'
+      - name: Build native9 independent DEB without changing original visual dylib
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native9 audit/payload-migration
+          deb='dist/payload-migration/native9/com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb'
+          test ! -e "$deb"
+          python3 migration/full_payload/native_test/build_native9.py \
+            --hook "$RUNNER_TEMP/native9/DuoFaceLogoGripOnly.dylib" \
+            --out "$deb" --report dist/payload-migration/native9/BAO_CAO.json
+      - name: Byte-for-byte visual and CarPlay regression audit plus exact branding
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native9/com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/verify_native9.py \
+            --deb "$deb" --report dist/payload-migration/native9/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE9_RESTORE_VISUAL_AND_GRIP_REGRESSION.json
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out dist/payload-migration/native9/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib, json, pathlib
+          r=pathlib.Path('dist/payload-migration/native9')
+          deb=r/'com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb'
+          a=json.loads((r/'BAO_CAO.json').read_text())
+          b=json.loads(pathlib.Path('audit/payload-migration/NATIVE9_RESTORE_VISUAL_AND_GRIP_REGRESSION.json').read_text())
+          c=json.loads((r/'BRAND_ZERO_AUDIT.json').read_text())
+          assert a['license_labels_selected']==39 and a['license_copy_occurrences_hidden']==78
+          assert b['status']=='NATIVE9_BYTE_EXACT_ORIGINAL_VISUAL_AND_NATIVE_RATIO_GUARD_PASS'
+          assert b['native6_original_visual_dylib_byte_identical']
+          assert b['native_divider_pan_unhooked_by_new_module']
+          assert b['legacy_ui_and_youtube_fullscreen_binary_untouched']
+          assert b['md5sums_verified_all_payload']
+          assert b['grip_filter_exact_copy_of_original']
+          assert c['strict_byte_level_zero_matches'] and not c['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==a['deb_sha256']==b['native9_sha256']
+          print('NATIVE9_ORIGINAL_VISUAL_UNCHANGED_SPLIT_GESTURE_AND_LOGO_GRIP_REGRESSION_PASS')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native9'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native9' gt '0.1.0~native8'
+          mkdir -p "$RUNNER_TEMP/native9-extracted"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native9-extracted"
+          for name in DuoFaceDashboard DuoFaceFullscreenBridge DuoFaceVisualHook DuoFaceLogoGripOnly; do
+            case "$name" in
+              DuoFaceDashboard|DuoFaceFullscreenBridge) rel="var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib";;
+              *) rel="var/jb/Library/MobileSubstrate/DynamicLibraries/$name.dylib";;
+            esac
+            test "$(lipo -archs "$RUNNER_TEMP/native9-extracted/$rel")" = 'arm64'
+            otool -L "$RUNNER_TEMP/native9-extracted/$rel" > /dev/null
+          done
+          test -s "$RUNNER_TEMP/native9-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist"
+          test -s "$RUNNER_TEMP/native9-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist"
+          shasum -a 256 "$deb"
+      - name: Persist real DEB and test evidence to DuoFace feature
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native9/*.deb dist/payload-migration/native9/*.json \
+            audit/payload-migration/NATIVE9_RESTORE_VISUAL_AND_GRIP_REGRESSION.json
+          if git diff --cached --quiet; then echo 'NATIVE9_ARTIFACT_ALREADY_PRESENT'; exit 0; fi
+          git commit -m 'artifact: native9 byte-identical original fullscreen UI plus separate 0.30s grip [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native9-restore-original-ui
+          path: |
+            dist/payload-migration/native9/*.deb
+            dist/payload-migration/native9/*.json
+            audit/payload-migration/NATIVE9_RESTORE_VISUAL_AND_GRIP_REGRESSION.json
+          if-no-files-found: warn
