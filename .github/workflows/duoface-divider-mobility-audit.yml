@@ -1,0 +1,71 @@
+name: DuoFace read-only divider button mobility audit - NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'scripts/audit_duoface_divider_mobility.py'
+      - '.github/workflows/duoface-divider-mobility-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-divider-mobility-audit
+  cancel-in-progress: false
+jobs:
+  inspect-existing-binary:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read-only dependencies and source hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          python3 -m venv "$RUNNER_TEMP/df-analysis"
+          "$RUNNER_TEMP/df-analysis/bin/python" -m pip install --disable-pip-version-check macholib capstone
+          deb='dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb'
+          printf '%s  %s\n' '88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15' "$deb" | shasum -a 256 -c -
+          python3 -m py_compile scripts/audit_duoface_divider_mobility.py
+      - name: Disassemble and map current DuoFace split divider without modifications
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-mobility"
+          dpkg-deb -x 'dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb' "$RUNNER_TEMP/duoface-mobility"
+          binary="$RUNNER_TEMP/duoface-mobility/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          test -s "$binary"
+          mkdir -p audit/divider
+          "$RUNNER_TEMP/df-analysis/bin/python" scripts/audit_duoface_divider_mobility.py "$binary" \
+            --report audit/divider/GRIP_MOBILITY_NATIVE6.json \
+            --disassembly audit/divider/GRIP_MOBILITY_NATIVE6_ARM64.txt
+          test -s audit/divider/GRIP_MOBILITY_NATIVE6.json
+          test -s audit/divider/GRIP_MOBILITY_NATIVE6_ARM64.txt
+          grep -Fq 'handleMoveButtonLongPress' audit/divider/GRIP_MOBILITY_NATIVE6_ARM64.txt
+          grep -Fq 'updateGripLayout' audit/divider/GRIP_MOBILITY_NATIVE6_ARM64.txt
+          echo "DIVIDER_MOBILITY_READ_ONLY_PASS_NO_PACKAGE"
+      - name: Save trace in DuoFace feature branch only
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/divider/GRIP_MOBILITY_NATIVE6.json audit/divider/GRIP_MOBILITY_NATIVE6_ARM64.txt
+          git commit -m 'audit: persist native6 divider button and longpress ARM64 trace [skip ci]'
+          for retry in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Upload read-only analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-divider-mobility-audit
+          path: audit/divider/GRIP_MOBILITY_NATIVE6*
+          if-no-files-found: warn
