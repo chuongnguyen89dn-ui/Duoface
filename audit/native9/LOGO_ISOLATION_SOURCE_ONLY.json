@@ -1,0 +1,45 @@
+{
+  "status": "SOURCE_ONLY_NATIVE9_LOGO_ISOLATION_ROUTE_PASS",
+  "case_count": 16,
+  "cases": {
+    "standalone_imports_original_logic": true,
+    "native_pan_preserve_flag_active": true,
+    "pan_hook_function_conditionally_excluded": true,
+    "pan_hook_call_conditionally_excluded": true,
+    "pan_selector_requirement_conditionally_excluded": true,
+    "preserve_native_visual_compiled_library": true,
+    "do_not_mutate_native_pill_or_fullscreen": true,
+    "do_not_mutate_visual_layers": true,
+    "install_only_native_logo_callbacks": true,
+    "complete_native_layout_chained_first": true,
+    "move_logo_position_and_native_touch_frame": true,
+    "native_quick_tap_preserved": true,
+    "held_button_cannot_native_swap": true,
+    "hold_threshold_300ms": true,
+    "native_visual_source_left_intact": true,
+    "native6_binary_rollback_pinned": true
+  },
+  "scope": "A separate lightweight button-only dylib, not replacement of original visual hook",
+  "already_device_verified": "Native8 logo reposition succeeds per user; fullscreen/ratio/content regressions also reported",
+  "planned_change": "Restore original native6 visual dylib byte-for-byte, append standalone logo grip dylib with original injection filter",
+  "native_divider_pan_original_handler": "UNHOOKED_BY_STANDALONE_SOURCE",
+  "natively_rendered_buttons": "UNMODIFIED_BY_STANDALONE_SOURCE",
+  "requires_runtime_validation": [
+    "divider resize outside logo",
+    "logo drag without split change",
+    "YouTube original circular fullscreen",
+    "panels unobstructed",
+    "tap-to-swap",
+    "reconnect",
+    "orientation",
+    "license strings remain masked"
+  ],
+  "files_sha256": {
+    "src/DuoFaceLogoGripOnly.m": "83f4829082b90a1f88d1e2467c9f3b58ba084d465d49ef45f70be223208512f0",
+    "src/DFDividerLogoGrip.inc": "ed1dbf73b44ffa3b390ac641151dbd86a44797533b21af61d9f828757852cb9e",
+    "src/DuoFaceVisualHook.m": "1b120aba8c5e269ff45be9c19018aadc06adce260b6f42fa75a3da909a877e68"
+  },
+  "generated_new_deb": false,
+  "sileo_modified": false,
+  "device_tested_for_repair": false
+}
