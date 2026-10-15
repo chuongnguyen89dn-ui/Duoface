@@ -3,12 +3,14 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
-## TRẠNG THÁI HIỆN TẠI — 15/10/2026, bắt đầu phát triển độc lập
+## TRẠNG THÁI HIỆN TẠI — 15/10/2026, đã viết mã thử nghiệm độc lập
 
-- **Đang thực hiện, đã xác minh trên GitHub:** đã tạo nhánh `feature/duoface-independent-core` từ `main` commit `5313d965d56b9325a7d93f74b84a6f7214893df8`; nhánh mới đạt commit `366084e81527c291ce9dd20fb1fe4980d4d60d61`.
-- **Đã hoàn thành mốc khởi động:** bảng kiểm kê kỹ thuật `docs/khoi-dong-duoface-doc-lap.md` trên nhánh mới, Git blob `c84dad1f185a7f7ebad14933c658fcf893381c39`; đối chiếu mã nguồn thực tế và điểm còn phụ thuộc `CBWindow`, `CBBridgeManager`, `CBBridgedSplitApp`, `CBMultitaskingOverlayView`.
-- **Chưa hoàn thành:** chưa viết lõi hai cửa sổ độc lập; chưa tạo gói `com.duoface.app`; chưa biên dịch, đóng DEB hay thử chạy trên thiết bị.
-- **Bước tới:** xây dựng phép kiểm tra hiện diện lớp chủ CarPlay/scene và nguyên mẫu hai vùng chứa trên nhánh riêng; chưa thay đổi bản đang cài. Chỉ đề nghị đóng DEB khi người dùng yêu cầu rõ.
+- **Nhánh độc lập:** `feature/duoface-independent-core`, nguồn `main` từ `5313d965d56b9325a7d93f74b84a6f7214893df8`. Mã nguồn đã đẩy lên GitHub tại commit **`59a7335b0510c8a20d7e1349110c91b343cb6fc5`**; hoàn toàn tách khỏi bản DEB hiện tại.
+- **Mã đã viết:** `independent/DFIProbe.mm` (phát hiện lớp/tiến trình CarPlay, chỉ chạy nếu có tệp kích hoạt `/var/mobile/Library/Preferences/com.duoface.independent.probe.enabled`), `independent/DFISplitLayout.{h,mm}` (bố cục hai view chứa scene thực đã được bên ngoài cung cấp, an toàn khi tháo/đổi tỷ lệ), `Makefile.independent`, `DuoFaceIndependentProbe.plist`, `independent/tests/validate_probe.py`.
+- **Đã bắt đầu kiểm thử biên dịch thực tế:** workflow `.github/workflows/duoface-independent-compile.yml`, chạy trên macOS/Theos nhánh độc lập; run **`38686641800`** xuất hiện trên GitHub, lần đầu kiểm tra **`queued`** tại commit `59a7335b`. Chưa được phép gọi PASS hay build DEB.
+- **Giới hạn:** Đây mới là mã thử nghiệm và công cụ đo; **chưa khởi chạy được hai ứng dụng CarPlay thật, chưa có DEB độc lập, chưa cài thử hoặc phát hành Sileo**. `DFISplitLayout` chỉ bố trí hai host nếu những host thật được cung cấp; chưa có phần tạo scene CarPlay tương ứng.
+- **Bước tiếp ngay:** kiểm tra run `38686641800` đến trạng thái cuối và log. Nếu lỗi thì sửa tại nhánh riêng, biên dịch lại. Khi mã probe compile PASS, xác định trên iOS đích các class/scene owner trước khi tạo bộ quản lý host hai app.
+
 
 ## 1. Nhận diện dự án và quyết định mới nhất
 
@@ -106,6 +108,18 @@
 - **Kết luận kiểm tra nguồn:** `DFHostGeometry.xm` vẫn gọi `CB*` để quản lý window/host; `DFPickerZoomMenu.xm` móc `CBMultitaskingOverlayView`; `DuoFaceVisualHook.m`/`DuoFaceBorderRunner.m` cần class của bản kế thừa. Kênh fullscreen và chrome do DuoFace viết có thể giữ logic sau khi đổi phần nhận lệnh, nhưng chưa chứng minh chạy độc lập. **Điểm nghẽn đầu tiên là host hai app scenes**, không phải menu, màu nền hay cơ chế cấp phép.
 - **Bước tiếp theo có thể thực hiện ngay:** viết probe/nguồn thử trên nhánh này để xác nhận tiến trình sở hữu CarPlay, class/window/scene API sẵn có, khởi tạo hai host độc lập có khôi phục an toàn; kiểm tra compile tĩnh trước, chỉ đóng/cài DEB theo yêu cầu riêng. Tiêu chí đầu tiên: chạy hai app trên màn CarPlay mà không cài/lấy dữ liệu DuoNavi; log chứng minh hai scene, chạm riêng, thay tỷ lệ và thoát an toàn.
 - **Không thay đổi:** `main` runtime, `tiep tuc du an.md` cũ, tất cả DEB, Sileo, giấy phép và dữ liệu ngày của phiên bản kế thừa.
+
+
+### 2026-10-15 — Đã viết nguyên mẫu đo host và bộ bố cục hai vùng độc lập
+
+- Người dùng ra lệnh **“được rồi làm đi”**, thực hiện bước đầu của DuoFace độc lập trên nhánh riêng. Không cấp phép tự đóng/publish DEB, không đụng bản cũ.
+- Repo/nhánh: `chuongnguyen89dn-ui/Duoface`, `feature/duoface-independent-core` (khởi tạo tại `5313d965d56b9325a7d93f74b84a6f7214893df8`). Mã nguồn hiện tại tại `59a7335b0510c8a20d7e1349110c91b343cb6fc5`.
+- Các lệnh thực tế thực hiện qua GitHub connector: tạo liên tiếp `independent/DFISplitLayout.h` (commit `e60c0c98d3cb379e1e1a61599a96fddf05bf0639`), `DFISplitLayout.mm` (`a6ab602a5aea746a107dc4399690e89ee6d569b9`), `DFIProbe.mm` (`4dbdd0ae9aee94d6455b55a812580d25124d7f01`), `Makefile.independent` (`e8aedeea3b562d64c4c7029e1dc006ef10bd60ac`), `DuoFaceIndependentProbe.plist` (`f3f3e868d536fb9cba13527422f958c8185d1732`), `independent/tests/validate_probe.py` (`4e2a4e61d53307c981554f75dbfb3e2a50116db4`), `.github/workflows/duoface-independent-compile.yml` (`59a7335b0510c8a20d7e1349110c91b343cb6fc5`). Repo root là thư mục hiện hành trong workflow; chưa dùng git push từ máy do container không DNS GitHub.
+- Thiết kế probe: tệp cờ mặc định **không có**, do đó không can thiệp runtime nếu được cài trong tương lai; khi được bật, đăng ký event `com.duoface.independent.probe.snapshot`, dò hiện diện method, quan sát `DBWorkspace.initWithOwner:` và đăng xuất thông số màn CarPlay bằng log tiền tố `[DuoFaceIndependent]`. Chưa tự mở app, chưa dựng overlay, không đụng code giấy phép.
+- Bộ bố cục: chỉ tiếp nhận **hai UIView host không trùng nhau đã tồn tại và chưa có cha**, bố cục tỷ lệ trái/phải 0.2–0.8 trên luồng UI, có hàm `detach`. Tuyệt đối **không đánh đồng đây với 2 host scene thật đã hoạt động**.
+- CI biên dịch: workflow `duoface-independent-compile.yml` chỉ chạy khi push thay đổi mã của nhánh độc lập, `contents:read`, macOS Theos `make clean all` và upload **log/chỉ số**, cấm tạo `.deb`. Đã xác nhận GitHub run **38686641800** trạng thái ban đầu **queued**, link `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686641800`. **CHƯA có kết quả biên dịch** tại checkpoint này.
+- Không thay đổi: `main` mã app gốc, tệp `tiep tuc du an.md` lịch sử, bản DEB `menu-native1`, Sileo/thiết bị.
+- Điểm tiếp: xem run `38686641800` và log lỗi chính xác, sửa trên nhánh riêng nếu cần; ghi lại SHA/run/artifact; chưa có kiểm thử chức năng khi chưa cài lên iPhone.
 
 
 ---
