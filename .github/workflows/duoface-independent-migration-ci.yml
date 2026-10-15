@@ -1,0 +1,99 @@
+name: Kiem chung ban di tru DuoFace alpha2 (khong tu phat hanh)
+
+on:
+  push:
+    branches: [feature/duoface-independent-core]
+    paths: ['.github/workflows/duoface-independent-migration-ci.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-independent-migration-alpha2
+  cancel-in-progress: false
+
+jobs:
+  compile-and-inspect:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cai cong cu kiem tra va dong goi
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          xcrun --sdk iphoneos --show-sdk-path
+      - name: Tao bieu tuong DuoFace tu file GOC duoc duyet
+        shell: bash
+        run: |
+          set -euo pipefail
+          png='dist/visual-1.0.3-12/assets/duoface-icon.png'
+          test "$(git hash-object "$png")" = '80d59baa4ae0704e997a6ef0d36bb3c2aa847c65'
+          sips -s format png -z 120 120 "$png" --out independent/engine/app/AppIcon60x60@2x.png
+          sips -s format png -z 180 180 "$png" --out independent/engine/app/AppIcon60x60@3x.png
+      - name: Dong goi voi day du hinh anh goc va nghiem thu metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash independent/engine/build.sh | tee "$RUNNER_TEMP/duoface-build-log.txt"
+          p='independent/engine/packages/com.duoface.independent_0.1.0~alpha2_iphoneos-arm64.deb'
+          test -s "$p"
+          test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$p" Version)" = '0.1.0~alpha2'
+          test "$(dpkg-deb -f "$p" Architecture)" = 'iphoneos-arm64'
+          python3 independent/engine/verify_package.py "$p" | tee "$RUNNER_TEMP/duoface-verification.txt"
+          dpkg-deb -f "$p" | tee "$RUNNER_TEMP/duoface-control.txt"
+          dpkg-deb -c "$p" | tee "$RUNNER_TEMP/duoface-contents.txt"
+          ! grep -Eiq 'duonavi|Airaw|DuoFaceDashboard|com.chuong.carplaysplit' "$RUNNER_TEMP/duoface-contents.txt"
+          shasum -a 256 "$p" | tee "$RUNNER_TEMP/duoface-sha256.txt"
+          echo 'ALPHA2_COMPILED_ASSETS_VERIFIED_NOT_DEVICE_TESTED_NOT_100_PERCENT' | tee "$RUNNER_TEMP/duoface-status.txt"
+      - name: Luu gói duyet thu va bao cao vao dung nhanh DuoFace
+        shell: bash
+        env:
+          REF: feature/duoface-independent-core
+        run: |
+          set -euo pipefail
+          out='dist/independent/alpha2'
+          mkdir -p "$out"
+          cp 'independent/engine/packages/com.duoface.independent_0.1.0~alpha2_iphoneos-arm64.deb' "$out/"
+          python3 - <<'PY'
+          import hashlib,json,pathlib,os
+          p=pathlib.Path('dist/independent/alpha2/com.duoface.independent_0.1.0~alpha2_iphoneos-arm64.deb')
+          report={
+              'goi':'com.duoface.independent','phien_ban':'0.1.0~alpha2',
+              'ket_qua':'MA_DA_BIEN_DICH_TAI_NGUYEN_DA_DOI_CHIEU_CHUA_NGHIEM_THU_100',
+              'ma_nguon':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],
+              'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+              'kich_thuoc':p.stat().st_size,
+              'da_chuyen_anh_goc':True,'device_tested':False,'sileo_published':False
+          }
+          (p.parent/'BAO_CAO.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(report,indent=2,ensure_ascii=False))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$out/"
+          git commit -m 'artifact: luu DEB alpha2 va SHA, chua nghiem thu 100 [skip ci]'
+          for attempt in 1 2 3 4; do
+              git fetch origin "$REF"
+              git rebase "origin/$REF"
+              git push origin "HEAD:$REF" && exit 0
+              sleep 2
+          done
+          exit 1
+      - name: Luu bao cao build thanh artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-migration-alpha2-${{ github.run_id }}
+          path: |
+            dist/independent/alpha2/BAO_CAO.json
+            independent/engine/packages/*.deb
+            ${{ runner.temp }}/duoface-build-log.txt
+            ${{ runner.temp }}/duoface-verification.txt
+            ${{ runner.temp }}/duoface-control.txt
+            ${{ runner.temp }}/duoface-contents.txt
+            ${{ runner.temp }}/duoface-sha256.txt
+            ${{ runner.temp }}/duoface-status.txt
+          if-no-files-found: warn
