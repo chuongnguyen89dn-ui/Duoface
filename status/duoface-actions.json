@@ -1,14 +1,68 @@
 {
-  "checked_at_utc": "2026-10-15T00:34:43.927332+00:00",
+  "checked_at_utc": "2026-10-15T05:56:53.983007+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 172,
+  "total_actions_runs": 258,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 4,
+      "success": 3,
       "failure": 0,
       "other": 1
+    },
+    "Xac minh goi DuoFace Moi tren nguon Sileo dang hoat dong": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "Kiem tra bien dich DuoFace doc lap (khong dong DEB)": {
+      "recent_runs": 26,
+      "success": 23,
+      "failure": 3,
+      "other": 0
+    },
+    "Owner-approved DuoFace ORIGINAL native menu backdrop DEB one-shot": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace NEXT UI and border compile-only gate": {
+      "recent_runs": 28,
+      "success": 14,
+      "failure": 14,
+      "other": 0
+    },
+    "DuoFace fullscreen adapter compile check": {
+      "recent_runs": 14,
+      "success": 13,
+      "failure": 1,
+      "other": 0
+    },
+    "Owner-approved DuoFace opaque menu-only DEB one-shot": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Build DuoFace menu inline Live candidate (manual-only)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace v12 picker UI static audit": {
+      "recent_runs": 17,
+      "success": 16,
+      "failure": 1,
+      "other": 0
     },
     "Build DuoFace compact picker menu candidate (manual-only)": {
       "recent_runs": 1,
@@ -22,373 +76,313 @@
       "failure": 2,
       "other": 0
     },
-    "DuoFace NEXT UI and border compile-only gate": {
-      "recent_runs": 16,
-      "success": 7,
-      "failure": 9,
-      "other": 0
-    },
-    "DuoFace fullscreen adapter compile check": {
-      "recent_runs": 22,
-      "success": 18,
-      "failure": 4,
-      "other": 0
-    },
     "DuoFace border binary read-only audit": {
-      "recent_runs": 4,
-      "success": 4,
-      "failure": 0,
-      "other": 0
-    },
-    "Verify owner-approved native idle border source once (no DEB)": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
-    },
-    "Compile current DuoFace visual hook": {
-      "recent_runs": 7,
-      "success": 7,
-      "failure": 0,
-      "other": 0
-    },
-    "Owner-approved DuoFace red2 test DEB one-shot": {
       "recent_runs": 1,
       "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Audit installed DuoFace candidate regression (read-only)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Build approved DuoFace border and focus candidate DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Audit approved DuoFace logo red": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace fullscreen test DEB": {
-      "recent_runs": 24,
-      "success": 19,
-      "failure": 5,
-      "other": 0
-    },
-    "DuoFace v12 picker UI static audit": {
-      "recent_runs": 13,
-      "success": 13,
       "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 38660813768,
+      "id": 38689549365,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 12,
+      "run_number": 13,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38660813768",
-      "created_at": "2026-10-15T00:34:34Z",
-      "head_sha": "f92cb54f3b884a7a8a1f2767b5078b24434b1367"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38689549365",
+      "created_at": "2026-10-15T05:56:43Z",
+      "head_sha": "1d5554d4b24faf322a916d8b334d09bfaa0944fe"
     },
     {
-      "id": 38659711965,
-      "name": "Build DuoFace compact picker menu candidate (manual-only)",
-      "run_number": 5,
+      "id": 38689115404,
+      "name": "Xac minh goi DuoFace Moi tren nguon Sileo dang hoat dong",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38659711965",
-      "created_at": "2026-10-15T00:23:04Z",
-      "head_sha": "c2dca6de80fde39b96c9bdc3d294689151f08dbe"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38689115404",
+      "created_at": "2026-10-15T05:52:03Z",
+      "head_sha": "6045179a1a37fcce81dc6926243819b8d5c02e37"
     },
     {
-      "id": 38658951165,
-      "name": "Build DuoFace red3 30pt inline logo and idle red border (manual-only)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38658951165",
-      "created_at": "2026-10-15T00:15:11Z",
-      "head_sha": "40298cf3e07d7852bfb2834472726d9a41d56e05"
-    },
-    {
-      "id": 38645244731,
-      "name": "Build DuoFace red3 30pt inline logo and idle red border (manual-only)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38645244731",
-      "created_at": "2026-10-14T22:06:11Z",
-      "head_sha": "40298cf3e07d7852bfb2834472726d9a41d56e05"
-    },
-    {
-      "id": 38642914917,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38642914917",
-      "created_at": "2026-10-14T21:47:15Z",
-      "head_sha": "0f91d9b0573316de206a7497d2894a45af738043"
-    },
-    {
-      "id": 38605665508,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38605665508",
-      "created_at": "2026-10-14T17:19:22Z",
-      "head_sha": "9427ab095154d42bb637a7c433ee5ccb83c0b829"
-    },
-    {
-      "id": 38593785889,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38593785889",
-      "created_at": "2026-10-14T15:56:42Z",
-      "head_sha": "2c62f3635165f2c1500954944f0e1e898bfe55c2"
-    },
-    {
-      "id": 38593749372,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38593749372",
-      "created_at": "2026-10-14T15:56:27Z",
-      "head_sha": "45acfd828f73bdcaa805a6fb42f6053e3286dc79"
-    },
-    {
-      "id": 38593749233,
-      "name": "DuoFace fullscreen adapter compile check",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38593749233",
-      "created_at": "2026-10-14T15:56:27Z",
-      "head_sha": "45acfd828f73bdcaa805a6fb42f6053e3286dc79"
-    },
-    {
-      "id": 38592884228,
-      "name": "DuoFace border binary read-only audit",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38592884228",
-      "created_at": "2026-10-14T15:50:35Z",
-      "head_sha": "adcd54f13fef5e03f626060a88e7ab4898ccc811"
-    },
-    {
-      "id": 38589077041,
-      "name": "Build DuoFace red3 30pt inline logo and idle red border (manual-only)",
+      "id": 38688216990,
+      "name": "Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38589077041",
-      "created_at": "2026-10-14T15:24:48Z",
-      "head_sha": "fe2e4b36a87665292efd8a5b77f955fd513b7d26"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38688216990",
+      "created_at": "2026-10-15T05:42:17Z",
+      "head_sha": "aa9cab5faa8dace1daa2f347a801db1de5938d9e"
     },
     {
-      "id": 38587963400,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 14,
+      "id": 38687917279,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 26,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38587963400",
-      "created_at": "2026-10-14T15:17:02Z",
-      "head_sha": "0ba90cdcaceb8e5fe5294733000974b5c9cb2731"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687917279",
+      "created_at": "2026-10-15T05:38:58Z",
+      "head_sha": "3844d9641acd6b6c14486a35e917a77492918967"
     },
     {
-      "id": 38587852657,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 13,
+      "id": 38687886637,
+      "name": "Xây dựng DuoFace Mới độc lập để cập nhật bằng Sileo (thử nghiệm)",
+      "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38587852657",
-      "created_at": "2026-10-14T15:16:17Z",
-      "head_sha": "79d912e61e228cbd85fd3e1385b9a8bf3410fe50"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687886637",
+      "created_at": "2026-10-15T05:38:38Z",
+      "head_sha": "c26c350ce05442e3d3a064101de3c4c5dea40a61"
     },
     {
-      "id": 38587852568,
-      "name": "DuoFace fullscreen adapter compile check",
+      "id": 38687771159,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687771159",
+      "created_at": "2026-10-15T05:37:19Z",
+      "head_sha": "ee60196e9503e94d8566190f0c0f2aec4914782b"
+    },
+    {
+      "id": 38687766230,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687766230",
+      "created_at": "2026-10-15T05:37:16Z",
+      "head_sha": "d6b433b66e5f657972b7680c81ba0cfc23ae75b7"
+    },
+    {
+      "id": 38687762545,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687762545",
+      "created_at": "2026-10-15T05:37:13Z",
+      "head_sha": "40dd28e82b001ac46ecc30264a58095d19fb9ec9"
+    },
+    {
+      "id": 38687758493,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687758493",
+      "created_at": "2026-10-15T05:37:11Z",
+      "head_sha": "ca2f9b1e0d15f8cf0512ac23d3ebb09c3da6335a"
+    },
+    {
+      "id": 38687754054,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
       "run_number": 21,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38587852568",
-      "created_at": "2026-10-14T15:16:17Z",
-      "head_sha": "79d912e61e228cbd85fd3e1385b9a8bf3410fe50"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687754054",
+      "created_at": "2026-10-15T05:37:08Z",
+      "head_sha": "d682c5cdca2906dc2bb6edb1c276e01662dba731"
     },
     {
-      "id": 38587350027,
-      "name": "Verify owner-approved native idle border source once (no DEB)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38587350027",
-      "created_at": "2026-10-14T15:12:51Z",
-      "head_sha": "8b18caacaa6b21b22756226314855ca4ae9b5857"
-    },
-    {
-      "id": 38587317867,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38587317867",
-      "created_at": "2026-10-14T15:12:38Z",
-      "head_sha": "f1569246b15a7e26dc77b9e5521d57d3e17618d1"
-    },
-    {
-      "id": 38586129823,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38586129823",
-      "created_at": "2026-10-14T15:04:34Z",
-      "head_sha": "a3b62ef80cb7db158c35d13f5b25936209b2ea9b"
-    },
-    {
-      "id": 38586129789,
-      "name": "Compile current DuoFace visual hook",
-      "run_number": 29,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38586129789",
-      "created_at": "2026-10-14T15:04:34Z",
-      "head_sha": "a3b62ef80cb7db158c35d13f5b25936209b2ea9b"
-    },
-    {
-      "id": 38585866985,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38585866985",
-      "created_at": "2026-10-14T15:02:47Z",
-      "head_sha": "47d2f7cdc102219f11cd2ee180ec447699d9c994"
-    },
-    {
-      "id": 38585804356,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38585804356",
-      "created_at": "2026-10-14T15:02:20Z",
-      "head_sha": "5a96731466a1a9312c6619f2b6d2f621458fa4f1"
-    },
-    {
-      "id": 38585804344,
-      "name": "Compile current DuoFace visual hook",
-      "run_number": 28,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38585804344",
-      "created_at": "2026-10-14T15:02:20Z",
-      "head_sha": "5a96731466a1a9312c6619f2b6d2f621458fa4f1"
-    },
-    {
-      "id": 38585686124,
-      "name": "Compile current DuoFace visual hook",
-      "run_number": 27,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38585686124",
-      "created_at": "2026-10-14T15:01:37Z",
-      "head_sha": "fc611fe7f851b8bb94fee929cc17e182930f3d04"
-    },
-    {
-      "id": 38585685762,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38585685762",
-      "created_at": "2026-10-14T15:01:37Z",
-      "head_sha": "fc611fe7f851b8bb94fee929cc17e182930f3d04"
-    },
-    {
-      "id": 38584346199,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38584346199",
-      "created_at": "2026-10-14T14:52:05Z",
-      "head_sha": "0e741b98f88bb452c2f829f721ae4698ea2e94af"
-    },
-    {
-      "id": 38584127080,
-      "name": "DuoFace fullscreen adapter compile check",
+      "id": 38687748861,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
       "run_number": 20,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38584127080",
-      "created_at": "2026-10-14T14:50:37Z",
-      "head_sha": "f1961d09a153bfbd49c11a14caed1ea263e78290"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687748861",
+      "created_at": "2026-10-15T05:37:05Z",
+      "head_sha": "0530d371d65b25685dd0b5f36cc7f4ee5e3718d8"
     },
     {
-      "id": 38584126822,
-      "name": "DuoFace NEXT UI and border compile-only gate",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38584126822",
-      "created_at": "2026-10-14T14:50:37Z",
-      "head_sha": "f1961d09a153bfbd49c11a14caed1ea263e78290"
-    },
-    {
-      "id": 38581311690,
-      "name": "Owner-approved DuoFace red2 test DEB one-shot",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38581311690",
-      "created_at": "2026-10-14T14:31:42Z",
-      "head_sha": "7e0bf42671df81cdd1ced50329ecf568fb797f4e"
-    },
-    {
-      "id": 38579809201,
-      "name": "DuoFace fullscreen adapter compile check",
+      "id": 38687730191,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
       "run_number": 19,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579809201",
-      "created_at": "2026-10-14T14:21:37Z",
-      "head_sha": "5b3804ce748d67bd32c3eb8f00b7b9af55a4185d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687730191",
+      "created_at": "2026-10-15T05:36:52Z",
+      "head_sha": "06d3f36c87ec547ced5f84314cf0aa5636d0d28f"
     },
     {
-      "id": 38579809170,
-      "name": "DuoFace NEXT UI and border compile-only gate",
+      "id": 38687726139,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687726139",
+      "created_at": "2026-10-15T05:36:50Z",
+      "head_sha": "ada24287b28de505ca35733debe659d80db9d116"
+    },
+    {
+      "id": 38687722618,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687722618",
+      "created_at": "2026-10-15T05:36:47Z",
+      "head_sha": "0c4817fae21d187c488f3c89b8095ba97b85432f"
+    },
+    {
+      "id": 38687718303,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687718303",
+      "created_at": "2026-10-15T05:36:44Z",
+      "head_sha": "d07b07a21d3f3da72bcb2a94889f1ef56ae89b30"
+    },
+    {
+      "id": 38687714762,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687714762",
+      "created_at": "2026-10-15T05:36:41Z",
+      "head_sha": "bb329e93508a8581dd0c28c2beded08c131ceb98"
+    },
+    {
+      "id": 38687710555,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687710555",
+      "created_at": "2026-10-15T05:36:38Z",
+      "head_sha": "4624afb2d70f38ee070bf498499dae7f04f510bd"
+    },
+    {
+      "id": 38687684888,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687684888",
+      "created_at": "2026-10-15T05:36:21Z",
+      "head_sha": "24f7eb4d86ea130c923183ef1535a93cd5854614"
+    },
+    {
+      "id": 38687680765,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687680765",
+      "created_at": "2026-10-15T05:36:19Z",
+      "head_sha": "164af1667c699a275e82277ccdb58de612290aee"
+    },
+    {
+      "id": 38687675184,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687675184",
+      "created_at": "2026-10-15T05:36:15Z",
+      "head_sha": "392c7d1ab6a6d7708fe591d93e242a4f6619e24d"
+    },
+    {
+      "id": 38687669937,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687669937",
+      "created_at": "2026-10-15T05:36:12Z",
+      "head_sha": "121287e2e98cac7c68e4d1aad83546fb6a0578a5"
+    },
+    {
+      "id": 38687665031,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687665031",
+      "created_at": "2026-10-15T05:36:09Z",
+      "head_sha": "09799e2eb176eb997e010207e455efd6655d9ae7"
+    },
+    {
+      "id": 38687659811,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687659811",
+      "created_at": "2026-10-15T05:36:05Z",
+      "head_sha": "0842a1dc56fd103dcd8e46f126e0d09e6607c8cc"
+    },
+    {
+      "id": 38687654166,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687654166",
+      "created_at": "2026-10-15T05:36:02Z",
+      "head_sha": "04b16d354bb0ca32c07a374b2c6aad809ee095af"
+    },
+    {
+      "id": 38687649345,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687649345",
+      "created_at": "2026-10-15T05:35:59Z",
+      "head_sha": "f1f7424e9cecfe677b517900ea697100412f4bb6"
+    },
+    {
+      "id": 38687642469,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
       "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579809170",
-      "created_at": "2026-10-14T14:21:37Z",
-      "head_sha": "5b3804ce748d67bd32c3eb8f00b7b9af55a4185d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687642469",
+      "created_at": "2026-10-15T05:35:54Z",
+      "head_sha": "9e58e6af9091ef927ebfaffe1fa816b935adf496"
     },
     {
-      "id": 38579698405,
-      "name": "DuoFace NEXT UI and border compile-only gate",
+      "id": 38687638604,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
       "run_number": 4,
       "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38687638604",
+      "created_at": "2026-10-15T05:35:52Z",
+      "head_sha": "6bd2ab8fca53c612e907333968a058ffffcd061b"
+    },
+    {
+      "id": 38686933037,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686933037",
+      "created_at": "2026-10-15T05:28:04Z",
+      "head_sha": "8a5a4f37ae92c89620a349a138b5dd148a3f1b9e"
+    },
+    {
+      "id": 38686738047,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 2,
+      "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38579698405",
-      "created_at": "2026-10-14T14:20:52Z",
-      "head_sha": "9733bf1b11ea8e13b044dbfef26030e364fc57c3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686738047",
+      "created_at": "2026-10-15T05:25:50Z",
+      "head_sha": "d41984cbcd7f74cb17231db554f2cd8d641baa4b"
+    },
+    {
+      "id": 38686641800,
+      "name": "Kiem tra bien dich DuoFace doc lap (khong dong DEB)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38686641800",
+      "created_at": "2026-10-15T05:24:46Z",
+      "head_sha": "59a7335b0510c8a20d7e1349110c91b343cb6fc5"
     }
   ]
 }
