@@ -1,0 +1,137 @@
+name: DuoFace native3 - brand-zero gate on actual DEB
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/native_test/build_native3.py'
+      - '.github/workflows/duoface-native3-rebrand-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-native3-build
+  cancel-in-progress: false
+
+jobs:
+  build-and-verify:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install signing and Debian packaging tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          xcrun --sdk iphoneos --show-sdk-path
+          python3 -m py_compile migration/full_payload/native_test/build_native3.py
+          python3 -m py_compile migration/full_payload/native_test/audit_branding.py
+      - name: Pin the last known-working native2 DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          original='dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb'
+          printf '%s  %s\n' '0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60' "$original" | shasum -a 256 -c -
+          test "$(dpkg-deb -f "$original" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$original" Version)" = '0.1.0~native2'
+      - name: Rebrand all names at constant byte widths and resign Mach-O
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native3
+          python3 migration/full_payload/native_test/build_native3.py \
+            --out 'dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native3/BAO_CAO.json' | tee "$RUNNER_TEMP/native3-build.log"
+      - name: Scan every binary, scripts, entry path and UTF16 after packing
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out 'dist/payload-migration/native3/BRAND_ZERO_AUDIT.json' | tee "$RUNNER_TEMP/native3-scan.log"
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('dist/payload-migration/native3')
+          package=root/'com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb'
+          build=json.loads((root/'BAO_CAO.json').read_text())
+          scan=json.loads((root/'BRAND_ZERO_AUDIT.json').read_text())
+          assert build['status']=='NATIVE3_BRAND_CLEAN_DEB_BUILT_PENDING_DEVICE_CARPLAY_TEST'
+          assert scan['control']=={'Architecture':'iphoneos-arm64',
+                                   'Package':'com.duoface.independent',
+                                   'Version':'0.1.0~native3'}
+          assert scan['strict_byte_level_zero_matches']
+          assert scan['affected_paths']==[]
+          assert scan['total_detected_by_brand_encoding']=={}
+          assert build['binary_localized_replacements']['var/jb/Applications/DuoFaceUI.app/DuoFaceUI']==434
+          assert build['binary_localized_replacements']['var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib']==428
+          assert build['binary_localized_replacements']['var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib']==1
+          assert len(build['modified_paths'])==6,build['modified_paths']
+          assert build['native2_settings_cleanup_preserved'] is True
+          assert build['carplay_device_tested'] is False
+          assert build['source_native2_preserved_for_rollback']
+          assert hashlib.sha256(package.read_bytes()).hexdigest()==build['sha256']
+          print('DUOFACE_NATIVE3_ZERO_OLD_BRAND_MATCHES_PASS')
+          print('NATIVE2_UNCHANGED_ROLLBACK_PRESERVED')
+          print('NATIVE3_NEW_BINARY_SIGNED_NOT_DEVICE_TESTED')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = "com.duoface.independent"
+          test "$(dpkg-deb -f "$deb" Version)" = "0.1.0~native3"
+          dpkg --compare-versions '0.1.0~native3' gt '0.1.0~native2'
+          dpkg-deb -c "$deb" | tee "$RUNNER_TEMP/native3-list.txt"
+          dpkg-deb --ctrl-tarfile "$deb" | tar -xOf - ./preinst > "$RUNNER_TEMP/native3-preinst"
+          sh -n "$RUNNER_TEMP/native3-preinst"
+          grep -F 'dpkg-query -S' "$RUNNER_TEMP/native3-preinst"
+          ! grep -Eiq 'duonavi|airaw' "$RUNNER_TEMP/native3-preinst"
+          shasum -a 256 "$deb" | tee "$RUNNER_TEMP/native3-sha256.txt"
+      - name: Check architecture and linked libraries did not change
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/before" "$RUNNER_TEMP/after"
+          dpkg-deb -x 'dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb' "$RUNNER_TEMP/before"
+          dpkg-deb -x 'dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb' "$RUNNER_TEMP/after"
+          for path in \
+            'var/jb/Applications/DuoFaceUI.app/DuoFaceUI' \
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib' \
+            'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib'
+          do
+            test "$(lipo -archs "$RUNNER_TEMP/before/$path")" = "$(lipo -archs "$RUNNER_TEMP/after/$path")"
+            otool -L "$RUNNER_TEMP/before/$path" | tail -n +2 > "$RUNNER_TEMP/linked-before.txt"
+            otool -L "$RUNNER_TEMP/after/$path" | tail -n +2 > "$RUNNER_TEMP/linked-after.txt"
+            cmp "$RUNNER_TEMP/linked-before.txt" "$RUNNER_TEMP/linked-after.txt"
+          done
+          echo 'NATIVE3_MACHO_ARCH_AND_DEPENDENCY_UNCHANGED'
+      - name: Persist candidate and audit into SAME DuoFace repo branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native3/*.deb dist/payload-migration/native3/*.json
+          git commit -m 'artifact: native3 zero DuoNavi Airaw strings, signed Mach-O, baseline native2 kept [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Preserve full evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native3-verified-${{github.run_id}}
+          path: |
+            dist/payload-migration/native3/*.deb
+            dist/payload-migration/native3/*.json
+            ${{runner.temp}}/native3-build.log
+            ${{runner.temp}}/native3-scan.log
+            ${{runner.temp}}/native3-list.txt
+            ${{runner.temp}}/native3-preinst
+            ${{runner.temp}}/native3-sha256.txt
+          if-no-files-found: warn
