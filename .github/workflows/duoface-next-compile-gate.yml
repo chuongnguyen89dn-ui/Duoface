@@ -7,6 +7,8 @@ on:
       - 'src/DuoFaceVisualHook.m'
       - 'runtime/fullscreen/**'
       - '.github/workflows/duoface-next-compile-gate.yml'
+      - '.github/workflows/duoface-approved-border-deb.yml'
+      - 'scripts/validate_duoface_candidate_workflow.py'
   workflow_dispatch:
   workflow_call:
 permissions:
@@ -16,6 +18,11 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Static manual DEB packaging preflight (NO DEB build)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_duoface_candidate_workflow.py
       - name: Prepare latest Theos and iOS SDK
         run: |
           set -euo pipefail
