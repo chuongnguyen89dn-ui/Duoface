@@ -78,7 +78,7 @@ def verify() -> dict:
     assert "card.layer.borderWidth=0.0" in source, "Do not restore unwanted white outline"
     assert "v==parent" in source, "Do not suppress original App/Zoom/Style/Close row"
     raw = SOURCE.read_bytes()
-    git_blob = b"blob " + str(len(raw)).encode() + b"\\x00" + raw
+    git_blob = b"blob " + str(len(raw)).encode() + b"\x00" + raw
     assert hashlib.sha1(git_blob).hexdigest() == "c7b6b62e7c163bf6f71c49822f0dcf49e52d0c4a", (
         "Source differs from reviewed one-feature native-material restoration"
     )
