@@ -97,6 +97,18 @@ def decode_refs(text: bytes, text_vm: int, target_vm: int) -> list[dict]:
                         })
             if rd in prior_pages and rd!=rn:
                 del prior_pages[rd]
+        elif (w & 0xFFC00000) == 0xF9400000:  # LDR Xt, [Xn, #imm12*8]
+            rn = (w>>5)&31
+            item = prior_pages.get(rn)
+            if item and i-item[2] <= 12*4:
+                effective = item[0] + (((w>>10)&0xfff)*8)
+                if effective == target_vm:
+                    results.append({
+                        "kind":"ADRP_LDR_STATIC_ADDRESS_CANDIDATE",
+                        "adrp_pc_hex":hex(item[1]),
+                        "ldr_pc_hex":hex(pc),
+                        "virtual_literal_hex":hex(target_vm),
+                    })
         elif (w & 0x9F000000) == 0x10000000:  # ADR Xd, pc-relative address
             immlo=(w>>29)&3
             immhi=(w>>5)&0x7ffff
@@ -162,7 +174,35 @@ def analyze(raw: bytes, expected_offset: int, expected_sha: str) -> dict:
         # Only 4-byte complete ARM64 instructions.
         data=data[:len(data)//4*4]
         direct.extend(decode_refs(data,s["virtual_address"],target))
+    cfstring_objects = []
+    for pointer_group in pointer_sections:
+        if pointer_group["section"] != "__cfstring":
+            continue
+        for pointer in pointer_group["references"]:
+            # In CFConstantString, the string-data pointer lies at +16
+            # bytes from the object beginning. This is a layout heuristic,
+            # not evidence of a live on-screen UILabel.
+            cf_vm = int(pointer["pointer_vm_hex"], 16) - 16
+            cf_off = int(pointer["pointer_file_offset_hex"], 16) - 16
+            if cf_off < 0 or cf_off + 32 > len(raw):
+                continue
+            length = struct.unpack_from("<Q", raw, cf_off + 24)[0]
+            refs=[]
+            for text_sec in executable:
+                code = raw[text_sec["file_offset"]:text_sec["file_offset"]+text_sec["size"]]
+                refs.extend(decode_refs(
+                    code[:len(code)//4*4], text_sec["virtual_address"], cf_vm))
+            cfstring_objects.append({
+                "candidate_cfstring_vm_hex":hex(cf_vm),
+                "candidate_cfstring_file_offset_hex":hex(cf_off),
+                "stored_string_length":length,
+                "length_matches_literal":length==len(label),
+                "direct_arm64_address_loads_to_cfstring_object":refs[:60],
+                "direct_arm64_load_count":len(refs),
+                "proven_exclusively_visible_UI":False,
+            })
     return {
+        "cfstring_object_reference_candidates":cfstring_objects,
         "text_literal": "Activate",
         "literal_file_offset":expected_offset,
         "literal_sha256":expected_sha,
@@ -231,6 +271,10 @@ def main(out: Path) -> None:
             "objc_selrefs_pointer_count":v["objc_selrefs_pointer_count"],
             "cfstring_pointer_count":v["cfstring_pointer_count"],
             "arm64_ref_candidates":v["candidate_direct_arm64_address_load_count"],
+            "cfstring_object_refs": [
+                x["direct_arm64_load_count"]
+                for x in v["cfstring_object_reference_candidates"]
+            ],
         } for k,v in rows.items()},
         "deb_built":False,"sileo_changed":False},ensure_ascii=False,indent=2))
 
