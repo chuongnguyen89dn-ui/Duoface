@@ -1,0 +1,358 @@
+{
+  "status": "READ_ONLY_STATIC_AUDIT_NOT_DEVICE_TEST",
+  "binary_name": "DuoFaceDashboard.dylib",
+  "binary_sha256": "6278cf23ddd78026a67b95de704331d5143dac5e43b97eb25cf3c98f10228788",
+  "binary_bytes": 3760032,
+  "classes": {
+    "CBDividerButtonInfo": {
+      "ivars": [
+        {
+          "name": "_iconName",
+          "offset": 8
+        },
+        {
+          "name": "_relativePos",
+          "offset": 16
+        },
+        {
+          "name": "_onSwap",
+          "offset": 24
+        },
+        {
+          "name": "_onRotate",
+          "offset": 32
+        }
+      ],
+      "method_names": [
+        "iconName",
+        "setIconName:",
+        "relativePos",
+        "setRelativePos:",
+        "onSwap",
+        "setOnSwap:",
+        "onRotate",
+        "setOnRotate:",
+        ".cxx_destruct"
+      ],
+      "target_method_details": [
+        {
+          "name": "iconName",
+          "imp": "0xfe754",
+          "signature": "@16@0:8",
+          "span_bytes_inspected": 12,
+          "instruction_count": 3
+        },
+        {
+          "name": "setIconName:",
+          "imp": "0xfe760",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 8,
+          "instruction_count": 2
+        },
+        {
+          "name": "relativePos",
+          "imp": "0xfe768",
+          "signature": "d16@0:8",
+          "span_bytes_inspected": 8,
+          "instruction_count": 2
+        },
+        {
+          "name": "setRelativePos:",
+          "imp": "0xfe770",
+          "signature": "v24@0:8d16",
+          "span_bytes_inspected": 8,
+          "instruction_count": 2
+        }
+      ]
+    },
+    "CBDividerView": {
+      "ivars": [
+        {
+          "name": "_isVertical",
+          "offset": 8
+        },
+        {
+          "name": "_isBlinking",
+          "offset": 9
+        },
+        {
+          "name": "_moveButtons",
+          "offset": 16
+        },
+        {
+          "name": "_buttonConfigs",
+          "offset": 24
+        },
+        {
+          "name": "_onPanChanged",
+          "offset": 32
+        },
+        {
+          "name": "_onActivity",
+          "offset": 40
+        }
+      ],
+      "method_names": [
+        "initWithFrame:isVertical:",
+        "gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:",
+        "configureWithButtonConfigs:",
+        "layoutSubviews",
+        "updateGripLayout",
+        "pointInside:withEvent:",
+        "hitTest:withEvent:",
+        "moveButtonTouchDown:",
+        "moveButtonTouchUp:",
+        "moveButtonTouchCancelled:",
+        "handleMoveButtonLongPress:",
+        "startBlinking",
+        "stopBlinking",
+        "handlePan:",
+        "isVertical",
+        "setIsVertical:",
+        "isBlinking",
+        "setIsBlinking:",
+        "moveButtons",
+        "setMoveButtons:",
+        "buttonConfigs",
+        "setButtonConfigs:",
+        "onPanChanged",
+        "setOnPanChanged:",
+        "onActivity",
+        "setOnActivity:",
+        ".cxx_destruct"
+      ],
+      "target_method_details": [
+        {
+          "name": "initWithFrame:isVertical:",
+          "imp": "0xfe7dc",
+          "signature": "@52@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16B48",
+          "span_bytes_inspected": 620,
+          "instruction_count": 155
+        },
+        {
+          "name": "gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:",
+          "imp": "0xfea48",
+          "signature": "B32@0:8@16@24",
+          "span_bytes_inspected": 8,
+          "instruction_count": 2
+        },
+        {
+          "name": "configureWithButtonConfigs:",
+          "imp": "0xfea50",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 2496,
+          "instruction_count": 624
+        },
+        {
+          "name": "layoutSubviews",
+          "imp": "0xff410",
+          "signature": "v16@0:8",
+          "span_bytes_inspected": 80,
+          "instruction_count": 20
+        },
+        {
+          "name": "updateGripLayout",
+          "imp": "0xff460",
+          "signature": "v16@0:8",
+          "span_bytes_inspected": 712,
+          "instruction_count": 178
+        },
+        {
+          "name": "pointInside:withEvent:",
+          "imp": "0xff728",
+          "signature": "B40@0:8{CGPoint=dd}16@32",
+          "span_bytes_inspected": 588,
+          "instruction_count": 147
+        },
+        {
+          "name": "hitTest:withEvent:",
+          "imp": "0xff974",
+          "signature": "@40@0:8{CGPoint=dd}16@32",
+          "span_bytes_inspected": 644,
+          "instruction_count": 161
+        },
+        {
+          "name": "moveButtonTouchDown:",
+          "imp": "0xffbf8",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 700,
+          "instruction_count": 175
+        },
+        {
+          "name": "moveButtonTouchUp:",
+          "imp": "0xffeb4",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 1068,
+          "instruction_count": 267
+        },
+        {
+          "name": "moveButtonTouchCancelled:",
+          "imp": "0x1002e0",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 788,
+          "instruction_count": 197
+        },
+        {
+          "name": "handleMoveButtonLongPress:",
+          "imp": "0x1005f4",
+          "signature": "v24@0:8@16",
+          "span_bytes_inspected": 992,
+          "instruction_count": 248
+        }
+      ]
+    },
+    "CBBridgedSplitApp": {
+      "ivars": [
+        {
+          "name": "_dragStartRatio",
+          "offset": 8
+        },
+        {
+          "name": "_isBlinking",
+          "offset": 16
+        },
+        {
+          "name": "_blinkingIdleTimer",
+          "offset": 24
+        },
+        {
+          "name": "_lastActivityTime",
+          "offset": 32
+        },
+        {
+          "name": "_isTransitioningFocus",
+          "offset": 40
+        },
+        {
+          "name": "_splashScreenView",
+          "offset": 48
+        },
+        {
+          "name": "_appViews",
+          "offset": 56
+        },
+        {
+          "name": "_placeholders",
+          "offset": 64
+        },
+        {
+          "name": "_containers",
+          "offset": 72
+        },
+        {
+          "name": "_dividers",
+          "offset": 80
+        },
+        {
+          "name": "_slotPills",
+          "offset": 88
+        },
+        {
+          "name": "_splitPreset",
+          "offset": 96
+        },
+        {
+          "name": "_splitRatio",
+          "offset": 104
+        },
+        {
+          "name": "_focusedSlotIndex",
+          "offset": 112
+        }
+      ],
+      "method_names": [
+        "initWithBundleIdentifier:frame:",
+        "initWithBundleIdentifier:frame:showSplash:",
+        "handleDividerPan:isVertical:state:",
+        "layoutSplitViews",
+        "focusSlot:animated:",
+        "restoreSplitAnimated:",
+        "toggleFocusForSlot:",
+        "rotateAllSlotsClockwise",
+        "configureDividerButtons",
+        "updateScale:forSlot:",
+        "moveSlot:direction:",
+        "handleDividerSwapPressed:",
+        "swapSlot:withSlot:",
+        "replaceAppInSlot:withBundleIdentifier:",
+        "restartSlot:",
+        "restartAppWithBundleIdentifier:",
+        "removeAppWithBundleIdentifier:",
+        "closeSlot:",
+        "closeAllSlots",
+        "persistSlotOrder",
+        "start",
+        "startInParentViewController:",
+        "stop",
+        "noteUserActivity",
+        "startBlinkingSession",
+        "stopBlinkingSession",
+        "startContainerBorderBlinking:",
+        "stopContainerBorderBlinking:",
+        "splashScreenView",
+        "setSplashScreenView:",
+        "appViews",
+        "setAppViews:",
+        "placeholders",
+        "setPlaceholders:",
+        "containers",
+        "setContainers:",
+        "dividers",
+        "setDividers:",
+        "slotPills",
+        "setSlotPills:",
+        "splitPreset",
+        "setSplitPreset:",
+        "splitRatio",
+        "setSplitRatio:",
+        "focusedSlotIndex",
+        "setFocusedSlotIndex:",
+        "isTransitioningFocus",
+        "setIsTransitioningFocus:",
+        ".cxx_destruct"
+      ],
+      "target_method_details": [
+        {
+          "name": "handleDividerPan:isVertical:state:",
+          "imp": "0x103ee0",
+          "signature": "v44@0:8{CGPoint=dd}16B32q36",
+          "span_bytes_inspected": 1560,
+          "instruction_count": 390
+        },
+        {
+          "name": "layoutSplitViews",
+          "imp": "0x1044f8",
+          "signature": "v16@0:8",
+          "span_bytes_inspected": 4096,
+          "instruction_count": 1024
+        },
+        {
+          "name": "configureDividerButtons",
+          "imp": "0x1067a4",
+          "signature": "v16@0:8",
+          "span_bytes_inspected": 4096,
+          "instruction_count": 1024
+        },
+        {
+          "name": "handleDividerSwapPressed:",
+          "imp": "0x108fc8",
+          "signature": "v24@0:8q16",
+          "span_bytes_inspected": 404,
+          "instruction_count": 101
+        }
+      ]
+    }
+  },
+  "strings_found": {
+    "handleMoveButtonLongPress:": 1,
+    "setRelativePos:": 1,
+    "relativePos": 3,
+    "updateGripLayout": 1,
+    "onPanChanged": 3,
+    "setFrame:": 1,
+    "moveButtonTouchUp:": 1,
+    "UIPanGestureRecognizer": 2
+  },
+  "user_intent": "Allow DuoFace logo/drag-grip to slide vertically along split divider to uncover underlying content, without changing two-pane resize behavior",
+  "safety": "Observation only. An Objective-C selector or long-press recognizer does not itself prove drag-to-reposition exists. Verify exact setter/reference chain, and test on CarPlay before using."
+}
