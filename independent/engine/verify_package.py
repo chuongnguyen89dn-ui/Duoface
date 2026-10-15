@@ -59,7 +59,7 @@ def inspect_macho(blob, expected_type):
 base = 'var/jb/'
 app = base + 'Applications/DuoFaceIndependent.app/'
 dylib = base + 'Library/MobileSubstrate/DynamicLibraries/DuoFaceIndependent.dylib'
-assert not any('DuoDash' in name or 'Airaw' in name for name in files), 'Reference payload leaked into package'
+assert not any(any(banned in name.lower() for banned in ('duonavi', 'airaw', 'duodash', 'duofacedashboard')) for name in files), 'Thư viện kế thừa lọt vào gói độc lập'
 prefs = base + 'Library/PreferenceBundles/DuoFaceIndependentPrefs.bundle/'
 for name in [app + 'DuoFaceIndependent', dylib, prefs + 'DuoFaceIndependentPrefs']:
     assert name in files, f'Missing binary: {name}'
@@ -86,7 +86,7 @@ assert loader['entry']['bundle']=='DuoFaceIndependentPrefs'
 assert 'preferenceloader' in control
 print('Verified Settings bundle, loader entry, dependency and signed bundle slices.')
 
-assert info.get('SBAppTags') == ['hidden'], 'iPhone Home Screen hiding tag missing'
+assert 'hidden' not in info.get('SBAppTags', []), 'Ứng dụng mới không được ẩn biểu tượng iPhone'
 assert info['CFBundleIcons']['CFBundlePrimaryIcon']['CFBundleIconFiles'], 'CarPlay icon artwork declaration removed'
 assert loader['entry']['icon'] == '/'+prefs+'Icon.png', 'Settings icon path does not match packaged resource'
 for scale in (1,2,3):
@@ -94,4 +94,23 @@ for scale in (1,2,3):
     png=files[prefs+f'Icon{suffix}.png']
     assert png[:8]==b'\x89PNG\r\n\x1a\n'
     assert struct.unpack_from('>II',png,16)==(29*scale,29*scale), 'Wrong Settings icon dimensions'
-print('Verified hidden Home Screen registration, retained CarPlay artwork and Settings icons at 1x/2x/3x.')
+print('Verified visible iPhone Home Screen icon, retained CarPlay artwork and Settings icons at 1x/2x/3x.')
+
+# Bằng chứng 100% tài nguyên thị giác được đóng gói tại đường dẫn RIÊNG của DuoFace mới.
+import hashlib, json
+root_assets = 'var/jb/Library/Application Support/DuoFaceIndependent/'
+manifest_path = root_assets + 'asset-transfer-manifest.json'
+assert manifest_path in files, 'Thiếu manifest chuyển ảnh DuoFace'
+manifest = json.loads(files[manifest_path].decode('utf-8'))
+assert manifest['source_hashes_verified'] >= 7
+assert manifest['status'] == 'ASSETS_COPIED_BYTE_FOR_BYTE_NOT_RUNTIME_PARITY'
+assert len(manifest['files']) >= 8, 'Thiếu một phần ảnh gốc'
+for name, meta in manifest['files'].items():
+    path = root_assets + name
+    assert path in files, f'Thiếu ảnh bắt buộc: {name}'
+    assert hashlib.sha256(files[path]).hexdigest() == meta['sha256'], f'Đổi bytes ảnh: {name}'
+    assert len(files[path]) == meta['size'], f'Sai kích thước ảnh: {name}'
+assert not any(path.startswith('var/jb/Library/Application Support/DuoFace/') for path in files), 'Đè tài nguyên của bản DuoFace cũ'
+assert 'var/mobile/Library/Preferences/com.duonavi.sync.plist' not in files
+print('Verified approved DuoFace artwork copied byte-for-byte into independent resource path.')
+
