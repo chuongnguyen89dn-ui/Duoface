@@ -208,10 +208,10 @@ static NSArray *DFIAvailableApps(void) {
  self.toolbarStack.frame=CGRectMake(logoWidth+8,0,MAX(80,width-logoWidth-12),36);
  self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-26,40,24);self.edge.hidden=!self.toolbar.hidden;
  self.statusLabel.frame=CGRectMake(8,4,bounds.size.width-16,34);
- if(self.panel){CGFloat desired=self.list?MIN(120,MAX(40,self.list.rows.count*40)):88;CGFloat w=MIN(220,bounds.size.width-16),h=MIN(desired,bounds.size.height-54);CGFloat x=(bounds.size.width-w)/2,y=bounds.size.height-h-46;
+ if(self.panel){CGFloat desired=self.list?MIN(140,MAX(40,self.list.rows.count*40)):(self.panel.contentView.subviews.count>8?132:88);CGFloat w=MIN(220,bounds.size.width-16),h=MIN(desired,bounds.size.height-54);CGFloat x=(bounds.size.width-w)/2,y=bounds.size.height-h-46;
   if(self.panelPane>=0){CGRect p=self.panes[self.panelPane].frame;w=MIN(w,MAX(40,p.size.width-8));h=MIN(h,MAX(40,p.size.height-34));x=CGRectGetMaxX(p)-w-4;y=p.origin.y+30;}
   self.panel.frame=CGRectMake(x,MAX(0,y),w,h);if(self.list)self.list.view.frame=self.panel.contentView.bounds;
-  else {NSArray *buttons=self.panel.contentView.subviews;CGFloat bw=w/4,bh=h/2;for(NSUInteger i=0;i<buttons.count;i++)[buttons[i] setFrame:CGRectMake((i%4)*bw,(i/4)*bh,bw,bh)];}
+  else {NSArray *buttons=self.panel.contentView.subviews;CGFloat bw=w/4,bh=h/MAX(1,ceil((double)buttons.count/4.0));for(NSUInteger i=0;i<buttons.count;i++)[buttons[i] setFrame:CGRectMake((i%4)*bw,(i/4)*bh,bw,bh)];}
  }
 }
 - (void)armHide {
@@ -276,7 +276,14 @@ static NSArray *DFIAvailableApps(void) {
 - (void)layouts {
  self.selectedTab=2;[self updateApprovedTabs];
  [self dismissPanel];self.panelPane=-1;self.panel=[self glass];NSArray *names=@[DFIT(@"Một khung",@"One pane"),DFIT(@"Trái / phải",@"Left / right"),DFIT(@"Trên / dưới",@"Top / bottom"),DFIT(@"Ba cột",@"Three columns"),DFIT(@"Một trái, hai phải",@"One left, two right"),DFIT(@"Hai trái, một phải",@"Two left, one right"),DFIT(@"Một trên, hai dưới",@"One top, two bottom"),DFIT(@"Hai trên, một dưới",@"Two top, one bottom")];
- for(int i=1;i<=8;i++){DFILayoutIcon *b=[DFILayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}[self armHide];[self.view setNeedsLayout];
+ for(int i=1;i<=8;i++){DFILayoutIcon *b=[DFILayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}
+ // Không bỏ nút hoán đổi và thoát bản cũ khi thay toolbar thành 4 mục.
+ UIButton *swap=[self button:@"arrow.left.arrow.right" label:@"Swap" action:@selector(swapPanes)];
+ [self.panel.contentView addSubview:swap];
+ UIButton *exit=[self button:@"rectangle.portrait.and.arrow.right" label:@"Thoát DuoFace"
+                        action:@selector(exitSplit)];
+ [self.panel.contentView addSubview:exit];
+ [self armHide];[self.view setNeedsLayout];
 }
 - (void)setLayout:(UIButton *)b {
  DFIPerfMark(@"layout_change",@{@"layout":@(b.tag)});
