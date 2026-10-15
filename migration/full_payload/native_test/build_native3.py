@@ -92,7 +92,7 @@ do
     owner="$(dpkg-query -S "$protected" 2>/dev/null || true)"
     if [ -n "$owner" ]; then
         case "$owner" in
-            "com.duoface.independent: "*|"com.duoface.independent: "* ) ;;
+            "com.duoface.independent":* ) ;;
             *)
                 echo "DuoFace native3: another installed package owns $protected; refusing overwrite" >&2
                 exit 1
@@ -123,7 +123,7 @@ def main():
     ap.add_argument("--report",type=Path,required=True)
     args=ap.parse_args()
     source_bytes=SRC.read_bytes()
-    assert sha256(source_bytes)==SRC_SHA, "Refuse if native2 baseline differs from proven 2-phone version"
+    assert sha256(source_bytes)==SRC_SHA, "Refuse if native2 baseline differs from pinned native2 release"
     with tempfile.TemporaryDirectory(prefix="duoface-native3-") as work:
         directory=Path(work)
         root=directory/"staging"
