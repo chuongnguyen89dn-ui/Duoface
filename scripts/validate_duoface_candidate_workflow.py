@@ -18,13 +18,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WF = ROOT / ".github/workflows/duoface-approved-border-deb.yml"
 SOURCE = ROOT / "runtime/fullscreen/DFPickerZoomMenu.xm"
-BASE = ROOT / "dist/candidates/menu-inline-live1/com.duonavi.app_1.0.3-12_menu-inline-live1_iphoneos-arm64.deb"
-BASE_SUMS = ROOT / "dist/candidates/menu-inline-live1/SHA256SUMS.txt"
+BASE = ROOT / "dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb"
+BASE_SUMS = ROOT / "dist/candidates/menu-opaque1/SHA256SUMS.txt"
 ALPHA = ROOT / "dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png"
 ORIGINAL = ROOT / "dist/visual-1.0.3-12/assets/duoface-logo.png"
-CANDIDATE = ROOT / "dist/candidates/menu-opaque1/com.duonavi.app_1.0.3-12_menu-opaque1_iphoneos-arm64.deb"
+CANDIDATE = ROOT / "dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb"
 
-BASE_SHA = "b25145b741f28729e1f426b022c7044551fc379dce59ca15b41d7943a14dd245"
+BASE_SHA = "33c820ca014b94d0a0691daf556b0e4eafd0afe56d6cec4b73eb127a52d83404"
 ALPHA_SHA = "43b6dafb8fc0550c2b3032c11acae1e0712350ca5b4dd235b7dc14c7951c74f7"
 ORIGINAL_SHA = "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089"
 
@@ -44,7 +44,7 @@ def verify() -> dict:
     assert not re.search(r"(?mi)^\s*(gh release|reprepro|aptly|sileo publish)\b", wf), "No Sileo publication commands allowed"
     assert "menu-compact1" not in wf, "Do not reuse earlier candidate name"
     assert str(CANDIDATE.relative_to(ROOT)) in wf, "Unique candidate path missing"
-    assert "Version: 1.0.3-12+menu-opaque1" in wf, "Candidate version guard missing"
+    assert "Version: 1.0.3-12+menu-native1" in wf, "Candidate version guard missing"
     assert "'com.duonavi.app'" in wf, "Do not alter original bundle/package identity"
     assert not CANDIDATE.exists(), "Candidate output already exists; do not overwrite"
 
@@ -65,20 +65,22 @@ def verify() -> dict:
     assert "DFBuildingNativeRecentRows=YES" in source
     assert "DFBuildingNativeRecentRows=wasBuilding" in source
 
-    # Strong unchanged-UI regression guard: when the only new helper and
-    # two opaque color uses are removed, the source must equal the exact
-    # Git blob from the successfully installed menu-inline-live1 DEB.
-    assert source.count("DFPickerOpaqueSheetColor();") == 2
-    assert "blur.contentView.backgroundColor=DFPickerOpaqueSheetColor();" in source
-    assert "contentView.backgroundColor=DFPickerOpaqueSheetColor();" in source
-    helper = re.search(r"(?ms)^// Device-confirmed fix:.*?^}\n", source)
-    assert helper is not None, "Missing isolated opaque backing helper"
-    before = source.replace(helper.group(0), "").replace(
-        "DFPickerOpaqueSheetColor()", "UIColor.clearColor"
-    ).encode("utf-8")
-    blob = b"blob " + str(len(before)).encode() + b"\x00" + before
-    assert hashlib.sha1(blob).hexdigest() == "2f7d2a8f3d9f8b7dca6d3a596357b2bb72135ec3", (
-        "Unapproved change beyond picker opacity compared with installed source"
+    # Owner-approved restoration of original v12 UIVisualEffectView materials,
+    # not a guessed opaque RGB fill. This SHA is the exact source reviewed.
+    assert "DFPickerOpaqueSheetColor" not in source, "Invented blue fill must be removed"
+    assert "blur.effect=nil" not in source, "Do not disable native v12 blur"
+    assert "blur.contentView.backgroundColor=" not in source, "Keep original native sheet tint"
+    assert "contentView.backgroundColor=DFPickerOpaqueSheetColor()" not in source
+    assert "dim.backgroundColor=UIColor.clearColor" not in source
+    assert "shadow.backgroundColor=UIColor.clearColor" not in source
+    assert "card.backgroundColor=UIColor.clearColor" not in source
+    assert "DFClearNativePickerChrome(overlay)" in source, "Keep border suppression"
+    assert "card.layer.borderWidth=0.0" in source, "Do not restore unwanted white outline"
+    assert "v==parent" in source, "Do not suppress original App/Zoom/Style/Close row"
+    raw = SOURCE.read_bytes()
+    git_blob = b"blob " + str(len(raw)).encode() + b"\\x00" + raw
+    assert hashlib.sha1(git_blob).hexdigest() == "c7b6b62e7c163bf6f71c49822f0dcf49e52d0c4a", (
+        "Source differs from reviewed one-feature native-material restoration"
     )
 
     actual_base = sha(BASE)
@@ -127,7 +129,7 @@ def verify() -> dict:
         "dpkg-deb -x \"$OUT\" \"$EXTRACT\"",
         "BUILD_AUDIT.json", "CONTENTS.txt", "SHA256SUMS.txt",
         "sileo_published",
-        "menu-opaque1",
+        "menu-native1",
         ALPHA_SHA, ORIGINAL_SHA,
         "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
         "PAYLOAD_DIFF_ONLY_BRIDGE",
