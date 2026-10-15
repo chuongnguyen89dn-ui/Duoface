@@ -1,0 +1,50 @@
+{
+  "all_binary_sizes_constant_before_resigning": true,
+  "binary_localized_replacements": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": 434,
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": 428,
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": 1
+  },
+  "carplay_device_tested": false,
+  "license_logic_code_fully_removed": false,
+  "modified_paths": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "DEBIAN/preinst",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+  ],
+  "native2_settings_cleanup_preserved": true,
+  "no_auto_remove_legacy_packages": true,
+  "note": "Brand names are removed from static bytes and installer text, but remaining license code must be assessed independently.",
+  "original_macho_before": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "size": 2456784
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "size": 7540464
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "sha256": "e70d7705e808a16ae1a0792f27fca26196b7f1f2c108d8997d750c136e838561",
+      "size": 124976
+    }
+  },
+  "package": "com.duoface.independent",
+  "re_signed_changed_binary_entitlements": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "ad_hoc_no_existing_entitlements",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "ad_hoc_no_existing_entitlements",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": "ad_hoc_no_existing_entitlements"
+  },
+  "sha256": "7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df",
+  "sileo_published": false,
+  "size": 2255280,
+  "source_native2_preserved_for_rollback": true,
+  "source_native2_sha256": "0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60",
+  "status": "NATIVE3_BRAND_CLEAN_DEB_BUILT_PENDING_DEVICE_CARPLAY_TEST",
+  "unmodified_payload_path_count": 38,
+  "version": "0.1.0~native3",
+  "zero_brand_matches_in_all_extracted_files": true
+}
