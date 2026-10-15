@@ -255,9 +255,9 @@ static BOOL DFRestyleOneRecentAppRow(UIView *row) {
         [UIImageSymbolConfiguration configurationWithPointSize:18.0
                                                         weight:UIImageSymbolWeightRegular]];
     if (glyph) {
-        UIImage *template=[glyph imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [action setImage:template forState:UIControlStateNormal];
-        [action setImage:template forState:UIControlStateHighlighted];
+        UIImage *templateImage=[glyph imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [action setImage:templateImage forState:UIControlStateNormal];
+        [action setImage:templateImage forState:UIControlStateHighlighted];
     }
     [action setTitle:@"" forState:UIControlStateNormal];
     [action setTitle:@"" forState:UIControlStateHighlighted];
