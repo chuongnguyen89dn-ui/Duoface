@@ -1,0 +1,24 @@
+{
+  "status": "ALPHA_PREVIEW_NOT_DEVICE_VALIDATED_NOT_DEB",
+  "source": "dist/visual-1.0.3-12/assets/duoface-logo.png",
+  "source_sha256": "78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089",
+  "candidate": "dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha.png",
+  "candidate_sha256": "5487989754993559c35e5e0b05c22ee19e11f891121220cfeda09105d2bb48a1",
+  "source_dimensions": [
+    960,
+    240
+  ],
+  "foreground_bounds": [
+    169,
+    1,
+    792,
+    240
+  ],
+  "output_dimensions": [
+    623,
+    239
+  ],
+  "canvas_pixels_removed": 183182,
+  "method": "4-connected edge flood on achromatic RGB<=28; original foreground colors retained",
+  "warning": "Verify visually that BOTH white and dark faces survive; never silently overwrite the original."
+}
