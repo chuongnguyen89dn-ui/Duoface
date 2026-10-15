@@ -1,0 +1,120 @@
+name: DuoFace - kiểm kê và sao chép nguyên ruột (KHÔNG phát hành)
+
+on:
+  push:
+    branches:
+      - feature/duoface-exact-payload-migration
+    paths:
+      - 'migration/full_payload/**'
+      - '.github/workflows/duoface-exact-payload-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: duoface-exact-payload-audit
+  cancel-in-progress: false
+
+jobs:
+  stage-and-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Lấy đúng nhánh DuoFace để giữ nguyên bản đã duyệt
+        uses: actions/checkout@v4
+
+      - name: Đọc gói kỹ năng iOS / DEB từ kho trung tâm
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --quiet --depth 1 https://github.com/chuongnguyen89dn-ui/Gpt-training-.git "$RUNNER_TEMP/Gpt-training-"
+          zip="$RUNNER_TEMP/Gpt-training-/skills/02-ios-deb-ipa-carplay.zip"
+          printf '%s  %s\n' 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf' "$zip" | sha256sum -c -
+          unzip -t "$zip"
+          unzip -p "$zip" SKILL.md | tee "$RUNNER_TEMP/ios-deb-carplay-skill.txt"
+
+      - name: Hồi quy sao chép nguyên file trừ trạng thái giấy phép
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/test_exact_copy.py
+          python3 -m py_compile migration/full_payload/prepare_exact_copy.py
+
+      - name: Xác minh SHA256 của bản DuoFace ĐÃ DUYỆT và kiểm kê nguyên ruột
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_deb='dist/candidates/menu-native1/com.duonavi.app_1.0.3-12_menu-native1_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'ce971b42230d355421b2b1d99793a1f62ffb75008365ea74a3467d859cc1de3a' "$source_deb" | sha256sum -c -
+          dpkg-deb -f "$source_deb" Package Version Architecture
+          mkdir -p dist/payload-migration
+          python3 migration/full_payload/prepare_exact_copy.py \
+            --deb "$source_deb" \
+            --stage "$RUNNER_TEMP/duoface-exact-stage" \
+            --report dist/payload-migration/EXACT_COPY_AUDIT.json | tee "$RUNNER_TEMP/duoface-audit-summary.json"
+
+      - name: Xác minh chỉ bỏ DUY NHẤT tệp trạng thái giấy phép
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib
+          r=json.loads(pathlib.Path('dist/payload-migration/EXACT_COPY_AUDIT.json').read_text())
+          assert r['status']=='EXACT_PAYLOAD_STAGED_LICENSE_CODE_EMBEDDED_NOT_INDEPENDENT'
+          assert r['excluded_only']==['var/mobile/Library/Preferences/com.duonavi.sync.plist']
+          assert r['byte_identical_files'] and r['license_check_code_still_present']
+          assert not r['new_package_id_applied']
+          assert r['copied_file_count']==r['source_file_count']-1
+          assert len(r['all_staged_entries'])>=40
+          print('CHUYEN_PAYLOAD_NGUYEN_VEN_CHEP_100_PHAN_TRAM_NGOAI_TRANG_THAI_GIAY_PHEP')
+          print('CHUA_DOC_LAP: LOGIC_GIAY_PHEP_VAN_NAM_TRONG_NHI_PHAN')
+          PY
+          stage="$RUNNER_TEMP/duoface-exact-stage"
+          test -f "$stage/var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+          test -f "$stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          test -f "$stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+          test -f "$stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+          test ! -e "$stage/var/mobile/Library/Preferences/com.duonavi.sync.plist"
+
+      - name: Lưu bản sao staging chính xác, KHÔNG tạo DEB cài đặt
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -C "$RUNNER_TEMP" -czf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz duoface-exact-stage
+          sha256sum dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz | tee dist/payload-migration/SHA256SUMS.txt
+          test -s dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz
+          tar -tzf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz > "$RUNNER_TEMP/staging-content-list.txt"
+          ! grep -q 'com.duonavi.sync.plist' "$RUNNER_TEMP/staging-content-list.txt"
+          ! tar -tzf dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz | grep -q '/DEBIAN/control/' # No nested package impersonation
+          test ! -d dist/payload-migration/packages
+
+      - name: Lưu bền vững vào đúng kho DuoFace và xác minh commit
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/EXACT_COPY_AUDIT.json dist/payload-migration/SHA256SUMS.txt dist/payload-migration/duoface-exact-payload-STAGING-NOT-INDEPENDENT.tar.gz
+          git commit -m 'audit: luu ban sao nguyen ruot DuoFace, khong mang state license [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+
+      - name: Lưu log và báo cáo kiểm kê
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-payload-migration-audit-${{ github.run_id }}
+          path: |
+            dist/payload-migration/*.json
+            dist/payload-migration/SHA256SUMS.txt
+            ${{ runner.temp }}/ios-deb-carplay-skill.txt
+            ${{ runner.temp }}/duoface-audit-summary.json
+            ${{ runner.temp }}/staging-content-list.txt
+          if-no-files-found: warn
