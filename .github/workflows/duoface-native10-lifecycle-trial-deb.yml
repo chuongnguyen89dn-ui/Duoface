@@ -1,0 +1,109 @@
+name: DuoFace native10 - isolated lifecycle device trial with verified rollback
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native10_lifecycle_trial.py'
+      - 'migration/full_payload/native_test/verify_native10_lifecycle_trial.py'
+      - '.github/workflows/duoface-native10-lifecycle-trial-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native10-lifecycle-test
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify immutable, user-tested baseline and exact 19-method preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base='dist/payload-migration/native9/com.duoface.independent_0.1.0~native9_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e' "$base" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native10_lifecycle_trial.py migration/full_payload/native_test/verify_native10_lifecycle_trial.py
+          python3 - <<'PY'
+          import json
+          p=json.load(open('audit/payload-migration/NATIVE9_19_LIFECYCLE_INMEMORY_PATCH_PREVIEW.json'))
+          assert len(p['patch_rows'])==19 and len(p['carplay_original_checksums'])==8
+          assert p['native9_published_binary_unchanged']
+          assert not p['method_runtime_lifecycle_safe']
+          print('PINNED_NATIVE9_AND_USER_APPROVED_EXPERIMENTAL_TRIAL_INPUT_PASS')
+          PY
+      - name: Build one separately versioned candidate, preserving all original UI and CarPlay files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native10 audit/payload-migration
+          file='dist/payload-migration/native10/com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb'
+          test ! -e "$file"
+          python3 migration/full_payload/native_test/build_native10_lifecycle_trial.py \
+            --out "$file" --report dist/payload-migration/native10/BAO_CAO.json
+      - name: Verify exact 19 method-body spans and byte-identical eight CarPlay screen routines
+        shell: bash
+        run: |
+          set -euo pipefail
+          file='dist/payload-migration/native10/com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/verify_native10_lifecycle_trial.py \
+            --deb "$file" \
+            --report dist/payload-migration/native10/BAO_CAO.json \
+            --out audit/payload-migration/NATIVE10_19_LIFECYCLE_TRIAL_REGRESSION.json
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$file" --out dist/payload-migration/native10/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('dist/payload-migration/native10')
+          deb=root/'com.duoface.independent_0.1.0~native10_iphoneos-arm64.deb'
+          a=json.loads((root/'BAO_CAO.json').read_text())
+          b=json.loads(Path('audit/payload-migration/NATIVE10_19_LIFECYCLE_TRIAL_REGRESSION.json').read_text())
+          c=json.loads((root/'BRAND_ZERO_AUDIT.json').read_text())
+          assert a['modified_method_count']==19 and a['carplay_method_byte_guard_count']==8
+          assert b['status']=='NATIVE10_STRUCTURE_CODE_SCOPE_AND_EIGHT_CARPLAY_SHA_PASS'
+          assert b['all_8_carplay_code_bodies_byte_identical']
+          assert b['native9_visual_fullscreen_divider_logo_unchanged']
+          assert b['all_existing_objc_metadata_and_literals_identical']
+          assert b['may_crash_or_prevent_carplay_connecting'] and not b['device_runtime_safety_proven']
+          assert c['strict_byte_level_zero_matches'] and not c['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==a['deb_sha256']==b['deb_sha256']
+          print('NATIVE10_EXPERIMENTAL_BINARY_QA_PASS_ONLY_DEVICE_TEST_WILL_VALIDATE_RUNTIME')
+          PY
+          test "$(dpkg-deb -f "$file" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$file" Version)" = '0.1.0~native10'
+          test "$(dpkg-deb -f "$file" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native10' gt '0.1.0~native9'
+          shasum -a 256 "$file"
+      - name: Commit new test DEB and proof, without replacing native9
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native10/*.deb \
+            dist/payload-migration/native10/*.json \
+            audit/payload-migration/NATIVE10_19_LIFECYCLE_TRIAL_REGRESSION.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: isolated native10 lifecycle method trial [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native10-lifecycle-test-package
+          path: |
+            dist/payload-migration/native10/*.deb
+            dist/payload-migration/native10/*.json
+            audit/payload-migration/NATIVE10_19_LIFECYCLE_TRIAL_REGRESSION.json
+          if-no-files-found: warn
