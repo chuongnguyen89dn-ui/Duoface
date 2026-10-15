@@ -90,6 +90,65 @@ static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *f
     b.titleLabel.minimumScaleFactor=0.85;
     b.titleLabel.lineBreakMode=NSLineBreakByClipping;
 }
+static UIColor *DFApprovedLogoRed(void);
+// The v12 recent-app renderer adds its activity heading UILabel and native
+// close-all UIButton to the SAME sheet contentView (audit: 0xA6A38, 0xA6D8C).
+// Reuse the original UIButton: retain its closeAllBridgedAppsTapped: target.
+// This removes only the redundant visible heading, not the running-app data.
+static BOOL DFNativeCloseAllAction(UIButton *button) {
+    for (id target in button.allTargets) {
+        NSArray<NSString *> *actions=
+            [button actionsForTarget:target
+                    forControlEvent:UIControlEventTouchUpInside];
+        if ([actions containsObject:@"closeAllBridgedAppsTapped:"]) return YES;
+    }
+    return NO;
+}
+static void DFRestyleRecentClearAll(UIView *overlay) {
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (![card isKindOfClass:UIVisualEffectView.class]) return;
+    UIView *content=((UIVisualEffectView *)card).contentView;
+    UILabel *heading=nil;
+    UIButton *clearAll=nil;
+    for (UIView *view in content.subviews) {
+        if ([view isKindOfClass:UIButton.class] &&
+            DFNativeCloseAllAction((UIButton *)view))
+            clearAll=(UIButton *)view;
+        else if ([view isKindOfClass:UILabel.class]) {
+            UILabel *label=(UILabel *)view;
+            NSString *title=[label.text stringByTrimmingCharactersInSet:
+                NSCharacterSet.whitespaceAndNewlineCharacterSet];
+            if ([title rangeOfString:@"Đang hoạt động"
+                            options:NSCaseInsensitiveSearch].location==0)
+                heading=label;
+        }
+    }
+    if (!heading || !clearAll || !heading.superview || !clearAll.superview)
+        return; // Leave native layout intact when the target view changes.
+    CGRect location=[heading.superview convertRect:heading.frame
+                                            toView:clearAll.superview];
+    if (!isfinite(location.origin.x) || !isfinite(location.origin.y) ||
+        CGRectGetHeight(location)<14.0) return;
+    CGFloat width=MIN(84.0,CGRectGetWidth(clearAll.superview.bounds)-
+                        CGRectGetMinX(location)-8.0);
+    if (width<68.0) return;
+    // Center the 30pt control vertically within the former 34pt heading.
+    clearAll.frame=CGRectMake(location.origin.x,
+        location.origin.y+(location.size.height-30.0)/2.0,width,30.0);
+    UIFont *font=[(clearAll.titleLabel.font?:[UIFont systemFontOfSize:10])
+                  fontWithSize:10.0];
+    DFDecorate(clearAll,@"Clear All",@"trash",font);
+    clearAll.backgroundColor=UIColor.clearColor;
+    clearAll.layer.borderWidth=0.0;
+    clearAll.layer.cornerRadius=0.0;
+    UIColor *accent=DFApprovedLogoRed();
+    [clearAll setTitleColor:accent forState:UIControlStateNormal];
+    clearAll.tintColor=accent;
+    UIImageView *icon=objc_getAssociatedObject(clearAll,DFStackIconKey);
+    if (icon) icon.tintColor=accent;
+    clearAll.accessibilityLabel=@"Clear All";
+    heading.hidden=YES;
+}
 // One canonical accent sampled from the approved, installed horizontal logo.
 // audit/approved-logo-red.json: SHA256 78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089
 // RGB (227,2,15), #E3020F. Shared with src/DuoFaceBorderRunner.m.
@@ -300,6 +359,7 @@ static void DFLayoutPicker(UIView *overlay) {
         UIImageView *icon=objc_getAssociatedObject(button,DFStackIconKey);
         if (icon) icon.tintColor=textColor;
     }
+    if (mode==2) DFRestyleRecentClearAll(overlay);
     [DFOverlays addObject:overlay];
 }
 @implementation DFZoomAction
@@ -327,6 +387,14 @@ static void DFLayoutPicker(UIView *overlay) {
     DFBuildingNativeAddTile=YES;
     %orig;
     DFBuildingNativeAddTile=previous;
+}
+// Original renderer owns the heading and the close-all action. Restyle the
+// existing UIButton only after native construction; never replace its target.
+- (void)setupRecentAppsCardsInCardW:(double)cardW
+                              cardH:(double)cardH
+                           contentY:(double)contentY {
+    %orig;
+    DFRestyleRecentClearAll((UIView *)self);
 }
 - (void)setupCardContent {
     %orig;
