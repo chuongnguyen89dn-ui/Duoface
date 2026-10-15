@@ -278,6 +278,7 @@ static DFISplitController *DFIRoot;
 - (void)dealloc { [self.timer invalidate]; }
 @end
 
+#include "DFIChrome.inc"
 #include "DFIInterface.inc"
 
 static id DFICarDisplay(void) {
@@ -290,6 +291,7 @@ static id DFICarDisplay(void) {
     return nil;
 }
 static void DFIStop(void) {
+    DFIChromeSetZoom(NO);
     DFIPerfMark(@"split_stop",nil);
     DFIPerfStop();
     [DFIRoot shutdown];
@@ -499,6 +501,7 @@ void DFIInstallRuntime(void) {
         [NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer *t){DFIConnectionChanged();}];
         DFIConnectionChanged();
     } else if([process isEqualToString:@"CarPlay"]) {
+        DFIChromeInstall();
         DFIInstallCarLauncher();
         DFIGestureTarget=[DFIHomeGestureTarget new];
         DFIInstallHomeGesture();
