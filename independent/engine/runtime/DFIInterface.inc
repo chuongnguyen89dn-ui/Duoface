@@ -308,10 +308,53 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)tasks {
  self.selectedTab=3;[self updateApprovedTabs];
- NSMutableArray *rows=[NSMutableArray array];if(DFIManaged.count)[rows addObject:@{@"id":@"*",@"title":DFIT(@"Đóng tất cả app của Split",@"Close all Split apps")}];
- for(NSString *bid in [DFIManaged.allObjects sortedArrayUsingSelector:@selector(compare:)]){id app=DFIObject(DFIGet(NSClassFromString(@"SBApplicationController"),@"sharedInstance"),@"applicationWithBundleIdentifier:",bid);NSString *title=DFIGet(app,@"displayName")?:bid;[rows addObject:@{@"id":bid,@"title":[NSString stringWithFormat:@"×  %@",title]}];}
- if(!rows.count){[self message:DFIT(@"Không có app do Split quản lý",@"No apps managed by Split")];return;}
- __weak typeof(self) weak=self;[self showRows:rows pane:-1 pick:^(NSDictionary *row){NSArray *ids=[row[@"id"]isEqual:@"*"]?DFIManaged.allObjects:@[row[@"id"]];[weak dismissPanel];for(NSString *bid in ids)DFITerminate(bid,^{[weak detachBundle:bid];},^(NSString *status){[weak message:[NSString stringWithFormat:@"%@: %@",bid,status]];});}];
+ NSMutableArray *rows=[NSMutableArray array];
+ if(DFIManaged.count)[rows addObject:@{@"id":@"*", @"title":@"Clear All"}];
+ id appController=DFIGet(NSClassFromString(@"SBApplicationController"),@"sharedInstance");
+ for(NSString *bid in [DFIManaged.allObjects sortedArrayUsingSelector:@selector(compare:)]){
+     id app=DFIObject(appController,@"applicationWithBundleIdentifier:",bid);
+     NSString *title=DFIGet(app,@"displayName")?:bid;
+     BOOL live=NO;
+     for(id host in self.hosts){
+         if(host!=NSNull.null && [[host bundleID] isEqual:bid] && [host scene]){
+             live=YES;break;
+         }
+     }
+     [rows addObject:@{@"id":bid,@"title":title,@"type":@"recent",
+                       @"live":@(live),@"action":live?@"refresh":@"close"}];
+ }
+ if(!rows.count){
+     [self message:DFIT(@"Không có app do DuoFace quản lý",@"No apps managed by DuoFace")];
+     return;
+ }
+ __weak typeof(self) weak=self;
+ [self showRows:rows pane:-1 pick:^(NSDictionary *row){
+     [weak dismissPanel];
+     NSString *bid=row[@"id"];
+     if([bid isEqual:@"*"]){
+         for(NSString *item in DFIManaged.allObjects){
+             DFITerminate(item,^{[weak detachBundle:item];},
+                 ^(NSString *status){[weak message:status];});
+         }
+         return;
+     }
+     if([row[@"action"] isEqual:@"refresh"]){
+         NSInteger slot=NSNotFound;
+         for(NSInteger i=0;i<3;i++){
+             id host=weak.hosts[i];
+             if(host!=NSNull.null && [[host bundleID] isEqual:bid]){slot=i;break;}
+         }
+         if(slot!=NSNotFound){
+             [weak detachBundle:bid];
+             // Không tạo host mới trong cùng lượt chuyển trạng thái scene cũ.
+             dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.5*NSEC_PER_SEC)),
+                 dispatch_get_main_queue(),^{if(!weak.shuttingDown)[weak openBundle:bid pane:slot];});
+         }
+         return;
+     }
+     DFITerminate(bid,^{[weak detachBundle:bid];},
+         ^(NSString *status){[weak message:status];});
+ }];
 }
 - (void)exitSplit{DFIStop();}
 - (void)shutdown {
