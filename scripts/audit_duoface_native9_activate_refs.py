@@ -25,6 +25,7 @@ DEB = ROOT / "dist/payload-migration/native9/com.duoface.independent_0.1.0~nativ
 EXPECTED_DEB = "e4e1122a494d32af6ec42c97c4288f6effb6716fbb81cb52b81b746280d4d97e"
 CATALOG = ROOT / "audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json"
 CURRENT_AUDIT = ROOT / "audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json"
+PATCHED_NATIVE4 = ROOT / "dist/payload-migration/native4/BAO_CAO.json"
 BINARIES = {
     "DuoFaceUI": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
     "DuoFaceDashboard":
@@ -126,7 +127,8 @@ def decode_refs(text: bytes, text_vm: int, target_vm: int) -> list[dict]:
     return results[:80]
 
 
-def analyze(raw: bytes, expected_offset: int, expected_sha: str) -> dict:
+def analyze(raw: bytes, expected_offset: int, expected_sha: str,
+            inert_method_spans: list[tuple[int, int]]) -> dict:
     maps = sections(raw)
     section = next((
         x for x in maps if x["section"]=="__cstring" and
@@ -192,6 +194,18 @@ def analyze(raw: bytes, expected_offset: int, expected_sha: str) -> dict:
                 code = raw[text_sec["file_offset"]:text_sec["file_offset"]+text_sec["size"]]
                 refs.extend(decode_refs(
                     code[:len(code)//4*4], text_sec["virtual_address"], cf_vm))
+            for ref in refs:
+                pc = int(ref.get("add_pc_hex", ref.get("ldr_pc_hex",
+                         ref.get("adr_pc_hex"))),16)
+                source_sec = next((
+                    x for x in executable if
+                    x["virtual_address"] <= pc < x["virtual_address"]+x["size"]
+                ),None)
+                assert source_sec is not None
+                fileoff = source_sec["file_offset"]+pc-source_sec["virtual_address"]
+                ref["candidate_code_file_offset_hex"] = hex(fileoff)
+                ref["overlaps_native4_neutralized_method_span"] = any(
+                    begin<=fileoff<end for begin,end in inert_method_spans)
             cfstring_objects.append({
                 "candidate_cfstring_vm_hex":hex(cf_vm),
                 "candidate_cfstring_file_offset_hex":hex(cf_off),
@@ -226,6 +240,7 @@ def main(out: Path) -> None:
     assert DEB.is_file() and sha(DEB.read_bytes())==EXPECTED_DEB
     original=json.loads(CATALOG.read_text(encoding="utf-8"))
     audit=json.loads(CURRENT_AUDIT.read_text(encoding="utf-8"))
+    native4=json.loads(PATCHED_NATIVE4.read_text(encoding="utf-8"))
     assert audit["native9_deb_sha256"]==EXPECTED_DEB
     assert audit["string_counts"]["possible_visible_activate_label_unverified"]==2
     with tempfile.TemporaryDirectory(prefix="duoface-activate-refs-") as t:
@@ -240,10 +255,23 @@ def main(out: Path) -> None:
             assert len(candidates)==1,(binary,len(candidates))
             item=candidates[0]
             data=(root/relative).read_bytes()
+            spans=[
+                (int(m["file_offset"]),int(m["file_offset"])+int(m["bytes_replaced"]))
+                for m in native4["method_bodies"][binary]["patched_methods"]
+            ]
             rows[binary]={
                 "binary_sha256":sha(data),
-                **analyze(data,int(item["file_offset"]),item["sha256"]),
+                **analyze(data,int(item["file_offset"]),item["sha256"],spans),
             }
+            xrefs=[
+                ref for item in rows[binary]["cfstring_object_reference_candidates"]
+                for ref in item["direct_arm64_address_loads_to_cfstring_object"]
+            ]
+            rows[binary]["cfstring_arm64_reference_heuristics_total"]=len(xrefs)
+            rows[binary]["cfstring_arm64_ref_inside_native4_inert_spans"]=sum(
+                bool(ref["overlaps_native4_neutralized_method_span"]) for ref in xrefs)
+            rows[binary]["cfstring_arm64_ref_outside_native4_inert_spans"]=(
+                len(xrefs)-rows[binary]["cfstring_arm64_ref_inside_native4_inert_spans"])
     report={
         "status":"NATIVE9_ACTIVATE_LITERAL_STATIC_REFERENCE_MAP_READONLY",
         "native9_deb_sha256":EXPECTED_DEB,
@@ -275,6 +303,8 @@ def main(out: Path) -> None:
                 x["direct_arm64_load_count"]
                 for x in v["cfstring_object_reference_candidates"]
             ],
+            "outside_neutralized_method_spans":
+                v["cfstring_arm64_ref_outside_native4_inert_spans"],
         } for k,v in rows.items()},
         "deb_built":False,"sileo_changed":False},ensure_ascii=False,indent=2))
 
