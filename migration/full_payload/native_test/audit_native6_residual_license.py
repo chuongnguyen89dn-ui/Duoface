@@ -43,10 +43,11 @@ def scan_short_strings(blob: bytes, name: str):
         if encoding=="utf-16-le":
             assert off%2==0
             cursor=0
-            while cursor < len(data)-2:
-                end=data.find(separator,cursor)
-                if end < 0: break
-                if end%2: end+=1;continue
+            while cursor < len(data)-1:
+                end=cursor
+                while end+1<len(data) and data[end:end+2]!=separator:
+                    end+=2
+                if end+1>=len(data): break
                 raw=data[cursor:end]
                 if raw and len(raw)<=SIZE_LIMIT:
                     record_candidate(found,name,sec,off+cursor,raw,encoding)
