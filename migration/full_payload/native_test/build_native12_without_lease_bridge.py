@@ -102,6 +102,11 @@ def main():
         any_refs={}
         needle=b"A_DuoFaceNativeNoLease"
         for f in stage.rglob("*"):
+            # md5sums is *expected* to mention removed files until the next
+            # step regenerates it. All executable/config/maintainer files are
+            # still searched; only the stale inventory is excluded.
+            if f.relative_to(stage).as_posix()=="DEBIAN/md5sums":
+                continue
             if f.is_file() and not f.is_symlink() and needle in f.read_bytes():
                 any_refs[f.relative_to(stage).as_posix()]=True
         assert not any_refs,any_refs
