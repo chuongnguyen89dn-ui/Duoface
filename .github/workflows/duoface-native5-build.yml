@@ -1,0 +1,107 @@
+name: DuoFace native5 - reversible residual license quarantine DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native5.py'
+      - '.github/workflows/duoface-native5-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native5-build
+  cancel-in-progress: false
+jobs:
+  build-and-check:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify previously device-tested native4 and tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          source='dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb'
+          printf '%s  %s\n' '517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244' "$source" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native5.py
+      - name: Create staged native5 trial with future deletion ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native5
+          python3 migration/full_payload/native_test/build_native5.py \
+            --out 'dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native5/BAO_CAO.json' \
+            --deletion-list 'dist/payload-migration/native5/DANH_SACH_CHO_XOA.json' \
+            | tee "$RUNNER_TEMP/native5-build.txt"
+      - name: Independent package and list verifications
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$deb" --out dist/payload-migration/native5/BRAND_ZERO_AUDIT.json
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('dist/payload-migration/native5')
+          report=json.loads((p/'BAO_CAO.json').read_text())
+          ledger=json.loads((p/'DANH_SACH_CHO_XOA.json').read_text())
+          scan=json.loads((p/'BRAND_ZERO_AUDIT.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb'
+          assert report['status']=='NATIVE5_STAGED_EXPIRED_UI_HIDDEN_NEEDS_DEVICE_TEST'
+          assert report['package']=='com.duoface.independent' and report['version']=='0.1.0~native5'
+          assert report['source_native4_sha256']=='517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244'
+          assert report['new_expired_state_methods_neutralized']==2
+          assert report['hidden_literal_count']>=4
+          assert not report['full_license_removal'] and not report['device_tested']
+          assert report['untouched_files']>=35
+          assert len(report['changed_paths'])==4
+          assert ledger['status']=='NATIVE5_RESIDUAL_LICENSE_DELETION_LEDGER_PENDING_REAL_DEVICE_APPROVAL'
+          assert len(ledger['method_hidden_records'])==2
+          assert len(ledger['ui_literal_hidden_records'])==report['hidden_literal_count']
+          assert scan['strict_byte_level_zero_matches'] and not scan['affected_paths']
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==report['deb_sha256']
+          print('NATIVE5_STAGED_HIDE_AND_DELETION_LEDGER_PACKAGING_PASS')
+          PY
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native5'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '0.1.0~native5' gt '0.1.0~native4'
+          mkdir -p "$RUNNER_TEMP/native5-unpack"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native5-unpack"
+          for file in \
+            var/jb/Applications/DuoFaceUI.app/DuoFaceUI \
+            var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib
+          do
+            test "$(lipo -archs "$RUNNER_TEMP/native5-unpack/$file")" = 'arm64'
+            otool -L "$RUNNER_TEMP/native5-unpack/$file" > "$RUNNER_TEMP/linked-$(basename "$file").txt"
+          done
+          shasum -a 256 "$deb" | tee "$RUNNER_TEMP/native5-sha256.txt"
+      - name: Persist DEB and curated deletion ledger in DuoFace branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native5/*.deb dist/payload-migration/native5/*.json
+          git commit -m 'artifact: native5 residual license staged hide candidate and future deletion list [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - name: Keep build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native5-${{github.run_id}}
+          path: |
+            dist/payload-migration/native5/*.deb
+            dist/payload-migration/native5/*.json
+            ${{runner.temp}}/native5-build.txt
+            ${{runner.temp}}/native5-sha256.txt
+          if-no-files-found: warn
