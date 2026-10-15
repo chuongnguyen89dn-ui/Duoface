@@ -71,14 +71,32 @@ def verify():
             assert len(new)==len(unsigned)==len(old)
             # ldID changes signature but no Mach-O segment payload section is
             # permitted to differ from the exact deterministic erase.
-            orig_sections=sections(old)
-            new_sections=sections(new)
-            assert orig_sections==new_sections,"Section metadata must not drift"
+            orig_sections=list(sections(old))
+            new_sections=list(sections(new))
+            # Re-signing may add/change a code-signature load command; file
+            # offsets for later sections must be compared semantically, not
+            # as a raw tuple list. Critically, every mapped section must still
+            # contain byte-identical data, except the 52 exact __cstring ranges.
+            old_map={}
+            new_map={}
             for seg,sect,off,n in orig_sections:
-                expect=unsigned[off:off+n]
-                assert new[off:off+n]==expect,(name,seg,sect)
-                if sect!="__cstring":
-                    assert old[off:off+n]==new[off:off+n],(name,seg,sect)
+                old_map.setdefault((seg,sect),[]).append((off,n))
+            for seg,sect,off,n in new_sections:
+                new_map.setdefault((seg,sect),[]).append((off,n))
+            assert old_map.keys()==new_map.keys(),(name,"section set drift",set(old_map)^set(new_map))
+            for key,old_entries in old_map.items():
+                new_entries=new_map[key]
+                assert len(old_entries)==len(new_entries),(name,key,"section count changed")
+                for (off,n),(new_off,new_n) in zip(old_entries,new_entries):
+                    assert n==new_n,(name,key,"section size changed",n,new_n)
+                    seg,sect=key
+                    if sect=="__cstring":
+                        # Rootless arm64 __cstring pointers cannot change:
+                        # literal contents are in-place NUL-ed at original offsets.
+                        assert off==new_off,(name,key,"cstring layout moved")
+                        assert new[new_off:new_off+n]==unsigned[off:off+n],(name,key,"cstring exact erase failed")
+                    else:
+                        assert old[off:off+n]==new[new_off:new_off+n],(name,key,"non-string section changed")
             assert stats["unsigned_erased_sha256"]==audit["signed_binaries"][name]["unsigned_erased_sha256"]
             assert len(rows)==audit["signed_binaries"][name]["erased_string_count"]
             for row in rows:
