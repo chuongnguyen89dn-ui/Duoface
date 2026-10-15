@@ -211,7 +211,9 @@ static NSArray *DFIAvailableApps(void) {
  [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFIList *list=[DFIList new];list.rows=rows;list.pick=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
 - (void)choose:(UIButton *)button {
- NSInteger index=button.tag;NSMutableArray *rows=[NSMutableArray array];for(NSDictionary *app in DFIAvailableApps()){BOOL duplicate=NO;for(int i=0;i<3;i++)if(i!=index&&self.hosts[i]!=NSNull.null&&[[self.hosts[i] bundleID]isEqual:app[@"id"]])duplicate=YES;if(!duplicate)[rows addObject:app];}
+ NSInteger index=button.tag;
+ if(index<0 || index>2)return;
+ self.activePane=index;self.selectedTab=0;[self updateApprovedTabs];NSMutableArray *rows=[NSMutableArray array];for(NSDictionary *app in DFIAvailableApps()){BOOL duplicate=NO;for(int i=0;i<3;i++)if(i!=index&&self.hosts[i]!=NSNull.null&&[[self.hosts[i] bundleID]isEqual:app[@"id"]])duplicate=YES;if(!duplicate)[rows addObject:app];}
  if(!rows.count){[self message:DFIT(@"Chưa tìm thấy ứng dụng phù hợp",@"No eligible apps found")];return;}
  __weak typeof(self) weak=self;[self showRows:rows pane:index pick:^(NSDictionary *a){[weak dismissPanel];[weak openBundle:a[@"id"] pane:index];}];
 }
@@ -232,6 +234,7 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)saveLayout{DFIWritePreference(@"layout",@(self.layoutKind));DFIWritePreference(@"fraction",@(self.fraction));DFIWritePreference(@"secondary",@(self.secondary));}
 - (void)layouts {
+ self.selectedTab=2;[self updateApprovedTabs];
  [self dismissPanel];self.panelPane=-1;self.panel=[self glass];NSArray *names=@[DFIT(@"Một khung",@"One pane"),DFIT(@"Trái / phải",@"Left / right"),DFIT(@"Trên / dưới",@"Top / bottom"),DFIT(@"Ba cột",@"Three columns"),DFIT(@"Một trái, hai phải",@"One left, two right"),DFIT(@"Hai trái, một phải",@"Two left, one right"),DFIT(@"Một trên, hai dưới",@"One top, two bottom"),DFIT(@"Hai trên, một dưới",@"Two top, one bottom")];
  for(int i=1;i<=8;i++){DFILayoutIcon *b=[DFILayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}[self armHide];[self.view setNeedsLayout];
 }
@@ -264,6 +267,7 @@ static NSArray *DFIAvailableApps(void) {
  for(int i=0;i<3;i++)if(self.hosts[i]!=NSNull.null&&[[self.hosts[i]bundleID]isEqual:bid]){[self.hosts[i]close];self.hosts[i]=NSNull.null;self.emptyButtons[i].hidden=NO;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];DFIWritePreference(@[@"left",@"right",@"third"][i],nil);}
 }
 - (void)tasks {
+ self.selectedTab=3;[self updateApprovedTabs];
  NSMutableArray *rows=[NSMutableArray array];if(DFIManaged.count)[rows addObject:@{@"id":@"*",@"title":DFIT(@"Đóng tất cả app của Split",@"Close all Split apps")}];
  for(NSString *bid in [DFIManaged.allObjects sortedArrayUsingSelector:@selector(compare:)]){id app=DFIObject(DFIGet(NSClassFromString(@"SBApplicationController"),@"sharedInstance"),@"applicationWithBundleIdentifier:",bid);NSString *title=DFIGet(app,@"displayName")?:bid;[rows addObject:@{@"id":bid,@"title":[NSString stringWithFormat:@"×  %@",title]}];}
  if(!rows.count){[self message:DFIT(@"Không có app do Split quản lý",@"No apps managed by Split")];return;}
