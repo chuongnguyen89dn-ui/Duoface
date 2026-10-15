@@ -1,0 +1,48 @@
+{
+  "status": "PASS_STATIC_SOURCE_ROUTE_AUDIT_ONLY",
+  "not_runtime_or_device_test": true,
+  "not_package_or_sileo": true,
+  "user_hold_threshold_seconds": 0.3,
+  "original_hold_seconds": 0.4,
+  "assertion_groups": [
+    "pinned native6 binary evidence",
+    "0.30s on the existing UILongPressGestureRecognizer",
+    "native short-tap onSwap preserved",
+    "native long-hold onRotate suppressed for swap logo",
+    "logo drag uses relativePos and native updateGripLayout",
+    "ratio pan only forwarded if touch was not on logo",
+    "no splitRatio setter called by logo code",
+    "source hook integrates methods on actual CBDividerView"
+  ],
+  "scenarios_as_code_contracts": [
+    {
+      "gesture": "button quick tap <0.30s",
+      "expected": "original onSwap on native touchUp; no logo relocation"
+    },
+    {
+      "gesture": "button stationary hold >=0.30s",
+      "expected": "longhold began; no onRotate; no splitRatio"
+    },
+    {
+      "gesture": "button long hold, move along divider",
+      "expected": "changed updates relativePos and native updateGripLayout"
+    },
+    {
+      "gesture": "button starts pan before 0.30s",
+      "expected": "ratio pan guarded; no accidental touchUp swap after movement"
+    },
+    {
+      "gesture": "pan begins outside logo",
+      "expected": "native CBDividerView.handlePan remains unchanged"
+    },
+    {
+      "gesture": "logo longhold released",
+      "expected": "latched consumed state suppresses late onSwap"
+    }
+  ],
+  "source_hashes": {
+    "src/DuoFaceVisualHook.m": "1b120aba8c5e269ff45be9c19018aadc06adce260b6f42fa75a3da909a877e68",
+    "src/DFDividerLogoGrip.inc": "36c251bbbc716d53c5d9b1e2d1396c0357e94e911308b59161b3d3901f57c058",
+    "audit/divider/GRIP_MOBILITY_NATIVE6.json": "a978f8b55179db3c1f56764130e48771ec5af8ca42a8f9a222f6b4fb013debbb"
+  }
+}
