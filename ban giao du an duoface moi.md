@@ -224,6 +224,16 @@
 - **Bước tiếp:** lập kiểm kê đối chiếu tính năng–đồ họa giữa `menu-native1` và mã DuoFace với `independent/engine`, ghi các phần còn thiếu và phụ thuộc CB*; chuyển mã/UI vào lõi độc lập, build và thử nghiệm từng nhóm; cuối cùng xác nhận tương đương 100% trên CarPlay thật.
 
 
+### 2026-10-15 — Bắt đầu chuyển tài nguyên và mã DuoFace 100% sang nhánh độc lập
+
+- **Yêu cầu vừa nhận:** “được rồi bây giờ bạn chuyển toàn bộ dữ liệu sang duo mới được chưa?” — thực hiện chuyển toàn bộ chức năng và tài nguyên DuoFace đã chốt sang `com.duoface.independent`, không bớt bất kỳ chức năng nào, không sao chép binary giấy phép/cốt lõi DuoNavi.
+- **Đã kiểm tra trạng thái trước sửa:** `Duoface` nhánh `main` HEAD `d1b7e826716c1bc16a6f5ec3f6ff661ef026bf49`; nhánh đang phát triển `feature/duoface-independent-core` HEAD `6045179a1a37fcce81dc6926243819b8d5c02e37`; run mới nhất `38689549365` (snapshot) success, bản alpha1 Sileo `0.1.0~alpha1` vẫn giữ. Không thấy job build/Pages của DuoFace đang chạy trong danh sách 15 run gần nhất.
+- **Phân tích nguồn:** Bản duyệt cũ có mã UI tại `runtime/fullscreen/DFPickerZoomMenu.xm`, `DFDashboardChrome.xm`, `DFFullscreenTransport.mm`, `src/DuoFaceVisualHook.m` và assets ở `dist/visual-1.0.3-12/assets/`. Bản độc lập có scene/window thật ở `independent/engine/runtime/DFIRuntime.m` và UI tạm ở `DFIInterface.inc`. Các hook UI cũ phụ thuộc `CBMultitaskingOverlayView`/`CBBridgeManager` nên **không thể chép nguyên nhị phân** mà phải chuyển giao diện/hành vi qua view/scene của bản mới.
+- **Kế hoạch thực thi của mốc này:** chuyển toàn bộ ảnh/đồ họa gốc không biến đổi vào đường dẫn asset RIÊNG để tránh 2 package ghi đè nhau; chuyển menu 4 mục, chọn/recent app, màu/chấm/nút và chức năng sang source lõi độc lập; sửa `SBAppTags:hidden` để biểu tượng có thể hiện trên iPhone; thêm kiểm thử parity/static và build nhánh thử. Bản nguồn cũ giữ nguyên. Không đánh dấu 100% khi chưa test CarPlay/khắc phục crash.
+- **Nguồn kỹ năng:** đã đọc `Gpt-training-/SKILL_INDEX.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`, `PROJECT_INSTRUCTIONS.md`; đã xác minh có `skills/02-ios-deb-ipa-carplay.zip` trên GitHub nhưng chỉ lấy được base64 qua connector, tài liệu MD đã đọc là bản hướng dẫn áp dụng; không tự tuyên bố giải nén ZIP.
+- **Tình trạng:** đã phân tích nguồn, bước ghi sửa mã bắt đầu sau checkpoint này. Chưa sửa hoặc build/deploy tại thời điểm ghi.
+
+
 ---
 
 **Nhắc khi mở cuộc trò chuyện mới:** Nguồn trạng thái DuoFace độc lập **là `ban giao du an duoface moi.md`**. `tiep tuc du an.md` root chỉ chứa lịch sử bản kế thừa. Ghi chứng cứ đã làm, không suy đoán và không lặp lại các tác vụ đã hoàn tất.
