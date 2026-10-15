@@ -3,6 +3,14 @@
 > **ĐẦU MỐI BÀN GIAO CHÍNH THỨC TỪ NGÀY 15/10/2026.** File `ban giao du an duoface moi.md` là nơi lưu trạng thái và nhật ký của dự án **DuoFace mới, hoạt động độc lập, không cần DuoNavi**. Đọc file này **trước** khi sửa/chạy/build. Cập nhật chính file này sau các mốc làm việc có ý nghĩa; đừng ghi tiến độ của hướng mới vào hồ sơ cũ.
 > **Lưu ý:** `tiep tuc du an.md` ở root repository là **kho lịch sử DuoFace trên nền DuoNavi** để tra cứu kỹ thuật; giữ nguyên, không xóa hay đánh đồng với đầu mối mới. Không tạo thêm hồ sơ tương tự.
 
+## YÊU CẦU MỚI NHẤT — 15/10/2026: QUÉT SẠCH DUI/NAVI & AIRAW TRONG DEB
+
+- **Nguyên văn yêu cầu:** “Mạnh dạn loại bỏ những j liên quan giấy phép đi. Và bây giờ ta đang là 1 dự án riêng nên phải tìm bằng hết các chữ có duonavi và airaw để đổi sang duofcae. Đảm bảo ko sót 1 chữ nào trong đó”.
+- **Phạm vi BẮT BUỘC:** từ **gói đã chạy tốt `com.duoface.independent 0.1.0~native2`** phải kiểm kê toàn bộ nội dung DEB giải nén gồm các binary ARM64 (cả ASCII và UTF-16), Info.plist, tệp filter, tên đường dẫn, symlinks, scripts DEBIAN/control/postinst, thư viện add-on; các cách viết hoa/thường `duonavi`, `airaw`. Cần định danh công khai DuoFace mới; không tự nhận sạch 100% nếu còn 1 dấu vết.
+- **Tránh phá bản đã hoạt động:** trước hết CHẠY SCAN từ nhị phân native2 thực để có **bằng chứng từng file/offset/tổng số**, phân loại chuỗi dùng làm data/UI, identifier/Objective-C selector, dylib load name, path hoặc ký hiệu máy; không vá bừa độ dài/offset làm crash host hoặc thay nhầm chuỗi system. Thay đổi cần kiểm bằng zero-match gate nghiêm ngặt và on-device test CarPlay. Bản native2 phải giữ nguyên trên GitHub làm rollback, package cũ `com.duonavi.app` tuyệt đối không bị sửa/xóa.
+- **Vấn đề license:** native2 đã loại các dòng hiển thị ngày và kích hoạt trên iPhone (người dùng xác nhận) nhưng code license vẫn ở nhị phân cũ; mục tiêu của bản kế tiếp là loại tiếp thành phần legacy mà **không viết lại UI**. Phân biệt loại đường truy cập/hiển thị đã chứng minh với việc còn bytecode từ đầu; không tuyên bố sạch khi chưa quét và test đúng.
+- **Trạng thái mới nhận yêu cầu:** đang lập công cụ quét DEB và kế hoạch xử lý cụ thể. Chưa có kết quả scan/DEB mới tại thời điểm ghi mục này.
+
 ## CHECKPOINT THỰC THI MỚI NHẤT — 15/10/2026: native2 Sileo PASS, iPhone đã xác nhận ẩn ngày/kích hoạt; CarPlay native2 chưa kiểm
 
 - **Yêu cầu đang áp dụng:** User xác nhận **native1 chạy tốt trên cả 2 iPhone** (trước đây máy 2 không cài được bản cũ); muốn tiếp tục **bỏ phần ngày sử dụng/giấy phép khỏi DEB mới** theo từng lần build và test thật, có thể quay lại bản đang hoạt động. **Không viết lại UI/CarPlay** hoặc nhận định sai về quyền sở hữu dự án. Đã ghi quy tắc giao tiếp bắt buộc ở các mục dưới.
