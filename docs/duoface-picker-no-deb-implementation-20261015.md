@@ -51,3 +51,9 @@
 - Active repo: `chuongnguyen89dn-ui/Duoface`, `main`; no local working tree used.
 - Exact code outputs: source and script commits above, CI reports and alpha-v2 candidate paths.
 - Next action: verify latest compile gate `38664724807`, re-read current script/image SHA, checkpoint `tiep tuc du an.md`; ask for desired replacement *words* for Mở lại / Cột Trái / Cột Phải only if the user wants them renamed. No DEB now.
+
+
+## Final compile-only readback (after the checkpoint was drafted)
+- GitHub Actions run **38664724807** `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38664724807` completed **SUCCESS**, including source compile, visual hook compile and persist evidence. Source commit: `36a9d73eb44c034a485e28ea13ab82b5764bb719`.
+- Exact report `audit/duoface-next-compile-36a9d73eb44c.json`: `status=COMPILE_ONLY_SUCCESS_NOT_DEVICE_PASS`, bridge SHA256 `b58a3a6e6c3829d0e6642410158d95ccf389c11f8d4c9c70484a3ac1c76f051a`, visual SHA256 `692d1ecfe9e2753cfd9a5a13b4382653fd121525da3752e058def990c18c8d0d`, `deb_built=false`, `sileo_published=false`.
+- Supporting fullscreen adapter compile run `38664724740` also completed SUCCESS. This closes the previously pending compile verification. It does NOT establish on-device CarPlay UI correctness.
