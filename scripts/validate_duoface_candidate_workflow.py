@@ -76,7 +76,7 @@ def verify() -> dict:
     before = source.replace(helper.group(0), "").replace(
         "DFPickerOpaqueSheetColor()", "UIColor.clearColor"
     ).encode("utf-8")
-    blob = b"blob " + str(len(before)).encode() + b"\\x00" + before
+    blob = b"blob " + str(len(before)).encode() + b"\x00" + before
     assert hashlib.sha1(blob).hexdigest() == "2f7d2a8f3d9f8b7dca6d3a596357b2bb72135ec3", (
         "Unapproved change beyond picker opacity compared with installed source"
     )
