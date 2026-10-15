@@ -36,7 +36,7 @@ def scan_short_strings(blob: bytes, name: str):
         if (seg,sec) not in {("__TEXT","__cstring"),("__TEXT_EXEC","__cstring"),("__TEXT","__ustring")}:
             continue
         encoding="utf-16-le" if sec=="__ustring" else "utf-8"
-        separator=b"\\x00\\x00" if encoding=="utf-16-le" else b"\\x00"
+        separator=b"\x00\x00" if encoding=="utf-16-le" else b"\x00"
         data=blob[off:off+sz]
         # Bound the traversal and do not store arbitrary raw Mach-O content.
         # UTF-16 section is scanned on two-byte aligned positions.
@@ -53,7 +53,7 @@ def scan_short_strings(blob: bytes, name: str):
                 cursor=end+2
         else:
             cursor=0
-            for raw in data.split(b"\\x00"):
+            for raw in data.split(b"\x00"):
                 if raw and len(raw)<=SIZE_LIMIT:
                     record_candidate(found,name,sec,off+cursor,raw,encoding)
                 cursor+=len(raw)+1
@@ -135,7 +135,7 @@ def main():
         "next":"Classify exact residual text and references; stage only proven presentation-only strings; never patch CarPlay methods or unrelated object lifecycle."
     }
     args.out.parent.mkdir(parents=True,exist_ok=True)
-    args.out.write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\\n")
+    args.out.write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\n")
     print(json.dumps({"status":result["status"],"residual_count":total,
                       "counts":{k:{m:v for m,v in x.items() if m not in ("strings","objc_parser_warnings")}
                                 for k,x in binaries.items()}},ensure_ascii=False,indent=2))
