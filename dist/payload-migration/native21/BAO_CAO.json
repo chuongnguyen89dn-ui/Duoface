@@ -1,0 +1,44 @@
+{
+  "status": "NATIVE21_NATIVE12_AUTOSTART_RESTORED_OBSOLETE_APP_TILE_REMOVED_NOT_DEVICE_TESTED",
+  "version": "0.1.0~native21",
+  "package": "com.duoface.independent",
+  "base_native20_sha256": "020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef",
+  "deb_sha256": "6ba61570dd5af083c7dd7e1eb102a08a2830b7215a3e94f8932fe2b353c0b763",
+  "deb_size": 1742980,
+  "original_payload_files": 45,
+  "unchanged_payload_files": 43,
+  "modified_payload_files": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib": {
+      "original_sha256": "5681413039b1ebb32d75e7f934a2e8f4929e6b9fade01790764a53e9ca7297bd",
+      "replacement_sha256": "b6d8a2cd7b4ed06ca96bf13cbd13ae472c29caf0a6a825acd69816570494ab25"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.dylib": {
+      "original_sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+      "replacement_sha256": "a7799210fc9a07648ee8c129a4950c40411c115b43c97c5e5cdab130d75974f2"
+    }
+  },
+  "original_iphone_app_and_dashboard_binary_byte_identical": true,
+  "previously_installed_apps_prefs_migration_unchanged": true,
+  "process_filter_plists_byte_identical": true,
+  "no_new_runtime_autostart_override": true,
+  "restored_native12_method_owners": [
+    "CBBridgeManager.effectiveAutoLaunchBundleID",
+    "CBBridgeManager.performAutoResume"
+  ],
+  "native12_app_selection_on_iphone_preserved": true,
+  "new_disconnection_grace_seconds": 10,
+  "source_contracts": {
+    "native12_auto_resume_hooks_removed": true,
+    "native12_effectiveAutoLaunchBundleID_untouched": true,
+    "native12_performAutoResume_untouched": true,
+    "ten_second_close_policy_preserved": true,
+    "in_car_app_selection_sheet_removed": true,
+    "obsolete_add_button_removed_by_native_target_action": true
+  },
+  "full_layout_runtime_restoration_confirmed": false,
+  "obsolete_button_device_tested": false,
+  "license_modified": false,
+  "dopamine_touched": false,
+  "sileo_published": false,
+  "notes": "Only 2 modules recompiled: revert extra single-app Auto Resume overrides while maintaining 10s close. Hide obsolete CarPlay Add App tile; iPhone native picker unchanged. Build/byte regressions cannot prove native UI restored on device."
+}
