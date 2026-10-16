@@ -264,6 +264,28 @@
       ]
     }
   },
+  "dashboard_activation_selrefs": {
+    "0x37ed80": {
+      "raw_ptr": "0x2f937f",
+      "selector": "setActivated:"
+    },
+    "0x37eee8": {
+      "raw_ptr": "0x2f9c31",
+      "selector": "setAppDockActiveBundleID:"
+    },
+    "0x37eef0": {
+      "raw_ptr": "0x2f9c4b",
+      "selector": "setHomeButtonInApp:"
+    },
+    "0x37d518": {
+      "raw_ptr": "0x2f2d89",
+      "selector": "sharedInstance"
+    },
+    "0x37e398": {
+      "raw_ptr": "0x2f701d",
+      "selector": "sharedInstanceIfExists"
+    }
+  },
   "classes": {
     "CBWindow": {
       "+carPlayWindowScene": {
