@@ -149,8 +149,26 @@ def main():
                     if s==item:
                         pointers[item]=any_raw_ptr_refs(m,raw,vm)
                         break
+            # A CFString literal in __DATA,__cfstring usually contains the
+            # cstring VM at structure+0x10. Pointer fixups may carry only the
+            # low 32-bit VM offset in this on-disk archived artifact.
+            targets={}
+            for term,refs in pointers.items():
+                for ptr in refs:
+                    if ptr["section"]=="__cfstring":
+                        targets[int(ptr["vm"],16)-16]="CFSTRING:"+term
+            rows=text_disassembly(m,raw)
+            direct_perf_cfstring_sites=relevant_xrefs(rows,targets,220)
+            for site in direct_perf_cfstring_sites:
+                site["nearby_disassembly"]=[
+                    ("%s  ; CALL %s"%(line,syms["stubs"].get(hex(int(line.split("bl #",1)[1].split()[0],16)),"")))
+                    if "bl #0x" in line and
+                       re.search(r"bl #0x[0-9a-f]+",line) else line
+                    for line in site["nearby_disassembly"]
+                ]
             outcome[arch]={
                "sha256":sha256(raw),
+               "performance_cfstring_code_xrefs":direct_perf_cfstring_sites,
                "indirect_imports":syms,
                "nearby_string_tables":names,
                "direct_string_pointer_candidates":pointers,
