@@ -1,0 +1,89 @@
+name: DuoFace native12 Speed2 HUD-only Waze-safe candidate DEB (NOT Sileo)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed2hud-isolation-deb.yml'
+      - 'migration/full_payload/native_test/build_native12_speed2hud_candidate.py'
+      - 'Makefile.speedhud-host-stage'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native12-speed2hud-isolation
+  cancel-in-progress: false
+jobs:
+  isolate:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin Native12 and validate host-only filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          echo "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  $base" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_speed2hud_candidate.py
+          plutil -lint DuoFaceSpeedHUD.plist
+          grep -Fq '"com.apple.CarPlayApp"' DuoFaceSpeedHUD.plist
+          grep -Fq '"com.apple.CarPlayTemplateUIHost"' DuoFaceSpeedHUD.plist
+          ! grep -Fi 'com.apple.springboard' DuoFaceSpeedHUD.plist
+          ! grep -E 'DFSpeedAppObserver|DFSpeedGMapReader' Makefile.speedhud-host-stage
+          dpkg --compare-versions '0.1.0~native12+speed2hud' gt '0.1.0~native12+speed1'
+      - name: Theos compile only CarPlay HUD without loading other app sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-host-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -s "$dylib"
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib"
+          xcrun lipo "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" -verify_arch arm64
+      - name: Build exact Native12 plus one namespaced CarPlay host UI module
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native12-speed2hud
+          deb=dist/payload-migration/native12-speed2hud/com.duoface.independent_0.1.0~native12+speed2hud_iphoneos-arm64.deb
+          test ! -e "$deb"
+          python3 migration/full_payload/native_test/build_native12_speed2hud_candidate.py \
+             --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" \
+             --output "$deb" \
+             --report dist/payload-migration/native12-speed2hud/BAO_CAO.json
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed2hud'
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          dpkg-deb -c "$deb" > dist/payload-migration/native12-speed2hud/CONTENTS.txt
+          grep -F 'DuoFaceSpeedHUD.dylib' dist/payload-migration/native12-speed2hud/CONTENTS.txt
+          ! grep -E 'DuoFaceSpeedSources|WazeGMapHUDSource|GofaGMapHUDSource|VietMapGoogleMapsSource|GoogleMapsVietMap|GMapHUDPlacementRelay' dist/payload-migration/native12-speed2hud/CONTENTS.txt
+          shasum -a 256 "$deb" > dist/payload-migration/native12-speed2hud/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed2hud-isolation-deb
+          path: dist/payload-migration/native12-speed2hud/
+          if-no-files-found: warn
+      - name: Persist QA package in correct DuoFace branch; Sileo UNCHANGED
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12-speed2hud/
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: Native12 Speed2HUD isolation candidate not yet on Sileo [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
