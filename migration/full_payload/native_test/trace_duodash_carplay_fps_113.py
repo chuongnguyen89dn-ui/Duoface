@@ -125,6 +125,33 @@ def any_raw_ptr_refs(m, raw, string_addr):
                 if steps>=80:break
     return out[:120]
 
+def decode_relevant_cfstrings(m, raw, arch):
+    """Decode actual pref domain from CFConstantString objects, resolving
+    on-disk pointer fixups without assuming the target service is CarPlay."""
+    vm_targets=[0xc94e8,0xca428,0xcd768,0xcd788,0xcd7a8,0xcd7c8,0xcd7e8,0xcd808] if arch=="arm64" else []
+    result={}
+    candidates=[]
+    for sec in m.sections:
+        if sec["name"]!="__cfstring":continue
+        # CFConstantString is a 32-byte structure on 64-bit Objective-C.
+        for i in range(0,sec["size"],32):
+            vm=sec["vm"]+i
+            try:
+                ptr=m.ptr(vm+16)
+                name=m.cstr(ptr)
+                if any(t in name.lower() for t in ("perf_tweak","maxfps","encoderfps","carplay","duodash","fps","settings")):
+                    candidates.append({"vm":hex(vm),"string_vm":hex(ptr),"value":name})
+            except (ValueError,IndexError,KeyError):
+                pass
+    for vm in vm_targets:
+        try:
+            ptr=m.ptr(vm+16)
+            result[hex(vm)]={"value":m.cstr(ptr),"resolved_string_vm":hex(ptr),
+                             "raw_object_bytes":raw[m.map(vm):m.map(vm)+32].hex()}
+        except Exception as e:
+            result[hex(vm)]={"error":type(e).__name__+":"+str(e)}
+    return {"selected_vm":result,"matched_cfstrings":candidates[:160]}
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--deb",type=Path,required=True)
@@ -158,6 +185,7 @@ def main():
                     if ptr["section"]=="__cfstring":
                         targets[int(ptr["vm"],16)-16]="CFSTRING:"+term
             rows=text_disassembly(m,raw)
+            cfstring_names=decode_relevant_cfstrings(m,raw,arch)
             direct_perf_cfstring_sites=relevant_xrefs(rows,targets,220)
             for site in direct_perf_cfstring_sites:
                 site["nearby_disassembly"]=[
@@ -169,6 +197,7 @@ def main():
             outcome[arch]={
                "sha256":sha256(raw),
                "performance_cfstring_code_xrefs":direct_perf_cfstring_sites,
+               "cfstring_objects":cfstring_names,
                "indirect_imports":syms,
                "nearby_string_tables":names,
                "direct_string_pointer_candidates":pointers,
@@ -184,6 +213,7 @@ def main():
     args.out.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n")
     for arch,d in outcome.items():
         print("ARCH",arch,"STUB_IMPORTS",d["indirect_imports"]["imported_symbol_excerpt"])
+        print("CFSTRING_PREF_DOMAIN_IDENTIFIERS",d["cfstring_objects"]["selected_vm"])
         print("FPS_CODE_4B4C8_4B710",d["selected_fps_code_disassembly"].get("0x4b4c8..0x4b710",[])[:170])
         for s in WATCH[:4]:
             print("STRING_CONTEXT",s,d["nearby_string_tables"][s][:2])
