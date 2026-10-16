@@ -1,0 +1,101 @@
+name: DuoFace native16 CarPlay Add App host-scope fix QA candidate
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native16_carplay_app_picker_fix.py'
+      - '.github/workflows/duoface-native16-carplay-add-app-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native16-app-picker-build
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify native15 immutable source and fixed host filter
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          f=dist/payload-migration/native15/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb
+          printf '%s  %s\n' 8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3 "$f" | shasum -a 256 -c -
+          grep -Fq 'com.apple.CarPlayApp' DuoFaceInCarAddApps.plist
+          grep -Fq 'com.apple.dashboard' DuoFaceInCarAddApps.plist
+          grep -Fq 'DFInstallPickerEventually' runtime/appbridge/DFInCarAppPicker.xm
+          python3 -m py_compile migration/full_payload/native_test/build_native16_carplay_app_picker_fix.py
+      - name: Prepare Theos toolchain for only our new module
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile and link ONLY corrected Add Apps dylib
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp Makefile.appbridge-stage Makefile
+          make clean all FINALPACKAGE=1
+          DYLIB="$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)"
+          test -n "$DYLIB"
+          xcrun lipo "$DYLIB" -verify_arch arm64
+          cp "$DYLIB" "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib"
+          echo "CARPLAY_4_HOSTS_AND_LATE_CLASS_PICKER_COMPILE_PASS"
+      - name: Package native16 from exact native15 with only two payload replacements
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=dist/payload-migration/native16/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb
+          report=dist/payload-migration/native16/BAO_CAO.json
+          test ! -e "$out"
+          python3 migration/full_payload/native_test/build_native16_carplay_app_picker_fix.py \
+            --picker-dylib "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib" \
+            --out "$out" --report "$report"
+          test "$(dpkg-deb -f "$out" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$out" Version)" = '0.1.0~native16'
+          python3 - <<'PY'
+          import json,pathlib,hashlib
+          f=pathlib.Path("dist/payload-migration/native16")
+          deb=f/"com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb"
+          report=json.loads((f/"BAO_CAO.json").read_text())
+          assert report["native16_sha256"]==hashlib.sha256(deb.read_bytes()).hexdigest()
+          assert len(report["changed_payload_paths"])==2
+          assert report["preserved_smart_connection_dylib_sha256"]=="0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50"
+          assert "CarPlayApp" in report["injection_executables"]
+          assert "Dashboard" in report["injection_executables"]
+          assert not report["dopamine_configuration_touched"]
+          assert not report["device_tested"]
+          print("NATIVE16_PICKER_ONLY_PACKAGE_CHANGE_AND_EXISTING_FEATURES_PRESERVED_PASS")
+          PY
+      - name: Save candidate and report in source repository, no Sileo yet
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native16/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb dist/payload-migration/native16/BAO_CAO.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: native16 in-car app picker host fix QA candidate [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native16-carplay-picker-candidate
+          path: |
+            dist/payload-migration/native16/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb
+            dist/payload-migration/native16/BAO_CAO.json
+          if-no-files-found: warn
