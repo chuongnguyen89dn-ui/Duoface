@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## YÊU CẦU NHẮC LẠI — 16/10/2026: XÓA VẬT LÝ MÃ GIẤY PHÉP, KHÔNG CHẤP NHẬN STUB LÀ HOÀN TẤT
+
+- **[USER_CORRECTION]** Sau khi xác nhận `native12` chạy tốt, người dùng phản đối việc 312 hàm liên quan giấy phép chỉ được vô hiệu hóa mà không xóa: “Tại sao tôi nói phải xoá đi mà bạn bẫn ko làm?”. Điều này **tái khẳng định yêu cầu ban đầu: loại bỏ vật lý mã/dữ liệu cấp phép không còn cần thiết**, không gọi ẩn/stub/đổi tên là xóa sạch và không xem bản native12 là kết thúc việc dọn giấy phép.
+- **[CURRENT FACT]** Native12 đã xóa 52 literal contents và 2 plugin entries, nhưng trong host Mach-O vẫn có metadata ObjC lớp/selector, các method body đã stub, cùng 126 mục chuỗi còn nguyên theo catalog từ native9 sau khi trừ 52 strings xóa ở native11. 126 là records trong phạm vi inventory, không phải 126 hệ thống cấp phép còn hoạt động. Các 8 CarPlay screen getters cần giữ nguyên chức năng. Device native12 PASS được người dùng xác nhận, không chứng minh việc xóa hết metadata.
+- **[CAUSE]** Những lần trước đã ưu tiên cách patch giữ Mach-O ABI/offset để giảm rủi ro hỏng app, **nhưng đã tự ý biến cách làm tạm thời thành câu trả lời cho yêu cầu xóa hẳn**, không đáp ứng đúng tiêu chí người dùng. Không tái diễn việc đánh đồng “stub/neutralize” với “physically excise”.
+- **[NEXT ENGINEERING ACTION]** Khởi đầu từ đúng feature `feature/duoface-exact-payload-migration`, immutable native12 SHA256 `85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7`; khảo sát toàn bộ source khả dụng, host binary và graph reference ObjC: classlist, methodlist, selrefs, classrefs, CFStrings, fixes/rebase/chained fixups, init/teardown và liên kết 8 CarPlay methods. Phân biệt (1) code/data thực sự có thể xóa vật lý không còn tham chiếu, (2) cấu trúc ObjC bắt buộc thay bằng host CarPlay-only build mới, (3) phần chưa xác minh. Nếu không có full source, **không được hứa một thao tác xóa byte an toàn vô điều kiện**; dùng một nhánh/candidate riêng và hồi quy byte-level + thiết bị, giữ native12 + native10 rollback nguyên vẹn. Mỗi báo cáo nêu cụ thể số bytes/symbols/records đã xóa thật và còn lại, không chỉ đếm stub.
+- **[EXECUTION STATUS]** Lượt phản hồi câu hỏi “tại sao chưa xóa?” chỉ giải thích và ghi lại yêu cầu; **chưa sửa binary/source, chưa build native13 và chưa triển khai Sileo**. Không giả định người dùng đã kiểm tra một candidate mới.
+
 ## XÁC NHẬN THIẾT BỊ NATIVE12 — 16/10/2026
 
 - Người dùng xác nhận bản `0.1.0~native12` hoạt động tốt trên thiết bị. Đây là báo cáo kiểm thử thực tế từ người dùng; không phải kết quả chạy thiết bị bởi CI.
