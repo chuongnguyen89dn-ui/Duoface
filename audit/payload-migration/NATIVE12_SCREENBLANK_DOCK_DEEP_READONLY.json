@@ -57,200 +57,6 @@
         ]
       },
       "selected_method_disassembly": {
-        "CBGeneralSettingsViewController.loadPreferences": {
-          "vm": "0x10000d7c4",
-          "method_end_estimate": "0x10000da34",
-          "type": "v16@0:8",
-          "decoded_instructions": 156,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
-            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
-            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
-            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
-            "0x10000d7d4: add x29, sp, #0x30",
-            "0x10000d7d8: mov x19, x0",
-            "0x10000d7dc: adrp x8, #0x10011b000",
-            "0x10000d7e0: ldr x20, [x8, #0x958]",
-            "0x10000d7e4: adrp x8, #0x10011c000",
-            "0x10000d7e8: ldr x8, [x8, #0xe18]",
-            "0x10000d7ec: cmn x8, #1",
-            "0x10000d7f0: b.ne #0x10000da1c",
-            "0x10000d7f4: adrp x8, #0x10011c000",
-            "0x10000d7f8: ldr x2, [x8, #0xe10]",
-            "0x10000d7fc: adrp x8, #0x10011a000",
-            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
-            "0x10000d804: mov x0, x20",
-            "0x10000d808: bl #0x1000a2a84",
-            "0x10000d80c: mov x29, x29",
-            "0x10000d810: bl #0x1000a2acc",
-            "0x10000d814: mov x20, x0",
-            "0x10000d818: cbz x0, #0x10000da04",
-            "0x10000d81c: adrp x8, #0x10011a000",
-            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
-            "0x10000d824: adr x2, #0x1000ea548",
-            "0x10000d828: nop ",
-            "0x10000d82c: mov x0, x20",
-            "0x10000d830: mov x1, x21",
-            "0x10000d834: bl #0x1000a2a84",
-            "0x10000d838: mov x29, x29",
-            "0x10000d83c: bl #0x1000a2acc",
-            "0x10000d840: mov x22, x0",
-            "0x10000d844: bl #0x1000a2a9c",
-            "0x10000d848: adrp x23, #0x10011a000",
-            "0x10000d84c: cbz x22, #0x10000d890",
-            "0x10000d850: adr x2, #0x1000ea548",
-            "0x10000d854: nop ",
-            "0x10000d858: mov x0, x20",
-            "0x10000d85c: mov x1, x21",
-            "0x10000d860: bl #0x1000a2a84",
-            "0x10000d864: mov x29, x29",
-            "0x10000d868: bl #0x1000a2acc",
-            "0x10000d86c: mov x22, x0",
-            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d874: bl #0x1000a2a84",
-            "0x10000d878: adrp x8, #0x10011b000",
-            "0x10000d87c: ldrsw x8, [x8, #0xc68]",
-            "0x10000d880: strb w0, [x19, x8]",
-            "0x10000d884: mov x0, x22",
-            "0x10000d888: bl #0x1000a2a9c",
-            "0x10000d88c: b #0x10000d8a0",
-            "0x10000d890: adrp x8, #0x10011b000",
-            "0x10000d894: ldrsw x8, [x8, #0xc68]",
-            "0x10000d898: mov w9, #1",
-            "0x10000d89c: strb w9, [x19, x8]",
-            "0x10000d8a0: adr x2, #0x1000ea568",
-            "0x10000d8a4: nop ",
-            "0x10000d8a8: mov x0, x20",
-            "0x10000d8ac: mov x1, x21",
-            "0x10000d8b0: bl #0x1000a2a84",
-            "0x10000d8b4: mov x29, x29",
-            "0x10000d8b8: bl #0x1000a2acc",
-            "0x10000d8bc: mov x22, x0",
-            "0x10000d8c0: bl #0x1000a2a9c",
-            "0x10000d8c4: cbz x22, #0x10000d908",
-            "0x10000d8c8: adr x2, #0x1000ea568",
-            "0x10000d8cc: nop ",
-            "0x10000d8d0: mov x0, x20",
-            "0x10000d8d4: mov x1, x21",
-            "0x10000d8d8: bl #0x1000a2a84",
-            "0x10000d8dc: mov x29, x29",
-            "0x10000d8e0: bl #0x1000a2acc",
-            "0x10000d8e4: mov x22, x0",
-            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d8ec: bl #0x1000a2a84",
-            "0x10000d8f0: adrp x8, #0x10011b000",
-            "0x10000d8f4: ldrsw x8, [x8, #0xc6c]",
-            "0x10000d8f8: strb w0, [x19, x8]",
-            "0x10000d8fc: mov x0, x22",
-            "0x10000d900: bl #0x1000a2a9c",
-            "0x10000d904: b #0x10000d918",
-            "0x10000d908: adrp x8, #0x10011b000",
-            "0x10000d90c: ldrsw x8, [x8, #0xc6c]",
-            "0x10000d910: mov w9, #1",
-            "0x10000d914: strb w9, [x19, x8]",
-            "0x10000d918: adr x2, #0x1000ea588",
-            "0x10000d91c: nop ",
-            "0x10000d920: mov x0, x20",
-            "0x10000d924: mov x1, x21",
-            "0x10000d928: bl #0x1000a2a84",
-            "0x10000d92c: mov x29, x29",
-            "0x10000d930: bl #0x1000a2acc",
-            "0x10000d934: mov x22, x0",
-            "0x10000d938: bl #0x1000a2a9c",
-            "0x10000d93c: cbz x22, #0x10000d980",
-            "0x10000d940: adr x2, #0x1000ea588",
-            "0x10000d944: nop ",
-            "0x10000d948: mov x0, x20",
-            "0x10000d94c: mov x1, x21",
-            "0x10000d950: bl #0x1000a2a84",
-            "0x10000d954: mov x29, x29",
-            "0x10000d958: bl #0x1000a2acc",
-            "0x10000d95c: mov x22, x0",
-            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d964: bl #0x1000a2a84",
-            "0x10000d968: adrp x8, #0x10011b000",
-            "0x10000d96c: ldrsw x8, [x8, #0xc70]",
-            "0x10000d970: strb w0, [x19, x8]",
-            "0x10000d974: mov x0, x22",
-            "0x10000d978: bl #0x1000a2a9c",
-            "0x10000d97c: b #0x10000d990",
-            "0x10000d980: adrp x8, #0x10011b000",
-            "0x10000d984: ldrsw x8, [x8, #0xc70]",
-            "0x10000d988: mov w9, #1",
-            "0x10000d98c: strb w9, [x19, x8]",
-            "0x10000d990: adr x2, #0x1000ea5a8",
-            "0x10000d994: nop ",
-            "0x10000d998: mov x0, x20",
-            "0x10000d99c: mov x1, x21",
-            "0x10000d9a0: bl #0x1000a2a84",
-            "0x10000d9a4: mov x29, x29",
-            "0x10000d9a8: bl #0x1000a2acc",
-            "0x10000d9ac: mov x22, x0",
-            "0x10000d9b0: bl #0x1000a2a9c",
-            "0x10000d9b4: cbz x22, #0x10000d9f8",
-            "0x10000d9b8: adr x2, #0x1000ea5a8",
-            "0x10000d9bc: nop ",
-            "0x10000d9c0: mov x0, x20",
-            "0x10000d9c4: mov x1, x21",
-            "0x10000d9c8: bl #0x1000a2a84",
-            "0x10000d9cc: mov x29, x29",
-            "0x10000d9d0: bl #0x1000a2acc",
-            "0x10000d9d4: mov x21, x0",
-            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d9dc: bl #0x1000a2a84",
-            "0x10000d9e0: adrp x8, #0x10011b000",
-            "0x10000d9e4: ldrsw x8, [x8, #0xc74]",
-            "0x10000d9e8: strb w0, [x19, x8]",
-            "0x10000d9ec: mov x0, x21",
-            "0x10000d9f0: bl #0x1000a2a9c",
-            "0x10000d9f4: b #0x10000da04",
-            "0x10000d9f8: adrp x8, #0x10011b000",
-            "0x10000d9fc: ldrsw x8, [x8, #0xc74]",
-            "0x10000da00: strb wzr, [x19, x8]",
-            "0x10000da04: mov x0, x20",
-            "0x10000da08: ldp x29, x30, [sp, #0x30]",
-            "0x10000da0c: ldp x20, x19, [sp, #0x20]",
-            "0x10000da10: ldp x22, x21, [sp, #0x10]",
-            "0x10000da14: ldp x24, x23, [sp], #0x40",
-            "0x10000da18: b #0x1000a2a9c",
-            "0x10000da1c: adrp x0, #0x10011c000",
-            "0x10000da20: add x0, x0, #0xe18",
-            "0x10000da24: adr x1, #0x1000e8490",
-            "0x10000da28: nop ",
-            "0x10000da2c: bl #0x1000a2964",
-            "0x10000da30: b #0x10000d7f4"
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [
-            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
-            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
-            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
-            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'"
-          ],
-          "head": [
-            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
-            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
-            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
-            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
-            "0x10000d7d4: add x29, sp, #0x30",
-            "0x10000d7d8: mov x19, x0",
-            "0x10000d7dc: adrp x8, #0x10011b000",
-            "0x10000d7e0: ldr x20, [x8, #0x958]",
-            "0x10000d7e4: adrp x8, #0x10011c000",
-            "0x10000d7e8: ldr x8, [x8, #0xe18]",
-            "0x10000d7ec: cmn x8, #1",
-            "0x10000d7f0: b.ne #0x10000da1c",
-            "0x10000d7f4: adrp x8, #0x10011c000",
-            "0x10000d7f8: ldr x2, [x8, #0xe10]",
-            "0x10000d7fc: adrp x8, #0x10011a000",
-            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
-            "0x10000d804: mov x0, x20",
-            "0x10000d808: bl #0x1000a2a84"
-          ]
-        },
         "CBGeneralSettingsViewController.setDockMonitorEnabled:": {
           "vm": "0x1000104d4",
           "method_end_estimate": "0x1000104e4",
@@ -270,83 +76,6 @@
             "0x1000104d8: ldrsw x8, [x8, #0xc70]",
             "0x1000104dc: strb w2, [x0, x8]",
             "0x1000104e0: ret "
-          ]
-        },
-        "CBGeneralSettingsViewController.setScreenBlankEnabled:": {
-          "vm": "0x1000104b4",
-          "method_end_estimate": "0x1000104c4",
-          "type": "v20@0:8B16",
-          "decoded_instructions": 4,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x1000104b4: adrp x8, #0x10011b000",
-            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
-            "0x1000104bc: strb w2, [x0, x8]",
-            "0x1000104c0: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [],
-          "head": [
-            "0x1000104b4: adrp x8, #0x10011b000",
-            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
-            "0x1000104bc: strb w2, [x0, x8]",
-            "0x1000104c0: ret "
-          ]
-        },
-        "CBGeneralSettingsViewController.screenBlankToggleChanged:": {
-          "vm": "0x10000de2c",
-          "method_end_estimate": "0x10000de78",
-          "type": "v24@0:8@16",
-          "decoded_instructions": 19,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
-            "0x10000de30: stp x29, x30, [sp, #0x10]",
-            "0x10000de34: add x29, sp, #0x10",
-            "0x10000de38: mov x19, x0",
-            "0x10000de3c: adrp x8, #0x10011a000",
-            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
-            "0x10000de44: mov x0, x2",
-            "0x10000de48: bl #0x1000a2a84",
-            "0x10000de4c: mov x2, x0",
-            "0x10000de50: adrp x8, #0x10011a000",
-            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
-            "0x10000de58: mov x0, x19",
-            "0x10000de5c: bl #0x1000a2a84",
-            "0x10000de60: adrp x8, #0x10011a000",
-            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
-            "0x10000de68: mov x0, x19",
-            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
-            "0x10000de70: ldp x20, x19, [sp], #0x20",
-            "0x10000de74: b #0x1000a2a84"
-          ],
-          "relevant_instructions": [
-            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'"
-          ],
-          "selector_hints": [
-            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
-            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
-            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'"
-          ],
-          "head": [
-            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
-            "0x10000de30: stp x29, x30, [sp, #0x10]",
-            "0x10000de34: add x29, sp, #0x10",
-            "0x10000de38: mov x19, x0",
-            "0x10000de3c: adrp x8, #0x10011a000",
-            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
-            "0x10000de44: mov x0, x2",
-            "0x10000de48: bl #0x1000a2a84",
-            "0x10000de4c: mov x2, x0",
-            "0x10000de50: adrp x8, #0x10011a000",
-            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
-            "0x10000de58: mov x0, x19",
-            "0x10000de5c: bl #0x1000a2a84",
-            "0x10000de60: adrp x8, #0x10011a000",
-            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
-            "0x10000de68: mov x0, x19",
-            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
-            "0x10000de70: ldp x20, x19, [sp], #0x20"
           ]
         },
         "CBGeneralSettingsViewController.viewDidLoad": {
@@ -607,6 +336,298 @@
             "0x10000cfe4: bl #0x1000a2a84"
           ]
         },
+        "CBGeneralSettingsViewController.screenBlankToggleChanged:": {
+          "vm": "0x10000de2c",
+          "method_end_estimate": "0x10000de78",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 19,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de30: stp x29, x30, [sp, #0x10]",
+            "0x10000de34: add x29, sp, #0x10",
+            "0x10000de38: mov x19, x0",
+            "0x10000de3c: adrp x8, #0x10011a000",
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de44: mov x0, x2",
+            "0x10000de48: bl #0x1000a2a84",
+            "0x10000de4c: mov x2, x0",
+            "0x10000de50: adrp x8, #0x10011a000",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de58: mov x0, x19",
+            "0x10000de5c: bl #0x1000a2a84",
+            "0x10000de60: adrp x8, #0x10011a000",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000de68: mov x0, x19",
+            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
+            "0x10000de70: ldp x20, x19, [sp], #0x20",
+            "0x10000de74: b #0x1000a2a84"
+          ],
+          "relevant_instructions": [
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'"
+          ],
+          "selector_hints": [
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'"
+          ],
+          "head": [
+            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de30: stp x29, x30, [sp, #0x10]",
+            "0x10000de34: add x29, sp, #0x10",
+            "0x10000de38: mov x19, x0",
+            "0x10000de3c: adrp x8, #0x10011a000",
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de44: mov x0, x2",
+            "0x10000de48: bl #0x1000a2a84",
+            "0x10000de4c: mov x2, x0",
+            "0x10000de50: adrp x8, #0x10011a000",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de58: mov x0, x19",
+            "0x10000de5c: bl #0x1000a2a84",
+            "0x10000de60: adrp x8, #0x10011a000",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000de68: mov x0, x19",
+            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
+            "0x10000de70: ldp x20, x19, [sp], #0x20"
+          ]
+        },
+        "CBGeneralSettingsViewController.loadPreferences": {
+          "vm": "0x10000d7c4",
+          "method_end_estimate": "0x10000da34",
+          "type": "v16@0:8",
+          "decoded_instructions": 156,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
+            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
+            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
+            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
+            "0x10000d7d4: add x29, sp, #0x30",
+            "0x10000d7d8: mov x19, x0",
+            "0x10000d7dc: adrp x8, #0x10011b000",
+            "0x10000d7e0: ldr x20, [x8, #0x958]",
+            "0x10000d7e4: adrp x8, #0x10011c000",
+            "0x10000d7e8: ldr x8, [x8, #0xe18]",
+            "0x10000d7ec: cmn x8, #1",
+            "0x10000d7f0: b.ne #0x10000da1c",
+            "0x10000d7f4: adrp x8, #0x10011c000",
+            "0x10000d7f8: ldr x2, [x8, #0xe10]",
+            "0x10000d7fc: adrp x8, #0x10011a000",
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d804: mov x0, x20",
+            "0x10000d808: bl #0x1000a2a84",
+            "0x10000d80c: mov x29, x29",
+            "0x10000d810: bl #0x1000a2acc",
+            "0x10000d814: mov x20, x0",
+            "0x10000d818: cbz x0, #0x10000da04",
+            "0x10000d81c: adrp x8, #0x10011a000",
+            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x10000d824: adr x2, #0x1000ea548",
+            "0x10000d828: nop ",
+            "0x10000d82c: mov x0, x20",
+            "0x10000d830: mov x1, x21",
+            "0x10000d834: bl #0x1000a2a84",
+            "0x10000d838: mov x29, x29",
+            "0x10000d83c: bl #0x1000a2acc",
+            "0x10000d840: mov x22, x0",
+            "0x10000d844: bl #0x1000a2a9c",
+            "0x10000d848: adrp x23, #0x10011a000",
+            "0x10000d84c: cbz x22, #0x10000d890",
+            "0x10000d850: adr x2, #0x1000ea548",
+            "0x10000d854: nop ",
+            "0x10000d858: mov x0, x20",
+            "0x10000d85c: mov x1, x21",
+            "0x10000d860: bl #0x1000a2a84",
+            "0x10000d864: mov x29, x29",
+            "0x10000d868: bl #0x1000a2acc",
+            "0x10000d86c: mov x22, x0",
+            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d874: bl #0x1000a2a84",
+            "0x10000d878: adrp x8, #0x10011b000",
+            "0x10000d87c: ldrsw x8, [x8, #0xc68]",
+            "0x10000d880: strb w0, [x19, x8]",
+            "0x10000d884: mov x0, x22",
+            "0x10000d888: bl #0x1000a2a9c",
+            "0x10000d88c: b #0x10000d8a0",
+            "0x10000d890: adrp x8, #0x10011b000",
+            "0x10000d894: ldrsw x8, [x8, #0xc68]",
+            "0x10000d898: mov w9, #1",
+            "0x10000d89c: strb w9, [x19, x8]",
+            "0x10000d8a0: adr x2, #0x1000ea568",
+            "0x10000d8a4: nop ",
+            "0x10000d8a8: mov x0, x20",
+            "0x10000d8ac: mov x1, x21",
+            "0x10000d8b0: bl #0x1000a2a84",
+            "0x10000d8b4: mov x29, x29",
+            "0x10000d8b8: bl #0x1000a2acc",
+            "0x10000d8bc: mov x22, x0",
+            "0x10000d8c0: bl #0x1000a2a9c",
+            "0x10000d8c4: cbz x22, #0x10000d908",
+            "0x10000d8c8: adr x2, #0x1000ea568",
+            "0x10000d8cc: nop ",
+            "0x10000d8d0: mov x0, x20",
+            "0x10000d8d4: mov x1, x21",
+            "0x10000d8d8: bl #0x1000a2a84",
+            "0x10000d8dc: mov x29, x29",
+            "0x10000d8e0: bl #0x1000a2acc",
+            "0x10000d8e4: mov x22, x0",
+            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d8ec: bl #0x1000a2a84",
+            "0x10000d8f0: adrp x8, #0x10011b000",
+            "0x10000d8f4: ldrsw x8, [x8, #0xc6c]",
+            "0x10000d8f8: strb w0, [x19, x8]",
+            "0x10000d8fc: mov x0, x22",
+            "0x10000d900: bl #0x1000a2a9c",
+            "0x10000d904: b #0x10000d918",
+            "0x10000d908: adrp x8, #0x10011b000",
+            "0x10000d90c: ldrsw x8, [x8, #0xc6c]",
+            "0x10000d910: mov w9, #1",
+            "0x10000d914: strb w9, [x19, x8]",
+            "0x10000d918: adr x2, #0x1000ea588",
+            "0x10000d91c: nop ",
+            "0x10000d920: mov x0, x20",
+            "0x10000d924: mov x1, x21",
+            "0x10000d928: bl #0x1000a2a84",
+            "0x10000d92c: mov x29, x29",
+            "0x10000d930: bl #0x1000a2acc",
+            "0x10000d934: mov x22, x0",
+            "0x10000d938: bl #0x1000a2a9c",
+            "0x10000d93c: cbz x22, #0x10000d980",
+            "0x10000d940: adr x2, #0x1000ea588",
+            "0x10000d944: nop ",
+            "0x10000d948: mov x0, x20",
+            "0x10000d94c: mov x1, x21",
+            "0x10000d950: bl #0x1000a2a84",
+            "0x10000d954: mov x29, x29",
+            "0x10000d958: bl #0x1000a2acc",
+            "0x10000d95c: mov x22, x0",
+            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d964: bl #0x1000a2a84",
+            "0x10000d968: adrp x8, #0x10011b000",
+            "0x10000d96c: ldrsw x8, [x8, #0xc70]",
+            "0x10000d970: strb w0, [x19, x8]",
+            "0x10000d974: mov x0, x22",
+            "0x10000d978: bl #0x1000a2a9c",
+            "0x10000d97c: b #0x10000d990",
+            "0x10000d980: adrp x8, #0x10011b000",
+            "0x10000d984: ldrsw x8, [x8, #0xc70]",
+            "0x10000d988: mov w9, #1",
+            "0x10000d98c: strb w9, [x19, x8]",
+            "0x10000d990: adr x2, #0x1000ea5a8",
+            "0x10000d994: nop ",
+            "0x10000d998: mov x0, x20",
+            "0x10000d99c: mov x1, x21",
+            "0x10000d9a0: bl #0x1000a2a84",
+            "0x10000d9a4: mov x29, x29",
+            "0x10000d9a8: bl #0x1000a2acc",
+            "0x10000d9ac: mov x22, x0",
+            "0x10000d9b0: bl #0x1000a2a9c",
+            "0x10000d9b4: cbz x22, #0x10000d9f8",
+            "0x10000d9b8: adr x2, #0x1000ea5a8",
+            "0x10000d9bc: nop ",
+            "0x10000d9c0: mov x0, x20",
+            "0x10000d9c4: mov x1, x21",
+            "0x10000d9c8: bl #0x1000a2a84",
+            "0x10000d9cc: mov x29, x29",
+            "0x10000d9d0: bl #0x1000a2acc",
+            "0x10000d9d4: mov x21, x0",
+            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d9dc: bl #0x1000a2a84",
+            "0x10000d9e0: adrp x8, #0x10011b000",
+            "0x10000d9e4: ldrsw x8, [x8, #0xc74]",
+            "0x10000d9e8: strb w0, [x19, x8]",
+            "0x10000d9ec: mov x0, x21",
+            "0x10000d9f0: bl #0x1000a2a9c",
+            "0x10000d9f4: b #0x10000da04",
+            "0x10000d9f8: adrp x8, #0x10011b000",
+            "0x10000d9fc: ldrsw x8, [x8, #0xc74]",
+            "0x10000da00: strb wzr, [x19, x8]",
+            "0x10000da04: mov x0, x20",
+            "0x10000da08: ldp x29, x30, [sp, #0x30]",
+            "0x10000da0c: ldp x20, x19, [sp, #0x20]",
+            "0x10000da10: ldp x22, x21, [sp, #0x10]",
+            "0x10000da14: ldp x24, x23, [sp], #0x40",
+            "0x10000da18: b #0x1000a2a9c",
+            "0x10000da1c: adrp x0, #0x10011c000",
+            "0x10000da20: add x0, x0, #0xe18",
+            "0x10000da24: adr x1, #0x1000e8490",
+            "0x10000da28: nop ",
+            "0x10000da2c: bl #0x1000a2964",
+            "0x10000da30: b #0x10000d7f4"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'"
+          ],
+          "head": [
+            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
+            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
+            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
+            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
+            "0x10000d7d4: add x29, sp, #0x30",
+            "0x10000d7d8: mov x19, x0",
+            "0x10000d7dc: adrp x8, #0x10011b000",
+            "0x10000d7e0: ldr x20, [x8, #0x958]",
+            "0x10000d7e4: adrp x8, #0x10011c000",
+            "0x10000d7e8: ldr x8, [x8, #0xe18]",
+            "0x10000d7ec: cmn x8, #1",
+            "0x10000d7f0: b.ne #0x10000da1c",
+            "0x10000d7f4: adrp x8, #0x10011c000",
+            "0x10000d7f8: ldr x2, [x8, #0xe10]",
+            "0x10000d7fc: adrp x8, #0x10011a000",
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d804: mov x0, x20",
+            "0x10000d808: bl #0x1000a2a84"
+          ]
+        },
+        "CBGeneralSettingsViewController.screenBlankEnabled": {
+          "vm": "0x1000104a4",
+          "method_end_estimate": "0x1000104b4",
+          "type": "B16@0:8",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104a4: adrp x8, #0x10011b000",
+            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104ac: ldrb w0, [x0, x8]",
+            "0x1000104b0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104a4: adrp x8, #0x10011b000",
+            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104ac: ldrb w0, [x0, x8]",
+            "0x1000104b0: ret "
+          ]
+        },
+        "CBGeneralSettingsViewController.setScreenBlankEnabled:": {
+          "vm": "0x1000104b4",
+          "method_end_estimate": "0x1000104c4",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104b4: adrp x8, #0x10011b000",
+            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104bc: strb w2, [x0, x8]",
+            "0x1000104c0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104b4: adrp x8, #0x10011b000",
+            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104bc: strb w2, [x0, x8]",
+            "0x1000104c0: ret "
+          ]
+        },
         "CBGeneralSettingsViewController.savePreferences": {
           "vm": "0x10000da34",
           "method_end_estimate": "0x10000dde0",
@@ -642,48 +663,6 @@
             "0x10000da70: bl #0x1000a2aa8",
             "0x10000da74: mov x20, x0",
             "0x10000da78: adrp x8, #0x10011a000"
-          ]
-        },
-        "CBGeneralSettingsViewController.screenBlankEnabled": {
-          "vm": "0x1000104a4",
-          "method_end_estimate": "0x1000104b4",
-          "type": "B16@0:8",
-          "decoded_instructions": 4,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x1000104a4: adrp x8, #0x10011b000",
-            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
-            "0x1000104ac: ldrb w0, [x0, x8]",
-            "0x1000104b0: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [],
-          "head": [
-            "0x1000104a4: adrp x8, #0x10011b000",
-            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
-            "0x1000104ac: ldrb w0, [x0, x8]",
-            "0x1000104b0: ret "
-          ]
-        },
-        "CBGeneralSettingsViewController.dockMonitorEnabled": {
-          "vm": "0x1000104c4",
-          "method_end_estimate": "0x1000104d4",
-          "type": "B16@0:8",
-          "decoded_instructions": 4,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x1000104c4: adrp x8, #0x10011b000",
-            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
-            "0x1000104cc: ldrb w0, [x0, x8]",
-            "0x1000104d0: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [],
-          "head": [
-            "0x1000104c4: adrp x8, #0x10011b000",
-            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
-            "0x1000104cc: ldrb w0, [x0, x8]",
-            "0x1000104d0: ret "
           ]
         },
         "CBGeneralSettingsViewController.dockMonitorToggleChanged:": {
@@ -740,6 +719,27 @@
             "0x10000deb4: mov x0, x19",
             "0x10000deb8: ldp x29, x30, [sp, #0x10]",
             "0x10000debc: ldp x20, x19, [sp], #0x20"
+          ]
+        },
+        "CBGeneralSettingsViewController.dockMonitorEnabled": {
+          "vm": "0x1000104c4",
+          "method_end_estimate": "0x1000104d4",
+          "type": "B16@0:8",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104c4: adrp x8, #0x10011b000",
+            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104cc: ldrb w0, [x0, x8]",
+            "0x1000104d0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104c4: adrp x8, #0x10011b000",
+            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104cc: ldrb w0, [x0, x8]",
+            "0x1000104d0: ret "
           ]
         }
       },
@@ -945,6 +945,108 @@
           "-stop",
           "-touchCloneView"
         ],
+        "CBBridgedUIAppView": [
+          "-.cxx_destruct",
+          "-appScale",
+          "-appViewController",
+          "-audioOnlyBackgroundMode",
+          "-bundleIdentifier",
+          "-calculateNativeSizeForSlotRect:",
+          "-dealloc",
+          "-dismiss",
+          "-hitTest:withEvent:",
+          "-hosting",
+          "-initWithBundleIdentifier:",
+          "-initWithBundleIdentifier:scale:",
+          "-invalidated",
+          "-layoutSubviews",
+          "-refreshSceneLayout",
+          "-setAppScale:",
+          "-setAppViewController:",
+          "-setAudioOnlyBackgroundMode:",
+          "-setBundleIdentifier:",
+          "-setHosting:",
+          "-setInvalidated:",
+          "-setWrapperView:",
+          "-start",
+          "-startInParentViewController:",
+          "-touchesBegan:withEvent:",
+          "-updateLayout",
+          "-updateSceneFrame",
+          "-updateSceneSettingsFrame",
+          "-wrapperView"
+        ],
+        "CBAssistantManager": [
+          "+sharedInstance",
+          "-.cxx_destruct",
+          "-audioEngine",
+          "-beginRecordingSession",
+          "-cb_onLanguageChanged:",
+          "-dealloc",
+          "-dismissCarBridgeApp",
+          "-dismissHUD",
+          "-finishListeningAndProcess",
+          "-handleAppLaunchCommand:",
+          "-handleMusicCommand:",
+          "-handleNavigationCommand:",
+          "-hudCard",
+          "-hudWindow",
+          "-init",
+          "-isListening",
+          "-lastTranscribedText",
+          "-listeningTimeout",
+          "-micIconView",
+          "-onStatusUpdate",
+          "-preferredMapIndex",
+          "-processVoiceCommand:",
+          "-pulseAnimation",
+          "-recognitionRequest",
+          "-recognitionTask",
+          "-recordedPCMData",
+          "-reloadPreferences",
+          "-resetSilenceTimer",
+          "-setAudioEngine:",
+          "-setHudCard:",
+          "-setHudWindow:",
+          "-setIsListening:",
+          "-setLastTranscribedText:",
+          "-setMicIconView:",
+          "-setOnStatusUpdate:",
+          "-setPreferredMapIndex:",
+          "-setPulseAnimation:",
+          "-setRecognitionRequest:",
+          "-setRecognitionTask:",
+          "-setRecordedPCMData:",
+          "-setSilenceTimer:",
+          "-setSpeakCompletion:",
+          "-setSpeechRecognizer:",
+          "-setSpeechSynthesizer:",
+          "-setStatusLabel:",
+          "-setTranscriptLabel:",
+          "-setVoiceFeedbackEnabled:",
+          "-setupSpeechRecognizer",
+          "-setupSpeechSynthesizer",
+          "-showHUD",
+          "-silenceTimer",
+          "-speak:completion:",
+          "-speakCompletion",
+          "-speechRecognizer",
+          "-speechSynthesizer",
+          "-speechSynthesizer:didFinishSpeechUtterance:",
+          "-startListening",
+          "-startMicPulseAnimation",
+          "-statusLabel",
+          "-stopListening",
+          "-stopListeningAndDismiss",
+          "-stopMicPulseAnimation",
+          "-stopSpeaking",
+          "-toggleListening",
+          "-transcribeAudioData:completion:",
+          "-transcriptLabel",
+          "-triggerBridgeApp:",
+          "-updateHUDStatus:subtext:",
+          "-voiceFeedbackEnabled"
+        ],
         "CBWindow": [
           "+activeCarPlayWindow",
           "+carPlayCADisplay",
@@ -986,154 +1088,6 @@
         ]
       },
       "selected_method_disassembly": {
-        "CBDashboardSettings.dockSystemMonitorShowAll": {
-          "vm": "0x37ff0",
-          "method_end_estimate": "0x37ff8",
-          "type": "B16@0:8",
-          "decoded_instructions": 2,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x37ff0: ldrb w0, [x0, #0xf]",
-            "0x37ff4: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [],
-          "head": [
-            "0x37ff0: ldrb w0, [x0, #0xf]",
-            "0x37ff4: ret "
-          ]
-        },
-        "CBDashboardSettings.setScreenBlankEnabled:": {
-          "vm": "0x37ec8",
-          "method_end_estimate": "0x37ed0",
-          "type": "v20@0:8B16",
-          "decoded_instructions": 2,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x37ec8: strb w2, [x0, #9]",
-            "0x37ecc: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [],
-          "head": [
-            "0x37ec8: strb w2, [x0, #9]",
-            "0x37ecc: ret "
-          ]
-        },
-        "CBDashboardSettings.init": {
-          "vm": "0x36054",
-          "method_end_estimate": "0x3618c",
-          "type": "@16@0:8",
-          "decoded_instructions": 78,
-          "truncated_by_disassembler": false,
-          "full_instructions": [
-            "0x36054: sub sp, sp, #0x30",
-            "0x36058: stp x20, x19, [sp, #0x10]",
-            "0x3605c: stp x29, x30, [sp, #0x20]",
-            "0x36060: add x29, sp, #0x20",
-            "0x36064: adrp x8, #0x37f000",
-            "0x36068: ldr x8, [x8, #0xa78]",
-            "0x3606c: stp x0, x8, [sp]",
-            "0x36070: adrp x8, #0x37d000",
-            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
-            "0x36078: mov x0, sp",
-            "0x3607c: bl #0x2ecd18",
-            "0x36080: mov x19, x0",
-            "0x36084: cbz x0, #0x36178",
-            "0x36088: adrp x8, #0x37f000",
-            "0x3608c: ldr x0, [x8, #0x758]",
-            "0x36090: adrp x8, #0x37d000",
-            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
-            "0x36098: bl #0x2ecd00",
-            "0x3609c: mov x29, x29",
-            "0x360a0: bl #0x2ecd60",
-            "0x360a4: ldr x8, [x19, #0x18]",
-            "0x360a8: str x0, [x19, #0x18]",
-            "0x360ac: mov x0, x8",
-            "0x360b0: bl #0x2ecd30",
-            "0x360b4: adrp x8, #0x37f000",
-            "0x360b8: ldr x0, [x8, #0x750]",
-            "0x360bc: adrp x8, #0x37d000",
-            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
-            "0x360c4: bl #0x2ecd00",
-            "0x360c8: mov x29, x29",
-            "0x360cc: bl #0x2ecd60",
-            "0x360d0: ldr x8, [x19, #0x20]",
-            "0x360d4: str x0, [x19, #0x20]",
-            "0x360d8: mov x0, x8",
-            "0x360dc: bl #0x2ecd30",
-            "0x360e0: mov w8, #0x100",
-            "0x360e4: movk w8, #0x101, lsl #16",
-            "0x360e8: str w8, [x19, #8]",
-            "0x360ec: mov w20, #1",
-            "0x360f0: strb w20, [x19, #0xc]",
-            "0x360f4: ldr x0, [x19, #0x30]",
-            "0x360f8: stp xzr, xzr, [x19, #0x28]",
-            "0x360fc: bl #0x2ecd30",
-            "0x36100: ldr x0, [x19, #0x38]",
-            "0x36104: str xzr, [x19, #0x38]",
-            "0x36108: bl #0x2ecd30",
-            "0x3610c: dup v0.2d, x20",
-            "0x36110: str q0, [x19, #0x40]",
-            "0x36114: ldr x0, [x19, #0x50]",
-            "0x36118: str xzr, [x19, #0x50]",
-            "0x3611c: bl #0x2ecd30",
-            "0x36120: ldr x0, [x19, #0x58]",
-            "0x36124: str xzr, [x19, #0x58]",
-            "0x36128: bl #0x2ecd30",
-            "0x3612c: ldr x0, [x19, #0x60]",
-            "0x36130: str xzr, [x19, #0x60]",
-            "0x36134: bl #0x2ecd30",
-            "0x36138: ldr x0, [x19, #0x68]",
-            "0x3613c: str xzr, [x19, #0x68]",
-            "0x36140: bl #0x2ecd30",
-            "0x36144: mov x8, #0x3fe0000000000000",
-            "0x36148: str x8, [x19, #0x70]",
-            "0x3614c: adrp x8, #0x30f000",
-            "0x36150: ldr q0, [x8, #0xb30]",
-            "0x36154: stur q0, [x19, #0x78]",
-            "0x36158: mov w8, #0x100",
-            "0x3615c: sturh w8, [x19, #0xd]",
-            "0x36160: strb w20, [x19, #0xf]",
-            "0x36164: strb w20, [x19, #0x11]",
-            "0x36168: adrp x8, #0x37d000",
-            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'",
-            "0x36170: mov x0, x19",
-            "0x36174: bl #0x2ecd00",
-            "0x36178: mov x0, x19",
-            "0x3617c: ldp x29, x30, [sp, #0x20]",
-            "0x36180: ldp x20, x19, [sp, #0x10]",
-            "0x36184: add sp, sp, #0x30",
-            "0x36188: ret "
-          ],
-          "relevant_instructions": [],
-          "selector_hints": [
-            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
-            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
-            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
-            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'"
-          ],
-          "head": [
-            "0x36054: sub sp, sp, #0x30",
-            "0x36058: stp x20, x19, [sp, #0x10]",
-            "0x3605c: stp x29, x30, [sp, #0x20]",
-            "0x36060: add x29, sp, #0x20",
-            "0x36064: adrp x8, #0x37f000",
-            "0x36068: ldr x8, [x8, #0xa78]",
-            "0x3606c: stp x0, x8, [sp]",
-            "0x36070: adrp x8, #0x37d000",
-            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
-            "0x36078: mov x0, sp",
-            "0x3607c: bl #0x2ecd18",
-            "0x36080: mov x19, x0",
-            "0x36084: cbz x0, #0x36178",
-            "0x36088: adrp x8, #0x37f000",
-            "0x3608c: ldr x0, [x8, #0x758]",
-            "0x36090: adrp x8, #0x37d000",
-            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
-            "0x36098: bl #0x2ecd00"
-          ]
-        },
         "CBDashboardSettings.setDockSystemMonitorEnabled:": {
           "vm": "0x364d0",
           "method_end_estimate": "0x36670",
@@ -1275,6 +1229,23 @@
             "0x36514: bl #0x2ecd3c"
           ]
         },
+        "CBDashboardSettings.setScreenBlankEnabled:": {
+          "vm": "0x37ec8",
+          "method_end_estimate": "0x37ed0",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37ec8: strb w2, [x0, #9]",
+            "0x37ecc: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37ec8: strb w2, [x0, #9]",
+            "0x37ecc: ret "
+          ]
+        },
         "CBDashboardSettings.dockSystemMonitorEnabled": {
           "vm": "0x37fe8",
           "method_end_estimate": "0x37ff0",
@@ -1378,6 +1349,120 @@
             "0x36860: mov x19, x0"
           ]
         },
+        "CBDashboardSettings.init": {
+          "vm": "0x36054",
+          "method_end_estimate": "0x3618c",
+          "type": "@16@0:8",
+          "decoded_instructions": 78,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x36054: sub sp, sp, #0x30",
+            "0x36058: stp x20, x19, [sp, #0x10]",
+            "0x3605c: stp x29, x30, [sp, #0x20]",
+            "0x36060: add x29, sp, #0x20",
+            "0x36064: adrp x8, #0x37f000",
+            "0x36068: ldr x8, [x8, #0xa78]",
+            "0x3606c: stp x0, x8, [sp]",
+            "0x36070: adrp x8, #0x37d000",
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36078: mov x0, sp",
+            "0x3607c: bl #0x2ecd18",
+            "0x36080: mov x19, x0",
+            "0x36084: cbz x0, #0x36178",
+            "0x36088: adrp x8, #0x37f000",
+            "0x3608c: ldr x0, [x8, #0x758]",
+            "0x36090: adrp x8, #0x37d000",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x36098: bl #0x2ecd00",
+            "0x3609c: mov x29, x29",
+            "0x360a0: bl #0x2ecd60",
+            "0x360a4: ldr x8, [x19, #0x18]",
+            "0x360a8: str x0, [x19, #0x18]",
+            "0x360ac: mov x0, x8",
+            "0x360b0: bl #0x2ecd30",
+            "0x360b4: adrp x8, #0x37f000",
+            "0x360b8: ldr x0, [x8, #0x750]",
+            "0x360bc: adrp x8, #0x37d000",
+            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x360c4: bl #0x2ecd00",
+            "0x360c8: mov x29, x29",
+            "0x360cc: bl #0x2ecd60",
+            "0x360d0: ldr x8, [x19, #0x20]",
+            "0x360d4: str x0, [x19, #0x20]",
+            "0x360d8: mov x0, x8",
+            "0x360dc: bl #0x2ecd30",
+            "0x360e0: mov w8, #0x100",
+            "0x360e4: movk w8, #0x101, lsl #16",
+            "0x360e8: str w8, [x19, #8]",
+            "0x360ec: mov w20, #1",
+            "0x360f0: strb w20, [x19, #0xc]",
+            "0x360f4: ldr x0, [x19, #0x30]",
+            "0x360f8: stp xzr, xzr, [x19, #0x28]",
+            "0x360fc: bl #0x2ecd30",
+            "0x36100: ldr x0, [x19, #0x38]",
+            "0x36104: str xzr, [x19, #0x38]",
+            "0x36108: bl #0x2ecd30",
+            "0x3610c: dup v0.2d, x20",
+            "0x36110: str q0, [x19, #0x40]",
+            "0x36114: ldr x0, [x19, #0x50]",
+            "0x36118: str xzr, [x19, #0x50]",
+            "0x3611c: bl #0x2ecd30",
+            "0x36120: ldr x0, [x19, #0x58]",
+            "0x36124: str xzr, [x19, #0x58]",
+            "0x36128: bl #0x2ecd30",
+            "0x3612c: ldr x0, [x19, #0x60]",
+            "0x36130: str xzr, [x19, #0x60]",
+            "0x36134: bl #0x2ecd30",
+            "0x36138: ldr x0, [x19, #0x68]",
+            "0x3613c: str xzr, [x19, #0x68]",
+            "0x36140: bl #0x2ecd30",
+            "0x36144: mov x8, #0x3fe0000000000000",
+            "0x36148: str x8, [x19, #0x70]",
+            "0x3614c: adrp x8, #0x30f000",
+            "0x36150: ldr q0, [x8, #0xb30]",
+            "0x36154: stur q0, [x19, #0x78]",
+            "0x36158: mov w8, #0x100",
+            "0x3615c: sturh w8, [x19, #0xd]",
+            "0x36160: strb w20, [x19, #0xf]",
+            "0x36164: strb w20, [x19, #0x11]",
+            "0x36168: adrp x8, #0x37d000",
+            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'",
+            "0x36170: mov x0, x19",
+            "0x36174: bl #0x2ecd00",
+            "0x36178: mov x0, x19",
+            "0x3617c: ldp x29, x30, [sp, #0x20]",
+            "0x36180: ldp x20, x19, [sp, #0x10]",
+            "0x36184: add sp, sp, #0x30",
+            "0x36188: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'"
+          ],
+          "head": [
+            "0x36054: sub sp, sp, #0x30",
+            "0x36058: stp x20, x19, [sp, #0x10]",
+            "0x3605c: stp x29, x30, [sp, #0x20]",
+            "0x36060: add x29, sp, #0x20",
+            "0x36064: adrp x8, #0x37f000",
+            "0x36068: ldr x8, [x8, #0xa78]",
+            "0x3606c: stp x0, x8, [sp]",
+            "0x36070: adrp x8, #0x37d000",
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36078: mov x0, sp",
+            "0x3607c: bl #0x2ecd18",
+            "0x36080: mov x19, x0",
+            "0x36084: cbz x0, #0x36178",
+            "0x36088: adrp x8, #0x37f000",
+            "0x3608c: ldr x0, [x8, #0x758]",
+            "0x36090: adrp x8, #0x37d000",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x36098: bl #0x2ecd00"
+          ]
+        },
         "CBDashboardSettings.screenBlankEnabled": {
           "vm": "0x37ec0",
           "method_end_estimate": "0x37ec8",
@@ -1393,6 +1478,23 @@
           "head": [
             "0x37ec0: ldrb w0, [x0, #9]",
             "0x37ec4: ret "
+          ]
+        },
+        "CBDashboardSettings.dockSystemMonitorShowAll": {
+          "vm": "0x37ff0",
+          "method_end_estimate": "0x37ff8",
+          "type": "B16@0:8",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37ff0: ldrb w0, [x0, #0xf]",
+            "0x37ff4: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37ff0: ldrb w0, [x0, #0xf]",
+            "0x37ff4: ret "
           ]
         },
         "CBDashboardSettings.reload": {
@@ -1468,6 +1570,37 @@
             "0xb4b18: ldp x20, x19, [sp], #0x20"
           ]
         },
+        "CBDockSystemMonitorView.isMonitoring": {
+          "vm": "0xb4b20",
+          "method_end_estimate": "0xb4b40",
+          "type": "B16@0:8",
+          "decoded_instructions": 8,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb4b20: adrp x8, #0x37f000",
+            "0xb4b24: ldrsw x8, [x8, #0xd34]",
+            "0xb4b28: ldr x0, [x0, x8]",
+            "0xb4b2c: cbz x0, #0xb4b3c",
+            "0xb4b30: adrp x8, #0x37e000",
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
+            "0xb4b38: b #0x2ecd00",
+            "0xb4b3c: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'"
+          ],
+          "head": [
+            "0xb4b20: adrp x8, #0x37f000",
+            "0xb4b24: ldrsw x8, [x8, #0xd34]",
+            "0xb4b28: ldr x0, [x0, x8]",
+            "0xb4b2c: cbz x0, #0xb4b3c",
+            "0xb4b30: adrp x8, #0x37e000",
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
+            "0xb4b38: b #0x2ecd00",
+            "0xb4b3c: ret "
+          ]
+        },
         "CBDockSystemMonitorView.initWithFrame:": {
           "vm": "0xb3d24",
           "method_end_estimate": "0xb4204",
@@ -1525,35 +1658,330 @@
             "0xb3d68: mov x19, x0"
           ]
         },
-        "CBDockSystemMonitorView.isMonitoring": {
-          "vm": "0xb4b20",
-          "method_end_estimate": "0xb4b40",
-          "type": "B16@0:8",
-          "decoded_instructions": 8,
+        "CBDockSystemMonitorView.setShowAll:": {
+          "vm": "0xb42a8",
+          "method_end_estimate": "0xb4344",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 39,
           "truncated_by_disassembler": false,
           "full_instructions": [
-            "0xb4b20: adrp x8, #0x37f000",
-            "0xb4b24: ldrsw x8, [x8, #0xd34]",
-            "0xb4b28: ldr x0, [x0, x8]",
-            "0xb4b2c: cbz x0, #0xb4b3c",
-            "0xb4b30: adrp x8, #0x37e000",
-            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
-            "0xb4b38: b #0x2ecd00",
-            "0xb4b3c: ret "
+            "0xb42a8: stp x22, x21, [sp, #-0x30]!",
+            "0xb42ac: stp x20, x19, [sp, #0x10]",
+            "0xb42b0: stp x29, x30, [sp, #0x20]",
+            "0xb42b4: add x29, sp, #0x20",
+            "0xb42b8: mov x20, x2",
+            "0xb42bc: mov x19, x0",
+            "0xb42c0: adrp x8, #0x37f000",
+            "0xb42c4: ldrsw x8, [x8, #0xd20]",
+            "0xb42c8: ldrb w21, [x0, x8]",
+            "0xb42cc: strb w2, [x0, x8]",
+            "0xb42d0: adrp x8, #0x37d000",
+            "0xb42d4: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+            "0xb42d8: bl #0x2ecd00",
+            "0xb42dc: adrp x8, #0x37d000",
+            "0xb42e0: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+            "0xb42e4: mov x0, x19",
+            "0xb42e8: bl #0x2ecd00",
+            "0xb42ec: cmp w21, w20",
+            "0xb42f0: b.eq #0xb4334",
+            "0xb42f4: adrp x8, #0x37e000",
+            "0xb42f8: ldr x1, [x8, #0x648]  ; SEL_OR_LITERAL 'isMonitoring'",
+            "0xb42fc: mov x0, x19",
+            "0xb4300: bl #0x2ecd00",
+            "0xb4304: cbz w0, #0xb4334",
+            "0xb4308: adrp x8, #0x37e000",
+            "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+            "0xb4310: mov x0, x19",
+            "0xb4314: bl #0x2ecd00",
+            "0xb4318: adrp x8, #0x37e000",
+            "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
+            "0xb4320: mov x0, x19",
+            "0xb4324: ldp x29, x30, [sp, #0x20]",
+            "0xb4328: ldp x20, x19, [sp, #0x10]",
+            "0xb432c: ldp x22, x21, [sp], #0x30",
+            "0xb4330: b #0x2ecd00",
+            "0xb4334: ldp x29, x30, [sp, #0x20]",
+            "0xb4338: ldp x20, x19, [sp, #0x10]",
+            "0xb433c: ldp x22, x21, [sp], #0x30",
+            "0xb4340: ret "
           ],
-          "relevant_instructions": [],
+          "relevant_instructions": [
+            "0xb42f8: ldr x1, [x8, #0x648]  ; SEL_OR_LITERAL 'isMonitoring'",
+            "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+            "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'"
+          ],
           "selector_hints": [
-            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'"
+            "0xb42d4: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+            "0xb42e0: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+            "0xb42f8: ldr x1, [x8, #0x648]  ; SEL_OR_LITERAL 'isMonitoring'",
+            "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+            "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'"
           ],
           "head": [
-            "0xb4b20: adrp x8, #0x37f000",
-            "0xb4b24: ldrsw x8, [x8, #0xd34]",
-            "0xb4b28: ldr x0, [x0, x8]",
-            "0xb4b2c: cbz x0, #0xb4b3c",
-            "0xb4b30: adrp x8, #0x37e000",
-            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
-            "0xb4b38: b #0x2ecd00",
-            "0xb4b3c: ret "
+            "0xb42a8: stp x22, x21, [sp, #-0x30]!",
+            "0xb42ac: stp x20, x19, [sp, #0x10]",
+            "0xb42b0: stp x29, x30, [sp, #0x20]",
+            "0xb42b4: add x29, sp, #0x20",
+            "0xb42b8: mov x20, x2",
+            "0xb42bc: mov x19, x0",
+            "0xb42c0: adrp x8, #0x37f000",
+            "0xb42c4: ldrsw x8, [x8, #0xd20]",
+            "0xb42c8: ldrb w21, [x0, x8]",
+            "0xb42cc: strb w2, [x0, x8]",
+            "0xb42d0: adrp x8, #0x37d000",
+            "0xb42d4: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+            "0xb42d8: bl #0x2ecd00",
+            "0xb42dc: adrp x8, #0x37d000",
+            "0xb42e0: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+            "0xb42e4: mov x0, x19",
+            "0xb42e8: bl #0x2ecd00",
+            "0xb42ec: cmp w21, w20"
+          ]
+        },
+        "CBDockSystemMonitorView.updateBatteryMetric": {
+          "vm": "0xb4b4c",
+          "method_end_estimate": "0xb4dbc",
+          "type": "v16@0:8",
+          "decoded_instructions": 156,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb4b4c: sub sp, sp, #0x60",
+            "0xb4b50: stp x26, x25, [sp, #0x10]",
+            "0xb4b54: stp x24, x23, [sp, #0x20]",
+            "0xb4b58: stp x22, x21, [sp, #0x30]",
+            "0xb4b5c: stp x20, x19, [sp, #0x40]",
+            "0xb4b60: stp x29, x30, [sp, #0x50]",
+            "0xb4b64: add x29, sp, #0x50",
+            "0xb4b68: mov x20, x0",
+            "0xb4b6c: adrp x8, #0x37f000",
+            "0xb4b70: ldr x0, [x8, #0x940]",
+            "0xb4b74: adrp x8, #0x37e000",
+            "0xb4b78: ldr x1, [x8, #0x688]  ; SEL_OR_LITERAL 'currentDevice'",
+            "0xb4b7c: bl #0x2ecd00",
+            "0xb4b80: mov x29, x29",
+            "0xb4b84: bl #0x2ecd60",
+            "0xb4b88: mov x19, x0",
+            "0xb4b8c: adrp x8, #0x37e000",
+            "0xb4b90: ldr x1, [x8, #0x690]  ; SEL_OR_LITERAL 'isBatteryMonitoringEnabled'",
+            "0xb4b94: bl #0x2ecd00",
+            "0xb4b98: tbnz w0, #0, #0xb4bb0",
+            "0xb4b9c: adrp x8, #0x37e000",
+            "0xb4ba0: ldr x1, [x8, #0x698]  ; SEL_OR_LITERAL 'setBatteryMonitoringEnabled:'",
+            "0xb4ba4: mov x0, x19",
+            "0xb4ba8: mov w2, #1",
+            "0xb4bac: bl #0x2ecd00",
+            "0xb4bb0: adrp x8, #0x37e000",
+            "0xb4bb4: ldr x1, [x8, #0x6a0]  ; SEL_OR_LITERAL 'batteryLevel'",
+            "0xb4bb8: mov x0, x19",
+            "0xb4bbc: bl #0x2ecd00",
+            "0xb4bc0: mov w8, #0x42c80000",
+            "0xb4bc4: fmov s1, w8",
+            "0xb4bc8: fmul s1, s0, s1",
+            "0xb4bcc: fmov s2, #0.50000000",
+            "0xb4bd0: fadd s1, s1, s2",
+            "0xb4bd4: fcvtzs x8, s1",
+            "0xb4bd8: fcmp s0, #0.0",
+            "0xb4bdc: mov w9, #0x64",
+            "0xb4be0: csel x23, x8, x9, ge",
+            "0xb4be4: adrp x8, #0x37e000",
+            "0xb4be8: ldr x21, [x8, #0x6a8]  ; SEL_OR_LITERAL 'batteryState'",
+            "0xb4bec: mov x0, x19",
+            "0xb4bf0: mov x1, x21",
+            "0xb4bf4: bl #0x2ecd00",
+            "0xb4bf8: cmp x0, #2",
+            "0xb4bfc: b.eq #0xb4c14",
+            "0xb4c00: mov x0, x19",
+            "0xb4c04: mov x1, x21",
+            "0xb4c08: bl #0x2ecd00",
+            "0xb4c0c: cmp x0, #3",
+            "0xb4c10: b.ne #0xb4c44",
+            "0xb4c14: adrp x8, #0x37f000",
+            "0xb4c18: ldrsw x24, [x8, #0xd24]",
+            "0xb4c1c: ldr x0, [x20, x24]",
+            "0xb4c20: adrp x8, #0x37e000",
+            "0xb4c24: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'setIconSystemName:fallbackEmoji:'",
+            "0xb4c28: adrp x2, #0x370000",
+            "0xb4c2c: add x2, x2, #0xfa8",
+            "0xb4c30: adrp x3, #0x370000",
+            "0xb4c34: add x3, x3, #0xfc8",
+            "0xb4c38: bl #0x2ecd00",
+            "0xb4c3c: mov w25, #1",
+            "0xb4c40: b #0xb4c8c",
+            "0xb4c44: adrp x8, #0x37f000",
+            "0xb4c48: ldrsw x24, [x8, #0xd24]",
+            "0xb4c4c: ldr x0, [x20, x24]",
+            "0xb4c50: adrp x8, #0x37e000",
+            "0xb4c54: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'setIconSystemName:fallbackEmoji:'",
+            "0xb4c58: cmp x23, #0x14",
+            "0xb4c5c: b.gt #0xb4c74",
+            "0xb4c60: adrp x2, #0x370000",
+            "0xb4c64: add x2, x2, #0xfe8",
+            "0xb4c68: adrp x3, #0x371000",
+            "0xb4c6c: add x3, x3, #8",
+            "0xb4c70: b #0xb4c84",
+            "0xb4c74: adrp x2, #0x370000",
+            "0xb4c78: add x2, x2, #0xea8",
+            "0xb4c7c: adrp x3, #0x370000",
+            "0xb4c80: add x3, x3, #0xec8",
+            "0xb4c84: bl #0x2ecd00",
+            "0xb4c88: mov w25, #0",
+            "0xb4c8c: adrp x8, #0x37f000",
+            "0xb4c90: ldr x0, [x8, #0x708]",
+            "0xb4c94: adrp x8, #0x37d000",
+            "0xb4c98: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0xb4c9c: str x23, [sp]",
+            "0xb4ca0: adrp x2, #0x371000",
+            "0xb4ca4: add x2, x2, #0x28",
+            "0xb4ca8: bl #0x2ecd00",
+            "0xb4cac: mov x29, x29",
+            "0xb4cb0: bl #0x2ecd60",
+            "0xb4cb4: mov x21, x0",
+            "0xb4cb8: adrp x26, #0x37f000",
+            "0xb4cbc: ldr x0, [x26, #0x818]",
+            "0xb4cc0: adrp x8, #0x37d000",
+            "0xb4cc4: ldr x1, [x8, #0xa98]  ; SEL_OR_LITERAL 'whiteColor'",
+            "0xb4cc8: bl #0x2ecd00",
+            "0xb4ccc: mov x29, x29",
+            "0xb4cd0: bl #0x2ecd60",
+            "0xb4cd4: mov x22, x0",
+            "0xb4cd8: cbz w25, #0xb4d08",
+            "0xb4cdc: ldr x0, [x26, #0x818]",
+            "0xb4ce0: adrp x8, #0x37d000",
+            "0xb4ce4: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4ce8: adrp x8, #0x30f000",
+            "0xb4cec: ldr d0, [x8, #0x9c8]",
+            "0xb4cf0: nop ",
+            "0xb4cf4: ldr d1, [x8, #0x9b8]",
+            "0xb4cf8: adrp x8, #0x310000",
+            "0xb4cfc: ldr d2, [x8, #0xcb0]",
+            "0xb4d00: fmov d3, #1.00000000",
+            "0xb4d04: b #0xb4d5c",
+            "0xb4d08: cmp x23, #0xa",
+            "0xb4d0c: b.gt #0xb4d30",
+            "0xb4d10: ldr x0, [x26, #0x818]",
+            "0xb4d14: adrp x8, #0x37d000",
+            "0xb4d18: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4d1c: adrp x8, #0x311000",
+            "0xb4d20: ldr d1, [x8, #0x9b0]",
+            "0xb4d24: nop ",
+            "0xb4d28: ldr d2, [x8, #0x9b8]",
+            "0xb4d2c: b #0xb4d54",
+            "0xb4d30: cmp x23, #0x14",
+            "0xb4d34: b.gt #0xb4d74",
+            "0xb4d38: ldr x0, [x26, #0x818]",
+            "0xb4d3c: adrp x8, #0x37d000",
+            "0xb4d40: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4d44: adrp x8, #0x311000",
+            "0xb4d48: ldr d1, [x8, #0x700]",
+            "0xb4d4c: nop ",
+            "0xb4d50: ldr d2, [x8, #0x6c8]",
+            "0xb4d54: fmov d0, #1.00000000",
+            "0xb4d58: mov v3.16b, v0.16b",
+            "0xb4d5c: bl #0x2ecd00",
+            "0xb4d60: bl #0x2ecd60",
+            "0xb4d64: mov x23, x0",
+            "0xb4d68: mov x0, x22",
+            "0xb4d6c: bl #0x2ecd30",
+            "0xb4d70: mov x22, x23",
+            "0xb4d74: ldr x0, [x20, w24, sxtw]",
+            "0xb4d78: adrp x8, #0x37e000",
+            "0xb4d7c: ldr x1, [x8, #0x6b0]  ; SEL_OR_LITERAL 'setValue:color:'",
+            "0xb4d80: mov x2, x21",
+            "0xb4d84: mov x3, x22",
+            "0xb4d88: bl #0x2ecd00",
+            "0xb4d8c: mov x0, x22",
+            "0xb4d90: bl #0x2ecd30",
+            "0xb4d94: mov x0, x21",
+            "0xb4d98: bl #0x2ecd30",
+            "0xb4d9c: mov x0, x19",
+            "0xb4da0: ldp x29, x30, [sp, #0x50]",
+            "0xb4da4: ldp x20, x19, [sp, #0x40]",
+            "0xb4da8: ldp x22, x21, [sp, #0x30]",
+            "0xb4dac: ldp x24, x23, [sp, #0x20]",
+            "0xb4db0: ldp x26, x25, [sp, #0x10]",
+            "0xb4db4: add sp, sp, #0x60",
+            "0xb4db8: b #0x2ecd30"
+          ],
+          "relevant_instructions": [
+            "0xb4b90: ldr x1, [x8, #0x690]  ; SEL_OR_LITERAL 'isBatteryMonitoringEnabled'",
+            "0xb4ba0: ldr x1, [x8, #0x698]  ; SEL_OR_LITERAL 'setBatteryMonitoringEnabled:'",
+            "0xb4bb4: ldr x1, [x8, #0x6a0]  ; SEL_OR_LITERAL 'batteryLevel'",
+            "0xb4be8: ldr x21, [x8, #0x6a8]  ; SEL_OR_LITERAL 'batteryState'"
+          ],
+          "selector_hints": [
+            "0xb4b78: ldr x1, [x8, #0x688]  ; SEL_OR_LITERAL 'currentDevice'",
+            "0xb4b90: ldr x1, [x8, #0x690]  ; SEL_OR_LITERAL 'isBatteryMonitoringEnabled'",
+            "0xb4ba0: ldr x1, [x8, #0x698]  ; SEL_OR_LITERAL 'setBatteryMonitoringEnabled:'",
+            "0xb4bb4: ldr x1, [x8, #0x6a0]  ; SEL_OR_LITERAL 'batteryLevel'",
+            "0xb4be8: ldr x21, [x8, #0x6a8]  ; SEL_OR_LITERAL 'batteryState'",
+            "0xb4c24: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'setIconSystemName:fallbackEmoji:'",
+            "0xb4c54: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'setIconSystemName:fallbackEmoji:'",
+            "0xb4c98: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0xb4cc4: ldr x1, [x8, #0xa98]  ; SEL_OR_LITERAL 'whiteColor'",
+            "0xb4ce4: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4d18: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4d40: ldr x1, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4d7c: ldr x1, [x8, #0x6b0]  ; SEL_OR_LITERAL 'setValue:color:'"
+          ],
+          "head": [
+            "0xb4b4c: sub sp, sp, #0x60",
+            "0xb4b50: stp x26, x25, [sp, #0x10]",
+            "0xb4b54: stp x24, x23, [sp, #0x20]",
+            "0xb4b58: stp x22, x21, [sp, #0x30]",
+            "0xb4b5c: stp x20, x19, [sp, #0x40]",
+            "0xb4b60: stp x29, x30, [sp, #0x50]",
+            "0xb4b64: add x29, sp, #0x50",
+            "0xb4b68: mov x20, x0",
+            "0xb4b6c: adrp x8, #0x37f000",
+            "0xb4b70: ldr x0, [x8, #0x940]",
+            "0xb4b74: adrp x8, #0x37e000",
+            "0xb4b78: ldr x1, [x8, #0x688]  ; SEL_OR_LITERAL 'currentDevice'",
+            "0xb4b7c: bl #0x2ecd00",
+            "0xb4b80: mov x29, x29",
+            "0xb4b84: bl #0x2ecd60",
+            "0xb4b88: mov x19, x0",
+            "0xb4b8c: adrp x8, #0x37e000",
+            "0xb4b90: ldr x1, [x8, #0x690]  ; SEL_OR_LITERAL 'isBatteryMonitoringEnabled'"
+          ]
+        },
+        "CBDockSystemMonitorView.layoutSubviews": {
+          "vm": "0xb4604",
+          "method_end_estimate": "0xb49dc",
+          "type": "v16@0:8",
+          "decoded_instructions": 246,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'"
+          ],
+          "selector_hints": [
+            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
+            "0xb4650: ldr x1, [x8, #0x9b0]  ; SEL_OR_LITERAL 'bounds'",
+            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+            "0xb4728: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4810: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4898: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4930: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'"
+          ],
+          "head": [
+            "0xb4604: sub sp, sp, #0x90",
+            "0xb4608: stp d15, d14, [sp, #0x10]",
+            "0xb460c: stp d13, d12, [sp, #0x20]",
+            "0xb4610: stp d11, d10, [sp, #0x30]",
+            "0xb4614: stp d9, d8, [sp, #0x40]",
+            "0xb4618: stp x24, x23, [sp, #0x50]",
+            "0xb461c: stp x22, x21, [sp, #0x60]",
+            "0xb4620: stp x20, x19, [sp, #0x70]",
+            "0xb4624: stp x29, x30, [sp, #0x80]",
+            "0xb4628: add x29, sp, #0x80",
+            "0xb462c: mov x19, x0",
+            "0xb4630: adrp x8, #0x37f000",
+            "0xb4634: ldr x8, [x8, #0xad0]",
+            "0xb4638: stp x0, x8, [sp]",
+            "0xb463c: adrp x8, #0x37d000",
+            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
+            "0xb4644: mov x0, sp",
+            "0xb4648: bl #0x2ecd18"
           ]
         },
         "CBDockSystemMonitorView.readCpuUsage": {
@@ -1763,44 +2191,218 @@
             "0xb4a20: ldrb w8, [x19, x8]"
           ]
         },
-        "CBDockSystemMonitorView.layoutSubviews": {
-          "vm": "0xb4604",
-          "method_end_estimate": "0xb49dc",
+        "CBDockSystemMonitorView.readDeviceTemperature": {
+          "vm": "0xb5230",
+          "method_end_estimate": "0xb5414",
+          "type": "f16@0:8",
+          "decoded_instructions": 121,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb5230: stp d9, d8, [sp, #-0x40]!",
+            "0xb5234: stp x22, x21, [sp, #0x10]",
+            "0xb5238: stp x20, x19, [sp, #0x20]",
+            "0xb523c: stp x29, x30, [sp, #0x30]",
+            "0xb5240: add x29, sp, #0x30",
+            "0xb5244: adrp x0, #0x309000",
+            "0xb5248: add x0, x0, #0x4d5  ; DIRECT_STRING 'AppleSmartBattery'",
+            "0xb524c: bl #0x2ec988",
+            "0xb5250: mov x1, x0",
+            "0xb5254: mov w0, #0",
+            "0xb5258: bl #0x2ec97c",
+            "0xb525c: fmov s8, wzr",
+            "0xb5260: adrp x21, #0x344000",
+            "0xb5264: ldr x21, [x21, #0x160]",
+            "0xb5268: cbz w0, #0xb52f4",
+            "0xb526c: mov x19, x0",
+            "0xb5270: ldr x2, [x21]",
+            "0xb5274: adrp x1, #0x371000",
+            "0xb5278: add x1, x1, #0x88",
+            "0xb527c: mov w3, #0",
+            "0xb5280: bl #0x2ec970",
+            "0xb5284: cbz x0, #0xb52b0",
+            "0xb5288: mov x20, x0",
+            "0xb528c: adrp x8, #0x37e000",
+            "0xb5290: ldr x1, [x8, #0x168]  ; SEL_OR_LITERAL 'intValue'",
+            "0xb5294: bl #0x2ecd00",
+            "0xb5298: cmp w0, #0x3e9",
+            "0xb529c: b.lt #0xb52bc",
+            "0xb52a0: scvtf s0, w0",
+            "0xb52a4: mov w8, #0x42c80000",
+            "0xb52a8: fmov s1, w8",
+            "0xb52ac: b #0xb52cc",
+            "0xb52b0: mov x0, x19",
+            "0xb52b4: bl #0x2ec964",
+            "0xb52b8: b #0xb52f4",
+            "0xb52bc: cmp w0, #1",
+            "0xb52c0: b.lt #0xb52d4",
+            "0xb52c4: scvtf s0, w0",
+            "0xb52c8: fmov s1, #10.00000000",
+            "0xb52cc: fdiv s8, s0, s1",
+            "0xb52d0: b #0xb52d8",
+            "0xb52d4: fmov s8, wzr",
+            "0xb52d8: mov x0, x20",
+            "0xb52dc: bl #0x2ec7fc",
+            "0xb52e0: mov x0, x19",
+            "0xb52e4: bl #0x2ec964",
+            "0xb52e8: fcmp s8, #0.0",
+            "0xb52ec: b.gt #0xb53fc",
+            "0xb52f0: b.hi #0xb539c",
+            "0xb52f4: adrp x0, #0x309000",
+            "0xb52f8: add x0, x0, #0x4f3  ; DIRECT_STRING 'AppleTemperatureSensor'",
+            "0xb52fc: bl #0x2ec988",
+            "0xb5300: mov x1, x0",
+            "0xb5304: mov w0, #0",
+            "0xb5308: bl #0x2ec97c",
+            "0xb530c: mov x19, x0",
+            "0xb5310: cbnz w0, #0xb5334",
+            "0xb5314: adrp x0, #0x309000",
+            "0xb5318: add x0, x0, #0x50a  ; DIRECT_STRING 'AppleEmbeddedNVMeTemperatureSensor'",
+            "0xb531c: bl #0x2ec988",
+            "0xb5320: mov x1, x0",
+            "0xb5324: mov w0, #0",
+            "0xb5328: bl #0x2ec97c",
+            "0xb532c: mov x19, x0",
+            "0xb5330: cbz w0, #0xb539c",
+            "0xb5334: ldr x2, [x21]",
+            "0xb5338: adrp x1, #0x371000",
+            "0xb533c: add x1, x1, #0x88",
+            "0xb5340: mov x0, x19",
+            "0xb5344: mov w3, #0",
+            "0xb5348: bl #0x2ec970",
+            "0xb534c: cbz x0, #0xb5394",
+            "0xb5350: mov x20, x0",
+            "0xb5354: adrp x8, #0x37e000",
+            "0xb5358: ldr x1, [x8, #0x168]  ; SEL_OR_LITERAL 'intValue'",
+            "0xb535c: bl #0x2ecd00",
+            "0xb5360: cmp w0, #0x3e9",
+            "0xb5364: b.lt #0xb5378",
+            "0xb5368: scvtf s0, w0",
+            "0xb536c: mov w8, #0x42c80000",
+            "0xb5370: fmov s1, w8",
+            "0xb5374: b #0xb5388",
+            "0xb5378: cmp w0, #1",
+            "0xb537c: b.lt #0xb538c",
+            "0xb5380: scvtf s0, w0",
+            "0xb5384: fmov s1, #10.00000000",
+            "0xb5388: fdiv s8, s0, s1",
+            "0xb538c: mov x0, x20",
+            "0xb5390: bl #0x2ec7fc",
+            "0xb5394: mov x0, x19",
+            "0xb5398: bl #0x2ec964",
+            "0xb539c: fcmp s8, #0.0",
+            "0xb53a0: b.hi #0xb53fc",
+            "0xb53a4: adrp x8, #0x37f000",
+            "0xb53a8: ldr x0, [x8, #0x948]",
+            "0xb53ac: adrp x8, #0x37e000",
+            "0xb53b0: ldr x1, [x8, #0x6d0]  ; SEL_OR_LITERAL 'processInfo'",
+            "0xb53b4: bl #0x2ecd00",
+            "0xb53b8: mov x29, x29",
+            "0xb53bc: bl #0x2ecd60",
+            "0xb53c0: mov x20, x0",
+            "0xb53c4: adrp x8, #0x37e000",
+            "0xb53c8: ldr x1, [x8, #0x6d8]  ; SEL_OR_LITERAL 'thermalState'",
+            "0xb53cc: bl #0x2ecd00",
+            "0xb53d0: mov x19, x0",
+            "0xb53d4: mov x0, x20",
+            "0xb53d8: bl #0x2ecd30",
+            "0xb53dc: cmp x19, #3",
+            "0xb53e0: b.hi #0xb53f4",
+            "0xb53e4: adrp x8, #0x311000",
+            "0xb53e8: add x8, x8, #0x9c0",
+            "0xb53ec: ldr s0, [x8, x19, lsl #2]",
+            "0xb53f0: b #0xb5400",
+            "0xb53f4: mov w8, #0x420c0000",
+            "0xb53f8: fmov s8, w8",
+            "0xb53fc: mov v0.16b, v8.16b",
+            "0xb5400: ldp x29, x30, [sp, #0x30]",
+            "0xb5404: ldp x20, x19, [sp, #0x20]",
+            "0xb5408: ldp x22, x21, [sp, #0x10]",
+            "0xb540c: ldp d9, d8, [sp], #0x40",
+            "0xb5410: ret "
+          ],
+          "relevant_instructions": [
+            "0xb5248: add x0, x0, #0x4d5  ; DIRECT_STRING 'AppleSmartBattery'",
+            "0xb52f8: add x0, x0, #0x4f3  ; DIRECT_STRING 'AppleTemperatureSensor'",
+            "0xb5318: add x0, x0, #0x50a  ; DIRECT_STRING 'AppleEmbeddedNVMeTemperatureSensor'",
+            "0xb53b0: ldr x1, [x8, #0x6d0]  ; SEL_OR_LITERAL 'processInfo'",
+            "0xb53c8: ldr x1, [x8, #0x6d8]  ; SEL_OR_LITERAL 'thermalState'"
+          ],
+          "selector_hints": [
+            "0xb5248: add x0, x0, #0x4d5  ; DIRECT_STRING 'AppleSmartBattery'",
+            "0xb5290: ldr x1, [x8, #0x168]  ; SEL_OR_LITERAL 'intValue'",
+            "0xb52f8: add x0, x0, #0x4f3  ; DIRECT_STRING 'AppleTemperatureSensor'",
+            "0xb5318: add x0, x0, #0x50a  ; DIRECT_STRING 'AppleEmbeddedNVMeTemperatureSensor'",
+            "0xb5358: ldr x1, [x8, #0x168]  ; SEL_OR_LITERAL 'intValue'",
+            "0xb53b0: ldr x1, [x8, #0x6d0]  ; SEL_OR_LITERAL 'processInfo'",
+            "0xb53c8: ldr x1, [x8, #0x6d8]  ; SEL_OR_LITERAL 'thermalState'"
+          ],
+          "head": [
+            "0xb5230: stp d9, d8, [sp, #-0x40]!",
+            "0xb5234: stp x22, x21, [sp, #0x10]",
+            "0xb5238: stp x20, x19, [sp, #0x20]",
+            "0xb523c: stp x29, x30, [sp, #0x30]",
+            "0xb5240: add x29, sp, #0x30",
+            "0xb5244: adrp x0, #0x309000",
+            "0xb5248: add x0, x0, #0x4d5  ; DIRECT_STRING 'AppleSmartBattery'",
+            "0xb524c: bl #0x2ec988",
+            "0xb5250: mov x1, x0",
+            "0xb5254: mov w0, #0",
+            "0xb5258: bl #0x2ec97c",
+            "0xb525c: fmov s8, wzr",
+            "0xb5260: adrp x21, #0x344000",
+            "0xb5264: ldr x21, [x21, #0x160]",
+            "0xb5268: cbz w0, #0xb52f4",
+            "0xb526c: mov x19, x0",
+            "0xb5270: ldr x2, [x21]",
+            "0xb5274: adrp x1, #0x371000"
+          ]
+        },
+        "CBDockSystemMonitorView.updateMetrics": {
+          "vm": "0xb4dbc",
+          "method_end_estimate": "0xb5230",
           "type": "v16@0:8",
-          "decoded_instructions": 246,
+          "decoded_instructions": 285,
           "truncated_by_disassembler": false,
           "full_instructions": [],
           "relevant_instructions": [
-            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'"
+            "0xb4e70: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+            "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+            "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'"
           ],
           "selector_hints": [
-            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
-            "0xb4650: ldr x1, [x8, #0x9b0]  ; SEL_OR_LITERAL 'bounds'",
-            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
-            "0xb4728: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
-            "0xb4810: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
-            "0xb4898: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
-            "0xb4930: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'"
+            "0xb4df0: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+            "0xb4e04: ldr x1, [x8, #0xe78]  ; SEL_OR_LITERAL 'alpha'",
+            "0xb4e24: ldr x1, [x8, #0x2d8]  ; SEL_OR_LITERAL 'window'",
+            "0xb4e44: ldr x1, [x8, #0xe40]  ; SEL_OR_LITERAL 'superview'",
+            "0xb4e70: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+            "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+            "0xb4eb0: ldr x24, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0xb4ee0: ldr x25, [x8, #0xa98]  ; SEL_OR_LITERAL 'whiteColor'",
+            "0xb4f10: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4f4c: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+            "0xb4fa4: ldr x26, [x8, #0x6b0]  ; SEL_OR_LITERAL 'setValue:color:'",
+            "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'",
+            "0xb50f0: ldr x1, [x8, #0x6c8]  ; SEL_OR_LITERAL 'readRamUsage:total:'"
           ],
           "head": [
-            "0xb4604: sub sp, sp, #0x90",
-            "0xb4608: stp d15, d14, [sp, #0x10]",
-            "0xb460c: stp d13, d12, [sp, #0x20]",
-            "0xb4610: stp d11, d10, [sp, #0x30]",
-            "0xb4614: stp d9, d8, [sp, #0x40]",
-            "0xb4618: stp x24, x23, [sp, #0x50]",
-            "0xb461c: stp x22, x21, [sp, #0x60]",
-            "0xb4620: stp x20, x19, [sp, #0x70]",
-            "0xb4624: stp x29, x30, [sp, #0x80]",
-            "0xb4628: add x29, sp, #0x80",
-            "0xb462c: mov x19, x0",
-            "0xb4630: adrp x8, #0x37f000",
-            "0xb4634: ldr x8, [x8, #0xad0]",
-            "0xb4638: stp x0, x8, [sp]",
-            "0xb463c: adrp x8, #0x37d000",
-            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
-            "0xb4644: mov x0, sp",
-            "0xb4648: bl #0x2ecd18"
+            "0xb4dbc: sub sp, sp, #0xb0",
+            "0xb4dc0: stp d9, d8, [sp, #0x40]",
+            "0xb4dc4: stp x28, x27, [sp, #0x50]",
+            "0xb4dc8: stp x26, x25, [sp, #0x60]",
+            "0xb4dcc: stp x24, x23, [sp, #0x70]",
+            "0xb4dd0: stp x22, x21, [sp, #0x80]",
+            "0xb4dd4: stp x20, x19, [sp, #0x90]",
+            "0xb4dd8: stp x29, x30, [sp, #0xa0]",
+            "0xb4ddc: add x29, sp, #0xa0",
+            "0xb4de0: mov x20, x0",
+            "0xb4de4: bl #0x2ecc70",
+            "0xb4de8: mov x19, x0",
+            "0xb4dec: adrp x8, #0x37d000",
+            "0xb4df0: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+            "0xb4df4: mov x0, x20",
+            "0xb4df8: bl #0x2ecd00",
+            "0xb4dfc: tbnz w0, #0, #0xb5204",
+            "0xb4e00: adrp x8, #0x37d000"
           ]
         },
         "CBDockSystemMonitorView.dealloc": {
@@ -1873,71 +2475,6 @@
             "0xb4240: mov x2, x19",
             "0xb4244: bl #0x2ecd00",
             "0xb4248: mov x0, x20"
-          ]
-        },
-        "CBBridgeManager.handleCarPlayConnectionChanged:": {
-          "vm": "0x1b8a1c",
-          "method_end_estimate": "0x1b9420",
-          "type": "v24@0:8@16",
-          "decoded_instructions": 641,
-          "truncated_by_disassembler": false,
-          "full_instructions": [],
-          "relevant_instructions": [
-            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
-            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
-            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'"
-          ],
-          "selector_hints": [
-            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
-            "0x1b8a7c: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
-            "0x1b8b30: ldr x1, [x8, #0x4a8]  ; SEL_OR_LITERAL 'carPlayCADisplay'",
-            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
-            "0x1b8bb4: ldr x1, [x8, #0x620]  ; SEL_OR_LITERAL 'count'",
-            "0x1b8bd8: ldr x1, [x8, #0xc50]  ; SEL_OR_LITERAL 'releaseCarPlaySleepAssertion'",
-            "0x1b8bf0: ldr x3, [x8, #0xc28]  ; SEL_OR_LITERAL 'performAutoResume'",
-            "0x1b8bf8: ldr x1, [x8, #0x810]  ; SEL_OR_LITERAL 'cancelPreviousPerformRequestsWithTarget:selector:object:'",
-            "0x1b8c44: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
-            "0x1b8c5c: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
-            "0x1b8c90: ldr x1, [x8, #0x4b8]  ; SEL_OR_LITERAL 'writeToFile:atomically:encoding:error:'",
-            "0x1b8ccc: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
-            "0x1b8cf0: add x8, x8, #0x978  ; DIRECT_STRING '_9/'",
-            "0x1b8d10: ldr x1, [x8, #0xb00]  ; SEL_OR_LITERAL 'acquireCarPlaySleepAssertion'",
-            "0x1b8d20: ldr x1, [x8, #0xc60]  ; SEL_OR_LITERAL 'cancelMandatoryDisconnectWatchdog'",
-            "0x1b8d64: ldr x1, [x8, #0x880]  ; SEL_OR_LITERAL 'removeAllObjects'",
-            "0x1b8d74: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
-            "0x1b8d98: ldr x1, [x8, #0xb60]  ; SEL_OR_LITERAL 'isDisplayValid'",
-            "0x1b8dbc: ldr x1, [x8, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
-            "0x1b8df0: ldr x1, [x9, #0x568]  ; SEL_OR_LITERAL 'length'",
-            "0x1b8e08: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'effectiveAutoLaunchBundleID'",
-            "0x1b8e20: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
-            "0x1b8e54: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
-            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
-            "0x1b8eb0: ldr x1, [x9, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
-            "0x1b8ed4: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'clearBridgeStateOnDisk'",
-            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
-            "0x1b9024: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
-            "0x1b91a0: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
-            "0x1b9384: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'"
-          ],
-          "head": [
-            "0x1b8a1c: sub sp, sp, #0x60",
-            "0x1b8a20: stp x22, x21, [sp, #0x30]",
-            "0x1b8a24: stp x20, x19, [sp, #0x40]",
-            "0x1b8a28: stp x29, x30, [sp, #0x50]",
-            "0x1b8a2c: add x29, sp, #0x50",
-            "0x1b8a30: mov x19, x0",
-            "0x1b8a34: cbz x2, #0x1b8a58",
-            "0x1b8a38: adrp x8, #0x37d000",
-            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
-            "0x1b8a40: mov x0, x2",
-            "0x1b8a44: bl #0x2ecd00",
-            "0x1b8a48: mov x29, x29",
-            "0x1b8a4c: bl #0x2ecd60",
-            "0x1b8a50: mov x20, x0",
-            "0x1b8a54: b #0x1b8a60",
-            "0x1b8a58: adrp x20, #0x371000",
-            "0x1b8a5c: add x20, x20, #0xa88",
-            "0x1b8a60: str x20, [sp]"
           ]
         },
         "CBBridgeManager.init": {
@@ -2025,6 +2562,59 @@
             "0x121970: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'"
           ]
         },
+        "CBBridgeManager.deactivateCurrentApp": {
+          "vm": "0x19d458",
+          "method_end_estimate": "0x19d870",
+          "type": "v16@0:8",
+          "decoded_instructions": 262,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0x19d7dc: ldr x1, [x8, #0xb90]  ; SEL_OR_LITERAL 'notifyStateUpdated'",
+            "0x19d7f8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'"
+          ],
+          "selector_hints": [
+            "0x19d4b0: ldr x1, [x8, #0xbf8]  ; SEL_OR_LITERAL 'stopLicenseWatchdogTimer'",
+            "0x19d4c0: ldr x1, [x8, #0xbd8]  ; SEL_OR_LITERAL 'dismissLicenseWarningModal'",
+            "0x19d4d0: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'clearBridgeStateOnDisk'",
+            "0x19d504: ldr x1, [x8, #0x448]  ; SEL_OR_LITERAL 'isEqualToString:'",
+            "0x19d528: ldr x1, [x22, #0x610]  ; SEL_OR_LITERAL 'class'",
+            "0x19d538: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'isKindOfClass:'",
+            "0x19d564: ldr x21, [x8, #0xa18]  ; SEL_OR_LITERAL 'appViews'",
+            "0x19d580: ldr x1, [x8, #0x620]  ; SEL_OR_LITERAL 'count'",
+            "0x19d5cc: ldr x1, [x8, #0x898]  ; SEL_OR_LITERAL 'countByEnumeratingWithState:objects:count:'",
+            "0x19d604: ldr x25, [x8, #0x420]  ; SEL_OR_LITERAL 'bundleIdentifier'",
+            "0x19d60c: ldr x26, [x8, #0x9d8]  ; SEL_OR_LITERAL 'sendStateToApp:shouldBridge:'",
+            "0x19d71c: ldr x1, [x8, #0x9d8]  ; SEL_OR_LITERAL 'sendStateToApp:shouldBridge:'",
+            "0x19d734: ldr x1, [x22, #0x610]  ; SEL_OR_LITERAL 'class'",
+            "0x19d754: ldr x1, [x8, #0x730]  ; SEL_OR_LITERAL 'stop'",
+            "0x19d764: ldr x1, [x8, #0x2f0]  ; SEL_OR_LITERAL 'view'",
+            "0x19d77c: ldr x1, [x8, #0xb28]  ; SEL_OR_LITERAL 'removeFromSuperview'",
+            "0x19d7b4: ldr x1, [x8, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+            "0x19d7dc: ldr x1, [x8, #0xb90]  ; SEL_OR_LITERAL 'notifyStateUpdated'",
+            "0x19d7f8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'"
+          ],
+          "head": [
+            "0x19d458: sub sp, sp, #0x160",
+            "0x19d45c: stp x28, x27, [sp, #0x100]",
+            "0x19d460: stp x26, x25, [sp, #0x110]",
+            "0x19d464: stp x24, x23, [sp, #0x120]",
+            "0x19d468: stp x22, x21, [sp, #0x130]",
+            "0x19d46c: stp x20, x19, [sp, #0x140]",
+            "0x19d470: stp x29, x30, [sp, #0x150]",
+            "0x19d474: add x29, sp, #0x150",
+            "0x19d478: mov x19, x0",
+            "0x19d47c: adrp x8, #0x344000",
+            "0x19d480: ldr x8, [x8, #0x140]",
+            "0x19d484: ldr x8, [x8]",
+            "0x19d488: stur x8, [x29, #-0x60]",
+            "0x19d48c: ldrb w8, [x0, #8]",
+            "0x19d490: ldr x9, [x0, #0x38]",
+            "0x19d494: ldr x10, [x0, #0x48]",
+            "0x19d498: stp x9, x10, [sp, #8]",
+            "0x19d49c: str x8, [sp]"
+          ]
+        },
         "CBBridgeManager.handleSettingsChanged": {
           "vm": "0x267764",
           "method_end_estimate": "0x27fee4",
@@ -2067,6 +2657,71 @@
             "0x2677a0: nop ",
             "0x2677a4: ldrsw x9, [x8, #0xe78]",
             "0x2677a8: ldrb w8, [x0, x9]"
+          ]
+        },
+        "CBBridgeManager.handleCarPlayConnectionChanged:": {
+          "vm": "0x1b8a1c",
+          "method_end_estimate": "0x1b9420",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 641,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'"
+          ],
+          "selector_hints": [
+            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
+            "0x1b8a7c: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0x1b8b30: ldr x1, [x8, #0x4a8]  ; SEL_OR_LITERAL 'carPlayCADisplay'",
+            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x1b8bb4: ldr x1, [x8, #0x620]  ; SEL_OR_LITERAL 'count'",
+            "0x1b8bd8: ldr x1, [x8, #0xc50]  ; SEL_OR_LITERAL 'releaseCarPlaySleepAssertion'",
+            "0x1b8bf0: ldr x3, [x8, #0xc28]  ; SEL_OR_LITERAL 'performAutoResume'",
+            "0x1b8bf8: ldr x1, [x8, #0x810]  ; SEL_OR_LITERAL 'cancelPreviousPerformRequestsWithTarget:selector:object:'",
+            "0x1b8c44: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8c5c: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x1b8c90: ldr x1, [x8, #0x4b8]  ; SEL_OR_LITERAL 'writeToFile:atomically:encoding:error:'",
+            "0x1b8ccc: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
+            "0x1b8cf0: add x8, x8, #0x978  ; DIRECT_STRING '_9/'",
+            "0x1b8d10: ldr x1, [x8, #0xb00]  ; SEL_OR_LITERAL 'acquireCarPlaySleepAssertion'",
+            "0x1b8d20: ldr x1, [x8, #0xc60]  ; SEL_OR_LITERAL 'cancelMandatoryDisconnectWatchdog'",
+            "0x1b8d64: ldr x1, [x8, #0x880]  ; SEL_OR_LITERAL 'removeAllObjects'",
+            "0x1b8d74: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
+            "0x1b8d98: ldr x1, [x8, #0xb60]  ; SEL_OR_LITERAL 'isDisplayValid'",
+            "0x1b8dbc: ldr x1, [x8, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+            "0x1b8df0: ldr x1, [x9, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8e08: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'effectiveAutoLaunchBundleID'",
+            "0x1b8e20: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x1b8e54: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x1b8eb0: ldr x1, [x9, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+            "0x1b8ed4: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'clearBridgeStateOnDisk'",
+            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
+            "0x1b9024: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
+            "0x1b91a0: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
+            "0x1b9384: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'"
+          ],
+          "head": [
+            "0x1b8a1c: sub sp, sp, #0x60",
+            "0x1b8a20: stp x22, x21, [sp, #0x30]",
+            "0x1b8a24: stp x20, x19, [sp, #0x40]",
+            "0x1b8a28: stp x29, x30, [sp, #0x50]",
+            "0x1b8a2c: add x29, sp, #0x50",
+            "0x1b8a30: mov x19, x0",
+            "0x1b8a34: cbz x2, #0x1b8a58",
+            "0x1b8a38: adrp x8, #0x37d000",
+            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
+            "0x1b8a40: mov x0, x2",
+            "0x1b8a44: bl #0x2ecd00",
+            "0x1b8a48: mov x29, x29",
+            "0x1b8a4c: bl #0x2ecd60",
+            "0x1b8a50: mov x20, x0",
+            "0x1b8a54: b #0x1b8a60",
+            "0x1b8a58: adrp x20, #0x371000",
+            "0x1b8a5c: add x20, x20, #0xa88",
+            "0x1b8a60: str x20, [sp]"
           ]
         },
         "CBBridgedPortalAppView.displayLink": {
@@ -2112,6 +2767,383 @@
             "0x83618: add x0, x0, x8",
             "0x8361c: b #0x2ecd90"
           ]
+        },
+        "CBBridgedUIAppView.startInParentViewController:": {
+          "vm": "0xadf30",
+          "method_end_estimate": "0xaf00c",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 1079,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0xae554: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0xaebf8: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+            "0xaeff0: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'"
+          ],
+          "selector_hints": [
+            "0xadf78: ldr x1, [x8, #0x380]  ; SEL_OR_LITERAL 'invalidated'",
+            "0xadf8c: ldr x1, [x8, #0x388]  ; SEL_OR_LITERAL 'hosting'",
+            "0xadfa0: ldr x1, [x8, #0x390]  ; SEL_OR_LITERAL 'setHosting:'",
+            "0xadfc0: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'sharedInstanceIfExists'",
+            "0xadfd8: ldr x1, [x8, #0x2d8]  ; SEL_OR_LITERAL 'window'",
+            "0xadff0: ldr x1, [x8, #0x3a0]  ; SEL_OR_LITERAL 'rootViewController'",
+            "0xae018: add x0, x0, #0xfbf  ; DIRECT_STRING 'SBApplicationController'",
+            "0xae028: add x0, x0, #0xfd7  ; DIRECT_STRING 'SBDeviceApplicationSceneEntity'",
+            "0xae038: add x0, x0, #0xff6  ; DIRECT_STRING 'SBAppViewController'",
+            "0xae054: ldr x1, [x8, #0x518]  ; SEL_OR_LITERAL 'sharedInstance'",
+            "0xae070: ldr x25, [x8, #0x420]  ; SEL_OR_LITERAL 'bundleIdentifier'",
+            "0xae090: ldr x1, [x8, #0x3a8]  ; SEL_OR_LITERAL 'applicationWithBundleIdentifier:'",
+            "0xae0bc: ldr x21, [x8, #0x3b0]  ; SEL_OR_LITERAL 'initWithApplicationForMainDisplay:'",
+            "0xae0c4: ldr x24, [x8, #0x3b8]  ; SEL_OR_LITERAL 'instancesRespondToSelector:'",
+            "0xae0fc: add x0, x0, #0xa  ; DIRECT_STRING 'initWithApplication:generatingNewSceneIfRequired:'",
+            "0xae128: add x0, x0, #0xa  ; DIRECT_STRING 'initWithApplication:generatingNewSceneIfRequired:'",
+            "0xae150: add x0, x0, #0x3c  ; DIRECT_STRING 'initWithApplication:'",
+            "0xae17c: add x0, x0, #0x3c  ; DIRECT_STRING 'initWithApplication:'",
+            "0xae1b4: ldr x1, [x8, #0x3c0]  ; SEL_OR_LITERAL 'UUID'",
+            "0xae1cc: ldr x1, [x8, #0x3c8]  ; SEL_OR_LITERAL 'UUIDString'",
+            "0xae1ec: ldr x21, [x8, #0x3d0]  ; SEL_OR_LITERAL 'initWithIdentifier:andApplicationSceneEntity:'",
+            "0xae228: add x0, x0, #0x51  ; DIRECT_STRING 'initWithApplicationSceneEntity:'",
+            "0xae254: add x0, x0, #0x51  ; DIRECT_STRING 'initWithApplicationSceneEntity:'",
+            "0xae2c8: ldr x27, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0xae2e8: add x1, x1, #0xe8b  ; DIRECT_STRING 'CBDuoFaceHosted'",
+            "0xae328: add x1, x1, #0xe9b  ; DIRECT_STRING 'CBCarBridgeHosted'",
+            "0xae384: add x1, x1, #0xead  ; DIRECT_STRING 'CBDuoFaceBundleID'",
+            "0xae3c0: add x1, x1, #0xebf  ; DIRECT_STRING 'CBCarBridgeBundleID'",
+            "0xae3f0: ldr x1, [x9, #0x610]  ; SEL_OR_LITERAL 'class'",
+            "0xae3fc: ldr x1, [x21, #0x618]  ; SEL_OR_LITERAL 'isKindOfClass:'",
+            "0xae414: ldr x1, [x8, #0x3d8]  ; SEL_OR_LITERAL 'addChildViewController:'",
+            "0xae428: ldr x21, [x8, #0x3e0]  ; SEL_OR_LITERAL 'setIgnoresOcclusions:'",
+            "0xae430: ldr x24, [x8, #0x5d8]  ; SEL_OR_LITERAL 'respondsToSelector:'",
+            "0xae45c: ldr x21, [x8, #0x3e8]  ; SEL_OR_LITERAL 'setAutomatesLifecycle:'",
+            "0xae484: ldr x23, [x8, #0x9b0]  ; SEL_OR_LITERAL 'bounds'",
+            "0xae498: ldr x1, [x8, #0x2f8]  ; SEL_OR_LITERAL 'calculateNativeSizeForSlotRect:'",
+            "0xae4cc: ldr x1, [x8, #0x320]  ; SEL_OR_LITERAL 'carPlayUsableBounds'",
+            "0xae4fc: ldr x1, [x8, #0x2f0]  ; SEL_OR_LITERAL 'view'",
+            "0xae518: ldr x21, [x8, #0x3f0]  ; SEL_OR_LITERAL 'setRequestedMode:'",
+            "0xae554: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0xae57c: ldr x1, [x8, #0x9b8]  ; SEL_OR_LITERAL 'initWithFrame:'",
+            "0xae5b8: ldr x1, [x8, #0xdb8]  ; SEL_OR_LITERAL 'blackColor'",
+            "0xae5d4: ldr x1, [x8, #0x9d8]  ; SEL_OR_LITERAL 'setBackgroundColor:'",
+            "0xae5f0: ldr x1, [x8, #0x3f8]  ; SEL_OR_LITERAL 'setOpaque:'",
+            "0xae624: ldr x1, [x8, #0xe30]  ; SEL_OR_LITERAL 'setTransform:'",
+            "0xae644: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xae654: ldr x1, [x8, #0xdc0]  ; SEL_OR_LITERAL 'setAutoresizingMask:'",
+            "0xae668: ldr x21, [x19, #0xa80]  ; SEL_OR_LITERAL 'addSubview:'",
+            "0xae67c: ldr x21, [x19, #0xa80]  ; SEL_OR_LITERAL 'addSubview:'",
+            "0xae698: ldr x26, [x8, #0x610]  ; SEL_OR_LITERAL 'class'",
+            "0xae6a8: add x1, x1, #0xd57  ; DIRECT_STRING '_deviceAppViewController'",
+            "0xae700: add x1, x1, #0xe8b  ; DIRECT_STRING 'CBDuoFaceHosted'",
+            "0xae73c: add x1, x1, #0xe9b  ; DIRECT_STRING 'CBCarBridgeHosted'",
+            "0xae794: add x1, x1, #0xead  ; DIRECT_STRING 'CBDuoFaceBundleID'",
+            "0xae7cc: add x1, x1, #0xebf  ; DIRECT_STRING 'CBCarBridgeBundleID'",
+            "0xae7ec: ldr x21, [x8, #0x318]  ; SEL_OR_LITERAL 'setHomeGrabberDisplayMode:'",
+            "0xae814: ldr x21, [x28, #0x308]  ; SEL_OR_LITERAL 'setContentReferenceSize:withInterfaceOrientation:'",
+            "0xae84c: ldr x21, [x8, #0x310]  ; SEL_OR_LITERAL 'setContentReferenceSize:withContentOrientation:andContainerOrientation:'",
+            "0xae890: ldr x21, [x28, #0x308]  ; SEL_OR_LITERAL 'setContentReferenceSize:withInterfaceOrientation:'",
+            "0xae8c4: ldr x21, [x8, #0x328]  ; SEL_OR_LITERAL 'sceneHandle'",
+            "0xae8e0: ldr x28, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+            "0xae928: add x1, x1, #0xe8b  ; DIRECT_STRING 'CBDuoFaceHosted'",
+            "0xae964: add x1, x1, #0xe9b  ; DIRECT_STRING 'CBCarBridgeHosted'",
+            "0xae9bc: add x1, x1, #0xead  ; DIRECT_STRING 'CBDuoFaceBundleID'",
+            "0xae9f4: add x1, x1, #0xebf  ; DIRECT_STRING 'CBCarBridgeBundleID'",
+            "0xaea14: ldr x21, [x8, #0x330]  ; SEL_OR_LITERAL 'sceneIfExists'",
+            "0xaea54: ldr x21, [x8, #0x338]  ; SEL_OR_LITERAL 'scene'",
+            "0xaead0: add x1, x1, #0xe8b  ; DIRECT_STRING 'CBDuoFaceHosted'",
+            "0xaeb10: add x1, x1, #0xe9b  ; DIRECT_STRING 'CBCarBridgeHosted'",
+            "0xaeb48: add x1, x1, #0xead  ; DIRECT_STRING 'CBDuoFaceBundleID'",
+            "0xaeb80: add x1, x1, #0xebf  ; DIRECT_STRING 'CBCarBridgeBundleID'",
+            "0xaebd0: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'isKindOfClass:'",
+            "0xaebe8: ldr x1, [x8, #0x400]  ; SEL_OR_LITERAL 'didMoveToParentViewController:'",
+            "0xaebf8: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+            "0xaec10: ldr x27, [x8, #0xad0]  ; SEL_OR_LITERAL 'numberWithDouble:'",
+            "0xaed4c: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'arrayWithObjects:count:'",
+            "0xaedcc: ldr x1, [x8, #0x898]  ; SEL_OR_LITERAL 'countByEnumeratingWithState:objects:count:'",
+            "0xaee2c: ldr x26, [x8, #0xbd8]  ; SEL_OR_LITERAL 'doubleValue'",
+            "0xaefc8: ldr x1, [x8, #0x380]  ; SEL_OR_LITERAL 'invalidated'",
+            "0xaefd4: ldr x0, [x19, #0x20]  ; SEL_OR_LITERAL 'handleAppDidBecomeActive:'",
+            "0xaefdc: ldr x1, [x8, #0x388]  ; SEL_OR_LITERAL 'hosting'",
+            "0xaefe8: ldr x0, [x19, #0x20]  ; SEL_OR_LITERAL 'handleAppDidBecomeActive:'",
+            "0xaeff0: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'"
+          ],
+          "head": [
+            "0xadf30: stp d9, d8, [sp, #-0x70]!",
+            "0xadf34: stp x28, x27, [sp, #0x10]",
+            "0xadf38: stp x26, x25, [sp, #0x20]",
+            "0xadf3c: stp x24, x23, [sp, #0x30]",
+            "0xadf40: stp x22, x21, [sp, #0x40]",
+            "0xadf44: stp x20, x19, [sp, #0x50]",
+            "0xadf48: stp x29, x30, [sp, #0x60]",
+            "0xadf4c: add x29, sp, #0x60",
+            "0xadf50: sub sp, sp, #0x1d0",
+            "0xadf54: mov x20, x0",
+            "0xadf58: adrp x8, #0x344000",
+            "0xadf5c: ldr x8, [x8, #0x140]",
+            "0xadf60: ldr x8, [x8]",
+            "0xadf64: stur x8, [x29, #-0x70]",
+            "0xadf68: mov x0, x2",
+            "0xadf6c: bl #0x2ecd3c",
+            "0xadf70: mov x19, x0",
+            "0xadf74: adrp x8, #0x37e000"
+          ]
+        },
+        "CBAssistantManager.processVoiceCommand:": {
+          "vm": "0x31294",
+          "method_end_estimate": "0x324b8",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 1161,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0x31af0: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0x31b3c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x31da8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0x31df8: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x31f80: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x32128: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x32268: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x3234c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'"
+          ],
+          "selector_hints": [
+            "0x312d4: ldr x1, [x8, #0x440]  ; SEL_OR_LITERAL 'lowercaseString'",
+            "0x312f8: ldr x1, [x8, #0x8a0]  ; SEL_OR_LITERAL 'whitespaceAndNewlineCharacterSet'",
+            "0x31314: ldr x1, [x8, #0x8a8]  ; SEL_OR_LITERAL 'stringByTrimmingCharactersInSet:'",
+            "0x314ec: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'arrayWithObjects:count:'",
+            "0x31520: ldr x1, [x8, #0x898]  ; SEL_OR_LITERAL 'countByEnumeratingWithState:objects:count:'",
+            "0x31558: ldr x23, [x8, #0x458]  ; SEL_OR_LITERAL 'hasPrefix:'",
+            "0x3155c: ldr x21, [x9, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x31560: ldr x19, [x10, #0x8d0]  ; SEL_OR_LITERAL 'substringFromIndex:'",
+            "0x317b4: ldr x24, [x8, #0x458]  ; SEL_OR_LITERAL 'hasPrefix:'",
+            "0x317b8: ldr x21, [x9, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x317bc: ldr x19, [x10, #0x8d0]  ; SEL_OR_LITERAL 'substringFromIndex:'",
+            "0x319e4: ldr x19, [x23, #0x458]  ; SEL_OR_LITERAL 'hasPrefix:'",
+            "0x31a58: ldr x25, [x8, #0x430]  ; SEL_OR_LITERAL 'containsString:'",
+            "0x31af0: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0x31b18: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x31b3c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x31bb0: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x31bd0: ldr x1, [x8, #0x8d8]  ; SEL_OR_LITERAL 'handleNavigationCommand:'",
+            "0x31bf0: ldr x1, [x8, #0x8e0]  ; SEL_OR_LITERAL 'handleAppLaunchCommand:'",
+            "0x31c18: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x31c2c: ldr x1, [x8, #0x8d0]  ; SEL_OR_LITERAL 'substringFromIndex:'",
+            "0x31c90: ldr x1, [x8, #0x8e8]  ; SEL_OR_LITERAL 'handleMusicCommand:'",
+            "0x31da8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+            "0x31dd0: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x31df8: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x31e68: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x31f5c: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x31f80: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x31ff4: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x32100: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x32128: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x32198: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x32244: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x32268: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x322dc: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x322f4: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x32324: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0x3234c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+            "0x323c4: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+            "0x323dc: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'",
+            "0x323ec: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'",
+            "0x32424: ldr x1, [x8, #0x900]  ; SEL_OR_LITERAL 'triggerBridgeApp:'",
+            "0x32438: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'",
+            "0x32478: ldr x1, [x8, #0x908]  ; SEL_OR_LITERAL 'dismissCarBridgeApp'",
+            "0x32488: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'",
+            "0x324a0: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'",
+            "0x324b0: ldr x1, [x8, #0x8f0]  ; SEL_OR_LITERAL 'dismissHUD'"
+          ],
+          "head": [
+            "0x31294: stp x28, x27, [sp, #-0x60]!",
+            "0x31298: stp x26, x25, [sp, #0x10]",
+            "0x3129c: stp x24, x23, [sp, #0x20]",
+            "0x312a0: stp x22, x21, [sp, #0x30]",
+            "0x312a4: stp x20, x19, [sp, #0x40]",
+            "0x312a8: stp x29, x30, [sp, #0x50]",
+            "0x312ac: add x29, sp, #0x50",
+            "0x312b0: sub sp, sp, #0x5b0",
+            "0x312b4: str x0, [sp, #0x18]",
+            "0x312b8: adrp x8, #0x344000",
+            "0x312bc: ldr x8, [x8, #0x140]",
+            "0x312c0: ldr x8, [x8]",
+            "0x312c4: stur x8, [x29, #-0x60]",
+            "0x312c8: mov x0, x2",
+            "0x312cc: bl #0x2ecd3c",
+            "0x312d0: adrp x8, #0x37d000",
+            "0x312d4: ldr x1, [x8, #0x440]  ; SEL_OR_LITERAL 'lowercaseString'",
+            "0x312d8: str x0, [sp, #0x20]"
+          ]
+        },
+        "CBWindow.hide:": {
+          "vm": "0xb1ec0",
+          "method_end_estimate": "0xb20a4",
+          "type": "v24@0:8@?16",
+          "decoded_instructions": 121,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb1ec0: sub sp, sp, #0x90",
+            "0xb1ec4: stp x22, x21, [sp, #0x60]",
+            "0xb1ec8: stp x20, x19, [sp, #0x70]",
+            "0xb1ecc: stp x29, x30, [sp, #0x80]",
+            "0xb1ed0: add x29, sp, #0x80",
+            "0xb1ed4: mov x19, x0",
+            "0xb1ed8: mov x0, x2",
+            "0xb1edc: bl #0x2ecd3c",
+            "0xb1ee0: mov x20, x0",
+            "0xb1ee4: ldr x0, [x19, #0x20]",
+            "0xb1ee8: adrp x8, #0x37d000",
+            "0xb1eec: ldr x1, [x8, #0xa18]  ; SEL_OR_LITERAL 'layer'",
+            "0xb1ef0: bl #0x2ecd00",
+            "0xb1ef4: mov x29, x29",
+            "0xb1ef8: bl #0x2ecd60",
+            "0xb1efc: mov x21, x0",
+            "0xb1f00: adrp x8, #0x37e000",
+            "0xb1f04: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+            "0xb1f08: bl #0x2ecd00",
+            "0xb1f0c: mov x0, x21",
+            "0xb1f10: bl #0x2ecd30",
+            "0xb1f14: adrp x8, #0x344000",
+            "0xb1f18: ldr x8, [x8, #0x120]",
+            "0xb1f1c: adrp x9, #0x37f000",
+            "0xb1f20: ldr x21, [x9, #0x858]",
+            "0xb1f24: stp x20, x8, [sp, #0x30]",
+            "0xb1f28: adrp x9, #0x30f000",
+            "0xb1f2c: ldr d0, [x9, #0x968]",
+            "0xb1f30: adr x9, #0xb1fc0",
+            "0xb1f34: nop ",
+            "0xb1f38: str d0, [sp, #0x40]",
+            "0xb1f3c: adrp x10, #0x344000",
+            "0xb1f40: add x10, x10, #0x658",
+            "0xb1f44: stp x9, x10, [sp, #0x48]",
+            "0xb1f48: str x19, [sp, #0x58]",
+            "0xb1f4c: str x8, [sp, #8]",
+            "0xb1f50: str d0, [sp, #0x10]",
+            "0xb1f54: adr x8, #0xb1fd8",
+            "0xb1f58: nop ",
+            "0xb1f5c: adrp x9, #0x344000",
+            "0xb1f60: add x9, x9, #0xed8",
+            "0xb1f64: stp x8, x9, [sp, #0x18]",
+            "0xb1f68: str x19, [sp, #0x28]",
+            "0xb1f6c: adrp x8, #0x37d000",
+            "0xb1f70: ldr x19, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+            "0xb1f74: mov x0, x20",
+            "0xb1f78: bl #0x2ecd3c",
+            "0xb1f7c: mov x20, x0",
+            "0xb1f80: adrp x8, #0x30f000",
+            "0xb1f84: ldr d0, [x8, #0x9c8]",
+            "0xb1f88: add x2, sp, #0x38",
+            "0xb1f8c: add x3, sp, #8",
+            "0xb1f90: mov x0, x21",
+            "0xb1f94: mov x1, x19",
+            "0xb1f98: bl #0x2ecd00",
+            "0xb1f9c: ldr x0, [sp, #0x30]",
+            "0xb1fa0: bl #0x2ecd30",
+            "0xb1fa4: mov x0, x20",
+            "0xb1fa8: bl #0x2ecd30",
+            "0xb1fac: ldp x29, x30, [sp, #0x80]",
+            "0xb1fb0: ldp x20, x19, [sp, #0x70]",
+            "0xb1fb4: ldp x22, x21, [sp, #0x60]",
+            "0xb1fb8: add sp, sp, #0x90",
+            "0xb1fbc: ret ",
+            "0xb1fc0: ldr x8, [x0, #0x20]",
+            "0xb1fc4: ldr x0, [x8, #0x20]",
+            "0xb1fc8: adrp x8, #0x37d000",
+            "0xb1fcc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+            "0xb1fd0: fmov d0, xzr",
+            "0xb1fd4: b #0x2ecd00",
+            "0xb1fd8: stp x20, x19, [sp, #-0x20]!",
+            "0xb1fdc: stp x29, x30, [sp, #0x10]",
+            "0xb1fe0: add x29, sp, #0x10",
+            "0xb1fe4: mov x19, x0",
+            "0xb1fe8: cbz w1, #0xb2080",
+            "0xb1fec: ldr x8, [x19, #0x20]",
+            "0xb1ff0: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb1ff4: adrp x8, #0x37d000",
+            "0xb1ff8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+            "0xb1ffc: mov w2, #1",
+            "0xb2000: bl #0x2ecd00",
+            "0xb2004: ldr x8, [x19, #0x20]",
+            "0xb2008: strb wzr, [x8, #0x18]",
+            "0xb200c: ldr x8, [x19, #0x20]",
+            "0xb2010: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb2014: adrp x8, #0x37e000",
+            "0xb2018: ldr x20, [x8, #0x570]  ; SEL_OR_LITERAL 'resignKeyWindow'",
+            "0xb201c: adrp x8, #0x37d000",
+            "0xb2020: ldr x1, [x8, #0x5d8]  ; SEL_OR_LITERAL 'respondsToSelector:'",
+            "0xb2024: mov x2, x20",
+            "0xb2028: bl #0x2ecd00",
+            "0xb202c: cbz w0, #0xb2040",
+            "0xb2030: ldr x8, [x19, #0x20]",
+            "0xb2034: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb2038: mov x1, x20",
+            "0xb203c: bl #0x2ecd00",
+            "0xb2040: ldr x8, [x19, #0x20]",
+            "0xb2044: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+            "0xb2048: cbz x0, #0xb2080",
+            "0xb204c: adrp x8, #0x37d000",
+            "0xb2050: ldr x1, [x8, #0xe40]  ; SEL_OR_LITERAL 'superview'",
+            "0xb2054: bl #0x2ecd00",
+            "0xb2058: mov x29, x29",
+            "0xb205c: bl #0x2ecd60",
+            "0xb2060: mov x20, x0",
+            "0xb2064: bl #0x2ecd30",
+            "0xb2068: cbz x20, #0xb2080",
+            "0xb206c: ldr x8, [x19, #0x20]",
+            "0xb2070: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+            "0xb2074: adrp x8, #0x37d000",
+            "0xb2078: ldr x1, [x8, #0xfe0]  ; SEL_OR_LITERAL 'dismissOverlay'",
+            "0xb207c: bl #0x2ecd00",
+            "0xb2080: ldr x0, [x19, #0x28]",
+            "0xb2084: cbz x0, #0xb2098",
+            "0xb2088: ldr x1, [x0, #0x10]",
+            "0xb208c: ldp x29, x30, [sp, #0x10]",
+            "0xb2090: ldp x20, x19, [sp], #0x20",
+            "0xb2094: br x1",
+            "0xb2098: ldp x29, x30, [sp, #0x10]",
+            "0xb209c: ldp x20, x19, [sp], #0x20",
+            "0xb20a0: ret "
+          ],
+          "relevant_instructions": [
+            "0xb1fcc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+            "0xb1ff8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+            "0xb2044: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+            "0xb2070: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'"
+          ],
+          "selector_hints": [
+            "0xb1eec: ldr x1, [x8, #0xa18]  ; SEL_OR_LITERAL 'layer'",
+            "0xb1f04: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+            "0xb1f70: ldr x19, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+            "0xb1fcc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+            "0xb1ff0: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb1ff8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+            "0xb2010: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb2018: ldr x20, [x8, #0x570]  ; SEL_OR_LITERAL 'resignKeyWindow'",
+            "0xb2020: ldr x1, [x8, #0x5d8]  ; SEL_OR_LITERAL 'respondsToSelector:'",
+            "0xb2034: ldr x0, [x8, #0x20]  ; SEL_OR_LITERAL 'setCurrentLanguageCode:'",
+            "0xb2044: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+            "0xb2050: ldr x1, [x8, #0xe40]  ; SEL_OR_LITERAL 'superview'",
+            "0xb2070: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+            "0xb2078: ldr x1, [x8, #0xfe0]  ; SEL_OR_LITERAL 'dismissOverlay'"
+          ],
+          "head": [
+            "0xb1ec0: sub sp, sp, #0x90",
+            "0xb1ec4: stp x22, x21, [sp, #0x60]",
+            "0xb1ec8: stp x20, x19, [sp, #0x70]",
+            "0xb1ecc: stp x29, x30, [sp, #0x80]",
+            "0xb1ed0: add x29, sp, #0x80",
+            "0xb1ed4: mov x19, x0",
+            "0xb1ed8: mov x0, x2",
+            "0xb1edc: bl #0x2ecd3c",
+            "0xb1ee0: mov x20, x0",
+            "0xb1ee4: ldr x0, [x19, #0x20]",
+            "0xb1ee8: adrp x8, #0x37d000",
+            "0xb1eec: ldr x1, [x8, #0xa18]  ; SEL_OR_LITERAL 'layer'",
+            "0xb1ef0: bl #0x2ecd00",
+            "0xb1ef4: mov x29, x29",
+            "0xb1ef8: bl #0x2ecd60",
+            "0xb1efc: mov x21, x0",
+            "0xb1f00: adrp x8, #0x37e000",
+            "0xb1f04: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'"
+          ]
         }
       },
       "selector_site_candidates": [
@@ -2139,7 +3171,8 @@
                 "0x2ff48: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2153,7 +3186,8 @@
                 "0x30464: bl #0x2ecd60"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2185,7 +3219,8 @@
                 "0x30874: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2196,7 +3231,8 @@
               "at": "0x3097c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2217,6 +3253,168 @@
                 "0x31b58: bl #0x2ecd30"
               ]
             }
+          ],
+          "detailed_callsite_windows": [
+            {
+              "match": "0x31af0: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "preceding_and_following_instructions": [
+                "0x31988: ldr x0, [x8, #0x758]",
+                "0x3198c: add x2, sp, #0x280",
+                "0x31990: ldr x1, [sp, #0x10]",
+                "0x31994: mov w3, #0x10",
+                "0x31998: bl #0x2ecd00",
+                "0x3199c: mov x29, x29",
+                "0x319a0: bl #0x2ecd60",
+                "0x319a4: movi v0.16b, #0",
+                "0x319a8: stp q0, q0, [sp, #0x140]",
+                "0x319ac: stp q0, q0, [sp, #0x160]",
+                "0x319b0: bl #0x2ecd3c",
+                "0x319b4: mov x24, x0",
+                "0x319b8: add x2, sp, #0x140",
+                "0x319bc: add x3, sp, #0x200",
+                "0x319c0: ldr x1, [sp, #0x28]",
+                "0x319c4: mov w4, #0x10",
+                "0x319c8: bl #0x2ecd00",
+                "0x319cc: ldr x27, [sp, #0x38]",
+                "0x319d0: cbz x0, #0x31a4c",
+                "0x319d4: ldr x8, [sp, #0x150]",
+                "0x319d8: ldr x22, [x8]",
+                "0x319dc: adrp x23, #0x37d000",
+                "0x319e0: mov x25, #0",
+                "0x319e4: ldr x19, [x23, #0x458]  ; SEL_OR_LITERAL 'hasPrefix:'",
+                "0x319e8: cmp x0, #1",
+                "0x319ec: csinc x26, x0, xzr, hi",
+                "0x319f0: ldr x8, [sp, #0x150]",
+                "0x319f4: ldr x8, [x8]",
+                "0x319f8: cmp x8, x22",
+                "0x319fc: b.eq #0x31a08",
+                "0x31a00: mov x0, x24",
+                "0x31a04: bl #0x2eccb8",
+                "0x31a08: ldr x8, [sp, #0x148]",
+                "0x31a0c: ldr x21, [x8, x25, lsl #3]",
+                "0x31a10: mov x0, x20",
+                "0x31a14: mov x1, x19",
+                "0x31a18: mov x2, x21",
+                "0x31a1c: bl #0x2ecd00",
+                "0x31a20: cbnz w0, #0x31c14",
+                "0x31a24: add x25, x25, #1",
+                "0x31a28: cmp x26, x25",
+                "0x31a2c: b.ne #0x319f0",
+                "0x31a30: add x2, sp, #0x140",
+                "0x31a34: add x3, sp, #0x200",
+                "0x31a38: mov x0, x24",
+                "0x31a3c: ldr x1, [sp, #0x28]",
+                "0x31a40: mov w4, #0x10",
+                "0x31a44: bl #0x2ecd00",
+                "0x31a48: cbnz x0, #0x319e0",
+                "0x31a4c: mov x0, x24",
+                "0x31a50: bl #0x2ecd30",
+                "0x31a54: adrp x8, #0x37d000",
+                "0x31a58: ldr x25, [x8, #0x430]  ; SEL_OR_LITERAL 'containsString:'",
+                "0x31a5c: adrp x2, #0x36e000",
+                "0x31a60: add x2, x2, #0x668",
+                "0x31a64: mov x0, x20",
+                "0x31a68: mov x1, x25",
+                "0x31a6c: bl #0x2ecd00",
+                "0x31a70: tbnz w0, #0, #0x31aec",
+                "0x31a74: adrp x2, #0x36e000",
+                "0x31a78: add x2, x2, #0x688",
+                "0x31a7c: mov x0, x20",
+                "0x31a80: mov x1, x25",
+                "0x31a84: bl #0x2ecd00",
+                "0x31a88: tbnz w0, #0, #0x31aec",
+                "0x31a8c: adrp x2, #0x36e000",
+                "0x31a90: add x2, x2, #0x6a8",
+                "0x31a94: mov x0, x20",
+                "0x31a98: mov x1, x25",
+                "0x31a9c: bl #0x2ecd00",
+                "0x31aa0: tbnz w0, #0, #0x31aec",
+                "0x31aa4: adrp x2, #0x36e000",
+                "0x31aa8: add x2, x2, #0x6c8",
+                "0x31aac: mov x0, x20",
+                "0x31ab0: mov x1, x25",
+                "0x31ab4: bl #0x2ecd00",
+                "0x31ab8: tbnz w0, #0, #0x31aec",
+                "0x31abc: adrp x2, #0x36e000",
+                "0x31ac0: add x2, x2, #0x6e8",
+                "0x31ac4: mov x0, x20",
+                "0x31ac8: mov x1, x25",
+                "0x31acc: bl #0x2ecd00",
+                "0x31ad0: tbnz w0, #0, #0x31aec",
+                "0x31ad4: adrp x2, #0x36e000",
+                "0x31ad8: add x2, x2, #0x708",
+                "0x31adc: mov x0, x20",
+                "0x31ae0: mov x1, x25",
+                "0x31ae4: bl #0x2ecd00",
+                "0x31ae8: cbz w0, #0x31d14",
+                "0x31aec: adrp x1, #0x307000",
+                "0x31af0: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+                "0x31af4: mov x0, #-2",
+                "0x31af8: bl #0x2ecb68",
+                "0x31afc: cbz x0, #0x31b0c",
+                "0x31b00: mov x8, x0",
+                "0x31b04: mov w0, #1",
+                "0x31b08: blr x8",
+                "0x31b0c: adrp x22, #0x37f000",
+                "0x31b10: ldr x0, [x22, #0x740]",
+                "0x31b14: adrp x8, #0x37d000",
+                "0x31b18: ldr x19, [x8, #0x5a8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+                "0x31b1c: adrp x2, #0x347000",
+                "0x31b20: add x2, x2, #0xa88",
+                "0x31b24: mov x1, x19",
+                "0x31b28: bl #0x2ecd00",
+                "0x31b2c: mov x29, x29",
+                "0x31b30: bl #0x2ecd60",
+                "0x31b34: mov x21, x0",
+                "0x31b38: adrp x8, #0x37d000",
+                "0x31b3c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+                "0x31b40: ldr x23, [sp, #0x18]",
+                "0x31b44: mov x0, x23",
+                "0x31b48: mov x2, x21",
+                "0x31b4c: mov x3, #0",
+                "0x31b50: bl #0x2ecd00",
+                "0x31b54: mov x0, x21",
+                "0x31b58: bl #0x2ecd30",
+                "0x31b5c: ldr x0, [x22, #0x740]",
+                "0x31b60: adrp x2, #0x349000",
+                "0x31b64: add x2, x2, #0x468",
+                "0x31b68: mov x1, x19",
+                "0x31b6c: bl #0x2ecd00",
+                "0x31b70: mov x29, x29",
+                "0x31b74: bl #0x2ecd60",
+                "0x31b78: mov x19, x0",
+                "0x31b7c: adrp x8, #0x344000",
+                "0x31b80: ldr x8, [x8, #0x120]",
+                "0x31b84: str x8, [sp, #0x118]",
+                "0x31b88: adrp x8, #0x30f000",
+                "0x31b8c: ldr d0, [x8, #0x968]",
+                "0x31b90: adr x8, #0x323d4",
+                "0x31b94: nop ",
+                "0x31b98: adrp x9, #0x344000",
+                "0x31b9c: add x9, x9, #0x658",
+                "0x31ba0: str d0, [sp, #0x120]",
+                "0x31ba4: stp x8, x9, [sp, #0x128]",
+                "0x31ba8: str x23, [sp, #0x138]",
+                "0x31bac: adrp x8, #0x37d000",
+                "0x31bb0: ldr x1, [x8, #0x8f8]  ; SEL_OR_LITERAL 'speak:completion:'",
+                "0x31bb4: add x3, sp, #0x118",
+                "0x31bb8: mov x0, x23",
+                "0x31bbc: mov x2, x19",
+                "0x31bc0: bl #0x2ecd00",
+                "0x31bc4: mov x0, x19",
+                "0x31bc8: b #0x31cac",
+                "0x31bcc: adrp x8, #0x37d000",
+                "0x31bd0: ldr x1, [x8, #0x8d8]  ; SEL_OR_LITERAL 'handleNavigationCommand:'",
+                "0x31bd4: ldr x0, [sp, #0x18]",
+                "0x31bd8: mov x2, x24",
+                "0x31bdc: bl #0x2ecd00",
+                "0x31be0: ldr x27, [sp, #0x38]",
+                "0x31be4: mov x19, x27",
+                "0x31be8: b #0x31cb4",
+                "0x31bec: adrp x8, #0x37d000",
+                "0x31bf0: ldr x1, [x8, #0x8e0]  ; SEL_OR_LITERAL 'handleAppLaunchCommand:'"
+              ]
+            }
           ]
         },
         {
@@ -2231,7 +3429,8 @@
                 "0x32768: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2250,7 +3449,8 @@
                 "0x32f5c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2264,7 +3464,8 @@
                 "0x33250: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2312,7 +3513,8 @@
               "at": "0x342f4: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2326,7 +3528,8 @@
                 "0x34574: bl #0x2ecd60"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBAssistantManager",
@@ -2350,7 +3553,8 @@
                 "0x34890: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2361,7 +3565,8 @@
               "at": "0x1d0a68: ldr x23, [x8, #0xcd8]  ; SEL_OR_LITERAL 'receivedMetricsUpdatedNotification:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2378,7 +3583,8 @@
               "at": "0x1b86ac: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2402,7 +3608,8 @@
               "at": "0x1b89d8: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2428,7 +3635,8 @@
                 "0x1b8f20: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2452,7 +3660,8 @@
               "at": "0x1220dc: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgeManager",
@@ -2473,6 +3682,133 @@
                 "0x19d80c: blr x8"
               ]
             }
+          ],
+          "detailed_callsite_windows": [
+            {
+              "match": "0x19d7f8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "preceding_and_following_instructions": [
+                "0x19d690: mov x27, x0",
+                "0x19d694: mov x0, x19",
+                "0x19d698: mov x1, x26",
+                "0x19d69c: mov x2, x27",
+                "0x19d6a0: mov w3, #0",
+                "0x19d6a4: bl #0x2ecd00",
+                "0x19d6a8: mov x0, x27",
+                "0x19d6ac: bl #0x2ecd30",
+                "0x19d6b0: add x22, x22, #1",
+                "0x19d6b4: cmp x22, x23",
+                "0x19d6b8: b.lo #0x19d610",
+                "0x19d6bc: add x2, sp, #0x30",
+                "0x19d6c0: add x3, sp, #0x70",
+                "0x19d6c4: mov x0, x21",
+                "0x19d6c8: ldr x1, [sp, #0x28]",
+                "0x19d6cc: mov w4, #0x10",
+                "0x19d6d0: bl #0x2ecd00",
+                "0x19d6d4: mov x23, x0",
+                "0x19d6d8: cbnz x0, #0x19d5fc",
+                "0x19d6dc: mov x0, x21",
+                "0x19d6e0: bl #0x2ecd30",
+                "0x19d6e4: ldr x0, [sp, #0x20]",
+                "0x19d6e8: bl #0x2ecd30",
+                "0x19d6ec: adrp x22, #0x37d000",
+                "0x19d6f0: b #0x19d72c",
+                "0x19d6f4: mov x0, x20",
+                "0x19d6f8: bl #0x2ecd30",
+                "0x19d6fc: ldr x8, [x19, #0x38]",
+                "0x19d700: cbz x8, #0x19d72c",
+                "0x19d704: str x8, [sp]",
+                "0x19d708: adrp x0, #0x371000",
+                "0x19d70c: add x0, x0, #0x628",
+                "0x19d710: bl #0x2ec9ac",
+                "0x19d714: ldr x2, [x19, #0x38]",
+                "0x19d718: adrp x8, #0x37e000",
+                "0x19d71c: ldr x1, [x8, #0x9d8]  ; SEL_OR_LITERAL 'sendStateToApp:shouldBridge:'",
+                "0x19d720: mov x0, x19",
+                "0x19d724: mov w3, #0",
+                "0x19d728: bl #0x2ecd00",
+                "0x19d72c: ldr x0, [x19, #0x48]",
+                "0x19d730: cbz x0, #0x19d798",
+                "0x19d734: ldr x1, [x22, #0x610]  ; SEL_OR_LITERAL 'class'",
+                "0x19d738: bl #0x2ecd00",
+                "0x19d73c: str x0, [sp]",
+                "0x19d740: adrp x0, #0x371000",
+                "0x19d744: add x0, x0, #0x648",
+                "0x19d748: bl #0x2ec9ac",
+                "0x19d74c: ldr x0, [x19, #0x48]",
+                "0x19d750: adrp x8, #0x37d000",
+                "0x19d754: ldr x1, [x8, #0x730]  ; SEL_OR_LITERAL 'stop'",
+                "0x19d758: bl #0x2ecd00",
+                "0x19d75c: ldr x0, [x19, #0x48]",
+                "0x19d760: adrp x8, #0x37e000",
+                "0x19d764: ldr x1, [x8, #0x2f0]  ; SEL_OR_LITERAL 'view'",
+                "0x19d768: bl #0x2ecd00",
+                "0x19d76c: mov x29, x29",
+                "0x19d770: bl #0x2ecd60",
+                "0x19d774: mov x20, x0",
+                "0x19d778: adrp x8, #0x37d000",
+                "0x19d77c: ldr x1, [x8, #0xb28]  ; SEL_OR_LITERAL 'removeFromSuperview'",
+                "0x19d780: bl #0x2ecd00",
+                "0x19d784: mov x0, x20",
+                "0x19d788: bl #0x2ecd30",
+                "0x19d78c: ldr x0, [x19, #0x48]",
+                "0x19d790: str xzr, [x19, #0x48]",
+                "0x19d794: bl #0x2ecd30",
+                "0x19d798: ldr x8, [x19, #0x40]",
+                "0x19d79c: cbz x8, #0x19d7c8",
+                "0x19d7a0: adrp x0, #0x371000",
+                "0x19d7a4: add x0, x0, #0x668",
+                "0x19d7a8: bl #0x2ec9ac",
+                "0x19d7ac: ldr x0, [x19, #0x40]",
+                "0x19d7b0: adrp x8, #0x37e000",
+                "0x19d7b4: ldr x1, [x8, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+                "0x19d7b8: bl #0x2ecd00",
+                "0x19d7bc: ldr x0, [x19, #0x40]",
+                "0x19d7c0: str xzr, [x19, #0x40]",
+                "0x19d7c4: bl #0x2ecd30",
+                "0x19d7c8: strb wzr, [x19, #8]",
+                "0x19d7cc: ldr x0, [x19, #0x38]",
+                "0x19d7d0: str xzr, [x19, #0x38]",
+                "0x19d7d4: bl #0x2ecd30",
+                "0x19d7d8: adrp x8, #0x37e000",
+                "0x19d7dc: ldr x1, [x8, #0xb90]  ; SEL_OR_LITERAL 'notifyStateUpdated'",
+                "0x19d7e0: mov x0, x19",
+                "0x19d7e4: bl #0x2ecd00",
+                "0x19d7e8: mov x0, #0",
+                "0x19d7ec: mov w1, #0",
+                "0x19d7f0: bl #0x2ecb5c",
+                "0x19d7f4: adrp x1, #0x307000",
+                "0x19d7f8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+                "0x19d7fc: bl #0x2ecb68",
+                "0x19d800: cbz x0, #0x19d810",
+                "0x19d804: mov x8, x0",
+                "0x19d808: mov w0, #0",
+                "0x19d80c: blr x8",
+                "0x19d810: adrp x0, #0x371000",
+                "0x19d814: add x0, x0, #0x688",
+                "0x19d818: bl #0x2ec9ac",
+                "0x19d81c: ldur x8, [x29, #-0x60]",
+                "0x19d820: adrp x9, #0x344000",
+                "0x19d824: ldr x9, [x9, #0x140]",
+                "0x19d828: ldr x9, [x9]",
+                "0x19d82c: cmp x9, x8",
+                "0x19d830: b.ne #0x19d86c",
+                "0x19d834: ldp x29, x30, [sp, #0x150]",
+                "0x19d838: ldp x20, x19, [sp, #0x140]",
+                "0x19d83c: ldp x22, x21, [sp, #0x130]",
+                "0x19d840: ldp x24, x23, [sp, #0x120]",
+                "0x19d844: ldp x26, x25, [sp, #0x110]",
+                "0x19d848: ldp x28, x27, [sp, #0x100]",
+                "0x19d84c: add sp, sp, #0x160",
+                "0x19d850: ret ",
+                "0x19d854: adrp x0, #0x381000",
+                "0x19d858: add x0, x0, #0x700",
+                "0x19d85c: adrp x1, #0x345000",
+                "0x19d860: add x1, x1, #0x268",
+                "0x19d864: bl #0x2ecb38",
+                "0x19d868: b #0x19d4f0",
+                "0x19d86c: bl #0x2eca9c"
+              ]
+            }
           ]
         },
         {
@@ -2487,7 +3823,8 @@
                 "0x120a1c: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedPortalAppView",
@@ -2501,7 +3838,8 @@
                 "0x8340c: bl #0x2ecd60"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2524,7 +3862,8 @@
               "at": "0x102de8: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2537,7 +3876,8 @@
                 "0x1042c4: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2568,7 +3908,8 @@
                 "0x104d8c: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2581,7 +3922,8 @@
                 "0x105cdc: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2606,7 +3948,8 @@
                 "0x1063c8: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2620,7 +3963,8 @@
                 "0x108e58: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2647,7 +3991,8 @@
                 "0x1096ec: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2683,7 +4028,8 @@
                 "0x109d6c: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2719,7 +4065,8 @@
                 "0x10a684: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2754,7 +4101,8 @@
                 "0x10aee4: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2765,7 +4113,8 @@
               "at": "0x10b17c: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2786,7 +4135,8 @@
                 "0x10be88: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2799,7 +4149,8 @@
                 "0x10c6f4: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedSplitApp",
@@ -2818,7 +4169,8 @@
                 "0x11fa04: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIApp",
@@ -2839,7 +4191,8 @@
                 "0xb9bb8: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIApp",
@@ -2852,7 +4205,8 @@
                 "0xd2f34: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIApp",
@@ -2867,7 +4221,8 @@
               "at": "0xe6634: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2878,7 +4233,8 @@
               "at": "0xac850: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2901,7 +4257,8 @@
               "at": "0xac8dc: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2914,7 +4271,8 @@
                 "0xac92c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2928,7 +4286,8 @@
                 "0xad990: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2939,7 +4298,8 @@
               "at": "0xade50: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2959,7 +4319,8 @@
                 "0xade84: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBBridgedUIAppView",
@@ -2971,6 +4332,168 @@
               "next_calls": [
                 "0xae558: bl #0x2ecb68",
                 "0xae568: blr x8"
+              ]
+            }
+          ],
+          "detailed_callsite_windows": [
+            {
+              "match": "0xae554: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "preceding_and_following_instructions": [
+                "0xae3ec: ldr x0, [x8, #0x810]",
+                "0xae3f0: ldr x1, [x9, #0x610]  ; SEL_OR_LITERAL 'class'",
+                "0xae3f4: bl #0x2ecd00",
+                "0xae3f8: mov x2, x0",
+                "0xae3fc: ldr x1, [x21, #0x618]  ; SEL_OR_LITERAL 'isKindOfClass:'",
+                "0xae400: mov x0, x19",
+                "0xae404: bl #0x2ecd00",
+                "0xae408: cbz w0, #0xae420",
+                "0xae40c: ldr x2, [x20, x22]",
+                "0xae410: adrp x8, #0x37e000",
+                "0xae414: ldr x1, [x8, #0x3d8]  ; SEL_OR_LITERAL 'addChildViewController:'",
+                "0xae418: mov x0, x19",
+                "0xae41c: bl #0x2ecd00",
+                "0xae420: ldr x0, [x20, x22]",
+                "0xae424: adrp x8, #0x37e000",
+                "0xae428: ldr x21, [x8, #0x3e0]  ; SEL_OR_LITERAL 'setIgnoresOcclusions:'",
+                "0xae42c: adrp x8, #0x37d000",
+                "0xae430: ldr x24, [x8, #0x5d8]  ; SEL_OR_LITERAL 'respondsToSelector:'",
+                "0xae434: mov x1, x24",
+                "0xae438: mov x2, x21",
+                "0xae43c: bl #0x2ecd00",
+                "0xae440: cbz w0, #0xae454",
+                "0xae444: ldr x0, [x20, x22]",
+                "0xae448: mov x1, x21",
+                "0xae44c: mov w2, #1",
+                "0xae450: bl #0x2ecd00",
+                "0xae454: ldr x0, [x20, x22]",
+                "0xae458: adrp x8, #0x37e000",
+                "0xae45c: ldr x21, [x8, #0x3e8]  ; SEL_OR_LITERAL 'setAutomatesLifecycle:'",
+                "0xae460: mov x1, x24",
+                "0xae464: mov x2, x21",
+                "0xae468: bl #0x2ecd00",
+                "0xae46c: cbz w0, #0xae480",
+                "0xae470: ldr x0, [x20, x22]",
+                "0xae474: mov x1, x21",
+                "0xae478: mov w2, #0",
+                "0xae47c: bl #0x2ecd00",
+                "0xae480: adrp x8, #0x37d000",
+                "0xae484: ldr x23, [x8, #0x9b0]  ; SEL_OR_LITERAL 'bounds'",
+                "0xae488: mov x0, x20",
+                "0xae48c: mov x1, x23",
+                "0xae490: bl #0x2ecd00",
+                "0xae494: adrp x8, #0x37e000",
+                "0xae498: ldr x1, [x8, #0x2f8]  ; SEL_OR_LITERAL 'calculateNativeSizeForSlotRect:'",
+                "0xae49c: mov x0, x20",
+                "0xae4a0: bl #0x2ecd00",
+                "0xae4a4: fcmp d0, #0.0",
+                "0xae4a8: b.ls #0xae4c0",
+                "0xae4ac: mov v9.16b, v1.16b",
+                "0xae4b0: fcmp d1, #0.0",
+                "0xae4b4: b.ls #0xae4c0",
+                "0xae4b8: mov v8.16b, v0.16b",
+                "0xae4bc: b #0xae4f4",
+                "0xae4c0: adrp x8, #0x37f000",
+                "0xae4c4: ldr x0, [x8, #0x910]",
+                "0xae4c8: adrp x8, #0x37e000",
+                "0xae4cc: ldr x1, [x8, #0x320]  ; SEL_OR_LITERAL 'carPlayUsableBounds'",
+                "0xae4d0: bl #0x2ecd00",
+                "0xae4d4: fadd d0, d2, d2",
+                "0xae4d8: fcvt s0, d0",
+                "0xae4dc: frinta s0, s0",
+                "0xae4e0: fcvt d8, s0",
+                "0xae4e4: fadd d0, d3, d3",
+                "0xae4e8: fcvt s0, d0",
+                "0xae4ec: frinta s0, s0",
+                "0xae4f0: fcvt d9, s0",
+                "0xae4f4: ldr x0, [x20, x22]",
+                "0xae4f8: adrp x8, #0x37e000",
+                "0xae4fc: ldr x1, [x8, #0x2f0]  ; SEL_OR_LITERAL 'view'",
+                "0xae500: bl #0x2ecd00",
+                "0xae504: mov x29, x29",
+                "0xae508: bl #0x2ecd60",
+                "0xae50c: str x0, [sp, #0x38]",
+                "0xae510: ldr x0, [x20, x22]",
+                "0xae514: adrp x8, #0x37e000",
+                "0xae518: ldr x21, [x8, #0x3f0]  ; SEL_OR_LITERAL 'setRequestedMode:'",
+                "0xae51c: mov x1, x24",
+                "0xae520: mov x2, x21",
+                "0xae524: bl #0x2ecd00",
+                "0xae528: cbz w0, #0xae53c",
+                "0xae52c: ldr x0, [x20, x22]",
+                "0xae530: mov x1, x21",
+                "0xae534: mov w2, #2",
+                "0xae538: bl #0x2ecd00",
+                "0xae53c: str x26, [sp, #0x20]",
+                "0xae540: str x19, [sp, #0x48]",
+                "0xae544: mov x0, #0",
+                "0xae548: mov w1, #0",
+                "0xae54c: bl #0x2ecb5c",
+                "0xae550: adrp x1, #0x307000",
+                "0xae554: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+                "0xae558: bl #0x2ecb68",
+                "0xae55c: cbz x0, #0xae56c",
+                "0xae560: mov x8, x0",
+                "0xae564: mov w0, #0",
+                "0xae568: blr x8",
+                "0xae56c: adrp x8, #0x37f000",
+                "0xae570: ldr x0, [x8, #0x858]",
+                "0xae574: bl #0x2ecc34",
+                "0xae578: adrp x8, #0x37d000",
+                "0xae57c: ldr x1, [x8, #0x9b8]  ; SEL_OR_LITERAL 'initWithFrame:'",
+                "0xae580: fmov d0, xzr",
+                "0xae584: fmov d1, xzr",
+                "0xae588: mov v2.16b, v8.16b",
+                "0xae58c: mov v3.16b, v9.16b",
+                "0xae590: bl #0x2ecd00",
+                "0xae594: adrp x8, #0x37f000",
+                "0xae598: ldrsw x26, [x8, #0xce8]",
+                "0xae59c: ldr x8, [x20, x26]",
+                "0xae5a0: str x0, [x20, x26]",
+                "0xae5a4: mov x0, x8",
+                "0xae5a8: bl #0x2ecd30",
+                "0xae5ac: adrp x8, #0x37f000",
+                "0xae5b0: ldr x0, [x8, #0x818]",
+                "0xae5b4: adrp x8, #0x37d000",
+                "0xae5b8: ldr x1, [x8, #0xdb8]  ; SEL_OR_LITERAL 'blackColor'",
+                "0xae5bc: bl #0x2ecd00",
+                "0xae5c0: mov x29, x29",
+                "0xae5c4: bl #0x2ecd60",
+                "0xae5c8: mov x21, x0",
+                "0xae5cc: ldr x0, [x20, x26]",
+                "0xae5d0: adrp x8, #0x37d000",
+                "0xae5d4: ldr x1, [x8, #0x9d8]  ; SEL_OR_LITERAL 'setBackgroundColor:'",
+                "0xae5d8: mov x2, x21",
+                "0xae5dc: bl #0x2ecd00",
+                "0xae5e0: mov x0, x21",
+                "0xae5e4: bl #0x2ecd30",
+                "0xae5e8: ldr x0, [x20, x26]",
+                "0xae5ec: adrp x8, #0x37e000",
+                "0xae5f0: ldr x1, [x8, #0x3f8]  ; SEL_OR_LITERAL 'setOpaque:'",
+                "0xae5f4: mov w2, #0",
+                "0xae5f8: bl #0x2ecd00",
+                "0xae5fc: adrp x19, #0x37d000",
+                "0xae600: ldr x28, [sp, #0x38]",
+                "0xae604: cbz x28, #0xae67c",
+                "0xae608: adrp x8, #0x344000",
+                "0xae60c: ldr x8, [x8, #0x10]",
+                "0xae610: ldp q0, q1, [x8]",
+                "0xae614: stp q0, q1, [sp, #0xc0]",
+                "0xae618: ldr q0, [x8, #0x20]",
+                "0xae61c: str q0, [sp, #0xe0]",
+                "0xae620: adrp x8, #0x37d000",
+                "0xae624: ldr x1, [x8, #0xe30]  ; SEL_OR_LITERAL 'setTransform:'",
+                "0xae628: add x2, sp, #0xc0",
+                "0xae62c: mov x0, x28",
+                "0xae630: bl #0x2ecd00",
+                "0xae634: ldr x0, [x20, x26]",
+                "0xae638: mov x1, x23",
+                "0xae63c: bl #0x2ecd00",
+                "0xae640: adrp x8, #0x37d000",
+                "0xae644: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                "0xae648: mov x0, x28",
+                "0xae64c: bl #0x2ecd00",
+                "0xae650: adrp x8, #0x37d000",
+                "0xae654: ldr x1, [x8, #0xdc0]  ; SEL_OR_LITERAL 'setAutoresizingMask:'"
               ]
             }
           ]
@@ -3002,7 +4525,8 @@
                 "0xff350: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3015,7 +4539,8 @@
                 "0xff44c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3028,7 +4553,8 @@
                 "0xffd2c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3045,7 +4571,8 @@
               "at": "0x1002d4: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3062,7 +4589,8 @@
               "at": "0x1005e8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3077,7 +4605,8 @@
               "at": "0x100af4: ldr x9, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDividerView",
@@ -3096,7 +4625,8 @@
                 "0x1014a8: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockMetricItemView",
@@ -3110,7 +4640,8 @@
                 "0xb35c0: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockMetricItemView",
@@ -3129,7 +4660,8 @@
                 "0xb3a04: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3154,7 +4686,8 @@
                 "0xb41d8: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3167,7 +4700,8 @@
                 "0xb425c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3191,6 +4725,52 @@
               "at": "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
               "next_calls": []
             }
+          ],
+          "detailed_callsite_windows": [
+            {
+              "match": "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
+              "preceding_and_following_instructions": [
+                "0xb42a8: stp x22, x21, [sp, #-0x30]!",
+                "0xb42ac: stp x20, x19, [sp, #0x10]",
+                "0xb42b0: stp x29, x30, [sp, #0x20]",
+                "0xb42b4: add x29, sp, #0x20",
+                "0xb42b8: mov x20, x2",
+                "0xb42bc: mov x19, x0",
+                "0xb42c0: adrp x8, #0x37f000",
+                "0xb42c4: ldrsw x8, [x8, #0xd20]",
+                "0xb42c8: ldrb w21, [x0, x8]",
+                "0xb42cc: strb w2, [x0, x8]",
+                "0xb42d0: adrp x8, #0x37d000",
+                "0xb42d4: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                "0xb42d8: bl #0x2ecd00",
+                "0xb42dc: adrp x8, #0x37d000",
+                "0xb42e0: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+                "0xb42e4: mov x0, x19",
+                "0xb42e8: bl #0x2ecd00",
+                "0xb42ec: cmp w21, w20",
+                "0xb42f0: b.eq #0xb4334",
+                "0xb42f4: adrp x8, #0x37e000",
+                "0xb42f8: ldr x1, [x8, #0x648]  ; SEL_OR_LITERAL 'isMonitoring'",
+                "0xb42fc: mov x0, x19",
+                "0xb4300: bl #0x2ecd00",
+                "0xb4304: cbz w0, #0xb4334",
+                "0xb4308: adrp x8, #0x37e000",
+                "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+                "0xb4310: mov x0, x19",
+                "0xb4314: bl #0x2ecd00",
+                "0xb4318: adrp x8, #0x37e000",
+                "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
+                "0xb4320: mov x0, x19",
+                "0xb4324: ldp x29, x30, [sp, #0x20]",
+                "0xb4328: ldp x20, x19, [sp, #0x10]",
+                "0xb432c: ldp x22, x21, [sp], #0x30",
+                "0xb4330: b #0x2ecd00",
+                "0xb4334: ldp x29, x30, [sp, #0x20]",
+                "0xb4338: ldp x20, x19, [sp, #0x10]",
+                "0xb433c: ldp x22, x21, [sp], #0x30",
+                "0xb4340: ret "
+              ]
+            }
           ]
         },
         {
@@ -3211,7 +4791,8 @@
                 "0xb4498: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3224,7 +4805,8 @@
                 "0xb46a0: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3244,7 +4826,8 @@
                 "0xb4a64: bl #0x2ecd60"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3255,7 +4838,8 @@
               "at": "0xb4b44: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3289,7 +4873,8 @@
                 "0xb4c08: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3312,6 +4897,291 @@
               "at": "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'",
               "next_calls": [
                 "0xb4fc8: bl #0x2ecd00"
+              ]
+            }
+          ],
+          "detailed_callsite_windows": [
+            {
+              "match": "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+              "preceding_and_following_instructions": [
+                "0xb4dbc: sub sp, sp, #0xb0",
+                "0xb4dc0: stp d9, d8, [sp, #0x40]",
+                "0xb4dc4: stp x28, x27, [sp, #0x50]",
+                "0xb4dc8: stp x26, x25, [sp, #0x60]",
+                "0xb4dcc: stp x24, x23, [sp, #0x70]",
+                "0xb4dd0: stp x22, x21, [sp, #0x80]",
+                "0xb4dd4: stp x20, x19, [sp, #0x90]",
+                "0xb4dd8: stp x29, x30, [sp, #0xa0]",
+                "0xb4ddc: add x29, sp, #0xa0",
+                "0xb4de0: mov x20, x0",
+                "0xb4de4: bl #0x2ecc70",
+                "0xb4de8: mov x19, x0",
+                "0xb4dec: adrp x8, #0x37d000",
+                "0xb4df0: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                "0xb4df4: mov x0, x20",
+                "0xb4df8: bl #0x2ecd00",
+                "0xb4dfc: tbnz w0, #0, #0xb5204",
+                "0xb4e00: adrp x8, #0x37d000",
+                "0xb4e04: ldr x1, [x8, #0xe78]  ; SEL_OR_LITERAL 'alpha'",
+                "0xb4e08: mov x0, x20",
+                "0xb4e0c: bl #0x2ecd00",
+                "0xb4e10: adrp x8, #0x311000",
+                "0xb4e14: ldr d1, [x8, #0x948]",
+                "0xb4e18: fcmp d0, d1",
+                "0xb4e1c: b.mi #0xb5204",
+                "0xb4e20: adrp x8, #0x37e000",
+                "0xb4e24: ldr x1, [x8, #0x2d8]  ; SEL_OR_LITERAL 'window'",
+                "0xb4e28: mov x0, x20",
+                "0xb4e2c: bl #0x2ecd00",
+                "0xb4e30: mov x29, x29",
+                "0xb4e34: bl #0x2ecd60",
+                "0xb4e38: cbz x0, #0xb5204",
+                "0xb4e3c: mov x21, x0",
+                "0xb4e40: adrp x8, #0x37d000",
+                "0xb4e44: ldr x1, [x8, #0xe40]  ; SEL_OR_LITERAL 'superview'",
+                "0xb4e48: mov x0, x20",
+                "0xb4e4c: bl #0x2ecd00",
+                "0xb4e50: mov x29, x29",
+                "0xb4e54: bl #0x2ecd60",
+                "0xb4e58: mov x22, x0",
+                "0xb4e5c: bl #0x2ecd30",
+                "0xb4e60: mov x0, x21",
+                "0xb4e64: bl #0x2ecd30",
+                "0xb4e68: cbz x22, #0xb5204",
+                "0xb4e6c: adrp x8, #0x37e000",
+                "0xb4e70: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+                "0xb4e74: mov x0, x20",
+                "0xb4e78: bl #0x2ecd00",
+                "0xb4e7c: adrp x8, #0x37f000",
+                "0xb4e80: ldrsw x8, [x8, #0xd20]",
+                "0xb4e84: ldrb w8, [x20, x8]",
+                "0xb4e88: cbz w8, #0xb5204",
+                "0xb4e8c: adrp x8, #0x37e000",
+                "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+                "0xb4e94: mov x0, x20",
+                "0xb4e98: bl #0x2ecd00",
+                "0xb4e9c: mov v8.16b, v0.16b",
+                "0xb4ea0: adrp x22, #0x37f000",
+                "0xb4ea4: ldr x0, [x22, #0x708]",
+                "0xb4ea8: fcvt d0, s0",
+                "0xb4eac: adrp x8, #0x37d000",
+                "0xb4eb0: ldr x24, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+                "0xb4eb4: str d0, [sp]",
+                "0xb4eb8: adrp x2, #0x371000",
+                "0xb4ebc: add x2, x2, #0x48",
+                "0xb4ec0: mov x1, x24",
+                "0xb4ec4: bl #0x2ecd00",
+                "0xb4ec8: mov x29, x29",
+                "0xb4ecc: bl #0x2ecd60",
+                "0xb4ed0: str x0, [sp, #0x28]",
+                "0xb4ed4: adrp x23, #0x37f000",
+                "0xb4ed8: ldr x0, [x23, #0x818]",
+                "0xb4edc: adrp x8, #0x37d000",
+                "0xb4ee0: ldr x25, [x8, #0xa98]  ; SEL_OR_LITERAL 'whiteColor'",
+                "0xb4ee4: mov x1, x25",
+                "0xb4ee8: bl #0x2ecd00",
+                "0xb4eec: mov x29, x29",
+                "0xb4ef0: bl #0x2ecd60",
+                "0xb4ef4: mov x26, x0",
+                "0xb4ef8: mov w8, #0x42280000",
+                "0xb4efc: fmov s0, w8",
+                "0xb4f00: fcmp s8, s0",
+                "0xb4f04: b.ge #0xb4f44",
+                "0xb4f08: ldr x0, [x23, #0x818]",
+                "0xb4f0c: adrp x8, #0x37d000",
+                "0xb4f10: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+                "0xb4f14: mov w8, #0x42160000",
+                "0xb4f18: fmov s0, w8",
+                "0xb4f1c: fcmp s8, s0",
+                "0xb4f20: b.ge #0xb4f64",
+                "0xb4f24: adrp x8, #0x310000",
+                "0xb4f28: ldr d0, [x8, #0xcb0]",
+                "0xb4f2c: adrp x8, #0x30f000",
+                "0xb4f30: ldr d1, [x8, #0xac8]",
+                "0xb4f34: fmov d2, #1.00000000",
+                "0xb4f38: mov x1, x28",
+                "0xb4f3c: mov v3.16b, v2.16b",
+                "0xb4f40: b #0xb4f80",
+                "0xb4f44: ldr x0, [x23, #0x818]",
+                "0xb4f48: adrp x8, #0x37d000",
+                "0xb4f4c: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+                "0xb4f50: adrp x8, #0x311000",
+                "0xb4f54: ldr d1, [x8, #0x9b0]",
+                "0xb4f58: nop ",
+                "0xb4f5c: ldr d2, [x8, #0x9b8]",
+                "0xb4f60: b #0xb4f74",
+                "0xb4f64: adrp x8, #0x311000",
+                "0xb4f68: ldr d1, [x8, #0x700]",
+                "0xb4f6c: nop ",
+                "0xb4f70: ldr d2, [x8, #0x6c8]",
+                "0xb4f74: fmov d0, #1.00000000",
+                "0xb4f78: mov x1, x28",
+                "0xb4f7c: mov v3.16b, v0.16b",
+                "0xb4f80: bl #0x2ecd00",
+                "0xb4f84: bl #0x2ecd60",
+                "0xb4f88: mov x21, x0",
+                "0xb4f8c: mov x0, x26",
+                "0xb4f90: bl #0x2ecd30"
+              ]
+            },
+            {
+              "match": "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'",
+              "preceding_and_following_instructions": [
+                "0xb4e58: mov x22, x0",
+                "0xb4e5c: bl #0x2ecd30",
+                "0xb4e60: mov x0, x21",
+                "0xb4e64: bl #0x2ecd30",
+                "0xb4e68: cbz x22, #0xb5204",
+                "0xb4e6c: adrp x8, #0x37e000",
+                "0xb4e70: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+                "0xb4e74: mov x0, x20",
+                "0xb4e78: bl #0x2ecd00",
+                "0xb4e7c: adrp x8, #0x37f000",
+                "0xb4e80: ldrsw x8, [x8, #0xd20]",
+                "0xb4e84: ldrb w8, [x20, x8]",
+                "0xb4e88: cbz w8, #0xb5204",
+                "0xb4e8c: adrp x8, #0x37e000",
+                "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+                "0xb4e94: mov x0, x20",
+                "0xb4e98: bl #0x2ecd00",
+                "0xb4e9c: mov v8.16b, v0.16b",
+                "0xb4ea0: adrp x22, #0x37f000",
+                "0xb4ea4: ldr x0, [x22, #0x708]",
+                "0xb4ea8: fcvt d0, s0",
+                "0xb4eac: adrp x8, #0x37d000",
+                "0xb4eb0: ldr x24, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+                "0xb4eb4: str d0, [sp]",
+                "0xb4eb8: adrp x2, #0x371000",
+                "0xb4ebc: add x2, x2, #0x48",
+                "0xb4ec0: mov x1, x24",
+                "0xb4ec4: bl #0x2ecd00",
+                "0xb4ec8: mov x29, x29",
+                "0xb4ecc: bl #0x2ecd60",
+                "0xb4ed0: str x0, [sp, #0x28]",
+                "0xb4ed4: adrp x23, #0x37f000",
+                "0xb4ed8: ldr x0, [x23, #0x818]",
+                "0xb4edc: adrp x8, #0x37d000",
+                "0xb4ee0: ldr x25, [x8, #0xa98]  ; SEL_OR_LITERAL 'whiteColor'",
+                "0xb4ee4: mov x1, x25",
+                "0xb4ee8: bl #0x2ecd00",
+                "0xb4eec: mov x29, x29",
+                "0xb4ef0: bl #0x2ecd60",
+                "0xb4ef4: mov x26, x0",
+                "0xb4ef8: mov w8, #0x42280000",
+                "0xb4efc: fmov s0, w8",
+                "0xb4f00: fcmp s8, s0",
+                "0xb4f04: b.ge #0xb4f44",
+                "0xb4f08: ldr x0, [x23, #0x818]",
+                "0xb4f0c: adrp x8, #0x37d000",
+                "0xb4f10: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+                "0xb4f14: mov w8, #0x42160000",
+                "0xb4f18: fmov s0, w8",
+                "0xb4f1c: fcmp s8, s0",
+                "0xb4f20: b.ge #0xb4f64",
+                "0xb4f24: adrp x8, #0x310000",
+                "0xb4f28: ldr d0, [x8, #0xcb0]",
+                "0xb4f2c: adrp x8, #0x30f000",
+                "0xb4f30: ldr d1, [x8, #0xac8]",
+                "0xb4f34: fmov d2, #1.00000000",
+                "0xb4f38: mov x1, x28",
+                "0xb4f3c: mov v3.16b, v2.16b",
+                "0xb4f40: b #0xb4f80",
+                "0xb4f44: ldr x0, [x23, #0x818]",
+                "0xb4f48: adrp x8, #0x37d000",
+                "0xb4f4c: ldr x28, [x8, #0xb68]  ; SEL_OR_LITERAL 'colorWithRed:green:blue:alpha:'",
+                "0xb4f50: adrp x8, #0x311000",
+                "0xb4f54: ldr d1, [x8, #0x9b0]",
+                "0xb4f58: nop ",
+                "0xb4f5c: ldr d2, [x8, #0x9b8]",
+                "0xb4f60: b #0xb4f74",
+                "0xb4f64: adrp x8, #0x311000",
+                "0xb4f68: ldr d1, [x8, #0x700]",
+                "0xb4f6c: nop ",
+                "0xb4f70: ldr d2, [x8, #0x6c8]",
+                "0xb4f74: fmov d0, #1.00000000",
+                "0xb4f78: mov x1, x28",
+                "0xb4f7c: mov v3.16b, v0.16b",
+                "0xb4f80: bl #0x2ecd00",
+                "0xb4f84: bl #0x2ecd60",
+                "0xb4f88: mov x21, x0",
+                "0xb4f8c: mov x0, x26",
+                "0xb4f90: bl #0x2ecd30",
+                "0xb4f94: adrp x8, #0x37f000",
+                "0xb4f98: ldrsw x8, [x8, #0xd28]",
+                "0xb4f9c: ldr x0, [x20, x8]",
+                "0xb4fa0: adrp x8, #0x37e000",
+                "0xb4fa4: ldr x26, [x8, #0x6b0]  ; SEL_OR_LITERAL 'setValue:color:'",
+                "0xb4fa8: mov x1, x26",
+                "0xb4fac: ldr x2, [sp, #0x28]",
+                "0xb4fb0: str x21, [sp, #0x20]",
+                "0xb4fb4: mov x3, x21",
+                "0xb4fb8: bl #0x2ecd00",
+                "0xb4fbc: adrp x8, #0x37e000",
+                "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'",
+                "0xb4fc4: mov x0, x20",
+                "0xb4fc8: bl #0x2ecd00",
+                "0xb4fcc: mov v8.16b, v0.16b",
+                "0xb4fd0: ldr x0, [x22, #0x708]",
+                "0xb4fd4: fcvt d0, s0",
+                "0xb4fd8: str d0, [sp]",
+                "0xb4fdc: adrp x2, #0x371000",
+                "0xb4fe0: add x2, x2, #0x68",
+                "0xb4fe4: mov x1, x24",
+                "0xb4fe8: bl #0x2ecd00",
+                "0xb4fec: mov x29, x29",
+                "0xb4ff0: bl #0x2ecd60",
+                "0xb4ff4: mov x27, x0",
+                "0xb4ff8: ldr x0, [x23, #0x818]",
+                "0xb4ffc: mov x1, x25",
+                "0xb5000: bl #0x2ecd00",
+                "0xb5004: mov x29, x29",
+                "0xb5008: bl #0x2ecd60",
+                "0xb500c: mov x21, x0",
+                "0xb5010: mov w8, #0x42aa0000",
+                "0xb5014: fmov s0, w8",
+                "0xb5018: fcmp s8, s0",
+                "0xb501c: str x28, [sp, #0x18]",
+                "0xb5020: b.ge #0xb506c",
+                "0xb5024: mov w8, #0x42700000",
+                "0xb5028: fmov s0, w8",
+                "0xb502c: fcmp s8, s0",
+                "0xb5030: mov x28, x21",
+                "0xb5034: b.lt #0xb50cc",
+                "0xb5038: str x27, [sp, #0x10]",
+                "0xb503c: mov x27, x26",
+                "0xb5040: mov x26, x25",
+                "0xb5044: mov x25, x24",
+                "0xb5048: mov x24, x22",
+                "0xb504c: ldr x0, [x23, #0x818]",
+                "0xb5050: adrp x8, #0x311000",
+                "0xb5054: ldr d1, [x8, #0x700]",
+                "0xb5058: nop ",
+                "0xb505c: ldr d2, [x8, #0x6c8]",
+                "0xb5060: fmov d0, #1.00000000",
+                "0xb5064: ldr x1, [sp, #0x18]",
+                "0xb5068: b #0xb509c",
+                "0xb506c: str x27, [sp, #0x10]",
+                "0xb5070: mov x27, x26",
+                "0xb5074: mov x26, x25",
+                "0xb5078: mov x25, x24",
+                "0xb507c: mov x24, x22",
+                "0xb5080: ldr x0, [x23, #0x818]",
+                "0xb5084: adrp x8, #0x311000",
+                "0xb5088: ldr d1, [x8, #0x9b0]",
+                "0xb508c: nop ",
+                "0xb5090: ldr d2, [x8, #0x9b8]",
+                "0xb5094: fmov d0, #1.00000000",
+                "0xb5098: mov x1, x28",
+                "0xb509c: mov v3.16b, v0.16b",
+                "0xb50a0: bl #0x2ecd00",
+                "0xb50a4: mov x29, x29",
+                "0xb50a8: bl #0x2ecd60",
+                "0xb50ac: mov x28, x0",
+                "0xb50b0: mov x0, x21",
+                "0xb50b4: bl #0x2ecd30",
+                "0xb50b8: mov x22, x24",
+                "0xb50bc: mov x24, x25",
+                "0xb50c0: mov x25, x26"
               ]
             }
           ]
@@ -3356,7 +5226,8 @@
                 "0xb53d8: bl #0x2ecd30"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBDockSystemMonitorView",
@@ -3370,7 +5241,8 @@
                 "0xb5570: bl #0x2ecd60"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBLicenseSyncManager",
@@ -3381,7 +5253,8 @@
               "at": "0x5fba0: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBLicenseSyncManager",
@@ -3394,7 +5267,8 @@
                 "0x5f874: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBLicenseSyncManager",
@@ -3405,7 +5279,8 @@
               "at": "0x5fb7c: ldr x1, [x8, #0xc70]  ; SEL_OR_LITERAL 'isCarPlayScreenConnectedExcludingScreen:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBLicenseWarningModalView",
@@ -3418,7 +5293,8 @@
                 "0xb9194: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBLicenseWarningModalView",
@@ -3432,7 +5308,8 @@
                 "0xb93b8: bl #0x2ec82c"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBMultitaskingOverlayView",
@@ -3445,7 +5322,8 @@
                 "0xa9188: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBMultitaskingOverlayView",
@@ -3472,7 +5350,8 @@
                 "0xaaca4: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBMultitaskingOverlayView",
@@ -3499,7 +5378,8 @@
                 "0xab188: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBMultitaskingOverlayView",
@@ -3526,7 +5406,8 @@
                 "0xab6c0: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBMultitaskingOverlayView",
@@ -3547,7 +5428,8 @@
                 "0xab850: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBOverlayScrollView",
@@ -3568,7 +5450,8 @@
                 "0xa0128: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBOverlayScrollView",
@@ -3585,7 +5468,8 @@
               "at": "0xa0250: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPillView",
@@ -3598,7 +5482,8 @@
                 "0x84acc: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPillView",
@@ -3617,7 +5502,8 @@
                 "0x84de0: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPillView",
@@ -3628,7 +5514,8 @@
               "at": "0x85300: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPillView",
@@ -3639,7 +5526,8 @@
               "at": "0x85318: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPillView",
@@ -3650,7 +5538,8 @@
               "at": "0x85340: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPlaceholderView",
@@ -3664,7 +5553,8 @@
                 "0x101f14: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSlotPlaceholderView",
@@ -3675,7 +5565,8 @@
               "at": "0x1021a8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSplitSplashScreenView",
@@ -3688,7 +5579,8 @@
                 "0xb6518: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBSplitSplashScreenView",
@@ -3706,7 +5598,8 @@
               "at": "0xb7878: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
               "next_calls": []
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3720,7 +5613,8 @@
                 "0xb1644: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3734,7 +5628,8 @@
                 "0xb1a0c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3754,7 +5649,8 @@
                 "0xb1e10: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3784,7 +5680,8 @@
                 "0xb207c: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3798,7 +5695,8 @@
                 "0xb2460: bl #0x2ecd00"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         },
         {
           "class": "CBWindow",
@@ -3811,7 +5709,8 @@
                 "0xaff14: bl #0x2eccb8"
               ]
             }
-          ]
+          ],
+          "detailed_callsite_windows": []
         }
       ]
     }
