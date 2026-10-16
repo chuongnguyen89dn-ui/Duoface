@@ -22,6 +22,35 @@ int main() {
     in.speedValid=true; in.speedKmh=401; assert(!Encode(in,raw));
     in.speedKmh=0; in.limitValid=true; in.limitKmh=0; assert(!Encode(in,raw));
   }
+  // One GOFA-inspired display, four alternative application sources.
+  Sample waze; waze.source=Source::Waze; waze.uptimeSec=100;
+  waze.speedValid=true; waze.speedKmh=81;
+  Sample vietmap; vietmap.source=Source::VietMap; vietmap.uptimeSec=99;
+  vietmap.speedValid=true; vietmap.limitValid=true;
+  vietmap.speedKmh=79; vietmap.limitKmh=80;
+  Sample picked;
+  const Sample pair[]={waze,vietmap};
+  assert(ChooseUnifiedSample(pair,2,Source::None,picked));
+  assert(picked.source==Source::VietMap && picked.limitKmh==80); // prefer complete within 1s
+  assert(ChooseUnifiedSample(pair,2,Source::Waze,picked));
+  assert(picked.source==Source::VietMap); // complete source wins
+  // A strictly newer live reading takes over (no indefinite stickiness).
+  waze.uptimeSec=102;
+  const Sample newer[]={waze,vietmap};
+  assert(ChooseUnifiedSample(newer,2,Source::VietMap,picked));
+  assert(picked.source==Source::Waze && !picked.limitValid);
+  // When equally fresh and complete, prior source avoids visual thrashing.
+  Sample gofa=vietmap; gofa.source=Source::GOFA;
+  const Sample ties[]={gofa,vietmap};
+  assert(ChooseUnifiedSample(ties,2,Source::GOFA,picked));
+  assert(picked.source==Source::GOFA);
+  // Never stitch speed from one app with a speed limit from a different app.
+  Sample limitOnly=vietmap; limitOnly.source=Source::GoogleMaps;
+  limitOnly.speedValid=false; limitOnly.speedKmh=0;
+  const Sample split[]={waze,limitOnly};
+  assert(ChooseUnifiedSample(split,2,Source::None,picked));
+  assert(picked.source==Source::Waze && !picked.limitValid);
+  assert(!ChooseUnifiedSample(nullptr,0,Source::None,picked));
   assert(NotifyName(Source::None)==nullptr);
-  std::cout<<"DF_SPEED_PROTOCOL_UNIT_PASS (4 sources, freshness, ABI, unknown limit)"<<std::endl;
+  std::cout<<"DF_SPEED_PROTOCOL_UNIT_PASS (4 sources, one bubble, arbitration, freshness, unknown limit)"<<std::endl;
 }
