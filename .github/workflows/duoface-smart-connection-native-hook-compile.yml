@@ -1,0 +1,54 @@
+name: DuoFace Smart Connection native SpringBoard hook compile only
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'runtime/connection/**'
+      - 'Makefile.smart-connection-stage'
+      - 'DuoFaceSmartConnection.plist'
+      - '.github/workflows/duoface-smart-connection-native-hook-compile.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-no-deb:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert isolated changes and 10-second grace
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'kDisconnectGraceMs = 10000' runtime/connection/DFConnectionPolicy.hpp
+          grep -Fq 'DFConnectionVerifiedDisconnected' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'handleCarPlayConnectionChanged' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'trackBridgedBundleID:' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq '%orig;' runtime/connection/DFConnectionNativeHooks.xm
+          ! grep -Fq 'runtime/connection/' Makefile.fullscreen
+          ! grep -Fq 'runtime/connection/' Makefile.fullscreen-adapter-check
+          plutil -lint DuoFaceSmartConnection.plist
+      - name: Prepare Theos and iOS SDK for compile only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid
+      - name: Compile and link candidate native hook dylib (NO DEB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp Makefile.smart-connection-stage Makefile
+          make clean all FINALPACKAGE=1
+          test "$(find .theos -type f -name 'DuoFaceSmartConnection.dylib' | wc -l | tr -d ' ')" -ge 1
+          xcrun lipo "$(find .theos -type f -name 'DuoFaceSmartConnection.dylib' | head -n 1)" -verify_arch arm64
+          echo 'SMART_CONNECTION_10S_NATIVE_LOGOS_LINK_PASS_NO_DEB'
+      - name: Assert NO package was built or published
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d packages || test -z "$(find packages -type f -name '*.deb' -print -quit)"
+          echo 'NO_DEB_NO_SILEO_NO_DEVICE_INSTALL'
