@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/duoface-exact-payload-migration]
     paths:
-      - '.github/workflows/duoface-native12-speed3hud-isolation-deb.yml'
+      - '.github/workflows/duoface-native12-speed3hud-single-owner-deb.yml'
       - 'migration/full_payload/native_test/build_native12_speed3hud_candidate.py'
       - 'Makefile.speedhud-host-stage'
   workflow_dispatch:
