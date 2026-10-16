@@ -79,6 +79,20 @@ def audit(root):
         obj=NormalizedMachO(data)
         all_classes=obj.classes()
         stub_symbols=indirect_stub_symbols(data)
+        # ARM64 stubs may use dyld chained fixups, so record bounded raw instructions
+        # rather than claim symbol identity from an unresolved stub.
+        from capstone import Cs, CS_ARCH_ARM64, CS_MODE_ARM
+        decoder=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
+        selected_stubs={}
+        for vm in (0x6d4a0,0x6cdb4,0x6cc94,0x6f5a0,0x71980,0x728c0,
+                   0x71c40,0x722a0,0x6fba0,0x721a0,0x720c0,0x720a0,
+                   0x729c0,0x72000,0x73840):
+            try:
+                off=obj.map(vm)
+                decoded=[f"{i.address:#x}: {i.mnemonic} {i.op_str}" for i in decoder.disasm(data[off:off+48],vm)]
+                selected_stubs[hex(vm)]=decoded
+            except Exception as e:
+                selected_stubs[hex(vm)]={"error":type(e).__name__}
         entries={}
         for cl in sorted(all_classes):
             try: catalog=methods(obj,cl)
@@ -107,7 +121,7 @@ def audit(root):
                 }
             entries[cl]={"method_count":len(catalog),"all_methods":sorted(catalog),
                         "interesting":items}
-        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols)}
+        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols),"target_stub_probes":selected_stubs}
     return out
 
 def main():
