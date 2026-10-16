@@ -92,24 +92,42 @@ bool RequestPinnedGMapSource(Source requested) {
 bool ReadPinnedGMapWire(Sample &out) {
     if(!Register(selectionToken,@"com.chou.gmaphud.source.selection"))
         return false;
-    // Limit this selector to DuoFace's own foreground/bridged map app, if known.
+    // A bridged map in DuoFace is authoritative; no scanning other processes.
     Source active=ActiveDuoFaceMapApp();
     if(active!=Source::None) RequestPinnedGMapSource(active);
     uint64_t selectionBefore=0;
     if(!Read(selectionToken,selectionBefore)) return false;
     Source source=GVMSource(selectionBefore);
-    if(!Endpoint(source)) return false;
-    SourceWire &w=endpoints[GVMID(source)];
-    uint64_t headerBefore=0,headerAfter=0,frameSelection=0;
-    uint64_t speed=0,limit=0,selectionAfter=0;
-    if(!Read(w.slot[0],headerBefore) ||
-       !Read(w.slot[1],frameSelection) ||
-       !Read(w.slot[2],speed) ||
-       !Read(w.slot[3],limit) ||
-       !Read(w.slot[0],headerAfter) ||
-       !Read(selectionToken,selectionAfter)) return false;
-    return DecodeGVMFrame(selectionBefore,selectionAfter,frameSelection,
-       headerBefore,headerAfter,speed,limit,
-       NSProcessInfo.processInfo.systemUptime,out);
+    bool accepted=false;
+    if(Endpoint(source)) {
+        SourceWire &w=endpoints[GVMID(source)];
+        uint64_t headerBefore=0,headerAfter=0,frameSelection=0;
+        uint64_t speed=0,limit=0,selectionAfter=0;
+        if(Read(w.slot[0],headerBefore) &&
+           Read(w.slot[1],frameSelection) &&
+           Read(w.slot[2],speed) &&
+           Read(w.slot[3],limit) &&
+           Read(w.slot[0],headerAfter) &&
+           Read(selectionToken,selectionAfter)) {
+            accepted=DecodeGVMFrame(selectionBefore,selectionAfter,frameSelection,
+                headerBefore,headerAfter,speed,limit,
+                NSProcessInfo.processInfo.systemUptime,out);
+        }
+    }
+    // GOFA or Waze may run without being a DuoFace split tile. The original
+    // GMapHUD 0.2.3 publisher gates output on ONE selected source. If its
+    // current source has no fresh speed/limit, probe the next source at most
+    // once every 4 seconds. Stop switching on a valid frame; never synthesize
+    // limits or launch a third-party app.
+    if(!accepted && active==Source::None) {
+        static NSTimeInterval lastProbe=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now>=lastProbe && now-lastProbe>=4) {
+            Source next=source==Source::VietMap ? Source::Waze :
+                        source==Source::Waze ? Source::GOFA : Source::VietMap;
+            if(RequestPinnedGMapSource(next)) lastProbe=now;
+        }
+    }
+    return accepted;
 }
 } // namespace DFSpeed
