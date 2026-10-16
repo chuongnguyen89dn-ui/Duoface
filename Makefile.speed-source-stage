@@ -1,0 +1,11 @@
+# DuoFace speed source app hooks: compile-only; bundled internally on future DEB.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedSources
+DuoFaceSpeedSources_FILES := runtime/speedbubble/DFSpeedAppObserver.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedSources_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedSources_CCFLAGS := -std=c++17
+DuoFaceSpeedSources_FRAMEWORKS := Foundation CoreLocation
+include $(THEOS_MAKE_PATH)/tweak.mk
