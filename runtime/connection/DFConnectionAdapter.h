@@ -15,7 +15,7 @@ FOUNDATION_EXPORT void DFConnectionManagedAppActivated(NSString *bundleID,
 FOUNDATION_EXPORT void DFConnectionVerifiedConnected(NSString * _Nullable currentDuoFaceOwnedApp,
                                                       DFAppQuery installed,
                                                       DFAppExecutor _Nullable launchApp,
-                                                      DFLastAppSaver saveLastApp);
+                                                      DFLastAppSaver _Nullable saveLastApp);
 FOUNDATION_EXPORT void DFConnectionVerifiedDisconnected(DFConnectionQuery stillDisconnected,
                                                          DFAppQuery stillOwnedAndRunning,
                                                          DFAppExecutor terminateOwnedApp);
