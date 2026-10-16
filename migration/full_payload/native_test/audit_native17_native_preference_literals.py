@@ -57,15 +57,17 @@ with tempfile.TemporaryDirectory() as td:
                 try:
                     target=m.ptr(address+16)
                     value=m.cstr(target)
-                    if value and any(s in value.lower() for s in (
-                        "prefs","bridge","app","duonavi","duoface","setting",
-                        "plist","config","/var/mobile","/library","slot",
-                        "agreedtoeula","enable","filter","bundle")):
+                    important=("bridgedapps", "appslist", "userapps", "preferences",
+                         "prefs", "appsettings", "plist", "appenabled", "allowedapps",
+                         "enabledapps","userappsdefaultinitialized","cbdashboardsettings",
+                         "cfpreferences", "duoface.", "carbridge.", "duonavi.", "mobilesubstrate",
+                         "notification", "bridgeapps")
+                    if value and any(word in value.lower() for word in important):
                         cfstrings.append({"vm":hex(address),"value":value[:160]})
                 except Exception:pass
         report["hosts"][name]={"sha256":expected,"original_disassembly_direct_literals":matches,
                               "native_preferences_related_literals":strings[:160],
-                              "native_cfstring_constants":cfstrings[:250]}
+                              "native_cfstring_constants":cfstrings[:400]}
 print(json.dumps(report,ensure_ascii=False,indent=2))
 dest=Path("audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json")
 dest.parent.mkdir(exist_ok=True,parents=True)
