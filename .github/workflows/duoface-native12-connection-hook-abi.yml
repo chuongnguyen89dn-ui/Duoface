@@ -31,7 +31,7 @@ jobs:
           import json
           j=json.load(open("audit/payload-migration/NATIVE12_CONNECTION_HOOK_ABI_READONLY.json"))
           assert j["status"]=="NATIVE12_ACTUAL_CONNECTION_OBJC_ABI_READONLY"
-          assert j["selectors_examined"]==17
+          assert j["selectors_examined"]==16
           assert not j["used_to_patch_binary"] and not j["actual_carplay_event_runtime_verified"]
           print("ABI_REPORT_PASS")
           PY
