@@ -158,6 +158,9 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 @property(nonatomic,copy) NSArray<NSDictionary *> *choices;
 @property(nonatomic,strong) UITableView *table;
 @property(nonatomic,strong) UILabel *status;
+- (instancetype)initWithHost:(CBMultitaskingOverlayView *)host
+                       file:(NSString *)file current:(NSArray *)current
+                    choices:(NSArray *)choices;
 - (void)dismiss;
 @end
 @implementation DFInCarAppPicker
@@ -270,13 +273,19 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 %end
 %end
 
+static BOOL DFPickerHookInstalled=NO;
+static void DFInstallPickerOnce(void) {
+    if (DFPickerHookInstalled ||
+        !NSClassFromString(@"CBMultitaskingOverlayView")) return;
+    %init(DFInCarPicker);
+    DFPickerHookInstalled=YES;
+}
 __attribute__((constructor)) static void DFInstallDirectAddApp(void) {
     @autoreleasepool {
         if (![[NSBundle.mainBundle.bundleIdentifier lowercaseString]
               isEqualToString:@"com.apple.springboard"]) return;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (NSClassFromString(@"CBMultitaskingOverlayView"))
-                %init(DFInCarPicker);
+            DFInstallPickerOnce();
         });
     }
 }
