@@ -1,0 +1,113 @@
+name: DuoFace native18 direct CarPlay Add App tile, no iPhone-only modal
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native18-direct-add-app-qa.yml'
+      - 'migration/full_payload/native_test/build_native18_direct_addapp.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native18-carplay-add-app
+  cancel-in-progress: false
+jobs:
+  compile-package-test:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Static contract, immutable source and no old modal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/build_native18_direct_addapp.py
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('runtime/appbridge/DFInCarAppPicker.xm').read_text()
+          assert '%orig' not in s, 'No original park safely dialog in hook'
+          assert s.count('- (void)addMoreAppsTapped:')==1
+          assert 'DFInCarAppPicker' in s and 'DFSaveToNativePreferences' in s
+          assert 'dict[@"appSettings"]' in s and 'kDFBridgedAppsKey' in s
+          assert 'if (original &&' not in s
+          assert 'in-car sheet shown' in s and 'original preferences owner unverified' in s
+          assert 'Dừng xe an toàn và mở DuoFace trên iPhone' not in s
+          p=Path('DuoFaceInCarAddApps.plist').read_text()
+          for name in ('CarPlay','CarPlayApp','Dashboard','SpringBoard'):
+              assert '<string>'+name+'</string>' in p
+          print('NATIVE18_SOURCE_NO_ORIGINAL_MODAL_AND_NATIVE_APPSETTINGS_SCHEMA_PASS')
+          PY
+          printf '%s  %s\n' 60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff \
+            dist/payload-migration/native17/com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb \
+            | shasum -a 256 -c -
+      - name: Install Theos and tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile only new in-car picker module (arm64 iOS)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp Makefile.appbridge-stage Makefile
+          make clean all FINALPACKAGE=1
+          DYLIB="$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)"
+          test -n "$DYLIB"
+          xcrun lipo "$DYLIB" -verify_arch arm64
+          cp "$DYLIB" "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib"
+          echo 'NATIVE18_CARPLAY_PICKER_IOS_ARM64_COMPILED'
+      - name: Repack native17 as native18 changing only picker dylib
+        shell: bash
+        run: |
+          set -euo pipefail
+          out='dist/payload-migration/native18/com.duoface.independent_0.1.0~native18_iphoneos-arm64.deb'
+          report='dist/payload-migration/native18/BAO_CAO.json'
+          test ! -e "$out"
+          python3 migration/full_payload/native_test/build_native18_direct_addapp.py \
+            --dylib "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib" --out "$out" --report "$report"
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          p=Path("dist/payload-migration/native18")
+          r=json.loads((p/"BAO_CAO.json").read_text())
+          deb=p/"com.duoface.independent_0.1.0~native18_iphoneos-arm64.deb"
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==r["native18_sha256"]
+          assert r["every_other_native17_payload_byte_identical"]
+          assert r["native12_exact_license_core_preserved"]
+          assert r["original_payload_files_preserved_count"]==44
+          assert len(r["changed_payload_paths"])==1
+          assert r["changed_payload_paths"][0].endswith("DuoFaceInCarAddApps.dylib")
+          assert r["old_carplay_alert_fallback_in_new_module_source"] is False
+          assert r["shared_config_file_discovery_runtime_confirmed"] is False
+          assert not r["app_picker_device_tested"] and not r["dopamine_touched"]
+          print('NATIVE18_IMMUTABLE_NATIVE12_CORE_AND_10S_AND_SETTINGS_UI_PRESERVED')
+          PY
+      - name: Persist signed package and report to DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native18/BAO_CAO.json \
+            'dist/payload-migration/native18/com.duoface.independent_0.1.0~native18_iphoneos-arm64.deb'
+          git commit -m 'artifact: native18 CarPlay Add App button opens in-car picker, exact native12 host [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native18-direct-carplay-addapp-candidate
+          path: |
+            dist/payload-migration/native18/BAO_CAO.json
+            dist/payload-migration/native18/*.deb
+          if-no-files-found: warn
