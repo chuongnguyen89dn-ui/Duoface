@@ -1,0 +1,19 @@
+{
+  "status": "NATIVE12_SPEED5SCENE_ISOLATION_DEB_STATIC_PASS_NOT_DEVICE_TESTED",
+  "input_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "output_sha256": "87d2223a065d0ef9649c7da9c82105de90fde5b28b94a8a4bd4722ba7235e3d9",
+  "new_module": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": "39e8e755b65384f3af877b26976779cd21ab967adcadf43775243538875f1085",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+  },
+  "original_file_count": 39,
+  "all_original_payload_bytes_unchanged": true,
+  "no_third_party_injection_or_waze_hooks": true,
+  "springboard_only": true,
+  "native12_dashboard_owned_scene_runtime_unverified": true,
+  "activation": "SpringBoard only; CBBridgeManager.sharedInstanceIfExists.window + CBWindow show/hide/resize/destroy + reconciler; guarded CarPlay UIWindowScene overlay",
+  "fallback_display": "GOFA-style transparent separate UIWindow at level 10000000, — placeholders in live native split only; require device screen test",
+  "limitations": "No speed source adapters, no source selector UI; host ownership AND HUD visibility require real CarPlay device test",
+  "sileo_published": false,
+  "device_tested": false
+}
