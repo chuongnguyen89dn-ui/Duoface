@@ -5,7 +5,7 @@ Scope: read-only Objective-C metadata, selectors, ARM64 disassembly with literal
 and xref candidates. Never install/patch the package or claim real iPhone behavior.
 """
 from __future__ import annotations
-import argparse, hashlib, json, re, subprocess, tempfile
+import argparse, hashlib, json, re, struct, subprocess, tempfile
 from pathlib import Path
 from audit_native12_license_class_xrefs import MachO, select_arm64, BINARIES, NATIVE12_SHA
 from audit_native12_carplay_add_app_chain import methods, disassemble
@@ -117,6 +117,26 @@ def inspect_binary(name,raw):
                  "selector_hints":[s for s in dis if "SEL_OR_LITERAL" in s or "DIRECT_STRING" in s][:140],
                  "head":dis[:18],
             }
+    # Decode exact small arm64 constants tied to the voice screen blank command
+    # and thermal-state fallback. These numbers are not physical thermistor data.
+    if name=="DuoFaceDashboard":
+        phrase_addrs=(0x36e668,0x36e688,0x36e6a8,0x36e6c8,0x36e6e8,0x36e708)
+        out["voice_screen_blank_command_phrase_candidates"]=[]
+        for vm in phrase_addrs:
+            try:
+                out["voice_screen_blank_command_phrase_candidates"].append(
+                    {"vm":hex(vm),"text":m.cstr(vm)})
+            except (ValueError,KeyError):
+                out["voice_screen_blank_command_phrase_candidates"].append(
+                    {"vm":hex(vm),"unresolved":True})
+        thermal_table_vm=0x3119c0
+        out["thermal_state_numeric_fallback_candidate"]={
+            "vm":hex(thermal_table_vm),
+            "values_nominal_fair_serious_critical":[
+                round(z,5) for z in struct.unpack_from("<4f",m.data,m.map(thermal_table_vm))
+            ],
+            "note":"These are invented numeric stand-ins inferred from static fallback table, NOT measured iPhone CPU temperature",
+        }
     # List all candidate native code callsites where the selector reference is recognized.
     # Do not infer definite behavior from absence: swizzling, IMP pointers and dynamic
     # dispatch can evade this heuristic. Keep only selector hints, never assume call executed.
