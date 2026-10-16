@@ -1,0 +1,17 @@
+{
+  "status": "NATIVE12_SPEED2HUD_ISOLATION_DEB_STATIC_PASS_NOT_DEVICE_TESTED",
+  "input_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "output_sha256": "ff19098e5617b2ba33138f311547f7fba60419d085449f45383b8f5cb8ecc566",
+  "new_module": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": "63247c16682ee65e982ab23b16e55233e6dcd3642b038989dc0ecfe27c3cc626",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist": "61344b94952c9851f410f1a0916fb18201fc139554dc549624b2f072e372a1ee"
+  },
+  "original_file_count": 39,
+  "all_original_payload_bytes_unchanged": true,
+  "no_third_party_injection_or_waze_hooks": true,
+  "activation": "CarPlayApp/CarPlayTemplateUIHost scene/window observer",
+  "fallback_display": "visible — placeholders when no fresh speed",
+  "limitations": "No speed source adapters, no source selector UI; isolate HUD before next stage",
+  "sileo_published": false,
+  "device_tested": false
+}
