@@ -1,0 +1,17 @@
+{
+  "status": "NATIVE12_SPEED3HUD_ISOLATION_DEB_STATIC_PASS_NOT_DEVICE_TESTED",
+  "input_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "output_sha256": "b4caf7e965a3d1cb83e52d27b67bea2642c8734f6ae78924d9b8a4e09307e582",
+  "new_module": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": "3f6425a118e4bef64a475b749a1d6babe553860d33f352539f890567369a3375",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist": "26c741de18a79619c1fa7dc39f6663d854b7ea1c6c5d7e3531d1549656aa647b"
+  },
+  "original_file_count": 39,
+  "all_original_payload_bytes_unchanged": true,
+  "no_third_party_injection_or_waze_hooks": true,
+  "activation": "CarPlayApp ONLY; Native12 DuoFaceDashboard CBWindow show/resize/destroy",
+  "fallback_display": "visible — placeholders ONLY inside active DuoFace CBWindow",
+  "limitations": "No speed source adapters, no source selector UI; host-window presence requires real CarPlay test",
+  "sileo_published": false,
+  "device_tested": false
+}
