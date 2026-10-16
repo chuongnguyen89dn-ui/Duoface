@@ -444,6 +444,18 @@
           "vm": "0x1000b9b09",
           "text": "com.duoface.license.sync"
         }
+      ],
+      "global_ref_probes": [
+        {
+          "ref_vm": "0x10011ce10",
+          "pointer": "0x0",
+          "error": "ValueError"
+        },
+        {
+          "ref_vm": "0x10011ce20",
+          "pointer": "0x0",
+          "error": "ValueError"
+        }
       ]
     },
     "DuoFaceDashboard": {
@@ -7010,6 +7022,18 @@
         {
           "vm": "0x30895a",
           "text": "[DuoFaceSB] UI addMoreAppsTapped -> presenting custom frosted alert modal"
+        }
+      ],
+      "global_ref_probes": [
+        {
+          "ref_vm": "0x3812b0",
+          "pointer": "0x0",
+          "string_vm": "0x124000000023",
+          "error": "ValueError"
+        },
+        {
+          "ref_vm": "0x38112b8",
+          "error": "ValueError"
         }
       ]
     }
