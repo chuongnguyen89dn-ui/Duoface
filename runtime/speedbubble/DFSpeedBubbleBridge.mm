@@ -14,6 +14,10 @@
 @property(nonatomic,strong) UILabel *unit;
 @property(nonatomic,strong) UIView *limitRing;
 @property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
 - (void)tick:(NSTimer *)timer;
 - (void)stop;
 @end
@@ -21,7 +25,11 @@
 @implementation DFSpeedNativeHUD
 - (instancetype)initWithFrame:(CGRect)frame {
     if ((self=[super initWithFrame:frame])) {
-        self.userInteractionEnabled=NO; // Never intercept CarPlay/menu taps.
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
         // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
         self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
         self.layer.cornerRadius=32;
@@ -72,12 +80,15 @@
 }
 - (void)tick:(NSTimer *)timer {
     (void)timer;
-    if (!self.window) { self.hidden=YES; return; }
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
     DFSpeedHUDRecord sample={};
     if (!DFSpeedHUDReadBest(&sample)) {
         self.hidden=YES; // stale/unknown; do not keep last known speed.
         return;
     }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
     self.hidden=NO;
     self.current.text=sample.hasCurrent
         ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
@@ -90,7 +101,110 @@
         @"DuoFace: speed %@ km/h; limit %@ km/h",
         self.current.text,self.limit.text];
 }
-- (void)stop { [_timer invalidate]; _timer=nil; self.hidden=YES; }
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    CGRect area=UIEdgeInsetsInsetRect(parent.bounds,parent.safeAreaInsets);
+    if (CGRectIsEmpty(area) || !isfinite(area.size.width) || !isfinite(area.size.height))
+        area=parent.bounds;
+    return CGRectInset(area,6,6);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    self.hidden=YES;
+}
+
 @end
 
 @interface CBWindow : NSObject
@@ -117,10 +231,10 @@ static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     const CGRect safe=UIEdgeInsetsInsetRect(nativeWindow.bounds,
                                nativeWindow.safeAreaInsets);
     // Noninteractive overlay; never touch the original split scene frame.
-    const CGFloat width=142, height=64, margin=10;
-    CGRect bounds=DFValidBounds(safe)?safe:nativeWindow.bounds;
-    hud.frame=CGRectMake(CGRectGetMaxX(bounds)-width-margin,
-                         CGRectGetMinY(bounds)+margin,width,height);
+    const CGFloat width=142, height=64;
+    (void)safe;
+    hud.bounds=CGRectMake(0,0,width,height);
+    [hud restoreSavedPosition];
     [nativeWindow bringSubviewToFront:hud];
 }
 static void DFAttachHUDToBridgeWindow(id bridge) {
