@@ -1,5 +1,37 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 20:25 +07 — ĐÍNH CHÍNH: BONG BÓNG DO TWEAK GOFAHUD TẠO; NGHIÊN CỨU CƠ CHẾ TWEAK
+Checkpoint: GOFAHUD-TWEAK-MECHANISM-20261016.
+- Người dùng xác nhận: đang nói về bong bóng do tweak tạo cho GOFA, không phải tính năng bong bóng sẵn có của app GOFA. Phải lấy triển khai tweak làm đối tượng nghiên cứu. Cách diễn đạt trước đây “bong bóng GOFA” không được biến thành khẳng định app GOFA tự cung cấp overlay.
+- Phạm vi giữ nguyên: nghiên cứu và lưu bàn giao; không sửa mã, không build, không triển khai. Nối tiếp commit tài liệu 1a0ebfb7bc1799d1fdbc76a34063ee4a7e95c627.
+
+### Bằng chứng đã đọc lại trong lượt này
+1. feature/duoface-exact-payload-migration:audit/speedbubble/SPEED1_DEVICE_FAIL_GOFA_ACTIVATION_AND_WAZE_INJECTION_20261016.md (blob 0f2c0b763d7e5784773bf63260fed63002bcf341).
+2. Cùng nhánh: audit/speedbubble/GOFAHUD_031_DRAG_DISMISS_AND_GMAPHUD_023_DATA_TRACE.md (blob 8ee24f6b3d8dc0f4bd3456d7ec8eb55afb050128).
+3. Đã đọc Gpt-training-/SKILL_INDEX.md, PROJECT_INSTRUCTIONS.md, AGENTS.md, DEB_IPA_SKILL.md; tìm cây skills và tải base64 skills/02-ios-deb-ipa-carplay.zip (blob 14978becab3e5bcab39b160fda1dae848dc28101), giải mã bằng Python base64/io/zipfile trong bộ nhớ và đọc SKILL.md cùng references/VERIFICATION.md. Không có build/test app.
+4. Hai audit trên ghi phân tích nhị phân GOFAHUD-0.3.1-rootless.deb SHA256 62d6d818384844591217d74ab446404637127752e1b23bc1f9754ef1da297ad5. Lượt này đọc BÁO CÁO PHÂN TÍCH ĐÃ LƯU, không tự disassemble lại binary. Cây main và feature chưa tìm được file GOFAHUD gốc theo tên; hai lần tìm Library theo tên đầy đủ và GOFAHUD không có kết quả. Không suy ra file không tồn tại ở mọi nơi; không yêu cầu người dùng upload khi còn khả năng truy nguồn.
+
+### Cơ chế tweak theo audit nhị phân đã lưu
+- Thành phần vẽ: GofaCarplayGlobal.dylib định nghĩa GOFACarHUD; app GOFA không phải chủ sở hữu view bong bóng này. GofaCarplayGlobal.plist nạp vào com.apple.CarPlayApp và com.apple.CarPlayTemplateUIHost. SpringBoard có helper riêng GofaLaunchHelper, không được lẫn vai trò với renderer.
+- Khởi tạo điều khiển: _InitializeCarControls (arm64 0x7e2c) đăng ký các khóa/tín hiệu local.gofahud.carplay.enabled, local.gofahud.carplay.gofa-active, local.gofahud.carplay.show và UIScreenDidConnectNotification.
+- Tìm và theo dõi nơi hiển thị: _RefreshWindows (0xafd4) theo dõi connectedScenes/cửa sổ, thay đổi cửa sổ và refresh định kỳ. _Attach (0xada0) kiểm màn hình ngoài/CPWindow, lấy rootViewController.viewIfLoaded, gắn GOFACarHUD vào view CarPlay đã nạp và gọi refresh.
+- Điều kiện hiển thị: GOFACarHUD.refresh (0x89dc) đọc các trạng thái điều khiển enabled/active. Chưa có bảng chân trị đầy đủ trong audit để khẳng định chính xác mọi nhánh AND/OR hoặc state nào thắng; tên khóa không đủ suy ra logic.
+- Tương tác: GOFACarHUD.pan: (0x9bd4) xử lý kéo, dismissTarget, setCenter/setHidden; có notify_set_state/notify_post, NSUserDefaults và khóa local.gofahud.carplay.position.
+- Touch: GOFACarGlobalWindow.hitTest:withEvent: (0x4000) kiểm HUD/hidden/pointInside, trả nil ngoài HUD để không chặn thao tác vùng CarPlay còn lại. Audit chưa mô tả đầy đủ quan hệ giữa global window này và mọi nhánh _Attach; không tự kết luận chỉ có một loại host duy nhất.
+- Đây là một hệ thống gồm renderer + tín hiệu điều khiển + theo dõi cửa sổ + thao tác/touch, không chỉ một view hình viên thuốc.
+
+### Đối chiếu và đề xuất cho DuoFace (CHƯA THỰC HIỆN)
+- Cần học TOÀN BỘ cơ chế vận hành của tweak, không chỉ sao chép hình dáng. Speed3 hiện có view, hook CBWindow và timer đọc dữ liệu; chưa có cơ chế tương đương đầy đủ để phát hiện owner đang tồn tại/cửa sổ sẵn sàng và bật/hiện lại có điều khiển.
+- Giữ cách chia trách nhiệm: nguồn dữ liệu độc lập với view; bộ điều khiển nhận enabled/show/host-active; bộ gắn view theo lifecycle cửa sổ; bộ gesture chỉ nhận chạm bên trong bóng.
+- Điều kiện hoạt động phải lấy từ DuoFace đang hiển thị, không giữ nguyên gofa-active. Dùng namespace DuoFace riêng để không điều khiển hoặc xung đột tweak GOFAHUD đang cài.
+- Tham khảo khả năng phục hồi của _RefreshWindows và đường _Attach -> refresh, nhưng chỉ cho phép attach vào owner/container DuoFace đã xác minh. Không sao chép quét mọi CPWindow rồi vẽ mỗi nơi, vì Speed2 đã có lỗi nhiều bóng trên Home.
+- Không coi vị trí trong rootViewController.viewIfLoaded của GOFAHUD là bằng chứng có thể dùng nguyên xi cho DuoFace: cần đối chiếu scene, process, view hierarchy và lớp chứa split thực tế.
+- Trước khi quyết định bản sửa tiếp theo, cần truy ai GHI enabled/gofa-active/show, giá trị mặc định, lúc GOFA foreground/background, lúc CarPlay kết nối/ngắt, đường dismiss và bật lại; đối chiếu nhánh _Attach/global window với cửa sổ DuoFace. Tài liệu hiện tại mới chứng minh phía nhận và các hàm xử lý, chưa đủ giải thích chính xác vì sao tweak chỉ hiện ở những màn hình người dùng quan sát.
+- Bước nghiên cứu tiếp: tìm lại DEB gốc đúng SHA qua lịch sử đầu vào/release, lấy plist/preferences/helper và disassembly đầy đủ; lập bảng “tín hiệu -> nơi phát -> nơi nhận -> điều kiện hiển thị -> host window”. Không đoán producer từ tên khóa, không tuyên bố đã đọc binary trong lượt này.
+- Chỉ khi triển khai được giao sau này: làm một HUD —/— theo lifecycle đúng DuoFace, test Home=0/split=1/thoát=0/kéo+hiện lại/đổi scene ổn, rồi nối dữ liệu. Chưa có chứng minh runtime thì chưa khẳng định hoạt động.
+- Trạng thái: đã bổ sung sự phân biệt app GOFA/tweak GOFAHUD và nghiên cứu báo cáo cơ chế; chưa sửa hay chạy tweak, chưa có kết luận nguyên nhân runtime duy nhất.
+
+
 ## 16/10/2026 20:22 +07 — PHÂN TÍCH BONG BÓNG CHƯA HIỆN / ĐỀ XUẤT CÁCH LÀM, KHÔNG TRIỂN KHAI
 Checkpoint: DUOFACE-HUD-ANALYSIS-20261016-2022.
 
