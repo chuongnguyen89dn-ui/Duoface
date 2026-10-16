@@ -1,0 +1,68 @@
+name: DuoFace research DuoDash bubble mount mechanism READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-duodash-bubble-mount-readonly.yml'
+      - 'migration/full_payload/native_test/trace_duodash_bubble_mount_113_readonly.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-duodash-bubble-mount-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download pinned reference without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 4 --retry-delay 2 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/5f683ad16a2c4f2b37e333e891cfb8f7ba3e0d6b/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/DuoDash_1.1.3_reference.deb"
+          printf '%s  %s\n' 'ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465' "$RUNNER_TEMP/DuoDash_1.1.3_reference.deb" | sha256sum -c -
+          test "$(git hash-object "$RUNNER_TEMP/DuoDash_1.1.3_reference.deb")" = '6f3e7a4543a01358b3c1e24653aec5bdb3975206'
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 -m py_compile migration/full_payload/native_test/trace_duodash_bubble_mount_113_readonly.py
+      - name: Trace bubble class to host/window/pane owner (static only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/trace_duodash_bubble_mount_113_readonly.py \
+            --deb "$RUNNER_TEMP/DuoDash_1.1.3_reference.deb" \
+            --out audit/duodash-1.1.3/DUODASH_NAVBUBBLE_MOUNT_CHAIN_READONLY.json
+          python3 - <<'PY'
+          import json
+          o=json.load(open('audit/duodash-1.1.3/DUODASH_NAVBUBBLE_MOUNT_CHAIN_READONLY.json'))
+          assert o["status"]=="DUODASH_NAVBUBBLE_MOUNT_STATIC_CHAIN_READONLY"
+          assert not o["modified_deb"] and not o["runtime_visible_on_carplay_tested"]
+          assert "CNABBubbleView" in o["architecture"]["arm64"]["classes"]
+          print('DUODASH_NAVBUBBLE_MOUNT_ANALYSIS_PASS_NO_DEB')
+          PY
+      - name: Persist readonly evidence to DuoFace feature
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/duodash-1.1.3/DUODASH_NAVBUBBLE_MOUNT_CHAIN_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: DuoDash navigation bubble mount owner chain [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duodash-navbubble-mount-readonly
+          path: audit/duodash-1.1.3/DUODASH_NAVBUBBLE_MOUNT_CHAIN_READONLY.json
+          if-no-files-found: warn
