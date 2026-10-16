@@ -7570,7 +7570,29 @@
             "__objc_selrefs"
           ]
         }
-      }
+      },
+      "class_ref_probes": {
+        "0xdaa48": {
+          "pointer": "0xdb628",
+          "matching_class": [
+            "CNABBubbleView"
+          ],
+          "expected_CNABBubbleView": true
+        },
+        "0xda938": {
+          "pointer": "0xdb6a0",
+          "matching_class": [
+            "CNABNavData"
+          ],
+          "expected_CNABBubbleView": false
+        },
+        "0xda890": {
+          "pointer": "0x14f",
+          "matching_class": [],
+          "expected_CNABBubbleView": false
+        }
+      },
+      "objc_selector_stubs_resolved": 0
     },
     "arm64e": {
       "classes": {
@@ -20086,7 +20108,25 @@
             "__objc_const"
           ]
         }
-      }
+      },
+      "class_ref_probes": {
+        "0xdaa48": {
+          "pointer": "0xb22a9",
+          "matching_class": [],
+          "expected_CNABBubbleView": false
+        },
+        "0xda938": {
+          "pointer": "0xb9511",
+          "matching_class": [],
+          "expected_CNABBubbleView": false
+        },
+        "0xda890": {
+          "pointer": "0x194",
+          "matching_class": [],
+          "expected_CNABBubbleView": false
+        }
+      },
+      "objc_selector_stubs_resolved": 0
     }
   },
   "status": "DUODASH_NAVBUBBLE_MOUNT_STATIC_CHAIN_READONLY",
