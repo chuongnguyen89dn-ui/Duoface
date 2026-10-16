@@ -1,0 +1,77 @@
+{
+  "status": "READONLY_ACTUAL_NATIVE12_FILTERS",
+  "pinned_native12_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "filters": {
+    "DuoFaceDashboard": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.google.ios.youtube",
+          "com.google.ios.youtubemusic",
+          "com.netflix.Netflix",
+          "org.videolan.vlc-ios",
+          "com.apple.mobilesafari",
+          "tv.twitch",
+          "com.zhiliaoapp.musically",
+          "com.google.Maps",
+          "com.waze.iphone",
+          "com.spotify.client",
+          "com.apple.Preferences",
+          "com.apple.mobilenotes",
+          "com.apple.mobilephone",
+          "com.apple.Music",
+          "com.google.chrome.ios",
+          "com.apple.BarcodeScanner",
+          "com.apple.PrintKit.Print-Center",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "DuoFaceFullscreenBridge": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp",
+          "Dashboard",
+          "SpringBoard"
+        ]
+      }
+    },
+    "DuoFaceVisualHook": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    },
+    "DuoFaceLogoGripOnly": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlayApp",
+          "com.apple.CarPlay",
+          "com.apple.dashboard",
+          "com.apple.springboard",
+          "com.apple.SpringBoard",
+          "com.duoface.duofaceui"
+        ]
+      }
+    }
+  },
+  "device_tested": false,
+  "meaning": "Module owner process filters, not verified actual HUD scene ownership"
+}
