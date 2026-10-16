@@ -1,0 +1,77 @@
+name: DuoFace Native12 UI cadence owners READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_ui_perf_owners_readonly.py'
+      - '.github/workflows/duoface-native12-ui-perf-owners-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-ui-perf-owners-readonly
+  cancel-in-progress: false
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate central skill ZIPs and read instructions
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-skills"
+          for name in 01-github-continuity 02-ios-deb-ipa-carplay 05-research-debug-testing; do
+            curl -fsSL --retry 3 --retry-delay 2 \
+              "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name.zip" \
+              -o "$RUNNER_TEMP/duoface-skills/$name.zip"
+            unzip -t "$RUNNER_TEMP/duoface-skills/$name.zip" | tail -1
+            unzip -p "$RUNNER_TEMP/duoface-skills/$name.zip" SKILL.md | head -70
+          done
+          echo CENTRAL_SKILLS_FOR_NATIVE12_PERF_READ_PASS
+      - name: Inspect exact immutable Native12 (NO DEB BUILD)
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_ui_perf_owners_readonly.py \
+            --deb "$deb" \
+            --out audit/payload-migration/NATIVE12_UI_PERF_OWNERS_READONLY.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('audit/payload-migration/NATIVE12_UI_PERF_OWNERS_READONLY.json'))
+          assert d['status']=='NATIVE12_UI_PERF_OWNERS_STATIC_READONLY_PASS'
+          assert d['source_deb_sha256']=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7'
+          assert not d['modifies_binary']
+          assert not d['measures_runtime_cpu_or_fps_or_temperature']
+          for c in ('CBBridgedPortalAppView','CBMultitaskingOverlayView'):
+              assert d['binaries']['DuoFaceDashboard']['owners'][c]['present']
+          print('NATIVE12_UI_PERF_STATIC_QA_PASS')
+          PY
+      - name: Save audit evidence to DuoFace feature only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_UI_PERF_OWNERS_READONLY.json
+          if git diff --cached --quiet; then
+            echo UI_PERF_OWNER_REPORT_UNCHANGED
+            exit 0
+          fi
+          git commit -m 'audit: preserve native12 UI cadence owner evidence [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            if git push origin HEAD:feature/duoface-exact-payload-migration; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-ui-perf-owners-readonly
+          path: audit/payload-migration/NATIVE12_UI_PERF_OWNERS_READONLY.json
+          if-no-files-found: warn
