@@ -1,0 +1,56 @@
+name: DuoFace direct in-car Add App Logos iOS arm64 compile-only
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'runtime/appbridge/**'
+      - 'Makefile.appbridge-stage'
+      - 'DuoFaceInCarAddApps.plist'
+      - '.github/workflows/duoface-in-car-add-app-compile-only.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify safe scope and original picker actions unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq 'addMoreAppsTapped:' runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq 'DFExistingSettingsFileForList' runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq 'DFSaveToNativePreferences' runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq 'writeToFile:file atomically:YES' runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq '%orig;' runtime/appbridge/DFInCarAppPicker.xm
+          ! grep -Fq 'runtime/appbridge/' Makefile.fullscreen
+          ! grep -Fq 'runtime/appbridge/' Makefile.smart-connection-stage
+          plutil -lint DuoFaceInCarAddApps.plist
+      - name: Bootstrap existing Theos toolchain pattern (compile only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid
+      - name: Compile and link SpringBoard in-car app picker dylib only
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp Makefile.appbridge-stage Makefile
+          make clean all FINALPACKAGE=1
+          DYLIB="$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)"
+          test -n "$DYLIB"
+          xcrun lipo "$DYLIB" -verify_arch arm64
+          echo 'CARPLAY_ADD_APP_NATIVE_SOURCE_LINK_PASS_NO_DEB'
+      - name: Assert no package or publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d packages || test -z "$(find packages -type f -name '*.deb' -print -quit)"
+          echo 'NO_DEB_NO_SILEO_NO_DEVICE_QA'
