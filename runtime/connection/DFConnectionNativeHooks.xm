@@ -85,7 +85,11 @@ static void DFRefreshConnectionState(CBBridgeManager *manager) {
             nil, ^(NSString *bid){ DFSaveRememberedApp(bid); });
     } else {
         DFConnectionVerifiedDisconnected(
-            ^BOOL {return !DFHostCarPlayConnected();},
+            ^BOOL {
+                // Re-read cross-process preference at grace expiry.
+                DFConnectionConfigure(DFAutoEnabled(),[DFStore() boolForKey:kDFClose]);
+                return !DFHostCarPlayConnected();
+            },
             ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
             ^(NSString *bid){
                 if (!DFHostCarPlayConnected() && DFOwnedAndRunning(manager,bid))
