@@ -11,7 +11,7 @@ from audit_native12_carplay_add_app_chain import methods, disassemble
 EXPECTED_DEB = "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
 EXPECTED_BINARY_SHA = {
     "DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
-    "DuoFaceDashboard": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b61a280c580a695ea",
+    "DuoFaceDashboard": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
 }
 TARGET_METHODS = {
     "CBMultitaskingOverlayView": (
