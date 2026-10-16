@@ -40,7 +40,29 @@ def patch_host(original,classes):
    assert out[pos:pos+len(expected)+1]==expected+b"\x00",(name,pos)
    out[pos:pos+len(expected)]=b"\x00"*len(expected)
    seen+=1
-  done.append({"class":name,"registry_and_ref_slots_zeroed":3,"name_literals_zeroed":seen,
+  # The former xref report lists class-name metadata literals but does not
+  # claim the list is complete. Only erase additional NUL-terminated literal
+  # occurrences if independently verified inside a non-instruction string
+  # section. Never alter __text, method instructions, or arbitrary binary data.
+  extra=[]
+  needle=name.encode("ascii")
+  for sec in m.sections:
+   if sec["name"] not in ("__cstring","__objc_classname","__objc_methname"):
+    continue
+   off=sec["fileoff"]; end=off+sec["size"]
+   cursor=off
+   while True:
+    pos=out.find(needle,cursor,end)
+    if pos<0:break
+    cursor=pos+len(needle)
+    if pos+len(needle)>=end or out[pos+len(needle)]!=0:
+     raise ValueError((name,pos,"non terminated extra, refuse unsafe erase"))
+    if pos>off and out[pos-1] not in (0,32,34,64,91):
+     raise ValueError((name,pos,"embedded name, refuse unsafe erase"))
+    out[pos:pos+len(needle)]=b"\x00"*len(needle)
+    extra.append({"file_offset":pos,"section":sec["name"]})
+  done.append({"class":name,"registry_and_ref_slots_zeroed":3,
+               "name_literals_zeroed":seen+len(extra),"extra_validated_literals":extra,
                "method_records_persist_in_unregistered_metadata":item["method_count"]})
  result=bytes(out)
  after=MachO(select_arm64(result))
