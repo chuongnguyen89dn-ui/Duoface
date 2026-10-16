@@ -47,7 +47,7 @@ def main():
  assert args.dylib.is_file() and len(args.dylib.read_bytes())>3000
  assert not args.out.exists() and not args.report.exists(), "No overwrite of signed release"
  source=Path("runtime/appbridge/DFInCarAppPicker.xm").read_text()
- assert source.count("- (void)addMoreAppsTapped:") == 1
+ assert source.count("- (void)addMoreAppsTapped:(id)sender {") == 1
  assert "%orig" not in source, "Old modal fallback must never be reachable through new hook"
  assert 'dict[@"appSettings"]' in source and "kDFBridgedAppsKey" in source
  assert "DFInCarAppPicker" in source and "DFSaveToNativePreferences" in source
