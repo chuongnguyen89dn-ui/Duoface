@@ -1,0 +1,30 @@
+{
+  "status": "NATIVE19_DIRECT_CARPLAY_ADD_APP_NO_ORIGINAL_MODAL_COMPILED_CANDIDATE",
+  "version": "0.1.0~native19",
+  "package": "com.duoface.independent",
+  "source_native18_sha256": "dfbcde5a309f7e90c414c2a10385e96aab3f17ebab0c7dd491313c9ef6a63503",
+  "native19_sha256": "91feda0a7ff24bd7759b7448303d61fe774b16184e383fc11b6839186fa1ae1d",
+  "native19_bytes": 1750936,
+  "original_payload_files_preserved_count": 44,
+  "changed_payload_paths": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib"
+  ],
+  "every_other_native18_payload_byte_identical": true,
+  "native12_exact_license_core_preserved": true,
+  "required_preserved_hashes": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.dylib": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSettingsUIRestore.dylib": "680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f"
+  },
+  "picker_filter_plist_unchanged_sha256": "32bb07881f32fb7fc4279440eb53580d8c1cde9157ecf1803ac69cb76e936807",
+  "new_picker_sha256": "00eb6d2df1c49146fe4f4acd4e1c7279d6bab8916be9cb5a61836921cd4fccf8",
+  "old_carplay_alert_fallback_in_new_module_source": false,
+  "old_alert_bytes_still_in_unmodified_legacy_Dashboard": true,
+  "appSettings_and_bridgedApps_schema_from_native_disassembly": true,
+  "shared_config_file_discovery_runtime_confirmed": false,
+  "app_picker_device_tested": false,
+  "sileo_published": false,
+  "dopamine_touched": false,
+  "notes": "native19 uses exact native12 decoded legacy preference pathname, validates live list, and provides icon fallback; not yet tested on iPhone or CarPlay. Auto Resume and layout unchanged."
+}
