@@ -837,6 +837,168 @@
           "vm": "0x374168",
           "value": "[DuoFaceDB] Settings changed notification received -> reloading dock monitor, language, library & icons"
         }
+      ],
+      "near_appSettings_cfstrings": [
+        {
+          "vm": "0x36f008",
+          "value": "airplayvideo"
+        },
+        {
+          "vm": "0x36f028",
+          "value": "/var/jb/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x36f048",
+          "value": "/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x36f068",
+          "value": "/var/jb/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x36f088",
+          "value": "/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x36f0a8",
+          "value": "appSettings"
+        },
+        {
+          "vm": "0x36f0c8",
+          "value": "scale"
+        },
+        {
+          "vm": "0x36f0e8",
+          "value": "dockSystemMonitorEnabled"
+        },
+        {
+          "vm": "0x36f108",
+          "value": "dockSystemMonitorShowAll"
+        },
+        {
+          "vm": "0x36f128",
+          "value": "agreedToEULA"
+        },
+        {
+          "vm": "0x36f148",
+          "value": "portalAppEnabled"
+        },
+        {
+          "vm": "0x36f168",
+          "value": "screenBlankEnabled"
+        },
+        {
+          "vm": "0x36f188",
+          "value": "splitScreenEnabled"
+        },
+        {
+          "vm": "0x36f1a8",
+          "value": "assistantEnabled"
+        },
+        {
+          "vm": "0x36f1c8",
+          "value": "splitLeftBundleID"
+        },
+        {
+          "vm": "0x36f1e8",
+          "value": "splitRightBundleID"
+        },
+        {
+          "vm": "0x36f208",
+          "value": "splitPreset"
+        },
+        {
+          "vm": "0x36f228",
+          "value": "splitMode"
+        },
+        {
+          "vm": "0x36f248",
+          "value": "splitApp1"
+        },
+        {
+          "vm": "0x36f268",
+          "value": "splitApp2"
+        },
+        {
+          "vm": "0x36f288",
+          "value": "splitApp3"
+        },
+        {
+          "vm": "0x36f2a8",
+          "value": "splitApp4"
+        },
+        {
+          "vm": "0x36f2c8",
+          "value": "splitRatio"
+        },
+        {
+          "vm": "0x36f2e8",
+          "value": "splitRatioIndex"
+        },
+        {
+          "vm": "0x36f308",
+          "value": "gridCols"
+        },
+        {
+          "vm": "0x36f328",
+          "value": "gridColsIndex"
+        },
+        {
+          "vm": "0x36f348",
+          "value": "gridRows"
+        },
+        {
+          "vm": "0x36f368",
+          "value": "gridRowsIndex"
+        },
+        {
+          "vm": "0x36f388",
+          "value": "hideLabelsEnabled"
+        },
+        {
+          "vm": "0x36f3a8",
+          "value": "hideIconLabels"
+        },
+        {
+          "vm": "0x36f3c8",
+          "value": "autoLaunchOnConnect"
+        },
+        {
+          "vm": "0x36f3e8",
+          "value": "autoLaunchBundleID"
+        },
+        {
+          "vm": "0x36f408",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x36f428",
+          "value": "/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        {
+          "vm": "0x36f448",
+          "value": "/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        {
+          "vm": "0x36f468",
+          "value": "Filter"
+        },
+        {
+          "vm": "0x36f488",
+          "value": "Bundles"
+        },
+        {
+          "vm": "0x36f4a8",
+          "value": "[DuoFace] Dynamically updated tweak filter plist with %lu bundles"
+        },
+        {
+          "vm": "0x36f4c8",
+          "value": "CBHttpClientErrorDomain"
+        },
+        {
+          "vm": "0x36f4e8",
+          "value": "Invalid or empty URL"
+        }
       ]
     },
     "DuoFaceUI": {
@@ -1395,6 +1557,348 @@
         {
           "vm": "0x100112cc8",
           "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 2 (Plist Override): %@"
+        }
+      ],
+      "near_appSettings_cfstrings": [
+        {
+          "vm": "0x1000e9168",
+          "value": ""
+        },
+        {
+          "vm": "0x1000e9188",
+          "value": "TAB_APPLICATIONS"
+        },
+        {
+          "vm": "0x1000e91a8",
+          "value": "square.grid.2x2"
+        },
+        {
+          "vm": "0x1000e91c8",
+          "value": "square.grid.2x2.fill"
+        },
+        {
+          "vm": "0x1000e91e8",
+          "value": "TAB_SPLIT_SCREEN"
+        },
+        {
+          "vm": "0x1000e9208",
+          "value": "rectangle.split.2x1"
+        },
+        {
+          "vm": "0x1000e9228",
+          "value": "rectangle.split.2x1.fill"
+        },
+        {
+          "vm": "0x1000e9248",
+          "value": "TAB_SETTINGS"
+        },
+        {
+          "vm": "0x1000e9268",
+          "value": "gearshape"
+        },
+        {
+          "vm": "0x1000e9288",
+          "value": "gearshape.fill"
+        },
+        {
+          "vm": "0x1000e92a8",
+          "value": "CBBridgeManager"
+        },
+        {
+          "vm": "0x1000e92c8",
+          "value": "ALERT_TWEAK_DISABLED_TITLE"
+        },
+        {
+          "vm": "0x1000e92e8",
+          "value": "ALERT_TWEAK_DISABLED_MSG"
+        },
+        {
+          "vm": "0x1000e9308",
+          "value": "ALERT_TWEAK_DISABLED_BTN"
+        },
+        {
+          "vm": "0x1000e9328",
+          "value": "CBSplitSplashScreenView"
+        },
+        {
+          "vm": "0x1000e9348",
+          "value": "%lu"
+        },
+        {
+          "vm": "0x1000e9368",
+          "value": "CBAppsListUpdatedNotification"
+        },
+        {
+          "vm": "0x1000e9388",
+          "value": "CATEGORY_NAVIGATION"
+        },
+        {
+          "vm": "0x1000e93a8",
+          "value": "CATEGORY_ENTERTAINMENT"
+        },
+        {
+          "vm": "0x1000e93c8",
+          "value": "CATEGORY_SYSTEM"
+        },
+        {
+          "vm": "0x1000e93e8",
+          "value": "CATEGORY_OTHER"
+        },
+        {
+          "vm": "0x1000e9408",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x1000e9428",
+          "value": "app.fill"
+        },
+        {
+          "vm": "0x1000e9448",
+          "value": "System"
+        },
+        {
+          "vm": "0x1000e9468",
+          "value": "com.apple."
+        },
+        {
+          "vm": "0x1000e9488",
+          "value": "userAppsDefaultInitialized"
+        },
+        {
+          "vm": "0x1000e94a8",
+          "value": "BarcodeScanner"
+        },
+        {
+          "vm": "0x1000e94c8",
+          "value": "PrintKit"
+        },
+        {
+          "vm": "0x1000e94e8",
+          "value": "Print-Center"
+        },
+        {
+          "vm": "0x1000e9508",
+          "value": "Barcode"
+        },
+        {
+          "vm": "0x1000e9528",
+          "value": "Scan QR"
+        },
+        {
+          "vm": "0x1000e9548",
+          "value": "M"
+        },
+        {
+          "vm": "0x1000e9568",
+          "value": "Code Scanner"
+        },
+        {
+          "vm": "0x1000e9588",
+          "value": "Print Center"
+        },
+        {
+          "vm": "0x1000e95a8",
+          "value": "T"
+        },
+        {
+          "vm": "0x1000e95c8",
+          "value": "com.apple.webapp"
+        },
+        {
+          "vm": "0x1000e95e8",
+          "value": "hidden"
+        },
+        {
+          "vm": "0x1000e9608",
+          "value": "com.apple.springboard"
+        },
+        {
+          "vm": "0x1000e9628",
+          "value": "com.apple.CarPlayApp"
+        },
+        {
+          "vm": "0x1000e9648",
+          "value": "com.apple.CarPlaySettings"
+        },
+        {
+          "vm": "0x1000e9668",
+          "value": "com.apple.CarPlayWallpaper"
+        },
+        {
+          "vm": "0x1000e9688",
+          "value": "com.apple.CarPlayTemplateUIHost"
+        },
+        {
+          "vm": "0x1000e96a8",
+          "value": "com.apple.InCallService"
+        },
+        {
+          "vm": "0x1000e96c8",
+          "value": "com.apple.CoreAuthUI"
+        },
+        {
+          "vm": "0x1000e96e8",
+          "value": "com.apple.Diagnostics"
+        },
+        {
+          "vm": "0x1000e9708",
+          "value": "com.apple.PassbookUIService"
+        },
+        {
+          "vm": "0x1000e9728",
+          "value": "com.apple.StoreKitUIService"
+        },
+        {
+          "vm": "0x1000e9748",
+          "value": "com.apple.SharingViewService"
+        },
+        {
+          "vm": "0x1000e9768",
+          "value": "com.apple.ScreenshotServicesService"
+        },
+        {
+          "vm": "0x1000e9788",
+          "value": "com.apple.HomeUIService"
+        },
+        {
+          "vm": "0x1000e97a8",
+          "value": "com.apple.AuthKitUIService"
+        },
+        {
+          "vm": "0x1000e97c8",
+          "value": "com.apple.SIMSetupSupport.SIMSetupUIService"
+        },
+        {
+          "vm": "0x1000e97e8",
+          "value": "com.apple.CTNotifyUIService"
+        },
+        {
+          "vm": "0x1000e9808",
+          "value": "com.apple.TrustMe"
+        },
+        {
+          "vm": "0x1000e9828",
+          "value": "com.apple.PurpleSoftware"
+        },
+        {
+          "vm": "0x1000e9848",
+          "value": "com.apple.fieldtest"
+        },
+        {
+          "vm": "0x1000e9868",
+          "value": "com.apple.sidecar"
+        },
+        {
+          "vm": "0x1000e9888",
+          "value": "com.apple.SharedWebCredentialsViewService"
+        },
+        {
+          "vm": "0x1000e98a8",
+          "value": "com.apple.CheckerBoard"
+        },
+        {
+          "vm": "0x1000e98c8",
+          "value": "com.apple.ScreenTimeUnlock"
+        },
+        {
+          "vm": "0x1000e98e8",
+          "value": "com.apple.DataActivation"
+        },
+        {
+          "vm": "0x1000e9908",
+          "value": "com.apple.PreBoard"
+        },
+        {
+          "vm": "0x1000e9928",
+          "value": "UIService"
+        },
+        {
+          "vm": "0x1000e9948",
+          "value": "ViewService"
+        },
+        {
+          "vm": "0x1000e9968",
+          "value": "navigation"
+        },
+        {
+          "vm": "0x1000e9988",
+          "value": "d"
+        },
+        {
+          "vm": "0x1000e99a8",
+          "value": "\u0011\u0001�\u001en"
+        },
+        {
+          "vm": "0x1000e99c8",
+          "value": "b"
+        },
+        {
+          "vm": "0x1000e99e8",
+          "value": "maps"
+        },
+        {
+          "vm": "0x1000e9a08",
+          "value": "gps"
+        },
+        {
+          "vm": "0x1000e9a28",
+          "value": "\u0019\u000e3\u000e\u0017\u000e2\u000e\u0007\u000e"
+        },
+        {
+          "vm": "0x1000e9a48",
+          "value": "=\u00040\u00042\u00048\u00043\u00040\u0004F\u00048\u0004"
+        },
+        {
+          "vm": "0x1000e9a68",
+          "value": "com.google.maps"
+        },
+        {
+          "vm": "0x1000e9a88",
+          "value": "com.waze.iphone"
+        },
+        {
+          "vm": "0x1000e9aa8",
+          "value": "com.apple.maps"
+        },
+        {
+          "vm": "0x1000e9ac8",
+          "value": "cz.seznam.mapy"
+        },
+        {
+          "vm": "0x1000e9ae8",
+          "value": "vietmap"
+        },
+        {
+          "vm": "0x1000e9b08",
+          "value": "navitel"
+        },
+        {
+          "vm": "0x1000e9b28",
+          "value": "waze"
+        },
+        {
+          "vm": "0x1000e9b48",
+          "value": "sygic"
+        },
+        {
+          "vm": "0x1000e9b68",
+          "value": "herewego"
+        },
+        {
+          "vm": "0x1000e9b88",
+          "value": "here.app.maps"
+        },
+        {
+          "vm": "0x1000e9ba8",
+          "value": "yandexnavi"
+        },
+        {
+          "vm": "0x1000e9bc8",
+          "value": "yandexmaps"
+        },
+        {
+          "vm": "0x1000e9be8",
+          "value": "tomtom"
         }
       ]
     }
