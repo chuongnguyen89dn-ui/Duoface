@@ -1,0 +1,82 @@
+name: DuoFace native12 Sileo source refresh diagnostics
+
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-sileo-refresh-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Reproduce Sileo rootless source refresh requests (no publish)
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp/'
+          mkdir -p evidence
+          : > evidence/http-status.tsv
+          for name in root Release InRelease Packages Packages.gz Packages.bz2 Packages.xz dists/stable/Release dists/stable/main/binary-iphoneos-arm64/Packages.gz; do
+            remote="$name"
+            if [ "$name" = root ]; then remote=''; fi
+            safe=${name//\//_}
+            printf 'PATH=%s\n' "$remote"
+            code=$(curl -L -sS --connect-timeout 10 --max-time 40 --retry 3 --retry-delay 2 \
+              -A 'Sileo/2.5 (APT; rootless iPhoneOS-arm64)' \
+              -D "evidence/headers-$safe.txt" \
+              -o "evidence/body-$safe" \
+              -w '%{http_code}' "$base$remote" || true)
+            printf '%s\t%s\n' "$name" "$code" | tee -a evidence/http-status.tsv
+          done
+          printf '\nHTTP_PROBE_DONE\n'
+          cat evidence/http-status.tsv
+          test "$(awk '$1=="Release" {print $2}' evidence/http-status.tsv)" = 200
+          test "$(awk '$1=="Packages" {print $2}' evidence/http-status.tsv)" = 200
+          test "$(awk '$1=="Packages.gz" {print $2}' evidence/http-status.tsv)" = 200
+          cmp evidence/body-Packages <(gzip -dc evidence/body-Packages.gz)
+          python3 - <<'PY'
+          import pathlib
+          p=pathlib.Path('evidence/body-Packages').read_text()
+          records=[]
+          for block in p.split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package')=='com.duoface.independent': records.append(d)
+          assert len(records)==1,records
+          d=records[0]
+          assert d['Version']=='0.1.0~native12',d
+          assert d['SHA256']=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7',d
+          print('NATIVE12_ONLY_APT_INDEX_PASS')
+          PY
+          echo 'SILEO_HTTP_ROOT_RELEASE_PACKAGES_GZIP_PASS'
+      - name: Check APT client compatibility with Sileo-style flat source
+        shell: bash
+        run: |
+          set -u
+          mkdir -p evidence/lists/partial
+          printf 'deb [trusted=yes] https://chuongnguyen89dn-ui.github.io/carplaydsp/ ./\n' > evidence/sileo-source.list
+          apt-get update \
+            -o Dir::Etc::sourcelist="$PWD/evidence/sileo-source.list" \
+            -o Dir::Etc::sourceparts=- \
+            -o Dir::State::lists="$PWD/evidence/lists" \
+            -o APT::Get::List-Cleanup=0 \
+            -o Acquire::Retries=2 \
+            -o Debug::Acquire::http=true > evidence/apt-refresh.log 2>&1
+          rc=$?
+          cat evidence/apt-refresh.log | tail -100
+          echo "APT_EXIT_CODE=$rc"
+          exit "$rc"
+      - name: Save evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-sileo-source-diagnostics
+          path: evidence/
+          if-no-files-found: warn
