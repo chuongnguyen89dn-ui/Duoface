@@ -1,0 +1,76 @@
+name: DuoFace native14 license-class unregister TRIAL (UNPUBLISHED)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native14_license_class_trial.py'
+      - '.github/workflows/duoface-native14-license-excision-trial.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native14-excision-trial
+  cancel-in-progress: false
+jobs:
+  offline-license-qa:
+    runs-on: macos-15
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install package inspectors and verify native13 known SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          d=dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb
+          printf '%s  %s\n' cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3 "$d" | shasum -a 256 -c -
+          test "$(dpkg-deb -f "$d" Package)" = com.duoface.independent
+          test "$(dpkg-deb -f "$d" Version)" = '0.1.0~native13'
+          python3 -m py_compile migration/full_payload/native_test/build_native14_license_class_trial.py
+      - name: Attempt class unregister on a COPY, preserve and re-sign hosts (NO RELEASE)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native14
+          python3 migration/full_payload/native_test/build_native14_license_class_trial.py \
+            --out 'dist/payload-migration/native14/com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native14/BAO_CAO.json'
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('dist/payload-migration/native14')
+          p=root/'com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb'
+          j=json.loads((root/'BAO_CAO.json').read_text())
+          assert j['isolated_license_classes_removed_from_objc_registration']==14
+          assert j['class_registration_and_ref_pointer_slots_zeroed']==42
+          assert j['deb_sha256']==hashlib.sha256(p.read_bytes()).hexdigest()
+          assert not j['dynamic_runtime_safety_proven']
+          assert not j['all_license_related_code_physically_removed']
+          assert not j['sileo_deployed'] and not j['device_tested']
+          print('NATIVE14_OFFLINE_CLASS_EXCISION_TRIAL_PASS_NOT_FULL_LICENSE_CLEANUP_NO_RELEASE')
+          PY
+      - name: Persist experimental artifacts and report separately from released package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native14/com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb dist/payload-migration/native14/BAO_CAO.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: native14 OFFLINE license-class excision trial UNPUBLISHED [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native14-license-class-trial-no-sileo
+          path: |
+            dist/payload-migration/native14/com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb
+            dist/payload-migration/native14/BAO_CAO.json
+          if-no-files-found: warn
