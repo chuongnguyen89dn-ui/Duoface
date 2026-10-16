@@ -41,6 +41,22 @@ PREF_PATHS=(
 "var/jb/Library/PreferenceLoader/Preferences/DuoDashPrefs.plist",
 "var/jb/Library/PreferenceBundles/DuoDashPrefs.bundle/Root.plist",
 )
+class NormalizedMachO(MachO):
+    """Some archive FAT ObjC classlist pointers use dyld rebasing/PAC markers in
+    high bits; only normalize into actual mapped Mach-O vm ranges. If a pointer
+    cannot be mapped, keep it and expose parse_error rather than invent classes."""
+    def _try_canonical(self,val):
+        if not val:return 0
+        for candidate in (val,val&((1<<48)-1),val&((1<<40)-1),val&((1<<36)-1),val&((1<<32)-1)):
+            for base,vm_size,off,file_size,name in self.segments:
+                if base<=candidate<base+file_size:
+                    return candidate
+        return val
+    def map(self,vm):
+        return super().map(self._try_canonical(vm))
+    def ptr(self,vm):
+        return self._try_canonical(super().ptr(vm))
+
 def sha256(b):return hashlib.sha256(b).hexdigest()
 def cap(data,limit=100):return data[:limit]
 def text_extract(root:Path):
@@ -84,6 +100,43 @@ def collect_vm_literals(m:MachO, raw:bytes):
             if RELEVANT.search(s):
                 result[sec["vm"]+match.start()]=s
     return result
+
+def locate_cstring_and_cfstring_refs(m:MachO,raw:bytes, important_terms):
+    """Correlate selected literal bytes to __cfstring object +0x10 and ObjC data
+    pointer sites; offsets may not be fixed up in an on-disk MachO. Preserve
+    candidate/confidence status separately from definite runtime calls."""
+    results={}
+    for term in important_terms:
+        needle=term.encode("utf8")+b"\x00"
+        cstrings=[]
+        for sec in m.sections:
+            if sec["name"] not in ("__cstring","__objc_methname"):continue
+            body=raw[sec["fileoff"]:sec["fileoff"]+sec["size"]]
+            pos=0
+            while True:
+                i=body.find(needle,pos)
+                if i<0:break
+                if i and body[i-1]!=0:
+                    pos=i+1;continue
+                cstrings.append(sec["vm"]+i)
+                pos=i+len(needle)
+        refs=[]
+        for str_addr in cstrings:
+            for sec in m.sections:
+                if sec["size"]>3000000 or sec["name"] in ("__text","__cstring"):continue
+                body=raw[sec["fileoff"]:sec["fileoff"]+sec["size"]]
+                for value in (str_addr,str_addr & ((1<<40)-1)):
+                    needle=struct.pack("<Q",value)
+                    start=0
+                    while True:
+                        i=body.find(needle,start)
+                        if i<0:break
+                        refs.append({"at":hex(sec["vm"]+i),"data_section":sec["name"],
+                                     "cstr_vm":hex(str_addr),"candidate_cfstring_vm":hex(sec["vm"]+i-16)})
+                        start=i+8
+        results[term]={"cstring_vm":[hex(v) for v in cstrings],
+                       "data_pointer_refs":refs[:60]}
+    return results
 
 def text_disassembly(m:MachO,raw:bytes):
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
@@ -173,11 +226,20 @@ def inspect_binary(path, root):
     for cpu,b in fat_slices(raw).items():
         if cpu=="unrecognized":continue
         try:
-            macho=MachO(b)
+            macho=NormalizedMachO(b)
             literals=collect_vm_literals(macho,b)
             rows=text_disassembly(macho,b)
             objc=objc_overview(macho)
-            sites=relevant_xrefs(rows,literals,100)
+            literal_indirections=locate_cstring_and_cfstring_refs(macho,b,(
+                "perf_tweak_enabled", "com.sensetechlab.carplay/fps",
+                "maxFPS", "encoderFPSFixed", "com.sensetechlab.settings.changed"
+            ))
+            extra_targets={}
+            for t,x in literal_indirections.items():
+                for k in x["data_pointer_refs"]:
+                    addr=int(k["candidate_cfstring_vm"],16)
+                    extra_targets[addr]="CFSTRING_CONTAINER:"+t
+            sites=relevant_xrefs(rows,{**literals,**extra_targets},140)
             for site in sites:
                 owner=method_at(int(site["address"],16),objc["method_ranges"])
                 site["containing_objc_method_candidate"]=owner
@@ -187,6 +249,7 @@ def inspect_binary(path, root):
                 "objc":objc,
                 "relevant_literals":[{"vm":hex(a),"value":v} for a,v in literals.items()][:230],
                 "candidate_refs":sites,
+                "cstring_cfstring_indirections":literal_indirections,
                 "total_disassembly_instructions":len(rows),
             }
         except Exception as e:
