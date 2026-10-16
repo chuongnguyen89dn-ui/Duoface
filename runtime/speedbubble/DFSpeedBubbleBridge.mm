@@ -53,7 +53,9 @@
         _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
         [self addSubview:_current]; [self addSubview:_unit];
         [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
-        self.hidden=YES; // No made-up speed / limit before a live sample.
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
     }
     return self;
 }
@@ -85,7 +87,12 @@
     }
     DFSpeedHUDRecord sample={};
     if (!DFSpeedHUDReadBest(&sample)) {
-        self.hidden=YES; // stale/unknown; do not keep last known speed.
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
         return;
     }
     if (self.dismissedForSession) { self.hidden=YES; return; }
@@ -222,6 +229,7 @@ static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     if (![nativeWindow isKindOfClass:UIWindow.class] ||
         nativeWindow.hidden || !DFValidBounds(nativeWindow.bounds)) return;
     DFSpeedNativeHUD *hud=objc_getAssociatedObject(nativeWindow,&kDFSpeedViewKey);
+    BOOL isNewHUD=(hud==nil);
     if (!hud) {
         hud=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectZero];
         objc_setAssociatedObject(nativeWindow,&kDFSpeedViewKey,hud,
@@ -234,7 +242,7 @@ static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     const CGFloat width=142, height=64;
     (void)safe;
     hud.bounds=CGRectMake(0,0,width,height);
-    [hud restoreSavedPosition];
+    if (isNewHUD) [hud restoreSavedPosition];
     [nativeWindow bringSubviewToFront:hud];
 }
 static void DFAttachHUDToBridgeWindow(id bridge) {
@@ -307,10 +315,55 @@ static void DFTryInstallBridge(unsigned attempts) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
                    dispatch_get_main_queue(), ^{ DFTryInstallBridge(attempts+1); });
 }
+
+// GOFA 0.3.1 reference: the actual HUD owner runs in CarPlayApp /
+// CarPlayTemplateUIHost, not in SpringBoard. Attach to a live external
+// CarPlay window. No hooks in Waze, Maps or DuoFace native12 bridge are needed.
+// This also catches windows that existed before our dylib was injected.
+static BOOL DFIsCarPlayHostWindow(UIWindow *window) {
+    if (![window isKindOfClass:UIWindow.class] || window.hidden ||
+        !DFValidBounds(window.bounds) || !window.rootViewController) return NO;
+    NSString *name=NSStringFromClass(object_getClass(window));
+    if ([name isEqualToString:@"CPWindow"]) return YES;
+    return window.screen && window.screen!=UIScreen.mainScreen;
+}
+static void DFProbeCarPlayHostWindows(void) {
+    if (!NSThread.isMainThread) return;
+    UIApplication *app=UIApplication.sharedApplication;
+    for (UIScene *scene in app.connectedScenes) {
+        if (![scene isKindOfClass:UIWindowScene.class]) continue;
+        for (UIWindow *window in ((UIWindowScene *)scene).windows)
+            if (DFIsCarPlayHostWindow(window)) DFPlaceSpeedView(window);
+    }
+}
+static void DFStartCarPlayHostProbe(void) {
+    if (!NSThread.isMainThread) return;
+    // Opening an external display is the activation trigger; start with
+    // a visible “—” HUD, then fill values only from fresh source data.
+    DFProbeCarPlayHostWindows();
+    NSNotificationCenter *center=NSNotificationCenter.defaultCenter;
+    for (NSString *event in @[UIScreenDidConnectNotification,
+                               UIScreenDidDisconnectNotification,
+                               UIApplicationDidBecomeActiveNotification]) {
+        [center addObserverForName:event object:nil queue:NSOperationQueue.mainQueue
+                       usingBlock:^(__unused NSNotification *note) {
+            DFProbeCarPlayHostWindows();
+        }];
+    }
+    [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES
+       block:^(__unused NSTimer *timer) { DFProbeCarPlayHostWindows(); }];
+}
+
 __attribute__((constructor)) static void DFStartSpeedHUD(void) {
     @autoreleasepool {
-        if (![NSBundle.mainBundle.bundleIdentifier.lowercaseString
-               isEqualToString:@"com.apple.springboard"]) return;
-        dispatch_async(dispatch_get_main_queue(), ^{ DFTryInstallBridge(0); });
+        NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+        if ([bundle isEqualToString:@"com.apple.carplayapp"] ||
+            [bundle isEqualToString:@"com.apple.carplaytemplateuihost"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{ DFStartCarPlayHostProbe(); });
+        } else if ([bundle isEqualToString:@"com.apple.springboard"]) {
+            // Legacy path retained in source for ABI reference; not loaded by
+            // the HUD-only packaging filter, avoiding a duplicate bubble.
+            dispatch_async(dispatch_get_main_queue(), ^{ DFTryInstallBridge(0); });
+        }
     }
 }
