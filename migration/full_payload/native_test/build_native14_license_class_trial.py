@@ -70,7 +70,26 @@ def patch_host(original,classes):
  assert not set(item["class"] for item in classes)&actual
  assert actual==original_class_names-set(item["class"] for item in classes)
  for item in classes:
-  assert item["class"].encode("ascii") not in result,(item["class"],"remaining literal")
+  needle=item["class"].encode("ascii")
+  if needle in result:
+   # Diagnostic only: never indiscriminately blank unknown code/symbol strings.
+   # Class names may occur in additional Mach-O sections/slices or selector
+   # signatures; erasing all occurrences would be unsafe without xrefs.
+   hits=[]; start=0
+   fat_offset=result.find(m.data[:48])
+   while True:
+    hit=result.find(needle,start)
+    if hit<0:break
+    local=hit-fat_offset
+    sections=[str(sec["name"]) for sec in m.sections if sec["fileoff"]<=local<sec["fileoff"]+sec["size"]]
+    hits.append({"whole_binary_off":hex(hit),
+      "arm64_local_off":hex(local) if local>=0 else None,
+      "section":sections,
+      "context_ascii":repr(result[max(0,hit-20):hit+len(needle)+35])[:250]})
+    start=hit+1
+    if len(hits)>=24:break
+   raise RuntimeError("CLASS_NAME_LEFTOVER_DIAGNOSTIC_NOT_PATCHED "+
+                      json.dumps({"class":item["class"],"hits":hits}))
  for s in m.sections:
   if s["name"]=="__text":
    assert original[s["fileoff"]:s["fileoff"]+s["size"]]==result[s["fileoff"]:s["fileoff"]+s["size"]]
