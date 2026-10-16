@@ -1,0 +1,47 @@
+name: DuoFace native12 license classrefs containing-method proof READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_license_xref_owners.py'
+      - '.github/workflows/duoface-native12-license-xref-owners.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Correlate actual native12 class references to method implementation ranges
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/audit_native12_license_xref_owners.py \
+            --deb dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb \
+            --out audit/payload-migration/NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open('audit/payload-migration/NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json'))
+          assert j['status']=='NATIVE12_LICENSE_CLASSREF_CALLSITE_OWNERS_READONLY'
+          assert sum(len(z['xref_owners']) for z in j['binaries'].values())>=3
+          assert not j['physical_removal_performed']
+          print('LICENSE_CLASSREF_CALLSITE_OWNER_SCAN_PASS')
+          PY
+      - name: Persist read-only evidence, no package
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: native12 license classref method owners [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
