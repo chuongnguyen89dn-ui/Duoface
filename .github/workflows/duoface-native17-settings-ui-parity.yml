@@ -1,0 +1,105 @@
+name: DuoFace native17 restore iPhone settings presentation without license engine
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native17-settings-ui-parity.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native17-settings-ui-parity
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Static regression contract for native12 exact core
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_native17_settings_ui_parity.py' -v
+          python3 -m py_compile migration/full_payload/native_test/build_native17_settings_ui_parity.py
+          echo 'NATIVE17_UI_ONLY_STATIC_CONTRACT_PASS'
+      - name: Install package and signing tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          test -n "$(xcrun --sdk iphoneos --show-sdk-path)"
+      - name: Compile ONLY iPhone settings presentation module
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          mkdir -p "$RUNNER_TEMP/duoface-native17"
+          xcrun clang++ -arch arm64 -isysroot "$SDK" -fobjc-arc -std=c++17 \
+            -miphoneos-version-min=14.0 -dynamiclib \
+            -Wl,-undefined,dynamic_lookup \
+            -Wl,-install_name,@rpath/DuoFaceSettingsUIRestore.dylib \
+            -framework Foundation -framework UIKit \
+            runtime/settings/DFSettingsUIRestore.mm \
+            -o "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib"
+          ldid -S "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib"
+          xcrun lipo "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib" -verify_arch arm64
+          strings "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib" | grep -Fq 'CBGeneralSettingsViewController'
+          strings "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib" | grep -Fq 'duoface pro'
+          echo 'NATIVE17_IPHONE_SETTINGS_ONLY_SIGNED_ARM64_PASS'
+      - name: Build native17 immutable native16 plus two UI-only files
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="dist/payload-migration/native16/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb"
+          printf '%s  %s\n' 5d5cbd368c24d0c074b081d16aaf7d006467c3e9cfef01ee12378ce79d716fae "$base" | shasum -a 256 -c -
+          out="dist/payload-migration/native17/com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb"
+          report="dist/payload-migration/native17/BAO_CAO.json"
+          test ! -e "$out"
+          python3 migration/full_payload/native_test/build_native17_settings_ui_parity.py \
+            --dylib "$RUNNER_TEMP/duoface-native17/DuoFaceSettingsUIRestore.dylib" \
+            --out "$out" --report "$report"
+          test "$(dpkg-deb -f "$out" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$out" Version)" = '0.1.0~native17'
+          test "$(dpkg-deb -f "$out" Architecture)" = 'iphoneos-arm64'
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('dist/payload-migration/native17')
+          r=json.loads((p/'BAO_CAO.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb'
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==r['deb_sha256']
+          assert len(r['new_payload_paths'])==2
+          assert r['all_native16_original_payload_byte_identical']
+          assert not r['restored_license_methods_or_registration']
+          assert not r['original_nolease_library_reintroduced']
+          assert not r['dopamine_touched']
+          assert not r['device_tested']
+          print('NATIVE17_ORIGINAL_NATIVE12_CORES_NATIVE16_FEATURES_BYTE_PRESERVED_PASS')
+          PY
+          shasum -a 256 "$out"
+      - name: Persist candidate and detailed report to exact DuoFace source repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'dist/payload-migration/native17/com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb' 'dist/payload-migration/native17/BAO_CAO.json'
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: signed native17 with native12 exact license core and settings-only UI restore [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native17-settings-ui-parity
+          path: |
+            dist/payload-migration/native17/*.deb
+            dist/payload-migration/native17/BAO_CAO.json
+          if-no-files-found: warn
