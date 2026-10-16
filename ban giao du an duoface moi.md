@@ -1,5 +1,11 @@
 # Bàn giao dự án DuoFace mới
 
+## XÁC NHẬN THIẾT BỊ NATIVE12 — 16/10/2026
+
+- Người dùng xác nhận bản `0.1.0~native12` hoạt động tốt trên thiết bị. Đây là báo cáo kiểm thử thực tế từ người dùng; không phải kết quả chạy thiết bị bởi CI.
+- Kiểm kê tĩnh trong nhánh `feature/duoface-exact-payload-migration`: `NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json` có 256 mục chuỗi, gồm 78 đã che và 178 giữ nguyên. `native11/BAO_CAO.json` xác minh 52 mục đã xóa nội dung; đã đối chiếu 52/52 theo offset, chiều dài và binary tương ứng. Vì native12 giữ nguyên host binary từ native11, còn 126 mục chưa xóa nội dung trong phạm vi danh sách này. Số 126 không phải số lượng giấy phép đang hoạt động. Metadata Objective-C vẫn còn.
+- Giữ nguyên bản native12 đang phát hành, chưa build hoặc deploy bản khác. Mốc tiếp: chỉ làm thêm nếu có yêu cầu mới, duy trì bản rollback native10.
+
 ## CHECKPOINT PHIÊN TIẾP NỐI 16/10/2026 — đọc ZIP kỹ năng và đối chiếu native12, GIỮ NGUYÊN bản đã phát hành
 
 - **Yêu cầu hiện tại:** người dùng yêu cầu tiếp tục từ `e470dc0`, đọc toàn bộ bàn giao và đọc kỹ năng trước khi làm. Lượt này chỉ kiểm tra trạng thái thực tế, không có phản hồi thử native12 trên thiết bị; không tự build/deploy bản mới và không thay thế DEB đang public.
