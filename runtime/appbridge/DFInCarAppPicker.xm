@@ -253,18 +253,28 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 - (void)addMoreAppsTapped:(id)sender {
     // Fail open to the original informational alert if owner/storage/provider
     // cannot be VERIFIED. Never persist to a guessed domain or alternate list.
-    if (![NSThread isMainThread]) {%orig;return;}
+    if (![NSThread isMainThread]) {
+        %orig;
+        return;
+    }
     if ([self viewWithTag:kDFInCarModalTag]) return;
     Class settingsClass=NSClassFromString(@"CBDashboardSettings");
     if (!settingsClass || ![settingsClass respondsToSelector:@selector(sharedInstance)]) {
-        %orig;return;
+        %orig;
+        return;
     }
     CBDashboardSettings *settings=[settingsClass sharedInstance];
     NSArray *selected=DFValidStringApps([settings bridgedApps]);
     NSString *prefs=selected ? DFExistingSettingsFileForList(selected) : nil;
     NSArray *choices=prefs ? DFEligibleApps(selected) : nil;
-    if (!prefs || !choices) {%orig;return;}
-    if (choices.count==0) {%orig;return;} // Native notice, no silent dead end.
+    if (!prefs || !choices) {
+        %orig;
+        return;
+    }
+    if (choices.count==0) { // Native notice, no silent dead end.
+        %orig;
+        return;
+    }
     DFInCarAppPicker *picker=[[DFInCarAppPicker alloc]
              initWithHost:self file:prefs current:selected choices:choices];
     [self addSubview:picker];
