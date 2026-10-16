@@ -120,7 +120,13 @@ static void DFSceneMountIfEligible(CBWindow *bridge) {
         DFSceneHUDWindow *w=base.windowScene
           ? [[DFSceneHUDWindow alloc] initWithWindowScene:base.windowScene]
           : [[DFSceneHUDWindow alloc] initWithFrame:base.frame];
+        // Legacy external-display fallback: Native12 itself calls setScreen:.
+        // iOS 13+ prefers initWithWindowScene: above. This branch is gated to
+        // an actual external UIScreen and does not change any other app scene.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if (!base.windowScene) w.screen=base.screen;
+#pragma clang diagnostic pop
         w.backgroundColor=UIColor.clearColor;
         w.opaque=NO;
         w.windowLevel=10000000;
