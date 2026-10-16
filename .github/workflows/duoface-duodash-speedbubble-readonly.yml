@@ -1,0 +1,72 @@
+name: DuoFace review DuoDash 1.1.3 speed bubble owners READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_duodash_speedbubble_113_readonly.py'
+      - '.github/workflows/duoface-duodash-speedbubble-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-duodash-bubble-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download and verify the actual reference DuoDash DEB, no install
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/5f683ad16a2c4f2b37e333e891cfb8f7ba3e0d6b/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb'
+          dest="$RUNNER_TEMP/duodash-speed-reference.deb"
+          curl -fLsS --retry 4 --retry-delay 3 "$url" -o "$dest"
+          printf '%s  %s\n' 'ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465' "$dest" | sha256sum -c -
+          test "$(git hash-object "$dest")" = '6f3e7a4543a01358b3c1e24653aec5bdb3975206'
+          test "$(dpkg-deb -f "$dest" Package)" = 'com.sensetechlab.duodash'
+          echo DUODASH_REFERENCE_BLOB_AND_SHA_PIN_PASS
+      - name: Static metadata and bounded instruction sample of bubble owners
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_duodash_speedbubble_113_readonly.py \
+            --deb "$RUNNER_TEMP/duodash-speed-reference.deb" \
+            --out audit/duodash-1.1.3/DUODASH_SPEED_BUBBLE_OWNERS_READONLY.json
+          python3 - <<'PY'
+          import json
+          p='audit/duodash-1.1.3/DUODASH_SPEED_BUBBLE_OWNERS_READONLY.json'
+          r=json.load(open(p))
+          assert r['status']=='DUODASH_113_BUBBLE_READONLY_OWNER_AUDIT'
+          assert not r['runtime_tested'] and not r['modified_deb']
+          assert r['package_sha256']=='ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465'
+          assert all(s['owners']['CNABBubbleView']['present'] for s in r['architecture'].values())
+          print('DUODASH_BUBBLE_AUDIT_JSON_VALID_PASS')
+          PY
+      - name: Commit analysis JSON to DuoFace feature only, no DEB/no Sileo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/duodash-1.1.3/DUODASH_SPEED_BUBBLE_OWNERS_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: pin DuoDash speed bubble ObjC method owner inventory [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duodash-speedbubble-1-1-3-readonly
+          path: audit/duodash-1.1.3/DUODASH_SPEED_BUBBLE_OWNERS_READONLY.json
+          if-no-files-found: warn
