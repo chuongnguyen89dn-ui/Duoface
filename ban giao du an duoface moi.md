@@ -1,6 +1,36 @@
 # Bàn giao dự án DuoFace mới
 
 
+## 16/10/2026 20:46 +07 — TIẾP NỐI TỪ 680b053: ĐỌC TOÀN BỘ BÀN GIAO, SO MÃ SPEED3 VỚI HAI RENDERER GOFAHUD
+Checkpoint: SPEED3-STATIC-HOST-GEOMETRY-20261016-2046.
+**Yêu cầu mới:** đọc toàn bộ file bàn giao trước khi tiếp tục phân tích, giữ đúng phạm vi phân tích + cập nhật tài liệu. Đã tải toàn file (676.756 ký tự, 2.073 dòng, 228 heading; blob trước cập nhật 1f454743714ebdf7071068eb4a5f96240e5fce2f), rà các checkpoint từ 15/10 tới các mục mới nhất 16/10. Không sửa tweak, không build DEB, không chạy workflow, không deploy Sileo, không thử runtime.
+
+### Nền được ghim và điều không thay đổi
+- Repo duy nhất `chuongnguyen89dn-ui/Duoface`; tài liệu `main:ban giao du an duoface moi.md`, xuất phát từ main `680b053ca639044d7752abf0a7a06b89c780e4c2`. Source kỹ thuật ở feature `c1dc50ad68fc62032feadff1ba57b117f2f6bdca`. Không coi main và feature là cùng một snapshot source.
+- Chỉ dùng **gói Native12 nguyên bản** SHA256 `85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7` khi sau này được giao build. Native13–21 sai chức năng và không là baseline. Speed1 lỗi xung đột TWHub + Waze restart; Speed2 tạo nhiều bóng ngoài Home nhưng không trong DuoFace; Speed3 build/phát hành/SHA PASS nhưng **chưa có chứng minh HUD hiển thị trong split**. Không phát lại hai cách đã thất bại.
+- Nhu cầu thực: **Home=0 HUD; DuoFace split=1 HUD; thoát=0**, kéo/ẩn/hiện lại, không gây Waze restart, không có dữ liệu vẫn hiện `—/—`. GOFA chỉ app phát số liệu; GOFAHUD là tweak vẽ bóng. Chưa nối dữ liệu trước khi view hoạt động.
+- Đọc `Gpt-training-/SKILL_INDEX.md`, `PROJECT_INSTRUCTIONS.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`, `skills/MANIFEST.json`, kiểm tra tồn tại ZIP 01/02/05. Lượt này `fetch_file` trả base64 ZIP 02, nhưng chưa giải nén ZIP trong công cụ hiện có; không nhận đã đọc nội dung ZIP trong lượt này. Đã đọc Markdown tương đương của repo trung tâm và audit phiên trước ghi nhận giải nén ZIP thành công.
+
+### Kiểm tra mới trực tiếp trên source (đọc từ GitHub, không dựa vào lời phỏng đoán)
+- DuoFace `feature:runtime/speedbubble/DFSpeedBubbleBridge.mm` blob `b6479b7e0e9d392e843f9d87169df12f4ac5eddc`, `Makefile.speedhud-host-stage` blob `681f6c9f6c6e299eee760bc8e0032962b0a3fa86`, `DuoFaceSpeedHUD.plist` blob `868b496f6e3812ee1dc78e2a051d76144088fca2`, native12 CBWindow ABI audit blob `45670b201fbd8b451f528493ea7d066d64490ed5`.
+- GOFAHUD pin `manhtien9x/gofahud-repo@e423ac7408d021d6384eba8ef270e79518967ed9`: đã đọc trực tiếp `source/rootless/tweak/carplay-global-overlay.m` blob `d5b2597dd14b03c293bd623521902c5f71818a05` và `carplay-overlay.m` blob `5361525460d2f4ca394cc7652bfd3ebdeec355f8`. GOFA global StartGlobal gọi Tick ngay + lặp 0,5s + nhận UIWindowDidBecomeVisible, phân loại window/scene, ưu tiên native rootViewController.viewIfLoaded hoặc tạo GOFACarGlobalWindow đúng scene và chọn chỉ một owner. Google Maps fallback dùng CPWindow.rootViewController.viewIfLoaded, có RefreshWindows, nhường global lease. **Không có cơ chế auto nhận DuoFace CBWindow**; copy nguyên renderer sẽ lặp lỗi sai host.
+- Speed3 constructor chỉ cho `com.apple.CarPlayApp`; cài hook `CBWindow.show/resizeWindows/destroyWindows` nếu class có trong process trong khoảng 60s. Không tìm instance đã mở, không điều phối scene, không retry gắn khi bị từ chối vì `isVisible`, `nativeWindow.hidden`, bounds nhỏ. Timer chỉ bắt đầu trong `didMoveToWindow`, tức sau addSubview; nó không sửa được lỗi chưa từng attach.
+- **Phát hiện bổ sung 1 (nguy cơ mất bóng khi Zoom/resize):** `DFPlaceSpeedView` chỉ gọi `[hud restoreSavedPosition]` khi `isNewHUD`. Khi cùng `UIWindow` bị thu nhỏ/đổi safe area, HUD cũ không được `DFClampCenter` lại; center trước resize có thể nằm **ngoài bounds mới**. Đây là thiếu sót rõ trong mã; việc có thật gây ra triệu chứng của máy cần xác minh runtime.
+- **Phát hiện bổ sung 2 (bề mặt render chưa chứng thực):** `[nativeWindow addSubview:hud]` gắn trực tiếp vào `CBWindow.rootWindow`, không xác minh rootViewController.viewIfLoaded / scene / parent của lớp split thực sự đang ở foreground. `bringSubviewToFront` chỉ có tác dụng trong cửa sổ ấy; không vượt cửa sổ khác. GOFAHUD có kiểm host.window==base và fallback window cùng scene; Speed3 chưa có bước tương đương dành cho DuoFace. Không kết luận đơn giản do windowLevel.
+- **Phát hiện bổ sung 3 (code guard):** chú thích `A failed partial install must not leave half-wired handlers` không đúng với body hiện tại: ba `method_setImplementation` chạy tuần tự qua `&&` và không có rollback nếu phép thay thứ hai/ba thất bại. Đây là rủi ro vòng hook trong trường hợp hiếm lỗi từng bước, **chưa phải bằng chứng nó đã xảy ra**.
+- **Phát hiện bổ sung 4 (show sau khi dismiss):** khi kéo vào X, `dismissedForSession=YES`, timer bị invalidate; không có API cho user gọi để reset/show trong cùng lifecycle nếu không destroy/recreate HUD. Cơ chế GOFAHUD dùng state/notify cho dismiss/show; DuoFace thiếu đường bật lại có kiểm soát.
+- `DuoFaceDashboard` Native12 plist audit chứa nhiều bundle (CarPlayApp/CarPlay/dashboard/SpringBoard...), còn Speed3 chỉ inject CarPlayApp; **filter không chứng minh process chạy instance CBWindow trong lúc split**. Đây là nghi vấn cần phân biệt bằng PID/scene khi đọc runtime, không được tự mở rộng filter nhiều process như Speed2.
+
+### Quy trình xác minh tiếp theo trước bất kỳ bản sửa
+1. Trên build được ủy quyền về sau, ghi log **gọn và có giới hạn** tại constructor, hook installed/failed, callback show/resize/destroy, class image, PID/bundle, bridge instance, rootWindow pointer + screen/windowScene.role/id/windowLevel/hidden/alpha/bounds/rootViewController, host view/window, reject reason, HUD frame/center trong cửa sổ và chuyển sang tọa độ màn hình. Không thu vị trí GPS hay dữ liệu riêng tư. Chưa có những log này ở máy người dùng.
+2. Dùng chính scene DuoFace thực hiển thị làm owner gate. Chỉ khi xác định đúng host mới thiết kế reconcile kiểu GOFA: attach khi tạo/hiện, thử lại có giới hạn nếu root view chưa sẵn, tái gắn khi scene đổi, clamp lại khi resize, tháo khi rời split. Không quét rồi vẽ mọi CarPlay window; không tăng windowLevel mù.
+3. Kiểm thử HUD **không dữ liệu** theo ma trận Home0/split1/thoát0/Zoom/đổi app/đóng-mở/reconnect/dismiss-show; bảo đảm Waze ổn trước khi nối producer.
+4. Sau test view mới nối 1 source đã ghim phiên bản theo contract DATA-ROUTES-TRACED-20261016; không mặc định Google Maps cấp native speed limit, không trộn timestamp hai field hoặc namespace GOFAHUD/GMapHUD.
+
+**Trạng thái:** đã xác minh static source + commit/CI của repo, chưa tìm được **nguyên nhân runtime duy nhất** trên xe. Không có source edit/test/build/deploy mới. Bước hành động kế tiếp phụ thuộc quyền triển khai/thử thiết bị; lượt phân tích này chỉ lưu hướng xử lý.
+
+
+
 ## 16/10/2026 — TRUY ĐƯỜNG DỮ LIỆU GOFA / WAZE / VIETMAP / GOOGLE MAPS
 Checkpoint: DATA-ROUTES-TRACED-20261016.
 **Phạm vi: phân tích và đề xuất, chỉ cập nhật bàn giao. Chưa sửa implementation, chưa build/deploy, chưa kiểm chứng trên thiết bị.** Theo yêu cầu người dùng: truy ra đến đâu lưu ngay đến đó. Phần này bổ sung cho kết quả truy GOFAHUD bên dưới.
