@@ -1,0 +1,82 @@
+name: DuoFace native14 physical license-class excision EXPERIMENT, do not publish
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native14_license_class_trial.py'
+      - '.github/workflows/duoface-native14-license-class-trial.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native14-license-class-trial
+  cancel-in-progress: false
+jobs:
+  experimental-candidate:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify inputs, install packaging and signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          python3 -m py_compile migration/full_payload/native_test/build_native14_license_class_trial.py
+          b=dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb
+          printf '%s  %s\n' 'cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3' "$b" | shasum -a 256 -c -
+          test "$(dpkg-deb -f "$b" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$b" Version)" = '0.1.0~native13'
+      - name: Experimental class deregistration and resign all modified hosts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native14
+          deb=dist/payload-migration/native14/com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb
+          test ! -e "$deb"
+          python3 migration/full_payload/native_test/build_native14_license_class_trial.py \
+            --out "$deb" --report dist/payload-migration/native14/BAO_CAO.json
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          p=pathlib.Path('dist/payload-migration/native14')
+          deb=p/'com.duoface.independent_0.1.0~native14_iphoneos-arm64.deb'
+          report=json.loads((p/'BAO_CAO.json').read_text())
+          assert report['status']=='NATIVE14_EXPERIMENTAL_14_LICENSE_CLASSES_UNREGISTERED_AND_NAMES_ERASED'
+          assert report['isolated_license_classes_removed_from_objc_registration']==14
+          assert report['class_registration_and_ref_pointer_slots_zeroed']==42
+          assert report['remaining_8_carplay_methods_preserved_code_sections']
+          assert report['deb_sha256']==hashlib.sha256(deb.read_bytes()).hexdigest()
+          assert report['device_tested']==False and report['sileo_deployed']==False
+          assert report['experimental_only_do_not_claim_full_license_cleanup']
+          print('NATIVE14_EXPERIMENTAL_PHYSICAL_LICENSE_CLASS_REMOVAL_QA_PASS_NOT_RUNTIME_PROVEN')
+          PY
+          dpkg-deb -c "$deb" | grep -F 'DuoFaceSmartConnection.dylib'
+          dpkg-deb -c "$deb" | grep -F 'DuoFaceInCarAddApps.dylib'
+          ! dpkg-deb -c "$deb" | grep -F 'A_DuoFaceNativeNoLease'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native14'
+          echo 'SIGNED_DUAL_FEATURE_AND_LICENSE_CLASS_TRIAL_CANDIDATE_NOT_SILEO'
+      - name: Commit experimental candidate, keep Sileo unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native14/
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: signed native14 dual-feature physical license-class trial [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native14-license-class-trial-not-published
+          path: dist/payload-migration/native14/
+          if-no-files-found: warn
