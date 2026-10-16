@@ -1,0 +1,58 @@
+name: DuoFace native12 smart connection hook ABI readonly
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_connection_hook_abi.py'
+      - '.github/workflows/duoface-native12-connection-hook-abi.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-connection-hook-abi
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit exact ObjC hook signatures in pinned native12 (read-only)
+        run: |
+          set -euo pipefail
+          f=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$f" | sha256sum -c -
+          python3 migration/full_payload/native_test/audit_native12_connection_hook_abi.py \
+             --deb "$f" \
+             --out audit/payload-migration/NATIVE12_CONNECTION_HOOK_ABI_READONLY.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open("audit/payload-migration/NATIVE12_CONNECTION_HOOK_ABI_READONLY.json"))
+          assert j["status"]=="NATIVE12_ACTUAL_CONNECTION_OBJC_ABI_READONLY"
+          assert j["selectors_examined"]==17
+          assert not j["used_to_patch_binary"] and not j["actual_carplay_event_runtime_verified"]
+          print("ABI_REPORT_PASS")
+          PY
+      - name: Commit report with rebase protection
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_CONNECTION_HOOK_ABI_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: exact ObjC connection-hook ABI on native12 [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native12-connection-hook-abi
+          path: audit/payload-migration/NATIVE12_CONNECTION_HOOK_ABI_READONLY.json
+          if-no-files-found: warn
