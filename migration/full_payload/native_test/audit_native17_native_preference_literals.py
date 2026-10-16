@@ -80,10 +80,25 @@ with tempfile.TemporaryDirectory() as td:
                                      "raw32":m.data[m.map(addr):m.map(addr)+32].hex(),
                                      "points_to_cstring":valstr[:100]}
                 except Exception as err: lazy[hex(addr)]={"error":str(err)[:100]}
+        lazy_instruction_map={}
+        if name=="DuoFaceDashboard":
+            from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
+            cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
+            for start in (0x3822c,0x380b0,0x37dac,0x36874):
+                try:
+                    offset=m.map(start)
+                    instr=list(cs.disasm(m.data[offset:offset+512],start))
+                    lines=[]
+                    for ins in instr:
+                        lines.append(hex(ins.address)+": "+ins.mnemonic+" "+ins.op_str)
+                        if ins.mnemonic=="ret": break
+                    lazy_instruction_map[hex(start)]=lines[:130]
+                except Exception as error:lazy_instruction_map[hex(start)]=["ERROR: "+str(error)[:160]]
         report["hosts"][name]={"sha256":expected,"original_disassembly_direct_literals":matches,
                               "native_preferences_related_literals":strings[:160],
                               "native_cfstring_constants":cfstrings[:400],
                               "lazy_preference_global_probe":lazy,
+                              "lazy_preference_initializer_disassembly":lazy_instruction_map,
                               "near_appSettings_cfstrings":[
                                   {"vm":hex(sec["vm"]+offset),"value":m.cstr(m.ptr(sec["vm"]+offset+16))}
                                   for sec in m.sections if sec["name"]=="__cfstring"
