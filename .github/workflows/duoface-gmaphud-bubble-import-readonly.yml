@@ -1,0 +1,58 @@
+name: DuoFace GMapHUD v0.2.3 reuse integrity - NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/stage_gmaphud_modules_for_duoface.py'
+      - '.github/workflows/duoface-gmaphud-bubble-import-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and verify the pinned third-party package
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 2 \
+            'https://github.com/bechou0410/gmaphud/releases/download/v0.2.3/com.chou.googlemaps.vietmap_0.2.3_iphoneos-arm64.deb' \
+            -o /tmp/duoface-gmaphud-023.deb
+          echo 'bc5a34cf2b6a8faa017beab725a3cb8adf4804a5b19275a9d7f95ed5732c1f64  /tmp/duoface-gmaphud-023.deb' | sha256sum -c -
+          test "$(dpkg-deb -f /tmp/duoface-gmaphud-023.deb Package)" = 'com.chou.googlemaps.vietmap'
+      - name: Test exact-byte copy and license without packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/stage_gmaphud_modules_for_duoface.py
+          python3 migration/full_payload/native_test/stage_gmaphud_modules_for_duoface.py \
+            --gmaphud /tmp/duoface-gmaphud-023.deb \
+            --out-dir /tmp/duoface-speed-stage \
+            --report /tmp/duoface-speed-import.json
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          j=json.loads(Path('/tmp/duoface-speed-import.json').read_text())
+          assert j['status']=='STAGED_BYTE_EXACT_GMAPHUD_NOT_BUILT_NOT_INSTALLED'
+          assert len(j['copied'])==14
+          assert not j['built_deb'] and not j['sileo_published']
+          assert not j['on_device_bubble_tested']
+          assert not j['duoface_overlay_compatibility_verified']
+          root=Path('/tmp/duoface-speed-stage')
+          for name,meta in j['copied'].items():
+              f=root/name
+              assert f.is_file()
+              assert hashlib.sha256(f.read_bytes()).hexdigest()==meta['sha256']
+              assert f.stat().st_size==meta['size']
+          assert not (root/'DEBIAN/control').exists()
+          print('GMAPHUD_023_BYTE_EXACT_IMPORT_PASS_NO_DEB_NO_SILEO')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-gmaphud-reuse-readonly
+          path: /tmp/duoface-speed-import.json
+          if-no-files-found: warn
