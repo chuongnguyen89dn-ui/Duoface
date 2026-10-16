@@ -47,21 +47,25 @@ BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
   Setup();
   // One source is always chosen as a unit: no Waze speed + GOFA speed limit.
   uint32_t now=UptimeSeconds();
-  BOOL found=NO;
-  DFSpeed::Sample best;
-  const int priority[]={3,2,4,1}; // ties only; prefer app-local samples
-  for (int src:priority) {
+  // Four app sources feed exactly ONE DuoFace-owned visual bubble.
+  // Publish/subscribe are not a request to launch missing apps.
+  DFSpeed::Sample live[4];
+  size_t count=0;
+  for (int src=1; src<=4; ++src) {
     if (gTokens[src]<0) continue;
     uint64_t raw=0;
     if (notify_get_state(gTokens[src],&raw)!=NOTIFY_STATUS_OK) continue;
     DFSpeed::Sample sample;
-    if (!DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
-      continue;
-    if (!found || sample.uptimeSec>best.uptimeSec) {
-      found=YES; best=sample;
-    }
+    if (DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
+      live[count++]=sample;
   }
-  if (!found) return NO;
+  static DFSpeed::Source previous=DFSpeed::Source::None;
+  DFSpeed::Sample best;
+  if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
+    previous=DFSpeed::Source::None;
+    return NO;
+  }
+  previous=best.source;
   record->source=static_cast<DFSpeedAppSource>(best.source);
   record->currentKmh=best.speedKmh;
   record->limitKmh=best.limitKmh;
