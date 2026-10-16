@@ -74,10 +74,11 @@ static void DFWrapDelegateIfSafe(id delegate) {
         IMP original=method_getImplementation(method);
         if (!original || original==(IMP)DFWrappedDidUpdate) return;
         const char *types=method_getTypeEncoding(method);
-        if (!types || !class_replaceMethod(cls,sel,
-                       (IMP)DFWrappedDidUpdate,types)) return;
-        // class_replaceMethod returns the old method's IMP when overriding;
-        // if inherited, original from method_getImplementation is still used.
+        if (!types) return;
+        // Replace even inherited implementations; class_replaceMethod can
+        // legitimately return NULL for inherited methods. Always retain the
+        // actual original IMP retrieved above to preserve app callback.
+        class_replaceMethod(cls,sel,(IMP)DFWrappedDidUpdate,types);
         DFOriginalDelegates[name]=[NSValue valueWithPointer:(void *)original];
     }
 }
