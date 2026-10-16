@@ -1,4 +1,4 @@
-// DuoFace CarPlay direct Add App — staged source, not published.
+// DuoFace CarPlay direct Add App — source fix after native15 device QA.
 // Native12 addMoreAppsTapped: only shows "use your iPhone" informational alert.
 // Replace that action only after verifying an EXISTING same-list preferences
 // file and actual App Bridge settings owner. Preserve all other picker callbacks.
@@ -284,18 +284,42 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 %end
 
 static BOOL DFPickerHookInstalled=NO;
+static BOOL DFPickerAllowedHost(void) {
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    NSString *process=NSProcessInfo.processInfo.processName.lowercaseString;
+    NSSet *bundleAllow=[NSSet setWithArray:@[
+        @"com.apple.springboard",@"com.apple.carplay",@"com.apple.carplayapp",
+        @"com.apple.dashboard"]];
+    NSSet *processAllow=[NSSet setWithArray:@[
+        @"springboard",@"carplay",@"carplayapp",@"dashboard"]];
+    return [bundleAllow containsObject:bundle] || [processAllow containsObject:process];
+}
 static void DFInstallPickerOnce(void) {
-    if (DFPickerHookInstalled ||
-        !NSClassFromString(@"CBMultitaskingOverlayView")) return;
+    if (DFPickerHookInstalled || !DFPickerAllowedHost()) return;
+    // DuoFaceDashboard may be injected only once CarPlay is activated. A
+    // one-time SpringBoard constructor probe silently missed this class.
+    if (!NSClassFromString(@"CBMultitaskingOverlayView")) return;
     %init(DFInCarPicker);
     DFPickerHookInstalled=YES;
+    NSLog(@"[DuoFaceInCarAddApps] Hook active in CarPlay host.");
+}
+static void DFInstallPickerEventually(void) {
+    if (DFPickerHookInstalled || !DFPickerAllowedHost()) return;
+    DFInstallPickerOnce();
+    if (!DFPickerHookInstalled) {
+        // Only one pending low-frequency probe; harmless if CarPlay attaches
+        // much later after device boot. Stop immediately after %init succeeds.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5*NSEC_PER_SEC),
+                       dispatch_get_main_queue(), ^{
+            DFInstallPickerEventually();
+        });
+    }
 }
 __attribute__((constructor)) static void DFInstallDirectAddApp(void) {
     @autoreleasepool {
-        if (![[NSBundle.mainBundle.bundleIdentifier lowercaseString]
-              isEqualToString:@"com.apple.springboard"]) return;
+        if (!DFPickerAllowedHost()) return;
         dispatch_async(dispatch_get_main_queue(), ^{
-            DFInstallPickerOnce();
+            DFInstallPickerEventually();
         });
     }
 }
