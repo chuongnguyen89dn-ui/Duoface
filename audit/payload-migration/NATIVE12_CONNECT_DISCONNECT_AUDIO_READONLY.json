@@ -1,0 +1,966 @@
+{
+  "status": "DUOFACE_NATIVE12_CONNECTION_AUDIO_STATIC_READONLY",
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "tool_method": "read-only Mach-O arm64 ObjC methods and relevant ASCII literals",
+  "package_modified": false,
+  "feature_implemented": false,
+  "device_audio_test_completed": false,
+  "event_callgraph_completed": false,
+  "no_definitive_absence_claim": true,
+  "binaries": {
+    "DuoFaceUI": {
+      "binary_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "arm64_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "objc_class_count": 27,
+      "objc_method_count": 522,
+      "selected_objc_classes": {
+        "XXAppDelegate": {
+          "method_count": 6,
+          "methods_of_interest": []
+        },
+        "XXRootViewController": {
+          "method_count": 17,
+          "methods_of_interest": []
+        },
+        "CBGeneralSettingsViewController": {
+          "method_count": 30,
+          "methods_of_interest": [
+            "-savePreferences",
+            "-autoLaunchToggleChanged:",
+            "-autoLaunchOnConnect",
+            "-setAutoLaunchOnConnect:"
+          ]
+        }
+      },
+      "selected_methods": [
+        {
+          "class": "CBAppManager",
+          "method": "-savePreferences"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "method": "-savePreferences"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "method": "-autoLaunchToggleChanged:"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "method": "-autoLaunchOnConnect"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "method": "-setAutoLaunchOnConnect:"
+        },
+        {
+          "class": "CBAssistantAboutViewController",
+          "method": "-savePreferences"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "-isCarPlayScreenConnected"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreen:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnectedExcludingScreen:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnected"
+        }
+      ],
+      "static_string_groups": {
+        "auto_launch": {
+          "count": 10,
+          "entries": [
+            {
+              "offset": "0xa62a8",
+              "value": "setAutoLaunchOnConnect:"
+            },
+            {
+              "offset": "0xa64a5",
+              "value": "autoLaunchOnConnect"
+            },
+            {
+              "offset": "0xa64c0",
+              "value": "autoLaunchToggleChanged:"
+            },
+            {
+              "offset": "0xa6765",
+              "value": "_autoLaunchOnConnect"
+            },
+            {
+              "offset": "0xa67b5",
+              "value": "TB,N,V_autoLaunchOnConnect"
+            },
+            {
+              "offset": "0xad7ec",
+              "value": "autoLaunchOnConnect"
+            },
+            {
+              "offset": "0xad83e",
+              "value": "autoLaunchBundleID"
+            },
+            {
+              "offset": "0xaee89",
+              "value": "ROW_AUTO_LAUNCH_APP"
+            },
+            {
+              "offset": "0xb0fa1",
+              "value": "Auto-Launch App"
+            },
+            {
+              "offset": "0xb8955",
+              "value": "Aplikacja autostartu"
+            }
+          ]
+        },
+        "carplay_connect": {
+          "count": 6,
+          "entries": [
+            {
+              "offset": "0xab20c",
+              "value": "isCarPlayScreen:"
+            },
+            {
+              "offset": "0xab226",
+              "value": "isCarPlayScreenConnectedExcludingScreen:"
+            },
+            {
+              "offset": "0xab24f",
+              "value": "isCarPlayScreenConnected"
+            },
+            {
+              "offset": "0xb0f6b",
+              "value": "Automatically open DuoFace when connecting to CarPlay"
+            },
+            {
+              "offset": "0xb9cbb",
+              "value": "[DuoFaceLicense] CarPlay connected without valid offline license. Initiating automated trial sync..."
+            },
+            {
+              "offset": "0xb9d20",
+              "value": "[DuoFaceLicense] No valid offline license in app mode. Waiting for CarPlay connection to activate trial."
+            }
+          ]
+        },
+        "carplay_disconnect": {
+          "count": 2,
+          "entries": [
+            {
+              "offset": "0xadb11",
+              "value": "STATUS_DISCONNECTED"
+            },
+            {
+              "offset": "0xb0d73",
+              "value": "Disconnected"
+            }
+          ]
+        },
+        "audio_media": {
+          "count": 9,
+          "entries": [
+            {
+              "offset": "0xad608",
+              "value": "music"
+            },
+            {
+              "offset": "0xad64c",
+              "value": "com.apple.music"
+            },
+            {
+              "offset": "0xad6b7",
+              "value": "musically"
+            },
+            {
+              "offset": "0xad790",
+              "value": "apple music"
+            },
+            {
+              "offset": "0xad7bc",
+              "value": "media player"
+            },
+            {
+              "offset": "0xad7d6",
+              "value": "music player"
+            },
+            {
+              "offset": "0xaf376",
+              "value": "VOICE_PLAYING_MUSIC"
+            },
+            {
+              "offset": "0xb19b7",
+              "value": "You can say: Navigate to, Open app, Play music, Screen off, or Split screen."
+            },
+            {
+              "offset": "0xb5aeb",
+              "value": "Puoi dire: Naviga verso, Apri app, Riproduci musica, Spegni schermo o Schermo diviso."
+            }
+          ]
+        },
+        "terminate": {
+          "count": 0,
+          "entries": []
+        },
+        "restore": {
+          "count": 7,
+          "entries": [
+            {
+              "offset": "0xad1ae",
+              "value": "bridgedApps"
+            },
+            {
+              "offset": "0xaddeb",
+              "value": "splitApp1"
+            },
+            {
+              "offset": "0xaddf5",
+              "value": "splitLeftBundleID"
+            },
+            {
+              "offset": "0xade07",
+              "value": "splitApp2"
+            },
+            {
+              "offset": "0xade11",
+              "value": "splitRightBundleID"
+            },
+            {
+              "offset": "0xade24",
+              "value": "splitApp3"
+            },
+            {
+              "offset": "0xade2e",
+              "value": "splitApp4"
+            }
+          ]
+        }
+      },
+      "proves_event_route_or_music_shutdown": false,
+      "absence_of_marker_proves_absence_of_behavior": false
+    },
+    "DuoFaceDashboard": {
+      "binary_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "arm64_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "objc_class_count": 36,
+      "objc_method_count": 757,
+      "selected_objc_classes": {
+        "CBDashboardSettings": {
+          "method_count": 61,
+          "methods_of_interest": [
+            "-reloadAppPrefs",
+            "-bridgedApps",
+            "-setBridgedApps:",
+            "-splitLeftBundleID",
+            "-setSplitLeftBundleID:",
+            "-splitRightBundleID",
+            "-setSplitRightBundleID:",
+            "-splitApp1",
+            "-setSplitApp1:",
+            "-splitApp2",
+            "-setSplitApp2:",
+            "-splitApp3",
+            "-setSplitApp3:",
+            "-splitApp4",
+            "-setSplitApp4:",
+            "-autoLaunchOnConnect",
+            "-setAutoLaunchOnConnect:",
+            "-autoLaunchBundleID",
+            "-setAutoLaunchBundleID:"
+          ]
+        },
+        "CBDashboardShared": {
+          "method_count": 12,
+          "methods_of_interest": []
+        },
+        "CBBridgeManager": {
+          "method_count": 75,
+          "methods_of_interest": [
+            "-terminateApplicationWithBundleID:",
+            "-terminateAllBridgedApplications",
+            "-effectiveAutoLaunchBundleID",
+            "-handleCarPlayConnectionChanged:",
+            "-deactivateCurrentApp"
+          ]
+        },
+        "CBBridgeManagerDashboard": {
+          "method_count": 39,
+          "methods_of_interest": [
+            "-handleStateDict:",
+            "-bridgeDidActivate:",
+            "+bridgedApps"
+          ]
+        }
+      },
+      "selected_methods": [
+        {
+          "class": "CBAssistantManager",
+          "method": "-handleMusicCommand:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-reloadAppPrefs"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-bridgedApps"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setBridgedApps:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitLeftBundleID"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitLeftBundleID:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitRightBundleID"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitRightBundleID:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitApp1"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitApp1:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitApp2"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitApp2:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitApp3"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitApp3:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-splitApp4"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setSplitApp4:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-autoLaunchOnConnect"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setAutoLaunchOnConnect:"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-autoLaunchBundleID"
+        },
+        {
+          "class": "CBDashboardSettings",
+          "method": "-setAutoLaunchBundleID:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "-isCarPlayScreenConnected"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreen:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnectedExcludingScreen:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnected"
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-closeAllBridgedAppsTapped:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-terminateApplicationWithBundleID:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-terminateAllBridgedApplications"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-effectiveAutoLaunchBundleID"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-handleCarPlayConnectionChanged:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-deactivateCurrentApp"
+        },
+        {
+          "class": "CBBridgeManagerDashboard",
+          "method": "-handleStateDict:"
+        },
+        {
+          "class": "CBBridgeManagerDashboard",
+          "method": "-bridgeDidActivate:"
+        },
+        {
+          "class": "CBBridgeManagerDashboard",
+          "method": "+bridgedApps"
+        }
+      ],
+      "static_string_groups": {
+        "auto_launch": {
+          "count": 15,
+          "entries": [
+            {
+              "offset": "0x2f49a9",
+              "value": "autoLaunchOnConnect"
+            },
+            {
+              "offset": "0x2f49bd",
+              "value": "setAutoLaunchOnConnect:"
+            },
+            {
+              "offset": "0x2f49d5",
+              "value": "autoLaunchBundleID"
+            },
+            {
+              "offset": "0x2f49e8",
+              "value": "setAutoLaunchBundleID:"
+            },
+            {
+              "offset": "0x2f4aad",
+              "value": "_autoLaunchOnConnect"
+            },
+            {
+              "offset": "0x2f4b75",
+              "value": "_autoLaunchBundleID"
+            },
+            {
+              "offset": "0x2f4d99",
+              "value": "TB,N,V_autoLaunchOnConnect"
+            },
+            {
+              "offset": "0x2f4db4",
+              "value": "T@\"NSString\",C,N,V_autoLaunchBundleID"
+            },
+            {
+              "offset": "0x2f9109",
+              "value": "effectiveAutoLaunchBundleID"
+            },
+            {
+              "offset": "0x2fba66",
+              "value": "ROW_AUTO_LAUNCH_APP"
+            },
+            {
+              "offset": "0x2fe671",
+              "value": "Auto-Launch App"
+            },
+            {
+              "offset": "0x306032",
+              "value": "Aplikacja autostartu"
+            },
+            {
+              "offset": "0x307d72",
+              "value": "autoLaunchOnConnect"
+            },
+            {
+              "offset": "0x307d86",
+              "value": "autoLaunchBundleID"
+            },
+            {
+              "offset": "0x30a9a1",
+              "value": "[DuoFaceSB] [CONNECT_TRACE] Detected autoResume/autoLaunch BundleID: %@, scheduling launch..."
+            }
+          ]
+        },
+        "carplay_connect": {
+          "count": 30,
+          "entries": [
+            {
+              "offset": "0x2f4fd4",
+              "value": "isCarPlayScreen:"
+            },
+            {
+              "offset": "0x2f4fee",
+              "value": "isCarPlayScreenConnectedExcludingScreen:"
+            },
+            {
+              "offset": "0x2f5017",
+              "value": "isCarPlayScreenConnected"
+            },
+            {
+              "offset": "0x2f9581",
+              "value": "handleCarPlayConnectionChanged:"
+            },
+            {
+              "offset": "0x2fe63b",
+              "value": "Automatically open DuoFace when connecting to CarPlay"
+            },
+            {
+              "offset": "0x3080f0",
+              "value": "[DuoFaceLicense] CarPlay connected without valid offline license. Initiating automated trial sync..."
+            },
+            {
+              "offset": "0x308155",
+              "value": "[DuoFaceLicense] No valid offline license in app mode. Waiting for CarPlay connection to activate trial."
+            },
+            {
+              "offset": "0x30997c",
+              "value": "isCarPlayDisconnect"
+            },
+            {
+              "offset": "0x309990",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Received CarPlay Disconnect request from DashBoard IPC! Initiating cleanup..."
+            },
+            {
+              "offset": "0x309c5a",
+              "value": "[DuoFaceSB] requestStateChange: App %@ marked active but window/display stale or detached (e.g. after CarPlay reconnect). Performing clean reload..."
+            },
+            {
+              "offset": "0x30a075",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Darwin screen/CarPlay notification fired: %@"
+            },
+            {
+              "offset": "0x30a312",
+              "value": "[DuoFaceSB] >>> AUTO-LAUNCHING/RESUMING APP AFTER CARPLAY CONNECT: %@ <<<"
+            },
+            {
+              "offset": "0x30a4a7",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Alternate CarPlay display remains active -> Disconnected screen was auxiliary display. Ignoring."
+            },
+            {
+              "offset": "0x30a527",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] >>> EXECUTING CARPLAY DISCONNECT CLEANUP PIPELINE <<<"
+            },
+            {
+              "offset": "0x30a82e",
+              "value": "[DuoFaceSB] [CONNECT_TRACE] No CarPlay screen connected -> Ignoring."
+            },
+            {
+              "offset": "0x30a8ce",
+              "value": "[DuoFaceSB] [CONNECT_TRACE] CarPlay external screen connected. Cancelling disconnect watchdog & resetting geometry cache."
+            },
+            {
+              "offset": "0x30aa08",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] handleCarPlayConnectionChanged notification: %@"
+            },
+            {
+              "offset": "0x30aa57",
+              "value": "handleCarPlayConnectionChanged (%@)"
+            },
+            {
+              "offset": "0x30aa7b",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] No CarPlay CADisplay/UIScreen found -> CarPlay IS DISCONNECTED. Starting teardown."
+            },
+            {
+              "offset": "0x30aaed",
+              "value": "[DuoFaceSB] [CONNECT_TRACE] CarPlay CADisplay available: %@"
+            },
+            {
+              "offset": "0x30acb8",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Query Results -> carPlayCADisplay: %@ | carPlayUIScreen: %@ | carPlayWindowScene: %@"
+            },
+            {
+              "offset": "0x30aede",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Cancelling mandatory disconnect watchdog (CarPlay reconnected, newToken: %llu)."
+            },
+            {
+              "offset": "0x30af4d",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Mandatory disconnect watchdog fired, but CarPlay IS CURRENTLY CONNECTED/ACTIVE -> Aborting forced kill."
+            },
+            {
+              "offset": "0x30b8e5",
+              "value": "CarPlayIsConnectedDidChange"
+            },
+            {
+              "offset": "0x30b901",
+              "value": "AVExternalDeviceCarPlayIsConnectedDidChangeNotification"
+            },
+            {
+              "offset": "0x30ba75",
+              "value": "com.apple.CarPlay.screenDisconnected"
+            },
+            {
+              "offset": "0x30ba9a",
+              "value": "com.apple.CarPlay.screenConnected"
+            },
+            {
+              "offset": "0x30df1e",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] DashBoard process exited (%@) -> Ensuring CarPlay disconnect cleanup in SpringBoard!"
+            },
+            {
+              "offset": "0x385440",
+              "value": "@_UIScreenDidConnectNotification"
+            },
+            {
+              "offset": "0x389c5c",
+              "value": "_UIScreenDidConnectNotification"
+            }
+          ]
+        },
+        "carplay_disconnect": {
+          "count": 19,
+          "entries": [
+            {
+              "offset": "0x2fb8bc",
+              "value": "STATUS_DISCONNECTED"
+            },
+            {
+              "offset": "0x2fe443",
+              "value": "Disconnected"
+            },
+            {
+              "offset": "0x30997c",
+              "value": "isCarPlayDisconnect"
+            },
+            {
+              "offset": "0x309990",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Received CarPlay Disconnect request from DashBoard IPC! Initiating cleanup..."
+            },
+            {
+              "offset": "0x30a075",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Darwin screen/CarPlay notification fired: %@"
+            },
+            {
+              "offset": "0x30a44e",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Disconnected screen is [UIScreen mainScreen] -> Ignoring."
+            },
+            {
+              "offset": "0x30a4a7",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Alternate CarPlay display remains active -> Disconnected screen was auxiliary display. Ignoring."
+            },
+            {
+              "offset": "0x30a527",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] >>> EXECUTING CARPLAY DISCONNECT CLEANUP PIPELINE <<<"
+            },
+            {
+              "offset": "0x30a8ce",
+              "value": "[DuoFaceSB] [CONNECT_TRACE] CarPlay external screen connected. Cancelling disconnect watchdog & resetting geometry cache."
+            },
+            {
+              "offset": "0x30aa08",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] handleCarPlayConnectionChanged notification: %@"
+            },
+            {
+              "offset": "0x30aa7b",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] No CarPlay CADisplay/UIScreen found -> CarPlay IS DISCONNECTED. Starting teardown."
+            },
+            {
+              "offset": "0x30acb8",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Query Results -> carPlayCADisplay: %@ | carPlayUIScreen: %@ | carPlayWindowScene: %@"
+            },
+            {
+              "offset": "0x30aede",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Cancelling mandatory disconnect watchdog (CarPlay reconnected, newToken: %llu)."
+            },
+            {
+              "offset": "0x30af4d",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] Mandatory disconnect watchdog fired, but CarPlay IS CURRENTLY CONNECTED/ACTIVE -> Aborting forced kill."
+            },
+            {
+              "offset": "0x30ba75",
+              "value": "com.apple.CarPlay.screenDisconnected"
+            },
+            {
+              "offset": "0x30c2fa",
+              "value": "[DuoFaceDB] [DISCONNECT_TRACE] DashBoard received screen disconnected notification: %@"
+            },
+            {
+              "offset": "0x30df1e",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] DashBoard process exited (%@) -> Ensuring CarPlay disconnect cleanup in SpringBoard!"
+            },
+            {
+              "offset": "0x385462",
+              "value": "@_UIScreenDidDisconnectNotification"
+            },
+            {
+              "offset": "0x389c7c",
+              "value": "_UIScreenDidDisconnectNotification"
+            }
+          ]
+        },
+        "audio_media": {
+          "count": 16,
+          "entries": [
+            {
+              "offset": "0x2f37bf",
+              "value": "handleMusicCommand:"
+            },
+            {
+              "offset": "0x2fc2a7",
+              "value": "VOICE_PLAYING_MUSIC"
+            },
+            {
+              "offset": "0x2ff094",
+              "value": "You can say: Navigate to, Open app, Play music, Screen off, or Split screen."
+            },
+            {
+              "offset": "0x3031c8",
+              "value": "Puoi dire: Naviga verso, Apri app, Riproduci musica, Spegni schermo o Schermo diviso."
+            },
+            {
+              "offset": "0x306e93",
+              "value": "com.apple.music"
+            },
+            {
+              "offset": "0x308bc0",
+              "value": "music"
+            },
+            {
+              "offset": "0x308c22",
+              "value": "musically"
+            },
+            {
+              "offset": "0x308cfb",
+              "value": "apple music"
+            },
+            {
+              "offset": "0x308d27",
+              "value": "media player"
+            },
+            {
+              "offset": "0x308d41",
+              "value": "music player"
+            },
+            {
+              "offset": "0x3858c9",
+              "value": "@_AVAudioSessionCategoryPlayAndRecord"
+            },
+            {
+              "offset": "0x3858fb",
+              "value": "@_AVAudioSessionModeMeasurement"
+            },
+            {
+              "offset": "0x38593e",
+              "value": "@_OBJC_CLASS_$_AVAudioSession"
+            },
+            {
+              "offset": "0x388aec",
+              "value": "_AVAudioSessionCategoryPlayAndRecord"
+            },
+            {
+              "offset": "0x388b11",
+              "value": "_AVAudioSessionModeMeasurement"
+            },
+            {
+              "offset": "0x3890f3",
+              "value": "_OBJC_CLASS_$_AVAudioSession"
+            }
+          ]
+        },
+        "terminate": {
+          "count": 7,
+          "entries": [
+            {
+              "offset": "0x2f395f",
+              "value": "deactivateCurrentApp"
+            },
+            {
+              "offset": "0x2f64b1",
+              "value": "terminateApplicationWithBundleID:"
+            },
+            {
+              "offset": "0x2f650e",
+              "value": "terminateAllBridgedApplications"
+            },
+            {
+              "offset": "0x2f9bc2",
+              "value": "deactivateApplication:"
+            },
+            {
+              "offset": "0x309e67",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] deactivateCurrentApp START -> activated: %d, bundleID: %@, currentApp: %@"
+            },
+            {
+              "offset": "0x30a037",
+              "value": "[DuoFaceSB] [DISCONNECT_TRACE] deactivateCurrentApp FINISHED."
+            },
+            {
+              "offset": "0x30b117",
+              "value": "[DuoFaceSB] terminateApplicationWithBundleID: %@"
+            }
+          ]
+        },
+        "restore": {
+          "count": 37,
+          "entries": [
+            {
+              "offset": "0x2f4751",
+              "value": "bridgedApps"
+            },
+            {
+              "offset": "0x2f475d",
+              "value": "setBridgedApps:"
+            },
+            {
+              "offset": "0x2f4829",
+              "value": "splitLeftBundleID"
+            },
+            {
+              "offset": "0x2f483b",
+              "value": "setSplitLeftBundleID:"
+            },
+            {
+              "offset": "0x2f4851",
+              "value": "splitRightBundleID"
+            },
+            {
+              "offset": "0x2f4864",
+              "value": "setSplitRightBundleID:"
+            },
+            {
+              "offset": "0x2f48af",
+              "value": "splitApp1"
+            },
+            {
+              "offset": "0x2f48b9",
+              "value": "setSplitApp1:"
+            },
+            {
+              "offset": "0x2f48c7",
+              "value": "splitApp2"
+            },
+            {
+              "offset": "0x2f48d1",
+              "value": "setSplitApp2:"
+            },
+            {
+              "offset": "0x2f48df",
+              "value": "splitApp3"
+            },
+            {
+              "offset": "0x2f48e9",
+              "value": "setSplitApp3:"
+            },
+            {
+              "offset": "0x2f48f7",
+              "value": "splitApp4"
+            },
+            {
+              "offset": "0x2f4901",
+              "value": "setSplitApp4:"
+            },
+            {
+              "offset": "0x2f4ad0",
+              "value": "_bridgedApps"
+            },
+            {
+              "offset": "0x2f4aea",
+              "value": "_splitLeftBundleID"
+            },
+            {
+              "offset": "0x2f4afd",
+              "value": "_splitRightBundleID"
+            },
+            {
+              "offset": "0x2f4b29",
+              "value": "_splitApp1"
+            },
+            {
+              "offset": "0x2f4b34",
+              "value": "_splitApp2"
+            },
+            {
+              "offset": "0x2f4b3f",
+              "value": "_splitApp3"
+            },
+            {
+              "offset": "0x2f4b4a",
+              "value": "_splitApp4"
+            },
+            {
+              "offset": "0x2f4b89",
+              "value": "T@\"NSArray\",&,N,V_bridgedApps"
+            },
+            {
+              "offset": "0x2f4c2e",
+              "value": "T@\"NSString\",C,N,V_splitLeftBundleID"
+            },
+            {
+              "offset": "0x2f4c53",
+              "value": "T@\"NSString\",C,N,V_splitRightBundleID"
+            },
+            {
+              "offset": "0x2f4c9d",
+              "value": "T@\"NSString\",C,N,V_splitApp1"
+            },
+            {
+              "offset": "0x2f4cba",
+              "value": "T@\"NSString\",C,N,V_splitApp2"
+            },
+            {
+              "offset": "0x2f4cd7",
+              "value": "T@\"NSString\",C,N,V_splitApp3"
+            },
+            {
+              "offset": "0x2f4cf4",
+              "value": "T@\"NSString\",C,N,V_splitApp4"
+            },
+            {
+              "offset": "0x2f639d",
+              "value": "closeAllBridgedAppsTapped:"
+            },
+            {
+              "offset": "0x307ca5",
+              "value": "splitLeftBundleID"
+            },
+            {
+              "offset": "0x307cb7",
+              "value": "splitRightBundleID"
+            },
+            {
+              "offset": "0x307ce0",
+              "value": "splitApp1"
+            },
+            {
+              "offset": "0x307cea",
+              "value": "splitApp2"
+            },
+            {
+              "offset": "0x307cf4",
+              "value": "splitApp3"
+            },
+            {
+              "offset": "0x307cfe",
+              "value": "splitApp4"
+            },
+            {
+              "offset": "0x307d99",
+              "value": "bridgedApps"
+            },
+            {
+              "offset": "0x308a0f",
+              "value": "[DuoFaceSB] UI closeAllBridgedAppsTapped: Killing background apps & restarting active on-screen apps"
+            }
+          ]
+        }
+      },
+      "proves_event_route_or_music_shutdown": false,
+      "absence_of_marker_proves_absence_of_behavior": false
+    }
+  }
+}
