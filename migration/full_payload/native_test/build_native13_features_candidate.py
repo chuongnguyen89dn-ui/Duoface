@@ -53,7 +53,7 @@ def main():
             shutil.copy2(pathlib.Path(name+".plist"),filt)
             # Standalone Theos outputs need valid iOS code signature to inject.
             run("ldid","-S",str(dylib))
-            run("lipo","-verify_arch","arm64",str(dylib))
+            run("lipo",str(dylib),"-verify_arch","arm64")
             run("plutil","-lint",str(filt))
             added[name]={"dylib":f"{ROOT}/{name}.dylib","plist":f"{ROOT}/{name}.plist",
                          "sha256":digest(dylib.read_bytes()),"filter_sha256":digest(filt.read_bytes())}
