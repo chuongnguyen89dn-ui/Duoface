@@ -1,6 +1,8 @@
 #import "DFSpeedTransport.h"
 #include "DFSpeedProtocol.hpp"
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
 #include "DFSpeedGMapReader.hpp"
+#endif
 #include <notify.h>
 #include <cmath>
 // No timer in source apps; apps publish on real, fresh source changes.
@@ -62,8 +64,10 @@ BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
   }
   // Read the actual Waze/VietMap/GOFA speed+limit samples published by
   // GMapHUD v0.2.3's source adapters, not their CarPlay HUD/window.
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
   DFSpeed::Sample native;
   if (DFSpeed::ReadPinnedGMapWire(native)) live[count++]=native;
+#endif
   static DFSpeed::Source previous=DFSpeed::Source::None;
   DFSpeed::Sample best;
   if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
