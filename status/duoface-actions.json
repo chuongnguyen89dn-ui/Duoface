@@ -1,19 +1,19 @@
 {
-  "checked_at_utc": "2026-10-16T14:55:05.211214+00:00",
+  "checked_at_utc": "2026-10-16T18:50:35.625023+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 508,
+  "total_actions_runs": 511,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
     "DuoFace research DuoDash bubble mount mechanism READONLY": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
+      "recent_runs": 4,
+      "success": 3,
+      "failure": 1,
       "other": 0
     },
     "DuoFace Native12 Speed4 split owner forensic audit READONLY (NO DEB)": {
@@ -179,9 +179,9 @@
       "other": 0
     },
     "DuoFace direct in-car Add App Logos iOS arm64 compile-only": {
-      "recent_runs": 7,
-      "success": 5,
-      "failure": 2,
+      "recent_runs": 5,
+      "success": 4,
+      "failure": 1,
       "other": 0
     },
     "DuoFace native20 independently verify public Sileo exact clean-brand DEB": {
@@ -221,9 +221,9 @@
       "other": 0
     },
     "DuoFace native18 direct CarPlay Add App tile, no iPhone-only modal": {
-      "recent_runs": 5,
+      "recent_runs": 4,
       "success": 1,
-      "failure": 4,
+      "failure": 3,
       "other": 0
     },
     "DuoFace native18 verify public Sileo APT and exact DEB": {
@@ -235,11 +235,41 @@
   },
   "latest_runs": [
     {
+      "id": 38950403277,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 21,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38950403277",
+      "created_at": "2026-10-16T18:50:25Z",
+      "head_sha": "21caee09bde7506e59afc5daa9d8fe390db7b5f4"
+    },
+    {
+      "id": 38920085014,
+      "name": "DuoFace research DuoDash bubble mount mechanism READONLY",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38920085014",
+      "created_at": "2026-10-16T14:58:15Z",
+      "head_sha": "49e1e70f3002349e7645ff35996542b749f75435"
+    },
+    {
+      "id": 38919933223,
+      "name": "DuoFace research DuoDash bubble mount mechanism READONLY",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38919933223",
+      "created_at": "2026-10-16T14:57:05Z",
+      "head_sha": "225793500df57911e58da174fb8534d3b0fabbaa"
+    },
+    {
       "id": 38919632320,
       "name": "DuoFace Actions status snapshot",
       "run_number": 20,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38919632320",
       "created_at": "2026-10-16T14:54:53Z",
       "head_sha": "d5634018143059b6cf39fc09dca7150f9e6b7cd1"
@@ -503,36 +533,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892246262",
       "created_at": "2026-10-16T11:12:29Z",
       "head_sha": "552b2ec3287c6940ebfbbb435c9e4f0fe62eb9e7"
-    },
-    {
-      "id": 38892217543,
-      "name": "DuoFace speed bubble protocol and native12 renderer compile-only, NO DEB",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892217543",
-      "created_at": "2026-10-16T11:12:13Z",
-      "head_sha": "1883df73333c360ed87f1feca38478f96f688a39"
-    },
-    {
-      "id": 38892162819,
-      "name": "DuoFace speed bubble protocol and native12 renderer compile-only, NO DEB",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892162819",
-      "created_at": "2026-10-16T11:11:45Z",
-      "head_sha": "88e062d1c17e512efc35d49d9bac26f115b38de0"
-    },
-    {
-      "id": 38892100620,
-      "name": "DuoFace speed bubble protocol and native12 renderer compile-only, NO DEB",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892100620",
-      "created_at": "2026-10-16T11:11:09Z",
-      "head_sha": "d71d0d50b6c3d36c0fa7b68e67ca4e8a486cd4c1"
     }
   ]
 }
