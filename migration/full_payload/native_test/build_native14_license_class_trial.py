@@ -56,7 +56,7 @@ def patch_host(original,classes):
     if pos<0:break
     cursor=pos+len(needle)
     if pos+len(needle)>=end or out[pos+len(needle)]!=0:
-     raise ValueError((name,pos,"non terminated extra, refuse unsafe erase"))
+     raise ValueError((name,pos,"non terminated extra, refuse unsafe erase",sec["name"],repr(bytes(out[max(off,pos-36):min(end,pos+len(needle)+55)]))))
     if pos>off and out[pos-1] not in (0,32,34,64,91):
      raise ValueError((name,pos,"embedded name, refuse unsafe erase"))
     out[pos:pos+len(needle)]=b"\x00"*len(needle)
