@@ -1,7 +1,8 @@
 // DuoFace CarPlay direct Add App — source fix after native15 device QA.
-// Native12 addMoreAppsTapped: only shows "use your iPhone" informational alert.
-// Replace that action only after verifying an EXISTING same-list preferences
-// file and actual App Bridge settings owner. Preserve all other picker callbacks.
+// Keep the native Add App tile, but NEVER call the old stop-car/iPhone-only
+// modal. Open a CarPlay picker for valid choices or show a scoped in-car
+// explanation when native storage/providers cannot yet be validated.
+// This change never patches the native12 Dashboard/activation implementation.
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
@@ -160,13 +161,13 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 @property(nonatomic,strong) UILabel *status;
 - (instancetype)initWithHost:(CBMultitaskingOverlayView *)host
                        file:(NSString *)file current:(NSArray *)current
-                    choices:(NSArray *)choices;
+                    choices:(NSArray *)choices diagnostic:(NSString *)diagnostic;
 - (void)dismiss;
 @end
 @implementation DFInCarAppPicker
 - (instancetype)initWithHost:(CBMultitaskingOverlayView *)host
                        file:(NSString *)file current:(NSArray *)current
-                    choices:(NSArray *)choices {
+                    choices:(NSArray *)choices diagnostic:(NSString *)diagnostic {
     self=[super initWithFrame:host.bounds];
     if (!self) return nil;
     _host=host;_prefsFile=[file copy];_snapshot=[current copy];_choices=[choices copy];
@@ -196,10 +197,12 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
     UILabel *status=[[UILabel alloc] initWithFrame:CGRectMake(10,
                       panel.bounds.size.height-34,panel.bounds.size.width-20,28)];
     status.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
-    status.font=[UIFont systemFontOfSize:11];
+    status.font=[UIFont systemFontOfSize:12];
+    status.numberOfLines=2;
+    status.adjustsFontSizeToFitWidth=YES;
     status.textColor=UIColor.lightGrayColor;
     status.textAlignment=NSTextAlignmentCenter;
-    status.text=@"Chạm để thêm vào DuoFace";
+    status.text=diagnostic.length ? diagnostic : @"Chạm để thêm vào DuoFace";
     [panel addSubview:status];_status=status;
     UITableView *table=[[UITableView alloc] initWithFrame:CGRectMake(0,46,
                       panel.bounds.size.width,MAX(55,panel.bounds.size.height-82))
@@ -233,6 +236,11 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ((NSUInteger)indexPath.row>=self.choices.count) return;
+    if (!self.prefsFile.length || !self.snapshot) {
+        self.status.text=@"Chưa xác minh được tệp cấu hình gốc; không ghi dữ liệu.";
+        NSLog(@"[DuoFaceInCarAddApps] save skipped: original preferences owner unverified");
+        return;
+    }
     NSString *bundle=self.choices[(NSUInteger)indexPath.row][@"bundle"];
     NSString *error=nil;
     BOOL ok=DFSaveToNativePreferences(self.prefsFile,self.snapshot,bundle,&error);
@@ -251,40 +259,44 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
 %group DFInCarPicker
 %hook CBMultitaskingOverlayView
 - (void)addMoreAppsTapped:(id)sender {
-    // Fail open to the original informational alert if owner/storage/provider
-    // cannot be VERIFIED. Never persist to a guessed domain or alternate list.
+    // THE ORIGINAL HANDLER SHOWS THE OBSOLETE "PARK SAFELY / OPEN IPHONE"
+    // MODAL. It MUST NOT be invoked here on any success or failure branch.
     if (![NSThread isMainThread]) {
-        %orig;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self addMoreAppsTapped:sender];
+        });
         return;
     }
     if ([self viewWithTag:kDFInCarModalTag]) return;
+
     Class settingsClass=NSClassFromString(@"CBDashboardSettings");
-    if (!settingsClass || ![settingsClass respondsToSelector:@selector(sharedInstance)]) {
-        NSLog(@"[DuoFaceInCarAddApps] fallback: settings class unavailable in active host");
-        %orig;
-        return;
-    }
-    CBDashboardSettings *settings=[settingsClass sharedInstance];
-    NSArray *selected=DFValidStringApps([settings bridgedApps]);
+    CBDashboardSettings *settings=nil;
+    if (settingsClass && [settingsClass respondsToSelector:@selector(sharedInstance)])
+        settings=[settingsClass sharedInstance];
+    NSArray *selected=settings ? DFValidStringApps([settings bridgedApps]) : nil;
     NSString *prefs=selected ? DFExistingSettingsFileForList(selected) : nil;
-    NSArray *choices=prefs ? DFEligibleApps(selected) : nil;
-    if (!prefs || !choices) {
-        NSLog(@"[DuoFaceInCarAddApps] fallback: current-list=%@ prefs-file=%@ app-provider=%@",
-              selected ? @"valid" : @"invalid",
-              prefs ? @"matched" : @"missing-or-ambiguous",
-              choices ? @"available" : @"unavailable");
-        %orig;
-        return;
-    }
-    if (choices.count==0) { // Native notice, no silent dead end.
-        NSLog(@"[DuoFaceInCarAddApps] fallback: no eligible unbridged user apps");
-        %orig;
-        return;
+    NSArray *choices=DFEligibleApps(selected?:@[]);
+    NSString *diagnostic=nil;
+    if (!settings || !selected) {
+        diagnostic=@"Chưa đọc được danh sách DuoFace gốc trên CarPlay.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: settings/current list unavailable");
+    } else if (!prefs) {
+        diagnostic=@"Chưa xác minh tệp lưu chung với iPhone; chưa thể thêm.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: shared settings file missing or ambiguous");
+    } else if (!choices) {
+        diagnostic=@"Chưa lấy được danh sách ứng dụng iPhone.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: installed apps provider unavailable");
+    } else if (choices.count==0) {
+        diagnostic=@"Không còn ứng dụng phù hợp để thêm.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: no eligible unbridged apps");
     }
     DFInCarAppPicker *picker=[[DFInCarAppPicker alloc]
-             initWithHost:self file:prefs current:selected choices:choices];
+        initWithHost:self file:prefs current:selected
+        choices:choices?:@[] diagnostic:diagnostic];
     [self addSubview:picker];
     [self bringSubviewToFront:picker];
+    NSLog(@"[DuoFaceInCarAddApps] in-car sheet shown; choices=%lu verified-storage=%@",
+          (unsigned long)choices.count, prefs?@"yes":@"no");
 }
 %end
 %end
