@@ -71,7 +71,7 @@ static void DFRefreshConnectionState(CBBridgeManager *manager) {
         DFConnectionLoadRememberedApp(nil); // native12 owns Auto Resume preferences
         DFConnectionVerifiedConnected(app,
             ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
-            nil, nil);
+            nil, ^(NSString *bid){ (void)bid; }); // do not persist single-app recall
     } else {
         DFConnectionVerifiedDisconnected(
             ^BOOL {
