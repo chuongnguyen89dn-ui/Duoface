@@ -1,0 +1,3819 @@
+{
+  "status": "NATIVE12_SCREEN_BLANK_AND_DOCK_DEEP_STATIC_READONLY_PASS",
+  "baseline_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "native12_exact_file_repackaged": false,
+  "device_screen_tested": false,
+  "dock_values_tested": false,
+  "test_limitations": "Static Objective-C metadata and disassembly heuristics only; no runtime, no thermistor or per-process metrics",
+  "binaries": {
+    "DuoFaceUI": {
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "class_count": 27,
+      "raw_literal_counts": {
+        "screenBlankEnabled": 4,
+        "setScreenBlankEnabled:": 1,
+        "dockMonitorEnabled": 3,
+        "dockMonitorToggleChanged:": 1,
+        "dockSystemMonitorEnabled": 1,
+        "dockSystemMonitorShowAll": 1,
+        "screenBlankToggleChanged:": 1,
+        "temperature": 2,
+        "CPU": 7,
+        "sysctlbyname": 2,
+        "UIWindow": 8
+      },
+      "owner_method_lists": {
+        "CBGeneralSettingsViewController": [
+          "-autoLaunchOnConnect",
+          "-autoLaunchToggleChanged:",
+          "-dealloc",
+          "-dockMonitorEnabled",
+          "-dockMonitorToggleChanged:",
+          "-handleAppDidBecomeActive",
+          "-handleLanguageChanged",
+          "-hideLabelsEnabled",
+          "-hideLabelsToggleChanged:",
+          "-init",
+          "-loadPreferences",
+          "-numberOfSectionsInTableView:",
+          "-openSubscriptionScreen",
+          "-performResetDefaults",
+          "-performRespring",
+          "-savePreferences",
+          "-screenBlankEnabled",
+          "-screenBlankToggleChanged:",
+          "-setAutoLaunchOnConnect:",
+          "-setDockMonitorEnabled:",
+          "-setHideLabelsEnabled:",
+          "-setScreenBlankEnabled:",
+          "-showLanguageSelectionSheet",
+          "-tableView:cellForRowAtIndexPath:",
+          "-tableView:didSelectRowAtIndexPath:",
+          "-tableView:numberOfRowsInSection:",
+          "-tableView:titleForFooterInSection:",
+          "-tableView:titleForHeaderInSection:",
+          "-viewDidLoad",
+          "-viewWillAppear:"
+        ]
+      },
+      "selected_method_disassembly": {
+        "CBGeneralSettingsViewController.loadPreferences": {
+          "vm": "0x10000d7c4",
+          "method_end_estimate": "0x10000da34",
+          "type": "v16@0:8",
+          "decoded_instructions": 156,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
+            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
+            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
+            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
+            "0x10000d7d4: add x29, sp, #0x30",
+            "0x10000d7d8: mov x19, x0",
+            "0x10000d7dc: adrp x8, #0x10011b000",
+            "0x10000d7e0: ldr x20, [x8, #0x958]",
+            "0x10000d7e4: adrp x8, #0x10011c000",
+            "0x10000d7e8: ldr x8, [x8, #0xe18]",
+            "0x10000d7ec: cmn x8, #1",
+            "0x10000d7f0: b.ne #0x10000da1c",
+            "0x10000d7f4: adrp x8, #0x10011c000",
+            "0x10000d7f8: ldr x2, [x8, #0xe10]",
+            "0x10000d7fc: adrp x8, #0x10011a000",
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d804: mov x0, x20",
+            "0x10000d808: bl #0x1000a2a84",
+            "0x10000d80c: mov x29, x29",
+            "0x10000d810: bl #0x1000a2acc",
+            "0x10000d814: mov x20, x0",
+            "0x10000d818: cbz x0, #0x10000da04",
+            "0x10000d81c: adrp x8, #0x10011a000",
+            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x10000d824: adr x2, #0x1000ea548",
+            "0x10000d828: nop ",
+            "0x10000d82c: mov x0, x20",
+            "0x10000d830: mov x1, x21",
+            "0x10000d834: bl #0x1000a2a84",
+            "0x10000d838: mov x29, x29",
+            "0x10000d83c: bl #0x1000a2acc",
+            "0x10000d840: mov x22, x0",
+            "0x10000d844: bl #0x1000a2a9c",
+            "0x10000d848: adrp x23, #0x10011a000",
+            "0x10000d84c: cbz x22, #0x10000d890",
+            "0x10000d850: adr x2, #0x1000ea548",
+            "0x10000d854: nop ",
+            "0x10000d858: mov x0, x20",
+            "0x10000d85c: mov x1, x21",
+            "0x10000d860: bl #0x1000a2a84",
+            "0x10000d864: mov x29, x29",
+            "0x10000d868: bl #0x1000a2acc",
+            "0x10000d86c: mov x22, x0",
+            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d874: bl #0x1000a2a84",
+            "0x10000d878: adrp x8, #0x10011b000",
+            "0x10000d87c: ldrsw x8, [x8, #0xc68]",
+            "0x10000d880: strb w0, [x19, x8]",
+            "0x10000d884: mov x0, x22",
+            "0x10000d888: bl #0x1000a2a9c",
+            "0x10000d88c: b #0x10000d8a0",
+            "0x10000d890: adrp x8, #0x10011b000",
+            "0x10000d894: ldrsw x8, [x8, #0xc68]",
+            "0x10000d898: mov w9, #1",
+            "0x10000d89c: strb w9, [x19, x8]",
+            "0x10000d8a0: adr x2, #0x1000ea568",
+            "0x10000d8a4: nop ",
+            "0x10000d8a8: mov x0, x20",
+            "0x10000d8ac: mov x1, x21",
+            "0x10000d8b0: bl #0x1000a2a84",
+            "0x10000d8b4: mov x29, x29",
+            "0x10000d8b8: bl #0x1000a2acc",
+            "0x10000d8bc: mov x22, x0",
+            "0x10000d8c0: bl #0x1000a2a9c",
+            "0x10000d8c4: cbz x22, #0x10000d908",
+            "0x10000d8c8: adr x2, #0x1000ea568",
+            "0x10000d8cc: nop ",
+            "0x10000d8d0: mov x0, x20",
+            "0x10000d8d4: mov x1, x21",
+            "0x10000d8d8: bl #0x1000a2a84",
+            "0x10000d8dc: mov x29, x29",
+            "0x10000d8e0: bl #0x1000a2acc",
+            "0x10000d8e4: mov x22, x0",
+            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d8ec: bl #0x1000a2a84",
+            "0x10000d8f0: adrp x8, #0x10011b000",
+            "0x10000d8f4: ldrsw x8, [x8, #0xc6c]",
+            "0x10000d8f8: strb w0, [x19, x8]",
+            "0x10000d8fc: mov x0, x22",
+            "0x10000d900: bl #0x1000a2a9c",
+            "0x10000d904: b #0x10000d918",
+            "0x10000d908: adrp x8, #0x10011b000",
+            "0x10000d90c: ldrsw x8, [x8, #0xc6c]",
+            "0x10000d910: mov w9, #1",
+            "0x10000d914: strb w9, [x19, x8]",
+            "0x10000d918: adr x2, #0x1000ea588",
+            "0x10000d91c: nop ",
+            "0x10000d920: mov x0, x20",
+            "0x10000d924: mov x1, x21",
+            "0x10000d928: bl #0x1000a2a84",
+            "0x10000d92c: mov x29, x29",
+            "0x10000d930: bl #0x1000a2acc",
+            "0x10000d934: mov x22, x0",
+            "0x10000d938: bl #0x1000a2a9c",
+            "0x10000d93c: cbz x22, #0x10000d980",
+            "0x10000d940: adr x2, #0x1000ea588",
+            "0x10000d944: nop ",
+            "0x10000d948: mov x0, x20",
+            "0x10000d94c: mov x1, x21",
+            "0x10000d950: bl #0x1000a2a84",
+            "0x10000d954: mov x29, x29",
+            "0x10000d958: bl #0x1000a2acc",
+            "0x10000d95c: mov x22, x0",
+            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d964: bl #0x1000a2a84",
+            "0x10000d968: adrp x8, #0x10011b000",
+            "0x10000d96c: ldrsw x8, [x8, #0xc70]",
+            "0x10000d970: strb w0, [x19, x8]",
+            "0x10000d974: mov x0, x22",
+            "0x10000d978: bl #0x1000a2a9c",
+            "0x10000d97c: b #0x10000d990",
+            "0x10000d980: adrp x8, #0x10011b000",
+            "0x10000d984: ldrsw x8, [x8, #0xc70]",
+            "0x10000d988: mov w9, #1",
+            "0x10000d98c: strb w9, [x19, x8]",
+            "0x10000d990: adr x2, #0x1000ea5a8",
+            "0x10000d994: nop ",
+            "0x10000d998: mov x0, x20",
+            "0x10000d99c: mov x1, x21",
+            "0x10000d9a0: bl #0x1000a2a84",
+            "0x10000d9a4: mov x29, x29",
+            "0x10000d9a8: bl #0x1000a2acc",
+            "0x10000d9ac: mov x22, x0",
+            "0x10000d9b0: bl #0x1000a2a9c",
+            "0x10000d9b4: cbz x22, #0x10000d9f8",
+            "0x10000d9b8: adr x2, #0x1000ea5a8",
+            "0x10000d9bc: nop ",
+            "0x10000d9c0: mov x0, x20",
+            "0x10000d9c4: mov x1, x21",
+            "0x10000d9c8: bl #0x1000a2a84",
+            "0x10000d9cc: mov x29, x29",
+            "0x10000d9d0: bl #0x1000a2acc",
+            "0x10000d9d4: mov x21, x0",
+            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d9dc: bl #0x1000a2a84",
+            "0x10000d9e0: adrp x8, #0x10011b000",
+            "0x10000d9e4: ldrsw x8, [x8, #0xc74]",
+            "0x10000d9e8: strb w0, [x19, x8]",
+            "0x10000d9ec: mov x0, x21",
+            "0x10000d9f0: bl #0x1000a2a9c",
+            "0x10000d9f4: b #0x10000da04",
+            "0x10000d9f8: adrp x8, #0x10011b000",
+            "0x10000d9fc: ldrsw x8, [x8, #0xc74]",
+            "0x10000da00: strb wzr, [x19, x8]",
+            "0x10000da04: mov x0, x20",
+            "0x10000da08: ldp x29, x30, [sp, #0x30]",
+            "0x10000da0c: ldp x20, x19, [sp, #0x20]",
+            "0x10000da10: ldp x22, x21, [sp, #0x10]",
+            "0x10000da14: ldp x24, x23, [sp], #0x40",
+            "0x10000da18: b #0x1000a2a9c",
+            "0x10000da1c: adrp x0, #0x10011c000",
+            "0x10000da20: add x0, x0, #0xe18",
+            "0x10000da24: adr x1, #0x1000e8490",
+            "0x10000da28: nop ",
+            "0x10000da2c: bl #0x1000a2964",
+            "0x10000da30: b #0x10000d7f4"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d8e8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d960: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x10000d9d8: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'"
+          ],
+          "head": [
+            "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
+            "0x10000d7c8: stp x22, x21, [sp, #0x10]",
+            "0x10000d7cc: stp x20, x19, [sp, #0x20]",
+            "0x10000d7d0: stp x29, x30, [sp, #0x30]",
+            "0x10000d7d4: add x29, sp, #0x30",
+            "0x10000d7d8: mov x19, x0",
+            "0x10000d7dc: adrp x8, #0x10011b000",
+            "0x10000d7e0: ldr x20, [x8, #0x958]",
+            "0x10000d7e4: adrp x8, #0x10011c000",
+            "0x10000d7e8: ldr x8, [x8, #0xe18]",
+            "0x10000d7ec: cmn x8, #1",
+            "0x10000d7f0: b.ne #0x10000da1c",
+            "0x10000d7f4: adrp x8, #0x10011c000",
+            "0x10000d7f8: ldr x2, [x8, #0xe10]",
+            "0x10000d7fc: adrp x8, #0x10011a000",
+            "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000d804: mov x0, x20",
+            "0x10000d808: bl #0x1000a2a84"
+          ]
+        },
+        "CBGeneralSettingsViewController.setDockMonitorEnabled:": {
+          "vm": "0x1000104d4",
+          "method_end_estimate": "0x1000104e4",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104d4: adrp x8, #0x10011b000",
+            "0x1000104d8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104dc: strb w2, [x0, x8]",
+            "0x1000104e0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104d4: adrp x8, #0x10011b000",
+            "0x1000104d8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104dc: strb w2, [x0, x8]",
+            "0x1000104e0: ret "
+          ]
+        },
+        "CBGeneralSettingsViewController.setScreenBlankEnabled:": {
+          "vm": "0x1000104b4",
+          "method_end_estimate": "0x1000104c4",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104b4: adrp x8, #0x10011b000",
+            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104bc: strb w2, [x0, x8]",
+            "0x1000104c0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104b4: adrp x8, #0x10011b000",
+            "0x1000104b8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104bc: strb w2, [x0, x8]",
+            "0x1000104c0: ret "
+          ]
+        },
+        "CBGeneralSettingsViewController.screenBlankToggleChanged:": {
+          "vm": "0x10000de2c",
+          "method_end_estimate": "0x10000de78",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 19,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de30: stp x29, x30, [sp, #0x10]",
+            "0x10000de34: add x29, sp, #0x10",
+            "0x10000de38: mov x19, x0",
+            "0x10000de3c: adrp x8, #0x10011a000",
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de44: mov x0, x2",
+            "0x10000de48: bl #0x1000a2a84",
+            "0x10000de4c: mov x2, x0",
+            "0x10000de50: adrp x8, #0x10011a000",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de58: mov x0, x19",
+            "0x10000de5c: bl #0x1000a2a84",
+            "0x10000de60: adrp x8, #0x10011a000",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000de68: mov x0, x19",
+            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
+            "0x10000de70: ldp x20, x19, [sp], #0x20",
+            "0x10000de74: b #0x1000a2a84"
+          ],
+          "relevant_instructions": [
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'"
+          ],
+          "selector_hints": [
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'"
+          ],
+          "head": [
+            "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de30: stp x29, x30, [sp, #0x10]",
+            "0x10000de34: add x29, sp, #0x10",
+            "0x10000de38: mov x19, x0",
+            "0x10000de3c: adrp x8, #0x10011a000",
+            "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de44: mov x0, x2",
+            "0x10000de48: bl #0x1000a2a84",
+            "0x10000de4c: mov x2, x0",
+            "0x10000de50: adrp x8, #0x10011a000",
+            "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+            "0x10000de58: mov x0, x19",
+            "0x10000de5c: bl #0x1000a2a84",
+            "0x10000de60: adrp x8, #0x10011a000",
+            "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000de68: mov x0, x19",
+            "0x10000de6c: ldp x29, x30, [sp, #0x10]",
+            "0x10000de70: ldp x20, x19, [sp], #0x20"
+          ]
+        },
+        "CBGeneralSettingsViewController.viewDidLoad": {
+          "vm": "0x10000cfa0",
+          "method_end_estimate": "0x10000d2f4",
+          "type": "v16@0:8",
+          "decoded_instructions": 213,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000cfa0: sub sp, sp, #0x50",
+            "0x10000cfa4: stp x24, x23, [sp, #0x10]",
+            "0x10000cfa8: stp x22, x21, [sp, #0x20]",
+            "0x10000cfac: stp x20, x19, [sp, #0x30]",
+            "0x10000cfb0: stp x29, x30, [sp, #0x40]",
+            "0x10000cfb4: add x29, sp, #0x40",
+            "0x10000cfb8: mov x19, x0",
+            "0x10000cfbc: adrp x8, #0x10011b000",
+            "0x10000cfc0: ldr x8, [x8, #0xb78]",
+            "0x10000cfc4: stp x0, x8, [sp]",
+            "0x10000cfc8: adrp x8, #0x10011a000",
+            "0x10000cfcc: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'viewDidLoad'",
+            "0x10000cfd0: mov x0, sp",
+            "0x10000cfd4: bl #0x1000a2a90",
+            "0x10000cfd8: adrp x8, #0x10011a000",
+            "0x10000cfdc: ldr x1, [x8, #0x738]  ; SEL_OR_LITERAL 'navigationController'",
+            "0x10000cfe0: mov x0, x19",
+            "0x10000cfe4: bl #0x1000a2a84",
+            "0x10000cfe8: mov x29, x29",
+            "0x10000cfec: bl #0x1000a2acc",
+            "0x10000cff0: mov x20, x0",
+            "0x10000cff4: adrp x8, #0x10011a000",
+            "0x10000cff8: ldr x1, [x8, #0x740]  ; SEL_OR_LITERAL 'navigationBar'",
+            "0x10000cffc: bl #0x1000a2a84",
+            "0x10000d000: mov x29, x29",
+            "0x10000d004: bl #0x1000a2acc",
+            "0x10000d008: mov x21, x0",
+            "0x10000d00c: adrp x8, #0x10011a000",
+            "0x10000d010: ldr x1, [x8, #0x748]  ; SEL_OR_LITERAL 'setPrefersLargeTitles:'",
+            "0x10000d014: mov w22, #1",
+            "0x10000d018: mov w2, #1",
+            "0x10000d01c: bl #0x1000a2a84",
+            "0x10000d020: mov x0, x21",
+            "0x10000d024: bl #0x1000a2a9c",
+            "0x10000d028: mov x0, x20",
+            "0x10000d02c: bl #0x1000a2a9c",
+            "0x10000d030: adrp x8, #0x10011b000",
+            "0x10000d034: ldr x0, [x8, #0x8e0]",
+            "0x10000d038: adrp x8, #0x10011a000",
+            "0x10000d03c: ldr x1, [x8, #0x3c8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x10000d040: adr x2, #0x1000e9248",
+            "0x10000d044: nop ",
+            "0x10000d048: bl #0x1000a2a84",
+            "0x10000d04c: mov x29, x29",
+            "0x10000d050: bl #0x1000a2acc",
+            "0x10000d054: mov x20, x0",
+            "0x10000d058: adrp x8, #0x10011a000",
+            "0x10000d05c: ldr x1, [x8, #0x478]  ; SEL_OR_LITERAL 'setTitle:'",
+            "0x10000d060: mov x0, x19",
+            "0x10000d064: mov x2, x20",
+            "0x10000d068: bl #0x1000a2a84",
+            "0x10000d06c: mov x0, x20",
+            "0x10000d070: bl #0x1000a2a9c",
+            "0x10000d074: adrp x8, #0x10011b000",
+            "0x10000d078: ldrsw x8, [x8, #0xc68]",
+            "0x10000d07c: strb w22, [x19, x8]",
+            "0x10000d080: adrp x8, #0x10011b000",
+            "0x10000d084: ldrsw x8, [x8, #0xc6c]",
+            "0x10000d088: strb w22, [x19, x8]",
+            "0x10000d08c: adrp x8, #0x10011b000",
+            "0x10000d090: ldrsw x8, [x8, #0xc70]",
+            "0x10000d094: strb w22, [x19, x8]",
+            "0x10000d098: adrp x8, #0x10011b000",
+            "0x10000d09c: ldrsw x8, [x8, #0xc74]",
+            "0x10000d0a0: strb wzr, [x19, x8]",
+            "0x10000d0a4: adrp x8, #0x10011a000",
+            "0x10000d0a8: ldr x1, [x8, #0x750]  ; SEL_OR_LITERAL 'loadPreferences'",
+            "0x10000d0ac: mov x0, x19",
+            "0x10000d0b0: bl #0x1000a2a84",
+            "0x10000d0b4: adrp x8, #0x10011a000",
+            "0x10000d0b8: ldr x1, [x8, #0x758]  ; SEL_OR_LITERAL 'navigationItem'",
+            "0x10000d0bc: mov x0, x19",
+            "0x10000d0c0: bl #0x1000a2a84",
+            "0x10000d0c4: mov x29, x29",
+            "0x10000d0c8: bl #0x1000a2acc",
+            "0x10000d0cc: mov x20, x0",
+            "0x10000d0d0: adrp x8, #0x10011a000",
+            "0x10000d0d4: ldr x1, [x8, #0x760]  ; SEL_OR_LITERAL 'setRightBarButtonItem:'",
+            "0x10000d0d8: mov x2, #0",
+            "0x10000d0dc: bl #0x1000a2a84",
+            "0x10000d0e0: mov x0, x20",
+            "0x10000d0e4: bl #0x1000a2a9c",
+            "0x10000d0e8: adrp x23, #0x10011b000",
+            "0x10000d0ec: ldr x0, [x23, #0x908]",
+            "0x10000d0f0: adrp x8, #0x10011a000",
+            "0x10000d0f4: ldr x20, [x8, #0x400]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0x10000d0f8: mov x1, x20",
+            "0x10000d0fc: bl #0x1000a2a84",
+            "0x10000d100: mov x29, x29",
+            "0x10000d104: bl #0x1000a2acc",
+            "0x10000d108: mov x21, x0",
+            "0x10000d10c: adrp x8, #0x10011a000",
+            "0x10000d110: ldr x3, [x8, #0x418]  ; SEL_OR_LITERAL 'handleLanguageChanged'",
+            "0x10000d114: nop ",
+            "0x10000d118: nop ",
+            "0x10000d11c: ldr x4, #0x1000e8a90",
+            "0x10000d120: adrp x8, #0x10011a000",
+            "0x10000d124: ldr x22, [x8, #0x410]  ; SEL_OR_LITERAL 'addObserver:selector:name:object:'",
+            "0x10000d128: mov x1, x22",
+            "0x10000d12c: mov x2, x19",
+            "0x10000d130: mov x5, #0",
+            "0x10000d134: bl #0x1000a2a84",
+            "0x10000d138: mov x0, x21",
+            "0x10000d13c: bl #0x1000a2a9c",
+            "0x10000d140: ldr x0, [x23, #0x908]",
+            "0x10000d144: mov x1, x20",
+            "0x10000d148: bl #0x1000a2a84",
+            "0x10000d14c: mov x29, x29",
+            "0x10000d150: bl #0x1000a2acc",
+            "0x10000d154: mov x20, x0",
+            "0x10000d158: adrp x8, #0x10011a000",
+            "0x10000d15c: ldr x3, [x8, #0x420]  ; SEL_OR_LITERAL 'handleAppDidBecomeActive'",
+            "0x10000d160: nop ",
+            "0x10000d164: ldr x8, #0x1000e8040",
+            "0x10000d168: ldr x4, [x8]",
+            "0x10000d16c: mov x1, x22",
+            "0x10000d170: mov x2, x19",
+            "0x10000d174: mov x5, #0",
+            "0x10000d178: bl #0x1000a2a84",
+            "0x10000d17c: mov x0, x20",
+            "0x10000d180: bl #0x1000a2a9c",
+            "0x10000d184: bl #0x1000a2778",
+            "0x10000d188: mov x20, x0",
+            "0x10000d18c: adrp x21, #0x10011c000",
+            "0x10000d190: ldr x3, [x21, #0xdd0]",
+            "0x10000d194: cbnz x3, #0x10000d1bc",
+            "0x10000d198: adrp x8, #0x10011c000",
+            "0x10000d19c: ldr x8, [x8, #0xde0]",
+            "0x10000d1a0: cmn x8, #1",
+            "0x10000d1a4: b.ne #0x10000d244",
+            "0x10000d1a8: adrp x8, #0x10011c000",
+            "0x10000d1ac: ldr x0, [x8, #0xdd8]",
+            "0x10000d1b0: bl #0x1000a2aa8",
+            "0x10000d1b4: mov x3, x0",
+            "0x10000d1b8: str x0, [x21, #0xdd0]",
+            "0x10000d1bc: adr x2, #0x10000d274",
+            "0x10000d1c0: nop ",
+            "0x10000d1c4: mov x0, x20",
+            "0x10000d1c8: mov x1, x19",
+            "0x10000d1cc: mov x4, #0",
+            "0x10000d1d0: mov w5, #4",
+            "0x10000d1d4: bl #0x1000a276c",
+            "0x10000d1d8: bl #0x1000a2778",
+            "0x10000d1dc: mov x20, x0",
+            "0x10000d1e0: adrp x21, #0x10011c000",
+            "0x10000d1e4: ldr x3, [x21, #0xde8]",
+            "0x10000d1e8: cbnz x3, #0x10000d210",
+            "0x10000d1ec: adrp x8, #0x10011c000",
+            "0x10000d1f0: ldr x8, [x8, #0xdf8]",
+            "0x10000d1f4: cmn x8, #1",
+            "0x10000d1f8: b.ne #0x10000d25c",
+            "0x10000d1fc: adrp x8, #0x10011c000",
+            "0x10000d200: ldr x0, [x8, #0xdf0]",
+            "0x10000d204: bl #0x1000a2aa8",
+            "0x10000d208: mov x3, x0",
+            "0x10000d20c: str x0, [x21, #0xde8]",
+            "0x10000d210: adr x2, #0x10000d274",
+            "0x10000d214: nop ",
+            "0x10000d218: mov x0, x20",
+            "0x10000d21c: mov x1, x19",
+            "0x10000d220: mov x4, #0",
+            "0x10000d224: mov w5, #4",
+            "0x10000d228: bl #0x1000a276c",
+            "0x10000d22c: ldp x29, x30, [sp, #0x40]",
+            "0x10000d230: ldp x20, x19, [sp, #0x30]",
+            "0x10000d234: ldp x22, x21, [sp, #0x20]",
+            "0x10000d238: ldp x24, x23, [sp, #0x10]",
+            "0x10000d23c: add sp, sp, #0x50",
+            "0x10000d240: ret ",
+            "0x10000d244: adrp x0, #0x10011c000",
+            "0x10000d248: add x0, x0, #0xde0",
+            "0x10000d24c: adr x1, #0x1000e8430",
+            "0x10000d250: nop ",
+            "0x10000d254: bl #0x1000a2964",
+            "0x10000d258: b #0x10000d1a8",
+            "0x10000d25c: adrp x0, #0x10011c000",
+            "0x10000d260: add x0, x0, #0xdf8",
+            "0x10000d264: adr x1, #0x1000e8450",
+            "0x10000d268: nop ",
+            "0x10000d26c: bl #0x1000a2964",
+            "0x10000d270: b #0x10000d1fc",
+            "0x10000d274: sub sp, sp, #0x50",
+            "0x10000d278: stp x20, x19, [sp, #0x30]",
+            "0x10000d27c: stp x29, x30, [sp, #0x40]",
+            "0x10000d280: add x29, sp, #0x40",
+            "0x10000d284: mov x0, x1",
+            "0x10000d288: bl #0x1000a2aa8",
+            "0x10000d28c: nop ",
+            "0x10000d290: ldr x8, #0x1000e8098",
+            "0x10000d294: str x8, [sp, #8]",
+            "0x10000d298: nop ",
+            "0x10000d29c: ldr d0, #0x1000ab660",
+            "0x10000d2a0: adr x8, #0x100010504",
+            "0x10000d2a4: nop ",
+            "0x10000d2a8: str d0, [sp, #0x10]",
+            "0x10000d2ac: adr x9, #0x1000e81a8",
+            "0x10000d2b0: nop ",
+            "0x10000d2b4: stp x8, x9, [sp, #0x18]",
+            "0x10000d2b8: str x0, [sp, #0x28]",
+            "0x10000d2bc: bl #0x1000a2aa8",
+            "0x10000d2c0: mov x19, x0",
+            "0x10000d2c4: nop ",
+            "0x10000d2c8: ldr x0, #0x1000e80b8",
+            "0x10000d2cc: add x1, sp, #8",
+            "0x10000d2d0: bl #0x1000a294c",
+            "0x10000d2d4: ldr x0, [sp, #0x28]",
+            "0x10000d2d8: bl #0x1000a2a9c",
+            "0x10000d2dc: mov x0, x19",
+            "0x10000d2e0: bl #0x1000a2a9c",
+            "0x10000d2e4: ldp x29, x30, [sp, #0x40]",
+            "0x10000d2e8: ldp x20, x19, [sp, #0x30]",
+            "0x10000d2ec: add sp, sp, #0x50",
+            "0x10000d2f0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x10000cfcc: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'viewDidLoad'",
+            "0x10000cfdc: ldr x1, [x8, #0x738]  ; SEL_OR_LITERAL 'navigationController'",
+            "0x10000cff8: ldr x1, [x8, #0x740]  ; SEL_OR_LITERAL 'navigationBar'",
+            "0x10000d010: ldr x1, [x8, #0x748]  ; SEL_OR_LITERAL 'setPrefersLargeTitles:'",
+            "0x10000d03c: ldr x1, [x8, #0x3c8]  ; SEL_OR_LITERAL 'localizedStringForKey:'",
+            "0x10000d05c: ldr x1, [x8, #0x478]  ; SEL_OR_LITERAL 'setTitle:'",
+            "0x10000d0a8: ldr x1, [x8, #0x750]  ; SEL_OR_LITERAL 'loadPreferences'",
+            "0x10000d0b8: ldr x1, [x8, #0x758]  ; SEL_OR_LITERAL 'navigationItem'",
+            "0x10000d0d4: ldr x1, [x8, #0x760]  ; SEL_OR_LITERAL 'setRightBarButtonItem:'",
+            "0x10000d0f4: ldr x20, [x8, #0x400]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0x10000d110: ldr x3, [x8, #0x418]  ; SEL_OR_LITERAL 'handleLanguageChanged'",
+            "0x10000d124: ldr x22, [x8, #0x410]  ; SEL_OR_LITERAL 'addObserver:selector:name:object:'",
+            "0x10000d15c: ldr x3, [x8, #0x420]  ; SEL_OR_LITERAL 'handleAppDidBecomeActive'"
+          ],
+          "head": [
+            "0x10000cfa0: sub sp, sp, #0x50",
+            "0x10000cfa4: stp x24, x23, [sp, #0x10]",
+            "0x10000cfa8: stp x22, x21, [sp, #0x20]",
+            "0x10000cfac: stp x20, x19, [sp, #0x30]",
+            "0x10000cfb0: stp x29, x30, [sp, #0x40]",
+            "0x10000cfb4: add x29, sp, #0x40",
+            "0x10000cfb8: mov x19, x0",
+            "0x10000cfbc: adrp x8, #0x10011b000",
+            "0x10000cfc0: ldr x8, [x8, #0xb78]",
+            "0x10000cfc4: stp x0, x8, [sp]",
+            "0x10000cfc8: adrp x8, #0x10011a000",
+            "0x10000cfcc: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'viewDidLoad'",
+            "0x10000cfd0: mov x0, sp",
+            "0x10000cfd4: bl #0x1000a2a90",
+            "0x10000cfd8: adrp x8, #0x10011a000",
+            "0x10000cfdc: ldr x1, [x8, #0x738]  ; SEL_OR_LITERAL 'navigationController'",
+            "0x10000cfe0: mov x0, x19",
+            "0x10000cfe4: bl #0x1000a2a84"
+          ]
+        },
+        "CBGeneralSettingsViewController.savePreferences": {
+          "vm": "0x10000da34",
+          "method_end_estimate": "0x10000dde0",
+          "type": "v16@0:8",
+          "decoded_instructions": 235,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x10000da7c: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x10000dab0: ldr x1, [x8, #0x5a8]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x10000daec: ldr x20, [x8, #0x6b8]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x10000db08: ldr x21, [x8, #0x5b8]  ; SEL_OR_LITERAL 'setObject:forKeyedSubscript:'",
+            "0x10000dc28: ldr x22, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x10000dd08: ldr x1, [x8, #0x5c0]  ; SEL_OR_LITERAL 'writeToFile:atomically:'"
+          ],
+          "head": [
+            "0x10000da34: stp x26, x25, [sp, #-0x50]!",
+            "0x10000da38: stp x24, x23, [sp, #0x10]",
+            "0x10000da3c: stp x22, x21, [sp, #0x20]",
+            "0x10000da40: stp x20, x19, [sp, #0x30]",
+            "0x10000da44: stp x29, x30, [sp, #0x40]",
+            "0x10000da48: add x29, sp, #0x40",
+            "0x10000da4c: mov x22, x0",
+            "0x10000da50: adrp x23, #0x10011b000",
+            "0x10000da54: ldr x19, [x23, #0x960]",
+            "0x10000da58: adrp x24, #0x10011c000",
+            "0x10000da5c: ldr x8, [x24, #0xe18]",
+            "0x10000da60: cmn x8, #1",
+            "0x10000da64: b.ne #0x10000dd80",
+            "0x10000da68: adrp x25, #0x10011c000",
+            "0x10000da6c: ldr x0, [x25, #0xe10]",
+            "0x10000da70: bl #0x1000a2aa8",
+            "0x10000da74: mov x20, x0",
+            "0x10000da78: adrp x8, #0x10011a000"
+          ]
+        },
+        "CBGeneralSettingsViewController.screenBlankEnabled": {
+          "vm": "0x1000104a4",
+          "method_end_estimate": "0x1000104b4",
+          "type": "B16@0:8",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104a4: adrp x8, #0x10011b000",
+            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104ac: ldrb w0, [x0, x8]",
+            "0x1000104b0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104a4: adrp x8, #0x10011b000",
+            "0x1000104a8: ldrsw x8, [x8, #0xc6c]",
+            "0x1000104ac: ldrb w0, [x0, x8]",
+            "0x1000104b0: ret "
+          ]
+        },
+        "CBGeneralSettingsViewController.dockMonitorEnabled": {
+          "vm": "0x1000104c4",
+          "method_end_estimate": "0x1000104d4",
+          "type": "B16@0:8",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x1000104c4: adrp x8, #0x10011b000",
+            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104cc: ldrb w0, [x0, x8]",
+            "0x1000104d0: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x1000104c4: adrp x8, #0x10011b000",
+            "0x1000104c8: ldrsw x8, [x8, #0xc70]",
+            "0x1000104cc: ldrb w0, [x0, x8]",
+            "0x1000104d0: ret "
+          ]
+        },
+        "CBGeneralSettingsViewController.dockMonitorToggleChanged:": {
+          "vm": "0x10000de78",
+          "method_end_estimate": "0x10000dec4",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 19,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x10000de78: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de7c: stp x29, x30, [sp, #0x10]",
+            "0x10000de80: add x29, sp, #0x10",
+            "0x10000de84: mov x19, x0",
+            "0x10000de88: adrp x8, #0x10011a000",
+            "0x10000de8c: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de90: mov x0, x2",
+            "0x10000de94: bl #0x1000a2a84",
+            "0x10000de98: mov x2, x0",
+            "0x10000de9c: adrp x8, #0x10011a000",
+            "0x10000dea0: ldr x1, [x8, #0x798]  ; SEL_OR_LITERAL 'setDockMonitorEnabled:'",
+            "0x10000dea4: mov x0, x19",
+            "0x10000dea8: bl #0x1000a2a84",
+            "0x10000deac: adrp x8, #0x10011a000",
+            "0x10000deb0: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000deb4: mov x0, x19",
+            "0x10000deb8: ldp x29, x30, [sp, #0x10]",
+            "0x10000debc: ldp x20, x19, [sp], #0x20",
+            "0x10000dec0: b #0x1000a2a84"
+          ],
+          "relevant_instructions": [
+            "0x10000dea0: ldr x1, [x8, #0x798]  ; SEL_OR_LITERAL 'setDockMonitorEnabled:'"
+          ],
+          "selector_hints": [
+            "0x10000de8c: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000dea0: ldr x1, [x8, #0x798]  ; SEL_OR_LITERAL 'setDockMonitorEnabled:'",
+            "0x10000deb0: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'"
+          ],
+          "head": [
+            "0x10000de78: stp x20, x19, [sp, #-0x20]!",
+            "0x10000de7c: stp x29, x30, [sp, #0x10]",
+            "0x10000de80: add x29, sp, #0x10",
+            "0x10000de84: mov x19, x0",
+            "0x10000de88: adrp x8, #0x10011a000",
+            "0x10000de8c: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+            "0x10000de90: mov x0, x2",
+            "0x10000de94: bl #0x1000a2a84",
+            "0x10000de98: mov x2, x0",
+            "0x10000de9c: adrp x8, #0x10011a000",
+            "0x10000dea0: ldr x1, [x8, #0x798]  ; SEL_OR_LITERAL 'setDockMonitorEnabled:'",
+            "0x10000dea4: mov x0, x19",
+            "0x10000dea8: bl #0x1000a2a84",
+            "0x10000deac: adrp x8, #0x10011a000",
+            "0x10000deb0: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+            "0x10000deb4: mov x0, x19",
+            "0x10000deb8: ldp x29, x30, [sp, #0x10]",
+            "0x10000debc: ldp x20, x19, [sp], #0x20"
+          ]
+        }
+      },
+      "selector_site_candidates": []
+    },
+    "DuoFaceDashboard": {
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "class_count": 36,
+      "raw_literal_counts": {
+        "screenBlankEnabled": 4,
+        "setScreenBlankEnabled:": 1,
+        "dockSystemMonitorEnabled": 4,
+        "setDockSystemMonitorEnabled:": 1,
+        "dockSystemMonitorShowAll": 4,
+        "readCpuUsage": 1,
+        "startMonitoring": 1,
+        "stopMonitoring": 1,
+        "thermalState": 1,
+        "batteryLevel": 1,
+        "batteryState": 1,
+        "temperature": 2,
+        "CPU": 8,
+        "sysctlbyname": 2,
+        "host_statistics": 4,
+        "processInfo": 1,
+        "CADisplayLink": 5,
+        "setIdleTimerDisabled:": 1,
+        "UIWindow": 14
+      },
+      "owner_method_lists": {
+        "CBDashboardSettings": [
+          "+assistantIconImage",
+          "+portalAppIconImage",
+          "+portalAppIdentifier",
+          "+sharedInstance",
+          "+splitScreenIconImage",
+          "-.cxx_destruct",
+          "-agreedToEULA",
+          "-appSettings",
+          "-assistantEnabled",
+          "-autoLaunchBundleID",
+          "-autoLaunchOnConnect",
+          "-bridgedApps",
+          "-dockSystemMonitorEnabled",
+          "-dockSystemMonitorShowAll",
+          "-gridCols",
+          "-gridRows",
+          "-hideIconLabels",
+          "-init",
+          "-portalAppEnabled",
+          "-preferredMapIndex",
+          "-reload",
+          "-reloadAppPrefs",
+          "-scaleForBundleID:",
+          "-screenBlankEnabled",
+          "-setAgreedToEULA:",
+          "-setAppSettings:",
+          "-setAssistantEnabled:",
+          "-setAutoLaunchBundleID:",
+          "-setAutoLaunchOnConnect:",
+          "-setBridgedApps:",
+          "-setDockSystemMonitorEnabled:",
+          "-setDockSystemMonitorShowAll:",
+          "-setGridCols:",
+          "-setGridRows:",
+          "-setHideIconLabels:",
+          "-setPortalAppEnabled:",
+          "-setPreferredMapIndex:",
+          "-setScale:forBundleID:",
+          "-setScreenBlankEnabled:",
+          "-setSplitApp1:",
+          "-setSplitApp2:",
+          "-setSplitApp3:",
+          "-setSplitApp4:",
+          "-setSplitLeftBundleID:",
+          "-setSplitMode:",
+          "-setSplitPreset:",
+          "-setSplitRatio:",
+          "-setSplitRightBundleID:",
+          "-setSplitScreenEnabled:",
+          "-setVoiceFeedbackEnabled:",
+          "-splitApp1",
+          "-splitApp2",
+          "-splitApp3",
+          "-splitApp4",
+          "-splitLeftBundleID",
+          "-splitMode",
+          "-splitPreset",
+          "-splitRatio",
+          "-splitRightBundleID",
+          "-splitScreenEnabled",
+          "-voiceFeedbackEnabled"
+        ],
+        "CBDockSystemMonitorView": [
+          "-.cxx_destruct",
+          "-dealloc",
+          "-detailedMode",
+          "-handleBatteryNotification:",
+          "-handleTapGesture:",
+          "-initWithFrame:",
+          "-isMonitoring",
+          "-layoutSubviews",
+          "-readCpuUsage",
+          "-readDeviceTemperature",
+          "-readRamUsage:total:",
+          "-setDetailedMode:",
+          "-setShowAll:",
+          "-showAll",
+          "-startMonitoring",
+          "-stopMonitoring",
+          "-updateBatteryMetric",
+          "-updateMetrics",
+          "-willMoveToWindow:"
+        ],
+        "CBBridgeManager": [
+          "+sharedInstance",
+          "+sharedInstanceIfExists",
+          "-.cxx_destruct",
+          "-acquireCarPlaySleepAssertion",
+          "-activated",
+          "-appForBundleIdentifier:frame:",
+          "-appFrame",
+          "-autoResumeBundleID",
+          "-bundleIdentifier",
+          "-cancelMandatoryDisconnectWatchdog",
+          "-clearBridgeStateOnDisk",
+          "-collectActiveAndSessionAppBundleIDs",
+          "-currentApp",
+          "-deactivateCurrentApp",
+          "-dismiss:",
+          "-dismissLicenseWarningModal",
+          "-effectiveAutoLaunchBundleID",
+          "-enforceMandatoryDisconnectKill",
+          "-evictAppFromPhoneScreen:completion:",
+          "-handleCarPlayConnectionChanged:",
+          "-handleGenericScreenOrCarPlayNotification:",
+          "-handleScreenDidConnect:",
+          "-handleScreenDidDisconnect:",
+          "-handleSettingsChanged",
+          "-init",
+          "-isCurrentlyBridging:",
+          "-isUIAppBridging",
+          "-killProcessesForBundleIdentifiers:",
+          "-licenseWarningModal",
+          "-licenseWatchdogTimerFired:",
+          "-loadNewAppFromCurrentRequest:",
+          "-notifyStateUpdated",
+          "-performAutoResume",
+          "-presentLicenseWarningModalWithType:",
+          "-receivedAppRequestNotification:",
+          "-receivedDashboardReadyNotification:",
+          "-receivedDockTapNotification:",
+          "-receivedMetricsUpdatedNotification:",
+          "-receivedStateChangeRequestNotificiation:",
+          "-registerForNotifications",
+          "-releaseCarPlaySleepAssertion",
+          "-renderSize",
+          "-renderSizeForBundleID:",
+          "-requestStateChange:",
+          "-requestStateChangeWithDictionary:",
+          "-restartApplicationWithBundleID:",
+          "-runningBridgedApplications",
+          "-saveBridgeStateToDisk",
+          "-scheduleAutoResumeFallback",
+          "-scheduleMandatoryDisconnectWatchdog",
+          "-sendStateToApp:shouldBridge:",
+          "-setActivated:",
+          "-setAppFrame:",
+          "-setAutoResumeBundleID:",
+          "-setBundleIdentifier:",
+          "-setCurrentApp:",
+          "-setLicenseWarningModal:",
+          "-setRenderSize:",
+          "-setWindow:",
+          "-shouldBridge:",
+          "-showAppPickerForSlot:",
+          "-showLayoutChooser",
+          "-showRecentApps",
+          "-startLicenseWatchdogTimer",
+          "-stopLicenseWatchdogTimer",
+          "-supportsInterfaceOrientation:forBundleID:",
+          "-switchToMultiSplitMode:apps:ratio:",
+          "-switchToSplitWithLeft:right:ratio:",
+          "-syncDashboardPolicySignalToDisk",
+          "-terminate",
+          "-terminateAllBridgedApplications",
+          "-terminateApplicationWithBundleID:",
+          "-trackBridgedBundleID:",
+          "-updateScale:forSlot:",
+          "-window"
+        ],
+        "CBBridgedPortalAppView": [
+          "-.cxx_destruct",
+          "-captureFrame:",
+          "-dealloc",
+          "-displayLink",
+          "-imageView",
+          "-initWithFrame:",
+          "-setDisplayLink:",
+          "-setImageView:",
+          "-setTouchCloneView:",
+          "-start",
+          "-stop",
+          "-touchCloneView"
+        ],
+        "CBWindow": [
+          "+activeCarPlayWindow",
+          "+carPlayCADisplay",
+          "+carPlayContentInsets",
+          "+carPlayScreenBounds",
+          "+carPlayScreenScale",
+          "+carPlayUIScreen",
+          "+carPlayUsableBounds",
+          "+carPlayWindowScene",
+          "+resetCachedBounds",
+          "-.cxx_destruct",
+          "-appFrame",
+          "-contentView",
+          "-createWindows",
+          "-dealloc",
+          "-destroyWindows",
+          "-dismiss",
+          "-getCarPlayDisplay",
+          "-hide:",
+          "-initWithAppFrame:",
+          "-isDisplayValid",
+          "-isVisible",
+          "-multitaskingOverlay",
+          "-multitaskingPill",
+          "-resizeWindows",
+          "-rootViewController",
+          "-rootWindow",
+          "-setAppFrame:",
+          "-setContentView:",
+          "-setIsVisible:",
+          "-setMultitaskingOverlay:",
+          "-setMultitaskingPill:",
+          "-setRootViewController:",
+          "-setRootWindow:",
+          "-show",
+          "-showAppPickerForSlot:",
+          "-showLayoutChooser",
+          "-showRecentApps"
+        ]
+      },
+      "selected_method_disassembly": {
+        "CBDashboardSettings.dockSystemMonitorShowAll": {
+          "vm": "0x37ff0",
+          "method_end_estimate": "0x37ff8",
+          "type": "B16@0:8",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37ff0: ldrb w0, [x0, #0xf]",
+            "0x37ff4: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37ff0: ldrb w0, [x0, #0xf]",
+            "0x37ff4: ret "
+          ]
+        },
+        "CBDashboardSettings.setScreenBlankEnabled:": {
+          "vm": "0x37ec8",
+          "method_end_estimate": "0x37ed0",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37ec8: strb w2, [x0, #9]",
+            "0x37ecc: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37ec8: strb w2, [x0, #9]",
+            "0x37ecc: ret "
+          ]
+        },
+        "CBDashboardSettings.init": {
+          "vm": "0x36054",
+          "method_end_estimate": "0x3618c",
+          "type": "@16@0:8",
+          "decoded_instructions": 78,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x36054: sub sp, sp, #0x30",
+            "0x36058: stp x20, x19, [sp, #0x10]",
+            "0x3605c: stp x29, x30, [sp, #0x20]",
+            "0x36060: add x29, sp, #0x20",
+            "0x36064: adrp x8, #0x37f000",
+            "0x36068: ldr x8, [x8, #0xa78]",
+            "0x3606c: stp x0, x8, [sp]",
+            "0x36070: adrp x8, #0x37d000",
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36078: mov x0, sp",
+            "0x3607c: bl #0x2ecd18",
+            "0x36080: mov x19, x0",
+            "0x36084: cbz x0, #0x36178",
+            "0x36088: adrp x8, #0x37f000",
+            "0x3608c: ldr x0, [x8, #0x758]",
+            "0x36090: adrp x8, #0x37d000",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x36098: bl #0x2ecd00",
+            "0x3609c: mov x29, x29",
+            "0x360a0: bl #0x2ecd60",
+            "0x360a4: ldr x8, [x19, #0x18]",
+            "0x360a8: str x0, [x19, #0x18]",
+            "0x360ac: mov x0, x8",
+            "0x360b0: bl #0x2ecd30",
+            "0x360b4: adrp x8, #0x37f000",
+            "0x360b8: ldr x0, [x8, #0x750]",
+            "0x360bc: adrp x8, #0x37d000",
+            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x360c4: bl #0x2ecd00",
+            "0x360c8: mov x29, x29",
+            "0x360cc: bl #0x2ecd60",
+            "0x360d0: ldr x8, [x19, #0x20]",
+            "0x360d4: str x0, [x19, #0x20]",
+            "0x360d8: mov x0, x8",
+            "0x360dc: bl #0x2ecd30",
+            "0x360e0: mov w8, #0x100",
+            "0x360e4: movk w8, #0x101, lsl #16",
+            "0x360e8: str w8, [x19, #8]",
+            "0x360ec: mov w20, #1",
+            "0x360f0: strb w20, [x19, #0xc]",
+            "0x360f4: ldr x0, [x19, #0x30]",
+            "0x360f8: stp xzr, xzr, [x19, #0x28]",
+            "0x360fc: bl #0x2ecd30",
+            "0x36100: ldr x0, [x19, #0x38]",
+            "0x36104: str xzr, [x19, #0x38]",
+            "0x36108: bl #0x2ecd30",
+            "0x3610c: dup v0.2d, x20",
+            "0x36110: str q0, [x19, #0x40]",
+            "0x36114: ldr x0, [x19, #0x50]",
+            "0x36118: str xzr, [x19, #0x50]",
+            "0x3611c: bl #0x2ecd30",
+            "0x36120: ldr x0, [x19, #0x58]",
+            "0x36124: str xzr, [x19, #0x58]",
+            "0x36128: bl #0x2ecd30",
+            "0x3612c: ldr x0, [x19, #0x60]",
+            "0x36130: str xzr, [x19, #0x60]",
+            "0x36134: bl #0x2ecd30",
+            "0x36138: ldr x0, [x19, #0x68]",
+            "0x3613c: str xzr, [x19, #0x68]",
+            "0x36140: bl #0x2ecd30",
+            "0x36144: mov x8, #0x3fe0000000000000",
+            "0x36148: str x8, [x19, #0x70]",
+            "0x3614c: adrp x8, #0x30f000",
+            "0x36150: ldr q0, [x8, #0xb30]",
+            "0x36154: stur q0, [x19, #0x78]",
+            "0x36158: mov w8, #0x100",
+            "0x3615c: sturh w8, [x19, #0xd]",
+            "0x36160: strb w20, [x19, #0xf]",
+            "0x36164: strb w20, [x19, #0x11]",
+            "0x36168: adrp x8, #0x37d000",
+            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'",
+            "0x36170: mov x0, x19",
+            "0x36174: bl #0x2ecd00",
+            "0x36178: mov x0, x19",
+            "0x3617c: ldp x29, x30, [sp, #0x20]",
+            "0x36180: ldp x20, x19, [sp, #0x10]",
+            "0x36184: add sp, sp, #0x30",
+            "0x36188: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x360c0: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x3616c: ldr x1, [x8, #0x520]  ; SEL_OR_LITERAL 'reload'"
+          ],
+          "head": [
+            "0x36054: sub sp, sp, #0x30",
+            "0x36058: stp x20, x19, [sp, #0x10]",
+            "0x3605c: stp x29, x30, [sp, #0x20]",
+            "0x36060: add x29, sp, #0x20",
+            "0x36064: adrp x8, #0x37f000",
+            "0x36068: ldr x8, [x8, #0xa78]",
+            "0x3606c: stp x0, x8, [sp]",
+            "0x36070: adrp x8, #0x37d000",
+            "0x36074: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x36078: mov x0, sp",
+            "0x3607c: bl #0x2ecd18",
+            "0x36080: mov x19, x0",
+            "0x36084: cbz x0, #0x36178",
+            "0x36088: adrp x8, #0x37f000",
+            "0x3608c: ldr x0, [x8, #0x758]",
+            "0x36090: adrp x8, #0x37d000",
+            "0x36094: ldr x1, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x36098: bl #0x2ecd00"
+          ]
+        },
+        "CBDashboardSettings.setDockSystemMonitorEnabled:": {
+          "vm": "0x364d0",
+          "method_end_estimate": "0x36670",
+          "type": "v20@0:8B16",
+          "decoded_instructions": 104,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x364d0: stp x24, x23, [sp, #-0x40]!",
+            "0x364d4: stp x22, x21, [sp, #0x10]",
+            "0x364d8: stp x20, x19, [sp, #0x20]",
+            "0x364dc: stp x29, x30, [sp, #0x30]",
+            "0x364e0: add x29, sp, #0x30",
+            "0x364e4: mov x20, x2",
+            "0x364e8: strb w2, [x0, #0xe]",
+            "0x364ec: adrp x24, #0x37f000",
+            "0x364f0: ldr x0, [x24, #0x748]",
+            "0x364f4: bl #0x2ecc34",
+            "0x364f8: mov x19, x0",
+            "0x364fc: adrp x22, #0x381000",
+            "0x36500: ldr x8, [x22, #0x2b8]",
+            "0x36504: cmn x8, #1",
+            "0x36508: b.ne #0x36628",
+            "0x3650c: adrp x23, #0x381000",
+            "0x36510: ldr x0, [x23, #0x2b0]",
+            "0x36514: bl #0x2ecd3c",
+            "0x36518: mov x21, x0",
+            "0x3651c: adrp x8, #0x37d000",
+            "0x36520: ldr x1, [x8, #0xbc0]  ; SEL_OR_LITERAL 'initWithContentsOfFile:'",
+            "0x36524: mov x0, x19",
+            "0x36528: mov x2, x21",
+            "0x3652c: bl #0x2ecd00",
+            "0x36530: cbnz x0, #0x3654c",
+            "0x36534: ldr x0, [x24, #0x748]",
+            "0x36538: adrp x8, #0x37d000",
+            "0x3653c: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x36540: bl #0x2ecd00",
+            "0x36544: mov x29, x29",
+            "0x36548: bl #0x2ecd60",
+            "0x3654c: mov x19, x0",
+            "0x36550: mov x0, x21",
+            "0x36554: bl #0x2ecd30",
+            "0x36558: adrp x8, #0x37f000",
+            "0x3655c: ldr x0, [x8, #0x7f8]",
+            "0x36560: adrp x8, #0x37d000",
+            "0x36564: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x36568: mov x2, x20",
+            "0x3656c: bl #0x2ecd00",
+            "0x36570: mov x29, x29",
+            "0x36574: bl #0x2ecd60",
+            "0x36578: mov x20, x0",
+            "0x3657c: adrp x8, #0x37d000",
+            "0x36580: ldr x1, [x8, #0x598]  ; SEL_OR_LITERAL 'setObject:forKeyedSubscript:'",
+            "0x36584: adrp x3, #0x36f000",
+            "0x36588: add x3, x3, #0xe8",
+            "0x3658c: mov x0, x19",
+            "0x36590: mov x2, x20",
+            "0x36594: bl #0x2ecd00",
+            "0x36598: mov x0, x20",
+            "0x3659c: bl #0x2ecd30",
+            "0x365a0: ldr x8, [x22, #0x2b8]",
+            "0x365a4: cmn x8, #1",
+            "0x365a8: b.ne #0x36640",
+            "0x365ac: ldr x2, [x23, #0x2b0]",
+            "0x365b0: adrp x8, #0x37d000",
+            "0x365b4: ldr x1, [x8, #0x5a0]  ; SEL_OR_LITERAL 'writeToFile:atomically:'",
+            "0x365b8: mov x0, x19",
+            "0x365bc: mov w3, #1",
+            "0x365c0: bl #0x2ecd00",
+            "0x365c4: bl #0x2ec7cc",
+            "0x365c8: mov x20, x0",
+            "0x365cc: adrp x21, #0x381000",
+            "0x365d0: ldr x1, [x21, #0x2c0]",
+            "0x365d4: cbnz x1, #0x365fc",
+            "0x365d8: adrp x8, #0x381000",
+            "0x365dc: ldr x8, [x8, #0x2d0]",
+            "0x365e0: cmn x8, #1",
+            "0x365e4: b.ne #0x36658",
+            "0x365e8: adrp x8, #0x381000",
+            "0x365ec: ldr x0, [x8, #0x2c8]",
+            "0x365f0: bl #0x2ecd3c",
+            "0x365f4: mov x1, x0",
+            "0x365f8: str x0, [x21, #0x2c0]",
+            "0x365fc: mov x0, x20",
+            "0x36600: mov x2, #0",
+            "0x36604: mov x3, #0",
+            "0x36608: mov w4, #1",
+            "0x3660c: bl #0x2ec7d8",
+            "0x36610: mov x0, x19",
+            "0x36614: ldp x29, x30, [sp, #0x30]",
+            "0x36618: ldp x20, x19, [sp, #0x20]",
+            "0x3661c: ldp x22, x21, [sp, #0x10]",
+            "0x36620: ldp x24, x23, [sp], #0x40",
+            "0x36624: b #0x2ecd30",
+            "0x36628: adrp x0, #0x381000",
+            "0x3662c: add x0, x0, #0x2b8",
+            "0x36630: adrp x1, #0x344000",
+            "0x36634: add x1, x1, #0x928",
+            "0x36638: bl #0x2ecb38",
+            "0x3663c: b #0x3650c",
+            "0x36640: adrp x0, #0x381000",
+            "0x36644: add x0, x0, #0x2b8",
+            "0x36648: adrp x1, #0x344000",
+            "0x3664c: add x1, x1, #0x928",
+            "0x36650: bl #0x2ecb38",
+            "0x36654: b #0x365ac",
+            "0x36658: adrp x0, #0x381000",
+            "0x3665c: add x0, x0, #0x2d0",
+            "0x36660: adrp x1, #0x344000",
+            "0x36664: add x1, x1, #0x948",
+            "0x36668: bl #0x2ecb38",
+            "0x3666c: b #0x365e8"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x36520: ldr x1, [x8, #0xbc0]  ; SEL_OR_LITERAL 'initWithContentsOfFile:'",
+            "0x3653c: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionary'",
+            "0x36564: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x36580: ldr x1, [x8, #0x598]  ; SEL_OR_LITERAL 'setObject:forKeyedSubscript:'",
+            "0x365b4: ldr x1, [x8, #0x5a0]  ; SEL_OR_LITERAL 'writeToFile:atomically:'"
+          ],
+          "head": [
+            "0x364d0: stp x24, x23, [sp, #-0x40]!",
+            "0x364d4: stp x22, x21, [sp, #0x10]",
+            "0x364d8: stp x20, x19, [sp, #0x20]",
+            "0x364dc: stp x29, x30, [sp, #0x30]",
+            "0x364e0: add x29, sp, #0x30",
+            "0x364e4: mov x20, x2",
+            "0x364e8: strb w2, [x0, #0xe]",
+            "0x364ec: adrp x24, #0x37f000",
+            "0x364f0: ldr x0, [x24, #0x748]",
+            "0x364f4: bl #0x2ecc34",
+            "0x364f8: mov x19, x0",
+            "0x364fc: adrp x22, #0x381000",
+            "0x36500: ldr x8, [x22, #0x2b8]",
+            "0x36504: cmn x8, #1",
+            "0x36508: b.ne #0x36628",
+            "0x3650c: adrp x23, #0x381000",
+            "0x36510: ldr x0, [x23, #0x2b0]",
+            "0x36514: bl #0x2ecd3c"
+          ]
+        },
+        "CBDashboardSettings.dockSystemMonitorEnabled": {
+          "vm": "0x37fe8",
+          "method_end_estimate": "0x37ff0",
+          "type": "B16@0:8",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37fe8: ldrb w0, [x0, #0xe]",
+            "0x37fec: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37fe8: ldrb w0, [x0, #0xe]",
+            "0x37fec: ret "
+          ]
+        },
+        "CBDashboardSettings.reloadAppPrefs": {
+          "vm": "0x3681c",
+          "method_end_estimate": "0x37e88",
+          "type": "v16@0:8",
+          "decoded_instructions": 1401,
+          "truncated_by_disassembler": true,
+          "full_instructions": [],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x36888: ldr x1, [x8, #0xbc0]  ; SEL_OR_LITERAL 'initWithContentsOfFile:'",
+            "0x368b8: ldr x20, [x8, #0x560]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+            "0x36908: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x36964: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x369c0: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x36a18: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x36a58: ldr x19, [x24, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x36ac8: ldr x20, [x8, #0x550]  ; SEL_OR_LITERAL 'arrayWithObjects:count:'",
+            "0x36b6c: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x36bcc: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x36c28: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x36c84: ldr x1, [x24, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x36cec: ldr x1, [x24, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x36d54: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x36dac: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x36e20: ldr x21, [x24, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x3701c: ldr x1, [x8, #0xbd8]  ; SEL_OR_LITERAL 'doubleValue'",
+            "0x37088: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x37144: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x371b4: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x37248: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x372b8: ldr x1, [x26, #0x660]  ; SEL_OR_LITERAL 'integerValue'",
+            "0x37334: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x37394: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x373f0: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x37458: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x374c0: ldr x1, [x28, #0x5e8]  ; SEL_OR_LITERAL 'boolValue'",
+            "0x37528: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x37634: ldr x28, [x8, #0xbb8]  ; SEL_OR_LITERAL 'array'",
+            "0x3767c: ldr x1, [x8, #0x610]  ; SEL_OR_LITERAL 'class'",
+            "0x3768c: ldr x1, [x8, #0x618]  ; SEL_OR_LITERAL 'isKindOfClass:'",
+            "0x376a0: ldr x1, [x8, #0xbe0]  ; SEL_OR_LITERAL 'addObjectsFromArray:'",
+            "0x376e0: ldr x1, [x8, #0xbe8]  ; SEL_OR_LITERAL 'addObject:'",
+            "0x3771c: ldr x1, [x8, #0xbe8]  ; SEL_OR_LITERAL 'addObject:'",
+            "0x37764: ldr x1, [x8, #0xbe8]  ; SEL_OR_LITERAL 'addObject:'",
+            "0x377ac: ldr x27, [x8, #0x620]  ; SEL_OR_LITERAL 'count'",
+            "0x377cc: ldr x19, [x8, #0xbf0]  ; SEL_OR_LITERAL 'setWithArray:'",
+            "0x377f8: ldr x1, [x8, #0xbf8]  ; SEL_OR_LITERAL 'isEqualToSet:'",
+            "0x37818: ldr x1, [x8, #0x418]  ; SEL_OR_LITERAL 'mainBundle'",
+            "0x37830: ldr x1, [x8, #0x420]  ; SEL_OR_LITERAL 'bundleIdentifier'",
+            "0x37850: ldr x1, [x8, #0x448]  ; SEL_OR_LITERAL 'isEqualToString:'",
+            "0x37894: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'arrayWithObjects:count:'",
+            "0x378c0: ldr x1, [x8, #0x898]  ; SEL_OR_LITERAL 'countByEnumeratingWithState:objects:count:'",
+            "0x378f8: ldr x21, [x8, #0x4a0]  ; SEL_OR_LITERAL 'defaultManager'",
+            "0x378fc: ldr x22, [x9, #0xb38]  ; SEL_OR_LITERAL 'fileExistsAtPath:'",
+            "0x379a4: ldr x1, [x8, #0x558]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+            "0x37a18: ldr x21, [x8, #0xbc8]  ; SEL_OR_LITERAL 'mutableCopy'",
+            "0x37b10: ldr x24, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x37b18: ldr x21, [x8, #0x5c8]  ; SEL_OR_LITERAL 'containsObject:'",
+            "0x37b20: ldr x23, [x8, #0x458]  ; SEL_OR_LITERAL 'hasPrefix:'",
+            "0x37b28: ldr x20, [x8, #0xbe8]  ; SEL_OR_LITERAL 'addObject:'",
+            "0x37bf0: ldr x19, [x8, #0x598]  ; SEL_OR_LITERAL 'setObject:forKeyedSubscript:'",
+            "0x37c28: ldr x1, [x8, #0x5a0]  ; SEL_OR_LITERAL 'writeToFile:atomically:'",
+            "0x37d08: ldr x1, [x8, #0x5b0]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0x37d40: ldr x1, [x8, #0x970]  ; SEL_OR_LITERAL 'postNotificationName:object:userInfo:'"
+          ],
+          "head": [
+            "0x3681c: stp d9, d8, [sp, #-0x70]!",
+            "0x36820: stp x28, x27, [sp, #0x10]",
+            "0x36824: stp x26, x25, [sp, #0x20]",
+            "0x36828: stp x24, x23, [sp, #0x30]",
+            "0x3682c: stp x22, x21, [sp, #0x40]",
+            "0x36830: stp x20, x19, [sp, #0x50]",
+            "0x36834: stp x29, x30, [sp, #0x60]",
+            "0x36838: add x29, sp, #0x60",
+            "0x3683c: sub sp, sp, #0x230",
+            "0x36840: mov x25, x0",
+            "0x36844: adrp x8, #0x344000",
+            "0x36848: ldr x8, [x8, #0x140]",
+            "0x3684c: ldr x8, [x8]",
+            "0x36850: stur x8, [x29, #-0x70]",
+            "0x36854: adrp x8, #0x37f000",
+            "0x36858: ldr x0, [x8, #0x748]",
+            "0x3685c: bl #0x2ecc34",
+            "0x36860: mov x19, x0"
+          ]
+        },
+        "CBDashboardSettings.screenBlankEnabled": {
+          "vm": "0x37ec0",
+          "method_end_estimate": "0x37ec8",
+          "type": "B16@0:8",
+          "decoded_instructions": 2,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x37ec0: ldrb w0, [x0, #9]",
+            "0x37ec4: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x37ec0: ldrb w0, [x0, #9]",
+            "0x37ec4: ret "
+          ]
+        },
+        "CBDashboardSettings.reload": {
+          "vm": "0x36810",
+          "method_end_estimate": "0x3681c",
+          "type": "v16@0:8",
+          "decoded_instructions": 3,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x36810: adrp x8, #0x37d000",
+            "0x36814: ldr x1, [x8, #0xbd0]  ; SEL_OR_LITERAL 'reloadAppPrefs'",
+            "0x36818: b #0x2ecd00"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x36814: ldr x1, [x8, #0xbd0]  ; SEL_OR_LITERAL 'reloadAppPrefs'"
+          ],
+          "head": [
+            "0x36810: adrp x8, #0x37d000",
+            "0x36814: ldr x1, [x8, #0xbd0]  ; SEL_OR_LITERAL 'reloadAppPrefs'",
+            "0x36818: b #0x2ecd00"
+          ]
+        },
+        "CBDockSystemMonitorView.stopMonitoring": {
+          "vm": "0xb4ad4",
+          "method_end_estimate": "0xb4b20",
+          "type": "v16@0:8",
+          "decoded_instructions": 19,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb4ad4: stp x20, x19, [sp, #-0x20]!",
+            "0xb4ad8: stp x29, x30, [sp, #0x10]",
+            "0xb4adc: add x29, sp, #0x10",
+            "0xb4ae0: mov x19, x0",
+            "0xb4ae4: adrp x8, #0x37f000",
+            "0xb4ae8: ldrsw x20, [x8, #0xd34]",
+            "0xb4aec: ldr x0, [x0, x20]",
+            "0xb4af0: cbz x0, #0xb4b14",
+            "0xb4af4: adrp x8, #0x37d000",
+            "0xb4af8: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+            "0xb4afc: bl #0x2ecd00",
+            "0xb4b00: ldr x0, [x19, x20]",
+            "0xb4b04: str xzr, [x19, x20]",
+            "0xb4b08: ldp x29, x30, [sp, #0x10]",
+            "0xb4b0c: ldp x20, x19, [sp], #0x20",
+            "0xb4b10: b #0x2ecd30",
+            "0xb4b14: ldp x29, x30, [sp, #0x10]",
+            "0xb4b18: ldp x20, x19, [sp], #0x20",
+            "0xb4b1c: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0xb4af8: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'"
+          ],
+          "head": [
+            "0xb4ad4: stp x20, x19, [sp, #-0x20]!",
+            "0xb4ad8: stp x29, x30, [sp, #0x10]",
+            "0xb4adc: add x29, sp, #0x10",
+            "0xb4ae0: mov x19, x0",
+            "0xb4ae4: adrp x8, #0x37f000",
+            "0xb4ae8: ldrsw x20, [x8, #0xd34]",
+            "0xb4aec: ldr x0, [x0, x20]",
+            "0xb4af0: cbz x0, #0xb4b14",
+            "0xb4af4: adrp x8, #0x37d000",
+            "0xb4af8: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+            "0xb4afc: bl #0x2ecd00",
+            "0xb4b00: ldr x0, [x19, x20]",
+            "0xb4b04: str xzr, [x19, x20]",
+            "0xb4b08: ldp x29, x30, [sp, #0x10]",
+            "0xb4b0c: ldp x20, x19, [sp], #0x20",
+            "0xb4b10: b #0x2ecd30",
+            "0xb4b14: ldp x29, x30, [sp, #0x10]",
+            "0xb4b18: ldp x20, x19, [sp], #0x20"
+          ]
+        },
+        "CBDockSystemMonitorView.initWithFrame:": {
+          "vm": "0xb3d24",
+          "method_end_estimate": "0xb4204",
+          "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "decoded_instructions": 312,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0xb3f1c: ldr x1, [x8, #0x610]  ; SEL_OR_LITERAL 'dockSystemMonitorShowAll'",
+            "0xb4150: ldr x23, [x8, #0x628]  ; SEL_OR_LITERAL 'handleBatteryNotification:'",
+            "0xb41c8: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'"
+          ],
+          "selector_hints": [
+            "0xb3d58: ldr x20, [x8, #0x9b8]  ; SEL_OR_LITERAL 'initWithFrame:'",
+            "0xb3d7c: ldr x21, [x8, #0xa38]  ; SEL_OR_LITERAL 'colorWithWhite:alpha:'",
+            "0xb3da4: ldr x1, [x8, #0x9d8]  ; SEL_OR_LITERAL 'setBackgroundColor:'",
+            "0xb3dc0: ldr x22, [x8, #0xa18]  ; SEL_OR_LITERAL 'layer'",
+            "0xb3de0: ldr x1, [x8, #0xa20]  ; SEL_OR_LITERAL 'setCornerRadius:'",
+            "0xb3e1c: ldr x1, [x8, #0xe88]  ; SEL_OR_LITERAL 'setCornerCurve:'",
+            "0xb3e4c: ldr x1, [x8, #0xa30]  ; SEL_OR_LITERAL 'setBorderWidth:'",
+            "0xb3e8c: ldr x1, [x8, #0xa40]  ; SEL_OR_LITERAL 'CGColor'",
+            "0xb3eb4: ldr x1, [x8, #0xa48]  ; SEL_OR_LITERAL 'setBorderColor:'",
+            "0xb3ed4: ldr x1, [x8, #0xdf8]  ; SEL_OR_LITERAL 'setClipsToBounds:'",
+            "0xb3ee8: ldr x1, [x8, #0x9e0]  ; SEL_OR_LITERAL 'setUserInteractionEnabled:'",
+            "0xb3f04: ldr x1, [x8, #0x518]  ; SEL_OR_LITERAL 'sharedInstance'",
+            "0xb3f1c: ldr x1, [x8, #0x610]  ; SEL_OR_LITERAL 'dockSystemMonitorShowAll'",
+            "0xb4034: ldr x20, [x8, #0x618]  ; SEL_OR_LITERAL 'setIconSystemName:fallbackEmoji:'",
+            "0xb40ac: ldr x20, [x8, #0xa80]  ; SEL_OR_LITERAL 'addSubview:'",
+            "0xb40fc: ldr x3, [x8, #0x620]  ; SEL_OR_LITERAL 'handleTapGesture:'",
+            "0xb4104: ldr x1, [x8, #0x9f0]  ; SEL_OR_LITERAL 'initWithTarget:action:'",
+            "0xb4118: ldr x1, [x8, #0x9f8]  ; SEL_OR_LITERAL 'addGestureRecognizer:'",
+            "0xb4134: ldr x21, [x8, #0x5b0]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0xb4150: ldr x23, [x8, #0x628]  ; SEL_OR_LITERAL 'handleBatteryNotification:'",
+            "0xb4164: ldr x24, [x8, #0x648]  ; SEL_OR_LITERAL 'addObserver:selector:name:object:'",
+            "0xb41c8: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'"
+          ],
+          "head": [
+            "0xb3d24: sub sp, sp, #0x80",
+            "0xb3d28: stp d11, d10, [sp, #0x10]",
+            "0xb3d2c: stp d9, d8, [sp, #0x20]",
+            "0xb3d30: stp x26, x25, [sp, #0x30]",
+            "0xb3d34: stp x24, x23, [sp, #0x40]",
+            "0xb3d38: stp x22, x21, [sp, #0x50]",
+            "0xb3d3c: stp x20, x19, [sp, #0x60]",
+            "0xb3d40: stp x29, x30, [sp, #0x70]",
+            "0xb3d44: add x29, sp, #0x70",
+            "0xb3d48: adrp x8, #0x37f000",
+            "0xb3d4c: ldr x8, [x8, #0xad0]",
+            "0xb3d50: stp x0, x8, [sp]",
+            "0xb3d54: adrp x8, #0x37d000",
+            "0xb3d58: ldr x20, [x8, #0x9b8]  ; SEL_OR_LITERAL 'initWithFrame:'",
+            "0xb3d5c: mov x0, sp",
+            "0xb3d60: mov x1, x20",
+            "0xb3d64: bl #0x2ecd18",
+            "0xb3d68: mov x19, x0"
+          ]
+        },
+        "CBDockSystemMonitorView.isMonitoring": {
+          "vm": "0xb4b20",
+          "method_end_estimate": "0xb4b40",
+          "type": "B16@0:8",
+          "decoded_instructions": 8,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb4b20: adrp x8, #0x37f000",
+            "0xb4b24: ldrsw x8, [x8, #0xd34]",
+            "0xb4b28: ldr x0, [x0, x8]",
+            "0xb4b2c: cbz x0, #0xb4b3c",
+            "0xb4b30: adrp x8, #0x37e000",
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
+            "0xb4b38: b #0x2ecd00",
+            "0xb4b3c: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'"
+          ],
+          "head": [
+            "0xb4b20: adrp x8, #0x37f000",
+            "0xb4b24: ldrsw x8, [x8, #0xd34]",
+            "0xb4b28: ldr x0, [x0, x8]",
+            "0xb4b2c: cbz x0, #0xb4b3c",
+            "0xb4b30: adrp x8, #0x37e000",
+            "0xb4b34: ldr x1, [x8, #0x678]  ; SEL_OR_LITERAL 'isValid'",
+            "0xb4b38: b #0x2ecd00",
+            "0xb4b3c: ret "
+          ]
+        },
+        "CBDockSystemMonitorView.readCpuUsage": {
+          "vm": "0xb5414",
+          "method_end_estimate": "0xb553c",
+          "type": "f16@0:8",
+          "decoded_instructions": 74,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb5414: sub sp, sp, #0x40",
+            "0xb5418: stp x20, x19, [sp, #0x20]",
+            "0xb541c: stp x29, x30, [sp, #0x30]",
+            "0xb5420: add x29, sp, #0x30",
+            "0xb5424: mov x19, x0",
+            "0xb5428: mov w8, #4",
+            "0xb542c: str w8, [sp, #0xc]",
+            "0xb5430: bl #0x2ecbf8",
+            "0xb5434: add x2, sp, #0x10",
+            "0xb5438: add x3, sp, #0xc",
+            "0xb543c: mov w1, #3",
+            "0xb5440: bl #0x2ecbbc",
+            "0xb5444: fmov s0, wzr",
+            "0xb5448: cbz w0, #0xb545c",
+            "0xb544c: ldp x29, x30, [sp, #0x30]",
+            "0xb5450: ldp x20, x19, [sp, #0x20]",
+            "0xb5454: add sp, sp, #0x40",
+            "0xb5458: ret ",
+            "0xb545c: ldp w11, w10, [sp, #0x10]",
+            "0xb5460: ldp w8, w9, [sp, #0x18]",
+            "0xb5464: adrp x12, #0x37f000",
+            "0xb5468: ldrsw x13, [x12, #0xd38]",
+            "0xb546c: ldrb w14, [x19, x13]",
+            "0xb5470: nop ",
+            "0xb5474: ldrsw x12, [x12, #0xd3c]",
+            "0xb5478: cbz w14, #0xb5504",
+            "0xb547c: ldr w13, [x19, x12]",
+            "0xb5480: subs w13, w11, w13",
+            "0xb5484: csel w13, wzr, w13, lo",
+            "0xb5488: adrp x14, #0x37f000",
+            "0xb548c: ldrsw x14, [x14, #0xd40]",
+            "0xb5490: ldr w15, [x19, x14]",
+            "0xb5494: subs w15, w10, w15",
+            "0xb5498: csel w15, wzr, w15, lo",
+            "0xb549c: adrp x16, #0x37f000",
+            "0xb54a0: ldrsw x16, [x16, #0xd44]",
+            "0xb54a4: ldr w17, [x19, x16]",
+            "0xb54a8: subs w17, w9, w17",
+            "0xb54ac: csel w17, wzr, w17, lo",
+            "0xb54b0: adrp x0, #0x37f000",
+            "0xb54b4: ldrsw x0, [x0, #0xd48]",
+            "0xb54b8: ldr w1, [x19, x0]",
+            "0xb54bc: subs w1, w8, w1",
+            "0xb54c0: str w11, [x19, x12]",
+            "0xb54c4: str w10, [x19, x14]",
+            "0xb54c8: str w9, [x19, x16]",
+            "0xb54cc: csel w9, wzr, w1, lo",
+            "0xb54d0: str w8, [x19, x0]",
+            "0xb54d4: add w8, w15, w13",
+            "0xb54d8: add w8, w8, w17",
+            "0xb54dc: adds w9, w9, w8",
+            "0xb54e0: b.eq #0xb544c",
+            "0xb54e4: ucvtf s0, w8",
+            "0xb54e8: ucvtf s1, w9",
+            "0xb54ec: fdiv s0, s0, s1",
+            "0xb54f0: mov w8, #0x42c80000",
+            "0xb54f4: fmov s1, w8",
+            "0xb54f8: fmul s0, s0, s1",
+            "0xb54fc: fmin s0, s0, s1",
+            "0xb5500: b #0xb544c",
+            "0xb5504: str w11, [x19, x12]",
+            "0xb5508: adrp x11, #0x37f000",
+            "0xb550c: ldrsw x11, [x11, #0xd40]",
+            "0xb5510: str w10, [x19, x11]",
+            "0xb5514: adrp x10, #0x37f000",
+            "0xb5518: ldrsw x10, [x10, #0xd44]",
+            "0xb551c: str w9, [x19, x10]",
+            "0xb5520: adrp x9, #0x37f000",
+            "0xb5524: ldrsw x9, [x9, #0xd48]",
+            "0xb5528: str w8, [x19, x9]",
+            "0xb552c: mov w8, #1",
+            "0xb5530: strb w8, [x19, x13]",
+            "0xb5534: fmov s0, #8.00000000",
+            "0xb5538: b #0xb544c"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0xb5414: sub sp, sp, #0x40",
+            "0xb5418: stp x20, x19, [sp, #0x20]",
+            "0xb541c: stp x29, x30, [sp, #0x30]",
+            "0xb5420: add x29, sp, #0x30",
+            "0xb5424: mov x19, x0",
+            "0xb5428: mov w8, #4",
+            "0xb542c: str w8, [sp, #0xc]",
+            "0xb5430: bl #0x2ecbf8",
+            "0xb5434: add x2, sp, #0x10",
+            "0xb5438: add x3, sp, #0xc",
+            "0xb543c: mov w1, #3",
+            "0xb5440: bl #0x2ecbbc",
+            "0xb5444: fmov s0, wzr",
+            "0xb5448: cbz w0, #0xb545c",
+            "0xb544c: ldp x29, x30, [sp, #0x30]",
+            "0xb5450: ldp x20, x19, [sp, #0x20]",
+            "0xb5454: add sp, sp, #0x40",
+            "0xb5458: ret "
+          ]
+        },
+        "CBDockSystemMonitorView.startMonitoring": {
+          "vm": "0xb49dc",
+          "method_end_estimate": "0xb4ad4",
+          "type": "v16@0:8",
+          "decoded_instructions": 62,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb49dc: stp x22, x21, [sp, #-0x30]!",
+            "0xb49e0: stp x20, x19, [sp, #0x10]",
+            "0xb49e4: stp x29, x30, [sp, #0x20]",
+            "0xb49e8: add x29, sp, #0x20",
+            "0xb49ec: mov x19, x0",
+            "0xb49f0: adrp x8, #0x37f000",
+            "0xb49f4: ldrsw x22, [x8, #0xd34]",
+            "0xb49f8: ldr x0, [x0, x22]",
+            "0xb49fc: cbz x0, #0xb4a18",
+            "0xb4a00: adrp x8, #0x37d000",
+            "0xb4a04: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+            "0xb4a08: bl #0x2ecd00",
+            "0xb4a0c: ldr x0, [x19, x22]",
+            "0xb4a10: str xzr, [x19, x22]",
+            "0xb4a14: bl #0x2ecd30",
+            "0xb4a18: adrp x8, #0x37f000",
+            "0xb4a1c: ldrsw x8, [x8, #0xd20]",
+            "0xb4a20: ldrb w8, [x19, x8]",
+            "0xb4a24: cmp w8, #0",
+            "0xb4a28: fmov d0, #5.00000000",
+            "0xb4a2c: fmov d1, #12.00000000",
+            "0xb4a30: fcsel d0, d1, d0, eq",
+            "0xb4a34: adrp x8, #0x37f000",
+            "0xb4a38: ldr x0, [x8, #0x7b0]",
+            "0xb4a3c: adrp x8, #0x37e000",
+            "0xb4a40: ldr x20, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+            "0xb4a44: adrp x8, #0x37d000",
+            "0xb4a48: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'",
+            "0xb4a4c: mov x2, x19",
+            "0xb4a50: mov x3, x20",
+            "0xb4a54: mov x4, #0",
+            "0xb4a58: mov w5, #1",
+            "0xb4a5c: bl #0x2ecd00",
+            "0xb4a60: mov x29, x29",
+            "0xb4a64: bl #0x2ecd60",
+            "0xb4a68: ldr x8, [x19, x22]",
+            "0xb4a6c: str x0, [x19, x22]",
+            "0xb4a70: mov x0, x8",
+            "0xb4a74: bl #0x2ecd30",
+            "0xb4a78: adrp x8, #0x37f000",
+            "0xb4a7c: ldr x0, [x8, #0x8b0]",
+            "0xb4a80: adrp x8, #0x37e000",
+            "0xb4a84: ldr x1, [x8, #0x668]  ; SEL_OR_LITERAL 'currentRunLoop'",
+            "0xb4a88: bl #0x2ecd00",
+            "0xb4a8c: mov x29, x29",
+            "0xb4a90: bl #0x2ecd60",
+            "0xb4a94: mov x21, x0",
+            "0xb4a98: ldr x2, [x19, x22]",
+            "0xb4a9c: adrp x8, #0x344000",
+            "0xb4aa0: ldr x8, [x8, #0x70]",
+            "0xb4aa4: ldr x3, [x8]",
+            "0xb4aa8: adrp x8, #0x37e000",
+            "0xb4aac: ldr x1, [x8, #0x670]  ; SEL_OR_LITERAL 'addTimer:forMode:'",
+            "0xb4ab0: bl #0x2ecd00",
+            "0xb4ab4: mov x0, x21",
+            "0xb4ab8: bl #0x2ecd30",
+            "0xb4abc: mov x0, x19",
+            "0xb4ac0: mov x1, x20",
+            "0xb4ac4: ldp x29, x30, [sp, #0x20]",
+            "0xb4ac8: ldp x20, x19, [sp, #0x10]",
+            "0xb4acc: ldp x22, x21, [sp], #0x30",
+            "0xb4ad0: b #0x2ecd00"
+          ],
+          "relevant_instructions": [
+            "0xb4a40: ldr x20, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+            "0xb4a48: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'"
+          ],
+          "selector_hints": [
+            "0xb4a04: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+            "0xb4a40: ldr x20, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+            "0xb4a48: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'",
+            "0xb4a84: ldr x1, [x8, #0x668]  ; SEL_OR_LITERAL 'currentRunLoop'",
+            "0xb4aac: ldr x1, [x8, #0x670]  ; SEL_OR_LITERAL 'addTimer:forMode:'"
+          ],
+          "head": [
+            "0xb49dc: stp x22, x21, [sp, #-0x30]!",
+            "0xb49e0: stp x20, x19, [sp, #0x10]",
+            "0xb49e4: stp x29, x30, [sp, #0x20]",
+            "0xb49e8: add x29, sp, #0x20",
+            "0xb49ec: mov x19, x0",
+            "0xb49f0: adrp x8, #0x37f000",
+            "0xb49f4: ldrsw x22, [x8, #0xd34]",
+            "0xb49f8: ldr x0, [x0, x22]",
+            "0xb49fc: cbz x0, #0xb4a18",
+            "0xb4a00: adrp x8, #0x37d000",
+            "0xb4a04: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+            "0xb4a08: bl #0x2ecd00",
+            "0xb4a0c: ldr x0, [x19, x22]",
+            "0xb4a10: str xzr, [x19, x22]",
+            "0xb4a14: bl #0x2ecd30",
+            "0xb4a18: adrp x8, #0x37f000",
+            "0xb4a1c: ldrsw x8, [x8, #0xd20]",
+            "0xb4a20: ldrb w8, [x19, x8]"
+          ]
+        },
+        "CBDockSystemMonitorView.layoutSubviews": {
+          "vm": "0xb4604",
+          "method_end_estimate": "0xb49dc",
+          "type": "v16@0:8",
+          "decoded_instructions": 246,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'"
+          ],
+          "selector_hints": [
+            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
+            "0xb4650: ldr x1, [x8, #0x9b0]  ; SEL_OR_LITERAL 'bounds'",
+            "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+            "0xb4728: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4810: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4898: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+            "0xb4930: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'"
+          ],
+          "head": [
+            "0xb4604: sub sp, sp, #0x90",
+            "0xb4608: stp d15, d14, [sp, #0x10]",
+            "0xb460c: stp d13, d12, [sp, #0x20]",
+            "0xb4610: stp d11, d10, [sp, #0x30]",
+            "0xb4614: stp d9, d8, [sp, #0x40]",
+            "0xb4618: stp x24, x23, [sp, #0x50]",
+            "0xb461c: stp x22, x21, [sp, #0x60]",
+            "0xb4620: stp x20, x19, [sp, #0x70]",
+            "0xb4624: stp x29, x30, [sp, #0x80]",
+            "0xb4628: add x29, sp, #0x80",
+            "0xb462c: mov x19, x0",
+            "0xb4630: adrp x8, #0x37f000",
+            "0xb4634: ldr x8, [x8, #0xad0]",
+            "0xb4638: stp x0, x8, [sp]",
+            "0xb463c: adrp x8, #0x37d000",
+            "0xb4640: ldr x1, [x8, #0xef0]  ; SEL_OR_LITERAL 'layoutSubviews'",
+            "0xb4644: mov x0, sp",
+            "0xb4648: bl #0x2ecd18"
+          ]
+        },
+        "CBDockSystemMonitorView.dealloc": {
+          "vm": "0xb4204",
+          "method_end_estimate": "0xb428c",
+          "type": "v16@0:8",
+          "decoded_instructions": 34,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0xb4204: sub sp, sp, #0x30",
+            "0xb4208: stp x20, x19, [sp, #0x10]",
+            "0xb420c: stp x29, x30, [sp, #0x20]",
+            "0xb4210: add x29, sp, #0x20",
+            "0xb4214: mov x19, x0",
+            "0xb4218: adrp x8, #0x37f000",
+            "0xb421c: ldr x0, [x8, #0x768]",
+            "0xb4220: adrp x8, #0x37d000",
+            "0xb4224: ldr x1, [x8, #0x5b0]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0xb4228: bl #0x2ecd00",
+            "0xb422c: mov x29, x29",
+            "0xb4230: bl #0x2ecd60",
+            "0xb4234: mov x20, x0",
+            "0xb4238: adrp x8, #0x37d000",
+            "0xb423c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'removeObserver:'",
+            "0xb4240: mov x2, x19",
+            "0xb4244: bl #0x2ecd00",
+            "0xb4248: mov x0, x20",
+            "0xb424c: bl #0x2ecd30",
+            "0xb4250: adrp x8, #0x37e000",
+            "0xb4254: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+            "0xb4258: mov x0, x19",
+            "0xb425c: bl #0x2ecd00",
+            "0xb4260: adrp x8, #0x37f000",
+            "0xb4264: ldr x8, [x8, #0xad0]",
+            "0xb4268: stp x19, x8, [sp]",
+            "0xb426c: adrp x8, #0x37d000",
+            "0xb4270: ldr x1, [x8, #0x658]  ; SEL_OR_LITERAL 'dealloc'",
+            "0xb4274: mov x0, sp",
+            "0xb4278: bl #0x2ecd18",
+            "0xb427c: ldp x29, x30, [sp, #0x20]",
+            "0xb4280: ldp x20, x19, [sp, #0x10]",
+            "0xb4284: add sp, sp, #0x30",
+            "0xb4288: ret "
+          ],
+          "relevant_instructions": [
+            "0xb4254: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'"
+          ],
+          "selector_hints": [
+            "0xb4224: ldr x1, [x8, #0x5b0]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0xb423c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'removeObserver:'",
+            "0xb4254: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+            "0xb4270: ldr x1, [x8, #0x658]  ; SEL_OR_LITERAL 'dealloc'"
+          ],
+          "head": [
+            "0xb4204: sub sp, sp, #0x30",
+            "0xb4208: stp x20, x19, [sp, #0x10]",
+            "0xb420c: stp x29, x30, [sp, #0x20]",
+            "0xb4210: add x29, sp, #0x20",
+            "0xb4214: mov x19, x0",
+            "0xb4218: adrp x8, #0x37f000",
+            "0xb421c: ldr x0, [x8, #0x768]",
+            "0xb4220: adrp x8, #0x37d000",
+            "0xb4224: ldr x1, [x8, #0x5b0]  ; SEL_OR_LITERAL 'defaultCenter'",
+            "0xb4228: bl #0x2ecd00",
+            "0xb422c: mov x29, x29",
+            "0xb4230: bl #0x2ecd60",
+            "0xb4234: mov x20, x0",
+            "0xb4238: adrp x8, #0x37d000",
+            "0xb423c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'removeObserver:'",
+            "0xb4240: mov x2, x19",
+            "0xb4244: bl #0x2ecd00",
+            "0xb4248: mov x0, x20"
+          ]
+        },
+        "CBBridgeManager.handleCarPlayConnectionChanged:": {
+          "vm": "0x1b8a1c",
+          "method_end_estimate": "0x1b9420",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 641,
+          "truncated_by_disassembler": false,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'"
+          ],
+          "selector_hints": [
+            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
+            "0x1b8a7c: ldr x1, [x8, #0x498]  ; SEL_OR_LITERAL 'stringWithFormat:'",
+            "0x1b8b30: ldr x1, [x8, #0x4a8]  ; SEL_OR_LITERAL 'carPlayCADisplay'",
+            "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x1b8bb4: ldr x1, [x8, #0x620]  ; SEL_OR_LITERAL 'count'",
+            "0x1b8bd8: ldr x1, [x8, #0xc50]  ; SEL_OR_LITERAL 'releaseCarPlaySleepAssertion'",
+            "0x1b8bf0: ldr x3, [x8, #0xc28]  ; SEL_OR_LITERAL 'performAutoResume'",
+            "0x1b8bf8: ldr x1, [x8, #0x810]  ; SEL_OR_LITERAL 'cancelPreviousPerformRequestsWithTarget:selector:object:'",
+            "0x1b8c44: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8c5c: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x1b8c90: ldr x1, [x8, #0x4b8]  ; SEL_OR_LITERAL 'writeToFile:atomically:encoding:error:'",
+            "0x1b8ccc: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
+            "0x1b8cf0: add x8, x8, #0x978  ; DIRECT_STRING '_9/'",
+            "0x1b8d10: ldr x1, [x8, #0xb00]  ; SEL_OR_LITERAL 'acquireCarPlaySleepAssertion'",
+            "0x1b8d20: ldr x1, [x8, #0xc60]  ; SEL_OR_LITERAL 'cancelMandatoryDisconnectWatchdog'",
+            "0x1b8d64: ldr x1, [x8, #0x880]  ; SEL_OR_LITERAL 'removeAllObjects'",
+            "0x1b8d74: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
+            "0x1b8d98: ldr x1, [x8, #0xb60]  ; SEL_OR_LITERAL 'isDisplayValid'",
+            "0x1b8dbc: ldr x1, [x8, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+            "0x1b8df0: ldr x1, [x9, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8e08: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'effectiveAutoLaunchBundleID'",
+            "0x1b8e20: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x1b8e54: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x1b8eb0: ldr x1, [x9, #0x580]  ; SEL_OR_LITERAL 'destroyWindows'",
+            "0x1b8ed4: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'clearBridgeStateOnDisk'",
+            "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
+            "0x1b9024: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
+            "0x1b91a0: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'",
+            "0x1b9384: ldr x1, [x8, #0x500]  ; SEL_OR_LITERAL 'initWithBytes:length:encoding:'"
+          ],
+          "head": [
+            "0x1b8a1c: sub sp, sp, #0x60",
+            "0x1b8a20: stp x22, x21, [sp, #0x30]",
+            "0x1b8a24: stp x20, x19, [sp, #0x40]",
+            "0x1b8a28: stp x29, x30, [sp, #0x50]",
+            "0x1b8a2c: add x29, sp, #0x50",
+            "0x1b8a30: mov x19, x0",
+            "0x1b8a34: cbz x2, #0x1b8a58",
+            "0x1b8a38: adrp x8, #0x37d000",
+            "0x1b8a3c: ldr x1, [x8, #0x460]  ; SEL_OR_LITERAL 'name'",
+            "0x1b8a40: mov x0, x2",
+            "0x1b8a44: bl #0x2ecd00",
+            "0x1b8a48: mov x29, x29",
+            "0x1b8a4c: bl #0x2ecd60",
+            "0x1b8a50: mov x20, x0",
+            "0x1b8a54: b #0x1b8a60",
+            "0x1b8a58: adrp x20, #0x371000",
+            "0x1b8a5c: add x20, x20, #0xa88",
+            "0x1b8a60: str x20, [sp]"
+          ]
+        },
+        "CBBridgeManager.init": {
+          "vm": "0x12192c",
+          "method_end_estimate": "0x13ae78",
+          "type": "@16@0:8",
+          "decoded_instructions": 1401,
+          "truncated_by_disassembler": true,
+          "full_instructions": [],
+          "relevant_instructions": [
+            "0x121a80: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x121b54: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x1220dc: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'",
+            "0x122884: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'"
+          ],
+          "selector_hints": [
+            "0x121970: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'",
+            "0x1219bc: ldr x1, [x8, #0x320]  ; SEL_OR_LITERAL 'carPlayUsableBounds'",
+            "0x1219f0: ldr x1, [x8, #0xcd0]  ; SEL_OR_LITERAL 'stringWithContentsOfFile:encoding:error:'",
+            "0x121a20: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x121a34: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x121a60: ldr x1, [x8, #0x4a8]  ; SEL_OR_LITERAL 'carPlayCADisplay'",
+            "0x121a80: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+            "0x121aa8: ldr x1, [x8, #0xb18]  ; SEL_OR_LITERAL 'resetCachedBounds'",
+            "0x121ab4: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'clearBridgeStateOnDisk'",
+            "0x121ac0: ldr x1, [x8, #0xb00]  ; SEL_OR_LITERAL 'acquireCarPlaySleepAssertion'",
+            "0x121ad8: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x121ae8: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'effectiveAutoLaunchBundleID'",
+            "0x121b04: ldr x1, [x8, #0x818]  ; SEL_OR_LITERAL 'copy'",
+            "0x121b30: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x121b54: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+            "0x121b70: ldr x1, [x8, #0xb28]  ; SEL_OR_LITERAL 'registerForNotifications'",
+            "0x121b84: ldr x1, [x8, #0x518]  ; SEL_OR_LITERAL 'sharedInstance'",
+            "0x121b9c: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'checkAndSyncLicenseIfNeeded'",
+            "0x121c88: add x1, x1, #0x7d9  ; DIRECT_STRING 'rb'",
+            "0x121d5c: add x10, x10, #0x28  ; DIRECT_STRING 'ViewController'",
+            "0x121dbc: add x11, x11, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x121de8: add x10, x10, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x121dec: add x10, x10, #0x24  ; DIRECT_STRING 'DockViewController'",
+            "0x121fe4: add x10, x10, #0x10  ; DIRECT_STRING 'ViewController'",
+            "0x1220dc: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'",
+            "0x122134: ldr x24, [x8, #0xd88]  ; SEL_OR_LITERAL 'stringWithUTF8String:'",
+            "0x122200: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x122248: ldr x1, [x8, #0x548]  ; SEL_OR_LITERAL 'dictionaryWithObjects:forKeys:count:'",
+            "0x122278: add x1, x1, #0x40  ; DIRECT_STRING 'Skipping duplicate trigger.'",
+            "0x122298: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x1222b4: ldr x1, [x8, #0xd78]  ; SEL_OR_LITERAL 'getBytes:length:'",
+            "0x12240c: add x1, x1, #0x7d9  ; DIRECT_STRING 'rb'",
+            "0x1224f4: add x10, x10, #0x28  ; DIRECT_STRING 'ViewController'",
+            "0x122554: add x11, x11, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x122580: add x10, x10, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x122584: add x10, x10, #0x24  ; DIRECT_STRING 'DockViewController'",
+            "0x122788: add x10, x10, #0x14  ; DIRECT_STRING 'Controller'",
+            "0x122884: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'",
+            "0x1228dc: ldr x23, [x8, #0xd88]  ; SEL_OR_LITERAL 'stringWithUTF8String:'",
+            "0x1229a8: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x1229f0: ldr x1, [x8, #0x548]  ; SEL_OR_LITERAL 'dictionaryWithObjects:forKeys:count:'",
+            "0x122a20: add x1, x1, #0x40  ; DIRECT_STRING 'Skipping duplicate trigger.'",
+            "0x122a40: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x122a5c: ldr x1, [x8, #0xd78]  ; SEL_OR_LITERAL 'getBytes:length:'",
+            "0x122c04: add x1, x1, #0x7dc  ; DIRECT_STRING 'wb'",
+            "0x122cbc: add x9, x9, #0x28  ; DIRECT_STRING 'ViewController'",
+            "0x122d20: add x10, x10, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x122d4c: add x9, x9, #0x40  ; DIRECT_STRING 'kViewController'",
+            "0x122d50: add x9, x9, #0x24  ; DIRECT_STRING 'DockViewController'"
+          ],
+          "head": [
+            "0x12192c: stp x28, x27, [sp, #-0x60]!",
+            "0x121930: stp x26, x25, [sp, #0x10]",
+            "0x121934: stp x24, x23, [sp, #0x20]",
+            "0x121938: stp x22, x21, [sp, #0x30]",
+            "0x12193c: stp x20, x19, [sp, #0x40]",
+            "0x121940: stp x29, x30, [sp, #0x50]",
+            "0x121944: add x29, sp, #0x50",
+            "0x121948: sub sp, sp, #1, lsl #12",
+            "0x12194c: sub sp, sp, #0x7e0",
+            "0x121950: adrp x8, #0x344000",
+            "0x121954: ldr x8, [x8, #0x140]",
+            "0x121958: ldr x8, [x8]",
+            "0x12195c: stur x8, [x29, #-0x68]",
+            "0x121960: adrp x8, #0x37f000",
+            "0x121964: ldr x8, [x8, #0xb48]",
+            "0x121968: stp x0, x8, [sp, #0xf0]",
+            "0x12196c: adrp x8, #0x37d000",
+            "0x121970: ldr x1, [x8, #0x530]  ; SEL_OR_LITERAL 'init'"
+          ]
+        },
+        "CBBridgeManager.handleSettingsChanged": {
+          "vm": "0x267764",
+          "method_end_estimate": "0x27fee4",
+          "type": "v16@0:8",
+          "decoded_instructions": 1401,
+          "truncated_by_disassembler": true,
+          "full_instructions": [],
+          "relevant_instructions": [],
+          "selector_hints": [
+            "0x267d88: ldr x22, [x8, #0xd88]  ; SEL_OR_LITERAL 'stringWithUTF8String:'",
+            "0x267e54: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x267e9c: ldr x1, [x8, #0x548]  ; SEL_OR_LITERAL 'dictionaryWithObjects:forKeys:count:'",
+            "0x267eec: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x267f08: ldr x1, [x8, #0xd78]  ; SEL_OR_LITERAL 'getBytes:length:'",
+            "0x268524: ldr x21, [x8, #0xd88]  ; SEL_OR_LITERAL 'stringWithUTF8String:'",
+            "0x2685f0: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'numberWithBool:'",
+            "0x268638: ldr x1, [x8, #0x548]  ; SEL_OR_LITERAL 'dictionaryWithObjects:forKeys:count:'",
+            "0x268688: ldr x1, [x8, #0x568]  ; SEL_OR_LITERAL 'length'",
+            "0x2686a4: ldr x1, [x8, #0xd78]  ; SEL_OR_LITERAL 'getBytes:length:'",
+            "0x268c24: ldr x21, [x8, #0xd88]  ; SEL_OR_LITERAL 'stringWithUTF8String:'",
+            "0x268c80: ldr x1, [x8, #0xd90]  ; SEL_OR_LITERAL 'dataWithBytes:length:'",
+            "0x268d0c: ldr x24, [x8, #0x548]  ; SEL_OR_LITERAL 'dictionaryWithObjects:forKeys:count:'"
+          ],
+          "head": [
+            "0x267764: stp d9, d8, [sp, #-0x70]!",
+            "0x267768: stp x28, x27, [sp, #0x10]",
+            "0x26776c: stp x26, x25, [sp, #0x20]",
+            "0x267770: stp x24, x23, [sp, #0x30]",
+            "0x267774: stp x22, x21, [sp, #0x40]",
+            "0x267778: stp x20, x19, [sp, #0x50]",
+            "0x26777c: stp x29, x30, [sp, #0x60]",
+            "0x267780: add x29, sp, #0x60",
+            "0x267784: sub sp, sp, #1, lsl #12",
+            "0x267788: sub sp, sp, #0x7f0",
+            "0x26778c: nop ",
+            "0x267790: ldr x8, #0x344140",
+            "0x267794: ldr x8, [x8]",
+            "0x267798: stur x8, [x29, #-0x78]",
+            "0x26779c: adrp x8, #0x37f000",
+            "0x2677a0: nop ",
+            "0x2677a4: ldrsw x9, [x8, #0xe78]",
+            "0x2677a8: ldrb w8, [x0, x9]"
+          ]
+        },
+        "CBBridgedPortalAppView.displayLink": {
+          "vm": "0x835fc",
+          "method_end_estimate": "0x8360c",
+          "type": "@16@0:8",
+          "decoded_instructions": 4,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x835fc: adrp x8, #0x37f000",
+            "0x83600: ldrsw x8, [x8, #0xc3c]",
+            "0x83604: ldr x0, [x0, x8]",
+            "0x83608: ret "
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x835fc: adrp x8, #0x37f000",
+            "0x83600: ldrsw x8, [x8, #0xc3c]",
+            "0x83604: ldr x0, [x0, x8]",
+            "0x83608: ret "
+          ]
+        },
+        "CBBridgedPortalAppView.setDisplayLink:": {
+          "vm": "0x8360c",
+          "method_end_estimate": "0x83620",
+          "type": "v24@0:8@16",
+          "decoded_instructions": 5,
+          "truncated_by_disassembler": false,
+          "full_instructions": [
+            "0x8360c: mov x1, x2",
+            "0x83610: adrp x8, #0x37f000",
+            "0x83614: ldrsw x8, [x8, #0xc3c]",
+            "0x83618: add x0, x0, x8",
+            "0x8361c: b #0x2ecd90"
+          ],
+          "relevant_instructions": [],
+          "selector_hints": [],
+          "head": [
+            "0x8360c: mov x1, x2",
+            "0x83610: adrp x8, #0x37f000",
+            "0x83614: ldrsw x8, [x8, #0xc3c]",
+            "0x83618: add x0, x0, x8",
+            "0x8361c: b #0x2ecd90"
+          ]
+        }
+      },
+      "selector_site_candidates": [
+        {
+          "class": "CBAssistantManager",
+          "method": "-beginRecordingSession",
+          "vm": "0x2f9dc",
+          "hints": [
+            {
+              "at": "0x2fbfc: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x2fc14: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x2fcc4: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x2fcdc: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x2ff28: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x2ff40: bl #0x2ecd00",
+                "0x2ff48: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-resetSilenceTimer",
+          "vm": "0x303b4",
+          "hints": [
+            {
+              "at": "0x30448: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'",
+              "next_calls": [
+                "0x3045c: bl #0x2ecd00",
+                "0x30464: bl #0x2ecd60"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-finishListeningAndProcess",
+          "vm": "0x304c8",
+          "hints": [
+            {
+              "at": "0x3069c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x306b4: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x306c0: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x306d8: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x30810: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x30824: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x30854: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x3086c: bl #0x2ecd00",
+                "0x30874: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-stopListening",
+          "vm": "0x308ac",
+          "hints": [
+            {
+              "at": "0x3097c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-processVoiceCommand:",
+          "vm": "0x31294",
+          "hints": [
+            {
+              "at": "0x31af0: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "next_calls": [
+                "0x31af8: bl #0x2ecb68",
+                "0x31b08: blr x8"
+              ]
+            },
+            {
+              "at": "0x31b3c: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x31b50: bl #0x2ecd00",
+                "0x31b58: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-handleNavigationCommand:",
+          "vm": "0x324b8",
+          "hints": [
+            {
+              "at": "0x32750: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x32760: bl #0x2ecd00",
+                "0x32768: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-handleAppLaunchCommand:",
+          "vm": "0x32a5c",
+          "hints": [
+            {
+              "at": "0x32e54: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x32e68: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x32f48: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x32f5c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-handleMusicCommand:",
+          "vm": "0x33088",
+          "hints": [
+            {
+              "at": "0x33238: ldr x1, [x8, #0x768]  ; SEL_OR_LITERAL 'updateHUDStatus:subtext:'",
+              "next_calls": [
+                "0x33248: bl #0x2ecd00",
+                "0x33250: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-showHUD",
+          "vm": "0x339b0",
+          "hints": [
+            {
+              "at": "0x33a00: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x33a08: bl #0x2ecd00",
+                "0x33a1c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x33a14: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x33a1c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x33a3c: ldr x1, [x8, #0x990]  ; SEL_OR_LITERAL 'startMicPulseAnimation'",
+              "next_calls": []
+            },
+            {
+              "at": "0x34208: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x34210: bl #0x2ecd00",
+                "0x34224: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x3421c: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x34224: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x34278: ldr x1, [x8, #0x990]  ; SEL_OR_LITERAL 'startMicPulseAnimation'",
+              "next_calls": [
+                "0x34280: bl #0x2ecd00",
+                "0x34288: bl #0x2ecd30"
+              ]
+            },
+            {
+              "at": "0x342f4: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-updateHUDStatus:subtext:",
+          "vm": "0x34524",
+          "hints": [
+            {
+              "at": "0x34560: ldr x22, [x8, #0xb18]  ; SEL_OR_LITERAL 'onStatusUpdate'",
+              "next_calls": [
+                "0x3456c: bl #0x2ecd00",
+                "0x34574: bl #0x2ecd60"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBAssistantManager",
+          "method": "-dismissHUD",
+          "vm": "0x34738",
+          "hints": [
+            {
+              "at": "0x347ac: ldr x1, [x8, #0xb20]  ; SEL_OR_LITERAL 'stopMicPulseAnimation'",
+              "next_calls": [
+                "0x347b0: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x3484c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x34874: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x3487c: bl #0x2ecd00",
+                "0x34890: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-registerForNotifications",
+          "vm": "0x1d07fc",
+          "hints": [
+            {
+              "at": "0x1d0a68: ldr x23, [x8, #0xcd8]  ; SEL_OR_LITERAL 'receivedMetricsUpdatedNotification:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-handleScreenDidDisconnect:",
+          "vm": "0x1b82e0",
+          "hints": [
+            {
+              "at": "0x1b83a0: ldr x1, [x8, #0xc70]  ; SEL_OR_LITERAL 'isCarPlayScreenConnectedExcludingScreen:'",
+              "next_calls": [
+                "0x1b83a8: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1b86ac: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-handleScreenDidConnect:",
+          "vm": "0x1b86c8",
+          "hints": [
+            {
+              "at": "0x1b8724: ldr x1, [x8, #0xc60]  ; SEL_OR_LITERAL 'isCarPlayScreen:'",
+              "next_calls": [
+                "0x1b872c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1b8744: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+              "next_calls": [
+                "0x1b8748: bl #0x2ecd00",
+                "0x1b8750: bl #0x2ec778"
+              ]
+            },
+            {
+              "at": "0x1b89d8: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-handleCarPlayConnectionChanged:",
+          "vm": "0x1b8a1c",
+          "hints": [
+            {
+              "at": "0x1b8b50: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+              "next_calls": [
+                "0x1b8b54: bl #0x2ecd00",
+                "0x1b8b68: bl #0x19e31c"
+              ]
+            },
+            {
+              "at": "0x1b8e80: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+              "next_calls": [
+                "0x1b8e90: bl #0x19e31c"
+              ]
+            },
+            {
+              "at": "0x1b8f1c: ldr x1, [x8, #0xc58]  ; SEL_OR_LITERAL 'scheduleMandatoryDisconnectWatchdog'",
+              "next_calls": [
+                "0x1b8f20: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-init",
+          "vm": "0x12192c",
+          "hints": [
+            {
+              "at": "0x121a80: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+              "next_calls": [
+                "0x121a84: bl #0x2ecd00",
+                "0x121a9c: bl #0x13ab08"
+              ]
+            },
+            {
+              "at": "0x121b54: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'scheduleAutoResumeFallback'",
+              "next_calls": [
+                "0x121b5c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1220dc: add x10, x10, #0x240  ; DIRECT_STRING 'settings updated notification'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "method": "-deactivateCurrentApp",
+          "vm": "0x19d458",
+          "hints": [
+            {
+              "at": "0x19d7dc: ldr x1, [x8, #0xb90]  ; SEL_OR_LITERAL 'notifyStateUpdated'",
+              "next_calls": [
+                "0x19d7e4: bl #0x2ecd00",
+                "0x19d7f0: bl #0x2ecb5c"
+              ]
+            },
+            {
+              "at": "0x19d7f8: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "next_calls": [
+                "0x19d7fc: bl #0x2ecb68",
+                "0x19d80c: blr x8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedAssistantView",
+          "method": "-startSession",
+          "vm": "0x120974",
+          "hints": [
+            {
+              "at": "0x120a0c: ldr x1, [x8, #0xaa0]  ; SEL_OR_LITERAL 'setOnStatusUpdate:'",
+              "next_calls": [
+                "0x120a14: bl #0x2ecd00",
+                "0x120a1c: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedPortalAppView",
+          "method": "-start",
+          "vm": "0x833bc",
+          "hints": [
+            {
+              "at": "0x833fc: ldr x1, [x8, #0xdd0]  ; SEL_OR_LITERAL 'displayLinkWithTarget:selector:'",
+              "next_calls": [
+                "0x83404: bl #0x2ecd00",
+                "0x8340c: bl #0x2ecd60"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-initWithBundleIdentifier:frame:showSplash:",
+          "vm": "0x1025e4",
+          "hints": [
+            {
+              "at": "0x102bb0: ldr x13, [x10, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x102bbc: ldr x12, [x12, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x102ddc: ldr x8, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x102de8: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-handleDividerPan:isVertical:state:",
+          "vm": "0x103ee0",
+          "hints": [
+            {
+              "at": "0x1042ac: ldr x26, [x22, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": [
+                "0x1042c4: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-layoutSplitViews",
+          "vm": "0x1044f8",
+          "hints": [
+            {
+              "at": "0x1046ac: ldr x9, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x1046b4: ldr x8, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x104774: ldr x8, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": []
+            },
+            {
+              "at": "0x104d70: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x104d8c: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x104d74: ldr x24, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x104d8c: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-focusSlot:animated:",
+          "vm": "0x105890",
+          "hints": [
+            {
+              "at": "0x105cc4: ldr x26, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": [
+                "0x105cdc: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-restoreSplitAnimated:",
+          "vm": "0x105e2c",
+          "hints": [
+            {
+              "at": "0x105ee8: ldr x20, [x19, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x105f04: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x105fac: ldr x23, [x19, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x105fc4: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x1063b0: ldr x26, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": [
+                "0x1063c8: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-updateScale:forSlot:",
+          "vm": "0x108dd8",
+          "hints": [
+            {
+              "at": "0x108e3c: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": [
+                "0x108e40: bl #0x2ecd00",
+                "0x108e58: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-swapSlot:withSlot:",
+          "vm": "0x10915c",
+          "hints": [
+            {
+              "at": "0x1095bc: ldr x20, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x1095c4: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1096b8: ldr x20, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+              "next_calls": [
+                "0x1096c0: bl #0x2ecd00",
+                "0x1096cc: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1096d8: ldr x20, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": [
+                "0x1096e0: bl #0x2ecd00",
+                "0x1096ec: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-replaceAppInSlot:withBundleIdentifier:",
+          "vm": "0x1098c0",
+          "hints": [
+            {
+              "at": "0x1099f4: ldr x27, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x1099fc: ldr x28, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x109a1c: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x109ae4: ldr x24, [x20, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x109b00: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x109ae8: ldr x27, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x109b00: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x109d58: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x109d60: bl #0x2ecd00",
+                "0x109d6c: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-restartSlot:",
+          "vm": "0x109fe4",
+          "hints": [
+            {
+              "at": "0x10a0e4: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x10a0ec: ldr x26, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10a108: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10a1d4: ldr x25, [x20, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10a1f4: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10a1dc: ldr x26, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10a1f4: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10a674: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10a67c: bl #0x2ecd00",
+                "0x10a684: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-closeSlot:",
+          "vm": "0x10ab28",
+          "hints": [
+            {
+              "at": "0x10ac20: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x10ac28: ldr x26, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10ac48: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10ad14: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10ad30: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10ad18: ldr x26, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10ad30: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x10aed4: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10aee4: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-closeAllSlots",
+          "vm": "0x10b0b8",
+          "hints": [
+            {
+              "at": "0x10b17c: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-startInParentViewController:",
+          "vm": "0x10bb1c",
+          "hints": [
+            {
+              "at": "0x10be48: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10be50: bl #0x2ecd00",
+                "0x10be58: bl #0x2ecd30"
+              ]
+            },
+            {
+              "at": "0x10be78: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10be80: bl #0x2ecd00",
+                "0x10be88: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-startBlinkingSession",
+          "vm": "0x10c464",
+          "hints": [
+            {
+              "at": "0x10c6dc: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x10c6f4: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "method": "-stopBlinkingSession",
+          "vm": "0x11f558",
+          "hints": [
+            {
+              "at": "0x11f8bc: ldr x22, [x24, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x11f8d4: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x11f9ec: ldr x22, [x24, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x11fa04: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIApp",
+          "method": "-initWithBundleIdentifier:frame:",
+          "vm": "0xb993c",
+          "hints": [
+            {
+              "at": "0xb9b90: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb9b98: bl #0x2ecd00",
+                "0xb9bac: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb9ba4: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb9bac: bl #0x2ecd00",
+                "0xb9bb8: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIApp",
+          "method": "-showNotchPillSession",
+          "vm": "0xd2ea0",
+          "hints": [
+            {
+              "at": "0xd2f2c: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xd2f34: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIApp",
+          "method": "-hideNotchPill",
+          "vm": "0xe6494",
+          "hints": [
+            {
+              "at": "0xe65dc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0xe6634: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-setAppScale:",
+          "vm": "0xac83c",
+          "hints": [
+            {
+              "at": "0xac850: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-setAudioOnlyBackgroundMode:",
+          "vm": "0xac858",
+          "hints": [
+            {
+              "at": "0xac878: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xac888: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xac8cc: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+              "next_calls": [
+                "0xac8d4: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xac8dc: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-layoutSubviews",
+          "vm": "0xac8f0",
+          "hints": [
+            {
+              "at": "0xac924: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+              "next_calls": [
+                "0xac92c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-updateSceneSettingsFrame",
+          "vm": "0xad5bc",
+          "hints": [
+            {
+              "at": "0xad970: ldr x26, [x8, #0x340]  ; SEL_OR_LITERAL 'updateSettingsWithBlock:'",
+              "next_calls": [
+                "0xad980: bl #0x2ecd00",
+                "0xad990: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-updateSceneFrame",
+          "vm": "0xade4c",
+          "hints": [
+            {
+              "at": "0xade50: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-refreshSceneLayout",
+          "vm": "0xade58",
+          "hints": [
+            {
+              "at": "0xade70: ldr x1, [x8, #0x2b8]  ; SEL_OR_LITERAL 'updateLayout'",
+              "next_calls": [
+                "0xade74: bl #0x2ecd00",
+                "0xade84: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xade7c: ldr x1, [x8, #0x378]  ; SEL_OR_LITERAL 'updateSceneSettingsFrame'",
+              "next_calls": [
+                "0xade84: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "method": "-startInParentViewController:",
+          "vm": "0xadf30",
+          "hints": [
+            {
+              "at": "0xae554: add x1, x1, #0x8f5  ; DIRECT_STRING 'BKSDisplayServicesSetScreenBlanked'",
+              "next_calls": [
+                "0xae558: bl #0x2ecb68",
+                "0xae568: blr x8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-configureWithButtonConfigs:",
+          "vm": "0xfea50",
+          "hints": [
+            {
+              "at": "0xfec98: ldr x8, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0xff2b8: ldr x1, [x8, #0x8b0]  ; SEL_OR_LITERAL 'updateGripLayout'",
+              "next_calls": [
+                "0xff2c0: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xff334: ldr x22, [x25, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xff350: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0xff338: ldr x23, [x26, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xff350: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-layoutSubviews",
+          "vm": "0xff410",
+          "hints": [
+            {
+              "at": "0xff444: ldr x1, [x8, #0x8b0]  ; SEL_OR_LITERAL 'updateGripLayout'",
+              "next_calls": [
+                "0xff44c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-moveButtonTouchDown:",
+          "vm": "0xffbf8",
+          "hints": [
+            {
+              "at": "0xffd20: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xffd2c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-moveButtonTouchUp:",
+          "vm": "0xffeb4",
+          "hints": [
+            {
+              "at": "0x1000f8: ldr x1, [x9, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x100108: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1002d4: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-moveButtonTouchCancelled:",
+          "vm": "0x1002e0",
+          "hints": [
+            {
+              "at": "0x10040c: ldr x1, [x9, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10041c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x1005e8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-startBlinking",
+          "vm": "0x1009d4",
+          "hints": [
+            {
+              "at": "0x100ae8: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            },
+            {
+              "at": "0x100af4: ldr x9, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "method": "-stopBlinking",
+          "vm": "0x1010bc",
+          "hints": [
+            {
+              "at": "0x101330: ldr x22, [x26, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0x10134c: bl #0x2eccb8"
+              ]
+            },
+            {
+              "at": "0x101490: ldr x22, [x24, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x1014a8: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockMetricItemView",
+          "method": "-initWithFrame:",
+          "vm": "0xb3364",
+          "hints": [
+            {
+              "at": "0xb35a8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb35b0: bl #0x2ecd00",
+                "0xb35c0: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockMetricItemView",
+          "method": "-setIconSystemName:fallbackEmoji:",
+          "vm": "0xb3930",
+          "hints": [
+            {
+              "at": "0xb39b4: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb39c0: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb39f8: ldr x22, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb3a04: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-initWithFrame:",
+          "vm": "0xb3d24",
+          "hints": [
+            {
+              "at": "0xb3f1c: ldr x1, [x8, #0x610]  ; SEL_OR_LITERAL 'dockSystemMonitorShowAll'",
+              "next_calls": [
+                "0xb3f20: bl #0x2ecd00",
+                "0xb3f34: bl #0x2ecd30"
+              ]
+            },
+            {
+              "at": "0xb4150: ldr x23, [x8, #0x628]  ; SEL_OR_LITERAL 'handleBatteryNotification:'",
+              "next_calls": []
+            },
+            {
+              "at": "0xb41c8: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+              "next_calls": [
+                "0xb41d0: bl #0x2ecd00",
+                "0xb41d8: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-dealloc",
+          "vm": "0xb4204",
+          "hints": [
+            {
+              "at": "0xb4254: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+              "next_calls": [
+                "0xb425c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-setShowAll:",
+          "vm": "0xb42a8",
+          "hints": [
+            {
+              "at": "0xb42f8: ldr x1, [x8, #0x648]  ; SEL_OR_LITERAL 'isMonitoring'",
+              "next_calls": [
+                "0xb4300: bl #0x2ecd00",
+                "0xb4314: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+              "next_calls": [
+                "0xb4314: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-handleTapGesture:",
+          "vm": "0xb43ac",
+          "hints": [
+            {
+              "at": "0xb440c: ldr x1, [x8, #0x660]  ; SEL_OR_LITERAL 'setDockSystemMonitorShowAll:'",
+              "next_calls": [
+                "0xb4410: bl #0x2ecd00",
+                "0xb4418: bl #0x2ecd30"
+              ]
+            },
+            {
+              "at": "0xb4490: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+              "next_calls": [
+                "0xb4498: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-layoutSubviews",
+          "vm": "0xb4604",
+          "hints": [
+            {
+              "at": "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb46a0: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-startMonitoring",
+          "vm": "0xb49dc",
+          "hints": [
+            {
+              "at": "0xb4a40: ldr x20, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+              "next_calls": [
+                "0xb4a5c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4a48: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'",
+              "next_calls": [
+                "0xb4a5c: bl #0x2ecd00",
+                "0xb4a64: bl #0x2ecd60"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-handleBatteryNotification:",
+          "vm": "0xb4b40",
+          "hints": [
+            {
+              "at": "0xb4b44: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-updateBatteryMetric",
+          "vm": "0xb4b4c",
+          "hints": [
+            {
+              "at": "0xb4b90: ldr x1, [x8, #0x690]  ; SEL_OR_LITERAL 'isBatteryMonitoringEnabled'",
+              "next_calls": [
+                "0xb4b94: bl #0x2ecd00",
+                "0xb4bac: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4ba0: ldr x1, [x8, #0x698]  ; SEL_OR_LITERAL 'setBatteryMonitoringEnabled:'",
+              "next_calls": [
+                "0xb4bac: bl #0x2ecd00",
+                "0xb4bbc: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4bb4: ldr x1, [x8, #0x6a0]  ; SEL_OR_LITERAL 'batteryLevel'",
+              "next_calls": [
+                "0xb4bbc: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4be8: ldr x21, [x8, #0x6a8]  ; SEL_OR_LITERAL 'batteryState'",
+              "next_calls": [
+                "0xb4bf4: bl #0x2ecd00",
+                "0xb4c08: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-updateMetrics",
+          "vm": "0xb4dbc",
+          "hints": [
+            {
+              "at": "0xb4e70: ldr x1, [x8, #0x680]  ; SEL_OR_LITERAL 'updateBatteryMetric'",
+              "next_calls": [
+                "0xb4e78: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4e90: ldr x1, [x8, #0x6b8]  ; SEL_OR_LITERAL 'readDeviceTemperature'",
+              "next_calls": [
+                "0xb4e98: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb4fc0: ldr x1, [x8, #0x6c0]  ; SEL_OR_LITERAL 'readCpuUsage'",
+              "next_calls": [
+                "0xb4fc8: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-readDeviceTemperature",
+          "vm": "0xb5230",
+          "hints": [
+            {
+              "at": "0xb5248: add x0, x0, #0x4d5  ; DIRECT_STRING 'AppleSmartBattery'",
+              "next_calls": [
+                "0xb524c: bl #0x2ec988",
+                "0xb5258: bl #0x2ec97c"
+              ]
+            },
+            {
+              "at": "0xb52f8: add x0, x0, #0x4f3  ; DIRECT_STRING 'AppleTemperatureSensor'",
+              "next_calls": [
+                "0xb52fc: bl #0x2ec988",
+                "0xb5308: bl #0x2ec97c"
+              ]
+            },
+            {
+              "at": "0xb5318: add x0, x0, #0x50a  ; DIRECT_STRING 'AppleEmbeddedNVMeTemperatureSensor'",
+              "next_calls": [
+                "0xb531c: bl #0x2ec988",
+                "0xb5328: bl #0x2ec97c"
+              ]
+            },
+            {
+              "at": "0xb53b0: ldr x1, [x8, #0x6d0]  ; SEL_OR_LITERAL 'processInfo'",
+              "next_calls": [
+                "0xb53b4: bl #0x2ecd00",
+                "0xb53bc: bl #0x2ecd60"
+              ]
+            },
+            {
+              "at": "0xb53c8: ldr x1, [x8, #0x6d8]  ; SEL_OR_LITERAL 'thermalState'",
+              "next_calls": [
+                "0xb53cc: bl #0x2ecd00",
+                "0xb53d8: bl #0x2ecd30"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "method": "-readRamUsage:total:",
+          "vm": "0xb553c",
+          "hints": [
+            {
+              "at": "0xb5564: ldr x1, [x8, #0x6d0]  ; SEL_OR_LITERAL 'processInfo'",
+              "next_calls": [
+                "0xb5568: bl #0x2ecd00",
+                "0xb5570: bl #0x2ecd60"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "-isCarPlayScreenConnected",
+          "vm": "0x5fb88",
+          "hints": [
+            {
+              "at": "0x5fba0: ldr x1, [x8, #0xc78]  ; SEL_OR_LITERAL 'isCarPlayScreenConnected'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnectedExcludingScreen:",
+          "vm": "0x5f7b8",
+          "hints": [
+            {
+              "at": "0x5f854: ldr x23, [x25, #0xc60]  ; SEL_OR_LITERAL 'isCarPlayScreen:'",
+              "next_calls": [
+                "0x5f874: bl #0x2eccb8"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method": "+isCarPlayScreenConnected",
+          "vm": "0x5fb78",
+          "hints": [
+            {
+              "at": "0x5fb7c: ldr x1, [x8, #0xc70]  ; SEL_OR_LITERAL 'isCarPlayScreenConnectedExcludingScreen:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "-showAnimated:",
+          "vm": "0xb9028",
+          "hints": [
+            {
+              "at": "0xb918c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb9194: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method": "-dismissAnimated:",
+          "vm": "0xb91e0",
+          "hints": [
+            {
+              "at": "0xb939c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb93a4: bl #0x2ecd00",
+                "0xb93b8: bl #0x2ec82c"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-dismissCustomAlert:",
+          "vm": "0xa9024",
+          "hints": [
+            {
+              "at": "0xa9180: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xa9188: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-showAppPickerForSlot:parentView:",
+          "vm": "0xaa800",
+          "hints": [
+            {
+              "at": "0xaab60: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xaab6c: bl #0x2ecd00",
+                "0xaab80: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xaab74: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xaab80: bl #0x2ecd00",
+                "0xaab94: bl #0x2ec82c"
+              ]
+            },
+            {
+              "at": "0xaac9c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xaaca4: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-showLayoutChooserInParentView:",
+          "vm": "0xaacf0",
+          "hints": [
+            {
+              "at": "0xab044: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xab050: bl #0x2ecd00",
+                "0xab064: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xab058: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xab064: bl #0x2ecd00",
+                "0xab078: bl #0x2ec82c"
+              ]
+            },
+            {
+              "at": "0xab180: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xab188: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-showRecentAppsInParentView:",
+          "vm": "0xab1d4",
+          "hints": [
+            {
+              "at": "0xab57c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xab588: bl #0x2ecd00",
+                "0xab59c: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xab590: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xab59c: bl #0x2ecd00",
+                "0xab5b0: bl #0x2ec82c"
+              ]
+            },
+            {
+              "at": "0xab6b8: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xab6c0: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "method": "-dismissOverlay",
+          "vm": "0xab70c",
+          "hints": [
+            {
+              "at": "0xab7bc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xab7c4: bl #0x2ecd00",
+                "0xab7d8: bl #0x2ec82c"
+              ]
+            },
+            {
+              "at": "0xab838: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xab840: bl #0x2ecd00",
+                "0xab850: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBOverlayScrollView",
+          "method": "-addSubview:",
+          "vm": "0xa007c",
+          "hints": [
+            {
+              "at": "0xa00f4: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xa0100: bl #0x2ecd00",
+                "0xa0114: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xa0108: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xa0114: bl #0x2ecd00",
+                "0xa0128: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBOverlayScrollView",
+          "method": "-layoutSubviews",
+          "vm": "0xa016c",
+          "hints": [
+            {
+              "at": "0xa023c: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xa0248: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xa0250: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "method": "-initWithSlotIndex:",
+          "vm": "0x841c0",
+          "hints": [
+            {
+              "at": "0x84ac0: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x84acc: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "method": "-layoutSubviews",
+          "vm": "0x84c30",
+          "hints": [
+            {
+              "at": "0x84d18: ldr x20, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x84d24: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0x84dd4: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0x84de0: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "method": "-setShowsExpandButton:",
+          "vm": "0x852f0",
+          "hints": [
+            {
+              "at": "0x85300: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "method": "-setFocusedMode:",
+          "vm": "0x85308",
+          "hints": [
+            {
+              "at": "0x85318: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "method": "-setCompactMode:",
+          "vm": "0x85320",
+          "hints": [
+            {
+              "at": "0x85340: ldr x1, [x8, #0xf10]  ; SEL_OR_LITERAL 'updateBoundsSize'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPlaceholderView",
+          "method": "-initWithSlotIndex:",
+          "vm": "0x10199c",
+          "hints": [
+            {
+              "at": "0x101ef4: ldr x22, [x8, #0x908]  ; SEL_OR_LITERAL 'updateLocalizedTexts'",
+              "next_calls": [
+                "0x101f00: bl #0x2ecd00",
+                "0x101f14: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBSlotPlaceholderView",
+          "method": "-layoutSubviews",
+          "vm": "0x1020cc",
+          "hints": [
+            {
+              "at": "0x1021a8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBSplitSplashScreenView",
+          "method": "-initWithFrame:",
+          "vm": "0xb6358",
+          "hints": [
+            {
+              "at": "0xb6508: ldr x23, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb6518: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBSplitSplashScreenView",
+          "method": "-dismissAnimated:completion:",
+          "vm": "0xb768c",
+          "hints": [
+            {
+              "at": "0xb77d0: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb77dc: bl #0x2ecd00",
+                "0xb77ec: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb7878: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "-createWindows",
+          "vm": "0xb1064",
+          "hints": [
+            {
+              "at": "0xb1624: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb162c: bl #0x2ecd00",
+                "0xb1644: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "-multitaskingOverlay",
+          "vm": "0xb1974",
+          "hints": [
+            {
+              "at": "0xb19ec: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb19f4: bl #0x2ecd00",
+                "0xb1a0c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "-show",
+          "vm": "0xb1d98",
+          "hints": [
+            {
+              "at": "0xb1df4: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": [
+                "0xb1dfc: bl #0x2ecd00",
+                "0xb1e10: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb1e08: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb1e10: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "-hide:",
+          "vm": "0xb1ec0",
+          "hints": [
+            {
+              "at": "0xb1fcc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+              "next_calls": []
+            },
+            {
+              "at": "0xb1ff8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb2000: bl #0x2ecd00"
+              ]
+            },
+            {
+              "at": "0xb2044: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+              "next_calls": [
+                "0xb2054: bl #0x2ecd00",
+                "0xb205c: bl #0x2ecd60"
+              ]
+            },
+            {
+              "at": "0xb2070: ldr x0, [x8, #0x40]  ; SEL_OR_LITERAL 'setDockSystemMonitorEnabled:'",
+              "next_calls": [
+                "0xb207c: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "-destroyWindows",
+          "vm": "0xb21f8",
+          "hints": [
+            {
+              "at": "0xb2440: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+              "next_calls": [
+                "0xb2448: bl #0x2ecd00",
+                "0xb2460: bl #0x2ecd00"
+              ]
+            }
+          ]
+        },
+        {
+          "class": "CBWindow",
+          "method": "+carPlayUIScreen",
+          "vm": "0xafe60",
+          "hints": [
+            {
+              "at": "0xafef4: ldr x22, [x9, #0xc60]  ; SEL_OR_LITERAL 'isCarPlayScreen:'",
+              "next_calls": [
+                "0xaff14: bl #0x2eccb8"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
