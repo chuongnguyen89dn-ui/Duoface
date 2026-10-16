@@ -92,9 +92,9 @@ def audit(root):
                 asm=disassemble(obj,begin,min(end,begin+(5200 if cl in ("DDz4","DDz1","DDz2") else 1800)))
                 annotated=[]
                 for line in asm:
-                    q=re.search(r"\\bbl #0x([0-9a-f]+)",line)
-                    if q:
-                        symbol=stub_symbols.get(int(q.group(1),16))
+                    mm=re.search(r"\\bbl #0x([0-9a-f]+)",line)
+                    if mm:
+                        symbol=stub_symbols.get(int(mm.group(1),16))
                         if symbol:line+="  ; STUB "+symbol
                     annotated.append(line)
                 asm=annotated
