@@ -171,9 +171,57 @@
           "sha256": "7347afde50ee43d1bee6980149bdcea804723788c0a782f38825958b0eca9677",
           "size": 960256,
           "objc": {
-            "status": "parse_error ValueError: cannot map Mach-O address 0x100000000db0d0",
-            "classes": [],
-            "candidate_methods": []
+            "status": "parsed",
+            "classes": [
+              "BLEManager",
+              "CNABAppPickerController",
+              "CNABBubbleView",
+              "CNABCarPlayObserver",
+              "CNABDividerView",
+              "CNABEmptyPaneView",
+              "CNABFontMark",
+              "CNABGpsSpeed",
+              "CNABHandleView",
+              "CNABHostUIAppResponder",
+              "CNABLayoutConfirm",
+              "CNABLayoutIconView",
+              "CNABNavData",
+              "CNABPickerCell",
+              "CNABScrollView",
+              "CNABSpringBoardObserver",
+              "CNABSwallowView",
+              "CNABTileControl",
+              "CNABUIApp",
+              "CNABUIAppObserver",
+              "CNABUIListController",
+              "CNABUIRootView",
+              "CNABUIRow",
+              "CNABUIRowControl",
+              "CNABUIScrollView",
+              "CNABUISection",
+              "CNAgreementController",
+              "CNNavBubbleSettingsController",
+              "CNTextPageController",
+              "CNTweakManagementController",
+              "CNValuePickerController",
+              "CNVoiceCmdSettingsController",
+              "CRContext",
+              "DDz1",
+              "DDz2",
+              "DDz3",
+              "DDz4",
+              "DataRouter",
+              "ImageUploader",
+              "SettingsReader"
+            ],
+            "candidate_methods": [
+              {
+                "class": "DDz3",
+                "matches": [
+                  "-scrollViewDidEndScrollingAnimation:"
+                ]
+              }
+            ]
           },
           "relevant_literals": [
             {
@@ -1032,7 +1080,11 @@
                 "0x8010: bl #0x6dbe0",
                 "0x8014: fcmp d3, #0.0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x81bc",
@@ -1178,7 +1230,11 @@
                 "0x831c: mov w8, #-1",
                 "0x8320: str w8, [x22, #0xd24]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x81d0",
@@ -1324,7 +1380,11 @@
                 "0x8330: b #0x8378",
                 "0x8334: b #0x8364"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x8308",
@@ -1470,7 +1530,11 @@
                 "0x8468: mov x1, x21",
                 "0x846c: bl #0x6cd84"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x8954",
@@ -1616,7 +1680,11 @@
                 "0x8ab4: adrp x8, #0x81000",
                 "0x8ab8: add x8, x8, #0xe8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x897c",
@@ -1762,7 +1830,11 @@
                 "0x8adc: adrp x4, #0xa000",
                 "0x8ae0: add x4, x4, #0x17c"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x9308",
@@ -1908,7 +1980,11 @@
                 "0x9468: bl #0x6c9d0",
                 "0x946c: mov x0, x19"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x96d0",
@@ -2054,7 +2130,11 @@
                 "0x9830: mov x0, x21",
                 "0x9834: bl #0x6cda8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x96f4",
@@ -2200,7 +2280,11 @@
                 "0x9854: bl #0x6cdd8",
                 "0x9858: str x0, [sp, #0x18]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0xa83c",
@@ -2346,7 +2430,11 @@
                 "0xa99c: adrp x5, #0xdc000",
                 "0xa9a0: add x5, x5, #0x210"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x73a4",
+                "next_method_vm": "0xf968"
+              }
             },
             {
               "address": "0x115c4",
@@ -2492,7 +2580,11 @@
                 "0x11724: stp x26, x25, [sp, #0x40]",
                 "0x11728: stp x24, x23, [sp, #0x50]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-cnabDoCarPlayDisconnect:",
+                "vm": "0x114a4",
+                "next_method_vm": "0x1164c"
+              }
             },
             {
               "address": "0x117bc",
@@ -2638,7 +2730,11 @@
                 "0x1191c: add x29, sp, #0x80",
                 "0x11920: mov x19, x1"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-carPlayPollTick",
+                "vm": "0x11720",
+                "next_method_vm": "0x1352c"
+              }
             },
             {
               "address": "0x12974",
@@ -2784,7 +2880,11 @@
                 "0x12ad4: add x5, x5, #0x3f8",
                 "0x12ad8: mov w2, #0x76"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-carPlayPollTick",
+                "vm": "0x11720",
+                "next_method_vm": "0x1352c"
+              }
             },
             {
               "address": "0x1c560",
@@ -2930,7 +3030,11 @@
                 "0x1c6c0: stp x20, x19, [sp, #0x50]",
                 "0x1c6c4: stp x29, x30, [sp, #0x60]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz2.-spikeHostSlots:natives:skipEvict:",
+                "vm": "0x1c020",
+                "next_method_vm": "0x1c5d4"
+              }
             },
             {
               "address": "0x1ec58",
@@ -3076,7 +3180,11 @@
                 "0x1edb8: mov x0, x20",
                 "0x1edbc: bl #0x6cda8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABHostUIAppResponder.-onUIAppRequest:",
+                "vm": "0x1cef8",
+                "next_method_vm": "0x1f4ac"
+              }
             },
             {
               "address": "0x2308c",
@@ -3222,7 +3330,11 @@
                 "0x231ec: tbnz w0, #0, #0x23204",
                 "0x231f0: adrp x2, #0xca000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onBackground:",
+                "vm": "0x2120c",
+                "next_method_vm": "0x250c4"
+              }
             },
             {
               "address": "0x24e88",
@@ -3368,7 +3480,11 @@
                 "0x24fe8: ldp x20, x19, [sp, #0x90]",
                 "0x24fec: add sp, sp, #0xb0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onBackground:",
+                "vm": "0x2120c",
+                "next_method_vm": "0x250c4"
+              }
             },
             {
               "address": "0x24ea0",
@@ -3514,7 +3630,11 @@
                 "0x25000: add x1, x1, #0x4a0",
                 "0x25004: bl #0x6c9f4"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onBackground:",
+                "vm": "0x2120c",
+                "next_method_vm": "0x250c4"
+              }
             },
             {
               "address": "0x27ec8",
@@ -3660,7 +3780,11 @@
                 "0x28028: cmp x9, x8",
                 "0x2802c: b.ne #0x2808c"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz3.-initWithHost:slotBids:",
+                "vm": "0x27b4c",
+                "next_method_vm": "0x27f4c"
+              }
             },
             {
               "address": "0x39b10",
@@ -3806,7 +3930,11 @@
                 "0x39c70: ldp x29, x30, [sp, #0x10]",
                 "0x39c74: ldp x20, x19, [sp], #0x20"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz3.-.cxx_destruct",
+                "vm": "0x390e4",
+                "next_method_vm": "0x3ddc4"
+              }
             },
             {
               "address": "0x415cc",
@@ -3952,7 +4080,11 @@
                 "0x4172c: fmov d8, d2",
                 "0x41730: fmov d9, d3"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz4.-applyPositionInDockStrip",
+                "vm": "0x41528",
+                "next_method_vm": "0x416dc"
+              }
             },
             {
               "address": "0x4b578",
@@ -4098,7 +4230,11 @@
                 "0x4b6d8: b #0x6cc64",
                 "0x4b6dc: ldr w0, [x20, #0xee0]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-.cxx_destruct",
+                "vm": "0x4a534",
+                "next_method_vm": "0x53ef4"
+              }
             },
             {
               "address": "0x4b5a8",
@@ -4244,7 +4380,11 @@
                 "0x4b708: mov x19, x0",
                 "0x4b70c: adrp x24, #0xda000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-.cxx_destruct",
+                "vm": "0x4a534",
+                "next_method_vm": "0x53ef4"
+              }
             },
             {
               "address": "0x527f0",
@@ -4390,7 +4530,11 @@
                 "0x52950: blr x8",
                 "0x52954: cmp w0, #0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-.cxx_destruct",
+                "vm": "0x4a534",
+                "next_method_vm": "0x53ef4"
+              }
             },
             {
               "address": "0x55e58",
@@ -4536,7 +4680,11 @@
                 "0x55fb8: bl #0x6d5a0",
                 "0x55fbc: mov x29, x29"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-tableView:didSelectRowAtIndexPath:",
+                "vm": "0x55bf0",
+                "next_method_vm": "0x56088"
+              }
             },
             {
               "address": "0x56030",
@@ -4682,7 +4830,11 @@
                 "0x56190: adrp x8, #0xda000",
                 "0x56194: ldrsw x8, [x8, #0xf94]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-tableView:didSelectRowAtIndexPath:",
+                "vm": "0x55bf0",
+                "next_method_vm": "0x56088"
+              }
             },
             {
               "address": "0x56470",
@@ -4828,7 +4980,11 @@
                 "0x565d0: ldr x8, [x19, #0x50]",
                 "0x565d4: ldr x8, [x8, #8]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-.cxx_destruct",
+                "vm": "0x561f4",
+                "next_method_vm": "0x56ab0"
+              }
             },
             {
               "address": "0x6962c",
@@ -4974,7 +5130,11 @@
                 "0x6978c: str x19, [sp, #0x20]",
                 "0x69790: mov x0, x19"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-.cxx_destruct",
+                "vm": "0x63fd0",
+                "next_method_vm": null
+              }
             },
             {
               "address": "0x6bb98",
@@ -5120,7 +5280,11 @@
                 "0x6bcf8: ldr q0, [x8, #0x20]",
                 "0x6bcfc: str q0, [x19, #0x640]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-.cxx_destruct",
+                "vm": "0x63fd0",
+                "next_method_vm": null
+              }
             },
             {
               "address": "0x6bbd0",
@@ -5266,18 +5430,102 @@
                 "0x6bd30: adrp x0, #0xdd000",
                 "0x6bd34: add x0, x0, #0x378"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-.cxx_destruct",
+                "vm": "0x63fd0",
+                "next_method_vm": null
+              }
             }
           ],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [
+                "0x7e56d"
+              ],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [
+                "0x819c2"
+              ],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [
+                "0x81a22"
+              ],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [
+                "0x81a29"
+              ],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [
+                "0x7e3bf"
+              ],
+              "data_pointer_refs": []
+            }
+          },
           "total_disassembly_instructions": 106722
         },
         "arm64e": {
           "sha256": "8716a599e40b22ee79b9405ab9030b03fb61dc007149296354cfa71746a08b58",
           "size": 976896,
           "objc": {
-            "status": "parse_error ValueError: cannot map Mach-O address 0x80000000df0d0",
-            "classes": [],
-            "candidate_methods": []
+            "status": "parsed",
+            "classes": [
+              "BLEManager",
+              "CNABAppPickerController",
+              "CNABBubbleView",
+              "CNABCarPlayObserver",
+              "CNABDividerView",
+              "CNABEmptyPaneView",
+              "CNABFontMark",
+              "CNABGpsSpeed",
+              "CNABHandleView",
+              "CNABHostUIAppResponder",
+              "CNABLayoutConfirm",
+              "CNABLayoutIconView",
+              "CNABNavData",
+              "CNABPickerCell",
+              "CNABScrollView",
+              "CNABSpringBoardObserver",
+              "CNABSwallowView",
+              "CNABTileControl",
+              "CNABUIApp",
+              "CNABUIAppObserver",
+              "CNABUIListController",
+              "CNABUIRootView",
+              "CNABUIRow",
+              "CNABUIRowControl",
+              "CNABUIScrollView",
+              "CNABUISection",
+              "CNAgreementController",
+              "CNNavBubbleSettingsController",
+              "CNTextPageController",
+              "CNTweakManagementController",
+              "CNValuePickerController",
+              "CNVoiceCmdSettingsController",
+              "CRContext",
+              "DDz1",
+              "DDz2",
+              "DDz3",
+              "DDz4",
+              "DataRouter",
+              "ImageUploader",
+              "SettingsReader"
+            ],
+            "candidate_methods": [
+              {
+                "class": "DDz3",
+                "matches": [
+                  "-scrollViewDidEndScrollingAnimation:"
+                ]
+              }
+            ]
           },
           "relevant_literals": [
             {
@@ -6136,7 +6384,11 @@
                 "0x8364: bl #0x73140",
                 "0x8368: fcmp d3, #0.0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x8510",
@@ -6282,7 +6534,11 @@
                 "0x8670: mov w8, #-1",
                 "0x8674: str w8, [x22, #0xd24]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x8524",
@@ -6428,7 +6684,11 @@
                 "0x8684: b #0x86cc",
                 "0x8688: b #0x86b8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x865c",
@@ -6574,7 +6834,11 @@
                 "0x87bc: mov x0, x23",
                 "0x87c0: mov x1, x21"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x8ce4",
@@ -6720,7 +6984,11 @@
                 "0x8e44: add x16, x16, #0xc80",
                 "0x8e48: paciza x16"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x8d0c",
@@ -6866,7 +7134,11 @@
                 "0x8e6c: add x0, x0, #0x5ab",
                 "0x8e70: bl #0xa218"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x9740",
@@ -7012,7 +7284,11 @@
                 "0x98a0: adrp x2, #0xcd000",
                 "0x98a4: add x2, x2, #0x3e8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x9a44",
@@ -7158,7 +7434,11 @@
                 "0x9ba4: mov x0, x21",
                 "0x9ba8: bl #0x72224"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x9a68",
@@ -7304,7 +7584,11 @@
                 "0x9bc8: bl #0x72264",
                 "0x9bcc: str x0, [sp, #0x18]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0xa2c0",
@@ -7450,7 +7734,11 @@
                 "0xa420: cbz x20, #0xa468",
                 "0xa424: ldr x8, [x21, #0x210]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0xa304",
@@ -7596,7 +7884,11 @@
                 "0xa464: bl #0x693f4",
                 "0xa468: adrp x8, #0xe0000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABCarPlayObserver.-onHostState:",
+                "vm": "0x7634",
+                "next_method_vm": "0x102b8"
+              }
             },
             {
               "address": "0x10358",
@@ -7742,7 +8034,11 @@
                 "0x104b8: stp x20, x19, [sp, #-0x20]!",
                 "0x104bc: stp x29, x30, [sp, #0x10]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-carPlayPollTick",
+                "vm": "0x102b8",
+                "next_method_vm": "0x104b4"
+              }
             },
             {
               "address": "0x106e4",
@@ -7888,7 +8184,11 @@
                 "0x10844: b.hi #0x10858",
                 "0x10848: adrp x9, #0x7b000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-cnabDoCarPlayDisconnect:",
+                "vm": "0x105c0",
+                "next_method_vm": "0x1077c"
+              }
             },
             {
               "address": "0x133b0",
@@ -8034,7 +8334,11 @@
                 "0x13510: bl #0x1e998",
                 "0x13514: adrp x8, #0xdc000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABSpringBoardObserver.-onHostRequest:",
+                "vm": "0x12a40",
+                "next_method_vm": "0x14060"
+              }
             },
             {
               "address": "0x1c52c",
@@ -8180,7 +8484,11 @@
                 "0x1c68c: tbz w0, #0, #0x1c6d8",
                 "0x1c690: ldp d0, d1, [x20, #-8]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz2.-spikeHostSlots:natives:skipEvict:",
+                "vm": "0x1bfcc",
+                "next_method_vm": "0x1c6e8"
+              }
             },
             {
               "address": "0x1ecd0",
@@ -8326,7 +8634,11 @@
                 "0x1ee30: mov x0, x20",
                 "0x1ee34: bl #0x72224"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABHostUIAppResponder.-onUIAppRequest:",
+                "vm": "0x1e30c",
+                "next_method_vm": "0x20a50"
+              }
             },
             {
               "address": "0x23d48",
@@ -8472,7 +8784,11 @@
                 "0x23ea8: mov w0, #0",
                 "0x23eac: ret "
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onState:",
+                "vm": "0x227e4",
+                "next_method_vm": "0x26b50"
+              }
             },
             {
               "address": "0x268cc",
@@ -8618,7 +8934,11 @@
                 "0x26a2c: cset w8, ne",
                 "0x26a30: adrp x9, #0xe0000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onState:",
+                "vm": "0x227e4",
+                "next_method_vm": "0x26b50"
+              }
             },
             {
               "address": "0x268e4",
@@ -8764,7 +9084,11 @@
                 "0x26a44: retab ",
                 "0x26a48: adrp x0, #0xe0000"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIAppObserver.-onState:",
+                "vm": "0x227e4",
+                "next_method_vm": "0x26b50"
+              }
             },
             {
               "address": "0x2ffb8",
@@ -8910,7 +9234,11 @@
                 "0x30118: bl #0x721b4",
                 "0x3011c: mov x19, x0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz3.-buildKitLevel:pane:",
+                "vm": "0x2bc98",
+                "next_method_vm": "0x30784"
+              }
             },
             {
               "address": "0x4083c",
@@ -9056,7 +9384,11 @@
                 "0x4099c: mov x0, x23",
                 "0x409a0: bl #0x72224"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz3.-initWithHost:slotBids:",
+                "vm": "0x404a8",
+                "next_method_vm": "0x40900"
+              }
             },
             {
               "address": "0x46680",
@@ -9202,7 +9534,11 @@
                 "0x467e0: bl #0x719d4",
                 "0x467e4: mov x20, x0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DDz4.-applyPositionInDockStrip",
+                "vm": "0x465d8",
+                "next_method_vm": "0x46790"
+              }
             },
             {
               "address": "0x4e5fc",
@@ -9348,7 +9684,11 @@
                 "0x4e75c: adrp x0, #0x8a000",
                 "0x4e760: add x0, x0, #0x6d4"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-onRow:",
+                "vm": "0x4d778",
+                "next_method_vm": "0x57d90"
+              }
             },
             {
               "address": "0x4e62c",
@@ -9494,7 +9834,11 @@
                 "0x4e78c: b.ne #0x4e714",
                 "0x4e790: b #0x4e74c"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-onRow:",
+                "vm": "0x4d778",
+                "next_method_vm": "0x57d90"
+              }
             },
             {
               "address": "0x56540",
@@ -9640,7 +9984,11 @@
                 "0x566a0: mov x0, x20",
                 "0x566a4: blraaz x8"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABUIListController.-onRow:",
+                "vm": "0x4d778",
+                "next_method_vm": "0x57d90"
+              }
             },
             {
               "address": "0x58678",
@@ -9786,7 +10134,11 @@
                 "0x587d8: bl #0x72b00",
                 "0x587dc: mov x29, x29"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-tableView:didSelectRowAtIndexPath:",
+                "vm": "0x5840c",
+                "next_method_vm": "0x588b8"
+              }
             },
             {
               "address": "0x58850",
@@ -9932,7 +10284,11 @@
                 "0x589b0: mov x0, x26",
                 "0x589b4: bl #0x72224"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-tableView:didSelectRowAtIndexPath:",
+                "vm": "0x5840c",
+                "next_method_vm": "0x588b8"
+              }
             },
             {
               "address": "0x59440",
@@ -10078,7 +10434,11 @@
                 "0x595a0: bl #0x72264",
                 "0x595a4: mov x20, x0"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CNABAppPickerController.-cnabMoveBid:type:to:",
+                "vm": "0x59218",
+                "next_method_vm": "0x594f4"
+              }
             },
             {
               "address": "0x6e644",
@@ -10224,7 +10584,11 @@
                 "0x6e7a4: str x19, [sp, #0x20]",
                 "0x6e7a8: mov x0, x19"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-init",
+                "vm": "0x68d10",
+                "next_method_vm": null
+              }
             },
             {
               "address": "0x70c98",
@@ -10370,7 +10734,11 @@
                 "0x70df8: ldr q0, [x8, #0x20]",
                 "0x70dfc: str q0, [x19, #0x640]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-init",
+                "vm": "0x68d10",
+                "next_method_vm": null
+              }
             },
             {
               "address": "0x70cd0",
@@ -10516,9 +10884,45 @@
                 "0x70e30: adrp x0, #0xe1000",
                 "0x70e34: add x0, x0, #0x378"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "CRContext.-init",
+                "vm": "0x68d10",
+                "next_method_vm": null
+              }
             }
           ],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [
+                "0x83b0d"
+              ],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [
+                "0x86f62"
+              ],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [
+                "0x86fc2"
+              ],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [
+                "0x86fc9"
+              ],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [
+                "0x8395f"
+              ],
+              "data_pointer_refs": []
+            }
+          },
           "total_disassembly_instructions": 111913
         }
       }
@@ -10591,6 +10995,306 @@
             }
           ],
           "candidate_refs": [
+            {
+              "address": "0x436c",
+              "literal_address": "0x8130",
+              "literal": "CFSTRING_CONTAINER:perf_tweak_enabled",
+              "nearby_disassembly": [
+                "0x42ac: mov w3, #1",
+                "0x42b0: mov x4, #0",
+                "0x42b4: bl #0x5fa0",
+                "0x42b8: mov x0, x21",
+                "0x42bc: bl #0x5918",
+                "0x42c0: mov x0, x19",
+                "0x42c4: ldp x29, x30, [sp, #0x30]",
+                "0x42c8: ldp x20, x19, [sp, #0x20]",
+                "0x42cc: ldp x22, x21, [sp, #0x10]",
+                "0x42d0: ldp x24, x23, [sp], #0x40",
+                "0x42d4: b #0x5918",
+                "0x42d8: mov w2, #1",
+                "0x42dc: mov x3, #0",
+                "0x42e0: b #0x5da0",
+                "0x42e4: sub sp, sp, #0x40",
+                "0x42e8: stp x22, x21, [sp, #0x10]",
+                "0x42ec: stp x20, x19, [sp, #0x20]",
+                "0x42f0: stp x29, x30, [sp, #0x30]",
+                "0x42f4: add x29, sp, #0x30",
+                "0x42f8: mov x19, x2",
+                "0x42fc: mov x20, x0",
+                "0x4300: mov x0, x3",
+                "0x4304: bl #0x5924",
+                "0x4308: mov x21, x0",
+                "0x430c: mov x0, x19",
+                "0x4310: bl #0x5924",
+                "0x4314: mov x22, x0",
+                "0x4318: adrp x2, #0x8000",
+                "0x431c: add x2, x2, #0x110",
+                "0x4320: mov x0, x21",
+                "0x4324: bl #0x5fc0",
+                "0x4328: mov x29, x29",
+                "0x432c: bl #0x593c",
+                "0x4330: mov x19, x0",
+                "0x4334: adrp x8, #0xc000",
+                "0x4338: ldr x8, [x8, #0x580]",
+                "0x433c: stp x20, x8, [sp]",
+                "0x4340: adrp x8, #0xc000",
+                "0x4344: ldr x1, [x8, #0x290]",
+                "0x4348: mov x0, sp",
+                "0x434c: mov x2, x22",
+                "0x4350: mov x3, x21",
+                "0x4354: bl #0x58e8",
+                "0x4358: mov x0, x21",
+                "0x435c: bl #0x5918",
+                "0x4360: mov x0, x22",
+                "0x4364: bl #0x5918",
+                "0x4368: adrp x2, #0x8000",
+                "0x436c: add x2, x2, #0x130",
+                "0x4370: mov x0, x19",
+                "0x4374: bl #0x5e60",
+                "0x4378: cbz w0, #0x43f8",
+                "0x437c: adrp x2, #0x8000",
+                "0x4380: add x2, x2, #0x130",
+                "0x4384: adrp x3, #0x8000",
+                "0x4388: ldr x3, [x3, #0x20]",
+                "0x438c: mov x0, x20",
+                "0x4390: bl #0x5b60",
+                "0x4394: mov x29, x29",
+                "0x4398: bl #0x593c",
+                "0x439c: mov x20, x0",
+                "0x43a0: bl #0x5c60",
+                "0x43a4: mov x0, x20",
+                "0x43a8: bl #0x5918",
+                "0x43ac: adrp x20, #0xc000",
+                "0x43b0: ldr w0, [x20, #0x640]",
+                "0x43b4: cmn w0, #1",
+                "0x43b8: b.eq #0x43d8",
+                "0x43bc: mov w1, #0x3c",
+                "0x43c0: bl #0x5888",
+                "0x43c4: cbnz w0, #0x43f8",
+                "0x43c8: adrp x0, #0x6000",
+                "0x43cc: add x0, x0, #0x4f5",
+                "0x43d0: bl #0x5870",
+                "0x43d4: b #0x43f8",
+                "0x43d8: adrp x0, #0x6000",
+                "0x43dc: add x0, x0, #0x4f5",
+                "0x43e0: adrp x1, #0xc000",
+                "0x43e4: add x1, x1, #0x640",
+                "0x43e8: bl #0x587c",
+                "0x43ec: cbz w0, #0x4414",
+                "0x43f0: mov w8, #-1",
+                "0x43f4: str w8, [x20, #0x640]",
+                "0x43f8: mov x0, x19",
+                "0x43fc: bl #0x5918",
+                "0x4400: ldp x29, x30, [sp, #0x30]",
+                "0x4404: ldp x20, x19, [sp, #0x20]",
+                "0x4408: ldp x22, x21, [sp, #0x10]",
+                "0x440c: add sp, sp, #0x40",
+                "0x4410: ret ",
+                "0x4414: ldr w0, [x20, #0x640]",
+                "0x4418: cmn w0, #1",
+                "0x441c: b.ne #0x43bc",
+                "0x4420: b #0x43f8",
+                "0x4424: sub sp, sp, #0x140",
+                "0x4428: stp x28, x27, [sp, #0xe0]",
+                "0x442c: stp x26, x25, [sp, #0xf0]",
+                "0x4430: stp x24, x23, [sp, #0x100]",
+                "0x4434: stp x22, x21, [sp, #0x110]",
+                "0x4438: stp x20, x19, [sp, #0x120]",
+                "0x443c: stp x29, x30, [sp, #0x130]",
+                "0x4440: add x29, sp, #0x130",
+                "0x4444: mov x21, x0",
+                "0x4448: adrp x8, #0x8000",
+                "0x444c: ldr x8, [x8, #0x40]",
+                "0x4450: ldr x8, [x8]",
+                "0x4454: stur x8, [x29, #-0x60]",
+                "0x4458: adrp x2, #0x8000",
+                "0x445c: add x2, x2, #0x150",
+                "0x4460: bl #0x5b00",
+                "0x4464: mov x19, x0",
+                "0x4468: adrp x2, #0x8000",
+                "0x446c: add x2, x2, #0x170",
+                "0x4470: mov x0, x21",
+                "0x4474: bl #0x5b00",
+                "0x4478: str w0, [sp, #0xc]",
+                "0x447c: movi v0.16b, #0",
+                "0x4480: stp q0, q0, [sp, #0x10]",
+                "0x4484: stp q0, q0, [sp, #0x30]",
+                "0x4488: adrp x8, #0xc000",
+                "0x448c: ldrsw x8, [x8, #0x590]",
+                "0x4490: ldr x0, [x21, x8]",
+                "0x4494: bl #0x5924",
+                "0x4498: mov x21, x0",
+                "0x449c: add x2, sp, #0x10",
+                "0x44a0: add x3, sp, #0x50",
+                "0x44a4: mov w4, #0x10",
+                "0x44a8: bl #0x5ce0",
+                "0x44ac: cbz x0, #0x4588",
+                "0x44b0: mov x23, x0",
+                "0x44b4: ldr x8, [sp, #0x20]",
+                "0x44b8: ldr x20, [x8]",
+                "0x44bc: adrp x22, #0x8000",
+                "0x44c0: add x22, x22, #0x110",
+                "0x44c4: adrp x24, #0x8000",
+                "0x44c8: add x24, x24, #0x190",
+                "0x44cc: adrp x27, #0x8000",
+                "0x44d0: add x27, x27, #0x1b0"
+              ],
+              "containing_objc_method_candidate": {
+                "class_method": "DuoDashRootListController.-setPreferenceValue:specifier:",
+                "vm": "0x42e4",
+                "next_method_vm": "0x4424"
+              }
+            },
+            {
+              "address": "0x4380",
+              "literal_address": "0x8130",
+              "literal": "CFSTRING_CONTAINER:perf_tweak_enabled",
+              "nearby_disassembly": [
+                "0x42c0: mov x0, x19",
+                "0x42c4: ldp x29, x30, [sp, #0x30]",
+                "0x42c8: ldp x20, x19, [sp, #0x20]",
+                "0x42cc: ldp x22, x21, [sp, #0x10]",
+                "0x42d0: ldp x24, x23, [sp], #0x40",
+                "0x42d4: b #0x5918",
+                "0x42d8: mov w2, #1",
+                "0x42dc: mov x3, #0",
+                "0x42e0: b #0x5da0",
+                "0x42e4: sub sp, sp, #0x40",
+                "0x42e8: stp x22, x21, [sp, #0x10]",
+                "0x42ec: stp x20, x19, [sp, #0x20]",
+                "0x42f0: stp x29, x30, [sp, #0x30]",
+                "0x42f4: add x29, sp, #0x30",
+                "0x42f8: mov x19, x2",
+                "0x42fc: mov x20, x0",
+                "0x4300: mov x0, x3",
+                "0x4304: bl #0x5924",
+                "0x4308: mov x21, x0",
+                "0x430c: mov x0, x19",
+                "0x4310: bl #0x5924",
+                "0x4314: mov x22, x0",
+                "0x4318: adrp x2, #0x8000",
+                "0x431c: add x2, x2, #0x110",
+                "0x4320: mov x0, x21",
+                "0x4324: bl #0x5fc0",
+                "0x4328: mov x29, x29",
+                "0x432c: bl #0x593c",
+                "0x4330: mov x19, x0",
+                "0x4334: adrp x8, #0xc000",
+                "0x4338: ldr x8, [x8, #0x580]",
+                "0x433c: stp x20, x8, [sp]",
+                "0x4340: adrp x8, #0xc000",
+                "0x4344: ldr x1, [x8, #0x290]",
+                "0x4348: mov x0, sp",
+                "0x434c: mov x2, x22",
+                "0x4350: mov x3, x21",
+                "0x4354: bl #0x58e8",
+                "0x4358: mov x0, x21",
+                "0x435c: bl #0x5918",
+                "0x4360: mov x0, x22",
+                "0x4364: bl #0x5918",
+                "0x4368: adrp x2, #0x8000",
+                "0x436c: add x2, x2, #0x130",
+                "0x4370: mov x0, x19",
+                "0x4374: bl #0x5e60",
+                "0x4378: cbz w0, #0x43f8",
+                "0x437c: adrp x2, #0x8000",
+                "0x4380: add x2, x2, #0x130",
+                "0x4384: adrp x3, #0x8000",
+                "0x4388: ldr x3, [x3, #0x20]",
+                "0x438c: mov x0, x20",
+                "0x4390: bl #0x5b60",
+                "0x4394: mov x29, x29",
+                "0x4398: bl #0x593c",
+                "0x439c: mov x20, x0",
+                "0x43a0: bl #0x5c60",
+                "0x43a4: mov x0, x20",
+                "0x43a8: bl #0x5918",
+                "0x43ac: adrp x20, #0xc000",
+                "0x43b0: ldr w0, [x20, #0x640]",
+                "0x43b4: cmn w0, #1",
+                "0x43b8: b.eq #0x43d8",
+                "0x43bc: mov w1, #0x3c",
+                "0x43c0: bl #0x5888",
+                "0x43c4: cbnz w0, #0x43f8",
+                "0x43c8: adrp x0, #0x6000",
+                "0x43cc: add x0, x0, #0x4f5",
+                "0x43d0: bl #0x5870",
+                "0x43d4: b #0x43f8",
+                "0x43d8: adrp x0, #0x6000",
+                "0x43dc: add x0, x0, #0x4f5",
+                "0x43e0: adrp x1, #0xc000",
+                "0x43e4: add x1, x1, #0x640",
+                "0x43e8: bl #0x587c",
+                "0x43ec: cbz w0, #0x4414",
+                "0x43f0: mov w8, #-1",
+                "0x43f4: str w8, [x20, #0x640]",
+                "0x43f8: mov x0, x19",
+                "0x43fc: bl #0x5918",
+                "0x4400: ldp x29, x30, [sp, #0x30]",
+                "0x4404: ldp x20, x19, [sp, #0x20]",
+                "0x4408: ldp x22, x21, [sp, #0x10]",
+                "0x440c: add sp, sp, #0x40",
+                "0x4410: ret ",
+                "0x4414: ldr w0, [x20, #0x640]",
+                "0x4418: cmn w0, #1",
+                "0x441c: b.ne #0x43bc",
+                "0x4420: b #0x43f8",
+                "0x4424: sub sp, sp, #0x140",
+                "0x4428: stp x28, x27, [sp, #0xe0]",
+                "0x442c: stp x26, x25, [sp, #0xf0]",
+                "0x4430: stp x24, x23, [sp, #0x100]",
+                "0x4434: stp x22, x21, [sp, #0x110]",
+                "0x4438: stp x20, x19, [sp, #0x120]",
+                "0x443c: stp x29, x30, [sp, #0x130]",
+                "0x4440: add x29, sp, #0x130",
+                "0x4444: mov x21, x0",
+                "0x4448: adrp x8, #0x8000",
+                "0x444c: ldr x8, [x8, #0x40]",
+                "0x4450: ldr x8, [x8]",
+                "0x4454: stur x8, [x29, #-0x60]",
+                "0x4458: adrp x2, #0x8000",
+                "0x445c: add x2, x2, #0x150",
+                "0x4460: bl #0x5b00",
+                "0x4464: mov x19, x0",
+                "0x4468: adrp x2, #0x8000",
+                "0x446c: add x2, x2, #0x170",
+                "0x4470: mov x0, x21",
+                "0x4474: bl #0x5b00",
+                "0x4478: str w0, [sp, #0xc]",
+                "0x447c: movi v0.16b, #0",
+                "0x4480: stp q0, q0, [sp, #0x10]",
+                "0x4484: stp q0, q0, [sp, #0x30]",
+                "0x4488: adrp x8, #0xc000",
+                "0x448c: ldrsw x8, [x8, #0x590]",
+                "0x4490: ldr x0, [x21, x8]",
+                "0x4494: bl #0x5924",
+                "0x4498: mov x21, x0",
+                "0x449c: add x2, sp, #0x10",
+                "0x44a0: add x3, sp, #0x50",
+                "0x44a4: mov w4, #0x10",
+                "0x44a8: bl #0x5ce0",
+                "0x44ac: cbz x0, #0x4588",
+                "0x44b0: mov x23, x0",
+                "0x44b4: ldr x8, [sp, #0x20]",
+                "0x44b8: ldr x20, [x8]",
+                "0x44bc: adrp x22, #0x8000",
+                "0x44c0: add x22, x22, #0x110",
+                "0x44c4: adrp x24, #0x8000",
+                "0x44c8: add x24, x24, #0x190",
+                "0x44cc: adrp x27, #0x8000",
+                "0x44d0: add x27, x27, #0x1b0",
+                "0x44d4: mov x26, #0",
+                "0x44d8: ldr x8, [sp, #0x20]",
+                "0x44dc: ldr x8, [x8]",
+                "0x44e0: cmp x8, x20",
+                "0x44e4: b.eq #0x44f0"
+              ],
+              "containing_objc_method_candidate": {
+                "class_method": "DuoDashRootListController.-setPreferenceValue:specifier:",
+                "vm": "0x42e4",
+                "next_method_vm": "0x4424"
+              }
+            },
             {
               "address": "0x43cc",
               "literal_address": "0x64f5",
@@ -10890,16 +11594,223 @@
                 "vm": "0x42e4",
                 "next_method_vm": "0x4424"
               }
+            },
+            {
+              "address": "0x4b8c",
+              "literal_address": "0x8350",
+              "literal": "CFSTRING_CONTAINER:com.sensetechlab.settings.changed",
+              "nearby_disassembly": [
+                "0x4acc: ldur x8, [x29, #-0x58]",
+                "0x4ad0: adrp x9, #0x8000",
+                "0x4ad4: ldr x9, [x9, #0x40]",
+                "0x4ad8: ldr x9, [x9]",
+                "0x4adc: cmp x9, x8",
+                "0x4ae0: b.ne #0x4b08",
+                "0x4ae4: mov x0, x19",
+                "0x4ae8: ldp x29, x30, [sp, #0x120]",
+                "0x4aec: ldp x20, x19, [sp, #0x110]",
+                "0x4af0: ldp x22, x21, [sp, #0x100]",
+                "0x4af4: ldp x24, x23, [sp, #0xf0]",
+                "0x4af8: ldp x26, x25, [sp, #0xe0]",
+                "0x4afc: ldp x28, x27, [sp, #0xd0]",
+                "0x4b00: add sp, sp, #0x130",
+                "0x4b04: b #0x58a0",
+                "0x4b08: bl #0x5864",
+                "0x4b0c: stp x22, x21, [sp, #-0x30]!",
+                "0x4b10: stp x20, x19, [sp, #0x10]",
+                "0x4b14: stp x29, x30, [sp, #0x20]",
+                "0x4b18: add x29, sp, #0x20",
+                "0x4b1c: adrp x8, #0xc000",
+                "0x4b20: ldrsw x8, [x8, #0x594]",
+                "0x4b24: ldr x0, [x0, x8]",
+                "0x4b28: bl #0x5bc0",
+                "0x4b2c: mov x29, x29",
+                "0x4b30: bl #0x593c",
+                "0x4b34: mov x19, x0",
+                "0x4b38: adrp x8, #0x8000",
+                "0x4b3c: ldr x8, [x8, #0x38]",
+                "0x4b40: ldr x20, [x8]",
+                "0x4b44: adrp x8, #0x8000",
+                "0x4b48: ldr x8, [x8, #0x28]",
+                "0x4b4c: ldr x21, [x8]",
+                "0x4b50: adrp x0, #0x8000",
+                "0x4b54: add x0, x0, #0x330",
+                "0x4b58: adrp x22, #0x8000",
+                "0x4b5c: add x22, x22, #0x2f0",
+                "0x4b60: mov x1, x19",
+                "0x4b64: mov x2, x22",
+                "0x4b68: mov x3, x20",
+                "0x4b6c: mov x4, x21",
+                "0x4b70: bl #0x5840",
+                "0x4b74: mov x0, x22",
+                "0x4b78: mov x1, x20",
+                "0x4b7c: mov x2, x21",
+                "0x4b80: bl #0x584c",
+                "0x4b84: bl #0x581c",
+                "0x4b88: adrp x1, #0x8000",
+                "0x4b8c: add x1, x1, #0x350",
+                "0x4b90: mov x2, #0",
+                "0x4b94: mov x3, #0",
+                "0x4b98: mov w4, #1",
+                "0x4b9c: bl #0x5828",
+                "0x4ba0: mov x0, x19",
+                "0x4ba4: ldp x29, x30, [sp, #0x20]",
+                "0x4ba8: ldp x20, x19, [sp, #0x10]",
+                "0x4bac: ldp x22, x21, [sp], #0x30",
+                "0x4bb0: b #0x5918",
+                "0x4bb4: stp x28, x27, [sp, #-0x60]!",
+                "0x4bb8: stp x26, x25, [sp, #0x10]",
+                "0x4bbc: stp x24, x23, [sp, #0x20]",
+                "0x4bc0: stp x22, x21, [sp, #0x30]",
+                "0x4bc4: stp x20, x19, [sp, #0x40]",
+                "0x4bc8: stp x29, x30, [sp, #0x50]",
+                "0x4bcc: add x29, sp, #0x50",
+                "0x4bd0: sub sp, sp, #0x2a0",
+                "0x4bd4: str x0, [sp, #8]",
+                "0x4bd8: adrp x8, #0x8000",
+                "0x4bdc: ldr x8, [x8, #0x40]",
+                "0x4be0: ldr x8, [x8]",
+                "0x4be4: stur x8, [x29, #-0x60]",
+                "0x4be8: adrp x8, #0xc000",
+                "0x4bec: ldr x0, [x8, #0x550]",
+                "0x4bf0: bl #0x5c20",
+                "0x4bf4: mov x29, x29",
+                "0x4bf8: bl #0x593c",
+                "0x4bfc: str x0, [sp, #0x10]",
+                "0x4c00: adrp x0, #0x6000",
+                "0x4c04: add x0, x0, #0x623",
+                "0x4c08: bl #0x58d0",
+                "0x4c0c: cbz x0, #0x4c38",
+                "0x4c10: adrp x8, #0xc000",
+                "0x4c14: ldr x2, [x8, #0x2b0]",
+                "0x4c18: bl #0x5f60",
+                "0x4c1c: bl #0x5924",
+                "0x4c20: cbz x0, #0x4c38",
+                "0x4c24: adrp x8, #0xc000",
+                "0x4c28: ldr x2, [x8, #0x2b8]",
+                "0x4c2c: str x0, [sp]",
+                "0x4c30: bl #0x5f60",
+                "0x4c34: b #0x4c3c",
+                "0x4c38: str xzr, [sp]",
+                "0x4c3c: bl #0x5924",
+                "0x4c40: mov x19, x0",
+                "0x4c44: adrp x8, #0xc000",
+                "0x4c48: ldr x0, [x8, #0x560]",
+                "0x4c4c: bl #0x60e0",
+                "0x4c50: mov x29, x29",
+                "0x4c54: bl #0x593c",
+                "0x4c58: str x0, [sp, #0x20]",
+                "0x4c5c: movi v0.16b, #0",
+                "0x4c60: stp q0, q0, [sp, #0xd0]",
+                "0x4c64: stp q0, q0, [sp, #0xb0]",
+                "0x4c68: mov x0, x19",
+                "0x4c6c: bl #0x5924",
+                "0x4c70: mov x23, x0",
+                "0x4c74: add x2, sp, #0xb0",
+                "0x4c78: sub x3, x29, #0xe0",
+                "0x4c7c: mov w4, #0x10",
+                "0x4c80: bl #0x5ce0",
+                "0x4c84: mov x24, x0",
+                "0x4c88: cbz x0, #0x4eb8",
+                "0x4c8c: ldr x8, [sp, #0xc0]",
+                "0x4c90: ldr x22, [x8]",
+                "0x4c94: adrp x25, #0xc000",
+                "0x4c98: mov x27, #0",
+                "0x4c9c: adrp x8, #0xc000",
+                "0x4ca0: ldr x26, [x8, #0x2c0]",
+                "0x4ca4: adrp x8, #0xc000",
+                "0x4ca8: ldr x8, [x8, #0x2c8]",
+                "0x4cac: str x8, [sp, #0x28]",
+                "0x4cb0: adrp x8, #0xc000",
+                "0x4cb4: ldr x8, [x8, #0x2d0]",
+                "0x4cb8: str x8, [sp, #0x18]",
+                "0x4cbc: ldr x8, [sp, #0xc0]",
+                "0x4cc0: ldr x8, [x8]",
+                "0x4cc4: cmp x8, x22",
+                "0x4cc8: b.eq #0x4cd4",
+                "0x4ccc: mov x0, x23",
+                "0x4cd0: bl #0x58c4",
+                "0x4cd4: ldr x8, [sp, #0xb8]",
+                "0x4cd8: ldr x19, [x8, x27, lsl #3]",
+                "0x4cdc: mov x0, x19",
+                "0x4ce0: mov x1, x26",
+                "0x4ce4: bl #0x590c",
+                "0x4ce8: tbz w0, #0, #0x4cfc",
+                "0x4cec: mov x0, x19",
+                "0x4cf0: mov x2, x26"
+              ],
+              "containing_objc_method_candidate": {
+                "class_method": "DuoDashAppPickerController.-_persistAndNotify",
+                "vm": "0x4b0c",
+                "next_method_vm": "0x4bb4"
+              }
             }
           ],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [
+                "0x64e2"
+              ],
+              "data_pointer_refs": [
+                {
+                  "at": "0x8140",
+                  "data_section": "__cfstring",
+                  "cstr_vm": "0x64e2",
+                  "candidate_cfstring_vm": "0x8130"
+                },
+                {
+                  "at": "0x8140",
+                  "data_section": "__cfstring",
+                  "cstr_vm": "0x64e2",
+                  "candidate_cfstring_vm": "0x8130"
+                }
+              ]
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [
+                "0x64f5"
+              ],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [
+                "0x6601"
+              ],
+              "data_pointer_refs": [
+                {
+                  "at": "0x8360",
+                  "data_section": "__cfstring",
+                  "cstr_vm": "0x6601",
+                  "candidate_cfstring_vm": "0x8350"
+                },
+                {
+                  "at": "0x8360",
+                  "data_section": "__cfstring",
+                  "cstr_vm": "0x6601",
+                  "candidate_cfstring_vm": "0x8350"
+                }
+              ]
+            }
+          },
           "total_disassembly_instructions": 1543
         },
         "arm64e": {
           "sha256": "48e04aae76f5ec05ef4b96e9559e855ab038cd4b35dea4d432998669da195c1f",
           "size": 71536,
           "objc": {
-            "status": "parse_error ValueError: cannot map Mach-O address 0x800000000c4f0",
-            "classes": [],
+            "status": "parsed",
+            "classes": [
+              "DuoDashAppPickerController",
+              "DuoDashRootListController"
+            ],
             "candidate_methods": []
           },
           "relevant_literals": [
@@ -11065,7 +11976,11 @@
                 "0x47c4: ldp x29, x30, [sp, #0x30]",
                 "0x47c8: ldp x20, x19, [sp, #0x20]"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DuoDashRootListController.-setPreferenceValue:specifier:",
+                "vm": "0x4578",
+                "next_method_vm": "0x46bc"
+              }
             },
             {
               "address": "0x4674",
@@ -11211,9 +12126,41 @@
                 "0x47d4: autibsp ",
                 "0x47d8: eor x16, x30, x30, lsl #1"
               ],
-              "containing_objc_method_candidate": null
+              "containing_objc_method_candidate": {
+                "class_method": "DuoDashRootListController.-setPreferenceValue:specifier:",
+                "vm": "0x4578",
+                "next_method_vm": "0x46bc"
+              }
             }
           ],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [
+                "0x64e2"
+              ],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [
+                "0x64f5"
+              ],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [
+                "0x6601"
+              ],
+              "data_pointer_refs": []
+            }
+          },
           "total_disassembly_instructions": 1601
         }
       }
@@ -11260,24 +12207,70 @@
           "sha256": "5760e88afdd0ea27af49712f789a55eed524b9a383c7f3805ab16ea79944daf2",
           "size": 69104,
           "objc": {
-            "status": "parse_error ValueError: cannot map Mach-O address 0x1000010000c710",
-            "classes": [],
+            "status": "parsed",
+            "classes": [
+              "DDAppDelegate"
+            ],
             "candidate_methods": []
           },
           "relevant_literals": [],
           "candidate_refs": [],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            }
+          },
           "total_disassembly_instructions": 115
         },
         "arm64e": {
           "sha256": "340ca73312b61c470b8bd8e264ae47ec36d25a2533f3c2935780f320170d60bb",
           "size": 69104,
           "objc": {
-            "status": "parse_error ValueError: cannot map Mach-O address 0x800010000c710",
+            "status": "parse_error ValueError: cannot map Mach-O address 0x801561f80000c3c8",
             "classes": [],
             "candidate_methods": []
           },
           "relevant_literals": [],
           "candidate_refs": [],
+          "cstring_cfstring_indirections": {
+            "perf_tweak_enabled": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.carplay/fps": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "maxFPS": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "encoderFPSFixed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            },
+            "com.sensetechlab.settings.changed": {
+              "cstring_vm": [],
+              "data_pointer_refs": []
+            }
+          },
           "total_disassembly_instructions": 117
         }
       }
