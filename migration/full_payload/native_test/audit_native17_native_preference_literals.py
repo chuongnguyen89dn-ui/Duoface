@@ -97,7 +97,14 @@ with tempfile.TemporaryDirectory() as td:
                 rotated=((mixed >> n) | (mixed << (8-n))) & 0xff
                 transform=((ix*0x2b+0x83)&0xff)^rotated
                 decoded.append((transform-0x5d)&0xff)
-            decoded_native_settings_owner=decoded.decode("utf-8")
+            # This is unverified reverse-engineered output. Keep the exact
+            # 49 bytes for diagnostic review; do not claim a path on failure.
+            decoded_native_settings_owner={"raw49_hex":decoded.hex(),"valid_utf8":False}
+            try:
+                decoded_native_settings_owner["candidate_path"]=decoded.decode("utf-8")
+                decoded_native_settings_owner["valid_utf8"]=True
+            except UnicodeDecodeError:
+                decoded_native_settings_owner["candidate_path"]=None
         lazy_instruction_map={}
         if name=="DuoFaceDashboard":
             from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
