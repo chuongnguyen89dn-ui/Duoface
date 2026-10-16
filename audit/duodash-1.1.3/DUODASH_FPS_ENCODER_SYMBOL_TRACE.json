@@ -1896,6 +1896,852 @@
           ]
         }
       ],
+      "cfstring_objects": {
+        "selected_vm": {
+          "0xc94e8": {
+            "value": "com.sensetechlab.duodash.settings",
+            "resolved_string_vm": "0x7d632",
+            "raw_object_bytes": "4201000000002080c80700000000000032d60700000020002100000000000000"
+          },
+          "0xca428": {
+            "value": "perf_tweak_enabled",
+            "resolved_string_vm": "0x7e56d",
+            "raw_object_bytes": "4201000000002080c8070000000000006de50700000020001200000000000000"
+          },
+          "0xcd768": {
+            "value": "com.apple.airplay",
+            "resolved_string_vm": "0x81a10",
+            "raw_object_bytes": "4201000000002080c807000000000000101a0800000020001100000000000000"
+          },
+          "0xcd788": {
+            "value": "maxFPS",
+            "resolved_string_vm": "0x81a22",
+            "raw_object_bytes": "4201000000002080c807000000000000221a0800000020000600000000000000"
+          },
+          "0xcd7a8": {
+            "value": "encoderFPSFixed",
+            "resolved_string_vm": "0x81a29",
+            "raw_object_bytes": "4201000000002080c807000000000000291a0800000020000f00000000000000"
+          },
+          "0xcd7c8": {
+            "value": "/var/mobile/Library/DuoDash/airplay_backup.plist",
+            "resolved_string_vm": "0x81a39",
+            "raw_object_bytes": "4201000000002080c807000000000000391a0800000020003000000000000000"
+          },
+          "0xcd7e8": {
+            "value": "/var/mobile/Library/DuoDash/airplay_absent",
+            "resolved_string_vm": "0x81a6a",
+            "raw_object_bytes": "4201000000002080c8070000000000006a1a0800000020002a00000000000000"
+          },
+          "0xcd808": {
+            "value": "/var/mobile/Library/Preferences/com.apple.airplay.plist",
+            "resolved_string_vm": "0x81a95",
+            "raw_object_bytes": "4201000000002080c807000000000000951a0800000020003700000000000000"
+          }
+        },
+        "matched_cfstrings": [
+          {
+            "vm": "0xc9388",
+            "string_vm": "0x7d52d",
+            "value": "com.apple.CarPlaySplashScreen"
+          },
+          {
+            "vm": "0xc93a8",
+            "string_vm": "0x7d54b",
+            "value": "com.apple.CarPlayTemplateUIHost"
+          },
+          {
+            "vm": "0xc94e8",
+            "string_vm": "0x7d632",
+            "value": "com.sensetechlab.duodash.settings"
+          },
+          {
+            "vm": "0xc9608",
+            "string_vm": "0x7d708",
+            "value": "com.apple.CarPlayApp"
+          },
+          {
+            "vm": "0xc9628",
+            "string_vm": "0x7d71d",
+            "value": "com.sensetechlab.duodash"
+          },
+          {
+            "vm": "0xc9648",
+            "string_vm": "0x7d736",
+            "value": "/var/tmp/duodash_ab_fontfloor_force"
+          },
+          {
+            "vm": "0xc9688",
+            "string_vm": "0x7d76d",
+            "value": "/var/tmp/duodash_ab_clearpanes"
+          },
+          {
+            "vm": "0xc96a8",
+            "string_vm": "0x7d78c",
+            "value": "/var/tmp/duodash_ab_clearpanes.done"
+          },
+          {
+            "vm": "0xc9b28",
+            "string_vm": "0x7da31",
+            "value": "/var/tmp/duodash_ab_spike"
+          },
+          {
+            "vm": "0xc9b48",
+            "string_vm": "0x7da4b",
+            "value": "/var/tmp/duodash_ab_host"
+          },
+          {
+            "vm": "0xc9b68",
+            "string_vm": "0x7da64",
+            "value": "/var/tmp/duodash_ab_holdsec"
+          },
+          {
+            "vm": "0xc9b88",
+            "string_vm": "0x7da80",
+            "value": "/var/tmp/duodash_ab_hostsplit"
+          },
+          {
+            "vm": "0xc9ba8",
+            "string_vm": "0x7da9e",
+            "value": "/var/tmp/duodash_ab_splitstart"
+          },
+          {
+            "vm": "0xc9bc8",
+            "string_vm": "0x7dae1",
+            "value": "/var/tmp/duodash_ab_nodockcover"
+          },
+          {
+            "vm": "0xc9c68",
+            "string_vm": "0x7dba7",
+            "value": "/var/tmp/duodash_ab_noautostart"
+          },
+          {
+            "vm": "0xc9ce8",
+            "string_vm": "0x7dc47",
+            "value": "/var/tmp/duodash_ab_nodashkeep"
+          },
+          {
+            "vm": "0xc9d08",
+            "string_vm": "0x7dc66",
+            "value": "/var/tmp/duodash_ab_iconadd"
+          },
+          {
+            "vm": "0xc9f88",
+            "string_vm": "0x7df7b",
+            "value": "/Library/Application Support/DuoDash/DualAppsIcon.png"
+          },
+          {
+            "vm": "0xc9fa8",
+            "string_vm": "0x7dfda",
+            "value": "DuoDash"
+          },
+          {
+            "vm": "0xc9fe8",
+            "string_vm": "0x7e04f",
+            "value": "/var/tmp/duodash_ab_hosting_off"
+          },
+          {
+            "vm": "0xca008",
+            "string_vm": "0x7e06f",
+            "value": "/var/tmp/duodash_ab_mapcoexist"
+          },
+          {
+            "vm": "0xca068",
+            "string_vm": "0x7e0bb",
+            "value": "/var/tmp/duodash_ab_noswitchteardown"
+          },
+          {
+            "vm": "0xca0c8",
+            "string_vm": "0x7e172",
+            "value": "/var/tmp/duodash_ab_aggressive_focusteardown"
+          },
+          {
+            "vm": "0xca0e8",
+            "string_vm": "0x7e19f",
+            "value": "/var/tmp/duodash_ab_nohomedismiss"
+          },
+          {
+            "vm": "0xca108",
+            "string_vm": "0x7e1c1",
+            "value": "/var/tmp/duodash_ab_dashsettle"
+          },
+          {
+            "vm": "0xca128",
+            "string_vm": "0x7e1e0",
+            "value": "/var/tmp/duodash_ab_nodashlaunch"
+          },
+          {
+            "vm": "0xca168",
+            "string_vm": "0x7e20a",
+            "value": "/var/tmp/duodash_ab_dashlaunch_secs"
+          },
+          {
+            "vm": "0xca1a8",
+            "string_vm": "0x7e24e",
+            "value": "/var/tmp/duodash_ab_reapdelay"
+          },
+          {
+            "vm": "0xca1c8",
+            "string_vm": "0x7e2ac",
+            "value": "CarPlayIsConnectedDidChange_IsConnected"
+          },
+          {
+            "vm": "0xca1e8",
+            "string_vm": "0x7e2d4",
+            "value": "CarPlayIsConnectedDidChange"
+          },
+          {
+            "vm": "0xca2c8",
+            "string_vm": "0x7e3bf",
+            "value": "com.sensetechlab.settings.changed"
+          },
+          {
+            "vm": "0xca388",
+            "string_vm": "0x7e472",
+            "value": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+          },
+          {
+            "vm": "0xca428",
+            "string_vm": "0x7e56d",
+            "value": "perf_tweak_enabled"
+          },
+          {
+            "vm": "0xca5e8",
+            "string_vm": "0x7e685",
+            "value": "/var/tmp/duodash_ab_nopanepad"
+          },
+          {
+            "vm": "0xca608",
+            "string_vm": "0x7e6a3",
+            "value": "/var/tmp/duodash_ab_nopaneround"
+          },
+          {
+            "vm": "0xca628",
+            "string_vm": "0x7e6c3",
+            "value": "/var/tmp/duodash_ab_panepad"
+          },
+          {
+            "vm": "0xca648",
+            "string_vm": "0x7e6df",
+            "value": "/var/tmp/duodash_ab_noratio"
+          },
+          {
+            "vm": "0xca668",
+            "string_vm": "0x7e6fb",
+            "value": "/var/tmp/duodash_ab_paneratio"
+          },
+          {
+            "vm": "0xca688",
+            "string_vm": "0x7e719",
+            "value": "/var/tmp/duodash_ab_panefracs"
+          },
+          {
+            "vm": "0xca6a8",
+            "string_vm": "0x7e737",
+            "value": "/var/tmp/duodash_ab_layout"
+          },
+          {
+            "vm": "0xca728",
+            "string_vm": "0x7e794",
+            "value": "carplay_content_insets"
+          },
+          {
+            "vm": "0xca748",
+            "string_vm": "0x7e7ab",
+            "value": "carplay_content_inset"
+          },
+          {
+            "vm": "0xca7c8",
+            "string_vm": "0x7e7db",
+            "value": "/var/tmp/duodash_ab_nosplash"
+          },
+          {
+            "vm": "0xca7e8",
+            "string_vm": "0x7e7f8",
+            "value": "/var/tmp/duodash_ab_splash_secs"
+          },
+          {
+            "vm": "0xca828",
+            "string_vm": "0x7e818",
+            "value": "/var/tmp/duodash_ab_nomat"
+          },
+          {
+            "vm": "0xca848",
+            "string_vm": "0x7e832",
+            "value": "/var/tmp/duodash_ab_norehostinplace"
+          },
+          {
+            "vm": "0xca868",
+            "string_vm": "0x7e856",
+            "value": "/var/tmp/duodash_ab_swap_anim14"
+          },
+          {
+            "vm": "0xca988",
+            "string_vm": "0x7e898",
+            "value": "/Library/Application Support/DuoDash/DualAppsSplash.png"
+          },
+          {
+            "vm": "0xca9c8",
+            "string_vm": "0x7e8e0",
+            "value": "/Library/Application Support/DuoDash/"
+          },
+          {
+            "vm": "0xca9e8",
+            "string_vm": "0x7e906",
+            "value": "/var/tmp/duodash_ab_rotate"
+          },
+          {
+            "vm": "0xcaa08",
+            "string_vm": "0x7e921",
+            "value": "/var/tmp/duodash_ab_noevict"
+          },
+          {
+            "vm": "0xcaa28",
+            "string_vm": "0x7e93d",
+            "value": "/var/tmp/duodash_ab_evict_skipfrontmost"
+          },
+          {
+            "vm": "0xcaa48",
+            "string_vm": "0x7e98d",
+            "value": "/var/tmp/duodash_ab_split_evict"
+          },
+          {
+            "vm": "0xcaac8",
+            "string_vm": "0x7ea08",
+            "value": "/var/tmp/duodash_ab_rscale"
+          },
+          {
+            "vm": "0xcaae8",
+            "string_vm": "0x7ea23",
+            "value": "/var/tmp/duodash_ab_canvas"
+          },
+          {
+            "vm": "0xcab28",
+            "string_vm": "0x7ea47",
+            "value": "/var/tmp/duodash_ab_orient"
+          },
+          {
+            "vm": "0xcab48",
+            "string_vm": "0x7ea65",
+            "value": "/var/tmp/duodash_ab_noscenegeom"
+          },
+          {
+            "vm": "0xcab88",
+            "string_vm": "0x7eaa3",
+            "value": "/var/tmp/duodash_ab_forceio"
+          },
+          {
+            "vm": "0xcabc8",
+            "string_vm": "0x7eac6",
+            "value": "/var/tmp/duodash_ab_nopresupdate"
+          },
+          {
+            "vm": "0xcabe8",
+            "string_vm": "0x7eae7",
+            "value": "/var/tmp/duodash_ab_toapps_swallow"
+          },
+          {
+            "vm": "0xcac08",
+            "string_vm": "0x7eb18",
+            "value": "duodash_ab_nopaneactivity"
+          },
+          {
+            "vm": "0xcac28",
+            "string_vm": "0x7eb32",
+            "value": "duodash_ab_nofontnorm"
+          },
+          {
+            "vm": "0xcac48",
+            "string_vm": "0x7eb48",
+            "value": "/var/tmp/duodash_ab_force_relayout"
+          },
+          {
+            "vm": "0xcac88",
+            "string_vm": "0x7eb96",
+            "value": "duodash_ab_cptrip"
+          },
+          {
+            "vm": "0xcacc8",
+            "string_vm": "0x7ebbc",
+            "value": "duodash_ab_nostatetimeout"
+          },
+          {
+            "vm": "0xcace8",
+            "string_vm": "0x7ebd6",
+            "value": "duodash_ab_bg_teardown"
+          },
+          {
+            "vm": "0xcad88",
+            "string_vm": "0x7f175",
+            "value": "duodash_"
+          },
+          {
+            "vm": "0xcadc8",
+            "string_vm": "0x7f191",
+            "value": "duodash_ab_fs_fill_off"
+          },
+          {
+            "vm": "0xcade8",
+            "string_vm": "0x7f1a8",
+            "value": "duodash_ab_fs_nosize"
+          },
+          {
+            "vm": "0xcae08",
+            "string_vm": "0x7f1bd",
+            "value": "duodash_ab_fs_nolandscape"
+          },
+          {
+            "vm": "0xcae48",
+            "string_vm": "0x7f1dd",
+            "value": "/var/tmp/duodash_ab_kbwidth_off"
+          },
+          {
+            "vm": "0xcae68",
+            "string_vm": "0x7f1fd",
+            "value": "duodash_ab_kbfixed"
+          },
+          {
+            "vm": "0xcae88",
+            "string_vm": "0x7f210",
+            "value": "duodash_ab_kbwide_single"
+          },
+          {
+            "vm": "0xcaea8",
+            "string_vm": "0x7f229",
+            "value": "duodash_ab_kbcentre_single"
+          },
+          {
+            "vm": "0xcaee8",
+            "string_vm": "0x7f33c",
+            "value": "currentCarPlayExternalDevice"
+          },
+          {
+            "vm": "0xcaf08",
+            "string_vm": "0x7f3d4",
+            "value": "DirectionsStartInCarPlay"
+          },
+          {
+            "vm": "0xcaf28",
+            "string_vm": "0x7f3ed",
+            "value": "CarPlayConnectedWith"
+          },
+          {
+            "vm": "0xcafa8",
+            "string_vm": "0x7f4e2",
+            "value": "DuoDashAppBridge"
+          },
+          {
+            "vm": "0xcafe8",
+            "string_vm": "0x7f63b",
+            "value": "/var/tmp/duodash_ab_nopicker"
+          },
+          {
+            "vm": "0xcb008",
+            "string_vm": "0x7f658",
+            "value": "/var/tmp/duodash_ab_picker_nohandle"
+          },
+          {
+            "vm": "0xcb028",
+            "string_vm": "0x7f67c",
+            "value": "/var/tmp/duodash_ab_picker_nopulse"
+          },
+          {
+            "vm": "0xcb048",
+            "string_vm": "0x7f69f",
+            "value": "/var/tmp/duodash_ab_picker_nowake"
+          },
+          {
+            "vm": "0xcb068",
+            "string_vm": "0x7f6c1",
+            "value": "/var/tmp/duodash_ab_picker_nospin"
+          },
+          {
+            "vm": "0xcb088",
+            "string_vm": "0x7f6e3",
+            "value": "/var/tmp/duodash_ab_picker_nodrop"
+          },
+          {
+            "vm": "0xcb0a8",
+            "string_vm": "0x7f705",
+            "value": "/var/tmp/duodash_ab_noresize"
+          },
+          {
+            "vm": "0xcb0c8",
+            "string_vm": "0x7f722",
+            "value": "/var/tmp/duodash_ab_picker_nosnap"
+          },
+          {
+            "vm": "0xcb0e8",
+            "string_vm": "0x7f744",
+            "value": "/var/tmp/duodash_ab_resize_nodrag"
+          },
+          {
+            "vm": "0xcb108",
+            "string_vm": "0x7f766",
+            "value": "/var/tmp/duodash_ab_picker_panesized"
+          },
+          {
+            "vm": "0xcb128",
+            "string_vm": "0x7f78b",
+            "value": "/var/tmp/duodash_ab_noswap"
+          },
+          {
+            "vm": "0xcb148",
+            "string_vm": "0x7f7a6",
+            "value": "/var/tmp/duodash_ab_nolayoutui"
+          },
+          {
+            "vm": "0xcb168",
+            "string_vm": "0x7f7c5",
+            "value": "/var/tmp/duodash_ab_nogutterctrl"
+          },
+          {
+            "vm": "0xcb188",
+            "string_vm": "0x7f7e6",
+            "value": "/var/tmp/duodash_ab_nobubblesettings"
+          },
+          {
+            "vm": "0xcb1a8",
+            "string_vm": "0x7f80b",
+            "value": "duodashResizeGhostPulse"
+          },
+          {
+            "vm": "0xcb208",
+            "string_vm": "0x7f839",
+            "value": "/var/tmp/duodash_ab_picker_noswiperecover"
+          },
+          {
+            "vm": "0xcb268",
+            "string_vm": "0x7f873",
+            "value": "/var/tmp/duodash_ab_nolayoutconfirm"
+          },
+          {
+            "vm": "0xcb328",
+            "string_vm": "0x7f8c6",
+            "value": "/var/tmp/duodash_ab_layoutconfirm_14"
+          },
+          {
+            "vm": "0xcb428",
+            "string_vm": "0x7f957",
+            "value": "duodash_ab_resize_nodrag"
+          },
+          {
+            "vm": "0xcb568",
+            "string_vm": "0x7f9ed",
+            "value": "duodash_ab_picker_vscroll"
+          },
+          {
+            "vm": "0xcb588",
+            "string_vm": "0x7fa07",
+            "value": "/var/tmp/duodash_ab_picker_noblur"
+          },
+          {
+            "vm": "0xcb768",
+            "string_vm": "0x7fad9",
+            "value": "/var/tmp/duodash_ab_resize_nopulse"
+          },
+          {
+            "vm": "0xcb7a8",
+            "string_vm": "0x7fb1f",
+            "value": "duodash_ab_nopanel"
+          },
+          {
+            "vm": "0xcbd48",
+            "string_vm": "0x7fe63",
+            "value": "incar.title.settings"
+          },
+          {
+            "vm": "0xcc028",
+            "string_vm": "0x80026",
+            "value": "/var/tmp/duodash_ab_nobubble"
+          },
+          {
+            "vm": "0xcc048",
+            "string_vm": "0x80043",
+            "value": "/var/tmp/duodash_ab_simspeed"
+          },
+          {
+            "vm": "0xcc068",
+            "string_vm": "0x80060",
+            "value": "/var/tmp/duodash_ab_nogps"
+          },
+          {
+            "vm": "0xcc248",
+            "string_vm": "0x8018b",
+            "value": "/var/tmp/duodash_ab_gps_bundle"
+          },
+          {
+            "vm": "0xcc348",
+            "string_vm": "0x80225",
+            "value": "/var/tmp/duodash_ab_bubble_nodrag"
+          },
+          {
+            "vm": "0xcc368",
+            "string_vm": "0x80247",
+            "value": "/var/tmp/duodash_ab_bubble_noblink"
+          },
+          {
+            "vm": "0xcc388",
+            "string_vm": "0x8026a",
+            "value": "/var/tmp/duodash_ab_bubble_nobeep"
+          },
+          {
+            "vm": "0xcc3a8",
+            "string_vm": "0x8028c",
+            "value": "/var/tmp/duodash_ab_bubble_nofake"
+          },
+          {
+            "vm": "0xcc3c8",
+            "string_vm": "0x802ae",
+            "value": "/var/tmp/duodash_ab_bubble_noavaudio"
+          },
+          {
+            "vm": "0xcc408",
+            "string_vm": "0x802f2",
+            "value": "/var/tmp/duodash_ab_bubble_pos.plist"
+          },
+          {
+            "vm": "0xcc5c8",
+            "string_vm": "0x80411",
+            "value": "/Library/Application Support/DuoDash/navbubble_beep.caf"
+          },
+          {
+            "vm": "0xcc5e8",
+            "string_vm": "0x804df",
+            "value": "/var/tmp/duodash_ab_suspended.plist"
+          },
+          {
+            "vm": "0xcc6a8",
+            "string_vm": "0x8057f",
+            "value": "/var/mobile/Library/DuoDash/navapps.plist"
+          },
+          {
+            "vm": "0xcc708",
+            "string_vm": "0x805bb",
+            "value": "hiddenByDuoDash"
+          },
+          {
+            "vm": "0xcc788",
+            "string_vm": "0x80667",
+            "value": "/var/mobile/Library/DuoDash"
+          },
+          {
+            "vm": "0xcc8c8",
+            "string_vm": "0x80788",
+            "value": "com.apple.developer.carplay-audio"
+          },
+          {
+            "vm": "0xcc9c8",
+            "string_vm": "0x80871",
+            "value": "carplay"
+          },
+          {
+            "vm": "0xcca88",
+            "string_vm": "0x808c7",
+            "value": "/var/mobile/Library/DuoDash/iconstate_backup"
+          },
+          {
+            "vm": "0xccae8",
+            "string_vm": "0x80922",
+            "value": "com.apple.CarPlayWallpaper"
+          },
+          {
+            "vm": "0xccb28",
+            "string_vm": "0x809a9",
+            "value": "/var/tmp/duodash_ab_discoclose_secs"
+          },
+          {
+            "vm": "0xccb48",
+            "string_vm": "0x809cd",
+            "value": "/var/tmp/duodash_ab_ui_tokens.plist"
+          },
+          {
+            "vm": "0xccb68",
+            "string_vm": "0x809f1",
+            "value": "duodash_ab_ui_notokenoverride"
+          },
+          {
+            "vm": "0xccf88",
+            "string_vm": "0x8145b",
+            "value": "com.sensetechlab.duodash.navUpdate"
+          },
+          {
+            "vm": "0xccfa8",
+            "string_vm": "0x8147e",
+            "value": "com.sensetechlab.duodash.speedLimit"
+          },
+          {
+            "vm": "0xccfc8",
+            "string_vm": "0x814a2",
+            "value": "com.sensetechlab.duodash.cameraAlert"
+          },
+          {
+            "vm": "0xcd0e8",
+            "string_vm": "0x815d3",
+            "value": "com.sensetechlab.duodash.mapBgUpdate"
+          },
+          {
+            "vm": "0xcd108",
+            "string_vm": "0x815f8",
+            "value": "com.sensetechlab.duodash.mapBgClear"
+          },
+          {
+            "vm": "0xcd128",
+            "string_vm": "0x8161c",
+            "value": "duodash_nav_data.plist"
+          },
+          {
+            "vm": "0xcd148",
+            "string_vm": "0x81633",
+            "value": "duodash_waze_nav.plist"
+          },
+          {
+            "vm": "0xcd3c8",
+            "string_vm": "0x81743",
+            "value": "duodash_waze_data.plist"
+          },
+          {
+            "vm": "0xcd408",
+            "string_vm": "0x81792",
+            "value": "duodash_waze_camera.plist"
+          },
+          {
+            "vm": "0xcd488",
+            "string_vm": "0x81801",
+            "value": "duodash_navprovider.plist"
+          },
+          {
+            "vm": "0xcd5c8",
+            "string_vm": "0x81882",
+            "value": "DuoDash self-test"
+          },
+          {
+            "vm": "0xcd6a8",
+            "string_vm": "0x8196b",
+            "value": "/Library/Application Support/DuoDash/VoiceHandlers"
+          },
+          {
+            "vm": "0xcd748",
+            "string_vm": "0x819df",
+            "value": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+          },
+          {
+            "vm": "0xcd788",
+            "string_vm": "0x81a22",
+            "value": "maxFPS"
+          },
+          {
+            "vm": "0xcd7a8",
+            "string_vm": "0x81a29",
+            "value": "encoderFPSFixed"
+          },
+          {
+            "vm": "0xcd7c8",
+            "string_vm": "0x81a39",
+            "value": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+          },
+          {
+            "vm": "0xcd7e8",
+            "string_vm": "0x81a6a",
+            "value": "/var/mobile/Library/DuoDash/airplay_absent"
+          },
+          {
+            "vm": "0xcd848",
+            "string_vm": "0x81acd",
+            "value": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+          },
+          {
+            "vm": "0xcd888",
+            "string_vm": "0x81b29",
+            "value": "duodash_reenable_tweaks"
+          },
+          {
+            "vm": "0xcd8a8",
+            "string_vm": "0x81b41",
+            "value": "duodash_latch_status"
+          },
+          {
+            "vm": "0xcd908",
+            "string_vm": "0x81ba8",
+            "value": "/var/tmp/duodash_no_msrv_restart"
+          },
+          {
+            "vm": "0xcd928",
+            "string_vm": "0x81bc9",
+            "value": "duodash_map_bg.jpg"
+          },
+          {
+            "vm": "0xcd948",
+            "string_vm": "0x81bdc",
+            "value": "/var/tmp/duodash_map_bg.jpg"
+          },
+          {
+            "vm": "0xcda88",
+            "string_vm": "0x81cd9",
+            "value": "/usr/lib/TweakInject/DuoDashPrefsRefresh.dylib"
+          },
+          {
+            "vm": "0xce108",
+            "string_vm": "0x82987",
+            "value": "/var/tmp/duodash_siriprobe_swallow_id"
+          },
+          {
+            "vm": "0xceee8",
+            "string_vm": "0x84dac",
+            "value": "DuoDash version %s\n%s"
+          },
+          {
+            "vm": "0xcf708",
+            "string_vm": "0x85423",
+            "value": "duodash_language"
+          },
+          {
+            "vm": "0xcf728",
+            "string_vm": "0x85434",
+            "value": "/var/tmp/duodash_lang_force"
+          },
+          {
+            "vm": "0xcfa28",
+            "string_vm": "0xabd40",
+            "value": "duodash_latch"
+          },
+          {
+            "vm": "0xcfc08",
+            "string_vm": "0xabeff",
+            "value": "/var/mobile/Library/DuoDash/reports/outgoing"
+          },
+          {
+            "vm": "0xcff48",
+            "string_vm": "0xac166",
+            "value": "(no duodash_* knobs present)\n"
+          },
+          {
+            "vm": "0xd00a8",
+            "string_vm": "0xac258",
+            "value": "duodash"
+          },
+          {
+            "vm": "0xd0128",
+            "string_vm": "0xac287",
+            "value": "duodash_appbridge_app.log"
+          },
+          {
+            "vm": "0xd0148",
+            "string_vm": "0xac2a1",
+            "value": "duodash_waze.log"
+          },
+          {
+            "vm": "0xd0168",
+            "string_vm": "0xac2b2",
+            "value": "duodash_waze_beacon.log"
+          },
+          {
+            "vm": "0xd0188",
+            "string_vm": "0xac2ca",
+            "value": "duodash_hook.log"
+          }
+        ]
+      },
       "indirect_imports": {
         "symbol_count": 408,
         "indirect_count": 594,
@@ -6050,6 +6896,811 @@
           ]
         }
       ],
+      "cfstring_objects": {
+        "selected_vm": {},
+        "matched_cfstrings": [
+          {
+            "vm": "0xcd388",
+            "string_vm": "0x82acd",
+            "value": "com.apple.CarPlaySplashScreen"
+          },
+          {
+            "vm": "0xcd3a8",
+            "string_vm": "0x82aeb",
+            "value": "com.apple.CarPlayTemplateUIHost"
+          },
+          {
+            "vm": "0xcd4e8",
+            "string_vm": "0x82bd2",
+            "value": "com.sensetechlab.duodash.settings"
+          },
+          {
+            "vm": "0xcd608",
+            "string_vm": "0x82ca8",
+            "value": "com.apple.CarPlayApp"
+          },
+          {
+            "vm": "0xcd628",
+            "string_vm": "0x82cbd",
+            "value": "com.sensetechlab.duodash"
+          },
+          {
+            "vm": "0xcd648",
+            "string_vm": "0x82cd6",
+            "value": "/var/tmp/duodash_ab_fontfloor_force"
+          },
+          {
+            "vm": "0xcd688",
+            "string_vm": "0x82d0d",
+            "value": "/var/tmp/duodash_ab_clearpanes"
+          },
+          {
+            "vm": "0xcd6a8",
+            "string_vm": "0x82d2c",
+            "value": "/var/tmp/duodash_ab_clearpanes.done"
+          },
+          {
+            "vm": "0xcdb28",
+            "string_vm": "0x82fd1",
+            "value": "/var/tmp/duodash_ab_spike"
+          },
+          {
+            "vm": "0xcdb48",
+            "string_vm": "0x82feb",
+            "value": "/var/tmp/duodash_ab_host"
+          },
+          {
+            "vm": "0xcdb68",
+            "string_vm": "0x83004",
+            "value": "/var/tmp/duodash_ab_holdsec"
+          },
+          {
+            "vm": "0xcdb88",
+            "string_vm": "0x83020",
+            "value": "/var/tmp/duodash_ab_hostsplit"
+          },
+          {
+            "vm": "0xcdba8",
+            "string_vm": "0x8303e",
+            "value": "/var/tmp/duodash_ab_splitstart"
+          },
+          {
+            "vm": "0xcdbc8",
+            "string_vm": "0x83081",
+            "value": "/var/tmp/duodash_ab_nodockcover"
+          },
+          {
+            "vm": "0xcdc68",
+            "string_vm": "0x83147",
+            "value": "/var/tmp/duodash_ab_noautostart"
+          },
+          {
+            "vm": "0xcdce8",
+            "string_vm": "0x831e7",
+            "value": "/var/tmp/duodash_ab_nodashkeep"
+          },
+          {
+            "vm": "0xcdd08",
+            "string_vm": "0x83206",
+            "value": "/var/tmp/duodash_ab_iconadd"
+          },
+          {
+            "vm": "0xcdf88",
+            "string_vm": "0x8351b",
+            "value": "/Library/Application Support/DuoDash/DualAppsIcon.png"
+          },
+          {
+            "vm": "0xcdfa8",
+            "string_vm": "0x8357a",
+            "value": "DuoDash"
+          },
+          {
+            "vm": "0xcdfe8",
+            "string_vm": "0x835ef",
+            "value": "/var/tmp/duodash_ab_hosting_off"
+          },
+          {
+            "vm": "0xce008",
+            "string_vm": "0x8360f",
+            "value": "/var/tmp/duodash_ab_mapcoexist"
+          },
+          {
+            "vm": "0xce068",
+            "string_vm": "0x8365b",
+            "value": "/var/tmp/duodash_ab_noswitchteardown"
+          },
+          {
+            "vm": "0xce0c8",
+            "string_vm": "0x83712",
+            "value": "/var/tmp/duodash_ab_aggressive_focusteardown"
+          },
+          {
+            "vm": "0xce0e8",
+            "string_vm": "0x8373f",
+            "value": "/var/tmp/duodash_ab_nohomedismiss"
+          },
+          {
+            "vm": "0xce108",
+            "string_vm": "0x83761",
+            "value": "/var/tmp/duodash_ab_dashsettle"
+          },
+          {
+            "vm": "0xce128",
+            "string_vm": "0x83780",
+            "value": "/var/tmp/duodash_ab_nodashlaunch"
+          },
+          {
+            "vm": "0xce168",
+            "string_vm": "0x837aa",
+            "value": "/var/tmp/duodash_ab_dashlaunch_secs"
+          },
+          {
+            "vm": "0xce1a8",
+            "string_vm": "0x837ee",
+            "value": "/var/tmp/duodash_ab_reapdelay"
+          },
+          {
+            "vm": "0xce1c8",
+            "string_vm": "0x8384c",
+            "value": "CarPlayIsConnectedDidChange_IsConnected"
+          },
+          {
+            "vm": "0xce1e8",
+            "string_vm": "0x83874",
+            "value": "CarPlayIsConnectedDidChange"
+          },
+          {
+            "vm": "0xce2c8",
+            "string_vm": "0x8395f",
+            "value": "com.sensetechlab.settings.changed"
+          },
+          {
+            "vm": "0xce388",
+            "string_vm": "0x83a12",
+            "value": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+          },
+          {
+            "vm": "0xce428",
+            "string_vm": "0x83b0d",
+            "value": "perf_tweak_enabled"
+          },
+          {
+            "vm": "0xce5e8",
+            "string_vm": "0x83c25",
+            "value": "/var/tmp/duodash_ab_nopanepad"
+          },
+          {
+            "vm": "0xce608",
+            "string_vm": "0x83c43",
+            "value": "/var/tmp/duodash_ab_nopaneround"
+          },
+          {
+            "vm": "0xce628",
+            "string_vm": "0x83c63",
+            "value": "/var/tmp/duodash_ab_panepad"
+          },
+          {
+            "vm": "0xce648",
+            "string_vm": "0x83c7f",
+            "value": "/var/tmp/duodash_ab_noratio"
+          },
+          {
+            "vm": "0xce668",
+            "string_vm": "0x83c9b",
+            "value": "/var/tmp/duodash_ab_paneratio"
+          },
+          {
+            "vm": "0xce688",
+            "string_vm": "0x83cb9",
+            "value": "/var/tmp/duodash_ab_panefracs"
+          },
+          {
+            "vm": "0xce6a8",
+            "string_vm": "0x83cd7",
+            "value": "/var/tmp/duodash_ab_layout"
+          },
+          {
+            "vm": "0xce728",
+            "string_vm": "0x83d34",
+            "value": "carplay_content_insets"
+          },
+          {
+            "vm": "0xce748",
+            "string_vm": "0x83d4b",
+            "value": "carplay_content_inset"
+          },
+          {
+            "vm": "0xce7c8",
+            "string_vm": "0x83d7b",
+            "value": "/var/tmp/duodash_ab_nosplash"
+          },
+          {
+            "vm": "0xce7e8",
+            "string_vm": "0x83d98",
+            "value": "/var/tmp/duodash_ab_splash_secs"
+          },
+          {
+            "vm": "0xce828",
+            "string_vm": "0x83db8",
+            "value": "/var/tmp/duodash_ab_nomat"
+          },
+          {
+            "vm": "0xce848",
+            "string_vm": "0x83dd2",
+            "value": "/var/tmp/duodash_ab_norehostinplace"
+          },
+          {
+            "vm": "0xce868",
+            "string_vm": "0x83df6",
+            "value": "/var/tmp/duodash_ab_swap_anim14"
+          },
+          {
+            "vm": "0xce988",
+            "string_vm": "0x83e38",
+            "value": "/Library/Application Support/DuoDash/DualAppsSplash.png"
+          },
+          {
+            "vm": "0xce9c8",
+            "string_vm": "0x83e80",
+            "value": "/Library/Application Support/DuoDash/"
+          },
+          {
+            "vm": "0xce9e8",
+            "string_vm": "0x83ea6",
+            "value": "/var/tmp/duodash_ab_rotate"
+          },
+          {
+            "vm": "0xcea08",
+            "string_vm": "0x83ec1",
+            "value": "/var/tmp/duodash_ab_noevict"
+          },
+          {
+            "vm": "0xcea28",
+            "string_vm": "0x83edd",
+            "value": "/var/tmp/duodash_ab_evict_skipfrontmost"
+          },
+          {
+            "vm": "0xcea48",
+            "string_vm": "0x83f2d",
+            "value": "/var/tmp/duodash_ab_split_evict"
+          },
+          {
+            "vm": "0xceac8",
+            "string_vm": "0x83fa8",
+            "value": "/var/tmp/duodash_ab_rscale"
+          },
+          {
+            "vm": "0xceae8",
+            "string_vm": "0x83fc3",
+            "value": "/var/tmp/duodash_ab_canvas"
+          },
+          {
+            "vm": "0xceb28",
+            "string_vm": "0x83fe7",
+            "value": "/var/tmp/duodash_ab_orient"
+          },
+          {
+            "vm": "0xceb48",
+            "string_vm": "0x84005",
+            "value": "/var/tmp/duodash_ab_noscenegeom"
+          },
+          {
+            "vm": "0xceb88",
+            "string_vm": "0x84043",
+            "value": "/var/tmp/duodash_ab_forceio"
+          },
+          {
+            "vm": "0xcebc8",
+            "string_vm": "0x84066",
+            "value": "/var/tmp/duodash_ab_nopresupdate"
+          },
+          {
+            "vm": "0xcebe8",
+            "string_vm": "0x84087",
+            "value": "/var/tmp/duodash_ab_toapps_swallow"
+          },
+          {
+            "vm": "0xcec08",
+            "string_vm": "0x840b8",
+            "value": "duodash_ab_nopaneactivity"
+          },
+          {
+            "vm": "0xcec28",
+            "string_vm": "0x840d2",
+            "value": "duodash_ab_nofontnorm"
+          },
+          {
+            "vm": "0xcec48",
+            "string_vm": "0x840e8",
+            "value": "/var/tmp/duodash_ab_force_relayout"
+          },
+          {
+            "vm": "0xcec88",
+            "string_vm": "0x84136",
+            "value": "duodash_ab_cptrip"
+          },
+          {
+            "vm": "0xcecc8",
+            "string_vm": "0x8415c",
+            "value": "duodash_ab_nostatetimeout"
+          },
+          {
+            "vm": "0xcece8",
+            "string_vm": "0x84176",
+            "value": "duodash_ab_bg_teardown"
+          },
+          {
+            "vm": "0xced88",
+            "string_vm": "0x84715",
+            "value": "duodash_"
+          },
+          {
+            "vm": "0xcedc8",
+            "string_vm": "0x84731",
+            "value": "duodash_ab_fs_fill_off"
+          },
+          {
+            "vm": "0xcede8",
+            "string_vm": "0x84748",
+            "value": "duodash_ab_fs_nosize"
+          },
+          {
+            "vm": "0xcee08",
+            "string_vm": "0x8475d",
+            "value": "duodash_ab_fs_nolandscape"
+          },
+          {
+            "vm": "0xcee48",
+            "string_vm": "0x8477d",
+            "value": "/var/tmp/duodash_ab_kbwidth_off"
+          },
+          {
+            "vm": "0xcee68",
+            "string_vm": "0x8479d",
+            "value": "duodash_ab_kbfixed"
+          },
+          {
+            "vm": "0xcee88",
+            "string_vm": "0x847b0",
+            "value": "duodash_ab_kbwide_single"
+          },
+          {
+            "vm": "0xceea8",
+            "string_vm": "0x847c9",
+            "value": "duodash_ab_kbcentre_single"
+          },
+          {
+            "vm": "0xceee8",
+            "string_vm": "0x848dc",
+            "value": "currentCarPlayExternalDevice"
+          },
+          {
+            "vm": "0xcef08",
+            "string_vm": "0x84974",
+            "value": "DirectionsStartInCarPlay"
+          },
+          {
+            "vm": "0xcef28",
+            "string_vm": "0x8498d",
+            "value": "CarPlayConnectedWith"
+          },
+          {
+            "vm": "0xcefa8",
+            "string_vm": "0x84a82",
+            "value": "DuoDashAppBridge"
+          },
+          {
+            "vm": "0xcefe8",
+            "string_vm": "0x84bdb",
+            "value": "/var/tmp/duodash_ab_nopicker"
+          },
+          {
+            "vm": "0xcf008",
+            "string_vm": "0x84bf8",
+            "value": "/var/tmp/duodash_ab_picker_nohandle"
+          },
+          {
+            "vm": "0xcf028",
+            "string_vm": "0x84c1c",
+            "value": "/var/tmp/duodash_ab_picker_nopulse"
+          },
+          {
+            "vm": "0xcf048",
+            "string_vm": "0x84c3f",
+            "value": "/var/tmp/duodash_ab_picker_nowake"
+          },
+          {
+            "vm": "0xcf068",
+            "string_vm": "0x84c61",
+            "value": "/var/tmp/duodash_ab_picker_nospin"
+          },
+          {
+            "vm": "0xcf088",
+            "string_vm": "0x84c83",
+            "value": "/var/tmp/duodash_ab_picker_nodrop"
+          },
+          {
+            "vm": "0xcf0a8",
+            "string_vm": "0x84ca5",
+            "value": "/var/tmp/duodash_ab_noresize"
+          },
+          {
+            "vm": "0xcf0c8",
+            "string_vm": "0x84cc2",
+            "value": "/var/tmp/duodash_ab_picker_nosnap"
+          },
+          {
+            "vm": "0xcf0e8",
+            "string_vm": "0x84ce4",
+            "value": "/var/tmp/duodash_ab_resize_nodrag"
+          },
+          {
+            "vm": "0xcf108",
+            "string_vm": "0x84d06",
+            "value": "/var/tmp/duodash_ab_picker_panesized"
+          },
+          {
+            "vm": "0xcf128",
+            "string_vm": "0x84d2b",
+            "value": "/var/tmp/duodash_ab_noswap"
+          },
+          {
+            "vm": "0xcf148",
+            "string_vm": "0x84d46",
+            "value": "/var/tmp/duodash_ab_nolayoutui"
+          },
+          {
+            "vm": "0xcf168",
+            "string_vm": "0x84d65",
+            "value": "/var/tmp/duodash_ab_nogutterctrl"
+          },
+          {
+            "vm": "0xcf188",
+            "string_vm": "0x84d86",
+            "value": "/var/tmp/duodash_ab_nobubblesettings"
+          },
+          {
+            "vm": "0xcf1a8",
+            "string_vm": "0x84dab",
+            "value": "duodashResizeGhostPulse"
+          },
+          {
+            "vm": "0xcf208",
+            "string_vm": "0x84dd9",
+            "value": "/var/tmp/duodash_ab_picker_noswiperecover"
+          },
+          {
+            "vm": "0xcf268",
+            "string_vm": "0x84e13",
+            "value": "/var/tmp/duodash_ab_nolayoutconfirm"
+          },
+          {
+            "vm": "0xcf328",
+            "string_vm": "0x84e66",
+            "value": "/var/tmp/duodash_ab_layoutconfirm_14"
+          },
+          {
+            "vm": "0xcf428",
+            "string_vm": "0x84ef7",
+            "value": "duodash_ab_resize_nodrag"
+          },
+          {
+            "vm": "0xcf568",
+            "string_vm": "0x84f8d",
+            "value": "duodash_ab_picker_vscroll"
+          },
+          {
+            "vm": "0xcf588",
+            "string_vm": "0x84fa7",
+            "value": "/var/tmp/duodash_ab_picker_noblur"
+          },
+          {
+            "vm": "0xcf768",
+            "string_vm": "0x85079",
+            "value": "/var/tmp/duodash_ab_resize_nopulse"
+          },
+          {
+            "vm": "0xcf7a8",
+            "string_vm": "0x850bf",
+            "value": "duodash_ab_nopanel"
+          },
+          {
+            "vm": "0xcfd48",
+            "string_vm": "0x85403",
+            "value": "incar.title.settings"
+          },
+          {
+            "vm": "0xd0028",
+            "string_vm": "0x855c6",
+            "value": "/var/tmp/duodash_ab_nobubble"
+          },
+          {
+            "vm": "0xd0048",
+            "string_vm": "0x855e3",
+            "value": "/var/tmp/duodash_ab_simspeed"
+          },
+          {
+            "vm": "0xd0068",
+            "string_vm": "0x85600",
+            "value": "/var/tmp/duodash_ab_nogps"
+          },
+          {
+            "vm": "0xd0248",
+            "string_vm": "0x8572b",
+            "value": "/var/tmp/duodash_ab_gps_bundle"
+          },
+          {
+            "vm": "0xd0348",
+            "string_vm": "0x857c5",
+            "value": "/var/tmp/duodash_ab_bubble_nodrag"
+          },
+          {
+            "vm": "0xd0368",
+            "string_vm": "0x857e7",
+            "value": "/var/tmp/duodash_ab_bubble_noblink"
+          },
+          {
+            "vm": "0xd0388",
+            "string_vm": "0x8580a",
+            "value": "/var/tmp/duodash_ab_bubble_nobeep"
+          },
+          {
+            "vm": "0xd03a8",
+            "string_vm": "0x8582c",
+            "value": "/var/tmp/duodash_ab_bubble_nofake"
+          },
+          {
+            "vm": "0xd03c8",
+            "string_vm": "0x8584e",
+            "value": "/var/tmp/duodash_ab_bubble_noavaudio"
+          },
+          {
+            "vm": "0xd0408",
+            "string_vm": "0x85892",
+            "value": "/var/tmp/duodash_ab_bubble_pos.plist"
+          },
+          {
+            "vm": "0xd05c8",
+            "string_vm": "0x859b1",
+            "value": "/Library/Application Support/DuoDash/navbubble_beep.caf"
+          },
+          {
+            "vm": "0xd05e8",
+            "string_vm": "0x85a7f",
+            "value": "/var/tmp/duodash_ab_suspended.plist"
+          },
+          {
+            "vm": "0xd06a8",
+            "string_vm": "0x85b1f",
+            "value": "/var/mobile/Library/DuoDash/navapps.plist"
+          },
+          {
+            "vm": "0xd0708",
+            "string_vm": "0x85b5b",
+            "value": "hiddenByDuoDash"
+          },
+          {
+            "vm": "0xd0788",
+            "string_vm": "0x85c07",
+            "value": "/var/mobile/Library/DuoDash"
+          },
+          {
+            "vm": "0xd08c8",
+            "string_vm": "0x85d28",
+            "value": "com.apple.developer.carplay-audio"
+          },
+          {
+            "vm": "0xd09c8",
+            "string_vm": "0x85e11",
+            "value": "carplay"
+          },
+          {
+            "vm": "0xd0a88",
+            "string_vm": "0x85e67",
+            "value": "/var/mobile/Library/DuoDash/iconstate_backup"
+          },
+          {
+            "vm": "0xd0ae8",
+            "string_vm": "0x85ec2",
+            "value": "com.apple.CarPlayWallpaper"
+          },
+          {
+            "vm": "0xd0b28",
+            "string_vm": "0x85f49",
+            "value": "/var/tmp/duodash_ab_discoclose_secs"
+          },
+          {
+            "vm": "0xd0b48",
+            "string_vm": "0x85f6d",
+            "value": "/var/tmp/duodash_ab_ui_tokens.plist"
+          },
+          {
+            "vm": "0xd0b68",
+            "string_vm": "0x85f91",
+            "value": "duodash_ab_ui_notokenoverride"
+          },
+          {
+            "vm": "0xd0f88",
+            "string_vm": "0x869fb",
+            "value": "com.sensetechlab.duodash.navUpdate"
+          },
+          {
+            "vm": "0xd0fa8",
+            "string_vm": "0x86a1e",
+            "value": "com.sensetechlab.duodash.speedLimit"
+          },
+          {
+            "vm": "0xd0fc8",
+            "string_vm": "0x86a42",
+            "value": "com.sensetechlab.duodash.cameraAlert"
+          },
+          {
+            "vm": "0xd10e8",
+            "string_vm": "0x86b73",
+            "value": "com.sensetechlab.duodash.mapBgUpdate"
+          },
+          {
+            "vm": "0xd1108",
+            "string_vm": "0x86b98",
+            "value": "com.sensetechlab.duodash.mapBgClear"
+          },
+          {
+            "vm": "0xd1128",
+            "string_vm": "0x86bbc",
+            "value": "duodash_nav_data.plist"
+          },
+          {
+            "vm": "0xd1148",
+            "string_vm": "0x86bd3",
+            "value": "duodash_waze_nav.plist"
+          },
+          {
+            "vm": "0xd13c8",
+            "string_vm": "0x86ce3",
+            "value": "duodash_waze_data.plist"
+          },
+          {
+            "vm": "0xd1408",
+            "string_vm": "0x86d32",
+            "value": "duodash_waze_camera.plist"
+          },
+          {
+            "vm": "0xd1488",
+            "string_vm": "0x86da1",
+            "value": "duodash_navprovider.plist"
+          },
+          {
+            "vm": "0xd15c8",
+            "string_vm": "0x86e22",
+            "value": "DuoDash self-test"
+          },
+          {
+            "vm": "0xd16a8",
+            "string_vm": "0x86f0b",
+            "value": "/Library/Application Support/DuoDash/VoiceHandlers"
+          },
+          {
+            "vm": "0xd1748",
+            "string_vm": "0x86f7f",
+            "value": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+          },
+          {
+            "vm": "0xd1788",
+            "string_vm": "0x86fc2",
+            "value": "maxFPS"
+          },
+          {
+            "vm": "0xd17a8",
+            "string_vm": "0x86fc9",
+            "value": "encoderFPSFixed"
+          },
+          {
+            "vm": "0xd17c8",
+            "string_vm": "0x86fd9",
+            "value": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+          },
+          {
+            "vm": "0xd17e8",
+            "string_vm": "0x8700a",
+            "value": "/var/mobile/Library/DuoDash/airplay_absent"
+          },
+          {
+            "vm": "0xd1848",
+            "string_vm": "0x8706d",
+            "value": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+          },
+          {
+            "vm": "0xd1888",
+            "string_vm": "0x870c9",
+            "value": "duodash_reenable_tweaks"
+          },
+          {
+            "vm": "0xd18a8",
+            "string_vm": "0x870e1",
+            "value": "duodash_latch_status"
+          },
+          {
+            "vm": "0xd1908",
+            "string_vm": "0x87148",
+            "value": "/var/tmp/duodash_no_msrv_restart"
+          },
+          {
+            "vm": "0xd1928",
+            "string_vm": "0x87169",
+            "value": "duodash_map_bg.jpg"
+          },
+          {
+            "vm": "0xd1948",
+            "string_vm": "0x8717c",
+            "value": "/var/tmp/duodash_map_bg.jpg"
+          },
+          {
+            "vm": "0xd1a88",
+            "string_vm": "0x87279",
+            "value": "/usr/lib/TweakInject/DuoDashPrefsRefresh.dylib"
+          },
+          {
+            "vm": "0xd2108",
+            "string_vm": "0x87f27",
+            "value": "/var/tmp/duodash_siriprobe_swallow_id"
+          },
+          {
+            "vm": "0xd2ee8",
+            "string_vm": "0x8a34c",
+            "value": "DuoDash version %s\n%s"
+          },
+          {
+            "vm": "0xd3708",
+            "string_vm": "0x8a9c3",
+            "value": "duodash_language"
+          },
+          {
+            "vm": "0xd3728",
+            "string_vm": "0x8a9d4",
+            "value": "/var/tmp/duodash_lang_force"
+          },
+          {
+            "vm": "0xd3a28",
+            "string_vm": "0xb12e0",
+            "value": "duodash_latch"
+          },
+          {
+            "vm": "0xd3c08",
+            "string_vm": "0xb149f",
+            "value": "/var/mobile/Library/DuoDash/reports/outgoing"
+          },
+          {
+            "vm": "0xd3f48",
+            "string_vm": "0xb1706",
+            "value": "(no duodash_* knobs present)\n"
+          },
+          {
+            "vm": "0xd40a8",
+            "string_vm": "0xb17f8",
+            "value": "duodash"
+          },
+          {
+            "vm": "0xd4128",
+            "string_vm": "0xb1827",
+            "value": "duodash_appbridge_app.log"
+          },
+          {
+            "vm": "0xd4148",
+            "string_vm": "0xb1841",
+            "value": "duodash_waze.log"
+          },
+          {
+            "vm": "0xd4168",
+            "string_vm": "0xb1852",
+            "value": "duodash_waze_beacon.log"
+          },
+          {
+            "vm": "0xd4188",
+            "string_vm": "0xb186a",
+            "value": "duodash_hook.log"
+          }
+        ]
+      },
       "indirect_imports": {
         "symbol_count": 408,
         "indirect_count": 593,
