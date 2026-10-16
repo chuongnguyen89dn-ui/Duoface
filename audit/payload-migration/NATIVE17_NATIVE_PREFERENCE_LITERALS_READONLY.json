@@ -890,7 +890,11 @@
           "points_to_cstring": ""
         }
       },
-      "native12_obfuscated_config_owner_path": "/var/mobile/Library/Preferences/com.duonavi.plist",
+      "native12_obfuscated_config_owner_path": {
+        "raw49_hex": "2f7661722f6d6f62696c652f4c6962726172792f507265666572656e6365732f636f6d2e64756f6e6176692e706c697374",
+        "valid_utf8": true,
+        "candidate_path": "/var/mobile/Library/Preferences/com.duonavi.plist"
+      },
       "lazy_preference_initializer_disassembly": {
         "0x3822c": [
           "0x3822c: sub sp, sp, #0x140",
