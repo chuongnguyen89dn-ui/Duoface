@@ -1,0 +1,2685 @@
+{
+  "status": "NATIVE15_UI_TWEAK_DISABLED_WARNING_READONLY",
+  "native12_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "native15_sha256": "8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3",
+  "package_diff": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "native12_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "native15_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "identical": true
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "native12_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "native15_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "identical": true
+    }
+  },
+  "warning_evidence": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "diagnostic_literals": [
+        {
+          "offset": "0xa6661",
+          "encoding": "ascii",
+          "text": "performRespring"
+        },
+        {
+          "offset": "0xa9626",
+          "encoding": "ascii",
+          "text": "animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:"
+        },
+        {
+          "offset": "0xad0dd",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_TITLE"
+        },
+        {
+          "offset": "0xad0f8",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_MSG"
+        },
+        {
+          "offset": "0xad111",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_BTN"
+        },
+        {
+          "offset": "0xad27b",
+          "encoding": "ascii",
+          "text": "com.apple.springboard"
+        },
+        {
+          "offset": "0xad8d9",
+          "encoding": "ascii",
+          "text": "RESPRING_ALERT_TITLE"
+        },
+        {
+          "offset": "0xad8ee",
+          "encoding": "ascii",
+          "text": "RESPRING_ALERT_MSG"
+        },
+        {
+          "offset": "0xad914",
+          "encoding": "ascii",
+          "text": "SpringBoard"
+        },
+        {
+          "offset": "0xadaa0",
+          "encoding": "ascii",
+          "text": "ROW_RESPRING"
+        },
+        {
+          "offset": "0xb038c",
+          "encoding": "ascii",
+          "text": "Hintergrund-Daemons beenden, um Hitze und RAM zu sparen"
+        },
+        {
+          "offset": "0xb0518",
+          "encoding": "ascii",
+          "text": "SpringBoard neu starten"
+        },
+        {
+          "offset": "0xb0ac0",
+          "encoding": "ascii",
+          "text": "DuoFace is currently blocked from running. Your jailbreak environment has Tweak Injection disabled."
+        },
+        {
+          "offset": "0xb0b36",
+          "encoding": "ascii",
+          "text": "1. Open your Jailbreak app (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xb0b75",
+          "encoding": "ascii",
+          "text": "2. Find and ENABLE \"Tweak Injection\" (or Enable Tweaks)."
+        },
+        {
+          "offset": "0xb0bae",
+          "encoding": "ascii",
+          "text": "3. Respring your device."
+        },
+        {
+          "offset": "0xb0bc8",
+          "encoding": "ascii",
+          "text": "(If you use Choicy, make sure it is not blocking DuoFace)."
+        },
+        {
+          "offset": "0xb1107",
+          "encoding": "ascii",
+          "text": "Disable background daemons to reduce temperature and RAM usage"
+        },
+        {
+          "offset": "0xb120e",
+          "encoding": "ascii",
+          "text": "System optimization turns off background diagnostic and telemetry services, keeping your device cool during continuous CarPlay usage."
+        },
+        {
+          "offset": "0xb13f0",
+          "encoding": "ascii",
+          "text": "Restart SpringBoard"
+        },
+        {
+          "offset": "0xb1404",
+          "encoding": "ascii",
+          "text": "Are you sure you want to restart SpringBoard to apply changes on CarPlay?"
+        },
+        {
+          "offset": "0xb2765",
+          "encoding": "ascii",
+          "text": "Desactiva daemons en segundo plano para reducir calor y RAM"
+        },
+        {
+          "offset": "0xb2919",
+          "encoding": "ascii",
+          "text": "Reiniciar SpringBoard"
+        },
+        {
+          "offset": "0xb32a6",
+          "encoding": "ascii",
+          "text": "Relancer SpringBoard"
+        },
+        {
+          "offset": "0xb32bb",
+          "encoding": "ascii",
+          "text": "Voulez-vous relancer SpringBoard pour appliquer les modifications sur CarPlay ?"
+        },
+        {
+          "offset": "0xb3694",
+          "encoding": "ascii",
+          "text": "DuoFace saat ini diblokir. Lingkungan Jailbreak Anda menonaktifkan Tweak Injection."
+        },
+        {
+          "offset": "0xb36fe",
+          "encoding": "ascii",
+          "text": "1. Buka aplikasi Jailbreak Anda (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xb3742",
+          "encoding": "ascii",
+          "text": "2. Cari dan AKTIFKAN \"Tweak Injection\" (atau Enable Tweaks)."
+        },
+        {
+          "offset": "0xb377f",
+          "encoding": "ascii",
+          "text": "3. Lakukan Respring pada perangkat Anda."
+        },
+        {
+          "offset": "0xb37a9",
+          "encoding": "ascii",
+          "text": "(Jika Anda menggunakan Choicy, pastikan itu tidak memblokir DuoFace)."
+        },
+        {
+          "offset": "0xb3d50",
+          "encoding": "ascii",
+          "text": "Nonaktifkan background daemon untuk kurangi panas dan RAM"
+        },
+        {
+          "offset": "0xb4077",
+          "encoding": "ascii",
+          "text": "Mulai Ulang SpringBoard"
+        },
+        {
+          "offset": "0xb408f",
+          "encoding": "ascii",
+          "text": "Apakah Anda yakin ingin memulai ulang SpringBoard untuk menerapkan perubahan di CarPlay?"
+        },
+        {
+          "offset": "0xb42c7",
+          "encoding": "ascii",
+          "text": "2 aplikasi berdampingan"
+        },
+        {
+          "offset": "0xb4a31",
+          "encoding": "ascii",
+          "text": "Berdampingan"
+        },
+        {
+          "offset": "0xb5191",
+          "encoding": "ascii",
+          "text": "Termina i daemon in background per ridurre temperatura e RAM"
+        },
+        {
+          "offset": "0xb5494",
+          "encoding": "ascii",
+          "text": "Riavvia SpringBoard"
+        },
+        {
+          "offset": "0xb54a8",
+          "encoding": "ascii",
+          "text": "Sei sicuro di voler riavviare SpringBoard per applicare le modifiche a CarPlay?"
+        },
+        {
+          "offset": "0xb5ee9",
+          "encoding": "ascii",
+          "text": "DuoFace pada masa ini disekat. Persekitaran Jailbreak anda telah melumpuhkan Tweak Injection."
+        },
+        {
+          "offset": "0xb5f5d",
+          "encoding": "ascii",
+          "text": "1. Buka aplikasi Jailbreak anda (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xb5fa1",
+          "encoding": "ascii",
+          "text": "2. Cari dan AKTIFKAN \"Tweak Injection\" (atau Enable Tweaks)."
+        },
+        {
+          "offset": "0xb5fde",
+          "encoding": "ascii",
+          "text": "3. Lakukan Respring pada peranti anda."
+        },
+        {
+          "offset": "0xb6006",
+          "encoding": "ascii",
+          "text": "(Jika anda menggunakan Choicy, pastikan ia tidak menyekat DuoFace)."
+        },
+        {
+          "offset": "0xb646a",
+          "encoding": "ascii",
+          "text": "Nyahaktifkan daemon latar belakang untuk kurangkan suhu dan RAM"
+        },
+        {
+          "offset": "0xb6723",
+          "encoding": "ascii",
+          "text": "Muat Semula SpringBoard"
+        },
+        {
+          "offset": "0xb673b",
+          "encoding": "ascii",
+          "text": "Adakah anda pasti mahu memuat semula SpringBoard untuk menggunakan perubahan pada CarPlay?"
+        },
+        {
+          "offset": "0xb7258",
+          "encoding": "ascii",
+          "text": "DuoFace is momenteel geblokkeerd. In je Jailbreak-omgeving is Tweak Injection uitgeschakeld."
+        },
+        {
+          "offset": "0xb72cc",
+          "encoding": "ascii",
+          "text": "1. Open je Jailbreak-app (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xb7309",
+          "encoding": "ascii",
+          "text": "2. Zoek en SCHAKEL \"Tweak Injection\" in (of Enable Tweaks)."
+        },
+        {
+          "offset": "0xb7345",
+          "encoding": "ascii",
+          "text": "3. Voer een Respring uit op je apparaat."
+        },
+        {
+          "offset": "0xb736f",
+          "encoding": "ascii",
+          "text": "(Als je Choicy gebruikt, zorg er dan voor dat het DuoFace niet blokkeert)."
+        },
+        {
+          "offset": "0xb7c99",
+          "encoding": "ascii",
+          "text": "SpringBoard herstarten"
+        },
+        {
+          "offset": "0xb7cb0",
+          "encoding": "ascii",
+          "text": "Weet u zeker dat u SpringBoard wilt herstarten om de wijzigingen op CarPlay toe te passen?"
+        },
+        {
+          "offset": "0xb8a37",
+          "encoding": "ascii",
+          "text": "Uruchom ponownie SpringBoard"
+        },
+        {
+          "offset": "0xb8f9f",
+          "encoding": "ascii",
+          "text": "Desativa daemons em segundo plano para reduzir temperatura e RAM"
+        },
+        {
+          "offset": "0xb9bb8",
+          "encoding": "ascii",
+          "text": "[DuoFaceLicense] Automated sync was already initiated %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "offset": "0xb9c3c",
+          "encoding": "ascii",
+          "text": "[DuoFaceLicense] Automated sync attempt detected from another process %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "offset": "0x121775",
+          "encoding": "ascii",
+          "text": "@__tlv_bootstrap"
+        },
+        {
+          "offset": "0x121f21",
+          "encoding": "ascii",
+          "text": "@_objc_initWeak"
+        },
+        {
+          "offset": "0x125bfa",
+          "encoding": "ascii",
+          "text": "__tlv_bootstrap"
+        },
+        {
+          "offset": "0x125ee4",
+          "encoding": "ascii",
+          "text": "_objc_initWeak"
+        },
+        {
+          "offset": "0xbc636",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "تم حظر تشغيل DuoFace حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Twea"
+        },
+        {
+          "offset": "0xbc71e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace)."
+        },
+        {
+          "offset": "0xbc756",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "a1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاق"
+        },
+        {
+          "offset": "0xbf29a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "لحياةمدى الحياةغير محدودمتبقي %llu يومحتى %@🛑 FEHLER: TWEAKS DEAKTIVIERTDuoFace ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie "
+        },
+        {
+          "offset": "0xbf33e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "Face ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1"
+        },
+        {
+          "offset": "0xbf478",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ine, Bootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sich"
+        },
+        {
+          "offset": "0xbf4b4",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoFace nicht bloc"
+        },
+        {
+          "offset": "0xc1266",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "suchen.Abonnementpläne werden geladen...● Aktiv🛑 ERROR: TWEAKS DISABLED🧭 Enable All Navigation🎬 Enable All EntertainmentOptimized ✓Enable multi-window split screen on CarPlay. You "
+        },
+        {
+          "offset": "0xc17dc",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "peed, no expensive Android box required.● Active🛑 ERROR: TWEAKS DESACTIVADOSDuoFace está bloqueado actualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo sol"
+        },
+        {
+          "offset": "0xc18a0",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eado actualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque"
+        },
+        {
+          "offset": "0xc19a6",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté blo"
+        },
+        {
+          "offset": "0xc19dc",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "alera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté bloqueando DuoFace).En uso en "
+        },
+        {
+          "offset": "0xc34be",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " ActivoDuración de licencia%llu días restantes🛑 ERREUR: TWEAKS DÉSACTIVÉSDuoFace est actuellement bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment cor"
+        },
+        {
+          "offset": "0xc357e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "lement bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2"
+        },
+        {
+          "offset": "0xc369a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " (Dopamine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu"
+        },
+        {
+          "offset": "0xc36d2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "a1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu'il ne bloque pas DuoFace).R"
+        },
+        {
+          "offset": "0xc5ece",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "serveur DuoFaceDuoFace VIP À vieÀ vieIllimité🛑 त्रुटि: TWEAKS अक्षम हैंDuoFace वर्तमान में चलने से अवरुद्ध है। आपके जेलब्रेक वातावरण में Tweak Injection अक्षम है।\n\nइसे कैसे ठीक करे"
+        },
+        {
+          "offset": "0xc5f74",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e वर्तमान में चलने से अवरुद्ध है। आपके जेलब्रेक वातावरण में Tweak Injection अक्षम है।\n\nइसे कैसे ठीक करें:\n1. अपना जेलब्रेक ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और "
+        },
+        {
+          "offset": "0xc6066",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "क ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो स"
+        },
+        {
+          "offset": "0xc609e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "rap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो सुनिश्चित करें कि यह DuoFace "
+        },
+        {
+          "offset": "0xc8ef6",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "P लाइफटाइमलाइफटाइमअसीमित%llu दिन शेष%@ तक🛑 KESALAHAN: TWEAKS DINONAKTIFKAN🧭 Aktifkan Semua Navigasi🎬 Aktifkan Semua HiburanOptimal ✓Aktifkan multi-jendela di CarPlay. Ketuk bilah a"
+        },
+        {
+          "offset": "0xc96a0",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "Play asli tanpa perlu Android Box mahal.● Aktif🛑 ERRORE: TWEAK DISABILITATIDuoFace è attualmente bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolver"
+        },
+        {
+          "offset": "0xc975a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "almente bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova "
+        },
+        {
+          "offset": "0xc9860",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloc"
+        },
+        {
+          "offset": "0xc9896",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "alera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloccando DuoFace).Modalità sol"
+        },
+        {
+          "offset": "0xca7b8",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "● Attivo🛑 エラー: 脱獄アプリが無効です現在、DuoFace の実行がブロックされています。脱獄環境で Tweak Injection が無効になっています。\n\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks)"
+        },
+        {
+          "offset": "0xca868",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してくださ"
+        },
+        {
+          "offset": "0xca8a0",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "otstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してください)。了解キャンセル再起動閉じる確認適用未選択他の枠で使"
+        },
+        {
+          "offset": "0xcca7c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "llu 日%@ まで🛑 오류: 트윅 비활성화됨현재 DuoFace 실행이 차단되었습니다. 탈옥 환경에서 Tweak Injection이 비활성화되어 있습니다.\n\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)"
+        },
+        {
+          "offset": "0xccb30",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동"
+        },
+        {
+          "offset": "0xccb66",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동닫기적용선택 안 됨다른 위치에서 사용 중앱 검색."
+        },
+        {
+          "offset": "0xcedf6",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ce 서버 인증 완료DuoFace VIP 평생 라이선스무제한%llu일 남음%@까지🛑 RALAT: TWEAKS DINYAHAKTIFKAN🧭 Aktifkan Semua Navigasi🎬 Aktifkan Semua HiburanDioptimumkan ✓Aktifkan mod pelbagai tetingkap pada CarPl"
+        },
+        {
+          "offset": "0xcf5ec",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "rPlay asal tanpa kotak Android yang mahal.● Aktif🛑 FOUT: TWEAKS UITGESCHAKELD🧭 Alle navigatie-apps inschakelen🎬 Alle amusements-apps inschakelenGeoptimaliseerd ✓Schakel multi-windo"
+        },
+        {
+          "offset": "0xcfde0",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e CarPlay-scherm zonder dure Android-box.● Actief🛑 BŁĄD: TWEAKI WYŁĄCZONEDuoFace jest obecnie zablokowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to na"
+        },
+        {
+          "offset": "0xcfea2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " zablokowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \""
+        },
+        {
+          "offset": "0xcff92",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "reak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuj"
+        },
+        {
+          "offset": "0xcffcc",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "lera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuje ono DuoFace).ZrozumiałemPot"
+        },
+        {
+          "offset": "0xd27f4",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "oFace VIP DożywotniaDożywotniaPozostało %llu dni🛑 ERRO: TWEAKS DESATIVADOSO DuoFace está bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo cor"
+        },
+        {
+          "offset": "0xd28a4",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " está bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xd29c0",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ak (Dopamine, Bootstrap, Palera1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respring no seu dispositivo.\n\n(Se você usa o Choicy, certifique-se de qu"
+        },
+        {
+          "offset": "0xd29f8",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "era1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respring no seu dispositivo.\n\n(Se você usa o Choicy, certifique-se de que não está bloqueando o DuoF"
+        },
+        {
+          "offset": "0xd49ce",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "кирован. В вашей среде Jailbreak отключена инъекция твиков (Tweak Injection).\n\nКак это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и "
+        },
+        {
+          "offset": "0xd4ad2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте Respring устройства.\n\n(Если вы используете Choicy, убедитесь, что он н"
+        },
+        {
+          "offset": "0xd4b0c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте Respring устройства.\n\n(Если вы используете Choicy, убедитесь, что он не блокирует DuoFace).ПонятноО"
+        },
+        {
+          "offset": "0xd8e3c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ниченийОсталось %llu дн.До %@🛑 ข้อผิดพลาด: ปิดการใช้งาน TWEAK แล้วDuoFace ถูกบล็อกไม่ให้ทำงาน สภาพแวดล้อม Jailbreak ของคุณปิดใช้งาน Tweak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailb"
+        },
+        {
+          "offset": "0xd8ed6",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e ถูกบล็อกไม่ให้ทำงาน สภาพแวดล้อม Jailbreak ของคุณปิดใช้งาน Tweak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tw"
+        },
+        {
+          "offset": "0xd8fc2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ\n\n(หากคุณใช้ Choicy โปรดตรวจสอบให้แน่ใจว่าไม่ได้บล็อก Duo"
+        },
+        {
+          "offset": "0xd8ffe",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ\n\n(หากคุณใช้ Choicy โปรดตรวจสอบให้แน่ใจว่าไม่ได้บล็อก DuoFace)เข้าใจแล้วยกเลิกรีสตาร์ทป"
+        },
+        {
+          "offset": "0xdcc1e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "Face VIP ตลอดชีพไม่จำกัดเหลืออีก %llu วันถึง %@🛑 HATA: TWEAKLER DEVRE DIŞIDuoFace'nin çalışması şu anda engelleniyor. Jailbreak ortamınızda Tweak Injection devre dışı bırakılmış.\n\n"
+        },
+        {
+          "offset": "0xdccca",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e'nin çalışması şu anda engelleniyor. Jailbreak ortamınızda Tweak Injection devre dışı bırakılmış.\n\nNasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine, Bootstrap, Palera1n."
+        },
+        {
+          "offset": "0xdcdcc",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "k uygulamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bulup ETKİNLEŞTİRİN.\n3. Cihazınıza Respring atın.\n\n(Choicy kullanıyorsa"
+        },
+        {
+          "offset": "0xdce08",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bulup ETKİNLEŞTİRİN.\n3. Cihazınıza Respring atın.\n\n(Choicy kullanıyorsanız, DuoFace'yi engellemediğin"
+        },
+        {
+          "offset": "0xdfc76",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ace VIP Ömür BoyuÖmür BoyuSınırsız%llu gün kaldı🛑 LỖI: TWEAK ĐANG BỊ TẮTDuoFace đang bị chặn và không thể hoạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách "
+        },
+        {
+          "offset": "0xdfd58",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "oạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công t"
+        },
+        {
+          "offset": "0xdfe50",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "(Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu bạn có cài Choicy, hãy chắc chắn không chặn DuoFa"
+        },
+        {
+          "offset": "0xdfe8c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu bạn có cài Choicy, hãy chắc chắn không chặn DuoFace).Đã hiểuHủyKhởi Động LạiĐón"
+        },
+        {
+          "offset": "0xe4008",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "lu ngàyĐến %@🛑 错误：插件注入已禁用DuoFace 目前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销"
+        },
+        {
+          "offset": "0xe40ae",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重新啟動關閉確認套用未選擇已在其他位置使用搜尋"
+        },
+        {
+          "offset": "0xe40e4",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "otstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重新啟動關閉確認套用未選擇已在其他位置使用搜尋 App...全螢幕放大回復分屏背景音訊模式設定分屏助"
+        },
+        {
+          "offset": "0xe5cb2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "剩餘 %llu 天至 %@🛑 错误：插件注入已禁用DuoFace 目前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销"
+        },
+        {
+          "offset": "0xe5d58",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重启关闭确认应用未选择已在其他位置使用搜索应用"
+        },
+        {
+          "offset": "0xe5d8e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "otstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重启关闭确认应用未选择已在其他位置使用搜索应用...全屏放大恢复分屏后台音频模式设置分屏助手与关于"
+        },
+        {
+          "offset": "0xbc642",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": " تشغيل DuoFace حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Inje"
+        },
+        {
+          "offset": "0xbc72a",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "mine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإ"
+        },
+        {
+          "offset": "0xbf34a",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "st derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0xbf484",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "ootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sicher, da"
+        },
+        {
+          "offset": "0xc18ac",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "ctualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACT"
+        },
+        {
+          "offset": "0xc19b2",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "opamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté bloqueand"
+        },
+        {
+          "offset": "0xc358a",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": " bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trou"
+        },
+        {
+          "offset": "0xc36a6",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "mine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu'il ne"
+        },
+        {
+          "offset": "0xc5f80",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "मान में चलने से अवरुद्ध है। आपके जेलब्रेक वातावरण में Tweak Injection अक्षम है।\n\nइसे कैसे ठीक करें:\n1. अपना जेलब्रेक ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak"
+        },
+        {
+          "offset": "0xc6072",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "ोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो सुनिश्च"
+        },
+        {
+          "offset": "0xc9766",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "e bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABIL"
+        },
+        {
+          "offset": "0xc986c",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "opamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloccando "
+        },
+        {
+          "offset": "0xca7c4",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "vo🛑 エラー: 脱獄アプリが無効です現在、DuoFace の実行がブロックされています。脱獄環境で Tweak Injection が無効になっています。\n\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有"
+        },
+        {
+          "offset": "0xca874",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してください)。了解キ"
+        },
+        {
+          "offset": "0xcca88",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "%@ まで🛑 오류: 트윅 비활성화됨현재 DuoFace 실행이 차단되었습니다. 탈옥 환경에서 Tweak Injection이 비활성화되어 있습니다.\n\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 "
+        },
+        {
+          "offset": "0xccb3c",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": ":\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동닫기적용선택"
+        },
+        {
+          "offset": "0xcfeae",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "kowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak "
+        },
+        {
+          "offset": "0xcff9e",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuje ono "
+        },
+        {
+          "offset": "0xd28b0",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. En"
+        },
+        {
+          "offset": "0xd29cc",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "pamine, Bootstrap, Palera1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respring no seu dispositivo.\n\n(Se você usa o Choicy, certifique-se de que não "
+        },
+        {
+          "offset": "0xd49da",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "н. В вашей среде Jailbreak отключена инъекция твиков (Tweak Injection).\n\nКак это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИ"
+        },
+        {
+          "offset": "0xd4ade",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "mine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте Respring устройства.\n\n(Если вы используете Choicy, убедитесь, что он не блок"
+        },
+        {
+          "offset": "0xd8ee2",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "ล็อกไม่ให้ทำงาน สภาพแวดล้อม Jailbreak ของคุณปิดใช้งาน Tweak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak In"
+        },
+        {
+          "offset": "0xd8fce",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "amine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ\n\n(หากคุณใช้ Choicy โปรดตรวจสอบให้แน่ใจว่าไม่ได้บล็อก DuoFace)เ"
+        },
+        {
+          "offset": "0xdccd6",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "çalışması şu anda engelleniyor. Jailbreak ortamınızda Tweak Injection devre dışı bırakılmış.\n\nNasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2"
+        },
+        {
+          "offset": "0xdcdd8",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "lamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bulup ETKİNLEŞTİRİN.\n3. Cihazınıza Respring atın.\n\n(Choicy kullanıyorsanız, D"
+        },
+        {
+          "offset": "0xdfe5c",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "ine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu bạn có cài Choicy, hãy chắc chắn không chặn DuoFace).Đã"
+        },
+        {
+          "offset": "0xe4014",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "yĐến %@🛑 错误：插件注入已禁用DuoFace 目前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Resp"
+        },
+        {
+          "offset": "0xe40ba",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重新啟動關閉確認套用未選擇已在其他位置使用搜尋 App.."
+        },
+        {
+          "offset": "0xe5cbe",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "u 天至 %@🛑 错误：插件注入已禁用DuoFace 目前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Resp"
+        },
+        {
+          "offset": "0xe5d64",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": "开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重启关闭确认应用未选择已在其他位置使用搜索应用...全屏放"
+        },
+        {
+          "offset": "0xbf310",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " TWEAKS DEAKTIVIERTDuoFace ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopami"
+        },
+        {
+          "offset": "0xbf3d8",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "eaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3"
+        },
+        {
+          "offset": "0xc1868",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "ACTIVADOSDuoFace está bloqueado actualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstr"
+        },
+        {
+          "offset": "0xc1922",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " Injection.\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Resprin"
+        },
+        {
+          "offset": "0xc3552",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "VÉSDuoFace est actuellement bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Boots"
+        },
+        {
+          "offset": "0xc3610",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "on.\n\nComment corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un R"
+        },
+        {
+          "offset": "0xc9726",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "ISABILITATIDuoFace è attualmente bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap"
+        },
+        {
+          "offset": "0xc97dc",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " Injection.\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respr"
+        },
+        {
+          "offset": "0xcfe68",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "YŁĄCZONEDuoFace jest obecnie zablokowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Paler"
+        },
+        {
+          "offset": "0xcff10",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "pcję Tweak Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respri"
+        },
+        {
+          "offset": "0xd2884",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "IVADOSO DuoFace está bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap"
+        },
+        {
+          "offset": "0xd293a",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " desativado.\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respr"
+        },
+        {
+          "offset": "0xd4984",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " ТВИКИ ОТКЛЮЧЕНЫЗапуск DuoFace заблокирован. В вашей среде Jailbreak отключена инъекция твиков (Tweak Injection).\n\nКак это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bo"
+        },
+        {
+          "offset": "0xd4a48",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "weak Injection).\n\nКак это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте R"
+        },
+        {
+          "offset": "0xd8ea2",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "ารใช้งาน TWEAK แล้วDuoFace ถูกบล็อกไม่ให้ทำงาน สภาพแวดล้อม Jailbreak ของคุณปิดใช้งาน Tweak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n"
+        },
+        {
+          "offset": "0xd8f2c",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " ของคุณปิดใช้งาน Tweak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Resp"
+        },
+        {
+          "offset": "0xdcc9e",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "KLER DEVRE DIŞIDuoFace'nin çalışması şu anda engelleniyor. Jailbreak ortamınızda Tweak Injection devre dışı bırakılmış.\n\nNasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine,"
+        },
+        {
+          "offset": "0xdcd44",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "weak Injection devre dışı bırakılmış.\n\nNasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bul"
+        },
+        {
+          "offset": "0xdfd06",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "Ị TẮTDuoFace đang bị chặn và không thể hoạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Boots"
+        },
+        {
+          "offset": "0xdfdb4",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": "tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. "
+        },
+        {
+          "offset": "0xbc6aa",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "ت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهاز"
+        },
+        {
+          "offset": "0xbf3f6",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": " beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie ei"
+        },
+        {
+          "offset": "0xc1938",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dis"
+        },
+        {
+          "offset": "0xc3626",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "t corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de "
+        },
+        {
+          "offset": "0xc6006",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "on अक्षम है।\n\nइसे कैसे ठीक करें:\n1. अपना जेलब्रेक ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respri"
+        },
+        {
+          "offset": "0xc97f2",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dis"
+        },
+        {
+          "offset": "0xca812",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "ックされています。脱獄環境で Tweak Injection が無効になっています。\n\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choi"
+        },
+        {
+          "offset": "0xccad8",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "었습니다. 탈옥 환경에서 Tweak Injection이 비활성화되어 있습니다.\n\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를"
+        },
+        {
+          "offset": "0xcff26",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzen"
+        },
+        {
+          "offset": "0xd2950",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": ".\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respring no seu "
+        },
+        {
+          "offset": "0xd4a5e",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "ion).\n\nКак это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте Respring уст"
+        },
+        {
+          "offset": "0xd8f50",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "weak Injection ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ"
+        },
+        {
+          "offset": "0xdcd7e",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "akılmış.\n\nNasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bulup ETKİNLEŞTİRİN.\n3. Cihazını"
+        },
+        {
+          "offset": "0xdfdda",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": ".\n\nCách xử lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. Bấm Respring thiết "
+        },
+        {
+          "offset": "0xe4054",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请"
+        },
+        {
+          "offset": "0xe5cfe",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "前被阻止运行。您的越狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请"
+        },
+        {
+          "offset": "0xbc6be",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "jection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا ك"
+        },
+        {
+          "offset": "0xbf40a",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "ie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respri"
+        },
+        {
+          "offset": "0xc194c",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "ucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n"
+        },
+        {
+          "offset": "0xc363a",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": " cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appa"
+        },
+        {
+          "offset": "0xc601a",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "ै।\n\nइसे कैसे ठीक करें:\n1. अपना जेलब्रेक ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n"
+        },
+        {
+          "offset": "0xc9806",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "olvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n"
+        },
+        {
+          "offset": "0xca824",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "脱獄環境で Tweak Injection が無効になっています。\n\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用してい"
+        },
+        {
+          "offset": "0xccaec",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "경에서 Tweak Injection이 비활성화되어 있습니다.\n\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 D"
+        },
+        {
+          "offset": "0xcff3a",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśl"
+        },
+        {
+          "offset": "0xd2964",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "rrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Encontre e ATIVE \"Tweak Injection\" (ou Enable Tweaks).\n3. Faça um Respring no seu dispositiv"
+        },
+        {
+          "offset": "0xd4a72",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": " это исправить:\n1. Откройте приложение Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Найдите и ВКЛЮЧИТЕ «Tweak Injection» (или Enable Tweaks).\n3. Сделайте Respring устройства.\n\n"
+        },
+        {
+          "offset": "0xd8f64",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "tion ไว้\n\nวิธีแก้ไข:\n1. เปิดแอป Jailbreak ของคุณ (Dopamine, Bootstrap, Palera1n...)\n2. ค้นหาและเปิดใช้งาน \"Tweak Injection\" (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ\n\n(หากคุณใ"
+        },
+        {
+          "offset": "0xdcd92",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "Nasıl düzeltilir:\n1. Jailbreak uygulamanızı açın (Dopamine, Bootstrap, Palera1n...).\n2. \"Tweak Injection\" (veya Enable Tweaks) seçeneğini bulup ETKİNLEŞTİRİN.\n3. Cihazınıza Resprin"
+        },
+        {
+          "offset": "0xdfdee",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": " lý (Bắt buộc):\n1. Mở ứng dụng Jailbreak của bạn (Dopamine, Bootstrap, Palera1n...).\n2. Tìm và BẬT công tắc \"Tweak Injection\" (hoặc Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu "
+        },
+        {
+          "offset": "0xe4068",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 Du"
+        },
+        {
+          "offset": "0xe5d12",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "狱环境已禁用插件注入 (Tweak Injection)。\n\n修复方法：\n1. 打开您的越狱应用 (Dopamine, Bootstrap, Palera1n...)。\n2. 找到并启用 \"Tweak Injection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 Du"
+        },
+        {
+          "offset": "0xbc7c2",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "nable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاقتأكيدتطبيقغير محددمستخدم في موضع آخرالبحث عن التطبيقات"
+        },
+        {
+          "offset": "0xbf524",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "ble Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoFace nicht blockiert).SchließenBestätigenNicht ausgewähltVollbild vergr"
+        },
+        {
+          "offset": "0xc1a4e",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "le Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté bloqueando DuoFace).En uso en otra posiciónNavegaciónAcciones rápidas¿Restablecer ajust"
+        },
+        {
+          "offset": "0xc375c",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu'il ne bloque pas DuoFace).RedémarrerNon sélectionnéUtilisé dans un autre emplacementPlein écranR"
+        },
+        {
+          "offset": "0xc611a",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "eaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो सुनिश्चित करें कि यह DuoFace को ब्लॉक नहीं कर रहा है)।समझ गयारद्द करेंपुनः आरंभबंद करेंपुष्"
+        },
+        {
+          "offset": "0xc9908",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "le Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloccando DuoFace).Modalità solo audio in backgroundLe app di navigazione e intrattenime"
+        },
+        {
+          "offset": "0xca8fa",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "on」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してください)。了解キャンセル再起動閉じる確認適用未選択他の枠で使用中Appを検索...全画面表示画面分割に戻すバックグラウンド再生設定画面分割アシスタント"
+        },
+        {
+          "offset": "0xccbba",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "ection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동닫기적용선택 안 됨다른 위치에서 사용 중앱 검색...전체 화면 확대화면 분할 복원백그라운드 오디오 모드설정앱화면 분할어시스턴"
+        },
+        {
+          "offset": "0xd003e",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "le Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuje ono DuoFace).ZrozumiałemPotwierdźUżywane w innej pozycjiPełny ekranPrzywróć podzielo"
+        },
+        {
+          "offset": "0xd2a7a",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "s).\n3. Faça um Respring no seu dispositivo.\n\n(Se você usa o Choicy, certifique-se de que não está bloqueando o DuoFace).Não selecionadoEm uso em outra posiçãoModo apenas áudio em s"
+        },
+        {
+          "offset": "0xd4b8c",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "ks).\n3. Сделайте Respring устройства.\n\n(Если вы используете Choicy, убедитесь, что он не блокирует DuoFace).ПонятноОтменаПерезапуститьЗакрытьПодтвердитьПрименитьНе выбраноИспользуе"
+        },
+        {
+          "offset": "0xd905a",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": " (หรือ Enable Tweaks)\n3. Respring อุปกรณ์ของคุณ\n\n(หากคุณใช้ Choicy โปรดตรวจสอบให้แน่ใจว่าไม่ได้บล็อก DuoFace)เข้าใจแล้วยกเลิกรีสตาร์ทปิดยืนยันนำไปใช้ยังไม่ได้เลือกกำลังใช้งานในตำแห"
+        },
+        {
+          "offset": "0xdce96",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "eneğini bulup ETKİNLEŞTİRİN.\n3. Cihazınıza Respring atın.\n\n(Choicy kullanıyorsanız, DuoFace'yi engellemediğinden emin olun).AnladımİptalYeniden BaşlatSeçilmediBaşka bir konumda kul"
+        },
+        {
+          "offset": "0xdfef4",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": " Enable Tweaks).\n3. Bấm Respring thiết bị.\n\n(Nếu bạn có cài Choicy, hãy chắc chắn không chặn DuoFace).Đã hiểuHủyKhởi Động LạiĐóngXác nhậnÁp dụngChưa chọnĐang dùng ở vị trí khácTìm "
+        },
+        {
+          "offset": "0xe4134",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "njection\" (或 Enable Tweaks)。\n3. 注销 (Respring) 您的设备。\n\n(如果您使用 Choicy，请确保它没有屏蔽 DuoFace)。知道了取消重新啟動關閉確認套用未選擇已在其他位置使用搜尋 App...全螢幕放大回復分屏背景音訊模式設定分屏助理與關於全部已啟用導航娛樂使用者系統快速操作回復預設值重設設定？"
+        },
+        {
+          "offset": "0xbc77e",
+          "encoding": "utf16le_nearby",
+          "term": "respring",
+          "preview": "وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاقتأكيدتطبيقغير محددمس"
+        },
+        {
+          "offset": "0xdfcb4",
+          "encoding": "utf16le_nearby",
+          "term": "bị chặn",
+          "preview": "ırsız%llu gün kaldı🛑 LỖI: TWEAK ĐANG BỊ TẮTDuoFace đang bị chặn và không thể hoạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng d"
+        },
+        {
+          "offset": "0xbd764",
+          "encoding": "utf16le_nearby",
+          "term": "springboard",
+          "preview": "rPlayتفعيل كافة التطبيقاتتعطيل كافة التطبيقاتإعادة تشغيل SpringBoardهل أنت متأكد من إعادة تشغيل SpringBoard لتطبيق التغييرات على CarPlay؟فريق DuoFaceتفعيل تقسيم الشاشةتشغيل 1 إلى 4"
+        },
+        {
+          "offset": "0xe0292",
+          "encoding": "utf16le_nearby",
+          "term": "trạng thái",
+          "preview": "?Toàn bộ cấu hình DuoFace sẽ được đưa về mặc định ban đầu.Trạng Thái CarPlayĐã Kết NốiChưa Kết Nối%lu ứng dụng%lu đang bật / %luHiển Thị Ứng Dụng Trên CarPlayBật công tắc để đưa ứn"
+        }
+      ],
+      "selected_methods": {
+        "classes": 27,
+        "interesting_class_methods": {
+          "XXRootViewController": [
+            "-viewDidLoad",
+            "-checkAndPresentLicenseModalIfNeeded"
+          ],
+          "CBAppManager": [
+            "-isLoading",
+            "-reloadPreferences",
+            "-loadInstalledAppsWithCompletion:"
+          ],
+          "CBGeneralSettingsViewController": [
+            "-viewDidLoad",
+            "-loadPreferences",
+            "-dockMonitorToggleChanged:",
+            "-dockMonitorEnabled",
+            "-setDockMonitorEnabled:"
+          ],
+          "CBAppsManagerViewController": [
+            "-viewDidLoad"
+          ],
+          "CBAppPickerViewController": [
+            "-viewDidLoad"
+          ],
+          "CBSplitViewController": [
+            "-viewDidLoad",
+            "-handleAppsLoaded",
+            "-loadSettings",
+            "-availableApps",
+            "-setAvailableApps:"
+          ],
+          "CBAssistantAboutViewController": [
+            "-viewDidLoad",
+            "-loadPreferences"
+          ],
+          "CBSubscriptionViewController": [
+            "-viewDidLoad",
+            "-currentCheckoutButtonTitle",
+            "-showPlansLoadFailureAlertWithError:",
+            "-checkoutCellDidTapCheckout:",
+            "-pendingOrderCellDidTapCheckStatus:",
+            "-setGiftRedeemLoading:",
+            "-orderCoordinator:shouldPresentAlert:",
+            "-orderCoordinator:setCheckoutLoading:",
+            "-orderCoordinator:setCheckStatusButtonChecking:",
+            "-showAlertWithTitle:message:",
+            "-isLoadingPlans",
+            "-setIsLoadingPlans:",
+            "-plansLoadFailed",
+            "-setPlansLoadFailed:",
+            "-isCheckoutLoading",
+            "-setIsCheckoutLoading:"
+          ],
+          "CBLicenseExpiredModalViewController": [
+            "-viewDidLoad"
+          ],
+          "CBSubscriptionCheckoutCell": [
+            "-configureWithTitle:loading:",
+            "-checkoutTapped",
+            "-checkoutButton",
+            "-setCheckoutButton:",
+            "-checkoutSpinner",
+            "-setCheckoutSpinner:"
+          ],
+          "CBSubscriptionGiftcodeRedeemCell": [
+            "-setLoading:"
+          ],
+          "CBSubscriptionPendingOrderCell": [
+            "-checkStatusTapped",
+            "-checkStatusButton",
+            "-setCheckStatusButton:"
+          ],
+          "CBSubscriptionPlanCardCell": [
+            "-checkIcon",
+            "-setCheckIcon:"
+          ],
+          "CBSubscriptionStatusCell": [
+            "-configureWithLoading:failed:"
+          ],
+          "CBSubscriptionOrderCoordinator": [
+            "-startCheckoutForTier:forceNew:",
+            "-checkStatusManual",
+            "-checkOrderStatusOnce:",
+            "-showAlertWithTitle:message:"
+          ],
+          "CBLocalization": [
+            "-reloadLanguage"
+          ],
+          "CBSplitSplashScreenView": [
+            "-startLoadingAnimation"
+          ],
+          "CBLicenseSyncManager": [
+            "-checkAndSyncLicenseIfNeeded",
+            "-checkAndSyncLicenseIfNeededWithSource:",
+            "-installAndVerifyLicensePayload:errorMsg:"
+          ]
+        }
+      }
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "diagnostic_literals": [
+        {
+          "offset": "0x2f5ad2",
+          "encoding": "ascii",
+          "text": "animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:"
+        },
+        {
+          "offset": "0x2fb248",
+          "encoding": "ascii",
+          "text": "[DuoFace] Tweak constructor loaded in process: %@ (PID %d)"
+        },
+        {
+          "offset": "0x2fb378",
+          "encoding": "ascii",
+          "text": "com.apple.springboard"
+        },
+        {
+          "offset": "0x2fb38e",
+          "encoding": "ascii",
+          "text": "[DuoFace] Initializing SpringBoard hooks..."
+        },
+        {
+          "offset": "0x2fb3d0",
+          "encoding": "ascii",
+          "text": "[DuoFace] Loaded in CarbrigdeUI for tweak detection."
+        },
+        {
+          "offset": "0x2fb68a",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_TITLE"
+        },
+        {
+          "offset": "0x2fb6a5",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_MSG"
+        },
+        {
+          "offset": "0x2fb6be",
+          "encoding": "ascii",
+          "text": "ALERT_TWEAK_DISABLED_BTN"
+        },
+        {
+          "offset": "0x2fbd0d",
+          "encoding": "ascii",
+          "text": "ROW_RESPRING"
+        },
+        {
+          "offset": "0x2fbd1a",
+          "encoding": "ascii",
+          "text": "RESPRING_ALERT_TITLE"
+        },
+        {
+          "offset": "0x2fbd2f",
+          "encoding": "ascii",
+          "text": "RESPRING_ALERT_MSG"
+        },
+        {
+          "offset": "0x2fda5c",
+          "encoding": "ascii",
+          "text": "Hintergrund-Daemons beenden, um Hitze und RAM zu sparen"
+        },
+        {
+          "offset": "0x2fdbe8",
+          "encoding": "ascii",
+          "text": "SpringBoard neu starten"
+        },
+        {
+          "offset": "0x2fe190",
+          "encoding": "ascii",
+          "text": "DuoFace is currently blocked from running. Your jailbreak environment has Tweak Injection disabled."
+        },
+        {
+          "offset": "0x2fe206",
+          "encoding": "ascii",
+          "text": "1. Open your Jailbreak app (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0x2fe245",
+          "encoding": "ascii",
+          "text": "2. Find and ENABLE \"Tweak Injection\" (or Enable Tweaks)."
+        },
+        {
+          "offset": "0x2fe27e",
+          "encoding": "ascii",
+          "text": "3. Respring your device."
+        },
+        {
+          "offset": "0x2fe298",
+          "encoding": "ascii",
+          "text": "(If you use Choicy, make sure it is not blocking DuoFace)."
+        },
+        {
+          "offset": "0x2fe7d7",
+          "encoding": "ascii",
+          "text": "Disable background daemons to reduce temperature and RAM usage"
+        },
+        {
+          "offset": "0x2fe8de",
+          "encoding": "ascii",
+          "text": "System optimization turns off background diagnostic and telemetry services, keeping your device cool during continuous CarPlay usage."
+        },
+        {
+          "offset": "0x2feac0",
+          "encoding": "ascii",
+          "text": "Restart SpringBoard"
+        },
+        {
+          "offset": "0x2fead4",
+          "encoding": "ascii",
+          "text": "Are you sure you want to restart SpringBoard to apply changes on CarPlay?"
+        },
+        {
+          "offset": "0x2ffe42",
+          "encoding": "ascii",
+          "text": "Desactiva daemons en segundo plano para reducir calor y RAM"
+        },
+        {
+          "offset": "0x2ffff6",
+          "encoding": "ascii",
+          "text": "Reiniciar SpringBoard"
+        },
+        {
+          "offset": "0x300983",
+          "encoding": "ascii",
+          "text": "Relancer SpringBoard"
+        },
+        {
+          "offset": "0x300998",
+          "encoding": "ascii",
+          "text": "Voulez-vous relancer SpringBoard pour appliquer les modifications sur CarPlay ?"
+        },
+        {
+          "offset": "0x300d71",
+          "encoding": "ascii",
+          "text": "DuoFace saat ini diblokir. Lingkungan Jailbreak Anda menonaktifkan Tweak Injection."
+        },
+        {
+          "offset": "0x300ddb",
+          "encoding": "ascii",
+          "text": "1. Buka aplikasi Jailbreak Anda (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0x300e1f",
+          "encoding": "ascii",
+          "text": "2. Cari dan AKTIFKAN \"Tweak Injection\" (atau Enable Tweaks)."
+        },
+        {
+          "offset": "0x300e5c",
+          "encoding": "ascii",
+          "text": "3. Lakukan Respring pada perangkat Anda."
+        },
+        {
+          "offset": "0x300e86",
+          "encoding": "ascii",
+          "text": "(Jika Anda menggunakan Choicy, pastikan itu tidak memblokir DuoFace)."
+        },
+        {
+          "offset": "0x30142d",
+          "encoding": "ascii",
+          "text": "Nonaktifkan background daemon untuk kurangi panas dan RAM"
+        },
+        {
+          "offset": "0x301754",
+          "encoding": "ascii",
+          "text": "Mulai Ulang SpringBoard"
+        },
+        {
+          "offset": "0x30176c",
+          "encoding": "ascii",
+          "text": "Apakah Anda yakin ingin memulai ulang SpringBoard untuk menerapkan perubahan di CarPlay?"
+        },
+        {
+          "offset": "0x3019a4",
+          "encoding": "ascii",
+          "text": "2 aplikasi berdampingan"
+        },
+        {
+          "offset": "0x30210e",
+          "encoding": "ascii",
+          "text": "Berdampingan"
+        },
+        {
+          "offset": "0x30286e",
+          "encoding": "ascii",
+          "text": "Termina i daemon in background per ridurre temperatura e RAM"
+        },
+        {
+          "offset": "0x302b71",
+          "encoding": "ascii",
+          "text": "Riavvia SpringBoard"
+        },
+        {
+          "offset": "0x302b85",
+          "encoding": "ascii",
+          "text": "Sei sicuro di voler riavviare SpringBoard per applicare le modifiche a CarPlay?"
+        },
+        {
+          "offset": "0x3035c6",
+          "encoding": "ascii",
+          "text": "DuoFace pada masa ini disekat. Persekitaran Jailbreak anda telah melumpuhkan Tweak Injection."
+        },
+        {
+          "offset": "0x30363a",
+          "encoding": "ascii",
+          "text": "1. Buka aplikasi Jailbreak anda (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0x30367e",
+          "encoding": "ascii",
+          "text": "2. Cari dan AKTIFKAN \"Tweak Injection\" (atau Enable Tweaks)."
+        },
+        {
+          "offset": "0x3036bb",
+          "encoding": "ascii",
+          "text": "3. Lakukan Respring pada peranti anda."
+        },
+        {
+          "offset": "0x3036e3",
+          "encoding": "ascii",
+          "text": "(Jika anda menggunakan Choicy, pastikan ia tidak menyekat DuoFace)."
+        },
+        {
+          "offset": "0x303b47",
+          "encoding": "ascii",
+          "text": "Nyahaktifkan daemon latar belakang untuk kurangkan suhu dan RAM"
+        },
+        {
+          "offset": "0x303e00",
+          "encoding": "ascii",
+          "text": "Muat Semula SpringBoard"
+        },
+        {
+          "offset": "0x303e18",
+          "encoding": "ascii",
+          "text": "Adakah anda pasti mahu memuat semula SpringBoard untuk menggunakan perubahan pada CarPlay?"
+        },
+        {
+          "offset": "0x304935",
+          "encoding": "ascii",
+          "text": "DuoFace is momenteel geblokkeerd. In je Jailbreak-omgeving is Tweak Injection uitgeschakeld."
+        },
+        {
+          "offset": "0x3049a9",
+          "encoding": "ascii",
+          "text": "1. Open je Jailbreak-app (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0x3049e6",
+          "encoding": "ascii",
+          "text": "2. Zoek en SCHAKEL \"Tweak Injection\" in (of Enable Tweaks)."
+        },
+        {
+          "offset": "0x304a22",
+          "encoding": "ascii",
+          "text": "3. Voer een Respring uit op je apparaat."
+        },
+        {
+          "offset": "0x304a4c",
+          "encoding": "ascii",
+          "text": "(Als je Choicy gebruikt, zorg er dan voor dat het DuoFace niet blokkeert)."
+        },
+        {
+          "offset": "0x305376",
+          "encoding": "ascii",
+          "text": "SpringBoard herstarten"
+        },
+        {
+          "offset": "0x30538d",
+          "encoding": "ascii",
+          "text": "Weet u zeker dat u SpringBoard wilt herstarten om de wijzigingen op CarPlay toe te passen?"
+        },
+        {
+          "offset": "0x306114",
+          "encoding": "ascii",
+          "text": "Uruchom ponownie SpringBoard"
+        },
+        {
+          "offset": "0x30667c",
+          "encoding": "ascii",
+          "text": "Desativa daemons em segundo plano para reduzir temperatura e RAM"
+        },
+        {
+          "offset": "0x307e3d",
+          "encoding": "ascii",
+          "text": "[DuoFace] Dynamically updated tweak filter plist with %lu bundles"
+        },
+        {
+          "offset": "0x307fed",
+          "encoding": "ascii",
+          "text": "[DuoFaceLicense] Automated sync was already initiated %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "offset": "0x308071",
+          "encoding": "ascii",
+          "text": "[DuoFaceLicense] Automated sync attempt detected from another process %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "offset": "0x30895a",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] UI addMoreAppsTapped -> presenting custom frosted alert modal"
+        },
+        {
+          "offset": "0x3089bd",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] UI restartSingleAppTapped: %@"
+        },
+        {
+          "offset": "0x3089e7",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] UI closeSingleAppTapped: %@"
+        },
+        {
+          "offset": "0x308a0f",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] UI closeAllBridgedAppsTapped: Killing background apps & restarting active on-screen apps"
+        },
+        {
+          "offset": "0x309071",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Exception setting scene association for %@: %@"
+        },
+        {
+          "offset": "0x3096ff",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Restarting slot %ld for app: %@"
+        },
+        {
+          "offset": "0x30973c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Restart: Killing PID %d for %@"
+        },
+        {
+          "offset": "0x30987a",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Exception reading auto-resume bid: %@"
+        },
+        {
+          "offset": "0x3098b5",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] CarPlay display already present at init, scheduling auto-resume for: %@"
+        },
+        {
+          "offset": "0x309909",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [INIT_TRACE] No CarPlay display present on init -> Resetting cached bounds and clearing state on disk."
+        },
+        {
+          "offset": "0x309990",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Received CarPlay Disconnect request from DashBoard IPC! Initiating cleanup..."
+        },
+        {
+          "offset": "0x309a25",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] requestStateChange: App %@ active but license invalid (loaded=%d, status=%d, mask=0x%llx)."
+        },
+        {
+          "offset": "0x309b9d",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Step 4: Immediately killing all %lu targeted CarPlay app processes..."
+        },
+        {
+          "offset": "0x309c04",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] requestStateChange: App %@ already active and visible, re-showing window."
+        },
+        {
+          "offset": "0x309c5a",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] requestStateChange: App %@ marked active but window/display stale or detached (e.g. after CarPlay reconnect). Performing clean reload..."
+        },
+        {
+          "offset": "0x309cef",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] loadNewAppFromCurrentRequest: License validation failed (loaded=%d, status=%d, mask=0x%llx) for bid=%@."
+        },
+        {
+          "offset": "0x309d78",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] >>> PRE-RENDER CHECK <<< CarPlay Screen: %@, UsableCanvas: %@, RenderCanvas: %@"
+        },
+        {
+          "offset": "0x309dd4",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] licenseWatchdogTimerFired: Runtime license expired or invalid during session (loaded=%d, status=%d, mask=0x%llx)."
+        },
+        {
+          "offset": "0x309e67",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] deactivateCurrentApp START -> activated: %d, bundleID: %@, currentApp: %@"
+        },
+        {
+          "offset": "0x309ed0",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Deactivating SplitApp (DuoFace) with %lu appViews"
+        },
+        {
+          "offset": "0x309f21",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] -> Sending shouldBridge:NO to child app: %@"
+        },
+        {
+          "offset": "0x309f6c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] -> Sending shouldBridge:NO to single app: %@"
+        },
+        {
+          "offset": "0x309fb8",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Stopping and removing _currentApp (%@)..."
+        },
+        {
+          "offset": "0x30a001",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Destroying CBWindow..."
+        },
+        {
+          "offset": "0x30a037",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] deactivateCurrentApp FINISHED."
+        },
+        {
+          "offset": "0x30a075",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Darwin screen/CarPlay notification fired: %@"
+        },
+        {
+          "offset": "0x30a1fd",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] performAutoResume: License is inactive/expired (loaded=%d, status=%d). Skipping auto-launch."
+        },
+        {
+          "offset": "0x30a266",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] performAutoResume: CarPlay CADisplay not ready, retrying #%ld in 1.0s..."
+        },
+        {
+          "offset": "0x30a2bb",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] performAutoResume: CarPlay CADisplay still nil after 5 retries, giving up."
+        },
+        {
+          "offset": "0x30a312",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] >>> AUTO-LAUNCHING/RESUMING APP AFTER CARPLAY CONNECT: %@ <<<"
+        },
+        {
+          "offset": "0x30a35c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] NSNotificationCenter received: name=%@ | object=%@ | userInfo=%@"
+        },
+        {
+          "offset": "0x30a3bc",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] handleScreenDidDisconnect triggered. Object screen: %@ (notif=%@)"
+        },
+        {
+          "offset": "0x30a44e",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Disconnected screen is [UIScreen mainScreen] -> Ignoring."
+        },
+        {
+          "offset": "0x30a4a7",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Alternate CarPlay display remains active -> Disconnected screen was auxiliary display. Ignoring."
+        },
+        {
+          "offset": "0x30a527",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] >>> EXECUTING CARPLAY DISCONNECT CLEANUP PIPELINE <<<"
+        },
+        {
+          "offset": "0x30a57c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Current state -> activated: %d, bundleID: %@, currentApp: %@, sessionBridgedCount: %lu"
+        },
+        {
+          "offset": "0x30a5f2",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Preserved autoResumeBundleID before disconnect: %@"
+        },
+        {
+          "offset": "0x30a644",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Manager is activated -> Deactivating current app and tearing down UI..."
+        },
+        {
+          "offset": "0x30a6ab",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Manager is not activated -> Destroying windows and resetting state disk cache..."
+        },
+        {
+          "offset": "0x30a71b",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Scheduling mandatory disconnect watchdog..."
+        },
+        {
+          "offset": "0x30a766",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] handleScreenDidConnect triggered. Object screen: %@"
+        },
+        {
+          "offset": "0x30a7cd",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] Connected external screen is not CarPlay (AirPlay/HDMI) -> Ignoring."
+        },
+        {
+          "offset": "0x30a82e",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] No CarPlay screen connected -> Ignoring."
+        },
+        {
+          "offset": "0x30a873",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] Ignoring rapid screen connect flap (%.2fs since last connect)."
+        },
+        {
+          "offset": "0x30a8ce",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] CarPlay external screen connected. Cancelling disconnect watchdog & resetting geometry cache."
+        },
+        {
+          "offset": "0x30a948",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] Existing window display is invalid -> destroying old window."
+        },
+        {
+          "offset": "0x30a9a1",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] Detected autoResume/autoLaunch BundleID: %@, scheduling launch..."
+        },
+        {
+          "offset": "0x30aa08",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] handleCarPlayConnectionChanged notification: %@"
+        },
+        {
+          "offset": "0x30aa7b",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] No CarPlay CADisplay/UIScreen found -> CarPlay IS DISCONNECTED. Starting teardown."
+        },
+        {
+          "offset": "0x30aaed",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [CONNECT_TRACE] CarPlay CADisplay available: %@"
+        },
+        {
+          "offset": "0x30ab29",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] === Screen & Display State Dump (%@) ==="
+        },
+        {
+          "offset": "0x30ab71",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Total UIScreen count: %lu"
+        },
+        {
+          "offset": "0x30abaa",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE]   - Screen[%lu]: %@ | bounds: %@ | scale: %.1f | isMain: %d"
+        },
+        {
+          "offset": "0x30ac05",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Total CADisplay count: %lu"
+        },
+        {
+          "offset": "0x30ac4f",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE]   - CADisplay[%lu]: %@ | name: %@ | uid: %@ | isMain: %d | screenType: %u"
+        },
+        {
+          "offset": "0x30acb8",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Query Results -> carPlayCADisplay: %@ | carPlayUIScreen: %@ | carPlayWindowScene: %@"
+        },
+        {
+          "offset": "0x30ad2c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] ==============================================="
+        },
+        {
+          "offset": "0x30ad7b",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] No session bridged apps recorded. Watchdog not needed."
+        },
+        {
+          "offset": "0x30add1",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] >>> MANDATORY 1-MIN WATCHDOG STARTED (token: %llu): %lu app(s) scheduled for forced termination in %d seconds <<<"
+        },
+        {
+          "offset": "0x30ae62",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Disconnect watchdog GCD block fired but token %llu is obsolete (current: %llu) -> Cancelled."
+        },
+        {
+          "offset": "0x30aede",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Cancelling mandatory disconnect watchdog (CarPlay reconnected, newToken: %llu)."
+        },
+        {
+          "offset": "0x30af4d",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Mandatory disconnect watchdog fired, but CarPlay IS CURRENTLY CONNECTED/ACTIVE -> Aborting forced kill."
+        },
+        {
+          "offset": "0x30afd4",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] >>> MANDATORY 1-MIN WATCHDOG EXPIRED: Unconditionally terminating %lu CarPlay session app(s) (ZERO EXCEPTION) <<<"
+        },
+        {
+          "offset": "0x30b065",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Mandatory Watchdog: Forcibly terminating PID %d for %@ (Zero Exception)"
+        },
+        {
+          "offset": "0x30b0cc",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] Exception while forcibly terminating %@: %@"
+        },
+        {
+          "offset": "0x30b117",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] terminateApplicationWithBundleID: %@"
+        },
+        {
+          "offset": "0x30b148",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Killing process %d for %@"
+        },
+        {
+          "offset": "0x30b16e",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Exception while terminating %@: %@"
+        },
+        {
+          "offset": "0x30b19d",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] restartApplicationWithBundleID: %@"
+        },
+        {
+          "offset": "0x30b1cc",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Restart single app: Killing PID %d for %@"
+        },
+        {
+          "offset": "0x30b202",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] >>> CLOSE ALL: Terminating background applications & restarting active on-screen apps <<<"
+        },
+        {
+          "offset": "0x30b268",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Close All: Killing background PID %d for %@"
+        },
+        {
+          "offset": "0x30b2a0",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Close All (Fallback): Killing background PID %d for %@"
+        },
+        {
+          "offset": "0x30b2e3",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Exception killing background process %@: %@"
+        },
+        {
+          "offset": "0x30b37a",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> Found active Split slot %ld app: %@"
+        },
+        {
+          "offset": "0x30b3c2",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> Found active single app: %@"
+        },
+        {
+          "offset": "0x30b402",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Adding %lu session-tracked bridged apps: %@"
+        },
+        {
+          "offset": "0x30b44f",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> Found running background bridged app: %@ (PID: %@)"
+        },
+        {
+          "offset": "0x30b4a6",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Skipping protected system/internal BID: %@"
+        },
+        {
+          "offset": "0x30b4f2",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Total apps targeted for immediate termination: %lu %@"
+        },
+        {
+          "offset": "0x30b549",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] killProcessesForBundleIdentifiers: No target bundle IDs to kill."
+        },
+        {
+          "offset": "0x30b5ab",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] >>> IMMEDIATE KILL EXECUTION: Forcibly killing %lu application(s) <<<"
+        },
+        {
+          "offset": "0x30b612",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Terminating app: %@ (sending shouldBridge:NO)..."
+        },
+        {
+          "offset": "0x30b664",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> FrontBoard resolved PID %d for %@"
+        },
+        {
+          "offset": "0x30b6aa",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> SpringBoard resolved PID %d for %@"
+        },
+        {
+          "offset": "0x30b6f1",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> KILLING PID %d for %@ via SIGKILL (POSIX signal 9)..."
+        },
+        {
+          "offset": "0x30b795",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] -> App %@ PID not active or already terminated."
+        },
+        {
+          "offset": "0x30b7e6",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] Exception while forcibly terminating %@: %@"
+        },
+        {
+          "offset": "0x30b887",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] >>> IMMEDIATE KILL FINISHED: All target apps terminated. <<<"
+        },
+        {
+          "offset": "0x30ba27",
+          "encoding": "ascii",
+          "text": "com.apple.springboard.displayChanged"
+        },
+        {
+          "offset": "0x30ba4c",
+          "encoding": "ascii",
+          "text": "com.apple.springboard.screenStateChanged"
+        },
+        {
+          "offset": "0x30babc",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Dashboard ready event received"
+        },
+        {
+          "offset": "0x30bae7",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Metrics updated: %@"
+        },
+        {
+          "offset": "0x30bb62",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Posting NOTIFY_APP_STATE to %@: %@"
+        },
+        {
+          "offset": "0x30bbf9",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Failed to write bridge state file(s) (state=%d, tmp=%d)"
+        },
+        {
+          "offset": "0x30bc46",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] saveBridgeStateToDisk: %@"
+        },
+        {
+          "offset": "0x30bc6c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Failed to write clear bridge state file(s) (state=%d, tmp=%d)"
+        },
+        {
+          "offset": "0x30bcbf",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] clearBridgeStateOnDisk completed, metrics purged."
+        },
+        {
+          "offset": "0x30bd21",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] syncDashboardPolicySignalToDisk: isValid=%d, exp=%llu, ts=%llu"
+        },
+        {
+          "offset": "0x30bd6c",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] receivedAppRequestNotification for: %@"
+        },
+        {
+          "offset": "0x30bda9",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Failed to write notifyStateUpdated file(s) (state=%d, tmp=%d)"
+        },
+        {
+          "offset": "0x30bdfc",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Exception in notifyStateUpdated file write: %@"
+        },
+        {
+          "offset": "0x30be5a",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] evictAppFromPhoneScreen exception: %@"
+        },
+        {
+          "offset": "0x30be8d",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] reconfigureSplitMode: License invalid (loaded=%d, status=%d, mask=0x%llx). Aborting split configuration."
+        },
+        {
+          "offset": "0x30bf17",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [LICENSE_KILL_TRACE] handleSettingsChanged: License expired/invalid during settings sync (loaded=%d, status=%d, mask=0x%llx). Deactivating and presenting modal."
+        },
+        {
+          "offset": "0x30bfc4",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Split screen disabled via settings while running -> deactivating"
+        },
+        {
+          "offset": "0x30c011",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Live replacing slot %ld with %@"
+        },
+        {
+          "offset": "0x30c03d",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Live switching split preset to %ld, apps: %@"
+        },
+        {
+          "offset": "0x30c076",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Currently active app %@ was disabled -> deactivating"
+        },
+        {
+          "offset": "0x30c0b7",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Session tracked bridged app: %@ (Total: %lu)"
+        },
+        {
+          "offset": "0x30c351",
+          "encoding": "ascii",
+          "text": "[DuoFaceDB] [DISCONNECT_TRACE] DashBoard executing bridgeDidDeactivate & sending DISCONNECT IPC to SpringBoard..."
+        },
+        {
+          "offset": "0x30dcac",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Exception in CBExtractBundleIDFromScene: %@"
+        },
+        {
+          "offset": "0x30de38",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] Warning: Exception in updateSettings:withTransitionContext: %@"
+        },
+        {
+          "offset": "0x30df12",
+          "encoding": "ascii",
+          "text": "SpringBoard"
+        },
+        {
+          "offset": "0x30df1e",
+          "encoding": "ascii",
+          "text": "[DuoFaceSB] [DISCONNECT_TRACE] DashBoard process exited (%@) -> Ensuring CarPlay disconnect cleanup in SpringBoard!"
+        },
+        {
+          "offset": "0x30df92",
+          "encoding": "ascii",
+          "text": "[DuoFace] SpringBoard finished launching, safely initializing CBBridgeManager..."
+        },
+        {
+          "offset": "0x30e19e",
+          "encoding": "ascii",
+          "text": "[DuoFaceDB] FBSApplicationLibrary allInstalledApplications injected special app: %@"
+        },
+        {
+          "offset": "0x30f6ec",
+          "encoding": "ascii",
+          "text": "[DuoFace] Initializing SpringBoard Modular Hooks..."
+        },
+        {
+          "offset": "0x30f720",
+          "encoding": "ascii",
+          "text": "[DuoFace] SpringBoard Modular Hooks initialized successfully."
+        },
+        {
+          "offset": "0x38586f",
+          "encoding": "ascii",
+          "text": "@__tlv_bootstrap"
+        },
+        {
+          "offset": "0x386607",
+          "encoding": "ascii",
+          "text": "@_objc_initWeak"
+        },
+        {
+          "offset": "0x389e21",
+          "encoding": "ascii",
+          "text": "__tlv_bootstrap"
+        },
+        {
+          "offset": "0x38a29b",
+          "encoding": "ascii",
+          "text": "_objc_initWeak"
+        },
+        {
+          "offset": "0x31850a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "تم حظر تشغيل DuoFace حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Twea"
+        },
+        {
+          "offset": "0x3185f2",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace)."
+        },
+        {
+          "offset": "0x31862a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "a1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاق"
+        },
+        {
+          "offset": "0x31b16e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "لحياةمدى الحياةغير محدودمتبقي %llu يومحتى %@🛑 FEHLER: TWEAKS DEAKTIVIERTDuoFace ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie "
+        },
+        {
+          "offset": "0x31b212",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "Face ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopamine, Bootstrap, Palera1"
+        },
+        {
+          "offset": "0x31b34c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ine, Bootstrap, Palera1n...).\n2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sich"
+        },
+        {
+          "offset": "0x31b388",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "2. Suchen und aktivieren Sie \"Tweak Injection\" (oder Enable Tweaks).\n3. Führen Sie einen Respring durch.\n\n(Wenn Sie Choicy verwenden, stellen Sie sicher, dass es DuoFace nicht bloc"
+        },
+        {
+          "offset": "0x31ce60",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "suchen.Abonnementpläne werden geladen...● Aktiv🛑 ERROR: TWEAKS DISABLED🧭 Enable All Navigation🎬 Enable All EntertainmentOptimized ✓Enable multi-window split screen on CarPlay. You "
+        },
+        {
+          "offset": "0x31d23a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "peed, no expensive Android box required.● Active🛑 ERROR: TWEAKS DESACTIVADOSDuoFace está bloqueado actualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo sol"
+        },
+        {
+          "offset": "0x31d2fe",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eado actualmente. Su entorno de Jailbreak tiene desactivado Tweak Injection.\n\nCómo solucionar esto:\n1. Abra su aplicación de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Busque"
+        },
+        {
+          "offset": "0x31d404",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eak (Dopamine, Bootstrap, Palera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté blo"
+        },
+        {
+          "offset": "0x31d43a",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "alera1n...).\n2. Busque y ACTIVE \"Tweak Injection\" (o Enable Tweaks).\n3. Haga un Respring en su dispositivo.\n\n(Si usa Choicy, asegúrese de que no esté bloqueando DuoFace).En uso en "
+        },
+        {
+          "offset": "0x31ec42",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " ActivoDuración de licencia%llu días restantes🛑 ERREUR: TWEAKS DÉSACTIVÉSDuoFace est actuellement bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment cor"
+        },
+        {
+          "offset": "0x31ed02",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "lement bloqué. Votre environnement de Jailbreak a désactivé Tweak Injection.\n\nComment corriger cela :\n1. Ouvrez votre application de Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2"
+        },
+        {
+          "offset": "0x31ee1e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " (Dopamine, Bootstrap, Palera1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu"
+        },
+        {
+          "offset": "0x31ee56",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "a1n...).\n2. Trouvez et ACTIVEZ \"Tweak Injection\" (ou Enable Tweaks).\n3. Faites un Respring de votre appareil.\n\n(Si vous utilisez Choicy, assurez-vous qu'il ne bloque pas DuoFace).R"
+        },
+        {
+          "offset": "0x321378",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "serveur DuoFaceDuoFace VIP À vieÀ vieIllimité🛑 त्रुटि: TWEAKS अक्षम हैंDuoFace वर्तमान में चलने से अवरुद्ध है। आपके जेलब्रेक वातावरण में Tweak Injection अक्षम है।\n\nइसे कैसे ठीक करे"
+        },
+        {
+          "offset": "0x32141e",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e वर्तमान में चलने से अवरुद्ध है। आपके जेलब्रेक वातावरण में Tweak Injection अक्षम है।\n\nइसे कैसे ठीक करें:\n1. अपना जेलब्रेक ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और "
+        },
+        {
+          "offset": "0x321510",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "क ऐप खोलें (Dopamine, Bootstrap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो स"
+        },
+        {
+          "offset": "0x321548",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "rap, Palera1n...)।\n2. खोजें और \"Tweak Injection\" (या Enable Tweaks) सक्षम करें।\n3. अपने डिवाइस को Respring करें।\n\n(यदि आप Choicy का उपयोग करते हैं, तो सुनिश्चित करें कि यह DuoFace "
+        },
+        {
+          "offset": "0x3240c6",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "P लाइफटाइमलाइफटाइमअसीमित%llu दिन शेष%@ तक🛑 KESALAHAN: TWEAKS DINONAKTIFKAN🧭 Aktifkan Semua Navigasi🎬 Aktifkan Semua HiburanOptimal ✓Aktifkan multi-jendela di CarPlay. Ketuk bilah a"
+        },
+        {
+          "offset": "0x324596",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "Play asli tanpa perlu Android Box mahal.● Aktif🛑 ERRORE: TWEAK DISABILITATIDuoFace è attualmente bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolver"
+        },
+        {
+          "offset": "0x324650",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "almente bloccato. Il tuo ambiente Jailbreak ha disabilitato Tweak Injection.\n\nCome risolvere il problema:\n1. Apri la tua app Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Trova "
+        },
+        {
+          "offset": "0x324756",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "eak (Dopamine, Bootstrap, Palera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloc"
+        },
+        {
+          "offset": "0x32478c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "alera1n...).\n2. Trova e ABILITA \"Tweak Injection\" (o Enable Tweaks).\n3. Esegui un Respring del dispositivo.\n\n(Se usi Choicy, assicurati che non stia bloccando DuoFace).Modalità sol"
+        },
+        {
+          "offset": "0x3253d4",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "● Attivo🛑 エラー: 脱獄アプリが無効です現在、DuoFace の実行がブロックされています。脱獄環境で Tweak Injection が無効になっています。\n\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks)"
+        },
+        {
+          "offset": "0x325484",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "\n修正方法:\n1. 脱獄アプリ (Dopamine、Bootstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してくださ"
+        },
+        {
+          "offset": "0x3254bc",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "otstrap、Palera1n...) を開きます。\n2. 「Tweak Injection」(または Enable Tweaks) を探して有効にします。\n3. デバイスを Respring します。\n\n(Choicy を使用している場合は、DuoFace がブロックされていないことを確認してください)。了解キャンセル再起動閉じる確認適用未選択他の枠で使"
+        },
+        {
+          "offset": "0x327698",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "llu 日%@ まで🛑 오류: 트윅 비활성화됨현재 DuoFace 실행이 차단되었습니다. 탈옥 환경에서 Tweak Injection이 비활성화되어 있습니다.\n\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)"
+        },
+        {
+          "offset": "0x32774c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "\n해결 방법:\n1. 탈옥 앱(Dopamine, Bootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동"
+        },
+        {
+          "offset": "0x327782",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ootstrap, Palera1n...)을 엽니다.\n2. \"Tweak Injection\"(또는 Enable Tweaks)을 찾아 활성화합니다.\n3. 기기를 Respring합니다.\n\n(Choicy를 사용하는 경우 DuoFace를 차단하고 있지 않은지 확인하세요).확인취소재시동닫기적용선택 안 됨다른 위치에서 사용 중앱 검색."
+        },
+        {
+          "offset": "0x329a12",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "ce 서버 인증 완료DuoFace VIP 평생 라이선스무제한%llu일 남음%@까지🛑 RALAT: TWEAKS DINYAHAKTIFKANDioptimumkan ✓Aktifkan mod pelbagai tetingkap pada CarPlay. Ketik palang atas (•••) pada setiap tetingkap"
+        },
+        {
+          "offset": "0x329e12",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "skrin CarPlay asal tanpa kotak Android yang mahal.🛑 FOUT: TWEAKS UITGESCHAKELD🧭 Alle navigatie-apps inschakelen🎬 Alle amusements-apps inschakelenGeoptimaliseerd ✓Schakel multi-wind"
+        },
+        {
+          "offset": "0x32a32c",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "e CarPlay-scherm zonder dure Android-box.● Actief🛑 BŁĄD: TWEAKI WYŁĄCZONEDuoFace jest obecnie zablokowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to na"
+        },
+        {
+          "offset": "0x32a3ee",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " zablokowane. Twoje środowisko Jailbreak ma wyłączoną opcję Tweak Injection.\n\nJak to naprawić:\n1. Otwórz aplikację Jailbreak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \""
+        },
+        {
+          "offset": "0x32a4de",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "reak (Dopamine, Bootstrap, Palera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuj"
+        },
+        {
+          "offset": "0x32a518",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "lera1n...).\n2. Znajdź i WŁĄCZ \"Tweak Injection\" (lub Enable Tweaks).\n3. Wykonaj Respring urządzenia.\n\n(Jeśli używasz Choicy, upewnij się, że nie blokuje ono DuoFace).ZrozumiałemPot"
+        },
+        {
+          "offset": "0x32ca66",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": "oFace VIP DożywotniaDożywotniaPozostało %llu dni🛑 ERRO: TWEAKS DESATIVADOSO DuoFace está bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo cor"
+        },
+        {
+          "offset": "0x32cb16",
+          "encoding": "utf16le_nearby",
+          "term": "tweak",
+          "preview": " está bloqueado no momento. Seu ambiente de Jailbreak tem o Tweak Injection desativado.\n\nComo corrigir isso:\n1. Abra seu aplicativo de Jailbreak (Dopamine, Bootstrap, Palera1n...)."
+        },
+        {
+          "offset": "0x318516",
+          "encoding": "utf16le_nearby",
+          "term": "inject",
+          "preview": " تشغيل DuoFace حاليًا. بيئة الجيلبريك الخاصة بك أوقفت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Inje"
+        },
+        {
+          "offset": "0x31b1e4",
+          "encoding": "utf16le_nearby",
+          "term": "jailbreak",
+          "preview": " TWEAKS DEAKTIVIERTDuoFace ist derzeit blockiert. In Ihrer Jailbreak-Umgebung ist Tweak Injection deaktiviert.\n\nSo beheben Sie das Problem:\n1. Öffnen Sie Ihre Jailbreak-App (Dopami"
+        },
+        {
+          "offset": "0x31857e",
+          "encoding": "utf16le_nearby",
+          "term": "dopamine",
+          "preview": "ت Tweak Injection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهاز"
+        },
+        {
+          "offset": "0x318592",
+          "encoding": "utf16le_nearby",
+          "term": "bootstrap",
+          "preview": "jection.\n\nكيفية الإصلاح:\n1. افتح تطبيق الجيلبريك (Dopamine, Bootstrap, Palera1n...).\n2. ابحث عن وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا ك"
+        },
+        {
+          "offset": "0x318696",
+          "encoding": "utf16le_nearby",
+          "term": "choicy",
+          "preview": "nable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاقتأكيدتطبيقغير محددمستخدم في موضع آخرالبحث عن التطبيقات"
+        },
+        {
+          "offset": "0x318652",
+          "encoding": "utf16le_nearby",
+          "term": "respring",
+          "preview": "وقم بتمكين \"Tweak Injection\" (أو Enable Tweaks).\n3. قم بعمل Respring لجهازك.\n\n(إذا كنت تستخدم Choicy، فتأكد من أنه لا يحظر DuoFace).مفهومإلغاءإعادة التشغيلإغلاقتأكيدتطبيقغير محددمس"
+        },
+        {
+          "offset": "0x3398ee",
+          "encoding": "utf16le_nearby",
+          "term": "bị chặn",
+          "preview": "ırsız%llu gün kaldı🛑 LỖI: TWEAK ĐANG BỊ TẮTDuoFace đang bị chặn và không thể hoạt động. Hệ thống Jailbreak của bạn đang tắt tính năng nạp Tweak.\n\nCách xử lý (Bắt buộc):\n1. Mở ứng d"
+        },
+        {
+          "offset": "0x319638",
+          "encoding": "utf16le_nearby",
+          "term": "springboard",
+          "preview": "rPlayتفعيل كافة التطبيقاتتعطيل كافة التطبيقاتإعادة تشغيل SpringBoardهل أنت متأكد من إعادة تشغيل SpringBoard لتطبيق التغييرات على CarPlay؟فريق DuoFaceتفعيل تقسيم الشاشةتشغيل 1 إلى 4"
+        },
+        {
+          "offset": "0x339ecc",
+          "encoding": "utf16le_nearby",
+          "term": "trạng thái",
+          "preview": "?Toàn bộ cấu hình DuoFace sẽ được đưa về mặc định ban đầu.Trạng Thái CarPlayĐã Kết NốiChưa Kết Nối%lu ứng dụng%lu đang bật / %luHiển Thị Ứng Dụng Trên CarPlayBật công tắc để đưa ứn"
+        }
+      ],
+      "selected_methods": {}
+    }
+  },
+  "module_filters": {
+    "DuoFaceSmartConnection": {
+      "plist": {
+        "Filter": {
+          "Executables": [
+            "SpringBoard",
+            "DuoFaceUI"
+          ]
+        }
+      },
+      "signed_dylib_sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+      "dylib_strings": [
+        {
+          "offset": "0x903f",
+          "encoding": "ascii",
+          "text": "com.apple.springboard"
+        },
+        {
+          "offset": "0x9055",
+          "encoding": "ascii",
+          "text": "[DuoFaceSmartConnection] source bridge loaded in SpringBoard"
+        }
+      ]
+    },
+    "DuoFaceInCarAddApps": {
+      "plist": {
+        "Filter": {
+          "Executables": [
+            "SpringBoard"
+          ]
+        }
+      },
+      "signed_dylib_sha256": "d07fbbd3b7caa075e82ec066ca2ad51d0d0cb7126e792b7a1cf19e8435671c68",
+      "dylib_strings": [
+        {
+          "offset": "0x7a6e",
+          "encoding": "ascii",
+          "text": "com.apple.springboard"
+        }
+      ]
+    }
+  },
+  "cannot_confirm_jailbreak_device_tweak_injection": true,
+  "debs_changed": false,
+  "device_tested": false,
+  "localized_plists": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist",
+      "matching_strings": "{\"Filter\": {\"Bundles\": [\"com.apple.CarPlayApp\", \"com.apple.CarPlay\", \"com.apple.dashboard\", \"com.apple.springboard\"], \"Executables\": [\"CarPlay\", \"CarPlayApp\", \"Dashboard\", \"SpringBoard\"]}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.plist",
+      "matching_strings": "{\"Filter\": {\"Executables\": [\"SpringBoard\"]}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist",
+      "matching_strings": "{\"Filter\": {\"Bundles\": [\"com.apple.CarPlayApp\", \"com.apple.CarPlay\", \"com.apple.dashboard\", \"com.apple.springboard\", \"com.apple.SpringBoard\", \"com.duoface.duofaceui\"]}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist",
+      "matching_strings": "{\"Filter\": {\"Bundles\": [\"com.apple.CarPlayApp\", \"com.apple.CarPlay\", \"com.apple.dashboard\", \"com.apple.springboard\", \"com.apple.SpringBoard\", \"com.google.ios.youtube\", \"com.google.ios.youtubemusic\", \"com.netflix.Netflix\", \"org.videolan.vlc-ios\", \"com.apple.mobilesafari\", \"tv.twitch\", \"com.zhiliaoapp.musically\", \"com.google.Maps\", \"com.waze.iphone\", \"com.spotify.client\", \"com.apple.Preferences\", \"com.apple.mobilenotes\", \"com.apple.mobilephone\", \"com.apple.Music\", \"com.google.chrome.ios\", \"com.apple.BarcodeScanner\", \"com.apple.PrintKit.Print-Center\", \"com.duoface.duofaceui\"]}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.plist",
+      "matching_strings": "{\"Filter\": {\"Executables\": [\"SpringBoard\", \"DuoFaceUI\"]}}"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist",
+      "matching_strings": "{\"Filter\": {\"Bundles\": [\"com.apple.CarPlayApp\", \"com.apple.CarPlay\", \"com.apple.dashboard\", \"com.apple.springboard\", \"com.apple.SpringBoard\", \"com.duoface.duofaceui\"]}}"
+    }
+  ]
+}
