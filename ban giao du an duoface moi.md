@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — USER REQUEST: BUILD NATIVE12 SPEEDBUBBLE CANDIDATE
+
+- User authorized building a DEB from immutable user-tested Native12, not Native13–21. Requested one GOFA-style draggable/dismissible speed bubble fed by Google Maps, Waze, VietMap and GOFA.
+- Verified Native12 exists in DuoFace feature branch at `dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb`, Git blob `e7eb5f2db130f04b57ea2e37fda0cf9f09e657f8`; pinned SHA256 in existing verified handoff `85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7`. Source compilation CI 38892658691 and data-stage CI 38892930300 passed previously; these are NOT DEB builds.
+- Current session attempted the new candidate packaging script but the connector rejected that write. No candidate package, GitHub Actions build or Sileo deployment was produced in this attempt. Local container cannot resolve github.com, so it does not hold the Native12 baseline bytes for local packaging.
+- A reproducibility checklist was saved on the feature branch at `migration/full_payload/native_test/SPEEDBUBBLE_BUILD_CHECKLIST.md`, commit `67df00fd4bfbf097dfc5d8506591b05d5b2935d1`.
+- Next: create an approved candidate build from exact Native12 plus two DuoFace modules and three verified native data-source modules; preserve all original Native12 binary files, sign the new modules, verify package filters/version/SHA256, and produce a real downloadable DEB. Do not claim installation or device function before iPhone/CarPlay testing. The separate publishing step remains unexecuted.
+
 ## 16/10/2026 — SỬA LẠI ĐIỀU KIỆN KIỂM TRA THỰC TẾ TRÊN IPHONE JB
 
 - **[USER CORRECTION]** “Kiểm tra dữ liệu từ ứng dụng thật trên ip jb mà chưa build deb thì kiểm tra kiểu j?” Người dùng chỉ ra đúng việc trợ lý mô tả sai khả năng test trên thiết bị: **CHƯA BUILD VÀ CÀI một DEB chứa code mới trên iPhone jailbreak thì KHÔNG THỂ khẳng định đã kiểm tra tín hiệu thực từ Google Maps/Waze/VietMap/GOFA, khả năng drag/ẩn bong bóng hay CarPlay thực**. Test source CI xanh, linker dylib arm64, protocol fake samples và staging modules chỉ chứng minh tính xây dựng/mã nguồn, **không chứng minh chức năng thực tế**. Không nói “đã test trên iPhone” nếu chưa có run/install/device log/screenshot xác minh.
