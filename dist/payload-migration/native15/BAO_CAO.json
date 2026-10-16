@@ -1,0 +1,48 @@
+{
+  "status": "NATIVE15_RESTORED_14_CLASS_REGISTRATIONS_FROM_NATIVE13_FEATURES_PRESERVED",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native15",
+  "native15_sha256": "8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3",
+  "source_native13_sha256": "cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3",
+  "known_device_working_native12_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "input_native14_experimental_license_class_removal_reused": false,
+  "restored_original_objc_license_classes": 14,
+  "restored_UI_class_names": [
+    "CBLicenseExpiredModalViewController",
+    "CBSubscriptionCheckoutCell",
+    "CBSubscriptionGiftcodeInputCell",
+    "CBSubscriptionGiftcodeRedeemCell",
+    "CBSubscriptionHardwareIDCell",
+    "CBSubscriptionOrderCoordinator",
+    "CBSubscriptionPendingOrderCell",
+    "CBSubscriptionPlanCardCell",
+    "CBSubscriptionStatusCell",
+    "CBSubscriptionViewController",
+    "CBSubscriptionVIPCardCell",
+    "CBSubscriptionVIPStatusCell"
+  ],
+  "restored_Dashboard_class_names": [
+    "CBLicenseShieldIconView",
+    "CBLicenseWarningModalView"
+  ],
+  "registered_UI_classes": 27,
+  "registered_Dashboard_classes": 36,
+  "both_new_features_present": true,
+  "two_signed_hook_modules": {
+    "DuoFaceSmartConnection": {
+      "dylib_sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+      "plist_sha256": "02681737c7cdd66cff47c2aa37a89c628a879b30a2e31c4bd59f87f0c6816970"
+    },
+    "DuoFaceInCarAddApps": {
+      "dylib_sha256": "d07fbbd3b7caa075e82ec066ca2ad51d0d0cb7126e792b7a1cf19e8435671c68",
+      "plist_sha256": "a20a2b329cc581eb72957ab0be023c6e7e127ebc88285e2bfccfdca650cc2210"
+    }
+  },
+  "all_legacy_payload_entries_exactly_equal_to_native12": true,
+  "all_native13_payload_entries_unchanged": true,
+  "older_native12_preexisting_license_method_stubs_restored": false,
+  "complete_original_license_system_restored": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "warning": "Only undo experimental native14 erasure; native12 pre-existing method neutralizations remain, because native12 was last known device-working baseline."
+}
