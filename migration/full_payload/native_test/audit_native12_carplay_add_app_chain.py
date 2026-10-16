@@ -41,9 +41,36 @@ def methods(m,clazz):
 def disassemble(m,start,end):
     cs=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
     lines=[]
+    pages={}
     for ins in cs.disasm(m.data[m.map(start):m.map(start)+min(end-start,40000)],start):
-        if len(lines)>650:break
-        lines.append(f"{ins.address:#x}: {ins.mnemonic} {ins.op_str}")
+        if len(lines)>1400:break
+        text=f"{ins.address:#x}: {ins.mnemonic} {ins.op_str}"
+        operand=ins.op_str
+        if ins.mnemonic=="adrp":
+            mat=re.match(r"(x\d+),\s+#(0x[0-9a-f]+)",operand)
+            if mat:pages[mat.group(1)]=int(mat.group(2),16)
+        if ins.mnemonic=="ldr":
+            mat=re.match(r"(x\d+),\s+\[(x\d+),\s+#(0x[0-9a-f]+)\]",operand)
+            if mat and mat.group(2) in pages:
+                ref=pages[mat.group(2)]+int(mat.group(3),16)
+                try:
+                    value=m.ptr(ref)
+                    name=m.cstr(value)
+                    if name and 1<len(name)<120 and all(32<=ord(t)<127 for t in name):
+                        text+=f"  ; SEL_OR_LITERAL {name!r}"
+                except (KeyError,ValueError,IndexError,AssertionError,UnicodeDecodeError):
+                    pass
+        if ins.mnemonic=="add":
+            mat=re.match(r"(x\d+),\s+(x\d+),\s+#(0x[0-9a-f]+)",operand)
+            if mat and mat.group(2) in pages:
+                ref=pages[mat.group(2)]+int(mat.group(3),16)
+                try:
+                    name=m.cstr(ref)
+                    if name and 1<len(name)<180 and all(32<=ord(t)<127 for t in name):
+                        text+=f"  ; DIRECT_STRING {name!r}"
+                except (KeyError,ValueError,IndexError,AssertionError,UnicodeDecodeError):
+                    pass
+        lines.append(text)
     return lines
 
 def pref_literals(m):
