@@ -41,6 +41,38 @@ static BOOL DFPickerValidBundle(NSString *bid) {
         @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_"];
     return [bid rangeOfCharacterFromSet:allow.invertedSet].location==NSNotFound;
 }
+
+@interface UIImage (DFPrivateInstalledAppIcon)
++ (UIImage *)_applicationIconImageForBundleIdentifier:(NSString *)identifier
+                                               format:(int)format scale:(CGFloat)scale;
+@end
+
+// SpringBoard is the native icon owner. Avoid loading every icon through a
+// separate process or treating the bundle identifier as an asset pathname.
+// Apple private selector may vary by iOS; show a safe symbol fallback.
+static UIImage *DFInCarIconForBundle(NSString *bundleID) {
+    if (!DFPickerValidBundle(bundleID)) return nil;
+    static NSCache<NSString *, UIImage *> *cached=nil;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ cached=[NSCache new]; cached.countLimit=140; });
+    UIImage *hit=[cached objectForKey:bundleID];
+    if (hit) return hit;
+    UIImage *icon=nil;
+    SEL selector=@selector(_applicationIconImageForBundleIdentifier:format:scale:);
+    if ([UIImage respondsToSelector:selector]) {
+        @try {
+            icon=[UIImage _applicationIconImageForBundleIdentifier:bundleID
+                              format:2 scale:UIScreen.mainScreen.scale];
+        } @catch (NSException *ex) {
+            NSLog(@"[DuoFaceInCarAddApps] icon provider rejected app (%@)",ex.name);
+        }
+    }
+    if (![icon isKindOfClass:UIImage.class] || !icon.size.width || !icon.size.height)
+        icon=[UIImage systemImageNamed:@"app.fill"];
+    if (icon) [cached setObject:icon forKey:bundleID];
+    return icon;
+}
+
 static NSArray<NSString *> *DFValidStringApps(id value) {
     if (![value isKindOfClass:NSArray.class]) return nil;
     NSMutableArray<NSString *> *result=[NSMutableArray array];
@@ -233,6 +265,11 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
     cell.detailTextLabel.text=entry[@"bundle"];
     cell.detailTextLabel.textColor=UIColor.lightGrayColor;
     cell.detailTextLabel.font=[UIFont systemFontOfSize:10];
+    UIImage *appIcon=DFInCarIconForBundle(entry[@"bundle"]);
+    cell.imageView.image=appIcon;
+    cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
+    cell.imageView.layer.cornerRadius=8;
+    cell.imageView.layer.masksToBounds=YES;
     cell.backgroundColor=UIColor.clearColor;
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     return cell;
