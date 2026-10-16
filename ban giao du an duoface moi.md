@@ -1,5 +1,58 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 20:22 +07 — PHÂN TÍCH BONG BÓNG CHƯA HIỆN / ĐỀ XUẤT CÁCH LÀM, KHÔNG TRIỂN KHAI
+Checkpoint: DUOFACE-HUD-ANALYSIS-20261016-2022.
+
+### Phạm vi mới do người dùng xác nhận
+- Người dùng yêu cầu chỉ phân tích, gợi ý cách làm và lưu vào chính file bàn giao này trên GitHub. ĐƯỢC cập nhật tài liệu; KHÔNG sửa mã, không build DEB, không chủ động chạy workflow hoặc triển khai Sileo trong lượt này.
+- Mục tiêu không đổi: đúng một bong bóng trong màn hình chia DuoFace, không hiện trên CarPlay Home/ngoài DuoFace; kéo được; không làm Waze khởi động lại. Dùng Native12 đã được người dùng chấp nhận làm nền; không dùng Native13–21.
+- Phản hồi mới: người dùng vẫn chưa thấy bong bóng trong DuoFace. Chưa có bằng chứng xác định phiên bản DEB thực tế đang cài trong lượt này, nên KHÔNG tự quy kết báo cáo mới là test riêng Speed3.
+
+### Nguồn thực sự đã đọc
+- Repo chuongnguyen89dn-ui/Duoface, main: ban giao du an duoface moi.md tại mốc 41ef438 và bản hiện tại trước cập nhật; blob trước sửa ec1b45fe1e654c1cf4c539f3dbf8dc5c017edef8.
+- runtime/speedbubble/DFSpeedBubbleBridge.mm tại commit 126152ef1e9aa86b5565745f7abe608a345cf72e, blob b6479b7e0e9d392e843f9d87169df12f4ac5eddc. Đây là mã Speed3 được bàn giao ghim, không phải xác minh bytes đang chạy trên điện thoại.
+- feature/duoface-exact-payload-migration:audit/speedbubble/NATIVE12_ACTUAL_INJECTION_FILTERS.json, blob 76a08ffcc15ac9bdd628564aa23f9bc8a6fc444e. Audit tự ghi device_tested=false và filters không chứng minh scene owner.
+- Không chạy lệnh shell, không thực hiện test runtime, không đọc trực tiếp bộ nhớ/nhật ký iPhone, không kiểm tra lại trạng thái live Sileo trong lượt phân tích này. Các run/build SHA trong phần lịch sử là bằng chứng lịch sử, không phải kết quả chạy lại.
+
+### Kết luận có bằng chứng và giới hạn
+1. Lịch sử Speed1 ghi nhận HUD ban đầu hidden và thiếu sample thì tiếp tục hidden; cơ chế bật/hiển thị không đầy đủ. Speed2 dùng quét cửa sổ CarPlay chung, mỗi UIWindow một HUD; lịch sử phản hồi thiết bị có nhiều bóng ở Home nhưng không trong DuoFace.
+2. Speed3 đã bỏ quét cửa sổ chung và bám CBWindow.show/resizeWindows/destroyWindows. Tuy nhiên chưa chứng minh đường gọi thực tế và owner hiển thị trên điện thoại. Build/ABI/plist/hash PASS không phải nghiệm thu vị trí bong bóng.
+3. Constructor Speed3 chỉ hoạt động khi bundleIdentifier.lowercaseString bằng com.apple.carplayapp. Audit Native12 cho thấy Dashboard được nạp trong nhiều tiến trình (CarPlayApp, CarPlay, dashboard, SpringBoard và app khác). Có tên CarPlayApp trong filter KHÔNG đủ chứng minh CBWindow đang hiển thị DuoFace thực sự được tạo ở đó. Sai tiến trình là giả thuyết cần kiểm chứng, CHƯA phải nguyên nhân đã xác nhận.
+4. DFTryInstallBridge tìm lớp mỗi 2 giây, dừng khi attempts>=30 (~60 giây). Cài hook thành công không tự lấy instance đang mở để attach. Nếu show/resize xảy ra trước khi cài hook, phải có lần gọi sau mới attach. Chưa có đường khôi phục owner đang mở sau cài hook.
+5. DFAttachHUDToBridgeWindow chỉ chạy từ show/resize wrappers, yêu cầu class image chứa DuoFaceDashboard.dylib, có rootWindow/isVisible và isVisible=true. DFPlaceSpeedView lại yêu cầu UIWindow không hidden, bounds tối thiểu 220x120. Nếu điều kiện chưa sẵn sàng lúc callback chạy, hàm return và không tự lên lịch thử attach lại. Timer tick chỉ có SAU KHI view đã được gắn, nên timer không chữa được tình trạng chưa tạo/gắn view.
+6. Chưa chứng minh rootWindow là bề mặt thực sự đang trình bày split trên màn hình xe. bringSubviewToFront chỉ sắp xếp con trong chính UIWindow đó; không giải quyết cửa sổ khác nằm trên, parent bị che/ẩn hoặc rootWindow không thuộc scene hiển thị. Đây là điểm kiểm chứng, không kết luận đã biết chính xác lớp che.
+7. Speed3 init và tick đều cho phép hiện dấu — khi không có dữ liệu. Do đó thiếu GOFA/GPS không đủ giải thích vì sao mất toàn bộ HUD ở bản mã này. Nối dữ liệu ngay sẽ không giải quyết được đường attach chưa hoạt động.
+8. Mã có NSLog khi cài hook thành công nhưng thiếu bằng chứng từng khâu constructor -> hook -> callback -> owner -> window -> attach -> visible. Chưa thể chọn một nguyên nhân runtime duy nhất từ mã tĩnh.
+9. Ghi chú đầu file vẫn nói SpringBoard/source-only/four sources dù constructor thực tế chỉ CarPlayApp và bàn giao Speed3 là HUD-only. Đây là ghi chú lỗi thời; phải đọc mã đang chạy và manifest build, không lấy comment làm bằng chứng.
+
+### Đề xuất thực hiện ở lượt được giao triển khai sau này
+A. Xác minh đúng chỗ đặt trước:
+- Xác nhận DEB/version thực cài và ghim nguồn Native12/Speed3 tương ứng.
+- Truy đường hiển thị Native12 đang hoạt động (CBWindow và FullscreenBridge), xác định PID/bundle, image class, instance owner, rootWindow, scene/screen, kích thước, hidden/alpha, root controller, windowLevel và thứ tự cửa sổ khi mở/đóng/Zoom DuoFace.
+- Khi cần runtime diagnostics, ghi dấu tại constructor, hook-install, show/resize/destroy, từng lý do từ chối attach và sau addSubview. Không thu dữ liệu riêng tư; không coi NSLog hook-installed là HUD-visible.
+- Nếu chưa có bằng chứng runtime, chỉ được ghi giả thuyết; không đổi tiến trình hoặc mở rộng injection theo phỏng đoán. Phân tích tĩnh sâu hơn giúp khoanh vùng nhưng không thay được xác nhận trên máy.
+
+B. Đưa một HUD độc lập dữ liệu vào đúng lớp của DuoFace:
+- Chọn container hiển thị chung của DuoFace đã xác minh, đặt overlay là lớp anh em nằm phía trên các ô app trong cùng host thích hợp; không gắn vào từng app Waze/YouTube và không gắn vào Home chung. Nếu cấu trúc thực khác giả định thì điều chỉnh theo bằng chứng.
+- Giữ một HUD cho active owner đã xác minh. Singleton chỉ trong từng process không bảo đảm duy nhất nếu sau này mở rộng injection đa process.
+- Đồng bộ lifecycle: mở DuoFace -> tạo/gắn; layout/Zoom/resize -> cập nhật vị trí; đổi window/scene -> chuyển owner; đóng/hủy/ngắt CarPlay -> ẩn, tháo và dừng timer.
+- Xử lý cài hook muộn và cửa sổ chưa sẵn sàng: reconcile owner hiện tại sau khi cài hook và khi owner/window sẵn sàng; retry có giới hạn theo lifecycle đúng owner. Không quay lại quét mọi cửa sổ và vẽ lên từng cửa sổ.
+- Có quyền điều khiển bật/tắt rõ ràng và cách hiện lại sau kéo vào X. Bản kiểm tra vị trí có thể mặc định bật và hiện —/—; không bắt buộc GPS, xe chạy hoặc GOFA đang mở mới tạo HUD.
+- Không đặt windowLevel thật cao toàn hệ thống để che triệu chứng sai owner. Chỉ bong bóng bắt thao tác kéo, không chặn touch toàn màn hình.
+
+C. Nghiệm thu hiển thị rồi mới tích hợp dữ liệu:
+- CarPlay Home: 0 HUD; mở DuoFace: đúng 1 HUD —/—; kéo/Zoom/đổi app vẫn giữ đúng một và nằm trong vùng hiển thị; đóng DuoFace: 0; mở lại và kết nối lại không bị mất hoặc nhân đôi; có cách bật lại sau kéo vào X.
+- Waze và YouTube trong split không tự khởi động lại, thao tác split/menu không bị chặn. Chưa có crash log thì không chỉ đích danh nguyên nhân Waze.
+- Chỉ sau khi HUD-only vượt các bước trên mới thêm nguồn tốc độ/giới hạn từng nguồn một, kiểm tương thích phiên bản và phân biệt dữ liệu thật/không có dữ liệu. GOFA là tham khảo giao diện/cơ chế của GOFA, không phải bằng chứng bong bóng tự chuyển sang DuoFace.
+- Nếu runtime thiếu: bước tiếp là thu bằng chứng chẩn đoán đúng owner. Không tiếp tục đóng bản thử bằng cách đổi filter/cửa sổ ngẫu nhiên.
+
+### Trạng thái kết thúc lượt
+- ĐÃ: đọc tài liệu, đọc mã Speed3 ghim và audit filter; viết phân tích cùng lộ trình này.
+- CHƯA: xác định nguyên nhân runtime duy nhất, sửa mã, build, test máy thật, xác minh bong bóng hoạt động.
+- KHÔNG có job mới được chủ động khởi động; không tuyên bố theo dõi nền.
+- Điểm tiếp nối: thực hiện mục A khi được giao triển khai; tiêu chí thành công là bằng chứng HUD hiển thị trong DuoFace theo mục C, không phải chỉ build xanh.
+
+
 ## 16/10/2026 — PHÂN BIỆT MÃ ĐÃ GIỚI HẠN CỬA SỔ VÀ KẾT QUẢ THỰC TẾ SPEED3
 
 - **User challenge:** “Sao bạn chắc chắn nó chỉ có trong duo? Mà ko phải là màn carplay?” following on-device Speed2HUD screenshot 3+ bubbles on CarPlay home, NONE inside DuoFace. User demands ZERO speed bubble on CarPlay home, EXACTLY ONE when DuoFace split is active, none outside DuoFace. Do not treat CarPlayApp process selection as sufficient.
