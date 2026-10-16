@@ -1,0 +1,28 @@
+{
+  "status": "NATIVE17_IOS_SETTINGS_UI_ONLY_NATIVE12_CORE_EXACT_NOT_DEVICE_TESTED",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native17",
+  "base_published_native16_sha256": "5d5cbd368c24d0c074b081d16aaf7d006467c3e9cfef01ee12378ce79d716fae",
+  "deb_sha256": "60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff",
+  "deb_bytes": 1750812,
+  "preserved_native16_payload_entries": 43,
+  "new_payload_paths": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSettingsUIRestore.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSettingsUIRestore.plist"
+  ],
+  "all_native16_original_payload_byte_identical": true,
+  "native12_exact_original_host_sha256": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+  },
+  "smartconnection_10s_unchanged_sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+  "carplay_addapps_unchanged_sha256": "d0246415f4020f353e5ec7373d8d375cbbda868471fd1a467f8e57654c4d01ad",
+  "ui_module_sha256": "680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f",
+  "ui_plist_sha256": "6c131a415ca5a2af966a954c23cc2aed15cb5854eb8566df4bebe0b23d729ade",
+  "restored_license_methods_or_registration": false,
+  "original_nolease_library_reintroduced": false,
+  "dopamine_touched": false,
+  "device_tested": false,
+  "published_to_sileo": false,
+  "limitations": "This restores native2-era SETTINGS ROW PRESENTATION only. It does NOT change the native12 license core, prove its runtime behavior, or verify row filtering on an iPhone."
+}
