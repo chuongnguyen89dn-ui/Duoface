@@ -1,0 +1,78 @@
+name: DuoFace native15 emergency restore license classes, keep 2 features
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native15_restore_license_classes.py'
+      - '.github/workflows/duoface-native15-restore-license-classes.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native15-recovery-build
+  cancel-in-progress: false
+jobs:
+  recovery:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify native13 and immutable working native12 inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg || true
+          python3 -m py_compile migration/full_payload/native_test/build_native15_restore_license_classes.py
+          printf '%s  %s\n' cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3 'dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb' | shasum -a 256 -c -
+          printf '%s  %s\n' 85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7 'dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb' | shasum -a 256 -c -
+      - name: Repackage native13 two features with all 14 old class registrations
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=dist/payload-migration/native15/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb
+          test ! -e "$out"
+          python3 migration/full_payload/native_test/build_native15_restore_license_classes.py --out "$out" --report dist/payload-migration/native15/BAO_CAO.json
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          p=pathlib.Path('dist/payload-migration/native15')
+          j=json.loads((p/'BAO_CAO.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb'
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==j['native15_sha256']
+          assert j['restored_original_objc_license_classes']==14
+          assert j['registered_UI_classes']==27 and j['registered_Dashboard_classes']==36
+          assert j['both_new_features_present'] and j['all_legacy_payload_entries_exactly_equal_to_native12']
+          assert not j['complete_original_license_system_restored'] # Older stubs predate native14
+          assert not j['device_tested']
+          assert subprocess.check_output(['dpkg-deb','-f',str(deb),'Version'],text=True).strip()=='0.1.0~native15'
+          names=subprocess.check_output(['dpkg-deb','--contents',str(deb)],text=True)
+          for module in ('DuoFaceSmartConnection.dylib','DuoFaceInCarAddApps.dylib'):
+              assert module in names,module
+          assert 'A_DuoFaceNativeNoLease' not in names
+          print('NATIVE15_RESTORED_14_CLASSES_2_FEATURES_PACKAGE_VERIFIED')
+          PY
+          dpkg-deb --info "$out"
+          echo "NATIVE15_BUILD_OK_NO_DEVICE_QA_NOT_YET_SILEO"
+      - name: Persist signed native15 DEB and report to DuoFace GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native15/
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: native15 recovery 14 license classes with both new features [skip ci]'
+          for try in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native15-restored-license-classes-two-features
+          path: dist/payload-migration/native15/
+          if-no-files-found: warn
