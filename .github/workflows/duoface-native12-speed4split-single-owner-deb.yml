@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/duoface-exact-payload-migration]
     paths:
-      - '.github/workflows/duoface-native12-speed4split-split-owner-deb.yml'
+      - '.github/workflows/duoface-native12-speed4split-single-owner-deb.yml'
       - 'migration/full_payload/native_test/build_native12_speed4split_candidate.py'
       - 'Makefile.speedhud-host-stage'
       - 'runtime/speedbubble/DFSpeedBubbleBridge.mm'
