@@ -16,7 +16,7 @@ struct Action {
 };
 class Policy {
 public:
-    static constexpr std::uint64_t kDisconnectGraceMs = 12000;
+    static constexpr std::uint64_t kDisconnectGraceMs = 10000;
     using Predicate = std::function<bool(const std::string&)>;
     void setAutoStart(bool enabled);
     void setCloseOnDisconnect(bool enabled);
