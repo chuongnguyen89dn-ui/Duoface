@@ -1,0 +1,46 @@
+{
+  "status": "NATIVE20_BRAND_ZERO_MIGRATING_PREFS_CANDIDATE_NO_DEVICE_QA",
+  "version": "0.1.0~native20",
+  "package": "com.duoface.independent",
+  "source_native19_sha256": "91feda0a7ff24bd7759b7448303d61fe774b16184e383fc11b6839186fa1ae1d",
+  "new_deb_sha256": "020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef",
+  "new_deb_bytes": 1750936,
+  "unchanged_payload_count": 42,
+  "changed_payload_paths": [
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib"
+  ],
+  "new_preferences_owner_path": "/var/mobile/Library/Preferences/com.duoface.plist",
+  "old_preferences_preserved_for_rollback": true,
+  "installer_migrates_existing_preferences_if_needed": true,
+  "legacy_brand_termmatches_all_staged_paths_and_bytes": 0,
+  "native12_original_code_section_unchanged_in_both_hosts": true,
+  "re_signed_entitlements": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "none",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "none"
+  },
+  "seed_evidence": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "seed_vm": "0x1000ab77e",
+      "old_seed_sha256": "2cbee7af60aa1b52c316e5e8dd4b0c6de1267930d6e3c96efe4b5a988a4f36df",
+      "new_seed_sha256": "4f5a8bb275fc269fe99e2ee3a33f0b7d9b4235716adccb8957b2fa47e720b9cb",
+      "code_section_byte_identical": true,
+      "original_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "seed_vm": "0x30fb6f",
+      "old_seed_sha256": "2cbee7af60aa1b52c316e5e8dd4b0c6de1267930d6e3c96efe4b5a988a4f36df",
+      "new_seed_sha256": "4f5a8bb275fc269fe99e2ee3a33f0b7d9b4235716adccb8957b2fa47e720b9cb",
+      "code_section_byte_identical": true,
+      "original_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+    }
+  },
+  "smartconnection_10sec_unchanged": true,
+  "license_settings_ui_unchanged": true,
+  "app_picker_device_tested": false,
+  "full_autorestore_device_tested": false,
+  "sileo_published": false,
+  "dopamine_touched": false,
+  "notes": "Two byte-width-identical ARM64 obfuscated prefs paths retargeted in both hosts. This is a new settings location with safe one-time copy, NOT a test on a real iPhone."
+}
