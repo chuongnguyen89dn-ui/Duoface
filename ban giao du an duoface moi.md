@@ -1,5 +1,98 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — ĐÃ TRUY NGUỒN GOFAHUD THẬT, TẢI DEB ĐÚNG SHA VÀ XÁC ĐỊNH CHUỖI BẬT/ẨN
+Checkpoint: GOFAHUD-UPSTREAM-TRACED-20261016.
+**Thay thế trạng thái “chưa tìm được DEB/producer tín hiệu” ở checkpoint dc5e150.** User yêu cầu truy tiếp tới kết quả, không dừng ở đề xuất. Phạm vi vẫn chỉ nghiên cứu + bàn giao, không sửa/build/triển khai DuoFace.
+
+### Nguồn chính xác mới tìm được và xác minh thực tế
+- Upstream: https://github.com/manhtien9x/gofahud-repo , pin e423ac7408d021d6384eba8ef270e79518967ed9.
+- File: GOFAHUD-0.3.1-rootless.deb; blob f2e8c882e567d48e8cd46017eebda466215382ca; 648224 bytes. URL ghim: https://raw.githubusercontent.com/manhtien9x/gofahud-repo/e423ac7408d021d6384eba8ef270e79518967ed9/GOFAHUD-0.3.1-rootless.deb .
+- ĐÃ tải bytes thật và chạy sha256sum: **62d6d818384844591217d74ab446404637127752e1b23bc1f9754ef1da297ad5**, trùng chính xác bản người dùng từng gửi. ĐÃ dpkg-deb -x và đọc plist thực. Đây không còn là chỉ đọc báo cáo cũ.
+- ĐÃ clone upstream read-only, đọc mã source/rootless và lịch sử. Commit đưa DEB lên: a8710de0e644b2a19eaf11fe9052b9e8b93a6c61. git diff từ commit đó tới pin hiện tại trong source/rootless chỉ đổi RELEASE.json, SOURCE-SHA256.json, TEST-STATUS.md; mã triển khai được đọc không đổi trong khoảng đó. Không khẳng định build reproducible toàn bộ từ kiểm tra này.
+- ĐÃ giải mã các đoạn ARM64 trong GofaCarplayGlobal.dylib bằng Python macholib + capstone, kiểm chéo nhánh điều kiện chính với source. Không chạy binary iOS trên máy thật, không test CarPlay.
+- Trước khi tìm thấy nguồn: /mnt/data không tồn tại, Library không tìm được file, Personal Context chỉ trả local path cũ; web search không có kết quả đúng. Công cụ GitHub search_repositories query=gofahud tìm đúng repo trên. Các trở ngại đó đã được vượt qua; KHÔNG yêu cầu user upload lại DEB.
+
+### File nguồn đã đọc (đều pin upstream trên)
+- source/rootless/tweak/carplay-global-overlay.m (blob d5b2597dd14b03c293bd623521902c5f71818a05).
+- source/rootless/tweak/carplay-overlay.m (5361525460d2f4ca394cc7652bfd3ebdeec355f8).
+- source/rootless/tweak/gofa-lifecycle.m (6a1fb8860b40c3c06a6991a19a7111b75cb2e099).
+- source/rootless/tweak/phone-launch-helper.m (564f19a1286b377e0e188e615e6bfecad08189df).
+- source/rootless/tweak/phone-overlay.m, tweak/test-speed.m, common/bubble-style.m, prefs/controller.m, Makefile; HUONG-DAN.md; Packages. Toàn bộ được đọc từ GitHub hoặc clone đúng upstream.
+- Đây là tham khảo source/binary tweak GOFAHUD, không phải mã ứng dụng GOFA và không thay thế nguồn DuoFace.
+
+### 1. Ai bật/ẩn? Đã tìm được nơi phát và nơi nhận
+| Điều khiển | Nơi ghi/phát thực tế | Nơi nhận/tác dụng |
+|---|---|---|
+| Công tắc bền vững bubbleEnabled + carEnabled | prefs/controller.m ghi CFPreferences domain local.gofahud và post local.gofahud.style.changed | common/bubble-style.m ReadPreferences/Initialize -> GOFAHUDEnabled(YES). Khi khóa chưa có: mặc định bật. |
+| local.gofahud.carplay.gofa-active | carplay-global-overlay.m Tick: lấy UIApplication.delegate._currentDashboard.activeBundleIdentifier; so com.lumi.GOFA; gọi GOFACarHUDSetGOFAActive | carplay-overlay.m dòng 27–30 ghi state 1/0; refresh dòng 77 **ẩn khi state==1**. |
+| local.gofahud.carplay.enabled state 1 | GOFACarHUD.pan: thả vào X: notify_set_state(enabledToken,1), notify_post | refresh ẩn khi enabled==1. **Tên enabled không có nghĩa 1=bật trong giao thức này.** |
+| enabled state 2 khi rời GOFA | GOFACarHUDSetGOFAActive: previous==YES và active==NO | Cho phép hiện lại; đồng thời gofa-active được ghi 0. |
+| enabled state 2 khi nối màn ngoài | InitializeCarControls observer UIScreenDidConnectNotification với screen khác main | Xóa trạng thái dismiss CarPlay; các điều kiện khác vẫn áp dụng. |
+| local.gofahud.carplay.show | tweak/test-speed.m: tool gofahud-test-speed, đối số carplay-show -> notify_post | InitializeCarControls callback ghi enabled=2. Trong cây source/rootless đã quét, đây là caller trực tiếp của show; KHÔNG giả định công tắc Preferences phát show. |
+| Chạm vào bóng | GOFACarHUD.openGOFA: -> local.gofahud.carplay.open-gofa | StartGlobal trong CarPlayApp đăng ký; OpenGOFAOnCarPlay tìm app và route _launchAppWithInfo:forURL:. Khi GOFA thành active, Tick lại dẫn tới ẩn bóng. |
+
+**Công thức ẩn CarPlay trong refresh:** nếu !GOFAHUDEnabled(YES) OR enabled==1 OR carActive==1 thì hidden=YES. Ngoài ra window không tồn tại/hidden thì không refresh; vùng khả dụng nhỏ hơn CardWidth+16 hoặc CardHeight+16 cũng ẩn. Trạng thái enabled ban đầu 0 không bị nhánh enabled==1 chặn; không cần bắt buộc phát show mới có bóng. Thiếu speed/limit cho chữ --, không làm ẩn toàn HUD.
+
+**Đính chính quan trọng:** source này chủ động ẨN overlay khi GOFA đang active trên CarPlay, cho hiện lại khi chuyển khỏi GOFA. Không được diễn giải gofa-active là điều kiện bật. HUONG-DAN.md dòng 26–28 nói mở GOFA để nhận dữ liệu rồi chuyển Google Maps, nhạc hoặc Home; bóng tiếp tục hiện. Đây là thiết kế upstream, không phủ nhận quan sát khác của user trên một phiên bản/thiết bị chưa đối chiếu.
+
+### 2. Hai đường vẽ CarPlay — vì sao chỉ đọc _Attach là chưa đủ
+**Global renderer, chủ yếu CarPlayApp:**
+- GofaCarplayGlobal.plist thực trong DEB: com.apple.CarPlayApp + com.apple.CarPlayTemplateUIHost.
+- StartGlobal -> main queue -> Tick ngay; timer 0.5 giây NSRunLoopCommonModes; UIWindowDidBecomeVisibleNotification kích lại Tick.
+- Tick gom windows từ UIApplication.windows và connectedScenes; lọc class rank + bounds >=400x240 + scene role chứa CarPlay HOẶC screen khác main; yêu cầu không hidden, alpha>0.
+- Rank: CARNotificationWindow=100, CARStatusBarHostWindow=80, CPSWindow=60, UIWindow=40; tên lớp khác=0 nên không tự được chọn.
+- Nếu primary CarPlayApp và base là CARNotificationWindow: gắn card vào rootViewController.viewIfLoaded, kiểm host.window==base, bringSubviewToFront. Đây là đường ưu tiên.
+- Nếu base khác được chọn: tạo GOFACarGlobalWindow cùng UIWindowScene (hoặc screen), nền trong, windowLevel=10000000, root controller riêng, gắn card. hitTest trả nil ngoài vùng card. Con số level là chi tiết triển khai upstream, KHÔNG phải khuyến nghị sao chép vào DuoFace.
+- Trong một Tick, sau khi một card được coi là visible, các base sau bị ẩn bằng biến visible; không cố tình vẽ một HUD trên mọi window như Speed2.
+- Liên tiến trình: local.gofahud.carplay.global mang timestamp uptime-milliseconds ở phần cao và PID 24 bit ở phần thấp; lease tươi <3 giây khiến host phụ nhường. CarPlayApp là primary nên không nhường theo cờ other. Đây là logic chọn bên vẽ; không tuyên bố bảo đảm tuyệt đối không trùng dưới mọi race từ kiểm tra tĩnh.
+
+**Renderer dự phòng trong Google Maps:**
+- GofaCarplayOverlay.plist + constructor Start trong carplay-overlay.m chỉ com.google.Maps.
+- RefreshWindows mỗi 0.5 giây, tìm CPTemplateApplicationScene.carWindow, CPWindow và knownWindows.
+- _Attach gắn vào CPWindow.rootViewController.viewIfLoaded, không trực tiếp vào UIWindow; chỉ màn ngoài và kích thước đủ.
+- Khi global lease còn tươi <3 giây, ẩn toàn bộ cards trong đường Google Maps và return. Khi global không giữ quyền, đường này mới thử attach.
+- Makefile compile carplay-overlay.m vào CẢ GofaCarplayGlobal và GofaCarplayOverlay. Vì vậy thấy symbol _Attach trong GofaCarplayGlobal.dylib **không chứng minh _Attach là đường khởi động global ở CarPlayApp**: constructor Start có guard Google Maps. Audit cũ đã gộp hai đường; phải dùng kết quả truy source này để sửa cách hiểu.
+- Tick global không có nhánh nhận diện DuoFace/CBWindow. Do đó tweak original không tự bảo đảm hiển thị trong split của DuoFace. Các lớp riêng của DuoFace có thể không lọt whitelist hoặc nằm ở bề mặt khác; đây vẫn là giả thuyết runtime cần kiểm chứng, không suy ra ngay “level thấp” hay “sai process”.
+
+### 3. iPhone là một đường riêng, không phải app GOFA tự vẽ bóng
+- GofaLifecycle trong com.lumi.GOFA phát local.gofahud.gofa.foreground theo didBecomeActive / willResignActive / didEnterBackground / willTerminate.
+- GofaPhoneOverlay trong SpringBoard tạo overlay riêng sau khoảng 3 giây, refresh mỗi 0.5 giây.
+- phone-overlay.m Refresh: hidden = !GOFAHUDEnabled(NO) || Locked() || dismissed || foreground || openingGOFA. Chuyển GOFA từ foreground sang background xóa dismissed. Vì vậy thiết kế phone cũng ẩn khi GOFA foreground, hiện ngoài app nếu các điều kiện khác cho phép.
+- GofaLaunchHelper nhận local.gofahud.phone.open-gofa để mở ứng dụng. Không phải renderer CarPlay.
+- Không đánh đồng local.gofahud.gofa.foreground với local.gofahud.carplay.gofa-active: một bên trạng thái app iPhone, một bên activeBundleIdentifier trên CarPlay.
+
+### 4. Bằng chứng nhị phân mới kiểm chéo trực tiếp
+ARM64 slice đầu của GofaCarplayGlobal.dylib, file offset slice 16384:
+- Symbol _GOFACarHUDSetGOFAActive=0x7de0; _InitializeCarControls=0x7e2c; -[GOFACarHUD refresh]=0x89dc; _Attach=0xada0; _Tick=0x4e24. Trùng địa chỉ trong audit cũ.
+- SetGOFAActive: 0x7df8 cbz previous -> 0x7e10; 0x7dfc tbnz active -> 0x7e10; nếu previous=true/active=false thì 0x7e04 mov w1,#2 rồi call 0xfaf8. Sau đó ghi active hiện tại.
+- refresh: 0x8a70 call GOFAHUDEnabled; 0x8a74 cbz -> 0x8b4c; 0x8a7c cmp enabled,#1 / 0x8a80 b.eq -> 0x8b4c; 0x8a88 cmp carActive,#1 / 0x8a8c b.eq -> cùng nhánh. Đã đọc bytes và disassemble; ánh xạ ý nghĩa biến theo source ghim.
+- callback show 0xb754–0xb760 ghi #2; callback màn ngoài 0xb764–0xb7e4 so màn main và ghi #2 nếu khác.
+- Không chạy code hay test UIKit trên iPhone; kiểm chéo này là SOURCE + STATIC BINARY, không phải runtime PASS.
+
+### 5. Hướng áp dụng cụ thể cho DuoFace sau nghiên cứu (CHƯA SỬA)
+1. Tái sử dụng kiến trúc điều khiển/renderer/touch/reconcile của GOFAHUD nhưng đổi owner sang DuoFace. Không bê nguyên module global vào package rồi chờ nó tự hiểu CBWindow.
+2. Bộ điều khiển DuoFace: preference bật/tắt + dismissed + DuoFace split đang thực sự hiển thị. Không dùng gofa-active để quyết định HUD DuoFace; GOFA chỉ còn là một nguồn số liệu.
+3. Bộ renderer chỉ chọn một scene/host của DuoFace đã chứng minh. Attach vào lớp nội dung phù hợp phía trên split; nếu cần window riêng phải cùng scene, tồn tại theo lifecycle DuoFace, không phủ Home. Không lấy nguyên whitelist CARNotificationWindow/CPSWindow hay level 10000000 làm lời giải mặc định.
+4. Khi owner/window sẵn sàng hoặc thay đổi, reconcile lại. Học đường initial Tick + visibility notification + periodic fallback của upstream để khắc phục attach muộn; không nhất thiết chạy quét 0.5 giây toàn hệ thống trong DuoFace.
+5. Một owner được vẽ; nếu nhiều process thì cần cơ chế phân quyền tương đương, không chỉ singleton cục bộ. Dừng/hide/remove khi DuoFace đóng, thay screen hoặc owner biến mất.
+6. Bóng hiện --/-- kể cả chưa có dữ liệu; kéo vào X ẩn và có cách hiện lại rõ. Chạm/drag ngoài bóng truyền xuống app.
+7. Nghiệm thu đúng một bóng TRONG DuoFace, Home=0, đóng DuoFace=0, Zoom/đổi app/reconnect không nhân đôi, Waze ổn; sau đó mới nối nguồn.
+- Đã có đủ bằng chứng để mô tả cơ chế bật/ẩn của GOFAHUD. Phần chưa xác nhận là cửa sổ/runtime của DuoFace trên điện thoại; không dùng phát hiện upstream để hứa đã sửa lỗi DuoFace.
+
+### Lệnh thực tế và khôi phục nghiên cứu
+Cwd /workspace/scratch/977ba291207c (tạm; nguồn bền vững là GitHub pin ở trên):
+- curl -L --fail --max-time 20 'https://raw.githubusercontent.com/manhtien9x/gofahud-repo/e423ac7408d021d6384eba8ef270e79518967ed9/GOFAHUD-0.3.1-rootless.deb' -o /workspace/scratch/977ba291207c/gofahud-reference.deb
+- sha256sum gofahud-reference.deb
+- dpkg-deb -x gofahud-reference.deb gofahud-extracted
+- git clone --quiet https://github.com/manhtien9x/gofahud-repo.git gofahud-upstream
+- Trong gofahud-upstream: git log -1 --format='%H %s' -- GOFAHUD-0.3.1-rootless.deb
+- git diff --stat a8710de0e644b2a19eaf11fe9052b9e8b93a6c61 e423ac7408d021d6384eba8ef270e79518967ed9 -- source/rootless
+- rg -n 'carplay\.show|carplay\.enabled|gofa-active' source/rootless (đã tìm caller carplay-show trong tweak/test-speed.m).
+- python -m pip -q install capstone macholib; dùng MachO + SymbolTable lấy slice/symbol, Cs(CS_ARCH_ARM64,CS_MODE_ARM) giải mã 0x7de0..0x7e2c, 0x89dc..0x8af0, 0xb754..0xb7f0. Các instruction quyết định được lưu ngay phía trên, không phụ thuộc file log tạm.
+- Đã xác minh payload plist trực tiếp bằng cat; không execute maintainer scripts/không cài DEB.
+**Kết thúc:** chỉ tài liệu DuoFace được cập nhật. Không sửa upstream, không đổi mã DuoFace, không chạy Actions/build/Sileo, không test xe. Bước kế khi được giao triển khai là đối chiếu active host của DuoFace với cơ chế hai renderer/owner nói trên, không nghiên cứu lại từ đầu GOFAHUD.
+
+
 ## 16/10/2026 20:25 +07 — ĐÍNH CHÍNH: BONG BÓNG DO TWEAK GOFAHUD TẠO; NGHIÊN CỨU CƠ CHẾ TWEAK
 Checkpoint: GOFAHUD-TWEAK-MECHANISM-20261016.
 - Người dùng xác nhận: đang nói về bong bóng do tweak tạo cho GOFA, không phải tính năng bong bóng sẵn có của app GOFA. Phải lấy triển khai tweak làm đối tượng nghiên cứu. Cách diễn đạt trước đây “bong bóng GOFA” không được biến thành khẳng định app GOFA tự cung cấp overlay.
