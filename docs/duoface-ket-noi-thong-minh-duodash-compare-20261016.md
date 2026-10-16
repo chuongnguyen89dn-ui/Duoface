@@ -3,6 +3,14 @@
 **Ngày:** 16/10/2026 · **Trạng thái:** Phân tích và thiết kế, **chưa triển khai mã, chưa build DEB**.  
 **Mục tiêu:** Giữ nguyên thiết kế hoạt động DuoFace native12, kế thừa tính năng Auto Start đang có, sử dụng các ý tưởng phù hợp từ DuoDash, làm tốt hơn về ổn định, khôi phục phiên, chính sách khi ngắt kết nối và khả năng quan sát. Không sao chép binary/assets/code/giao diện DuoDash.
 
+## CHỐT HƯỚNG MỚI 16/10/2026: CHỈ 2 CÔNG TẮC, KHÔNG TẠO MENU CON
+
+- **Theo yêu cầu mới nhất:** 1 công tắc **`Tự động mở` cũ** giữ nguyên; khi ON tự **nhớ và khôi phục app/phiên cuối** + **chống mở trùng** bằng logic nền; không thêm công tắc chống trùng hay phiên gần nhất. Khi OFF không khởi động tự động.
+- **Chức năng độc lập thứ hai cần làm:** `Đóng ứng dụng khi ngắt CarPlay` (mới cho DuoFace, cần kiểm trường hợp nhạc vẫn phát sau khi ngắt); đề xuất chờ 12s và hủy nếu reconnect. Chỉ đóng/stop audio từ phiên do DuoFace quản lý, cần xác minh source media thực tế.
+- **Hủy đề xuất UI 1 + `Kết nối nâng cao ›`/4 trang phụ ở bước hiện tại**. Trong nhóm Kết nối chỉ trình bày **hai công tắc chính**, không 8 dòng. 8 dòng bên dưới là backlog capability lịch sử, **không còn là layout được duyệt**.
+- **Bằng chứng mới:** điều tra DEB DuoDash 1.1.3 xác minh binary thật đọc key `disconnect_close_enabled`, delay mặc định 12 giây, generation token tránh xử lý trùng khi reconnect; điều tra CI DuoFace native12 run `38838468505` xác minh **DuoFace đã có** `handleCarPlayConnectionChanged:`, disconnect cleanup/watchdog và `terminateApplicationWithBundleID:` trong Dashboard — công việc là **sửa/hoàn thiện đường hiện có**, chưa kết luận thiếu toàn bộ code. Chi tiết + offsets trong `docs/duoface-vs-duodash-autostart-disconnect-audio-20261016.md`.
+- **Trạng thái:** phân tích/thiết kế, chưa viết fix/DEB, Sileo giữ native12; xóa giấy phép vẫn PAUSED.
+
 ## Nguồn và mốc khôi phục
 
 - Repo: `chuongnguyen89dn-ui/Duoface`; bản cài đã được user báo hoạt động tốt: `com.duoface.independent` `0.1.0~native12`, SHA256 `85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7`, source branch `feature/duoface-exact-payload-migration` HEAD lúc đọc `55e7d33cf7d998df25bd5491cfa29ac57fb7d667`.
