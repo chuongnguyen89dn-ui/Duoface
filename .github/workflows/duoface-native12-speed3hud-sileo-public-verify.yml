@@ -1,0 +1,79 @@
+name: DuoFace Native12 speed3hud independent live Sileo verification
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed3hud-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-pages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check one live independent DuoFace, preserve legacy, download exact DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          mkdir -p "$RUNNER_TEMP/df-speed3hud-live"
+          cd "$RUNNER_TEMP/df-speed3hud-live"
+          for i in $(seq 1 50); do
+            curl -fLs --retry 2 --retry-delay 3 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native12+speed3hud' Packages 2>/dev/null; then break; fi
+            echo "Pages speed3hud pending attempt $i"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native12+speed3hud' Packages
+          curl -fLs --retry 5 --retry-delay 3 "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          from pathlib import Path
+          blocks=[]
+          for block in Path('Packages').read_text().split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'): blocks.append(d)
+          independent=[p for p in blocks if p.get('Package')=='com.duoface.independent']
+          legacy=[p for p in blocks if p.get('Package')=='com.duonavi.app']
+          assert len(independent)==1,independent
+          assert len(legacy)==1,legacy
+          p=independent[0]
+          assert p['Version']=='0.1.0~native12+speed3hud'
+          assert p['Architecture']=='iphoneos-arm64'
+          assert p['SHA256']=='b4caf7e965a3d1cb83e52d27b67bea2642c8734f6ae78924d9b8a4e09307e582'
+          assert p['Filename']=='debs/com.duoface.independent_0.1.0~native12+speed3hud_iphoneos-arm64.deb',p
+          Path('download-path.txt').write_text(p['Filename']+'\n')
+          print('LIVE_SILEO_APT_SPEED3HUD_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl -fLs --retry 5 --retry-delay 3 "$base/$(cat download-path.txt)" -o speed3hud.deb
+          echo 'b4caf7e965a3d1cb83e52d27b67bea2642c8734f6ae78924d9b8a4e09307e582  speed3hud.deb' | sha256sum -c -
+          test "$(dpkg-deb -f speed3hud.deb Package)" = com.duoface.independent
+          test "$(dpkg-deb -f speed3hud.deb Version)" = '0.1.0~native12+speed3hud'
+          test "$(dpkg-deb -f speed3hud.deb Architecture)" = iphoneos-arm64
+          dpkg-deb --contents speed3hud.deb > CONTENTS.txt
+          for n in DuoFaceDashboard DuoFaceSpeedHUD DuoFaceFullscreenBridge DuoFaceVisualHook; do
+            grep -Fq "$n.dylib" CONTENTS.txt
+          done
+          ! grep -E 'DuoFaceSpeedSources|VietMapGoogleMapsSource|WazeGMapHUDSource|GofaGMapHUDSource|GMapHUDOverspeedScreen|GMapHUDPlacementRelay|GoogleMapsVietMap|A_DuoFaceNativeNoLease' CONTENTS.txt
+          dpkg-deb -x speed3hud.deb extracted
+          grep -Fq 'com.apple.CarPlayApp' extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist
+          ! grep -Fq 'com.apple.CarPlayTemplateUIHost' extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist
+          ! grep -Fqi 'com.apple.springboard' extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist
+          test "$(grep -o 'com.apple.CarPlayApp' extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist | wc -l | tr -d ' ')" = "1"
+          echo 'LIVE_SILEO_DOWNLOADED_EXACT_SPEED3HUD_DEB_SHA256_PASS; ON_DEVICE_UNTESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed3hud-live-public-evidence
+          path: |
+            ${{ runner.temp }}/df-speed3hud-live/Packages
+            ${{ runner.temp }}/df-speed3hud-live/Packages.gz
+            ${{ runner.temp }}/df-speed3hud-live/CONTENTS.txt
+            ${{ runner.temp }}/df-speed3hud-live/download-path.txt
+          if-no-files-found: warn
