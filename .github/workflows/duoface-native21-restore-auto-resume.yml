@@ -1,0 +1,128 @@
+name: DuoFace native21 native12 Auto Resume + remove failed Add App tile
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native21-restore-auto-resume.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native21-autoresume
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Contract for native12 Auto Resume restoration and immutable 10sec
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/build_native21_native12_autoresume.py
+          grep -Fq 'kDisconnectGraceMs = 10000' runtime/connection/DFConnectionPolicy.hpp
+          grep -Fq 'DFConnectionVerifiedDisconnected' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'scheduleMandatoryDisconnectWatchdog' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'enforceMandatoryDisconnectKill' runtime/connection/DFConnectionNativeHooks.xm
+          ! grep -Fq 'lastOwnedAppBundleID' runtime/connection/DFConnectionNativeHooks.xm
+          ! grep -Fq 'NSString *)effectiveAutoLaunchBundleID {' runtime/connection/DFConnectionNativeHooks.xm
+          ! grep -Fq 'void)performAutoResume {' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'DFRemoveAddControls' runtime/appbridge/DFRemoveOldAddAppTile.xm
+          ! grep -Fq 'DFSaveToNativePreferences' runtime/appbridge/DFRemoveOldAddAppTile.xm
+          ! grep -Fq 'Thêm ứng dụng' runtime/appbridge/DFRemoveOldAddAppTile.xm
+          echo 'NATIVE21_SOURCE_CONTRACT_NATIVE12_AUTOSTART_10SEC_SAFETY_PASS'
+      - name: Prepare iOS toolchain
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/df-native21"
+      - name: Compile 10-second close without auto-resume overrides
+        run: |
+          set -euo pipefail
+          cp Makefile.smart-connection-stage Makefile
+          make clean all FINALPACKAGE=1
+          f="$(find .theos -type f -name 'DuoFaceSmartConnection.dylib' -print -quit)"
+          test -n "$f"
+          xcrun lipo "$f" -verify_arch arm64
+          cp "$f" "$RUNNER_TEMP/df-native21/DuoFaceSmartConnection.dylib"
+          strings "$f" | grep -Fq 'scheduleMandatoryDisconnectWatchdog'
+          strings "$f" | grep -Fq 'enforceMandatoryDisconnectKill'
+          strings "$f" | grep -Fq 'trackBridgedBundleID:'
+          ! strings "$f" | grep -Fq 'lastOwnedAppBundleID'
+          echo 'NATIVE21_TEN_SEC_CLOSE_COMPILATION_AND_REMOVED_SINGLE_APP_OVERRIDE_PASS'
+      - name: Compile only CarPlay obsolete tile removal
+        run: |
+          set -euo pipefail
+          cp Makefile.native21-hide-add-app Makefile
+          make clean all FINALPACKAGE=1
+          f="$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)"
+          test -n "$f"
+          xcrun lipo "$f" -verify_arch arm64
+          cp "$f" "$RUNNER_TEMP/df-native21/DuoFaceInCarAddApps.dylib"
+          strings "$f" | grep -Fq 'addMoreAppsTapped:'
+          strings "$f" | grep -Fq 'setupAppPickerCardsInCardW:cardH:contentY:'
+          ! strings "$f" | grep -Fq 'Chưa xác minh'
+          echo 'NATIVE21_HIDE_OLD_ADD_APP_SELECTOR_COMPILE_PASS'
+      - name: Build immutable native20 plus two corrected modules
+        run: |
+          set -euo pipefail
+          base='dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb'
+          printf '%s  %s\n' '020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef' "$base" | shasum -a 256 -c -
+          mkdir -p dist/payload-migration/native21
+          python3 migration/full_payload/native_test/build_native21_native12_autoresume.py \
+            --picker "$RUNNER_TEMP/df-native21/DuoFaceInCarAddApps.dylib" \
+            --connection "$RUNNER_TEMP/df-native21/DuoFaceSmartConnection.dylib" \
+            --out 'dist/payload-migration/native21/com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb' \
+            --report 'dist/payload-migration/native21/BAO_CAO.json'
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb 'dist/payload-migration/native21/com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb' \
+            --out 'dist/payload-migration/native21/BRAND_ZERO_AUDIT.json'
+      - name: Package regression contract
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib,hashlib
+          p=pathlib.Path('dist/payload-migration/native21')
+          j=json.loads((p/'BAO_CAO.json').read_text())
+          b=json.loads((p/'BRAND_ZERO_AUDIT.json').read_text())
+          deb=p/'com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb'
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==j['deb_sha256']
+          assert j['unchanged_payload_files']==43
+          assert len(j['modified_payload_files'])==2
+          assert j['original_iphone_app_and_dashboard_binary_byte_identical']
+          assert j['previously_installed_apps_prefs_migration_unchanged']
+          assert j['no_new_runtime_autostart_override']
+          assert j['new_disconnection_grace_seconds']==10
+          assert j['native12_app_selection_on_iphone_preserved']
+          assert not j['full_layout_runtime_restoration_confirmed']
+          assert not j['obsolete_button_device_tested']
+          assert not j['license_modified'] and not j['dopamine_touched']
+          assert b['strict_byte_level_zero_matches'] and b['affected_paths']==[]
+          print('NATIVE21_IMMUTABLE_NATIVE20_43_OF_45_PRESERVED_BRAND_ZERO_PASS')
+          PY
+      - name: Persist signed native21 DEB, SHA and QA reports in DuoFace repo
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native21/*.json \
+            'dist/payload-migration/native21/com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb'
+          git commit -m 'artifact: native21 native12 auto resume and CarPlay Add App removal candidate [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native21-autostart-rollback
+          path: dist/payload-migration/native21/*
+          if-no-files-found: warn
