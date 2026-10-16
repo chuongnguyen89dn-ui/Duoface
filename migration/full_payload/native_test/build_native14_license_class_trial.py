@@ -45,6 +45,7 @@ def patch_host(original,classes):
   # occurrences if independently verified inside a non-instruction string
   # section. Never alter __text, method instructions, or arbitrary binary data.
   extra=[]
+  embedded=[]
   needle=name.encode("ascii")
   for sec in m.sections:
    if sec["name"] not in ("__cstring","__objc_classname","__objc_methname"):
@@ -55,14 +56,18 @@ def patch_host(original,classes):
     pos=out.find(needle,cursor,end)
     if pos<0:break
     cursor=pos+len(needle)
+    # Prefixes in protocol names or ObjC type encodings are NOT the class
+    # name literal. Preserve these unrelated identifiers exactly.
     if pos+len(needle)>=end or out[pos+len(needle)]!=0:
-     raise ValueError((name,pos,"non terminated extra, refuse unsafe erase",sec["name"],repr(bytes(out[max(off,pos-36):min(end,pos+len(needle)+55)]))))
+     embedded.append({"file_offset":pos,"section":sec["name"],"why":"prefix of longer token"})
+     continue
     if pos>off and out[pos-1] not in (0,32,34,64,91):
-     raise ValueError((name,pos,"embedded name, refuse unsafe erase"))
+     embedded.append({"file_offset":pos,"section":sec["name"],"why":"embedded in other token"})
+     continue
     out[pos:pos+len(needle)]=b"\x00"*len(needle)
     extra.append({"file_offset":pos,"section":sec["name"]})
   done.append({"class":name,"registry_and_ref_slots_zeroed":3,
-               "name_literals_zeroed":seen+len(extra),"extra_validated_literals":extra,
+               "name_literals_zeroed":seen+len(extra),"extra_validated_literals":extra,"preserved_embedded_protocol_or_type_names":embedded,
                "method_records_persist_in_unregistered_metadata":item["method_count"]})
  result=bytes(out)
  after=MachO(select_arm64(result))
