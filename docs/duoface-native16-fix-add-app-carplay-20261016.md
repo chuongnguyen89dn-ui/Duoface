@@ -1,5 +1,13 @@
 # DuoFace native16 — sửa nút Thêm App trên CarPlay (sau test native15)
 
+## XÁC MINH ĐÃ PHÁT HÀNH SILEO NATIVE16 — 16/10/2026
+
+- **PUBLISH VERIFIED:** carplaydsp/main commit `411a2c151e70534f4573373fd5d1e285615587b2`; GitHub Actions `38852588862` **completed/success**, build job `116816896615` **success** và Pages deploy job `116817566477` **success**.
+- **LIVE PUBLIC RECHECK VERIFIED:** source DuoFace Actions `38852657028` **completed/success**, job `116817097219`. Log có marker **`APT_NATIVE16_METADATA_AND_LEGACY_PACKAGE_PRESERVED_PASS`**, **`native16.deb: OK`**, **`PUBLIC_SILEO_NATIVE16_EXACT_SHA_TEST_ARTIFACT_VERIFIED_NOT_DEVICE_TESTED`**. Đã tải bản DEB public từ Pages vào runner, so SHA256 `5d5cbd368c24d0c074b081d16aaf7d006467c3e9cfef01ee12378ce79d716fae`, khớp exactly 1 `com.duoface.independent 0.1.0~native16` APT stanza, `Packages` ≡ `Packages.gz`, gói `com.duonavi.app` độc lập cũ vẫn được giữ.
+- **LINK THẬT:** Sileo repo `https://chuongnguyen89dn-ui.github.io/carplaydsp/`; native16 direct `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb`. Đây là **đã phát hành đến Sileo**, **CHƯA test native16 trên iPhone**.
+- **NEXT USER QA:** Refresh Sileo source rồi upgrade `DuoFace 0.1.0~native16`; trên CarPlay mở menu App → Thêm App. Nếu hiện danh sách ứng dụng chưa thêm, chọn một app, kiểm tra xuất hiện trong CarPlay và danh sách app ở iPhone, ngắt/kết nối lại vẫn còn. Nếu vẫn thấy modal cũ, chỉ cần phản hồi ảnh/trạng thái và nếu có log `[DuoFaceInCarAddApps] Hook active` / `fallback:`; KHÔNG chạy tweak hay sửa cấu hình Dopamine. Build native16 chỉ sửa 2 tệp AddApps, 41 tệp còn lại giữ nguyên so native15; native12/native15 rollback.
+- **STATUS:** Build + publish + public SHA PASS; **on-device CarPlay picker/persistence QA PENDING**.
+
 **Ngày:** 16/10/2026. Trạng thái lúc tạo: **DEB native16 build+CI PASS**, workflow publisher Sileo đang chạy, **chưa có xác nhận runtime on-device**. User đã cài native15; ảnh cho thấy modal gốc “Thêm Ứng Dụng — Dừng xe an toàn và mở DuoFace trên iPhone để chọn thêm ứng dụng”. User xác nhận lỗi cũ liên quan Dopamine, yêu cầu **không điều tra lại, không chạy/can thiệp tweak của Dopamine**. Không lẫn lỗi cũ với lỗi CarPlay Add App.
 
 ## Phân biệt các bước với bằng chứng
