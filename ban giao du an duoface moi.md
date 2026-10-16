@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — BẰNG CHỨNG MỚI TỪ IPHONE: SPEED4SPLIT VẪN KHÔNG CÓ BONG BÓNG TRONG SPLIT
+Checkpoint: SPEED4SPLIT-REAL-CARPLAY-FAIL-NO-BUBBLE-20261016.
+**Thiết bị thực (người dùng thông báo):** Sau khi Speed4Split được phát hành Sileo, người dùng báo nguyên văn “Vẫn ko hề thấy bong bóng nào”. Trạng thái **FAIL THỰC TẾ**, không còn giả định “đã hiển thị”, kể cả dấu `—/—`. Chưa có log thiết bị, nên chưa biết cụ thể constructor/hook/manager/window/host/display đứt ở đâu. Không gán nguyên nhân khi chưa chứng thực.
+**Hiện trạng:** base Native12 bất biến; source Speed4 `runtime/speedbubble/DFSpeedBubbleBridge.mm` trên `feature/duoface-exact-payload-migration`; package `0.1.0~native12+speed4split` SHA256 `e73d3f3bb3e428c5656a6923f1010724151a924b983284c5d0c6c287d3939236`; GitHub Actions 38913399960 và 38913833693 PASS chỉ CI/build/Pages, KHÔNG phải test split.
+**Việc tiếp:** kiểm tra tĩnh sâu `CBBridgeManager.window` và `CBWindow.createWindows/root/content` xem owner/process/scene, xác định gate code nào có khả năng sai; tạo đường chẩn đoán thiết bị tối thiểu hoặc cách test xác thực trước khi build thêm. Không lặp lại Speed1–4 theo phỏng đoán. Nếu cần thu log CarPlay thật, yêu cầu đúng lệnh và cách gửi hoặc thêm safe diagnostic sau khi root theo bằng chứng. Giữ Waze/GOFA/TWHub và nền Native12 khỏi sửa.
+**Ghi chú độ tin cậy:** nguồn lỗi là xác nhận từ người dùng sau test thực; chưa có iPhone runtime trace và không được tự gọi là đã thu log.
+
 ## 16/10/2026 — SPEED4SPLIT SILEO ĐÃ LÊN LIVE, DEB ĐÃ TẢI CÔNG KHAI VÀ KHỚP SHA256
 Checkpoint: SPEED4SPLIT-SILEO-LIVE-SHA-VERIFIED-20261016.
 
