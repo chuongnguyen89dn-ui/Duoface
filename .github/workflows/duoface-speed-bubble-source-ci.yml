@@ -5,6 +5,9 @@ on:
     paths:
       - 'runtime/speedbubble/**'
       - 'Makefile.speedhud-stage'
+      - 'Makefile.speed-source-stage'
+      - 'DuoFaceSpeedSources.plist'
+      - 'DuoFaceSpeedHUD.plist'
       - '.github/workflows/duoface-speed-bubble-source-ci.yml'
   workflow_dispatch:
 permissions:
@@ -47,6 +50,17 @@ jobs:
           test -n "$dylib"
           xcrun lipo "$dylib" -verify_arch arm64
           echo 'DUOFACE_NATIVE12_HUD_RENDERER_LINK_PASS_SOURCE_ONLY'
+      - name: Compile original app-owned speed observer, no extra user tweak
+        shell: bash
+        run: |
+          set -euo pipefail
+          plutil -lint DuoFaceSpeedSources.plist DuoFaceSpeedHUD.plist
+          cp Makefile.speed-source-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedSources.dylib' -print -quit)"
+          test -n "$dylib"
+          xcrun lipo "$dylib" -verify_arch arm64
+          echo 'DUOFACE_APP_SPEED_OBSERVER_LINK_PASS_SOURCE_ONLY'
       - name: Prohibit package and Sileo changes
         shell: bash
         run: |
