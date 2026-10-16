@@ -260,6 +260,7 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
     if ([self viewWithTag:kDFInCarModalTag]) return;
     Class settingsClass=NSClassFromString(@"CBDashboardSettings");
     if (!settingsClass || ![settingsClass respondsToSelector:@selector(sharedInstance)]) {
+        NSLog(@"[DuoFaceInCarAddApps] fallback: settings class unavailable in active host");
         %orig;
         return;
     }
@@ -268,10 +269,15 @@ static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
     NSString *prefs=selected ? DFExistingSettingsFileForList(selected) : nil;
     NSArray *choices=prefs ? DFEligibleApps(selected) : nil;
     if (!prefs || !choices) {
+        NSLog(@"[DuoFaceInCarAddApps] fallback: current-list=%@ prefs-file=%@ app-provider=%@",
+              selected ? @"valid" : @"invalid",
+              prefs ? @"matched" : @"missing-or-ambiguous",
+              choices ? @"available" : @"unavailable");
         %orig;
         return;
     }
     if (choices.count==0) { // Native notice, no silent dead end.
+        NSLog(@"[DuoFaceInCarAddApps] fallback: no eligible unbridged user apps");
         %orig;
         return;
     }
