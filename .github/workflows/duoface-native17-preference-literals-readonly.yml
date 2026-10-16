@@ -1,0 +1,54 @@
+name: DuoFace native17 read-only original preferences literal disassembly
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native17-preference-literals-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native17-native-preference-audit
+  cancel-in-progress: false
+jobs:
+  examine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read signed native17 preference source strings
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/audit_native17_native_preference_literals.py > /tmp/nativeprefs.out
+          python3 - <<'PY'
+          import json
+          j=json.load(open('audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json'))
+          assert not j['binary_modified'] and not j['device_tested']
+          for k,v in j['hosts'].items():
+              print("HOST",k)
+              print("DISASSEMBLY_LITERAL_POINTERS",json.dumps(v['original_disassembly_direct_literals'],ensure_ascii=False))
+              print("RELATED",json.dumps(v['native_preferences_related_literals'][:80],ensure_ascii=False))
+          print('NATIVE17_NATIVE_PREFERENCE_READONLY_PASS')
+          PY
+      - name: Commit analysis report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json
+          git commit -m 'audit: exact original native12 preferences pointers from native17 package [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 3
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native17-original-preference-literals
+          path: audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json
+          if-no-files-found: warn
