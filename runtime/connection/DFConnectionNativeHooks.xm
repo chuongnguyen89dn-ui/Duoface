@@ -82,7 +82,7 @@ static void DFRefreshConnectionState(CBBridgeManager *manager) {
         DFConnectionLoadRememberedApp(DFRememberedApp());
         DFConnectionVerifiedConnected(app,
             ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
-            nil, DFSaveRememberedApp);
+            nil, ^(NSString *bid){ DFSaveRememberedApp(bid); });
     } else {
         DFConnectionVerifiedDisconnected(
             ^BOOL {return !DFHostCarPlayConnected();},
@@ -123,7 +123,7 @@ static void DFObserveNativeConnection(CBBridgeManager *manager) {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!DFHostCarPlayConnected() || !DFOwnedAndRunning(manager,bundleID)) return;
         DFRefreshConnectionState(manager);
-        DFConnectionManagedAppActivated(bundleID,DFSaveRememberedApp);
+        DFConnectionManagedAppActivated(bundleID, ^(NSString *bid){ DFSaveRememberedApp(bid); });
     });
 }
 - (NSString *)effectiveAutoLaunchBundleID {
