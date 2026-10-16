@@ -1,0 +1,1280 @@
+{
+  "status": "NATIVE12_ACTUAL_MACHO_CLASS_REFERENCES_READONLY",
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "native12_untouched": true,
+  "physical_excision_completed": false,
+  "dynamic_dispatch_resolved": false,
+  "candidates_checked": 14,
+  "binaries": {
+    "DuoFaceUI": {
+      "binary": "DuoFaceUI",
+      "host_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "arm64_slice_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "arm64_slice_length": 1220256,
+      "objc_class_count": 27,
+      "objc_method_count": 522,
+      "has_dyld_chained_fixups": false,
+      "has_code_signature": true,
+      "candidate_classes": [
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "class_ptr": "0x10011c218",
+          "classlist_vm": "0x100113188",
+          "method_count": 30,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126792,
+              "vm": "0x100113188",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161528,
+              "vm": "0x10011b938",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162152,
+              "vm": "0x10011bba8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct",
+              "viewDidLoad"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBGeneralSettingsViewController": [
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct",
+              "viewDidLoad"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAssistantAboutViewController": [
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 3,
+          "literal_file_offsets": [
+            763413,
+            1197474,
+            1198542
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "class_ptr": "0x10011c268",
+          "classlist_vm": "0x100113190",
+          "method_count": 10,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126800,
+              "vm": "0x100113190",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161776,
+              "vm": "0x10011ba30",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162160,
+              "vm": "0x10011bbb0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713260,
+            763451,
+            1197662,
+            1198750
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "class_ptr": "0x10011c358",
+          "classlist_vm": "0x1001131a8",
+          "method_count": 9,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126824,
+              "vm": "0x1001131a8",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161792,
+              "vm": "0x10011ba40",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162184,
+              "vm": "0x10011bbc8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713318,
+            763537,
+            1197703,
+            1198795
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "class_ptr": "0x10011c3a8",
+          "classlist_vm": "0x1001131b0",
+          "method_count": 10,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126832,
+              "vm": "0x1001131b0",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161800,
+              "vm": "0x10011ba48",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162192,
+              "vm": "0x10011bbd0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct",
+              "setSpinner:",
+              "spinner"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713350,
+            763569,
+            1197749,
+            1198845
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "class_ptr": "0x10011c308",
+          "classlist_vm": "0x1001131a0",
+          "method_count": 10,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126816,
+              "vm": "0x1001131a0",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161824,
+              "vm": "0x10011ba60",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162176,
+              "vm": "0x10011bbc0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713437,
+            763508,
+            1197796,
+            1198896
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "class_ptr": "0x10011c538",
+          "classlist_vm": "0x1001131d8",
+          "method_count": 36,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126872,
+              "vm": "0x1001131d8",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161744,
+              "vm": "0x10011ba10",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162232,
+              "vm": "0x10011bbf8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct",
+              "dealloc"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBGeneralSettingsViewController": [
+              "dealloc"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct",
+              "dealloc"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct",
+              "dealloc"
+            ],
+            "CBAssistantAboutViewController": [
+              "dealloc"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct",
+              "dealloc"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 3,
+          "literal_file_offsets": [
+            763715,
+            1197839,
+            1198943
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "class_ptr": "0x10011c3f8",
+          "classlist_vm": "0x1001131b8",
+          "method_count": 18,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126840,
+              "vm": "0x1001131b8",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161784,
+              "vm": "0x10011ba38",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162200,
+              "vm": "0x10011bbd8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713287,
+            763602,
+            1197884,
+            1198992
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "class_ptr": "0x10011c448",
+          "classlist_vm": "0x1001131c0",
+          "method_count": 13,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126848,
+              "vm": "0x1001131c0",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161768,
+              "vm": "0x10011ba28",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162208,
+              "vm": "0x10011bbe0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713233,
+            763635,
+            1197929,
+            1199041
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "class_ptr": "0x10011c498",
+          "classlist_vm": "0x1001131c8",
+          "method_count": 2,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126856,
+              "vm": "0x1001131c8",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161760,
+              "vm": "0x10011ba20",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162216,
+              "vm": "0x10011bbe8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {},
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713208,
+            763662,
+            1197970,
+            1199086
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "class_ptr": "0x10011c1c8",
+          "classlist_vm": "0x100113180",
+          "method_count": 71,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126784,
+              "vm": "0x100113180",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161512,
+              "vm": "0x10011b928",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162144,
+              "vm": "0x10011bba0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct",
+              "dealloc",
+              "handleLanguageChanged",
+              "viewDidLoad"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBGeneralSettingsViewController": [
+              "dealloc",
+              "handleLanguageChanged",
+              "numberOfSectionsInTableView:",
+              "tableView:cellForRowAtIndexPath:",
+              "tableView:didSelectRowAtIndexPath:",
+              "tableView:numberOfRowsInSection:",
+              "tableView:titleForFooterInSection:",
+              "tableView:titleForHeaderInSection:",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct",
+              "dealloc",
+              "handleLanguageChanged",
+              "numberOfSectionsInTableView:",
+              "setTableView:",
+              "setupTableView",
+              "tableView",
+              "tableView:cellForRowAtIndexPath:",
+              "tableView:didSelectRowAtIndexPath:",
+              "tableView:numberOfRowsInSection:",
+              "tableView:titleForFooterInSection:",
+              "tableView:titleForHeaderInSection:",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct",
+              "tableView:cellForRowAtIndexPath:",
+              "tableView:didSelectRowAtIndexPath:",
+              "tableView:numberOfRowsInSection:",
+              "viewDidLoad"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct",
+              "dealloc",
+              "handleLanguageChanged",
+              "numberOfSectionsInTableView:",
+              "tableView:cellForRowAtIndexPath:",
+              "tableView:didSelectRowAtIndexPath:",
+              "tableView:numberOfRowsInSection:",
+              "tableView:titleForFooterInSection:",
+              "tableView:titleForHeaderInSection:",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBAssistantAboutViewController": [
+              "dealloc",
+              "handleLanguageChanged",
+              "numberOfSectionsInTableView:",
+              "tableView:cellForRowAtIndexPath:",
+              "tableView:didSelectRowAtIndexPath:",
+              "tableView:numberOfRowsInSection:",
+              "tableView:titleForFooterInSection:",
+              "tableView:titleForHeaderInSection:",
+              "viewDidLoad",
+              "viewWillAppear:"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct",
+              "dealloc"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 3,
+          "literal_file_offsets": [
+            763127,
+            1198091,
+            1199219
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "class_ptr": "0x10011c4e8",
+          "classlist_vm": "0x1001131d0",
+          "method_count": 24,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126864,
+              "vm": "0x1001131d0",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161816,
+              "vm": "0x10011ba58",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162224,
+              "vm": "0x10011bbf0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "XXAppDelegate": [
+              ".cxx_destruct"
+            ],
+            "XXRootViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppModel": [
+              ".cxx_destruct"
+            ],
+            "CBAppManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppSection": [
+              ".cxx_destruct"
+            ],
+            "CBAppSwitch": [
+              ".cxx_destruct"
+            ],
+            "CBAppsManagerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBAppPickerViewController": [
+              ".cxx_destruct"
+            ],
+            "CBSplitViewController": [
+              ".cxx_destruct"
+            ],
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713411,
+            763687,
+            1198009,
+            1199129
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "class_ptr": "0x10011c2b8",
+          "classlist_vm": "0x100113198",
+          "method_count": 2,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 1126808,
+              "vm": "0x100113198",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161808,
+              "vm": "0x10011ba50",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162168,
+              "vm": "0x10011bbb8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {},
+          "class_name_nul_literal_occurrences": 4,
+          "literal_file_offsets": [
+            713383,
+            763480,
+            1198049,
+            1199173
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        }
+      ],
+      "carplay_guard": [
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnected",
+          "file_offset": 521616,
+          "expected_sha256": "6c61861ecdf393564ae9ff26d124daf5a1403f4ac05c72fab1734d0a802c72f8",
+          "actual_sha256": "6c61861ecdf393564ae9ff26d124daf5a1403f4ac05c72fab1734d0a802c72f8",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreen:",
+          "file_offset": 520044,
+          "expected_sha256": "921d598ec9802ae69185d3e5ae03a35cc9f0d23538bf221bf2ccf9745d737d8f",
+          "actual_sha256": "921d598ec9802ae69185d3e5ae03a35cc9f0d23538bf221bf2ccf9745d737d8f",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnectedExcludingScreen:",
+          "file_offset": 520640,
+          "expected_sha256": "4b5200ad73efd0eeec3b004fb83ead7ecf670f8dfe8ea56d6090e49b5d02de22",
+          "actual_sha256": "4b5200ad73efd0eeec3b004fb83ead7ecf670f8dfe8ea56d6090e49b5d02de22",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnected",
+          "file_offset": 521600,
+          "expected_sha256": "320f0e38f4db00b349a261781a60758deea2881e40fd678590be8ec4a4fe60a0",
+          "actual_sha256": "320f0e38f4db00b349a261781a60758deea2881e40fd678590be8ec4a4fe60a0",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        }
+      ],
+      "unresolved_dynamic_dispatch": true,
+      "safe_to_physically_remove_any_class_without_more_proof": false
+    },
+    "DuoFaceDashboard": {
+      "binary": "DuoFaceDashboard",
+      "host_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "arm64_slice_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "arm64_slice_length": 3760032,
+      "objc_class_count": 36,
+      "objc_method_count": 757,
+      "has_dyld_chained_fixups": false,
+      "has_code_signature": true,
+      "candidate_classes": [
+        {
+          "class": "CBLicenseShieldIconView",
+          "class_ptr": "0x380410",
+          "classlist_vm": "0x3742d0",
+          "method_count": 2,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 3621584,
+              "vm": "0x3742d0",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 3668336,
+              "vm": "0x37f970",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 3668704,
+              "vm": "0x37fae0",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "CBBridgedPortalAppView": [
+              "initWithFrame:"
+            ],
+            "CBMultitaskingPillView": [
+              "initWithFrame:"
+            ],
+            "CBOverlayScrollView": [
+              "initWithFrame:"
+            ],
+            "CBMultitaskingOverlayView": [
+              "initWithFrame:"
+            ],
+            "CBDockMetricItemView": [
+              "initWithFrame:"
+            ],
+            "CBDockSystemMonitorView": [
+              "initWithFrame:"
+            ],
+            "CBSplitSplashScreenView": [
+              "initWithFrame:"
+            ],
+            "CBBridgedAssistantView": [
+              "initWithFrame:"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 1,
+          "literal_file_offsets": [
+            3416378
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "class_ptr": "0x380460",
+          "classlist_vm": "0x3742d8",
+          "method_count": 12,
+          "pointer_references": [
+            {
+              "section": "__objc_classlist",
+              "segment": "__DATA_CONST",
+              "fileoff": 3621592,
+              "vm": "0x3742d8",
+              "role": "class_registration"
+            },
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 3668456,
+              "vm": "0x37f9e8",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 3668712,
+              "vm": "0x37fae8",
+              "role": "direct_reference"
+            }
+          ],
+          "non_registration_direct_ref_count": 2,
+          "superclass_dependents": [],
+          "other_class_selector_owners": {
+            "CBLocalization": [
+              ".cxx_destruct"
+            ],
+            "CBAssistantManager": [
+              ".cxx_destruct"
+            ],
+            "CBDashboardSettings": [
+              ".cxx_destruct"
+            ],
+            "CBHttpClient": [
+              ".cxx_destruct"
+            ],
+            "CBLicenseSyncManager": [
+              ".cxx_destruct"
+            ],
+            "CBBridgedPortalAppView": [
+              ".cxx_destruct"
+            ],
+            "CBMultitaskingPillView": [
+              ".cxx_destruct"
+            ],
+            "CBSlotPillView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBOverlayScrollView": [
+              "layoutSubviews"
+            ],
+            "CBMultitaskingOverlayView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBBridgedUIAppView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBWindow": [
+              ".cxx_destruct"
+            ],
+            "CBDockMetricItemView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBDockSystemMonitorView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBSplitSplashScreenView": [
+              ".cxx_destruct",
+              "dismissAnimated:",
+              "layoutSubviews"
+            ],
+            "CBBridgedApp": [
+              ".cxx_destruct"
+            ],
+            "CBBridgedPortalApp": [
+              ".cxx_destruct"
+            ],
+            "CBUIAppContainerView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBBridgedUIApp": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBDividerButtonInfo": [
+              ".cxx_destruct"
+            ],
+            "CBDividerView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBSplitContainerView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBSlotPlaceholderView": [
+              ".cxx_destruct",
+              "layoutSubviews"
+            ],
+            "CBBridgedSplitApp": [
+              ".cxx_destruct"
+            ],
+            "CBBridgedAssistantView": [
+              ".cxx_destruct"
+            ],
+            "CBBridgedAssistantApp": [
+              ".cxx_destruct"
+            ],
+            "CBBridgeRequest": [
+              ".cxx_destruct"
+            ],
+            "CBBridgeManager": [
+              ".cxx_destruct"
+            ],
+            "CBAppMetadataItem": [
+              ".cxx_destruct"
+            ],
+            "CBBridgeManagerDashboard": [
+              ".cxx_destruct"
+            ]
+          },
+          "class_name_nul_literal_occurrences": 1,
+          "literal_file_offsets": [
+            3416402
+          ],
+          "runtime_liveness_proven_absent": false,
+          "safe_to_delete": false
+        }
+      ],
+      "carplay_guard": [
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnected",
+          "file_offset": 392072,
+          "expected_sha256": "2dd6ddefeba4ce258edf0fdf4388dae553d5480efc6180e099fbfdbf8159981b",
+          "actual_sha256": "2dd6ddefeba4ce258edf0fdf4388dae553d5480efc6180e099fbfdbf8159981b",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreen:",
+          "file_offset": 390500,
+          "expected_sha256": "665cee950e2d5673e292ddc91ce36d839fa5b1742206c00598bd72be4b1f6fe0",
+          "actual_sha256": "665cee950e2d5673e292ddc91ce36d839fa5b1742206c00598bd72be4b1f6fe0",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnectedExcludingScreen:",
+          "file_offset": 391096,
+          "expected_sha256": "bc23af206aa1242eeea4862ceeff7e817377611d7018a8a3a677ff824a9e996d",
+          "actual_sha256": "bc23af206aa1242eeea4862ceeff7e817377611d7018a8a3a677ff824a9e996d",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isCarPlayScreenConnected",
+          "file_offset": 392056,
+          "expected_sha256": "13a7c327f639b3eb93a5f34cf07251b7aa2fa692d88f45809888db7e9e90eb05",
+          "actual_sha256": "13a7c327f639b3eb93a5f34cf07251b7aa2fa692d88f45809888db7e9e90eb05",
+          "status": "CARPLAY_METHOD_BYTE_EXACT_PASS"
+        }
+      ],
+      "unresolved_dynamic_dispatch": true,
+      "safe_to_physically_remove_any_class_without_more_proof": false
+    }
+  }
+}
