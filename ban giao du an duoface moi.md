@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — XÁC MINH CÓ FILE DEB SPEED4SPLIT (KẾT QUẢ CI THỰC)
+Checkpoint: SPEED4SPLIT-DEB-BUILT-VERIFIED-20261016.
+- **Đã có DEB** trên GitHub nhánh `feature/duoface-exact-payload-migration`: `dist/payload-migration/native12-speed4split/com.duoface.independent_0.1.0~native12+speed4split_iphoneos-arm64.deb` (Git blob `84162d2627fa513eff51fd010c0a9bc51767d2f3`, kích thước 1,735,768 byte).
+- GitHub Actions build `38913399960` `completed/success` (commit kích hoạt `0b802d825103fd4b1ceead9dd51214374bdc8813`); artifact `duoface-native12-speed4split-isolation-deb`, ID `12051840671` chưa expired. CI bot đã lưu `dist/payload-migration/native12-speed4split/` vào repo tại commit `8470b07e066061ecafe12f484405e854df7d316a`.
+- Đọc trực tiếp `dist/payload-migration/native12-speed4split/SHA256SUMS` blob `98b511ab2992524946893c89d75d337a99ca88f4` và `BAO_CAO.json` blob `bdff80c32762140e31930015b61a68914237ca6d`. SHA256 DEB là `e73d3f3bb3e428c5656a6923f1010724151a924b983284c5d0c6c287d3939236`. Status `NATIVE12_SPEED4SPLIT_ISOLATION_DEB_STATIC_PASS_NOT_DEVICE_TESTED`; nguyên Native12 `85d754...`, `all_original_payload_bytes_unchanged=true`, `no_third_party_injection_or_waze_hooks=true`, `sileo_published=false`, `device_tested=false` **là trạng thái tại thời điểm tạo report**.
+- Trong lúc kiểm tra có commit **mới của phiên khác** `02e0ebe21e40b053c0d665d1152e559b9bd35c17` `ci(sileo): independently verify live Speed4Split rootless DEB exact SHA and preserve legacy package`, workflow `38913833693` `in_progress` lúc quan sát (2026-10-16 khoảng 14:12 UTC). Do đó **không được kết luận hiện vẫn chưa lên Sileo chỉ dựa report cũ**; chỉ xác nhận CI build DEB đã hoàn tất; phải đọc workflow public-live `38913833693` hoặc Pages index rồi mới nói Sileo public.
+- Bước tiếp theo: đọc kết luận/chi tiết workflow public Sileo run `38913833693`, xác minh repo index checksum đúng SHA, nghiệm thu có HUD thật trong split trên iPhone JB; tuyệt đối không đánh đồng CI xanh với bong bóng hiện được.
+
 ## 16/10/2026 — SPEED4SPLIT DEB THỰC ĐÃ BUILD XONG, SILEO PUBLISH VÀ LIVE VERIFIER ĐANG CHẠY
 Checkpoint: SPEED4SPLIT-BUILD-PASS-SILEO-VERIFY-IN-PROGRESS-20261016.
 
