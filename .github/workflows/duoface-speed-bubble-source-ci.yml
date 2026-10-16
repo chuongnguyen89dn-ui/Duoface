@@ -1,0 +1,55 @@
+name: DuoFace speed bubble protocol and native12 renderer compile-only, NO DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'runtime/speedbubble/**'
+      - 'Makefile.speedhud-stage'
+      - '.github/workflows/duoface-speed-bubble-source-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exercise four app sources, stale data and unknown limits
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang++ -std=c++17 -Wall -Wextra -Werror -pedantic \
+            runtime/speedbubble/test_speed_protocol.cpp -o "$RUNNER_TEMP/df-speed-test"
+          "$RUNNER_TEMP/df-speed-test"
+      - name: Verify no dependencies on other HUD tweaks or packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f runtime/speedbubble/DFSpeedProtocol.hpp
+          test -f runtime/speedbubble/DFSpeedTransport.mm
+          test -f runtime/speedbubble/DFSpeedBubbleBridge.mm
+          ! grep -E '(GOFAHUD|GMapHUD).*(dylib|\.deb|load|install)' runtime/speedbubble/*.mm
+          ! grep -F 'runtime/speedbubble' Makefile.smart-connection-stage
+          ! grep -F 'runtime/speedbubble' Makefile.fullscreen
+      - name: Compile SpringBoard HUD only using established Theos toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+          brew install ldid
+          cp Makefile.speedhud-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -n "$dylib"
+          xcrun lipo "$dylib" -verify_arch arm64
+          echo 'DUOFACE_NATIVE12_HUD_RENDERER_LINK_PASS_SOURCE_ONLY'
+      - name: Prohibit package and Sileo changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d packages || test -z "$(find packages -type f -name '*.deb' -print -quit)"
+          echo 'NO_DEB_NO_SILEO_NO_DEVICE_TEST'
