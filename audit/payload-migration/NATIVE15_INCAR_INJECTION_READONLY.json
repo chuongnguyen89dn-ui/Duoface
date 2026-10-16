@@ -1,0 +1,124 @@
+{
+  "status": "NATIVE15_INCAR_INJECTION_PLIST_READONLY",
+  "package_sha256": "8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3",
+  "mobile_substrate_filters": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist",
+      "plist": {
+        "Filter": {
+          "Bundles": [
+            "com.apple.CarPlayApp",
+            "com.apple.CarPlay",
+            "com.apple.dashboard",
+            "com.apple.springboard"
+          ],
+          "Executables": [
+            "CarPlay",
+            "CarPlayApp",
+            "Dashboard",
+            "SpringBoard"
+          ]
+        }
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.plist",
+      "plist": {
+        "Filter": {
+          "Executables": [
+            "SpringBoard"
+          ]
+        }
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist",
+      "plist": {
+        "Filter": {
+          "Bundles": [
+            "com.apple.CarPlayApp",
+            "com.apple.CarPlay",
+            "com.apple.dashboard",
+            "com.apple.springboard",
+            "com.apple.SpringBoard",
+            "com.duoface.duofaceui"
+          ]
+        }
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist",
+      "plist": {
+        "Filter": {
+          "Bundles": [
+            "com.apple.CarPlayApp",
+            "com.apple.CarPlay",
+            "com.apple.dashboard",
+            "com.apple.springboard",
+            "com.apple.SpringBoard",
+            "com.google.ios.youtube",
+            "com.google.ios.youtubemusic",
+            "com.netflix.Netflix",
+            "org.videolan.vlc-ios",
+            "com.apple.mobilesafari",
+            "tv.twitch",
+            "com.zhiliaoapp.musically",
+            "com.google.Maps",
+            "com.waze.iphone",
+            "com.spotify.client",
+            "com.apple.Preferences",
+            "com.apple.mobilenotes",
+            "com.apple.mobilephone",
+            "com.apple.Music",
+            "com.google.chrome.ios",
+            "com.apple.BarcodeScanner",
+            "com.apple.PrintKit.Print-Center",
+            "com.duoface.duofaceui"
+          ]
+        }
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.plist",
+      "plist": {
+        "Filter": {
+          "Executables": [
+            "SpringBoard",
+            "DuoFaceUI"
+          ]
+        }
+      }
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist",
+      "plist": {
+        "Filter": {
+          "Bundles": [
+            "com.apple.CarPlayApp",
+            "com.apple.CarPlay",
+            "com.apple.dashboard",
+            "com.apple.springboard",
+            "com.apple.SpringBoard",
+            "com.duoface.duofaceui"
+          ]
+        }
+      }
+    }
+  ],
+  "app_identity": [
+    {
+      "path": "var/jb/Applications/DuoFaceUI.app/Info.plist",
+      "bundle": "com.duoface.duofaceui",
+      "executable": "DuoFaceUI"
+    }
+  ],
+  "relevant_files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "runtime_process_known": false,
+  "class_load_timing_known": false,
+  "device_tested": false,
+  "package_modified": false,
+  "notes": "The Dylib presence and SpringBoard filter do not guarantee hook activation. Check constructor and runtime fallback separately."
+}
