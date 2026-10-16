@@ -1,5 +1,17 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — ẢNH NEWTERM TRÊN IPHONE: ZSH WATCH.SO KÝ MÃ LỖI, CHƯA CÓ LOG SPEED4
+Checkpoint: SPEED4-NEWTERM-ZSH-WATCH-ERROR-NO-HUD-RUNTIME-LOG-20261016.
+
+**Dữ liệu mới từ người dùng (ảnh NewTerm lúc khoảng 21:37 ngày 16/10/2026 theo ảnh):** màn hình Terminal hiển thị nhiều thông báo dynamic loader tìm `/usr/lib/zsh/5.9/zsh/watch.so` trong `/private/preboot/.../dopamine-MRT7ad/procursus/usr/lib/zsh/5.9/zsh/watch.so` kèm **`code signature invalid`, `errno=1`, `(No such file)`**; có prompt `Chuong:~ mobile%` cuối màn. Không thấy dòng `DuoFaceSpeedHUD`/`[split-owner]` trong phần ảnh người dùng cung cấp. Đây là lỗi nạp mô-đun `zsh/watch.so`, không phải exception/stack trace của HUD. Ảnh **KHÔNG xác nhận lệnh `log show ... | grep DuoFaceSpeedHUD` đã chạy thành công**, cũng không xác nhận HUD có/không được inject; KHÔNG kết luận thiếu log nghĩa là thiếu hook. Không có bằng chứng ảnh hiển thị thay đổi package/CarPlay nào.
+
+**Xử lý đúng thứ tự, tránh sửa hệ thống Zsh hoặc đoán lỗi Speed4:**
+1. Người dùng đang ở prompt `mobile%`; ưu tiên yêu cầu một lệnh ngắn để xác thực gói thực được cài trong iPhone: `dpkg -s com.duoface.independent | grep -E 'Status|Version'`. Chụp lại kết quả (đặc biệt `Version: 0.1.0~native12+speed4split`). Lệnh là đọc-only; không cần `su`, không cài/gỡ gì.
+2. Sau khi xác minh gói và shell đáp ứng lệnh, mới đề nghị lệnh log đọc-only. Lỗi Zsh `watch.so` xuất hiện trong screenshot có thể là startup/profile module, chưa có cơ sở để chữa bằng đổi quyền, tải thư viện, hoặc cập nhật Zsh. Nếu lệnh chạy bình thường sau prompt thì vẫn dùng NewTerm. Nếu lệnh bị chặn, dùng `/bin/sh` như shell tạm thời và tiếp tục; không tự làm thay đổi thư viện hệ thống.
+3. Khi có log thật, so `[DuoFaceSpeedHUD]` (constructor/hook) và `[split-owner]` (WAIT/MOUNTED) với gate Speed4, xác định process/window trước khi sửa code. Tạm dừng Speed5 và không phát hành DEB thiếu bằng chứng. Bảo toàn Native12/Sileo/Waze/GOFA/TWHub.
+
+**Phân loại:** bằng chứng đã nhận = lỗi `zsh/watch.so` trong NewTerm; chưa có log HUD, chưa sửa hệ thống/tweak, không build DEB, không test gì khác. **Điểm tiếp tục:** chờ kết quả lệnh kiểm tra package, rồi lấy log đúng để phân biệt lỗi injection với lỗi attach.
+
 ## 16/10/2026 — SPEED4 THẤT BẠI TRÊN IPHONE, ĐÃ TRUY MÃ MÁY NATIVE12; CẦN RUNTIME TRACE TRƯỚC SPEED5
 Checkpoint: SPEED4SPLIT-NATIVE12-OWNER-FORENSICS-DONE-20261016.
 **User-observed FAILURE:** “Vẫn ko hề thấy bong bóng nào” trong màn hình chia DuoFace sau khi cài Speed4Split qua Sileo. CI compile, DEB, Pages SHA PASS nhưng KHÔNG phải chứng cứ UI hoạt động. Không được tái sử dụng từ “đã thành công” để nói về bong bóng.
