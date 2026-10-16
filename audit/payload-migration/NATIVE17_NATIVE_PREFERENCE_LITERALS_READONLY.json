@@ -691,6 +691,1008 @@
           "vm": "0x30952d",
           "value": "/var/jb/Library/Application Support/DuoFace/duoface-logo.png"
         }
+      ],
+      "native_cfstring_constants": [
+        {
+          "vm": "0x345f68",
+          "value": "[DuoFace] Tweak constructor loaded in process: %@ (PID %d)"
+        },
+        {
+          "vm": "0x346048",
+          "value": ".appex"
+        },
+        {
+          "vm": "0x346068",
+          "value": "appex"
+        },
+        {
+          "vm": "0x3460a8",
+          "value": "com.apple.CarPlayApp"
+        },
+        {
+          "vm": "0x3460c8",
+          "value": "com.apple.CarPlay"
+        },
+        {
+          "vm": "0x3460e8",
+          "value": "com.apple.dashboard"
+        },
+        {
+          "vm": "0x346108",
+          "value": "com.apple.carplay"
+        },
+        {
+          "vm": "0x346128",
+          "value": "[DuoFace] Initializing DashBoard hooks in process: %@"
+        },
+        {
+          "vm": "0x346148",
+          "value": "com.apple.springboard"
+        },
+        {
+          "vm": "0x346168",
+          "value": "[DuoFace] Initializing SpringBoard hooks..."
+        },
+        {
+          "vm": "0x346188",
+          "value": "com.duoface.duofaceui"
+        },
+        {
+          "vm": "0x3461a8",
+          "value": "[DuoFace] Loaded in CarbrigdeUI for tweak detection."
+        },
+        {
+          "vm": "0x3461c8",
+          "value": "[DuoFace] Initializing App hooks for target app: %@"
+        },
+        {
+          "vm": "0x346268",
+          "value": "[DuoFace] Warning: Failed writing to log file: %@"
+        },
+        {
+          "vm": "0x346b28",
+          "value": "appLanguage"
+        },
+        {
+          "vm": "0x346c48",
+          "value": "APP_TITLE"
+        },
+        {
+          "vm": "0x346c68",
+          "value": "DuoFace"
+        },
+        {
+          "vm": "0x346d88",
+          "value": "APPLY"
+        },
+        {
+          "vm": "0x346f48",
+          "value": "TAB_SETTINGS"
+        },
+        {
+          "vm": "0x346f88",
+          "value": "TAB_APPLICATIONS"
+        },
+        {
+          "vm": "0x347048",
+          "value": "FILTER_ALL"
+        },
+        {
+          "vm": "0x347088",
+          "value": "FILTER_ENABLED"
+        },
+        {
+          "vm": "0x3470c8",
+          "value": "FILTER_NAVIGATION"
+        },
+        {
+          "vm": "0x347108",
+          "value": "FILTER_ENTERTAINMENT"
+        },
+        {
+          "vm": "0x347148",
+          "value": "FILTER_USER"
+        },
+        {
+          "vm": "0x347188",
+          "value": "FILTER_SYSTEM"
+        },
+        {
+          "vm": "0x347408",
+          "value": "APP_COUNT_FMT"
+        },
+        {
+          "vm": "0x347448",
+          "value": "ENABLED_COUNT_FMT"
+        },
+        {
+          "vm": "0x347488",
+          "value": "APPS_EXPLANATION_TITLE"
+        },
+        {
+          "vm": "0x3474c8",
+          "value": "APPS_EXPLANATION_DESC"
+        },
+        {
+          "vm": "0x347508",
+          "value": "APPS_SECTION_FOOTER"
+        },
+        {
+          "vm": "0x347548",
+          "value": "ROW_ENABLE_RECOMMENDED"
+        },
+        {
+          "vm": "0x347588",
+          "value": "ROW_ENABLE_NAVIGATION"
+        },
+        {
+          "vm": "0x3475c8",
+          "value": "ROW_ENABLE_ENTERTAINMENT"
+        },
+        {
+          "vm": "0x347608",
+          "value": "ROW_ENABLE_USER_APPS"
+        },
+        {
+          "vm": "0x347728",
+          "value": "SECTION_USER_APPS"
+        },
+        {
+          "vm": "0x347768",
+          "value": "SECTION_SYSTEM_APPS"
+        },
+        {
+          "vm": "0x347888",
+          "value": "SECTION_SLOTS"
+        },
+        {
+          "vm": "0x347948",
+          "value": "ROW_AUTO_LAUNCH_APP"
+        },
+        {
+          "vm": "0x347988",
+          "value": "AUTO_LAUNCH_DUOFACE"
+        },
+        {
+          "vm": "0x347fc8",
+          "value": "ROW_MAP_APP"
+        },
+        {
+          "vm": "0x348008",
+          "value": "ROW_MAP_APP_SUB"
+        },
+        {
+          "vm": "0x3480c8",
+          "value": "ROW_SPLIT_CONFIG"
+        },
+        {
+          "vm": "0x348108",
+          "value": "ROW_SPLIT_CONFIG_SUB"
+        },
+        {
+          "vm": "0x348248",
+          "value": "ROW_ENABLE_ALL"
+        },
+        {
+          "vm": "0x348388",
+          "value": "DuoFace Pro"
+        },
+        {
+          "vm": "0x348408",
+          "value": "SPLIT_ENABLE"
+        },
+        {
+          "vm": "0x348448",
+          "value": "SPLIT_ENABLE_SUB"
+        },
+        {
+          "vm": "0x3484c8",
+          "value": "FOOTER_SLOTS_INTRO"
+        },
+        {
+          "vm": "0x348508",
+          "value": "PICK_APP_TITLE"
+        },
+        {
+          "vm": "0x348548",
+          "value": "PRESET_1APP"
+        },
+        {
+          "vm": "0x348588",
+          "value": "PRESET_2APP_LR"
+        },
+        {
+          "vm": "0x3485c8",
+          "value": "PRESET_2APP_TB"
+        },
+        {
+          "vm": "0x348608",
+          "value": "PRESET_3APP_3COL"
+        },
+        {
+          "vm": "0x348648",
+          "value": "PRESET_3APP_1L2R"
+        },
+        {
+          "vm": "0x348688",
+          "value": "PRESET_3APP_2L1R"
+        },
+        {
+          "vm": "0x3486c8",
+          "value": "PRESET_3APP_1T2B"
+        },
+        {
+          "vm": "0x348708",
+          "value": "PRESET_3APP_2T1B"
+        },
+        {
+          "vm": "0x348748",
+          "value": "PRESET_4APP_GRID"
+        },
+        {
+          "vm": "0x3487c8",
+          "value": "SUBTITLE_1APP"
+        },
+        {
+          "vm": "0x348808",
+          "value": "SUBTITLE_2APP_LR"
+        },
+        {
+          "vm": "0x348848",
+          "value": "SUBTITLE_2APP_TB"
+        },
+        {
+          "vm": "0x348888",
+          "value": "SUBTITLE_3APP_3COL"
+        },
+        {
+          "vm": "0x3488c8",
+          "value": "SUBTITLE_3APP_1L2R"
+        },
+        {
+          "vm": "0x348908",
+          "value": "SUBTITLE_3APP_2L1R"
+        },
+        {
+          "vm": "0x348948",
+          "value": "SUBTITLE_3APP_1T2B"
+        },
+        {
+          "vm": "0x348988",
+          "value": "SUBTITLE_3APP_2T1B"
+        },
+        {
+          "vm": "0x3489c8",
+          "value": "SUBTITLE_4APP_GRID"
+        },
+        {
+          "vm": "0x348a48",
+          "value": "SLOT_SINGLE"
+        },
+        {
+          "vm": "0x348a88",
+          "value": "SLOT_LEFT_COL"
+        },
+        {
+          "vm": "0x348ac8",
+          "value": "SLOT_RIGHT_COL"
+        },
+        {
+          "vm": "0x348b08",
+          "value": "SLOT_TOP_ROW"
+        },
+        {
+          "vm": "0x348b48",
+          "value": "SLOT_BOTTOM_ROW"
+        },
+        {
+          "vm": "0x348b88",
+          "value": "SLOT_MID_COL"
+        },
+        {
+          "vm": "0x348bc8",
+          "value": "SLOT_FRAME_MAIN_LEFT"
+        },
+        {
+          "vm": "0x348c08",
+          "value": "SLOT_FRAME_MAIN_RIGHT"
+        },
+        {
+          "vm": "0x348c48",
+          "value": "SLOT_FRAME_MAIN_TOP"
+        },
+        {
+          "vm": "0x348c88",
+          "value": "SLOT_FRAME_MAIN_BOTTOM"
+        },
+        {
+          "vm": "0x348cc8",
+          "value": "SLOT_FRAME_SUB_TOP"
+        },
+        {
+          "vm": "0x348d08",
+          "value": "SLOT_FRAME_SUB_BOTTOM"
+        },
+        {
+          "vm": "0x348d48",
+          "value": "SLOT_FRAME_SUB_LEFT"
+        },
+        {
+          "vm": "0x348d88",
+          "value": "SLOT_FRAME_SUB_RIGHT"
+        },
+        {
+          "vm": "0x348dc8",
+          "value": "SLOT_CORNER_N"
+        },
+        {
+          "vm": "0x348e08",
+          "value": "SLOT_N"
+        },
+        {
+          "vm": "0x348e68",
+          "value": "DETAIL_ENABLE"
+        },
+        {
+          "vm": "0x348ee8",
+          "value": "OVERLAY_SWITCH_APP"
+        },
+        {
+          "vm": "0x348f28",
+          "value": "OVERLAY_SWITCH_APP_SHORT"
+        },
+        {
+          "vm": "0x348fc8",
+          "value": "TAB_APPS"
+        },
+        {
+          "vm": "0x349028",
+          "value": "NO_APPS_TITLE"
+        },
+        {
+          "vm": "0x349068",
+          "value": "NO_APPS_DESC"
+        },
+        {
+          "vm": "0x3491e8",
+          "value": "OVERLAY_ADD_APP"
+        },
+        {
+          "vm": "0x349228",
+          "value": "ADD_MORE_APPS_ALERT_TITLE"
+        },
+        {
+          "vm": "0x349268",
+          "value": "ADD_MORE_APPS_ALERT_MSG"
+        },
+        {
+          "vm": "0x3492a8",
+          "value": "ADD_MORE_APPS_ALERT_OK"
+        },
+        {
+          "vm": "0x349628",
+          "value": "VOICE_OPENING_APP"
+        },
+        {
+          "vm": "0x349668",
+          "value": "VOICE_APP_NOT_FOUND"
+        },
+        {
+          "vm": "0x34b608",
+          "value": "DuoFace VIP"
+        },
+        {
+          "vm": "0x34b868",
+          "value": "Apps durchsuchen..."
+        },
+        {
+          "vm": "0x34b908",
+          "value": "Apps"
+        },
+        {
+          "vm": "0x34bb08",
+          "value": "%lu Apps"
+        },
+        {
+          "vm": "0x34bb48",
+          "value": "Apps auf CarPlay anzeigen"
+        },
+        {
+          "vm": "0x34bb68",
+          "value": "Schalter aktivieren, um Apps auf dem CarPlay-Bildschirm anzuzeigen."
+        },
+        {
+          "vm": "0x34bc08",
+          "value": "Alle Benutzer-Apps aktivieren"
+        },
+        {
+          "vm": "0x34bca8",
+          "value": "BENUTZER-APPS"
+        },
+        {
+          "vm": "0x34bcc8",
+          "value": "SYSTEM-APPS"
+        },
+        {
+          "vm": "0x34bd68",
+          "value": "Apps den Fenstern zuweisen"
+        },
+        {
+          "vm": "0x34bdc8",
+          "value": "Automatisch gestartete App"
+        },
+        {
+          "vm": "0x34bde8",
+          "value": "DuoFace (Geteilter Bildschirm)"
+        },
+        {
+          "vm": "0x34be08",
+          "value": "Zuletzt aktive App wiederherstellen"
+        },
+        {
+          "vm": "0x34bea8",
+          "value": "App-Sprache"
+        },
+        {
+          "vm": "0x34c108",
+          "value": "Standard-Karten-App"
+        },
+        {
+          "vm": "0x34c208",
+          "value": "App-Namen ausblenden"
+        },
+        {
+          "vm": "0x34c248",
+          "value": "Alle Apps aktivieren"
+        },
+        {
+          "vm": "0x34c268",
+          "value": "Alle Apps deaktivieren"
+        },
+        {
+          "vm": "0x34c2c8",
+          "value": "DuoFace-Team"
+        },
+        {
+          "vm": "0x34c368",
+          "value": "Tippen Sie auf die Positionen, um festzulegen, welche Apps gleichzeitig auf dem Fahrzeugdisplay angezeigt werden."
+        },
+        {
+          "vm": "0x34c3a8",
+          "value": "1 App (Vollbild)"
+        },
+        {
+          "vm": "0x34c3c8",
+          "value": "2 Apps vertikal (Links | Rechts)"
+        },
+        {
+          "vm": "0x34c3e8",
+          "value": "2 Apps horizontal (Oben / Unten)"
+        },
+        {
+          "vm": "0x34c408",
+          "value": "3 Spalten (3 Apps)"
+        },
+        {
+          "vm": "0x34c4a8",
+          "value": "4 Apps (2x2 Raster)"
+        },
+        {
+          "vm": "0x34c4e8",
+          "value": "1 App im Vollbild"
+        },
+        {
+          "vm": "0x34c508",
+          "value": "2 Apps nebeneinander"
+        },
+        {
+          "vm": "0x34c548",
+          "value": "3 Apps in 3 Spalten"
+        },
+        {
+          "vm": "0x34c868",
+          "value": "App wechseln: %@"
+        },
+        {
+          "vm": "0x34c8c8",
+          "value": "Keine aktivierten Apps"
+        },
+        {
+          "vm": "0x34c908",
+          "value": "Aktiv: %lu Apps"
+        },
+        {
+          "vm": "0x34c928",
+          "value": "Keine Apps aktiv"
+        },
+        {
+          "vm": "0x34c9e8",
+          "value": "Alle Apps geschlossen"
+        },
+        {
+          "vm": "0x34cb88",
+          "value": "App %@ wurde auf dem iPhone nicht gefunden."
+        },
+        {
+          "vm": "0x34cc68",
+          "value": "DuoFace erfordert eine aktive Lizenz zur Nutzung auf CarPlay. Bitte aktivieren Sie die Lizenz, um zu starten."
+        },
+        {
+          "vm": "0x34cd68",
+          "value": "2-3 Apps"
+        },
+        {
+          "vm": "0x34cf08",
+          "value": "DuoFace Pro Mitglied"
+        },
+        {
+          "vm": "0x34d048",
+          "value": "Von DuoFace-Server verifiziert"
+        },
+        {
+          "vm": "0x34d068",
+          "value": "DuoFace VIP Lebenslang"
+        },
+        {
+          "vm": "0x34d1e8",
+          "value": "Apply"
+        },
+        {
+          "vm": "0x34d248",
+          "value": "Search applications..."
+        },
+        {
+          "vm": "0x34d2c8",
+          "value": "Settings"
+        },
+        {
+          "vm": "0x34d2e8",
+          "value": "Applications"
+        },
+        {
+          "vm": "0x34d368",
+          "value": "Enabled"
+        },
+        {
+          "vm": "0x34d408",
+          "value": "Reset Settings?"
+        },
+        {
+          "vm": "0x34d428",
+          "value": "All DuoFace configurations will be restored to factory defaults."
+        },
+        {
+          "vm": "0x34d4a8",
+          "value": "%lu apps"
+        },
+        {
+          "vm": "0x34d4c8",
+          "value": "%lu enabled / %lu"
+        },
+        {
+          "vm": "0x34d4e8",
+          "value": "Display Apps on CarPlay"
+        },
+        {
+          "vm": "0x34d508",
+          "value": "Enable switches to mirror applications to CarPlay."
+        },
+        {
+          "vm": "0x34d528",
+          "value": "By default, Navigation and Entertainment apps are enabled for CarPlay. You can toggle other apps as needed. Tap any app row to customize resolution DPI."
+        },
+        {
+          "vm": "0x34d5a8",
+          "value": "Enable All User Apps"
+        },
+        {
+          "vm": "0x34d5e8",
+          "value": "CARPLAY INTERFACE CONFIG"
+        },
+        {
+          "vm": "0x34d648",
+          "value": "USER APPLICATIONS"
+        },
+        {
+          "vm": "0x34d668",
+          "value": "SYSTEM APPLICATIONS"
+        },
+        {
+          "vm": "0x34d6e8",
+          "value": "Assign Apps to Slots"
+        },
+        {
+          "vm": "0x34d728",
+          "value": "Automatically open DuoFace when connecting to CarPlay"
+        },
+        {
+          "vm": "0x34d748",
+          "value": "Auto-Launch App"
+        },
+        {
+          "vm": "0x34d768",
+          "value": "DuoFace (Split Screen)"
+        },
+        {
+          "vm": "0x34d788",
+          "value": "Restore Last Active App"
+        },
+        {
+          "vm": "0x34d828",
+          "value": "App Language"
+        },
+        {
+          "vm": "0x34da88",
+          "value": "Default Maps App"
+        },
+        {
+          "vm": "0x34db08",
+          "value": "Split-Screen Configuration"
+        },
+        {
+          "vm": "0x34db28",
+          "value": "Run 1 to 4 apps concurrently in multi-window layout"
+        },
+        {
+          "vm": "0x34db88",
+          "value": "Hide App Labels"
+        },
+        {
+          "vm": "0x34dbc8",
+          "value": "Enable All Apps"
+        },
+        {
+          "vm": "0x34dbe8",
+          "value": "Disable All Apps"
+        },
+        {
+          "vm": "0x34dc28",
+          "value": "Are you sure you want to restart SpringBoard to apply changes on CarPlay?"
+        },
+        {
+          "vm": "0x34dc48",
+          "value": "DuoFace Team"
+        },
+        {
+          "vm": "0x34dc68",
+          "value": "Enable Split Screen"
+        },
+        {
+          "vm": "0x34dc88",
+          "value": "Run 1 to 4 apps side-by-side"
+        },
+        {
+          "vm": "0x34dcc8",
+          "value": "Tap each position to choose the app you want to display simultaneously on your car display."
+        },
+        {
+          "vm": "0x34dce8",
+          "value": "Select Application"
+        },
+        {
+          "vm": "0x34dd08",
+          "value": "1 App (Fullscreen)"
+        },
+        {
+          "vm": "0x34dd28",
+          "value": "2 Apps Vertical (Left | Right)"
+        },
+        {
+          "vm": "0x34dd48",
+          "value": "2 Apps Horizontal (Top / Bottom)"
+        },
+        {
+          "vm": "0x34dd68",
+          "value": "3 Columns (3 Apps)"
+        },
+        {
+          "vm": "0x34de08",
+          "value": "4 Apps (2x2 Grid)"
+        },
+        {
+          "vm": "0x34de48",
+          "value": "1 fullscreen app"
+        },
+        {
+          "vm": "0x34de68",
+          "value": "2 apps side-by-side"
+        },
+        {
+          "vm": "0x34de88",
+          "value": "2 stacked apps"
+        },
+        {
+          "vm": "0x34dea8",
+          "value": "3 apps in 3 columns"
+        },
+        {
+          "vm": "0x34df48",
+          "value": "4 apps equally divided"
+        },
+        {
+          "vm": "0x34df88",
+          "value": "Single App"
+        },
+        {
+          "vm": "0x34e148",
+          "value": "Corner Slot %ld"
+        },
+        {
+          "vm": "0x34e168",
+          "value": "Slot %ld"
+        },
+        {
+          "vm": "0x34e188",
+          "value": "Enable on CarPlay"
+        },
+        {
+          "vm": "0x34e1c8",
+          "value": "Switch App: %@"
+        },
+        {
+          "vm": "0x34e208",
+          "value": "No Active Apps"
+        },
+        {
+          "vm": "0x34e228",
+          "value": "Open DuoFace on iPhone to enable permissions for apps."
+        },
+        {
+          "vm": "0x34e248",
+          "value": "Active: %lu apps"
+        },
+        {
+          "vm": "0x34e268",
+          "value": "No apps running"
+        },
+        {
+          "vm": "0x34e2e8",
+          "value": "Add App"
+        },
+        {
+          "vm": "0x34e308",
+          "value": "Add Application"
+        },
+        {
+          "vm": "0x34e328",
+          "value": "Park safely and open DuoFace on your iPhone to add more apps."
+        },
+        {
+          "vm": "0x34e368",
+          "value": "All Apps Closed"
+        },
+        {
+          "vm": "0x34e388",
+          "value": "RAM is in optimal state. No background apps running."
+        },
+        {
+          "vm": "0x34e488",
+          "value": "You can say: Navigate to, Open app, Play music, Screen off, or Split screen."
+        },
+        {
+          "vm": "0x34e4a8",
+          "value": "Command not recognized. You can say: Navigate to, or Open app."
+        },
+        {
+          "vm": "0x34e508",
+          "value": "App %@ was not found on iPhone."
+        },
+        {
+          "vm": "0x34e7c8",
+          "value": "DuoFace Pro Member"
+        },
+        {
+          "vm": "0x34eb08",
+          "value": "Code [%@] has been applied.\nDuration: %@.\nAll CarPlay multitasking features are ready."
+        },
+        {
+          "vm": "0x34ec08",
+          "value": "Could not load subscription plans from server. Please reopen the app or try again later."
+        },
+        {
+          "vm": "0x34ece8",
+          "value": "Verified by DuoFace Server"
+        },
+        {
+          "vm": "0x34ed08",
+          "value": "DuoFace VIP Lifetime"
+        },
+        {
+          "vm": "0x34f1c8",
+          "value": "Activa los interruptores para ver las apps en CarPlay."
+        },
+        {
+          "vm": "0x34f248",
+          "value": "Activar apps de usuario"
+        },
+        {
+          "vm": "0x34f428",
+          "value": "DuoFace (Pantalla dividida)"
+        },
+        {
+          "vm": "0x34f4e8",
+          "value": "Idioma de la app"
+        },
+        {
+          "vm": "0x34f748",
+          "value": "App de mapas predeterminada"
+        },
+        {
+          "vm": "0x34f7c8",
+          "value": "Configurar pantalla dividida"
+        },
+        {
+          "vm": "0x34f848",
+          "value": "Ocultar nombres de apps"
+        },
+        {
+          "vm": "0x34f888",
+          "value": "Activar todas las apps"
+        },
+        {
+          "vm": "0x34f8a8",
+          "value": "Desactivar todas las apps"
+        },
+        {
+          "vm": "0x34f908",
+          "value": "Equipo DuoFace"
+        },
+        {
+          "vm": "0x34f948",
+          "value": "Ejecuta de 1 a 4 apps a la vez"
+        },
+        {
+          "vm": "0x34f9c8",
+          "value": "1 App (Pantalla completa)"
+        },
+        {
+          "vm": "0x34f9e8",
+          "value": "2 Apps Vertical (Izquierda | Derecha)"
+        },
+        {
+          "vm": "0x34fa08",
+          "value": "2 Apps Horizontal (Arriba / Abajo)"
+        },
+        {
+          "vm": "0x34fa28",
+          "value": "3 Columnas (3 Apps)"
+        },
+        {
+          "vm": "0x34fb08",
+          "value": "1 app en pantalla completa"
+        },
+        {
+          "vm": "0x34fb28",
+          "value": "2 apps en paralelo"
+        },
+        {
+          "vm": "0x34fb48",
+          "value": "2 apps superpuestas"
+        },
+        {
+          "vm": "0x34fb68",
+          "value": "3 apps en 3 columnas"
+        },
+        {
+          "vm": "0x34fc08",
+          "value": "4 apps divididas por igual"
+        },
+        {
+          "vm": "0x34fe88",
+          "value": "Cambiar app: %@"
+        },
+        {
+          "vm": "0x34ff08",
+          "value": "Abre DuoFace en el iPhone para activar permisos de aplicaciones."
+        },
+        {
+          "vm": "0x350028",
+          "value": "Todas las apps cerradas"
+        },
+        {
+          "vm": "0x350168",
+          "value": "Comando no reconocido. Puedes decir: Ir a o Abrir app."
+        },
+        {
+          "vm": "0x350248",
+          "value": "Estaciona de forma segura y abre DuoFace en el iPhone para activar la licencia antes de continuar."
+        },
+        {
+          "vm": "0x350268",
+          "value": "El periodo de licencia ha expirado. Estaciona con seguridad y abre DuoFace en el iPhone para renovar."
+        },
+        {
+          "vm": "0x3503a8",
+          "value": "2-3 apps"
+        },
+        {
+          "vm": "0x350548",
+          "value": "Miembro DuoFace Pro"
+        },
+        {
+          "vm": "0x350688",
+          "value": "Verificado por servidor DuoFace"
+        },
+        {
+          "vm": "0x3506a8",
+          "value": "DuoFace VIP De por vida"
+        },
+        {
+          "vm": "0x350828",
+          "value": "Appliquer"
+        },
+        {
+          "vm": "0x350888",
+          "value": "Rechercher des apps..."
+        },
+        {
+          "vm": "0x350ae8",
+          "value": "%lu applications"
+        },
+        {
+          "vm": "0x350b28",
+          "value": "Afficher les apps sur CarPlay"
+        },
+        {
+          "vm": "0x350b48",
+          "value": "Activez les commutateurs pour afficher les apps sur CarPlay."
+        },
+        {
+          "vm": "0x350bc8",
+          "value": "Activer les apps utilisateur"
+        },
+        {
+          "vm": "0x350c08",
+          "value": "CONFIGURATION CARPLAY"
+        },
+        {
+          "vm": "0x350c68",
+          "value": "APPLICATIONS UTILISATEUR"
+        },
+        {
+          "vm": "0x350d88",
+          "value": "App au lancement"
+        },
+        {
+          "vm": "0x350e68",
+          "value": "Langue de l'app"
+        },
+        {
+          "vm": "0x3511c8",
+          "value": "Masquer les noms d'apps"
+        },
+        {
+          "vm": "0x351208",
+          "value": "Activer toutes les apps"
+        },
+        {
+          "vm": "0x351268",
+          "value": "Voulez-vous relancer SpringBoard pour appliquer les modifications sur CarPlay ?"
+        },
+        {
+          "vm": "0x351368",
+          "value": "2 Apps Vertical (Gauche | Droite)"
+        },
+        {
+          "vm": "0x351388",
+          "value": "2 Apps Horizontal (Haut / Bas)"
+        },
+        {
+          "vm": "0x3513a8",
+          "value": "3 Colonnes (3 Apps)"
+        },
+        {
+          "vm": "0x351448",
+          "value": "4 Apps (Grille 2x2)"
+        },
+        {
+          "vm": "0x3514e8",
+          "value": "3 apps sur 3 colonnes"
+        },
+        {
+          "vm": "0x351828",
+          "value": "Changer d'app : %@"
+        }
       ]
     },
     "DuoFaceUI": {
@@ -1223,6 +2225,1008 @@
         {
           "vm": "0x1000ba336",
           "value": "[DuoFace] Warning: Failed writing to log file: %@"
+        }
+      ],
+      "native_cfstring_constants": [
+        {
+          "vm": "0x1000e9188",
+          "value": "TAB_APPLICATIONS"
+        },
+        {
+          "vm": "0x1000e9248",
+          "value": "TAB_SETTINGS"
+        },
+        {
+          "vm": "0x1000e92a8",
+          "value": "CBBridgeManager"
+        },
+        {
+          "vm": "0x1000e9368",
+          "value": "CBAppsListUpdatedNotification"
+        },
+        {
+          "vm": "0x1000e9408",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x1000e9428",
+          "value": "app.fill"
+        },
+        {
+          "vm": "0x1000e9468",
+          "value": "com.apple."
+        },
+        {
+          "vm": "0x1000e9488",
+          "value": "userAppsDefaultInitialized"
+        },
+        {
+          "vm": "0x1000e95c8",
+          "value": "com.apple.webapp"
+        },
+        {
+          "vm": "0x1000e9608",
+          "value": "com.apple.springboard"
+        },
+        {
+          "vm": "0x1000e9628",
+          "value": "com.apple.CarPlayApp"
+        },
+        {
+          "vm": "0x1000e9648",
+          "value": "com.apple.CarPlaySettings"
+        },
+        {
+          "vm": "0x1000e9668",
+          "value": "com.apple.CarPlayWallpaper"
+        },
+        {
+          "vm": "0x1000e9688",
+          "value": "com.apple.CarPlayTemplateUIHost"
+        },
+        {
+          "vm": "0x1000e96a8",
+          "value": "com.apple.InCallService"
+        },
+        {
+          "vm": "0x1000e96c8",
+          "value": "com.apple.CoreAuthUI"
+        },
+        {
+          "vm": "0x1000e96e8",
+          "value": "com.apple.Diagnostics"
+        },
+        {
+          "vm": "0x1000e9708",
+          "value": "com.apple.PassbookUIService"
+        },
+        {
+          "vm": "0x1000e9728",
+          "value": "com.apple.StoreKitUIService"
+        },
+        {
+          "vm": "0x1000e9748",
+          "value": "com.apple.SharingViewService"
+        },
+        {
+          "vm": "0x1000e9768",
+          "value": "com.apple.ScreenshotServicesService"
+        },
+        {
+          "vm": "0x1000e9788",
+          "value": "com.apple.HomeUIService"
+        },
+        {
+          "vm": "0x1000e97a8",
+          "value": "com.apple.AuthKitUIService"
+        },
+        {
+          "vm": "0x1000e97c8",
+          "value": "com.apple.SIMSetupSupport.SIMSetupUIService"
+        },
+        {
+          "vm": "0x1000e97e8",
+          "value": "com.apple.CTNotifyUIService"
+        },
+        {
+          "vm": "0x1000e9808",
+          "value": "com.apple.TrustMe"
+        },
+        {
+          "vm": "0x1000e9828",
+          "value": "com.apple.PurpleSoftware"
+        },
+        {
+          "vm": "0x1000e9848",
+          "value": "com.apple.fieldtest"
+        },
+        {
+          "vm": "0x1000e9868",
+          "value": "com.apple.sidecar"
+        },
+        {
+          "vm": "0x1000e9888",
+          "value": "com.apple.SharedWebCredentialsViewService"
+        },
+        {
+          "vm": "0x1000e98a8",
+          "value": "com.apple.CheckerBoard"
+        },
+        {
+          "vm": "0x1000e98c8",
+          "value": "com.apple.ScreenTimeUnlock"
+        },
+        {
+          "vm": "0x1000e98e8",
+          "value": "com.apple.DataActivation"
+        },
+        {
+          "vm": "0x1000e9908",
+          "value": "com.apple.PreBoard"
+        },
+        {
+          "vm": "0x1000e9aa8",
+          "value": "com.apple.maps"
+        },
+        {
+          "vm": "0x1000e9b88",
+          "value": "here.app.maps"
+        },
+        {
+          "vm": "0x1000e9e88",
+          "value": "com.apple.music"
+        },
+        {
+          "vm": "0x1000e9ea8",
+          "value": "com.apple.podcasts"
+        },
+        {
+          "vm": "0x1000e9ec8",
+          "value": "com.apple.tv"
+        },
+        {
+          "vm": "0x1000ea328",
+          "value": "apple music"
+        },
+        {
+          "vm": "0x1000ea348",
+          "value": "apple tv"
+        },
+        {
+          "vm": "0x1000ea568",
+          "value": "screenBlankEnabled"
+        },
+        {
+          "vm": "0x1000ea588",
+          "value": "dockSystemMonitorEnabled"
+        },
+        {
+          "vm": "0x1000ea5a8",
+          "value": "hideLabelsEnabled"
+        },
+        {
+          "vm": "0x1000ea5c8",
+          "value": "autoLaunchBundleID"
+        },
+        {
+          "vm": "0x1000ea608",
+          "value": "systemOptimizerEnabled"
+        },
+        {
+          "vm": "0x1000ea668",
+          "value": "appLanguage"
+        },
+        {
+          "vm": "0x1000eac28",
+          "value": "DuoFace Team"
+        },
+        {
+          "vm": "0x1000eac88",
+          "value": "APPS_EXPLANATION_TITLE"
+        },
+        {
+          "vm": "0x1000eaca8",
+          "value": "APPS_EXPLANATION_DESC"
+        },
+        {
+          "vm": "0x1000eacc8",
+          "value": "FILTER_ALL"
+        },
+        {
+          "vm": "0x1000eace8",
+          "value": "FILTER_ENABLED"
+        },
+        {
+          "vm": "0x1000ead08",
+          "value": "FILTER_NAVIGATION"
+        },
+        {
+          "vm": "0x1000ead28",
+          "value": "FILTER_ENTERTAINMENT"
+        },
+        {
+          "vm": "0x1000ead48",
+          "value": "FILTER_SYSTEM"
+        },
+        {
+          "vm": "0x1000eada8",
+          "value": "SECTION_USER_APPS"
+        },
+        {
+          "vm": "0x1000eade8",
+          "value": "ENABLED_COUNT_FMT"
+        },
+        {
+          "vm": "0x1000eae08",
+          "value": "SECTION_SYSTEM_APPS"
+        },
+        {
+          "vm": "0x1000eae28",
+          "value": "VOICE_APP_NOT_FOUND"
+        },
+        {
+          "vm": "0x1000eae88",
+          "value": "ROW_ENABLE_RECOMMENDED"
+        },
+        {
+          "vm": "0x1000eaea8",
+          "value": "ROW_ENABLE_ALL"
+        },
+        {
+          "vm": "0x1000eaee8",
+          "value": "CBAppManagerCell"
+        },
+        {
+          "vm": "0x1000eafa8",
+          "value": "PICK_APP_TITLE"
+        },
+        {
+          "vm": "0x1000eafc8",
+          "value": "bundleIdentifier"
+        },
+        {
+          "vm": "0x1000eb008",
+          "value": "displayName CONTAINS[cd] %@ OR bundleIdentifier CONTAINS[cd] %@"
+        },
+        {
+          "vm": "0x1000eb068",
+          "value": "app.dashed"
+        },
+        {
+          "vm": "0x1000eb0a8",
+          "value": "splitScreenEnabled"
+        },
+        {
+          "vm": "0x1000eb108",
+          "value": "splitApp1"
+        },
+        {
+          "vm": "0x1000eb128",
+          "value": "splitLeftBundleID"
+        },
+        {
+          "vm": "0x1000eb148",
+          "value": "splitApp2"
+        },
+        {
+          "vm": "0x1000eb168",
+          "value": "splitRightBundleID"
+        },
+        {
+          "vm": "0x1000eb188",
+          "value": "splitApp3"
+        },
+        {
+          "vm": "0x1000eb1a8",
+          "value": "splitApp4"
+        },
+        {
+          "vm": "0x1000eb1c8",
+          "value": "PRESET_1APP"
+        },
+        {
+          "vm": "0x1000eb1e8",
+          "value": "PRESET_2APP_LR"
+        },
+        {
+          "vm": "0x1000eb208",
+          "value": "PRESET_2APP_TB"
+        },
+        {
+          "vm": "0x1000eb228",
+          "value": "PRESET_3APP_3COL"
+        },
+        {
+          "vm": "0x1000eb248",
+          "value": "PRESET_3APP_1L2R"
+        },
+        {
+          "vm": "0x1000eb268",
+          "value": "PRESET_3APP_2L1R"
+        },
+        {
+          "vm": "0x1000eb288",
+          "value": "PRESET_3APP_1T2B"
+        },
+        {
+          "vm": "0x1000eb2a8",
+          "value": "PRESET_3APP_2T1B"
+        },
+        {
+          "vm": "0x1000eb2c8",
+          "value": "PRESET_4APP_GRID"
+        },
+        {
+          "vm": "0x1000eb308",
+          "value": "SLOT_SINGLE"
+        },
+        {
+          "vm": "0x1000eb328",
+          "value": "SLOT_LEFT_COL"
+        },
+        {
+          "vm": "0x1000eb348",
+          "value": "SLOT_RIGHT_COL"
+        },
+        {
+          "vm": "0x1000eb368",
+          "value": "SLOT_TOP_ROW"
+        },
+        {
+          "vm": "0x1000eb388",
+          "value": "SLOT_BOTTOM_ROW"
+        },
+        {
+          "vm": "0x1000eb3a8",
+          "value": "SLOT_MID_COL"
+        },
+        {
+          "vm": "0x1000eb3c8",
+          "value": "SLOT_FRAME_MAIN_LEFT"
+        },
+        {
+          "vm": "0x1000eb3e8",
+          "value": "SLOT_FRAME_SUB_TOP"
+        },
+        {
+          "vm": "0x1000eb408",
+          "value": "SLOT_FRAME_SUB_BOTTOM"
+        },
+        {
+          "vm": "0x1000eb428",
+          "value": "SLOT_FRAME_MAIN_RIGHT"
+        },
+        {
+          "vm": "0x1000eb448",
+          "value": "SLOT_FRAME_MAIN_TOP"
+        },
+        {
+          "vm": "0x1000eb468",
+          "value": "SLOT_FRAME_SUB_LEFT"
+        },
+        {
+          "vm": "0x1000eb488",
+          "value": "SLOT_FRAME_SUB_RIGHT"
+        },
+        {
+          "vm": "0x1000eb4a8",
+          "value": "SLOT_FRAME_MAIN_BOTTOM"
+        },
+        {
+          "vm": "0x1000eb4c8",
+          "value": "SLOT_CORNER_N"
+        },
+        {
+          "vm": "0x1000eb4e8",
+          "value": "SLOT_N"
+        },
+        {
+          "vm": "0x1000eb528",
+          "value": "SECTION_SLOTS"
+        },
+        {
+          "vm": "0x1000eb548",
+          "value": "FOOTER_SLOTS_INTRO"
+        },
+        {
+          "vm": "0x1000eb628",
+          "value": "app.badge.fill"
+        },
+        {
+          "vm": "0x1000eb668",
+          "value": "assistantEnabled"
+        },
+        {
+          "vm": "0x1000eb6a8",
+          "value": "voiceFeedbackEnabled"
+        },
+        {
+          "vm": "0x1000eb728",
+          "value": "ROW_MAP_APP"
+        },
+        {
+          "vm": "0x1000eb748",
+          "value": "ROW_MAP_APP_SUB"
+        },
+        {
+          "vm": "0x1000eb7a8",
+          "value": "Apple"
+        },
+        {
+          "vm": "0x1000eb848",
+          "value": "1.0.3 (DuoFace Commercial Pro Edition)"
+        },
+        {
+          "vm": "0x1000eb868",
+          "value": "DuoFace Pro"
+        },
+        {
+          "vm": "0x1000ec0a8",
+          "value": "code_applied"
+        },
+        {
+          "vm": "0x1000ed368",
+          "value": "APP_TITLE"
+        },
+        {
+          "vm": "0x1000ed388",
+          "value": "DuoFace"
+        },
+        {
+          "vm": "0x1000ed428",
+          "value": "APPLY"
+        },
+        {
+          "vm": "0x1000ed688",
+          "value": "FILTER_USER"
+        },
+        {
+          "vm": "0x1000ed7c8",
+          "value": "APP_COUNT_FMT"
+        },
+        {
+          "vm": "0x1000ed868",
+          "value": "APPS_SECTION_FOOTER"
+        },
+        {
+          "vm": "0x1000ed8c8",
+          "value": "ROW_ENABLE_NAVIGATION"
+        },
+        {
+          "vm": "0x1000ed908",
+          "value": "ROW_ENABLE_ENTERTAINMENT"
+        },
+        {
+          "vm": "0x1000ed948",
+          "value": "ROW_ENABLE_USER_APPS"
+        },
+        {
+          "vm": "0x1000edb28",
+          "value": "ROW_AUTO_LAUNCH_APP"
+        },
+        {
+          "vm": "0x1000edb68",
+          "value": "AUTO_LAUNCH_DUOFACE"
+        },
+        {
+          "vm": "0x1000ee128",
+          "value": "ROW_SPLIT_CONFIG"
+        },
+        {
+          "vm": "0x1000ee168",
+          "value": "ROW_SPLIT_CONFIG_SUB"
+        },
+        {
+          "vm": "0x1000ee328",
+          "value": "SPLIT_ENABLE"
+        },
+        {
+          "vm": "0x1000ee368",
+          "value": "SPLIT_ENABLE_SUB"
+        },
+        {
+          "vm": "0x1000ee568",
+          "value": "SUBTITLE_1APP"
+        },
+        {
+          "vm": "0x1000ee5a8",
+          "value": "SUBTITLE_2APP_LR"
+        },
+        {
+          "vm": "0x1000ee5e8",
+          "value": "SUBTITLE_2APP_TB"
+        },
+        {
+          "vm": "0x1000ee628",
+          "value": "SUBTITLE_3APP_3COL"
+        },
+        {
+          "vm": "0x1000ee668",
+          "value": "SUBTITLE_3APP_1L2R"
+        },
+        {
+          "vm": "0x1000ee6a8",
+          "value": "SUBTITLE_3APP_2L1R"
+        },
+        {
+          "vm": "0x1000ee6e8",
+          "value": "SUBTITLE_3APP_1T2B"
+        },
+        {
+          "vm": "0x1000ee728",
+          "value": "SUBTITLE_3APP_2T1B"
+        },
+        {
+          "vm": "0x1000ee768",
+          "value": "SUBTITLE_4APP_GRID"
+        },
+        {
+          "vm": "0x1000eea08",
+          "value": "DETAIL_ENABLE"
+        },
+        {
+          "vm": "0x1000eea88",
+          "value": "OVERLAY_SWITCH_APP"
+        },
+        {
+          "vm": "0x1000eeac8",
+          "value": "OVERLAY_SWITCH_APP_SHORT"
+        },
+        {
+          "vm": "0x1000eeb68",
+          "value": "TAB_APPS"
+        },
+        {
+          "vm": "0x1000eebc8",
+          "value": "NO_APPS_TITLE"
+        },
+        {
+          "vm": "0x1000eec08",
+          "value": "NO_APPS_DESC"
+        },
+        {
+          "vm": "0x1000eed88",
+          "value": "OVERLAY_ADD_APP"
+        },
+        {
+          "vm": "0x1000eedc8",
+          "value": "ADD_MORE_APPS_ALERT_TITLE"
+        },
+        {
+          "vm": "0x1000eee08",
+          "value": "ADD_MORE_APPS_ALERT_MSG"
+        },
+        {
+          "vm": "0x1000eee48",
+          "value": "ADD_MORE_APPS_ALERT_OK"
+        },
+        {
+          "vm": "0x1000ef1c8",
+          "value": "VOICE_OPENING_APP"
+        },
+        {
+          "vm": "0x1000f0728",
+          "value": "DuoFace VIP"
+        },
+        {
+          "vm": "0x1000f0908",
+          "value": "Apps durchsuchen..."
+        },
+        {
+          "vm": "0x1000f09a8",
+          "value": "Apps"
+        },
+        {
+          "vm": "0x1000f0b88",
+          "value": "%lu Apps"
+        },
+        {
+          "vm": "0x1000f0bc8",
+          "value": "Apps auf CarPlay anzeigen"
+        },
+        {
+          "vm": "0x1000f0be8",
+          "value": "Schalter aktivieren, um Apps auf dem CarPlay-Bildschirm anzuzeigen."
+        },
+        {
+          "vm": "0x1000f0c88",
+          "value": "Alle Benutzer-Apps aktivieren"
+        },
+        {
+          "vm": "0x1000f0d28",
+          "value": "BENUTZER-APPS"
+        },
+        {
+          "vm": "0x1000f0d48",
+          "value": "SYSTEM-APPS"
+        },
+        {
+          "vm": "0x1000f0de8",
+          "value": "Apps den Fenstern zuweisen"
+        },
+        {
+          "vm": "0x1000f0e48",
+          "value": "Automatisch gestartete App"
+        },
+        {
+          "vm": "0x1000f0e68",
+          "value": "DuoFace (Geteilter Bildschirm)"
+        },
+        {
+          "vm": "0x1000f0e88",
+          "value": "Zuletzt aktive App wiederherstellen"
+        },
+        {
+          "vm": "0x1000f0f28",
+          "value": "App-Sprache"
+        },
+        {
+          "vm": "0x1000f1188",
+          "value": "Standard-Karten-App"
+        },
+        {
+          "vm": "0x1000f1288",
+          "value": "App-Namen ausblenden"
+        },
+        {
+          "vm": "0x1000f12c8",
+          "value": "Alle Apps aktivieren"
+        },
+        {
+          "vm": "0x1000f12e8",
+          "value": "Alle Apps deaktivieren"
+        },
+        {
+          "vm": "0x1000f1348",
+          "value": "DuoFace-Team"
+        },
+        {
+          "vm": "0x1000f13e8",
+          "value": "Tippen Sie auf die Positionen, um festzulegen, welche Apps gleichzeitig auf dem Fahrzeugdisplay angezeigt werden."
+        },
+        {
+          "vm": "0x1000f1428",
+          "value": "1 App (Vollbild)"
+        },
+        {
+          "vm": "0x1000f1448",
+          "value": "2 Apps vertikal (Links | Rechts)"
+        },
+        {
+          "vm": "0x1000f1468",
+          "value": "2 Apps horizontal (Oben / Unten)"
+        },
+        {
+          "vm": "0x1000f1488",
+          "value": "3 Spalten (3 Apps)"
+        },
+        {
+          "vm": "0x1000f1528",
+          "value": "4 Apps (2x2 Raster)"
+        },
+        {
+          "vm": "0x1000f1568",
+          "value": "1 App im Vollbild"
+        },
+        {
+          "vm": "0x1000f1588",
+          "value": "2 Apps nebeneinander"
+        },
+        {
+          "vm": "0x1000f15c8",
+          "value": "3 Apps in 3 Spalten"
+        },
+        {
+          "vm": "0x1000f18e8",
+          "value": "App wechseln: %@"
+        },
+        {
+          "vm": "0x1000f1948",
+          "value": "Keine aktivierten Apps"
+        },
+        {
+          "vm": "0x1000f1988",
+          "value": "Aktiv: %lu Apps"
+        },
+        {
+          "vm": "0x1000f19a8",
+          "value": "Keine Apps aktiv"
+        },
+        {
+          "vm": "0x1000f1a68",
+          "value": "Alle Apps geschlossen"
+        },
+        {
+          "vm": "0x1000f1c08",
+          "value": "App %@ wurde auf dem iPhone nicht gefunden."
+        },
+        {
+          "vm": "0x1000f1ce8",
+          "value": "DuoFace erfordert eine aktive Lizenz zur Nutzung auf CarPlay. Bitte aktivieren Sie die Lizenz, um zu starten."
+        },
+        {
+          "vm": "0x1000f1de8",
+          "value": "2-3 Apps"
+        },
+        {
+          "vm": "0x1000f1f88",
+          "value": "DuoFace Pro Mitglied"
+        },
+        {
+          "vm": "0x1000f20c8",
+          "value": "Von DuoFace-Server verifiziert"
+        },
+        {
+          "vm": "0x1000f20e8",
+          "value": "DuoFace VIP Lebenslang"
+        },
+        {
+          "vm": "0x1000f2268",
+          "value": "Apply"
+        },
+        {
+          "vm": "0x1000f22c8",
+          "value": "Search applications..."
+        },
+        {
+          "vm": "0x1000f2348",
+          "value": "Settings"
+        },
+        {
+          "vm": "0x1000f2368",
+          "value": "Applications"
+        },
+        {
+          "vm": "0x1000f23e8",
+          "value": "Enabled"
+        },
+        {
+          "vm": "0x1000f2488",
+          "value": "Reset Settings?"
+        },
+        {
+          "vm": "0x1000f24a8",
+          "value": "All DuoFace configurations will be restored to factory defaults."
+        },
+        {
+          "vm": "0x1000f2528",
+          "value": "%lu apps"
+        },
+        {
+          "vm": "0x1000f2548",
+          "value": "%lu enabled / %lu"
+        },
+        {
+          "vm": "0x1000f2568",
+          "value": "Display Apps on CarPlay"
+        },
+        {
+          "vm": "0x1000f2588",
+          "value": "Enable switches to mirror applications to CarPlay."
+        },
+        {
+          "vm": "0x1000f25a8",
+          "value": "By default, Navigation and Entertainment apps are enabled for CarPlay. You can toggle other apps as needed. Tap any app row to customize resolution DPI."
+        },
+        {
+          "vm": "0x1000f2628",
+          "value": "Enable All User Apps"
+        },
+        {
+          "vm": "0x1000f2668",
+          "value": "CARPLAY INTERFACE CONFIG"
+        },
+        {
+          "vm": "0x1000f26c8",
+          "value": "USER APPLICATIONS"
+        },
+        {
+          "vm": "0x1000f26e8",
+          "value": "SYSTEM APPLICATIONS"
+        },
+        {
+          "vm": "0x1000f2768",
+          "value": "Assign Apps to Slots"
+        },
+        {
+          "vm": "0x1000f27a8",
+          "value": "Automatically open DuoFace when connecting to CarPlay"
+        },
+        {
+          "vm": "0x1000f27c8",
+          "value": "Auto-Launch App"
+        },
+        {
+          "vm": "0x1000f27e8",
+          "value": "DuoFace (Split Screen)"
+        },
+        {
+          "vm": "0x1000f2808",
+          "value": "Restore Last Active App"
+        },
+        {
+          "vm": "0x1000f28a8",
+          "value": "App Language"
+        },
+        {
+          "vm": "0x1000f2b08",
+          "value": "Default Maps App"
+        },
+        {
+          "vm": "0x1000f2b88",
+          "value": "Split-Screen Configuration"
+        },
+        {
+          "vm": "0x1000f2ba8",
+          "value": "Run 1 to 4 apps concurrently in multi-window layout"
+        },
+        {
+          "vm": "0x1000f2c08",
+          "value": "Hide App Labels"
+        },
+        {
+          "vm": "0x1000f2c48",
+          "value": "Enable All Apps"
+        },
+        {
+          "vm": "0x1000f2c68",
+          "value": "Disable All Apps"
+        },
+        {
+          "vm": "0x1000f2ca8",
+          "value": "Are you sure you want to restart SpringBoard to apply changes on CarPlay?"
+        },
+        {
+          "vm": "0x1000f2cc8",
+          "value": "Enable Split Screen"
+        },
+        {
+          "vm": "0x1000f2ce8",
+          "value": "Run 1 to 4 apps side-by-side"
+        },
+        {
+          "vm": "0x1000f2d28",
+          "value": "Tap each position to choose the app you want to display simultaneously on your car display."
+        },
+        {
+          "vm": "0x1000f2d48",
+          "value": "Select Application"
+        },
+        {
+          "vm": "0x1000f2d68",
+          "value": "1 App (Fullscreen)"
+        },
+        {
+          "vm": "0x1000f2d88",
+          "value": "2 Apps Vertical (Left | Right)"
+        },
+        {
+          "vm": "0x1000f2da8",
+          "value": "2 Apps Horizontal (Top / Bottom)"
+        },
+        {
+          "vm": "0x1000f2dc8",
+          "value": "3 Columns (3 Apps)"
+        },
+        {
+          "vm": "0x1000f2e68",
+          "value": "4 Apps (2x2 Grid)"
+        },
+        {
+          "vm": "0x1000f2ea8",
+          "value": "1 fullscreen app"
+        },
+        {
+          "vm": "0x1000f2ec8",
+          "value": "2 apps side-by-side"
+        },
+        {
+          "vm": "0x1000f2ee8",
+          "value": "2 stacked apps"
+        },
+        {
+          "vm": "0x1000f2f08",
+          "value": "3 apps in 3 columns"
+        },
+        {
+          "vm": "0x1000f2fa8",
+          "value": "4 apps equally divided"
+        },
+        {
+          "vm": "0x1000f2fe8",
+          "value": "Single App"
+        },
+        {
+          "vm": "0x1000f31a8",
+          "value": "Corner Slot %ld"
+        },
+        {
+          "vm": "0x1000f31c8",
+          "value": "Slot %ld"
+        },
+        {
+          "vm": "0x1000f31e8",
+          "value": "Enable on CarPlay"
+        },
+        {
+          "vm": "0x1000f3228",
+          "value": "Switch App: %@"
+        },
+        {
+          "vm": "0x1000f3268",
+          "value": "No Active Apps"
+        },
+        {
+          "vm": "0x1000f3288",
+          "value": "Open DuoFace on iPhone to enable permissions for apps."
+        },
+        {
+          "vm": "0x1000f32a8",
+          "value": "Active: %lu apps"
+        },
+        {
+          "vm": "0x1000f32c8",
+          "value": "No apps running"
+        },
+        {
+          "vm": "0x1000f3348",
+          "value": "Add App"
+        },
+        {
+          "vm": "0x1000f3368",
+          "value": "Add Application"
+        },
+        {
+          "vm": "0x1000f3388",
+          "value": "Park safely and open DuoFace on your iPhone to add more apps."
+        },
+        {
+          "vm": "0x1000f33c8",
+          "value": "All Apps Closed"
+        },
+        {
+          "vm": "0x1000f33e8",
+          "value": "RAM is in optimal state. No background apps running."
+        },
+        {
+          "vm": "0x1000f34e8",
+          "value": "You can say: Navigate to, Open app, Play music, Screen off, or Split screen."
+        },
+        {
+          "vm": "0x1000f3508",
+          "value": "Command not recognized. You can say: Navigate to, or Open app."
+        },
+        {
+          "vm": "0x1000f3568",
+          "value": "App %@ was not found on iPhone."
+        },
+        {
+          "vm": "0x1000f3828",
+          "value": "DuoFace Pro Member"
+        },
+        {
+          "vm": "0x1000f3b68",
+          "value": "Code [%@] has been applied.\nDuration: %@.\nAll CarPlay multitasking features are ready."
+        },
+        {
+          "vm": "0x1000f3c68",
+          "value": "Could not load subscription plans from server. Please reopen the app or try again later."
+        },
+        {
+          "vm": "0x1000f3d48",
+          "value": "Verified by DuoFace Server"
+        },
+        {
+          "vm": "0x1000f3d68",
+          "value": "DuoFace VIP Lifetime"
+        },
+        {
+          "vm": "0x1000f4228",
+          "value": "Activa los interruptores para ver las apps en CarPlay."
+        },
+        {
+          "vm": "0x1000f42a8",
+          "value": "Activar apps de usuario"
         }
       ]
     }
