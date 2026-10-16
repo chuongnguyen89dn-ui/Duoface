@@ -48,8 +48,24 @@ with tempfile.TemporaryDirectory() as td:
                 if any(word in s.lower() for word in ("prefs", "settings.plist", "bridgedapps", "bridgeapp", "duonavi","carbridge","duoface")):
                     strings.append({"vm":hex(sec["vm"]+off),"value":s[:190]})
                 off=end+1
+        cfstrings=[]
+        for section in m.sections:
+            if section["name"]!="__cfstring":continue
+            for off in range(section["fileoff"],section["fileoff"]+section["size"],32):
+                if off+32>len(m.data): break
+                address=section["vm"]+off-section["fileoff"]
+                try:
+                    target=m.ptr(address+16)
+                    value=m.cstr(target)
+                    if value and any(s in value.lower() for s in (
+                        "prefs","bridge","app","duonavi","duoface","setting",
+                        "plist","config","/var/mobile","/library","slot",
+                        "agreedtoeula","enable","filter","bundle")):
+                        cfstrings.append({"vm":hex(address),"value":value[:160]})
+                except Exception:pass
         report["hosts"][name]={"sha256":expected,"original_disassembly_direct_literals":matches,
-                              "native_preferences_related_literals":strings[:160]}
+                              "native_preferences_related_literals":strings[:160],
+                              "native_cfstring_constants":cfstrings[:250]}
 print(json.dumps(report,ensure_ascii=False,indent=2))
 dest=Path("audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json")
 dest.parent.mkdir(exist_ok=True,parents=True)
