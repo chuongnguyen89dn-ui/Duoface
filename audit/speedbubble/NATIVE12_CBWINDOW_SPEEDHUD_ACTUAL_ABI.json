@@ -1,0 +1,33 @@
+{
+  "status": "PINNED_NATIVE12_CBWINDOW_ABI_EXACT_PASS",
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "owner": "DuoFaceDashboard.dylib",
+  "methods": {
+    "-resizeWindows": {
+      "type_encoding": "v16@0:8",
+      "imp_vm": "0xb1aac",
+      "relative_method_list": true
+    },
+    "-show": {
+      "type_encoding": "v16@0:8",
+      "imp_vm": "0xb1d98",
+      "relative_method_list": true
+    },
+    "-destroyWindows": {
+      "type_encoding": "v16@0:8",
+      "imp_vm": "0xb21f8",
+      "relative_method_list": true
+    },
+    "-rootWindow": {
+      "type_encoding": "@16@0:8",
+      "imp_vm": "0xb2804",
+      "relative_method_list": true
+    },
+    "-isVisible": {
+      "type_encoding": "B16@0:8",
+      "imp_vm": "0xb2860",
+      "relative_method_list": true
+    }
+  },
+  "device_tested": false
+}
