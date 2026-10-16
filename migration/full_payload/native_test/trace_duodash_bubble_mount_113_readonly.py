@@ -45,13 +45,13 @@ def audit(root):
             for sel,q in sorted(catalog.items()):
                 if not SELECTOR_RE.search(sel): continue
                 begin=int(q["vm"]); end=next((v for v in ordered if v>begin),begin+1200)
-                asm=disassemble(obj,begin,min(end,begin+1800))
+                asm=disassemble(obj,begin,min(end,begin+(5200 if cl in ("DDz4","DDz1","DDz2") else 1800)))
                 hints=[s for s in asm if ("SEL_OR_LITERAL" in s or "DIRECT_STRING" in s) and HINT_RE.search(s)]
-                if not (HINT_RE.search(sel) or hints): continue
+                if not (HINT_RE.search(sel) or hints or cl in ("DDz4","DDz1","DDz2") or (cl=="DDz3" and "Bubble" in sel)): continue
                 items[sel]={
                     "imp":hex(begin),"abi":q.get("type"),
                     "refs":hints[:65],
-                    "disasm":asm[:450] if (hints or re.search("bubble|pane|host|window|view|controller|split",cl,re.I)) else [],
+                    "disasm":asm[:1200] if (hints or cl in ("DDz4","DDz1","DDz2","DDz3") or re.search("bubble|pane|host|window|view|controller|split",cl,re.I)) else [],
                 }
             entries[cl]={"method_count":len(catalog),"all_methods":sorted(catalog),
                         "interesting":items}
@@ -89,7 +89,7 @@ def main():
         interesting=details.get("interesting",{})
         if interesting or "CNAB" in cl:
             print("CLASS",cl,"METHODS",details.get("method_count"),
-                  "INTERESTING",list(interesting)[:22])
+                  "INTERESTING",list(interesting)[:35])
     print("NO_DEB_NO_DEVICE_TEST")
 
 if __name__=="__main__":main()
