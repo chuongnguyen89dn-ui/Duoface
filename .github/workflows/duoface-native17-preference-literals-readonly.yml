@@ -4,6 +4,7 @@ on:
     branches: [feature/duoface-exact-payload-migration]
     paths:
       - '.github/workflows/duoface-native17-preference-literals-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native17_native_preference_literals.py'
   workflow_dispatch:
 permissions:
   contents: write
