@@ -1,5 +1,13 @@
 # DuoFace – Smart Connection, checkpoint triển khai source (16/10/2026)
 
+## 16/10/2026 — Kết nối callback và Cài đặt, chờ 10 giây; compile-only PASS
+
+- User mới chốt: **nối mã, KHÔNG build DEB, chờ đóng sau ngắt CarPlay 10 giây (10.000 ms)**, thay yêu cầu 12 giây trước đó.
+- Feature branch source: `runtime/connection/DFConnectionNativeHooks.xm` nối `CBBridgeManager` CarPlay connect/disconnect, `trackBridgedBundleID:`, `effectiveAutoLaunchBundleID`, `performAutoResume` và gọi `%orig`; `DFConnectionSettingsHook.xm` thêm 1 switch `Đóng ứng dụng khi ngắt CarPlay` trong Cài đặt iPhone, giữ Auto Start gốc. File `Makefile.smart-connection-stage` + `DuoFaceSmartConnection.plist` lọc `SpringBoard` và `DuoFaceUI`.
+- Core `DFConnectionPolicy.hpp` đã đổi `kDisconnectGraceMs=10000`; tests `tests/connection_policy_tests.cpp` cập nhật 10 giây. App last dùng suite `com.duoface.smartconnection`, close OFF mặc định. Code không tự mở app lần 2: native `performAutoResume` vẫn là luồng mở.
+- **GitHub Actions run 38842606534 SUCCESS** `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38842606534` job `116785885730`: `make clean all FINALPACKAGE=1` bằng Theos biên dịch/liên kết dylib ứng viên arm64, không `make package`, **DEB=false/Sileo=false/device QA=false**. Compile ban đầu bị lỗi callback truyền hàm C thay vì block (fixed commit `26274b3`), rồi `nil` với non-null API (fixed commit `f3405be`); run mới PASS. C++ 11 scenario run `38842606542` PASS, adapter iOS run `38842606525` PASS.
+- **Chưa chứng minh runtime:** class load order trong SpringBoard và process injection, cross-process prefs, thực thi bảng Settings, và native mandatory disconnect watchdog có thể đóng trước 10 giây. Không thay gói native12 hay UI/carplay trước QA. Công việc xóa giấy phép vẫn PAUSED.
+
 **Trạng thái:** Code core + Objective-C++ adapter đã commit, đã **compile/test CI**, nhưng **CHƯA hook vào host native12**, chưa có row cài đặt mới, chưa đóng DEB, chưa cài/Sileo/device QA. Không đánh đồng compile với feature đang chạy trên iPhone.
 
 ## Yêu cầu mới nhất / giới hạn
