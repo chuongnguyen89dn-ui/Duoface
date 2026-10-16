@@ -24,8 +24,6 @@ static DFSceneHUDWindow *dfSceneOverlay=nil;
 static __weak CBWindow *dfSceneOwner=nil;
 static __weak UIWindow *dfSceneBase=nil;
 static DFSpeedNativeHUD *dfSceneCard=nil;
-static NSTimer *dfSceneTimer=nil;
-static NSObject *dfSceneDriver=nil;
 static IMP dfSceneOriginalShow=NULL;
 static IMP dfSceneOriginalResize=NULL;
 static IMP dfSceneOriginalDestroy=NULL;
@@ -83,7 +81,7 @@ static BOOL DFSceneValidBridge(CBWindow *bridge, UIWindow **rootOut) {
         base.bounds.size.width<220 || base.bounds.size.height<120) return NO;
     NSString *role=base.windowScene.session.role;
     BOOL external=base.screen && base.screen!=UIScreen.mainScreen;
-    BOOL carRole=[role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
+    BOOL carRole=role && [role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
     if (!external && !carRole) return NO; // Never show on iPhone or generic Home.
     if (rootOut) *rootOut=base;
     return YES;
@@ -233,10 +231,9 @@ __attribute__((constructor)) static void DFSceneStartInSpringBoard(void) {
             DFSceneLog(@"LOADED: Speed5 scene module in SpringBoard",nil,nil);
             DFSceneInstallHooks(0);
             DFSceneDriver *driver=[DFSceneDriver new];
-            dfSceneDriver=driver;
-            dfSceneTimer=[NSTimer timerWithTimeInterval:0.5 target:driver
+            NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:driver
                              selector:@selector(onTimer:) userInfo:nil repeats:YES];
-            [[NSRunLoop mainRunLoop] addTimer:dfSceneTimer forMode:NSRunLoopCommonModes];
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
             [[NSNotificationCenter defaultCenter] addObserver:driver
                     selector:@selector(visibleWindow:) name:UIWindowDidBecomeVisibleNotification object:nil];
             DFSceneReconcile();
