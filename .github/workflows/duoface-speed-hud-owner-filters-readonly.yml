@@ -1,0 +1,57 @@
+name: DuoFace speed HUD owner filters actual Native12 and DuoDash READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths: ['.github/workflows/duoface-speed-hud-owner-filters-readonly.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  identify-native12-owner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Exact original Native12 dylib loader filters and exact DuoDash reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib,hashlib,subprocess,tempfile,plistlib,json
+          base=pathlib.Path('dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb')
+          assert hashlib.sha256(base.read_bytes()).hexdigest()=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7'
+          with tempfile.TemporaryDirectory() as t:
+              subprocess.run(['dpkg-deb','-x',str(base),t],check=True)
+              p=pathlib.Path(t)/'var/jb/Library/MobileSubstrate/DynamicLibraries'
+              filters={}
+              for n in ('DuoFaceDashboard','DuoFaceFullscreenBridge','DuoFaceVisualHook','DuoFaceLogoGripOnly'):
+                  f=p/(n+'.plist')
+                  assert f.exists(),n
+                  filters[n]=plistlib.loads(f.read_bytes())
+          path=pathlib.Path('audit/speedbubble/NATIVE12_ACTUAL_INJECTION_FILTERS.json')
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps({'status':'READONLY_ACTUAL_NATIVE12_FILTERS',
+                'pinned_native12_sha256':'85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7',
+                'filters':filters,'device_tested':False,
+                'meaning':'Module owner process filters, not verified actual HUD scene ownership'},
+                ensure_ascii=False,indent=2)+'\n')
+          print(path.read_text())
+          PY
+      - name: Commit source-of-truth audit without build or deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/NATIVE12_ACTUAL_INJECTION_FILTERS.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit(speedhud): Native12 actual filter hosts only, no package [skip ci]'
+          for i in 1 2 3; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 3
+          done
+          exit 1
