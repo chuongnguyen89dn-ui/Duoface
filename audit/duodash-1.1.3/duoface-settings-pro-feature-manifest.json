@@ -38,16 +38,16 @@
           "phase": "P0",
           "default": "preserve",
           "implementation_dependency": "CBGeneralSettingsViewController.autoLaunchOnConnect; CBDashboardSettings.autoLaunchOnConnect",
-          "acceptance": "Kiểm tra trên thiết bị, giữ key và callback gốc"
+          "acceptance": "Một công tắc gốc; ON phải ghi nhớ phiên app gần nhất, khôi phục một lần, chống mở trùng khi reconnect; OFF không tự mở; key/callback cũ giữ nguyên."
         },
         {
           "id": "session_restore",
           "label": "Khôi phục phiên ứng dụng trước",
           "baseline": "new",
           "phase": "P1",
-          "default": "off",
+          "default": "integrated_when_auto_start_ON_no_extra_toggle",
           "implementation_dependency": "Requires native session snapshot + reconnect state tracking",
-          "acceptance": "Chỉ khôi phục khi người dùng bật; không mở trùng; hủy khi kết nối lại thất bại"
+          "acceptance": "Tích hợp ngầm vào công tắc Tự động mở, không tạo hàng UI riêng; chỉ làm với app của DuoFace."
         },
         {
           "id": "device_profile",
@@ -63,9 +63,9 @@
           "label": "Tự đóng app sau khi ngắt kết nối",
           "baseline": "new",
           "phase": "P2",
-          "default": "off",
+          "default": "off_until_implemented",
           "implementation_dependency": "Requires verified disconnect callback and termination-by-bundle-ID adapter",
-          "acceptance": "Chờ đề xuất 12 giây, hủy khi reconnect; không đóng nhạc/dẫn đường/app ngoài DuoFace"
+          "acceptance": "Công tắc riêng; chờ 12 giây, nếu reconnect thì hủy; stop/close DuoFace-managed sessions, xác minh nguồn nhạc và không kill app iPhone độc lập."
         }
       ]
     },
@@ -347,60 +347,42 @@
     }
   ],
   "connection_ui_compact_proposal": {
-    "status": "PROPOSED_NEEDS_USER_APPROVAL_NOT_IMPLEMENTED",
-    "source": "2026-10-16 user photo DuoDash Settings and concern about eight startup settings",
+    "status": "USER_APPROVED_SINGLE_AUTO_START_TOGGLE_AND_LAST_SESSION; DISCONNECT_FIX_TO_VERIFY",
+    "source": "2026-10-16 user explicit update: Anti-duplicate only inside Auto Start, automatic recall of last session, music continues after DuoFace CarPlay disconnect, compare DuoDash two toggles.",
     "root": [
       {
         "id": "auto_start",
-        "type": "original_existing_switch",
+        "type": "existing_toggle",
         "label": "Tự động mở",
-        "behavior": "Preserve existing value, key and callback"
+        "behavior": "Preserve native key/callback; if ON, remember and reopen last DuoFace-managed app/session; deduplicate and invalidate stale reconnect tasks automatically; if OFF do not auto-reopen."
       },
       {
-        "id": "smart_connection_details",
-        "type": "navigation_row",
-        "label": "Kết nối nâng cao",
-        "new_root_rows": 1
+        "id": "disconnect_close",
+        "type": "new_toggle",
+        "label": "Đóng ứng dụng khi ngắt CarPlay",
+        "default": false,
+        "behavior": "After real disconnect wait about 12 seconds, recheck connection state and option; cancel if reconnected; only end DuoFace-managed app sessions and scoped playback if attributable. No blanket termination of unrelated iPhone apps."
       }
     ],
-    "details": [
-      {
-        "id": "auto_launch_target",
-        "type": "existing_picker_navigation_if_available",
-        "label": "Ứng dụng tự mở",
-        "default": "preserve_existing"
-      },
-      {
-        "id": "session_restore",
-        "type": "new_switch",
-        "label": "Khôi phục phiên trước",
-        "default": false
-      },
-      {
-        "id": "disconnect_policy",
-        "type": "new_selection",
-        "label": "Khi ngắt CarPlay",
-        "default": "keep_apps"
-      },
-      {
-        "id": "status_and_logs",
-        "type": "readonly_navigation",
-        "label": "Trạng thái & nhật ký",
-        "default": "read_only"
-      }
-    ],
+    "details": [],
+    "no_duplicated_auto_start_switch": true,
+    "no_extra_restore_or_dedup_switch": true,
+    "no_new_advanced_submenu_in_phase_1": true,
+    "root_added_rows_at_most": 1,
     "background_without_separate_switch": [
+      "last_session_snapshot",
+      "restore_last_session_when_auto_start_ON",
       "deduplicate_connect_events",
       "cancel_stale_reconnect_timers",
       "prevent_duplicate_launch",
-      "debounce_transient_disconnections"
+      "verify_carplay_disconnect_before_audio_cleanup"
     ],
+    "separate_media_track": "Need verify audio source / AVAudioSession route and actual behavior on user iPhone before choosing pause vs terminate for playback",
     "deferred_hidden": [
-      "device_profile_until_stable_device_key_and_user_approval"
+      "device_profile",
+      "connection_history_ui",
+      "other previous advanced settings ideas"
     ],
-    "no_duplicated_auto_start_switch": true,
-    "root_added_rows_at_most": 1,
-    "first_phase_advanced_rows_at_most": 4,
-    "note": "8 capabilities from earlier analysis are not 8 settings rows; do not implement root-level eight rows."
+    "note": "Supersedes previous 1+advanced submenu proposal. Do NOT assert duplicate launch or music stop is implemented in native12."
   }
 }
