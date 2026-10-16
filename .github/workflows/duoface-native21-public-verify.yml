@@ -1,0 +1,92 @@
+name: DuoFace native21 verify live Sileo original native12 Auto Resume and hidden obsolete Add App
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native21-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and audit actual public Sileo native21 DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-native21-published"
+          cd "$RUNNER_TEMP/duoface-native21-published"
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          for n in $(seq 1 60); do
+            curl -fLs --retry 2 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native21' Packages 2>/dev/null; then break; fi
+            echo "Waiting for native21 Pages deployment ($n)"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native21' Packages
+          curl -fLs "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          from pathlib import Path
+          packages=[]
+          for lineblock in Path('Packages').read_text().strip().split('\n\n'):
+              values={}
+              for line in lineblock.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);values[k]=v
+              if values.get('Package')=='com.duoface.independent': packages.append(values)
+          assert len(packages)==1,packages
+          p=packages[0]
+          assert p['Version']=='0.1.0~native21'
+          assert p['Architecture']=='iphoneos-arm64'
+          assert p['SHA256']=='6ba61570dd5af083c7dd7e1eb102a08a2830b7215a3e94f8932fe2b353c0b763'
+          assert p['Filename'].endswith('com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb')
+          Path('metadata.txt').write_text(repr(p))
+          print('NATIVE21_SINGLE_APT_PACKAGE_ENTRY_PASS')
+          PY
+          curl -fLs --retry 5 --retry-delay 4 \
+            "$base/debs/com.duoface.independent_0.1.0~native21_iphoneos-arm64.deb" -o native21.deb
+          printf '%s  %s\n' '6ba61570dd5af083c7dd7e1eb102a08a2830b7215a3e94f8932fe2b353c0b763' native21.deb | sha256sum -c -
+          test "$(dpkg-deb -f native21.deb Version)" = '0.1.0~native21'
+          dpkg-deb -c native21.deb > contents.txt
+          python3 "$GITHUB_WORKSPACE/migration/full_payload/native_test/audit_branding.py" \
+            --deb native21.deb --out public-brand-audit.json
+          curl -fLs \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/b5bd63a0c2ecb672d309f2ba7063126f88cc612b/dist/payload-migration/native21/BAO_CAO.json' \
+            -o expected-report.json
+          python3 - <<'PY'
+          import hashlib,json
+          a=json.load(open('public-brand-audit.json'))
+          r=json.load(open('expected-report.json'))
+          assert a['strict_byte_level_zero_matches']
+          assert not a['affected_paths'] and a['total_detected_by_brand_encoding']=={}
+          assert r['deb_sha256']==hashlib.sha256(open('native21.deb','rb').read()).hexdigest()
+          assert r['unchanged_payload_files']==43 and len(r['modified_payload_files'])==2
+          assert r['original_iphone_app_and_dashboard_binary_byte_identical']
+          assert r['previously_installed_apps_prefs_migration_unchanged']
+          assert r['new_disconnection_grace_seconds']==10
+          assert r['native12_app_selection_on_iphone_preserved']
+          assert r['no_new_runtime_autostart_override']
+          assert r['full_layout_runtime_restoration_confirmed'] is False
+          assert r['obsolete_button_device_tested'] is False
+          assert r['license_modified'] is False and r['dopamine_touched'] is False
+          print('NATIVE21_INDEPENDENT_PUBLIC_BINARY_AND_SOURCE_QA_PASS')
+          PY
+          mkdir -p unpacked
+          dpkg-deb -x native21.deb unpacked
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          p=pathlib.Path('unpacked')
+          r=json.load(open('expected-report.json'))
+          for rel,v in r['modified_payload_files'].items():
+              assert hashlib.sha256((p/rel).read_bytes()).hexdigest()==v['replacement_sha256'],rel
+          print('NATIVE21_NEW_SMART_CONNECTION_AND_TILE_REMOVAL_MODULES_MATCH_QA_REPORT')
+          PY
+          dpkg-deb --ctrl-tarfile native21.deb | tar -xOf - ./preinst > preinst.sh
+          sh -n preinst.sh
+          grep -Fq 'cp -p "$old_store" "$new_store"' preinst.sh
+          echo 'NATIVE21_PUBLIC_SILEO_READY_DEVICE_QA_PENDING'
