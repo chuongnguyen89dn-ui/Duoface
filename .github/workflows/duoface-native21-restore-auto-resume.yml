@@ -4,6 +4,9 @@ on:
     branches: [feature/duoface-exact-payload-migration]
     paths:
       - '.github/workflows/duoface-native21-restore-auto-resume.yml'
+      - 'runtime/connection/DFConnectionNativeHooks.xm'
+      - 'runtime/appbridge/DFRemoveOldAddAppTile.xm'
+      - 'migration/full_payload/native_test/build_native21_native12_autoresume.py'
   workflow_dispatch:
 permissions:
   contents: write
