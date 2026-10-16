@@ -110,6 +110,35 @@ def audit(root):
                       if s["vm"]<=vm<s["vm"]+s["size"]]}
             except Exception as e:
                 selref_probes[hex(vm)]={"error":str(e)}
+        clsref_probes={}
+        for addr in (0xdaa48,0xdaa48,0xda938,0xda890):
+            try:
+                p=obj.ptr(addr)
+                matches=[name for name,val in all_classes.items()
+                         if isinstance(val,dict) and val.get("class_ptr")==p]
+                clsref_probes[hex(addr)]={"pointer":hex(p),"matching_class":matches,
+                                         "expected_CNABBubbleView":p==all_classes["CNABBubbleView"]["class_ptr"]}
+            except Exception as e:
+                clsref_probes[hex(addr)]={"error":str(e)}
+        objc_stubs={}
+        def objc_selector_for_call(vm):
+            if vm in objc_stubs:return objc_stubs[vm]
+            result=None
+            try:
+                aoff=obj.map(vm)
+                instructions=list(decoder.disasm(data[aoff:aoff+20],vm))
+                if len(instructions)>=5 and instructions[0].mnemonic=="adrp" and instructions[1].mnemonic=="ldr" and instructions[4].mnemonic=="br":
+                    base_match=re.match(r"x1,\\s+#(0x[0-9a-f]+)",instructions[0].op_str)
+                    off_match=re.match(r"x1,\\s+\\[x1,\\s+#(0x[0-9a-f]+)\\]",instructions[1].op_str)
+                    if base_match and off_match:
+                        ref=int(base_match.group(1),16)+int(off_match.group(1),16)
+                        if any(q["name"]=="__objc_selrefs" and q["vm"]<=ref<q["vm"]+q["size"] for q in obj.sections):
+                            selector=obj.cstr(obj.ptr(ref))
+                            if selector and all(32<=ord(ch)<127 for ch in selector) and len(selector)<120:
+                                result={"selector":selector,"selref":hex(ref)}
+            except Exception:pass
+            objc_stubs[vm]=result
+            return result
         entries={}
         for cl in sorted(all_classes):
             try: catalog=methods(obj,cl)
@@ -123,10 +152,12 @@ def audit(root):
                 asm=disassemble(obj,begin,min(end,begin+(5200 if cl in ("DDz4","DDz1","DDz2") else 1800)))
                 annotated=[]
                 for line in asm:
-                    mm=re.search(r"\\bbl #0x([0-9a-f]+)",line)
+                    mm=re.search("bl #0x([0-9a-f]+)",line)
                     if mm:
                         symbol=stub_symbols.get(int(mm.group(1),16))
                         if symbol:line+="  ; STUB "+symbol
+                        resolved=objc_selector_for_call(int(mm.group(1),16))
+                        if resolved:line+="  ; OBJC_SELECTOR "+resolved["selector"]+" SELREF "+resolved["selref"]
                     annotated.append(line)
                 asm=annotated
                 hints=[s for s in asm if ("SEL_OR_LITERAL" in s or "DIRECT_STRING" in s) and HINT_RE.search(s)]
@@ -138,7 +169,8 @@ def audit(root):
                 }
             entries[cl]={"method_count":len(catalog),"all_methods":sorted(catalog),
                         "interesting":items}
-        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols),"target_stub_probes":selected_stubs,"selector_ref_probes":selref_probes}
+        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols),"target_stub_probes":selected_stubs,"selector_ref_probes":selref_probes,"class_ref_probes":clsref_probes,
+            "objc_selector_stubs_resolved":sum(v is not None for v in objc_stubs.values())}
     return out
 
 def main():
