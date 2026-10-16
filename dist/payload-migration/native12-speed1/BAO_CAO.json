@@ -1,0 +1,25 @@
+{
+  "status": "NATIVE12_SPEED1_TEST_DEB_BUILT_NOT_DEVICE_TESTED",
+  "base_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "deb_sha256": "39f988e1b8cf6b7bfe0381dd58f650ac4a26167130530dfab027ae8c8c4df710",
+  "version": "0.1.0~native12+speed1",
+  "modules": {
+    "DuoFaceSpeedHUD": {
+      "dylib_sha256": "0c995cae2ee7383656d9a4f4b59556c68994cf2035f0ae7f8370f447bb12257e",
+      "filter_sha256": "f0f5f53f83d5a79930ce9b6ee491e6674d911918564049111468f40f625d791f"
+    },
+    "DuoFaceSpeedSources": {
+      "dylib_sha256": "6f30d1200dc1a384a60f6c814ee7bd28f352849266712c54e9609ae67363818a",
+      "filter_sha256": "aa991a4e5d3a42ccdee35b9a983ac9ab8435074176c6ecfc0a3f701d9c8ec45e"
+    }
+  },
+  "three_gmap_publishers": [
+    "VietMapGoogleMapsSource",
+    "WazeGMapHUDSource",
+    "GofaGMapHUDSource"
+  ],
+  "old_native12_files_unchanged": true,
+  "no_other_renderer": true,
+  "sileo_published": false,
+  "device_tested": false
+}
