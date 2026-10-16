@@ -1,0 +1,121 @@
+name: DuoFace native20 FULL rebrand and preserved preferences upgrade DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native20-brand-clean-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native20-full-brand-build
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Prepare Theos + binary packaging tools
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Prove immutable native19 baseline and compile code
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/build_native20_full_duoface.py
+          python3 -m py_compile migration/full_payload/native_test/audit_branding.py
+          printf '%s  %s\n' \
+            91feda0a7ff24bd7759b7448303d61fe774b16184e383fc11b6839186fa1ae1d \
+            dist/payload-migration/native19/com.duoface.independent_0.1.0~native19_iphoneos-arm64.deb \
+            | shasum -a 256 -c -
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('runtime/appbridge/DFInCarAppPicker.xm').read_text()
+          assert 'com.duoface.plist' in s
+          assert 'DuoFaceInCarAddApps' in s
+          assert 'DFInCarIconForBundle' in s
+          assert 'DFSaveToNativePreferences' in s
+          assert '%orig' not in s
+          assert 'duonavi' not in s.lower() and 'airaw' not in s.lower()
+          print('NATIVE20_NEW_OWNER_SOURCE_BRAND_CLEAN_PASS')
+          PY
+          cp Makefile.appbridge-stage Makefile
+          make clean all FINALPACKAGE=1
+          DYLIB="$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)"
+          test -n "$DYLIB"
+          xcrun lipo "$DYLIB" -verify_arch arm64
+          cp "$DYLIB" "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib"
+      - name: Build native20 with two immutable-code preference owner rewrites
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native20
+          out='dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb'
+          report='dist/payload-migration/native20/BAO_CAO.json'
+          python3 migration/full_payload/native_test/build_native20_full_duoface.py \
+            --dylib "$RUNNER_TEMP/DuoFaceInCarAddApps.dylib" \
+            --out "$out" --report "$report"
+          python3 migration/full_payload/native_test/audit_branding.py \
+            --deb "$out" \
+            --out 'dist/payload-migration/native20/BRAND_ZERO_AUDIT.json'
+      - name: Verify no legacy names and preserve package behavior
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,hashlib,pathlib
+          d=pathlib.Path('dist/payload-migration/native20')
+          a=json.loads((d/'BAO_CAO.json').read_text())
+          b=json.loads((d/'BRAND_ZERO_AUDIT.json').read_text())
+          deb=d/'com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb'
+          assert a['status']=='NATIVE20_BRAND_ZERO_MIGRATING_PREFS_CANDIDATE_NO_DEVICE_QA'
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()==a['new_deb_sha256']
+          assert a['source_native19_sha256']=='91feda0a7ff24bd7759b7448303d61fe774b16184e383fc11b6839186fa1ae1d'
+          assert a['native12_original_code_section_unchanged_in_both_hosts']
+          assert a['installer_migrates_existing_preferences_if_needed']
+          assert a['old_preferences_preserved_for_rollback']
+          assert a['new_preferences_owner_path']=='/var/mobile/Library/Preferences/com.duoface.plist'
+          assert a['smartconnection_10sec_unchanged']
+          assert a['license_settings_ui_unchanged']
+          assert len(a['changed_payload_paths'])==3 and a['unchanged_payload_count']==42
+          assert b['strict_byte_level_zero_matches'] and not b['affected_paths']
+          assert b['total_detected_by_brand_encoding']=={}
+          assert b['control']=={'Package':'com.duoface.independent',
+             'Version':'0.1.0~native20','Architecture':'iphoneos-arm64'}
+          print('NATIVE20_NO_DUONAVI_AIRAW_BYTES_ANYWHERE_IN_DEB_PASS')
+          print('NATIVE20_DASHBOARD_AND_IPHONE_UI_PREFERENCES_OWNER_CONSISTENT_PASS')
+          PY
+          dpkg-deb -c 'dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb' > "$RUNNER_TEMP/df-native20-files.txt"
+          dpkg-deb --ctrl-tarfile 'dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb' | tar -xOf - ./preinst > "$RUNNER_TEMP/df-native20-preinst"
+          sh -n "$RUNNER_TEMP/df-native20-preinst"
+          grep -q 'dpkg-query -S' "$RUNNER_TEMP/df-native20-preinst"
+          ! grep -Eiq 'duonavi|airaw' "$RUNNER_TEMP/df-native20-preinst"
+          shasum -a 256 'dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb'
+      - name: Commit DEB and strict audit in correct DuoFace repository
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native20/BAO_CAO.json \
+            dist/payload-migration/native20/BRAND_ZERO_AUDIT.json \
+            'dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb'
+          git commit -m 'artifact: native20 DuoFace only with safe settings migration and exhaustive zero-brand proof [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 3
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native20-brand-clean-deb
+          path: |
+            dist/payload-migration/native20/*.deb
+            dist/payload-migration/native20/*.json
+          if-no-files-found: warn
