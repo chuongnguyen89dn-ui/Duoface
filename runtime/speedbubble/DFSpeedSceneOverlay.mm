@@ -3,6 +3,7 @@
 // constructor is inert here; only this SpringBoard guarded lifecycle runs.
 // Distinct file: Speed4 history and original Native12 remain immutable.
 #import "DFSpeedBubbleBridge.mm"
+#import <notify.h>
 #import <unistd.h>
 #import <stdio.h>
 
@@ -29,6 +30,7 @@ static IMP dfSceneOriginalResize=NULL;
 static IMP dfSceneOriginalDestroy=NULL;
 static IMP dfSceneOriginalHide=NULL;
 static BOOL dfSceneHooksReady=NO;
+static int dfGofaActiveToken=-1;
 static NSString *dfSceneLastStatus=nil;
 static NSTimeInterval dfSceneLastSnapshot=0;
 
@@ -146,8 +148,18 @@ static void DFSceneMountIfEligible(CBWindow *bridge) {
     else
         DFSceneState(@"MOUNTED: GOFA-style overlay in live DuoFace scene",bridge,base);
 }
+static BOOL DFSceneGOFAIsActive(void) {
+    if (dfGofaActiveToken<0) return NO;
+    uint64_t active=0;
+    return notify_get_state(dfGofaActiveToken,&active)==NOTIFY_STATUS_OK && active==1;
+}
 static void DFSceneReconcile(void) {
     if (!NSThread.isMainThread) return;
+    if (DFSceneGOFAIsActive()) {
+        if (dfSceneOverlay) DFSceneUnmount(@"HIDDEN: GOFA active, preserve GOFAHUD suppression");
+        else DFSceneState(@"WAIT: GOFA active",nil,nil);
+        return;
+    }
     id manager=DFCurrentNativeOwner(); // SpringBoard native singleton (not CarPlayApp).
     CBWindow *bridge=[manager isKindOfClass:NSClassFromString(@"CBWindow")] ? manager : nil;
     if (!bridge) {
@@ -228,6 +240,7 @@ __attribute__((constructor)) static void DFSceneStartInSpringBoard(void) {
     @autoreleasepool {
         if (![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"]) return;
         dispatch_async(dispatch_get_main_queue(),^{
+            notify_register_check("local.gofahud.carplay.gofa-active",&dfGofaActiveToken);
             DFSceneLog(@"LOADED: Speed5 scene module in SpringBoard",nil,nil);
             DFSceneInstallHooks(0);
             DFSceneDriver *driver=[DFSceneDriver new];
