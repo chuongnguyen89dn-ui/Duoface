@@ -70,9 +70,9 @@ static void testGraceAndNoDoubleClose() {
     p.onVerifiedConnected("",installed); p.onManagedAppActivated(yt);
     p.onManagedAppActivated(map);
     p.onVerifiedDisconnected(100);
-    assert(p.hasPendingClose() && p.closeDueAtMs()==12100);
-    assert(p.tick(12099,true,own).empty());
-    auto a=p.tick(12100,true,own);
+    assert(p.hasPendingClose() && p.closeDueAtMs()==10100);
+    assert(p.tick(10099,true,own).empty());
+    auto a=p.tick(10100,true,own);
     assert(a.size()==2 && a[0].kind==ActionKind::TerminateOwnedApp);
     assert(p.tick(99999,true,own).empty());
 }
@@ -88,10 +88,10 @@ static void testRecheckRealConnectionAndOwnership() {
     Policy p; p.setCloseOnDisconnect(true);
     p.onVerifiedConnected("",installed); p.onManagedAppActivated(yt);
     p.onVerifiedDisconnected(10);
-    assert(p.tick(12010,false,own).empty()); // stale disconnect signal, screen still connected
+    assert(p.tick(10010,false,own).empty()); // stale disconnect signal, screen still connected
     assert(!p.hasPendingClose());
     p.onVerifiedConnected("",installed); p.onManagedAppActivated(yt);p.onVerifiedDisconnected(50000);
-    assert(p.tick(62000,true,[](const std::string&){return false;}).empty());
+    assert(p.tick(60000,true,[](const std::string&){return false;}).empty());
 }
 static void testToggleOffCancelsPendingClose() {
     Policy p; p.setCloseOnDisconnect(true);
@@ -108,7 +108,7 @@ static void testAutostartAndCloseIndependent() {
     assert(p.onVerifiedConnected("",installed).empty()); // autostart still OFF
     assert(p.onManagedAppActivated(yt).size()==0);
     p.onVerifiedDisconnected(100);
-    auto a=p.tick(12100,true,own);
+    auto a=p.tick(10100,true,own);
     assert(a.size()==1 && a[0].bundleId==yt);
 }
 int main() {
