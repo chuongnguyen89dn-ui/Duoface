@@ -1,5 +1,6 @@
 #import "DFSpeedTransport.h"
 #include "DFSpeedProtocol.hpp"
+#include "DFSpeedGMapReader.hpp"
 #include <notify.h>
 #include <cmath>
 // No timer in source apps; apps publish on real, fresh source changes.
@@ -49,7 +50,7 @@ BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
   uint32_t now=UptimeSeconds();
   // Four app sources feed exactly ONE DuoFace-owned visual bubble.
   // Publish/subscribe are not a request to launch missing apps.
-  DFSpeed::Sample live[4];
+  DFSpeed::Sample live[5];
   size_t count=0;
   for (int src=1; src<=4; ++src) {
     if (gTokens[src]<0) continue;
@@ -59,6 +60,10 @@ BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
     if (DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
       live[count++]=sample;
   }
+  // Read the actual Waze/VietMap/GOFA speed+limit samples published by
+  // GMapHUD v0.2.3's source adapters, not their CarPlay HUD/window.
+  DFSpeed::Sample native;
+  if (DFSpeed::ReadPinnedGMapWire(native)) live[count++]=native;
   static DFSpeed::Source previous=DFSpeed::Source::None;
   DFSpeed::Sample best;
   if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
