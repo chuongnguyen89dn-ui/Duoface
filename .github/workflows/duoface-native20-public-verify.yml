@@ -1,0 +1,76 @@
+name: DuoFace native20 independently verify public Sileo exact clean-brand DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native20-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate GitHub Pages APT and downloaded actual package
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-native20-published"
+          cd "$RUNNER_TEMP/duoface-native20-published"
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          for n in $(seq 1 55); do
+            curl -fLs --retry 2 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native20' Packages 2>/dev/null; then break; fi
+            echo "Waiting for native20 Pages publishing ($n)"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native20' Packages
+          curl -fLs "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          import pathlib
+          txt=pathlib.Path('Packages').read_text()
+          pkg=[]
+          for para in txt.strip().split('\n\n'):
+              d={}
+              for line in para.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package')=='com.duoface.independent':pkg.append(d)
+          assert len(pkg)==1,pkg
+          x=pkg[0]
+          assert x['Version']=='0.1.0~native20',x
+          assert x['Architecture']=='iphoneos-arm64'
+          assert x['SHA256']=='020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef'
+          assert x['Filename'].endswith('com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb')
+          pathlib.Path('metadata.txt').write_text(repr(x))
+          print('NATIVE20_APT_INDEX_CORRECT')
+          PY
+          curl -fLs --retry 5 --retry-delay 4 \
+            "$base/debs/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb" -o native20.deb
+          printf '%s  %s\n' '020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef' native20.deb | sha256sum -c -
+          test "$(dpkg-deb -f native20.deb Version)" = '0.1.0~native20'
+          dpkg-deb -c native20.deb > contents.txt
+          for unit in DuoFaceSmartConnection DuoFaceInCarAddApps DuoFaceDashboard DuoFaceSettingsUIRestore; do
+            grep -Fq "$unit.dylib" contents.txt
+          done
+          python3 "$GITHUB_WORKSPACE/migration/full_payload/native_test/audit_branding.py" \
+            --deb native20.deb --out published-brand-audit.json
+          python3 - <<'PY'
+          import json
+          a=json.load(open('published-brand-audit.json'))
+          assert a['strict_byte_level_zero_matches']
+          assert a['affected_paths']==[]
+          assert a['total_detected_by_brand_encoding']=={}
+          print('PUBLIC_NATIVE20_ZERO_DUONAVI_AIRAW_CONFIRMED')
+          PY
+          mkdir -p unpacked
+          dpkg-deb -x native20.deb unpacked
+          printf '%s  %s\n' '0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50' unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.dylib | sha256sum -c -
+          printf '%s  %s\n' '680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f' unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSettingsUIRestore.dylib | sha256sum -c -
+          dpkg-deb --ctrl-tarfile native20.deb | tar -xOf - ./preinst > preinst.sh
+          sh -n preinst.sh
+          grep -Fq 'cp -p "$old_store" "$new_store"' preinst.sh
+          echo 'NATIVE20_PUBLIC_SILEO_BUILD_CONTENT_ONLY_NOT_DEVICE_TESTED_PASS'
