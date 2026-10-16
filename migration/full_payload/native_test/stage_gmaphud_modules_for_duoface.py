@@ -3,7 +3,7 @@
 
 No new DEB, no signing, no Sileo, no device installation. These third-party
 source-only adapters need a separate, verified bridge to DuoFace-owned IPC.
-Only four app-source modules are staged. Never stage GMapHUD's separate\noverlay/UI/placement modules, since the user requires exactly ONE GOFA-style\nbubble inside DuoFace. Users install only compatible map apps.
+Only three real publishers (VietMap/Waze/GOFA) are staged. Google's\nGoogleMapsVietMap module also renders native Google Maps UI, so exclude it.\nDuoFace's own Google Maps GPS observer supplies only current speed until\na version-verified limit provider exists. Never stage GMapHUD's separate\noverlay/UI/placement modules, since the user requires exactly ONE GOFA-style\nbubble inside DuoFace. Users install only compatible map apps.
 """
 from __future__ import annotations
 
@@ -25,7 +25,6 @@ MODULE_FILTERS = {
     "WazeGMapHUDSource": {"com.waze.iphone"},
     "GofaGMapHUDSource": {"com.lumi.GOFA"},
     "VietMapGoogleMapsSource": {"vn.vietmap.live"},
-    "GoogleMapsVietMap": {"com.google.Maps"},
 }
 SOURCE_DOC = Path("var/jb/usr/share/doc/com.chou.googlemaps.vietmap")
 TARGET_DOC = Path("var/jb/usr/share/doc/com.duoface.independent")
@@ -71,7 +70,8 @@ def stage(source_deb: Path, output: Path, report_path: Path,
         "sileo_published": False,
         "single_duoface_hud_only": True,
         "excluded_duplicate_renderers": [
-            "GMapHUDPlacementRelay", "GMapHUDOverspeedScreen"
+            "GoogleMapsVietMap", "GMapHUDPlacementRelay",
+            "GMapHUDOverspeedScreen"
         ],
         "copied": {},
     }
@@ -121,8 +121,8 @@ def stage(source_deb: Path, output: Path, report_path: Path,
             report["copied"][str(dst.relative_to(stage_root))] = {
                 "sha256": digest(dst), "size": dst.stat().st_size
             }
-        if len(report["copied"]) != 10:
-            raise AssertionError("Expected exactly 8 app-source module/filter files + 2 notices")
+        if len(report["copied"]) != 8:
+            raise AssertionError("Expected 6 true app-source module/filter files + 2 notices")
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(stage_root), str(output))
     report_path.parent.mkdir(parents=True, exist_ok=True)
