@@ -22,7 +22,9 @@ jobs:
       - name: Read signed native17 preference source strings
         run: |
           set -euo pipefail
-          python3 migration/full_payload/native_test/audit_native17_native_preference_literals.py > /tmp/nativeprefs.out
+          python3 -m venv /tmp/duoface-nativeprefs-env
+          /tmp/duoface-nativeprefs-env/bin/pip install -q 'capstone==5.0.6'
+          /tmp/duoface-nativeprefs-env/bin/python migration/full_payload/native_test/audit_native17_native_preference_literals.py > /tmp/nativeprefs.out
           python3 - <<'PY'
           import json
           j=json.load(open('audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json'))
