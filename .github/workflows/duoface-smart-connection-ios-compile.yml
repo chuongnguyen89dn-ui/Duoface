@@ -1,0 +1,38 @@
+name: DuoFace Smart Connection iOS adapter compile-only
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'runtime/connection/**'
+      - '.github/workflows/duoface-smart-connection-ios-compile.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios-arm64-build:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile policy and isolated SpringBoard adapter for iPhoneOS arm64
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          mkdir -p "$RUNNER_TEMP/dfconnection"
+          xcrun --sdk iphoneos clang++ -std=c++17 -target arm64-apple-ios15.0 \
+            -isysroot "$SDK" -Wall -Wextra -Werror -c \
+            runtime/connection/DFConnectionPolicy.cpp -o "$RUNNER_TEMP/dfconnection/policy.o"
+          xcrun --sdk iphoneos clang++ -std=c++17 -target arm64-apple-ios15.0 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Werror -c \
+            runtime/connection/DFConnectionAdapter.mm -o "$RUNNER_TEMP/dfconnection/adapter.o"
+          file "$RUNNER_TEMP/dfconnection/"*.o
+          test -s "$RUNNER_TEMP/dfconnection/policy.o"
+          test -s "$RUNNER_TEMP/dfconnection/adapter.o"
+          echo 'IOS_ARM64_SMART_CONNECTION_ADAPTER_COMPILE_PASS; NO HOOK, NO DEB'
+      - name: Verify isolated staging does not alter native12 packaging
+        run: |
+          set -euo pipefail
+          ! grep -R 'DFConnectionAdapter.mm' Makefile* || exit 1
+          ! grep -R 'DFConnectionPolicy.cpp' Makefile* || exit 1
+          echo 'NATIVE12_UNCHANGED_NO_SILEO_DEPLOY'
