@@ -128,10 +128,11 @@ def audit(root):
                 aoff=obj.map(vm)
                 instructions=list(decoder.disasm(data[aoff:aoff+20],vm))
                 if len(instructions)>=5 and instructions[0].mnemonic=="adrp" and instructions[1].mnemonic=="ldr" and instructions[4].mnemonic=="br":
-                    base_match=re.match(r"x1,\\s+#(0x[0-9a-f]+)",instructions[0].op_str)
-                    off_match=re.match(r"x1,\\s+\\[x1,\\s+#(0x[0-9a-f]+)\\]",instructions[1].op_str)
-                    if base_match and off_match:
-                        ref=int(base_match.group(1),16)+int(off_match.group(1),16)
+                    # Avoid ambiguous regex escaping in generated read-only script.
+                    adrp_ops=instructions[0].op_str
+                    ldr_ops=instructions[1].op_str
+                    if adrp_ops.startswith("x1, #0x") and ldr_ops.startswith("x1, [x1, #0x"):
+                        ref=int(adrp_ops.split("#0x")[1],16)+int(ldr_ops.split("#0x")[1].rstrip("]"),16)
                         if any(q["name"]=="__objc_selrefs" and q["vm"]<=ref<q["vm"]+q["size"] for q in obj.sections):
                             selector=obj.cstr(obj.ptr(ref))
                             if selector and all(32<=ord(ch)<127 for ch in selector) and len(selector)<120:
