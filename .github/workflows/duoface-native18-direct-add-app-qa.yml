@@ -28,7 +28,7 @@ jobs:
           from pathlib import Path
           s=Path('runtime/appbridge/DFInCarAppPicker.xm').read_text()
           assert '%orig' not in s, 'No original park safely dialog in hook'
-          assert s.count('- (void)addMoreAppsTapped:')==1
+          assert s.count('- (void)addMoreAppsTapped:(id)sender {')==1
           assert 'DFInCarAppPicker' in s and 'DFSaveToNativePreferences' in s
           assert 'dict[@"appSettings"]' in s and 'kDFBridgedAppsKey' in s
           assert 'if (original &&' not in s
