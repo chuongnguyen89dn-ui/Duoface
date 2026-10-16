@@ -7,6 +7,13 @@
 #import <objc/runtime.h>
 #import "DFSpeedTransport.h"
 #import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
 
 @interface DFSpeedNativeHUD : UIView
 @property(nonatomic,strong) UILabel *current;
@@ -16,6 +23,7 @@
 @property(nonatomic,strong) NSTimer *timer;
 @property(nonatomic,strong) UILabel *dismissTarget;
 @property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
 - (void)pan:(UIPanGestureRecognizer *)recognizer;
 - (void)restoreSavedPosition;
 - (void)tick:(NSTimer *)timer;
@@ -83,6 +91,9 @@
 - (void)tick:(NSTimer *)timer {
     (void)timer;
     if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
         self.hidden=YES; return;
     }
     DFSpeedHUDRecord sample={};
@@ -214,11 +225,10 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
 
 @end
 
-@interface CBWindow : NSObject
-@property(nonatomic,readonly) UIWindow *rootWindow;
-@end
-
 static char kDFSpeedViewKey;
+static __weak UIWindow *kDFOnlyWindow;
+static __weak DFSpeedNativeHUD *kDFOnlyHUD;
+static __weak CBWindow *kDFOnlyBridge;
 static IMP kDFOriginalShow=NULL, kDFOriginalResize=NULL, kDFOriginalDestroy=NULL;
 static BOOL kDFSpeedBridgeInstalled=NO;
 static BOOL DFValidBounds(CGRect rect) {
@@ -228,12 +238,22 @@ static BOOL DFValidBounds(CGRect rect) {
 static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     if (![nativeWindow isKindOfClass:UIWindow.class] ||
         nativeWindow.hidden || !DFValidBounds(nativeWindow.bounds)) return;
+    // DuoDash-inspired owner discipline: one HUD for the active DuoFace
+    // window, NEVER one per arbitrary CarPlay system scene/window.
+    if (kDFOnlyHUD && kDFOnlyWindow!=nativeWindow) {
+        [kDFOnlyHUD stop];
+        [kDFOnlyHUD removeFromSuperview];
+        objc_setAssociatedObject(kDFOnlyWindow,&kDFSpeedViewKey,nil,
+                                 OBJC_ASSOCIATION_ASSIGN);
+        kDFOnlyHUD=nil; kDFOnlyWindow=nil; kDFOnlyBridge=nil;
+    }
     DFSpeedNativeHUD *hud=objc_getAssociatedObject(nativeWindow,&kDFSpeedViewKey);
     BOOL isNewHUD=(hud==nil);
     if (!hud) {
         hud=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectZero];
         objc_setAssociatedObject(nativeWindow,&kDFSpeedViewKey,hud,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        hud.ownerBridge=kDFOnlyBridge;
         [nativeWindow addSubview:hud];
     }
     const CGRect safe=UIEdgeInsetsInsetRect(nativeWindow.bounds,
@@ -244,6 +264,8 @@ static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     hud.bounds=CGRectMake(0,0,width,height);
     if (isNewHUD) [hud restoreSavedPosition];
     [nativeWindow bringSubviewToFront:hud];
+    kDFOnlyWindow=nativeWindow;
+    kDFOnlyHUD=hud;
 }
 static void DFAttachHUDToBridgeWindow(id bridge) {
     if (![NSThread isMainThread]) {
@@ -254,9 +276,20 @@ static void DFAttachHUDToBridgeWindow(id bridge) {
         });
         return;
     }
-    if (![bridge respondsToSelector:@selector(rootWindow)]) return;
+    Class cls=object_getClass(bridge);
+    const char *image=cls ? class_getImageName(cls):NULL;
+    if (!image || !strstr(image,"DuoFaceDashboard.dylib") ||
+        ![bridge respondsToSelector:@selector(rootWindow)] ||
+        ![bridge respondsToSelector:@selector(isVisible)] ||
+        !((CBWindow *)bridge).isVisible) return;
+    // Set the owner before the view is added; didMoveToWindow ticks immediately.
+    kDFOnlyBridge=(CBWindow *)bridge;
     UIWindow *window=((CBWindow *)bridge).rootWindow;
     DFPlaceSpeedView(window);
+    if (kDFOnlyHUD && kDFOnlyWindow==window) {
+        kDFOnlyHUD.ownerBridge=(CBWindow *)bridge;
+        [kDFOnlyHUD tick:nil];
+    }
 }
 static void DFRemoveHUDFromBridgeWindow(id bridge) {
     if (![NSThread isMainThread]) return;
@@ -266,6 +299,9 @@ static void DFRemoveHUDFromBridgeWindow(id bridge) {
     [hud stop]; [hud removeFromSuperview];
     objc_setAssociatedObject(root,&kDFSpeedViewKey,nil,
                              OBJC_ASSOCIATION_ASSIGN);
+    if (kDFOnlyBridge==bridge) {
+        kDFOnlyHUD=nil; kDFOnlyWindow=nil; kDFOnlyBridge=nil;
+    }
 }
 static void DFWrappedShow(id self,SEL cmd) {
     ((void(*)(id,SEL))kDFOriginalShow)(self,cmd);
@@ -316,53 +352,12 @@ static void DFTryInstallBridge(unsigned attempts) {
                    dispatch_get_main_queue(), ^{ DFTryInstallBridge(attempts+1); });
 }
 
-// GOFA 0.3.1 reference: the actual HUD owner runs in CarPlayApp /
-// CarPlayTemplateUIHost, not in SpringBoard. Attach to a live external
-// CarPlay window. No hooks in Waze, Maps or DuoFace native12 bridge are needed.
-// This also catches windows that existed before our dylib was injected.
-static BOOL DFIsCarPlayHostWindow(UIWindow *window) {
-    if (![window isKindOfClass:UIWindow.class] || window.hidden ||
-        !DFValidBounds(window.bounds) || !window.rootViewController) return NO;
-    NSString *name=NSStringFromClass(object_getClass(window));
-    if ([name isEqualToString:@"CPWindow"]) return YES;
-    return window.screen && window.screen!=UIScreen.mainScreen;
-}
-static void DFProbeCarPlayHostWindows(void) {
-    if (!NSThread.isMainThread) return;
-    UIApplication *app=UIApplication.sharedApplication;
-    for (UIScene *scene in app.connectedScenes) {
-        if (![scene isKindOfClass:UIWindowScene.class]) continue;
-        for (UIWindow *window in ((UIWindowScene *)scene).windows)
-            if (DFIsCarPlayHostWindow(window)) DFPlaceSpeedView(window);
-    }
-}
-static void DFStartCarPlayHostProbe(void) {
-    if (!NSThread.isMainThread) return;
-    // Opening an external display is the activation trigger; start with
-    // a visible “—” HUD, then fill values only from fresh source data.
-    DFProbeCarPlayHostWindows();
-    NSNotificationCenter *center=NSNotificationCenter.defaultCenter;
-    for (NSString *event in @[UIScreenDidConnectNotification,
-                               UIScreenDidDisconnectNotification,
-                               UIApplicationDidBecomeActiveNotification]) {
-        [center addObserverForName:event object:nil queue:NSOperationQueue.mainQueue
-                       usingBlock:^(__unused NSNotification *note) {
-            DFProbeCarPlayHostWindows();
-        }];
-    }
-    [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES
-       block:^(__unused NSTimer *timer) { DFProbeCarPlayHostWindows(); }];
-}
-
 __attribute__((constructor)) static void DFStartSpeedHUD(void) {
     @autoreleasepool {
         NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
-        if ([bundle isEqualToString:@"com.apple.carplayapp"] ||
-            [bundle isEqualToString:@"com.apple.carplaytemplateuihost"]) {
-            dispatch_async(dispatch_get_main_queue(), ^{ DFStartCarPlayHostProbe(); });
-        } else if ([bundle isEqualToString:@"com.apple.springboard"]) {
-            // Legacy path retained in source for ABI reference; not loaded by
-            // the HUD-only packaging filter, avoiding a duplicate bubble.
+        if ([bundle isEqualToString:@"com.apple.carplayapp"]) {
+            // Hook the REAL DuoFaceDashboard CBWindow lifecycle only.
+            // No global CPWindow/window-scanning code is installed.
             dispatch_async(dispatch_get_main_queue(), ^{ DFTryInstallBridge(0); });
         }
     }
