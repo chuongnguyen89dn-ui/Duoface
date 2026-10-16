@@ -27,6 +27,7 @@
 @end
 
 @interface CBMultitaskingOverlayView : UIView
+- (void)addMoreAppsTapped:(id)sender;
 - (void)switchToAppPickerMode;
 @end
 
