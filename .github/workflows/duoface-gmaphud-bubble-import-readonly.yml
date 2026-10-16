@@ -37,7 +37,10 @@ jobs:
           from pathlib import Path
           j=json.loads(Path('/tmp/duoface-speed-import.json').read_text())
           assert j['status']=='STAGED_BYTE_EXACT_GMAPHUD_NOT_BUILT_NOT_INSTALLED'
-          assert len(j['copied'])==14
+          assert len(j['copied'])==10
+          assert j['single_duoface_hud_only']
+          assert j['excluded_duplicate_renderers']==['GMapHUDPlacementRelay','GMapHUDOverspeedScreen']
+          assert all('GMapHUDPlacementRelay' not in name and 'GMapHUDOverspeedScreen' not in name for name in j['copied'])
           assert not j['built_deb'] and not j['sileo_published']
           assert not j['on_device_bubble_tested']
           assert not j['duoface_overlay_compatibility_verified']
@@ -48,7 +51,7 @@ jobs:
               assert hashlib.sha256(f.read_bytes()).hexdigest()==meta['sha256']
               assert f.stat().st_size==meta['size']
           assert not (root/'DEBIAN/control').exists()
-          print('GMAPHUD_023_BYTE_EXACT_IMPORT_PASS_NO_DEB_NO_SILEO')
+          print('GMAPHUD_023_FOUR_SOURCE_ONLY_PASS_ONE_DUOFACE_HUD_NO_DEB')
           PY
       - uses: actions/upload-artifact@v4
         if: always()
