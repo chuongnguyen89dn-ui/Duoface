@@ -1,0 +1,65 @@
+name: DuoFace Native12 GOFAHUD split scene owner forensic READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-gofahud-split-scene-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native12_gofahud_scene_target_readonly.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-gofahud-scene-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Analyze pinned Native12 window/scene owner without building DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 -m py_compile migration/full_payload/native_test/audit_native12_gofahud_scene_target_readonly.py
+          python3 migration/full_payload/native_test/audit_native12_gofahud_scene_target_readonly.py \
+            --deb "$deb" \
+            --out audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json'))
+          assert d["status"]=="NATIVE12_GOFAHUD_SCENE_OWNER_STATIC_ONLY"
+          assert not d["process_runtime_seen"] and not d["device_tested"]
+          assert not d["deb_built"] and not d["overlay_created"]
+          assert "+carPlayWindowScene" in d["classes"]["CBWindow"]
+          assert "+sharedInstance" in d["classes"]["CBBridgeManagerDashboard"]
+          print("SPLIT_SCENE_STATIC_FORENSIC_PASS_NO_DEVICE_ASSERTIONS")
+          PY
+      - name: Persist forensic evidence only to feature branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit(speedhud): static CBWindow scene and manager owner evidence [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-gofahud-split-scene-owner
+          path: audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json
+          if-no-files-found: warn
