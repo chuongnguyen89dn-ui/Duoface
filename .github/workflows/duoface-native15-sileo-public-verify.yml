@@ -1,0 +1,73 @@
+name: DuoFace native15 verify public Sileo APT and exact DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native15-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for published APT index and verify native15 without touching installed devices
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/native15-public"
+          cd "$RUNNER_TEMP/native15-public"
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          for n in $(seq 1 55); do
+            curl --fail --location --retry 2 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native15' Packages 2>/dev/null; then break; fi
+            echo "Awaiting native15 Pages publication $n"
+            sleep 12
+          done
+          curl --fail --location "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.uncompressed
+          cmp Packages Packages.uncompressed
+          python3 - <<'PY'
+          import pathlib
+          txt=pathlib.Path('Packages').read_text()
+          entries=[]
+          for para in txt.strip().split('\n\n'):
+              o={}
+              for line in para.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);o[k]=v
+              if o.get('Package'):entries.append(o)
+          native=[o for o in entries if o['Package']=='com.duoface.independent']
+          old=[o for o in entries if o['Package']=='com.duonavi.app']
+          assert len(native)==1, native
+          assert len(old)==1, old
+          pkg=native[0]
+          assert pkg['Version']=='0.1.0~native15', pkg
+          assert pkg['Architecture']=='iphoneos-arm64'
+          assert pkg['SHA256']=='8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3'
+          assert pkg['Filename'].endswith('/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb')
+          pathlib.Path('metadata.txt').write_text(str(pkg))
+          print('APT_NATIVE15_METADATA_AND_LEGACY_PACKAGE_PRESERVED_PASS')
+          PY
+          curl --fail --location --retry 5 --retry-delay 4             "$base/debs/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb" -o native15.deb
+          printf '%s  %s\n' '8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3' native15.deb | sha256sum -c -
+          test "$(dpkg-deb -f native15.deb Package)" = com.duoface.independent
+          test "$(dpkg-deb -f native15.deb Version)" = '0.1.0~native15'
+          dpkg-deb -c native15.deb > contents.txt
+          for name in DuoFaceSmartConnection DuoFaceInCarAddApps DuoFaceDashboard DuoFaceFullscreenBridge DuoFaceVisualHook DuoFaceLogoGripOnly; do
+            grep -F "$name.dylib" contents.txt
+          done
+          ! grep -F 'A_DuoFaceNativeNoLease' contents.txt
+          echo 'PUBLIC_SILEO_NATIVE15_EXACT_SHA_TEST_ARTIFACT_VERIFIED_NOT_DEVICE_TESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native15-public-sileo-proof
+          path: |
+            ${{ runner.temp }}/native15-public/Packages
+            ${{ runner.temp }}/native15-public/Packages.gz
+            ${{ runner.temp }}/native15-public/contents.txt
+            ${{ runner.temp }}/native15-public/metadata.txt
+          if-no-files-found: warn
