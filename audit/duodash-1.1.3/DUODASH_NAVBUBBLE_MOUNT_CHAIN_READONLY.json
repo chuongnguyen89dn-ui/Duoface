@@ -7461,6 +7461,115 @@
           "0x73868: adrp x16, #0xb8000",
           "0x7386c: ldr x16, [x16, #0x130]"
         ]
+      },
+      "selector_ref_probes": {
+        "0xd8bc0": {
+          "raw": "0x100000000ae9be",
+          "candidate_names": {
+            "0x100000000ae9be": "addSubview:",
+            "0xae9be": "addSubview:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xd9400": {
+          "raw": "0x100000000b02a8",
+          "candidate_names": {
+            "0x100000000b02a8": "initWithFrame:",
+            "0xb02a8": "initWithFrame:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xd9cf8": {
+          "raw": "0x100000000ad24c",
+          "candidate_names": {
+            "0x100000000ad24c": "setDragEnabled:",
+            "0xad24c": "setDragEnabled:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xdac8": {
+          "raw": "0xf900691ff9406900",
+          "candidate_names": {},
+          "segment_matches": [
+            "__text"
+          ]
+        },
+        "0xd9da8": {
+          "raw": "0x100000000b217e",
+          "candidate_names": {
+            "0x100000000b217e": "setHost:",
+            "0xb217e": "setHost:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xd9f40": {
+          "raw": "0x100000000b250a",
+          "candidate_names": {
+            "0x100000000b250a": "setPaneSlot:",
+            "0xb250a": "setPaneSlot:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xd9ec8": {
+          "raw": "0x100000000b2457",
+          "candidate_names": {
+            "0x100000000b2457": "setOnDragged:",
+            "0xb2457": "setOnDragged:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xd9ec0": {
+          "raw": "0x100000000b2444",
+          "candidate_names": {
+            "0x100000000b2444": "setOnDragFinished:",
+            "0xb2444": "setOnDragFinished:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xda108": {
+          "raw": "0x100000000b2923",
+          "candidate_names": {
+            "0x100000000b2923": "shared",
+            "0xb2923": "shared"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xda0c8": {
+          "raw": "0x100000000b288f",
+          "candidate_names": {
+            "0x100000000b288f": "setView:",
+            "0xb288f": "setView:"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        },
+        "0xda4a8": {
+          "raw": "0x100000000b33cf",
+          "candidate_names": {
+            "0x100000000b33cf": "view",
+            "0xb33cf": "view"
+          },
+          "segment_matches": [
+            "__objc_selrefs"
+          ]
+        }
       }
     },
     "arm64e": {
@@ -19868,6 +19977,115 @@
           "0x73868: adrp x17, #0xbc000",
           "0x7386c: add x17, x17, #0x130"
         ]
+      },
+      "selector_ref_probes": {
+        "0xd8bc0": {
+          "raw": "0x80000000decdc",
+          "candidate_names": {
+            "0x80000000decdc": "\b",
+            "0xdecdc": "\b"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xd9400": {
+          "raw": "0x80000000b9186",
+          "candidate_names": {
+            "0x80000000b9186": "#16@0:8",
+            "0xb9186": "#16@0:8"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xd9cf8": {
+          "raw": "0x100000000b9562",
+          "candidate_names": {
+            "0x100000000b9562": "@\"UIControl\"",
+            "0xb9562": "@\"UIControl\""
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xdac8": {
+          "raw": "0xf00006889401ab8e",
+          "candidate_names": {},
+          "segment_matches": [
+            "__text"
+          ]
+        },
+        "0xd9da8": {
+          "raw": "0x80000000dee58",
+          "candidate_names": {
+            "0x80000000dee58": "�\u0002",
+            "0xdee58": "�\u0002"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xd9f40": {
+          "raw": "0x800000003",
+          "candidate_names": {
+            "0x800000003": "�\f",
+            "0x3": "�\f"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xd9ec8": {
+          "raw": "0x80000000dee60",
+          "candidate_names": {
+            "0x80000000dee60": "\u0010",
+            "0xdee60": "\u0010"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xd9ec0": {
+          "raw": "0x800000003",
+          "candidate_names": {
+            "0x800000003": "�\f",
+            "0x3": "�\f"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xda108": {
+          "raw": "0x80000000b3715",
+          "candidate_names": {
+            "0x80000000b3715": "_limitAnchor",
+            "0xb3715": "_limitAnchor"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xda0c8": {
+          "raw": "0x80000000b3722",
+          "candidate_names": {
+            "0x80000000b3722": "_limitKmh",
+            "0xb3722": "_limitKmh"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        },
+        "0xda4a8": {
+          "raw": "0x80000000b2255",
+          "candidate_names": {
+            "0x80000000b2255": "_onDragFinished",
+            "0xb2255": "_onDragFinished"
+          },
+          "segment_matches": [
+            "__objc_const"
+          ]
+        }
       }
     }
   },
