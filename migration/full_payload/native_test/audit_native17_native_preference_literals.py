@@ -65,9 +65,25 @@ with tempfile.TemporaryDirectory() as td:
                     if value and any(word in value.lower() for word in important):
                         cfstrings.append({"vm":hex(address),"value":value[:160]})
                 except Exception:pass
+        # Native12's original reloadAppPrefs uses lazy owner path global
+        # [0x3812b0] and once initializer descriptor 0x344928. Trace the
+        # actual pointers instead of inventing a Preferences filename.
+        lazy={}
+        if name=="DuoFaceDashboard":
+            for addr in (0x3812b0,0x3812b8,0x344908,0x344918,0x344928,
+                         0x344930,0x344938,0x344948,0x344958,0x3449a8):
+                try:
+                    val=m.ptr(addr)
+                    try: valstr=m.cstr(val)
+                    except Exception: valstr=""
+                    lazy[hex(addr)]={"word64":hex(val),
+                                     "raw32":m.data[m.map(addr):m.map(addr)+32].hex(),
+                                     "points_to_cstring":valstr[:100]}
+                except Exception as err: lazy[hex(addr)]={"error":str(err)[:100]}
         report["hosts"][name]={"sha256":expected,"original_disassembly_direct_literals":matches,
                               "native_preferences_related_literals":strings[:160],
                               "native_cfstring_constants":cfstrings[:400],
+                              "lazy_preference_global_probe":lazy,
                               "near_appSettings_cfstrings":[
                                   {"vm":hex(sec["vm"]+offset),"value":m.cstr(m.ptr(sec["vm"]+offset+16))}
                                   for sec in m.sections if sec["name"]=="__cfstring"
