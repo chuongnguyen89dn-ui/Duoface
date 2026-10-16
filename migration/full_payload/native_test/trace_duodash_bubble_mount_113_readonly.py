@@ -10,6 +10,7 @@ import json
 import plistlib
 import re
 import subprocess
+import struct
 import tempfile
 from pathlib import Path
 from audit_duodash_perf_thermal_113 import NormalizedMachO, fat_slices, PINNED_GIT_BLOB
@@ -18,6 +19,48 @@ from audit_native12_carplay_add_app_chain import methods, disassemble
 SHA256="ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465"
 SELECTOR_RE=re.compile(r"bubble|pane|host|window|view|controller|layout|open|split|init|show|hide|start|stop|connect|attach|scene|root|render|refresh|sync|display|speed|nav|setting|snap|rebuild|mount|toggle|reconcile",re.I)
 HINT_RE=re.compile(r"addSubview:|insertSubview:|bringSubviewToFront:|initWithFrame:|CNABBubbleView|paneRect|makeKeyAndVisible|setHidden:|setAlpha:|windowLevel|windowScene|rootViewController|setView:|setFrame:|startSpeedReadout|stopSpeedReadout|bubblePane|bubblePosition|bubble|Bubble|setNeedsLayout|layoutSubviews|shared|carPlay",re.I)
+
+def indirect_stub_symbols(raw):
+    """Decode Mach-O LC_SYMTAB + LC_DYSYMTAB and __stubs index. Static names only."""
+    ncmds=struct.unpack_from("<I",raw,16)[0]
+    pos=32; symtab=None; ind_table=None; stub_sections=[]
+    for _ in range(ncmds):
+        cmd,size=struct.unpack_from("<II",raw,pos)
+        if size<8 or pos+size>len(raw): raise ValueError("invalid MachO load command")
+        if cmd==0x2:
+            symtab=struct.unpack_from("<IIII",raw,pos+8)
+        if cmd==0xb:
+            ind_table=struct.unpack_from("<II",raw,pos+56)
+        if cmd==0x19:
+            sec_count=struct.unpack_from("<I",raw,pos+64)[0]
+            for j in range(sec_count):
+                off=pos+72+j*80
+                if off+80>pos+size:break
+                name=raw[off:off+16].split(b"\\0")[0].decode("ascii","replace")
+                if name in ("__stubs","__auth_stubs","__objc_stubs"):
+                    addr,sz=struct.unpack_from("<QQ",raw,off+32)
+                    reserved1,reserved2=struct.unpack_from("<II",raw,off+68)
+                    stub_sections.append((name,addr,sz,reserved1,reserved2))
+        pos+=size
+    if not symtab or not ind_table:return {}
+    symoff,nsyms,stroff,strsize=symtab
+    indirectoff,nindirect=ind_table
+    if symoff+16*nsyms>len(raw) or stroff+strsize>len(raw):return {}
+    if indirectoff+4*nindirect>len(raw):return {}
+    result={}
+    for section,addr,size,first,stride in stub_sections:
+        if stride<4 or stride>64:continue
+        for k in range(min(size//stride,30000)):
+            index=first+k
+            if index>=nindirect:break
+            symidx=struct.unpack_from("<I",raw,indirectoff+4*index)[0]
+            if symidx>=nsyms:continue
+            off=struct.unpack_from("<I",raw,symoff+16*symidx)[0]
+            if off>=strsize:continue
+            end=raw.find(b"\\0",stroff+off,stroff+strsize)
+            if end<0:continue
+            result[addr+k*stride]=raw[stroff+off:end].decode("utf-8","replace")
+    return result
 
 def audit(root):
     dy=root/"var/jb/usr/lib/TweakInject/DuoDash.dylib"
@@ -35,6 +78,7 @@ def audit(root):
         if arch not in ("arm64","arm64e"): continue
         obj=NormalizedMachO(data)
         all_classes=obj.classes()
+        stub_symbols=indirect_stub_symbols(data)
         entries={}
         for cl in sorted(all_classes):
             try: catalog=methods(obj,cl)
@@ -46,6 +90,14 @@ def audit(root):
                 if not SELECTOR_RE.search(sel): continue
                 begin=int(q["vm"]); end=next((v for v in ordered if v>begin),begin+1200)
                 asm=disassemble(obj,begin,min(end,begin+(5200 if cl in ("DDz4","DDz1","DDz2") else 1800)))
+                annotated=[]
+                for line in asm:
+                    q=re.search(r"\\bbl #0x([0-9a-f]+)",line)
+                    if q:
+                        symbol=stub_symbols.get(int(q.group(1),16))
+                        if symbol:line+="  ; STUB "+symbol
+                    annotated.append(line)
+                asm=annotated
                 hints=[s for s in asm if ("SEL_OR_LITERAL" in s or "DIRECT_STRING" in s) and HINT_RE.search(s)]
                 if not (HINT_RE.search(sel) or hints or cl in ("DDz4","DDz1","DDz2") or (cl=="DDz3" and "Bubble" in sel)): continue
                 items[sel]={
@@ -55,7 +107,7 @@ def audit(root):
                 }
             entries[cl]={"method_count":len(catalog),"all_methods":sorted(catalog),
                         "interesting":items}
-        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes)}
+        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols)}
     return out
 
 def main():
