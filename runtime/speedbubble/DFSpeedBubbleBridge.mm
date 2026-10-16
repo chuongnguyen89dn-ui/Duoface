@@ -1,10 +1,11 @@
 // DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
-// Inject this module into SpringBoard *as part of future DuoFace package*.
+// Inject this module into the verified DuoFace CarPlay process only; no global SpringBoard HUD.
 // Native12 CBWindow selectors and rootWindow class are verified by existing audits.
-// NO build, installation or Sileo changes in this source-only checkpoint.
+// Speed4 split-host candidate: device visibility is not yet verified.
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import "DFSpeedTransport.h"
 #import <math.h>
 #include <string.h>
@@ -12,6 +13,8 @@
 // Actual DuoFace Native12 owner; not the Apple CarPlay home window.
 @interface CBWindow : NSObject
 @property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
 @property(nonatomic,readonly) BOOL isVisible;
 @end
 
@@ -227,6 +230,14 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
 
 static char kDFSpeedViewKey;
 static __weak UIWindow *kDFOnlyWindow;
+static __weak UIView *kDFOnlyHost;
+static NSString *kDFLastHostStatus;
+static void DFHostStatus(NSString *status) {
+    if (![status isEqualToString:kDFLastHostStatus]) {
+        kDFLastHostStatus=[status copy];
+        NSLog(@"[DuoFaceSpeedHUD][split-owner] %@",status);
+    }
+}
 static __weak DFSpeedNativeHUD *kDFOnlyHUD;
 static __weak CBWindow *kDFOnlyBridge;
 static IMP kDFOriginalShow=NULL, kDFOriginalResize=NULL, kDFOriginalDestroy=NULL;
@@ -235,37 +246,64 @@ static BOOL DFValidBounds(CGRect rect) {
     return isfinite(rect.size.width) && isfinite(rect.size.height) &&
            rect.size.width>=220 && rect.size.height>=120;
 }
-static void DFPlaceSpeedView(UIWindow *nativeWindow) {
-    if (![nativeWindow isKindOfClass:UIWindow.class] ||
-        nativeWindow.hidden || !DFValidBounds(nativeWindow.bounds)) return;
-    // DuoDash-inspired owner discipline: one HUD for the active DuoFace
-    // window, NEVER one per arbitrary CarPlay system scene/window.
-    if (kDFOnlyHUD && kDFOnlyWindow!=nativeWindow) {
+// Exact Native12 exposes both CBWindow.contentView and rootViewController.
+// Verify their REAL view/window relationship: no arbitrary CarPlay-wide windows.
+static UIView *DFVerifiedSplitHost(CBWindow *bridge, UIWindow *root) {
+    if (![root isKindOfClass:UIWindow.class] || root.hidden ||
+        root.alpha<=0.01 || !DFValidBounds(root.bounds)) {
+        DFHostStatus(@"WAIT: native CBWindow root hidden/small/unavailable");
+        return nil;
+    }
+    UIView *content=bridge.contentView;
+    UIView *controller=bridge.rootViewController.viewIfLoaded;
+    if (![content isKindOfClass:UIView.class] || content.window!=root) {
+        DFHostStatus(@"WAIT: CBWindow contentView is not in root UIWindow");
+        return nil;
+    }
+    // Prefer root controller's view above BOTH split panes, not either app pane.
+    UIView *host=nil;
+    if ([controller isKindOfClass:UIView.class] && controller.window==root) {
+        for (UIView *v=content;v;v=v.superview) {
+            if (v==controller) {host=controller;break;}
+        }
+    }
+    // If Native12 uses a direct root contentView, that is the guarded fallback.
+    if (!host) host=content;
+    if (!DFValidBounds(host.bounds) || host.hidden || host.alpha<=0.01) {
+        DFHostStatus(@"WAIT: verified split host not laid out/visible yet");
+        return nil;
+    }
+    return host;
+}
+static void DFPlaceSpeedView(CBWindow *bridge) {
+    UIWindow *nativeWindow=bridge.rootWindow;
+    UIView *host=DFVerifiedSplitHost(bridge,nativeWindow);
+    if (!host) return;
+    // Singleton is keyed to the split HOST, not to each app pane or Home scene.
+    if (kDFOnlyHUD && kDFOnlyHost!=host) {
         [kDFOnlyHUD stop];
         [kDFOnlyHUD removeFromSuperview];
-        objc_setAssociatedObject(kDFOnlyWindow,&kDFSpeedViewKey,nil,
-                                 OBJC_ASSOCIATION_ASSIGN);
-        kDFOnlyHUD=nil; kDFOnlyWindow=nil; kDFOnlyBridge=nil;
+        if (kDFOnlyHost)
+            objc_setAssociatedObject(kDFOnlyHost,&kDFSpeedViewKey,nil,
+                                     OBJC_ASSOCIATION_ASSIGN);
+        kDFOnlyHUD=nil;kDFOnlyWindow=nil;kDFOnlyHost=nil;kDFOnlyBridge=nil;
     }
-    DFSpeedNativeHUD *hud=objc_getAssociatedObject(nativeWindow,&kDFSpeedViewKey);
-    BOOL isNewHUD=(hud==nil);
+    DFSpeedNativeHUD *hud=objc_getAssociatedObject(host,&kDFSpeedViewKey);
+    BOOL isNew=(hud==nil);
     if (!hud) {
         hud=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectZero];
-        objc_setAssociatedObject(nativeWindow,&kDFSpeedViewKey,hud,
+        hud.ownerBridge=bridge;
+        objc_setAssociatedObject(host,&kDFSpeedViewKey,hud,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        hud.ownerBridge=kDFOnlyBridge;
-        [nativeWindow addSubview:hud];
+        [host addSubview:hud];
     }
-    const CGRect safe=UIEdgeInsetsInsetRect(nativeWindow.bounds,
-                               nativeWindow.safeAreaInsets);
-    // Noninteractive overlay; never touch the original split scene frame.
-    const CGFloat width=142, height=64;
-    (void)safe;
-    hud.bounds=CGRectMake(0,0,width,height);
-    if (isNewHUD) [hud restoreSavedPosition];
-    [nativeWindow bringSubviewToFront:hud];
-    kDFOnlyWindow=nativeWindow;
-    kDFOnlyHUD=hud;
+    hud.ownerBridge=bridge;
+    hud.bounds=CGRectMake(0,0,142,64);
+    if (isNew) [hud restoreSavedPosition];
+    [host bringSubviewToFront:hud];
+    kDFOnlyBridge=bridge;kDFOnlyWindow=nativeWindow;kDFOnlyHost=host;kDFOnlyHUD=hud;
+    [hud tick:nil];
+    DFHostStatus(@"MOUNTED: one HUD in CBWindow split host (device visibility still requires visual test)");
 }
 static void DFAttachHUDToBridgeWindow(id bridge) {
     if (![NSThread isMainThread]) {
@@ -285,23 +323,81 @@ static void DFAttachHUDToBridgeWindow(id bridge) {
     // Set the owner before the view is added; didMoveToWindow ticks immediately.
     kDFOnlyBridge=(CBWindow *)bridge;
     UIWindow *window=((CBWindow *)bridge).rootWindow;
-    DFPlaceSpeedView(window);
+    DFPlaceSpeedView((CBWindow *)bridge);
     if (kDFOnlyHUD && kDFOnlyWindow==window) {
         kDFOnlyHUD.ownerBridge=(CBWindow *)bridge;
         [kDFOnlyHUD tick:nil];
     }
 }
 static void DFRemoveHUDFromBridgeWindow(id bridge) {
-    if (![NSThread isMainThread]) return;
-    if (![bridge respondsToSelector:@selector(rootWindow)]) return;
-    UIWindow *root=((CBWindow *)bridge).rootWindow;
-    DFSpeedNativeHUD *hud=objc_getAssociatedObject(root,&kDFSpeedViewKey);
-    [hud stop]; [hud removeFromSuperview];
-    objc_setAssociatedObject(root,&kDFSpeedViewKey,nil,
-                             OBJC_ASSOCIATION_ASSIGN);
-    if (kDFOnlyBridge==bridge) {
-        kDFOnlyHUD=nil; kDFOnlyWindow=nil; kDFOnlyBridge=nil;
+    if (![NSThread isMainThread] || kDFOnlyBridge!=bridge) return;
+    [kDFOnlyHUD stop];
+    [kDFOnlyHUD removeFromSuperview];
+    if (kDFOnlyHost)
+        objc_setAssociatedObject(kDFOnlyHost,&kDFSpeedViewKey,nil,
+                                 OBJC_ASSOCIATION_ASSIGN);
+    kDFOnlyHUD=nil;kDFOnlyWindow=nil;kDFOnlyHost=nil;kDFOnlyBridge=nil;
+    DFHostStatus(@"UNMOUNTED: split owner destroyed/inactive");
+}
+// Native12 CBBridgeManager.window is the missing direct path to its live
+// CBWindow instance (audit: sharedInstanceIfExists + window). No global
+// UIWindow scanning, no per-app injection and no simulated GOFA producer.
+static id DFCurrentNativeOwner(void) {
+    Class cls=NSClassFromString(@"CBBridgeManager");
+    SEL shared=NSSelectorFromString(@"sharedInstanceIfExists");
+    if (!cls || ![cls respondsToSelector:shared]) {
+        DFHostStatus(@"WAIT: CBBridgeManager class unavailable in this process");
+        return nil;
     }
+    id manager=((id(*)(id,SEL))objc_msgSend)(cls,shared);
+    SEL windowSel=NSSelectorFromString(@"window");
+    if (!manager || ![manager respondsToSelector:windowSel]) {
+        DFHostStatus(@"WAIT: CBBridgeManager singleton/window unavailable");
+        return nil;
+    }
+    id owner=((id(*)(id,SEL))objc_msgSend)(manager,windowSel);
+    Class windowClass=NSClassFromString(@"CBWindow");
+    if (!windowClass || ![owner isKindOfClass:windowClass]) {
+        DFHostStatus(@"WAIT: manager.window is not a native CBWindow");
+        return nil;
+    }
+    return owner;
+}
+static void DFReconcileSplitHUD(void) {
+    if (![NSThread isMainThread]) return;
+    id owner=DFCurrentNativeOwner();
+    if (owner) {
+        if (!((CBWindow *)owner).isVisible) {
+            if (kDFOnlyBridge) DFRemoveHUDFromBridgeWindow(kDFOnlyBridge);
+            DFHostStatus(@"WAIT: manager CBWindow inactive");
+            return;
+        }
+        DFAttachHUDToBridgeWindow(owner);
+    } else if (kDFOnlyBridge && !kDFOnlyBridge.isVisible) {
+        DFRemoveHUDFromBridgeWindow(kDFOnlyBridge);
+    }
+}
+@interface DFHUDReconcileDriver : NSObject
+- (void)refresh:(NSTimer *)timer;
+- (void)windowBecameVisible:(NSNotification *)note;
+@end
+@implementation DFHUDReconcileDriver
+- (void)refresh:(NSTimer *)timer {(void)timer;DFReconcileSplitHUD();}
+- (void)windowBecameVisible:(NSNotification *)note {
+    (void)note;DFReconcileSplitHUD();
+}
+@end
+static DFHUDReconcileDriver *kDFHUDDriver;
+static void DFStartSplitReconcile(void) {
+    if (kDFHUDDriver) return;
+    kDFHUDDriver=[DFHUDReconcileDriver new];
+    NSTimer *timer=[NSTimer timerWithTimeInterval:1.0 target:kDFHUDDriver
+                      selector:@selector(refresh:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    [[NSNotificationCenter defaultCenter] addObserver:kDFHUDDriver
+        selector:@selector(windowBecameVisible:)
+        name:UIWindowDidBecomeVisibleNotification object:nil];
+    DFReconcileSplitHUD();
 }
 static void DFWrappedShow(id self,SEL cmd) {
     ((void(*)(id,SEL))kDFOriginalShow)(self,cmd);
@@ -315,41 +411,44 @@ static void DFWrappedDestroy(id self,SEL cmd) {
     DFRemoveHUDFromBridgeWindow(self);
     ((void(*)(id,SEL))kDFOriginalDestroy)(self,cmd);
 }
-static BOOL DFInstallOne(Class cls, const char *name, IMP replacement,IMP *old) {
-    SEL sel=sel_registerName(name);
-    Method method=class_getInstanceMethod(cls,sel);
-    if (!method || strcmp(method_getTypeEncoding(method),"v16@0:8")!=0)
-        return NO; // ABI guarded; fail closed on new DuoFace/native versions.
-    *old=method_setImplementation(method,replacement);
-    return *old!=NULL;
-}
 static void DFTryInstallBridge(unsigned attempts) {
-    if (kDFSpeedBridgeInstalled) return;
-    if (!NSThread.isMainThread) return;
+    if (kDFSpeedBridgeInstalled || !NSThread.isMainThread) return;
     Class cls=NSClassFromString(@"CBWindow");
-    if (cls && class_getInstanceMethod(cls,@selector(show)) &&
-        class_getInstanceMethod(cls,@selector(resizeWindows)) &&
-        class_getInstanceMethod(cls,@selector(destroyWindows)) &&
-        class_getInstanceMethod(cls,@selector(rootWindow))) {
-        // A failed partial install must not leave half-wired handlers.
-        Method m1=class_getInstanceMethod(cls,@selector(show));
-        Method m2=class_getInstanceMethod(cls,@selector(resizeWindows));
-        Method m3=class_getInstanceMethod(cls,@selector(destroyWindows));
-        if (strcmp(method_getTypeEncoding(m1),"v16@0:8")==0 &&
-            strcmp(method_getTypeEncoding(m2),"v16@0:8")==0 &&
-            strcmp(method_getTypeEncoding(m3),"v16@0:8")==0) {
-            if (DFInstallOne(cls,"show",(IMP)DFWrappedShow,&kDFOriginalShow) &&
-                DFInstallOne(cls,"resizeWindows",(IMP)DFWrappedResize,&kDFOriginalResize) &&
-                DFInstallOne(cls,"destroyWindows",(IMP)DFWrappedDestroy,&kDFOriginalDestroy)) {
-                kDFSpeedBridgeInstalled=YES;
-                NSLog(@"[DuoFaceSpeedHUD] Native12 window bridge installed (source-only candidate)");
-                return;
+    const char *image=cls?class_getImageName(cls):NULL;
+    if (cls && image && strstr(image,"DuoFaceDashboard.dylib")) {
+        SEL sels[]={@selector(show),@selector(resizeWindows),@selector(destroyWindows)};
+        IMP wrappers[]={(IMP)DFWrappedShow,(IMP)DFWrappedResize,(IMP)DFWrappedDestroy};
+        Method methods[3]={NULL,NULL,NULL};
+        IMP originals[3]={NULL,NULL,NULL};
+        BOOL valid=YES;
+        for (unsigned i=0;i<3;i++) {
+            methods[i]=class_getInstanceMethod(cls,sels[i]);
+            if (!methods[i] || strcmp(method_getTypeEncoding(methods[i]),"v16@0:8")!=0) {
+                valid=NO;break;
             }
+            originals[i]=method_getImplementation(methods[i]);
+            if (!originals[i] || originals[i]==wrappers[i]) {valid=NO;break;}
+        }
+        if (valid) {
+            // Prevalidate all three original IMPs BEFORE mutating any method:
+            // never accidentally capture a wrapper as its own original.
+            kDFOriginalShow=originals[0];
+            kDFOriginalResize=originals[1];
+            kDFOriginalDestroy=originals[2];
+            for (unsigned i=0;i<3;i++)
+                method_setImplementation(methods[i],wrappers[i]);
+            kDFSpeedBridgeInstalled=YES;
+            NSLog(@"[DuoFaceSpeedHUD] Native12 CBWindow hooks ready");
+            DFReconcileSplitHUD(); // existing split owner, even if show fired earlier
+            return;
         }
     }
-    if (attempts>=30) return;
+    if (attempts>=30) {
+        DFHostStatus(@"WARN: CBWindow hook timeout; manager reconciliation remains active");
+        return;
+    }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
-                   dispatch_get_main_queue(), ^{ DFTryInstallBridge(attempts+1); });
+        dispatch_get_main_queue(), ^{ DFTryInstallBridge(attempts+1); });
 }
 
 __attribute__((constructor)) static void DFStartSpeedHUD(void) {
@@ -358,7 +457,7 @@ __attribute__((constructor)) static void DFStartSpeedHUD(void) {
         if ([bundle isEqualToString:@"com.apple.carplayapp"]) {
             // Hook the REAL DuoFaceDashboard CBWindow lifecycle only.
             // No global CPWindow/window-scanning code is installed.
-            dispatch_async(dispatch_get_main_queue(), ^{ DFTryInstallBridge(0); });
+            dispatch_async(dispatch_get_main_queue(), ^{ DFStartSplitReconcile(); DFTryInstallBridge(0); });
         }
     }
 }
