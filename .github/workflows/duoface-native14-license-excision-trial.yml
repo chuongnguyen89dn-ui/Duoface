@@ -1,10 +1,7 @@
 name: DuoFace native14 license-class unregister TRIAL (UNPUBLISHED)
+# Archival fallback: existing duoface-native14-license-class-trial.yml owns CI on push.
+# This secondary workflow is MANUAL ONLY to avoid duplicate experimental builds.
 on:
-  push:
-    branches: [feature/duoface-exact-payload-migration]
-    paths:
-      - 'migration/full_payload/native_test/build_native14_license_class_trial.py'
-      - '.github/workflows/duoface-native14-license-excision-trial.yml'
   workflow_dispatch:
 permissions:
   contents: write
