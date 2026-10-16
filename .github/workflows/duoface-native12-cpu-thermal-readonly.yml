@@ -1,0 +1,73 @@
+name: DuoFace native12 CPU/Thermal baseline READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-cpu-thermal-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native12_cpu_thermal_readonly.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native12-cpu-thermal-audit
+  cancel-in-progress: false
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read GitHub continuity, iOS DEB and debugging skill ZIPs
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-skills"
+          for name in 01-github-continuity 02-ios-deb-ipa-carplay 05-research-debug-testing; do
+            curl -fsSL --retry 3 --retry-delay 2 \
+              "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name.zip" \
+              -o "$RUNNER_TEMP/duoface-skills/$name.zip"
+            unzip -t "$RUNNER_TEMP/duoface-skills/$name.zip" | tail -1
+            unzip -p "$RUNNER_TEMP/duoface-skills/$name.zip" SKILL.md | head -65
+          done
+          echo 'GITHUB_CENTRAL_CPU_AUDIT_SKILLS_READ_PASS'
+      - name: Read exact native12 package metadata and CPU/thermal code routes
+        run: |
+          set -euo pipefail
+          file='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          echo "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  $file" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_cpu_thermal_readonly.py \
+            --deb "$file" \
+            --out audit/payload-migration/NATIVE12_CPU_THERMAL_READONLY.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('audit/payload-migration/NATIVE12_CPU_THERMAL_READONLY.json'))
+          assert d['status']=='NATIVE12_CPU_THERMAL_READONLY_AUDIT_PASS'
+          assert d['baseline_sha256']=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7'
+          assert not d['tweak_or_deb_modified'] and not d['runtime_fps_tested']
+          assert d['binaries']['DuoFaceUI']['owner_routes']['CBGeneralSettingsViewController']['present']
+          assert d['binaries']['DuoFaceDashboard']['owner_routes']['CBDashboardSettings']['present']
+          print('NATIVE12_CPU_THERMAL_SIGNED_BINARY_ANALYSIS_PASS')
+          PY
+      - name: Commit report to DuoFace feature branch only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_CPU_THERMAL_READONLY.json
+          if git diff --cached --quiet; then echo 'CPU_AUDIT_REPORT_UNCHANGED'; exit 0; fi
+          git commit -m 'audit: immutable native12 CPU and thermal static routes [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-cpu-thermal-readonly
+          path: audit/payload-migration/NATIVE12_CPU_THERMAL_READONLY.json
+          if-no-files-found: warn
