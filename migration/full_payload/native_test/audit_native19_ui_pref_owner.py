@@ -19,10 +19,10 @@ with tempfile.TemporaryDirectory() as t:
    sample=m.data[off:off+72]
    report["probes"][hex(addr)]={"hex":sample.hex(),"ptr":hex(m.ptr(addr)),"ascii":m.cstr(addr)}
   except Exception as e:report["probes"][hex(addr)]={"error":str(e)}
- for entry in (0x1000a2964,):
+ for entry in (0x1000109b4,0x1000106d8,0x100010b30):
   try:
    off=m.map(entry)
-   report["probes"][hex(entry)]={"disasm":[hex(i.address)+": "+i.mnemonic+" "+i.op_str for i in cs.disasm(m.data[off:off+768],entry)][:170]}
+   report["probes"][hex(entry)]={"disasm":[hex(i.address)+": "+i.mnemonic+" "+i.op_str for i in cs.disasm(m.data[off:off+1024],entry)][:170]}
   except Exception as e:report["probes"][hex(entry)]={"error":str(e)}
  dest=Path("audit/payload-migration/NATIVE19_UI_OWNER_READONLY.json")
  dest.parent.mkdir(parents=True,exist_ok=True)
