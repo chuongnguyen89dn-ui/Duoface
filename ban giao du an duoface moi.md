@@ -1,5 +1,83 @@
 # Bàn giao dự án DuoFace mới
 
+
+## 16/10/2026 — TRUY ĐƯỜNG DỮ LIỆU GOFA / WAZE / VIETMAP / GOOGLE MAPS
+Checkpoint: DATA-ROUTES-TRACED-20261016.
+**Phạm vi: phân tích và đề xuất, chỉ cập nhật bàn giao. Chưa sửa implementation, chưa build/deploy, chưa kiểm chứng trên thiết bị.** Theo yêu cầu người dùng: truy ra đến đâu lưu ngay đến đó. Phần này bổ sung cho kết quả truy GOFAHUD bên dưới.
+
+### 1. Kết luận cần dùng ngay
+- Phải tách hai việc: (A) tạo/hiện bong bóng trong đúng host/scene DuoFace; (B) lấy dữ liệu từ app nguồn và đưa đến bong bóng. Có dữ liệu không tự tạo được view; có view chưa đồng nghĩa có nguồn dữ liệu.
+- GOFAHUD là tweak tạo bong bóng. GOFA là app cung cấp dữ liệu. Đã xác minh upstream và DEB đúng SHA ở mục kế tiếp.
+- Trong **GMapHUD v0.2.3 được khảo sát**, Google Maps là bên nhận/hiển thị dữ liệu của VietMap/Waze/GOFA. Không tìm thấy producer giới hạn tốc độ riêng của Google Maps trong đường triển khai này. Không được gọi đây là bốn nguồn native hoàn chỉnh.
+- **Speed3 host-stage hiện chỉ build bridge + transport**, chưa đưa GMap reader/app observer vào target. Vì vậy chưa thể kỳ vọng có dữ liệu thật từ các adapter đó. Việc bong bóng không hiện vẫn phải giải quyết bằng lifecycle/host đã phân tích riêng.
+- Hướng dữ liệu thực tế chủ yếu là **app nguồn → adapter trong process app → IPC → HUD**. Không phải đẩy một gói dữ liệu chung vào mọi app để app tự tạo bong bóng.
+
+### 2. Nguồn và mốc kiểm chứng
+- GMapHUD: https://github.com/bechou0410/gmaphud/tree/5b594adc3aeced4b59f6f625fbba5c2ee8dccea2 (tag v0.2.3).
+- DEB docs/pool/com.chou.googlemaps.vietmap_0.2.3_iphoneos-arm64.deb đã tính SHA-256: bc5a34cf2b6a8faa017beab725a3cb8adf4804a5b19275a9d7f95ed5732c1f64.
+- Đã đọc docs/source-output-contract.md; common/source-transport.m; tweak/gofa-source.m, waze-source.m, google-hook.m, Makefile; provider/vietmap-source.x, nav-source.m, nav-payload.m, waze-output.m.
+- GOFAHUD: https://github.com/manhtien9x/gofahud-repo/tree/e423ac7408d021d6384eba8ef270e79518967ed9 ; DEB và source activation đã đối chiếu ở mục kế tiếp. Đã xem thêm probe/command-probe.m, probe/hud-message-probe.m, tweak/native-speed-bridge.m.
+- DuoFace đối chiếu nhánh feature/duoface-exact-payload-migration tại c1dc50ad68fc62032feadff1ba57b117f2f6bdca: Makefile.speedhud-host-stage và runtime/speedbubble/DFSpeedGMapReader.mm, DFSpeedTransport.mm, DFSpeedGMapWire.hpp, DFSpeedAppObserver.mm.
+- Đây là bằng chứng static tại các phiên bản trên; không khẳng định tương thích app mới hơn hay đã chạy thành công trên máy người dùng.
+
+### 3. Bản đồ dữ liệu theo app
+| App / vai trò | Điểm lấy dữ liệu đã truy | Dữ liệu / điều kiện | Cách áp dụng đề xuất |
+| --- | --- | --- | --- |
+| VietMap, source ID 1 | FlutterMethodChannel: vietmap_car_method_channel / updateMapOverlayData; vml_main_channel / updateSpeedLimit | Overlay payload có speed/speedLimit, dạng mảng gồm dictionary và replaceBool. Main speed-limit nhận numeric riêng; comment nguồn ghi đã xác minh VietMap 3.4.3. | Adapter riêng, kiểm tra shape/type, giữ handler gốc gọi đúng một lần; không suy ra mọi method tên speed đều đang được dùng. |
+| Waze, source ID 2 | WSVLocationGPSPosition initializer lấy speedMMSec; hàm native lấy speed limit | Speed mm/s × 0.0036 = km/h. Source gate Waze 5.25.0. Limit gate UUID + bytes đầu hàm. | Giữ nguyên kiểm tra phiên bản/ABI; mismatch phải trả unknown. Tách đọc dữ liệu khỏi startup/auto-wake. |
+| GOFA, source ID 3 trong GMapHUD | GOFA.GofaLocationManager locationManager:didUpdateLocations:; notificationSpeedBoard/NextBoard/OtherBoard | Location.speed m/s × 3.6; parser native payload cho biển báo/limit; gate GOFA 4.2.1 build 3. | Dùng adapter nguồn riêng; không cần mang toàn bộ GOFAHUD renderer/debug daemon sang DuoFace. |
+| Google Maps, nơi nhận của GMapHUD | google-hook.m đọc GVMReadSourceOutput và dựng model speed UI native Google | Nhận output nguồn đang chọn. Không có source ID Google Maps trong contract v0.2.3 này. | DuoFace đang hiện Google Maps vẫn có thể dùng nguồn GOFA/Waze/VietMap được chọn; phải ghi rõ nguồn, không nhận vơ là Google cung cấp limit. |
+| CLLocation observer hiện có của DuoFace | DFSpeedAppObserver.mm hook delegate trong các app mục tiêu | Chỉ có speed từ location được app nhận; không tạo speed limit, không tự khởi chạy app. | Có thể là phương án speed-only sau kiểm chứng; không thay thế các adapter limit native. |
+
+**VietMap:** Trong handler đã đọc, updateCurrentSpeed được quan sát/log nhưng không apply vào store theo nhánh tương ứng. Đường speed thực tế cần theo updateMapOverlayData, không chỉ chọn method nghe có vẻ đúng tên.
+
+**Waze:** native limit tại slide + 0x101028ff4, executable UUID 90947e86-bff2-3434-a28b-979c65db8846, có kiểm tra entry bytes. Đây là địa chỉ của build được khóa, không phải offset dùng cho mọi Waze. Source có hook alert ABI riêng; không cần kéo cả alert vào bước speed/limit tối thiểu. Makefile upstream Waze source còn chứa waze-startup.m và background-location.m: không được mô tả cả module là “chỉ nghe thụ động”. Nếu port nguyên module có thể kéo thêm lifecycle/GPS hành vi ngoài mục tiêu; chưa có crash log để kết luận đó chính là nguyên nhân restart của Speed1.
+
+### 4. Contract IPC GMapHUD: phải hiểu trước khi nối dây
+- ID 1 = VietMap, 2 = Waze, 3 = GOFA; 4–7 chưa gán. Chỉ source đang được chọn mới publish theo contract upstream.
+- com.chou.gmaphud.source.selection chứa (epoch << 3) | sourceID.
+- Nhóm com.chou.gmaphud.output.v1.<id> có commit, selection, speed, limit, alert.first, alert.first.value, alert.second, alert.second.value.
+- Commit low byte schema 1; revision cao lẻ khi đang ghi, chẵn khác 0 khi frame hoàn tất. Consumer kiểm tra commit và selection/epoch để không đọc frame lẫn lần chuyển nguồn.
+- Timestamp độc lập từng field, dùng uptime; TTL 5 giây. Không dùng một timestamp chung để vô tình làm mới field còn lại.
+- com.chou.gmaphud.source.<id>.request yêu cầu provider đang chạy/được chọn publish lại. **Không khởi chạy app, không tự cấp quyền location, không tự tạo dữ liệu mới.** Republish từ request không được hiểu là một quan sát GPS/biển báo mới.
+- Upstream không tự trộn speed nguồn A với limit nguồn B. Nếu muốn fallback cần thiết kế chính sách riêng, hiển thị nguồn và độ cũ rõ ràng.
+
+**Ngoại lệ cần nói chính xác về độ mới dữ liệu:**
+- Waze sau GPS đầu tiên đọc lại native limit hiện tại mỗi giây; đó là quan sát limit lại, còn speed phụ thuộc GPS.
+- GOFA adapter GMapHUD giữ board gần vị trí cuối, dùng GVMGofaBoardNear khoảng 50m và có thể đóng dấu thời gian lại cho board còn gần khi publish. Do đó timestamp IPC mới **không bảo đảm** vừa nhận một sự kiện biển báo mới. Cần lưu observation time/origin và kiểm tra khi mất GPS, đổi đường, board không được clear.
+- VietMap lưu thời gian field độc lập; không nên thêm heartbeat làm sống lại dữ liệu đã cũ.
+
+### 5. GOFAHUD gốc dùng một đường khác GMapHUD
+Không nối trực tiếp reader com.chou.gmaphud vào producer local.gofahud rồi mong có dữ liệu:
+- command-probe.m chặn luồng Combine CurrentValueSubject<Optional<GOFA.LocationUpdateEvent>> Send, lấy processed-location speed.
+- hud-message-probe.m bắt GOFA.BleManager và Sign callback, đọc Optional SignMessage theo layout đã biết để lấy limit; có logic HUD speed cache và fallback native. Các offset/layout phụ thuộc build.
+- Producer và renderer giao tiếp bằng nhóm local.gofahud; renderer kiểm tra producer PID khớp ready PID để công nhận nguồn.
+- native-speed-bridge --daemon tìm GOFA PID, gọi jbctl proc_set_debugged, phát source.ready và clear khi process mất. Vì vậy “copy daemon là có dữ liệu thụ động” là mô tả sai. Nhánh không-daemon tiêu thụ diagnostic JSON theo thời điểm event, vai trò khác.
+- Chưa chạy các hành động đó trên điện thoại. Đề xuất DuoFace ưu tiên adapter nguồn đã giới hạn phạm vi trước, chỉ đánh giá cơ chế probe riêng khi có nhu cầu và tương thích cụ thể.
+
+### 6. Các chỗ đứt/rủi ro trong DuoFace hiện có
+1. Makefile.speedhud-host-stage chỉ có DFSpeedBubbleBridge.mm + DFSpeedTransport.mm; không có DFSpeedGMapReader.mm, không có DFSpeedAppObserver.mm, không bật DF_SPEED_HUD_SPRINGBOARD. Nhánh đọc GMap trong transport nằm sau define đó. Tên define là di sản; **không phải bằng chứng process thực tế bắt buộc là SpringBoard**.
+2. DFSpeedGMapReader dùng CBBridgeManager/sharedInstanceIfExists/bundleIdentifier để đoán app đang mở. Chưa xác minh các selector này tồn tại/đại diện đúng hai tile DuoFace trên máy. Không dùng suy đoán này làm nguồn sự thật duy nhất.
+3. Reader có thể ghi source.selection chung của GMapHUD/TWHub, request tối đa mỗi 3 giây cùng nguồn; khi không có mẫu được nhận và không nhận diện active map có vòng VietMap/Waze/GOFA khoảng 4 giây. Điều đó có thể đổi nguồn của tweak khác cùng namespace. Đề xuất namespace DuoFace riêng nếu port producer; đổi cả hai đầu đồng bộ.
+4. DFSpeedGMapWire và custom transport giới hạn limit <=200 trong khi upstream chấp nhận đến 400. Cần thống nhất contract; chưa kết luận đây là nguyên nhân mất dữ liệu trong ca thực tế.
+5. Wire decode gộp timestamp mẫu theo speedAt nếu speed hợp lệ, nếu không lấy limitAt và làm tròn giây: mất timestamp độc lập từng field. Cần giữ speedObservedAt/limitObservedAt riêng xuyên suốt store/renderer.
+6. DFSpeedAppObserver chấp nhận location tuổi đến 5 giây rồi gọi publisher đóng dấu NOW. Điều này có thể kéo thời gian tồn tại speed cũ gần 10 giây tổng cộng tùy thời điểm/làm tròn. Cần truyền tuổi/thời gian gốc, không đổi dữ liệu cũ thành mới.
+7. Generic CLLocation delegate swizzle có thể cùng tồn tại với hook Waze khác. Không thể khẳng định không tác động chỉ vì không tự bật GPS. Phải tránh double hook, giữ original, thử tách từng adapter; chưa có bằng chứng runtime xác định thủ phạm crash.
+8. App bị đóng/suspend, chưa được cấp location, chưa có GPS/biển báo hoặc sai phiên bản thì dữ liệu có thể không có. IPC không giải quyết được nguồn không phát. Không cần cài cả bốn app; chỉ cần nguồn đang sử dụng đáp ứng điều kiện.
+
+### 7. Đề xuất thứ tự làm — chưa triển khai
+1. **Làm chắc view trước:** dùng host/root container thật của DuoFace, mount sau khi view/scene sẵn sàng; có dữ liệu mẫu xác định để kiểm tra xuất hiện, drag và touch passthrough. Thiếu dữ liệu thì hiện --; không lấy thiếu sample làm điều kiện tháo cả view. Không coi tăng windowLevel là lời giải duy nhất.
+2. **Tách data plane:** adapter nguồn → IPC namespace DuoFace → reader/store có provenance và thời gian từng field → bubble DuoFace. Renderer không phải biết offset Waze hay kiểu payload GOFA.
+3. **Nối từng nguồn:** chọn một app đang có trên thiết bị và đúng version đã khóa; xác minh event gốc → frame publish → frame accepted → số hiển thị. Sau khi một nguồn ổn mới thêm nguồn khác.
+4. **Google Maps là ca hiển thị:** khi tile là Google Maps, chọn nguồn GOFA/Waze/VietMap tường minh. Nếu chỉ có Google Maps và observer hoạt động, mới chỉ có cơ sở cho speed-only; limit để -- cho đến khi có producer được chứng minh.
+5. **Hai tile:** chọn nguồn dữ liệu bằng setting/tile focus đã xác minh; không tự xoay nguồn liên tục theo suy đoán bundle ID. Không trộn limit và speed khác nguồn mặc định.
+6. **Kiểm tra freshness và lifecycle:** đóng nguồn, mất GPS, chuyển app, background, CarPlay reconnect, dismiss/show bubble. View và dữ liệu phải có vòng đời riêng. Chưa quyết định thêm background-location/daemon trước khi đo hành vi thực tế.
+7. **Bằng chứng cần thu khi làm thật:** log host/class/scene + mount/hidden reason; source/version + hook accepted/rejected; source epoch/frame revision/field age; renderer accepted/rejected reason. Các dấu vết này phân biệt được không có view, không có producer, đọc sai namespace, dữ liệu hết hạn hoặc sai owner.
+8. Nếu tái sử dụng code upstream cần kiểm tra license/điều kiện phân phối trước khi đưa vào sản phẩm. Không coi có source công khai là tự động được sao chép toàn bộ.
+
+**Kết luận bàn giao:** hướng khả thi là học cơ chế tạo/điều khiển overlay từ GOFAHUD và học adapter + contract dữ liệu từ GMapHUD, rồi gắn vào host DuoFace có kiểm chứng. Không có bằng chứng rằng chép một dylib, đổi tên filter hoặc chỉ bật GPS sẽ giải quyết đồng thời cả bong bóng lẫn dữ liệu. Những nhận định trên là kết quả đọc nguồn/binary đã pin, không phải tuyên bố bản sửa đã chạy thành công.
+
+
 ## 16/10/2026 — ĐÃ TRUY NGUỒN GOFAHUD THẬT, TẢI DEB ĐÚNG SHA VÀ XÁC ĐỊNH CHUỖI BẬT/ẨN
 Checkpoint: GOFAHUD-UPSTREAM-TRACED-20261016.
 **Thay thế trạng thái “chưa tìm được DEB/producer tín hiệu” ở checkpoint dc5e150.** User yêu cầu truy tiếp tới kết quả, không dừng ở đề xuất. Phạm vi vẫn chỉ nghiên cứu + bàn giao, không sửa/build/triển khai DuoFace.
