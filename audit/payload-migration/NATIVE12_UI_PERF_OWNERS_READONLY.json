@@ -1,0 +1,2779 @@
+{
+  "status": "NATIVE12_UI_PERF_OWNERS_STATIC_READONLY_PASS",
+  "source_deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "source_branch": "feature/duoface-exact-payload-migration",
+  "modifies_binary": false,
+  "measures_runtime_cpu_or_fps_or_temperature": false,
+  "disassembly_sampling_limit_bytes_per_method": 2048,
+  "caveats": [
+    "Selectors and sampled branch hints do not prove methods execute",
+    "Dynamic dispatch and functions not exposed as ObjC can be missed",
+    "Per-view displayLink property does not prove actual CarPlay FPS",
+    "Actual UI hot path and CPU cost require iPhone/receiver instrumentation"
+  ],
+  "binaries": {
+    "DuoFaceUI": {
+      "binary_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "class_count": 27,
+      "raw_string_occurrences": {
+        "CADisplayLink": 0,
+        "displayLink": 0,
+        "setDisplayLink:": 0,
+        "scheduledTimerWithTimeInterval:": 1,
+        "setNeedsDisplay": 0,
+        "setNeedsLayout": 0,
+        "startAnimating": 1,
+        "stopAnimating": 1,
+        "startMonitoring": 0,
+        "stopMonitoring": 0,
+        "updateMetrics": 0,
+        "thermalState": 0,
+        "thermalStateDidChangeNotification": 0
+      },
+      "owners": {
+        "CBSplitSplashScreenView": {
+          "present": true,
+          "method_count": 16,
+          "method_names": [
+            "+appIconImage",
+            "+logoImage",
+            "+radialGlowImageForDiameter:",
+            "-.cxx_destruct",
+            "-dealloc",
+            "-dismissAnimated:",
+            "-dismissAnimated:completion:",
+            "-handleTap:",
+            "-initWithFrame:",
+            "-isDismissing",
+            "-layoutSubviews",
+            "-onDismissed",
+            "-onWillDismiss",
+            "-setOnDismissed:",
+            "-setOnWillDismiss:",
+            "-startLoadingAnimation"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-dealloc",
+              "vm": "0x100058160",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 57,
+              "method_end_estimate": "0x100058244",
+              "selector_hints": []
+            },
+            {
+              "name": "-dismissAnimated:",
+              "vm": "0x100057eb8",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0x100057ec8",
+              "selector_hints": []
+            },
+            {
+              "name": "-dismissAnimated:completion:",
+              "vm": "0x100057ec8",
+              "objc_type": "v28@0:8B16@?20",
+              "sampled_instructions": 166,
+              "method_end_estimate": "0x100058160",
+              "selector_hints": []
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0x100057818",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 248,
+              "method_end_estimate": "0x100057bf8",
+              "selector_hints": []
+            },
+            {
+              "name": "-startLoadingAnimation",
+              "vm": "0x100057bf8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 138,
+              "method_end_estimate": "0x100057e20",
+              "selector_hints": []
+            }
+          ]
+        },
+        "CBAppsManagerViewController": {
+          "present": true,
+          "method_count": 38,
+          "method_names": [
+            "-.cxx_destruct",
+            "-appForIndexPath:",
+            "-appSwitchToggled:",
+            "-currentFilterIndex",
+            "-dealloc",
+            "-emptyLabel",
+            "-filterChanged:",
+            "-filterSegment",
+            "-handleAppsUpdated",
+            "-handleLanguageChanged",
+            "-numberOfSectionsInTableView:",
+            "-refreshData",
+            "-searchBarCancelButtonClicked:",
+            "-searchController",
+            "-sections",
+            "-setCurrentFilterIndex:",
+            "-setEmptyLabel:",
+            "-setFilterSegment:",
+            "-setSearchController:",
+            "-setSections:",
+            "-setSpinner:",
+            "-setTableView:",
+            "-setupFilterHeader",
+            "-setupNavigationItems",
+            "-setupSearchController",
+            "-setupTableView",
+            "-showActionMenu",
+            "-spinner",
+            "-tableView",
+            "-tableView:cellForRowAtIndexPath:",
+            "-tableView:didSelectRowAtIndexPath:",
+            "-tableView:numberOfRowsInSection:",
+            "-tableView:titleForFooterInSection:",
+            "-tableView:titleForHeaderInSection:",
+            "-updateSearchResultsForSearchController:",
+            "-viewDidLayoutSubviews",
+            "-viewDidLoad",
+            "-viewWillAppear:"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-.cxx_destruct",
+              "vm": "0x1000146d8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 256,
+              "method_end_estimate": "0x100014ad8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1000147ac: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'viewDidLoad'",
+                  "nearby_calls": [
+                    "0x1000147b4: bl #0x1000a2a90"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dealloc",
+              "vm": "0x1000115bc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 30,
+              "method_end_estimate": "0x100011634",
+              "selector_hints": []
+            },
+            {
+              "name": "-filterChanged:",
+              "vm": "0x100012708",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 17,
+              "method_end_estimate": "0x10001274c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100012738: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-handleAppsUpdated",
+              "vm": "0x1000124f0",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 39,
+              "method_end_estimate": "0x10001258c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10001256c: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'stopAnimating'",
+                  "nearby_calls": [
+                    "0x100012570: bl #0x1000a2a84"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10001257c: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-refreshData",
+              "vm": "0x1000128b8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x1000135ec",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100012974: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'stopAnimating'",
+                  "nearby_calls": [
+                    "0x100012978: bl #0x1000a2a84",
+                    "0x100012988: bl #0x1000a2a84",
+                    "0x100012990: bl #0x1000a2acc"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-searchBarCancelButtonClicked:",
+              "vm": "0x1000135f8",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 3,
+              "method_end_estimate": "0x100013604",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1000135fc: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-setupFilterHeader",
+              "vm": "0x1000116f8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x100011f6c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100011e64: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x100011e7c: bl #0x1000a2a84"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-setupTableView",
+              "vm": "0x100011f6c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 252,
+              "method_end_estimate": "0x10001235c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100012308: ldr x1, [x8, #0xa58]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x100012310: bl #0x1000a2a84",
+                    "0x10001231c: bl #0x1000a2a84",
+                    "0x100012324: bl #0x1000a2acc"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-showActionMenu",
+              "vm": "0x100013604",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 300,
+              "method_end_estimate": "0x100013ab4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1000139ec: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x100013a48: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x100013aa4: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-updateSearchResultsForSearchController:",
+              "vm": "0x1000135ec",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 3,
+              "method_end_estimate": "0x1000135f8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1000135f0: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-viewDidLayoutSubviews",
+              "vm": "0x100011344",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 158,
+              "method_end_estimate": "0x1000115bc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10001137c: ldr x1, [x8, #0x978]  ; SEL_OR_LITERAL 'viewDidLayoutSubviews'",
+                  "nearby_calls": [
+                    "0x100011384: bl #0x1000a2a90",
+                    "0x100011398: bl #0x1000a2a84"
+                  ]
+                },
+                {
+                  "selector_reference": "0x1000114fc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x100011510: bl #0x1000a2a84",
+                    "0x100011518: bl #0x1000a2a9c"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-viewDidLoad",
+              "vm": "0x100010ee0",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 221,
+              "method_end_estimate": "0x100011254",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100010f0c: ldr x1, [x8, #0x398]  ; SEL_OR_LITERAL 'viewDidLoad'",
+                  "nearby_calls": [
+                    "0x100010f14: bl #0x1000a2a90",
+                    "0x100010f24: bl #0x1000a2a84",
+                    "0x100010f2c: bl #0x1000a2acc"
+                  ]
+                },
+                {
+                  "selector_reference": "0x100011114: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": [
+                    "0x10001111c: bl #0x1000a2a84",
+                    "0x100011134: bl #0x1000a2a84"
+                  ]
+                },
+                {
+                  "selector_reference": "0x100011190: ldr x1, [x8, #0x960]  ; SEL_OR_LITERAL 'startAnimating'",
+                  "nearby_calls": [
+                    "0x100011194: bl #0x1000a2a84",
+                    "0x1000111a0: bl #0x1000a2a84",
+                    "0x1000111a8: bl #0x1000a2acc"
+                  ]
+                },
+                {
+                  "selector_reference": "0x100011234: ldr x1, [x8, #0x968]  ; SEL_OR_LITERAL 'stopAnimating'",
+                  "nearby_calls": [
+                    "0x100011238: bl #0x1000a2a84"
+                  ]
+                },
+                {
+                  "selector_reference": "0x100011244: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-viewWillAppear:",
+              "vm": "0x100011254",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 60,
+              "method_end_estimate": "0x100011344",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x100011324: ldr x1, [x8, #0x950]  ; SEL_OR_LITERAL 'refreshData'",
+                  "nearby_calls": [
+                    "0x10001132c: bl #0x1000a2a84"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "DuoFaceDashboard": {
+      "binary_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "class_count": 36,
+      "raw_string_occurrences": {
+        "CADisplayLink": 5,
+        "displayLink": 4,
+        "setDisplayLink:": 1,
+        "scheduledTimerWithTimeInterval:": 1,
+        "setNeedsDisplay": 1,
+        "setNeedsLayout": 1,
+        "startAnimating": 0,
+        "stopAnimating": 0,
+        "startMonitoring": 1,
+        "stopMonitoring": 1,
+        "updateMetrics": 1,
+        "thermalState": 1,
+        "thermalStateDidChangeNotification": 0
+      },
+      "owners": {
+        "CBBridgedPortalAppView": {
+          "present": true,
+          "method_count": 12,
+          "method_names": [
+            "-.cxx_destruct",
+            "-captureFrame:",
+            "-dealloc",
+            "-displayLink",
+            "-imageView",
+            "-initWithFrame:",
+            "-setDisplayLink:",
+            "-setImageView:",
+            "-setTouchCloneView:",
+            "-start",
+            "-stop",
+            "-touchCloneView"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-.cxx_destruct",
+              "vm": "0x83620",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 256,
+              "method_end_estimate": "0x83a20",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x83894: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x83898: bl #0x2ecd00",
+                    "0x838ac: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dealloc",
+              "vm": "0x83568",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 19,
+              "method_end_estimate": "0x835b4",
+              "selector_hints": []
+            },
+            {
+              "name": "-displayLink",
+              "vm": "0x835fc",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0x8360c",
+              "selector_hints": []
+            },
+            {
+              "name": "-setDisplayLink:",
+              "vm": "0x8360c",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 5,
+              "method_end_estimate": "0x83620",
+              "selector_hints": []
+            },
+            {
+              "name": "-start",
+              "vm": "0x833bc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 51,
+              "method_end_estimate": "0x83488",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x833fc: ldr x1, [x8, #0xdd0]  ; SEL_OR_LITERAL 'displayLinkWithTarget:selector:'",
+                  "nearby_calls": [
+                    "0x83404: bl #0x2ecd00",
+                    "0x8340c: bl #0x2ecd60",
+                    "0x8341c: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0x83468: ldr x1, [x8, #0xde8]  ; SEL_OR_LITERAL 'addToRunLoop:forMode:'",
+                  "nearby_calls": [
+                    "0x83474: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-stop",
+              "vm": "0x83488",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 19,
+              "method_end_estimate": "0x834d4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x834ac: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0x834b0: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBMultitaskingOverlayView": {
+          "present": true,
+          "method_count": 66,
+          "method_names": [
+            "-.cxx_destruct",
+            "-addMoreAppsTapped:",
+            "-allApps",
+            "-appPickerPageControl",
+            "-appPickerScrollView",
+            "-appSegmentBtn",
+            "-appSelected:",
+            "-cardShadowContainer",
+            "-cb_onLanguageChanged:",
+            "-closeAllBridgedAppsTapped:",
+            "-closeSingleAppTapped:",
+            "-currentPreset",
+            "-currentRatio",
+            "-dealloc",
+            "-dimBackground",
+            "-dismissCustomAlert:",
+            "-dismissOverlay",
+            "-headerIcon",
+            "-initWithFrame:",
+            "-layoutSegmentBtn",
+            "-layoutSubviews",
+            "-loadInstalledApps",
+            "-onCloseRequested",
+            "-onMultiSplitSelected",
+            "-overlayMode",
+            "-pageControlChanged:",
+            "-presetSelected:",
+            "-recentSegmentBtn",
+            "-restartSingleAppTapped:",
+            "-runningApps",
+            "-saveSlotIndex:bid:toSettings:prefs:",
+            "-scrollViewDidScroll:",
+            "-setAllApps:",
+            "-setAppPickerPageControl:",
+            "-setAppPickerScrollView:",
+            "-setAppSegmentBtn:",
+            "-setCardShadowContainer:",
+            "-setCurrentPreset:",
+            "-setCurrentRatio:",
+            "-setDimBackground:",
+            "-setHeaderIcon:",
+            "-setLayoutSegmentBtn:",
+            "-setOnCloseRequested:",
+            "-setOnMultiSplitSelected:",
+            "-setOverlayMode:",
+            "-setRecentSegmentBtn:",
+            "-setRunningApps:",
+            "-setSheetCard:",
+            "-setSlotBIDs:",
+            "-setTargetSlotIndex:",
+            "-setTitleLabel:",
+            "-setupAppPickerCardsInCardW:cardH:contentY:",
+            "-setupCardContent",
+            "-setupPresetCardsInCardW:cardH:contentY:",
+            "-setupRecentAppsCardsInCardW:cardH:contentY:",
+            "-sheetCard",
+            "-showAppPickerForSlot:parentView:",
+            "-showLayoutChooserInParentView:",
+            "-showRecentAppsInParentView:",
+            "-slotBIDs",
+            "-switchToAppPickerMode",
+            "-switchToLayoutChooserMode",
+            "-switchToRecentMode",
+            "-targetSlotIndex",
+            "-titleLabel",
+            "-toggleMode"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-addMoreAppsTapped:",
+              "vm": "0xa7f20",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xa9024",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa7fd4: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa7ff0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa8428: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xa8434: bl #0x2ecd00",
+                    "0xa8440: bl #0x2ecd00",
+                    "0xa8448: bl #0x2ecd60"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-appPickerScrollView",
+              "vm": "0xab988",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xab998",
+              "selector_hints": []
+            },
+            {
+              "name": "-cb_onLanguageChanged:",
+              "vm": "0xa0b64",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 57,
+              "method_end_estimate": "0xa0c48",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa0bd4: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                  "nearby_calls": [
+                    "0xa0bd8: bl #0x2ecd00",
+                    "0xa0bec: bl #0x2ecd00",
+                    "0xa0bf4: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa0c2c: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-closeAllBridgedAppsTapped:",
+              "vm": "0xa9838",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 148,
+              "method_end_estimate": "0xa9a88",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa98bc: ldr x21, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa98c0: bl #0x2ecd3c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa9a14: ldr x1, [x8, #0xab8]  ; SEL_OR_LITERAL 'animateWithDuration:animations:'",
+                  "nearby_calls": [
+                    "0xa9a28: bl #0x2ecd00",
+                    "0xa9a30: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-closeSingleAppTapped:",
+              "vm": "0xa9484",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 237,
+              "method_end_estimate": "0xa9838",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa9548: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa9560: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa96d0: ldr x1, [x8, #0xab8]  ; SEL_OR_LITERAL 'animateWithDuration:animations:'",
+                  "nearby_calls": [
+                    "0xa96e4: bl #0x2ecd00",
+                    "0xa96ec: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa97fc: ldr x1, [x8, #0x1c0]  ; SEL_OR_LITERAL 'transitionWithView:duration:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa9814: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dealloc",
+              "vm": "0xa0aec",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 30,
+              "method_end_estimate": "0xa0b64",
+              "selector_hints": []
+            },
+            {
+              "name": "-dimBackground",
+              "vm": "0xab8f8",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xab908",
+              "selector_hints": []
+            },
+            {
+              "name": "-dismissCustomAlert:",
+              "vm": "0xa9024",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 114,
+              "method_end_estimate": "0xa91ec",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa90f0: ldr x22, [x8, #0x1a0]  ; SEL_OR_LITERAL 'animateWithDuration:delay:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa90f8: bl #0x2ecd3c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa9180: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xa9188: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dismissOverlay",
+              "vm": "0xab70c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 109,
+              "method_end_estimate": "0xab8c0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xab770: ldr x1, [x9, #0x1a0]  ; SEL_OR_LITERAL 'animateWithDuration:delay:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xab790: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab7bc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xab7c4: bl #0x2ecd00",
+                    "0xab7d8: bl #0x2ec82c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab838: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xab840: bl #0x2ecd00",
+                    "0xab850: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-layoutSegmentBtn",
+              "vm": "0xabae0",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xabaf0",
+              "selector_hints": []
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xa28e8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 92,
+              "method_end_estimate": "0xa2a58",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa2944: ldr x21, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xa294c: bl #0x2ecd00",
+                    "0xa2958: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-loadInstalledApps",
+              "vm": "0xa0c48",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xa28e8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa0dc8: ldr x25, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xa0ddc: bl #0x2ecd00",
+                    "0xa0de4: bl #0x2ecd60"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-overlayMode",
+              "vm": "0xaba54",
+              "objc_type": "q16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xaba64",
+              "selector_hints": []
+            },
+            {
+              "name": "-restartSingleAppTapped:",
+              "vm": "0xa91ec",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 166,
+              "method_end_estimate": "0xa9484",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa92b0: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa92c8: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa9410: ldr x1, [x8, #0xab8]  ; SEL_OR_LITERAL 'animateWithDuration:animations:'",
+                  "nearby_calls": [
+                    "0xa9424: bl #0x2ecd00",
+                    "0xa942c: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-scrollViewDidScroll:",
+              "vm": "0xa5d18",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 51,
+              "method_end_estimate": "0xa5de4",
+              "selector_hints": []
+            },
+            {
+              "name": "-setAppPickerScrollView:",
+              "vm": "0xab998",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 5,
+              "method_end_estimate": "0xab9ac",
+              "selector_hints": []
+            },
+            {
+              "name": "-setDimBackground:",
+              "vm": "0xab908",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 5,
+              "method_end_estimate": "0xab91c",
+              "selector_hints": []
+            },
+            {
+              "name": "-setLayoutSegmentBtn:",
+              "vm": "0xabaf0",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 5,
+              "method_end_estimate": "0xabb04",
+              "selector_hints": []
+            },
+            {
+              "name": "-setOverlayMode:",
+              "vm": "0xaba64",
+              "objc_type": "v24@0:8q16",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xaba74",
+              "selector_hints": []
+            },
+            {
+              "name": "-setupCardContent",
+              "vm": "0xa2a58",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xa3e5c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa2ff8: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xa3010: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-setupPresetCardsInCardW:cardH:contentY:",
+              "vm": "0xa5e78",
+              "objc_type": "v40@0:8d16d24d32",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xa678c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa5fe4: ldr x8, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-setupRecentAppsCardsInCardW:cardH:contentY:",
+              "vm": "0xa678c",
+              "objc_type": "v40@0:8d16d24d32",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xa7f20",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa6a80: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xa6a9c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-showAppPickerForSlot:parentView:",
+              "vm": "0xaa800",
+              "objc_type": "v32@0:8q16@24",
+              "sampled_instructions": 316,
+              "method_end_estimate": "0xaacf0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xaab20: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xaab28: bl #0x2ecd00",
+                    "0xaab3c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xaab60: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xaab6c: bl #0x2ecd00",
+                    "0xaab80: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xaab74: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xaab80: bl #0x2ecd00",
+                    "0xaab94: bl #0x2ec82c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xaac10: ldr x1, [x8, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xaac9c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xaaca4: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-showLayoutChooserInParentView:",
+              "vm": "0xaacf0",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 313,
+              "method_end_estimate": "0xab1d4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xab004: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xab00c: bl #0x2ecd00",
+                    "0xab020: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab044: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xab050: bl #0x2ecd00",
+                    "0xab064: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab058: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xab064: bl #0x2ecd00",
+                    "0xab078: bl #0x2ec82c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab0f4: ldr x1, [x8, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xab180: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xab188: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-showRecentAppsInParentView:",
+              "vm": "0xab1d4",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 334,
+              "method_end_estimate": "0xab70c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xab53c: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xab544: bl #0x2ecd00",
+                    "0xab558: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab57c: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xab588: bl #0x2ecd00",
+                    "0xab59c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab590: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xab59c: bl #0x2ecd00",
+                    "0xab5b0: bl #0x2ec82c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xab62c: ldr x1, [x8, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xab6b8: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xab6c0: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-switchToAppPickerMode",
+              "vm": "0xa9a88",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 41,
+              "method_end_estimate": "0xa9b2c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa9af0: ldr x1, [x9, #0x1c0]  ; SEL_OR_LITERAL 'transitionWithView:duration:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa9b0c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-switchToLayoutChooserMode",
+              "vm": "0xa9b2c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 43,
+              "method_end_estimate": "0xa9bd8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa9b9c: ldr x1, [x9, #0x1c0]  ; SEL_OR_LITERAL 'transitionWithView:duration:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa9bb8: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-switchToRecentMode",
+              "vm": "0xa9bd8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 66,
+              "method_end_estimate": "0xa9ce0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa9ca4: ldr x1, [x8, #0x1c0]  ; SEL_OR_LITERAL 'transitionWithView:duration:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xa9cbc: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBOverlayScrollView": {
+          "present": true,
+          "method_count": 4,
+          "method_names": [
+            "-addSubview:",
+            "-initWithFrame:",
+            "-layoutSubviews",
+            "-touchesShouldCancelInContentView:"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-addSubview:",
+              "vm": "0xa007c",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 60,
+              "method_end_estimate": "0xa016c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa00f4: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xa0100: bl #0x2ecd00",
+                    "0xa0114: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa0108: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xa0114: bl #0x2ecd00",
+                    "0xa0128: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xa016c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 256,
+              "method_end_estimate": "0xa056c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xa0218: ldr x1, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xa0224: bl #0x2ecd00",
+                    "0xa022c: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa023c: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xa0248: bl #0x2ecd00",
+                    "0xa025c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa0250: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xa025c: bl #0x2ecd00",
+                    "0xa0270: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xa02e8: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xa02f0: ldr x26, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                }
+              ]
+            }
+          ]
+        },
+        "CBBridgedAssistantView": {
+          "present": true,
+          "method_count": 15,
+          "method_names": [
+            "-.cxx_destruct",
+            "-initWithFrame:",
+            "-micIcon",
+            "-pulseAnimation",
+            "-setMicIcon:",
+            "-setPulseAnimation:",
+            "-setSubtitleLabel:",
+            "-setTitleLabel:",
+            "-startPulse",
+            "-startSession",
+            "-stopPulse",
+            "-stopSession",
+            "-subtitleLabel",
+            "-tapMicToggled",
+            "-titleLabel"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-pulseAnimation",
+              "vm": "0x121194",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0x1211a4",
+              "selector_hints": []
+            },
+            {
+              "name": "-setPulseAnimation:",
+              "vm": "0x1211a4",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 5,
+              "method_end_estimate": "0x1211b8",
+              "selector_hints": []
+            },
+            {
+              "name": "-startPulse",
+              "vm": "0x120ed4",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 118,
+              "method_end_estimate": "0x1210ac",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x120f2c: ldr x1, [x8, #0xac0]  ; SEL_OR_LITERAL 'animationWithKeyPath:'",
+                  "nearby_calls": [
+                    "0x120f38: bl #0x2ecd00",
+                    "0x120f40: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0x121084: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'addAnimation:forKey:'",
+                  "nearby_calls": [
+                    "0x121090: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-startSession",
+              "vm": "0x120974",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 255,
+              "method_end_estimate": "0x120d70",
+              "selector_hints": []
+            },
+            {
+              "name": "-stopPulse",
+              "vm": "0x1210ac",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 31,
+              "method_end_estimate": "0x121128",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1210e8: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'removeAnimationForKey:'",
+                  "nearby_calls": [
+                    "0x1210f4: bl #0x2ecd00",
+                    "0x1210fc: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-stopSession",
+              "vm": "0x120d70",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 46,
+              "method_end_estimate": "0x120e28",
+              "selector_hints": []
+            }
+          ]
+        },
+        "CBBridgedSplitApp": {
+          "present": true,
+          "method_count": 49,
+          "method_names": [
+            "-.cxx_destruct",
+            "-appViews",
+            "-closeAllSlots",
+            "-closeSlot:",
+            "-configureDividerButtons",
+            "-containers",
+            "-dividers",
+            "-focusSlot:animated:",
+            "-focusedSlotIndex",
+            "-handleDividerPan:isVertical:state:",
+            "-handleDividerSwapPressed:",
+            "-initWithBundleIdentifier:frame:",
+            "-initWithBundleIdentifier:frame:showSplash:",
+            "-isTransitioningFocus",
+            "-layoutSplitViews",
+            "-moveSlot:direction:",
+            "-noteUserActivity",
+            "-persistSlotOrder",
+            "-placeholders",
+            "-removeAppWithBundleIdentifier:",
+            "-replaceAppInSlot:withBundleIdentifier:",
+            "-restartAppWithBundleIdentifier:",
+            "-restartSlot:",
+            "-restoreSplitAnimated:",
+            "-rotateAllSlotsClockwise",
+            "-setAppViews:",
+            "-setContainers:",
+            "-setDividers:",
+            "-setFocusedSlotIndex:",
+            "-setIsTransitioningFocus:",
+            "-setPlaceholders:",
+            "-setSlotPills:",
+            "-setSplashScreenView:",
+            "-setSplitPreset:",
+            "-setSplitRatio:",
+            "-slotPills",
+            "-splashScreenView",
+            "-splitPreset",
+            "-splitRatio",
+            "-start",
+            "-startBlinkingSession",
+            "-startContainerBorderBlinking:",
+            "-startInParentViewController:",
+            "-stop",
+            "-stopBlinkingSession",
+            "-stopContainerBorderBlinking:",
+            "-swapSlot:withSlot:",
+            "-toggleFocusForSlot:",
+            "-updateScale:forSlot:"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-closeAllSlots",
+              "vm": "0x10b0b8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 253,
+              "method_end_estimate": "0x10b4ac",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10b170: ldr x8, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x10b17c: ldr x8, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-closeSlot:",
+              "vm": "0x10ab28",
+              "objc_type": "v24@0:8q16",
+              "sampled_instructions": 356,
+              "method_end_estimate": "0x10b0b8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10ac20: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x10ac28: ldr x26, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x10ac48: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10ad14: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10ad30: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10ad18: ldr x26, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x10ad30: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10aec0: ldr x28, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x10aecc: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10aed4: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10aee4: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-focusSlot:animated:",
+              "vm": "0x105890",
+              "objc_type": "v28@0:8q16B24",
+              "sampled_instructions": 359,
+              "method_end_estimate": "0x105e2c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x105b28: ldr x1, [x8, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x105cc4: ldr x26, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": [
+                    "0x105cdc: bl #0x2eccb8"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-handleDividerPan:isVertical:state:",
+              "vm": "0x103ee0",
+              "objc_type": "v44@0:8{CGPoint=dd}16B32q36",
+              "sampled_instructions": 390,
+              "method_end_estimate": "0x1044f8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1042ac: ldr x26, [x22, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": [
+                    "0x1042c4: bl #0x2eccb8"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-initWithBundleIdentifier:frame:showSplash:",
+              "vm": "0x1025e4",
+              "objc_type": "@60@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24B56",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x103ee0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x102bb0: ldr x13, [x10, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x102bbc: ldr x12, [x12, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x102ddc: ldr x8, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-layoutSplitViews",
+              "vm": "0x1044f8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x105890",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1046ac: ldr x9, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x1046b4: ldr x8, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x1046d4: ldr x8, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x104774: ldr x8, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x104780: ldr x9, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x104788: ldr x8, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-replaceAppInSlot:withBundleIdentifier:",
+              "vm": "0x1098c0",
+              "objc_type": "v32@0:8q16@24",
+              "sampled_instructions": 457,
+              "method_end_estimate": "0x109fe4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x1099f4: ldr x27, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x1099fc: ldr x28, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x109a1c: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x109ae4: ldr x24, [x20, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x109b00: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x109ae8: ldr x27, [x28, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x109b00: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x109ccc: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x109cd4: bl #0x2ecd00",
+                    "0x109ce8: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x109d58: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x109d60: bl #0x2ecd00",
+                    "0x109d6c: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-restartAppWithBundleIdentifier:",
+              "vm": "0x10a8b8",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 78,
+              "method_end_estimate": "0x10a9f0",
+              "selector_hints": []
+            },
+            {
+              "name": "-restartSlot:",
+              "vm": "0x109fe4",
+              "objc_type": "v24@0:8q16",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x10a8b8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10a0e4: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x10a0ec: ldr x26, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x10a108: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10a1d4: ldr x25, [x20, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10a1f4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10a1dc: ldr x26, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x10a1f4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10a378: ldr x8, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0x10a38c: bl #0x2ecd00",
+                    "0x10a394: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10a5e8: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x10a5f0: bl #0x2ecd00",
+                    "0x10a604: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10a674: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10a67c: bl #0x2ecd00",
+                    "0x10a684: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-restoreSplitAnimated:",
+              "vm": "0x105e2c",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 443,
+              "method_end_estimate": "0x106518",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x105ee8: ldr x20, [x19, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x105f04: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x105fac: ldr x23, [x19, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x105fc4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x106214: ldr x1, [x8, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0x1063b0: ldr x26, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": [
+                    "0x1063c8: bl #0x2eccb8"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-start",
+              "vm": "0x10bb0c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0x10bb1c",
+              "selector_hints": []
+            },
+            {
+              "name": "-startBlinkingSession",
+              "vm": "0x10c464",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0x11f558",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10c4ec: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0x10c4f0: bl #0x2ecd00",
+                    "0x10c4fc: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10c6d4: ldr x24, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+                  "nearby_calls": [
+                    "0x10c6f4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10c6dc: ldr x25, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10c6f4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10c7ac: ldr x1, [x8, #0xab8]  ; SEL_OR_LITERAL 'animateWithDuration:animations:'",
+                  "nearby_calls": [
+                    "0x10c7b8: bl #0x2ecd00",
+                    "0x10c7c4: bl #0x2ecce8"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-startContainerBorderBlinking:",
+              "vm": "0x11fa88",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 147,
+              "method_end_estimate": "0x11fcd4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x11fadc: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'removeAnimationForKey:'",
+                  "nearby_calls": [
+                    "0x11faec: bl #0x2ecd00",
+                    "0x11faf4: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0x11fb04: ldr x1, [x8, #0xac0]  ; SEL_OR_LITERAL 'animationWithKeyPath:'",
+                  "nearby_calls": [
+                    "0x11fb10: bl #0x2ecd00",
+                    "0x11fb18: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0x11fc94: ldr x1, [x8, #0xb08]  ; SEL_OR_LITERAL 'addAnimation:forKey:'",
+                  "nearby_calls": [
+                    "0x11fca4: bl #0x2ecd00",
+                    "0x11fcac: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-startInParentViewController:",
+              "vm": "0x10bb1c",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 244,
+              "method_end_estimate": "0x10beec",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x10bd9c: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x10bda0: bl #0x2ecd00",
+                    "0x10bda8: bl #0x2ecd30",
+                    "0x10bdb8: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10be1c: ldr x1, [x8, #0xa58]  ; SEL_OR_LITERAL 'startLoadingAnimation'",
+                  "nearby_calls": [
+                    "0x10be34: bl #0x2ecd00",
+                    "0x10be3c: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10be48: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x10be50: bl #0x2ecd00",
+                    "0x10be58: bl #0x2ecd30",
+                    "0x10be64: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x10be78: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x10be80: bl #0x2ecd00",
+                    "0x10be88: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-stop",
+              "vm": "0x10beec",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 291,
+              "method_end_estimate": "0x10c378",
+              "selector_hints": []
+            },
+            {
+              "name": "-stopBlinkingSession",
+              "vm": "0x11f558",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 332,
+              "method_end_estimate": "0x11fa88",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x11f5b4: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0x11f5b8: bl #0x2ecd00",
+                    "0x11f5c4: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0x11f790: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0x11f7a4: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x11f8bc: ldr x22, [x24, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0x11f8d4: bl #0x2eccb8"
+                  ]
+                },
+                {
+                  "selector_reference": "0x11f9ec: ldr x22, [x24, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x11fa04: bl #0x2eccb8"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-stopContainerBorderBlinking:",
+              "vm": "0x11fcd4",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 66,
+              "method_end_estimate": "0x11fddc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x11fd1c: ldr x1, [x8, #0xb10]  ; SEL_OR_LITERAL 'removeAnimationForKey:'",
+                  "nearby_calls": [
+                    "0x11fd28: bl #0x2ecd00",
+                    "0x11fd30: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-swapSlot:withSlot:",
+              "vm": "0x10915c",
+              "objc_type": "v32@0:8q16q24",
+              "sampled_instructions": 473,
+              "method_end_estimate": "0x1098c0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x109398: ldr x24, [x8, #0x1c0]  ; SEL_OR_LITERAL 'transitionWithView:duration:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0x10939c: bl #0x2ecd3c",
+                    "0x1093a8: bl #0x2ecd3c",
+                    "0x1093b4: bl #0x2ecd3c"
+                  ]
+                },
+                {
+                  "selector_reference": "0x1094ec: ldr x21, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0x1094f4: bl #0x2ecd00",
+                    "0x109500: bl #0x2ecd00",
+                    "0x10950c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x109594: ldr x20, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                  "nearby_calls": [
+                    "0x10959c: bl #0x2ecd00",
+                    "0x1095ac: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x1095bc: ldr x20, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0x1095c4: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0x1096d8: ldr x20, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": [
+                    "0x1096e0: bl #0x2ecd00",
+                    "0x1096ec: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-updateScale:forSlot:",
+              "vm": "0x108dd8",
+              "objc_type": "v32@0:8d16q24",
+              "sampled_instructions": 84,
+              "method_end_estimate": "0x108f28",
+              "selector_hints": [
+                {
+                  "selector_reference": "0x108e3c: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": [
+                    "0x108e40: bl #0x2ecd00",
+                    "0x108e58: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBBridgedUIAppView": {
+          "present": true,
+          "method_count": 29,
+          "method_names": [
+            "-.cxx_destruct",
+            "-appScale",
+            "-appViewController",
+            "-audioOnlyBackgroundMode",
+            "-bundleIdentifier",
+            "-calculateNativeSizeForSlotRect:",
+            "-dealloc",
+            "-dismiss",
+            "-hitTest:withEvent:",
+            "-hosting",
+            "-initWithBundleIdentifier:",
+            "-initWithBundleIdentifier:scale:",
+            "-invalidated",
+            "-layoutSubviews",
+            "-refreshSceneLayout",
+            "-setAppScale:",
+            "-setAppViewController:",
+            "-setAudioOnlyBackgroundMode:",
+            "-setBundleIdentifier:",
+            "-setHosting:",
+            "-setInvalidated:",
+            "-setWrapperView:",
+            "-start",
+            "-startInParentViewController:",
+            "-touchesBegan:withEvent:",
+            "-updateLayout",
+            "-updateSceneFrame",
+            "-updateSceneSettingsFrame",
+            "-wrapperView"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-audioOnlyBackgroundMode",
+              "vm": "0xaf2d8",
+              "objc_type": "B16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xaf2e8",
+              "selector_hints": []
+            },
+            {
+              "name": "-dealloc",
+              "vm": "0xaf1d8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 19,
+              "method_end_estimate": "0xaf224",
+              "selector_hints": []
+            },
+            {
+              "name": "-dismiss",
+              "vm": "0xaf01c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 111,
+              "method_end_estimate": "0xaf1d8",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xaf038: ldr x1, [x8, #0x410]  ; SEL_OR_LITERAL 'setInvalidated:'",
+                  "nearby_calls": [
+                    "0xaf040: bl #0x2ecd00",
+                    "0xaf054: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xaf164: ldr x21, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0xaf170: bl #0x2ecd00",
+                    "0xaf180: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xac8f0",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 20,
+              "method_end_estimate": "0xac940",
+              "selector_hints": []
+            },
+            {
+              "name": "-refreshSceneLayout",
+              "vm": "0xade58",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 54,
+              "method_end_estimate": "0xadf30",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xaded8: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                  "nearby_calls": [
+                    "0xadedc: bl #0x2ecd00",
+                    "0xadee4: bl #0x2ecd30",
+                    "0xadef0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xadf04: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+                  "nearby_calls": [
+                    "0xadf08: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-setAudioOnlyBackgroundMode:",
+              "vm": "0xac858",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 38,
+              "method_end_estimate": "0xac8f0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xac878: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xac888: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xac8dc: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-start",
+              "vm": "0xaf00c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xaf01c",
+              "selector_hints": []
+            },
+            {
+              "name": "-startInParentViewController:",
+              "vm": "0xadf30",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xaf00c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xadf78: ldr x1, [x8, #0x380]  ; SEL_OR_LITERAL 'invalidated'",
+                  "nearby_calls": [
+                    "0xadf80: bl #0x2ecd00",
+                    "0xadf94: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xae644: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xae64c: bl #0x2ecd00",
+                    "0xae660: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-updateLayout",
+              "vm": "0xacc6c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xad5bc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xacd5c: ldr x23, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xacd74: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xace44: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xace5c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xaceb4: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xacecc: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-updateSceneFrame",
+              "vm": "0xade4c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 3,
+              "method_end_estimate": "0xade58",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xade50: ldr x1, [x8, #0x2c0]  ; SEL_OR_LITERAL 'refreshSceneLayout'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-updateSceneSettingsFrame",
+              "vm": "0xad5bc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xade4c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xad730: ldr x1, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xad738: bl #0x2ecd00",
+                    "0xad740: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xad774: ldr x1, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xad780: bl #0x2ecd00",
+                    "0xad788: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xad90c: ldr x1, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xad918: bl #0x2ecd00",
+                    "0xad920: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xad94c: ldr x1, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xad958: bl #0x2ecd00",
+                    "0xad960: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xadc98: ldr x22, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xadcac: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBDockSystemMonitorView": {
+          "present": true,
+          "method_count": 19,
+          "method_names": [
+            "-.cxx_destruct",
+            "-dealloc",
+            "-detailedMode",
+            "-handleBatteryNotification:",
+            "-handleTapGesture:",
+            "-initWithFrame:",
+            "-isMonitoring",
+            "-layoutSubviews",
+            "-readCpuUsage",
+            "-readDeviceTemperature",
+            "-readRamUsage:total:",
+            "-setDetailedMode:",
+            "-setShowAll:",
+            "-showAll",
+            "-startMonitoring",
+            "-stopMonitoring",
+            "-updateBatteryMetric",
+            "-updateMetrics",
+            "-willMoveToWindow:"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-dealloc",
+              "vm": "0xb4204",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 34,
+              "method_end_estimate": "0xb428c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4254: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+                  "nearby_calls": [
+                    "0xb425c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-handleTapGesture:",
+              "vm": "0xb43ac",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 150,
+              "method_end_estimate": "0xb4604",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4474: ldr x1, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xb4488: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4490: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+                  "nearby_calls": [
+                    "0xb4498: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4558: ldr x1, [x9, #0xf48]  ; SEL_OR_LITERAL 'animateWithDuration:delay:usingSpringWithDamping:initialSpringVelocity:options:animations:completion:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xb45dc: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                  "nearby_calls": [
+                    "0xb45e0: bl #0x2ecd00",
+                    "0xb45f0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb45ec: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+                  "nearby_calls": [
+                    "0xb45f0: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-initWithFrame:",
+              "vm": "0xb3d24",
+              "objc_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+              "sampled_instructions": 312,
+              "method_end_estimate": "0xb4204",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb41c8: ldr x1, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+                  "nearby_calls": [
+                    "0xb41d0: bl #0x2ecd00",
+                    "0xb41d8: bl #0x2ecd30"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-isMonitoring",
+              "vm": "0xb4b20",
+              "objc_type": "B16@0:8",
+              "sampled_instructions": 8,
+              "method_end_estimate": "0xb4b40",
+              "selector_hints": []
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xb4604",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 246,
+              "method_end_estimate": "0xb49dc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4690: ldr x20, [x9, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb46a0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4728: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb4748: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4810: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xb4898: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb48b0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4930: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb494c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-setShowAll:",
+              "vm": "0xb42a8",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 39,
+              "method_end_estimate": "0xb4344",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb42d4: ldr x1, [x8, #0xf00]  ; SEL_OR_LITERAL 'setNeedsLayout'",
+                  "nearby_calls": [
+                    "0xb42d8: bl #0x2ecd00",
+                    "0xb42e8: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb42e0: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+                  "nearby_calls": [
+                    "0xb42e8: bl #0x2ecd00",
+                    "0xb4300: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb430c: ldr x1, [x8, #0x638]  ; SEL_OR_LITERAL 'stopMonitoring'",
+                  "nearby_calls": [
+                    "0xb4314: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb431c: ldr x1, [x8, #0x650]  ; SEL_OR_LITERAL 'startMonitoring'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-startMonitoring",
+              "vm": "0xb49dc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 62,
+              "method_end_estimate": "0xb4ad4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4a04: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0xb4a08: bl #0x2ecd00",
+                    "0xb4a14: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4a40: ldr x20, [x8, #0x630]  ; SEL_OR_LITERAL 'updateMetrics'",
+                  "nearby_calls": [
+                    "0xb4a5c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb4a48: ldr x1, [x8, #0x808]  ; SEL_OR_LITERAL 'scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:'",
+                  "nearby_calls": [
+                    "0xb4a5c: bl #0x2ecd00",
+                    "0xb4a64: bl #0x2ecd60"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-stopMonitoring",
+              "vm": "0xb4ad4",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 19,
+              "method_end_estimate": "0xb4b20",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4af8: ldr x1, [x8, #0x7f8]  ; SEL_OR_LITERAL 'invalidate'",
+                  "nearby_calls": [
+                    "0xb4afc: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-updateBatteryMetric",
+              "vm": "0xb4b4c",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 156,
+              "method_end_estimate": "0xb4dbc",
+              "selector_hints": []
+            },
+            {
+              "name": "-updateMetrics",
+              "vm": "0xb4dbc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 285,
+              "method_end_estimate": "0xb5230",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb4df0: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                  "nearby_calls": [
+                    "0xb4df8: bl #0x2ecd00",
+                    "0xb4e0c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-willMoveToWindow:",
+              "vm": "0xb4344",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 26,
+              "method_end_estimate": "0xb43ac",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb436c: ldr x1, [x8, #0x658]  ; SEL_OR_LITERAL 'willMoveToWindow:'",
+                  "nearby_calls": [
+                    "0xb4374: bl #0x2ecd18"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBDockMetricItemView": {
+          "present": true,
+          "method_count": 11,
+          "method_names": [
+            "-.cxx_destruct",
+            "-fallbackIconLabel",
+            "-iconImageView",
+            "-initWithFrame:",
+            "-layoutSubviews",
+            "-setFallbackIconLabel:",
+            "-setIconImageView:",
+            "-setIconSystemName:fallbackEmoji:",
+            "-setValue:color:",
+            "-setValueLabel:",
+            "-valueLabel"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-initWithFrame:",
+              "vm": "0xb3364",
+              "objc_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+              "sampled_instructions": 231,
+              "method_end_estimate": "0xb3700",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb35a8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb35b0: bl #0x2ecd00",
+                    "0xb35c0: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xb3700",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 140,
+              "method_end_estimate": "0xb3930",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb37f4: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb3804: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-setIconSystemName:fallbackEmoji:",
+              "vm": "0xb3930",
+              "objc_type": "v32@0:8@16@24",
+              "sampled_instructions": 76,
+              "method_end_estimate": "0xb3a60",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb39b4: ldr x23, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb39c0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb39f8: ldr x22, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb3a04: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "CBWindow": {
+          "present": true,
+          "method_count": 37,
+          "method_names": [
+            "+activeCarPlayWindow",
+            "+carPlayCADisplay",
+            "+carPlayContentInsets",
+            "+carPlayScreenBounds",
+            "+carPlayScreenScale",
+            "+carPlayUIScreen",
+            "+carPlayUsableBounds",
+            "+carPlayWindowScene",
+            "+resetCachedBounds",
+            "-.cxx_destruct",
+            "-appFrame",
+            "-contentView",
+            "-createWindows",
+            "-dealloc",
+            "-destroyWindows",
+            "-dismiss",
+            "-getCarPlayDisplay",
+            "-hide:",
+            "-initWithAppFrame:",
+            "-isDisplayValid",
+            "-isVisible",
+            "-multitaskingOverlay",
+            "-multitaskingPill",
+            "-resizeWindows",
+            "-rootViewController",
+            "-rootWindow",
+            "-setAppFrame:",
+            "-setContentView:",
+            "-setIsVisible:",
+            "-setMultitaskingOverlay:",
+            "-setMultitaskingPill:",
+            "-setRootViewController:",
+            "-setRootWindow:",
+            "-show",
+            "-showAppPickerForSlot:",
+            "-showLayoutChooser",
+            "-showRecentApps"
+          ],
+          "candidate_methods": [
+            {
+              "name": "+activeCarPlayWindow",
+              "vm": "0xaf554",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 7,
+              "method_end_estimate": "0xaf570",
+              "selector_hints": []
+            },
+            {
+              "name": "+carPlayWindowScene",
+              "vm": "0xaf690",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 500,
+              "method_end_estimate": "0xafe60",
+              "selector_hints": []
+            },
+            {
+              "name": "-createWindows",
+              "vm": "0xb1064",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xb1974",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb11c8: ldr x23, [x8, #0xfc8]  ; SEL_OR_LITERAL 'performSelector:'",
+                  "nearby_calls": [
+                    "0xb11d8: bl #0x2ecd00",
+                    "0xb11e0: bl #0x2ecd60"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1600: ldr x24, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1618: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1624: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb162c: bl #0x2ecd00",
+                    "0xb1644: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dealloc",
+              "vm": "0xb2598",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 19,
+              "method_end_estimate": "0xb25e4",
+              "selector_hints": []
+            },
+            {
+              "name": "-destroyWindows",
+              "vm": "0xb21f8",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 229,
+              "method_end_estimate": "0xb258c",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb2440: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb2448: bl #0x2ecd00",
+                    "0xb2460: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-hide:",
+              "vm": "0xb1ec0",
+              "objc_type": "v24@0:8@?16",
+              "sampled_instructions": 121,
+              "method_end_estimate": "0xb20a4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb1f04: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+                  "nearby_calls": [
+                    "0xb1f08: bl #0x2ecd00",
+                    "0xb1f10: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1f70: ldr x19, [x8, #0xb30]  ; SEL_OR_LITERAL 'animateWithDuration:animations:completion:'",
+                  "nearby_calls": [
+                    "0xb1f78: bl #0x2ecd3c"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1fcc: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xb1ff8: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb2000: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-multitaskingOverlay",
+              "vm": "0xb1974",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 78,
+              "method_end_estimate": "0xb1aac",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb19ec: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb19f4: bl #0x2ecd00",
+                    "0xb1a0c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-resizeWindows",
+              "vm": "0xb1aac",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 187,
+              "method_end_estimate": "0xb1d98",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb1b38: ldr x1, [x22, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1b4c: bl #0x2ecd00",
+                    "0xb1b58: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1bc4: ldr x1, [x22, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1bd8: bl #0x2ecd00",
+                    "0xb1be0: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1bec: ldr x1, [x22, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1c00: bl #0x2ecd00",
+                    "0xb1c0c: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1ce4: ldr x1, [x22, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1ce8: bl #0x2ecd00",
+                    "0xb1cf0: bl #0x2ecd30"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1cf8: ldr x1, [x22, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb1d0c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-rootWindow",
+              "vm": "0xb2804",
+              "objc_type": "@16@0:8",
+              "sampled_instructions": 2,
+              "method_end_estimate": "0xb280c",
+              "selector_hints": []
+            },
+            {
+              "name": "-setMultitaskingOverlay:",
+              "vm": "0xb2854",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 3,
+              "method_end_estimate": "0xb2860",
+              "selector_hints": []
+            },
+            {
+              "name": "-setRootWindow:",
+              "vm": "0xb280c",
+              "objc_type": "v24@0:8@16",
+              "sampled_instructions": 3,
+              "method_end_estimate": "0xb2818",
+              "selector_hints": []
+            },
+            {
+              "name": "-show",
+              "vm": "0xb1d98",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 74,
+              "method_end_estimate": "0xb1ec0",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb1ddc: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+                  "nearby_calls": [
+                    "0xb1de0: bl #0x2ecd00",
+                    "0xb1de8: bl #0x2ecd30",
+                    "0xb1dfc: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1df4: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xb1dfc: bl #0x2ecd00",
+                    "0xb1e10: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1e08: ldr x1, [x8, #0x980]  ; SEL_OR_LITERAL 'setHidden:'",
+                  "nearby_calls": [
+                    "0xb1e10: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb1e74: ldr x1, [x8, #0xe70]  ; SEL_OR_LITERAL 'isHidden'",
+                  "nearby_calls": [
+                    "0xb1e78: bl #0x2ecd00",
+                    "0xb1e8c: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-showLayoutChooser",
+              "vm": "0xb2694",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 42,
+              "method_end_estimate": "0xb273c",
+              "selector_hints": []
+            }
+          ]
+        },
+        "CBSplitSplashScreenView": {
+          "present": true,
+          "method_count": 16,
+          "method_names": [
+            "+appIconImage",
+            "+logoImage",
+            "+radialGlowImageForDiameter:",
+            "-.cxx_destruct",
+            "-dealloc",
+            "-dismissAnimated:",
+            "-dismissAnimated:completion:",
+            "-handleTap:",
+            "-initWithFrame:",
+            "-isDismissing",
+            "-layoutSubviews",
+            "-onDismissed",
+            "-onWillDismiss",
+            "-setOnDismissed:",
+            "-setOnWillDismiss:",
+            "-startLoadingAnimation"
+          ],
+          "candidate_methods": [
+            {
+              "name": "-dealloc",
+              "vm": "0xb7924",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 57,
+              "method_end_estimate": "0xb7a08",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb7964: ldr x1, [x8, #0x550]  ; SEL_OR_LITERAL 'removeAllAnimations'",
+                  "nearby_calls": [
+                    "0xb7968: bl #0x2ecd00",
+                    "0xb7970: bl #0x2ecd30",
+                    "0xb7984: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dismissAnimated:",
+              "vm": "0xb767c",
+              "objc_type": "v20@0:8B16",
+              "sampled_instructions": 4,
+              "method_end_estimate": "0xb768c",
+              "selector_hints": []
+            },
+            {
+              "name": "-dismissAnimated:completion:",
+              "vm": "0xb768c",
+              "objc_type": "v28@0:8B16@?20",
+              "sampled_instructions": 166,
+              "method_end_estimate": "0xb7924",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb77a0: ldr x1, [x8, #0x1a0]  ; SEL_OR_LITERAL 'animateWithDuration:delay:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xb77c0: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb77d0: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xb77dc: bl #0x2ecd00",
+                    "0xb77ec: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb7878: ldr x1, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": []
+                }
+              ]
+            },
+            {
+              "name": "-initWithFrame:",
+              "vm": "0xb6358",
+              "objc_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+              "sampled_instructions": 512,
+              "method_end_estimate": "0xb6fdc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb6508: ldr x23, [x8, #0x988]  ; SEL_OR_LITERAL 'setAlpha:'",
+                  "nearby_calls": [
+                    "0xb6518: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-layoutSubviews",
+              "vm": "0xb6fdc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 248,
+              "method_end_estimate": "0xb73bc",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb712c: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": []
+                },
+                {
+                  "selector_reference": "0xb713c: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb7154: bl #0x2ecd00"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-startLoadingAnimation",
+              "vm": "0xb73bc",
+              "objc_type": "v16@0:8",
+              "sampled_instructions": 138,
+              "method_end_estimate": "0xb75e4",
+              "selector_hints": [
+                {
+                  "selector_reference": "0xb7408: ldr x1, [x8, #0xf08]  ; SEL_OR_LITERAL 'layoutIfNeeded'",
+                  "nearby_calls": [
+                    "0xb7410: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb7454: ldr x20, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb7468: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb74d0: ldr x1, [x8, #0x1a0]  ; SEL_OR_LITERAL 'animateWithDuration:delay:options:animations:completion:'",
+                  "nearby_calls": [
+                    "0xb74ec: bl #0x2ecd00"
+                  ]
+                },
+                {
+                  "selector_reference": "0xb7598: ldr x1, [x8, #0xa10]  ; SEL_OR_LITERAL 'setFrame:'",
+                  "nearby_calls": [
+                    "0xb75b8: bl #0x2eccf4"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
