@@ -80,6 +80,21 @@ with tempfile.TemporaryDirectory() as td:
                                      "raw32":m.data[m.map(addr):m.map(addr)+32].hex(),
                                      "points_to_cstring":valstr[:100]}
                 except Exception as err: lazy[hex(addr)]={"error":str(err)[:100]}
+        decoded_native_settings_owner=None
+        if name=="DuoFaceDashboard":
+            # Read-only equivalent of native12 lazy initializer 0x3822c.
+            # It constructs a 49-byte NSString from obfuscated __TEXT data
+            # at 0x30fb6f, then stores it in global slot 0x3812b0.
+            # Preserve only the filename in evidence, not any user data.
+            seed=m.data[m.map(0x30fb6f):m.map(0x30fb6f)+0x31]
+            assert len(seed)==0x31
+            decoded=bytearray()
+            for ix,b in enumerate(seed):
+                n=(ix%5)+1
+                rotated=((b >> n) | (b << (8-n))) & 0xff
+                transform=((ix*0x2b+0x83)&0xff)^rotated
+                decoded.append((transform-0x5d)&0xff)
+            decoded_native_settings_owner=decoded.decode("utf-8")
         lazy_instruction_map={}
         if name=="DuoFaceDashboard":
             from capstone import Cs,CS_ARCH_ARM64,CS_MODE_ARM
@@ -98,6 +113,7 @@ with tempfile.TemporaryDirectory() as td:
                               "native_preferences_related_literals":strings[:160],
                               "native_cfstring_constants":cfstrings[:400],
                               "lazy_preference_global_probe":lazy,
+                              "native12_obfuscated_config_owner_path":decoded_native_settings_owner,
                               "lazy_preference_initializer_disassembly":lazy_instruction_map,
                               "near_appSettings_cfstrings":[
                                   {"vm":hex(sec["vm"]+offset),"value":m.cstr(m.ptr(sec["vm"]+offset+16))}
