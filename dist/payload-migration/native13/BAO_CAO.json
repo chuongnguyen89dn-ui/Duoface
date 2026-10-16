@@ -1,0 +1,30 @@
+{
+  "status": "NATIVE13_TWO_FEATURES_SIGNED_COMBINED_QA_CANDIDATE_NOT_PUBLISHED",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native13",
+  "input_native12_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "candidate_sha256": "cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3",
+  "added_modules": {
+    "DuoFaceSmartConnection": {
+      "dylib": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.dylib",
+      "plist": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSmartConnection.plist",
+      "sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+      "filter_sha256": "02681737c7cdd66cff47c2aa37a89c628a879b30a2e31c4bd59f87f0c6816970"
+    },
+    "DuoFaceInCarAddApps": {
+      "dylib": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib",
+      "plist": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.plist",
+      "sha256": "d07fbbd3b7caa075e82ec066ca2ad51d0d0cb7126e792b7a1cf19e8435671c68",
+      "filter_sha256": "a20a2b329cc581eb72957ab0be023c6e7e127ebc88285e2bfccfdca650cc2210"
+    }
+  },
+  "existing_payload_entries_unchanged": 39,
+  "all_original_payload_byte_identical": true,
+  "all_five_carplay_and_visual_hosts_byte_identical": true,
+  "old_license_hook_still_absent": true,
+  "remaining_license_class_metadata_physically_removed": false,
+  "full_license_excision_verified": false,
+  "sileo_published": false,
+  "device_tested": false,
+  "must_not_publish_as_complete_license_excision": true
+}
