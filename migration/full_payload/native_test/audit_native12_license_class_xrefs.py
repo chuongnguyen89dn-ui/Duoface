@@ -234,11 +234,15 @@ def audit_binary(name, data, candidates, preserved):
         reference = guard["sha256_at_native9"]
         length = guard.get("length")
         # Legacy map stores length in source report, not necessarily in the candidate manifest.
-        actual = None if length is None else sha(host.data[offset:offset + length])
+        if not isinstance(length,int) or length <= 0 or offset + length > len(host.data):
+            raise AssertionError("invalid CarPlay protected function boundaries")
+        actual = sha(host.data[offset:offset + length])
+        if actual != reference:
+            raise AssertionError("CarPlay implementation changed: " + name + "::" + guard["selector"])
         result["carplay_guard"].append({"class":guard["objc_class"],
                 "selector":guard["selector"],"file_offset":offset,
                 "expected_sha256":reference,"actual_sha256":actual,
-                "status":"protected_not_modified_by_readonly_audit"})
+                "status":"CARPLAY_METHOD_BYTE_EXACT_PASS"})
     return result
 
 
@@ -246,6 +250,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--deb", required=True, type=Path)
     ap.add_argument("--inventory", required=True, type=Path)
+    ap.add_argument("--carplay-guard", required=True, type=Path)
     ap.add_argument("--out", required=True, type=Path)
     args = ap.parse_args()
     if sha(args.deb.read_bytes()) != NATIVE12_SHA:
@@ -254,11 +259,16 @@ def main():
     candidates = m["candidate_classes"]
     assert len(candidates) == 14
     assert sum(x["method_count"] for x in candidates) == 249
-    assert len(m["protected_carplay_methods"]) == 8
+    guard_source = json.loads(args.carplay_guard.read_text())
+    guards = [{"binary":x["binary"],"objc_class":x["class"],"selector":x["selector"],
+               "offset":x["file_offset"],"length":x["length"],
+               "sha256_at_native9":x["sha256_in_native9"]}
+              for x in guard_source["immutable_carplay_methods"]]
+    assert len(guards) == 8
     with tempfile.TemporaryDirectory(prefix="df12-class-xrefs-") as tmp:
         subprocess.run(["dpkg-deb","-x",str(args.deb),tmp],check=True)
         result = {key:audit_binary(key, (Path(tmp)/path).read_bytes(),
-                      candidates, m["protected_carplay_methods"])
+                      candidates, guards)
                   for key,path in BINARIES.items()}
     report = {"status":"NATIVE12_ACTUAL_MACHO_CLASS_REFERENCES_READONLY",
               "deb_sha256":NATIVE12_SHA, "native12_untouched":True,
