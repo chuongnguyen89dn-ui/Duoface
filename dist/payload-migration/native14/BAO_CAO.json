@@ -1,0 +1,237 @@
+{
+  "status": "NATIVE14_EXPERIMENTAL_14_LICENSE_CLASSES_UNREGISTERED_AND_NAMES_ERASED",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native14",
+  "base_native13_sha256": "cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3",
+  "deb_sha256": "f29cc6bc99950714e0f51785b97744575667b22fa3df1bcc727d09d938f78f10",
+  "isolated_license_classes_removed_from_objc_registration": 14,
+  "class_registration_and_ref_pointer_slots_zeroed": 42,
+  "license_class_name_literal_copies_erased": 47,
+  "remaining_method_metadata_and_shared_license_literals_may_exist": true,
+  "all_license_related_code_physically_removed": false,
+  "dynamic_runtime_safety_proven": false,
+  "remaining_8_carplay_methods_preserved_code_sections": true,
+  "license_xref_calls_are_in_previously_neutralized_entry_method": true,
+  "source_code_instruction_changes": false,
+  "host_modified_paths": [
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "binaries": {
+    "DuoFaceUI": {
+      "before_registered_classes": 27,
+      "after_registered_classes": 15,
+      "removed_classes": [
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 3,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 30
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 695390,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763215,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 10
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 696056,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763289,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 9
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 693536,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 696206,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763329,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 10
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 695769,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763370,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 10
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 3,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 693413,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 698921,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763176,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 36
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 696616,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            },
+            {
+              "file_offset": 763250,
+              "section": "__objc_classname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 18
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 13
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 2
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 3,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 71
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 24
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 4,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 2
+        }
+      ],
+      "host_sha256": "338c51ec0dc73fafa4cb2d19b10007ec89bca26e8d539e4050338e43f9b2663a",
+      "signed": true,
+      "all_original_text_instructions_unchanged_pre_signature": true
+    },
+    "DuoFaceDashboard": {
+      "before_registered_classes": 36,
+      "after_registered_classes": 34,
+      "removed_classes": [
+        {
+          "class": "CBLicenseShieldIconView",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 1,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [],
+          "method_records_persist_in_unregistered_metadata": 2
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "registry_and_ref_slots_zeroed": 3,
+          "name_literals_zeroed": 1,
+          "extra_validated_literals": [],
+          "preserved_embedded_protocol_or_type_names": [
+            {
+              "file_offset": 3118300,
+              "section": "__objc_methname",
+              "why": "prefix of longer token"
+            }
+          ],
+          "method_records_persist_in_unregistered_metadata": 12
+        }
+      ],
+      "host_sha256": "f8cb4e9174be6ee74313bf3312c5929fced13aaf7f98b4f5e792fa73fe5f6078",
+      "signed": true,
+      "all_original_text_instructions_unchanged_pre_signature": true
+    }
+  },
+  "sileo_deployed": false,
+  "device_tested": false,
+  "experimental_only_do_not_claim_full_license_cleanup": true
+}
