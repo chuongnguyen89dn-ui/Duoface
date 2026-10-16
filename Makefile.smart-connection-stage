@@ -1,0 +1,12 @@
+# COMPILE-ONLY SOURCE STAGING; never invoke 'make package' from CI.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSmartConnection
+DuoFaceSmartConnection_FILES := runtime/connection/DFConnectionNativeHooks.xm runtime/connection/DFConnectionAdapter.mm runtime/connection/DFConnectionPolicy.cpp
+DuoFaceSmartConnection_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSmartConnection_CCFLAGS := -std=c++17
+DuoFaceSmartConnection_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
