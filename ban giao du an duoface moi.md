@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — SPEED4SPLIT ĐÃ CÓ TRÊN SILEO (PUBLIC PAGES + LIVE DOWNLOAD SHA PASS)
+Checkpoint: SPEED4SPLIT-SILEO-PUBLIC-VERIFIED-20261016.
+**Cập nhật THAY THẾ trạng thái “chưa lên Sileo” cũ:** ĐÃ phát hành thành công `0.1.0~native12+speed4split` ra kho APT/Sileo công khai; chưa test hiện HUD trên iPhone/CarPlay thật.
+- Repo phân phối riêng `chuongnguyen89dn-ui/carplaydsp`, commit publish `3f48b284cef526fbde77c0a33f021c6994f06a37` thay Speed3 bằng bản Speed4, không sửa package DuoDash/legacy. GitHub Actions **publish + GitHub Pages deploy** run `38913785659`: `completed/success` cập nhật `2026-10-16T14:14:50Z`; job `build` và `deploy` xong, `Build APT repository`, `Upload Pages artifact`, `Deploy Sileo repo to GitHub Pages` đều thành công.
+- GitHub Actions **kiểm định độc lập nội dung Sileo LIVE** trong repo DuoFace run `38913833693`: `completed/success`, bước `Check one live independent DuoFace, preserve legacy, download exact DEB` thành công. Đã kiểm `Packages` có đúng 1 independent DuoFace và legacy tồn tại; `Packages.gz` đồng bộ; download `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.independent_0.1.0~native12+speed4split_iphoneos-arm64.deb`; SHA256 `e73d3f3bb3e428c5656a6923f1010724151a924b983284c5d0c6c287d3939236`; `dpkg-deb` control package/version/arch và nội dung dylib/plist đúng. Kết quả CI chứng minh APT PUBLIC/PAGES PASS, KHÔNG chứng minh Sileo trên iPhone đã refresh hoặc bong bóng hiện trong split.
+- Vị trí nguồn dùng trên iPhone: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Mở Sileo -> Sources -> Refresh -> tìm gói `DuoFace` (ID `com.duoface.independent`) -> xem version `0.1.0~native12+speed4split` -> cài/nâng cấp. Nếu Sileo cache bản cũ cần Refresh Sources, không báo lỗi publish nếu không kiểm tra cache.
+- **Đợi test thực tế của người dùng:** CarPlay Home không bong bóng; mở split DuoFace một bong bóng `—/—` ngay cả khi không có nguồn tốc độ; thoát split biến mất; reopen/reconnect/zoom không nhân đôi; kéo/X hoạt động; Waze không khởi động lại. Nếu vẫn không hiện, lấy log `[DuoFaceSpeedHUD][split-owner]` và kiểm tra class/owner/scene trực tiếp, không đoán tiếp.
+
 ## 16/10/2026 — XÁC MINH CÓ FILE DEB SPEED4SPLIT (KẾT QUẢ CI THỰC)
 Checkpoint: SPEED4SPLIT-DEB-BUILT-VERIFIED-20261016.
 - **Đã có DEB** trên GitHub nhánh `feature/duoface-exact-payload-migration`: `dist/payload-migration/native12-speed4split/com.duoface.independent_0.1.0~native12+speed4split_iphoneos-arm64.deb` (Git blob `84162d2627fa513eff51fd010c0a9bc51767d2f3`, kích thước 1,735,768 byte).
