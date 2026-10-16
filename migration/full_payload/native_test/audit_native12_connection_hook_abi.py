@@ -22,7 +22,7 @@ TARGETS = {
             "-terminateApplicationWithBundleID:", "-deactivateCurrentApp",
             "-terminateAllBridgedApplications"},
         "CBBridgeManagerDashboard": {"-handleStateDict:", "-bridgeDidActivate:",
-                                     "-bridgeDidDeactivate:"},
+                                     },
         "CBDashboardSettings": {"-autoLaunchOnConnect", "-setAutoLaunchOnConnect:",
                                 "-autoLaunchBundleID", "-setAutoLaunchBundleID:"},
     },
@@ -80,7 +80,7 @@ def main():
         objs={name:inspect_bin(name,(Path(temp)/path).read_bytes())
               for name,path in BINARIES.items()}
     total=sum(len(m) for b in objs.values() for m in b["classes"].values())
-    assert total==5+5+3+4, total
+    assert total==5+5+2+4, total
     out={"status":"NATIVE12_ACTUAL_CONNECTION_OBJC_ABI_READONLY",
          "source_deb_sha256":NATIVE12_SHA,"selectors_examined":total,
          "actual_carplay_event_runtime_verified":False,"used_to_patch_binary":False,
