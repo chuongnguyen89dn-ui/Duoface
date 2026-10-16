@@ -1,0 +1,86 @@
+name: DuoFace native12 actual Mach-O license classrefs audit (read-only)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_license_class_xrefs.py'
+      - 'audit/payload-migration/native12-license-excision-candidate-map-20261016.json'
+      - '.github/workflows/duoface-native12-actual-license-classrefs-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-actual-license-classrefs-audit
+  cancel-in-progress: false
+
+jobs:
+  inspect-actual-native12-deb:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check immutable user-tested native12 and audit prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          f=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$f" | sha256sum -c -
+          test "$(dpkg-deb -f "$f" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$f" Version)" = '0.1.0~native12'
+          test "$(dpkg-deb -f "$f" Architecture)" = 'iphoneos-arm64'
+          python3 -m py_compile migration/full_payload/native_test/audit_native12_license_class_xrefs.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('audit/payload-migration/native12-license-excision-candidate-map-20261016.json').read_text())
+          assert len(j['candidate_classes'])==14
+          assert sum(c['method_count'] for c in j['candidate_classes'])==249
+          print('NATIVE12_PINNED_14_CLASSES_249_METHODS_AUDIT_INPUT_PASS')
+          PY
+      - name: Inspect real native12 host class registration, classrefs, superclass and selector owners
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/audit_native12_license_class_xrefs.py \
+            --deb dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb \
+            --inventory audit/payload-migration/native12-license-excision-candidate-map-20261016.json \
+            --carplay-guard audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json \
+            --out audit/payload-migration/NATIVE12_ACTUAL_LICENSE_CLASS_XREFS.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('audit/payload-migration/NATIVE12_ACTUAL_LICENSE_CLASS_XREFS.json').read_text())
+          assert r['status']=='NATIVE12_ACTUAL_MACHO_CLASS_REFERENCES_READONLY'
+          assert r['candidates_checked']==14 and r['native12_untouched']
+          assert not r['physical_excision_completed'] and not r['dynamic_dispatch_resolved']
+          assert all(len(v['carplay_guard'])==4 for v in r['binaries'].values())
+          assert all(all(g['actual_sha256']==g['expected_sha256'] for g in v['carplay_guard']) for v in r['binaries'].values())
+          assert all(not c['safe_to_delete'] for v in r['binaries'].values() for c in v['candidate_classes'])
+          print('NATIVE12_REAL_MACHO_14_CLASSES_249_METHODS_AND_8_CARPLAY_SHA_GUARDS_PASS')
+          PY
+      - name: Commit bounded static evidence to migration feature branch
+        shell: bash
+        env:
+          BRANCH: feature/duoface-exact-payload-migration
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_ACTUAL_LICENSE_CLASS_XREFS.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: static xrefs of native12 14 candidate license ObjC classes [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            git push origin "HEAD:$BRANCH" && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-license-classrefs-readonly
+          path: audit/payload-migration/NATIVE12_ACTUAL_LICENSE_CLASS_XREFS.json
+          if-no-files-found: warn
