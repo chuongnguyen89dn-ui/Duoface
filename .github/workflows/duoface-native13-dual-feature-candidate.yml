@@ -1,0 +1,111 @@
+name: DuoFace native13 dual-feature signed DEB CANDIDATE, no Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_native13_features_candidate.py'
+      - '.github/workflows/duoface-native13-dual-feature-candidate.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native13-dualfeature-build
+  cancel-in-progress: false
+jobs:
+  candidate:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify native12 immutable baseline and new code declarations
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          printf '%s  %s\n' 85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7 "$base" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native13_features_candidate.py
+          grep -Fq 'kDisconnectGraceMs = 10000' runtime/connection/DFConnectionPolicy.hpp
+          grep -Fq 'scheduleMandatoryDisconnectWatchdog' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'enforceMandatoryDisconnectKill' runtime/connection/DFConnectionNativeHooks.xm
+          grep -Fq 'addMoreAppsTapped:' runtime/appbridge/DFInCarAppPicker.xm
+          ! grep -Fq 'runtime/appbridge/' Makefile.fullscreen
+          ! grep -Fq 'runtime/connection/' Makefile.fullscreen
+      - name: Prepare Theos and iPhoneOS SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile BOTH isolated hooks, no package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/df-dual"
+          cp Makefile.smart-connection-stage Makefile
+          make clean all FINALPACKAGE=1
+          cp "$(find .theos -type f -name 'DuoFaceSmartConnection.dylib' -print -quit)" "$RUNNER_TEMP/df-dual/DuoFaceSmartConnection.dylib"
+          cp Makefile.appbridge-stage Makefile
+          make clean all FINALPACKAGE=1
+          cp "$(find .theos -type f -name 'DuoFaceInCarAddApps.dylib' -print -quit)" "$RUNNER_TEMP/df-dual/DuoFaceInCarAddApps.dylib"
+          xcrun lipo "$RUNNER_TEMP/df-dual/DuoFaceSmartConnection.dylib" -verify_arch arm64
+          xcrun lipo "$RUNNER_TEMP/df-dual/DuoFaceInCarAddApps.dylib" -verify_arch arm64
+          echo TWO_DUOFACE_HOOKS_COMPILE_AND_LINK_PASS
+      - name: Construct isolated native13 QA candidate, keep legacy payload EXACT
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/payload-migration/native13
+          out=dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb
+          test ! -e "$out"
+          python3 migration/full_payload/native_test/build_native13_features_candidate.py \
+            --smart-dylib "$RUNNER_TEMP/df-dual/DuoFaceSmartConnection.dylib" \
+            --app-dylib "$RUNNER_TEMP/df-dual/DuoFaceInCarAddApps.dylib" \
+            --out "$out" \
+            --report dist/payload-migration/native13/BAO_CAO.json
+          test "$(dpkg-deb -f "$out" Package)" = com.duoface.independent
+          test "$(dpkg-deb -f "$out" Version)" = '0.1.0~native13'
+          test "$(dpkg-deb -f "$out" Architecture)" = iphoneos-arm64
+          dpkg-deb -c "$out" | grep -F 'DuoFaceSmartConnection.dylib'
+          dpkg-deb -c "$out" | grep -F 'DuoFaceInCarAddApps.dylib'
+          ! dpkg-deb -c "$out" | grep -F 'A_DuoFaceNativeNoLease'
+          python3 - <<'PY'
+          import json,hashlib,pathlib
+          p=pathlib.Path('dist/payload-migration/native13')
+          deb=p/'com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb'
+          j=json.loads((p/'BAO_CAO.json').read_text())
+          assert j["candidate_sha256"]==hashlib.sha256(deb.read_bytes()).hexdigest()
+          assert j["all_original_payload_byte_identical"]
+          assert j["all_five_carplay_and_visual_hosts_byte_identical"]
+          assert not j["remaining_license_class_metadata_physically_removed"]
+          assert not j["sileo_published"]
+          print('NATIVE13_BOTH_FEATURES_CANDIDATE_PACKAGE_QA_PASS; LICENSE_GATE_STILL_OPEN; DO_NOT_PUBLISH')
+          PY
+      - name: Save test candidate and evidence in DuoFace repo, never Sileo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb dist/payload-migration/native13/BAO_CAO.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: dual-feature native13 UNPUBLISHED QA candidate [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native13-dual-feature-internal-candidate-not-sileo
+          path: |
+            dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb
+            dist/payload-migration/native13/BAO_CAO.json
+          if-no-files-found: warn
