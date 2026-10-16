@@ -67,7 +67,14 @@ with tempfile.TemporaryDirectory() as td:
                 except Exception:pass
         report["hosts"][name]={"sha256":expected,"original_disassembly_direct_literals":matches,
                               "native_preferences_related_literals":strings[:160],
-                              "native_cfstring_constants":cfstrings[:400]}
+                              "native_cfstring_constants":cfstrings[:400],
+                              "near_appSettings_cfstrings":[
+                                  {"vm":hex(sec["vm"]+offset),"value":m.cstr(m.ptr(sec["vm"]+offset+16))}
+                                  for sec in m.sections if sec["name"]=="__cfstring"
+                                  for offset in range(0,sec["size"],32)
+                                  if ((name=="DuoFaceDashboard" and 0x36f000<=sec["vm"]+offset<0x36f500)
+                                      or (name=="DuoFaceUI" and 0x1000e9000<=sec["vm"]+offset<0x1000e9c00))
+                              ]}
 print(json.dumps(report,ensure_ascii=False,indent=2))
 dest=Path("audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json")
 dest.parent.mkdir(exist_ok=True,parents=True)
