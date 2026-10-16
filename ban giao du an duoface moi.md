@@ -1,5 +1,25 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — IPHONE ĐÃ XÁC NHẬN CÀI SPEED4SPLIT ĐÚNG; HUD VẪN KHÔNG HIỆN
+Checkpoint: SPEED4-DEVICE-DPKG-INSTALLED-CONFIRMED-20261016.
+
+**Bằng chứng ảnh người dùng từ NewTerm (~21:40 giờ máy 16/10/2026):** sau khi chạy `dpkg -s com.duoface.independent | grep -E 'Status|Version'`, màn hình trả về nguyên văn:
+```
+Status: install ok installed
+Version: 0.1.0~native12+speed4split
+```
+Có prompt `Chuong:~ mobile%` sau đó, chứng minh NewTerm chạy lệnh đọc-only thành công. **Xác nhận gói Speed4Split cài thật, không còn giả thuyết Sileo chưa cài / cài nhầm Speed3.** Người dùng vẫn đã xác nhận nhìn trong DuoFace split không có bong bóng: **on-device UI FAIL**.
+
+**Ảnh cũng còn lỗi khởi tạo Zsh `zsh/watch.so` signature invalid ở các dòng phía trên, nhưng shell vẫn chạy `dpkg` thành công. Không phải stack trace HUD, không tự sửa module hệ thống.**
+
+**Bước tiếp theo chỉ cần một lệnh đọc-only trong NewTerm khi đang mở split DuoFace trên màn CarPlay:**
+```sh
+log show --last 10m 2>/dev/null | grep -i DuoFaceSpeedHUD | tail -n 20
+```
+Chụp đầu ra dù có hay không có dòng. Nếu lệnh không xuất kết quả, không kết luận luôn là dylib không được nạp: có thể tiện ích `log` không sẵn, log bị hạn chế hoặc NSLog khác store; sau đó dùng `command -v log`/kiểm tra process+injection. Cần phân biệt `DuoFaceSpeedHUD` constructor/hook vs `[split-owner]` WAIT/MOUNTED. Chỉ chọn cách sửa khi có bằng chứng; không build Speed5 hay cập nhật Sileo, không sửa Native12/Waze/GOFA/TWHub.
+
+**Trạng thái dự án:** Device package installed=yes, version confirmed=0.1.0~native12+speed4split, HUD visibly working=no, runtime log collected=no, code changed=no, new DEB built=no.
+
 ## 16/10/2026 — ẢNH NEWTERM TRÊN IPHONE: ZSH WATCH.SO KÝ MÃ LỖI, CHƯA CÓ LOG SPEED4
 Checkpoint: SPEED4-NEWTERM-ZSH-WATCH-ERROR-NO-HUD-RUNTIME-LOG-20261016.
 
