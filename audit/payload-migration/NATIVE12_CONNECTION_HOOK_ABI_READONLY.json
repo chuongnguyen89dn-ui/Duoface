@@ -1,0 +1,110 @@
+{
+  "status": "NATIVE12_ACTUAL_CONNECTION_OBJC_ABI_READONLY",
+  "source_deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "selectors_examined": 16,
+  "actual_carplay_event_runtime_verified": false,
+  "used_to_patch_binary": false,
+  "types_must_be_reviewed_before_installing_any_hook": true,
+  "binaries": {
+    "DuoFaceUI": {
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "arm64_slice_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "classes": {
+        "CBGeneralSettingsViewController": {
+          "-loadPreferences": {
+            "type_encoding": "v16@0:8",
+            "imp_vm": "0x10000d7c4",
+            "relative_method_list": true
+          },
+          "-savePreferences": {
+            "type_encoding": "v16@0:8",
+            "imp_vm": "0x10000da34",
+            "relative_method_list": true
+          },
+          "-autoLaunchToggleChanged:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x10000dde0",
+            "relative_method_list": true
+          },
+          "-autoLaunchOnConnect": {
+            "type_encoding": "B16@0:8",
+            "imp_vm": "0x100010484",
+            "relative_method_list": true
+          },
+          "-setAutoLaunchOnConnect:": {
+            "type_encoding": "v20@0:8B16",
+            "imp_vm": "0x100010494",
+            "relative_method_list": true
+          }
+        }
+      }
+    },
+    "DuoFaceDashboard": {
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "arm64_slice_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "classes": {
+        "CBBridgeManager": {
+          "-terminateApplicationWithBundleID:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x1cd780",
+            "relative_method_list": true
+          },
+          "-terminateAllBridgedApplications": {
+            "type_encoding": "v16@0:8",
+            "imp_vm": "0x1ce480",
+            "relative_method_list": true
+          },
+          "-effectiveAutoLaunchBundleID": {
+            "type_encoding": "@16@0:8",
+            "imp_vm": "0x19ec10",
+            "relative_method_list": true
+          },
+          "-handleCarPlayConnectionChanged:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x1b8a1c",
+            "relative_method_list": true
+          },
+          "-deactivateCurrentApp": {
+            "type_encoding": "v16@0:8",
+            "imp_vm": "0x19d458",
+            "relative_method_list": true
+          }
+        },
+        "CBBridgeManagerDashboard": {
+          "-handleStateDict:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x2a45f4",
+            "relative_method_list": true
+          },
+          "-bridgeDidActivate:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x2a4738",
+            "relative_method_list": true
+          }
+        },
+        "CBDashboardSettings": {
+          "-autoLaunchOnConnect": {
+            "type_encoding": "B16@0:8",
+            "imp_vm": "0x37ff8",
+            "relative_method_list": true
+          },
+          "-setAutoLaunchOnConnect:": {
+            "type_encoding": "v20@0:8B16",
+            "imp_vm": "0x38000",
+            "relative_method_list": true
+          },
+          "-autoLaunchBundleID": {
+            "type_encoding": "@16@0:8",
+            "imp_vm": "0x38008",
+            "relative_method_list": true
+          },
+          "-setAutoLaunchBundleID:": {
+            "type_encoding": "v24@0:8@16",
+            "imp_vm": "0x38014",
+            "relative_method_list": true
+          }
+        }
+      }
+    }
+  }
+}
