@@ -1,0 +1,349 @@
+{
+  "schema": "duoface_settings_pro.plan.v1",
+  "created": "2026-10-16",
+  "repository": "chuongnguyen89dn-ui/Duoface",
+  "baseline": {
+    "package": "com.duoface.independent",
+    "version": "0.1.0~native12",
+    "sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+    "device_qa": "USER_GENERAL_PASS_NOT_PER_SETTING_QA"
+  },
+  "status": "DESIGN_MANIFEST_ONLY_NOT_INSTALLED",
+  "user_intent": "Hợp nhất tính năng cài đặt hữu ích DuoDash 1.1.3 với DuoFace; làm mạnh hơn nhưng giữ UX/carplay hiện tại",
+  "license_excision": "PAUSED_PER_USER_REQUEST",
+  "constraints": [
+    "Do not copy DuoDash proprietary binary, plist/assets/identifiers verbatim; implement DuoFace-owned equivalents",
+    "Do not touch App/Zoom/Style/Close, fullscreen, CarPlay host bridge or existing callback semantics in this planning stage",
+    "New side effects default OFF; sensitive hardware/permission features gated by capability checks and opt-in",
+    "No DEB/build/Sileo without explicit request; commit plan documents only",
+    "Native DuoFace 0.1.0~native12 user-tested remains rollback baseline",
+    "Existing settings exact CFPreferences keys unknown; never invent migrations or overwrite user values until binary audit"
+  ],
+  "phaseMeaning": {
+    "P0": "Reuse and regression-test existing",
+    "P1": "Low-risk original added settings and diagnostics",
+    "P2": "Control-plane behavior with safety gating",
+    "P3": "Dependent-on-external-providers/permissions/hardware",
+    "P4": "Optional HUD-specific integration"
+  },
+  "groups": [
+    {
+      "id": "connection",
+      "title": "Kết nối & tự phục hồi",
+      "features": [
+        {
+          "id": "auto_start",
+          "label": "Tự khởi động khi kết nối",
+          "baseline": "existing_code_and_observed_ui",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "CBGeneralSettingsViewController.autoLaunchOnConnect; CBDashboardSettings.autoLaunchOnConnect",
+          "acceptance": "Kiểm tra trên thiết bị, giữ key và callback gốc"
+        },
+        {
+          "id": "session_restore",
+          "label": "Khôi phục phiên ứng dụng trước",
+          "baseline": "new",
+          "phase": "P1",
+          "default": "off",
+          "implementation_dependency": "Requires native session snapshot + reconnect state tracking",
+          "acceptance": "Chỉ khôi phục khi người dùng bật; không mở trùng; hủy khi kết nối lại thất bại"
+        },
+        {
+          "id": "device_profile",
+          "label": "Cấu hình riêng theo màn hình/xe",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "single_default_profile",
+          "implementation_dependency": "Requires stable nonsecret display identifier; never assume VIN available",
+          "acceptance": "Không lấy dữ liệu nhận diện riêng tư không cần thiết; thay đổi không làm lỗi cấu hình cũ"
+        },
+        {
+          "id": "disconnect_close",
+          "label": "Tự đóng app sau khi ngắt kết nối",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "off",
+          "implementation_dependency": "Requires verified disconnect callback and termination-by-bundle-ID adapter",
+          "acceptance": "Chờ đề xuất 12 giây, hủy khi reconnect; không đóng nhạc/dẫn đường/app ngoài DuoFace"
+        }
+      ]
+    },
+    {
+      "id": "apps",
+      "title": "Ứng dụng",
+      "features": [
+        {
+          "id": "choose_apps",
+          "label": "Chọn ứng dụng",
+          "baseline": "already_operates_user_tested",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "CBAppPickerViewController and current DuoFace picker",
+          "acceptance": "Giữ nguyên App/Zoom/Style/Close callback, kéo logo và UX hiện tại"
+        },
+        {
+          "id": "unloaded_cleanup",
+          "label": "Giải phóng app không sử dụng",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "off",
+          "implementation_dependency": "Requires per-bundle lifecycle ref and allowlist",
+          "acceptance": "Không đụng app active, bản đồ, media, app có tài liệu chưa lưu; thông báo hành động"
+        },
+        {
+          "id": "app_status",
+          "label": "Trạng thái ứng dụng & nhật ký đóng",
+          "baseline": "partial_running_status",
+          "phase": "P1",
+          "default": "read_only",
+          "implementation_dependency": "Existing recent/live indicators + explicit model; do not repurpose Close App",
+          "acceptance": "Hiển thị foreground/background/unknown mà không tự động kill"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Hiệu năng & tiết kiệm điện",
+      "features": [
+        {
+          "id": "screen_blank",
+          "label": "Che/tắt hiển thị",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "screenBlankEnabled and screenBlankToggleChanged:",
+          "acceptance": "Không đổi callback cũ; không đánh đồng Deep Sleep"
+        },
+        {
+          "id": "thermal_adaptive",
+          "label": "Giảm hiệu ứng thông minh khi máy nóng",
+          "baseline": "new",
+          "phase": "P1",
+          "default": "off",
+          "implementation_dependency": "ProcessInfo.thermalState; only tweak-owned visuals/timers, no third-party video FPS override",
+          "acceptance": "Phân biệt nominal/fair/serious/critical; giảm tài nguyên tweak, phục hồi an toàn"
+        },
+        {
+          "id": "sleep_light",
+          "label": "Chế độ tiết kiệm tài nguyên nhẹ",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "off",
+          "implementation_dependency": "Low activity mode for DuoFace-owned timers; no Wi-Fi/Bluetooth/airplane modifications",
+          "acceptance": "Không chặn kết nối hoặc ngắt GPS/Bluetooth của thiết bị"
+        },
+        {
+          "id": "runtime_metrics",
+          "label": "Thống kê tài nguyên cơ bản",
+          "baseline": "new",
+          "phase": "P1",
+          "default": "read_only",
+          "implementation_dependency": "Local counters and thermal state; no unsupported temperature/Celsius claim",
+          "acceptance": "Cho xem FPS của phần DuoFace nếu đo được, mức nhiệt dạng trạng thái, nhật ký ring-buffer"
+        }
+      ]
+    },
+    {
+      "id": "display",
+      "title": "Màn hình & cá nhân hóa",
+      "features": [
+        {
+          "id": "headunit_info",
+          "label": "Độ phân giải và thông tin màn hình",
+          "baseline": "partial_geometry_exists",
+          "phase": "P1",
+          "default": "read_only",
+          "implementation_dependency": "UIScreen bounds/nativeBounds/scale only when meaningful and observed",
+          "acceptance": "Có đơn vị và trạng thái unknown khi không kết nối; không tự nhận chất lượng video thực tế"
+        },
+        {
+          "id": "quality_recommendation",
+          "label": "Gợi ý chất lượng video",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "read_only",
+          "implementation_dependency": "Advisory only from display size; do not override media or promised 4K",
+          "acceptance": "Nêu là gợi ý; không ép stream hoặc gây ảnh hưởng app phát"
+        },
+        {
+          "id": "language",
+          "label": "Ngôn ngữ",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "showLanguageSelectionSheet; handleLanguageChanged",
+          "acceptance": "Giữ ngôn ngữ hiện có; chưa khẳng định đủ 17 tiếng của DuoDash"
+        },
+        {
+          "id": "hide_labels",
+          "label": "Ẩn nhãn app",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "hideLabelsEnabled; hideLabelsToggleChanged:; hideIconLabels",
+          "acceptance": "Không thay bố cục khi app đang chạy nếu không cần"
+        },
+        {
+          "id": "dock_monitor",
+          "label": "Theo dõi Dock",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "dockMonitorEnabled; dockMonitorToggleChanged:",
+          "acceptance": "Không nhầm HUD"
+        },
+        {
+          "id": "splash_select",
+          "label": "Kiểu màn hình chào",
+          "baseline": "partial_splash_existing",
+          "phase": "P2",
+          "default": "current_splash",
+          "implementation_dependency": "CBSplitSplashScreenView existing; do not replace with DuoDash bitmaps",
+          "acceptance": "Chọn Logo DuoFace hiện tại / đơn giản / không hiệu ứng, không sao chép ảnh DuoDash"
+        },
+        {
+          "id": "open_carplay_settings",
+          "label": "Mở mục CarPlay của iOS",
+          "baseline": "new",
+          "phase": "P1",
+          "default": "no_action",
+          "implementation_dependency": "Use supported URL/prefs navigation only if verified per iOS version",
+          "acceptance": "Nếu deeplink không khả dụng chỉ hướng dẫn thao tác; không phá Preferences app"
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "title": "Bong bóng tốc độ",
+      "features": [
+        {
+          "id": "speed_provider",
+          "label": "Nguồn tốc độ GPS/OBD2/ứng dụng",
+          "baseline": "new",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "GPS CLLocation.speed with speedAccuracy and timestamp; OBD/provider separately authorized",
+          "acceptance": "Hiển thị nguồn, độ chính xác, tuổi dữ liệu, fallback đúng"
+        },
+        {
+          "id": "speed_limit",
+          "label": "Giới hạn tốc độ & trạng thái nguồn",
+          "baseline": "new_external_dependency",
+          "phase": "P3",
+          "default": "unknown",
+          "implementation_dependency": "Requires lawfully accessed trusted speed-limit provider with Vietnam coverage",
+          "acceptance": "Không tự bịa tốc độ tối đa khi không có nguồn hoặc khi hết hạn dữ liệu"
+        },
+        {
+          "id": "speed_alert",
+          "label": "Cảnh báo quá tốc độ",
+          "baseline": "new_external_dependency",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "Depends on speed_limit verified confidence and current speed",
+          "acceptance": "Cảnh báo chặn rung/nháy liên tục; có ngưỡng dung sai/hysteresis và nút tắt"
+        },
+        {
+          "id": "speed_provider_test",
+          "label": "Kiểm tra nguồn tốc độ & last payload",
+          "baseline": "new",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "Test payload must be labeled test, never fed into live alerts",
+          "acceptance": "Thử không ảnh hưởng tốc độ/cảnh báo khi lái; show stale status"
+        }
+      ]
+    },
+    {
+      "id": "voice",
+      "title": "Điều khiển giọng nói",
+      "features": [
+        {
+          "id": "voice_handler",
+          "label": "Chọn bộ xử lý lệnh",
+          "baseline": "assistant_metadata_only",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "Requires explicit provider protocol; native12 lacks upstream 1.0.4 full voice subsystem",
+          "acceptance": "Không đồng nhất voiceFeedbackEnabled với bộ nhận diện giọng nói"
+        },
+        {
+          "id": "wheel_button",
+          "label": "Nút giọng nói vô-lăng",
+          "baseline": "unverified",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "Need hardware/iOS compatibility, permissions and user opt-in",
+          "acceptance": "Mặc định Siri; không chiếm quyền nếu route không hỗ trợ"
+        },
+        {
+          "id": "voice_test",
+          "label": "Thử lệnh và trạng thái xử lý",
+          "baseline": "new",
+          "phase": "P3",
+          "default": "off",
+          "implementation_dependency": "Depends on validated handler, foreground-safe test",
+          "acceptance": "Thông báo tuyến nhận lệnh, lỗi và trạng thái, không gửi âm thanh ngầm"
+        }
+      ]
+    },
+    {
+      "id": "reliability",
+      "title": "Ổn định & khôi phục",
+      "features": [
+        {
+          "id": "diagnostics",
+          "label": "Chẩn đoán kết nối và báo lỗi",
+          "baseline": "new",
+          "phase": "P1",
+          "default": "local_only",
+          "implementation_dependency": "Event ring-buffer and local export; redact device IDs/tokens/coordinates",
+          "acceptance": "Không upload log tự động, người dùng chủ động chia sẻ"
+        },
+        {
+          "id": "safe_mode",
+          "label": "Chế độ an toàn khi tweak lỗi lặp",
+          "baseline": "new",
+          "phase": "P2",
+          "default": "off",
+          "implementation_dependency": "Track repeated launch crashes with reversible per-module disable; fail-open",
+          "acceptance": "Không respring loop, không vô hiệu hóa UI iPhone toàn bộ"
+        },
+        {
+          "id": "reset_settings",
+          "label": "Khôi phục cài đặt",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "preserve",
+          "implementation_dependency": "performResetDefaults; loadPreferences; savePreferences",
+          "acceptance": "Xác nhận trước và tránh xóa cấu hình ngoài DuoFace"
+        },
+        {
+          "id": "respring",
+          "label": "Respring",
+          "baseline": "existing_code",
+          "phase": "P0",
+          "default": "manual_only",
+          "implementation_dependency": "performRespring",
+          "acceptance": "Không tự respring sau crash/dổi setting thông thường"
+        }
+      ]
+    },
+    {
+      "id": "optional_hud",
+      "title": "HUD Bluetooth tùy chọn",
+      "features": [
+        {
+          "id": "hud_pairing",
+          "label": "HUD ghép đôi / trạng thái / firmware",
+          "baseline": "not_in_duoface",
+          "phase": "P4",
+          "default": "hidden",
+          "implementation_dependency": "Requires user-compatible HUD and CoreBluetooth service spec",
+          "acceptance": "Ẩn hoàn toàn nếu không có phần cứng, không sao chép mã pairing độc quyền"
+        }
+      ]
+    }
+  ]
+}
