@@ -93,6 +93,23 @@ def audit(root):
                 selected_stubs[hex(vm)]=decoded
             except Exception as e:
                 selected_stubs[hex(vm)]={"error":type(e).__name__}
+        selref_probes={}
+        for vm in (0xd8bc0,0xd9400,0xd9cf8,0xdac8,0xd9da8,0xd9f40,
+                   0xd9ec8,0xd9ec0,0xda108,0xda0c8,0xda4a8):
+            try:
+                rawv=obj.u64(obj.map(vm))
+                candidates=[rawv,rawv & ((1<<48)-1),rawv & ((1<<40)-1),rawv & ((1<<36)-1),rawv & ((1<<32)-1)]
+                names={}
+                for x in candidates:
+                    try:
+                        name=obj.cstr(x)
+                        if name and len(name)<120:names[hex(x)]=name
+                    except Exception:pass
+                selref_probes[hex(vm)]={"raw":hex(rawv),"candidate_names":names,
+                   "segment_matches":[s["name"] for s in obj.sections
+                      if s["vm"]<=vm<s["vm"]+s["size"]]}
+            except Exception as e:
+                selref_probes[hex(vm)]={"error":str(e)}
         entries={}
         for cl in sorted(all_classes):
             try: catalog=methods(obj,cl)
@@ -121,7 +138,7 @@ def audit(root):
                 }
             entries[cl]={"method_count":len(catalog),"all_methods":sorted(catalog),
                         "interesting":items}
-        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols),"target_stub_probes":selected_stubs}
+        out["architecture"][arch]={"classes":entries,"total_classes":len(all_classes),"stub_symbol_count":len(stub_symbols),"target_stub_probes":selected_stubs,"selector_ref_probes":selref_probes}
     return out
 
 def main():
