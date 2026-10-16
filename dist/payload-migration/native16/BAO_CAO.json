@@ -1,0 +1,39 @@
+{
+  "status": "NATIVE16_FIXED_APP_PICKER_HOST_INJECTION_QA_CANDIDATE",
+  "package": "com.duoface.independent",
+  "version": "0.1.0~native16",
+  "published_native15_base_sha256": "8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3",
+  "native16_sha256": "5d5cbd368c24d0c074b081d16aaf7d006467c3e9cfef01ee12378ce79d716fae",
+  "changed_payload_paths": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.plist"
+  ],
+  "preserved_legacy_payload_count": 41,
+  "preserved_original_host_sha256": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+  },
+  "preserved_smart_connection_dylib_sha256": "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+  "new_picker_dylib_sha256": "d0246415f4020f353e5ec7373d8d375cbbda868471fd1a467f8e57654c4d01ad",
+  "new_filter_sha256": "32bb07881f32fb7fc4279440eb53580d8c1cde9157ecf1803ac69cb76e936807",
+  "injection_executables": [
+    "CarPlay",
+    "CarPlayApp",
+    "Dashboard",
+    "SpringBoard"
+  ],
+  "injection_bundles": [
+    "com.apple.CarPlay",
+    "com.apple.CarPlayApp",
+    "com.apple.dashboard",
+    "com.apple.springboard"
+  ],
+  "native15_likely_missed_CarPlayApp_Dashboard_process": true,
+  "same_original_preferences_policy_preserved": true,
+  "dopamine_configuration_touched": false,
+  "jailbreak_tweaks_run": false,
+  "native12_and_native15_untouched": true,
+  "device_tested": false,
+  "sileo_published": false,
+  "limitations": "Actual process, preferences location, and picker persistence must be tested on iPhone."
+}
