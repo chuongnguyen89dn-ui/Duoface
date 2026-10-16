@@ -1,0 +1,61 @@
+name: DuoFace native12 CarPlay Add App chain and bridgedApps readonly
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py'
+      - '.github/workflows/duoface-native12-carplay-add-app-chain-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native12-add-app-chain-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit real Add App and preference call paths (NO DEB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py \
+            --deb "$deb" --out audit/payload-migration/NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open("audit/payload-migration/NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY.json"))
+          assert j["status"]=="NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY"
+          assert not j["debs_mutated"] and not j["devices_tested"]
+          assert "addMoreAppsTapped:" in j["binaries"]["DuoFaceDashboard"]["classes"]["CBMultitaskingOverlayView"]
+          assert "setBridgedApps:" in j["binaries"]["DuoFaceDashboard"]["classes"]["CBDashboardSettings"]
+          print("APP_PICKER_CHAIN_STATIC_AUDIT_PASS")
+          PY
+      - name: Commit read-only report, no DEB packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: CarPlay Add App native12 call chain report [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-add-app-readonly
+          path: audit/payload-migration/NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY.json
+          if-no-files-found: warn
