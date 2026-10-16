@@ -3,6 +3,7 @@
 // One atomic Darwin notify state per installed app source. All speeds are km/h.
 #include <cstdint>
 #include <cmath>
+#include <cstddef>
 
 namespace DFSpeed {
 enum class Source : uint8_t { None=0, GoogleMaps=1, Waze=2, VietMap=3, GOFA=4 };
@@ -59,5 +60,42 @@ inline bool Decode(uint64_t raw, Source expected, uint32_t now, Sample &out) {
        now<s.uptimeSec || now-s.uptimeSec>kMaxAgeSeconds) return false;
     out=s;
     return true;
+}
+// Select ONE coherent provider at a time for ONE GOFA-style bubble.
+// The caller has already decoded and freshness-checked every candidate.
+// Never combine one provider's GPS speed with another provider's road limit.
+// Prefer a complete sample within one second of the newest live speed,
+// and retain the current source on otherwise equal quality to avoid flicker.
+inline bool ChooseUnifiedSample(const Sample *data, size_t count,
+                                Source previous, Sample &selected) {
+    if (!data || !count) return false;
+    bool anySpeed=false, found=false;
+    uint32_t newest=0;
+    for (size_t i=0;i<count;++i) {
+        if (!ValidSource(data[i].source)) continue;
+        if (data[i].speedValid) anySpeed=true;
+    }
+    for (size_t i=0;i<count;++i) {
+        const Sample &s=data[i];
+        if (!ValidSource(s.source) ||
+            (anySpeed && !s.speedValid) ||
+            (!s.speedValid && !s.limitValid)) continue;
+        if (s.uptimeSec>newest) newest=s.uptimeSec;
+    }
+    int bestQuality=-1;
+    for (size_t i=0;i<count;++i) {
+        const Sample &s=data[i];
+        if (!ValidSource(s.source) ||
+            (anySpeed && !s.speedValid) ||
+            (!s.speedValid && !s.limitValid) ||
+            s.uptimeSec>newest || newest-s.uptimeSec>1) continue;
+        const int quality=(s.speedValid?4:0)+(s.limitValid?2:0)+
+                          (s.source==previous?1:0);
+        if (!found || quality>bestQuality ||
+            (quality==bestQuality && s.uptimeSec>selected.uptimeSec)) {
+            selected=s; bestQuality=quality; found=true;
+        }
+    }
+    return found;
 }
 } // namespace DFSpeed
