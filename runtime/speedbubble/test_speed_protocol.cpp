@@ -1,4 +1,5 @@
 #include "DFSpeedProtocol.hpp"
+#include "DFSpeedGMapWire.hpp"
 #include <cassert>
 #include <cstring>
 #include <iostream>
@@ -51,6 +52,32 @@ int main() {
   assert(ChooseUnifiedSample(split,2,Source::None,picked));
   assert(picked.source==Source::Waze && !picked.limitValid);
   assert(!ChooseUnifiedSample(nullptr,0,Source::None,picked));
+  // Pinned GMapHUD 0.2.3 atomic format: schema 1/even revision 2,
+  // milliseconds monotonic speed/limit. Never accept torn writes.
+  const auto sampleWord=[](unsigned value,unsigned ms) {
+      return (uint64_t(ms)<<10)|512|value;
+  };
+  const uint64_t sel=(uint64_t(3)<<3)|2; // Waze selected + epoch
+  Sample gmap;
+  assert(DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap));
+  assert(gmap.source==Source::Waze &&
+         gmap.speedKmh==68 && gmap.limitKmh==80);
+  assert(!DecodeGVMFrame(sel,sel,sel,257,257,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // odd commit
+  assert(!DecodeGVMFrame(sel,sel,sel,513,769,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // torn
+  assert(!DecodeGVMFrame(sel,sel+8,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // epoch switch
+  assert(!DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,90000),sampleWord(80,90000),101.0,gmap)); // stale 11s
+  assert(DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,90000),101.0,gmap));
+  assert(gmap.speedValid && !gmap.limitValid); // no stale speed limit
+  assert(GVMSource(1)==Source::VietMap);
+  assert(GVMSource(2)==Source::Waze);
+  assert(GVMSource(3)==Source::GOFA);
+  assert(GVMSource(4)==Source::None); // Google Maps has no GVM source ID
   assert(NotifyName(Source::None)==nullptr);
   std::cout<<"DF_SPEED_PROTOCOL_UNIT_PASS (4 sources, one bubble, arbitration, freshness, unknown limit)"<<std::endl;
 }
