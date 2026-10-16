@@ -1,0 +1,80 @@
+name: DuoFace native12 Screen Blank & Dock deep readonly audit
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-screenblank-dock-deep-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native12_screenblank_dock_deep.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-screenblank-dock-deep-audit
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate and read centrally maintained skills
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/dfskills"
+          for name in 01-github-continuity 02-ios-deb-ipa-carplay 05-research-debug-testing; do
+            curl -fsSL --retry 3 --retry-delay 2 \
+              "https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/$name.zip" \
+              -o "$RUNNER_TEMP/dfskills/$name.zip"
+            unzip -t "$RUNNER_TEMP/dfskills/$name.zip" | tail -1
+            unzip -p "$RUNNER_TEMP/dfskills/$name.zip" SKILL.md | head -75
+          done
+          echo 'CENTRAL_GITHUB_SKILLS_VALIDATED_AND_READ_PASS'
+      - name: Verify exact Native12 SHA and audit original code paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          echo "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  $deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_screenblank_dock_deep.py \
+            --deb "$deb" \
+            --out audit/payload-migration/NATIVE12_SCREENBLANK_DOCK_DEEP_READONLY.json
+          python3 - <<'PY'
+          import json
+          data=json.load(open('audit/payload-migration/NATIVE12_SCREENBLANK_DOCK_DEEP_READONLY.json'))
+          assert data['status']=='NATIVE12_SCREEN_BLANK_AND_DOCK_DEEP_STATIC_READONLY_PASS'
+          assert data['baseline_sha256']=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7'
+          assert not data['native12_exact_file_repackaged']
+          a=data['binaries']['DuoFaceUI']['selected_method_disassembly']
+          b=data['binaries']['DuoFaceDashboard']['selected_method_disassembly']
+          assert 'CBGeneralSettingsViewController.screenBlankToggleChanged:' in a
+          assert 'CBGeneralSettingsViewController.dockMonitorToggleChanged:' in a
+          assert 'CBDockSystemMonitorView.readCpuUsage' in b
+          assert 'CBDockSystemMonitorView.startMonitoring' in b
+          print('READONLY_SCREEN_BLANK_DOCK_ROUTING_GROUNDED_PASS')
+          PY
+      - name: Persist audited report in actual DuoFace repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_SCREENBLANK_DOCK_DEEP_READONLY.json
+          if git diff --cached --quiet; then echo REPORT_UNCHANGED; exit 0; fi
+          git commit -m 'audit: deep static trace native12 screen blank and dock monitor [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            if git push origin HEAD:feature/duoface-exact-payload-migration; then exit 0; fi
+            sleep 3
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native12-screenblank-dock-deep-static-audit
+          path: audit/payload-migration/NATIVE12_SCREENBLANK_DOCK_DEEP_READONLY.json
+          if-no-files-found: warn
