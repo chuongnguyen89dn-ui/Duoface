@@ -47,7 +47,6 @@ def patch_host(original,classes):
  actual=set(after.classes())
  assert not set(item["class"] for item in classes)&actual
  assert actual==original_class_names-set(item["class"] for item in classes)
- assert name.encode("ascii") not in result for name in [] # special below
  for item in classes:
   assert item["class"].encode("ascii") not in result,(item["class"],"remaining literal")
  for s in m.sections:
