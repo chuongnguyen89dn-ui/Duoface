@@ -23,6 +23,8 @@ OWNERS={
         "CBDockSystemMonitorView",
         "CBBridgeManager",
         "CBBridgedPortalAppView",
+        "CBBridgedUIAppView",
+        "CBAssistantManager",
         "CBWindow",
     ),
 }
@@ -62,11 +64,14 @@ FOCUS={
       "reloadAppPrefs","reload","init","load",
   },
   "CBDockSystemMonitorView":{"startMonitoring","stopMonitoring","readCpuUsage",
+      "updateMetrics","readDeviceTemperature","updateBatteryMetric","setShowAll:",
       "layoutSubviews","dealloc","init","initWithFrame:","isMonitoring"},
   "CBBridgeManager":{"handleSettingsChanged","handleCarPlayConnectionChanged:",
-      "handleCarPlayDisconnected","startMonitoring","stopMonitoring","init"},
+      "handleCarPlayDisconnected","deactivateCurrentApp","startMonitoring","stopMonitoring","init"},
   "CBBridgedPortalAppView":{"displayLink","setDisplayLink:"},
-  "CBWindow":{"layoutSubviews","init","setHidden:"},
+  "CBBridgedUIAppView":{"startInParentViewController:"},
+  "CBAssistantManager":{"processVoiceCommand:"},
+  "CBWindow":{"layoutSubviews","init","setHidden:","hide:"},
 },
 }
 # Cap report size. The selected full disassembly files are saved for certain owner methods
@@ -129,7 +134,16 @@ def inspect_binary(name,raw):
                     if ("SEL_OR_LITERAL" in ln or "DIRECT_STRING" in ln) and KEYWORDS.search(ln):
                         selected.append({"at":ln,"next_calls":[s for s in dis[i+1:i+9] if "bl " in s or "blr " in s][:2]})
                 if selected:
-                    out["selector_site_candidates"].append({"class":c,"method":method,"vm":hex(vm),"hints":selected[:15]})
+                    windows=[]
+                    for i,ln in enumerate(dis):
+                        if ("BKSDisplayServicesSetScreenBlanked" in ln or "screenBlankEnabled" in ln or
+                            "setIdleTimerDisabled:" in ln or "readDeviceTemperature" in ln or
+                            "readCpuUsage" in ln or "startMonitoring" in ln):
+                            windows.append({"match":ln,
+                               "preceding_and_following_instructions":dis[max(0,i-90):min(len(dis),i+65)]})
+                    out["selector_site_candidates"].append(
+                        {"class":c,"method":method,"vm":hex(vm),"hints":selected[:15],
+                         "detailed_callsite_windows":windows[:8]})
     return out
 
 def main():
