@@ -91,7 +91,10 @@ with tempfile.TemporaryDirectory() as td:
             decoded=bytearray()
             for ix,b in enumerate(seed):
                 n=(ix%5)+1
-                rotated=((b >> n) | (b << (8-n))) & 0xff
+                # x0 = ((i ^ -0x5b) | seed)*2 - ((i ^ -0x5b) + seed)
+                #    = (i ^ -0x5b) XOR seed  (then narrowed to uint8)
+                mixed=(b ^ ((ix ^ -0x5b) & 0xff)) & 0xff
+                rotated=((mixed >> n) | (mixed << (8-n))) & 0xff
                 transform=((ix*0x2b+0x83)&0xff)^rotated
                 decoded.append((transform-0x5d)&0xff)
             decoded_native_settings_owner=decoded.decode("utf-8")
