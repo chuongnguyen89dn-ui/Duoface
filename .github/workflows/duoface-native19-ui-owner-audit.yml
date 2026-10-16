@@ -4,6 +4,7 @@ on:
     branches: [feature/duoface-exact-payload-migration]
     paths:
       - '.github/workflows/duoface-native19-ui-owner-audit.yml'
+      - 'migration/full_payload/native_test/audit_native19_ui_pref_owner.py'
   workflow_dispatch:
 permissions:
   contents: write
