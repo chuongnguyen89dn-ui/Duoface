@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-16T18:50:35.625023+00:00",
+  "checked_at_utc": "2026-10-16T22:07:41.459019+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 511,
+  "total_actions_runs": 512,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 3,
-      "success": 2,
+      "recent_runs": 4,
+      "success": 3,
       "failure": 0,
       "other": 1
     },
@@ -221,9 +221,9 @@
       "other": 0
     },
     "DuoFace native18 direct CarPlay Add App tile, no iPhone-only modal": {
-      "recent_runs": 4,
+      "recent_runs": 3,
       "success": 1,
-      "failure": 3,
+      "failure": 2,
       "other": 0
     },
     "DuoFace native18 verify public Sileo APT and exact DEB": {
@@ -235,11 +235,21 @@
   },
   "latest_runs": [
     {
+      "id": 38973822620,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 22,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38973822620",
+      "created_at": "2026-10-16T22:07:29Z",
+      "head_sha": "2aeb8627fb21c02c1d5341c50351b039963a51e7"
+    },
+    {
       "id": 38950403277,
       "name": "DuoFace Actions status snapshot",
       "run_number": 21,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38950403277",
       "created_at": "2026-10-16T18:50:25Z",
       "head_sha": "21caee09bde7506e59afc5daa9d8fe390db7b5f4"
@@ -523,16 +533,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892294005",
       "created_at": "2026-10-16T11:12:55Z",
       "head_sha": "70efea40de327230b86c6def03dfac84a07159da"
-    },
-    {
-      "id": 38892246262,
-      "name": "DuoFace speed bubble protocol and native12 renderer compile-only, NO DEB",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38892246262",
-      "created_at": "2026-10-16T11:12:29Z",
-      "head_sha": "552b2ec3287c6940ebfbbb435c9e4f0fe62eb9e7"
     }
   ]
 }
