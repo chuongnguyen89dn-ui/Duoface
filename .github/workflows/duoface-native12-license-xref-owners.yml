@@ -19,6 +19,7 @@ jobs:
       - name: Correlate actual native12 class references to method implementation ranges
         run: |
           set -euo pipefail
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
           python3 migration/full_payload/native_test/audit_native12_license_xref_owners.py \
             --deb dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb \
             --out audit/payload-migration/NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json
