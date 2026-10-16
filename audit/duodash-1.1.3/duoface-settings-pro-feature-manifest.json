@@ -345,5 +345,62 @@
         }
       ]
     }
-  ]
+  ],
+  "connection_ui_compact_proposal": {
+    "status": "PROPOSED_NEEDS_USER_APPROVAL_NOT_IMPLEMENTED",
+    "source": "2026-10-16 user photo DuoDash Settings and concern about eight startup settings",
+    "root": [
+      {
+        "id": "auto_start",
+        "type": "original_existing_switch",
+        "label": "Tự động mở",
+        "behavior": "Preserve existing value, key and callback"
+      },
+      {
+        "id": "smart_connection_details",
+        "type": "navigation_row",
+        "label": "Kết nối nâng cao",
+        "new_root_rows": 1
+      }
+    ],
+    "details": [
+      {
+        "id": "auto_launch_target",
+        "type": "existing_picker_navigation_if_available",
+        "label": "Ứng dụng tự mở",
+        "default": "preserve_existing"
+      },
+      {
+        "id": "session_restore",
+        "type": "new_switch",
+        "label": "Khôi phục phiên trước",
+        "default": false
+      },
+      {
+        "id": "disconnect_policy",
+        "type": "new_selection",
+        "label": "Khi ngắt CarPlay",
+        "default": "keep_apps"
+      },
+      {
+        "id": "status_and_logs",
+        "type": "readonly_navigation",
+        "label": "Trạng thái & nhật ký",
+        "default": "read_only"
+      }
+    ],
+    "background_without_separate_switch": [
+      "deduplicate_connect_events",
+      "cancel_stale_reconnect_timers",
+      "prevent_duplicate_launch",
+      "debounce_transient_disconnections"
+    ],
+    "deferred_hidden": [
+      "device_profile_until_stable_device_key_and_user_approval"
+    ],
+    "no_duplicated_auto_start_switch": true,
+    "root_added_rows_at_most": 1,
+    "first_phase_advanced_rows_at_most": 4,
+    "note": "8 capabilities from earlier analysis are not 8 settings rows; do not implement root-level eight rows."
+  }
 }
