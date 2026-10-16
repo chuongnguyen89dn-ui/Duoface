@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-native18-direct-add-app-qa.yml'
       - 'migration/full_payload/native_test/build_native18_direct_addapp.py'
+      - 'runtime/appbridge/DFInCarAppPicker.xm'
   workflow_dispatch:
 permissions:
   contents: write
