@@ -1,5 +1,16 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — TRUY CƠ CHẾ BONG BÓNG DUODASH, PHÂN BIỆT VỚI SPEED4 DUOFACE
+Checkpoint: DUODASH-BUBBLE-MOUNT-DEEP-AUDIT-20261016. Yêu cầu mới: “Đã tìm hiểu duodash sao có bong bóng chưa?” — cần chứng minh **cách DuoDash tạo, attach, kích hoạt HUD trong split CarPlay**, không lặp lại chỉ biết tên class, và không tuyên bố DuoFace hiện HUD sau Speed4 thực tế thất bại.
+
+**Tài liệu đã đọc trực tiếp:** `feature:audit/duodash-1.1.3/DUODASH_SPEED_BUBBLE_OWNERS_READONLY.json` blob `0c6bd8f87fe858a1f6e8308561efc88b160c9a3f` và script `migration/full_payload/native_test/audit_duodash_speedbubble_113_readonly.py`, workflow `.github/workflows/duoface-duodash-speedbubble-readonly.yml`; báo cáo cài đặt `main:audit/duodash-1.1.3/settings_license_static_audit.md`. Reference là `chuongnguyen89dn-ui/DauDat-CarPlay@5f683ad16a2c4f2b37e333e891cfb8f7ba3e0d6b:DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb`; SHA256 `ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465`, blob Git `6f3e7a4543a01358b3c1e24653aec5bdb3975206`. Là bản đã được fullscreen-patched, **không chứng minh giống stock**. Existing CI run `38889415861` success (chỉ tĩnh).
+
+**Đã xác minh cấu trúc:** `CNABBubbleView` là view thật (26 methods, `initWithFrame:`, `drawRect:`, `startSpeedReadout`, `stopSpeedReadout`, `updateSpeedText`, drag/snap/paneRect); `CNABGpsSpeed` CoreLocation; `CNABNavData` ingest/expiry; `DataRouter` gửi giá trị; `CNABCarPlayObserver` nhận host state; `CNABSpringBoardObserver` theo dõi kết nối; report chứa `/var/tmp/duodash_ab_nobubble`, `/var/tmp/duodash_ab_bubble_pos.plist`, `bubblePaneIdForOpenSlot` và cấu hình Navigation Bubble có mục `Show on Pane`. **Đây là các chữ/phương thức từ binary chứ chưa chứng minh vị trí gắn view runtime.** Từ đó có căn cứ DuoDash bố trí HUD theo pane/host, khác với Speed4 gắn trên `CBWindow.rootViewController` dựa process `com.apple.CarPlayApp`. Không được biến suy đoán thành chắc chắn.
+
+**Việc thực thi phiên này:** tạo source forensic read-only `feature:migration/full_payload/native_test/trace_duodash_bubble_mount_113_readonly.py` commit `8f441654d1698340a097c96db67b2b5300872169`; workflow `feature:.github/workflows/duoface-duodash-bubble-mount-readonly.yml` commit `5d275395ea3c9d6bc235a3e743c155f05d5ac47b`. Workflow run `38919340440` `in_progress` lúc kiểm tra ~14:52 UTC: tải DEB đúng SHA, đọc plist injection filters, enumerate 40 classes cả arm64/arm64e, tìm hàm host/window/pane/bubble/mount và các selector `addSubview:`/`bringSubviewToFront:`/`initWithFrame:`, lưu JSON `audit/duodash-1.1.3/DUODASH_NAVBUBBLE_MOUNT_CHAIN_READONLY.json` lên feature khi thành công. **Chưa có kết quả cho đến khi run hoàn tất và đọc thực tế report.** Không sửa source DuoFace HUD, không build DEB, không Sileo, không chạy iPhone trong phiên này.
+
+**Bước tiếp:** kiểm run `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38919340440`; đọc report, so lớp tạo view, activation flags, process filter với Speed4; lập hướng triển khai **chỉ sau khi tìm được host/runtime proof**. Giữ Native12 immutable; không mở filter Waze/GOFA hay CarPlay Home vì lịch sử Speed1–4 thất bại.
+
 ## 16/10/2026 — IPHONE ĐÃ XÁC NHẬN CÀI SPEED4SPLIT ĐÚNG; HUD VẪN KHÔNG HIỆN
 Checkpoint: SPEED4-DEVICE-DPKG-INSTALLED-CONFIRMED-20261016.
 
