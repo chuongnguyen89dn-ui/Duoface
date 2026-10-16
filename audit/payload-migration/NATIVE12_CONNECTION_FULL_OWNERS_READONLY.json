@@ -1,0 +1,1044 @@
+{
+  "status": "NATIVE12_CONNECTION_HOOK_OWNERS_FULL_OBJC_READONLY",
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "debs_modified": 0,
+  "binaries": {
+    "DuoFaceUI": {
+      "CBGeneralSettingsViewController": [
+        {
+          "sel": "-init",
+          "type": "@16@0:8",
+          "imp_vm": "0x10000cf68"
+        },
+        {
+          "sel": "-viewDidLoad",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000cfa0"
+        },
+        {
+          "sel": "-openSubscriptionScreen",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000d2f4"
+        },
+        {
+          "sel": "-viewWillAppear:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x10000d35c"
+        },
+        {
+          "sel": "-dealloc",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000d488"
+        },
+        {
+          "sel": "-handleLanguageChanged",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000d5c8"
+        },
+        {
+          "sel": "-handleAppDidBecomeActive",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000d6ac"
+        },
+        {
+          "sel": "-loadPreferences",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000d7c4"
+        },
+        {
+          "sel": "-savePreferences",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000da34"
+        },
+        {
+          "sel": "-autoLaunchToggleChanged:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x10000dde0"
+        },
+        {
+          "sel": "-screenBlankToggleChanged:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x10000de2c"
+        },
+        {
+          "sel": "-dockMonitorToggleChanged:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x10000de78"
+        },
+        {
+          "sel": "-hideLabelsToggleChanged:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x10000dec4"
+        },
+        {
+          "sel": "-showLanguageSelectionSheet",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000df10"
+        },
+        {
+          "sel": "-performRespring",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000e61c"
+        },
+        {
+          "sel": "-performResetDefaults",
+          "type": "v16@0:8",
+          "imp_vm": "0x10000e89c"
+        },
+        {
+          "sel": "-numberOfSectionsInTableView:",
+          "type": "q24@0:8@16",
+          "imp_vm": "0x10000ec00"
+        },
+        {
+          "sel": "-tableView:numberOfRowsInSection:",
+          "type": "q32@0:8@16q24",
+          "imp_vm": "0x10000ec08"
+        },
+        {
+          "sel": "-tableView:titleForHeaderInSection:",
+          "type": "@32@0:8@16q24",
+          "imp_vm": "0x10000ec28"
+        },
+        {
+          "sel": "-tableView:titleForFooterInSection:",
+          "type": "@32@0:8@16q24",
+          "imp_vm": "0x10000ecd8"
+        },
+        {
+          "sel": "-tableView:cellForRowAtIndexPath:",
+          "type": "@32@0:8@16@24",
+          "imp_vm": "0x10000ece0"
+        },
+        {
+          "sel": "-tableView:didSelectRowAtIndexPath:",
+          "type": "v32@0:8@16@24",
+          "imp_vm": "0x100010364"
+        },
+        {
+          "sel": "-autoLaunchOnConnect",
+          "type": "B16@0:8",
+          "imp_vm": "0x100010484"
+        },
+        {
+          "sel": "-setAutoLaunchOnConnect:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x100010494"
+        },
+        {
+          "sel": "-screenBlankEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x1000104a4"
+        },
+        {
+          "sel": "-setScreenBlankEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x1000104b4"
+        },
+        {
+          "sel": "-dockMonitorEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x1000104c4"
+        },
+        {
+          "sel": "-setDockMonitorEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x1000104d4"
+        },
+        {
+          "sel": "-hideLabelsEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x1000104e4"
+        },
+        {
+          "sel": "-setHideLabelsEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x1000104f4"
+        }
+      ]
+    },
+    "DuoFaceDashboard": {
+      "CBBridgeManager": [
+        {
+          "sel": "-trackBridgedBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x280b60"
+        },
+        {
+          "sel": "-runningBridgedApplications",
+          "type": "@16@0:8",
+          "imp_vm": "0x280d48"
+        },
+        {
+          "sel": "-renderSizeForBundleID:",
+          "type": "{CGSize=dd}24@0:8@16",
+          "imp_vm": "0x24c920"
+        },
+        {
+          "sel": "-supportsInterfaceOrientation:forBundleID:",
+          "type": "B32@0:8q16@24",
+          "imp_vm": "0x24d118"
+        },
+        {
+          "sel": "-switchToSplitWithLeft:right:ratio:",
+          "type": "v40@0:8@16@24d32",
+          "imp_vm": "0x24d120"
+        },
+        {
+          "sel": "-switchToMultiSplitMode:apps:ratio:",
+          "type": "v40@0:8q16@24d32",
+          "imp_vm": "0x24d228"
+        },
+        {
+          "sel": "-handleSettingsChanged",
+          "type": "v16@0:8",
+          "imp_vm": "0x267764"
+        },
+        {
+          "sel": "-showAppPickerForSlot:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x27fee4"
+        },
+        {
+          "sel": "-showLayoutChooser",
+          "type": "v16@0:8",
+          "imp_vm": "0x280014"
+        },
+        {
+          "sel": "-updateScale:forSlot:",
+          "type": "v32@0:8d16q24",
+          "imp_vm": "0x280130"
+        },
+        {
+          "sel": "-showRecentApps",
+          "type": "v16@0:8",
+          "imp_vm": "0x280208"
+        },
+        {
+          "sel": "-registerForNotifications",
+          "type": "v16@0:8",
+          "imp_vm": "0x1d07fc"
+        },
+        {
+          "sel": "-receivedDashboardReadyNotification:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1d0f10"
+        },
+        {
+          "sel": "-receivedMetricsUpdatedNotification:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1d1400"
+        },
+        {
+          "sel": "-sendStateToApp:shouldBridge:",
+          "type": "v28@0:8@16B24",
+          "imp_vm": "0x1d1624"
+        },
+        {
+          "sel": "-saveBridgeStateToDisk",
+          "type": "v16@0:8",
+          "imp_vm": "0x1fd280"
+        },
+        {
+          "sel": "-clearBridgeStateOnDisk",
+          "type": "v16@0:8",
+          "imp_vm": "0x229748"
+        },
+        {
+          "sel": "-syncDashboardPolicySignalToDisk",
+          "type": "v16@0:8",
+          "imp_vm": "0x229e8c"
+        },
+        {
+          "sel": "-receivedAppRequestNotification:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x248e70"
+        },
+        {
+          "sel": "-isUIAppBridging",
+          "type": "B16@0:8",
+          "imp_vm": "0x249154"
+        },
+        {
+          "sel": "-shouldBridge:",
+          "type": "B24@0:8@16",
+          "imp_vm": "0x2491b0"
+        },
+        {
+          "sel": "-isCurrentlyBridging:",
+          "type": "B24@0:8@16",
+          "imp_vm": "0x24960c"
+        },
+        {
+          "sel": "-receivedStateChangeRequestNotificiation:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x24968c"
+        },
+        {
+          "sel": "-receivedDockTapNotification:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x249868"
+        },
+        {
+          "sel": "-notifyStateUpdated",
+          "type": "v16@0:8",
+          "imp_vm": "0x249a54"
+        },
+        {
+          "sel": "-evictAppFromPhoneScreen:completion:",
+          "type": "v32@0:8@16@?24",
+          "imp_vm": "0x24a024"
+        },
+        {
+          "sel": "-scheduleMandatoryDisconnectWatchdog",
+          "type": "v16@0:8",
+          "imp_vm": "0x1b9420"
+        },
+        {
+          "sel": "-cancelMandatoryDisconnectWatchdog",
+          "type": "v16@0:8",
+          "imp_vm": "0x1cce6c"
+        },
+        {
+          "sel": "-enforceMandatoryDisconnectKill",
+          "type": "v16@0:8",
+          "imp_vm": "0x1cceac"
+        },
+        {
+          "sel": "-terminateApplicationWithBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1cd780"
+        },
+        {
+          "sel": "-restartApplicationWithBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1cde94"
+        },
+        {
+          "sel": "-terminateAllBridgedApplications",
+          "type": "v16@0:8",
+          "imp_vm": "0x1ce480"
+        },
+        {
+          "sel": "-collectActiveAndSessionAppBundleIDs",
+          "type": "@16@0:8",
+          "imp_vm": "0x1cf0b0"
+        },
+        {
+          "sel": "-killProcessesForBundleIdentifiers:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1cf874"
+        },
+        {
+          "sel": "-acquireCarPlaySleepAssertion",
+          "type": "v16@0:8",
+          "imp_vm": "0x19eaf8"
+        },
+        {
+          "sel": "-releaseCarPlaySleepAssertion",
+          "type": "v16@0:8",
+          "imp_vm": "0x19eb90"
+        },
+        {
+          "sel": "-effectiveAutoLaunchBundleID",
+          "type": "@16@0:8",
+          "imp_vm": "0x19ec10"
+        },
+        {
+          "sel": "-scheduleAutoResumeFallback",
+          "type": "v16@0:8",
+          "imp_vm": "0x19ed98"
+        },
+        {
+          "sel": "-performAutoResume",
+          "type": "v16@0:8",
+          "imp_vm": "0x19ee24"
+        },
+        {
+          "sel": "-handleGenericScreenOrCarPlayNotification:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1b816c"
+        },
+        {
+          "sel": "-handleScreenDidDisconnect:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1b82e0"
+        },
+        {
+          "sel": "-handleScreenDidConnect:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1b86c8"
+        },
+        {
+          "sel": "-handleCarPlayConnectionChanged:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x1b8a1c"
+        },
+        {
+          "sel": "-init",
+          "type": "@16@0:8",
+          "imp_vm": "0x12192c"
+        },
+        {
+          "sel": "-renderSize",
+          "type": "{CGSize=dd}16@0:8",
+          "imp_vm": "0x13ae78"
+        },
+        {
+          "sel": "-requestStateChangeWithDictionary:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x13aee8"
+        },
+        {
+          "sel": "-requestStateChange:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x13b158"
+        },
+        {
+          "sel": "-loadNewAppFromCurrentRequest:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x153544"
+        },
+        {
+          "sel": "-presentLicenseWarningModalWithType:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x185110"
+        },
+        {
+          "sel": "-dismissLicenseWarningModal",
+          "type": "v16@0:8",
+          "imp_vm": "0x185450"
+        },
+        {
+          "sel": "-startLicenseWatchdogTimer",
+          "type": "v16@0:8",
+          "imp_vm": "0x185494"
+        },
+        {
+          "sel": "-stopLicenseWatchdogTimer",
+          "type": "v16@0:8",
+          "imp_vm": "0x1854fc"
+        },
+        {
+          "sel": "-licenseWatchdogTimerFired:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x185540"
+        },
+        {
+          "sel": "-deactivateCurrentApp",
+          "type": "v16@0:8",
+          "imp_vm": "0x19d458"
+        },
+        {
+          "sel": "-dismiss:",
+          "type": "v24@0:8@?16",
+          "imp_vm": "0x19d870"
+        },
+        {
+          "sel": "-terminate",
+          "type": "v16@0:8",
+          "imp_vm": "0x19d910"
+        },
+        {
+          "sel": "-appForBundleIdentifier:frame:",
+          "type": "@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24",
+          "imp_vm": "0x19d984"
+        },
+        {
+          "sel": "-window",
+          "type": "@16@0:8",
+          "imp_vm": "0x19daf0"
+        },
+        {
+          "sel": "-setWindow:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x19daf8"
+        },
+        {
+          "sel": "-currentApp",
+          "type": "@16@0:8",
+          "imp_vm": "0x19db04"
+        },
+        {
+          "sel": "-setCurrentApp:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x19db0c"
+        },
+        {
+          "sel": "-licenseWarningModal",
+          "type": "@16@0:8",
+          "imp_vm": "0x19db18"
+        },
+        {
+          "sel": "-setLicenseWarningModal:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x19db20"
+        },
+        {
+          "sel": "-bundleIdentifier",
+          "type": "@16@0:8",
+          "imp_vm": "0x19db2c"
+        },
+        {
+          "sel": "-setBundleIdentifier:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x19db38"
+        },
+        {
+          "sel": "-activated",
+          "type": "B16@0:8",
+          "imp_vm": "0x19db40"
+        },
+        {
+          "sel": "-setActivated:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x19db48"
+        },
+        {
+          "sel": "-appFrame",
+          "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8",
+          "imp_vm": "0x19db50"
+        },
+        {
+          "sel": "-setAppFrame:",
+          "type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "imp_vm": "0x19db5c"
+        },
+        {
+          "sel": "-setRenderSize:",
+          "type": "v32@0:8{CGSize=dd}16",
+          "imp_vm": "0x19db70"
+        },
+        {
+          "sel": "-autoResumeBundleID",
+          "type": "@16@0:8",
+          "imp_vm": "0x19db7c"
+        },
+        {
+          "sel": "-setAutoResumeBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x19db88"
+        },
+        {
+          "sel": "-.cxx_destruct",
+          "type": "v16@0:8",
+          "imp_vm": "0x19db90"
+        },
+        {
+          "sel": "+sharedInstance",
+          "type": "@16@0:8",
+          "imp_vm": "0x121884"
+        },
+        {
+          "sel": "+sharedInstanceIfExists",
+          "type": "@16@0:8",
+          "imp_vm": "0x121920"
+        }
+      ],
+      "CBBridgeManagerDashboard": [
+        {
+          "sel": "-init",
+          "type": "@16@0:8",
+          "imp_vm": "0x282cc4"
+        },
+        {
+          "sel": "-registerForNotifications",
+          "type": "v16@0:8",
+          "imp_vm": "0x282d2c"
+        },
+        {
+          "sel": "-handleScreenDidDisconnect:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x283064"
+        },
+        {
+          "sel": "-handleScreenDidConnect:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x283a3c"
+        },
+        {
+          "sel": "-startBridging:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a33c0"
+        },
+        {
+          "sel": "-startBridging:withCompletion:",
+          "type": "v32@0:8@16@?24",
+          "imp_vm": "0x2a33d0"
+        },
+        {
+          "sel": "-stopBridging",
+          "type": "v16@0:8",
+          "imp_vm": "0x2a3434"
+        },
+        {
+          "sel": "-stopBridgingWithCompletion:",
+          "type": "v24@0:8@?16",
+          "imp_vm": "0x2a3444"
+        },
+        {
+          "sel": "-prepareAndRequestActivation:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a3478"
+        },
+        {
+          "sel": "-prepareHomeScreenForBridge:",
+          "type": "v24@0:8@?16",
+          "imp_vm": "0x2a3600"
+        },
+        {
+          "sel": "-closeOfficialTopApp:",
+          "type": "v24@0:8@?16",
+          "imp_vm": "0x2a37f0"
+        },
+        {
+          "sel": "-requestActivation:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a3ad0"
+        },
+        {
+          "sel": "-requestDismiss",
+          "type": "v16@0:8",
+          "imp_vm": "0x2a3d34"
+        },
+        {
+          "sel": "-requestStateChange:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a3f04"
+        },
+        {
+          "sel": "-handleSBStateChange:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a4418"
+        },
+        {
+          "sel": "-handleStateDict:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a45f4"
+        },
+        {
+          "sel": "-bridgeDidActivate:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a4738"
+        },
+        {
+          "sel": "-bridgeDidDeactivate",
+          "type": "v16@0:8",
+          "imp_vm": "0x2a47ac"
+        },
+        {
+          "sel": "-handleDockIconTap:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a47fc"
+        },
+        {
+          "sel": "-setAppDockActiveBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x2a4934"
+        },
+        {
+          "sel": "-setHomeButtonInApp:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x2a4a3c"
+        },
+        {
+          "sel": "-updateCarPlayMetrics",
+          "type": "v16@0:8",
+          "imp_vm": "0x2a4c24"
+        },
+        {
+          "sel": "-getAppFrame",
+          "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8",
+          "imp_vm": "0x2a5fd8"
+        },
+        {
+          "sel": "-getDockDimension",
+          "type": "d16@0:8",
+          "imp_vm": "0x2a6228"
+        },
+        {
+          "sel": "-getDockWidth",
+          "type": "d16@0:8",
+          "imp_vm": "0x2a63c8"
+        },
+        {
+          "sel": "-getDockEdge",
+          "type": "@16@0:8",
+          "imp_vm": "0x2a63d4"
+        },
+        {
+          "sel": "-activated",
+          "type": "B16@0:8",
+          "imp_vm": "0x2a64c8"
+        },
+        {
+          "sel": "-setActivated:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x2a64d0"
+        },
+        {
+          "sel": "-pending",
+          "type": "B16@0:8",
+          "imp_vm": "0x2a64d8"
+        },
+        {
+          "sel": "-setPending:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x2a64e0"
+        },
+        {
+          "sel": "-pendingCompletion",
+          "type": "@?16@0:8",
+          "imp_vm": "0x2a64e8"
+        },
+        {
+          "sel": "-setPendingCompletion:",
+          "type": "v24@0:8@?16",
+          "imp_vm": "0x2a64f4"
+        },
+        {
+          "sel": "-.cxx_destruct",
+          "type": "v16@0:8",
+          "imp_vm": "0x2a64fc"
+        },
+        {
+          "sel": "+sharedInstance",
+          "type": "@16@0:8",
+          "imp_vm": "0x282c28"
+        },
+        {
+          "sel": "+isOfficialApp:",
+          "type": "B24@0:8@16",
+          "imp_vm": "0x283c4c"
+        },
+        {
+          "sel": "+isBridgedApp:",
+          "type": "B24@0:8@16",
+          "imp_vm": "0x283ea8"
+        },
+        {
+          "sel": "+isDashboardPolicySignalActive",
+          "type": "B16@0:8",
+          "imp_vm": "0x284068"
+        },
+        {
+          "sel": "+shouldInterceptLaunchForApp:",
+          "type": "B24@0:8@16",
+          "imp_vm": "0x2a314c"
+        },
+        {
+          "sel": "+bridgedApps",
+          "type": "@16@0:8",
+          "imp_vm": "0x2a3364"
+        }
+      ],
+      "CBDashboardSettings": [
+        {
+          "sel": "-init",
+          "type": "@16@0:8",
+          "imp_vm": "0x36054"
+        },
+        {
+          "sel": "-scaleForBundleID:",
+          "type": "d24@0:8@16",
+          "imp_vm": "0x3618c"
+        },
+        {
+          "sel": "-setScale:forBundleID:",
+          "type": "v32@0:8d16@24",
+          "imp_vm": "0x36194"
+        },
+        {
+          "sel": "-setDockSystemMonitorEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x364d0"
+        },
+        {
+          "sel": "-setDockSystemMonitorShowAll:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x36670"
+        },
+        {
+          "sel": "-reload",
+          "type": "v16@0:8",
+          "imp_vm": "0x36810"
+        },
+        {
+          "sel": "-reloadAppPrefs",
+          "type": "v16@0:8",
+          "imp_vm": "0x3681c"
+        },
+        {
+          "sel": "-bridgedApps",
+          "type": "@16@0:8",
+          "imp_vm": "0x37e88"
+        },
+        {
+          "sel": "-setBridgedApps:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37e90"
+        },
+        {
+          "sel": "-appSettings",
+          "type": "@16@0:8",
+          "imp_vm": "0x37e9c"
+        },
+        {
+          "sel": "-setAppSettings:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37ea4"
+        },
+        {
+          "sel": "-portalAppEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37eb0"
+        },
+        {
+          "sel": "-setPortalAppEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37eb8"
+        },
+        {
+          "sel": "-screenBlankEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37ec0"
+        },
+        {
+          "sel": "-setScreenBlankEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37ec8"
+        },
+        {
+          "sel": "-splitScreenEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37ed0"
+        },
+        {
+          "sel": "-setSplitScreenEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37ed8"
+        },
+        {
+          "sel": "-assistantEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37ee0"
+        },
+        {
+          "sel": "-setAssistantEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37ee8"
+        },
+        {
+          "sel": "-preferredMapIndex",
+          "type": "q16@0:8",
+          "imp_vm": "0x37ef0"
+        },
+        {
+          "sel": "-setPreferredMapIndex:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x37ef8"
+        },
+        {
+          "sel": "-voiceFeedbackEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37f00"
+        },
+        {
+          "sel": "-setVoiceFeedbackEnabled:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37f08"
+        },
+        {
+          "sel": "-splitLeftBundleID",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f10"
+        },
+        {
+          "sel": "-setSplitLeftBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37f1c"
+        },
+        {
+          "sel": "-splitRightBundleID",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f24"
+        },
+        {
+          "sel": "-setSplitRightBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37f30"
+        },
+        {
+          "sel": "-splitPreset",
+          "type": "q16@0:8",
+          "imp_vm": "0x37f38"
+        },
+        {
+          "sel": "-setSplitPreset:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x37f40"
+        },
+        {
+          "sel": "-splitMode",
+          "type": "q16@0:8",
+          "imp_vm": "0x37f48"
+        },
+        {
+          "sel": "-setSplitMode:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x37f50"
+        },
+        {
+          "sel": "-splitApp1",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f58"
+        },
+        {
+          "sel": "-setSplitApp1:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37f64"
+        },
+        {
+          "sel": "-splitApp2",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f6c"
+        },
+        {
+          "sel": "-setSplitApp2:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37f78"
+        },
+        {
+          "sel": "-splitApp3",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f80"
+        },
+        {
+          "sel": "-setSplitApp3:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37f8c"
+        },
+        {
+          "sel": "-splitApp4",
+          "type": "@16@0:8",
+          "imp_vm": "0x37f94"
+        },
+        {
+          "sel": "-setSplitApp4:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x37fa0"
+        },
+        {
+          "sel": "-splitRatio",
+          "type": "d16@0:8",
+          "imp_vm": "0x37fa8"
+        },
+        {
+          "sel": "-setSplitRatio:",
+          "type": "v24@0:8d16",
+          "imp_vm": "0x37fb0"
+        },
+        {
+          "sel": "-gridCols",
+          "type": "q16@0:8",
+          "imp_vm": "0x37fb8"
+        },
+        {
+          "sel": "-setGridCols:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x37fc0"
+        },
+        {
+          "sel": "-gridRows",
+          "type": "q16@0:8",
+          "imp_vm": "0x37fc8"
+        },
+        {
+          "sel": "-setGridRows:",
+          "type": "v24@0:8q16",
+          "imp_vm": "0x37fd0"
+        },
+        {
+          "sel": "-hideIconLabels",
+          "type": "B16@0:8",
+          "imp_vm": "0x37fd8"
+        },
+        {
+          "sel": "-setHideIconLabels:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x37fe0"
+        },
+        {
+          "sel": "-dockSystemMonitorEnabled",
+          "type": "B16@0:8",
+          "imp_vm": "0x37fe8"
+        },
+        {
+          "sel": "-dockSystemMonitorShowAll",
+          "type": "B16@0:8",
+          "imp_vm": "0x37ff0"
+        },
+        {
+          "sel": "-autoLaunchOnConnect",
+          "type": "B16@0:8",
+          "imp_vm": "0x37ff8"
+        },
+        {
+          "sel": "-setAutoLaunchOnConnect:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x38000"
+        },
+        {
+          "sel": "-autoLaunchBundleID",
+          "type": "@16@0:8",
+          "imp_vm": "0x38008"
+        },
+        {
+          "sel": "-setAutoLaunchBundleID:",
+          "type": "v24@0:8@16",
+          "imp_vm": "0x38014"
+        },
+        {
+          "sel": "-agreedToEULA",
+          "type": "B16@0:8",
+          "imp_vm": "0x3801c"
+        },
+        {
+          "sel": "-setAgreedToEULA:",
+          "type": "v20@0:8B16",
+          "imp_vm": "0x38024"
+        },
+        {
+          "sel": "-.cxx_destruct",
+          "type": "v16@0:8",
+          "imp_vm": "0x3802c"
+        },
+        {
+          "sel": "+sharedInstance",
+          "type": "@16@0:8",
+          "imp_vm": "0x353dc"
+        },
+        {
+          "sel": "+assistantIconImage",
+          "type": "@16@0:8",
+          "imp_vm": "0x35478"
+        },
+        {
+          "sel": "+portalAppIconImage",
+          "type": "@16@0:8",
+          "imp_vm": "0x357ac"
+        },
+        {
+          "sel": "+splitScreenIconImage",
+          "type": "@16@0:8",
+          "imp_vm": "0x35ae0"
+        },
+        {
+          "sel": "+portalAppIdentifier",
+          "type": "@16@0:8",
+          "imp_vm": "0x36014"
+        }
+      ]
+    }
+  }
+}
