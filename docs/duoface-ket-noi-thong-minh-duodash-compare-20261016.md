@@ -11,6 +11,17 @@
 - DuoFace method proof: `feature:audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json` blob `cf680223058787664e83e20a6b3815590f91f6cf`, `feature:dist/payload-migration/native4/BAO_CAO.json` và `feature:dist/payload-migration/native12/BAO_CAO.json`. Settings host Mach-O không có source toàn phần; không khẳng định execution flow đã được chứng minh chỉ bằng selector.
 - Docs Apple đối chiếu khả năng: `https://developer.apple.com/documentation/carplay/cptemplateapplicationscenedelegate/`, `https://developer.apple.com/documentation/uikit/uiscenedelegate`, `https://developer.apple.com/documentation/uikit/uiscreen/didconnectnotification`. iOS cũ có UIScreen notifications nhưng Apple đã deprecate và nói *không phát sự kiện connect cho màn đã gắn từ trước khi app start*. **Không mặc định DuoFace hook được CPTemplate scene**: cần xác minh host SpringBoard/Dashboard thực nhận sự kiện nào.
 
+## UI CORRECTION 16/10/2026 — KHÔNG ĐƯA 8 MỤC LÊN MÀN CÀI ĐẶT CHÍNH
+
+- **Nguồn feedback thật:** Người dùng gửi ảnh chụp trang **Cài đặt DuoDash trên iPhone** (không phải ảnh DuoFace). Ở nhóm `TINH CHỈNH HIỆU NĂNG`, công tắc **Tự động mở** đang OFF và **Đóng ứng dụng khi ngắt CarPlay** đang ON. Người dùng hỏi: “Trên menu cài đặt hiện tại chỉ có 1 mục chọn khởi động mà bạn đề xuất tới 8 mục thì chỉnh làm sao đây?” Đây là yêu cầu **giảm số dòng settings**, không phải yêu cầu build.
+- **Hiệu chỉnh có hiệu lực cho thiết kế:** Danh sách 8 dòng mục 3 phía dưới là **8 capability/ý tưởng chức năng**, **không phải 8 dòng UI bắt buộc**. **KHÔNG thêm 8 nút vào Cài đặt chính**; giữ duy nhất **Tự động mở** hiện có, nguyên key/callback/giá trị đang lưu. Đề xuất chỉ thêm **1 hàng điều hướng `Kết nối nâng cao ›`** nếu xác minh có cách chèn hàng an toàn vào `CBGeneralSettingsViewController`. Trước khi chỉnh, cần đo indexPath/section động, không hardcode vị trí hay thay các hàng gốc.
+- **Bản đồ hiển thị đề xuất (chưa xác nhận duyệt cuối)**:
+  - *Trang Cài đặt chính của DuoFace*: `Tự động mở [switch hiện tại]` (giữ nguyên) + `Kết nối nâng cao ›` (hàng mới duy nhất).
+  - *Trang Kết nối nâng cao*: `Ứng dụng tự mở ›` (tái sử dụng chọn app đang có; chỉ hiện nếu có đường đi đúng); `Khôi phục phiên trước [OFF]` (mục mới); `Khi ngắt CarPlay ›` (default `Giữ nguyên`, chưa bật dọn app); `Trạng thái & nhật ký ›` (read-only). Chỉ tối đa 4 hàng ở trang phụ này trong giai đoạn đầu.
+  - *Không làm thêm switch riêng*: **chống mở trùng**, **chống rung kết nối/đang khôi phục**, **generation id hủy timer** là logic nền đi cùng restore, không phải 3 công tắc nữa. *Hồ sơ theo xe* là advanced giai đoạn sau, **ẩn đến khi có dữ liệu định danh phù hợp và được người dùng đồng ý**, không nhét mặc định vào menu.
+- **Không hiểu sai ảnh:** `Đóng ứng dụng khi ngắt CarPlay` là tùy chọn disconnect có trong DuoDash; DuoFace native12 **chưa được chứng minh có cùng switch**. Chỉ đề xuất mục `Khi ngắt CarPlay` trong trang phụ, không đánh đồng tính năng thực tế đã cài.
+- **Trạng thái:** Bản này chỉ điều chỉnh **thiết kế**, không sửa app, không build/triển khai Sileo, không làm lại việc xóa giấy phép (PAUSED). Chỉ khi được giao triển khai mới audit đường render table và viết chức năng đúng.
+
 ## 1. DuoDash 1.1.3 thực sự cho người dùng cấu hình gì?
 
 | Mục / lưu key tĩnh | Hành vi mô tả trong DEB | Ràng buộc bằng chứng |
