@@ -2,8 +2,8 @@
 """Stage byte-exact MIT GMapHUD 0.2.3 modules for the DuoFace Native12 candidate.
 
 No new DEB, no signing, no Sileo, no device installation. These third-party
-source/hud modules still require validation with DuoFace's CBWindow overlay.
-Users should need only install compatible map APPS, not a separate HUD tweak.
+source-only adapters need a separate, verified bridge to DuoFace-owned IPC.
+Only four app-source modules are staged. Never stage GMapHUD's separate\noverlay/UI/placement modules, since the user requires exactly ONE GOFA-style\nbubble inside DuoFace. Users install only compatible map apps.
 """
 from __future__ import annotations
 
@@ -26,8 +26,6 @@ MODULE_FILTERS = {
     "GofaGMapHUDSource": {"com.lumi.GOFA"},
     "VietMapGoogleMapsSource": {"vn.vietmap.live"},
     "GoogleMapsVietMap": {"com.google.Maps"},
-    "GMapHUDPlacementRelay": {"com.apple.springboard", "com.apple.CarPlayApp"},
-    "GMapHUDOverspeedScreen": {"com.apple.CarPlayApp"},
 }
 SOURCE_DOC = Path("var/jb/usr/share/doc/com.chou.googlemaps.vietmap")
 TARGET_DOC = Path("var/jb/usr/share/doc/com.duoface.independent")
@@ -71,6 +69,10 @@ def stage(source_deb: Path, output: Path, report_path: Path,
         "duoface_overlay_compatibility_verified": False,
         "built_deb": False,
         "sileo_published": False,
+        "single_duoface_hud_only": True,
+        "excluded_duplicate_renderers": [
+            "GMapHUDPlacementRelay", "GMapHUDOverspeedScreen"
+        ],
         "copied": {},
     }
     with tempfile.TemporaryDirectory(prefix="duoface-gmap-reuse-") as temp:
@@ -119,8 +121,8 @@ def stage(source_deb: Path, output: Path, report_path: Path,
             report["copied"][str(dst.relative_to(stage_root))] = {
                 "sha256": digest(dst), "size": dst.stat().st_size
             }
-        if len(report["copied"]) != 14:
-            raise AssertionError("Expected exactly 12 module/filter files + 2 notices")
+        if len(report["copied"]) != 10:
+            raise AssertionError("Expected exactly 8 app-source module/filter files + 2 notices")
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(stage_root), str(output))
     report_path.parent.mkdir(parents=True, exist_ok=True)
