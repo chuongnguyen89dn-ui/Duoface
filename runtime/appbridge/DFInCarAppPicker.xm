@@ -64,15 +64,18 @@ static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
     if (!names || names.count>2000) return nil;
     NSString *match=nil;
     for (NSString *name in names) {
-        if (![name hasSuffix:@".plist"] ||
-            !([name hasPrefix:@"com.duoface."] ||
-              [name hasPrefix:@"com.duonavi."] ||
-              [name isEqualToString:@"com.duonavi.plist"] ||
-              [name isEqualToString:@"com.tiz.carbridge.plist"])) continue;
+        // Native12 Dashboard.reloadAppPrefs reads BOTH appSettings and
+        // bridgedApps from the same original preferences NSDictionary
+        // (direct disassembly at 0x375c0 and 0x3764c). Its preference filename
+        // is a lazy runtime value; do not guess a small list of domain names.
+        // Inspect existing PLISTs read-only, reject non-native schema and
+        // ambiguous matching domains. Never create a second preference file.
+        if (![name hasSuffix:@".plist"]) continue;
         NSString *path=[kDFPrefsDirectory stringByAppendingPathComponent:name];
         NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
-        if (![dict isKindOfClass:NSDictionary.class] || !dict[kDFBridgedAppsKey])
-            continue;
+        if (![dict isKindOfClass:NSDictionary.class] ||
+            ![dict[@"appSettings"] isKindOfClass:NSDictionary.class] ||
+            !dict[kDFBridgedAppsKey]) continue;
         NSArray *saved=DFValidStringApps(dict[kDFBridgedAppsKey]);
         if (!DFListEqual(saved,current)) continue;
         if (match) return nil; // ambiguity: user must not risk writing wrong.
