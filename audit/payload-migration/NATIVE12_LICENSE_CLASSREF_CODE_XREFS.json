@@ -1,0 +1,44 @@
+{
+  "status": "NATIVE12_LICENSE_CLASSREF_ARM64_READONLY",
+  "deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "candidates": 14,
+  "physical_removal_performed": false,
+  "dynamic_objc_dispatch_proven_absent": false,
+  "safe_to_delete_classes": false,
+  "binaries": {
+    "DuoFaceUI": {
+      "pointer_slots": 24,
+      "static_instruction_hits": [
+        {
+          "vm": "0x1000087d4",
+          "arm64": "ldr x0, [x8, #0x928]",
+          "pointer_slot_vm": "0x10011b928",
+          "class": "CBSubscriptionViewController",
+          "role": "direct_reference"
+        },
+        {
+          "vm": "0x1000088c8",
+          "arm64": "ldr x22, [x8, #0x938]",
+          "pointer_slot_vm": "0x10011b938",
+          "class": "CBLicenseExpiredModalViewController",
+          "role": "direct_reference"
+        },
+        {
+          "vm": "0x100008a50",
+          "arm64": "ldr x0, [x8, #0x928]",
+          "pointer_slot_vm": "0x10011b928",
+          "class": "CBSubscriptionViewController",
+          "role": "direct_reference"
+        }
+      ],
+      "matched_instruction_count": 3,
+      "scan_is_conservative_not_dynamic_liveness_proof": true
+    },
+    "DuoFaceDashboard": {
+      "pointer_slots": 4,
+      "static_instruction_hits": [],
+      "matched_instruction_count": 0,
+      "scan_is_conservative_not_dynamic_liveness_proof": true
+    }
+  }
+}
