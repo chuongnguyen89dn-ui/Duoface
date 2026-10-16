@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — PHÂN BIỆT MÃ ĐÃ GIỚI HẠN CỬA SỔ VÀ KẾT QUẢ THỰC TẾ SPEED3
+
+- **User challenge:** “Sao bạn chắc chắn nó chỉ có trong duo? Mà ko phải là màn carplay?” following on-device Speed2HUD screenshot 3+ bubbles on CarPlay home, NONE inside DuoFace. User demands ZERO speed bubble on CarPlay home, EXACTLY ONE when DuoFace split is active, none outside DuoFace. Do not treat CarPlayApp process selection as sufficient.
+- **Verified SOURCE_ONLY Speed3:** current feature branch runtime/speedbubble/DFSpeedBubbleBridge.mm uses CBWindow methods show/resizeWindows/destroyWindows, verifies class_getImageName includes DuoFaceDashboard.dylib, isVisible, rootWindow and singleton kDFOnlyHUD/kDFOnlyWindow/kDFOnlyBridge. Plist injects solely into com.apple.CarPlayApp. Native12 pinned SHA256 85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7 was audited: owner class selectors ABI show/resize/destroy v16@0:8, rootWindow @16@0:8, isVisible B16@0:8, audit runs 38902295813 and 38903290354 green. This is better scoped than Speed2 global scene scanning but **cannot GUARANTEE runtime attachment** without user on-car test. In response, say not 100% certain.
+- **Existing release at time of inspection (no new build in this reply):** Speed3HUD 0.1.0~native12+speed3hud published Sileo. DuoFace build 38903057086 SUCCESS, actual .deb SHA256 b4caf7e965a3d1cb83e52d27b67bea2642c8734f6ae78924d9b8a4e09307e582. Publisher carplaydsp main fc6114fd457bee3fafc517454c07abbd36548283 deploy run 38903602715 SUCCESS. Independent public SHA verify run 38903782272 SUCCESS. Package contains HUD only, NO data readers / source selection. Release state separate from runtime verified state.
+- **Next real device acceptance:** CarPlay home zero bubbles; DuoFace split one draggable placeholder HUD; leaving split hides it; Waze no restart. If not, obtain scene/CBWindow runtime callback evidence and correct specific owner, not reintroduce a global CarPlay overlay. Keep Native12 fallback intact.
+
+
 ## 16/10/2026 — SPEED3HUD SILEO PUBLIC SHA PASS / DUODASH WINDOW SCOPE REPAIR / CHỜ THỬ TRONG DUOFACE
 
 - **[LATEST RESULT AFTER DEVICE BUG REPORT]** Screenshot user on Speed2HUD proved 3+ `—/—` HUDs on normal CarPlay home, none inside DuoFace split. User strongly reiterates DuoDash reference is for *UI attach location/activation/owner*, while GOFA only bubble styling/drag. Source fix Speed3HUD scopes HUD to **Native12-owned `CBWindow`**, one process-local HUD, not a global system scene/window scanner. This is **implemented and binary built**, but the placement is **NOT independently confirmed on user's CarPlay yet**.
