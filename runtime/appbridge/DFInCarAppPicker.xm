@@ -86,35 +86,30 @@ static NSArray<NSString *> *DFValidStringApps(id value) {
 }
 static BOOL DFListEqual(NSArray *a,NSArray *b) {
     // Original preference array order is meaningful: never sort or replace it.
-    return a && b && static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
-    // SOURCE-PROVEN: native12 Dashboard's lazy init at 0x3822c generates
-    // '/var/mobile/Library/Preferences/com.duonavi.plist'. It still uses the
-    // legacy on-disk identifier. Do NOT rename it or create a second store.
-    // Verified from unchanged native12 host SHA:
-    // audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json
+    return a && b && [a isEqualToArray:b];
+}
+static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
+    // Native12 Dashboard's ORIGINAL obfuscated initializer 0x3822c:
+    // /var/mobile/Library/Preferences/com.duonavi.plist.
+    // Keep legacy persistent domain; never create a new preference store.
     if (!DFValidStringApps(current)) return nil;
     NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:kDFNativeOwnerPrefsFile];
     if (![dict isKindOfClass:NSDictionary.class]) {
         NSLog(@"[DuoFaceInCarAddApps] native settings owner not readable");
         return nil;
     }
-    // Native reload reads 'appSettings' and 'bridgedApps'. The former can be
-    // omitted when no per-app settings have been customized, so its ABSENCE
-    // is not proof the file is another product. If present validate its type.
-    id appSettings=dict[@"appSettings"];
-    if (appSettings && ![appSettings isKindOfClass:NSDictionary.class]) {
-        NSLog(@"[DuoFaceInCarAddApps] owner schema invalid: appSettings");
+    // appSettings is optional if no per-app configuration has been saved.
+    id extra=dict[@"appSettings"];
+    if (extra && ![extra isKindOfClass:NSDictionary.class]) {
+        NSLog(@"[DuoFaceInCarAddApps] invalid appSettings schema");
         return nil;
     }
     NSArray *saved=DFValidStringApps(dict[kDFBridgedAppsKey]);
     if (!DFListEqual(saved,current)) {
-        NSLog(@"[DuoFaceInCarAddApps] owner list unavailable or not equal to runtime snapshot");
+        NSLog(@"[DuoFaceInCarAddApps] native preference owner list differs");
         return nil;
     }
     return kDFNativeOwnerPrefsFile;
-}
-  }
-    return match;
 }
 static NSArray<NSDictionary *> *DFEligibleApps(NSArray<NSString *> *already) {
     Class cls=NSClassFromString(@"LSApplicationWorkspace");
