@@ -1,11 +1,7 @@
 name: DuoFace native18 direct CarPlay Add App tile, no iPhone-only modal
+# Published native18 is immutable; future picker edits must not try to
+# overwrite dist/payload-migration/native18. Use a new versioned QA workflow.
 on:
-  push:
-    branches: [feature/duoface-exact-payload-migration]
-    paths:
-      - '.github/workflows/duoface-native18-direct-add-app-qa.yml'
-      - 'migration/full_payload/native_test/build_native18_direct_addapp.py'
-      - 'runtime/appbridge/DFInCarAppPicker.xm'
   workflow_dispatch:
 permissions:
   contents: write
