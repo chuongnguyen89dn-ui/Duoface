@@ -7,13 +7,48 @@
     "DuoFaceDashboard": {
       "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
       "original_disassembly_direct_literals": {
-        "0x36f128": "",
-        "0x36f468": "",
-        "0x36f488": "",
-        "0x36f428": "",
-        "0x36f448": "",
-        "0x346148": "",
-        "0x3460a8": ""
+        "0x36f128": {
+          "raw32": "0000000000000000c807000000000000507c3000000000000c00000000000000",
+          "cfstring_data_pointer": "0x307c50",
+          "as_cstring": "",
+          "cfstring_value": "agreedToEULA"
+        },
+        "0x36f468": {
+          "raw32": "0000000000000000c8070000000000002e7e3000000000000600000000000000",
+          "cfstring_data_pointer": "0x307e2e",
+          "as_cstring": "",
+          "cfstring_value": "Filter"
+        },
+        "0x36f488": {
+          "raw32": "0000000000000000c807000000000000357e3000000000000700000000000000",
+          "cfstring_data_pointer": "0x307e35",
+          "as_cstring": "",
+          "cfstring_value": "Bundles"
+        },
+        "0x36f428": {
+          "raw32": "0000000000000000c807000000000000a57d3000000000004700000000000000",
+          "cfstring_data_pointer": "0x307da5",
+          "as_cstring": "",
+          "cfstring_value": "/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        "0x36f448": {
+          "raw32": "0000000000000000c807000000000000ed7d3000000000004000000000000000",
+          "cfstring_data_pointer": "0x307ded",
+          "as_cstring": "",
+          "cfstring_value": "/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        "0x346148": {
+          "raw32": "0000000000000000c80700000000000078b32f00000000001500000000000000",
+          "cfstring_data_pointer": "0x2fb378",
+          "as_cstring": "",
+          "cfstring_value": "com.apple.springboard"
+        },
+        "0x3460a8": {
+          "raw32": "0000000000000000c807000000000000f5b22f00000000001400000000000000",
+          "cfstring_data_pointer": "0x2fb2f5",
+          "as_cstring": "",
+          "cfstring_value": "com.apple.CarPlayApp"
+        }
       },
       "native_preferences_related_literals": [
         {
@@ -661,13 +696,48 @@
     "DuoFaceUI": {
       "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
       "original_disassembly_direct_literals": {
-        "0x1000ea548": "",
-        "0x1000ea568": "",
-        "0x1000ea588": "",
-        "0x1000ea5a8": "",
-        "0x1000ea5c8": "",
-        "0x1000ea5e8": "",
-        "0x1000ea608": ""
+        "0x1000ea548": {
+          "raw32": "0000000000000000c807000000000000ecd70a00010000001300000000000000",
+          "cfstring_data_pointer": "0x1000ad7ec",
+          "as_cstring": "",
+          "cfstring_value": "autoLaunchOnConnect"
+        },
+        "0x1000ea568": {
+          "raw32": "0000000000000000c80700000000000000d80a00010000001200000000000000",
+          "cfstring_data_pointer": "0x1000ad800",
+          "as_cstring": "",
+          "cfstring_value": "screenBlankEnabled"
+        },
+        "0x1000ea588": {
+          "raw32": "0000000000000000c80700000000000013d80a00010000001800000000000000",
+          "cfstring_data_pointer": "0x1000ad813",
+          "as_cstring": "",
+          "cfstring_value": "dockSystemMonitorEnabled"
+        },
+        "0x1000ea5a8": {
+          "raw32": "0000000000000000c8070000000000002cd80a00010000001100000000000000",
+          "cfstring_data_pointer": "0x1000ad82c",
+          "as_cstring": "",
+          "cfstring_value": "hideLabelsEnabled"
+        },
+        "0x1000ea5c8": {
+          "raw32": "0000000000000000c8070000000000003ed80a00010000001200000000000000",
+          "cfstring_data_pointer": "0x1000ad83e",
+          "as_cstring": "",
+          "cfstring_value": "autoLaunchBundleID"
+        },
+        "0x1000ea5e8": {
+          "raw32": "0000000000000000c80700000000000051d80a00010000001800000000000000",
+          "cfstring_data_pointer": "0x1000ad851",
+          "as_cstring": "",
+          "cfstring_value": "dockSystemMonitorShowAll"
+        },
+        "0x1000ea608": {
+          "raw32": "0000000000000000c8070000000000006ad80a00010000001600000000000000",
+          "cfstring_data_pointer": "0x1000ad86a",
+          "as_cstring": "",
+          "cfstring_value": "systemOptimizerEnabled"
+        }
       },
       "native_preferences_related_literals": [
         {
