@@ -25,7 +25,9 @@ jobs:
           grep -Fq 'DFExistingSettingsFileForList' runtime/appbridge/DFInCarAppPicker.xm
           grep -Fq 'DFSaveToNativePreferences' runtime/appbridge/DFInCarAppPicker.xm
           grep -Fq 'writeToFile:file atomically:YES' runtime/appbridge/DFInCarAppPicker.xm
-          grep -Fq '%orig;' runtime/appbridge/DFInCarAppPicker.xm
+          # The original selector opens the obsolete iPhone-only warning. Never call it.
+          ! grep -Fq '%orig;' runtime/appbridge/DFInCarAppPicker.xm
+          grep -Fq 'in-car sheet shown' runtime/appbridge/DFInCarAppPicker.xm
           ! grep -Fq 'runtime/appbridge/' Makefile.fullscreen
           ! grep -Fq 'runtime/appbridge/' Makefile.smart-connection-stage
           plutil -lint DuoFaceInCarAddApps.plist
