@@ -33,7 +33,7 @@
 
 static const NSInteger kDFInCarModalTag=0x0DFA0023;
 static NSString *const kDFBridgedAppsKey=@"bridgedApps";
-static NSString *const kDFPrefsDirectory=@"/var/mobile/Library/Preferences";
+static NSString *const kDFNativeOwnerPrefsFile=@"/var/mobile/Library/Preferences/com.duonavi.plist";
 static BOOL DFPickerValidBundle(NSString *bid) {
     if (![bid isKindOfClass:NSString.class] || bid.length<3 || bid.length>255 ||
         ![bid containsString:@"."] || [bid containsString:@".."]) return NO;
@@ -86,34 +86,34 @@ static NSArray<NSString *> *DFValidStringApps(id value) {
 }
 static BOOL DFListEqual(NSArray *a,NSArray *b) {
     // Original preference array order is meaningful: never sort or replace it.
-    return a && b && [a isEqualToArray:b];
-}
-static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
-    // Discover, DO NOT GUESS, the existing Preferences backing file. Never
-    // create a second app list. Reject ambiguous files and mismatch versions.
+    return a && b && static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
+    // SOURCE-PROVEN: native12 Dashboard's lazy init at 0x3822c generates
+    // '/var/mobile/Library/Preferences/com.duonavi.plist'. It still uses the
+    // legacy on-disk identifier. Do NOT rename it or create a second store.
+    // Verified from unchanged native12 host SHA:
+    // audit/payload-migration/NATIVE17_NATIVE_PREFERENCE_LITERALS_READONLY.json
     if (!DFValidStringApps(current)) return nil;
-    NSArray<NSString *> *names=[[NSFileManager defaultManager]
-                 contentsOfDirectoryAtPath:kDFPrefsDirectory error:nil];
-    if (!names || names.count>2000) return nil;
-    NSString *match=nil;
-    for (NSString *name in names) {
-        // Native12 Dashboard.reloadAppPrefs reads BOTH appSettings and
-        // bridgedApps from the same original preferences NSDictionary
-        // (direct disassembly at 0x375c0 and 0x3764c). Its preference filename
-        // is a lazy runtime value; do not guess a small list of domain names.
-        // Inspect existing PLISTs read-only, reject non-native schema and
-        // ambiguous matching domains. Never create a second preference file.
-        if (![name hasSuffix:@".plist"]) continue;
-        NSString *path=[kDFPrefsDirectory stringByAppendingPathComponent:name];
-        NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:path];
-        if (![dict isKindOfClass:NSDictionary.class] ||
-            ![dict[@"appSettings"] isKindOfClass:NSDictionary.class] ||
-            !dict[kDFBridgedAppsKey]) continue;
-        NSArray *saved=DFValidStringApps(dict[kDFBridgedAppsKey]);
-        if (!DFListEqual(saved,current)) continue;
-        if (match) return nil; // ambiguity: user must not risk writing wrong.
-        match=path;
+    NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:kDFNativeOwnerPrefsFile];
+    if (![dict isKindOfClass:NSDictionary.class]) {
+        NSLog(@"[DuoFaceInCarAddApps] native settings owner not readable");
+        return nil;
     }
+    // Native reload reads 'appSettings' and 'bridgedApps'. The former can be
+    // omitted when no per-app settings have been customized, so its ABSENCE
+    // is not proof the file is another product. If present validate its type.
+    id appSettings=dict[@"appSettings"];
+    if (appSettings && ![appSettings isKindOfClass:NSDictionary.class]) {
+        NSLog(@"[DuoFaceInCarAddApps] owner schema invalid: appSettings");
+        return nil;
+    }
+    NSArray *saved=DFValidStringApps(dict[kDFBridgedAppsKey]);
+    if (!DFListEqual(saved,current)) {
+        NSLog(@"[DuoFaceInCarAddApps] owner list unavailable or not equal to runtime snapshot");
+        return nil;
+    }
+    return kDFNativeOwnerPrefsFile;
+}
+  }
     return match;
 }
 static NSArray<NSDictionary *> *DFEligibleApps(NSArray<NSString *> *already) {
