@@ -1,0 +1,74 @@
+name: DuoFace Native12 speed1 independent live Sileo verification
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed1-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-pages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check one live independent DuoFace, preserve legacy, download exact DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          mkdir -p "$RUNNER_TEMP/df-speed1-live"
+          cd "$RUNNER_TEMP/df-speed1-live"
+          for i in $(seq 1 50); do
+            curl -fLs --retry 2 --retry-delay 3 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native12+speed1' Packages 2>/dev/null; then break; fi
+            echo "Pages speed1 pending attempt $i"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native12+speed1' Packages
+          curl -fLs --retry 5 --retry-delay 3 "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          from pathlib import Path
+          blocks=[]
+          for block in Path('Packages').read_text().split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'): blocks.append(d)
+          independent=[p for p in blocks if p.get('Package')=='com.duoface.independent']
+          legacy=[p for p in blocks if p.get('Package')=='com.duonavi.app']
+          assert len(independent)==1,independent
+          assert len(legacy)==1,legacy
+          p=independent[0]
+          assert p['Version']=='0.1.0~native12+speed1'
+          assert p['Architecture']=='iphoneos-arm64'
+          assert p['SHA256']=='39f988e1b8cf6b7bfe0381dd58f650ac4a26167130530dfab027ae8c8c4df710'
+          assert p['Filename']=='debs/com.duoface.independent_0.1.0~native12+speed1_iphoneos-arm64.deb',p
+          Path('download-path.txt').write_text(p['Filename']+'\n')
+          print('LIVE_SILEO_APT_SPEED1_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl -fLs --retry 5 --retry-delay 3 "$base/$(cat download-path.txt)" -o speed1.deb
+          echo '39f988e1b8cf6b7bfe0381dd58f650ac4a26167130530dfab027ae8c8c4df710  speed1.deb' | sha256sum -c -
+          test "$(dpkg-deb -f speed1.deb Package)" = com.duoface.independent
+          test "$(dpkg-deb -f speed1.deb Version)" = '0.1.0~native12+speed1'
+          test "$(dpkg-deb -f speed1.deb Architecture)" = iphoneos-arm64
+          dpkg-deb --contents speed1.deb > CONTENTS.txt
+          for n in DuoFaceDashboard DuoFaceSpeedHUD DuoFaceSpeedSources VietMapGoogleMapsSource WazeGMapHUDSource GofaGMapHUDSource; do
+            grep -Fq "$n.dylib" CONTENTS.txt
+          done
+          ! grep -E 'GMapHUDOverspeedScreen|GMapHUDPlacementRelay|GoogleMapsVietMap|A_DuoFaceNativeNoLease' CONTENTS.txt
+          echo 'LIVE_SILEO_DOWNLOADED_EXACT_SPEED1_DEB_SHA256_PASS; ON_DEVICE_UNTESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed1-live-public-evidence
+          path: |
+            ${{ runner.temp }}/df-speed1-live/Packages
+            ${{ runner.temp }}/df-speed1-live/Packages.gz
+            ${{ runner.temp }}/df-speed1-live/CONTENTS.txt
+            ${{ runner.temp }}/df-speed1-live/download-path.txt
+          if-no-files-found: warn
