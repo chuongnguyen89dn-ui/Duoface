@@ -20,6 +20,18 @@ jobs:
           set -euo pipefail
           base='https://chuongnguyen89dn-ui.github.io/carplaydsp/'
           mkdir -p evidence
+          # Wait for the newly deployed APT metadata, not an old cached Release.
+          valid_release=0
+          for attempt in $(seq 1 65); do
+            curl -fsSL --retry 2 --retry-delay 2 "$base/Release" -o evidence/preflight-Release || true
+            if grep -q '^Date:' evidence/preflight-Release 2>/dev/null && grep -q '^SHA256:' evidence/preflight-Release 2>/dev/null; then
+              valid_release=1
+              break
+            fi
+            echo "Waiting for corrected Pages Release attempt $attempt"
+            sleep 6
+          done
+          test "$valid_release" = 1
           : > evidence/http-status.tsv
           for name in root Release InRelease Packages Packages.gz Packages.bz2 Packages.xz dists/stable/Release dists/stable/main/binary-iphoneos-arm64/Packages.gz; do
             remote="$name"
@@ -38,7 +50,11 @@ jobs:
           test "$(awk '$1=="Release" {print $2}' evidence/http-status.tsv)" = 200
           test "$(awk '$1=="Packages" {print $2}' evidence/http-status.tsv)" = 200
           test "$(awk '$1=="Packages.gz" {print $2}' evidence/http-status.tsv)" = 200
+          test "$(awk '$1=="Packages.bz2" {print $2}' evidence/http-status.tsv)" = 200
+          test "$(awk '$1=="Packages.xz" {print $2}' evidence/http-status.tsv)" = 200
           cmp evidence/body-Packages <(gzip -dc evidence/body-Packages.gz)
+          cmp evidence/body-Packages <(bzip2 -dc evidence/body-Packages.bz2)
+          cmp evidence/body-Packages <(xz -dc evidence/body-Packages.xz)
           python3 - <<'PY'
           import pathlib
           p=pathlib.Path('evidence/body-Packages').read_text()
@@ -55,7 +71,33 @@ jobs:
           assert d['SHA256']=='85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7',d
           print('NATIVE12_ONLY_APT_INDEX_PASS')
           PY
-          echo 'SILEO_HTTP_ROOT_RELEASE_PACKAGES_GZIP_PASS'
+          python3 - <<'PY'
+          import hashlib
+          from email.utils import parsedate_to_datetime
+          from pathlib import Path
+          release=Path('evidence/body-Release').read_text()
+          date=next(line.split(': ',1)[1] for line in release.splitlines() if line.startswith('Date: '))
+          assert parsedate_to_datetime(date).tzinfo is not None
+          names=['Packages', 'Packages.gz', 'Packages.bz2', 'Packages.xz']
+          for algo in ('MD5Sum', 'SHA256', 'SHA512'):
+              section=release.split(algo+':\n',1)[1].split('\n',1)[0] if False else release.split(algo+':\n',1)[1]
+              section=section.split('\n'+('SHA256:' if algo=='MD5Sum' else 'SHA512:' if algo=='SHA256' else 'NO_NEXT_BLOCK:'),1)[0]
+              table={}
+              for line in section.splitlines():
+                  columns=line.split()
+                  if len(columns)==3: table[columns[2]]=(columns[0],int(columns[1]))
+              assert sorted(table)==sorted(names),(algo,table)
+              for name in names:
+                  data=Path('evidence/body-'+name).read_bytes()
+                  expected=hashlib.new({'MD5Sum':'md5','SHA256':'sha256','SHA512':'sha512'}[algo],data).hexdigest()
+                  assert table[name]==(expected,len(data)),(algo,name)
+          print('APT_RELEASE_UTC_DATE_AND_ALL_INDEX_SHA256_SHA512_MATCH_PASS')
+          PY
+          curl -fsSL --retry 4 --retry-delay 3 \
+            "$base/debs/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb" \
+            -o evidence/actual-native12.deb
+          echo '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  evidence/actual-native12.deb' | sha256sum -c -
+          echo 'SILEO_HTTP_ALL_APT_INDEX_TYPES_AND_NATIVE12_DEB_EXACT_SHA_PASS'
       - name: Check APT client compatibility with Sileo-style flat source
         shell: bash
         run: |
@@ -72,6 +114,11 @@ jobs:
           rc=$?
           cat evidence/apt-refresh.log | tail -100
           echo "APT_EXIT_CODE=$rc"
+          if grep -E "No Hash entry|Invalid 'Date' entry|Hash Sum mismatch|Release file is not valid" evidence/apt-refresh.log; then
+            echo 'APT_METADATA_WARNINGS_STILL_PRESENT'
+            exit 1
+          fi
+          if [ "$rc" = 0 ]; then echo 'SILEO_APT_REFRESH_NO_RELEASE_DATE_HASH_WARNINGS_PASS'; fi
           exit "$rc"
       - name: Save evidence
         uses: actions/upload-artifact@v4
