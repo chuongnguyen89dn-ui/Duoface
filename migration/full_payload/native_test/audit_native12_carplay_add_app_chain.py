@@ -99,7 +99,21 @@ def inspect(binary,raw):
             methods_out[sel]={"imp_vm":hex(begin),"type":met["type"],"limit_vm":hex(end),
                 "disasm":disassemble(m,begin,end)}
         out[name]=methods_out
-    return {"sha256":hashlib.sha256(raw).hexdigest(),"classes":out,"related_literals":pref_literals(m)}
+    refs=([0x3812b0,0x38112b8] if binary=="DuoFaceDashboard" else [0x10011ce10,0x10011ce20])
+    probes=[]
+    for addr in refs:
+        item={"ref_vm":hex(addr)}
+        try:
+            p=m.ptr(addr)
+            item["pointer"]=hex(p)
+            # Non-tagged CFString has a cstring pointer at +0x10.
+            item["string_vm"]=hex(m.ptr(p+16))
+            item["cfstring"]=m.cstr(m.ptr(p+16))
+        except Exception as e:
+            item["error"]=type(e).__name__
+        probes.append(item)
+    return {"sha256":hashlib.sha256(raw).hexdigest(),"classes":out,
+            "related_literals":pref_literals(m),"global_ref_probes":probes}
 def main():
     p=argparse.ArgumentParser();p.add_argument("--deb",required=True,type=Path);p.add_argument("--out",required=True,type=Path)
     a=p.parse_args()
