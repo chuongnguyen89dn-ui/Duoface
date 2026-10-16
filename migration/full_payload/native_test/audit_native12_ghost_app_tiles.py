@@ -11,7 +11,7 @@ from audit_native12_carplay_add_app_chain import methods, disassemble
 EXPECTED_DEB = "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
 EXPECTED_BINARY_SHA = {
     "DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
-    "DuoFaceDashboard": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b61a20aa0",
+    "DuoFaceDashboard": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b61a280c580a695ea",
 }
 TARGET_METHODS = {
     "CBMultitaskingOverlayView": (
@@ -69,10 +69,8 @@ def inspect_saved_resources(root: Path) -> dict:
 def inspect_dashboard(path:Path) -> dict:
     binary=path.read_bytes()
     actual_digest=sha256(binary)
-    print("DASHBOARD_BYTE_HASH_IN_VERIFIED_NATIVE12",actual_digest)
-    print("DASHBOARD_PRIOR_REPORT_HASH",EXPECTED_BINARY_SHA["DuoFaceDashboard"])
-    # Do not reject a SHA-verified full DEB because another report records
-    # a hash from a different signing or extraction stage.
+    assert actual_digest==EXPECTED_BINARY_SHA["DuoFaceDashboard"], "Dashboard SHA differs from signed native12"
+    print("DASHBOARD_NATIVE12_BYTE_HASH_VERIFIED",actual_digest)
     m=MachO(select_arm64(binary))
     classes=m.classes()
     result={}
