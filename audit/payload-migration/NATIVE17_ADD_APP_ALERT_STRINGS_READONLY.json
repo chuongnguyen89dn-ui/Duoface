@@ -1,0 +1,312 @@
+{
+  "status": "READONLY_NATIVE17_EMBEDDED_STRING_AND_LOCALIZATION_KEY_AUDIT",
+  "package_sha256": "60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff",
+  "package_entries_scanned": 45,
+  "verified_host_sha256": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib": "d0246415f4020f353e5ec7373d8d375cbbda868471fd1a467f8e57654c4d01ad"
+  },
+  "targets": {
+    "ADD_MORE_APPS_ALERT_MSG": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x2fc166"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0xaf249"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ADD_MORE_APPS_ALERT_TITLE": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x2fc14c"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0xaf22f"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ADD_MORE_APPS_ALERT_OK": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x2fc17e"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0xaf261"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "addMoreAppsTapped:": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceInCarAddApps.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x81b6"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x2f631c"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "localizedStringForKey:": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x10e1c"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0x2f2ee2"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-8",
+              "file_offsets_hex": [
+                "0xa571f"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Dừng xe an toàn": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0x33b892"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0xe1c58"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Dừng xe an toàn và mở DuoFace trên iPhone để chọn thêm ứng dụng": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0x33b892"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0xe1c58"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "mở DuoFace trên iPhone": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0x33b8b8"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0xe1c7e"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Thêm Ứng Dụng": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0x33b876"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0xe1c3c"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Đã hiểu": {
+      "exact_package_byte_matches": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0x339b84"
+              ]
+            }
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "patterns": [
+            {
+              "normalization": "NFC",
+              "encoding": "utf-16-le",
+              "file_offsets_hex": [
+                "0xdff4a"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "native12_original_selector": "CBMultitaskingOverlayView.addMoreAppsTapped:",
+  "native12_original_imp_vm": "0xa7f20",
+  "source_audit_ref": "audit/payload-migration/NATIVE12_CARPLAY_ADD_APP_CHAIN_READONLY.json",
+  "device_tested": false,
+  "binary_modified": false,
+  "has_exact_vietnamese_safety_phrase_bytes": true,
+  "key_housed_in": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+  "meaning": "Found direct UTF-8/UTF-16 Vietnamese bytes in package"
+}
