@@ -1,4 +1,5 @@
 name: DuoFace native12 - verify published Sileo, untouched legacy app, and exact downloaded DEB
+# 2026-10-16 user-requested Sileo rollback: rerun exact native12 public QA after publisher commit 6c0b399.
 
 on:
   push:
