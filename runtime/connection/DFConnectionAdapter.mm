@@ -83,7 +83,7 @@ void DFConnectionVerifiedDisconnected(DFConnectionQuery stillDisconnected,
     if (!policy.hasPendingClose()) return;
     const std::uint64_t token=policy.generation();
     // On reconnect policy generation changes, so old timers cannot terminate.
-    // Delay exactly 12 seconds; the current preference can cancel at any time.
+    // Delay exactly 10 seconds; the current preference can cancel at any time.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
                    static_cast<int64_t>(Policy::kDisconnectGraceMs)*NSEC_PER_MSEC),
                    dispatch_get_main_queue(), ^{
