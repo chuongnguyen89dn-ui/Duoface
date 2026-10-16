@@ -1,0 +1,46 @@
+name: DuoFace native15 in-car injection and plist evidence only
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native15_incar_injection.py'
+      - '.github/workflows/duoface-native15-in-car-injection-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check exact native15 and extract read-only package filter report
+        run: |
+          set -euo pipefail
+          f='dist/payload-migration/native15/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb'
+          printf '%s  %s\n' '8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3' "$f" | sha256sum -c -
+          python3 migration/full_payload/native_test/audit_native15_incar_injection.py --deb "$f" --out audit/payload-migration/NATIVE15_INCAR_INJECTION_READONLY.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open("audit/payload-migration/NATIVE15_INCAR_INJECTION_READONLY.json"))
+          assert j["status"]=="NATIVE15_INCAR_INJECTION_PLIST_READONLY"
+          assert not j["package_modified"]
+          print("PACKAGE_INJECTION_REPORT_PASS_NO_DEVICE_NO_DEB")
+          PY
+      - name: Commit read-only JSON report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE15_INCAR_INJECTION_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: native15 app picker runtime injection filters [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
