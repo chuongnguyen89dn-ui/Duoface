@@ -1,0 +1,11 @@
+# Native12 HUD-only verification: no third-party or map-app hook is built.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedBubbleBridge.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
