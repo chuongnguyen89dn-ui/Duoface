@@ -11,10 +11,10 @@ typedef void (^DFLastAppSaver)(NSString *bundleID);
 FOUNDATION_EXPORT void DFConnectionConfigure(BOOL autoStart, BOOL closeOnDisconnect);
 FOUNDATION_EXPORT void DFConnectionLoadRememberedApp(NSString * _Nullable existingPreferenceBundleID);
 FOUNDATION_EXPORT void DFConnectionManagedAppActivated(NSString *bundleID,
-                                                       DFLastAppSaver saveLastApp);
+                                                       DFLastAppSaver _Nullable saveLastApp);
 FOUNDATION_EXPORT void DFConnectionVerifiedConnected(NSString * _Nullable currentDuoFaceOwnedApp,
                                                       DFAppQuery installed,
-                                                      DFAppExecutor launchApp,
+                                                      DFAppExecutor _Nullable launchApp,
                                                       DFLastAppSaver saveLastApp);
 FOUNDATION_EXPORT void DFConnectionVerifiedDisconnected(DFConnectionQuery stillDisconnected,
                                                          DFAppQuery stillOwnedAndRunning,
