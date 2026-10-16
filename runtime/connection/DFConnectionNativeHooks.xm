@@ -1,5 +1,5 @@
 // DuoFace-only native12 SpringBoard connection bridge.
-// SOURCE-STAGED for compile-only QA; not included in any published DEB.
+// native21: keep 10-second disconnect only; native12 owns Auto Resume.
 // Preserve every original callback. No DuoDash code, logos, assets or UI.
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -25,12 +25,9 @@
 @end
 
 static NSString *const kDFSmartPrefs = @"com.duoface.smartconnection";
-static NSString *const kDFLastApp = @"lastOwnedAppBundleID";
 static NSString *const kDFClose = @"closeOnCarPlayDisconnect";
 static BOOL DFConnectedKnown = NO;
 static NSUInteger DFConnectionEpoch = 0;
-static NSUInteger DFLastResumeEpoch = NSUIntegerMax;
-static NSString *DFLastResumeBundle = nil;
 
 static NSUserDefaults *DFStore(void) {
     return [[NSUserDefaults alloc] initWithSuiteName:kDFSmartPrefs];
@@ -46,14 +43,6 @@ static BOOL DFOwnedAndRunning(CBBridgeManager *manager, NSString *bundleID) {
     if ([manager isCurrentlyBridging:bundleID]) return YES;
     NSArray *running = [manager runningBridgedApplications];
     return [running isKindOfClass:NSArray.class] && [running containsObject:bundleID];
-}
-static NSString *DFRememberedApp(void) {
-    id value=[DFStore() objectForKey:kDFLastApp];
-    return [value isKindOfClass:NSString.class] ? value : nil;
-}
-static void DFSaveRememberedApp(NSString *bundleID) {
-    if (![bundleID isKindOfClass:NSString.class] || !bundleID.length) return;
-    [DFStore() setObject:bundleID forKey:kDFLastApp];
 }
 static BOOL DFAutoEnabled(void) {
     Class cls=NSClassFromString(@"CBDashboardSettings");
@@ -79,10 +68,10 @@ static void DFRefreshConnectionState(CBBridgeManager *manager) {
         NSString *app=([manager activated] &&
                         DFOwnedAndRunning(manager,[manager bundleIdentifier]))
                       ? [manager bundleIdentifier] : nil;
-        DFConnectionLoadRememberedApp(DFRememberedApp());
+        DFConnectionLoadRememberedApp(nil); // native12 owns Auto Resume preferences
         DFConnectionVerifiedConnected(app,
             ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
-            nil, ^(NSString *bid){ DFSaveRememberedApp(bid); });
+            nil, nil);
     } else {
         DFConnectionVerifiedDisconnected(
             ^BOOL {
@@ -146,33 +135,8 @@ static void DFObserveNativeConnection(CBBridgeManager *manager) {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!DFHostCarPlayConnected() || !DFOwnedAndRunning(manager,bundleID)) return;
         DFRefreshConnectionState(manager);
-        DFConnectionManagedAppActivated(bundleID, ^(NSString *bid){ DFSaveRememberedApp(bid); });
+        DFConnectionManagedAppActivated(bundleID, nil);
     });
-}
-- (NSString *)effectiveAutoLaunchBundleID {
-    NSString *native=%orig;
-    // Respect the EXISTING Auto Start switch; never alter its stored key.
-    if (!DFAutoEnabled()) return native;
-    NSString *remembered=DFRememberedApp();
-    // Fail open to original app selection when remembered value was removed.
-    if (![remembered isKindOfClass:NSString.class] || !remembered.length) return native;
-    return remembered;
-}
-- (void)performAutoResume {
-    // Guard the original launch, not a second custom launcher.
-    if (DFHostCarPlayConnected() && DFAutoEnabled()) {
-        DFRefreshConnectionState(self);
-        NSString *target=[self effectiveAutoLaunchBundleID];
-        if ([target isKindOfClass:NSString.class] && target.length) {
-            if ([self activated] &&
-                [[self bundleIdentifier] isEqualToString:target]) return;
-            if (DFLastResumeEpoch==DFConnectionEpoch &&
-                [DFLastResumeBundle isEqualToString:target]) return;
-            DFLastResumeEpoch=DFConnectionEpoch;
-            DFLastResumeBundle=[target copy];
-        }
-    }
-    %orig;
 }
 %end
 
