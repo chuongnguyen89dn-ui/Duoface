@@ -1,5 +1,16 @@
 # Bàn giao dự án DuoFace mới
 
+## 16/10/2026 — SPEED4SPLIT SILEO ĐÃ LÊN LIVE, DEB ĐÃ TẢI CÔNG KHAI VÀ KHỚP SHA256
+Checkpoint: SPEED4SPLIT-SILEO-LIVE-SHA-VERIFIED-20261016.
+
+**Trạng thái cập nhật sau khi người dùng phản ánh “không có DEB trên Sileo thì sao test”: đã triển khai và xác minh thành công, lỗi lúc đó là workflow publisher đang chạy chưa tới bước Pages; không phải DEB build thất bại.**
+- Source commit `2034adb5495c14cf2c25152d1d516f6556ea4280`, compile-only CI run `38913210039` **completed/success**.
+- Speed4 isolated build run `38913399960` **completed/success**; artifact bản test `Duoface/feature:dist/payload-migration/native12-speed4split/com.duoface.independent_0.1.0~native12+speed4split_iphoneos-arm64.deb` tại commit `8470b07e066061ecafe12f484405e854df7d316a`. SHA256 `e73d3f3bb3e428c5656a6923f1010724151a924b983284c5d0c6c287d3939236`, Native12 original 39 files unchanged, only SpeedHUD.dylib/plist added, no Waze data publisher, `device_tested=false`.
+- Repo publish `chuongnguyen89dn-ui/carplaydsp/main:.github/workflows/build.yml` publisher commit **`3f48b284cef526fbde77c0a33f021c6994f06a37`**, GitHub Actions **run 38913785659 completed/success** including jobs build + **deploy GitHub Pages completed/success** lúc `2026-10-16T14:14:50Z` UTC. Link run: `https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/38913785659`.
+- **Độc lập tải DEB trực tiếp từ Pages**: `Duoface` run **38913833693 completed/success** lúc `2026-10-16T14:14:50Z` UTC, `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38913833693`; đọc log job **117016106935** chứa 3 marker thực (không chỉ kiểm YAML): `LIVE_SILEO_APT_SPEED4SPLIT_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS`, `speed4split.deb: OK`, `LIVE_SILEO_DOWNLOADED_EXACT_SPEED4SPLIT_DEB_SHA256_PASS; ON_DEVICE_UNTESTED`. Bảo đảm live Packages/Packages.gz cùng một version independent và legacy, DEB public download SHA đúng. Evidence artifact ID **12050984743**, `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38913833693/artifacts/12050984743`.
+- **Sileo source**: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Package identifier `com.duoface.independent`, version `0.1.0~native12+speed4split`. Người dùng mở Sileo > Sources > CarPlayDSP > Refresh Sources > DuoFace independent > Update/Install; có thể cần respring/reconnect CarPlay. Không dùng ZIP/DEB thủ công.
+- **Device verification remains NOT DONE**: Phải dùng iPhone JB CarPlay thử Home=0 HUD, DuoFace split=1 HUD ký hiệu `—/—`, kéo/X, đổi pane, zoom, đóng split=0 HUD, reconnect, Waze không crash. Speed4 hiện là HUD-only, KHÔNG có dữ liệu tốc độ thực hay màn chọn 4 nguồn. Nếu vẫn không hiện trong split, lấy log chứa `DuoFaceSpeedHUD`/`[split-owner]`, không suy đoán. `MOUNTED` log chỉ chứng tỏ addSubview trong process, chưa phải mắt người nhìn thấy CarPlay thật.
+
 ## 16/10/2026 — SPEED4SPLIT ĐÃ CÓ TRÊN SILEO (PUBLIC PAGES + LIVE DOWNLOAD SHA PASS)
 Checkpoint: SPEED4SPLIT-SILEO-PUBLIC-VERIFIED-20261016.
 **Cập nhật THAY THẾ trạng thái “chưa lên Sileo” cũ:** ĐÃ phát hành thành công `0.1.0~native12+speed4split` ra kho APT/Sileo công khai; chưa test hiện HUD trên iPhone/CarPlay thật.
