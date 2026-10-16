@@ -1,4 +1,4 @@
-// DuoFace native12 candidate: SPEED HUD OWNED BY DUOFACE, not external tweak.
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
 // Inject this module into SpringBoard *as part of future DuoFace package*.
 // Native12 CBWindow selectors and rootWindow class are verified by existing audits.
 // NO build, installation or Sileo changes in this source-only checkpoint.
@@ -22,13 +22,14 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if ((self=[super initWithFrame:frame])) {
         self.userInteractionEnabled=NO; // Never intercept CarPlay/menu taps.
-        self.backgroundColor=[UIColor colorWithWhite:0.08 alpha:0.90];
-        self.layer.cornerRadius=13;
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=32;
         self.layer.masksToBounds=YES;
         _current=[UILabel new];
         _current.textAlignment=NSTextAlignmentCenter;
         _current.textColor=UIColor.whiteColor;
-        _current.font=[UIFont monospacedDigitSystemFontOfSize:29 weight:UIFontWeightBold];
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:30 weight:UIFontWeightBold];
         _unit=[UILabel new];
         _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
         _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
@@ -37,11 +38,11 @@
         _limitRing.backgroundColor=UIColor.whiteColor;
         _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
         _limitRing.layer.borderWidth=4;
-        _limitRing.layer.cornerRadius=26;
+        _limitRing.layer.cornerRadius=25;
         _limit=[UILabel new];
         _limit.textAlignment=NSTextAlignmentCenter;
         _limit.textColor=UIColor.blackColor;
-        _limit.font=[UIFont monospacedDigitSystemFontOfSize:19 weight:UIFontWeightBold];
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
         [self addSubview:_current]; [self addSubview:_unit];
         [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
         self.hidden=YES; // No made-up speed / limit before a live sample.
@@ -51,9 +52,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
-    _current.frame=CGRectMake(7,5,w-73,39);
-    _unit.frame=CGRectMake(7,43,w-73,19);
-    _limitRing.frame=CGRectMake(w-59,(h-52)/2,52,52);
+    // One compact GOFA-style panel: speed left, ONE speed-limit sign right.
+    // No camera sign, secondary road sign or separate provider mini-bubble.
+    _current.frame=CGRectMake(7,4,w-65,39);
+    _unit.frame=CGRectMake(7,40,w-65,15);
+    _limitRing.frame=CGRectMake(w-56,(h-50)/2,50,50);
     _limit.frame=_limitRing.bounds;
 }
 - (void)didMoveToWindow {
@@ -114,7 +117,7 @@ static void DFPlaceSpeedView(UIWindow *nativeWindow) {
     const CGRect safe=UIEdgeInsetsInsetRect(nativeWindow.bounds,
                                nativeWindow.safeAreaInsets);
     // Noninteractive overlay; never touch the original split scene frame.
-    const CGFloat width=136, height=68, margin=10;
+    const CGFloat width=142, height=64, margin=10;
     CGRect bounds=DFValidBounds(safe)?safe:nativeWindow.bounds;
     hud.frame=CGRectMake(CGRectGetMaxX(bounds)-width-margin,
                          CGRectGetMinY(bounds)+margin,width,height);
