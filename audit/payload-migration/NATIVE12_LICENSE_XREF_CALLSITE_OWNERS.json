@@ -1,0 +1,62 @@
+{
+  "status": "NATIVE12_LICENSE_CLASSREF_CALLSITE_OWNERS_READONLY",
+  "native12_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "physical_removal_performed": false,
+  "dynamic_liveness_proven_absent": false,
+  "binaries": {
+    "DuoFaceUI": {
+      "method_count": 522,
+      "xref_owners": [
+        {
+          "vm": "0x1000087d4",
+          "arm64": "ldr x0, [x8, #0x928]",
+          "pointer_slot_vm": "0x10011b928",
+          "class": "CBSubscriptionViewController",
+          "role": "direct_reference",
+          "method_owner": {
+            "class": "XXRootViewController",
+            "method": "-checkAndPresentLicenseModalIfNeeded",
+            "imp_vm": "0x100008348",
+            "offset_into_method": 1164
+          },
+          "next_method_vm": "0x100008aec",
+          "enclosing_method_estimated": true
+        },
+        {
+          "vm": "0x1000088c8",
+          "arm64": "ldr x22, [x8, #0x938]",
+          "pointer_slot_vm": "0x10011b938",
+          "class": "CBLicenseExpiredModalViewController",
+          "role": "direct_reference",
+          "method_owner": {
+            "class": "XXRootViewController",
+            "method": "-checkAndPresentLicenseModalIfNeeded",
+            "imp_vm": "0x100008348",
+            "offset_into_method": 1408
+          },
+          "next_method_vm": "0x100008aec",
+          "enclosing_method_estimated": true
+        },
+        {
+          "vm": "0x100008a50",
+          "arm64": "ldr x0, [x8, #0x928]",
+          "pointer_slot_vm": "0x10011b928",
+          "class": "CBSubscriptionViewController",
+          "role": "direct_reference",
+          "method_owner": {
+            "class": "XXRootViewController",
+            "method": "-checkAndPresentLicenseModalIfNeeded",
+            "imp_vm": "0x100008348",
+            "offset_into_method": 1800
+          },
+          "next_method_vm": "0x100008aec",
+          "enclosing_method_estimated": true
+        }
+      ]
+    },
+    "DuoFaceDashboard": {
+      "method_count": 757,
+      "xref_owners": []
+    }
+  }
+}
