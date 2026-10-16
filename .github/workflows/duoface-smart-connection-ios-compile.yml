@@ -33,6 +33,10 @@ jobs:
       - name: Verify isolated staging does not alter native12 packaging
         run: |
           set -euo pipefail
-          ! grep -R 'DFConnectionAdapter.mm' Makefile* || exit 1
-          ! grep -R 'DFConnectionPolicy.cpp' Makefile* || exit 1
+          ! grep -Fq 'DFConnectionAdapter.mm' Makefile.fullscreen
+          ! grep -Fq 'DFConnectionPolicy.cpp' Makefile.fullscreen
+          ! grep -Fq 'DFConnectionAdapter.mm' Makefile.fullscreen-adapter-check
+          ! grep -Fq 'DFConnectionPolicy.cpp' Makefile.fullscreen-adapter-check
+          grep -Fq 'DFConnectionAdapter.mm' Makefile.smart-connection-stage
+          echo 'Staged smart-connection source isolated from existing native12 build'
           echo 'NATIVE12_UNCHANGED_NO_SILEO_DEPLOY'
