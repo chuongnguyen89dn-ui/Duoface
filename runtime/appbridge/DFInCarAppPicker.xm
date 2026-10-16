@@ -33,7 +33,7 @@
 
 static const NSInteger kDFInCarModalTag=0x0DFA0023;
 static NSString *const kDFBridgedAppsKey=@"bridgedApps";
-static NSString *const kDFNativeOwnerPrefsFile=@"/var/mobile/Library/Preferences/com.duonavi.plist";
+static NSString *const kDFNativeOwnerPrefsFile=@"/var/mobile/Library/Preferences/com.duoface.plist";
 static BOOL DFPickerValidBundle(NSString *bid) {
     if (![bid isKindOfClass:NSString.class] || bid.length<3 || bid.length>255 ||
         ![bid containsString:@"."] || [bid containsString:@".."]) return NO;
@@ -89,9 +89,9 @@ static BOOL DFListEqual(NSArray *a,NSArray *b) {
     return a && b && [a isEqualToArray:b];
 }
 static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
-    // Native12 Dashboard's ORIGINAL obfuscated initializer 0x3822c:
-    // /var/mobile/Library/Preferences/com.duonavi.plist.
-    // Keep legacy persistent domain; never create a new preference store.
+    // Native20 rebuild patches the original native12 owner decoder to this
+    // same canonical DuoFace preference file. Package preinst migrates existing
+    // settings once, without recreating the app list from memory.
     if (!DFValidStringApps(current)) return nil;
     NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:kDFNativeOwnerPrefsFile];
     if (![dict isKindOfClass:NSDictionary.class]) {
@@ -128,8 +128,7 @@ static NSArray<NSDictionary *> *DFEligibleApps(NSArray<NSString *> *already) {
         NSString *name=[proxy localizedName];
         if (!DFPickerValidBundle(bid) || [selected containsObject:bid] ||
             ![name isKindOfClass:NSString.class] || !name.length ||
-            [bid hasPrefix:@"com.apple."] || [bid hasPrefix:@"com.duoface."] ||
-            [bid hasPrefix:@"com.duonavi."]) continue;
+            [bid hasPrefix:@"com.apple."] || [bid hasPrefix:@"com.duoface."]) continue;
         if ([proxy respondsToSelector:@selector(applicationType)]) {
             id kind=[proxy applicationType];
             if ([kind isKindOfClass:NSString.class] && ![kind isEqualToString:@"User"])
