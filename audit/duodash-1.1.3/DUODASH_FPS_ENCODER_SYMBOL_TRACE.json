@@ -1,0 +1,4263 @@
+{
+  "status": "DUODASH_FPS_ARCHIVED_DEB_INSTRUMENTED_STATIC_TRACE",
+  "original_user_stock_repack_identical": false,
+  "native12_touched": false,
+  "deb_mutated": false,
+  "runtime_tested": false,
+  "source_git_blob": "6f3e7a4543a01358b3c1e24653aec5bdb3975206",
+  "source_package_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+  "arch_data": {
+    "arm64": {
+      "sha256": "7347afde50ee43d1bee6980149bdcea804723788c0a782f38825958b0eca9677",
+      "indirect_imports": {
+        "symbol_count": 408,
+        "indirect_count": 594,
+        "stubs": {
+          "0x6c388": "_CACurrentMediaTime",
+          "0x6c394": "_CC_SHA256",
+          "0x6c3a0": "_CFAbsoluteTimeGetCurrent",
+          "0x6c3ac": "_CFArrayAppendValue",
+          "0x6c3b8": "_CFArrayCreateMutable",
+          "0x6c3c4": "_CFArrayGetCount",
+          "0x6c3d0": "_CFArrayGetTypeID",
+          "0x6c3dc": "_CFArrayGetValueAtIndex",
+          "0x6c3e8": "_CFBooleanGetTypeID",
+          "0x6c3f4": "_CFBooleanGetValue",
+          "0x6c400": "_CFDataCreateMutable",
+          "0x6c40c": "_CFDataGetBytePtr",
+          "0x6c418": "_CFDataGetLength",
+          "0x6c424": "_CFDataGetMutableBytePtr",
+          "0x6c430": "_CFDataSetLength",
+          "0x6c43c": "_CFDictionaryCreateMutable",
+          "0x6c448": "_CFDictionaryGetTypeID",
+          "0x6c454": "_CFDictionaryGetValue",
+          "0x6c460": "_CFDictionaryRemoveValue",
+          "0x6c46c": "_CFDictionarySetValue",
+          "0x6c478": "_CFEqual",
+          "0x6c484": "_CFGetTypeID",
+          "0x6c490": "_CFNotificationCenterAddObserver",
+          "0x6c49c": "_CFNotificationCenterGetDarwinNotifyCenter",
+          "0x6c4a8": "_CFNotificationCenterPostNotification",
+          "0x6c4b4": "_CFNotificationCenterRemoveEveryObserver",
+          "0x6c4c0": "_CFNumberCreate",
+          "0x6c4cc": "_CFNumberGetTypeID",
+          "0x6c4d8": "_CFNumberGetValue",
+          "0x6c4e4": "_CFNumberIsFloatType",
+          "0x6c4f0": "_CFPreferencesAppSynchronize",
+          "0x6c4fc": "_CFPreferencesCopyAppValue",
+          "0x6c508": "_CFPreferencesCopyValue",
+          "0x6c514": "_CFPreferencesGetAppBooleanValue",
+          "0x6c520": "_CFPreferencesSetAppValue",
+          "0x6c52c": "_CFPreferencesSetValue",
+          "0x6c538": "_CFPreferencesSynchronize",
+          "0x6c544": "_CFPropertyListCreateData",
+          "0x6c550": "_CFPropertyListCreateWithData",
+          "0x6c55c": "_CFRelease",
+          "0x6c568": "_CFRetain",
+          "0x6c574": "_CFRunLoopAddSource",
+          "0x6c580": "_CFRunLoopGetCurrent",
+          "0x6c58c": "_CFRunLoopRunInMode",
+          "0x6c598": "_CFStringCompare",
+          "0x6c5a4": "_CFStringCreateWithCString",
+          "0x6c5b0": "_CFStringGetCString",
+          "0x6c5bc": "_CFStringGetTypeID",
+          "0x6c5c8": "_CGAffineTransformMakeRotation",
+          "0x6c5d4": "_CGAffineTransformMakeScale",
+          "0x6c5e0": "_CGAffineTransformMakeTranslation",
+          "0x6c5ec": "_CGAffineTransformScale",
+          "0x6c5f8": "_CGColorGetAlpha",
+          "0x6c604": "_CGColorSpaceCreateDeviceRGB",
+          "0x6c610": "_CGColorSpaceRelease",
+          "0x6c61c": "_CGContextClipToMask",
+          "0x6c628": "_CGContextDrawLinearGradient",
+          "0x6c634": "_CGContextFillEllipseInRect",
+          "0x6c640": "_CGContextFillRect",
+          "0x6c64c": "_CGContextRestoreGState",
+          "0x6c658": "_CGContextSaveGState",
+          "0x6c664": "_CGContextScaleCTM",
+          "0x6c670": "_CGContextSetRGBFillColor",
+          "0x6c67c": "_CGContextTranslateCTM",
+          "0x6c688": "_CGDataProviderCreateWithData",
+          "0x6c694": "_CGDataProviderRelease",
+          "0x6c6a0": "_CGGradientCreateWithColorComponents",
+          "0x6c6ac": "_CGGradientRelease",
+          "0x6c6b8": "_CGImageMaskCreate",
+          "0x6c6c4": "_CGRectContainsPoint",
+          "0x6c6d0": "_CGRectContainsRect",
+          "0x6c6dc": "_CGRectGetHeight",
+          "0x6c6e8": "_CGRectGetMaxX",
+          "0x6c6f4": "_CGRectGetMaxY",
+          "0x6c700": "_CGRectGetMidX",
+          "0x6c70c": "_CGRectGetMidY",
+          "0x6c718": "_CGRectGetMinX",
+          "0x6c724": "_CGRectGetMinY",
+          "0x6c730": "_CGRectGetWidth",
+          "0x6c73c": "_CGRectInset",
+          "0x6c748": "_CGRectIntersection",
+          "0x6c754": "_CGRectIntersectsRect",
+          "0x6c760": "_CGRectIsEmpty",
+          "0x6c76c": "_CGRectIsNull",
+          "0x6c778": "_CGRectUnion",
+          "0x6c784": "_IOObjectRelease",
+          "0x6c790": "_IOPSCopyPowerSourcesInfo",
+          "0x6c79c": "_IOPSCopyPowerSourcesList",
+          "0x6c7a8": "_IOPSGetPowerSourceDescription",
+          "0x6c7b4": "_IOPSNotificationCreateRunLoopSource",
+          "0x6c7c0": "_IORegistryEntryCreateCFProperties",
+          "0x6c7cc": "_IOServiceGetMatchingService",
+          "0x6c7d8": "_IOServiceMatching",
+          "0x6c7e4": "_MSHookFunction",
+          "0x6c7f0": "_MSHookMessageEx",
+          "0x6c7fc": "_NSClassFromString",
+          "0x6c808": "_NSSelectorFromString",
+          "0x6c814": "_NSStringFromCGSize",
+          "0x6c820": "_NSStringFromClass",
+          "0x6c82c": "_NSStringFromSelector",
+          "0x6c838": "_NSTemporaryDirectory",
+          "0x6c844": "_UIGraphicsBeginImageContextWithOptions",
+          "0x6c850": "_UIGraphicsEndImageContext",
+          "0x6c85c": "_UIGraphicsGetCurrentContext",
+          "0x6c868": "_UIGraphicsGetImageFromCurrentImageContext",
+          "0x6c874": "__Block_object_assign",
+          "0x6c880": "__Block_object_dispose",
+          "0x6c88c": "__NSGetExecutablePath",
+          "0x6c898": "__Unwind_Resume",
+          "0x6c8a4": "___error",
+          "0x6c8b0": "___memcpy_chk",
+          "0x6c8bc": "___stack_chk_fail",
+          "0x6c8c8": "___strlcat_chk",
+          "0x6c8d4": "___strlcpy_chk",
+          "0x6c8e0": "__dyld_get_image_header",
+          "0x6c8ec": "_access",
+          "0x6c8f8": "_atexit",
+          "0x6c904": "_backtrace",
+          "0x6c910": "_bzero",
+          "0x6c91c": "_calloc",
+          "0x6c928": "_chmod",
+          "0x6c934": "_class_addMethod",
+          "0x6c940": "_class_copyIvarList",
+          "0x6c94c": "_class_copyMethodList",
+          "0x6c958": "_class_getClassMethod",
+          "0x6c964": "_class_getInstanceMethod",
+          "0x6c970": "_class_getInstanceVariable",
+          "0x6c97c": "_class_getName",
+          "0x6c988": "_class_getSuperclass",
+          "0x6c994": "_close",
+          "0x6c9a0": "_closedir",
+          "0x6c9ac": "_deflate",
+          "0x6c9b8": "_deflateEnd",
+          "0x6c9c4": "_deflateInit2_",
+          "0x6c9d0": "_dispatch_after",
+          "0x6c9dc": "_dispatch_async",
+          "0x6c9e8": "_dispatch_get_global_queue",
+          "0x6c9f4": "_dispatch_once",
+          "0x6ca00": "_dispatch_queue_attr_make_with_qos_class",
+          "0x6ca0c": "_dispatch_queue_create",
+          "0x6ca18": "_dispatch_resume",
+          "0x6ca24": "_dispatch_semaphore_create",
+          "0x6ca30": "_dispatch_semaphore_signal",
+          "0x6ca3c": "_dispatch_semaphore_wait",
+          "0x6ca48": "_dispatch_source_cancel",
+          "0x6ca54": "_dispatch_source_create",
+          "0x6ca60": "_dispatch_source_set_event_handler",
+          "0x6ca6c": "_dispatch_source_set_timer",
+          "0x6ca78": "_dispatch_sync",
+          "0x6ca84": "_dispatch_time",
+          "0x6ca90": "_dladdr",
+          "0x6ca9c": "_dlopen",
+          "0x6caa8": "_dlsym",
+          "0x6cab4": "_fclose",
+          "0x6cac0": "_fgets",
+          "0x6cacc": "_fmod",
+          "0x6cad8": "_fopen",
+          "0x6cae4": "_fread",
+          "0x6caf0": "_free",
+          "0x6cafc": "_fseek",
+          "0x6cb08": "_fsync",
+          "0x6cb14": "_ftell",
+          "0x6cb20": "_fwrite",
+          "0x6cb2c": "_getenv",
+          "0x6cb38": "_getpid",
+          "0x6cb44": "_getsegmentdata",
+          "0x6cb50": "_hypot",
+          "0x6cb5c": "_ivar_getName",
+          "0x6cb68": "_ivar_getOffset",
+          "0x6cb74": "_ivar_getTypeEncoding",
+          "0x6cb80": "_kill",
+          "0x6cb8c": "_lstat",
+          "0x6cb98": "_mach_absolute_time",
+          "0x6cba4": "_mach_timebase_info",
+          "0x6cbb0": "_malloc",
+          "0x6cbbc": "_malloc_zone_from_ptr",
+          "0x6cbc8": "_memcmp",
+          "0x6cbd4": "_memcpy",
+          "0x6cbe0": "_method_copyArgumentType",
+          "0x6cbec": "_method_copyReturnType",
+          "0x6cbf8": "_method_getArgumentType",
+          "0x6cc04": "_method_getImplementation",
+          "0x6cc10": "_method_getName",
+          "0x6cc1c": "_method_getNumberOfArguments",
+          "0x6cc28": "_method_getTypeEncoding",
+          "0x6cc34": "_method_setImplementation",
+          "0x6cc40": "_mkdir",
+          "0x6cc4c": "_notify_cancel",
+          "0x6cc58": "_notify_get_state",
+          "0x6cc64": "_notify_post",
+          "0x6cc70": "_notify_register_check",
+          "0x6cc7c": "_notify_register_dispatch",
+          "0x6cc88": "_notify_set_state",
+          "0x6cc94": "_objc_alloc",
+          "0x6cca0": "_objc_alloc_init",
+          "0x6ccac": "_objc_autorelease",
+          "0x6ccb8": "_objc_autoreleasePoolPop",
+          "0x6ccc4": "_objc_autoreleasePoolPush",
+          "0x6ccd0": "_objc_autoreleaseReturnValue",
+          "0x6ccdc": "_objc_begin_catch",
+          "0x6cce8": "_objc_copyClassList",
+          "0x6ccf4": "_objc_copyWeak",
+          "0x6cd00": "_objc_destroyWeak",
+          "0x6cd0c": "_objc_end_catch",
+          "0x6cd18": "_objc_enumerationMutation",
+          "0x6cd24": "_objc_exception_rethrow",
+          "0x6cd30": "_objc_getAssociatedObject",
+          "0x6cd3c": "_objc_getClass",
+          "0x6cd48": "_objc_initWeak",
+          "0x6cd54": "_objc_loadWeakRetained",
+          "0x6cd60": "_objc_msgSend",
+          "0x6cd6c": "_objc_msgSendSuper2",
+          "0x6cd78": "_objc_opt_class",
+          "0x6cd84": "_objc_opt_isKindOfClass",
+          "0x6cd90": "_objc_opt_new",
+          "0x6cd9c": "_objc_opt_respondsToSelector",
+          "0x6cda8": "_objc_release",
+          "0x6cdb4": "_objc_retain",
+          "0x6cdc0": "_objc_retainAutorelease",
+          "0x6cdcc": "_objc_retainAutoreleaseReturnValue",
+          "0x6cdd8": "_objc_retainAutoreleasedReturnValue",
+          "0x6cde4": "_objc_retainBlock",
+          "0x6cdf0": "_objc_setAssociatedObject",
+          "0x6cdfc": "_objc_setProperty_nonatomic_copy",
+          "0x6ce08": "_objc_storeStrong",
+          "0x6ce14": "_objc_storeWeak",
+          "0x6ce20": "_objc_sync_enter",
+          "0x6ce2c": "_objc_sync_exit",
+          "0x6ce38": "_objc_terminate",
+          "0x6ce44": "_objc_unsafeClaimAutoreleasedReturnValue",
+          "0x6ce50": "_object_getClass",
+          "0x6ce5c": "_object_setIvar",
+          "0x6ce68": "_open",
+          "0x6ce74": "_opendir",
+          "0x6ce80": "_os_log_create",
+          "0x6ce8c": "_os_unfair_lock_lock",
+          "0x6ce98": "_os_unfair_lock_unlock",
+          "0x6cea4": "_pclose",
+          "0x6ceb0": "_popen",
+          "0x6cebc": "_posix_spawn",
+          "0x6cec8": "_proc_pidpath",
+          "0x6ced4": "_pthread_once",
+          "0x6cee0": "_qsort",
+          "0x6ceec": "_read",
+          "0x6cef8": "_readdir",
+          "0x6cf04": "_realloc",
+          "0x6cf10": "_realpath$DARWIN_EXTSN",
+          "0x6cf1c": "_rename",
+          "0x6cf28": "_sel_getName",
+          "0x6cf34": "_sel_registerName",
+          "0x6cf40": "_setenv",
+          "0x6cf4c": "_sleep",
+          "0x6cf58": "_snprintf",
+          "0x6cf64": "_stat",
+          "0x6cf70": "_statfs",
+          "0x6cf7c": "_strchr",
+          "0x6cf88": "_strcmp",
+          "0x6cf94": "_strlcpy",
+          "0x6cfa0": "_strlen",
+          "0x6cfac": "_strncmp",
+          "0x6cfb8": "_strncpy",
+          "0x6cfc4": "_strnlen",
+          "0x6cfd0": "_strrchr",
+          "0x6cfdc": "_strstr",
+          "0x6cfe8": "_sysctl",
+          "0x6cff4": "_sysctlbyname",
+          "0x6d000": "_time",
+          "0x6d00c": "_unlink",
+          "0x6d018": "_utimes",
+          "0x6d024": "_vsnprintf",
+          "0x6d030": "_waitpid",
+          "0x6d03c": "_write"
+        },
+        "sections": [
+          {
+            "name": "__stubs",
+            "segment": "__TEXT",
+            "address": 443272,
+            "size": 3264,
+            "file_offset": 443272,
+            "reserved1": 0,
+            "reserved2": 12
+          },
+          {
+            "name": "__cstring",
+            "segment": "__TEXT",
+            "address": 513216,
+            "size": 193700,
+            "file_offset": 513216,
+            "reserved1": 0,
+            "reserved2": 0
+          },
+          {
+            "name": "__got",
+            "segment": "__DATA_CONST",
+            "address": 753664,
+            "size": 2576,
+            "file_offset": 753664,
+            "reserved1": 272,
+            "reserved2": 0
+          },
+          {
+            "name": "__cfstring",
+            "segment": "__DATA_CONST",
+            "address": 824008,
+            "size": 31904,
+            "file_offset": 824008,
+            "reserved1": 0,
+            "reserved2": 0
+          },
+          {
+            "name": "__objc_selrefs",
+            "segment": "__DATA",
+            "address": 885752,
+            "size": 9304,
+            "file_offset": 885752,
+            "reserved1": 0,
+            "reserved2": 0
+          }
+        ],
+        "imported_symbol_excerpt": [
+          "_CFPreferencesAppSynchronize",
+          "_CFPreferencesCopyAppValue",
+          "_CFPreferencesCopyValue",
+          "_CFPreferencesGetAppBooleanValue",
+          "_CFPreferencesSetAppValue",
+          "_CFPreferencesSetValue",
+          "_CFPreferencesSynchronize",
+          "_kCFPreferencesAnyHost",
+          "_kCFPreferencesCurrentHost",
+          "_kCFPreferencesCurrentUser",
+          "_notify_cancel",
+          "_notify_get_state",
+          "_notify_post",
+          "_notify_register_check",
+          "_notify_register_dispatch",
+          "_notify_set_state",
+          "_os_log_create",
+          "_sysctl",
+          "_sysctlbyname"
+        ]
+      },
+      "nearby_string_tables": {
+        "perf_tweak_enabled": [
+          {
+            "hit_index": 190,
+            "neighbors": [
+              {
+                "vm": "0x7e3e1",
+                "name": "com.sensetechlab.navbubble.changed"
+              },
+              {
+                "vm": "0x7e404",
+                "name": "com.sensetechlab.autostart.changed"
+              },
+              {
+                "vm": "0x7e427",
+                "name": "com.sensetechlab.fontfloor.changed"
+              },
+              {
+                "vm": "0x7e44a",
+                "name": "com.sensetechlab.appbridge.paneactivity"
+              },
+              {
+                "vm": "0x7e472",
+                "name": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+              },
+              {
+                "vm": "0x7e49f",
+                "name": "not-an-edge-strip"
+              },
+              {
+                "vm": "0x7e4b1",
+                "name": "strip-outside-area"
+              },
+              {
+                "vm": "0x7e4c4",
+                "name": "left"
+              },
+              {
+                "vm": "0x7e4c9",
+                "name": "right"
+              },
+              {
+                "vm": "0x7e4cf",
+                "name": "top"
+              },
+              {
+                "vm": "0x7e4d3",
+                "name": "bottom"
+              },
+              {
+                "vm": "0x7e4da",
+                "name": "degenerate"
+              },
+              {
+                "vm": "0x7e4e5",
+                "name": "/var/tmp"
+              },
+              {
+                "vm": "0x7e4ee",
+                "name": "carnav_"
+              },
+              {
+                "vm": "0x7e4f6",
+                "name": "%s/%s"
+              },
+              {
+                "vm": "0x7e4fc",
+                "name": "%s/duodash_%s"
+              },
+              {
+                "vm": "0x7e50a",
+                "name": "dashboard_mode_enabled"
+              },
+              {
+                "vm": "0x7e521",
+                "name": "dashboard_mode_retired"
+              },
+              {
+                "vm": "0x7e538",
+                "name": "pane_unload_close_enabled"
+              },
+              {
+                "vm": "0x7e552",
+                "name": "pane_unload_close_migrated"
+              },
+              {
+                "vm": "0x7e56d",
+                "name": "perf_tweak_enabled"
+              },
+              {
+                "vm": "0x7e580",
+                "name": "headunit_resolution"
+              },
+              {
+                "vm": "0x7e594",
+                "name": "headunit_video_quality"
+              },
+              {
+                "vm": "0x7e5ab",
+                "name": "headunit_layout_area"
+              },
+              {
+                "vm": "0x7e5c0",
+                "name": "display.changed"
+              },
+              {
+                "vm": "0x7e5d0",
+                "name": "com.sensetechlab.ble.status.changed"
+              },
+              {
+                "vm": "0x7e5f4",
+                "name": "carplay-subrect"
+              },
+              {
+                "vm": "0x7e604",
+                "name": "subrect"
+              },
+              {
+                "vm": "0x7e60c",
+                "name": "measured-dock"
+              },
+              {
+                "vm": "0x7e61a",
+                "name": "dock"
+              },
+              {
+                "vm": "0x7e61f",
+                "name": "carplay-fullscreen"
+              },
+              {
+                "vm": "0x7e632",
+                "name": "full"
+              },
+              {
+                "vm": "0x7e637",
+                "name": "measured-dock-nofrome"
+              },
+              {
+                "vm": "0x7e64d",
+                "name": "dock2"
+              },
+              {
+                "vm": "0x7e653",
+                "name": "display-unmeasured-dock"
+              },
+              {
+                "vm": "0x7e66b",
+                "name": "display"
+              },
+              {
+                "vm": "0x7e673",
+                "name": "single-app"
+              },
+              {
+                "vm": "0x7e67e",
+                "name": "single"
+              },
+              {
+                "vm": "0x7e685",
+                "name": "/var/tmp/duodash_ab_nopanepad"
+              },
+              {
+                "vm": "0x7e6a3",
+                "name": "/var/tmp/duodash_ab_nopaneround"
+              },
+              {
+                "vm": "0x7e6c3",
+                "name": "/var/tmp/duodash_ab_panepad"
+              },
+              {
+                "vm": "0x7e6df",
+                "name": "/var/tmp/duodash_ab_noratio"
+              },
+              {
+                "vm": "0x7e6fb",
+                "name": "/var/tmp/duodash_ab_paneratio"
+              },
+              {
+                "vm": "0x7e719",
+                "name": "/var/tmp/duodash_ab_panefracs"
+              },
+              {
+                "vm": "0x7e737",
+                "name": "/var/tmp/duodash_ab_layout"
+              },
+              {
+                "vm": "0x7e754",
+                "name": "window.pane.empty"
+              },
+              {
+                "vm": "0x7e766",
+                "name": "full-bounds"
+              },
+              {
+                "vm": "0x7e772",
+                "name": "/var/tmp/duodash_ab_content_inset"
+              },
+              {
+                "vm": "0x7e794",
+                "name": "carplay_content_insets"
+              },
+              {
+                "vm": "0x7e7ab",
+                "name": "carplay_content_inset"
+              }
+            ]
+          }
+        ],
+        "com.sensetechlab.carplay/fps": [
+          {
+            "hit_index": 778,
+            "neighbors": [
+              {
+                "vm": "0x81851",
+                "name": "age=%.1fs"
+              },
+              {
+                "vm": "0x8185b",
+                "name": "com.sensetechlab.selftest"
+              },
+              {
+                "vm": "0x81875",
+                "name": "providerName"
+              },
+              {
+                "vm": "0x81882",
+                "name": "DuoDash self-test"
+              },
+              {
+                "vm": "0x81894",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x818a5",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x818cc",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x818ef",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x818f8",
+                "name": "caps"
+              },
+              {
+                "vm": "0x818fd",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x81909",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x81932",
+                "name": "limit"
+              },
+              {
+                "vm": "0x81938",
+                "name": "speed"
+              },
+              {
+                "vm": "0x8193e",
+                "name": "camera"
+              },
+              {
+                "vm": "0x81945",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x8196b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x8199e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x819a4",
+                "name": "handler"
+              },
+              {
+                "vm": "0x819ac",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x819b8",
+                "name": "installed"
+              },
+              {
+                "vm": "0x819c2",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x819df",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x81a10",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x81a22",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x81a29",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x81a39",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x81a6a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x81a95",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x81acd",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x81b01",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x81b1e",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x81b29",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x81b41",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x81b56",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x81b74",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x81b83",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x81b8c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x81ba8",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x81bc9",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bdc",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bf8",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x81c06",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x81c23",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x81c31",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x81c44",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x81c4b",
+                "name": "tate"
+              },
+              {
+                "vm": "0x81c50",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x81c69",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x81c77",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x81c85",
+                "name": "Waze.app/Waze"
+              }
+            ]
+          }
+        ],
+        "maxFPS": [
+          {
+            "hit_index": 781,
+            "neighbors": [
+              {
+                "vm": "0x81882",
+                "name": "DuoDash self-test"
+              },
+              {
+                "vm": "0x81894",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x818a5",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x818cc",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x818ef",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x818f8",
+                "name": "caps"
+              },
+              {
+                "vm": "0x818fd",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x81909",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x81932",
+                "name": "limit"
+              },
+              {
+                "vm": "0x81938",
+                "name": "speed"
+              },
+              {
+                "vm": "0x8193e",
+                "name": "camera"
+              },
+              {
+                "vm": "0x81945",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x8196b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x8199e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x819a4",
+                "name": "handler"
+              },
+              {
+                "vm": "0x819ac",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x819b8",
+                "name": "installed"
+              },
+              {
+                "vm": "0x819c2",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x819df",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x81a10",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x81a22",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x81a29",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x81a39",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x81a6a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x81a95",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x81acd",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x81b01",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x81b1e",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x81b29",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x81b41",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x81b56",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x81b74",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x81b83",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x81b8c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x81ba8",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x81bc9",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bdc",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bf8",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x81c06",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x81c23",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x81c31",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x81c44",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x81c4b",
+                "name": "tate"
+              },
+              {
+                "vm": "0x81c50",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x81c69",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x81c77",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x81c85",
+                "name": "Waze.app/Waze"
+              },
+              {
+                "vm": "0x81c93",
+                "name": "SBApplicationController"
+              },
+              {
+                "vm": "0x81cab",
+                "name": "FBProcessState"
+              },
+              {
+                "vm": "0x81cba",
+                "name": "_noteProcess:didChangeToState:"
+              }
+            ]
+          }
+        ],
+        "encoderFPSFixed": [
+          {
+            "hit_index": 782,
+            "neighbors": [
+              {
+                "vm": "0x81894",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x818a5",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x818cc",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x818ef",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x818f8",
+                "name": "caps"
+              },
+              {
+                "vm": "0x818fd",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x81909",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x81932",
+                "name": "limit"
+              },
+              {
+                "vm": "0x81938",
+                "name": "speed"
+              },
+              {
+                "vm": "0x8193e",
+                "name": "camera"
+              },
+              {
+                "vm": "0x81945",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x8196b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x8199e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x819a4",
+                "name": "handler"
+              },
+              {
+                "vm": "0x819ac",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x819b8",
+                "name": "installed"
+              },
+              {
+                "vm": "0x819c2",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x819df",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x81a10",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x81a22",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x81a29",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x81a39",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x81a6a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x81a95",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x81acd",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x81b01",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x81b1e",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x81b29",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x81b41",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x81b56",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x81b74",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x81b83",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x81b8c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x81ba8",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x81bc9",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bdc",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x81bf8",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x81c06",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x81c23",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x81c31",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x81c44",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x81c4b",
+                "name": "tate"
+              },
+              {
+                "vm": "0x81c50",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x81c69",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x81c77",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x81c85",
+                "name": "Waze.app/Waze"
+              },
+              {
+                "vm": "0x81c93",
+                "name": "SBApplicationController"
+              },
+              {
+                "vm": "0x81cab",
+                "name": "FBProcessState"
+              },
+              {
+                "vm": "0x81cba",
+                "name": "_noteProcess:didChangeToState:"
+              },
+              {
+                "vm": "0x81cd9",
+                "name": "/usr/lib/TweakInject/DuoDashPrefsRefresh.dylib"
+              }
+            ]
+          }
+        ],
+        "settings.changed": [
+          {
+            "hit_index": 169,
+            "neighbors": [
+              {
+                "vm": "0x7e23d",
+                "name": "split.deactivate"
+              },
+              {
+                "vm": "0x7e24e",
+                "name": "/var/tmp/duodash_ab_reapdelay"
+              },
+              {
+                "vm": "0x7e26c",
+                "name": "host.request.split.reshow"
+              },
+              {
+                "vm": "0x7e286",
+                "name": "host.request.split"
+              },
+              {
+                "vm": "0x7e299",
+                "name": "CarPlay disconnect"
+              },
+              {
+                "vm": "0x7e2ac",
+                "name": "CarPlayIsConnectedDidChange_IsConnected"
+              },
+              {
+                "vm": "0x7e2d4",
+                "name": "CarPlayIsConnectedDidChange"
+              },
+              {
+                "vm": "0x7e2f0",
+                "name": "UIScreenDidDisconnect"
+              },
+              {
+                "vm": "0x7e306",
+                "name": "poll"
+              },
+              {
+                "vm": "0x7e30b",
+                "name": "poll: reconnected"
+              },
+              {
+                "vm": "0x7e31d",
+                "name": "com.sensetechlab.appbridge.cpconnect"
+              },
+              {
+                "vm": "0x7e342",
+                "name": "poll.bringup"
+              },
+              {
+                "vm": "0x7e34f",
+                "name": "poll.connect"
+              },
+              {
+                "vm": "0x7e35c",
+                "name": "poll.retry"
+              },
+              {
+                "vm": "0x7e367",
+                "name": "%@#%d"
+              },
+              {
+                "vm": "0x7e36d",
+                "name": "ab.deferred_entered"
+              },
+              {
+                "vm": "0x7e381",
+                "name": "springboard.bringup"
+              },
+              {
+                "vm": "0x7e395",
+                "name": "ab.restores_done"
+              },
+              {
+                "vm": "0x7e3a6",
+                "name": "appbridge_sb"
+              },
+              {
+                "vm": "0x7e3b3",
+                "name": "ab.latch_ok"
+              },
+              {
+                "vm": "0x7e3bf",
+                "name": "com.sensetechlab.settings.changed"
+              },
+              {
+                "vm": "0x7e3e1",
+                "name": "com.sensetechlab.navbubble.changed"
+              },
+              {
+                "vm": "0x7e404",
+                "name": "com.sensetechlab.autostart.changed"
+              },
+              {
+                "vm": "0x7e427",
+                "name": "com.sensetechlab.fontfloor.changed"
+              },
+              {
+                "vm": "0x7e44a",
+                "name": "com.sensetechlab.appbridge.paneactivity"
+              },
+              {
+                "vm": "0x7e472",
+                "name": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+              },
+              {
+                "vm": "0x7e49f",
+                "name": "not-an-edge-strip"
+              },
+              {
+                "vm": "0x7e4b1",
+                "name": "strip-outside-area"
+              },
+              {
+                "vm": "0x7e4c4",
+                "name": "left"
+              },
+              {
+                "vm": "0x7e4c9",
+                "name": "right"
+              },
+              {
+                "vm": "0x7e4cf",
+                "name": "top"
+              },
+              {
+                "vm": "0x7e4d3",
+                "name": "bottom"
+              },
+              {
+                "vm": "0x7e4da",
+                "name": "degenerate"
+              },
+              {
+                "vm": "0x7e4e5",
+                "name": "/var/tmp"
+              },
+              {
+                "vm": "0x7e4ee",
+                "name": "carnav_"
+              },
+              {
+                "vm": "0x7e4f6",
+                "name": "%s/%s"
+              },
+              {
+                "vm": "0x7e4fc",
+                "name": "%s/duodash_%s"
+              },
+              {
+                "vm": "0x7e50a",
+                "name": "dashboard_mode_enabled"
+              },
+              {
+                "vm": "0x7e521",
+                "name": "dashboard_mode_retired"
+              },
+              {
+                "vm": "0x7e538",
+                "name": "pane_unload_close_enabled"
+              },
+              {
+                "vm": "0x7e552",
+                "name": "pane_unload_close_migrated"
+              },
+              {
+                "vm": "0x7e56d",
+                "name": "perf_tweak_enabled"
+              },
+              {
+                "vm": "0x7e580",
+                "name": "headunit_resolution"
+              },
+              {
+                "vm": "0x7e594",
+                "name": "headunit_video_quality"
+              },
+              {
+                "vm": "0x7e5ab",
+                "name": "headunit_layout_area"
+              },
+              {
+                "vm": "0x7e5c0",
+                "name": "display.changed"
+              },
+              {
+                "vm": "0x7e5d0",
+                "name": "com.sensetechlab.ble.status.changed"
+              },
+              {
+                "vm": "0x7e5f4",
+                "name": "carplay-subrect"
+              },
+              {
+                "vm": "0x7e604",
+                "name": "subrect"
+              },
+              {
+                "vm": "0x7e60c",
+                "name": "measured-dock"
+              }
+            ]
+          }
+        ],
+        "preferredFramesPerSecond": [],
+        "preferredFrameRateRange": []
+      },
+      "direct_string_pointer_candidates": {
+        "perf_tweak_enabled": [
+          {
+            "section": "__cfstring",
+            "vm": "0xca438",
+            "width": 4,
+            "candidate_hex": "6de50700"
+          }
+        ],
+        "com.sensetechlab.carplay/fps": [],
+        "maxFPS": [
+          {
+            "section": "__cfstring",
+            "vm": "0xcd798",
+            "width": 4,
+            "candidate_hex": "221a0800"
+          }
+        ],
+        "encoderFPSFixed": [
+          {
+            "section": "__cfstring",
+            "vm": "0xcd7b8",
+            "width": 4,
+            "candidate_hex": "291a0800"
+          }
+        ]
+      },
+      "selected_fps_code_disassembly": {
+        "0x4b4c8..0x4b710": [
+          "0x4b4c8: stp x22, x21, [sp, #-0x30]!",
+          "0x4b4cc: stp x20, x19, [sp, #0x10]",
+          "0x4b4d0: stp x29, x30, [sp, #0x20]",
+          "0x4b4d4: add x29, sp, #0x20",
+          "0x4b4d8: adrp x8, #0xb8000",
+          "0x4b4dc: ldr x8, [x8, #0x3f8]",
+          "0x4b4e0: ldr x19, [x8]",
+          "0x4b4e4: adrp x8, #0xb8000",
+          "0x4b4e8: ldr x8, [x8, #0x3e8]",
+          "0x4b4ec: ldr x20, [x8]",
+          "0x4b4f0: adrp x21, #0xc9000",
+          "0x4b4f4: add x21, x21, #0x4e8",
+          "0x4b4f8: mov x0, x21",
+          "0x4b4fc: mov x1, x19",
+          "0x4b500: mov x2, x20",
+          "0x4b504: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b508: adrp x0, #0xca000",
+          "0x4b50c: add x0, x0, #0x428",
+          "0x4b510: mov x1, x21",
+          "0x4b514: mov x2, x19",
+          "0x4b518: mov x3, x20",
+          "0x4b51c: bl #0x6c508  ; IMPORT _CFPreferencesCopyValue",
+          "0x4b520: cbz x0, #0x4b54c",
+          "0x4b524: mov x19, x0",
+          "0x4b528: bl #0x6c484  ; IMPORT _CFGetTypeID",
+          "0x4b52c: mov x20, x0",
+          "0x4b530: bl #0x6c3e8  ; IMPORT _CFBooleanGetTypeID",
+          "0x4b534: cmp x20, x0",
+          "0x4b538: b.ne #0x4b544",
+          "0x4b53c: mov x0, x19",
+          "0x4b540: bl #0x6c3f4  ; IMPORT _CFBooleanGetValue",
+          "0x4b544: mov x0, x19",
+          "0x4b548: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4b54c: adrp x19, #0xdb000",
+          "0x4b550: ldr w0, [x19, #0xedc]",
+          "0x4b554: cmn w0, #1",
+          "0x4b558: b.eq #0x4b574",
+          "0x4b55c: mov w1, #0x3c",
+          "0x4b560: bl #0x6cc88  ; IMPORT _notify_set_state",
+          "0x4b564: cbz w0, #0x4b5a4",
+          "0x4b568: ldr w0, [x19, #0xedc]",
+          "0x4b56c: bl #0x6cc4c  ; IMPORT _notify_cancel",
+          "0x4b570: b #0x4b58c",
+          "0x4b574: adrp x0, #0x81000",
+          "0x4b578: add x0, x0, #0x9c2",
+          "0x4b57c: adrp x1, #0xdb000",
+          "0x4b580: add x1, x1, #0xedc",
+          "0x4b584: bl #0x6cc70  ; IMPORT _notify_register_check",
+          "0x4b588: cbz w0, #0x4b5bc",
+          "0x4b58c: mov w8, #-1",
+          "0x4b590: str w8, [x19, #0xedc]",
+          "0x4b594: ldp x29, x30, [sp, #0x20]",
+          "0x4b598: ldp x20, x19, [sp, #0x10]",
+          "0x4b59c: ldp x22, x21, [sp], #0x30",
+          "0x4b5a0: ret ",
+          "0x4b5a4: adrp x0, #0x81000",
+          "0x4b5a8: add x0, x0, #0x9c2",
+          "0x4b5ac: ldp x29, x30, [sp, #0x20]",
+          "0x4b5b0: ldp x20, x19, [sp, #0x10]",
+          "0x4b5b4: ldp x22, x21, [sp], #0x30",
+          "0x4b5b8: b #0x6cc64  ; IMPORT _notify_post",
+          "0x4b5bc: ldr w0, [x19, #0xedc]",
+          "0x4b5c0: cmn w0, #1",
+          "0x4b5c4: b.ne #0x4b55c",
+          "0x4b5c8: b #0x4b594",
+          "0x4b5cc: stp x22, x21, [sp, #-0x30]!",
+          "0x4b5d0: stp x20, x19, [sp, #0x10]",
+          "0x4b5d4: stp x29, x30, [sp, #0x20]",
+          "0x4b5d8: add x29, sp, #0x20",
+          "0x4b5dc: adrp x8, #0xb8000",
+          "0x4b5e0: ldr x8, [x8, #0x3f8]",
+          "0x4b5e4: ldr x19, [x8]",
+          "0x4b5e8: adrp x8, #0xb8000",
+          "0x4b5ec: ldr x8, [x8, #0x3e8]",
+          "0x4b5f0: ldr x20, [x8]",
+          "0x4b5f4: adrp x21, #0xc9000",
+          "0x4b5f8: add x21, x21, #0x4e8",
+          "0x4b5fc: mov x0, x21",
+          "0x4b600: mov x1, x19",
+          "0x4b604: mov x2, x20",
+          "0x4b608: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b60c: adrp x0, #0xca000",
+          "0x4b610: add x0, x0, #0x428",
+          "0x4b614: mov x1, x21",
+          "0x4b618: mov x2, x19",
+          "0x4b61c: mov x3, x20",
+          "0x4b620: bl #0x6c508  ; IMPORT _CFPreferencesCopyValue",
+          "0x4b624: cbz x0, #0x4b658",
+          "0x4b628: mov x20, x0",
+          "0x4b62c: bl #0x6c484  ; IMPORT _CFGetTypeID",
+          "0x4b630: mov x19, x0",
+          "0x4b634: bl #0x6c3e8  ; IMPORT _CFBooleanGetTypeID",
+          "0x4b638: cmp x19, x0",
+          "0x4b63c: b.ne #0x4b660",
+          "0x4b640: mov x0, x20",
+          "0x4b644: bl #0x6c3f4  ; IMPORT _CFBooleanGetValue",
+          "0x4b648: cmp w0, #0",
+          "0x4b64c: mov w8, #1",
+          "0x4b650: cinc x19, x8, eq",
+          "0x4b654: b #0x4b664",
+          "0x4b658: mov w19, #2",
+          "0x4b65c: b #0x4b66c",
+          "0x4b660: mov w19, #2",
+          "0x4b664: mov x0, x20",
+          "0x4b668: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4b66c: adrp x20, #0xdb000",
+          "0x4b670: ldr w0, [x20, #0xee0]",
+          "0x4b674: cmn w0, #1",
+          "0x4b678: b.eq #0x4b694",
+          "0x4b67c: mov x1, x19",
+          "0x4b680: bl #0x6cc88  ; IMPORT _notify_set_state",
+          "0x4b684: cbz w0, #0x4b6c4",
+          "0x4b688: ldr w0, [x20, #0xee0]",
+          "0x4b68c: bl #0x6cc4c  ; IMPORT _notify_cancel",
+          "0x4b690: b #0x4b6ac",
+          "0x4b694: adrp x0, #0x85000",
+          "0x4b698: add x0, x0, #0x134",
+          "0x4b69c: adrp x1, #0xdb000",
+          "0x4b6a0: add x1, x1, #0xee0",
+          "0x4b6a4: bl #0x6cc70  ; IMPORT _notify_register_check",
+          "0x4b6a8: cbz w0, #0x4b6dc",
+          "0x4b6ac: mov w8, #-1",
+          "0x4b6b0: str w8, [x20, #0xee0]",
+          "0x4b6b4: ldp x29, x30, [sp, #0x20]",
+          "0x4b6b8: ldp x20, x19, [sp, #0x10]",
+          "0x4b6bc: ldp x22, x21, [sp], #0x30",
+          "0x4b6c0: ret ",
+          "0x4b6c4: adrp x0, #0x85000",
+          "0x4b6c8: add x0, x0, #0x134",
+          "0x4b6cc: ldp x29, x30, [sp, #0x20]",
+          "0x4b6d0: ldp x20, x19, [sp, #0x10]",
+          "0x4b6d4: ldp x22, x21, [sp], #0x30",
+          "0x4b6d8: b #0x6cc64  ; IMPORT _notify_post",
+          "0x4b6dc: ldr w0, [x20, #0xee0]",
+          "0x4b6e0: cmn w0, #1",
+          "0x4b6e4: b.ne #0x4b67c",
+          "0x4b6e8: b #0x4b6b4",
+          "0x4b6ec: sub sp, sp, #0x60",
+          "0x4b6f0: stp x26, x25, [sp, #0x10]",
+          "0x4b6f4: stp x24, x23, [sp, #0x20]",
+          "0x4b6f8: stp x22, x21, [sp, #0x30]",
+          "0x4b6fc: stp x20, x19, [sp, #0x40]",
+          "0x4b700: stp x29, x30, [sp, #0x50]",
+          "0x4b704: add x29, sp, #0x50",
+          "0x4b708: mov x19, x0",
+          "0x4b70c: adrp x24, #0xda000"
+        ],
+        "0x4b710..0x4c200": [
+          "0x4b710: ldr x0, [x24, #0x890]",
+          "0x4b714: bl #0x6eb20",
+          "0x4b718: mov x29, x29",
+          "0x4b71c: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4b720: mov x20, x0",
+          "0x4b724: adrp x2, #0xcd000",
+          "0x4b728: add x2, x2, #0x748",
+          "0x4b72c: bl #0x6ef40",
+          "0x4b730: mov x21, x0",
+          "0x4b734: mov x0, x20",
+          "0x4b738: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4b73c: cbz w21, #0x4b758",
+          "0x4b740: adrp x8, #0xdc000",
+          "0x4b744: ldrb w9, [x8, #0xa38]",
+          "0x4b748: tbnz w9, #0, #0x4ba68",
+          "0x4b74c: mov w9, #1",
+          "0x4b750: strb w9, [x8, #0xa38]",
+          "0x4b754: b #0x4ba68",
+          "0x4b758: adrp x8, #0xb8000",
+          "0x4b75c: ldr x8, [x8, #0x3f8]",
+          "0x4b760: ldr x20, [x8]",
+          "0x4b764: adrp x8, #0xb8000",
+          "0x4b768: ldr x8, [x8, #0x3e8]",
+          "0x4b76c: ldr x21, [x8]",
+          "0x4b770: adrp x22, #0xc9000",
+          "0x4b774: add x22, x22, #0x4e8",
+          "0x4b778: mov x0, x22",
+          "0x4b77c: mov x1, x20",
+          "0x4b780: mov x2, x21",
+          "0x4b784: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b788: adrp x0, #0xca000",
+          "0x4b78c: add x0, x0, #0x428",
+          "0x4b790: mov x1, x22",
+          "0x4b794: mov x2, x20",
+          "0x4b798: mov x3, x21",
+          "0x4b79c: bl #0x6c508  ; IMPORT _CFPreferencesCopyValue",
+          "0x4b7a0: cbz x0, #0x4b7d0",
+          "0x4b7a4: mov x22, x0",
+          "0x4b7a8: bl #0x6c484  ; IMPORT _CFGetTypeID",
+          "0x4b7ac: mov x23, x0",
+          "0x4b7b0: bl #0x6c3e8  ; IMPORT _CFBooleanGetTypeID",
+          "0x4b7b4: cmp x23, x0",
+          "0x4b7b8: b.ne #0x4b7d8",
+          "0x4b7bc: mov x0, x22",
+          "0x4b7c0: bl #0x6c3f4  ; IMPORT _CFBooleanGetValue",
+          "0x4b7c4: tst w0, #0xff",
+          "0x4b7c8: cset w25, eq",
+          "0x4b7cc: b #0x4b7dc",
+          "0x4b7d0: mov w25, #1",
+          "0x4b7d4: b #0x4b7e4",
+          "0x4b7d8: mov w25, #1",
+          "0x4b7dc: mov x0, x22",
+          "0x4b7e0: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4b7e4: adrp x0, #0xcd000",
+          "0x4b7e8: add x0, x0, #0x768",
+          "0x4b7ec: mov x1, x20",
+          "0x4b7f0: mov x2, x21",
+          "0x4b7f4: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b7f8: adrp x0, #0xcd000",
+          "0x4b7fc: add x0, x0, #0x788",
+          "0x4b800: bl #0x4d28c",
+          "0x4b804: mov x22, x0",
+          "0x4b808: adrp x0, #0xcd000",
+          "0x4b80c: add x0, x0, #0x7a8",
+          "0x4b810: bl #0x4d28c",
+          "0x4b814: cmp w25, #0",
+          "0x4b818: mov w8, #0xf",
+          "0x4b81c: csinv w8, w8, wzr, eq",
+          "0x4b820: cmp w22, w8",
+          "0x4b824: ccmp w0, w8, #0, eq",
+          "0x4b828: cset w26, eq",
+          "0x4b82c: ldr x0, [x24, #0x890]",
+          "0x4b830: bl #0x6eb20",
+          "0x4b834: mov x29, x29",
+          "0x4b838: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4b83c: mov x22, x0",
+          "0x4b840: adrp x2, #0xcd000",
+          "0x4b844: add x2, x2, #0x7c8",
+          "0x4b848: bl #0x6ef40",
+          "0x4b84c: tbnz w0, #0, #0x4b864",
+          "0x4b850: adrp x2, #0xcd000",
+          "0x4b854: add x2, x2, #0x7e8",
+          "0x4b858: mov x0, x22",
+          "0x4b85c: bl #0x6ef40",
+          "0x4b860: tbz w0, #0, #0x4b8cc",
+          "0x4b864: mov x0, x22",
+          "0x4b868: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4b86c: cbz w26, #0x4b880",
+          "0x4b870: adrp x8, #0xdc000",
+          "0x4b874: ldrb w9, [x8, #0xa39]",
+          "0x4b878: tbz w9, #0, #0x4ba60",
+          "0x4b87c: b #0x4ba68",
+          "0x4b880: tbz w25, #0, #0x4b928",
+          "0x4b884: adrp x0, #0xcd000",
+          "0x4b888: add x0, x0, #0x788",
+          "0x4b88c: adrp x22, #0xcd000",
+          "0x4b890: add x22, x22, #0x768",
+          "0x4b894: mov x1, #0",
+          "0x4b898: mov x2, x22",
+          "0x4b89c: mov x3, x20",
+          "0x4b8a0: mov x4, x21",
+          "0x4b8a4: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4b8a8: adrp x0, #0xcd000",
+          "0x4b8ac: add x0, x0, #0x7a8",
+          "0x4b8b0: mov x1, #0",
+          "0x4b8b4: mov x2, x22",
+          "0x4b8b8: mov x3, x20",
+          "0x4b8bc: mov x4, x21",
+          "0x4b8c0: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4b8c4: mov w22, #-1",
+          "0x4b8c8: b #0x4b99c",
+          "0x4b8cc: adrp x0, #0xcd000",
+          "0x4b8d0: add x0, x0, #0x768",
+          "0x4b8d4: mov x1, x20",
+          "0x4b8d8: mov x2, x21",
+          "0x4b8dc: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b8e0: adrp x2, #0xcd000",
+          "0x4b8e4: add x2, x2, #0x808",
+          "0x4b8e8: mov x0, x22",
+          "0x4b8ec: bl #0x6ef40",
+          "0x4b8f0: cbz w0, #0x4ba14",
+          "0x4b8f4: str xzr, [sp, #8]",
+          "0x4b8f8: adrp x2, #0xcd000",
+          "0x4b8fc: add x2, x2, #0x808",
+          "0x4b900: adrp x3, #0xcd000",
+          "0x4b904: add x3, x3, #0x7c8",
+          "0x4b908: add x4, sp, #8",
+          "0x4b90c: mov x0, x22",
+          "0x4b910: bl #0x6e860",
+          "0x4b914: mov x23, x0",
+          "0x4b918: mov x0, x22",
+          "0x4b91c: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4b920: tbnz w23, #0, #0x4b86c",
+          "0x4b924: b #0x4ba5c",
+          "0x4b928: mov w8, #0xf",
+          "0x4b92c: str w8, [sp, #4]",
+          "0x4b930: adrp x8, #0xb8000",
+          "0x4b934: ldr x8, [x8, #0x3c8]",
+          "0x4b938: ldr x0, [x8]",
+          "0x4b93c: add x2, sp, #4",
+          "0x4b940: mov w1, #9",
+          "0x4b944: bl #0x6c4c0  ; IMPORT _CFNumberCreate",
+          "0x4b948: cbz x0, #0x4ba5c",
+          "0x4b94c: mov x22, x0",
+          "0x4b950: adrp x0, #0xcd000",
+          "0x4b954: add x0, x0, #0x788",
+          "0x4b958: adrp x23, #0xcd000",
+          "0x4b95c: add x23, x23, #0x768",
+          "0x4b960: mov x1, x22",
+          "0x4b964: mov x2, x23",
+          "0x4b968: mov x3, x20",
+          "0x4b96c: mov x4, x21",
+          "0x4b970: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4b974: adrp x0, #0xcd000",
+          "0x4b978: add x0, x0, #0x7a8",
+          "0x4b97c: mov x1, x22",
+          "0x4b980: mov x2, x23",
+          "0x4b984: mov x3, x20",
+          "0x4b988: mov x4, x21",
+          "0x4b98c: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4b990: mov x0, x22",
+          "0x4b994: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4b998: mov w22, #0xf",
+          "0x4b99c: adrp x0, #0xcd000",
+          "0x4b9a0: add x0, x0, #0x768",
+          "0x4b9a4: mov x1, x20",
+          "0x4b9a8: mov x2, x21",
+          "0x4b9ac: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4b9b0: adrp x0, #0xcd000",
+          "0x4b9b4: add x0, x0, #0x788",
+          "0x4b9b8: bl #0x4d28c",
+          "0x4b9bc: mov x20, x0",
+          "0x4b9c0: adrp x0, #0xcd000",
+          "0x4b9c4: add x0, x0, #0x7a8",
+          "0x4b9c8: bl #0x4d28c",
+          "0x4b9cc: adrp x8, #0xdc000",
+          "0x4b9d0: mov w9, #1",
+          "0x4b9d4: strb w9, [x8, #0xa39]",
+          "0x4b9d8: cmp w20, w22",
+          "0x4b9dc: b.ne #0x4ba68",
+          "0x4b9e0: cmp w0, w22",
+          "0x4b9e4: b.ne #0x4ba68",
+          "0x4b9e8: cbz w19, #0x4ba68",
+          "0x4b9ec: bl #0x4ca7c",
+          "0x4b9f0: mov x29, x29",
+          "0x4b9f4: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4b9f8: mov x19, x0",
+          "0x4b9fc: adrp x1, #0xbb000",
+          "0x4ba00: add x1, x1, #0x40",
+          "0x4ba04: bl #0x6c9dc  ; IMPORT _dispatch_async",
+          "0x4ba08: mov x0, x19",
+          "0x4ba0c: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4ba10: b #0x4ba68",
+          "0x4ba14: adrp x8, #0xda000",
+          "0x4ba18: ldr x0, [x8, #0xa58]",
+          "0x4ba1c: bl #0x6e9e0",
+          "0x4ba20: mov x29, x29",
+          "0x4ba24: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4ba28: mov x23, x0",
+          "0x4ba2c: adrp x2, #0xcd000",
+          "0x4ba30: add x2, x2, #0x7e8",
+          "0x4ba34: mov x0, x22",
+          "0x4ba38: mov x3, x23",
+          "0x4ba3c: mov x4, #0",
+          "0x4ba40: bl #0x6e940",
+          "0x4ba44: mov x24, x0",
+          "0x4ba48: mov x0, x23",
+          "0x4ba4c: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4ba50: mov x0, x22",
+          "0x4ba54: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4ba58: tbnz w24, #0, #0x4b86c",
+          "0x4ba5c: adrp x8, #0xdc000",
+          "0x4ba60: mov w9, #1",
+          "0x4ba64: strb w9, [x8, #0xa39]",
+          "0x4ba68: ldp x29, x30, [sp, #0x50]",
+          "0x4ba6c: ldp x20, x19, [sp, #0x40]",
+          "0x4ba70: ldp x22, x21, [sp, #0x30]",
+          "0x4ba74: ldp x24, x23, [sp, #0x20]",
+          "0x4ba78: ldp x26, x25, [sp, #0x10]",
+          "0x4ba7c: add sp, sp, #0x60",
+          "0x4ba80: ret ",
+          "0x4ba84: b #0x4ba88",
+          "0x4ba88: cmp w1, #1",
+          "0x4ba8c: b.ne #0x4baa4",
+          "0x4ba90: bl #0x6ccdc  ; IMPORT _objc_begin_catch",
+          "0x4ba94: bl #0x6cd0c  ; IMPORT _objc_end_catch",
+          "0x4ba98: mov x0, x22",
+          "0x4ba9c: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4baa0: b #0x4ba5c",
+          "0x4baa4: bl #0x6c898  ; IMPORT __Unwind_Resume",
+          "0x4baa8: stp x22, x21, [sp, #-0x30]!",
+          "0x4baac: stp x20, x19, [sp, #0x10]",
+          "0x4bab0: stp x29, x30, [sp, #0x20]",
+          "0x4bab4: add x29, sp, #0x20",
+          "0x4bab8: adrp x8, #0xb8000",
+          "0x4babc: ldr x8, [x8, #0x3f8]",
+          "0x4bac0: ldr x19, [x8]",
+          "0x4bac4: adrp x8, #0xb8000",
+          "0x4bac8: ldr x8, [x8, #0x3e8]",
+          "0x4bacc: ldr x20, [x8]",
+          "0x4bad0: adrp x21, #0xc9000",
+          "0x4bad4: add x21, x21, #0x4e8",
+          "0x4bad8: mov x0, x21",
+          "0x4badc: mov x1, x19",
+          "0x4bae0: mov x2, x20",
+          "0x4bae4: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4bae8: adrp x0, #0xcd000",
+          "0x4baec: add x0, x0, #0x868",
+          "0x4baf0: mov x1, x21",
+          "0x4baf4: mov x2, x19",
+          "0x4baf8: mov x3, x20",
+          "0x4bafc: bl #0x6c508  ; IMPORT _CFPreferencesCopyValue",
+          "0x4bb00: cbz x0, #0x4bb68",
+          "0x4bb04: mov x19, x0",
+          "0x4bb08: bl #0x6c484  ; IMPORT _CFGetTypeID",
+          "0x4bb0c: mov x20, x0",
+          "0x4bb10: bl #0x6c3e8  ; IMPORT _CFBooleanGetTypeID",
+          "0x4bb14: cmp x20, x0",
+          "0x4bb18: b.ne #0x4bb60",
+          "0x4bb1c: mov x0, x19",
+          "0x4bb20: bl #0x6c3f4  ; IMPORT _CFBooleanGetValue",
+          "0x4bb24: mov x20, x0",
+          "0x4bb28: mov x0, x19",
+          "0x4bb2c: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4bb30: adrp x8, #0xdc000",
+          "0x4bb34: ldrb w8, [x8, #0xa00]",
+          "0x4bb38: tbz w8, #0, #0x4bba4",
+          "0x4bb3c: cbz w20, #0x4bb74",
+          "0x4bb40: adrp x8, #0xda000",
+          "0x4bb44: ldr x0, [x8, #0xb48]",
+          "0x4bb48: bl #0x729c0",
+          "0x4bb4c: mov x29, x29",
+          "0x4bb50: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bb54: mov x19, x0",
+          "0x4bb58: bl #0x70580",
+          "0x4bb5c: b #0x4bb90",
+          "0x4bb60: mov x0, x19",
+          "0x4bb64: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4bb68: adrp x8, #0xdc000",
+          "0x4bb6c: ldrb w8, [x8, #0xa00]",
+          "0x4bb70: tbz w8, #0, #0x4bba4",
+          "0x4bb74: adrp x8, #0xda000",
+          "0x4bb78: ldr x0, [x8, #0xb48]",
+          "0x4bb7c: bl #0x729c0",
+          "0x4bb80: mov x29, x29",
+          "0x4bb84: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bb88: mov x19, x0",
+          "0x4bb8c: bl #0x73660",
+          "0x4bb90: mov x0, x19",
+          "0x4bb94: ldp x29, x30, [sp, #0x20]",
+          "0x4bb98: ldp x20, x19, [sp, #0x10]",
+          "0x4bb9c: ldp x22, x21, [sp], #0x30",
+          "0x4bba0: b #0x6cda8  ; IMPORT _objc_release",
+          "0x4bba4: ldp x29, x30, [sp, #0x20]",
+          "0x4bba8: ldp x20, x19, [sp, #0x10]",
+          "0x4bbac: ldp x22, x21, [sp], #0x30",
+          "0x4bbb0: ret ",
+          "0x4bbb4: stp x28, x27, [sp, #-0x60]!",
+          "0x4bbb8: stp x26, x25, [sp, #0x10]",
+          "0x4bbbc: stp x24, x23, [sp, #0x20]",
+          "0x4bbc0: stp x22, x21, [sp, #0x30]",
+          "0x4bbc4: stp x20, x19, [sp, #0x40]",
+          "0x4bbc8: stp x29, x30, [sp, #0x50]",
+          "0x4bbcc: add x29, sp, #0x50",
+          "0x4bbd0: sub sp, sp, #0x1b0",
+          "0x4bbd4: adrp x8, #0xb8000",
+          "0x4bbd8: ldr x8, [x8, #0x6d0]",
+          "0x4bbdc: ldr x8, [x8]",
+          "0x4bbe0: stur x8, [x29, #-0x60]",
+          "0x4bbe4: adrp x8, #0xb8000",
+          "0x4bbe8: ldr x8, [x8, #0x3f8]",
+          "0x4bbec: ldr x19, [x8]",
+          "0x4bbf0: adrp x8, #0xb8000",
+          "0x4bbf4: ldr x8, [x8, #0x3e8]",
+          "0x4bbf8: ldr x20, [x8]",
+          "0x4bbfc: adrp x21, #0xc9000",
+          "0x4bc00: add x21, x21, #0x4e8",
+          "0x4bc04: mov x0, x21",
+          "0x4bc08: mov x1, x19",
+          "0x4bc0c: mov x2, x20",
+          "0x4bc10: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4bc14: adrp x0, #0xcd000",
+          "0x4bc18: add x0, x0, #0x888",
+          "0x4bc1c: mov x1, x21",
+          "0x4bc20: mov x2, x19",
+          "0x4bc24: mov x3, x20",
+          "0x4bc28: bl #0x6c508  ; IMPORT _CFPreferencesCopyValue",
+          "0x4bc2c: cbz x0, #0x4be9c",
+          "0x4bc30: mov x21, x0",
+          "0x4bc34: bl #0x6c484  ; IMPORT _CFGetTypeID",
+          "0x4bc38: mov x22, x0",
+          "0x4bc3c: bl #0x6c3e8  ; IMPORT _CFBooleanGetTypeID",
+          "0x4bc40: cmp x22, x0",
+          "0x4bc44: b.ne #0x4bed4",
+          "0x4bc48: mov x0, x21",
+          "0x4bc4c: bl #0x6c3f4  ; IMPORT _CFBooleanGetValue",
+          "0x4bc50: mov x22, x0",
+          "0x4bc54: mov x0, x21",
+          "0x4bc58: bl #0x6c55c  ; IMPORT _CFRelease",
+          "0x4bc5c: cbz w22, #0x4be9c",
+          "0x4bc60: stp x20, x19, [sp, #8]",
+          "0x4bc64: bl #0x65738",
+          "0x4bc68: mov x29, x29",
+          "0x4bc6c: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bc70: str x0, [sp]",
+          "0x4bc74: movi v0.16b, #0",
+          "0x4bc78: stp q0, q0, [sp, #0x60]",
+          "0x4bc7c: stp q0, q0, [sp, #0x80]",
+          "0x4bc80: adrp x0, #0xd1000",
+          "0x4bc84: add x0, x0, #0x7a0",
+          "0x4bc88: add x2, sp, #0x60",
+          "0x4bc8c: sub x3, x29, #0xe0",
+          "0x4bc90: mov w4, #0x10",
+          "0x4bc94: bl #0x6e8a0",
+          "0x4bc98: cbz x0, #0x4bddc",
+          "0x4bc9c: mov x23, x0",
+          "0x4bca0: ldr x8, [sp, #0x70]",
+          "0x4bca4: ldr x8, [x8]",
+          "0x4bca8: str x8, [sp, #0x18]",
+          "0x4bcac: adrp x22, #0xd1000",
+          "0x4bcb0: add x22, x22, #0x788",
+          "0x4bcb4: adrp x25, #0xcc000",
+          "0x4bcb8: add x25, x25, #0x788",
+          "0x4bcbc: mov x20, #0",
+          "0x4bcc0: ldr x8, [sp, #0x70]",
+          "0x4bcc4: ldr x8, [x8]",
+          "0x4bcc8: ldr x9, [sp, #0x18]",
+          "0x4bccc: cmp x8, x9",
+          "0x4bcd0: b.eq #0x4bce0",
+          "0x4bcd4: adrp x0, #0xd1000",
+          "0x4bcd8: add x0, x0, #0x7a0",
+          "0x4bcdc: bl #0x6cd18  ; IMPORT _objc_enumerationMutation",
+          "0x4bce0: ldr x8, [sp, #0x68]",
+          "0x4bce4: ldr x26, [x8, x20, lsl #3]",
+          "0x4bce8: movi v0.16b, #0",
+          "0x4bcec: stp q0, q0, [sp, #0x20]",
+          "0x4bcf0: stp q0, q0, [sp, #0x40]",
+          "0x4bcf4: add x2, sp, #0x20",
+          "0x4bcf8: add x3, sp, #0xa0",
+          "0x4bcfc: mov x0, x22",
+          "0x4bd00: mov w4, #0x10",
+          "0x4bd04: bl #0x6e8a0",
+          "0x4bd08: cbz x0, #0x4bdb0",
+          "0x4bd0c: mov x27, x0",
+          "0x4bd10: ldr x8, [sp, #0x30]",
+          "0x4bd14: ldr x24, [x8]",
+          "0x4bd18: mov x19, #0",
+          "0x4bd1c: ldr x8, [sp, #0x30]",
+          "0x4bd20: ldr x8, [x8]",
+          "0x4bd24: cmp x8, x24",
+          "0x4bd28: b.eq #0x4bd34",
+          "0x4bd2c: mov x0, x22",
+          "0x4bd30: bl #0x6cd18  ; IMPORT _objc_enumerationMutation",
+          "0x4bd34: ldr x8, [sp, #0x28]",
+          "0x4bd38: ldr x2, [x8, x19, lsl #3]",
+          "0x4bd3c: mov x0, x26",
+          "0x4bd40: bl #0x72f00",
+          "0x4bd44: mov x29, x29",
+          "0x4bd48: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bd4c: mov x28, x0",
+          "0x4bd50: mov x0, x25",
+          "0x4bd54: mov x2, x28",
+          "0x4bd58: bl #0x72ee0",
+          "0x4bd5c: mov x29, x29",
+          "0x4bd60: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bd64: mov x21, x0",
+          "0x4bd68: mov x0, x28",
+          "0x4bd6c: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4bd70: mov x0, x21",
+          "0x4bd74: bl #0x6cdc0  ; IMPORT _objc_retainAutorelease",
+          "0x4bd78: bl #0x6efe0",
+          "0x4bd7c: bl #0x6d00c  ; IMPORT _unlink",
+          "0x4bd80: mov x0, x21",
+          "0x4bd84: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4bd88: add x19, x19, #1",
+          "0x4bd8c: cmp x27, x19",
+          "0x4bd90: b.ne #0x4bd1c",
+          "0x4bd94: add x2, sp, #0x20",
+          "0x4bd98: add x3, sp, #0xa0",
+          "0x4bd9c: mov x0, x22",
+          "0x4bda0: mov w4, #0x10",
+          "0x4bda4: bl #0x6e8a0",
+          "0x4bda8: mov x27, x0",
+          "0x4bdac: cbnz x0, #0x4bd18",
+          "0x4bdb0: add x20, x20, #1",
+          "0x4bdb4: cmp x20, x23",
+          "0x4bdb8: b.ne #0x4bcc0",
+          "0x4bdbc: add x2, sp, #0x60",
+          "0x4bdc0: sub x3, x29, #0xe0",
+          "0x4bdc4: adrp x0, #0xd1000",
+          "0x4bdc8: add x0, x0, #0x7a0",
+          "0x4bdcc: mov w4, #0x10",
+          "0x4bdd0: bl #0x6e8a0",
+          "0x4bdd4: mov x23, x0",
+          "0x4bdd8: cbnz x0, #0x4bcbc",
+          "0x4bddc: adrp x8, #0xb8000",
+          "0x4bde0: ldr x8, [x8, #0x3d0]",
+          "0x4bde4: ldr x1, [x8]",
+          "0x4bde8: adrp x0, #0xcd000",
+          "0x4bdec: add x0, x0, #0x888",
+          "0x4bdf0: adrp x21, #0xc9000",
+          "0x4bdf4: add x21, x21, #0x4e8",
+          "0x4bdf8: mov x2, x21",
+          "0x4bdfc: ldp x20, x19, [sp, #8]",
+          "0x4be00: mov x3, x19",
+          "0x4be04: mov x4, x20",
+          "0x4be08: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4be0c: mov x0, x21",
+          "0x4be10: mov x1, x19",
+          "0x4be14: mov x2, x20",
+          "0x4be18: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4be1c: adrp x0, #0xab000",
+          "0x4be20: add x0, x0, #0xc9b",
+          "0x4be24: bl #0x6d00c  ; IMPORT _unlink",
+          "0x4be28: adrp x0, #0xcf000",
+          "0x4be2c: add x0, x0, #0x188",
+          "0x4be30: mov w1, #1",
+          "0x4be34: bl #0x66320",
+          "0x4be38: ldr x19, [sp]",
+          "0x4be3c: cbz x19, #0x4be60",
+          "0x4be40: bl #0x4bf14",
+          "0x4be44: bl #0x6c49c  ; IMPORT _CFNotificationCenterGetDarwinNotifyCenter",
+          "0x4be48: adrp x1, #0xcd000",
+          "0x4be4c: add x1, x1, #0xa8",
+          "0x4be50: mov x2, #0",
+          "0x4be54: mov x3, #0",
+          "0x4be58: mov w4, #1",
+          "0x4be5c: bl #0x6c4a8  ; IMPORT _CFNotificationCenterPostNotification",
+          "0x4be60: ldur x8, [x29, #-0x60]",
+          "0x4be64: adrp x9, #0xb8000",
+          "0x4be68: ldr x9, [x9, #0x6d0]",
+          "0x4be6c: ldr x9, [x9]",
+          "0x4be70: cmp x9, x8",
+          "0x4be74: b.ne #0x4bf10",
+          "0x4be78: mov x0, x19",
+          "0x4be7c: add sp, sp, #0x1b0",
+          "0x4be80: ldp x29, x30, [sp, #0x50]",
+          "0x4be84: ldp x20, x19, [sp, #0x40]",
+          "0x4be88: ldp x22, x21, [sp, #0x30]",
+          "0x4be8c: ldp x24, x23, [sp, #0x20]",
+          "0x4be90: ldp x26, x25, [sp, #0x10]",
+          "0x4be94: ldp x28, x27, [sp], #0x60",
+          "0x4be98: b #0x6cda8  ; IMPORT _objc_release",
+          "0x4be9c: ldur x8, [x29, #-0x60]",
+          "0x4bea0: adrp x9, #0xb8000",
+          "0x4bea4: ldr x9, [x9, #0x6d0]",
+          "0x4bea8: ldr x9, [x9]",
+          "0x4beac: cmp x9, x8",
+          "0x4beb0: b.ne #0x4bf10",
+          "0x4beb4: add sp, sp, #0x1b0",
+          "0x4beb8: ldp x29, x30, [sp, #0x50]",
+          "0x4bebc: ldp x20, x19, [sp, #0x40]",
+          "0x4bec0: ldp x22, x21, [sp, #0x30]",
+          "0x4bec4: ldp x24, x23, [sp, #0x20]",
+          "0x4bec8: ldp x26, x25, [sp, #0x10]",
+          "0x4becc: ldp x28, x27, [sp], #0x60",
+          "0x4bed0: ret ",
+          "0x4bed4: ldur x8, [x29, #-0x60]",
+          "0x4bed8: adrp x9, #0xb8000",
+          "0x4bedc: ldr x9, [x9, #0x6d0]",
+          "0x4bee0: ldr x9, [x9]",
+          "0x4bee4: cmp x9, x8",
+          "0x4bee8: b.ne #0x4bf10",
+          "0x4beec: mov x0, x21",
+          "0x4bef0: add sp, sp, #0x1b0",
+          "0x4bef4: ldp x29, x30, [sp, #0x50]",
+          "0x4bef8: ldp x20, x19, [sp, #0x40]",
+          "0x4befc: ldp x22, x21, [sp, #0x30]",
+          "0x4bf00: ldp x24, x23, [sp, #0x20]",
+          "0x4bf04: ldp x26, x25, [sp, #0x10]",
+          "0x4bf08: ldp x28, x27, [sp], #0x60",
+          "0x4bf0c: b #0x6c55c  ; IMPORT _CFRelease",
+          "0x4bf10: bl #0x6c8bc  ; IMPORT ___stack_chk_fail",
+          "0x4bf14: stp x22, x21, [sp, #-0x30]!",
+          "0x4bf18: stp x20, x19, [sp, #0x10]",
+          "0x4bf1c: stp x29, x30, [sp, #0x20]",
+          "0x4bf20: add x29, sp, #0x20",
+          "0x4bf24: bl #0x65738",
+          "0x4bf28: mov x29, x29",
+          "0x4bf2c: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4bf30: mov x19, x0",
+          "0x4bf34: adrp x8, #0xcb000",
+          "0x4bf38: add x8, x8, #0x288",
+          "0x4bf3c: cmp x0, #0",
+          "0x4bf40: csel x1, x8, x0, eq",
+          "0x4bf44: adrp x8, #0xb8000",
+          "0x4bf48: ldr x8, [x8, #0x3f8]",
+          "0x4bf4c: ldr x20, [x8]",
+          "0x4bf50: adrp x8, #0xb8000",
+          "0x4bf54: ldr x8, [x8, #0x3e8]",
+          "0x4bf58: ldr x21, [x8]",
+          "0x4bf5c: adrp x0, #0xcd000",
+          "0x4bf60: add x0, x0, #0x8a8",
+          "0x4bf64: adrp x22, #0xc9000",
+          "0x4bf68: add x22, x22, #0x4e8",
+          "0x4bf6c: mov x2, x22",
+          "0x4bf70: mov x3, x20",
+          "0x4bf74: mov x4, x21",
+          "0x4bf78: bl #0x6c52c  ; IMPORT _CFPreferencesSetValue",
+          "0x4bf7c: mov x0, x22",
+          "0x4bf80: mov x1, x20",
+          "0x4bf84: mov x2, x21",
+          "0x4bf88: bl #0x6c538  ; IMPORT _CFPreferencesSynchronize",
+          "0x4bf8c: bl #0x6c49c  ; IMPORT _CFNotificationCenterGetDarwinNotifyCenter",
+          "0x4bf90: adrp x1, #0xcd000",
+          "0x4bf94: add x1, x1, #0x8c8",
+          "0x4bf98: mov x2, #0",
+          "0x4bf9c: mov x3, #0",
+          "0x4bfa0: mov w4, #1",
+          "0x4bfa4: bl #0x6c4a8  ; IMPORT _CFNotificationCenterPostNotification",
+          "0x4bfa8: mov x0, x19",
+          "0x4bfac: ldp x29, x30, [sp, #0x20]",
+          "0x4bfb0: ldp x20, x19, [sp, #0x10]",
+          "0x4bfb4: ldp x22, x21, [sp], #0x30",
+          "0x4bfb8: b #0x6cda8  ; IMPORT _objc_release",
+          "0x4bfbc: sub sp, sp, #0x110",
+          "0x4bfc0: stp d9, d8, [sp, #0xd0]",
+          "0x4bfc4: stp x22, x21, [sp, #0xe0]",
+          "0x4bfc8: stp x20, x19, [sp, #0xf0]",
+          "0x4bfcc: stp x29, x30, [sp, #0x100]",
+          "0x4bfd0: add x29, sp, #0x100",
+          "0x4bfd4: adrp x0, #0x81000",
+          "0x4bfd8: add x0, x0, #0xb8c",
+          "0x4bfdc: add x1, sp, #0x38",
+          "0x4bfe0: bl #0x6cf64  ; IMPORT _stat",
+          "0x4bfe4: cbz w0, #0x4c22c",
+          "0x4bfe8: adrp x20, #0xdc000",
+          "0x4bfec: ldrb w8, [x20, #0xa48]",
+          "0x4bff0: tbnz w8, #0, #0x4c22c",
+          "0x4bff4: adrp x0, #0x84000",
+          "0x4bff8: add x0, x0, #0xd07",
+          "0x4bffc: add x1, sp, #0x38",
+          "0x4c000: bl #0x6cf64  ; IMPORT _stat",
+          "0x4c004: fmov d8, #-1.00000000",
+          "0x4c008: cbnz w0, #0x4c03c",
+          "0x4c00c: adrp x8, #0xda000",
+          "0x4c010: ldr x0, [x8, #0x860]",
+          "0x4c014: bl #0x6eac0",
+          "0x4c018: mov x29, x29",
+          "0x4c01c: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4c020: mov x19, x0",
+          "0x4c024: bl #0x734e0",
+          "0x4c028: ldr d1, [sp, #0x68]",
+          "0x4c02c: scvtf d1, d1",
+          "0x4c030: fsub d8, d0, d1",
+          "0x4c034: mov x0, x19",
+          "0x4c038: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4c03c: adrp x0, #0xdc000",
+          "0x4c040: add x0, x0, #0x38",
+          "0x4c044: adrp x1, #0x64000",
+          "0x4c048: add x1, x1, #0xc",
+          "0x4c04c: bl #0x6ced4  ; IMPORT _pthread_once",
+          "0x4c050: adrp x8, #0xdc000",
+          "0x4c054: ldr x8, [x8, #0xe70]",
+          "0x4c058: adrp x9, #0x7d000",
+          "0x4c05c: add x9, x9, #0x4d1",
+          "0x4c060: cmp x8, #0",
+          "0x4c064: csel x8, x9, x8, eq",
+          "0x4c068: ldrb w8, [x8]",
+          "0x4c06c: cmp w8, #0",
+          "0x4c070: mov x8, #0x404e000000000000",
+          "0x4c074: fmov d0, x8",
+          "0x4c078: fmov d1, #8.00000000",
+          "0x4c07c: fcsel d0, d1, d0, eq",
+          "0x4c080: fcmp d8, #0.0",
+          "0x4c084: b.lt #0x4c090",
+          "0x4c088: fcmp d8, d0",
+          "0x4c08c: b.mi #0x4c22c",
+          "0x4c090: stur wzr, [x29, #-0x34]",
+          "0x4c094: adrp x0, #0x82000",
+          "0x4c098: add x0, x0, #0xdf",
+          "0x4c09c: sub x1, x29, #0x34",
+          "0x4c0a0: bl #0x6cc70  ; IMPORT _notify_register_check",
+          "0x4c0a4: cbz w0, #0x4c204",
+          "0x4c0a8: bl #0x64d48",
+          "0x4c0ac: cbz w0, #0x4c22c",
+          "0x4c0b0: mov w8, #1",
+          "0x4c0b4: strb w8, [x20, #0xa48]",
+          "0x4c0b8: mov w8, #0x1b6",
+          "0x4c0bc: str x8, [sp]",
+          "0x4c0c0: adrp x0, #0x84000",
+          "0x4c0c4: add x0, x0, #0xd07",
+          "0x4c0c8: mov w1, #0x601",
+          "0x4c0cc: bl #0x6ce68  ; IMPORT _open",
+          "0x4c0d0: tbz w0, #0x1f, #0x4c0fc",
+          "0x4c0d4: adrp x19, #0x84000",
+          "0x4c0d8: add x19, x19, #0xd07",
+          "0x4c0dc: mov x0, x19",
+          "0x4c0e0: bl #0x6d00c  ; IMPORT _unlink",
+          "0x4c0e4: mov w8, #0x1b6",
+          "0x4c0e8: str x8, [sp]",
+          "0x4c0ec: mov x0, x19",
+          "0x4c0f0: mov w1, #0x601",
+          "0x4c0f4: bl #0x6ce68  ; IMPORT _open",
+          "0x4c0f8: tbnz w0, #0x1f, #0x4c11c",
+          "0x4c0fc: mov x19, x0",
+          "0x4c100: bl #0x6cb08  ; IMPORT _fsync",
+          "0x4c104: mov x0, x19",
+          "0x4c108: bl #0x6c994  ; IMPORT _close",
+          "0x4c10c: adrp x0, #0x84000",
+          "0x4c110: add x0, x0, #0xd07",
+          "0x4c114: mov w1, #0x1b6",
+          "0x4c118: bl #0x6c928  ; IMPORT _chmod",
+          "0x4c11c: bl #0x6c49c  ; IMPORT _CFNotificationCenterGetDarwinNotifyCenter",
+          "0x4c120: adrp x1, #0xcd000",
+          "0x4c124: add x1, x1, #0x8e8",
+          "0x4c128: mov x2, #0",
+          "0x4c12c: mov x3, #0",
+          "0x4c130: mov w4, #1",
+          "0x4c134: bl #0x6c4a8  ; IMPORT _CFNotificationCenterPostNotification",
+          "0x4c138: mov x1, #0xd800",
+          "0x4c13c: movk x1, #0x775, lsl #16",
+          "0x4c140: movk x1, #5, lsl #32",
+          "0x4c144: mov x0, #0",
+          "0x4c148: bl #0x6ca84  ; IMPORT _dispatch_time",
+          "0x4c14c: adrp x1, #0xb8000",
+          "0x4c150: ldr x1, [x1, #0x6e8]",
+          "0x4c154: adrp x2, #0xbb000",
+          "0x4c158: add x2, x2, #0x80",
+          "0x4c15c: bl #0x6c9d0  ; IMPORT _dispatch_after",
+          "0x4c160: bl #0x4c928",
+          "0x4c164: cmp w0, #1",
+          "0x4c168: b.lt #0x4c228",
+          "0x4c16c: adrp x21, #0xb8000",
+          "0x4c170: ldr x21, [x21, #0x698]",
+          "0x4c174: str x21, [sp, #0x10]",
+          "0x4c178: adrp x8, #0x75000",
+          "0x4c17c: ldr d8, [x8, #0xce0]",
+          "0x4c180: adrp x8, #0x4c000",
+          "0x4c184: add x8, x8, #0xa6c",
+          "0x4c188: adrp x9, #0xbb000",
+          "0x4c18c: add x9, x9, #0xe0",
+          "0x4c190: str d8, [sp, #0x18]",
+          "0x4c194: stp x8, x9, [sp, #0x20]",
+          "0x4c198: adrp x8, #0xbb000",
+          "0x4c19c: add x8, x8, #0xa0",
+          "0x4c1a0: str x8, [sp, #0x30]",
+          "0x4c1a4: add x0, sp, #0x10",
+          "0x4c1a8: bl #0x6cdb4  ; IMPORT _objc_retain",
+          "0x4c1ac: mov x19, x0",
+          "0x4c1b0: bl #0x4ca7c",
+          "0x4c1b4: mov x29, x29",
+          "0x4c1b8: bl #0x6cdd8  ; IMPORT _objc_retainAutoreleasedReturnValue",
+          "0x4c1bc: mov x20, x0",
+          "0x4c1c0: str x21, [sp, #0x38]",
+          "0x4c1c4: adrp x8, #0x4c000",
+          "0x4c1c8: add x8, x8, #0xabc",
+          "0x4c1cc: str d8, [sp, #0x40]",
+          "0x4c1d0: adrp x9, #0xbb000",
+          "0x4c1d4: add x9, x9, #0x170",
+          "0x4c1d8: stp x8, x9, [sp, #0x48]",
+          "0x4c1dc: str x19, [sp, #0x58]",
+          "0x4c1e0: add x1, sp, #0x38",
+          "0x4c1e4: bl #0x6c9dc  ; IMPORT _dispatch_async",
+          "0x4c1e8: mov x0, x20",
+          "0x4c1ec: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4c1f0: ldr x0, [sp, #0x58]",
+          "0x4c1f4: bl #0x6cda8  ; IMPORT _objc_release",
+          "0x4c1f8: ldr x0, [sp, #0x30]",
+          "0x4c1fc: bl #0x6cda8  ; IMPORT _objc_release"
+        ]
+      }
+    },
+    "arm64e": {
+      "sha256": "8716a599e40b22ee79b9405ab9030b03fb61dc007149296354cfa71746a08b58",
+      "indirect_imports": {
+        "symbol_count": 408,
+        "indirect_count": 593,
+        "stubs": {},
+        "sections": [
+          {
+            "name": "__cstring",
+            "segment": "__TEXT",
+            "address": 535136,
+            "size": 193700,
+            "file_offset": 535136,
+            "reserved1": 0,
+            "reserved2": 0
+          },
+          {
+            "name": "__got",
+            "segment": "__DATA_CONST",
+            "address": 772240,
+            "size": 376,
+            "file_offset": 772240,
+            "reserved1": 546,
+            "reserved2": 0
+          },
+          {
+            "name": "__cfstring",
+            "segment": "__DATA_CONST",
+            "address": 840392,
+            "size": 31904,
+            "file_offset": 840392,
+            "reserved1": 0,
+            "reserved2": 0
+          },
+          {
+            "name": "__objc_selrefs",
+            "segment": "__DATA",
+            "address": 902136,
+            "size": 9304,
+            "file_offset": 902136,
+            "reserved1": 0,
+            "reserved2": 0
+          }
+        ],
+        "imported_symbol_excerpt": [
+          "_CFPreferencesAppSynchronize",
+          "_CFPreferencesCopyAppValue",
+          "_CFPreferencesCopyValue",
+          "_CFPreferencesGetAppBooleanValue",
+          "_CFPreferencesSetAppValue",
+          "_CFPreferencesSetValue",
+          "_CFPreferencesSynchronize",
+          "_kCFPreferencesAnyHost",
+          "_kCFPreferencesCurrentHost",
+          "_kCFPreferencesCurrentUser",
+          "_notify_cancel",
+          "_notify_get_state",
+          "_notify_post",
+          "_notify_register_check",
+          "_notify_register_dispatch",
+          "_notify_set_state",
+          "_os_log_create",
+          "_sysctl",
+          "_sysctlbyname"
+        ]
+      },
+      "nearby_string_tables": {
+        "perf_tweak_enabled": [
+          {
+            "hit_index": 190,
+            "neighbors": [
+              {
+                "vm": "0x83981",
+                "name": "com.sensetechlab.navbubble.changed"
+              },
+              {
+                "vm": "0x839a4",
+                "name": "com.sensetechlab.autostart.changed"
+              },
+              {
+                "vm": "0x839c7",
+                "name": "com.sensetechlab.fontfloor.changed"
+              },
+              {
+                "vm": "0x839ea",
+                "name": "com.sensetechlab.appbridge.paneactivity"
+              },
+              {
+                "vm": "0x83a12",
+                "name": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+              },
+              {
+                "vm": "0x83a3f",
+                "name": "not-an-edge-strip"
+              },
+              {
+                "vm": "0x83a51",
+                "name": "strip-outside-area"
+              },
+              {
+                "vm": "0x83a64",
+                "name": "left"
+              },
+              {
+                "vm": "0x83a69",
+                "name": "right"
+              },
+              {
+                "vm": "0x83a6f",
+                "name": "top"
+              },
+              {
+                "vm": "0x83a73",
+                "name": "bottom"
+              },
+              {
+                "vm": "0x83a7a",
+                "name": "degenerate"
+              },
+              {
+                "vm": "0x83a85",
+                "name": "/var/tmp"
+              },
+              {
+                "vm": "0x83a8e",
+                "name": "carnav_"
+              },
+              {
+                "vm": "0x83a96",
+                "name": "%s/%s"
+              },
+              {
+                "vm": "0x83a9c",
+                "name": "%s/duodash_%s"
+              },
+              {
+                "vm": "0x83aaa",
+                "name": "dashboard_mode_enabled"
+              },
+              {
+                "vm": "0x83ac1",
+                "name": "dashboard_mode_retired"
+              },
+              {
+                "vm": "0x83ad8",
+                "name": "pane_unload_close_enabled"
+              },
+              {
+                "vm": "0x83af2",
+                "name": "pane_unload_close_migrated"
+              },
+              {
+                "vm": "0x83b0d",
+                "name": "perf_tweak_enabled"
+              },
+              {
+                "vm": "0x83b20",
+                "name": "headunit_resolution"
+              },
+              {
+                "vm": "0x83b34",
+                "name": "headunit_video_quality"
+              },
+              {
+                "vm": "0x83b4b",
+                "name": "headunit_layout_area"
+              },
+              {
+                "vm": "0x83b60",
+                "name": "display.changed"
+              },
+              {
+                "vm": "0x83b70",
+                "name": "com.sensetechlab.ble.status.changed"
+              },
+              {
+                "vm": "0x83b94",
+                "name": "carplay-subrect"
+              },
+              {
+                "vm": "0x83ba4",
+                "name": "subrect"
+              },
+              {
+                "vm": "0x83bac",
+                "name": "measured-dock"
+              },
+              {
+                "vm": "0x83bba",
+                "name": "dock"
+              },
+              {
+                "vm": "0x83bbf",
+                "name": "carplay-fullscreen"
+              },
+              {
+                "vm": "0x83bd2",
+                "name": "full"
+              },
+              {
+                "vm": "0x83bd7",
+                "name": "measured-dock-nofrome"
+              },
+              {
+                "vm": "0x83bed",
+                "name": "dock2"
+              },
+              {
+                "vm": "0x83bf3",
+                "name": "display-unmeasured-dock"
+              },
+              {
+                "vm": "0x83c0b",
+                "name": "display"
+              },
+              {
+                "vm": "0x83c13",
+                "name": "single-app"
+              },
+              {
+                "vm": "0x83c1e",
+                "name": "single"
+              },
+              {
+                "vm": "0x83c25",
+                "name": "/var/tmp/duodash_ab_nopanepad"
+              },
+              {
+                "vm": "0x83c43",
+                "name": "/var/tmp/duodash_ab_nopaneround"
+              },
+              {
+                "vm": "0x83c63",
+                "name": "/var/tmp/duodash_ab_panepad"
+              },
+              {
+                "vm": "0x83c7f",
+                "name": "/var/tmp/duodash_ab_noratio"
+              },
+              {
+                "vm": "0x83c9b",
+                "name": "/var/tmp/duodash_ab_paneratio"
+              },
+              {
+                "vm": "0x83cb9",
+                "name": "/var/tmp/duodash_ab_panefracs"
+              },
+              {
+                "vm": "0x83cd7",
+                "name": "/var/tmp/duodash_ab_layout"
+              },
+              {
+                "vm": "0x83cf4",
+                "name": "window.pane.empty"
+              },
+              {
+                "vm": "0x83d06",
+                "name": "full-bounds"
+              },
+              {
+                "vm": "0x83d12",
+                "name": "/var/tmp/duodash_ab_content_inset"
+              },
+              {
+                "vm": "0x83d34",
+                "name": "carplay_content_insets"
+              },
+              {
+                "vm": "0x83d4b",
+                "name": "carplay_content_inset"
+              }
+            ]
+          }
+        ],
+        "com.sensetechlab.carplay/fps": [
+          {
+            "hit_index": 778,
+            "neighbors": [
+              {
+                "vm": "0x86df1",
+                "name": "age=%.1fs"
+              },
+              {
+                "vm": "0x86dfb",
+                "name": "com.sensetechlab.selftest"
+              },
+              {
+                "vm": "0x86e15",
+                "name": "providerName"
+              },
+              {
+                "vm": "0x86e22",
+                "name": "DuoDash self-test"
+              },
+              {
+                "vm": "0x86e34",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x86e45",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x86e6c",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x86e8f",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x86e98",
+                "name": "caps"
+              },
+              {
+                "vm": "0x86e9d",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x86ea9",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x86ed2",
+                "name": "limit"
+              },
+              {
+                "vm": "0x86ed8",
+                "name": "speed"
+              },
+              {
+                "vm": "0x86ede",
+                "name": "camera"
+              },
+              {
+                "vm": "0x86ee5",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x86f0b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x86f3e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x86f44",
+                "name": "handler"
+              },
+              {
+                "vm": "0x86f4c",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x86f58",
+                "name": "installed"
+              },
+              {
+                "vm": "0x86f62",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x86f7f",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x86fb0",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x86fc2",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x86fc9",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x86fd9",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x8700a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x87035",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x8706d",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x870a1",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x870be",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x870c9",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x870e1",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x870f6",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x87114",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x87123",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x8712c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x87148",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x87169",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x8717c",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x87198",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x871a6",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x871c3",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x871d1",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x871e4",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x871eb",
+                "name": "tate"
+              },
+              {
+                "vm": "0x871f0",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x87209",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x87217",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x87225",
+                "name": "Waze.app/Waze"
+              }
+            ]
+          }
+        ],
+        "maxFPS": [
+          {
+            "hit_index": 781,
+            "neighbors": [
+              {
+                "vm": "0x86e22",
+                "name": "DuoDash self-test"
+              },
+              {
+                "vm": "0x86e34",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x86e45",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x86e6c",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x86e8f",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x86e98",
+                "name": "caps"
+              },
+              {
+                "vm": "0x86e9d",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x86ea9",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x86ed2",
+                "name": "limit"
+              },
+              {
+                "vm": "0x86ed8",
+                "name": "speed"
+              },
+              {
+                "vm": "0x86ede",
+                "name": "camera"
+              },
+              {
+                "vm": "0x86ee5",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x86f0b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x86f3e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x86f44",
+                "name": "handler"
+              },
+              {
+                "vm": "0x86f4c",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x86f58",
+                "name": "installed"
+              },
+              {
+                "vm": "0x86f62",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x86f7f",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x86fb0",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x86fc2",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x86fc9",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x86fd9",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x8700a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x87035",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x8706d",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x870a1",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x870be",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x870c9",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x870e1",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x870f6",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x87114",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x87123",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x8712c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x87148",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x87169",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x8717c",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x87198",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x871a6",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x871c3",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x871d1",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x871e4",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x871eb",
+                "name": "tate"
+              },
+              {
+                "vm": "0x871f0",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x87209",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x87217",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x87225",
+                "name": "Waze.app/Waze"
+              },
+              {
+                "vm": "0x87233",
+                "name": "SBApplicationController"
+              },
+              {
+                "vm": "0x8724b",
+                "name": "FBProcessState"
+              },
+              {
+                "vm": "0x8725a",
+                "name": "_noteProcess:didChangeToState:"
+              }
+            ]
+          }
+        ],
+        "encoderFPSFixed": [
+          {
+            "hit_index": 782,
+            "neighbors": [
+              {
+                "vm": "0x86e34",
+                "name": "Self-test camera"
+              },
+              {
+                "vm": "0x86e45",
+                "name": "com.sensetechlab.navprovider.keepalive"
+              },
+              {
+                "vm": "0x86e6c",
+                "name": "com.sensetechlab.navprovider.relay"
+              },
+              {
+                "vm": "0x86e8f",
+                "name": "lastSeen"
+              },
+              {
+                "vm": "0x86e98",
+                "name": "caps"
+              },
+              {
+                "vm": "0x86e9d",
+                "name": "q24@?0@8@16"
+              },
+              {
+                "vm": "0x86ea9",
+                "name": "com.sensetechlab.navprovider.listchanged"
+              },
+              {
+                "vm": "0x86ed2",
+                "name": "limit"
+              },
+              {
+                "vm": "0x86ed8",
+                "name": "speed"
+              },
+              {
+                "vm": "0x86ede",
+                "name": "camera"
+              },
+              {
+                "vm": "0x86ee5",
+                "name": "com.sensetechlab.voicecmd.listchanged"
+              },
+              {
+                "vm": "0x86f0b",
+                "name": "/Library/Application Support/DuoDash/VoiceHandlers"
+              },
+              {
+                "vm": "0x86f3e",
+                "name": "plist"
+              },
+              {
+                "vm": "0x86f44",
+                "name": "handler"
+              },
+              {
+                "vm": "0x86f4c",
+                "name": "handlerName"
+              },
+              {
+                "vm": "0x86f58",
+                "name": "installed"
+              },
+              {
+                "vm": "0x86f62",
+                "name": "com.sensetechlab.carplay/fps"
+              },
+              {
+                "vm": "0x86f7f",
+                "name": "/var/mobile/Library/DuoDash/airplay_uninstalling"
+              },
+              {
+                "vm": "0x86fb0",
+                "name": "com.apple.airplay"
+              },
+              {
+                "vm": "0x86fc2",
+                "name": "maxFPS"
+              },
+              {
+                "vm": "0x86fc9",
+                "name": "encoderFPSFixed"
+              },
+              {
+                "vm": "0x86fd9",
+                "name": "/var/mobile/Library/DuoDash/airplay_backup.plist"
+              },
+              {
+                "vm": "0x8700a",
+                "name": "/var/mobile/Library/DuoDash/airplay_absent"
+              },
+              {
+                "vm": "0x87035",
+                "name": "/var/mobile/Library/Preferences/com.apple.airplay.plist"
+              },
+              {
+                "vm": "0x8706d",
+                "name": "/var/mobile/Library/DuoDash/airplay_msrv_pending"
+              },
+              {
+                "vm": "0x870a1",
+                "name": "com.sensetechlab.bridge.msrv"
+              },
+              {
+                "vm": "0x870be",
+                "name": "hud_paired"
+              },
+              {
+                "vm": "0x870c9",
+                "name": "duodash_reenable_tweaks"
+              },
+              {
+                "vm": "0x870e1",
+                "name": "duodash_latch_status"
+              },
+              {
+                "vm": "0x870f6",
+                "name": "com.sensetechlab.respring.ack"
+              },
+              {
+                "vm": "0x87114",
+                "name": "duodash.button"
+              },
+              {
+                "vm": "0x87123",
+                "name": "v12@?0B8"
+              },
+              {
+                "vm": "0x8712c",
+                "name": "/var/tmp/duodash_norespring"
+              },
+              {
+                "vm": "0x87148",
+                "name": "/var/tmp/duodash_no_msrv_restart"
+              },
+              {
+                "vm": "0x87169",
+                "name": "duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x8717c",
+                "name": "/var/tmp/duodash_map_bg.jpg"
+              },
+              {
+                "vm": "0x87198",
+                "name": "debug_logging"
+              },
+              {
+                "vm": "0x871a6",
+                "name": "com.sensetechlab.debug.state"
+              },
+              {
+                "vm": "0x871c3",
+                "name": "SBApplication"
+              },
+              {
+                "vm": "0x871d1",
+                "name": "_processDidLaunch:"
+              },
+              {
+                "vm": "0x871e4",
+                "name": "rocess"
+              },
+              {
+                "vm": "0x871eb",
+                "name": "tate"
+              },
+              {
+                "vm": "0x871f0",
+                "name": "ps -e -o pid,args"
+              },
+              {
+                "vm": "0x87209",
+                "name": "maps.app/maps"
+              },
+              {
+                "vm": "0x87217",
+                "name": "Maps.app/Maps"
+              },
+              {
+                "vm": "0x87225",
+                "name": "Waze.app/Waze"
+              },
+              {
+                "vm": "0x87233",
+                "name": "SBApplicationController"
+              },
+              {
+                "vm": "0x8724b",
+                "name": "FBProcessState"
+              },
+              {
+                "vm": "0x8725a",
+                "name": "_noteProcess:didChangeToState:"
+              },
+              {
+                "vm": "0x87279",
+                "name": "/usr/lib/TweakInject/DuoDashPrefsRefresh.dylib"
+              }
+            ]
+          }
+        ],
+        "settings.changed": [
+          {
+            "hit_index": 169,
+            "neighbors": [
+              {
+                "vm": "0x837dd",
+                "name": "split.deactivate"
+              },
+              {
+                "vm": "0x837ee",
+                "name": "/var/tmp/duodash_ab_reapdelay"
+              },
+              {
+                "vm": "0x8380c",
+                "name": "host.request.split.reshow"
+              },
+              {
+                "vm": "0x83826",
+                "name": "host.request.split"
+              },
+              {
+                "vm": "0x83839",
+                "name": "CarPlay disconnect"
+              },
+              {
+                "vm": "0x8384c",
+                "name": "CarPlayIsConnectedDidChange_IsConnected"
+              },
+              {
+                "vm": "0x83874",
+                "name": "CarPlayIsConnectedDidChange"
+              },
+              {
+                "vm": "0x83890",
+                "name": "UIScreenDidDisconnect"
+              },
+              {
+                "vm": "0x838a6",
+                "name": "poll"
+              },
+              {
+                "vm": "0x838ab",
+                "name": "poll: reconnected"
+              },
+              {
+                "vm": "0x838bd",
+                "name": "com.sensetechlab.appbridge.cpconnect"
+              },
+              {
+                "vm": "0x838e2",
+                "name": "poll.bringup"
+              },
+              {
+                "vm": "0x838ef",
+                "name": "poll.connect"
+              },
+              {
+                "vm": "0x838fc",
+                "name": "poll.retry"
+              },
+              {
+                "vm": "0x83907",
+                "name": "%@#%d"
+              },
+              {
+                "vm": "0x8390d",
+                "name": "ab.deferred_entered"
+              },
+              {
+                "vm": "0x83921",
+                "name": "springboard.bringup"
+              },
+              {
+                "vm": "0x83935",
+                "name": "ab.restores_done"
+              },
+              {
+                "vm": "0x83946",
+                "name": "appbridge_sb"
+              },
+              {
+                "vm": "0x83953",
+                "name": "ab.latch_ok"
+              },
+              {
+                "vm": "0x8395f",
+                "name": "com.sensetechlab.settings.changed"
+              },
+              {
+                "vm": "0x83981",
+                "name": "com.sensetechlab.navbubble.changed"
+              },
+              {
+                "vm": "0x839a4",
+                "name": "com.sensetechlab.autostart.changed"
+              },
+              {
+                "vm": "0x839c7",
+                "name": "com.sensetechlab.fontfloor.changed"
+              },
+              {
+                "vm": "0x839ea",
+                "name": "com.sensetechlab.appbridge.paneactivity"
+              },
+              {
+                "vm": "0x83a12",
+                "name": "/var/tmp/duodash_ab_split_deactivate_dismiss"
+              },
+              {
+                "vm": "0x83a3f",
+                "name": "not-an-edge-strip"
+              },
+              {
+                "vm": "0x83a51",
+                "name": "strip-outside-area"
+              },
+              {
+                "vm": "0x83a64",
+                "name": "left"
+              },
+              {
+                "vm": "0x83a69",
+                "name": "right"
+              },
+              {
+                "vm": "0x83a6f",
+                "name": "top"
+              },
+              {
+                "vm": "0x83a73",
+                "name": "bottom"
+              },
+              {
+                "vm": "0x83a7a",
+                "name": "degenerate"
+              },
+              {
+                "vm": "0x83a85",
+                "name": "/var/tmp"
+              },
+              {
+                "vm": "0x83a8e",
+                "name": "carnav_"
+              },
+              {
+                "vm": "0x83a96",
+                "name": "%s/%s"
+              },
+              {
+                "vm": "0x83a9c",
+                "name": "%s/duodash_%s"
+              },
+              {
+                "vm": "0x83aaa",
+                "name": "dashboard_mode_enabled"
+              },
+              {
+                "vm": "0x83ac1",
+                "name": "dashboard_mode_retired"
+              },
+              {
+                "vm": "0x83ad8",
+                "name": "pane_unload_close_enabled"
+              },
+              {
+                "vm": "0x83af2",
+                "name": "pane_unload_close_migrated"
+              },
+              {
+                "vm": "0x83b0d",
+                "name": "perf_tweak_enabled"
+              },
+              {
+                "vm": "0x83b20",
+                "name": "headunit_resolution"
+              },
+              {
+                "vm": "0x83b34",
+                "name": "headunit_video_quality"
+              },
+              {
+                "vm": "0x83b4b",
+                "name": "headunit_layout_area"
+              },
+              {
+                "vm": "0x83b60",
+                "name": "display.changed"
+              },
+              {
+                "vm": "0x83b70",
+                "name": "com.sensetechlab.ble.status.changed"
+              },
+              {
+                "vm": "0x83b94",
+                "name": "carplay-subrect"
+              },
+              {
+                "vm": "0x83ba4",
+                "name": "subrect"
+              },
+              {
+                "vm": "0x83bac",
+                "name": "measured-dock"
+              }
+            ]
+          }
+        ],
+        "preferredFramesPerSecond": [],
+        "preferredFrameRateRange": []
+      },
+      "direct_string_pointer_candidates": {
+        "perf_tweak_enabled": [
+          {
+            "section": "__cfstring",
+            "vm": "0xce438",
+            "width": 4,
+            "candidate_hex": "0d3b0800"
+          }
+        ],
+        "com.sensetechlab.carplay/fps": [],
+        "maxFPS": [
+          {
+            "section": "__cfstring",
+            "vm": "0xd1798",
+            "width": 4,
+            "candidate_hex": "c26f0800"
+          }
+        ],
+        "encoderFPSFixed": [
+          {
+            "section": "__cfstring",
+            "vm": "0xd17b8",
+            "width": 4,
+            "candidate_hex": "c96f0800"
+          }
+        ]
+      },
+      "selected_fps_code_disassembly": {
+        "0x4b4c8..0x4b710": [
+          "0x4b4c8: bl #0x74000",
+          "0x4b4cc: mov x29, x29",
+          "0x4b4d0: bl #0x72264",
+          "0x4b4d4: mov x24, x0",
+          "0x4b4d8: ldr x0, [sp, #0x190]",
+          "0x4b4dc: bl #0x72234",
+          "0x4b4e0: mov x23, x0",
+          "0x4b4e4: ldr x0, [sp, #0xb0]",
+          "0x4b4e8: bl #0x72224",
+          "0x4b4ec: mov x0, x24",
+          "0x4b4f0: bl #0x750a0",
+          "0x4b4f4: cbz x0, #0x4b520",
+          "0x4b4f8: mov x0, x24",
+          "0x4b4fc: ldr x2, [sp, #0xc8]",
+          "0x4b500: mov w3, #1",
+          "0x4b504: bl #0x78fa0",
+          "0x4b508: cbz w0, #0x4b520",
+          "0x4b50c: ldr x0, [sp, #0xc0]",
+          "0x4b510: mov x2, x26",
+          "0x4b514: bl #0x72960",
+          "0x4b518: mov w8, #1",
+          "0x4b51c: str w8, [sp, #0x60]",
+          "0x4b520: mov x0, x24",
+          "0x4b524: bl #0x72224",
+          "0x4b528: mov x0, x19",
+          "0x4b52c: bl #0x72224",
+          "0x4b530: ldr x0, [sp, #0x68]",
+          "0x4b534: bl #0x72224",
+          "0x4b538: ldr x0, [sp, #0x70]",
+          "0x4b53c: bl #0x72224",
+          "0x4b540: str x23, [sp, #0xb0]",
+          "0x4b544: mov x0, x26",
+          "0x4b548: bl #0x72224",
+          "0x4b54c: mov x0, x22",
+          "0x4b550: bl #0x72224",
+          "0x4b554: mov x0, x20",
+          "0x4b558: bl #0x72224",
+          "0x4b55c: ldr x0, [sp, #0xa8]",
+          "0x4b560: bl #0x72224",
+          "0x4b564: ldr x0, [sp, #0x90]",
+          "0x4b568: bl #0x72224",
+          "0x4b56c: ldr x0, [sp, #0xd8]",
+          "0x4b570: bl #0x72224",
+          "0x4b574: ldr x0, [sp, #0xb0]",
+          "0x4b578: bl #0x72224",
+          "0x4b57c: mov x0, x27",
+          "0x4b580: bl #0x72224",
+          "0x4b584: ldr x0, [sp, #0xc0]",
+          "0x4b588: bl #0x72224",
+          "0x4b58c: ldr x0, [sp, #0xd0]",
+          "0x4b590: bl #0x72224",
+          "0x4b594: ldr x0, [sp, #0xc8]",
+          "0x4b598: bl #0x72224",
+          "0x4b59c: add x21, x21, #1",
+          "0x4b5a0: ldr x8, [sp, #0xa0]",
+          "0x4b5a4: cmp x21, x8",
+          "0x4b5a8: b.ne #0x4b008",
+          "0x4b5ac: add x2, sp, #0x110",
+          "0x4b5b0: add x3, sp, #0x210",
+          "0x4b5b4: ldr x19, [sp, #0x88]",
+          "0x4b5b8: mov x0, x19",
+          "0x4b5bc: mov w4, #0x10",
+          "0x4b5c0: bl #0x73e00",
+          "0x4b5c4: cbnz x0, #0x4b000",
+          "0x4b5c8: mov x0, x19",
+          "0x4b5cc: bl #0x72224",
+          "0x4b5d0: ldr w8, [sp, #0x60]",
+          "0x4b5d4: tbz w8, #0, #0x4b640",
+          "0x4b5d8: ldr x0, [sp, #0xc0]",
+          "0x4b5dc: bl #0x72234",
+          "0x4b5e0: mov x19, x0",
+          "0x4b5e4: ldr x0, [sp, #0xb8]",
+          "0x4b5e8: bl #0x72234",
+          "0x4b5ec: mov x20, x0",
+          "0x4b5f0: mov w21, #1",
+          "0x4b5f4: str x19, [sp, #0xd0]",
+          "0x4b5f8: mov x0, x19",
+          "0x4b5fc: bl #0x73de0",
+          "0x4b600: cbz x0, #0x4b8b8",
+          "0x4b604: adrp x25, #0xde000",
+          "0x4b608: ldr x0, [x25, #0x9e0]",
+          "0x4b60c: adrp x2, #0xd0000",
+          "0x4b610: add x2, x2, #0x6a8",
+          "0x4b614: bl #0x741a0",
+          "0x4b618: mov x29, x29",
+          "0x4b61c: bl #0x72264",
+          "0x4b620: mov x22, x0",
+          "0x4b624: cbz x0, #0x4b658",
+          "0x4b628: mov x0, x22",
+          "0x4b62c: bl #0x72234",
+          "0x4b630: str x0, [sp, #0xd8]",
+          "0x4b634: b #0x4b66c",
+          "0x4b638: mov x0, x19",
+          "0x4b63c: bl #0x72224",
+          "0x4b640: str wzr, [sp, #0x60]",
+          "0x4b644: ldr x0, [sp, #0xe0]",
+          "0x4b648: bl #0x72224",
+          "0x4b64c: ldr x0, [sp, #0xb8]",
+          "0x4b650: bl #0x72224",
+          "0x4b654: b #0x4b96c",
+          "0x4b658: ldr x0, [x25, #0x9e0]",
+          "0x4b65c: bl #0x74180",
+          "0x4b660: mov x29, x29",
+          "0x4b664: bl #0x72264",
+          "0x4b668: str x0, [sp, #0xd8]",
+          "0x4b66c: mov x0, x22",
+          "0x4b670: bl #0x72224",
+          "0x4b674: ldr x0, [sp, #0xd8]",
+          "0x4b678: bl #0x495d8",
+          "0x4b67c: mov x29, x29",
+          "0x4b680: bl #0x72264",
+          "0x4b684: str x0, [sp, #0xc8]",
+          "0x4b688: adrp x2, #0xd0000",
+          "0x4b68c: add x2, x2, #0x6c8",
+          "0x4b690: ldr x0, [sp, #0xd8]",
+          "0x4b694: bl #0x756a0",
+          "0x4b698: mov x29, x29",
+          "0x4b69c: bl #0x72264",
+          "0x4b6a0: str x0, [sp, #0xc0]",
+          "0x4b6a4: adrp x8, #0xde000",
+          "0x4b6a8: ldr x0, [x8, #0x870]",
+          "0x4b6ac: bl #0x721e4",
+          "0x4b6b0: mov x1, x0",
+          "0x4b6b4: ldr x0, [sp, #0xc8]",
+          "0x4b6b8: bl #0x721f4",
+          "0x4b6bc: tbz w0, #0, #0x4b6cc",
+          "0x4b6c0: ldr x0, [sp, #0xc8]",
+          "0x4b6c4: bl #0x753e0",
+          "0x4b6c8: b #0x4b6e0",
+          "0x4b6cc: adrp x8, #0xde000",
+          "0x4b6d0: ldr x0, [x8, #0x898]",
+          "0x4b6d4: bl #0x72e20",
+          "0x4b6d8: mov x29, x29",
+          "0x4b6dc: bl #0x72264",
+          "0x4b6e0: mov x24, x0",
+          "0x4b6e4: ldr x0, [x28, #0x868]",
+          "0x4b6e8: bl #0x721e4",
+          "0x4b6ec: mov x1, x0",
+          "0x4b6f0: ldr x0, [sp, #0xc0]",
+          "0x4b6f4: bl #0x721f4",
+          "0x4b6f8: tbz w0, #0, #0x4b708",
+          "0x4b6fc: ldr x0, [sp, #0xc0]",
+          "0x4b700: bl #0x753e0",
+          "0x4b704: b #0x4b718",
+          "0x4b708: ldr x0, [x25, #0x9e0]",
+          "0x4b70c: bl #0x74180"
+        ],
+        "0x4b710..0x4c200": [
+          "0x4b710: mov x29, x29",
+          "0x4b714: bl #0x72264",
+          "0x4b718: mov x25, x0",
+          "0x4b71c: movi v0.2d, #0000000000000000",
+          "0x4b720: add x8, sp, #0x150",
+          "0x4b724: stp q0, q0, [x8, #0x1e0]",
+          "0x4b728: stp q0, q0, [x8, #0x1c0]",
+          "0x4b72c: ldr x0, [sp, #0xd0]",
+          "0x4b730: bl #0x72234",
+          "0x4b734: mov x26, x0",
+          "0x4b738: add x2, sp, #0x310",
+          "0x4b73c: sub x3, x29, #0xf8",
+          "0x4b740: mov w4, #0x10",
+          "0x4b744: bl #0x73e00",
+          "0x4b748: mov x27, x0",
+          "0x4b74c: cbz x0, #0x4b7fc",
+          "0x4b750: ldr x8, [sp, #0x320]",
+          "0x4b754: ldr x23, [x8]",
+          "0x4b758: adrp x19, #0xd0000",
+          "0x4b75c: add x19, x19, #0x6e8",
+          "0x4b760: mov x21, #0",
+          "0x4b764: ldr x8, [sp, #0x320]",
+          "0x4b768: ldr x8, [x8]",
+          "0x4b76c: cmp x8, x23",
+          "0x4b770: b.eq #0x4b77c",
+          "0x4b774: mov x0, x26",
+          "0x4b778: bl #0x72164",
+          "0x4b77c: ldr x8, [sp, #0x318]",
+          "0x4b780: ldr x28, [x8, x21, lsl #3]",
+          "0x4b784: mov x0, x20",
+          "0x4b788: mov x2, x28",
+          "0x4b78c: bl #0x756a0",
+          "0x4b790: mov x29, x29",
+          "0x4b794: bl #0x72264",
+          "0x4b798: mov x22, x0",
+          "0x4b79c: cmp x0, #0",
+          "0x4b7a0: csel x2, x19, x0, eq",
+          "0x4b7a4: mov x0, x25",
+          "0x4b7a8: mov x3, x28",
+          "0x4b7ac: bl #0x77540",
+          "0x4b7b0: mov x0, x22",
+          "0x4b7b4: bl #0x72224",
+          "0x4b7b8: mov x0, x24",
+          "0x4b7bc: mov x2, x28",
+          "0x4b7c0: bl #0x73c60",
+          "0x4b7c4: tbnz w0, #0, #0x4b7d4",
+          "0x4b7c8: mov x0, x24",
+          "0x4b7cc: mov x2, x28",
+          "0x4b7d0: bl #0x72940",
+          "0x4b7d4: add x21, x21, #1",
+          "0x4b7d8: cmp x27, x21",
+          "0x4b7dc: b.ne #0x4b764",
+          "0x4b7e0: add x2, sp, #0x310",
+          "0x4b7e4: sub x3, x29, #0xf8",
+          "0x4b7e8: mov x0, x26",
+          "0x4b7ec: mov w4, #0x10",
+          "0x4b7f0: bl #0x73e00",
+          "0x4b7f4: mov x27, x0",
+          "0x4b7f8: cbnz x0, #0x4b760",
+          "0x4b7fc: mov x0, x26",
+          "0x4b800: bl #0x72224",
+          "0x4b804: mov w21, #1",
+          "0x4b808: adrp x3, #0xd0000",
+          "0x4b80c: add x3, x3, #0x708",
+          "0x4b810: ldr x0, [sp, #0xd8]",
+          "0x4b814: mov x2, x24",
+          "0x4b818: bl #0x77540",
+          "0x4b81c: adrp x3, #0xd0000",
+          "0x4b820: add x3, x3, #0x728",
+          "0x4b824: ldr x0, [sp, #0xd8]",
+          "0x4b828: mov x2, #0",
+          "0x4b82c: bl #0x77540",
+          "0x4b830: adrp x3, #0xd0000",
+          "0x4b834: add x3, x3, #0x6c8",
+          "0x4b838: ldr x0, [sp, #0xd8]",
+          "0x4b83c: mov x2, x25",
+          "0x4b840: bl #0x77540",
+          "0x4b844: adrp x8, #0xde000",
+          "0x4b848: ldr x0, [x8, #0x890]",
+          "0x4b84c: bl #0x74080",
+          "0x4b850: mov x29, x29",
+          "0x4b854: bl #0x72264",
+          "0x4b858: mov x26, x0",
+          "0x4b85c: adrp x2, #0xd0000",
+          "0x4b860: add x2, x2, #0x788",
+          "0x4b864: mov w3, #1",
+          "0x4b868: mov x4, #0",
+          "0x4b86c: mov x5, #0",
+          "0x4b870: bl #0x73e80",
+          "0x4b874: mov x0, x26",
+          "0x4b878: bl #0x72224",
+          "0x4b87c: adrp x2, #0xd0000",
+          "0x4b880: add x2, x2, #0x6a8",
+          "0x4b884: ldr x0, [sp, #0xd8]",
+          "0x4b888: mov w3, #1",
+          "0x4b88c: bl #0x78fa0",
+          "0x4b890: mov x0, x25",
+          "0x4b894: bl #0x72224",
+          "0x4b898: mov x0, x24",
+          "0x4b89c: bl #0x72224",
+          "0x4b8a0: ldr x0, [sp, #0xc0]",
+          "0x4b8a4: bl #0x72224",
+          "0x4b8a8: ldr x0, [sp, #0xc8]",
+          "0x4b8ac: bl #0x72224",
+          "0x4b8b0: ldr x0, [sp, #0xd8]",
+          "0x4b8b4: bl #0x72224",
+          "0x4b8b8: mov x0, x20",
+          "0x4b8bc: bl #0x72224",
+          "0x4b8c0: ldr x0, [sp, #0xd0]",
+          "0x4b8c4: bl #0x72224",
+          "0x4b8c8: mov w8, #1",
+          "0x4b8cc: str w8, [sp, #0x60]",
+          "0x4b8d0: b #0x4b644",
+          "0x4b8d4: b #0x4b94c",
+          "0x4b8d8: b #0x4b94c",
+          "0x4b8dc: b #0x4b94c",
+          "0x4b8e0: b #0x4b918",
+          "0x4b8e4: str w21, [sp, #0x60]",
+          "0x4b8e8: b #0x4b950",
+          "0x4b8ec: b #0x4b950",
+          "0x4b8f0: b #0x4b94c",
+          "0x4b8f4: b #0x4b94c",
+          "0x4b8f8: b #0x4b94c",
+          "0x4b8fc: b #0x4b94c",
+          "0x4b900: b #0x4b94c",
+          "0x4b904: b #0x4b94c",
+          "0x4b908: b #0x4b94c",
+          "0x4b90c: b #0x4b94c",
+          "0x4b910: b #0x4b94c",
+          "0x4b914: b #0x4b94c",
+          "0x4b918: mov w8, #1",
+          "0x4b91c: str w8, [sp, #0x60]",
+          "0x4b920: b #0x4b950",
+          "0x4b924: b #0x4b950",
+          "0x4b928: b #0x4b94c",
+          "0x4b92c: b #0x4b94c",
+          "0x4b930: b #0x4b94c",
+          "0x4b934: b #0x4b950",
+          "0x4b938: b #0x4b94c",
+          "0x4b93c: b #0x4b950",
+          "0x4b940: b #0x4b94c",
+          "0x4b944: b #0x4b94c",
+          "0x4b948: b #0x4b950",
+          "0x4b94c: str wzr, [sp, #0x60]",
+          "0x4b950: cmp w1, #1",
+          "0x4b954: b.ne #0x4ba24",
+          "0x4b958: bl #0x72114",
+          "0x4b95c: mov x29, x29",
+          "0x4b960: bl #0x72264",
+          "0x4b964: bl #0x72224",
+          "0x4b968: bl #0x72154",
+          "0x4b96c: adrp x19, #0xbc000",
+          "0x4b970: ldr x19, [x19, #0x9e0]",
+          "0x4b974: mov x0, x19",
+          "0x4b978: bl #0x72234",
+          "0x4b97c: add x8, sp, #0xe8",
+          "0x4b980: adrp x16, #0xbc000",
+          "0x4b984: ldr x16, [x16, #0x9d0]",
+          "0x4b988: mov x17, x8",
+          "0x4b98c: movk x17, #0x6ae1, lsl #48",
+          "0x4b990: pacda x16, x17",
+          "0x4b994: str x16, [sp, #0xe8]",
+          "0x4b998: adrp x9, #0x7b000",
+          "0x4b99c: ldr d0, [x9, #0x270]",
+          "0x4b9a0: str d0, [sp, #0xf0]",
+          "0x4b9a4: add x8, x8, #0x10",
+          "0x4b9a8: adrp x9, #0xbd000",
+          "0x4b9ac: add x9, x9, #0xc40",
+          "0x4b9b0: adrp x16, #0x4b000",
+          "0x4b9b4: add x16, x16, #0xe30",
+          "0x4b9b8: pacia x16, x8",
+          "0x4b9bc: stp x16, x9, [sp, #0xf8]",
+          "0x4b9c0: ldr w8, [sp, #0x60]",
+          "0x4b9c4: and w8, w8, #1",
+          "0x4b9c8: strb w8, [sp, #0x108]",
+          "0x4b9cc: add x1, sp, #0xe8",
+          "0x4b9d0: mov x0, x19",
+          "0x4b9d4: bl #0x71d14",
+          "0x4b9d8: mov x0, x19",
+          "0x4b9dc: bl #0x72224",
+          "0x4b9e0: ldr x0, [sp, #0x38]",
+          "0x4b9e4: bl #0x72224",
+          "0x4b9e8: ldur x8, [x29, #-0x68]",
+          "0x4b9ec: adrp x9, #0xbc000",
+          "0x4b9f0: ldr x9, [x9, #0x9d8]",
+          "0x4b9f4: ldr x9, [x9]",
+          "0x4b9f8: cmp x9, x8",
+          "0x4b9fc: b.ne #0x4ba20",
+          "0x4ba00: add sp, sp, #0x440",
+          "0x4ba04: ldp x29, x30, [sp, #0x50]",
+          "0x4ba08: ldp x20, x19, [sp, #0x40]",
+          "0x4ba0c: ldp x22, x21, [sp, #0x30]",
+          "0x4ba10: ldp x24, x23, [sp, #0x20]",
+          "0x4ba14: ldp x26, x25, [sp, #0x10]",
+          "0x4ba18: ldp x28, x27, [sp], #0x60",
+          "0x4ba1c: retab ",
+          "0x4ba20: bl #0x71b94",
+          "0x4ba24: bl #0x71b64",
+          "0x4ba28: pacibsp ",
+          "0x4ba2c: stp x22, x21, [sp, #-0x30]!",
+          "0x4ba30: stp x20, x19, [sp, #0x10]",
+          "0x4ba34: stp x29, x30, [sp, #0x20]",
+          "0x4ba38: add x29, sp, #0x20",
+          "0x4ba3c: mov x20, x1",
+          "0x4ba40: bl #0x72234",
+          "0x4ba44: mov x19, x0",
+          "0x4ba48: mov x0, x20",
+          "0x4ba4c: bl #0x72234",
+          "0x4ba50: mov x20, x0",
+          "0x4ba54: cbz x19, #0x4bab4",
+          "0x4ba58: mov x0, x20",
+          "0x4ba5c: bl #0x750a0",
+          "0x4ba60: cbz x0, #0x4bab4",
+          "0x4ba64: adrp x8, #0xdc000",
+          "0x4ba68: ldr x21, [x8, #0x930]",
+          "0x4ba6c: mov x0, x19",
+          "0x4ba70: mov x1, x21",
+          "0x4ba74: bl #0x72214",
+          "0x4ba78: tbz w0, #0, #0x4bab4",
+          "0x4ba7c: adrp x8, #0xde000",
+          "0x4ba80: ldr x0, [x8, #0x8d0]",
+          "0x4ba84: bl #0x721e4",
+          "0x4ba88: mov x3, x0",
+          "0x4ba8c: mov x0, x19",
+          "0x4ba90: mov x1, x21",
+          "0x4ba94: mov x2, x20",
+          "0x4ba98: bl #0x721c4",
+          "0x4ba9c: mov x29, x29",
+          "0x4baa0: bl #0x72264",
+          "0x4baa4: mov x21, x0",
+          "0x4baa8: b #0x4bab8",
+          "0x4baac: bl #0x72114",
+          "0x4bab0: bl #0x72154",
+          "0x4bab4: mov x21, #0",
+          "0x4bab8: mov x0, x20",
+          "0x4babc: bl #0x72224",
+          "0x4bac0: mov x0, x19",
+          "0x4bac4: bl #0x72224",
+          "0x4bac8: mov x0, x21",
+          "0x4bacc: ldp x29, x30, [sp, #0x20]",
+          "0x4bad0: ldp x20, x19, [sp, #0x10]",
+          "0x4bad4: ldp x22, x21, [sp], #0x30",
+          "0x4bad8: autibsp ",
+          "0x4badc: eor x16, x30, x30, lsl #1",
+          "0x4bae0: tbz x16, #0x3e, #0x4bae8",
+          "0x4bae4: brk #0xc471",
+          "0x4bae8: b #0x72104",
+          "0x4baec: pacibsp ",
+          "0x4baf0: stp x22, x21, [sp, #-0x30]!",
+          "0x4baf4: stp x20, x19, [sp, #0x10]",
+          "0x4baf8: stp x29, x30, [sp, #0x20]",
+          "0x4bafc: add x29, sp, #0x20",
+          "0x4bb00: adrp x2, #0xd0000",
+          "0x4bb04: add x2, x2, #0xa48",
+          "0x4bb08: bl #0x756a0",
+          "0x4bb0c: mov x29, x29",
+          "0x4bb10: bl #0x72264",
+          "0x4bb14: mov x19, x0",
+          "0x4bb18: adrp x20, #0xde000",
+          "0x4bb1c: ldr x0, [x20, #0x868]",
+          "0x4bb20: bl #0x721e4",
+          "0x4bb24: mov x1, x0",
+          "0x4bb28: mov x0, x19",
+          "0x4bb2c: bl #0x721f4",
+          "0x4bb30: tbz w0, #0, #0x4bb80",
+          "0x4bb34: adrp x2, #0xd0000",
+          "0x4bb38: add x2, x2, #0xa68",
+          "0x4bb3c: mov x0, x19",
+          "0x4bb40: bl #0x756a0",
+          "0x4bb44: mov x29, x29",
+          "0x4bb48: bl #0x72264",
+          "0x4bb4c: mov x21, x0",
+          "0x4bb50: ldr x0, [x20, #0x868]",
+          "0x4bb54: bl #0x721e4",
+          "0x4bb58: mov x1, x0",
+          "0x4bb5c: mov x0, x21",
+          "0x4bb60: bl #0x721f4",
+          "0x4bb64: tst w0, #1",
+          "0x4bb68: csel x0, x21, xzr, ne",
+          "0x4bb6c: bl #0x72234",
+          "0x4bb70: mov x20, x0",
+          "0x4bb74: mov x0, x21",
+          "0x4bb78: bl #0x72224",
+          "0x4bb7c: b #0x4bb84",
+          "0x4bb80: mov x20, #0",
+          "0x4bb84: mov x0, x19",
+          "0x4bb88: bl #0x72224",
+          "0x4bb8c: mov x0, x20",
+          "0x4bb90: ldp x29, x30, [sp, #0x20]",
+          "0x4bb94: ldp x20, x19, [sp, #0x10]",
+          "0x4bb98: ldp x22, x21, [sp], #0x30",
+          "0x4bb9c: autibsp ",
+          "0x4bba0: eor x16, x30, x30, lsl #1",
+          "0x4bba4: tbz x16, #0x3e, #0x4bbac",
+          "0x4bba8: brk #0xc471",
+          "0x4bbac: b #0x72104",
+          "0x4bbb0: pacibsp ",
+          "0x4bbb4: stp x24, x23, [sp, #-0x40]!",
+          "0x4bbb8: stp x22, x21, [sp, #0x10]",
+          "0x4bbbc: stp x20, x19, [sp, #0x20]",
+          "0x4bbc0: stp x29, x30, [sp, #0x30]",
+          "0x4bbc4: add x29, sp, #0x30",
+          "0x4bbc8: mov x21, x2",
+          "0x4bbcc: mov x20, x1",
+          "0x4bbd0: bl #0x72234",
+          "0x4bbd4: mov x19, x0",
+          "0x4bbd8: mov x0, x20",
+          "0x4bbdc: bl #0x72234",
+          "0x4bbe0: mov x20, x0",
+          "0x4bbe4: mov x0, x21",
+          "0x4bbe8: bl #0x72234",
+          "0x4bbec: mov x21, x0",
+          "0x4bbf0: cbz x19, #0x4bc20",
+          "0x4bbf4: mov x0, x19",
+          "0x4bbf8: mov x2, x21",
+          "0x4bbfc: bl #0x756a0",
+          "0x4bc00: mov x29, x29",
+          "0x4bc04: bl #0x72264",
+          "0x4bc08: mov x23, x0",
+          "0x4bc0c: bl #0x4bc84",
+          "0x4bc10: mov x22, x0",
+          "0x4bc14: mov x0, x23",
+          "0x4bc18: bl #0x72224",
+          "0x4bc1c: b #0x4bc54",
+          "0x4bc20: cbz x20, #0x4bc50",
+          "0x4bc24: adrp x8, #0xdc000",
+          "0x4bc28: ldr x1, [x8, #0x930]",
+          "0x4bc2c: mov x0, x20",
+          "0x4bc30: bl #0x72214",
+          "0x4bc34: tbz w0, #0, #0x4bc50",
+          "0x4bc38: mov x0, x20",
+          "0x4bc3c: mov x1, x21",
+          "0x4bc40: bl #0x4ba28",
+          "0x4bc44: mov x29, x29",
+          "0x4bc48: bl #0x72264",
+          "0x4bc4c: b #0x4bc08",
+          "0x4bc50: mov w22, #-1",
+          "0x4bc54: mov x0, x21",
+          "0x4bc58: bl #0x72224",
+          "0x4bc5c: mov x0, x20",
+          "0x4bc60: bl #0x72224",
+          "0x4bc64: mov x0, x19",
+          "0x4bc68: bl #0x72224",
+          "0x4bc6c: mov x0, x22",
+          "0x4bc70: ldp x29, x30, [sp, #0x30]",
+          "0x4bc74: ldp x20, x19, [sp, #0x20]",
+          "0x4bc78: ldp x22, x21, [sp, #0x10]",
+          "0x4bc7c: ldp x24, x23, [sp], #0x40",
+          "0x4bc80: retab ",
+          "0x4bc84: pacibsp ",
+          "0x4bc88: stp x22, x21, [sp, #-0x30]!",
+          "0x4bc8c: stp x20, x19, [sp, #0x10]",
+          "0x4bc90: stp x29, x30, [sp, #0x20]",
+          "0x4bc94: add x29, sp, #0x20",
+          "0x4bc98: bl #0x72234",
+          "0x4bc9c: mov x19, x0",
+          "0x4bca0: cbz x0, #0x4bcf4",
+          "0x4bca4: adrp x8, #0xde000",
+          "0x4bca8: ldr x0, [x8, #0x960]",
+          "0x4bcac: bl #0x75520",
+          "0x4bcb0: mov x29, x29",
+          "0x4bcb4: bl #0x72264",
+          "0x4bcb8: mov x20, x0",
+          "0x4bcbc: bl #0x72224",
+          "0x4bcc0: cmp x20, x19",
+          "0x4bcc4: b.eq #0x4bcf4",
+          "0x4bcc8: adrp x8, #0xde000",
+          "0x4bccc: ldr x0, [x8, #0x878]",
+          "0x4bcd0: bl #0x721e4",
+          "0x4bcd4: mov x1, x0",
+          "0x4bcd8: mov x0, x19",
+          "0x4bcdc: bl #0x721f4",
+          "0x4bce0: tbz w0, #0, #0x4bd14",
+          "0x4bce4: mov x0, x19",
+          "0x4bce8: bl #0x730c0",
+          "0x4bcec: mov x21, x0",
+          "0x4bcf0: b #0x4bcf8",
+          "0x4bcf4: mov w21, #0",
+          "0x4bcf8: mov x0, x19",
+          "0x4bcfc: bl #0x72224",
+          "0x4bd00: mov x0, x21",
+          "0x4bd04: ldp x29, x30, [sp, #0x20]",
+          "0x4bd08: ldp x20, x19, [sp, #0x10]",
+          "0x4bd0c: ldp x22, x21, [sp], #0x30",
+          "0x4bd10: retab ",
+          "0x4bd14: adrp x8, #0xde000",
+          "0x4bd18: ldr x0, [x8, #0x858]",
+          "0x4bd1c: bl #0x721e4",
+          "0x4bd20: mov x1, x0",
+          "0x4bd24: mov x0, x19",
+          "0x4bd28: bl #0x721f4",
+          "0x4bd2c: tbz w0, #0, #0x4bd70",
+          "0x4bd30: mov x0, x19",
+          "0x4bd34: bl #0x751e0",
+          "0x4bd38: mov x29, x29",
+          "0x4bd3c: bl #0x72264",
+          "0x4bd40: mov x20, x0",
+          "0x4bd44: adrp x2, #0xce000",
+          "0x4bd48: add x2, x2, #0x908",
+          "0x4bd4c: bl #0x74d80",
+          "0x4bd50: tbnz w0, #0, #0x4bd68",
+          "0x4bd54: adrp x2, #0xd0000",
+          "0x4bd58: add x2, x2, #0x988",
+          "0x4bd5c: mov x0, x20",
+          "0x4bd60: bl #0x74d80",
+          "0x4bd64: tbz w0, #0, #0x4bd78",
+          "0x4bd68: mov w21, #0",
+          "0x4bd6c: b #0x4bd8c",
+          "0x4bd70: mov w21, #1",
+          "0x4bd74: b #0x4bcf8",
+          "0x4bd78: adrp x2, #0xd0000",
+          "0x4bd7c: add x2, x2, #0x9a8",
+          "0x4bd80: mov x0, x20",
+          "0x4bd84: bl #0x74d80",
+          "0x4bd88: eor w21, w0, #1",
+          "0x4bd8c: mov x0, x20",
+          "0x4bd90: bl #0x72224",
+          "0x4bd94: b #0x4bcf8",
+          "0x4bd98: pacibsp ",
+          "0x4bd9c: stp x22, x21, [sp, #-0x30]!",
+          "0x4bda0: stp x20, x19, [sp, #0x10]",
+          "0x4bda4: stp x29, x30, [sp, #0x20]",
+          "0x4bda8: add x29, sp, #0x20",
+          "0x4bdac: mov x20, x0",
+          "0x4bdb0: mov x0, x1",
+          "0x4bdb4: bl #0x72234",
+          "0x4bdb8: mov x19, x0",
+          "0x4bdbc: adrp x2, #0xd0000",
+          "0x4bdc0: add x2, x2, #0xa28",
+          "0x4bdc4: mov x0, x20",
+          "0x4bdc8: bl #0x756a0",
+          "0x4bdcc: mov x29, x29",
+          "0x4bdd0: bl #0x72264",
+          "0x4bdd4: mov x20, x0",
+          "0x4bdd8: adrp x8, #0xde000",
+          "0x4bddc: ldr x0, [x8, #0x870]",
+          "0x4bde0: bl #0x721e4",
+          "0x4bde4: mov x1, x0",
+          "0x4bde8: mov x0, x20",
+          "0x4bdec: bl #0x721f4",
+          "0x4bdf0: tbz w0, #0, #0x4be08",
+          "0x4bdf4: mov x0, x20",
+          "0x4bdf8: mov x2, x19",
+          "0x4bdfc: bl #0x73c60",
+          "0x4be00: mov x21, x0",
+          "0x4be04: b #0x4be0c",
+          "0x4be08: mov w21, #0",
+          "0x4be0c: mov x0, x20",
+          "0x4be10: bl #0x72224",
+          "0x4be14: mov x0, x19",
+          "0x4be18: bl #0x72224",
+          "0x4be1c: mov x0, x21",
+          "0x4be20: ldp x29, x30, [sp, #0x20]",
+          "0x4be24: ldp x20, x19, [sp, #0x10]",
+          "0x4be28: ldp x22, x21, [sp], #0x30",
+          "0x4be2c: retab ",
+          "0x4be30: pacibsp ",
+          "0x4be34: sub sp, sp, #0xb0",
+          "0x4be38: stp x20, x19, [sp, #0x90]",
+          "0x4be3c: stp x29, x30, [sp, #0xa0]",
+          "0x4be40: add x29, sp, #0xa0",
+          "0x4be44: adrp x8, #0xe0000",
+          "0x4be48: strb wzr, [x8, #0x940]",
+          "0x4be4c: ldrb w8, [x0, #0x20]",
+          "0x4be50: cmp w8, #1",
+          "0x4be54: b.ne #0x4be6c",
+          "0x4be58: adrp x0, #0x85000",
+          "0x4be5c: add x0, x0, #0xbbe",
+          "0x4be60: mov x1, sp",
+          "0x4be64: bl #0x72474",
+          "0x4be68: cbz w0, #0x4be7c",
+          "0x4be6c: ldp x29, x30, [sp, #0xa0]",
+          "0x4be70: ldp x20, x19, [sp, #0x90]",
+          "0x4be74: add sp, sp, #0xb0",
+          "0x4be78: retab ",
+          "0x4be7c: adrp x0, #0x85000",
+          "0x4be80: add x0, x0, #0xedd",
+          "0x4be84: bl #0x72194",
+          "0x4be88: cbz x0, #0x4bebc",
+          "0x4be8c: adrp x8, #0xdc000",
+          "0x4be90: ldr x1, [x8, #0x938]",
+          "0x4be94: bl #0x721c4",
+          "0x4be98: mov x29, x29",
+          "0x4be9c: bl #0x72264",
+          "0x4bea0: mov x19, x0",
+          "0x4bea4: bl #0x73de0",
+          "0x4bea8: mov x20, x0",
+          "0x4beac: mov x0, x19",
+          "0x4beb0: bl #0x72224",
+          "0x4beb4: cmp x20, #1",
+          "0x4beb8: b.hi #0x4be6c",
+          "0x4bebc: bl #0x69b88",
+          "0x4bec0: cbz w0, #0x4be6c",
+          "0x4bec4: adrp x0, #0x85000",
+          "0x4bec8: add x0, x0, #0xbe3",
+          "0x4becc: bl #0x6aef0",
+          "0x4bed0: b #0x4be6c",
+          "0x4bed4: cmp w1, #1",
+          "0x4bed8: b.ne #0x4bee8",
+          "0x4bedc: bl #0x72114",
+          "0x4bee0: bl #0x72154",
+          "0x4bee4: b #0x4bebc",
+          "0x4bee8: bl #0x71b64",
+          "0x4beec: adrp x8, #0xe0000",
+          "0x4bef0: strb wzr, [x8, #0x940]",
+          "0x4bef4: ret ",
+          "0x4bef8: pacibsp ",
+          "0x4befc: stp x29, x30, [sp, #-0x10]!",
+          "0x4bf00: mov x29, sp",
+          "0x4bf04: adrp x0, #0x85000",
+          "0x4bf08: add x0, x0, #0xcf8",
+          "0x4bf0c: mov x1, #0",
+          "0x4bf10: bl #0x71d54",
+          "0x4bf14: adrp x9, #0xe0000",
+          "0x4bf18: ldr x8, [x9, #0x960]",
+          "0x4bf1c: str x0, [x9, #0x960]",
+          "0x4bf20: mov x0, x8",
+          "0x4bf24: ldp x29, x30, [sp], #0x10",
+          "0x4bf28: autibsp ",
+          "0x4bf2c: eor x16, x30, x30, lsl #1",
+          "0x4bf30: tbz x16, #0x3e, #0x4bf38",
+          "0x4bf34: brk #0xc471",
+          "0x4bf38: b #0x72224",
+          "0x4bf3c: pacibsp ",
+          "0x4bf40: sub sp, sp, #0x50",
+          "0x4bf44: stp x20, x19, [sp, #0x30]",
+          "0x4bf48: stp x29, x30, [sp, #0x40]",
+          "0x4bf4c: add x29, sp, #0x40",
+          "0x4bf50: mov x19, x0",
+          "0x4bf54: adrp x8, #0xe0000",
+          "0x4bf58: ldr x8, [x8, #0x958]",
+          "0x4bf5c: cmn x8, #1",
+          "0x4bf60: b.ne #0x4bfec",
+          "0x4bf64: adrp x8, #0xe0000",
+          "0x4bf68: ldrb w8, [x8, #0x954]",
+          "0x4bf6c: cmp w8, #1",
+          "0x4bf70: b.ne #0x4bfdc",
+          "0x4bf74: bl #0x49d14",
+          "0x4bf78: mov x29, x29",
+          "0x4bf7c: bl #0x72264",
+          "0x4bf80: mov x20, x0",
+          "0x4bf84: add x8, sp, #8",
+          "0x4bf88: adrp x16, #0xbc000",
+          "0x4bf8c: ldr x16, [x16, #0x9d0]",
+          "0x4bf90: mov x17, x8",
+          "0x4bf94: movk x17, #0x6ae1, lsl #48",
+          "0x4bf98: pacda x16, x17",
+          "0x4bf9c: str x16, [sp, #8]",
+          "0x4bfa0: adrp x9, #0x7b000",
+          "0x4bfa4: ldr d0, [x9, #0x270]",
+          "0x4bfa8: str d0, [sp, #0x10]",
+          "0x4bfac: add x8, x8, #0x10",
+          "0x4bfb0: adrp x16, #0x4c000",
+          "0x4bfb4: add x16, x16, #4",
+          "0x4bfb8: pacia x16, x8",
+          "0x4bfbc: adrp x8, #0xcc000",
+          "0x4bfc0: add x8, x8, #0xff8",
+          "0x4bfc4: stp x16, x8, [sp, #0x18]",
+          "0x4bfc8: str x19, [sp, #0x28]",
+          "0x4bfcc: add x1, sp, #8",
+          "0x4bfd0: bl #0x71d14",
+          "0x4bfd4: mov x0, x20",
+          "0x4bfd8: bl #0x72224",
+          "0x4bfdc: ldp x29, x30, [sp, #0x40]",
+          "0x4bfe0: ldp x20, x19, [sp, #0x30]",
+          "0x4bfe4: add sp, sp, #0x50",
+          "0x4bfe8: retab ",
+          "0x4bfec: adrp x0, #0xe0000",
+          "0x4bff0: add x0, x0, #0x958",
+          "0x4bff4: adrp x1, #0xbd000",
+          "0x4bff8: add x1, x1, #0xc60",
+          "0x4bffc: bl #0x71d34",
+          "0x4c000: b #0x4bf64",
+          "0x4c004: pacibsp ",
+          "0x4c008: sub sp, sp, #0x90",
+          "0x4c00c: stp x28, x27, [sp, #0x30]",
+          "0x4c010: stp x26, x25, [sp, #0x40]",
+          "0x4c014: stp x24, x23, [sp, #0x50]",
+          "0x4c018: stp x22, x21, [sp, #0x60]",
+          "0x4c01c: stp x20, x19, [sp, #0x70]",
+          "0x4c020: stp x29, x30, [sp, #0x80]",
+          "0x4c024: add x29, sp, #0x80",
+          "0x4c028: mov x20, x0",
+          "0x4c02c: bl #0x49a90",
+          "0x4c030: mov x22, x0",
+          "0x4c034: adrp x27, #0xde000",
+          "0x4c038: ldr x0, [x27, #0x890]",
+          "0x4c03c: bl #0x74080",
+          "0x4c040: mov x29, x29",
+          "0x4c044: bl #0x72264",
+          "0x4c048: mov x19, x0",
+          "0x4c04c: adrp x21, #0xd0000",
+          "0x4c050: add x21, x21, #0x6a8",
+          "0x4c054: mov x2, x21",
+          "0x4c058: bl #0x744a0",
+          "0x4c05c: mov x23, x0",
+          "0x4c060: mov x0, x19",
+          "0x4c064: bl #0x72224",
+          "0x4c068: adrp x8, #0xde000",
+          "0x4c06c: ldr x0, [x8, #0x868]",
+          "0x4c070: mov x2, x21",
+          "0x4c074: bl #0x741a0",
+          "0x4c078: mov x29, x29",
+          "0x4c07c: bl #0x72264",
+          "0x4c080: mov x19, x0",
+          "0x4c084: cmp w23, #0",
+          "0x4c088: ccmp x0, #0, #0, ne",
+          "0x4c08c: b.eq #0x4c2f4",
+          "0x4c090: adrp x2, #0xd0000",
+          "0x4c094: add x2, x2, #0x768",
+          "0x4c098: mov x0, x19",
+          "0x4c09c: bl #0x756a0",
+          "0x4c0a0: mov x29, x29",
+          "0x4c0a4: bl #0x72264",
+          "0x4c0a8: mov x21, x0",
+          "0x4c0ac: adrp x28, #0xde000",
+          "0x4c0b0: ldr x0, [x28, #0x878]",
+          "0x4c0b4: bl #0x721e4",
+          "0x4c0b8: mov x1, x0",
+          "0x4c0bc: mov x0, x21",
+          "0x4c0c0: bl #0x721f4",
+          "0x4c0c4: tst w0, #1",
+          "0x4c0c8: csel x0, x21, xzr, ne",
+          "0x4c0cc: bl #0x72234",
+          "0x4c0d0: mov x23, x0",
+          "0x4c0d4: cbz x0, #0x4c0f4",
+          "0x4c0d8: mov x0, x23",
+          "0x4c0dc: bl #0x730c0",
+          "0x4c0e0: tbz w22, #0, #0x4c0fc",
+          "0x4c0e4: mov x0, x23",
+          "0x4c0e8: bl #0x730c0",
+          "0x4c0ec: tbz w0, #0, #0x4c1a8",
+          "0x4c0f0: b #0x4c288",
+          "0x4c0f4: tbz w22, #0, #0x4c100",
+          "0x4c0f8: b #0x4c1a8",
+          "0x4c0fc: tbz w0, #0, #0x4c19c",
+          "0x4c100: adrp x8, #0xde000",
+          "0x4c104: ldr x24, [x8, #0x880]",
+          "0x4c108: bl #0x496b4",
+          "0x4c10c: mov x29, x29",
+          "0x4c110: bl #0x72264",
+          "0x4c114: mov x25, x0",
+          "0x4c118: bl #0x72ae0",
+          "0x4c11c: mov x29, x29",
+          "0x4c120: bl #0x72264",
+          "0x4c124: mov x26, x0",
+          "0x4c128: mov x0, x24",
+          "0x4c12c: mov x2, x26",
+          "0x4c130: bl #0x77e40",
+          "0x4c134: mov x29, x29",
+          "0x4c138: bl #0x72264",
+          "0x4c13c: mov x24, x0",
+          "0x4c140: mov x0, x26",
+          "0x4c144: bl #0x72224",
+          "0x4c148: mov x0, x25",
+          "0x4c14c: bl #0x72224",
+          "0x4c150: mov x0, x24",
+          "0x4c154: bl #0x49884",
+          "0x4c158: mov x25, x0",
+          "0x4c15c: mov x0, x24",
+          "0x4c160: bl #0x72224",
+          "0x4c164: tbnz w25, #0, #0x4c2e4",
+          "0x4c168: cbz x23, #0x4c17c",
+          "0x4c16c: mov x0, x23",
+          "0x4c170: bl #0x730c0",
+          "0x4c174: cmp w22, w0",
+          "0x4c178: b.eq #0x4c260",
+          "0x4c17c: mov w26, #1",
+          "0x4c180: cbnz x19, #0x4c1b0",
+          "0x4c184: adrp x8, #0xde000",
+          "0x4c188: ldr x0, [x8, #0x9e0]",
+          "0x4c18c: bl #0x74180",
+          "0x4c190: mov x29, x29",
+          "0x4c194: bl #0x72264",
+          "0x4c198: b #0x4c1b8",
+          "0x4c19c: mov x0, x23",
+          "0x4c1a0: bl #0x730c0",
+          "0x4c1a4: tbz w0, #0, #0x4c2e4",
+          "0x4c1a8: mov w26, #0",
+          "0x4c1ac: cbz x19, #0x4c184",
+          "0x4c1b0: mov x0, x19",
+          "0x4c1b4: bl #0x753e0",
+          "0x4c1b8: mov x24, x0",
+          "0x4c1bc: ldr x0, [x28, #0x878]",
+          "0x4c1c0: mov x2, x22",
+          "0x4c1c4: bl #0x75580",
+          "0x4c1c8: mov x29, x29",
+          "0x4c1cc: bl #0x72264",
+          "0x4c1d0: mov x25, x0",
+          "0x4c1d4: adrp x3, #0xd0000",
+          "0x4c1d8: add x3, x3, #0x768",
+          "0x4c1dc: mov x0, x24",
+          "0x4c1e0: mov x2, x25",
+          "0x4c1e4: bl #0x77540",
+          "0x4c1e8: mov x0, x25",
+          "0x4c1ec: bl #0x72224",
+          "0x4c1f0: ldr x0, [x27, #0x890]",
+          "0x4c1f4: bl #0x74080",
+          "0x4c1f8: mov x29, x29",
+          "0x4c1fc: bl #0x72264"
+        ]
+      }
+    }
+  }
+}
