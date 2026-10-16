@@ -26,8 +26,16 @@ with tempfile.TemporaryDirectory() as td:
         m=MachO(select_arm64(raw))
         matches={}
         for addr in addresses:
-            try: matches[hex(addr)]=m.cstr(addr)
-            except Exception as exc: matches[hex(addr)]="CANNOT_MAP:"+type(exc).__name__
+            try:
+                mapping=m.map(addr)
+                head=m.data[mapping:mapping+32].hex()
+                candidate=m.ptr(addr+16)
+                try: value=m.cstr(candidate)
+                except Exception: value=""
+                matches[hex(addr)]={"raw32":head,"cfstring_data_pointer":hex(candidate),
+                                    "as_cstring":m.cstr(addr),
+                                    "cfstring_value":value}
+            except Exception as exc: matches[hex(addr)]={"error":type(exc).__name__}
         strings=[]
         for sec in m.sections:
             if sec["name"] not in ("__cstring","__objc_methname"): continue
