@@ -111,6 +111,25 @@ static void DFObserveNativeConnection(CBBridgeManager *manager) {
     %orig;
     DFObserveNativeConnection(self);
 }
+// The immutable native12 contains its own unconditional mandatory watchdog.
+// While the NEW close-on-disconnect option is ON, our scoped 10-second timer
+// must be the only shutdown authority. Otherwise the original watchdog could
+// forcibly kill apps before the user-selected grace period or kill twice.
+// OFF deliberately preserves existing native12 behavior; no global override.
+- (void)scheduleMandatoryDisconnectWatchdog {
+    if ([DFStore() boolForKey:kDFClose]) {
+        NSLog(@"[DuoFaceSmartConnection] prevent parallel native watchdog; managed 10s timer owns close");
+        return;
+    }
+    %orig;
+}
+- (void)enforceMandatoryDisconnectKill {
+    if ([DFStore() boolForKey:kDFClose]) {
+        NSLog(@"[DuoFaceSmartConnection] ignore stale native mandatory kill; scoped 10s policy active");
+        return;
+    }
+    %orig;
+}
 - (void)handleScreenDidConnect:(id)notification {
     %orig;
     DFObserveNativeConnection(self);
