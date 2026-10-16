@@ -1,0 +1,60 @@
+name: DuoFace native17 READ ONLY original Add App Vietnamese modal byte and key audit
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native17-add-app-alert-strings-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native17-add-app-alert-strings-audit
+  cancel-in-progress: false
+jobs:
+  readonly-inspect-existing-deb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect immutable signed native17 package without rebuilding it
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native17/com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native17'
+          printf '%s  %s\n' '60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff' "$deb" | sha256sum -c -
+          python3 -m py_compile migration/full_payload/native_test/audit_native17_add_app_alert_strings.py
+          python3 migration/full_payload/native_test/audit_native17_add_app_alert_strings.py \
+            --deb "$deb" \
+            --out audit/payload-migration/NATIVE17_ADD_APP_ALERT_STRINGS_READONLY.json
+          python3 - <<'PY'
+          import json,pathlib
+          j=json.loads(pathlib.Path('audit/payload-migration/NATIVE17_ADD_APP_ALERT_STRINGS_READONLY.json').read_text())
+          assert j['status'].startswith('READONLY_NATIVE17_')
+          assert not j['binary_modified'] and not j['device_tested']
+          assert all(j['targets'][x]['exact_package_byte_matches'] for x in ('ADD_MORE_APPS_ALERT_MSG','ADD_MORE_APPS_ALERT_TITLE','ADD_MORE_APPS_ALERT_OK'))
+          print('NATIVE17_ORIGINAL_MODAL_LOCALIZATION_KEYS_CONFIRMED_PACKAGE_BYTE_AUDIT')
+          PY
+      - name: Commit analysis report in correct DuoFace repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE17_ADD_APP_ALERT_STRINGS_READONLY.json
+          git commit -m 'audit: exact native17 Add App safety modal bytes and localization keys [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native17-original-add-app-modal-readonly
+          path: audit/payload-migration/NATIVE17_ADD_APP_ALERT_STRINGS_READONLY.json
+          if-no-files-found: warn
