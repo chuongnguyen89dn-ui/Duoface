@@ -91,6 +91,16 @@ def main():
             entrypoints[name]={"address":hex(at),"code":code[:175]}
         except Exception as e:
             entrypoints[name]={"error":str(e)}
+    # +[CBBridgeManagerDashboard sharedInstance] and activation callbacks use
+    # direct dyld ObjC selector references; identify setter without guessing.
+    activation_selrefs={}
+    for addr in (0x37ed80,0x37eee8,0x37eef0,0x37d518,0x37e398):
+        try:
+            ptr=m.ptr(addr)
+            name=m.cstr(ptr)
+            activation_selrefs[hex(addr)]={"raw_ptr":hex(ptr),"selector":name}
+        except Exception as e:
+            activation_selrefs[hex(addr)]={"error":type(e).__name__}
     report={
        "status":"NATIVE12_GOFAHUD_SCENE_OWNER_STATIC_ONLY",
        "native12_sha256":digest,
@@ -103,6 +113,7 @@ def main():
        "limits":"Method ABI, static branches and potential UIWindowScene sourcing only",
        "known_initializer_literals":list(BRANCH_STRINGS),
        "branch_entries":entrypoints,
+       "dashboard_activation_selrefs":activation_selrefs,
        "classes":result,
     }
     assert result["CBWindow"]["+carPlayWindowScene"]["instruction_count"]>50
