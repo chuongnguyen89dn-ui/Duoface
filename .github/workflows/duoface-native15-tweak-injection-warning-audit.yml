@@ -1,0 +1,63 @@
+name: DuoFace native15 tweak injection warning forensic readonly
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native15_tweak_disabled_warning.py'
+      - '.github/workflows/duoface-native15-tweak-injection-warning-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df15-injection-warning-forensic
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Audit original UI tweak-disabled warning and native15 injection payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          a=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          b=dist/payload-migration/native15/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb
+          printf '%s  %s\n' 85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7 "$a" | sha256sum -c -
+          printf '%s  %s\n' 8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3 "$b" | sha256sum -c -
+          python3 migration/full_payload/native_test/audit_native15_tweak_disabled_warning.py \
+             --native12 "$a" --native15 "$b" \
+             --out audit/payload-migration/NATIVE15_TWEAK_DISABLED_WARNING_READONLY.json
+          python3 - <<'PY'
+          import json
+          j=json.load(open('audit/payload-migration/NATIVE15_TWEAK_DISABLED_WARNING_READONLY.json'))
+          assert j["status"]=="NATIVE15_UI_TWEAK_DISABLED_WARNING_READONLY"
+          assert not j["debs_changed"] and not j["device_tested"]
+          assert all(v["identical"] for v in j["package_diff"].values())
+          assert len(j["module_filters"])==2
+          print("NATIVE15_TWEAK_WARNING_FORENSIC_PASS_NO_DEB")
+          PY
+      - name: Commit report with rebase, never publish a DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE15_TWEAK_DISABLED_WARNING_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: native15 warning injection source and filters exact report [skip ci]'
+          for try in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native15-tweak-warning-forensic
+          path: audit/payload-migration/NATIVE15_TWEAK_DISABLED_WARNING_READONLY.json
+          if-no-files-found: warn
