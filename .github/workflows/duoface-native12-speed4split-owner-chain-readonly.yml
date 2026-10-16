@@ -1,0 +1,66 @@
+name: DuoFace Native12 Speed4 split owner forensic audit READONLY (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed4split-owner-chain-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native12_speed4split_owner_chain.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native12-speed4split-owner-readonly
+  cancel-in-progress: false
+jobs:
+  forensic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract verified Native12 (READONLY, NO DEB BUILD)
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_speed4split_owner_chain.py \
+            --deb "$deb" \
+            --out audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json'))
+          assert d['status']=='NATIVE12_SPEED4SPLIT_OWNER_STATIC_FORENSICS_ONLY'
+          assert not d['device_runtime_owner_verified']
+          for cl,sel in [('CBBridgeManager','+sharedInstanceIfExists'),
+                         ('CBBridgeManager','-window'),('CBWindow','-contentView'),
+                         ('CBWindow','-createWindows'),('CBWindow','+activeCarPlayWindow'),
+                         ('CBBridgedSplitApp','-startInParentViewController:')]:
+              assert d['methods'][cl][sel]['imp_vm'].startswith('0x')
+          print('SPLIT_OWNER_ABI_DISASSEMBLY_READONLY_PASS_NO_DEVICE_CLAIM')
+          PY
+      - name: Save forensic report only, preserve immutable Native12
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit(speedhud): actual Native12 split owner method chain [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed4split-owner-forensics
+          path: audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json
+          if-no-files-found: warn
