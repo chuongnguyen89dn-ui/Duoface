@@ -1,0 +1,1510 @@
+{
+  "status": "READONLY_SOURCE_REPORT_RECONCILIATION_FOR_NEXT_BUILD_NOT_BINARY_EXCISION",
+  "created_at_utc": "2026-10-16",
+  "repo": "chuongnguyen89dn-ui/Duoface",
+  "feature_branch": "feature/duoface-exact-payload-migration",
+  "feature_HEAD_before_audit": "aa3ee1abf8e9d1a04edd85ce9312df04d2395b43",
+  "native12_package": "com.duoface.independent",
+  "native12_version": "0.1.0~native12",
+  "native12_deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "method_inventory_total": 320,
+  "candidate_isolated_license_classes_count": 14,
+  "candidate_isolated_license_methods_count": 249,
+  "candidate_previous_native4_neutralized_method_count": 236,
+  "candidate_previous_native10_neutralized_lifecycle_method_count": 13,
+  "candidate_by_binary": {
+    "DuoFaceUI": {
+      "class_count": 12,
+      "method_count": 235,
+      "native4_neutralized_body_count": 223,
+      "native4_overwritten_code_span_bytes": 64012,
+      "native4_stub_bytes": 1216,
+      "native10_lifecycle_patched_count": 12,
+      "native10_lifecycle_patched_span_bytes": 1616
+    },
+    "DuoFaceDashboard": {
+      "class_count": 2,
+      "method_count": 14,
+      "native4_neutralized_body_count": 13,
+      "native4_overwritten_code_span_bytes": 6008,
+      "native4_stub_bytes": 60,
+      "native10_lifecycle_patched_count": 1,
+      "native10_lifecycle_patched_span_bytes": 184
+    }
+  },
+  "class_metadata_source_validation": "14/14 classes and method counts match original Objective-C metadata",
+  "excluded_existing_shared_owner_method_totals": {
+    "XXRootViewController": 3,
+    "CBGeneralSettingsViewController": 1,
+    "CBLicenseSyncManager": 60,
+    "CBBridgeManager": 7
+  },
+  "protected_carplay_methods": [
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "sha256_at_native9": "6c61861ecdf393564ae9ff26d124daf5a1403f4ac05c72fab1734d0a802c72f8",
+      "offset": 521616
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreen:",
+      "sha256_at_native9": "921d598ec9802ae69185d3e5ae03a35cc9f0d23538bf221bf2ccf9745d737d8f",
+      "offset": 520044
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnectedExcludingScreen:",
+      "sha256_at_native9": "4b5200ad73efd0eeec3b004fb83ead7ecf670f8dfe8ea56d6090e49b5d02de22",
+      "offset": 520640
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "sha256_at_native9": "320f0e38f4db00b349a261781a60758deea2881e40fd678590be8ec4a4fe60a0",
+      "offset": 521600
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "sha256_at_native9": "2dd6ddefeba4ce258edf0fdf4388dae553d5480efc6180e099fbfdbf8159981b",
+      "offset": 392072
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreen:",
+      "sha256_at_native9": "665cee950e2d5673e292ddc91ce36d839fa5b1742206c00598bd72be4b1f6fe0",
+      "offset": 390500
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnectedExcludingScreen:",
+      "sha256_at_native9": "bc23af206aa1242eeea4862ceeff7e817377611d7018a8a3a677ff824a9e996d",
+      "offset": 391096
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseSyncManager",
+      "selector": "isCarPlayScreenConnected",
+      "sha256_at_native9": "13a7c327f639b3eb93a5f34cf07251b7aa2fa692d88f45809888db7e9e90eb05",
+      "offset": 392056
+    }
+  ],
+  "remaining_unchanged_catalog_string_records": 126,
+  "remaining_catalog_string_groups": {
+    "opaque_unknown": 88,
+    "protocol_state": 12,
+    "objc_runtime_class_selector": 8,
+    "diagnostic_logs": 6,
+    "carplay_scene": 5,
+    "activate_visible_unverified": 2,
+    "runtime_notifications": 2,
+    "apple_identifier": 1,
+    "unclassified": 1,
+    "ambiguous_action": 1
+  },
+  "candidate_classes": [
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseShieldIconView",
+      "method_count": 2,
+      "patched_business_method_count": 2,
+      "previously_patched_lifecycle_method_count": 0,
+      "method_ledger": [
+        {
+          "selector": "initWithFrame:",
+          "abi": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "drawRect:",
+          "abi": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceDashboard",
+      "objc_class": "CBLicenseWarningModalView",
+      "method_count": 12,
+      "patched_business_method_count": 11,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithFrame:modalType:",
+          "abi": "@56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupSubviews",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setModalType:",
+          "abi": "v24@0:8q16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "updateContentForType:",
+          "abi": "v24@0:8q16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "layoutSubviews",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "handleDismissButtonTap:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "showAnimated:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "dismissAnimated:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "onDismiss",
+          "abi": "@?16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setOnDismiss:",
+          "abi": "v24@0:8@?16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "modalType",
+          "abi": "q16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBLicenseExpiredModalViewController",
+      "method_count": 30,
+      "patched_business_method_count": 29,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "viewDidLoad",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "viewWillAppear:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupBackdrop",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupCardView",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupContent",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "handleActivateTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "handleLaterTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "dismissWithCompletion:",
+          "abi": "v24@0:8@?16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "onActivateTapped",
+          "abi": "@?16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setOnActivateTapped:",
+          "abi": "v24@0:8@?16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "onDismissTapped",
+          "abi": "@?16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setOnDismissTapped:",
+          "abi": "v24@0:8@?16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "blurBackdrop",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setBlurBackdrop:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "dimmerOverlay",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDimmerOverlay:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "cardView",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCardView:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "iconImageView",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setIconImageView:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "titleLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setTitleLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "messageLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setMessageLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activateButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActivateButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "laterButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setLaterButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        },
+        {
+          "selector": "modalWithActivateHandler:dismissHandler:",
+          "abi": "@32@0:8@?16@?24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionCheckoutCell",
+      "method_count": 10,
+      "patched_business_method_count": 9,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithTitle:loading:",
+          "abi": "v28@0:8@16B24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkoutTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkoutButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCheckoutButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkoutSpinner",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCheckoutSpinner:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionGiftcodeInputCell",
+      "method_count": 9,
+      "patched_business_method_count": 8,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pasteTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "textField",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setTextField:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pasteButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setPasteButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionGiftcodeRedeemCell",
+      "method_count": 10,
+      "patched_business_method_count": 9,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "redeemTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setLoading:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "redeemButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setRedeemButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "spinner",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setSpinner:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionHardwareIDCell",
+      "method_count": 10,
+      "patched_business_method_count": 9,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithHardwareHash:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "copyTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "hwLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setHwLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "clipboardButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setClipboardButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionOrderCoordinator",
+      "method_count": 36,
+      "patched_business_method_count": 34,
+      "previously_patched_lifecycle_method_count": 2,
+      "method_ledger": [
+        {
+          "selector": "dealloc",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        },
+        {
+          "selector": "hasActivePendingOrder",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "currentServerBaseURL",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "fetchActivePendingOrderFromServer",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "startCheckoutForTier:forceNew:",
+          "abi": "v28@0:8@16B24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "resumePayment",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkStatusManual",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "cancelActiveOrderWithCompletion:",
+          "abi": "v24@0:8@?16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "requestCancelPendingOrder",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "openPaymentGatewayURL:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "safariViewControllerDidFinish:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "startPollingOrderStatus:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "stopPollingOrderStatus",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pollTimerFired",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkOrderStatusOnce:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "handlePaymentCompletedSuccess",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "showAlertWithTitle:message:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activeOrderId",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActiveOrderId:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activePaymentUrl",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActivePaymentUrl:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activeTierName",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActiveTierName:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activeAmountCrypto",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActiveAmountCrypto:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activeCurrency",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActiveCurrency:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "activeNetwork",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setActiveNetwork:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pollTimer",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setPollTimer:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "safariVC",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setSafariVC:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionPendingOrderCell",
+      "method_count": 18,
+      "patched_business_method_count": 17,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithTitle:description:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "resumeTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkStatusTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "cancelTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "delegate",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDelegate:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "titleLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setTitleLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "descLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDescLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "resumeBtn",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setResumeBtn:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkStatusButton",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCheckStatusButton:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "cancelBtn",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCancelBtn:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionPlanCardCell",
+      "method_count": 13,
+      "patched_business_method_count": 12,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithPlan:selected:formattedPrice:",
+          "abi": "v36@0:8@16B24@28",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "nameLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setNameLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "badgeLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setBadgeLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "descLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDescLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "priceLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setPriceLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkIcon",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCheckIcon:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionStatusCell",
+      "method_count": 2,
+      "patched_business_method_count": 2,
+      "previously_patched_lifecycle_method_count": 0,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithLoading:failed:",
+          "abi": "v24@0:8B16B20",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionViewController",
+      "method_count": 71,
+      "patched_business_method_count": 69,
+      "previously_patched_lifecycle_method_count": 2,
+      "method_ledger": [
+        {
+          "selector": "viewDidLoad",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "viewWillAppear:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "viewWillDisappear:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "dealloc",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        },
+        {
+          "selector": "keyboardWillShow:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "keyboardWillHide:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "dismissKeyboard",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupTableView",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setupTableHeader",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "isVIPActiveWithSufficientDays",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "updateTableHeaderForCurrentState",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "modeSegmentChanged:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "numberOfSectionsInTableView:",
+          "abi": "q24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView:numberOfRowsInSection:",
+          "abi": "q32@0:8@16q24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView:titleForHeaderInSection:",
+          "abi": "@32@0:8@16q24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView:titleForFooterInSection:",
+          "abi": "@32@0:8@16q24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView:cellForRowAtIndexPath:",
+          "abi": "@32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView:didSelectRowAtIndexPath:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "fetchPlansFromServer",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "handleLanguageChanged",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "formattedPriceForPlan:",
+          "abi": "@24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "displayNameForTier:",
+          "abi": "@24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "currentCheckoutButtonTitle",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "showPlansLoadFailureAlertWithError:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "checkoutCellDidTapCheckout:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pendingOrderCellDidTapResume:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pendingOrderCellDidTapCheckStatus:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "pendingOrderCellDidTapCancel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "giftcodeInputCellDidTapPaste:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "giftcodeRedeemCellDidTapRedeem:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "hardwareIDCellDidTapCopy:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "redeemGiftCodeTapped",
+          "abi": "v16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setGiftRedeemLoading:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "textFieldShouldReturn:",
+          "abi": "B24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinatorDidUpdatePendingOrder:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinatorDidClearPendingOrder:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinatorDidCompletePaymentSuccessfully:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinator:shouldPresentAlert:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinator:shouldPresentSafari:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinator:setCheckoutLoading:",
+          "abi": "v28@0:8@16B24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinator:setCheckStatusButtonChecking:",
+          "abi": "v28@0:8@16B24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "showAlertWithTitle:message:",
+          "abi": "v32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "tableView",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setTableView:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "segmentedHeaderView",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setSegmentedHeaderView:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "modeSegmentedControl",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setModeSegmentedControl:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "currentMode",
+          "abi": "q16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setCurrentMode:",
+          "abi": "v24@0:8q16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "plansData",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setPlansData:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "rawPlansData",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setRawPlansData:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "selectedTierIndex",
+          "abi": "q16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setSelectedTierIndex:",
+          "abi": "v24@0:8q16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "isLoadingPlans",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setIsLoadingPlans:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "plansLoadFailed",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setPlansLoadFailed:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "orderCoordinator",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setOrderCoordinator:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "isCheckoutLoading",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setIsCheckoutLoading:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "giftCodeTextField",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setGiftCodeTextField:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "giftRedeemCell",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setGiftRedeemCell:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "isGiftRedeeming",
+          "abi": "B16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setIsGiftRedeeming:",
+          "abi": "v20@0:8B16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionVIPCardCell",
+      "method_count": 24,
+      "patched_business_method_count": 23,
+      "previously_patched_lifecycle_method_count": 1,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "keyLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "valueLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "keyValuePairWithKeyLabel:valueLabel:",
+          "abi": "@32@0:8@16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithExpirationTimestamp:tierName:",
+          "abi": "v32@0:8Q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "badgeIcon",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setBadgeIcon:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "titleLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setTitleLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "statusPillLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setStatusPillLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "durationKeyLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDurationKeyLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "durationValueLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setDurationValueLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "serverExpiryKeyLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setServerExpiryKeyLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "serverExpiryValueLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setServerExpiryValueLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "licenseValidationKeyLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setLicenseValidationKeyLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "licenseValidationValueLabel",
+          "abi": "@16@0:8",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "setLicenseValidationValueLabel:",
+          "abi": "v24@0:8@16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": ".cxx_destruct",
+          "abi": "v16@0:8",
+          "classification": "OBJC_LIFECYCLE_KEEP_ORIGINAL_IMPLEMENTATION"
+        }
+      ]
+    },
+    {
+      "binary": "DuoFaceUI",
+      "objc_class": "CBSubscriptionVIPStatusCell",
+      "method_count": 2,
+      "patched_business_method_count": 2,
+      "previously_patched_lifecycle_method_count": 0,
+      "method_ledger": [
+        {
+          "selector": "initWithStyle:reuseIdentifier:",
+          "abi": "@32@0:8q16@24",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        },
+        {
+          "selector": "configureWithExpirationTimestamp:",
+          "abi": "v24@0:8Q16",
+          "classification": "original_license_related_body_inert_since_native4_keep_ABI"
+        }
+      ]
+    }
+  ],
+  "source_report_blobs": {
+    "audit/payload-migration/NATIVE9_LICENSE_KEEP_VS_HIDE_READONLY.json": "80c96905b977517db1426ce14e7cc9df985b56d0",
+    "dist/payload-migration/native4/BAO_CAO.json": "de598a950860106b0b47cce6ae2ecf53ca206107",
+    "dist/payload-migration/native10/BAO_CAO.json": "5f5f60558c8569ad452d29590f4ea67dbea6828a",
+    "dist/payload-migration/native11/BAO_CAO.json": "9a0da79079fbe3669a172f3d55078b6bd47a2a6f",
+    "dist/payload-migration/native12/BAO_CAO.json": "ff30ba317e3bef4d38bab8152228d1182567fc56",
+    "audit/payload-migration/NATIVE9_LIFECYCLE19_CARPLAY_COUPLING_READONLY.json": "9a0c1740b0d3b9abd19471cc451689cc1f8bc075",
+    "audit/payload-migration/ORIGINAL_SETTINGS_OBJC_METHODS.json": "cf680223058787664e83e20a6b3815590f91f6cf"
+  },
+  "physical_excision_performed": false,
+  "candidate_runtime_references_disproved": false,
+  "device_test_on_candidate": false,
+  "before_next_build": [
+    "Extract pinned native12 DEB and verify SHA256",
+    "Build full ObjC classrefs, selrefs, methodlist, metaclass, ivar, protocol, category, CFStrings, __mod_init_func and dlopen/NSClassFromString use graph for all 14 candidate classes",
+    "Identify no-live-instance proof for candidate classes and their 13 original lifecycle bodies",
+    "Stage candidate class and method/data physical removal only after resolving all references; do not merely erase labels or NOP",
+    "Separate CBLicenseSyncManager 8 CarPlay detectors and required init/sharedInstance wiring before considering its class removal",
+    "Delete obsolete licence-related data only when callsites verified; do not blanket-delete 88 opaque literals",
+    "Validate dyld/rebase/bind/chained_fixups/Mach-O load commands/arm64 and arm64e slices/signatures/entitlements",
+    "Prove byte-exact preservation of 8 CarPlay method implementations and all unrelated visual/menu/resizing/fullscreen payload",
+    "Build separate version only after QA; retain native12 and native10 rollback, publish to Sileo only with user instruction; user CarPlay QA"
+  ],
+  "scope_note": "Candidates are class/method inventory, not proof of dead code or safe physical removal. Static JSON cannot substitute a real binary call graph."
+}
