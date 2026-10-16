@@ -1,0 +1,594 @@
+{
+  "status": "NATIVE12_CPU_THERMAL_READONLY_AUDIT_PASS",
+  "baseline_package": "com.duoface.independent",
+  "baseline_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "source_branch": "feature/duoface-exact-payload-migration",
+  "tweak_or_deb_modified": false,
+  "runtime_fps_tested": false,
+  "runtime_cpu_tested": false,
+  "runtime_thermal_tested": false,
+  "scope": "Static symbols/strings/method ABIs on exact signed native12 payload; not proof all dynamic functions absent",
+  "binaries": {
+    "DuoFaceUI": {
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "objc_classes_total": 27,
+      "matched_method_groups": [
+        {
+          "class": "CBAppsManagerViewController",
+          "methods": [
+            "-viewDidLayoutSubviews",
+            "-refreshData"
+          ]
+        },
+        {
+          "class": "CBAssistantAboutViewController",
+          "methods": [
+            "-performRespring",
+            "-performResetDefaults"
+          ]
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "methods": [
+            "-screenBlankToggleChanged:",
+            "-dockMonitorToggleChanged:",
+            "-performRespring",
+            "-performResetDefaults",
+            "-screenBlankEnabled",
+            "-setScreenBlankEnabled:",
+            "-dockMonitorEnabled",
+            "-setDockMonitorEnabled:"
+          ]
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "methods": [
+            "-performSyncWithForce:isManualUserAction:completion:",
+            "-performSyncWithForce:isManualUserAction:source:completion:"
+          ]
+        },
+        {
+          "class": "CBSplitSplashScreenView",
+          "methods": [
+            "-layoutSubviews",
+            "-startLoadingAnimation"
+          ]
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "methods": [
+            "-pollTimerFired",
+            "-pollTimer",
+            "-setPollTimer:"
+          ]
+        }
+      ],
+      "signature_evidence": {
+        "perf_tweak_enabled": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "thermalState": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "thermalStateDidChangeNotification": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "NSProcessInfoThermalStateDidChangeNotification": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "CADisplayLink": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "preferredFrameRateRange": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "preferredFramesPerSecond": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setPreferredFramesPerSecond:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setPreferredFrameRateRange:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "maximumFramesPerSecond": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "screenBlankEnabled": {
+          "raw_literal_occurrences": 4,
+          "sample_file_offsets": [
+            "0xa650e",
+            "0xa677b",
+            "0xa67d7",
+            "0xad800"
+          ]
+        },
+        "screenBlankToggleChanged:": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0xa6521"
+          ]
+        },
+        "setScreenBlankEnabled:": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0xa62c0"
+          ]
+        },
+        "dockSystemMonitorEnabled": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0xad813"
+          ]
+        },
+        "CACurrentMediaTime": {
+          "raw_literal_occurrences": 2,
+          "sample_file_offsets": [
+            "0x1217ed",
+            "0x124cf2"
+          ]
+        },
+        "setAnimationDuration:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setFrameInterval:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "NSTimer": {
+          "raw_literal_occurrences": 4,
+          "sample_file_offsets": [
+            "0xaa9e2",
+            "0xbc0bf",
+            "0x120c12",
+            "0x125383"
+          ]
+        }
+      },
+      "owner_routes": {
+        "CBGeneralSettingsViewController": {
+          "present": true,
+          "methods": {
+            "screenBlankToggleChanged:": {
+              "present": true,
+              "imp_vm": "0x10000de2c",
+              "abi": "v24@0:8@16",
+              "sample_code": [
+                "0x10000de2c: stp x20, x19, [sp, #-0x20]!",
+                "0x10000de30: stp x29, x30, [sp, #0x10]",
+                "0x10000de34: add x29, sp, #0x10",
+                "0x10000de38: mov x19, x0",
+                "0x10000de3c: adrp x8, #0x10011a000",
+                "0x10000de40: ldr x1, [x8, #0x780]  ; SEL_OR_LITERAL 'isOn'",
+                "0x10000de44: mov x0, x2",
+                "0x10000de48: bl #0x1000a2a84",
+                "0x10000de4c: mov x2, x0",
+                "0x10000de50: adrp x8, #0x10011a000",
+                "0x10000de54: ldr x1, [x8, #0x790]  ; SEL_OR_LITERAL 'setScreenBlankEnabled:'",
+                "0x10000de58: mov x0, x19",
+                "0x10000de5c: bl #0x1000a2a84",
+                "0x10000de60: adrp x8, #0x10011a000",
+                "0x10000de64: ldr x1, [x8, #0x5f8]  ; SEL_OR_LITERAL 'savePreferences'",
+                "0x10000de68: mov x0, x19",
+                "0x10000de6c: ldp x29, x30, [sp, #0x10]",
+                "0x10000de70: ldp x20, x19, [sp], #0x20",
+                "0x10000de74: b #0x1000a2a84"
+              ]
+            },
+            "savePreferences": {
+              "present": true,
+              "imp_vm": "0x10000da34",
+              "abi": "v16@0:8",
+              "sample_code": [
+                "0x10000da34: stp x26, x25, [sp, #-0x50]!",
+                "0x10000da38: stp x24, x23, [sp, #0x10]",
+                "0x10000da3c: stp x22, x21, [sp, #0x20]",
+                "0x10000da40: stp x20, x19, [sp, #0x30]",
+                "0x10000da44: stp x29, x30, [sp, #0x40]",
+                "0x10000da48: add x29, sp, #0x40",
+                "0x10000da4c: mov x22, x0",
+                "0x10000da50: adrp x23, #0x10011b000",
+                "0x10000da54: ldr x19, [x23, #0x960]",
+                "0x10000da58: adrp x24, #0x10011c000",
+                "0x10000da5c: ldr x8, [x24, #0xe18]",
+                "0x10000da60: cmn x8, #1",
+                "0x10000da64: b.ne #0x10000dd80",
+                "0x10000da68: adrp x25, #0x10011c000",
+                "0x10000da6c: ldr x0, [x25, #0xe10]",
+                "0x10000da70: bl #0x1000a2aa8",
+                "0x10000da74: mov x20, x0",
+                "0x10000da78: adrp x8, #0x10011a000",
+                "0x10000da7c: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+                "0x10000da80: mov x0, x19",
+                "0x10000da84: mov x2, x20",
+                "0x10000da88: bl #0x1000a2a84",
+                "0x10000da8c: mov x29, x29",
+                "0x10000da90: bl #0x1000a2acc",
+                "0x10000da94: mov x21, x0",
+                "0x10000da98: cbz x0, #0x10000daa8",
+                "0x10000da9c: mov x0, x21",
+                "0x10000daa0: bl #0x1000a2aa8",
+                "0x10000daa4: b #0x10000dac0",
+                "0x10000daa8: ldr x0, [x23, #0x960]",
+                "0x10000daac: adrp x8, #0x10011a000",
+                "0x10000dab0: ldr x1, [x8, #0x5a8]  ; SEL_OR_LITERAL 'dictionary'",
+                "0x10000dab4: bl #0x1000a2a84",
+                "0x10000dab8: mov x29, x29",
+                "0x10000dabc: bl #0x1000a2acc",
+                "0x10000dac0: mov x19, x0",
+                "0x10000dac4: mov x0, x21",
+                "0x10000dac8: bl #0x1000a2a9c",
+                "0x10000dacc: mov x0, x20",
+                "0x10000dad0: bl #0x1000a2a9c",
+                "0x10000dad4: adrp x26, #0x10011b000",
+                "0x10000dad8: ldr x0, [x26, #0x978]",
+                "0x10000dadc: adrp x8, #0x10011b000",
+                "0x10000dae0: ldrsw x8, [x8, #0xc68]",
+                "0x10000dae4: ldrb w2, [x22, x8]"
+              ]
+            },
+            "loadPreferences": {
+              "present": true,
+              "imp_vm": "0x10000d7c4",
+              "abi": "v16@0:8",
+              "sample_code": [
+                "0x10000d7c4: stp x24, x23, [sp, #-0x40]!",
+                "0x10000d7c8: stp x22, x21, [sp, #0x10]",
+                "0x10000d7cc: stp x20, x19, [sp, #0x20]",
+                "0x10000d7d0: stp x29, x30, [sp, #0x30]",
+                "0x10000d7d4: add x29, sp, #0x30",
+                "0x10000d7d8: mov x19, x0",
+                "0x10000d7dc: adrp x8, #0x10011b000",
+                "0x10000d7e0: ldr x20, [x8, #0x958]",
+                "0x10000d7e4: adrp x8, #0x10011c000",
+                "0x10000d7e8: ldr x8, [x8, #0xe18]",
+                "0x10000d7ec: cmn x8, #1",
+                "0x10000d7f0: b.ne #0x10000da1c",
+                "0x10000d7f4: adrp x8, #0x10011c000",
+                "0x10000d7f8: ldr x2, [x8, #0xe10]",
+                "0x10000d7fc: adrp x8, #0x10011a000",
+                "0x10000d800: ldr x1, [x8, #0x590]  ; SEL_OR_LITERAL 'dictionaryWithContentsOfFile:'",
+                "0x10000d804: mov x0, x20",
+                "0x10000d808: bl #0x1000a2a84",
+                "0x10000d80c: mov x29, x29",
+                "0x10000d810: bl #0x1000a2acc",
+                "0x10000d814: mov x20, x0",
+                "0x10000d818: cbz x0, #0x10000da04",
+                "0x10000d81c: adrp x8, #0x10011a000",
+                "0x10000d820: ldr x21, [x8, #0x598]  ; SEL_OR_LITERAL 'objectForKeyedSubscript:'",
+                "0x10000d824: adr x2, #0x1000ea548",
+                "0x10000d828: nop ",
+                "0x10000d82c: mov x0, x20",
+                "0x10000d830: mov x1, x21",
+                "0x10000d834: bl #0x1000a2a84",
+                "0x10000d838: mov x29, x29",
+                "0x10000d83c: bl #0x1000a2acc",
+                "0x10000d840: mov x22, x0",
+                "0x10000d844: bl #0x1000a2a9c",
+                "0x10000d848: adrp x23, #0x10011a000",
+                "0x10000d84c: cbz x22, #0x10000d890",
+                "0x10000d850: adr x2, #0x1000ea548",
+                "0x10000d854: nop ",
+                "0x10000d858: mov x0, x20",
+                "0x10000d85c: mov x1, x21",
+                "0x10000d860: bl #0x1000a2a84",
+                "0x10000d864: mov x29, x29",
+                "0x10000d868: bl #0x1000a2acc",
+                "0x10000d86c: mov x22, x0",
+                "0x10000d870: ldr x1, [x23, #0x6a8]  ; SEL_OR_LITERAL 'boolValue'",
+                "0x10000d874: bl #0x1000a2a84"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "DuoFaceDashboard": {
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "objc_classes_total": 36,
+      "matched_method_groups": [
+        {
+          "class": "CBAssistantManager",
+          "methods": [
+            "-resetSilenceTimer",
+            "-startMicPulseAnimation",
+            "-stopMicPulseAnimation",
+            "-silenceTimer",
+            "-setSilenceTimer:",
+            "-pulseAnimation",
+            "-setPulseAnimation:"
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "methods": [
+            "-renderSizeForBundleID:",
+            "-performAutoResume",
+            "-renderSize",
+            "-startLicenseWatchdogTimer",
+            "-stopLicenseWatchdogTimer",
+            "-licenseWatchdogTimerFired:",
+            "-setRenderSize:"
+          ]
+        },
+        {
+          "class": "CBBridgedAssistantView",
+          "methods": [
+            "-pulseAnimation",
+            "-setPulseAnimation:"
+          ]
+        },
+        {
+          "class": "CBBridgedPortalAppView",
+          "methods": [
+            "-displayLink",
+            "-setDisplayLink:"
+          ]
+        },
+        {
+          "class": "CBBridgedSplitApp",
+          "methods": [
+            "-startBlinkingSession",
+            "-stopBlinkingSession",
+            "-startContainerBorderBlinking:",
+            "-stopContainerBorderBlinking:"
+          ]
+        },
+        {
+          "class": "CBBridgedUIApp",
+          "methods": [
+            "-renderSize",
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "methods": [
+            "-setAudioOnlyBackgroundMode:",
+            "-layoutSubviews",
+            "-refreshSceneLayout",
+            "-audioOnlyBackgroundMode"
+          ]
+        },
+        {
+          "class": "CBDashboardSettings",
+          "methods": [
+            "-setDockSystemMonitorEnabled:",
+            "-setDockSystemMonitorShowAll:",
+            "-screenBlankEnabled",
+            "-setScreenBlankEnabled:",
+            "-dockSystemMonitorEnabled",
+            "-dockSystemMonitorShowAll"
+          ]
+        },
+        {
+          "class": "CBDividerView",
+          "methods": [
+            "-layoutSubviews",
+            "-startBlinking",
+            "-stopBlinking",
+            "-isBlinking",
+            "-setIsBlinking:"
+          ]
+        },
+        {
+          "class": "CBDockMetricItemView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBDockSystemMonitorView",
+          "methods": [
+            "-layoutSubviews",
+            "-startMonitoring",
+            "-stopMonitoring",
+            "-isMonitoring",
+            "-readCpuUsage"
+          ]
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "methods": [
+            "-performSyncWithForce:isManualUserAction:completion:",
+            "-performSyncWithForce:isManualUserAction:source:completion:"
+          ]
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBMultitaskingOverlayView",
+          "methods": [
+            "-layoutSubviews",
+            "-dimBackground",
+            "-setDimBackground:"
+          ]
+        },
+        {
+          "class": "CBOverlayScrollView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBSlotPillView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBSlotPlaceholderView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBSplitContainerView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        },
+        {
+          "class": "CBSplitSplashScreenView",
+          "methods": [
+            "-layoutSubviews",
+            "-startLoadingAnimation"
+          ]
+        },
+        {
+          "class": "CBUIAppContainerView",
+          "methods": [
+            "-layoutSubviews"
+          ]
+        }
+      ],
+      "signature_evidence": {
+        "perf_tweak_enabled": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "thermalState": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0x2f7c64"
+          ]
+        },
+        "thermalStateDidChangeNotification": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "NSProcessInfoThermalStateDidChangeNotification": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "CADisplayLink": {
+          "raw_literal_occurrences": 5,
+          "sample_file_offsets": [
+            "0x2f56c1",
+            "0x30cd49",
+            "0x342749",
+            "0x3856c1",
+            "0x3891bc"
+          ]
+        },
+        "preferredFrameRateRange": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "preferredFramesPerSecond": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setPreferredFramesPerSecond:": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0x2f55b1"
+          ]
+        },
+        "setPreferredFrameRateRange:": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0x2fa109"
+          ]
+        },
+        "maximumFramesPerSecond": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "screenBlankEnabled": {
+          "raw_literal_occurrences": 4,
+          "sample_file_offsets": [
+            "0x2f47af",
+            "0x2f4a30",
+            "0x2f4be9",
+            "0x307c6e"
+          ]
+        },
+        "screenBlankToggleChanged:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setScreenBlankEnabled:": {
+          "raw_literal_occurrences": 1,
+          "sample_file_offsets": [
+            "0x2f47c2"
+          ]
+        },
+        "dockSystemMonitorEnabled": {
+          "raw_literal_occurrences": 4,
+          "sample_file_offsets": [
+            "0x2f4977",
+            "0x2f4a7a",
+            "0x2f4d60",
+            "0x307c1e"
+          ]
+        },
+        "CACurrentMediaTime": {
+          "raw_literal_occurrences": 2,
+          "sample_file_offsets": [
+            "0x3859ed",
+            "0x388b31"
+          ]
+        },
+        "setAnimationDuration:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "setFrameInterval:": {
+          "raw_literal_occurrences": 0,
+          "sample_file_offsets": []
+        },
+        "NSTimer": {
+          "raw_literal_occurrences": 5,
+          "sample_file_offsets": [
+            "0x2f43d3",
+            "0x3096a2",
+            "0x3425cf",
+            "0x384ceb",
+            "0x38960e"
+          ]
+        }
+      },
+      "owner_routes": {
+        "CBDashboardSettings": {
+          "present": true,
+          "methods": {
+            "screenBlankEnabled": {
+              "present": true,
+              "imp_vm": "0x37ec0",
+              "abi": "B16@0:8",
+              "sample_code": [
+                "0x37ec0: ldrb w0, [x0, #9]",
+                "0x37ec4: ret "
+              ]
+            },
+            "setScreenBlankEnabled:": {
+              "present": true,
+              "imp_vm": "0x37ec8",
+              "abi": "v20@0:8B16",
+              "sample_code": [
+                "0x37ec8: strb w2, [x0, #9]",
+                "0x37ecc: ret "
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
