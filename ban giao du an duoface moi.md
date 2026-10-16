@@ -1,5 +1,32 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — TRUY ĐƯỜNG WINDOWSCENE VÀ 2 BỘ QUẢN LÝ NATIVE12 ĐỂ TẠO BONG BÓNG GOFAHUD
+Checkpoint: SPEEDHUD-NATIVE12-SCENE-DASHBOARD-ACTIVATION-FORENSICS-20261017.
+
+YÊU CẦU MỚI: Người dùng yêu cầu tiếp tục truy xem UIWindow windowLevel=10000000 của tweak GOFAHUD có thể xuất hiện CHỈ trong DuoFace split thế nào. Không được đoán, không làm sai Native12 hoặc dựng UI trên CarPlay Home.
+THAM CHIẾU: chuongnguyen89dn-ui/Duoface; main handoff; feature/duoface-exact-payload-migration source; Native12 DEB immutable SHA256=85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7. Đã đọc central skill SKILL_INDEX/AGENTS/PROJECT_INSTRUCTIONS/DEB_IPA_SKILL; không khẳng định đã giải nén ZIP.
+
+VIỆC ĐÃ CHẠY / BẰNG CHỨNG:
+- Script read-only migration/full_payload/native_test/audit_native12_gofahud_scene_target_readonly.py tạo commit 2e6ad78bb75d4e5195f3da4eba6a219a085c0624, cập nhật thêm probe selectors commit 7368551994eb8f5c4e5190422dea376748fc83e2.
+- Workflow .github/workflows/duoface-native12-gofahud-split-scene-readonly.yml commit e03843f3ea0112f70f66169f800559fe885d5093. Github Actions 38982734339 và 38982869936: completed/success, chỉ đọc pinned DEB, không build.
+- Report GitHub feature:audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json blob 7f8882c5d4c2b897113efd173ab4990ab2254c63; status NATIVE12_GOFAHUD_SCENE_OWNER_STATIC_ONLY, device_tested=false, actual_scene_verified=false, overlay_created=false, process_runtime_seen=false.
+
+KẾT QUẢ MỚI ĐÃ GIẢI MÃ:
+1. +[CBWindow carPlayWindowScene] IMP 0xaf690 tra UIApplication.sharedApplication.connectedScenes + carPlayUIScreen/UIScreen.mainScreen; -[CBWindow createWindows] 0xb1064 lấy scene/screen, chọn UIRootSceneWindow nếu có, fallback SBFTouchPassThroughWindow/UIWindow, gọi setWindowScene:, setScreen:, setRootViewController: và addSubview: content. -[CBWindow rootWindow] getter tại 0xb2804 trỏ ivar offset 0x20. CÓ con đường static tới UIWindowScene thật nhưng CHƯA biết scene return ở iPhone.
+2. Mã initializer Native12 ở 0x6500-0x663c tách bundle com.apple.CarPlayApp / com.apple.CarPlay / com.apple.dashboard vào Dashboard Modular Hooks (entry 0x2ec644) và SpringBoard vào SpringBoard Modular Hooks (entry 0x2ec60c). Code SpringBoard-after-launch ở 0x2ca140 gọi CBBridgeManager.sharedInstance. Dashboard có manager RIÊNG CBBridgeManagerDashboard +sharedInstance IMP 0x282c28, -bridgeDidActivate: 0x2a4738, -bridgeDidDeactivate 0x2a47ac, -activated 0x2a64c8.
+3. Speed4 thực tế chỉ inject/run trong CarPlayApp nhưng DFCurrentNativeOwner đòi CBBridgeManager.sharedInstanceIfExists. Hàm getter +sharedInstanceIfExists IMP 0x121920 CHỈ đọc global singleton (không khởi tạo), và manager này được khởi tạo từ SpringBoard code path. Đây là NGHI PHẠM MẠNH gây HUD hoàn toàn không hiện trên CarPlayApp, CHƯA XÁC NHẬN bằng log PID/runtime, không gọi là root cause đã chứng minh.
+4. Trong CBBridgeManagerDashboard.bridgeDidActivate: code 0x2a4768 truyền BOOL YES cho selector setActivated:; trong bridgeDidDeactivate 0x2a47c8 truyền NO; selector pointer 0x37ed80 = setActivated: đã giải mã chính xác trong report. Bridge state này là tín hiệu gate HUD tốt hơn CBBridgeManager singleton sai process; nhưng chưa chứng minh trạng thái activated trùng từng khung hình split.
+5. GOFAHUD github manhtien9x/gofahud-repo@e423ac7 tạo transparent GOFACarGlobalWindow với initWithWindowScene hoặc external UIScreen, windowLevel 10000000, timer 0.5s, pass-through hitTest ngoài card. GOFAHUD chung tìm cửa sổ CarPlay, KHÔNG tự biết DuoFace split; không chỉ đổi tên file path/bundle.
+6. Apple UIWindowScene docs: https://developer.apple.com/documentation/uikit/uiwindowscene và https://developer.apple.com/documentation/uikit/presenting-content-on-a-connected-display nêu window thuộc scene của app thực; windowLevel cao không sửa được lỗi sai process/scene. Apple CarPlay docs: https://developer.apple.com/documentation/CarPlay/displaying-content-in-carplay phân biệt CPTemplateApplicationScene và window navigation app.
+
+HƯỚNG LÀM TIẾP THEO CÓ THỨ TỰ:
+A. Trước sửa package, xác minh Dashboard lifecycle thật: hook/read-only probe CBBridgeManagerDashboard.bridgeDidActivate:/bridgeDidDeactivate ở CarPlayApp, ghi PID/bundle, activated state, UIWindowScene.session.role, UIScreen, top UIWindow; không chủ động tạo singleton CBBridgeManager SpringBoard. Quan sát DuoFace split vs Home.
+B. Khi thật sự active split, tìm scene đúng qua CBWindow.rootWindow.windowScene NẾU cùng process, hoặc CarPlayApp.connectedScenes nhưng phải nhận diện split host. Tạo 1 GOFA-style transparent overlay theo verified scene với windowLevel cao, card-only hitTest và strong owner; rời split/deactivate => hide/remove. Không inject Waze/GOFA, không tạo global HUD CarPlay Home.
+C. Kiểm thiết bị bắt buộc: Home=0 bubble, DuoFace split=1 bubble —/—, rời split=0, không duplicate, Waze ổn, GOFA active suppress theo yêu cầu. Chỉ nối nguồn speed limit khi đã thấy 1 bubble.
+
+TRẠNG THÁI CUỐI: Chỉ nghiên cứu tĩnh và script/CI/report mới được lưu trên feature branch. Không thay Speed4 source, không DEB mới, không Sileo, không device logs. Lần sau đọc handoff này trước và kiểm latest branch/CI. Thiếu runtime evidence nên chưa chứng minh chắc chắn GOFA overlay sẽ hoạt động.
+
+---
 ## 17/10/2026 — GIỮ NGUYÊN GOFAHUD, CHỈ ĐỔI CHỦ CỬA SỔ KHI DUOFACE CHIA ĐÔI
 Checkpoint: GOFAHUD-PRESERVE-ACTIVATION-ONLY-RETARGET-SPLIT-20261017.
 
