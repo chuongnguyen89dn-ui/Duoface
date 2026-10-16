@@ -1,0 +1,1160 @@
+{
+  "status": "READONLY_NATIVE17_PREFERENCES_NATIVE12_REAL_BINARY_STRINGS",
+  "deb_sha256": "60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff",
+  "device_tested": false,
+  "binary_modified": false,
+  "hosts": {
+    "DuoFaceDashboard": {
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "original_disassembly_direct_literals": {
+        "0x36f128": "",
+        "0x36f468": "",
+        "0x36f488": "",
+        "0x36f428": "",
+        "0x36f448": "",
+        "0x346148": "",
+        "0x3460a8": ""
+      },
+      "native_preferences_related_literals": [
+        {
+          "vm": "0x2f37f0",
+          "value": "triggerBridgeApp:"
+        },
+        {
+          "vm": "0x2f3802",
+          "value": "dismissCarBridgeApp"
+        },
+        {
+          "vm": "0x2f4665",
+          "value": "reloadAppPrefs"
+        },
+        {
+          "vm": "0x2f4751",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x2f475d",
+          "value": "setBridgedApps:"
+        },
+        {
+          "vm": "0x2f4ad0",
+          "value": "_bridgedApps"
+        },
+        {
+          "vm": "0x2f4b89",
+          "value": "T@\"NSArray\",&,N,V_bridgedApps"
+        },
+        {
+          "vm": "0x2f639d",
+          "value": "closeAllBridgedAppsTapped:"
+        },
+        {
+          "vm": "0x2f6550",
+          "value": "saveSlotIndex:bid:toSettings:prefs:"
+        },
+        {
+          "vm": "0x2fb248",
+          "value": "[DuoFace] Tweak constructor loaded in process: %@ (PID %d)"
+        },
+        {
+          "vm": "0x2fb342",
+          "value": "[DuoFace] Initializing DashBoard hooks in process: %@"
+        },
+        {
+          "vm": "0x2fb38e",
+          "value": "[DuoFace] Initializing SpringBoard hooks..."
+        },
+        {
+          "vm": "0x2fb3ba",
+          "value": "com.duoface.duofaceui"
+        },
+        {
+          "vm": "0x2fb3d0",
+          "value": "[DuoFace] Loaded in CarbrigdeUI for tweak detection."
+        },
+        {
+          "vm": "0x2fb405",
+          "value": "[DuoFace] Initializing App hooks for target app: %@"
+        },
+        {
+          "vm": "0x2fb4ad",
+          "value": "[DuoFace] Warning: Failed writing to log file: %@"
+        },
+        {
+          "vm": "0x2fb6e1",
+          "value": "DuoFace"
+        },
+        {
+          "vm": "0x2fba7a",
+          "value": "AUTO_LAUNCH_DUOFACE"
+        },
+        {
+          "vm": "0x2fbd4e",
+          "value": "DuoFace Pro"
+        },
+        {
+          "vm": "0x2fd5f9",
+          "value": "DuoFace VIP"
+        },
+        {
+          "vm": "0x2fd90c",
+          "value": "DuoFace (Geteilter Bildschirm)"
+        },
+        {
+          "vm": "0x2fdc00",
+          "value": "DuoFace-Team"
+        },
+        {
+          "vm": "0x2fe028",
+          "value": "DuoFace erfordert eine aktive Lizenz zur Nutzung auf CarPlay. Bitte aktivieren Sie die Lizenz, um zu starten."
+        },
+        {
+          "vm": "0x2fe0dc",
+          "value": "DuoFace Pro Mitglied"
+        },
+        {
+          "vm": "0x2fe12e",
+          "value": "Von DuoFace-Server verifiziert"
+        },
+        {
+          "vm": "0x2fe14d",
+          "value": "DuoFace VIP Lebenslang"
+        },
+        {
+          "vm": "0x2fe190",
+          "value": "DuoFace is currently blocked from running. Your jailbreak environment has Tweak Injection disabled.\n\nHow to fix this:\n1. Open your Jailbreak app (Dopamine, Bootstrap, Palera1n...).\n2. Find a"
+        },
+        {
+          "vm": "0x2fe3e9",
+          "value": "All DuoFace configurations will be restored to factory defaults."
+        },
+        {
+          "vm": "0x2fe63b",
+          "value": "Automatically open DuoFace when connecting to CarPlay"
+        },
+        {
+          "vm": "0x2fe681",
+          "value": "DuoFace (Split Screen)"
+        },
+        {
+          "vm": "0x2feb1e",
+          "value": "DuoFace Team"
+        },
+        {
+          "vm": "0x2fef25",
+          "value": "Open DuoFace on iPhone to enable permissions for apps."
+        },
+        {
+          "vm": "0x2fef95",
+          "value": "Park safely and open DuoFace on your iPhone to add more apps."
+        },
+        {
+          "vm": "0x2ff3cb",
+          "value": "DuoFace Pro Member"
+        },
+        {
+          "vm": "0x2ffa65",
+          "value": "Verified by DuoFace Server"
+        },
+        {
+          "vm": "0x2ffa80",
+          "value": "DuoFace VIP Lifetime"
+        },
+        {
+          "vm": "0x2ffd62",
+          "value": "DuoFace (Pantalla dividida)"
+        },
+        {
+          "vm": "0x30000c",
+          "value": "Equipo DuoFace"
+        },
+        {
+          "vm": "0x300334",
+          "value": "Abre DuoFace en el iPhone para activar permisos de aplicaciones."
+        },
+        {
+          "vm": "0x3004a6",
+          "value": "Estaciona de forma segura y abre DuoFace en el iPhone para activar la licencia antes de continuar."
+        },
+        {
+          "vm": "0x300509",
+          "value": "El periodo de licencia ha expirado. Estaciona con seguridad y abre DuoFace en el iPhone para renovar."
+        },
+        {
+          "vm": "0x300631",
+          "value": "Miembro DuoFace Pro"
+        },
+        {
+          "vm": "0x300692",
+          "value": "Verificado por servidor DuoFace"
+        },
+        {
+          "vm": "0x3006b2",
+          "value": "DuoFace VIP De por vida"
+        },
+        {
+          "vm": "0x300b5b",
+          "value": "Ouvrez DuoFace sur l'iPhone pour activer les autorisations d'applications."
+        },
+        {
+          "vm": "0x300cf6",
+          "value": "Membre DuoFace Pro"
+        },
+        {
+          "vm": "0x300d71",
+          "value": "DuoFace saat ini diblokir. Lingkungan Jailbreak Anda menonaktifkan Tweak Injection.\n\nCara memperbaikinya:\n1. Buka aplikasi Jailbreak Anda (Dopamine, Bootstrap, Palera1n...).\n2. Cari dan AKTI"
+        },
+        {
+          "vm": "0x301013",
+          "value": "Semua konfigurasi DuoFace akan dikembalikan ke pengaturan awal pabrik."
+        },
+        {
+          "vm": "0x3012a2",
+          "value": "Otomatis buka DuoFace saat CarPlay terhubung"
+        },
+        {
+          "vm": "0x3012e6",
+          "value": "DuoFace (Belah Layar)"
+        },
+        {
+          "vm": "0x3017c5",
+          "value": "Tim DuoFace"
+        },
+        {
+          "vm": "0x301c6e",
+          "value": "Buka DuoFace di iPhone untuk mengaktifkan izin aplikasi."
+        },
+        {
+          "vm": "0x301cef",
+          "value": "Parkir kendaraan dengan aman dan buka DuoFace di iPhone untuk menambah aplikasi."
+        },
+        {
+          "vm": "0x301f30",
+          "value": "Harap parkir dengan aman dan buka DuoFace di iPhone untuk mengaktifkan lisensi sebelum melanjutkan."
+        },
+        {
+          "vm": "0x301f94",
+          "value": "Masa berlaku lisensi telah habis. Harap parkir dengan aman dan buka DuoFace di iPhone untuk memperpanjang."
+        },
+        {
+          "vm": "0x301fff",
+          "value": "Lisensi DuoFace CarPlay Anda telah berakhir. Perpanjang atau masukkan kode aktivasi untuk terus menggunakan aplikasi di kendaraan Anda."
+        },
+        {
+          "vm": "0x302087",
+          "value": "DuoFace memerlukan lisensi aktif untuk berjalan di CarPlay. Aktifkan sekarang untuk memulai."
+        },
+        {
+          "vm": "0x302223",
+          "value": "Anggota DuoFace Pro"
+        },
+        {
+          "vm": "0x302303",
+          "value": "Diverifikasi oleh Server DuoFace"
+        },
+        {
+          "vm": "0x302324",
+          "value": "DuoFace VIP Seumur Hidup"
+        },
+        {
+          "vm": "0x3024bd",
+          "value": "Tutte le impostazioni di DuoFace saranno ripristinate ai valori di fabbrica."
+        },
+        {
+          "vm": "0x30269b",
+          "value": "Apri DuoFace automaticamente alla connessione con CarPlay"
+        },
+        {
+          "vm": "0x3026ed",
+          "value": "DuoFace (Schermo diviso)"
+        },
+        {
+          "vm": "0x302bd5",
+          "value": "Team DuoFace"
+        },
+        {
+          "vm": "0x303062",
+          "value": "Apri DuoFace su iPhone per abilitare le autorizzazioni delle app."
+        },
+        {
+          "vm": "0x3030f4",
+          "value": "Parcheggia in sicurezza e apri DuoFace su iPhone per aggiungere altre app."
+        },
+        {
+          "vm": "0x3032b8",
+          "value": "Parcheggia in sicurezza e apri DuoFace su iPhone per attivare la licenza prima di continuare."
+        },
+        {
+          "vm": "0x303316",
+          "value": "DuoFace richiede una licenza attiva per funzionare su CarPlay. Attivala per iniziare."
+        },
+        {
+          "vm": "0x3034aa",
+          "value": "Membro DuoFace Pro"
+        },
+        {
+          "vm": "0x30355e",
+          "value": "Verificato dal server DuoFace"
+        },
+        {
+          "vm": "0x30357c",
+          "value": "DuoFace VIP A vita"
+        },
+        {
+          "vm": "0x3035c6",
+          "value": "DuoFace pada masa ini disekat. Persekitaran Jailbreak anda telah melumpuhkan Tweak Injection.\n\nCara memperbaikinya:\n1. Buka aplikasi Jailbreak anda (Dopamine, Bootstrap, Palera1n...).\n2. Car"
+        },
+        {
+          "vm": "0x303809",
+          "value": "Semua konfigurasi DuoFace akan dipulihkan ke tetapan asal kilang."
+        },
+        {
+          "vm": "0x3039c9",
+          "value": "Buka DuoFace secara automatik apabila CarPlay disambungkan"
+        },
+        {
+          "vm": "0x303a1c",
+          "value": "DuoFace (Skrin Pisah)"
+        },
+        {
+          "vm": "0x303e73",
+          "value": "Pasukan DuoFace"
+        },
+        {
+          "vm": "0x30427a",
+          "value": "Buka DuoFace pada iPhone untuk mengaktifkan kebenaran aplikasi."
+        },
+        {
+          "vm": "0x3042d2",
+          "value": "Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk menambah aplikasi."
+        },
+        {
+          "vm": "0x3044ef",
+          "value": "Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk mengaktifkan lesen sebelum meneruskan."
+        },
+        {
+          "vm": "0x30455d",
+          "value": "Tempoh penggunaan telah tamat. Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk memperbaharui."
+        },
+        {
+          "vm": "0x3045e5",
+          "value": "Lesen DuoFace CarPlay anda telah tamat tempoh. Sila perbaharui atau masukkan kod pengaktifan untuk terus menggunakan aplikasi pada kenderaan anda."
+        },
+        {
+          "vm": "0x304678",
+          "value": "DuoFace memerlukan lesen aktif untuk berfungsi pada CarPlay. Sila aktifkan untuk memulakan."
+        },
+        {
+          "vm": "0x3047f1",
+          "value": "Ahli DuoFace Pro"
+        },
+        {
+          "vm": "0x3048f2",
+          "value": "Disahkan oleh Pelayan DuoFace"
+        },
+        {
+          "vm": "0x304935",
+          "value": "DuoFace is momenteel geblokkeerd. In je Jailbreak-omgeving is Tweak Injection uitgeschakeld.\n\nHoe dit op te lossen:\n1. Open je Jailbreak-app (Dopamine, Bootstrap, Palera1n...).\n2. Zoek en SC"
+        },
+        {
+          "vm": "0x304bfc",
+          "value": "Alle DuoFace-instellingen worden teruggezet naar de fabrieksstandaard."
+        },
+        {
+          "vm": "0x304e6c",
+          "value": "DuoFace automatisch openen wanneer CarPlay verbindt"
+        },
+        {
+          "vm": "0x304eba",
+          "value": "DuoFace (Gesplitst scherm)"
+        },
+        {
+          "vm": "0x3053e8",
+          "value": "DuoFace-team"
+        },
+        {
+          "vm": "0x30585c",
+          "value": "Open DuoFace op de iPhone om app-toegang in te schakelen."
+        },
+        {
+          "vm": "0x3058c7",
+          "value": "Parkeer veilig en open DuoFace op de iPhone om apps toe te voegen."
+        },
+        {
+          "vm": "0x305adf",
+          "value": "Parkeer veilig en open DuoFace op de iPhone om uw licentie te activeren voordat u verdergaat."
+        },
+        {
+          "vm": "0x305b3d",
+          "value": "De licentieperiode is verstreken. Parkeer veilig en open DuoFace op de iPhone om te verlengen."
+        },
+        {
+          "vm": "0x305b9c",
+          "value": "Je DuoFace CarPlay-licentie is verlopen. Verleng je abonnement of voer een activatiecode in om de app in je auto te blijven gebruiken."
+        },
+        {
+          "vm": "0x305c23",
+          "value": "DuoFace vereist een actieve licentie om te werken op CarPlay. Activeer om aan de slag te gaan."
+        },
+        {
+          "vm": "0x305da6",
+          "value": "DuoFace Pro Lid"
+        },
+        {
+          "vm": "0x305e92",
+          "value": "Geverifieerd door DuoFace server"
+        },
+        {
+          "vm": "0x305eb3",
+          "value": "DuoFace VIP Levenslang"
+        },
+        {
+          "vm": "0x306047",
+          "value": "DuoFace (Podzielony ekran)"
+        },
+        {
+          "vm": "0x30638e",
+          "value": "Zweryfikowano przez serwer DuoFace"
+        },
+        {
+          "vm": "0x306526",
+          "value": "Abrir o DuoFace automaticamente ao conectar ao CarPlay"
+        },
+        {
+          "vm": "0x30655d",
+          "value": "DuoFace (Tela dividida)"
+        },
+        {
+          "vm": "0x3067c8",
+          "value": "Equipe DuoFace"
+        },
+        {
+          "vm": "0x306c2e",
+          "value": "Verificado pelo servidor DuoFace"
+        },
+        {
+          "vm": "0x306d6b",
+          "value": "DuoFace Ekibi"
+        },
+        {
+          "vm": "0x306f67",
+          "value": "CBDuoFaceFake"
+        },
+        {
+          "vm": "0x306f75",
+          "value": "CBCarBridgeFake"
+        },
+        {
+          "vm": "0x3078aa",
+          "value": "[DuoFace] %@"
+        },
+        {
+          "vm": "0x307918",
+          "value": "/var/jb/Library/Application Support/DuoFace/AssistantAppIcon.png"
+        },
+        {
+          "vm": "0x307959",
+          "value": "/Library/Application Support/DuoFace/AssistantAppIcon.png"
+        },
+        {
+          "vm": "0x307993",
+          "value": "/var/jb/Library/Application Support/CarBridge/AssistantAppIcon.png"
+        },
+        {
+          "vm": "0x3079d6",
+          "value": "/Library/Application Support/CarBridge/AssistantAppIcon.png"
+        },
+        {
+          "vm": "0x307a27",
+          "value": "/var/jb/Library/Application Support/DuoFace/PortalAppIcon.png"
+        },
+        {
+          "vm": "0x307a65",
+          "value": "/Library/Application Support/DuoFace/PortalAppIcon.png"
+        },
+        {
+          "vm": "0x307a9c",
+          "value": "/var/jb/Library/Application Support/CarBridge/PortalAppIcon.png"
+        },
+        {
+          "vm": "0x307adc",
+          "value": "/Library/Application Support/CarBridge/PortalAppIcon.png"
+        },
+        {
+          "vm": "0x307b22",
+          "value": "/var/jb/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x307b5f",
+          "value": "/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x307b95",
+          "value": "/var/jb/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x307bd4",
+          "value": "/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x307d99",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x307da5",
+          "value": "/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        {
+          "vm": "0x307ded",
+          "value": "/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist"
+        },
+        {
+          "vm": "0x307e3d",
+          "value": "[DuoFace] Dynamically updated tweak filter plist with %lu bundles"
+        },
+        {
+          "vm": "0x307e7f",
+          "value": "com.duoface.http.client"
+        },
+        {
+          "vm": "0x307f15",
+          "value": "DuoFace-Client/1.0.3"
+        },
+        {
+          "vm": "0x307f3e",
+          "value": "com.duoface.license.sync"
+        },
+        {
+          "vm": "0x307fed",
+          "value": "[DuoFaceLicense] Automated sync was already initiated %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "vm": "0x308071",
+          "value": "[DuoFaceLicense] Automated sync attempt detected from another process %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "vm": "0x3080f0",
+          "value": "[DuoFaceLicense] CarPlay connected without valid offline license. Initiating automated trial sync..."
+        },
+        {
+          "vm": "0x308155",
+          "value": "[DuoFaceLicense] No valid offline license in app mode. Waiting for CarPlay connection to activate trial."
+        },
+        {
+          "vm": "0x30823b",
+          "value": "[DuoFaceLicense] Offline license is valid (rem: %llu s). Next refresh in %llu s. Using cached license."
+        },
+        {
+          "vm": "0x3082a2",
+          "value": "[DuoFaceLicense] License refresh interval reached (interval=%llu s, last=%llu s, now=%llu s). Triggering background refresh..."
+        },
+        {
+          "vm": "0x308332",
+          "value": "duoface.com"
+        },
+        {
+          "vm": "0x308346",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 1 (File Override): %@"
+        },
+        {
+          "vm": "0x308388",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 2 (Plist Override): %@"
+        },
+        {
+          "vm": "0x3083cb",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 3 (Production Default): %@"
+        },
+        {
+          "vm": "0x30845b",
+          "value": "[DuoFaceLicense] Failed to read hardware hash!"
+        },
+        {
+          "vm": "0x3084c4",
+          "value": "[DuoFaceLicense] Dispatching async license sync request to %@ for HW: %@ (source: %@)"
+        },
+        {
+          "vm": "0x30851a",
+          "value": "[DuoFaceLicense] Network request failed: %@"
+        },
+        {
+          "vm": "0x308583",
+          "value": "[DuoFaceLicense] Server returned non-200 status code: %ld (Error: %@)"
+        },
+        {
+          "vm": "0x3085c9",
+          "value": "[DuoFaceLicense] Warning: Ignoring invalid/negative expiration header: %@"
+        },
+        {
+          "vm": "0x308655",
+          "value": "[DuoFaceLicense] Warning: Ignoring invalid/negative expiration in JSON: %@"
+        },
+        {
+          "vm": "0x30873c",
+          "value": "[DuoFaceLicense] %@"
+        },
+        {
+          "vm": "0x30895a",
+          "value": "[DuoFaceSB] UI addMoreAppsTapped -> presenting custom frosted alert modal"
+        },
+        {
+          "vm": "0x3089bd",
+          "value": "[DuoFaceSB] UI restartSingleAppTapped: %@"
+        },
+        {
+          "vm": "0x3089e7",
+          "value": "[DuoFaceSB] UI closeSingleAppTapped: %@"
+        },
+        {
+          "vm": "0x308a0f",
+          "value": "[DuoFaceSB] UI closeAllBridgedAppsTapped: Killing background apps & restarting active on-screen apps"
+        },
+        {
+          "vm": "0x308e8b",
+          "value": "CBDuoFaceHosted"
+        },
+        {
+          "vm": "0x308e9b",
+          "value": "CBCarBridgeHosted"
+        },
+        {
+          "vm": "0x308ead",
+          "value": "CBDuoFaceBundleID"
+        },
+        {
+          "vm": "0x308ebf",
+          "value": "CBCarBridgeBundleID"
+        },
+        {
+          "vm": "0x308eda",
+          "value": "[DuoFace] updateSceneSettingsFrame: scene not yet ready: %@"
+        },
+        {
+          "vm": "0x308f93",
+          "value": "[DuoFace] updateSettingsWithBlock error: %@"
+        },
+        {
+          "vm": "0x309071",
+          "value": "[DuoFaceSB] Warning: Exception setting scene association for %@: %@"
+        },
+        {
+          "vm": "0x309110",
+          "value": "[DuoFace] carPlayCADisplay exception: %@"
+        },
+        {
+          "vm": "0x30932b",
+          "value": "[DuoFaceWindow] createWindows completed: _rootWindow=%@, rootVC=%@, screenBounds=%@, usableBounds=%@, config=%@"
+        },
+        {
+          "vm": "0x3093b3",
+          "value": "[DuoFaceWindow] resizeWindows completed: screenBounds=%@, usableBounds=%@"
+        },
+        {
+          "vm": "0x3093fd",
+          "value": "[DuoFaceWindow] show: _rootWindow=%@, frame=%@, hidden=%d, level=%.1f"
+        },
+        {
+          "vm": "0x30952d",
+          "value": "/var/jb/Library/Application Support/DuoFace/duoface-logo.png"
+        }
+      ]
+    },
+    "DuoFaceUI": {
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "original_disassembly_direct_literals": {
+        "0x1000ea548": "",
+        "0x1000ea568": "",
+        "0x1000ea588": "",
+        "0x1000ea5a8": "",
+        "0x1000ea5c8": "",
+        "0x1000ea5e8": "",
+        "0x1000ea608": ""
+      },
+      "native_preferences_related_literals": [
+        {
+          "vm": "0x1000ad1ae",
+          "value": "bridgedApps"
+        },
+        {
+          "vm": "0x1000adbb5",
+          "value": "DuoFace Team"
+        },
+        {
+          "vm": "0x1000ae1af",
+          "value": "1.0.3 (DuoFace Commercial Pro Edition)"
+        },
+        {
+          "vm": "0x1000ae1d6",
+          "value": "DuoFace Pro"
+        },
+        {
+          "vm": "0x1000aedbb",
+          "value": "DuoFace"
+        },
+        {
+          "vm": "0x1000aee9d",
+          "value": "AUTO_LAUNCH_DUOFACE"
+        },
+        {
+          "vm": "0x1000aff8f",
+          "value": "DuoFace VIP"
+        },
+        {
+          "vm": "0x1000b023c",
+          "value": "DuoFace (Geteilter Bildschirm)"
+        },
+        {
+          "vm": "0x1000b0530",
+          "value": "DuoFace-Team"
+        },
+        {
+          "vm": "0x1000b0958",
+          "value": "DuoFace erfordert eine aktive Lizenz zur Nutzung auf CarPlay. Bitte aktivieren Sie die Lizenz, um zu starten."
+        },
+        {
+          "vm": "0x1000b0a0c",
+          "value": "DuoFace Pro Mitglied"
+        },
+        {
+          "vm": "0x1000b0a5e",
+          "value": "Von DuoFace-Server verifiziert"
+        },
+        {
+          "vm": "0x1000b0a7d",
+          "value": "DuoFace VIP Lebenslang"
+        },
+        {
+          "vm": "0x1000b0ac0",
+          "value": "DuoFace is currently blocked from running. Your jailbreak environment has Tweak Injection disabled.\n\nHow to fix this:\n1. Open your Jailbreak app (Dopamine, Bootstrap, Palera1n...).\n2. Find a"
+        },
+        {
+          "vm": "0x1000b0d19",
+          "value": "All DuoFace configurations will be restored to factory defaults."
+        },
+        {
+          "vm": "0x1000b0f6b",
+          "value": "Automatically open DuoFace when connecting to CarPlay"
+        },
+        {
+          "vm": "0x1000b0fb1",
+          "value": "DuoFace (Split Screen)"
+        },
+        {
+          "vm": "0x1000b1848",
+          "value": "Open DuoFace on iPhone to enable permissions for apps."
+        },
+        {
+          "vm": "0x1000b18b8",
+          "value": "Park safely and open DuoFace on your iPhone to add more apps."
+        },
+        {
+          "vm": "0x1000b1cee",
+          "value": "DuoFace Pro Member"
+        },
+        {
+          "vm": "0x1000b2388",
+          "value": "Verified by DuoFace Server"
+        },
+        {
+          "vm": "0x1000b23a3",
+          "value": "DuoFace VIP Lifetime"
+        },
+        {
+          "vm": "0x1000b2685",
+          "value": "DuoFace (Pantalla dividida)"
+        },
+        {
+          "vm": "0x1000b292f",
+          "value": "Equipo DuoFace"
+        },
+        {
+          "vm": "0x1000b2c57",
+          "value": "Abre DuoFace en el iPhone para activar permisos de aplicaciones."
+        },
+        {
+          "vm": "0x1000b2dc9",
+          "value": "Estaciona de forma segura y abre DuoFace en el iPhone para activar la licencia antes de continuar."
+        },
+        {
+          "vm": "0x1000b2e2c",
+          "value": "El periodo de licencia ha expirado. Estaciona con seguridad y abre DuoFace en el iPhone para renovar."
+        },
+        {
+          "vm": "0x1000b2f54",
+          "value": "Miembro DuoFace Pro"
+        },
+        {
+          "vm": "0x1000b2fb5",
+          "value": "Verificado por servidor DuoFace"
+        },
+        {
+          "vm": "0x1000b2fd5",
+          "value": "DuoFace VIP De por vida"
+        },
+        {
+          "vm": "0x1000b347e",
+          "value": "Ouvrez DuoFace sur l'iPhone pour activer les autorisations d'applications."
+        },
+        {
+          "vm": "0x1000b3619",
+          "value": "Membre DuoFace Pro"
+        },
+        {
+          "vm": "0x1000b3694",
+          "value": "DuoFace saat ini diblokir. Lingkungan Jailbreak Anda menonaktifkan Tweak Injection.\n\nCara memperbaikinya:\n1. Buka aplikasi Jailbreak Anda (Dopamine, Bootstrap, Palera1n...).\n2. Cari dan AKTI"
+        },
+        {
+          "vm": "0x1000b3936",
+          "value": "Semua konfigurasi DuoFace akan dikembalikan ke pengaturan awal pabrik."
+        },
+        {
+          "vm": "0x1000b3bc5",
+          "value": "Otomatis buka DuoFace saat CarPlay terhubung"
+        },
+        {
+          "vm": "0x1000b3c09",
+          "value": "DuoFace (Belah Layar)"
+        },
+        {
+          "vm": "0x1000b40e8",
+          "value": "Tim DuoFace"
+        },
+        {
+          "vm": "0x1000b4591",
+          "value": "Buka DuoFace di iPhone untuk mengaktifkan izin aplikasi."
+        },
+        {
+          "vm": "0x1000b4612",
+          "value": "Parkir kendaraan dengan aman dan buka DuoFace di iPhone untuk menambah aplikasi."
+        },
+        {
+          "vm": "0x1000b4853",
+          "value": "Harap parkir dengan aman dan buka DuoFace di iPhone untuk mengaktifkan lisensi sebelum melanjutkan."
+        },
+        {
+          "vm": "0x1000b48b7",
+          "value": "Masa berlaku lisensi telah habis. Harap parkir dengan aman dan buka DuoFace di iPhone untuk memperpanjang."
+        },
+        {
+          "vm": "0x1000b4922",
+          "value": "Lisensi DuoFace CarPlay Anda telah berakhir. Perpanjang atau masukkan kode aktivasi untuk terus menggunakan aplikasi di kendaraan Anda."
+        },
+        {
+          "vm": "0x1000b49aa",
+          "value": "DuoFace memerlukan lisensi aktif untuk berjalan di CarPlay. Aktifkan sekarang untuk memulai."
+        },
+        {
+          "vm": "0x1000b4b46",
+          "value": "Anggota DuoFace Pro"
+        },
+        {
+          "vm": "0x1000b4c26",
+          "value": "Diverifikasi oleh Server DuoFace"
+        },
+        {
+          "vm": "0x1000b4c47",
+          "value": "DuoFace VIP Seumur Hidup"
+        },
+        {
+          "vm": "0x1000b4de0",
+          "value": "Tutte le impostazioni di DuoFace saranno ripristinate ai valori di fabbrica."
+        },
+        {
+          "vm": "0x1000b4fbe",
+          "value": "Apri DuoFace automaticamente alla connessione con CarPlay"
+        },
+        {
+          "vm": "0x1000b5010",
+          "value": "DuoFace (Schermo diviso)"
+        },
+        {
+          "vm": "0x1000b54f8",
+          "value": "Team DuoFace"
+        },
+        {
+          "vm": "0x1000b5985",
+          "value": "Apri DuoFace su iPhone per abilitare le autorizzazioni delle app."
+        },
+        {
+          "vm": "0x1000b5a17",
+          "value": "Parcheggia in sicurezza e apri DuoFace su iPhone per aggiungere altre app."
+        },
+        {
+          "vm": "0x1000b5bdb",
+          "value": "Parcheggia in sicurezza e apri DuoFace su iPhone per attivare la licenza prima di continuare."
+        },
+        {
+          "vm": "0x1000b5c39",
+          "value": "DuoFace richiede una licenza attiva per funzionare su CarPlay. Attivala per iniziare."
+        },
+        {
+          "vm": "0x1000b5dcd",
+          "value": "Membro DuoFace Pro"
+        },
+        {
+          "vm": "0x1000b5e81",
+          "value": "Verificato dal server DuoFace"
+        },
+        {
+          "vm": "0x1000b5e9f",
+          "value": "DuoFace VIP A vita"
+        },
+        {
+          "vm": "0x1000b5ee9",
+          "value": "DuoFace pada masa ini disekat. Persekitaran Jailbreak anda telah melumpuhkan Tweak Injection.\n\nCara memperbaikinya:\n1. Buka aplikasi Jailbreak anda (Dopamine, Bootstrap, Palera1n...).\n2. Car"
+        },
+        {
+          "vm": "0x1000b612c",
+          "value": "Semua konfigurasi DuoFace akan dipulihkan ke tetapan asal kilang."
+        },
+        {
+          "vm": "0x1000b62ec",
+          "value": "Buka DuoFace secara automatik apabila CarPlay disambungkan"
+        },
+        {
+          "vm": "0x1000b633f",
+          "value": "DuoFace (Skrin Pisah)"
+        },
+        {
+          "vm": "0x1000b6796",
+          "value": "Pasukan DuoFace"
+        },
+        {
+          "vm": "0x1000b6b9d",
+          "value": "Buka DuoFace pada iPhone untuk mengaktifkan kebenaran aplikasi."
+        },
+        {
+          "vm": "0x1000b6bf5",
+          "value": "Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk menambah aplikasi."
+        },
+        {
+          "vm": "0x1000b6e12",
+          "value": "Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk mengaktifkan lesen sebelum meneruskan."
+        },
+        {
+          "vm": "0x1000b6e80",
+          "value": "Tempoh penggunaan telah tamat. Sila letak kenderaan dengan selamat dan buka DuoFace pada iPhone untuk memperbaharui."
+        },
+        {
+          "vm": "0x1000b6f08",
+          "value": "Lesen DuoFace CarPlay anda telah tamat tempoh. Sila perbaharui atau masukkan kod pengaktifan untuk terus menggunakan aplikasi pada kenderaan anda."
+        },
+        {
+          "vm": "0x1000b6f9b",
+          "value": "DuoFace memerlukan lesen aktif untuk berfungsi pada CarPlay. Sila aktifkan untuk memulakan."
+        },
+        {
+          "vm": "0x1000b7114",
+          "value": "Ahli DuoFace Pro"
+        },
+        {
+          "vm": "0x1000b7215",
+          "value": "Disahkan oleh Pelayan DuoFace"
+        },
+        {
+          "vm": "0x1000b7258",
+          "value": "DuoFace is momenteel geblokkeerd. In je Jailbreak-omgeving is Tweak Injection uitgeschakeld.\n\nHoe dit op te lossen:\n1. Open je Jailbreak-app (Dopamine, Bootstrap, Palera1n...).\n2. Zoek en SC"
+        },
+        {
+          "vm": "0x1000b751f",
+          "value": "Alle DuoFace-instellingen worden teruggezet naar de fabrieksstandaard."
+        },
+        {
+          "vm": "0x1000b778f",
+          "value": "DuoFace automatisch openen wanneer CarPlay verbindt"
+        },
+        {
+          "vm": "0x1000b77dd",
+          "value": "DuoFace (Gesplitst scherm)"
+        },
+        {
+          "vm": "0x1000b7d0b",
+          "value": "DuoFace-team"
+        },
+        {
+          "vm": "0x1000b817f",
+          "value": "Open DuoFace op de iPhone om app-toegang in te schakelen."
+        },
+        {
+          "vm": "0x1000b81ea",
+          "value": "Parkeer veilig en open DuoFace op de iPhone om apps toe te voegen."
+        },
+        {
+          "vm": "0x1000b8402",
+          "value": "Parkeer veilig en open DuoFace op de iPhone om uw licentie te activeren voordat u verdergaat."
+        },
+        {
+          "vm": "0x1000b8460",
+          "value": "De licentieperiode is verstreken. Parkeer veilig en open DuoFace op de iPhone om te verlengen."
+        },
+        {
+          "vm": "0x1000b84bf",
+          "value": "Je DuoFace CarPlay-licentie is verlopen. Verleng je abonnement of voer een activatiecode in om de app in je auto te blijven gebruiken."
+        },
+        {
+          "vm": "0x1000b8546",
+          "value": "DuoFace vereist een actieve licentie om te werken op CarPlay. Activeer om aan de slag te gaan."
+        },
+        {
+          "vm": "0x1000b86c9",
+          "value": "DuoFace Pro Lid"
+        },
+        {
+          "vm": "0x1000b87b5",
+          "value": "Geverifieerd door DuoFace server"
+        },
+        {
+          "vm": "0x1000b87d6",
+          "value": "DuoFace VIP Levenslang"
+        },
+        {
+          "vm": "0x1000b896a",
+          "value": "DuoFace (Podzielony ekran)"
+        },
+        {
+          "vm": "0x1000b8cb1",
+          "value": "Zweryfikowano przez serwer DuoFace"
+        },
+        {
+          "vm": "0x1000b8e49",
+          "value": "Abrir o DuoFace automaticamente ao conectar ao CarPlay"
+        },
+        {
+          "vm": "0x1000b8e80",
+          "value": "DuoFace (Tela dividida)"
+        },
+        {
+          "vm": "0x1000b90eb",
+          "value": "Equipe DuoFace"
+        },
+        {
+          "vm": "0x1000b9551",
+          "value": "Verificado pelo servidor DuoFace"
+        },
+        {
+          "vm": "0x1000b968e",
+          "value": "DuoFace Ekibi"
+        },
+        {
+          "vm": "0x1000b97a7",
+          "value": "/var/jb/Library/Application Support/DuoFace/duoface-logo.png"
+        },
+        {
+          "vm": "0x1000b97e4",
+          "value": "/Library/Application Support/DuoFace/duoface-logo.png"
+        },
+        {
+          "vm": "0x1000b981a",
+          "value": "/var/jb/Library/Application Support/CarBridge/duoface-logo.png"
+        },
+        {
+          "vm": "0x1000b9859",
+          "value": "/Library/Application Support/CarBridge/duoface-logo.png"
+        },
+        {
+          "vm": "0x1000b98b4",
+          "value": "/var/jb/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x1000b98f1",
+          "value": "/Library/Application Support/DuoFace/duoface-icon.png"
+        },
+        {
+          "vm": "0x1000b9927",
+          "value": "/var/jb/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x1000b9966",
+          "value": "/Library/Application Support/CarBridge/duoface-icon.png"
+        },
+        {
+          "vm": "0x1000b99b7",
+          "value": "[DuoFaceDB] DuoFace Dynamic Splash Screen tapped by user -> dismissing"
+        },
+        {
+          "vm": "0x1000b99fe",
+          "value": "com.duoface.http.client"
+        },
+        {
+          "vm": "0x1000b9aa6",
+          "value": "DuoFace-Client/1.0.3"
+        },
+        {
+          "vm": "0x1000b9b09",
+          "value": "com.duoface.license.sync"
+        },
+        {
+          "vm": "0x1000b9bb8",
+          "value": "[DuoFaceLicense] Automated sync was already initiated %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "vm": "0x1000b9c3c",
+          "value": "[DuoFaceLicense] Automated sync attempt detected from another process %llu s ago (< 10s cooldown). Skipping duplicate trigger."
+        },
+        {
+          "vm": "0x1000b9cbb",
+          "value": "[DuoFaceLicense] CarPlay connected without valid offline license. Initiating automated trial sync..."
+        },
+        {
+          "vm": "0x1000b9d20",
+          "value": "[DuoFaceLicense] No valid offline license in app mode. Waiting for CarPlay connection to activate trial."
+        },
+        {
+          "vm": "0x1000b9e06",
+          "value": "[DuoFaceLicense] Offline license is valid (rem: %llu s). Next refresh in %llu s. Using cached license."
+        },
+        {
+          "vm": "0x1000b9e6d",
+          "value": "[DuoFaceLicense] License refresh interval reached (interval=%llu s, last=%llu s, now=%llu s). Triggering background refresh..."
+        },
+        {
+          "vm": "0x1000b9efd",
+          "value": "duoface.com"
+        },
+        {
+          "vm": "0x1000b9f11",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 1 (File Override): %@"
+        },
+        {
+          "vm": "0x1000b9f53",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 2 (Plist Override): %@"
+        },
+        {
+          "vm": "0x1000b9f96",
+          "value": "[DuoFace_DEBUG] resolvedBackendBaseURL Tier 3 (Production Default): %@"
+        },
+        {
+          "vm": "0x1000ba026",
+          "value": "[DuoFaceLicense] Failed to read hardware hash!"
+        },
+        {
+          "vm": "0x1000ba087",
+          "value": "[DuoFaceLicense] Dispatching async license sync request to %@ for HW: %@ (source: %@)"
+        },
+        {
+          "vm": "0x1000ba0dd",
+          "value": "[DuoFaceLicense] Network request failed: %@"
+        },
+        {
+          "vm": "0x1000ba13a",
+          "value": "[DuoFaceLicense] Server returned non-200 status code: %ld (Error: %@)"
+        },
+        {
+          "vm": "0x1000ba180",
+          "value": "[DuoFaceLicense] Warning: Ignoring invalid/negative expiration header: %@"
+        },
+        {
+          "vm": "0x1000ba1e2",
+          "value": "[DuoFaceLicense] Warning: Ignoring invalid/negative expiration in JSON: %@"
+        },
+        {
+          "vm": "0x1000ba291",
+          "value": "[DuoFaceLicense] %@"
+        },
+        {
+          "vm": "0x1000ba336",
+          "value": "[DuoFace] Warning: Failed writing to log file: %@"
+        }
+      ]
+    }
+  }
+}
