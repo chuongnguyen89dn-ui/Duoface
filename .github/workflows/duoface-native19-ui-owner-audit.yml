@@ -1,0 +1,36 @@
+name: DuoFace native19 iPhone preferences owner readonly
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native19-ui-owner-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Inspect exact UI preference decoder instructions
+        run: |
+          set -euo pipefail
+          python3 -m venv /tmp/df-audit
+          /tmp/df-audit/bin/pip -q install capstone==5.0.6
+          /tmp/df-audit/bin/python migration/full_payload/native_test/audit_native19_ui_pref_owner.py
+      - name: Persist report
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE19_UI_OWNER_READONLY.json
+          git commit -m 'audit: UI lazy preference owner pointer [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
