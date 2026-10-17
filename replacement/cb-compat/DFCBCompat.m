@@ -12,6 +12,11 @@ static __weak UIViewController *DFCBActualController;
 static DFCBWindow *DFCBWindowProxy;
 static DFCBBridgedSplitApp *DFCBSplitProxy;
 static DFCBBridgeManager *DFCBManagerProxy;
+static void (^DFCBLifecycleCallback)(void);
+void DFCBSetLifecycleCallback(void (^callback)(void)) {
+    if(!NSThread.isMainThread) return;
+    DFCBLifecycleCallback=[callback copy];
+}
 
 static BOOL DFCBValidRect(CGRect r) {
     return isfinite(r.origin.x) && isfinite(r.origin.y) &&
@@ -142,7 +147,9 @@ BOOL DFCBBindHost(UIWindow *window,UIViewController *splitController,NSError **e
     DFCBManagerProxy.appFrame=window.bounds;
     DFCBManagerProxy.renderSize=CGSizeMake(window.bounds.size.width*2,window.bounds.size.height*2);
     DFCBManagerProxy.activated=YES;
-    return DFCBHostIsBound();
+    BOOL ready=DFCBHostIsBound();
+    if(DFCBLifecycleCallback)DFCBLifecycleCallback();
+    return ready;
 }
 void DFCBUnbindHost(UIWindow *window) {
     if(!DFCBMainThread() || !window || window!=DFCBActualWindow)return;
@@ -153,4 +160,5 @@ void DFCBUnbindHost(UIWindow *window) {
     DFCBWindowProxy.externalWindow=nil;
     DFCBActualController=nil;
     DFCBActualWindow=nil;
+    if(DFCBLifecycleCallback)DFCBLifecycleCallback();
 }
