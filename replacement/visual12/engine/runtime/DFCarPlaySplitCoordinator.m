@@ -124,7 +124,9 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     DFV12SceneHost *previous=self.hosts[pane]==NSNull.null?nil:self.hosts[pane];
     if (previous) [previous close];
     self.hosts[pane]=host;
-    if (done) self.pending[@(pane)]=[done copy];
+    // A nil callback must still reserve the slot until ACK or failure.
+    DFCarPlayCompletion completion=done ?: ^(NSError *ignored) { (void)ignored; };
+    self.pending[@(pane)]=[completion copy];
     __weak typeof(self) weakSelf=self;
     __weak DFV12SceneHost *weakHost=host;
     host.ready=^{
