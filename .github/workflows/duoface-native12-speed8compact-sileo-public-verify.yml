@@ -1,0 +1,104 @@
+name: DuoFace Speed8 public Sileo independent verifier
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed8compact-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: speed8-public-verify
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Wait for Pages propagation, download actual public DEB, verify exact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          deb='com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb'
+          dir="$RUNNER_TEMP/speed8-public"
+          mkdir -p "$dir"
+          ok=0
+          for i in $(seq 1 25); do
+            if curl -fsSL --retry 2 -H 'Cache-Control: no-cache' "$ROOT/Packages?probe=$i" -o "$dir/Packages"; then
+              if grep -Fxq 'Version: 0.1.0~native12+speed8compact' "$dir/Packages"; then ok=1; break; fi
+            fi
+            echo "SPEED8_PUBLIC_WAIT_PUBLISH_$i"
+            sleep 30
+          done
+          test "$ok" = 1
+          curl -fsSL --retry 3 "$ROOT/debs/$deb" -o "$dir/$deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$dir/$deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$dir/$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$dir/$deb" Version)" = '0.1.0~native12+speed8compact'
+          test "$(dpkg-deb -f "$dir/$deb" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$dir/extract"
+          dpkg-deb -x "$dir/$deb" "$dir/extract"
+          lib="$dir/extract/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          for n in DuoFaceSpeedHUD DuoFaceSpeedOwner; do
+            grep -Fq '"SpringBoard"' "$lib/$n.plist"
+            ! grep -Eiq 'CarPlayApp|CarPlayTemplateUIHost|Waze|GOFA' "$lib/$n.plist"
+          done
+          printf '%s  %s\n' '8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364' "$lib/DuoFaceSpeedHUD.dylib" | sha256sum -c -
+          printf '%s  %s\n' 'd3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3' "$lib/DuoFaceSpeedOwner.dylib" | sha256sum -c -
+          curl -fsSL -H 'Cache-Control: no-cache' "$ROOT/Release" -o "$dir/Release"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,datetime,os
+          d=Path(os.environ["RUNNER_TEMP"])/"speed8-public"
+          blocks=[b for b in (d/"Packages").read_text().split("\n\n") if b.strip()]
+          def field(b,k):return next((l[len(k)+2:] for l in b.splitlines() if l.startswith(k+": ")),None)
+          versions=[field(b,"Version") for b in blocks if field(b,"Package")=="com.duoface.independent"]
+          assert versions==["0.1.0~native12+speed8compact"],versions
+          assert any(field(b,"Package")=="com.duonavi.app" for b in blocks)
+          release=(d/"Release").read_text()
+          assert "Date: " in release and "SHA256:" in release and "SHA512:" in release
+          p=d/"com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb"
+          sha=hashlib.sha256(p.read_bytes()).hexdigest()
+          assert sha=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          report={
+            "status":"SPEED8_PUBLIC_SILEO_DOWNLOADED_EXACT_SHA_PASS_DEVICE_UNTESTED",
+            "verified_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "package":"com.duoface.independent",
+            "version":versions[0],
+            "sha256":sha,
+            "device_tested":False,
+            "speed_data_live_verified":False,
+            "duonavi_legacy_preserved":True,
+            "only_one_independent":True
+          }
+          out=Path("audit/speedbubble/SPEED8_PUBLIC_SILEO_REPORT.json")
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_text(json.dumps(report,indent=2)+"\n")
+          print("SPEED8_LIVE_SILEO_EXACT_DEB_AND_HUD_SHA_ONE_OWNER_PASS_DEVICE_UNTESTED")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-speed8-public-sileo-check
+          path: audit/speedbubble/SPEED8_PUBLIC_SILEO_REPORT.json
+          if-no-files-found: warn
+      - name: Persist independent public verification in DuoFace feature branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/SPEED8_PUBLIC_SILEO_REPORT.json
+          git commit -m 'audit: Speed8 public Sileo actual downloaded SHA and rootless HUD verified [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
