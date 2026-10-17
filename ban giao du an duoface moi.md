@@ -1,5 +1,25 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — THỪA NHẬN SAI NỀN GIAO DIỆN: PHẢI LẤY VISUAL12/NATIVE12 LÀM GỐC, KHÔNG LẤY ALPHA DFI LÀM SẢN PHẨM
+
+**Phản hồi người dùng (ưu tiên bắt buộc):** “Tôi chả thấy 1 chút nào của bản víual 12. Tôi đã nói bạn làm từ đó? Vậy nãy h bạn làm j!” Đây là phản ánh trực tiếp rằng người dùng đã chỉ rõ **lấy Visual12/Native12 bản đã làm làm nền**, giữ nguyên UI và các chức năng; việc phát hành một UI khác đã sai yêu cầu. Không biện minh rằng tên gói `Visual12`, logo hay CI thành công đáp ứng được yêu cầu.
+
+**TỰ ĐÁNH GIÁ KẾT QUẢ THỰC SỰ (đã đối chiếu GitHub):**
+- Nhánh `feature/visual12-duodash-recovery` hiện đang đóng gói `replacement/visual12/engine/runtime/DFIRuntime.m` + `DFIInterface.inc` (UI nguyên mẫu alpha) + `DFCBCompat.m` và `DFVisual12HostGeometry.m`, không dùng renderer `CBMultitaskingOverlayView` của Visual12 cũ. Các lớp `DFV12SplitController`, `DFV12List`, `DFV12LayoutIcon`, nút 3 chấm/panel/8 lựa chọn layout là cấu trúc của nhánh độc lập, không phải các lớp/selector UIKit đã nghiệm thu trên Native12.
+- `runtime/fullscreen/DFPickerZoomMenu.xm` (nhánh `feature/duoface-exact-payload-migration`) **thực sự tác động trực tiếp lên `CBMultitaskingOverlayView` gốc**, giữ blur/native card, ba tab App/Zoom/... và selector gốc; đây mới là một phần nguồn cần điều tra cho UI đã duyệt. Code UI native chính vẫn nằm trong `DuoFaceDashboard.dylib` / `DuoFaceUI`, **chưa có nguồn UIKit gốc đầy đủ**. Không thể tạo lại UI chính xác chỉ bằng thay app icon hoặc đổi class-name.
+- Nguyên mẫu QA đã build pass `39037058354` và Sileo deploy pass `39038034302`, **nhưng đây chỉ là build/QA giao diện nguyên mẫu, không chứng minh CarBridge độc lập đã mở một app hoặc hai app đúng, không phải là sản phẩm Visual12**. Ảnh thử thiết bị từ người dùng cho thấy bố cục không đúng, không nên đưa kết quả này vào Native12 + Hub8.
+- `Native12 + Hub8` **vẫn là bản sản phẩm chính**, hiện phát hành `com.duoface.independent_0.1.0~native12+speed8compact` theo workflow Sileo cũ; **chưa bị thay mã bởi QA**. VisualTest12 cũ `com.duonavi.app` vẫn riêng. Gói QA Sileo `com.duoface.visual12` vẫn được liệt kê; chưa có lệnh yêu cầu gỡ listing và chưa sửa Sileo.
+
+**THAY ĐỔI HƯỚNG CHÍNH THỨC sau phản hồi:**
+1. **DỪNG** việc trình bày hay tiếp tục triển khai `replacement/visual12/engine/runtime/DFIInterface.inc` nguyên mẫu như bộ giao diện chính mới. Không tiếp tục release biến thể mang nhãn Visual12 từ UI alpha.
+2. Trước khi sửa mã: lấy chính payload/UI/screenshot/behavior của VisualTest12 bản đã duyệt và Native12+Hub8 làm *baseline*, lập danh sách class, selector, resource và điểm gắn Fullscreen, picker, scene host, Hub. Ưu tiên tận dụng code đã có; không viết lại split/fullscreen/hub từ đầu, không đổi UI.
+3. Xác minh khả thi ở ranh giới giữa UI native `CBMultitaskingOverlayView`/`CBBridgedSplitApp` và host scene độc lập; nếu không thể tách renderer native khỏi `DuoFaceDashboard.dylib` thiếu source, phải báo giới hạn công khai trước khi code/buil/deploy. Không tuyên bố đã loại license khi binary vendor license còn.
+4. Mọi DEB tiếp theo phải có **UI parity gate/khả năng chạy trên thiết bị**; nếu chỉ QA core thì đặt tên rõ và không hứa người dùng thấy giao diện V12. Native12+Hub8 chỉ thay khi thử độc lập thực tế thành công và có kế hoạch hồi quy/tái sử dụng GUI được chứng minh.
+5. Không tự gỡ Hub8, không tự xóa package/bản cũ hoặc sửa Sileo khi chưa xác định rõ phương án thay thế an toàn.
+
+**ĐÃ LÀM TRONG LƯỢT PHẢN HỒI NÀY:** đối chiếu `DFIInterface.inc` (sha `e9491282bba8fc32e71b3b973a475d7329fb4852`) với `runtime/fullscreen/DFPickerZoomMenu.xm` (sha `c7b6b62e7c163bf6f71c49822f0dcf49e52d0c4a`) và repo tree `feature/duoface-exact-payload-migration`, tìm đúng sai khác UI, sửa checkpoint hướng làm. **Chưa sửa code, chưa build/deploy**, không hứa kết quả tương thích 100% khi chưa có source UI bản gốc. Bước tiếp chính xác: rà source/payload Visual12/N12 và vẽ interface contract UI ↔ host; không build thêm alpha UI thay V12.
+
+
 ## 2026-10-17 — NGƯỜI DÙNG BÁO GIAO DIỆN SILEO QA KHÔNG PHẢI DUOFACE NATIVE12
 
 **Báo lỗi mới từ thiết bị thật (ảnh trong chat 17/10/2026):** người dùng vừa gửi ảnh màn hình cài bản Sileo QA `com.duoface.visual12`, hỏi **“Đây đâu phải là giao diện của tôi? Bạn đang làm j z”**. Ảnh thấy màn chia các khu vực màu tối với nút ba chấm, một vùng có nội dung 70mai dash cam/web và vùng khác hiển thị bản đồ/đồng hồ `09:41` cùng nút **“Nhấn chỉ đường”**; **không giống giao diện DuoFace Native12 đã duyệt**. Đây là chứng cứ thiết bị có hiện UI khác; **chưa xác nhận tính năng mở 1/2 app thật, điều khiển scene, fullscreen hoặc Hub8**.
