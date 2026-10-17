@@ -1,0 +1,56 @@
+name: DuoFace Speed8 iPhone X regression handoff checkpoint
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-speed8-iphonex-main-handoff
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Record latest device regression at top of existing DuoFace handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('ban giao du an duoface moi.md')
+          data=p.read_text()
+          title='## 17/10/2026 — IPHONE X SPEED8 NO CARPLAY LAUNCH; IPHONE 8 PLUS SAME IOS WORKS'
+          if title in data:
+              print('CHECKPOINT_ALREADY_PRESENT')
+          else:
+              note='''## 17/10/2026 — IPHONE X SPEED8 NO CARPLAY LAUNCH; IPHONE 8 PLUS SAME IOS WORKS
+**USER DEVICE REGRESSION:** iPhone X previously launched DuoFace Speed8 on CarPlay with bubble, now opens DuoFace only on iPhone, cannot enter CarPlay DuoFace. iPhone 8 Plus with reportedly same iOS and Speed8 STILL launches CarPlay. Root cause not established, no current iPhone X runtime log/crash/launch symptom detail yet.
+**SOURCE CHECK:** immutable Speed8 DEB SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad preserves 42/43 Speed7 files, only replaces DuoFaceSpeedHUD.dylib. The HUD mounts only AFTER Native12 active split/two real panes; cannot conclude the HUD caused an earlier failure to open CarPlay. Dashboard module unchanged. SpringBoard Speed8 log: /var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl, stages SPLIT8_LOADED_SPRINGBOARD, SPLIT8_WAIT_*, SPLIT8_MOUNTED_ONE_NATIVE_HOST.
+**PERSISTENT FORENSIC REPORT:** feature/duoface-exact-payload-migration:audit/speedbubble/SPEED8_IPHONEX_CARPLAY_LAUNCH_REGRESSION_20261017.md, commit 5eab87aa3dc8d8c12cd531f157f24f72fa9f3513, with exact Filza paths and stage interpretation.
+**NEXT USER ACTION:** On failing iPhone X, parked, reconnect CarPlay and tap DuoFace once; report whether icon absent, tap ignored, bounces Home, black screen or respring. Immediately send Filza /var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl (newest records). If timestamp-matching issue, check /var/mobile/Library/Logs/CrashReporter for SpringBoard/CarPlay/DuoFace/backboardd .ips. Compare working 8 Plus log only when necessary. Do NOT reinstall, erase prefs or change working iPhone before collecting evidence. No new build/fix/DEB/Sileo published. Speed9 source-selection QA remains staged and not a repair for iPhone X startup.
+
+'''
+              assert data.startswith('# Bàn giao dự án DuoFace mới\n')
+              p.write_text(data.replace('# Bàn giao dự án DuoFace mới\n','# Bàn giao dự án DuoFace mới\n\n'+note,1))
+              print('CHECKPOINT_PREPENDED_NO_OTHER_SECTIONS_CHANGED')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 'ban giao du an duoface moi.md'
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'handoff: Speed8 iPhone X CarPlay no launch versus working iPhone 8 Plus [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main && exit 0
+            sleep 2
+          done
+          exit 1
