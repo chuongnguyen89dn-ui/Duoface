@@ -1,5 +1,28 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐÍNH CHÍNH SỰ CỐ IPHONE X SÁNG NAY: CẢ NATIVE12 HUB8 VÀ VISUALTEST12 ĐỀU KHÔNG VÀO CARPLAY
+
+**NGƯỜI DÙNG CHỈNH SAI SỰ THẬT ĐÃ BỊ GHI NHẦM (ưu tiên cao hơn nhận định trước):** “Native hub 8 sáng nay tôi bị khoá giao diện ở iphone x. Và visual 12 cx vậy. Sao bạn nói ch mơ hồ ko có ký ức là sao”. Đây là thông báo thực tế từ chính người thử thiết bị: **sáng 17/10/2026, trên iPhone X, cả Native12 + Hub8 và VisualTest12 đều không vào được giao diện CarPlay**, người dùng nhận ra trùng mốc **hết hạn dùng thử** của thiết bị. Vì vậy câu kết luận ở mục cũ “Native12 + Hub8 ... hiện không có bằng chứng thử trực tiếp kết luận bị khóa hết hạn trên thiết bị” là **SAI / ĐÃ BỊ YÊU CẦU MỚI ĐÍNH CHÍNH**, không được lặp lại.
+
+**ĐỐI CHIẾU LẠI LỊCH SỬ NGÀY 17/10 (sự kiện, phân biệt chứng cứ):**
+- ~11:34 ICT: người dùng xác nhận iPhone X trước đó vào CarPlay bằng Speed8 + bong bóng, nay chỉ mở DuoFace trên iPhone và CarPlay không vào; iPhone 8 Plus cùng iOS vẫn chạy.
+- ~11:44 ICT: log SpringBoard của iPhone X (đã được phân tích trong hội thoại) có 144 dòng, Speed8 nạp ba lần, 138 lần `SPLIT8_WAIT_CBWINDOW`, không có bong bóng; **scene/CBWindow chưa được tạo hoặc chưa sẵn sàng**, không chỉ vấn đề HUD.
+- ~12:01 ICT: hạ về Speed7 trên iPhone X **vẫn không khắc phục được**, vì vậy không được quy lỗi cho Speed8 riêng.
+- ~14:20 ICT: người dùng xác nhận **iPhone X hết thời hạn dùng thử đúng sáng 17/10**, iPhone 8 còn thời hạn. Việc bỏ mã thiết bị khỏi DEB/chỉnh các số ngày trước đó không giúp iPhone X vào. Theo người dùng: cả Native12/Hub8 và VisualTest12 đều bị khóa màn CarPlay, CarBridge tích hợp không kích hoạt.
+- ~17:30 ICT: các log DuoFace CarPlay khác từng cho thấy `connected=true` nhưng `CBBridgeManager.activated=false`, `Dashboard Policy=false`; máy có kết nối CarPlay nhưng scene bridge không active.
+- Khoảng 18:50 ICT: repair1 trên VisualTest12 chỉ hiển thị VIP “3650 ngày” ở Settings; trên CarPlay vẫn hiện thông báo **“Bản Quyền Đã Hết Hạn”**. Đây là chứng cứ xác thực visual12 repair1 thất bại, không phải sửa xong.
+
+**TÁCH QUAN SÁT VS NGUYÊN NHÂN:** Đã xác nhận theo thiết bị/người dùng: *cả hai gói không hoạt động trên iPhone X sau thời điểm hết hạn* và *iPhone 8 còn trial vẫn hoạt động*. Mã Native12 có `CBLicenseSyncManager`/metadata và shared CB backend trong binary — **phù hợp với giả thuyết cả hai bị cùng gate giấy phép**, không phải hai cơ chế CarBridge hoàn toàn độc lập. **Tuy nhiên chưa có trace đầy đủ xác minh selector nào và điều kiện runtime nào thực sự trả lời NO để khóa Native12**; ghi gốc nguyên nhân mức `likely`, không biến tương quan thành code-path đã chứng minh. Không được dùng việc thiếu trace để phủ nhận sự kiện thiết bị bị khóa.
+
+**RÀNG BUỘC DỰ ÁN KHÔNG ĐƯỢC NHẦM:**
+1. Native12 + Hub8 = gói `com.duoface.independent` `0.1.0~native12+speed8compact`: **cũng bị khóa/không vào trên iPhone X sáng 17/10**, dù là nhánh Hub đã hoàn thiện; người dùng yêu cầu **giữ nguyên mã, tính năng, package đang phát triển**. Không lặng lẽ đổi/đè hoặc chuyển sản phẩm Hub sang mục tiêu phát hành thử.
+2. VisualTest12 = `com.duonavi.app`, repair1 = `1.0.3-12~visualtest12repair1`: bị khóa thời hạn; đây là **nhánh cần thử khôi phục bằng cách làm CarBridge độc lập** trước, vẫn giữ giao diện đúng bản 12.
+3. Standalone QA `com.duoface.visual12`: chỉ là test scene source, **sai UI V12**, dù CI+Sileo passed. Không coi nó là bản sửa VisualTest12 hoặc giải pháp cho Native12+Hub8.
+4. Không yêu cầu cài DuoDash/Airaw. Không sao chép vendor license hoặc chỉnh getter giả 3650 ngày, không viết lại giao diện. Nếu scene thật độc lập thành công và giữ UI, có thể nghiên cứu chuyển cơ chế sang nhánh chính mà không mất thành quả, **chỉ khi có plan/QA và được phép sửa nhánh tương ứng**.
+
+**HÀNH ĐỘNG ĐÃ THỰC THI trong lượt này:** tra cứu lại lịch sử người dùng ngày 17/10, so lại handoff và báo cáo Native12 Speed8. **Chỉ cập nhật hồ sơ**, không chỉnh code/DEB/Sileo. Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`. Điểm tiếp ngay: xác minh trực tiếp bằng file/report ảnh/log iPhone X nếu còn, truy `CBBridgeManager` active state/activation gate của payload VisualTest12 và Native12 riêng; dùng kết quả để chọn cách bảo tồn UI và tách scene host, không trả lời người dùng như thể Native12 không từng bị khóa nữa.
+
+
 ## 2026-10-17 — PHÂN BIỆT RÕ LỖI HẾT HẠN VISUALTEST12 VÀ NATIVE12 HUB8
 
 **Người dùng sửa lại trọng tâm / hỏi:** “Native 12 rồi nó lỗi khoá hêt hạn hay j? Bạn ko nắm viêcn sao?” Đây là kết quả tiếp diễn từ lần test ngày 17/10 và nhắc nhở không được trộn hai bản.
