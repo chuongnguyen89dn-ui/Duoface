@@ -1,5 +1,24 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — PHƯƠNG ÁN MỚI DO NGƯỜI DÙNG NÊU: THỬ DÙNG SIDEPLAY LÀM HOST, MANG GIAO DIỆN DUOFACE SANG
+
+**Người dùng hỏi:** “Sao ko sao chép của họ rồi sàng giao diện của ta qua?” Đây là đề xuất **đảo thứ tự tích hợp**: tận dụng lõi CarPlay đã đóng gói của SidePlay rồi đưa UI DuoFace vào, thay vì chỉ viết core từ đầu rồi mới nối GUI. **Không được đánh đồng câu hỏi này với yêu cầu phát hành/cài DEB ngay**, nhưng phải đánh giá trực tiếp phương án theo kỹ thuật và quyền phân phối; không gạt đi theo quán tính.
+
+**Đánh giá sau khi đọc lại file thật trong GitHub:**
+- `docs/sideplay-1.0.4-1-static-deb-audit-20261017.md`: SidePlay 1.0.4-1 có `SidePlay.dylib` 899.088 bytes inject SpringBoard, `SidePlay.app/SidePlay` 178.672 bytes xử lý `CPTemplateApplicationScene`/`CPInterfaceController`, cộng preference/HUD binaries. Không có ObjC source project hoặc license phân phối lại toàn bộ SidePlay trong DEB; MIT file chỉ cấp cho thành phần GMapHUD. Bởi vậy không coi "chép 1 dylib + đổi Bundle ID" là một host tự chủ, cũng chưa chứng minh không có hệ thống entitlement/license riêng.
+- `replacement/visual12/engine/runtime/DFIRuntime.m` của DuoFace đã dùng nhóm API SpringBoard tương tự, tạo root scene/window và dùng `DFV12SceneHost`. Có guard `NSClassFromString(@"CBBridgeManager")` nhằm tránh legacy owner conflict. **Không gỡ guard chỉ để nạp cùng SidePlay/CB owner**; phải thiết kế single-owner.
+- `replacement/cb-compat/DFCBCompat.m` là facade source-only của DuoFace quanh `UIWindow`/`UIViewController` có sẵn, không implement app scene launcher và **không biến ABI của `CBBridgeManager` gốc thành SidePlay APIs**.
+- UI v12 gốc (`CBMultitaskingOverlayView`, `CBSlotPillView`, `CBBridgedSplitApp`) nằm trong `DuoFaceDashboard.dylib`, cùng với `CBBridgeManager`, license watchdog/activation (theo `audit/payload-migration/LICENSE_BOUNDARY_AUDIT.json`). **Chưa có bằng chứng copy nguyên compiled UI từ DuoNavi binary và dùng chung SidePlay host được**. Cần một bộ binding/callback tương thích hoặc tái triển khai những UI cần thiết bằng source thuộc quyền DuoFace; tuyệt đối không tự đưa UI alpha khác thay UI đã duyệt như lỗi QA trước.
+
+**Hai hướng và quyết định được ghi để chọn đúng điều kiện:**
+1. **PoC nhanh dùng SidePlay làm host trong môi trường riêng:** Chỉ để kiểm tra trên máy thử rằng SidePlay dựng và giữ 1/2 scene/app thật, rồi thử giao tiếp với một lớp trình bày DuoFace **do dự án sở hữu** trên host SidePlay. PoC có thể cho biết khả năng tích hợp nhanh nhưng **chưa đạt điều kiện không phụ thuộc ai**, và không cho phép chia sẻ/tái phân phối SidePlay binary khi chưa xác định license/permission. Không cài song song 2 scene owners trên iPhone X đang dùng bản chính; phải có rollback và tách môi trường.
+2. **Sản phẩm độc lập đúng mục tiêu:** Kiến trúc lấy kiến thức API/lifecycle từ SidePlay làm chứng cứ, hoàn thiện `DFIRuntime.m`/adapter của DuoFace, không gói SidePlay/DuoNavi core hay cơ chế trial; giữ trải nghiệm Visual12 hiện hành và sau đó Native12+Hub8. Phải test thiết bị thật và đối chiếu UI. Nếu compiled renderer kế thừa không thể tách hợp lệ mà vẫn chạy, phải nói rõ việc copy nguyên byte không khả thi; không hứa 100% ở thời điểm này.
+
+**Ranh giới bắt buộc cho lần thử tiếp:** Tìm interfaces hoặc extension points của SidePlay host (nếu có) chỉ bằng static analysis/đo hành vi; xác minh SpringBoard iOS16 và scene ownership trong tình huống không xung đột; xác nhận quyền sử dụng trước khi tích hợp binary vào DEB được phát hành. Không tự ý thay Sileo package `com.duoface.independent 0.1.0~native12+speed8compact` hoặc VisualTest12 đã duyệt. Nếu đề xuất chỉ là hỏi lý do, không được báo đã làm PoC.
+
+**Trạng thái lượt này:** chỉ đọc GitHub skill routing + `docs/sideplay-1.0.4-1-static-deb-audit-20261017.md`, `DFIRuntime.m`, `DFCBCompat.m`, handoff và cập nhật quyết định. **Không sửa source, build, chạy workflow, cài/test máy hay phát hành DEB**. Repo `chuongnguyen89dn-ui/Duoface` branch `feature/visual12-duodash-recovery`. Bước kế nếu người dùng yêu cầu tiếp tục: nghiên cứu điểm extension UI/root window của SidePlay và phương thức native GUI DuoFace, xuất bảng API cầu nối tối thiểu, sau đó làm thử nghiệm source-only/QA trong nhánh và môi trường tách biệt. Không gọi đó là DEB hoàn chỉnh khi chưa có device QA.
+
+
 ## 2026-10-17 — BƯỚC TIẾP HÀNH ĐỘNG: ENGINE CARPLAY 1 APP → 2 APP TRƯỚC KHI NỐI UI GỐC
 
 **Người dùng hỏi:** “Vây bây giờ làm j?” **Hướng thực thi đã chốt ở lượt này:** Không làm lại UI. Thử nghiệm đúng một vấn đề kỹ thuật quan trọng nhất: scene host CarPlay nguồn do DuoFace sở hữu phải mở được **1 ứng dụng thật**, rồi **2 ứng dụng thật (Waze+YouTube)** trên iPhone X iOS16 đã hết trial, sau đó mới nghiên cứu nối GUI Visual12 native và sau nữa Native12+Hub8. Không ngộ nhận SidePlay DEB (không có source) hoặc alpha DFI QA (sai UI) là sản phẩm hoàn tất.
