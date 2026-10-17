@@ -305,6 +305,10 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
     NSUInteger index=0;
     NSMutableArray<NSNumber *> *options=[apps mutableCopy];
     [options addObject:@0]; // explicit NONE; never silently switch sources
+    const CGFloat height=30+options.count*31+30;
+    CGRect host=panel.superview.bounds;
+    panel.frame=CGRectMake((host.size.width-panel.bounds.size.width)/2,
+                          (host.size.height-height)/2,panel.bounds.size.width,height);
     for(NSNumber *sid in options) {
         NSInteger source=sid.integerValue;
         UIButton *pick=[UIButton buttonWithType:UIButtonTypeSystem];
