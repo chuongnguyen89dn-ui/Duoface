@@ -1,0 +1,92 @@
+name: DuoFace VisualTest12 genuine launch recovery signed DEB candidate
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/build_visualtest12_launchfix1.py'
+      - '.github/workflows/duoface-visualtest12-launch-recovery-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visualtest12-launch-recovery
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Install proven Debian and iOS signing toolchain
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          shasum -a 256 'dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'
+          python3 -m py_compile migration/full_payload/native_test/build_visualtest12_launchfix1.py
+      - name: Build the ACTUAL VisualTest12 com.duonavi.app from original DEB
+        run: |
+          set -euo pipefail
+          mkdir -p dist/visualtest12-launchfix1
+          python3 migration/full_payload/native_test/build_visualtest12_launchfix1.py \
+            --out dist/visualtest12-launchfix1/com.duonavi.app_1.0.3-12~visualtest12launch1_iphoneos-arm64.deb \
+            --report dist/visualtest12-launchfix1/BAO_CAO.json
+      - name: Verify package remains original app (never Hub) and all other files are identical
+        run: |
+          set -euo pipefail
+          deb='dist/visualtest12-launchfix1/com.duonavi.app_1.0.3-12~visualtest12launch1_iphoneos-arm64.deb'
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duonavi.app'
+          test "$(dpkg-deb -f "$deb" Version)" = '1.0.3-12~visualtest12launch1'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '1.0.3-12~visualtest12launch1' gt '1.0.3-12~visualtest'
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('dist/visualtest12-launchfix1')
+          f=root/'com.duonavi.app_1.0.3-12~visualtest12launch1_iphoneos-arm64.deb'
+          a=json.loads((root/'BAO_CAO.json').read_text())
+          assert a['status']=='VISUALTEST12_ORIGINAL_PACKAGE_LAUNCH_RECOVERY_SIGNED_DEB_CANDIDATE'
+          assert a['package']=='com.duonavi.app'
+          assert a['original_visualhook_files_unchanged']
+          assert a['hub_modified'] is False and a['sileo_published'] is False
+          assert sum(v['methods_neutralized'] for v in a['patched'].values())==291
+          assert sum(v['expired_flags_neutralized'] for v in a['patched'].values())==2
+          assert len(a['changed_original_paths'])==4
+          assert a['launch_test_on_expired_device']=='PENDING_REAL_DEVICE'
+          assert a['output_sha256']==hashlib.sha256(f.read_bytes()).hexdigest()
+          print('VISUALTEST12_REAL_APP_LAUNCH_RECOVERY_DEB_QA_PASS_NEEDS_DEVICE')
+          PY
+          mkdir -p "$RUNNER_TEMP/visual12-installed"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/visual12-installed"
+          for rel in \
+            var/jb/Applications/DuoFaceUI.app/DuoFaceUI \
+            var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib; do
+              bin="$RUNNER_TEMP/visual12-installed/$rel"
+              test -s "$bin"
+              test "$(lipo -archs "$bin")" = 'arm64'
+              otool -L "$bin" >/dev/null
+          done
+          dpkg-deb -c "$deb" > 'dist/visualtest12-launchfix1/CONTENTS.txt'
+          shasum -a 256 "$deb" > 'dist/visualtest12-launchfix1/SHA256SUMS'
+      - name: Save exact signed candidate to GitHub repository
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/visualtest12-launchfix1/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: genuine VisualTest12 signed launch recovery test candidate [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-visualtest12-genuine-launch-recovery-DEB
+          path: dist/visualtest12-launchfix1/
+          if-no-files-found: warn
