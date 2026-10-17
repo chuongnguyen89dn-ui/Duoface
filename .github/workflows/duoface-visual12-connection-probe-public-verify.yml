@@ -1,0 +1,79 @@
+name: Verify public VisualTest12 CarPlay connection probe DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-visual12-connection-probe-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify downloaded Sileo DEB and independent Hub unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          DIR="$RUNNER_TEMP/visual12probe"
+          mkdir -p "$DIR" audit/payload-migration
+          for i in $(seq 1 28); do
+            if curl -fsSL --retry 2 -H 'Cache-Control: no-cache' "$BASE/Packages?probe=$GITHUB_RUN_ID-$i" -o "$DIR/Packages"; then
+              grep -Fxq 'Version: 1.0.3-12~visualtest12launch2probe1' "$DIR/Packages" && break
+            fi
+            test "$i" -lt 28
+            sleep 10
+          done
+          curl -fsSL --retry 3 "$BASE/debs/com.duonavi.app_1.0.3-12~visualtest12launch2probe1_iphoneos-arm64.deb" -o "$DIR/app.deb"
+          printf '%s  %s\n' '43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841' "$DIR/app.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$DIR/app.deb" Package)" = 'com.duonavi.app'
+          test "$(dpkg-deb -f "$DIR/app.deb" Version)" = '1.0.3-12~visualtest12launch2probe1'
+          dpkg-deb -x "$DIR/app.deb" "$DIR/stage"
+          test -s "$DIR/stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12ConnectionProbe.dylib"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,hashlib,os,datetime
+          p=Path(os.environ['RUNNER_TEMP'])/'visual12probe'
+          blocks=[dict(line.split(': ',1) for line in x.splitlines() if ': ' in line)
+                  for x in p.joinpath('Packages').read_text().split('\n\n') if x.strip()]
+          def entry(id):
+              rows=[x for x in blocks if x.get('Package')==id]
+              assert len(rows)==1,(id,len(rows))
+              return rows[0]
+          ui=entry('com.duonavi.app')
+          hub=entry('com.duoface.independent')
+          assert ui['Version']=='1.0.3-12~visualtest12launch2probe1'
+          assert ui['SHA256']=='43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841'
+          assert hub['Version']=='0.1.0~native12+speed8compact'
+          assert hub['SHA256']=='2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad'
+          data={'status':'VISUALTEST12_CARPLAY_CONNECTION_PROBE_PUBLIC_SILEO_PASS',
+              'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'package':ui['Package'],'version':ui['Version'],'sha256':ui['SHA256'],
+              'hub_sha256':hub['SHA256'],'hub_unchanged':True,
+              'public_deb_downloaded_and_hashed':True,
+              'carplay_runtime_connection_diagnosed':False,
+              'app_launch_fixed':False}
+          out=Path('audit/payload-migration/VISUALTEST12_CARPLAY_CONNECTPROBE1_PUBLIC_SILEO.json')
+          out.write_text(json.dumps(data,indent=2)+'\n')
+          print('PUBLIC_VISUAL12_CARPLAY_CONNECTPROBE_HUB_UNCHANGED_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual12-CarPlay-connection-probe-public-QA
+          path: audit/payload-migration/VISUALTEST12_CARPLAY_CONNECTPROBE1_PUBLIC_SILEO.json
+      - name: Save public verification
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_CARPLAY_CONNECTPROBE1_PUBLIC_SILEO.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'qa: live Sileo Visual12 connection probe1'
+          git fetch origin feature/duoface-exact-payload-migration
+          git rebase origin/feature/duoface-exact-payload-migration
+          git push origin HEAD:feature/duoface-exact-payload-migration
