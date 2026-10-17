@@ -1,5 +1,17 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — NGƯỜI DÙNG HỎI “ĐƯA LÊN SILEO CHƯA!”; XÁC MINH SPEED5SCENE CHƯA PHÁT HÀNH
+Checkpoint: SPEED5SILEO-USER-ASKED-STATUS-NOT-YET-PUBLISHED-20261017.
+
+**Yêu cầu mới:** “Đưa lên sileo chưa!” sau “Sao rồi”. Đây là câu hỏi về tình trạng phát hành; **không tự coi là chấp thuận chắc chắn thao tác production deployment** (hồ sơ dự án quy định quyền cập nhật note không mở rộng đến deploy), đặc biệt module mới injection SpringBoard có nguy cơ safe mode. Phải trả lời đúng thực tế và xin xác nhận rõ nếu phát hành lên nguồn dùng trên thiết bị.
+
+**Xác minh phiên này:**
+- GitHub Actions DuoFace feature `38983807423` **completed/success**. Đã đọc handoff checkpoint `SPEED5SCENE-NATIVE12-DEB-BUILT-STATIC-PASS-NO-SILEO-20261017`: file DEB feature `dist/payload-migration/native12-speed5scene/com.duoface.independent_0.1.0~native12+speed5scene_iphoneos-arm64.deb` SHA256 `87d2223a065d0ef9649c7da9c82105de90fde5b28b94a8a4bd4722ba7235e3d9`, original Native12 unchanged, no device test.
+- Repo phát hành Sileo riêng `chuongnguyen89dn-ui/carplaydsp` **main HEAD `3f48b284cef526fbde77c0a33f021c6994f06a37`**, đã đọc workflow `.github/workflows/duoface-sileo.yml` blob `c947a5ffdc69b3fb7063da1c8d57104302d0cf1d`. Workflow này chỉ **staging**, yêu cầu `duoface/debs/*.deb` có Package=`com.duoface.app` và không publish live, **không thể dùng nguyên cho `com.duoface.independent`**. Phải dùng đúng đường phát hành live trước đây (bằng chứng từ các Speed4 publication runs/publisher repo/workflow), không đổi package ID hoặc chèn gói sai.
+- **Chưa có ghi/commit mới lên repo Sileo**, chưa dispatch build/publish, chưa kiểm live Pages checksum; Speed5 chưa Sileo và chưa cài trên máy. Một URL live `https://chuongnguyen89dn-ui.github.io/carplaydsp/Packages` không fetch được qua web runtime (công cụ báo không truy cập được), **không nói đã đọc live APT index**.
+
+**Điểm tiếp nối:** Nếu người dùng ra lệnh rõ “đưa Speed5Scene lên Sileo”, trước đó đọc cơ chế publish đã thành công cho Speed4 (gh-pages/GitHub Actions) và kiểm soát rollback SpringBoard (không tự xóa packages khác), rồi publish đúng SHA/version. Sau deploy verify HTTP APT Packages và binary SHA + record commit/run; thử thiết bị cần Home=0, split=1 HUD, không crash SpringBoard/Waze. **Tại checkpoint này no production changes.**
+
 ## 17/10/2026 — SPEED5SCENE ĐÃ BUILD DEB THÀNH CÔNG, CHƯA SILEO/DEVICE
 Checkpoint: SPEED5SCENE-NATIVE12-DEB-BUILT-STATIC-PASS-NO-SILEO-20261017.
 **MỤC TIÊU:** tiếp tục yêu cầu “Vậy bắt tay vào làm gi thì làm đi”: thử bong bóng GOFA-window-level=10000000 trong CHỈ giao diện DuoFace chia đôi, không hiện Home, giữ nguyên các tính năng Native12 và không can thiệp Waze/GOFA. Giải quyết nghi ngờ Speed4 chọn sai process: Native12 khởi tạo CBBridgeManager trong SpringBoard; Speed4 chạy chỉ CarPlayApp nên sharedInstanceIfExists có thể nil. Speed5 chuyển HUD riêng sang SpringBoard dùng CBBridgeManager.window, CBWindow.rootWindow.windowScene/external UIScreen và hoạt động theo CBWindow.show/hide/destroy + interval 0.5s.
