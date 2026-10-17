@@ -1,5 +1,6 @@
 #import "DFIRuntime.h"
 #import "DFCBCompat.h" // DuoFace Visual12 source-only CB façade; build -I replacement/cb-compat
+#import "DFHostGeometry.h" // Reused Fullscreen host-geometry contract
 #import "../DFILayouts.h"
 #import "../shared/DFISettings.h"
 #import <dlfcn.h>
@@ -490,6 +491,8 @@ static void DFIInstallHomeGesture(void) {
 void DFIInstallRuntime(void) {
     NSString *process=NSProcessInfo.processInfo.processName;
     if([process isEqualToString:@"SpringBoard"]) {
+        // Register the Fullscreen geometry contract with the sole host-owner lifecycle.
+        DFInstallHostGeometryHooks();
         DFIHostedBundles=[NSMutableSet set]; DFIHostedScenes=[NSMutableSet set];
         DFIManaged=[NSMutableSet set];DFITerminating=[NSMutableSet set];
         dlopen("/System/Library/PrivateFrameworks/RunningBoardServices.framework/RunningBoardServices",RTLD_LAZY);
