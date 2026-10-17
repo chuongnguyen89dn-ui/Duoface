@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — BUILD QA G1/G2 standalone3diag ĐÃ KÍCH HOẠT
+
+**Mã nguồn đã sửa:** `replacement/visual12/engine/runtime/DFIRuntime.m` commit `0c41adf13a185f18ed8d0df0b863b4bf94cc8fff`, log chính xác class/selector thiếu thay vì lỗi gộp, giữ fail-closed. **Build:** `replacement/visual12/build_g1g2_qa.sh` commit `fc7f009e43f096d0798e5602e6ddb04086c87542` đổi version DEB QA riêng thành `1.0.3-12~standalone3diag`; workflow `.github/workflows/duoface-carplay-g1g2-qa-deb.yml` commit `d16bec6a8abe275b08218d945cc7f8da61c51e7f` đổi version check và trigger theo runtime/build script. GitHub Actions **run 39049672620** (head d16bec6a) trạng thái **queued** lúc kiểm tra; link https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049672620 . CI link-test `39049320735` của source commit 0c41adf **success**, không đồng nghĩa package mới đã build. Workflow speed8 handoff checkpoint riêng lỗi, không đánh đồng với QA. **Chưa xác nhận build QA thành công, chưa publish Sileo, chưa thử trên thiết bị.** Native12+Hub8 không sửa.
+
+**Bước tiếp:** kiểm tra run 39049672620 kết luận và artifact, SHA256/version/package ID, đảm bảo artifact được persist GitHub. Chỉ khi build pass mới cập nhật repo `chuongnguyen89dn-ui/carplaydsp` Sileo với gói QA riêng (không ghi đè main); verify Packages/Release/deb URL. Trên iPhone cài standalone3diag, chạy G1, gửi `DuoFaceCarPlayQA.log` để biết selector thiếu chính xác; không đoán API.
+
+
 ## 2026-10-17 — G1: ĐÃ SỬA MÃ CHẨN ĐOÁN ĐIỀU KIỆN SCENE HOST
 
 **Thay đổi đã ghi GitHub:** `replacement/visual12/engine/runtime/DFIRuntime.m` commit `0c41adf13a185f18ed8d0df0b863b4bf94cc8fff` blob `9cdbdd1dc9187d527582d5d70979b30aa1fe796c`. Thay guard gộp thành danh sách cụ thể các prerequisites: `SBApplicationController.sharedInstance`, app nil, `SBDeviceApplicationSceneEntity` class/init, `SBAppViewController` class/init/`setRequestedMode:`/`_setCurrentMode:`. Giữ fail-closed và giữ nguyên hành vi nếu API đủ; ghi `DFILog` với bundle/process/iOS/missing selectors, trả error localized cho QA log G1. Không tạo lõi mới, không thay Native12+Hub8, không vô hiệu hóa entitlement/licensing. **Chưa compile/build/deploy hay thử trên thiết bị**: commit này chỉ thêm diagnostic, không khẳng định Waze mở được. Báo cáo so sánh 3 DEB đã tạo `docs/doi-chieu-3-deb-duonavi-duodash-sideplay-20261017.md` commit `f0d4bf96391620035dc3466bdd3cccb06ddf887c`.
