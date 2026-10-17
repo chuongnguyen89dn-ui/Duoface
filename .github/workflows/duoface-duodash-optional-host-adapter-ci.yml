@@ -1,0 +1,88 @@
+name: Build independent DuoDash scene adapter (source only)
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'replacement/duodash-host/DFDuoDashHostAdapter.h'
+      - 'replacement/duodash-host/DFDuoDashHostAdapter.m'
+      - '.github/workflows/duoface-duodash-optional-host-adapter-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-duodash-host-adapter
+  cancel-in-progress: false
+jobs:
+  compile:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Compile adapter for rootless iOS 16 ARM64
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          mkdir -p "$RUNNER_TEMP/duodash-host-adapter" audit/duodash-1.1.3
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
+            -Wall -Wextra -Werror -framework Foundation -framework UIKit \
+            -Wl,-headerpad,0x1000 \
+            -o "$RUNNER_TEMP/duodash-host-adapter/DFDuoDashHostAdapter.dylib" \
+            replacement/duodash-host/DFDuoDashHostAdapter.m
+          test "$(xcrun lipo -archs "$RUNNER_TEMP/duodash-host-adapter/DFDuoDashHostAdapter.dylib")" = arm64
+          xcrun otool -L "$RUNNER_TEMP/duodash-host-adapter/DFDuoDashHostAdapter.dylib"
+          shasum -a 256 "$RUNNER_TEMP/duodash-host-adapter/DFDuoDashHostAdapter.dylib"
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('replacement/duodash-host')
+          code=(root/'DFDuoDashHostAdapter.m').read_text()
+          header=(root/'DFDuoDashHostAdapter.h').read_text()
+          for name in ('DDz2','cnabBuildSceneHostForBid:displaySize:','class_getInstanceMethod','isMainThread'):
+              assert name in code,name
+          assert 'CBLicenseSyncManager' not in code
+          assert 'DuoFaceDashboard' not in code
+          assert 'MSHookMessageEx' not in code
+          assert 'Airaw' not in code
+          report={
+            'status':'OPTIONAL_DUODASH_ADAPTER_SOURCE_COMPILED',
+            'scope':'standalone source-only interface to separately installed DuoDash',
+            'source_files':[str(root/'DFDuoDashHostAdapter.m'),str(root/'DFDuoDashHostAdapter.h')],
+            'source_sha256':hashlib.sha256(code.encode()).hexdigest(),
+            'header_sha256':hashlib.sha256(header.encode()).hexdigest(),
+            'built_ios_target':'arm64-apple-ios16.0',
+            'duonavi_runtime_required':False,
+            'duodash_binary_bundled':False,'hub_modified':False,
+            'device_tested':False,'scene_host_integration_tested':False,
+            'duoface_ui_integration_completed':False,
+            'sileo_published':False
+          }
+          dest=Path('audit/duodash-1.1.3/DUODASH_OPTIONAL_ADAPTER_BUILD.json')
+          dest.write_text(json.dumps(report,indent=2)+'\n')
+          print('DUODASH_OPTIONAL_ADAPTER_COMPILE_ONLY_DEVICE_NOT_TESTED')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DuoFace-DuoDash-Host-Adapter-Compile-Only
+          path: audit/duodash-1.1.3/DUODASH_OPTIONAL_ADAPTER_BUILD.json
+          if-no-files-found: warn
+      - name: Persist QA checkpoint on project branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/duodash-1.1.3/DUODASH_OPTIONAL_ADAPTER_BUILD.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'qa: record source-only DuoDash host adapter compile result [skip ci]'
+          for try in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            git push origin HEAD:feature/visual12-duodash-recovery && exit 0
+            sleep 2
+          done
+          exit 1
