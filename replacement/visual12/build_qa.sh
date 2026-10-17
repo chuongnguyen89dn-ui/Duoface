@@ -35,6 +35,7 @@ prefs=stage/"var/jb/Library/PreferenceBundles/DuoFaceVisual12Prefs.bundle"
 def trans(s):
     return (s.replace("com.duoface.independent","com.duoface.visual12")
              .replace("DuoFaceIndependent","DuoFaceVisual12")
+             .replace("../shared/DFISettings.h","DFISettings.h")
              .replace("DFISettingsController","DFV12SettingsController")
              .replace("DFIPreferencesController","DFV12PreferencesController")
              .replace("DuoFace Mới","DuoFace"))
@@ -102,11 +103,11 @@ xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 -isysroot "$S
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 -isysroot "$SDK" \
  -Wl,-headerpad,0x1000 -fobjc-arc -fblocks -Os -Wall -Wextra -Wno-unused-parameter \
  -framework Foundation -framework UIKit -framework CoreFoundation -framework CoreGraphics -framework QuartzCore -lobjc \
- "$WORK/templates/app-new.m" "$SRC/shared/DFISettings.m" -o "$APP/DuoFaceVisual12"
+ -I "$SRC/shared" "$WORK/templates/app-new.m" "$SRC/shared/DFISettings.m" -o "$APP/DuoFaceVisual12"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 -isysroot "$SDK" \
  -Wl,-headerpad,0x1000 -fobjc-arc -fblocks -Os -Wall -Wextra -Wno-unused-parameter \
  -framework Foundation -framework UIKit -framework CoreFoundation -framework CoreGraphics -framework QuartzCore -lobjc \
- -bundle -Wl,-undefined,dynamic_lookup "$WORK/templates/prefs-new.m" \
+ -bundle -Wl,-undefined,dynamic_lookup -I "$SRC/shared" "$WORK/templates/prefs-new.m" \
  "$SRC/shared/DFISettings.m" -o "$PREF/DuoFaceVisual12Prefs"
 ICON="dist/visual-1.0.3-12/assets/duoface-icon.png"
 sips -s format png -z 120 120 "$ICON" --out "$APP/AppIcon60x60@2x.png" >/dev/null
