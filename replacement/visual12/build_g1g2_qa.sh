@@ -93,7 +93,7 @@ PY
 cat > "$STAGE/DEBIAN/control" <<'CONTROL'
 Package: com.duoface.visual12
 Name: DuoFace CarPlay QA G1/G2 (experimental)
-Version: 1.0.3-12~standalone3diag
+Version: 1.0.3-12~standalone4picker
 Architecture: iphoneos-arm64
 Maintainer: chuongnguyen89dn-ui
 Author: chuongnguyen89dn-ui
@@ -130,7 +130,7 @@ ldid -S "$PREF/DuoFaceVisual12Prefs"
 ldid -S"$WORK/templates/signed.plist" "$APP/DuoFaceVisual12"
 chmod 0755 "$APP/DuoFaceVisual12" "$PREF/DuoFaceVisual12Prefs" "$TWEAK/DuoFaceVisual12.dylib" "$STAGE/DEBIAN/postinst" "$STAGE/DEBIAN/postrm"
 chmod 0644 "$STAGE/DEBIAN/control" "$TWEAK/DuoFaceVisual12.plist"
-FILE="$OUT/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb"
+FILE="$OUT/com.duoface.visual12_1.0.3-12~standalone4picker_iphoneos-arm64.deb"
 dpkg-deb --build --root-owner-group "$STAGE" "$FILE"
 python3 replacement/visual12/verify_g1g2_qa.py "$FILE"
 shasum -a 256 "$FILE" > "$OUT/SHA256SUMS"
@@ -140,7 +140,7 @@ import hashlib,json,os,sys
 from pathlib import Path
 p=Path(sys.argv[1])
 report={"status":"QA_DEB_BUILT_DEVICE_NOT_TESTED","package_id":"com.duoface.visual12",
-"version":"1.0.3-12~standalone3diag","phase":"G1_G2_OPT_IN_QA","source_commit":os.getenv("GITHUB_SHA"),
+"version":"1.0.3-12~standalone4picker","phase":"G1_G2_OPT_IN_QA","source_commit":os.getenv("GITHUB_SHA"),
 "run_id":os.getenv("GITHUB_RUN_ID"),"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
 "size_bytes":p.stat().st_size,"path":str(p),"main_product":"Native12 + Hub8 unchanged",
 "device_tested":False,"ui_v12_verified":False,"two_apps_tested":False,
