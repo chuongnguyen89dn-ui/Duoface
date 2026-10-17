@@ -36,6 +36,8 @@ def main():
     assert "NSClassFromString(@\"GOFACarGlobalWindow\")" in mm
     assert "GOFAHUD" not in plist
     assert "speed6split" in pack
+    assert 'NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")' in pack
+    assert 'shutil.copy2("DuoFaceSpeedHUDSplit6.plist",plist)' in pack
     assert '"scene_overlay_window_created":False' in pack
     assert '"no_third_party_injection_or_waze_hooks":True' in pack
     assert "0.1.0~native12+speed6split" in pack
