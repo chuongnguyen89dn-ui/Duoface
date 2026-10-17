@@ -15,7 +15,7 @@ assert deb.is_file() and deb.stat().st_size > 30000, "Missing or truncated DEB"
 control = subprocess.check_output(["dpkg-deb", "-f", str(deb)], text=True)
 assert "Package: com.duoface.visual12\n" in control
 assert "Architecture: iphoneos-arm64\n" in control
-assert "Version: 1.0.3-12~standalone2qa\n" in control
+assert "Version: 1.0.3-12~standalone3diag\n" in control
 assert "Conflicts:" not in control
 assert "Replaces:" not in control
 data = subprocess.check_output(["dpkg-deb", "--fsys-tarfile", str(deb)])
