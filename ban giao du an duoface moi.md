@@ -1,5 +1,16 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — KIỂM TRA TÌNH TRẠNG SILEO SAU QA STANDALONE1
+
+**Câu hỏi mới:** “Sao rồi? Bao h có bản sileo?” Đây là yêu cầu cập nhật tình trạng/thời điểm, **không phải lệnh tự động phát hành**. Hướng đã chốt ở câu trước giữ nguyên: DEB `com.duoface.visual12` chỉ dùng xác minh scene độc lập, sản phẩm chính vẫn **Native12 + Hub8**, không đè/gỡ hay ảnh hưởng gói đang chạy. Không coi CI thành công là nghiệm thu iPhone.
+
+**Đã kiểm tra read-only qua GitHub:** repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`, HEAD `7a57e40c933105009360188e0ee133cf7dad29a2`. DEB QA `dist/visual12-standalone-qa/com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb` hiện diện, QA report status `QA_DEB_BUILT_DEVICE_NOT_TESTED`, SHA256 `c838a61db75bfdc04d3d4c8b87ca8c982de215e458402907ab4a79e861c4d32f`, CI `39037058354` success. Repo Sileo `chuongnguyen89dn-ui/carplaydsp` nhánh `main` HEAD `64801bc80014c3b6cc44c9a8d1de83922cb35478`, cây 81 paths không có DEB `com.duoface.visual12`. Không có thao tác thay đổi Sileo trong lượt này.
+
+**Mốc phát hành có điều kiện:** Nếu yêu cầu *gói QA qua Sileo* để tiện cài thử, cần xác nhận rõ đây là phát hành thử riêng (vì trước đó đã yêu cầu không phát hành bản thử) và xác nhận chính sách xung đột runtime với lớp `CBBridgeManager` cũ trước khi cài vào máy đang có Native12/Hub8. **Bản Native12+Hub8 chính thức** phải chờ thực nghiệm ít nhất một app CarPlay rồi hai app/lifecycle, và ghép/hồi quy Fullscreen/UI/Hub; hiện không có ETA đã xác minh nên không tự hứa ngày/giờ. Không gỡ Hub đang dùng để thử khi chưa có phương án an toàn.
+
+**Trạng thái cuối:** không sửa source, không build mới, không deploy; chỉ kiểm tra repository/source metadata và lưu rõ checkpoint kết quả tìm thấy.
+
+
 ## 2026-10-17 — ĐÃ BUILD VÀ LƯU DEB QA VISUAL12 ĐỘC LẬP; BẢN CHÍNH VẪN NATIVE12 HUB8
 
 **YÊU CẦU MỚI NHẤT (ưu tiên cao nhất):** User nhắc: “Đây là chỉ test xem nó hoạt đôngk độc lập hay ko thôi. Cái chính của ta vẫn là native 12. Hub 8. Cái nàh thành công thì áp dụng qua đó.” Vì vậy `com.duoface.visual12` chỉ là **bản QA bằng DEB để kiểm tra scene CarPlay độc lập**; sản phẩm chính là **Native12 + Hub8**. Không đổi/ghi đè/xóa Native12 Hub8; không chuyển bản test lên Sileo; chỉ ghép lõi khi test thiết bị đã thành công. Checkpoint thay đổi yêu cầu đã ghi riêng ở commit `133fe2c9f6092af076d01661fbc91f54842c1078`.
