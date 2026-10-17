@@ -1,5 +1,16 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — ĐÍNH CHÍNH: CHỈ DÙNG DUOFACE, CHỈ THAM KHẢO CƠ CHẾ CẤP QUYỀN DUODASH
+
+**YÊU CẦU MỚI NHẤT CỦA NGƯỜI DÙNG (thay thế hướng adapter phụ thuộc DuoDash):** "Cài duodaah làm j? Tôi chỉ muốn xài duoface. Chỉ lấy phần cấp sử dụng chả duodash." Cần hiểu đúng là **điện thoại chỉ cài DuoFace**, không yêu cầu cài DuoDash làm dependency, không thay giao diện/engine chia đôi chỉ để giải quyết quyền chạy. User muốn **phần cấp quyền/sử dụng** tham khảo DuoDash để xử lý việc DuoFace bị báo hết hạn. Không tự động diễn giải thành phải chép host `DDz2` và `CNABSpringBoardObserver`.
+
+**HỦY ƯU TIÊN HƯỚNG SAI:** `replacement/duodash-host/DFDuoDashHostAdapter.h/.m` là *nghiên cứu lịch sử đã commit*, nhưng thiết kế chỉ dùng được khi thư viện DuoDash đang nạp trong SpringBoard, trái với điều kiện một ứng dụng của người dùng. **KHÔNG ghép adapter vào sản phẩm, KHÔNG đóng gói hoặc phát hành nó.** Giữ file lịch sử phục vụ đối chiếu, không xóa dữ liệu hay thay Hub. Mốc CI `39031248061` chỉ là compile nguồn, không phải device test.
+
+**ĐIỂM KỸ THUẬT PHẢI NÓI RÕ:** Giấy phép/cơ chế cấp quyền DuoDash là của DuoDash, không thể đơn giản dùng để xác thực/ủy quyền cho DuoFace; chưa có mã nguồn cấp quyền DuoDash hoặc quyền tái sử dụng. Không thể biến kết quả VIP giả 3650 ngày thành quyền hoạt động thật. Thực tế đã xác nhận repair1 vẫn báo `Bản Quyền Đã Hết Hạn` trên CarPlay. Chỉ có thể làm rõ thiết kế thay thế quản lý quyền cho code DuoFace thuộc quyền kiểm soát, không tự tuyên bố đã loại giấy phép trong binary DuoNavi.
+
+**Điểm tiếp:** xác minh phần source/licensing người dùng có quyền chỉnh sửa và cách tách logic cấp quyền khỏi chức năng CarPlay trong DuoFace; chỉ giữ DuoFace là package cần cài. Không yêu cầu người dùng cài DuoDash/Airaw. Không tiếp tục build patch 3650 ngày, không viết App Bridge mới chỉ vì hiểu nhầm yêu cầu. Nếu không có nguồn và quyền thay thế đầy đủ, báo giới hạn rõ, không sao chép license vendor. `com.duoface.independent` Hub tiếp tục giữ nguyên. Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`; chưa có bản DEB mới đáp ứng yêu cầu.
+
+
 ## 17/10/2026 — Đã tạo và compile adapter nguồn DuoDash độc lập
 
 **Người dùng yêu cầu thử lại sau khi GitHub write bị chặn trong lượt trước.** Đã retry bình thường, ghi được repository và đọc lại các file mới thành công. Giữ nguyên phạm vi: không dùng lại binary DuoNavi làm nền backend mới, không giả ngày VIP, không dùng Airaw, không thay gói Hub `com.duoface.independent`. Bản VisualTest12 repair1 hiện trên Sileo vẫn FAIL ở màn “Bản Quyền Đã Hết Hạn” trên CarPlay, không được coi là đã sửa.
