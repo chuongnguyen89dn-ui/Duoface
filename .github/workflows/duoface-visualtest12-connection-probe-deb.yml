@@ -1,0 +1,47 @@
+name: DuoFace Visual12 connection diagnostic DEB
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-visualtest12-connection-probe-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Compile diagnostics
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -arch arm64 -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib -Wall -Wextra -Werror -Wl,-headerpad,0x1000 -framework UIKit -framework Foundation -o "$RUNNER_TEMP/DFVisual12ConnectionProbe.dylib" runtime/visualtest12/DFVisual12ConnectionProbe.m
+          ldid -S "$RUNNER_TEMP/DFVisual12ConnectionProbe.dylib"
+          plutil -lint runtime/visualtest12/DFVisual12ConnectionProbe.plist
+      - name: Verify and package
+        run: |
+          set -euo pipefail
+          mkdir -p dist/visualtest12-connectprobe1
+          python3 migration/full_payload/native_test/build_visualtest12_connection_probe.py --dylib "$RUNNER_TEMP/DFVisual12ConnectionProbe.dylib" --out dist/visualtest12-connectprobe1/com.duonavi.app_1.0.3-12~visualtest12launch2probe1_iphoneos-arm64.deb --report dist/visualtest12-connectprobe1/BAO_CAO.json
+          dpkg --compare-versions '1.0.3-12~visualtest12launch2probe1' gt '1.0.3-12~visualtest12launch1'
+          sha256sum dist/visualtest12-connectprobe1/*.deb || shasum -a 256 dist/visualtest12-connectprobe1/*.deb
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VisualTest12-connection-diagnostic
+          path: dist/visualtest12-connectprobe1/
+      - name: Persist diagnostic build
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/visualtest12-connectprobe1/
+          git diff --cached --quiet && exit 0
+          git commit -m 'build: VisualTest12 connection diagnostic'
+          git pull --rebase origin feature/duoface-exact-payload-migration
+          git push origin HEAD:feature/duoface-exact-payload-migration
