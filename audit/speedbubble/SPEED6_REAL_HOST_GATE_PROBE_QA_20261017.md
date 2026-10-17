@@ -1,5 +1,13 @@
 # Speed6 native host gate probe — device log based engineering, 17/10/2026
 
+## PUBLIC SILEO RELEASE RESULT — VERIFIED 2026-10-17
+
+- **ACTUALLY PUBLISHED**, supersedes historical in-progress notes below. Publisher repo `chuongnguyen89dn-ui/carplaydsp` `main` commit **`8e67d757d27e60846b6b31df1c4454b74ff58653`**, GitHub Actions **[38997185959](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/38997185959)** completed/success, build job `117292204359`, deploy job `117292603093` **both successful**. Real job log 2026-10-17T03:03:25Z `SILEO_SPEED6PROBE_EXACT_SHA_AND_INJECTION_FILTER_PASS`, 03:03:26 `SILEO_APT_RELEASE_VALID_DATE_CHECKSUMS_NATIVE12_SPEED6ZPROBE1_ONLY_PASS`.
+- **INDEPENDENT PUBLIC DOWNLOAD VERIFIED** [Duoface run 38997217418](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38997217418), job `117292296326`, completed/success. Verified public GitHub Pages `Packages`, `Packages.gz`, exactly one `com.duoface.independent` and legacy `com.duonavi.app`, exact binary downloaded and `speed6zprobe1.deb: OK` at 2026-10-17 03:03:50 UTC. Log `LIVE_SILEO_APT_SPEED6ZPROBE1_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS`, `LIVE_SILEO_SPEED6ZPROBE1_CARPLAYAPP_ONLY_NATIVE12_EXACT_SHA_PASS; ON_DEVICE_UNTESTED`, `LIVE_SILEO_DOWNLOADED_EXACT_SPEED6ZPROBE1_DEB_SHA256_PASS; ON_DEVICE_UNTESTED`. Evidence artifact ID `12087492982`.
+- **Public Sileo repo:** https://chuongnguyen89dn-ui.github.io/carplaydsp/ . **Package:** `com.duoface.independent` version `0.1.0~native12+speed6zprobe1`, SHA256 `42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e`. Direct verified APT path `debs/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb`.
+- **Pending user on-device verification**: refresh Sileo, upgrade, test split/Home/exit, share the **same** `/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl` so `PROBE_NATIVE_HOST.diagnostics` reveals native return class and exact host gate. NO CLAIM HUD visible yet; the intent is to find the exact code change from evidence.
+
+
 ## Why this is a diagnostic and not a blind visual fix
 
 Actual iPhone logfile `DuoFaceSpeed6-CarPlayApp.jsonl` (user upload) showed 23 valid events in process CarPlay PID 53824: `LOADED`, `HOOKED`, nine `WAIT: CBBridgeManagerDashboard.activated=NO`, four `WAIT: no visible activeCarPlayWindow/content/controller host`, eight `UNMOUNTED: Dashboard bridgeDidDeactivate`, **ZERO MOUNTED**. Source remains visible on CarPlay split screenshot without HUD. The previous independent tweak `GOFAHUD` is not necessary for placeholder.
