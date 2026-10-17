@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse,hashlib,json,pathlib,shutil,subprocess,tempfile
 BASE=pathlib.Path("dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb")
 PIN="85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
-VERSION="0.1.0~native12+speed6probe1"
+VERSION="0.1.0~native12+speed6zprobe1"
 DIR=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
 NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")
 BAN=("DuoFaceSpeedSources","WazeGMapHUDSource","GofaGMapHUDSource",
