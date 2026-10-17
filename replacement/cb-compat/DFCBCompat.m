@@ -9,9 +9,9 @@ NSString * const DFCBCompatErrorDomain = @"com.duoface.visual12.cbcompat";
 
 static __weak UIWindow *DFCBActualWindow;
 static __weak UIViewController *DFCBActualController;
-static CBWindow *DFCBWindowProxy;
-static CBBridgedSplitApp *DFCBSplitProxy;
-static CBBridgeManager *DFCBManagerProxy;
+static DFCBWindow *DFCBWindowProxy;
+static DFCBBridgedSplitApp *DFCBSplitProxy;
+static DFCBBridgeManager *DFCBManagerProxy;
 
 static BOOL DFCBValidRect(CGRect r) {
     return isfinite(r.origin.x) && isfinite(r.origin.y) &&
@@ -30,11 +30,11 @@ static BOOL DFCBHasOwner(void) {
            c.view.window==w && DFCBValidRect(w.bounds);
 }
 
-@interface CBWindow ()
+@interface DFCBWindow ()
 @property(nonatomic,weak) UIWindow *externalWindow;
 @property(nonatomic) CGRect appFrame;
 @end
-@implementation CBWindow
+@implementation DFCBWindow
 + (CGRect)carPlayScreenBounds {
     UIWindow *w=DFCBActualWindow;
     return DFCBHasOwner()?w.bounds:CGRectZero;
@@ -71,10 +71,10 @@ static BOOL DFCBHasOwner(void) {
 }
 @end
 
-@interface CBBridgedSplitApp ()
+@interface DFCBBridgedSplitApp ()
 @property(nonatomic,weak) UIViewController *ownerController;
 @end
-@implementation CBBridgedSplitApp
+@implementation DFCBBridgedSplitApp
 - (UIView *)view {
     return DFCBHasOwner()?self.ownerController.view:nil;
 }
@@ -86,12 +86,12 @@ static BOOL DFCBHasOwner(void) {
 }
 @end
 
-@interface CBBridgeManager ()
+@interface DFCBBridgeManager ()
 @property(nonatomic,readwrite) BOOL activated;
-@property(nonatomic,strong,readwrite) CBWindow *window;
-@property(nonatomic,strong,readwrite) CBBridgedSplitApp *currentApp;
+@property(nonatomic,strong,readwrite) DFCBWindow *window;
+@property(nonatomic,strong,readwrite) DFCBBridgedSplitApp *currentApp;
 @end
-@implementation CBBridgeManager
+@implementation DFCBBridgeManager
 + (instancetype)sharedInstanceIfExists {
     if(!DFCBMainThread() || !DFCBHasOwner())return nil;
     return DFCBManagerProxy;
@@ -132,9 +132,9 @@ BOOL DFCBBindHost(UIWindow *window,UIViewController *splitController,NSError **e
     // The one actual scene owner creates and tears down both independently.
     DFCBActualWindow=window;
     DFCBActualController=splitController;
-    if(!DFCBWindowProxy)DFCBWindowProxy=[CBWindow new];
-    if(!DFCBSplitProxy)DFCBSplitProxy=[CBBridgedSplitApp new];
-    if(!DFCBManagerProxy)DFCBManagerProxy=[CBBridgeManager new];
+    if(!DFCBWindowProxy)DFCBWindowProxy=[DFCBWindow new];
+    if(!DFCBSplitProxy)DFCBSplitProxy=[DFCBBridgedSplitApp new];
+    if(!DFCBManagerProxy)DFCBManagerProxy=[DFCBBridgeManager new];
     DFCBWindowProxy.externalWindow=window;
     DFCBWindowProxy.appFrame=window.bounds;
     DFCBSplitProxy.ownerController=splitController;
