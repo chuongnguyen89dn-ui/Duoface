@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐÃ PHÂN TÍCH DEB SIDEPLAY 1.0.4-1: CORE CARPLAY COMPILED, KHÔNG CÓ SOURCE
+
+**Yêu cầu mới:** người dùng tải lên `com.sideplay_1.0.4-1_iphoneos-arm64.deb` và yêu cầu kiểm tra có mã nguồn không, liệu có thể áp dụng cơ chế CarPlay cho DuoFace độc lập. Tài liệu **đã lưu GitHub và đọc lại**: `docs/sideplay-1.0.4-1-static-deb-audit-20261017.md`, commit `ca143a4771afef6bc25f6e7d73b9ac1ac5b8824f`. File báo cáo chi tiết tải ở chat: `/mnt/data/phan_tich_SidePlay_1.0.4-1_cho_DuoFace.md`.
+
+**Chứng cứ tĩnh thật:** DEB 4.352.576 byte, SHA256 `7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c`, rootless arm64, 136 files; không có các source extension Objective-C/Swift/Xcode/Theos, chỉ có Mach-O binaries, plist, PNG và license MIT **chỉ cho GMapHUD**. Core `SidePlay.dylib` 899.088 byte inject SpringBoard + UIKit, strings lớp `SBApplicationController`, `SBDeviceApplicationSceneEntity`, `SBAppViewController`, `sceneHandle`, `FBSceneMonitor`, `FBSSceneSettings`, `CarPlayIsConnectedDidChange`, `initForCarPlayShell`, quản lý reconnect, window, geometry, đóng app. `SidePlay.app/SidePlay` 178.672 byte có `CPTemplateApplicationSceneDelegate`, `CPInterfaceController`, `CPWindow`; HUD relay/GOFA/VietMap/Waze là module riêng. `prerm` chạy `SidePlay --sp-goodbye` gửi thông báo uninstall lên máy chủ (chỉ đọc, không thực thi). Không thấy `CBLicenseSyncManager` hoặc `CBBridgeManager` ở core strings, **không suy thành chứng cứ không có license**.
+
+**Hướng tiếp nối:** SidePlay cho thấy một triển khai scene host CarPlay riêng biệt đáng đối chiếu, không phải mã nguồn để chép, không thể thay trực tiếp lớp CB cũ hay UI Visual12. Đối chiếu lifecycle scene `SidePlay.dylib` với `replacement/visual12/engine/runtime/DFIRuntime.m` source của chính dự án; nếu dùng API/private implementation phải bảo đảm quyền dùng, giữ một owner và thử 1 rồi 2 app trên iPhone X; sau đó mới nghiên cứu adapter vào giao diện VisualTest12 đã duyệt, bảo vệ Native12+Hub8. **Chưa sửa code, chưa build/deploy DEB, chưa test thiết bị** trong lượt này. Không tự đưa SidePlay lên Sileo. Không hứa copy/redistribute closed-source SidePlay.dylib.
+
+
 ## 2026-10-17 — FILE KIỂM KÊ CHÍNH XÁC GIẤY PHÉP VẪN TRỘN TRONG CARPLAY: 2 BINARY LÕI
 
 **Yêu cầu người dùng:** “Việc giấy phép và carplay còn dính bao nhiêu file trong đó hiện tại?”; “Tổng hợp lại thành 1 file tại đây mục nào còn giấy phép lẫn vs carplay mà bạn ko tách đc?”
