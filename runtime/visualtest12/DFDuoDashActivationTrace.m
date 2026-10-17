@@ -128,11 +128,11 @@ static void DFRecord(NSString *event, id arg) {
 #define DF_TRACE_WRAPPER(KEY, LABEL) \
     static void (*DFOriginal_##KEY)(id,SEL,id)=NULL; \
     static void DFTraced_##KEY(id self,SEL sel,id argument) { \
-        DFRecord(@LABEL ".before",argument); \
+        DFRecord([@LABEL stringByAppendingString:@".before"],argument); \
         @try { \
             if (DFOriginal_##KEY) DFOriginal_##KEY(self,sel,argument); \
         } @finally { \
-            DFRecord(@LABEL ".after",argument); \
+            DFRecord([@LABEL stringByAppendingString:@".after"],argument); \
         } \
     }
 DF_TRACE_WRAPPER(ReqActivation, "CBBridgeManagerDashboard.requestActivation:")
