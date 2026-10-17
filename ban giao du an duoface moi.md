@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — PICKER QA BUILD XANH, ĐÃ KÍCH HOẠT SILEO
+
+Run `39077875674` failed vì snapshot cũ verify assert standalone3diag; run `39077878352` cancelled. Run mới `39077881257` **completed success**, toàn bộ compile/verify/upload/persist pass. `dist/visual12-g1g2-qa/BAO_CAO.json` xác nhận version `1.0.3-12~standalone4picker`, SHA256 `cbffa3064d01b3bd3bb77b7a46cb4c47d7986b8e419d0d24bdc36eb5cc8cab4f`, 1,070,748 bytes, source `6347fb837338815ec49b1011c0956839e0224df6`; SHA256SUMS khớp. Đã cập nhật publisher repo `chuongnguyen89dn-ui/carplaydsp` branch main `.github/workflows/build.yml` commit `b71e87bb530ad3989e174acc08ed54071922bfb3`, thay version/URL/SHA và assertion standalone4picker. Sileo publish run `39078065447` **queued** khi kiểm tra; chưa tuyên bố Pages live. Bước tiếp: kiểm tra run, nếu failure đọc logs, nếu success kiểm tra Packages public và hướng dẫn refresh Sileo. Native12+Hub8 không thay đổi. Device QA chưa kiểm thử.
+
+
 ## 2026-10-18 — ĐÃ SỬA APP PICKER QA, BUILD STANDALONE4PICKER
 
 **Yêu cầu:** user phản đối cách làm chỉ có ô bundle ID; yêu cầu thực hiện, không chỉ hứa. **Đã sửa code:** `replacement/visual12/engine/app/DFCarPlayQAApp.m` commit `655b8faea24304709724ebdcfefe0bdc06c461be`: thêm 2 nút chọn App1/App2, dùng `LSApplicationWorkspace.defaultWorkspace allInstalledApplications` kiểm tra selector tại runtime, lấy `applicationIdentifier`/`localizedName`, hiện action sheet tối đa 80 app sắp theo tên, giữ ô bundle ID làm fallback nếu API không có. **Hạn chế đã biết:** action sheet 80 mục không có tìm kiếm và có thể thiếu app ngoài 80; chưa được thử trên iPhone; đây là QA không phải UI chính. Đã đổi version từ `standalone3diag` sang `standalone4picker` ở `replacement/visual12/build_g1g2_qa.sh` commit `d7a168ea`, `replacement/visual12/verify_g1g2_qa.py` commit `316f5507`, workflow `.github/workflows/duoface-carplay-g1g2-qa-deb.yml` commit `6347fb83`, thêm path app source trigger. Run mới `39077878352` pending, `39077875674` queued lúc kiểm tra. **Chưa xác minh build success, chưa cập nhật Sileo, chưa thử máy.** Native12+Hub8 không thay đổi.
