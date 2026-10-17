@@ -13,6 +13,8 @@ FOUNDATION_EXPORT BOOL DFCBBindHost(UIWindow *window,
                                     NSError * _Nullable * _Nullable error);
 FOUNDATION_EXPORT void DFCBUnbindHost(UIWindow *window);
 FOUNDATION_EXPORT BOOL DFCBHostIsBound(void);
+// Notifies the Fullscreen coordinator when the sole scene owner binds or exits.
+FOUNDATION_EXPORT void DFCBSetLifecycleCallback(void (^ _Nullable callback)(void));
 
 // Selector surface consumed by the saved DuoFace Fullscreen implementation.
 @interface DFCBWindow : NSObject
