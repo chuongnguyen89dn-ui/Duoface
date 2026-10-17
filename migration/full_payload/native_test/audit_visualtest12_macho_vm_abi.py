@@ -6,6 +6,7 @@ offsets. The report is NOT proof of runtime equivalence or license removal.
 """
 from __future__ import annotations
 import argparse
+from bisect import bisect_right
 import hashlib
 import json
 from pathlib import Path
@@ -219,9 +220,35 @@ def address_section_audit(a: MachO, b: MachO, methods: list[dict]) -> dict:
             sum(r.get("text_changed_bytes_outside_native4_stub_spans", 0) for r in text),
     }}
 
+def annotate_vm_neighboring_methods(native: MachO, sections: dict) -> None:
+    """Nearest ObjC implementation is context, not proven code ownership."""
+    all_methods = []
+    for owner in native.classes():
+        for selector, row in method_table(native, owner).items():
+            all_methods.append((row["imp_vm"], owner, selector))
+    all_methods.sort()
+    starts = [row[0] for row in all_methods]
+    for sec in sections["entries"]:
+        for item in sec.get("outside_ledger_largest_changed_clusters", []):
+            vm = int(item["vm_start"], 16)
+            n = bisect_right(starts, vm)
+            if n:
+                start, owner, selector = all_methods[n-1]
+                item["previous_objc_imp"] = {
+                    "owner": owner, "selector": selector,
+                    "vm": hex(start), "distance_bytes": vm - start}
+            if n < len(all_methods):
+                start, owner, selector = all_methods[n]
+                item["next_objc_imp"] = {
+                    "owner": owner, "selector": selector,
+                    "vm": hex(start), "distance_bytes": start - vm}
+            item["neighbor_is_not_instruction_owner_proof"] = True
+
+
 def audit_binary(a: bytes, b: bytes, name: str, ledger: dict) -> dict:
     orig, native = MachO(select_arm64(a)), MachO(select_arm64(b))
     sections = address_section_audit(orig, native, ledger["patched_methods"])
+    annotate_vm_neighboring_methods(native, sections)
     watched = readonly_methods(orig, native, name)
     return {
         "visual_raw_sha256": sha(a), "native12_raw_sha256": sha(b),
