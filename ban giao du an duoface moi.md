@@ -1,5 +1,9 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — ĐÃ ĐÓNG DEB VISUALTEST12, PHÁT HÀNH SILEO VÀ XÁC MINH TẢI PUBLIC; CHỜ TEST MỞ APP TRÊN MÁY
+**Yêu cầu đang ưu tiên:** người dùng cần mở được ứng dụng DuoFace VisualTest12 đã hết hạn. Đã build đúng gói `com.duonavi.app 1.0.3-12~visualtest12launch1` từ DEB VisualTest12 gốc; không sửa bản Hub. Build GitHub Actions `39021792773` SUCCESS, public Sileo deployment CarPlayDSP `39022124541` SUCCESS, workflow độc lập tải công khai xác minh `39022327036` SUCCESS. DEB SHA256 `e30148affc767ce039040f0e0cccd9a0ecbd40e523ee66409ca96e6ef2085f02`. Hub giữ nguyên phiên bản Speed8. **Chưa có test mở app thực tế trên iPhone đã hết hạn**. Tiếp theo: refresh Sileo, nâng cấp VisualTest12, kiểm tra app vào màn hình chính hay không; nếu fail lấy log với đúng version. Source, CI, lỗi trước đó, SHA và bằng chứng đầy đủ: `docs/visualtest12-launchfix1-sileo-20261017.md` (main), `audit/payload-migration/VISUALTEST12_LAUNCHFIX1_PUBLIC_SILEO.json` (feature HEAD `953c4be4`). Bản VisualTest12 gốc vẫn giữ để rollback; không ghi nhận hoàn tất fix runtime khi chưa có phản hồi thiết bị.
+
+
 ## 17/10/2026 — VisualTest12 đã cập nhật Sileo, còn chờ xác nhận mở trên iPhone hết hạn
 
 **ƯU TIÊN HIỆN TẠI:** Người dùng chỉ cần vào được app `com.duonavi.app` trên thiết bị đã hết hạn thử. **Đã có bản thử được đóng gói và phát hành, CHƯA có kết quả mở trên thiết bị.**
