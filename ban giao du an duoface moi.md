@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — Xác minh lại DEB DuoNavi gốc làm mốc đối chiếu
+- USER_DECISION: Người dùng xác nhận DEB gốc DuoNavi vẫn còn trong GitHub. Dùng bản gốc để đối chiếu các thay đổi, không cần yêu cầu tải lại.
+- CONFIRMED: GitHub connector phiên này đọc được repo. main tree SHA 2598ed9cb0bd6f714260b2d98b1d36ee3d5b426e chứa `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb`, 1739158 byte, Git blob 617fe1e132f362784880899af80146afa85b3492. Bản local có `git hash-object` trùng blob remote; SHA256 f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd. `dpkg-deb -f` xác nhận Package com.duonavi.app, Version 1.0.4, Architecture iphoneos-arm64.
+- Đã đọc ZIP kỹ năng có sẵn tại training/skills/01-github-continuity.zip và 02-ios-deb-ipa-carplay.zip bằng Python zipfile, gồm SKILL.md và references; đã đọc SKILL_INDEX/AGENTS/PROJECT_INSTRUCTIONS/DEB_IPA_SKILL trực tiếp GitHub.
+- Phân biệt: khôi phục binary gốc không khôi phục mã nguồn gốc, và cũng khôi phục cơ chế giấy phép nguyên bản. Chưa chứng minh 1.0.4 tương thích thay trực tiếp vào VisualTest12; không chép đè cả lõi hay hoàn tác UI tùy tiện.
+- Bước kế: đối chiếu manifest và binary gốc 1.0.4 với đúng nền VisualTest12 để xác định phần thay đổi và quan hệ phiên bản trước khi quyết định phục hồi; bảo toàn UI/split, không đụng Hub. Chưa sửa binary, chưa build, chưa deploy, chưa test thiết bị trong lượt này.
+
+
 ## 17/10/2026 — Checkpoint DUODASH-ONLY VisualTest12 đã build trace DEB
 - **Yêu cầu mới nhất (thay thế thứ tự cũ):** Người dùng yêu cầu tập trung **DuoDash**, **loại Airaw khỏi việc sửa lỗi hiện tại** và **không lấy/so sánh Native12 để vá VisualTest12**. Ưu tiên làm DuoFace VisualTest12 mở lại và chạy app iPhone không hỗ trợ CarPlay; viết engine độc lập hoàn chỉnh để sau. Không đụng bản Hub `com.duoface.independent`.
 - **Repo/nhánh thực thi:** `chuongnguyen89dn-ui/Duoface`, `feature/visual12-duodash-recovery`, tạo từ `feature/duoface-exact-payload-migration@d2a22d952a3b091f24c1d4db305f76e754e3e477`. Mã `runtime/visualtest12/DFDuoDashActivationTrace.m`, filter `runtime/visualtest12/DFDuoDashActivationTrace.plist`, script `migration/full_payload/native_test/build_visual12_duodash_trace.py`, workflow `.github/workflows/duoface-visual12-duodashtrace-deb.yml`. Không copy DuoDash.dylib hoặc Airaw.dylib. Bản sửa hiện là **trace sự kiện** để tìm điểm chặn, không sửa hành vi gốc; ObjC ABI check `v24@0:8@16` trước khi hook, preserve original implementation, target activation/host state, xác định lớp DuoDash nếu hiện diện.
