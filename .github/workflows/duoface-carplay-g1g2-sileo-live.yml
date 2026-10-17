@@ -1,0 +1,72 @@
+name: DuoFace G1 G2 Sileo LIVE package and hash check
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-carplay-g1g2-sileo-live.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Fetch public apt indexes and exact DEB (not cached workflow output)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          for i in 1 2 3 4 5 6 7; do
+            if curl --retry 2 --retry-delay 2 -fsSL -H 'Cache-Control: no-cache' "$base/Packages?qa-run=${GITHUB_RUN_ID}-$i" -o Packages
+            then
+              if grep -Fq 'Version: 1.0.3-12~standalone2qa' Packages; then break; fi
+            fi
+            sleep 8
+          done
+          grep -Fq 'Version: 1.0.3-12~standalone2qa' Packages
+          curl --retry 3 --retry-delay 2 -fsSL "$base/Packages.gz?qa-run=${GITHUB_RUN_ID}" -o Packages.gz
+          curl --retry 3 --retry-delay 2 -fsSL "$base/Release?qa-run=${GITHUB_RUN_ID}" -o Release
+          curl --retry 3 --retry-delay 2 -fsSL "$base/debs/com.duoface.visual12_1.0.3-12~standalone2qa_iphoneos-arm64.deb?qa-run=${GITHUB_RUN_ID}" -o qa.deb
+          sha256sum qa.deb
+          test "$(dpkg-deb -f qa.deb Package)" = 'com.duoface.visual12'
+          test "$(dpkg-deb -f qa.deb Version)" = '1.0.3-12~standalone2qa'
+          test "$(dpkg-deb -f qa.deb Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c qa.deb | grep -F 'DuoFaceVisual12.dylib'
+      - name: Validate Sileo public metadata and product preservation
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP"
+          python3 - <<'PY'
+          import gzip,hashlib,pathlib
+          p=pathlib.Path('Packages').read_bytes()
+          zipped=pathlib.Path('Packages.gz').read_bytes()
+          assert gzip.decompress(zipped)==p,'APT gzip mismatch'
+          chunks=[dict(line.split(': ',1) for line in b.splitlines() if ': ' in line) for b in p.decode().split('\n\n') if b.strip()]
+          def item(key): return [x for x in chunks if x.get('Package')==key]
+          qa=item('com.duoface.visual12')
+          stable=item('com.duoface.independent')
+          original=item('com.duonavi.app')
+          assert len(qa)==len(stable)==len(original)==1, (len(qa),len(stable),len(original))
+          v=qa[0]
+          assert v['Version']=='1.0.3-12~standalone2qa'
+          assert v['Architecture']=='iphoneos-arm64'
+          assert v['Filename']=='debs/com.duoface.visual12_1.0.3-12~standalone2qa_iphoneos-arm64.deb'
+          assert v['Name']=='DuoFace CarPlay QA G1/G2 (experimental)'
+          deb=pathlib.Path('qa.deb').read_bytes()
+          expected='12b3e874175bae3059c499c10a365d62e724b2eb27cc3e67178dca2413423daa'
+          assert hashlib.sha256(deb).hexdigest()==expected==v['SHA256']
+          assert len(deb)==int(v['Size'])==1068472
+          assert stable[0]['Version']=='0.1.0~native12+speed8compact'
+          release=pathlib.Path('Release').read_text()
+          assert 'Date: ' in release and 'SHA256:' in release and 'SHA512:' in release
+          assert hashlib.sha256(p).hexdigest() in release
+          assert hashlib.sha256(zipped).hexdigest() in release
+          print('G1G2_SILEO_PUBLIC_PACKAGES_GZIP_RELEASE_DEB_SHA_PASS')
+          print('G1G2_QA_VERSION=1.0.3-12~standalone2qa')
+          print('G1G2_QA_SHA256='+expected)
+          print('NATIVE12_HUB8_AND_ORIGINAL_PRESERVED')
+          print('DEVICE_RUNTIME_NOT_TESTED')
+          PY
