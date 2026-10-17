@@ -21,7 +21,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun clang -target arm64-apple-ios16.0 -arch arm64 \
             -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
-            -Wall -Wextra -Werror -framework UIKit -framework Foundation \
+            -Wall -Wextra -Werror -framework UIKit -framework Foundation -framework CoreGraphics \
             -Wl,-headerpad,0x1000 \
             -o "$RUNNER_TEMP/DFCBCompat.dylib" replacement/cb-compat/DFCBCompat.m
           test "$(xcrun lipo -archs "$RUNNER_TEMP/DFCBCompat.dylib")" = arm64
