@@ -1,0 +1,34 @@
+{
+  "status": "VISUALTEST12_CONNECTION_PROBE_PRESERVES_ALL_EXISTING_CORE_BYTES",
+  "source_sha256": "e30148affc767ce039040f0e0cccd9a0ecbd40e523ee66409ca96e6ef2085f02",
+  "package": "com.duonavi.app",
+  "version": "1.0.3-12~visualtest12launch2probe1",
+  "source_version": "1.0.3-12~visualtest12launch1",
+  "added_files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12ConnectionProbe.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12ConnectionProbe.plist"
+  ],
+  "changed_files": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums"
+  ],
+  "removed_files": [],
+  "unchanged_original_core": true,
+  "all_prior_payload_byte_identical_except_control_md5": true,
+  "new_dylib_sha256": "bcd14ad237b2b163d2ebec794e21fe97ebd7a981bb51ad900e5b0940364c0d4c",
+  "new_filter_sha256": "7b49550ad1a0fea0719023f29791fdc7cc47a0153b9489a841c53555ffbef80a",
+  "filter_bundles": [
+    "com.apple.springboard",
+    "com.duoface.duofaceui",
+    "com.duonavi.app"
+  ],
+  "read_only_telemetry": true,
+  "writes": "/var/mobile/Documents/DuoFaceConnectionProbe/{SpringBoard,DuoFaceUI}.jsonl",
+  "separate_hub_modified": false,
+  "physical_carplay_connection_fixed": false,
+  "license_completely_removed": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "output_deb_sha256": "43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841",
+  "output_deb_bytes": 1562504
+}
