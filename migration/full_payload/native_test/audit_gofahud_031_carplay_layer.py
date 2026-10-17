@@ -39,7 +39,7 @@ def extract_filter(path):
             return {"format": "binary_or_xml_parse_error", "error": str(error)}
     text = data.decode("utf-8", errors="replace")
     return {"format": "openstep_text", "text": text,
-            "bundle_ids": sorted(set(re.findall(r"com\\.[a-zA-Z0-9.]+", text)))}
+            "bundle_ids": sorted(set(re.findall(r"com\.[a-zA-Z0-9.]+", text)))}
 
 
 def main():
@@ -105,7 +105,7 @@ def main():
         for expected in ("GOFACarGlobalWindow", "CARNotificationWindow", "windowLevel"):
             assert expected in global_symbols, f"global binary marker missing {expected}"
         a.out.parent.mkdir(parents=True, exist_ok=True)
-        a.out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\\n")
+        a.out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
         print("GOFAHUD031_EXACT_ROOTLESS_SHA256_AND_DEB_METADATA_PASS")
         print("GOFAHUD031_CARPLAY_GLOBAL_DYLIB_AND_TWO_BUNDLE_FILTERS_PASS")
         print(json.dumps({
