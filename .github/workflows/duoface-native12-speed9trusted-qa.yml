@@ -1,0 +1,85 @@
+name: DuoFace Speed9 trusted installed app selector compile-only QA
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed9trusted-qa.yml'
+      - 'Makefile.speedhud-native9trusted-qa-stage'
+      - 'runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm'
+      - 'runtime/speedbubble/DFSpeedGMapReader9.mm'
+      - 'runtime/speedbubble/DFSpeedTransport9.mm'
+      - 'runtime/speedbubble/DFSpeedInstalledSourceCatalog9.*'
+      - 'migration/full_payload/native_test/check_native12_speed9trusted_source_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-speed9trusted-qa
+  cancel-in-progress: false
+jobs:
+  compile:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate installed-source selection policy and preserved split owner
+        run: |
+          set -euo pipefail
+          python3 migration/full_payload/native_test/check_native12_speed9trusted_source_contract.py
+          plutil -lint DuoFaceSpeedHUDNative7.plist
+          test ! -f dist/payload-migration/native12-speed9trusted/BAO_CAO.json
+      - name: Compile iOS rootless single HUD SpringBoard dylib (NO packaging, NO Sileo)
+        run: |
+          set -euo pipefail
+          brew install ldid
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-native9trusted-qa-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -s "$dylib"
+          xcrun lipo "$dylib" -verify_arch arm64
+          mkdir -p audit/speedbubble
+          DYLIB="$dylib" python3 - <<'PY'
+          from pathlib import Path
+          import os,json,hashlib,datetime
+          dll=Path(os.environ["DYLIB"])
+          obj={
+           "status":"SPEED9_TRUSTED_MANUAL_INSTALLED_SELECTION_ARM64_COMPILE_PASS_ONLY",
+           "verified_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+           "sha256":hashlib.sha256(dll.read_bytes()).hexdigest(),
+           "source_catalog":["com.waze.iphone","vn.vietmap.live","com.lumi.GOFA"],
+           "numeric_app_publishers_compiled":False,
+           "numeric_data_on_device_verified":False,
+           "device_tested":False,
+           "deb_built":False,
+           "sileo_published":False
+          }
+          Path("audit/speedbubble/SPEED9_TRUSTED_SELECTOR_BUILD_QA.json").write_text(json.dumps(obj,indent=2)+"\n")
+          print("SPEED9_COMPILED_SOURCE_CHOOSER_NO_PRODUCERS_NO_SILEO")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-speed9-source-selection-NO-DEB
+          path: audit/speedbubble/SPEED9_TRUSTED_SELECTOR_BUILD_QA.json
+          if-no-files-found: warn
+      - name: Persist verified compile-only checkpoint in DuoFace feature branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/SPEED9_TRUSTED_SELECTOR_BUILD_QA.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: Speed9 installed-only manual selector compiles arm64, NO DEB [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
