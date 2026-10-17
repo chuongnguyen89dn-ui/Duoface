@@ -35,7 +35,7 @@ def main():
     assert 'NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")' in pack
     assert 'shutil.copy2("DuoFaceSpeedHUDSplit6.plist",plist)' in pack
     assert 'assert dll.stem==plist.stem' in pack
-    assert 'VERSION="0.1.0~native12+speed6probe1"' in pack
+    assert 'VERSION="0.1.0~native12+speed6zprobe1"' in pack
     assert '"host_probe_only_no_gate_relaxation":True' in pack
     assert '"scene_overlay_window_created":False' in pack
     print("SPEED6PROBE_NATIVE12_ABI_SINGLE_SPLIT_HOST_AND_LOG_SAFETY_STATIC_PASS_NOT_DEVICE_TESTED")
