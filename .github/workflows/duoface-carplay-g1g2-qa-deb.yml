@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-carplay-g1g2-qa-deb.yml'
       - 'replacement/visual12/build_g1g2_qa.sh'
+      - 'replacement/visual12/verify_g1g2_qa.py'
       - 'replacement/visual12/engine/runtime/DFIRuntime.m'
   workflow_dispatch:
 permissions:
