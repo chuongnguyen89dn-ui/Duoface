@@ -1,5 +1,17 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — Phương án chỉnh CB: lớp tương thích thay vì viết lại Fullscreen/Hub
+
+**Câu hỏi mới của người dùng:** “Sửa CB ko đc?” — hỏi có thể sửa phần `CB*` để giữ các tính năng Fullscreen, Hub, menu và giao diện sau khi thay lõi CarBridge, không viết lại từ đầu.
+
+**Kết luận sau đối chiếu source đã đọc:**
+- *CÓ THỂ sửa các chỗ gọi CB trong mã nguồn dự án và dựng lớp tương thích.* `runtime/fullscreen/DFHostGeometry.xm` sử dụng `CBBridgeManager`, `CBWindow`, `CBBridgedSplitApp`; `runtime/fullscreen/DFFullscreenCoordinator.mm` sử dụng các hàm geometry/transport có thể giữ nguyên giao thức ở phía gọi. `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm` kiểm các class CB hiện tại và **kiểm cả image path `DuoFaceDashboard.dylib` qua runtime**; nên không được coi chỉ đổi tên class sẽ làm Hub nhận host mới.
+- *KHÔNG THỂ đảm bảo thay thế chỉ bằng sửa tên/selector trong file nhị phân.* `DuoFaceDashboard.dylib` chứa implementation CB gốc lẫn lifecycle, scene/window/UI và dấu vết license. Nếu giữ binary thì chưa đạt yêu cầu bỏ phụ thuộc DuoNavi; nếu bỏ binary thì lớp `CBMultitaskingOverlayView` và các implementation native khác sẽ biến mất. Không giả định CB-compatible shim tự hồi sinh giao diện này.
+- **Hướng kỹ thuật ưu tiên có thể kiểm chứng:** phát triển lớp giao thức/tương thích CB do DuoFace sở hữu và chuyển tiếp tới SpringBoard scene host đã có trong mã độc lập; giữ contract của Fullscreen, Hub, trạng thái cửa sổ và callback nơi phù hợp, chỉ sửa adapters phía gọi khi thực sự cần. Đối với các phương thức/ivar giao diện chỉ có ở binary gốc, phải có nguồn hợp lệ hoặc tái tạo đúng phần đó; không giả làm tương đương 100% chưa nghiệm thu.
+- **Mốc kiểm chứng tiếp theo:** kiểm từng API `CBBridgeManager.activated/window/currentApp`, `CBWindow.rootWindow/contentView/isVisible/appFrame/resizeWindows`, `CBBridgedSplitApp.view/layoutSplitViews`, xử lý `CBMultitaskingOverlayView` và kiểm chứng full lifecycle một app rồi hai app; kiểm tra Fullscreen ACK/rollback, picker App/Zoom/Style/Close và speed HUD hiện tại. Không đụng package Hub `com.duoface.independent`; không nhập nhằng nó với VisualTest12 `com.duonavi.app`.
+- **Giới hạn rõ:** Đây là hướng kiến trúc **CHƯA CODE, CHƯA BUILD, CHƯA TEST THIẾT BỊ**; không đưa lên Sileo, không yêu cầu cài DuoDash hoặc sao chép binary/giấy phép DuoDash. Nhánh bàn giao `feature/visual12-duodash-recovery`, repo `chuongnguyen89dn-ui/Duoface`. Khi được giao thực thi thì đọc lại các source interface ở trên và tạo ABI/selector contract trước khi chỉnh code.
+
+
 ## 2026-10-17 — KHÔNG VIẾT LẠI TOÀN BỘ: BẢO TOÀN FULLSCREEN, HUB VÀ GIAO DIỆN
 
 **Yêu cầu/lo ngại mới của chủ dự án:** Không chấp nhận lựa chọn viết lại toàn bộ DuoFace/CarBridge từ đầu vì đã hoàn thiện nhiều thành quả: fullscreen, Hub tốc độ, menu App/Zoom/Style/Close và giao diện. Hỏi liệu viết lại có nối lại được những chức năng này không. **Quyết định hiện tại:** KHÔNG khởi động viết lại nguyên ứng dụng, KHÔNG sửa/cài đè Hub hiện hành, KHÔNG tạo package thay thế chưa chứng minh tương thích. Ưu tiên reuse có kiểm chứng, sửa tại đường ghép thật sự cần thay và chạy regression theo chức năng. Giữ VisualTest12 và Hub là hai nhánh/phạm vi riêng.
