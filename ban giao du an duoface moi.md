@@ -1,5 +1,24 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — DFCarPlay SOURCE-OWNED PHASE 1: SOURCE + ARM64 LINK PASS, DEVICE PENDING
+
+**Yêu cầu và baseline:** Người dùng giao “Bắt đầu làm đi” sau phương án 120c084c6dd894a460de177b7233db95f99afc91 và handoff a6637535817edcbc904e6dc0cf564a25be23e80c. Đã làm trên chuongnguyen89dn-ui/Duoface, nhánh feature/visual12-duodash-recovery, không phải main. Giữ bất biến Native12+Hub8 package com.duoface.independent phiên bản 0.1.0~native12+speed8compact, không deploy Sileo, không sửa/đè gói chính.
+
+**Mã đã tạo/thay thật trên GitHub:**
+- replacement/visual12/engine/runtime/DFCarPlayBridgeAPI.h — commit 9bf58519: giao diện ObjC do DuoFace sở hữu, start/open/ratio/swap/focus/restore/close/stop và lỗi riêng.
+- replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m — commit 5383978c và fix cb5b7b5a: coordinator hai DFV12SceneHost; kiểm SpringBoard + UIRootSceneWindow + đúng một root owner; từ chối khi NSClassFromString(@"CBBridgeManager") còn loaded, không tạo UIWindow thứ hai. Chặn trùng bundle/slot, reserve pending slot kể cả callback nil, finish chỉ khi scene-ready/scene-failed, cleanup, move/swap, ratio, focus. Log bằng NSLog DuoFace DFCarPlay.
+- replacement/visual12/engine/runtime/DFIRuntime.h — commit 324b8d65: công bố host.ready chỉ khi scene attach, public moveToContainer.
+- replacement/visual12/engine/runtime/DFIRuntime.m — commit acfcbc34: triển khai moveToContainer và dời ready ra public header, không đổi DFIStart/legacy guard.
+- .github/workflows/duoface-visual12-engine-bind-ci.yml — commits 0209ee62, 35da00ef, abe96daa: compile/link coordinator với runtime+CB facade+geometry trên macOS iOS16 arm64, nm, static tests chống xung đột owner và verify pending callback, upload compile-only .dylib artifact.
+
+**CI ĐÃ PASS, BẰNG CHỨNG:** https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39046147183 — run 39046147183, job 117435147547 completed/success. Steps compile-link, lifecycle assertions và artifact đều success; log: DFCARPLAY_TWO_PANE_CONTRACT_STATIC_PASS_NO_DEVICE_QA; VISUAL12_CB_OWNER_BIND_LIFECYCLE_STATIC_PASS. File build in runner-temp: DuoFaceVisual12Engine.dylib SHA256 0b0bea5b806b4af0acba7da9cc8652406de0af90eb73328217ed75a57cd50665. Artifact ZIP 12105857379 (duoface-carplay-engine-arm64-compile-only), size 71901 bytes, SHA256 ZIP 4ea9c5a6e1090a03e04a9672c1ba82b1a68fc56c08516a5b5ac4fd8a92a9dad4, retention 90 ngày, https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39046147183/artifacts/12105857379. Run trước 39046059436 cũng success. Lệnh CI và flags giữ trong file YAML; không tạo script build thứ hai.
+
+**KHÔNG NHẦM:** Module source mới đã link nhưng chưa được instantiate/gắn root scene bởi bản chạy thật; DFIRuntime.m trong CI hiện vẫn include DFIInterface.inc alpha sai UI, đây chỉ là phép kiểm compile hồi quy. Chưa viết đầy đủ DFCarPlayDisplayOwner và Launcher/IPC; chưa tạo DEB, chưa deploy, chưa device QA G1 một app hay G2 Waze+YouTube, không xác nhận bỏ hết vendor runtime trong sản phẩm cuối. Chưa tách compiled Visual12 UI gốc khỏi vendor; license boundary audit vẫn chưa chứng minh separable. Speed8 checkpoint workflow tự chạy và failure khi push nhánh này không phải engine CI trên.
+
+**Bước tiếp:** (1) đọc coordinator mới, DFIRuntime và docs/phuong-an-loi-carplay-doc-lap-sideplay-duodash-20261017.md; (2) code QA-only host/root adapter hiện thực gọi coordinator với một UIRootSceneWindow (không mở song song CBBridgeManager); (3) CI compile/link riêng trước khi gói DEB, không thay UI đã duyệt; (4) nếu đóng QA DEB theo yêu cầu người dùng phải dùng package ID riêng, không publish Sileo chính; (5) thử G1 iPhone X iOS16 hết trial, thu sceneHandle/crash SpringBoard, rồi G2 hai app có resize/swap/reconnect; (6) chỉ khi G1-G2 pass mới nối UI Visual12 và cuối cùng Hub8. Mục tiêu không cần DuoNavi/SidePlay/DuoDash binaries/trial nhưng vẫn phụ thuộc iOS jailbreak và private SpringBoard APIs.
+
+**Nguồn kỹ năng:** đã đọc SKILL_INDEX.md, PROJECT_INSTRUCTIONS.md, AGENTS.md và DEB_IPA_SKILL.md trên Gpt-training-; đã phát hiện skills/02-ios-deb-ipa-carplay.zip và 01-github-continuity.zip, nhưng chưa giải nén ZIP trực tiếp được qua công cụ, không khẳng định đã đọc nội dung ZIP. Dùng tài liệu Markdown được truy xuất làm hướng dẫn.
+
 ## 2026-10-17 — ĐÃ CHỐT API DUOFACE DÙNG THAY 3 LÕI: DUONAVI, DUODASH, SIDEPLAY
 
 **Yêu cầu người dùng:** “Vậy 3 app lia api j? Ta sẽ làm api j?” — 3 app là DuoNavi, DuoDash, SidePlay theo ngữ cảnh. Phải nêu rõ **lớp có tiền tố CB/DDz/CNAB là nội bộ vendor**, không phải API Apple; chung nền SpringBoard private API iOS16. CarPlay API **công khai Apple** là `CPTemplateApplicationScene`, `CPInterfaceController`, `CPWindow` và yêu cầu entitlement theo loại ứng dụng; không có API công khai mở tùy ý mọi app vào 2 pane CarPlay.
