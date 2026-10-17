@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — LÀM RÕ YÊU CẦU: STANDALONE CHỈ LÀ TEST; NATIVE12 + HUB8 LÀ BẢN CHÍNH
+
+- **Yêu cầu mới nhất của người dùng:** “Đây là chỉ test xem nó hoạt đôngk độc lập hay ko thôi. Cái chính của ta vẫn là native 12. Hub 8. Cái nàh thành công thì áp dụng qua đó.”
+- **Quyết định thay thế cách hiểu trước:** Bản DEB `com.duoface.visual12` chỉ là *bản QA để kiểm tra khả năng tự tạo CarPlay scene/app độc lập*, không phải bản sản phẩm cuối. **Đích áp dụng khi thử thực tế thành công là bản chính Native12 với Hub8 đã xây dựng trước đây**, tuyệt đối không lặng lẽ thay/mất tính năng Fullscreen, Hub8, giao diện V12 và cấu hình ổn định.
+- Phạm vi cho lượt này: xây QA DEB ID riêng, xác minh nguồn/package và chuẩn bị cách test trên thiết bị thực. Chỉ test hoạt động độc lập 1 app trước, sau đó 2 app + life cycle; **không tự phát hành Sileo, không cài đè Native12 Hub8, không sửa repo Sileo khi chưa xác nhận thiết bị.**
+- Điều kiện có thể ảnh hưởng test: mã độc lập hiện từ chối DFIStart khi ObjC class `CBBridgeManager` của gói kế thừa vẫn nạp; vì vậy test trên thiết bị có cả bản cũ có thể dừng do bảo vệ single-owner (không phải bằng chứng engine độc lập hỏng). Không tự gỡ/tắt tweak đang dùng, cần phối hợp bước test riêng an toàn.
+- *Nền đã xác minh:* `replacement/visual12/engine/runtime/DFIRuntime.m`, `replacement/cb-compat/DFCBCompat.m`, `replacement/visual12/fullscreen/DFVisual12HostGeometry.m` đã compile/link CI pass `39036093540`. Chưa có DEB QA mới. Nếu build QA pass cũng không đồng nghĩa scene trên CarPlay pass.
+- Tiếp tục: đóng gói source độc lập dựa trên mẫu build cũ từ commit `d5227b4cb42bb0143e63840c95eff8d776b73068` cùng assets gốc hash-pinned; build, kiểm tra DEB trên CI, lưu checksum artifact và hướng dẫn test; chờ xác minh chạy độc lập rồi mới tính plan ghép vào Native12 Hub8. Không tạo tác động lên Hub8 khi đang chưa test.
+
+
 ## 2026-10-17 — ĐÃ NỐI DFI CARPLAY ENGINE + DFCB + FULLSCREEN ZOOM; CI SUCCESS 39036093540
 
 **Yêu cầu hiện hành:** Người dùng yêu cầu **thực hiện ngay**, tận dụng toàn bộ thành quả DuoFace 12 (split/fullscreen/menu/Hub), không viết lại ứng dụng, không chỉ vá giấy phép. Chỉ cài DuoFace bản mới với ID `com.duoface.visual12`, không phụ thuộc DuoNavi, DuoDash/Airaw, không đụng Native12 Hub trên Sileo. **Giao diện V12 chuẩn là điều kiện nghiệm thu**, không sử dụng alpha2 giao diện sai làm bản cuối.
