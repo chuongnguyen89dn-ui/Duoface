@@ -305,7 +305,7 @@ static id DFICarDisplay(void) {
 }
 static void DFIStop(void) {
     // Unbind the facade BEFORE the actual host tears down its scenes.
-    if(DFIWindow) DFCBUnbindHost(DFIWindow);
+    if(DFIWindow && DFIRoot) DFCBUnbindHost(DFIWindow); // QA root never binds CB facade
     DFIChromeSetZoom(NO);
     DFIPerfMark(@"split_stop",nil);
     DFIPerfStop();
