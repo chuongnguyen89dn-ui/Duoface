@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:25 +07 — SPEED5SCENE-STATUS-CHECKPOINT-20261017-0725
+Yêu cầu mới nhất: cập nhật bàn giao ngay, không tiếp tục chờ hoặc nói chung chung. Người dùng chưa thấy Speed5Scene trên Sileo.
+Xác minh GitHub Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38983807423: status=completed, conclusion=success; branch feature/duoface-exact-payload-migration HEAD=b0cc3ab8ca64605e49c7ec54be9a0dd44aae1646. Run là build thử GOFA-style SpringBoard overlay từ Native12; workflow ghi rõ NO Sileo, vì vậy không được đồng nhất build với xuất bản Sileo. Chưa có bằng chứng xác minh Speed5Scene đã có trên Sileo hoặc hoạt động trên iPhone. Speed4 trước đó không hiện bong bóng trên DuoFace.
+Điểm tiếp tục: xác minh artifact/DEB và QA an toàn, kiểm tra repo chuongnguyen89dn-ui/carplaydsp Packages/Release trước khi nói đã xuất bản; nếu có lỗi compile lấy job logs và sửa, không phát hành nhầm. Giữ baseline Native12, không sửa Waze, cần test Home=0/split=1/thoát=0/GOFA active suppress.
+
 ## 17/10/2026 — KIỂM TRA LẠI SPEED5SCENE & SILEO THEO YÊU CẦU CẬP NHẬT BÀN GIAO
 Checkpoint: SPEED5SCENE-HANDOFF-USER-REQUEST-RECONFIRMED-20261017. Yêu cầu trực tiếp: “Cập nhật bàn giao dự án”. **Lần này chỉ kiểm tra lại và ghi trạng thái, không viết mã mới, không dispatch build khác, không thay đổi repo phát hành, không tự cài trên iPhone.**
 
