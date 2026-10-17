@@ -1,0 +1,96 @@
+name: Build VisualTest12 functional activation repair candidate
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'runtime/visualtest12/DFVisual12GateRepair.m'
+      - 'runtime/visualtest12/DFVisual12GateRepair.plist'
+      - 'migration/full_payload/native_test/build_visual12_gate_repair.py'
+      - '.github/workflows/duoface-visual12-gate-repair-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visual12-gate-repair-candidate
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Verify pinned VisualTest12 source and prepare signing
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          python3 -m py_compile migration/full_payload/native_test/build_visual12_gate_repair.py
+          plutil -lint runtime/visualtest12/DFVisual12GateRepair.plist
+          printf '%s  %s\n' '8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a' 'dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb' | shasum -a 256 -c -
+      - name: Compile and sign the functional gate replacement
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -arch arm64 -isysroot "$SDK" \
+            -fobjc-arc -fblocks -dynamiclib -Wall -Wextra -Werror \
+            -Wl,-headerpad,0x1000 -framework UIKit -framework Foundation \
+            -o "$RUNNER_TEMP/DFVisual12GateRepair.dylib" runtime/visualtest12/DFVisual12GateRepair.m
+          ldid -S "$RUNNER_TEMP/DFVisual12GateRepair.dylib"
+          test "$(xcrun lipo -archs "$RUNNER_TEMP/DFVisual12GateRepair.dylib")" = arm64
+          xcrun otool -L "$RUNNER_TEMP/DFVisual12GateRepair.dylib"
+      - name: Package actual VisualTest12 instead of the damaged launchfix baseline
+        run: |
+          set -euo pipefail
+          mkdir -p dist/visualtest12-repair1
+          python3 migration/full_payload/native_test/build_visual12_gate_repair.py \
+            --dylib "$RUNNER_TEMP/DFVisual12GateRepair.dylib" \
+            --out dist/visualtest12-repair1/com.duonavi.app_1.0.3-12~visualtest12repair1_iphoneos-arm64.deb \
+            --report dist/visualtest12-repair1/BAO_CAO.json
+          deb=dist/visualtest12-repair1/com.duonavi.app_1.0.3-12~visualtest12repair1_iphoneos-arm64.deb
+          test "$(dpkg-deb -f "$deb" Package)" = com.duonavi.app
+          test "$(dpkg-deb -f "$deb" Version)" = '1.0.3-12~visualtest12repair1'
+          dpkg --compare-versions '1.0.3-12~visualtest12repair1' gt '1.0.3-12~visualtest12launch3ddtrace1'
+          mkdir -p "$RUNNER_TEMP/visual12-repair-stage"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/visual12-repair-stage"
+          test -s "$RUNNER_TEMP/visual12-repair-stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12GateRepair.dylib"
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          root=Path('dist/visualtest12-repair1')
+          o=json.loads((root/'BAO_CAO.json').read_text())
+          deb=next(root.glob('*.deb'))
+          assert o['status']=='VISUALTEST12_FUNCTIONAL_LICENSE_GATE_CANDIDATE_NOT_DEVICE_PROVEN'
+          assert o['all_original_payload_files_byte_identical']
+          assert o['entire_original_scene_bridge_and_lifecycle_unmodified']
+          assert o['total_original_methods_neutralized']==0
+          assert len(o['patched_getters'])==3
+          assert not o['only_logging_probe']
+          assert not o['hub_changed'] and not o['airaw_binary_bundled'] and not o['duodash_binary_bundled']
+          assert not o['device_tested'] and not o['sileo_published'] and not o['recovery_proven']
+          assert o['output_sha256']==hashlib.sha256(deb.read_bytes()).hexdigest()
+          print('VISUAL12_FUNCTIONAL_CANDIDATE_COMPILED_CORE_PRESERVED_DEVICE_QA_PENDING')
+          PY
+          dpkg-deb -c "$deb" > dist/visualtest12-repair1/CONTENTS.txt
+          shasum -a 256 "$deb" > dist/visualtest12-repair1/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VisualTest12-real-functional-gate-repair-candidate
+          path: dist/visualtest12-repair1/
+          if-no-files-found: warn
+      - name: Save reproducible DEB and report on recovery branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/visualtest12-repair1/
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: VisualTest12 narrow functional activation candidate [skip ci]'
+          for try in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            git push origin HEAD:feature/visual12-duodash-recovery && exit 0
+            sleep 2
+          done
+          exit 1
