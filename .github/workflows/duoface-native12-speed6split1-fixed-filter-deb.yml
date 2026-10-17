@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/duoface-exact-payload-migration]
     paths:
-      - '.github/workflows/duoface-native12-speed6split1-native-host-deb.yml'
+      - '.github/workflows/duoface-native12-speed6split1-fixed-filter-deb.yml'
       - 'Makefile.speedhud-split6-stage'
       - 'DuoFaceSpeedHUDSplit6.plist'
       - 'runtime/speedbubble/DFSpeedNativeSplitHost.mm'
@@ -31,7 +31,7 @@ jobs:
           base=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
           echo "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  $base" | shasum -a 256 -c -
           python3 -m py_compile migration/full_payload/native_test/build_native12_speed6split1_candidate.py
-          python3 -m py_compile migration/full_payload/native_test/check_native12_speed6split1_contract.py
+          python3 -m py_compile migration/full_payload/native_test/check_native12_speed6split_contract.py
           python3 migration/full_payload/native_test/check_native12_speed6split_contract.py
           plutil -lint DuoFaceSpeedHUDSplit6.plist
           dpkg --compare-versions '0.1.0~native12+speed6split1' gt '0.1.0~native12+speed5scene'
