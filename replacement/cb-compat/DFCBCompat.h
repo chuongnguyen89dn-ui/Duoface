@@ -15,7 +15,7 @@ FOUNDATION_EXPORT void DFCBUnbindHost(UIWindow *window);
 FOUNDATION_EXPORT BOOL DFCBHostIsBound(void);
 
 // Selector surface consumed by the saved DuoFace Fullscreen implementation.
-@interface DFCBWindow : NSObject
+@interface CBWindow : NSObject
 + (CGRect)carPlayScreenBounds;
 + (CGRect)carPlayUsableBounds;
 @property(nonatomic) CGRect appFrame;
@@ -28,16 +28,16 @@ FOUNDATION_EXPORT BOOL DFCBHostIsBound(void);
 - (void)destroyWindows;
 @end
 
-@interface DFCBBridgedSplitApp : NSObject
+@interface CBBridgedSplitApp : NSObject
 @property(nonatomic,readonly,nullable) UIView *view;
 - (void)layoutSplitViews;
 @end
 
-@interface DFCBBridgeManager : NSObject
+@interface CBBridgeManager : NSObject
 + (nullable instancetype)sharedInstanceIfExists;
 @property(nonatomic,readonly) BOOL activated;
-@property(nonatomic,readonly,nullable) DFCBWindow *window;
-@property(nonatomic,readonly,nullable) DFCBBridgedSplitApp *currentApp;
+@property(nonatomic,readonly,nullable) CBWindow *window;
+@property(nonatomic,readonly,nullable) CBBridgedSplitApp *currentApp;
 @property(nonatomic) CGRect appFrame;
 @property(nonatomic) CGSize renderSize;
 - (void)deactivateCurrentApp;
