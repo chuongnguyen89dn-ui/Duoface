@@ -1,0 +1,22 @@
+{
+  "status": "BUILT_STATIC_QA_DEVICE_UNTESTED",
+  "package": "com.duoface.diagnostic",
+  "version": "0.1.0~diag1",
+  "architecture": "iphoneos-arm64",
+  "depends": "com.duoface.independent",
+  "dylib_only_springboard": true,
+  "no_replacement_of_duoface_files": true,
+  "file_count": 2,
+  "files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDiagnostic.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDiagnostic.plist"
+  ],
+  "speed8_baseline_sha256_unchanged": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "output_sha256": "d70a4a4d24cdad3a650c871cefc0a33facab5aa9a1fb791e19ddcfc4010c8c6d",
+  "runtime_log": "/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl",
+  "uikit_events_observed_not_carplay_icon_tap_hook": true,
+  "has_method_hooks": false,
+  "creates_uiwindow": false,
+  "sileo_published": false,
+  "device_tested": false
+}
