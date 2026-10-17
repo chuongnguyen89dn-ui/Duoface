@@ -140,8 +140,8 @@
             "visual_bytes": 1376,
             "native_bytes": 1376,
             "same_size": true,
-            "same_vm_bytes_compared": 1376,
-            "changed_bytes_at_same_vm": 0
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA/__data",
@@ -248,8 +248,8 @@
             "visual_bytes": 40,
             "native_bytes": 40,
             "same_size": true,
-            "same_vm_bytes_compared": 40,
-            "changed_bytes_at_same_vm": 0
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA/__thread_vars",
@@ -454,6 +454,209 @@
             "same_size": true,
             "same_vm_bytes_compared": 636060,
             "changed_bytes_at_same_vm": 265832,
+            "outside_ledger_changed_clusters_total": 86,
+            "outside_ledger_largest_changed_clusters": [
+              {
+                "vm_start": "0x10002f0be",
+                "vm_end_exclusive": "0x10002f12c",
+                "bytes": 110
+              },
+              {
+                "vm_start": "0x10001b3f1",
+                "vm_end_exclusive": "0x10001b428",
+                "bytes": 55
+              },
+              {
+                "vm_start": "0x10001b3c0",
+                "vm_end_exclusive": "0x10001b3f0",
+                "bytes": 48
+              },
+              {
+                "vm_start": "0x1000591dc",
+                "vm_end_exclusive": "0x10005920c",
+                "bytes": 48
+              },
+              {
+                "vm_start": "0x10001b42c",
+                "vm_end_exclusive": "0x10001b458",
+                "bytes": 44
+              },
+              {
+                "vm_start": "0x10002ba90",
+                "vm_end_exclusive": "0x10002babc",
+                "bytes": 44
+              },
+              {
+                "vm_start": "0x100008c50",
+                "vm_end_exclusive": "0x100008c70",
+                "bytes": 32
+              },
+              {
+                "vm_start": "0x10002bad8",
+                "vm_end_exclusive": "0x10002baf4",
+                "bytes": 28
+              },
+              {
+                "vm_start": "0x100021de0",
+                "vm_end_exclusive": "0x100021df8",
+                "bytes": 24
+              },
+              {
+                "vm_start": "0x100024bb8",
+                "vm_end_exclusive": "0x100024bd0",
+                "bytes": 24
+              },
+              {
+                "vm_start": "0x100029b70",
+                "vm_end_exclusive": "0x100029b88",
+                "bytes": 24
+              },
+              {
+                "vm_start": "0x1000591c0",
+                "vm_end_exclusive": "0x1000591d8",
+                "bytes": 24
+              },
+              {
+                "vm_start": "0x10001b3a8",
+                "vm_end_exclusive": "0x10001b3bc",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x100025588",
+                "vm_end_exclusive": "0x10002559c",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x1000265b0",
+                "vm_end_exclusive": "0x1000265c4",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x10002707c",
+                "vm_end_exclusive": "0x100027090",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x100027a3c",
+                "vm_end_exclusive": "0x100027a50",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x100028b50",
+                "vm_end_exclusive": "0x100028b64",
+                "bytes": 20
+              },
+              {
+                "vm_start": "0x10001b393",
+                "vm_end_exclusive": "0x10001b3a4",
+                "bytes": 17
+              },
+              {
+                "vm_start": "0x10002f0ac",
+                "vm_end_exclusive": "0x10002f0bd",
+                "bytes": 17
+              },
+              {
+                "vm_start": "0x100021d48",
+                "vm_end_exclusive": "0x100021d58",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100021d7c",
+                "vm_end_exclusive": "0x100021d8c",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100021d90",
+                "vm_end_exclusive": "0x100021da0",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100021da4",
+                "vm_end_exclusive": "0x100021db4",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100021db8",
+                "vm_end_exclusive": "0x100021dc8",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100021dcc",
+                "vm_end_exclusive": "0x100021ddc",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024af0",
+                "vm_end_exclusive": "0x100024b00",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b04",
+                "vm_end_exclusive": "0x100024b14",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b18",
+                "vm_end_exclusive": "0x100024b28",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b2c",
+                "vm_end_exclusive": "0x100024b3c",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b40",
+                "vm_end_exclusive": "0x100024b50",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b54",
+                "vm_end_exclusive": "0x100024b64",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b68",
+                "vm_end_exclusive": "0x100024b78",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b7c",
+                "vm_end_exclusive": "0x100024b8c",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024b90",
+                "vm_end_exclusive": "0x100024ba0",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100024ba4",
+                "vm_end_exclusive": "0x100024bb4",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x10002554c",
+                "vm_end_exclusive": "0x10002555c",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100025560",
+                "vm_end_exclusive": "0x100025570",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100025574",
+                "vm_end_exclusive": "0x100025584",
+                "bytes": 16
+              },
+              {
+                "vm_start": "0x100026574",
+                "vm_end_exclusive": "0x100026584",
+                "bytes": 16
+              }
+            ],
             "text_changed_bytes_within_native4_stub_spans": 264263,
             "text_changed_bytes_outside_native4_stub_spans": 1569,
             "native4_ledger_scope_is_reference_only": true
@@ -656,8 +859,8 @@
             "visual_bytes": 5688,
             "native_bytes": 5688,
             "same_size": true,
-            "same_vm_bytes_compared": 5688,
-            "changed_bytes_at_same_vm": 6
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA/__common",
@@ -668,8 +871,8 @@
             "visual_bytes": 672,
             "native_bytes": 672,
             "same_size": true,
-            "same_vm_bytes_compared": 672,
-            "changed_bytes_at_same_vm": 0
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA/__data",
@@ -776,8 +979,8 @@
             "visual_bytes": 480,
             "native_bytes": 480,
             "same_size": true,
-            "same_vm_bytes_compared": 480,
-            "changed_bytes_at_same_vm": 0
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA/__thread_vars",
@@ -849,7 +1052,7 @@
             "native_bytes": 0,
             "same_size": true,
             "same_vm_bytes_compared": 0,
-            "compare_reason": "different_VM_or_non_file_backed_section"
+            "compare_reason": "different_VM_or_non_file_backed_or_zerofill_section"
           },
           {
             "section": "__DATA_CONST/__objc_classlist",
@@ -1006,6 +1209,39 @@
             "same_size": true,
             "same_vm_bytes_compared": 3040544,
             "changed_bytes_at_same_vm": 313523,
+            "outside_ledger_changed_clusters_total": 6,
+            "outside_ledger_largest_changed_clusters": [
+              {
+                "vm_start": "0xb9434",
+                "vm_end_exclusive": "0xb94ec",
+                "bytes": 184
+              },
+              {
+                "vm_start": "0x39798",
+                "vm_end_exclusive": "0x39804",
+                "bytes": 108
+              },
+              {
+                "vm_start": "0x3973d",
+                "vm_end_exclusive": "0x3976c",
+                "bytes": 47
+              },
+              {
+                "vm_start": "0x812a4",
+                "vm_end_exclusive": "0x812b0",
+                "bytes": 12
+              },
+              {
+                "vm_start": "0x39732",
+                "vm_end_exclusive": "0x3973c",
+                "bytes": 10
+              },
+              {
+                "vm_start": "0x3972c",
+                "vm_end_exclusive": "0x39731",
+                "bytes": 5
+              }
+            ],
             "text_changed_bytes_within_native4_stub_spans": 313157,
             "text_changed_bytes_outside_native4_stub_spans": 366,
             "native4_ledger_scope_is_reference_only": true
