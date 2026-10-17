@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — NGƯỜI DÙNG XÁC NHẬN APP HIỂN THỊ TRÊN CARPLAY
+
+**Bằng chứng:** ảnh do người dùng gửi cho thấy màn hình DuoFace CarPlay QA trên iPhone có nút chọn App 1/2 và hình màn hình chia hai vùng ứng dụng; người dùng xác nhận rõ `App mở đt. Màn hình carplay`, tức thao tác mở ứng dụng từ điện thoại, hai ứng dụng được hiển thị trên màn hình CarPlay. Đây là **báo cáo thử thiết bị từ người dùng**, không phải kiểm chứng độc lập bằng log. Không khẳng định đã kiểm thử touch, resize, focus, lifecycle, disconnect/reconnect, hay hai app chạy đồng thời ổn định. Run publisher `39078065447` completed success (đã kiểm tra GitHub). 
+
+**Bước tiếp:** xác minh chạm/điều khiển từng app trực tiếp trên màn CarPlay; chuyển đổi, đóng/mở, kết nối lại; xin log `DuoFaceCarPlayQA.log` và `DuoFaceVisual12-runtime.log` nếu có lỗi. Giữ nguyên Native12 + Hub8, không thay bằng giao diện QA; chỉ chuyển cơ chế đã kiểm chứng vào UI DuoFace chính sau khi test đủ.
+
+
 ## 2026-10-18 — PICKER QA BUILD XANH, ĐÃ KÍCH HOẠT SILEO
 
 Run `39077875674` failed vì snapshot cũ verify assert standalone3diag; run `39077878352` cancelled. Run mới `39077881257` **completed success**, toàn bộ compile/verify/upload/persist pass. `dist/visual12-g1g2-qa/BAO_CAO.json` xác nhận version `1.0.3-12~standalone4picker`, SHA256 `cbffa3064d01b3bd3bb77b7a46cb4c47d7986b8e419d0d24bdc36eb5cc8cab4f`, 1,070,748 bytes, source `6347fb837338815ec49b1011c0956839e0224df6`; SHA256SUMS khớp. Đã cập nhật publisher repo `chuongnguyen89dn-ui/carplaydsp` branch main `.github/workflows/build.yml` commit `b71e87bb530ad3989e174acc08ed54071922bfb3`, thay version/URL/SHA và assertion standalone4picker. Sileo publish run `39078065447` **queued** khi kiểm tra; chưa tuyên bố Pages live. Bước tiếp: kiểm tra run, nếu failure đọc logs, nếu success kiểm tra Packages public và hướng dẫn refresh Sileo. Native12+Hub8 không thay đổi. Device QA chưa kiểm thử.
