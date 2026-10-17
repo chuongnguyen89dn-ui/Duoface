@@ -1,0 +1,71 @@
+name: DuoFace GOFAHUD 0.3.1 actual DEB CarPlay layer audit READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-gofahud031-window-layer-readonly.yml'
+      - 'migration/full_payload/native_test/audit_gofahud_031_carplay_layer.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-gofahud031-readonly-layer
+  cancel-in-progress: false
+jobs:
+  forensic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch original GOFAHUD rootless 0.3.1 DEB and pin exact hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --retry-delay 3 \
+            'https://github.com/manhtien9x/gofahud-repo/releases/download/v0.3.1-1/GOFAHUD-0.3.1-rootless.deb' \
+            -o "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb"
+          printf '%s  %s\n' '62d6d818384844591217d74ab446404637127752e1b23bc1f9754ef1da297ad5' "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb" | sha256sum -c -
+          echo GOFAHUD031_SOURCE_RELEASE_DEB_SHA256_PASS
+      - name: Dissect real GOFAHUD package, modules, and injection targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_gofahud_031_carplay_layer.py
+          python3 migration/full_payload/native_test/audit_gofahud_031_carplay_layer.py \
+            --deb "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb" \
+            --out audit/speedbubble/GOFAHUD_031_CARPLAY_LAYER_ACTUAL_DEB.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('audit/speedbubble/GOFAHUD_031_CARPLAY_LAYER_ACTUAL_DEB.json')
+          j=json.loads(p.read_text())
+          assert j['status']=='GOFAHUD_031_ACTUAL_ROOTLESS_DEB_LAYER_AUDIT_PASS_STATIC_ONLY'
+          assert j['device_tested'] is False
+          assert 'GofaCarplayGlobal.dylib' in j['dylibs']
+          print('GOFAHUD031_REPORT_JSON_PARSE_AND_STATIC_INTEGRITY_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gofahud031-actual-deb-carplay-layer-report
+          path: audit/speedbubble/GOFAHUD_031_CARPLAY_LAYER_ACTUAL_DEB.json
+          if-no-files-found: warn
+      - name: Persist read-only audit evidence in project feature repo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/GOFAHUD_031_CARPLAY_LAYER_ACTUAL_DEB.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: pin actual GOFAHUD 0.3.1 rootless CarPlay binary layers [skip ci]'
+          for i in 1 2 3 4; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
