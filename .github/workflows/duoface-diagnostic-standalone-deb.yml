@@ -1,0 +1,102 @@
+name: DuoFace Independent Diagnostic SpringBoard Rootless DEB QA NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-diagnostic-standalone-deb.yml'
+      - 'runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm'
+      - 'Makefile.duoface-diagnostic-stage'
+      - 'DuoFaceDiagnostic.plist'
+      - 'migration/full_payload/native_test/build_duoface_diagnostic_deb.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-diagnostic-standalone-deb
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check isolated rootless package, unmodified DuoFace baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          python3 -m py_compile migration/full_payload/native_test/build_duoface_diagnostic_deb.py
+          plutil -lint DuoFaceDiagnostic.plist
+          test "$(cat DuoFaceDiagnostic.plist)" = '{ Filter = { Executables = ("SpringBoard"); }; }'
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' 'dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' | shasum -a 256 -c -
+          ! grep -En 'MSHookMessageEx|%hook|method_exchangeImplementations|class_replaceMethod|addSubview:|alloc.*UIWindow|initWithWindowScene:' runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm
+          ! grep -F 'com.apple.CarPlayApp' DuoFaceDiagnostic.plist
+          echo DUOFACE_DIAG_SPRINGBOARD_ONLY_PASS
+      - name: Build standalone arm64 diagnostic dylib using established Theos rootless flow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.duoface-diagnostic-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceDiagnostic.dylib' -print -quit)"
+          test -s "$dylib"
+          xcrun lipo "$dylib" -verify_arch arm64
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceDiagnostic.dylib"
+          echo DUOFACE_DIAGNOSTIC_ARM64_COMPILED
+      - name: Create signed independent DEB and verify no DuoFace file replacement
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='dist/diagnostic/diag1'
+          rm -rf "$target"
+          mkdir -p "$target"
+          deb="$target/com.duoface.diagnostic_0.1.0~diag1_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_duoface_diagnostic_deb.py \
+            --dylib "$RUNNER_TEMP/DuoFaceDiagnostic.dylib" \
+            --output "$deb" --report "$target/BAO_CAO.json"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.diagnostic'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          test "$(dpkg-deb -f "$deb" Depends)" = 'com.duoface.independent'
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          test "$(grep -c 'DuoFaceDiagnostic.dylib' "$target/CONTENTS.txt")" -eq 1
+          test "$(grep -c 'DuoFaceDiagnostic.plist' "$target/CONTENTS.txt")" -eq 1
+          ! grep -E 'DuoFaceDashboard|DuoFaceSpeedHUD|DuoFaceSpeedOwner|DuoFaceUI.app|DuoFaceFullscreenBridge' "$target/CONTENTS.txt"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          j=json.loads(Path('dist/diagnostic/diag1/BAO_CAO.json').read_text())
+          assert j['file_count']==2 and j['dylib_only_springboard']
+          assert j['no_replacement_of_duoface_files']
+          assert not j['has_method_hooks'] and not j['creates_uiwindow']
+          assert not j['device_tested'] and not j['sileo_published']
+          print('DIAGNOSTIC_SEPARATE_DEB_STATIC_PAYLOAD_QA_PASS')
+          PY
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-independent-diagnostic-diag1-QA-NOT-Sileo
+          path: dist/diagnostic/diag1/
+          if-no-files-found: warn
+      - name: Commit QA artifact ONLY to DuoFace feature branch, never Sileo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/diagnostic/diag1/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: independent DuoFace diagnostic rootless DEB, QA only [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
