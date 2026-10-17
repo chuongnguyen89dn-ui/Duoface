@@ -6,7 +6,7 @@ BASE=pathlib.Path("dist/payload-migration/native12/com.duoface.independent_0.1.0
 PIN="85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
 VERSION="0.1.0~native12+speed6split"
 DIR=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
-NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUDSplit6.plist")
+NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")
 BAN=("DuoFaceSpeedSources","WazeGMapHUDSource","GofaGMapHUDSource",
     "VietMapGoogleMapsSource","GMapHUDPlacementRelay","GMapHUDOverspeedScreen","GoogleMapsVietMap")
 def hashfile(p):return hashlib.sha256(p.read_bytes()).hexdigest()
