@@ -260,7 +260,14 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)toggleZoom {
  [self dismissPanel];
- BOOL expanded=!DFIChromeZoomRequested();
+ BOOL expanded=!DFHostIsExpanded();
+ NSString *reason=nil;
+ if(!DFHostSetExpanded(expanded,&reason)) {
+  [self message:reason?:@"CarPlay host unavailable"];
+  [self armHide];
+  return;
+ }
+ // Geometry ACK is separate from native CarPlay chrome verification.
  DFIChromeSetZoom(expanded);
  self.selectedTab=1;[self updateApprovedTabs];
  [self message:expanded?@"Zoom In":@"Zoom Out"];
