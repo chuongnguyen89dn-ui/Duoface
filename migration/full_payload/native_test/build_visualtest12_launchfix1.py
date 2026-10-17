@@ -155,8 +155,13 @@ def main() -> None:
         (stage / "DEBIAN/md5sums").write_text("\n".join(md5lines) + "\n")
         after = {p.relative_to(stage).as_posix(): digest(p.read_bytes())
                  for p in stage.rglob("*") if p.is_file() and not p.is_symlink()}
-        assert before.keys() == after.keys(), "Missing or added original payload path"
-        changed = sorted(k for k in before if before[k] != after[k])
+        removed = set(before) - set(after)
+        added = set(after) - set(before)
+        # Original VisualTest12 package may omit DEBIAN/md5sums; generating
+        # its standard manifest is allowed but removing any original is not.
+        assert not removed, ("Original payload removed", removed)
+        assert added <= {"DEBIAN/md5sums"}, ("Unexpected added payload", added)
+        changed = sorted(k for k in after if before.get(k) != after[k])
         expected = sorted(list(FILES.values()) + ["DEBIAN/control", "DEBIAN/md5sums"])
         assert changed == expected, (changed, expected)
         assert sum(x["methods_neutralized"] for x in result.values()) == 291
@@ -172,7 +177,8 @@ def main() -> None:
         "original_visualtest12_sha256": SOURCE_SHA,
         "package": PACKAGE, "version": VERSION, "arch": "iphoneos-arm64",
         "patched": result, "changed_original_paths": changed,
-        "untouched_file_count": len(before) - len(changed),
+        "untouched_file_count": sum(before[k] == after[k] for k in before),
+        "manifest_newly_created_if_missing": "DEBIAN/md5sums" not in before,
         "original_visualhook_files_unchanged": all(
             before[k] == after[k] for k in before
             if "DuoFaceVisualHook" in k),
