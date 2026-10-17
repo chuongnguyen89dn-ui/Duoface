@@ -1,0 +1,94 @@
+name: DuoFace DIAG2 separate CarPlay and SpringBoard trace DEB QA
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-diagnostic2-deb.yml'
+      - 'runtime/speedbubble/DFSpeedDiagnostic2.mm'
+      - 'Makefile.duoface-diagnostic2-stage'
+      - 'DuoFaceDiagnostic2.plist'
+      - 'migration/full_payload/native_test/build_duoface_diagnostic2_deb.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-diagnostic2-build
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect separate package and pinned Speed8 base
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          python3 -m py_compile migration/full_payload/native_test/build_duoface_diagnostic2_deb.py
+          plutil -lint DuoFaceDiagnostic2.plist
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' 'dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' | shasum -a 256 -c -
+          ! grep -En 'makeKeyAndVisible|addSubview:|method_exchangeImplementations|class_replaceMethod' runtime/speedbubble/DFSpeedDiagnostic2.mm
+          echo DIAG2_SOURCE_STATIC_PASS
+      - name: Compile DIAG2 with existing Theos rootless toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.duoface-diagnostic2-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceDiagnostic2.dylib' -print -quit)"
+          test -s "$dylib"
+          xcrun lipo "$dylib" -verify_arch arm64
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceDiagnostic2.dylib"
+          echo DIAG2_ARM64_COMPILE_PASS
+      - name: Package and verify replace-diagnostic-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          target=dist/diagnostic/diag2
+          mkdir -p "$target"
+          rm -f "$target"/*.deb "$target"/BAO_CAO.json "$target"/CONTENTS.txt "$target"/SHA256SUMS
+          deb="$target/com.duoface.diagnostic_0.2.0~diag2_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_duoface_diagnostic2_deb.py --dylib "$RUNNER_TEMP/DuoFaceDiagnostic2.dylib" --output "$deb" --report "$target/BAO_CAO.json"
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          test "$(grep -c DuoFaceDiagnostic2.dylib "$target/CONTENTS.txt")" -eq 1
+          test "$(grep -c DuoFaceDiagnostic2.plist "$target/CONTENTS.txt")" -eq 1
+          ! grep -E 'DuoFaceDashboard|DuoFaceSpeedHUD|DuoFaceSpeedOwner|DuoFaceUI.app' "$target/CONTENTS.txt"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('dist/diagnostic/diag2/BAO_CAO.json').read_text())
+          assert a['file_count']==2 and a['no_duoface_independent_files'] and a['signature_guarded_message_hooks']
+          assert not a['creates_uiwindow'] and not a['forces_activation']
+          assert not a['device_tested'] and not a['sileo_published']
+          print("DIAG2_DEB_STATIC_QA_PASS")
+          PY
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-diagnostic-diag2-QA-NOT-Sileo
+          path: dist/diagnostic/diag2/
+          if-no-files-found: warn
+      - name: Save QA output only to feature branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/diagnostic/diag2/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: DIAG2 independent trace DEB QA only [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
