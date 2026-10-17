@@ -74,7 +74,7 @@ def bounded_slice(m: MachO, all_imp: dict, addr: int):
     next_methods = [x for x in all_imp if addr < x < s["vm"] + s["size"]]
     upper = min(next_methods, default=s["vm"] + s["size"])
     size = upper - addr
-    if size <= 0 or size % 4 or size > 65536:
+    if size <= 0 or size % 4 or size > 262144:
         return None, f"unbounded or unusually large ObjC IMP region: {size}"
     start = m.map(addr)
     if not (start >= s["fileoff"] and start + size <= s["fileoff"] + s["size"]):
@@ -105,7 +105,9 @@ def evaluate(m1: MachO, m2: MachO, name: str) -> dict:
             id = f"{owner}::{sel}"
             a, b = original.get(sel), native.get(sel)
             if a is None or b is None:
-                out[id] = {"present_in_both": False, "error": "missing registered selector"}
+                out[id] = {"present_in_both": False,
+                           "present_visual": a is not None, "present_native12": b is not None,
+                           "error": "selector missing from class metadata, may be inherited, dynamic or an obsolete audit target"}
                 continue
             left, le = bounded_slice(m1, all1, a["imp_vm"])
             right, re = bounded_slice(m2, all2, b["imp_vm"])
@@ -117,8 +119,9 @@ def evaluate(m1: MachO, m2: MachO, name: str) -> dict:
                 "visual_type": a["type"],
                 "native_type": b["type"],
                 "same_type_encoding": a["type"] == b["type"],
-                "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+                "range_model": "conservative IMP-to-next-registered-IMP upper-bound; may include unrelated C helpers and multiple function bodies",
                 "range_proven_exact_method_end": False,
+                "large_gap_does_not_prove_single_function_body": True,
                 "visual_range_error": le, "native_range_error": re,
             }
             if left is not None and right is not None:
