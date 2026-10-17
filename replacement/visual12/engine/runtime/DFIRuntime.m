@@ -303,6 +303,22 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
         for(id view in self.phoneViews) if([view respondsToSelector:mode])
             ((void(*)(id,SEL,NSInteger,id,id))objc_msgSend)(view,mode,4,nil,nil);
     } @catch(NSException *exception) { DFILog(exception.reason); }
+    // SBAppViewController may still own an asynchronous mode transition after
+    // setRequestedMode:/scene update. Both device crashes (06:22/06:25) were
+    // triggered while its dealloc assertion ran during an autorelease drain.
+    // Keep only the private controller alive across a bounded grace period;
+    // release the rest of the scene host immediately. This is a QA mitigation,
+    // not proof that the underlying UIKit lifecycle is fixed.
+    id retiringController=self.controller;
+    if(retiringController) {
+        DFILog([NSString stringWithFormat:@"QA scene close defer controller release bundle=%@",self.bundleID]);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            // Keep the strong capture until the scheduled release, on main.
+            DFILog(@"QA scene deferred controller release");
+            (void)retiringController;
+        });
+    }
     self.controller=nil; self.entity=nil; self.scene=nil; self.savedSettings=nil; self.deviceController=nil; self.handle=nil;
     [self.phoneViews removeAllObjects];
 }
