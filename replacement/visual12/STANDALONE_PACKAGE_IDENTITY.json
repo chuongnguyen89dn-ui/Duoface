@@ -1,0 +1,34 @@
+{
+  "status": "SOURCE_IDENTITY_RESERVED_NOT_AN_INSTALLABLE_PACKAGE",
+  "project": "DuoFace Visual12 Standalone",
+  "target": "iOS16 rootless CarPlay",
+  "package_id": "com.duoface.visual12",
+  "app_bundle_id": "com.duoface.visual12",
+  "app_display_name": "DuoFace",
+  "planned_version": "1.0.3-12~standalone1",
+  "original_baseline_version": "1.0.3-12",
+  "original_ui_requirements": "Preserve approved v12 appearance and interactions without shipping legacy CB binaries",
+  "separate_from_hub_package": "com.duoface.independent",
+  "current_visualtest_package_to_retain_untouched": "com.duonavi.app",
+  "runtime_modules": [
+    "replacement/cb-compat/DFCBCompat.h",
+    "replacement/cb-compat/DFCBCompat.m"
+  ],
+  "must_not_bundle": [
+    "DuoFaceDashboard.dylib",
+    "CBLicenseSyncManager",
+    "DuoDash.dylib",
+    "Airaw.dylib",
+    "com.duonavi.sync.plist"
+  ],
+  "must_keep_unchanged": [
+    "Native12 Hub on Sileo",
+    "existing user-approved Fullscreen/Hub functionality"
+  ],
+  "can_publish_to_sileo": false,
+  "has_source_only_cb_facade": true,
+  "facade_host_bound": false,
+  "actual_two_apps_tested": false,
+  "ui_v12_parity_verified": false,
+  "sileo_catalog_changed": false
+}
