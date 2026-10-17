@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — THỬ THIẾT BỊ: TƯƠNG TÁC APP TRÊN CARPLAY THÀNH CÔNG
+
+**Người dùng xác nhận trực tiếp:** Sau ảnh cho thấy hai vùng ứng dụng trên màn CarPlay (khởi chạy từ iPhone), khi được hỏi có thao tác chạm trực tiếp trên màn CarPlay không, người dùng trả lời `Thao tác đc`. Ghi nhận **PASS theo báo cáo người dùng** cho (1) app hiển thị trên CarPlay và (2) thao tác trên app ở CarPlay. Bản QA `com.duoface.visual12` `1.0.3-12~standalone4picker`; publisher run `39078065447` success. Không suy diễn cả hai app đều đã thử chạm riêng, không suy diễn split resize, chuyển app, đóng/mở, ngắt/nối lại, crash-free hoặc UI tương đương Native12. Không có log mới.
+
+**Quyết định tiếp theo:** bảo toàn nguyên trạng QA đã hoạt động và Native12+Hub8; kiểm thử lần lượt cả hai pane, đóng/mở app, ngắt/nối CarPlay; nếu pass mới lập bản đồ chuyển bridge/scene host đã kiểm chứng vào giao diện DuoFace chính. Không phát hành thay thế Native12 chỉ dựa vào một lượt chạm thành công.
+
+
 ## 2026-10-18 — NGƯỜI DÙNG XÁC NHẬN APP HIỂN THỊ TRÊN CARPLAY
 
 **Bằng chứng:** ảnh do người dùng gửi cho thấy màn hình DuoFace CarPlay QA trên iPhone có nút chọn App 1/2 và hình màn hình chia hai vùng ứng dụng; người dùng xác nhận rõ `App mở đt. Màn hình carplay`, tức thao tác mở ứng dụng từ điện thoại, hai ứng dụng được hiển thị trên màn hình CarPlay. Đây là **báo cáo thử thiết bị từ người dùng**, không phải kiểm chứng độc lập bằng log. Không khẳng định đã kiểm thử touch, resize, focus, lifecycle, disconnect/reconnect, hay hai app chạy đồng thời ổn định. Run publisher `39078065447` completed success (đã kiểm tra GitHub). 
