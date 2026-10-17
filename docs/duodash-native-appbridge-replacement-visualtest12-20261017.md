@@ -1,4 +1,23 @@
 # DuoFace VisualTest12 — phương án App Bridge độc lập dựa trên kiến trúc DuoDash
+
+## ƯU TIÊN MỚI 17/10/2026 — KHÔI PHỤC CHẠY ĐƯỢC TRƯỚC
+**Yêu cầu mới nhất của người dùng, thay thế thứ tự triển khai cũ:** Không xây App Bridge độc lập hoàn chỉnh ngay; đó là giai đoạn tương lai. Ưu tiên số 1 hiện tại: **DuoFace VisualTest12 mở được trên màn CarPlay và có thể mở ứng dụng iPhone không được CarPlay hỗ trợ**, bằng cách **tái sử dụng có chọn lọc cơ chế đã chạy của DuoDash/Airaw** nếu chứng minh tương thích. Giữ nguyên bản Native12 Hub, giao diện split của DuoFace và các chức năng đang chạy; không mặc nhiên buộc người dùng cài CarBridge ngoài.
+
+**Đối chiếu nguồn đã kiểm:**
+- DuoDash 1.1.3+fullscreen1 DEB có tại `chuongnguyen89dn-ui/DauDat-CarPlay`; đối chiếu tĩnh tại `feature/duoface-exact-payload-migration:audit/duodash-1.1.3/DUODASH_APPBRIDGE_VISUALTEST12_CROSSWALK_20261017.json`: `CNABSpringBoardObserver` nhận host request, `DDz2 cnabBuildSceneHostForBid:displaySize:` tạo scene host, `CNABUIApp setBridgeState:width:height:orientation:` phục vụ app process, `DDz1 showLayoutPanes:natives:bids:` hiển thị. Đây là **hệ thống nhiều process**, không phải chỉ sao chép một nút hay một class.
+- Airaw (báo cáo `docs/fullscreen-root-cause-20261014.md`) phục vụ fullscreen/chrome/scene geometry, **không có bằng chứng là host chung cho app iPhone ngoài danh sách CarPlay**; do đó chỉ là nguồn tham khảo layout/chrome, **không phải giải pháp mở YouTube ưu tiên**.
+- Probe bản VisualTest12: iPhone đã nối CarPlay thật nhưng detector trả true, `CBBridgeManager.activated=false` và `DashboardPolicySignal=false`. Phải xác định liệu UI startup bị chặn trước hay host scene failure sau. Không được biến phỏng đoán 'do giấy phép duy nhất' thành kết luận.
+- Bản gốc VisualTest12 dù copy lại các payload không bảo đảm chạy sau hạn thử; các bản license-gate patch từng thử vẫn chưa đạt chức năng. Không thử lại hàng loạt bản build không có cơ chế mới.
+- Giấy phép/quyền dùng nhị phân DuoDash, Airaw **chưa được xác minh cho phép nhúng/redistribute**. Có thể đối chiếu hành vi, API, các file mà người dùng có quyền; **chưa sao chép dylib độc quyền vào DEB công khai** hay khẳng định sẽ tái dùng được binary nguyên trạng.
+
+**Kế hoạch cứu chạy được — tối thiểu trước, nâng cấp sau:**
+1. **Triage tại điểm lỗi:** từ các báo cáo đã lưu xác định đường `CBBridgeManagerDashboard requestActivation:` → `startBridging:`, `CBBridgeManager requestStateChange:` → `loadNewAppFromCurrentRequest:`, `CBWindow` create/show và CarPlay scene. Tách *không mở DuoFace UI* khỏi *DuoFace UI mở nhưng app pane không chạy*; không vá mù connection detector.
+2. **Kiểm tra khả năng tích hợp chắt lọc:** xác định liệu DuoDash có interface request/scene host tương thích để adapter nhỏ của DuoFace gọi mà không chạy hai chủ scene; nếu chỉ dùng được khi cài toàn bộ DuoDash, không gọi đó là tích hợp tự chứa. Không đụng Hub hoặc ghép nhầm binary Airaw fullscreen với bridge của DuoDash.
+3. Nếu reuse nhỏ có căn cứ: thực hiện candidate **riêng cho VisualTest12**, kiểm tra compile ABI/hook filter/collision; chỉ khi hợp lệ mới build DEB và xuất Sileo, thử trên iPhone đã hết hạn: **mở DuoFace → YouTube một pane → Waze+YouTube split**.
+4. Nếu DuoDash không có interface tái sử dụng an toàn hoặc quyền phân phối không rõ: báo blocker thực tế, chọn phương án tạm thời trên thiết bị (sử dụng DuoDash nguyên bản đã hoạt động), sau đó mới phát triển native bridge độc lập. **Không tự coi bước tạm là đã khôi phục DuoFace**.
+
+**Trạng thái sau thay đổi yêu cầu:** mới đối chiếu logic và đổi ưu tiên; chưa sửa binary/source runtime, chưa có DEB mới, chưa có test thiết bị đạt. GitHub Actions xanh trước đó chỉ là QA/probe cũ. ZIP skills trung tâm đã được phát hiện nhưng phiên hiện tại không giải nén ZIP nhị phân được qua connector; sử dụng các tài liệu `DEB_IPA_SKILL.md`, `AGENTS.md` tương đương được đọc trực tiếp.
+
 Ngày: 2026-10-17. Repo: chuongnguyen89dn-ui/Duoface. Trạng thái: phân tích tĩnh, CHƯA tích hợp/chưa build.
 
 ## Yêu cầu mới (thay thế tiếp tục thử sửa giấy phép đơn lẻ)
