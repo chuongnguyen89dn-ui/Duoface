@@ -1,0 +1,63 @@
+name: DuoFace native12 license/CarPlay policy gate binary forensic read-only
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_native12_license_activation_gate.py'
+      - '.github/workflows/duoface-native12-license-activation-gate-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-license-activation-gate-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect pinned native12 policy and license paths (NO DEB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m py_compile migration/full_payload/native_test/audit_native12_license_activation_gate.py
+          python3 migration/full_payload/native_test/audit_native12_license_activation_gate.py --deb "$deb" --out audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json').read_text())
+          assert a["status"]=="NATIVE12_LICENSE_AND_CARPLAY_POLICY_GATE_BINARY_FORENSICS_READONLY"
+          assert not a["license_expiry_cause_proven"] and not a["binary_changes"]
+          for b in a["binaries"].values():
+              assert b["classes"]["CBLicenseSyncManager"]["-isLicenseCurrentlyValid"]["abi_stored_boolean_one_pattern"]
+          print("NATIVE12_LICENSE_GATE_READONLY_QA_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-license-activation-gate-readonly
+          path: audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json
+          if-no-files-found: warn
+      - name: Commit bounded audit to feature branch (no DEB or patch)
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: license check and CarPlay activation code graph readonly [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
