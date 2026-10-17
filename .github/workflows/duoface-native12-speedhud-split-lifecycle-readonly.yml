@@ -1,0 +1,61 @@
+name: DuoFace Native12 speed HUD split lifecycle gate READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speedhud-split-lifecycle-readonly.yml'
+      - 'migration/full_payload/native_test/audit_native12_speedhud_split_lifecycle_gate.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-speedhud-split-lifecycle
+  cancel-in-progress: false
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify immutable native12 then disassemble split activation candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          deb='dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'
+          printf '%s  %s\n' '85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7' "$deb" | sha256sum -c -
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 migration/full_payload/native_test/audit_native12_speedhud_split_lifecycle_gate.py \
+            --deb "$deb" --out audit/speedbubble/NATIVE12_SPEEDHUD_SPLIT_LIFECYCLE_GATE_READONLY.json
+          python3 - <<'PY'
+          import json
+          with open('audit/speedbubble/NATIVE12_SPEEDHUD_SPLIT_LIFECYCLE_GATE_READONLY.json') as f: a=json.load(f)
+          assert a["status"]=="PINNED_NATIVE12_SPLIT_OWNER_LIFECYCLE_FORENSICS_READONLY"
+          for name in ("CBBridgeManager","CBBridgedSplitApp","CBWindow","CBSplitContainerView"):
+            assert a["classes"][name]["all_methods"]
+          assert not a["hud_built"] and not a["on_device_gate_proven"]
+          print("SPEEDHUD_NATIVE12_SPLIT_OWNER_LIFECYCLE_REPORT_VALID_READONLY")
+          PY
+      - name: Preserve exact static forensic report in DuoFace feature
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/NATIVE12_SPEEDHUD_SPLIT_LIFECYCLE_GATE_READONLY.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'audit: pinned Native12 split lifecycle gate selectors [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native12-speedhud-split-lifecycle-readonly-no-deb
+          path: audit/speedbubble/NATIVE12_SPEEDHUD_SPLIT_LIFECYCLE_GATE_READONLY.json
