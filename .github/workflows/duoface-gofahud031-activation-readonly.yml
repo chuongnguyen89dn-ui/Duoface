@@ -1,0 +1,71 @@
+name: DuoFace GOFAHUD 0.3.1 lifecycle and auto-wake DEB forensic READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - ".github/workflows/duoface-gofahud031-activation-readonly.yml"
+      - "migration/full_payload/native_test/audit_gofahud_031_activation_readonly.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-gofahud031-activation-readonly
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download immutable GOFAHUD real rootless package
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 --retry-delay 3 \
+            'https://github.com/manhtien9x/gofahud-repo/releases/download/v0.3.1-1/GOFAHUD-0.3.1-rootless.deb' \
+            -o "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb"
+          printf '%s  %s\n' '62d6d818384844591217d74ab446404637127752e1b23bc1f9754ef1da297ad5' \
+            "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb" | sha256sum -c -
+      - name: Verify binary notify events and lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_gofahud_031_activation_readonly.py
+          python3 migration/full_payload/native_test/audit_gofahud_031_activation_readonly.py \
+            --deb "$RUNNER_TEMP/GOFAHUD-0.3.1-rootless.deb" \
+            --out audit/speedbubble/GOFAHUD_031_ACTIVATION_NOTIFY_REAL_DEB.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("audit/speedbubble/GOFAHUD_031_ACTIVATION_NOTIFY_REAL_DEB.json")
+          j=json.loads(p.read_text())
+          assert j["status"]=="GOFAHUD_031_REAL_DEB_ACTIVATION_SIGNALS_STATIC_PASS"
+          assert j["binary_extracted"] and not j["runtime_device_tested"]
+          assert j["signals"]["local.gofahud.carplay.show"]
+          print("GOFAHUD031_ACTIVATION_REPORT_JSON_VALIDATED_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gofahud031-activation-notification-inventory
+          path: audit/speedbubble/GOFAHUD_031_ACTIVATION_NOTIFY_REAL_DEB.json
+          if-no-files-found: warn
+      - name: Commit report to DuoFace feature branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/speedbubble/GOFAHUD_031_ACTIVATION_NOTIFY_REAL_DEB.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: pin GOFAHUD real DEB wake/show/foreground tokens [skip ci]'
+          for i in 1 2 3 4; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
