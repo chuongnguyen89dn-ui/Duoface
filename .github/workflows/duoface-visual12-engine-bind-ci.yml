@@ -25,7 +25,7 @@ jobs:
           set -euo pipefail
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 \
-            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
+            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib -DDFCARPLAY_QA=1 \
             -Os -Wall -Wextra -Wno-unused-parameter \
             -Wl,-headerpad,0x1000 -Wl,-install_name,@rpath/DuoFaceVisual12Engine.dylib \
             -I replacement/cb-compat -I runtime/fullscreen \
@@ -34,12 +34,14 @@ jobs:
             -o "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" \
             replacement/visual12/engine/runtime/DFIRuntime.m \
             replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m \
+            replacement/visual12/engine/runtime/DFCarPlayQARootController.m \
             replacement/cb-compat/DFCBCompat.m \
             replacement/visual12/fullscreen/DFVisual12HostGeometry.m
           test "$(xcrun lipo -archs "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib")" = arm64
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBBindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F 'DFCarPlaySplitCoordinator'
+          xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F 'DFCarPlayQARootController'
           xcrun otool -L "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
           shasum -a 256 "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
           xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 \
@@ -101,6 +103,21 @@ jobs:
           assert 'alloc]initWithDisplayConfiguration:' not in coordinator
           for forbidden in ('CBLicenseSyncManager','DDz2','SidePlay.dylib','com.duoface.independent'):
               assert forbidden not in coordinator,forbidden
+          qa=(root/'runtime/DFCarPlayQARootController.m').read_text()
+          assert '#if DFCARPLAY_QA' in runtime
+          assert '#if DFCARPLAY_QA' in qa
+          assert 'if([DFIPref(@"qaEnabled") boolValue]) return;' in runtime
+          assert 'DFIWindow=window; DFIQARoot=root;' in runtime
+          assert 'if(DFIWindow && DFIRoot) DFCBUnbindHost(DFIWindow)' in runtime
+          for signal in ('qa.start','qa.g1','qa.g2','qa.stop'):
+              assert 'com.duoface.carplay.'+signal in runtime
+          assert '@implementation DFCarPlayQARootController' in qa
+          assert 'G1-scene-attached' in qa and 'G2-two-scenes-present' in qa
+          assert 'hasLiveSceneInPane:0' in qa and 'hasLiveSceneInPane:1' in qa
+          assert 'DuoFaceCarPlayQA.log' in qa
+          assert 'UIRootSceneWindow' not in qa
+          assert 'com.duoface.independent' not in qa
+          print('DFCARPLAY_QA_ROOT_G1_G2_WIRING_STATIC_PASS_NO_DEVICE_QA')
           print('DFCARPLAY_TWO_PANE_CONTRACT_STATIC_PASS_NO_DEVICE_QA')
           assert 'com.duoface.independent' not in runtime
           assert 'com.duoface.independent' not in facade
@@ -115,7 +132,7 @@ jobs:
       - name: Upload compile-only CarPlay engine (NOT a Sileo package)
         uses: actions/upload-artifact@v4
         with:
-          name: duoface-carplay-engine-arm64-compile-only
+          name: duoface-carplay-qa-root-arm64-compile-only
           path: ${{ runner.temp }}/DuoFaceVisual12Engine.dylib
           if-no-files-found: error
           retention-days: 90
