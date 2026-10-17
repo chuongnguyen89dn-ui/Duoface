@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — exitMode XUẤT HIỆN NGAY SAU RESPRING, TRƯỚC KHI MỞ APP
+
+**Người dùng đính chính bằng ảnh:** cảnh báo/lỗi `exitmode` thường xuất hiện ngay sau khi khởi động lại SpringBoard, trước khi mở bất kỳ app nào. Ảnh chụp hiển thị một cảnh báo trên iPhone cạnh màn hình CarPlay Dashboard, nhưng chữ cảnh báo trong ảnh quá nhỏ/mờ để xác nhận nội dung chính xác. Đây là thay đổi quan trọng: không được suy đoán lỗi do đóng/chuyển ứng dụng G1/G2.
+
+**Đã đối chiếu mã thực:** `replacement/visual12/engine/runtime/DFIRuntime.m` constructor `DFIInitialize` gọi `DFV12InstallRuntime` trên main queue của SpringBoard; đăng ký Darwin notifications QA start/G1/G2/stop, observers CarPlay connect/disconnect và polling. `DFIQAStart` chỉ chạy sau tín hiệu `com.duoface.carplay.qa.start` và khi `qaEnabled=true`; không tự mở QA scene ở constructor. `DFIConnectionChanged` vẫn gọi `DFIStop` khi disconnect và có nhánh autoStart dành cho legacy. Chưa xác định thông báo `exitMode` do DuoFace hay tweak khác phát ra; chưa có log lúc respring. **Bước tiếp:** yêu cầu ảnh chụp/crop cảnh báo rõ chữ hoặc nội dung nguyên văn và log SpringBoard/Visual12 đúng thời điểm vừa respring, đối chiếu với các observer/auto-start/stop. Không thay bridge đang mở app tốt và không build khi chưa xác minh nguồn cảnh báo.
+
+
 ## 2026-10-18 — 2 PANE HOẠT ĐỘNG, LỖI exitMode KHÔNG THƯỜNG XUYÊN
 
 **Báo cáo mới của người dùng:** cả hai app/pane CarPlay hoạt động được, thỉnh thoảng gặp lỗi `exitmode` (nguyên văn người dùng). Ghi nhận PASS theo báo cáo người dùng cho 2 pane và tương tác; **không** đánh dấu lifecycle/reconnect pass hoặc suy đoán chính xác `exitmode` là selector nào khi chưa có log. Kiểm tra source `replacement/visual12/engine/runtime/DFIRuntime.m`: `DFV12SceneHost` có private `setRequestedMode:`, `_setCurrentMode:`, `close` và `DFIStop` teardown; `replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m` có `cancelAndClose:`, `closePane:`, `stop`. Tìm chuỗi `exitMode` trong hai file này không thấy; vì vậy chưa thể quy lỗi cho một hàm cụ thể.
