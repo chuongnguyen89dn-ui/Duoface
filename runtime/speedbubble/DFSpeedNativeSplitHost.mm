@@ -237,6 +237,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
 #import <unistd.h>
 
 static __weak CBWindow *s6Owner=nil;
+static __weak CBWindow *s6EventOwner=nil;
 static __weak UIView *s6Host=nil;
 static DFSpeedNativeHUD *s6HUD=nil;
 static BOOL s6Installed=NO;
@@ -285,7 +286,8 @@ static BOOL S6IsGOFAActive(void) {
 // tweak is running, require its documented carEnabled preference to be OFF.
 // We never mutate another tweak's preference or broadcast its "show" event.
 static BOOL S6OriginalGOFARendererDisabled(void) {
-    if (!NSClassFromString(@"GOFACarGlobalWindow")) return YES;
+    BOOL installed=[NSFileManager.defaultManager fileExistsAtPath:@"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if (!installed && !NSClassFromString(@"GOFACarGlobalWindow")) return YES;
     CFStringRef domain=CFSTR("local.gofahud");
     CFPreferencesAppSynchronize(domain);
     CFTypeRef enabled=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
@@ -312,7 +314,9 @@ static CBWindow *S6CurrentOwner(void) {
     // Verified from original Native12 Mach-O: +[CBWindow activeCarPlayWindow]
     // @16@0:8. Unlike Speed4, do NOT use the SpringBoard manager singleton.
     id window=((id(*)(id,SEL))objc_msgSend)(cls,selector);
-    return [window isKindOfClass:cls] ? (CBWindow *)window : nil;
+    if ([window isKindOfClass:cls]) return (CBWindow *)window;
+    // Fail-safe only: a proven native CBWindow that fired a native show event.
+    return [s6EventOwner isKindOfClass:cls] ? s6EventOwner : nil;
 }
 static BOOL S6DashboardActive(void) {
     Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
@@ -402,17 +406,21 @@ static void S6Reconcile(void) {
 }
 static void S6WrappedShow(id obj,SEL sel) {
     if(s6OriginalShow) ((void(*)(id,SEL))s6OriginalShow)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
     S6Reconcile();
 }
 static void S6WrappedResize(id obj,SEL sel) {
     if(s6OriginalResize) ((void(*)(id,SEL))s6OriginalResize)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
     S6Reconcile();
 }
 static void S6WrappedDestroy(id obj,SEL sel) {
+    if(s6EventOwner==obj) s6EventOwner=nil;
     if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow destroyed");
     if(s6OriginalDestroy) ((void(*)(id,SEL))s6OriginalDestroy)(obj,sel);
 }
 static void S6WrappedHide(id obj,SEL sel,id completion) {
+    if(s6EventOwner==obj) s6EventOwner=nil;
     if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow hidden");
     if(s6OriginalHide) ((void(*)(id,SEL,id))s6OriginalHide)(obj,sel,completion);
 }
