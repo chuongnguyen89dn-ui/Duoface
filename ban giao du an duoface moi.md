@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — VisualTest12 đã cập nhật Sileo, còn chờ xác nhận mở trên iPhone hết hạn
+
+**ƯU TIÊN HIỆN TẠI:** Người dùng chỉ cần vào được app `com.duonavi.app` trên thiết bị đã hết hạn thử. **Đã có bản thử được đóng gói và phát hành, CHƯA có kết quả mở trên thiết bị.**
+- Hồ sơ triển khai CHI TIẾT VÀ ĐÃ XÁC MINH (không bỏ qua): [docs/visualtest12-launchfix1-live-sileo-checkpoint-20261017.md](docs/visualtest12-launchfix1-live-sileo-checkpoint-20261017.md), commit main `833e513fa3c68a0a73f4c586a110c6d2a236c79b`.
+- Bản DEB thật `com.duonavi.app 1.0.3-12~visualtest12launch1`, SHA256 `e30148affc767ce039040f0e0cccd9a0ecbd40e523ee66409ca96e6ef2085f02` trên feature; 291 method + 2 expiry state, 35 tệp khác không đổi, Hub Speed8 không đổi. Build thành công DuoFace Actions `39021792773`.
+- Sileo GitHub Pages `chuongnguyen89dn-ui/carplaydsp` run `39022124541` build+deploy SUCCESS; **thực tải lại DEB/Packages từ URL Pages và xác minh SHA256, package/version + Hub y nguyên bằng workflow `39022327036` SUCCESS**, bằng chứng `audit/payload-migration/VISUALTEST12_LAUNCHFIX1_PUBLIC_SILEO.json` ở feature `953c4be4cbbb2628f3e0a4b8f4ebe54141ffeb05`. Public source `https://chuongnguyen89dn-ui.github.io/carplaydsp/`.
+- **Tiếp theo:** user refresh Sileo/cập nhật VisualTest12, thử mở trên iPhone hết hạn; nếu lỗi tiếp phải lấy log thiết bị. Chưa được coi là resolved cho tới khi thiết bị xác nhận. Không thay đổi Hub.
+  
+
 ## 17/10/2026 — KIỂM TRA THÂN HÀM CARPLAY ĐẦY ĐỦ THEO UPPER-BOUND THÀNH CÔNG — NO DEB
 **USER:** "Tiếp tục đi" từ main `08c8e8cc2d778203d8e602d600ec2e18a2c04059`, feature `23f2ad6864c296c3dbc0297e033b9691ba4b0f79`. **MỤC TIÊU/BẢO TOÀN:** sửa VisualTest12 `com.duonavi.app 1.0.3-12~visualtest` để bỏ dependency giấy phép mà giữ UI, lựa chọn app, chia CarPlay; **KHÔNG** thay thế bằng alpha và **KHÔNG** sửa Hub Native12/Speed8 `com.duoface.independent`, KHÔNG Sileo trước regression/device test.
 **NGUỒN/KỸ NĂNG:** xác minh `Gpt-training-/SKILL_INDEX.md`, `skills/MANIFEST.json`, `AGENTS.md`, `DEB_IPA_SKILL.md`; gói ZIP kỹ năng continuity/iOS/CI/research đã được giải nén đọc trực tiếp ở checkpoint ngay trước trong cùng lịch sử. Đọc lại source `audit_native12_carplay_add_app_chain.py` (tập các selector đúng) và `audit_visualtest12_macho_vm_abi.py` (ObjC/VM audit), báo cáo và lịch sử main. Kiểm tra Actions ban đầu `in_progress=0`.
