@@ -1,0 +1,55 @@
+name: VisualTest12 license classrefs dependency audit
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_visualtest12_classrefs.py'
+      - '.github/workflows/duoface-visualtest12-classrefs-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  read-only-audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read-only class dependency census (no DEB change)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_visualtest12_classrefs.py
+          python3 migration/full_payload/native_test/audit_visualtest12_classrefs.py --out audit/payload-migration/VISUALTEST12_CLASSREFS_READONLY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path("audit/payload-migration/VISUALTEST12_CLASSREFS_READONLY.json").read_text())
+          assert not a["did_patch_binary"] and not a["did_build_deb"]
+          assert not a["hub_touched"] and not a["sileo_updated"]
+          print("VISUALTEST12_DEPENDENCY_AUDIT_QA_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visualtest12-classref-readonly
+          path: audit/payload-migration/VISUALTEST12_CLASSREFS_READONLY.json
+          if-no-files-found: warn
+      - name: Commit result to feature branch, no release
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_CLASSREFS_READONLY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: VisualTest12 license class references [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
