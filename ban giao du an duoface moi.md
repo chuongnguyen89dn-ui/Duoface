@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐỔI HƯỚNG THEO YÊU CẦU: PHÂN TÍCH 3 DEB TRƯỚC, KHÔNG TẠO LÕI MỚI
+
+**Phản hồi/yêu cầu mới nhất:** Người dùng chỉ rõ đã có dữ liệu/DEB của ba ứng dụng DuoNavi, DuoDash, SidePlay nhưng việc tự xây lại CarPlay từ đầu là sai hướng. **Thay thế ưu tiên cũ**: dừng tạo lõi/adapter mới hoặc phát hành QA đoán mò; phải truy vết và đối chiếu DEB/binary/resources, mã nguồn và log hiện có của cả ba, sau đó chỉ sửa tối thiểu đường mở scene trong DuoFace hiện hữu. Không thay đổi Native12+Hub8, UI sản phẩm đã duyệt hoặc tự ý vô hiệu hóa giấy phép vendor. Giữ lại toàn bộ tiến độ code/CI/QA cũ làm dữ liệu, không coi G1/G2 pass.
+
+**Bước thực thi kế tiếp:** (1) kiểm kê các DEB thực sự có thể truy cập trong repo, file Project/attachments: DuoNavi gốc, DuoDash, SidePlay 1.0.4-1 và DuoFace standalone2qa; ghi SHA256/version/kiến trúc và danh sách payload/dependencies; (2) phân tích ObjC class/selector, dynamic library, entitlement, injection/CarPlay process hooks và luồng scene-owner, xác định các chức năng tương đồng/khác biệt và ranh giới giấy phép; (3) so sánh với `replacement/visual12/engine/runtime/DFIRuntime.m` và đường đã log `scene attached ... class=FBScene`; (4) chỉ đề xuất/sửa thay đổi tối thiểu có bằng chứng, kiểm thử G1/G2. Nếu DEB nào chưa truy cập được, ghi rõ thiếu nguồn và không suy đoán. Tại checkpoint này chưa hoàn thành kiểm kê hay phân tích binary mới, chưa sửa code.
+
+
 ## 2026-10-17 — LOG THIẾT BỊ G1/G2: API SCENE HOST BỊ CHẶN TRONG KHỞI TẠO
 
 **Nguồn chứng cứ người dùng upload:** `DuoFaceCarPlayQA.log` (40 dòng, 2992 bytes) và `DuoFaceVisual12-runtime.log` (31 dòng, 2188 bytes), đọc trực tiếp trong phiên 2026-10-17. Các file đính kèm nằm ở hội thoại, chưa copy bytes vào GitHub; tóm tắt này bảo toàn mốc và nguyên văn lỗi. Không chứa bí mật.
