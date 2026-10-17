@@ -4,6 +4,8 @@ on:
     branches: [feature/visual12-duodash-recovery]
     paths:
       - '.github/workflows/duoface-carplay-g1g2-qa-deb.yml'
+      - 'replacement/visual12/build_g1g2_qa.sh'
+      - 'replacement/visual12/engine/runtime/DFIRuntime.m'
   workflow_dispatch:
 permissions:
   contents: write
@@ -42,12 +44,12 @@ jobs:
         run: |
           set -euo pipefail
           bash replacement/visual12/build_g1g2_qa.sh
-          p='dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone2qa_iphoneos-arm64.deb'
+          p='dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb'
           test -s "$p"
           test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
-          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone2qa'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone3diag'
           test "$(dpkg-deb -f "$p" Architecture)" = 'iphoneos-arm64'
-          dpkg --compare-versions '1.0.3-12~standalone2qa' gt '1.0.3-12~standalone1'
+          dpkg --compare-versions '1.0.3-12~standalone3diag' gt '1.0.3-12~standalone1'
           python3 replacement/visual12/verify_g1g2_qa.py "$p"
           cat dist/visual12-g1g2-qa/BAO_CAO.json
           cat dist/visual12-g1g2-qa/SHA256SUMS
@@ -55,7 +57,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFace-CarPlay-G1-G2-Standalone2QA-DEB
+          name: DuoFace-CarPlay-G1-G2-Standalone3Diag-DEB
           path: |
             dist/visual12-g1g2-qa/*.deb
             dist/visual12-g1g2-qa/BAO_CAO.json
