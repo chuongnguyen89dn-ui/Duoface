@@ -1,0 +1,2997 @@
+{
+  "status": "VISUALTEST12_ORIGINAL_PACKAGE_LAUNCH_RECOVERY_SIGNED_DEB_CANDIDATE",
+  "original_visualtest12_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "package": "com.duonavi.app",
+  "version": "1.0.3-12~visualtest12launch1",
+  "arch": "iphoneos-arm64",
+  "patched": {
+    "DuoFaceUI": {
+      "source_archs": [
+        "arm64:0",
+        "arm64:2"
+      ],
+      "target_archs": [
+        "arm64"
+      ],
+      "related_class_method_metadata_retained": true,
+      "source_raw_host_sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "source_arm64_sha256": "3c2f9a83702e06418d88d2133c06deb970c9ef4fb575a6717a2e008e14c2a730",
+      "methods_neutralized": 248,
+      "expired_flags_neutralized": 2,
+      "patched_methods": [
+        {
+          "class": "XXRootViewController",
+          "selector": "checkAndPresentLicenseModalIfNeeded",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 33608,
+          "size": 908,
+          "before_sha256": "336ac87df94227ad3711bd006d0552ebd4da0cc141039329a6d82b1e41a9c0de",
+          "first_32_before_hex": "ff8305d1fc6f10a9fa6711a9f85f12a9f65713a9f44f14a9fd7b15a9fd430591",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "selector": "openSubscriptionScreen",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 54004,
+          "size": 104,
+          "before_sha256": "3f7e64d638096e8768b325bf80ba844ca310301c9f7ecf2661ac0772f0772976",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa680800d0009544f9b4550294f40300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewDidLoad",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 109844,
+          "size": 932,
+          "before_sha256": "a978523a8dcf1bdc4dadf19ebb797b161dff05106d3efad30bb03aa7fddd115d",
+          "first_32_before_hex": "ff4301d1f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aa080800b0",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewWillAppear:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 110904,
+          "size": 296,
+          "before_sha256": "a4f029566514777eb4d4fda0ec9b2c56812a0949d9e72b814efef52df3882605",
+          "first_32_before_hex": "ff8301d1f44f04a9fd7b05a9fd430191f30300aa0808009008d145f9a0233ea9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "viewWillDisappear:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 111380,
+          "size": 112,
+          "before_sha256": "168ef20d4bd56bad2ce4a58b283f8bb899c3aa5350d0f1b96b9183f265ebaca8",
+          "first_32_before_hex": "ffc300d1f44f01a9fd7b02a9fd830091f30300aa0808009008d145f9e02300a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "keyboardWillShow:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 111716,
+          "size": 608,
+          "before_sha256": "e2e41e25ecdcbd382dee0e656f9b418068fb1a95949fbaf174d85a5b92c9353d",
+          "first_32_before_hex": "eb2bba6de923016df85f02a9f65703a9f44f04a9fd7b05a9fd430191f40300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "keyboardWillHide:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 112324,
+          "size": 228,
+          "before_sha256": "01ca5ea6eac97b318c4e136fe3e43b1bbf07c2da515c752009244c223439a56f",
+          "first_32_before_hex": "eb2bbb6de923016df65702a9f44f03a9fd7b04a9fd030191f30300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "dismissKeyboard",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 112552,
+          "size": 68,
+          "before_sha256": "e95a3b4fdf2b6adece759b4ab8bab463569d42d8449f6b74eca7d67e2c835e00",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5c1677f58b21c0294fd031daac21c0294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setupTableView",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 112620,
+          "size": 1400,
+          "before_sha256": "10f5ace739322dff5c1b1b972341d0645ccb80850232cfef2f4f797f773c6476",
+          "first_32_before_hex": "e923bb6df85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aa08080090",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setupTableHeader",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 114020,
+          "size": 1468,
+          "before_sha256": "20ea1c1f34359294165d6981fa74731dc32eddc049eff65ce050231aa850f9cf",
+          "first_32_before_hex": "ffc303d1fc6f09a9fa670aa9f85f0ba9f6570ca9f44f0da9fd7b0ea9fd830391",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isVIPActiveWithSufficientDays",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 115488,
+          "size": 208,
+          "before_sha256": "6349e0e6cb8e983c56d57609eecbdc32e4d7a7d2858856be380f31152c22d5b0",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f60700f0c05a44f91f2003d533027f58",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "updateTableHeaderForCurrentState",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 115696,
+          "size": 280,
+          "before_sha256": "3fbe5f2d067d7a20e21bb9fb50203055e208d73c90815e50d6eb8c83e3c742a7",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40300aa1f2003d501567f589e190294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "modeSegmentChanged:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 115976,
+          "size": 252,
+          "before_sha256": "e05eb0a33cacb6a4e4cbccc70a2d349df519ae5a188e83aea4668541b2972203",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40302aaf30300aa1f2003d575aa7f58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "numberOfSectionsInTableView:",
+          "signature": "q24@0:8@16",
+          "offset_in_original_arm64": 116228,
+          "size": 116,
+          "before_sha256": "0d97908828ce99ef1d899aa27cdc4916508988d4fb29c1713bac97e812de6603",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa1f2003d581457f581a19029460000036",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:numberOfRowsInSection:",
+          "signature": "q32@0:8@16q24",
+          "offset_in_original_arm64": 116344,
+          "size": 444,
+          "before_sha256": "1a8912cd85d3e7e69e56166ce0b2fe3939c3710095f84471d2d63a5033dd3360",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40303aaf30300aa1f2003d5a1417f58",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:titleForHeaderInSection:",
+          "signature": "@32@0:8@16q24",
+          "offset_in_original_arm64": 116788,
+          "size": 336,
+          "before_sha256": "34ac0018b476c58f8c7ac0677e46bb2186d85f2a95e564fd6bff2daed2a393c8",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40303aaf30300aa1f2003d5c1337f58",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:titleForFooterInSection:",
+          "signature": "@32@0:8@16q24",
+          "offset_in_original_arm64": 117124,
+          "size": 300,
+          "before_sha256": "63a53d6f8081540d7e024636b66d34b37a440d2beb5a72a3e70b74c9efe17cac",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40303aaf30300aa1f2003d541297f58",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:cellForRowAtIndexPath:",
+          "signature": "@32@0:8@16@24",
+          "offset_in_original_arm64": 117424,
+          "size": 2488,
+          "before_sha256": "5e73212991b702c726650f9fb680ca9262e6bbc97d2b883a49720d66e462b797",
+          "first_32_before_hex": "ff0303d1fc6f06a9fa6707a9f85f08a9f65709a9f44f0aa9fd7b0ba9fdc30291",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView:didSelectRowAtIndexPath:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 119912,
+          "size": 604,
+          "before_sha256": "c1492974d98eb9c7ca448a0bc1fb94eef2bd1bacee804d2b7831fe6b99d9001f",
+          "first_32_before_hex": "fa67bba9f85f01a9f65702a9f44f03a9fd7b04a9fd030191f50302aaf40300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "fetchPlansFromServer",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 120516,
+          "size": 868,
+          "before_sha256": "fa57ebed8e80af594da053f5b9e4b14db40bdb4c41c10745612b1549f00b68e3",
+          "first_32_before_hex": "ffc302d1fc6f05a9fa6706a9f85f07a9f65708a9f44f09a9fd7b0aa9fd830291",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "handleLanguageChanged",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 122940,
+          "size": 392,
+          "before_sha256": "093785117549a96cfa03dcaf932baeba65fe69e0a36f64f99e90d3572755b68b",
+          "first_32_before_hex": "fa67bba9f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "formattedPriceForPlan:",
+          "signature": "@24@0:8@16",
+          "offset_in_original_arm64": 123332,
+          "size": 476,
+          "before_sha256": "33f05cefa85eb642e2168e192d732751678c2193e3601ed3eb995c8f6e760d4a",
+          "first_32_before_hex": "ff4301d1f85f01a9f65702a9f44f03a9fd7b04a9fd030191e00302aa32120294",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "displayNameForTier:",
+          "signature": "@24@0:8@16",
+          "offset_in_original_arm64": 123808,
+          "size": 880,
+          "before_sha256": "95f7a038bcb4440cd69fac3a1bffdcb367ef12ac0ad8346f10ace405f2223ed5",
+          "first_32_before_hex": "ffc305d1fc6f11a9fa6712a9f85f13a9f65714a9f44f15a9fd7b16a9fd830591",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "currentCheckoutButtonTitle",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 124688,
+          "size": 1100,
+          "before_sha256": "52f368335e03b465711e27302d11d742cafb484030067e0bc747c01aef6ce738",
+          "first_32_before_hex": "ff0302d1fc6f02a9fa6703a9f85f04a9f65705a9f44f06a9fd7b07a9fdc30191",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "showPlansLoadFailureAlertWithError:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 125788,
+          "size": 696,
+          "before_sha256": "9d7f0b370cafd784e05fa9b2200c33762574f810ea79223b896f0fc7b780b0cd",
+          "first_32_before_hex": "ff4302d1fc6f03a9fa6704a9f85f05a9f65706a9f44f07a9fd7b08a9fd030291",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "checkoutCellDidTapCheckout:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 126500,
+          "size": 1944,
+          "before_sha256": "01e0eae6ab2260af7740a6898d924c3341ff7bcede4b287c243e1671e4badbcc",
+          "first_32_before_hex": "ff8304d1e9230b6dfc6f0ca9fa670da9f85f0ea9f6570fa9f44f10a9fd7b11a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapResume:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 128984,
+          "size": 64,
+          "before_sha256": "7d81df1a070c9fc5c020ae1384db75334e4f99b54dab9e3936bfe5a6cbb48a47",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5c1ab7d58a60c0294fd031daab60c0294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapCheckStatus:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 129048,
+          "size": 64,
+          "before_sha256": "a3e9ce792acbac21b6c11972bbce213573bc95cadf0c037152e85d2560f78b99",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5c1a97d58960c0294fd031daaa60c0294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "pendingOrderCellDidTapCancel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 129112,
+          "size": 64,
+          "before_sha256": "deb93cfc36fe01b7c2bee329cd2642b44f22e731f56d2d414ad8bf34ee848173",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5c1a77d58860c0294fd031daa960c0294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftcodeInputCellDidTapPaste:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 129176,
+          "size": 404,
+          "before_sha256": "d9cb2d6744cb63dc83bcf86771336d5a9190747a0a306208bd5f048861b397f5",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f50300aa1f2003d5200f7e58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftcodeRedeemCellDidTapRedeem:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 129580,
+          "size": 12,
+          "before_sha256": "f0d201423616c12f454b63e9d51546e076d0d715ad541fcd99c91623005dcf3e",
+          "first_32_before_hex": "1f2003d5c1b27d58140c0214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "hardwareIDCellDidTapCopy:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 129592,
+          "size": 516,
+          "before_sha256": "d69642df706027ad0c66fa315b25016e2aa6ec9a9566c126e7260c963999b625",
+          "first_32_before_hex": "ffc301d1f85f03a9f65704a9f44f05a9fd7b06a9fd830191f40300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "redeemGiftCodeTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 130132,
+          "size": 1156,
+          "before_sha256": "583544a7c736737a4ec580d7e6bf24bcd57edb1b10695e129abda5e6cf287229",
+          "first_32_before_hex": "ff0303d1fa6707a9f85f08a9f65709a9f44f0aa9fd7b0ba9fdc30291f40300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftRedeemLoading:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 136392,
+          "size": 92,
+          "before_sha256": "62261618b6b8822ab225989060c0a67ae2a9f7409872bd90abd92d08b7805ed7",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30302aaf40300aa1f2003d541e17c5868050294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "textFieldShouldReturn:",
+          "signature": "B24@0:8@16",
+          "offset_in_original_arm64": 136484,
+          "size": 208,
+          "before_sha256": "26dd686c0cfc4460d9e51bcfd59c9d8b0eefd6143db726824b36e11fbdb9c1d0",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f40300aae00302aa5a050294",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidUpdatePendingOrder:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 136692,
+          "size": 64,
+          "before_sha256": "2eb42e420d4abbd5b593768000e86d1ee9a9a79fb69d19b5a033ee3ecf04123a",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5618b7c581f050294fd031daa2f050294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidClearPendingOrder:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 136756,
+          "size": 64,
+          "before_sha256": "812c15b7944c1de1465bc98bb0838d3635468ffeb6d077aa9bc4ff11171629bb",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d561897c580f050294fd031daa1f050294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinatorDidCompletePaymentSuccessfully:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 136820,
+          "size": 272,
+          "before_sha256": "d61107462b40acbe12cdb3b5bdd8d59a804205fcc24d96322886b61b5a23334c",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f40300aae00302aa06050294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:shouldPresentAlert:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 137092,
+          "size": 228,
+          "before_sha256": "a506db15153a453b2137824d6d572caecf89d3b966d1ac12b3eaa0053cd01580",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f40300aae00303aac2040294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:shouldPresentSafari:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 137320,
+          "size": 228,
+          "before_sha256": "7fb1796d217258f63ca241f9d56c9c501d4f097401c9b46ccbf5fe769d3feaac",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f40300aae00303aa89040294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:setCheckoutLoading:",
+          "signature": "v28@0:8@16B24",
+          "offset_in_original_arm64": 137548,
+          "size": 88,
+          "before_sha256": "c1fb707ee8760006124c063080e8ade22b59ba10ab2804a3081b4033bc3100f5",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091e20303aaf30300aa1f2003d5e1bd7c5847040294",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator:setCheckStatusButtonChecking:",
+          "signature": "v28@0:8@16B24",
+          "offset_in_original_arm64": 137636,
+          "size": 4,
+          "before_sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91",
+          "first_32_before_hex": "c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "showAlertWithTitle:message:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 137640,
+          "size": 416,
+          "before_sha256": "6496ea701654f062b9f5e2f94fc5721f2316342d161d2d0d1a456d62853f950e",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f40303aaf50300aae00302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "tableView",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138056,
+          "size": 16,
+          "before_sha256": "e08e3a7ba4d81014080e8a3b3fb70d41832ff4720e95ac7561e48dbf1724dfbb",
+          "first_32_before_hex": "1f2003d5480d7d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setTableView:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138072,
+          "size": 20,
+          "before_sha256": "a90e4f9ab6ac1e3e5a8b9933f7bcb2a0646c5404f3e3a61e2330b02f7332de61",
+          "first_32_before_hex": "e10302aa1f2003d5a80c7d980000088be2030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "segmentedHeaderView",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138092,
+          "size": 16,
+          "before_sha256": "9045f876f7cadab55ceb5f9a3383c4e2670b60ad9868dad41ea1fa05abd37f34",
+          "first_32_before_hex": "1f2003d5480c7d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setSegmentedHeaderView:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138108,
+          "size": 20,
+          "before_sha256": "746269dee775eb884e0fe128a8d1d93479635e8b1788190a84ba329fb6243854",
+          "first_32_before_hex": "e10302aa1f2003d5a80b7d980000088bd9030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "modeSegmentedControl",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138128,
+          "size": 16,
+          "before_sha256": "99ca3be138db3c2a094a27b2e1a47acdd175fd73ce2679b9e4af9e4eef08a698",
+          "first_32_before_hex": "1f2003d5480b7d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setModeSegmentedControl:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138144,
+          "size": 20,
+          "before_sha256": "e8be99f3960e3e38edadc367d7e3a60bd3832d9b16e9207b49350581a6db6969",
+          "first_32_before_hex": "e10302aa1f2003d5a80a7d980000088bd0030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "currentMode",
+          "signature": "q16@0:8",
+          "offset_in_original_arm64": 138164,
+          "size": 16,
+          "before_sha256": "b083e7233174a96beddd1453721d84a42fa3e337a5360460d15822bfb2aaf1d9",
+          "first_32_before_hex": "1f2003d5480a7d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setCurrentMode:",
+          "signature": "v24@0:8q16",
+          "offset_in_original_arm64": 138180,
+          "size": 16,
+          "before_sha256": "c1027b065cbb927a50ac457807896233186e7a434c3ca27b841891093e373532",
+          "first_32_before_hex": "1f2003d5c8097d98026828f8c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "plansData",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138196,
+          "size": 16,
+          "before_sha256": "bbd6b74719e94c3bab7ddc22ab60798c216bebd434be89b30a8532701e7e73e4",
+          "first_32_before_hex": "1f2003d568097d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setPlansData:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138212,
+          "size": 20,
+          "before_sha256": "c88494ce3128ed29f693db05a369581e6dd6465253ff1610bf25161d4929b6c5",
+          "first_32_before_hex": "e10302aa1f2003d5c8087d980000088bbf030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "rawPlansData",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138232,
+          "size": 16,
+          "before_sha256": "4acef521535630649c56efc9bbc9d52c328146c78966b3886b9b3d920a3d90e2",
+          "first_32_before_hex": "1f2003d568087d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setRawPlansData:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138248,
+          "size": 20,
+          "before_sha256": "9c72d4ac111988f866710180a4657816902d19bf2968483ba4f0433d1ed11eb1",
+          "first_32_before_hex": "e10302aa1f2003d5c8077d980000088bb6030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "selectedTierIndex",
+          "signature": "q16@0:8",
+          "offset_in_original_arm64": 138268,
+          "size": 16,
+          "before_sha256": "537eb57a3ed999298b65e9a72c300242c7f2906ef17ba5498d979e3d48d90601",
+          "first_32_before_hex": "1f2003d568077d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setSelectedTierIndex:",
+          "signature": "v24@0:8q16",
+          "offset_in_original_arm64": 138284,
+          "size": 16,
+          "before_sha256": "f9744a465127025bb44224880bc9ae5242da3c115248085b59d9e91e9fbf286c",
+          "first_32_before_hex": "1f2003d5e8067d98026828f8c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isLoadingPlans",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 138300,
+          "size": 16,
+          "before_sha256": "de9e650f941b0b848987379ca03a7ffc8080130bf87c8b8b0edc3427ad0595aa",
+          "first_32_before_hex": "1f2003d588067d9800686838c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsLoadingPlans:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 138316,
+          "size": 16,
+          "before_sha256": "139db5d51d5baad1ce2cbe8d1cebb65eb2a58fa477876b565329590805689530",
+          "first_32_before_hex": "1f2003d508067d9802682838c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "plansLoadFailed",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 138332,
+          "size": 16,
+          "before_sha256": "c24c200849efd862aa624acafa5e23b9675a07ff66de6b9c59e0233b5033cd85",
+          "first_32_before_hex": "1f2003d5a8057d9800686838c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setPlansLoadFailed:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 138348,
+          "size": 16,
+          "before_sha256": "90208642e7481f15fad3361686ffff4bbf88b2fb08eb76a54b96e5fd8aa3ec01",
+          "first_32_before_hex": "1f2003d528057d9802682838c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "orderCoordinator",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138364,
+          "size": 16,
+          "before_sha256": "3690eb156db8a1c578d7a5be8d1429dc7da1d46e8018f41564cbf8811358e085",
+          "first_32_before_hex": "1f2003d5c8047d98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setOrderCoordinator:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138380,
+          "size": 20,
+          "before_sha256": "dae04fbc18783ccb8bad4fedc1620f272c7875c73c8ec3e8da0034fb0d3a5bdb",
+          "first_32_before_hex": "e10302aa1f2003d528047d980000088b95030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isCheckoutLoading",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 138400,
+          "size": 16,
+          "before_sha256": "d8d2d37232510ea1fa6ad46ec37f840220fd7e18b94df76fbc62428bc875bb76",
+          "first_32_before_hex": "1f2003d5c8037d9800686838c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsCheckoutLoading:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 138416,
+          "size": 16,
+          "before_sha256": "e7ec4fc697ac9b2e7bbe0f3e38a2cde938abaf7378f51cac49210ed7da50fd89",
+          "first_32_before_hex": "1f2003d548037d9802682838c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftCodeTextField",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138432,
+          "size": 32,
+          "before_sha256": "4cf34276eade5f5507cf0ff030c415e7f40003024d3b614b582ad42979700501",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d5a8027d980000088b69030294fd7bc1a84c030214",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftCodeTextField:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138464,
+          "size": 20,
+          "before_sha256": "a30bfac118bdc117e284c567eed77229978cfdb9677eba76c70d99672b6d741d",
+          "first_32_before_hex": "e10302aa1f2003d5c8017d980000088b83030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "giftRedeemCell",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 138484,
+          "size": 32,
+          "before_sha256": "5992ef1c71f45f96a6e91670279981d08a6cf20f0e13ff4564aa112ca878c4c8",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d528017d980000088b5c030294fd7bc1a83f030214",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setGiftRedeemCell:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 138516,
+          "size": 20,
+          "before_sha256": "fb538ca8cd26cf17fa16a7e87ddb29f5a2afe80e475589bb26bd042e5842f77e",
+          "first_32_before_hex": "e10302aa1f2003d548007d980000088b76030214",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "isGiftRedeeming",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 138536,
+          "size": 16,
+          "before_sha256": "db9e4eec48a8f3089cbef1e33852c84726175b32f1d17356ae9300b980c71d95",
+          "first_32_before_hex": "1f2003d5e8ff7c9800686838c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "setIsGiftRedeeming:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 138552,
+          "size": 16,
+          "before_sha256": "866a0c48d33f91371f1e2a6fbb3c6045714935ba98ed10b3b5e4432c29bcd8b1",
+          "first_32_before_hex": "1f2003d568ff7c9802682838c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "viewDidLoad",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 140572,
+          "size": 212,
+          "before_sha256": "1eaf13d803a63fbe1aa15987c109a141f3a140337bb4f3d26b94448fd61c9cb3",
+          "first_32_before_hex": "ff0301d1f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d588b37c58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "viewWillAppear:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 140784,
+          "size": 416,
+          "before_sha256": "b4df41a66a344be23741bb16cb2c53ac172010dd8928f0b007c887de854e7f57",
+          "first_32_before_hex": "ff4303d1f6570aa9f44f0ba9fd7b0ca9fd030391f30300aa1f2003d5e8ac7c58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupBackdrop",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 141484,
+          "size": 616,
+          "before_sha256": "34944ded464619b9c91318d006a8a2d693001acc2114fdcea06de8e7e11ae797",
+          "first_32_before_hex": "fa67bba9f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupCardView",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 142100,
+          "size": 1620,
+          "before_sha256": "0e50eac3f9ec8e775221512f3d6211c6ff3d7921e9cd53e146a2bfe40551006e",
+          "first_32_before_hex": "ffc303d1e923086dfc6f09a9fa670aa9f85f0ba9f6570ca9f44f0da9fd7b0ea9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setupContent",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 143720,
+          "size": 5056,
+          "before_sha256": "0f5f63c96f26eb368735e79bb4a92b29f57446debfc6f43532d91b0ae8dfd3a2",
+          "first_32_before_hex": "e923b96dfc6f01a9fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "handleActivateTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 148776,
+          "size": 156,
+          "before_sha256": "ab2e2a3f9a506c3f1261aba1b9b8f58f6028609bf72c4edbb55b8f0d6a364e31",
+          "first_32_before_hex": "ff4301d1f44f03a9fd7b04a9fd030191f30300aa1f2003d580a97b5823f90194",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "handleLaterTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 149060,
+          "size": 156,
+          "before_sha256": "4e8e22ea7c93ef496dd5c63328807ded5029b3520897da82b5cb7406243b1ce1",
+          "first_32_before_hex": "ff4301d1f44f03a9fd7b04a9fd030191f30300aa1f2003d5a0a07b58dcf80194",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "dismissWithCompletion:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 149344,
+          "size": 208,
+          "before_sha256": "83203d763ad2c707feb3ba32f0f584629c08eed06474c5f1080f96598f8ae64f",
+          "first_32_before_hex": "ff4302d1f65706a9f44f07a9fd7b08a9fd030291f30300aae00302aacbf80194",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "onActivateTapped",
+          "signature": "@?16@0:8",
+          "offset_in_original_arm64": 149912,
+          "size": 16,
+          "before_sha256": "62e0982a0722baf42197fa3f1c12d82c98efd98e29a55028c512196979218c85",
+          "first_32_before_hex": "1f2003d5829d7b98030080522ff80114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setOnActivateTapped:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 149928,
+          "size": 12,
+          "before_sha256": "bc18413a59193ca91ae988e0e35247d5a7480bbce84d632d7c59c9bd884628d2",
+          "first_32_before_hex": "1f2003d5039d7b984df80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "onDismissTapped",
+          "signature": "@?16@0:8",
+          "offset_in_original_arm64": 149940,
+          "size": 16,
+          "before_sha256": "1fc926cb216198fd66db6b13bd73119645c83de0e452212bf865436199c3c166",
+          "first_32_before_hex": "1f2003d5c29c7b980300805228f80114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setOnDismissTapped:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 149956,
+          "size": 12,
+          "before_sha256": "ce48ad6f6f2b88b29bbe49ce742b9e1acdd5743c96258e145687b00abe9476dd",
+          "first_32_before_hex": "1f2003d5439c7b9846f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "blurBackdrop",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 149968,
+          "size": 16,
+          "before_sha256": "a9dcb6fd837adbddf8d89a50b61bf0ce0baf2ff3a3b42ec29a55d3ca423efe28",
+          "first_32_before_hex": "1f2003d5c89a7b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setBlurBackdrop:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 149984,
+          "size": 20,
+          "before_sha256": "fa5ce00ac2ce332d14709e7798e6d0c7cd6f922baa3eb6ac57e3a51ff2fdb02a",
+          "first_32_before_hex": "e10302aa1f2003d5289a7b980000088b40f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "dimmerOverlay",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150004,
+          "size": 16,
+          "before_sha256": "7c842fa906fd81d1b7773487bfea8db65994e1b9653cac2f695c07f8395aaa39",
+          "first_32_before_hex": "1f2003d5c8997b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setDimmerOverlay:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150020,
+          "size": 20,
+          "before_sha256": "f3e72336ad0996f035fc455f930ef92aca6ae38afd10bf9b0179f43ab49bf7fd",
+          "first_32_before_hex": "e10302aa1f2003d528997b980000088b37f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "cardView",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150040,
+          "size": 16,
+          "before_sha256": "643e57af223bb46f59e327e71bbb6364e5db462e47073f3353995eb837edfcb5",
+          "first_32_before_hex": "1f2003d5c8987b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setCardView:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150056,
+          "size": 20,
+          "before_sha256": "691a8952cd8f28d8d543ce17ea1e0deeb558f497febf0b46fd6d1f4aa7400062",
+          "first_32_before_hex": "e10302aa1f2003d528987b980000088b2ef80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "iconImageView",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150076,
+          "size": 16,
+          "before_sha256": "800877fb92036e9c5b00654a3a02e5c4c4b2b5d51c6c9ef7697cb20a61555347",
+          "first_32_before_hex": "1f2003d5c8977b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setIconImageView:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150092,
+          "size": 20,
+          "before_sha256": "98ffdf6ed62756beb39a7680dc7acbd3b3367904a21e98b55078d30018798e4d",
+          "first_32_before_hex": "e10302aa1f2003d528977b980000088b25f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "titleLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150112,
+          "size": 16,
+          "before_sha256": "8603e0a43dcf2d64d0a0501653039bb3fe4a86bef505c3a65b632bf3aa63f5ca",
+          "first_32_before_hex": "1f2003d5c8967b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setTitleLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150128,
+          "size": 20,
+          "before_sha256": "04b495bb28b7bb0741f9cb24f624e9b6aa54927426608a0a8aec74efebd17bff",
+          "first_32_before_hex": "e10302aa1f2003d528967b980000088b1cf80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "messageLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150148,
+          "size": 16,
+          "before_sha256": "29c3914fcf320e8cb8f45419bf751182a170b90e61de701be7dbb2c737a664c6",
+          "first_32_before_hex": "1f2003d5c8957b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setMessageLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150164,
+          "size": 20,
+          "before_sha256": "e0b36cd50bc3b4140ce98ae2efe53332221c8142ae23a950fd95b4a25a5f7aae",
+          "first_32_before_hex": "e10302aa1f2003d528957b980000088b13f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "activateButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150184,
+          "size": 16,
+          "before_sha256": "4fc87c3ffa2bc8b4d6afc00dd83802fc74226779b2cfb565aa4454d00dd15d9d",
+          "first_32_before_hex": "1f2003d5c8947b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setActivateButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150200,
+          "size": 20,
+          "before_sha256": "204c8077c8a7a8982875f3b859542f13cef11860995d56db198ece4dcd1af511",
+          "first_32_before_hex": "e10302aa1f2003d528947b980000088b0af80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "laterButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 150220,
+          "size": 16,
+          "before_sha256": "d6455cea0510aa0caaea3427c55bf21d57b874a65878eaac7a1a9a5dfe38138d",
+          "first_32_before_hex": "1f2003d5c8937b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "setLaterButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 150236,
+          "size": 20,
+          "before_sha256": "cd5dc9944e0755a324e13955a9fa3ede851f215acd831bcc0b5ccfda8c280452",
+          "first_32_before_hex": "e10302aa1f2003d528937b980000088b01f80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "selector": "modalWithActivateHandler:dismissHandler:",
+          "signature": "@32@0:8@?16@?24",
+          "offset_in_original_arm64": 140400,
+          "size": 172,
+          "before_sha256": "5e32e02474ac656a25c0886b6626e927180704db1f9926c9acd73dc85a4e78fa",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30302aaf40300aae00303aa87010294",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 150480,
+          "size": 1888,
+          "before_sha256": "a43622ecaf0222e2028a0855eb1bb4d11689c94f55292b2f8fc678fd0984a3aa",
+          "first_32_before_hex": "ff4305d1fc6f0fa9fa6710a9f85f11a9f65712a9f44f13a9fd7b14a9fd030591",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "configureWithTitle:loading:",
+          "signature": "v28@0:8@16B24",
+          "offset_in_original_arm64": 152368,
+          "size": 244,
+          "before_sha256": "6ad10e79eb07a534aaefc3a71536f9dabba8bc6566d7c101210e8550def33701",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30303aaf40300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 152612,
+          "size": 172,
+          "before_sha256": "cdd5f9f565181cbec6e1a15ea43631503aed7f9ba39cff0145991fa79a64aa0f",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d514f37a58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 152784,
+          "size": 32,
+          "before_sha256": "6a6419a10efd57a60e9a5f35303689114d07f7a8f335efa0e6c5c7d9c7c0cbaa",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d508447b980000088b65f50194fd7bc1a848f50114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 152816,
+          "size": 20,
+          "before_sha256": "3284fc84911fd4d59876a0a360e09b5e255cedc06e56528acf03d11dbb32b146",
+          "first_32_before_hex": "e10302aa1f2003d528437b980000088b7ff50114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 152836,
+          "size": 16,
+          "before_sha256": "767ac6765462c11d31cfd7b3d14c3924691c870c52202f90b5367efb7d37a2ea",
+          "first_32_before_hex": "1f2003d568427b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setCheckoutButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 152852,
+          "size": 20,
+          "before_sha256": "47868e8a44c6f6b86a97759e3401f410116f55d6fc4f92cf8fc7f49729a73ce3",
+          "first_32_before_hex": "e10302aa1f2003d5c8417b980000088b73f50114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "checkoutSpinner",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 152872,
+          "size": 16,
+          "before_sha256": "110263870629085409bc5a77cf8f6936388b22e90484edaa271e0a48e93863a0",
+          "first_32_before_hex": "1f2003d568417b98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "selector": "setCheckoutSpinner:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 152888,
+          "size": 20,
+          "before_sha256": "438e31958cc64591a923c6dcb264ddbae2b755cff5d9394b681c2cb8242aa4b6",
+          "first_32_before_hex": "e10302aa1f2003d5c8407b980000088b6af50114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 152988,
+          "size": 708,
+          "before_sha256": "6820c71f51619891404e2c8e992087105c1154d9186b248bfbf6d257fba1ddf9",
+          "first_32_before_hex": "ffc301d1fc6f01a9fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "selector": "configureWithExpirationTimestamp:",
+          "signature": "v24@0:8Q16",
+          "offset_in_original_arm64": 153696,
+          "size": 416,
+          "before_sha256": "7b6af597d89a8b100353cae63e54d55e49ae2ebb8c20cc0f3c22196740bb505f",
+          "first_32_before_hex": "ff8301d1fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191f60302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 154112,
+          "size": 2212,
+          "before_sha256": "a514449d56194bbc327a9e489eac16f501db06685bd9a1751bf806a58a5a5e93",
+          "first_32_before_hex": "ff0305d1e9230d6dfc6f0ea9fa670fa9f85f10a9f65711a9f44f12a9fd7b13a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "configureWithHardwareHash:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 156324,
+          "size": 424,
+          "before_sha256": "054bdfb931a58512c3db238ebc0db81c2dd51291b1aff29f63a698b7a468364e",
+          "first_32_before_hex": "ff4301d1f85f01a9f65702a9f44f03a9fd7b04a9fd030191f40300aae00302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "copyTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 156748,
+          "size": 172,
+          "before_sha256": "312dcab57190d0e766c94a5e1564df5e7f5c1fc200193c6b7bf746bec4505dd8",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5d4717a58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 156920,
+          "size": 32,
+          "before_sha256": "e8d34fd9fd78987225d6ff1fe9d3bacdbdd9efddf5a5f129a4c8441ab7a7f0b9",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d528c37a980000088b5bf10194fd7bc1a83ef10114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 156952,
+          "size": 20,
+          "before_sha256": "e40dccd2e623b98b2ae78797d0b1360ebfd4993c05269e563886ea6c4f4a00f6",
+          "first_32_before_hex": "e10302aa1f2003d548c27a980000088b75f10114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "hwLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 156972,
+          "size": 16,
+          "before_sha256": "526d486e384a0fc1fab9a6cd493538a53807b94c4146d3aeba1030389363b3b0",
+          "first_32_before_hex": "1f2003d588c17a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setHwLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 156988,
+          "size": 20,
+          "before_sha256": "766d8ebf37f6a6418192d4edef837b7e6bd2740bfb003b47c4c67801aaeef6ee",
+          "first_32_before_hex": "e10302aa1f2003d5e8c07a980000088b69f10114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "clipboardButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 157008,
+          "size": 16,
+          "before_sha256": "4419eb460a6d31766b7987c02f11795b654bec944753b49f3f79bc61c5164db6",
+          "first_32_before_hex": "1f2003d588c07a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "selector": "setClipboardButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 157024,
+          "size": 20,
+          "before_sha256": "cc82fec3615c3d89aa8e877d38c11bbccc358b6494db8889ae557de7c5ed1247",
+          "first_32_before_hex": "e10302aa1f2003d5e8bf7a980000088b60f10114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 157124,
+          "size": 2388,
+          "before_sha256": "2acb41c00ec59195b475afff908124eb01463d01d7ddfe3372ba3f04ab4f45ca",
+          "first_32_before_hex": "ff0305d1e9230d6dfc6f0ea9fa670fa9f85f10a9f65711a9f44f12a9fd7b13a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "pasteTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 159512,
+          "size": 172,
+          "before_sha256": "313bbeb7a9712973a1d5af3d04f950d5f1090b391be8068b3074a722df7d4113",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5741b7a58",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 159684,
+          "size": 32,
+          "before_sha256": "bcff26dc8d7d76569e4a37726cdc37316442ad6d29e903bb7a7ae0b651971dbc",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d5286d7a980000088ba8ee0194fd7bc1a88bee0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 159716,
+          "size": 20,
+          "before_sha256": "004058b83aa1fab519919e7571d00245bafb9d8a13a9aa8dcc26a87f610bc423",
+          "first_32_before_hex": "e10302aa1f2003d5486c7a980000088bc2ee0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "textField",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 159736,
+          "size": 16,
+          "before_sha256": "8faadcbd9425f48c08593c3103d9091cb9ec0ccabaef716694dd8a5459b22a6c",
+          "first_32_before_hex": "1f2003d5886b7a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setTextField:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 159752,
+          "size": 20,
+          "before_sha256": "f967823da41c314428a834ffbab9e8ecb4aa70016e5a5aa4280bdd402daf1c28",
+          "first_32_before_hex": "e10302aa1f2003d5e86a7a980000088bb6ee0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "pasteButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 159772,
+          "size": 16,
+          "before_sha256": "710078fca119c86ee35269df43d905c7c3686d5d95182f9f2256640b939f78da",
+          "first_32_before_hex": "1f2003d5886a7a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "selector": "setPasteButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 159788,
+          "size": 20,
+          "before_sha256": "7acda8188f69b6616735ff6bebf768efb2ef093c0ed0ed231a658e7096d5ca69",
+          "first_32_before_hex": "e10302aa1f2003d5e8697a980000088badee0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 159888,
+          "size": 1964,
+          "before_sha256": "cf6032ef5f8afaad50972cafdb5b1aab94559a5b08c6a5a599cef6197bfb69c9",
+          "first_32_before_hex": "ff4305d1fc6f0fa9fa6710a9f85f11a9f65712a9f44f13a9fd7b14a9fd030591",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "redeemTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 161852,
+          "size": 172,
+          "before_sha256": "5a0cab2c345e29ce84c66753dd522ecd7767e3a43d3d9b3ed2ec4765fd11bcef",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d554d27958",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setLoading:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 162024,
+          "size": 156,
+          "before_sha256": "03dcf0fce7a72ecd3802df6887013d28eb8c69a7dffdc0ba1639e61d3610f074",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30302aaf40300aa550000521f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 162180,
+          "size": 32,
+          "before_sha256": "06984c98889fddfead843d1a9314fa7f29e572efca234e891e39cfb620f1be64",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d5881f7a980000088b38ec0194fd7bc1a81bec0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 162212,
+          "size": 20,
+          "before_sha256": "0f758b393f9c912564687db9056bcf5b28947f86e844cd318b47aeca72b24e22",
+          "first_32_before_hex": "e10302aa1f2003d5a81e7a980000088b52ec0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "redeemButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 162232,
+          "size": 16,
+          "before_sha256": "1bfb83235c615f9d326ce36ef69fbbba0e4b767c3724f15cea4dfb7dc77f333c",
+          "first_32_before_hex": "1f2003d5e81d7a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setRedeemButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 162248,
+          "size": 20,
+          "before_sha256": "47ac9a026338f55d1c0345fb3bbacf5660815832a82733a5b95962091d8895da",
+          "first_32_before_hex": "e10302aa1f2003d5481d7a980000088b46ec0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "spinner",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 162268,
+          "size": 16,
+          "before_sha256": "c14d647001cef87bd04e80662a0a95f28a2d2978979e5715df4b0328ea7fa3eb",
+          "first_32_before_hex": "1f2003d5e81c7a98006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "setSpinner:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 162284,
+          "size": 20,
+          "before_sha256": "5e3917b827cba415a9dc57f0e9e46b6e0260e7fd96334bd71ab9c9eb86731a14",
+          "first_32_before_hex": "e10302aa1f2003d5481c7a980000088b3dec0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 162384,
+          "size": 3292,
+          "before_sha256": "e669c7a33dbfe618c79c921fa920d96f0fc2cf1f190657b49327a0503282fb9e",
+          "first_32_before_hex": "ffc305d1eb2b0f6de923106dfc6f11a9fa6712a9f85f13a9f65714a9f44f15a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "configureWithTitle:description:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 165676,
+          "size": 192,
+          "before_sha256": "4caf6eec5735a81c3a030df1a6c5a420fd161f382ec5d9bdc2038d757810ff32",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30302aaf40300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "resumeTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 165868,
+          "size": 172,
+          "before_sha256": "74bab01e81b416b26fec00453f5161e280510062f5d2b913bfb4cf4bccb5243d",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5d4547958",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "checkStatusTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 166040,
+          "size": 172,
+          "before_sha256": "f5cf0c6d8bfbc2b7f7c4957946c8eaecf46f341ec1361fff50e4a27fbd60f075",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5744f7958",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "cancelTapped",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 166212,
+          "size": 172,
+          "before_sha256": "07331143c66b9b281e86df13c199aac26d69b3df8c4cb6353389b9869dff21ab",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5144a7958",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166384,
+          "size": 32,
+          "before_sha256": "684e7adcf537ea0002a015eb2fefe6ba30a285fb8c847ec8801ef5d849832714",
+          "first_32_before_hex": "fd7bbfa9fd0300911f2003d5e89c79980000088b1de80194fd7bc1a800e80114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166416,
+          "size": 20,
+          "before_sha256": "3f54f3b4c6b2d0ef7d9ccb01105d1c7257d7642c41173da86d46e7cdb8b45700",
+          "first_32_before_hex": "e10302aa1f2003d5089c79980000088b37e80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "titleLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166436,
+          "size": 16,
+          "before_sha256": "2e4ae0e2671bac8d3b5ed61757a32683c38575c435bc62697e79f3db6b0a207b",
+          "first_32_before_hex": "1f2003d5e89a7998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setTitleLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166452,
+          "size": 20,
+          "before_sha256": "3b0bccbb72a5703373417b847257bdd36da66abcb7a24b2be56feb762a5ae25f",
+          "first_32_before_hex": "e10302aa1f2003d5489a79980000088b2be80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "descLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166472,
+          "size": 16,
+          "before_sha256": "4f4fcdfc752acc04da073f281b08c8e500195795dcc521a8f44140ce38f6a8c0",
+          "first_32_before_hex": "1f2003d5e8997998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setDescLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166488,
+          "size": 20,
+          "before_sha256": "81e554d06249c8703fdd5b9af0422690a8e75827178122df987391ae0c9e84f8",
+          "first_32_before_hex": "e10302aa1f2003d5489979980000088b22e80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "resumeBtn",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166508,
+          "size": 16,
+          "before_sha256": "7c07b06708311701bdebf128c81fe4a84baa7dc8b545412db56d2ba8ead88779",
+          "first_32_before_hex": "1f2003d5e8987998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setResumeBtn:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166524,
+          "size": 20,
+          "before_sha256": "239067f5acb1f4f46f7d413139c91928730ad3cad31250e5aef3036603c2235e",
+          "first_32_before_hex": "e10302aa1f2003d5489879980000088b19e80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "checkStatusButton",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166544,
+          "size": 16,
+          "before_sha256": "30dcb2c46d47df5a6aafdb70c67f372fd5ce06aa319e3a774863bdffb1488e02",
+          "first_32_before_hex": "1f2003d5e8977998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setCheckStatusButton:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166560,
+          "size": 20,
+          "before_sha256": "cfffc5bd20dd0b50bfe34b247eda8856a14a4a7e79a03f04d479cf78a2a066bd",
+          "first_32_before_hex": "e10302aa1f2003d5489779980000088b10e80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "cancelBtn",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 166580,
+          "size": 16,
+          "before_sha256": "8b11e72b79c7aeec9b30cf5f87c8cce9d8ed410c47cd03408a0b3b16eb79ab23",
+          "first_32_before_hex": "1f2003d5e8967998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "selector": "setCancelBtn:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 166596,
+          "size": 20,
+          "before_sha256": "7b6efe85e5009e053f6a573eb30e7e79902a67ac622bd3141b19f05d7cddbd85",
+          "first_32_before_hex": "e10302aa1f2003d5489679980000088b07e80114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 166756,
+          "size": 2544,
+          "before_sha256": "702e2fec8007db378a9067256aa11974d11ba0201dfb27e422c000284741e93e",
+          "first_32_before_hex": "ff8305d1eb2b0e6de9230f6dfc6f10a9fa6711a9f85f12a9f65713a9f44f14a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "configureWithPlan:selected:formattedPrice:",
+          "signature": "v36@0:8@16B24@28",
+          "offset_in_original_arm64": 169300,
+          "size": 1284,
+          "before_sha256": "8d4acca1fbc3f8fcf00b891f6d9ae82763781b2db74ae89c6872f14946071f5b",
+          "first_32_before_hex": "ff0302d1fc6f02a9fa6703a9f85f04a9f65705a9f44f06a9fd7b07a9fdc30191",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "nameLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 170584,
+          "size": 16,
+          "before_sha256": "22d69e4154fbd4337a9d872ac2d7ba6c84fcba48b4dff96af484cd6c0ea2c1ac",
+          "first_32_before_hex": "1f2003d5081a7998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setNameLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 170600,
+          "size": 20,
+          "before_sha256": "5eaaf06a99e1cfa78a5563fc0e4d473e8da031c0c231f59ba027c9e3da9cd400",
+          "first_32_before_hex": "e10302aa1f2003d5681979980000088b1ee40114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "badgeLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 170620,
+          "size": 16,
+          "before_sha256": "6f6ce87c9c15f17a783a8e870395e81de0f68d4607ecba4007a3ae83fcae317a",
+          "first_32_before_hex": "1f2003d508197998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setBadgeLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 170636,
+          "size": 20,
+          "before_sha256": "6f7dd5eef6319515a1a3623ea1c6f15b2a79fd34c9f5dc92dfb55dbaaa171255",
+          "first_32_before_hex": "e10302aa1f2003d5681879980000088b15e40114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "descLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 170656,
+          "size": 16,
+          "before_sha256": "7c60d4fb4ad9887948fa32db8c464a06d94c57e75da8c54b66776d96fd1d2edb",
+          "first_32_before_hex": "1f2003d508187998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setDescLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 170672,
+          "size": 20,
+          "before_sha256": "26da0ec492c166e1fd2a40e2a38dc988c3d996b3cfd7c5efcba6e54528567e33",
+          "first_32_before_hex": "e10302aa1f2003d5681779980000088b0ce40114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "priceLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 170692,
+          "size": 16,
+          "before_sha256": "1c65c229a047917a893fffafabfcb4d2c4f60aeaf2324d2bf697679bcfea3bd3",
+          "first_32_before_hex": "1f2003d508177998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setPriceLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 170708,
+          "size": 20,
+          "before_sha256": "a9bb2d6b3f283cd88adb9b48709d186a07c325635ea54eeb7acfd1e94df69e54",
+          "first_32_before_hex": "e10302aa1f2003d5681679980000088b03e40114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "checkIcon",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 170728,
+          "size": 16,
+          "before_sha256": "42febd9571e27ad50764efe7a799e26a4d9cb2b27ce3951ca1db6b4fdbf0a023",
+          "first_32_before_hex": "1f2003d508167998006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "selector": "setCheckIcon:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 170744,
+          "size": 20,
+          "before_sha256": "b453454691967eafb2f2dc5198713f2a273c1618fd5b27f51c5e98b816c93078",
+          "first_32_before_hex": "e10302aa1f2003d5681579980000088bfae30114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 170888,
+          "size": 720,
+          "before_sha256": "15ebc0e05efa4d896cec9e37ddc2f348d3fde6f25c787a7a86d4af1cb151899e",
+          "first_32_before_hex": "ffc301d1fc6f01a9fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "selector": "configureWithLoading:failed:",
+          "signature": "v24@0:8B16B20",
+          "offset_in_original_arm64": 171608,
+          "size": 608,
+          "before_sha256": "4b721508a0dfff4338af9fa916ad7932bde691be6ee66d40aa1413366621e744",
+          "first_32_before_hex": "ff4301d1f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aac2040034",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "initWithStyle:reuseIdentifier:",
+          "signature": "@32@0:8q16@24",
+          "offset_in_original_arm64": 172216,
+          "size": 3668,
+          "before_sha256": "fbb211ccdcbe700794e889efa5563bda807b04551a6407c53c8cf96e981f9059",
+          "first_32_before_hex": "ff0306d1e923116dfc6f12a9fa6713a9f85f14a9f65715a9f44f16a9fd7b17a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "keyLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 175884,
+          "size": 208,
+          "before_sha256": "f51260fb1464ff4675f8d1c4a6c4ec755b30094acf8d573843072ff4ce0fcc40",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d520557858afde0194f30300aa1f2003d5",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "valueLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 176092,
+          "size": 228,
+          "before_sha256": "e591b65d05163ab017af6562d29daa03d55142353b2ae8fd76c76ad52ba68f0b",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d5a04e78587bde0194f30300aa1f2003d5",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "keyValuePairWithKeyLabel:valueLabel:",
+          "signature": "@32@0:8@16@24",
+          "offset_in_original_arm64": 176320,
+          "size": 196,
+          "before_sha256": "b7b71a9bf3b459bbbdd2b4f86dfd0f13644801cb5c69083164f5d079b6877b8a",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091e00303aaf30302aa1f2003d5b44f7858",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "configureWithExpirationTimestamp:tierName:",
+          "signature": "v32@0:8Q16@24",
+          "offset_in_original_arm64": 176516,
+          "size": 1812,
+          "before_sha256": "7ce6d34a1a26db592476be99cf9805da40798953b33da3d6ecc1cc48ad87bb1b",
+          "first_32_before_hex": "ff4302d1fc6f03a9fa6704a9f85f05a9f65706a9f44f07a9fd7b08a9fd030291",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "badgeIcon",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178328,
+          "size": 16,
+          "before_sha256": "630eac70bbd8ce522d07ded0bfc2b9813923734a27b5941fd04373946ae9872a",
+          "first_32_before_hex": "1f2003d5a8287898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setBadgeIcon:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178344,
+          "size": 20,
+          "before_sha256": "47ecd88da306a30d98804cb9655ce900fde707c120fc83751295ce9621fad851",
+          "first_32_before_hex": "e10302aa1f2003d5082878980000088b8edc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "titleLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178364,
+          "size": 16,
+          "before_sha256": "5d0ef95c5da8c60d08f215ecdbb7d4fbcf1603a63d0ab1a573e58a6a11ea414f",
+          "first_32_before_hex": "1f2003d5a8277898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setTitleLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178380,
+          "size": 20,
+          "before_sha256": "66ac824a52e15a835586182f40b41ec90f697496cd0a0e0872590bc02fe2f5ba",
+          "first_32_before_hex": "e10302aa1f2003d5082778980000088b85dc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "statusPillLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178400,
+          "size": 16,
+          "before_sha256": "bded36106bb0a23b4755bd1e6178eea926a9064a14ba07e125eeff048fa89af1",
+          "first_32_before_hex": "1f2003d5a8267898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setStatusPillLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178416,
+          "size": 20,
+          "before_sha256": "399d51366bef399a581215795686b2b609838556ade567f72c2d5425f692dd88",
+          "first_32_before_hex": "e10302aa1f2003d5082678980000088b7cdc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "durationKeyLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178436,
+          "size": 16,
+          "before_sha256": "9f4d47ffb92ef17dfb31f9b455963161019f8775de32484b5220ac3f18f940a0",
+          "first_32_before_hex": "1f2003d5a8257898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setDurationKeyLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178452,
+          "size": 20,
+          "before_sha256": "e01acc5a03d904163fc29a81aa37a37003c1b41a9bcb4cd0c4e4606caee260d2",
+          "first_32_before_hex": "e10302aa1f2003d5082578980000088b73dc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "durationValueLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178472,
+          "size": 16,
+          "before_sha256": "e591af64567682ce9a18b757ca10779abbcf6c1051fa6448a30fb24b2e842d71",
+          "first_32_before_hex": "1f2003d5a8247898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setDurationValueLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178488,
+          "size": 20,
+          "before_sha256": "0c53993d0ae49108686bfee6e7167fa8b6fa46b9ff6d05e367e31b518a9165c5",
+          "first_32_before_hex": "e10302aa1f2003d5082478980000088b6adc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "serverExpiryKeyLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178508,
+          "size": 16,
+          "before_sha256": "0084fe8892e2d25dee0f9f62395e3b16528499745815c8c5c6fa18e8a31d97e5",
+          "first_32_before_hex": "1f2003d5a8237898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setServerExpiryKeyLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178524,
+          "size": 20,
+          "before_sha256": "b05d837e836161d4d2ba254b036180550d8dcc7cfa6ae26797c66bf6464b4f6d",
+          "first_32_before_hex": "e10302aa1f2003d5082378980000088b61dc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "serverExpiryValueLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178544,
+          "size": 16,
+          "before_sha256": "4d44e89f79366cdf457f04da947a47142ae62da8bdc248081ab29fd350cfa78a",
+          "first_32_before_hex": "1f2003d5a8227898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setServerExpiryValueLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178560,
+          "size": 20,
+          "before_sha256": "6a51d6e5581a63cae5f2112d52514d23469da95eda6594b2ecfd223fd35a83a4",
+          "first_32_before_hex": "e10302aa1f2003d5082278980000088b58dc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "licenseValidationKeyLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178580,
+          "size": 16,
+          "before_sha256": "856b0d6827046f378d078215d22db051eb47fbf1cbc8f1233dd67209150cfe03",
+          "first_32_before_hex": "1f2003d5a8217898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setLicenseValidationKeyLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178596,
+          "size": 20,
+          "before_sha256": "3e68d5c5ad5235276faf6dede6f686cd74f485fd933b4620403c484d79455841",
+          "first_32_before_hex": "e10302aa1f2003d5082178980000088b4fdc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "licenseValidationValueLabel",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 178616,
+          "size": 16,
+          "before_sha256": "e5414fd88c80b6abff8906db8e228be415cf1559dc88191e7548f5daf715648d",
+          "first_32_before_hex": "1f2003d5a8207898006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "setLicenseValidationValueLabel:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 178632,
+          "size": 20,
+          "before_sha256": "d397380a95423d859b4810ce1483b23878aa1d91f57ae9b4e8cae29f713cf5f1",
+          "first_32_before_hex": "e10302aa1f2003d5082078980000088b46dc0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "hasActivePendingOrder",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 178932,
+          "size": 152,
+          "before_sha256": "83ce3b7ecb9f187912603435d54482e3f38023a112b1ea9f02a442ce14cc6fa5",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f40300aa1f2003d521a17758dddb0194",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "currentServerBaseURL",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 179084,
+          "size": 20,
+          "before_sha256": "f81ca8965dbf6c604a709a485cbd395c9160c198e5ec7020d37f89e21f27b1fc",
+          "first_32_before_hex": "1f2003d500e977581f2003d581a17758badb0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "fetchActivePendingOrderFromServer",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 179104,
+          "size": 608,
+          "before_sha256": "f5b5dce3ebb11d47f924d810d4603fe49bac1e2437e7c5973cd74797493e7b23",
+          "first_32_before_hex": "ff4302d1f85f05a9f65706a9f44f07a9fd7b08a9fd030291f50300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "startCheckoutForTier:forceNew:",
+          "signature": "v28@0:8@16B24",
+          "offset_in_original_arm64": 181044,
+          "size": 940,
+          "before_sha256": "c830aee39b3696a0f9822e006318ea7c49b15b2351858a8fc60e435f569350f7",
+          "first_32_before_hex": "ffc303d1fa670aa9f85f0ba9f6570ca9f44f0da9fd7b0ea9fd830391f80303aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "resumePayment",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 183704,
+          "size": 168,
+          "before_sha256": "ff2267282527dfea5b7dc4256665c8d8f575045a48cc79074471d5ec0b562c98",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30300aa1f2003d5d4347758e10314aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "checkStatusManual",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 183872,
+          "size": 716,
+          "before_sha256": "19649a84a6302ecc1744575eb6e3700d5c3b700bb4766ce5d8c251d3f720603a",
+          "first_32_before_hex": "ff4302d1f85f05a9f65706a9f44f07a9fd7b08a9fd030291f30300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "cancelActiveOrderWithCompletion:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 186012,
+          "size": 744,
+          "before_sha256": "5e6f039ad0a981862bc98a4eadd3ee40d349825038dca8e0a5ff03395b5bec9e",
+          "first_32_before_hex": "ff0303d1fa6707a9f85f08a9f65709a9f44f0aa9fd7b0ba9fdc30291f60300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "requestCancelPendingOrder",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 187260,
+          "size": 636,
+          "before_sha256": "5b2d4086bf35ef4a237a2c6263eef8748a2dcd05ede9362daccc08aab065eae3",
+          "first_32_before_hex": "ff4302d1fc6f03a9fa6704a9f85f05a9f65706a9f44f07a9fd7b08a9fd030291",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "openPaymentGatewayURL:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 188404,
+          "size": 216,
+          "before_sha256": "9a190f19ccc06519ac4f89ced1f7e3384a956433e625d63a1c99ec99aa007f09",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30300aa1f2003d520d776581f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "safariViewControllerDidFinish:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 188620,
+          "size": 324,
+          "before_sha256": "ebb6f008365c7fa462865d48175762cd3f7ceb049023c1320baaa2a9d320c168",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f30300aa002440f97f2600f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "startPollingOrderStatus:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 189112,
+          "size": 176,
+          "before_sha256": "cf14c0a4a49c5c5383295b85b1076cb6bda81f6fa38872ac10b1c6dd0cd49582",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30300aa1f2003d5d4577658e00302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "stopPollingOrderStatus",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 189288,
+          "size": 148,
+          "before_sha256": "80a28734d326a60daae57fdd1b99b39a2c5d2535091d9e388aa8bfafac2060a3",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30300aa1f2003d5548c7658e10314aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "pollTimerFired",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 189436,
+          "size": 224,
+          "before_sha256": "d0fde2f2491c3d4d050bdb8482fee1f86a8c27aa0d340af1dd3745feb32c1636",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30300aa1f2003d5d4587658",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "checkOrderStatusOnce:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 189660,
+          "size": 528,
+          "before_sha256": "8aaa21f6cad995003fe5021b7388b2d89dae8d636291af6809c15d3009b97d00",
+          "first_32_before_hex": "ff4302d1f85f05a9f65706a9f44f07a9fd7b08a9fd030291f60300aae00302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "handlePaymentCompletedSuccess",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 190840,
+          "size": 464,
+          "before_sha256": "74ab4b54931590c05deca49dc7578caa6b6cb3b676d38573bb3f7745c5bff239",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f30300aa1f2003d5a1217658",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "showAlertWithTitle:message:",
+          "signature": "v32@0:8@16@24",
+          "offset_in_original_arm64": 192232,
+          "size": 256,
+          "before_sha256": "3f51d192993f5560f53571e691d97afa60f5073707583f65d8e3a9bbaa788494",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f30300aa1f2003d5c05076581f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "delegate",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192488,
+          "size": 24,
+          "before_sha256": "818d2770a68c3e915476704ab86f55a3d146e61a338d48441f6b9f647f00897e",
+          "first_32_before_hex": "fd7bbfa9fd03009100200091a1ce0194fd7bc1a884ce0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setDelegate:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192512,
+          "size": 12,
+          "before_sha256": "cd85a9388362b30193835a84639d6ce7134c2be7cbb4642c6e5970a4226c4d8e",
+          "first_32_before_hex": "e10302aa00200091bdce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeOrderId",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192524,
+          "size": 12,
+          "before_sha256": "76ce3c3fe71f8750e3fdc6d5f4812b1eb86bc9592bc6ba6fc46ad658524e32ea",
+          "first_32_before_hex": "020280520300805293ce0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveOrderId:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192536,
+          "size": 8,
+          "before_sha256": "dcc6b3cd284d1648e0cb210924d01fa88ed4f80d90e4c35d2aba7b017d8c4e28",
+          "first_32_before_hex": "03028052b2ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activePaymentUrl",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192544,
+          "size": 12,
+          "before_sha256": "71e2ea5eca73e5a3d82e499dfe6e6d1da5f1190e6b0b32e71fb014c6a5c5ccf6",
+          "first_32_before_hex": "02038052030080528ece0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActivePaymentUrl:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192556,
+          "size": 8,
+          "before_sha256": "e8f593b51a2e31f9f9d013e037f273f16fdcc40e16083ecd76d450c78df66dcc",
+          "first_32_before_hex": "03038052adce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeTierName",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192564,
+          "size": 12,
+          "before_sha256": "2640fc39f851c68332b745d115a74d66ae7de7fbc2d89678a0e7a89a2cce5510",
+          "first_32_before_hex": "020480520300805289ce0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveTierName:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192576,
+          "size": 8,
+          "before_sha256": "032987fdfb0d581d2c318c1419ae3b8b9fa47bba51e24ee342c65edf7c430016",
+          "first_32_before_hex": "03048052a8ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeAmountCrypto",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192584,
+          "size": 12,
+          "before_sha256": "c62945e70dfd7cda76e8b225a83c422444a11dd83f35c4fd91710ceb4b48a65f",
+          "first_32_before_hex": "020580520300805284ce0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveAmountCrypto:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192596,
+          "size": 8,
+          "before_sha256": "4937c8508e2381d392d6b6bab24295bba5329153c9cb2eab0fe484d2d9361c0b",
+          "first_32_before_hex": "03058052a3ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeCurrency",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192604,
+          "size": 12,
+          "before_sha256": "ee12dfc907eb2227ac7bf5891050e7dcb88b1904cb615a4c4fc89857c526f1f1",
+          "first_32_before_hex": "02068052030080527fce0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveCurrency:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192616,
+          "size": 8,
+          "before_sha256": "70306981558e598865be45b76a682be6d2b238e50ce5df10d04e3e30dee7ac03",
+          "first_32_before_hex": "030680529ece0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "activeNetwork",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192624,
+          "size": 12,
+          "before_sha256": "ff277df0fed8b06362e79febf0f4a2db34d42e2b3d8548a7e1651f88ca6246e3",
+          "first_32_before_hex": "02078052030080527ace0114",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setActiveNetwork:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192636,
+          "size": 8,
+          "before_sha256": "e988ae7636375a44d6285e80b36689ff9f50a296449742df2ed0d15b9c8d216f",
+          "first_32_before_hex": "0307805299ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "pollTimer",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192644,
+          "size": 8,
+          "before_sha256": "ac1915dbf8ae56825a9e0c79c21190a655d4b32b9c10f299546aad7c9ecadc66",
+          "first_32_before_hex": "002040f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setPollTimer:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192652,
+          "size": 12,
+          "before_sha256": "13a8c7dfbb6e4ac265526d22536977f5737dea0c5f6157c34009eafea7818e81",
+          "first_32_before_hex": "e10302aa0000019197ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "safariVC",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 192664,
+          "size": 8,
+          "before_sha256": "62c64bd585db7a91917843362bb75aa8dd20b002bce4874891b0b3ec8fd242b9",
+          "first_32_before_hex": "002440f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "selector": "setSafariVC:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 192672,
+          "size": 12,
+          "before_sha256": "ec8f1aa1de3e7a148719f8c5e77669936b333e07c3b2ee1e4eaf80c789fca7f0",
+          "first_32_before_hex": "e10302aa0020019192ce0114",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "deviceHardwareHashHex",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 365068,
+          "size": 5556,
+          "before_sha256": "d8beabd8c6608dc17896baf43867a46eb89c2b62e0c4264c9dca37f6bf2d99bc",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ffc319d1",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isLicenseCurrentlyValid",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 370624,
+          "size": 74724,
+          "before_sha256": "e054c056fc63d8a42ea68125b14f02934479b6e8d28b136e494066b5e1b28b6f",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff0740d1",
+          "stub_hex": "20008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "remainingLicenseSeconds",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 445348,
+          "size": 74696,
+          "before_sha256": "2e1b61951850cbaf398cd8f52a19fa88073b1f83ad7869cefb1534eec45d898c",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff0740d1",
+          "stub_hex": "e0ff9fd2e0ffbff2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeeded",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 521652,
+          "size": 160,
+          "before_sha256": "32b9e9f3cc5dc9628d94a63818fd41d696e872ade481ad505fc1d34418bdd666",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa1f2003d5010d4e582e8d009400010034",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeededWithSource:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 521812,
+          "size": 256,
+          "before_sha256": "d600665c19bed495ea4083536518889c27596bd95a9f9bb70a3c2fec1b1dec46",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f40300aae00302aa0e8d0094",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "forceSyncWithCompletion:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 597616,
+          "size": 180,
+          "before_sha256": "6d47a2215c49e5edcb3fad9692e1e3097e3e0dc241600974a3aebd4c73bc8d6b",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f30300aae00302aa07430094",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 600692,
+          "size": 20,
+          "before_sha256": "a6024f4c148deb136d7f8a12ec6536a87b461b190829cc9ec99e3774184daa21",
+          "first_32_before_hex": "1f2003d5c07144581f2003d5412a445800400014",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedLicenseServerEndpoint",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 600712,
+          "size": 220,
+          "before_sha256": "ad07d341f93788ad1ee621203cd2694fd93c9af1f195f4aaa004c340fa510fee",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd4300911f2003d581294458fa3f0094fd031daa0a400094",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:completion:",
+          "signature": "v32@0:8B16B20@?24",
+          "offset_in_original_arm64": 600932,
+          "size": 144,
+          "before_sha256": "24674b7295e12863f01bed80cf967a931b81329a4c833e56d687562bd2af0f0b",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30303aaf40302aaf50300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+          "signature": "v40@0:8B16B20@24@?32",
+          "offset_in_original_arm64": 601076,
+          "size": 1392,
+          "before_sha256": "8f12bb755ea7de42163c4f1f6f8a2262a6c6c568e644cde77ca448566652c0f5",
+          "first_32_before_hex": "ff4304d1fc6f0ba9fa670ca9f85f0da9f6570ea9f44f0fa9fd7b10a9fd030491",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "installAndVerifyLicensePayload:errorMsg:",
+          "signature": "B32@0:8@16^@24",
+          "offset_in_original_arm64": 606328,
+          "size": 50604,
+          "before_sha256": "253350f299450f71f8f21976c010e3916531a56fe7b68423f3de5d7fc266a184",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff033dd1",
+          "stub_hex": "20008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseExpirationTimestamp",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 656932,
+          "size": 452,
+          "before_sha256": "14eba7c129fce12e2d7b4e8756f6873862ac7452e698d6aff969f3a019bfc998",
+          "first_32_before_hex": "ffc301d1fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd8301911f2003d5",
+          "stub_hex": "e0ff9fd2e0ffbff2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseExpirationTimestamp:",
+          "signature": "v24@0:8Q16",
+          "offset_in_original_arm64": 657384,
+          "size": 412,
+          "before_sha256": "136636ad254a25b9196122d154fd313c963c9fcafb280a1d89b1d6b966f90219",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f50302aa1f2003d5c84c3e581f0500b1",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseTierName",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 657796,
+          "size": 328,
+          "before_sha256": "9bfe1d4dd02850f94daaf2d0389fd0610767ca71a9fa8f4d80c2b04cf82a2cad",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd8300911f2003d508403e581f0500b1a1080054",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseTierName:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 658124,
+          "size": 392,
+          "before_sha256": "52590386de3c725925e4914917745163acc8fd8a7bc1f5214ddc1b18fb1f77f0",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091e00302aaf2070094f30300aa1f2003d5",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isSyncing",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 658516,
+          "size": 8,
+          "before_sha256": "04d63990d737e9b1c54f43eb89304f2b27873d85e0b71a0f00dd4109dbb6e578",
+          "first_32_before_hex": "00204039c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setIsSyncing:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 658524,
+          "size": 8,
+          "before_sha256": "a5ac2e1427b1a331e4cd0daa76179facdf641f1d8998c684a1c8da5c41a992e4",
+          "first_32_before_hex": "02200039c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "syncQueue",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 658532,
+          "size": 8,
+          "before_sha256": "dfb556a413c8bda5332942d0202e8d5f1e52f45158aec3676294cf11ad5909cb",
+          "first_32_before_hex": "000840f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setSyncQueue:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 658540,
+          "size": 12,
+          "before_sha256": "9349913db362bcb1341cfec8564df02a383a2269e7ca51012c037272fbe71df5",
+          "first_32_before_hex": "e10302aa004000919f070014",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "lastAttemptTimestamp",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 658552,
+          "size": 8,
+          "before_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+          "first_32_before_hex": "000c40f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setLastAttemptTimestamp:",
+          "signature": "v24@0:8Q16",
+          "offset_in_original_arm64": 658560,
+          "size": 8,
+          "before_sha256": "fd5a38b21e2c2a1d2f45df7f615c42543bc346bb6d3709f12bf5db29d67ad268",
+          "first_32_before_hex": "020c00f9c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "formatBaseURLString:",
+          "signature": "@24@0:8@16",
+          "offset_in_original_arm64": 597900,
+          "size": 912,
+          "before_sha256": "12da9449a4056fd339527aad3089c6e2595700d632cdbe9ca0074ee90df07db1",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191e00302aa",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 598812,
+          "size": 1000,
+          "before_sha256": "598d466a8d6cefd8acb963f327e5de5a2a5dd27c759637dda47b072b699d9f7e",
+          "first_32_before_hex": "ffc301d1fc6f01a9fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191",
+          "stub_hex": "000080d2c0035fd6"
+        }
+      ],
+      "expired_flags": [
+        {
+          "class": "XXRootViewController",
+          "selector": "isShowingExpiredModal",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 35920,
+          "size": 16,
+          "before_sha256": "d4f027ff78e495abdb8bcf80c7e3395a0dea649ca5f082e7feac438d413db5e1",
+          "first_32_before_hex": "880800f008358cb900686838c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "XXRootViewController",
+          "selector": "setIsShowingExpiredModal:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 35936,
+          "size": 16,
+          "before_sha256": "ae6cff6b10c2a57ce949b450ec6d5b2461b924510389e4b91cfe97c6025a861c",
+          "first_32_before_hex": "880800f008358cb902682838c0035fd6",
+          "stub_hex": "c0035fd6"
+        }
+      ],
+      "entitlements": "no_embedded_entitlements_found",
+      "signed_host_sha256": "0a909392aa803d4a687c68e622ccd48595b9a9139f6544bb286333d347914893"
+    },
+    "DuoFaceDashboard": {
+      "source_archs": [
+        "arm64:0",
+        "arm64:2"
+      ],
+      "target_archs": [
+        "arm64"
+      ],
+      "related_class_method_metadata_retained": true,
+      "source_raw_host_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "source_arm64_sha256": "a90385419954a001c992b103653943fe8f1324d04e92ca3931a708b2ccdc127a",
+      "methods_neutralized": 43,
+      "expired_flags_neutralized": 0,
+      "patched_methods": [
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "deviceHardwareHashHex",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 235524,
+          "size": 5556,
+          "before_sha256": "e884f4b5ee9b9565de827b2d91a77d3c123cf37e05c3fe1fbc3b9fb2e648a4aa",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ffc319d1",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isLicenseCurrentlyValid",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 241080,
+          "size": 74724,
+          "before_sha256": "9936eaabc8b23aa022ea7398cfc400df8b9eb71c4acc7d670c4731de113d314b",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff0740d1",
+          "stub_hex": "20008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "remainingLicenseSeconds",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 315804,
+          "size": 74696,
+          "before_sha256": "5af403c6df4ea40d9667833a661ff9cfd73b40ab37a0ebf535b7d9ea22ce0034",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff0740d1",
+          "stub_hex": "e0ff9fd2e0ffbff2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeeded",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 392108,
+          "size": 160,
+          "before_sha256": "329fc43710cabc586b6c2630498bc7013e3953e95688d6dad63ae481dbf11384",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aae81800d0013d46f94f340a9400010034",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "checkAndSyncLicenseIfNeededWithSource:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 392268,
+          "size": 256,
+          "before_sha256": "4fc2d28f092fe84e7cf78f2e40b2d78a8622c8f96b2c57f84cebd4cd529e81da",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f40300aae00302aa35340a94",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "forceSyncWithCompletion:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 468072,
+          "size": 180,
+          "before_sha256": "8457c1e638acc06d9c1ce0d00e2d2316436834de3136cd0482e3c31f1432290b",
+          "first_32_before_hex": "ff8301d1f65703a9f44f04a9fd7b05a9fd430191f30300aae00302aa2eea0994",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 471200,
+          "size": 20,
+          "before_sha256": "befd5225eb47ceec13f2790e78eb3e1c4a193c79ea74db846b46283060d97eb6",
+          "first_32_before_hex": "68180090004d44f9481800d0017146f914e70914",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedLicenseServerEndpoint",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 471220,
+          "size": 220,
+          "before_sha256": "2925730780c7d17d865751d0f0c83d9afe74caba12ab0e6db2415cc1842db7e1",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091481800d0017146f90ee70994fd031daa24e70994",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:completion:",
+          "signature": "v32@0:8B16B20@?24",
+          "offset_in_original_arm64": 471440,
+          "size": 144,
+          "before_sha256": "707230d5cb67778ce39fe467523886bcd0f86d8c754bc419345856d0b6234768",
+          "first_32_before_hex": "f85fbca9f65701a9f44f02a9fd7b03a9fdc30091f30303aaf40302aaf50300aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "performSyncWithForce:isManualUserAction:source:completion:",
+          "signature": "v40@0:8B16B20@24@?32",
+          "offset_in_original_arm64": 471584,
+          "size": 1392,
+          "before_sha256": "b2717702d38e9f34120e4956797dc1f5d9ed1a0e09f7c4def1aff59d7e6add94",
+          "first_32_before_hex": "ff4304d1fc6f0ba9fa670ca9f85f0da9f6570ea9f44f0fa9fd7b10a9fd030491",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "installAndVerifyLicensePayload:errorMsg:",
+          "signature": "B32@0:8@16^@24",
+          "offset_in_original_arm64": 476820,
+          "size": 50604,
+          "before_sha256": "34a288e2a16e28753fd4678a482122558e816e498740dcd1498ccbfd8a975386",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff033dd1",
+          "stub_hex": "20008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseExpirationTimestamp",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 527424,
+          "size": 452,
+          "before_sha256": "6e5d668e1f8aed8b73d614e187a34b51f68129773d8d62a7dc36684e701eef69",
+          "first_32_before_hex": "ffc301d1fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191081800b0",
+          "stub_hex": "e0ff9fd2e0ffbff2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseExpirationTimestamp:",
+          "signature": "v24@0:8Q16",
+          "offset_in_original_arm64": 527876,
+          "size": 412,
+          "before_sha256": "8f6664e213f17841dcba070b1521a32b84f83ea98cc2d567a2be35569cdcdcc1",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091f50302aa081800b008d141f91f0500b1",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "actualLicenseTierName",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 528288,
+          "size": 328,
+          "before_sha256": "677aa02769a772fb23bb422fff8fa5a8d73443649ab4e8b99b47d1145d8c976c",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091081800b008d141f91f0500b1a1080054",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setActualLicenseTierName:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 528616,
+          "size": 392,
+          "before_sha256": "c49a2237961637ab12e55e94178314ca319178fa0ffef206106f0d557847f1d6",
+          "first_32_before_hex": "f657bda9f44f01a9fd7b02a9fd830091e00302aa10af0994f30300aae81700d0",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "isSyncing",
+          "signature": "B16@0:8",
+          "offset_in_original_arm64": 529008,
+          "size": 8,
+          "before_sha256": "04d63990d737e9b1c54f43eb89304f2b27873d85e0b71a0f00dd4109dbb6e578",
+          "first_32_before_hex": "00204039c0035fd6",
+          "stub_hex": "00008052c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setIsSyncing:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 529016,
+          "size": 8,
+          "before_sha256": "a5ac2e1427b1a331e4cd0daa76179facdf641f1d8998c684a1c8da5c41a992e4",
+          "first_32_before_hex": "02200039c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "syncQueue",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 529024,
+          "size": 8,
+          "before_sha256": "dfb556a413c8bda5332942d0202e8d5f1e52f45158aec3676294cf11ad5909cb",
+          "first_32_before_hex": "000840f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setSyncQueue:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 529032,
+          "size": 12,
+          "before_sha256": "a34f1d733b60594f49f4b97e3100d51ad1ab1f5eb3332a2d4c748603bec940df",
+          "first_32_before_hex": "e10302aa00400091c0ae0914",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "lastAttemptTimestamp",
+          "signature": "Q16@0:8",
+          "offset_in_original_arm64": 529044,
+          "size": 8,
+          "before_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+          "first_32_before_hex": "000c40f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "setLastAttemptTimestamp:",
+          "signature": "v24@0:8Q16",
+          "offset_in_original_arm64": 529052,
+          "size": 8,
+          "before_sha256": "fd5a38b21e2c2a1d2f45df7f615c42543bc346bb6d3709f12bf5db29d67ad268",
+          "first_32_before_hex": "020c00f9c0035fd6",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "formatBaseURLString:",
+          "signature": "@24@0:8@16",
+          "offset_in_original_arm64": 468408,
+          "size": 912,
+          "before_sha256": "1197f0689d0a961fb92eb115e88c1d7cfd1f03c9b226213526bfd56835ba06f6",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191e00302aa",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "resolvedBackendBaseURL",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 469320,
+          "size": 1000,
+          "before_sha256": "e8a3d35bcd73e43733983f81e2c215060ebb2767c52da5203e1652854c00eec3",
+          "first_32_before_hex": "ffc301d1fc6f01a9fa6702a9f85f03a9f65704a9f44f05a9fd7b06a9fd830191",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "selector": "initWithFrame:",
+          "signature": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "offset_in_original_arm64": 752436,
+          "size": 152,
+          "before_sha256": "2b1ac3ffaa0c59da344ac55ae488696a0b768c6c02fd9eeb3183054d756708b5",
+          "first_32_before_hex": "ffc300d1f44f01a9fd7b02a9fd83009148160090087145f9e02300a9281600d0",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "selector": "drawRect:",
+          "signature": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+          "offset_in_original_arm64": 752588,
+          "size": 1080,
+          "before_sha256": "284e4c31edb18ce9f56e7e5996fef8e1e2828028c8202d4473484e7bbe5ad9d5",
+          "first_32_before_hex": "ff4303d1ef3b036ded33046deb2b056de923066dfc6f07a9fa6708a9f85f09a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "initWithFrame:modalType:",
+          "signature": "@56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48",
+          "offset_in_original_arm64": 753668,
+          "size": 236,
+          "before_sha256": "875c90289a8116c2bb2fb305dceff4502733de154254c2a8eb1e0811c95cf97f",
+          "first_32_before_hex": "ff0301d1f65701a9f44f02a9fd7b03a9fdc30091f40302aa281600f0087545f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setupSubviews",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 753904,
+          "size": 2392,
+          "before_sha256": "f6e8602e1c7df099d582ecc57cf81f0a5327582128a70aa39c27f6ba3ec49cb5",
+          "first_32_before_hex": "ff4304d1ed33086deb2b096de9230a6dfc6f0ba9fa670ca9f85f0da9f6570ea9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setModalType:",
+          "signature": "v24@0:8q16",
+          "offset_in_original_arm64": 756296,
+          "size": 24,
+          "before_sha256": "3eea48816594a43a0d7f9e956a611fd036eceb3075fd859b3be5e93557af75e4",
+          "first_32_before_hex": "281600f008858db9026828f8281600d001d143f9a9d00814",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "updateContentForType:",
+          "signature": "v24@0:8q16",
+          "offset_in_original_arm64": 756320,
+          "size": 768,
+          "before_sha256": "782a3757e395e588c80e8a672e8876e6fcdb21d1370468b3539c1e7a24407d45",
+          "first_32_before_hex": "ff8302d1fc6f04a9fa6705a9f85f06a9f65707a9f44f08a9fd7b09a9fd430291",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "layoutSubviews",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 757088,
+          "size": 600,
+          "before_sha256": "545d1e8c5c2fe2182e690e281ce5a2a6025a6a1368a4c06cd2d51f4ae0b38bf0",
+          "first_32_before_hex": "ff0302d1ef3b016ded33026deb2b036de923046df65705a9f44f06a9fd7b07a9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "handleDismissButtonTap:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 757688,
+          "size": 112,
+          "before_sha256": "3d04e861d906944c1a53e1a193513e6a40bb98be2f64b6f458d43f0b304d1dd4",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa281600f0008943f9281600d001e143f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "showAnimated:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 757800,
+          "size": 328,
+          "before_sha256": "840f7d5515918ea93fe2cdcd18788ca4da2d1124432091080ed4ae8ff64a3274",
+          "first_32_before_hex": "ff8303d1f44f0ca9fd7b0da9fd430391f40302aaf30300aa2816009001c144f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "dismissAnimated:",
+          "signature": "v20@0:8B16",
+          "offset_in_original_arm64": 758240,
+          "size": 272,
+          "before_sha256": "1375f0ea630d513f3dc3e3e552607a36f000eccab20804360de870795129b68a",
+          "first_32_before_hex": "ff8302d1f44f08a9fd7b09a9fd430291281600d008898db90968683829070035",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "onDismiss",
+          "signature": "@?16@0:8",
+          "offset_in_original_arm64": 758792,
+          "size": 16,
+          "before_sha256": "fe3e201ed83476acaf4449ac8658ac4a87d1c813a0c257d3ef4925be011aa21c",
+          "first_32_before_hex": "281600d002ad8db90300805232ce0814",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "setOnDismiss:",
+          "signature": "v24@0:8@?16",
+          "offset_in_original_arm64": 758808,
+          "size": 12,
+          "before_sha256": "d663b1dbc6e80d84cf6dfdd5e7f1899da72c1ddd5b96b1124665ac805643bb36",
+          "first_32_before_hex": "281600d003ad8db959ce0814",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "selector": "modalType",
+          "signature": "q16@0:8",
+          "offset_in_original_arm64": 758820,
+          "size": 16,
+          "before_sha256": "04b5fad6966b86276b41bcb987af18d2b7b026b51d4dca67ecbdedbdaeaef130",
+          "first_32_before_hex": "281600d008858db9006868f8c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "presentLicenseWarningModalWithType:",
+          "signature": "v24@0:8q16",
+          "offset_in_original_arm64": 1593616,
+          "size": 724,
+          "before_sha256": "03117a2bd85112116bf0c2ce4cdd4099883a2ce69c2d943e9ee80b1c9b79ab87",
+          "first_32_before_hex": "ff0302d1fa6703a9f85f04a9f65705a9f44f06a9fd7b07a9fdc30191f40302aa",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "dismissLicenseWarningModal",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 1594448,
+          "size": 68,
+          "before_sha256": "4b775e712571156a36854c9291026cf239909b274d9d4920d29b2539c3d1c141",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa002840f9200100b4c80f0090019545f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "startLicenseWatchdogTimer",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 1594516,
+          "size": 104,
+          "before_sha256": "d81e3d03d05ee7c14511750d6d6d174acf73f61749f11a2cacf5951281ae57e0",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aac80f00b001fd45f9159e0594c80f00d0",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "stopLicenseWatchdogTimer",
+          "signature": "v16@0:8",
+          "offset_in_original_arm64": 1594620,
+          "size": 68,
+          "before_sha256": "500d0ac262f9332c887dfbc34d0faced9e9ec43ee76327358fc5c2e239c88c96",
+          "first_32_before_hex": "f44fbea9fd7b01a9fd430091f30300aa002c40f9200100b4c80f009001fd43f9",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "licenseWatchdogTimerFired:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 1594688,
+          "size": 98072,
+          "before_sha256": "fef263b885d43b51cee502521339371ca5478af9bb002cd97a5ccdea6c16662a",
+          "first_32_before_hex": "fc6fbaa9fa6701a9f85f02a9f65703a9f44f04a9fd7b05a9fd430191ff0740d1",
+          "stub_hex": "c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "licenseWarningModal",
+          "signature": "@16@0:8",
+          "offset_in_original_arm64": 1694488,
+          "size": 8,
+          "before_sha256": "989bb1a041c93e09fa2954014eaba1a46b19128664c6bbb210694e0989f09532",
+          "first_32_before_hex": "002840f9c0035fd6",
+          "stub_hex": "000080d2c0035fd6"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "setLicenseWarningModal:",
+          "signature": "v24@0:8@16",
+          "offset_in_original_arm64": 1694496,
+          "size": 12,
+          "before_sha256": "7bccce140c806a20f2520c01e39681a553f9cf945ae2744bff6334deccad9037",
+          "first_32_before_hex": "e10302aa004001919a3c0514",
+          "stub_hex": "c0035fd6"
+        }
+      ],
+      "expired_flags": [],
+      "entitlements": "no_embedded_entitlements_found",
+      "signed_host_sha256": "c3b00acaab9a791fbcf5ea1b5d6b5c67ef7bb199037f9ac849f22f3f7731535c"
+    }
+  },
+  "changed_original_paths": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+  ],
+  "untouched_file_count": 35,
+  "manifest_newly_created_if_missing": true,
+  "original_visualhook_files_unchanged": true,
+  "source_original_package_retained": true,
+  "hub_modified": false,
+  "legacy_class_and_selector_metadata_retained": true,
+  "not_proven_every_license_dependency_physically_removed": true,
+  "launch_test_on_expired_device": "PENDING_REAL_DEVICE",
+  "carplay_device_test": "PENDING_REAL_DEVICE",
+  "sileo_published": false,
+  "rollback_source_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "output_sha256": "e30148affc767ce039040f0e0cccd9a0ecbd40e523ee66409ca96e6ef2085f02",
+  "output_bytes": 1555368
+}
