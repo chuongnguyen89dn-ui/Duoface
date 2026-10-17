@@ -1,0 +1,117 @@
+name: DuoFace Native12 Speed8 compact source/settings QA NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed8compact-qa.yml'
+      - 'runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm'
+      - 'runtime/speedbubble/DFSpeedTransport8.mm'
+      - 'runtime/speedbubble/DFSpeedGMapReader8.mm'
+      - 'Makefile.speedhud-native8compact-stage'
+      - 'migration/full_payload/native_test/build_native12_speed8compact_candidate.py'
+      - 'migration/full_payload/native_test/check_native12_speed8compact_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-speed8compact-qa
+  cancel-in-progress: false
+jobs:
+  qa:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check pinned user-proven Speed7 and Speed8 static contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base='dist/payload-migration/native12-speed7split/com.duoface.independent_0.1.0~native12+speed7split_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155' "$base" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_speed8compact_candidate.py migration/full_payload/native_test/check_native12_speed8compact_contract.py
+          python3 migration/full_payload/native_test/check_native12_speed8compact_contract.py
+          plutil -lint DuoFaceSpeedHUDNative7.plist
+          dpkg --compare-versions '0.1.0~native12+speed8compact' gt '0.1.0~native12+speed7split'
+          test ! -e dist/payload-migration/native12-speed8compact/BAO_CAO.json
+      - name: Build arm64 Speed8 HUD, no new UIWindow and exact existing SpringBoard owner
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-native8compact-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -s "$dylib"
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib"
+          xcrun lipo "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" -verify_arch arm64
+          echo SPEED8_NATIVE_COMPACT_SETTINGS_GMAPWIRE_ARM64_COMPILE_PASS
+      - name: Assemble immutable 42-of-43 Speed7 payload and only new Speed8 dylib
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='dist/payload-migration/native12-speed8compact'
+          mkdir -p "$target"
+          deb="$target/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_native12_speed8compact_candidate.py \
+            --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" --output "$deb" \
+            --report "$target/BAO_CAO.json"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed8compact'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          for n in DuoFaceSpeedHUD DuoFaceSpeedOwner; do
+            test "$(grep -c "$n.dylib" "$target/CONTENTS.txt")" -eq 1
+            test "$(grep -c "$n.plist" "$target/CONTENTS.txt")" -eq 1
+          done
+          mkdir -p "$RUNNER_TEMP/speed8-extract"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/speed8-extract"
+          for n in DuoFaceSpeedHUD DuoFaceSpeedOwner; do
+            f="$RUNNER_TEMP/speed8-extract/var/jb/Library/MobileSubstrate/DynamicLibraries/$n.plist"
+            grep -Fq '"SpringBoard"' "$f"
+            ! grep -Eiq 'CarPlayApp|CarPlayTemplateUIHost|Waze|GOFA' "$f"
+          done
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          j=json.loads(Path('dist/payload-migration/native12-speed8compact/BAO_CAO.json').read_text())
+          assert j['preserved_files_byte_identical']==42
+          assert j['replaced_files_exact_count']==1
+          assert j['replaced_only_HUD_dylib']
+          assert j['original_native12_and_springboard_owner_probe_unchanged']
+          assert j['speed8_reuses_speed7_springboard_only_filter']
+          assert j['gmaphud_wire_reader_compiled']
+          assert not j['data_feed_live_on_device_verified']
+          assert not j['creates_new_UIWindow']
+          assert not j['device_tested']
+          print('SPEED8_42_OF_43_NATIVE12_SPEED7_FILES_IDENTICAL_ONE_HUD_ONLY_PASS')
+          PY
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+          echo SPEED8_SIGNED_ROOTLESS_DEB_QA_NO_SILEO_DEVICE_UNTESTED
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed8compact-QA-NOT-Sileo
+          path: dist/payload-migration/native12-speed8compact/
+          if-no-files-found: warn
+      - name: Persist QA package in DuoFace feature branch only, never Sileo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12-speed8compact/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: Speed8 compact settings and GMap wire QA DEB (NO Sileo) [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
