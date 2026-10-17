@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — PHÂN TÍCH 2 CRASH LOG SPRINGBOARD: SBAppViewController dealloc
+
+**Nguồn do người dùng tải lên:** `SpringBoard-2026-10-18-062238.ips` (51,004 bytes, incident `269F8CC7-295C-47F3-9920-7E3B41783C32`) và `SpringBoard-2026-10-18-062521.ips` (64,467 bytes, incident `12D56FD0-359D-4C38-AD47-EC103495710F`). Thiết bị `iPhone10,6`, iOS `16.7.16 (20H392)`, Dopamine/ElleKit. Cả hai `EXC_CRASH / SIGABRT`, main thread, `lastExceptionBacktrace`: `__exceptionPreprocess → objc_exception_throw → _userInfoForFileAndLine → -[SBAppViewController dealloc] (+192) → AutoreleasePoolPage::releaseUntil → objc_autoreleasePoolPop → _UIAfterCACommitBlock run`. `DuoFaceVisual12.dylib` có trong loaded images ở cả hai log, nhưng nhiều tweak khác cũng được nạp (SnowBoard, GhostBoard, PullOverGH, OhMyRotate...); **không chứng minh riêng DuoFace là thủ phạm**. Hai log không cung cấp Objective-C exception reason rõ ràng.
+
+**Đối chiếu mã:** `replacement/visual12/engine/runtime/DFIRuntime.m` tạo `SBAppViewController initWithIdentifier:andApplicationSceneEntity:`, `setAutomatesLifecycle:NO`; `DFV12SceneHost close` có comment về assertion `SBAppViewController dealloc` iOS 16.7.16 nếu release khi `setRequestedMode:` transition đang pending, hiện gọi `_setCurrentMode:0` trước release. Crash trùng đúng đối tượng, nên đây là **nghi vấn mạnh về lifecycle/dealloc scene**, cần kiểm tra các trường hợp không gọi close, race async transition, teardown do respring và các tweak khác. Không được khẳng định đã sửa.
+
+**Bước tiếp:** giữ nguyên DEB QA đang mở app được; thu thập `DuoFaceVisual12-runtime.log` quanh 06:22/06:25 và nếu có log từ ElleKit/CrashReporter, đối chiếu scene create/close/stop. Có thể thử tắt riêng injection DuoFaceVisual12 trong SpringBoard rồi respring 2–3 lần để xác định quan hệ nhân quả, **không gỡ hoặc xóa Native12/Hub8**. Sau khi xác nhận mới chỉnh lifecycle và build QA riêng; không tự phát hành bản fix chưa test.
+
+
 ## 2026-10-18 — exitMode XUẤT HIỆN NGAY SAU RESPRING, TRƯỚC KHI MỞ APP
 
 **Người dùng đính chính bằng ảnh:** cảnh báo/lỗi `exitmode` thường xuất hiện ngay sau khi khởi động lại SpringBoard, trước khi mở bất kỳ app nào. Ảnh chụp hiển thị một cảnh báo trên iPhone cạnh màn hình CarPlay Dashboard, nhưng chữ cảnh báo trong ảnh quá nhỏ/mờ để xác nhận nội dung chính xác. Đây là thay đổi quan trọng: không được suy đoán lỗi do đóng/chuyển ứng dụng G1/G2.
