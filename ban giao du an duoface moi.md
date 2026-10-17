@@ -1,5 +1,18 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — DIAG1 STANDALONE DEB CI STARTED
+YÊU CẦU ĐANG THỰC HIỆN: người dùng yêu cầu làm DEB chẩn đoán riêng cài cùng với DuoFace (không sửa/deploy Speed8 vào máy 8 Plus), chi tiết cho iPhone X CarPlay click failure.
+REPO/SOURCE: `chuongnguyen89dn-ui/Duoface`, nhánh `feature/duoface-exact-payload-migration`, commit nguồn/CI hiện tại `11bbd3de58e1e726b776aaf7d76acbded58b8f64`.
+CÁC FILE ĐÃ TẠO/SỬA:
+- `runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm`: commit `914d329c47d3e737f14dfae896efbf6ac32337c6`. Passive polling 0.5 giây, ghi STATE_CHANGED, heartbeat 10 giây, iOS UIKit screen/foreground notifications; ghi owner/active CBWindow, root/scene/external screen, split/currentApp class. Không hooks hay UIWindow; không khẳng định ghi sự kiện chạm icon trực tiếp.
+- `Makefile.duoface-diagnostic-stage`: commit `25b441657f296ee6ac01fba6633caca199634e56`, Theos rootless SpringBoard arm64.
+- `DuoFaceDiagnostic.plist`: commit `7fd83468cd05a539cfba9513c627504e46bf5481`, Filter Executables SpringBoard.
+- `migration/full_payload/native_test/build_duoface_diagnostic_deb.py`: commit `5b5d2460a50c47ec17b1ef85b2176a578dfa0294`, tạo package độc lập `com.duoface.diagnostic` version `0.1.0~diag1`, architecture `iphoneos-arm64`, Depends `com.duoface.independent`, chỉ 2 file DuoFaceDiagnostic.dylib/plist; kiểm SHA baseline Speed8 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.
+- `.github/workflows/duoface-diagnostic-standalone-deb.yml`: commit `11bbd3de58e1e726b776aaf7d76acbded58b8f64`, macos-15 Theos source build + dpkg/ldid + artifact `dist/diagnostic/diag1/`, chỉ commit artifact vào feature (KHÔNG Sileo).
+CI THỰC TẾ: GitHub Actions run `39006299908` https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39006299908 — trạng thái tại lúc kiểm tra **in_progress**, KẾT QUẢ CHƯA CÓ. Build trong GitHub Actions, không thực hiện build cục bộ; container local không truy cập github.com do DNS.
+BƯỚC TIẾP THEO: kiểm run `39006299908`, mở log job nếu failure và sửa, đợi QA success; đọc sha báo cáo và kiểm artifact tồn tại trong nhánh feature, sau đó cung cấp link download đã xác minh; không tự nhận DEB sẵn khi chưa có kết quả. Sileo Speed8 không thay đổi, iPhone 8 Plus không can thiệp. Nội dung log dự kiến `/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl`; gỡ qua Sileo package chẩn đoán nếu cần.
+ 
+
 ## 17/10/2026 — DIAGNOSTIC BOOL SAFETY FIX
 ĐÃ SỬA SOURCE: `runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm` trên nhánh `feature/duoface-exact-payload-migration`, commit `88a5fbf14b4088f51095b78875d5848aef627d32`. Lỗi ở lần tạo đầu tiên: `DFDiagRead(...isVisible)` gọi selector trả BOOL bằng hàm objc_msgSend kiểu id, sau đó `boolValue`, có nguy cơ crash. Đã đổi sang typed `((BOOL(*)(id,SEL))objc_msgSend)` sau khi kiểm tra respondsToSelector. Chưa chạy clang/iOS compile; chưa tích hợp vào build, chưa tạo DEB, chưa phát hành Sileo. Không thay đổi Speed8 hiện hành.
 TIẾP THEO: xác minh file workflow và script đóng DEB thực tế từ cây repo, thêm gói diagnostic độc lập và build qua CI, lấy artifact trước khi hướng dẫn cài iPhone X. Tránh gắn chẩn đoán lên bản đang dùng iPhone 8 Plus.
