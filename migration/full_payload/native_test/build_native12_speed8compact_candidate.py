@@ -38,7 +38,7 @@ def main():
         dll=dest/"DuoFaceSpeedHUD.dylib"
         plist=dest/"DuoFaceSpeedHUD.plist"
         assert dll.is_file() and plist.is_file() and dll.stem==plist.stem
-        # Root owner probe remains unchanged; old CarPlayApp renderer deliberately replaced.
+        # Root owner probe, Native12 payload and proven Speed7 SpringBoard filter remain unchanged.
         shutil.copy2(a.hud,dll);dll.chmod(0o755)
         assert b"SpringBoard" in plist.read_bytes()
         assert b"CarPlayApp" not in plist.read_bytes()
@@ -69,7 +69,7 @@ def main():
       "output_sha256":sha(a.output),
       "preserved_files_byte_identical":len(originals),
       "replaced_files_exact_count":len(REPLACE),
-      "replaced_only_HUD_dylib_and_plist":True,
+      "replaced_only_HUD_dylib":True,
       "original_native12_and_springboard_owner_probe_unchanged":True,
       "carplayapp_HUD_injection_removed":True,
       "speed8_reuses_speed7_springboard_only_filter":True,
@@ -79,7 +79,7 @@ def main():
       "gmaphud_wire_reader_compiled":True,
       "data_feed_live_on_device_verified":False,
       "new_hud_files":replaced,
-      "runtime_log":"/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl",
+      "runtime_log":"/var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl",
       "sileo_published":False,
       "device_tested":False,
       "risk":"On-device Speed8 compact visual, full-screen drag, live source and Waze stable all UNTESTED. Proven user Speed7 remains available."
