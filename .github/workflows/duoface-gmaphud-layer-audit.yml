@@ -1,0 +1,65 @@
+name: DuoFace external GMapHUD v0.2.4 DEB window/layer forensic READONLY
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-gmaphud-layer-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Download pinned original GMapHUD 0.2.4 rootless DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 4 --retry-delay 3 \
+            'https://github.com/bechou0410/gmaphud/releases/download/v0.2.4/com.chou.googlemaps.vietmap_0.2.4_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/gmaphud-hub-024.deb"
+          echo 'abd49f874b5f0df80d44de03368cb0d965ff498b1cc3e77d4dbabf4de28b804d  '"$RUNNER_TEMP/gmaphud-hub-024.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$RUNNER_TEMP/gmaphud-hub-024.deb" Package)" = 'com.chou.googlemaps.vietmap'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/gmaphud-hub-024.deb" Version)" = '0.2.4'
+          mkdir -p "$RUNNER_TEMP/hub-deb-root" "$RUNNER_TEMP/hub-deb-ctrl"
+          dpkg-deb -x "$RUNNER_TEMP/gmaphud-hub-024.deb" "$RUNNER_TEMP/hub-deb-root"
+          dpkg-deb -e "$RUNNER_TEMP/gmaphud-hub-024.deb" "$RUNNER_TEMP/hub-deb-ctrl"
+          echo 'GMAPHUD024_ACTUAL_DEB_DIGEST_AND_PACKAGE_VERIFIED_PASS'
+      - name: Actual DEB executable filters and MachO selector inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, subprocess, hashlib, os
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'hub-deb-root'
+          ctrl=pathlib.Path(os.environ['RUNNER_TEMP'])/'hub-deb-ctrl'
+          report={'status':'GMAPHUD024_DEB_CARPLAY_LAYERS_STATIC_AUDIT',
+             'sha256':'abd49f874b5f0df80d44de03368cb0d965ff498b1cc3e77d4dbabf4de28b804d',
+             'device_tested':False,'duoface_occlusion_tested':False,
+             'control':(ctrl/'control').read_text(errors='replace'),
+             'payload_files':[],'tweak_filters':{},'dylib_symbols':{}}
+          for f in root.rglob('*'):
+             if not f.is_file():continue
+             rel=str(f.relative_to(root)); report['payload_files'].append({'path':rel,'size':f.stat().st_size})
+             if f.suffix=='.plist' and '/DynamicLibraries/' in rel:
+                 report['tweak_filters'][f.name]=f.read_text(errors='replace')
+             if f.suffix=='.dylib':
+                 v=subprocess.run(['strings','-a',str(f)],capture_output=True,text=True).stdout
+                 hits=sorted(set(line.strip() for line in v.splitlines() if any(token in line for token in ['AZCarPlayView','GMSNSpeedLimitView','windowLevel','zPosition','CarPlayApp','CarPlayTemplateUIHost','windowScene','addSubview:','addSublayer:','setScreen:','SpringBoard','GVMOverspeedFrame','GVMHaloSpeedCard','GVMClassicSpeedCard'])))
+                 report['dylib_symbols'][f.name]={'sha256':hashlib.sha256(f.read_bytes()).hexdigest(),'bytes':f.stat().st_size,'match_strings':hits[:70]}
+          report['payload_files'].sort(key=lambda x:x['path'])
+          target=pathlib.Path(os.environ['RUNNER_TEMP'])/'gmaphud024-layer-audit.json'
+          target.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps({'status':report['status'],'tweak_filters':report['tweak_filters'],'dylib_symbols':report['dylib_symbols'],'payload_count':len(report['payload_files'])},ensure_ascii=False,indent=2))
+          assert any('GoogleMapsVietMap.dylib' in x['path'] for x in report['payload_files'])
+          assert any('GMapHUDOverspeedScreen.dylib' in x['path'] for x in report['payload_files'])
+          assert 'GMapHUDOverspeedScreen.plist' in report['tweak_filters']
+          print('GMAPHUD024_ACTUAL_DEB_LAYER_MODULES_EXTRACTED_PASS; ON_DEVICE_NOT_TESTED')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gmaphud024-actual-deb-layer-static-audit
+          path: ${{ runner.temp }}/gmaphud024-layer-audit.json
+          if-no-files-found: warn
