@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — ĐÃ SỬA APP PICKER QA, BUILD STANDALONE4PICKER
+
+**Yêu cầu:** user phản đối cách làm chỉ có ô bundle ID; yêu cầu thực hiện, không chỉ hứa. **Đã sửa code:** `replacement/visual12/engine/app/DFCarPlayQAApp.m` commit `655b8faea24304709724ebdcfefe0bdc06c461be`: thêm 2 nút chọn App1/App2, dùng `LSApplicationWorkspace.defaultWorkspace allInstalledApplications` kiểm tra selector tại runtime, lấy `applicationIdentifier`/`localizedName`, hiện action sheet tối đa 80 app sắp theo tên, giữ ô bundle ID làm fallback nếu API không có. **Hạn chế đã biết:** action sheet 80 mục không có tìm kiếm và có thể thiếu app ngoài 80; chưa được thử trên iPhone; đây là QA không phải UI chính. Đã đổi version từ `standalone3diag` sang `standalone4picker` ở `replacement/visual12/build_g1g2_qa.sh` commit `d7a168ea`, `replacement/visual12/verify_g1g2_qa.py` commit `316f5507`, workflow `.github/workflows/duoface-carplay-g1g2-qa-deb.yml` commit `6347fb83`, thêm path app source trigger. Run mới `39077878352` pending, `39077875674` queued lúc kiểm tra. **Chưa xác minh build success, chưa cập nhật Sileo, chưa thử máy.** Native12+Hub8 không thay đổi.
+
+**Tiếp theo:** theo dõi run `39077878352`; nếu fail xem logs và sửa compile; nếu pass xác minh artifact và SHA trong `dist/visual12-g1g2-qa`; chỉ sau đó pin publisher `carplaydsp/.github/workflows/build.yml` version+hash `standalone4picker` rồi chờ Pages success. Đối chiếu app picker nguồn cũ để cải thiện UX, kiểm tra fallback nếu LaunchServices bị hạn chế. Không tuyên bố đã lên Sileo trước khi hoàn tất.
+
+
 ## 2026-10-18 — ROOT CAUSE QA KHÔNG CÓ APP PICKER
 
 **Người dùng xác nhận:** không có cách chọn ứng dụng trong bản Sileo QA; hướng dẫn chọn app/G1 trước đó không đúng. **Xác minh mã nguồn:** `replacement/visual12/engine/app/DFCarPlayQAApp.m` chỉ có 2 `UITextField` nhãn `App 1: bundle ID` và `App 2: bundle ID`, mặc định `com.waze` và `com.google.ios.youtube`. Không có API duyệt app đã cài, không có picker. `save` đòi 2 bundle ID khác nhau ngay cả khi thử G1. Các nút Start/G1/G2 chỉ `notify_post` tín hiệu, trạng thái tự ghi `chưa chứng minh mở app`. `replacement/visual12/engine/runtime/DFCarPlayQARootController.m` đọc bundle ID đã được truyền vào; `runSingleBundle` sẽ từ chối khi thiếu `qaFirstBundle` hoặc bridge chưa started. Vì vậy thiếu UI chọn app là khiếm khuyết QA thực tế, không được yêu cầu user chọn qua menu không tồn tại. Có thể nhập bundle ID thủ công hiện tại nhưng chưa giải quyết UX và chưa chứng minh CarPlay hoạt động.
