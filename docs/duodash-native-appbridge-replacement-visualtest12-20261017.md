@@ -16,6 +16,9 @@
 3. Nếu reuse nhỏ có căn cứ: thực hiện candidate **riêng cho VisualTest12**, kiểm tra compile ABI/hook filter/collision; chỉ khi hợp lệ mới build DEB và xuất Sileo, thử trên iPhone đã hết hạn: **mở DuoFace → YouTube một pane → Waze+YouTube split**.
 4. Nếu DuoDash không có interface tái sử dụng an toàn hoặc quyền phân phối không rõ: báo blocker thực tế, chọn phương án tạm thời trên thiết bị (sử dụng DuoDash nguyên bản đã hoạt động), sau đó mới phát triển native bridge độc lập. **Không tự coi bước tạm là đã khôi phục DuoFace**.
 
+
+**Bổ sung kiểm chứng tĩnh ngay sau đổi ưu tiên:** báo cáo `feature/duoface-exact-payload-migration:audit/payload-migration/VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json` cho biết 18/19 method Dashboard được chọn có mặt và vùng byte đối chiếu nguyên vẹn giữa VisualTest12 và Native12 Hub; `CBBridgeManager requestStateChange:`, `loadNewAppFromCurrentRequest:`, `shouldBridge:`, `CBBridgeManagerDashboard +isDashboardPolicySignalActive` nằm trong số method đối chiếu trùng. Phạm vi dùng ranh giới IMP xấp xỉ, **không chứng minh hành vi runtime bằng nhau**. Kết luận điều hành: **không copy lại chính các method này từ Hub sang VisualTest12 như một phép sửa**, vì không có khác biệt tĩnh được chứng minh; tập trung xác nhận bước kích hoạt thực tế rồi thử dùng host có chức năng thực như DuoDash. Dữ liệu mới này không phải là DEB hoặc device test.
+
 **Trạng thái sau thay đổi yêu cầu:** mới đối chiếu logic và đổi ưu tiên; chưa sửa binary/source runtime, chưa có DEB mới, chưa có test thiết bị đạt. GitHub Actions xanh trước đó chỉ là QA/probe cũ. ZIP skills trung tâm đã được phát hiện nhưng phiên hiện tại không giải nén ZIP nhị phân được qua connector; sử dụng các tài liệu `DEB_IPA_SKILL.md`, `AGENTS.md` tương đương được đọc trực tiếp.
 
 Ngày: 2026-10-17. Repo: chuongnguyen89dn-ui/Duoface. Trạng thái: phân tích tĩnh, CHƯA tích hợp/chưa build.
