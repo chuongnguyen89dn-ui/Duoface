@@ -103,11 +103,29 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
         Class controllerClass=NSClassFromString(@"SBAppViewController");
         SEL entityInit=NSSelectorFromString(@"initWithApplicationForMainDisplay:");
         SEL controllerInit=NSSelectorFromString(@"initWithIdentifier:andApplicationSceneEntity:");
-        if(!application || ![entityClass instancesRespondToSelector:entityInit] ||
-           ![controllerClass instancesRespondToSelector:controllerInit] ||
-           ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"setRequestedMode:")] ||
-           ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"_setCurrentMode:")]) {
-            if(error) *error=DFIError(@"Phiên bản iOS này thiếu API mở vùng ứng dụng.");
+        // Keep the original fail-closed ABI guard; identify which prerequisite
+        // is absent instead of reporting that the entire iOS version is unsupported.
+        NSMutableArray<NSString *> *missing=[NSMutableArray array];
+        if(!applications) [missing addObject:@"SBApplicationController.sharedInstance"];
+        if(!application) [missing addObject:@"applicationWithBundleIdentifier: returned nil"];
+        if(!entityClass) [missing addObject:@"SBDeviceApplicationSceneEntity class"];
+        else if(![entityClass instancesRespondToSelector:entityInit])
+            [missing addObject:@"SBDeviceApplicationSceneEntity initWithApplicationForMainDisplay:"];
+        if(!controllerClass) [missing addObject:@"SBAppViewController class"];
+        else {
+            if(![controllerClass instancesRespondToSelector:controllerInit])
+                [missing addObject:@"SBAppViewController initWithIdentifier:andApplicationSceneEntity:"];
+            if(![controllerClass instancesRespondToSelector:NSSelectorFromString(@"setRequestedMode:")])
+                [missing addObject:@"SBAppViewController setRequestedMode:"];
+            if(![controllerClass instancesRespondToSelector:NSSelectorFromString(@"_setCurrentMode:")])
+                [missing addObject:@"SBAppViewController _setCurrentMode:"];
+        }
+        if(missing.count) {
+            NSString *detail=[missing componentsJoinedByString:@", "];
+            DFILog([NSString stringWithFormat:@"scene host prerequisites missing bundle=%@ process=%@ ios=%@ detail=%@",
+                    bundleID,NSProcessInfo.processInfo.processName,
+                    UIDevice.currentDevice.systemVersion,detail]);
+            if(error) *error=DFIError([@"Không mở được vùng ứng dụng: " stringByAppendingString:detail]);
             return nil;
         }
         _entity=((id(*)(id,SEL,id))objc_msgSend)([entityClass alloc],entityInit,application);
