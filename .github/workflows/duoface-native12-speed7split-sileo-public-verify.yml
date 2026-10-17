@@ -1,0 +1,87 @@
+name: DuoFace Native12 speed7split host-gate probe live Sileo verification
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed7split-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-pages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check one live independent DuoFace, preserve legacy, download exact DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          mkdir -p "$RUNNER_TEMP/df-speed7split-live"
+          cd "$RUNNER_TEMP/df-speed7split-live"
+          for i in $(seq 1 65); do
+            curl -fLs --retry 2 --retry-delay 3 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native12+speed7split' Packages 2>/dev/null; then break; fi
+            echo "Pages speed7split pending attempt $i"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native12+speed7split' Packages
+          curl -fLs --retry 5 --retry-delay 3 "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          from pathlib import Path
+          blocks=[]
+          for block in Path('Packages').read_text().split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'): blocks.append(d)
+          independent=[p for p in blocks if p.get('Package')=='com.duoface.independent']
+          legacy=[p for p in blocks if p.get('Package')=='com.duonavi.app']
+          assert len(independent)==1,independent
+          assert len(legacy)==1,legacy
+          p=independent[0]
+          assert p['Version']=='0.1.0~native12+speed7split'
+          assert p['Architecture']=='iphoneos-arm64'
+          assert p['SHA256']=='a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155'
+          assert p['Filename']=='debs/com.duoface.independent_0.1.0~native12+speed7split_iphoneos-arm64.deb',p
+          Path('download-path.txt').write_text(p['Filename']+'\n')
+          print('LIVE_SILEO_APT_SPEED7SPLIT_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl -fLs --retry 5 --retry-delay 3 "$base/$(cat download-path.txt)" -o speed7split.deb
+          echo 'a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155  speed7split.deb' | sha256sum -c -
+          test "$(dpkg-deb -f speed7split.deb Package)" = com.duoface.independent
+          test "$(dpkg-deb -f speed7split.deb Version)" = '0.1.0~native12+speed7split'
+          test "$(dpkg-deb -f speed7split.deb Architecture)" = iphoneos-arm64
+          dpkg-deb --contents speed7split.deb > CONTENTS.txt
+          for n in DuoFaceDashboard DuoFaceSpeedHUD DuoFaceSpeedOwner DuoFaceFullscreenBridge DuoFaceVisualHook; do
+            grep -Fq "$n.dylib" CONTENTS.txt
+          done
+          ! grep -E 'DuoFaceSpeedSources|VietMapGoogleMapsSource|WazeGMapHUDSource|GofaGMapHUDSource|GMapHUDOverspeedScreen|GMapHUDPlacementRelay|GoogleMapsVietMap|A_DuoFaceNativeNoLease' CONTENTS.txt
+          dpkg-deb -x speed7split.deb extracted
+          filter=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist
+          grep -Fq '"SpringBoard"' "$filter"
+          ! grep -Eiq 'CarPlayApp|com.apple.CarPlayTemplateUIHost|Waze|GOFA' "$filter"
+          ownerfilter=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist
+          grep -Fq '"SpringBoard"' "$ownerfilter"
+          ! grep -Eiq 'CarPlayApp|CarPlayTemplateUIHost|Waze|GOFA' "$ownerfilter"
+          test "$(grep -Fc 'DuoFaceSpeedOwner.dylib' CONTENTS.txt)" -eq 1
+          test "$(grep -Fc 'DuoFaceSpeedOwner.plist' CONTENTS.txt)" -eq 1
+          oldhud=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib
+          printf '%s  %s\n' 'c0450e05709bca3c1beb65af3ad8929e58184c218f6d91a6ef9e2ec27633fb7d' "$oldhud" | sha256sum -c -
+          grep -F 'DuoFaceLogoGripOnly.dylib' CONTENTS.txt
+          echo 'LIVE_SILEO_SPEED7SPLIT_SPRINGBOARD_NATIVE_SPLIT_HUD_REPLACES_CARPLAYAPP_HUD_PASS; ON_DEVICE_UNTESTED'
+          echo 'LIVE_SILEO_DOWNLOADED_EXACT_SPEED7SPLIT_DEB_SHA256_PASS; ON_DEVICE_UNTESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed7split-live-public-evidence
+          path: |
+            ${{ runner.temp }}/df-speed7split-live/Packages
+            ${{ runner.temp }}/df-speed7split-live/Packages.gz
+            ${{ runner.temp }}/df-speed7split-live/CONTENTS.txt
+            ${{ runner.temp }}/df-speed7split-live/download-path.txt
+          if-no-files-found: warn
