@@ -1,5 +1,8 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:37 +07 — SPEED5-INSTALL-CONFIRMED-DEVICE
+CONFIRMED từ ảnh IMG_7D4618F3-B1C0-43D4-A898-791959C60CF2.jpeg: `dpkg -l | grep -i duo` trả `ii com.duoface.independent 0.1.0~native12+speed5scene iphoneos-arm64`. Đã xác nhận đúng gói/phiên bản được dpkg ghi nhận installed/configured trên thiết bị; thay trạng thái install unknown trước đây. Cùng ảnh xác nhận tail đường dẫn chính /var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl không có file. Chưa xác nhận payload tồn tại/nguyên vẹn hoặc module đã nạp SpringBoard; không kết luận thiếu TW Hub, source data, hoặc owner scene là nguyên nhân. Bước kế read-only: `ls -l /var/jb/Library/M*/D*/*Speed*`, cần thấy DuoFaceSpeedHUD.dylib và DuoFaceSpeedHUD.plist (package build có dylib 107632 bytes, plist 49 bytes). Hỏi đã respring sau cài chưa, không tự kết luận đã làm. Nếu file hiện diện, kiểm filter/loader và tìm log fallback; nếu thiếu file hoặc đổi đuôi disabled, xử lý đúng bằng chứng. Không build/deploy mới, không đổi Native12.
+
 ## 17/10/2026 07:36 +07 — DEVICE-PACKAGE-ID-TYPO
 Ảnh IMG_A49666A6-7DE9-4244-BB2F-83309BE0575A.jpeg rõ hơn: lần tail thứ hai dùng đúng /var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl và vẫn No such file or directory; xác nhận thiếu log ở đường dẫn chính đã thử. Tuy nhiên lệnh dpkg -s trong ảnh gõ com.duoface.indepandent (a), không phải ID đúng com.duoface.independent (e). Thông báo package not installed áp dụng ID sai, không chứng minh DuoFace/Speed5 chưa cài. Bước tiếp đơn giản hóa thành `dpkg -l | grep -i duo` để lấy danh sách ID/version thực, tránh bắt nhập lại ID dài. Chưa xác minh version cài hoặc injection; không sửa/build/deploy mới.
 
