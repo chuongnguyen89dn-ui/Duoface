@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ẢNH THỬ THIẾT BỊ: NỬA TRÊN TỐI, NỬA DƯỚI SÁNG TRẮNG; CHƯA RÕ LÀ IPHONE HAY CARPLAY
+
+**Quan sát mới từ người dùng:** sau hướng dẫn sử dụng package QA `com.duoface.visual12` phiên bản `1.0.3-12~standalone2qa`, người dùng gửi một ảnh chụp một thiết bị dạng điện thoại đứng dọc trong nền tối. Trên ảnh: nửa trên của phần màn hình tối, nửa dưới sáng màu trắng nhạt, không nhìn thấy chữ, nhãn, nút Start/G1/G2 hoặc menu. Đây là bằng chứng hình ảnh trong cuộc chat, **không phải log crash/scene** và chưa có ảnh binary lưu trong repo. Không thể suy ra người dùng chụp iPhone đang mở `DuoFace QA` hay màn hình CarPlay sau khi Start, cũng không khẳng định máy bị hỏng màn hay code crash.
+
+**Xác minh nguồn live:** GitHub branch `feature/visual12-duodash-recovery` HEAD `98910892db5be731924d2b9140faeee6436f6563` ở thời điểm đối chiếu; source `replacement/visual12/engine/app/DFCarPlayQAApp.m` blob `91a9a447cfec2a33d5f89c79b5fc66e689d64226` có `DFQAControlController viewDidLoad` tạo title, scroll/stack, UISwitch và 4 nút Start/G1/G2/Stop; ảnh hiện tại không có giao diện kỳ vọng. QA CarPlay root `DFCarPlayQARootController.m` dùng hai UIView trống với nền black/darkGray và được render trên external window sau Darwin notification. Không có crash log hay URL từ thiết bị để xác định loại lỗi. Workflow build/package 39047207433 và live 39047566262 đã pass static/HTTP, **không chứng minh UI/scene runtime**. Source và Sileo chưa thay đổi trong checkpoint này.
+
+**Cách phân loại cần user trả lời một ý trước khi sửa:** Ảnh chụp màn hình **iPhone ngay sau khi mở ứng dụng DuoFace QA** hay **màn hình CarPlay sau nút Khởi tạo**? Nếu iPhone: điều tra UI process launch/SceneDelegate và jetsam/crash `DuoFaceVisual12`, thử screenshot khi app khác hoạt động và đọc .ips. Nếu CarPlay: đọc `DuoFaceVisual12-runtime.log` và `DuoFaceCarPlayQA.log` để phân biệt owner guard, two-pane placeholder, scene attach. Không tự sửa/build/push một bản đoán mò gây ảnh hưởng bản Sileo vừa phát hành. Giữ nguyên Native12+Hub8 và package gốc.
+
+
 ## 2026-10-17 — ĐÃ PHÁT HÀNH SILEO G1/G2 STANDALONE2QA, XÁC MINH PUBLIC APT/DEB
 
 **YÊU CẦU THAY ĐỔI:** chủ dự án nói “Đóng nó lên sileo”. Quyền phát hành QA bản mới thay thế hạn chế phát hành từ các checkpoint trước CHỈ đối với `com.duoface.visual12` standalone2qa; KHÔNG cho phép thay package đang sử dụng `com.duoface.independent` Native12+Hub8, `com.duonavi.app` VisualTest12 hay các module khác.
