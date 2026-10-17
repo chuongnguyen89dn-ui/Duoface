@@ -1,0 +1,43 @@
+name: DuoFace standalone CB compatibility compile
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'replacement/cb-compat/**'
+      - '.github/workflows/duoface-visual12-cbcompat-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile namespaced facade for iOS 16
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun clang -target arm64-apple-ios16.0 -arch arm64 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
+            -Wall -Wextra -Werror -framework UIKit -framework Foundation \
+            -Wl,-headerpad,0x1000 \
+            -o "$RUNNER_TEMP/DFCBCompat.dylib" replacement/cb-compat/DFCBCompat.m
+          test "$(xcrun lipo -archs "$RUNNER_TEMP/DFCBCompat.dylib")" = arm64
+          xcrun otool -L "$RUNNER_TEMP/DFCBCompat.dylib"
+          xcrun nm -gU "$RUNNER_TEMP/DFCBCompat.dylib" | grep -F '_DFCBBindHost'
+          xcrun nm -gU "$RUNNER_TEMP/DFCBCompat.dylib" | grep -F '_DFCBUnbindHost'
+          shasum -a 256 "$RUNNER_TEMP/DFCBCompat.dylib"
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          h=Path('replacement/cb-compat/DFCBCompat.h').read_text()
+          m=Path('replacement/cb-compat/DFCBCompat.m').read_text()
+          for name in ('DFCBWindow','DFCBBridgedSplitApp','DFCBBridgeManager'):
+              assert ('@interface '+name) in h
+              assert ('@implementation '+name) in m
+          for name in ('CBWindow','CBBridgedSplitApp','CBBridgeManager'):
+              assert re.search(r'\\b'+name+r'\\b',h+m) is None
+          print('NAMESPACED_FACADE_COMPILED_NO_LEGACY_CB_CLASSES')
+          PY
