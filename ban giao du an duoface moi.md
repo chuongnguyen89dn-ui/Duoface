@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — 2 PANE HOẠT ĐỘNG, LỖI exitMode KHÔNG THƯỜNG XUYÊN
+
+**Báo cáo mới của người dùng:** cả hai app/pane CarPlay hoạt động được, thỉnh thoảng gặp lỗi `exitmode` (nguyên văn người dùng). Ghi nhận PASS theo báo cáo người dùng cho 2 pane và tương tác; **không** đánh dấu lifecycle/reconnect pass hoặc suy đoán chính xác `exitmode` là selector nào khi chưa có log. Kiểm tra source `replacement/visual12/engine/runtime/DFIRuntime.m`: `DFV12SceneHost` có private `setRequestedMode:`, `_setCurrentMode:`, `close` và `DFIStop` teardown; `replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m` có `cancelAndClose:`, `closePane:`, `stop`. Tìm chuỗi `exitMode` trong hai file này không thấy; vì vậy chưa thể quy lỗi cho một hàm cụ thể.
+
+**Bước tiếp:** thu thập ảnh thông báo lỗi nguyên văn và log `/var/mobile/Library/Logs/DuoFaceCarPlayQA.log` cùng `DuoFaceVisual12-runtime.log` ngay sau lần lỗi, ghi rõ thao tác trước khi lỗi (đổi app/đóng pane/ngắt CarPlay/chạm). Đối chiếu timeline log để tìm transition gây lỗi; chỉ sửa nhỏ phần lifecycle khi xác định được. Không thay bridge mở app đang hoạt động, không sửa Native12+Hub8, không phát hành DEB mới trước khi chẩn đoán.
+
+
 ## 2026-10-18 — THỬ THIẾT BỊ: TƯƠNG TÁC APP TRÊN CARPLAY THÀNH CÔNG
 
 **Người dùng xác nhận trực tiếp:** Sau ảnh cho thấy hai vùng ứng dụng trên màn CarPlay (khởi chạy từ iPhone), khi được hỏi có thao tác chạm trực tiếp trên màn CarPlay không, người dùng trả lời `Thao tác đc`. Ghi nhận **PASS theo báo cáo người dùng** cho (1) app hiển thị trên CarPlay và (2) thao tác trên app ở CarPlay. Bản QA `com.duoface.visual12` `1.0.3-12~standalone4picker`; publisher run `39078065447` success. Không suy diễn cả hai app đều đã thử chạm riêng, không suy diễn split resize, chuyển app, đóng/mở, ngắt/nối lại, crash-free hoặc UI tương đương Native12. Không có log mới.
