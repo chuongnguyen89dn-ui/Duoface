@@ -35,7 +35,11 @@ jobs:
           python3 migration/full_payload/native_test/check_native12_speed6split_contract.py
           plutil -lint DuoFaceSpeedHUDSplit6.plist
           dpkg --compare-versions '0.1.0~native12+speed6split' gt '0.1.0~native12+speed5scene'
-          test ! -e dist/payload-migration/native12-speed6split/com.duoface.independent_0.1.0~native12+speed6split_iphoneos-arm64.deb
+          # Previously produced QA package is NOT a released version. It had
+          # the wrong tweak .plist basename; force deterministic replacement.
+          if test -e dist/payload-migration/native12-speed6split/BAO_CAO.json; then
+            grep -Fq 'DuoFaceSpeedHUDSplit6.plist' dist/payload-migration/native12-speed6split/BAO_CAO.json
+          fi
       - name: Compile iOS arm64 Native12 Speed6 CarPlayApp-only view module
         shell: bash
         run: |
@@ -56,6 +60,10 @@ jobs:
           set -euo pipefail
           target=dist/payload-migration/native12-speed6split
           mkdir -p "$target"
+          # Rebuild ONLY this specific unpublished QA artifact, retain prior bytes in Git history.
+          for old in BAO_CAO.json CONTENTS.txt SHA256SUMS 'com.duoface.independent_0.1.0~native12+speed6split_iphoneos-arm64.deb'; do
+            rm -f "$target/$old"
+          done
           deb="$target/com.duoface.independent_0.1.0~native12+speed6split_iphoneos-arm64.deb"
           python3 migration/full_payload/native_test/build_native12_speed6split_candidate.py \
             --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" \
@@ -65,6 +73,8 @@ jobs:
           test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed6split'
           dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
           test "$(grep -c DuoFaceSpeedHUD.dylib "$target/CONTENTS.txt")" -eq 1
+          test "$(grep -c DuoFaceSpeedHUD.plist "$target/CONTENTS.txt")" -eq 1
+          ! grep -F 'DuoFaceSpeedHUDSplit6.plist' "$target/CONTENTS.txt"
           ! grep -E 'WazeGMapHUDSource|GofaGMapHUDSource|GoogleMapsVietMap|GofaCarplayGlobal' "$target/CONTENTS.txt"
           shasum -a 256 "$deb" > "$target/SHA256SUMS"
           echo SPEED6_NATIVE12_PRESERVED_EXACT_ROOTLESS_DEB_PASS_NOT_DEVICE_TESTED
