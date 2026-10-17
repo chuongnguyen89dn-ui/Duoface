@@ -1,0 +1,61 @@
+name: DuoFace VisualTest12 genuine license-boundary QA (no Sileo)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/audit_visualtest12_license_boundary.py'
+      - '.github/workflows/duoface-visualtest12-license-boundary.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-visutest12-license-boundary
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Inspect exact VisualTest12 original host and Hub baseline WITHOUT ALTERING ANY DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --user --break-system-packages 'capstone==5.0.6'
+          python3 -m py_compile migration/full_payload/native_test/audit_visualtest12_license_boundary.py
+          python3 migration/full_payload/native_test/audit_visualtest12_license_boundary.py             --visual 'dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb'             --native12 'dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb'             --out 'audit/payload-migration/VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json'
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('audit/payload-migration/VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json').read_text())
+          assert a['status']=='VISUALTEST12_EXACT_BINARY_LICENSE_INVENTORY_ONLY'
+          assert a['visual_package_id']=='com.duonavi.app'
+          assert a['hub_package_id']=='com.duoface.independent'
+          assert not a['license_runtime_fully_removed']
+          assert not a['sileo_updated']
+          print('VISUALTEST12_BOUNDARY_CHECK_PASS_HUB_IMMUTABLE')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-visutest12-license-inventory-NO-DEB
+          path: audit/payload-migration/VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json
+          if-no-files-found: warn
+      - name: Persist only forensic report on feature branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: VisualTest12 actual core licensing inventory only [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
