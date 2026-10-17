@@ -1,5 +1,8 @@
 # DuoFace
 
+> **Ưu tiên mới 2026-10-17 — cứu DuoFace VisualTest12 chạy lại trước:** tạm hoãn viết App Bridge độc lập hoàn chỉnh. Trước mắt kiểm tra và tái sử dụng có chọn lọc cơ chế scene host của DuoDash (Airaw chỉ tham khảo fullscreen/chrome), giữ split UI DuoFace và giữ nguyên Native12 Hub. **Chưa có DEB mới / chưa có xác minh thiết bị chạy lại.** [Quyết định và bước kiểm tra chi tiết](./docs/duodash-native-appbridge-replacement-visualtest12-20261017.md#ưu-tiên-mới-17102026--khôi-phục-chạy-được-trước).
+
+
 **Định hướng chính thức từ 2026-10-15:** phát triển **DuoFace độc lập** cho CarPlay jailbreak, không phụ thuộc lõi hoặc cơ chế cấp phép/thời hạn DuoNavi. Giữ và tái sử dụng những thành quả về chia màn hình, menu, fullscreen và nhận diện DuoFace theo khả năng kỹ thuật được kiểm chứng.
 
 ## Bàn giao dự án — đọc đầu tiên
