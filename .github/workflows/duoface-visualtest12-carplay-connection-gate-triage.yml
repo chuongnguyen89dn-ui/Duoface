@@ -1,0 +1,58 @@
+name: DuoFace VisualTest12 original vs launchfix CarPlay connected gate
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - 'migration/full_payload/native_test/trace_visualtest12_carplay_connection_gate.py'
+      - '.github/workflows/duoface-visualtest12-carplay-connection-gate-triage.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visual12-carplay-gate-triage
+  cancel-in-progress: false
+jobs:
+  triage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare REAL published app against original CarPlay detector and bridge method bodies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/trace_visualtest12_carplay_connection_gate.py
+          python3 migration/full_payload/native_test/trace_visualtest12_carplay_connection_gate.py --output audit/payload-migration/VISUALTEST12_LAUNCHFIX1_CARPLAY_CONNECTION_GATE.json
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          x=json.loads(Path('audit/payload-migration/VISUALTEST12_LAUNCHFIX1_CARPLAY_CONNECTION_GATE.json').read_text())
+          assert x['status']=='VISUALTEST12_LAUNCHFIX1_CARPLAY_CONNECTION_GATE_STATIC_TRIAGE'
+          assert x['summary']['all_8_carplay_detection_implementations_byte_identical']
+          assert x['summary']['license_getters_changed_as_intended']==2
+          assert x['comparison_only'] and not x['root_cause_proven']
+          assert not x['new_deb_built'] and not x['sileo_modified'] and not x['hub_modified']
+          print('CARPLAY_ORIGINAL_VS_FAILED_LAUNCHFIX1_DETECTOR_TRIAGE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visualtest12-original-launchfix1-carplay-connected-triage
+          path: audit/payload-migration/VISUALTEST12_LAUNCHFIX1_CARPLAY_CONNECTION_GATE.json
+          if-no-files-found: warn
+      - name: Save verified report to DuoFace feature branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_LAUNCHFIX1_CARPLAY_CONNECTION_GATE.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'triage: exact original vs launchfix CarPlay detector report [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
