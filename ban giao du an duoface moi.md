@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — DIAGNOSTIC LOGGER SOURCE ADDED
+YÊU CẦU: tạo bản log DuoFace chi tiết để điều tra lỗi chỉ DuoFace không mở từ CarPlay Dashboard trên iPhone X; Speed7/8 cùng lỗi, app CarPlay khác bình thường.
+ĐÃ THỰC HIỆN: thêm mã nguồn read-only `runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm` trên nhánh `feature/duoface-exact-payload-migration`, commit `81d7e30673b109b354fbdc857bb22fb9d058c8b3`; đọc lại xác minh có `DIAGNOSTIC_LOADED`. Log đích trên thiết bị khi được build/inject: `/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl`. Theo dõi manager, window, currentApp, root, external screen, visible, state changes và heartbeat, PID/time; không hook, không thêm UIWindow, không can thiệp CarPlay.
+TRẠNG THÁI QUAN TRỌNG: CHỈ MỚI CÓ SOURCE; chưa tích hợp build wiring, chưa chạy CI, chưa tạo DEB, chưa đưa lên Sileo, chưa test iPhone X. Logger polling không tự xác nhận thời điểm nhấn icon: cần bổ sung event instrumentation trước khi gọi là log click đầy đủ. Bản Speed8 iPhone 8 Plus không đổi. Các JetsamEvent 09:55,11:17,11:25 không cho thấy SpringBoard bị jetsam (theo kết quả phân tích trong chat trước, cần đối chiếu lại file gốc khi dùng làm bằng chứng).
+TIẾP THEO: đọc workflow/build scripts và wiring hiện tại, tích hợp riêng gói chẩn đoán không thay gói DuoFace hiện hành; sửa lỗi compile tiềm năng của đọc BOOL `isVisible` (objc_msgSend typed BOOL, không cast object), thêm event hook an toàn nếu xác minh selector thật; chạy QA, build và xuất bản DEB riêng; test iPhone X, thu JSONL và đối chiếu thời điểm nhấn icon.
+ 
+
 ## 17/10/2026 — IPHONE X: ONLY DUOFACE FAILS, OTHER CARPLAY APPS NORMAL
 BỔ SUNG TEST THỰC TẾ: Người dùng xác nhận CHỈ DuoFace bị lỗi mở từ CarPlay Dashboard trên iPhone X; các ứng dụng CarPlay khác vẫn mở bình thường. Trước đó cả DuoFace Speed7 Split lẫn Speed8 đều lỗi trên iPhone X, trong khi DuoFace app trên điện thoại vẫn mở; iPhone 8 Plus cùng iOS/Speed8 hoạt động. Khi nhấn DuoFace trên Dashboard, giao diện có vẻ nạp lại dữ liệu, không mở split. Log Speed8 144 dòng: 138 lần WAIT_CBWINDOW, 0 lần mount.
 KẾT LUẬN GIỚI HẠN: giảm khả năng lỗi CarPlay toàn cục hoặc phần cứng; khoanh vùng đăng ký/launch intent/scene DuoFace, CBBridgeManager.window, hoặc xung đột tweak/tiêm dylib trên iPhone X. Chưa xác định nguyên nhân gốc và chưa chứng minh DuoFace binary vô can, vì Speed7/8 dùng chung Native12 Dashboard.
