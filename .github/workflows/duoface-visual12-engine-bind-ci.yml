@@ -4,6 +4,7 @@ on:
     branches: [feature/visual12-duodash-recovery]
     paths:
       - 'replacement/visual12/engine/**'
+      - 'replacement/visual12/fullscreen/**'
       - 'replacement/cb-compat/**'
       - '.github/workflows/duoface-visual12-engine-bind-ci.yml'
   workflow_dispatch:
@@ -24,12 +25,13 @@ jobs:
             -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
             -Os -Wall -Wextra -Wno-unused-parameter \
             -Wl,-headerpad,0x1000 -Wl,-install_name,@rpath/DuoFaceVisual12Engine.dylib \
-            -I replacement/cb-compat \
+            -I replacement/cb-compat -I runtime/fullscreen \
             -framework UIKit -framework Foundation -framework CoreFoundation \
             -framework CoreGraphics -framework QuartzCore -lobjc \
             -o "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" \
             replacement/visual12/engine/runtime/DFIRuntime.m \
-            replacement/cb-compat/DFCBCompat.m
+            replacement/cb-compat/DFCBCompat.m \
+            replacement/visual12/fullscreen/DFVisual12HostGeometry.m
           test "$(xcrun lipo -archs "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib")" = arm64
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBBindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
@@ -50,6 +52,12 @@ jobs:
           assert identity['separate_from_hub_package']=='com.duoface.independent'
           assert 'DFCBBindHost(window, DFIRoot, &hostError)' in runtime
           assert 'DFCBUnbindHost(DFIWindow)' in runtime
+          assert 'DFInstallHostGeometryHooks();' in runtime
+          geometry=Path('replacement/visual12/fullscreen/DFVisual12HostGeometry.m').read_text()
+          for name in ('DFHostCanExpand','DFHostSetExpanded','DFHostRestore','DFInstallHostGeometryHooks'):
+              assert name in geometry
+          assert 'DFCBSetLifecycleCallback' in geometry
+          assert '@implementation CBWindow' not in geometry
           assert runtime.index('DFCBUnbindHost(DFIWindow)') < runtime.index('[DFIRoot shutdown]')
           assert 'DFIWindow=window' in runtime
           assert 'DFIWindow.hidden=YES' in runtime
