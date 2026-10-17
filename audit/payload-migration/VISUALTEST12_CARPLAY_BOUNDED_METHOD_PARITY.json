@@ -1,0 +1,4153 @@
+{
+  "status": "VISUALTEST12_NATIVE12_CARPLAY_BOUNDED_METHODS_STATIC",
+  "input_visual_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "input_native12_hub_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "summary": {
+    "DuoFaceUI": {
+      "selected": 2,
+      "present_in_both": 2,
+      "fully_bounded": 2,
+      "identical_bounded_bytes": 2,
+      "changed_bounded_bytes": 0,
+      "type_encoding_mismatch": 0
+    },
+    "DuoFaceDashboard": {
+      "selected": 19,
+      "present_in_both": 18,
+      "fully_bounded": 13,
+      "identical_bounded_bytes": 13,
+      "changed_bounded_bytes": 0,
+      "type_encoding_mismatch": 0
+    }
+  },
+  "hosts": {
+    "DuoFaceUI": {
+      "CBGeneralSettingsViewController::-loadPreferences": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x10000d7c4",
+        "native_imp_vm": "0x10000d7c4",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 624,
+        "native_range_bytes": 624,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "952e3a444f7ef93d3ccc6a1f6d79a4c2c9ba5d8432b5af19c86e6e3ef1ee68cc",
+        "native_range_sha256": "952e3a444f7ef93d3ccc6a1f6d79a4c2c9ba5d8432b5af19c86e6e3ef1ee68cc",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 31,
+        "native_direct_bl_count": 31,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x10000d808",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d810",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d834",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d83c",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d844",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d860",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d868",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d874",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d888",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8b0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8b8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8c0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8d8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8e0",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8ec",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d900",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d928",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d930",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d938",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d950",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d958",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d964",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d978",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9a0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9a8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9b0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9c8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9d0",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9dc",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9f0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da2c",
+            "destination": "0x1000a2964",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x10000d808",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d810",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d834",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d83c",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d844",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d860",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d868",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d874",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d888",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8b0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8b8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8c0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8d8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8e0",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d8ec",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d900",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d928",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d930",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d938",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d950",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d958",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d964",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d978",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9a0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9a8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9b0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9c8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9d0",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9dc",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000d9f0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da2c",
+            "destination": "0x1000a2964",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBGeneralSettingsViewController::-savePreferences": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x10000da34",
+        "native_imp_vm": "0x10000da34",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 940,
+        "native_range_bytes": 940,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "4c682c413933068bb0a6f42d1cd94e7efe6e4d9b973df4df192bba766c79856d",
+        "native_range_sha256": "4c682c413933068bb0a6f42d1cd94e7efe6e4d9b973df4df192bba766c79856d",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 47,
+        "native_direct_bl_count": 47,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x10000da70",
+            "destination": "0x1000a2aa8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da88",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da90",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000daa0",
+            "destination": "0x1000a2aa8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dab4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dabc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dac8",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dad0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000daf4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dafc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db20",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db28",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db54",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db6c",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db74",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db90",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db98",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbb0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbb8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbd4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbdc",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbf4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbfc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc18",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc20",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc3c",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc44",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc4c",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc60",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc68",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc84",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc8c",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dca0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dca8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcb0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcc4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dccc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dce8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcf0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dd14",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x10000da70",
+            "destination": "0x1000a2aa8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da88",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000da90",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000daa0",
+            "destination": "0x1000a2aa8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dab4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dabc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dac8",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dad0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000daf4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dafc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db20",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db28",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db54",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db6c",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db74",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db90",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000db98",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbb0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbb8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbd4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbdc",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbf4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dbfc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc18",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc20",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc3c",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc44",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc4c",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc60",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc68",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc84",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dc8c",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dca0",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dca8",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcb0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcc4",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dccc",
+            "destination": "0x1000a2acc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dce8",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dcf0",
+            "destination": "0x1000a2a9c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x10000dd14",
+            "destination": "0x1000a2a84",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      }
+    },
+    "DuoFaceDashboard": {
+      "CBMultitaskingOverlayView::-addMoreAppsTapped:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0xa7f20",
+        "native_imp_vm": "0xa7f20",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 4356,
+        "native_range_bytes": 4356,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "cb5b47607850578be5d63a6495d6d9a29b099309084fc9a737bef583a44fb260",
+        "native_range_sha256": "cb5b47607850578be5d63a6495d6d9a29b099309084fc9a737bef583a44fb260",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 223,
+        "native_direct_bl_count": 223,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0xa7f68",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7fa0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7fc4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7ff0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7ffc",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8014",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa801c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8024",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa803c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa804c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8068",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa807c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8094",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80cc",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80f8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8110",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8118",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa812c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa813c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8160",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8168",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa817c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8184",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8198",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81a4",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81d8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa824c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8268",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8280",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa829c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82a0",
+            "destination": "0x2ecd48",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82b4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0xa7f68",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7fa0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7fc4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7ff0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa7ffc",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8014",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa801c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8024",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa803c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa804c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8068",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa807c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8094",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80cc",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa80f8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8110",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8118",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa812c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa813c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8160",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8168",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa817c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8184",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8198",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81a4",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81d8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa81f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa824c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8268",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8280",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa8294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa829c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82a0",
+            "destination": "0x2ecd48",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82b4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa82d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBMultitaskingOverlayView::-dismissCustomAlert:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0xa9024",
+        "native_imp_vm": "0xa9024",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 456,
+        "native_range_bytes": 456,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "96d6be6987399f912a74113385fa17a20dafb38e6580f11d879ddb928170cbc5",
+        "native_range_sha256": "96d6be6987399f912a74113385fa17a20dafb38e6580f11d879ddb928170cbc5",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 16,
+        "native_direct_bl_count": 16,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0xa9058",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9060",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9078",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9080",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90c0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90e4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90f8",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9120",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9128",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9130",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9138",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9140",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9148",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9188",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa91a4",
+            "destination": "0x2ec82c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa91c8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0xa9058",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9060",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9078",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9080",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90c0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90e4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa90f8",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9120",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9128",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9130",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9138",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9140",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9148",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9188",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa91a4",
+            "destination": "0x2ec82c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa91c8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBMultitaskingOverlayView::-setupAppPickerCardsInCardW:cardH:contentY:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0xa3e5c",
+        "native_imp_vm": "0xa3e5c",
+        "same_imp_vm": true,
+        "visual_type": "v40@0:8d16d24d32",
+        "native_type": "v40@0:8d16d24d32",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 7868,
+        "native_range_bytes": 7868,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "1cbeb6c8f234a38e7f4a39c3a61f3db1e356947b4b62c058d036f5ae96b1628b",
+        "native_range_sha256": "1cbeb6c8f234a38e7f4a39c3a61f3db1e356947b4b62c058d036f5ae96b1628b",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 357,
+        "native_direct_bl_count": 357,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0xa3ec0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3ec8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3eec",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f24",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f60",
+            "destination": "0x9eee0",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f74",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f8c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f94",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3fe4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa400c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4014",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4028",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa403c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4044",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa405c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4068",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4070",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4094",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa409c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40ac",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40bc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40dc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40fc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa411c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa416c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa418c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41a4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41b8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41e0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41f4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4208",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa421c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4238",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4258",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4274",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa42ac",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa42c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0xa3ec0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3ec8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3eec",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f24",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f60",
+            "destination": "0x9eee0",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f74",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f8c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3f94",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa3fe4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa400c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4014",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4028",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa403c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4044",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa405c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4068",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4070",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4094",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa409c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40ac",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40bc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40dc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa40fc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa411c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa416c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa418c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41a4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41b8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41e0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa41f4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4208",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa421c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4238",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4258",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4274",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa4294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa42ac",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa42c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBMultitaskingOverlayView::-appSelected:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0xa9ea8",
+        "native_imp_vm": "0xa9ea8",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 1608,
+        "native_range_bytes": 1608,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "ddcbc77af40b23620e9ca448fe198a03f732ced50fd30deb1004db89fa4d7ae9",
+        "native_range_sha256": "ddcbc77af40b23620e9ca448fe198a03f732ced50fd30deb1004db89fa4d7ae9",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 76,
+        "native_direct_bl_count": 76,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0xa9ed8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9efc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f24",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f3c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f44",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f50",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f78",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f98",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fa0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fdc",
+            "destination": "0x9eee0",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fec",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa010",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa034",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa03c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa04c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa058",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa084",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa08c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0b4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0e4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0f8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa100",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa10c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa114",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa12c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa134",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa158",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa16c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa194",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1b8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1d0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa21c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa220",
+            "destination": "0x2ec7cc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa24c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa268",
+            "destination": "0x2ec7d8",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0xa9ed8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9efc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f24",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f3c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f44",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f50",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f78",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9f98",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fa0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fdc",
+            "destination": "0x9eee0",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xa9fec",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa010",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa034",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa03c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa04c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa058",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa084",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa08c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0b4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0e4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa0f8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa100",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa10c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa114",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa12c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa134",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa158",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa16c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa194",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1b8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1d0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa1f0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa21c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa220",
+            "destination": "0x2ec7cc",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa24c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0xaa268",
+            "destination": "0x2ec7d8",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBDashboardSettings::-init": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x36054",
+        "native_imp_vm": "0x36054",
+        "same_imp_vm": true,
+        "visual_type": "@16@0:8",
+        "native_type": "@16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 312,
+        "native_range_bytes": 312,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "686fba4690054e6c1290c2e6738582abd2698db83ad9cca36a726d0d95da957b",
+        "native_range_sha256": "686fba4690054e6c1290c2e6738582abd2698db83ad9cca36a726d0d95da957b",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 14,
+        "native_direct_bl_count": 14,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x3607c",
+            "destination": "0x2ecd18",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36098",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360a0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360b0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360cc",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360dc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360fc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36108",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3611c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36128",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36134",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36140",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36174",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x3607c",
+            "destination": "0x2ecd18",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36098",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360a0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360b0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360cc",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360dc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x360fc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36108",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3611c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36128",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36134",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36140",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36174",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBDashboardSettings::-reload": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x36810",
+        "native_imp_vm": "0x36810",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 12,
+        "native_range_bytes": 12,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "8569a2bf8bc4f067656b4b93808c929147e18000087ebc165b4b7ad4a848259b",
+        "native_range_sha256": "8569a2bf8bc4f067656b4b93808c929147e18000087ebc165b4b7ad4a848259b",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 0,
+        "native_direct_bl_count": 0,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [],
+        "native_first_40_direct_bl": [],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBDashboardSettings::-reloadAppPrefs": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x3681c",
+        "native_imp_vm": "0x3681c",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 5740,
+        "native_range_bytes": 5740,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "c1d9d972060f4f87992c423d47db2de5162bbe77d65e5e39d49b3546ec492819",
+        "native_range_sha256": "c1d9d972060f4f87992c423d47db2de5162bbe77d65e5e39d49b3546ec492819",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 326,
+        "native_direct_bl_count": 326,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x3685c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3687c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36894",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368a0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368dc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368f8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36900",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3690c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36918",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3692c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36934",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3693c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36954",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3695c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36968",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36974",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36988",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36990",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36998",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369b8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369d0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369e4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369ec",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a08",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a10",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a2c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a5c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a68",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a78",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a80",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36aa0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36acc",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36ae4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36aec",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36afc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x3685c",
+            "destination": "0x2ecc34",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3687c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36894",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368a0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368cc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368d4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368dc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x368f8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36900",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3690c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36918",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3692c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36934",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3693c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36954",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x3695c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36968",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36974",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36988",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36990",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36998",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369b8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369c4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369d0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369e4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x369ec",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a08",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a10",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a1c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a2c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a5c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a68",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a78",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36a80",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36aa0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36acc",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36ae4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36aec",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x36afc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBDashboardSettings::-bridgedApps": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x37e88",
+        "native_imp_vm": "0x37e88",
+        "same_imp_vm": true,
+        "visual_type": "@16@0:8",
+        "native_type": "@16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 8,
+        "native_range_bytes": 8,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+        "native_range_sha256": "bd237e5d99f6462770946dd64c9d5273577f92aeb78154ba485fef49e0d73851",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 0,
+        "native_direct_bl_count": 0,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [],
+        "native_first_40_direct_bl": [],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBDashboardSettings::-setBridgedApps:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x37e90",
+        "native_imp_vm": "0x37e90",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 12,
+        "native_range_bytes": 12,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "7049b1ef55bf4e113100d0d6c768ea401bd794ea703102a52799f7890f069aec",
+        "native_range_sha256": "7049b1ef55bf4e113100d0d6c768ea401bd794ea703102a52799f7890f069aec",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 0,
+        "native_direct_bl_count": 0,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [],
+        "native_first_40_direct_bl": [],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBBridgeManager::-handleSettingsChanged": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x267764",
+        "native_imp_vm": "0x267764",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": "unbounded or unusually large ObjC IMP region: 100224",
+        "native_range_error": "unbounded or unusually large ObjC IMP region: 100224"
+      },
+      "CBBridgeManager::-showAppPickerForSlot:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x27fee4",
+        "native_imp_vm": "0x27fee4",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8q16",
+        "native_type": "v24@0:8q16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 304,
+        "native_range_bytes": 304,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "487a0c0e73ddffb5108f6d7002a7941d5cb32c34c9c6223f1139725c228f345d",
+        "native_range_sha256": "487a0c0e73ddffb5108f6d7002a7941d5cb32c34c9c6223f1139725c228f345d",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 16,
+        "native_direct_bl_count": 16,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x27ff0c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff14",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff2c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff40",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff4c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff5c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff64",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff74",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff8c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff94",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffa8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffb0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffb8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffc8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffd0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffe4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x27ff0c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff14",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff2c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff40",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff4c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff5c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff64",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff74",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff8c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ff94",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffa8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffb0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffb8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffc8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffd0",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x27ffe4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBBridgeManager::-shouldBridge:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x2491b0",
+        "native_imp_vm": "0x2491b0",
+        "same_imp_vm": true,
+        "visual_type": "B24@0:8@16",
+        "native_type": "B24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 1116,
+        "native_range_bytes": 1116,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "47656138c444dc147757a17962de8dea8851d1b39f994cab8b40526297752acd",
+        "native_range_sha256": "47656138c444dc147757a17962de8dea8851d1b39f994cab8b40526297752acd",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 60,
+        "native_direct_bl_count": 60,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x2491e8",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249200",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249218",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249220",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249238",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249244",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24925c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249264",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24928c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249298",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492b8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492d0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492e4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492f0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249300",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249308",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249324",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24932c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24934c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24937c",
+            "destination": "0x2eccb8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24938c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249394",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493a8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493b4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493dc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493e8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493f0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249404",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24940c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24941c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249424",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249438",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249450",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24949c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494a4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494b8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494cc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494d4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494e8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x2491e8",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249200",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249218",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249220",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249238",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249244",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24925c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249264",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24928c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249298",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492b0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492b8",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492d0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492e4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2492f0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249300",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249308",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249324",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24932c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24934c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24937c",
+            "destination": "0x2eccb8",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24938c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249394",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493a8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493b4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493dc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493e8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2493f0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249404",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24940c",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24941c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249424",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249438",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x249450",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x24949c",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494a4",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494b8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494cc",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494d4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2494e8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBBridgeManager::-trackBridgedBundleID:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x280b60",
+        "native_imp_vm": "0x280b60",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 488,
+        "native_range_bytes": 488,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "7095b1ad33882ad7d4b07ef9814ecd78ce0b2971ceba054bd7b68ce4babc3d1c",
+        "native_range_sha256": "7095b1ad33882ad7d4b07ef9814ecd78ce0b2971ceba054bd7b68ce4babc3d1c",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 20,
+        "native_direct_bl_count": 20,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x280b80",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280b98",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bb4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bd4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bf0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c10",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c24",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c30",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c38",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c78",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c84",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c8c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cb4",
+            "destination": "0x2ecc40",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cc4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cd8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280ce8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cf8",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d10",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d28",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d40",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x280b80",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280b98",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bb4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bd4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280bf0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c10",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c24",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c30",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c38",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c78",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c84",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280c8c",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cb4",
+            "destination": "0x2ecc40",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cc4",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cd8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280ce8",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280cf8",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d10",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d28",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x280d40",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      },
+      "CBBridgeManager::-requestStateChange:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x13b158",
+        "native_imp_vm": "0x13b158",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": "unbounded or unusually large ObjC IMP region: 99308",
+        "native_range_error": "unbounded or unusually large ObjC IMP region: 99308"
+      },
+      "CBBridgeManager::-loadNewAppFromCurrentRequest:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x153544",
+        "native_imp_vm": "0x153544",
+        "same_imp_vm": true,
+        "visual_type": "v24@0:8@16",
+        "native_type": "v24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": "unbounded or unusually large ObjC IMP region: 203724",
+        "native_range_error": "unbounded or unusually large ObjC IMP region: 203724"
+      },
+      "CBBridgeManager::-syncDashboardPolicySignalToDisk": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x229e8c",
+        "native_imp_vm": "0x229e8c",
+        "same_imp_vm": true,
+        "visual_type": "v16@0:8",
+        "native_type": "v16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": "unbounded or unusually large ObjC IMP region: 126948",
+        "native_range_error": "unbounded or unusually large ObjC IMP region: 126948"
+      },
+      "CBBridgeManagerDashboard::-bridgedApps": {
+        "present_in_both": false,
+        "error": "missing registered selector"
+      },
+      "CBBridgeManagerDashboard::+isDashboardPolicySignalActive": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x284068",
+        "native_imp_vm": "0x284068",
+        "same_imp_vm": true,
+        "visual_type": "B16@0:8",
+        "native_type": "B16@0:8",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": "unbounded or unusually large ObjC IMP region: 127204",
+        "native_range_error": "unbounded or unusually large ObjC IMP region: 127204"
+      },
+      "CBBridgeManagerDashboard::+shouldInterceptLaunchForApp:": {
+        "present_in_both": true,
+        "visual_imp_vm": "0x2a314c",
+        "native_imp_vm": "0x2a314c",
+        "same_imp_vm": true,
+        "visual_type": "B24@0:8@16",
+        "native_type": "B24@0:8@16",
+        "same_type_encoding": true,
+        "range_model": "from IMP VM to next registered ObjC IMP or end of __TEXT/__text",
+        "range_proven_exact_method_end": false,
+        "visual_range_error": null,
+        "native_range_error": null,
+        "visual_range_bytes": 536,
+        "native_range_bytes": 536,
+        "same_compared_region_length": true,
+        "entire_bounded_region_byte_equal": true,
+        "visual_range_sha256": "4f116d547ea71904a51d9d149a9d6a8cb3daf6d8189416af21e74d2491b0f43e",
+        "native_range_sha256": "4f116d547ea71904a51d9d149a9d6a8cb3daf6d8189416af21e74d2491b0f43e",
+        "different_byte_count": 0,
+        "visual_direct_bl_count": 26,
+        "native_direct_bl_count": 26,
+        "same_direct_bl_destinations": true,
+        "visual_first_40_direct_bl": [
+          {
+            "at": "0x2a316c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3184",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31a4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31e0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31f4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3200",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3208",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3234",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3240",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3248",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3260",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3268",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3278",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3280",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32a0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32a8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32bc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32c8",
+            "destination": "0x2d52c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32dc",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32e8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3314",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a332c",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3344",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a335c",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "native_first_40_direct_bl": [
+          {
+            "at": "0x2a316c",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3184",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31a4",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31c0",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31e0",
+            "destination": "0x2ecd3c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a31f4",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3200",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3208",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3234",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3240",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3248",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3260",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3268",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3278",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3280",
+            "destination": "0x2ecd60",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3294",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32a0",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32a8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32bc",
+            "destination": "0x2ecd00",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32c8",
+            "destination": "0x2d52c",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32dc",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a32e8",
+            "destination": "0x2ecd30",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3314",
+            "destination": "0x2ec9ac",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a332c",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a3344",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          },
+          {
+            "at": "0x2a335c",
+            "destination": "0x2ecb38",
+            "exact_registered_objc_imp": []
+          }
+        ],
+        "unresolved_indirect_objc_msgsend_or_branches": true
+      }
+    }
+  },
+  "bounded_method_region_is_not_proven_cfg": true,
+  "dynamic_dispatch_or_helper_runtime_parity_proven": false,
+  "arm64e_slice_regression_proven": false,
+  "carplay_device_functionality_proven": false,
+  "read_only": true,
+  "hub_modified": false,
+  "visualtest_modified": false,
+  "deb_built": false,
+  "sileo_deployed": false,
+  "runtime_license_fully_removed": false,
+  "device_tested": false
+}
