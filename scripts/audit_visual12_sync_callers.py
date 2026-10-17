@@ -12,7 +12,8 @@ EXPECTED = '8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a'
 TARGETS = {'forceSyncWithCompletion:', 'performSyncWithForce:isManualUserAction:completion:',
  'performSyncWithForce:isManualUserAction:source:completion:', 'syncQueue', 'setSyncQueue:',
  'isSyncing', 'setIsSyncing:', 'checkAndSyncLicenseIfNeeded',
- 'checkAndSyncLicenseIfNeededWithSource:', 'isCarPlayScreenConnected'}
+ 'checkAndSyncLicenseIfNeededWithSource:', 'isCarPlayScreenConnected',
+ 'isCarPlayScreenConnectedExcludingScreen:', 'isCarPlayScreen:'}
 
 def imported_stubs(m):
     pos, stubs = 32, []
