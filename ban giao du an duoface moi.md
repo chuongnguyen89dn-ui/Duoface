@@ -1,5 +1,20 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — NGƯỜI DÙNG BÁO GIAO DIỆN SILEO QA KHÔNG PHẢI DUOFACE NATIVE12
+
+**Báo lỗi mới từ thiết bị thật (ảnh trong chat 17/10/2026):** người dùng vừa gửi ảnh màn hình cài bản Sileo QA `com.duoface.visual12`, hỏi **“Đây đâu phải là giao diện của tôi? Bạn đang làm j z”**. Ảnh thấy màn chia các khu vực màu tối với nút ba chấm, một vùng có nội dung 70mai dash cam/web và vùng khác hiển thị bản đồ/đồng hồ `09:41` cùng nút **“Nhấn chỉ đường”**; **không giống giao diện DuoFace Native12 đã duyệt**. Đây là chứng cứ thiết bị có hiện UI khác; **chưa xác nhận tính năng mở 1/2 app thật, điều khiển scene, fullscreen hoặc Hub8**.
+
+**Đã đối chiếu code GitHub:** QA DEB `com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb` build từ `replacement/visual12/engine/runtime/DFIRuntime.m`, include `replacement/visual12/engine/runtime/DFIInterface.inc` (SHA blob `e9491282bba8fc32e71b3b973a475d7329fb4852`). File này vẫn định nghĩa UI **nguyên mẫu độc lập** `DFV12SplitController`, các nút dấu ba chấm, panel/khung chọn app, 8 layout. Bản này được chuyển từ nhánh `feature/duoface-independent-core` của nguyên mẫu alpha, chưa phải `CBMultitaskingOverlayView` và thiết kế đã nghiệm thu của Native12, vì giao diện Native12 phần lớn nằm trong `DuoFaceDashboard.dylib` không có source đầy đủ. Không được khẳng định “đã chuyển giao diện Native12” hoặc “giao diện V12 nguyên vẹn”. **Nguyên nhân khác biệt là đóng gói UI nguyên mẫu trong QA DEB**, không phải CarPlay tự đổi theme.
+
+**Yêu cầu dự án hiện hành không đổi:** chỉ test độc lập trước; **Native12 + Hub8 là bản chính**, giữ nguyên. Mục tiêu khi engine độc lập qua test thiết bị là port engine vào Native12/hệ chức năng đã làm mà không mất fullscreen, Hub8 và giao diện. Việc đã phát hành trên Sileo ngày 17/10 là bản `QA only`, không phải sản phẩm thay thế; release run `39038034302` SUCCESS cho APT, không phải device functional QA. Nguồn Sileo `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, build pin `c24cb58f5a7538293199bd2f0fd4b974bdccf844`.
+
+**Bắt buộc xử lý từ thời điểm này:**
+1. Không coi ảnh UI hai khung là thành công CarBridge/app scene; hỏi người dùng xác nhận có thực sự nhấn/chọn và điều khiển được app bên trong từng khung hay chưa (test xe dừng), phân biệt UI của nguyên mẫu với scene hoạt động. Không được ép cài/gỡ Hub8/VisualTest12 để vượt guard `CBBridgeManager`.
+2. Nếu mục tiêu build kế tiếp là nghiệm thu giao diện, **không dùng `DFIInterface.inc` nguyên mẫu làm UI cuối**. Cần map chính xác giao diện Native12 chuẩn (từ source/ảnh đã duyệt) và các điểm nối Fullscreen/Hub8, chỉ thay engine ở ranh giới khi được chứng minh. Không thể chuyển nguyên binary `DuoFaceDashboard.dylib` có license vào package độc lập mà tuyên bố loại phụ thuộc.
+3. Không tái phát hành bản QA hiện tại dưới tên Native12/HUB8, không quảng bá nó là UI hoàn thiện; quyết định sửa/remove listing QA Sileo chỉ khi được yêu cầu cụ thể hoặc có kế hoạch QA thay thế rõ ràng, tránh thay đổi bất ngờ trên máy đang dùng.
+4. **Trạng thái:** vừa kiểm tra đối chiếu UI source/readback và ghi nhận báo lỗi; KHÔNG sửa source, KHÔNG build DEB mới, KHÔNG update Sileo, KHÔNG ảnh hưởng Native12 + Hub8. Lỗi giao diện khác V12 **CONFIRMED**; one/two real-app scene operation **UNVERIFIED**.
+
+
 ## 2026-10-17 — ĐÃ PUBLISH QA VISUAL12 ID RIÊNG LÊN SILEO; GITHUB PAGES RUN 39038034302 SUCCESS
 
 **YÊU CẦU MỚI NHẤT:** Sau câu hỏi “đưa bản QA lên Sileo với ID riêng để thử trước, hay chỉ đưa lên khi hoàn thành Native12 + Hub8?”, người dùng trả lời **“Làm đi”**. Đã thực hiện **đưa DEB QA độc lập có ID `com.duoface.visual12` lên nguồn Sileo**, KHÔNG phát hành dưới tên bản chính/không ghi đè Native12 + Hub8. Việc thử trên thiết bị vẫn phải chờ kết quả người dùng.
