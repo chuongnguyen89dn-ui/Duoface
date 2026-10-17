@@ -1,0 +1,35 @@
+{
+  "status": "VISUALTEST12_FUNCTIONAL_LICENSE_GATE_CANDIDATE_NOT_DEVICE_PROVEN",
+  "package": "com.duonavi.app",
+  "version": "1.0.3-12~visualtest12repair1",
+  "original_source_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "source_version": "1.0.3-12~visualtest",
+  "added_files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12GateRepair.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12GateRepair.plist"
+  ],
+  "changed_files": [
+    "DEBIAN/control"
+  ],
+  "removed_original_files": [],
+  "all_original_payload_files_byte_identical": true,
+  "entire_original_scene_bridge_and_lifecycle_unmodified": true,
+  "module": "runtime/visualtest12/DFVisual12GateRepair.m",
+  "patched_getters": [
+    "CBLicenseSyncManager isLicenseCurrentlyValid",
+    "CBLicenseSyncManager remainingLicenseSeconds",
+    "CBLicenseSyncManager actualLicenseExpirationTimestamp"
+  ],
+  "total_original_methods_neutralized": 0,
+  "duodash_binary_bundled": false,
+  "airaw_binary_bundled": false,
+  "hub_changed": false,
+  "only_logging_probe": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "fallback_if_hooks_dont_load": "original behavior (unmodified source core)",
+  "recovery_proven": false,
+  "new_module_sha256": "fae93f1a03bfe54fc94062d66d12aacad901138b8fba2cc88a10d3727992dfb9",
+  "output_sha256": "b2cc38bd50862df5fd9ec69bd4c62010c0623263a14346c695e895a92709753f",
+  "output_bytes": 2035836
+}
