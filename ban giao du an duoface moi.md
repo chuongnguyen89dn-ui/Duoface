@@ -1,5 +1,19 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — Đã tạo và compile adapter nguồn DuoDash độc lập
+
+**Người dùng yêu cầu thử lại sau khi GitHub write bị chặn trong lượt trước.** Đã retry bình thường, ghi được repository và đọc lại các file mới thành công. Giữ nguyên phạm vi: không dùng lại binary DuoNavi làm nền backend mới, không giả ngày VIP, không dùng Airaw, không thay gói Hub `com.duoface.independent`. Bản VisualTest12 repair1 hiện trên Sileo vẫn FAIL ở màn “Bản Quyền Đã Hết Hạn” trên CarPlay, không được coi là đã sửa.
+
+**GitHub bền vững — branch `feature/visual12-duodash-recovery`:**
+- `replacement/duodash-host/DFDuoDashHostAdapter.h`: giao diện `+isAvailableWithError:`, `+createUnattachedSceneForBundleID:renderSize:error:`, commit `673dd2065d69dbad96b71f55ade8c18c6365e261`.
+- `replacement/duodash-host/DFDuoDashHostAdapter.m`: triển khai ObjC tối thiểu, kiểm tiến trình SpringBoard, `DDz2 +shared` ABI `@16@0:8` và `DDz2 -cnabBuildSceneHostForBid:displaySize:` ABI `@40@0:8@16{CGSize=dd}24`; từ chối đóng vai scene host nếu DuoDash không được cài/nạp, signature không khớp hay kết quả không phải UIViewController. Không chép binary DuoDash hoặc DuoNavi, không gọi license và không tích hợp UI. Commit nguồn `9e2d067ed3fbaa290a5e69f241bed102e5b51727`; sửa chú thích QA `5bd0648021a10bfa27d9eea2f866d424f2369672`.
+- CI `.github/workflows/duoface-duodash-optional-host-adapter-ci.yml`, commit `9fe3845521075de9d1d72afbb2b11cbe102088fc`; build `macos-15`, `xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 -fobjc-arc -fblocks -dynamiclib -Wall -Wextra -Werror -framework Foundation -framework UIKit -Wl,-headerpad,0x1000 -o "$RUNNER_TEMP/duodash-host-adapter/DFDuoDashHostAdapter.dylib" replacement/duodash-host/DFDuoDashHostAdapter.m`; `xcrun lipo -archs`, `xcrun otool -L`, `shasum -a 256`, Python QA, upload-artifact, commit report.
+- Run [39031226614](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39031226614) đầu tiên **FAIL** phần assert source check (`AssertionError` tại `<stdin>` dòng 11) do chuỗi “Airaw” trong chú thích dù clang compile đã qua. Đã bỏ chú thích gây sai, không thay logic.
+- Run [39031248061](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39031248061) **completed SUCCESS**; báo cáo `audit/duodash-1.1.3/DUODASH_OPTIONAL_ADAPTER_BUILD.json` đã commit, branch tại `12eb6713e16267ae85e2e67b91d7ec4f13e67662` sau CI. SHA256 mã `DFDuoDashHostAdapter.m` = `8424e7153a9ac9d9e0de1ba8127e756b94363f4c652a822ebb46c37df02aa11b`; header = `b641cb6cd4bfbaa58c7f5dccd42f802e95b5037164ce2b0fd5d1425956ec2f42`. iOS target `arm64-apple-ios16.0`. Đã qua compile, **chưa test trên điện thoại**.
+- **Ràng buộc đang chặn hoàn thiện:** adapter hiện chỉ truy xuất bộ tạo scene khi DuoDash được cài độc lập và chạy trong SpringBoard; không tự chứa App Bridge của DuoDash và chưa cung cấp host UI, lifecycle ownership, scene attach/teardown. Không có nguồn giao diện nguyên vẹn VisualTest12 để copy khỏi binary được kiểm kê. Vì vậy `duoface_ui_integration_completed=false`, `scene_host_integration_tested=false`, `device_tested=false`, `sileo_published=false`. **Không coi build xanh là tính năng chạy**.
+- **Điểm tiếp tục:** xác thực contract trả về từ DDz2, xử lý chủ sở hữu scene để không có hai host xung đột; nối adapter với một giao diện DuoFace có nguồn độc lập mà không dùng binary DuoNavi, giữ layout yêu cầu; compile và kiểm chứng thiết bị đã hết trial. Chỉ lúc đó mới build DEB để thay bản repair1, không tự phát hành mô-đun không hoàn chỉnh.
+
+
 ## 17/10/2026 19:02 ICT — Checkpoint hướng nguồn mở độc lập
 
 **Yêu cầu mới:** Chuyển hoàn toàn sang backend mở ứng dụng không phụ thuộc mã nhị phân DuoNavi; lấy kiến trúc quản lý scene từ DuoDash để đối chiếu. Không thay tên hay kéo dài thời hạn. Loại Airaw khỏi công việc hiện tại. Giữ nguyên package Hub com.duoface.independent và bố cục DuoFace nếu có bản nguồn hợp pháp.
