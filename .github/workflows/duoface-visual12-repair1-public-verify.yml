@@ -1,0 +1,98 @@
+name: Verify public Sileo VisualTest12 functional repair
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-visual12-repair1-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visual12-repair1-public-verify
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify LIVE Sileo APT, exact repair1 DEB, original Hub unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          DIR="$RUNNER_TEMP/visual12-repair1-sileo"
+          FILE='com.duonavi.app_1.0.3-12~visualtest12repair1_iphoneos-arm64.deb'
+          SHA='b2cc38bd50862df5fd9ec69bd4c62010c0623263a14346c695e895a92709753f'
+          mkdir -p "$DIR" audit/payload-migration
+          for i in $(seq 1 25); do
+            if curl -fsSL --retry 2 -H 'Cache-Control: no-cache' "$BASE/Packages?repair1=$GITHUB_RUN_ID-$i" -o "$DIR/Packages"; then
+              grep -Fxq 'Version: 1.0.3-12~visualtest12repair1' "$DIR/Packages" && break
+            fi
+            test "$i" -lt 25
+            sleep 8
+          done
+          curl -fsSL --retry 3 "$BASE/Packages.gz" -o "$DIR/Packages.gz"
+          gzip -dc "$DIR/Packages.gz" > "$DIR/Packages.unpack"
+          cmp "$DIR/Packages" "$DIR/Packages.unpack"
+          curl -fsSL --retry 3 "$BASE/debs/$FILE" -o "$DIR/package.deb"
+          printf '%s  %s\n' "$SHA" "$DIR/package.deb" | sha256sum -c -
+          test "$(dpkg-deb -f "$DIR/package.deb" Package)" = 'com.duonavi.app'
+          test "$(dpkg-deb -f "$DIR/package.deb" Version)" = '1.0.3-12~visualtest12repair1'
+          test "$(dpkg-deb -f "$DIR/package.deb" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$DIR/stage"
+          dpkg-deb -x "$DIR/package.deb" "$DIR/stage"
+          test -s "$DIR/stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DFVisual12GateRepair.dylib"
+          test -s "$DIR/stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          python3 - <<'PY'
+          import hashlib,json,datetime,os
+          from pathlib import Path
+          d=Path(os.environ['RUNNER_TEMP'])/'visual12-repair1-sileo'
+          rows=[dict(l.split(': ',1) for l in block.splitlines() if ': ' in l)
+                for block in (d/'Packages').read_text().split('\n\n') if block.strip()]
+          def get(pkg):
+              matches=[r for r in rows if r.get('Package')==pkg]
+              assert len(matches)==1,(pkg,len(matches))
+              return matches[0]
+          visual=get('com.duonavi.app'); hub=get('com.duoface.independent')
+          sha='b2cc38bd50862df5fd9ec69bd4c62010c0623263a14346c695e895a92709753f'
+          assert visual['Version']=='1.0.3-12~visualtest12repair1'
+          assert visual['SHA256']==sha
+          assert hub['Version']=='0.1.0~native12+speed8compact'
+          assert hub['SHA256']=='2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad'
+          assert hashlib.sha256((d/'package.deb').read_bytes()).hexdigest()==sha
+          report={
+             'status':'VISUALTEST12_REPAIR1_PUBLIC_SILEO_DOWNLOAD_PASS',
+             'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+             'package':visual['Package'],'version':visual['Version'],'sha256':sha,
+             'hub_package_sha256':hub['SHA256'],'hub_unchanged':True,
+             'live_index_and_package_verified':True,
+             'device_tested':False,'app_activation_fixed_on_device':False,
+             'carplay_youtube_tested':False
+          }
+          out=Path('audit/payload-migration/VISUAL12_REPAIR1_PUBLIC_SILEO.json')
+          out.write_text(json.dumps(report,indent=2)+'\n')
+          print('VISUALTEST12_REPAIR1_PUBLIC_SILEO_PASS_DEVICE_QA_PENDING')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: VisualTest12-Repair1-Public-Sileo-Verification
+          path: audit/payload-migration/VISUAL12_REPAIR1_PUBLIC_SILEO.json
+          if-no-files-found: warn
+      - name: Persist public source verification
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUAL12_REPAIR1_PUBLIC_SILEO.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'qa: verified VisualTest12 repair1 live Sileo and unchanged Hub [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            git push origin HEAD:feature/visual12-duodash-recovery && exit 0
+            sleep 2
+          done
+          exit 1
