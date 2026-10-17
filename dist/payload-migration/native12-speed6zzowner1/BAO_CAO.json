@@ -1,0 +1,21 @@
+{
+  "status": "SPEED6ZZOWNER1_SPRINGBOARD_OWNER_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+  "input_released_speed6_sha256": "42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e",
+  "input_native12_lineage_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "output_sha256": "d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a",
+  "preserved_file_count": 41,
+  "all_previous_speed6_payload_files_byte_identical": true,
+  "new_module": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+  },
+  "new_module_count": 2,
+  "springboard_readonly": true,
+  "no_springboard_uiwindow_creation_or_method_hooks": true,
+  "carplay_hud_injection_and_gates_unchanged": true,
+  "no_third_party_injection_or_waze_hooks": true,
+  "springboard_probe_log": "/var/mobile/Library/Logs/DuoFaceSpeedOwner-SpringBoard.jsonl",
+  "carplay_existing_log": "/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl",
+  "sileo_published": false,
+  "device_tested": false
+}
