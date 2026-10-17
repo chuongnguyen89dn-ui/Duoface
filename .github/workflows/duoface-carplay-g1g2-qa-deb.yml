@@ -1,0 +1,85 @@
+name: DuoFace CarPlay G1 G2 QA DEB - independent package
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-carplay-g1g2-qa-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-carplay-g1g2-qa
+  cancel-in-progress: false
+jobs:
+  build-qa-g1g2:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check build source and standalone boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e 'd5227b4cb42bb0143e63840c95eff8d776b73068^{commit}'
+          test -s replacement/visual12/build_g1g2_qa.sh
+          test -s replacement/visual12/verify_g1g2_qa.py
+          test -s replacement/visual12/engine/app/DFCarPlayQAApp.m
+          test -s replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m
+          test -s replacement/visual12/engine/runtime/DFCarPlayQARootController.m
+          test ! -e replacement/visual12/engine/runtime/DuoFaceDashboard.dylib
+          grep -Fq 'DFCARPLAY_QA=1' replacement/visual12/build_g1g2_qa.sh
+          grep -Fq '"SpringBoard"' replacement/visual12/build_g1g2_qa.sh
+      - name: Install rootless packaging tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install ldid dpkg
+          xcrun --sdk iphoneos --show-sdk-path
+      - name: Compile sign package and verify QA G1 G2 payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash replacement/visual12/build_g1g2_qa.sh
+          p='dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone2qa_iphoneos-arm64.deb'
+          test -s "$p"
+          test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone2qa'
+          test "$(dpkg-deb -f "$p" Architecture)" = 'iphoneos-arm64'
+          dpkg --compare-versions '1.0.3-12~standalone2qa' gt '1.0.3-12~standalone1'
+          python3 replacement/visual12/verify_g1g2_qa.py "$p"
+          cat dist/visual12-g1g2-qa/BAO_CAO.json
+          cat dist/visual12-g1g2-qa/SHA256SUMS
+      - name: Upload signed QA DEB for review (not Sileo)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-CarPlay-G1-G2-Standalone2QA-DEB
+          path: |
+            dist/visual12-g1g2-qa/*.deb
+            dist/visual12-g1g2-qa/BAO_CAO.json
+            dist/visual12-g1g2-qa/CONTENTS.txt
+            dist/visual12-g1g2-qa/SHA256SUMS
+          if-no-files-found: error
+      - name: Persist verified QA DEB and hashes in DuoFace repository
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/visual12-g1g2-qa
+          if git diff --cached --quiet; then echo 'QA_BINARY_ALREADY_PERSISTED'; exit 0; fi
+          git commit -m 'artifact(carplay): preserve G1 G2 QA DEB and hashes [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            if git push origin HEAD:feature/visual12-duodash-recovery; then
+              echo 'QA_DEB_PERSISTED_GITHUB'
+              exit 0
+            fi
+            sleep 2
+          done
+          echo '::error::Built QA DEB but git push persistence failed'
+          exit 1
