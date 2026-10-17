@@ -1,5 +1,20 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — LOG THIẾT BỊ G1/G2: API SCENE HOST BỊ CHẶN TRONG KHỞI TẠO
+
+**Nguồn chứng cứ người dùng upload:** `DuoFaceCarPlayQA.log` (40 dòng, 2992 bytes) và `DuoFaceVisual12-runtime.log` (31 dòng, 2188 bytes), đọc trực tiếp trong phiên 2026-10-17. Các file đính kèm nằm ở hội thoại, chưa copy bytes vào GitHub; tóm tắt này bảo toàn mốc và nguyên văn lỗi. Không chứa bí mật.
+
+**Kết quả xác thực:** QA log 4 lần `root-created two panes` + `owner-ready {{0, 0}, {507.33333333333331, 240}}` (16:06:53, 16:07:20, 16:10:21, 16:11:27 +0000). Nhiều lần `G1-request com.waze` và `G2-left-request com.waze` đều kết thúc `G1-fail` hoặc `G2-left-fail Phiên bản iOS này thiếu API mở vùng ứng dụng.`; không có `G1-scene-attached`, `G2-right-request` hay `G2-two-scenes-present`. `owner-stopped all QA scenes closed` tại 16:12:26. **G1 FAIL, G2 FAIL** trên máy thật; QA root/window có khởi tạo, scene không mở. Không có bằng chứng CBBridgeManager owner-refused hay crash ở đây.
+
+**Đối chiếu lịch sử runtime:** `DuoFaceVisual12-runtime.log` ghi `scene attached bundle=com.banyac.midrive.intl class=FBScene` (13:53:35), `com.apple.Maps` (13:53:43, 14:00:43, 16:04:52), `com.google.ios.youtube` (14:00:46, 16:05:07), trên cùng window bounds 507.3333 x 240. Có `this object has already been invalidated` lúc 14:03:31/16:05:40, cần lưu ý lifecycle. Những scene attach đó thuộc phiên runtime trước QA, không được coi là G1/G2 của package standalone2qa.
+
+**Đối chiếu source:** `replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m` gọi `[[DFV12SceneHost alloc] initWithBundleID:error:]`. `replacement/visual12/engine/runtime/DFIRuntime.m` có guard trả đúng chuỗi lỗi `Phiên bản iOS này thiếu API mở vùng ứng dụng.` tại đoạn init host (xấp xỉ dòng 100-115): kiểm tra class/selector runtime `SBDeviceApplicationSceneEntity` và `SBDeviceApplicationSceneViewController` cùng `setRequestedMode:`, `_setCurrentMode:`. Lỗi phát sinh **trước** khi attach host và trước callback scene-ready; nguyên nhân cụ thể class/selector nào nil chưa được log. Không thể kết luận iOS16 thiếu API nói chung vì log trước đó đã có FBScene; có thể khác môi trường, runtime class availability hoặc selector guard quá chặt. Cần instrument chi tiết từng NSClassFromString/respondsToSelector và compare với đường legacy trước khi đổi kiến trúc.
+
+**Hướng sửa có căn cứ:** thêm log chẩn đoán không bí mật, fail-closed chỉ ra class/selector bị thiếu; so sánh `DFV12SceneHost initWithBundleID:` và code path legacy tạo scene, xác minh đúng SpringBoard process/iOS build; kiểm tra `NSClassFromString` và selector instance/class ở thời điểm G1. Sau đó chỉ điều chỉnh API/selector guard dựa trên kết quả, không giả lập scene-attached, không vô hiệu hóa giấy phép vendor. Test trên iPhone G1 trước rồi G2. Giữ nguyên Native12+Hub8 và UI production. **Chưa sửa/build/deploy lượt này**, không tuyên bố đã khắc phục.
+
+**Bước tiếp:** bổ sung log per-class/per-selector trong QA `DFV12SceneHost` để thay lỗi tổng quát bằng nguyên nhân thật, đóng bản QA tăng revision riêng, CI build, Sileo phát hành chỉ khi có bằng chứng và quy trình rollback. Nếu chưa làm, yêu cầu thiết bị gửi thêm log runtime/class availability. 
+
+
 ## 2026-10-17 — USER XÁC NHẬN ẢNH LÀ SAU KHI NHẤN KHỞI TẠO CỬA SỔ QA
 
 **Bằng chứng cập nhật yêu cầu/triage:** Người dùng xác nhận ảnh trước (màn hình hình chữ nhật dựng dọc, nửa trên tối, nửa dưới trắng/sáng, không có nội dung app) xuất hiện **SAU KHI NHẤN NÚT “Khởi tạo cửa sổ QA”**, không phải giao diện điều khiển iPhone khi vừa mở app. Đây là quan sát thực tế của người dùng; CHƯA có log SpringBoard, G1, G2, sceneHandle hoặc crash. Thông tin này **thay thế nhận định “chưa rõ là iPhone hay CarPlay”** trong checkpoint trước; giữ nguyên mục cũ làm lịch sử.
