@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — THIẾT BỊ BÁO G1/G2 KHÔNG MỞ ĐƯỢC APP
+
+**Báo cáo mới từ người dùng:** bản Sileo `standalone3diag` vẫn không mở được ứng dụng nào trên CarPlay. Chưa có log/ảnh lỗi của bản mới để kết luận selector nào hỏng; không được đánh đồng build/deploy xanh với CarPlay hoạt động. Publisher run `39077096269` đã được kiểm tra trước đó là build+deploy success.
+
+**Đối chiếu source thực tế:** `replacement/visual12/engine/runtime/DFIRuntime.m` dùng SpringBoard private `SBApplicationController.sharedInstance`, `applicationWithBundleIdentifier:`, `SBDeviceApplicationSceneEntity initWithApplicationForMainDisplay:`, `SBAppViewController initWithIdentifier:andApplicationSceneEntity:`, `setRequestedMode:`, `_setCurrentMode:`. Guard fail-closed kiểm tra selector/class và log `scene host prerequisites missing bundle=... process=... ios=... detail=...` vào `/var/mobile/Library/Logs/DuoFaceVisual12-runtime.log` nếu SpringBoard; QA app cũng có `DuoFaceCarPlayQA.log`. `pollScene` thử 48 lần mỗi 0.25s trước khi báo không tạo được màn hình. Đây là đường dựng app-scene đang dùng, chưa có bằng chứng nó đã thành công trên máy iOS 16.7.16. Không tiếp tục sửa UI/chia đôi hay tạo DEB mới khi chưa biết lỗi chính xác.
+
+**Bước tiếp theo bắt buộc:** yêu cầu user gửi `DuoFaceCarPlayQA.log` và `DuoFaceVisual12-runtime.log` sau khi bấm G1 một lần (hoặc ảnh lỗi trên màn hình); đọc và xác định missing class/selector hay scene attach timeout; sau đó đối chiếu đúng code bridge từ DEB/các bản cũ đã hoạt động trong repo trước khi thay đổi implementation. Giữ Native12 + Hub8 nguyên vẹn. Chưa sửa mã, chưa build thêm.
+
+
 ## 2026-10-18 — PHÁT HIỆN SILEO CHƯA CẬP NHẬT, FIX APT ASSERT
 
 **Kiểm tra lại trước hướng dẫn sử dụng:** Sileo publisher run `39050003209` **failure**, job `117446476511` ở bước `Build APT repository`; DEB standalone3diag tải OK, SHA OK, dpkg metadata OK, Packages có 11 entries, nhưng inline Python cuối workflow vẫn `assert '1.0.3-12~standalone2qa' in Path('Packages').read_text()`, dẫn đến `AssertionError` (log dòng 37). **Vì vậy chưa phát hành được standalone3diag**, hướng dẫn cài trước đó chỉ áp dụng khi Pages publish success. Đã sửa đúng assertion cuối ở repo `chuongnguyen89dn-ui/carplaydsp` `.github/workflows/build.yml` commit `7a3543b159bf56ff88a96d4e47d32154377dbabc`. Run phát hành lại `39077096269` queued tại lần kiểm tra, https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39077096269 . Native12+Hub8 giữ nguyên.
