@@ -10,6 +10,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: visual12-engine-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   engine-link:
     runs-on: macos-15
@@ -37,6 +40,11 @@ jobs:
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
           xcrun otool -L "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
           shasum -a 256 "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -Wall -Wextra -Wno-unused-parameter \
+            -c replacement/visual12/engine/shared/DFISettings.m \
+            -o "$RUNNER_TEMP/DFV12Settings.o"
+          xcrun nm "$RUNNER_TEMP/DFV12Settings.o" | grep -F "DFV12SettingsController"
       - name: Check lifecycle source and package boundaries
         shell: bash
         run: |
@@ -57,6 +65,18 @@ jobs:
           for name in ('DFHostCanExpand','DFHostSetExpanded','DFHostRestore','DFInstallHostGeometryHooks'):
               assert name in geometry
           assert 'DFCBSetLifecycleCallback' in geometry
+          interface=(root/'runtime/DFIInterface.inc').read_text()
+          settings=(root/'shared/DFISettings.m').read_text()
+          all_source=runtime+interface+settings
+          assert 'DFHostSetExpanded(expanded,&reason)' in interface
+          assert 'DFV12SceneHost' in all_source
+          assert 'DFV12SplitController' in all_source
+          assert 'DFV12SettingsController' in settings
+          for old in ('@implementation DFISceneHost','@implementation DFISplitController',
+                      '@implementation DFIList','@implementation DFILayoutIcon',
+                      '@implementation DFIHomeGestureTarget','@implementation DFISettingsController'):
+              assert old not in all_source,old
+
           assert '@implementation CBWindow' not in geometry
           assert runtime.index('DFCBUnbindHost(DFIWindow)') < runtime.index('[DFIRoot shutdown]')
           assert 'DFIWindow=window' in runtime
