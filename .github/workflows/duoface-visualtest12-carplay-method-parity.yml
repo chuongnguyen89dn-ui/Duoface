@@ -33,8 +33,20 @@ jobs:
           assert data['summary']['DuoFaceDashboard']['selected']>=15
           assert data['summary']['DuoFaceUI']['selected']>=2
           assert data['summary']['DuoFaceDashboard']['present_in_both']>=10
-          assert data['summary']['DuoFaceDashboard']['fully_bounded']>0
-          print('VISUALTEST12_CARPLAY_BOUNDED_STATIC_QA_PASS')
+          assert data['summary']['DuoFaceUI']['fully_bounded']==2
+          assert data['summary']['DuoFaceUI']['identical_bounded_bytes']==2
+          assert data['summary']['DuoFaceDashboard']['fully_bounded']==18
+          assert data['summary']['DuoFaceDashboard']['identical_bounded_bytes']==18
+          assert data['summary']['DuoFaceDashboard']['changed_bounded_bytes']==0
+          assert data['summary']['DuoFaceDashboard']['type_encoding_mismatch']==0
+          all_methods=[m for host in data['hosts'].values() for m in host.values()]
+          matched=[m for m in all_methods if m.get('entire_bounded_region_byte_equal') is True]
+          assert len(matched)==20
+          assert all(m['same_imp_vm'] and m['same_type_encoding']
+                     and m['same_direct_bl_destinations'] for m in matched)
+          missing=data['hosts']['DuoFaceDashboard']['CBBridgeManagerDashboard::-bridgedApps']
+          assert missing['present_visual'] is False and missing['present_native12'] is False
+          print('VISUALTEST12_CARPLAY_BOUNDED_STATIC_QA_PASS: 20 exact VM regions, 1 absent both')
           PY
       - uses: actions/upload-artifact@v4
         if: always()
