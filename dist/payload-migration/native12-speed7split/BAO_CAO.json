@@ -1,0 +1,29 @@
+{
+  "status": "SPEED7_NATIVE12_SPRINGBOARD_SPLIT_RENDERER_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+  "baseline_speed6zzowner1_sha256": "d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a",
+  "output_sha256": "a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155",
+  "preserved_files_byte_identical": 41,
+  "replaced_files_exact_count": 2,
+  "replaced_only_HUD_dylib_and_plist": true,
+  "original_native12_and_springboard_owner_probe_unchanged": true,
+  "carplayapp_HUD_injection_removed": true,
+  "speed7_filter_springboard_only": true,
+  "creates_new_UIWindow": false,
+  "requires_native_bridged_split_app_two_attached_panels": true,
+  "root_class_verified_from_real_device": "CBTouchPassThroughRootSceneWindow",
+  "source_data_independent_placeholder": true,
+  "new_hud_files": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {
+      "before": "751da238d2563cc2727c3c1c99990ed9f176706214caf9711b550a4f8b85a6e1",
+      "after": "c0450e05709bca3c1beb65af3ad8929e58184c218f6d91a6ef9e2ec27633fb7d"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist": {
+      "before": "26c741de18a79619c1fa7dc39f6663d854b7ea1c6c5d7e3531d1549656aa647b",
+      "after": "62ee8d853176f7a2ab39a9b343be76d9f38ce8113c3c868a93f3b4ec50dbcdab"
+    }
+  },
+  "runtime_log": "/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl",
+  "sileo_published": false,
+  "device_tested": false,
+  "risk": "SplitApp.appViews and panel attachment must be checked on real device. Do not claim Home=0/1 split/exit=0 before real test."
+}
