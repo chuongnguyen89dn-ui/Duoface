@@ -459,202 +459,722 @@
               {
                 "vm_start": "0x10002f0be",
                 "vm_end_exclusive": "0x10002f12c",
-                "bytes": 110
+                "bytes": 110,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionOrderCoordinator",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002f0ac",
+                  "distance_bytes": 18
+                },
+                "next_objc_imp": {
+                  "owner": "CBLocalization",
+                  "selector": "+sharedInstance",
+                  "vm": "0x10002fa14",
+                  "distance_bytes": 2390
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10001b3f1",
                 "vm_end_exclusive": "0x10001b428",
-                "bytes": 55
+                "bytes": 55,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-dealloc",
+                  "vm": "0x10001b384",
+                  "distance_bytes": 109
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-keyboardWillShow:",
+                  "vm": "0x10001b464",
+                  "distance_bytes": 115
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10001b3c0",
                 "vm_end_exclusive": "0x10001b3f0",
-                "bytes": 48
+                "bytes": 48,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-dealloc",
+                  "vm": "0x10001b384",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-keyboardWillShow:",
+                  "vm": "0x10001b464",
+                  "distance_bytes": 164
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x1000591dc",
                 "vm_end_exclusive": "0x10005920c",
-                "bytes": 48
+                "bytes": 48,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x1000591a0",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-deviceHardwareHashHex",
+                  "vm": "0x10005920c",
+                  "distance_bytes": 48
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10001b42c",
                 "vm_end_exclusive": "0x10001b458",
-                "bytes": 44
+                "bytes": 44,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-dealloc",
+                  "vm": "0x10001b384",
+                  "distance_bytes": 168
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-keyboardWillShow:",
+                  "vm": "0x10001b464",
+                  "distance_bytes": 56
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10002ba90",
                 "vm_end_exclusive": "0x10002babc",
-                "bytes": 44
+                "bytes": 44,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionVIPCardCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002b9dc",
+                  "distance_bytes": 180
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionOrderCoordinator",
+                  "selector": "-dealloc",
+                  "vm": "0x10002baa8",
+                  "distance_bytes": 24
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100008c50",
                 "vm_end_exclusive": "0x100008c70",
-                "bytes": 32
+                "bytes": 32,
+                "previous_objc_imp": {
+                  "owner": "XXRootViewController",
+                  "selector": "-isShowingExpiredModal",
+                  "vm": "0x100008c50",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "XXRootViewController",
+                  "selector": "-setIsShowingExpiredModal:",
+                  "vm": "0x100008c60",
+                  "distance_bytes": 16
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10002bad8",
                 "vm_end_exclusive": "0x10002baf4",
-                "bytes": 28
+                "bytes": 28,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionOrderCoordinator",
+                  "selector": "-dealloc",
+                  "vm": "0x10002baa8",
+                  "distance_bytes": 48
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionOrderCoordinator",
+                  "selector": "-hasActivePendingOrder",
+                  "vm": "0x10002baf4",
+                  "distance_bytes": 28
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021de0",
                 "vm_end_exclusive": "0x100021df8",
-                "bytes": 24
+                "bytes": 24,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 152
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1680
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024bb8",
                 "vm_end_exclusive": "0x100024bd0",
-                "bytes": 24
+                "bytes": 24,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 200
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 24
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100029b70",
                 "vm_end_exclusive": "0x100029b88",
-                "bytes": 24
+                "bytes": 24,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionPlanCardCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100029b0c",
+                  "distance_bytes": 100
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionStatusCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100029b88",
+                  "distance_bytes": 24
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x1000591c0",
                 "vm_end_exclusive": "0x1000591d8",
-                "bytes": 24
+                "bytes": 24,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x1000591a0",
+                  "distance_bytes": 32
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-deviceHardwareHashHex",
+                  "vm": "0x10005920c",
+                  "distance_bytes": 76
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10001b3a8",
                 "vm_end_exclusive": "0x10001b3bc",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-dealloc",
+                  "vm": "0x10001b384",
+                  "distance_bytes": 36
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-keyboardWillShow:",
+                  "vm": "0x10001b464",
+                  "distance_bytes": 188
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100025588",
                 "vm_end_exclusive": "0x10002559c",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002554c",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionVIPStatusCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x10002559c",
+                  "distance_bytes": 20
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x1000265b0",
                 "vm_end_exclusive": "0x1000265c4",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionHardwareIDCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100026574",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionGiftcodeInputCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x1000265c4",
+                  "distance_bytes": 20
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10002707c",
                 "vm_end_exclusive": "0x100027090",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionGiftcodeInputCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100027040",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionGiftcodeRedeemCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100027090",
+                  "distance_bytes": 20
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100027a3c",
                 "vm_end_exclusive": "0x100027a50",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionGiftcodeRedeemCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100027a00",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionPendingOrderCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100027a50",
+                  "distance_bytes": 20
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100028b50",
                 "vm_end_exclusive": "0x100028b64",
-                "bytes": 20
+                "bytes": 20,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionPendingOrderCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100028ad8",
+                  "distance_bytes": 120
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionPlanCardCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100028b64",
+                  "distance_bytes": 20
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10001b393",
                 "vm_end_exclusive": "0x10001b3a4",
-                "bytes": 17
+                "bytes": 17,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-dealloc",
+                  "vm": "0x10001b384",
+                  "distance_bytes": 15
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-keyboardWillShow:",
+                  "vm": "0x10001b464",
+                  "distance_bytes": 209
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10002f0ac",
                 "vm_end_exclusive": "0x10002f0bd",
-                "bytes": 17
+                "bytes": 17,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionOrderCoordinator",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002f0ac",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBLocalization",
+                  "selector": "+sharedInstance",
+                  "vm": "0x10002fa14",
+                  "distance_bytes": 2408
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021d48",
                 "vm_end_exclusive": "0x100021d58",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1832
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021d7c",
                 "vm_end_exclusive": "0x100021d8c",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 52
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1780
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021d90",
                 "vm_end_exclusive": "0x100021da0",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 72
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1760
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021da4",
                 "vm_end_exclusive": "0x100021db4",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 92
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1740
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021db8",
                 "vm_end_exclusive": "0x100021dc8",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 112
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1720
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100021dcc",
                 "vm_end_exclusive": "0x100021ddc",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100021d48",
+                  "distance_bytes": 132
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "+modalWithActivateHandler:dismissHandler:",
+                  "vm": "0x100022470",
+                  "distance_bytes": 1700
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024af0",
                 "vm_end_exclusive": "0x100024b00",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 224
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b04",
                 "vm_end_exclusive": "0x100024b14",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 20
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 204
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b18",
                 "vm_end_exclusive": "0x100024b28",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 40
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 184
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b2c",
                 "vm_end_exclusive": "0x100024b3c",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 60
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 164
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b40",
                 "vm_end_exclusive": "0x100024b50",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 80
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 144
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b54",
                 "vm_end_exclusive": "0x100024b64",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 100
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 124
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b68",
                 "vm_end_exclusive": "0x100024b78",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 120
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 104
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b7c",
                 "vm_end_exclusive": "0x100024b8c",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 140
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 84
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024b90",
                 "vm_end_exclusive": "0x100024ba0",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 160
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 64
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100024ba4",
                 "vm_end_exclusive": "0x100024bb4",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseExpiredModalViewController",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100024af0",
+                  "distance_bytes": 180
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x100024bd0",
+                  "distance_bytes": 44
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x10002554c",
                 "vm_end_exclusive": "0x10002555c",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002554c",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionVIPStatusCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x10002559c",
+                  "distance_bytes": 80
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100025560",
                 "vm_end_exclusive": "0x100025570",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002554c",
+                  "distance_bytes": 20
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionVIPStatusCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x10002559c",
+                  "distance_bytes": 60
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100025574",
                 "vm_end_exclusive": "0x100025584",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionCheckoutCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x10002554c",
+                  "distance_bytes": 40
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionVIPStatusCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x10002559c",
+                  "distance_bytes": 40
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x100026574",
                 "vm_end_exclusive": "0x100026584",
-                "bytes": 16
+                "bytes": 16,
+                "previous_objc_imp": {
+                  "owner": "CBSubscriptionHardwareIDCell",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x100026574",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBSubscriptionGiftcodeInputCell",
+                  "selector": "-initWithStyle:reuseIdentifier:",
+                  "vm": "0x1000265c4",
+                  "distance_bytes": 80
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               }
             ],
             "text_changed_bytes_within_native4_stub_spans": 264263,
@@ -1214,32 +1734,110 @@
               {
                 "vm_start": "0xb9434",
                 "vm_end_exclusive": "0xb94ec",
-                "bytes": 184
+                "bytes": 184,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseWarningModalView",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0xb9434",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBBridgedApp",
+                  "selector": "-initWithBundleIdentifier:frame:",
+                  "vm": "0xb94ec",
+                  "distance_bytes": 184
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x39798",
                 "vm_end_exclusive": "0x39804",
-                "bytes": 108
+                "bytes": 108,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x39798",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-deviceHardwareHashHex",
+                  "vm": "0x39804",
+                  "distance_bytes": 108
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x3973d",
                 "vm_end_exclusive": "0x3976c",
-                "bytes": 47
+                "bytes": 47,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "+sharedInstance",
+                  "vm": "0x3972c",
+                  "distance_bytes": 17
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x39798",
+                  "distance_bytes": 91
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x812a4",
                 "vm_end_exclusive": "0x812b0",
-                "bytes": 12
+                "bytes": 12,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-.cxx_destruct",
+                  "vm": "0x812a4",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBTouchCloneView",
+                  "selector": "-sendTouchEventAtPoint:isDown:",
+                  "vm": "0x82d4c",
+                  "distance_bytes": 6824
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x39732",
                 "vm_end_exclusive": "0x3973c",
-                "bytes": 10
+                "bytes": 10,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "+sharedInstance",
+                  "vm": "0x3972c",
+                  "distance_bytes": 6
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x39798",
+                  "distance_bytes": 102
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               },
               {
                 "vm_start": "0x3972c",
                 "vm_end_exclusive": "0x39731",
-                "bytes": 5
+                "bytes": 5,
+                "previous_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "+sharedInstance",
+                  "vm": "0x3972c",
+                  "distance_bytes": 0
+                },
+                "next_objc_imp": {
+                  "owner": "CBLicenseSyncManager",
+                  "selector": "-init",
+                  "vm": "0x39798",
+                  "distance_bytes": 108
+                },
+                "neighbor_is_not_instruction_owner_proof": true
               }
             ],
             "text_changed_bytes_within_native4_stub_spans": 313157,
