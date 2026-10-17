@@ -1,0 +1,63 @@
+name: DuoFace VisualTest12 arm64 Mach-O VM and ABI audit
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-visualtest12-macho-vm-abi.yml'
+      - 'migration/full_payload/native_test/audit_visualtest12_macho_vm_abi.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-visualtest12-vm-abi-readonly
+  cancel-in-progress: false
+jobs:
+  readonly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mach-O architecture VM section ABI inspection (no package build)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_visualtest12_macho_vm_abi.py
+          python3 migration/full_payload/native_test/audit_visualtest12_macho_vm_abi.py --out audit/payload-migration/VISUALTEST12_NATIVE12_VM_ABI.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('audit/payload-migration/VISUALTEST12_NATIVE12_VM_ABI.json').read_text())
+          assert report['read_only'] and not report['binary_modified'] and not report['hub_modified']
+          assert not report['deb_built'] and not report['sileo_deployed'] and not report['device_tested']
+          assert report['status']=='VISUALTEST12_NATIVE12_VM_ABI_READONLY'
+          assert set(report['hosts'])=={'DuoFaceUI','DuoFaceDashboard'}
+          for binary, host in report['hosts'].items():
+              assert 'arm64' in [a['architecture'] for a in host['visual_architectures']]
+              assert 'arm64' in [a['architecture'] for a in host['native12_architectures']]
+              assert host['sections']['text_summary']['compared_text_bytes'] > 0
+              assert host['native4_methods_in_historical_ledger'] > 0
+              assert host['critical_method_abi_and_instruction_prefixes']
+              assert not host['rebuild_safe_proven'] and not host['runtime_compatibility_proven']
+          print('VISUALTEST12_MACHO_VM_ABI_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visualtest12-macho-vm-abi-readonly
+          path: audit/payload-migration/VISUALTEST12_NATIVE12_VM_ABI.json
+          if-no-files-found: warn
+      - name: Persist evidence to project feature branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_NATIVE12_VM_ABI.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: VisualTest12 native12 VM and ABI map [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
