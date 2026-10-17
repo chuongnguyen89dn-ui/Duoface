@@ -8,5 +8,5 @@ static inline void DFISetPref(NSString *key,id value) { CFPreferencesSetAppValue
 static inline BOOL DFIEnabled(void) { id v=DFIPref(@"enabled");return v && [v boolValue]; }
 static inline NSString *DFIT(NSString *vi,NSString *en) {return [DFIPref(@"language") isEqual:@"en"]?en:vi;}
 static inline CGFloat DFIFontSize(void) { NSInteger n=[DFIPref(@"textSize") integerValue];return n==2?17:(n==1?15:13); }
-@interface DFISettingsController : UITableViewController
+@interface DFV12SettingsController : UITableViewController
 @end
