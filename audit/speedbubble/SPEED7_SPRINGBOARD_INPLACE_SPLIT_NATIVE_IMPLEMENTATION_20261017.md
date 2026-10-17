@@ -1,0 +1,39 @@
+# Speed7 — in-place DuoFace split HUD in real SpringBoard Native12 owner (2026-10-17)
+
+## Ground truth
+
+- User's original photo: DuoFace Waze/YouTube split, no HUD.
+- User's Speed6zProbe1 CarPlay log: constructor and native dashboard hooks loaded in `CarPlay`, but `+[CBWindow activeCarPlayWindow]=nil`, owner event never created, 0 HUD mounted despite Dashboard activated periodically.
+- User's Speed6zzOwner1 SpringBoard log 11 valid JSONL SHA256 `216950e0085396ab40f5db60e45ef12cdd6d3ac6b60f5d691cdb26cce86706f0`: actual SpringBoard `CBBridgeManager.window` and `+[CBWindow activeCarPlayWindow]` both CBWindow after 26s, root `CBTouchPassThroughRootSceneWindow` on external screen 507.33×240, native UIView tree intact. `windowScene.session.role="_UIScreenBasedSceneSession"`, NOT CarPlay. Single `isVisible` bit persisted 7 consecutive 15s probes, therefore **alone cannot prove Home gating**.
+- 17 Oct 2026 actual pinned Native12 lifecycle forensic GitHub [run 38999369950](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38999369950) SUCCESS, script `migration/full_payload/native_test/audit_native12_speedhud_split_lifecycle_gate.py` (commit `f2cd17a0569a87edd3796694cf489db830595ee5`) proves `CBBridgeManager -currentApp @16@0:8`, `CBBridgedSplitApp -appViews` and `-stop`, `CBWindow -show/hide/destroy`, `CBBridgeManager -deactivateCurrentApp`. Pinned original static disassembly of `deactivateCurrentApp`: **calls currentApp.stop at 0x19d754, removes currentApp.view from parent, stores nil at owner ivar offset +0x48 at 0x19d790; then calls CBWindow.destroyWindows 0x19d7b4 and stores nil at +0x40 at 0x19d7c0**. Therefore a conjunction of CURRENT native CBBridgedSplitApp + two attached visible native appViews + native CBWindow.rootWindow is stronger than stale window.isVisible. These methods are exact Native12 binary, NOT generic SpringBoard CPWindow assumption. No claim about on-device `currentApp` state at Home until device test.
+
+## Speed7 code design: an exclusive, fail-closed HUD
+
+Source `feature:runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm` commit `5725c2bfd0871840d7a2e5fb447bba5254187015` built with `DFSpeedTransport.mm`; first ~229 lines **original identical DFSpeedNativeHUD visual** from Speed6. Uses one strong `s7HUD` UIView only (not UIWindow, no CarPlay Home scan). Constructor limited to SpringBoard, main-runloop timer 0.5sec.
+
+Activation requires ALL:
+1. `CBBridgeManager, CBWindow, CBBridgedSplitApp` classes from exact `DuoFaceDashboard.dylib`.
+2. `CBBridgeManager.sharedInstanceIfExists.window` is exact native CBWindow, `manager.currentApp` is CBBridgedSplitApp.
+3. `currentApp.appViews` is array of **at least 2 and no more than 4**, not stale single/empty. Native CBWindow.visible, root is **exact class CBTouchPassThroughRootSceneWindow**, root on external display, visible, nonempty bounds.
+4. CBWindow.rootViewController.view + CBWindow.contentView share the root and ancestry, actual currentApp.view on same root and beneath native controller view.
+5. At least **two** `currentApp.appViews` actual UIView (or wrapper .view) have `.window==root`, ancestor chain beneath splitRoot, visible, bounds at least 60px each.
+6. If original GOFAHUD installed, documented CarPlay prefs must be off, and GOFA foreground notify must not be true. Does NOT notify `carplay.show`, does NOT force-wake GOFA.
+7. Finally `[controller addSubview:s7HUD]` with same `— / —` visual independent of speed data. Single s7HUD reparented only on valid owner change, `S7Unmount` removes it on any gate failure. Log granular stage `/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl` with `current_app_class`, `split_app_views`, `attached_visible_panels`; no GPS/bundle IDs/object addresses.
+
+New separate files: `Makefile.speedhud-native7split-stage` commit `40990fc4247238e9cc9a39cd2a37ab3f87fcf246`; `DuoFaceSpeedHUDNative7.plist` commit `9b7de61b441089fe7324fd74a32b0a28b28b9f4e`, Filter Executables SpringBoard ONLY. Existing read-only owner probe `DuoFaceSpeedOwner.dylib` still retained unmodified. **Old `DuoFaceSpeedHUD.dylib` injected CarPlayApp is REPLACED at SAME path with new SpringBoard renderer, not added alongside**. No 2 simultaneous renderer injections from same package.
+
+## Actual build/release boundaries
+
+Exact pinned input released `dist/payload-migration/native12-speed6zzowner1/com.duoface.independent_0.1.0~native12+speed6zzowner1_iphoneos-arm64.deb` SHA256 `d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a`.
+Builder `migration/full_payload/native_test/build_native12_speed7split_candidate.py` commit `077108fe8f8fe305e2996de31ce897059430797c` asserts **41/43** existing payload files have identical SHA, only replaces 2 HUD files: `DuoFaceSpeedHUD.dylib`, `DuoFaceSpeedHUD.plist`. Native12 original 39 and SpringBoard owner probe 2 unchanged. No Waze or third-party HUD injection. Test `migration/full_payload/native_test/check_native12_speed7split_contract.py` commit `40f4052a21b02f0d7482a2b08139e0cacff45207`.
+macos-15 GH Actions QA [run 38999653112](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38999653112) **completed SUCCESS**: actual Theos arm64 compilation/signing/dpkg build/invariant checks, artifact stored feature commit **`7783c71b92ddd299f7f4e0b51b93c10c440eaac3`**. Report `dist/payload-migration/native12-speed7split/BAO_CAO.json` blob `532c66686494f96eab163c2ffde26c2a4c161b6d`, status `SPEED7_NATIVE12_SPRINGBOARD_SPLIT_RENDERER_QA_STATIC_PASS_NOT_DEVICE_TESTED`, output exact DEB SHA256 **`a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155`**.
+- QA DEB: `dist/payload-migration/native12-speed7split/com.duoface.independent_0.1.0~native12+speed7split_iphoneos-arm64.deb`.
+- Publisher `chuongnguyen89dn-ui/carplaydsp/main:.github/workflows/build.yml` update commit **`08dad160cdcafc8cf8354bccf308d81dcace8218`**, download pinned `7783c71b...`, version `0.1.0~native12+speed7split`, verify exact DEB SHA+both SpringBoard filters + exact new dylib and old owner SHA; other Sileo packages untouched. As at this note, publisher GitHub Pages run [38999823945](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/38999823945) **in progress**, not yet call live.
+- Separate verifier workflow `feature:.github/workflows/duoface-native12-speed7split-sileo-public-verify.yml` commit **`4139c81811a5fa3a9fbbbdd20fcc293660fed1c8`**, run [38999846567](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38999846567) **in progress**, checks public APT one independent and legacy preserved, downloaded DEB SHA, both SpringBoard filters, new HUD binary, owner retained. DO NOT call live until both success.
+
+## Needed real-device proof after public
+
+- In Sileo update `com.duoface.independent` to `0.1.0~native12+speed7split`, respring. CarPlay Home ~10s → DuoFace split (Waze+YouTube) ~30s → Home ~10s. **Photograph split and Home** to verify exactly 0/1/0 HUD and Waze stable. If no HUD or Home bleeding, send **one** file `/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl`; fields `SPLIT7_WAIT_...` resolve gate. No GOFAHUD install. If Waze crashes revert previous `0.1.0~native12+speed6zzowner1` immutable artifact, investigate.
+- **NOT YET DEVICE TESTED**: count/attachment state of currentApp.appViews in real iOS16 is still a prediction from pinned Native12 APIs; only device test proves this. Do not assert visuals work just because CI green.
+
+Success: Home zero, exactly one HUD in DuoFace split, leave zero, no Waze restart.
