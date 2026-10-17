@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — G1: ĐÃ SỬA MÃ CHẨN ĐOÁN ĐIỀU KIỆN SCENE HOST
+
+**Thay đổi đã ghi GitHub:** `replacement/visual12/engine/runtime/DFIRuntime.m` commit `0c41adf13a185f18ed8d0df0b863b4bf94cc8fff` blob `9cdbdd1dc9187d527582d5d70979b30aa1fe796c`. Thay guard gộp thành danh sách cụ thể các prerequisites: `SBApplicationController.sharedInstance`, app nil, `SBDeviceApplicationSceneEntity` class/init, `SBAppViewController` class/init/`setRequestedMode:`/`_setCurrentMode:`. Giữ fail-closed và giữ nguyên hành vi nếu API đủ; ghi `DFILog` với bundle/process/iOS/missing selectors, trả error localized cho QA log G1. Không tạo lõi mới, không thay Native12+Hub8, không vô hiệu hóa entitlement/licensing. **Chưa compile/build/deploy hay thử trên thiết bị**: commit này chỉ thêm diagnostic, không khẳng định Waze mở được. Báo cáo so sánh 3 DEB đã tạo `docs/doi-chieu-3-deb-duonavi-duodash-sideplay-20261017.md` commit `f0d4bf96391620035dc3466bdd3cccb06ddf887c`.
+
+**Tiếp theo:** kiểm tra static syntax và build QA qua workflow `.github/workflows/duoface-visual12-g1g2-qa.yml` hoặc workflow tương ứng xác minh thực tế; tăng version QA riêng trước khi đưa lên Sileo, không ghi đè Native12+Hub8; lấy `DuoFaceCarPlayQA.log` mới để biết chính xác guard fail và chỉ sửa selector có bằng chứng. Không coi commit là G1 pass.
+
+
 ## 2026-10-17 — ĐỔI HƯỚNG THEO YÊU CẦU: PHÂN TÍCH 3 DEB TRƯỚC, KHÔNG TẠO LÕI MỚI
 
 **Phản hồi/yêu cầu mới nhất:** Người dùng chỉ rõ đã có dữ liệu/DEB của ba ứng dụng DuoNavi, DuoDash, SidePlay nhưng việc tự xây lại CarPlay từ đầu là sai hướng. **Thay thế ưu tiên cũ**: dừng tạo lõi/adapter mới hoặc phát hành QA đoán mò; phải truy vết và đối chiếu DEB/binary/resources, mã nguồn và log hiện có của cả ba, sau đó chỉ sửa tối thiểu đường mở scene trong DuoFace hiện hữu. Không thay đổi Native12+Hub8, UI sản phẩm đã duyệt hoặc tự ý vô hiệu hóa giấy phép vendor. Giữ lại toàn bộ tiến độ code/CI/QA cũ làm dữ liệu, không coi G1/G2 pass.
