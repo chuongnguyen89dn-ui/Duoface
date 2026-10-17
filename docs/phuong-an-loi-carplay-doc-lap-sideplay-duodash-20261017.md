@@ -92,3 +92,19 @@ Tình trạng 17/10: **chỉ ra quyết định thiết kế bằng đối chi�
 - **Không cần runtime/binary/trial/licensing** DuoNavi, SidePlay, DuoDash hoặc CarBridge thứ ba; **vẫn phụ thuộc iOS16, CarPlay, jailbreak/rootless, SpringBoard private APIs và những app dùng trong scene.** Private APIs không được Apple hỗ trợ hoặc bảo đảm tương thích.
 - API công khai Apple (`CPTemplateApplicationScene`, `CPInterfaceController`, `CPWindow`) chỉ dành cho CarPlay app đủ điều kiện/entitlement; không tự cấp quyền hiển thị YouTube/Waze trong 2 pane của ứng dụng khác. Apple docs: https://developer.apple.com/documentation/carplay/requesting-carplay-entitlements và https://developer.apple.com/documentation/carplay/cptemplateapplicationscene.
 - **Đã có code:** `DFIRuntime.m` scene host, `DFCBCompat.m` facade, fullscreen/geometry/layout. **Chưa có:** hợp đồng source `DFCarPlayBridgeAPI` thực thi, adapter UI native Visual12 độc lập với vendor, device test pass (1 app rồi 2 app). Đã từng compile proof nhưng chưa chứng minh runtime trên iPhone X hết trial. Không đè `com.duoface.independent` Native12+Hub8.
+
+## Kết quả phase 2: QA root source-owned cho G1/G2 (17/10/2026)
+
+Đã code QA root, CHƯA gói DEB hoặc test iPhone. CI arm64 compile + link + static PASS: run 39046655375, job 117436621420, commit d25f21d1c7c4d812f7cc89c4f4a4700f960fb208.
+Artifact 12106027649: duoface-carplay-qa-root-arm64-compile-only, ZIP sha256 cc562e625f0ff29b41dbb5445908304cc7b55f392b76f9bf96a1c0e4cd50e707; dylib runner SHA256 fff594a875f85de459c77c555e19b70c041cb6bc4a4875107322f7c3734563db.
+URL: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39046655375/artifacts/12106027649
+
+Modules trên nhánh feature/visual12-duodash-recovery:
+- replacement/visual12/engine/runtime/DFCarPlayQARootController.h/.m: QA-only root hai pane, điều phối DFCarPlaySplitCoordinator, callback chỉ sau khi scene tồn tại, log bounded đến /var/mobile/Library/Logs/DuoFaceCarPlayQA.log.
+- replacement/visual12/engine/runtime/DFIRuntime.m: DFIQAStart / DFIQARequest / DFIQAStop; một external UIRootSceneWindow dùng DFIWindow, chặn CBBridgeManager và window owner trùng; mọi đoạn QA dưới #if DFCARPLAY_QA.
+- .github/workflows/duoface-visual12-engine-bind-ci.yml: compile -DDFCARPLAY_QA=1, kiểm single-owner và G1/G2 signals, upload dylib test (không phải DEB).
+
+Thiết bị QA sau khi có package RIÊNG: phải opt-in com.duoface.visual12 preference qaEnabled=true (mặc định off), đặt qaFirstBundle / qaSecondBundle thành hai bundle ID thật có trên máy. Chỉ khi legacy CBBridgeManager không loaded, mới gửi Darwin notification com.duoface.carplay.qa.start, sau root ready gửi .qa.g1 hoặc .qa.g2; dừng bằng .qa.stop. G1 chờ scene-attached thực của pane 0, G2 chờ scene thật cả pane 0 và 1; touch, resize, reconnection vẫn cần kiểm thủ công, chưa có PASS.
+Không tự gỡ, disable hay chạy song song gói Native12+Hub8; nếu CB owner còn loaded thì fail-closed. Không đổi giao diện Visual12 đã duyệt. Không deploy Sileo.
+
+Bước tiếp: inspect và nâng package QA recipe vì replacement/visual12/build_qa.sh hiện chưa biên dịch root/controller mới; package identity/version phải khác standalone1 cũ, có test dependency + rootless filter rồi mới phát hành artifact QA. Cần thử trên iPhone X đã hết trial và lưu scene/crash log. Chưa có device evidence; kết quả compile chỉ là compile.
