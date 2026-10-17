@@ -1,0 +1,18 @@
+{
+  "status": "OPTIONAL_DUODASH_ADAPTER_SOURCE_COMPILED",
+  "scope": "standalone source-only interface to separately installed DuoDash",
+  "source_files": [
+    "replacement/duodash-host/DFDuoDashHostAdapter.m",
+    "replacement/duodash-host/DFDuoDashHostAdapter.h"
+  ],
+  "source_sha256": "8424e7153a9ac9d9e0de1ba8127e756b94363f4c652a822ebb46c37df02aa11b",
+  "header_sha256": "b641cb6cd4bfbaa58c7f5dccd42f802e95b5037164ce2b0fd5d1425956ec2f42",
+  "built_ios_target": "arm64-apple-ios16.0",
+  "duonavi_runtime_required": false,
+  "duodash_binary_bundled": false,
+  "hub_modified": false,
+  "device_tested": false,
+  "scene_host_integration_tested": false,
+  "duoface_ui_integration_completed": false,
+  "sileo_published": false
+}
