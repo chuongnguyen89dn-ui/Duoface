@@ -1,0 +1,1157 @@
+{
+  "status": "VISUALTEST12_NATIVE12_VM_ABI_READONLY",
+  "visual_deb_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "native12_hub_deb_sha256_untouched": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "hosts": {
+    "DuoFaceUI": {
+      "visual_raw_sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "native12_raw_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "visual_architectures": [
+        {
+          "architecture": "arm64",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x0",
+          "slice_bytes": 1214224,
+          "slice_sha256": "3c2f9a83702e06418d88d2133c06deb970c9ef4fb575a6717a2e008e14c2a730"
+        },
+        {
+          "architecture": "arm64e",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x2",
+          "slice_bytes": 1211600,
+          "slice_sha256": "f558611630d3ed85d433723e53803d5e53ed30f3a714b803cf38ebdd543fe86f"
+        }
+      ],
+      "native12_architectures": [
+        {
+          "architecture": "arm64",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x0",
+          "slice_bytes": 1220256,
+          "slice_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"
+        }
+      ],
+      "visual_arm64_signature": {
+        "present": true,
+        "commands": [
+          {
+            "offset": 1204432,
+            "size": 9792,
+            "inside_slice": true
+          }
+        ],
+        "signature_integrity_verified": false
+      },
+      "native12_arm64_signature": {
+        "present": true,
+        "commands": [
+          {
+            "offset": 1204432,
+            "size": 15824,
+            "inside_slice": true
+          }
+        ],
+        "signature_integrity_verified": false
+      },
+      "visual_arm64_load_commands": 33,
+      "native12_arm64_load_commands": 33,
+      "visual_arm64_segments": [
+        {
+          "name": "__PAGEZERO",
+          "vm": "0x0",
+          "vmsize": 4294967296,
+          "fileoff": 0,
+          "filesize": 0
+        },
+        {
+          "name": "__TEXT",
+          "vm": "0x100000000",
+          "vmsize": 950272,
+          "fileoff": 0,
+          "filesize": 950272
+        },
+        {
+          "name": "__DATA_CONST",
+          "vm": "0x1000e8000",
+          "vmsize": 180224,
+          "fileoff": 950272,
+          "filesize": 180224
+        },
+        {
+          "name": "__DATA",
+          "vm": "0x100114000",
+          "vmsize": 49152,
+          "fileoff": 1130496,
+          "filesize": 49152
+        },
+        {
+          "name": "__LINKEDIT",
+          "vm": "0x100120000",
+          "vmsize": 49152,
+          "fileoff": 1179648,
+          "filesize": 34576
+        }
+      ],
+      "native12_arm64_segments": [
+        {
+          "name": "__PAGEZERO",
+          "vm": "0x0",
+          "vmsize": 4294967296,
+          "fileoff": 0,
+          "filesize": 0
+        },
+        {
+          "name": "__TEXT",
+          "vm": "0x100000000",
+          "vmsize": 950272,
+          "fileoff": 0,
+          "filesize": 950272
+        },
+        {
+          "name": "__DATA_CONST",
+          "vm": "0x1000e8000",
+          "vmsize": 180224,
+          "fileoff": 950272,
+          "filesize": 180224
+        },
+        {
+          "name": "__DATA",
+          "vm": "0x100114000",
+          "vmsize": 49152,
+          "fileoff": 1130496,
+          "filesize": 49152
+        },
+        {
+          "name": "__LINKEDIT",
+          "vm": "0x100120000",
+          "vmsize": 49152,
+          "fileoff": 1179648,
+          "filesize": 40608
+        }
+      ],
+      "sections": {
+        "entries": [
+          {
+            "section": "__DATA/__bss",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011cd28",
+            "native_vm": "0x10011cd28",
+            "visual_bytes": 1376,
+            "native_bytes": 1376,
+            "same_size": true,
+            "same_vm_bytes_compared": 1376,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__data",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011c6c8",
+            "native_vm": "0x10011c6c8",
+            "visual_bytes": 1544,
+            "native_bytes": 1544,
+            "same_size": true,
+            "same_vm_bytes_compared": 1544,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__la_symbol_ptr",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x100114000",
+            "native_vm": "0x100114000",
+            "visual_bytes": 752,
+            "native_bytes": 752,
+            "same_size": true,
+            "same_vm_bytes_compared": 752,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_classrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011b888",
+            "native_vm": "0x10011b888",
+            "visual_bytes": 736,
+            "native_bytes": 736,
+            "same_size": true,
+            "same_vm_bytes_compared": 736,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1001142f0",
+            "native_vm": "0x1001142f0",
+            "visual_bytes": 23928,
+            "native_bytes": 23928,
+            "same_size": true,
+            "same_vm_bytes_compared": 23928,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_data",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011be58",
+            "native_vm": "0x10011be58",
+            "visual_bytes": 2160,
+            "native_bytes": 2160,
+            "same_size": true,
+            "same_vm_bytes_compared": 2160,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_ivar",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011bc20",
+            "native_vm": "0x10011bc20",
+            "visual_bytes": 564,
+            "native_bytes": 564,
+            "same_size": true,
+            "same_vm_bytes_compared": 564,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_selrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011a068",
+            "native_vm": "0x10011a068",
+            "visual_bytes": 6176,
+            "native_bytes": 6176,
+            "same_size": true,
+            "same_vm_bytes_compared": 6176,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_superrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011bb68",
+            "native_vm": "0x10011bb68",
+            "visual_bytes": 184,
+            "native_bytes": 184,
+            "same_size": true,
+            "same_vm_bytes_compared": 184,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__thread_bss",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011cd00",
+            "native_vm": "0x10011cd00",
+            "visual_bytes": 40,
+            "native_bytes": 40,
+            "same_size": true,
+            "same_vm_bytes_compared": 40,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__thread_vars",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x10011ccd0",
+            "native_vm": "0x10011ccd0",
+            "visual_bytes": 48,
+            "native_bytes": 48,
+            "same_size": true,
+            "same_vm_bytes_compared": 48,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__cfstring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000e9168",
+            "native_vm": "0x1000e9168",
+            "visual_bytes": 171968,
+            "native_bytes": 171968,
+            "same_size": true,
+            "same_vm_bytes_compared": 171968,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000e8138",
+            "native_vm": "0x1000e8138",
+            "visual_bytes": 4144,
+            "native_bytes": 4144,
+            "same_size": true,
+            "same_vm_bytes_compared": 4144,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__got",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000e8000",
+            "native_vm": "0x1000e8000",
+            "visual_bytes": 312,
+            "native_bytes": 312,
+            "same_size": true,
+            "same_vm_bytes_compared": 312,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_classlist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x100113128",
+            "native_vm": "0x100113128",
+            "visual_bytes": 216,
+            "native_bytes": 216,
+            "same_size": true,
+            "same_vm_bytes_compared": 216,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_imageinfo",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x100113280",
+            "native_vm": "0x100113280",
+            "visual_bytes": 8,
+            "native_bytes": 8,
+            "same_size": true,
+            "same_vm_bytes_compared": 8,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_protolist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x100113200",
+            "native_vm": "0x100113200",
+            "visual_bytes": 128,
+            "native_bytes": 128,
+            "same_size": true,
+            "same_vm_bytes_compared": 128,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000ab660",
+            "native_vm": "0x1000ab660",
+            "visual_bytes": 5726,
+            "native_bytes": 5726,
+            "same_size": true,
+            "same_vm_bytes_compared": 5726,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__cstring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000ad02c",
+            "native_vm": "0x1000ad02c",
+            "visual_bytes": 54076,
+            "native_bytes": 54076,
+            "same_size": true,
+            "same_vm_bytes_compared": 54076,
+            "changed_bytes_at_same_vm": 2611
+          },
+          {
+            "section": "__TEXT/__gcc_except_tab",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000accc0",
+            "native_vm": "0x1000accc0",
+            "visual_bytes": 876,
+            "native_bytes": 876,
+            "same_size": true,
+            "same_vm_bytes_compared": 876,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_classname",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000ba368",
+            "native_vm": "0x1000ba368",
+            "visual_bytes": 1129,
+            "native_bytes": 1129,
+            "same_size": true,
+            "same_vm_bytes_compared": 1129,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methlist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000a3018",
+            "native_vm": "0x1000a3018",
+            "visual_bytes": 6584,
+            "native_bytes": 6584,
+            "same_size": true,
+            "same_vm_bytes_compared": 6584,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methname",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000a49d0",
+            "native_vm": "0x1000a49d0",
+            "visual_bytes": 27786,
+            "native_bytes": 27786,
+            "same_size": true,
+            "same_vm_bytes_compared": 27786,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methtype",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000ba7d1",
+            "native_vm": "0x1000ba7d1",
+            "visual_bytes": 6693,
+            "native_bytes": 6693,
+            "same_size": true,
+            "same_vm_bytes_compared": 6693,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__stub_helper",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000a2b98",
+            "native_vm": "0x1000a2b98",
+            "visual_bytes": 1152,
+            "native_bytes": 1152,
+            "same_size": true,
+            "same_vm_bytes_compared": 1152,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__stubs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000a2730",
+            "native_vm": "0x1000a2730",
+            "visual_bytes": 1128,
+            "native_bytes": 1128,
+            "same_size": true,
+            "same_vm_bytes_compared": 1128,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__text",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x100007294",
+            "native_vm": "0x100007294",
+            "visual_bytes": 636060,
+            "native_bytes": 636060,
+            "same_size": true,
+            "same_vm_bytes_compared": 636060,
+            "changed_bytes_at_same_vm": 265832,
+            "text_changed_bytes_within_native4_stub_spans": 264263,
+            "text_changed_bytes_outside_native4_stub_spans": 1569,
+            "native4_ledger_scope_is_reference_only": true
+          },
+          {
+            "section": "__TEXT/__unwind_info",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000e78c0",
+            "native_vm": "0x1000e78c0",
+            "visual_bytes": 1852,
+            "native_bytes": 1852,
+            "same_size": true,
+            "same_vm_bytes_compared": 1852,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__ustring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x1000bc1f6",
+            "native_vm": "0x1000bc1f6",
+            "visual_bytes": 177864,
+            "native_bytes": 177864,
+            "same_size": true,
+            "same_vm_bytes_compared": 177864,
+            "changed_bytes_at_same_vm": 651
+          }
+        ],
+        "text_summary": {
+          "matched_text_sections": 1,
+          "compared_text_bytes": 636060,
+          "changed_text_bytes": 265832,
+          "changed_text_inside_native4_ledger_spans": 264263,
+          "changed_text_outside_native4_ledger_spans": 1569
+        }
+      },
+      "critical_method_abi_and_instruction_prefixes": {
+        "XXRootViewController::-checkAndPresentLicenseModalIfNeeded": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v16@0:8",
+          "native_type": "v16@0:8",
+          "visual_imp_vm": "0x100008348",
+          "native_imp_vm": "0x100008348",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": false,
+          "visual_first16_sha256": "d0fa1d70ea5c5d010f5d325538a778ca2144b6f75b06678b2173a3df4664e77c",
+          "native_first16_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        },
+        "CBLicenseSyncManager::-isLicenseCurrentlyValid": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "B16@0:8",
+          "native_type": "B16@0:8",
+          "visual_imp_vm": "0x10005a7c0",
+          "native_imp_vm": "0x10005a7c0",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": false,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "120e00a62e1ec2654e75cf74f5ce706bc2e4d9837470b54734cc32e209353b72"
+        },
+        "CBLicenseSyncManager::-checkAndSyncLicenseIfNeeded": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v16@0:8",
+          "native_type": "v16@0:8",
+          "visual_imp_vm": "0x10007f5b4",
+          "native_imp_vm": "0x10007f5b4",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": false,
+          "visual_first16_sha256": "f88e8d41942497426475e4f18ba5ba0b98aea5e53955ef6ec30e4dc330dac254",
+          "native_first16_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        }
+      },
+      "native4_methods_in_historical_ledger": 248,
+      "rebuild_safe_proven": false,
+      "runtime_compatibility_proven": false
+    },
+    "DuoFaceDashboard": {
+      "visual_raw_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "native12_raw_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "visual_architectures": [
+        {
+          "architecture": "arm64",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x0",
+          "slice_bytes": 3741760,
+          "slice_sha256": "a90385419954a001c992b103653943fe8f1324d04e92ca3931a708b2ccdc127a"
+        },
+        {
+          "architecture": "arm64e",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x2",
+          "slice_bytes": 3772144,
+          "slice_sha256": "0b36b60450c568b05654d4086d53783d8819818db4b59d21344aaf05803e8c55"
+        }
+      ],
+      "native12_architectures": [
+        {
+          "architecture": "arm64",
+          "cpu": "0x100000c",
+          "cpu_subtype": "0x0",
+          "slice_bytes": 3760032,
+          "slice_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+        }
+      ],
+      "visual_arm64_signature": {
+        "present": true,
+        "commands": [
+          {
+            "offset": 3712352,
+            "size": 29408,
+            "inside_slice": true
+          }
+        ],
+        "signature_integrity_verified": false
+      },
+      "native12_arm64_signature": {
+        "present": true,
+        "commands": [
+          {
+            "offset": 3712352,
+            "size": 47680,
+            "inside_slice": true
+          }
+        ],
+        "signature_integrity_verified": false
+      },
+      "visual_arm64_load_commands": 35,
+      "native12_arm64_load_commands": 35,
+      "visual_arm64_segments": [
+        {
+          "name": "__TEXT",
+          "vm": "0x0",
+          "vmsize": 3424256,
+          "fileoff": 0,
+          "filesize": 3424256
+        },
+        {
+          "name": "__DATA_CONST",
+          "vm": "0x344000",
+          "vmsize": 212992,
+          "fileoff": 3424256,
+          "filesize": 212992
+        },
+        {
+          "name": "__DATA",
+          "vm": "0x378000",
+          "vmsize": 49152,
+          "fileoff": 3637248,
+          "filesize": 49152
+        },
+        {
+          "name": "__LINKEDIT",
+          "vm": "0x384000",
+          "vmsize": 65536,
+          "fileoff": 3686400,
+          "filesize": 55360
+        }
+      ],
+      "native12_arm64_segments": [
+        {
+          "name": "__TEXT",
+          "vm": "0x0",
+          "vmsize": 3424256,
+          "fileoff": 0,
+          "filesize": 3424256
+        },
+        {
+          "name": "__DATA_CONST",
+          "vm": "0x344000",
+          "vmsize": 212992,
+          "fileoff": 3424256,
+          "filesize": 212992
+        },
+        {
+          "name": "__DATA",
+          "vm": "0x378000",
+          "vmsize": 49152,
+          "fileoff": 3637248,
+          "filesize": 49152
+        },
+        {
+          "name": "__LINKEDIT",
+          "vm": "0x384000",
+          "vmsize": 81920,
+          "fileoff": 3686400,
+          "filesize": 73632
+        }
+      ],
+      "sections": {
+        "entries": [
+          {
+            "section": "__DATA/__bss",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x381010",
+            "native_vm": "0x381010",
+            "visual_bytes": 5688,
+            "native_bytes": 5688,
+            "same_size": true,
+            "same_vm_bytes_compared": 5688,
+            "changed_bytes_at_same_vm": 6
+          },
+          {
+            "section": "__DATA/__common",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x382650",
+            "native_vm": "0x382650",
+            "visual_bytes": 672,
+            "native_bytes": 672,
+            "same_size": true,
+            "same_vm_bytes_compared": 672,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__data",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x380a00",
+            "native_vm": "0x380a00",
+            "visual_bytes": 496,
+            "native_bytes": 496,
+            "same_size": true,
+            "same_vm_bytes_compared": 496,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__la_symbol_ptr",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x378000",
+            "native_vm": "0x378000",
+            "visual_bytes": 1232,
+            "native_bytes": 1232,
+            "same_size": true,
+            "same_vm_bytes_compared": 1232,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_classrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x37f700",
+            "native_vm": "0x37f700",
+            "visual_bytes": 872,
+            "native_bytes": 872,
+            "same_size": true,
+            "same_vm_bytes_compared": 872,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x3784d0",
+            "native_vm": "0x3784d0",
+            "visual_bytes": 18704,
+            "native_bytes": 18704,
+            "same_size": true,
+            "same_vm_bytes_compared": 18704,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_data",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x37fec0",
+            "native_vm": "0x37fec0",
+            "visual_bytes": 2880,
+            "native_bytes": 2880,
+            "same_size": true,
+            "same_vm_bytes_compared": 2880,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_ivar",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x37fb60",
+            "native_vm": "0x37fb60",
+            "visual_bytes": 860,
+            "native_bytes": 860,
+            "same_size": true,
+            "same_vm_bytes_compared": 860,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_selrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x37cde0",
+            "native_vm": "0x37cde0",
+            "visual_bytes": 10528,
+            "native_bytes": 10528,
+            "same_size": true,
+            "same_vm_bytes_compared": 10528,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__objc_superrefs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x37fa68",
+            "native_vm": "0x37fa68",
+            "visual_bytes": 248,
+            "native_bytes": 248,
+            "same_size": true,
+            "same_vm_bytes_compared": 248,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__thread_bss",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x380e30",
+            "native_vm": "0x380e30",
+            "visual_bytes": 480,
+            "native_bytes": 480,
+            "same_size": true,
+            "same_vm_bytes_compared": 480,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA/__thread_vars",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x380bf0",
+            "native_vm": "0x380bf0",
+            "visual_bytes": 576,
+            "native_bytes": 576,
+            "same_size": true,
+            "same_vm_bytes_compared": 576,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__cfstring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x345f68",
+            "native_vm": "0x345f68",
+            "visual_bytes": 189152,
+            "native_bytes": 189152,
+            "same_size": true,
+            "same_vm_bytes_compared": 189152,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x3441f0",
+            "native_vm": "0x3441f0",
+            "visual_bytes": 7544,
+            "native_bytes": 7544,
+            "same_size": true,
+            "same_vm_bytes_compared": 7544,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__got",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x344000",
+            "native_vm": "0x344000",
+            "visual_bytes": 480,
+            "native_bytes": 480,
+            "same_size": true,
+            "same_vm_bytes_compared": 480,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__mod_init_func",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x3441e0",
+            "native_vm": "0x3441e0",
+            "visual_bytes": 16,
+            "native_bytes": 16,
+            "same_size": true,
+            "same_vm_bytes_compared": 16,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_catlist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x374368",
+            "native_vm": "0x374368",
+            "visual_bytes": 0,
+            "native_bytes": 0,
+            "same_size": true,
+            "same_vm_bytes_compared": 0,
+            "compare_reason": "different_VM_or_non_file_backed_section"
+          },
+          {
+            "section": "__DATA_CONST/__objc_classlist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x374248",
+            "native_vm": "0x374248",
+            "visual_bytes": 288,
+            "native_bytes": 288,
+            "same_size": true,
+            "same_vm_bytes_compared": 288,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_imageinfo",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x374390",
+            "native_vm": "0x374390",
+            "visual_bytes": 8,
+            "native_bytes": 8,
+            "same_size": true,
+            "same_vm_bytes_compared": 8,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__DATA_CONST/__objc_protolist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x374368",
+            "native_vm": "0x374368",
+            "visual_bytes": 40,
+            "native_bytes": 40,
+            "same_size": true,
+            "same_vm_bytes_compared": 40,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__const",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x30f850",
+            "native_vm": "0x30f850",
+            "visual_bytes": 35577,
+            "native_bytes": 35577,
+            "same_size": true,
+            "same_vm_bytes_compared": 35577,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__cstring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2fb248",
+            "native_vm": "0x2fb248",
+            "visual_bytes": 83459,
+            "native_bytes": 83459,
+            "same_size": true,
+            "same_vm_bytes_compared": 83459,
+            "changed_bytes_at_same_vm": 3101
+          },
+          {
+            "section": "__TEXT/__gcc_except_tab",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2efb3c",
+            "native_vm": "0x2efb3c",
+            "visual_bytes": 12344,
+            "native_bytes": 12344,
+            "same_size": true,
+            "same_vm_bytes_compared": 12344,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_classname",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x341f7a",
+            "native_vm": "0x341f7a",
+            "visual_bytes": 931,
+            "native_bytes": 931,
+            "same_size": true,
+            "same_vm_bytes_compared": 931,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methlist",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2ed600",
+            "native_vm": "0x2ed600",
+            "visual_bytes": 9532,
+            "native_bytes": 9532,
+            "same_size": true,
+            "same_vm_bytes_compared": 9532,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methname",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2f2b74",
+            "native_vm": "0x2f2b74",
+            "visual_bytes": 34516,
+            "native_bytes": 34516,
+            "same_size": true,
+            "same_vm_bytes_compared": 34516,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__objc_methtype",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x34231d",
+            "native_vm": "0x34231d",
+            "visual_bytes": 3025,
+            "native_bytes": 3025,
+            "same_size": true,
+            "same_vm_bytes_compared": 3025,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__stub_helper",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2eceb0",
+            "native_vm": "0x2eceb0",
+            "visual_bytes": 1872,
+            "native_bytes": 1872,
+            "same_size": true,
+            "same_vm_bytes_compared": 1872,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__stubs",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x2ec778",
+            "native_vm": "0x2ec778",
+            "visual_bytes": 1848,
+            "native_bytes": 1848,
+            "same_size": true,
+            "same_vm_bytes_compared": 1848,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__text",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x6258",
+            "native_vm": "0x6258",
+            "visual_bytes": 3040544,
+            "native_bytes": 3040544,
+            "same_size": true,
+            "same_vm_bytes_compared": 3040544,
+            "changed_bytes_at_same_vm": 313523,
+            "text_changed_bytes_within_native4_stub_spans": 313157,
+            "text_changed_bytes_outside_native4_stub_spans": 366,
+            "native4_ledger_scope_is_reference_only": true
+          },
+          {
+            "section": "__TEXT/__unwind_info",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x342ef0",
+            "native_vm": "0x342ef0",
+            "visual_bytes": 4368,
+            "native_bytes": 4368,
+            "same_size": true,
+            "same_vm_bytes_compared": 4368,
+            "changed_bytes_at_same_vm": 0
+          },
+          {
+            "section": "__TEXT/__ustring",
+            "present_on_both": true,
+            "same_vm_start": true,
+            "visual_vm": "0x31834a",
+            "native_vm": "0x31834a",
+            "visual_bytes": 171056,
+            "native_bytes": 171056,
+            "same_size": true,
+            "same_vm_bytes_compared": 171056,
+            "changed_bytes_at_same_vm": 642
+          }
+        ],
+        "text_summary": {
+          "matched_text_sections": 1,
+          "compared_text_bytes": 3040544,
+          "changed_text_bytes": 313523,
+          "changed_text_inside_native4_ledger_spans": 313157,
+          "changed_text_outside_native4_ledger_spans": 366
+        }
+      },
+      "critical_method_abi_and_instruction_prefixes": {
+        "CBBridgeManager::-requestStateChange:": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v24@0:8@16",
+          "native_type": "v24@0:8@16",
+          "visual_imp_vm": "0x13b158",
+          "native_imp_vm": "0x13b158",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568"
+        },
+        "CBBridgeManager::-loadNewAppFromCurrentRequest:": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v24@0:8@16",
+          "native_type": "v24@0:8@16",
+          "visual_imp_vm": "0x153544",
+          "native_imp_vm": "0x153544",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568"
+        },
+        "CBBridgeManager::-shouldBridge:": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "B24@0:8@16",
+          "native_type": "B24@0:8@16",
+          "visual_imp_vm": "0x2491b0",
+          "native_imp_vm": "0x2491b0",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "81e81fbfcccc064ec8c8eb110b2166c06419fd398a62d2c557f144e942372db2",
+          "native_first16_sha256": "81e81fbfcccc064ec8c8eb110b2166c06419fd398a62d2c557f144e942372db2"
+        },
+        "CBBridgeManager::-syncDashboardPolicySignalToDisk": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v16@0:8",
+          "native_type": "v16@0:8",
+          "visual_imp_vm": "0x229e8c",
+          "native_imp_vm": "0x229e8c",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568"
+        },
+        "CBBridgeManagerDashboard::+isDashboardPolicySignalActive": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "B16@0:8",
+          "native_type": "B16@0:8",
+          "visual_imp_vm": "0x284068",
+          "native_imp_vm": "0x284068",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568"
+        },
+        "CBBridgeManagerDashboard::+shouldInterceptLaunchForApp:": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "B24@0:8@16",
+          "native_type": "B24@0:8@16",
+          "visual_imp_vm": "0x2a314c",
+          "native_imp_vm": "0x2a314c",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": true,
+          "visual_first16_sha256": "b06af3c12a56d37f66e497fbb97939651797e49d8fb31f2674edbcb33d3e7dc2",
+          "native_first16_sha256": "b06af3c12a56d37f66e497fbb97939651797e49d8fb31f2674edbcb33d3e7dc2"
+        },
+        "CBLicenseSyncManager::-isLicenseCurrentlyValid": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "B16@0:8",
+          "native_type": "B16@0:8",
+          "visual_imp_vm": "0x3adb8",
+          "native_imp_vm": "0x3adb8",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": false,
+          "visual_first16_sha256": "c7135061084e259ea3a4a16a84e6868d79373805ede8528ae2894114f3d30568",
+          "native_first16_sha256": "120e00a62e1ec2654e75cf74f5ce706bc2e4d9837470b54734cc32e209353b72"
+        },
+        "CBLicenseSyncManager::-checkAndSyncLicenseIfNeeded": {
+          "present_on_both": true,
+          "same_objc_type_encoding": true,
+          "visual_type": "v16@0:8",
+          "native_type": "v16@0:8",
+          "visual_imp_vm": "0x5fbac",
+          "native_imp_vm": "0x5fbac",
+          "same_imp_vm": true,
+          "same_first_16_instruction_bytes": false,
+          "visual_first16_sha256": "f88e8d41942497426475e4f18ba5ba0b98aea5e53955ef6ec30e4dc330dac254",
+          "native_first16_sha256": "de9b6c3751ac510cca802a035b5af74327ffd51a4ca8f0917c8f1ccb285579cc"
+        }
+      },
+      "native4_methods_in_historical_ledger": 43,
+      "rebuild_safe_proven": false,
+      "runtime_compatibility_proven": false
+    }
+  },
+  "read_only": true,
+  "binary_modified": false,
+  "hub_modified": false,
+  "deb_built": false,
+  "sileo_deployed": false,
+  "device_tested": false,
+  "license_runtime_fully_removed": false,
+  "source_equivalent_rebuild_available": false
+}
