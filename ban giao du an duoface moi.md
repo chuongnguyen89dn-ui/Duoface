@@ -1,5 +1,22 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — FILE KIỂM KÊ CHÍNH XÁC GIẤY PHÉP VẪN TRỘN TRONG CARPLAY: 2 BINARY LÕI
+
+**Yêu cầu người dùng:** “Việc giấy phép và carplay còn dính bao nhiêu file trong đó hiện tại?”; “Tổng hợp lại thành 1 file tại đây mục nào còn giấy phép lẫn vs carplay mà bạn ko tách đc?”
+
+**ĐÃ LÀM / ĐÃ ĐỌC LẠI XÁC MINH:** Đã đọc trực tiếp các báo cáo phân tích nhị phân trước đây ở `audit/payload-migration/` và hai danh sách `dist/visualtest12-repair1/CONTENTS.txt`, `dist/payload-migration/native12-speed8compact/CONTENTS.txt`. Đã tạo file dài tải về trong chat `/mnt/data/duoface_kiem_ke_giay_phep_carplay_2026-10-17.md` (bản ở môi trường chat, không coi là duy trì bền vững nếu GitHub thiếu), và tạo **checkpoint kiểm kê bền vững trong GitHub** tại `docs/kiem-ke-giay-phep-carplay-visualtest12-native12-20261017.md`, commit `f406198b69e26494bb3956578c23a21f90736d24`, **readback verified**. Hai báo cáo cùng chủ đề, bản trong chat diễn giải nhiều hơn, bản GitHub là điểm tiếp nối được kiểm chứng.
+
+**KẾT QUẢ QUAN TRỌNG — PHÂN BIỆT FILE VÀ CLASS:**
+- **2 file Mach-O lõi còn license và CarPlay đồng tồn tại trong MỖI DEB**: `/var/jb/Applications/DuoFaceUI.app/DuoFaceUI` (VisualTest12 2.456.784 bytes; Native12 1.220.256), `/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib` (VisualTest12 7.540.464; Native12 3.760.032). **Không** đồng nghĩa chỉ còn 2 phương thức, hoặc chỉ cần xóa 2 file là hoạt động.
+- **VisualTest12 app:** 13 lớp nhóm giấy phép nhúng (bao gồm `CBLicenseSyncManager`, `CBSubscriptionViewController`, `CBLicenseExpiredModalViewController`); UI entry `XXRootViewController -checkAndPresentLicenseModalIfNeeded` có tham chiếu trực tiếp modal/license VC. **Dashboard:** 3 lớp tên license (gồm `CBLicenseSyncManager`, `CBLicenseShieldIconView`, `CBLicenseWarningModalView`), riêng `CBBridgeManager` có **7 phương thức warning/watchdog giấy phép** nhưng cùng class sở hữu window, scene, split, showAppPicker, shouldBridge.
+- **8 CarPlay detection implementations (4/binary)** thuộc `CBLicenseSyncManager` được giữ byte-identical qua một số build; nguyên lớp này không có bằng chứng loại bỏ an toàn. `CBBridgeManagerDashboard` làm activation/dashboard-policy nhưng chưa xác định chính xác branch license chặn scene ở iPhone X. Báo cáo `LICENSE_BOUNDARY_AUDIT.json`: `license_subsystem_separable_by_file=false`, `dynamic_dispatch_fully_resolved=false`, `independent_release_ready=false`.
+- **14 candidate license-specific classes / 249 methods** thuộc Native12 audit 16/10 chỉ là **ứng viên inventory** (12 lớp/235 method trong UI, 2/14 trong Dashboard), `physical_excision_performed=false`, không có chứng minh liveness an toàn. Không nhầm với 2 file nhị phân hoặc số thứ đã loại thực sự. `A_DuoFaceNativeNoLease.dylib/.plist` 2 file đã gỡ khỏi Native12; vẫn còn core license metadata. `com.duonavi.sync.plist` là dữ liệu trong gói VisualTest12, không phải engine CarPlay; `DFVisual12GateRepair.dylib` là thử getter giả VIP bị device FAIL.
+- Fullscreen, VisualHook, LogoGrip, SpeedHUD/SpeedOwner có thể phụ thuộc host `CB*` nhưng chưa có bằng chứng trực tiếp chúng chứa checker trial; **không đếm chúng như file license riêng**. Cả VisualTest12 và Native12 + Hub8 đều bị trial khóa trên iPhone X theo quan sát người dùng; iPhone8 còn trial không chứng minh độc lập.
+- **Chưa tách được:** `CBLicenseSyncManager` vs 8 detector CarPlay, `CBBridgeManager` vs watchdog/host scene, entry UI/modals, liên hệ activation policy, metadata/rebase/dynamic selectors trong Mach-O và adapter giao diện V12 với host mới mà không đổi UI. Những điều này chưa được chứng minh an toàn hoặc device QA. Chưa xây/cài DEB mới.
+
+**NEXT ACTION:** Khi tiếp tục, dùng chính file GitHub `docs/kiem-ke-giay-phep-carplay-visualtest12-native12-20261017.md`, tập trung mapping UI native -> scene/window và đường license -> activation theo bằng chứng direct xrefs/trace trước khi sửa; VisualTest12 làm thí nghiệm đầu; Native12 + Hub8 giữ nguyên. Không phát hành alpha UI khác, không giả ngày license, không bịa tiến độ.
+
+
 ## 2026-10-17 — CHỐT PHƯƠNG ÁN SAU KHI CẢ HAI BẢN HẾT TRIAL: THỬ CORE ĐỘC LẬP, KHÔNG THAY UI BẰNG ALPHA
 
 **Câu hỏi người dùng:** “Bây giờ làm sao? Hướng giải quyết nào?” **Quyết định kiến trúc được đề xuất** (CHƯA được coi là đã thực hiện hoặc chứng minh khả thi):
