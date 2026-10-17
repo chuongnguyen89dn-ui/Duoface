@@ -1,5 +1,22 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — QUYẾT ĐỊNH HƯỚNG LÕI DUOFACE SOURCE-OWNED, THAM KHẢO SIDEPLAY VÀ DUODASH
+
+**Yêu cầu mới người dùng:** “Vậy hướng viết mới từ đầu dựa trên sideplay, duodash thì sao? Ta sẽ ko còn phụ thuộc ai ai? Tự nối của ta theo nền có sẵn hiện tại.”
+
+**Quyết định kiến trúc đề xuất vừa tạo và readback:** docs/phuong-an-loi-carplay-doc-lap-sideplay-duodash-20261017.md — commit 08a147fa85cbf12f1c3c2434afeb75586d5edf57. File này là thiết kế đầy đủ, có phân chia module, mã hiện có, gate nghiệm thu và bước triển khai. Không lẫn với DEB hay bản code đã chạy.
+
+**Ý nghĩa chính xác:** viết mới chỉ **lõi CarPlay/scene host, bridge coordinator** từ mã nguồn do chính DuoFace làm chủ; không viết lại từ dự án trắng. SidePlay 1.0.4-1 và DuoDash 1.1.3 chỉ làm chứng cứ hành vi và kiểu API; KHÔNG chép/nhúng/tích hợp SidePlay.dylib, DDz2/DuoDash binary, hay licence vendor. Trên máy cuối cùng không yêu cầu cài SidePlay/DuoDash/CarBridge bên ngoài, không kết nối máy chủ/trial của họ. Vẫn phụ thuộc iOS, CarPlay, jailbreak và private SpringBoard APIs; Apple CarPlay chuẩn có entitlement riêng (tham khảo https://developer.apple.com/documentation/carplay/requesting-carplay-entitlements).
+
+**Mã tái sử dụng đã xác minh trên GitHub:** replacement/visual12/engine/runtime/DFIRuntime.m (DFV12SceneHost / SBApplicationController / SBDeviceApplicationSceneEntity / SBAppViewController / sceneHandle / geometry / lifecycles), replacement/cb-compat/DFCBCompat.m (cầu source-only cho UIWindow/UIViewController; KHÔNG launcher scene), replacement/visual12/fullscreen/DFVisual12HostGeometry.m, runtime/fullscreen/DFFullscreenCoordinator.mm và DFFullscreenTransport.mm (cần gỡ các hook CB* phụ thuộc để dùng trong standalone), replacement/visual12/engine/DFILayouts.h và engine/shared/DFISettings.m, tài nguyên dist/visual-1.0.3-12/assets. Crosswalk DuoDash: audit/duodash-1.1.3/DUODASH_APPBRIDGE_VISUALTEST12_CROSSWALK_20261017.json. Adapter DuoDash cũ replacement/duodash-host/DFDuoDashHostAdapter.m YÊU CẦU DDz2 đang nạp; tuyệt đối không dùng làm runtime dependency.
+
+**Khó khăn cốt lõi chưa giải quyết:** Giao diện Visual12 gốc đang nhúng trong DuoFaceDashboard.dylib có CBBridgeManager, CBWindow, CBMultitaskingOverlayView, CBBridgedSplitApp, watchdog/trial trong binary DuoNavi. Báo cáo LICENSE_BOUNDARY_AUDIT.json hiện separable_by_file=false. Không được hứa giữ nguyên toàn bộ binary giao diện gốc khi bỏ vendor backend; có thể cần renderer được viết đúng 1:1 theo giao diện đã duyệt nếu không có cách sử dụng nguyên binary hợp lệ. UI alpha DFIInterface.inc không đạt yêu cầu. Không tự tái thiết kế GUI theo sở thích.
+
+**Cổng quyết định:** G0 khóa SHA gói cũ, độc lập dependency; G1 một scene app thật trên iPhone X hết trial không cần vendor binaries; G2 Waze+YouTube cùng lúc, resize/swap/reconnect không crash; G3 bảo toàn chức năng/UI Visual12 từng mục; G4 chứng minh package/runtime no vendor license/backend; G5 chỉ sau đó mới port Hub8. Single owner SpringBoard; DFIStart guard không được xóa liều gây hai chủ scene. Native12+Hub8 com.duoface.independent 0.1.0~native12+speed8compact PHẢI giữ nguyên, không đè/ghi Sileo.
+
+**Tiến triển của lượt:** đã đọc trực tiếp SKILL_INDEX.md, global guides + kỹ năng iOS tại Gpt-training-, handoff branch, source DFIRuntime/DFCBCompat, bảng nghiên cứu DuoDash/SidePlay, tree dự án, Actions trạng thái, và tài liệu CarPlay entitlement Apple. Đã tạo và readback tài liệu thiết kế nêu trên. **CHƯA sửa runtime/source, chưa build DEB, chưa trigger workflow, chưa deploy, chưa thử máy.** Bước thực thi tiếp ngay nếu người dùng giao code: tách interface scene-owner & per-app scene host nguồn từ DFIRuntime.m khỏi DFIInterface.inc alpha, chạy compile/link workflow duoface-visual12-engine-bind-ci.yml, kiểm guard một owner và package QA độc lập; chỉ build DEB khi yêu cầu, không dùng nhánh chính Native12/Hub8.
+
+
 ## 2026-10-17 — PHƯƠNG ÁN MỚI DO NGƯỜI DÙNG NÊU: THỬ DÙNG SIDEPLAY LÀM HOST, MANG GIAO DIỆN DUOFACE SANG
 
 **Người dùng hỏi:** “Sao ko sao chép của họ rồi sàng giao diện của ta qua?” Đây là đề xuất **đảo thứ tự tích hợp**: tận dụng lõi CarPlay đã đóng gói của SidePlay rồi đưa UI DuoFace vào, thay vì chỉ viết core từ đầu rồi mới nối GUI. **Không được đánh đồng câu hỏi này với yêu cầu phát hành/cài DEB ngay**, nhưng phải đánh giá trực tiếp phương án theo kỹ thuật và quyền phân phối; không gạt đi theo quán tính.
