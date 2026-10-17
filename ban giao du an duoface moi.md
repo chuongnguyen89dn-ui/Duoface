@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — PHÁT HIỆN SILEO CHƯA CẬP NHẬT, FIX APT ASSERT
+
+**Kiểm tra lại trước hướng dẫn sử dụng:** Sileo publisher run `39050003209` **failure**, job `117446476511` ở bước `Build APT repository`; DEB standalone3diag tải OK, SHA OK, dpkg metadata OK, Packages có 11 entries, nhưng inline Python cuối workflow vẫn `assert '1.0.3-12~standalone2qa' in Path('Packages').read_text()`, dẫn đến `AssertionError` (log dòng 37). **Vì vậy chưa phát hành được standalone3diag**, hướng dẫn cài trước đó chỉ áp dụng khi Pages publish success. Đã sửa đúng assertion cuối ở repo `chuongnguyen89dn-ui/carplaydsp` `.github/workflows/build.yml` commit `7a3543b159bf56ff88a96d4e47d32154377dbabc`. Run phát hành lại `39077096269` queued tại lần kiểm tra, https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39077096269 . Native12+Hub8 giữ nguyên.
+
+**Sau khi Pages live:** cài/update `com.duoface.visual12` version `1.0.3-12~standalone3diag` từ Sileo; trên iPhone mở DuoFace CarPlay QA, kết nối CarPlay, nhấn Khởi tạo cửa sổ -> G1 Waze -> đọc log lỗi chi tiết, G2 chỉ khi G1 pass; stop; gửi `DuoFaceCarPlayQA.log`. Chưa có device QA. Cần kiểm tra run và URL Pages/Packages trước khi xác nhận lên Sileo.
+
+
 ## 2026-10-17 — SILEO standalone3diag PUBLISH RUN
 
 **Người dùng yêu cầu đưa lên Sileo.** Đã sửa repo publisher `chuongnguyen89dn-ui/carplaydsp` branch `main`, file `.github/workflows/build.yml`, commit `e1068929afe3c2d4f1a09115a719e2a7e8a31e9e`. Thay URL gói QA G1/G2 từ standalone2qa thành `https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/feature/visual12-duodash-recovery/dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb`; SHA256 pin `0a86978e1d55cd7618c930d73b27afd9f26a4b42ea063681a32993e0cb1c0832`, metadata version `1.0.3-12~standalone3diag`, lọc gói cũ. **Run publisher** `39050003209`, URL https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39050003209 , trạng thái **queued** tại 2026-10-17 16:34 UTC; chưa xác nhận Pages live. **Không thay Native12+Hub8**. Nguồn DEB DuoFace build run `39049780033` success, artifact `12106877333` và file đã persist. Không nhầm workflow `duoface-sileo.yml` staging với pipeline Pages `build.yml`.
