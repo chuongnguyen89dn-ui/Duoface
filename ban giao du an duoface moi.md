@@ -1,5 +1,8 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:31 +07 — DEVICE-LOG-PATH-TYPO
+Người dùng gửi ảnh Terminal IMG_9C1F0771-9EEB-4EB2-BCC6-009FB7B09EA1.jpeg. Đọc trực tiếp ảnh trong chat: lệnh tail và thông báo lỗi dùng /var/mobile/Library/log/DuoFaceSpeedScene-SpringBoard.jsonl (log chữ thường, không s), báo No such file or directory. Source Speed5 ghi /var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl (Logs có L hoa và s). Kết quả này chỉ chứng minh đường dẫn đã nhập không có file, CHƯA chứng minh module không inject hoặc đường dẫn đúng không có log. Đề nghị chạy lại nguyên văn: `tail -n 15 /var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl`. Nếu đường dẫn đúng vẫn thiếu mới kiểm version cài, injection và fallback tmp; chưa sửa code/build/deploy. Chưa có bằng chứng phiên bản cài hoặc HUD trên split. Thông báo zsh-newuser-install phía trên riêng biệt, không dùng để kết luận lỗi DuoFace.
+
 ## 17/10/2026 — SPEED5SCENE-RESUME-RECONCILED-B15CF45
 **USER_DECISION:** tiếp tục từ b15cf45, theo sát tiến trình. Đã đọc SKILL_INDEX, PROJECT_INSTRUCTIONS, AGENTS và giải mã/đọc ZIP skills 01-github-continuity, 02-ios-deb-ipa-carplay, 05-research-debug-testing từ Gpt-training-.
 **SUPERSEDED:** câu “Chưa có bằng chứng xác minh Speed5Scene đã có trên Sileo” trong mục 07:25 bên dưới là kết luận thiếu đối chiếu. Giữ nguyên mục cũ làm lịch sử, nhưng dùng trạng thái đã kiểm chứng này để tiếp nối.
