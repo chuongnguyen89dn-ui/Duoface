@@ -32,7 +32,6 @@ static BOOL DFCBHasOwner(void) {
 
 @interface DFCBWindow ()
 @property(nonatomic,weak) UIWindow *externalWindow;
-@property(nonatomic) CGRect appFrame;
 @end
 @implementation DFCBWindow
 + (CGRect)carPlayScreenBounds {
