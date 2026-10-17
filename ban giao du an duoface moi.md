@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — DIAGNOSTIC BOOL SAFETY FIX
+ĐÃ SỬA SOURCE: `runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm` trên nhánh `feature/duoface-exact-payload-migration`, commit `88a5fbf14b4088f51095b78875d5848aef627d32`. Lỗi ở lần tạo đầu tiên: `DFDiagRead(...isVisible)` gọi selector trả BOOL bằng hàm objc_msgSend kiểu id, sau đó `boolValue`, có nguy cơ crash. Đã đổi sang typed `((BOOL(*)(id,SEL))objc_msgSend)` sau khi kiểm tra respondsToSelector. Chưa chạy clang/iOS compile; chưa tích hợp vào build, chưa tạo DEB, chưa phát hành Sileo. Không thay đổi Speed8 hiện hành.
+TIẾP THEO: xác minh file workflow và script đóng DEB thực tế từ cây repo, thêm gói diagnostic độc lập và build qua CI, lấy artifact trước khi hướng dẫn cài iPhone X. Tránh gắn chẩn đoán lên bản đang dùng iPhone 8 Plus.
+
+
 ## 17/10/2026 — DIAGNOSTIC LOGGER SOURCE ADDED
 YÊU CẦU: tạo bản log DuoFace chi tiết để điều tra lỗi chỉ DuoFace không mở từ CarPlay Dashboard trên iPhone X; Speed7/8 cùng lỗi, app CarPlay khác bình thường.
 ĐÃ THỰC HIỆN: thêm mã nguồn read-only `runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm` trên nhánh `feature/duoface-exact-payload-migration`, commit `81d7e30673b109b354fbdc857bb22fb9d058c8b3`; đọc lại xác minh có `DIAGNOSTIC_LOADED`. Log đích trên thiết bị khi được build/inject: `/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl`. Theo dõi manager, window, currentApp, root, external screen, visible, state changes và heartbeat, PID/time; không hook, không thêm UIWindow, không can thiệp CarPlay.
