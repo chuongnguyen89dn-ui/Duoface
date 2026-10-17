@@ -316,7 +316,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         ? (self.selectedSource
            ? [NSString stringWithFormat:@"Nguồn %@ · %@",
                   [self sourceTitle],
-                  [self.current.text isEqualToString:@"—"] ? @"chờ dữ liệu" : @"đã nhận tốc độ"]
+                  [self.current.text isEqualToString:@"—"] ? @"chờ tốc độ" : @"đã nhận tốc độ"]
            : @"Chọn nguồn từ ứng dụng đã cài")
         : @"Chưa tìm thấy ứng dụng nguồn";
     heading.font=[UIFont boldSystemFontOfSize:14];
@@ -353,7 +353,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
             case 3:label=@"Mờ −";break;
             case 4:label=@"Mờ +";break;
             case 5:label=self.displayLimit?@"Biển: Có":@"Biển: Không";break;
-            case 6:label=DFSpeedInstalledSupportedSources().count
+            case 6:label=[DFSpeedInstalledSupportedSources() count]
                 ? [NSString stringWithFormat:@"Nguồn: %@",[self sourceTitle]]
                 : @"Chưa có app";break;
             case 7:label=@"Đặt lại";break;
