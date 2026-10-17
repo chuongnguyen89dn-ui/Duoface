@@ -112,3 +112,10 @@ jobs:
           print('VISUAL12_CB_OWNER_BIND_LIFECYCLE_STATIC_PASS')
           print('NO_DEVICE_VALIDATION_NO_SILEO_DEPLOY')
           PY
+      - name: Upload compile-only CarPlay engine (NOT a Sileo package)
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-carplay-engine-arm64-compile-only
+          path: ${{ runner.temp }}/DuoFaceVisual12Engine.dylib
+          if-no-files-found: error
+          retention-days: 90
