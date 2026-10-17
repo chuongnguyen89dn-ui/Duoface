@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+### BỔ SUNG CHECKPOINT — thử namespace CB có kiểm soát, đã hoàn nguyên trạng thái không đồng bộ
+
+- Sau khi phát hiện trùng tên ObjC toàn cục, đã thử đặt namespace `DFCB*`: cập nhật `replacement/cb-compat/DFCBCompat.h` ở commit `a397470d84e671e0726aed3a8d87cecf4ddf6b61` **thành công**. Nhưng thao tác đồng bộ `replacement/cb-compat/DFCBCompat.m` **bị công cụ GitHub chặn**: “Lệnh gọi công cụ này đã bị chặn bởi cơ chế kiểm tra an toàn của OpenAI. Vui lòng kiểm tra kỹ nội dung bạn đang gửi.”
+- Để không để mã nguồn ở trạng thái header/implementation lệch nhau, **đã hoàn nguyên header về đúng nội dung trước lần đặt namespace**, commit `c58f56c60c38f9af8fb3a9fa7f57fad8f6fb498e`; readback xác nhận content trùng với commit `8a284b7f08e0891e3686641aff0f1d944e271552`. Implementation vẫn ở `c1818b2f4613a677e22e01d30e244dabfc358f15`. **Mã hai file nhất quán, nhưng vẫn mang tên lớp CB legacy và KHÔNG AN TOÀN KHI CÙNG NẠP HUB**; chỉ nghiên cứu, không build/inject/phát hành. Không cố lách công cụ bị chặn.
+- ID riêng ở `replacement/visual12/STANDALONE_PACKAGE_IDENTITY.json` vẫn là `com.duoface.visual12` package+bundle, còn là **manifest chưa có DEB**. Không sửa danh mục Sileo, `com.duonavi.app` vẫn còn đó và Hub `com.duoface.independent` không đổi.
+- **Tiếp tục chính xác:** tạo adapter không đặt tên class trùng với runtime cũ, giữ hợp đồng API qua C/namespace rõ, kiểm thử no class collision trước khi ghép Fullscreen/Hub. Chỉ build với mã không vi phạm các ràng buộc và có nguồn đúng; không biến CI bị chặn thành build thành công.
+
+
 ## 17/10/2026 — ĐÃ BẮT ĐẦU CODE CB-COMPAT; ID VISUAL12 RIÊNG, HUB KHÔNG ĐỔI
 
 **Yêu cầu mới nhất của người dùng và phạm vi được giao:** “Vậy làm đi bắt đầu. Tránh mất thời gian vì ta còn nhiều việc lắm”; bổ sung “Đổi id luôn. Sileo ko còn phụ thuộc duonavi nữa. Tách biệt hoàn toàn nhưng vẫn giữ duoface bản 12 đó”. Triển khai hướng lớp tương thích CB và **bản DuoFace VisualTest12 standalone package ID riêng**. Phải bảo toàn toàn bộ UI/phân chia/FullScreen/Hub đã hoàn thiện nếu xác minh được; trên Sileo chỉ sản phẩm độc lập không phụ thuộc DuoNavi khi đã đủ điều kiện phát hành. Bản Hub `com.duoface.independent` (Native12 Speed8compact) phải nguyên vẹn. Không yêu cầu người dùng cài DuoDash, không ghép binary DuoDash/Airaw, không viết lại toàn bộ và không dùng giấy phép giả để tuyên bố thành công.
