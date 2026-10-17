@@ -11,7 +11,8 @@ for required in (
     'CBTouchPassThroughRootSceneWindow','CBBridgedSplitApp','count<2 || count>4',
     'attached<2','pane.window==root','S7Unmount',
     '[root addSubview:s7HUD]','[root bringSubviewToFront:s7HUD]',
-    'DFSpeedInstalledSupportedSources','cycleInstalledSource','self.selectedSource=0',
+    'DFSpeedInstalledSupportedSources','showSourcePicker','selectSource:',
+    'source==0', 'self.selectedSource=0',
     'DuoFaceSpeedSplit9-SpringBoard.jsonl',
     'initWithFrame:CGRectMake(0,0,104,46)'):
     assert required in hud, required
