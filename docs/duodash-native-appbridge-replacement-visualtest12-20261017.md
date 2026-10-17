@@ -1,5 +1,14 @@
 # DuoFace VisualTest12 — phương án App Bridge độc lập dựa trên kiến trúc DuoDash
 
+## ĐÍNH CHÍNH QUAN TRỌNG — VisualTest12 và Native12 cùng dòng DuoNavi
+**Người dùng sửa lại nhận định trước:** VisualTest12 và Native12/Hub **đều xuất phát từ lõi DuoNavi**, không phải 2 cơ chế App Bridge độc lập có thể sao chép của nhau để chữa lỗi. Nhánh Native12 là phiên bản chỉnh sửa/đóng gói khác của cùng dòng code; **không được mô tả là một implementation bridge thay thế VisualTest12**.
+
+**Bằng chứng từ repo:** `feature/duoface-exact-payload-migration:audit/payload-migration/VISUALTEST12_NATIVE12_BYTE_LINEAGE.json` so binary VisualTest12 vs Native12: `DuoFaceUI` đều 27 lớp ObjC, `DuoFaceDashboard` đều 36 lớp ObjC; class names và method names theo lớp giống nhau, nhưng SHA256, kích thước host khác nhau. Không khẳng định binary y hệt hay runtime giống 100%; chỉ đủ chứng minh **cùng kiến trúc/lõi đã biến đổi**, copy từ Native12 sang VisualTest12 không tự làm host của app không hỗ trợ CarPlay chạy lại.
+
+**Quyết định thay thế cách nói sai trước:** (1) Không sao chép hoặc port engine Native12 sang VisualTest12 như thể độc lập. (2) Ưu tiên số một **khôi phục DuoFace VisualTest12 hiện tại hoạt động** với cả giao diện và unsupported apps trên màn CarPlay, giữ riêng Hub. (3) Phân tích vì sao `CBBridgeManager.activated=false`, xác minh owner/process/window/scene và điểm fail cụ thể, tách sự cố ứng dụng không mở khỏi host app pane; không tiếp tục chỉnh hạn license mù. (4) Nếu thiếu đúng thành phần mở app, dùng kiến trúc DuoDash như tham chiếu độc lập và chỉ tái sử dụng phần có quyền, tương thích, không gây hai scene host cạnh tranh; Airaw chỉ dùng cho fullscreen/chrome, **không phải app host thay thế**. (5) Xây App Bridge mới hoàn chỉnh **hoãn lại**, chỉ khi không thể cứu bằng thay đổi nhỏ dựa trên bằng chứng.
+
+**Trạng thái xác minh tại thời điểm ghi:** đã đọc báo cáo nguồn gốc binary, báo cáo so DuoDash và bản probe; CHƯA có sửa mã/hook/runtime mới, DEB mới, Sileo mới hay kiểm thử thiết bị thành công. Điều tra/thiết kế và đóng gói phải tách biệt trong bàn giao.
+
 ## ƯU TIÊN MỚI 17/10/2026 — KHÔI PHỤC CHẠY ĐƯỢC TRƯỚC
 **Yêu cầu mới nhất của người dùng, thay thế thứ tự triển khai cũ:** Không xây App Bridge độc lập hoàn chỉnh ngay; đó là giai đoạn tương lai. Ưu tiên số 1 hiện tại: **DuoFace VisualTest12 mở được trên màn CarPlay và có thể mở ứng dụng iPhone không được CarPlay hỗ trợ**, bằng cách **tái sử dụng có chọn lọc cơ chế đã chạy của DuoDash/Airaw** nếu chứng minh tương thích. Giữ nguyên bản Native12 Hub, giao diện split của DuoFace và các chức năng đang chạy; không mặc nhiên buộc người dùng cài CarBridge ngoài.
 
