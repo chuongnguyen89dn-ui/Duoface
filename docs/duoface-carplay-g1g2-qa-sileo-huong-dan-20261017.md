@@ -9,7 +9,7 @@ Ngày 2026-10-17. Đây là bộ thử nghiệm lõi CarPlay do DuoFace sở h�
 - DEB lưu GitHub commit 20c3e74654c2dd87c12fff3316967948393b9fc7, đường dẫn dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone2qa_iphoneos-arm64.deb.
 - DEB byte SHA256: 12b3e874175bae3059c499c10a365d62e724b2eb27cc3e67178dca2413423daa; bytes: 1068472.
 - CI build: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39047207433 (success). Artifacts ZIP: 12105814338; thư viện/ký/payload được kiểm tra. Bản chưa device tested.
-- Sileo repo URL: https://chuongnguyen89dn-ui.github.io/carplaydsp/ ; Sileo publisher commit 26ddc181d4777854846093ed15d79555a1d10425 (đang chờ xác minh Pages vào lúc soạn file).
+- Sileo repo URL: https://chuongnguyen89dn-ui.github.io/carplaydsp/ ; Sileo publisher commit 26ddc181d4777854846093ed15d79555a1d10425 (đã xác minh: build và deploy Pages success, run 39047325981; public Sileo HTTP live check success, run 39047566262).
 - Native12+Hub8 com.duoface.independent 0.1.0~native12+speed8compact: không thay package ID, không động bản đang dùng.
 
 ## Cách thử trên iPhone JB khi Pages đã xác minh
@@ -41,3 +41,10 @@ Chỉ gỡ package **com.duoface.visual12** trong Sileo rồi respring. Không u
 - replacement/visual12/engine/app/DFCarPlayQAApp.m — ứng dụng điều khiển iPhone.
 - replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m, DFCarPlayQARootController.m, DFIRuntime.m — host và QA entry.
 - .github/workflows/duoface-carplay-g1g2-qa-deb.yml — cách build, lưu DEB trên repo DuoFace.
+
+## Kiểm tra phát hành cuối (2026-10-17)
+
+- GitHub Pages build/deploy: https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39047325981 — hai jobs completed/success, source commit 26ddc181d4777854846093ed15d79555a1d10425.
+- Live Sileo proof: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39047566262 — job 117439266068 completed/success; tải thực sự Packages, Packages.gz, Release và qa.deb từ https://chuongnguyen89dn-ui.github.io/carplaydsp/.
+- Kiểm được 1 stanza duy nhất com.duoface.visual12 ở version 1.0.3-12~standalone2qa, 1 com.duoface.independent ở 0.1.0~native12+speed8compact và 1 com.duonavi.app; gzip/index/Release hash khớp, DEB download SHA256 = 12b3e874175bae3059c499c10a365d62e724b2eb27cc3e67178dca2413423daa, 1068472 bytes.
+- Log markers: G1G2_SILEO_PUBLIC_PACKAGES_GZIP_RELEASE_DEB_SHA_PASS, NATIVE12_HUB8_AND_ORIGINAL_PRESERVED, DEVICE_RUNTIME_NOT_TESTED. **Đã phát hành Sileo** ≠ chạy scene thành công trên xe.
