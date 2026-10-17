@@ -82,7 +82,7 @@ static void DFQAWrite(NSString *key,id value) {
 - (BOOL)textFieldShouldReturn:(UITextField *)field{[field resignFirstResponder];return YES;}
 - (void)changeEnabled {
     DFQAWrite(@"qaEnabled",@(self.enabled.on));
-    notify_post("com.duoface.visual12.changed");
+    notify_post("com.duoface.visual12.preferences");
     if(!self.enabled.on) notify_post("com.duoface.carplay.qa.stop");
     self.status.text=self.enabled.on?@"QA bật; nhấn Khởi tạo. Không chạy song song CB owner cũ.":
                                    @"QA tắt; đã gửi yêu cầu dừng.";
