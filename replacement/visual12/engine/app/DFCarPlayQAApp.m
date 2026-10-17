@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <notify.h>
+#import <objc/message.h>
 
 static CFStringRef const DFQADomain=CFSTR("com.duoface.visual12");
 static NSString *DFQAGet(NSString *key, NSString *fallback) {
@@ -19,6 +20,7 @@ static void DFQAWrite(NSString *key,id value) {
 @property(nonatomic,strong) UITextField *second;
 @property(nonatomic,strong) UILabel *status;
 @property(nonatomic,strong) UISwitch *enabled;
+@property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
 @end
 @implementation DFQAControlController
 - (void)viewDidLoad {
@@ -52,6 +54,14 @@ static void DFQAWrite(NSString *key,id value) {
     self.first=[self field:@"App 1: bundle ID" value:DFQAGet(@"qaFirstBundle",@"com.waze")];
     self.second=[self field:@"App 2: bundle ID" value:DFQAGet(@"qaSecondBundle",@"com.google.ios.youtube")];
     [stack addArrangedSubview:self.first];[stack addArrangedSubview:self.second];
+    UIButton *chooseFirst=[UIButton buttonWithType:UIButtonTypeSystem];
+    [chooseFirst setTitle:@"Chọn App 1 từ ứng dụng đã cài" forState:UIControlStateNormal];
+    [chooseFirst addTarget:self action:@selector(pickFirst) forControlEvents:UIControlEventTouchUpInside];
+    [stack addArrangedSubview:chooseFirst];
+    UIButton *chooseSecond=[UIButton buttonWithType:UIButtonTypeSystem];
+    [chooseSecond setTitle:@"Chọn App 2 từ ứng dụng đã cài" forState:UIControlStateNormal];
+    [chooseSecond addTarget:self action:@selector(pickSecond) forControlEvents:UIControlEventTouchUpInside];
+    [stack addArrangedSubview:chooseSecond];
     NSArray *labels=@[@"1. Khởi tạo cửa sổ QA",@"2. G1: mở một ứng dụng",@"3. G2: mở hai ứng dụng",@"Dừng QA / đóng hai scene"];
     SEL actions[]={@selector(start),@selector(g1),@selector(g2),@selector(stop)};
     for(int i=0;i<4;i++){
@@ -69,6 +79,57 @@ static void DFQAWrite(NSString *key,id value) {
     self.status.font=[UIFont systemFontOfSize:13];self.status.textColor=UIColor.secondaryLabelColor;
     self.status.text=@"Chưa chạy thử. Sau G1/G2, lấy log /var/mobile/Library/Logs/DuoFaceCarPlayQA.log";
     [stack addArrangedSubview:self.status];
+}
+- (NSArray<NSDictionary *> *)queryInstalledApps {
+    // QA-only, runtime checked private LaunchServices API; no SpringBoard scene changes.
+    Class cls=NSClassFromString(@"LSApplicationWorkspace");
+    SEL shared=NSSelectorFromString(@"defaultWorkspace");
+    if(!cls || ![cls respondsToSelector:shared]) return @[];
+    id workspace=((id(*)(id,SEL))objc_msgSend)(cls,shared);
+    SEL list=NSSelectorFromString(@"allInstalledApplications");
+    if(!workspace || ![workspace respondsToSelector:list]) return @[];
+    id apps=((id(*)(id,SEL))objc_msgSend)(workspace,list);
+    if(![apps isKindOfClass:NSArray.class]) return @[];
+    NSMutableArray *items=[NSMutableArray array];
+    for(id proxy in apps) {
+        SEL bundleSel=NSSelectorFromString(@"applicationIdentifier");
+        SEL nameSel=NSSelectorFromString(@"localizedName");
+        if(![proxy respondsToSelector:bundleSel]) continue;
+        id bundle=((id(*)(id,SEL))objc_msgSend)(proxy,bundleSel);
+        id name=[proxy respondsToSelector:nameSel] ? ((id(*)(id,SEL))objc_msgSend)(proxy,nameSel) : bundle;
+        if(![bundle isKindOfClass:NSString.class] || ![bundle length]) continue;
+        [items addObject:@{@"bundle":bundle,@"name":([name isKindOfClass:NSString.class] && [name length])?name:bundle}];
+    }
+    [items sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b) {
+        return [a[@"name"] localizedCaseInsensitiveCompare:b[@"name"]];
+    }];
+    return items;
+}
+- (void)pickFirst { [self presentPickerForField:self.first]; }
+- (void)pickSecond { [self presentPickerForField:self.second]; }
+- (void)presentPickerForField:(UITextField *)field {
+    NSArray *apps=[self queryInstalledApps];
+    if(!apps.count) {
+        self.status.text=@"Không đọc được danh sách ứng dụng qua LaunchServices. Có thể nhập bundle ID thủ công.";
+        return;
+    }
+    UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Chọn ứng dụng"
+       message:@"Danh sách ứng dụng đã cài; chọn không đảm bảo CarPlay có thể mở."
+       preferredStyle:UIAlertControllerStyleActionSheet];
+    // Show a bounded set to keep the QA UI responsive; search by typing bundle ID remains available.
+    NSUInteger limit=MIN(apps.count,80);
+    for(NSUInteger i=0;i<limit;i++) {
+        NSDictionary *app=apps[i];
+        NSString *label=[NSString stringWithFormat:@"%@ (%@)",app[@"name"],app[@"bundle"]];
+        [alert addAction:[UIAlertAction actionWithTitle:label style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            field.text=app[@"bundle"];
+            self.status.text=[NSString stringWithFormat:@"Đã chọn %@. Nhấn Khởi tạo rồi G1/G2.",app[@"name"]];
+        }]];
+    }
+    [alert addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+    UIPopoverPresentationController *pop=alert.popoverPresentationController;
+    if(pop) { pop.sourceView=field;pop.sourceRect=field.bounds; }
+    [self presentViewController:alert animated:YES completion:nil];
 }
 - (UITextField *)field:(NSString *)placeholder value:(NSString *)value {
     UITextField *field=[UITextField new];
