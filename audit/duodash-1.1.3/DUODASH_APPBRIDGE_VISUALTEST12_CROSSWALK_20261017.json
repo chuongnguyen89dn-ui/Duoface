@@ -1,0 +1,43 @@
+{
+  "status": "DUODASH_VISUALTEST12_BRIDGE_STATIC_CROSSWALK_READONLY",
+  "date": "2026-10-17",
+  "duodash_reference": "chuongnguyen89dn-ui/DauDat-CarPlay@5f683ad16a2c4f2b37e333e891cfb8f7ba3e0d6b DuoDash 1.1.3+fullscreen1",
+  "source_sha256": "ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465",
+  "reference_is_repacked_not_original_stock": true,
+  "actual_duodash_binary_executed": false,
+  "native_bridge_integration_required_not_external_carbridge_install": true,
+  "layers": [
+    {
+      "role": "Detect car",
+      "DuoDash": "CNABSpringBoardObserver / DDz1 +carPlayConnected",
+      "DuoFace": "CBLicenseSyncManager +isCarPlayScreenConnected",
+      "proof": "SpringBoard original DuoFace detector TRUE after external screen connected"
+    },
+    {
+      "role": "Request",
+      "DuoDash": "CNABSpringBoardObserver -onHostRequest: / -onHostRequestSplit:",
+      "DuoFace": "CBBridgeManager -requestStateChange: / CBBridgeManagerDashboard -requestActivation:",
+      "proof": "Both sides own separate request-handling objects"
+    },
+    {
+      "role": "Host unsupported app",
+      "DuoDash": "DDz2 -cnabBuildSceneHostForBid:displaySize:; SBDeviceApplicationSceneEntity",
+      "DuoFace": "CBBridgeManagerDashboard -startBridging:; CBBridgeManager -loadNewAppFromCurrentRequest:",
+      "proof": "DuoDash scene host implementation is not one settings switch"
+    },
+    {
+      "role": "Display",
+      "DuoDash": "CNABUIApp -setBridgeState:width:height:orientation:; DDz1 -showLayoutPanes:natives:bids:",
+      "DuoFace": "CBBridgeManager -sendStateToApp:shouldBridge:; existing split UI",
+      "proof": "Keep DuoFace in-car UI and adapt actual bridge state"
+    }
+  ],
+  "duodash_process_filter": "com.apple.springboard;com.apple.CarPlayApp;com.apple.Preferences;com.apple.UIKit",
+  "duodash_protocol_signals": "com.sensetechlab.appbridge.host.request;com.sensetechlab.appbridge.host.request.split;com.sensetechlab.appbridge.uiapp.state",
+  "user_requirement": "Rebuild equivalent native bridge inside VisualTest12, no extra CarBridge, preserve Hub",
+  "next": "Verify actual DuoFace activation request and scene-host creation while expired; implement narrow independent adapter and verify on device; avoid two hosts",
+  "only_analysis": true,
+  "deb_built": false,
+  "sileo_changed": false,
+  "hub_modified": false
+}
