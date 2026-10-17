@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — USER XÁC NHẬN ẢNH LÀ SAU KHI NHẤN KHỞI TẠO CỬA SỔ QA
+
+**Bằng chứng cập nhật yêu cầu/triage:** Người dùng xác nhận ảnh trước (màn hình hình chữ nhật dựng dọc, nửa trên tối, nửa dưới trắng/sáng, không có nội dung app) xuất hiện **SAU KHI NHẤN NÚT “Khởi tạo cửa sổ QA”**, không phải giao diện điều khiển iPhone khi vừa mở app. Đây là quan sát thực tế của người dùng; CHƯA có log SpringBoard, G1, G2, sceneHandle hoặc crash. Thông tin này **thay thế nhận định “chưa rõ là iPhone hay CarPlay”** trong checkpoint trước; giữ nguyên mục cũ làm lịch sử.
+
+**Đối chiếu mã nguồn đã xác minh:** `replacement/visual12/engine/runtime/DFCarPlayQARootController.m` blob `a504321a8b742166fe816496505f65e17e096ff5`, `viewDidLoad` tạo 2 UIView placeholder màu `UIColor.blackColor` và `UIColor.darkGrayColor`; sau `DFIQAStart`/`viewDidAppear` chỉ gọi `bridge startWithCompletion`, chưa hề `openApp:`. Nút **G1** mới gọi `runSingleBundle:` và `openApp:inPane:completion:`, nút G2 mới mở 2 scene. Do đó *không có app sau Start* là phù hợp workflow QA, chưa đủ coi là lỗi scene; nhưng màu trắng/sáng ở một nửa khác màu placeholder dự kiến nên chưa khẳng định UI thực hiển thị đúng window/root. Chưa suy ra thành công G1/G2, không nói đã sửa lỗi.
+
+**Việc đã hướng dẫn người dùng:** tại màn hình QA iPhone, nhấn **G1: mở một ứng dụng**, chờ 10–15 giây, gửi ảnh CarPlay. Nếu không có Waze, thu `/var/mobile/Library/Logs/DuoFaceCarPlayQA.log`; nếu không có thì `/var/mobile/Library/Logs/DuoFaceVisual12-runtime.log`; hai file phát sinh trên thiết bị khi code có chạy (có thể chưa tồn tại). Không yêu cầu gỡ Native12+Hub8, không đổi Sileo. Sau log mới phân loại: `owner-ready`, `owner-refused` / `CBBridgeManager` guard, `G1-refused` / `scene-pending`, `G1-scene-attached` hoặc `G1-fail` / timeout.
+
+**Trạng thái và tiếp nối:** Repo chuongnguyen89dn-ui/Duoface, branch feature/visual12-duodash-recovery, trước checkpoint HEAD `77c7ab94a07d821dc9407a159208d959efdba673`, QA package đang public trên Sileo là com.duoface.visual12 1.0.3-12~standalone2qa (live HTTP pass run 39047566262). Chưa có sửa source/test build hoặc deploy ở lượt này, CHƯA có G1 device pass. Chờ hình G1 và log thực tế rồi xác định sửa; giữ nguyên com.duoface.independent Native12+Hub8 và VisualTest12.
+
 ## 2026-10-17 — ẢNH THỬ THIẾT BỊ: NỬA TRÊN TỐI, NỬA DƯỚI SÁNG TRẮNG; CHƯA RÕ LÀ IPHONE HAY CARPLAY
 
 **Quan sát mới từ người dùng:** sau hướng dẫn sử dụng package QA `com.duoface.visual12` phiên bản `1.0.3-12~standalone2qa`, người dùng gửi một ảnh chụp một thiết bị dạng điện thoại đứng dọc trong nền tối. Trên ảnh: nửa trên của phần màn hình tối, nửa dưới sáng màu trắng nhạt, không nhìn thấy chữ, nhãn, nút Start/G1/G2 hoặc menu. Đây là bằng chứng hình ảnh trong cuộc chat, **không phải log crash/scene** và chưa có ảnh binary lưu trong repo. Không thể suy ra người dùng chụp iPhone đang mở `DuoFace QA` hay màn hình CarPlay sau khi Start, cũng không khẳng định máy bị hỏng màn hay code crash.
