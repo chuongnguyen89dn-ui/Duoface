@@ -1,0 +1,25 @@
+# Speed6zProbe1 — Đã phát hành Sileo và xác minh DEB tải công khai, chưa xác minh UI thực
+
+**17/10/2026, Asia/Ho_Chi_Minh — bản thử CHẨN ĐOÁN, không phải bản đã chữa được bóng.**
+
+## Lý do
+
+- Thiết bị iOS16 Dopamine thực, log `DuoFaceSpeed6-CarPlayApp.jsonl` 23 sự kiện cho thấy `LOADED`, `HOOKED`, 9 lần `CBBridgeManagerDashboard.activated=NO`, 8 lần `bridgeDidDeactivate`, 4 lần `no visible activeCarPlayWindow/content/controller host`, **zero MOUNTED**.
+- Bản Speed6zProbe1 vẫn giữ nguyên chính sách gắn HUD **chỉ** vào native `CBWindow` của DuoFace split (không có overlay global trên Home), nhưng thêm entry `PROBE_NATIVE_HOST` tại **cùng file log trên máy** `/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl`. Trong `diagnostics` có actual returned class của `+[CBWindow activeCarPlayWindow]`, event owner class, Dashboard activated, class/visible/root scene/screen, các điều kiện content/controller và `host_probe_reason`; dấu thời gian và lifecycle hook counters, chỉ ghi khi đổi hoặc 15 giây. Không ghi địa chỉ con trỏ/URL/vị trí/người dùng. **Chưa kiểm tra trên máy**.
+- Source hiện tại `feature:runtime/speedbubble/DFSpeedNativeHostProbe.mm` commit `0e44b5827a9069c5f31da2324584d082aeeb9f43`, `Makefile.speedhud-split6-probe-stage` commit `9caba2890d8905a5f0ce54a7aa94fd7e1b7db714`, builder `migration/full_payload/native_test/build_native12_speed6probe1_candidate.py` corrected version commit `93917c59c3a5c9ce75e11ee796b284daa72de94b`, regression `migration/full_payload/native_test/check_native12_speed6probe_contract.py` commit `16c1b234882c8e8715f35e281f323b29ddc34e81`.
+- Note Debian version ordering: `0.1.0~native12+speed6probe1` was lower than `0.1.0~native12+speed6split1`; corrected to `0.1.0~native12+speed6zprobe1`. First gate fail in run 38996912287 did **not** mean source compile failure.
+
+## Exact build, artifact, Sileo
+
+- QA GitHub Actions `chuongnguyen89dn-ui/Duoface` **[38996974439](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38996974439)** job `117291635180`, completed SUCCESS. Real macos-15 Theos clang arm64 build, Native12 ABI/static contract, `ldid`, actual dpkg-deb package checks PASS. Input Native12 SHA256 `85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7`; exactly 39 original payload files byte-for-byte same, two new injection files, correct `DuoFaceSpeedHUD.dylib`/`DuoFaceSpeedHUD.plist` names. Report `feature:dist/payload-migration/native12-speed6probe1/BAO_CAO.json` blob `ea871f8749cadf6a52c619b39f1ea59264df3ad9`. Immutable source artifact commit **`0af08387685c54717496b9492225a27fe093ca69`**. DEB path `dist/payload-migration/native12-speed6probe1/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb`, SHA256 **`42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e`**.
+- Publisher `chuongnguyen89dn-ui/carplaydsp/main:.github/workflows/build.yml` commit **`8e67d757d27e60846b6b31df1c4454b74ff58653`**: publishes **one `com.duoface.independent`** new version, preserves `com.duonavi.app` and all other unrelated packages, downloads immutable DEB from `0af0838`, pins SHA and CarPlayApp-only injection filter, refuses SpringBoard/Waze/GOFA modules.
+- GitHub Pages publisher **[38997185959](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/38997185959)**, build job **117292204359**, deploy job both **completed SUCCESS**. Job log shows `SILEO_SPEED6PROBE_EXACT_SHA_AND_INJECTION_FILTER_PASS` at **2026-10-17 03:03:25 UTC** and `SILEO_APT_RELEASE_VALID_DATE_CHECKSUMS_NATIVE12_SPEED6ZPROBE1_ONLY_PASS` at **03:03:26 UTC**.
+- Separate public download verifier `Duoface` **[38997217418](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/38997217418)**, job **117292296326**, **completed SUCCESS** after Pages deployment. Downloaded public `Packages`, `Packages.gz`, ensured exactly one independent and preserved legacy; `speed6zprobe1.deb: OK` at 03:03:50 UTC, `LIVE_SILEO_APT_SPEED6ZPROBE1_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS` and `LIVE_SILEO_DOWNLOADED_EXACT_SPEED6ZPROBE1_DEB_SHA256_PASS; ON_DEVICE_UNTESTED`. Public URL:
+  `https://chuongnguyen89dn-ui.github.io/carplaydsp/debs/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb`
+- Source Sileo: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, package `com.duoface.independent`, version **`0.1.0~native12+speed6zprobe1`**.
+
+## Điểm tiếp tục ngay
+
+1. Người dùng refresh nguồn trong Sileo, nâng cấp chính `com.duoface.independent` tới `0.1.0~native12+speed6zprobe1`; chưa có bằng chứng đã cài trên thiết bị.
+2. Mở DuoFace chia đôi, để một lúc, rời DuoFace. Trong Filza mở **cùng file** `/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl`; gửi lại JSONL. Trích tất cả entry `PROBE_NATIVE_HOST` và `diagnostics.host_probe_reason`, so sánh `raw_active_window_class` vs `CBWindow`, `dashboard_activated`, `hook_event_is_CBWindow`, etc. Nếu không có PROBE, xác minh Installed version/truncation; không tự đoán.
+3. Chỉ sau bằng chứng mới sửa **đúng** host mount/activated; vẫn cần acceptance 0 Home, đúng 1 split, 0 khi rời, không restart Waze. **Bản hiện tại chỉ giúp biết nguyên nhân, chưa đảm bảo HUD xuất hiện**.
