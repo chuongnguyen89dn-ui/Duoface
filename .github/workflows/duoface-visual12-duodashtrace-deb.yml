@@ -1,0 +1,102 @@
+name: DuoFace VisualTest12 DuoDash-only activation trace DEB
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'runtime/visualtest12/DFDuoDashActivationTrace.m'
+      - 'runtime/visualtest12/DFDuoDashActivationTrace.plist'
+      - 'migration/full_payload/native_test/build_visual12_duodash_trace.py'
+      - '.github/workflows/duoface-visual12-duodashtrace-deb.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visual12-duodashtrace-candidate
+  cancel-in-progress: false
+jobs:
+  package:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Prepare packaging and SDK tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          python3 -m py_compile migration/full_payload/native_test/build_visual12_duodash_trace.py
+          plutil -lint runtime/visualtest12/DFDuoDashActivationTrace.plist
+          shasum -a 256 dist/visualtest12-connectprobe1/com.duonavi.app_1.0.3-12~visualtest12launch2probe1_iphoneos-arm64.deb
+      - name: Compile and sign diagnostic tracer (no DuoDash or Airaw binary)
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios15.0 -arch arm64 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
+            -Wall -Wextra -Werror \
+            -Wl,-headerpad,0x1000 -framework UIKit -framework Foundation \
+            -o "$RUNNER_TEMP/DFDuoDashActivationTrace.dylib" \
+            runtime/visualtest12/DFDuoDashActivationTrace.m
+          ldid -S "$RUNNER_TEMP/DFDuoDashActivationTrace.dylib"
+          test "$(xcrun lipo -archs "$RUNNER_TEMP/DFDuoDashActivationTrace.dylib")" = arm64
+          xcrun otool -L "$RUNNER_TEMP/DFDuoDashActivationTrace.dylib"
+      - name: Package only VisualTest12 as rollback-friendly diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist/visual12-duodashtrace1
+          python3 migration/full_payload/native_test/build_visual12_duodash_trace.py \
+            --dylib "$RUNNER_TEMP/DFDuoDashActivationTrace.dylib" \
+            --out dist/visual12-duodashtrace1/com.duonavi.app_1.0.3-12~visualtest12launch3ddtrace1_iphoneos-arm64.deb \
+            --report dist/visual12-duodashtrace1/BAO_CAO.json
+          deb=dist/visual12-duodashtrace1/com.duonavi.app_1.0.3-12~visualtest12launch3ddtrace1_iphoneos-arm64.deb
+          test "$(dpkg-deb -f "$deb" Package)" = com.duonavi.app
+          test "$(dpkg-deb -f "$deb" Architecture)" = iphoneos-arm64
+          dpkg --compare-versions 1.0.3-12~visualtest12launch3ddtrace1 gt 1.0.3-12~visualtest12launch2probe1
+          mkdir -p "$RUNNER_TEMP/duodashtrace-stage"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/duodashtrace-stage"
+          test -s "$RUNNER_TEMP/duodashtrace-stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoDashActivationTrace.dylib"
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          root=Path("dist/visual12-duodashtrace1")
+          pkg=next(root.glob("*.deb"))
+          o=json.loads((root/"BAO_CAO.json").read_text())
+          assert o["package"]=="com.duonavi.app"
+          assert o["original_visualtest12_core_unchanged"]
+          assert o["existing_connection_probe_unchanged"]
+          assert o["airaw_code_or_binary_bundled"] is False
+          assert o["duodash_binary_bundled"] is False
+          assert o["separate_hub_modified"] is False
+          assert o["device_tested"] is False and o["app_bridge_fixed"] is False
+          assert o["output_deb_sha256"]==hashlib.sha256(pkg.read_bytes()).hexdigest()
+          print("DUODASH_PATH_TRACE_DEB_BUILD_PASS_NOT_DEVICE_PASS")
+          PY
+          dpkg-deb -c "$deb" > dist/visual12-duodashtrace1/CONTENTS.txt
+          shasum -a 256 "$deb" > dist/visual12-duodashtrace1/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DuoFace-Visual12-DuoDash-path-trace
+          path: dist/visual12-duodashtrace1/
+          if-no-files-found: warn
+      - name: Persist the exact diagnostic DEB and QA report in DuoFace repo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/visual12-duodashtrace1/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: verified DuoDash-path VisualTest12 activation trace DEB [skip ci]'
+          for trial in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            git push origin HEAD:feature/visual12-duodash-recovery && exit 0
+            sleep 2
+          done
+          exit 1
