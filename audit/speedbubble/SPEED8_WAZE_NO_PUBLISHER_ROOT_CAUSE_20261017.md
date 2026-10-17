@@ -1,5 +1,15 @@
 # Speed8 — Waze selected but numeric speed/limit still empty (17 October 2026)
 
+## Architecture cross-check — user hypothesis CONFIRMED from exact GMapHUD injection filters
+The user clarified that GMapHUD's *bubble* runs over **Google Maps** while actual numerical data originates from **Waze or VietMap Live** (also optional GOFA). This is confirmed, not just assumed:
+- Original repository `bechou0410/gmaphud:README.md` explicitly: "displays speed, limits and road alerts from VietMap Live, Waze or GOFA in Google Maps on CarPlay and iPhone". It can draw Google Maps Full Map/Dashboard and Google Maps iPhone bubble; it does not need to display any bubble inside Waze or VietMap.
+- `bechou0410/gmaphud:tweak/GoogleMapsVietMap.plist` filter `Bundles=(com.google.Maps)` — consumer/renderer only.
+- `bechou0410/gmaphud:tweak/WazeGMapHUDSource.plist` filter `Bundles=(com.waze.iphone)` — Waze app producer only.
+- `bechou0410/gmaphud:tweak/VietMapGoogleMapsSource.plist` filter `Bundles=(vn.vietmap.live)` — VietMap app producer only.
+- `bechou0410/gmaphud:tweak/Makefile` builds `GoogleMapsVietMap` (renderer), `WazeGMapHUDSource`, `VietMapGoogleMapsSource`, and optional `GofaGMapHUDSource` as **different binaries**.
+- `bechou0410/gmaphud:common/source-transport.m` owns Darwin `com.chou.gmaphud` transport. `docs/source-output-contract.md` documents selected-source epochs and 5s expiry. Each original app adapter publishes *data only*, Google Maps renderer consumes it.
+**Required DuoFace implementation correction:** Keep only the current DuoFace split SpringBoard HUD renderer (one); use a compatible read-only publisher hooked/observing **the user's source app process**, not a GMapHUD Google Maps overlay. Alternative is to use compatible upstream data-only writers if verified installed and correctly enabled. No need to display GOFA/Waze UI or a Google Maps bubble to show the source number. However, the writer still has to be present and produce fresh values; merely selecting Waze in Speed8 does not install it. Waze 5.25.0 guarded ABI is a **compatibility constraint on that upstream Waze adapter**, not a property of the GMapHUD rendering architecture. Do not claim Waze unavailable in general without testing.
+
 ## Latest device evidence
 - User screenshot (current conversation): DuoFace split is active, Speed8 compact bubble renders a dash for current speed and speed-limit sign, Waze map is visible and shows its own speed UI. User explicitly selected Waze source and reports no numeric data in DuoFace. This confirms Speed8 HUD visibility, **not** a producer or a valid speed sample; no runtime log/source version supplied yet.
 - Waze on screen being able to draw speed itself does not imply Waze publishes the speed to SpringBoard or GMapHUD/DuoFace Darwin notification channels.
