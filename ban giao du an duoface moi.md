@@ -1,5 +1,18 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐÃ CHỐT API DUOFACE DÙNG THAY 3 LÕI: DUONAVI, DUODASH, SIDEPLAY
+
+**Yêu cầu người dùng:** “Vậy 3 app lia api j? Ta sẽ làm api j?” — 3 app là DuoNavi, DuoDash, SidePlay theo ngữ cảnh. Phải nêu rõ **lớp có tiền tố CB/DDz/CNAB là nội bộ vendor**, không phải API Apple; chung nền SpringBoard private API iOS16. CarPlay API **công khai Apple** là `CPTemplateApplicationScene`, `CPInterfaceController`, `CPWindow` và yêu cầu entitlement theo loại ứng dụng; không có API công khai mở tùy ý mọi app vào 2 pane CarPlay.
+
+**ĐÃ LÀM TRONG LƯỢT:** so GitHub `audit/duodash-1.1.3/DUODASH_APPBRIDGE_VISUALTEST12_CROSSWALK_20261017.json`, `docs/sideplay-1.0.4-1-static-deb-audit-20261017.md`, `replacement/visual12/engine/runtime/DFIRuntime.m`, `replacement/cb-compat/DFCBCompat.h`, `docs/phuong-an-loi-carplay-doc-lap-sideplay-duodash-20261017.md`; tìm lại Apple API docs. **Bổ sung và đọc lại xác minh** mục “Hợp đồng API DuoFace cụ thể (bổ sung 17/10/2026)” vào chính file kiến trúc **không tạo tài liệu trùng**, commit `120c084c6dd894a460de177b7233db95f99afc91`.
+
+**Giao diện nội bộ DuoFace được chốt để triển khai, CHƯA code/compile:** namespace `DFCarPlay`; `DFCarPlayDisplayOwner`, `DFCarPlaySceneHost` (dựa trên `DFV12SceneHost` hiện có), `DFCarPlaySplitCoordinator`, `DFCarPlayUIAdapter`, `DFCarPlayLauncher/IPC`, `DFCarPlayFullscreen/Diagnostics`. Protocol ví dụ `DFCarPlayBridgeAPI`: `startWithCompletion:`, `openApp:inPane:completion:`, `setSplitRatio:`, `swapPanes`, `focusPane:`, `restoreSplit`, `closePane:`, `stop`; code đầy đủ ở file docs trên. Chỉ một chủ scene trong SpringBoard; API nội bộ không làm máy hết phụ thuộc iOS/jailbreak, chỉ dứt vendor runtime/trial nếu thực thi và QA thành công.
+
+**So sánh nguồn:** DuoNavi `CBBridgeManager` / `CBBridgedSplitApp` / `CBWindow`; DuoDash `CNABSpringBoardObserver` / `DDz2 -cnabBuildSceneHostForBid:displaySize:`; SidePlay các class `SBDeviceApplicationSceneEntity` / `SBAppViewController` / `FBScene` + CarPlay launcher `CPTemplateApplicationScene`. Báo cáo về DuoDash là từ DEB 1.1.3 repack nên không suy rằng SidePlay và DuoDash giống nhau 100% bên trong. Mã DFIRuntime hiện mới là source dùng API cùng nhóm, chưa prove device. UI legacy lẫn trial chưa chứng minh tách binary, không hứa copy nguyên giao diện khi làm độc lập.
+
+**Trạng thái:** **CHƯA tạo implementation source mới, chưa build/test/deploy**; chỉ ghi đặc tả API và readback GitHub. Native12+Hub8 `com.duoface.independent 0.1.0~native12+speed8compact` giữ nguyên. **Bước tiếp nếu giao thực hiện:** viết minimal source-owned `DFCarPlaySceneHost`/protocol tách khỏi `DFIInterface.inc` alpha, compile link trên workflow có sẵn, test G1 một app thật và G2 hai app thật trên iPhone X hết trial trước khi nối UI Visual12.
+
+
 ## 2026-10-17 — QUYẾT ĐỊNH HƯỚNG LÕI DUOFACE SOURCE-OWNED, THAM KHẢO SIDEPLAY VÀ DUODASH
 
 **Yêu cầu mới người dùng:** “Vậy hướng viết mới từ đầu dựa trên sideplay, duodash thì sao? Ta sẽ ko còn phụ thuộc ai ai? Tự nối của ta theo nền có sẵn hiện tại.”
