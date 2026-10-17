@@ -1,5 +1,31 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐÃ BUILD VÀ LƯU DEB QA VISUAL12 ĐỘC LẬP; BẢN CHÍNH VẪN NATIVE12 HUB8
+
+**YÊU CẦU MỚI NHẤT (ưu tiên cao nhất):** User nhắc: “Đây là chỉ test xem nó hoạt đôngk độc lập hay ko thôi. Cái chính của ta vẫn là native 12. Hub 8. Cái nàh thành công thì áp dụng qua đó.” Vì vậy `com.duoface.visual12` chỉ là **bản QA bằng DEB để kiểm tra scene CarPlay độc lập**; sản phẩm chính là **Native12 + Hub8**. Không đổi/ghi đè/xóa Native12 Hub8; không chuyển bản test lên Sileo; chỉ ghép lõi khi test thiết bị đã thành công. Checkpoint thay đổi yêu cầu đã ghi riêng ở commit `133fe2c9f6092af076d01661fbc91f54842c1078`.
+
+### THỰC HIỆN VÀ KẾT QUẢ ĐÃ XÁC MINH
+
+Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`. Nguồn kế thừa từ checkpoint CI `39036093540`, đã compile/link `replacement/visual12/engine/runtime/DFIRuntime.m` + `replacement/cb-compat/DFCBCompat.m` + `replacement/visual12/fullscreen/DFVisual12HostGeometry.m` (có fullscreen geometry), được QA chỉ ở máy Mac runner chứ chưa ở iPhone. Trước khi chạy mới kiểm không có workflow đang chạy.
+
+- **Script build** `replacement/visual12/build_qa.sh`, commit `9eb292ae3f96e0f3209818779b26ee91978d8141`. Chạy từ root repo qua `bash replacement/visual12/build_qa.sh` trên `macos-15` với iPhoneOS SDK, `ldid`, `dpkg-deb`. Khởi tạo staging dưới `$RUNNER_TEMP/visual12-qa`, copy qua `git show` **commit pinned** `d5227b4cb42bb0143e63840c95eff8d776b73068` các template `independent/engine/app/main.m`, app/prefs `Info.plist`, `preferences/Entry.m`, `Loader.plist`, `packaging/*`, biến đổi ID/path riêng thành `com.duoface.visual12`, tên executable `DuoFaceVisual12`, các class `DFV12SettingsController` và `DFV12PreferencesController`. Assets từ `dist/visual-1.0.3-12/assets` copy byte-for-byte vào `/var/jb/Library/Application Support/DuoFaceVisual12/`, bắt buộc đối chiếu SHA256 7 ảnh gốc. Biên dịch dylib/app/Settings, ký với `ldid`, đóng `dpkg-deb --build --root-owner-group`.
+- **QA package parser:** `replacement/visual12/verify_qa.py`, commit `0f88c5a416ba903bedd16c6ab25a6f61e4809672`: kiểm metadata `Package: com.duoface.visual12`, `Version: 1.0.3-12~standalone1`, rootless paths, không có đường dẫn ghi đè `com.duoface.independent` của Hub8 hoặc `com.duonavi.app`, filter `SpringBoard`/`CarPlay`, `Info.plist`/PrefBundle, arm64 Mach-O/LC_BUILD_VERSION/LC_CODE_SIGNATURE, icon sizes và SHA asset.
+- **CI** `.github/workflows/duoface-visual12-standalone-qa-deb.yml`, commit `e5c245fddb54d8786a1148fb71b67fae85945b8b`. Chạy tự động khi thêm workflow / đổi script, `actions/checkout@v4 fetch-depth:0`, `brew install ldid dpkg`, build+verify, `actions/upload-artifact@v4` và commit chính xác binary+báo cáo lên nhánh dự án (không deploy nguồn Sileo).
+- **Run đầu FAIL có nguyên nhân thật:** `39036986631`, job `117408711244`: dylib engine compile thành công nhưng `app-new.m:1:9: fatal error: '../shared/DFISettings.h' file not found` do file mẫu được chuyển vào temp. Đã sửa `build_qa.sh` đổi `#import` sang `DFISettings.h` và thêm `-I "$SRC/shared"` cho app/pref compile, commit `472a94e2d600a9eae4990cd770e6507b11b1c122`.
+- **Run SUCCESS sau sửa:** [39037058354](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39037058354), job `117408916900`, **completed/success**. CI xác minh binarnies+metadata+paths+assets, upload artifact **ID `12103020056` tên `DuoFaceVisual12-Standalone-QA`** và commit binary về GitHub thành công.
+- **DEB thực đã ghi bền vững và xác minh tree + SHA report:** `dist/visual12-standalone-qa/com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb` — **1.057.416 bytes**, SHA256 `c838a61db75bfdc04d3d4c8b87ca8c982de215e458402907ab4a79e861c4d32f`. Report `dist/visual12-standalone-qa/BAO_CAO.json`; checksum `dist/visual12-standalone-qa/SHA256SUMS`; file contents `dist/visual12-standalone-qa/CONTENTS.txt`. Commit artifact tại lúc đọc `d0dac8598531de6bab3e5dfebe8179a117009876`. Báo cáo ghi `device_tested=false`, `ui_v12_verified=false`, `two_apps_tested=false`, `hub_modified=false`, `sileo_published=false`.
+- **Hướng dẫn test không phá Hub8** `replacement/visual12/TEST_ONLY_QA_GUIDE.md`, commit `8f2ecb5f94c4d684423d9bf81a4337d93af11e89`, readback đã xác minh. Phải test trên iOS16 jailbreak trong môi trường không có chủ scene cũ đang hoạt động, ưu tiên máy test riêng. Mã `DFIStart` có guard `NSClassFromString(@"CBBridgeManager")` nên thiết bị đang nạp VisualTest12/CB engine cũ có thể không vào bản QA; không tự sửa hoặc gỡ Native12 Hub8 để thử. Chỉ báo `fail` cho bản độc lập khi thực nghiệm đúng môi trường, phân biệt blocked-by-existing-owner.
+- **Không chạy deploy nào:** chưa cập nhật `chuongnguyen89dn-ui/carplaydsp` / Sileo, chưa gỡ `com.duonavi.app`, chưa thay `com.duoface.independent` Native12 Hub8, chưa có chứng cứ ứng dụng YouTube/Waze hoạt động trên CarPlay, chưa có chứng cứ UI bản V12 chuẩn.
+
+### TIẾP TỤC CHÍNH XÁC
+
+1. Yêu cầu người dùng test trên iPhone jailbreak iOS16 **cách ly scene host cũ** nếu có thiết bị test riêng; cài thủ công DEB QA từ path đã lưu, bật DuoFace Visual12 trong Cài đặt, mở CarPlay, chọn 1 app trước. Ghi kết quả `CarPlay split hiện / one app scene hoạt động / lỗi / bị guard CBBridgeManager` — kiểm tra bằng hành vi thực, không yêu cầu log lớn trước.
+2. Nếu một app hoạt động, thử Waze+YouTube 2 vùng, app switch, disconnect/reconnect và fullscreen. Nếu máy hiện bị CB owner guard, không kết luận false-negative và không tự gỡ Hub8; cân nhắc cơ chế single-owner an toàn chỉ sau khi xác định rõ cài trên máy nào.
+3. **Đích cuối** khi QA pass: port engine độc lập đã thử vào **Native12 + Hub8** với bản sao dự phòng, regression menu/fullscreen/Hub8 và dữ liệu, không lấy giao diện QA alpha thay UI Native12 và không có Sileo release khi chưa đủ điều kiện.
+
+**Dòng trạng thái:** DEB QA source-only **BUILT, SIGNED, PACKAGE-AUDITED, GITHUB-COMMITTED**; REAL DEVICE AND FUNCTIONAL SUCCESS **NOT YET TESTED**; PRIMARY NATIVE12+HUB8 **UNCHANGED**.
+
+
 ## 2026-10-17 — LÀM RÕ YÊU CẦU: STANDALONE CHỈ LÀ TEST; NATIVE12 + HUB8 LÀ BẢN CHÍNH
 
 - **Yêu cầu mới nhất của người dùng:** “Đây là chỉ test xem nó hoạt đôngk độc lập hay ko thôi. Cái chính của ta vẫn là native 12. Hub 8. Cái nàh thành công thì áp dụng qua đó.”
