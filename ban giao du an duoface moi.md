@@ -1,5 +1,24 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — KHÔNG VIẾT LẠI TOÀN BỘ: BẢO TOÀN FULLSCREEN, HUB VÀ GIAO DIỆN
+
+**Yêu cầu/lo ngại mới của chủ dự án:** Không chấp nhận lựa chọn viết lại toàn bộ DuoFace/CarBridge từ đầu vì đã hoàn thiện nhiều thành quả: fullscreen, Hub tốc độ, menu App/Zoom/Style/Close và giao diện. Hỏi liệu viết lại có nối lại được những chức năng này không. **Quyết định hiện tại:** KHÔNG khởi động viết lại nguyên ứng dụng, KHÔNG sửa/cài đè Hub hiện hành, KHÔNG tạo package thay thế chưa chứng minh tương thích. Ưu tiên reuse có kiểm chứng, sửa tại đường ghép thật sự cần thay và chạy regression theo chức năng. Giữ VisualTest12 và Hub là hai nhánh/phạm vi riêng.
+
+**Đối chiếu source được đọc trực tiếp:**
+- `runtime/fullscreen/DFFullscreenCoordinator.mm`: `DFStartFullscreenAdapter()`, cơ chế transport `DFRequestHostFullscreen`, ACK/rollback, chrome `DFDashboardSetChromeHidden`. Đây là logic có thể giữ, nhưng nó gọi host adapter hiện tại.
+- `runtime/fullscreen/DFHostGeometry.xm`: *hard-coupled* `CBBridgeManager`, `CBWindow`, `CBBridgedSplitApp`; `DFHostCanExpand()` yêu cầu `manager.activated`, đúng owner/rootWindow, class split. Nếu thay engine bằng DFI, module này **không thể tự hoạt động**, cần viết adapter host tương thích hoặc sửa đường gọi.
+- `runtime/fullscreen/DFPickerZoomMenu.xm`: hook trực tiếp `CBMultitaskingOverlayView`, sử dụng ivars native `_sheetCard`, `_dimBackground` và gắn nút/target vào UI native. Nếu bỏ binary sở hữu class này, menu không xuất hiện; chỉ giữ file `.xm` không bảo toàn UI. Phải lập bảng chuyển giao UI và hành vi cụ thể, có hồi quy.
+- `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm`: Hub/Speed8 yêu cầu `CBBridgeManager`, `CBWindow`, `CBBridgedSplitApp` và kiểm image class thuộc `DuoFaceDashboard.dylib`; gắn HUD vào owner rootWindow, KHÔNG tạo UIWindow mới. Không plug-and-play vào engine độc lập nếu các lớp này biến mất. **Không thay module Hub**; chỉ dùng phát hiện này làm điều kiện khả thi khi nghiên cứu tích hợp về sau.
+- `independent/engine/runtime/DFIRuntime.m` ở `feature/duoface-independent-core`: có `DFISceneHost`, `DFISplitController` với SpringBoard host/scene và window. Khác contract CB*; alpha2 đã được chủ dự án báo **sai giao diện**. Không thay giao diện đã duyệt bằng bản alpha2 hoặc `independent/DFISplitLayout.mm` (file này chỉ nhận 2 UIView sẵn có).
+- `dist/payload-migration/native12/BAO_CAO.json`: ở Native12 nhiều file giao diện/lõi vẫn byte-identical với binary cũ, mã license metadata vẫn tồn tại (`all_license_code_and_metadata_fully_removed=false`), không chứng minh độc lập. Vậy không tuyên bố chỉ cần bỏ bộ đếm ngày sẽ giải quyết mọi coupling.
+
+**Tính khả thi trung thực:** Có thể tạo bridge/adapter API ở một số ranh giới (fullscreen transport, callback menu, attach pane, scene lifetime), nhưng **chưa có bằng chứng** toàn bộ UI binary native có thể chạy với host mới mà không nhúng DuoNavi. Cần giữ logic/thiết kế đã làm, không có cam kết ghép tự động hay 100% tương thích khi thiếu nguyên bản source của CB*.
+
+**Phương án thực thi được bảo toàn:** (1) đóng băng và định danh SHA của baseline Fullscreen, Native12 Hub, VisualTest12 riêng; (2) lập bảng dependency/callback/host owner tại mỗi module đã hoàn thiện; (3) chỉ thực hiện một lớp thay thế giới hạn ở API ranh giới nếu khả thi và được phép, giữ thành phần có thể dùng lại; (4) thực nghiệm độc lập một scene rồi hai scene Waze/YouTube, hồi quy picker/focus/Zoom/chrome/Hub; (5) mới build gói Sileo khi QA và thử máy, không thêm bản log như sản phẩm. Không copy giấy phép DuoDash hoặc yêu cầu cài DuoDash.
+
+**Trạng thái:** chỉ tra soát mã nguồn và quyết định tích hợp trong lượt này; KHÔNG sửa mã, KHÔNG build DEB, KHÔNG đưa Sileo. Repo `chuongnguyen89dn-ui/Duoface`, nhánh bàn giao `feature/visual12-duodash-recovery`, Hub Native12 giữ nguyên trên nhánh của mình. Công cụ GitHub trước khi ghi không có Actions in_progress/queued.
+
+
 ## 17/10/2026 — TRUY NGUỒN BẢN SPLIT TRỐNG ĐÃ TEST VÀ SỰ KHÁC BIỆT VỚI NATIVE1
 
 **Người dùng xác nhận lại:** trước đây đã có nguyên mẫu CHỈ chia đôi màn hình CarPlay thành hai vùng trống, chưa giao diện và chưa có ứng dụng; người dùng đã thử và thấy chia đôi hoạt động, sau đó giao diện DuoFace mới được bổ sung trong quá trình phát triển Native. Kết luận cần giữ: **khả năng tạo vùng chia độc lập là khả thi và có bằng chứng thử trên thiết bị theo lời người dùng**, không phải lý do để code lại toàn bộ split UI hoặc phụ thuộc DuoDash.
