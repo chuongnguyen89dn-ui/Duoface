@@ -165,6 +165,7 @@ def address_section_audit(a: MachO, b: MachO, methods: list[dict]) -> dict:
         same_address = sa["vm"] == sb["vm"]
         length = min(sa["size"], sb["size"])
         if (same_address and length and
+                key[1] not in {"__bss", "__common", "__thread_bss", "__zerofill"} and
                 sa["fileoff"] + length <= len(a.data) and
                 sb["fileoff"] + length <= len(b.data)):
             left = a.data[sa["fileoff"]:sa["fileoff"] + length]
@@ -173,6 +174,7 @@ def address_section_audit(a: MachO, b: MachO, methods: list[dict]) -> dict:
             row["changed_bytes_at_same_vm"] = sum(i != j for i, j in zip(left, right))
             if key[1] == "__text":
                 inside = outside = 0
+                outside_addresses = []
                 j = 0
                 for i, (u, v) in enumerate(zip(left, right)):
                     if u == v:
@@ -184,12 +186,27 @@ def address_section_audit(a: MachO, b: MachO, methods: list[dict]) -> dict:
                         inside += 1
                     else:
                         outside += 1
+                        outside_addresses.append(sa["vm"] + i)
+                clusters = []
+                for address in outside_addresses:
+                    if clusters and clusters[-1]["vm_end_exclusive"] == address:
+                        clusters[-1]["vm_end_exclusive"] += 1
+                        clusters[-1]["bytes"] += 1
+                    else:
+                        clusters.append({"vm_start": address, "vm_end_exclusive": address+1, "bytes": 1})
+                row["outside_ledger_changed_clusters_total"] = len(clusters)
+                row["outside_ledger_largest_changed_clusters"] = [
+                    {"vm_start": hex(item["vm_start"]),
+                     "vm_end_exclusive": hex(item["vm_end_exclusive"]),
+                     "bytes": item["bytes"]}
+                    for item in sorted(clusters, key=lambda q: (-q["bytes"], q["vm_start"]))[:40]
+                ]
                 row["text_changed_bytes_within_native4_stub_spans"] = inside
                 row["text_changed_bytes_outside_native4_stub_spans"] = outside
                 row["native4_ledger_scope_is_reference_only"] = True
         else:
             row["same_vm_bytes_compared"] = 0
-            row["compare_reason"] = "different_VM_or_non_file_backed_section"
+            row["compare_reason"] = "different_VM_or_non_file_backed_or_zerofill_section"
         entries.append(row)
     text = [r for r in entries if r["section"].endswith("/__text")]
     return {"entries": entries, "text_summary": {
@@ -261,6 +278,9 @@ def main() -> None:
         print(name, "visual_archs", [x["architecture"] for x in info["visual_architectures"]],
               "native_archs", [x["architecture"] for x in info["native12_architectures"]],
               "text_summary", info["sections"]["text_summary"])
+        for section in info["sections"]["entries"]:
+            if section["section"].endswith("/__text"):
+                print(name, "outside_ledger_top", section.get("outside_ledger_largest_changed_clusters", [])[:12])
     print("VISUALTEST12_VM_ABI_READONLY_COMPLETE_NO_RELEASE")
 
 if __name__ == "__main__":
