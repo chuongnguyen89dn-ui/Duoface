@@ -1,5 +1,8 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:49 +07 — DEVICE-ROOTLESS-DOPAMINE
+USER_REPORT: “Íos less dopamine”, hiểu theo ngữ cảnh là jailbreak rootless bằng Dopamine. Ghi nhận cấu hình người dùng cung cấp; chưa có số phiên bản iOS/Dopamine chính xác. Không coi rootless là phiên bản iOS hoặc tự gán 15/16. Đường đóng gói /var/jb là rootless; không kết luận mọi điều kiện loader tương thích chỉ từ tên jailbreak. Install Speed5 và respring đã confirmed, không hỏi lại. Đầu vào còn thiếu có thể lấy không Terminal: Cài đặt → Cài đặt chung → Giới thiệu → Phiên bản iOS. Không có sửa mã/build/deploy trong lượt này.
+
 ## 17/10/2026 07:46 +07 — RESPRING-CONFIRMED; MACHO-LOAD-AUDIT
 USER_CONFIRMED: “Rồi” trả lời câu đã respring sau cài Speed5. Không hỏi lại hoặc bắt respring lại. Install đúng Speed5 + respring đã xác nhận; chưa có log/HUD thành công.
 Đã tự kiểm binary thật /tmp/duoface-speed5-audit.deb (SHA pinned ở checkpoint 07:44), dùng Python subprocess dpkg-deb --fsys-tarfile -> tarfile.extractfile('./var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib') -> struct.unpack_from header/load commands/nlist_64. Kết quả Mach-O little-endian 64-bit magic 0xfeedfacf, CPU 0x100000c, subtype 0 (arm64), 27 load commands. LC_BUILD_VERSION platform=2/iOS, minOS=0x000f0000/iOS15.0, SDK=0x00120500/iOS18.5. LC_ID_DYLIB=@rpath/DuoFaceSpeedHUD.dylib. Dependencies: libobjc.A, Foundation, CoreFoundation, UIKit, libc++.1, libSystem.B, CoreGraphics, tất cả đường hệ thống; không link TW Hub hoặc dylib bên thứ ba. RPATH /var/jb/Library/Frameworks, /var/jb/usr/lib, @loader_path/.jbroot/Library/Frameworks, @loader_path/.jbroot/usr/lib.
