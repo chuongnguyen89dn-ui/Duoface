@@ -1,5 +1,11 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:50 +07 — IOS16-CONFIRMED; SIGNATURE-PAGES-AND-INITIALIZERS
+USER_CONFIRMED: iOS16. Cấu hình hiện biết: iOS16, rootless Dopamine, Speed5scene installed ii, đã respring. Không hỏi lại các mục này. MinOS15 của Speed5 được đáp ứng; mismatch control firmware13 vẫn là lỗi metadata nhưng không giải thích lỗi máy iOS16 này.
+Tự audit DEB pinned /tmp/duoface-speed5-audit.deb qua Python subprocess dpkg-deb --fsys-tarfile, tarfile lấy DuoFaceSpeedHUD.dylib, struct đọc LC_CODE_SIGNATURE/superblob/CodeDirectory. Binary SHA256 39e8e755b65384f3af877b26976779cd21ab967adcadf43775243538875f1085. Hai CodeDirectory hash type1 SHA1 và type2 SHA256, mỗi loại 26 code slots, page size4096, codeLimit105760: recompute hashlib từng page và so hashSlots đều 0 mismatch. Đây là kiểm integrity code-page, KHÔNG phải xác nhận trust/AMFI/loader trên iPhone hoặc toàn bộ special slots.
+Bước dò __mod_init_func ban đầu không thấy; kiểm các sections tiếp theo phát hiện __TEXT,__init_offsets size8, section type0x16, hai offset little-endian 0x5c30 và 0x6c80. Không được kết luận mất constructor chỉ vì không có __mod_init_func; binary dùng bảng init offsets. Symbol names đã strip nên chưa gán từng offset cho constructor nào bằng disassembly.
+Đã loại nghi vấn “iOS thấp hơn minOS”, không thấy code-page bị sửa sau ký trong artifact. Chưa xác định nguyên nhân thiếu log trên máy: file thực tế/loader/trust/log fallback vẫn chưa verified. Không khẳng định injection PASS hoặc đổ lỗi môi trường; không tăng windowLevel/build thêm dựa trên đoán. Người dùng đã yêu cầu dừng chuỗi Terminal, giữ yêu cầu này. Không có thay đổi code/build/deploy. Mọi audit trên artifact Linux, không test runtime iOS.
+
 ## 17/10/2026 07:49 +07 — DEVICE-ROOTLESS-DOPAMINE
 USER_REPORT: “Íos less dopamine”, hiểu theo ngữ cảnh là jailbreak rootless bằng Dopamine. Ghi nhận cấu hình người dùng cung cấp; chưa có số phiên bản iOS/Dopamine chính xác. Không coi rootless là phiên bản iOS hoặc tự gán 15/16. Đường đóng gói /var/jb là rootless; không kết luận mọi điều kiện loader tương thích chỉ từ tên jailbreak. Install Speed5 và respring đã confirmed, không hỏi lại. Đầu vào còn thiếu có thể lấy không Terminal: Cài đặt → Cài đặt chung → Giới thiệu → Phiên bản iOS. Không có sửa mã/build/deploy trong lượt này.
 
