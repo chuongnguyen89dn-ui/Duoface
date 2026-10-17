@@ -5,6 +5,7 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import <string.h>
 #import <dispatch/dispatch.h>
 
 static NSString *DFV12Role(void) {
