@@ -115,7 +115,8 @@ jobs:
           assert 'G1-scene-attached' in qa and 'G2-two-scenes-present' in qa
           assert 'hasLiveSceneInPane:0' in qa and 'hasLiveSceneInPane:1' in qa
           assert 'DuoFaceCarPlayQA.log' in qa
-          assert 'UIRootSceneWindow' not in qa
+          assert 'initWithDisplayConfiguration:' not in qa
+          assert 'UIWindow alloc' not in qa
           assert 'com.duoface.independent' not in qa
           print('DFCARPLAY_QA_ROOT_G1_G2_WIRING_STATIC_PASS_NO_DEVICE_QA')
           print('DFCARPLAY_TWO_PANE_CONTRACT_STATIC_PASS_NO_DEVICE_QA')
