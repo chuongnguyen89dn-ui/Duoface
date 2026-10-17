@@ -1,0 +1,66 @@
+name: DuoFace Visual12 standalone engine and CB facade link test
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'replacement/visual12/engine/**'
+      - 'replacement/cb-compat/**'
+      - '.github/workflows/duoface-visual12-engine-bind-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  engine-link:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and link source-only CarPlay owner with CB facade
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 \
+            -isysroot "$SDK" -fobjc-arc -fblocks -dynamiclib \
+            -Os -Wall -Wextra -Wno-unused-parameter \
+            -Wl,-headerpad,0x1000 -Wl,-install_name,@rpath/DuoFaceVisual12Engine.dylib \
+            -I replacement/cb-compat \
+            -framework UIKit -framework Foundation -framework CoreFoundation \
+            -framework CoreGraphics -framework QuartzCore -lobjc \
+            -o "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" \
+            replacement/visual12/engine/runtime/DFIRuntime.m \
+            replacement/cb-compat/DFCBCompat.m
+          test "$(xcrun lipo -archs "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib")" = arm64
+          xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBBindHost'
+          xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
+          xcrun otool -L "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
+          shasum -a 256 "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib"
+      - name: Check lifecycle source and package boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('replacement/visual12/engine')
+          runtime=(root/'runtime/DFIRuntime.m').read_text()
+          facade=Path('replacement/cb-compat/DFCBCompat.m').read_text()
+          identity=json.loads(Path('replacement/visual12/STANDALONE_PACKAGE_IDENTITY.json').read_text())
+          assert identity['package_id']==identity['app_bundle_id']=='com.duoface.visual12'
+          assert identity['separate_from_hub_package']=='com.duoface.independent'
+          assert 'DFCBBindHost(window, DFIRoot, &hostError)' in runtime
+          assert 'DFCBUnbindHost(DFIWindow)' in runtime
+          assert runtime.index('DFCBUnbindHost(DFIWindow)') < runtime.index('[DFIRoot shutdown]')
+          assert 'DFIWindow=window' in runtime
+          assert 'DFIWindow.hidden=YES' in runtime
+          assert 'CBBridgeManager' in runtime
+          assert 'com.duoface.independent' not in runtime
+          assert 'com.duoface.independent' not in facade
+          assert '@implementation DFCBBridgeManager' in facade
+          assert '@implementation DFCBWindow' in facade
+          assert '@implementation CBBridgeManager' not in facade
+          assert '@implementation CBWindow' not in facade
+          assert identity['can_publish_to_sileo'] is False
+          print('VISUAL12_CB_OWNER_BIND_LIFECYCLE_STATIC_PASS')
+          print('NO_DEVICE_VALIDATION_NO_SILEO_DEPLOY')
+          PY
