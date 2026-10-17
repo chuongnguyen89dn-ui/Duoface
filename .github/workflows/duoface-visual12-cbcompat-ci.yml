@@ -38,6 +38,6 @@ jobs:
               assert ('@interface '+name) in h
               assert ('@implementation '+name) in m
           for name in ('CBWindow','CBBridgedSplitApp','CBBridgeManager'):
-              assert ('@interface '+name) not in h+m && ('@implementation '+name) not in h+m
+              assert ('@interface '+name) not in h+m and ('@implementation '+name) not in h+m
           print('NAMESPACED_FACADE_COMPILED_NO_LEGACY_CB_CLASSES')
           PY
