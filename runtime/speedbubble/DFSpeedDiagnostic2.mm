@@ -16,6 +16,8 @@ static NSString *sProcessName;
 static NSString *sBundleID;
 static dispatch_source_t sTimer;
 static unsigned long sPolls=0;
+// Weakly observe the already-existing Dashboard manager ONLY after a real intercepted call.
+static __weak id sObservedDashboardManager=nil;
 static BOOL sLoggedWriterError=NO;
 
 static NSString *DFClass(id obj) {
@@ -41,10 +43,9 @@ static NSNumber *DFCallBool(id obj, const char *selector) {
 static NSString *DFBoolText(NSNumber *v) {return v ? (v.boolValue?@"true":@"false") : @"unknown";}
 static NSDictionary *DFSnapshot(void) {
     Class sb=NSClassFromString(@"CBBridgeManager");
-    Class dash=NSClassFromString(@"CBBridgeManagerDashboard");
     Class win=NSClassFromString(@"CBWindow");
     id manager=DFCallObj(sb,"sharedInstanceIfExists");
-    id dashManager=DFCallObj(dash,"sharedInstance");
+    id dashManager=sObservedDashboardManager;
     id window=DFCallObj(manager,"window");
     id active=DFCallObj(win,"activeCarPlayWindow");
     id app=DFCallObj(manager,"currentApp");
@@ -101,6 +102,11 @@ static void DFWrite(NSString *event, NSDictionary *details) {
     }
 }
 
+static void DFRecordReceiver(id receiver) {
+    Class dc=NSClassFromString(@"CBBridgeManagerDashboard");
+    if(dc && receiver && [receiver isKindOfClass:dc])sObservedDashboardManager=receiver;
+}
+
 // Forward exactly the original GP argument register(s); do NOT dereference app arguments.
 // Only install when Objective-C runtime confirms void return and 0/1 GP-register arguments.
 typedef void (*DFHookMessageExType)(Class,SEL,IMP,IMP*);
@@ -140,6 +146,7 @@ static BOOL DFInstall(const char *cls,const char *name,int argc,IMP replacement,
 #define ONE_HOOK(NAME,CLASS,SELECTOR) \
  static void (*orig_##NAME)(id,SEL,uintptr_t)=NULL; \
  static void probe_##NAME(id self,SEL cmd,uintptr_t arg) { \
+     DFRecordReceiver(self); \
      DFWrite(@"ENTER_" #NAME,DFSnapshot()); \
      if(orig_##NAME) orig_##NAME(self,cmd,arg); \
      DFWrite(@"EXIT_" #NAME,DFSnapshot()); \
