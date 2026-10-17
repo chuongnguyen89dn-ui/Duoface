@@ -49,3 +49,46 @@ C. Gửi device QA G1 rồi G2 (xe dừng) trên iPhone X, ghi log scene attach/
 D. Ghi từng commit/run/SHA/test vào ban giao du an duoface moi.md. Không chạy build/deploy hoặc sửa Native12+Hub8 trong lượt quyết định này.
 
 Tình trạng 17/10: **chỉ ra quyết định thiết kế bằng đối chiếu GitHub và tài liệu Apple; CHƯA thay source, chưa build DEB, chưa deploy Sileo, chưa test thiết bị.**
+
+## Hợp đồng API DuoFace cụ thể (bổ sung 17/10/2026)
+
+**Người dùng hỏi:** “Vậy 3 app lia api j? Ta sẽ làm api j?” Bộ ba được hiểu theo ngữ cảnh = DuoNavi / DuoDash / SidePlay. Phải phân biệt **Apple CarPlay public API** (CarPlay templates cho app được cấp entitlement) với **SpringBoard private API dùng trong môi trường jailbreak** để host app scene tùy ý. Không tồn tại một bộ API “CarPlay bridge cho mọi app” chính thức công khai và ổn định.
+
+### Bảng đối chiếu API đã xác minh bằng mã/binary audit
+| Reference | Detect/request | Scene / host | Display / split |
+|---|---|---|---|
+| DuoNavi / gốc Visual12 | `CBLicenseSyncManager +isCarPlayScreenConnected`, `CBBridgeManager -requestStateChange:` | `CBBridgeManagerDashboard -startBridging:`, `CBBridgeManager -loadNewAppFromCurrentRequest:` | `CBWindow`, `CBBridgedSplitApp`, `CBMultitaskingOverlayView`, `CBBridgeManager -switchToSplitWithLeft:right:ratio:` |
+| DuoDash 1.1.3 (audit là bản repack, không phải source gốc) | `CNABSpringBoardObserver -onHostRequest:` / `-onHostRequestSplit:`, `DDz1 +carPlayConnected` | `DDz2 -cnabBuildSceneHostForBid:displaySize:`, `SBDeviceApplicationSceneEntity` | `CNABUIApp -setBridgeState:width:height:orientation:`, `DDz1 -showLayoutPanes:natives:bids:` |
+| SidePlay 1.0.4-1 (DEB user cung cấp) | `CarPlayIsConnectedDidChange`, `currentCarPlayExternalDevice` | `SBApplicationController`, `SBDeviceApplicationSceneEntity`, `SBAppViewController`, `sceneHandle`, `FBScene` | `FBSSceneSettings`, `FBSSceneParameters`, `SBDeviceApplicationSceneView`, `CPTemplateApplicationScene`/ `CPInterfaceController` (vỏ app) |
+
+### API **của DuoFace** phải thiết kế (không phải tên API Apple)
+
+**Tên không gian:** `DFCarPlay`. Đây là interface nội bộ Object​ive-C do DuoFace sở hữu, UI/Hub gọi vào mà không trực tiếp thao tác private framework.
+
+1. `DFCarPlayDisplayOwner`: nhận kết nối/ngắt CarPlay, `startWithError:`, `stop`; đảm bảo **single scene owner**, gọi từ SpringBoard.
+2. `DFCarPlaySceneHost`: `openBundleID:inContainer:completion:`, `resizeTo:`, `close`; dùng nguồn `DFV12SceneHost` đã có trong `DFIRuntime.m`, tạo `SBDeviceApplicationSceneEntity` + `SBAppViewController` và giữ `sceneHandle`, quản lý error/teardown.
+3. `DFCarPlaySplitCoordinator`: `openApp:inPane:completion:`, `closePane:`, `setSplitRatio:`, `swapPanes`, `focusPane:`, `restoreSplit`, `closeAll`; quản lý đúng **hai scene** và UI state, không thuộc vendor class.
+4. `DFCarPlayUIAdapter`: đổi lệnh `App/Zoom/Style/Close`, menu/picker/resize/focus của Visual12 đã được duyệt thành các lời gọi coordinator; **không** dùng `DFIInterface.inc` alpha như UI cuối. Nếu compiled UI legacy không thể tách khỏi `CBBridgeManager`/license, UI cần triển khai tương đương bằng source có quyền sử dụng, không cam kết copy nguyên byte.
+5. `DFCarPlayLauncher` và `DFCarPlayIPC`: kích hoạt UI/scene và chuyển sự kiện SpringBoard ↔ CarPlay bằng namespace riêng `com.duoface.carplay.*` (không gọi notification/protocol vendor).
+6. `DFCarPlayFullscreen`/ `DFCarPlayDiagnostics`: geometry/ACK, rollback có phân biệt fullscreen toàn host vs focused pane; log từng giai đoạn (display, window, entity, controller, sceneHandle, attached, policy, teardown).
+
+**Ví dụ hợp đồng Objective-C ở mức thiết kế, CHƯA phải mã đã compile:**
+```objc
+@protocol DFCarPlayBridgeAPI <NSObject>
+- (void)startWithCompletion:(void (^)(NSError *error))done;
+- (void)openApp:(NSString *)bundleID inPane:(NSUInteger)pane
+     completion:(void (^)(NSError *error))done;
+- (void)setSplitRatio:(CGFloat)ratio;
+- (void)swapPanes;
+- (void)focusPane:(NSUInteger)pane;
+- (void)restoreSplit;
+- (void)closePane:(NSUInteger)pane;
+- (void)stop;
+@end
+```
+`NSError *` trong callback có thể là null; **mọi thao tác scene phải chạy trên SpringBoard main queue**; dùng async completion để tránh báo mở app thành công khi chỉ có cửa sổ đen. Các selector hệ thống private cần kiểm `respondsToSelector`/OS phiên bản trước khi gọi.
+
+### Phạm vi độc lập / điều kiện xác minh
+- **Không cần runtime/binary/trial/licensing** DuoNavi, SidePlay, DuoDash hoặc CarBridge thứ ba; **vẫn phụ thuộc iOS16, CarPlay, jailbreak/rootless, SpringBoard private APIs và những app dùng trong scene.** Private APIs không được Apple hỗ trợ hoặc bảo đảm tương thích.
+- API công khai Apple (`CPTemplateApplicationScene`, `CPInterfaceController`, `CPWindow`) chỉ dành cho CarPlay app đủ điều kiện/entitlement; không tự cấp quyền hiển thị YouTube/Waze trong 2 pane của ứng dụng khác. Apple docs: https://developer.apple.com/documentation/carplay/requesting-carplay-entitlements và https://developer.apple.com/documentation/carplay/cptemplateapplicationscene.
+- **Đã có code:** `DFIRuntime.m` scene host, `DFCBCompat.m` facade, fullscreen/geometry/layout. **Chưa có:** hợp đồng source `DFCarPlayBridgeAPI` thực thi, adapter UI native Visual12 độc lập với vendor, device test pass (1 app rồi 2 app). Đã từng compile proof nhưng chưa chứng minh runtime trên iPhone X hết trial. Không đè `com.duoface.independent` Native12+Hub8.
