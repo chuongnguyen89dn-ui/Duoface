@@ -1,4 +1,7 @@
 #import "DFIRuntime.h"
+#if DFCARPLAY_QA
+#import "DFCarPlayQARootController.h"
+#endif
 #import "DFCBCompat.h" // DuoFace Visual12 source-only CB façade; build -I replacement/cb-compat
 #import "DFHostGeometry.h" // Reused Fullscreen host-geometry contract
 #import "../DFILayouts.h"
@@ -68,6 +71,9 @@ static NSMapTable *DFIControllerGeometry;
 static NSMapTable *DFIHandleOwners;
 static UIWindow *DFIWindow;
 static DFV12SplitController *DFIRoot;
+#if DFCARPLAY_QA
+static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second owner
+#endif
 
 @interface DFV12SceneHost ()
 @property(nonatomic,copy,readwrite) NSString *bundleID;
@@ -304,12 +310,20 @@ static void DFIStop(void) {
     DFIPerfMark(@"split_stop",nil);
     DFIPerfStop();
     [DFIRoot shutdown];
+#if DFCARPLAY_QA
+    [DFIQARoot shutdown];
+    DFIQARoot=nil;
+#endif
     DFIWindow.hidden=YES; DFIWindow.rootViewController=nil;
     DFIRoot=nil; DFIWindow=nil;
     notify_post("com.duoface.visual12.stopped");
     DFILog(@"split dismissed; original Dashboard exposed");
 }
 static void DFIStart(void) {
+#if DFCARPLAY_QA
+    // QA opt-in suppresses the legacy visual12 auto-start; never spawn both roots.
+    if([DFIPref(@"qaEnabled") boolValue]) return;
+#endif
     if(!DFIEnabled())return;
     // Fail closed when an existing legacy CarPlay host owns its runtime.
     // Package IDs alone do not isolate SpringBoard scene ownership.
@@ -349,6 +363,63 @@ static void DFIStart(void) {
         DFILog([NSString stringWithFormat:@"split window visible bounds=%@",NSStringFromCGRect(window.bounds)]);
     } @catch(NSException *exception) { DFILog(exception.reason); DFIStop(); }
 }
+
+
+#if DFCARPLAY_QA
+// QA only. Never called by any production build lacking -DDFCARPLAY_QA=1.
+// Activation also requires com.duoface.visual12:qaEnabled=true; default is OFF.
+static void DFIQAStart(void) {
+    if(![DFIPref(@"qaEnabled") boolValue]) {
+        DFILog(@"QA start refused: qaEnabled is false"); return;
+    }
+    if(NSClassFromString(@"CBBridgeManager")) {
+        DFILog(@"QA start refused: legacy CBBridgeManager is already loaded"); return;
+    }
+    if(DFIWindow || DFIRoot || DFIQARoot) {
+        DFILog(@"QA start refused: an external DuoFace scene owner is already active"); return;
+    }
+    @try {
+        id display=DFICarDisplay();
+        Class configClass=NSClassFromString(@"FBSDisplayConfiguration");
+        Class windowClass=NSClassFromString(@"UIRootSceneWindow");
+        SEL configInit=NSSelectorFromString(@"initWithCADisplay:isMainDisplay:");
+        SEL windowInit=NSSelectorFromString(@"initWithDisplayConfiguration:");
+        if(!display || ![configClass instancesRespondToSelector:configInit] ||
+           ![windowClass instancesRespondToSelector:windowInit]) {
+            DFILog(@"QA start refused: CarPlay display/window API unavailable"); return;
+        }
+        id config=((id(*)(id,SEL,id,BOOL))objc_msgSend)([configClass alloc],configInit,display,NO);
+        UIWindow *window=((id(*)(id,SEL,id))objc_msgSend)([windowClass alloc],windowInit,config);
+        if(!window || CGRectIsEmpty(window.bounds)) {
+            DFILog(@"QA start refused: empty CarPlay external window"); return;
+        }
+        DFCarPlayQARootController *root=[DFCarPlayQARootController new];
+        DFIWindow=window; DFIQARoot=root;
+        window.windowLevel=UIWindowLevelAlert+100;
+        window.backgroundColor=UIColor.blackColor;
+        window.rootViewController=root;
+        window.hidden=NO; // viewDidAppear validates this is the sole real root.
+        DFILog([NSString stringWithFormat:@"QA external-window-created bounds=%@",NSStringFromCGRect(window.bounds)]);
+    } @catch(NSException *exception) {
+        DFILog([NSString stringWithFormat:@"QA start exception %@",exception.reason]);
+        DFIStop(); // Roll back any partially constructed QA host.
+    }
+}
+static void DFIQARequest(BOOL twoPanes) {
+    if(![DFIPref(@"qaEnabled") boolValue] || !DFIQARoot) {
+        DFILog(@"QA G1/G2 refused: test root missing or disabled");return;
+    }
+    NSString *first=DFIPref(@"qaFirstBundle");
+    NSString *second=DFIPref(@"qaSecondBundle");
+    if(![first isKindOfClass:NSString.class]) first=nil;
+    if(![second isKindOfClass:NSString.class]) second=nil;
+    if(twoPanes) [DFIQARoot runPairFirst:first second:second];
+    else [DFIQARoot runSingleBundle:first];
+}
+static void DFIQAStop(void) {
+    if(DFIQARoot) DFIStop();
+}
+#endif
 
 static BOOL DFIConnected;
 static NSUInteger DFIConnectionGeneration;
@@ -515,6 +586,18 @@ void DFV12InstallRuntime(void) {
         static int startToken,stopToken;
         notify_register_dispatch(DFIStartNotification,&startToken,dispatch_get_main_queue(),^(int token) { DFIStart(); });
         notify_register_dispatch(DFIStopNotification,&stopToken,dispatch_get_main_queue(),^(int token) { DFIStop(); });
+#if DFCARPLAY_QA
+        // Independent, private G1/G2 driver: no published UI, no auto-launch.
+        static int qaStartToken,qaG1Token,qaG2Token,qaStopToken;
+        notify_register_dispatch("com.duoface.carplay.qa.start",&qaStartToken,dispatch_get_main_queue(),
+                                 ^(int token){ DFIQAStart(); });
+        notify_register_dispatch("com.duoface.carplay.qa.g1",&qaG1Token,dispatch_get_main_queue(),
+                                 ^(int token){ DFIQARequest(NO); });
+        notify_register_dispatch("com.duoface.carplay.qa.g2",&qaG2Token,dispatch_get_main_queue(),
+                                 ^(int token){ DFIQARequest(YES); });
+        notify_register_dispatch("com.duoface.carplay.qa.stop",&qaStopToken,dispatch_get_main_queue(),
+                                 ^(int token){ DFIQAStop(); });
+#endif
         static int preferenceToken;
         notify_register_dispatch(DFIChanged,&preferenceToken,dispatch_get_main_queue(),^(int token){
             CFPreferencesAppSynchronize((__bridge CFStringRef)DFIPreferences);
