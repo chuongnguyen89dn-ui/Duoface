@@ -1,0 +1,26 @@
+{
+  "status": "SPEED8_COMPACT_SETTINGS_GMAP_WIRE_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+  "baseline_speed7split_sha256": "a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155",
+  "output_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "preserved_files_byte_identical": 42,
+  "replaced_files_exact_count": 1,
+  "replaced_only_HUD_dylib": true,
+  "original_native12_and_springboard_owner_probe_unchanged": true,
+  "carplayapp_HUD_injection_removed": true,
+  "speed8_reuses_speed7_springboard_only_filter": true,
+  "creates_new_UIWindow": false,
+  "requires_native_bridged_split_app_two_attached_panels": true,
+  "root_class_verified_from_real_device": "CBTouchPassThroughRootSceneWindow",
+  "gmaphud_wire_reader_compiled": true,
+  "data_feed_live_on_device_verified": false,
+  "new_hud_files": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {
+      "before": "c0450e05709bca3c1beb65af3ad8929e58184c218f6d91a6ef9e2ec27633fb7d",
+      "after": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364"
+    }
+  },
+  "runtime_log": "/var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl",
+  "sileo_published": false,
+  "device_tested": false,
+  "risk": "On-device Speed8 compact visual, full-screen drag, live source and Waze stable all UNTESTED. Proven user Speed7 remains available."
+}
