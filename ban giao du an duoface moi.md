@@ -1,5 +1,18 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 19:02 ICT — Checkpoint hướng nguồn mở độc lập
+
+**Yêu cầu mới:** Chuyển hoàn toàn sang backend mở ứng dụng không phụ thuộc mã nhị phân DuoNavi; lấy kiến trúc quản lý scene từ DuoDash để đối chiếu. Không thay tên hay kéo dài thời hạn. Loại Airaw khỏi công việc hiện tại. Giữ nguyên package Hub com.duoface.independent và bố cục DuoFace nếu có bản nguồn hợp pháp.
+
+**Quan sát trên máy người dùng:** Bản VisualTest12 repair1 được cài nhưng màn CarPlay vẫn hiển thị "Bản Quyền Đã Hết Hạn"; phần Cài đặt hiển thị VIP 3650 ngày chỉ do ba getter trả giá trị thay thế. Kết luận repair1 FAIL trong tình huống thiết bị được báo cáo; không lặp lại sửa getter hay phát hành làm bản khắc phục.
+
+**Đối chiếu repository:** Mã của CBBridgeManager, CBBridgeManagerDashboard và CBLicenseSyncManager chỉ có trong binary; không thấy implementation nguồn trong bản kiểm kê lịch sử audit/payload-migration/VISUALTEST12_HISTORICAL_CORE_SOURCES.json. Do đó không thể loại bỏ phụ thuộc bằng đổi tên hoặc thay ba getter. Đường tham khảo độc lập là scene host tại feature/duoface-independent-core/independent/engine/runtime/DFIRuntime.m (SBApplicationController, SBDeviceApplicationSceneEntity, SBAppViewController). Trong DuoDash, DDz2 -cnabBuildSceneHostForBid:displaySize: có các lời gọi scene tương ứng; không có chứng cứ có thể thay một class trực tiếp mà tránh xung đột.
+
+**Trạng thái:** Chưa có DEB thay thế mới hoặc nghiệm thu ứng dụng YouTube/CarPlay. Bản repair1 đang trên Sileo và phải được xem là bản thử không đạt. Việc nhúng và phân phối lại binary DuoDash không được coi là đã được cho phép; cần adapter dựa trên API phù hợp hoặc mã tự viết, không sao chép binary.
+
+**Tiếp tục:** thiết kế backend có mã nguồn minh bạch tách khỏi DuoNavi, kiểm tra an toàn khi chỉ có một scene host, tương thích SpringBoard/CarPlay iOS16; bảo toàn Hub. Chỉ build/publish khi có mã thực sự thay backend và QA, không tiếp tục bộ đếm 3650 ngày. Hướng tách backend này tốn nhiều việc hơn chép một phương thức đóng; không được quảng cáo là đã hoạt động khi chưa test thiết bị.
+
+
 ## 2026-10-17 — KẾT QUẢ THIẾT BỊ REPAIR1: VIP 3650 NGÀY KHÔNG PHẢI GIA HẠN THẬT
 
 - **Bằng chứng thực tế từ ảnh người dùng gửi trong chat lúc ~18:50 ICT 17/10/2026:** màn hình Cài đặt → DuoFace Pro hiện "DuoFace VIP — Đang hoạt động", "Thời hạn bản quyền — Còn lại 3650 ngày", "Hạn máy chủ — Đến 14/10/2036", "Đã xác thực máy chủ DuoNavi". Không ghi mã máy từ ảnh vào GitHub.
