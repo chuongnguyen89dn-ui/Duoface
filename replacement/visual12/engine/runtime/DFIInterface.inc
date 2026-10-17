@@ -1,4 +1,4 @@
-// Independent UI, loaded after DFISceneHost so all scene lifetime operations stay shared.
+// Independent UI, loaded after DFV12SceneHost so all scene lifetime operations stay shared.
 #import "DFIApprovedVisuals.h"
 static void DFIStop(void);
 static NSMutableSet<NSString *> *DFIManaged;
@@ -59,13 +59,13 @@ static NSArray *DFIAvailableApps(void) {
     }
     return [apps sortedArrayUsingComparator:^NSComparisonResult(id a,id b){return [a[@"title"] localizedCaseInsensitiveCompare:b[@"title"]];}];
 }
-@interface DFIList : UITableViewController
+@interface DFV12List : UITableViewController
 @property(nonatomic,strong) NSArray<NSDictionary *> *rows;
 @property(nonatomic,copy) void(^pick)(NSDictionary *);
 @property(nonatomic,copy) void(^touch)(void);
 @property(nonatomic,copy) void(^act)(NSDictionary *row);
 @end
-@implementation DFIList
+@implementation DFV12List
 - (void)viewDidLoad{[super viewDidLoad];self.tableView.backgroundColor=UIColor.clearColor;self.tableView.rowHeight=40;self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;}
 - (NSInteger)tableView:(UITableView *)v numberOfRowsInSection:(NSInteger)s{return self.rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)v cellForRowAtIndexPath:(NSIndexPath *)p{
@@ -113,13 +113,13 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)v{if(self.touch)self.touch();}
 @end
-@interface DFILayoutIcon : UIButton
+@interface DFV12LayoutIcon : UIButton
 @property(nonatomic) int kind;
 @end
-@implementation DFILayoutIcon
+@implementation DFV12LayoutIcon
 - (void)drawRect:(CGRect)rect{[super drawRect:rect];DFIFrames f=DFIFramesMake(CGRectInset(self.bounds,9,8),self.kind,self.kind==4?1./3:.5,self.kind==4?2./3:.5,-1);[[UIColor.whiteColor colorWithAlphaComponent:.85]setStroke];for(int i=0;i<f.count;i++){UIBezierPath *p=[UIBezierPath bezierPathWithRoundedRect:CGRectInset(f.panes[i],1.5,1.5) cornerRadius:2];p.lineWidth=1.2;[p stroke];}}
 @end
-@interface DFISplitController ()
+@interface DFV12SplitController ()
 @property(nonatomic,strong) NSArray<UIView *> *panes;
 @property(nonatomic,strong) NSMutableArray *hosts;
 @property(nonatomic,strong) NSArray<UIButton *> *emptyButtons;
@@ -133,7 +133,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) UIControl *pickerShade;
 @property(nonatomic,strong) UIButton *pickerClose;
 @property(nonatomic) BOOL interactionActive;
-@property(nonatomic,strong) DFIList *list;
+@property(nonatomic,strong) DFV12List *list;
 @property(nonatomic,strong) NSTimer *hideTimer;
 @property(nonatomic) NSInteger layoutKind,maximized,panelPane;
 @property(nonatomic) CGFloat fraction,secondary;
@@ -143,7 +143,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic) NSInteger activePane,selectedTab;
 @property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
-@implementation DFISplitController
+@implementation DFV12SplitController
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{return UIInterfaceOrientationMaskAll;}
 - (BOOL)prefersStatusBarHidden{return YES;}
 - (UIButton *)button:(NSString *)symbol label:(NSString *)label action:(SEL)action {
@@ -277,7 +277,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
 - (void)dismissPanel{[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;[self.panel removeFromSuperview];self.panel=nil;}
 - (void)showRows:(NSArray *)rows pane:(NSInteger)pane pick:(void(^)(NSDictionary *))pick {
- [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFIList *list=[DFIList new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
+ [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFV12List *list=[DFV12List new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
 - (void)choose:(UIButton *)button {
  NSInteger index=button.tag;
@@ -296,11 +296,11 @@ static NSArray *DFIAvailableApps(void) {
  }
  for(id h in self.hosts)if(h!=NSNull.null&&[[h bundleID]isEqual:bid])return;
  [self.pendingPanes addObject:@(pane)];
- NSError *error=nil;DFISceneHost *host=[[DFISceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self.pendingPanes removeObject:@(pane)];[self message:error.localizedDescription?:@"Không mở được ứng dụng"];return;}
+ NSError *error=nil;DFV12SceneHost *host=[[DFV12SceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self.pendingPanes removeObject:@(pane)];[self message:error.localizedDescription?:@"Không mở được ứng dụng"];return;}
  id previous=self.hosts[pane];NSString *old=previous==NSNull.null?nil:[previous bundleID];if(previous!=NSNull.null)[previous close];self.hosts[pane]=host;
- __weak typeof(self) weak=self;__weak DFISceneHost *wh=host;
- host.failure=^(NSString *reason){DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound)return;s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
- host.ready=^{DFISplitController *s=weak;DFISceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound){s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
+ __weak typeof(self) weak=self;__weak DFV12SceneHost *wh=host;
+ host.failure=^(NSString *reason){DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound)return;s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
+ host.ready=^{DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;[s.pendingPanes removeObject:@(pane)];NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound){s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
  [self.emptyButtons[pane]setTitle:DFIT(@"Đang mở…",@"Opening…") forState:0];self.emptyButtons[pane].hidden=NO;self.emptyButtons[pane].enabled=NO;
  @try{[host attachTo:self container:self.panes[pane]];[DFIManaged addObject:bid];DFISetObject(DFIStateMonitor,@"updateInterestedBundleIDs:",DFIManaged.allObjects);[self.panes[pane]bringSubviewToFront:self.emptyButtons[pane]];[host resizeTo:self.panes[pane].bounds.size];DFIWritePreference(@[@"left",@"right",@"third"][pane],bid);}
  @catch(NSException *e){[self.pendingPanes removeObject:@(pane)];[host close];self.hosts[pane]=NSNull.null;self.emptyButtons[pane].enabled=YES;[self.emptyButtons[pane]setTitle:e.reason forState:0];}
@@ -310,7 +310,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)layouts {
  self.selectedTab=2;[self updateApprovedTabs];
  [self dismissPanel];self.panelPane=-1;self.panel=[self glass];NSArray *names=@[DFIT(@"Một khung",@"One pane"),DFIT(@"Trái / phải",@"Left / right"),DFIT(@"Trên / dưới",@"Top / bottom"),DFIT(@"Ba cột",@"Three columns"),DFIT(@"Một trái, hai phải",@"One left, two right"),DFIT(@"Hai trái, một phải",@"Two left, one right"),DFIT(@"Một trên, hai dưới",@"One top, two bottom"),DFIT(@"Hai trên, một dưới",@"Two top, one bottom")];
- for(int i=1;i<=8;i++){DFILayoutIcon *b=[DFILayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}
+ for(int i=1;i<=8;i++){DFV12LayoutIcon *b=[DFV12LayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}
  // Không bỏ nút hoán đổi và thoát bản cũ khi thay toolbar thành 4 mục.
  UIButton *swap=[self button:@"arrow.left.arrow.right" label:@"Swap" action:@selector(swapPanes)];
  [self.panel.contentView addSubview:swap];
@@ -341,7 +341,7 @@ static NSArray *DFIAvailableApps(void) {
  DFIPerfMark(@"swap",nil);
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);if(count<2)return;
  id first=self.hosts[0];for(NSInteger i=0;i<count-1;i++)self.hosts[i]=self.hosts[i+1];self.hosts[count-1]=first;
- for(int i=0;i<count;i++){id h=self.hosts[i];self.emptyButtons[i].hidden=h!=NSNull.null;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];if(h!=NSNull.null){DFISceneHost *host=h;[self.panes[i]addSubview:host.controller.view];host.container=self.panes[i];}DFIWritePreference(@[@"left",@"right",@"third"][i],h==NSNull.null?nil:[h bundleID]);}
+ for(int i=0;i<count;i++){id h=self.hosts[i];self.emptyButtons[i].hidden=h!=NSNull.null;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];if(h!=NSNull.null){DFV12SceneHost *host=h;[self.panes[i]addSubview:host.controller.view];host.container=self.panes[i];}DFIWritePreference(@[@"left",@"right",@"third"][i],h==NSNull.null?nil:[h bundleID]);}
  [self armHide];[self.view setNeedsLayout];
 }
 - (void)detachBundle:(NSString *)bid {
