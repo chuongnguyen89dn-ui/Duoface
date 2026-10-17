@@ -1,5 +1,5 @@
 #import "DFISettings.h"
-@implementation DFISettingsController
+@implementation DFV12SettingsController
 - (instancetype)init{return [super initWithStyle:UITableViewStyleInsetGrouped];}
 - (void)viewDidLoad{[super viewDidLoad];self.title=@"DuoFace Mới";}
 - (void)viewWillAppear:(BOOL)animated{[super viewWillAppear:animated];[self.tableView reloadData];}
