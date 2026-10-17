@@ -1,0 +1,65 @@
+{
+  "status": "VISUALTEST12_NATIVE12_BYTE_LINEAGE_READONLY",
+  "visual_deb_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "native12_untouched_deb_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "native12_ledger_method_count": 291,
+  "hosts": {
+    "DuoFaceUI": {
+      "visual_host_sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "native12_host_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "same_host_size": false,
+      "same_arm64_size": false,
+      "visual_objc_class_count": 27,
+      "native_objc_class_count": 27,
+      "same_objc_class_names": true,
+      "same_objc_method_names_per_class": true,
+      "known_native4_stubbed_method_count": 248,
+      "bytes_different_inside_native4_ledger_spans": 0,
+      "bytes_different_outside_native4_ledger_spans": -1,
+      "raw_host_diff": {
+        "equal_length": false,
+        "left_bytes": 2456784,
+        "right_bytes": 1220256
+      },
+      "arm64_diff": {
+        "equal_length": false,
+        "left_bytes": 1214224,
+        "right_bytes": 1220256
+      },
+      "dynamic_dispatch_and_carplay_functionality_still_unverified": true
+    },
+    "DuoFaceDashboard": {
+      "visual_host_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "native12_host_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "same_host_size": false,
+      "same_arm64_size": false,
+      "visual_objc_class_count": 36,
+      "native_objc_class_count": 36,
+      "same_objc_class_names": true,
+      "same_objc_method_names_per_class": true,
+      "known_native4_stubbed_method_count": 43,
+      "bytes_different_inside_native4_ledger_spans": 0,
+      "bytes_different_outside_native4_ledger_spans": -1,
+      "raw_host_diff": {
+        "equal_length": false,
+        "left_bytes": 7540464,
+        "right_bytes": 3760032
+      },
+      "arm64_diff": {
+        "equal_length": false,
+        "left_bytes": 3741760,
+        "right_bytes": 3760032
+      },
+      "dynamic_dispatch_and_carplay_functionality_still_unverified": true
+    }
+  },
+  "read_only": true,
+  "binary_modified": false,
+  "hub_modified": false,
+  "deb_built": false,
+  "sileo_deployed": false,
+  "runtime_license_fully_removed": false,
+  "core_source_available": false,
+  "device_tested": false,
+  "release_approved": false
+}
