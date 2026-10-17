@@ -44,7 +44,8 @@
 - (void)settingsAction:(UIButton *)button;
 - (void)refreshSettingsLabels;
 - (NSString *)sourceTitle;
-- (void)cycleInstalledSource;
+- (void)showSourcePicker;
+- (void)selectSource:(UIButton *)sender;
 - (void)savePosition;
 @end
 
@@ -289,14 +290,59 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
 - (NSString *)sourceTitle {
     return DFSpeedNameForSource(self.selectedSource);
 }
-- (void)cycleInstalledSource {
-    NSArray<NSNumber *> *installed=DFSpeedInstalledSupportedSources();
-    if(!installed.count){self.selectedSource=0;return;}
-    NSUInteger index=[installed indexOfObject:@(self.selectedSource)];
-    // Installed-app order is stable: Waze -> VietMap Live -> GOFA -> none.
-    self.selectedSource=(index==NSNotFound || index+1>=installed.count)
-        ? (index==NSNotFound ? installed[0].integerValue : 0)
-        : installed[index+1].integerValue;
+// A real choice sheet: exactly the app packages currently installed, no Auto.
+- (void)showSourcePicker {
+    UIView *panel=self.settingsPanel;
+    if(!panel)return;
+    for(UIView *view in [panel.subviews copy])[view removeFromSuperview];
+    UILabel *heading=[[UILabel alloc] initWithFrame:CGRectMake(8,2,panel.bounds.size.width-16,26)];
+    heading.text=@"Nguồn từ ứng dụng đã cài";
+    heading.textAlignment=NSTextAlignmentCenter;
+    heading.textColor=UIColor.whiteColor;
+    heading.font=[UIFont boldSystemFontOfSize:13];
+    [panel addSubview:heading];
+    NSArray<NSNumber *> *apps=DFSpeedInstalledSupportedSources();
+    NSUInteger index=0;
+    NSMutableArray<NSNumber *> *options=[apps mutableCopy];
+    [options addObject:@0]; // explicit NONE; never silently switch sources
+    for(NSNumber *sid in options) {
+        NSInteger source=sid.integerValue;
+        UIButton *pick=[UIButton buttonWithType:UIButtonTypeSystem];
+        pick.tag=100+source;
+        CGFloat width=panel.bounds.size.width-16;
+        pick.frame=CGRectMake(8,30+index*31,width,28);
+        pick.layer.cornerRadius=5;
+        pick.backgroundColor=self.selectedSource==source
+          ? [UIColor colorWithRed:0.10 green:0.41 blue:0.70 alpha:1]
+          : [UIColor colorWithWhite:0.23 alpha:1];
+        NSString *name=source==0?@"Không chọn nguồn":
+            [NSString stringWithFormat:@"%@ · đã cài",DFSpeedNameForSource(source)];
+        [pick setTitle:name forState:UIControlStateNormal];
+        [pick setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        pick.titleLabel.font=[UIFont systemFontOfSize:13];
+        [pick addTarget:self action:@selector(selectSource:) forControlEvents:UIControlEventTouchUpInside];
+        [panel addSubview:pick];
+        index++;
+    }
+    UIButton *close=[UIButton buttonWithType:UIButtonTypeSystem];
+    close.tag=199;
+    close.frame=CGRectMake(8,30+index*31,panel.bounds.size.width-16,25);
+    [close setTitle:@"Đóng" forState:UIControlStateNormal];
+    [close setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(selectSource:) forControlEvents:UIControlEventTouchUpInside];
+    [panel addSubview:close];
+}
+- (void)selectSource:(UIButton *)sender {
+    if(sender.tag!=199){
+        NSInteger candidate=sender.tag-100;
+        if(candidate==0 || DFSpeedSourceInstalled(candidate)){
+            self.selectedSource=candidate;
+            [self saveSettings];
+            [self tick:nil];
+        }
+    }
+    [self.settingsPanel removeFromSuperview];
+    self.settingsPanel=nil;
 }
 - (void)showSettings:(UILongPressGestureRecognizer *)recognizer {
     if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview)return;
@@ -370,7 +416,7 @@ static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
         case 3:self.visualOpacity=fmax(0.5,self.visualOpacity-0.1);break;
         case 4:self.visualOpacity=fmin(1.0,self.visualOpacity+0.1);break;
         case 5:self.displayLimit=!self.displayLimit;break;
-        case 6:[self cycleInstalledSource];break;
+        case 6:[self showSourcePicker];return;
         case 7:{
             NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
             [p removeObjectForKey:@"positionX"];
