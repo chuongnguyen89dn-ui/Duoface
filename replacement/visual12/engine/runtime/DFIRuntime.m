@@ -79,7 +79,6 @@ static DFV12SplitController *DFIRoot;
 @property(nonatomic,strong) id handle;
 @property(nonatomic,strong) NSHashTable *phoneViews;
 @property(nonatomic,strong) NSTimer *timer;
-@property(nonatomic,copy) void (^ready)(void);
 @property(nonatomic,weak) UIView *container;
 @property(nonatomic) CGSize requestedSize;
 @property(nonatomic) CGSize appliedSize;
@@ -143,6 +142,12 @@ static DFV12SplitController *DFIRoot;
         [weakSelf pollScene];
     }];
     [self pollScene];
+}
+- (void)moveToContainer:(UIView *)container {
+    if(self.closed || !container || ![NSThread isMainThread]) return;
+    self.container=container;
+    [container addSubview:self.controller.view];
+    [self resizeTo:container.bounds.size];
 }
 - (void)pollScene {
     if(self.closed) return;
