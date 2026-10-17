@@ -1,0 +1,11 @@
+# READ-ONLY owner diagnostic injected ONLY into SpringBoard.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedOwner
+DuoFaceSpeedOwner_FILES := runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm
+DuoFaceSpeedOwner_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedOwner_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
