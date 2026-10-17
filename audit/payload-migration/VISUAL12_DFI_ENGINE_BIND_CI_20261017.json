@@ -1,0 +1,19 @@
+{
+  "status": "SOURCE_ENGINE_AND_CBCOMPAT_LINK_SUCCESS_NO_DEVICE_TEST",
+  "branch": "feature/visual12-duodash-recovery",
+  "source_commit": "25c5eebe14fd37f0610026f3100b9c83197c7144",
+  "workflow_run": 39035345004,
+  "job_id": 117403912572,
+  "conclusion": "success",
+  "checked_at_utc": "2026-10-17T13:09:06Z",
+  "source_dir": "replacement/visual12/engine",
+  "lifecycle_hooks": "DFIStart DFCBBindHost; DFIStop DFCBUnbindHost",
+  "package_id": "com.duoface.visual12",
+  "ui_parity_verified": false,
+  "actual_app_scene_tested": false,
+  "fullscreen_tested": false,
+  "hub_modified": false,
+  "deb_built": false,
+  "sileo_changed": false,
+  "dylib_sha256": "7957e5ba387b427a38b71a75aeae465540ef2a1dddfc4b75c64866fadc69377b"
+}
