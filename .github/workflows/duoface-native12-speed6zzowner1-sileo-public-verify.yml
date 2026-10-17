@@ -1,0 +1,87 @@
+name: DuoFace Native12 speed6zzowner1 host-gate probe live Sileo verification
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed6zzowner1-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-pages:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check one live independent DuoFace, preserve legacy, download exact DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          mkdir -p "$RUNNER_TEMP/df-speed6zzowner1-live"
+          cd "$RUNNER_TEMP/df-speed6zzowner1-live"
+          for i in $(seq 1 65); do
+            curl -fLs --retry 2 --retry-delay 3 "$base/Packages" -o Packages || true
+            if grep -Fq 'Version: 0.1.0~native12+speed6zzowner1' Packages 2>/dev/null; then break; fi
+            echo "Pages speed6zzowner1 pending attempt $i"
+            sleep 12
+          done
+          grep -Fq 'Version: 0.1.0~native12+speed6zzowner1' Packages
+          curl -fLs --retry 5 --retry-delay 3 "$base/Packages.gz" -o Packages.gz
+          gzip -dc Packages.gz > Packages.decoded
+          cmp Packages Packages.decoded
+          python3 - <<'PY'
+          from pathlib import Path
+          blocks=[]
+          for block in Path('Packages').read_text().split('\n\n'):
+              d={}
+              for line in block.splitlines():
+                  if ': ' in line and not line.startswith(' '):
+                      k,v=line.split(': ',1);d[k]=v
+              if d.get('Package'): blocks.append(d)
+          independent=[p for p in blocks if p.get('Package')=='com.duoface.independent']
+          legacy=[p for p in blocks if p.get('Package')=='com.duonavi.app']
+          assert len(independent)==1,independent
+          assert len(legacy)==1,legacy
+          p=independent[0]
+          assert p['Version']=='0.1.0~native12+speed6zzowner1'
+          assert p['Architecture']=='iphoneos-arm64'
+          assert p['SHA256']=='d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a'
+          assert p['Filename']=='debs/com.duoface.independent_0.1.0~native12+speed6zzowner1_iphoneos-arm64.deb',p
+          Path('download-path.txt').write_text(p['Filename']+'\n')
+          print('LIVE_SILEO_APT_SPEED6ZZOWNER1_ONE_INDEPENDENT_AND_LEGACY_PRESERVED_PASS')
+          PY
+          curl -fLs --retry 5 --retry-delay 3 "$base/$(cat download-path.txt)" -o speed6zzowner1.deb
+          echo 'd63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a  speed6zzowner1.deb' | sha256sum -c -
+          test "$(dpkg-deb -f speed6zzowner1.deb Package)" = com.duoface.independent
+          test "$(dpkg-deb -f speed6zzowner1.deb Version)" = '0.1.0~native12+speed6zzowner1'
+          test "$(dpkg-deb -f speed6zzowner1.deb Architecture)" = iphoneos-arm64
+          dpkg-deb --contents speed6zzowner1.deb > CONTENTS.txt
+          for n in DuoFaceDashboard DuoFaceSpeedHUD DuoFaceSpeedOwner DuoFaceFullscreenBridge DuoFaceVisualHook; do
+            grep -Fq "$n.dylib" CONTENTS.txt
+          done
+          ! grep -E 'DuoFaceSpeedSources|VietMapGoogleMapsSource|WazeGMapHUDSource|GofaGMapHUDSource|GMapHUDOverspeedScreen|GMapHUDPlacementRelay|GoogleMapsVietMap|A_DuoFaceNativeNoLease' CONTENTS.txt
+          dpkg-deb -x speed6zzowner1.deb extracted
+          filter=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist
+          grep -Fq '"com.apple.CarPlayApp"' "$filter"
+          ! grep -Eiq 'SpringBoard|com.apple.CarPlayTemplateUIHost|Waze|GOFA' "$filter"
+          ownerfilter=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist
+          grep -Fq '"SpringBoard"' "$ownerfilter"
+          ! grep -Eiq 'CarPlayApp|CarPlayTemplateUIHost|Waze|GOFA' "$ownerfilter"
+          test "$(grep -Fc 'DuoFaceSpeedOwner.dylib' CONTENTS.txt)" -eq 1
+          test "$(grep -Fc 'DuoFaceSpeedOwner.plist' CONTENTS.txt)" -eq 1
+          oldhud=extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib
+          printf '%s  %s\n' '751da238d2563cc2727c3c1c99990ed9f176706214caf9711b550a4f8b85a6e1' "$oldhud" | sha256sum -c -
+          grep -F 'DuoFaceLogoGripOnly.dylib' CONTENTS.txt
+          echo 'LIVE_SILEO_SPEED6ZZOWNER1_SPRINGBOARD_READONLY_AND_CARPLAYAPP_HUD_UNCHANGED_PASS; ON_DEVICE_UNTESTED'
+          echo 'LIVE_SILEO_DOWNLOADED_EXACT_SPEED6ZZOWNER1_DEB_SHA256_PASS; ON_DEVICE_UNTESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed6zzowner1-live-public-evidence
+          path: |
+            ${{ runner.temp }}/df-speed6zzowner1-live/Packages
+            ${{ runner.temp }}/df-speed6zzowner1-live/Packages.gz
+            ${{ runner.temp }}/df-speed6zzowner1-live/CONTENTS.txt
+            ${{ runner.temp }}/df-speed6zzowner1-live/download-path.txt
+          if-no-files-found: warn
