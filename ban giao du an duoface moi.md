@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — STANDALONE5LIFECYCLE BUILD PASS, PUBLISHER SILEO QUEUED
+
+Run `39080097216` `completed/success`, bao gồm persist GitHub. Repo `dist/visual12-g1g2-qa/BAO_CAO.json` và `SHA256SUMS` đã đọc xác minh version `1.0.3-12~standalone5lifecycle`, SHA256 `47f72d5f1853df839f2fa2d766f1f4467c29a83011230220a6d18243cf344b3c`, size `1070764`, source commit `36d854ca89b49439e2f7225c2d94e75e12e9b26e`, path `dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone5lifecycle_iphoneos-arm64.deb`. Publisher repo `chuongnguyen89dn-ui/carplaydsp` main `.github/workflows/build.yml` đã cập nhật version/URL/SHA (6 occurrences version), commit `7fefead9e0441158c4ed6c4df80477d138cf5c87`, phát sinh run `39080240835` queued lúc kiểm tra. **Chưa xác nhận Pages deployed, chưa thử trên thiết bị**. QA mitigation giữ controller thêm 5 giây là thử nghiệm, không phải xác nhận fix crash. Native12+Hub8 giữ nguyên. Tiếp theo kiểm tra publisher run và public Packages, sau đó người dùng cài qua Sileo và thử respring/stop/reconnect; thu thập crash log nếu lỗi lặp lại.
+
+
 ## 2026-10-18 — SỬA LỖI CI LƯU ARTIFACT QA
 
 Run `39079859032` build/sign/verify DEB `standalone5lifecycle` PASS, SHA256 `5a8ef6b1359ade29f8492e99a9cdab7e5d69becd357dd5abf7345beb72651491`, artifact `12118905328`; nhưng workflow FAIL tại persist do `git rebase` xung đột BAO_CAO.json, CONTENTS.txt, SHA256SUMS (remote đã có cập nhật khác). Đã sửa `.github/workflows/duoface-carplay-g1g2-qa-deb.yml` commit `36d854ca89b49439e2f7225c2d94e75e12e9b26e`: snapshot 4 file output vào RUNNER_TEMP, fetch/reset về HEAD mới nhất rồi copy lại output và commit/push, retry khi push race; không còn rebase metadata. Run mới `39080097216` queued lúc kiểm tra. Chưa xác nhận persist thành công, chưa đưa Sileo. Native12+Hub8 không đổi. Tiếp theo xem kết quả run, xác minh DEB và metadata trong dist, rồi mới sửa publisher carplaydsp và xác minh Pages.
