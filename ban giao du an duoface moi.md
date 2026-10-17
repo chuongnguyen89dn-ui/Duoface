@@ -1,5 +1,26 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — ĐÃ PUBLISH QA VISUAL12 ID RIÊNG LÊN SILEO; GITHUB PAGES RUN 39038034302 SUCCESS
+
+**YÊU CẦU MỚI NHẤT:** Sau câu hỏi “đưa bản QA lên Sileo với ID riêng để thử trước, hay chỉ đưa lên khi hoàn thành Native12 + Hub8?”, người dùng trả lời **“Làm đi”**. Đã thực hiện **đưa DEB QA độc lập có ID `com.duoface.visual12` lên nguồn Sileo**, KHÔNG phát hành dưới tên bản chính/không ghi đè Native12 + Hub8. Việc thử trên thiết bị vẫn phải chờ kết quả người dùng.
+
+### ĐÃ THỰC THI, XÁC MINH READBACK
+
+- **Repo phát hành** `chuongnguyen89dn-ui/carplaydsp`, branch `main`, file `.github/workflows/build.yml`, commit **`c24cb58f5a7538293199bd2f0fd4b974bdccf844`**. Workflow dựa trên bản đã deploy ổn định; chỉ thêm download DEB mới checksum-pinned, kiểm package/version/arch/name, kiểm đường dẫn không đè `com.duoface.independent` hoặc `com.duonavi.app`, append APT index + icon gốc, đòi đúng 1 entry `com.duoface.visual12`. Các section phát hành và SHA nguyên bản của **Native12 + Hub8 (`com.duoface.independent 0.1.0~native12+speed8compact`)** và VisualTest12 repair1 cũ (`com.duonavi.app 1.0.3-12~visualtest12repair1`) **giữ nguyên**.
+- **DEB nguồn đúng bytes:** `https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/d0dac8598531de6bab3e5dfebe8179a117009876/dist/visual12-standalone-qa/com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb`. SHA256 **`c838a61db75bfdc04d3d4c8b87ca8c982de215e458402907ab4a79e861c4d32f`**. ID `com.duoface.visual12`; `Name: DuoFace CarPlay Standalone (QA only)`; version `1.0.3-12~standalone1`; rootless iOS16 ARM64. **Không cấp hay thay giấy phép của DuoNavi**, không dùng binary DuoDash.
+- **GitHub Pages Deploy confirmed:** workflow `Build and publish Sileo repo`, **run [39038034302](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39038034302)**, HEAD release `c24cb58f`, **completed/success** UTC `2026-10-17T13:50:14Z`. Build job **`117411710259` SUCCESS**, deploy job **`117412142223` SUCCESS**. Build logs kiểm: `repo/debs/com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb: OK`; `repo/debs/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb: OK`; `VISUAL12_EXPERIMENTAL_SHA_METADATA_AND_PATHS_PASS; NATIVE12_HUB8_UNCHANGED`; `SILEO_APT_RELEASE_VALID_DATE_CHECKSUMS_NATIVE12_HUB8_AND_STANDALONE_QA_PASS`; `dpkg-scanpackages` output chứa cả `com.duoface.visual12`, `com.duoface.independent` và `com.duonavi.app` với 1 entry/gói. Pages artifact upload thành công, deploy step success.
+- **Nguồn Sileo:** `https://chuongnguyen89dn-ui.github.io/carplaydsp/`; trong Sileo refresh Sources và tìm **DuoFace CarPlay Standalone (QA only)**. Đây là *test build*, không có nghĩa đã chạy trên iPhone. Environment đã thử GET trực tiếp `/Packages` và `/Release` nhưng fetch public website không truy cập được do hạn chế mạng (DNS/no URL access); **KHÔNG tuyên bố đã đọc được index trực tiếp từ Pages**, chỉ xác minh GitHub Actions build+deploy và log index trước deploy.
+- **Biên bản audit riêng**: `audit/payload-migration/VISUAL12_SILEO_QA_PUBLISH_20261017.json` — commit **`08f8d5f6154c620743fb018d8d15375d24f7ca35`**, readback verified, ghi rõ SHA/run/published/not device-tested. Handoff file này giữ lịch sử các report build cũ.
+- Không chỉnh `replacement/visual12/engine`, không build lại DEB và **không sửa code/gói Native12 + Hub8**, không xóa hay thay các entry Sileo đang có. Workflow `duoface-sileo.yml` ở repo phát hành chỉ là staging cho `com.duoface.app` nên không dùng làm live publish; workflow live thực là `.github/workflows/build.yml`.
+
+### ĐIỂM TIẾP NGAY / RỦI RO
+
+1. **Cần kết quả thực nghiệm người dùng:** ở iPhone jailbreak iOS16 **máy thử hoặc cấu hình cách ly scene host khác**, refresh Sileo, cài riêng `com.duoface.visual12`, bật setting và kết nối CarPlay khi xe dừng; thử ứng dụng không hỗ trợ CarPlay (YouTube) trong một vùng trước, sau đó hai vùng Waze+YouTube, fullscreen/split/swap/exit và ngắt/nối. Kiểm đúng việc hiển thị ứng dụng, không đánh đồng cài DEB hay thông báo VIP với scene hoạt động.
+2. **Guard chặn xung đột host:** source `DFIStart()` hiện kiểm `NSClassFromString(@"CBBridgeManager")`, từ chối start nếu lớp từ binary cũ vẫn nạp. Trên máy đang có Native12/VisualTest12, QA có thể không chạy do guard; **không tự ý gỡ/tắt bản chính để qua guard**. Nếu app không chạy thì xác minh guard trước để phân loại blocked vs scene failure.
+3. Nếu user thấy package QA trên Sileo nhưng nó chưa hoạt động, không nâng/đè Native12+Hub8: chỉ sửa nhánh test sau khi đọc log và device symptom; khi test thành công mới port *chính logic scene đã kiểm chứng* sang Native12+Hub8, giữ giao diện V12 và hồi quy Hub.
+4. Trạng thái: **SILEO_GITHUB_PAGES_DEPLOY_SUCCESS / QA_PACKAGE_LISTED_IN_BUILD_INDEX**, **DEVICE_NOT_TESTED**, **NATIVE12_HUB8_UNCHANGED**, **PUBLIC_PACKAGES_URL_NOT_DIRECTLY_FETCH_VERIFIED**.
+
+
 ## 2026-10-17 — KIỂM TRA TÌNH TRẠNG SILEO SAU QA STANDALONE1
 
 **Câu hỏi mới:** “Sao rồi? Bao h có bản sileo?” Đây là yêu cầu cập nhật tình trạng/thời điểm, **không phải lệnh tự động phát hành**. Hướng đã chốt ở câu trước giữ nguyên: DEB `com.duoface.visual12` chỉ dùng xác minh scene độc lập, sản phẩm chính vẫn **Native12 + Hub8**, không đè/gỡ hay ảnh hưởng gói đang chạy. Không coi CI thành công là nghiệm thu iPhone.
