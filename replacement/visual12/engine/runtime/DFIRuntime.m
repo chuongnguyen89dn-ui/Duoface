@@ -67,9 +67,9 @@ static NSMapTable *DFISceneGeometry;
 static NSMapTable *DFIControllerGeometry;
 static NSMapTable *DFIHandleOwners;
 static UIWindow *DFIWindow;
-static DFISplitController *DFIRoot;
+static DFV12SplitController *DFIRoot;
 
-@interface DFISceneHost ()
+@interface DFV12SceneHost ()
 @property(nonatomic,copy,readwrite) NSString *bundleID;
 @property(nonatomic,strong,readwrite) UIViewController *controller;
 @property(nonatomic,strong,readwrite) id scene;
@@ -87,7 +87,7 @@ static DFISplitController *DFIRoot;
 @property(nonatomic) BOOL closed;
 @end
 
-@implementation DFISceneHost
+@implementation DFV12SceneHost
 - (instancetype)initWithBundleID:(NSString *)bundleID error:(NSError **)error {
     if(!(self=[super init])) return nil;
     _bundleID=[bundleID copy];
@@ -325,7 +325,7 @@ static void DFIStart(void) {
         id config=((id(*)(id,SEL,id,BOOL))objc_msgSend)([configClass alloc],configInit,display,NO);
         UIWindow *window=((id(*)(id,SEL,id))objc_msgSend)([windowClass alloc],windowInit,config);
         if(!window || CGRectIsEmpty(window.bounds)) { DFILog(@"empty external window"); return; }
-        DFIRoot=[DFISplitController new]; DFIWindow=window;
+        DFIRoot=[DFV12SplitController new]; DFIWindow=window;
         window.windowLevel=UIWindowLevelAlert+100;
         window.backgroundColor=UIColor.blackColor;
         window.rootViewController=DFIRoot;
@@ -384,7 +384,7 @@ static int DFILock(id object,SEL selector,id scene,id settings) {
 }
 static void (*DFIOriginalDisplayMode)(id,SEL,NSInteger,id,id);
 static void DFIDisplayMode(id view,SEL selector,NSInteger mode,id animation,id completion) {
-    id handle=DFIGet(view,@"sceneHandle"); DFISceneHost *host=nil;
+    id handle=DFIGet(view,@"sceneHandle"); DFV12SceneHost *host=nil;
     if(handle) @synchronized(DFIHostedScenes) { host=[DFIHandleOwners objectForKey:handle]; }
     if(host && mode==4 && [view window]!=DFIWindow) {
         [host.phoneViews addObject:view]; mode=1;
@@ -463,15 +463,15 @@ static void DFIInstallCarLauncher(void) {
     if(!DFIOriginalCarLaunch)
         DFIHook(object_getClass(launchClass),NSSelectorFromString(@"launchInfoForApplication:withActivationSettings:"),(IMP)DFICarLaunch,(IMP *)&DFIOriginalCarLaunch);
 }
-@interface DFIHomeGestureTarget : NSObject
+@interface DFV12HomeGestureTarget : NSObject
 - (void)hold:(UILongPressGestureRecognizer *)gesture;
 @end
-@implementation DFIHomeGestureTarget
+@implementation DFV12HomeGestureTarget
 - (void)hold:(UILongPressGestureRecognizer *)gesture {
     if(gesture.state==UIGestureRecognizerStateBegan) notify_post(DFIStartNotification);
 }
 @end
-static DFIHomeGestureTarget *DFIGestureTarget;
+static DFV12HomeGestureTarget *DFIGestureTarget;
 static char DFIGestureKey;
 static void DFIAttachGesture(UIView *view) {
     if(!view.window || objc_getAssociatedObject(view,&DFIGestureKey)) return;
@@ -488,7 +488,7 @@ static void DFIInstallHomeGesture(void) {
     if(!DFIOriginalDBMove) DFIHook(NSClassFromString(@"DBStatusBarHomeButton"),@selector(didMoveToWindow),(IMP)DFIDBMove,(IMP *)&DFIOriginalDBMove);
     if(!DFIOriginalCARMove) DFIHook(NSClassFromString(@"CARStatusBarHomeButton"),@selector(didMoveToWindow),(IMP)DFICARMove,(IMP *)&DFIOriginalCARMove);
 }
-void DFIInstallRuntime(void) {
+void DFV12InstallRuntime(void) {
     NSString *process=NSProcessInfo.processInfo.processName;
     if([process isEqualToString:@"SpringBoard"]) {
         // Register the Fullscreen geometry contract with the sole host-owner lifecycle.
@@ -524,7 +524,7 @@ void DFIInstallRuntime(void) {
     } else if([process isEqualToString:@"CarPlay"]) {
         DFIChromeInstall();
         DFIInstallCarLauncher();
-        DFIGestureTarget=[DFIHomeGestureTarget new];
+        DFIGestureTarget=[DFV12HomeGestureTarget new];
         DFIInstallHomeGesture();
         __block NSUInteger attempts=0;
         [NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer *timer) {
@@ -535,7 +535,7 @@ void DFIInstallRuntime(void) {
 __attribute__((constructor)) static void DFIInitialize(void) {
     @autoreleasepool {
         if([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"])
-            DFIInstallRuntime();
-        else dispatch_async(dispatch_get_main_queue(), ^{ DFIInstallRuntime(); });
+            DFV12InstallRuntime();
+        else dispatch_async(dispatch_get_main_queue(), ^{ DFV12InstallRuntime(); });
     }
 }
