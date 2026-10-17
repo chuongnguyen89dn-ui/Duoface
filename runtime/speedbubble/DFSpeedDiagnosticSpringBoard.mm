@@ -82,7 +82,7 @@ static void DFDiagWrite(NSString *event, NSDictionary *details) {
     [fm createDirectoryAtPath:@"/var/mobile/Library/Logs"
        withIntermediateDirectories:YES attributes:nil error:nil];
     // Keep a bounded diagnostic trail, rotating at 5 MiB.
-    struct stat info={0};
+    struct stat info={};
     if(stat(kDFDiagPath.fileSystemRepresentation,&info)==0 && info.st_size>5*1024*1024) {
         NSString *old=[kDFDiagPath stringByAppendingString:@".previous"];
         [fm removeItemAtPath:old error:nil];
