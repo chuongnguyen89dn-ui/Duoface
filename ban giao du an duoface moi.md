@@ -1,5 +1,21 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — XÁC NHẬN CẢ VISUALTEST12 VÀ NATIVE12 HUB8 ĐỀU KẾ THỪA DUONAVI VÀ HẾT TRIAL TRÊN IPHONE X
+
+**LỜI XÁC NHẬN TRỰC TIẾP MỚI NHẤT CỦA NGƯỜI DÙNG (có giá trị cao hơn phỏng đoán từ tên package):** “Cả visual và native đều từ duonavi qua. Cái nào cx đang hết hạn trial”. Không tiếp tục diễn giải Native12/Hub8 là lõi đã độc lập hoặc nói Native12 không bị trial. **Cả VisualTest12 và Native12 + Hub8 là hai nhánh có nền/payload kế thừa DuoNavi, trên iPhone X hiện đều không vào được vì trial đã hết theo quan sát của chủ máy.** iPhone 8 còn trial là lý do bản cùng nền vẫn có thể vào được, không phải bằng chứng loại giấy phép thành công.
+
+**Phân định ba bản rõ ràng, KHÔNG NHẦM:**
+- `VisualTest12`, package cũ `com.duonavi.app` bản repair1 `1.0.3-12~visualtest12repair1`: giữ giao diện đã hoàn thiện, đang bị thông báo `Bản Quyền Đã Hết Hạn` trên CarPlay; hook báo VIP 3650 ngày đã fail trên thiết bị. Đây là nhánh **thử giải quyết độc lập trước**, không xóa/đổi UI.
+- `Native12 + Hub8`, `com.duoface.independent 0.1.0~native12+speed8compact`: dựa trên cùng nhị phân/lõi DuoNavi, dù đổi ID và bổ sung Hub, **cũng hết trial và không vào CarPlay trên iPhone X**. ID khác không có nghĩa backend đã không còn hạn sử dụng; `dist/payload-migration/native12/BAO_CAO.json` còn metadata license. **Bản chính cần bảo toàn code, Fullscreen, Hub8, DEB trên Sileo và trạng thái hiện hữu; không chỉnh/đè trong lúc test Visual12**.
+- `com.duoface.visual12 1.0.3-12~standalone1`: DEB QA dùng `DFIInterface.inc` alpha riêng, không có UI bản Visual12 đã duyệt, không chứng minh sửa trial hoặc thay lõi thành công, dù CI/Sileo PASS. Không tiếp tục port giao diện alpha thành sản phẩm.
+
+**Kết luận kỹ thuật phải tách biệt:** Thiết bị xác nhận cả hai nhánh kế thừa bị chặn khi trial hết. Chưa có log/call graph chứng minh toàn bộ chi tiết runtime selector cấp phép cụ thể gây chặn ở từng bản, nhưng đây **không phải lý do phủ nhận triệu chứng hay nói Native12 đã độc lập**. Điểm chung là nhị phân DuoNavi kế thừa; các lần gỡ plist/hook tĩnh/đổi package ID không khắc phục trên iPhone X. Mục tiêu là một cơ chế scene/CarBridge hoạt động độc lập được xây hợp lệ, nhưng chỉ tích hợp với đúng UI các DEB 12 đã có, kiểm thử thật 1 rồi 2 app, không giả VIP hoặc sao chép license DuoDash.
+
+**Bước tiếp nối được phép:** nếu người dùng yêu cầu sửa tiếp, dùng DEB VisualTest12 đã nghiệm thu làm baseline, so API UI native `CBMultitaskingOverlayView` và scene host/activation boundary với bản independent source và lịch sử reverse audit; giữ các file UI nguyên byte nếu có thể; test trên iPhone X hết trial mà không cài DuoDash; chỉ sau khi có kết quả test mới lên phương án ghép vào Native12 + Hub8. Không tái phát hành DEB alpha sai UI. Nguồn `chuongnguyen89dn-ui/Duoface`, nhánh `feature/visual12-duodash-recovery`.
+
+**Tác vụ đã thực hiện lượt này:** đọc lại handoff và kỹ năng; **chỉ cập nhật xác nhận nguyên nhân và phạm vi từ lời người dùng**, không build, không sửa mã và không phát hành Sileo. Giữ những checkpoint cũ làm lịch sử, nhưng đoạn nhận định cũ “Native12 không có bằng chứng hết hạn” bị phủ định bởi xác nhận mới nhất của người thử.
+
+
 ## 2026-10-17 — ĐÍNH CHÍNH SỰ CỐ IPHONE X SÁNG NAY: CẢ NATIVE12 HUB8 VÀ VISUALTEST12 ĐỀU KHÔNG VÀO CARPLAY
 
 **NGƯỜI DÙNG CHỈNH SAI SỰ THẬT ĐÃ BỊ GHI NHẦM (ưu tiên cao hơn nhận định trước):** “Native hub 8 sáng nay tôi bị khoá giao diện ở iphone x. Và visual 12 cx vậy. Sao bạn nói ch mơ hồ ko có ký ức là sao”. Đây là thông báo thực tế từ chính người thử thiết bị: **sáng 17/10/2026, trên iPhone X, cả Native12 + Hub8 và VisualTest12 đều không vào được giao diện CarPlay**, người dùng nhận ra trùng mốc **hết hạn dùng thử** của thiết bị. Vì vậy câu kết luận ở mục cũ “Native12 + Hub8 ... hiện không có bằng chứng thử trực tiếp kết luận bị khóa hết hạn trên thiết bị” là **SAI / ĐÃ BỊ YÊU CẦU MỚI ĐÍNH CHÍNH**, không được lặp lại.
