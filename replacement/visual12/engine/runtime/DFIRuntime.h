@@ -7,7 +7,7 @@
 #define DFIStopNotification "com.duoface.visual12.stop"
 #define DFIPreferences @"com.duoface.visual12"
 
-@interface DFISceneHost : NSObject
+@interface DFV12SceneHost : NSObject
 @property(nonatomic,copy,readonly) NSString *bundleID;
 @property(nonatomic,strong,readonly) UIViewController *controller;
 @property(nonatomic,strong,readonly) id scene;
@@ -18,8 +18,8 @@
 - (void)close;
 @end
 
-@interface DFISplitController : UIViewController
+@interface DFV12SplitController : UIViewController
 - (void)shutdown;
 @end
 
-void DFIInstallRuntime(void);
+void DFV12InstallRuntime(void);
