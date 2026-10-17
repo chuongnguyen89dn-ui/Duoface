@@ -1,5 +1,19 @@
 # DuoFace VisualTest12 — phương án App Bridge độc lập dựa trên kiến trúc DuoDash
 
+## CẬP NHẬT THỰC THI 17/10/2026 — CHỈ DUODASH, TẠM LOẠI AIRAW
+
+**Chỉ đạo mới của người dùng:** Bỏ Airaw hoàn toàn khỏi luồng sửa lỗi hiện tại. Không nghiên cứu/copy Native12 nữa. Chỉ dùng **DuoDash** làm nguồn tham khảo kỹ thuật App Bridge; sửa **VisualTest12**; Native12 Hub không thay đổi. Chưa triển khai engine mới độc lập; ưu tiên cứu chương trình hoạt động lại.
+
+**Đã sửa/đã build thật sự (không phải sửa chức năng đã xong):**
+- Nhánh riêng `feature/visual12-duodash-recovery`, bắt đầu từ `feature/duoface-exact-payload-migration@d2a22d952a3b091f24c1d4db305f76e754e3e477`, tách biệt với Hub và main.
+- Mã: `runtime/visualtest12/DFDuoDashActivationTrace.m`, filter `runtime/visualtest12/DFDuoDashActivationTrace.plist`. Ghi callback `requestActivation:`, `startBridging:`, `prepareAndRequestActivation:`, `bridgeDidActivate:`, `requestStateChange:`, `loadNewAppFromCurrentRequest:`, `handleCarPlayConnectionChanged:` và trạng thái DuoDash classes `DDz2`, `CNABSpringBoardObserver`; chỉ móc khi ObjC signature xác thực `v24@0:8@16`; lời gọi gốc vẫn được thực hiện. Không cưỡng ép activated, không vá giấy phép, không thêm binary DuoDash/Airaw.
+- Công cụ build: `migration/full_payload/native_test/build_visual12_duodash_trace.py`, workflow `.github/workflows/duoface-visual12-duodashtrace-deb.yml` chạy `macos-15`, `clang -target arm64-apple-ios15.0`, `ldid`, `dpkg-deb`. Nguồn gói pin SHA256 `43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841` (VisualTest12 launch2probe1). Gói mới chỉ thêm 2 file diagnostics; mọi payload cũ và symlink nguyên vẹn, metadata package version đổi.
+- **GitHub Actions run `39028581519`, job `117384343999`: SUCCESS**, compile, sign, package, upload-artifact, commit artifact đều SUCCESS. Artifact được lưu trong repo nhánh feature tại `dist/visual12-duodashtrace1/com.duonavi.app_1.0.3-12~visualtest12launch3ddtrace1_iphoneos-arm64.deb` (1,568,768 bytes, SHA256 `5d6d36544b632ea70b9d96c11102d1dc85f3acd536bfbad5ca4d4399993d5775`). Manifest/test tại `dist/visual12-duodashtrace1/BAO_CAO.json`, `CONTENTS.txt`, `SHA256SUMS`. Commit lưu artifact: `736f40dba26a3e254d7e73596eefa3f7c2d4c8aa`. Báo cáo CI xác nhận `original_visualtest12_core_unchanged=true`, `separate_hub_modified=false`, `airaw_code_or_binary_bundled=false`, `duodash_binary_bundled=false`.
+- **Chưa làm**: chạy bản này trên iPhone, chứng minh app mở lại, YouTube hoạt động, đưa Sileo. Đây là **bản trace để phục vụ sửa** chứ **không phải bản chữa lỗi cuối**; không cài đặt từ xa và không báo đã giải quyết. CI SUCCESS không thay thế kiểm nghiệm thiết bị.
+
+**Bước tiếp chính xác:** nếu người dùng cài DEB ứng viên riêng trên máy đã hết hạn, mở CarPlay + DuoFace rồi bấm icon/YouTube, lấy log `/var/mobile/Documents/DuoFaceDuoDashTrace/SpringBoard.jsonl` và (nếu có) `CarPlayApp.jsonl`, `DuoFaceUI.jsonl`. Đối chiếu sự kiện .before/.after và `bridge_activated`/policy/scene-host availability để xác định vị trí chặn; sau đó sửa nhỏ đúng chức năng ở **VisualTest12**, không chạy hai chủ scene. Chỉ sau khi QA thành công mới cân nhắc Sileo. Không tự ý khởi động job lặp.
+
+
 ## Checkpoint 17/10/2026 — chỉ DuoDash, DEB trace đã build
 **Yêu cầu người dùng mới nhất:** Loại **Airaw** hoàn toàn khỏi phạm vi khôi phục VisualTest12 để tránh mất thời gian; không đối chiếu/di trú từ Native12. Chỉ nghiên cứu cơ chế **DuoDash** để giúp VisualTest12 mở trở lại và hiển thị ứng dụng iPhone không có CarPlay. Viết App Bridge độc lập hoàn chỉnh để giai đoạn sau. **Giữ nguyên Hub.** Những mục nói về Airaw/Native12 phía dưới là lịch sử cũ, không phải hành động kế tiếp.
 
