@@ -1,0 +1,60 @@
+name: DuoFace VisualTest12 CarPlay bounded method parity
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-visualtest12-carplay-method-parity.yml'
+      - 'migration/full_payload/native_test/audit_visualtest12_carplay_full_methods.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-visualtest12-carplay-bounded-readonly
+  cancel-in-progress: false
+jobs:
+  readonly:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit full bounded ObjC method regions and direct BL calls (read only)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_visualtest12_carplay_full_methods.py
+          python3 migration/full_payload/native_test/audit_visualtest12_carplay_full_methods.py --output audit/payload-migration/VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('audit/payload-migration/VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json')
+          data=json.loads(p.read_text())
+          assert data['read_only'] and not data['hub_modified'] and not data['visualtest_modified']
+          assert not data['deb_built'] and not data['sileo_deployed'] and not data['device_tested']
+          assert set(data['summary'])=={'DuoFaceUI','DuoFaceDashboard'}
+          assert data['summary']['DuoFaceDashboard']['selected']>=15
+          assert data['summary']['DuoFaceUI']['selected']>=2
+          assert data['summary']['DuoFaceDashboard']['present_in_both']>=10
+          assert data['summary']['DuoFaceDashboard']['fully_bounded']>0
+          print('VISUALTEST12_CARPLAY_BOUNDED_STATIC_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visualtest12-carplay-bounded-methods-readonly
+          path: audit/payload-migration/VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json
+          if-no-files-found: warn
+      - name: Commit analysis report to DuoFace feature branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: VisualTest12 bounded CarPlay method call parity [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
