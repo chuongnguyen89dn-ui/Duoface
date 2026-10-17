@@ -1,0 +1,20 @@
+{
+  "status": "NATIVE12_SPEED6SPLIT_ISOLATION_DEB_STATIC_PASS_NOT_DEVICE_TESTED",
+  "input_sha256": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "output_sha256": "29f4c0353b479856603e34c60fb3bbfcb7d12ee683ac2b8cd0652f796f46768e",
+  "new_module": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": "fd33721d3e6351b7eebab3bf0a723606e15ecade40e8501995176d050fba7bc6",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUDSplit6.plist": "26c741de18a79619c1fa7dc39f6663d854b7ea1c6c5d7e3531d1549656aa647b"
+  },
+  "original_file_count": 39,
+  "all_original_payload_bytes_unchanged": true,
+  "no_third_party_injection_or_waze_hooks": true,
+  "go_fa_original_hud_not_bundled": true,
+  "scene_overlay_window_created": false,
+  "speed5_current_sileo_not_overwritten": true,
+  "activation": "CarPlayApp only; Native12 CBBridgeManagerDashboard.activated + CBWindow.activeCarPlayWindow or native show callback; CBWindow.rootViewController.view descendant gate; native show/resize/hide/destroy and dashboard activation hooks",
+  "fallback_display": "one UIView card in Native12 split root only; no global UIWindow/CarPlay Home scene scanner; no speed data until wired",
+  "limitations": "No speed source adapters, no source selector UI; host ownership AND HUD visibility require real CarPlay device test",
+  "sileo_published": false,
+  "device_tested": false
+}
