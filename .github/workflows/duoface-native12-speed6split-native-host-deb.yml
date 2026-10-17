@@ -1,0 +1,93 @@
+name: DuoFace Native12 Speed6 true split-host HUD QA DEB NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed6split-native-host-deb.yml'
+      - 'Makefile.speedhud-split6-stage'
+      - 'DuoFaceSpeedHUDSplit6.plist'
+      - 'runtime/speedbubble/DFSpeedNativeSplitHost.mm'
+      - 'migration/full_payload/native_test/build_native12_speed6split_candidate.py'
+      - 'migration/full_payload/native_test/check_native12_speed6split_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: df-native12-speed6split-isolation
+  cancel-in-progress: false
+jobs:
+  isolate:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Preserve Native12, check split-only contract and original GOFAHUD isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          base=dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb
+          echo "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7  $base" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_speed6split_candidate.py
+          python3 -m py_compile migration/full_payload/native_test/check_native12_speed6split_contract.py
+          python3 migration/full_payload/native_test/check_native12_speed6split_contract.py
+          plutil -lint DuoFaceSpeedHUDSplit6.plist
+          dpkg --compare-versions '0.1.0~native12+speed6split' gt '0.1.0~native12+speed5scene'
+          test ! -e dist/payload-migration/native12-speed6split/com.duoface.independent_0.1.0~native12+speed6split_iphoneos-arm64.deb
+      - name: Compile iOS arm64 Native12 Speed6 CarPlayApp-only view module
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-split6-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -s "$dylib"
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib"
+          xcrun lipo "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" -verify_arch arm64
+          echo SPEED6_CARPLAYAPP_HUD_DYLIB_COMPILE_ARCH_ARM64_PASS
+      - name: Package signed exact Native12 and only one DuoFace HUD module
+        shell: bash
+        run: |
+          set -euo pipefail
+          target=dist/payload-migration/native12-speed6split
+          mkdir -p "$target"
+          deb="$target/com.duoface.independent_0.1.0~native12+speed6split_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_native12_speed6split_candidate.py \
+            --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" \
+            --output "$deb" \
+            --report "$target/BAO_CAO.json"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed6split'
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          test "$(grep -c DuoFaceSpeedHUD.dylib "$target/CONTENTS.txt")" -eq 1
+          ! grep -E 'WazeGMapHUDSource|GofaGMapHUDSource|GoogleMapsVietMap|GofaCarplayGlobal' "$target/CONTENTS.txt"
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+          echo SPEED6_NATIVE12_PRESERVED_EXACT_ROOTLESS_DEB_PASS_NOT_DEVICE_TESTED
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed6split-qa-not-sileo
+          path: dist/payload-migration/native12-speed6split/
+          if-no-files-found: warn
+      - name: Save QA DEB in DuoFace feature only, no publisher updates
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12-speed6split/
+          git diff --cached --quiet && exit 0
+          git commit -m 'artifact: Native12 Speed6 host-only HUD QA DEB (NO Sileo) [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
