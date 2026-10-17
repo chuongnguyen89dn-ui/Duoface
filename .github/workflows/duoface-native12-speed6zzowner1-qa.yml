@@ -1,0 +1,115 @@
+name: DuoFace Native12 read-only SpringBoard CBWindow owner QA DEB NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed6zzowner1-qa.yml'
+      - 'Makefile.speedhud-springboard-owner-stage'
+      - 'DuoFaceSpeedOwner.plist'
+      - 'runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm'
+      - 'migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py'
+      - 'migration/full_payload/native_test/check_native12_speed6zzowner1_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-speed6zzowner1
+  cancel-in-progress: false
+jobs:
+  test-package:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pin current released Speed6 and verify read-only SpringBoard owner contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          original='dist/payload-migration/native12-speed6probe1/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb'
+          printf '%s  %s\n' '42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e' "$original" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py migration/full_payload/native_test/check_native12_speed6zzowner1_contract.py
+          python3 migration/full_payload/native_test/check_native12_speed6zzowner1_contract.py
+          plutil -lint DuoFaceSpeedOwner.plist
+          dpkg --compare-versions '0.1.0~native12+speed6zzowner1' gt '0.1.0~native12+speed6zprobe1'
+          test ! -e dist/payload-migration/native12-speed6zzowner1/BAO_CAO.json
+      - name: Compile only read-only owner module arm64 in SpringBoard
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-springboard-owner-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedOwner.dylib' -print -quit)"
+          test -s "$dylib"
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceSpeedOwner.dylib"
+          xcrun lipo "$RUNNER_TEMP/DuoFaceSpeedOwner.dylib" -verify_arch arm64
+          echo OWNERPROBE_SPRINGBOARD_ARM64_SOURCE_BUILD_PASS
+      - name: Append only two files and validate every old Speed6 byte unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='dist/payload-migration/native12-speed6zzowner1'
+          mkdir -p "$target"
+          deb="$target/com.duoface.independent_0.1.0~native12+speed6zzowner1_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py \
+            --owner "$RUNNER_TEMP/DuoFaceSpeedOwner.dylib" \
+            --output "$deb" --report "$target/BAO_CAO.json"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed6zzowner1'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          for item in DuoFaceSpeedHUD.dylib DuoFaceSpeedHUD.plist DuoFaceSpeedOwner.dylib DuoFaceSpeedOwner.plist; do
+            test "$(grep -Fc "$item" "$target/CONTENTS.txt")" -eq 1
+          done
+          ! grep -E 'GofaCarplayGlobal|GofaGMapHUDSource|WazeGMapHUDSource|GMapHUDPlacementRelay' "$target/CONTENTS.txt"
+          mkdir -p "$RUNNER_TEMP/probe-stage"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/probe-stage"
+          cFilter="$RUNNER_TEMP/probe-stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.plist"
+          sFilter="$RUNNER_TEMP/probe-stage/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.plist"
+          grep -Fq '"com.apple.CarPlayApp"' "$cFilter"
+          ! grep -Fq 'SpringBoard' "$cFilter"
+          grep -Fq '"SpringBoard"' "$sFilter"
+          ! grep -Fq 'CarPlayApp' "$sFilter"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('dist/payload-migration/native12-speed6zzowner1/BAO_CAO.json').read_text())
+          assert j['all_previous_speed6_payload_files_byte_identical']
+          assert j['preserved_file_count']==41
+          assert len(j['new_module'])==2
+          assert j['springboard_readonly']
+          assert j['no_springboard_uiwindow_creation_or_method_hooks']
+          assert j['carplay_hud_injection_and_gates_unchanged']
+          assert not j['device_tested']
+          print("OWNERPROBE_RELEASED_SPEED6_41_FILES_BYTE_IDENTICAL_PLUS_TWO_READONLY_SPRINGBOARD_FILES_PASS")
+          PY
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+          echo OWNERPROBE_NATIVE12_RELEASED_SPEED6_APPEND_ONLY_DEB_QA_PASS_NOT_DEVICE_TESTED
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed6zzowner1-qa-not-sileo
+          path: dist/payload-migration/native12-speed6zzowner1/
+          if-no-files-found: warn
+      - name: Save exact QA artifact in DuoFace feature branch only
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12-speed6zzowner1/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: read-only SpringBoard Native12 owner probe QA DEB (NO Sileo) [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
