@@ -91,6 +91,7 @@ jobs:
           assert '@interface DFCarPlaySplitCoordinator' in api
           assert 'host.ready=' in coordinator
           assert 'host.failure=' in coordinator
+          assert 'self.pending[@(pane)]=[completion copy]' in coordinator
           assert 'finishPane:pane host:active error:nil' in coordinator
           assert 'NSClassFromString(@"CBBridgeManager")' in coordinator
           assert 'window.rootViewController!=self.root' in coordinator
