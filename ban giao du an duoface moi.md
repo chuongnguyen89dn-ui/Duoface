@@ -1,5 +1,11 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 — IPHONE X: ONLY DUOFACE FAILS, OTHER CARPLAY APPS NORMAL
+BỔ SUNG TEST THỰC TẾ: Người dùng xác nhận CHỈ DuoFace bị lỗi mở từ CarPlay Dashboard trên iPhone X; các ứng dụng CarPlay khác vẫn mở bình thường. Trước đó cả DuoFace Speed7 Split lẫn Speed8 đều lỗi trên iPhone X, trong khi DuoFace app trên điện thoại vẫn mở; iPhone 8 Plus cùng iOS/Speed8 hoạt động. Khi nhấn DuoFace trên Dashboard, giao diện có vẻ nạp lại dữ liệu, không mở split. Log Speed8 144 dòng: 138 lần WAIT_CBWINDOW, 0 lần mount.
+KẾT LUẬN GIỚI HẠN: giảm khả năng lỗi CarPlay toàn cục hoặc phần cứng; khoanh vùng đăng ký/launch intent/scene DuoFace, CBBridgeManager.window, hoặc xung đột tweak/tiêm dylib trên iPhone X. Chưa xác định nguyên nhân gốc và chưa chứng minh DuoFace binary vô can, vì Speed7/8 dùng chung Native12 Dashboard.
+TIẾP THEO: đối chiếu `DuoFaceSpeedOwner-SpringBoard.jsonl` trên iPhone X (nếu có) và crash .ips đúng thời điểm; xác nhận bản Speed7 đã cài thực sự qua package manager. Chưa reset, xóa prefs hay sửa DEB. Chỉ thử trên iPhone X, giữ nguyên iPhone 8 Plus.
+
+
 ## 17/10/2026 — DEVICE RETEST: SPEED7 ALSO FAILS ON IPHONE X
 KẾT QUẢ TEST THIẾT BỊ DO NGƯỜI DÙNG BÁO: Đã thử cài lại bản DuoFace Speed7 Split trên iPhone X nhưng lỗi CarPlay không mở DuoFace VẪN XẢY RA, tương tự Speed8. Không có crash log hay screenshot bổ sung ở lượt này; chưa xác minh package manager hiển thị version chính xác sau downgrade, nên ghi là người dùng xác nhận đã thử Speed7. iPhone 8 Plus cùng iOS và Speed8 vẫn chạy DuoFace trên CarPlay theo thông tin trước.
 SUY LUẬN: Lỗi KHÔNG RIÊNG thay đổi HUD Speed8; ưu tiên phân tích trạng thái jailbreak/injection, CarPlay registration/scene, xung đột tweak, cấu hình/đăng ký app trên iPhone X. KHÔNG kết luận phần cứng hỏng, KHÔNG loại trừ hoàn toàn mã DuoFace vì Speed7 và Speed8 dùng chung DuoFaceDashboard Native12.
