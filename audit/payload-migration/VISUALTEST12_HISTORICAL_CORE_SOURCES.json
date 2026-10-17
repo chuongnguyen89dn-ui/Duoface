@@ -1,0 +1,572 @@
+{
+  "status": "DUOFACE_ALL_REACHABLE_HISTORY_CORE_SOURCE_CENSUS",
+  "utc_checked": "2026-10-17T08:34:50.716964+00:00",
+  "branches_at_checkout": [
+    "  origin/HEAD -> origin/main",
+    "  origin/duoface-carplay-standalone",
+    "  origin/feature/duoface-exact-payload-migration",
+    "  origin/feature/duoface-independent-core",
+    "  origin/main"
+  ],
+  "git_objects_reachable_entries": 8038,
+  "historical_source_blobs_with_source_extensions": 226,
+  "source_blobs_inspected": 226,
+  "blobs_with_core_mentions": 53,
+  "core_class_source_implementations": {
+    "CBBridgeManager": [],
+    "CBBridgeManagerDashboard": [],
+    "CBLicenseSyncManager": []
+  },
+  "candidate_paths": [
+    {
+      "git_blob_sha": "0abf6af443f5c3b44804d121ff02495ff59ae932",
+      "historical_path": "migration/full_payload/native_test/DuoFaceNoLeaseBridge.mm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 6535
+    },
+    {
+      "git_blob_sha": "0c21cbbea385ad426e98822090deae281b3133fa",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 18262
+    },
+    {
+      "git_blob_sha": "1f7e8c255b41d63fffdbbc2164c2f524a73cb57a",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 17053
+    },
+    {
+      "git_blob_sha": "21518d440e8cd117ed52f51555062b165d62d6c6",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 17015
+    },
+    {
+      "git_blob_sha": "2c95e205f404fb3da9080ee2692950ea589ac621",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 18237
+    },
+    {
+      "git_blob_sha": "415aa7faad86dcc728315fc6d6a3fe0b28aa700a",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 14051
+    },
+    {
+      "git_blob_sha": "4a0c8fefe666305016318a62a14d2767bc19a1df",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 15290
+    },
+    {
+      "git_blob_sha": "7b78ef65947554ccc0b78d0c20c4c14c142099e6",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 15726
+    },
+    {
+      "git_blob_sha": "8d1c9b3f7e52c3c498ea7b777e8b1e079680c13b",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 13973
+    },
+    {
+      "git_blob_sha": "9d4accc797e36a4ceca21ee66ed3191f0894c69d",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 13622
+    },
+    {
+      "git_blob_sha": "a802d44a05885e89d85219eb615aad9694ff4cf2",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 16717
+    },
+    {
+      "git_blob_sha": "add90827bcb42fcc064e554f41f4daf6f702d694",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 18762
+    },
+    {
+      "git_blob_sha": "b15cb820dbf075446efbd8d3e4219e65a2937eb8",
+      "historical_path": "runtime/appbridge/DFInCarAppPicker.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 18623
+    },
+    {
+      "git_blob_sha": "c2e63066efed4a90db09a0086e413e2b20eb6878",
+      "historical_path": "runtime/connection/DFConnectionAdapter.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 4487
+    },
+    {
+      "git_blob_sha": "fa3e7c16044e94b6aed4a5d2d473a13c35c90504",
+      "historical_path": "runtime/connection/DFConnectionAdapter.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 4487
+    },
+    {
+      "git_blob_sha": "10f15264cca665d965d1e3c80685e3e7bb3e0a21",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 6507
+    },
+    {
+      "git_blob_sha": "17c785ca03ec526f9d2aa4efc353c7c31ea6020b",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 7139
+    },
+    {
+      "git_blob_sha": "191347a362d6e3ad888b4fc856453db7cc26242a",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 7326
+    },
+    {
+      "git_blob_sha": "74d2a66df154e8857fae9be2196db9dabc5afd52",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 7086
+    },
+    {
+      "git_blob_sha": "821263c7a903bcf50df9c5d9c764b03c92195ca6",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 6570
+    },
+    {
+      "git_blob_sha": "ca27a4456491f7343fdeef4b1e72266332a678a0",
+      "historical_path": "runtime/connection/DFConnectionNativeHooks.xm",
+      "mentions": [
+        "CBLicenseSyncManager",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 8167
+    },
+    {
+      "git_blob_sha": "b14703f2f0982f576b714f6d33fa40e3482c58e0",
+      "historical_path": "runtime/connection/DFConnectionSettingsHook.xm",
+      "mentions": [
+        "DuoFaceUI"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 3106
+    },
+    {
+      "git_blob_sha": "6ca7011005ac0e1c99a70975cc3a7f2fc7d44a62",
+      "historical_path": "runtime/fullscreen/DFHostGeometry.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 9371
+    },
+    {
+      "git_blob_sha": "fbb328d8e1b07fc0a6308774c5106281eade1de2",
+      "historical_path": "runtime/fullscreen/DFHostGeometry.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 9988
+    },
+    {
+      "git_blob_sha": "fdf748d0e3ef00a16fb3b33cf71840148fbc706a",
+      "historical_path": "runtime/fullscreen/DFHostGeometry.xm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 8931
+    },
+    {
+      "git_blob_sha": "a8d8630407eb45bbf0fff7dc413d4958e0799a1c",
+      "historical_path": "runtime/speedbubble/DFSpeedBubbleBridge.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 20662
+    },
+    {
+      "git_blob_sha": "166d1d5d381ab92892932e6cc644c298002c746b",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnostic2.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 10076
+    },
+    {
+      "git_blob_sha": "243a1a3a1c174d17db6f8d6510ce6d0d72e2f588",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnostic2.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 10375
+    },
+    {
+      "git_blob_sha": "d689364e5ae42bf43aaf2e0d983f33a22d23b078",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnostic3.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 13742
+    },
+    {
+      "git_blob_sha": "22cd5be1c1212a2f47e7bda610e10418e8865b1c",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 8109
+    },
+    {
+      "git_blob_sha": "4edb91c72218d41aca434415338e7d1696e6857d",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 3801
+    },
+    {
+      "git_blob_sha": "645ba5084f5e2ce27e37cfeb9d3725dd0fce3088",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 3876
+    },
+    {
+      "git_blob_sha": "647f107b5ec9a1b18c504369fbedb2b548082b53",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 8105
+    },
+    {
+      "git_blob_sha": "f529b8313058d4543272dd343e2c5785ca696a7f",
+      "historical_path": "runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 8108
+    },
+    {
+      "git_blob_sha": "d6648c9855ac892157b0034fe48ea1fd2d293cbe",
+      "historical_path": "runtime/speedbubble/DFSpeedGMapReader.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 5596
+    },
+    {
+      "git_blob_sha": "e0720ade68ef40ae23cc890f670ef73f078f3481",
+      "historical_path": "runtime/speedbubble/DFSpeedGMapReader.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 4728
+    },
+    {
+      "git_blob_sha": "fc1a2db9e4e840f4600c34f352cc112d0d5b72c9",
+      "historical_path": "runtime/speedbubble/DFSpeedGMapReader8.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 6047
+    },
+    {
+      "git_blob_sha": "7a4f5804b1ff9876954ac922785a0fd939698cf5",
+      "historical_path": "runtime/speedbubble/DFSpeedGMapReader9.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 0,
+      "source_bytes": 6224
+    },
+    {
+      "git_blob_sha": "6a0b350fdd709b234fa990d76b570b986a28d610",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeHostProbe.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 30321
+    },
+    {
+      "git_blob_sha": "180d76b716718e88b73b02dbec1fd4a9434995ac",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 20420
+    },
+    {
+      "git_blob_sha": "b68b819e57e0894da5249e7716a7c6bdf93bf3f5",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 27325
+    },
+    {
+      "git_blob_sha": "ec8e25450f61bb5ddb5e83fb9aa575a39d5259fd",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 27246
+    },
+    {
+      "git_blob_sha": "189801e09b80df6a8941973039b9869cbd371d81",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 28206
+    },
+    {
+      "git_blob_sha": "2d21c0d1a40d632b4e81c85c309d13ca45794b8c",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 28204
+    },
+    {
+      "git_blob_sha": "3e328108b6e8024603fb3cd92fb9fc928a1a5367",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 30609
+    },
+    {
+      "git_blob_sha": "5fc13be17c71f69b3d3c152abde80b3efcc6a692",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 30361
+    },
+    {
+      "git_blob_sha": "6c90346c072630ebf55caa6d9a99e799d8721654",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplitHost.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 23090
+    },
+    {
+      "git_blob_sha": "7f6e3c44fa1d735622a385bd8f1ff9d0a3b80f01",
+      "historical_path": "runtime/speedbubble/DFSpeedNativeSplitHost.mm",
+      "mentions": [
+        "CBBridgeManagerDashboard",
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 23701
+    },
+    {
+      "git_blob_sha": "111cab47af693f639a651d2def443d7010b5673b",
+      "historical_path": "runtime/speedbubble/DFSpeedSceneOverlay.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 12339
+    },
+    {
+      "git_blob_sha": "915f1552233d607ed619d8661a2cd969344f5b9d",
+      "historical_path": "runtime/speedbubble/DFSpeedSceneOverlay.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 11981
+    },
+    {
+      "git_blob_sha": "acd84404f80e540894fa2b8f0c55440edc6629a3",
+      "historical_path": "runtime/speedbubble/DFSpeedSceneOverlay.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 11537
+    },
+    {
+      "git_blob_sha": "eec2166c3b83b7d5c6436103964c285a5330b05e",
+      "historical_path": "runtime/speedbubble/DFSpeedSceneOverlay.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 2,
+      "source_bytes": 11436
+    },
+    {
+      "git_blob_sha": "05b92640982e29d73881ca97425f73fa0e46651c",
+      "historical_path": "runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm",
+      "mentions": [
+        "CBBridgeManager"
+      ],
+      "implementation_symbols": [],
+      "any_other_implementations": 1,
+      "source_bytes": 7640
+    }
+  ],
+  "proof_scope": "Git blobs reachable from refs fetched in this job; not inaccessible remote repos/unreachable objects",
+  "two_visualtest_host_rebuild_sources_proven_available": false,
+  "read_only": true,
+  "binary_modified": false,
+  "hub_modified": false,
+  "deb_built": false,
+  "sileo_deployed": false
+}
