@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — THIẾT BỊ BÁO VẪN CRASH KHI ĐÓNG SCENE SAU STANDALONE5
+
+**Kết quả người dùng:** bản `standalone5lifecycle` vẫn gây lỗi khi đóng scene trong ứng dụng DuoFace. Vì vậy mitigation giữ `SBAppViewController` thêm 5 giây **không đạt**, không coi là fix. Đã đọc lại `replacement/visual12/engine/runtime/DFIRuntime.m`: `attachTo:` gọi `setRequestedMode:2`, `close` gọi `_setCurrentMode:0` (không tương đương yêu cầu chuyển mode async), rồi `updateSettings:withTransitionContext:completion:` với completion nil, detach parent và giải phóng scene; bản 5 chỉ trì hoãn release controller. Cần thiết kế lại close dựa vào completion/state transition hoặc giữ ownership tới khi transition thực sự hoàn tất; không tiếp tục tăng timeout. Cần crash log bản 5 để phân biệt assertion cũ hay crash khác. **Chưa có code fix mới, chưa build lại.** Native12/Hub8 không thay đổi. Tiếp theo: kiểm tra thứ tự close của DFCarPlayQARootController, chọn phương án đồng bộ scene teardown có khả năng xác minh, bổ sung logging, build QA độc lập khi mã hoàn chỉnh.
+
+
 ## 2026-10-18 — STANDALONE5LIFECYCLE BUILD PASS, PUBLISHER SILEO QUEUED
 
 Run `39080097216` `completed/success`, bao gồm persist GitHub. Repo `dist/visual12-g1g2-qa/BAO_CAO.json` và `SHA256SUMS` đã đọc xác minh version `1.0.3-12~standalone5lifecycle`, SHA256 `47f72d5f1853df839f2fa2d766f1f4467c29a83011230220a6d18243cf344b3c`, size `1070764`, source commit `36d854ca89b49439e2f7225c2d94e75e12e9b26e`, path `dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone5lifecycle_iphoneos-arm64.deb`. Publisher repo `chuongnguyen89dn-ui/carplaydsp` main `.github/workflows/build.yml` đã cập nhật version/URL/SHA (6 occurrences version), commit `7fefead9e0441158c4ed6c4df80477d138cf5c87`, phát sinh run `39080240835` queued lúc kiểm tra. **Chưa xác nhận Pages deployed, chưa thử trên thiết bị**. QA mitigation giữ controller thêm 5 giây là thử nghiệm, không phải xác nhận fix crash. Native12+Hub8 giữ nguyên. Tiếp theo kiểm tra publisher run và public Packages, sau đó người dùng cài qua Sileo và thử respring/stop/reconnect; thu thập crash log nếu lỗi lặp lại.
