@@ -32,7 +32,7 @@ jobs:
           python3 -m py_compile migration/full_payload/native_test/build_native12_speed6probe1_candidate.py migration/full_payload/native_test/check_native12_speed6probe_contract.py
           python3 migration/full_payload/native_test/check_native12_speed6probe_contract.py
           plutil -lint DuoFaceSpeedHUDSplit6.plist
-          dpkg --compare-versions '0.1.0~native12+speed6probe1' gt '0.1.0~native12+speed6split1'
+          dpkg --compare-versions '0.1.0~native12+speed6zprobe1' gt '0.1.0~native12+speed6split1'
           test ! -e dist/payload-migration/native12-speed6probe1/BAO_CAO.json
       - name: Compile actual iOS arm64 host probe with Theos
         shell: bash
@@ -54,12 +54,12 @@ jobs:
           set -euo pipefail
           target='dist/payload-migration/native12-speed6probe1'
           mkdir -p "$target"
-          deb="$target/com.duoface.independent_0.1.0~native12+speed6probe1_iphoneos-arm64.deb"
+          deb="$target/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb"
           python3 migration/full_payload/native_test/build_native12_speed6probe1_candidate.py \
             --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" --output "$deb" \
             --report "$target/BAO_CAO.json"
           test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
-          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed6probe1'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed6zprobe1'
           test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
           test "$(grep -c 'DuoFaceSpeedHUD.dylib' "$target/CONTENTS.txt")" -eq 1
