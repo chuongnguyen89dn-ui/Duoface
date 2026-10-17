@@ -71,16 +71,30 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          QA_DEB_NAME='com.duoface.visual12_1.0.3-12~standalone5lifecycle_iphoneos-arm64.deb'
+          cp dist/visual12-g1g2-qa/BAO_CAO.json "$RUNNER_TEMP/qa-BAO_CAO.json"
+          cp dist/visual12-g1g2-qa/CONTENTS.txt "$RUNNER_TEMP/qa-CONTENTS.txt"
+          cp dist/visual12-g1g2-qa/SHA256SUMS "$RUNNER_TEMP/qa-SHA256SUMS"
+          cp "dist/visual12-g1g2-qa/$QA_DEB_NAME" "$RUNNER_TEMP/qa-package.deb"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add dist/visual12-g1g2-qa
           if git diff --cached --quiet; then echo 'QA_BINARY_ALREADY_PERSISTED'; exit 0; fi
-          git commit -m 'artifact(carplay): preserve G1 G2 QA DEB and hashes [skip ci]'
+          # Do not rebase a generated metadata commit over newer generated
+          # metadata: that causes conflicts in BAO_CAO/CONTENTS/SHA256SUMS.
+          # Reapply only the verified outputs to the latest remote tree.
           for attempt in 1 2 3 4 5; do
             git fetch origin feature/visual12-duodash-recovery
-            git rebase origin/feature/visual12-duodash-recovery
+            git reset --hard origin/feature/visual12-duodash-recovery
+            cp "$RUNNER_TEMP/qa-BAO_CAO.json" dist/visual12-g1g2-qa/BAO_CAO.json
+            cp "$RUNNER_TEMP/qa-CONTENTS.txt" dist/visual12-g1g2-qa/CONTENTS.txt
+            cp "$RUNNER_TEMP/qa-SHA256SUMS" dist/visual12-g1g2-qa/SHA256SUMS
+            cp "$RUNNER_TEMP/qa-package.deb" "dist/visual12-g1g2-qa/$QA_DEB_NAME"
+            git add dist/visual12-g1g2-qa
+            if git diff --cached --quiet; then echo QA_DEB_ALREADY_PERSISTED; exit 0; fi
+            git commit -m 'artifact(carplay): preserve G1 G2 QA DEB and hashes [skip ci]'
             if git push origin HEAD:feature/visual12-duodash-recovery; then
-              echo 'QA_DEB_PERSISTED_GITHUB'
+              echo QA_DEB_PERSISTED_GITHUB
               exit 0
             fi
             sleep 2
