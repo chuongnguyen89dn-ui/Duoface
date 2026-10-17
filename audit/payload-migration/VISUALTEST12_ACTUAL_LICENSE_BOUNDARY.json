@@ -1,0 +1,641 @@
+{
+  "status": "VISUALTEST12_EXACT_BINARY_LICENSE_INVENTORY_ONLY",
+  "visual_deb_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "visual_package_id": "com.duonavi.app",
+  "visual_version": "1.0.3-12~visualtest",
+  "hub_native12_sha256_untouched": "85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+  "hub_package_id": "com.duoface.independent",
+  "visualtest_sync_preference_values": {
+    "actualExpireTimestamp": 1949370760,
+    "expiresAt": 1949370760,
+    "lastAttemptTimestamp": 1791700039,
+    "lastSyncTimestamp": 1791604360,
+    "leaseSeconds": 157766400,
+    "status": "<string>"
+  },
+  "visutest_original_core_modified_by_this_audit": false,
+  "license_runtime_fully_removed": false,
+  "device_carplay_launch_test_passed": false,
+  "sileo_updated": false,
+  "reason_not_releasing": "Need to remove all licensing dependencies from VisualTest12 core, not just expiry preference/UI; no validated source-equivalent rebuild or runtime test yet",
+  "host_binaries": {
+    "DuoFaceUI": {
+      "visualtest_host_sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "native12_host_sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "same_host_bytes": false,
+      "visualtest_host_size": 2456784,
+      "native12_host_size": 1220256,
+      "visualtest_objc_classes": 27,
+      "native12_objc_classes": 27,
+      "visualtest_embedded_license_related_classes": [
+        {
+          "class": "CBSubscriptionViewController",
+          "methods": 71,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "methods": 30,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "methods": 10,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "methods": 2,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "methods": 10,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "methods": 9,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "methods": 10,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "methods": 18,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "methods": 13,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "methods": 2,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "methods": 24,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "methods": 36,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "methods": 30,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        }
+      ],
+      "visualtest_license_named_selectors": [
+        {
+          "class": "XXRootViewController",
+          "selector": "-checkAndPresentLicenseModalIfNeeded"
+        },
+        {
+          "class": "XXRootViewController",
+          "selector": "-isShowingExpiredModal"
+        },
+        {
+          "class": "XXRootViewController",
+          "selector": "-setIsShowingExpiredModal:"
+        },
+        {
+          "class": "CBGeneralSettingsViewController",
+          "selector": "-openSubscriptionScreen"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-isVIPActiveWithSufficientDays"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-giftcodeInputCellDidTapPaste:"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-giftcodeRedeemCellDidTapRedeem:"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-redeemGiftCodeTapped"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-setGiftRedeemLoading:"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-giftCodeTextField"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-setGiftCodeTextField:"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-giftRedeemCell"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-setGiftRedeemCell:"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-isGiftRedeeming"
+        },
+        {
+          "class": "CBSubscriptionViewController",
+          "selector": "-setIsGiftRedeeming:"
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "selector": "-configureWithExpirationTimestamp:"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "-redeemTapped"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "-redeemButton"
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "selector": "-setRedeemButton:"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-configureWithExpirationTimestamp:tierName:"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-serverExpiryKeyLabel"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-setServerExpiryKeyLabel:"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-serverExpiryValueLabel"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-setServerExpiryValueLabel:"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-licenseValidationKeyLabel"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-setLicenseValidationKeyLabel:"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-licenseValidationValueLabel"
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "selector": "-setLicenseValidationValueLabel:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-isLicenseCurrentlyValid"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-remainingLicenseSeconds"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-checkAndSyncLicenseIfNeeded"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-checkAndSyncLicenseIfNeededWithSource:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-resolvedLicenseServerEndpoint"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-installAndVerifyLicensePayload:errorMsg:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-actualLicenseExpirationTimestamp"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-setActualLicenseExpirationTimestamp:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-actualLicenseTierName"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-setActualLicenseTierName:"
+        }
+      ],
+      "selected_host_method_comparison": {
+        "CBLicenseSyncManager": {
+          "-isLicenseCurrentlyValid": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x10005a7c0",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": false
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x10005a7c0",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "20008052c0035fd61f2003d51f2003d5",
+              "returns_const_TRUE": true
+            }
+          },
+          "-remainingLicenseSeconds": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x10006cba4",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x10006cba4",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "e0ff9fd2e0ffbff2c0035fd61f2003d5",
+              "returns_const_TRUE": null
+            }
+          },
+          "-actualLicenseExpirationTimestamp": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x1000a0624",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "ffc301d1fa6702a9f85f03a9f65704a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x1000a0624",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "e0ff9fd2e0ffbff2c0035fd61f2003d5",
+              "returns_const_TRUE": null
+            }
+          },
+          "-checkAndSyncLicenseIfNeeded": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x10007f5b4",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "f44fbea9fd7b01a9fd430091f30300aa",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x10007f5b4",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "c0035fd61f2003d51f2003d51f2003d5",
+              "returns_const_TRUE": null
+            }
+          }
+        },
+        "XXRootViewController": {
+          "-checkAndPresentLicenseModalIfNeeded": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x100008348",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "ff8305d1fc6f10a9fa6711a9f85f12a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x100008348",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "c0035fd61f2003d51f2003d51f2003d5",
+              "returns_const_TRUE": null
+            }
+          }
+        }
+      },
+      "class_and_dynamic_dispatch_removal_proven_safe": false
+    },
+    "DuoFaceDashboard": {
+      "visualtest_host_sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "native12_host_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "same_host_bytes": false,
+      "visualtest_host_size": 7540464,
+      "native12_host_size": 3760032,
+      "visualtest_objc_classes": 36,
+      "native12_objc_classes": 36,
+      "visualtest_embedded_license_related_classes": [
+        {
+          "class": "CBLicenseSyncManager",
+          "methods": 30,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "methods": 2,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "methods": 12,
+          "embedded_in_core": true,
+          "other_runtime_references_not_resolved": true
+        }
+      ],
+      "visualtest_license_named_selectors": [
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-isLicenseCurrentlyValid"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-remainingLicenseSeconds"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-checkAndSyncLicenseIfNeeded"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-checkAndSyncLicenseIfNeededWithSource:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-resolvedLicenseServerEndpoint"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-installAndVerifyLicensePayload:errorMsg:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-actualLicenseExpirationTimestamp"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-setActualLicenseExpirationTimestamp:"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-actualLicenseTierName"
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "selector": "-setActualLicenseTierName:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-releaseCarPlaySleepAssertion"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-presentLicenseWarningModalWithType:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-dismissLicenseWarningModal"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-startLicenseWatchdogTimer"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-stopLicenseWatchdogTimer"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-licenseWatchdogTimerFired:"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-licenseWarningModal"
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "-setLicenseWarningModal:"
+        },
+        {
+          "class": "CBBridgeManagerDashboard",
+          "selector": "-prepareAndRequestActivation:"
+        },
+        {
+          "class": "CBBridgeManagerDashboard",
+          "selector": "-requestActivation:"
+        }
+      ],
+      "selected_host_method_comparison": {
+        "CBLicenseSyncManager": {
+          "-isLicenseCurrentlyValid": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x3adb8",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": false
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x3adb8",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "20008052c0035fd61f2003d51f2003d5",
+              "returns_const_TRUE": true
+            }
+          },
+          "-remainingLicenseSeconds": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x4d19c",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x4d19c",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "e0ff9fd2e0ffbff2c0035fd61f2003d5",
+              "returns_const_TRUE": null
+            }
+          },
+          "-actualLicenseExpirationTimestamp": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x80c40",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "ffc301d1fa6702a9f85f03a9f65704a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x80c40",
+              "method_type": "Q16@0:8",
+              "first_16_bytes": "e0ff9fd2e0ffbff2c0035fd61f2003d5",
+              "returns_const_TRUE": null
+            }
+          },
+          "-checkAndSyncLicenseIfNeeded": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x5fbac",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "f44fbea9fd7b01a9fd430091f30300aa",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x5fbac",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "c0035fd61f2003d51f2003d51f2003d5",
+              "returns_const_TRUE": null
+            }
+          }
+        },
+        "CBBridgeManager": {
+          "-requestStateChange:": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x13b158",
+              "method_type": "v24@0:8@16",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x13b158",
+              "method_type": "v24@0:8@16",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            }
+          },
+          "-loadNewAppFromCurrentRequest:": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x153544",
+              "method_type": "v24@0:8@16",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x153544",
+              "method_type": "v24@0:8@16",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            }
+          },
+          "-shouldBridge:": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x2491b0",
+              "method_type": "B24@0:8@16",
+              "first_16_bytes": "ff0305d1fc6f0ea9fa670fa9f85f10a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x2491b0",
+              "method_type": "B24@0:8@16",
+              "first_16_bytes": "ff0305d1fc6f0ea9fa670fa9f85f10a9",
+              "returns_const_TRUE": null
+            }
+          },
+          "-syncDashboardPolicySignalToDisk": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x229e8c",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x229e8c",
+              "method_type": "v16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            }
+          }
+        },
+        "CBBridgeManagerDashboard": {
+          "+isDashboardPolicySignalActive": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x284068",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x284068",
+              "method_type": "B16@0:8",
+              "first_16_bytes": "fc6fbaa9fa6701a9f85f02a9f65703a9",
+              "returns_const_TRUE": null
+            }
+          },
+          "+shouldInterceptLaunchForApp:": {
+            "visual": {
+              "exists": true,
+              "impl_address": "0x2a314c",
+              "method_type": "B24@0:8@16",
+              "first_16_bytes": "ff4301d1f85f01a9f65702a9f44f03a9",
+              "returns_const_TRUE": null
+            },
+            "native12": {
+              "exists": true,
+              "impl_address": "0x2a314c",
+              "method_type": "B24@0:8@16",
+              "first_16_bytes": "ff4301d1f85f01a9f65702a9f44f03a9",
+              "returns_const_TRUE": null
+            }
+          },
+          "+requestActivation:": {
+            "visual": {
+              "exists": false
+            },
+            "native12": {
+              "exists": false
+            }
+          }
+        }
+      },
+      "class_and_dynamic_dispatch_removal_proven_safe": false
+    }
+  }
+}
