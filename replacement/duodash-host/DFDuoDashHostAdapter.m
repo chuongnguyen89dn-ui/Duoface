@@ -1,5 +1,5 @@
 // Interoperability with an existing, separately installed DuoDash scene owner.
-// Original DuoFace binaries, license logic and Airaw are not referenced.
+// No code from the original DuoFace binaries or unrelated plugins is referenced.
 #import "DFDuoDashHostAdapter.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
