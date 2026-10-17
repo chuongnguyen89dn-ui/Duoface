@@ -1,0 +1,259 @@
+{
+  "status": "GOFAHUD_031_REAL_DEB_ACTIVATION_SIGNALS_STATIC_PASS",
+  "source_deb": "manhtien9x/gofahud-repo v0.3.1-1 GOFAHUD-0.3.1-rootless.deb",
+  "sha256": "62d6d818384844591217d74ab446404637127752e1b23bc1f9754ef1da297ad5",
+  "package": "local.gofahud",
+  "version": "0.3.1",
+  "binary_extracted": true,
+  "runtime_device_tested": false,
+  "signals": {
+    "local.gofahud.gofa.foreground": [
+      "GofaLifecycle.dylib",
+      "GofaPhoneOverlay.dylib"
+    ],
+    "local.gofahud.carplay.gofa-active": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.carplay.enabled": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.carplay.show": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.carplay.open-gofa": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.carplay.global": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.carplay.trace": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib"
+    ],
+    "local.gofahud.source.ready": [
+      "GOFADevProbe.dylib",
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib",
+      "GofaPhoneOverlay.dylib"
+    ],
+    "local.gofahud.background.carplay": [
+      "GofaCarplayGlobal.dylib",
+      "GofaCarplayOverlay.dylib",
+      "GofaLaunchHelper.dylib"
+    ],
+    "local.gofahud.background.phone": [
+      "GofaLaunchHelper.dylib",
+      "GofaPhoneOverlay.dylib"
+    ],
+    "local.gofahud.background.permission": [
+      "GofaLaunchHelper.dylib"
+    ],
+    "local.gofahud.background.location-session": [
+      "GofaLaunchHelper.dylib"
+    ],
+    "local.gofahud.background.location-source": [
+      "GofaLaunchHelper.dylib"
+    ]
+  },
+  "dylibs": {
+    "GOFADevProbe.dylib": {
+      "sha256": "c01542151921425e6d0f338acd58924925ae0ab8c0c897264866c9f8d98102fb",
+      "byte_length": 330016,
+      "match_strings": [
+        "@_notify_post",
+        "@_notify_register_check",
+        "@_notify_set_state",
+        "_GOFAHUDProducerName",
+        "_notify_post",
+        "_notify_register_check",
+        "_notify_set_state",
+        "local.gofahud.source.ready"
+      ]
+    },
+    "GofaCarplayGlobal.dylib": {
+      "sha256": "791f3f2de2ce0e6834888db33b17f5f37a424712c9fb07b8c7234ee90ed587ca",
+      "byte_length": 373504,
+      "match_strings": [
+        "-[GOFACarGlobalWindow hitTest:withEvent:]",
+        "@_UIScreenDidConnectNotification",
+        "@_notify_post",
+        "@_notify_register_check",
+        "@_notify_register_dispatch",
+        "@_notify_set_state",
+        "CARNotificationWindow",
+        "GOFACarGlobalWindow",
+        "_GOFACarHUDRefresh",
+        "_GOFACarHUDSetGOFAActive",
+        "_GOFACarHUDSetGOFAActive.previous",
+        "_GOFAHUDEnabled",
+        "_GOFAHUDEnabled.cold.1",
+        "_GOFAHUDProducerName",
+        "_OBJC_CLASS_$_GOFACarGlobalWindow",
+        "_OBJC_METACLASS_$_GOFACarGlobalWindow",
+        "_UIScreenDidConnectNotification",
+        "__OBJC_$_INSTANCE_METHODS_GOFACarGlobalWindow",
+        "__OBJC_CLASS_RO_$_GOFACarGlobalWindow",
+        "__OBJC_METACLASS_RO_$_GOFACarGlobalWindow",
+        "_currentDashboard",
+        "_notify_post",
+        "_notify_register_check",
+        "_notify_register_dispatch",
+        "_notify_set_state",
+        "activeBundleIdentifier",
+        "bubbleEnabled",
+        "local.gofahud.background.carplay",
+        "local.gofahud.carplay.enabled",
+        "local.gofahud.carplay.global",
+        "local.gofahud.carplay.gofa-active",
+        "local.gofahud.carplay.open-gofa",
+        "local.gofahud.carplay.show",
+        "local.gofahud.carplay.trace",
+        "local.gofahud.source.ready"
+      ]
+    },
+    "GofaCarplayOverlay.dylib": {
+      "sha256": "10260bc9b9c6207bc5521d9df07e5ad48dd16727102a4934168c63edb7bf68e1",
+      "byte_length": 302384,
+      "match_strings": [
+        "@_UIScreenDidConnectNotification",
+        "@_notify_post",
+        "@_notify_register_check",
+        "@_notify_register_dispatch",
+        "@_notify_set_state",
+        "Alocal.gofahud.source.ready",
+        "_GOFACarHUDRefresh",
+        "_GOFACarHUDSetGOFAActive",
+        "_GOFACarHUDSetGOFAActive.previous",
+        "_GOFAHUDEnabled",
+        "_GOFAHUDEnabled.cold.1",
+        "_GOFAHUDProducerName",
+        "_UIScreenDidConnectNotification",
+        "_notify_post",
+        "_notify_register_check",
+        "_notify_register_dispatch",
+        "_notify_set_state",
+        "bubbleEnabled",
+        "local.gofahud.background.carplay",
+        "local.gofahud.carplay.enabled",
+        "local.gofahud.carplay.global",
+        "local.gofahud.carplay.gofa-active",
+        "local.gofahud.carplay.open-gofa",
+        "local.gofahud.carplay.show",
+        "local.gofahud.carplay.trace",
+        "local.gofahud.source.ready"
+      ]
+    },
+    "GofaLaunchHelper.dylib": {
+      "sha256": "9bef206fa6b5ec1b3af62098d0e941892eda1dd80f30a8b0da6bd3848d356161",
+      "byte_length": 206816,
+      "match_strings": [
+        "@_notify_register_check",
+        "@_notify_register_dispatch",
+        "@_notify_set_state",
+        "__ActivateSuspended",
+        "_notify_register_check",
+        "_notify_register_dispatch",
+        "_notify_set_state",
+        "autoExit",
+        "autoWake",
+        "local.gofahud.background.carplay",
+        "local.gofahud.background.location-session",
+        "local.gofahud.background.location-source",
+        "local.gofahud.background.permission",
+        "local.gofahud.background.phone",
+        "openApplication:withOptions:completion:"
+      ]
+    },
+    "GofaLifecycle.dylib": {
+      "sha256": "95d304bbd1dfd2d4ee8cd9e2a695ca05fc64d0b22a7a5db9bd1532f89d51824e",
+      "byte_length": 185632,
+      "match_strings": [
+        "@_UIApplicationDidBecomeActiveNotification",
+        "@_UIApplicationDidEnterBackgroundNotification",
+        "@_UIApplicationWillResignActiveNotification",
+        "@_UIApplicationWillTerminateNotification",
+        "@_notify_post",
+        "@_notify_register_check",
+        "@_notify_set_state",
+        "_UIApplicationDidBecomeActiveNotification",
+        "_UIApplicationDidEnterBackgroundNotification",
+        "_UIApplicationWillResignActiveNotification",
+        "_UIApplicationWillTerminateNotification",
+        "_notify_post",
+        "_notify_register_check",
+        "_notify_set_state",
+        "local.gofahud.gofa.foreground"
+      ]
+    },
+    "GofaPhoneOverlay.dylib": {
+      "sha256": "b597f6c1c9a17e1fbb9035e4fa279e62bbf5b2a4e71fb573c727fd7e3bf31925",
+      "byte_length": 283280,
+      "match_strings": [
+        "@_notify_register_check",
+        "@_notify_register_dispatch",
+        "@_notify_set_state",
+        "_GOFAHUDEnabled",
+        "_GOFAHUDEnabled.cold.1",
+        "_GOFAHUDProducerName",
+        "_notify_register_check",
+        "_notify_register_dispatch",
+        "_notify_set_state",
+        "bubbleEnabled",
+        "local.gofahud.background.phone",
+        "local.gofahud.gofa.foreground",
+        "local.gofahud.source.ready"
+      ]
+    }
+  },
+  "filters": {
+    "GOFADevProbe.plist": {
+      "source": "{ Filter = { Bundles = ( \"com.lumi.GOFA\", \"com.google.Maps\" ); }; }",
+      "bundles": [
+        "com.google.Maps",
+        "com.lumi.GOFA"
+      ]
+    },
+    "GofaCarplayGlobal.plist": {
+      "source": "{ Filter = { Bundles = (\"com.apple.CarPlayApp\", \"com.apple.CarPlayTemplateUIHost\"); }; }\n",
+      "bundles": [
+        "com.apple.CarPlayApp",
+        "com.apple.CarPlayTemplateUIHost"
+      ]
+    },
+    "GofaCarplayOverlay.plist": {
+      "source": "{ Filter = { Bundles = (\"com.google.Maps\"); }; }\r\n",
+      "bundles": [
+        "com.google.Maps"
+      ]
+    },
+    "GofaLaunchHelper.plist": {
+      "source": "{ Filter = { Bundles = ( \"com.apple.springboard\" ); }; }\r\n",
+      "bundles": [
+        "com.apple.springboard"
+      ]
+    },
+    "GofaLifecycle.plist": {
+      "source": "{ Filter = { Bundles = ( \"com.lumi.GOFA\" ); }; }\n",
+      "bundles": [
+        "com.lumi.GOFA"
+      ]
+    },
+    "GofaPhoneOverlay.plist": {
+      "source": "{ Filter = { Bundles = ( \"com.apple.springboard\" ); }; }\n",
+      "bundles": [
+        "com.apple.springboard"
+      ]
+    }
+  },
+  "maintainer_activation": {
+    "postinst_signals": {
+      "load_daemons": [],
+      "respring_and_reopen_Gofa_instruction": true
+    }
+  }
+}
