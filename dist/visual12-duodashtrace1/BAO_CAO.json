@@ -1,0 +1,39 @@
+{
+  "status": "VISUALTEST12_DUODASH_ACTIVATION_TRACE_BUILD",
+  "package": "com.duonavi.app",
+  "version": "1.0.3-12~visualtest12launch3ddtrace1",
+  "baseline_package_sha256": "43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841",
+  "baseline_version": "1.0.3-12~visualtest12launch2probe1",
+  "added_files": [
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoDashActivationTrace.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoDashActivationTrace.plist"
+  ],
+  "modified_files": [
+    "DEBIAN/control",
+    "DEBIAN/md5sums"
+  ],
+  "removed_files": [],
+  "original_visualtest12_core_unchanged": true,
+  "existing_connection_probe_unchanged": true,
+  "airaw_code_or_binary_bundled": false,
+  "duodash_binary_bundled": false,
+  "duodash_process_events_targeted": [
+    "CBBridgeManagerDashboard.requestActivation:",
+    "CBBridgeManagerDashboard.startBridging:",
+    "CBBridgeManagerDashboard.prepareAndRequestActivation:",
+    "CBBridgeManagerDashboard.bridgeDidActivate:",
+    "CBBridgeManager.requestStateChange:",
+    "CBBridgeManager.loadNewAppFromCurrentRequest:",
+    "CBBridgeManager.handleCarPlayConnectionChanged:"
+  ],
+  "separate_hub_modified": false,
+  "activation_fixed": false,
+  "app_bridge_fixed": false,
+  "device_tested": false,
+  "sileo_published": false,
+  "log_location": "/var/mobile/Documents/DuoFaceDuoDashTrace/{SpringBoard,CarPlayApp,DuoFaceUI}.jsonl",
+  "new_dylib_sha256": "cb290c6f50108a2161eceb485e1a3cd9cae072edb3b4da1858800fcba658bdb5",
+  "new_filter_sha256": "bbbe40ce0827a83f06378499592bc3bf2198626756a2995c68ac8e210267b4f0",
+  "output_deb_sha256": "5d6d36544b632ea70b9d96c11102d1dc85f3acd536bfbad5ca4d4399993d5775",
+  "output_deb_bytes": 1568768
+}
