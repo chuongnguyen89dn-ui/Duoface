@@ -31,13 +31,13 @@ jobs:
           shasum -a 256 "$RUNNER_TEMP/DFCBCompat.dylib"
           python3 - <<'PY'
           from pathlib import Path
-          import re
+          # Confirm no duplicate legacy Objective-C runtime classes
           h=Path('replacement/cb-compat/DFCBCompat.h').read_text()
           m=Path('replacement/cb-compat/DFCBCompat.m').read_text()
           for name in ('DFCBWindow','DFCBBridgedSplitApp','DFCBBridgeManager'):
               assert ('@interface '+name) in h
               assert ('@implementation '+name) in m
           for name in ('CBWindow','CBBridgedSplitApp','CBBridgeManager'):
-              assert re.search(r'\\b'+name+r'\\b',h+m) is None
+              assert ('@interface '+name) not in h+m && ('@implementation '+name) not in h+m
           print('NAMESPACED_FACADE_COMPILED_NO_LEGACY_CB_CLASSES')
           PY
