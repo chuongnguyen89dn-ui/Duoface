@@ -52,7 +52,7 @@ static void DFDiagSnapshot(void) {
           @"current_app_class":DFDiagName(current),
           @"root_class":DFDiagName(root),
           @"external_screen":@(external),
-          @"window_visible":@([DFDiagRead(bridge,@selector(isVisible)) boolValue]),
+          @"window_visible":@(bridge && [bridge respondsToSelector:@selector(isVisible)] ? ((BOOL(*)(id,SEL))objc_msgSend)(bridge,@selector(isVisible)) : NO),
           @"repeated_polls":@(repeats)});
         last=signature;repeats=0;
     }
