@@ -1,0 +1,56 @@
+name: DuoFace VisualTest12 native12 byte lineage (read-only)
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-visualtest12-native12-byte-lineage.yml'
+      - 'migration/full_payload/native_test/audit_visualtest12_native12_byte_lineage.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: visualtest12-byte-lineage
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only VisualTest12 and Native12 byte lineage
+        run: |
+          set -euo pipefail
+          python3 -m py_compile migration/full_payload/native_test/audit_visualtest12_native12_byte_lineage.py
+          python3 migration/full_payload/native_test/audit_visualtest12_native12_byte_lineage.py --out audit/payload-migration/VISUALTEST12_NATIVE12_BYTE_LINEAGE.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path('audit/payload-migration/VISUALTEST12_NATIVE12_BYTE_LINEAGE.json').read_text())
+          assert a['read_only'] and not a['binary_modified'] and not a['hub_modified']
+          assert not a['deb_built'] and not a['sileo_deployed'] and not a['device_tested']
+          assert a['native12_ledger_method_count'] == 291
+          assert all(v['same_objc_method_names_per_class'] for v in a['hosts'].values())
+          print('VISUALTEST12_BYTE_LINEAGE_STATIC_QA_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visualtest12-native12-byte-lineage-readonly
+          path: audit/payload-migration/VISUALTEST12_NATIVE12_BYTE_LINEAGE.json
+          if-no-files-found: warn
+      - name: Commit report to project feature branch
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/payload-migration/VISUALTEST12_NATIVE12_BYTE_LINEAGE.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit: VisualTest12 vs Native12 byte lineage [skip ci]'
+          for n in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
