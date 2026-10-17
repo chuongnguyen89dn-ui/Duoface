@@ -1,0 +1,487 @@
+{
+  "status": "VISUALTEST12_CLASSREF_READONLY_PASS",
+  "package": "com.duonavi.app",
+  "version": "1.0.3-12~visualtest",
+  "source_deb_sha256": "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a",
+  "binaries": {
+    "DuoFaceUI": {
+      "sha256": "3d0f8eac292d2c22d7a773e520ff396d33498a4a14bf6e0f72eb62ccc9c174e3",
+      "objc_class_count": 27,
+      "license_named_class_count": 13,
+      "license_related_classes": [
+        {
+          "class": "CBSubscriptionViewController",
+          "method_count": 71,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161512,
+              "vm": "0x10011b928",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162144,
+              "vm": "0x10011bba0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "dealloc",
+            "handleLanguageChanged",
+            "numberOfSectionsInTableView:",
+            "setTableView:",
+            "setupTableView",
+            "showAlertWithTitle:message:",
+            "tableView",
+            "tableView:cellForRowAtIndexPath:",
+            "tableView:didSelectRowAtIndexPath:",
+            "tableView:numberOfRowsInSection:",
+            "tableView:titleForFooterInSection:",
+            "tableView:titleForHeaderInSection:",
+            "viewDidLoad",
+            "viewWillAppear:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBLicenseExpiredModalViewController",
+          "method_count": 30,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161528,
+              "vm": "0x10011b938",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162152,
+              "vm": "0x10011bba8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "setTitleLabel:",
+            "titleLabel",
+            "viewDidLoad",
+            "viewWillAppear:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionCheckoutCell",
+          "method_count": 10,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161776,
+              "vm": "0x10011ba30",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162160,
+              "vm": "0x10011bbb0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "delegate",
+            "initWithStyle:reuseIdentifier:",
+            "setDelegate:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionVIPStatusCell",
+          "method_count": 2,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161808,
+              "vm": "0x10011ba50",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162168,
+              "vm": "0x10011bbb8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            "initWithStyle:reuseIdentifier:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionHardwareIDCell",
+          "method_count": 10,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161824,
+              "vm": "0x10011ba60",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162176,
+              "vm": "0x10011bbc0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "delegate",
+            "initWithStyle:reuseIdentifier:",
+            "setDelegate:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionGiftcodeInputCell",
+          "method_count": 9,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161792,
+              "vm": "0x10011ba40",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162184,
+              "vm": "0x10011bbc8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "delegate",
+            "initWithStyle:reuseIdentifier:",
+            "setDelegate:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionGiftcodeRedeemCell",
+          "method_count": 10,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161800,
+              "vm": "0x10011ba48",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162192,
+              "vm": "0x10011bbd0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "delegate",
+            "initWithStyle:reuseIdentifier:",
+            "setDelegate:",
+            "setSpinner:",
+            "spinner"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionPendingOrderCell",
+          "method_count": 18,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161784,
+              "vm": "0x10011ba38",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162200,
+              "vm": "0x10011bbd8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "delegate",
+            "descLabel",
+            "initWithStyle:reuseIdentifier:",
+            "setDelegate:",
+            "setDescLabel:",
+            "setTitleLabel:",
+            "titleLabel"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionPlanCardCell",
+          "method_count": 13,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161768,
+              "vm": "0x10011ba28",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162208,
+              "vm": "0x10011bbe0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "descLabel",
+            "initWithStyle:reuseIdentifier:",
+            "setDescLabel:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionStatusCell",
+          "method_count": 2,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161760,
+              "vm": "0x10011ba20",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162216,
+              "vm": "0x10011bbe8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            "initWithStyle:reuseIdentifier:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionVIPCardCell",
+          "method_count": 24,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161816,
+              "vm": "0x10011ba58",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162224,
+              "vm": "0x10011bbf0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "initWithStyle:reuseIdentifier:",
+            "setTitleLabel:",
+            "titleLabel"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBSubscriptionOrderCoordinator",
+          "method_count": 36,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161744,
+              "vm": "0x10011ba10",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162232,
+              "vm": "0x10011bbf8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "dealloc",
+            "delegate",
+            "setDelegate:",
+            "showAlertWithTitle:message:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBLicenseSyncManager",
+          "method_count": 30,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 1161392,
+              "vm": "0x10011b8b0",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 1162264,
+              "vm": "0x10011bc18",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "init",
+            "sharedInstance"
+          ],
+          "runtime_dispatch_still_unknown": true
+        }
+      ],
+      "total_non_registration_refs": 26,
+      "direct_refs_absence_is_not_dynamic_liveness_proof": true
+    },
+    "DuoFaceDashboard": {
+      "sha256": "bc1df854ec7a2ddfeec4cb81b080ead34b54df80143d4a8f6254bb8b618003ce",
+      "objc_class_count": 36,
+      "license_named_class_count": 3,
+      "license_related_classes": [
+        {
+          "class": "CBLicenseSyncManager",
+          "method_count": 30,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 3668120,
+              "vm": "0x37f898",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 3668616,
+              "vm": "0x37fa88",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "init",
+            "sharedInstance"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBLicenseShieldIconView",
+          "method_count": 2,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 3668336,
+              "vm": "0x37f970",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 3668704,
+              "vm": "0x37fae0",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            "initWithFrame:"
+          ],
+          "runtime_dispatch_still_unknown": true
+        },
+        {
+          "class": "CBLicenseWarningModalView",
+          "method_count": 12,
+          "direct_refs": [
+            {
+              "section": "__objc_classrefs",
+              "segment": "__DATA",
+              "fileoff": 3668456,
+              "vm": "0x37f9e8",
+              "role": "direct_reference"
+            },
+            {
+              "section": "__objc_superrefs",
+              "segment": "__DATA",
+              "fileoff": 3668712,
+              "vm": "0x37fae8",
+              "role": "direct_reference"
+            }
+          ],
+          "subclass_dependents": [],
+          "same_named_selectors_elsewhere": [
+            ".cxx_destruct",
+            "dismissAnimated:",
+            "layoutSubviews"
+          ],
+          "runtime_dispatch_still_unknown": true
+        }
+      ],
+      "total_non_registration_refs": 6,
+      "direct_refs_absence_is_not_dynamic_liveness_proof": true
+    }
+  },
+  "did_patch_binary": false,
+  "did_build_deb": false,
+  "hub_touched": false,
+  "sileo_updated": false,
+  "license_removed": false,
+  "objc_dynamic_dispatch_proven_absent": false
+}
