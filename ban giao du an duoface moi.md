@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — ROOT CAUSE QA KHÔNG CÓ APP PICKER
+
+**Người dùng xác nhận:** không có cách chọn ứng dụng trong bản Sileo QA; hướng dẫn chọn app/G1 trước đó không đúng. **Xác minh mã nguồn:** `replacement/visual12/engine/app/DFCarPlayQAApp.m` chỉ có 2 `UITextField` nhãn `App 1: bundle ID` và `App 2: bundle ID`, mặc định `com.waze` và `com.google.ios.youtube`. Không có API duyệt app đã cài, không có picker. `save` đòi 2 bundle ID khác nhau ngay cả khi thử G1. Các nút Start/G1/G2 chỉ `notify_post` tín hiệu, trạng thái tự ghi `chưa chứng minh mở app`. `replacement/visual12/engine/runtime/DFCarPlayQARootController.m` đọc bundle ID đã được truyền vào; `runSingleBundle` sẽ từ chối khi thiếu `qaFirstBundle` hoặc bridge chưa started. Vì vậy thiếu UI chọn app là khiếm khuyết QA thực tế, không được yêu cầu user chọn qua menu không tồn tại. Có thể nhập bundle ID thủ công hiện tại nhưng chưa giải quyết UX và chưa chứng minh CarPlay hoạt động.
+
+**Quyết định:** Không tạo thêm bản build nếu chưa kiểm tra cơ chế picker đang hoạt động trong source DuoFace cũ và thiết kế picker phù hợp, tránh lặp UI sai. Native12+Hub8 không thay đổi. Bước tiếp theo: tra mã nguồn app selection của bản cũ, tích hợp danh sách app vào `DFCarPlayQAApp.m` (hoặc Settings nếu đó là cơ chế đã xác minh), kiểm tra build và publish QA riêng, rồi mới thử scene host G1/G2. Chưa có patch, chưa build.
+
+
 ## 2026-10-18 — THIẾT BỊ BÁO G1/G2 KHÔNG MỞ ĐƯỢC APP
 
 **Báo cáo mới từ người dùng:** bản Sileo `standalone3diag` vẫn không mở được ứng dụng nào trên CarPlay. Chưa có log/ảnh lỗi của bản mới để kết luận selector nào hỏng; không được đánh đồng build/deploy xanh với CarPlay hoạt động. Publisher run `39077096269` đã được kiểm tra trước đó là build+deploy success.
