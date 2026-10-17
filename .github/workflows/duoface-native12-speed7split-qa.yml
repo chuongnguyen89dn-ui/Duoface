@@ -1,0 +1,116 @@
+name: DuoFace Native12 Speed7 in-place split-only HUD QA NO Sileo
+on:
+  push:
+    branches: [feature/duoface-exact-payload-migration]
+    paths:
+      - '.github/workflows/duoface-native12-speed7split-qa.yml'
+      - 'runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm'
+      - 'Makefile.speedhud-native7split-stage'
+      - 'DuoFaceSpeedHUDNative7.plist'
+      - 'migration/full_payload/native_test/build_native12_speed7split_candidate.py'
+      - 'migration/full_payload/native_test/check_native12_speed7split_contract.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-speed7split-qa
+  cancel-in-progress: false
+jobs:
+  qa:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check exact already-published parent and actual native split-state ABI
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg ldid
+          old='dist/payload-migration/native12-speed6zzowner1/com.duoface.independent_0.1.0~native12+speed6zzowner1_iphoneos-arm64.deb'
+          printf '%s  %s\n' 'd63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a' "$old" | shasum -a 256 -c -
+          python3 -m py_compile migration/full_payload/native_test/build_native12_speed7split_candidate.py migration/full_payload/native_test/check_native12_speed7split_contract.py
+          python3 migration/full_payload/native_test/check_native12_speed7split_contract.py
+          plutil -lint DuoFaceSpeedHUDNative7.plist
+          dpkg --compare-versions '0.1.0~native12+speed7split' gt '0.1.0~native12+speed6zzowner1'
+          test ! -e dist/payload-migration/native12-speed7split/BAO_CAO.json
+      - name: Compile true SpringBoard split host in-place UIView only for arm64
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          cp Makefile.speedhud-native7split-stage Makefile
+          THEOS="$RUNNER_TEMP/theos" make clean all FINALPACKAGE=1
+          dylib="$(find .theos -type f -name 'DuoFaceSpeedHUD.dylib' -print -quit)"
+          test -s "$dylib"
+          cp "$dylib" "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib"
+          xcrun lipo "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" -verify_arch arm64
+          echo SPEED7_NATIVE_SPRINGBOARD_SPLIT_HUD_DYLIB_ARM64_COMPILE_PASS
+      - name: Package rootless exact 39 native and 2 owner-probe unchanged plus Speed7 HUD
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='dist/payload-migration/native12-speed7split'
+          mkdir -p "$target"
+          deb="$target/com.duoface.independent_0.1.0~native12+speed7split_iphoneos-arm64.deb"
+          python3 migration/full_payload/native_test/build_native12_speed7split_candidate.py \
+            --hud "$RUNNER_TEMP/DuoFaceSpeedHUD.dylib" --output "$deb" \
+            --report "$target/BAO_CAO.json"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.independent'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.0~native12+speed7split'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$deb" > "$target/CONTENTS.txt"
+          for n in DuoFaceSpeedHUD DuoFaceSpeedOwner; do
+            test "$(grep -c "$n.dylib" "$target/CONTENTS.txt")" -eq 1
+            test "$(grep -c "$n.plist" "$target/CONTENTS.txt")" -eq 1
+          done
+          mkdir -p "$RUNNER_TEMP/speed7-extract"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/speed7-extract"
+          for n in DuoFaceSpeedHUD DuoFaceSpeedOwner; do
+            filt="$RUNNER_TEMP/speed7-extract/var/jb/Library/MobileSubstrate/DynamicLibraries/$n.plist"
+            grep -Fq '"SpringBoard"' "$filt"
+            ! grep -Eiq 'CarPlayApp|CarPlayTemplateUIHost|Waze|GOFA' "$filt"
+          done
+          ! grep -E 'WazeGMapHUDSource|GofaGMapHUDSource|GofaCarplayGlobal|GoogleMapsVietMap' "$target/CONTENTS.txt"
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          j=json.loads(Path('dist/payload-migration/native12-speed7split/BAO_CAO.json').read_text())
+          assert j['preserved_files_byte_identical']==41
+          assert j['replaced_files_exact_count']==2
+          assert j['original_native12_and_springboard_owner_probe_unchanged']
+          assert j['carplayapp_HUD_injection_removed']
+          assert j['speed7_filter_springboard_only']
+          assert j['requires_native_bridged_split_app_two_attached_panels']
+          assert not j['creates_new_UIWindow']
+          assert not j['device_tested']
+          print('SPEED7_EXACT_41_FILES_NATIVE12_OWNER_PRESERVED_SPLIT_ONLY_HUD_INJECTION_PASS')
+          PY
+          shasum -a 256 "$deb" > "$target/SHA256SUMS"
+          echo SPEED7_SPLIT_HOST_SIGNED_DEB_QA_PASS_NO_SILEO_NOT_DEVICE_TESTED
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native12-speed7split-qa-NOT-Sileo
+          path: dist/payload-migration/native12-speed7split/
+          if-no-files-found: warn
+      - name: Persist QA package only in DuoFace feature branch, never publish Sileo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/payload-migration/native12-speed7split/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifact: Native12 Speed7 in-place SpringBoard gated HUD QA DEB (NO Sileo) [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin feature/duoface-exact-payload-migration
+            git rebase origin/feature/duoface-exact-payload-migration
+            git push origin HEAD:feature/duoface-exact-payload-migration && exit 0
+            sleep 2
+          done
+          exit 1
