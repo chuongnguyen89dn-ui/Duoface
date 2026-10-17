@@ -1,5 +1,8 @@
 # Bàn giao dự án DuoFace mới
 
+## 17/10/2026 07:40 +07 — DEVICE-FILE-GLOB-TYPO
+Ảnh IMG_375FB62A-25F5-46C0-AB7A-2B460FD41D4D.jpeg: lệnh ls trong ảnh kết thúc *Spees* (dòng quấn Spee rồi s*), khác mẫu đã đưa *Speed*. zsh báo no matches found trên mẫu này; chưa chứng minh DuoFaceSpeedHUD.dylib/plist vắng mặt. Version Speed5 đã confirmed ở checkpoint trước. Đổi lệnh kiểm read-only sang `ls /var/jb/Library/M*/D* | grep -i duo` để liệt kê file DuoFace mà không nhập Speed; xem có DuoFaceSpeedHUD.dylib/plist hay đuôi disabled. Chưa có câu trả lời đã respring sau cài. Chưa sửa/build/deploy hoặc xác nhận injection. Đã thấy log chính không tồn tại, vẫn cần kiểm payload và fallback theo bằng chứng.
+
 ## 17/10/2026 07:37 +07 — SPEED5-INSTALL-CONFIRMED-DEVICE
 CONFIRMED từ ảnh IMG_7D4618F3-B1C0-43D4-A898-791959C60CF2.jpeg: `dpkg -l | grep -i duo` trả `ii com.duoface.independent 0.1.0~native12+speed5scene iphoneos-arm64`. Đã xác nhận đúng gói/phiên bản được dpkg ghi nhận installed/configured trên thiết bị; thay trạng thái install unknown trước đây. Cùng ảnh xác nhận tail đường dẫn chính /var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl không có file. Chưa xác nhận payload tồn tại/nguyên vẹn hoặc module đã nạp SpringBoard; không kết luận thiếu TW Hub, source data, hoặc owner scene là nguyên nhân. Bước kế read-only: `ls -l /var/jb/Library/M*/D*/*Speed*`, cần thấy DuoFaceSpeedHUD.dylib và DuoFaceSpeedHUD.plist (package build có dylib 107632 bytes, plist 49 bytes). Hỏi đã respring sau cài chưa, không tự kết luận đã làm. Nếu file hiện diện, kiểm filter/loader và tìm log fallback; nếu thiếu file hoặc đổi đuôi disabled, xử lý đúng bằng chứng. Không build/deploy mới, không đổi Native12.
 
