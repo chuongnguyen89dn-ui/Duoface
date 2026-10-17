@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — standalone3diag BUILD SUCCESS, BINARY PERSISTED
+
+**Xác minh GitHub:** workflow G1/G2 QA run `39049780033` completed **success**, job `117445821121` success, artifact `12106877333` tên `DuoFace-CarPlay-G1-G2-Standalone3Diag-DEB`. DEB đã persist trong DuoFace repo `dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb` (1,068,788 bytes), SHA256 `0a86978e1d55cd7618c930d73b27afd9f26a4b42ea063681a32993e0cb1c0832`; `BAO_CAO.json` và `SHA256SUMS` đã đọc xác minh trùng nhau. Build source `6b536df18951768711880a1c8f33eea1a04d57c9`. **Chưa kiểm thử trên iPhone, chưa publish Sileo**: metadata report `sileo_published:false`. Repo `carplaydsp` branch main workflow `.github/workflows/duoface-sileo.yml` là staging cũ, chỉ nhận `com.duoface.app`, không phù hợp `com.duoface.visual12`; không chạy nó để tránh ảnh hưởng production. Cần truy đúng workflow Pages phát hành trước đó và cập nhật có kiểm soát, không tự tuyên bố đã lên Sileo.
+
+**Tiếp theo:** xác định pipeline thực tế phát hành `carplaydsp` Pages (run cũ 39047325981) và cách thêm gói QA mới độc lập; verify URL/Packages/Release sau publish; lấy log G1 từ standalone3diag. Native12+Hub8 nguyên trạng.
+
+
 ## 2026-10-17 — FIX BUILD FAIL standalone3diag: VERIFIER CÒN VERSION CŨ
 
 **Run thất bại đã đọc log thật:** GitHub Actions G1/G2 QA run `39049672620`, job `117445519771`, `Compile sign package and verify QA G1 G2 payload` failure, log: `replacement/visual12/verify_g1g2_qa.py` dòng 18 `assert "Version: 1.0.3-12~standalone2qa\\n" in control` -> `AssertionError`, exit 1. Trước lỗi đã compile ObjC và `dpkg-deb: building package ...standalone3diag...`; artifact upload/persist skipped, chưa có DEB mới trên Sileo. **Nguyên nhân chính xác:** đổi version ở build script/workflow nhưng quên đổi assertion verifier; không phải lỗi compile/scene API.
