@@ -4,9 +4,9 @@
 
 ## Quan sát thực tế xác nhận qua file
 
-- **23/23 records valid JSON**, `pid=53824`, `process=CarPlay`, tất cả `mounted:false`, `owner:nil`, `host:nil`. `time` UNIX float trong phạm vi `1792202685.8790231` đến `1792202907.382849` (~221.5s).
+- **23/23 records valid JSON; source file SHA256 `0cd43f7eba4f37f1f581dafa8c3b5cf08092fcf4c4712c7902a3417d287a1a0a`**, `pid=53824`, `process=CarPlay`, tất cả `mounted:false`, `owner:nil`, `host:nil`. `time` UNIX float trong phạm vi `1792202685.8790231` đến `1792202907.382849` (~221.5s).
 - Event start: `LOADED: Speed6 CarPlayApp Native12 split-host module` tại 1792202685.8790231; `HOOKED: CBWindow + CBBridgeManagerDashboard activation only` tại 1792202685.8862. **THỰC TẾ module đã nạp, ObjC method hooks đã được cài vào CarPlay**; giả thuyết thiếu GOFAHUD hay dylib/plist mismatch không giải thích trạng thái này.
-- **12 lần** `WAIT: CBBridgeManagerDashboard.activated=NO`, từ 1792202685.886642 tới 1792202907.382849. `UNMOUNTED: Dashboard bridgeDidDeactivate` xuất hiện **8 lần** xen kẽ. Đây là chứng cứ trực tiếp dashboard activation singleton đang FALSE phần lớn thời gian trên tiến trình đã hook.
+- **9 lần** `WAIT: CBBridgeManagerDashboard.activated=NO`, từ 1792202685.886642 tới 1792202907.382849. `UNMOUNTED: Dashboard bridgeDidDeactivate` xuất hiện **8 lần** xen kẽ. Đây là chứng cứ trực tiếp dashboard activation singleton đang FALSE phần lớn thời gian trên tiến trình đã hook.
 - **4 lần** `WAIT: no visible activeCarPlayWindow/content/controller host`, tại 1792202713.0933661, 1792202734.7448931, 1792202747.0673409, 1792202838.6217241. Code chỉ tới bước này khi đã qua `S6DashboardActive` (tức có thời điểm `activated=YES`); nhưng **không tìm ra UIView/CBWindow hợp lệ**.
 - **0 lần** `MOUNTED`, **0 lần** `WAIT: turn OFF GOFA HUD...`, **0 lần** `WAIT: GOFA foreground`, **0 lần** `WAIT: Native12 dashboard/CBWindow classes unavailable`.
 - Vì event `WAIT` được debounce theo **stage string** và cứ 0.5 giây reconcile, các số lần không đại diện số tick thật. Đặc biệt trạng thái activated `YES` chỉ suy ra được lúc log tới bước `no visible ...host`; không khẳng định đúng lúc người dùng ở split.
