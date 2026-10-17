@@ -561,6 +561,7 @@ static void S7Reconcile(void) {
         // Keep the HUD and optional settings above BOTH split panes in exact native root.
         // No UIWindow created and no change to native split activation gate.
         [root bringSubviewToFront:s7HUD];
+        if(s7HUD.settingsPanel)[root bringSubviewToFront:s7HUD.settingsPanel];
         s7HUD.center=DFClampCenter(s7HUD.center,DFAllowedArea(s7HUD),s7HUD.bounds.size);
         [s7HUD tick:nil];
         s7WasMounted=s7HUD.superview==root && s7HUD.window==root && !s7HUD.hidden;
