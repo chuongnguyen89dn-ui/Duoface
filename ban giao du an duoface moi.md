@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-17 — SILEO standalone3diag PUBLISH RUN
+
+**Người dùng yêu cầu đưa lên Sileo.** Đã sửa repo publisher `chuongnguyen89dn-ui/carplaydsp` branch `main`, file `.github/workflows/build.yml`, commit `e1068929afe3c2d4f1a09115a719e2a7e8a31e9e`. Thay URL gói QA G1/G2 từ standalone2qa thành `https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/feature/visual12-duodash-recovery/dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb`; SHA256 pin `0a86978e1d55cd7618c930d73b27afd9f26a4b42ea063681a32993e0cb1c0832`, metadata version `1.0.3-12~standalone3diag`, lọc gói cũ. **Run publisher** `39050003209`, URL https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39050003209 , trạng thái **queued** tại 2026-10-17 16:34 UTC; chưa xác nhận Pages live. **Không thay Native12+Hub8**. Nguồn DEB DuoFace build run `39049780033` success, artifact `12106877333` và file đã persist. Không nhầm workflow `duoface-sileo.yml` staging với pipeline Pages `build.yml`.
+
+**Tiếp theo:** kiểm tra run publisher 39050003209 conclusion, nếu fail đọc job logs/sửa chính xác; nếu success xác minh `https://chuongnguyen89dn-ui.github.io/carplaydsp/Packages` có version standalone3diag, `debs/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb` trả HTTP 200 và hash; yêu cầu user refresh sources Sileo và thử G1, gửi log. Không tuyên bố đã lên Sileo khi Pages chưa verify.
+
+
 ## 2026-10-17 — standalone3diag BUILD SUCCESS, BINARY PERSISTED
 
 **Xác minh GitHub:** workflow G1/G2 QA run `39049780033` completed **success**, job `117445821121` success, artifact `12106877333` tên `DuoFace-CarPlay-G1-G2-Standalone3Diag-DEB`. DEB đã persist trong DuoFace repo `dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone3diag_iphoneos-arm64.deb` (1,068,788 bytes), SHA256 `0a86978e1d55cd7618c930d73b27afd9f26a4b42ea063681a32993e0cb1c0832`; `BAO_CAO.json` và `SHA256SUMS` đã đọc xác minh trùng nhau. Build source `6b536df18951768711880a1c8f33eea1a04d57c9`. **Chưa kiểm thử trên iPhone, chưa publish Sileo**: metadata report `sileo_published:false`. Repo `carplaydsp` branch main workflow `.github/workflows/duoface-sileo.yml` là staging cũ, chỉ nhận `com.duoface.app`, không phù hợp `com.duoface.visual12`; không chạy nó để tránh ảnh hưởng production. Cần truy đúng workflow Pages phát hành trước đó và cập nhật có kiểm soát, không tự tuyên bố đã lên Sileo.
