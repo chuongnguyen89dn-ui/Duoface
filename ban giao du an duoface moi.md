@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — NATIVE12_EXPORTED_SOURCE_HAS_INTEGRATION_VALUE
+
+- **QUESTION/CLARIFICATION:** Người dùng hỏi bộ 143 tệp text có ích cho tách giấy phép và nối nguồn hay không. **ĐÁNH GIÁ:** Có, quan trọng trong việc xác định ABI/callback và giữ UI/HUD Native12, nhưng đó chỉ là mã tweak, script và thử nghiệm ngoài lõi, **không phải nguyên source Native12**.
+- **ĐỐI CHIẾU SOURCE ĐÃ XÁC MINH:** `runtime/connection/DFConnectionNativeHooks.xm` truy `CBLicenseSyncManager +isCarPlayScreenConnected`, hook `CBBridgeManager handleCarPlayConnectionChanged:/handleScreenDidConnect:/handleScreenDidDisconnect:/trackBridgedBundleID:` và gọi `%orig`. Nếu xóa `CBLicenseSyncManager` sẽ mất đường detector hiện có; nếu xóa `CBBridgeManager` sẽ mất chức năng manager. `src/DuoFaceVisualHook.m` hook `CBSlotPillView`, `CBDividerView`, `CBSplitSplashScreenView` để giữ native view. `runtime/fullscreen/DFPickerZoomMenu.xm` hook native `CBMultitaskingOverlayView` và giữ original actions. `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm` gắn HUD8 vào `CBWindow.rootViewController.view` khi có native split hai app; không tạo UIWindow. `migration/full_payload/native_test/build_native12_speed8compact_candidate.py` giữ **42/43 file byte-identical**, chỉ thay HUD dylib. Những điểm này **hỗ trợ ghép nối & khoanh ranh giới**, không tạo lại được host activation/policy trong compiled `DuoFaceDashboard.dylib`.
+- **BÁO CÁO ĐÃ LƯU:** `docs/duoface-original104-bridge-license-separation-20261018.md` bổ sung `SOURCE_143_FILES_FUNCTIONAL_VALUE_CROSSWALK`, commit `662b8b3a3c983c412c2a5bc4b03a382d2a432b0b`.
+- **BLOCKER:** Không có source gốc `CBBridgeManagerDashboard/CBBridgeManager` để tách hoàn toàn license service trong compiled Native12 mà vẫn giữ renderer; đã quan sát policy=false và không có window nhưng chưa chứng minh nhân quả trial→policy. Không được hứa chỉ nối vài file .xm hoặc đổi getter sẽ khôi phục được.
+- **NEXT ACTION:** kiểm chứng tuyến event display → `requestActivation`/policy → `activated` → `CBWindow.createWindows`/show → attach, so sánh log iPhone X / iPhone 8 Plus. Chỉ xác định kiến trúc source-owned adapter sau khi đủ callback ABI/source/quyền dùng. Không sửa mã, không build, không deploy, không thay bản Native12 HUD8/Sileo/`main` trong lượt này.
+
+
 ## 2026-10-18 — SOURCE_EXPORT_NATIVE12_HUD8_RECONSTRUCTION_SCRIPT
 
 - **NHIỆM VỤ:** Người dùng muốn toàn bộ code Native12 + HUD8 dưới dạng file, không DEB. GitHub thật không chứa source hoàn chỉnh hai Mach-O `DuoFaceUI` và `DuoFaceDashboard.dylib`, vì vậy không hứa source gốc 100%, không giải biên dịch thành nguồn giả.
