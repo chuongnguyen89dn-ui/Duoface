@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — USER DEVICE PASS standalone6invalidate; chuyển sang ghép giao diện
+
+- USER_REPORTED (chưa có log tự động): người dùng đã cập nhật bản QA standalone6invalidate từ Sileo và sử dụng bình thường; chưa báo lỗi SpringBoard khi sử dụng. Không suy rộng thành stress-test/reconnect đã PASS.
+- QUYẾT ĐỊNH: đủ điều kiện bắt đầu giai đoạn tích hợp, KHÔNG ghép trực tiếp QA root hai ô thử nghiệm vào Native12; giữ cơ chế scene/close/invalidate QA độc lập, tái sử dụng UI DuoFace hiện có, không tạo giao diện mới. Giữ nguyên Hub8, Native12 và Sileo đang ổn định cho tới khi có gói tích hợp riêng và test.
+- CODE INSPECTED: replacement/visual12/engine/runtime/DFCarPlayQARootController.m là root QA riêng với leftPane/rightPane, chia 50/50; replacement/visual12/build_g1g2_qa.sh biên dịch với -DDFCARPLAY_QA=1 và tên gói com.duoface.visual12. Đây chưa phải đường UI chính thức.
+- NEXT: đối chiếu UI/feature Native12 với DFCarPlaySplitCoordinator và DFIRuntime, lập adapter nối picker/menu/zoom/split vào bridge hiện tại trên nhánh QA; tạo phiên bản DEB thử nghiệm mới, build và kiểm tra CI trước khi cân nhắc Sileo. Không thay Native12/Hub8; cần test máy thật sau ghép.
+
+
 ## 2026-10-18 — SILEO LIVE standalone6invalidate / đã xác minh public
 
 - USER_DECISION: yêu cầu đưa bản vừa build lên Sileo để test. Đã phát hành đúng QA `com.duoface.visual12`, version `1.0.3-12~standalone6invalidate`, Name `DuoFace CarPlay QA G1/G2 (experimental)`.
