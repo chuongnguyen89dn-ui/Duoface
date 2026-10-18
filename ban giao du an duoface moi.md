@@ -1,5 +1,11 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — CORRECTION: revert premature HUD before full Native8 UI transfer
+- User explicitly corrected implementation order: migrate/verify the **entire Native HUD 8 interface and functions** into existing QA first, not implement a standalone mock bubble. The previous `f95c905` addition was premature and not a faithful Native8 port.
+- ACTUAL FIX: source commit `e68d4fe0a544f78f3a11802c6022f0e29a3615b3` removes the QA-only `DFV12Speed8HUD` class, owner property, viewDidLoad mount and layout logic from `replacement/visual12/engine/runtime/DFIInterface.inc`; refetch verified symbol absent. Existing QA scene lifecycle and `standalone6invalidate` fix remain unchanged. Native Sileo untouched.
+- NEXT PRIORITY: inspect Native8 *full* UI source/payload against Visual12 QA (menu, layouts, split controls, settings, speed bubble, launch/close). Make a parity checklist and port the existing implementations before considering HUD data. Do not claim UI parity without proof; no QA build/device test for revert yet.
+
+
 ## 2026-10-18 — Native HUD 8 visual QA code checkpoint
 - Source commit `f95c905e67e5e4de4a0a36ced1cba752114567e3`: `replacement/visual12/engine/runtime/DFIInterface.inc` now contains `DFV12Speed8HUD` and a single HUD owned by `DFV12SplitController`. Initial compact bubble has speed/limit placeholders, drag position persistence, long-press resize/opacity/hide controls. This is only a partial UI port; source selection, limit toggle, full settings persistence and data transport not yet ported.
 - QA source commit read-back verified. CI/device testing not yet verified. Native on Sileo untouched. Next check Visual12 QA compiler, then port remaining Native8 controls and correct HUD geometry.
