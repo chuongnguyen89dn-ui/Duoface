@@ -97,19 +97,19 @@ def inspect_native12(path: Path) -> dict:
 
 def self_test() -> None:
     import tempfile
-    b=bytearray(0x1100)
+    b=bytearray(0x3000)
     struct.pack_into("<IiiIIIII",b,0,MH_MAGIC_64,0x0100000c,0,6,1,72,0,0)
     struct.pack_into("<II16sQQQQiiII",b,32,
         LC_SEGMENT_64,72,b"__DATA_CONST".ljust(16,b"\\0"),
-        0x312000,0x1000,0x100,0x1000,7,3,0,0)
-    struct.pack_into("<d",b,0x100+0x488,32.0)
+        0x311000,0x2000,0x100,0x2000,7,3,0,0)
+    struct.pack_into("<d",b,0x100+0x1488,32.0)
     struct.pack_into("<d",b,0x100+0x948,-12.0)
     with tempfile.TemporaryDirectory() as tmp:
         p=Path(tmp)/"fixture.dylib";p.write_bytes(b)
         got=inspect_native12(p)
         assert got["literals"]["divider_short_axis_threshold"]["value"]==32
         assert got["literals"]["divider_hit_region_constant"]["value"]==-12
-        for addr in (0x500000, 0x312ffb):
+        for addr in (0x500000, 0x313ffb):
             try:read_double_vmaddr(p,addr)
             except ValueError:pass
             else:raise AssertionError("invalid pointer mapping accepted")
