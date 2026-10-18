@@ -415,6 +415,14 @@ static NSArray *DFIAvailableApps(void) {
 - (void)exitSplit{DFIStop();}
 - (void)shutdown {
  DFIPerfMark(@"shutdown",nil);
- if(self.shuttingDown)return;self.shuttingDown=YES;[self.pendingPanes removeAllObjects];[self.hideTimer invalidate];[self dismissPanel];for(id host in self.hosts)if(host!=NSNull.null)[host close];[self.hosts removeAllObjects];
+ if(self.shuttingDown)return;
+ self.shuttingDown=YES;
+ [self.pendingPanes removeAllObjects];
+ [self.hideTimer invalidate];
+ [self dismissPanel];
+ // Release pane ownership before scene teardown; callbacks must not observe a live slot.
+ NSArray *retiringHosts=[self.hosts copy];
+ [self.hosts removeAllObjects];
+ for(id host in retiringHosts)if(host!=NSNull.null)[host close];
 }
 @end
