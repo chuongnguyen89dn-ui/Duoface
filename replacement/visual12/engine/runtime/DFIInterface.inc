@@ -122,6 +122,8 @@ static NSArray *DFIAvailableApps(void) {
 @interface DFV12SplitController ()
 @property(nonatomic,strong) NSArray<UIView *> *panes;
 @property(nonatomic,strong) NSMutableArray *hosts;
+@property(nonatomic,strong) DFCarPlaySplitCoordinator *sceneBridge;
+
 @property(nonatomic,strong) NSArray<UIButton *> *emptyButtons;
 @property(nonatomic,strong) NSArray<UIButton *> *paneButtons;
 @property(nonatomic,strong) NSArray<UIButton *> *grips;
