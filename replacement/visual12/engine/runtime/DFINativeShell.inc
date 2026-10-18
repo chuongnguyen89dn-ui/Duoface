@@ -70,6 +70,9 @@
 @property(nonatomic,strong,readonly) UIButton *dotsButton;
 @property(nonatomic,strong,readonly) UIButton *expandButton;
 @property(nonatomic,strong,readonly) UIButton *restoreButton;
+@property(nonatomic) BOOL compactMode;
+@property(nonatomic) BOOL showsExpandButton;
+- (CGSize)nativeReferenceSize;
 - (instancetype)initWithSlot:(NSInteger)slot target:(id)target
                  pickAction:(SEL)pickAction focusAction:(SEL)focusAction
           restoreAction:(SEL)restoreAction;
@@ -79,6 +82,7 @@
     UIButton *_dotsButton;
     UIButton *_expandButton;
     UIButton *_restoreButton;
+    BOOL _focusedMode;
 }
 static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
                                     NSString *asset, NSString *identifier,
@@ -108,6 +112,9 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
         self.layer.masksToBounds=YES;
         self.accessibilityIdentifier=
            [NSString stringWithFormat:@"duoface.native.slot.%ld.pill",(long)slot];
+        // Native12 constructor initWithSlotIndex: initial states:
+        // isFocusedMode=NO, showsExpandButton=YES, isCompactMode=NO.
+        _focusedMode=NO;_compactMode=NO;_showsExpandButton=YES;
         _dotsButton=DFINativePillButton(slot,@"ellipsis",
              @"VisualAssets/duoface-picker.png",@"app",target,pickAction);
         _expandButton=DFINativePillButton(slot,@"arrow.up.left.and.arrow.down.right",
@@ -127,14 +134,38 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
 - (UIButton *)dotsButton{return _dotsButton;}
 - (UIButton *)expandButton{return _expandButton;}
 - (UIButton *)restoreButton{return _restoreButton;}
+- (CGSize)nativeReferenceSize {
+    // Exact Native12 CBSlotPillView.updateBoundsSize IMP 0x85184:
+    // flags: +0xc58 focused; +0xc5c showsExpandButton; +0xc60 compact.
+    // Branches verified through original setIsFocusedMode:/setShowsExpandButton:/
+    // setIsCompactMode: static setters in same signed DEB.
+    CGFloat width=_focusedMode?(_compactMode?72.0:80.0):
+                  (_showsExpandButton?(_compactMode?64.0:76.0):
+                                      (_compactMode?38.0:44.0));
+    return CGSizeMake(width,_compactMode?19.0:22.0);
+}
 - (void)setFocused:(BOOL)focused {
-    _expandButton.hidden=focused;
+    _focusedMode=focused;
+    _expandButton.hidden=focused || !_showsExpandButton;
     _restoreButton.hidden=!focused;
+    [self setNeedsLayout];
+}
+- (void)setCompactMode:(BOOL)value {
+    _compactMode=value;
+    [self setNeedsLayout];
+}
+- (void)setShowsExpandButton:(BOOL)value {
+    _showsExpandButton=value;
+    [self setFocused:_focusedMode];
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _dotsButton.frame=CGRectMake(4,0,30,22);
-    _expandButton.frame=CGRectMake(39,0,30,22);
+    CGFloat height=self.bounds.size.height;
+    CGFloat width=self.bounds.size.width;
+    // Native outer pill mode geometry is verified; these individual button
+    // hitboxes remain QA-owned until per-button CGRect ARM64 is decoded.
+    _dotsButton.frame=CGRectMake(4,0,30,height);
+    _expandButton.frame=CGRectMake(MAX(4,width-35),0,30,height);
     _restoreButton.frame=_expandButton.frame;
 }
 // Native12 CBSlotPillView.pointInside:withEvent: at 0x85348 expands
