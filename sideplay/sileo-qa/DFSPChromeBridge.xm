@@ -98,7 +98,8 @@ static void DFSPChromeObserve(UIWindow *win) {
 }
 static void DFSPChromeEnumerate(void) {
     UIApplication *app=UIApplication.sharedApplication;
-    for (UIWindow *win in app.windows)DFSPChromeApplyToWindow(win);
+    // iOS16+: UIApplication.windows is deprecated and -Werror blocks builds.
+    // The CarPlay/Dashboard process owns its UIWindows through UIWindowScene.
     if (@available(iOS 13.0,*)) {
         for (UIScene *scene in app.connectedScenes)
             if ([scene isKindOfClass:UIWindowScene.class])
