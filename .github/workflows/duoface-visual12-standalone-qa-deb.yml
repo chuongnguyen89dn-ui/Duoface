@@ -1,7 +1,15 @@
-name: DuoFace Native12 shell visual acceptance QA - not Sileo yet
-# Native12 UI shell6 has a pinned, CI-built, Sileo-published QA artifact.
-# Future release builds are manual-only until the user evaluates visual parity.
+name: DuoFace Native12 shell7 separate UI QA DEB - not Sileo
+# Native12 UI shell6 is preserved. Shell7 is a new separate QA candidate;
+# this workflow never edits carplaydsp/Sileo, Hub or Native12 stable packages.
 on:
+  # Automatically build this single new QA packaging revision; subsequent UI
+  # source changes alone do not publish or rebuild the candidate.
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-visual12-standalone-qa-deb.yml'
+      - 'replacement/visual12/build_qa.sh'
+      - 'replacement/visual12/verify_qa.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -33,6 +41,7 @@ jobs:
           set -euo pipefail
           python3 replacement/visual12/tests/test_scene_contract.py
           python3 replacement/visual12/tests/test_native_shell_structure.py
+          python3 scripts/test_original104_function_native12_visual_focus.py
       - name: Install iOS rootless DEB build tools
         shell: bash
         run: |
@@ -44,23 +53,23 @@ jobs:
         run: |
           set -euo pipefail
           bash replacement/visual12/build_qa.sh
-          p='dist/visual12-native-shell6-visual-qa/com.duoface.visual12_1.0.3-12~ui8native6_iphoneos-arm64.deb'
+          p='dist/visual12-native-shell7-visual-qa/com.duoface.visual12_1.0.3-12~ui8native7_iphoneos-arm64.deb'
           test -s "$p"
           test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
-          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~ui8native6'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~ui8native7'
           python3 replacement/visual12/verify_qa.py "$p"
-          cat dist/visual12-native-shell6-visual-qa/BAO_CAO.json
-          cat dist/visual12-native-shell6-visual-qa/SHA256SUMS
+          cat dist/visual12-native-shell7-visual-qa/BAO_CAO.json
+          cat dist/visual12-native-shell7-visual-qa/SHA256SUMS
       - name: Upload verified DEB as CI artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFaceVisual12-Native12-Shell6-VISUAL-PREVIEW-QA
+          name: DuoFaceVisual12-Native12-Shell7-VISUAL-PREVIEW-QA
           path: |
-            dist/visual12-native-shell6-visual-qa/*.deb
-            dist/visual12-native-shell6-visual-qa/BAO_CAO.json
-            dist/visual12-native-shell6-visual-qa/CONTENTS.txt
-            dist/visual12-native-shell6-visual-qa/SHA256SUMS
+            dist/visual12-native-shell7-visual-qa/*.deb
+            dist/visual12-native-shell7-visual-qa/BAO_CAO.json
+            dist/visual12-native-shell7-visual-qa/CONTENTS.txt
+            dist/visual12-native-shell7-visual-qa/SHA256SUMS
           if-no-files-found: error
       - name: Save exact DEB and QA checkpoint in project branch
         if: success()
@@ -69,7 +78,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/visual12-native-shell6-visual-qa
+          git add dist/visual12-native-shell7-visual-qa
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'artifact(native-ui): preserve isolated visual shell QA DEB and SHA256 [skip ci]'
           for attempt in 1 2 3 4 5; do
