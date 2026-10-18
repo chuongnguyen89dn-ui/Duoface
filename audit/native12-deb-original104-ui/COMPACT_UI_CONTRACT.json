@@ -1,6 +1,45 @@
 {
   "status": "NATIVE12_ACTUAL_DEB_COMPACT_UI_MAP",
   "static_only": true,
+  "divider_geometry": {
+    "status": "NATIVE12_DIVIDER_LITERAL_MAPPING_STATIC_ONLY",
+    "arch": "arm64",
+    "code_executed": false,
+    "device_tested": false,
+    "method": "CBDividerView.updateGripLayout",
+    "method_imp": "0xff460",
+    "selector_point_inside_imp": "0xff728",
+    "literals": {
+      "divider_short_axis_threshold": {
+        "vmaddr": "0x312488",
+        "segment": "__TEXT",
+        "file_offset": "0x312488",
+        "value": 280.0,
+        "raw_little_endian": "0000000000807140"
+      },
+      "divider_hit_region_constant": {
+        "vmaddr": "0x311948",
+        "segment": "__TEXT",
+        "file_offset": "0x311948",
+        "value": 0.01,
+        "raw_little_endian": "7b14ae47e17a843f"
+      }
+    },
+    "button_geometry": {
+      "short_axis_select": "isVertical ? bounds.width : bounds.height",
+      "small_button_side_pt": 28.0,
+      "large_button_side_pt": 30.0,
+      "switch_condition": "short_axis < threshold ? 28pt : 30pt",
+      "threshold_pt": 280.0,
+      "button_frame": "square CGRect; width == height == selected side",
+      "frame_call_asm": "0xff6a8-0xff6c0 (d0,d1 coordinate; d2=d3=d8)"
+    },
+    "limitations": [
+      "No live CarPlay bounds or layout modes measured",
+      "Raw divider hit-test constants are not sufficient to infer all CGRect branches",
+      "Owner of separate QA logo touch area remains to be tested on device"
+    ]
+  },
   "deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
   "original104_deb_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
   "native12_assets": [

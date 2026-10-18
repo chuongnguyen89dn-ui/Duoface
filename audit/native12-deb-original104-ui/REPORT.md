@@ -106,6 +106,16 @@ No vendor binary is embedded in independent QA. Distinguish image pixel dimensio
 - `startInParentViewController:`: Native12 `0xadf30`; original104 `0xadd08`. Native selector refs: `invalidated, -[x0 invalidated], hosting, -[x0 hosting], setHosting:, -[x0 setHosting:], sharedInstanceIfExists, +[CBBridgeManager sharedInstanceIfExists], window, -[x0 window], rootViewController, -[x0 rootViewController], sharedInstance, -[x0 sharedInstance], bundleIdentifier`. Arithmetic/control samples: 40.
 - `dismiss`: Native12 `0xaf01c`; original104 `0xaedf8`. Native selector refs: `setInvalidated:, -[x0 setInvalidated:], setHosting:, -[x0 setHosting:], beginAppearanceTransition:animated:, respondsToSelector:, -[x0 respondsToSelector:], endAppearanceTransition, -[x0 endAppearanceTransition], setRequestedMode:, -[x0 setRequestedMode:], view, -[x0 view], willMoveToParentViewController:, -[x0 willMoveToParentViewController:]`. Arithmetic/control samples: 6.
 
+## Decoded Native12 divider geometry literal evidence
+
+Read-only Mach-O LC_SEGMENT_64 mapping, pinned SHA; static, not receiver dimensions.
+- Short-axis threshold: **280pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).
+- Native move/grip button frame: square **28x28pt** for short-axis less than threshold,
+  square **30x30pt** otherwise; setFrame d2=d3=d8 at ff6b0–ff6c0.
+- Hit-test literal: **0.01** at VM 0x311948 (ARM64 ff858–ff864).
+  This constant alone is not a complete resolved hit rectangle.
+- QA divider button visual frame / hit forwarding still require code and parked-CarPlay validation.
+
 ## Interpretation and implementation order
 
 1. Use actual Native12 PNG hashes/dimensions and approve asset choice. Never infer UIButton size from PNG pixel size.
