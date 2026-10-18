@@ -50,9 +50,9 @@ check("SPPane" in adapter and "layoutInFrame:owned scaleMode:" in adapter and
       "DFSPRestorePaneVisibility" in adapter and
       "DFSPClearPaneFocus(YES)" in adapter,
       "real SidePlay app scene layout used; sibling pane visibility restored")
-check("DFSPHideReplacedView([pane chipView])" in adapter and
+check("DFSPHideLegacyPaneControls(pane)" in adapter and
       "DFSPRestoreReplacedViews()" in adapter,
-      "legacy SidePlay controls are hidden with reversible rollback")
+      "legacy SidePlay pane controls hidden using QA9 owned helper with reversible rollback")
 check("DFSPNativeSlotPill.m" in make and
       "DFSPNativeFrame.m" in make and
       "SidePlay.dylib" not in make,
