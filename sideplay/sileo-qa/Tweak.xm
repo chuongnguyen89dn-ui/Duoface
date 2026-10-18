@@ -8,12 +8,14 @@
 #import <math.h>
 #import "../native12-display/DFSPNativeFrame.h"
 #import "../native12-display/DFSPNative12Host.h"
+#import "DFSPChromeBridge.h"
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
 - (void)setCarWindowFrame:(CGRect)frame;
 - (CGRect)carWindowFrameNow;
 - (BOOL)carDockMode;
+- (CGRect)carDockArea; // verified SPDash 1.0.4 ObjC ABI CGRect
 - (void)layoutRootView;
 - (void)layout:(BOOL)animated;
 - (NSArray *)panes;
@@ -31,6 +33,11 @@
 - (UIView *)view;
 - (UIView *)chipView;
 - (UIView *)layoutButton;
+- (UIView *)addButton;
+- (UIView *)closeButton;
+- (UIView *)swapButton;
+- (UIView *)grabber;
+- (UIView *)titleLabel;
 - (id)appViewController;
 - (NSInteger)scaleMode;
 - (void)layoutInFrame:(CGRect)frame scaleMode:(NSInteger)mode;
@@ -168,6 +175,9 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
         [window setNeedsLayout];
         [window layoutIfNeeded];
         DFSPRefresh();
+        // Notify the *actual* CarPlay/Dashboard process; root-only resizing
+        // cannot make DBStatusBarWindow/CARStatusBarWindow reappear.
+        DFSPChromeRequest(YES,!full,DFSPSequence);
     } else {
         if (wasFull) [host applyFullscreen]; else [host applyNormal];
     }
@@ -202,6 +212,22 @@ static void DFSPHideSidePlayPlaceholder(UIView *view,NSUInteger depth) {
             DFSPHideReplacedView(item); // title-only SidePlay placeholder, not app scene.
         }
         DFSPHideSidePlayPlaceholder(item,depth+1);
+    }
+}
+static void DFSPHideLegacyPaneControls(SPPane *pane) {
+    if (!pane || !DFSPUI)return;
+    // These property getter selectors are verified in SidePlay 1.0.4 arm64.
+    // Hide only buttons/text replaced by DuoFace; NEVER pane.view,
+    // appViewController, contentView, canvasView or scene lifecycle.
+    for (UIView *candidate in @[[pane chipView]?:[NSNull null],
+                                [pane layoutButton]?:[NSNull null],
+                                [pane addButton]?:[NSNull null],
+                                [pane closeButton]?:[NSNull null],
+                                [pane swapButton]?:[NSNull null],
+                                [pane grabber]?:[NSNull null],
+                                [pane titleLabel]?:[NSNull null]]) {
+        if ([candidate isKindOfClass:UIView.class])
+            DFSPHideReplacedView(candidate);
     }
 }
 static CGRect DFSPPaneRect(SPPane *pane) {
@@ -268,16 +294,14 @@ static void DFSPRefresh(void) {
         SPPane *pane=panes[0];
         one=DFSPPaneRect(pane);
         firstApp=[pane appViewController]!=nil;
-        DFSPHideReplacedView([pane chipView]);
-        DFSPHideReplacedView([pane layoutButton]);
+        DFSPHideLegacyPaneControls(pane);
         if(!firstApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
     if(panes.count>1 && [panes[1] isKindOfClass:objc_getClass("SPPane")]) {
         SPPane *pane=panes[1];
         two=DFSPPaneRect(pane);
         secondApp=[pane appViewController]!=nil;
-        DFSPHideReplacedView([pane chipView]);
-        DFSPHideReplacedView([pane layoutButton]);
+        DFSPHideLegacyPaneControls(pane);
         if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
     DFSPUI.focusedSlot=DFSPFocusedSlot;
@@ -370,6 +394,8 @@ static void DFSPRefresh(void) {
 
 static void DFSPRemove(void) {
     UIWindow *oldWindow=DFSPWindow;
+    // Reset CarPlay chrome ownership and original hidden-state snapshots.
+    DFSPChromeRequest(NO,YES,DFSPSequence);
     [DFSPHost restoreAndDetach];
     DFSPHost=nil;
     DFSPVisualCompatibility=NO;
@@ -425,6 +451,13 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     // Fail closed instead of applying an unverified global window crop.
     UIView *realRoot=[owner rootView];
     CGRect usable=DFSPSystemUsableRect(window);
+    // SidePlay's own dock geometry is recorded verbatim for real-device triage.
+    // carDockArea is a CGRect from its original arm64 method metadata; do not
+    // force it into UIWindow-local coordinates without an owner validation.
+    DFSPLog([NSString stringWithFormat:
+        @"QA9 SidePlay host dockMode=%d dockArea=%@ carWindowFrameNow=%@ actualWindow=%@",
+        [owner carDockMode],NSStringFromCGRect([owner carDockArea]),
+        NSStringFromCGRect([owner carWindowFrameNow]),NSStringFromCGRect(window.frame)]);
     DFSPHost=[[DFSPNative12Host alloc]initWithCarPlayWindow:window
                     contentRoot:realRoot nativeUsableInWindow:usable];
     DFSPVisualCompatibility=(DFSPHost==nil);
@@ -466,7 +499,10 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         window.opaque=DFSPOriginalWindowOpaque;
     }
     if (DFSPVisualCompatibility)
-        DFSPLog(@"QA7 VISUAL_COMPATIBILITY: DuoFace pill/divider mounted, unsafe zoom disabled; native system bar UNVERIFIED");
+        DFSPLog(@"QA9 VISUAL_COMPATIBILITY: visual-only, Zoom locked; CarPlay bar receiver requested; window unchanged");
+    // Request native system bar even if geometry validation rejected the root.
+    // This must never mutate the SidePlay app-scene/window geometry.
+    if (!DFSPHost)DFSPChromeRequest(YES,YES,DFSPSequence);
     DFSPRefresh();
 }
 %hook SPDash
@@ -511,7 +547,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 static void DFSPTryInit(unsigned attempt) {
     if (objc_getClass("SPDash")) {
         %init;
-        DFSPLog(@"QA7 injection and SPDash hooks installed (0.1.5~native12visual7)");
+        DFSPLog(@"QA9 injection and SPDash hooks installed (0.1.7~native12chrome9)");
         return;
     }
     if (attempt<30)
