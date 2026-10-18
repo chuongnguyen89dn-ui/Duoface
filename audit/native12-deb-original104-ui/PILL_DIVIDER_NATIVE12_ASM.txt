@@ -1,0 +1,1308 @@
+# IMMUTABLE_NATIVE12_DEB_PILL_DIVIDER_STATIC_DISASSEMBLY
+Native12 Dashboard SHA256 9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea
+Binary ARM64 assembly only; no live view dimensions or dynamic dispatch proven.
+
+## CBSlotPillView::initWithSlotIndex:, Native12 IMP 0x841c0, original104 IMP 0x82f74
+Method length sampled: 668 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+841c0:	ff c3 04 d1	sub	sp, sp, #0x130
+841c4:	ef 3b 09 6d	stp	d15, d14, [sp, #0x90]
+841c8:	ed 33 0a 6d	stp	d13, d12, [sp, #0xa0]
+841cc:	eb 2b 0b 6d	stp	d11, d10, [sp, #0xb0]
+841d0:	e9 23 0c 6d	stp	d9, d8, [sp, #0xc0]
+841d4:	fc 6f 0d a9	stp	x28, x27, [sp, #0xd0]
+841d8:	fa 67 0e a9	stp	x26, x25, [sp, #0xe0]
+841dc:	f8 5f 0f a9	stp	x24, x23, [sp, #0xf0]
+841e0:	f6 57 10 a9	stp	x22, x21, [sp, #0x100]
+841e4:	f4 4f 11 a9	stp	x20, x19, [sp, #0x110]
+841e8:	fd 7b 12 a9	stp	x29, x30, [sp, #0x120]
+841ec:	fd 83 04 91	add	x29, sp, #0x120
+841f0:	f4 03 02 aa	mov	x20, x2
+841f4:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+841f8:	08 51 45 f9	ldr	x8, [x8, #0xaa0] ; Objc class ref: CBSlotPillView
+841fc:	e0 a3 07 a9	stp	x0, x8, [sp, #0x78]
+84200:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84204:	15 dd 44 f9	ldr	x21, [x8, #0x9b8] ; Objc selector ref: initWithFrame:
+84208:	68 0a e8 d2	mov	x8, #0x4053000000000000
+8420c:	02 01 67 9e	fmov	d2, x8
+84210:	03 d0 66 1e	fmov	d3, #22.00000000
+84214:	e0 e3 01 91	add	x0, sp, #0x78
+84218:	e0 03 67 9e	fmov	d0, xzr
+8421c:	e1 03 67 9e	fmov	d1, xzr
+84220:	e1 03 15 aa	mov	x1, x21
+84224:	bd a2 09 94	bl	0x2ecd18 ; Objc message: -[[x0 super] initWithFrame:]
+84228:	e0 3b 00 f9	str	x0, [sp, #0x70]
+8422c:	80 4e 00 b4	cbz	x0, 0x84bfc
+84230:	f5 27 00 f9	str	x21, [sp, #0x48]
+84234:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84238:	08 55 8c b9	ldrsw	x8, [x8, #0xc54]
+8423c:	f6 3b 40 f9	ldr	x22, [sp, #0x70]
+84240:	d4 6a 28 f8	str	x20, [x22, x8]
+84244:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84248:	08 59 8c b9	ldrsw	x8, [x8, #0xc58]
+8424c:	df 6a 28 38	strb	wzr, [x22, x8]
+84250:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84254:	08 5d 8c b9	ldrsw	x8, [x8, #0xc5c]
+84258:	29 00 80 52	mov	w9, #0x1
+8425c:	c9 6a 28 38	strb	w9, [x22, x8]
+84260:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84264:	08 61 8c b9	ldrsw	x8, [x8, #0xc60]
+84268:	df 6a 28 38	strb	wzr, [x22, x8]
+8426c:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84270:	00 3d 44 f9	ldr	x0, [x8, #0x878] ; Objc class ref: _OBJC_CLASS_$_NSMutableArray
+84274:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84278:	01 dd 45 f9	ldr	x1, [x8, #0xbb8] ; Objc selector ref: array
+8427c:	a1 a2 09 94	bl	0x2ecd00 ; Objc message: +[NSMutableArray array]
+84280:	fd 03 1d aa	mov	x29, x29
+84284:	b7 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84288:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+8428c:	09 65 8c b9	ldrsw	x9, [x8, #0xc64]
+84290:	c8 6a 69 f8	ldr	x8, [x22, x9]
+84294:	e9 1f 00 f9	str	x9, [sp, #0x38]
+84298:	c0 6a 29 f8	str	x0, [x22, x9]
+8429c:	e0 03 08 aa	mov	x0, x8
+842a0:	a4 a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+842a4:	d5 17 00 f0	adrp	x21, 763 ; 0x37f000
+842a8:	a0 0e 44 f9	ldr	x0, [x21, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+842ac:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+842b0:	01 b5 45 f9	ldr	x1, [x8, #0xb68] ; Objc selector ref: colorWithRed:green:blue:alpha:
+842b4:	68 14 00 90	adrp	x8, 652 ; 0x310000
+842b8:	00 35 46 fd	ldr	d0, [x8, #0xc68]
+842bc:	1f 20 03 d5	nop
+842c0:	01 39 46 fd	ldr	d1, [x8, #0xc70]
+842c4:	1f 20 03 d5	nop
+842c8:	02 3d 46 fd	ldr	d2, [x8, #0xc78]
+842cc:	48 14 00 f0	adrp	x8, 651 ; 0x30f000
+842d0:	03 5d 45 fd	ldr	d3, [x8, #0xab8]
+842d4:	8b a2 09 94	bl	0x2ecd00 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+842d8:	fd 03 1d aa	mov	x29, x29
+842dc:	a1 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+842e0:	f4 03 00 aa	mov	x20, x0
+842e4:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+842e8:	01 ed 44 f9	ldr	x1, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:
+842ec:	e0 03 16 aa	mov	x0, x22
+842f0:	f3 03 01 aa	mov	x19, x1
+842f4:	e2 03 14 aa	mov	x2, x20
+842f8:	82 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setBackgroundColor:]
+842fc:	e0 03 14 aa	mov	x0, x20
+84300:	8c a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84304:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84308:	17 0d 45 f9	ldr	x23, [x8, #0xa18] ; Objc selector ref: layer
+8430c:	e0 03 16 aa	mov	x0, x22
+84310:	e1 03 17 aa	mov	x1, x23
+84314:	7b a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 layer]
+84318:	fd 03 1d aa	mov	x29, x29
+8431c:	91 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84320:	f4 03 00 aa	mov	x20, x0
+84324:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84328:	01 11 45 f9	ldr	x1, [x8, #0xa20] ; Objc selector ref: setCornerRadius:
+8432c:	00 d0 64 1e	fmov	d0, #11.00000000
+84330:	fc 03 01 aa	mov	x28, x1
+84334:	73 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerRadius:]
+84338:	e0 03 14 aa	mov	x0, x20
+8433c:	7d a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84340:	e0 03 16 aa	mov	x0, x22
+84344:	f7 33 00 f9	str	x23, [sp, #0x60]
+84348:	e1 03 17 aa	mov	x1, x23
+8434c:	6d a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerRadius:]
+84350:	fd 03 1d aa	mov	x29, x29
+84354:	83 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84358:	f7 03 00 aa	mov	x23, x0
+8435c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84360:	14 45 47 f9	ldr	x20, [x8, #0xe88] ; Objc selector ref: setCornerCurve:
+84364:	1f 20 03 d5	nop
+84368:	01 ed 42 f9	ldr	x1, [x8, #0x5d8]
+8436c:	e2 03 14 aa	mov	x2, x20
+84370:	64 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerCurve:]
+84374:	f9 03 00 aa	mov	x25, x0
+84378:	e0 03 17 aa	mov	x0, x23
+8437c:	6d a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84380:	f9 01 00 34	cbz	w25, 0x843bc
+84384:	08 16 00 90	adrp	x8, 704 ; 0x344000
+84388:	08 a9 40 f9	ldr	x8, [x8, #0x150] ; literal pool symbol address: _kCACornerCurveContinuous
+8438c:	17 01 40 f9	ldr	x23, [x8]
+84390:	e0 3b 40 f9	ldr	x0, [sp, #0x70]
+84394:	e1 33 40 f9	ldr	x1, [sp, #0x60]
+84398:	5a a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerCurve:]
+8439c:	fd 03 1d aa	mov	x29, x29
+843a0:	70 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+843a4:	f9 03 00 aa	mov	x25, x0
+843a8:	e1 03 14 aa	mov	x1, x20
+843ac:	e2 03 17 aa	mov	x2, x23
+843b0:	54 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerCurve:]
+843b4:	e0 03 19 aa	mov	x0, x25
+843b8:	5e a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+843bc:	f6 3b 40 f9	ldr	x22, [sp, #0x70]
+843c0:	e0 03 16 aa	mov	x0, x22
+843c4:	f8 33 40 f9	ldr	x24, [sp, #0x60]
+843c8:	e1 03 18 aa	mov	x1, x24
+843cc:	4d a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerCurve:]
+843d0:	fd 03 1d aa	mov	x29, x29
+843d4:	63 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+843d8:	f4 03 00 aa	mov	x20, x0
+843dc:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+843e0:	01 15 45 f9	ldr	x1, [x8, #0xa28] ; Objc selector ref: setMasksToBounds:
+843e4:	02 00 80 52	mov	w2, #0x0
+843e8:	46 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setMasksToBounds:]
+843ec:	e0 03 14 aa	mov	x0, x20
+843f0:	50 a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+843f4:	e0 03 16 aa	mov	x0, x22
+843f8:	e1 03 18 aa	mov	x1, x24
+843fc:	41 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setMasksToBounds:]
+84400:	fd 03 1d aa	mov	x29, x29
+84404:	57 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84408:	f4 03 00 aa	mov	x20, x0
+8440c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84410:	01 19 45 f9	ldr	x1, [x8, #0xa30] ; Objc selector ref: setBorderWidth:
+84414:	48 14 00 f0	adrp	x8, 651 ; 0x30f000
+84418:	00 e1 44 fd	ldr	d0, [x8, #0x9c0]
+8441c:	39 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setBorderWidth:]
+84420:	e0 03 14 aa	mov	x0, x20
+84424:	43 a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84428:	a0 0e 44 f9	ldr	x0, [x21, #0x818]
+8442c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84430:	01 1d 45 f9	ldr	x1, [x8, #0xa38] ; Objc selector ref: colorWithWhite:alpha:
+84434:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84438:	01 41 46 fd	ldr	d1, [x8, #0xc80]
+8443c:	00 10 6e 1e	fmov	d0, #1.00000000
+84440:	e1 37 00 f9	str	x1, [sp, #0x68]
+84444:	2f a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 colorWithWhite:alpha:]
+84448:	fd 03 1d aa	mov	x29, x29
+8444c:	45 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84450:	3e a2 09 94	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+84454:	f4 03 00 aa	mov	x20, x0
+84458:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+8445c:	17 21 45 f9	ldr	x23, [x8, #0xa40] ; Objc selector ref: CGColor
+84460:	e1 03 17 aa	mov	x1, x23
+84464:	27 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+84468:	f9 03 00 aa	mov	x25, x0
+8446c:	e0 03 16 aa	mov	x0, x22
+84470:	e1 03 18 aa	mov	x1, x24
+84474:	23 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+84478:	fd 03 1d aa	mov	x29, x29
+8447c:	39 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84480:	fa 03 00 aa	mov	x26, x0
+84484:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84488:	01 25 45 f9	ldr	x1, [x8, #0xa48] ; Objc selector ref: setBorderColor:
+8448c:	e2 03 19 aa	mov	x2, x25
+84490:	1c a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setBorderColor:]
+84494:	e0 03 1a aa	mov	x0, x26
+84498:	26 a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+8449c:	e0 03 14 aa	mov	x0, x20
+844a0:	24 a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+844a4:	a0 0e 44 f9	ldr	x0, [x21, #0x818]
+844a8:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+844ac:	01 dd 46 f9	ldr	x1, [x8, #0xdb8] ; Objc selector ref: blackColor
+844b0:	14 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 blackColor]
+844b4:	fd 03 1d aa	mov	x29, x29
+844b8:	2a a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+844bc:	23 a2 09 94	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+844c0:	f4 03 00 aa	mov	x20, x0
+844c4:	e1 03 17 aa	mov	x1, x23
+844c8:	0e a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 blackColor]
+844cc:	f7 03 00 aa	mov	x23, x0
+844d0:	e0 03 16 aa	mov	x0, x22
+844d4:	e1 03 18 aa	mov	x1, x24
+844d8:	0a a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 blackColor]
+844dc:	fd 03 1d aa	mov	x29, x29
+844e0:	20 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+844e4:	f9 03 00 aa	mov	x25, x0
+844e8:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+844ec:	01 01 47 f9	ldr	x1, [x8, #0xe00] ; Objc selector ref: setShadowColor:
+844f0:	e2 03 17 aa	mov	x2, x23
+844f4:	03 a2 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowColor:]
+844f8:	e0 03 19 aa	mov	x0, x25
+844fc:	0d a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84500:	e0 03 14 aa	mov	x0, x20
+84504:	0b a2 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84508:	e0 03 16 aa	mov	x0, x22
+8450c:	e1 03 18 aa	mov	x1, x24
+84510:	fc a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowColor:]
+84514:	fd 03 1d aa	mov	x29, x29
+84518:	12 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+8451c:	f4 03 00 aa	mov	x20, x0
+84520:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84524:	01 05 47 f9	ldr	x1, [x8, #0xe08] ; Objc selector ref: setShadowOffset:
+84528:	ee 03 67 9e	fmov	d14, xzr
+8452c:	01 10 6f 1e	fmov	d1, #1.50000000
+84530:	e0 03 67 9e	fmov	d0, xzr
+84534:	f3 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowOffset:]
+84538:	e0 03 14 aa	mov	x0, x20
+8453c:	fd a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84540:	e0 03 16 aa	mov	x0, x22
+84544:	e1 03 18 aa	mov	x1, x24
+84548:	ee a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowOffset:]
+8454c:	fd 03 1d aa	mov	x29, x29
+84550:	04 a2 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84554:	f4 03 00 aa	mov	x20, x0
+84558:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+8455c:	01 0d 47 f9	ldr	x1, [x8, #0xe18] ; Objc selector ref: setShadowOpacity:
+84560:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84564:	00 e1 4c bd	ldr	s0, [x8, #0xce0]
+84568:	e6 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+8456c:	e0 03 14 aa	mov	x0, x20
+84570:	f0 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84574:	e0 03 16 aa	mov	x0, x22
+84578:	e1 03 18 aa	mov	x1, x24
+8457c:	e1 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+84580:	fd 03 1d aa	mov	x29, x29
+84584:	f7 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84588:	f4 03 00 aa	mov	x20, x0
+8458c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84590:	01 09 47 f9	ldr	x1, [x8, #0xe10] ; Objc selector ref: setShadowRadius:
+84594:	00 10 61 1e	fmov	d0, #3.00000000
+84598:	da a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShadowRadius:]
+8459c:	e0 03 14 aa	mov	x0, x20
+845a0:	e4 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+845a4:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+845a8:	01 f1 44 f9	ldr	x1, [x8, #0x9e0] ; Objc selector ref: setUserInteractionEnabled:
+845ac:	e0 03 16 aa	mov	x0, x22
+845b0:	e1 2f 00 f9	str	x1, [sp, #0x58]
+845b4:	22 00 80 52	mov	w2, #0x1
+845b8:	d2 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setUserInteractionEnabled:]
+845bc:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+845c0:	00 61 44 f9	ldr	x0, [x8, #0x8c0] ; Objc class ref: CBSlotPillHitButton
+845c4:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+845c8:	01 49 47 f9	ldr	x1, [x8, #0xe90] ; Objc selector ref: buttonWithType:
+845cc:	e1 2b 00 f9	str	x1, [sp, #0x50]
+845d0:	02 00 80 d2	mov	x2, #0x0
+845d4:	cb a1 09 94	bl	0x2ecd00 ; Objc message: +[CBSlotPillHitButton buttonWithType:]
+845d8:	f4 03 00 aa	mov	x20, x0
+845dc:	fd 03 1d aa	mov	x29, x29
+845e0:	e0 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+845e4:	f7 03 00 aa	mov	x23, x0
+845e8:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+845ec:	01 09 45 f9	ldr	x1, [x8, #0xa10] ; Objc selector ref: setFrame:
+845f0:	68 08 e8 d2	mov	x8, #0x4043000000000000
+845f4:	02 01 67 9e	fmov	d2, x8
+845f8:	03 d0 66 1e	fmov	d3, #22.00000000
+845fc:	e0 03 67 9e	fmov	d0, xzr
+84600:	e1 03 67 9e	fmov	d1, xzr
+84604:	e1 17 00 f9	str	x1, [sp, #0x28]
+84608:	be a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+8460c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84610:	01 4d 47 f9	ldr	x1, [x8, #0xe98] ; Objc selector ref: setHitInsets:
+84614:	01 90 74 1e	fmov	d1, #-10.00000000
+84618:	00 d0 74 1e	fmov	d0, #-11.00000000
+8461c:	e3 03 67 9e	fmov	d3, xzr
+84620:	e0 03 17 aa	mov	x0, x23
+84624:	e1 13 00 f9	str	x1, [sp, #0x20]
+84628:	02 1c a0 4e	mov.16b	v2, v0
+8462c:	b5 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHitInsets:]
+84630:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84634:	01 51 47 f9	ldr	x1, [x8, #0xea0] ; Objc selector ref: setShowsTouchWhenHighlighted:
+84638:	e0 03 17 aa	mov	x0, x23
+8463c:	e1 0f 00 f9	str	x1, [sp, #0x18]
+84640:	02 00 80 52	mov	w2, #0x0
+84644:	af a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setShowsTouchWhenHighlighted:]
+84648:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+8464c:	03 55 47 f9	ldr	x3, [x8, #0xea8] ; Objc selector ref: dotsTapped:
+84650:	1f 20 03 d5	nop
+84654:	01 59 47 f9	ldr	x1, [x8, #0xeb0]
+84658:	f7 23 00 f9	str	x23, [sp, #0x40]
+8465c:	e0 03 17 aa	mov	x0, x23
+84660:	e1 1b 00 f9	str	x1, [sp, #0x30]
+84664:	e2 03 16 aa	mov	x2, x22
+84668:	04 08 80 52	mov	w4, #0x40
+8466c:	a5 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 dotsTapped:]
+84670:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84674:	08 69 8c b9	ldrsw	x8, [x8, #0xc68]
+84678:	d9 02 08 8b	add	x25, x22, x8
+8467c:	e0 03 19 aa	mov	x0, x25
+84680:	e1 03 14 aa	mov	x1, x20
+84684:	c3 a1 09 94	bl	0x2ecd90 ; symbol stub for: _objc_storeStrong
+84688:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+8468c:	16 41 45 f9	ldr	x22, [x8, #0xa80] ; Objc selector ref: addSubview:
+84690:	1f 20 03 d5	nop
+84694:	17 f5 45 f9	ldr	x23, [x8, #0xbe8]
+84698:	7b 00 80 52	mov	w27, #0x3
+8469c:	0f 10 63 1e	fmov	d15, #6.00000000
+846a0:	68 14 00 90	adrp	x8, 652 ; 0x310000
+846a4:	0a 45 46 fd	ldr	d10, [x8, #0xc88]
+846a8:	1f 20 03 d5	nop
+846ac:	0b 49 46 fd	ldr	d11, [x8, #0xc90]
+846b0:	1f 20 03 d5	nop
+846b4:	0c 4d 46 fd	ldr	d12, [x8, #0xc98]
+846b8:	1f 20 03 d5	nop
+846bc:	08 51 46 fd	ldr	d8, [x8, #0xca0]
+846c0:	48 14 00 f0	adrp	x8, 651 ; 0x30f000
+846c4:	09 7d 45 fd	ldr	d9, [x8, #0xaf8]
+846c8:	68 14 00 90	adrp	x8, 652 ; 0x310000
+846cc:	0d 55 46 fd	ldr	d13, [x8, #0xca8]
+846d0:	fa 27 40 f9	ldr	x26, [sp, #0x48]
+846d4:	f8 1f 40 f9	ldr	x24, [sp, #0x38]
+846d8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+846dc:	00 2d 44 f9	ldr	x0, [x8, #0x858] ; Objc class ref: _OBJC_CLASS_$_UIView
+846e0:	55 a1 09 94	bl	0x2ecc34 ; symbol stub for: _objc_alloc
+846e4:	c0 09 6f 1e	fmul	d0, d14, d15
+846e8:	00 28 6a 1e	fadd	d0, d0, d10
+846ec:	e1 03 1a aa	mov	x1, x26
+846f0:	61 1d ab 4e	mov.16b	v1, v11
+846f4:	82 1d ac 4e	mov.16b	v2, v12
+846f8:	83 1d ac 4e	mov.16b	v3, v12
+846fc:	81 a1 09 94	bl	0x2ecd00 ; Objc message: +[UIView addSubview:]
+84700:	f4 03 00 aa	mov	x20, x0
+84704:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84708:	00 0d 44 f9	ldr	x0, [x8, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+8470c:	e1 37 40 f9	ldr	x1, [sp, #0x68]
+84710:	00 1d a8 4e	mov.16b	v0, v8
+84714:	21 1d a9 4e	mov.16b	v1, v9
+84718:	7a a1 09 94	bl	0x2ecd00 ; Objc message: +[UIColor addSubview:]
+8471c:	fd 03 1d aa	mov	x29, x29
+84720:	90 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84724:	f5 03 00 aa	mov	x21, x0
+84728:	e0 03 14 aa	mov	x0, x20
+8472c:	e1 03 13 aa	mov	x1, x19
+84730:	e2 03 15 aa	mov	x2, x21
+84734:	73 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+84738:	e0 03 15 aa	mov	x0, x21
+8473c:	7d a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84740:	e0 03 14 aa	mov	x0, x20
+84744:	e1 33 40 f9	ldr	x1, [sp, #0x60]
+84748:	6e a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+8474c:	fd 03 1d aa	mov	x29, x29
+84750:	84 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84754:	f5 03 00 aa	mov	x21, x0
+84758:	e1 03 1c aa	mov	x1, x28
+8475c:	a0 1d ad 4e	mov.16b	v0, v13
+84760:	68 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+84764:	e0 03 15 aa	mov	x0, x21
+84768:	72 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+8476c:	e0 03 14 aa	mov	x0, x20
+84770:	e1 2f 40 f9	ldr	x1, [sp, #0x58]
+84774:	02 00 80 52	mov	w2, #0x0
+84778:	62 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+8477c:	20 03 40 f9	ldr	x0, [x25]
+84780:	e1 03 16 aa	mov	x1, x22
+84784:	e2 03 14 aa	mov	x2, x20
+84788:	5e a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+8478c:	e8 3b 40 f9	ldr	x8, [sp, #0x70]
+84790:	00 69 78 f8	ldr	x0, [x8, x24]
+84794:	e1 03 17 aa	mov	x1, x23
+84798:	e2 03 14 aa	mov	x2, x20
+8479c:	59 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addSubview:]
+847a0:	e0 03 14 aa	mov	x0, x20
+847a4:	63 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+847a8:	00 10 6e 1e	fmov	d0, #1.00000000
+847ac:	ce 29 60 1e	fadd	d14, d14, d0
+847b0:	7b 07 00 71	subs	w27, w27, #0x1
+847b4:	21 f9 ff 54	b.ne	0x846d8
+847b8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+847bc:	00 65 44 f9	ldr	x0, [x8, #0x8c8] ; Objc class ref: _OBJC_CLASS_$_UILongPressGestureRecognizer
+847c0:	1d a1 09 94	bl	0x2ecc34 ; symbol stub for: _objc_alloc
+847c4:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+847c8:	03 5d 47 f9	ldr	x3, [x8, #0xeb8] ; Objc selector ref: handleLongPress:
+847cc:	1f 20 03 d5	nop
+847d0:	01 f9 44 f9	ldr	x1, [x8, #0x9f0]
+847d4:	f8 3b 40 f9	ldr	x24, [sp, #0x70]
+847d8:	e2 03 18 aa	mov	x2, x24
+847dc:	49 a1 09 94	bl	0x2ecd00 ; Objc message: +[UILongPressGestureRecognizer handleLongPress:]
+847e0:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+847e4:	01 61 47 f9	ldr	x1, [x8, #0xec0] ; Objc selector ref: setMinimumPressDuration:
+847e8:	68 14 00 90	adrp	x8, 652 ; 0x310000
+847ec:	00 59 46 fd	ldr	d0, [x8, #0xcb0]
+847f0:	f4 03 00 aa	mov	x20, x0
+847f4:	e0 33 00 f9	str	x0, [sp, #0x60]
+847f8:	42 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 setMinimumPressDuration:]
+847fc:	20 03 40 f9	ldr	x0, [x25]
+84800:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84804:	01 fd 44 f9	ldr	x1, [x8, #0x9f8] ; Objc selector ref: addGestureRecognizer:
+84808:	e2 03 14 aa	mov	x2, x20
+8480c:	3d a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+84810:	22 03 40 f9	ldr	x2, [x25]
+84814:	e0 03 18 aa	mov	x0, x24
+84818:	e1 03 16 aa	mov	x1, x22
+8481c:	39 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+84820:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84824:	00 2d 44 f9	ldr	x0, [x8, #0x858] ; Objc class ref: _OBJC_CLASS_$_UIView
+84828:	03 a1 09 94	bl	0x2ecc34 ; symbol stub for: _objc_alloc
+8482c:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84830:	00 5d 46 fd	ldr	d0, [x8, #0xcb8]
+84834:	01 10 62 1e	fmov	d1, #4.00000000
+84838:	02 10 6c 1e	fmov	d2, #0.50000000
+8483c:	03 90 65 1e	fmov	d3, #14.00000000
+84840:	e1 03 1a aa	mov	x1, x26
+84844:	2f a1 09 94	bl	0x2ecd00 ; Objc message: +[UIView addGestureRecognizer:]
+84848:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+8484c:	15 6d 8c b9	ldrsw	x21, [x8, #0xc6c]
+84850:	08 6b 75 f8	ldr	x8, [x24, x21]
+84854:	00 6b 35 f8	str	x0, [x24, x21]
+84858:	e0 03 08 aa	mov	x0, x8
+8485c:	35 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84860:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84864:	00 0d 44 f9	ldr	x0, [x8, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+84868:	f7 03 08 aa	mov	x23, x8
+8486c:	00 10 6e 1e	fmov	d0, #1.00000000
+84870:	01 10 6a 1e	fmov	d1, #0.25000000
+84874:	fa 37 40 f9	ldr	x26, [sp, #0x68]
+84878:	e1 03 1a aa	mov	x1, x26
+8487c:	21 a1 09 94	bl	0x2ecd00 ; Objc message: +[UIColor addGestureRecognizer:]
+84880:	fd 03 1d aa	mov	x29, x29
+84884:	37 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84888:	f4 03 00 aa	mov	x20, x0
+8488c:	00 6b 75 f8	ldr	x0, [x24, x21]
+84890:	e1 03 13 aa	mov	x1, x19
+84894:	e2 03 14 aa	mov	x2, x20
+84898:	1a a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+8489c:	e0 03 14 aa	mov	x0, x20
+848a0:	24 a1 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+848a4:	00 6b 75 f8	ldr	x0, [x24, x21]
+848a8:	e1 2f 40 f9	ldr	x1, [sp, #0x58]
+848ac:	02 00 80 52	mov	w2, #0x0
+848b0:	14 a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+848b4:	02 6b 75 f8	ldr	x2, [x24, x21]
+848b8:	e0 03 18 aa	mov	x0, x24
+848bc:	e1 03 16 aa	mov	x1, x22
+848c0:	f3 03 16 aa	mov	x19, x22
+848c4:	0f a1 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+848c8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+848cc:	00 61 44 f9	ldr	x0, [x8, #0x8c0] ; Objc class ref: CBSlotPillHitButton
+848d0:	e1 2b 40 f9	ldr	x1, [sp, #0x50]
+848d4:	02 00 80 d2	mov	x2, #0x0
+848d8:	0a a1 09 94	bl	0x2ecd00 ; Objc message: +[CBSlotPillHitButton addGestureRecognizer:]
+848dc:	fd 03 1d aa	mov	x29, x29
+848e0:	20 a1 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+848e4:	f9 03 00 aa	mov	x25, x0
+848e8:	68 08 e8 d2	mov	x8, #0x4043000000000000
+848ec:	00 01 67 9e	fmov	d0, x8
+848f0:	0a d0 66 1e	fmov	d10, #22.00000000
+848f4:	e1 03 67 9e	fmov	d1, xzr
+848f8:	fb 17 40 f9	ldr	x27, [sp, #0x28]
+848fc:	e1 03 1b aa	mov	x1, x27
+84900:	02 1c a0 4e	mov.16b	v2, v0
+84904:	43 1d aa 4e	mov.16b	v3, v10
+84908:	fe a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+8490c:	0b d0 74 1e	fmov	d11, #-11.00000000
+84910:	0c 90 74 1e	fmov	d12, #-10.00000000
+84914:	e1 03 67 9e	fmov	d1, xzr
+84918:	e0 03 19 aa	mov	x0, x25
+8491c:	fc 13 40 f9	ldr	x28, [sp, #0x20]
+84920:	e1 03 1c aa	mov	x1, x28
+84924:	60 1d ab 4e	mov.16b	v0, v11
+84928:	62 1d ab 4e	mov.16b	v2, v11
+8492c:	83 1d ac 4e	mov.16b	v3, v12
+84930:	f4 a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+84934:	e0 03 19 aa	mov	x0, x25
+84938:	f6 0f 40 f9	ldr	x22, [sp, #0x18]
+8493c:	e1 03 16 aa	mov	x1, x22
+84940:	02 00 80 52	mov	w2, #0x0
+84944:	ef a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+84948:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+8494c:	00 69 44 f9	ldr	x0, [x8, #0x8d0] ; Objc class ref: _OBJC_CLASS_$_UIImageSymbolConfiguration
+84950:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84954:	01 65 47 f9	ldr	x1, [x8, #0xec8] ; Objc selector ref: configurationWithPointSize:weight:
+84958:	e1 0b 00 f9	str	x1, [sp, #0x10]
+8495c:	00 b0 64 1e	fmov	d0, #10.50000000
+84960:	e2 00 80 52	mov	w2, #0x7
+84964:	e7 a0 09 94	bl	0x2ecd00 ; Objc message: +[UIImageSymbolConfiguration configurationWithPointSize:weight:]
+84968:	fd 03 1d aa	mov	x29, x29
+8496c:	fd a0 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84970:	e3 03 00 aa	mov	x3, x0
+84974:	e0 2f 00 f9	str	x0, [sp, #0x58]
+84978:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+8497c:	00 21 44 f9	ldr	x0, [x8, #0x840] ; Objc class ref: _OBJC_CLASS_$_UIImage
+84980:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84984:	01 69 47 f9	ldr	x1, [x8, #0xed0] ; Objc selector ref: systemImageNamed:withConfiguration:
+84988:	e1 07 00 f9	str	x1, [sp, #0x8]
+8498c:	42 17 00 f0	adrp	x2, 747 ; 0x36f000
+84990:	42 a0 35 91	add	x2, x2, #0xd68 ; Objc cfstring ref: @"arrow.up.left.and.arrow.down.right"
+84994:	db a0 09 94	bl	0x2ecd00 ; Objc message: +[UIImage systemImageNamed:withConfiguration:]
+84998:	fd 03 1d aa	mov	x29, x29
+8499c:	f1 a0 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+849a0:	e2 03 00 aa	mov	x2, x0
+849a4:	e0 27 00 f9	str	x0, [sp, #0x48]
+849a8:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+849ac:	01 6d 47 f9	ldr	x1, [x8, #0xed8] ; Objc selector ref: setImage:forState:
+849b0:	e1 03 00 f9	str	x1, [sp]
+849b4:	e0 03 19 aa	mov	x0, x25
+849b8:	03 00 80 d2	mov	x3, #0x0
+849bc:	d1 a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 setImage:forState:]
+849c0:	e0 0e 44 f9	ldr	x0, [x23, #0x818]
+849c4:	e1 03 1a aa	mov	x1, x26
+849c8:	00 1d a8 4e	mov.16b	v0, v8
+849cc:	21 1d a9 4e	mov.16b	v1, v9
+849d0:	cc a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 setImage:forState:]
+849d4:	fd 03 1d aa	mov	x29, x29
+849d8:	e2 a0 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+849dc:	f4 03 00 aa	mov	x20, x0
+
+## CBSlotPillView::updateBoundsSize, Native12 IMP 0x85184, original104 IMP 0x83f90
+Method length sampled: 91 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+85184:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+85188:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+8518c:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+85190:	fd 83 00 91	add	x29, sp, #0x20
+85194:	f3 03 00 aa	mov	x19, x0
+85198:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+8519c:	08 59 8c b9	ldrsw	x8, [x8, #0xc58]
+851a0:	08 68 68 38	ldrb	w8, [x0, x8]
+851a4:	28 01 00 34	cbz	w8, 0x851c8
+851a8:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+851ac:	14 61 8c b9	ldrsw	x20, [x8, #0xc60]
+851b0:	68 6a 74 38	ldrb	w8, [x19, x20]
+851b4:	1f 01 00 71	cmp	w8, #0x0
+851b8:	48 0a e8 d2	mov	x8, #0x4052000000000000
+851bc:	00 01 67 9e	fmov	d0, x8
+851c0:	88 0a e8 d2	mov	x8, #0x4054000000000000
+851c4:	10 00 00 14	b	0x85204
+851c8:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+851cc:	08 5d 8c b9	ldrsw	x8, [x8, #0xc5c]
+851d0:	69 6a 68 38	ldrb	w9, [x19, x8]
+851d4:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+851d8:	14 61 8c b9	ldrsw	x20, [x8, #0xc60]
+851dc:	68 6a 74 38	ldrb	w8, [x19, x20]
+851e0:	1f 01 00 71	cmp	w8, #0x0
+851e4:	a9 00 00 34	cbz	w9, 0x851f8
+851e8:	08 0a e8 d2	mov	x8, #0x4050000000000000
+851ec:	00 01 67 9e	fmov	d0, x8
+851f0:	68 0a e8 d2	mov	x8, #0x4053000000000000
+851f4:	04 00 00 14	b	0x85204
+851f8:	68 08 e8 d2	mov	x8, #0x4043000000000000
+851fc:	00 01 67 9e	fmov	d0, x8
+85200:	c8 08 e8 d2	mov	x8, #0x4046000000000000
+85204:	01 01 67 9e	fmov	d1, x8
+85208:	22 0c 60 1e	fcsel	d2, d1, d0, eq
+8520c:	00 70 66 1e	fmov	d0, #19.00000000
+85210:	01 d0 66 1e	fmov	d1, #22.00000000
+85214:	23 0c 60 1e	fcsel	d3, d1, d0, eq
+85218:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+8521c:	01 7d 47 f9	ldr	x1, [x8, #0xef8] ; Objc selector ref: setBounds:
+85220:	e0 03 67 9e	fmov	d0, xzr
+85224:	e1 03 67 9e	fmov	d1, xzr
+85228:	e0 03 13 aa	mov	x0, x19
+8522c:	b5 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 setBounds:]
+85230:	68 6a 74 38	ldrb	w8, [x19, x20]
+85234:	1f 01 00 71	cmp	w8, #0x0
+85238:	00 50 64 1e	fmov	d0, #9.00000000
+8523c:	01 b0 64 1e	fmov	d1, #10.50000000
+85240:	20 0c 60 1e	fcsel	d0, d1, d0, eq
+85244:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85248:	00 69 44 f9	ldr	x0, [x8, #0x8d0] ; Objc class ref: _OBJC_CLASS_$_UIImageSymbolConfiguration
+8524c:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+85250:	01 65 47 f9	ldr	x1, [x8, #0xec8] ; Objc selector ref: configurationWithPointSize:weight:
+85254:	e2 00 80 52	mov	w2, #0x7
+85258:	aa 9e 09 94	bl	0x2ecd00 ; Objc message: +[UIImageSymbolConfiguration configurationWithPointSize:weight:]
+8525c:	fd 03 1d aa	mov	x29, x29
+85260:	c0 9e 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+85264:	f4 03 00 aa	mov	x20, x0
+85268:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+8526c:	00 21 44 f9	ldr	x0, [x8, #0x840] ; Objc class ref: _OBJC_CLASS_$_UIImage
+85270:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+85274:	01 69 47 f9	ldr	x1, [x8, #0xed0] ; Objc selector ref: systemImageNamed:withConfiguration:
+85278:	42 17 00 d0	adrp	x2, 746 ; 0x36f000
+8527c:	42 a0 35 91	add	x2, x2, #0xd68 ; Objc cfstring ref: @"arrow.up.left.and.arrow.down.right"
+85280:	e3 03 14 aa	mov	x3, x20
+85284:	9f 9e 09 94	bl	0x2ecd00 ; Objc message: +[UIImage systemImageNamed:withConfiguration:]
+85288:	fd 03 1d aa	mov	x29, x29
+8528c:	b5 9e 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+85290:	f5 03 00 aa	mov	x21, x0
+85294:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85298:	08 71 8c b9	ldrsw	x8, [x8, #0xc70]
+8529c:	60 6a 68 f8	ldr	x0, [x19, x8]
+852a0:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+852a4:	01 6d 47 f9	ldr	x1, [x8, #0xed8] ; Objc selector ref: setImage:forState:
+852a8:	e2 03 15 aa	mov	x2, x21
+852ac:	03 00 80 d2	mov	x3, #0x0
+852b0:	94 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 setImage:forState:]
+852b4:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+852b8:	01 81 47 f9	ldr	x1, [x8, #0xf00] ; Objc selector ref: setNeedsLayout
+852bc:	e0 03 13 aa	mov	x0, x19
+852c0:	90 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 setNeedsLayout]
+852c4:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+852c8:	01 85 47 f9	ldr	x1, [x8, #0xf08] ; Objc selector ref: layoutIfNeeded
+852cc:	e0 03 13 aa	mov	x0, x19
+852d0:	8c 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 layoutIfNeeded]
+852d4:	e0 03 15 aa	mov	x0, x21
+852d8:	96 9e 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+852dc:	e0 03 14 aa	mov	x0, x20
+852e0:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+852e4:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+852e8:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+852ec:	91 9e 09 14	b	0x2ecd30 ; symbol stub for: _objc_release
+
+## CBSlotPillView::layoutSubviews, Native12 IMP 0x84c30, original104 IMP 0x83a10
+Method length sampled: 341 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+84c30:	ff 83 02 d1	sub	sp, sp, #0xa0
+84c34:	ed 33 01 6d	stp	d13, d12, [sp, #0x10]
+84c38:	eb 2b 02 6d	stp	d11, d10, [sp, #0x20]
+84c3c:	e9 23 03 6d	stp	d9, d8, [sp, #0x30]
+84c40:	fc 6f 04 a9	stp	x28, x27, [sp, #0x40]
+84c44:	fa 67 05 a9	stp	x26, x25, [sp, #0x50]
+84c48:	f8 5f 06 a9	stp	x24, x23, [sp, #0x60]
+84c4c:	f6 57 07 a9	stp	x22, x21, [sp, #0x70]
+84c50:	f4 4f 08 a9	stp	x20, x19, [sp, #0x80]
+84c54:	fd 7b 09 a9	stp	x29, x30, [sp, #0x90]
+84c58:	fd 43 02 91	add	x29, sp, #0x90
+84c5c:	f3 03 00 aa	mov	x19, x0
+84c60:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84c64:	08 51 45 f9	ldr	x8, [x8, #0xaa0] ; Objc class ref: CBSlotPillView
+84c68:	e0 23 00 a9	stp	x0, x8, [sp]
+84c6c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84c70:	01 79 47 f9	ldr	x1, [x8, #0xef0] ; Objc selector ref: layoutSubviews
+84c74:	e0 03 00 91	mov	x0, sp
+84c78:	28 a0 09 94	bl	0x2ecd18 ; Objc message: -[[x0 super] layoutSubviews]
+84c7c:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84c80:	16 d9 44 f9	ldr	x22, [x8, #0x9b0] ; Objc selector ref: bounds
+84c84:	e0 03 13 aa	mov	x0, x19
+84c88:	e1 03 16 aa	mov	x1, x22
+84c8c:	1d a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+84c90:	4a 1c a2 4e	mov.16b	v10, v2
+84c94:	e0 03 13 aa	mov	x0, x19
+84c98:	e1 03 16 aa	mov	x1, x22
+84c9c:	19 a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+84ca0:	48 21 60 1e	fcmp	d10, #0.0
+84ca4:	49 07 00 54	b.ls	0x84d8c
+84ca8:	69 1c a3 4e	mov.16b	v9, v3
+84cac:	68 20 60 1e	fcmp	d3, #0.0
+84cb0:	e9 06 00 54	b.ls	0x84d8c
+84cb4:	08 10 6c 1e	fmov	d8, #0.50000000
+84cb8:	2b 09 68 1e	fmul	d11, d9, d8
+84cbc:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84cc0:	14 0d 45 f9	ldr	x20, [x8, #0xa18] ; Objc selector ref: layer
+84cc4:	e0 03 13 aa	mov	x0, x19
+84cc8:	e1 03 14 aa	mov	x1, x20
+84ccc:	0d a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 layer]
+84cd0:	fd 03 1d aa	mov	x29, x29
+84cd4:	23 a0 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84cd8:	f7 03 00 aa	mov	x23, x0
+84cdc:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84ce0:	15 11 45 f9	ldr	x21, [x8, #0xa20] ; Objc selector ref: setCornerRadius:
+84ce4:	e1 03 15 aa	mov	x1, x21
+84ce8:	60 1d ab 4e	mov.16b	v0, v11
+84cec:	05 a0 09 94	bl	0x2ecd00 ; Objc message: -[x0 setCornerRadius:]
+84cf0:	e0 03 17 aa	mov	x0, x23
+84cf4:	0f a0 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84cf8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84cfc:	08 59 8c b9	ldrsw	x8, [x8, #0xc58]
+84d00:	68 6a 68 38	ldrb	w8, [x19, x8]
+84d04:	a8 05 00 34	cbz	w8, 0x84db8
+84d08:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84d0c:	08 69 8c b9	ldrsw	x8, [x8, #0xc68]
+84d10:	60 6a 68 f8	ldr	x0, [x19, x8]
+84d14:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84d18:	14 c1 44 f9	ldr	x20, [x8, #0x980] ; Objc selector ref: setHidden:
+84d1c:	e1 03 14 aa	mov	x1, x20
+84d20:	22 00 80 52	mov	w2, #0x1
+84d24:	f7 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84d28:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84d2c:	08 6d 8c b9	ldrsw	x8, [x8, #0xc6c]
+84d30:	60 6a 68 f8	ldr	x0, [x19, x8]
+84d34:	e1 03 14 aa	mov	x1, x20
+84d38:	22 00 80 52	mov	w2, #0x1
+84d3c:	f1 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84d40:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84d44:	08 71 8c b9	ldrsw	x8, [x8, #0xc70]
+84d48:	60 6a 68 f8	ldr	x0, [x19, x8]
+84d4c:	e1 03 14 aa	mov	x1, x20
+84d50:	22 00 80 52	mov	w2, #0x1
+84d54:	eb 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84d58:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84d5c:	15 75 8c b9	ldrsw	x21, [x8, #0xc74]
+84d60:	60 6a 75 f8	ldr	x0, [x19, x21]
+84d64:	e1 03 14 aa	mov	x1, x20
+84d68:	02 00 80 52	mov	w2, #0x0
+84d6c:	e5 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84d70:	e0 03 13 aa	mov	x0, x19
+84d74:	e1 03 16 aa	mov	x1, x22
+84d78:	e2 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84d7c:	60 6a 75 f8	ldr	x0, [x19, x21]
+84d80:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84d84:	01 09 45 f9	ldr	x1, [x8, #0xa10] ; Objc selector ref: setFrame:
+84d88:	de 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+84d8c:	fd 7b 49 a9	ldp	x29, x30, [sp, #0x90]
+84d90:	f4 4f 48 a9	ldp	x20, x19, [sp, #0x80]
+84d94:	f6 57 47 a9	ldp	x22, x21, [sp, #0x70]
+84d98:	f8 5f 46 a9	ldp	x24, x23, [sp, #0x60]
+84d9c:	fa 67 45 a9	ldp	x26, x25, [sp, #0x50]
+84da0:	fc 6f 44 a9	ldp	x28, x27, [sp, #0x40]
+84da4:	e9 23 43 6d	ldp	d9, d8, [sp, #0x30]
+84da8:	eb 2b 42 6d	ldp	d11, d10, [sp, #0x20]
+84dac:	ed 33 41 6d	ldp	d13, d12, [sp, #0x10]
+84db0:	ff 83 02 91	add	sp, sp, #0xa0
+84db4:	c0 03 5f d6	ret
+84db8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84dbc:	08 5d 8c b9	ldrsw	x8, [x8, #0xc5c]
+84dc0:	7a 6a 68 38	ldrb	w26, [x19, x8]
+84dc4:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84dc8:	18 69 8c b9	ldrsw	x24, [x8, #0xc68]
+84dcc:	60 6a 78 f8	ldr	x0, [x19, x24]
+84dd0:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84dd4:	17 c1 44 f9	ldr	x23, [x8, #0x980] ; Objc selector ref: setHidden:
+84dd8:	e1 03 17 aa	mov	x1, x23
+84ddc:	02 00 80 52	mov	w2, #0x0
+84de0:	c8 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84de4:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84de8:	19 6d 8c b9	ldrsw	x25, [x8, #0xc6c]
+84dec:	60 6a 79 f8	ldr	x0, [x19, x25]
+84df0:	e1 03 17 aa	mov	x1, x23
+84df4:	fa 0f 00 34	cbz	w26, 0x84ff0
+84df8:	02 00 80 52	mov	w2, #0x0
+84dfc:	c1 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84e00:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84e04:	1a 71 8c b9	ldrsw	x26, [x8, #0xc70]
+84e08:	60 6a 7a f8	ldr	x0, [x19, x26]
+84e0c:	e1 03 17 aa	mov	x1, x23
+84e10:	02 00 80 52	mov	w2, #0x0
+84e14:	bb 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84e18:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84e1c:	08 75 8c b9	ldrsw	x8, [x8, #0xc74]
+84e20:	60 6a 68 f8	ldr	x0, [x19, x8]
+84e24:	e1 03 17 aa	mov	x1, x23
+84e28:	22 00 80 52	mov	w2, #0x1
+84e2c:	b5 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+84e30:	40 09 68 1e	fmul	d0, d10, d8
+84e34:	00 40 62 1e	fcvt	s0, d0
+84e38:	00 40 26 1e	frinta	s0, s0
+84e3c:	0b c0 22 1e	fcvt	d11, s0
+84e40:	60 6a 78 f8	ldr	x0, [x19, x24]
+84e44:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84e48:	16 09 45 f9	ldr	x22, [x8, #0xa10] ; Objc selector ref: setFrame:
+84e4c:	e0 03 67 9e	fmov	d0, xzr
+84e50:	e1 03 67 9e	fmov	d1, xzr
+84e54:	e1 03 16 aa	mov	x1, x22
+84e58:	62 1d ab 4e	mov.16b	v2, v11
+84e5c:	23 1d a9 4e	mov.16b	v3, v9
+84e60:	a8 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+84e64:	00 10 7a 1e	fmov	d0, #-0.25000000
+84e68:	60 29 60 1e	fadd	d0, d11, d0
+84e6c:	01 90 73 1e	fmov	d1, #-7.00000000
+84e70:	21 29 61 1e	fadd	d1, d9, d1
+84e74:	02 90 63 1e	fmov	d2, #7.00000000
+84e78:	20 21 62 1e	fcmp	d9, d2
+84e7c:	02 10 65 1e	fmov	d2, #12.00000000
+84e80:	23 cc 62 1e	fcsel	d3, d1, d2, gt
+84e84:	60 6a 79 f8	ldr	x0, [x19, x25]
+84e88:	01 90 61 1e	fmov	d1, #3.50000000
+84e8c:	e1 03 16 aa	mov	x1, x22
+84e90:	02 1d a8 4e	mov.16b	v2, v8
+84e94:	9b 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+84e98:	42 39 6b 1e	fsub	d2, d10, d11
+84e9c:	60 6a 7a f8	ldr	x0, [x19, x26]
+84ea0:	e1 03 67 9e	fmov	d1, xzr
+84ea4:	e1 03 16 aa	mov	x1, x22
+84ea8:	60 1d ab 4e	mov.16b	v0, v11
+84eac:	23 1d a9 4e	mov.16b	v3, v9
+84eb0:	94 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+84eb4:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84eb8:	08 61 8c b9	ldrsw	x8, [x8, #0xc60]
+84ebc:	78 6a 68 38	ldrb	w24, [x19, x8]
+84ec0:	1f 03 00 71	cmp	w24, #0x0
+84ec4:	fa 17 9f 1a	cset	w26, eq
+84ec8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84ecc:	1c 65 8c b9	ldrsw	x28, [x8, #0xc64]
+84ed0:	60 6a 7c f8	ldr	x0, [x19, x28]
+84ed4:	d9 17 00 b0	adrp	x25, 761 ; 0x37d000
+84ed8:	21 13 43 f9	ldr	x1, [x25, #0x620] ; Objc selector ref: count
+84edc:	89 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 count]
+84ee0:	60 f5 ff b4	cbz	x0, 0x84d8c
+84ee4:	17 00 80 d2	mov	x23, #0x0
+84ee8:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84eec:	08 c1 33 91	add	x8, x8, #0xcf0
+84ef0:	0a 59 7a fc	ldr	d10, [x8, w26, uxtw #3]
+84ef4:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84ef8:	08 01 34 91	add	x8, x8, #0xd00
+84efc:	00 59 7a fc	ldr	d0, [x8, w26, uxtw #3]
+84f00:	01 10 61 1e	fmov	d1, #3.00000000
+84f04:	41 09 61 1e	fmul	d1, d10, d1
+84f08:	00 28 61 1e	fadd	d0, d0, d1
+84f0c:	60 39 60 1e	fsub	d0, d11, d0
+84f10:	0c 08 68 1e	fmul	d12, d0, d8
+84f14:	20 39 6a 1e	fsub	d0, d9, d10
+84f18:	09 08 68 1e	fmul	d9, d0, d8
+84f1c:	1f 03 00 71	cmp	w24, #0x0
+84f20:	68 14 00 90	adrp	x8, 652 ; 0x310000
+84f24:	00 61 46 fd	ldr	d0, [x8, #0xcc0]
+84f28:	01 10 63 1e	fmov	d1, #6.00000000
+84f2c:	2d 0c 60 1e	fcsel	d13, d1, d0, eq
+84f30:	c8 17 00 b0	adrp	x8, 761 ; 0x37d000
+84f34:	18 5d 44 f9	ldr	x24, [x8, #0x8b8] ; Objc selector ref: objectAtIndexedSubscript:
+84f38:	48 09 68 1e	fmul	d8, d10, d8
+84f3c:	39 13 43 f9	ldr	x25, [x25, #0x620]
+84f40:	e0 02 62 9e	scvtf	d0, x23
+84f44:	a0 09 60 1e	fmul	d0, d13, d0
+84f48:	8b 29 60 1e	fadd	d11, d12, d0
+84f4c:	60 6a 7c f8	ldr	x0, [x19, x28]
+84f50:	e1 03 18 aa	mov	x1, x24
+84f54:	e2 03 17 aa	mov	x2, x23
+84f58:	6a 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84f5c:	fd 03 1d aa	mov	x29, x29
+84f60:	80 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84f64:	fa 03 00 aa	mov	x26, x0
+84f68:	e1 03 16 aa	mov	x1, x22
+84f6c:	60 1d ab 4e	mov.16b	v0, v11
+84f70:	21 1d a9 4e	mov.16b	v1, v9
+84f74:	42 1d aa 4e	mov.16b	v2, v10
+84f78:	43 1d aa 4e	mov.16b	v3, v10
+84f7c:	61 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84f80:	e0 03 1a aa	mov	x0, x26
+84f84:	6b 9f 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84f88:	60 6a 7c f8	ldr	x0, [x19, x28]
+84f8c:	e1 03 18 aa	mov	x1, x24
+84f90:	e2 03 17 aa	mov	x2, x23
+84f94:	5b 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84f98:	fd 03 1d aa	mov	x29, x29
+84f9c:	71 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84fa0:	fa 03 00 aa	mov	x26, x0
+84fa4:	e1 03 14 aa	mov	x1, x20
+84fa8:	56 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84fac:	fd 03 1d aa	mov	x29, x29
+84fb0:	6c 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+84fb4:	fb 03 00 aa	mov	x27, x0
+84fb8:	e1 03 15 aa	mov	x1, x21
+84fbc:	00 1d a8 4e	mov.16b	v0, v8
+84fc0:	50 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84fc4:	e0 03 1b aa	mov	x0, x27
+84fc8:	5a 9f 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84fcc:	e0 03 1a aa	mov	x0, x26
+84fd0:	58 9f 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+84fd4:	f7 06 00 91	add	x23, x23, #0x1
+84fd8:	60 6a 7c f8	ldr	x0, [x19, x28]
+84fdc:	e1 03 19 aa	mov	x1, x25
+84fe0:	48 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84fe4:	ff 02 00 eb	cmp	x23, x0
+84fe8:	c3 fa ff 54	b.lo	0x84f40
+84fec:	68 ff ff 17	b	0x84d8c
+84ff0:	22 00 80 52	mov	w2, #0x1
+84ff4:	43 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+84ff8:	c8 17 00 f0	adrp	x8, 763 ; 0x37f000
+84ffc:	08 71 8c b9	ldrsw	x8, [x8, #0xc70]
+85000:	60 6a 68 f8	ldr	x0, [x19, x8]
+85004:	e1 03 17 aa	mov	x1, x23
+85008:	22 00 80 52	mov	w2, #0x1
+8500c:	3d 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85010:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85014:	08 75 8c b9	ldrsw	x8, [x8, #0xc74]
+85018:	60 6a 68 f8	ldr	x0, [x19, x8]
+8501c:	e1 03 17 aa	mov	x1, x23
+85020:	22 00 80 52	mov	w2, #0x1
+85024:	37 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85028:	e0 03 13 aa	mov	x0, x19
+8502c:	e1 03 16 aa	mov	x1, x22
+85030:	34 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85034:	60 6a 78 f8	ldr	x0, [x19, x24]
+85038:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+8503c:	16 09 45 f9	ldr	x22, [x8, #0xa10] ; Objc selector ref: setFrame:
+85040:	e1 03 16 aa	mov	x1, x22
+85044:	2f 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+85048:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+8504c:	08 61 8c b9	ldrsw	x8, [x8, #0xc60]
+85050:	78 6a 68 38	ldrb	w24, [x19, x8]
+85054:	1f 03 00 71	cmp	w24, #0x0
+85058:	fa 17 9f 1a	cset	w26, eq
+8505c:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85060:	1c 65 8c b9	ldrsw	x28, [x8, #0xc64]
+85064:	60 6a 7c f8	ldr	x0, [x19, x28]
+85068:	d9 17 00 90	adrp	x25, 760 ; 0x37d000
+8506c:	21 13 43 f9	ldr	x1, [x25, #0x620] ; Objc selector ref: count
+85070:	24 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 count]
+85074:	c0 e8 ff b4	cbz	x0, 0x84d8c
+85078:	17 00 80 d2	mov	x23, #0x0
+8507c:	48 14 00 f0	adrp	x8, 651 ; 0x310000
+85080:	08 c1 33 91	add	x8, x8, #0xcf0
+85084:	0b 59 7a fc	ldr	d11, [x8, w26, uxtw #3]
+85088:	48 14 00 f0	adrp	x8, 651 ; 0x310000
+8508c:	08 01 34 91	add	x8, x8, #0xd00
+85090:	00 59 7a fc	ldr	d0, [x8, w26, uxtw #3]
+85094:	01 10 61 1e	fmov	d1, #3.00000000
+85098:	61 09 61 1e	fmul	d1, d11, d1
+8509c:	00 28 61 1e	fadd	d0, d0, d1
+850a0:	40 39 60 1e	fsub	d0, d10, d0
+850a4:	0c 08 68 1e	fmul	d12, d0, d8
+850a8:	20 39 6b 1e	fsub	d0, d9, d11
+850ac:	09 08 68 1e	fmul	d9, d0, d8
+850b0:	1f 03 00 71	cmp	w24, #0x0
+850b4:	48 14 00 f0	adrp	x8, 651 ; 0x310000
+850b8:	00 61 46 fd	ldr	d0, [x8, #0xcc0]
+850bc:	01 10 63 1e	fmov	d1, #6.00000000
+850c0:	2d 0c 60 1e	fcsel	d13, d1, d0, eq
+850c4:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+850c8:	18 5d 44 f9	ldr	x24, [x8, #0x8b8] ; Objc selector ref: objectAtIndexedSubscript:
+850cc:	68 09 68 1e	fmul	d8, d11, d8
+850d0:	39 13 43 f9	ldr	x25, [x25, #0x620]
+850d4:	e0 02 62 9e	scvtf	d0, x23
+850d8:	a0 09 60 1e	fmul	d0, d13, d0
+850dc:	8a 29 60 1e	fadd	d10, d12, d0
+850e0:	60 6a 7c f8	ldr	x0, [x19, x28]
+850e4:	e1 03 18 aa	mov	x1, x24
+850e8:	e2 03 17 aa	mov	x2, x23
+850ec:	05 9f 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+850f0:	fd 03 1d aa	mov	x29, x29
+850f4:	1b 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+850f8:	fa 03 00 aa	mov	x26, x0
+850fc:	e1 03 16 aa	mov	x1, x22
+85100:	40 1d aa 4e	mov.16b	v0, v10
+85104:	21 1d a9 4e	mov.16b	v1, v9
+85108:	62 1d ab 4e	mov.16b	v2, v11
+8510c:	63 1d ab 4e	mov.16b	v3, v11
+85110:	fc 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85114:	e0 03 1a aa	mov	x0, x26
+85118:	06 9f 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+8511c:	60 6a 7c f8	ldr	x0, [x19, x28]
+85120:	e1 03 18 aa	mov	x1, x24
+85124:	e2 03 17 aa	mov	x2, x23
+85128:	f6 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+8512c:	fd 03 1d aa	mov	x29, x29
+85130:	0c 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+85134:	fa 03 00 aa	mov	x26, x0
+85138:	e1 03 14 aa	mov	x1, x20
+8513c:	f1 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85140:	fd 03 1d aa	mov	x29, x29
+85144:	07 9f 09 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+85148:	fb 03 00 aa	mov	x27, x0
+8514c:	e1 03 15 aa	mov	x1, x21
+85150:	00 1d a8 4e	mov.16b	v0, v8
+85154:	eb 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85158:	e0 03 1b aa	mov	x0, x27
+8515c:	f5 9e 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+85160:	e0 03 1a aa	mov	x0, x26
+85164:	f3 9e 09 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+85168:	f7 06 00 91	add	x23, x23, #0x1
+8516c:	60 6a 7c f8	ldr	x0, [x19, x28]
+85170:	e1 03 19 aa	mov	x1, x25
+85174:	e3 9e 09 94	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+85178:	ff 02 00 eb	cmp	x23, x0
+8517c:	c3 fa ff 54	b.lo	0x850d4
+85180:	03 ff ff 17	b	0x84d8c
+
+## CBDividerView::initWithFrame:isVertical:, Native12 IMP 0xfe7dc, original104 IMP 0x105a14
+Method length sampled: 155 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+fe7dc:	ff 43 01 d1	sub	sp, sp, #0x50
+fe7e0:	f6 57 02 a9	stp	x22, x21, [sp, #0x20]
+fe7e4:	f4 4f 03 a9	stp	x20, x19, [sp, #0x30]
+fe7e8:	fd 7b 04 a9	stp	x29, x30, [sp, #0x40]
+fe7ec:	fd 03 01 91	add	x29, sp, #0x40
+fe7f0:	f4 03 02 aa	mov	x20, x2
+fe7f4:	28 12 00 d0	adrp	x8, 582 ; 0x344000
+fe7f8:	08 a1 40 f9	ldr	x8, [x8, #0x140] ; literal pool symbol address: ___stack_chk_guard
+fe7fc:	08 01 40 f9	ldr	x8, [x8]
+fe800:	e8 0f 00 f9	str	x8, [sp, #0x18]
+fe804:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe808:	08 89 45 f9	ldr	x8, [x8, #0xb10] ; Objc class ref: CBDividerView
+fe80c:	e0 23 00 a9	stp	x0, x8, [sp]
+fe810:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe814:	01 dd 44 f9	ldr	x1, [x8, #0x9b8] ; Objc selector ref: initWithFrame:
+fe818:	e0 03 00 91	mov	x0, sp
+fe81c:	3f b9 07 94	bl	0x2ecd18 ; Objc message: -[[x0 super] initWithFrame:]
+fe820:	f3 03 00 aa	mov	x19, x0
+fe824:	80 0f 00 b4	cbz	x0, 0xfea14
+fe828:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe82c:	15 e9 8d b9	ldrsw	x21, [x8, #0xde8]
+fe830:	74 6a 35 38	strb	w20, [x19, x21]
+fe834:	1f 20 03 d5	nop
+fe838:	08 ed 8d b9	ldrsw	x8, [x8, #0xdec]
+fe83c:	7f 6a 28 38	strb	wzr, [x19, x8]
+fe840:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe844:	00 0d 44 f9	ldr	x0, [x8, #0x818] ; Objc class ref: _OBJC_CLASS_$_UIColor
+fe848:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe84c:	01 e9 44 f9	ldr	x1, [x8, #0x9d0] ; Objc selector ref: clearColor
+fe850:	2c b9 07 94	bl	0x2ecd00 ; Objc message: +[UIColor clearColor]
+fe854:	fd 03 1d aa	mov	x29, x29
+fe858:	42 b9 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+fe85c:	f4 03 00 aa	mov	x20, x0
+fe860:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe864:	01 ed 44 f9	ldr	x1, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:
+fe868:	e0 03 13 aa	mov	x0, x19
+fe86c:	e2 03 14 aa	mov	x2, x20
+fe870:	24 b9 07 94	bl	0x2ecd00 ; Objc message: -[x0 setBackgroundColor:]
+fe874:	e0 03 14 aa	mov	x0, x20
+fe878:	2e b9 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fe87c:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe880:	01 f1 44 f9	ldr	x1, [x8, #0x9e0] ; Objc selector ref: setUserInteractionEnabled:
+fe884:	e0 03 13 aa	mov	x0, x19
+fe888:	22 00 80 52	mov	w2, #0x1
+fe88c:	1d b9 07 94	bl	0x2ecd00 ; Objc message: -[x0 setUserInteractionEnabled:]
+fe890:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe894:	01 fd 46 f9	ldr	x1, [x8, #0xdf8] ; Objc selector ref: setClipsToBounds:
+fe898:	e0 03 13 aa	mov	x0, x19
+fe89c:	02 00 80 52	mov	w2, #0x0
+fe8a0:	18 b9 07 94	bl	0x2ecd00 ; Objc message: -[x0 setClipsToBounds:]
+fe8a4:	16 14 00 b0	adrp	x22, 641 ; 0x37f000
+fe8a8:	c0 3e 44 f9	ldr	x0, [x22, #0x878] ; Objc class ref: _OBJC_CLASS_$_NSMutableArray
+fe8ac:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe8b0:	14 dd 45 f9	ldr	x20, [x8, #0xbb8] ; Objc selector ref: array
+fe8b4:	e1 03 14 aa	mov	x1, x20
+fe8b8:	12 b9 07 94	bl	0x2ecd00 ; Objc message: +[NSMutableArray array]
+fe8bc:	fd 03 1d aa	mov	x29, x29
+fe8c0:	28 b9 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+fe8c4:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe8c8:	09 f1 8d b9	ldrsw	x9, [x8, #0xdf0]
+fe8cc:	68 6a 69 f8	ldr	x8, [x19, x9]
+fe8d0:	60 6a 29 f8	str	x0, [x19, x9]
+fe8d4:	e0 03 08 aa	mov	x0, x8
+fe8d8:	16 b9 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fe8dc:	c0 3e 44 f9	ldr	x0, [x22, #0x878]
+fe8e0:	e1 03 14 aa	mov	x1, x20
+fe8e4:	07 b9 07 94	bl	0x2ecd00 ; Objc message: -[x0 array]
+fe8e8:	fd 03 1d aa	mov	x29, x29
+fe8ec:	1d b9 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+fe8f0:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe8f4:	09 f5 8d b9	ldrsw	x9, [x8, #0xdf4]
+fe8f8:	68 6a 69 f8	ldr	x8, [x19, x9]
+fe8fc:	60 6a 29 f8	str	x0, [x19, x9]
+fe900:	e0 03 08 aa	mov	x0, x8
+fe904:	0b b9 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fe908:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe90c:	00 d9 44 f9	ldr	x0, [x8, #0x9b0] ; Objc class ref: CBDividerButtonInfo
+fe910:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe914:	01 29 44 f9	ldr	x1, [x8, #0x850] ; Objc selector ref: new
+fe918:	fa b8 07 94	bl	0x2ecd00 ; Objc message: +[CBDividerButtonInfo new]
+fe91c:	f4 03 00 aa	mov	x20, x0
+fe920:	68 6a 75 38	ldrb	w8, [x19, x21]
+fe924:	89 13 00 f0	adrp	x9, 627 ; 0x371000
+fe928:	29 21 07 91	add	x9, x9, #0x1c8 ; Objc cfstring ref: @"arrow.left.arrow.right"
+fe92c:	8a 13 00 f0	adrp	x10, 627 ; 0x371000
+fe930:	4a a1 07 91	add	x10, x10, #0x1e8 ; Objc cfstring ref: @"arrow.up.arrow.down"
+fe934:	1f 01 00 71	cmp	w8, #0x0
+fe938:	42 01 89 9a	csel	x2, x10, x9, eq
+fe93c:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe940:	01 2d 44 f9	ldr	x1, [x8, #0x858] ; Objc selector ref: setIconName:
+fe944:	ef b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 setIconName:]
+fe948:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe94c:	01 31 44 f9	ldr	x1, [x8, #0x860] ; Objc selector ref: setRelativePos:
+fe950:	00 10 6c 1e	fmov	d0, #0.50000000
+fe954:	e0 03 14 aa	mov	x0, x20
+fe958:	ea b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 setRelativePos:]
+fe95c:	f4 0b 00 f9	str	x20, [sp, #0x10]
+fe960:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe964:	00 ad 43 f9	ldr	x0, [x8, #0x758] ; Objc class ref: _OBJC_CLASS_$_NSArray
+fe968:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe96c:	01 a9 42 f9	ldr	x1, [x8, #0x550] ; Objc selector ref: arrayWithObjects:count:
+fe970:	e2 43 00 91	add	x2, sp, #0x10
+fe974:	23 00 80 52	mov	w3, #0x1
+fe978:	e2 b8 07 94	bl	0x2ecd00 ; Objc message: +[NSArray arrayWithObjects:count:]
+fe97c:	fd 03 1d aa	mov	x29, x29
+fe980:	f8 b8 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+fe984:	f5 03 00 aa	mov	x21, x0
+fe988:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe98c:	01 35 44 f9	ldr	x1, [x8, #0x868] ; Objc selector ref: configureWithButtonConfigs:
+fe990:	e0 03 13 aa	mov	x0, x19
+fe994:	e2 03 15 aa	mov	x2, x21
+fe998:	da b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 configureWithButtonConfigs:]
+fe99c:	e0 03 15 aa	mov	x0, x21
+fe9a0:	e4 b8 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fe9a4:	08 14 00 b0	adrp	x8, 641 ; 0x37f000
+fe9a8:	00 5d 44 f9	ldr	x0, [x8, #0x8b8] ; Objc class ref: _OBJC_CLASS_$_UIPanGestureRecognizer
+fe9ac:	a2 b8 07 94	bl	0x2ecc34 ; symbol stub for: _objc_alloc
+fe9b0:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe9b4:	03 39 44 f9	ldr	x3, [x8, #0x870] ; Objc selector ref: handlePan:
+fe9b8:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe9bc:	01 f9 44 f9	ldr	x1, [x8, #0x9f0] ; Objc selector ref: initWithTarget:action:
+fe9c0:	e2 03 13 aa	mov	x2, x19
+fe9c4:	cf b8 07 94	bl	0x2ecd00 ; Objc message: +[UIPanGestureRecognizer initWithTarget:action:]
+fe9c8:	f5 03 00 aa	mov	x21, x0
+fe9cc:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe9d0:	01 35 43 f9	ldr	x1, [x8, #0x668] ; Objc selector ref: setDelegate:
+fe9d4:	e2 03 13 aa	mov	x2, x19
+fe9d8:	ca b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 setDelegate:]
+fe9dc:	08 14 00 90	adrp	x8, 640 ; 0x37e000
+fe9e0:	01 3d 44 f9	ldr	x1, [x8, #0x878] ; Objc selector ref: setCancelsTouchesInView:
+fe9e4:	e0 03 15 aa	mov	x0, x21
+fe9e8:	22 00 80 52	mov	w2, #0x1
+fe9ec:	c5 b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 setCancelsTouchesInView:]
+fe9f0:	e8 13 00 f0	adrp	x8, 639 ; 0x37d000
+fe9f4:	01 fd 44 f9	ldr	x1, [x8, #0x9f8] ; Objc selector ref: addGestureRecognizer:
+fe9f8:	e0 03 13 aa	mov	x0, x19
+fe9fc:	e2 03 15 aa	mov	x2, x21
+fea00:	c0 b8 07 94	bl	0x2ecd00 ; Objc message: -[x0 addGestureRecognizer:]
+fea04:	e0 03 15 aa	mov	x0, x21
+fea08:	ca b8 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fea0c:	e0 03 14 aa	mov	x0, x20
+fea10:	c8 b8 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+fea14:	e8 0f 40 f9	ldr	x8, [sp, #0x18]
+fea18:	29 12 00 d0	adrp	x9, 582 ; 0x344000
+fea1c:	29 a1 40 f9	ldr	x9, [x9, #0x140] ; literal pool symbol address: ___stack_chk_guard
+fea20:	29 01 40 f9	ldr	x9, [x9]
+fea24:	3f 01 08 eb	cmp	x9, x8
+fea28:	e1 00 00 54	b.ne	0xfea44
+fea2c:	e0 03 13 aa	mov	x0, x19
+fea30:	fd 7b 44 a9	ldp	x29, x30, [sp, #0x40]
+fea34:	f4 4f 43 a9	ldp	x20, x19, [sp, #0x30]
+fea38:	f6 57 42 a9	ldp	x22, x21, [sp, #0x20]
+fea3c:	ff 43 01 91	add	sp, sp, #0x50
+fea40:	c0 03 5f d6	ret
+fea44:	16 b8 07 94	bl	0x2eca9c ; symbol stub for: ___stack_chk_fail
+
+## CBDividerView::updateGripLayout, Native12 IMP 0xff460, original104 IMP 0x1066c4
+Method length sampled: 178 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+ff460:	ff 03 03 d1	sub	sp, sp, #0xc0
+ff464:	ef 3b 02 6d	stp	d15, d14, [sp, #0x20]
+ff468:	ed 33 03 6d	stp	d13, d12, [sp, #0x30]
+ff46c:	eb 2b 04 6d	stp	d11, d10, [sp, #0x40]
+ff470:	e9 23 05 6d	stp	d9, d8, [sp, #0x50]
+ff474:	fc 6f 06 a9	stp	x28, x27, [sp, #0x60]
+ff478:	fa 67 07 a9	stp	x26, x25, [sp, #0x70]
+ff47c:	f8 5f 08 a9	stp	x24, x23, [sp, #0x80]
+ff480:	f6 57 09 a9	stp	x22, x21, [sp, #0x90]
+ff484:	f4 4f 0a a9	stp	x20, x19, [sp, #0xa0]
+ff488:	fd 7b 0b a9	stp	x29, x30, [sp, #0xb0]
+ff48c:	fd c3 02 91	add	x29, sp, #0xb0
+ff490:	f3 03 00 aa	mov	x19, x0
+ff494:	08 14 00 90	adrp	x8, 640 ; 0x37f000
+ff498:	08 e9 8d b9	ldrsw	x8, [x8, #0xde8]
+ff49c:	e8 0f 00 f9	str	x8, [sp, #0x18]
+ff4a0:	15 68 68 38	ldrb	w21, [x0, x8]
+ff4a4:	e8 13 00 d0	adrp	x8, 638 ; 0x37d000
+ff4a8:	14 d9 44 f9	ldr	x20, [x8, #0x9b0] ; Objc selector ref: bounds
+ff4ac:	e1 03 14 aa	mov	x1, x20
+ff4b0:	14 b6 07 94	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+ff4b4:	bf 02 00 71	cmp	w21, #0x0
+ff4b8:	40 0c 63 1e	fcsel	d0, d2, d3, eq
+ff4bc:	88 10 00 f0	adrp	x8, 531 ; 0x312000
+ff4c0:	01 45 42 fd	ldr	d1, [x8, #0x488]
+ff4c4:	00 20 61 1e	fcmp	d0, d1
+ff4c8:	00 d0 67 1e	fmov	d0, #30.00000000
+ff4cc:	01 90 67 1e	fmov	d1, #28.00000000
+ff4d0:	28 4c 60 1e	fcsel	d8, d1, d0, mi
+ff4d4:	08 14 00 90	adrp	x8, 640 ; 0x37f000
+ff4d8:	1b f5 8d b9	ldrsw	x27, [x8, #0xdf4]
+ff4dc:	60 6a 7b f8	ldr	x0, [x19, x27]
+ff4e0:	f9 13 00 d0	adrp	x25, 638 ; 0x37d000
+ff4e4:	3a 13 43 f9	ldr	x26, [x25, #0x620] ; Objc selector ref: count
+ff4e8:	e1 03 1a aa	mov	x1, x26
+ff4ec:	05 b6 07 94	bl	0x2ecd00 ; Objc message: -[x0 count]
+ff4f0:	40 10 00 b4	cbz	x0, 0xff6f8
+ff4f4:	15 00 80 d2	mov	x21, #0x0
+ff4f8:	08 14 00 90	adrp	x8, 640 ; 0x37f000
+ff4fc:	1c f1 8d b9	ldrsw	x28, [x8, #0xdf0]
+ff500:	e8 13 00 d0	adrp	x8, 638 ; 0x37d000
+ff504:	09 5d 44 f9	ldr	x9, [x8, #0x8b8] ; Objc selector ref: objectAtIndexedSubscript:
+ff508:	e8 13 00 f0	adrp	x8, 639 ; 0x37e000
+ff50c:	17 61 44 f9	ldr	x23, [x8, #0x8c0] ; Objc selector ref: relativePos
+ff510:	0b 10 6c 1e	fmov	d11, #0.50000000
+ff514:	0c 09 6b 1e	fmul	d12, d8, d11
+ff518:	e8 13 00 d0	adrp	x8, 638 ; 0x37d000
+ff51c:	08 09 45 f9	ldr	x8, [x8, #0xa10] ; Objc selector ref: setFrame:
+ff520:	e8 a7 00 a9	stp	x8, x9, [sp, #0x8]
+ff524:	39 13 43 f9	ldr	x25, [x25, #0x620]
+ff528:	0d 10 62 1e	fmov	d13, #4.00000000
+ff52c:	0e 10 72 1e	fmov	d14, #-4.00000000
+ff530:	0f 10 6e 1e	fmov	d15, #1.00000000
+ff534:	60 6a 7c f8	ldr	x0, [x19, x28]
+ff538:	e1 03 1a aa	mov	x1, x26
+ff53c:	f1 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff540:	bf 02 00 eb	cmp	x21, x0
+ff544:	a2 0d 00 54	b.hs	0xff6f8
+ff548:	f8 03 1b aa	mov	x24, x27
+ff54c:	60 6a 7b f8	ldr	x0, [x19, x27]
+ff550:	fb 0b 40 f9	ldr	x27, [sp, #0x10]
+ff554:	e1 03 1b aa	mov	x1, x27
+ff558:	e2 03 15 aa	mov	x2, x21
+ff55c:	e9 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff560:	fd 03 1d aa	mov	x29, x29
+ff564:	ff b5 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+ff568:	fa 03 00 aa	mov	x26, x0
+ff56c:	f6 03 1c aa	mov	x22, x28
+ff570:	60 6a 7c f8	ldr	x0, [x19, x28]
+ff574:	e1 03 1b aa	mov	x1, x27
+ff578:	e2 03 15 aa	mov	x2, x21
+ff57c:	e1 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff580:	fd 03 1d aa	mov	x29, x29
+ff584:	f7 b5 07 94	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+ff588:	fb 03 00 aa	mov	x27, x0
+ff58c:	e0 03 1a aa	mov	x0, x26
+ff590:	e1 03 17 aa	mov	x1, x23
+ff594:	db b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff598:	08 20 60 1e	fcmp	d0, #0.0
+ff59c:	69 1d ab 4e	mov.16b	v9, v11
+ff5a0:	6b 01 00 54	b.lt	0xff5cc
+ff5a4:	e0 03 1a aa	mov	x0, x26
+ff5a8:	e1 03 17 aa	mov	x1, x23
+ff5ac:	d5 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff5b0:	00 20 6f 1e	fcmp	d0, d15
+ff5b4:	69 1d ab 4e	mov.16b	v9, v11
+ff5b8:	a8 00 00 54	b.hi	0xff5cc
+ff5bc:	e0 03 1a aa	mov	x0, x26
+ff5c0:	e1 03 17 aa	mov	x1, x23
+ff5c4:	cf b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff5c8:	09 1c a0 4e	mov.16b	v9, v0
+ff5cc:	fc 03 17 aa	mov	x28, x23
+ff5d0:	e8 0f 40 f9	ldr	x8, [sp, #0x18]
+ff5d4:	77 6a 68 38	ldrb	w23, [x19, x8]
+ff5d8:	e0 03 13 aa	mov	x0, x19
+ff5dc:	e1 03 14 aa	mov	x1, x20
+ff5e0:	c8 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff5e4:	37 03 00 34	cbz	w23, 0xff648
+ff5e8:	20 09 63 1e	fmul	d0, d9, d3
+ff5ec:	00 38 6c 1e	fsub	d0, d0, d12
+ff5f0:	09 48 6d 1e	fmax	d9, d0, d13
+ff5f4:	0a 29 69 1e	fadd	d10, d8, d9
+ff5f8:	e0 03 13 aa	mov	x0, x19
+ff5fc:	e1 03 14 aa	mov	x1, x20
+ff600:	c0 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff604:	60 28 6e 1e	fadd	d0, d3, d14
+ff608:	40 21 60 1e	fcmp	d10, d0
+ff60c:	cd 00 00 54	b.le	0xff624
+ff610:	e0 03 13 aa	mov	x0, x19
+ff614:	e1 03 14 aa	mov	x1, x20
+ff618:	ba b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff61c:	60 28 6e 1e	fadd	d0, d3, d14
+ff620:	09 38 68 1e	fsub	d9, d0, d8
+ff624:	e0 03 13 aa	mov	x0, x19
+ff628:	e1 03 14 aa	mov	x1, x20
+ff62c:	b5 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff630:	40 38 68 1e	fsub	d0, d2, d8
+ff634:	00 08 6b 1e	fmul	d0, d0, d11
+ff638:	00 40 62 1e	fcvt	s0, d0
+ff63c:	00 40 26 1e	frinta	s0, s0
+ff640:	0a c0 22 1e	fcvt	d10, s0
+ff644:	18 00 00 14	b	0xff6a4
+ff648:	20 09 62 1e	fmul	d0, d9, d2
+ff64c:	00 38 6c 1e	fsub	d0, d0, d12
+ff650:	0a 48 6d 1e	fmax	d10, d0, d13
+ff654:	09 29 6a 1e	fadd	d9, d8, d10
+ff658:	e0 03 13 aa	mov	x0, x19
+ff65c:	e1 03 14 aa	mov	x1, x20
+ff660:	a8 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff664:	40 28 6e 1e	fadd	d0, d2, d14
+ff668:	20 21 60 1e	fcmp	d9, d0
+ff66c:	cd 00 00 54	b.le	0xff684
+ff670:	e0 03 13 aa	mov	x0, x19
+ff674:	e1 03 14 aa	mov	x1, x20
+ff678:	a2 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff67c:	40 28 6e 1e	fadd	d0, d2, d14
+ff680:	0a 38 68 1e	fsub	d10, d0, d8
+ff684:	e0 03 13 aa	mov	x0, x19
+ff688:	e1 03 14 aa	mov	x1, x20
+ff68c:	9d b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff690:	60 38 68 1e	fsub	d0, d3, d8
+ff694:	00 08 6b 1e	fmul	d0, d0, d11
+ff698:	00 40 62 1e	fcvt	s0, d0
+ff69c:	00 40 26 1e	frinta	s0, s0
+ff6a0:	09 c0 22 1e	fcvt	d9, s0
+ff6a4:	f7 03 1c aa	mov	x23, x28
+ff6a8:	e0 03 1b aa	mov	x0, x27
+ff6ac:	e1 07 40 f9	ldr	x1, [sp, #0x8]
+ff6b0:	40 1d aa 4e	mov.16b	v0, v10
+ff6b4:	21 1d a9 4e	mov.16b	v1, v9
+ff6b8:	02 1d a8 4e	mov.16b	v2, v8
+ff6bc:	03 1d a8 4e	mov.16b	v3, v8
+ff6c0:	90 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff6c4:	e0 03 1b aa	mov	x0, x27
+ff6c8:	9a b5 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+ff6cc:	e0 03 1a aa	mov	x0, x26
+ff6d0:	98 b5 07 94	bl	0x2ecd30 ; symbol stub for: _objc_release
+ff6d4:	b5 06 00 91	add	x21, x21, #0x1
+ff6d8:	fb 03 18 aa	mov	x27, x24
+ff6dc:	60 6a 78 f8	ldr	x0, [x19, x24]
+ff6e0:	e1 03 19 aa	mov	x1, x25
+ff6e4:	87 b5 07 94	bl	0x2ecd00 ; Objc message: -[x0 setFrame:]
+ff6e8:	fa 03 19 aa	mov	x26, x25
+ff6ec:	bf 02 00 eb	cmp	x21, x0
+ff6f0:	fc 03 16 aa	mov	x28, x22
+ff6f4:	03 f2 ff 54	b.lo	0xff534
+ff6f8:	fd 7b 4b a9	ldp	x29, x30, [sp, #0xb0]
+ff6fc:	f4 4f 4a a9	ldp	x20, x19, [sp, #0xa0]
+ff700:	f6 57 49 a9	ldp	x22, x21, [sp, #0x90]
+ff704:	f8 5f 48 a9	ldp	x24, x23, [sp, #0x80]
+ff708:	fa 67 47 a9	ldp	x26, x25, [sp, #0x70]
+ff70c:	fc 6f 46 a9	ldp	x28, x27, [sp, #0x60]
+ff710:	e9 23 45 6d	ldp	d9, d8, [sp, #0x50]
+ff714:	eb 2b 44 6d	ldp	d11, d10, [sp, #0x40]
+ff718:	ed 33 43 6d	ldp	d13, d12, [sp, #0x30]
+ff71c:	ef 3b 42 6d	ldp	d15, d14, [sp, #0x20]
+ff720:	ff 03 03 91	add	sp, sp, #0xc0
+ff724:	c0 03 5f d6	ret
