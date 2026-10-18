@@ -219,6 +219,91 @@ def cli():
     a.out_md.parent.mkdir(parents=True,exist_ok=True)
     a.out_json.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     native=results["native12"];orig=results["original104"]
+    # Source-role contract: functional transitions are read from original
+    # DuoNavi 1.0.4; visual ownership and geometry from Native12 HUD8.
+    def method_entry(side,cls,name):
+        return next((m for m in side["classes"][cls]["selected"]
+                     if m["name"]==name and m.get("present")),None)
+    orig_focus=method_entry(orig,"CBBridgedSplitApp","focusSlot:animated:")
+    orig_restore=method_entry(orig,"CBBridgedSplitApp","restoreSplitAnimated:")
+    orig_layout=method_entry(orig,"CBBridgedSplitApp","layoutSplitViews")
+    native_pill=method_entry(native,"CBSlotPillView","layoutSubviews")
+    for record in (orig_focus,orig_restore,orig_layout,native_pill):
+        if not record:raise RuntimeError("Pinned DEB missing required original/native focus method")
+    def has_selector(entry,sel):
+        return any(row==sel or row.endswith(" "+sel)
+                   for row in entry.get("selector_refs",[]))
+    for entry,selectors in (
+        (orig_focus,("layoutSplitViews","refreshSceneLayout","saveBridgeStateToDisk")),
+        (orig_restore,("layoutSplitViews","refreshSceneLayout","saveBridgeStateToDisk")),
+        (orig_layout,("setFocusedMode:","setShowsExpandButton:","setCompactMode:")),
+        (native_pill,("setHidden:","setFrame:"))):
+        for sel in selectors:
+            if not has_selector(entry,sel):
+                raise RuntimeError("Actual original/native DEB missing selector "+sel)
+    native_focus_asm=native_pill.get("full_layout_asm",[])
+    for address in ("84d04:","84d24:","84d3c:","84d54:","84d6c:",
+                    "84d88:","84db8:","84ddc:","84e2c:"):
+        if not any(x.startswith(address) for x in native_focus_asm):
+            raise RuntimeError("Pinned Native12 pill ARM64 focus instruction absent "+address)
+    crosswalk={
+       "status":"ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_STATIC_PASS",
+       "static_only":True,"carplay_device_verified":False,
+       "source_roles":{"functional":"original DuoNavi 1.0.4 DEB",
+                       "visual":"DuoFace Native12 HUD8 DEB",
+                       "target":"independent DuoFace QA (no original CB runtime)"},
+       "sha256":{"original104_deb":orig["deb_sha256"],
+                 "native12_deb":native["deb_sha256"],
+                 "original104_dashboard":orig["dashboard_sha256"],
+                 "native12_dashboard":native["dashboard_sha256"]},
+       "original_functional_entrypoints":{
+          "focusSlot:animated:":{"imp":orig_focus["imp"],
+            "requires":["saveBridgeStateToDisk","layoutSplitViews","refreshSceneLayout"]},
+          "restoreSplitAnimated:":{"imp":orig_restore["imp"],
+            "requires":["saveBridgeStateToDisk","layoutSplitViews","refreshSceneLayout"]},
+          "layoutSplitViews":{"imp":orig_layout["imp"],
+            "native_visual_flags":["setFocusedMode:","setShowsExpandButton:","setCompactMode:"]}},
+       "native12_visual_pill":{
+          "layout_imp":native_pill["imp"],
+          "focused_hide":["dotsButton","separatorView","expandButton"],
+          "focused_show":["restoreButton"],
+          "focused_restore_frame":"entire pill bounds (0x84d70-0x84d88)",
+          "normal_show":["dotsButton","separatorView iff showsExpand","expandButton iff showsExpand"],
+          "normal_hide":["restoreButton"],
+          "normal_separator_frame":"CGRect(halfWidth-0.25,3.5,0.5,pillHeight-7)",
+          "init_separator_color":"white alpha 0.25 (0x8486c-0x84898)",
+          "known_compact_mode_trigger":False
+       },
+       "qa_contract":"focus updates independent pane layout + scene host resize/applySize; no external CBBridgeManager",
+       "open_gates":["Original104 compact/show-expand input conditions still need full loop dataflow",
+                     "Real CarPlay touch/scene/appearance cannot be established by DEB metadata"]
+    }
+    sidecar=a.out_json.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json"
+    sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+    focus_md=a.out_md.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md"
+    focus_md.write_text("\\n".join([
+      "# Original 1.0.4 function / Native12 interface - focus/restore audit",
+      "","Pinned immutable DEB binaries only. This is STATIC evidence, not receiver validation.","",
+      "## 1. Functional owner — ORIGINAL DuoNavi 1.0.4",
+      "- \`CBBridgedSplitApp.focusSlot:animated:\` "+orig_focus["imp"]+
+      ": saveBridgeStateToDisk, layoutSplitViews, refreshSceneLayout.",
+      "- \`CBBridgedSplitApp.restoreSplitAnimated:\` "+orig_restore["imp"]+
+      ": same persistence/layout/scene-refresh chain.",
+      "- \`CBBridgedSplitApp.layoutSplitViews\` "+orig_layout["imp"]+
+      ": setFocusedMode:, setShowsExpandButton:, setCompactMode:.",
+      "This documents the original call chain; the independent QA owns its own scene hosts.", "",
+      "## 2. Visual owner — NATIVE12 HUD8",
+      "- \`CBSlotPillView.layoutSubviews\` "+native_pill["imp"]+
+      ": focus hides dots/expand/separator, shows full-width Restore.",
+      "- Normal shows app plus optional expand separated by 0.5pt line; Restore hidden.",
+      "- Separator layout at 0x84e64..0x84e94; alpha 0.25 in constructor 0x8486c..0x84898.",
+      "- Six outer pill states are tracked separately in COMPACT_UI_CONTRACT.json.", "",
+      "## 3. Independent QA parity and unresolved scope",
+      "- Verify DFINativeShell.inc focus, separator, and full-width restore against this record.",
+      "- DFIInterface.inc focus/restore relies on DFV12SceneHost.resizeTo -> applySize; no original license/manager.",
+      "- Do NOT infer the triggering input to setCompactMode: or setShowsExpandButton: until original104 full CFG trace.",
+      "- UI correctness and CarPlay scene visibility still need physical tests.",""
+    ]),encoding="utf-8")
     # Small actionable disassembly slices, because full JSON can exceed
     # connector text limits. These are data, not executable vendor code.
     detail = []
