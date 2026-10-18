@@ -109,8 +109,8 @@ No vendor binary is embedded in independent QA. Distinguish image pixel dimensio
 ## Decoded Native12 divider geometry literal evidence
 
 Read-only Mach-O LC_SEGMENT_64 mapping, pinned SHA; static, not receiver dimensions.
-- Short-axis threshold: **280pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).
-- Native move/grip button frame: square **28x28pt** for short-axis less than threshold,
+- Along-divider length threshold: **280pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).
+- Native move/grip button frame: square **28x28pt** for divider length less than threshold,
   square **30x30pt** otherwise; setFrame d2=d3=d8 at ff6b0–ff6c0.
 - Hit-test literal: **0.01** at VM 0x311948 (ARM64 ff858–ff864).
   This constant alone is not a complete resolved hit rectangle.
