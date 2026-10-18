@@ -225,10 +225,21 @@ def cli():
                 results[name]["divider_geometry_constants"]=inspect_native12(binary)
             if name=="original104":
                 from audit_native12_divider_geometry import read_double_vmaddr
-                # Original104 layoutSplitViews 0x10c5c8 uses this literal
-                # as pane-height compact guard. 0x10c9a8 gives width 320pt.
+                # DuoNavi 1.0.4 dashboard may be a universal Mach-O. Never
+                # treat its fat header as the arm64 Mach-O: extract ONLY the
+                # arm64 slice with the macOS toolchain, read-only, from the
+                # SHA-pinned original binary.
+                slice_path=root/"original104-arm64-thin.dylib"
+                archs=subprocess.run(["xcrun","lipo","-archs",str(binary)],
+                    check=True,capture_output=True,text=True).stdout.strip()
+                if "arm64" not in archs.split():
+                    raise RuntimeError("Original104 Dashboard lacks arm64 slice: "+archs)
+                subprocess.run(["xcrun","lipo","-thin","arm64",str(binary),
+                    "-output",str(slice_path)],check=True)
+                # Original104 layoutSplitViews 0x10c5c8 loads the height
+                # threshold; 0x10c9a8 selects a width threshold of 320pt.
                 results[name]["pill_compact_height_guard_literal"] = read_double_vmaddr(
-                    binary,0x33ebe8)
+                    slice_path,0x33ebe8)
     result=dict(status="NATIVE12_VS_ORIGINAL104_ACTUAL_DEB_READONLY",
        static_only=True,device_tested=False,qa_interface_modified=False,
        **results)
