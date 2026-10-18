@@ -1,8 +1,12 @@
-name: DuoFace QA DEB (manual gate - Native12 shell visual parity)
-# Native12 UI shell visual parity has NOT been accepted. Do not automatically
-# emit/overwrite the last Sileo-shipped v5 DEB when source changes.
-# Only a deliberate dispatch after UI view-tree and device acceptance can package.
+name: DuoFace Native12 shell visual acceptance QA - not Sileo yet
+# One versioned UI-shell visual acceptance candidate, not a native parity claim.
+# Trigger only from this deliberate workflow edit; never from regular runtime
+# source edits, and never reuse/overwrite the last shipped v5 artifact.
 on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-visual12-standalone-qa-deb.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -33,6 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 replacement/visual12/tests/test_scene_contract.py
+          python3 replacement/visual12/tests/test_native_shell_structure.py
       - name: Install iOS rootless DEB build tools
         shell: bash
         run: |
@@ -44,23 +49,23 @@ jobs:
         run: |
           set -euo pipefail
           bash replacement/visual12/build_qa.sh
-          p='dist/visual12-original104-geometry5-qa/com.duoface.visual12_1.0.3-12~ui8native5_iphoneos-arm64.deb'
+          p='dist/visual12-native-shell6-visual-qa/com.duoface.visual12_1.0.3-12~ui8native6_iphoneos-arm64.deb'
           test -s "$p"
           test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
-          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~ui8native5'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~ui8native6'
           python3 replacement/visual12/verify_qa.py "$p"
-          cat dist/visual12-original104-geometry5-qa/BAO_CAO.json
-          cat dist/visual12-original104-geometry5-qa/SHA256SUMS
+          cat dist/visual12-native-shell6-visual-qa/BAO_CAO.json
+          cat dist/visual12-native-shell6-visual-qa/SHA256SUMS
       - name: Upload verified DEB as CI artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFaceVisual12-Original104-Geometry5-QA
+          name: DuoFaceVisual12-Native12-Shell6-VISUAL-PREVIEW-QA
           path: |
-            dist/visual12-original104-geometry5-qa/*.deb
-            dist/visual12-original104-geometry5-qa/BAO_CAO.json
-            dist/visual12-original104-geometry5-qa/CONTENTS.txt
-            dist/visual12-original104-geometry5-qa/SHA256SUMS
+            dist/visual12-native-shell6-visual-qa/*.deb
+            dist/visual12-native-shell6-visual-qa/BAO_CAO.json
+            dist/visual12-native-shell6-visual-qa/CONTENTS.txt
+            dist/visual12-native-shell6-visual-qa/SHA256SUMS
           if-no-files-found: error
       - name: Save exact DEB and QA checkpoint in project branch
         if: success()
@@ -69,9 +74,9 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/visual12-original104-geometry5-qa
+          git add dist/visual12-native-shell6-visual-qa
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'artifact: preserve standalone Visual12 QA DEB and SHA256 [skip ci]'
+          git commit -m 'artifact(native-ui): preserve isolated visual shell QA DEB and SHA256 [skip ci]'
           for attempt in 1 2 3 4 5; do
             git fetch origin feature/visual12-duodash-recovery
             git rebase origin/feature/visual12-duodash-recovery
