@@ -58,6 +58,11 @@ jobs:
           assert side['small_button_side_pt']==28 and side['large_button_side_pt']==30
           assert isfinite(side['threshold_pt']) and 0 < side['threshold_pt'] < 1024
           assert dg['literals']['divider_short_axis_threshold']['vmaddr']=='0x312488'
+          cross=json.load(open(sys.argv[1].replace('METRICS.json','FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json')))
+          assert cross['status']=='ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_STATIC_PASS'
+          assert cross['original_functional_entrypoints']['focusSlot:animated:']['requires'][-1]=='refreshSceneLayout'
+          assert cross['native12_visual_pill']['focused_restore_frame'].startswith('entire pill bounds')
+          print('ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_CROSSWALK_PASS')
           print('NATIVE12_DIVIDER_MACHO_LITERALS_STATIC_PASS threshold=',side['threshold_pt'])
           print('NATIVE12_REAL_DEB_LOGO_PNG_AND_UI_IMP_COMPARISON_READONLY_PASS')
           PY
@@ -71,6 +76,8 @@ jobs:
             ${{ runner.temp }}/native12-original104/REPORT.md
             ${{ runner.temp }}/native12-original104/COMPACT_UI_CONTRACT.json
             ${{ runner.temp }}/native12-original104/PILL_DIVIDER_NATIVE12_ASM.txt
+            ${{ runner.temp }}/native12-original104/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json
+            ${{ runner.temp }}/native12-original104/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md
           if-no-files-found: warn
       - name: Persist audited JSON and report to DuoFace GitHub
         if: success()
@@ -89,6 +96,8 @@ jobs:
             cp "$OUT/REPORT.md" audit/native12-deb-original104-ui/REPORT.md
             cp "$OUT/COMPACT_UI_CONTRACT.json" audit/native12-deb-original104-ui/COMPACT_UI_CONTRACT.json
             cp "$OUT/PILL_DIVIDER_NATIVE12_ASM.txt" audit/native12-deb-original104-ui/PILL_DIVIDER_NATIVE12_ASM.txt
+            cp "$OUT/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json" audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json
+            cp "$OUT/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md" audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md
             git add audit/native12-deb-original104-ui/
             if git diff --cached --quiet; then
               echo 'NATIVE12_ACTUAL_DEB_UI_EVIDENCE_ALREADY_PERSISTED'
