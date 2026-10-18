@@ -144,6 +144,8 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) UIImageView *approvedLogo;
 @property(nonatomic,strong) DFV12NativeHUD8 *native8HUD;
 @property(nonatomic) BOOL native8HUDPositionRestored;
+@property(nonatomic) BOOL savedAppsRestoreStarted;
+@property(nonatomic) NSInteger nextSavedPane;
 @property(nonatomic) NSInteger activePane,selectedTab;
 @property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
@@ -242,8 +244,38 @@ static NSArray *DFIAvailableApps(void) {
   return live>=2;
  };
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
+ // Do not request app scenes from viewDidLoad, before external window/layout
+ // exists. Original host binds the real CarPlay UIWindow first.
+}
+- (void)viewDidAppear:(BOOL)animated {
+ [super viewDidAppear:animated];
+ if(self.shuttingDown || self.savedAppsRestoreStarted || !self.view.window ||
+    CGRectIsEmpty(self.view.bounds))return;
+ self.savedAppsRestoreStarted=YES;
+ self.nextSavedPane=0;
+ DFILog([NSString stringWithFormat:@"QA root appeared window=%@ frame=%@",
+       self.view.window,NSStringFromCGRect(self.view.bounds)]);
+ __weak typeof(self) weak=self;
+ dispatch_async(dispatch_get_main_queue(),^{[weak.view layoutIfNeeded];[weak restoreNextSavedPane];});
+}
+- (void)restoreNextSavedPane {
+ if(self.shuttingDown || !self.view.window || !self.savedAppsRestoreStarted)return;
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
- for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
+ // At most one scene request per event-loop turn. Wait for scene ready/failure
+ // before starting the next saved app, avoiding parallel respring restore.
+ while(self.nextSavedPane<count){
+     NSInteger pane=self.nextSavedPane++;
+     NSString *bid=DFIPref(@[@"left",@"right",@"third"][pane]);
+     if(![bid isKindOfClass:NSString.class] || !bid.length)continue;
+     if(self.hosts[pane]!=NSNull.null || [self.pendingPanes containsObject:@(pane)])continue;
+     [self.view layoutIfNeeded];
+     if(CGRectIsEmpty(self.panes[pane].bounds)) {
+         DFILog([NSString stringWithFormat:@"QA saved app skipped empty pane=%ld",(long)pane]);
+         continue;
+     }
+     [self openBundle:bid pane:pane];
+     if([self.pendingPanes containsObject:@(pane)])return;
+ }
 }
 - (void)updateInteractionBorders {
  // Bản duyệt: đỏ #E3020F, rộng 1pt, không nhấp nháy, ẩn khi tập trung một ô
@@ -409,21 +441,65 @@ static NSArray *DFIAvailableApps(void) {
 - (void)openBundle:(NSString *)bid pane:(NSInteger)pane {
  DFIPerfMark(@"open_app",@{@"pane":@(pane)});
  if(self.shuttingDown||pane<0||pane>2||!DFIEnabled()||[DFITerminating containsObject:bid])return;
+ [self.view layoutIfNeeded];
+ if(CGRectIsEmpty(self.panes[pane].bounds) || !self.view.window){
+     DFILog([NSString stringWithFormat:@"QA app launch blocked before real pane geometry pane=%ld app=%@",
+        (long)pane,bid]);
+     [self message:@"Chưa sẵn sàng kích thước CarPlay, thử lại sau"];
+     return;
+ }
  if([self.pendingPanes containsObject:@(pane)]) {
      [self message:@"Đang chuyển ứng dụng, vui lòng đợi…"];
      return;
  }
  for(id h in self.hosts)if(h!=NSNull.null&&[[h bundleID]isEqual:bid])return;
+ id previous=self.hosts[pane];
+ if(previous!=NSNull.null){
+     // Never construct the replacement SBAppViewController while the previous
+     // scene still owns the pane. Finish mode=0/invalidate, yield to UIKit,
+     // and re-check the owner before starting the new scene.
+     NSString *old=[previous bundleID];
+     [self.pendingPanes addObject:@(pane)];
+     self.hosts[pane]=NSNull.null;
+     DFILog([NSString stringWithFormat:@"QA replace close old=%@ next=%@ pane=%ld",
+            old,bid,(long)pane]);
+     [previous close];
+     self.emptyButtons[pane].hidden=NO;
+     self.emptyButtons[pane].enabled=NO;
+     [self.emptyButtons[pane] setTitle:@"Đang thay ứng dụng…" forState:0];
+     __weak typeof(self) weak=self;
+     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.3*NSEC_PER_SEC)),
+        dispatch_get_main_queue(),^{
+         DFV12SplitController *owner=weak;
+         if(!owner || owner.shuttingDown || owner.hosts[pane]!=NSNull.null ||
+            ![owner.pendingPanes containsObject:@(pane)])return;
+         [owner.pendingPanes removeObject:@(pane)];
+         DFILog([NSString stringWithFormat:@"QA replace start new=%@ pane=%ld",
+            bid,(long)pane]);
+         [owner openBundle:bid pane:pane];
+         if(old.length && [DFIPref(@"closeReplaced") boolValue])
+             DFITerminate(old,nil,^(NSString *status){[owner message:status];});
+     });
+     return;
+ }
  [self.pendingPanes addObject:@(pane)];
- NSError *error=nil;DFV12SceneHost *host=[[DFV12SceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self.pendingPanes removeObject:@(pane)];[self message:error.localizedDescription?:@"Không mở được ứng dụng"];return;}
- id previous=self.hosts[pane];NSString *old=previous==NSNull.null?nil:[previous bundleID];
- // Transfer slot ownership before closing the previous scene so stale callbacks
- // cannot clear the new host while original-style invalidation is in progress.
+ NSError *error=nil;
+ DFILog([NSString stringWithFormat:@"QA scene host allocate bundle=%@ pane=%ld rect=%@",
+    bid,(long)pane,NSStringFromCGRect(self.panes[pane].bounds)]);
+ DFV12SceneHost *host=[[DFV12SceneHost alloc]initWithBundleID:bid error:&error];
+ if(!host){
+   [self.pendingPanes removeObject:@(pane)];
+   [self message:error.localizedDescription?:@"Không mở được ứng dụng"];
+   __weak typeof(self) weak=self;
+   dispatch_async(dispatch_get_main_queue(),^{[weak restoreNextSavedPane];});
+   return;
+ }
  self.hosts[pane]=host;
- if(previous!=NSNull.null)[previous close];
  __weak typeof(self) weak=self;__weak DFV12SceneHost *wh=host;
- host.failure=^(NSString *reason){DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound||s.shuttingDown)return;[s.pendingPanes removeObject:@(pane)];s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
- host.ready=^{DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound&&!s.shuttingDown){[s.pendingPanes removeObject:@(pane)];s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
+ host.failure=^(NSString *reason){DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound||s.shuttingDown)return;[s.pendingPanes removeObject:@(pane)];s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];
+ dispatch_async(dispatch_get_main_queue(),^{[s restoreNextSavedPane];});};
+ host.ready=^{DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound&&!s.shuttingDown){[s.pendingPanes removeObject:@(pane)];s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;
+ dispatch_async(dispatch_get_main_queue(),^{[s restoreNextSavedPane];});}};
  [self.emptyButtons[pane]setTitle:DFIT(@"Đang mở…",@"Opening…") forState:0];self.emptyButtons[pane].hidden=NO;self.emptyButtons[pane].enabled=NO;
  @try{[host attachTo:self container:self.panes[pane]];[DFIManaged addObject:bid];DFISetObject(DFIStateMonitor,@"updateInterestedBundleIDs:",DFIManaged.allObjects);[self.panes[pane]bringSubviewToFront:self.emptyButtons[pane]];[host resizeTo:self.panes[pane].bounds.size];DFIWritePreference(@[@"left",@"right",@"third"][pane],bid);}
  @catch(NSException *e){
@@ -435,7 +511,6 @@ static NSArray *DFIAvailableApps(void) {
      [self.emptyButtons[pane]setTitle:e.reason forState:0];
      return;
  }
- if(old&&[DFIPref(@"closeReplaced")boolValue])DFITerminate(old,nil,^(NSString *status){[weak message:status];});
 }
 - (void)saveLayout{DFIWritePreference(@"layout",@(self.layoutKind));DFIWritePreference(@"fraction",@(self.fraction));DFIWritePreference(@"secondary",@(self.secondary));}
 - (void)layouts {
