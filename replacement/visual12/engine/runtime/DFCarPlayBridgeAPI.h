@@ -21,7 +21,6 @@ typedef void (^DFCarPlayCompletion)(NSError * _Nullable error);
         inPane:(NSUInteger)pane
     completion:(DFCarPlayCompletion)done;
 - (void)setSplitRatio:(CGFloat)ratio;
-- (void)setLayoutKind:(NSInteger)kind fraction:(CGFloat)fraction secondary:(CGFloat)secondary;
 - (void)swapPanes;
 - (void)focusPane:(NSUInteger)pane;
 - (void)restoreSplit;
@@ -30,7 +29,7 @@ typedef void (^DFCarPlayCompletion)(NSError * _Nullable error);
 @end
 
 // G1/G2 integration: the caller creates a SINGLE external UIRootSceneWindow,
-// provides its existing root controller and two or three pane views. This coordinator
+// provides its existing root controller and two pane views. This coordinator
 // ONLY hosts SB app scenes inside those views; it does not create a second owner.
 // It does not use DuoNavi, SidePlay, DuoDash or their license APIs.
 @interface DFCarPlaySplitCoordinator : NSObject <DFCarPlayBridgeAPI>
