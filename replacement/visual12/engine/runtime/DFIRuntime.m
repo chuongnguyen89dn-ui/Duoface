@@ -213,6 +213,11 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
                 }
                 DFILog([NSString stringWithFormat:@"scene attached bundle=%@ class=%@ geometry=%@",
                     self.bundleID,NSStringFromClass([scene class]),NSStringFromCGSize(self.requestedSize)]);
+                // _deviceAppViewController may not exist until the actual scene
+                // attaches. Rebind the native 2x contentReferenceSize to its
+                // controller once available, even if the pane size did not move.
+                CGSize pane=self.requestedSize;
+                if(pane.width>0 && pane.height>0)[self resizeTo:pane];
             }
             if(!CGSizeEqualToSize(self.appliedSize,self.requestedSize)) [self applySize];
             if(!self.sceneReadyNotified && self.requestedSize.width>0 && self.requestedSize.height>0 &&
