@@ -4,7 +4,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[2]
 source = (root / 'replacement/visual12/engine/runtime/DFIInterface.inc').read_text()
-required = ['DFV12SplitController', 'DFV12List', 'self.layoutKind>8', 'i<3;i++', 'self.toolbarStack', 'self.panel']
+required = ['DFV12SplitController', 'DFINativePickerCardsController', 'self.layoutKind>8', 'i<3;i++', 'self.toolbarStack', 'self.panel']
 missing = [item for item in required if item not in source]
 if missing:
     raise SystemExit('DuoFace interface baseline incomplete: ' + ', '.join(missing))
