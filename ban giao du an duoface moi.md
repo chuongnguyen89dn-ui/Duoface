@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — ƯU TIÊN MỚI: chuyển UI/chức năng Native HUD 8 trước, dữ liệu để sau
+
+- Người dùng sửa thứ tự công việc: **NGAY BÂY GIỜ chuyển giao diện và chức năng đang có của Native HUD 8 sang Visual12 QA**; bỏ qua điều tra Waze/GMap producer và độ chính xác tốc độ trong giai đoạn này. Không trì hoãn ghép UI để giải quyết dữ liệu.
+- Đã đọc nguồn thật `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm`: `DFSpeedNativeHUD` là UIView pill 104x46, hiển thị speed/limit, drag, long-press settings, scale/opacity, displayLimit, source selection, save/restore position, dismiss; `S7Reconcile` đòi native `CBBridgeManager`/`CBBridgedSplitApp` và root `CBTouchPassThroughRootSceneWindow`, tối thiểu 2 pane, mount trên root SpringBoard. Không thể copy constructor driver vào QA vì sẽ phụ thuộc native owner và tạo đường mount song song.
+- Đã đọc QA `replacement/visual12/engine/runtime/DFIRuntime.m`, `DFIInterface.inc` và `replacement/visual12/build_qa.sh`: QA có `DFIWindow`/`DFIRoot` owner riêng, đóng gói `com.duoface.visual12`, không trùng native Sileo. Hướng ghép cụ thể: tách UIView HUD cùng gesture/settings/prefs thành module QA độc lập; host trên `DFIWindow`/Visual12 root hiện hữu, không tạo UIWindow; giữ nguyên scene close `standalone6invalidate`; dữ liệu có thể hiển thị `—` trong QA đến giai đoạn sau.
+- Trạng thái lượt này: xác định đúng code và ranh giới mount; chưa port/build/test HUD QA. NEXT: trích phần `DFSpeedNativeHUD` và helpers vào module QA, loại riêng `S7Reconcile` native driver; thêm vào build QA, kiểm tra compiler và workflow. Native HUD 8 trên Sileo bất biến.
+
+
 ## 2026-10-18 — XÁC ĐỊNH ĐƯỢC nguồn Native HUD 8 để chuyển sang QA
 
 - Đã truy cây GitHub branch `feature/visual12-duodash-recovery` (935 paths) và xác định đúng **Native12 Speed8 Compact** (không nhầm Hub8): `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm` (renderer/owner), `DFSpeedTransport8.mm` (Darwin source transport), `DFSpeedGMapReader8.mm` (GMap reader); build `Makefile.speedhud-native8compact-stage`; QA workflow `.github/workflows/duoface-native12-speed8compact-qa.yml`; binary tham chiếu `dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb`, SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.
