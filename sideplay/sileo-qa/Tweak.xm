@@ -1,11 +1,12 @@
-// Independent SidePlay native-display QA2: control old fullscreen geometry.
-// SidePlay remains the CarPlay app host. Only SPDash exterior geometry and
-// its internal dock-mode branch are overridden in NORMAL, never app split.
+// Independent DuoFace Native12 frame QA3 on SidePlay's existing CarPlay app host.
+// Suppress SidePlay's old display/chip UI, preserve live app-scenes and use
+// Native12 pill, picker, divider and gestures wired to real SPDash selectors.
 // Reversible: no changes to SidePlay.dylib, Native12 HUD8 or on-disk prefs.
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <math.h>
+#import "../native12-display/DFSPNativeFrame.h"
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
@@ -13,12 +14,32 @@
 - (CGRect)carWindowFrameNow;
 - (BOOL)carDockMode;
 - (void)layoutRootView;
+- (void)layout:(BOOL)animated;
+- (NSArray *)panes;
+- (UIView *)rootView;
+- (NSInteger)split;
+- (double)ratio;
+- (void)setRatio:(double)value;
+- (void)showPickerForPane:(id)pane;
+- (void)layoutChooser;
+- (void)paneRequestsClose:(id)pane;
+- (void)paneRequestsSwap:(id)pane;
+@end
+
+@interface SPPane : NSObject
+- (UIView *)view;
+- (UIView *)chipView;
+- (UIView *)layoutButton;
+- (id)appViewController;
 @end
 
 static __weak UIWindow *DFSPWindow;
 static __weak SPDash *DFSPManager;
-static UIButton *DFSPZoom;
-static id DFSPAction;
+static DFSPNativeFrame *DFSPUI;
+static id<DFSPNativeFrameDelegate> DFSPAdapter;
+static BOOL DFSPRefreshing=NO;
+static BOOL DFSPUpdatingRatio=NO;
+static void DFSPRefresh(void);
 static CGFloat DFSPOriginalLevel;
 static CGRect DFSPOriginalFrame;
 static BOOL DFSPFull = NO;
@@ -26,7 +47,6 @@ static BOOL DFSPApplying = NO;
 static NSUInteger DFSPSequence = 0;
 static NSUInteger DFSPLayoutCalls = 0;
 static const CGFloat DFSPNativeFallbackLeft = 64.0;
-static const NSInteger DFSPZoomTag = 870291;
 
 static void DFSPLog(NSString *message) {
     NSLog(@"[DuoFaceSidePlayDisplayQA2] %@", message);
@@ -93,16 +113,6 @@ static CGRect DFSPActiveWindowRect(void) {
     if (!DFSPExternal(window)) return CGRectNull;
     return DFSPFull ? window.screen.bounds : DFSPSystemUsableRect(window);
 }
-static void DFSPPositionZoom(void) {
-    UIWindow *window=DFSPWindow;
-    if (!window || !DFSPZoom) return;
-    CGRect bounds=window.bounds;
-    if (!DFSPRectOK(bounds)) return;
-    CGFloat top=MAX(8.0,window.safeAreaInsets.top+8.0);
-    DFSPZoom.frame=CGRectMake(MAX(10.0,bounds.size.width-112.0),top,98.0,38.0);
-    [window bringSubviewToFront:DFSPZoom];
-}
-
 static BOOL DFSPApply(BOOL full, NSString *source) {
     UIWindow *window=DFSPWindow;
     SPDash *owner=DFSPManager;
@@ -130,7 +140,7 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
     window.windowLevel=targetLevel;
     [window setNeedsLayout];
     [window layoutIfNeeded];
-    DFSPPositionZoom();
+    DFSPRefresh();
     BOOL ok=DFSPNear(window.frame,desired) &&
             fabs(window.windowLevel-targetLevel)<1.0;
     if (!ok) {
@@ -151,28 +161,128 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
     return ok;
 }
 
-@interface DFSPZoomQA2Target : NSObject
-- (void)pressed:(id)sender;
-@end
-@implementation DFSPZoomQA2Target
-- (void)pressed:(id)sender {
-    (void)sender;
-    if (DFSPApply(!DFSPFull,@"button")) {
-        [DFSPZoom setTitle:DFSPFull?@"Zoom Out":@"Zoom In"
-                 forState:UIControlStateNormal];
-        DFSPZoom.accessibilityLabel=DFSPFull?@"Zoom Out":@"Zoom In";
+static NSArray *DFSPPanes(void) {
+    SPDash *manager=DFSPManager;
+    id array=manager?[manager panes]:nil;
+    return [array isKindOfClass:[NSArray class]]?array:@[];
+}
+static void DFSPHideSidePlayPlaceholder(UIView *view,NSUInteger depth) {
+    if (!view || depth>6)return;
+    for (UIView *item in view.subviews) {
+        NSString *text=nil;
+        if ([item isKindOfClass:[UILabel class]])
+            text=((UILabel *)item).text;
+        else if ([item isKindOfClass:[UIButton class]])
+            text=[((UIButton *)item) titleForState:UIControlStateNormal];
+        NSString *lower=text.lowercaseString;
+        if (lower.length && ([lower containsString:@"trống"] ||
+                             [lower containsString:@"thêm app"] ||
+                             [lower containsString:@"add app"] ||
+                             [lower isEqualToString:@"empty"])) {
+            item.hidden=YES; // only SidePlay's empty pane UI, NEVER app scene.
+        }
+        DFSPHideSidePlayPlaceholder(item,depth+1);
     }
 }
+static CGRect DFSPPaneRect(SPPane *pane) {
+    UIView *view=[pane view];
+    if (!view || !view.superview || !DFSPUI || view.window!=DFSPWindow)
+        return CGRectZero;
+    return [view.superview convertRect:view.frame toView:DFSPUI];
+}
+static void DFSPRefresh(void) {
+    if (!DFSPUI || !DFSPManager || !DFSPWindow ||
+        DFSPRefreshing || DFSPUpdatingRatio)return;
+    DFSPRefreshing=YES;
+    NSArray *panes=DFSPPanes();
+    CGRect one=CGRectZero,two=CGRectZero;
+    BOOL firstApp=NO,secondApp=NO;
+    if(panes.count>0 && [panes[0] isKindOfClass:objc_getClass("SPPane")]) {
+        SPPane *pane=panes[0];
+        one=DFSPPaneRect(pane);
+        firstApp=[pane appViewController]!=nil;
+        [pane chipView].hidden=YES;
+        [pane layoutButton].hidden=YES;
+        if(!firstApp) DFSPHideSidePlayPlaceholder([pane view],0);
+    }
+    if(panes.count>1 && [panes[1] isKindOfClass:objc_getClass("SPPane")]) {
+        SPPane *pane=panes[1];
+        two=DFSPPaneRect(pane);
+        secondApp=[pane appViewController]!=nil;
+        [pane chipView].hidden=YES;
+        [pane layoutButton].hidden=YES;
+        if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
+    }
+    DFSPUI.frame=DFSPWindow.bounds;
+    [DFSPUI updateFirst:one second:two
+        hasFirstApp:firstApp hasSecondApp:secondApp
+        ratio:[DFSPManager ratio] fullscreen:DFSPFull];
+    [DFSPWindow bringSubviewToFront:DFSPUI];
+    [DFSPUI setNeedsLayout];
+    DFSPRefreshing=NO;
+}
+@interface DFSPNativeAdapter : NSObject <DFSPNativeFrameDelegate>
 @end
+@implementation DFSPNativeAdapter
+- (void)nativeFrameRequestedAppForSlot:(NSInteger)slot {
+    NSArray *panes=DFSPPanes();
+    if(slot>=0 && slot<(NSInteger)panes.count) {
+        [DFSPManager showPickerForPane:panes[(NSUInteger)slot]];
+        DFSPLog([NSString stringWithFormat:
+            @"Native12 App(%ld) -> SidePlay showPickerForPane:",(long)slot]);
+    }
+}
+- (void)nativeFrameRequestedZoom {
+    BOOL next=!DFSPFull;
+    BOOL ok=DFSPApply(next,@"Native12 menu Zoom");
+    DFSPLog([NSString stringWithFormat:@"Native12 Zoom %@ applied=%d",
+             next?@"In":@"Out",ok]);
+    DFSPRefresh();
+}
+- (void)nativeFrameRequestedStyle {
+    [DFSPManager layoutChooser];
+    DFSPLog(@"Native12 Style -> SidePlay layoutChooser (existing host)");
+}
+- (void)nativeFrameRequestedCloseForSlot:(NSInteger)slot {
+    NSArray *panes=DFSPPanes();
+    if(slot>=0 && slot<(NSInteger)panes.count) {
+        [DFSPManager paneRequestsClose:panes[(NSUInteger)slot]];
+        DFSPLog([NSString stringWithFormat:
+            @"Native12 Close(%ld) -> paneRequestsClose:",(long)slot]);
+    }
+}
+- (void)nativeFrameRequestedSwap {
+    NSArray *panes=DFSPPanes();
+    if(panes.count>=2) {
+        [DFSPManager paneRequestsSwap:panes[0]];
+        DFSPLog(@"Native12 divider tap -> SidePlay paneRequestsSwap:");
+    }
+}
+- (void)nativeFrameDraggedToRatio:(double)ratio ended:(BOOL)ended {
+    SPDash *manager=DFSPManager;
+    if (!manager || !isfinite(ratio))return;
+    DFSPUpdatingRatio=YES;
+    [manager setRatio:ratio];
+    // The existing SidePlay host applies the new ratio to its REAL SPPane
+    // view + scene frames. We do not resize a decorative fake split image.
+    [manager layout:ended];
+    DFSPUpdatingRatio=NO;
+    DFSPRefresh();
+    if(ended) DFSPLog([NSString stringWithFormat:
+        @"Native12 divider ratio requested=%.5f hostActual=%.5f split=%ld",
+        ratio,[manager ratio],(long)[manager split]]);
+}
+@end
+
 static void DFSPRemove(void) {
     UIWindow *oldWindow=DFSPWindow;
     if (oldWindow) {
         oldWindow.windowLevel=DFSPOriginalLevel;
         oldWindow.frame=DFSPOriginalFrame;
     }
-    [DFSPZoom removeFromSuperview];
-    DFSPZoom=nil;
-    DFSPAction=nil;
+    [DFSPUI resetForDisconnect];
+    DFSPUI=nil;
+    DFSPAdapter=nil;
     DFSPWindow=nil;
     DFSPManager=nil;
     DFSPFull=NO;
@@ -191,7 +301,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         else DFSPLog(@"window not external; no global UIWindow override");
         return;
     }
-    if (DFSPWindow==window && DFSPZoom) {
+    if (DFSPWindow==window && DFSPUI) {
         if (!DFSPFull) (void)DFSPApply(NO,@"reconnected");
         return;
     }
@@ -203,26 +313,17 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPFull=NO;
     DFSPApplying=NO;
     DFSPLayoutCalls=0;
-    DFSPAction=[DFSPZoomQA2Target new];
-    UIButton *button=[UIButton buttonWithType:UIButtonTypeSystem];
-    button.tag=DFSPZoomTag;
-    [button setTitle:@"Zoom In" forState:UIControlStateNormal];
-    button.accessibilityLabel=@"Zoom In";
-    button.titleLabel.font=[UIFont boldSystemFontOfSize:13];
-    [button setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-    button.backgroundColor=[UIColor colorWithRed:0.12 green:0.14 blue:0.19 alpha:0.95];
-    button.layer.cornerRadius=10;
-    button.layer.borderColor=[UIColor colorWithWhite:0.8 alpha:0.7].CGColor;
-    button.layer.borderWidth=1;
-    [button addTarget:DFSPAction action:@selector(pressed:)
-        forControlEvents:UIControlEventTouchUpInside];
-    DFSPZoom=button;
-    [window addSubview:button];
+    DFSPAdapter=[DFSPNativeAdapter new];
+    DFSPUI=[[DFSPNativeFrame alloc]initWithFrame:window.bounds];
+    DFSPUI.delegate=DFSPAdapter;
+    [window addSubview:DFSPUI];
+    DFSPLog(@"Native12 approved frame mounted; SidePlay chip controls suppressed");
     DFSPLog([NSString stringWithFormat:
         @"SPDash host attached external=%@ originalFrame=%@ oldLevel=%.1f",
         window.screen,NSStringFromCGRect(DFSPOriginalFrame),DFSPOriginalLevel]);
     if (!DFSPApply(NO,@"startup"))
         DFSPLog(@"startup override FAILED; leave SidePlay host recoverable");
+    DFSPRefresh();
 }
 %hook SPDash
 - (void)setCarWindow:(UIWindow *)window {
@@ -256,6 +357,10 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         if (DFSPRectOK(desired)) frame=desired;
     }
     %orig(frame);
+}
+- (void)layout:(BOOL)animated {
+    %orig(animated);
+    if (DFSPManager==self && !DFSPApplying) DFSPRefresh();
 }
 - (void)layoutRootView {
     // Old host/layout still renders app content, but cannot own NORMAL frame.
