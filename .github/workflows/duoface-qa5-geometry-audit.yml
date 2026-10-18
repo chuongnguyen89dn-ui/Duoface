@@ -1,0 +1,31 @@
+name: DuoFace QA5 geometry gap audit (NOT device pass)
+on:
+  push:
+    branches: [feature/duoface-native12-ui-on-sideplay-host]
+    paths:
+      - '.github/workflows/duoface-qa5-geometry-audit.yml'
+      - 'sideplay/native12-display/validation/audit_qa5_geometry_coverage.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  report-known-gaps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect unported Native12 geometry and missing bar owner
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/validation/audit_qa5_geometry_coverage.py | tee qa5-geometry-audit.json
+          python3 - <<'PY'
+          import json
+          r=json.load(open("qa5-geometry-audit.json"))
+          assert r["status"]=="NOT_NATIVE12_COMPLETE" and not r["ready_for_claim_native_parity"]
+          assert len(r["blocking_gaps"])>=6
+          print("AUDIT_PASSED: QA5 incomplete; must not claim UI/CarPlay bar fixed")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa5-geometry-unported-audit
+          path: qa5-geometry-audit.json
