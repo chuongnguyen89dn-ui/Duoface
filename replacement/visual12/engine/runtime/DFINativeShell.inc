@@ -173,11 +173,11 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
 
 @interface DFINativeDividerLogo : UIButton
 - (instancetype)initWithIndex:(NSInteger)index target:(id)target
-                 tapAction:(SEL)tapAction panAction:(SEL)panAction;
+                 tapAction:(SEL)tapAction holdAction:(SEL)holdAction;
 @end
 @implementation DFINativeDividerLogo
 - (instancetype)initWithIndex:(NSInteger)index target:(id)target
-                 tapAction:(SEL)tapAction panAction:(SEL)panAction {
+                 tapAction:(SEL)tapAction holdAction:(SEL)holdAction {
     if((self=[super initWithFrame:CGRectZero])) {
         self.tag=index;
         self.accessibilityIdentifier=[NSString stringWithFormat:
@@ -192,10 +192,15 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
         self.imageView.contentMode=UIViewContentModeScaleAspectFit;
         if(target && tapAction)[self addTarget:target action:tapAction
                               forControlEvents:UIControlEventTouchUpInside];
-        UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]
-                                      initWithTarget:target action:panAction];
-        pan.cancelsTouchesInView=NO;
-        [self addGestureRecognizer:pan];
+        // Native12 approved gesture ownership:
+        // short touch = original slot swap; hold >=0.30s moves logo ALONG
+        // divider only. Ratio pan belongs to adjacent DividerTrack.
+        UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
+                                      initWithTarget:target action:holdAction];
+        hold.minimumPressDuration=0.30;
+        hold.allowableMovement=14.0;
+        hold.cancelsTouchesInView=YES;
+        [self addGestureRecognizer:hold];
     }
     return self;
 }
