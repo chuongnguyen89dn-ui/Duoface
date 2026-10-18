@@ -1,0 +1,43 @@
+name: SidePlay exact window owner evidence
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-exact-window-owner.yml'
+      - 'sideplay/native12-display/tools/find_original_window_owner.py'
+permissions:
+  contents: write
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import existing QA MachO parser (not vendor binary)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/native-parser"
+          git fetch --depth 1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/native-parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native-parser/audit_native12_license_class_xrefs.py"
+      - name: Map original window owner methods by class
+        shell: bash
+        env:
+          SIDEPLAY_PARSER_DIR: ${{ runner.temp }}/native-parser
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/tools/find_original_window_owner.py
+          test -s sideplay/native12-display/audit/SIDEPLAY_WINDOW_OWNER_CLASSES.json
+      - name: Commit original binary method metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/native12-display/audit/SIDEPLAY_WINDOW_OWNER_CLASSES.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(sideplay): preserve exact original window owner class map [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
