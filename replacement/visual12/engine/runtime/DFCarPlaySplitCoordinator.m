@@ -1,6 +1,5 @@
 #import "DFCarPlayBridgeAPI.h"
 #import "DFIRuntime.h"
-#import "../DFILayouts.h"
 #import <math.h>
 
 NSString *const DFCarPlayErrorDomain = @"com.duoface.carplay.bridge";
@@ -21,12 +20,10 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
 @interface DFCarPlaySplitCoordinator ()
 @property(nonatomic,strong) UIViewController *root;
 @property(nonatomic,copy) NSArray<UIView *> *panes;
-@property(nonatomic,strong) NSMutableArray *hosts; // DFV12SceneHost or NSNull (one per pane)
+@property(nonatomic,strong) NSMutableArray *hosts; // DFV12SceneHost or NSNull (two slots)
 @property(nonatomic,strong) NSMutableDictionary<NSNumber *,DFCarPlayCompletion> *pending;
 @property(nonatomic,readwrite) BOOL started;
 @property(nonatomic) CGFloat ratio;
-@property(nonatomic) CGFloat secondaryRatio;
-@property(nonatomic) NSInteger layoutKind;
 @property(nonatomic) NSInteger focused;
 @end
 
@@ -38,13 +35,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
         ![panes[0] isKindOfClass:UIView.class] ||
         ![panes[1] isKindOfClass:UIView.class]) {
         if (error) *error=DFCPError(DFCarPlayErrorInvalidRequest,
-                                   @"Two or three distinct pane views and one root are required");
-        return nil;
-    }
-    if (panes.count==3 && (![panes[2] isKindOfClass:UIView.class] ||
-        panes[2]==panes[0] || panes[2]==panes[1])) {
-        if (error) *error=DFCPError(DFCarPlayErrorInvalidRequest,
-                                   @"Three distinct pane views are required");
+                                   @"Two distinct pane views and one root are required");
         return nil;
     }
     if (!(self=[super init])) return nil;
@@ -54,8 +45,6 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     for (NSUInteger i=0; i<panes.count; i++) [_hosts addObject:NSNull.null];
     _pending=[NSMutableDictionary dictionary];
     _ratio=.5;
-    _secondaryRatio=.5;
-    _layoutKind=panes.count==3?5:2;
     _focused=-1;
     return self;
 }
@@ -188,11 +177,17 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     if (!self.started) return;
     CGRect r=self.root.view.bounds;
     if (CGRectIsEmpty(r) || !isfinite(r.size.width) || !isfinite(r.size.height)) return;
-    DFIFrames frames=DFIFramesMake(r,(int)self.layoutKind,self.ratio,self.secondaryRatio,(int)self.focused);
+    CGFloat split=r.size.width*self.ratio;
+    // Three-pane baseline: third pane uses the right half's lower section.
+    CGRect frames[3]={
+        CGRectMake(CGRectGetMinX(r),CGRectGetMinY(r),split,r.size.height),
+        CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r),r.size.width-split,self.panes.count==3?r.size.height/2:r.size.height),
+        CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r)+r.size.height/2,r.size.width-split,r.size.height/2)
+    };
     for (NSUInteger i=0;i<self.panes.count;i++) {
         BOOL focus=self.focused>=0;
-        self.panes[i].hidden=(focus && (NSInteger)i!=self.focused) || (!focus && i>=(NSUInteger)frames.count);
-        self.panes[i].frame=frames.panes[i];
+        self.panes[i].hidden=focus && (NSInteger)i!=self.focused;
+        self.panes[i].frame=(focus && (NSInteger)i==self.focused)?r:frames[i];
         DFV12SceneHost *host=self.hosts[i]==NSNull.null?nil:self.hosts[i];
         if (host && !self.panes[i].hidden) [host resizeTo:self.panes[i].bounds.size];
     }
@@ -204,18 +199,6 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     }
     if (!isfinite(ratio)) return;
     self.ratio=MAX(.10,MIN(.90,ratio));
-    [self layoutPanes];
-}
-- (void)setLayoutKind:(NSInteger)kind fraction:(CGFloat)fraction secondary:(CGFloat)secondary {
-    if (!DFCPMainThread()) {
-        dispatch_async(dispatch_get_main_queue(),^{[self setLayoutKind:kind fraction:fraction secondary:secondary];});
-        return;
-    }
-    if (kind<1 || kind>8 || !isfinite(fraction) || !isfinite(secondary)) return;
-    if (kind>=4 && self.panes.count<3) return;
-    self.layoutKind=kind;
-    self.ratio=MAX(.02,MIN(.98,fraction));
-    self.secondaryRatio=MAX(.02,MIN(.98,secondary));
     [self layoutPanes];
 }
 - (void)swapPanes {
