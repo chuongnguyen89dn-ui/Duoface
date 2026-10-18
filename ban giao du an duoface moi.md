@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — CODE CHANGE: bridge coordinator 3 pane (chưa tích hợp UI)
+
+- Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`.
+- Đã sửa `replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m`: init chấp nhận 2 hoặc 3 panes, cấp phát host slots theo số panes; giới hạn index và vòng lặp duyệt toàn bộ panes; layout tạm cho 3 pane (trái toàn chiều cao, phải chia trên/dưới); stop đóng tất cả panes.
+- Commits: `f589d68d7b8c08fb02182de101cf081f91cc37dd`, `a693f0b7ad4fb101fcea69c636b62e1d862916be`.
+- CẢNH BÁO: layout 3-pane này là bước nội bộ, CHƯA tương đương 8 bố cục DuoFace gốc. Không dùng làm bản phát hành; chưa chạy build/test/CI; chưa nối DFV12SplitController. Bắt buộc đối chiếu DFILayouts.h và lifecycle gốc trước khi sửa layout tiếp. QA root hiện vẫn 2 pane.
+- NEXT: kiểm tra `DFCarPlayBridgeAPI.h`, `DFILayouts.h`, `DFIInterface.inc` để dùng chính xác hình học gốc, cập nhật API layout không phá ABI, sau đó nối controller hiện tại với bridge, test CI và thiết bị. Không thay Native12/Hub8/Sileo.
+
+
 ## 2026-10-18 — Ghi mã GitHub hoạt động trở lại: static UI baseline guard
 
 - Người dùng yêu cầu thử lại sau khi thao tác ghi mã bị chặn.
