@@ -200,6 +200,18 @@ Instructions sampled: 236 to 0xb30c4.
 
 <details omitted: raw bounded refs preserved in JSON>
 
+## CBMultitaskingOverlayView::layoutSubviews — absent in 1.0.4 metadata
+No method IMP; inspect Native12 independently.
+
+## CBMultitaskingOverlayView::setupCardContent — absent in 1.0.4 metadata
+No method IMP; inspect Native12 independently.
+
+## CBMultitaskingOverlayView::setupAppPickerCardsInCardW:cardH:contentY: — absent in 1.0.4 metadata
+No method IMP; inspect Native12 independently.
+
+## CBMultitaskingOverlayView::setupRecentAppsCardsInCardW:cardH:contentY: — absent in 1.0.4 metadata
+No method IMP; inspect Native12 independently.
+
 ## CBBridgedSplitApp::handleDividerPan:isVertical:state: — 0x10b4c0
 Instructions sampled: 390 to 0x10bad8.
 

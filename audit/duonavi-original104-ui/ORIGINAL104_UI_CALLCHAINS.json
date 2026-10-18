@@ -6,7 +6,7 @@
   "dynamic_objc_dispatch_proven": false,
   "license_gate_runtime_proven": false,
   "native12_byte_or_callback_parity_proven": false,
-  "total_methods": 27,
+  "total_methods": 31,
   "methods": [
     {
       "class": "CBWindow",
@@ -783,6 +783,8 @@
         "b205c:\t0f 85 09 94\tbl\t0x313498 ; symbol stub for: __Unwind_Resume",
         "b2060:\t20 00 20 d4\tbrk\t#0x1"
       ],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -863,6 +865,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1184,6 +1188,8 @@
         "b280c:\tff 83 02 91\tadd\tsp, sp, #0xa0",
         "b2810:\te8 83 09 14\tb\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1392,6 +1398,8 @@
         "b15c4:\teb 87 09 94\tbl\t0x313570 ; symbol stub for: _dispatch_once",
         "b15c8:\t85 ff ff 17\tb\t0xb13dc"
       ],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1479,6 +1487,8 @@
         "b16c0:\teb 2b c4 6c\tldp\td11, d10, [sp], #0x40",
         "b16c4:\tc0 03 5f d6\tret"
       ],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1514,6 +1524,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1549,6 +1561,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1584,6 +1598,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1670,7 +1686,37 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
+    },
+    {
+      "class": "CBMultitaskingOverlayView",
+      "method": "layoutSubviews",
+      "present_in_original104": false,
+      "static_only_not_runtime": true,
+      "note": "Not found in original1.0.4 metadata; do not substitute later Native12 IMP"
+    },
+    {
+      "class": "CBMultitaskingOverlayView",
+      "method": "setupCardContent",
+      "present_in_original104": false,
+      "static_only_not_runtime": true,
+      "note": "Not found in original1.0.4 metadata; do not substitute later Native12 IMP"
+    },
+    {
+      "class": "CBMultitaskingOverlayView",
+      "method": "setupAppPickerCardsInCardW:cardH:contentY:",
+      "present_in_original104": false,
+      "static_only_not_runtime": true,
+      "note": "Not found in original1.0.4 metadata; do not substitute later Native12 IMP"
+    },
+    {
+      "class": "CBMultitaskingOverlayView",
+      "method": "setupRecentAppsCardsInCardW:cardH:contentY:",
+      "present_in_original104": false,
+      "static_only_not_runtime": true,
+      "note": "Not found in original1.0.4 metadata; do not substitute later Native12 IMP"
     },
     {
       "class": "CBBridgedSplitApp",
@@ -1804,6 +1850,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -1964,6 +2012,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2088,6 +2138,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2226,6 +2278,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2251,6 +2305,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2409,6 +2465,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2572,6 +2630,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2628,6 +2688,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2780,6 +2842,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2871,6 +2935,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -2902,6 +2968,8 @@
       ],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -3841,6 +3909,8 @@
         "ad364:\t20 00 20 d4\tbrk\t#0x1"
       ],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4569,6 +4639,8 @@
         "adc20:\te4 96 09 14\tb\t0x3137b0 ; symbol stub for: _objc_release"
       ],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4588,6 +4660,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4632,6 +4706,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4849,6 +4925,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4894,6 +4972,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     },
     {
@@ -4962,6 +5042,8 @@
       "native_size_raw_instructions": [],
       "original_scene_layout_asm": [],
       "original_window_chrome_asm": [],
+      "original_overlay_card_asm": [],
+      "present_in_original104": true,
       "static_only_not_runtime": true
     }
   ]
