@@ -59,6 +59,8 @@ jobs:
           path: |
             ${{ runner.temp }}/native12-original104/METRICS.json
             ${{ runner.temp }}/native12-original104/REPORT.md
+            ${{ runner.temp }}/native12-original104/COMPACT_UI_CONTRACT.json
+            ${{ runner.temp }}/native12-original104/PILL_DIVIDER_NATIVE12_ASM.txt
           if-no-files-found: warn
       - name: Persist audited JSON and report to DuoFace GitHub
         if: success()
@@ -75,6 +77,8 @@ jobs:
             mkdir -p audit/native12-deb-original104-ui
             cp "$OUT/METRICS.json" audit/native12-deb-original104-ui/METRICS.json
             cp "$OUT/REPORT.md" audit/native12-deb-original104-ui/REPORT.md
+            cp "$OUT/COMPACT_UI_CONTRACT.json" audit/native12-deb-original104-ui/COMPACT_UI_CONTRACT.json
+            cp "$OUT/PILL_DIVIDER_NATIVE12_ASM.txt" audit/native12-deb-original104-ui/PILL_DIVIDER_NATIVE12_ASM.txt
             git add audit/native12-deb-original104-ui/
             if git diff --cached --quiet; then
               echo 'NATIVE12_ACTUAL_DEB_UI_EVIDENCE_ALREADY_PERSISTED'
