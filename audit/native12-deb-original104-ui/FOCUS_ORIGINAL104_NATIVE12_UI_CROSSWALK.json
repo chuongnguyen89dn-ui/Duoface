@@ -60,7 +60,17 @@
     ],
     "normal_separator_frame": "CGRect(halfWidth-0.25,3.5,0.5,pillHeight-7)",
     "init_separator_color": "white alpha 0.25 (0x8486c-0x84898)",
-    "known_compact_mode_trigger": false
+    "original104_compact_conditions": {
+      "height_lt_pt": 220.0,
+      "width_lt_pt": 320.0,
+      "width_machine_code": "10c9a8-10c9b8",
+      "height_literal_vmaddr": "0x33ebe8",
+      "height_machine_code": "10c99c-10c9a4",
+      "boolean_or_machine_code": "10c9b8",
+      "setCompactMode_call": "10c9f0-10c9f8",
+      "proven_branch_only": true
+    },
+    "known_compact_mode_trigger": true
   },
   "qa_contract": "focus updates independent pane layout + scene host resize/applySize; no external CBBridgeManager",
   "open_gates": [

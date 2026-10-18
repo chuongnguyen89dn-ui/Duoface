@@ -17,5 +17,6 @@ This documents the original call chain; the independent QA owns its own scene ho
 ## 3. Independent QA parity and unresolved scope
 - Verify DFINativeShell.inc focus, separator, and full-width restore against this record.
 - DFIInterface.inc focus/restore relies on DFV12SceneHost.resizeTo -> applySize; no original license/manager.
-- Do NOT infer the triggering input to setCompactMode: or setShowsExpandButton: until original104 full CFG trace.
+- Original104 compact branch: pane.width <320pt OR pane.height <220.0pt (0x10c99c-0x10c9f8).
+- Branch-level proof only: other layout/focus states and showsExpandButton still need full dispatch mapping.
 - UI correctness and CarPlay scene visibility still need physical tests.
