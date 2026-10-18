@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — YÊU CẦU MỚI THAY THẾ kế hoạch ghép 2 vùng
+
+- USER REQUIREMENT (ưu tiên cao nhất): phải ghép **giống hệt DuoFace đang sử dụng**, bao gồm mọi bố cục/vùng/menu/tính năng hiện tại; KHÔNG làm bản 2 vùng trước và KHÔNG giảm chức năng.
+- BẮT BUỘC: nghiên cứu mã nguồn và trình tự khởi tạo, kết nối, hiển thị, đóng/khôi phục của DuoFace gốc trước khi sửa; học cách tổ chức và nối theo đúng thứ tự hoạt động đã xác minh, không tự đoán hoặc viết giao diện thay thế.
+- Kế hoạch trước ở commit `f103617` về adapter UI 2 pane trước **BỊ HỦY**. Giữ lịch sử để đối chiếu, không thực thi.
+- Next: xác định chính xác baseline DuoFace gốc đang dùng (không nhầm Native12, Hub8, DuoNavi); đọc source/DEB/workflow/commit liên quan, dựng bản đồ lifecycle và feature parity đầy đủ (bao gồm 3 pane/layout 1–8 nếu baseline có), sau đó mới thiết kế bridge hỗ trợ đủ chức năng và tích hợp nguyên giao diện. Bảo toàn gói Sileo ổn định và Hub8; không phát hành bản giảm chức năng.
+- Chưa thay mã hoặc build mới trong lượt ghi nhận yêu cầu này.
+
+
 ## 2026-10-18 — Đã xác định đường ghép UI thực tế
 
 - Đọc `replacement/visual12/engine/runtime/DFIInterface.inc`: giao diện DuoFace thực tế là `DFV12SplitController`, có `DFV12List` picker, toolbar/panel, menu, layout 1–8, 3 panes; tự giữ `hosts` và điều khiển `DFV12SceneHost`.
