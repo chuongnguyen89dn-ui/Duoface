@@ -1,0 +1,44 @@
+name: SidePlay CarPlay geometry static trace
+on:
+  push:
+    branches:
+      - feature/sideplay-normal-carplay-dock
+    paths:
+      - '.github/workflows/sideplay-carplay-geometry-trace.yml'
+      - 'sideplay/normal-carplay/tools/trace_window_geometry.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-carplay-geometry-trace
+  cancel-in-progress: false
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only hash-checked MachO slice geometry selector scan
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/normal-carplay/tools/trace_window_geometry.py
+          python3 sideplay/normal-carplay/tools/trace_window_geometry.py | tee /tmp/sideplay-carplay-geometry-summary.json
+          test -s sideplay/normal-carplay/audit/geometry-selector-evidence.json
+      - name: Preserve generated static evidence in branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/normal-carplay/audit/geometry-selector-evidence.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(sideplay): record SidePlay window geometry selector addresses [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sideplay-window-geometry-evidence
+          path: sideplay/normal-carplay/audit/geometry-selector-evidence.json
+          if-no-files-found: warn
