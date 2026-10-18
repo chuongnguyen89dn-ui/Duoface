@@ -1,0 +1,1449 @@
+{
+  "source_stage": "STATIC_SOURCE_ONLY; excludes binary-only Native12 classes and SidePlay MachO IMP",
+  "generated_date": "2026-10-18",
+  "entries": [
+    {
+      "kind": "qa7",
+      "path": "sideplay/sileo-qa/Tweak.xm",
+      "ref": "beafe5b6ab020859b82e627ca635046796d9d956",
+      "sha": "79c07fe69d588bc753bc9ad85654be4866d5ad2b",
+      "line_count": 529,
+      "funcs": [
+        {
+          "line": 13,
+          "kind": "objc",
+          "signature": "- (void)setCarWindow:(UIWindow *)window"
+        },
+        {
+          "line": 14,
+          "kind": "objc",
+          "signature": "- (void)setCarWindowFrame:(CGRect)frame"
+        },
+        {
+          "line": 15,
+          "kind": "objc",
+          "signature": "- (CGRect)carWindowFrameNow"
+        },
+        {
+          "line": 16,
+          "kind": "objc",
+          "signature": "- (BOOL)carDockMode"
+        },
+        {
+          "line": 17,
+          "kind": "objc",
+          "signature": "- (void)layoutRootView"
+        },
+        {
+          "line": 18,
+          "kind": "objc",
+          "signature": "- (void)layout:(BOOL)animated"
+        },
+        {
+          "line": 19,
+          "kind": "objc",
+          "signature": "- (NSArray *)panes"
+        },
+        {
+          "line": 20,
+          "kind": "objc",
+          "signature": "- (UIView *)rootView"
+        },
+        {
+          "line": 21,
+          "kind": "objc",
+          "signature": "- (NSInteger)split"
+        },
+        {
+          "line": 22,
+          "kind": "objc",
+          "signature": "- (double)ratio"
+        },
+        {
+          "line": 23,
+          "kind": "objc",
+          "signature": "- (void)setRatio:(double)value"
+        },
+        {
+          "line": 24,
+          "kind": "objc",
+          "signature": "- (void)showPickerForPane:(id)pane"
+        },
+        {
+          "line": 25,
+          "kind": "objc",
+          "signature": "- (void)layoutChooser"
+        },
+        {
+          "line": 26,
+          "kind": "objc",
+          "signature": "- (void)paneRequestsClose:(id)pane"
+        },
+        {
+          "line": 27,
+          "kind": "objc",
+          "signature": "- (void)paneRequestsSwap:(id)pane"
+        },
+        {
+          "line": 31,
+          "kind": "objc",
+          "signature": "- (UIView *)view"
+        },
+        {
+          "line": 32,
+          "kind": "objc",
+          "signature": "- (UIView *)chipView"
+        },
+        {
+          "line": 33,
+          "kind": "objc",
+          "signature": "- (UIView *)layoutButton"
+        },
+        {
+          "line": 34,
+          "kind": "objc",
+          "signature": "- (id)appViewController"
+        },
+        {
+          "line": 35,
+          "kind": "objc",
+          "signature": "- (NSInteger)scaleMode"
+        },
+        {
+          "line": 36,
+          "kind": "objc",
+          "signature": "- (void)layoutInFrame:(CGRect)frame scaleMode:(NSInteger)mode"
+        },
+        {
+          "line": 52,
+          "kind": "c",
+          "signature": "static void DFSPRefresh(void)"
+        },
+        {
+          "line": 62,
+          "kind": "c",
+          "signature": "static void DFSPHideReplacedView(UIView *view)"
+        },
+        {
+          "line": 71,
+          "kind": "c",
+          "signature": "static void DFSPRestoreReplacedViews(void)"
+        },
+        {
+          "line": 93,
+          "kind": "c",
+          "signature": "static void DFSPLog(NSString *message)"
+        },
+        {
+          "line": 115,
+          "kind": "c",
+          "signature": "static BOOL DFSPRectOK(CGRect rect)"
+        },
+        {
+          "line": 120,
+          "kind": "c",
+          "signature": "static BOOL DFSPExternal(UIWindow *window)"
+        },
+        {
+          "line": 124,
+          "kind": "c",
+          "signature": "static CGRect DFSPSystemUsableRect(UIWindow *window)"
+        },
+        {
+          "line": 151,
+          "kind": "c",
+          "signature": "static BOOL DFSPApply(BOOL full, NSString *source)"
+        },
+        {
+          "line": 184,
+          "kind": "c",
+          "signature": "static NSArray *DFSPPanes(void)"
+        },
+        {
+          "line": 189,
+          "kind": "c",
+          "signature": "static void DFSPHideSidePlayPlaceholder(UIView *view,NSUInteger depth)"
+        },
+        {
+          "line": 207,
+          "kind": "c",
+          "signature": "static CGRect DFSPPaneRect(SPPane *pane)"
+        },
+        {
+          "line": 215,
+          "kind": "c",
+          "signature": "static void DFSPRestorePaneVisibility(void)"
+        },
+        {
+          "line": 225,
+          "kind": "c",
+          "signature": "static BOOL DFSPApplyPaneFocus(void)"
+        },
+        {
+          "line": 253,
+          "kind": "c",
+          "signature": "static void DFSPClearPaneFocus(BOOL updateLayout)"
+        },
+        {
+          "line": 260,
+          "kind": "c",
+          "signature": "static void DFSPRefresh(void)"
+        },
+        {
+          "line": 295,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedFocusForSlot:(NSInteger)slot"
+        },
+        {
+          "line": 308,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedRestoreForSlot:(NSInteger)slot"
+        },
+        {
+          "line": 314,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedAppForSlot:(NSInteger)slot"
+        },
+        {
+          "line": 322,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedZoom"
+        },
+        {
+          "line": 329,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedStyle"
+        },
+        {
+          "line": 333,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedCloseForSlot:(NSInteger)slot"
+        },
+        {
+          "line": 341,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameRequestedSwap"
+        },
+        {
+          "line": 348,
+          "kind": "objc",
+          "signature": "- (void)nativeFrameDraggedToRatio:(double)ratio ended:(BOOL)ended"
+        },
+        {
+          "line": 371,
+          "kind": "c",
+          "signature": "static void DFSPRemove(void)"
+        },
+        {
+          "line": 398,
+          "kind": "c",
+          "signature": "static void DFSPInstall(SPDash *owner, UIWindow *window, NSUInteger generation, NSUInteger attempt)"
+        },
+        {
+          "line": 473,
+          "kind": "objc",
+          "signature": "- (void)setCarWindow:(UIWindow *)window"
+        },
+        {
+          "line": 488,
+          "kind": "objc",
+          "signature": "- (void)layout:(BOOL)animated"
+        },
+        {
+          "line": 501,
+          "kind": "objc",
+          "signature": "- (void)layoutRootView"
+        },
+        {
+          "line": 511,
+          "kind": "c",
+          "signature": "static void DFSPTryInit(unsigned attempt)"
+        }
+      ]
+    },
+    {
+      "kind": "qa7",
+      "path": "sideplay/native12-display/DFSPNativeFrame.m",
+      "ref": "beafe5b6ab020859b82e627ca635046796d9d956",
+      "sha": "58a775dd868d0efc6778b945393ae7979283ac57",
+      "line_count": 386,
+      "funcs": [
+        {
+          "line": 16,
+          "kind": "c",
+          "signature": "static UIColor *DFSPApprovedRed(void)"
+        },
+        {
+          "line": 20,
+          "kind": "c",
+          "signature": "static UIImage *DFSPApprovedArtwork(NSString *name)"
+        },
+        {
+          "line": 27,
+          "kind": "c",
+          "signature": "static UIImage *DFSPLogo(void)"
+        },
+        {
+          "line": 30,
+          "kind": "c",
+          "signature": "static double DFSPClampRatio(double r, BOOL snap)"
+        },
+        {
+          "line": 64,
+          "kind": "objc",
+          "signature": "- (instancetype)initWithFrame:(CGRect)frame"
+        },
+        {
+          "line": 200,
+          "kind": "objc",
+          "signature": "- (void)updateFirst:(CGRect)first second:(CGRect)second hasFirstApp:(BOOL)firstApp hasSecondApp:(BOOL)secondApp ratio:(double)ratio fullscreen:(BOOL)fullscreen"
+        },
+        {
+          "line": 214,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 232,
+          "kind": "c",
+          "signature": "CGRectGetHeight(rect)<pillSize.height"
+        },
+        {
+          "line": 240,
+          "kind": "c",
+          "signature": "CGRectGetMinY(rect)+topInset, pillSize.width,pillSize.height)"
+        },
+        {
+          "line": 245,
+          "kind": "c",
+          "signature": "CGRectGetWidth(b)>100 && CGRectGetHeight(b)>100"
+        },
+        {
+          "line": 269,
+          "kind": "c",
+          "signature": "CGRectGetMinY(tr)+tr.size.height*self.logoRelativePosition- gripSize/2,gripSize,gripSize)"
+        },
+        {
+          "line": 274,
+          "kind": "c",
+          "signature": "CGRectGetMidY(tr)-gripSize/2, gripSize,gripSize)"
+        },
+        {
+          "line": 298,
+          "kind": "objc",
+          "signature": "- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event"
+        },
+        {
+          "line": 313,
+          "kind": "objc",
+          "signature": "- (void)setFocusedSlot:(NSInteger)focusedSlot"
+        },
+        {
+          "line": 319,
+          "kind": "objc",
+          "signature": "- (void)expandTapped:(UIButton *)button"
+        },
+        {
+          "line": 323,
+          "kind": "objc",
+          "signature": "- (void)restoreTapped:(UIButton *)button"
+        },
+        {
+          "line": 326,
+          "kind": "objc",
+          "signature": "- (void)pillTapped:(UIButton *)sender"
+        },
+        {
+          "line": 332,
+          "kind": "objc",
+          "signature": "- (void)dismissPicker"
+        },
+        {
+          "line": 336,
+          "kind": "objc",
+          "signature": "- (void)menuTapped:(UIButton *)sender"
+        },
+        {
+          "line": 348,
+          "kind": "objc",
+          "signature": "- (void)swapTapped:(id)sender"
+        },
+        {
+          "line": 352,
+          "kind": "objc",
+          "signature": "- (void)dragDivider:(UIPanGestureRecognizer *)pan"
+        },
+        {
+          "line": 369,
+          "kind": "objc",
+          "signature": "- (void)moveLogo:(UILongPressGestureRecognizer *)hold"
+        },
+        {
+          "line": 380,
+          "kind": "objc",
+          "signature": "- (void)resetForDisconnect"
+        }
+      ]
+    },
+    {
+      "kind": "qa7",
+      "path": "sideplay/native12-display/DFSPNativeSlotPill.m",
+      "ref": "beafe5b6ab020859b82e627ca635046796d9d956",
+      "sha": "9c941b30708338943ed7b722cc6bba3b35351cb9",
+      "line_count": 93,
+      "funcs": [
+        {
+          "line": 4,
+          "kind": "c",
+          "signature": "static UIImage *DFSPPillArt(NSString *filename, NSString *fallback)"
+        },
+        {
+          "line": 34,
+          "kind": "objc",
+          "signature": "- (instancetype)initWithSlot:(NSInteger)slot target:(id)target menuAction:(SEL)menuAction expandAction:(SEL)expandAction restoreAction:(SEL)restoreAction"
+        },
+        {
+          "line": 63,
+          "kind": "objc",
+          "signature": "- (void)configureFocused:(BOOL)focused compact:(BOOL)compact allowsExpand:(BOOL)allowsExpand"
+        },
+        {
+          "line": 74,
+          "kind": "objc",
+          "signature": "- (CGSize)nativeSize"
+        },
+        {
+          "line": 80,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 88,
+          "kind": "objc",
+          "signature": "- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event"
+        }
+      ]
+    },
+    {
+      "kind": "qa7",
+      "path": "sideplay/native12-display/DFSPNative12Host.m",
+      "ref": "beafe5b6ab020859b82e627ca635046796d9d956",
+      "sha": "31f311f085d89c46549e2030df70f27b24c4cca0",
+      "line_count": 95,
+      "funcs": [
+        {
+          "line": 4,
+          "kind": "c",
+          "signature": "static BOOL DFSPRectValid(CGRect r)"
+        },
+        {
+          "line": 9,
+          "kind": "c",
+          "signature": "static BOOL DFSPRectNear(CGRect a,CGRect b)"
+        },
+        {
+          "line": 25,
+          "kind": "objc",
+          "signature": "- (instancetype)initWithCarPlayWindow:(UIWindow *)window contentRoot:(UIView *)content nativeUsableInWindow:(CGRect)usable"
+        },
+        {
+          "line": 43,
+          "kind": "objc",
+          "signature": "- (BOOL)applyNormal"
+        },
+        {
+          "line": 60,
+          "kind": "objc",
+          "signature": "- (BOOL)applyFullscreen"
+        },
+        {
+          "line": 77,
+          "kind": "objc",
+          "signature": "- (BOOL)reconcileAfterSystemLayout"
+        },
+        {
+          "line": 81,
+          "kind": "objc",
+          "signature": "- (void)restoreAndDetach"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/fullscreen/DFDashboardChrome.xm",
+      "ref": "main",
+      "sha": "2abbaa946f770d0faa9b74e8ca2b45e4a35c5220",
+      "line_count": 85,
+      "funcs": [
+        {
+          "line": 15,
+          "kind": "c",
+          "signature": "static void DFObserveChromeWindow(UIWindow *window)"
+        },
+        {
+          "line": 24,
+          "kind": "c",
+          "signature": "void DFDashboardRestoreChrome(void)"
+        },
+        {
+          "line": 33,
+          "kind": "c",
+          "signature": "BOOL DFDashboardSetChromeHidden(BOOL hidden, NSString **reason)"
+        },
+        {
+          "line": 54,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 62,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 69,
+          "kind": "c",
+          "signature": "BOOL DFInstallDashboardChromeHooks(void)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/fullscreen/DFFullscreenCoordinator.mm",
+      "ref": "main",
+      "sha": "45cda41e46c4a9b0e718e237aa0856a8471c5038",
+      "line_count": 106,
+      "funcs": [
+        {
+          "line": 9,
+          "kind": "objc",
+          "signature": "+ (id)defaultCenter"
+        },
+        {
+          "line": 10,
+          "kind": "objc",
+          "signature": "- (void)addObserver:(id)observer selector:(SEL)sel name:(NSString *)name object:(id)obj"
+        },
+        {
+          "line": 12,
+          "kind": "c",
+          "signature": "static void DFRestoreAfterFailure(NSString *reason)"
+        },
+        {
+          "line": 20,
+          "kind": "c",
+          "signature": "static void DFEnterFullscreen(void)"
+        },
+        {
+          "line": 38,
+          "kind": "c",
+          "signature": "static void DFExitFullscreen(void)"
+        },
+        {
+          "line": 53,
+          "kind": "objc",
+          "signature": "- (void)received:(NSNotification *)notification"
+        },
+        {
+          "line": 56,
+          "kind": "objc",
+          "signature": "- (void)received:(NSNotification *)notification"
+        },
+        {
+          "line": 69,
+          "kind": "c",
+          "signature": "BOOL DFStartFullscreenAdapter(void)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/fullscreen/DFFullscreenTransport.mm",
+      "ref": "main",
+      "sha": "5d955555f91cff614dd7def5af66d6ee8decc9e4",
+      "line_count": 201,
+      "funcs": [
+        {
+          "line": 12,
+          "kind": "objc",
+          "signature": "+ (id)defaultCenter"
+        },
+        {
+          "line": 13,
+          "kind": "objc",
+          "signature": "- (void)addObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object"
+        },
+        {
+          "line": 14,
+          "kind": "objc",
+          "signature": "- (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info"
+        },
+        {
+          "line": 32,
+          "kind": "objc",
+          "signature": "- (void)received:(NSNotification *)notification"
+        },
+        {
+          "line": 33,
+          "kind": "objc",
+          "signature": "- (void)send:(NSString *)operation enabled:(BOOL)enabled requestID:(NSString *)requestID"
+        },
+        {
+          "line": 34,
+          "kind": "objc",
+          "signature": "- (void)publish:(NSString *)requestID client:(NSString *)client reason:(NSString *)reason"
+        },
+        {
+          "line": 35,
+          "kind": "objc",
+          "signature": "- (void)handleCommand:(NSDictionary *)info"
+        },
+        {
+          "line": 36,
+          "kind": "objc",
+          "signature": "- (void)handleState:(NSDictionary *)info"
+        },
+        {
+          "line": 40,
+          "kind": "c",
+          "signature": "static NSTimeInterval DFNow(void)"
+        },
+        {
+          "line": 41,
+          "kind": "c",
+          "signature": "static BOOL DFToken(id token)"
+        },
+        {
+          "line": 46,
+          "kind": "objc",
+          "signature": "- (void)post:(NSString *)name info:(NSDictionary *)info"
+        },
+        {
+          "line": 49,
+          "kind": "objc",
+          "signature": "- (void)send:(NSString *)operation enabled:(BOOL)enabled requestID:(NSString *)requestID"
+        },
+        {
+          "line": 54,
+          "kind": "objc",
+          "signature": "- (void)publish:(NSString *)requestID client:(NSString *)client reason:(NSString *)reason"
+        },
+        {
+          "line": 60,
+          "kind": "objc",
+          "signature": "- (void)received:(NSNotification *)notification"
+        },
+        {
+          "line": 69,
+          "kind": "objc",
+          "signature": "- (void)handleCommand:(NSDictionary *)info"
+        },
+        {
+          "line": 108,
+          "kind": "objc",
+          "signature": "- (void)handleState:(NSDictionary *)info"
+        },
+        {
+          "line": 128,
+          "kind": "objc",
+          "signature": "- (void)tick"
+        },
+        {
+          "line": 143,
+          "kind": "c",
+          "signature": "BOOL DFStartFullscreenTransport(BOOL springBoard, void (^stateChanged)(NSDictionary *))"
+        },
+        {
+          "line": 174,
+          "kind": "c",
+          "signature": "void DFQueryFullscreenHost(void)"
+        },
+        {
+          "line": 178,
+          "kind": "c",
+          "signature": "void DFRequestHostFullscreen(BOOL expanded, void (^completion)(BOOL, NSString *))"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/fullscreen/DFHostGeometry.xm",
+      "ref": "main",
+      "sha": "6ca7011005ac0e1c99a70975cc3a7f2fc7d44a62",
+      "line_count": 237,
+      "funcs": [
+        {
+          "line": 10,
+          "kind": "objc",
+          "signature": "+ (CGRect)carPlayScreenBounds"
+        },
+        {
+          "line": 11,
+          "kind": "objc",
+          "signature": "+ (CGRect)carPlayUsableBounds"
+        },
+        {
+          "line": 16,
+          "kind": "objc",
+          "signature": "- (void)resizeWindows"
+        },
+        {
+          "line": 17,
+          "kind": "objc",
+          "signature": "- (void)show"
+        },
+        {
+          "line": 19,
+          "kind": "objc",
+          "signature": "- (void)hide:(DFHostCompletion)completion"
+        },
+        {
+          "line": 20,
+          "kind": "objc",
+          "signature": "- (void)destroyWindows"
+        },
+        {
+          "line": 25,
+          "kind": "objc",
+          "signature": "- (void)layoutSplitViews"
+        },
+        {
+          "line": 29,
+          "kind": "objc",
+          "signature": "+ (instancetype)sharedInstanceIfExists"
+        },
+        {
+          "line": 35,
+          "kind": "objc",
+          "signature": "- (void)deactivateCurrentApp"
+        },
+        {
+          "line": 66,
+          "kind": "c",
+          "signature": "static BOOL DFRectValid(CGRect rect)"
+        },
+        {
+          "line": 71,
+          "kind": "c",
+          "signature": "static BOOL DFSameOwner(void)"
+        },
+        {
+          "line": 78,
+          "kind": "c",
+          "signature": "BOOL DFHostCanExpand(void)"
+        },
+        {
+          "line": 91,
+          "kind": "c",
+          "signature": "BOOL DFHostIsExpanded(void)"
+        },
+        {
+          "line": 92,
+          "kind": "c",
+          "signature": "void DFHostSetLifecycleCallback(void (^callback)(void))"
+        },
+        {
+          "line": 94,
+          "kind": "c",
+          "signature": "static void DFRelayout(void)"
+        },
+        {
+          "line": 120,
+          "kind": "c",
+          "signature": "void DFHostRestore(void)"
+        },
+        {
+          "line": 142,
+          "kind": "c",
+          "signature": "BOOL DFHostSetExpanded(BOOL expanded, NSString **reason)"
+        },
+        {
+          "line": 189,
+          "kind": "objc",
+          "signature": "+ (CGRect)carPlayUsableBounds"
+        },
+        {
+          "line": 193,
+          "kind": "objc",
+          "signature": "- (void)resizeWindows"
+        },
+        {
+          "line": 197,
+          "kind": "objc",
+          "signature": "- (void)show"
+        },
+        {
+          "line": 202,
+          "kind": "objc",
+          "signature": "- (void)hide:(DFHostCompletion)completion"
+        },
+        {
+          "line": 212,
+          "kind": "objc",
+          "signature": "- (void)destroyWindows"
+        },
+        {
+          "line": 219,
+          "kind": "objc",
+          "signature": "- (void)deactivateCurrentApp"
+        },
+        {
+          "line": 227,
+          "kind": "c",
+          "signature": "BOOL DFInstallHostGeometryHooks(void)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/fullscreen/DFPickerZoomMenu.xm",
+      "ref": "main",
+      "sha": "c7b6b62e7c163bf6f71c49822f0dcf49e52d0c4a",
+      "line_count": 592,
+      "funcs": [
+        {
+          "line": 9,
+          "kind": "objc",
+          "signature": "- (NSInteger)overlayMode"
+        },
+        {
+          "line": 22,
+          "kind": "objc",
+          "signature": "+ (id)defaultCenter"
+        },
+        {
+          "line": 23,
+          "kind": "objc",
+          "signature": "- (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info"
+        },
+        {
+          "line": 26,
+          "kind": "objc",
+          "signature": "- (void)pressed:(UIButton *)sender"
+        },
+        {
+          "line": 37,
+          "kind": "c",
+          "signature": "static UIView *DFPickerNativeViewIvar(id overlay, const char *name)"
+        },
+        {
+          "line": 48,
+          "kind": "c",
+          "signature": "static void DFClearNativePickerChrome(UIView *overlay)"
+        },
+        {
+          "line": 64,
+          "kind": "c",
+          "signature": "static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *font)"
+        },
+        {
+          "line": 90,
+          "kind": "c",
+          "signature": "static UIColor *DFApprovedLogoRed(void)"
+        },
+        {
+          "line": 95,
+          "kind": "c",
+          "signature": "static BOOL DFNativeCloseAllAction(UIButton *button)"
+        },
+        {
+          "line": 104,
+          "kind": "c",
+          "signature": "static void DFRestyleRecentClearAll(UIView *overlay)"
+        },
+        {
+          "line": 129,
+          "kind": "c",
+          "signature": "CGRectGetHeight(location)<14.0) return"
+        },
+        {
+          "line": 131,
+          "kind": "c",
+          "signature": "CGRectGetMinX(location)-8.0)"
+        },
+        {
+          "line": 156,
+          "kind": "c",
+          "signature": "static NSInteger DFNativeSingleAppAction(UIButton *button)"
+        },
+        {
+          "line": 166,
+          "kind": "c",
+          "signature": "static BOOL DFRestyleOneRecentAppRow(UIView *row)"
+        },
+        {
+          "line": 168,
+          "kind": "c",
+          "signature": "CGRectGetHeight(row.bounds)<32.0) return NO"
+        },
+        {
+          "line": 183,
+          "kind": "c",
+          "signature": "CGRectGetWidth(candidate.frame)<=44.0 && CGRectGetHeight(candidate.frame)<=44.0) logo=candidate"
+        },
+        {
+          "line": 184,
+          "kind": "c",
+          "signature": "CGRectGetHeight(candidate.frame)<=44.0) logo=candidate"
+        },
+        {
+          "line": 219,
+          "kind": "c",
+          "signature": "CGRectGetMinX(name.frame))"
+        },
+        {
+          "line": 272,
+          "kind": "c",
+          "signature": "static void DFRestyleRecentRowDescendants(UIView *view, NSUInteger depth)"
+        },
+        {
+          "line": 282,
+          "kind": "c",
+          "signature": "static void DFRestyleNativeRecentAppRows(UIView *overlay)"
+        },
+        {
+          "line": 291,
+          "kind": "c",
+          "signature": "static UIColor *DFApprovedLogoRed(void)"
+        },
+        {
+          "line": 298,
+          "kind": "c",
+          "signature": "static UIImage *DFPickerApprovedHeaderLogo(void)"
+        },
+        {
+          "line": 311,
+          "kind": "c",
+          "signature": "static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent, CGFloat leftEdge, CGFloat rightEdge, CGFloat rowTop, CGFloat rowHeight)"
+        },
+        {
+          "line": 348,
+          "kind": "c",
+          "signature": "static void DFReflowPickerContent(UIView *parent, UIView *overlay, NSArray<UIView *> *menuButtons, CGFloat nativeBottom, CGFloat desiredTop)"
+        },
+        {
+          "line": 373,
+          "kind": "c",
+          "signature": "static void DFLayoutPicker(UIView *overlay)"
+        },
+        {
+          "line": 505,
+          "kind": "objc",
+          "signature": "- (void)pressed:(UIButton *)sender"
+        },
+        {
+          "line": 522,
+          "kind": "objc",
+          "signature": "- (void)setupAppPickerCardsInCardW:(double)cardW cardH:(double)cardH contentY:(double)contentY"
+        },
+        {
+          "line": 532,
+          "kind": "objc",
+          "signature": "- (void)setupRecentAppsCardsInCardW:(double)cardW cardH:(double)cardH contentY:(double)contentY"
+        },
+        {
+          "line": 546,
+          "kind": "objc",
+          "signature": "- (void)setupCardContent"
+        },
+        {
+          "line": 550,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 556,
+          "kind": "objc",
+          "signature": "+ (NSString *)localizedStringForKey:(NSString *)key"
+        },
+        {
+          "line": 570,
+          "kind": "objc",
+          "signature": "+ (UIImage *)systemImageNamed:(NSString *)name withConfiguration:(UIImageSymbolConfiguration *)configuration"
+        },
+        {
+          "line": 580,
+          "kind": "c",
+          "signature": "BOOL DFInstallPickerZoomMenuHooks(void)"
+        },
+        {
+          "line": 587,
+          "kind": "c",
+          "signature": "void DFPickerZoomMenuRefresh(void)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "src/DuoFaceBorderRunner.m",
+      "ref": "main",
+      "sha": "fe13400e58a936c5b8854de34e4b1dc3456ef54f",
+      "line_count": 190,
+      "funcs": [
+        {
+          "line": 19,
+          "kind": "c",
+          "signature": "static BOOL DFFocusHidden(id controller)"
+        },
+        {
+          "line": 30,
+          "kind": "c",
+          "signature": "static void DFTrackBorderView(id controller, UIView *view)"
+        },
+        {
+          "line": 35,
+          "kind": "c",
+          "signature": "static UIColor *DFBorderLogoRed(void)"
+        },
+        {
+          "line": 39,
+          "kind": "c",
+          "signature": "static void DFRemoveLegacyBorderEffects(UIView *view)"
+        },
+        {
+          "line": 52,
+          "kind": "c",
+          "signature": "static void DFSetBorderVisible(UIView *view, BOOL visible)"
+        },
+        {
+          "line": 61,
+          "kind": "c",
+          "signature": "static void DFUpdateFocusBorders(id controller)"
+        },
+        {
+          "line": 68,
+          "kind": "c",
+          "signature": "static void DFFocusSlotHook(id self, SEL cmd, NSInteger slot, BOOL animated)"
+        },
+        {
+          "line": 75,
+          "kind": "c",
+          "signature": "static void DFRestoreSplitHook(id self, SEL cmd, BOOL animated)"
+        },
+        {
+          "line": 82,
+          "kind": "c",
+          "signature": "static void DFBorderStartHook(id self, SEL cmd, UIView *view)"
+        },
+        {
+          "line": 96,
+          "kind": "c",
+          "signature": "static void DFBorderStopHook(id self, SEL cmd, UIView *view)"
+        },
+        {
+          "line": 111,
+          "kind": "c",
+          "signature": "static void DFSessionStartHook(id self, SEL cmd)"
+        },
+        {
+          "line": 119,
+          "kind": "c",
+          "signature": "static void DFSessionStopHook(id self, SEL cmd)"
+        },
+        {
+          "line": 127,
+          "kind": "c",
+          "signature": "static void DFSplitLayoutHook(id self, SEL cmd)"
+        },
+        {
+          "line": 131,
+          "kind": "c",
+          "signature": "static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *))"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "src/DuoFaceVisualHook.m",
+      "ref": "main",
+      "sha": "082520583690ea6c6408aa94faa72427f4504ab3",
+      "line_count": 189,
+      "funcs": [
+        {
+          "line": 16,
+          "kind": "c",
+          "signature": "static void DFSetButtonBackgroundColor(UIButton *button, SEL cmd, UIColor *color)"
+        },
+        {
+          "line": 20,
+          "kind": "c",
+          "signature": "static void DFSetLayerBorderWidth(CALayer *layer, SEL cmd, CGFloat width)"
+        },
+        {
+          "line": 24,
+          "kind": "c",
+          "signature": "static void DFSetLayerBorderColor(CALayer *layer, SEL cmd, CGColorRef color)"
+        },
+        {
+          "line": 33,
+          "kind": "c",
+          "signature": "static UIImage *DFImage(NSString *name)"
+        },
+        {
+          "line": 44,
+          "kind": "c",
+          "signature": "static id DFObjectIvar(id object, const char *name)"
+        },
+        {
+          "line": 49,
+          "kind": "c",
+          "signature": "static BOOL DFApplyButton(id value, NSString *asset, BOOL round)"
+        },
+        {
+          "line": 91,
+          "kind": "c",
+          "signature": "static void DFPillLayout(UIView *self, SEL cmd)"
+        },
+        {
+          "line": 106,
+          "kind": "c",
+          "signature": "static void DFDividerLayout(UIView *self, SEL cmd)"
+        },
+        {
+          "line": 115,
+          "kind": "c",
+          "signature": "static void DFSplashLayout(UIView *self, SEL cmd)"
+        },
+        {
+          "line": 145,
+          "kind": "c",
+          "signature": "static void DFInstall(void)"
+        },
+        {
+          "line": 180,
+          "kind": "c",
+          "signature": "static void DFImageAdded(const struct mach_header *header, intptr_t slide)"
+        },
+        {
+          "line": 185,
+          "kind": "c",
+          "signature": "__attribute__((constructor)) static void DFInit(void)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "src/DFDividerLogoGrip.inc",
+      "ref": "feature/visual12-duodash-recovery",
+      "sha": "0b14c99ab8ed9283fbb8c98839eb5d0ebc70ad52",
+      "line_count": 265,
+      "funcs": [
+        {
+          "line": 35,
+          "kind": "c",
+          "signature": "static DFLogoGripSession *DFLogoSession(id divider, BOOL make)"
+        },
+        {
+          "line": 46,
+          "kind": "c",
+          "signature": "static NSArray *DFGripArray(id divider, const char *ivar)"
+        },
+        {
+          "line": 50,
+          "kind": "c",
+          "signature": "static NSUInteger DFLogoIndexForButton(id divider, UIButton *button)"
+        },
+        {
+          "line": 54,
+          "kind": "c",
+          "signature": "static BOOL DFLogoIsButton(id divider, id button)"
+        },
+        {
+          "line": 58,
+          "kind": "c",
+          "signature": "static id DFLogoConfigAtIndex(id divider, NSUInteger index)"
+        },
+        {
+          "line": 64,
+          "kind": "c",
+          "signature": "static void DFLogoSetRelativePos(id info, double pos)"
+        },
+        {
+          "line": 68,
+          "kind": "c",
+          "signature": "static BOOL DFLogoRestorePositionBeforeLayout(id divider)"
+        },
+        {
+          "line": 77,
+          "kind": "c",
+          "signature": "static void DFLogoSetNativeHoldThreshold(UIButton *button)"
+        },
+        {
+          "line": 89,
+          "kind": "c",
+          "signature": "static void DFLogoGripDown(id divider, SEL cmd, UIControl *sender)"
+        },
+        {
+          "line": 102,
+          "kind": "c",
+          "signature": "static void DFLogoGripUp(id divider, SEL cmd, UIControl *sender)"
+        },
+        {
+          "line": 118,
+          "kind": "c",
+          "signature": "static void DFLogoGripCancel(id divider, SEL cmd, UIControl *sender)"
+        },
+        {
+          "line": 124,
+          "kind": "c",
+          "signature": "static BOOL DFLogoDividerIsVertical(id divider)"
+        },
+        {
+          "line": 129,
+          "kind": "c",
+          "signature": "static void DFLogoMoveWithHold(id divider, UILongPressGestureRecognizer *hold, UIButton *button, DFLogoGripSession *session)"
+        },
+        {
+          "line": 160,
+          "kind": "c",
+          "signature": "static void DFLogoGripHold(id divider, SEL cmd, UIGestureRecognizer *recognizer)"
+        },
+        {
+          "line": 196,
+          "kind": "c",
+          "signature": "static void DFLogoDividerPan(id divider, SEL cmd, UIGestureRecognizer *pan)"
+        },
+        {
+          "line": 225,
+          "kind": "c",
+          "signature": "static BOOL DFInstallLogoGripHooks(DFHookFn hook, Class divider)"
+        }
+      ]
+    },
+    {
+      "kind": "native12-source",
+      "path": "runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm",
+      "ref": "feature/visual12-duodash-recovery",
+      "sha": "b68b819e57e0894da5249e7716a7c6bdf93bf3f5",
+      "line_count": 597,
+      "funcs": [
+        {
+          "line": 35,
+          "kind": "objc",
+          "signature": "- (void)pan:(UIPanGestureRecognizer *)recognizer"
+        },
+        {
+          "line": 36,
+          "kind": "objc",
+          "signature": "- (void)restoreSavedPosition"
+        },
+        {
+          "line": 37,
+          "kind": "objc",
+          "signature": "- (void)tick:(NSTimer *)timer"
+        },
+        {
+          "line": 38,
+          "kind": "objc",
+          "signature": "- (void)stop"
+        },
+        {
+          "line": 39,
+          "kind": "objc",
+          "signature": "- (void)loadSettings"
+        },
+        {
+          "line": 40,
+          "kind": "objc",
+          "signature": "- (void)saveSettings"
+        },
+        {
+          "line": 41,
+          "kind": "objc",
+          "signature": "- (void)refreshStyle"
+        },
+        {
+          "line": 42,
+          "kind": "objc",
+          "signature": "- (void)showSettings:(UILongPressGestureRecognizer *)recognizer"
+        },
+        {
+          "line": 43,
+          "kind": "objc",
+          "signature": "- (void)settingsAction:(UIButton *)button"
+        },
+        {
+          "line": 44,
+          "kind": "objc",
+          "signature": "- (void)refreshSettingsLabels"
+        },
+        {
+          "line": 45,
+          "kind": "objc",
+          "signature": "- (NSString *)sourceTitle"
+        },
+        {
+          "line": 46,
+          "kind": "objc",
+          "signature": "- (void)savePosition"
+        },
+        {
+          "line": 49,
+          "kind": "c",
+          "signature": "static CGRect DFAllowedArea(UIView *view)"
+        },
+        {
+          "line": 52,
+          "kind": "objc",
+          "signature": "- (instancetype)initWithFrame:(CGRect)frame"
+        },
+        {
+          "line": 93,
+          "kind": "objc",
+          "signature": "- (void)layoutSubviews"
+        },
+        {
+          "line": 112,
+          "kind": "objc",
+          "signature": "- (void)didMoveToWindow"
+        },
+        {
+          "line": 123,
+          "kind": "objc",
+          "signature": "- (void)tick:(NSTimer *)timer"
+        },
+        {
+          "line": 158,
+          "kind": "c",
+          "signature": "static CGRect DFAllowedArea(UIView *view)"
+        },
+        {
+          "line": 176,
+          "kind": "objc",
+          "signature": "- (void)restoreSavedPosition"
+        },
+        {
+          "line": 183,
+          "kind": "c",
+          "signature": "CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size)"
+        },
+        {
+          "line": 189,
+          "kind": "c",
+          "signature": "CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size)"
+        },
+        {
+          "line": 191,
+          "kind": "objc",
+          "signature": "- (void)savePosition"
+        },
+        {
+          "line": 200,
+          "kind": "objc",
+          "signature": "- (void)showDismissTarget"
+        },
+        {
+          "line": 214,
+          "kind": "c",
+          "signature": "CGRectGetMaxY(area)-target.bounds.size.height/2)"
+        },
+        {
+          "line": 218,
+          "kind": "objc",
+          "signature": "- (void)pan:(UIPanGestureRecognizer *)gesture"
+        },
+        {
+          "line": 253,
+          "kind": "objc",
+          "signature": "- (void)stop"
+        },
+        {
+          "line": 259,
+          "kind": "objc",
+          "signature": "- (void)loadSettings"
+        },
+        {
+          "line": 271,
+          "kind": "objc",
+          "signature": "- (void)saveSettings"
+        },
+        {
+          "line": 278,
+          "kind": "objc",
+          "signature": "- (void)refreshStyle"
+        },
+        {
+          "line": 287,
+          "kind": "objc",
+          "signature": "- (NSString *)sourceTitle"
+        },
+        {
+          "line": 295,
+          "kind": "objc",
+          "signature": "- (void)showSettings:(UILongPressGestureRecognizer *)recognizer"
+        },
+        {
+          "line": 332,
+          "kind": "objc",
+          "signature": "- (void)refreshSettingsLabels"
+        },
+        {
+          "line": 351,
+          "kind": "objc",
+          "signature": "- (void)settingsAction:(UIButton *)button"
+        },
+        {
+          "line": 396,
+          "kind": "c",
+          "signature": "static id S7Read(id object,SEL selector)"
+        },
+        {
+          "line": 400,
+          "kind": "c",
+          "signature": "static void S7Log(NSString *reason,NSDictionary *details)"
+        },
+        {
+          "line": 419,
+          "kind": "c",
+          "signature": "static void S7Unmount(NSString *reason)"
+        },
+        {
+          "line": 428,
+          "kind": "c",
+          "signature": "static BOOL S7OriginalGOFADisabled(void)"
+        },
+        {
+          "line": 444,
+          "kind": "c",
+          "signature": "static BOOL S7GOFAForeground(void)"
+        },
+        {
+          "line": 449,
+          "kind": "c",
+          "signature": "static BOOL S7DuoFaceClasses(Class *managerOut,Class *windowOut,Class *splitOut)"
+        },
+        {
+          "line": 465,
+          "kind": "c",
+          "signature": "static BOOL S7Ancestor(UIView *child, UIView *parent)"
+        },
+        {
+          "line": 471,
+          "kind": "c",
+          "signature": "static UIView *S7AppView(id item)"
+        },
+        {
+          "line": 476,
+          "kind": "c",
+          "signature": "static void S7Reconcile(void)"
+        },
+        {
+          "line": 579,
+          "kind": "objc",
+          "signature": "-(void)tick:(NSTimer *)timer"
+        },
+        {
+          "line": 582,
+          "kind": "objc",
+          "signature": "-(void)tick:(NSTimer *)timer"
+        },
+        {
+          "line": 585,
+          "kind": "c",
+          "signature": "__attribute__((constructor)) static void S7Start(void)"
+        }
+      ]
+    }
+  ],
+  "issues": []
+}
