@@ -67,5 +67,21 @@ assert "CGRect splitFrame=[(DFINativeWindowSurface *)self.view usableContentFram
 assert "self.nativeSplitSurface.frame=splitFrame;" in ui
 assert "[g locationInView:self.nativeSplitSurface]" in ui
 assert "DFINativePickerCardFrame(splitFrame," in ui
+assert '#include "DFINativePickerCards.inc"' in ui
+assert '@interface DFV12List' not in ui, "Legacy QA UITableView picker must not remain"
+assert 'DFINativePickerCardsController *list' in ui
+assert 'DFINativePickerCardsController *list=[DFINativePickerCardsController new]' in ui
+cards=(root/"replacement/visual12/engine/runtime/DFINativePickerCards.inc").read_text()
+assert 'DFINativePickerCardsController : UIViewController <UIScrollViewDelegate>' in cards
+assert 'duoface.native.picker.app-cards' in cards
+assert 'pickerCardTapped:' in cards and 'recentActionTapped:' in cards
+assert 'UIControl *card=' in cards
+assert 'cardWidth' in cards and 'card.layer.cornerRadius' in cards
+assert 'DFINativePickerCardsController' in (root/"replacement/visual12/verify_full_ui_parity.py").read_text()
+assert 'const CGFloat desiredTab[4]={43.0,51.0,47.0,51.0};' in ui
+assert 'const CGFloat desiredTotal=192.0;' in ui
+assert 'closeReserved=48.0' in ui
+assert 'nativeMenuHeight=30.0' in ui
+
 print("DFINATIVE_UI_WINDOW_SPLIT_PILL_DIVIDER_PICKER_VIEW_TREE_STATIC_PASS")
 print("DEVICE_SCREENSHOT_AND_CARPLAY_STATUS_BAR_NOT_YET_VERIFIED")
