@@ -238,10 +238,14 @@ static double DFSPClampRatio(double r, BOOL snap) {
         CGSize pillSize=[pill nativeSize];
         pill.hidden=!visible || CGRectGetWidth(rect)<pillSize.width ||
                      CGRectGetHeight(rect)<pillSize.height;
-        // Approved DuoFace position: geometric CENTER of EACH hosted pane,
-        // independent of ratio/style. The older QA4 corner position was WRONG.
+        // Approved Native12 HUD8 presentation: TOP-CENTER of EACH pane.
+        // The DEB audit proves pill size/modes, not global UI coordinates.
+        // Keep the top offset isolated: +3pt comes from the older QA layout
+        // reference and still requires a real CarPlay comparison.
+        // QA5's former midY centering placed pills in the middle of app content.
+        CGFloat const topInset=3.0;
         if (visible) pill.frame=CGRectMake(CGRectGetMidX(rect)-pillSize.width/2,
-                                          CGRectGetMidY(rect)-pillSize.height/2,
+                                          CGRectGetMinY(rect)+topInset,
                                           pillSize.width,pillSize.height);
         UIButton *empty=self.placeholders[i];
         empty.hidden=!visible || (i==0?self.hasFirst:self.hasSecond);
