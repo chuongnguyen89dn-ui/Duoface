@@ -54,3 +54,16 @@ Original SidePlay là Mach-O đã biên dịch. Module giao diện độc lập 
 | SidePlay overlay | `sideplay/normal-carplay/audit/geometry-objc-window-trace.txt` | Xác minh owner & z-order của SidePlay UIWindow trước khi nối các thao tác; không điều chỉnh UIWindow global |
 
 **Điểm tiếp theo:** gắn hai callback owner cho host và chrome, thử normal boot/Zoom in/Zoom out trên iPhone X với log ACK và chụp thanh bar thực. Đó là phần ghép runtime còn thiếu, không phải phân tích lại nguyên DEB.
+
+
+## Bổ sung mã UIKit/điều phối đã biên dịch thành công
+
+- `DFSPNative12Host.h/.m`: nhận **đúng một** CarPlay `UIWindow` + `contentRoot` + **native usable rect do owner cung cấp**; `applyNormal` đặt content trong usable rect, `applyFullscreen` mở ra whole window, `restoreAndDetach` hoàn nguyên snapshot trên disconnect. Không tạo/sửa các ô split, không tự đặt pixels dock, không hạ window-level một cách đại trà.
+- `DFSPNative12ChromeOwner.h/.m`: nhận danh sách **native system chrome windows do Dashboard owner đã xác minh và cung cấp**, chỉ đổi hidden trong phiên SidePlay thật, lưu visibility cũ và khôi phục khi đóng phiên. **Không tự đi quét hoặc móc `UIWindow` toàn hệ thống**, không có giấy phép.
+- `DFSPDisplayCoordinator.h/.m`: kết nối bộ state machine với **hai port ACK bất đồng bộ** (host window owner / Dashboard chrome owner), lệnh Zoom hiện hữu, và teardown; chống ACK sai phiên.
+- **iOS 16 COMPILE PASS:** [Actions run 39118183014](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39118183014), job `117648156346`, `macos-15`, `xcrun --sdk iphoneos clang -fobjc-arc -fsyntax-only -Wall -Wextra -Werror -target arm64-apple-ios16.0`. Không build DEB.
+- **Logic C PASS:** [Actions run 39118169558](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39118169558) (cùng 5 static unit tests).
+
+**MỨC HOÀN THÀNH: `SOURCE_COMPILES`, KHÔNG PHẢI `SIDEPLAY_RUNTIME_WORKS`.** Chưa có `DFSPNative12Host` được bind với `UIRootSceneWindow` cụ thể của SidePlay; chưa có Dashboard chrome-owner thực được xác minh cho session này; chưa có đường IPC theo request ID/token cho 2 process; chưa có kiểm tra z-order so với SidePlay `UIWindowLevelAlert+10`. `UIWindow.hidden` trả đúng chỉ xác nhận property, **không chứng minh có thanh dock thật hiển thị phía trên SidePlay**. Vì vậy thiết bị hiện vẫn fullscreen ở lần khởi động theo nguyên gốc; không thể coi đây là đã sửa trên máy.
+
+**Bước ngay sau checkpoint:** dựa trên những trace SidePlay đã lưu (`sideplay/normal-carplay/audit/geometry-objc-window-trace.txt`) và code fullscreen cũ, xác minh instance owner, bind hai port và chỉ khi đo được normal trên xe mới xây ứng viên DEB riêng theo chỉ đạo. Không phân tích lại toàn bộ DEB, không đụng split.
