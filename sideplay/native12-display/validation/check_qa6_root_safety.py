@@ -21,7 +21,7 @@ checks={
  "no_unverified_dock_prefs_override": "- (BOOL)carDockMode {" not in t and
     "- (CGRect)carWindowFrameNow {" not in t and "- (void)setCarWindowFrame:" not in t,
  "safebounds_in_window_coords": 'CGRect screenRect=window.bounds;' in t and
-    'CGRectContainsRect(screenRect, usable)' not in t,
+    'CGRectContainsRect(screenRect, usable)' in t,
  "original_window_presentation_rollback": all(x in t for x in
     ("DFSPHasOriginalWindowBackground", "oldWindow.backgroundColor=DFSPOriginalWindowBackground",
     "[DFSPHost restoreAndDetach]", "DFSPOriginalLevel")),
