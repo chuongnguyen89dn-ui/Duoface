@@ -209,10 +209,13 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
            [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemMaterialDark]])) {
         self.frame=frame;
         self.accessibilityIdentifier=@"duoface.native.picker.card";
-        self.layer.cornerRadius=14.0;
+        // Original visual12 sheet sets 20pt corner radius in _sheetCard
+        // (audit/v12-picker-targeted-controls-20261015.txt, init 0xa0420).
+        // Approved Native12 DFPickerZoomMenu clears its border, preserves blur.
+        self.layer.cornerRadius=20.0;
         self.layer.masksToBounds=YES;
-        self.layer.borderWidth=1.0;
-        self.layer.borderColor=[UIColor.whiteColor colorWithAlphaComponent:.18].CGColor;
+        self.layer.borderWidth=0.0;
+        self.contentView.layer.borderWidth=0.0;
     }
     return self;
 }
