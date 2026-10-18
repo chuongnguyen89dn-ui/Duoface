@@ -5,6 +5,7 @@ on:
     paths:
       - 'replacement/visual12/build_qa.sh'
       - 'replacement/visual12/verify_qa.py'
+      - 'replacement/visual12/engine/runtime/**'
       - '.github/workflows/duoface-visual12-standalone-qa-deb.yml'
   workflow_dispatch:
 permissions:
