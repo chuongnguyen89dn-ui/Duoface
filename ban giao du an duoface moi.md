@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Yêu cầu kiến trúc gốc được nhắc lại (ưu tiên cao nhất)
+
+- YÊU CẦU MỚI NHẤT: học đúng cách viết và thứ tự ghép nối của DuoFace native12/visual12 gốc; giữ giao diện và hành vi y hệt; chỉ loại bỏ phụ thuộc giấy phép trong phần mã độc lập được phép chỉnh. Không tự thiết kế một coordinator/QA UI thay cho kiến trúc gốc.
+- ĐÃ KIỂM TRA: repo Duoface truy cập được; repo tên `chuongnguyen89dn-ui/Duonavi` trả 404 (không kết luận DEB gốc không tồn tại; cần truy tìm trong repo Duoface). Đã đọc SKILL_INDEX.md của Gpt-training-.
+- QUYẾT ĐỊNH: dừng mở rộng và kích hoạt `DFCarPlaySplitCoordinator` cho giao diện chính cho đến khi so sánh chính xác lifecycle `DFV12SceneHost`, `DFV12SplitController` với mã gốc. Các commit thử nghiệm 88e4e52, 8598a10, 0bc8727, cd256bf chưa được kiểm thử build; không được coi là parity. Không thay Native12/Hub8/Sileo.
+- NEXT: tìm đường dẫn source/reference DuoFace gốc và Duonavi trong cây repo; lập đối chiếu từng phương thức init/open/attach/resize/close/stop và license boundary; sửa theo cơ chế gốc, sau đó build QA độc lập.
+
+
 ## 2026-10-18 — Shutdown bridge, tránh bật hai scene paths
 
 - Đã rà `DFIInterface.inc`: `openBundle` hiện tự tạo `DFV12SceneHost`, `hosts[]` được dùng ở layout, picker, detach, layout change, shutdown. Việc chuyển sang coordinator cần thay **đồng bộ** các vị trí này; không thể chỉ đổi `openBundle`.
