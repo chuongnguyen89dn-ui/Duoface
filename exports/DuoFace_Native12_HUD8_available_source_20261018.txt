@@ -12220,3 +12220,3762 @@ __attribute__((constructor)) static void DFDiagStart(void) {
 }
 ########## END FILE: runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm ##########
 
+########## BEGIN FILE: runtime/speedbubble/DFSpeedGMapReader.mm ##########
+// DuoFace-owned read-only adapter for GMapHUD 0.2.3 app source transport.
+// Decode existing app-source data; DO NOT load GMapHUDOverspeedScreen or
+// GMapHUDPlacementRelay (would create an unwanted second CarPlay HUD).
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#include <notify.h>
+#include "DFSpeedGMapReader.hpp"
+#include "DFSpeedGMapWire.hpp"
+
+namespace DFSpeed {
+namespace {
+struct SourceWire {
+    int slot[5]={-1,-1,-1,-1,-1};
+    // index: 0 commit; 1 selection; 2 speed; 3 limit.
+    bool ready=false;
+};
+static int selectionToken=-1;
+static SourceWire endpoints[4];
+static NSTimeInterval lastRequest=0;
+static Source lastRequested=Source::None;
+static bool Register(int &token,NSString *name) {
+    if(token>=0) return true;
+    int value=-1;
+    if(notify_register_check(name.UTF8String,&value)!=NOTIFY_STATUS_OK)
+        return false;
+    token=value; return true;
+}
+static bool Read(int token,uint64_t &raw) {
+    return token>=0 && notify_get_state(token,&raw)==NOTIFY_STATUS_OK;
+}
+static int GVMID(Source src) {
+    switch(src) {
+        case Source::VietMap:return 1;
+        case Source::Waze:return 2;
+        case Source::GOFA:return 3;
+        default:return 0;
+    }
+}
+static bool Endpoint(Source src) {
+    int id=GVMID(src);
+    if(!id) return false;
+    SourceWire &w=endpoints[id];
+    if(w.ready) return true;
+    static NSString *const suffix[]={@"commit",@"selection",@"speed",@"limit"};
+    for(int i=0;i<4;i++) {
+        NSString *key=[NSString stringWithFormat:
+                   @"com.chou.gmaphud.output.v1.%d.%@",id,suffix[i]];
+        if(!Register(w.slot[i],key)) return false;
+    }
+    w.ready=true; return true;
+}
+static Source ActiveDuoFaceMapApp() {
+    // Select only the currently DuoFace-managed source. No location spying,
+    // app launching or global SpringBoard process scanning.
+    Class cls=NSClassFromString(@"CBBridgeManager");
+    SEL get=NSSelectorFromString(@"sharedInstanceIfExists");
+    if(!cls || ![cls respondsToSelector:get]) return Source::None;
+    id mgr=((id(*)(id,SEL))[cls methodForSelector:get])(cls,get);
+    SEL app=NSSelectorFromString(@"bundleIdentifier");
+    if(!mgr || ![mgr respondsToSelector:app]) return Source::None;
+    id identifier=((id(*)(id,SEL))[mgr methodForSelector:app])(mgr,app);
+    if(![identifier isKindOfClass:NSString.class]) return Source::None;
+    NSString *bid=identifier;
+    if([bid isEqualToString:@"com.waze.iphone"]) return Source::Waze;
+    if([bid isEqualToString:@"vn.vietmap.live"]) return Source::VietMap;
+    if([bid isEqualToString:@"com.lumi.GOFA"]) return Source::GOFA;
+    return Source::None;
+}
+} // namespace
+
+bool RequestPinnedGMapSource(Source requested) {
+    int id=GVMID(requested);
+    if(!id) return false; // upstream 0.2.3 has no Google Maps source ID.
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if(lastRequested==requested && now-lastRequest<3) return true;
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection")) return false;
+    uint64_t prev=0;
+    if(!Read(selectionToken,prev) || (prev>>3)>=(UINT64_MAX>>3)) return false;
+    uint64_t next=prev;
+    if(GVMSource(prev)!=requested) {
+        next=(((prev>>3)+1)<<3)|uint64_t(id);
+        if(notify_set_state(selectionToken,next)!=NOTIFY_STATUS_OK) return false;
+        if(notify_post("com.chou.gmaphud.source.selection")!=NOTIFY_STATUS_OK)
+            return false;
+    }
+    NSString *request=[NSString stringWithFormat:@"com.chou.gmaphud.source.%d.request",id];
+    if(notify_post(request.UTF8String)!=NOTIFY_STATUS_OK) return false;
+    lastRequested=requested; lastRequest=now;
+    return true;
+}
+
+bool ReadPinnedGMapWire(Sample &out) {
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection"))
+        return false;
+    // A bridged map in DuoFace is authoritative; no scanning other processes.
+    Source active=ActiveDuoFaceMapApp();
+    if(active!=Source::None) RequestPinnedGMapSource(active);
+    uint64_t selectionBefore=0;
+    if(!Read(selectionToken,selectionBefore)) return false;
+    Source source=GVMSource(selectionBefore);
+    bool accepted=false;
+    if(Endpoint(source)) {
+        SourceWire &w=endpoints[GVMID(source)];
+        uint64_t headerBefore=0,headerAfter=0,frameSelection=0;
+        uint64_t speed=0,limit=0,selectionAfter=0;
+        if(Read(w.slot[0],headerBefore) &&
+           Read(w.slot[1],frameSelection) &&
+           Read(w.slot[2],speed) &&
+           Read(w.slot[3],limit) &&
+           Read(w.slot[0],headerAfter) &&
+           Read(selectionToken,selectionAfter)) {
+            accepted=DecodeGVMFrame(selectionBefore,selectionAfter,frameSelection,
+                headerBefore,headerAfter,speed,limit,
+                NSProcessInfo.processInfo.systemUptime,out);
+        }
+    }
+    // GOFA or Waze may run without being a DuoFace split tile. The original
+    // GMapHUD 0.2.3 publisher gates output on ONE selected source. If its
+    // current source has no fresh speed/limit, probe the next source at most
+    // once every 4 seconds. Stop switching on a valid frame; never synthesize
+    // limits or launch a third-party app.
+    if(!accepted && active==Source::None) {
+        static NSTimeInterval lastProbe=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now>=lastProbe && now-lastProbe>=4) {
+            Source next=source==Source::VietMap ? Source::Waze :
+                        source==Source::Waze ? Source::GOFA : Source::VietMap;
+            if(RequestPinnedGMapSource(next)) lastProbe=now;
+        }
+    }
+    return accepted;
+}
+} // namespace DFSpeed
+########## END FILE: runtime/speedbubble/DFSpeedGMapReader.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedGMapReader8.mm ##########
+// DuoFace-owned read-only adapter for GMapHUD 0.2.3 app source transport.
+// Decode existing app-source data; DO NOT load GMapHUDOverspeedScreen or
+// GMapHUDPlacementRelay (would create an unwanted second CarPlay HUD).
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#include <notify.h>
+#include "DFSpeedGMapReader.hpp"
+#include "DFSpeedGMapWire.hpp"
+
+namespace DFSpeed {
+namespace {
+struct SourceWire {
+    int slot[5]={-1,-1,-1,-1,-1};
+    // index: 0 commit; 1 selection; 2 speed; 3 limit.
+    bool ready=false;
+};
+static int selectionToken=-1;
+static SourceWire endpoints[4];
+static NSTimeInterval lastRequest=0;
+static Source lastRequested=Source::None;
+static bool Register(int &token,NSString *name) {
+    if(token>=0) return true;
+    int value=-1;
+    if(notify_register_check(name.UTF8String,&value)!=NOTIFY_STATUS_OK)
+        return false;
+    token=value; return true;
+}
+static bool Read(int token,uint64_t &raw) {
+    return token>=0 && notify_get_state(token,&raw)==NOTIFY_STATUS_OK;
+}
+static int GVMID(Source src) {
+    switch(src) {
+        case Source::VietMap:return 1;
+        case Source::Waze:return 2;
+        case Source::GOFA:return 3;
+        default:return 0;
+    }
+}
+static bool Endpoint(Source src) {
+    int id=GVMID(src);
+    if(!id) return false;
+    SourceWire &w=endpoints[id];
+    if(w.ready) return true;
+    static NSString *const suffix[]={@"commit",@"selection",@"speed",@"limit"};
+    for(int i=0;i<4;i++) {
+        NSString *key=[NSString stringWithFormat:
+                   @"com.chou.gmaphud.output.v1.%d.%@",id,suffix[i]];
+        if(!Register(w.slot[i],key)) return false;
+    }
+    w.ready=true; return true;
+}
+static Source ActiveDuoFaceMapApp() {
+    // Select only the currently DuoFace-managed source. No location spying,
+    // app launching or global SpringBoard process scanning.
+    Class cls=NSClassFromString(@"CBBridgeManager");
+    SEL get=NSSelectorFromString(@"sharedInstanceIfExists");
+    if(!cls || ![cls respondsToSelector:get]) return Source::None;
+    id mgr=((id(*)(id,SEL))[cls methodForSelector:get])(cls,get);
+    SEL app=NSSelectorFromString(@"bundleIdentifier");
+    if(!mgr || ![mgr respondsToSelector:app]) return Source::None;
+    id identifier=((id(*)(id,SEL))[mgr methodForSelector:app])(mgr,app);
+    if(![identifier isKindOfClass:NSString.class]) return Source::None;
+    NSString *bid=identifier;
+    if([bid isEqualToString:@"com.waze.iphone"]) return Source::Waze;
+    if([bid isEqualToString:@"vn.vietmap.live"]) return Source::VietMap;
+    if([bid isEqualToString:@"com.lumi.GOFA"]) return Source::GOFA;
+    return Source::None;
+}
+} // namespace
+
+bool RequestPinnedGMapSource(Source requested) {
+    int id=GVMID(requested);
+    if(!id) return false; // upstream 0.2.3 has no Google Maps source ID.
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if(lastRequested==requested && now-lastRequest<3) return true;
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection")) return false;
+    uint64_t prev=0;
+    if(!Read(selectionToken,prev) || (prev>>3)>=(UINT64_MAX>>3)) return false;
+    uint64_t next=prev;
+    if(GVMSource(prev)!=requested) {
+        next=(((prev>>3)+1)<<3)|uint64_t(id);
+        if(notify_set_state(selectionToken,next)!=NOTIFY_STATUS_OK) return false;
+        if(notify_post("com.chou.gmaphud.source.selection")!=NOTIFY_STATUS_OK)
+            return false;
+    }
+    NSString *request=[NSString stringWithFormat:@"com.chou.gmaphud.source.%d.request",id];
+    if(notify_post(request.UTF8String)!=NOTIFY_STATUS_OK) return false;
+    lastRequested=requested; lastRequest=now;
+    return true;
+}
+
+bool ReadPinnedGMapWire(Sample &out) {
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection"))
+        return false;
+    // A bridged map in DuoFace is authoritative; no scanning other processes.
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    NSInteger pinned=[prefs integerForKey:@"source"];
+    Source active=(pinned==2?Source::Waze:pinned==3?Source::VietMap:
+                   pinned==4?Source::GOFA:ActiveDuoFaceMapApp());
+    // Manual selection sends an explicit source request, never launches an app.
+    if(active!=Source::None) RequestPinnedGMapSource(active);
+    uint64_t selectionBefore=0;
+    if(!Read(selectionToken,selectionBefore)) return false;
+    Source source=GVMSource(selectionBefore);
+    bool accepted=false;
+    // With a manual source, never show a stale or different publisher's sample.
+    if(pinned && source!=active) return false;
+    if(Endpoint(source)) {
+        SourceWire &w=endpoints[GVMID(source)];
+        uint64_t headerBefore=0,headerAfter=0,frameSelection=0;
+        uint64_t speed=0,limit=0,selectionAfter=0;
+        if(Read(w.slot[0],headerBefore) &&
+           Read(w.slot[1],frameSelection) &&
+           Read(w.slot[2],speed) &&
+           Read(w.slot[3],limit) &&
+           Read(w.slot[0],headerAfter) &&
+           Read(selectionToken,selectionAfter)) {
+            accepted=DecodeGVMFrame(selectionBefore,selectionAfter,frameSelection,
+                headerBefore,headerAfter,speed,limit,
+                NSProcessInfo.processInfo.systemUptime,out);
+        }
+    }
+    // GOFA or Waze may run without being a DuoFace split tile. The original
+    // GMapHUD 0.2.3 publisher gates output on ONE selected source. If its
+    // current source has no fresh speed/limit, probe the next source at most
+    // once every 4 seconds. Stop switching on a valid frame; never synthesize
+    // limits or launch a third-party app.
+    if(!accepted && active==Source::None) {
+        static NSTimeInterval lastProbe=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now>=lastProbe && now-lastProbe>=4) {
+            Source next=source==Source::VietMap ? Source::Waze :
+                        source==Source::Waze ? Source::GOFA : Source::VietMap;
+            if(RequestPinnedGMapSource(next)) lastProbe=now;
+        }
+    }
+    return accepted;
+}
+} // namespace DFSpeed
+########## END FILE: runtime/speedbubble/DFSpeedGMapReader8.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedGMapReader9.mm ##########
+// DuoFace-owned read-only adapter for GMapHUD 0.2.3 app source transport.
+// Decode existing app-source data; DO NOT load GMapHUDOverspeedScreen or
+// GMapHUDPlacementRelay (would create an unwanted second CarPlay HUD).
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#include <notify.h>
+#include "DFSpeedGMapReader.hpp"
+#import "DFSpeedInstalledSourceCatalog9.h"
+#include "DFSpeedGMapWire.hpp"
+
+namespace DFSpeed {
+namespace {
+struct SourceWire {
+    int slot[5]={-1,-1,-1,-1,-1};
+    // index: 0 commit; 1 selection; 2 speed; 3 limit.
+    bool ready=false;
+};
+static int selectionToken=-1;
+static SourceWire endpoints[4];
+static NSTimeInterval lastRequest=0;
+static Source lastRequested=Source::None;
+static bool Register(int &token,NSString *name) {
+    if(token>=0) return true;
+    int value=-1;
+    if(notify_register_check(name.UTF8String,&value)!=NOTIFY_STATUS_OK)
+        return false;
+    token=value; return true;
+}
+static bool Read(int token,uint64_t &raw) {
+    return token>=0 && notify_get_state(token,&raw)==NOTIFY_STATUS_OK;
+}
+static int GVMID(Source src) {
+    switch(src) {
+        case Source::VietMap:return 1;
+        case Source::Waze:return 2;
+        case Source::GOFA:return 3;
+        default:return 0;
+    }
+}
+static bool Endpoint(Source src) {
+    int id=GVMID(src);
+    if(!id) return false;
+    SourceWire &w=endpoints[id];
+    if(w.ready) return true;
+    static NSString *const suffix[]={@"commit",@"selection",@"speed",@"limit"};
+    for(int i=0;i<4;i++) {
+        NSString *key=[NSString stringWithFormat:
+                   @"com.chou.gmaphud.output.v1.%d.%@",id,suffix[i]];
+        if(!Register(w.slot[i],key)) return false;
+    }
+    w.ready=true; return true;
+}
+static Source ActiveDuoFaceMapApp() {
+    // Select only the currently DuoFace-managed source. No location spying,
+    // app launching or global SpringBoard process scanning.
+    Class cls=NSClassFromString(@"CBBridgeManager");
+    SEL get=NSSelectorFromString(@"sharedInstanceIfExists");
+    if(!cls || ![cls respondsToSelector:get]) return Source::None;
+    id mgr=((id(*)(id,SEL))[cls methodForSelector:get])(cls,get);
+    SEL app=NSSelectorFromString(@"bundleIdentifier");
+    if(!mgr || ![mgr respondsToSelector:app]) return Source::None;
+    id identifier=((id(*)(id,SEL))[mgr methodForSelector:app])(mgr,app);
+    if(![identifier isKindOfClass:NSString.class]) return Source::None;
+    NSString *bid=identifier;
+    if([bid isEqualToString:@"com.waze.iphone"]) return Source::Waze;
+    if([bid isEqualToString:@"vn.vietmap.live"]) return Source::VietMap;
+    if([bid isEqualToString:@"com.lumi.GOFA"]) return Source::GOFA;
+    return Source::None;
+}
+} // namespace
+
+bool RequestPinnedGMapSource(Source requested) {
+    int id=GVMID(requested);
+    if(!id) return false; // upstream 0.2.3 has no Google Maps source ID.
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if(lastRequested==requested && now-lastRequest<3) return true;
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection")) return false;
+    uint64_t prev=0;
+    if(!Read(selectionToken,prev) || (prev>>3)>=(UINT64_MAX>>3)) return false;
+    uint64_t next=prev;
+    if(GVMSource(prev)!=requested) {
+        next=(((prev>>3)+1)<<3)|uint64_t(id);
+        if(notify_set_state(selectionToken,next)!=NOTIFY_STATUS_OK) return false;
+        if(notify_post("com.chou.gmaphud.source.selection")!=NOTIFY_STATUS_OK)
+            return false;
+    }
+    NSString *request=[NSString stringWithFormat:@"com.chou.gmaphud.source.%d.request",id];
+    if(notify_post(request.UTF8String)!=NOTIFY_STATUS_OK) return false;
+    lastRequested=requested; lastRequest=now;
+    return true;
+}
+
+bool ReadPinnedGMapWire(Sample &out) {
+    if(!Register(selectionToken,@"com.chou.gmaphud.source.selection"))
+        return false;
+    // A bridged map in DuoFace is authoritative; no scanning other processes.
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    NSInteger pinned=[prefs integerForKey:@"source"];
+    // Selection must resolve to a real installed source app; no implicit Auto.
+    if(!DFSpeedSourceInstalled(pinned)) return false;
+    Source active=(pinned==2?Source::Waze:pinned==3?Source::VietMap:
+                   pinned==4?Source::GOFA:ActiveDuoFaceMapApp());
+    // Manual selection sends an explicit source request, never launches an app.
+    if(active!=Source::None) RequestPinnedGMapSource(active);
+    uint64_t selectionBefore=0;
+    if(!Read(selectionToken,selectionBefore)) return false;
+    Source source=GVMSource(selectionBefore);
+    bool accepted=false;
+    // With a manual source, never show a stale or different publisher's sample.
+    if(pinned && source!=active) return false;
+    if(Endpoint(source)) {
+        SourceWire &w=endpoints[GVMID(source)];
+        uint64_t headerBefore=0,headerAfter=0,frameSelection=0;
+        uint64_t speed=0,limit=0,selectionAfter=0;
+        if(Read(w.slot[0],headerBefore) &&
+           Read(w.slot[1],frameSelection) &&
+           Read(w.slot[2],speed) &&
+           Read(w.slot[3],limit) &&
+           Read(w.slot[0],headerAfter) &&
+           Read(selectionToken,selectionAfter)) {
+            accepted=DecodeGVMFrame(selectionBefore,selectionAfter,frameSelection,
+                headerBefore,headerAfter,speed,limit,
+                NSProcessInfo.processInfo.systemUptime,out);
+        }
+    }
+    // GOFA or Waze may run without being a DuoFace split tile. The original
+    // GMapHUD 0.2.3 publisher gates output on ONE selected source. If its
+    // current source has no fresh speed/limit, probe the next source at most
+    // once every 4 seconds. Stop switching on a valid frame; never synthesize
+    // limits or launch a third-party app.
+    if(!accepted && active==Source::None) {
+        static NSTimeInterval lastProbe=0;
+        NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+        if(now>=lastProbe && now-lastProbe>=4) {
+            Source next=source==Source::VietMap ? Source::Waze :
+                        source==Source::Waze ? Source::GOFA : Source::VietMap;
+            if(RequestPinnedGMapSource(next)) lastProbe=now;
+        }
+    }
+    return accepted;
+}
+} // namespace DFSpeed
+########## END FILE: runtime/speedbubble/DFSpeedGMapReader9.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedInstalledSourceCatalog9.h ##########
+#pragma once
+#import <Foundation/Foundation.h>
+// Installed-app discovery for a MANUAL, source-coherent GOFA-style DuoFace bubble.
+// A source is selectable ONLY if the actual app is installed on the device.
+// This does not assert a publisher exists or that speed/limit samples are live.
+// Exact numeric publisher remains an independent requirement.
+FOUNDATION_EXPORT NSString *DFSpeedBundleForSource(NSInteger source);
+FOUNDATION_EXPORT NSString *DFSpeedNameForSource(NSInteger source);
+FOUNDATION_EXPORT BOOL DFSpeedSourceInstalled(NSInteger source);
+FOUNDATION_EXPORT NSArray<NSNumber *> *DFSpeedInstalledSupportedSources(void);
+########## END FILE: runtime/speedbubble/DFSpeedInstalledSourceCatalog9.h ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedInstalledSourceCatalog9.mm ##########
+// Native SpringBoard read-only installed-source inventory; no Waze/GOFA/VietMap code loaded.
+#import "DFSpeedInstalledSourceCatalog9.h"
+#import <objc/runtime.h>
+#include <string.h>
+
+NSString *DFSpeedBundleForSource(NSInteger source) {
+    switch(source) {
+        case 2:return @"com.waze.iphone";
+        case 3:return @"vn.vietmap.live";
+        case 4:return @"com.lumi.GOFA";
+        default:return nil;
+    }
+}
+NSString *DFSpeedNameForSource(NSInteger source) {
+    switch(source) {
+        case 2:return @"Waze";
+        case 3:return @"VietMap Live";
+        case 4:return @"GOFA";
+        default:return @"Chưa chọn";
+    }
+}
+BOOL DFSpeedSourceInstalled(NSInteger source) {
+    NSString *bundle=DFSpeedBundleForSource(source);
+    if(!bundle)return NO;
+    @try {
+        // Uses private LaunchServices via runtime checks (no unverified headers).
+        // SpringBoard typically loads these classes, but fail CLOSED if absent.
+        Class proxy=NSClassFromString(@"LSApplicationProxy");
+        SEL selector=NSSelectorFromString(@"applicationProxyForIdentifier:");
+        if(proxy && [proxy respondsToSelector:selector]) {
+            Method method=class_getClassMethod(proxy,selector);
+            const char *enc=method?method_getTypeEncoding(method):NULL;
+            // Object return with 1 object argument, never cast an unknown ABI.
+            if(enc && enc[0]=='@') {
+                NSMethodSignature *sig=[NSMethodSignature signatureWithObjCTypes:enc];
+                if(sig.numberOfArguments==3 &&
+                   strcmp([sig getArgumentTypeAtIndex:2],"@")==0) {
+                    id (*call)(id,SEL,id)=(id (*)(id,SEL))[proxy methodForSelector:selector];
+                    id item=call(proxy,selector,bundle);
+                    // Unknown/missing proxy must NOT be mistaken for installed.
+                    if(item && ![item isKindOfClass:NSNull.class]) {
+                        SEL idSel=NSSelectorFromString(@"bundleIdentifier");
+                        if([item respondsToSelector:idSel]) {
+                            NSString *(*get)(id,SEL)=(NSString *(*)(id,SEL))[item methodForSelector:idSel];
+                            NSString *name=get(item,idSel);
+                            return [name isKindOfClass:NSString.class] && [name isEqualToString:bundle];
+                        }
+                    }
+                }
+            }
+        }
+    } @catch (__unused NSException *error) {}
+    return NO;
+}
+NSArray<NSNumber *> *DFSpeedInstalledSupportedSources(void) {
+    NSMutableArray<NSNumber *> *result=[NSMutableArray arrayWithCapacity:3];
+    for(NSNumber *source in @[@2,@3,@4])
+        if(DFSpeedSourceInstalled(source.integerValue)) [result addObject:source];
+    return [result copy];
+}
+########## END FILE: runtime/speedbubble/DFSpeedInstalledSourceCatalog9.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedNativeHostProbe.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Inject this module into the verified DuoFace CarPlay process only; no global SpringBoard HUD.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+@end
+
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=32;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:30 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=4;
+        _limitRing.layer.cornerRadius=25;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // One compact GOFA-style panel: speed left, ONE speed-limit sign right.
+    // No camera sign, secondary road sign or separate provider mini-bubble.
+    _current.frame=CGRectMake(7,4,w-65,39);
+    _unit.frame=CGRectMake(7,40,w-65,15);
+    _limitRing.frame=CGRectMake(w-56,(h-50)/2,50,50);
+    _limit.frame=_limitRing.bounds;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    CGRect area=UIEdgeInsetsInsetRect(parent.bounds,parent.safeAreaInsets);
+    if (CGRectIsEmpty(area) || !isfinite(area.size.width) || !isfinite(area.size.height))
+        area=parent.bounds;
+    return CGRectInset(area,6,6);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    self.hidden=YES;
+}
+
+@end
+
+// Speed6: NEW renderer targeting only the verified Native12 dashboard split.
+// Never create a second UIWindow or scan system CarPlay Home windows.
+// The class definitions and HUD drawing above are reused byte-for-byte from Speed4.
+#import <notify.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static __weak CBWindow *s6Owner=nil;
+static __weak CBWindow *s6EventOwner=nil;
+static __weak UIView *s6Host=nil;
+static DFSpeedNativeHUD *s6HUD=nil;
+static BOOL s6Installed=NO;
+static BOOL s6LastMounted=NO;
+static NSString *s6LastReason=nil;
+static IMP s6OriginalShow=NULL, s6OriginalResize=NULL, s6OriginalDestroy=NULL, s6OriginalHide=NULL;
+static IMP s6OriginalActivate=NULL, s6OriginalDeactivate=NULL;
+static int s6GOFAForegroundToken=-1;
+
+static void S6Log(NSString *message) {
+    if ([s6LastReason isEqualToString:message]) return;
+    s6LastReason=[message copy];
+    NSDictionary *event=@{@"time":@([[NSDate date] timeIntervalSince1970]),
+       @"pid":@(getpid()),@"process":NSProcessInfo.processInfo.processName ?: @"nil",
+       @"stage":message ?: @"nil", @"mounted":@(s6LastMounted),
+       @"owner":s6Owner?NSStringFromClass([s6Owner class]):@"nil",
+       @"host":s6Host?NSStringFromClass([s6Host class]):@"nil"};
+    NSData *json=[NSJSONSerialization dataWithJSONObject:event options:0 error:nil];
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl","a");
+    if (!fp) {
+        NSString *fallback=[NSTemporaryDirectory() stringByAppendingPathComponent:@"DuoFaceSpeed6-CarPlayApp.jsonl"];
+        fp=fopen(fallback.fileSystemRepresentation,"a");
+    }
+    if (fp && json) {fwrite(json.bytes,1,json.length,fp);fputc('\n',fp);fclose(fp);}
+    else if(fp) fclose(fp);
+    NSLog(@"[DuoFaceSpeed6] %@",message);
+}
+static void S6Unmount(NSString *reason) {
+    if (s6HUD) {
+        [s6HUD stop];
+        [s6HUD removeFromSuperview];
+        s6HUD.ownerBridge=nil;
+    }
+    s6HUD=nil;
+    s6Owner=nil;
+    s6Host=nil;
+    s6LastMounted=NO;
+    S6Log(reason);
+}
+static BOOL S6IsGOFAActive(void) {
+    if (s6GOFAForegroundToken<0) return NO;
+    uint64_t active=0;
+    return notify_get_state(s6GOFAForegroundToken,&active)==NOTIFY_STATUS_OK && active==1;
+}
+// A second CarPlay renderer must not coexist. If the original GOFAHUD global
+// tweak is running, require its documented carEnabled preference to be OFF.
+// We never mutate another tweak's preference or broadcast its "show" event.
+static BOOL S6OriginalGOFARendererDisabled(void) {
+    BOOL installed=[NSFileManager.defaultManager fileExistsAtPath:@"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if (!installed && !NSClassFromString(@"GOFACarGlobalWindow")) return YES;
+    CFStringRef domain=CFSTR("local.gofahud");
+    CFPreferencesAppSynchronize(domain);
+    CFTypeRef enabled=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
+    CFTypeRef master=CFPreferencesCopyAppValue(CFSTR("bubbleEnabled"),domain);
+    BOOL carOff=enabled && CFGetTypeID(enabled)==CFBooleanGetTypeID() && !CFBooleanGetValue((CFBooleanRef)enabled);
+    BOOL masterOff=master && CFGetTypeID(master)==CFBooleanGetTypeID() && !CFBooleanGetValue((CFBooleanRef)master);
+    if(enabled) CFRelease(enabled);
+    if(master) CFRelease(master);
+    return carOff || masterOff;
+}
+static BOOL S6OwnerClassesOK(void) {
+    Class cls=NSClassFromString(@"CBWindow");
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    const char *wImage=cls?class_getImageName(cls):NULL;
+    const char *dImage=dashboard?class_getImageName(dashboard):NULL;
+    return cls && dashboard && wImage && dImage &&
+           strstr(wImage,"DuoFaceDashboard.dylib") &&
+           strstr(dImage,"DuoFaceDashboard.dylib");
+}
+static CBWindow *S6CurrentOwner(void) {
+    Class cls=NSClassFromString(@"CBWindow");
+    SEL selector=NSSelectorFromString(@"activeCarPlayWindow");
+    if (!cls || ![cls respondsToSelector:selector]) return nil;
+    // Verified from original Native12 Mach-O: +[CBWindow activeCarPlayWindow]
+    // @16@0:8. Unlike Speed4, do NOT use the SpringBoard manager singleton.
+    id window=((id(*)(id,SEL))objc_msgSend)(cls,selector);
+    if ([window isKindOfClass:cls]) return (CBWindow *)window;
+    // Fail-safe only: a proven native CBWindow that fired a native show event.
+    return [s6EventOwner isKindOfClass:cls] ? s6EventOwner : nil;
+}
+static BOOL S6DashboardActive(void) {
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    SEL shared=NSSelectorFromString(@"sharedInstance");
+    SEL active=NSSelectorFromString(@"activated");
+    if (!dashboard || ![dashboard respondsToSelector:shared]) return NO;
+    id manager=((id(*)(id,SEL))objc_msgSend)(dashboard,shared);
+    if (!manager || ![manager respondsToSelector:active]) return NO;
+    return ((BOOL(*)(id,SEL))objc_msgSend)(manager,active);
+}
+// Speed6Probe: evidence only; no new CarPlay window and no relaxed mount gate.
+// Runtime is checked BEFORE dashboard/owner early-return, even when HUD never mounts.
+// Never include process memory pointers, app/window titles, URLs, GPS or map contents.
+static NSData *s6ProbePrevious=nil;
+static NSTimeInterval s6ProbeAt=0;
+static NSUInteger s6Shown=0, s6Resized=0, s6Hidden=0, s6Destroyed=0;
+static NSUInteger s6Activated=0, s6Deactivated=0;
+static NSString *S6TypeName(id obj) {
+    return obj ? NSStringFromClass([obj class]) : @"nil";
+}
+static NSNumber *S6FiniteNumber(CGFloat value) {
+    return @(isfinite(value) ? (double)value : -1.0);
+}
+static NSString *S6HostProbeReason(CBWindow *owner, UIWindow *root,
+                                    UIView *content, UIView *controller) {
+    if (!owner) return @"owner_nil_or_raw_not_CBWindow";
+    if (!owner.isVisible) return @"owner_isVisible_false";
+    if (![root isKindOfClass:UIWindow.class]) return @"root_not_UIWindow";
+    if (root.hidden) return @"root_hidden";
+    if (root.alpha<0.01) return @"root_alpha_low";
+    if (root.bounds.size.width<220 || root.bounds.size.height<120) return @"root_bounds_small";
+    NSString *role=root.windowScene.session.role ?: @"";
+    BOOL external=root.screen && root.screen!=UIScreen.mainScreen;
+    BOOL carRole=[role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
+    if (!external && !carRole) return @"root_screen_not_external_and_scene_role_not_carplay";
+    if (![content isKindOfClass:UIView.class]) return @"content_not_UIView";
+    if (content.window!=root) return @"content_window_not_root";
+    if (content.hidden || content.alpha<0.01) return @"content_hidden_or_alpha_low";
+    if (![controller isKindOfClass:UIView.class]) return @"controller_view_missing";
+    if (controller.window!=root) return @"controller_window_not_root";
+    if (controller.hidden || controller.alpha<0.01) return @"controller_hidden_or_alpha_low";
+    BOOL descended=NO;
+    for(UIView *p=content;p;p=p.superview) {
+        if (p==controller) {descended=YES;break;}
+    }
+    if (!descended) return @"content_not_descendant_of_controller";
+    if (controller.bounds.size.width<220 || controller.bounds.size.height<120) return @"controller_bounds_small";
+    return @"host_verified";
+}
+static void S6ProbeSnapshot(NSString *trigger) {
+    if (!NSThread.isMainThread) return;
+    Class cb=NSClassFromString(@"CBWindow");
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    SEL activeSel=NSSelectorFromString(@"activeCarPlayWindow");
+    // Do not assume +activeCarPlayWindow returns CBWindow: type is only ObjC id.
+    id raw=(cb && [cb respondsToSelector:activeSel])
+         ? ((id(*)(id,SEL))objc_msgSend)(cb,activeSel) : nil;
+    BOOL rawIsOwner=raw && cb && [raw isKindOfClass:cb];
+    BOOL eventIsOwner=s6EventOwner && cb && [s6EventOwner isKindOfClass:cb];
+    CBWindow *owner=rawIsOwner ? (CBWindow *)raw : (eventIsOwner ? s6EventOwner : nil);
+    UIWindow *root=owner ? owner.rootWindow : nil;
+    UIView *content=owner ? owner.contentView : nil;
+    UIView *controller=owner ? owner.rootViewController.viewIfLoaded : nil;
+    NSString *role=root.windowScene.session.role ?: @"nil";
+    BOOL descended=NO;
+    for(UIView *p=content;p;p=p.superview) {
+        if(p==controller && controller) {descended=YES;break;}
+    }
+    NSDictionary *state=@{
+        @"class_cb_present":@(cb!=nil),
+        @"class_dashboard_present":@(dashboard!=nil),
+        @"dashboard_activated":@(S6DashboardActive()),
+        @"raw_active_window_class":S6TypeName(raw),
+        @"raw_is_CBWindow":@(rawIsOwner),
+        @"hook_event_window_class":S6TypeName(s6EventOwner),
+        @"hook_event_is_CBWindow":@(eventIsOwner),
+        @"chosen_owner_class":S6TypeName(owner),
+        @"owner_visible":@(owner && owner.isVisible),
+        @"root_class":S6TypeName(root),
+        @"root_hidden":@(root ? root.hidden : YES),
+        @"root_alpha":S6FiniteNumber(root ? root.alpha : -1),
+        @"root_size":@[S6FiniteNumber(root?root.bounds.size.width:-1),
+                       S6FiniteNumber(root?root.bounds.size.height:-1)],
+        @"root_screen_external":@(root && root.screen && root.screen!=UIScreen.mainScreen),
+        @"root_scene_role":role,
+        @"content_class":S6TypeName(content),
+        @"content_window_matches_root":@(content && root && content.window==root),
+        @"content_hidden":@(content ? content.hidden : YES),
+        @"controller_class":S6TypeName(controller),
+        @"controller_window_matches_root":@(controller && root && controller.window==root),
+        @"controller_hidden":@(controller ? controller.hidden : YES),
+        @"content_descends_from_controller":@(descended),
+        @"host_probe_reason":S6HostProbeReason(owner,root,content,controller),
+        @"hooks":@{@"show":@(s6Shown),@"resize":@(s6Resized),
+                   @"hide":@(s6Hidden),@"destroy":@(s6Destroyed),
+                   @"dashboard_activate":@(s6Activated),@"dashboard_deactivate":@(s6Deactivated)}
+    };
+    NSData *signature=[NSJSONSerialization dataWithJSONObject:state options:NSJSONWritingSortedKeys error:nil];
+    NSTimeInterval now=[NSDate date].timeIntervalSince1970;
+    if(signature && [signature isEqualToData:s6ProbePrevious] && now-s6ProbeAt<15.0)
+        return;
+    s6ProbePrevious=[signature copy];s6ProbeAt=now;
+    NSDictionary *entry=@{@"time":@(now),@"pid":@(getpid()),
+       @"process":NSProcessInfo.processInfo.processName ?: @"nil",
+       @"stage":@"PROBE_NATIVE_HOST", @"trigger":trigger ?: @"nil",
+       @"mounted":@(s6LastMounted), @"owner":S6TypeName(s6Owner),
+       @"host":S6TypeName(s6Host), @"diagnostics":state};
+    NSData *json=[NSJSONSerialization dataWithJSONObject:entry options:0 error:nil];
+    if(!json) return;
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl","a");
+    if (!fp) {
+        NSString *fallback=[NSTemporaryDirectory() stringByAppendingPathComponent:@"DuoFaceSpeed6-CarPlayApp.jsonl"];
+        fp=fopen(fallback.fileSystemRepresentation,"a");
+    }
+    if (fp) {fwrite(json.bytes,1,json.length,fp);fputc('\n',fp);fclose(fp);}
+}
+
+static UIView *S6VerifiedHost(CBWindow *owner) {
+    if (!owner || !owner.isVisible) return nil;
+    UIWindow *root=owner.rootWindow;
+    if (![root isKindOfClass:UIWindow.class] || root.hidden || root.alpha<0.01 ||
+        !isfinite(root.bounds.size.width) || !isfinite(root.bounds.size.height) ||
+        root.bounds.size.width<220 || root.bounds.size.height<120) return nil;
+    NSString *role=root.windowScene.session.role ?: @"";
+    BOOL external=root.screen && root.screen!=UIScreen.mainScreen;
+    BOOL carRole=[role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
+    if (!external && !carRole) return nil;
+    UIView *content=owner.contentView;
+    UIView *controller=owner.rootViewController.viewIfLoaded;
+    if (![content isKindOfClass:UIView.class] || content.window!=root ||
+        content.hidden || content.alpha<0.01) return nil;
+    // Attach to the root controller *inside the Native12 CBWindow* only,
+    // above two panes. Never to an arbitrary CarPlayApp/Apple Home UIWindow.
+    if (![controller isKindOfClass:UIView.class] || controller.window!=root ||
+        controller.hidden || controller.alpha<0.01) return nil;
+    BOOL descendant=NO;
+    for (UIView *view=content;view;view=view.superview) {
+        if (view==controller) {descendant=YES;break;}
+    }
+    if (!descendant || controller.bounds.size.width<220 || controller.bounds.size.height<120) return nil;
+    return controller;
+}
+static void S6Reconcile(void) {
+    if (!NSThread.isMainThread) return;
+    if (!S6OwnerClassesOK()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: Native12 owner classes not in CarPlayApp");
+        else S6Log(@"WAIT: Native12 dashboard/CBWindow classes unavailable");
+        return;
+    }
+    if (!S6OriginalGOFARendererDisabled()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: original GOFAHUD CarPlay card is enabled");
+        else S6Log(@"WAIT: turn OFF GOFA HUD > CarPlay > Hiển thị bong bóng to avoid 2 renderers");
+        return;
+    }
+    if (S6IsGOFAActive()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: GOFA app is foreground");
+        else S6Log(@"WAIT: GOFA foreground");
+        return;
+    }
+    S6ProbeSnapshot(@"reconcile");
+    if (!S6DashboardActive()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: Native12 dashboard bridge deactivated");
+        else S6Log(@"WAIT: CBBridgeManagerDashboard.activated=NO");
+        return;
+    }
+    CBWindow *owner=S6CurrentOwner();
+    UIView *host=S6VerifiedHost(owner);
+    if (!host) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: verified CBWindow split host unavailable");
+        else S6Log(@"WAIT: no visible activeCarPlayWindow/content/controller host");
+        return;
+    }
+    if (s6HUD && (s6Owner!=owner || s6Host!=host || s6HUD.superview!=host)) {
+        S6Unmount(@"RECREATE: Native12 split host changed");
+    }
+    if (!s6HUD) {
+        s6HUD=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,142,64)];
+        s6HUD.ownerBridge=owner;
+        [host addSubview:s6HUD];
+        [s6HUD restoreSavedPosition];
+    }
+    s6Owner=owner;s6Host=host;
+    s6HUD.ownerBridge=owner;
+    [host bringSubviewToFront:s6HUD];
+    // Saved position must stay inside new split geometry after zoom/resize.
+    if (s6HUD.dismissTarget==nil && !s6HUD.dismissedForSession) {
+        s6HUD.center=CGPointMake(fmax(s6HUD.bounds.size.width/2,
+           fmin(host.bounds.size.width-s6HUD.bounds.size.width/2,s6HUD.center.x)),
+           fmax(s6HUD.bounds.size.height/2,
+           fmin(host.bounds.size.height-s6HUD.bounds.size.height/2,s6HUD.center.y)));
+    }
+    [s6HUD tick:nil];
+    s6LastMounted=!s6HUD.hidden && s6HUD.window==owner.rootWindow;
+    S6Log(s6LastMounted?@"MOUNTED: one HUD in Native12 split root view":@"WAIT: host attached but HUD hidden");
+}
+static void S6WrappedShow(id obj,SEL sel) {
+    if(s6OriginalShow) ((void(*)(id,SEL))s6OriginalShow)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
+    ++s6Shown;
+    S6ProbeSnapshot(@"CBWindow.show");
+    S6Reconcile();
+}
+static void S6WrappedResize(id obj,SEL sel) {
+    if(s6OriginalResize) ((void(*)(id,SEL))s6OriginalResize)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
+    ++s6Resized;
+    S6ProbeSnapshot(@"CBWindow.resizeWindows");
+    S6Reconcile();
+}
+static void S6WrappedDestroy(id obj,SEL sel) {
+    ++s6Destroyed;
+    S6ProbeSnapshot(@"CBWindow.destroyWindows");
+    if(s6EventOwner==obj) s6EventOwner=nil;
+    if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow destroyed");
+    if(s6OriginalDestroy) ((void(*)(id,SEL))s6OriginalDestroy)(obj,sel);
+}
+static void S6WrappedHide(id obj,SEL sel,id completion) {
+    ++s6Hidden;
+    S6ProbeSnapshot(@"CBWindow.hide:");
+    if(s6EventOwner==obj) s6EventOwner=nil;
+    if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow hidden");
+    if(s6OriginalHide) ((void(*)(id,SEL,id))s6OriginalHide)(obj,sel,completion);
+}
+static void S6WrappedActivate(id obj,SEL sel,id bridge) {
+    if(s6OriginalActivate) ((void(*)(id,SEL,id))s6OriginalActivate)(obj,sel,bridge);
+    ++s6Activated;
+    S6ProbeSnapshot(@"CBBridgeManagerDashboard.bridgeDidActivate:");
+    S6Reconcile();
+}
+static void S6WrappedDeactivate(id obj,SEL sel) {
+    ++s6Deactivated;
+    S6ProbeSnapshot(@"CBBridgeManagerDashboard.bridgeDidDeactivate");
+    S6Unmount(@"UNMOUNTED: Dashboard bridgeDidDeactivate");
+    if(s6OriginalDeactivate) ((void(*)(id,SEL))s6OriginalDeactivate)(obj,sel);
+}
+static void S6InstallHooks(int attempts) {
+    if(s6Installed || !NSThread.isMainThread) return;
+    Class window=NSClassFromString(@"CBWindow");
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    if(S6OwnerClassesOK()) {
+        Class owners[]={window,window,window,window,dashboard,dashboard};
+        SEL selectors[]={@selector(show),@selector(resizeWindows),@selector(destroyWindows),
+                         @selector(hide:),@selector(bridgeDidActivate:),@selector(bridgeDidDeactivate)};
+        const char *encoding[]={"v16@0:8","v16@0:8","v16@0:8","v24@0:8@?16",
+                                 "v24@0:8@16","v16@0:8"};
+        IMP replacements[]={(IMP)S6WrappedShow,(IMP)S6WrappedResize,
+                            (IMP)S6WrappedDestroy,(IMP)S6WrappedHide,
+                            (IMP)S6WrappedActivate,(IMP)S6WrappedDeactivate};
+        IMP *originals[]={&s6OriginalShow,&s6OriginalResize,
+                          &s6OriginalDestroy,&s6OriginalHide,
+                          &s6OriginalActivate,&s6OriginalDeactivate};
+        Method methods[6]={NULL,NULL,NULL,NULL,NULL,NULL};
+        BOOL ok=YES;
+        for(int i=0;i<6;i++) {
+            methods[i]=class_getInstanceMethod(owners[i],selectors[i]);
+            const char *type=methods[i]?method_getTypeEncoding(methods[i]):NULL;
+            IMP current=methods[i]?method_getImplementation(methods[i]):NULL;
+            if(!type || strcmp(type,encoding[i]) || !current || current==replacements[i]) {ok=NO;break;}
+        }
+        if(ok) {
+            for(int i=0;i<6;i++) *originals[i]=method_getImplementation(methods[i]);
+            for(int i=0;i<6;i++) method_setImplementation(methods[i],replacements[i]);
+            s6Installed=YES;
+            S6Log(@"HOOKED: CBWindow + CBBridgeManagerDashboard activation only");
+            S6Reconcile();
+            return;
+        }
+    }
+    if(attempts==0) S6Log(@"WAIT: Native12 hooks not ready or ABI mismatch");
+    if(attempts<30) dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+           dispatch_get_main_queue(),^{S6InstallHooks(attempts+1);});
+    else S6Log(@"WARN: Native12 host hooks unavailable after 60s");
+}
+@interface DFSpeed6Driver : NSObject
+- (void)tick:(NSTimer *)timer;
+- (void)visible:(NSNotification *)note;
+@end
+@implementation DFSpeed6Driver
+- (void)tick:(NSTimer *)timer {(void)timer;S6Reconcile();}
+- (void)visible:(NSNotification *)note {(void)note;S6Reconcile();}
+@end
+static DFSpeed6Driver *s6Driver;
+__attribute__((constructor)) static void S6Start(void) {
+    if(![NSBundle.mainBundle.bundleIdentifier.lowercaseString isEqualToString:@"com.apple.carplayapp"]) return;
+    dispatch_async(dispatch_get_main_queue(),^{
+        notify_register_check("local.gofahud.carplay.gofa-active",&s6GOFAForegroundToken);
+        S6Log(@"LOADED: Speed6 CarPlayApp Native12 split-host module");
+        s6Driver=[DFSpeed6Driver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:s6Driver
+                                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        [[NSNotificationCenter defaultCenter] addObserver:s6Driver
+                         selector:@selector(visible:) name:UIWindowDidBecomeVisibleNotification object:nil];
+        S6InstallHooks(0);
+        S6Reconcile();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedNativeHostProbe.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Speed7: same visual HUD implementation, now hosted in native SpringBoard split view.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+@end
+
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=32;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:30 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=4;
+        _limitRing.layer.cornerRadius=25;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // One compact GOFA-style panel: speed left, ONE speed-limit sign right.
+    // No camera sign, secondary road sign or separate provider mini-bubble.
+    _current.frame=CGRectMake(7,4,w-65,39);
+    _unit.frame=CGRectMake(7,40,w-65,15);
+    _limitRing.frame=CGRectMake(w-56,(h-50)/2,50,50);
+    _limit.frame=_limitRing.bounds;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    CGRect area=UIEdgeInsetsInsetRect(parent.bounds,parent.safeAreaInsets);
+    if (CGRectIsEmpty(area) || !isfinite(area.size.width) || !isfinite(area.size.height))
+        area=parent.bounds;
+    return CGRectInset(area,6,6);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    self.hidden=YES;
+}
+
+@end
+
+
+// Speed7: Native12 SpringBoard in-place split host, no UIWindow created.
+// Unlike Speed5 (global transparent UIWindow) or Speed6 (wrong CarPlay process),
+// this only inserts ONE UIView into the verified CBWindow.rootViewController.view.
+// Fail closed unless currentApp is a native CBBridgedSplitApp with TWO live,
+// attached appViews on the same real external root UIWindow.
+#import <CoreFoundation/CoreFoundation.h>
+#import <notify.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static __weak CBWindow *s7Owner=nil;
+static __weak UIView *s7Host=nil;
+static DFSpeedNativeHUD *s7HUD=nil;
+static NSString *s7LastReason=nil;
+static NSTimeInterval s7LastLog=0;
+static BOOL s7WasMounted=NO;
+static int s7GofaActive=-1;
+
+static id S7Read(id object,SEL selector) {
+    if (!object || ![object respondsToSelector:selector]) return nil;
+    return ((id(*)(id,SEL))objc_msgSend)(object,selector);
+}
+static void S7Log(NSString *reason,NSDictionary *details) {
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if ([s7LastReason isEqualToString:reason] && now-s7LastLog<15) return;
+    s7LastReason=[reason copy];s7LastLog=now;
+    NSMutableDictionary *line=[@{@"time":@(now),@"pid":@(getpid()),
+        @"stage":reason ?: @"nil", @"mounted":@(s7WasMounted),
+        @"process":NSProcessInfo.processInfo.processName ?: @"nil"} mutableCopy];
+    if(details) line[@"gate"]=details;
+    NSData *data=[NSJSONSerialization dataWithJSONObject:line options:0 error:nil];
+    if(!data)return;
+    [[NSFileManager defaultManager]
+      createDirectoryAtPath:@"/var/mobile/Library/Logs"
+      withIntermediateDirectories:YES attributes:nil error:nil];
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl","a");
+    if(!fp)fp=fopen([[NSTemporaryDirectory() stringByAppendingPathComponent:
+             @"DuoFaceSpeedSplit7-SpringBoard.jsonl"] fileSystemRepresentation],"a");
+    if(fp){fwrite(data.bytes,1,data.length,fp);fputc('\n',fp);fclose(fp);}
+    NSLog(@"[DuoFaceSpeedSplit7] %@",reason);
+}
+static void S7Unmount(NSString *reason) {
+    if(s7HUD){
+        [s7HUD stop];
+        [s7HUD removeFromSuperview];
+        s7HUD.ownerBridge=nil;
+    }
+    s7HUD=nil;s7Owner=nil;s7Host=nil;s7WasMounted=NO;
+    S7Log(reason,nil);
+}
+static BOOL S7OriginalGOFADisabled(void) {
+    BOOL present=[[NSFileManager defaultManager] fileExistsAtPath:
+       @"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if(!present) return YES;
+    CFStringRef domain=CFSTR("local.gofahud");
+    CFPreferencesAppSynchronize(domain);
+    CFTypeRef car=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
+    CFTypeRef master=CFPreferencesCopyAppValue(CFSTR("bubbleEnabled"),domain);
+    BOOL carOff=car && CFGetTypeID(car)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)car);
+    BOOL allOff=master && CFGetTypeID(master)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)master);
+    if(car)CFRelease(car);
+    if(master)CFRelease(master);
+    return carOff || allOff;
+}
+static BOOL S7GOFAForeground(void) {
+    if(s7GofaActive<0)return NO;
+    uint64_t active=0;
+    return notify_get_state(s7GofaActive,&active)==NOTIFY_STATUS_OK && active==1;
+}
+static BOOL S7DuoFaceClasses(Class *managerOut,Class *windowOut,Class *splitOut) {
+    Class m=NSClassFromString(@"CBBridgeManager");
+    Class w=NSClassFromString(@"CBWindow");
+    Class s=NSClassFromString(@"CBBridgedSplitApp");
+    const char *mi=m?class_getImageName(m):NULL;
+    const char *wi=w?class_getImageName(w):NULL;
+    const char *si=s?class_getImageName(s):NULL;
+    BOOL ok=m&&w&&s&&mi&&wi&&si&&
+       strstr(mi,"DuoFaceDashboard.dylib") &&
+       strstr(wi,"DuoFaceDashboard.dylib") &&
+       strstr(si,"DuoFaceDashboard.dylib");
+    if(managerOut)*managerOut=m;
+    if(windowOut)*windowOut=w;
+    if(splitOut)*splitOut=s;
+    return ok;
+}
+static BOOL S7Ancestor(UIView *child, UIView *parent) {
+    if(!child||!parent)return NO;
+    for(UIView *p=child;p;p=p.superview)
+        if(p==parent)return YES;
+    return NO;
+}
+static UIView *S7AppView(id item) {
+    if([item isKindOfClass:UIView.class])return item;
+    id v=S7Read(item,@selector(view));
+    return [v isKindOfClass:UIView.class] ? (UIView *)v:nil;
+}
+static void S7Reconcile(void) {
+    if(!NSThread.isMainThread)return;
+    Class m=nil,w=nil,s=nil;
+    NSString *reason=@"SPLIT7_WAIT_UNKNOWN";
+    NSMutableDictionary *metrics=[NSMutableDictionary new];
+    do {
+        if(!S7DuoFaceClasses(&m,&w,&s)){
+            reason=@"SPLIT7_WAIT_NATIVE12_CLASSES";break;
+        }
+        id manager=S7Read(m,@selector(sharedInstanceIfExists));
+        if(!manager || ![manager isKindOfClass:m]){
+            reason=@"SPLIT7_WAIT_MANAGER";break;
+        }
+        id owner=S7Read(manager,@selector(window));
+        if(![owner isKindOfClass:w]){
+            reason=@"SPLIT7_WAIT_CBWINDOW";break;
+        }
+        CBWindow *bridge=(CBWindow *)owner;
+        id current=S7Read(manager,@selector(currentApp));
+        metrics[@"current_app_class"]=current?NSStringFromClass([current class]):@"nil";
+        if(!current||![current isKindOfClass:s]){
+            reason=@"SPLIT7_WAIT_NOT_NATIVE_SPLIT_APP";break;
+        }
+        NSArray *apps=S7Read(current,@selector(appViews));
+        NSUInteger count=[apps isKindOfClass:NSArray.class]?apps.count:0;
+        metrics[@"split_app_views"]=@(count);
+        // CarPlay Home/single app cannot satisfy two attached Native12 panes.
+        if(count<2 || count>4){
+            reason=@"SPLIT7_WAIT_NOT_TWO_NATIVE_PANES";break;
+        }
+        if(!bridge.isVisible){
+            reason=@"SPLIT7_WAIT_BRIDGE_NOT_VISIBLE";break;
+        }
+        UIWindow *root=bridge.rootWindow;
+        UIView *controller=bridge.rootViewController.viewIfLoaded;
+        UIView *content=bridge.contentView;
+        if(![root isKindOfClass:UIWindow.class] || root.hidden || root.alpha<0.01 ||
+           !root.screen || root.screen==UIScreen.mainScreen ||
+           !isfinite(root.bounds.size.width) || !isfinite(root.bounds.size.height) ||
+           root.bounds.size.width<220 || root.bounds.size.height<120){
+            reason=@"SPLIT7_WAIT_NATIVE_EXTERNAL_ROOT";break;
+        }
+        // Actual iOS16 owner scene role is "_UIScreenBasedSceneSession", not "CarPlay".
+        if(![NSStringFromClass([root class])
+            isEqualToString:@"CBTouchPassThroughRootSceneWindow"]){
+            reason=@"SPLIT7_WAIT_NOT_DUOFACE_ROOT_CLASS";break;
+        }
+        if(![controller isKindOfClass:UIView.class] || controller.window!=root ||
+           ![content isKindOfClass:UIView.class] || content.window!=root ||
+           !S7Ancestor(content,controller) || controller.hidden || content.hidden ||
+           controller.alpha<0.01 || content.alpha<0.01){
+            reason=@"SPLIT7_WAIT_NATIVE_VIEW_CHAIN";break;
+        }
+        UIView *splitRoot=S7AppView(current);
+        if(!splitRoot || splitRoot.window!=root || !S7Ancestor(splitRoot,controller)
+           || splitRoot.hidden || splitRoot.alpha<0.01){
+            reason=@"SPLIT7_WAIT_SPLIT_APP_VIEW_NOT_IN_ROOT";break;
+        }
+        NSUInteger attached=0;
+        for(id item in apps){
+            UIView *pane=S7AppView(item);
+            if(pane && pane.window==root && S7Ancestor(pane,splitRoot) &&
+               !pane.hidden && pane.alpha>=0.01 && pane.bounds.size.width>=60 &&
+               pane.bounds.size.height>=60)attached++;
+        }
+        metrics[@"attached_visible_panels"]=@(attached);
+        if(attached<2){
+            reason=@"SPLIT7_WAIT_PANES_NOT_ATTACHED";break;
+        }
+        if(!S7OriginalGOFADisabled()){
+            reason=@"SPLIT7_WAIT_GOFAHUD_ORIGINAL_CARPLAY_ENABLED";break;
+        }
+        if(S7GOFAForeground()){
+            reason=@"SPLIT7_WAIT_GOFA_ACTIVE";break;
+        }
+        if(s7HUD && (s7Owner!=bridge || s7Host!=controller || s7HUD.superview!=controller))
+            S7Unmount(@"SPLIT7_RECREATE_NATIVE_SPLIT_OWNER_CHANGED");
+        if(!s7HUD){
+            s7HUD=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,142,64)];
+            s7HUD.ownerBridge=bridge;
+            [controller addSubview:s7HUD];
+            [s7HUD restoreSavedPosition];
+        }
+        s7Owner=bridge;s7Host=controller;
+        s7HUD.ownerBridge=bridge;
+        [controller bringSubviewToFront:s7HUD];
+        // Limit top-right placement to the live native split content geometry.
+        s7HUD.center=CGPointMake(fmax(71,fmin(controller.bounds.size.width-71,s7HUD.center.x)),
+                                  fmax(32,fmin(controller.bounds.size.height-32,s7HUD.center.y)));
+        [s7HUD tick:nil];
+        s7WasMounted=s7HUD.superview==controller && s7HUD.window==root && !s7HUD.hidden;
+        reason=s7WasMounted?@"SPLIT7_MOUNTED_ONE_NATIVE_HOST":
+                  @"SPLIT7_WAIT_HUD_ATTACHED_BUT_HIDDEN";
+        break;
+    }while(NO);
+    if(![reason isEqualToString:@"SPLIT7_MOUNTED_ONE_NATIVE_HOST"] && s7HUD)
+        S7Unmount(reason);
+    // While not mounted, logs carry granular gate reasons & pane counts;
+    // preserve changes and heartbeat, no pointer, URL, GPS, bundle IDs.
+    S7Log(reason,metrics);
+}
+@interface DFSpeedSplit7Driver:NSObject
+-(void)tick:(NSTimer *)timer;
+@end
+@implementation DFSpeedSplit7Driver
+-(void)tick:(NSTimer *)timer {(void)timer;S7Reconcile();}
+@end
+static DFSpeedSplit7Driver *s7Driver=nil;
+__attribute__((constructor)) static void S7Start(void) {
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        notify_register_check("local.gofahud.carplay.gofa-active",&s7GofaActive);
+        S7Log(@"SPLIT7_LOADED_SPRINGBOARD",nil);
+        s7Driver=[DFSpeedSplit7Driver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:s7Driver
+                        selector:@selector(tick:) userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        S7Reconcile();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Speed8 candidate: compact, draggable on exact same verified split-only SpringBoard owner.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+@property(nonatomic,strong) UIView *settingsPanel;
+@property(nonatomic,assign) CGFloat visualScale;
+@property(nonatomic,assign) CGFloat visualOpacity;
+@property(nonatomic,assign) BOOL displayLimit;
+@property(nonatomic,assign) NSInteger selectedSource;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+- (void)loadSettings;
+- (void)saveSettings;
+- (void)refreshStyle;
+- (void)showSettings:(UILongPressGestureRecognizer *)recognizer;
+- (void)settingsAction:(UIButton *)button;
+- (void)refreshSettingsLabels;
+- (NSString *)sourceTitle;
+- (void)savePosition;
+@end
+
+static CGRect DFAllowedArea(UIView *view);
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        UILongPressGestureRecognizer *settings=[[UILongPressGestureRecognizer alloc]
+            initWithTarget:self action:@selector(showSettings:)];
+        settings.minimumPressDuration=0.6;
+        [self addGestureRecognizer:settings];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=23;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:22 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:9 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=3;
+        _limitRing.layer.cornerRadius=17;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:17 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+        [self loadSettings];
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // Speed8: proportional geometry, never use old 142x64 fixed subframes.
+    const CGFloat sc=fmax(0.7,fmin(1.45,h/46.0));
+    const CGFloat sign=34*sc;
+    const CGFloat speedW=self.displayLimit?w-sign-10*sc:w-12*sc;
+    _current.frame=CGRectMake(5*sc,1*sc,speedW,27*sc);
+    _unit.frame=CGRectMake(5*sc,27*sc,speedW,15*sc);
+    _limitRing.frame=CGRectMake(w-sign-4*sc,(h-sign)/2,sign,sign);
+    _limitRing.layer.cornerRadius=sign/2;
+    _limitRing.layer.borderWidth=2.5*sc;
+    _limit.frame=_limitRing.bounds;
+    _current.font=[UIFont monospacedDigitSystemFontOfSize:22*sc weight:UIFontWeightBold];
+    _unit.font=[UIFont systemFontOfSize:9*sc weight:UIFontWeightMedium];
+    _limit.font=[UIFont monospacedDigitSystemFontOfSize:17*sc weight:UIFontWeightBold];
+    _limitRing.hidden=!self.displayLimit;
+    self.layer.cornerRadius=h/2;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    // Native12 rootWindow owns the full external screen, NOT one app pane.
+    CGRect area=parent.bounds;
+    if(CGRectIsEmpty(area)||!isfinite(area.size.width)||!isfinite(area.size.height))
+        return CGRectZero;
+    return CGRectInset(area,3,3);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession || self.settingsPanel) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    [self.settingsPanel removeFromSuperview]; self.settingsPanel=nil;
+    self.hidden=YES;
+}
+- (void)loadSettings {
+    NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    self.visualScale=[p objectForKey:@"scale"] ? [p doubleForKey:@"scale"]:1.0;
+    self.visualScale=fmax(0.8,fmin(1.35,self.visualScale));
+    self.visualOpacity=[p objectForKey:@"opacity"] ? [p doubleForKey:@"opacity"]:0.93;
+    self.visualOpacity=fmax(0.5,fmin(1.0,self.visualOpacity));
+    self.displayLimit=[p objectForKey:@"showLimit"] ? [p boolForKey:@"showLimit"]:YES;
+    self.selectedSource=[p integerForKey:@"source"];
+    if(self.selectedSource!=0 && self.selectedSource!=2 &&
+       self.selectedSource!=3 && self.selectedSource!=4)self.selectedSource=0;
+    [self refreshStyle];
+}
+- (void)saveSettings {
+    NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    [p setDouble:self.visualScale forKey:@"scale"];
+    [p setDouble:self.visualOpacity forKey:@"opacity"];
+    [p setBool:self.displayLimit forKey:@"showLimit"];
+    [p setInteger:self.selectedSource forKey:@"source"];
+}
+- (void)refreshStyle {
+    const CGSize size=CGSizeMake(104*self.visualScale,46*self.visualScale);
+    CGPoint prior=self.center;
+    self.bounds=(CGRect){CGPointZero,size};
+    self.center=prior;
+    self.alpha=self.visualOpacity;
+    [self setNeedsLayout];
+    if(self.superview)self.center=DFClampCenter(self.center,DFAllowedArea(self),size);
+}
+- (NSString *)sourceTitle {
+    switch(self.selectedSource){
+        case 2:return @"Waze";
+        case 3:return @"VietMap";
+        case 4:return @"GOFA";
+        default:return @"Auto";
+    }
+}
+- (void)showSettings:(UILongPressGestureRecognizer *)recognizer {
+    if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview)return;
+    if(self.settingsPanel){[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;}
+    [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
+    CGRect b=self.superview.bounds;
+    const CGFloat w=fmin(320,MAX(220,b.size.width-12));
+    UIView *panel=[[UIView alloc] initWithFrame:CGRectMake((b.size.width-w)/2,
+                             (b.size.height-169)/2,w,169)];
+    panel.backgroundColor=[UIColor colorWithWhite:0.08 alpha:0.97];
+    panel.layer.cornerRadius=13;
+    panel.layer.borderWidth=1;
+    panel.layer.borderColor=[UIColor colorWithWhite:0.8 alpha:0.4].CGColor;
+    UILabel *heading=[[UILabel alloc] initWithFrame:CGRectMake(12,5,w-24,28)];
+    heading.text=@"DuoFace • Bong bóng tốc độ";
+    heading.font=[UIFont boldSystemFontOfSize:14];
+    heading.textAlignment=NSTextAlignmentCenter;
+    heading.textColor=UIColor.whiteColor;
+    [panel addSubview:heading];
+    for(NSInteger i=1;i<=8;i++){
+        UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];
+        b.tag=i;
+        const CGFloat pad=8, gap=5, bw=(w-2*pad-3*gap)/4;
+        const NSInteger column=(i-1)%4,row=(i-1)/4;
+        b.frame=CGRectMake(pad+(bw+gap)*column,38+row*57,bw,49);
+        b.backgroundColor=[UIColor colorWithWhite:0.25 alpha:0.98];
+        b.layer.cornerRadius=8;
+        b.titleLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+        b.titleLabel.adjustsFontSizeToFitWidth=YES;
+        b.titleLabel.minimumScaleFactor=0.7;
+        [b setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        [b addTarget:self action:@selector(settingsAction:) forControlEvents:UIControlEventTouchUpInside];
+        [panel addSubview:b];
+    }
+    [self.superview addSubview:panel];
+    self.settingsPanel=panel;
+    [self refreshSettingsLabels];
+}
+- (void)refreshSettingsLabels {
+    for(UIView *v in self.settingsPanel.subviews){
+        if(![v isKindOfClass:UIButton.class])continue;
+        UIButton *b=(UIButton *)v;
+        NSString *label=@"";
+        switch(b.tag){
+            case 1:label=@"Cỡ −";break;
+            case 2:label=@"Cỡ +";break;
+            case 3:label=@"Mờ −";break;
+            case 4:label=@"Mờ +";break;
+            case 5:label=self.displayLimit?@"Biển: Có":@"Biển: Không";break;
+            case 6:label=[NSString stringWithFormat:@"Nguồn: %@",[self sourceTitle]];break;
+            case 7:label=@"Đặt lại";break;
+            case 8:label=@"Đóng";break;
+            default:break;
+        }
+        [b setTitle:label forState:UIControlStateNormal];
+    }
+}
+- (void)settingsAction:(UIButton *)button {
+    switch(button.tag){
+        case 1:self.visualScale=fmax(0.8,self.visualScale-0.1);break;
+        case 2:self.visualScale=fmin(1.35,self.visualScale+0.1);break;
+        case 3:self.visualOpacity=fmax(0.5,self.visualOpacity-0.1);break;
+        case 4:self.visualOpacity=fmin(1.0,self.visualOpacity+0.1);break;
+        case 5:self.displayLimit=!self.displayLimit;break;
+        case 6:self.selectedSource=self.selectedSource==0?2:
+             self.selectedSource==2?3:self.selectedSource==3?4:0;break;
+        case 7:{
+            NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+            [p removeObjectForKey:@"positionX"];
+            [p removeObjectForKey:@"positionY"];
+            [self restoreSavedPosition];
+            break;
+        }
+        case 8:[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;
+        default:return;
+    }
+    [self saveSettings];
+    [self refreshStyle];
+    [self refreshSettingsLabels];
+}
+
+@end
+
+
+// Speed8: reuse verified native SpringBoard split gate; rootWindow whole-screen drag, no UIWindow created.
+// Unlike Speed5 global UIWindow or Speed6 wrong process,
+// this only inserts ONE UIView into the verified CBWindow.rootViewController.view.
+// Fail closed unless currentApp is a native CBBridgedSplitApp with TWO live,
+// attached appViews on the same real external root UIWindow.
+#import <CoreFoundation/CoreFoundation.h>
+#import <notify.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static __weak CBWindow *s7Owner=nil;
+static __weak UIView *s7Host=nil;
+static DFSpeedNativeHUD *s7HUD=nil;
+static NSString *s7LastReason=nil;
+static NSTimeInterval s7LastLog=0;
+static BOOL s7WasMounted=NO;
+static int s7GofaActive=-1;
+
+static id S7Read(id object,SEL selector) {
+    if (!object || ![object respondsToSelector:selector]) return nil;
+    return ((id(*)(id,SEL))objc_msgSend)(object,selector);
+}
+static void S7Log(NSString *reason,NSDictionary *details) {
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if ([s7LastReason isEqualToString:reason] && now-s7LastLog<15) return;
+    s7LastReason=[reason copy];s7LastLog=now;
+    NSMutableDictionary *line=[@{@"time":@(now),@"pid":@(getpid()),
+        @"stage":reason ?: @"nil", @"mounted":@(s7WasMounted),
+        @"process":NSProcessInfo.processInfo.processName ?: @"nil"} mutableCopy];
+    if(details) line[@"gate"]=details;
+    NSData *data=[NSJSONSerialization dataWithJSONObject:line options:0 error:nil];
+    if(!data)return;
+    [[NSFileManager defaultManager]
+      createDirectoryAtPath:@"/var/mobile/Library/Logs"
+      withIntermediateDirectories:YES attributes:nil error:nil];
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl","a");
+    if(!fp)fp=fopen([[NSTemporaryDirectory() stringByAppendingPathComponent:
+             @"DuoFaceSpeedSplit7-SpringBoard.jsonl"] fileSystemRepresentation],"a");
+    if(fp){fwrite(data.bytes,1,data.length,fp);fputc('\n',fp);fclose(fp);}
+    NSLog(@"[DuoFaceSpeedSplit8] %@",reason);
+}
+static void S7Unmount(NSString *reason) {
+    if(s7HUD){
+        [s7HUD stop];
+        [s7HUD removeFromSuperview];
+        s7HUD.ownerBridge=nil;
+    }
+    s7HUD=nil;s7Owner=nil;s7Host=nil;s7WasMounted=NO;
+    S7Log(reason,nil);
+}
+static BOOL S7OriginalGOFADisabled(void) {
+    BOOL present=[[NSFileManager defaultManager] fileExistsAtPath:
+       @"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if(!present) return YES;
+    CFStringRef domain=CFSTR("local.gofahud");
+    CFPreferencesAppSynchronize(domain);
+    CFTypeRef car=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
+    CFTypeRef master=CFPreferencesCopyAppValue(CFSTR("bubbleEnabled"),domain);
+    BOOL carOff=car && CFGetTypeID(car)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)car);
+    BOOL allOff=master && CFGetTypeID(master)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)master);
+    if(car)CFRelease(car);
+    if(master)CFRelease(master);
+    return carOff || allOff;
+}
+static BOOL S7GOFAForeground(void) {
+    if(s7GofaActive<0)return NO;
+    uint64_t active=0;
+    return notify_get_state(s7GofaActive,&active)==NOTIFY_STATUS_OK && active==1;
+}
+static BOOL S7DuoFaceClasses(Class *managerOut,Class *windowOut,Class *splitOut) {
+    Class m=NSClassFromString(@"CBBridgeManager");
+    Class w=NSClassFromString(@"CBWindow");
+    Class s=NSClassFromString(@"CBBridgedSplitApp");
+    const char *mi=m?class_getImageName(m):NULL;
+    const char *wi=w?class_getImageName(w):NULL;
+    const char *si=s?class_getImageName(s):NULL;
+    BOOL ok=m&&w&&s&&mi&&wi&&si&&
+       strstr(mi,"DuoFaceDashboard.dylib") &&
+       strstr(wi,"DuoFaceDashboard.dylib") &&
+       strstr(si,"DuoFaceDashboard.dylib");
+    if(managerOut)*managerOut=m;
+    if(windowOut)*windowOut=w;
+    if(splitOut)*splitOut=s;
+    return ok;
+}
+static BOOL S7Ancestor(UIView *child, UIView *parent) {
+    if(!child||!parent)return NO;
+    for(UIView *p=child;p;p=p.superview)
+        if(p==parent)return YES;
+    return NO;
+}
+static UIView *S7AppView(id item) {
+    if([item isKindOfClass:UIView.class])return item;
+    id v=S7Read(item,@selector(view));
+    return [v isKindOfClass:UIView.class] ? (UIView *)v:nil;
+}
+static void S7Reconcile(void) {
+    if(!NSThread.isMainThread)return;
+    Class m=nil,w=nil,s=nil;
+    NSString *reason=@"SPLIT8_WAIT_UNKNOWN";
+    NSMutableDictionary *metrics=[NSMutableDictionary new];
+    do {
+        if(!S7DuoFaceClasses(&m,&w,&s)){
+            reason=@"SPLIT8_WAIT_NATIVE12_CLASSES";break;
+        }
+        id manager=S7Read(m,@selector(sharedInstanceIfExists));
+        if(!manager || ![manager isKindOfClass:m]){
+            reason=@"SPLIT8_WAIT_MANAGER";break;
+        }
+        id owner=S7Read(manager,@selector(window));
+        if(![owner isKindOfClass:w]){
+            reason=@"SPLIT8_WAIT_CBWINDOW";break;
+        }
+        CBWindow *bridge=(CBWindow *)owner;
+        id current=S7Read(manager,@selector(currentApp));
+        metrics[@"current_app_class"]=current?NSStringFromClass([current class]):@"nil";
+        if(!current||![current isKindOfClass:s]){
+            reason=@"SPLIT8_WAIT_NOT_NATIVE_SPLIT_APP";break;
+        }
+        NSArray *apps=S7Read(current,@selector(appViews));
+        NSUInteger count=[apps isKindOfClass:NSArray.class]?apps.count:0;
+        metrics[@"split_app_views"]=@(count);
+        // CarPlay Home/single app cannot satisfy two attached Native12 panes.
+        if(count<2 || count>4){
+            reason=@"SPLIT8_WAIT_NOT_TWO_NATIVE_PANES";break;
+        }
+        if(!bridge.isVisible){
+            reason=@"SPLIT8_WAIT_BRIDGE_NOT_VISIBLE";break;
+        }
+        UIWindow *root=bridge.rootWindow;
+        UIView *controller=bridge.rootViewController.viewIfLoaded;
+        UIView *content=bridge.contentView;
+        if(![root isKindOfClass:UIWindow.class] || root.hidden || root.alpha<0.01 ||
+           !root.screen || root.screen==UIScreen.mainScreen ||
+           !isfinite(root.bounds.size.width) || !isfinite(root.bounds.size.height) ||
+           root.bounds.size.width<220 || root.bounds.size.height<120){
+            reason=@"SPLIT8_WAIT_NATIVE_EXTERNAL_ROOT";break;
+        }
+        // Actual iOS16 owner scene role is "_UIScreenBasedSceneSession", not "CarPlay".
+        if(![NSStringFromClass([root class])
+            isEqualToString:@"CBTouchPassThroughRootSceneWindow"]){
+            reason=@"SPLIT8_WAIT_NOT_DUOFACE_ROOT_CLASS";break;
+        }
+        if(![controller isKindOfClass:UIView.class] || controller.window!=root ||
+           ![content isKindOfClass:UIView.class] || content.window!=root ||
+           !S7Ancestor(content,controller) || controller.hidden || content.hidden ||
+           controller.alpha<0.01 || content.alpha<0.01){
+            reason=@"SPLIT8_WAIT_NATIVE_VIEW_CHAIN";break;
+        }
+        UIView *splitRoot=S7AppView(current);
+        if(!splitRoot || splitRoot.window!=root || !S7Ancestor(splitRoot,controller)
+           || splitRoot.hidden || splitRoot.alpha<0.01){
+            reason=@"SPLIT8_WAIT_SPLIT_APP_VIEW_NOT_IN_ROOT";break;
+        }
+        NSUInteger attached=0;
+        for(id item in apps){
+            UIView *pane=S7AppView(item);
+            if(pane && pane.window==root && S7Ancestor(pane,splitRoot) &&
+               !pane.hidden && pane.alpha>=0.01 && pane.bounds.size.width>=60 &&
+               pane.bounds.size.height>=60)attached++;
+        }
+        metrics[@"attached_visible_panels"]=@(attached);
+        if(attached<2){
+            reason=@"SPLIT8_WAIT_PANES_NOT_ATTACHED";break;
+        }
+        if(!S7OriginalGOFADisabled()){
+            reason=@"SPLIT8_WAIT_GOFAHUD_ORIGINAL_CARPLAY_ENABLED";break;
+        }
+        if(S7GOFAForeground()){
+            reason=@"SPLIT8_WAIT_GOFA_ACTIVE";break;
+        }
+        if(s7HUD && (s7Owner!=bridge || s7Host!=root || s7HUD.superview!=root))
+            S7Unmount(@"SPLIT8_RECREATE_NATIVE_SPLIT_OWNER_CHANGED");
+        if(!s7HUD){
+            s7HUD=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,104,46)];
+            s7HUD.ownerBridge=bridge;
+            [root addSubview:s7HUD];
+            [s7HUD restoreSavedPosition];
+        }
+        s7Owner=bridge;s7Host=root;
+        s7HUD.ownerBridge=bridge;
+        // Keep the HUD and optional settings above BOTH split panes in exact native root.
+        // No UIWindow created and no change to native split activation gate.
+        [root bringSubviewToFront:s7HUD];
+        if(s7HUD.settingsPanel)[root bringSubviewToFront:s7HUD.settingsPanel];
+        s7HUD.center=DFClampCenter(s7HUD.center,DFAllowedArea(s7HUD),s7HUD.bounds.size);
+        [s7HUD tick:nil];
+        s7WasMounted=s7HUD.superview==root && s7HUD.window==root && !s7HUD.hidden;
+        reason=s7WasMounted?@"SPLIT8_MOUNTED_ONE_NATIVE_HOST":
+                  @"SPLIT8_WAIT_HUD_ATTACHED_BUT_HIDDEN";
+        break;
+    }while(NO);
+    if(![reason isEqualToString:@"SPLIT8_MOUNTED_ONE_NATIVE_HOST"] && s7HUD)
+        S7Unmount(reason);
+    // While not mounted, logs carry granular gate reasons & pane counts;
+    // preserve changes and heartbeat, no pointer, URL, GPS, bundle IDs.
+    S7Log(reason,metrics);
+}
+@interface DFSpeedSplit7Driver:NSObject
+-(void)tick:(NSTimer *)timer;
+@end
+@implementation DFSpeedSplit7Driver
+-(void)tick:(NSTimer *)timer {(void)timer;S7Reconcile();}
+@end
+static DFSpeedSplit7Driver *s7Driver=nil;
+__attribute__((constructor)) static void S7Start(void) {
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        notify_register_check("local.gofahud.carplay.gofa-active",&s7GofaActive);
+        S7Log(@"SPLIT8_LOADED_SPRINGBOARD",nil);
+        s7Driver=[DFSpeedSplit7Driver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:s7Driver
+                        selector:@selector(tick:) userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        S7Reconcile();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Speed9 QA candidate: reuse exact Speed8 GOFA-style HUD; manual INSTALLED app data source only.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import "DFSpeedInstalledSourceCatalog9.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+@property(nonatomic,strong) UIView *settingsPanel;
+@property(nonatomic,assign) CGFloat visualScale;
+@property(nonatomic,assign) CGFloat visualOpacity;
+@property(nonatomic,assign) BOOL displayLimit;
+@property(nonatomic,assign) NSInteger selectedSource;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+- (void)loadSettings;
+- (void)saveSettings;
+- (void)refreshStyle;
+- (void)showSettings:(UILongPressGestureRecognizer *)recognizer;
+- (void)settingsAction:(UIButton *)button;
+- (void)refreshSettingsLabels;
+- (NSString *)sourceTitle;
+- (void)showSourcePicker;
+- (void)selectSource:(UIButton *)sender;
+- (void)savePosition;
+@end
+
+static CGRect DFAllowedArea(UIView *view);
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size);
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        UILongPressGestureRecognizer *settings=[[UILongPressGestureRecognizer alloc]
+            initWithTarget:self action:@selector(showSettings:)];
+        settings.minimumPressDuration=0.6;
+        [self addGestureRecognizer:settings];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=23;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:22 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:9 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=3;
+        _limitRing.layer.cornerRadius=17;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:17 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+        [self loadSettings];
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // Speed9: proportional geometry, never use old 142x64 fixed subframes.
+    const CGFloat sc=fmax(0.7,fmin(1.45,h/46.0));
+    const CGFloat sign=34*sc;
+    const CGFloat speedW=self.displayLimit?w-sign-10*sc:w-12*sc;
+    _current.frame=CGRectMake(5*sc,1*sc,speedW,27*sc);
+    _unit.frame=CGRectMake(5*sc,27*sc,speedW,15*sc);
+    _limitRing.frame=CGRectMake(w-sign-4*sc,(h-sign)/2,sign,sign);
+    _limitRing.layer.cornerRadius=sign/2;
+    _limitRing.layer.borderWidth=2.5*sc;
+    _limit.frame=_limitRing.bounds;
+    _current.font=[UIFont monospacedDigitSystemFontOfSize:22*sc weight:UIFontWeightBold];
+    _unit.font=[UIFont systemFontOfSize:9*sc weight:UIFontWeightMedium];
+    _limit.font=[UIFont monospacedDigitSystemFontOfSize:17*sc weight:UIFontWeightBold];
+    _limitRing.hidden=!self.displayLimit;
+    self.layer.cornerRadius=h/2;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    // Native12 rootWindow owns the full external screen, NOT one app pane.
+    CGRect area=parent.bounds;
+    if(CGRectIsEmpty(area)||!isfinite(area.size.width)||!isfinite(area.size.height))
+        return CGRectZero;
+    return CGRectInset(area,3,3);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession || self.settingsPanel) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    [self.settingsPanel removeFromSuperview]; self.settingsPanel=nil;
+    self.hidden=YES;
+}
+- (void)loadSettings {
+    NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    self.visualScale=[p objectForKey:@"scale"] ? [p doubleForKey:@"scale"]:1.0;
+    self.visualScale=fmax(0.8,fmin(1.35,self.visualScale));
+    self.visualOpacity=[p objectForKey:@"opacity"] ? [p doubleForKey:@"opacity"]:0.93;
+    self.visualOpacity=fmax(0.5,fmin(1.0,self.visualOpacity));
+    self.displayLimit=[p objectForKey:@"showLimit"] ? [p boolForKey:@"showLimit"]:YES;
+    // Speed9: zero means NO trusted source, not a silent Auto switch.
+    self.selectedSource=[p integerForKey:@"source"];
+    if(!DFSpeedSourceInstalled(self.selectedSource))self.selectedSource=0;
+    [self refreshStyle];
+}
+- (void)saveSettings {
+    NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+    [p setDouble:self.visualScale forKey:@"scale"];
+    [p setDouble:self.visualOpacity forKey:@"opacity"];
+    [p setBool:self.displayLimit forKey:@"showLimit"];
+    [p setInteger:self.selectedSource forKey:@"source"];
+}
+- (void)refreshStyle {
+    const CGSize size=CGSizeMake(104*self.visualScale,46*self.visualScale);
+    CGPoint prior=self.center;
+    self.bounds=(CGRect){CGPointZero,size};
+    self.center=prior;
+    self.alpha=self.visualOpacity;
+    [self setNeedsLayout];
+    if(self.superview)self.center=DFClampCenter(self.center,DFAllowedArea(self),size);
+}
+- (NSString *)sourceTitle {
+    return DFSpeedNameForSource(self.selectedSource);
+}
+// A real choice sheet: exactly the app packages currently installed, no Auto.
+- (void)showSourcePicker {
+    UIView *panel=self.settingsPanel;
+    if(!panel)return;
+    for(UIView *view in [panel.subviews copy])[view removeFromSuperview];
+    UILabel *heading=[[UILabel alloc] initWithFrame:CGRectMake(8,2,panel.bounds.size.width-16,26)];
+    heading.text=@"Nguồn từ ứng dụng đã cài";
+    heading.textAlignment=NSTextAlignmentCenter;
+    heading.textColor=UIColor.whiteColor;
+    heading.font=[UIFont boldSystemFontOfSize:13];
+    [panel addSubview:heading];
+    NSArray<NSNumber *> *apps=DFSpeedInstalledSupportedSources();
+    NSUInteger index=0;
+    NSMutableArray<NSNumber *> *options=[apps mutableCopy];
+    [options addObject:@0]; // explicit NONE; never silently switch sources
+    const CGFloat height=30+options.count*31+30;
+    CGRect host=panel.superview.bounds;
+    panel.frame=CGRectMake((host.size.width-panel.bounds.size.width)/2,
+                          (host.size.height-height)/2,panel.bounds.size.width,height);
+    for(NSNumber *sid in options) {
+        NSInteger source=sid.integerValue;
+        UIButton *pick=[UIButton buttonWithType:UIButtonTypeSystem];
+        pick.tag=100+source;
+        CGFloat width=panel.bounds.size.width-16;
+        pick.frame=CGRectMake(8,30+index*31,width,28);
+        pick.layer.cornerRadius=5;
+        pick.backgroundColor=self.selectedSource==source
+          ? [UIColor colorWithRed:0.10 green:0.41 blue:0.70 alpha:1]
+          : [UIColor colorWithWhite:0.23 alpha:1];
+        NSString *name=source==0?@"Không chọn nguồn":
+            [NSString stringWithFormat:@"%@ · đã cài",DFSpeedNameForSource(source)];
+        [pick setTitle:name forState:UIControlStateNormal];
+        [pick setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        pick.titleLabel.font=[UIFont systemFontOfSize:13];
+        [pick addTarget:self action:@selector(selectSource:) forControlEvents:UIControlEventTouchUpInside];
+        [panel addSubview:pick];
+        index++;
+    }
+    UIButton *close=[UIButton buttonWithType:UIButtonTypeSystem];
+    close.tag=199;
+    close.frame=CGRectMake(8,30+index*31,panel.bounds.size.width-16,25);
+    [close setTitle:@"Đóng" forState:UIControlStateNormal];
+    [close setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(selectSource:) forControlEvents:UIControlEventTouchUpInside];
+    [panel addSubview:close];
+}
+- (void)selectSource:(UIButton *)sender {
+    if(sender.tag!=199){
+        NSInteger candidate=sender.tag-100;
+        if(candidate==0 || DFSpeedSourceInstalled(candidate)){
+            self.selectedSource=candidate;
+            [self saveSettings];
+            [self tick:nil];
+        }
+    }
+    [self.settingsPanel removeFromSuperview];
+    self.settingsPanel=nil;
+}
+- (void)showSettings:(UILongPressGestureRecognizer *)recognizer {
+    if(recognizer.state!=UIGestureRecognizerStateBegan || !self.superview)return;
+    if(self.settingsPanel){[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;}
+    [self.dismissTarget removeFromSuperview];self.dismissTarget=nil;
+    CGRect b=self.superview.bounds;
+    const CGFloat w=fmin(320,MAX(220,b.size.width-12));
+    UIView *panel=[[UIView alloc] initWithFrame:CGRectMake((b.size.width-w)/2,
+                             (b.size.height-169)/2,w,169)];
+    panel.backgroundColor=[UIColor colorWithWhite:0.08 alpha:0.97];
+    panel.layer.cornerRadius=13;
+    panel.layer.borderWidth=1;
+    panel.layer.borderColor=[UIColor colorWithWhite:0.8 alpha:0.4].CGColor;
+    UILabel *heading=[[UILabel alloc] initWithFrame:CGRectMake(12,5,w-24,28)];
+    NSArray<NSNumber *> *installed=DFSpeedInstalledSupportedSources();
+    heading.text=installed.count
+        ? (self.selectedSource
+           ? [NSString stringWithFormat:@"Nguồn %@ · %@",
+                  [self sourceTitle],
+                  [self.current.text isEqualToString:@"—"] ? @"chờ tốc độ" : @"đã nhận tốc độ"]
+           : @"Chọn nguồn từ ứng dụng đã cài")
+        : @"Chưa tìm thấy ứng dụng nguồn";
+    heading.font=[UIFont boldSystemFontOfSize:14];
+    heading.textAlignment=NSTextAlignmentCenter;
+    heading.textColor=UIColor.whiteColor;
+    [panel addSubview:heading];
+    for(NSInteger i=1;i<=8;i++){
+        UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];
+        b.tag=i;
+        const CGFloat pad=8, gap=5, bw=(w-2*pad-3*gap)/4;
+        const NSInteger column=(i-1)%4,row=(i-1)/4;
+        b.frame=CGRectMake(pad+(bw+gap)*column,38+row*57,bw,49);
+        b.backgroundColor=[UIColor colorWithWhite:0.25 alpha:0.98];
+        b.layer.cornerRadius=8;
+        b.titleLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+        b.titleLabel.adjustsFontSizeToFitWidth=YES;
+        b.titleLabel.minimumScaleFactor=0.7;
+        [b setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        [b addTarget:self action:@selector(settingsAction:) forControlEvents:UIControlEventTouchUpInside];
+        [panel addSubview:b];
+    }
+    [self.superview addSubview:panel];
+    self.settingsPanel=panel;
+    [self refreshSettingsLabels];
+}
+- (void)refreshSettingsLabels {
+    for(UIView *v in self.settingsPanel.subviews){
+        if(![v isKindOfClass:UIButton.class])continue;
+        UIButton *b=(UIButton *)v;
+        NSString *label=@"";
+        switch(b.tag){
+            case 1:label=@"Cỡ −";break;
+            case 2:label=@"Cỡ +";break;
+            case 3:label=@"Mờ −";break;
+            case 4:label=@"Mờ +";break;
+            case 5:label=self.displayLimit?@"Biển: Có":@"Biển: Không";break;
+            case 6:label=[DFSpeedInstalledSupportedSources() count]
+                ? [NSString stringWithFormat:@"Nguồn: %@",[self sourceTitle]]
+                : @"Chưa có app";break;
+            case 7:label=@"Đặt lại";break;
+            case 8:label=@"Đóng";break;
+            default:break;
+        }
+        [b setTitle:label forState:UIControlStateNormal];
+    }
+}
+- (void)settingsAction:(UIButton *)button {
+    switch(button.tag){
+        case 1:self.visualScale=fmax(0.8,self.visualScale-0.1);break;
+        case 2:self.visualScale=fmin(1.35,self.visualScale+0.1);break;
+        case 3:self.visualOpacity=fmax(0.5,self.visualOpacity-0.1);break;
+        case 4:self.visualOpacity=fmin(1.0,self.visualOpacity+0.1);break;
+        case 5:self.displayLimit=!self.displayLimit;break;
+        case 6:[self showSourcePicker];return;
+        case 7:{
+            NSUserDefaults *p=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+            [p removeObjectForKey:@"positionX"];
+            [p removeObjectForKey:@"positionY"];
+            [self restoreSavedPosition];
+            break;
+        }
+        case 8:[self.settingsPanel removeFromSuperview];self.settingsPanel=nil;return;
+        default:return;
+    }
+    [self saveSettings];
+    [self refreshStyle];
+    [self refreshSettingsLabels];
+}
+
+@end
+
+
+// Speed9: keep verified Speed8 native SpringBoard split gate; rootWindow whole-screen drag, no UIWindow created.
+// Unlike Speed5 global UIWindow or Speed6 wrong process,
+// this only inserts ONE UIView into the verified CBWindow.rootViewController.view.
+// Fail closed unless currentApp is a native CBBridgedSplitApp with TWO live,
+// attached appViews on the same real external root UIWindow.
+#import <CoreFoundation/CoreFoundation.h>
+#import <notify.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static __weak CBWindow *s7Owner=nil;
+static __weak UIView *s7Host=nil;
+static DFSpeedNativeHUD *s7HUD=nil;
+static NSString *s7LastReason=nil;
+static NSTimeInterval s7LastLog=0;
+static BOOL s7WasMounted=NO;
+static int s7GofaActive=-1;
+
+static id S7Read(id object,SEL selector) {
+    if (!object || ![object respondsToSelector:selector]) return nil;
+    return ((id(*)(id,SEL))objc_msgSend)(object,selector);
+}
+static void S7Log(NSString *reason,NSDictionary *details) {
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if ([s7LastReason isEqualToString:reason] && now-s7LastLog<15) return;
+    s7LastReason=[reason copy];s7LastLog=now;
+    NSMutableDictionary *line=[@{@"time":@(now),@"pid":@(getpid()),
+        @"stage":reason ?: @"nil", @"mounted":@(s7WasMounted),
+        @"process":NSProcessInfo.processInfo.processName ?: @"nil"} mutableCopy];
+    if(details) line[@"gate"]=details;
+    NSData *data=[NSJSONSerialization dataWithJSONObject:line options:0 error:nil];
+    if(!data)return;
+    [[NSFileManager defaultManager]
+      createDirectoryAtPath:@"/var/mobile/Library/Logs"
+      withIntermediateDirectories:YES attributes:nil error:nil];
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeedSplit9-SpringBoard.jsonl","a");
+    if(!fp)fp=fopen([[NSTemporaryDirectory() stringByAppendingPathComponent:
+             @"DuoFaceSpeedSplit7-SpringBoard.jsonl"] fileSystemRepresentation],"a");
+    if(fp){fwrite(data.bytes,1,data.length,fp);fputc('\n',fp);fclose(fp);}
+    NSLog(@"[DuoFaceSpeedSplit9] %@",reason);
+}
+static void S7Unmount(NSString *reason) {
+    if(s7HUD){
+        [s7HUD stop];
+        [s7HUD removeFromSuperview];
+        s7HUD.ownerBridge=nil;
+    }
+    s7HUD=nil;s7Owner=nil;s7Host=nil;s7WasMounted=NO;
+    S7Log(reason,nil);
+}
+static BOOL S7OriginalGOFADisabled(void) {
+    BOOL present=[[NSFileManager defaultManager] fileExistsAtPath:
+       @"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if(!present) return YES;
+    CFStringRef domain=CFSTR("local.gofahud");
+    CFPreferencesAppSynchronize(domain);
+    CFTypeRef car=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
+    CFTypeRef master=CFPreferencesCopyAppValue(CFSTR("bubbleEnabled"),domain);
+    BOOL carOff=car && CFGetTypeID(car)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)car);
+    BOOL allOff=master && CFGetTypeID(master)==CFBooleanGetTypeID() &&
+         !CFBooleanGetValue((CFBooleanRef)master);
+    if(car)CFRelease(car);
+    if(master)CFRelease(master);
+    return carOff || allOff;
+}
+static BOOL S7GOFAForeground(void) {
+    if(s7GofaActive<0)return NO;
+    uint64_t active=0;
+    return notify_get_state(s7GofaActive,&active)==NOTIFY_STATUS_OK && active==1;
+}
+static BOOL S7DuoFaceClasses(Class *managerOut,Class *windowOut,Class *splitOut) {
+    Class m=NSClassFromString(@"CBBridgeManager");
+    Class w=NSClassFromString(@"CBWindow");
+    Class s=NSClassFromString(@"CBBridgedSplitApp");
+    const char *mi=m?class_getImageName(m):NULL;
+    const char *wi=w?class_getImageName(w):NULL;
+    const char *si=s?class_getImageName(s):NULL;
+    BOOL ok=m&&w&&s&&mi&&wi&&si&&
+       strstr(mi,"DuoFaceDashboard.dylib") &&
+       strstr(wi,"DuoFaceDashboard.dylib") &&
+       strstr(si,"DuoFaceDashboard.dylib");
+    if(managerOut)*managerOut=m;
+    if(windowOut)*windowOut=w;
+    if(splitOut)*splitOut=s;
+    return ok;
+}
+static BOOL S7Ancestor(UIView *child, UIView *parent) {
+    if(!child||!parent)return NO;
+    for(UIView *p=child;p;p=p.superview)
+        if(p==parent)return YES;
+    return NO;
+}
+static UIView *S7AppView(id item) {
+    if([item isKindOfClass:UIView.class])return item;
+    id v=S7Read(item,@selector(view));
+    return [v isKindOfClass:UIView.class] ? (UIView *)v:nil;
+}
+static void S7Reconcile(void) {
+    if(!NSThread.isMainThread)return;
+    Class m=nil,w=nil,s=nil;
+    NSString *reason=@"SPLIT9_WAIT_UNKNOWN";
+    NSMutableDictionary *metrics=[NSMutableDictionary new];
+    do {
+        if(!S7DuoFaceClasses(&m,&w,&s)){
+            reason=@"SPLIT9_WAIT_NATIVE12_CLASSES";break;
+        }
+        id manager=S7Read(m,@selector(sharedInstanceIfExists));
+        if(!manager || ![manager isKindOfClass:m]){
+            reason=@"SPLIT9_WAIT_MANAGER";break;
+        }
+        id owner=S7Read(manager,@selector(window));
+        if(![owner isKindOfClass:w]){
+            reason=@"SPLIT9_WAIT_CBWINDOW";break;
+        }
+        CBWindow *bridge=(CBWindow *)owner;
+        id current=S7Read(manager,@selector(currentApp));
+        metrics[@"current_app_class"]=current?NSStringFromClass([current class]):@"nil";
+        if(!current||![current isKindOfClass:s]){
+            reason=@"SPLIT9_WAIT_NOT_NATIVE_SPLIT_APP";break;
+        }
+        NSArray *apps=S7Read(current,@selector(appViews));
+        NSUInteger count=[apps isKindOfClass:NSArray.class]?apps.count:0;
+        metrics[@"split_app_views"]=@(count);
+        // CarPlay Home/single app cannot satisfy two attached Native12 panes.
+        if(count<2 || count>4){
+            reason=@"SPLIT9_WAIT_NOT_TWO_NATIVE_PANES";break;
+        }
+        if(!bridge.isVisible){
+            reason=@"SPLIT9_WAIT_BRIDGE_NOT_VISIBLE";break;
+        }
+        UIWindow *root=bridge.rootWindow;
+        UIView *controller=bridge.rootViewController.viewIfLoaded;
+        UIView *content=bridge.contentView;
+        if(![root isKindOfClass:UIWindow.class] || root.hidden || root.alpha<0.01 ||
+           !root.screen || root.screen==UIScreen.mainScreen ||
+           !isfinite(root.bounds.size.width) || !isfinite(root.bounds.size.height) ||
+           root.bounds.size.width<220 || root.bounds.size.height<120){
+            reason=@"SPLIT9_WAIT_NATIVE_EXTERNAL_ROOT";break;
+        }
+        // Actual iOS16 owner scene role is "_UIScreenBasedSceneSession", not "CarPlay".
+        if(![NSStringFromClass([root class])
+            isEqualToString:@"CBTouchPassThroughRootSceneWindow"]){
+            reason=@"SPLIT9_WAIT_NOT_DUOFACE_ROOT_CLASS";break;
+        }
+        if(![controller isKindOfClass:UIView.class] || controller.window!=root ||
+           ![content isKindOfClass:UIView.class] || content.window!=root ||
+           !S7Ancestor(content,controller) || controller.hidden || content.hidden ||
+           controller.alpha<0.01 || content.alpha<0.01){
+            reason=@"SPLIT9_WAIT_NATIVE_VIEW_CHAIN";break;
+        }
+        UIView *splitRoot=S7AppView(current);
+        if(!splitRoot || splitRoot.window!=root || !S7Ancestor(splitRoot,controller)
+           || splitRoot.hidden || splitRoot.alpha<0.01){
+            reason=@"SPLIT9_WAIT_SPLIT_APP_VIEW_NOT_IN_ROOT";break;
+        }
+        NSUInteger attached=0;
+        for(id item in apps){
+            UIView *pane=S7AppView(item);
+            if(pane && pane.window==root && S7Ancestor(pane,splitRoot) &&
+               !pane.hidden && pane.alpha>=0.01 && pane.bounds.size.width>=60 &&
+               pane.bounds.size.height>=60)attached++;
+        }
+        metrics[@"attached_visible_panels"]=@(attached);
+        if(attached<2){
+            reason=@"SPLIT9_WAIT_PANES_NOT_ATTACHED";break;
+        }
+        if(!S7OriginalGOFADisabled()){
+            reason=@"SPLIT9_WAIT_GOFAHUD_ORIGINAL_CARPLAY_ENABLED";break;
+        }
+        if(S7GOFAForeground()){
+            reason=@"SPLIT9_WAIT_GOFA_ACTIVE";break;
+        }
+        if(s7HUD && (s7Owner!=bridge || s7Host!=root || s7HUD.superview!=root))
+            S7Unmount(@"SPLIT9_RECREATE_NATIVE_SPLIT_OWNER_CHANGED");
+        if(!s7HUD){
+            s7HUD=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,104,46)];
+            s7HUD.ownerBridge=bridge;
+            [root addSubview:s7HUD];
+            [s7HUD restoreSavedPosition];
+        }
+        s7Owner=bridge;s7Host=root;
+        s7HUD.ownerBridge=bridge;
+        // Keep the HUD and optional settings above BOTH split panes in exact native root.
+        // No UIWindow created and no change to native split activation gate.
+        [root bringSubviewToFront:s7HUD];
+        if(s7HUD.settingsPanel)[root bringSubviewToFront:s7HUD.settingsPanel];
+        s7HUD.center=DFClampCenter(s7HUD.center,DFAllowedArea(s7HUD),s7HUD.bounds.size);
+        [s7HUD tick:nil];
+        s7WasMounted=s7HUD.superview==root && s7HUD.window==root && !s7HUD.hidden;
+        reason=s7WasMounted?@"SPLIT9_MOUNTED_ONE_NATIVE_HOST":
+                  @"SPLIT9_WAIT_HUD_ATTACHED_BUT_HIDDEN";
+        break;
+    }while(NO);
+    if(![reason isEqualToString:@"SPLIT9_MOUNTED_ONE_NATIVE_HOST"] && s7HUD)
+        S7Unmount(reason);
+    // While not mounted, logs carry granular gate reasons & pane counts;
+    // preserve changes and heartbeat, no pointer, URL, GPS, bundle IDs.
+    S7Log(reason,metrics);
+}
+@interface DFSpeedSplit7Driver:NSObject
+-(void)tick:(NSTimer *)timer;
+@end
+@implementation DFSpeedSplit7Driver
+-(void)tick:(NSTimer *)timer {(void)timer;S7Reconcile();}
+@end
+static DFSpeedSplit7Driver *s7Driver=nil;
+__attribute__((constructor)) static void S7Start(void) {
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        notify_register_check("local.gofahud.carplay.gofa-active",&s7GofaActive);
+        S7Log(@"SPLIT9_LOADED_SPRINGBOARD",nil);
+        s7Driver=[DFSpeedSplit7Driver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:s7Driver
+                        selector:@selector(tick:) userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        S7Reconcile();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedNativeSplitHost.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Inject this module into the verified DuoFace CarPlay process only; no global SpringBoard HUD.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+@end
+
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=32;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:30 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=4;
+        _limitRing.layer.cornerRadius=25;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // One compact GOFA-style panel: speed left, ONE speed-limit sign right.
+    // No camera sign, secondary road sign or separate provider mini-bubble.
+    _current.frame=CGRectMake(7,4,w-65,39);
+    _unit.frame=CGRectMake(7,40,w-65,15);
+    _limitRing.frame=CGRectMake(w-56,(h-50)/2,50,50);
+    _limit.frame=_limitRing.bounds;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    CGRect area=UIEdgeInsetsInsetRect(parent.bounds,parent.safeAreaInsets);
+    if (CGRectIsEmpty(area) || !isfinite(area.size.width) || !isfinite(area.size.height))
+        area=parent.bounds;
+    return CGRectInset(area,6,6);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    self.hidden=YES;
+}
+
+@end
+
+// Speed6: NEW renderer targeting only the verified Native12 dashboard split.
+// Never create a second UIWindow or scan system CarPlay Home windows.
+// The class definitions and HUD drawing above are reused byte-for-byte from Speed4.
+#import <notify.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static __weak CBWindow *s6Owner=nil;
+static __weak CBWindow *s6EventOwner=nil;
+static __weak UIView *s6Host=nil;
+static DFSpeedNativeHUD *s6HUD=nil;
+static BOOL s6Installed=NO;
+static BOOL s6LastMounted=NO;
+static NSString *s6LastReason=nil;
+static IMP s6OriginalShow=NULL, s6OriginalResize=NULL, s6OriginalDestroy=NULL, s6OriginalHide=NULL;
+static IMP s6OriginalActivate=NULL, s6OriginalDeactivate=NULL;
+static int s6GOFAForegroundToken=-1;
+
+static void S6Log(NSString *message) {
+    if ([s6LastReason isEqualToString:message]) return;
+    s6LastReason=[message copy];
+    NSDictionary *event=@{@"time":@([[NSDate date] timeIntervalSince1970]),
+       @"pid":@(getpid()),@"process":NSProcessInfo.processInfo.processName ?: @"nil",
+       @"stage":message ?: @"nil", @"mounted":@(s6LastMounted),
+       @"owner":s6Owner?NSStringFromClass([s6Owner class]):@"nil",
+       @"host":s6Host?NSStringFromClass([s6Host class]):@"nil"};
+    NSData *json=[NSJSONSerialization dataWithJSONObject:event options:0 error:nil];
+    FILE *fp=fopen("/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl","a");
+    if (!fp) {
+        NSString *fallback=[NSTemporaryDirectory() stringByAppendingPathComponent:@"DuoFaceSpeed6-CarPlayApp.jsonl"];
+        fp=fopen(fallback.fileSystemRepresentation,"a");
+    }
+    if (fp && json) {fwrite(json.bytes,1,json.length,fp);fputc('\n',fp);fclose(fp);}
+    else if(fp) fclose(fp);
+    NSLog(@"[DuoFaceSpeed6] %@",message);
+}
+static void S6Unmount(NSString *reason) {
+    if (s6HUD) {
+        [s6HUD stop];
+        [s6HUD removeFromSuperview];
+        s6HUD.ownerBridge=nil;
+    }
+    s6HUD=nil;
+    s6Owner=nil;
+    s6Host=nil;
+    s6LastMounted=NO;
+    S6Log(reason);
+}
+static BOOL S6IsGOFAActive(void) {
+    if (s6GOFAForegroundToken<0) return NO;
+    uint64_t active=0;
+    return notify_get_state(s6GOFAForegroundToken,&active)==NOTIFY_STATUS_OK && active==1;
+}
+// A second CarPlay renderer must not coexist. If the original GOFAHUD global
+// tweak is running, require its documented carEnabled preference to be OFF.
+// We never mutate another tweak's preference or broadcast its "show" event.
+static BOOL S6OriginalGOFARendererDisabled(void) {
+    BOOL installed=[NSFileManager.defaultManager fileExistsAtPath:@"/var/jb/Library/MobileSubstrate/DynamicLibraries/GofaCarplayGlobal.dylib"];
+    if (!installed && !NSClassFromString(@"GOFACarGlobalWindow")) return YES;
+    CFStringRef domain=CFSTR("local.gofahud");
+    CFPreferencesAppSynchronize(domain);
+    CFTypeRef enabled=CFPreferencesCopyAppValue(CFSTR("carEnabled"),domain);
+    CFTypeRef master=CFPreferencesCopyAppValue(CFSTR("bubbleEnabled"),domain);
+    BOOL carOff=enabled && CFGetTypeID(enabled)==CFBooleanGetTypeID() && !CFBooleanGetValue((CFBooleanRef)enabled);
+    BOOL masterOff=master && CFGetTypeID(master)==CFBooleanGetTypeID() && !CFBooleanGetValue((CFBooleanRef)master);
+    if(enabled) CFRelease(enabled);
+    if(master) CFRelease(master);
+    return carOff || masterOff;
+}
+static BOOL S6OwnerClassesOK(void) {
+    Class cls=NSClassFromString(@"CBWindow");
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    const char *wImage=cls?class_getImageName(cls):NULL;
+    const char *dImage=dashboard?class_getImageName(dashboard):NULL;
+    return cls && dashboard && wImage && dImage &&
+           strstr(wImage,"DuoFaceDashboard.dylib") &&
+           strstr(dImage,"DuoFaceDashboard.dylib");
+}
+static CBWindow *S6CurrentOwner(void) {
+    Class cls=NSClassFromString(@"CBWindow");
+    SEL selector=NSSelectorFromString(@"activeCarPlayWindow");
+    if (!cls || ![cls respondsToSelector:selector]) return nil;
+    // Verified from original Native12 Mach-O: +[CBWindow activeCarPlayWindow]
+    // @16@0:8. Unlike Speed4, do NOT use the SpringBoard manager singleton.
+    id window=((id(*)(id,SEL))objc_msgSend)(cls,selector);
+    if ([window isKindOfClass:cls]) return (CBWindow *)window;
+    // Fail-safe only: a proven native CBWindow that fired a native show event.
+    return [s6EventOwner isKindOfClass:cls] ? s6EventOwner : nil;
+}
+static BOOL S6DashboardActive(void) {
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    SEL shared=NSSelectorFromString(@"sharedInstance");
+    SEL active=NSSelectorFromString(@"activated");
+    if (!dashboard || ![dashboard respondsToSelector:shared]) return NO;
+    id manager=((id(*)(id,SEL))objc_msgSend)(dashboard,shared);
+    if (!manager || ![manager respondsToSelector:active]) return NO;
+    return ((BOOL(*)(id,SEL))objc_msgSend)(manager,active);
+}
+static UIView *S6VerifiedHost(CBWindow *owner) {
+    if (!owner || !owner.isVisible) return nil;
+    UIWindow *root=owner.rootWindow;
+    if (![root isKindOfClass:UIWindow.class] || root.hidden || root.alpha<0.01 ||
+        !isfinite(root.bounds.size.width) || !isfinite(root.bounds.size.height) ||
+        root.bounds.size.width<220 || root.bounds.size.height<120) return nil;
+    NSString *role=root.windowScene.session.role ?: @"";
+    BOOL external=root.screen && root.screen!=UIScreen.mainScreen;
+    BOOL carRole=[role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
+    if (!external && !carRole) return nil;
+    UIView *content=owner.contentView;
+    UIView *controller=owner.rootViewController.viewIfLoaded;
+    if (![content isKindOfClass:UIView.class] || content.window!=root ||
+        content.hidden || content.alpha<0.01) return nil;
+    // Attach to the root controller *inside the Native12 CBWindow* only,
+    // above two panes. Never to an arbitrary CarPlayApp/Apple Home UIWindow.
+    if (![controller isKindOfClass:UIView.class] || controller.window!=root ||
+        controller.hidden || controller.alpha<0.01) return nil;
+    BOOL descendant=NO;
+    for (UIView *view=content;view;view=view.superview) {
+        if (view==controller) {descendant=YES;break;}
+    }
+    if (!descendant || controller.bounds.size.width<220 || controller.bounds.size.height<120) return nil;
+    return controller;
+}
+static void S6Reconcile(void) {
+    if (!NSThread.isMainThread) return;
+    if (!S6OwnerClassesOK()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: Native12 owner classes not in CarPlayApp");
+        else S6Log(@"WAIT: Native12 dashboard/CBWindow classes unavailable");
+        return;
+    }
+    if (!S6OriginalGOFARendererDisabled()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: original GOFAHUD CarPlay card is enabled");
+        else S6Log(@"WAIT: turn OFF GOFA HUD > CarPlay > Hiển thị bong bóng to avoid 2 renderers");
+        return;
+    }
+    if (S6IsGOFAActive()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: GOFA app is foreground");
+        else S6Log(@"WAIT: GOFA foreground");
+        return;
+    }
+    if (!S6DashboardActive()) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: Native12 dashboard bridge deactivated");
+        else S6Log(@"WAIT: CBBridgeManagerDashboard.activated=NO");
+        return;
+    }
+    CBWindow *owner=S6CurrentOwner();
+    UIView *host=S6VerifiedHost(owner);
+    if (!host) {
+        if(s6HUD) S6Unmount(@"UNMOUNTED: verified CBWindow split host unavailable");
+        else S6Log(@"WAIT: no visible activeCarPlayWindow/content/controller host");
+        return;
+    }
+    if (s6HUD && (s6Owner!=owner || s6Host!=host || s6HUD.superview!=host)) {
+        S6Unmount(@"RECREATE: Native12 split host changed");
+    }
+    if (!s6HUD) {
+        s6HUD=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,142,64)];
+        s6HUD.ownerBridge=owner;
+        [host addSubview:s6HUD];
+        [s6HUD restoreSavedPosition];
+    }
+    s6Owner=owner;s6Host=host;
+    s6HUD.ownerBridge=owner;
+    [host bringSubviewToFront:s6HUD];
+    // Saved position must stay inside new split geometry after zoom/resize.
+    if (s6HUD.dismissTarget==nil && !s6HUD.dismissedForSession) {
+        s6HUD.center=CGPointMake(fmax(s6HUD.bounds.size.width/2,
+           fmin(host.bounds.size.width-s6HUD.bounds.size.width/2,s6HUD.center.x)),
+           fmax(s6HUD.bounds.size.height/2,
+           fmin(host.bounds.size.height-s6HUD.bounds.size.height/2,s6HUD.center.y)));
+    }
+    [s6HUD tick:nil];
+    s6LastMounted=!s6HUD.hidden && s6HUD.window==owner.rootWindow;
+    S6Log(s6LastMounted?@"MOUNTED: one HUD in Native12 split root view":@"WAIT: host attached but HUD hidden");
+}
+static void S6WrappedShow(id obj,SEL sel) {
+    if(s6OriginalShow) ((void(*)(id,SEL))s6OriginalShow)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
+    S6Reconcile();
+}
+static void S6WrappedResize(id obj,SEL sel) {
+    if(s6OriginalResize) ((void(*)(id,SEL))s6OriginalResize)(obj,sel);
+    if ([obj isKindOfClass:NSClassFromString(@"CBWindow")]) s6EventOwner=(CBWindow *)obj;
+    S6Reconcile();
+}
+static void S6WrappedDestroy(id obj,SEL sel) {
+    if(s6EventOwner==obj) s6EventOwner=nil;
+    if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow destroyed");
+    if(s6OriginalDestroy) ((void(*)(id,SEL))s6OriginalDestroy)(obj,sel);
+}
+static void S6WrappedHide(id obj,SEL sel,id completion) {
+    if(s6EventOwner==obj) s6EventOwner=nil;
+    if(s6Owner==obj) S6Unmount(@"UNMOUNTED: CBWindow hidden");
+    if(s6OriginalHide) ((void(*)(id,SEL,id))s6OriginalHide)(obj,sel,completion);
+}
+static void S6WrappedActivate(id obj,SEL sel,id bridge) {
+    if(s6OriginalActivate) ((void(*)(id,SEL,id))s6OriginalActivate)(obj,sel,bridge);
+    S6Reconcile();
+}
+static void S6WrappedDeactivate(id obj,SEL sel) {
+    S6Unmount(@"UNMOUNTED: Dashboard bridgeDidDeactivate");
+    if(s6OriginalDeactivate) ((void(*)(id,SEL))s6OriginalDeactivate)(obj,sel);
+}
+static void S6InstallHooks(int attempts) {
+    if(s6Installed || !NSThread.isMainThread) return;
+    Class window=NSClassFromString(@"CBWindow");
+    Class dashboard=NSClassFromString(@"CBBridgeManagerDashboard");
+    if(S6OwnerClassesOK()) {
+        Class owners[]={window,window,window,window,dashboard,dashboard};
+        SEL selectors[]={@selector(show),@selector(resizeWindows),@selector(destroyWindows),
+                         @selector(hide:),@selector(bridgeDidActivate:),@selector(bridgeDidDeactivate)};
+        const char *encoding[]={"v16@0:8","v16@0:8","v16@0:8","v24@0:8@?16",
+                                 "v24@0:8@16","v16@0:8"};
+        IMP replacements[]={(IMP)S6WrappedShow,(IMP)S6WrappedResize,
+                            (IMP)S6WrappedDestroy,(IMP)S6WrappedHide,
+                            (IMP)S6WrappedActivate,(IMP)S6WrappedDeactivate};
+        IMP *originals[]={&s6OriginalShow,&s6OriginalResize,
+                          &s6OriginalDestroy,&s6OriginalHide,
+                          &s6OriginalActivate,&s6OriginalDeactivate};
+        Method methods[6]={NULL,NULL,NULL,NULL,NULL,NULL};
+        BOOL ok=YES;
+        for(int i=0;i<6;i++) {
+            methods[i]=class_getInstanceMethod(owners[i],selectors[i]);
+            const char *type=methods[i]?method_getTypeEncoding(methods[i]):NULL;
+            IMP current=methods[i]?method_getImplementation(methods[i]):NULL;
+            if(!type || strcmp(type,encoding[i]) || !current || current==replacements[i]) {ok=NO;break;}
+        }
+        if(ok) {
+            for(int i=0;i<6;i++) *originals[i]=method_getImplementation(methods[i]);
+            for(int i=0;i<6;i++) method_setImplementation(methods[i],replacements[i]);
+            s6Installed=YES;
+            S6Log(@"HOOKED: CBWindow + CBBridgeManagerDashboard activation only");
+            S6Reconcile();
+            return;
+        }
+    }
+    if(attempts==0) S6Log(@"WAIT: Native12 hooks not ready or ABI mismatch");
+    if(attempts<30) dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+           dispatch_get_main_queue(),^{S6InstallHooks(attempts+1);});
+    else S6Log(@"WARN: Native12 host hooks unavailable after 60s");
+}
+@interface DFSpeed6Driver : NSObject
+- (void)tick:(NSTimer *)timer;
+- (void)visible:(NSNotification *)note;
+@end
+@implementation DFSpeed6Driver
+- (void)tick:(NSTimer *)timer {(void)timer;S6Reconcile();}
+- (void)visible:(NSNotification *)note {(void)note;S6Reconcile();}
+@end
+static DFSpeed6Driver *s6Driver;
+__attribute__((constructor)) static void S6Start(void) {
+    if(![NSBundle.mainBundle.bundleIdentifier.lowercaseString isEqualToString:@"com.apple.carplayapp"]) return;
+    dispatch_async(dispatch_get_main_queue(),^{
+        notify_register_check("local.gofahud.carplay.gofa-active",&s6GOFAForegroundToken);
+        S6Log(@"LOADED: Speed6 CarPlayApp Native12 split-host module");
+        s6Driver=[DFSpeed6Driver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:s6Driver
+                                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        [[NSNotificationCenter defaultCenter] addObserver:s6Driver
+                         selector:@selector(visible:) name:UIWindowDidBecomeVisibleNotification object:nil];
+        S6InstallHooks(0);
+        S6Reconcile();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedNativeSplitHost.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedSceneOverlay.mm ##########
+// Native12 speed5scene: GOFA-style high UIWindow level bound ONLY to live DuoFace CBWindow.
+// The code imports the already-used Speed4 HUD visuals/drag/data unchanged. Its CarPlayApp
+// constructor is inert here; only this SpringBoard guarded lifecycle runs.
+// Distinct file: Speed4 history and original Native12 remain immutable.
+#import "DFSpeedBubbleBridge.mm"
+#import <notify.h>
+#import <unistd.h>
+#import <stdio.h>
+
+// Same window technique as open-source GOFAHUD: independent, transparent UIWindow
+// attached to the REAL host's scene, with card-only touch interception.
+@interface DFSceneHUDWindow : UIWindow
+@end
+@implementation DFSceneHUDWindow
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *card=[self.rootViewController.view viewWithTag:51412];
+    if (!card || card.hidden) return nil;
+    CGPoint local=[self convertPoint:point toView:card];
+    if (![card pointInside:local withEvent:event]) return nil;
+    return [super hitTest:point withEvent:event];
+}
+@end
+
+static DFSceneHUDWindow *dfSceneOverlay=nil;
+static __weak CBWindow *dfSceneOwner=nil;
+static __weak UIWindow *dfSceneBase=nil;
+static DFSpeedNativeHUD *dfSceneCard=nil;
+static IMP dfSceneOriginalShow=NULL;
+static IMP dfSceneOriginalResize=NULL;
+static IMP dfSceneOriginalDestroy=NULL;
+static IMP dfSceneOriginalHide=NULL;
+static BOOL dfSceneHooksReady=NO;
+static int dfGofaActiveToken=-1;
+static NSString *dfSceneLastStatus=nil;
+static NSTimeInterval dfSceneLastSnapshot=0;
+
+static NSString *DFSceneLogFile(void) {
+    return @"/var/mobile/Library/Logs/DuoFaceSpeedScene-SpringBoard.jsonl";
+}
+static void DFSceneLog(NSString *stage, CBWindow *bridge, UIWindow *base) {
+    NSString *role=base.windowScene.session.role ?: @"nil";
+    UIWindowScene *scene=base.windowScene;
+    NSDictionary *line=@{
+      @"time":@([[NSDate date] timeIntervalSince1970]),
+      @"pid":@(getpid()),
+      @"process":NSProcessInfo.processInfo.processName ?: @"nil",
+      @"stage":stage ?: @"nil",
+      @"cbwindow":bridge ? NSStringFromClass(bridge.class) : @"nil",
+      @"visible":@(bridge && bridge.isVisible),
+      @"root":base ? NSStringFromClass(base.class) : @"nil",
+      @"windowHidden":@(base ? base.hidden : YES),
+      @"windowAlpha":@(base ? base.alpha : 0),
+      @"role":role,
+      @"hasScene":@(scene!=nil),
+      @"external":@(base && base.screen && base.screen!=UIScreen.mainScreen),
+      @"frame":base ? NSStringFromCGRect(base.frame) : @"nil",
+      @"overlayVisible":@(dfSceneOverlay && !dfSceneOverlay.hidden),
+      @"hudVisible":@(dfSceneCard && !dfSceneCard.hidden),
+    };
+    NSData *json=[NSJSONSerialization dataWithJSONObject:line options:0 error:nil];
+    if (!json) return;
+    FILE *fp=fopen(DFSceneLogFile().fileSystemRepresentation,"a");
+    if (!fp) {
+        NSString *fallback=[NSTemporaryDirectory() stringByAppendingPathComponent:@"DuoFaceSpeedScene-SpringBoard.jsonl"];
+        fp=fopen(fallback.fileSystemRepresentation,"a");
+    }
+    if (fp) { fwrite(json.bytes,1,json.length,fp); fputc('\n',fp); fclose(fp); }
+    NSLog(@"[DuoFaceSpeedScene] %@",stage);
+}
+static void DFSceneState(NSString *state, CBWindow *bridge, UIWindow *root) {
+    if (![dfSceneLastStatus isEqualToString:state]) {
+        dfSceneLastStatus=[state copy]; DFSceneLog(state,bridge,root);
+    }
+}
+
+static BOOL DFSceneValidBridge(CBWindow *bridge, UIWindow **rootOut) {
+    if (rootOut) *rootOut=nil;
+    if (!bridge || ![bridge isKindOfClass:NSClassFromString(@"CBWindow")]) return NO;
+    if (!bridge.isVisible) return NO;
+    UIWindow *base=bridge.rootWindow;
+    if (![base isKindOfClass:UIWindow.class] || base.hidden || base.alpha<=0.01) return NO;
+    if (!isfinite(base.bounds.size.width) || !isfinite(base.bounds.size.height) ||
+        base.bounds.size.width<220 || base.bounds.size.height<120) return NO;
+    NSString *role=base.windowScene.session.role;
+    BOOL external=base.screen && base.screen!=UIScreen.mainScreen;
+    BOOL carRole=role && [role rangeOfString:@"CarPlay" options:NSCaseInsensitiveSearch].location!=NSNotFound;
+    if (!external && !carRole) return NO; // Never show on iPhone or generic Home.
+    if (rootOut) *rootOut=base;
+    return YES;
+}
+static void DFSceneUnmount(NSString *reason) {
+    CBWindow *old=dfSceneOwner; UIWindow *base=dfSceneBase;
+    [dfSceneCard stop];
+    [dfSceneCard removeFromSuperview];
+    dfSceneCard=nil;
+    dfSceneOverlay.hidden=YES;
+    dfSceneOverlay.rootViewController=nil;
+    dfSceneOverlay=nil;
+    dfSceneOwner=nil;
+    dfSceneBase=nil;
+    DFSceneState(reason,old,base);
+}
+static BOOL DFSceneHasSameTarget(CBWindow *bridge, UIWindow *base) {
+    if (!dfSceneOverlay || dfSceneOwner!=bridge || dfSceneBase!=base) return NO;
+    if (base.windowScene && dfSceneOverlay.windowScene!=base.windowScene) return NO;
+    if (!base.windowScene && dfSceneOverlay.screen!=base.screen) return NO;
+    return YES;
+}
+static void DFSceneMountIfEligible(CBWindow *bridge) {
+    UIWindow *base=nil;
+    if (!DFSceneValidBridge(bridge,&base)) {
+        if (dfSceneOverlay) DFSceneUnmount(@"HIDDEN: no active DuoFace split root");
+        else DFSceneState(@"WAIT: native split UIWindow missing, inactive or scene not CarPlay",bridge,
+                          bridge ? bridge.rootWindow : nil);
+        return;
+    }
+    if (dfSceneOverlay && !DFSceneHasSameTarget(bridge,base))
+        DFSceneUnmount(@"RECREATE: native split scene/root changed");
+    if (!dfSceneOverlay) {
+        DFSceneHUDWindow *w=base.windowScene
+          ? [[DFSceneHUDWindow alloc] initWithWindowScene:base.windowScene]
+          : [[DFSceneHUDWindow alloc] initWithFrame:base.frame];
+        // Legacy external-display fallback: Native12 itself calls setScreen:.
+        // iOS 13+ prefers initWithWindowScene: above. This branch is gated to
+        // an actual external UIScreen and does not change any other app scene.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        if (!base.windowScene) w.screen=base.screen;
+#pragma clang diagnostic pop
+        w.backgroundColor=UIColor.clearColor;
+        w.opaque=NO;
+        w.windowLevel=10000000;
+        UIViewController *vc=[UIViewController new];
+        vc.view.backgroundColor=UIColor.clearColor;
+        w.rootViewController=vc;
+        DFSpeedNativeHUD *hud=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectMake(0,0,142,64)];
+        hud.tag=51412;
+        hud.ownerBridge=bridge;
+        [vc.view addSubview:hud];
+        hud.bounds=CGRectMake(0,0,142,64);
+        [hud restoreSavedPosition];
+        dfSceneOwner=bridge;
+        dfSceneBase=base;
+        dfSceneOverlay=w;
+        dfSceneCard=hud;
+        DFSceneLog(@"MOUNT_REQUEST: GOFA-style scene UIWindow level 10000000",bridge,base);
+    }
+    dfSceneOverlay.frame=base.frame;
+    dfSceneCard.ownerBridge=bridge;
+    dfSceneOverlay.hidden=NO; // Never makeKeyAndVisible: keep native CarPlay focused.
+    [dfSceneCard tick:nil];
+    if (dfSceneOverlay.hidden || dfSceneCard.hidden)
+        DFSceneState(@"WAIT: overlay or HUD hidden after mount",bridge,base);
+    else
+        DFSceneState(@"MOUNTED: GOFA-style overlay in live DuoFace scene",bridge,base);
+}
+static BOOL DFSceneGOFAIsActive(void) {
+    if (dfGofaActiveToken<0) return NO;
+    uint64_t active=0;
+    return notify_get_state(dfGofaActiveToken,&active)==NOTIFY_STATUS_OK && active==1;
+}
+static void DFSceneReconcile(void) {
+    if (!NSThread.isMainThread) return;
+    if (DFSceneGOFAIsActive()) {
+        if (dfSceneOverlay) DFSceneUnmount(@"HIDDEN: GOFA active, preserve GOFAHUD suppression");
+        else DFSceneState(@"WAIT: GOFA active",nil,nil);
+        return;
+    }
+    id manager=DFCurrentNativeOwner(); // SpringBoard native singleton (not CarPlayApp).
+    CBWindow *bridge=[manager isKindOfClass:NSClassFromString(@"CBWindow")] ? manager : nil;
+    if (!bridge) {
+        if (dfSceneOverlay) DFSceneUnmount(@"HIDDEN: no native CBBridgeManager owner");
+        else DFSceneState(@"WAIT: SpringBoard CBBridgeManager.window unavailable",nil,nil);
+    } else {
+        DFSceneMountIfEligible(bridge);
+    }
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if (now-dfSceneLastSnapshot>=5) {
+        dfSceneLastSnapshot=now;
+        DFSceneLog(@"HEARTBEAT",bridge,bridge ? bridge.rootWindow:nil);
+    }
+}
+static void DFSceneWrappedShow(id obj,SEL sel) {
+    if (dfSceneOriginalShow) ((void(*)(id,SEL))dfSceneOriginalShow)(obj,sel);
+    DFSceneReconcile();
+}
+static void DFSceneWrappedResize(id obj,SEL sel) {
+    if (dfSceneOriginalResize) ((void(*)(id,SEL))dfSceneOriginalResize)(obj,sel);
+    DFSceneReconcile();
+}
+static void DFSceneWrappedDestroy(id obj,SEL sel) {
+    if (dfSceneOwner==obj) DFSceneUnmount(@"HIDDEN: native CBWindow destroyed");
+    if (dfSceneOriginalDestroy) ((void(*)(id,SEL))dfSceneOriginalDestroy)(obj,sel);
+}
+static void DFSceneWrappedHide(id obj,SEL sel,id completion) {
+    if (dfSceneOwner==obj) DFSceneUnmount(@"HIDDEN: native CBWindow hide");
+    if (dfSceneOriginalHide) ((void(*)(id,SEL,id))dfSceneOriginalHide)(obj,sel,completion);
+}
+static void DFSceneInstallHooks(int attempts) {
+    if (dfSceneHooksReady || !NSThread.isMainThread) return;
+    Class cls=NSClassFromString(@"CBWindow");
+    const char *image=cls ? class_getImageName(cls):NULL;
+    if (cls && image && strstr(image,"DuoFaceDashboard.dylib")) {
+        SEL selectors[]={@selector(show),@selector(resizeWindows),@selector(destroyWindows),@selector(hide:)};
+        IMP wrappers[]={(IMP)DFSceneWrappedShow,(IMP)DFSceneWrappedResize,
+                        (IMP)DFSceneWrappedDestroy,(IMP)DFSceneWrappedHide};
+        IMP *originals[]={&dfSceneOriginalShow,&dfSceneOriginalResize,
+                          &dfSceneOriginalDestroy,&dfSceneOriginalHide};
+        Method list[4]={NULL,NULL,NULL,NULL};
+        BOOL ready=YES;
+        for (NSUInteger i=0;i<4;i++) {
+            list[i]=class_getInstanceMethod(cls,selectors[i]);
+            const char *actual=list[i]?method_getTypeEncoding(list[i]):NULL;
+            const char *expected=(i==3)?"v24@0:8@?16":"v16@0:8";
+            if (!actual || strcmp(actual,expected)!=0 ||
+                method_getImplementation(list[i])==wrappers[i]) {ready=NO;break;}
+        }
+        if (ready) {
+            for (NSUInteger i=0;i<4;i++)
+                *originals[i]=method_getImplementation(list[i]);
+            for (NSUInteger i=0;i<4;i++)
+                method_setImplementation(list[i],wrappers[i]);
+            dfSceneHooksReady=YES;
+            DFSceneLog(@"HOOKED: SpringBoard Native12 CBWindow show/resize/destroy/hide",nil,nil);
+            DFSceneReconcile();
+            return;
+        }
+        if (attempts==0) DFSceneLog(@"WARN: Native12 CBWindow method ABI mismatch, no hooks installed",nil,nil);
+    }
+    if (attempts<30) dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+            dispatch_get_main_queue(),^{ DFSceneInstallHooks(attempts+1); });
+    else DFSceneLog(@"WARN: CBWindow hooks unavailable after retries",nil,nil);
+}
+@interface DFSceneDriver : NSObject
+- (void)onTimer:(NSTimer *)timer;
+- (void)visibleWindow:(NSNotification *)note;
+@end
+@implementation DFSceneDriver
+- (void)onTimer:(NSTimer *)timer { (void)timer; DFSceneReconcile(); }
+- (void)visibleWindow:(NSNotification *)note {
+    if ([note.object isKindOfClass:DFSceneHUDWindow.class]) return;
+    DFSceneReconcile();
+}
+@end
+__attribute__((constructor)) static void DFSceneStartInSpringBoard(void) {
+    @autoreleasepool {
+        if (![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"]) return;
+        dispatch_async(dispatch_get_main_queue(),^{
+            notify_register_check("local.gofahud.carplay.gofa-active",&dfGofaActiveToken);
+            DFSceneLog(@"LOADED: Speed5 scene module in SpringBoard",nil,nil);
+            DFSceneInstallHooks(0);
+            DFSceneDriver *driver=[DFSceneDriver new];
+            NSTimer *timer=[NSTimer timerWithTimeInterval:0.5 target:driver
+                             selector:@selector(onTimer:) userInfo:nil repeats:YES];
+            [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+            [[NSNotificationCenter defaultCenter] addObserver:driver
+                    selector:@selector(visibleWindow:) name:UIWindowDidBecomeVisibleNotification object:nil];
+            DFSceneReconcile();
+        });
+    }
+}
+########## END FILE: runtime/speedbubble/DFSpeedSceneOverlay.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm ##########
+// DuoFace native12 speed6zzowner1 -- READ-ONLY SpringBoard split owner probe.
+// No UIWindow creation, no ObjC method hooking, no class initialization.
+// The existing CarPlayApp DuoFaceSpeedHUD renderer remains byte-identical.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <math.h>
+#import <stdio.h>
+#import <unistd.h>
+
+static NSData *DFOwnerLastState=nil;
+static NSTimeInterval DFOwnerLastWrite=0;
+static NSUInteger DFOwnerTickCount=0;
+static NSString *const DFOwnerLogPath=@"/var/mobile/Library/Logs/DuoFaceSpeedOwner-SpringBoard.jsonl";
+
+static NSString *DFOwnerTypeName(id obj) {
+    return obj ? NSStringFromClass([obj class]) : @"nil";
+}
+static NSString *DFOwnerClassImage(Class cls) {
+    const char *path=cls ? class_getImageName(cls):NULL;
+    if (!path) return @"nil";
+    NSString *file=[NSString stringWithUTF8String:path].lastPathComponent;
+    return file.length ? file : @"unknown";
+}
+static NSNumber *DFOwnerFinite(CGFloat n) {
+    return @(isfinite(n) ? (double)n : -1.0);
+}
+static NSArray *DFOwnerDimensions(CGRect r) {
+    return @[DFOwnerFinite(r.size.width), DFOwnerFinite(r.size.height)];
+}
+static id DFOwnerClassSend(Class cls, NSString *name) {
+    SEL sel=NSSelectorFromString(name);
+    if (!cls || ![cls respondsToSelector:sel]) return nil;
+    return ((id(*)(id,SEL))objc_msgSend)(cls,sel);
+}
+static id DFOwnerSend(id target, NSString *name) {
+    SEL sel=NSSelectorFromString(name);
+    if (!target || ![target respondsToSelector:sel]) return nil;
+    return ((id(*)(id,SEL))objc_msgSend)(target,sel);
+}
+static BOOL DFOwnerBool(id target, NSString *name) {
+    SEL sel=NSSelectorFromString(name);
+    if (!target || ![target respondsToSelector:sel]) return NO;
+    return ((BOOL(*)(id,SEL))objc_msgSend)(target,sel);
+}
+static NSDictionary *DFOwnerWindowInfo(id native, Class cbClass) {
+    if (!native) return @{@"class":@"nil",@"native_CBWindow":@NO};
+    BOOL cb=cbClass && [native isKindOfClass:cbClass];
+    if (!cb) return @{@"class":DFOwnerTypeName(native),@"native_CBWindow":@NO};
+    id rootObj=DFOwnerSend(native,@"rootWindow");
+    UIWindow *root=[rootObj isKindOfClass:UIWindow.class] ? (UIWindow *)rootObj:nil;
+    id rootVC=DFOwnerSend(native,@"rootViewController");
+    UIView *content=[DFOwnerSend(native,@"contentView") isKindOfClass:UIView.class]
+                   ? DFOwnerSend(native,@"contentView"):nil;
+    UIView *controller=[rootVC isKindOfClass:UIViewController.class]
+                     ? [rootVC viewIfLoaded]:nil;
+    NSString *role=root.windowScene.session.role ?: @"nil";
+    BOOL ext=root && root.screen && root.screen!=UIScreen.mainScreen;
+    BOOL linkedContent=root && content && content.window==root;
+    BOOL linkedController=root && controller && controller.window==root;
+    BOOL desc=NO;
+    for(UIView *p=content; p && controller; p=p.superview)
+        if (p==controller) {desc=YES;break;}
+    return @{
+        @"class":DFOwnerTypeName(native),
+        @"native_CBWindow":@YES,
+        @"is_visible":@(DFOwnerBool(native,@"isVisible")),
+        @"root_class":DFOwnerTypeName(rootObj),
+        @"root_hidden":@(root ? root.hidden : YES),
+        @"root_alpha":DFOwnerFinite(root?root.alpha:-1),
+        @"root_bounds":DFOwnerDimensions(root?root.bounds:CGRectZero),
+        @"scene_role":role,
+        @"external_screen":@(ext),
+        @"root_has_windowScene":@(root && root.windowScene!=nil),
+        @"content_class":DFOwnerTypeName(content),
+        @"controller_class":DFOwnerTypeName(controller),
+        @"content_window_is_root":@(linkedContent),
+        @"controller_window_is_root":@(linkedController),
+        @"content_descends_controller":@(desc),
+        @"controller_bounds":DFOwnerDimensions(controller?controller.bounds:CGRectZero)
+    };
+}
+static void DFOwnerWrite(NSDictionary *record) {
+    NSData *out=[NSJSONSerialization dataWithJSONObject:record options:0 error:nil];
+    if (!out) return;
+    // Native12 does not guarantee the log directory already exists.
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Library/Logs"
+                               withIntermediateDirectories:YES
+                                                attributes:nil error:nil];
+    FILE *fp=fopen(DFOwnerLogPath.fileSystemRepresentation,"a");
+    if(!fp) {
+        NSString *alternative=[NSTemporaryDirectory()
+                    stringByAppendingPathComponent:@"DuoFaceSpeedOwner-SpringBoard.jsonl"];
+        fp=fopen(alternative.fileSystemRepresentation,"a");
+    }
+    if(fp) {fwrite(out.bytes,1,out.length,fp);fputc('\n',fp);fclose(fp);}
+    NSLog(@"[DuoFaceSpeedOwnerProbe] %@ %@",record[@"stage"],record[@"reason"]);
+}
+static void DFOwnerPoll(void) {
+    if(!NSThread.isMainThread) return;
+    ++DFOwnerTickCount;
+    Class mgrClass=NSClassFromString(@"CBBridgeManager");
+    Class cbClass=NSClassFromString(@"CBWindow");
+    // This class method is an existing singleton getter; unlike sharedInstance,
+    // it does not create/start/activate the DuoFace bridge.
+    id mgr=DFOwnerClassSend(mgrClass,@"sharedInstanceIfExists");
+    id mgrWindow=DFOwnerSend(mgr,@"window");
+    id global=DFOwnerClassSend(cbClass,@"activeCarPlayWindow");
+    NSDictionary *owner=DFOwnerWindowInfo(mgrWindow,cbClass);
+    NSDictionary *active=DFOwnerWindowInfo(global,cbClass);
+    NSDictionary *state=@{
+        @"native_manager_class_present":@(mgrClass!=nil),
+        @"native_window_class_present":@(cbClass!=nil),
+        @"manager_image":DFOwnerClassImage(mgrClass),
+        @"window_class_image":DFOwnerClassImage(cbClass),
+        @"manager_instance_class":DFOwnerTypeName(mgr),
+        @"manager_window":owner,
+        @"activeCarPlayWindow":active
+    };
+    NSData *signature=[NSJSONSerialization dataWithJSONObject:state
+                                    options:NSJSONWritingSortedKeys error:nil];
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(signature && [signature isEqualToData:DFOwnerLastState]
+       && now-DFOwnerLastWrite<15.0) return;
+    DFOwnerLastState=[signature copy];DFOwnerLastWrite=now;
+    NSString *reason=mgrWindow ? @"manager_window_present"
+                    : mgr ? @"manager_exists_no_window" : @"manager_not_created";
+    DFOwnerWrite(@{
+        @"time":@(now),@"process":NSProcessInfo.processInfo.processName ?: @"nil",
+        @"pid":@(getpid()),@"stage":@"SPRINGBOARD_NATIVE12_OWNER_PROBE",
+        @"reason":reason,@"tick":@(DFOwnerTickCount),@"state":state,
+        @"read_only":@YES, @"created_window":@NO
+    });
+}
+@interface DFOwnerPollingDriver:NSObject
+-(void)onTimer:(NSTimer *)timer;
+@end
+@implementation DFOwnerPollingDriver
+-(void)onTimer:(NSTimer *)timer { (void)timer;DFOwnerPoll(); }
+@end
+static DFOwnerPollingDriver *dfOwnerDriver=nil;
+__attribute__((constructor)) static void DFOwnerProbeStart(void) {
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])
+        return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DFOwnerWrite(@{
+          @"time":@(NSDate.date.timeIntervalSince1970),
+          @"process":@"SpringBoard", @"pid":@(getpid()),
+          @"stage":@"SPRINGBOARD_OWNER_PROBE_LOADED",
+          @"reason":@"read_only_no_hooks_or_overlay",
+          @"read_only":@YES,@"created_window":@NO
+        });
+        dfOwnerDriver=[DFOwnerPollingDriver new];
+        NSTimer *timer=[NSTimer timerWithTimeInterval:1.0
+                        target:dfOwnerDriver selector:@selector(onTimer:)
+                        userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        DFOwnerPoll();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm ##########
+
