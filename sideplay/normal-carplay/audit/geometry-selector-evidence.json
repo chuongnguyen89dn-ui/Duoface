@@ -1,0 +1,1661 @@
+{
+  "source_sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+  "source_bytes": 899088,
+  "verified_against_extracted_inventory": true,
+  "timestamp_utc": "2026-10-18T09:36:16.853342+00:00",
+  "slices": [
+    {
+      "cpu": 16777228,
+      "subcpu": 0,
+      "ncmd": 28,
+      "filetype": 6,
+      "sections": [
+        {
+          "name": "__text",
+          "segment": "__TEXT",
+          "vmaddr": 24504,
+          "size": 259096,
+          "fileoff": 24504
+        },
+        {
+          "name": "__stubs",
+          "segment": "__TEXT",
+          "vmaddr": 283600,
+          "size": 1488,
+          "fileoff": 283600
+        },
+        {
+          "name": "__stub_helper",
+          "segment": "__TEXT",
+          "vmaddr": 285088,
+          "size": 1512,
+          "fileoff": 285088
+        },
+        {
+          "name": "__objc_methlist",
+          "segment": "__TEXT",
+          "vmaddr": 286600,
+          "size": 5156,
+          "fileoff": 286600
+        },
+        {
+          "name": "__const",
+          "segment": "__TEXT",
+          "vmaddr": 291760,
+          "size": 1168,
+          "fileoff": 291760
+        },
+        {
+          "name": "__gcc_except_tab",
+          "segment": "__TEXT",
+          "vmaddr": 292928,
+          "size": 8884,
+          "fileoff": 292928
+        },
+        {
+          "name": "__cstring",
+          "segment": "__TEXT",
+          "vmaddr": 301812,
+          "size": 16454,
+          "fileoff": 301812
+        },
+        {
+          "name": "__objc_methname",
+          "segment": "__TEXT",
+          "vmaddr": 318266,
+          "size": 18191,
+          "fileoff": 318266
+        },
+        {
+          "name": "__objc_classname",
+          "segment": "__TEXT",
+          "vmaddr": 336457,
+          "size": 268,
+          "fileoff": 336457
+        },
+        {
+          "name": "__ustring",
+          "segment": "__TEXT",
+          "vmaddr": 336726,
+          "size": 2440,
+          "fileoff": 336726
+        },
+        {
+          "name": "__objc_methtype",
+          "segment": "__TEXT",
+          "vmaddr": 339166,
+          "size": 1837,
+          "fileoff": 339166
+        },
+        {
+          "name": "__unwind_info",
+          "segment": "__TEXT",
+          "vmaddr": 341004,
+          "size": 3056,
+          "fileoff": 341004
+        },
+        {
+          "name": "__got",
+          "segment": "__DATA_CONST",
+          "vmaddr": 344064,
+          "size": 320,
+          "fileoff": 344064
+        },
+        {
+          "name": "__mod_init_func",
+          "segment": "__DATA_CONST",
+          "vmaddr": 344384,
+          "size": 8,
+          "fileoff": 344384
+        },
+        {
+          "name": "__const",
+          "segment": "__DATA_CONST",
+          "vmaddr": 344392,
+          "size": 3688,
+          "fileoff": 344392
+        },
+        {
+          "name": "__cfstring",
+          "segment": "__DATA_CONST",
+          "vmaddr": 348080,
+          "size": 24768,
+          "fileoff": 348080
+        },
+        {
+          "name": "__objc_classlist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 372848,
+          "size": 88,
+          "fileoff": 372848
+        },
+        {
+          "name": "__objc_protolist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 372936,
+          "size": 32,
+          "fileoff": 372936
+        },
+        {
+          "name": "__objc_imageinfo",
+          "segment": "__DATA_CONST",
+          "vmaddr": 372968,
+          "size": 8,
+          "fileoff": 372968
+        },
+        {
+          "name": "__la_symbol_ptr",
+          "segment": "__DATA",
+          "vmaddr": 376832,
+          "size": 992,
+          "fileoff": 376832
+        },
+        {
+          "name": "__objc_const",
+          "segment": "__DATA",
+          "vmaddr": 377824,
+          "size": 9784,
+          "fileoff": 377824
+        },
+        {
+          "name": "__objc_selrefs",
+          "segment": "__DATA",
+          "vmaddr": 387608,
+          "size": 6080,
+          "fileoff": 387608
+        },
+        {
+          "name": "__objc_classrefs",
+          "segment": "__DATA",
+          "vmaddr": 393688,
+          "size": 584,
+          "fileoff": 393688
+        },
+        {
+          "name": "__objc_superrefs",
+          "segment": "__DATA",
+          "vmaddr": 394272,
+          "size": 64,
+          "fileoff": 394272
+        },
+        {
+          "name": "__objc_ivar",
+          "segment": "__DATA",
+          "vmaddr": 394336,
+          "size": 536,
+          "fileoff": 394336
+        },
+        {
+          "name": "__objc_data",
+          "segment": "__DATA",
+          "vmaddr": 394872,
+          "size": 880,
+          "fileoff": 394872
+        },
+        {
+          "name": "__data",
+          "segment": "__DATA",
+          "vmaddr": 395752,
+          "size": 552,
+          "fileoff": 395752
+        },
+        {
+          "name": "__common",
+          "segment": "__DATA",
+          "vmaddr": 396304,
+          "size": 12,
+          "fileoff": 0
+        },
+        {
+          "name": "__bss",
+          "segment": "__DATA",
+          "vmaddr": 396320,
+          "size": 736,
+          "fileoff": 0
+        }
+      ],
+      "fat_offset": 16384,
+      "slice_sha256": "e4e324a2a03dad89aeb492ba188555faf4bb3bcd34e9b9119f713ff6fc99a611",
+      "slice_bytes": 441808,
+      "strings": [
+        {
+          "section": "__cstring",
+          "value": "BKSDisplayServicesSetScreenBlanked",
+          "fileoff_hex": "0x49c9f",
+          "vmaddr_hex": "0x49c9f"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindow",
+          "fileoff_hex": "0x49e14",
+          "vmaddr_hex": "0x49e14"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowScene",
+          "fileoff_hex": "0x49e34",
+          "vmaddr_hex": "0x49e34"
+        },
+        {
+          "section": "__cstring",
+          "value": "_UIFullscreenPresentationController",
+          "fileoff_hex": "0x49ea8",
+          "vmaddr_hex": "0x49ea8"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlayIsConnectedDidChange",
+          "fileoff_hex": "0x4a222",
+          "vmaddr_hex": "0x4a222"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.apple.CarPlayTemplateUIHost",
+          "fileoff_hex": "0x4a3ba",
+          "vmaddr_hex": "0x4a3ba"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.apple.CarPlayApp",
+          "fileoff_hex": "0x4a3da",
+          "vmaddr_hex": "0x4a3da"
+        },
+        {
+          "section": "__cstring",
+          "value": "sp_isCarPlayCounterpart",
+          "fileoff_hex": "0x4a4a7",
+          "vmaddr_hex": "0x4a4a7"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app %@: SidePlay keeps running on CarPlay",
+          "fileoff_hex": "0x4a5d4",
+          "vmaddr_hex": "0x4a5d4"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowSceneGeometryPreferencesIOS",
+          "fileoff_hex": "0x4a7e1",
+          "vmaddr_hex": "0x4a7e1"
+        },
+        {
+          "section": "__cstring",
+          "value": ", on CarPlay",
+          "fileoff_hex": "0x4aa9c",
+          "vmaddr_hex": "0x4aa9c"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app leaving the screen",
+          "fileoff_hex": "0x4ab28",
+          "vmaddr_hex": "0x4ab28"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app back on screen: SidePlay shown again",
+          "fileoff_hex": "0x4ab80",
+          "vmaddr_hex": "0x4ab80"
+        },
+        {
+          "section": "__cstring",
+          "value": "open on phone ignored: SidePlay is on CarPlay",
+          "fileoff_hex": "0x4abcb",
+          "vmaddr_hex": "0x4abcb"
+        },
+        {
+          "section": "__cstring",
+          "value": "open: no CarPlay display found",
+          "fileoff_hex": "0x4ac2a",
+          "vmaddr_hex": "0x4ac2a"
+        },
+        {
+          "section": "__cstring",
+          "value": "car screen changed (%@ -> %@): new car window",
+          "fileoff_hex": "0x4ac49",
+          "vmaddr_hex": "0x4ac49"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIRootSceneWindow",
+          "fileoff_hex": "0x4ac77",
+          "vmaddr_hex": "0x4ac77"
+        },
+        {
+          "section": "__cstring",
+          "value": "initWithDisplayConfiguration:",
+          "fileoff_hex": "0x4ac89",
+          "vmaddr_hex": "0x4ac89"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay",
+          "fileoff_hex": "0x4ad3d",
+          "vmaddr_hex": "0x4ad3d"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay re-check",
+          "fileoff_hex": "0x4ae10",
+          "vmaddr_hex": "0x4ae10"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay watch",
+          "fileoff_hex": "0x4ae21",
+          "vmaddr_hex": "0x4ae21"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay looks gone, checking again",
+          "fileoff_hex": "0x4ae41",
+          "vmaddr_hex": "0x4ae41"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay connection changed: %d",
+          "fileoff_hex": "0x4ae64",
+          "vmaddr_hex": "0x4ae64"
+        },
+        {
+          "section": "__cstring",
+          "value": "car gone: closing SidePlay on CarPlay",
+          "fileoff_hex": "0x4ae90",
+          "vmaddr_hex": "0x4ae90"
+        },
+        {
+          "section": "__cstring",
+          "value": "carDock",
+          "fileoff_hex": "0x4aebf",
+          "vmaddr_hex": "0x4aebf"
+        },
+        {
+          "section": "__cstring",
+          "value": "carAppArea",
+          "fileoff_hex": "0x4aec7",
+          "vmaddr_hex": "0x4aec7"
+        },
+        {
+          "section": "__cstring",
+          "value": "screen",
+          "fileoff_hex": "0x4aed2",
+          "vmaddr_hex": "0x4aed2"
+        },
+        {
+          "section": "__cstring",
+          "value": "car window %@ (Thanh dock CarPlay %@)",
+          "fileoff_hex": "0x4aede",
+          "vmaddr_hex": "0x4aede"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app left the car screen",
+          "fileoff_hex": "0x4af0b",
+          "vmaddr_hex": "0x4af0b"
+        },
+        {
+          "section": "__cstring",
+          "value": "%@: SidePlay hidden on CarPlay (apps kept)",
+          "fileoff_hex": "0x4af3f",
+          "vmaddr_hex": "0x4af3f"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay shown again on CarPlay",
+          "fileoff_hex": "0x4af6a",
+          "vmaddr_hex": "0x4af6a"
+        },
+        {
+          "section": "__cstring",
+          "value": "auto open on CarPlay (attempt %ld)",
+          "fileoff_hex": "0x4af8a",
+          "vmaddr_hex": "0x4af8a"
+        },
+        {
+          "section": "__cstring",
+          "value": "autoFitCar",
+          "fileoff_hex": "0x4afc2",
+          "vmaddr_hex": "0x4afc2"
+        },
+        {
+          "section": "__cstring",
+          "value": "car screen %@, safe area %@",
+          "fileoff_hex": "0x4afcd",
+          "vmaddr_hex": "0x4afcd"
+        },
+        {
+          "section": "__cstring",
+          "value": "carFrames",
+          "fileoff_hex": "0x4aff4",
+          "vmaddr_hex": "0x4aff4"
+        },
+        {
+          "section": "__cstring",
+          "value": "car %@: area set by hand %@",
+          "fileoff_hex": "0x4affe",
+          "vmaddr_hex": "0x4affe"
+        },
+        {
+          "section": "__cstring",
+          "value": ": waiting for CarPlay",
+          "fileoff_hex": "0x4b046",
+          "vmaddr_hex": "0x4b046"
+        },
+        {
+          "section": "__cstring",
+          "value": "carZoom",
+          "fileoff_hex": "0x4b0be",
+          "vmaddr_hex": "0x4b0be"
+        },
+        {
+          "section": "__cstring",
+          "value": "service preview ignored: SidePlay is on CarPlay",
+          "fileoff_hex": "0x4b430",
+          "vmaddr_hex": "0x4b430"
+        },
+        {
+          "section": "__cstring",
+          "value": "currentCarPlayExternalDevice",
+          "fileoff_hex": "0x4b855",
+          "vmaddr_hex": "0x4b855"
+        },
+        {
+          "section": "__cstring",
+          "value": "screenIDs",
+          "fileoff_hex": "0x4b872",
+          "vmaddr_hex": "0x4b872"
+        },
+        {
+          "section": "__cstring",
+          "value": "_isCarScreen",
+          "fileoff_hex": "0x4b8f8",
+          "vmaddr_hex": "0x4b8f8"
+        },
+        {
+          "section": "__cstring",
+          "value": "initForCarPlayShell",
+          "fileoff_hex": "0x4b974",
+          "vmaddr_hex": "0x4b974"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay session lookup failed: %@",
+          "fileoff_hex": "0x4b9b0",
+          "vmaddr_hex": "0x4b9b0"
+        },
+        {
+          "section": "__cstring",
+          "value": "screens",
+          "fileoff_hex": "0x4b9e0",
+          "vmaddr_hex": "0x4b9e0"
+        },
+        {
+          "section": "__cstring",
+          "value": "screens %lu",
+          "fileoff_hex": "0x4ba70",
+          "vmaddr_hex": "0x4ba70"
+        },
+        {
+          "section": "__cstring",
+          "value": "hud: bubble over SidePlay turned off from the screen",
+          "fileoff_hex": "0x4bc2d",
+          "vmaddr_hex": "0x4bc2d"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.sideplay.hud.background.carplay",
+          "fileoff_hex": "0x4bcdf",
+          "vmaddr_hex": "0x4bcdf"
+        },
+        {
+          "section": "__cstring",
+          "value": "setFrame:",
+          "fileoff_hex": "0x4c089",
+          "vmaddr_hex": "0x4c089"
+        },
+        {
+          "section": "__cstring",
+          "value": "pane %ld: loading screen timed out for %@",
+          "fileoff_hex": "0x4c4d4",
+          "vmaddr_hex": "0x4c4d4"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowSceneSessionRoleApplication",
+          "fileoff_hex": "0x4c8a6",
+          "vmaddr_hex": "0x4c8a6"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "sp_isCarPlayCounterpart",
+          "fileoff_hex": "0x4dc51",
+          "vmaddr_hex": "0x4dc51"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carPlayConnectionChanged",
+          "fileoff_hex": "0x4dfeb",
+          "vmaddr_hex": "0x4dfeb"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "bounds",
+          "fileoff_hex": "0x4e2b6",
+          "vmaddr_hex": "0x4e2b6"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setFrame:",
+          "fileoff_hex": "0x4e7af",
+          "vmaddr_hex": "0x4e7af"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "mainScreen",
+          "fileoff_hex": "0x4ec33",
+          "vmaddr_hex": "0x4ec33"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "screen",
+          "fileoff_hex": "0x4ee54",
+          "vmaddr_hex": "0x4ee54"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "safeAreaInsets",
+          "fileoff_hex": "0x4ee70",
+          "vmaddr_hex": "0x4ee70"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "makeMainScreenWindow",
+          "fileoff_hex": "0x4eed2",
+          "vmaddr_hex": "0x4eed2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowScreen",
+          "fileoff_hex": "0x4eefc",
+          "vmaddr_hex": "0x4eefc"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setCarWindowFrame:",
+          "fileoff_hex": "0x4ef30",
+          "vmaddr_hex": "0x4ef30"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setCarWindowScreen:",
+          "fileoff_hex": "0x4ef43",
+          "vmaddr_hex": "0x4ef43"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowFrameNow",
+          "fileoff_hex": "0x4ef57",
+          "vmaddr_hex": "0x4ef57"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carDockMode",
+          "fileoff_hex": "0x4efa9",
+          "vmaddr_hex": "0x4efa9"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "readPrefs",
+          "fileoff_hex": "0x4efdb",
+          "vmaddr_hex": "0x4efdb"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setWindowLevel:",
+          "fileoff_hex": "0x4efe5",
+          "vmaddr_hex": "0x4efe5"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setMasksToBounds:",
+          "fileoff_hex": "0x4f0a3",
+          "vmaddr_hex": "0x4f0a3"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "snapshotViewAfterScreenUpdates:",
+          "fileoff_hex": "0x4f24d",
+          "vmaddr_hex": "0x4f24d"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carDockArea",
+          "fileoff_hex": "0x4f378",
+          "vmaddr_hex": "0x4f378"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowFrame",
+          "fileoff_hex": "0x4f384",
+          "vmaddr_hex": "0x4f384"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "autoCarArea:",
+          "fileoff_hex": "0x4f39e",
+          "vmaddr_hex": "0x4f39e"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "manualCarArea:",
+          "fileoff_hex": "0x4f3c2",
+          "vmaddr_hex": "0x4f3c2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "saveManualCarArea:windowBounds:",
+          "fileoff_hex": "0x4f3e6",
+          "vmaddr_hex": "0x4f3e6"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setBounds:",
+          "fileoff_hex": "0x4f416",
+          "vmaddr_hex": "0x4f416"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setClipsToBounds:",
+          "fileoff_hex": "0x4f523",
+          "vmaddr_hex": "0x4f523"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "layoutInFrame:scaleMode:",
+          "fileoff_hex": "0x4fa4e",
+          "vmaddr_hex": "0x4fa4e"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "refreshMainScreenPlaceholders",
+          "fileoff_hex": "0x50074",
+          "vmaddr_hex": "0x50074"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "restoreMainScreenSceneForHandle:",
+          "fileoff_hex": "0x50092",
+          "vmaddr_hex": "0x50092"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_carWindowScreen",
+          "fileoff_hex": "0x5014f",
+          "vmaddr_hex": "0x5014f"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_carWindowFrame",
+          "fileoff_hex": "0x50279",
+          "vmaddr_hex": "0x50279"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"UIWindow\",&,N,V_window",
+          "fileoff_hex": "0x502b6",
+          "vmaddr_hex": "0x502b6"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"UIWindow\",&,N,V_carWindow",
+          "fileoff_hex": "0x502d0",
+          "vmaddr_hex": "0x502d0"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_carWindowFrame",
+          "fileoff_hex": "0x502ed",
+          "vmaddr_hex": "0x502ed"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"NSString\",C,N,V_carWindowScreen",
+          "fileoff_hex": "0x50322",
+          "vmaddr_hex": "0x50322"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "screens",
+          "fileoff_hex": "0x5065a",
+          "vmaddr_hex": "0x5065a"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "wholeScreen",
+          "fileoff_hex": "0x521b4",
+          "vmaddr_hex": "0x521b4"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setWholeScreen:",
+          "fileoff_hex": "0x521f4",
+          "vmaddr_hex": "0x521f4"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_wholeScreen",
+          "fileoff_hex": "0x52229",
+          "vmaddr_hex": "0x52229"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "TB,N,V_wholeScreen",
+          "fileoff_hex": "0x52236",
+          "vmaddr_hex": "0x52236"
+        }
+      ],
+      "string_sections": [
+        {
+          "name": "__text",
+          "segment": "__TEXT",
+          "vmaddr": 24504,
+          "size": 259096,
+          "fileoff": 24504
+        },
+        {
+          "name": "__cstring",
+          "segment": "__TEXT",
+          "vmaddr": 301812,
+          "size": 16454,
+          "fileoff": 301812
+        },
+        {
+          "name": "__objc_methname",
+          "segment": "__TEXT",
+          "vmaddr": 318266,
+          "size": 18191,
+          "fileoff": 318266
+        },
+        {
+          "name": "__objc_classname",
+          "segment": "__TEXT",
+          "vmaddr": 336457,
+          "size": 268,
+          "fileoff": 336457
+        },
+        {
+          "name": "__objc_classlist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 372848,
+          "size": 88,
+          "fileoff": 372848
+        },
+        {
+          "name": "__objc_const",
+          "segment": "__DATA",
+          "vmaddr": 377824,
+          "size": 9784,
+          "fileoff": 377824
+        },
+        {
+          "name": "__objc_selrefs",
+          "segment": "__DATA",
+          "vmaddr": 387608,
+          "size": 6080,
+          "fileoff": 387608
+        }
+      ],
+      "narrow_scoped_terms": [
+        "carDock",
+        "carDockArea",
+        "carAppArea",
+        "carWindowFrame",
+        "carWindowFrameNow",
+        "carDockMode",
+        "autoFitCar",
+        "autoCarArea:",
+        "manualCarArea:",
+        "readPrefs",
+        "makeMainScreenWindow",
+        "UIRootSceneWindow",
+        "initWithDisplayConfiguration:",
+        "setWindowLevel:",
+        "setFrame:",
+        "safeAreaInsets",
+        "bounds",
+        "screen",
+        "area set by hand",
+        "Thanh dock CarPlay",
+        "car screen ",
+        "setCarWindowFrame:",
+        "layoutInFrame:scaleMode:",
+        "carFrames",
+        "UIWindow",
+        "CarPlay",
+        "carZoom"
+      ]
+    },
+    {
+      "cpu": 16777228,
+      "subcpu": 2,
+      "ncmd": 29,
+      "filetype": 6,
+      "sections": [
+        {
+          "name": "__text",
+          "segment": "__TEXT",
+          "vmaddr": 20528,
+          "size": 264036,
+          "fileoff": 20528
+        },
+        {
+          "name": "__auth_stubs",
+          "segment": "__TEXT",
+          "vmaddr": 284564,
+          "size": 1984,
+          "fileoff": 284564
+        },
+        {
+          "name": "__init_offsets",
+          "segment": "__TEXT",
+          "vmaddr": 286548,
+          "size": 4,
+          "fileoff": 286548
+        },
+        {
+          "name": "__objc_methlist",
+          "segment": "__TEXT",
+          "vmaddr": 286552,
+          "size": 5156,
+          "fileoff": 286552
+        },
+        {
+          "name": "__const",
+          "segment": "__TEXT",
+          "vmaddr": 291712,
+          "size": 1200,
+          "fileoff": 291712
+        },
+        {
+          "name": "__gcc_except_tab",
+          "segment": "__TEXT",
+          "vmaddr": 292912,
+          "size": 8896,
+          "fileoff": 292912
+        },
+        {
+          "name": "__cstring",
+          "segment": "__TEXT",
+          "vmaddr": 301808,
+          "size": 16454,
+          "fileoff": 301808
+        },
+        {
+          "name": "__objc_methname",
+          "segment": "__TEXT",
+          "vmaddr": 318262,
+          "size": 18191,
+          "fileoff": 318262
+        },
+        {
+          "name": "__objc_classname",
+          "segment": "__TEXT",
+          "vmaddr": 336453,
+          "size": 268,
+          "fileoff": 336453
+        },
+        {
+          "name": "__ustring",
+          "segment": "__TEXT",
+          "vmaddr": 336722,
+          "size": 2440,
+          "fileoff": 336722
+        },
+        {
+          "name": "__objc_methtype",
+          "segment": "__TEXT",
+          "vmaddr": 339162,
+          "size": 1837,
+          "fileoff": 339162
+        },
+        {
+          "name": "__unwind_info",
+          "segment": "__TEXT",
+          "vmaddr": 341000,
+          "size": 3060,
+          "fileoff": 341000
+        },
+        {
+          "name": "__auth_got",
+          "segment": "__DATA_CONST",
+          "vmaddr": 344064,
+          "size": 992,
+          "fileoff": 344064
+        },
+        {
+          "name": "__got",
+          "segment": "__DATA_CONST",
+          "vmaddr": 345056,
+          "size": 312,
+          "fileoff": 345056
+        },
+        {
+          "name": "__const",
+          "segment": "__DATA_CONST",
+          "vmaddr": 345368,
+          "size": 3688,
+          "fileoff": 345368
+        },
+        {
+          "name": "__cfstring",
+          "segment": "__DATA_CONST",
+          "vmaddr": 349056,
+          "size": 24768,
+          "fileoff": 349056
+        },
+        {
+          "name": "__objc_classlist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 373824,
+          "size": 88,
+          "fileoff": 373824
+        },
+        {
+          "name": "__objc_protolist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 373912,
+          "size": 32,
+          "fileoff": 373912
+        },
+        {
+          "name": "__objc_imageinfo",
+          "segment": "__DATA_CONST",
+          "vmaddr": 373944,
+          "size": 8,
+          "fileoff": 373944
+        },
+        {
+          "name": "__objc_const",
+          "segment": "__DATA",
+          "vmaddr": 376832,
+          "size": 9784,
+          "fileoff": 376832
+        },
+        {
+          "name": "__objc_selrefs",
+          "segment": "__DATA",
+          "vmaddr": 386616,
+          "size": 6080,
+          "fileoff": 386616
+        },
+        {
+          "name": "__objc_classrefs",
+          "segment": "__DATA",
+          "vmaddr": 392696,
+          "size": 584,
+          "fileoff": 392696
+        },
+        {
+          "name": "__objc_superrefs",
+          "segment": "__DATA",
+          "vmaddr": 393280,
+          "size": 64,
+          "fileoff": 393280
+        },
+        {
+          "name": "__objc_ivar",
+          "segment": "__DATA",
+          "vmaddr": 393344,
+          "size": 536,
+          "fileoff": 393344
+        },
+        {
+          "name": "__objc_data",
+          "segment": "__DATA",
+          "vmaddr": 393880,
+          "size": 880,
+          "fileoff": 393880
+        },
+        {
+          "name": "__data",
+          "segment": "__DATA",
+          "vmaddr": 394760,
+          "size": 544,
+          "fileoff": 394760
+        },
+        {
+          "name": "__common",
+          "segment": "__DATA",
+          "vmaddr": 395304,
+          "size": 12,
+          "fileoff": 0
+        },
+        {
+          "name": "__bss",
+          "segment": "__DATA",
+          "vmaddr": 395320,
+          "size": 736,
+          "fileoff": 0
+        }
+      ],
+      "fat_offset": 458752,
+      "slice_sha256": "c69504449c712070dc55592dbb053f42dad446067e0afe4d1b3b1cf77708eb44",
+      "slice_bytes": 440336,
+      "strings": [
+        {
+          "section": "__cstring",
+          "value": "BKSDisplayServicesSetScreenBlanked",
+          "fileoff_hex": "0x49c9b",
+          "vmaddr_hex": "0x49c9b"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindow",
+          "fileoff_hex": "0x49e10",
+          "vmaddr_hex": "0x49e10"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowScene",
+          "fileoff_hex": "0x49e30",
+          "vmaddr_hex": "0x49e30"
+        },
+        {
+          "section": "__cstring",
+          "value": "_UIFullscreenPresentationController",
+          "fileoff_hex": "0x49ea4",
+          "vmaddr_hex": "0x49ea4"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlayIsConnectedDidChange",
+          "fileoff_hex": "0x4a21e",
+          "vmaddr_hex": "0x4a21e"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.apple.CarPlayTemplateUIHost",
+          "fileoff_hex": "0x4a3b6",
+          "vmaddr_hex": "0x4a3b6"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.apple.CarPlayApp",
+          "fileoff_hex": "0x4a3d6",
+          "vmaddr_hex": "0x4a3d6"
+        },
+        {
+          "section": "__cstring",
+          "value": "sp_isCarPlayCounterpart",
+          "fileoff_hex": "0x4a4a3",
+          "vmaddr_hex": "0x4a4a3"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app %@: SidePlay keeps running on CarPlay",
+          "fileoff_hex": "0x4a5d0",
+          "vmaddr_hex": "0x4a5d0"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowSceneGeometryPreferencesIOS",
+          "fileoff_hex": "0x4a7dd",
+          "vmaddr_hex": "0x4a7dd"
+        },
+        {
+          "section": "__cstring",
+          "value": ", on CarPlay",
+          "fileoff_hex": "0x4aa98",
+          "vmaddr_hex": "0x4aa98"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app leaving the screen",
+          "fileoff_hex": "0x4ab24",
+          "vmaddr_hex": "0x4ab24"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app back on screen: SidePlay shown again",
+          "fileoff_hex": "0x4ab7c",
+          "vmaddr_hex": "0x4ab7c"
+        },
+        {
+          "section": "__cstring",
+          "value": "open on phone ignored: SidePlay is on CarPlay",
+          "fileoff_hex": "0x4abc7",
+          "vmaddr_hex": "0x4abc7"
+        },
+        {
+          "section": "__cstring",
+          "value": "open: no CarPlay display found",
+          "fileoff_hex": "0x4ac26",
+          "vmaddr_hex": "0x4ac26"
+        },
+        {
+          "section": "__cstring",
+          "value": "car screen changed (%@ -> %@): new car window",
+          "fileoff_hex": "0x4ac45",
+          "vmaddr_hex": "0x4ac45"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIRootSceneWindow",
+          "fileoff_hex": "0x4ac73",
+          "vmaddr_hex": "0x4ac73"
+        },
+        {
+          "section": "__cstring",
+          "value": "initWithDisplayConfiguration:",
+          "fileoff_hex": "0x4ac85",
+          "vmaddr_hex": "0x4ac85"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay",
+          "fileoff_hex": "0x4ad39",
+          "vmaddr_hex": "0x4ad39"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay re-check",
+          "fileoff_hex": "0x4ae0c",
+          "vmaddr_hex": "0x4ae0c"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay watch",
+          "fileoff_hex": "0x4ae1d",
+          "vmaddr_hex": "0x4ae1d"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay looks gone, checking again",
+          "fileoff_hex": "0x4ae3d",
+          "vmaddr_hex": "0x4ae3d"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay connection changed: %d",
+          "fileoff_hex": "0x4ae60",
+          "vmaddr_hex": "0x4ae60"
+        },
+        {
+          "section": "__cstring",
+          "value": "car gone: closing SidePlay on CarPlay",
+          "fileoff_hex": "0x4ae8c",
+          "vmaddr_hex": "0x4ae8c"
+        },
+        {
+          "section": "__cstring",
+          "value": "carDock",
+          "fileoff_hex": "0x4aebb",
+          "vmaddr_hex": "0x4aebb"
+        },
+        {
+          "section": "__cstring",
+          "value": "carAppArea",
+          "fileoff_hex": "0x4aec3",
+          "vmaddr_hex": "0x4aec3"
+        },
+        {
+          "section": "__cstring",
+          "value": "screen",
+          "fileoff_hex": "0x4aece",
+          "vmaddr_hex": "0x4aece"
+        },
+        {
+          "section": "__cstring",
+          "value": "car window %@ (Thanh dock CarPlay %@)",
+          "fileoff_hex": "0x4aeda",
+          "vmaddr_hex": "0x4aeda"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay app left the car screen",
+          "fileoff_hex": "0x4af07",
+          "vmaddr_hex": "0x4af07"
+        },
+        {
+          "section": "__cstring",
+          "value": "%@: SidePlay hidden on CarPlay (apps kept)",
+          "fileoff_hex": "0x4af3b",
+          "vmaddr_hex": "0x4af3b"
+        },
+        {
+          "section": "__cstring",
+          "value": "SidePlay shown again on CarPlay",
+          "fileoff_hex": "0x4af66",
+          "vmaddr_hex": "0x4af66"
+        },
+        {
+          "section": "__cstring",
+          "value": "auto open on CarPlay (attempt %ld)",
+          "fileoff_hex": "0x4af86",
+          "vmaddr_hex": "0x4af86"
+        },
+        {
+          "section": "__cstring",
+          "value": "autoFitCar",
+          "fileoff_hex": "0x4afbe",
+          "vmaddr_hex": "0x4afbe"
+        },
+        {
+          "section": "__cstring",
+          "value": "car screen %@, safe area %@",
+          "fileoff_hex": "0x4afc9",
+          "vmaddr_hex": "0x4afc9"
+        },
+        {
+          "section": "__cstring",
+          "value": "carFrames",
+          "fileoff_hex": "0x4aff0",
+          "vmaddr_hex": "0x4aff0"
+        },
+        {
+          "section": "__cstring",
+          "value": "car %@: area set by hand %@",
+          "fileoff_hex": "0x4affa",
+          "vmaddr_hex": "0x4affa"
+        },
+        {
+          "section": "__cstring",
+          "value": ": waiting for CarPlay",
+          "fileoff_hex": "0x4b042",
+          "vmaddr_hex": "0x4b042"
+        },
+        {
+          "section": "__cstring",
+          "value": "carZoom",
+          "fileoff_hex": "0x4b0ba",
+          "vmaddr_hex": "0x4b0ba"
+        },
+        {
+          "section": "__cstring",
+          "value": "service preview ignored: SidePlay is on CarPlay",
+          "fileoff_hex": "0x4b42c",
+          "vmaddr_hex": "0x4b42c"
+        },
+        {
+          "section": "__cstring",
+          "value": "currentCarPlayExternalDevice",
+          "fileoff_hex": "0x4b851",
+          "vmaddr_hex": "0x4b851"
+        },
+        {
+          "section": "__cstring",
+          "value": "screenIDs",
+          "fileoff_hex": "0x4b86e",
+          "vmaddr_hex": "0x4b86e"
+        },
+        {
+          "section": "__cstring",
+          "value": "_isCarScreen",
+          "fileoff_hex": "0x4b8f4",
+          "vmaddr_hex": "0x4b8f4"
+        },
+        {
+          "section": "__cstring",
+          "value": "initForCarPlayShell",
+          "fileoff_hex": "0x4b970",
+          "vmaddr_hex": "0x4b970"
+        },
+        {
+          "section": "__cstring",
+          "value": "CarPlay session lookup failed: %@",
+          "fileoff_hex": "0x4b9ac",
+          "vmaddr_hex": "0x4b9ac"
+        },
+        {
+          "section": "__cstring",
+          "value": "screens",
+          "fileoff_hex": "0x4b9dc",
+          "vmaddr_hex": "0x4b9dc"
+        },
+        {
+          "section": "__cstring",
+          "value": "screens %lu",
+          "fileoff_hex": "0x4ba6c",
+          "vmaddr_hex": "0x4ba6c"
+        },
+        {
+          "section": "__cstring",
+          "value": "hud: bubble over SidePlay turned off from the screen",
+          "fileoff_hex": "0x4bc29",
+          "vmaddr_hex": "0x4bc29"
+        },
+        {
+          "section": "__cstring",
+          "value": "com.sideplay.hud.background.carplay",
+          "fileoff_hex": "0x4bcdb",
+          "vmaddr_hex": "0x4bcdb"
+        },
+        {
+          "section": "__cstring",
+          "value": "setFrame:",
+          "fileoff_hex": "0x4c085",
+          "vmaddr_hex": "0x4c085"
+        },
+        {
+          "section": "__cstring",
+          "value": "pane %ld: loading screen timed out for %@",
+          "fileoff_hex": "0x4c4d0",
+          "vmaddr_hex": "0x4c4d0"
+        },
+        {
+          "section": "__cstring",
+          "value": "UIWindowSceneSessionRoleApplication",
+          "fileoff_hex": "0x4c8a2",
+          "vmaddr_hex": "0x4c8a2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "sp_isCarPlayCounterpart",
+          "fileoff_hex": "0x4dc4d",
+          "vmaddr_hex": "0x4dc4d"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carPlayConnectionChanged",
+          "fileoff_hex": "0x4dfe7",
+          "vmaddr_hex": "0x4dfe7"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "bounds",
+          "fileoff_hex": "0x4e2b2",
+          "vmaddr_hex": "0x4e2b2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setFrame:",
+          "fileoff_hex": "0x4e7ab",
+          "vmaddr_hex": "0x4e7ab"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "mainScreen",
+          "fileoff_hex": "0x4ec2f",
+          "vmaddr_hex": "0x4ec2f"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "screen",
+          "fileoff_hex": "0x4ee50",
+          "vmaddr_hex": "0x4ee50"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "safeAreaInsets",
+          "fileoff_hex": "0x4ee6c",
+          "vmaddr_hex": "0x4ee6c"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "makeMainScreenWindow",
+          "fileoff_hex": "0x4eece",
+          "vmaddr_hex": "0x4eece"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowScreen",
+          "fileoff_hex": "0x4eef8",
+          "vmaddr_hex": "0x4eef8"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setCarWindowFrame:",
+          "fileoff_hex": "0x4ef2c",
+          "vmaddr_hex": "0x4ef2c"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setCarWindowScreen:",
+          "fileoff_hex": "0x4ef3f",
+          "vmaddr_hex": "0x4ef3f"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowFrameNow",
+          "fileoff_hex": "0x4ef53",
+          "vmaddr_hex": "0x4ef53"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carDockMode",
+          "fileoff_hex": "0x4efa5",
+          "vmaddr_hex": "0x4efa5"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "readPrefs",
+          "fileoff_hex": "0x4efd7",
+          "vmaddr_hex": "0x4efd7"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setWindowLevel:",
+          "fileoff_hex": "0x4efe1",
+          "vmaddr_hex": "0x4efe1"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setMasksToBounds:",
+          "fileoff_hex": "0x4f09f",
+          "vmaddr_hex": "0x4f09f"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "snapshotViewAfterScreenUpdates:",
+          "fileoff_hex": "0x4f249",
+          "vmaddr_hex": "0x4f249"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carDockArea",
+          "fileoff_hex": "0x4f374",
+          "vmaddr_hex": "0x4f374"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "carWindowFrame",
+          "fileoff_hex": "0x4f380",
+          "vmaddr_hex": "0x4f380"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "autoCarArea:",
+          "fileoff_hex": "0x4f39a",
+          "vmaddr_hex": "0x4f39a"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "manualCarArea:",
+          "fileoff_hex": "0x4f3be",
+          "vmaddr_hex": "0x4f3be"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "saveManualCarArea:windowBounds:",
+          "fileoff_hex": "0x4f3e2",
+          "vmaddr_hex": "0x4f3e2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setBounds:",
+          "fileoff_hex": "0x4f412",
+          "vmaddr_hex": "0x4f412"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setClipsToBounds:",
+          "fileoff_hex": "0x4f51f",
+          "vmaddr_hex": "0x4f51f"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "layoutInFrame:scaleMode:",
+          "fileoff_hex": "0x4fa4a",
+          "vmaddr_hex": "0x4fa4a"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "refreshMainScreenPlaceholders",
+          "fileoff_hex": "0x50070",
+          "vmaddr_hex": "0x50070"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "restoreMainScreenSceneForHandle:",
+          "fileoff_hex": "0x5008e",
+          "vmaddr_hex": "0x5008e"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_carWindowScreen",
+          "fileoff_hex": "0x5014b",
+          "vmaddr_hex": "0x5014b"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_carWindowFrame",
+          "fileoff_hex": "0x50275",
+          "vmaddr_hex": "0x50275"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"UIWindow\",&,N,V_window",
+          "fileoff_hex": "0x502b2",
+          "vmaddr_hex": "0x502b2"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"UIWindow\",&,N,V_carWindow",
+          "fileoff_hex": "0x502cc",
+          "vmaddr_hex": "0x502cc"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_carWindowFrame",
+          "fileoff_hex": "0x502e9",
+          "vmaddr_hex": "0x502e9"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "T@\"NSString\",C,N,V_carWindowScreen",
+          "fileoff_hex": "0x5031e",
+          "vmaddr_hex": "0x5031e"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "screens",
+          "fileoff_hex": "0x50656",
+          "vmaddr_hex": "0x50656"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "wholeScreen",
+          "fileoff_hex": "0x521b0",
+          "vmaddr_hex": "0x521b0"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "setWholeScreen:",
+          "fileoff_hex": "0x521f0",
+          "vmaddr_hex": "0x521f0"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "_wholeScreen",
+          "fileoff_hex": "0x52225",
+          "vmaddr_hex": "0x52225"
+        },
+        {
+          "section": "__objc_methname",
+          "value": "TB,N,V_wholeScreen",
+          "fileoff_hex": "0x52232",
+          "vmaddr_hex": "0x52232"
+        }
+      ],
+      "string_sections": [
+        {
+          "name": "__text",
+          "segment": "__TEXT",
+          "vmaddr": 20528,
+          "size": 264036,
+          "fileoff": 20528
+        },
+        {
+          "name": "__cstring",
+          "segment": "__TEXT",
+          "vmaddr": 301808,
+          "size": 16454,
+          "fileoff": 301808
+        },
+        {
+          "name": "__objc_methname",
+          "segment": "__TEXT",
+          "vmaddr": 318262,
+          "size": 18191,
+          "fileoff": 318262
+        },
+        {
+          "name": "__objc_classname",
+          "segment": "__TEXT",
+          "vmaddr": 336453,
+          "size": 268,
+          "fileoff": 336453
+        },
+        {
+          "name": "__objc_classlist",
+          "segment": "__DATA_CONST",
+          "vmaddr": 373824,
+          "size": 88,
+          "fileoff": 373824
+        },
+        {
+          "name": "__objc_const",
+          "segment": "__DATA",
+          "vmaddr": 376832,
+          "size": 9784,
+          "fileoff": 376832
+        },
+        {
+          "name": "__objc_selrefs",
+          "segment": "__DATA",
+          "vmaddr": 386616,
+          "size": 6080,
+          "fileoff": 386616
+        }
+      ],
+      "narrow_scoped_terms": [
+        "carDock",
+        "carDockArea",
+        "carAppArea",
+        "carWindowFrame",
+        "carWindowFrameNow",
+        "carDockMode",
+        "autoFitCar",
+        "autoCarArea:",
+        "manualCarArea:",
+        "readPrefs",
+        "makeMainScreenWindow",
+        "UIRootSceneWindow",
+        "initWithDisplayConfiguration:",
+        "setWindowLevel:",
+        "setFrame:",
+        "safeAreaInsets",
+        "bounds",
+        "screen",
+        "area set by hand",
+        "Thanh dock CarPlay",
+        "car screen ",
+        "setCarWindowFrame:",
+        "layoutInFrame:scaleMode:",
+        "carFrames",
+        "UIWindow",
+        "CarPlay",
+        "carZoom"
+      ]
+    }
+  ]
+}
