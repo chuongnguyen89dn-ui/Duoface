@@ -361,7 +361,7 @@ static NSArray *DFIAvailableApps(void) {
  if(self.shuttingDown||self.pendingPanes.count)return;
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);if(count<2)return;
  id first=self.hosts[0];for(NSInteger i=0;i<count-1;i++)self.hosts[i]=self.hosts[i+1];self.hosts[count-1]=first;
- for(int i=0;i<count;i++){id h=self.hosts[i];self.emptyButtons[i].hidden=h!=NSNull.null;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];if(h!=NSNull.null){DFV12SceneHost *host=h;[self.panes[i]addSubview:host.controller.view];host.container=self.panes[i];}DFIWritePreference(@[@"left",@"right",@"third"][i],h==NSNull.null?nil:[h bundleID]);}
+ for(int i=0;i<count;i++){id h=self.hosts[i];self.emptyButtons[i].hidden=h!=NSNull.null;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];if(h!=NSNull.null){DFV12SceneHost *host=h;[self.panes[i]addSubview:host.controller.view];host.container=self.panes[i];[host resizeTo:self.panes[i].bounds.size];}DFIWritePreference(@[@"left",@"right",@"third"][i],h==NSNull.null?nil:[h bundleID]);}
  [self armHide];[self.view setNeedsLayout];
 }
 - (void)detachBundle:(NSString *)bid {
