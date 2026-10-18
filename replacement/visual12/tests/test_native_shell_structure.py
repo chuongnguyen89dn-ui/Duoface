@@ -147,11 +147,12 @@ assert 'r.origin.y+relative*r.size.height-side/2.0,side,side' in ui
 assert 'r.origin.x+relative*r.size.width-side/2.0,r.origin.y-side/2.0,side,side' in ui
 assert 'CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point)' in src
 assert 'self.grips[i].frame=CGRectMake(r.origin.x-18' not in ui
+assert 'CGFloat half=width*0.5;' in src
 assert 'CGSize nativeSize=[nativePill nativeReferenceSize];' in ui
 assert 'CGRectGetMaxX(frame)-nativeSize.width-2' in ui
 assert 'frame.size.height<nativeSize.height' in ui
-assert '_dotsButton.frame=CGRectMake(4,0,30,height)' in src
-assert '_expandButton.frame=CGRectMake(MAX(4,width-35),0,30,height)' in src
+assert '_dotsButton.frame=CGRectMake(0,0,half,height)' in src
+assert '_expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height)' in src
 assert 'self.layer.cornerRadius=20.0;' in src
 assert 'self.contentView.layer.borderWidth=0.0;' in src
 
