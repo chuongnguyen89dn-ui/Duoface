@@ -76,6 +76,18 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- sideplay/artifacts/native12frame3/
           if ! git diff --cached --quiet; then
-            git commit -m 'artifact(sideplay): preserve independent visible Zoom QA2 DEB [skip ci]'
-            git push origin HEAD:feature/sideplay-normal-carplay-dock
+            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA3 artifact [skip ci]'
+            # Parallel UI work may advance this branch while macOS builds.
+            # Replay the artifact-only commit on latest remote before pushing.
+            for attempt in 1 2 3 4 5; do
+              git fetch origin feature/sideplay-normal-carplay-dock
+              git rebase FETCH_HEAD
+              if git push origin HEAD:feature/sideplay-normal-carplay-dock; then
+                echo 'QA3_ARTIFACT_PUSH_VERIFIED'
+                exit 0
+              fi
+              sleep 2
+            done
+            echo 'QA3_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
+            exit 1
           fi
