@@ -126,6 +126,11 @@ assert 'self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));' in
 assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
 assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
 assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
+assert 'self.layer.cornerRadius=11.0;' in src, 'Original Native12 pill corner 11pt'
+assert 'CGRectGetMaxX(frame)-78,CGRectGetMinY(frame)+3,76,22' in ui
+assert '_dotsButton.frame=CGRectMake(4,0,30,22)' in src
+assert '_expandButton.frame=CGRectMake(39,0,30,22)' in src
+assert 'self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<76||frame.size.height<22;' in ui
 assert 'self.layer.cornerRadius=20.0;' in src
 assert 'self.contentView.layer.borderWidth=0.0;' in src
 
