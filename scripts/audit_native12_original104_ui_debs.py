@@ -29,7 +29,8 @@ TARGETS={
             "setupAppPickerCardsInCardW:cardH:contentY:",
             "setupRecentAppsCardsInCardW:cardH:contentY:"),
 "CBSlotPillView":("initWithFrame:","layoutSubviews","updateLayout"),
-"CBDividerView":("initWithFrame:","layoutSubviews","handlePan:","handleMoveButtonLongPress:"),
+"CBDividerView":("initWithFrame:","layoutSubviews","updateGripLayout",
+            "handlePan:","handleMoveButtonLongPress:"),
 "CBBridgedSplitApp":("layoutSplitViews","handleDividerPan:isVertical:state:",
             "focusSlot:animated:","restoreSplitAnimated:","configureDividerButtons",
             "handleDividerSwapPressed:","swapSlot:withSlot:"),
@@ -122,9 +123,16 @@ def inspect_methods(meta,asm):
             results.append(dict(name=selector,present=True,imp=hex(start),
                  bounded_end=hex(end),instruction_count=len(instr),
                  selector_refs=sels[:120],geometry_instruction_samples=geometry,
+                 **({"full_layout_asm":instr[:650]} if (cls,selector) in {
+                    ("CBSlotPillView","layoutSubviews"),
+                    ("CBDividerView","updateGripLayout"),
+                    ("CBMultitaskingOverlayView","layoutSubviews"),
+                    ("CBBridgedSplitApp","layoutSplitViews"),
+                 } else {}),
                  **({"sizing_raw":instr[:96]} if selector=="calculateNativeSizeForSlotRect:" else {})))
         result[cls]=dict(class_in_metadata=bool(catalog),
-             catalog_methods=len(catalog),selected=results,
+             catalog_methods=len(catalog),catalog_method_names=sorted(catalog.keys()),
+             selected=results,
              independent_owner=QA_OWNERS[cls])
     return result
 
