@@ -58,5 +58,20 @@ static void DFIChromeInstall(void) {
     // CarPlay thay thế cửa sổ status/dock động; phát hiện và phục hồi đúng trạng thái.
     [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES
             block:^(NSTimer *timer){DFIChromeApply();}];
+    // One-time CarPlay-process census; do not hide or rearrange the bar.
+    // Compare this with SpringBoard's independent scene window snapshot.
+    NSUInteger seen=0;
+    for(UIWindow *candidate in UIApplication.sharedApplication.windows) {
+        if(!DFIChromeTargetWindow(candidate))continue;
+        seen++;
+        DFILog([NSString stringWithFormat:
+            @"Native UI CarPlay chrome %@ level=%.1f hidden=%d frame=%@ safe=%@",
+            NSStringFromClass(candidate.class),candidate.windowLevel,
+            (int)candidate.hidden,NSStringFromCGRect(candidate.frame),
+            NSStringFromUIEdgeInsets(candidate.safeAreaInsets)]);
+    }
+    DFILog([NSString stringWithFormat:
+        @"Native UI CarPlay chrome window census=%lu zoom=%d",
+        (unsigned long)seen,(int)DFIChromeZoomRequested()]);
     DFIChromeApply();
 }
