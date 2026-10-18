@@ -24,6 +24,11 @@ assert '[self.nativeSplitSurface bringSubviewToFront:self.lines[i]]' in ui
 assert '[self.nativeSplitSurface bringSubviewToFront:pill]' in ui
 assert 'initWithSlot:i target:self pickAction:@selector(choose:)' in ui
 assert 'focusAction:@selector(zoomPane:)' in ui
+assert 'restoreAction:@selector(restorePane:)' in ui
+assert 'restoreAction:(SEL)restoreAction' in src
+assert '@"VisualAssets/duoface-fullscreen.png",@"restore",target,restoreAction' in src
+assert '- (void)restorePane:(UIButton *)button {' in ui
+assert 'self.maximized=-1;' in ui and 'DFIPerfMark(@"pane_restore"' in ui
 assert 'initWithIndex:i target:self action:@selector(drag:)' in ui
 assert 'tapAction:@selector(swapPanes)' in ui
 assert 'self.toolbar=[[DFINativePickerMenuBar alloc]initWithFrame:' in ui
