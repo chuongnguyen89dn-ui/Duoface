@@ -150,7 +150,21 @@ static NSArray *DFIAvailableApps(void) {
  UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setImage:[UIImage systemImageNamed:symbol] forState:UIControlStateNormal];b.tintColor=UIColor.whiteColor;b.accessibilityLabel=label;[b addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];return b;
 }
 - (UIVisualEffectView *)glass {
- UIVisualEffectView *v=[[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark]];v.layer.cornerRadius=12;v.clipsToBounds=YES;v.layer.borderWidth=0;v.layer.borderColor=UIColor.clearColor.CGColor;[self.view addSubview:v];return v;
+ UIVisualEffectView *v=[[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark]];v.layer.cornerRadius=12;v.clipsToBounds=YES;v.layer.borderWidth=1;v.layer.borderColor=[UIColor colorWithWhite:0.75 alpha:0.25].CGColor;[self.view addSubview:v];return v;
+}
+// Native12 picker: approved horizontal logo + four tabs on a single 30pt row
+// INSIDE the sheet. The root split never owns a floating toolbar.
+- (void)attachNativePickerHeader {
+ if(!self.panel)return;
+ if(self.toolbar.superview!=self.panel.contentView){[self.toolbar removeFromSuperview];[self.panel.contentView addSubview:self.toolbar];}
+ if(!self.pickerClose){
+  self.pickerClose=[self button:@"xmark" label:DFIT(@"Đóng bảng chọn",@"Dismiss picker") action:@selector(dismissPanel)];
+  self.pickerClose.backgroundColor=[UIColor colorWithWhite:0.15 alpha:0.92];
+  self.pickerClose.layer.cornerRadius=13;
+ }
+ if(self.pickerClose.superview!=self.panel.contentView){[self.pickerClose removeFromSuperview];[self.panel.contentView addSubview:self.pickerClose];}
+ self.toolbar.hidden=NO;
+ [self updateApprovedTabs];
 }
 - (void)viewDidLoad {
  [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
@@ -170,8 +184,8 @@ static NSArray *DFIAvailableApps(void) {
  }
  self.grips=grips;self.lines=lines;
  self.edge=[self button:@"ellipsis" label:DFIT(@"Mở thanh công cụ",@"Show toolbar") action:@selector(edgeTap)];self.edge.layer.cornerRadius=12;self.edge.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];[self.view addSubview:self.edge];
- // Toolbar chỉ là PHẦN ĐẦU picker, không được gắn trực tiếp trên màn chia ô.
- self.toolbar=[[UIVisualEffectView alloc]initWithEffect:nil];self.toolbar.backgroundColor=UIColor.clearColor;
+ // Native12 sheet header remains detached until a picker/layout/recents sheet opens.
+ self.toolbar=[[UIVisualEffectView alloc]initWithEffect:nil];self.toolbar.backgroundColor=UIColor.clearColor;self.toolbar.hidden=YES;
  self.toolbarStack=[UIView new];self.toolbarStack.backgroundColor=UIColor.clearColor;
  [self.toolbar.contentView addSubview:self.toolbarStack];
  NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
@@ -197,7 +211,7 @@ static NSArray *DFIAvailableApps(void) {
  [CATransaction begin];[CATransaction setDisableActions:YES];
  for(int i=0;i<3;i++){
      BOOL active=self.hosts[i]!=NSNull.null &&
-         !self.toolbar.hidden && self.maximized<0 &&
+         self.panel!=nil && self.maximized<0 &&
          !CGRectIsEmpty(self.panes[i].frame);
      self.panes[i].layer.borderWidth=active?1.0:0.0;
      self.panes[i].layer.borderColor=
@@ -222,22 +236,42 @@ static NSArray *DFIAvailableApps(void) {
   else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-.5,r.size.width,1);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
   [self.grips[i] viewWithTag:77].frame=vertical?CGRectMake(16.5,8,3,28):CGRectMake(8,16.5,28,3);
  }
- CGFloat width=MIN(390,MAX(240,bounds.size.width-16));
- self.toolbar.frame=CGRectMake((bounds.size.width-width)/2,bounds.size.height-44,width,36);
- CGFloat logoWidth=MIN(120,MAX(56,width*0.30));
- self.approvedLogo.frame=CGRectMake(6,3,logoWidth-4,30);
- self.toolbarStack.frame=CGRectMake(logoWidth+8,0,MAX(80,width-logoWidth-12),36);
- self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-26,40,24);self.edge.hidden=!self.toolbar.hidden;
+ // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
+ self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-28,40,24);
+ self.edge.hidden=self.panel!=nil;
  self.statusLabel.frame=CGRectMake(8,4,bounds.size.width-16,34);
- if(self.panel){CGFloat desired=self.list?MIN(140,MAX(40,self.list.rows.count*40)):(self.panel.contentView.subviews.count>8?132:88);CGFloat w=MIN(220,bounds.size.width-16),h=MIN(desired,bounds.size.height-54);CGFloat x=(bounds.size.width-w)/2,y=bounds.size.height-h-46;
-  if(self.panelPane>=0){CGRect p=self.panes[self.panelPane].frame;w=MIN(w,MAX(40,p.size.width-8));h=MIN(h,MAX(40,p.size.height-34));x=CGRectGetMaxX(p)-w-4;y=p.origin.y+30;}
-  self.panel.frame=CGRectMake(x,MAX(0,y),w,h);if(self.list)self.list.view.frame=self.panel.contentView.bounds;
-  else {NSArray *buttons=self.panel.contentView.subviews;CGFloat bw=w/4,bh=h/MAX(1,ceil((double)buttons.count/4.0));for(NSUInteger i=0;i<buttons.count;i++)[buttons[i] setFrame:CGRectMake((i%4)*bw,(i/4)*bh,bw,bh)];}
+ if(self.panel){
+  CGFloat w=MIN(470,MAX(180,bounds.size.width-16));
+  CGFloat desired=self.list?MIN(280,MAX(140,self.list.rows.count*40+55)):198;
+  CGFloat h=MIN(desired,MAX(90,bounds.size.height-16));
+  self.panel.frame=CGRectMake((bounds.size.width-w)/2,MAX(0,(bounds.size.height-h)/2),w,h);
+  CGFloat headerWidth=MAX(120,w-64);
+  self.toolbar.frame=CGRectMake(8,7,headerWidth,30);
+  CGFloat logoWidth=MIN(120,MAX(40,headerWidth*0.29));
+  self.approvedLogo.frame=CGRectMake(0,0,logoWidth,30);
+  self.toolbarStack.frame=CGRectMake(logoWidth+6,0,MAX(70,headerWidth-logoWidth-6),30);
+  CGFloat tabWidth=CGRectGetWidth(self.toolbarStack.bounds)/4.0;
+  for(UIView *tab in self.toolbarStack.subviews){
+   if(![tab isKindOfClass:UIButton.class])continue;
+   tab.frame=CGRectMake(((UIButton *)tab).tag*tabWidth,0,tabWidth,30);
+  }
+  [self updateApprovedTabs];
+  self.pickerClose.frame=CGRectMake(w-42,9,32,26);
+  if(self.list){
+   self.list.view.frame=CGRectMake(8,44,w-16,MAX(20,h-52));
+  }else{
+   NSMutableArray<UIView *> *controls=[NSMutableArray array];
+   for(UIView *v in self.panel.contentView.subviews)
+    if(v!=self.toolbar && v!=self.pickerClose)[controls addObject:v];
+   CGFloat bw=w/4.0,bh=MAX(34,(h-46)/MAX(1,ceil((double)controls.count/4.0)));
+   for(NSUInteger i=0;i<controls.count;i++)
+    controls[i].frame=CGRectMake((i%4)*bw,44+(i/4)*bh,bw,bh);
+  }
  }
  [self updateInteractionBorders];
 }
 - (void)armHide {
- [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.tableView.dragging||weak.list.tableView.decelerating){[weak armHide];return;}[weak dismissPanel];weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}];
+ [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.tableView.dragging||weak.list.tableView.decelerating){[weak armHide];return;}if(!weak.panel){weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}}];
 }
 - (void)updateApprovedTabs {
  NSArray *titles=@[@"App",@"Zoom",@"Style",@"Close"];
@@ -273,11 +307,11 @@ static NSArray *DFIAvailableApps(void) {
  [self message:expanded?@"Zoom In":@"Zoom Out"];
  [self armHide];
 }
-- (void)menu{[self dismissPanel];self.toolbar.hidden=!self.toolbar.hidden;[self armHide];[self.view setNeedsLayout];}
+- (void)menu{if(self.panel)[self dismissPanel];else [self showAppMenu];[self armHide];[self.view setNeedsLayout];}
 - (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
-- (void)dismissPanel{[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;[self.panel removeFromSuperview];self.panel=nil;}
+- (void)dismissPanel{if(self.list){[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;}[self.panel removeFromSuperview];self.panel=nil;self.toolbar.hidden=YES;[self.view setNeedsLayout];}
 - (void)showRows:(NSArray *)rows pane:(NSInteger)pane pick:(void(^)(NSDictionary *))pick {
- [self dismissPanel];self.panelPane=pane;self.panel=[self glass];DFV12List *list=[DFV12List new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
+ [self dismissPanel];self.panelPane=pane;self.panel=[self glass];[self attachNativePickerHeader];DFV12List *list=[DFV12List new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
 - (void)choose:(UIButton *)button {
  NSInteger index=button.tag;
@@ -321,7 +355,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)saveLayout{DFIWritePreference(@"layout",@(self.layoutKind));DFIWritePreference(@"fraction",@(self.fraction));DFIWritePreference(@"secondary",@(self.secondary));}
 - (void)layouts {
  self.selectedTab=2;[self updateApprovedTabs];
- [self dismissPanel];self.panelPane=-1;self.panel=[self glass];NSArray *names=@[DFIT(@"Một khung",@"One pane"),DFIT(@"Trái / phải",@"Left / right"),DFIT(@"Trên / dưới",@"Top / bottom"),DFIT(@"Ba cột",@"Three columns"),DFIT(@"Một trái, hai phải",@"One left, two right"),DFIT(@"Hai trái, một phải",@"Two left, one right"),DFIT(@"Một trên, hai dưới",@"One top, two bottom"),DFIT(@"Hai trên, một dưới",@"Two top, one bottom")];
+ [self dismissPanel];self.panelPane=-1;self.panel=[self glass];[self attachNativePickerHeader];NSArray *names=@[DFIT(@"Một khung",@"One pane"),DFIT(@"Trái / phải",@"Left / right"),DFIT(@"Trên / dưới",@"Top / bottom"),DFIT(@"Ba cột",@"Three columns"),DFIT(@"Một trái, hai phải",@"One left, two right"),DFIT(@"Hai trái, một phải",@"Two left, one right"),DFIT(@"Một trên, hai dưới",@"One top, two bottom"),DFIT(@"Hai trên, một dưới",@"Two top, one bottom")];
  for(int i=1;i<=8;i++){DFV12LayoutIcon *b=[DFV12LayoutIcon buttonWithType:UIButtonTypeCustom];b.kind=i;b.tag=i;b.accessibilityLabel=names[i-1];b.backgroundColor=i==self.layoutKind?[UIColor.whiteColor colorWithAlphaComponent:.15]:UIColor.clearColor;[b addTarget:self action:@selector(setLayout:) forControlEvents:UIControlEventTouchUpInside];[self.panel.contentView addSubview:b];}
  // Không bỏ nút hoán đổi và thoát bản cũ khi thay toolbar thành 4 mục.
  UIButton *swap=[self button:@"arrow.left.arrow.right" label:@"Swap" action:@selector(swapPanes)];
