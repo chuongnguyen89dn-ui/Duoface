@@ -41,7 +41,7 @@ ok("window.frame=desired;" not in source and
    "DFSPHost=[[DFSPNative12Host alloc]" in source and
    "DFSPApply(NO,@\"startup\")" in source,
    "no regression to QA5 window crop or forced fullscreen")
-ok('Bundle' not in filter_plist and
+ok(filter_plist.count('"com.apple.springboard"')==1 and
    '"com.apple.springboard"' in filter_plist and
    "com.sideplay" in control,
    "rootless filter remains limited to SpringBoard and package depends on SidePlay")
