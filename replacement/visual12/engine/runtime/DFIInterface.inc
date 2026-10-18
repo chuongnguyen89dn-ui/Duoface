@@ -292,14 +292,6 @@ static NSArray *DFIAvailableApps(void) {
  __weak typeof(self) weak=self;[self showRows:rows pane:index pick:^(NSDictionary *a){[weak dismissPanel];[weak openBundle:a[@"id"] pane:index];}];
 }
 - (void)message:(NSString *)text{self.statusLabel.text=text;self.statusLabel.hidden=NO;__weak typeof(self) weak=self;dispatch_after(dispatch_time(DISPATCH_TIME_NOW,4*NSEC_PER_SEC),dispatch_get_main_queue(),^{if([weak.statusLabel.text isEqual:text])weak.statusLabel.hidden=YES;});}
-- (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- if(self.shuttingDown || !self.sceneBridge) return;
- __weak typeof(self) weak=self;
- [self.sceneBridge startWithCompletion:^(NSError *error) {
-  if(error) [weak message:error.localizedDescription];
- }];
-}
 - (void)openBundle:(NSString *)bid pane:(NSInteger)pane {
  DFIPerfMark(@"open_app",@{@"pane":@(pane)});
  if(self.shuttingDown||pane<0||pane>2||!DFIEnabled()||[DFITerminating containsObject:bid])return;
