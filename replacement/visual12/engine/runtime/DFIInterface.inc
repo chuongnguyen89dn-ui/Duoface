@@ -77,6 +77,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSArray<UIVisualEffectView *> *panePills;
 @property(nonatomic,strong) NSArray<UIButton *> *grips;
 @property(nonatomic,strong) NSArray<UIView *> *lines;
+@property(nonatomic,strong) NSMutableArray<NSNumber *> *dividerLogoPositions;
 @property(nonatomic,strong) UIButton *edge;
 @property(nonatomic,strong) UIVisualEffectView *toolbar;
 @property(nonatomic,strong) UIView *toolbarStack;
@@ -140,6 +141,13 @@ static NSArray *DFIAvailableApps(void) {
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
  self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.interactionActive=NO;self.pendingPanes=[NSMutableSet set];
+ NSArray *savedLogo=DFIPref(@"dividerLogoPositions");
+ self.dividerLogoPositions=[NSMutableArray arrayWithObjects:@(.5),@(.5),nil];
+ if([savedLogo isKindOfClass:NSArray.class] && savedLogo.count==2){
+  for(int n=0;n<2;n++)if([savedLogo[n] respondsToSelector:@selector(doubleValue)]){
+   self.dividerLogoPositions[n]=@(DFIClamp([savedLogo[n] doubleValue],.1,.9));
+  }
+ }
  self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*zooms=[NSMutableArray array],*pills=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
   UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;
@@ -160,8 +168,8 @@ static NSArray *DFIAvailableApps(void) {
     initWithIndex:i target:self action:@selector(drag:)];
   [self.nativeSplitSurface addSubview:track];[lines addObject:track];
   DFINativeDividerLogo *logo=[[DFINativeDividerLogo alloc]
-    initWithIndex:i target:self tapAction:@selector(menu)
-    panAction:@selector(drag:)];
+    initWithIndex:i target:self tapAction:@selector(swapPanes)
+    holdAction:@selector(moveDividerLogo:)];
   [self.nativeSplitSurface addSubview:logo];[grips addObject:logo];
  }
  self.grips=grips;self.lines=lines;
@@ -287,8 +295,14 @@ static NSArray *DFIAvailableApps(void) {
  for(int i=0;i<2;i++){
   BOOL hidden=i>=f.boundaryCount||CGRectIsEmpty(bounds);self.grips[i].hidden=hidden;self.lines[i].hidden=hidden;if(hidden)continue;
   CGRect r=f.boundaries[i];BOOL vertical=f.vertical[i];
-  if(vertical){self.lines[i].frame=CGRectMake(r.origin.x-8,r.origin.y,16,r.size.height);self.grips[i].frame=CGRectMake(r.origin.x-18,CGRectGetMidY(r)-22,36,44);}
-  else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
+  CGFloat relative=DFIClamp([self.dividerLogoPositions[i] doubleValue],.1,.9);
+  if(vertical){
+   self.lines[i].frame=CGRectMake(r.origin.x-8,r.origin.y,16,r.size.height);
+   self.grips[i].frame=CGRectMake(r.origin.x-18,r.origin.y+relative*r.size.height-22,36,44);
+  }else{
+   self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);
+   self.grips[i].frame=CGRectMake(r.origin.x+relative*r.size.width-22,r.origin.y-18,44,36);
+  }
   [(DFINativeDividerTrack *)self.lines[i] positionStrokeVertically:vertical];
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
@@ -419,7 +433,7 @@ static NSArray *DFIAvailableApps(void) {
  [self armHide];
 }
 - (void)menu{if(self.panel)[self dismissPanel];else [self showAppMenu];[self armHide];[self.view setNeedsLayout];}
-- (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
+- (void)edgeTap{if(self.maximized>=0){self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
 - (void)dismissPanel{
  if(self.list){[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;}
  [self.panel removeFromSuperview];self.panel=nil;
@@ -536,6 +550,33 @@ static NSArray *DFIAvailableApps(void) {
      DFIWritePreference(@[@"left",@"right",@"third"][i],nil);
  }
  [self saveLayout];[self dismissPanel];[self armHide];[self.view setNeedsLayout];
+}
+- (void)moveDividerLogo:(UILongPressGestureRecognizer *)recognizer {
+ if(self.shuttingDown || self.maximized>=0)return;
+ UIGestureRecognizerState state=recognizer.state;
+ if(state!=UIGestureRecognizerStateBegan &&
+    state!=UIGestureRecognizerStateChanged &&
+    state!=UIGestureRecognizerStateEnded)return;
+ NSInteger index=recognizer.view.tag;
+ DFIFrames frames=DFIFramesMake(self.nativeSplitSurface.bounds,
+     (int)self.layoutKind,self.fraction,self.secondary,-1);
+ if(index<0 || index>=frames.boundaryCount)return;
+ CGRect boundary=frames.boundaries[index];
+ BOOL vertical=frames.vertical[index];
+ CGFloat length=vertical?CGRectGetHeight(boundary):CGRectGetWidth(boundary);
+ if(length<=0)return;
+ CGPoint point=[recognizer locationInView:self.nativeSplitSurface];
+ CGFloat offset=vertical?point.y-CGRectGetMinY(boundary):
+                        point.x-CGRectGetMinX(boundary);
+ self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));
+ if(state==UIGestureRecognizerStateEnded){
+  DFIWritePreference(@"dividerLogoPositions",[self.dividerLogoPositions copy]);
+  DFILog([NSString stringWithFormat:
+    @"Native divider logo moved idx=%ld relative=%.3f, ratio preserved=%.3f",
+     (long)index,[self.dividerLogoPositions[index] doubleValue],self.fraction]);
+ }
+ // Do NOT change fraction, secondary, app scene frame or invoke swap here.
+ [self.view setNeedsLayout];
 }
 - (void)drag:(UIPanGestureRecognizer *)g {
  if(g.state==UIGestureRecognizerStateBegan) DFIPerfMark(@"drag_begin",nil);
