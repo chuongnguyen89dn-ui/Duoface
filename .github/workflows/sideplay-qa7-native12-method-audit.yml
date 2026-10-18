@@ -61,6 +61,15 @@ jobs:
             2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad native12.deb \
             7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c sideplay104.deb | shasum -a 256 -c -
           echo QA7_NATIVE12_SIDEPLAY_EXACT_DEBS_SHA256_PASS
+      - name: Preserve pinned audit input bytes and parser for diagnostic reproduction
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA7-Native12-Audit-Inputs
+          path: |
+            ${{ runner.temp }}/inspect/*.deb
+            sideplay/tools/audit_qa7_native12_method_abis.py
+          retention-days: 10
       - name: Dump all class methods, IMPs, function starts, symbols and raw otool metadata
         shell: bash
         run: |
