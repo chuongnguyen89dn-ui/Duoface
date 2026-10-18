@@ -115,6 +115,15 @@ assert 'button.titleEdgeInsets=' not in approved
 # 0.30s hold and preserve split ratio on pane focus/restore.
 assert 'tapAction:@selector(swapPanes)' in ui
 assert 'holdAction:@selector(moveDividerLogo:)' in ui
+assert 'panAction:@selector(drag:)' in ui
+assert 'panAction:(SEL)panAction' in src
+assert 'pan.maximumNumberOfTouches=1;' in src
+assert '[pan requireGestureRecognizerToFail:hold];' in src
+assert '[self addGestureRecognizer:pan];' in src
+# Preserve logo tap swap + hold reposition and track pan; direct logo drag
+# must call the same split-ratio owner, not a new QA layout engine.
+assert 'tapAction:@selector(swapPanes)' in ui
+assert 'initWithIndex:i target:self action:@selector(drag:)' in ui
 assert 'tapAction:@selector(menu)' not in ui
 assert 'UILongPressGestureRecognizer *hold=' in src
 assert 'hold.minimumPressDuration=0.30;' in src
