@@ -287,10 +287,15 @@ static NSArray *DFIAvailableApps(void) {
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;
   DFINativeSlotPillView *nativePill=(DFINativeSlotPillView *)self.panePills[i];
-  // Native12 CBSlotPillView.updateBoundsSize chooses the actual outer bounds
-  // from focused / compact / showsExpand flags, not one hardcoded QA frame.
-  // Compact mode is NOT guessed from headunit width; independent settings/
-  // true native trigger still require separately validated call-chain mapping.
+  // Visual bounds use Native12 CBSlotPillView.updateBoundsSize (six sizes).
+  // Functional compact trigger is from immutable DuoNavi 1.0.4 DEB:
+  // CBBridgedSplitApp.layoutSplitViews 0x10c99c..0x10c9f8:
+  // pane.height <220pt (Mach-O double VM 0x33ebe8) OR width <320pt.
+  // Unlike a receiver-size heuristic this uses each ACTUAL pane CGRect.
+  BOOL hasPane=!CGRectIsEmpty(frame);
+  BOOL compactPane=hasPane &&
+    (CGRectGetWidth(frame)<320.0 || CGRectGetHeight(frame)<220.0);
+  [nativePill setCompactMode:compactPane];
   [nativePill setFocused:self.maximized==i];
   CGSize nativeSize=[nativePill nativeReferenceSize];
   nativePill.hidden=CGRectIsEmpty(frame)||frame.size.width<nativeSize.width||
