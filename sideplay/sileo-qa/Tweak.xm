@@ -46,6 +46,35 @@ static BOOL DFSPFull = NO;
 static BOOL DFSPApplying = NO;
 static NSUInteger DFSPSequence = 0;
 static NSUInteger DFSPLayoutCalls = 0;
+// Only visual elements replaced by the approved Native12 shell are hidden.
+// Weak keys avoid retaining a disposed SidePlay pane/scene across reconnect.
+static NSMapTable<UIView *, NSNumber *> *DFSPHiddenOriginalViews;
+static void DFSPHideReplacedView(UIView *view) {
+    if (!view || !DFSPUI || !DFSPWindow) return;
+    if (!DFSPHiddenOriginalViews)
+        DFSPHiddenOriginalViews=[NSMapTable weakToStrongObjectsMapTable];
+    if (![DFSPHiddenOriginalViews objectForKey:view])
+        [DFSPHiddenOriginalViews setObject:@(view.hidden) forKey:view];
+    // Deliberately not changing pane.view, contentView, canvasView or scenes.
+    view.hidden=YES;
+}
+static void DFSPRestoreReplacedViews(void) {
+    NSEnumerator<UIView *> *keys=[DFSPHiddenOriginalViews keyEnumerator];
+    UIView *view=nil;
+    NSUInteger restored=0;
+    while ((view=[keys nextObject])) {
+        NSNumber *prior=[DFSPHiddenOriginalViews objectForKey:view];
+        if (prior) {
+            view.hidden=prior.boolValue;
+            ++restored;
+        }
+    }
+    [DFSPHiddenOriginalViews removeAllObjects];
+    DFSPHiddenOriginalViews=nil;
+    if (restored)
+        NSLog(@"[DuoFaceSidePlayDisplayQA] Restored %lu old SidePlay UI items",
+              (unsigned long)restored);
+}
 static const CGFloat DFSPNativeFallbackLeft = 64.0;
 
 static void DFSPLog(NSString *message) {
@@ -179,7 +208,7 @@ static void DFSPHideSidePlayPlaceholder(UIView *view,NSUInteger depth) {
                              [lower containsString:@"thêm app"] ||
                              [lower containsString:@"add app"] ||
                              [lower isEqualToString:@"empty"])) {
-            item.hidden=YES; // only SidePlay's empty pane UI, NEVER app scene.
+            DFSPHideReplacedView(item); // title-only SidePlay placeholder, not app scene.
         }
         DFSPHideSidePlayPlaceholder(item,depth+1);
     }
@@ -201,16 +230,16 @@ static void DFSPRefresh(void) {
         SPPane *pane=panes[0];
         one=DFSPPaneRect(pane);
         firstApp=[pane appViewController]!=nil;
-        [pane chipView].hidden=YES;
-        [pane layoutButton].hidden=YES;
+        DFSPHideReplacedView([pane chipView]);
+        DFSPHideReplacedView([pane layoutButton]);
         if(!firstApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
     if(panes.count>1 && [panes[1] isKindOfClass:objc_getClass("SPPane")]) {
         SPPane *pane=panes[1];
         two=DFSPPaneRect(pane);
         secondApp=[pane appViewController]!=nil;
-        [pane chipView].hidden=YES;
-        [pane layoutButton].hidden=YES;
+        DFSPHideReplacedView([pane chipView]);
+        DFSPHideReplacedView([pane layoutButton]);
         if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
     DFSPUI.frame=DFSPWindow.bounds;
@@ -281,6 +310,7 @@ static void DFSPRemove(void) {
         oldWindow.frame=DFSPOriginalFrame;
     }
     [DFSPUI resetForDisconnect];
+    DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
     DFSPUI=nil;
     DFSPAdapter=nil;
     DFSPWindow=nil;
@@ -321,8 +351,11 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPLog([NSString stringWithFormat:
         @"SPDash host attached external=%@ originalFrame=%@ oldLevel=%.1f",
         window.screen,NSStringFromCGRect(DFSPOriginalFrame),DFSPOriginalLevel]);
-    if (!DFSPApply(NO,@"startup"))
-        DFSPLog(@"startup override FAILED; leave SidePlay host recoverable");
+    if (!DFSPApply(NO,@"startup")) {
+        DFSPLog(@"startup override FAILED; disable replacement and restore old UI");
+        DFSPRemove(); // no hidden legacy UI while the new display is broken
+        return;
+    }
     DFSPRefresh();
 }
 %hook SPDash
