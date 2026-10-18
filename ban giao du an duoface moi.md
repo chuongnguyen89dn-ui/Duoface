@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Tiếp tục kiểm tra nối nguyên giao diện
+
+- Đã đọc `DFIInterface.inc` (31,747 ký tự), `DFIRuntime.m` (38,012 ký tự) và `DFCarPlaySplitCoordinator.m`. `DFV12SplitController` là giao diện gốc với ba panes, toolbar App/Zoom/Style/Close, layout 1–8 và lifecycle `DFV12SceneHost`; QA root là controller khác, không thể coi là bản ghép hoàn chỉnh.
+- Đã sửa coordinator kiểm tra pane thứ ba là UIView và không trùng pane 0/1 trước khi nhận host, commit `c592c1372a6c836fec243e6a0c2fcf216341e159`.
+- Chưa nối nguyên `DFV12SplitController` với coordinator; chưa chạy CI/DEB/Sileo. Không tuyên bố tính năng hoàn chỉnh.
+- Tiếp theo: kiểm tra đường openBundle/close của DFV12SplitController, giữ một scene owner, nối các callback gốc với coordinator và kiểm tra lifecycle, sau đó chạy build QA.
+
+
 ## 2026-10-18 — Đã tích hợp hình học 8 layout vào bridge độc lập
 
 - COMMIT `d0e71db87b5ada3bbfef4bb25ea9b67521891397`: `DFCarPlaySplitCoordinator.m` import `../DFILayouts.h`, dùng chính `DFIFramesMake` gốc cho bố cục 1–8, thêm `setLayoutKind:fraction:secondary:` tương ứng hợp đồng ở commit `7672f2a`; lưu fraction, secondary, kind; giới hạn 3-pane phù hợp.
