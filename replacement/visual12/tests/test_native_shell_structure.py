@@ -149,6 +149,12 @@ assert 'CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point)' in src
 assert 'self.grips[i].frame=CGRectMake(r.origin.x-18' not in ui
 assert 'CGFloat half=width*0.5;' in src
 assert 'CGSize nativeSize=[nativePill nativeReferenceSize];' in ui
+# Functional compact guard from original DuoNavi 1.0.4 branch, Native12
+# six visual sizes retained independently.
+assert 'BOOL compactPane=hasPane &&' in ui
+assert '(CGRectGetWidth(frame)<320.0 || CGRectGetHeight(frame)<220.0);' in ui
+assert '[nativePill setCompactMode:compactPane];' in ui
+assert ui.index('[nativePill setCompactMode:compactPane];') < ui.index('[nativePill setFocused:self.maximized==i];')
 assert 'CGRectGetMaxX(frame)-nativeSize.width-2' in ui
 assert 'frame.size.height<nativeSize.height' in ui
 assert '_dotsButton.frame=CGRectMake(0,0,half,height)' in src
