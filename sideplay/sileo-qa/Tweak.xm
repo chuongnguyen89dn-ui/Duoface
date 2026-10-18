@@ -114,12 +114,6 @@ static BOOL DFSPRectOK(CGRect rect) {
            isfinite(rect.size.width) && isfinite(rect.size.height) &&
            rect.size.width > 100.0 && rect.size.height > 100.0;
 }
-static BOOL DFSPNear(CGRect a, CGRect b) {
-    return fabs(a.origin.x-b.origin.x)<1.0 &&
-           fabs(a.origin.y-b.origin.y)<1.0 &&
-           fabs(a.size.width-b.size.width)<1.0 &&
-           fabs(a.size.height-b.size.height)<1.0;
-}
 static BOOL DFSPExternal(UIWindow *window) {
     UIScreen *screen = window.screen;
     return screen && screen != UIScreen.mainScreen;
