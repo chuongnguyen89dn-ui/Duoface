@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — YÊU CẦU MỚI: tái sử dụng Native HUD 8 vào QA hiện tại
+
+- QUYẾT ĐỊNH CỦA NGƯỜI DÙNG (thay đổi phạm vi trước đây): ưu tiên mang nguyên các chức năng/giao diện đã hoạt động của **bản Native HUD 8** sang nhánh QA đang phát triển `feature/visual12-duodash-recovery`, thay vì viết lại. Đây là yêu cầu ghép mã/đối chiếu tính tương thích, KHÔNG phải yêu cầu thay bản Native đang cài trên Sileo.
+- BẤT BIẾN: **giữ nguyên bản Native trên Sileo**, không sửa nhánh/release Native đang dùng, không đẩy QA đè package Native. Visual12 QA tiếp tục là nhánh đích; giữ fix scene-close `standalone6invalidate` đã được người dùng kiểm thử PASS, giữ giao diện DuoFace, không tích hợp giấy phép hoặc binary phụ thuộc DuoNavi.
+- CẦN XÁC MINH TRƯỚC KHI CHÉP: tìm chính xác source/commit/artifact của `Native HUD 8` trong repository và phân biệt với `Native12`/`Hub8`; kiểm tra UI, tài nguyên, bundle ID, scene host, build packaging và những chức năng thực sự hoạt động. Không tự giả định tên bản là tên thư mục hay bản HUD 8 tương đương Hub8. Chỉ chuyển các phần tương thích vào QA; nếu xung đột, giữ lifecycle QA đã pass và ghi lại khác biệt.
+- TRẠNG THÁI THỰC TẾ: đã tiếp nhận yêu cầu, chưa xác định chắc source Native HUD 8, chưa chép source/build/triển khai. NEXT: truy cây repo và các checkpoint của Native HUD 8; lập bảng đối chiếu với `replacement/visual12`, thực hiện chuyển mã có chọn lọc và chạy QA CI riêng. Không yêu cầu người dùng làm thủ công khi GitHub còn truy cập được.
+
+
 ## 2026-10-18 — Swap pane geometry sync, commit dbea5e8
 
 - Source commit `dbea5e8166e992b8026edd67e7add77c49e7ce29` on `feature/visual12-duodash-recovery`, `replacement/visual12/engine/runtime/DFIInterface.inc`, verified by refetch: `swapPanes` retains existing `DFV12SceneHost` and moves its view/container, then immediately calls `[host resizeTo:self.panes[i].bounds.size]`. No new scene, no second coordinator, no licensing. Existing 8 layouts/3 pane and `standalone6invalidate` close unchanged.
