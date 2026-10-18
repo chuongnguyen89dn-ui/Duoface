@@ -150,7 +150,7 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
         window.windowLevel=beforeLevel;
         [owner setCarWindowFrame:beforeFrame];
         [owner layoutRootView];
-        DFSPPositionZoom();
+        DFSPRefresh();
     }
     DFSPApplying=NO;
     DFSPLog([NSString stringWithFormat:
@@ -378,7 +378,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
             if (fabs(window.windowLevel-desiredLevel)>0.5)
                 window.windowLevel=desiredLevel;
         }
-        DFSPPositionZoom();
+        DFSPRefresh();
     }
 }
 %end
