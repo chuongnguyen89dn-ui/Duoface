@@ -12,8 +12,8 @@ def must(flag,why):
     if not flag: raise AssertionError(why)
     print("PASS",why)
 must("DFSPNative12Host.m" in mk, "Native12 content root code still linked")
-must("0.1.5~native12visual7" in ctl, "QA7 isolated package version")
-must("QA7 injection and SPDash hooks installed" in src, "early injection has an observable startup marker")
+must("0.1.6~native12bootstrap8" in ctl, "QA7 isolated package version")
+must("QA8 HOOKS_READY:" in src, "late-load hook initialization has an observable startup marker")
 must("QA7 owner-check attached=" in src and "rootTransform=" in src,
     "log distinguishes unsuitable root geometry/transform")
 must("DFSPVisualCompatibility=(DFSPHost==nil);" in src,
