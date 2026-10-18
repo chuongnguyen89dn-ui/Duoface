@@ -481,6 +481,26 @@ Instructions sampled: 17 to 0xac7cc.
 
 - No resolvable selector refs in this bounded assembly window
 
+~~~asm
+ac788:	48 20 60 1e	fcmp	d2, #0.0
+ac78c:	89 01 00 54	b.ls	0xac7bc
+ac790:	68 20 60 1e	fcmp	d3, #0.0
+ac794:	49 01 00 54	b.ls	0xac7bc
+ac798:	40 28 62 1e	fadd	d0, d2, d2
+ac79c:	00 40 62 1e	fcvt	s0, d0
+ac7a0:	00 40 26 1e	frinta	s0, s0
+ac7a4:	00 c0 22 1e	fcvt	d0, s0
+ac7a8:	61 28 63 1e	fadd	d1, d3, d3
+ac7ac:	21 40 62 1e	fcvt	s1, d1
+ac7b0:	21 40 26 1e	frinta	s1, s1
+ac7b4:	21 c0 22 1e	fcvt	d1, s1
+ac7b8:	c0 03 5f d6	ret
+ac7bc:	28 16 00 90	adrp	x8, 708 ; 0x370000
+ac7c0:	08 29 40 f9	ldr	x8, [x8, #0x50] ; literal pool symbol address: _CGSizeZero
+ac7c4:	00 05 40 6d	ldp	d0, d1, [x8]
+ac7c8:	c0 03 5f d6	ret
+~~~
+
 <details omitted: raw bounded refs preserved in JSON>
 
 ## CBBridgedUIAppView::updateLayout — 0xac7cc

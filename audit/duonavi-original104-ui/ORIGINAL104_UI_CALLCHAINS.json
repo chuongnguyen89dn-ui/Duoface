@@ -193,6 +193,7 @@
         "b1c18:\td4 01 00 b4\tcbz\tx20, 0xb1c50",
         "b1c24:\t19 11 40 f9\tldr\tx25, [x8, #0x20] ; Objc selector ref: setScreen:"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -270,6 +271,7 @@
         "b297c:\t81 83 09 94\tbl\t0x313780 ; Objc message: -[x0 windowLevel]",
         "b2994:\t8b 82 09 94\tbl\t0x3133c0 ; symbol stub for: _NSLog"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -369,6 +371,7 @@
         "b27d8:\tfa 82 09 94\tbl\t0x3133c0 ; symbol stub for: _NSLog",
         "b27e0:\tf4 83 09 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -401,6 +404,7 @@
         "b31d8:\t6a 81 09 94\tbl\t0x313780 ; Objc message: -[x0 showAppPickerForSlot:parentView:]",
         "b31e0:\t74 81 09 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -433,6 +437,7 @@
         "b3280:\t40 81 09 94\tbl\t0x313780 ; Objc message: -[x0 showLayoutChooserInParentView:]",
         "b3288:\t4a 81 09 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -465,6 +470,7 @@
         "b3328:\t16 81 09 94\tbl\t0x313780 ; Objc message: -[x0 showRecentAppsInParentView:]",
         "b3330:\t20 81 09 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -548,6 +554,7 @@
         "b309c:\t21 01 00 54\tb.ne\t0xb30c0",
         "b30c0:\tff 80 09 94\tbl\t0x3134bc ; symbol stub for: ___stack_chk_fail"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -679,6 +686,7 @@
         "10bacc:\ta9 1e 08 94\tbl\t0x313570 ; symbol stub for: _dispatch_once",
         "10bad4:\t7a 1e 08 94\tbl\t0x3134bc ; symbol stub for: ___stack_chk_fail"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -836,6 +844,7 @@
         "10c128:\t96 1d 08 94\tbl\t0x313780 ; Objc message: -[x0 setFocusedMode:]",
         "10c12c:\t96 0c 00 b4\tcbz\tx22, 0x10c2bc"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -957,6 +966,7 @@
         "10d404:\t01 bd 42 f9\tldr\tx1, [x8, #0x578] ; Objc selector ref: layoutSplitViews",
         "10d408:\tde 18 08 14\tb\t0x313780 ; Objc message: -[x0 layoutSplitViews]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1092,6 +1102,7 @@
         "10daf0:\t01 bd 42 f9\tldr\tx1, [x8, #0x578] ; Objc selector ref: layoutSplitViews",
         "10daf4:\t23 17 08 14\tb\t0x313780 ; Objc message: -[x0 layoutSplitViews]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1114,6 +1125,7 @@
         "10db34:\t01 f1 42 f9\tldr\tx1, [x8, #0x5e0] ; Objc selector ref: focusSlot:animated:",
         "10db3c:\t11 17 08 14\tb\t0x313780 ; Objc message: -[x0 focusSlot:animated:]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1269,6 +1281,7 @@
         "10e42c:\td5 14 08 94\tbl\t0x313780 ; Objc message: +[NSArray arrayWithObjects:count:]",
         "10e434:\teb 14 08 94\tbl\t0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1429,6 +1442,7 @@
         "110dfc:\t61 0a 08 94\tbl\t0x313780 ; Objc message: -[x0 bundleIdentifier]",
         "110e08:\t6a 0a 08 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1482,6 +1496,7 @@
         "110544:\t9b 0c 08 94\tbl\t0x3137b0 ; symbol stub for: _objc_release",
         "11054c:\t99 0c 08 94\tbl\t0x3137b0 ; symbol stub for: _objc_release"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1631,6 +1646,7 @@
         "11287c:\t41 01 00 54\tb.ne\t0x1128a4",
         "1128a4:\t06 03 08 94\tbl\t0x3134bc ; symbol stub for: ___stack_chk_fail"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1719,6 +1735,7 @@
         "113b40:\t21 01 00 54\tb.ne\t0x113b64",
         "113b64:\t56 fe 07 94\tbl\t0x3134bc ; symbol stub for: ___stack_chk_fail"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -1729,6 +1746,25 @@
       "inspected_instruction_count": 17,
       "selectors_and_calls": [],
       "important_instructions": [],
+      "native_size_raw_instructions": [
+        "ac788:\t48 20 60 1e\tfcmp\td2, #0.0",
+        "ac78c:\t89 01 00 54\tb.ls\t0xac7bc",
+        "ac790:\t68 20 60 1e\tfcmp\td3, #0.0",
+        "ac794:\t49 01 00 54\tb.ls\t0xac7bc",
+        "ac798:\t40 28 62 1e\tfadd\td0, d2, d2",
+        "ac79c:\t00 40 62 1e\tfcvt\ts0, d0",
+        "ac7a0:\t00 40 26 1e\tfrinta\ts0, s0",
+        "ac7a4:\t00 c0 22 1e\tfcvt\td0, s0",
+        "ac7a8:\t61 28 63 1e\tfadd\td1, d3, d3",
+        "ac7ac:\t21 40 62 1e\tfcvt\ts1, d1",
+        "ac7b0:\t21 40 26 1e\tfrinta\ts1, s1",
+        "ac7b4:\t21 c0 22 1e\tfcvt\td1, s1",
+        "ac7b8:\tc0 03 5f d6\tret",
+        "ac7bc:\t28 16 00 90\tadrp\tx8, 708 ; 0x370000",
+        "ac7c0:\t08 29 40 f9\tldr\tx8, [x8, #0x50] ; literal pool symbol address: _CGSizeZero",
+        "ac7c4:\t00 05 40 6d\tldp\td0, d1, [x8]",
+        "ac7c8:\tc0 03 5f d6\tret"
+      ],
       "static_only_not_runtime": true
     },
     {
@@ -1921,6 +1957,7 @@
         "acea8:\t01 09 41 f9\tldr\tx1, [x8, #0x210] ; Objc selector ref: stringWithFormat:",
         "acebc:\t31 9a 09 94\tbl\t0x313780 ; Objc message: -[x0 stringWithFormat:]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2086,6 +2123,7 @@
         "ad8dc:\t21 0b 00 54\tb.ne\t0xada40",
         "ad8e4:\t86 97 09 94\tbl\t0x3136fc ; symbol stub for: _objc_begin_catch"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2102,6 +2140,7 @@
         "adc28:\t01 c9 46 f9\tldr\tx1, [x8, #0xd90] ; Objc selector ref: refreshSceneLayout",
         "adc2c:\td5 96 09 14\tb\t0x313780 ; Objc message: -[x0 refreshSceneLayout]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2143,6 +2182,7 @@
         "adcdc:\t01 c1 44 f9\tldr\tx1, [x8, #0x980] ; Objc selector ref: layoutIfNeeded",
         "adce0:\ta8 96 09 94\tbl\t0x313780 ; Objc message: -[x0 layoutIfNeeded]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2357,6 +2397,7 @@
         "ae214:\t5b 95 09 94\tbl\t0x313780 ; Objc message: -[x0 setIgnoresOcclusions:]",
         "ae218:\ta0 00 00 34\tcbz\tw0, 0xae22c"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2399,6 +2440,7 @@
         "ac574:\t41 01 00 54\tb.ne\t0xac59c",
         "ac59c:\tc8 9b 09 94\tbl\t0x3134bc ; symbol stub for: ___stack_chk_fail"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     },
     {
@@ -2464,6 +2506,7 @@
         "aef78:\t40 01 00 b4\tcbz\tx0, 0xaefa0",
         "aef80:\t00 92 09 94\tbl\t0x313780 ; Objc message: -[x0 invalidate]"
       ],
+      "native_size_raw_instructions": [],
       "static_only_not_runtime": true
     }
   ]
