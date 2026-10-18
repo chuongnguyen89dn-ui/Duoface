@@ -98,6 +98,13 @@ assert 'const CGFloat desiredTab[4]={43.0,51.0,47.0,51.0};' in ui
 assert 'const CGFloat desiredTotal=192.0;' in ui
 assert 'closeReserved=48.0' in ui
 assert 'nativeMenuHeight=30.0' in ui
+# iOS16 UIButtonConfiguration does not reliably honor titleEdgeInsets.
+approved=(root/"replacement/visual12/engine/runtime/DFIApprovedVisuals.h").read_text()
+assert 'caption.frame=CGRectMake(0,18,CGRectGetWidth(button.bounds),12);' in approved
+assert 'caption.font=[UIFont systemFontOfSize:10];' in approved
+assert 'button.configuration=nil;' in approved
+assert 'button.titleEdgeInsets=' not in approved
+
 
 # Approved native v12 divider semantics: swap on tap, move logo only after
 # 0.30s hold and preserve split ratio on pane focus/restore.
