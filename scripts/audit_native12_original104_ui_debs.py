@@ -132,6 +132,9 @@ def inspect_methods(meta,asm):
                     ("CBSlotPillView","initWithSlotIndex:"),
                     ("CBDividerView","initWithFrame:isVertical:"),
                     ("CBDividerView","updateGripLayout"),
+                    ("CBDividerView","layoutSubviews"),
+                    ("CBDividerView","pointInside:withEvent:"),
+                    ("CBSlotPillView","pointInside:withEvent:"),
                     ("CBMultitaskingOverlayView","layoutSubviews"),
                     ("CBBridgedSplitApp","layoutSplitViews"),
                  } else {}),
@@ -285,6 +288,41 @@ def cli():
       "3. Map each component to the independent DuoFace owner in the table; test view-tree, menu actions, scene launch and geometry in isolation.",
       "4. Combine source-owned view and scene binding after per-component proof. No copy of original vendor license/classes or postinst.",
       "5. Actual rects, safe area and visual equivalence still require the user's parked CarPlay screenshot/runtime log. No Sileo release from this audit.", ""]
+
+    # Static ARM64 neighborhoods from pinned native DEB; not inferred UIKit frames.
+    lines += ["", "## Native12 pill/divider ARM64 frame evidence", "",
+      "Bounded raw instructions (not decoded point frames). An immediate is NOT a UI dimension.",
+      "Compare registers and call sites before changing the independent QA UI.", ""]
+    control_targets = {
+        "CBSlotPillView": ("layoutSubviews", "updateBoundsSize", "pointInside:withEvent:"),
+        "CBDividerView": ("layoutSubviews", "updateGripLayout", "pointInside:withEvent:"),
+    }
+    for cls, methods in control_targets.items():
+        for selector in methods:
+            now = next((x for x in native["classes"][cls]["selected"]
+                        if x["name"] == selector), None)
+            before = next((x for x in orig["classes"][cls]["selected"]
+                           if x["name"] == selector), None)
+            lines += ["### " + cls + "." + selector, "",
+                      "Native12 IMP " + str(now.get("imp") if now else "missing")
+                      + ", original104 IMP " + str(before.get("imp") if before else "missing"), ""]
+            asm = now.get("full_layout_asm", []) if now else []
+            candidate = re.compile(r"\b(?:fmov|movz|movk|scvtf|fcvt|fmul|fadd|fsub|fdiv)\b|"
+                                   r"(?:setFrame:|setBounds:|pointInside:withEvent:|CGRect)")
+            indexes = [i for i, ins in enumerate(asm) if candidate.search(ins)][:45]
+            kept = set()
+            for idx in indexes:
+                kept.update(range(max(0, idx-3), min(len(asm), idx+4)))
+            lines += ["~~~text"]
+            previous = -2
+            for idx in sorted(kept):
+                if idx > previous + 1: lines.append("...")
+                lines.append(asm[idx])
+                previous = idx
+            if not kept: lines.append("No bounded method evidence available")
+            lines += ["~~~", ""]
+    lines += ["**Acceptance still pending:** proven point frame sizes and physical CarPlay",
+              "display, divider hit-test and scene layout; do not alter approved Native12.", ""]
     a.out_md.write_text("\n".join(lines),encoding="utf-8")
     print("NATIVE12_DEB_UI_AUDIT_PASS assets=%d original_assets=%d mapped_classes=%d" %
           (len(native['png_assets']),len(orig['png_assets']),len(TARGETS)))
