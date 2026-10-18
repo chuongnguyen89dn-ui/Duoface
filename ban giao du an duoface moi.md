@@ -1,5 +1,16 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — MYTWEAK_020_UPLOAD_REVIEW — kiểm tra ZIP kiến trúc CarPlay thay giấy phép
+
+- **YÊU CẦU MỚI:** Người dùng upload `mytweak.zip` và hỏi có thể dùng sơ đồ/nguồn này thay bộ giấy phép Native12 đang đan xen với CarPlay, vẫn giữ hoạt động/giao diện DuoFace hay không. Chỉ yêu cầu kiểm tra tính khả thi, KHÔNG ra lệnh cài/deploy/thay gói Native12.
+- **ĐÃ ĐỌC TẬP TIN THỰC TẾ:** `/mnt/data/mytweak.zip` (temporary upload, 21,626 bytes, ZIP integrity PASS), SHA256 `caf1557d1f9ac4828cf13cf8a5876a60c4b596b57b2951a8e9ac4d428225e015`; 24 file, 37,487 bytes uncompressed, root `mytweak/`, `Makefile` tham chiếu 10 file build đều tồn tại; `MyTweak.plist` parse PASS và filter SpringBoard-only. Đây **không phải DEB chạy được** và không có bằng chứng Theos CI / máy xe test.
+- **NGUYÊN NHÂN KHÔNG GHÉP NGUYÊN GÓI:** `MTSceneHost.m` của MyTweak chỉ trả NSError code **1001** rồi `nil`; `MTAppLauncher.m` cũng từ chối phiên vì host không có. Nó dựng `MTBridgeWindow` riêng qua `[window makeKeyAndVisible]` cho bất kỳ non-main UIScreen (không xác minh CarPlay) và UI 2-pane tự chế, 8pt divider, header 44pt/double-tap fullscreen; không có Native12 8 layouts, pill, HUD, App/Zoom/Style/Close. Nếu cài chồng Native12/QA có nguy cơ 2 cửa sổ cùng tranh SpringBoard/CarPlay (nguy cơ, KHÔNG phải lỗi đã test).
+- **ĐỐI CHIẾU SOURCE GITHUB:** QA hiện đã có `replacement/visual12/engine/runtime/DFIRuntime.m` `DFV12SceneHost`/`UIRootSceneWindow`, `DFCarPlaySplitCoordinator.m` `openApp:inPane:completion:` và `DFCarPlayBridgeAPI.h` bắt buộc một owner; MyTweak chưa có scene engine nên không cải thiện nền hiện tại. Native12 core `DuoFaceUI`/`DuoFaceDashboard.dylib` còn liên kết license-policy-host trong cùng binary; MyTweak không implement API/class ABI để thay trực tiếp `CBLicenseSyncManager`/`CBBridgeManager`, không giữ GUI Native12 tự động.
+- **QUYẾT ĐỊNH SAU REVIEW:** Không nhập/cài ZIP làm bản giấy phép thay thế. Dùng như tham khảo kiến trúc module độc lập nếu cần; tận dụng engine QA có thật thay vì quay lại scene stub. Muốn giữ renderer Native12 mà tách `LicenseService`/ `CarPlayHost` cần source/ quyền sử dụng phù hợp và ABI được chứng minh; không sửa trạng thái license vendor dựa phỏng đoán.
+- **LƯU TRỮ ĐÃ XÁC NHẬN:** báo cáo chi tiết `docs/mytweak-020-vs-native12-license-carplay-assessment-20261018.md` tại commit `b2376fd33f3d59a46e9b2046a953de24cf144fe1`. **Original ZIP chưa lưu vào GitHub**, chỉ đọc bản upload cục bộ; checksum + inventory lưu báo cáo. Không sửa source / build DEB / Actions / Sileo / device. Kiểm tra Theos không tồn tại trong môi trường; chỉ static ZIP checks hoàn tất.
+- **BƯỚC TIẾP NỐI:** Nếu tiếp tục hướng Native12, lấy tài liệu `docs/kiem-ke-giay-phep-carplay-visualtest12-native12-20261017.md` cùng `NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json` theo cùng session để truy policy→activated→CBWindow trước quyết định tái cấu trúc. Nếu chuyển sang QA, chỉ mang khái niệm module phù hợp, KHÔNG chép/khởi động MyTweak owner riêng. Bảo toàn nhánh `main`, Native12 HUD8 trên Sileo và dữ liệu người dùng.
+
+
 ## 2026-10-18 — GP_CP_DIAGRAM_GATE_REPAIR_AUDIT_CHECKPOINT
 
 - **YÊU CẦU:** Người dùng cung cấp sơ đồ GP/CP của `DuoFaceUI.app/DuoFaceUI` và `DuoFaceDashboard.dylib`, yêu cầu tìm hiểu file/đối chiếu hiện trạng. Không có lệnh sửa binary hay phát hành.
