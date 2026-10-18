@@ -47,11 +47,20 @@ def main():
     sys.path.insert(0,dep)
     from audit_native12_license_class_xrefs import MachO,select_arm64
     from audit_native12_carplay_add_app_chain import methods,disassemble
-    from audit_visual12_sync_callers import function_starts
     raw=extract_binary()
     m=MachO(select_arm64(raw))
-    starts=function_starts(m)
     classes=m.classes()
+    # Next ObjC IMP is a bound for inspection, not a verified function end.
+    byclass={}
+    starts=set()
+    for name in classes:
+        try:
+            mm=methods(m,name)
+            byclass[name]=mm
+            starts.update(v["vm"] for v in mm.values() if v.get("vm"))
+        except (ValueError,KeyError,IndexError,AssertionError):
+            continue
+    starts=sorted(starts)
     out={"status":"STATIC ORIGINAL DUONAVI 1.0.4 DIRECT OBJC CLASS METHODS",
          "original_deb_sha256":EXACT_SHA,"dashboard_sha256":digest(raw),
          "arm64_sha256":digest(select_arm64(raw)),
@@ -61,7 +70,7 @@ def main():
         if cls not in classes:
             out["missing"].append("CLASS "+cls)
             continue
-        byname=methods(m,cls)
+        byname=byclass.get(cls,methods(m,cls))
         classout={}
         for wanted in selectors:
             method=byname.get("-"+wanted) or byname.get("+"+wanted)
@@ -69,8 +78,6 @@ def main():
                 out["missing"].append("METHOD "+cls+" "+wanted)
                 continue
             start=method["vm"]
-            if start not in starts:
-                out["missing"].append("IMP_NOT_FUNCTION_START "+cls+" "+wanted+" "+hex(start))
             ix=bisect.bisect_right(starts,start)
             end=starts[ix] if ix<len(starts) else start+1024
             # disassemble at most 0x2400 bytes for large complex layouts,
@@ -79,6 +86,7 @@ def main():
             asm=disassemble(m,start,stop)
             classout[wanted]={"imp":hex(start),"end":hex(end),"traced_end":hex(stop),
                     "truncated":end>stop or len(asm)>=1400,
+                    "end_is_next_objc_imp_not_function_boundary":True,
                     "objc_type":method["type"],"instructions":asm}
         out["methods"][cls]=classout
     DEST.parent.mkdir(parents=True,exist_ok=True)
