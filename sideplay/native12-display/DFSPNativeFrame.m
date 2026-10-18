@@ -1,4 +1,5 @@
 #import "DFSPNativeFrame.h"
+#import "DFSPNativeSlotPill.h"
 #import <math.h>
 
 /* Native12 HUD8 visual measurements from the established handoff:
@@ -37,7 +38,7 @@ static double DFSPClampRatio(double r, BOOL snap) {
     return r;
 }
 @interface DFSPNativeFrame () <UIGestureRecognizerDelegate>
-@property(nonatomic,strong) NSArray<UIButton *> *pills;
+@property(nonatomic,strong) NSArray<DFSPNativeSlotPill *> *pills;
 @property(nonatomic,strong) NSArray<UIButton *> *placeholders;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
@@ -69,25 +70,16 @@ static double DFSPClampRatio(double r, BOOL snap) {
     self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.accessibilityIdentifier=@"duoface.native12.sideplay.frame";
     self.currentRatio=0.5;
+    _focusedSlot=-1;
     self.logoRelativePosition=0.5;
     NSMutableArray *pills=[NSMutableArray array],*placeholders=[NSMutableArray array];
     for (NSInteger i=0;i<2;i++) {
-        UIButton *pill=[UIButton buttonWithType:UIButtonTypeCustom];
-        pill.tag=i;
-        pill.layer.cornerRadius=11;
-        pill.clipsToBounds=YES;
-        pill.backgroundColor=[UIColor colorWithWhite:0.20 alpha:0.92];
-        pill.layer.borderWidth=0.5;
-        pill.layer.borderColor=[UIColor colorWithWhite:1 alpha:0.25].CGColor;
-        pill.tintColor=UIColor.whiteColor;
-        // Native12 artwork has priority, SF Symbol is only a missing-file fallback.
-        UIImage *pillArt=DFSPApprovedArtwork(@"duoface-picker.png");
-        [pill setImage:pillArt ?: [UIImage systemImageNamed:@"ellipsis"]
-            forState:UIControlStateNormal];
-        pill.imageView.contentMode=UIViewContentModeScaleAspectFit;
-        pill.accessibilityLabel=@"Chọn ứng dụng trong ô";
-        pill.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.native.slot.%ld.pill",(long)i];
-        [pill addTarget:self action:@selector(pillTapped:) forControlEvents:UIControlEventTouchUpInside];
+        // TWO independent actions per slot, with verified six Native12 modes.
+        DFSPNativeSlotPill *pill=[[DFSPNativeSlotPill alloc]
+             initWithSlot:i target:self
+             menuAction:@selector(pillTapped:)
+             expandAction:@selector(expandTapped:)
+             restoreAction:@selector(restoreTapped:)];
         [self addSubview:pill]; [pills addObject:pill];
 
         UIButton *empty=[UIButton buttonWithType:UIButtonTypeSystem];
@@ -234,21 +226,32 @@ static double DFSPClampRatio(double r, BOOL snap) {
     for (NSInteger i=0;i<2;i++) {
         CGRect rect=rects[i].CGRectValue;
         BOOL valid=CGRectGetWidth(rect)>60 && CGRectGetHeight(rect)>60;
-        UIButton *pill=self.pills[i];pill.hidden=!valid;
-        if (valid) pill.frame=CGRectMake(CGRectGetMinX(rect)+8.0,
-                                      CGRectGetMinY(rect)+8.0,76.0,22.0);
+        DFSPNativeSlotPill *pill=self.pills[i];
+        BOOL focused=(self.focusedSlot==i);
+        BOOL visible=valid && (self.focusedSlot<0 || focused);
+        BOOL compact=(CGRectGetWidth(rect)<320.0 || CGRectGetHeight(rect)<220.0);
+        [pill configureFocused:focused compact:compact allowsExpand:YES];
+        CGSize pillSize=[pill nativeSize];
+        pill.hidden=!visible || CGRectGetWidth(rect)<pillSize.width ||
+                     CGRectGetHeight(rect)<pillSize.height;
+        // Approved DuoFace position: geometric CENTER of EACH hosted pane,
+        // independent of ratio/style. The older QA4 corner position was WRONG.
+        if (visible) pill.frame=CGRectMake(CGRectGetMidX(rect)-pillSize.width/2,
+                                          CGRectGetMidY(rect)-pillSize.height/2,
+                                          pillSize.width,pillSize.height);
         UIButton *empty=self.placeholders[i];
-        empty.hidden=!valid || (i==0?self.hasFirst:self.hasSecond);
+        empty.hidden=!visible || (i==0?self.hasFirst:self.hasSecond);
         if (valid) {
+            // Empty-pane hint stays BELOW the central pill, never obscuring it.
             empty.frame=CGRectMake(CGRectGetMidX(rect)-76,
-                                   CGRectGetMidY(rect)-17,152,34);
+                                   CGRectGetMidY(rect)+23,152,34);
         }
     }
     CGRect a=self.firstRect, b=self.secondRect;
     BOOL valid=CGRectGetWidth(a)>100 && CGRectGetHeight(a)>100 &&
                CGRectGetWidth(b)>100 && CGRectGetHeight(b)>100;
-    self.dividerTrack.hidden=!valid;
-    self.dividerLogo.hidden=!valid;
+    self.dividerTrack.hidden=!valid || self.focusedSlot>=0;
+    self.dividerLogo.hidden=!valid || self.focusedSlot>=0;
     if (valid) {
         CGRect tr;
         if (self.verticalDivider) {
@@ -265,15 +268,18 @@ static double DFSPClampRatio(double r, BOOL snap) {
             self.dividerLine.frame=CGRectMake(0,15.5,MAX(0,tr.size.width),1);
         }
         self.dividerTrack.frame=tr;
+        CGFloat length=self.verticalDivider?tr.size.height:tr.size.width;
+        CGFloat gripSize=length<280.0?28.0:30.0;
+        self.dividerLogo.layer.cornerRadius=gripSize/2.0;
         if(self.verticalDivider)
-            self.dividerLogo.frame=CGRectMake(CGRectGetMidX(tr)-DFSPGripSize/2,
+            self.dividerLogo.frame=CGRectMake(CGRectGetMidX(tr)-gripSize/2,
                         CGRectGetMinY(tr)+tr.size.height*self.logoRelativePosition-
-                        DFSPGripSize/2,DFSPGripSize,DFSPGripSize);
+                        gripSize/2,gripSize,gripSize);
         else
             self.dividerLogo.frame=CGRectMake(CGRectGetMinX(tr)+tr.size.width*
-                         self.logoRelativePosition-DFSPGripSize/2,
-                         CGRectGetMidY(tr)-DFSPGripSize/2,
-                         DFSPGripSize,DFSPGripSize);
+                         self.logoRelativePosition-gripSize/2,
+                         CGRectGetMidY(tr)-gripSize/2,
+                         gripSize,gripSize);
     }
     if(!self.pickerVisible)return;
     self.shade.frame=self.bounds;
@@ -311,6 +317,19 @@ static double DFSPClampRatio(double r, BOOL snap) {
     }
     // Native12 compositor passes touches to the actual app scene elsewhere.
     return nil;
+}
+- (void)setFocusedSlot:(NSInteger)focusedSlot {
+    if (focusedSlot!=_focusedSlot) {
+        _focusedSlot=focusedSlot;
+        [self setNeedsLayout];
+    }
+}
+- (void)expandTapped:(UIButton *)button {
+    // Distinct per-pane focus: NEVER send the full CarPlay Zoom event.
+    [self.delegate nativeFrameRequestedFocusForSlot:button.tag];
+}
+- (void)restoreTapped:(UIButton *)button {
+    [self.delegate nativeFrameRequestedRestoreForSlot:button.tag];
 }
 - (void)pillTapped:(UIButton *)sender {
     self.selectedSlot=sender.tag;
