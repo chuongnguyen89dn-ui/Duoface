@@ -53,3 +53,24 @@ New original104 read-only report: `audit/duonavi-original104-ui/ORIGINAL104_UI_C
 - `CBBridgedUIAppView.hitTest:withEvent:` references manager `noteUserActivity`. Native active gesture/visibility behavior may be coupled to scene activity and divider blink; not proven as the user's touch failure root cause without device trace.
 
 For the next session: inspect original 17-instruction arithmetic implementation of `calculateNativeSizeForSlotRect:` and actual two-app divider hit tests before modifying scene transform/geometry. Never port vendor license/lease, subscription modal, original postinst, or system-daemon disabling. Preserve QA independent scene owner, previous lifecycle teardown, and Native12 stable payload.
+
+## 2026-10-18 — NATIVE12_PRESERVE_STRUCTURE_SELECTIVE_BOUNDARY_20261018
+
+**User replaces previous focus:** Instead of a full QA interface rebuild or wholesale rewriting Native12, **retain the exact Native12 HUD8 structure and all operational UI/CarPlay methods, working only on verified license/CarPlay coupling**. The previously planned 143-file source-text export is **not the active development objective**; it was a source inventory/export, never the original vendor implementation. Stable Native12/HUD8 and `main` must be untouched.
+
+### Minimal dependency surface, not whole-class removal
+
+| Boundary | Preserve strictly | Candidate to separate only with rights/source/API evidence | Status |
+|---|---|---|---|
+| `DuoFaceUI.app/DuoFaceUI` | application launch/settings and 4 `CBLicenseSyncManager` CarPlay-screen detection implementations | subscription/expired modal UI and VIP/giftcode screens `XXRootViewController.checkAndPresentLicenseModalIfNeeded`, `CBGeneralSettingsViewController.openSubscriptionScreen` | Same compiled Mach-O, source unavailable; classrefs and dynamic callers not fully resolved |
+| `DuoFaceDashboard.dylib: CBBridgeManager` | window/scene ownership, app-picker, split, focus, `shouldBridge:`, `sendStateToApp:shouldBridge:`, state disk/notifications/connection | 7 identified license warning/watchdog selectors, **not** disconnect watchdog or activity timers without proof | Methods share compiled class; removing entire class will break CarPlay |
+| `DuoFaceDashboard.dylib: CBLicenseSyncManager` | 4 CarPlay-screen detector implementations | subscription state retrieval/expiration/sync if demonstrably independent from CP owner | Stubbed getter/sync existence does not prove release independence |
+| `CBBridgeManagerDashboard` | correct activation, OS app intercept, display and scene lifecycle | determine source-owned policy dependency only after tracing `requestActivation:`/`isDashboardPolicySignalActive`/`shouldInterceptLaunchForApp:` | Actual observed 27 policy=false, 8 intercepted requests, no CBWindow; license expiry not causally proven |
+| `CBWindow`, `CBBridgedSplitApp`, picker, divider, shell, HUD8 | **All** Native12 visible structure, touch ratios, assets and app scene contracts | NONE by default | Explicit preserve set |
+
+**Critical observation:** In Native12 `DuoFaceUI` and Dashboard `CBLicenseSyncManager.isLicenseCurrentlyValid` already have BOOL YES stubs; Dashboard `checkAndSyncLicenseIfNeeded` returns immediately. Yet users reported iPhone X activation still fails. Therefore **do not repeat the VIP-3650 getter experiment**, do not equate policy=false with "expiry caused this" and do not patch vendor authorization routines speculatively.
+
+**Strict action sequence:** (1) freeze SHA of actual installed `native12+speed8compact` DEB (`2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`), and full payload; (2) use static call-graph inventory plus existing diagnostics to reconstruct CP connect → bridge activation → policy → CBWindow create/show → scene attach, identify only real source-call ownership; (3) identify what can be refactored into independent `CarPlayHost` and `LicenseService` at source/API boundary, maintaining binary compatibility where lawfully usable; (4) if no source/rights to retain compiled vendor GUI, do not promise a one-file fix; the engineering constraint remains unresolved; (5) apply isolated source-owned changes on QA/test branch only after boundaries are verified; compile, inspect diff, CarPlay device-test, never release stable before acceptance.
+
+**This update is design/audit only.** No original Native12 binary patch, license bypass, user device test, or Sileo deploy performed. Original GUI source is not in repo. Source export file `exports/DuoFace_Native12_HUD8_available_source_20261018.txt` is a **PARTIAL, not proven complete source export**; do not represent it as original Native12 source.
+
