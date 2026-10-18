@@ -99,5 +99,23 @@ assert 'const CGFloat desiredTotal=192.0;' in ui
 assert 'closeReserved=48.0' in ui
 assert 'nativeMenuHeight=30.0' in ui
 
+# Approved native v12 divider semantics: swap on tap, move logo only after
+# 0.30s hold and preserve split ratio on pane focus/restore.
+assert 'tapAction:@selector(swapPanes)' in ui
+assert 'holdAction:@selector(moveDividerLogo:)' in ui
+assert 'tapAction:@selector(menu)' not in ui
+assert 'UILongPressGestureRecognizer *hold=' in src
+assert 'hold.minimumPressDuration=0.30;' in src
+assert 'hold.cancelsTouchesInView=YES;' in src
+assert 'initWithTarget:target action:holdAction' in src
+assert 'panAction:(SEL)panAction' not in src
+assert '- (void)moveDividerLogo:(UILongPressGestureRecognizer *)recognizer' in ui
+assert 'self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));' in ui
+assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
+assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
+assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
+assert 'self.layer.cornerRadius=20.0;' in src
+assert 'self.contentView.layer.borderWidth=0.0;' in src
+
 print("DFINATIVE_UI_WINDOW_SPLIT_PILL_DIVIDER_PICKER_VIEW_TREE_STATIC_PASS")
 print("DEVICE_SCREENSHOT_AND_CARPLAY_STATUS_BAR_NOT_YET_VERIFIED")
