@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Chốt yêu cầu ghép theo DuoNavi 1.0.4 độc lập, kiểm tra mã hiện hữu
+
+- YÊU CẦU: nối CarPlay vào đúng giao diện DuoFace hiện hữu theo chuỗi lifecycle của DuoNavi 1.0.4, không mang cơ chế giấy phép hay phụ thuộc binary gốc. Bảo toàn fix `standalone6invalidate` người dùng xác nhận đã hết crash; không tự thay Native12/Hub8/Sileo.
+- ĐÃ ĐỌC: `docs/duoface-original104-scene-teardown-vs-qa-20261018.md`, `replacement/visual12/engine/runtime/DFIInterface.inc`, `DFIRuntime.m`, `DFCarPlaySplitCoordinator.m`. Bằng chứng tĩnh gốc: `CBBridgedUIAppView dismiss` dùng `setRequestedMode:0`, detach, `invalidate`; fix này đã được áp dụng vào `DFV12SceneHost.close` của QA. Không sao chép binary/giấy phép.
+- HIỆN TRẠNG MÃ: `DFV12SplitController` đã có UI 3 pane/8 layout, `openBundle:pane:` trực tiếp tạo `DFV12SceneHost`, callbacks ready/failure; `swapPanes`, `detachBundle`, `shutdown` trực tiếp quản lý cùng `hosts[]`. `DFCarPlaySplitCoordinator` là đường khác, chưa nên start đồng thời. Chưa có bằng chứng cần thay owner đang hoạt động; KHÔNG ghép coordinator giả định vào UI gốc.
+- KIỂM TRA CHƯA XỬ LÝ: `setLayout:` đóng host khi giảm pane, `detachBundle:` đóng host theo bundle, `swapPanes` chuyển host qua pane; cần soát callback/pendingPanes khi host đang attach trước khi sửa. Không coi các điểm này là lỗi đã tái hiện. Chưa sửa source hoặc build trong checkpoint này.
+- NEXT CỤ THỂ: đối chiếu `CBBridgedSplitApp closeSlot:/closeAllSlots/stop` gốc với từng đường `setLayout:/detachBundle:/shutdown` trên source; giữ nguyên `DFV12SceneHost.close` đã test pass, chỉ sửa khác biệt được chứng minh; chạy static guard và CI riêng, sau đó tích hợp mà không tạo UI mới.
+
+
 ## 2026-10-18 — Người dùng xác nhận standalone6invalidate đã sửa được crash đóng scene
 
 - KẾT QUẢ THỬ MÁY DO NGƯỜI DÙNG XÁC NHẬN: `standalone6invalidate` **đã sửa được lỗi crash khi đóng scene**. Đây là kết quả thực tế mới nhất, thay thế trạng thái cũ 'chưa test/chưa xác nhận fix' trong các checkpoint trước. Không tự suy rộng sang mọi lỗi hoặc mọi thiết bị.
