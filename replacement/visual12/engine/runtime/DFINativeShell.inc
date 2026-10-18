@@ -146,6 +146,11 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
 }
 - (void)setFocused:(BOOL)focused {
     _focusedMode=focused;
+    // Native12 CBSlotPillView.layoutSubviews 0x84cf8..0x84d6c:
+    // focused hides dots and expand, exposes restore only.
+    // Original 1.0.4 toggleFocusForSlot: calls the respective focus/restore
+    // transition, not a second app-picker action while focused.
+    _dotsButton.hidden=focused;
     _expandButton.hidden=focused || !_showsExpandButton;
     _restoreButton.hidden=!focused;
     [self setNeedsLayout];
