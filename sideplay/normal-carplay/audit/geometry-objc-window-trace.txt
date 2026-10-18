@@ -1,0 +1,758 @@
+# Original SidePlay arm64 static geometry/ObjC trace
+original_dylib_sha256=0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971
+arm64_slice_sha256=e4e324a2a03dad89aeb492ba188555faf4bb3bcd34e9b9119f713ff6fc99a611
+arm64_slice_size=441808
+llvm_tool=/usr/bin/llvm-objdump-18
+# Binary not executed, edited, installed or packaged.
+
+## SECTION HEADERS
+tool_exit=0 lines=32
+
+FIRST_OUTPUT_LINES (to detect unsupported flags):
+
+Sections:
+Idx Name             Size     VMA              Type
+  0 __text           0003f418 0000000000005fb8 TEXT
+  1 __stubs          000005d0 00000000000453d0 TEXT
+  2 __stub_helper    000005e8 00000000000459a0 TEXT
+  3 __objc_methlist  00001424 0000000000045f88 DATA
+  4 __const          00000490 00000000000473b0 DATA
+  5 __gcc_except_tab 000022b4 0000000000047840 DATA
+  6 __cstring        00004046 0000000000049af4 DATA
+  7 __objc_methname  0000470f 000000000004db3a DATA
+  8 __objc_classname 0000010c 0000000000052249 DATA
+  9 __ustring        00000988 0000000000052356 DATA
+ 10 __objc_methtype  0000072d 0000000000052cde DATA
+ 11 __unwind_info    00000bf0 000000000005340c DATA
+
+## OBJC METADATA
+tool_exit=0 lines=2813
+001174 			     name 0x50246 _carConnectedState
+001175 			     type 0x53260 @"NSNumber"
+001176 			alignment 3
+001177 			     size 8
+001178 			   offset 0x60538 996432412896
+001179 			     name 0x50259 _carWatchTimer
+001180 			     type 0x5321e @"NSTimer"
+001181 			alignment 3
+001182 			     size 8
+001183 			   offset 0x6053c 1030792151272
+001184 			     name 0x50268 _carMissedChecks
+001185 			     type 0x52e38 q
+001186 			alignment 3
+001187 			     size 8
+001188 			   offset 0x60540 34359738608
+001189 			     name 0x50279 _carWindowFrame
+001190 			     type 0x52dc8 {CGRect="origin"{CGPoint="x"d"y"d}"size"{CGSize="width"d"height"d}}
+001191 			alignment 3
+001192 			     size 32
+001193            weakIvarLayout 0x0
+001194            baseProperties 0x5d5b0
+001195                     entsize 16
+001196                       count 41
+001197 			     name 0x4ed83 isOpen
+001198 			attributes 0x50289 TB,N,V_isOpen
+001199 			     name 0x4ede6 onPhone
+001200 			attributes 0x50297 TB,N,V_onPhone
+001201 			     name 0x4edcd openedAt
+001202 			attributes 0x502a6 Td,N,V_openedAt
+001203 			     name 0x4ed8a window
+001204 			attributes 0x502b6 T@"UIWindow",&,N,V_window
+001205 			     name 0x4eef2 carWindow
+001206 			attributes 0x502d0 T@"UIWindow",&,N,V_carWindow
+001207 			     name 0x4f384 carWindowFrame
+001208 			attributes 0x502ed T{CGRect={CGPoint=dd}{CGSize=dd}},N,V_carWindowFrame
+001209 			     name 0x4eefc carWindowScreen
+001210 			attributes 0x50322 T@"NSString",C,N,V_carWindowScreen
+001211 			     name 0x4f872 offeredVersion
+001212 			attributes 0x50345 T@"NSString",C,N,V_offeredVersion
+001213 			     name 0x4f02c glowView
+001214 			attributes 0x50367 T@"UIView",&,N,V_glowView
+001215 			     name 0x4f052 rootView
+001216 			attributes 0x50381 T@"UIView",&,N,V_rootView
+001217 			     name 0x4f288 chooserView
+001218 			attributes 0x5039b T@"UIView",&,N,V_chooserView
+001219 			     name 0x4f5dd cards
+001220 			attributes 0x503b8 T@"NSArray",&,N,V_cards
+001221 			     name 0x4f694 cardScroll
+001222 			attributes 0x503d0 T@"SPCardScroll",&,N,V_cardScroll
+001223 			     name 0x4f6d9 cardStep
+FIRST_OUTPUT_LINES (to detect unsupported flags):
+/tmp/tmp6xgrye14/sideplay-arm64:
+Contents of (__DATA_CONST,__objc_classlist) section
+000000000005b070 0x60678 _OBJC_CLASS_$_SPCalibrationView
+           isa 0x606a0 _OBJC_METACLASS_$_SPCalibrationView
+    superclass 0x0 _OBJC_CLASS_$_UIView
+         cache 0x0
+        vtable 0x0
+          data 0x5c678 (struct class_ro_t *)
+                    flags 0x184 RO_HAS_CXX_STRUCTORS
+            instanceStart 8
+             instanceSize 152
+                 reserved 0x0
+               ivarLayout 0x5225c
+                layout map: 0x0a 
+                     name 0x5224a SPCalibrationView
+
+## ARM64 DISASSEMBLY SELECTOR ANNOTATIONS
+tool_exit=0 lines=64882
+014362    14004:	a1 65 25 58	ldr	x1, #0x4acb4 ; Objc selector ref: close
+014363    14008:	e0 03 13 aa	mov	x0, x19
+014364    1400c:	2c c6 00 94	bl	0x458bc ; Objc message: -[x0 close]
+014365    14010:	00 15 21 10	adr	x0, #271008 ; Objc cfstring ref: @"enabled"
+014366    14014:	1f 20 03 d5	nop
+014367    14018:	21 00 80 52	mov	w1, #0x1
+014368    1401c:	30 97 00 94	bl	_SPPrefBool
+014369    14020:	80 02 00 36	tbz	w0, #0x0, 0x14070
+014370    14024:	14 05 00 34	cbz	w20, 0x140c4
+014371    14028:	1f 20 03 d5	nop
+014372    1402c:	21 90 25 58	ldr	x1, #0x4b204 ; Objc selector ref: serviceChecked
+014373    14030:	e0 03 13 aa	mov	x0, x19
+014374    14034:	22 c6 00 94	bl	0x458bc ; Objc message: -[x0 serviceChecked]
+014375    14038:	00 0e 00 36	tbz	w0, #0x0, 0x141f8
+014376    1403c:	1f 20 03 d5	nop
+014377    14040:	81 90 25 58	ldr	x1, #0x4b210 ; Objc selector ref: makeMainScreenWindow
+014378    14044:	e0 03 13 aa	mov	x0, x19
+014379    14048:	1d c6 00 94	bl	0x458bc ; Objc message: -[x0 makeMainScreenWindow]
+014380    1404c:	fd 03 1d aa	mov	x29, x29
+014381    14050:	2d c6 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014382    14054:	f5 03 00 aa	mov	x21, x0
+014383    14058:	1f 20 03 d5	nop
+014384    1405c:	e1 8f 25 58	ldr	x1, #0x4b1fc ; Objc selector ref: setWindow:
+014385    14060:	e0 03 13 aa	mov	x0, x19
+014386    14064:	e2 03 15 aa	mov	x2, x21
+014387    14068:	15 c6 00 94	bl	0x458bc ; Objc message: -[x0 setWindow:]
+014388    1406c:	1f 01 00 14	b	0x144e8
+014389    14070:	00 13 21 10	adr	x0, #270944 ; Objc cfstring ref: @"open: SidePlay is turned off in Settings"
+014390    14074:	1f 20 03 d5	nop
+014391    14078:	34 96 00 94	bl	_SPLog
+014392    1407c:	a8 83 55 f8	ldur	x8, [x29, #-0xa8]
+014393    14080:	1f 20 03 d5	nop
+014394    14084:	a9 03 20 58	ldr	x9, #0x40074 ; literal pool symbol address: ___stack_chk_guard
+014566    14334:	62 c5 00 94	bl	0x458bc ; Objc message: -[x0 setCarWindow:]
+014567    14338:	e0 03 19 aa	mov	x0, x25
+014568    1433c:	66 c5 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014569    14340:	e0 03 18 aa	mov	x0, x24
+014570    14344:	64 c5 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014571    14348:	e0 03 13 aa	mov	x0, x19
+014572    1434c:	e1 03 17 aa	mov	x1, x23
+014573    14350:	5b c5 00 94	bl	0x458bc ; Objc message: -[x0 setCarWindow:]
+014574    14354:	fd 03 1d aa	mov	x29, x29
+014575    14358:	6b c5 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014576    1435c:	f8 03 00 aa	mov	x24, x0
+014577    14360:	1f 20 03 d5	nop
+014578    14364:	21 70 25 58	ldr	x1, #0x4ae04 ; Objc selector ref: frame
+014579    14368:	55 c5 00 94	bl	0x458bc ; Objc message: -[x0 frame]
+014580    1436c:	1f 20 03 d5	nop
+014581    14370:	c1 78 25 58	ldr	x1, #0x4af18 ; Objc selector ref: setCarWindowFrame:
+014582    14374:	e0 03 13 aa	mov	x0, x19
+014583    14378:	51 c5 00 94	bl	0x458bc ; Objc message: -[x0 setCarWindowFrame:]
+014584    1437c:	e0 03 18 aa	mov	x0, x24
+014585    14380:	55 c5 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014586    14384:	1f 20 03 d5	nop
+014587    14388:	41 78 25 58	ldr	x1, #0x4af08 ; Objc selector ref: setCarWindowScreen:
+014588    1438c:	e0 03 13 aa	mov	x0, x19
+014589    14390:	e2 03 16 aa	mov	x2, x22
+014590    14394:	4a c5 00 94	bl	0x458bc ; Objc message: -[x0 setCarWindowScreen:]
+014591    14398:	e0 03 13 aa	mov	x0, x19
+014592    1439c:	e1 03 17 aa	mov	x1, x23
+014593    143a0:	47 c5 00 94	bl	0x458bc ; Objc message: -[x0 setCarWindowScreen:]
+014594    143a4:	fd 03 1d aa	mov	x29, x29
+014595    143a8:	57 c5 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014596    143ac:	f7 03 00 aa	mov	x23, x0
+014597    143b0:	1f 20 03 d5	nop
+014598    143b4:	21 75 25 58	ldr	x1, #0x4aea4 ; Objc selector ref: setWindow:
+014599    143b8:	e0 03 13 aa	mov	x0, x19
+014600    143bc:	e2 03 17 aa	mov	x2, x23
+014601    143c0:	3f c5 00 94	bl	0x458bc ; Objc message: -[x0 setWindow:]
+014602    143c4:	e0 03 17 aa	mov	x0, x23
+014603    143c8:	43 c5 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014604    143cc:	1f 20 03 d5	nop
+014605    143d0:	41 76 25 58	ldr	x1, #0x4aec8 ; Objc selector ref: carWindowFrameNow
+014606    143d4:	e0 03 13 aa	mov	x0, x19
+014607    143d8:	39 c5 00 94	bl	0x458bc ; Objc message: -[x0 carWindowFrameNow]
+014608    143dc:	08 1c a0 4e	mov.16b	v8, v0
+014609    143e0:	29 1c a1 4e	mov.16b	v9, v1
+014610    143e4:	4a 1c a2 4e	mov.16b	v10, v2
+014611    143e8:	6b 1c a3 4e	mov.16b	v11, v3
+014612    143ec:	1f 20 03 d5	nop
+014613    143f0:	17 6d 25 58	ldr	x23, #0x4ada0 ; Objc selector ref: window
+014614    143f4:	e0 03 13 aa	mov	x0, x19
+014615    143f8:	e1 03 17 aa	mov	x1, x23
+014616    143fc:	30 c5 00 94	bl	0x458bc ; Objc message: -[x0 window]
+014617    14400:	38 c5 00 94	bl	0x458e0 ; symbol stub for: _objc_retain
+014618    14404:	f8 03 00 aa	mov	x24, x0
+014619    14408:	1f 20 03 d5	nop
+014620    1440c:	61 60 25 58	ldr	x1, #0x4ac0c ; Objc selector ref: setFrame:
+014621    14410:	00 1d a8 4e	mov.16b	v0, v8
+014622    14414:	21 1d a9 4e	mov.16b	v1, v9
+014714    14584:	61 f3 20 10	adr	x1, #269932 ; Objc cfstring ref: @"phone"
+014715    14588:	1f 20 03 d5	nop
+014716    1458c:	fe 95 00 94	bl	_SPSetPref
+014717    14590:	22 00 00 14	b	0x14618
+014718    14594:	e8 f0 20 10	adr	x8, #269852 ; Objc cfstring ref: @"car"
+014719    14598:	1f 20 03 d5	nop
+014720    1459c:	a9 ef 20 10	adr	x9, #269812 ; Objc cfstring ref: @"iPhone"
+014721    145a0:	1f 20 03 d5	nop
+014722    145a4:	9f 02 00 71	cmp	w20, #0x0
+014723    145a8:	28 11 88 9a	csel	x8, x9, x8, ne
+014724    145ac:	e8 03 00 f9	str	x8, [sp]
+014725    145b0:	00 ee 20 10	adr	x0, #269760 ; Objc cfstring ref: @"open: no window on the %@"
+014726    145b4:	1f 20 03 d5	nop
+014727    145b8:	b0 fe ff 17	b	0x14078
+014728    145bc:	1f 20 03 d5	nop
+014729    145c0:	01 68 25 58	ldr	x1, #0x4ad00 ; Objc selector ref: carDockMode
+014730    145c4:	e0 03 13 aa	mov	x0, x19
+014731    145c8:	bd c4 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+014732    145cc:	80 02 00 39	strb	w0, [x20]
+014733    145d0:	00 f0 20 10	adr	x0, #269824 ; Objc cfstring ref: @"dashState"
+014734    145d4:	1f 20 03 d5	nop
+014735    145d8:	c1 ee 20 10	adr	x1, #269784 ; Objc cfstring ref: @"car"
+014736    145dc:	1f 20 03 d5	nop
+014737    145e0:	e9 95 00 94	bl	_SPSetPref
+014738    145e4:	1f 20 03 d5	nop
+014739    145e8:	01 67 25 58	ldr	x1, #0x4ace0 ; Objc selector ref: carConnectedState
+014740    145ec:	e0 03 13 aa	mov	x0, x19
+014741    145f0:	b3 c4 00 94	bl	0x458bc ; Objc message: -[x0 carConnectedState]
+014742    145f4:	fd 03 1d aa	mov	x29, x29
+014743    145f8:	c3 c4 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014744    145fc:	f6 03 00 aa	mov	x22, x0
+014745    14600:	b5 c4 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014746    14604:	b6 00 00 b5	cbnz	x22, 0x14618
+014759    14638:	01 65 25 58	ldr	x1, #0x4aca0 ; Objc selector ref: readPrefs
+014760    1463c:	e0 03 13 aa	mov	x0, x19
+014761    14640:	9f c4 00 94	bl	0x458bc ; Objc message: -[x0 readPrefs]
+014762    14644:	1f 20 03 d5	nop
+014763    14648:	08 d4 1f 58	ldr	x8, #0x3fa80 ; literal pool symbol address: _UIWindowLevelAlert
+014764    1464c:	00 01 40 fd	ldr	d0, [x8]
+014765    14650:	01 90 64 1e	fmov	d1, #10.00000000
+014766    14654:	08 28 61 1e	fadd	d8, d0, d1
+014767    14658:	e0 03 13 aa	mov	x0, x19
+014768    1465c:	e1 03 1a aa	mov	x1, x26
+014769    14660:	97 c4 00 94	bl	0x458bc ; Objc message: -[x0 readPrefs]
+014770    14664:	fd 03 1d aa	mov	x29, x29
+014771    14668:	a7 c4 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014772    1466c:	f6 03 00 aa	mov	x22, x0
+014773    14670:	1f 20 03 d5	nop
+014774    14674:	61 63 25 58	ldr	x1, #0x4ac6c ; Objc selector ref: setWindowLevel:
+014775    14678:	00 1d a8 4e	mov.16b	v0, v8
+014776    1467c:	90 c4 00 94	bl	0x458bc ; Objc message: -[x0 setWindowLevel:]
+014777    14680:	e0 03 16 aa	mov	x0, x22
+014778    14684:	94 c4 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+014779    14688:	7b 02 00 90	adrp	x27, 76 ; 0x60000
+014780    1468c:	60 3b 41 f9	ldr	x0, [x27, #0x270] ; Objc class ref: _OBJC_CLASS_$_UIColor
+014781    14690:	55 02 00 d0	adrp	x21, 74 ; 0x5e000
+014782    14694:	89 01 00 f0	adrp	x9, 51 ; 0x47000
+014783    14698:	8a 01 00 f0	adrp	x10, 51 ; 0x47000
+014784    1469c:	8b 01 00 f0	adrp	x11, 51 ; 0x47000
+014785    146a0:	e8 47 40 b9	ldr	w8, [sp, #0x44]
+014786    146a4:	68 01 00 34	cbz	w8, 0x146d0
+014787    146a8:	a1 32 47 f9	ldr	x1, [x21, #0xe60]
+014788    146ac:	20 79 42 fd	ldr	d0, [x9, #0x4f0]
+014789    146b0:	41 7d 42 fd	ldr	d1, [x10, #0x4f8]
+014790    146b4:	62 81 42 fd	ldr	d2, [x11, #0x500]
+014791    146b8:	03 10 6e 1e	fmov	d3, #1.00000000
+014792    146bc:	80 c4 00 94	bl	0x458bc ; Objc message: +[UIColor setWindowLevel:]
+014793    146c0:	f7 03 00 aa	mov	x23, x0
+014794    146c4:	16 00 80 52	mov	w22, #0x0
+014795    146c8:	34 00 80 52	mov	w20, #0x1
+014796    146cc:	07 00 00 14	b	0x146e8
+014797    146d0:	1f 20 03 d5	nop
+014798    146d4:	a1 60 25 58	ldr	x1, #0x4ac14 ; Objc selector ref: blackColor
+014799    146d8:	79 c4 00 94	bl	0x458bc ; Objc message: -[x0 blackColor]
+014800    146dc:	f7 03 00 aa	mov	x23, x0
+014801    146e0:	14 00 80 52	mov	w20, #0x0
+014802    146e4:	36 00 80 52	mov	w22, #0x1
+014803    146e8:	e0 03 17 aa	mov	x0, x23
+014804    146ec:	86 c4 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+014805    146f0:	f8 03 00 aa	mov	x24, x0
+014806    146f4:	e0 03 13 aa	mov	x0, x19
+014807    146f8:	e1 03 1a aa	mov	x1, x26
+017325    16e50:	1f 20 03 d5	nop
+017326    16e54:	e1 19 24 58	ldr	x1, #0x4833c ; Objc selector ref: window
+017327    16e58:	e0 03 13 aa	mov	x0, x19
+017328    16e5c:	98 ba 00 94	bl	0x458bc ; Objc message: -[x0 window]
+017329    16e60:	fd 03 1d aa	mov	x29, x29
+017330    16e64:	a8 ba 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+017331    16e68:	f4 03 00 aa	mov	x20, x0
+017332    16e6c:	1f 20 03 d5	nop
+017333    16e70:	c1 17 24 58	ldr	x1, #0x482f8 ; Objc selector ref: frame
+017334    16e74:	92 ba 00 94	bl	0x458bc ; Objc message: -[x0 frame]
+017335    16e78:	08 1c a0 4e	mov.16b	v8, v0
+017336    16e7c:	29 1c a1 4e	mov.16b	v9, v1
+017337    16e80:	4a 1c a2 4e	mov.16b	v10, v2
+017338    16e84:	6b 1c a3 4e	mov.16b	v11, v3
+017339    16e88:	1f 20 03 d5	nop
+017340    16e8c:	61 20 24 58	ldr	x1, #0x4840c ; Objc selector ref: carWindowFrameNow
+017341    16e90:	e0 03 13 aa	mov	x0, x19
+017342    16e94:	8a ba 00 94	bl	0x458bc ; Objc message: -[x0 carWindowFrameNow]
+017343    16e98:	04 1c a0 4e	mov.16b	v4, v0
+017344    16e9c:	25 1c a1 4e	mov.16b	v5, v1
+017345    16ea0:	46 1c a2 4e	mov.16b	v6, v2
+017346    16ea4:	67 1c a3 4e	mov.16b	v7, v3
+017347    16ea8:	00 1d a8 4e	mov.16b	v0, v8
+017348    16eac:	21 1d a9 4e	mov.16b	v1, v9
+017349    16eb0:	42 1d aa 4e	mov.16b	v2, v10
+017350    16eb4:	63 1d ab 4e	mov.16b	v3, v11
+017351    16eb8:	85 b9 00 94	bl	0x454cc ; symbol stub for: _CGRectEqualToRect
+017352    16ebc:	f5 03 00 aa	mov	x21, x0
+017353    16ec0:	e0 03 14 aa	mov	x0, x20
+017354    16ec4:	84 ba 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+017355    16ec8:	b5 00 00 37	tbnz	w21, #0x0, 0x16edc
+017356    16ecc:	1f 20 03 d5	nop
+017357    16ed0:	c1 f0 23 58	ldr	x1, #0x47e18 ; Objc selector ref: carAreaChanged
+018164    17b6c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+018165    17b70:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+018166    17b74:	c0 03 5f d6	ret
+018167    17b78:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+018168    17b7c:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+018169    17b80:	fd 43 00 91	add	x29, sp, #0x10
+018170    17b84:	f3 03 00 aa	mov	x19, x0
+018171    17b88:	40 57 1f 10	adr	x0, #256744 ; Objc cfstring ref: @"carDock"
+018172    17b8c:	1f 20 03 d5	nop
+018173    17b90:	01 00 80 52	mov	w1, #0x0
+018174    17b94:	52 88 00 94	bl	_SPPrefBool
+018175    17b98:	e8 03 00 aa	mov	x8, x0
+018176    17b9c:	00 00 80 52	mov	w0, #0x0
+018177    17ba0:	e8 00 00 34	cbz	w8, 0x17bbc
+018178    17ba4:	1f 20 03 d5	nop
+018179    17ba8:	81 c8 23 58	ldr	x1, #0x47910 ; Objc selector ref: carDockArea
+018180    17bac:	e0 03 13 aa	mov	x0, x19
+018181    17bb0:	43 b7 00 94	bl	0x458bc ; Objc message: -[x0 carDockArea]
+018182    17bb4:	6a b6 00 94	bl	0x4555c ; symbol stub for: _CGRectIsNull
+018183    17bb8:	00 00 00 52	eor	w0, w0, #0x1
+018184    17bbc:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+018185    17bc0:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+018186    17bc4:	c0 03 5f d6	ret
+018187    17bc8:	ef 3b b8 6d	stp	d15, d14, [sp, #-0x80]!
+018188    17bcc:	ed 33 01 6d	stp	d13, d12, [sp, #0x10]
+018189    17bd0:	eb 2b 02 6d	stp	d11, d10, [sp, #0x20]
+018190    17bd4:	e9 23 03 6d	stp	d9, d8, [sp, #0x30]
+018191    17bd8:	f8 5f 04 a9	stp	x24, x23, [sp, #0x40]
+018192    17bdc:	f6 57 05 a9	stp	x22, x21, [sp, #0x50]
+018193    17be0:	f4 4f 06 a9	stp	x20, x19, [sp, #0x60]
+018194    17be4:	fd 7b 07 a9	stp	x29, x30, [sp, #0x70]
+018195    17be8:	fd c3 01 91	add	x29, sp, #0x70
+018196    17bec:	f4 03 00 aa	mov	x20, x0
+018197    17bf0:	00 55 1f 10	adr	x0, #256672 ; Objc cfstring ref: @"carAppArea"
+018198    17bf4:	1f 20 03 d5	nop
+018199    17bf8:	01 00 80 d2	mov	x1, #0x0
+018200    17bfc:	16 88 00 94	bl	_SPPref
+018201    17c00:	fd 03 1d aa	mov	x29, x29
+018202    17c04:	40 b7 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018203    17c08:	f3 03 00 aa	mov	x19, x0
+018204    17c0c:	1f 20 03 d5	nop
+018205    17c10:	80 2f 24 58	ldr	x0, #0x485f0 ; Objc class ref: _OBJC_CLASS_$_NSDictionary
+018206    17c14:	1f 20 03 d5	nop
+018207    17c18:	01 7b 23 58	ldr	x1, #0x46f60 ; Objc selector ref: class
+018208    17c1c:	28 b7 00 94	bl	0x458bc ; Objc message: +[NSDictionary class]
+018209    17c20:	e2 03 00 aa	mov	x2, x0
+018210    17c24:	1f 20 03 d5	nop
+018211    17c28:	41 8a 23 58	ldr	x1, #0x47148 ; Objc selector ref: isKindOfClass:
+018212    17c2c:	e0 03 13 aa	mov	x0, x19
+018213    17c30:	23 b7 00 94	bl	0x458bc ; Objc message: -[x0 isKindOfClass:]
+018214    17c34:	00 07 00 34	cbz	w0, 0x17d14
+018215    17c38:	1f 20 03 d5	nop
+018216    17c3c:	35 c4 23 58	ldr	x21, #0x47884 ; Objc selector ref: carWindowFrame
+018217    17c40:	e0 03 14 aa	mov	x0, x20
+018218    17c44:	e1 03 15 aa	mov	x1, x21
+018219    17c48:	1d b7 00 94	bl	0x458bc ; Objc message: -[x0 carWindowFrame]
+018220    17c4c:	41 b6 00 94	bl	0x45550 ; symbol stub for: _CGRectIsEmpty
+018221    17c50:	20 06 00 35	cbnz	w0, 0x17d14
+018222    17c54:	1f 20 03 d5	nop
+018223    17c58:	56 7a 23 58	ldr	x22, #0x46f48 ; Objc selector ref: objectForKeyedSubscript:
+018224    17c5c:	a2 52 1f 10	adr	x2, #256596 ; Objc cfstring ref: @"screen"
+018225    17c60:	1f 20 03 d5	nop
+018226    17c64:	e0 03 13 aa	mov	x0, x19
+018227    17c68:	e1 03 16 aa	mov	x1, x22
+018228    17c6c:	14 b7 00 94	bl	0x458bc ; Objc message: -[x0 objectForKeyedSubscript:]
+018229    17c70:	fd 03 1d aa	mov	x29, x29
+018230    17c74:	24 b7 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018231    17c78:	f7 03 00 aa	mov	x23, x0
+018232    17c7c:	b8 ef 1e 10	adr	x24, #253428 ; Objc cfstring ref: @""
+018233    17c80:	1f 20 03 d5	nop
+018234    17c84:	1f 00 00 f1	cmp	x0, #0x0
+018315    17dc8:	c2 1d ae 4e	mov.16b	v2, v14
+018316    17dcc:	e3 1d af 4e	mov.16b	v3, v15
+018317    17dd0:	04 1d a8 4e	mov.16b	v4, v8
+018318    17dd4:	25 1d a9 4e	mov.16b	v5, v9
+018319    17dd8:	e4 b5 00 94	bl	0x45568 ; symbol stub for: _CGRectOffset
+018320    17ddc:	08 1c a0 4e	mov.16b	v8, v0
+018321    17de0:	29 1c a1 4e	mov.16b	v9, v1
+018322    17de4:	4a 1c a2 4e	mov.16b	v10, v2
+018323    17de8:	6b 1c a3 4e	mov.16b	v11, v3
+018324    17dec:	ce ff ff 17	b	0x17d24
+018325    17df0:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+018326    17df4:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+018327    17df8:	fd 43 00 91	add	x29, sp, #0x10
+018328    17dfc:	f3 03 00 aa	mov	x19, x0
+018329    17e00:	1f 20 03 d5	nop
+018330    17e04:	e1 a5 23 58	ldr	x1, #0x474bc ; Objc selector ref: carDockMode
+018331    17e08:	ad b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018332    17e0c:	68 b5 23 10	adr	x8, #292524 ; Objc selector ref: carDockArea
+018333    17e10:	1f 20 03 d5	nop
+018334    17e14:	69 b5 23 10	adr	x9, #292524 ; Objc selector ref: carWindowFrame
+018335    17e18:	1f 20 03 d5	nop
+018336    17e1c:	1f 00 00 71	cmp	w0, #0x0
+018337    17e20:	08 11 89 9a	csel	x8, x8, x9, ne
+018338    17e24:	01 01 40 f9	ldr	x1, [x8]
+018339    17e28:	e0 03 13 aa	mov	x0, x19
+018340    17e2c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+018341    17e30:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+018342    17e34:	a2 b6 00 14	b	0x458bc ; Objc message: -[x0 carWindowFrame]
+018343    17e38:	ff 83 01 d1	sub	sp, sp, #0x60
+018344    17e3c:	eb 2b 01 6d	stp	d11, d10, [sp, #0x10]
+018345    17e40:	e9 23 02 6d	stp	d9, d8, [sp, #0x20]
+018346    17e44:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+018347    17e48:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+018348    17e4c:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+018349    17e50:	fd 43 01 91	add	x29, sp, #0x50
+018350    17e54:	f3 03 00 aa	mov	x19, x0
+018351    17e58:	1f 20 03 d5	nop
+018352    17e5c:	74 99 23 58	ldr	x20, #0x4732c ; Objc selector ref: isOpen
+018353    17e60:	e1 03 14 aa	mov	x1, x20
+018354    17e64:	96 b6 00 94	bl	0x458bc ; Objc message: -[x0 isOpen]
+018355    17e68:	55 02 00 90	adrp	x21, 72 ; 0x5f000
+018356    17e6c:	60 01 00 34	cbz	w0, 0x17e98
+018357    17e70:	a1 ee 40 f9	ldr	x1, [x21, #0x1d8]
+018358    17e74:	e0 03 13 aa	mov	x0, x19
+018359    17e78:	91 b6 00 94	bl	0x458bc ; Objc message: -[x0 isOpen]
+018360    17e7c:	60 00 00 36	tbz	w0, #0x0, 0x17e88
+018361    17e80:	00 00 80 52	mov	w0, #0x0
+018362    17e84:	05 00 00 14	b	0x17e98
+018363    17e88:	1f 20 03 d5	nop
+018364    17e8c:	a1 a1 23 58	ldr	x1, #0x47434 ; Objc selector ref: carDockMode
+018365    17e90:	e0 03 13 aa	mov	x0, x19
+018366    17e94:	8a b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018367    17e98:	08 6c 24 70	adr	x8, #298371
+018368    17e9c:	1f 20 03 d5	nop
+018369    17ea0:	00 01 00 39	strb	w0, [x8]
+018370    17ea4:	e0 03 13 aa	mov	x0, x19
+018371    17ea8:	e1 03 14 aa	mov	x1, x20
+018372    17eac:	84 b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018373    17eb0:	20 05 00 34	cbz	w0, 0x17f54
+018374    17eb4:	a1 ee 40 f9	ldr	x1, [x21, #0x1d8]
+018375    17eb8:	e0 03 13 aa	mov	x0, x19
+018376    17ebc:	80 b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018377    17ec0:	a0 04 00 37	tbnz	w0, #0x0, 0x17f54
+018378    17ec4:	1f 20 03 d5	nop
+018379    17ec8:	54 96 23 58	ldr	x20, #0x472c8 ; Objc selector ref: window
+018380    17ecc:	e0 03 13 aa	mov	x0, x19
+018381    17ed0:	e1 03 14 aa	mov	x1, x20
+018382    17ed4:	7a b6 00 94	bl	0x458bc ; Objc message: -[x0 window]
+018383    17ed8:	fd 03 1d aa	mov	x29, x29
+018384    17edc:	8a b6 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018385    17ee0:	f5 03 00 aa	mov	x21, x0
+018386    17ee4:	7c b6 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+018387    17ee8:	75 03 00 b4	cbz	x21, 0x17f54
+018388    17eec:	1f 20 03 d5	nop
+018389    17ef0:	41 9d 23 58	ldr	x1, #0x473a8 ; Objc selector ref: carWindowFrameNow
+018390    17ef4:	e0 03 13 aa	mov	x0, x19
+018391    17ef8:	71 b6 00 94	bl	0x458bc ; Objc message: -[x0 carWindowFrameNow]
+018392    17efc:	08 1c a0 4e	mov.16b	v8, v0
+018393    17f00:	29 1c a1 4e	mov.16b	v9, v1
+018394    17f04:	4a 1c a2 4e	mov.16b	v10, v2
+018395    17f08:	6b 1c a3 4e	mov.16b	v11, v3
+018396    17f0c:	e0 03 13 aa	mov	x0, x19
+018397    17f10:	e1 03 14 aa	mov	x1, x20
+018398    17f14:	6a b6 00 94	bl	0x458bc ; Objc message: -[x0 carWindowFrameNow]
+018399    17f18:	fd 03 1d aa	mov	x29, x29
+018400    17f1c:	7a b6 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018401    17f20:	f5 03 00 aa	mov	x21, x0
+018402    17f24:	1f 20 03 d5	nop
+018403    17f28:	01 92 23 58	ldr	x1, #0x47240 ; Objc selector ref: frame
+018404    17f2c:	64 b6 00 94	bl	0x458bc ; Objc message: -[x0 frame]
+018405    17f30:	04 1d a8 4e	mov.16b	v4, v8
+018406    17f34:	25 1d a9 4e	mov.16b	v5, v9
+018407    17f38:	46 1d aa 4e	mov.16b	v6, v10
+018408    17f3c:	67 1d ab 4e	mov.16b	v7, v11
+018409    17f40:	63 b5 00 94	bl	0x454cc ; symbol stub for: _CGRectEqualToRect
+018410    17f44:	f6 03 00 aa	mov	x22, x0
+018411    17f48:	e0 03 15 aa	mov	x0, x21
+018412    17f4c:	62 b6 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+018413    17f50:	16 01 00 36	tbz	w22, #0x0, 0x17f70
+018415    17f58:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+018416    17f5c:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+018417    17f60:	e9 23 42 6d	ldp	d9, d8, [sp, #0x20]
+018418    17f64:	eb 2b 41 6d	ldp	d11, d10, [sp, #0x10]
+018419    17f68:	ff 83 01 91	add	sp, sp, #0x60
+018420    17f6c:	c0 03 5f d6	ret
+018421    17f70:	00 1d a8 4e	mov.16b	v0, v8
+018422    17f74:	21 1d a9 4e	mov.16b	v1, v9
+018423    17f78:	42 1d aa 4e	mov.16b	v2, v10
+018424    17f7c:	63 1d ab 4e	mov.16b	v3, v11
+018425    17f80:	95 b5 00 94	bl	0x455d4 ; symbol stub for: _NSStringFromCGRect
+018426    17f84:	fd 03 1d aa	mov	x29, x29
+018427    17f88:	5f b6 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018428    17f8c:	f5 03 00 aa	mov	x21, x0
+018429    17f90:	1f 20 03 d5	nop
+018430    17f94:	61 99 23 58	ldr	x1, #0x4732c ; Objc selector ref: carDockMode
+018431    17f98:	e0 03 13 aa	mov	x0, x19
+018432    17f9c:	48 b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018433    17fa0:	88 3c 1f 10	adr	x8, #255888 ; Objc cfstring ref: @"off"
+018434    17fa4:	1f 20 03 d5	nop
+018435    17fa8:	49 3b 1f 10	adr	x9, #255848 ; Objc cfstring ref: @"on"
+018436    17fac:	1f 20 03 d5	nop
+018437    17fb0:	1f 00 00 71	cmp	w0, #0x0
+018438    17fb4:	28 11 88 9a	csel	x8, x9, x8, ne
+018439    17fb8:	f5 23 00 a9	stp	x21, x8, [sp]
+018440    17fbc:	a0 39 1f 10	adr	x0, #255796 ; Objc cfstring ref: @"car window %@ (Thanh dock CarPlay %@)"
+018441    17fc0:	1f 20 03 d5	nop
+018442    17fc4:	61 86 00 94	bl	_SPLog
+018443    17fc8:	e0 03 15 aa	mov	x0, x21
+018444    17fcc:	42 b6 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+018445    17fd0:	e0 03 13 aa	mov	x0, x19
+018446    17fd4:	e1 03 14 aa	mov	x1, x20
+018447    17fd8:	39 b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018448    17fdc:	fd 03 1d aa	mov	x29, x29
+018449    17fe0:	49 b6 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+018450    17fe4:	f4 03 00 aa	mov	x20, x0
+018451    17fe8:	1f 20 03 d5	nop
+018452    17fec:	61 81 23 58	ldr	x1, #0x4702c ; Objc selector ref: setFrame:
+018453    17ff0:	00 1d a8 4e	mov.16b	v0, v8
+018454    17ff4:	21 1d a9 4e	mov.16b	v1, v9
+018455    17ff8:	42 1d aa 4e	mov.16b	v2, v10
+018456    17ffc:	63 1d ab 4e	mov.16b	v3, v11
+018457    18000:	2f b6 00 94	bl	0x458bc ; Objc message: -[x0 setFrame:]
+018458    18004:	e0 03 14 aa	mov	x0, x20
+018459    18008:	33 b6 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+018460    1800c:	1f 20 03 d5	nop
+018461    18010:	01 9a 23 58	ldr	x1, #0x47340 ; Objc selector ref: layoutRootView
+018462    18014:	e0 03 13 aa	mov	x0, x19
+018484    1806c:	f4 03 00 aa	mov	x20, x0
+018485    18070:	e0 03 02 aa	mov	x0, x2
+018486    18074:	1b b6 00 94	bl	0x458e0 ; symbol stub for: _objc_retain
+018487    18078:	f3 03 00 aa	mov	x19, x0
+018488    1807c:	1f 20 03 d5	nop
+018489    18080:	41 88 23 58	ldr	x1, #0x47108 ; Objc selector ref: isOpen
+018490    18084:	e0 03 14 aa	mov	x0, x20
+018491    18088:	0d b6 00 94	bl	0x458bc ; Objc message: -[x0 isOpen]
+018492    1808c:	00 06 00 34	cbz	w0, 0x1814c
+018493    18090:	1f 20 03 d5	nop
+018494    18094:	21 8a 23 58	ldr	x1, #0x47144 ; Objc selector ref: onPhone
+018495    18098:	e0 03 14 aa	mov	x0, x20
+018496    1809c:	08 b6 00 94	bl	0x458bc ; Objc message: -[x0 onPhone]
+018497    180a0:	60 05 00 37	tbnz	w0, #0x0, 0x1814c
+018498    180a4:	1f 20 03 d5	nop
+018499    180a8:	c1 90 23 58	ldr	x1, #0x47218 ; Objc selector ref: carDockMode
+018500    180ac:	e0 03 14 aa	mov	x0, x20
+018501    180b0:	03 b6 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+018502    180b4:	c0 04 00 34	cbz	w0, 0x1814c
+018503    180b8:	1f 20 03 d5	nop
+018504    180bc:	e1 50 23 58	ldr	x1, #0x46a1c ; Objc selector ref: isEqualToString:
+018505    180c0:	82 77 1e 10	adr	x2, #249584 ; Objc cfstring ref: @"com.sideplay.app"
+018506    180c4:	1f 20 03 d5	nop
+018507    180c8:	e0 03 13 aa	mov	x0, x19
+018508    180cc:	fc b5 00 94	bl	0x458bc ; Objc message: -[x0 isEqualToString:]
+018509    180d0:	e0 00 00 34	cbz	w0, 0x180ec
+018510    180d4:	15 03 00 34	cbz	w21, 0x18134
+018511    180d8:	1f 20 03 d5	nop
+018512    180dc:	61 8a 23 58	ldr	x1, #0x4714c ; Objc selector ref: showOnCarAgain
+018513    180e0:	e0 03 14 aa	mov	x0, x20
+018514    180e4:	f6 b5 00 94	bl	0x458bc ; Objc message: -[x0 showOnCarAgain]
+018515    180e8:	19 00 00 14	b	0x1814c
+018516    180ec:	15 03 00 34	cbz	w21, 0x1814c
+020030    19894:	e0 03 13 aa	mov	x0, x19
+020031    19898:	0f b0 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+020032    1989c:	f3 03 14 aa	mov	x19, x20
+020033    198a0:	1f 20 03 d5	nop
+020034    198a4:	e0 4b 23 58	ldr	x0, #0x4697c ; Objc class ref: _OBJC_CLASS_$_NSString
+020035    198a8:	1f 20 03 d5	nop
+020036    198ac:	21 9b 22 58	ldr	x1, #0x45364 ; Objc selector ref: stringWithFormat:
+020037    198b0:	ed 27 00 6d	stp	d13, d9, [sp]
+020038    198b4:	e2 1c 1f 10	adr	x2, #254876 ; Objc cfstring ref: @"%.0fx%.0f"
+020039    198b8:	1f 20 03 d5	nop
+020040    198bc:	00 b0 00 94	bl	0x458bc ; Objc message: +[NSString stringWithFormat:]
+020041    198c0:	fd 03 1d aa	mov	x29, x29
+020042    198c4:	10 b0 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+020043    198c8:	f4 03 00 aa	mov	x20, x0
+020044    198cc:	1f 20 03 d5	nop
+020045    198d0:	01 e0 22 58	ldr	x1, #0x45c00 ; Objc selector ref: autoCarArea:
+020046    198d4:	e0 03 15 aa	mov	x0, x21
+020047    198d8:	e0 1d af 4e	mov.16b	v0, v15
+020048    198dc:	c1 1d ae 4e	mov.16b	v1, v14
+020049    198e0:	aa 1d ad 4e	mov.16b	v10, v13
+020050    198e4:	a2 1d ad 4e	mov.16b	v2, v13
+020051    198e8:	e9 0b 00 fd	str	d9, [sp, #0x10]
+020052    198ec:	23 1d a9 4e	mov.16b	v3, v9
+020053    198f0:	f3 af 00 94	bl	0x458bc ; Objc message: -[x0 autoCarArea:]
+020054    198f4:	09 1c a0 4e	mov.16b	v9, v0
+020055    198f8:	28 1c a1 4e	mov.16b	v8, v1
+020056    198fc:	4f 1c a2 4e	mov.16b	v15, v2
+020057    19900:	6e 1c a3 4e	mov.16b	v14, v3
+020058    19904:	e0 87 41 6d	ldp	d0, d1, [sp, #0x18]
+020059    19908:	0d 1c a0 4e	mov.16b	v13, v0
+020060    1990c:	2c 1c a1 4e	mov.16b	v12, v1
+020061    19910:	e2 8f 42 6d	ldp	d2, d3, [sp, #0x28]
+020062    19914:	4b 1c a2 4e	mov.16b	v11, v2
+020063    19918:	11 af 00 94	bl	0x4555c ; symbol stub for: _CGRectIsNull
+020064    1991c:	00 01 00 36	tbz	w0, #0x0, 0x1993c
+020065    19920:	1f 20 03 d5	nop
+020066    19924:	61 a6 22 58	ldr	x1, #0x454cc ; Objc selector ref: removeObjectForKey:
+020067    19928:	e0 03 13 aa	mov	x0, x19
+020068    1992c:	e2 03 14 aa	mov	x2, x20
+020364    19dcc:	60 29 23 58	ldr	x0, #0x4652c ; Objc class ref: SPCalibrationView
+020365    19dd0:	8b ae 00 94	bl	0x457fc ; symbol stub for: _objc_alloc
+020366    19dd4:	1f 20 03 d5	nop
+020367    19dd8:	41 81 22 58	ldr	x1, #0x45028 ; Objc selector ref: initWithFrame:
+020368    19ddc:	00 1d a8 4e	mov.16b	v0, v8
+020369    19de0:	21 1d a9 4e	mov.16b	v1, v9
+020370    19de4:	42 1d aa 4e	mov.16b	v2, v10
+020371    19de8:	63 1d ab 4e	mov.16b	v3, v11
+020372    19dec:	b4 ae 00 94	bl	0x458bc ; Objc message: +[SPCalibrationView initWithFrame:]
+020373    19df0:	f5 03 00 aa	mov	x21, x0
+020374    19df4:	1f 20 03 d5	nop
+020375    19df8:	81 b7 22 58	ldr	x1, #0x456f0 ; Objc selector ref: setAutoresizingMask:
+020376    19dfc:	42 02 80 52	mov	w2, #0x12
+020377    19e00:	af ae 00 94	bl	0x458bc ; Objc message: -[x0 setAutoresizingMask:]
+020378    19e04:	1f 20 03 d5	nop
+020379    19e08:	41 b6 22 58	ldr	x1, #0x456c8 ; Objc selector ref: autoCarArea:
+020380    19e0c:	e0 03 13 aa	mov	x0, x19
+020381    19e10:	00 1d a8 4e	mov.16b	v0, v8
+020382    19e14:	21 1d a9 4e	mov.16b	v1, v9
+020383    19e18:	42 1d aa 4e	mov.16b	v2, v10
+020384    19e1c:	63 1d ab 4e	mov.16b	v3, v11
+020385    19e20:	a7 ae 00 94	bl	0x458bc ; Objc message: -[x0 autoCarArea:]
+020386    19e24:	1f 20 03 d5	nop
+020387    19e28:	41 b6 22 58	ldr	x1, #0x456c8 ; Objc selector ref: setAutoArea:
+020388    19e2c:	e0 03 15 aa	mov	x0, x21
+020389    19e30:	a3 ae 00 94	bl	0x458bc ; Objc message: -[x0 setAutoArea:]
+020390    19e34:	80 1d ac 4e	mov.16b	v0, v12
+020391    19e38:	a1 1d ad 4e	mov.16b	v1, v13
+020392    19e3c:	c2 1d ae 4e	mov.16b	v2, v14
+020393    19e40:	e3 1d af 4e	mov.16b	v3, v15
+020394    19e44:	c6 ad 00 94	bl	0x4555c ; symbol stub for: _CGRectIsNull
+020395    19e48:	20 01 00 34	cbz	w0, 0x19e6c
+020396    19e4c:	1f 20 03 d5	nop
+020397    19e50:	81 92 22 58	ldr	x1, #0x45250 ; Objc selector ref: autoArea
+020398    19e54:	e0 03 15 aa	mov	x0, x21
+020399    19e58:	99 ae 00 94	bl	0x458bc ; Objc message: -[x0 autoArea]
+020400    19e5c:	0c 1c a0 4e	mov.16b	v12, v0
+020865    1a5a0:	e0 03 15 aa	mov	x0, x21
+020866    1a5a4:	20 1d a9 4e	mov.16b	v0, v9
+020867    1a5a8:	ed 2f 40 fd	ldr	d13, [sp, #0x58]
+020868    1a5ac:	a1 1d ad 4e	mov.16b	v1, v13
+020869    1a5b0:	02 1d a8 4e	mov.16b	v2, v8
+020870    1a5b4:	ee 27 40 fd	ldr	d14, [sp, #0x48]
+020871    1a5b8:	c3 1d ae 4e	mov.16b	v3, v14
+020872    1a5bc:	c0 ac 00 94	bl	0x458bc ; Objc message: -[x0 manualCarArea:]
+020873    1a5c0:	0a 1c a0 4e	mov.16b	v10, v0
+020874    1a5c4:	2b 1c a1 4e	mov.16b	v11, v1
+020875    1a5c8:	4c 1c a2 4e	mov.16b	v12, v2
+020876    1a5cc:	6f 1c a3 4e	mov.16b	v15, v3
+020877    1a5d0:	e3 ab 00 94	bl	0x4555c ; symbol stub for: _CGRectIsNull
+020878    1a5d4:	a0 01 00 34	cbz	w0, 0x1a608
+020879    1a5d8:	1f 20 03 d5	nop
+020880    1a5dc:	a1 77 22 58	ldr	x1, #0x44ef4 ; Objc selector ref: autoCarArea:
+020881    1a5e0:	e0 03 15 aa	mov	x0, x21
+020882    1a5e4:	20 1d a9 4e	mov.16b	v0, v9
+020883    1a5e8:	a1 1d ad 4e	mov.16b	v1, v13
+020884    1a5ec:	02 1d a8 4e	mov.16b	v2, v8
+020885    1a5f0:	c3 1d ae 4e	mov.16b	v3, v14
+020886    1a5f4:	b2 ac 00 94	bl	0x458bc ; Objc message: -[x0 autoCarArea:]
+020887    1a5f8:	0a 1c a0 4e	mov.16b	v10, v0
+020888    1a5fc:	2b 1c a1 4e	mov.16b	v11, v1
+020889    1a600:	4c 1c a2 4e	mov.16b	v12, v2
+020890    1a604:	6f 1c a3 4e	mov.16b	v15, v3
+020891    1a608:	1f 20 03 d5	nop
+020892    1a60c:	a1 65 22 58	ldr	x1, #0x44cb4 ; Objc selector ref: carDockMode
+020893    1a610:	e0 03 15 aa	mov	x0, x21
+020894    1a614:	aa ac 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+020895    1a618:	1f 00 00 71	cmp	w0, #0x0
+020896    1a61c:	2a 1d 6a 1e	fcsel	d10, d9, d10, ne
+020897    1a620:	ab 1d 6b 1e	fcsel	d11, d13, d11, ne
+020898    1a624:	0c 1d 6c 1e	fcsel	d12, d8, d12, ne
+020899    1a628:	cf 1d 6f 1e	fcsel	d15, d14, d15, ne
+020900    1a62c:	c0 0e 41 f9	ldr	x0, [x22, #0x218]
+020901    1a630:	61 ea 45 f9	ldr	x1, [x19, #0xbd0]
+020902    1a634:	82 0c 80 52	mov	w2, #0x64
+020903    1a638:	a1 ac 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+020904    1a63c:	fd 03 1d aa	mov	x29, x29
+020905    1a640:	b1 ac 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+020906    1a644:	f6 03 00 aa	mov	x22, x0
+020907    1a648:	40 19 1e 10	adr	x0, #246568 ; Objc cfstring ref: @"carZoom"
+020908    1a64c:	1f 20 03 d5	nop
+020909    1a650:	e1 03 16 aa	mov	x1, x22
+020910    1a654:	80 7d 00 94	bl	_SPPref
+020911    1a658:	fd 03 1d aa	mov	x29, x29
+020912    1a65c:	aa ac 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+020913    1a660:	f7 03 00 aa	mov	x23, x0
+020914    1a664:	21 f3 45 f9	ldr	x1, [x25, #0xbe0]
+020915    1a668:	95 ac 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+020916    1a66c:	08 1c a0 4e	mov.16b	v8, v0
+020917    1a670:	e0 03 17 aa	mov	x0, x23
+020918    1a674:	98 ac 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+020919    1a678:	e0 03 16 aa	mov	x0, x22
+020920    1a67c:	96 ac 00 94	bl	0x458d4 ; symbol stub for: _objc_release
+020921    1a680:	80 96 42 fd	ldr	d0, [x20, #0x528]
+020922    1a684:	00 59 60 1e	fmin	d0, d8, d0
+020923    1a688:	01 77 42 fd	ldr	d1, [x24, #0x4e8]
+020924    1a68c:	00 68 61 1e	fmaxnm	d0, d0, d1
+020925    1a690:	28 0b f8 d2	mov	x8, #-0x3fa7000000000000
+020926    1a694:	01 01 67 9e	fmov	d1, x8
+020927    1a698:	00 18 61 1e	fdiv	d0, d0, d1
+020928    1a69c:	01 10 6e 1e	fmov	d1, #1.00000000
+020929    1a6a0:	00 28 61 1e	fadd	d0, d0, d1
+020930    1a6a4:	81 09 60 1e	fmul	d1, d12, d0
+020949    1a6f0:	4b 1c a2 4e	mov.16b	v11, v2
+020950    1a6f4:	6c 1c a3 4e	mov.16b	v12, v3
+020951    1a6f8:	4d 1c a2 4e	mov.16b	v13, v2
+020952    1a6fc:	6e 1c a3 4e	mov.16b	v14, v3
+020953    1a700:	e9 13 00 fd	str	d9, [sp, #0x20]
+020954    1a704:	c8 0f e8 d2	mov	x8, #0x407e000000000000
+020955    1a708:	09 01 67 9e	fmov	d9, x8
+020956    1a70c:	c8 19 69 1e	fdiv	d8, d14, d9
+020957    1a710:	00 90 60 1e	fmov	d0, #2.50000000
+020958    1a714:	00 59 60 1e	fmin	d0, d8, d0
+020959    1a718:	0f 68 6f 1e	fmaxnm	d15, d0, d15
+020960    1a71c:	aa 19 6f 1e	fdiv	d10, d13, d15
+020961    1a720:	ce 19 6f 1e	fdiv	d14, d14, d15
+020962    1a724:	e0 03 15 aa	mov	x0, x21
+020963    1a728:	e1 03 1c aa	mov	x1, x28
+020964    1a72c:	64 ac 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+020965    1a730:	08 ec e7 d2	mov	x8, #0x3f60000000000000
+020966    1a734:	00 01 67 9e	fmov	d0, x8
+020967    1a738:	a0 09 60 1e	fmul	d0, d13, d0
+020968    1a73c:	00 20 68 1e	fcmp	d0, d8
+020969    1a740:	00 4c 68 1e	fcsel	d0, d0, d8, mi
+020970    1a744:	1f 00 00 71	cmp	w0, #0x0
+020971    1a748:	08 10 e8 d2	mov	x8, #0x4080000000000000
+020972    1a74c:	01 01 67 9e	fmov	d1, x8
+020973    1a750:	28 1c 6a 1e	fcsel	d8, d1, d10, ne
+020974    1a754:	29 1d 6e 1e	fcsel	d9, d9, d14, ne
+020975    1a758:	0d 1c 6f 1e	fcsel	d13, d0, d15, ne
+020976    1a75c:	e0 03 15 aa	mov	x0, x21
+020977    1a760:	e1 03 1b aa	mov	x1, x27
+020978    1a764:	56 ac 00 94	bl	0x458bc ; Objc message: -[x0 carDockMode]
+020979    1a768:	fd 03 1d aa	mov	x29, x29
+020980    1a76c:	66 ac 00 94	bl	0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+020981    1a770:	f6 03 00 aa	mov	x22, x0
+020982    1a774:	1f 20 03 d5	nop
+020983    1a778:	48 c4 1c 58	ldr	x8, #0x39888 ; literal pool symbol address: _CGAffineTransformIdentity
+020984    1a77c:	00 05 40 ad	ldp	q0, q1, [x8]
+020985    1a780:	e0 87 09 ad	stp	q0, q1, [sp, #0x130]
+020986    1a784:	00 09 c0 3d	ldr	q0, [x8, #0x20]
+020987    1a788:	e0 57 80 3d	str	q0, [sp, #0x150]
+020988    1a78c:	1f 20 03 d5	nop
+020989    1a790:	1a 48 22 58	ldr	x26, #0x44900 ; Objc selector ref: setTransform:
+020990    1a794:	e2 c3 04 91	add	x2, sp, #0x130
+020991    1a798:	e1 03 1a aa	mov	x1, x26
+020992    1a79c:	48 ac 00 94	bl	0x458bc ; Objc message: -[x0 setTransform:]
+020993    1a7a0:	e0 03 16 aa	mov	x0, x22
+FIRST_OUTPUT_LINES (to detect unsupported flags):
+/tmp/tmp6xgrye14/sideplay-arm64:
+(__TEXT,__text) section
+    5fb8:	fd 7b bf a9	stp	x29, x30, [sp, #-0x10]!
+    5fbc:	fd 03 00 91	mov	x29, sp
+    5fc0:	1f 20 03 d5	nop
+    5fc4:	28 64 2d 58	ldr	x8, #0x5ac84
+    5fc8:	1f 05 00 b1	cmn	x8, #0x1
+    5fcc:	a1 00 00 54	b.ne	0x5fe0
+    5fd0:	1f 20 03 d5	nop
+    5fd4:	60 62 2d 58	ldr	x0, #0x5ac4c
+    5fd8:	fd 7b c1 a8	ldp	x29, x30, [sp], #0x10
+    5fdc:	00 00 1f d6	br	x0
+    5fe0:	40 63 2d 10	adr	x0, #371816
+    5fe4:	1f 20 03 d5	nop
+    5fe8:	01 0c 27 10	adr	x1, #319872
+
