@@ -153,6 +153,19 @@ assert 'CGRectGetMaxX(frame)-nativeSize.width-2' in ui
 assert 'frame.size.height<nativeSize.height' in ui
 assert '_dotsButton.frame=CGRectMake(0,0,half,height)' in src
 assert '_expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height)' in src
+# Focused Native12 layoutSubviews 0x84cf8..0x84d88 hides dots,
+# separator and expand, then uses the complete bounds for restoreButton.
+# Original104 toggleFocusForSlot: invokes focusSlot:/restoreSplitAnimated:.
+assert '_dotsButton.hidden=focused;' in src
+assert '_expandButton.hidden=focused || !_showsExpandButton;' in src
+assert '_separatorView.hidden=focused || !_showsExpandButton;' in src
+assert '_restoreButton.hidden=!focused;' in src
+assert '_restoreButton.frame=_focusedMode?self.bounds:_expandButton.frame;' in src
+# Nonfocused Native12 0x84e64..0x84e94: .5pt white separator alpha .25.
+assert '_separatorView=[[UIView alloc]initWithFrame:CGRectMake(0,4,0.5,14)];' in src
+assert '_separatorView.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.25];' in src
+assert '_separatorView.userInteractionEnabled=NO;' in src
+assert '_separatorView.frame=CGRectMake(half-0.25,3.5,0.5,MAX(0,height-7.0));' in src
 assert 'self.layer.cornerRadius=20.0;' in src
 assert 'self.contentView.layer.borderWidth=0.0;' in src
 
