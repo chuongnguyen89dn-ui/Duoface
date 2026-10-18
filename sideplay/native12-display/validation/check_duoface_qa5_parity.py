@@ -30,9 +30,11 @@ check(all(x in pill for x in (
     "self.compact?19:22","self.layer.cornerRadius=11.0")),
     "verified Native12 6-mode pill dimensions and corner radius")
 check("CGRectGetMidX(rect)-pillSize.width/2" in frame and
-      "CGRectGetMidY(rect)-pillSize.height/2" in frame and
-      "CGRectGetMinX(rect)+8.0" not in frame,
-      "each pill follows exact center of its OWN pane, not QA4 corner")
+      "CGRectGetMinY(rect)+topInset" in frame and
+      "CGRectGetMidY(rect)-pillSize.height/2" not in frame and
+      "CGRectGetMinX(rect)+8.0" not in frame and
+      "CGRectGetMaxX(rect)-pillSize.width" not in frame,
+      "two pills follow top-center of EACH pane, not screen center or QA corner")
 check(all(x in frame for x in ("expandTapped:","restoreTapped:","pillTapped:")) and
       "nativeFrameRequestedFocusForSlot:button.tag" in frame and
       "nativeFrameRequestedRestoreForSlot:button.tag" in frame and
