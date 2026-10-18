@@ -7350,3 +7350,1636 @@ def main():
 if __name__=="__main__":main()
 ########## END FILE: migration/full_payload/native_test/verify_native4_regression.py ##########
 
+########## BEGIN FILE: migration/full_payload/native_test/verify_native5.py ##########
+#!/usr/bin/env python3
+"""Independent byte-level regression native4 -> native5.
+
+Prove only two expired-modal methods can change __text, and that static strings
+are masked ONLY where the build ledger explicitly records. No binary, icon,
+picker, native hook, CarPlay resource or other payload may differ unexpectedly.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import tempfile
+from audit_native4_license_code import inspect
+
+ROOT=Path(__file__).resolve().parents[3]
+BASE=ROOT/"dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb"
+CAND=ROOT/"dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb"
+REPORT=ROOT/"dist/payload-migration/native5/BAO_CAO.json"
+LEDGER=ROOT/"dist/payload-migration/native5/DANH_SACH_CHO_XOA.json"
+EXE={
+ "DuoFaceUI":"var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+ "DuoFaceDashboard":"var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+}
+def sha(b:bytes)->str:return hashlib.sha256(b).hexdigest()
+def sections(blob:bytes):
+    assert blob[:4]==bytes.fromhex("cffaedfe")
+    cursor=32
+    n=struct.unpack_from("<I",blob,16)[0]
+    result={}
+    for _ in range(n):
+        command,length=struct.unpack_from("<II",blob,cursor)
+        assert length>=8 and cursor+length<=len(blob)
+        if command==0x19:
+            count=struct.unpack_from("<I",blob,cursor+64)[0]
+            for i in range(count):
+                q=cursor+72+i*80
+                assert q+80<=cursor+length
+                sec=blob[q:q+16].split(b"\x00")[0].decode("ascii")
+                seg=blob[q+16:q+32].split(b"\x00")[0].decode("ascii")
+                size=struct.unpack_from("<Q",blob,q+40)[0]
+                offset=struct.unpack_from("<I",blob,q+48)[0]
+                if size and offset+size<=len(blob):
+                    result[f"{seg},{sec}"]=(offset,size)
+        cursor+=length
+    return result
+
+def verify_edited_binary(binary,original,current,data):
+    prior=sections(original)
+    post=sections(current)
+    expected=[];seen=[]
+    masked=[]
+    for m in data["masked_ui_literals"]:
+        expected.append((m["file_offset"],m["byte_count"],"presentation_literal"))
+        span=original[m["file_offset"]:m["file_offset"]+m["byte_count"]]
+        revised=current[m["file_offset"]:m["file_offset"]+m["byte_count"]]
+        assert sha(span)==m["before_sha256"]
+        assert sha(revised)==m["after_sha256"]
+        assert span!=revised
+        assert all(x in (0x20,0x00) for x in revised)
+        masked.append(m["label"])
+    for m in data["method_flags"]:
+        expected.append((m["file_offset"],m["byte_count"],"expiry_accessor"))
+        span=original[m["file_offset"]:m["file_offset"]+m["byte_count"]]
+        revised=current[m["file_offset"]:m["file_offset"]+m["byte_count"]]
+        assert sha(span)==m["before_sha256"]
+        assert sha(revised)==m["after_sha256"]
+        assert span!=revised
+    assert len(data["method_flags"])==(2 if binary=="DuoFaceUI" else 0)
+    for part in ["__TEXT,__text","__TEXT_EXEC,__text","__TEXT,__cstring","__TEXT,__ustring"]:
+        if part not in prior:continue
+        assert prior[part]==post[part],(binary,part,"section offsets moved")
+        off,length=prior[part]
+        affected=[(start,start+size,kind) for start,size,kind in expected if off<=start<off+length]
+        if part.endswith("__text"):
+            assert all(kind=="expiry_accessor" for _,_,kind in affected)
+        else:
+            assert all(kind=="presentation_literal" for _,_,kind in affected)
+        mask=bytearray(length)
+        for start,end,kind in affected:
+            assert end<=off+length
+            a=start-off;b=end-off
+            assert not any(mask[a:b]),"overlap"
+            mask[a:b]=b"\x01"*(b-a)
+            seen.append((start,end,kind))
+        old=original[off:off+length]
+        new=current[off:off+length]
+        for i,(a,b) in enumerate(zip(old,new)):
+            if not mask[i] and a!=b:
+                raise AssertionError(f"Undeclared change in {binary} {part} at {hex(off+i)}")
+    assert len(seen)==len(expected),(binary,len(seen),len(expected))
+    # All Objective-C method definitions still available after reversible trial.
+    a=inspect(original)["license_named_methods"]
+    b=inspect(current)["license_named_methods"]
+    assert sorted((m["class"],m["selector"],m["type_encoding"]) for m in a)==sorted(
+           (m["class"],m["selector"],m["type_encoding"]) for m in b)
+    return {"masked_presentation_literals":len(masked),
+            "temporary_expiry_methods":len(data["method_flags"]),
+            "verified_edited_byte_intervals":len(seen),
+            "text_code_outside_expiry_methods_byte_identical":True,
+            "objc_classes_and_selectors_preserved":True}
+
+def main():
+    a=argparse.ArgumentParser()
+    a.add_argument("--out",type=Path,required=True)
+    arg=a.parse_args()
+    info=json.loads(REPORT.read_text())
+    ledger=json.loads(LEDGER.read_text())
+    assert sha(BASE.read_bytes())==info["source_native4_sha256"]
+    assert sha(CAND.read_bytes())==info["deb_sha256"]
+    assert len(ledger["method_hidden_records"])==2
+    with tempfile.TemporaryDirectory(prefix="native5-regression-") as temp:
+        p=Path(temp);old=p/"old";new=p/"new"
+        subprocess.run(["dpkg-deb","-x",str(BASE),str(old)],check=True)
+        subprocess.run(["dpkg-deb","-x",str(CAND),str(new)],check=True)
+        ob={v.relative_to(old).as_posix():sha(v.read_bytes()) for v in old.rglob("*") if v.is_file() and not v.is_symlink()}
+        nb={v.relative_to(new).as_posix():sha(v.read_bytes()) for v in new.rglob("*") if v.is_file() and not v.is_symlink()}
+        assert ob.keys()==nb.keys()
+        changed=sorted(k for k in ob if ob[k]!=nb[k])
+        assert changed==sorted(EXE.values()),changed
+        results={}
+        for name,path in EXE.items():
+            orig=(old/path).read_bytes()
+            cand=(new/path).read_bytes()
+            results[name]=verify_edited_binary(name,orig,cand,info["changed_binaries"][name])
+    report={
+        "status":"NATIVE5_NATIVE_CARPLAY_CODE_AND_UNRELATED_ASSETS_BYTE_IDENTICAL",
+        "source_native4_sha256":info["source_native4_sha256"],
+        "native5_sha256":info["deb_sha256"],
+        "unchanged_all_other_payload_file_count":len(ob)-len(EXE),
+        "target_binary_checks":results,
+        "no_extra_machine_code_changed":True,
+        "no_deletion_of_selectors_or_class_lifecycle":True,
+        "device_tested":False,
+        "approval_required_before_physical_delete":True,
+    }
+    arg.out.parent.mkdir(parents=True,exist_ok=True)
+    arg.out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps({k:v for k,v in report.items() if k!="target_binary_checks"},ensure_ascii=False))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/verify_native5.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/verify_native6.py ##########
+#!/usr/bin/env python3
+"""Independent native5 -> native6 byte-level regression of approved string erasure.
+
+Assert every Mach-O section other than 26 zeroed display literal spans is exactly
+equal to native5, including every instruction/selector/CarPlay lifecycle byte.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import tempfile
+
+from build_native5 import sections, FILES, sha
+from build_native6 import SOURCE, SOURCE_HASH, LEDGER, VERSION
+
+ROOT = Path(__file__).resolve().parents[3]
+
+
+def map_sections(buf):
+    result = {}
+    for seg, sec, off, size in sections(buf):
+        key = (seg, sec)
+        assert key not in result, ("duplicate section", key)
+        result[key] = (off, size)
+    return result
+
+
+def verify_binary(name, before, after, entries, methods):
+    assert len(before) == len(after), (name, "binary size changed")
+    old_sections = map_sections(before)
+    new_sections = map_sections(after)
+    assert old_sections == new_sections, (name, "section moved")
+    assert len(entries) == 13
+    intervals = []
+    for row in entries:
+        start, length = int(row["file_offset"]), int(row["byte_count"])
+        stop = start + length
+        assert sha(before[start:stop]) == row["after_sha256"], (name, row["label"])
+        assert after[start:stop] == bytes(length), (name, row["label"])
+        assert sha(after[start:stop]) == hashlib.sha256(bytes(length)).hexdigest()
+        matches = [
+            k for k, (off, n) in old_sections.items()
+            if off <= start and stop <= off + n
+        ]
+        assert len(matches) == 1 and ",".join(matches[0]) == row["section"]
+        intervals.append((start, stop))
+    intervals.sort()
+    assert all(a[1] <= b[0] for a, b in zip(intervals, intervals[1:]))
+    mask_count = 0
+    changed_count = 0
+    for key, (offset, size) in old_sections.items():
+        original = before[offset:offset + size]
+        current = after[offset:offset + size]
+        mask = bytearray(size)
+        for start, stop in intervals:
+            if offset <= start and stop <= offset + size:
+                mask[start - offset:stop - offset] = bytes([1]) * (stop - start)
+                mask_count += 1
+        for idx, (left, right) in enumerate(zip(original, current)):
+            if left != right:
+                assert mask[idx], (name, key, hex(offset + idx),
+                                  "unapproved changed section byte")
+                changed_count += 1
+        if key[1] == "__text":
+            assert original == current, (name, "machine code changed")
+        if key[1] in {"__objc_classlist", "__objc_selrefs", "__objc_methname",
+                      "__objc_classname", "__objc_const", "__objc_data"}:
+            assert original == current, (name, key, "ObjC metadata changed")
+    assert mask_count == len(entries), (name, mask_count)
+    assert changed_count == sum(int(x["byte_count"]) for x in entries)
+    if name == "DuoFaceUI":
+        assert len(methods) == 2
+        for m in methods:
+            s = int(m["file_offset"])
+            e = s + int(m["byte_count"])
+            assert before[s:e] == after[s:e], ("expired ABI modified", m["selector"])
+            assert sha(after[s:e]) == m["after_sha256"]
+    return {"erased_literals": len(entries), "erased_bytes": changed_count,
+            "all_machine_code_identical": True,
+            "all_other_macho_sections_byte_identical": True,
+            "objc_metadata_preserved": True}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--deb", type=Path, required=True)
+    ap.add_argument("--build-report", type=Path, required=True)
+    ap.add_argument("--out", type=Path, required=True)
+    args = ap.parse_args()
+    build = json.loads(args.build_report.read_text())
+    ledger = json.loads(LEDGER.read_text())
+    assert sha(SOURCE.read_bytes()) == SOURCE_HASH
+    assert sha(args.deb.read_bytes()) == build["deb_sha256"]
+    assert build["version"] == VERSION and build["zero_erased_presentation_literals"] == 26
+    assert len(ledger["ui_literal_hidden_records"]) == 26
+    assert len(ledger["method_hidden_records"]) == 2
+    with tempfile.TemporaryDirectory(prefix="native6-check-") as temp:
+        temp = Path(temp)
+        old = temp / "native5"
+        new = temp / "native6"
+        subprocess.run(["dpkg-deb", "-x", str(SOURCE), str(old)], check=True)
+        subprocess.run(["dpkg-deb", "-x", str(args.deb), str(new)], check=True)
+        orig = {x.relative_to(old).as_posix(): sha(x.read_bytes())
+                for x in old.rglob("*") if x.is_file() and not x.is_symlink()}
+        revised = {x.relative_to(new).as_posix(): sha(x.read_bytes())
+                   for x in new.rglob("*") if x.is_file() and not x.is_symlink()}
+        assert orig.keys() == revised.keys()
+        changes = sorted(k for k in orig if orig[k] != revised[k])
+        assert changes == sorted(FILES.values()), changes
+        checks = {}
+        for name, rel in FILES.items():
+            entry = [x for x in ledger["ui_literal_hidden_records"]
+                     if x["binary"] == name]
+            methods = [x for x in ledger["method_hidden_records"]
+                       if x["binary"] == name]
+            checks[name] = verify_binary(
+                name, (old / rel).read_bytes(), (new / rel).read_bytes(),
+                entry, methods)
+    info = {
+        "status": "NATIVE6_EXACT_ZERO_ERASURE_BINARY_REGRESSION_PASS",
+        "source_native5_sha256": SOURCE_HASH,
+        "native6_sha256": build["deb_sha256"],
+        "verified": checks,
+        "untouched_payload_file_count": len(orig) - len(FILES),
+        "methods_removed_physically": 0,
+        "objc_classes_and_selectors_removed_physically": 0,
+        "presentation_literal_bytes_physically_zeroed": sum(
+            x["erased_bytes"] for x in checks.values()),
+        "machine_code_changed": False,
+        "license_business_logic_proven_fully_removed": False,
+        "device_tested": False
+    }
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps(info, indent=2, ensure_ascii=False) + "\n")
+    print(json.dumps(info, indent=2, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/verify_native6.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/verify_native7.py ##########
+#!/usr/bin/env python3
+"""Strict read-only binary diff: native6 -> native7 can ONLY hide 78 strings.
+
+All Mach-O instructions/ObjC metadata and every unrelated payload file must
+remain byte-identical. Native7 remains a trial pending device confirmation.
+"""
+from __future__ import annotations
+import argparse, json, subprocess, tempfile
+from pathlib import Path
+from build_native5 import FILES, sections, sha
+from build_native7 import SOURCE, EXPECTED, VERSION, UI_COPY
+
+def verify_binary(name, old, new, masks):
+    assert len(old)==len(new)
+    original_sections={(seg,sec):(off,n) for seg,sec,off,n in sections(old)}
+    modified_sections={(seg,sec):(off,n) for seg,sec,off,n in sections(new)}
+    assert original_sections==modified_sections,(name,"Mach-O sections shifted")
+    assert len(masks)==len(UI_COPY)==39
+    intervals=set()
+    for m in masks:
+        start,length=m["file_offset"],m["byte_count"]
+        stop=start+length
+        assert m["binary"]==name
+        assert sha(old[start:stop])==m["native6_sha256"]
+        assert sha(new[start:stop])==m["native7_sha256"]
+        assert new[start:stop]==b" "*length
+        assert old[start:stop]==m["label"].encode("utf-8")
+        assert (start,stop) not in intervals
+        intervals.add((start,stop))
+        assert any(sec=="__cstring" and off<=start<stop<=off+n
+                   for (_,sec),(off,n) in original_sections.items())
+    intervals=sorted(intervals)
+    assert all(a[1]<=b[0] for a,b in zip(intervals,intervals[1:]))
+    edited=0
+    for (seg,sec),(off,size) in original_sections.items():
+        left=old[off:off+size]
+        right=new[off:off+size]
+        spans=[(a-off,b-off) for a,b in intervals if off<=a and b<=off+size]
+        assert (sec=="__cstring") or not spans
+        for n,(x,y) in enumerate(zip(left,right)):
+            if x!=y:
+                assert sec=="__cstring" and any(a<=n<b for a,b in spans),(name,seg,sec,hex(off+n))
+                edited+=1
+        if sec=="__text":
+            assert left==right,(name,"code modified")
+        if sec.startswith("__objc") or sec=="__const" or sec=="__stubs":
+            assert left==right,(name,sec,"ObjC runtime or ABI modified")
+    assert edited==sum(m["byte_count"] for m in masks), (name,edited)
+    return {"masked_strings":len(masks),"masked_bytes":edited,
+            "machine_code_sections_identical":True,
+            "all_other_sections_identical":True,
+            "objc_runtime_metadata_identical":True}
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--deb",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    ap.add_argument("--out",type=Path,required=True)
+    args=ap.parse_args()
+    report=json.loads(args.report.read_text())
+    assert sha(SOURCE.read_bytes())==EXPECTED
+    assert sha(args.deb.read_bytes())==report["deb_sha256"]
+    assert report["version"]==VERSION
+    assert len(report["masks"])==78
+    with tempfile.TemporaryDirectory(prefix="duoface-native7-regression-") as folder:
+        folder=Path(folder)
+        a=folder/"native6"
+        b=folder/"native7"
+        subprocess.run(["dpkg-deb","-x",str(SOURCE),str(a)],check=True)
+        subprocess.run(["dpkg-deb","-x",str(args.deb),str(b)],check=True)
+        old={p.relative_to(a).as_posix():sha(p.read_bytes())
+             for p in a.rglob("*") if p.is_file() and not p.is_symlink()}
+        new={p.relative_to(b).as_posix():sha(p.read_bytes())
+             for p in b.rglob("*") if p.is_file() and not p.is_symlink()}
+        assert old.keys()==new.keys()
+        assert sorted(k for k in old if old[k]!=new[k])==sorted(FILES.values())
+        tests={}
+        for name,rel in FILES.items():
+            tests[name]=verify_binary(name,(a/rel).read_bytes(),(b/rel).read_bytes(),
+                [m for m in report["masks"] if m["binary"]==name])
+    out={
+      "status":"NATIVE7_ONLY_WHITELISTED_PRESENTATION_COPY_HIDDEN_PASS",
+      "source_native6_sha256":EXPECTED,
+      "native7_sha256":report["deb_sha256"],
+      "verified_binaries":tests,
+      "unrelated_payload_files_identical":len(old)-2,
+      "all_carplay_code_identical":True,
+      "objc_class_and_selector_metadata_preserved":True,
+      "all_dealloc_and_carplay_detection_code_identical":True,
+      "native7_device_tested":False,
+      "license_logic_proven_fully_removed":False}
+    args.out.parent.mkdir(parents=True,exist_ok=True)
+    args.out.write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+    print(json.dumps(out,indent=2,ensure_ascii=False))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/verify_native7.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/verify_native8.py ##########
+#!/usr/bin/env python3
+"""Byte-level native6 -> native8 regression.
+
+Only the audited 39 x 2 user-visible __cstring literals are masked in UI and
+Dashboard Mach-O binaries, with machine instructions, lifecycle/CarPlay and
+ObjC metadata identical. The source-built visual hook is the ONLY third
+payload modification. Correctly counts characters actually changed (spaces
+in the original text remain space, they are not changed bytes).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import tempfile
+from pathlib import Path
+from build_native5 import FILES, sections, sha
+from build_native7 import SOURCE, EXPECTED, UI_COPY
+from build_native8 import VERSION, HOOK_REL, HOOK_FILTER_REL
+
+
+def section_map(buf):
+    d = {}
+    for seg, sec, start, count in sections(buf):
+        assert (seg, sec) not in d
+        d[(seg, sec)] = (start, count)
+    return d
+
+
+def verify_display_binary(name, old, new, masks):
+    assert len(old) == len(new), (name, "Mach-O size changed")
+    src_sections = section_map(old)
+    dst_sections = section_map(new)
+    assert src_sections == dst_sections, (name, "Mach-O section shifted")
+    assert len(masks) == len(UI_COPY) == 39
+    assert {m["label"] for m in masks} == set(UI_COPY)
+
+    spans = []
+    for m in masks:
+        a, size = int(m["file_offset"]), int(m["byte_count"])
+        b = a + size
+        assert m["binary"] == name
+        assert old[a:b] == m["label"].encode("utf-8")
+        assert new[a:b] == b" " * size
+        assert sha(old[a:b]) == m["native6_sha256"]
+        assert sha(new[a:b]) == m["native7_sha256"]
+        assert old[b] == 0 and new[b] == 0, "C terminator must be retained"
+        assert any(sec == "__cstring" and start <= a < b <= start + length
+                   for (seg, sec), (start, length) in src_sections.items())
+        spans.append((a,b))
+    spans.sort()
+    assert all(a[1] <= b[0] for a,b in zip(spans, spans[1:]))
+    actual = 0
+    for (seg, sec), (start, length) in src_sections.items():
+        left = old[start:start+length]
+        right = new[start:start+length]
+        for i, (v, w) in enumerate(zip(left, right)):
+            if v != w:
+                assert sec == "__cstring", (name, seg, sec, hex(start+i))
+                assert any(a <= start+i < b for a,b in spans), (name, hex(start+i))
+                actual += 1
+        if sec == "__text" or sec.startswith("__objc") or sec in ("__const", "__stubs"):
+            assert left == right, (name, sec, "CarPlay/code/ObjC modified")
+    expected = sum(
+        sum(byte != 0x20 for byte in m["label"].encode("utf-8"))
+        for m in masks
+    )
+    assert actual == expected, (name, actual, expected)
+    return {
+        "masked_user_visible_cstrings": len(masks),
+        "selected_literal_bytes": sum(m["byte_count"] for m in masks),
+        "actual_changed_literal_bytes": actual,
+        "machine_code_unchanged": True,
+        "objc_class_selector_metadata_unchanged": True,
+        "carplay_lifecycle_and_detectors_unchanged": True,
+    }
+
+
+def verify():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--deb", type=Path, required=True)
+    ap.add_argument("--report", type=Path, required=True)
+    ap.add_argument("--out", type=Path, required=True)
+    args = ap.parse_args()
+    report = json.loads(args.report.read_text(encoding="utf-8"))
+    assert sha(SOURCE.read_bytes()) == EXPECTED, "Pinned native6 baseline changed"
+    assert sha(args.deb.read_bytes()) == report["deb_sha256"]
+    assert report["version"] == VERSION
+    assert report["package"] == "com.duoface.independent"
+    assert len(report["masks"]) == 78
+    assert report["hold_duration_seconds"] == 0.30
+    assert report["replaced_hook"] == HOOK_REL
+    assert report["license_ui_strings_selected"] == 39
+    assert report["license_ui_literal_occurrences_hidden"] == 78
+    assert report["native6_rollback_preserved"]
+    assert report["license_full_removal_claimed"] is False
+
+    assert subprocess.check_output(
+        ["dpkg-deb","-f",str(args.deb),"Package"],text=True
+    ).strip() == "com.duoface.independent"
+    assert subprocess.check_output(
+        ["dpkg-deb","-f",str(args.deb),"Version"],text=True
+    ).strip() == VERSION
+    assert subprocess.check_output(
+        ["dpkg-deb","-f",str(args.deb),"Architecture"],text=True
+    ).strip() == "iphoneos-arm64"
+
+    with tempfile.TemporaryDirectory(prefix="duoface-native8-QA-") as td:
+        root = Path(td)
+        src = root / "native6"
+        out = root / "native8"
+        subprocess.run(["dpkg-deb","-x",str(SOURCE),str(src)],check=True)
+        subprocess.run(["dpkg-deb","-x",str(args.deb),str(out)],check=True)
+        before = {p.relative_to(src).as_posix():sha(p.read_bytes())
+                  for p in src.rglob("*") if p.is_file() and not p.is_symlink()}
+        after = {p.relative_to(out).as_posix():sha(p.read_bytes())
+                 for p in out.rglob("*") if p.is_file() and not p.is_symlink()}
+        assert before.keys() == after.keys(), "Added/dropped payload"
+        allowed = sorted([*FILES.values(), HOOK_REL])
+        changed = sorted(k for k in before if before[k] != after[k])
+        assert changed == allowed, (changed, allowed)
+        checks = {}
+        for name, rel in FILES.items():
+            checks[name] = verify_display_binary(
+                name,
+                (src/rel).read_bytes(),
+                (out/rel).read_bytes(),
+                [m for m in report["masks"] if m["binary"] == name]
+            )
+        hook_before = (src/HOOK_REL).read_bytes()
+        hook_after = (out/HOOK_REL).read_bytes()
+        assert sha(hook_before) == report["original_hook_sha256"]
+        assert sha(hook_after) == report["new_hook_sha256"]
+        assert hook_before != hook_after
+        assert (src/HOOK_FILTER_REL).read_bytes() == (out/HOOK_FILTER_REL).read_bytes()
+        hook_strings = subprocess.run(
+            ["strings",str(out/HOOK_REL)],check=True,text=True,capture_output=True
+        ).stdout
+        for marker in ("DuoFaceGrip", "threshold=0.30s", "onSwap",
+                       "DFDividerLayout"):
+            # DFDividerLayout may be a local static symbol stripped by toolchain;
+            # use explicit logged markers to verify binary behavior if needed.
+            if marker == "DFDividerLayout":
+                assert "divider native tap preserved" in hook_strings, "Lost divider hook"
+            else:
+                assert marker in hook_strings, (marker, "missing in source-built hook")
+        # Baseline has extra DEBIAN control files excluded by dpkg-deb -x;
+        # do not assume a 40-file data payload. Assert actual invariants.
+        assert len(before) >= len(allowed) + 30
+        assert len(before) == len(after)
+        assert sum(x["actual_changed_literal_bytes"] for x in checks.values()) == (
+            report["actual_changed_literal_bytes_expected"])
+        assert sum(x["selected_literal_bytes"] for x in checks.values()) == (
+            report["license_ui_selected_bytes"])
+
+    result = {
+        "status": "NATIVE8_CARPLAY_CODE_IDENTICAL_AND_GRIP_HOOK_DELTA_PASS",
+        "native6_baseline_sha256": EXPECTED,
+        "native8_sha256": report["deb_sha256"],
+        "package": report["package"],
+        "version": VERSION,
+        "verified_binary_display_mappings": checks,
+        "only_hook_and_two_binary_literal_data_changed": True,
+        "identical_other_payload_files": len(before)-len(allowed),
+        "unchanged_carplay_split_code_and_lifecycle": True,
+        "unchanged_objc_selectors_classes_keys": True,
+        "logo_grip_hook_verified_present": True,
+        "logo_long_hold_threshold_seconds": 0.30,
+        "rootless_architecture": "iphoneos-arm64",
+        "device_tested": False,
+        "sileo_published": False,
+        "license_subsystem_fully_removed": False,
+    }
+    args.out.parent.mkdir(parents=True,exist_ok=True)
+    args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",
+                        encoding="utf-8")
+    print(json.dumps(result,ensure_ascii=False,indent=2))
+
+
+if __name__ == "__main__":
+    verify()
+########## END FILE: migration/full_payload/native_test/verify_native8.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/verify_native9.py ##########
+#!/usr/bin/env python3
+"""Enforce native9 release safety: original visuals + native gestures.
+
+Uses proven native6 (SHA-pinned) as the only reference, verifies all byte
+changes to two __cstring sections, original fullscreen/UI/visual dylib and
+filter unchanged, and precisely two added signed logo-grip files.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import plistlib
+import subprocess
+import tempfile
+from pathlib import Path
+from build_native5 import FILES, sha
+from build_native7 import SOURCE, EXPECTED, UI_COPY
+from build_native9 import VERSION, BASE_VISUAL, BASE_FILTER, GRIP_DYLIB, GRIP_FILTER, ORIGINAL_VISUAL_SHA256
+from verify_native8 import verify_display_binary
+
+def digest_files(root):
+    return {
+        p.relative_to(root).as_posix():sha(p.read_bytes())
+        for p in root.rglob("*") if p.is_file() and not p.is_symlink()
+    }
+
+def validate():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--deb",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    ap.add_argument("--out",type=Path,required=True)
+    args=ap.parse_args()
+    assert sha(SOURCE.read_bytes())==EXPECTED
+    report=json.loads(args.report.read_text(encoding="utf-8"))
+    assert report["status"]=="NATIVE9_ORIGINAL_VISUAL_PLUS_GRIP_ONLY_STAGED_NEEDS_CARPLAY_DEVICE_QA"
+    assert report["native6_base_sha256"]==EXPECTED
+    assert report["deb_sha256"]==sha(args.deb.read_bytes())
+    assert report["package"]=="com.duoface.independent"
+    assert report["version"]==VERSION
+    assert report["architecture"]=="iphoneos-arm64"
+    assert report["logo_hold_duration_seconds"]==0.30
+    assert len(report["masks"])==78
+    assert report["license_labels_selected"]==39
+    assert report["license_copy_occurrences_hidden"]==78
+    assert report["native_divider_pan_hooked"] is False
+    assert report["fullscreen_legacy_visual_hook_replaced"] is False
+    assert report["source_native6_rollback_preserved"]
+    assert report["native8_rollback_preserved"]
+    assert not report["device_tested"] and not report["sileo_published"]
+    assert report["original_visual_sha256_unchanged"]==ORIGINAL_VISUAL_SHA256
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.deb),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.deb),"Version"],text=True).strip()==VERSION
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.deb),"Architecture"],text=True).strip()=="iphoneos-arm64"
+
+    with tempfile.TemporaryDirectory(prefix="duoface-native9-verify-") as td:
+        p=Path(td)
+        base=p/"base"
+        candidate=p/"candidate"
+        candidate_control=p/"control"
+        subprocess.run(["dpkg-deb","-x",str(SOURCE),str(base)],check=True)
+        subprocess.run(["dpkg-deb","-x",str(args.deb),str(candidate)],check=True)
+        subprocess.run(["dpkg-deb","-e",str(args.deb),str(candidate_control)],check=True)
+        prev=digest_files(base)
+        after=digest_files(candidate)
+        assert set(prev)<=set(after)
+        assert set(after)-set(prev)=={GRIP_DYLIB,GRIP_FILTER}
+        modified=sorted(k for k in prev if prev[k]!=after[k])
+        assert modified==sorted(FILES.values()),modified
+        assert sorted(report["changed_existing_paths"])==sorted([*FILES.values(),"DEBIAN/control","DEBIAN/md5sums"])
+        assert report["added_paths"]==sorted([GRIP_DYLIB,GRIP_FILTER])
+        assert prev[BASE_VISUAL]==after[BASE_VISUAL]==ORIGINAL_VISUAL_SHA256
+        assert prev[BASE_FILTER]==after[BASE_FILTER]==report["original_visual_filter_sha256_unchanged"]
+        assert after[GRIP_FILTER]==prev[BASE_FILTER]==report["new_grip_filter_sha256"]
+        original_filter=plistlib.loads((base/BASE_FILTER).read_bytes())
+        independent_filter=plistlib.loads((candidate/GRIP_FILTER).read_bytes())
+        assert original_filter==independent_filter
+        assert "Bundles" in independent_filter["Filter"]
+        assert len(independent_filter["Filter"]["Bundles"])>0
+        assert after[GRIP_DYLIB]==report["new_grip_sha256"]
+        assert (candidate/GRIP_DYLIB).stat().st_size>10000
+        assert (candidate/GRIP_DYLIB).read_bytes()[:4]==bytes.fromhex("cffaedfe")
+        assert (base/GRIP_DYLIB).exists() is False
+        assert (base/GRIP_FILTER).exists() is False
+
+        checks={}
+        for name,rel in FILES.items():
+            checks[name]=verify_display_binary(
+                name,(base/rel).read_bytes(),(candidate/rel).read_bytes(),
+                [item for item in report["masks"] if item["binary"]==name])
+        assert sum(x["masked_user_visible_cstrings"] for x in checks.values())==78
+        assert sum(x["actual_changed_literal_bytes"] for x in checks.values())==report["actual_changed_literal_bytes_expected"]
+        assert {item["label"] for item in report["masks"]}==set(UI_COPY)
+
+        # Regenerated DEBIAN/md5sums must describe every actual payload file.
+        sums=(candidate_control/"md5sums").read_text().splitlines()
+        entries={}
+        for line in sums:
+            hexdigest,rel=line.split("  ",1)
+            assert rel not in entries
+            entries[rel]=hexdigest
+        assert set(entries)==set(after)
+        for rel,expected in entries.items():
+            assert hashlib.md5((candidate/rel).read_bytes()).hexdigest()==expected,rel
+
+        strings=subprocess.check_output(["strings",str(candidate/GRIP_DYLIB)],text=True)
+        assert "[DuoFaceGripOnly] installed:" in strings
+        assert "threshold=0.30s" in strings
+        assert "native divider pan" in strings
+        assert "DFDividerLayout" not in strings or "DuoFaceGripOnly" in strings
+        control=(candidate_control/"control").read_text()
+        assert "Package: com.duoface.independent" in control
+        assert "Version: "+VERSION in control
+
+        result={
+            "status":"NATIVE9_BYTE_EXACT_ORIGINAL_VISUAL_AND_NATIVE_RATIO_GUARD_PASS",
+            "native6_reference_sha256":EXPECTED,
+            "native9_sha256":report["deb_sha256"],
+            "package":report["package"],"version":VERSION,
+            "rootless_architecture":report["architecture"],
+            "native6_original_visual_dylib_byte_identical":True,
+            "original_visual_dylib_sha256":ORIGINAL_VISUAL_SHA256,
+            "original_visual_filter_byte_identical":True,
+            "grip_filter_exact_copy_of_original":True,
+            "new_grip_dylib_sha256":after[GRIP_DYLIB],
+            "only_added_paths":sorted([GRIP_DYLIB,GRIP_FILTER]),
+            "only_changed_existing_payload":modified,
+            "unchanged_other_existing_payload":len(prev)-len(modified),
+            "license_copy_mask_checks":checks,
+            "native_host_code_and_objc_metadata_unchanged":True,
+            "legacy_ui_and_youtube_fullscreen_binary_untouched":True,
+            "native_divider_pan_unhooked_by_new_module":True,
+            "logo_hold_seconds":0.30,
+            "md5sums_verified_all_payload":True,
+            "not_claiming_device_success":True,
+            "device_tested_for_this_candidate":False,
+            "sileo_deployed":False
+        }
+    args.out.parent.mkdir(parents=True,exist_ok=True)
+    args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps(result,ensure_ascii=False,indent=2))
+
+if __name__=="__main__":
+    validate()
+########## END FILE: migration/full_payload/native_test/verify_native9.py ##########
+
+########## BEGIN FILE: runtime/appbridge/DFInCarAppPicker.xm ##########
+// DuoFace CarPlay direct Add App — source fix after native15 device QA.
+// Keep the native Add App tile, but NEVER call the old stop-car/iPhone-only
+// modal. Open a CarPlay picker for valid choices or show a scoped in-car
+// explanation when native storage/providers cannot yet be validated.
+// This change never patches the native12 Dashboard/activation implementation.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+
+@interface NSObject (DFInstalledAppInfo)
++ (id)defaultWorkspace;
+- (NSArray *)allInstalledApplications;
+- (NSString *)applicationIdentifier;
+- (NSString *)localizedName;
+- (NSString *)applicationType;
+@end
+
+@interface CBDashboardSettings : NSObject
++ (instancetype)sharedInstance;
+- (NSArray<NSString *> *)bridgedApps;
+- (void)reload;
+@end
+
+@interface CBBridgeManager : NSObject
++ (instancetype)sharedInstanceIfExists;
+- (void)handleSettingsChanged;
+@end
+
+@interface CBMultitaskingOverlayView : UIView
+- (void)addMoreAppsTapped:(id)sender;
+- (void)switchToAppPickerMode;
+@end
+
+static const NSInteger kDFInCarModalTag=0x0DFA0023;
+static NSString *const kDFBridgedAppsKey=@"bridgedApps";
+static NSString *const kDFNativeOwnerPrefsFile=@"/var/mobile/Library/Preferences/com.duoface.plist";
+static BOOL DFPickerValidBundle(NSString *bid) {
+    if (![bid isKindOfClass:NSString.class] || bid.length<3 || bid.length>255 ||
+        ![bid containsString:@"."] || [bid containsString:@".."]) return NO;
+    NSCharacterSet *allow=[NSCharacterSet characterSetWithCharactersInString:
+        @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_"];
+    return [bid rangeOfCharacterFromSet:allow.invertedSet].location==NSNotFound;
+}
+
+@interface UIImage (DFPrivateInstalledAppIcon)
++ (UIImage *)_applicationIconImageForBundleIdentifier:(NSString *)identifier
+                                               format:(int)format scale:(CGFloat)scale;
+@end
+
+// SpringBoard is the native icon owner. Avoid loading every icon through a
+// separate process or treating the bundle identifier as an asset pathname.
+// Apple private selector may vary by iOS; show a safe symbol fallback.
+static UIImage *DFInCarIconForBundle(NSString *bundleID) {
+    if (!DFPickerValidBundle(bundleID)) return nil;
+    static NSCache<NSString *, UIImage *> *cached=nil;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ cached=[NSCache new]; cached.countLimit=140; });
+    UIImage *hit=[cached objectForKey:bundleID];
+    if (hit) return hit;
+    UIImage *icon=nil;
+    SEL selector=@selector(_applicationIconImageForBundleIdentifier:format:scale:);
+    if ([UIImage respondsToSelector:selector]) {
+        @try {
+            icon=[UIImage _applicationIconImageForBundleIdentifier:bundleID
+                              format:2 scale:UIScreen.mainScreen.scale];
+        } @catch (NSException *ex) {
+            NSLog(@"[DuoFaceInCarAddApps] icon provider rejected app (%@)",ex.name);
+        }
+    }
+    if (![icon isKindOfClass:UIImage.class] || !icon.size.width || !icon.size.height)
+        icon=[UIImage systemImageNamed:@"app.fill"];
+    if (icon) [cached setObject:icon forKey:bundleID];
+    return icon;
+}
+
+static NSArray<NSString *> *DFValidStringApps(id value) {
+    if (![value isKindOfClass:NSArray.class]) return nil;
+    NSMutableArray<NSString *> *result=[NSMutableArray array];
+    NSMutableSet<NSString *> *seen=[NSMutableSet set];
+    for (id item in value) {
+        if (!DFPickerValidBundle(item)) return nil;
+        if ([seen containsObject:item]) return nil;
+        [seen addObject:item]; [result addObject:item];
+    }
+    return [result copy];
+}
+static BOOL DFListEqual(NSArray *a,NSArray *b) {
+    // Original preference array order is meaningful: never sort or replace it.
+    return a && b && [a isEqualToArray:b];
+}
+static NSString *DFExistingSettingsFileForList(NSArray<NSString *> *current) {
+    // Native20 rebuild patches the original native12 owner decoder to this
+    // same canonical DuoFace preference file. Package preinst migrates existing
+    // settings once, without recreating the app list from memory.
+    if (!DFValidStringApps(current)) return nil;
+    NSDictionary *dict=[NSDictionary dictionaryWithContentsOfFile:kDFNativeOwnerPrefsFile];
+    if (![dict isKindOfClass:NSDictionary.class]) {
+        NSLog(@"[DuoFaceInCarAddApps] native settings owner not readable");
+        return nil;
+    }
+    // appSettings is optional if no per-app configuration has been saved.
+    id extra=dict[@"appSettings"];
+    if (extra && ![extra isKindOfClass:NSDictionary.class]) {
+        NSLog(@"[DuoFaceInCarAddApps] invalid appSettings schema");
+        return nil;
+    }
+    NSArray *saved=DFValidStringApps(dict[kDFBridgedAppsKey]);
+    if (!DFListEqual(saved,current)) {
+        NSLog(@"[DuoFaceInCarAddApps] native preference owner list differs");
+        return nil;
+    }
+    return kDFNativeOwnerPrefsFile;
+}
+static NSArray<NSDictionary *> *DFEligibleApps(NSArray<NSString *> *already) {
+    Class cls=NSClassFromString(@"LSApplicationWorkspace");
+    if (!cls || ![cls respondsToSelector:@selector(defaultWorkspace)]) return nil;
+    id work=[cls defaultWorkspace];
+    if (!work || ![work respondsToSelector:@selector(allInstalledApplications)])
+        return nil;
+    NSArray *installed=[work allInstalledApplications];
+    if (![installed isKindOfClass:NSArray.class]) return nil;
+    NSSet *selected=[NSSet setWithArray:already];
+    NSMutableDictionary<NSString *,NSDictionary *> *unique=[NSMutableDictionary dictionary];
+    for (id proxy in installed) {
+        if (![proxy respondsToSelector:@selector(applicationIdentifier)] ||
+            ![proxy respondsToSelector:@selector(localizedName)]) continue;
+        NSString *bid=[proxy applicationIdentifier];
+        NSString *name=[proxy localizedName];
+        if (!DFPickerValidBundle(bid) || [selected containsObject:bid] ||
+            ![name isKindOfClass:NSString.class] || !name.length ||
+            [bid hasPrefix:@"com.apple."] || [bid hasPrefix:@"com.duoface."]) continue;
+        if ([proxy respondsToSelector:@selector(applicationType)]) {
+            id kind=[proxy applicationType];
+            if ([kind isKindOfClass:NSString.class] && ![kind isEqualToString:@"User"])
+                continue;
+        }
+        unique[bid]=@{@"bundle":bid,@"title":name};
+    }
+    return [[unique allValues] sortedArrayUsingComparator:
+        ^NSComparisonResult(NSDictionary *a,NSDictionary *b) {
+            NSComparisonResult x=[a[@"title"] localizedCaseInsensitiveCompare:b[@"title"]];
+            return x==NSOrderedSame ? [a[@"bundle"] compare:b[@"bundle"]] : x;
+        }];
+}
+static BOOL DFSaveToNativePreferences(NSString *file,NSArray *expected,
+                                     NSString *bundle,NSString **failure) {
+    if (!file.length || !DFPickerValidBundle(bundle)) {
+        if (failure) *failure=@"Không tìm thấy cấu hình ứng dụng gốc.";
+        return NO;
+    }
+    NSDictionary *before=[NSDictionary dictionaryWithContentsOfFile:file];
+    NSArray *live=DFValidStringApps(before[kDFBridgedAppsKey]);
+    if (!DFListEqual(live,expected)) {
+        if (failure) *failure=@"Danh sách vừa thay đổi, vui lòng mở lại.";
+        return NO;
+    }
+    if ([live containsObject:bundle]) return YES; // idempotent
+    NSMutableDictionary *changed=[before mutableCopy];
+    NSMutableArray *next=[live mutableCopy];
+    [next addObject:bundle];
+    changed[kDFBridgedAppsKey]=[next copy];
+    if (![changed writeToFile:file atomically:YES]) {
+        if (failure) *failure=@"Không thể lưu cấu hình trên iPhone.";
+        return NO;
+    }
+    CBDashboardSettings *settings=[NSClassFromString(@"CBDashboardSettings") sharedInstance];
+    if (![settings respondsToSelector:@selector(reload)]) {
+        [before writeToFile:file atomically:YES];
+        if (failure) *failure=@"Không tìm thấy bộ quản lý DuoFace.";
+        return NO;
+    }
+    [settings reload];
+    NSArray *updated=DFValidStringApps([settings bridgedApps]);
+    if (!DFListEqual(updated,next)) {
+        [before writeToFile:file atomically:YES];
+        [settings reload]; // rollback persistent+in-memory state together
+        if (failure) *failure=@"DuoFace không nhận danh sách mới; đã hoàn tác.";
+        return NO;
+    }
+    CBBridgeManager *manager=[NSClassFromString(@"CBBridgeManager") sharedInstanceIfExists];
+    if ([manager respondsToSelector:@selector(handleSettingsChanged)])
+        [manager handleSettingsChanged];
+    return YES;
+}
+@interface DFInCarAppPicker : UIView <UITableViewDataSource,UITableViewDelegate>
+@property(nonatomic,weak) CBMultitaskingOverlayView *host;
+@property(nonatomic,copy) NSString *prefsFile;
+@property(nonatomic,copy) NSArray<NSString *> *snapshot;
+@property(nonatomic,copy) NSArray<NSDictionary *> *choices;
+@property(nonatomic,strong) UITableView *table;
+@property(nonatomic,strong) UILabel *status;
+- (instancetype)initWithHost:(CBMultitaskingOverlayView *)host
+                       file:(NSString *)file current:(NSArray *)current
+                    choices:(NSArray *)choices diagnostic:(NSString *)diagnostic;
+- (void)dismiss;
+@end
+@implementation DFInCarAppPicker
+- (instancetype)initWithHost:(CBMultitaskingOverlayView *)host
+                       file:(NSString *)file current:(NSArray *)current
+                    choices:(NSArray *)choices diagnostic:(NSString *)diagnostic {
+    self=[super initWithFrame:host.bounds];
+    if (!self) return nil;
+    _host=host;_prefsFile=[file copy];_snapshot=[current copy];_choices=[choices copy];
+    self.tag=kDFInCarModalTag;
+    self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.82];
+    UIView *panel=[[UIView alloc] initWithFrame:CGRectInset(self.bounds,18,18)];
+    panel.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    panel.layer.cornerRadius=14;
+    panel.layer.masksToBounds=YES;
+    panel.backgroundColor=[UIColor colorWithWhite:0.12 alpha:0.99];
+    [self addSubview:panel];
+    UIButton *cancel=[UIButton buttonWithType:UIButtonTypeSystem];
+    [cancel setTitle:@"Hủy" forState:UIControlStateNormal];
+    cancel.frame=CGRectMake(8,4,64,40);
+    [cancel addTarget:self action:@selector(dismiss)
+      forControlEvents:UIControlEventTouchUpInside];
+    [panel addSubview:cancel];
+    UILabel *title=[[UILabel alloc] initWithFrame:CGRectMake(76,4,
+                            MAX(80,panel.bounds.size.width-154),40)];
+    title.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+    title.textAlignment=NSTextAlignmentCenter;
+    title.textColor=UIColor.whiteColor;
+    title.font=[UIFont boldSystemFontOfSize:16];
+    title.text=@"Thêm ứng dụng";
+    [panel addSubview:title];
+    UILabel *status=[[UILabel alloc] initWithFrame:CGRectMake(10,
+                      panel.bounds.size.height-34,panel.bounds.size.width-20,28)];
+    status.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    status.font=[UIFont systemFontOfSize:12];
+    status.numberOfLines=2;
+    status.adjustsFontSizeToFitWidth=YES;
+    status.textColor=UIColor.lightGrayColor;
+    status.textAlignment=NSTextAlignmentCenter;
+    status.text=diagnostic.length ? diagnostic : @"Chạm để thêm vào DuoFace";
+    [panel addSubview:status];_status=status;
+    UITableView *table=[[UITableView alloc] initWithFrame:CGRectMake(0,46,
+                      panel.bounds.size.width,MAX(55,panel.bounds.size.height-82))
+                      style:UITableViewStylePlain];
+    table.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    table.dataSource=self;table.delegate=self;table.rowHeight=50;
+    table.backgroundColor=UIColor.clearColor;
+    [panel addSubview:table];_table=table;
+    return self;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    (void)tableView;(void)section;return self.choices.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView
+ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *ident=@"DFInCarInstalledApp";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ident];
+    if (!cell) cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                            reuseIdentifier:ident];
+    NSDictionary *entry=self.choices[(NSUInteger)indexPath.row];
+    cell.textLabel.text=entry[@"title"];
+    cell.textLabel.font=[UIFont systemFontOfSize:14];
+    cell.textLabel.textColor=UIColor.whiteColor;
+    cell.detailTextLabel.text=entry[@"bundle"];
+    cell.detailTextLabel.textColor=UIColor.lightGrayColor;
+    cell.detailTextLabel.font=[UIFont systemFontOfSize:10];
+    UIImage *appIcon=DFInCarIconForBundle(entry[@"bundle"]);
+    cell.imageView.image=appIcon;
+    cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
+    cell.imageView.layer.cornerRadius=8;
+    cell.imageView.layer.masksToBounds=YES;
+    cell.backgroundColor=UIColor.clearColor;
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ((NSUInteger)indexPath.row>=self.choices.count) return;
+    if (!self.prefsFile.length || !self.snapshot) {
+        self.status.text=@"Chưa xác minh được tệp cấu hình gốc; không ghi dữ liệu.";
+        NSLog(@"[DuoFaceInCarAddApps] save skipped: original preferences owner unverified");
+        return;
+    }
+    NSString *bundle=self.choices[(NSUInteger)indexPath.row][@"bundle"];
+    NSString *error=nil;
+    BOOL ok=DFSaveToNativePreferences(self.prefsFile,self.snapshot,bundle,&error);
+    if (!ok) {self.status.text=error?:@"Không thể thêm ứng dụng.";return;}
+    NSLog(@"[DuoFace] CarPlay Add App saved (bundle-id redacted)");
+    [self dismiss];
+    // Original native picker owns its app cards, hit areas and split layout.
+    // A reload of its original app-picker mode makes the new app selectable.
+    [self.host switchToAppPickerMode];
+}
+- (void)dismiss {
+    [self removeFromSuperview];
+}
+@end
+
+%group DFInCarPicker
+%hook CBMultitaskingOverlayView
+- (void)addMoreAppsTapped:(id)sender {
+    // THE ORIGINAL HANDLER SHOWS THE OBSOLETE "PARK SAFELY / OPEN IPHONE"
+    // MODAL. It MUST NOT be invoked here on any success or failure branch.
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self addMoreAppsTapped:sender];
+        });
+        return;
+    }
+    if ([self viewWithTag:kDFInCarModalTag]) return;
+
+    Class settingsClass=NSClassFromString(@"CBDashboardSettings");
+    CBDashboardSettings *settings=nil;
+    if (settingsClass && [settingsClass respondsToSelector:@selector(sharedInstance)])
+        settings=[settingsClass sharedInstance];
+    NSArray *selected=settings ? DFValidStringApps([settings bridgedApps]) : nil;
+    NSString *prefs=selected ? DFExistingSettingsFileForList(selected) : nil;
+    NSArray *choices=DFEligibleApps(selected?:@[]);
+    NSString *diagnostic=nil;
+    if (!settings || !selected) {
+        diagnostic=@"Chưa đọc được danh sách DuoFace gốc trên CarPlay.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: settings/current list unavailable");
+    } else if (!prefs) {
+        diagnostic=@"Chưa xác minh tệp lưu chung với iPhone; chưa thể thêm.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: shared settings file missing or ambiguous");
+    } else if (!choices) {
+        diagnostic=@"Chưa lấy được danh sách ứng dụng iPhone.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: installed apps provider unavailable");
+    } else if (choices.count==0) {
+        diagnostic=@"Không còn ứng dụng phù hợp để thêm.";
+        NSLog(@"[DuoFaceInCarAddApps] in-car status: no eligible unbridged apps");
+    }
+    DFInCarAppPicker *picker=[[DFInCarAppPicker alloc]
+        initWithHost:self file:prefs current:selected
+        choices:choices?:@[] diagnostic:diagnostic];
+    [self addSubview:picker];
+    [self bringSubviewToFront:picker];
+    NSLog(@"[DuoFaceInCarAddApps] in-car sheet shown; choices=%lu verified-storage=%@",
+          (unsigned long)choices.count, prefs?@"yes":@"no");
+}
+%end
+%end
+
+static BOOL DFPickerHookInstalled=NO;
+static BOOL DFPickerAllowedHost(void) {
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    NSString *process=NSProcessInfo.processInfo.processName.lowercaseString;
+    NSSet *bundleAllow=[NSSet setWithArray:@[
+        @"com.apple.springboard",@"com.apple.carplay",@"com.apple.carplayapp",
+        @"com.apple.dashboard"]];
+    NSSet *processAllow=[NSSet setWithArray:@[
+        @"springboard",@"carplay",@"carplayapp",@"dashboard"]];
+    return [bundleAllow containsObject:bundle] || [processAllow containsObject:process];
+}
+static void DFInstallPickerOnce(void) {
+    if (DFPickerHookInstalled || !DFPickerAllowedHost()) return;
+    // DuoFaceDashboard may be injected only once CarPlay is activated. A
+    // one-time SpringBoard constructor probe silently missed this class.
+    if (!NSClassFromString(@"CBMultitaskingOverlayView")) return;
+    %init(DFInCarPicker);
+    DFPickerHookInstalled=YES;
+    NSLog(@"[DuoFaceInCarAddApps] Hook active in CarPlay host.");
+}
+static void DFInstallPickerEventually(void) {
+    if (DFPickerHookInstalled || !DFPickerAllowedHost()) return;
+    DFInstallPickerOnce();
+    if (!DFPickerHookInstalled) {
+        // Only one pending low-frequency probe; harmless if CarPlay attaches
+        // much later after device boot. Stop immediately after %init succeeds.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5*NSEC_PER_SEC),
+                       dispatch_get_main_queue(), ^{
+            DFInstallPickerEventually();
+        });
+    }
+}
+__attribute__((constructor)) static void DFInstallDirectAddApp(void) {
+    @autoreleasepool {
+        if (!DFPickerAllowedHost()) return;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFInstallPickerEventually();
+        });
+    }
+}
+########## END FILE: runtime/appbridge/DFInCarAppPicker.xm ##########
+
+########## BEGIN FILE: runtime/appbridge/DFRemoveOldAddAppTile.xm ##########
+// native21: remove the failed CarPlay "Add App" tile, not the iPhone picker.
+// No app-list writes, no alert, no bridge/geometry/zoom modifications.
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+@interface CBMultitaskingOverlayView : UIView
+- (void)addMoreAppsTapped:(id)sender;
+- (void)setupAppPickerCardsInCardW:(CGFloat)w cardH:(CGFloat)h contentY:(CGFloat)y;
+@end
+
+static BOOL DFIsDeprecatedAddControl(UIControl *control) {
+    if (![control isKindOfClass:UIControl.class]) return NO;
+    // Match the registered action, never a localized label or generic "+".
+    for (id target in control.allTargets) {
+        NSArray<NSString *> *actions =
+            [control actionsForTarget:target forControlEvent:UIControlEventTouchUpInside];
+        if ([actions containsObject:@"addMoreAppsTapped:"]) return YES;
+    }
+    return NO;
+}
+static NSUInteger DFRemoveAddControls(UIView *view, NSUInteger depth) {
+    if (!view || depth>20) return 0;
+    NSUInteger count=0;
+    // Take a snapshot because removeFromSuperview mutates subviews.
+    for (UIView *child in [view.subviews copy]) {
+        if ([child isKindOfClass:UIControl.class] &&
+            DFIsDeprecatedAddControl((UIControl *)child)) {
+            child.hidden=YES;
+            [child removeFromSuperview];
+            count++;
+            continue;
+        }
+        count+=DFRemoveAddControls(child,depth+1);
+    }
+    return count;
+}
+static void DFHideLegacyAddButton(UIView *overlay) {
+    if (![NSThread isMainThread]) return;
+    NSUInteger removed=DFRemoveAddControls(overlay,0);
+    if (removed) NSLog(@"[DuoFace] removed obsolete Add App tile (count=%lu)",
+                       (unsigned long)removed);
+}
+%group DFRemoveOldAddAppTile
+%hook CBMultitaskingOverlayView
+- (void)setupAppPickerCardsInCardW:(CGFloat)w cardH:(CGFloat)h contentY:(CGFloat)y {
+    %orig;
+    DFHideLegacyAddButton(self);
+}
+- (void)layoutSubviews {
+    %orig;
+    DFHideLegacyAddButton(self);
+}
+- (void)addMoreAppsTapped:(id)sender {
+    // A stale retained button/gesture must NEVER recreate the old dialog.
+    (void)sender;
+    NSLog(@"[DuoFace] ignored obsolete Add App action");
+}
+%end
+%end
+
+static BOOL DFRemoveTileHooked=NO;
+static BOOL DFAllowedCarPlayHost(void) {
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    NSString *process=NSProcessInfo.processInfo.processName.lowercaseString;
+    return [@[@"com.apple.springboard",@"com.apple.carplay",
+              @"com.apple.carplayapp",@"com.apple.dashboard"] containsObject:bundle] ||
+           [@[@"springboard",@"carplay",@"carplayapp",@"dashboard"] containsObject:process];
+}
+static void DFInstallOldAddTileRemoval(void) {
+    if (DFRemoveTileHooked || !DFAllowedCarPlayHost()) return;
+    if (NSClassFromString(@"CBMultitaskingOverlayView")==Nil) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,5*NSEC_PER_SEC),
+                       dispatch_get_main_queue(),^{DFInstallOldAddTileRemoval();});
+        return;
+    }
+    %init(DFRemoveOldAddAppTile);
+    DFRemoveTileHooked=YES;
+    NSLog(@"[DuoFace] obsolete Add App removal hook installed");
+}
+__attribute__((constructor)) static void DFStartRemoveOldAddTile(void) {
+    @autoreleasepool {
+        if (!DFAllowedCarPlayHost()) return;
+        dispatch_async(dispatch_get_main_queue(), ^{DFInstallOldAddTileRemoval();});
+    }
+}
+########## END FILE: runtime/appbridge/DFRemoveOldAddAppTile.xm ##########
+
+########## BEGIN FILE: runtime/connection/DFConnectionAdapter.h ##########
+#pragma once
+// SpringBoard owner adapter interface; callbacks must be bound to verified
+// native DuoFace methods only after their signature and process are audited.
+// This file does not install hooks or change the user's existing settings.
+#import <Foundation/Foundation.h>
+NS_ASSUME_NONNULL_BEGIN
+typedef BOOL (^DFConnectionQuery)(void);
+typedef BOOL (^DFAppQuery)(NSString *bundleID);
+typedef void (^DFAppExecutor)(NSString *bundleID);
+typedef void (^DFLastAppSaver)(NSString *bundleID);
+FOUNDATION_EXPORT void DFConnectionConfigure(BOOL autoStart, BOOL closeOnDisconnect);
+FOUNDATION_EXPORT void DFConnectionLoadRememberedApp(NSString * _Nullable existingPreferenceBundleID);
+FOUNDATION_EXPORT void DFConnectionManagedAppActivated(NSString *bundleID,
+                                                       DFLastAppSaver _Nullable saveLastApp);
+FOUNDATION_EXPORT void DFConnectionVerifiedConnected(NSString * _Nullable currentDuoFaceOwnedApp,
+                                                      DFAppQuery installed,
+                                                      DFAppExecutor _Nullable launchApp,
+                                                      DFLastAppSaver _Nullable saveLastApp);
+FOUNDATION_EXPORT void DFConnectionVerifiedDisconnected(DFConnectionQuery stillDisconnected,
+                                                         DFAppQuery stillOwnedAndRunning,
+                                                         DFAppExecutor terminateOwnedApp);
+NS_ASSUME_NONNULL_END
+########## END FILE: runtime/connection/DFConnectionAdapter.h ##########
+
+########## BEGIN FILE: runtime/connection/DFConnectionAdapter.mm ##########
+// No hook installed here. This adapter must be called from validated
+// SpringBoard CBBridgeManager connect/disconnect and managed-app callbacks.
+// Do not treat a Dashboard app deactivation as CarPlay disconnect.
+// Existing user preferences and existing activation callbacks remain native.
+#import "DFConnectionAdapter.h"
+#import "DFConnectionPolicy.hpp"
+#import <dispatch/dispatch.h>
+#include <string>
+#include <vector>
+
+using duoface::connection::Policy;
+using duoface::connection::Action;
+using duoface::connection::ActionKind;
+
+static Policy& DFPolicy() { static Policy p; return p; }
+static void DFAssertOwnerThread() {
+    NSCAssert([NSThread isMainThread],
+              @"DuoFace connection adapter must run on owner process main thread");
+}
+static std::string DFUtf8(NSString *value) {
+    return [value isKindOfClass:NSString.class] && value.UTF8String
+        ? std::string(value.UTF8String) : std::string();
+}
+static NSString *DFString(const std::string& value) {
+    return [NSString stringWithUTF8String:value.c_str()] ?: @"";
+}
+static std::uint64_t DFUptimeMilliseconds() {
+    return static_cast<std::uint64_t>(NSProcessInfo.processInfo.systemUptime*1000.0);
+}
+static void DFDispatchActions(const std::vector<Action>& actions,
+                              DFAppExecutor launch,
+                              DFAppExecutor terminate,
+                              DFLastAppSaver save) {
+    for (const auto& action : actions) {
+        NSString *app=DFString(action.bundleId);
+        if (!app.length) continue;
+        switch (action.kind) {
+            case ActionKind::LaunchApp:
+                if (launch) launch(app);
+                break;
+            case ActionKind::TerminateOwnedApp:
+                if (terminate) terminate(app);
+                break;
+            case ActionKind::SaveLastApp:
+                if (save) save(app);
+                break;
+        }
+    }
+}
+void DFConnectionConfigure(BOOL autoStart, BOOL closeOnDisconnect) {
+    DFAssertOwnerThread();
+    DFPolicy().setAutoStart(autoStart);
+    DFPolicy().setCloseOnDisconnect(closeOnDisconnect);
+}
+void DFConnectionLoadRememberedApp(NSString *bundleID) {
+    DFAssertOwnerThread();
+    DFPolicy().restoreLastAppFromExistingPreferences(DFUtf8(bundleID));
+}
+void DFConnectionManagedAppActivated(NSString *bundleID, DFLastAppSaver saveLastApp) {
+    DFAssertOwnerThread();
+    DFDispatchActions(DFPolicy().onManagedAppActivated(DFUtf8(bundleID)),
+                      nil,nil,saveLastApp);
+}
+void DFConnectionVerifiedConnected(NSString *currentDuoFaceOwnedApp,
+                                   DFAppQuery installed, DFAppExecutor launchApp,
+                                   DFLastAppSaver saveLastApp) {
+    DFAssertOwnerThread();
+    // Do NOT issue an app launch unless the real owner supplied a validated,
+    // installed candidate, and currentApp has been checked for ownership.
+    Policy::Predicate check=[installed](const std::string& bid) {
+        return installed && installed(DFString(bid));
+    };
+    DFDispatchActions(
+        DFPolicy().onVerifiedConnected(DFUtf8(currentDuoFaceOwnedApp),check),
+        launchApp,nil,saveLastApp);
+}
+void DFConnectionVerifiedDisconnected(DFConnectionQuery stillDisconnected,
+                                      DFAppQuery stillOwnedAndRunning,
+                                      DFAppExecutor terminateOwnedApp) {
+    DFAssertOwnerThread();
+    auto& policy=DFPolicy();
+    policy.onVerifiedDisconnected(DFUptimeMilliseconds());
+    if (!policy.hasPendingClose()) return;
+    const std::uint64_t token=policy.generation();
+    // On reconnect policy generation changes, so old timers cannot terminate.
+    // Delay exactly 10 seconds; the current preference can cancel at any time.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                   static_cast<int64_t>(Policy::kDisconnectGraceMs)*NSEC_PER_MSEC),
+                   dispatch_get_main_queue(), ^{
+        DFAssertOwnerThread();
+        if (DFPolicy().generation()!=token) return;
+        const bool disconnected=stillDisconnected && stillDisconnected();
+        Policy::Predicate canClose=[stillOwnedAndRunning](const std::string& bid) {
+            // Both owned and running must be proved by the actual host.
+            return stillOwnedAndRunning && stillOwnedAndRunning(DFString(bid));
+        };
+        auto actions=DFPolicy().tick(DFUptimeMilliseconds(), disconnected, canClose);
+        DFDispatchActions(actions,nil,terminateOwnedApp,nil);
+    });
+}
+########## END FILE: runtime/connection/DFConnectionAdapter.mm ##########
+
+########## BEGIN FILE: runtime/connection/DFConnectionNativeHooks.xm ##########
+// DuoFace-only native12 SpringBoard connection bridge.
+// native21: keep 10-second disconnect only; native12 owns Auto Resume.
+// Preserve every original callback. No DuoDash code, logos, assets or UI.
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+#import "DFConnectionAdapter.h"
+
+@interface CBLicenseSyncManager : NSObject
++ (BOOL)isCarPlayScreenConnected;  // native12 B16@0:8, byte-exact preserved
+@end
+
+@interface CBDashboardSettings : NSObject
++ (instancetype)sharedInstance;
+- (BOOL)autoLaunchOnConnect;
+@end
+
+@interface CBBridgeManager : NSObject
++ (instancetype)sharedInstanceIfExists;
+- (BOOL)activated;
+- (NSString *)bundleIdentifier;
+- (BOOL)isCurrentlyBridging:(NSString *)bundleID;
+- (NSArray *)runningBridgedApplications;
+- (NSString *)effectiveAutoLaunchBundleID;
+- (void)terminateApplicationWithBundleID:(NSString *)bundleID;
+@end
+
+static NSString *const kDFSmartPrefs = @"com.duoface.smartconnection";
+static NSString *const kDFClose = @"closeOnCarPlayDisconnect";
+static BOOL DFConnectedKnown = NO;
+static NSUInteger DFConnectionEpoch = 0;
+
+static NSUserDefaults *DFStore(void) {
+    return [[NSUserDefaults alloc] initWithSuiteName:kDFSmartPrefs];
+}
+static BOOL DFHostCarPlayConnected(void) {
+    Class cls=NSClassFromString(@"CBLicenseSyncManager");
+    if (!cls || ![cls respondsToSelector:@selector(isCarPlayScreenConnected)])
+        return NO; // Fail closed when host cannot prove a real CarPlay screen.
+    return [cls isCarPlayScreenConnected];
+}
+static BOOL DFOwnedAndRunning(CBBridgeManager *manager, NSString *bundleID) {
+    if (![bundleID isKindOfClass:NSString.class] || !bundleID.length) return NO;
+    if ([manager isCurrentlyBridging:bundleID]) return YES;
+    NSArray *running = [manager runningBridgedApplications];
+    return [running isKindOfClass:NSArray.class] && [running containsObject:bundleID];
+}
+static BOOL DFAutoEnabled(void) {
+    Class cls=NSClassFromString(@"CBDashboardSettings");
+    if (!cls || ![cls respondsToSelector:@selector(sharedInstance)]) return NO;
+    CBDashboardSettings *settings=[cls sharedInstance];
+    return settings && [settings respondsToSelector:@selector(autoLaunchOnConnect)]
+        && settings.autoLaunchOnConnect;
+}
+static void DFRefreshConnectionState(CBBridgeManager *manager) {
+    if (![NSThread isMainThread] || !manager) return;
+    // The old CarPlay detection implementation is observed, never swizzled.
+    Class detector=NSClassFromString(@"CBLicenseSyncManager");
+    if (!detector || ![detector respondsToSelector:@selector(isCarPlayScreenConnected)])
+        return; // Without a verified event owner, do nothing.
+    BOOL connected=DFHostCarPlayConnected();
+    DFConnectionConfigure(DFAutoEnabled(),[DFStore() boolForKey:kDFClose]);
+    if (connected==DFConnectedKnown) return;
+    DFConnectedKnown=connected;
+    ++DFConnectionEpoch;
+    if (connected) {
+        // The native CBBridgeManager's own performAutoResume does the launch;
+        // deliberately pass NO launch executor to prevent a second launch.
+        NSString *app=([manager activated] &&
+                        DFOwnedAndRunning(manager,[manager bundleIdentifier]))
+                      ? [manager bundleIdentifier] : nil;
+        DFConnectionLoadRememberedApp(nil); // native12 owns Auto Resume preferences
+        DFConnectionVerifiedConnected(app,
+            ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
+            nil, ^(NSString *bid){ (void)bid; }); // do not persist single-app recall
+    } else {
+        DFConnectionVerifiedDisconnected(
+            ^BOOL {
+                // Re-read cross-process preference at grace expiry.
+                DFConnectionConfigure(DFAutoEnabled(),[DFStore() boolForKey:kDFClose]);
+                return !DFHostCarPlayConnected();
+            },
+            ^BOOL(NSString *bid){return DFOwnedAndRunning(manager,bid);},
+            ^(NSString *bid){
+                if (!DFHostCarPlayConnected() && DFOwnedAndRunning(manager,bid))
+                    [manager terminateApplicationWithBundleID:bid];
+            });
+    }
+}
+static void DFObserveNativeConnection(CBBridgeManager *manager) {
+    if ([NSThread isMainThread]) { DFRefreshConnectionState(manager); return; }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DFRefreshConnectionState(manager);
+    });
+}
+
+// These exact native12 classes and ABIs were audited in GitHub Actions.
+// All callbacks call %orig. Only DuoFace-owned app IDs are recorded.
+%hook CBBridgeManager
+- (void)handleCarPlayConnectionChanged:(id)notification {
+    %orig;
+    DFObserveNativeConnection(self);
+}
+// The immutable native12 contains its own unconditional mandatory watchdog.
+// While the NEW close-on-disconnect option is ON, our scoped 10-second timer
+// must be the only shutdown authority. Otherwise the original watchdog could
+// forcibly kill apps before the user-selected grace period or kill twice.
+// OFF deliberately preserves existing native12 behavior; no global override.
+- (void)scheduleMandatoryDisconnectWatchdog {
+    if ([DFStore() boolForKey:kDFClose]) {
+        NSLog(@"[DuoFaceSmartConnection] prevent parallel native watchdog; managed 10s timer owns close");
+        return;
+    }
+    %orig;
+}
+- (void)enforceMandatoryDisconnectKill {
+    if ([DFStore() boolForKey:kDFClose]) {
+        NSLog(@"[DuoFaceSmartConnection] ignore stale native mandatory kill; scoped 10s policy active");
+        return;
+    }
+    %orig;
+}
+- (void)handleScreenDidConnect:(id)notification {
+    %orig;
+    DFObserveNativeConnection(self);
+}
+- (void)handleScreenDidDisconnect:(id)notification {
+    %orig;
+    DFObserveNativeConnection(self);
+}
+- (void)trackBridgedBundleID:(id)rawBundleID {
+    %orig;
+    if (![rawBundleID isKindOfClass:NSString.class]) return;
+    NSString *bundleID=(NSString *)rawBundleID;
+    CBBridgeManager *manager=self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!DFHostCarPlayConnected() || !DFOwnedAndRunning(manager,bundleID)) return;
+        DFRefreshConnectionState(manager);
+        DFConnectionManagedAppActivated(bundleID, nil);
+    });
+}
+%end
+
+__attribute__((constructor)) static void DFSmartConnectionBoot(void) {
+    @autoreleasepool {
+        NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+        if (![bundle isEqualToString:@"com.apple.springboard"]) return;
+        // Hooks are only compiled in the isolated candidate dylib; do not
+        // change native12 or touch CarPlay geometry/UI at constructor time.
+        NSLog(@"[DuoFaceSmartConnection] source bridge loaded in SpringBoard");
+    }
+}
+########## END FILE: runtime/connection/DFConnectionNativeHooks.xm ##########
+
+########## BEGIN FILE: runtime/connection/DFConnectionPolicy.cpp ##########
+#include "DFConnectionPolicy.hpp"
+#include <algorithm>
+#include <cctype>
+#include <limits>
+#include <utility>
+
+namespace duoface { namespace connection {
+bool Policy::validBundleId(const std::string& s) {
+    if (s.size() < 3 || s.size() > 255 || s.front() == '.' || s.back() == '.'
+        || s.find('.') == std::string::npos || s.find("..") != std::string::npos)
+        return false;
+    for (unsigned char c : s) {
+        if (!(std::isalnum(c) || c == '.' || c == '-' || c == '_'))
+            return false;
+    }
+    return true;
+}
+void Policy::clearPendingClose() {
+    pendingClose_ = false;
+    dueAtMs_ = 0;
+    pendingOwnedApps_.clear();
+}
+void Policy::setAutoStart(bool enabled) {
+    autoStart_ = enabled;
+    if (!enabled) pendingLaunch_.clear();
+}
+void Policy::setCloseOnDisconnect(bool enabled) {
+    closeOnDisconnect_ = enabled;
+    if (!enabled) clearPendingClose();  // user switches OFF during grace
+}
+void Policy::restoreLastAppFromExistingPreferences(const std::string& id) {
+    // Preference adapter owns the domain; never overwrite the old key here.
+    lastApp_ = validBundleId(id) ? id : std::string();
+}
+std::vector<Action> Policy::onManagedAppActivated(const std::string& id) {
+    if (!connected_ || !validBundleId(id)) return {};
+    sessionOwnedApps_.insert(id);
+    pendingLaunch_.clear();
+    if (lastApp_ == id) return {};
+    lastApp_ = id;
+    return {{ActionKind::SaveLastApp, lastApp_, generation_}};
+}
+std::vector<Action> Policy::onVerifiedConnected(const std::string& activeOwnedApp,
+                                                 const Predicate& installed) {
+    if (connected_) return {};  // duplicate event: never launch twice
+    connected_ = true;
+    ++generation_;             // invalidate all stale disconnect callbacks
+    auto previouslyOwned = pendingOwnedApps_;
+    clearPendingClose();
+    pendingLaunch_.clear();
+    sessionOwnedApps_.clear();
+    if (validBundleId(activeOwnedApp)) {
+        sessionOwnedApps_.insert(activeOwnedApp);
+        // The active app is already on the display; no new launch.
+        return onManagedAppActivated(activeOwnedApp);
+    }
+    // A pending app from before a short disconnect is not proof of a currently
+    // running app, and does not establish ownership for the *new* session.
+    (void)previouslyOwned;
+    if (!autoStart_ || !validBundleId(lastApp_) || !installed || !installed(lastApp_))
+        return {};
+    pendingLaunch_ = lastApp_;
+    return {{ActionKind::LaunchApp, lastApp_, generation_}};
+}
+void Policy::onVerifiedDisconnected(std::uint64_t now) {
+    if (!connected_) return;
+    connected_ = false;
+    ++generation_;
+    pendingLaunch_.clear();
+    if (!closeOnDisconnect_ || sessionOwnedApps_.empty()) {
+        clearPendingClose();
+        sessionOwnedApps_.clear();
+        return;
+    }
+    pendingOwnedApps_ = sessionOwnedApps_;
+    sessionOwnedApps_.clear();
+    // Saturate rather than let a wrapped tick appear immediately due.
+    dueAtMs_ = now > std::numeric_limits<std::uint64_t>::max()-kDisconnectGraceMs
+        ? std::numeric_limits<std::uint64_t>::max() : now+kDisconnectGraceMs;
+    pendingClose_ = true;
+}
+std::vector<Action> Policy::tick(std::uint64_t now, bool confirmedDisconnected,
+                                 const Predicate& canTerminate) {
+    if (connected_ || !pendingClose_ || now < dueAtMs_) return {};
+    auto candidates = pendingOwnedApps_;
+    clearPendingClose(); // at most once, even if callback retries
+    if (!closeOnDisconnect_ || !confirmedDisconnected || !canTerminate)
+        return {};
+    std::vector<Action> result;
+    for (const auto& id : candidates) {
+        if (validBundleId(id) && canTerminate(id))
+            result.push_back({ActionKind::TerminateOwnedApp,id,generation_});
+    }
+    return result;
+}
+}} // namespace duoface::connection
+########## END FILE: runtime/connection/DFConnectionPolicy.cpp ##########
+
+########## BEGIN FILE: runtime/connection/DFConnectionSettingsHook.xm ##########
+// Source-staged iPhone DuoFaceUI Settings extension; not deployed.
+// Extends the original native12 CBGeneralSettingsViewController table by
+// ONE section/row. Preserves its old Auto Start switch and all section indexes.
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+static NSString *const kDFSettingsSuite = @"com.duoface.smartconnection";
+static NSString *const kDFDisconnectCloseKey = @"closeOnCarPlayDisconnect";
+
+static NSUInteger DFNativeSectionCount(id controller, UITableView *tableView) {
+    // Call the hooked numberOfSections method, subtract our single appended
+    // section. No hardcoded index: original sections can change with language.
+    NSInteger all = (NSInteger)[controller numberOfSectionsInTableView:tableView];
+    return (NSUInteger)(all>0 ? all-1 : 0);
+}
+static NSUserDefaults *DFConnectionSettingsStore(void) {
+    return [[NSUserDefaults alloc] initWithSuiteName:kDFSettingsSuite];
+}
+%hook CBGeneralSettingsViewController
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger native=%orig;
+    return native>=0 ? native+1 : native;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ((NSUInteger)section==DFNativeSectionCount(self,tableView)) return 1;
+    return %orig;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if ((NSUInteger)section==DFNativeSectionCount(self,tableView))
+        return @"KẾT NỐI CARPLAY";
+    return %orig;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView
+          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ((NSUInteger)indexPath.section!=DFNativeSectionCount(self,tableView))
+        return %orig;
+    static NSString *identifier=@"DFCloseOnDisconnectCell";
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                           reuseIdentifier:identifier];
+    cell.textLabel.text=@"Đóng ứng dụng khi ngắt CarPlay";
+    cell.detailTextLabel.text=@"Chờ 10 giây; kết nối lại sẽ hủy";
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    UISwitch *toggle=[UISwitch new];
+    toggle.on=[DFConnectionSettingsStore() boolForKey:kDFDisconnectCloseKey];
+    [toggle addTarget:self action:@selector(dfCloseOnDisconnectChanged:)
+     forControlEvents:UIControlEventValueChanged];
+    cell.accessoryView=toggle;
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ((NSUInteger)indexPath.section==DFNativeSectionCount(self,tableView)) return;
+    %orig;
+}
+%new
+- (void)dfCloseOnDisconnectChanged:(UISwitch *)sender {
+    if (![sender isKindOfClass:UISwitch.class]) return;
+    NSUserDefaults *prefs=DFConnectionSettingsStore();
+    [prefs setBool:sender.on forKey:kDFDisconnectCloseKey];
+    // Other process reads suite value at event time and after the grace
+    // period; no command to force close or respring is sent from the UI.
+}
+%end
+########## END FILE: runtime/connection/DFConnectionSettingsHook.xm ##########
+
