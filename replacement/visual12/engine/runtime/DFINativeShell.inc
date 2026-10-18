@@ -102,7 +102,9 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
           restoreAction:(SEL)restoreAction {
     if((self=[super initWithEffect:
           [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemThinMaterialDark]])) {
-        self.layer.cornerRadius=13.0;
+        // Native12 CBSlotPillView.initWithSlotIndex: sets 76×22 and radius 11
+        // (actual immutable DEB ASM 0x84208–0x84224 and 0x84328–0x84334).
+        self.layer.cornerRadius=11.0;
         self.layer.masksToBounds=YES;
         self.accessibilityIdentifier=
            [NSString stringWithFormat:@"duoface.native.slot.%ld.pill",(long)slot];
@@ -131,8 +133,8 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _dotsButton.frame=CGRectMake(4,2,30,26);
-    _expandButton.frame=CGRectMake(39,2,30,26);
+    _dotsButton.frame=CGRectMake(4,0,30,22);
+    _expandButton.frame=CGRectMake(39,0,30,22);
     _restoreButton.frame=_expandButton.frame;
 }
 @end
