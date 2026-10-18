@@ -32,18 +32,27 @@ static inline void DFIStyleApprovedTab(UIButton *button, NSString *title,
     button.layer.cornerRadius=0;
     button.backgroundColor=selected?DFIApprovedRed():UIColor.clearColor;
     button.tintColor=color;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:color forState:UIControlStateNormal];
+    // iOS 16 UIButtonConfiguration may ignore titleEdgeInsets/contentEdgeInsets.
+    // Draw our own 16pt icon + 10pt caption at measured positions; the
+    // UIButton itself keeps its original UIControl tap action/selected state.
+    button.configuration=nil;
+    [button setTitle:nil forState:UIControlStateNormal];
     [button setImage:nil forState:UIControlStateNormal];
-    button.titleLabel.font=[UIFont systemFontOfSize:10];
-    button.titleLabel.textAlignment=NSTextAlignmentCenter;
-    button.titleLabel.adjustsFontSizeToFitWidth=YES;
-    button.titleLabel.minimumScaleFactor=0.85;
-    button.titleLabel.lineBreakMode=NSLineBreakByClipping;
-    button.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
-    button.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
-    button.contentEdgeInsets=UIEdgeInsetsZero;
-    button.titleEdgeInsets=UIEdgeInsetsMake(19,0,0,0);
+    UILabel *caption=(UILabel *)[button viewWithTag:8163];
+    if(![caption isKindOfClass:UILabel.class]) {
+        caption=[UILabel new];
+        caption.tag=8163;
+        caption.userInteractionEnabled=NO;
+        caption.textAlignment=NSTextAlignmentCenter;
+        caption.adjustsFontSizeToFitWidth=YES;
+        caption.minimumScaleFactor=.85;
+        caption.lineBreakMode=NSLineBreakByClipping;
+        [button addSubview:caption];
+    }
+    caption.text=title;
+    caption.font=[UIFont systemFontOfSize:10];
+    caption.textColor=color;
+    caption.frame=CGRectMake(0,18,CGRectGetWidth(button.bounds),12);
     UIImageView *icon=(UIImageView *)[button viewWithTag:8162];
     if(![icon isKindOfClass:UIImageView.class]) {
         icon=[UIImageView new];icon.tag=8162;
