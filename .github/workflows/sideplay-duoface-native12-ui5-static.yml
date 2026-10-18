@@ -1,0 +1,31 @@
+name: DuoFace Native12 QA5 UI parity gate
+on:
+  push:
+    branches: [feature/duoface-native12-ui-on-sideplay-host]
+    paths:
+      - '.github/workflows/sideplay-duoface-native12-ui5-static.yml'
+      - 'sideplay/native12-display/DFSPNativeSlotPill.*'
+      - 'sideplay/native12-display/DFSPNativeFrame.*'
+      - 'sideplay/native12-display/validation/check_duoface_qa5_parity.py'
+      - 'sideplay/sileo-qa/Tweak.xm'
+      - 'sideplay/sileo-qa/Makefile'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source parity / two center pills / focus vs fullscreen
+        run: python3 sideplay/native12-display/validation/check_duoface_qa5_parity.py
+      - name: Compile all DuoFace-owned UIKit views for rootless iOS16 arm64
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fobjc-arc -fsyntax-only \
+            -Wall -Wextra -Werror -target arm64-apple-ios16.0 \
+            -isysroot "$SDK" -x objective-c \
+            sideplay/native12-display/DFSPNativeSlotPill.m \
+            sideplay/native12-display/DFSPNativeFrame.m
