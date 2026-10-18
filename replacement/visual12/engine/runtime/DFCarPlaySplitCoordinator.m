@@ -21,7 +21,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
 @interface DFCarPlaySplitCoordinator ()
 @property(nonatomic,strong) UIViewController *root;
 @property(nonatomic,copy) NSArray<UIView *> *panes;
-@property(nonatomic,strong) NSMutableArray *hosts; // DFV12SceneHost or NSNull (two slots)
+@property(nonatomic,strong) NSMutableArray *hosts; // DFV12SceneHost or NSNull (one per pane)
 @property(nonatomic,strong) NSMutableDictionary<NSNumber *,DFCarPlayCompletion> *pending;
 @property(nonatomic,readwrite) BOOL started;
 @property(nonatomic) CGFloat ratio;
@@ -38,7 +38,13 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
         ![panes[0] isKindOfClass:UIView.class] ||
         ![panes[1] isKindOfClass:UIView.class]) {
         if (error) *error=DFCPError(DFCarPlayErrorInvalidRequest,
-                                   @"Two distinct pane views and one root are required");
+                                   @"Two or three distinct pane views and one root are required");
+        return nil;
+    }
+    if (panes.count==3 && (![panes[2] isKindOfClass:UIView.class] ||
+        panes[2]==panes[0] || panes[2]==panes[1])) {
+        if (error) *error=DFCPError(DFCarPlayErrorInvalidRequest,
+                                   @"Three distinct pane views are required");
         return nil;
     }
     if (!(self=[super init])) return nil;
