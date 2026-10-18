@@ -1,0 +1,54 @@
+name: DuoFace Visual12 shell7 public Sileo package verify
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - '.github/workflows/duoface-visual12-qa7-sileo-public-verify.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Confirm published QA7 byte identity without changing any package
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://chuongnguyen89dn-ui.github.io/carplaydsp'
+          PACKAGE='com.duoface.visual12_1.0.3-12~ui8native7_iphoneos-arm64.deb'
+          mkdir -p /tmp/df-qa7-public
+          cd /tmp/df-qa7-public
+          # Pages CDN publication can trail successful GitHub Pages deployment.
+          for attempt in {1..15}; do
+            if curl -fsSL --retry 3 --retry-delay 2 "$BASE/Packages" -o Packages &&
+               grep -Fq '1.0.3-12~ui8native7' Packages; then break; fi
+            if [ "$attempt" -eq 15 ]; then echo 'PUBLIC_APT_QA7_NOT_VISIBLE'; exit 1; fi
+            sleep 8
+          done
+          curl -fsSL --retry 4 --retry-delay 3 "$BASE/Packages.gz" -o Packages.gz
+          gzip -cd Packages.gz > Packages.unpacked
+          cmp Packages Packages.unpacked
+          curl -fsSL --retry 4 --retry-delay 3 "$BASE/debs/$PACKAGE" -o "$PACKAGE"
+          printf '%s  %s\n' '57ae2b34487b3c24fc584ab2d1bf6b44abe6797c8c7d14628004e2bb78c62137' "$PACKAGE" | sha256sum -c -
+          test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.visual12'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '1.0.3-12~ui8native7'
+          test "$(dpkg-deb -f "$PACKAGE" Architecture)" = 'iphoneos-arm64'
+          python3 - <<'PY'
+          from pathlib import Path
+          stanzas={}
+          for block in Path("Packages").read_text().split("\n\n"):
+              fields=dict(line.split(": ",1) for line in block.splitlines() if ": " in line and not line.startswith(" "))
+              if fields.get("Package") in ("com.duoface.visual12","com.duoface.independent"):
+                  stanzas.setdefault(fields["Package"],[]).append(fields)
+          assert len(stanzas.get("com.duoface.visual12",[]))==1,stanzas
+          assert len(stanzas.get("com.duoface.independent",[]))==1,stanzas
+          qa=stanzas["com.duoface.visual12"][0]
+          hub=stanzas["com.duoface.independent"][0]
+          assert qa["Version"]=="1.0.3-12~ui8native7",qa
+          assert qa["Filename"].lstrip("./")=="debs/com.duoface.visual12_1.0.3-12~ui8native7_iphoneos-arm64.deb",qa
+          assert qa["SHA256"]=="57ae2b34487b3c24fc584ab2d1bf6b44abe6797c8c7d14628004e2bb78c62137",qa
+          assert hub["Version"]=="0.1.0~native12+speed8compact",hub
+          print("PUBLIC_SILEO_VISUAL12_QA7_AND_NATIVE12_HUB8_PRESERVED_PASS")
+          PY
