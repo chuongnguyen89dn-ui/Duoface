@@ -144,6 +144,8 @@ def inspect_methods(meta,asm):
                     ("CBMultitaskingOverlayView","layoutSubviews"),
                     ("CBBridgedSplitApp","layoutSplitViews"),
                  } else {}),
+                 **({"mode_tail_asm":instr[650:]}
+                     if cls=="CBBridgedSplitApp" and selector=="layoutSplitViews" else {}),
                  **({"mode_setter_windows":[{"address":row.split(":")[0],
                        "selector":next((v for v in
                           ("setFocusedMode:","setShowsExpandButton:","setCompactMode:")
@@ -297,7 +299,10 @@ def cli():
         "CBBridgedSplitApp.layoutSplitViews IMP "+orig_layout["imp"],
         "This is original104 FUNCTION data, NOT Native12 visual sizing.",
         *[("\n## "+win["selector"]+" @"+win["address"]+"\n"+
-          "\n".join(win["asm"])) for win in mode_windows], ""
+          "\n".join(win["asm"])) for win in mode_windows], "",
+        "## Full original104 layoutSplitViews control flow (1,254 sampled instructions)",
+        *orig_layout.get("full_layout_asm",[]),
+        *orig_layout.get("mode_tail_asm",[]),""
     ]),encoding="utf-8")
     sidecar=a.out_json.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json"
     sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
