@@ -1,9 +1,9 @@
 Package: com.duoface.sideplaydisplay
-Name: DuoFace Native12 UI on SidePlay Host QA5
-Version: 0.1.3~native12ui5
+Name: DuoFace Native12 Root Host QA6
+Version: 0.1.4~native12root6
 Architecture: iphoneos-arm64
 Section: Tweaks
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.sideplay (>= 1.0.4-1)
-Description: Native12 UI frame, app pills, App/Zoom/Style/Close sheet and draggable split connected to SidePlay app host; rootless isolated device QA.
+Description: Experimental Native12 content-root geometry replacing unsafe window crop; no duplicate empty-app button; still requires SidePlay 1.0.4 host, system bar/device validation pending.
