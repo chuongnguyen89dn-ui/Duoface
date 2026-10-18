@@ -174,7 +174,9 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     CGFloat half=width*0.5;
     _dotsButton.frame=CGRectMake(0,0,half,height);
     _expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height);
-    _restoreButton.frame=_expandButton.frame;
+    // Focused Native12 branch 0x84d70..0x84d88 sends the current
+    // entire pill bounds to restoreButton.setFrame: (not right half).
+    _restoreButton.frame=_focusedMode?self.bounds:_expandButton.frame;
 }
 // Native12 CBSlotPillView.pointInside:withEvent: at 0x85348 expands
 // CGRect hit bounds by 8pt horizontally and 10pt vertically. This only
