@@ -3,6 +3,9 @@
 > **ĐẦU MỐI HOẠT ĐỘNG TỪ 2026-10-18 15:52 ICT.**
 > Đây là luồng phát triển **SidePlay → DuoFace độc lập** nằm trong repo `chuongnguyen89dn-ui/Duoface`, KHÔNG phải nhánh QA/MyTweak cũ, KHÔNG phải bản Native12/Visual12 đang được phân phối. Hồ sơ này là nơi ghi checkpoint mới cho hướng SidePlay; giữ các hồ sơ cũ làm lịch sử.
 
+
+> **CHECKPOINT 2026-10-18 — DEB SIDEPLAY:** Đã tìm lại **báo cáo audit tĩnh từ chính DEB user upload ngày 17/10**; **chưa tìm lại được byte DEB trong chat hiện tại, Library hoặc 5 nhánh GitHub**, nên không thể quét lại 136/136 file hôm nay. Bảng kỹ thuật đầy đủ, chứng cứ, thiếu sót và lệnh tái kiểm tra: **[AUDIT_SIDEPLAY_1.0.4-1_20261018.md](./AUDIT_SIDEPLAY_1.0.4-1_20261018.md)**. SHA-256 lịch sử `7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c`, kích thước 4.352.576 byte. **Không phải kết quả hash mới.** Việc đầu tiên tiếp theo: phục hồi chính byte DEB và chạy forensic inventory trước khi code.
+
 ## 1. QUYẾT ĐỊNH MỚI NHẤT — USER_DECISION (2026-10-18)
 
 - Hướng CarPlay DuoFace hiện tại được chủ dự án tuyên bố **thất bại vì chưa tách được phụ thuộc giấy phép**. Không tiếp tục vá giấy phép hoặc trộn lõi DuoNavi/QA vào DuoFace để cứu phương án cũ.
@@ -60,6 +63,8 @@
 5. Tiếp tục bổ sung **file này** mỗi khi có thay đổi yêu cầu, code, kết quả test, lỗi, checkpoint; sau khi ghi phải đọc lại chính file trên GitHub.
 
 ## 6. EVENT LOG — CẬP NHẬT THEO SỰ KIỆN
+
+- **2026-10-18 — CONFIRMED / BLOCKED:** Đã kiểm tra runtime `/mnt/data`, Library (tìm binary; đọc lại báo cáo `phan_tich_SidePlay_1.0.4-1_cho_DuoFace.md`), đủ 5 nhánh GitHub và releases; không có DEB SidePlay có thể đọc byte từ phiên này. Khôi phục được static audit SidePlay 17/10 (đã ghi 136 files; 7 binary trọng tâm, filters, hooks, scene strings, package scripts). Lưu báo cáo phân loại `HISTORICAL_STATIC/CURRENT_VERIFIED/NEEDS_BINARY` tại `sideplay/AUDIT_SIDEPLAY_1.0.4-1_20261018.md`; chưa chạy `dpkg-deb`/hash mới, chưa sửa code hoặc build. Next: tìm lại DEB gốc, đối chiếu SHA256, quét toàn bộ payload, bảo toàn bằng chứng.
 
 - **2026-10-18 15:52 ICT — USER_DECISION:** Dừng hướng CarPlay DuoFace hiện tại do phụ thuộc giấy phép không thể giải quyết; mở hướng SidePlay từ đầu + chuyển nguyên vẹn giao diện DuoFace. Không coi MyTweak QA là nền được chọn.
 - **2026-10-18 15:52 ICT — CONFIRMED:** Đã truy cập `Gpt-training-` và đọc thực tế `skills/01-github-continuity.zip`, `skills/02-ios-deb-ipa-carplay.zip`, `skills/06-artifact-zip-handoff.zip` (các `SKILL.md` bên trong); kiểm tra repo DuoFace `main`, nhánh QA, workflows và cấu trúc assets. Không có đường dẫn `sideplay/` trong cây `main` trước khi tạo.
