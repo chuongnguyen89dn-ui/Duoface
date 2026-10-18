@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Đính chính hướng công việc sau QA thành công
+
+- Người dùng nhắc phải đọc lịch sử và tiếp tục đúng mục tiêu, không đẩy việc chạy CI sang người dùng. Đã đọc lại hồ sơ bàn giao thực tế trên nhánh `feature/visual12-duodash-recovery`.
+- CI `39086286753` cho commit `1a45849adb93f2772ad5b7bce54a4257074fe2cd` đã `completed/success`, artifact `DuoFaceVisual12-Standalone-QA` id `12121156548`, size 1,059,984 bytes. Chỉ xác nhận build QA, KHÔNG xác nhận hoạt động CarPlay, KHÔNG Sileo.
+- ĐÍNH CHÍNH: đề xuất 'chuẩn bị đưa QA lên Sileo' trước đó là sai trọng tâm. Workflow được đặt tên `(never Sileo)`; giữ nguyên Native12/Hub8/Sileo hiện có, không tự phát hành QA.
+- MỤC TIÊU TIẾP: hoàn thiện một scene owner trong `DFV12SplitController`/`DFV12SceneHost` theo gốc, bảo toàn UI 8 layout/3 pane, so sánh reference original và kiểm tra lifecycle detach/swap/open/close/shutdown. Mỗi sửa cần evidence và CI riêng; không suy diễn build success = runtime pass.
+
+
 ## 2026-10-18 — QA build tự động đã kích hoạt
 
 - Đã sửa `.github/workflows/duoface-visual12-standalone-qa-deb.yml`: thêm `replacement/visual12/engine/runtime/**` vào `on.push.paths` để các thay đổi runtime trên branch `feature/visual12-duodash-recovery` tự chạy QA. Commit `1a45849adb93f2772ad5b7bce54a4257074fe2cd`, fetch lại YAML xác nhận đúng nội dung.
