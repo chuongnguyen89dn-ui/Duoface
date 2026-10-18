@@ -85,6 +85,7 @@ static void DFSPRestoreReplacedViews(void) {
 static const CGFloat DFSPNativeFallbackLeft = 64.0;
 static UIColor *DFSPOriginalWindowBackground;
 static BOOL DFSPOriginalWindowOpaque=YES;
+static BOOL DFSPHasOriginalWindowBackground=NO;
 
 static void DFSPLog(NSString *message) {
     NSLog(@"[DuoFaceSidePlayDisplayQA2] %@", message);
@@ -353,9 +354,16 @@ static void DFSPRefresh(void) {
     [manager layout:ended];
     DFSPUpdatingRatio=NO;
     DFSPRefresh();
-    if(ended) DFSPLog([NSString stringWithFormat:
-        @"Native12 divider ratio requested=%.5f hostActual=%.5f split=%ld",
-        ratio,[manager ratio],(long)[manager split]]);
+    if(ended) {
+        NSArray *parts=DFSPPanes();
+        CGRect a=parts.count>0?DFSPPaneRect(parts[0]):CGRectZero;
+        CGRect b=parts.count>1?DFSPPaneRect(parts[1]):CGRectZero;
+        DFSPLog([NSString stringWithFormat:
+          @"Native12 divider requested=%.5f hostRatio=%.5f style=%ld realPane0=%@ realPane1=%@ normalWindow=%@",
+          ratio,[manager ratio],(long)[manager split],
+          NSStringFromCGRect(a),NSStringFromCGRect(b),
+          NSStringFromCGRect(DFSPWindow.frame)]);
+    }
 }
 @end
 
@@ -365,13 +373,15 @@ static void DFSPRemove(void) {
     DFSPHost=nil;
     if (oldWindow) {
         oldWindow.windowLevel=DFSPOriginalLevel;
-        oldWindow.backgroundColor=DFSPOriginalWindowBackground;
-        oldWindow.opaque=DFSPOriginalWindowOpaque;
-        // Restore only the original frame at disconnect; never contract
-        // UIWindow.frame during connected Normal/Zoom transitions.
+        if (DFSPHasOriginalWindowBackground) {
+            oldWindow.backgroundColor=DFSPOriginalWindowBackground;
+            oldWindow.opaque=DFSPOriginalWindowOpaque;
+        }
+        // Restore only the original frame at disconnect, never during Zoom.
         oldWindow.frame=DFSPOriginalFrame;
     }
     DFSPOriginalWindowBackground=nil;
+    DFSPHasOriginalWindowBackground=NO;
     DFSPClearPaneFocus(YES);
     [DFSPUI resetForDisconnect];
     DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
@@ -424,6 +434,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     }
     DFSPOriginalWindowBackground=window.backgroundColor;
     DFSPOriginalWindowOpaque=window.opaque;
+    DFSPHasOriginalWindowBackground=YES;
     // Transparent outside the content-owned usable area.
     window.opaque=NO;
     window.backgroundColor=UIColor.clearColor;
