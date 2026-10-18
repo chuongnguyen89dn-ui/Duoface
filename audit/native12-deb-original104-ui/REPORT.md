@@ -72,6 +72,7 @@ No vendor binary is embedded in independent QA. Distinguish image pixel dimensio
 ### CBDividerView
 - `initWithFrame:`: Native12 `not in catalog`; original104 `not in catalog`. Native selector refs: ``. Arithmetic/control samples: 0.
 - `layoutSubviews`: Native12 `0xff410`; original104 `0x106648`. Native selector refs: `layoutSubviews, -[[x0 super] layoutSubviews], updateGripLayout, -[x0 updateGripLayout]`. Arithmetic/control samples: 0.
+- `updateGripLayout`: Native12 `0xff460`; original104 `0x1066c4`. Native selector refs: `bounds, -[x0 bounds], count, -[x0 count], objectAtIndexedSubscript:, relativePos, setFrame:, -[x0 setFrame:]`. Arithmetic/control samples: 31.
 - `handlePan:`: Native12 `0x10152c`; original104 `0x108954`. Native selector refs: `onActivity, -[x0 onActivity], superview, -[x0 superview], translationInView:, -[x0 translationInView:], onPanChanged, -[x0 onPanChanged], state, -[x0 state]`. Arithmetic/control samples: 0.
 - `handleMoveButtonLongPress:`: Native12 `0x1005f4`; original104 `0x107964`. Native selector refs: `state, -[x0 state], onActivity, -[x0 onActivity], view, -[x0 view], indexOfObject:, -[x0 indexOfObject:], count, -[x0 count], objectAtIndexedSubscript:, -[x0 objectAtIndexedSubscript:], animateWithDuration:animations:completion:, +[UIView animateWithDuration:animations:completion:], onRotate`. Arithmetic/control samples: 2.
 
