@@ -1,0 +1,70 @@
+{
+  "status": "ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_STATIC_PASS",
+  "static_only": true,
+  "carplay_device_verified": false,
+  "source_roles": {
+    "functional": "original DuoNavi 1.0.4 DEB",
+    "visual": "DuoFace Native12 HUD8 DEB",
+    "target": "independent DuoFace QA (no original CB runtime)"
+  },
+  "sha256": {
+    "original104_deb": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "native12_deb": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "original104_dashboard": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+    "native12_dashboard": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+  },
+  "original_functional_entrypoints": {
+    "focusSlot:animated:": {
+      "imp": "0x10ce70",
+      "requires": [
+        "saveBridgeStateToDisk",
+        "layoutSplitViews",
+        "refreshSceneLayout"
+      ]
+    },
+    "restoreSplitAnimated:": {
+      "imp": "0x10d40c",
+      "requires": [
+        "saveBridgeStateToDisk",
+        "layoutSplitViews",
+        "refreshSceneLayout"
+      ]
+    },
+    "layoutSplitViews": {
+      "imp": "0x10bad8",
+      "native_visual_flags": [
+        "setFocusedMode:",
+        "setShowsExpandButton:",
+        "setCompactMode:"
+      ]
+    }
+  },
+  "native12_visual_pill": {
+    "layout_imp": "0x84c30",
+    "focused_hide": [
+      "dotsButton",
+      "separatorView",
+      "expandButton"
+    ],
+    "focused_show": [
+      "restoreButton"
+    ],
+    "focused_restore_frame": "entire pill bounds (0x84d70-0x84d88)",
+    "normal_show": [
+      "dotsButton",
+      "separatorView iff showsExpand",
+      "expandButton iff showsExpand"
+    ],
+    "normal_hide": [
+      "restoreButton"
+    ],
+    "normal_separator_frame": "CGRect(halfWidth-0.25,3.5,0.5,pillHeight-7)",
+    "init_separator_color": "white alpha 0.25 (0x8486c-0x84898)",
+    "known_compact_mode_trigger": false
+  },
+  "qa_contract": "focus updates independent pane layout + scene host resize/applySize; no external CBBridgeManager",
+  "open_gates": [
+    "Original104 compact/show-expand input conditions still need full loop dataflow",
+    "Real CarPlay touch/scene/appearance cannot be established by DEB metadata"
+  ]
+}
