@@ -1,0 +1,29 @@
+name: SidePlay normal dock static check
+on:
+  push:
+    branches:
+      - feature/sideplay-normal-carplay-dock
+    paths:
+      - '.github/workflows/sideplay-normal-dock-static.yml'
+      - 'sideplay/normal-carplay/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-normal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify only the SidePlay dock preference changes
+        run: |
+          python3 -m py_compile sideplay/normal-carplay/tools/prepare_normal_mode.py
+          python3 sideplay/normal-carplay/tools/prepare_normal_mode.py --verify
+          python3 -m unittest discover -s sideplay/normal-carplay/tests -p 'test_*.py' -v
+      - name: Confirm untouched SidePlay original
+        run: |
+          printf '%s  %s\n' \
+            '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c' \
+            'com.sideplay_1.0.4-1_iphoneos-arm64.deb' | sha256sum -c -
