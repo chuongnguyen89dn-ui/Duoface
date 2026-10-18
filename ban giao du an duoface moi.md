@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — SILEO LIVE standalone6invalidate / đã xác minh public
+
+- USER_DECISION: yêu cầu đưa bản vừa build lên Sileo để test. Đã phát hành đúng QA `com.duoface.visual12`, version `1.0.3-12~standalone6invalidate`, Name `DuoFace CarPlay QA G1/G2 (experimental)`.
+- Publisher `chuongnguyen89dn-ui/carplaydsp` main commit `7917f20659ff2c6e61d2c93ec16b189dcc23b8ba`: chỉ cập nhật QA version/hash, pin URL artifact commit `168507ce766ee1ede058c8e9784031d16f57229f`; giữ Native12+Hub8 và original.
+- Pages run https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39083250593 — build và deploy SUCCESS.
+- Kiểm chứng public run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39083274991 — SUCCESS, job `117544486005`; tải trực tiếp Packages, Packages.gz, Release, DEB từ https://chuongnguyen89dn-ui.github.io/carplaydsp/ và xác minh SHA/size/version/architecture. Log `G1G2_SILEO_PUBLIC_PACKAGES_GZIP_RELEASE_DEB_SHA_PASS`, `NATIVE12_HUB8_AND_ORIGINAL_PRESERVED`.
+- DEB 1070912 bytes, SHA256 `349a76657a301b8736126287b11fc8166e9a6441dbdb82fcb64e02820e5c45c5`. Workflow verify lưu trong Duoface commit `f0d48fabf81cc28f73bc918561e116601a50d022`.
+- Trạng thái: BUILD PASS + SILEO LIVE VERIFIED; chưa test thiết bị. Bước tiếp: refresh nguồn Sileo, update đúng gói QA, respring theo Sileo; thử đóng/đổi scene và reconnect khi xe dừng. Nếu crash, thu SpringBoard .ips cùng DuoFaceVisual12-runtime.log và DuoFaceCarPlayQA.log. Không khẳng định hết crash trước kết quả này.
+
+
 ## 2026-10-18 — standalone6invalidate BUILD PASS / chưa test thiết bị
 
 - Source commit: `15c280b0973750cea135976225b8d118836f9de6`.
