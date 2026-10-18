@@ -96,6 +96,23 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          # An earlier concurrent QA8 run can have persisted this SAME package
+          # version already. Verify existing bytes/checksum rather than rebasing
+          # an add/add binary conflict or overwriting a published QA artifact.
+          git fetch origin feature/duoface-native12-qa8-late-host-bootstrap
+          PREFIX='sideplay/artifacts/native12bootstrap8'
+          REMOTE_FILE='com.duoface.sideplaydisplay_0.1.6~native12bootstrap8_iphoneos-arm64.deb'
+          if git cat-file -e "FETCH_HEAD:$PREFIX/SHA256SUMS.txt" 2>/dev/null; then
+            git show "FETCH_HEAD:$PREFIX/SHA256SUMS.txt" > "$RUNNER_TEMP/existing-SHA256SUMS.txt"
+            git show "FETCH_HEAD:$PREFIX/$REMOTE_FILE" > "$RUNNER_TEMP/existing-qa8.deb"
+            EXPECTED="$(awk '{print $1}' "$RUNNER_TEMP/existing-SHA256SUMS.txt")"
+            ACTUAL="$(shasum -a 256 "$RUNNER_TEMP/existing-qa8.deb" | awk '{print $1}')"
+            test "$EXPECTED" = "$ACTUAL"
+            test "$(dpkg-deb -f "$RUNNER_TEMP/existing-qa8.deb" Version)" = '0.1.6~native12bootstrap8'
+            test "$(dpkg-deb -f "$RUNNER_TEMP/existing-qa8.deb" Package)" = 'com.duoface.sideplaydisplay'
+            echo "QA8_ARTIFACT_ALREADY_PRESENT_VERIFIED sha256=$ACTUAL"
+            exit 0
+          fi
           git add -- sideplay/artifacts/native12bootstrap8/
           if ! git diff --cached --quiet; then
             git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA8 artifact [skip ci]'
