@@ -124,6 +124,8 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSMutableArray *hosts;
 @property(nonatomic,strong) NSArray<UIButton *> *emptyButtons;
 @property(nonatomic,strong) NSArray<UIButton *> *paneButtons;
+@property(nonatomic,strong) NSArray<UIButton *> *paneZoomButtons;
+@property(nonatomic,strong) NSArray<UIVisualEffectView *> *panePills;
 @property(nonatomic,strong) NSArray<UIButton *> *grips;
 @property(nonatomic,strong) NSArray<UIView *> *lines;
 @property(nonatomic,strong) UIButton *edge;
@@ -173,15 +175,39 @@ static NSArray *DFIAvailableApps(void) {
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
  self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.interactionActive=NO;self.pendingPanes=[NSMutableSet set];
- self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
+ self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*zooms=[NSMutableArray array],*pills=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
   UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;[self.view addSubview:p];[panes addObject:p];
   UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];b.tintColor=UIColor.whiteColor;b.titleLabel.font=[UIFont systemFontOfSize:DFIFontSize()];b.titleLabel.numberOfLines=0;b.titleLabel.textAlignment=NSTextAlignmentCenter;b.tag=i;[b addTarget:self action:@selector(choose:) forControlEvents:UIControlEventTouchUpInside];[p addSubview:b];[empty addObject:b];
-  UIButton *corner=[self button:@"ellipsis" label:DFIT(@"Chọn app trong khung",@"Choose pane app") action:@selector(choose:)];corner.tag=i;corner.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];corner.layer.cornerRadius=12;[self.view addSubview:corner];[buttons addObject:corner];
+  // The original 1.0.4 CBSlotPillView has distinct dots/expand/restore controls.
+  // Implement equivalent per-slot UIKit controls on the independent QA owner,
+  // never add a vendor CBSlotPillView or its licensing/runtime dependencies.
+  UIVisualEffectView *pill=[[UIVisualEffectView alloc]initWithEffect:
+      [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemThinMaterialDark]];
+  pill.layer.cornerRadius=13;pill.clipsToBounds=YES;
+  UIButton *corner=[self button:@"ellipsis" label:DFIT(@"Chọn app trong khung",@"Choose pane app") action:@selector(choose:)];
+  corner.tag=i;corner.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.pane.%d.app",i];
+  UIImage *picker=DFIApprovedArtwork(@"VisualAssets/duoface-picker.png");
+  if(picker)[corner setImage:picker forState:UIControlStateNormal];
+  UIButton *zoom=[self button:@"arrow.up.left.and.arrow.down.right"
+       label:DFIT(@"Phóng to khung",@"Zoom pane") action:@selector(zoomPane:)];
+  zoom.tag=i;zoom.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.pane.%d.zoom",i];
+  UIImage *expand=DFIApprovedArtwork(@"VisualAssets/duoface-fullscreen.png");
+  if(expand)[zoom setImage:expand forState:UIControlStateNormal];
+  [pill.contentView addSubview:corner];[pill.contentView addSubview:zoom];
+  [self.view addSubview:pill];[buttons addObject:corner];[zooms addObject:zoom];[pills addObject:pill];
  }
  self.panes=panes;self.emptyButtons=empty;self.paneButtons=buttons;
+ self.paneZoomButtons=zooms;self.panePills=pills;
  for(int i=0;i<2;i++){
-  UIView *line=[UIView new];line.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.18];line.userInteractionEnabled=NO;[self.view addSubview:line];[lines addObject:line];
+  // Original CBDividerView takes ratio pan anywhere on the divider, not only
+  // on its central swap/hold button. Keep a 16pt transparent live touch strip.
+  UIView *line=[UIView new];line.tag=i;line.backgroundColor=UIColor.clearColor;
+  line.userInteractionEnabled=YES;
+  [line addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(drag:)]];
+  UIView *stroke=[UIView new];stroke.tag=78;stroke.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.18];
+  stroke.userInteractionEnabled=NO;[line addSubview:stroke];
+  [self.view addSubview:line];[lines addObject:line];
   UIButton *g=[UIButton buttonWithType:UIButtonTypeCustom];g.tag=i;g.accessibilityLabel=DFIT(@"Kéo đổi tỷ lệ; chạm mở thanh công cụ",@"Drag to resize; tap for toolbar");[g addTarget:self action:@selector(menu) forControlEvents:UIControlEventTouchUpInside];[g addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(drag:)]];UIView *mark=[UIView new];mark.tag=77;mark.userInteractionEnabled=NO;mark.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.9];mark.layer.cornerRadius=1.5;[g addSubview:mark];[self.view addSubview:g];[grips addObject:g];
  }
  self.grips=grips;self.lines=lines;
@@ -239,15 +265,25 @@ static NSArray *DFIAvailableApps(void) {
  CGRect bounds=self.view.bounds;DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
-  self.emptyButtons[i].frame=self.panes[i].bounds;self.paneButtons[i].hidden=CGRectIsEmpty(frame)||frame.size.width<40||frame.size.height<35;
-  self.paneButtons[i].frame=CGRectMake(CGRectGetMaxX(frame)-34,CGRectGetMinY(frame)+2,32,26);
+  self.emptyButtons[i].frame=self.panes[i].bounds;
+  self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<74||frame.size.height<30;
+  self.panePills[i].frame=CGRectMake(CGRectGetMaxX(frame)-76,CGRectGetMinY(frame)+3,74,30);
+  self.paneButtons[i].frame=CGRectMake(4,2,30,26);
+  self.paneZoomButtons[i].frame=CGRectMake(39,2,30,26);
+  BOOL selected=self.maximized==i;
+  self.paneZoomButtons[i].accessibilityLabel=selected?
+       DFIT(@"Khôi phục chia màn hình",@"Restore split"):
+       DFIT(@"Phóng to khung",@"Zoom pane");
   if(!CGRectIsEmpty(frame)&&self.hosts[i]!=NSNull.null)[self.hosts[i] resizeTo:frame.size];
  }
  for(int i=0;i<2;i++){
   BOOL hidden=i>=f.boundaryCount||CGRectIsEmpty(bounds);self.grips[i].hidden=hidden;self.lines[i].hidden=hidden;if(hidden)continue;
   CGRect r=f.boundaries[i];BOOL vertical=f.vertical[i];
-  if(vertical){self.lines[i].frame=CGRectMake(r.origin.x-.5,r.origin.y,1,r.size.height);self.grips[i].frame=CGRectMake(r.origin.x-18,CGRectGetMidY(r)-22,36,44);}
-  else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-.5,r.size.width,1);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
+  if(vertical){self.lines[i].frame=CGRectMake(r.origin.x-8,r.origin.y,16,r.size.height);self.grips[i].frame=CGRectMake(r.origin.x-18,CGRectGetMidY(r)-22,36,44);}
+  else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
+  [self.lines[i] viewWithTag:78].frame=vertical?
+      CGRectMake(7.5,0,1,CGRectGetHeight(self.lines[i].bounds)):
+      CGRectMake(0,7.5,CGRectGetWidth(self.lines[i].bounds),1);
   [self.grips[i] viewWithTag:77].frame=vertical?CGRectMake(16.5,8,3,28):CGRectMake(8,16.5,28,3);
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
@@ -282,6 +318,15 @@ static NSArray *DFIAvailableApps(void) {
     controls[i].frame=CGRectMake((i%4)*bw,44+(i/4)*bh,bw,bh);
   }
  }
+ // Scene-hosted app views must never own the native-like divider/pill hit region.
+ // Raise the actual receiver views at every layout, but leave app touch free elsewhere.
+ for(int i=0;i<2;i++)if(!self.lines[i].hidden){
+  [self.view bringSubviewToFront:self.lines[i]];
+  [self.view bringSubviewToFront:self.grips[i]];
+ }
+ for(UIVisualEffectView *pill in self.panePills)if(!pill.hidden)
+     [self.view bringSubviewToFront:pill];
+ [self.view bringSubviewToFront:self.edge];
  // Native8 is split-only, above the app panes but below an active native picker.
  NSInteger activeCount=0;
  for(id host in self.hosts)if(host!=NSNull.null && [host scene])activeCount++;
@@ -311,6 +356,20 @@ static NSArray *DFIAvailableApps(void) {
      if(index<0 || index>=4)continue;
      DFIStyleApprovedTab(button,titles[index],symbols[index],index==self.selectedTab);
  }
+}
+- (void)zoomPane:(UIButton *)button {
+ NSInteger pane=button.tag;
+ if(self.shuttingDown || pane<0 || pane>=self.panes.count ||
+    CGRectIsEmpty(self.panes[pane].frame))return;
+ [self dismissPanel];
+ self.maximized=self.maximized==pane?-1:pane;
+ DFIPerfMark(@"pane_focus",@{@"pane":@(pane),@"focused":@(self.maximized>=0)});
+ DFILog([NSString stringWithFormat:@"QA per-slot focus pane=%ld focused=%ld",
+        (long)pane,(long)self.maximized]);
+ // Original CBBridgedSplitApp focuses one slot, unlike QA's external host Zoom.
+ [self.view setNeedsLayout];
+ [self.view layoutIfNeeded];
+ [self armHide];
 }
 - (void)showAppMenu {
  self.selectedTab=0;[self updateApprovedTabs];
