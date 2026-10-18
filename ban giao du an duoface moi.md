@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Scene slot teardown integration commits 88c63f7 / 4513293
+
+- USER GOAL: continue independently implementing DuoFace using original DuoNavi 1.0.4 scene-lifecycle evidence, WITHOUT donor license/binary dependency. Preserve user-tested `standalone6invalidate` scene-close fix; do not alter Native12/Hub8/Sileo.
+- SOURCE verified: `replacement/visual12/engine/runtime/DFIInterface.inc` on `feature/visual12-duodash-recovery`. Commit `88c63f73aad529b8e308319971dc225c90551e06`: `setLayout:` removes pending pane and detaches host from `hosts[]` before `close`, resets hidden pane preference; `detachBundle:` detaches identity/pending before `close`. Commit `451329391d08a56b7dbf8cc39fe00c3ea97336f8`: `shutdown` marks `shuttingDown`, clears pending/timer, copies host list, clears owner list, then closes each host. No change to `DFV12SceneHost.close`.
+- Original104 comparison: `docs/duoface-original104-scene-teardown-vs-qa-20261018.md`; original `CBBridgedUIAppView dismiss` mode 0 / detach / invalidate, already mirrored by `standalone6invalidate`. The new host-owner cleanup is DuoFace-specific race prevention, not a claim of exact source equivalence.
+- CI OBSERVED at latest check: source commit `88c63f7` standalone QA run `39087198981` SUCCESS and standalone engine/link run `39087199014` SUCCESS. Source commit `4513293` standalone QA run `39087368927` QUEUED and link run `39087368860` QUEUED. Unrelated speed8 handoff workflow run `39087368050` FAILURE; do not treat as Visual12 build failure. No device runtime pass for new changes yet. Do not publish QA to Sileo.
+- NEXT: check runs `39087368927` and `39087368860` to completion and inspect failures if any; review `openBundle` host replacement and `swapPanes` for lifecycle race with reference report. Only apply narrow evidence-based changes; preserve scene-close fix and 8-layout UI.
+
+
 ## 2026-10-18 — Chốt yêu cầu ghép theo DuoNavi 1.0.4 độc lập, kiểm tra mã hiện hữu
 
 - YÊU CẦU: nối CarPlay vào đúng giao diện DuoFace hiện hữu theo chuỗi lifecycle của DuoNavi 1.0.4, không mang cơ chế giấy phép hay phụ thuộc binary gốc. Bảo toàn fix `standalone6invalidate` người dùng xác nhận đã hết crash; không tự thay Native12/Hub8/Sileo.
