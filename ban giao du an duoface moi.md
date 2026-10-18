@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — NO_SECOND_QA_MY_TWEAK_OVERLAP_CORRECTION
+
+- **CÂU HỎI MỚI:** Người dùng: “Bản QA chưa đủ hay sao mà lại tới bản này?” — phản đối việc khởi động thêm nhánh/DEB QA **MyTweak SceneHost** trong khi **QA DuoFace hiện tại đã có scene host chạy app**. Trả lời nhận sai về trùng lặp và làm rõ lại phạm vi.
+- **ĐÁNH GIÁ ĐÃ ĐỐI CHIẾU:** `replacement/visual12/engine/runtime/DFIRuntime.m:DFV12SceneHost` hiện khởi tạo `SBAppViewController`, attach + mode 2, resize settings, close + invalidate; `DFCarPlayBridgeAPI.h`/`DFCarPlaySplitCoordinator.m` có scene slots, `openApp`, ratio, focus/swap/close. Đây là nền QA có **chức năng host scene** với lịch sử người dùng thử mở được hai app; QA **chưa đạt sản phẩm** do native UI parity/touch divider/first-respring exitMode. `experiments/mytweak-independent/MTSceneHost.m` mới viết về cơ bản tái triển khai chức năng đã có, **chưa chứng minh cải thiện** lỗi QA.
+- **ĐIỀU CHỈNH QUYẾT ĐỊNH:** Không tiếp tục build/publish hay chuyển thiết bị sang một QA MyTweak song song khi chưa có lý do kỹ thuật cụ thể/khác biệt đã chứng minh. **Đóng băng thử nghiệm MyTweak thành tài liệu/source reference**, giữ commit/ZIP và lịch sử; không xóa hay đảo ngược mã đã lưu. Tập trung đánh giá/mở rộng **chỉ một** engine QA có scene hoạt động và các vấn đề thực sự còn thiếu: UI Native12 fidelity, drag ratio, lifecycle exitMode. Nếu có thay đổi hướng ưu tiên Native12-original-license-boundary, tuân theo yêu cầu riêng đã lưu và bảo toàn gói stable; không tự coi QA engine đã thay được renderer Native12.
+- **TRẠNG THÁI:** Lượt này chỉ xác nhận lại API QA trên GitHub và thay đổi ưu tiên/nhật ký; **không sửa runtime, không run CI, không build DEB, không phát hành Sileo, không test iPhone**. `main`, Native12 HUD8 stable giữ nguyên.
+- **NEXT:** Chọn ngay issue có bằng chứng/log gần nhất trong **QA hiện tại** thay vì tái viết scene host; chỉ đánh giá thêm MyTweak nếu code cho thấy giải quyết được một lỗi cụ thể chưa có trong QA. Mọi kết quả device vẫn cần xác minh riêng.
+
+
 ## 2026-10-18 — MYTWEAK_SCENEHOST_GITHUB_SOURCE_COMMITTED
 
 - **TRẠNG THÁI MỚI:** Phần MyTweak độc lập (người dùng muốn thay hoàn toàn runtime cũ, không ghép CB*) đã có SOURCE thực trên GitHub **25 file** tại `experiments/mytweak-independent/` commit `5999502a9de9278c0c2840e4135684483206f646`. Trong lúc ghép source qua Files Library, phát hiện và sửa một ký tự newline bị mất giữa hai khối ở `MTSceneHost.m:failed:` tại commit `be2b650483b37b9301bd7cf6afb5c8745f07dcdd`; blob SHA sau sửa `df279451164bad690259061e096ab8152d7eb23b` đã đối chiếu đúng blob SHA local. Các module chính: `MTSceneHost.m/.h` (SpringBoard SBAppViewController scene host/resize/teardown), `MTBridgeCoordinator.m` (AVExternalDevice+CADisplay→UIRootSceneWindow owner), `MTAppSlotViewController.m` (slot cleanup/failure), `MTAppLauncher.m`, `Tweak.x` (alert off), static tests.
