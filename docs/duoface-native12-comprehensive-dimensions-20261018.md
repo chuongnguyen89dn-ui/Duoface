@@ -64,3 +64,10 @@
 - Repo `chuongnguyen89dn-ui/Duoface`, nhánh `feature/visual12-duodash-recovery`; script quét có thể chạy từ root repo: `python3 scripts/audit_native12_ui_dimensions.py --strict --json audit/native12-ui-dimensions-20261018.json --md docs/duoface-native12-comprehensive-dimensions-20261018.md`.
 - CI compile-only `.github/workflows/duoface-visual12-engine-bind-ci.yml` chạy script cùng test cây giao diện; không đóng DEB. Bản Native12 HUD8 ổn định trên Sileo không chỉnh sửa.
 - Dữ liệu JSON có **nguồn/lượt/line và mức bằng chứng** để cuộc chat tiếp tục không phải đoán kích thước.
+
+## Bằng chứng binary Native12 cần đào sâu — không thay bằng suy đoán
+
+- `audit/visual-methods-arm64.txt` kiểm kê chính xác `CBSlotPillView.layoutSubviews` tại IMP `0x84c30` và `updateBoundsSize` tại `0x85184`; các callback riêng `dotsTapped:` `0x85580`, `expandTapped:` `0x85698`, `restoreTapped:` `0x857b0`. Tệp **chưa chứa phép đo kích thước pill** từ phần disassembly tương ứng, do đó không được xác nhận 74×30 là Native12.
+- Cùng nguồn ghi `CBDividerView.layoutSubviews` `0xff410` và `updateGripLayout` `0xff460`, `pointInside:withEvent:` `0xff728`, `hitTest:withEvent:` `0xff974`. Đây là mục tiêu tiếp theo để xác minh kích thước nút/touch thực tế, chưa phải bằng chứng kích thước logo 36×44 hay dải nhận kéo 16pt.
+- iOS 16 source-only ARM64 compiler cảnh báo `UIButton.titleEdgeInsets` có thể bị bỏ qua khi button có configuration. Đã sửa riêng `DFIApprovedVisuals.h` để căn **16pt icon trên, nhãn 10pt dưới** bằng UIImageView/UILabel có frame; không thay callback. Commit `55610b042fcb9c257a4e1000c762951a3902a126`, static regression `e30ce515370d9224613f6c81d0b7a8d7ae33406b`. Chỉ là kiểm tra code, chưa có ảnh xe.
+- Chưa chốt pixel sheet/card/toolbar theo độ phân giải thật; muốn kết luận phải có frame log từ CarPlay và ảnh Native12 đã cài. Không tự ép `UIWindowLevelAlert+100` thành số khác trước khi xác minh window stacking.
