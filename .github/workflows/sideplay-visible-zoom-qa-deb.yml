@@ -12,7 +12,7 @@ permissions:
   contents: write
 concurrency:
   group: sideplay-visible-zoom-qa
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build-qa:
     runs-on: macos-15
@@ -44,6 +44,9 @@ jobs:
             cp "$FROM/VisualAssets/$asset" "$DEST/$asset"
           done
           (cd "$DEST" && shasum -a 256 *.png)
+      - name: Enforce approved DuoFace Native12 two-pill integration
+        shell: bash
+        run: python3 sideplay/native12-display/validation/check_duoface_qa5_parity.py
       - name: Build independent SidePlay Native12 frame and split drag (no vendor binary)
         shell: bash
         run: |
