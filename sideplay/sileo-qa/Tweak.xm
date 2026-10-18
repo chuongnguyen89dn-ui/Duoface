@@ -7,6 +7,7 @@
 #import <objc/runtime.h>
 #import <math.h>
 #import "../native12-display/DFSPNativeFrame.h"
+#import "../native12-display/DFSPNative12Host.h"
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
@@ -38,6 +39,7 @@
 static __weak UIWindow *DFSPWindow;
 static __weak SPDash *DFSPManager;
 static DFSPNativeFrame *DFSPUI;
+static DFSPNative12Host *DFSPHost;
 static id<DFSPNativeFrameDelegate> DFSPAdapter;
 static BOOL DFSPRefreshing=NO;
 static BOOL DFSPUpdatingRatio=NO;
@@ -81,6 +83,8 @@ static void DFSPRestoreReplacedViews(void) {
               (unsigned long)restored);
 }
 static const CGFloat DFSPNativeFallbackLeft = 64.0;
+static UIColor *DFSPOriginalWindowBackground;
+static BOOL DFSPOriginalWindowOpaque=YES;
 
 static void DFSPLog(NSString *message) {
     NSLog(@"[DuoFaceSidePlayDisplayQA2] %@", message);
@@ -121,7 +125,8 @@ static BOOL DFSPExternal(UIWindow *window) {
 }
 static CGRect DFSPSystemUsableRect(UIWindow *window) {
     if (!window || !DFSPExternal(window)) return CGRectNull;
-    CGRect screenRect = window.screen.bounds;
+    // Work in WINDOW-LOCAL coordinates, not UIScreen coordinates.
+    CGRect screenRect=window.bounds;
     if (!DFSPRectOK(screenRect)) return CGRectNull;
     UIEdgeInsets inset = window.safeAreaInsets;
     BOOL usableInsets = isfinite(inset.top) && isfinite(inset.left) &&
@@ -142,59 +147,38 @@ static CGRect DFSPSystemUsableRect(UIWindow *window) {
         return CGRectNull;
     return usable;
 }
-static CGRect DFSPActiveWindowRect(void) {
-    UIWindow *window=DFSPWindow;
-    if (!DFSPExternal(window)) return CGRectNull;
-    return DFSPFull ? window.screen.bounds : DFSPSystemUsableRect(window);
-}
+// Never contract the system's CarPlay UIWindow: on-device QA5 proved
+// window.frame mutation crops the scene and exposes Home behind it.
+// A separate content-root owner keeps the window and native chrome distinct.
 static BOOL DFSPApply(BOOL full, NSString *source) {
     UIWindow *window=DFSPWindow;
-    SPDash *owner=DFSPManager;
-    if (!window || !owner || !DFSPExternal(window) || DFSPApplying) return NO;
-    CGRect normal=DFSPSystemUsableRect(window);
-    CGRect desired=full ? window.screen.bounds : normal;
-    if (!DFSPRectOK(desired)) {
-        DFSPLog(@"REFUSE: native usable bounds unavailable; old window unchanged");
-        return NO;
-    }
-    BOOL oldFull=DFSPFull;
-    CGRect beforeFrame=window.frame;
-    CGFloat beforeLevel=window.windowLevel;
+    DFSPNative12Host *host=DFSPHost;
+    if (!window || !host || !host.isAttached ||
+        !DFSPExternal(window) || DFSPApplying) return NO;
+    BOOL wasFull=DFSPFull;
     DFSPApplying=YES;
-    DFSPFull=full;
-    // Replace SPDash's old fullscreen frame at its own geometry setter.
-    [owner setCarWindowFrame:desired];
-    [owner layoutRootView];
-    // Physically keep the old SidePlay fullscreen window OUT of the native
-    // sidebar region in NORMAL; merely changing z-order (QA1) was not enough.
-    window.frame=desired;
-    // Keep QA1's device-observed visible Z level to avoid hiding SidePlay
-    // behind Dashboard; suppress old fullscreen by contracting the window.
-    CGFloat targetLevel=full ? DFSPOriginalLevel : (UIWindowLevelStatusBar-1.0);
-    window.windowLevel=targetLevel;
-    [window setNeedsLayout];
-    [window layoutIfNeeded];
-    DFSPRefresh();
-    BOOL ok=DFSPNear(window.frame,desired) &&
-            fabs(window.windowLevel-targetLevel)<1.0;
-    if (!ok) {
-        // Restore previous known state on partial geometric failure.
-        DFSPFull=oldFull;
-        window.frame=beforeFrame;
-        window.windowLevel=beforeLevel;
-        [owner setCarWindowFrame:beforeFrame];
-        [owner layoutRootView];
+    BOOL applied=full?[host applyFullscreen]:[host applyNormal];
+    if (applied) {
+        DFSPFull=full;
+        // Z-order alone cannot conjure the system bar; the window outside
+        // the actual content root must also stay transparent.
+        window.windowLevel=full?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;
+        [window setNeedsLayout];
+        [window layoutIfNeeded];
         DFSPRefresh();
+    } else {
+        if (wasFull) [host applyFullscreen]; else [host applyNormal];
     }
     DFSPApplying=NO;
     DFSPLog([NSString stringWithFormat:
-      @"apply=%d requestedFull=%d source=%@ original=%@ normal=%@ actual=%@ level=%.1f expected=%.1f safe=%@",
-      ok,full,source,NSStringFromCGRect(DFSPOriginalFrame),
-      NSStringFromCGRect(normal),NSStringFromCGRect(window.frame),
-      window.windowLevel,targetLevel,NSStringFromUIEdgeInsets(window.safeAreaInsets)]);
-    return ok;
+      @"native host apply=%d zoom=%d source=%@ windowFrame=%@ windowBounds=%@ contentRoot=%@ usable=%@ level=%.1f safe=%@",
+      applied,full,source,NSStringFromCGRect(window.frame),
+      NSStringFromCGRect(window.bounds),
+      NSStringFromCGRect([DFSPManager rootView].frame),
+      NSStringFromCGRect(DFSPSystemUsableRect(window)),window.windowLevel,
+      NSStringFromUIEdgeInsets(window.safeAreaInsets)]);
+    return applied;
 }
-
 static NSArray *DFSPPanes(void) {
     SPDash *manager=DFSPManager;
     id array=manager?[manager panes]:nil;
@@ -377,10 +361,17 @@ static void DFSPRefresh(void) {
 
 static void DFSPRemove(void) {
     UIWindow *oldWindow=DFSPWindow;
+    [DFSPHost restoreAndDetach];
+    DFSPHost=nil;
     if (oldWindow) {
         oldWindow.windowLevel=DFSPOriginalLevel;
+        oldWindow.backgroundColor=DFSPOriginalWindowBackground;
+        oldWindow.opaque=DFSPOriginalWindowOpaque;
+        // Restore only the original frame at disconnect; never contract
+        // UIWindow.frame during connected Normal/Zoom transitions.
         oldWindow.frame=DFSPOriginalFrame;
     }
+    DFSPOriginalWindowBackground=nil;
     DFSPClearPaneFocus(YES);
     [DFSPUI resetForDisconnect];
     DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
@@ -418,6 +409,24 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPFocusedSlot=-1;
     DFSPRestorePaneVisibility();
     DFSPLayoutCalls=0;
+    // Fail closed instead of applying an unverified global window crop.
+    UIView *realRoot=[owner rootView];
+    CGRect usable=DFSPSystemUsableRect(window);
+    DFSPHost=[[DFSPNative12Host alloc]initWithCarPlayWindow:window
+                    contentRoot:realRoot nativeUsableInWindow:usable];
+    if (!DFSPHost) {
+        DFSPLog([NSString stringWithFormat:
+          @"QA6 host refused unsafe geometry window=%@ bounds=%@ root=%@ usable=%@",
+          NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds),
+          realRoot,NSStringFromCGRect(usable)]);
+        DFSPRemove();
+        return;
+    }
+    DFSPOriginalWindowBackground=window.backgroundColor;
+    DFSPOriginalWindowOpaque=window.opaque;
+    // Transparent outside the content-owned usable area.
+    window.opaque=NO;
+    window.backgroundColor=UIColor.clearColor;
     DFSPAdapter=[DFSPNativeAdapter new];
     DFSPUI=[[DFSPNativeFrame alloc]initWithFrame:window.bounds];
     DFSPUI.delegate=DFSPAdapter;
@@ -447,27 +456,13 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         DFSPInstall(weakOwner,weakWindow,generation,0);
     });
 }
-- (BOOL)carDockMode {
-    // Disable SidePlay's old dock/fullscreen layout *decision*, NOT app host.
-    if (DFSPManager==self && DFSPWindow && !DFSPFull) return NO;
-    return %orig;
-}
-- (CGRect)carWindowFrameNow {
-    if (DFSPManager==self && DFSPWindow) {
-        CGRect desired=DFSPActiveWindowRect();
-        if (DFSPRectOK(desired)) return desired;
-    }
-    return %orig;
-}
-- (void)setCarWindowFrame:(CGRect)frame {
-    if (DFSPManager==self && DFSPWindow) {
-        CGRect desired=DFSPActiveWindowRect();
-        if (DFSPRectOK(desired)) frame=desired;
-    }
-    %orig(frame);
-}
+// App-host preferences/frame selectors remain owned by SidePlay.
+// Never force carDockMode=NO or re-assign its UIWindow.frame from QA.
 - (void)layout:(BOOL)animated {
     %orig(animated);
+    if (DFSPManager==self && DFSPHost && !DFSPApplying &&
+        ![DFSPHost reconcileAfterSystemLayout])
+        DFSPLog(@"QA6: host content-root reconcile after SPDash.layout failed");
     // Old SidePlay may relayout on rotation, ratio/style and scene updates.
     // Re-apply owner-visible focused pane after the original host layout.
     if (DFSPManager==self && !DFSPApplying && !DFSPApplyingPaneFocus) {
@@ -477,21 +472,10 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     }
 }
 - (void)layoutRootView {
-    // Old host/layout still renders app content, but cannot own NORMAL frame.
-    %orig;
-    if (DFSPManager==self && DFSPWindow && !DFSPApplying) {
-        UIWindow *window=DFSPWindow;
-        CGRect desired=DFSPActiveWindowRect();
-        if (DFSPRectOK(desired)) {
-            if (!DFSPNear(window.frame,desired)) {
-                window.frame=desired;
-                if (++DFSPLayoutCalls<=5)
-                    DFSPLog(@"old SidePlay relayout attempted fullscreen; normalized");
-            }
-            CGFloat desiredLevel=DFSPFull?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;
-            if (fabs(window.windowLevel-desiredLevel)>0.5)
-                window.windowLevel=desiredLevel;
-        }
+    %orig; // preserve SPDash scene/app layout; adjust only validated root.
+    if (DFSPManager==self && DFSPWindow && DFSPHost && !DFSPApplying) {
+        if (![DFSPHost reconcileAfterSystemLayout])
+            DFSPLog(@"QA6: content-root reconcile after SPDash.layoutRootView failed");
         DFSPRefresh();
     }
 }
