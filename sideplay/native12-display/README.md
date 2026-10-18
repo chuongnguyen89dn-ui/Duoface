@@ -32,3 +32,25 @@
 Original SidePlay là Mach-O đã biên dịch. Module giao diện độc lập chỉ có thể điều khiển một host khi xác định đúng owner/session thật; yêu cầu này **chưa được nghiệm thu trên thiết bị**. Đã có ảnh người dùng xác nhận SidePlay bật `Thanh dock CarPlay` nhưng dock vẫn mất. Bật setting không giải quyết được vấn đề.
 
 **Không merge thay SidePlay gốc, không build DEB, không phát hành Sileo khi chưa có host/chrome runtime ACK và test thật.**
+
+
+## Mã nguồn đã viết và mức kiểm chứng (18/10/2026)
+
+- `DFSPDisplayState.h` + `DFSPDisplayState.c`: bộ điều khiển trạng thái **toàn màn hình CarPlay** độc lập, không xử lý 2 pane; khởi động luôn bước `SHOW_SYSTEM_BAR` → `APPLY_HOST_NORMAL`, Zoom In `APPLY_HOST_FULL` → `HIDE_SYSTEM_BAR`, Zoom Out `SHOW_SYSTEM_BAR` → `APPLY_HOST_NORMAL`.
+- Chỉ nhận ACK có `transaction` đúng; NACK kích hoạt rollback để không báo sai Zoom thành công. Disconnect vô hiệu ACK cũ, hủy trạng thái fullscreen. **Platform owner cần khôi phục host/chrome best-effort trước khi dispose scene**, còn boot kế tiếp luôn yêu cầu normal.
+- `tests/test_display_state.c` kiểm 5 kịch bản: khởi động thường không tự fullscreen; Zoom vào/ra có ACK; lỗi Zoom In rollback; lỗi Zoom Out không báo thành công; bỏ ACK sai/ACK phiên cũ.
+- **ĐÃ TEST:** GitHub Actions [39117769540](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39117769540), job `117646938527`, build `cc -std=c11 -Wall -Wextra -Werror -pedantic -O2` + 5 tests **PASS**, kiểm source không liên kết vendor binary **PASS**.
+- **CHƯA TÍCH HỢP RUNTIME:** chưa có callback xác thực `DFSP_APPLY_HOST_NORMAL/FULL` sang **SidePlay UIWindow/scene owner** và `SHOW/HIDE_SYSTEM_BAR` sang Dashboard/CarPlay đúng phiên; chưa có mã xử lý z-order SidePlay `UIWindowLevelAlert+10`, chưa test thật, chưa build DEB. Không tự gọi “đã fix dock/fullscreen”.
+- **Không dùng** C file thử nghiệm `sideplay/native104-geometry/DFNative104Geometry.[ch]` làm chuẩn giao diện đã duyệt. Chuẩn vẫn là Native12 HUD8. **Nút Zoom Native12** hiện hữu sẽ là entrypoint, không tự tạo nút UI thứ hai.
+
+### Chỉ định nơi ghép khi runtime có owner thật
+
+| Phần việc | Source tham khảo DUOFACE ĐÃ CÓ | Cách triển khai trong SidePlay độc lập |
+|---|---|---|
+| Zoom click | `runtime/fullscreen/DFPickerZoomMenu.xm` và `DFFullscreenCoordinator.mm` | Gọi `DFSPDisplayZoomIn/ZoomOut` từ nút Zoom hiện hữu |
+| State ACK / session | `runtime/fullscreen/DFFullscreenTransport.mm` | Gắn callback ACK đúng token vào hai process thực; không gửi local notification rồi giả định cross-process |
+| Geometry | `docs/fullscreen-root-cause-20261014.md` về `CBWindow` usable area | Tính normal content từ **CarPlay native insets** do system owner cung cấp; không import `CB*` |
+| Chrome | `runtime/fullscreen/DFDashboardChrome.xm`, báo cáo Airaw đã lưu | Chỉ tác động đúng native bar của session khi nhận lệnh Zoom; khôi phục nguyên trạng trên Zoom Out/disconnect |
+| SidePlay overlay | `sideplay/normal-carplay/audit/geometry-objc-window-trace.txt` | Xác minh owner & z-order của SidePlay UIWindow trước khi nối các thao tác; không điều chỉnh UIWindow global |
+
+**Điểm tiếp theo:** gắn hai callback owner cho host và chrome, thử normal boot/Zoom in/Zoom out trên iPhone X với log ACK và chụp thanh bar thực. Đó là phần ghép runtime còn thiếu, không phải phân tích lại nguyên DEB.
