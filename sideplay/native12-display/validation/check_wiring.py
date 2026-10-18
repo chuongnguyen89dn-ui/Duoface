@@ -42,7 +42,7 @@ def main():
     for label,(delegate,call) in wiring.items():
         require(re.search(delegate,SRC) is not None and re.search(call,SRC) is not None,
                 "Native12→SidePlay real handler: "+label)
-    require("DFSPHideSidePlayPlaceholder" in SRC and "[pane chipView].hidden=YES" in SRC,
+    require("DFSPHideSidePlayPlaceholder" in SRC and "DFSPHideReplacedView([pane chipView])" in SRC,
             "old SidePlay placeholder + chip suppressed; live pane retained")
     require("appViewController" in SRC and "DFSPPaneRect" in SRC,
             "visual shell takes actual SidePlay pane rect and app state")
