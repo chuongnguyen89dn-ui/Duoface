@@ -1,0 +1,31 @@
+name: SidePlay Native12 host UIKit compile-only
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-native12-host-compile.yml'
+      - 'sideplay/native12-display/DFSPNative12Host.h'
+      - 'sideplay/native12-display/DFSPNative12Host.m'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios16-compile-only:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile the independent whole-screen UIKit adapter (no signing or DEB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -fobjc-arc -fsyntax-only \
+            -Wall -Wextra -Werror \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -x objective-c sideplay/native12-display/DFSPNative12Host.m
+      - name: Reject vendor UI owner dependencies in new host adapter
+        run: |
+          set -euo pipefail
+          ! grep -RE 'CBWindow|CBBridgeManager|ARWCarPlayManager|SidePlay\.dylib' \
+            sideplay/native12-display/DFSPNative12Host.[hm]
