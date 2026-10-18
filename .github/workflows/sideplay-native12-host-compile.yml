@@ -8,6 +8,8 @@ on:
       - 'sideplay/native12-display/DFSPNative12Host.m'
       - 'sideplay/native12-display/DFSPDisplayCoordinator.h'
       - 'sideplay/native12-display/DFSPDisplayCoordinator.m'
+      - 'sideplay/native12-display/DFSPNative12ChromeOwner.h'
+      - 'sideplay/native12-display/DFSPNative12ChromeOwner.m'
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,10 +29,12 @@ jobs:
             -target arm64-apple-ios16.0 -isysroot "$SDK" \
             -x objective-c \
             sideplay/native12-display/DFSPNative12Host.m \
-            sideplay/native12-display/DFSPDisplayCoordinator.m
+            sideplay/native12-display/DFSPDisplayCoordinator.m \
+            sideplay/native12-display/DFSPNative12ChromeOwner.m
       - name: Reject vendor UI owner dependencies in new host adapter
         run: |
           set -euo pipefail
           ! grep -RE 'CBWindow|CBBridgeManager|ARWCarPlayManager|SidePlay\.dylib' \
             sideplay/native12-display/DFSPNative12Host.[hm] \
-            sideplay/native12-display/DFSPDisplayCoordinator.[hm]
+            sideplay/native12-display/DFSPDisplayCoordinator.[hm] \
+            sideplay/native12-display/DFSPNative12ChromeOwner.[hm]
