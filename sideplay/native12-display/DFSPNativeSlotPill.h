@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
    This is DuoFace-owned UI; SidePlay only provides the hosted app/scene. */
 @interface DFSPNativeSlotPill : UIVisualEffectView
 @property(nonatomic,readonly) NSInteger slot;
-@property(nonatomic,readonly) BOOL focused;
+@property(nonatomic,readonly) BOOL slotFocused;
 @property(nonatomic,readonly) BOOL compact;
 @property(nonatomic,readonly) BOOL allowsExpand;
 - (instancetype)initWithSlot:(NSInteger)slot target:(id)target
