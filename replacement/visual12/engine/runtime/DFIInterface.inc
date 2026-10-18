@@ -207,6 +207,14 @@ static NSArray *DFIAvailableApps(void) {
  // Speed8 UIView is mounted once on the existing QA controller, never on a second window.
  [self.view addSubview:self.native8HUD];
  self.native8HUD.qaHasActiveSplit=NO;
+ __weak typeof(self) weakNative8Owner=self;
+ self.native8HUD.qaSplitState=^BOOL{
+  DFV12SplitController *owner=weakNative8Owner;
+  if(!owner || owner.shuttingDown || owner.maximized>=0)return NO;
+  NSInteger live=0;
+  for(id host in owner.hosts)if(host!=NSNull.null && [host scene])live++;
+  return live>=2;
+ };
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
  for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
