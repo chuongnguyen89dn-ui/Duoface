@@ -79,10 +79,10 @@ def inspect_native12(path: Path) -> dict:
         "selector_point_inside_imp":"0xff728",
         "literals":literals,
         "button_geometry":{
-            "short_axis_select":"isVertical ? bounds.width : bounds.height",
+            "axis_select":"isVertical ? bounds.height : bounds.width", 
             "small_button_side_pt":28.0,
             "large_button_side_pt":30.0,
-            "switch_condition": "short_axis < threshold ? 28pt : 30pt",
+            "switch_condition": "along-divider span < threshold ? 28pt : 30pt",
             "threshold_pt":threshold,
             "button_frame":"square CGRect; width == height == selected side",
             "frame_call_asm":"0xff6a8-0xff6c0 (d0,d1 coordinate; d2=d3=d8)"
