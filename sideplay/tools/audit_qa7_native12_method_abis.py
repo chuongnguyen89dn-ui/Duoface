@@ -59,7 +59,7 @@ def thin(b):
     return b
 class MachO:
     def __init__(self,blob):
-        self.b=thin(blob);self.seg=[];self.sec=[];self.fn=None;self.problems=[]
+        self.b=thin(blob);self.seg=[];self.sec=[];self.fn=None;self.problems=[];self.selmap={}
         if len(self.b)<32 or self.b[:4]!=b"\xcf\xfa\xed\xfe":
             raise ValueError("not arm64 MachO64")
         hdr=struct.unpack_from("<IiiIIIII",self.b,0)
@@ -134,8 +134,15 @@ class MachO:
                 if None in (a,b,c):continue
                 selptr=q+a
                 if not direct:
-                    selptr=self.val(selptr,"Q") or selptr
-                sel=self.st(selptr);typ=self.st(q+4+b)
+                    # Chained dyld fixups can leave SELREF's raw pointer unusable
+                    # on disk. otool decodes the __objc_selrefs table faithfully.
+                    sel=self.selmap.get(selptr)
+                    if not sel:
+                        selptr=self.val(selptr,"Q") or selptr
+                        sel=self.st(selptr)
+                else:
+                    sel=self.st(selptr)
+                typ=self.st(q+4+b)
                 imp=q+8+c
             else:
                 selptr=self.val(q,"Q");typeptr=self.val(q+8,"Q")
@@ -183,18 +190,30 @@ class MachO:
             pos+=num;result.append(hex(self.base+pos))
         return result
 
+def otool_selrefs(raw,mm):
+    """Map selref slot virtual address to selector, as resolved by Apple otool."""
+    match=re.search(r"Contents of \([^,\n]+,__objc_selrefs\) section\n([\s\S]*?)(?=\nContents of \(|\Z)",raw)
+    sec=next((x for x in mm.sec if x["name"]=="__objc_selrefs"),None)
+    if not match or not sec:return {}
+    lines=re.findall(r"^\s*0x[0-9a-fA-F]+\s+([^\r\n]+)$",match.group(1),re.M)
+    if not lines:return {}
+    count=min(len(lines),sec["size"]//8)
+    return {sec["addr"]+i*8:lines[i].strip() for i in range(count)}
+
 def audit_file(p,out,label):
-    mm=MachO(p.read_bytes());methods=mm.objc();starts=mm.starts()
+    mm=MachO(p.read_bytes())
+    rc2,raw,err2=command("otool","-ov","-arch","arm64",str(p))
+    mm.selmap=otool_selrefs(raw,mm)
+    methods=mm.objc();starts=mm.starts()
     rc,nm,err=command("nm","-a",str(p))
     nm_lines=[s for s in nm.splitlines() if s.strip()]
-    rc2,raw,err2=command("otool","-ov","-arch","arm64",str(p))
     filekey=label+"-"+re.sub(r"[^a-zA-Z0-9._-]","_",p.name)
     with gzip.open(out/(filekey+".otool.gz"),"wt") as f:
         f.write(raw);f.write("\nSTDERR: "+err2)
     return {"filename":p.name,"sha256":digest(p),"objc_methods":methods,
             "method_count":len(methods),"class_count":len({m["class"] for m in methods}),
             "lc_function_starts":starts,"nm_symbols":nm_lines,
-            "otool_bytes":len(raw),"otool_rc":rc2,
+            "otool_bytes":len(raw),"otool_rc":rc2,"selrefs_decoded":len(mm.selmap),
             "objc_sections":[x for x in mm.sec if "objc" in x["name"]]}
 
 def run(args):
