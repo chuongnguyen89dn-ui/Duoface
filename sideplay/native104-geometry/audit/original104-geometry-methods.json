@@ -1,0 +1,59 @@
+{
+  "kind": "STATIC ORIGINAL DUONAVI104 GEOMETRY REFERENCE; NOT SOURCE",
+  "original_deb_sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+  "dashboard_member": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+  "dashboard_bytes": 7921472,
+  "dashboard_sha256": "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15",
+  "arm64_slice_bytes": 3927232,
+  "arm64_slice_sha256": "012c3fa0c0b4c32363d09af24bbc890d9baf61e51788d8f086836f6829a5922d",
+  "arch_info": {
+    "fat": true,
+    "cpu": 16777228,
+    "subcpu": 0,
+    "offset": 32768
+  },
+  "llvm": "/usr/bin/llvm-objdump-18",
+  "metadata_lines": 6988,
+  "entries": [
+    {
+      "name": "splitRatio",
+      "imp": null,
+      "meta_excerpt": [
+        "\t\t\t     name 0x31c780 splitRatio",
+        "\t\t\tattributes 0x31cbcb Td,N,V_splitRatio",
+        "\t\t\t     name 0x31c79a gridCols",
+        "\t\t\tattributes 0x31cbdd Tq,N,V_gridCols"
+      ]
+    },
+    {
+      "name": "splitRatio",
+      "imp": null,
+      "meta_excerpt": [
+        "\t\t\t     name 0x31c780 splitRatio",
+        "\t\t\tattributes 0x31cbcb Td,N,V_splitRatio",
+        "\t\t\t     name 0x3217cc focusedSlotIndex",
+        "\t\t\tattributes 0x32199a Tq,N,V_focusedSlotIndex"
+      ]
+    }
+  ],
+  "wanted": [
+    "carPlayScreenBounds",
+    "carPlayContentInsets",
+    "carPlayUsableBounds",
+    "resizeWindows",
+    "layoutSplitViews",
+    "handleDividerPan:isVertical:state:",
+    "setSplitRatio:",
+    "splitRatio",
+    "layoutSubviews",
+    "updateBoundsSize",
+    "carPlayUIScreen",
+    "carPlayCADisplay",
+    "carPlayScreenScale",
+    "receivedMetricsUpdatedNotification:",
+    "switchToSplitWithLeft:right:ratio:"
+  ],
+  "method_class_mapping_not_yet_confirmed": true,
+  "runtime_verified": false,
+  "license_code_copied": false
+}
