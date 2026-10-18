@@ -46,12 +46,12 @@ jobs:
         run: |
           set -euo pipefail
           bash replacement/visual12/build_g1g2_qa.sh
-          p='dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone5lifecycle_iphoneos-arm64.deb'
+          p='dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone6invalidate_iphoneos-arm64.deb'
           test -s "$p"
           test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
-          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone5lifecycle'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone6invalidate'
           test "$(dpkg-deb -f "$p" Architecture)" = 'iphoneos-arm64'
-          dpkg --compare-versions '1.0.3-12~standalone5lifecycle' gt '1.0.3-12~standalone1'
+          dpkg --compare-versions '1.0.3-12~standalone6invalidate' gt '1.0.3-12~standalone1'
           python3 replacement/visual12/verify_g1g2_qa.py "$p"
           cat dist/visual12-g1g2-qa/BAO_CAO.json
           cat dist/visual12-g1g2-qa/SHA256SUMS
@@ -59,7 +59,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFace-CarPlay-G1-G2-Standalone5Lifecycle-DEB
+          name: DuoFace-CarPlay-G1-G2-Standalone6Invalidate-DEB
           path: |
             dist/visual12-g1g2-qa/*.deb
             dist/visual12-g1g2-qa/BAO_CAO.json
@@ -71,7 +71,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          QA_DEB_NAME='com.duoface.visual12_1.0.3-12~standalone5lifecycle_iphoneos-arm64.deb'
+          QA_DEB_NAME='com.duoface.visual12_1.0.3-12~standalone6invalidate_iphoneos-arm64.deb'
           cp dist/visual12-g1g2-qa/BAO_CAO.json "$RUNNER_TEMP/qa-BAO_CAO.json"
           cp dist/visual12-g1g2-qa/CONTENTS.txt "$RUNNER_TEMP/qa-CONTENTS.txt"
           cp dist/visual12-g1g2-qa/SHA256SUMS "$RUNNER_TEMP/qa-SHA256SUMS"

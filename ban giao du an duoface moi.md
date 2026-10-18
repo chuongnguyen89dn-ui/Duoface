@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — standalone6invalidate: sửa teardown theo DEB gốc, chờ build/test
+
+- Thay `_setCurrentMode:0` + giữ controller 5 giây bằng `setRequestedMode:0`, tháo containment, `invalidate`, rồi giải phóng. Guard ABI yêu cầu invalidate. Close được chuyển về main thread, idempotent và ngắt callback/timer trước teardown.
+- Invalidate được tách khỏi khối restore settings để lỗi restore không bỏ qua bước này. Giữ nguyên phục hồi phone scene, UI, Native12/Hub8 và package boundary. Không sửa license stub hay chép binary donor.
+- Bằng chứng: original104 `CBBridgedUIAppView -dismiss` gọi invalidate tại 0xaef5c trước nil/release 0xaef64/0xaef68; đây là cơ sở sửa, KHÔNG phải xác nhận hết crash trên máy.
+- Version QA: `1.0.3-12~standalone6invalidate`. Shell/Python syntax kiểm tra đạt; compiler/package verification sẽ chạy workflow hiện có. Chưa phát hành Sileo, chưa test thiết bị.
+- Cần test đóng/mở pane, đổi app nhiều lần, rút/cắm CarPlay, chờ hơn 5 giây sau close trên iPhone10,6 iOS16.7.16; đối chiếu log invalidate và crash mới nếu có.
+
+
 ## 2026-10-18 — ĐÃ GIẢI MÃ THÀNH CÔNG DUONAVI 1.0.4 / CHỐT KHÁC BIỆT ĐÓNG SCENE
 
 **CONFIRMED từ binary gốc:** GitHub Actions `39082350491` và `39082485471` đều `completed/success`. DEB gốc `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb` SHA256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`; extracted `DuoNaviDashboard.dylib` SHA256 `44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15`. `otool -ov`, `llvm-objdump --macho --objc-meta-data` và `--disassemble` đã chạy thật trên macOS 15. Báo cáo kết quả `audit/duonavi-original104-scene/REPORT.md` được Actions commit vào QA `9852ca66bfb55d482283fb8370120a0b575dde12`; raw artifact run 39082350491 `12118894756` (và raw artifact lần 2 tra từ run 39082485471 khi cần). Đây là **original 1.0.4**, không phải binary Visual12.

@@ -117,8 +117,8 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
                 [missing addObject:@"SBAppViewController initWithIdentifier:andApplicationSceneEntity:"];
             if(![controllerClass instancesRespondToSelector:NSSelectorFromString(@"setRequestedMode:")])
                 [missing addObject:@"SBAppViewController setRequestedMode:"];
-            if(![controllerClass instancesRespondToSelector:NSSelectorFromString(@"_setCurrentMode:")])
-                [missing addObject:@"SBAppViewController _setCurrentMode:"];
+            if(![controllerClass instancesRespondToSelector:NSSelectorFromString(@"invalidate")])
+                [missing addObject:@"SBAppViewController invalidate"];
         }
         if(missing.count) {
             NSString *detail=[missing componentsJoinedByString:@", "];
@@ -267,9 +267,14 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     DFIPerfCount(@"scene_updates");
 }
 - (void)close {
+    if(![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{ [self close]; });
+        return;
+    }
     if(self.closed) return;
     self.closed=YES;
     [self.timer invalidate]; self.timer=nil;
+    self.ready=nil; self.failure=nil;
     [DFIHostedBundles removeObject:self.bundleID];
     if(self.scene) @synchronized(DFIHostedScenes) {
         [DFIHostedScenes removeObject:self.scene]; [DFISceneGeometry removeObjectForKey:self.scene];
@@ -277,15 +282,24 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     if(self.deviceController) @synchronized(DFIHostedScenes) { [DFIControllerGeometry removeObjectForKey:self.deviceController]; }
     if(self.handle) @synchronized(DFIHostedScenes) { [DFIHandleOwners removeObjectForKey:self.handle]; }
     @try {
-        [self.controller willMoveToParentViewController:nil];
         [self.controller beginAppearanceTransition:NO animated:NO];
-        // setRequestedMode: queues an asynchronous transition. Releasing the
-        // controller during that transition triggers SBAppViewController's
-        // dealloc assertion on iOS 16.7.16. Reset the actual mode first.
-        DFIInteger(self.controller,@"_setCurrentMode:",0);
         [self.controller endAppearanceTransition];
+        // Original 1.0.4 dismiss requests mode zero, then invalidates before
+        // releasing SBAppViewController; a timed retain is not teardown.
+        DFIInteger(self.controller,@"setRequestedMode:",0);
         [self.controller.view removeFromSuperview];
+        [self.controller willMoveToParentViewController:nil];
         [self.controller removeFromParentViewController];
+    } @catch(NSException *exception) { DFILog(exception.reason); }
+    // Keep invalidation independent of UIKit/settings restoration exceptions.
+    @try {
+        DFILog([NSString stringWithFormat:@"QA scene invalidate begin bundle=%@",self.bundleID]);
+        SEL invalidate=NSSelectorFromString(@"invalidate");
+        if([self.controller respondsToSelector:invalidate])
+            ((void(*)(id,SEL))objc_msgSend)(self.controller,invalidate);
+        DFILog(@"QA scene invalidate end");
+    } @catch(NSException *exception) { DFILog(exception.reason); }
+    @try {
         SEL update=NSSelectorFromString(@"updateSettings:withTransitionContext:completion:");
         id restore=self.savedSettings ? [self.savedSettings mutableCopy] : DFIGet(self.scene,@"mutableSettings");
         if(restore && [self.scene respondsToSelector:update]) {
@@ -303,22 +317,6 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
         for(id view in self.phoneViews) if([view respondsToSelector:mode])
             ((void(*)(id,SEL,NSInteger,id,id))objc_msgSend)(view,mode,4,nil,nil);
     } @catch(NSException *exception) { DFILog(exception.reason); }
-    // SBAppViewController may still own an asynchronous mode transition after
-    // setRequestedMode:/scene update. Both device crashes (06:22/06:25) were
-    // triggered while its dealloc assertion ran during an autorelease drain.
-    // Keep only the private controller alive across a bounded grace period;
-    // release the rest of the scene host immediately. This is a QA mitigation,
-    // not proof that the underlying UIKit lifecycle is fixed.
-    id retiringController=self.controller;
-    if(retiringController) {
-        DFILog([NSString stringWithFormat:@"QA scene close defer controller release bundle=%@",self.bundleID]);
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)),
-                       dispatch_get_main_queue(), ^{
-            // Keep the strong capture until the scheduled release, on main.
-            DFILog(@"QA scene deferred controller release");
-            (void)retiringController;
-        });
-    }
     self.controller=nil; self.entity=nil; self.scene=nil; self.savedSettings=nil; self.deviceController=nil; self.handle=nil;
     [self.phoneViews removeAllObjects];
 }
@@ -661,3 +659,4 @@ __attribute__((constructor)) static void DFIInitialize(void) {
         else dispatch_async(dispatch_get_main_queue(), ^{ DFV12InstallRuntime(); });
     }
 }
+
