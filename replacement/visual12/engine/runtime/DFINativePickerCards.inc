@@ -232,8 +232,7 @@
     _scrollView.contentSize=recent?CGSizeMake(width,MAX(contentBottom,scrollHeight+1)):
                            CGSizeMake(pageCount*width,scrollHeight);
     DFILog([NSString stringWithFormat:
-        @"Native picker cards category=%@ count=%ld grid=%ldx%ld pages=%ld"
-         " labelsHidden=%d frame=%@",
+        @"Native picker cards category=%@ count=%ld grid=%ldx%ld pages=%ld labelsHidden=%d frame=%@",
         recent?@"recent":@"apps",(long)count,(long)cols,(long)rows,
         (long)pageCount,(int)hiddenLabels,NSStringFromCGRect(self.view.bounds)]);
 }
