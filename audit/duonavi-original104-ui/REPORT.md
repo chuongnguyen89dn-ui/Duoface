@@ -200,17 +200,202 @@ Instructions sampled: 236 to 0xb30c4.
 
 <details omitted: raw bounded refs preserved in JSON>
 
-## CBMultitaskingOverlayView::layoutSubviews — absent in 1.0.4 metadata
-No method IMP; inspect Native12 independently.
+## CBMultitaskingOverlayView::layoutSubviews — 0xa202c
+Instructions sampled: 103 to 0xa21c8.
 
-## CBMultitaskingOverlayView::setupCardContent — absent in 1.0.4 metadata
-No method IMP; inspect Native12 independently.
+- \`layoutSubviews\`
+- \`-[[x0 super] layoutSubviews]\`
+- \`bounds\`
+- \`-[x0 bounds]\`
+- \`setFrame:\`
+- \`-[x0 setFrame:]\`
+- \`setupCardContent\`
+- \`-[x0 setupCardContent]\`
 
-## CBMultitaskingOverlayView::setupAppPickerCardsInCardW:cardH:contentY: — absent in 1.0.4 metadata
-No method IMP; inspect Native12 independently.
+<details omitted: raw bounded refs preserved in JSON>
 
-## CBMultitaskingOverlayView::setupRecentAppsCardsInCardW:cardH:contentY: — absent in 1.0.4 metadata
-No method IMP; inspect Native12 independently.
+## CBMultitaskingOverlayView::setupCardContent — 0xa21c8
+Instructions sampled: 1000 to 0xa33c8.
+
+- \`contentView\`
+- \`-[x0 contentView]\`
+- \`subviews\`
+- \`-[x0 subviews]\`
+- \`countByEnumeratingWithState:objects:count:\`
+- \`-[x0 countByEnumeratingWithState:objects:count:]\`
+- \`bounds\`
+- \`-[x0 bounds]\`
+- \`initWithFrame:\`
+- \`+[UIImageView initWithFrame:]\`
+- \`setContentMode:\`
+- \`-[x0 setContentMode:]\`
+- \`colorWithRed:green:blue:alpha:\`
+- \`-[x0 colorWithRed:green:blue:alpha:]\`
+- \`setTintColor:\`
+- \`-[x0 setTintColor:]\`
+- \`systemImageNamed:\`
+- \`-[x0 systemImageNamed:]\`
+- \`setImage:\`
+- \`-[x0 setImage:]\`
+- \`addSubview:\`
+- \`-[x0 addSubview:]\`
+- \`+[UILabel addSubview:]\`
+- \`systemFontOfSize:weight:\`
+- \`+[UIFont systemFontOfSize:weight:]\`
+- \`setFont:\`
+- \`-[x0 setFont:]\`
+- \`whiteColor\`
+- \`-[x0 whiteColor]\`
+- \`setTextColor:\`
+- \`-[x0 setTextColor:]\`
+- \`setAdjustsFontSizeToFitWidth:\`
+- \`-[x0 setAdjustsFontSizeToFitWidth:]\`
+- \`setMinimumScaleFactor:\`
+- \`-[x0 setMinimumScaleFactor:]\`
+- \`setLineBreakMode:\`
+- \`-[x0 setLineBreakMode:]\`
+- \`setText:\`
+- \`-[x0 setText:]\`
+- \`buttonWithType:\`
+- \`+[UIButton buttonWithType:]\`
+- \`setFrame:\`
+- \`-[x0 setFrame:]\`
+- \`setBackgroundColor:\`
+- \`-[x0 setBackgroundColor:]\`
+- \`layer\`
+- \`-[x0 layer]\`
+- \`setCornerRadius:\`
+- \`-[x0 setCornerRadius:]\`
+- \`setBorderWidth:\`
+- \`-[x0 setBorderWidth:]\`
+- \`colorWithWhite:alpha:\`
+- \`-[x0 colorWithWhite:alpha:]\`
+- \`CGColor\`
+- \`-[x0 CGColor]\`
+
+<details omitted: raw bounded refs preserved in JSON>
+
+## CBMultitaskingOverlayView::setupAppPickerCardsInCardW:cardH:contentY: — 0xa35cc
+Instructions sampled: 1000 to 0xa47cc.
+
+- \`contentView\`
+- \`-[x0 contentView]\`
+- \`count\`
+- \`-[x0 count]\`
+- \`array\`
+- \`+[NSMutableArray array]\`
+- \`-[x0 array]\`
+- \`dictionary\`
+- \`+[NSMutableDictionary dictionary]\`
+- \`objectAtIndexedSubscript:\`
+- \`-[x0 objectAtIndexedSubscript:]\`
+- \`sharedInstance\`
+- \`+[CBDashboardSettings sharedInstance]\`
+- \`reload\`
+- \`-[x0 reload]\`
+- \`gridCols\`
+- \`-[x0 gridCols]\`
+- \`gridRows\`
+- \`-[x0 gridRows]\`
+- \`hideIconLabels\`
+- \`-[x0 hideIconLabels]\`
+- \`initWithFrame:\`
+- \`+[CBOverlayScrollView initWithFrame:]\`
+- \`setDelegate:\`
+- \`-[x0 setDelegate:]\`
+- \`setPagingEnabled:\`
+- \`-[x0 setPagingEnabled:]\`
+- \`setShowsHorizontalScrollIndicator:\`
+- \`-[x0 setShowsHorizontalScrollIndicator:]\`
+- \`setShowsVerticalScrollIndicator:\`
+- \`-[x0 setShowsVerticalScrollIndicator:]\`
+- \`setAlwaysBounceHorizontal:\`
+- \`-[x0 setAlwaysBounceHorizontal:]\`
+- \`setAlwaysBounceVertical:\`
+- \`-[x0 setAlwaysBounceVertical:]\`
+- \`setContentSize:\`
+- \`-[x0 setContentSize:]\`
+- \`addSubview:\`
+- \`-[x0 addSubview:]\`
+- \`+[UIPageControl addSubview:]\`
+- \`setNumberOfPages:\`
+- \`-[x0 setNumberOfPages:]\`
+- \`setCurrentPage:\`
+- \`-[x0 setCurrentPage:]\`
+- \`setHidesForSinglePage:\`
+- \`-[x0 setHidesForSinglePage:]\`
+- \`colorWithWhite:alpha:\`
+- \`+[UIColor colorWithWhite:alpha:]\`
+- \`setPageIndicatorTintColor:\`
+- \`-[x0 setPageIndicatorTintColor:]\`
+- \`whiteColor\`
+- \`-[x0 whiteColor]\`
+- \`setCurrentPageIndicatorTintColor:\`
+- \`-[x0 setCurrentPageIndicatorTintColor:]\`
+- \`setTransform:\`
+
+<details omitted: raw bounded refs preserved in JSON>
+
+## CBMultitaskingOverlayView::setupRecentAppsCardsInCardW:cardH:contentY: — 0xa5efc
+Instructions sampled: 1000 to 0xa70fc.
+
+- \`contentView\`
+- \`-[x0 contentView]\`
+- \`sharedInstance\`
+- \`+[CBBridgeManager sharedInstance]\`
+- \`runningBridgedApplications\`
+- \`-[x0 runningBridgedApplications]\`
+- \`initWithFrame:\`
+- \`+[UILabel initWithFrame:]\`
+- \`systemFontOfSize:weight:\`
+- \`+[UIFont systemFontOfSize:weight:]\`
+- \`setFont:\`
+- \`-[x0 setFont:]\`
+- \`colorWithWhite:alpha:\`
+- \`+[UIColor colorWithWhite:alpha:]\`
+- \`setTextColor:\`
+- \`-[x0 setTextColor:]\`
+- \`count\`
+- \`-[x0 count]\`
+- \`localizedStringForKey:\`
+- \`-[x0 localizedStringForKey:]\`
+- \`addSubview:\`
+- \`-[x0 addSubview:]\`
+- \`buttonWithType:\`
+- \`+[UIButton buttonWithType:]\`
+- \`setFrame:\`
+- \`-[x0 setFrame:]\`
+- \`colorWithRed:green:blue:alpha:\`
+- \`+[UIColor colorWithRed:green:blue:alpha:]\`
+- \`setBackgroundColor:\`
+- \`-[x0 setBackgroundColor:]\`
+- \`layer\`
+- \`-[x0 layer]\`
+- \`setCornerRadius:\`
+- \`-[x0 setCornerRadius:]\`
+- \`setCornerCurve:\`
+- \`-[x0 setCornerCurve:]\`
+- \`setBorderWidth:\`
+- \`-[x0 setBorderWidth:]\`
+- \`CGColor\`
+- \`-[x0 CGColor]\`
+- \`setBorderColor:\`
+- \`-[x0 setBorderColor:]\`
+- \`setClipsToBounds:\`
+- \`-[x0 setClipsToBounds:]\`
+- \`setTitle:forState:\`
+- \`-[x0 setTitle:forState:]\`
+- \`whiteColor\`
+- \`-[x0 whiteColor]\`
+- \`setTitleColor:forState:\`
+- \`-[x0 setTitleColor:forState:]\`
+- \`+[UIFont setTitleColor:forState:]\`
+- \`titleLabel\`
+- \`-[x0 titleLabel]\`
+- \`closeAllBridgedAppsTapped:\`
+- \`-[x0 closeAllBridgedAppsTapped:]\`
+
+<details omitted: raw bounded refs preserved in JSON>
 
 ## CBBridgedSplitApp::handleDividerPan:isVertical:state: — 0x10b4c0
 Instructions sampled: 390 to 0x10bad8.
