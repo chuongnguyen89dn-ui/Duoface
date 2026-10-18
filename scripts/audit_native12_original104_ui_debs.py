@@ -279,21 +279,21 @@ def cli():
                      "Real CarPlay touch/scene/appearance cannot be established by DEB metadata"]
     }
     sidecar=a.out_json.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json"
-    sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8")
+    sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     focus_md=a.out_md.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md"
-    focus_md.write_text("\\n".join([
+    focus_md.write_text("\n".join([
       "# Original 1.0.4 function / Native12 interface - focus/restore audit",
       "","Pinned immutable DEB binaries only. This is STATIC evidence, not receiver validation.","",
       "## 1. Functional owner — ORIGINAL DuoNavi 1.0.4",
-      "- \`CBBridgedSplitApp.focusSlot:animated:\` "+orig_focus["imp"]+
+      "- `CBBridgedSplitApp.focusSlot:animated:` "+orig_focus["imp"]+
       ": saveBridgeStateToDisk, layoutSplitViews, refreshSceneLayout.",
-      "- \`CBBridgedSplitApp.restoreSplitAnimated:\` "+orig_restore["imp"]+
+      "- `CBBridgedSplitApp.restoreSplitAnimated:` "+orig_restore["imp"]+
       ": same persistence/layout/scene-refresh chain.",
-      "- \`CBBridgedSplitApp.layoutSplitViews\` "+orig_layout["imp"]+
+      "- `CBBridgedSplitApp.layoutSplitViews` "+orig_layout["imp"]+
       ": setFocusedMode:, setShowsExpandButton:, setCompactMode:.",
       "This documents the original call chain; the independent QA owns its own scene hosts.", "",
       "## 2. Visual owner — NATIVE12 HUD8",
-      "- \`CBSlotPillView.layoutSubviews\` "+native_pill["imp"]+
+      "- `CBSlotPillView.layoutSubviews` "+native_pill["imp"]+
       ": focus hides dots/expand/separator, shows full-width Restore.",
       "- Normal shows app plus optional expand separated by 0.5pt line; Restore hidden.",
       "- Separator layout at 0x84e64..0x84e94; alpha 0.25 in constructor 0x8486c..0x84898.",
