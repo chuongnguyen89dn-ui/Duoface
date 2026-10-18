@@ -1,6 +1,6 @@
 // MyTweak independent scene host for jailbroken iOS 16 SpringBoard.
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
-// No vendor-license coupling or replacement for Apple authorization.
+// No CBBridgeManager, no vendor license, no replacement for Apple authorization.
 #import "MTSceneHost.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
@@ -196,11 +196,10 @@ static void MTInt(id obj, NSString *method, NSInteger value) {
             [self failed:MTError(112,@"Hết thời gian chờ scene của ứng dụng trên CarPlay")];
         }
     } @catch (NSException *e) {
-        [self failed:MTError(113, [@"Scene poll exception: " stringByAppendingString:e.reason?:@"unknown"])];
+        [self failed:MTError(113,[@"Scene poll exception: " stringByAppendingString:e.reason?:@"unknown"])];
     }
 }
-- (void)failed:(NSError *)error {
-    MTSceneLog(@"scene-failed",self.bundleID,error.localizedDescription);
+- (void)failed:(NSError *)error {    MTSceneLog(@"scene-failed",self.bundleID,error.localizedDescription);
     UIView *target=self;
     [self stop];
     [[NSNotificationCenter defaultCenter] postNotificationName:MTSceneHostDidFailNotification
