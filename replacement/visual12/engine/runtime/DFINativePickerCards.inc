@@ -40,7 +40,10 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     _scrollView.frame=self.view.bounds;
-    BOOL recent=[self.rows.firstObject[@"type"] isEqual:@"recent"];
+    BOOL recent=NO;
+    for(NSDictionary *candidate in self.rows) {
+        if([candidate[@"type"] isEqual:@"recent"]){recent=YES;break;}
+    }
     if(fabs(_lastCardWidth-CGRectGetWidth(self.view.bounds))>.5 ||
        _lastCardCount!=self.rows.count || recent!=_lastRecent) {
         [self layoutNativeCards];
@@ -80,7 +83,10 @@
     [_ownedCards removeAllObjects];
     CGFloat width=CGRectGetWidth(self.view.bounds);
     if(width<1)return;
-    BOOL recent=[self.rows.firstObject[@"type"] isEqual:@"recent"];
+    BOOL recent=NO;
+    for(NSDictionary *candidate in self.rows) {
+        if([candidate[@"type"] isEqual:@"recent"]){recent=YES;break;}
+    }
     _lastCardWidth=width;
     _lastCardCount=self.rows.count;
     _lastRecent=recent;
