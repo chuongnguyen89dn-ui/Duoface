@@ -6,7 +6,7 @@ PASS means the audit detects existing gaps correctly, NOT that UI is complete.
 No DEB rescanning, network, proprietary code or device assertions.
 """
 from __future__ import annotations
-import argparse, json
+import argparse, json, os
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
 def get(path):return (ROOT/path).read_text(encoding="utf-8")
@@ -14,7 +14,9 @@ mk=get("sideplay/sileo-qa/Makefile")
 bridge=get("sideplay/sileo-qa/Tweak.xm")
 frame=get("sideplay/native12-display/DFSPNativeFrame.m")
 pill=get("sideplay/native12-display/DFSPNativeSlotPill.m")
-geometry=get("replacement/visual12/engine/DFILayouts.h")
+reference=os.environ.get("NATIVE12_LAYOUTS_REFERENCE_FILE","")
+assert reference, "Set NATIVE12_LAYOUTS_REFERENCE_FILE from pinned visual12 commit"
+geometry=Path(reference).read_text(encoding="utf-8")
 models=get("sideplay/native12-display/DFSPDisplayState.c")
 checks={
   "native_reference_eight_layouts":all(x in geometry for x in (
