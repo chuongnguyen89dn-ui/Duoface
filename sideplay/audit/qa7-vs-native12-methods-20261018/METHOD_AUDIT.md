@@ -1,0 +1,938 @@
+# Bảng phương thức Mach-O — QA7 đang dùng vs Native12/HUD8, SidePlay
+
+Extraction: pinned SHA256 DEBs; all discovered arm64 ObjC class/metaclass/category
+methods with type encoding and IMP, plus LC_FUNCTION_STARTS + nm symbols.
+Raw complete otool -ov is stored as compressed build artifacts.
+ABI/method presence DOES NOT prove matching UI behavior or live CarPlay bar.
+
+| Runtime | Mach-O | ObjC methods | Classes with methods | Function start offsets |
+|---|---:|---:|---:|---:|
+| qa7 | 1 | 110 | 4 | 144 |
+| native12 | 8 | 1385 | 70 | 2509 |
+| sideplay104 | 7 | 863 | 44 | 1851 |
+
+## Tất cả Mach-O đã duyệt
+
+### qa7
+- DuoFaceSidePlayDisplayQA.dylib: 110 methods, 4 classes, 144 LC_FUNCTION_STARTS; 73869 raw metadata bytes.
+  Classes: DFSPNative12Host (20), DFSPNativeAdapter (8), DFSPNativeFrame (60), DFSPNativeSlotPill (22)
+
+### native12
+- DuoFaceUI: 522 methods, 27 classes, 726 LC_FUNCTION_STARTS; 579838 raw metadata bytes.
+  Classes: CBAppManager (21), CBAppModel (15), CBAppPickerViewController (16), CBAppSection (9), CBAppSwitch (3), CBAppsManagerViewController (38), CBAssistantAboutViewController (24), CBGeneralSettingsViewController (30), CBHttpClient (7), CBLicenseExpiredModalViewController (30), CBLicenseSyncManager (30), CBLocalization (13), CBSplitSplashScreenView (16), CBSplitViewController (42), CBSubscriptionCheckoutCell (10), CBSubscriptionGiftcodeInputCell (9), CBSubscriptionGiftcodeRedeemCell (10), CBSubscriptionHardwareIDCell (10), CBSubscriptionOrderCoordinator (36), CBSubscriptionPendingOrderCell (18), CBSubscriptionPlanCardCell (13), CBSubscriptionStatusCell (2), CBSubscriptionVIPCardCell (24), CBSubscriptionVIPStatusCell (2), CBSubscriptionViewController (71), XXAppDelegate (6), XXRootViewController (17)
+- DuoFaceDashboard.dylib: 757 methods, 36 classes, 1526 LC_FUNCTION_STARTS; 329175 raw metadata bytes.
+  Classes: CBAppMetadataItem (7), CBAppStateListener (6), CBAssistantManager (69), CBBridgeManager (75), CBBridgeManagerDashboard (39), CBBridgeRequest (6), CBBridgedApp (12), CBBridgedAssistantApp (6), CBBridgedAssistantView (15), CBBridgedPortalApp (6), CBBridgedPortalAppView (12), CBBridgedSplitApp (49), CBBridgedUIApp (16), CBBridgedUIAppView (29), CBDashboardSettings (61), CBDashboardShared (12), CBDividerButtonInfo (9), CBDividerView (27), CBDockMetricItemView (11), CBDockSystemMonitorView (19), CBHttpClient (7), CBLicenseShieldIconView (2), CBLicenseSyncManager (30), CBLicenseWarningModalView (12), CBLocalization (13), CBMultitaskingOverlayView (66), CBMultitaskingPillView (12), CBOverlayScrollView (4), CBSlotPillHitButton (3), CBSlotPillView (36), CBSlotPlaceholderView (16), CBSplitContainerView (6), CBSplitSplashScreenView (16), CBTouchCloneView (5), CBUIAppContainerView (6), CBWindow (37)
+- DuoFaceFullscreenBridge.dylib: 61 methods, 4 classes, 123 LC_FUNCTION_STARTS; 27033 raw metadata bytes.
+  Classes: DFFullscreenTransport (36), DFHostSnapshot (23), DFZoomAction (1), DFZoomReceiver (1)
+- DuoFaceLogoGripOnly.dylib: 0 methods, 0 classes, 23 LC_FUNCTION_STARTS; 4197 raw metadata bytes.
+  Classes: 
+- DuoFaceSpeedHUD.dylib: 44 methods, 2 classes, 66 LC_FUNCTION_STARTS; 16878 raw metadata bytes.
+  Classes: DFSpeedNativeHUD (43), DFSpeedSplit7Driver (1)
+- DuoFaceSpeedOwner.dylib: 1 methods, 1 classes, 11 LC_FUNCTION_STARTS; 3486 raw metadata bytes.
+  Classes: DFOwnerPollingDriver (1)
+- DuoFaceVisualHook.dylib: 0 methods, 0 classes, 33 LC_FUNCTION_STARTS; 2682 raw metadata bytes.
+  Classes: 
+- duoface_cboptimize_helper: 0 methods, 0 classes, 1 LC_FUNCTION_STARTS; 128 raw metadata bytes.
+  Classes: 
+
+### sideplay104
+- SidePlay: 199 methods, 6 classes, 286 LC_FUNCTION_STARTS; 184683 raw metadata bytes.
+  Classes: SPAppDelegate (2), SPBeamTrack (12), SPCarSceneDelegate (6), SPLauncherViewController (142), SPPhoneSceneDelegate (9), SPRingSpinner (28)
+- SidePlay.dylib: 418 methods, 11 classes, 815 LC_FUNCTION_STARTS; 185777 raw metadata bytes.
+  Classes: SPCalibrationView (31), SPCardScroll (1), SPDash (154), SPDashCard (12), SPDashQuick (16), SPHOutputEndpointSidePlay (2), SPHOverspeedFrameSidePlay (11), SPHSpeedCardSidePlay (19), SPHudGestures (4), SPLoadingView (41), SPPane (127)
+- SidePlayHUDGofa.dylib: 27 methods, 2 classes, 116 LC_FUNCTION_STARTS; 15910 raw metadata bytes.
+  Classes: SPHLocationSession (25), SPHOutputEndpoint (2)
+- SidePlayHUDRelay.dylib: 2 methods, 1 classes, 79 LC_FUNCTION_STARTS; 5745 raw metadata bytes.
+  Classes: SPHOutputEndpoint (2)
+- SidePlayHUDVietMap.dylib: 29 methods, 3 classes, 153 LC_FUNCTION_STARTS; 19177 raw metadata bytes.
+  Classes: SPHLocationSession (21), SPHNavSource (6), SPHOutputEndpoint (2)
+- SidePlayHUDWaze.dylib: 29 methods, 3 classes, 120 LC_FUNCTION_STARTS; 18340 raw metadata bytes.
+  Classes: SPHLocationSession (21), SPHOutputEndpoint (2), SPHWazeOutputStore (6)
+- SidePlayPrefs: 159 methods, 18 classes, 282 LC_FUNCTION_STARTS; 230976 raw metadata bytes.
+  Classes: SPAppListController (2), SPAppSettingsController (8), SPHDiagnosticsController (17), SPHMenuCell (11), SPHModuleOrderCell (15), SPHModuleOrderDataSource (14), SPHOutputEndpoint (2), SPHOverspeedController (1), SPHPhonePositionController (1), SPHPositionController (1), SPHPositionPreviewCell (9), SPHPreferencesController (9), SPHSegmentedCell (8), SPHSizeSliderCell (14), SPHSurfaceController (1), SPQuickProfileController (7), SPReportViewController (30), SPRootListController (9)
+
+## Các nhóm hàm theo keyword (chỉ số phân loại, không phải tỷ lệ parity)
+
+| Nhóm | QA7 | Native12 | SidePlay |
+|---|---:|---:|---:|
+| window/chrome | 10 | 218 | 42 |
+| scene/bridge | 24 | 367 | 80 |
+| pill/menu | 46 | 344 | 81 |
+| divider/split | 80 | 274 | 248 |
+| HUD8/speed | 0 | 55 | 77 |
+| styles | 1 | 199 | 49 |
+| settings | 0 | 137 | 34 |
+| licensing | 0 | 325 | 0 |
+
+## Từng hàm/IMP của các class lõi (không giới hạn số hàm)
+
+### CBWindow
+- native12/DuoFaceDashboard.dylib  +[CBWindow activeCarPlayWindow] type=@16@0:8 imp=0xaf554
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayCADisplay] type=@16@0:8 imp=0xafffc
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayContentInsets] type={UIEdgeInsets=dddd}16@0:8 imp=0xb0c98
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayScreenBounds] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0xb0704
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayScreenScale] type=d16@0:8 imp=0xb059c
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayUIScreen] type=@16@0:8 imp=0xafe60
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayUsableBounds] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0xb0ef4
+- native12/DuoFaceDashboard.dylib  +[CBWindow carPlayWindowScene] type=@16@0:8 imp=0xaf690
+- native12/DuoFaceDashboard.dylib  +[CBWindow resetCachedBounds] type=v16@0:8 imp=0xaf570
+- native12/DuoFaceDashboard.dylib  -[CBWindow .cxx_destruct] type=v16@0:8 imp=0xb2870
+- native12/DuoFaceDashboard.dylib  -[CBWindow appFrame] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0xb27e4
+- native12/DuoFaceDashboard.dylib  -[CBWindow contentView] type=@16@0:8 imp=0xb282c
+- native12/DuoFaceDashboard.dylib  -[CBWindow createWindows] type=v16@0:8 imp=0xb1064
+- native12/DuoFaceDashboard.dylib  -[CBWindow dealloc] type=v16@0:8 imp=0xb2598
+- native12/DuoFaceDashboard.dylib  -[CBWindow destroyWindows] type=v16@0:8 imp=0xb21f8
+- native12/DuoFaceDashboard.dylib  -[CBWindow dismiss] type=v16@0:8 imp=0xb258c
+- native12/DuoFaceDashboard.dylib  -[CBWindow getCarPlayDisplay] type=@16@0:8 imp=0xb0ff0
+- native12/DuoFaceDashboard.dylib  -[CBWindow hide:] type=v24@0:8@?16 imp=0xb1ec0
+- native12/DuoFaceDashboard.dylib  -[CBWindow initWithAppFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xaf4bc
+- native12/DuoFaceDashboard.dylib  -[CBWindow isDisplayValid] type=B16@0:8 imp=0xb20a4
+- native12/DuoFaceDashboard.dylib  -[CBWindow isVisible] type=B16@0:8 imp=0xb2860
+- native12/DuoFaceDashboard.dylib  -[CBWindow multitaskingOverlay] type=@16@0:8 imp=0xb1974
+- native12/DuoFaceDashboard.dylib  -[CBWindow multitaskingPill] type=@16@0:8 imp=0xb2840
+- native12/DuoFaceDashboard.dylib  -[CBWindow resizeWindows] type=v16@0:8 imp=0xb1aac
+- native12/DuoFaceDashboard.dylib  -[CBWindow rootViewController] type=@16@0:8 imp=0xb2818
+- native12/DuoFaceDashboard.dylib  -[CBWindow rootWindow] type=@16@0:8 imp=0xb2804
+- native12/DuoFaceDashboard.dylib  -[CBWindow setAppFrame:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xb27f0
+- native12/DuoFaceDashboard.dylib  -[CBWindow setContentView:] type=v24@0:8@16 imp=0xb2834
+- native12/DuoFaceDashboard.dylib  -[CBWindow setIsVisible:] type=v20@0:8B16 imp=0xb2868
+- native12/DuoFaceDashboard.dylib  -[CBWindow setMultitaskingOverlay:] type=v24@0:8@16 imp=0xb2854
+- native12/DuoFaceDashboard.dylib  -[CBWindow setMultitaskingPill:] type=v24@0:8@16 imp=0xb2848
+- native12/DuoFaceDashboard.dylib  -[CBWindow setRootViewController:] type=v24@0:8@16 imp=0xb2820
+- native12/DuoFaceDashboard.dylib  -[CBWindow setRootWindow:] type=v24@0:8@16 imp=0xb280c
+- native12/DuoFaceDashboard.dylib  -[CBWindow show] type=v16@0:8 imp=0xb1d98
+- native12/DuoFaceDashboard.dylib  -[CBWindow showAppPickerForSlot:] type=v24@0:8q16 imp=0xb25e4
+- native12/DuoFaceDashboard.dylib  -[CBWindow showLayoutChooser] type=v16@0:8 imp=0xb2694
+- native12/DuoFaceDashboard.dylib  -[CBWindow showRecentApps] type=v16@0:8 imp=0xb273c
+
+### CBBridgeManager
+- native12/DuoFaceDashboard.dylib  +[CBBridgeManager sharedInstance] type=@16@0:8 imp=0x121884
+- native12/DuoFaceDashboard.dylib  +[CBBridgeManager sharedInstanceIfExists] type=@16@0:8 imp=0x121920
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager .cxx_destruct] type=v16@0:8 imp=0x19db90
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager acquireCarPlaySleepAssertion] type=v16@0:8 imp=0x19eaf8
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager activated] type=B16@0:8 imp=0x19db40
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager appForBundleIdentifier:frame:] type=@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24 imp=0x19d984
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager appFrame] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x19db50
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager autoResumeBundleID] type=@16@0:8 imp=0x19db7c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager bundleIdentifier] type=@16@0:8 imp=0x19db2c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager cancelMandatoryDisconnectWatchdog] type=v16@0:8 imp=0x1cce6c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager clearBridgeStateOnDisk] type=v16@0:8 imp=0x229748
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager collectActiveAndSessionAppBundleIDs] type=@16@0:8 imp=0x1cf0b0
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager currentApp] type=@16@0:8 imp=0x19db04
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager deactivateCurrentApp] type=v16@0:8 imp=0x19d458
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager dismiss:] type=v24@0:8@?16 imp=0x19d870
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager dismissLicenseWarningModal] type=v16@0:8 imp=0x185450
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager effectiveAutoLaunchBundleID] type=@16@0:8 imp=0x19ec10
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager enforceMandatoryDisconnectKill] type=v16@0:8 imp=0x1cceac
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager evictAppFromPhoneScreen:completion:] type=v32@0:8@16@?24 imp=0x24a024
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager handleCarPlayConnectionChanged:] type=v24@0:8@16 imp=0x1b8a1c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager handleGenericScreenOrCarPlayNotification:] type=v24@0:8@16 imp=0x1b816c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager handleScreenDidConnect:] type=v24@0:8@16 imp=0x1b86c8
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager handleScreenDidDisconnect:] type=v24@0:8@16 imp=0x1b82e0
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager handleSettingsChanged] type=v16@0:8 imp=0x267764
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager init] type=@16@0:8 imp=0x12192c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager isCurrentlyBridging:] type=B24@0:8@16 imp=0x24960c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager isUIAppBridging] type=B16@0:8 imp=0x249154
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager killProcessesForBundleIdentifiers:] type=v24@0:8@16 imp=0x1cf874
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager licenseWarningModal] type=@16@0:8 imp=0x19db18
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager licenseWatchdogTimerFired:] type=v24@0:8@16 imp=0x185540
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager loadNewAppFromCurrentRequest:] type=v24@0:8@16 imp=0x153544
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager notifyStateUpdated] type=v16@0:8 imp=0x249a54
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager performAutoResume] type=v16@0:8 imp=0x19ee24
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager presentLicenseWarningModalWithType:] type=v24@0:8q16 imp=0x185110
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager receivedAppRequestNotification:] type=v24@0:8@16 imp=0x248e70
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager receivedDashboardReadyNotification:] type=v24@0:8@16 imp=0x1d0f10
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager receivedDockTapNotification:] type=v24@0:8@16 imp=0x249868
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager receivedMetricsUpdatedNotification:] type=v24@0:8@16 imp=0x1d1400
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager receivedStateChangeRequestNotificiation:] type=v24@0:8@16 imp=0x24968c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager registerForNotifications] type=v16@0:8 imp=0x1d07fc
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager releaseCarPlaySleepAssertion] type=v16@0:8 imp=0x19eb90
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager renderSize] type={CGSize=dd}16@0:8 imp=0x13ae78
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager renderSizeForBundleID:] type={CGSize=dd}24@0:8@16 imp=0x24c920
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager requestStateChange:] type=v24@0:8@16 imp=0x13b158
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager requestStateChangeWithDictionary:] type=v24@0:8@16 imp=0x13aee8
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager restartApplicationWithBundleID:] type=v24@0:8@16 imp=0x1cde94
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager runningBridgedApplications] type=@16@0:8 imp=0x280d48
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager saveBridgeStateToDisk] type=v16@0:8 imp=0x1fd280
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager scheduleAutoResumeFallback] type=v16@0:8 imp=0x19ed98
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager scheduleMandatoryDisconnectWatchdog] type=v16@0:8 imp=0x1b9420
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager sendStateToApp:shouldBridge:] type=v28@0:8@16B24 imp=0x1d1624
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setActivated:] type=v20@0:8B16 imp=0x19db48
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setAppFrame:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x19db5c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setAutoResumeBundleID:] type=v24@0:8@16 imp=0x19db88
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setBundleIdentifier:] type=v24@0:8@16 imp=0x19db38
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setCurrentApp:] type=v24@0:8@16 imp=0x19db0c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setLicenseWarningModal:] type=v24@0:8@16 imp=0x19db20
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setRenderSize:] type=v32@0:8{CGSize=dd}16 imp=0x19db70
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager setWindow:] type=v24@0:8@16 imp=0x19daf8
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager shouldBridge:] type=B24@0:8@16 imp=0x2491b0
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager showAppPickerForSlot:] type=v24@0:8q16 imp=0x27fee4
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager showLayoutChooser] type=v16@0:8 imp=0x280014
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager showRecentApps] type=v16@0:8 imp=0x280208
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager startLicenseWatchdogTimer] type=v16@0:8 imp=0x185494
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager stopLicenseWatchdogTimer] type=v16@0:8 imp=0x1854fc
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager supportsInterfaceOrientation:forBundleID:] type=B32@0:8q16@24 imp=0x24d118
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager switchToMultiSplitMode:apps:ratio:] type=v40@0:8q16@24d32 imp=0x24d228
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager switchToSplitWithLeft:right:ratio:] type=v40@0:8@16@24d32 imp=0x24d120
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager syncDashboardPolicySignalToDisk] type=v16@0:8 imp=0x229e8c
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager terminate] type=v16@0:8 imp=0x19d910
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager terminateAllBridgedApplications] type=v16@0:8 imp=0x1ce480
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager terminateApplicationWithBundleID:] type=v24@0:8@16 imp=0x1cd780
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager trackBridgedBundleID:] type=v24@0:8@16 imp=0x280b60
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager updateScale:forSlot:] type=v32@0:8d16q24 imp=0x280130
+- native12/DuoFaceDashboard.dylib  -[CBBridgeManager window] type=@16@0:8 imp=0x19daf0
+
+### CBBridgedSplitApp
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp .cxx_destruct] type=v16@0:8 imp=0x11ff34
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp appViews] type=@16@0:8 imp=0x11fe00
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp closeAllSlots] type=v16@0:8 imp=0x10b0b8
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp closeSlot:] type=v24@0:8q16 imp=0x10ab28
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp configureDividerButtons] type=v16@0:8 imp=0x1067a4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp containers] type=@16@0:8 imp=0x11fe48
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp dividers] type=@16@0:8 imp=0x11fe6c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp focusSlot:animated:] type=v28@0:8q16B24 imp=0x105890
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp focusedSlotIndex] type=q16@0:8 imp=0x11fef4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp handleDividerPan:isVertical:state:] type=v44@0:8{CGPoint=dd}16B32q36 imp=0x103ee0
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp handleDividerSwapPressed:] type=v24@0:8q16 imp=0x108fc8
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp initWithBundleIdentifier:frame:] type=@56@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24 imp=0x1025d4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp initWithBundleIdentifier:frame:showSplash:] type=@60@0:8@16{CGRect={CGPoint=dd}{CGSize=dd}}24B56 imp=0x1025e4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp isTransitioningFocus] type=B16@0:8 imp=0x11ff14
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp layoutSplitViews] type=v16@0:8 imp=0x1044f8
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp moveSlot:direction:] type=v32@0:8q16q24 imp=0x108f28
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp noteUserActivity] type=v16@0:8 imp=0x10c378
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp persistSlotOrder] type=v16@0:8 imp=0x10b4ac
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp placeholders] type=@16@0:8 imp=0x11fe24
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp removeAppWithBundleIdentifier:] type=v24@0:8@16 imp=0x10a9f0
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp replaceAppInSlot:withBundleIdentifier:] type=v32@0:8q16@24 imp=0x1098c0
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp restartAppWithBundleIdentifier:] type=v24@0:8@16 imp=0x10a8b8
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp restartSlot:] type=v24@0:8q16 imp=0x109fe4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp restoreSplitAnimated:] type=v20@0:8B16 imp=0x105e2c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp rotateAllSlotsClockwise] type=v16@0:8 imp=0x106560
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setAppViews:] type=v24@0:8@16 imp=0x11fe10
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setContainers:] type=v24@0:8@16 imp=0x11fe58
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setDividers:] type=v24@0:8@16 imp=0x11fe7c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setFocusedSlotIndex:] type=v24@0:8q16 imp=0x11ff04
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setIsTransitioningFocus:] type=v20@0:8B16 imp=0x11ff24
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setPlaceholders:] type=v24@0:8@16 imp=0x11fe34
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setSlotPills:] type=v24@0:8@16 imp=0x11fea0
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setSplashScreenView:] type=v24@0:8@16 imp=0x11fdec
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setSplitPreset:] type=v24@0:8q16 imp=0x11fec4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp setSplitRatio:] type=v24@0:8d16 imp=0x11fee4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp slotPills] type=@16@0:8 imp=0x11fe90
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp splashScreenView] type=@16@0:8 imp=0x11fddc
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp splitPreset] type=q16@0:8 imp=0x11feb4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp splitRatio] type=d16@0:8 imp=0x11fed4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp start] type=v16@0:8 imp=0x10bb0c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp startBlinkingSession] type=v16@0:8 imp=0x10c464
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp startContainerBorderBlinking:] type=v24@0:8@16 imp=0x11fa88
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp startInParentViewController:] type=v24@0:8@16 imp=0x10bb1c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp stop] type=v16@0:8 imp=0x10beec
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp stopBlinkingSession] type=v16@0:8 imp=0x11f558
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp stopContainerBorderBlinking:] type=v24@0:8@16 imp=0x11fcd4
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp swapSlot:withSlot:] type=v32@0:8q16q24 imp=0x10915c
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp toggleFocusForSlot:] type=v24@0:8q16 imp=0x106518
+- native12/DuoFaceDashboard.dylib  -[CBBridgedSplitApp updateScale:forSlot:] type=v32@0:8d16q24 imp=0x108dd8
+
+### CBSlotPillView
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView .cxx_destruct] type=v16@0:8 imp=0x85c8c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView bounceButton:] type=v24@0:8@16 imp=0x85904
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView dotsButton] type=@16@0:8 imp=0x85bfc
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView dotsTapped:] type=v24@0:8@16 imp=0x85580
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView expandButton] type=@16@0:8 imp=0x85c20
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView expandTapped:] type=v24@0:8@16 imp=0x85698
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView handleLongPress:] type=v24@0:8@16 imp=0x853f0
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView initWithSlotIndex:] type=@24@0:8q16 imp=0x841c0
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView isCompactMode] type=B16@0:8 imp=0x85bdc
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView isFocusedMode] type=B16@0:8 imp=0x85bac
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView layoutSubviews] type=v16@0:8 imp=0x84c30
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView onExpandTapped] type=@?16@0:8 imp=0x85b54
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView onPillLongPressed] type=@?16@0:8 imp=0x85b38
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView onPillTapped] type=@?16@0:8 imp=0x85b1c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView onRestoreTapped] type=@?16@0:8 imp=0x85b70
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView pointInside:withEvent:] type=B40@0:8{CGPoint=dd}16@32 imp=0x85348
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView restoreButton] type=@16@0:8 imp=0x85c44
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView restoreTapped:] type=v24@0:8@16 imp=0x857b0
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView separatorView] type=@16@0:8 imp=0x85c68
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setCompactMode:] type=v20@0:8B16 imp=0x85320
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setDotsButton:] type=v24@0:8@16 imp=0x85c0c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setExpandButton:] type=v24@0:8@16 imp=0x85c30
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setFocusedMode:] type=v20@0:8B16 imp=0x85308
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setIsCompactMode:] type=v20@0:8B16 imp=0x85bec
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setIsFocusedMode:] type=v20@0:8B16 imp=0x85bbc
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setOnExpandTapped:] type=v24@0:8@?16 imp=0x85b64
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setOnPillLongPressed:] type=v24@0:8@?16 imp=0x85b48
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setOnPillTapped:] type=v24@0:8@?16 imp=0x85b2c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setOnRestoreTapped:] type=v24@0:8@?16 imp=0x85b80
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setRestoreButton:] type=v24@0:8@16 imp=0x85c54
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setSeparatorView:] type=v24@0:8@16 imp=0x85c78
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setShowsExpandButton:] type=v20@0:8B16 imp=0x852f0
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView setSlotIndex:] type=v24@0:8q16 imp=0x85b9c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView showsExpandButton] type=B16@0:8 imp=0x85bcc
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView slotIndex] type=q16@0:8 imp=0x85b8c
+- native12/DuoFaceDashboard.dylib  -[CBSlotPillView updateBoundsSize] type=v16@0:8 imp=0x85184
+
+### CBDividerView
+- native12/DuoFaceDashboard.dylib  -[CBDividerView .cxx_destruct] type=v16@0:8 imp=0x101728
+- native12/DuoFaceDashboard.dylib  -[CBDividerView buttonConfigs] type=@16@0:8 imp=0x1016cc
+- native12/DuoFaceDashboard.dylib  -[CBDividerView configureWithButtonConfigs:] type=v24@0:8@16 imp=0xfea50
+- native12/DuoFaceDashboard.dylib  -[CBDividerView gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:] type=B32@0:8@16@24 imp=0xfea48
+- native12/DuoFaceDashboard.dylib  -[CBDividerView handleMoveButtonLongPress:] type=v24@0:8@16 imp=0x1005f4
+- native12/DuoFaceDashboard.dylib  -[CBDividerView handlePan:] type=v24@0:8@16 imp=0x10152c
+- native12/DuoFaceDashboard.dylib  -[CBDividerView hitTest:withEvent:] type=@40@0:8{CGPoint=dd}16@32 imp=0xff974
+- native12/DuoFaceDashboard.dylib  -[CBDividerView initWithFrame:isVertical:] type=@52@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16B48 imp=0xfe7dc
+- native12/DuoFaceDashboard.dylib  -[CBDividerView isBlinking] type=B16@0:8 imp=0x101688
+- native12/DuoFaceDashboard.dylib  -[CBDividerView isVertical] type=B16@0:8 imp=0x101668
+- native12/DuoFaceDashboard.dylib  -[CBDividerView layoutSubviews] type=v16@0:8 imp=0xff410
+- native12/DuoFaceDashboard.dylib  -[CBDividerView moveButtonTouchCancelled:] type=v24@0:8@16 imp=0x1002e0
+- native12/DuoFaceDashboard.dylib  -[CBDividerView moveButtonTouchDown:] type=v24@0:8@16 imp=0xffbf8
+- native12/DuoFaceDashboard.dylib  -[CBDividerView moveButtonTouchUp:] type=v24@0:8@16 imp=0xffeb4
+- native12/DuoFaceDashboard.dylib  -[CBDividerView moveButtons] type=@16@0:8 imp=0x1016a8
+- native12/DuoFaceDashboard.dylib  -[CBDividerView onActivity] type=@?16@0:8 imp=0x10170c
+- native12/DuoFaceDashboard.dylib  -[CBDividerView onPanChanged] type=@?16@0:8 imp=0x1016f0
+- native12/DuoFaceDashboard.dylib  -[CBDividerView pointInside:withEvent:] type=B40@0:8{CGPoint=dd}16@32 imp=0xff728
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setButtonConfigs:] type=v24@0:8@16 imp=0x1016dc
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setIsBlinking:] type=v20@0:8B16 imp=0x101698
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setIsVertical:] type=v20@0:8B16 imp=0x101678
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setMoveButtons:] type=v24@0:8@16 imp=0x1016b8
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setOnActivity:] type=v24@0:8@?16 imp=0x10171c
+- native12/DuoFaceDashboard.dylib  -[CBDividerView setOnPanChanged:] type=v24@0:8@?16 imp=0x101700
+- native12/DuoFaceDashboard.dylib  -[CBDividerView startBlinking] type=v16@0:8 imp=0x1009d4
+- native12/DuoFaceDashboard.dylib  -[CBDividerView stopBlinking] type=v16@0:8 imp=0x1010bc
+- native12/DuoFaceDashboard.dylib  -[CBDividerView updateGripLayout] type=v16@0:8 imp=0xff460
+
+### CBMultitaskingOverlayView
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView .cxx_destruct] type=v16@0:8 imp=0xabb4c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView addMoreAppsTapped:] type=v24@0:8@16 imp=0xa7f20
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView allApps] type=@16@0:8 imp=0xab964
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView appPickerPageControl] type=@16@0:8 imp=0xab9ac
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView appPickerScrollView] type=@16@0:8 imp=0xab988
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView appSegmentBtn] type=@16@0:8 imp=0xababc
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView appSelected:] type=v24@0:8@16 imp=0xa9ea8
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView cardShadowContainer] type=@16@0:8 imp=0xab91c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView cb_onLanguageChanged:] type=v24@0:8@16 imp=0xa0b64
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView closeAllBridgedAppsTapped:] type=v24@0:8@16 imp=0xa9838
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView closeSingleAppTapped:] type=v24@0:8@16 imp=0xa9484
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView currentPreset] type=q16@0:8 imp=0xab9f4
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView currentRatio] type=d16@0:8 imp=0xaba14
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView dealloc] type=v16@0:8 imp=0xa0aec
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView dimBackground] type=@16@0:8 imp=0xab8f8
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView dismissCustomAlert:] type=v24@0:8@16 imp=0xa9024
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView dismissOverlay] type=v16@0:8 imp=0xab70c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView headerIcon] type=@16@0:8 imp=0xaba74
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView initWithFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xa0420
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView layoutSegmentBtn] type=@16@0:8 imp=0xabae0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView layoutSubviews] type=v16@0:8 imp=0xa28e8
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView loadInstalledApps] type=v16@0:8 imp=0xa0c48
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView onCloseRequested] type=@?16@0:8 imp=0xab8c0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView onMultiSplitSelected] type=@?16@0:8 imp=0xab8dc
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView overlayMode] type=q16@0:8 imp=0xaba54
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView pageControlChanged:] type=v24@0:8@16 imp=0xa5de4
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView presetSelected:] type=v24@0:8@16 imp=0xaa4f0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView recentSegmentBtn] type=@16@0:8 imp=0xabb04
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView restartSingleAppTapped:] type=v24@0:8@16 imp=0xa91ec
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView runningApps] type=@16@0:8 imp=0xabb28
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView saveSlotIndex:bid:toSettings:prefs:] type=v48@0:8q16@24@32@40 imp=0xa9d1c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView scrollViewDidScroll:] type=v24@0:8@16 imp=0xa5d18
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setAllApps:] type=v24@0:8@16 imp=0xab974
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setAppPickerPageControl:] type=v24@0:8@16 imp=0xab9bc
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setAppPickerScrollView:] type=v24@0:8@16 imp=0xab998
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setAppSegmentBtn:] type=v24@0:8@16 imp=0xabacc
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setCardShadowContainer:] type=v24@0:8@16 imp=0xab92c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setCurrentPreset:] type=v24@0:8q16 imp=0xaba04
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setCurrentRatio:] type=v24@0:8d16 imp=0xaba24
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setDimBackground:] type=v24@0:8@16 imp=0xab908
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setHeaderIcon:] type=v24@0:8@16 imp=0xaba84
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setLayoutSegmentBtn:] type=v24@0:8@16 imp=0xabaf0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setOnCloseRequested:] type=v24@0:8@?16 imp=0xab8d0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setOnMultiSplitSelected:] type=v24@0:8@?16 imp=0xab8ec
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setOverlayMode:] type=v24@0:8q16 imp=0xaba64
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setRecentSegmentBtn:] type=v24@0:8@16 imp=0xabb14
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setRunningApps:] type=v24@0:8@16 imp=0xabb38
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setSheetCard:] type=v24@0:8@16 imp=0xab950
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setSlotBIDs:] type=v24@0:8@16 imp=0xab9e0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setTargetSlotIndex:] type=v24@0:8q16 imp=0xaba44
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setTitleLabel:] type=v24@0:8@16 imp=0xabaa8
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setupAppPickerCardsInCardW:cardH:contentY:] type=v40@0:8d16d24d32 imp=0xa3e5c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setupCardContent] type=v16@0:8 imp=0xa2a58
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setupPresetCardsInCardW:cardH:contentY:] type=v40@0:8d16d24d32 imp=0xa5e78
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView setupRecentAppsCardsInCardW:cardH:contentY:] type=v40@0:8d16d24d32 imp=0xa678c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView sheetCard] type=@16@0:8 imp=0xab940
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView showAppPickerForSlot:parentView:] type=v32@0:8q16@24 imp=0xaa800
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView showLayoutChooserInParentView:] type=v24@0:8@16 imp=0xaacf0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView showRecentAppsInParentView:] type=v24@0:8@16 imp=0xab1d4
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView slotBIDs] type=@16@0:8 imp=0xab9d0
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView switchToAppPickerMode] type=v16@0:8 imp=0xa9a88
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView switchToLayoutChooserMode] type=v16@0:8 imp=0xa9b2c
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView switchToRecentMode] type=v16@0:8 imp=0xa9bd8
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView targetSlotIndex] type=q16@0:8 imp=0xaba34
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView titleLabel] type=@16@0:8 imp=0xaba98
+- native12/DuoFaceDashboard.dylib  -[CBMultitaskingOverlayView toggleMode] type=v16@0:8 imp=0xa9ce0
+
+### CBSplitSplashScreenView
+- native12/DuoFaceUI  +[CBSplitSplashScreenView appIconImage] type=@16@0:8 imp=0x1000566f8
+- native12/DuoFaceUI  +[CBSplitSplashScreenView logoImage] type=@16@0:8 imp=0x100055f14
+- native12/DuoFaceUI  +[CBSplitSplashScreenView radialGlowImageForDiameter:] type=@24@0:8d16 imp=0x1000568dc
+- native12/DuoFaceUI  -[CBSplitSplashScreenView .cxx_destruct] type=v16@0:8 imp=0x10005827c
+- native12/DuoFaceUI  -[CBSplitSplashScreenView dealloc] type=v16@0:8 imp=0x100058160
+- native12/DuoFaceUI  -[CBSplitSplashScreenView dismissAnimated:] type=v20@0:8B16 imp=0x100057eb8
+- native12/DuoFaceUI  -[CBSplitSplashScreenView dismissAnimated:completion:] type=v28@0:8B16@?20 imp=0x100057ec8
+- native12/DuoFaceUI  -[CBSplitSplashScreenView handleTap:] type=v24@0:8@16 imp=0x100057e20
+- native12/DuoFaceUI  -[CBSplitSplashScreenView initWithFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x100056b94
+- native12/DuoFaceUI  -[CBSplitSplashScreenView isDismissing] type=B16@0:8 imp=0x100057ea8
+- native12/DuoFaceUI  -[CBSplitSplashScreenView layoutSubviews] type=v16@0:8 imp=0x100057818
+- native12/DuoFaceUI  -[CBSplitSplashScreenView onDismissed] type=@?16@0:8 imp=0x100058260
+- native12/DuoFaceUI  -[CBSplitSplashScreenView onWillDismiss] type=@?16@0:8 imp=0x100058244
+- native12/DuoFaceUI  -[CBSplitSplashScreenView setOnDismissed:] type=v24@0:8@?16 imp=0x100058270
+- native12/DuoFaceUI  -[CBSplitSplashScreenView setOnWillDismiss:] type=v24@0:8@?16 imp=0x100058254
+- native12/DuoFaceUI  -[CBSplitSplashScreenView startLoadingAnimation] type=v16@0:8 imp=0x100057bf8
+- native12/DuoFaceDashboard.dylib  +[CBSplitSplashScreenView appIconImage] type=@16@0:8 imp=0xb5ebc
+- native12/DuoFaceDashboard.dylib  +[CBSplitSplashScreenView logoImage] type=@16@0:8 imp=0xb56d8
+- native12/DuoFaceDashboard.dylib  +[CBSplitSplashScreenView radialGlowImageForDiameter:] type=@24@0:8d16 imp=0xb60a0
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView .cxx_destruct] type=v16@0:8 imp=0xb7a40
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView dealloc] type=v16@0:8 imp=0xb7924
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView dismissAnimated:] type=v20@0:8B16 imp=0xb767c
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView dismissAnimated:completion:] type=v28@0:8B16@?20 imp=0xb768c
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView handleTap:] type=v24@0:8@16 imp=0xb75e4
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView initWithFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xb6358
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView isDismissing] type=B16@0:8 imp=0xb766c
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView layoutSubviews] type=v16@0:8 imp=0xb6fdc
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView onDismissed] type=@?16@0:8 imp=0xb7a24
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView onWillDismiss] type=@?16@0:8 imp=0xb7a08
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView setOnDismissed:] type=v24@0:8@?16 imp=0xb7a34
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView setOnWillDismiss:] type=v24@0:8@?16 imp=0xb7a18
+- native12/DuoFaceDashboard.dylib  -[CBSplitSplashScreenView startLoadingAnimation] type=v16@0:8 imp=0xb73bc
+
+### CBDashboardSettings
+- native12/DuoFaceDashboard.dylib  +[CBDashboardSettings assistantIconImage] type=@16@0:8 imp=0x35478
+- native12/DuoFaceDashboard.dylib  +[CBDashboardSettings portalAppIconImage] type=@16@0:8 imp=0x357ac
+- native12/DuoFaceDashboard.dylib  +[CBDashboardSettings portalAppIdentifier] type=@16@0:8 imp=0x36014
+- native12/DuoFaceDashboard.dylib  +[CBDashboardSettings sharedInstance] type=@16@0:8 imp=0x353dc
+- native12/DuoFaceDashboard.dylib  +[CBDashboardSettings splitScreenIconImage] type=@16@0:8 imp=0x35ae0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings .cxx_destruct] type=v16@0:8 imp=0x3802c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings agreedToEULA] type=B16@0:8 imp=0x3801c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings appSettings] type=@16@0:8 imp=0x37e9c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings assistantEnabled] type=B16@0:8 imp=0x37ee0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings autoLaunchBundleID] type=@16@0:8 imp=0x38008
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings autoLaunchOnConnect] type=B16@0:8 imp=0x37ff8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings bridgedApps] type=@16@0:8 imp=0x37e88
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings dockSystemMonitorEnabled] type=B16@0:8 imp=0x37fe8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings dockSystemMonitorShowAll] type=B16@0:8 imp=0x37ff0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings gridCols] type=q16@0:8 imp=0x37fb8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings gridRows] type=q16@0:8 imp=0x37fc8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings hideIconLabels] type=B16@0:8 imp=0x37fd8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings init] type=@16@0:8 imp=0x36054
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings portalAppEnabled] type=B16@0:8 imp=0x37eb0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings preferredMapIndex] type=q16@0:8 imp=0x37ef0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings reload] type=v16@0:8 imp=0x36810
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings reloadAppPrefs] type=v16@0:8 imp=0x3681c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings scaleForBundleID:] type=d24@0:8@16 imp=0x3618c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings screenBlankEnabled] type=B16@0:8 imp=0x37ec0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setAgreedToEULA:] type=v20@0:8B16 imp=0x38024
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setAppSettings:] type=v24@0:8@16 imp=0x37ea4
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setAssistantEnabled:] type=v20@0:8B16 imp=0x37ee8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setAutoLaunchBundleID:] type=v24@0:8@16 imp=0x38014
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setAutoLaunchOnConnect:] type=v20@0:8B16 imp=0x38000
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setBridgedApps:] type=v24@0:8@16 imp=0x37e90
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setDockSystemMonitorEnabled:] type=v20@0:8B16 imp=0x364d0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setDockSystemMonitorShowAll:] type=v20@0:8B16 imp=0x36670
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setGridCols:] type=v24@0:8q16 imp=0x37fc0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setGridRows:] type=v24@0:8q16 imp=0x37fd0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setHideIconLabels:] type=v20@0:8B16 imp=0x37fe0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setPortalAppEnabled:] type=v20@0:8B16 imp=0x37eb8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setPreferredMapIndex:] type=v24@0:8q16 imp=0x37ef8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setScale:forBundleID:] type=v32@0:8d16@24 imp=0x36194
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setScreenBlankEnabled:] type=v20@0:8B16 imp=0x37ec8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitApp1:] type=v24@0:8@16 imp=0x37f64
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitApp2:] type=v24@0:8@16 imp=0x37f78
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitApp3:] type=v24@0:8@16 imp=0x37f8c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitApp4:] type=v24@0:8@16 imp=0x37fa0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitLeftBundleID:] type=v24@0:8@16 imp=0x37f1c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitMode:] type=v24@0:8q16 imp=0x37f50
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitPreset:] type=v24@0:8q16 imp=0x37f40
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitRatio:] type=v24@0:8d16 imp=0x37fb0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitRightBundleID:] type=v24@0:8@16 imp=0x37f30
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setSplitScreenEnabled:] type=v20@0:8B16 imp=0x37ed8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings setVoiceFeedbackEnabled:] type=v20@0:8B16 imp=0x37f08
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitApp1] type=@16@0:8 imp=0x37f58
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitApp2] type=@16@0:8 imp=0x37f6c
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitApp3] type=@16@0:8 imp=0x37f80
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitApp4] type=@16@0:8 imp=0x37f94
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitLeftBundleID] type=@16@0:8 imp=0x37f10
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitMode] type=q16@0:8 imp=0x37f48
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitPreset] type=q16@0:8 imp=0x37f38
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitRatio] type=d16@0:8 imp=0x37fa8
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitRightBundleID] type=@16@0:8 imp=0x37f24
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings splitScreenEnabled] type=B16@0:8 imp=0x37ed0
+- native12/DuoFaceDashboard.dylib  -[CBDashboardSettings voiceFeedbackEnabled] type=B16@0:8 imp=0x37f00
+
+### DFSpeedNativeHUD
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD .cxx_destruct] type=v16@0:8 imp=0x6ca8
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD current] type=@16@0:8 imp=0x6ad8
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD didMoveToWindow] type=v16@0:8 imp=0x4834
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD dismissTarget] type=@16@0:8 imp=0x6b8c
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD dismissedForSession] type=B16@0:8 imp=0x6bb0
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD displayLimit] type=B16@0:8 imp=0x6c68
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD initWithFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x4000
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD layoutSubviews] type=v16@0:8 imp=0x4544
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD limit] type=@16@0:8 imp=0x6afc
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD limitRing] type=@16@0:8 imp=0x6b44
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD loadSettings] type=v16@0:8 imp=0x5b48
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD ownerBridge] type=@16@0:8 imp=0x6bd0
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD pan:] type=v24@0:8@16 imp=0x5720
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD refreshSettingsLabels] type=v16@0:8 imp=0x65ac
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD refreshStyle] type=v16@0:8 imp=0x5e00
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD restoreSavedPosition] type=v16@0:8 imp=0x4e30
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD savePosition] type=v16@0:8 imp=0x52c0
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD saveSettings] type=v16@0:8 imp=0x5d48
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD selectedSource] type=q16@0:8 imp=0x6c88
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setCurrent:] type=v24@0:8@16 imp=0x6ae8
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setDismissTarget:] type=v24@0:8@16 imp=0x6b9c
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setDismissedForSession:] type=v20@0:8B16 imp=0x6bc0
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setDisplayLimit:] type=v20@0:8B16 imp=0x6c78
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setLimit:] type=v24@0:8@16 imp=0x6b0c
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setLimitRing:] type=v24@0:8@16 imp=0x6b54
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setOwnerBridge:] type=v24@0:8@16 imp=0x6bf0
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setSelectedSource:] type=v24@0:8q16 imp=0x6c98
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setSettingsPanel:] type=v24@0:8@16 imp=0x6c14
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setTimer:] type=v24@0:8@16 imp=0x6b78
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setUnit:] type=v24@0:8@16 imp=0x6b30
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setVisualOpacity:] type=v24@0:8d16 imp=0x6c58
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD setVisualScale:] type=v24@0:8d16 imp=0x6c38
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD settingsAction:] type=v24@0:8@16 imp=0x6890
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD settingsPanel] type=@16@0:8 imp=0x6c04
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD showDismissTarget] type=v16@0:8 imp=0x5400
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD showSettings:] type=v24@0:8@16 imp=0x5f5c
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD sourceTitle] type=@16@0:8 imp=0x5f24
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD stop] type=v16@0:8 imp=0x5a98
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD tick:] type=v24@0:8@16 imp=0x495c
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD timer] type=@16@0:8 imp=0x6b68
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD unit] type=@16@0:8 imp=0x6b20
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD visualOpacity] type=d16@0:8 imp=0x6c48
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedNativeHUD visualScale] type=d16@0:8 imp=0x6c28
+
+### DFSpeedSplit7Driver
+- native12/DuoFaceSpeedHUD.dylib  -[DFSpeedSplit7Driver tick:] type=v24@0:8@16 imp=0x6d5c
+
+### DFOwnerPollingDriver
+- native12/DuoFaceSpeedOwner.dylib  -[DFOwnerPollingDriver onTimer:] type=v24@0:8@16 imp=0x4000
+
+### SPDash
+- sideplay104/SidePlay.dylib  +[SPDash shared] type=@16@0:8 imp=0x12bac
+- sideplay104/SidePlay.dylib  -[SPDash .cxx_destruct] type=v16@0:8 imp=0x273f4
+- sideplay104/SidePlay.dylib  -[SPDash animateCardsIn] type=v16@0:8 imp=0x2132c
+- sideplay104/SidePlay.dylib  -[SPDash applyServiceState] type=v16@0:8 imp=0x20be0
+- sideplay104/SidePlay.dylib  -[SPDash areaView] type=@16@0:8 imp=0x2730c
+- sideplay104/SidePlay.dylib  -[SPDash autoCarArea:] type={CGRect={CGPoint=dd}{CGSize=dd}}48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x18598
+- sideplay104/SidePlay.dylib  -[SPDash autoOpenOnCar:] type=v24@0:8q16 imp=0x18388
+- sideplay104/SidePlay.dylib  -[SPDash buildChooser] type=v16@0:8 imp=0x1b0dc
+- sideplay104/SidePlay.dylib  -[SPDash buildPickerForPane:] type=v24@0:8@16 imp=0x256d8
+- sideplay104/SidePlay.dylib  -[SPDash buildQuickButtons] type=v16@0:8 imp=0x1be6c
+- sideplay104/SidePlay.dylib  -[SPDash calibrationPending] type=B16@0:8 imp=0x272e8
+- sideplay104/SidePlay.dylib  -[SPDash calibrationView] type=@16@0:8 imp=0x272f8
+- sideplay104/SidePlay.dylib  -[SPDash canvasTapped:] type=v24@0:8@16 imp=0x24a78
+- sideplay104/SidePlay.dylib  -[SPDash carAreaChanged] type=v16@0:8 imp=0x17e38
+- sideplay104/SidePlay.dylib  -[SPDash carConnectedState] type=@16@0:8 imp=0x273bc
+- sideplay104/SidePlay.dylib  -[SPDash carDockArea] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x17bc8
+- sideplay104/SidePlay.dylib  -[SPDash carDockMode] type=B16@0:8 imp=0x17b78
+- sideplay104/SidePlay.dylib  -[SPDash carMissedChecks] type=q16@0:8 imp=0x273e4
+- sideplay104/SidePlay.dylib  -[SPDash carPlayConnectionChanged] type=v16@0:8 imp=0x170e4
+- sideplay104/SidePlay.dylib  -[SPDash carScene:foreground:] type=v28@0:8@16B24 imp=0x18058
+- sideplay104/SidePlay.dylib  -[SPDash carWatchTimer] type=@16@0:8 imp=0x273d0
+- sideplay104/SidePlay.dylib  -[SPDash carWindow] type=@16@0:8 imp=0x27198
+- sideplay104/SidePlay.dylib  -[SPDash carWindowFrame] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x271ac
+- sideplay104/SidePlay.dylib  -[SPDash carWindowFrameNow] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x17df0
+- sideplay104/SidePlay.dylib  -[SPDash carWindowScreen] type=@16@0:8 imp=0x271cc
+- sideplay104/SidePlay.dylib  -[SPDash cardOffsetForIndex:] type=d24@0:8q16 imp=0x1e760
+- sideplay104/SidePlay.dylib  -[SPDash cardScroll] type=@16@0:8 imp=0x27244
+- sideplay104/SidePlay.dylib  -[SPDash cardStep] type=d16@0:8 imp=0x27258
+- sideplay104/SidePlay.dylib  -[SPDash cardTapped:] type=v24@0:8@16 imp=0x21a60
+- sideplay104/SidePlay.dylib  -[SPDash cards] type=@16@0:8 imp=0x27230
+- sideplay104/SidePlay.dylib  -[SPDash chooseLayoutFromCard:] type=v24@0:8@16 imp=0x21b10
+- sideplay104/SidePlay.dylib  -[SPDash chooserView] type=@16@0:8 imp=0x2721c
+- sideplay104/SidePlay.dylib  -[SPDash close] type=v16@0:8 imp=0x16440
+- sideplay104/SidePlay.dylib  -[SPDash dismissPicker] type=v16@0:8 imp=0x26938
+- sideplay104/SidePlay.dylib  -[SPDash endCalibration:] type=v20@0:8B16 imp=0x1a15c
+- sideplay104/SidePlay.dylib  -[SPDash exitTapped] type=v16@0:8 imp=0x23218
+- sideplay104/SidePlay.dylib  -[SPDash gestureRecognizer:shouldReceiveTouch:] type=B32@0:8@16@24 imp=0x24a0c
+- sideplay104/SidePlay.dylib  -[SPDash glowView] type=@16@0:8 imp=0x271f4
+- sideplay104/SidePlay.dylib  -[SPDash goHomeFromPhone] type=v16@0:8 imp=0x233bc
+- sideplay104/SidePlay.dylib  -[SPDash handleCanvasTap:] type=v24@0:8@16 imp=0x24b10
+- sideplay104/SidePlay.dylib  -[SPDash hideOnCar:] type=v24@0:8@16 imp=0x18160
+- sideplay104/SidePlay.dylib  -[SPDash hideOnPhone] type=v16@0:8 imp=0x12fe0
+- sideplay104/SidePlay.dylib  -[SPDash hideOnPhoneNow:] type=v24@0:8@16 imp=0x13060
+- sideplay104/SidePlay.dylib  -[SPDash homeGestureBegan:] type=v24@0:8@16 imp=0x13244
+- sideplay104/SidePlay.dylib  -[SPDash homeGestureEnded] type=v16@0:8 imp=0x13610
+- sideplay104/SidePlay.dylib  -[SPDash hostedAppViewControllerForSceneHandle:] type=@24@0:8@16 imp=0x26990
+- sideplay104/SidePlay.dylib  -[SPDash iconButton:size:action:] type=@40@0:8@16d24:32 imp=0x1af2c
+- sideplay104/SidePlay.dylib  -[SPDash init] type=@16@0:8 imp=0x12c18
+- sideplay104/SidePlay.dylib  -[SPDash installedApps] type=@16@0:8 imp=0x24de4
+- sideplay104/SidePlay.dylib  -[SPDash isOpen] type=B16@0:8 imp=0x27164
+- sideplay104/SidePlay.dylib  -[SPDash isShowingOverlay] type=B16@0:8 imp=0x268d8
+- sideplay104/SidePlay.dylib  -[SPDash isVisible] type=B16@0:8 imp=0x12dd4
+- sideplay104/SidePlay.dylib  -[SPDash laterTapped] type=v16@0:8 imp=0x20430
+- sideplay104/SidePlay.dylib  -[SPDash layout:] type=v20@0:8B16 imp=0x23624
+- sideplay104/SidePlay.dylib  -[SPDash layoutChooser] type=v16@0:8 imp=0x1ddb4
+- sideplay104/SidePlay.dylib  -[SPDash layoutRootView] type=v16@0:8 imp=0x1a2f0
+- sideplay104/SidePlay.dylib  -[SPDash loadPaneApps] type=v16@0:8 imp=0x22190
+- sideplay104/SidePlay.dylib  -[SPDash makeMainScreenWindow] type=@16@0:8 imp=0x13a88
+- sideplay104/SidePlay.dylib  -[SPDash manualCarArea:] type={CGRect={CGPoint=dd}{CGSize=dd}}48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x19500
+- sideplay104/SidePlay.dylib  -[SPDash noticeView] type=@16@0:8 imp=0x27290
+- sideplay104/SidePlay.dylib  -[SPDash noticeViewFor:] type=@24@0:8@16 imp=0x1f100
+- sideplay104/SidePlay.dylib  -[SPDash offeredVersion] type=@16@0:8 imp=0x271e0
+- sideplay104/SidePlay.dylib  -[SPDash onPhone] type=B16@0:8 imp=0x2716c
+- sideplay104/SidePlay.dylib  -[SPDash open] type=v16@0:8 imp=0x12fd0
+- sideplay104/SidePlay.dylib  -[SPDash openInSileo] type=v16@0:8 imp=0x205d8
+- sideplay104/SidePlay.dylib  -[SPDash openOn:] type=v20@0:8B16 imp=0x13ee0
+- sideplay104/SidePlay.dylib  -[SPDash openOnPhone] type=v16@0:8 imp=0x13a50
+- sideplay104/SidePlay.dylib  -[SPDash openedAt] type=d16@0:8 imp=0x27174
+- sideplay104/SidePlay.dylib  -[SPDash paneAppDidTerminate:] type=v24@0:8@16 imp=0x241a4
+- sideplay104/SidePlay.dylib  -[SPDash paneApps] type=@16@0:8 imp=0x27394
+- sideplay104/SidePlay.dylib  -[SPDash paneRequestsAppPicker:] type=v24@0:8@16 imp=0x249b0
+- sideplay104/SidePlay.dylib  -[SPDash paneRequestsClose:] type=v24@0:8@16 imp=0x24708
+- sideplay104/SidePlay.dylib  -[SPDash paneRequestsLayouts:] type=v24@0:8@16 imp=0x24314
+- sideplay104/SidePlay.dylib  -[SPDash paneRequestsSwap:] type=v24@0:8@16 imp=0x24398
+- sideplay104/SidePlay.dylib  -[SPDash panes] type=@16@0:8 imp=0x12e8c
+- sideplay104/SidePlay.dylib  -[SPDash pickApp:] type=v24@0:8@16 imp=0x26620
+- sideplay104/SidePlay.dylib  -[SPDash pickerAppTapped:] type=v24@0:8@16 imp=0x26588
+- sideplay104/SidePlay.dylib  -[SPDash pickerView] type=@16@0:8 imp=0x27320
+- sideplay104/SidePlay.dylib  -[SPDash previewService:] type=v24@0:8@16 imp=0x20b48
+- sideplay104/SidePlay.dylib  -[SPDash quickButtons] type=@16@0:8 imp=0x27268
+- sideplay104/SidePlay.dylib  -[SPDash quickCaption] type=@16@0:8 imp=0x2727c
+- sideplay104/SidePlay.dylib  -[SPDash quickTapped:] type=v24@0:8@16 imp=0x1c63c
+- sideplay104/SidePlay.dylib  -[SPDash quitAppsOutOfPanes] type=v16@0:8 imp=0x22cbc
+- sideplay104/SidePlay.dylib  -[SPDash ratio] type=d16@0:8 imp=0x27374
+- sideplay104/SidePlay.dylib  -[SPDash readPrefs] type=v16@0:8 imp=0x12f60
+- sideplay104/SidePlay.dylib  -[SPDash refreshMainScreenPlaceholders] type=v16@0:8 imp=0x26b58
+- sideplay104/SidePlay.dylib  -[SPDash reloadPrefs] type=v16@0:8 imp=0x16de0
+- sideplay104/SidePlay.dylib  -[SPDash restoreLastLayout] type=B16@0:8 imp=0x1d67c
+- sideplay104/SidePlay.dylib  -[SPDash restoreMainScreenSceneForHandle:] type=v24@0:8@16 imp=0x26fac
+- sideplay104/SidePlay.dylib  -[SPDash retireCarWindow] type=v16@0:8 imp=0x17a5c
+- sideplay104/SidePlay.dylib  -[SPDash revealChosenLayout:] type=v20@0:8B16 imp=0x1e96c
+- sideplay104/SidePlay.dylib  -[SPDash revealIfAppStayed] type=v16@0:8 imp=0x13820
+- sideplay104/SidePlay.dylib  -[SPDash revealOnPhone] type=v16@0:8 imp=0x1391c
+- sideplay104/SidePlay.dylib  -[SPDash rootView] type=@16@0:8 imp=0x27208
+- sideplay104/SidePlay.dylib  -[SPDash saveLastLayout] type=v16@0:8 imp=0x1d1e0
+- sideplay104/SidePlay.dylib  -[SPDash saveManualCarArea:windowBounds:] type=v80@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16{CGRect={CGPoint=dd}{CGSize=dd}}48 imp=0x197b0
+- sideplay104/SidePlay.dylib  -[SPDash scaleMode] type=q16@0:8 imp=0x27384
+- sideplay104/SidePlay.dylib  -[SPDash scrollViewWillEndDragging:withVelocity:targetContentOffset:] type=v48@0:8@16{CGPoint=dd}24N^{CGPoint=dd}40 imp=0x1e840
+- sideplay104/SidePlay.dylib  -[SPDash serviceBlocked] type=B16@0:8 imp=0x272a4
+- sideplay104/SidePlay.dylib  -[SPDash serviceChecked] type=B16@0:8 imp=0x272c4
+- sideplay104/SidePlay.dylib  -[SPDash serviceWaiting] type=B16@0:8 imp=0x272b4
+- sideplay104/SidePlay.dylib  -[SPDash sessionApps] type=@16@0:8 imp=0x273a8
+- sideplay104/SidePlay.dylib  -[SPDash setAreaView:] type=v24@0:8@16 imp=0x27314
+- sideplay104/SidePlay.dylib  -[SPDash setCalibrationPending:] type=v20@0:8B16 imp=0x272f0
+- sideplay104/SidePlay.dylib  -[SPDash setCalibrationView:] type=v24@0:8@16 imp=0x27300
+- sideplay104/SidePlay.dylib  -[SPDash setCarConnectedState:] type=v24@0:8@16 imp=0x273c4
+- sideplay104/SidePlay.dylib  -[SPDash setCarMissedChecks:] type=v24@0:8q16 imp=0x273ec
+- sideplay104/SidePlay.dylib  -[SPDash setCarWatchTimer:] type=v24@0:8@16 imp=0x273d8
+- sideplay104/SidePlay.dylib  -[SPDash setCarWindow:] type=v24@0:8@16 imp=0x271a0
+- sideplay104/SidePlay.dylib  -[SPDash setCarWindowFrame:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x271b8
+- sideplay104/SidePlay.dylib  -[SPDash setCarWindowScreen:] type=v24@0:8@16 imp=0x271d8
+- sideplay104/SidePlay.dylib  -[SPDash setCardScroll:] type=v24@0:8@16 imp=0x2724c
+- sideplay104/SidePlay.dylib  -[SPDash setCardStep:] type=v24@0:8d16 imp=0x27260
+- sideplay104/SidePlay.dylib  -[SPDash setCards:] type=v24@0:8@16 imp=0x27238
+- sideplay104/SidePlay.dylib  -[SPDash setChooserView:] type=v24@0:8@16 imp=0x27224
+- sideplay104/SidePlay.dylib  -[SPDash setGlowView:] type=v24@0:8@16 imp=0x271fc
+- sideplay104/SidePlay.dylib  -[SPDash setIsOpen:] type=v20@0:8B16 imp=0x12dc0
+- sideplay104/SidePlay.dylib  -[SPDash setNoticeView:] type=v24@0:8@16 imp=0x27298
+- sideplay104/SidePlay.dylib  -[SPDash setOfferedVersion:] type=v24@0:8@16 imp=0x271ec
+- sideplay104/SidePlay.dylib  -[SPDash setOnPhone:] type=v20@0:8B16 imp=0x12e78
+- sideplay104/SidePlay.dylib  -[SPDash setOpenedAt:] type=v24@0:8d16 imp=0x2717c
+- sideplay104/SidePlay.dylib  -[SPDash setPaneApps:] type=v24@0:8@16 imp=0x2739c
+- sideplay104/SidePlay.dylib  -[SPDash setPanes:] type=v24@0:8@16 imp=0x27334
+- sideplay104/SidePlay.dylib  -[SPDash setPickerView:] type=v24@0:8@16 imp=0x27328
+- sideplay104/SidePlay.dylib  -[SPDash setQuickButtons:] type=v24@0:8@16 imp=0x27270
+- sideplay104/SidePlay.dylib  -[SPDash setQuickCaption:] type=v24@0:8@16 imp=0x27284
+- sideplay104/SidePlay.dylib  -[SPDash setRatio:] type=v24@0:8d16 imp=0x2737c
+- sideplay104/SidePlay.dylib  -[SPDash setRootView:] type=v24@0:8@16 imp=0x27210
+- sideplay104/SidePlay.dylib  -[SPDash setScaleMode:] type=v24@0:8q16 imp=0x2738c
+- sideplay104/SidePlay.dylib  -[SPDash setServiceBlocked:] type=v20@0:8B16 imp=0x272ac
+- sideplay104/SidePlay.dylib  -[SPDash setServiceChecked:] type=v20@0:8B16 imp=0x272cc
+- sideplay104/SidePlay.dylib  -[SPDash setServiceWaiting:] type=v20@0:8B16 imp=0x272bc
+- sideplay104/SidePlay.dylib  -[SPDash setSessionApps:] type=v24@0:8@16 imp=0x273b0
+- sideplay104/SidePlay.dylib  -[SPDash setShowingChooser:] type=v20@0:8B16 imp=0x27348
+- sideplay104/SidePlay.dylib  -[SPDash setSlotOrder:] type=v24@0:8@16 imp=0x27358
+- sideplay104/SidePlay.dylib  -[SPDash setSplit:] type=v24@0:8q16 imp=0x2736c
+- sideplay104/SidePlay.dylib  -[SPDash setVersionCycle:] type=v24@0:8@16 imp=0x272dc
+- sideplay104/SidePlay.dylib  -[SPDash setWindow:] type=v24@0:8@16 imp=0x2718c
+- sideplay104/SidePlay.dylib  -[SPDash showCalibration] type=v16@0:8 imp=0x19ca4
+- sideplay104/SidePlay.dylib  -[SPDash showChooser:] type=v20@0:8B16 imp=0x20f6c
+- sideplay104/SidePlay.dylib  -[SPDash showNote:] type=v24@0:8@16 imp=0x1c9ec
+- sideplay104/SidePlay.dylib  -[SPDash showOnCarAgain] type=v16@0:8 imp=0x1826c
+- sideplay104/SidePlay.dylib  -[SPDash showPickerForPane:] type=v24@0:8@16 imp=0x25618
+- sideplay104/SidePlay.dylib  -[SPDash showUpdateInVersion:] type=v20@0:8B16 imp=0x1ec38
+- sideplay104/SidePlay.dylib  -[SPDash showingChooser] type=B16@0:8 imp=0x27340
+- sideplay104/SidePlay.dylib  -[SPDash slotOrder] type=@16@0:8 imp=0x27350
+- sideplay104/SidePlay.dylib  -[SPDash split] type=q16@0:8 imp=0x27364
+- sideplay104/SidePlay.dylib  -[SPDash startCalibration] type=v16@0:8 imp=0x19b58
+- sideplay104/SidePlay.dylib  -[SPDash tapFeedback] type=v16@0:8 imp=0x1aec8
+- sideplay104/SidePlay.dylib  -[SPDash updateCarConnection] type=v16@0:8 imp=0x17674
+- sideplay104/SidePlay.dylib  -[SPDash versionCycle] type=@16@0:8 imp=0x272d4
+- sideplay104/SidePlay.dylib  -[SPDash watchCar:] type=v20@0:8B16 imp=0x17420
+- sideplay104/SidePlay.dylib  -[SPDash whatsNewDone] type=v16@0:8 imp=0x202ec
+- sideplay104/SidePlay.dylib  -[SPDash window] type=@16@0:8 imp=0x27184
+
+### SPPane
+- sideplay104/SidePlay.dylib  -[SPPane .cxx_destruct] type=v16@0:8 imp=0x36970
+- sideplay104/SidePlay.dylib  -[SPPane addButton] type=@16@0:8 imp=0x367b0
+- sideplay104/SidePlay.dylib  -[SPPane appDidLaunchWithTransaction:] type=v24@0:8@16 imp=0x356ac
+- sideplay104/SidePlay.dylib  -[SPPane appReportedOrientation] type=q16@0:8 imp=0x34e38
+- sideplay104/SidePlay.dylib  -[SPPane appViewController] type=@16@0:8 imp=0x3666c
+- sideplay104/SidePlay.dylib  -[SPPane application] type=@16@0:8 imp=0x367c4
+- sideplay104/SidePlay.dylib  -[SPPane applySceneFrame:] type=v32@0:8{CGSize=dd}16 imp=0x313f8
+- sideplay104/SidePlay.dylib  -[SPPane applySceneOrientation:] type=v24@0:8q16 imp=0x31050
+- sideplay104/SidePlay.dylib  -[SPPane audioBundle] type=@16@0:8 imp=0x3695c
+- sideplay104/SidePlay.dylib  -[SPPane barHidden] type=B16@0:8 imp=0x36914
+- sideplay104/SidePlay.dylib  -[SPPane barToken] type=Q16@0:8 imp=0x36924
+- sideplay104/SidePlay.dylib  -[SPPane buildViews] type=v16@0:8 imp=0x2da8c
+- sideplay104/SidePlay.dylib  -[SPPane bundleID] type=@16@0:8 imp=0x36658
+- sideplay104/SidePlay.dylib  -[SPPane canvasView] type=@16@0:8 imp=0x36788
+- sideplay104/SidePlay.dylib  -[SPPane checkSettled:run:tick:] type=v40@0:8Q16Q24q32 imp=0x351f8
+- sideplay104/SidePlay.dylib  -[SPPane chipButton:action:] type=@32@0:8@16:24 imp=0x2d898
+- sideplay104/SidePlay.dylib  -[SPPane chipIcon] type=@16@0:8 imp=0x36724
+- sideplay104/SidePlay.dylib  -[SPPane chipView] type=@16@0:8 imp=0x366fc
+- sideplay104/SidePlay.dylib  -[SPPane closeButton] type=@16@0:8 imp=0x36760
+- sideplay104/SidePlay.dylib  -[SPPane closeTapped] type=v16@0:8 imp=0x2f634
+- sideplay104/SidePlay.dylib  -[SPPane coldStart] type=B16@0:8 imp=0x36830
+- sideplay104/SidePlay.dylib  -[SPPane contentView] type=@16@0:8 imp=0x36774
+- sideplay104/SidePlay.dylib  -[SPPane delegate] type=@16@0:8 imp=0x366d8
+- sideplay104/SidePlay.dylib  -[SPPane desiredIdiomForBundleID:] type=@24@0:8@16 imp=0x318cc
+- sideplay104/SidePlay.dylib  -[SPPane enforceSceneGeometry] type=v16@0:8 imp=0x3467c
+- sideplay104/SidePlay.dylib  -[SPPane fixIfSideways] type=v16@0:8 imp=0x33d40
+- sideplay104/SidePlay.dylib  -[SPPane geometryChecks] type=q16@0:8 imp=0x368f4
+- sideplay104/SidePlay.dylib  -[SPPane grabber] type=@16@0:8 imp=0x36934
+- sideplay104/SidePlay.dylib  -[SPPane grabberTapped] type=v16@0:8 imp=0x2eec8
+- sideplay104/SidePlay.dylib  -[SPPane hostedIdiom] type=@16@0:8 imp=0x366c4
+- sideplay104/SidePlay.dylib  -[SPPane index] type=q16@0:8 imp=0x36680
+- sideplay104/SidePlay.dylib  -[SPPane initWithIndex:] type=@24@0:8q16 imp=0x2d834
+- sideplay104/SidePlay.dylib  -[SPPane isEmpty] type=B16@0:8 imp=0x2f480
+- sideplay104/SidePlay.dylib  -[SPPane layoutButton] type=@16@0:8 imp=0x36738
+- sideplay104/SidePlay.dylib  -[SPPane layoutInFrame:scaleMode:] type=v56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48 imp=0x2f6e0
+- sideplay104/SidePlay.dylib  -[SPPane layoutTapped] type=v16@0:8 imp=0x2f4bc
+- sideplay104/SidePlay.dylib  -[SPPane listenForTouchesIn:] type=v24@0:8@16 imp=0x33844
+- sideplay104/SidePlay.dylib  -[SPPane loadApp:] type=v24@0:8@16 imp=0x31a78
+- sideplay104/SidePlay.dylib  -[SPPane loadedAt] type=d16@0:8 imp=0x368a4
+- sideplay104/SidePlay.dylib  -[SPPane loadingToken] type=Q16@0:8 imp=0x36894
+- sideplay104/SidePlay.dylib  -[SPPane loadingView] type=@16@0:8 imp=0x36880
+- sideplay104/SidePlay.dylib  -[SPPane noteActivity] type=v16@0:8 imp=0x2eed4
+- sideplay104/SidePlay.dylib  -[SPPane orientation] type=q16@0:8 imp=0x367ec
+- sideplay104/SidePlay.dylib  -[SPPane orientationAskedAt] type=d16@0:8 imp=0x36904
+- sideplay104/SidePlay.dylib  -[SPPane orientationForBundleID:idiom:] type=q32@0:8@16@24 imp=0x307a0
+- sideplay104/SidePlay.dylib  -[SPPane pickTapped] type=v16@0:8 imp=0x2f358
+- sideplay104/SidePlay.dylib  -[SPPane placeholderLabel] type=@16@0:8 imp=0x3679c
+- sideplay104/SidePlay.dylib  -[SPPane requestAppOrientation:] type=v24@0:8q16 imp=0x308bc
+- sideplay104/SidePlay.dylib  -[SPPane restoreSceneFrame] type=v16@0:8 imp=0x31468
+- sideplay104/SidePlay.dylib  -[SPPane revealWhenSettled] type=v16@0:8 imp=0x35104
+- sideplay104/SidePlay.dylib  -[SPPane scaleMode] type=q16@0:8 imp=0x367fc
+- sideplay104/SidePlay.dylib  -[SPPane sceneFrameChanged] type=B16@0:8 imp=0x3680c
+- sideplay104/SidePlay.dylib  -[SPPane sceneHandle] type=@16@0:8 imp=0x31830
+- sideplay104/SidePlay.dylib  -[SPPane sceneMonitor] type=@16@0:8 imp=0x367d8
+- sideplay104/SidePlay.dylib  -[SPPane sceneMonitor:sceneWasDestroyed:] type=v32@0:8@16@24 imp=0x35a74
+- sideplay104/SidePlay.dylib  -[SPPane sceneSize] type={CGSize=dd}16@0:8 imp=0x3681c
+- sideplay104/SidePlay.dylib  -[SPPane sceneViewOrientation] type=q16@0:8 imp=0x34f70
+- sideplay104/SidePlay.dylib  -[SPPane scheduleBarHide] type=v16@0:8 imp=0x2ef20
+- sideplay104/SidePlay.dylib  -[SPPane scheduleGeometryChecksFor:] type=v24@0:8@16 imp=0x334f4
+- sideplay104/SidePlay.dylib  -[SPPane setAddButton:] type=v24@0:8@16 imp=0x367b8
+- sideplay104/SidePlay.dylib  -[SPPane setAppViewController:] type=v24@0:8@16 imp=0x36674
+- sideplay104/SidePlay.dylib  -[SPPane setApplication:] type=v24@0:8@16 imp=0x367cc
+- sideplay104/SidePlay.dylib  -[SPPane setAudioBundle:] type=v24@0:8@16 imp=0x36968
+- sideplay104/SidePlay.dylib  -[SPPane setBarHidden:] type=v20@0:8B16 imp=0x3691c
+- sideplay104/SidePlay.dylib  -[SPPane setBarToken:] type=v24@0:8Q16 imp=0x3692c
+- sideplay104/SidePlay.dylib  -[SPPane setBundleID:] type=v24@0:8@16 imp=0x36664
+- sideplay104/SidePlay.dylib  -[SPPane setCanvasView:] type=v24@0:8@16 imp=0x36790
+- sideplay104/SidePlay.dylib  -[SPPane setChipIcon:] type=v24@0:8@16 imp=0x3672c
+- sideplay104/SidePlay.dylib  -[SPPane setChipSymbol:on:] type=v32@0:8@16@24 imp=0x2d990
+- sideplay104/SidePlay.dylib  -[SPPane setChipView:] type=v24@0:8@16 imp=0x36704
+- sideplay104/SidePlay.dylib  -[SPPane setCloseButton:] type=v24@0:8@16 imp=0x36768
+- sideplay104/SidePlay.dylib  -[SPPane setColdStart:] type=v20@0:8B16 imp=0x36838
+- sideplay104/SidePlay.dylib  -[SPPane setContentView:] type=v24@0:8@16 imp=0x3677c
+- sideplay104/SidePlay.dylib  -[SPPane setDelegate:] type=v24@0:8@16 imp=0x366f0
+- sideplay104/SidePlay.dylib  -[SPPane setGeometryChecks:] type=v24@0:8q16 imp=0x368fc
+- sideplay104/SidePlay.dylib  -[SPPane setGrabber:] type=v24@0:8@16 imp=0x3693c
+- sideplay104/SidePlay.dylib  -[SPPane setHostedIdiom:] type=v24@0:8@16 imp=0x366d0
+- sideplay104/SidePlay.dylib  -[SPPane setIndex:] type=v24@0:8q16 imp=0x36688
+- sideplay104/SidePlay.dylib  -[SPPane setLayoutButton:] type=v24@0:8@16 imp=0x36740
+- sideplay104/SidePlay.dylib  -[SPPane setLoadedAt:] type=v24@0:8d16 imp=0x368ac
+- sideplay104/SidePlay.dylib  -[SPPane setLoadingToken:] type=v24@0:8Q16 imp=0x3689c
+- sideplay104/SidePlay.dylib  -[SPPane setLoadingView:] type=v24@0:8@16 imp=0x36888
+- sideplay104/SidePlay.dylib  -[SPPane setOrientation:] type=v24@0:8q16 imp=0x367f4
+- sideplay104/SidePlay.dylib  -[SPPane setOrientationAskedAt:] type=v24@0:8d16 imp=0x3690c
+- sideplay104/SidePlay.dylib  -[SPPane setPlaceholderLabel:] type=v24@0:8@16 imp=0x367a4
+- sideplay104/SidePlay.dylib  -[SPPane setScaleMode:] type=v24@0:8q16 imp=0x36804
+- sideplay104/SidePlay.dylib  -[SPPane setSceneFrame:orientation:] type=v56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48 imp=0x31500
+- sideplay104/SidePlay.dylib  -[SPPane setSceneFrameChanged:] type=v20@0:8B16 imp=0x36814
+- sideplay104/SidePlay.dylib  -[SPPane setSceneMonitor:] type=v24@0:8@16 imp=0x367e0
+- sideplay104/SidePlay.dylib  -[SPPane setSceneSize:] type=v32@0:8{CGSize=dd}16 imp=0x36824
+- sideplay104/SidePlay.dylib  -[SPPane setSettleReloadDone:] type=v20@0:8B16 imp=0x36848
+- sideplay104/SidePlay.dylib  -[SPPane setSettleRun:] type=v24@0:8Q16 imp=0x36858
+- sideplay104/SidePlay.dylib  -[SPPane setShowsSwap:] type=v20@0:8B16 imp=0x36698
+- sideplay104/SidePlay.dylib  -[SPPane setSidewaysSince:] type=v24@0:8d16 imp=0x368bc
+- sideplay104/SidePlay.dylib  -[SPPane setSidewaysStage:] type=v24@0:8q16 imp=0x368cc
+- sideplay104/SidePlay.dylib  -[SPPane setSidewaysStageAt:] type=v24@0:8d16 imp=0x368dc
+- sideplay104/SidePlay.dylib  -[SPPane setSoftReloading:] type=v20@0:8B16 imp=0x36868
+- sideplay104/SidePlay.dylib  -[SPPane setSwapButton:] type=v24@0:8@16 imp=0x36754
+- sideplay104/SidePlay.dylib  -[SPPane setSwapSymbol:] type=v24@0:8@16 imp=0x366bc
+- sideplay104/SidePlay.dylib  -[SPPane setSwapVertical:] type=v20@0:8B16 imp=0x366a8
+- sideplay104/SidePlay.dylib  -[SPPane setTitleLabel:] type=v24@0:8@16 imp=0x36718
+- sideplay104/SidePlay.dylib  -[SPPane setTouchNotification:] type=v24@0:8@16 imp=0x36954
+- sideplay104/SidePlay.dylib  -[SPPane setView:] type=v24@0:8@16 imp=0x3664c
+- sideplay104/SidePlay.dylib  -[SPPane setWatchTicks:] type=v24@0:8q16 imp=0x368ec
+- sideplay104/SidePlay.dylib  -[SPPane setWatchToken:] type=v24@0:8Q16 imp=0x36878
+- sideplay104/SidePlay.dylib  -[SPPane settleReloadDone] type=B16@0:8 imp=0x36840
+- sideplay104/SidePlay.dylib  -[SPPane settleRun] type=Q16@0:8 imp=0x36850
+- sideplay104/SidePlay.dylib  -[SPPane showLoadingFor:app:status:] type=v40@0:8@16@24@32 imp=0x34960
+- sideplay104/SidePlay.dylib  -[SPPane showsSwap] type=B16@0:8 imp=0x36690
+- sideplay104/SidePlay.dylib  -[SPPane sidewaysSince] type=d16@0:8 imp=0x368b4
+- sideplay104/SidePlay.dylib  -[SPPane sidewaysStage] type=q16@0:8 imp=0x368c4
+- sideplay104/SidePlay.dylib  -[SPPane sidewaysStageAt] type=d16@0:8 imp=0x368d4
+- sideplay104/SidePlay.dylib  -[SPPane slideBarHidden:] type=v20@0:8B16 imp=0x2f174
+- sideplay104/SidePlay.dylib  -[SPPane softReload] type=v16@0:8 imp=0x333e0
+- sideplay104/SidePlay.dylib  -[SPPane softReloading] type=B16@0:8 imp=0x36860
+- sideplay104/SidePlay.dylib  -[SPPane swapButton] type=@16@0:8 imp=0x3674c
+- sideplay104/SidePlay.dylib  -[SPPane swapSymbol] type=@16@0:8 imp=0x366b0
+- sideplay104/SidePlay.dylib  -[SPPane swapTapped] type=v16@0:8 imp=0x2f578
+- sideplay104/SidePlay.dylib  -[SPPane swapVertical] type=B16@0:8 imp=0x366a0
+- sideplay104/SidePlay.dylib  -[SPPane titleLabel] type=@16@0:8 imp=0x36710
+- sideplay104/SidePlay.dylib  -[SPPane touchNotification] type=@16@0:8 imp=0x36948
+- sideplay104/SidePlay.dylib  -[SPPane turnSceneBack] type=v16@0:8 imp=0x3414c
+- sideplay104/SidePlay.dylib  -[SPPane unloadApp] type=v16@0:8 imp=0x35bb8
+- sideplay104/SidePlay.dylib  -[SPPane view] type=@16@0:8 imp=0x36644
+- sideplay104/SidePlay.dylib  -[SPPane watchOrientationFor:token:] type=v32@0:8@16Q24 imp=0x33ac8
+- sideplay104/SidePlay.dylib  -[SPPane watchTicks] type=q16@0:8 imp=0x368e4
+- sideplay104/SidePlay.dylib  -[SPPane watchToken] type=Q16@0:8 imp=0x36870
+
+### SPCarSceneDelegate
+- sideplay104/SidePlay  -[SPCarSceneDelegate .cxx_destruct] type=v16@0:8 imp=0x1000050bc
+- sideplay104/SidePlay  -[SPCarSceneDelegate interfaceController] type=@16@0:8 imp=0x100005098
+- sideplay104/SidePlay  -[SPCarSceneDelegate sceneDidBecomeActive:] type=v24@0:8@16 imp=0x100005068
+- sideplay104/SidePlay  -[SPCarSceneDelegate setInterfaceController:] type=v24@0:8@16 imp=0x1000050a8
+- sideplay104/SidePlay  -[SPCarSceneDelegate templateApplicationScene:didConnectInterfaceController:] type=v32@0:8@16@24 imp=0x100004d20
+- sideplay104/SidePlay  -[SPCarSceneDelegate templateApplicationScene:didDisconnectInterfaceController:] type=v32@0:8@16@24 imp=0x100005088
+
+### DFSPNativeFrame
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame .cxx_destruct] type=v16@0:8 imp=0x9374
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame approvedLogo] type=@16@0:8 imp=0x91c8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame currentRatio] type=d16@0:8 imp=0x9294
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame delegate] type=@16@0:8 imp=0x9044
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dismissButton] type=@16@0:8 imp=0x9210
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dismissPicker] type=v16@0:8 imp=0x8bb4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dividerLine] type=@16@0:8 imp=0x9114
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dividerLogo] type=@16@0:8 imp=0x90f0
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dividerPan] type=@16@0:8 imp=0x9138
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dividerTrack] type=@16@0:8 imp=0x90cc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame dragDivider:] type=v24@0:8@16 imp=0x8d14
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame expandTapped:] type=v24@0:8@16 imp=0x8a78
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame firstRect] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x9234
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame focusedSlot] type=q16@0:8 imp=0x9098
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame hasFirst] type=B16@0:8 imp=0x9334
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame hasSecond] type=B16@0:8 imp=0x9354
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame hitTest:withEvent:] type=@40@0:8{CGPoint=dd}16@32 imp=0x87d8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame inFullscreen] type=B16@0:8 imp=0x9314
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame initWithFrame:] type=@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x6e08
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame layoutSubviews] type=v16@0:8 imp=0x7d04
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame logoHold] type=@16@0:8 imp=0x915c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame logoRelativePosition] type=d16@0:8 imp=0x92d4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame menuButtons] type=@16@0:8 imp=0x91ec
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame menuTapped:] type=v24@0:8@16 imp=0x8bfc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame moveLogo:] type=v24@0:8@16 imp=0x8f08
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame pickerVisible] type=B16@0:8 imp=0x9078
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame pillTapped:] type=v24@0:8@16 imp=0x8b30
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame pills] type=@16@0:8 imp=0x90a8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame resetForDisconnect] type=v16@0:8 imp=0x9014
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame restoreTapped:] type=v24@0:8@16 imp=0x8ad4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame secondRect] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0x9264
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame selectedSlot] type=q16@0:8 imp=0x92f4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setApprovedLogo:] type=v24@0:8@16 imp=0x91d8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setCurrentRatio:] type=v24@0:8d16 imp=0x92a4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDelegate:] type=v24@0:8@16 imp=0x9064
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDismissButton:] type=v24@0:8@16 imp=0x9220
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDividerLine:] type=v24@0:8@16 imp=0x9124
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDividerLogo:] type=v24@0:8@16 imp=0x9100
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDividerPan:] type=v24@0:8@16 imp=0x9148
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setDividerTrack:] type=v24@0:8@16 imp=0x90dc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setFirstRect:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x924c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setFocusedSlot:] type=v24@0:8q16 imp=0x8a58
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setHasFirst:] type=v20@0:8B16 imp=0x9344
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setHasSecond:] type=v20@0:8B16 imp=0x9364
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setInFullscreen:] type=v20@0:8B16 imp=0x9324
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setLogoHold:] type=v24@0:8@16 imp=0x916c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setLogoRelativePosition:] type=v24@0:8d16 imp=0x92e4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setMenuButtons:] type=v24@0:8@16 imp=0x91fc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setPickerVisible:] type=v20@0:8B16 imp=0x9088
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setPills:] type=v24@0:8@16 imp=0x90b8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setSecondRect:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0x927c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setSelectedSlot:] type=v24@0:8q16 imp=0x9304
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setShade:] type=v24@0:8@16 imp=0x9190
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setSheet:] type=v24@0:8@16 imp=0x91b4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame setVerticalDivider:] type=v20@0:8B16 imp=0x92c4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame shade] type=@16@0:8 imp=0x9180
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame sheet] type=@16@0:8 imp=0x91a4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame swapTapped:] type=v24@0:8@16 imp=0x8ce8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame updateFirst:second:hasFirstApp:hasSecondApp:ratio:fullscreen:] type=v100@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16{CGRect={CGPoint=dd}{CGSize=dd}}48B80B84d88B96 imp=0x79f4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeFrame verticalDivider] type=B16@0:8 imp=0x92b4
+
+### DFSPNativeSlotPill
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill .cxx_destruct] type=v16@0:8 imp=0x9ed4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill allowsExpand] type=B16@0:8 imp=0x9e24
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill compact] type=B16@0:8 imp=0x9e04
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill configureFocused:compact:allowsExpand:] type=v28@0:8B16B20B24 imp=0x9a08
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill expandButton] type=@16@0:8 imp=0x9e68
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill initWithSlot:target:menuAction:expandAction:restoreAction:] type=@56@0:8q16@24:32:40:48 imp=0x9478
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill layoutSubviews] type=v16@0:8 imp=0x9b6c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill menuButton] type=@16@0:8 imp=0x9e44
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill nativeSize] type={CGSize=dd}16@0:8 imp=0x9acc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill pointInside:withEvent:] type=B40@0:8{CGPoint=dd}16@32 imp=0x9d48
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill restoreButton] type=@16@0:8 imp=0x9e8c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill separator] type=@16@0:8 imp=0x9eb0
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setAllowsExpand:] type=v20@0:8B16 imp=0x9e34
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setCompact:] type=v20@0:8B16 imp=0x9e14
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setExpandButton:] type=v24@0:8@16 imp=0x9e78
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setMenuButton:] type=v24@0:8@16 imp=0x9e54
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setRestoreButton:] type=v24@0:8@16 imp=0x9e9c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setSeparator:] type=v24@0:8@16 imp=0x9ec0
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setSlot:] type=v24@0:8q16 imp=0x9dd4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill setSlotFocused:] type=v20@0:8B16 imp=0x9df4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill slot] type=q16@0:8 imp=0x9dc4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeSlotPill slotFocused] type=B16@0:8 imp=0x9de4
+
+### DFSPNative12Host
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host .cxx_destruct] type=v16@0:8 imp=0xa854
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host applyFullscreen] type=B16@0:8 imp=0xa418
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host applyNormal] type=B16@0:8 imp=0xa17c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host contentRoot] type=@16@0:8 imp=0xa7d8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host initWithCarPlayWindow:contentRoot:nativeUsableInWindow:] type=@64@0:8@16@24{CGRect={CGPoint=dd}{CGSize=dd}}32 imp=0x9f3c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host isAttached] type=B16@0:8 imp=0xa7a4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host isFullscreen] type=B16@0:8 imp=0xa794
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host originalFrame] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0xa7fc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host originalTransform] type={CGAffineTransform=dddddd}16@0:8 imp=0xa814
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host reconcileAfterSystemLayout] type=B16@0:8 imp=0xa674
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host restoreAndDetach] type=v16@0:8 imp=0xa6c4
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setContentRoot:] type=v24@0:8@16 imp=0xa7f0
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setIsAttached:] type=v20@0:8B16 imp=0xa7ac
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setIsFullscreen:] type=v20@0:8B16 imp=0xa79c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setOriginalFrame:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xa808
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setOriginalTransform:] type=v64@0:8{CGAffineTransform=dddddd}16 imp=0xa828
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setUsableRect:] type=v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16 imp=0xa848
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host setWindow:] type=v24@0:8@16 imp=0xa7cc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host usableRect] type={CGRect={CGPoint=dd}{CGSize=dd}}16@0:8 imp=0xa83c
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNative12Host window] type=@16@0:8 imp=0xa7b4
+
+### DFSPNativeAdapter
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameDraggedToRatio:ended:] type=v28@0:8d16B24 imp=0x5468
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedAppForSlot:] type=v24@0:8q16 imp=0x4da0
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedCloseForSlot:] type=v24@0:8q16 imp=0x52d8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedFocusForSlot:] type=v24@0:8q16 imp=0x4000
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedRestoreForSlot:] type=v24@0:8q16 imp=0x4cfc
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedStyle] type=v16@0:8 imp=0x5290
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedSwap] type=v16@0:8 imp=0x53b8
+- qa7/DuoFaceSidePlayDisplayQA.dylib  -[DFSPNativeAdapter nativeFrameRequestedZoom] type=v16@0:8 imp=0x4f24
+
+## Phân biệt đã thay và chưa thay
+
+- Source QA7 SPDash hooks vẫn gọi %orig; nhận dữ liệu thật của app/scene từ SidePlay.
+- QA7 chỉ hide chipView/layoutButton/placeholder khi overlay mount thành công. Header/Style/picker SidePlay vẫn có thể vẽ.
+- App và Style trên QA7 còn gọi showPickerForPane: và layoutChooser của SidePlay.
+- QA7 không có owner riêng cho CarPlay system chrome/bar: applyNormal chỉ đổi content root và windowLevel, fallback left 64pt. User đã xác nhận thanh bar chưa hiện.
+- Native12 Dashboard/FullscreenBridge/VisualHook/LogoGrip/SpeedHUD/SpeedOwner và iPhone UI không nằm trong QA7 addon.
+- Tất cả selector metadata nằm ở method-index.json. Raw otool.gz dùng để đánh giá sai khác của parser; còn thiếu thử nghiệm trực tiếp trên thiết bị.
+

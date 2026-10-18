@@ -1,0 +1,120 @@
+{
+  "qa7": [
+    {
+      "filename": "DuoFaceSidePlayDisplayQA.dylib",
+      "method_count": 110,
+      "class_count": 4,
+      "fn_starts": 144,
+      "otool_bytes": 73869
+    }
+  ],
+  "native12": [
+    {
+      "filename": "DuoFaceUI",
+      "method_count": 522,
+      "class_count": 27,
+      "fn_starts": 726,
+      "otool_bytes": 579838
+    },
+    {
+      "filename": "DuoFaceDashboard.dylib",
+      "method_count": 757,
+      "class_count": 36,
+      "fn_starts": 1526,
+      "otool_bytes": 329175
+    },
+    {
+      "filename": "DuoFaceFullscreenBridge.dylib",
+      "method_count": 61,
+      "class_count": 4,
+      "fn_starts": 123,
+      "otool_bytes": 27033
+    },
+    {
+      "filename": "DuoFaceLogoGripOnly.dylib",
+      "method_count": 0,
+      "class_count": 0,
+      "fn_starts": 23,
+      "otool_bytes": 4197
+    },
+    {
+      "filename": "DuoFaceSpeedHUD.dylib",
+      "method_count": 44,
+      "class_count": 2,
+      "fn_starts": 66,
+      "otool_bytes": 16878
+    },
+    {
+      "filename": "DuoFaceSpeedOwner.dylib",
+      "method_count": 1,
+      "class_count": 1,
+      "fn_starts": 11,
+      "otool_bytes": 3486
+    },
+    {
+      "filename": "DuoFaceVisualHook.dylib",
+      "method_count": 0,
+      "class_count": 0,
+      "fn_starts": 33,
+      "otool_bytes": 2682
+    },
+    {
+      "filename": "duoface_cboptimize_helper",
+      "method_count": 0,
+      "class_count": 0,
+      "fn_starts": 1,
+      "otool_bytes": 128
+    }
+  ],
+  "sideplay104": [
+    {
+      "filename": "SidePlay",
+      "method_count": 199,
+      "class_count": 6,
+      "fn_starts": 286,
+      "otool_bytes": 184683
+    },
+    {
+      "filename": "SidePlay.dylib",
+      "method_count": 418,
+      "class_count": 11,
+      "fn_starts": 815,
+      "otool_bytes": 185777
+    },
+    {
+      "filename": "SidePlayHUDGofa.dylib",
+      "method_count": 27,
+      "class_count": 2,
+      "fn_starts": 116,
+      "otool_bytes": 15910
+    },
+    {
+      "filename": "SidePlayHUDRelay.dylib",
+      "method_count": 2,
+      "class_count": 1,
+      "fn_starts": 79,
+      "otool_bytes": 5745
+    },
+    {
+      "filename": "SidePlayHUDVietMap.dylib",
+      "method_count": 29,
+      "class_count": 3,
+      "fn_starts": 153,
+      "otool_bytes": 19177
+    },
+    {
+      "filename": "SidePlayHUDWaze.dylib",
+      "method_count": 29,
+      "class_count": 3,
+      "fn_starts": 120,
+      "otool_bytes": 18340
+    },
+    {
+      "filename": "SidePlayPrefs",
+      "method_count": 159,
+      "class_count": 18,
+      "fn_starts": 282,
+      "otool_bytes": 230976
+    }
+  ]
+}
