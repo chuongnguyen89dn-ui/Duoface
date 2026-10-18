@@ -162,10 +162,13 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     [super layoutSubviews];
     CGFloat height=self.bounds.size.height;
     CGFloat width=self.bounds.size.width;
-    // Native outer pill mode geometry is verified; these individual button
-    // hitboxes remain QA-owned until per-button CGRect ARM64 is decoded.
-    _dotsButton.frame=CGRectMake(4,0,30,height);
-    _expandButton.frame=CGRectMake(MAX(4,width-35),0,30,height);
+    // Native12 CBSlotPillView.layoutSubviews ARM64 0x84e30..0x84eb0:
+    // left child occupies width/2 and right child the remainder.
+    // All six verified Native12 pill widths are even, so width*0.5
+    // equals the native rounded-half result without a libm call.
+    CGFloat half=width*0.5;
+    _dotsButton.frame=CGRectMake(0,0,half,height);
+    _expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height);
     _restoreButton.frame=_expandButton.frame;
 }
 // Native12 CBSlotPillView.pointInside:withEvent: at 0x85348 expands
