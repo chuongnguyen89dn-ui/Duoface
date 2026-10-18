@@ -1,0 +1,126 @@
+name: DuoFace Native12 QA9 Chrome+Divider (build and archive)
+on:
+  push:
+    branches: [feature/duoface-qa9-chrome-divider-recovery]
+    paths:
+      - '.github/workflows/sideplay-qa9-chrome-divider-deb.yml'
+      - 'sideplay/sileo-qa/**'
+      - 'sideplay/native12-display/DFSPNativeFrame.*'
+      - 'sideplay/native12-display/DFSPNativeSlotPill.*'
+      - 'sideplay/native12-display/DFSPNative12Host.*'
+      - 'sideplay/native12-display/validation/check_qa7_visual_recovery.py'
+      - 'sideplay/native12-display/validation/check_qa9_chrome_divider.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-qa9-chrome-divider
+  cancel-in-progress: true
+jobs:
+  build-qa:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare iOS16 Theos toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Stage approved Native12 DuoFace header and control artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          FROM='dist/visual-1.0.3-12/assets'
+          DEST='sideplay/sileo-qa/layout/Library/Application Support/DuoFaceSidePlayDisplayQA'
+          mkdir -p "$DEST"
+          for asset in duoface-logo-picker-alpha-v2.png; do
+            test -s "$FROM/$asset"
+            cp "$FROM/$asset" "$DEST/$asset"
+          done
+          for asset in duoface-picker.png duoface-swap.png duoface-fullscreen.png; do
+            test -s "$FROM/VisualAssets/$asset"
+            cp "$FROM/VisualAssets/$asset" "$DEST/$asset"
+          done
+          (cd "$DEST" && shasum -a 256 *.png)
+      - name: Enforce approved DuoFace Native12 two-pill integration
+        shell: bash
+        run: python3 sideplay/native12-display/validation/check_duoface_qa5_parity.py
+      - name: Detect host failure and prevent silent SidePlay UI fallback
+        shell: bash
+        run: python3 sideplay/native12-display/validation/check_qa7_visual_recovery.py
+      - name: Verify independent CarPlay chrome bridge, reversible original UI, reversed split geometry
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/validation/check_qa9_chrome_divider.py
+      - name: Build independent SidePlay Native12 frame and split drag (no vendor binary)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd sideplay/sileo-qa
+          make clean package FINALPACKAGE=1
+          find packages -maxdepth 1 -name '*.deb' -type f -print
+          test "$(find packages -maxdepth 1 -name '*.deb' -type f | wc -l | tr -d ' ')" -eq 1
+      - name: Verify package ID, filter, and no vendor binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          pkg="$(find sideplay/sileo-qa/packages -maxdepth 1 -type f -name '*.deb' | head -1)"
+          test -s "$pkg"
+          test "$(dpkg-deb -f "$pkg" Package)" = "com.duoface.sideplaydisplay"
+          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.7~native12chrome9"
+          test "$(dpkg-deb -f "$pkg" Architecture)" = "iphoneos-arm64"
+          dpkg-deb -c "$pkg" | tee "$RUNNER_TEMP/sideplay-qa-manifest.txt"
+          grep -F 'DuoFaceSidePlayDisplayQA.dylib' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
+          grep -F 'DuoFaceSidePlayDisplayQA.plist' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
+          dpkg-deb -x "$pkg" "$RUNNER_TEMP/qa9-payload"
+          FILTER="$RUNNER_TEMP/qa9-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSidePlayDisplayQA.plist"
+          test -s "$FILTER"
+          grep -F 'com.apple.CarPlayApp' "$FILTER"
+          grep -F 'com.apple.springboard' "$FILTER"
+          DYLIB="$RUNNER_TEMP/qa9-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSidePlayDisplayQA.dylib"
+          test -s "$DYLIB"
+          nm -a "$DYLIB" | grep -F 'DFSPChromeRequest' || strings "$DYLIB" | grep -F 'qa9.chrome.request'
+          echo QA9_MULTIPROCESS_CHROME_TRANSPORT_AND_NATIVE_UI_PASS
+          for asset in duoface-logo-picker-alpha-v2.png duoface-picker.png duoface-swap.png duoface-fullscreen.png; do
+            grep -F "DuoFaceSidePlayDisplayQA/$asset" "$RUNNER_TEMP/sideplay-qa-manifest.txt"
+          done
+          ! grep -Ei 'DuoFaceDashboard|DuoNavi|SidePlay.dylib|SidePlay.app|SidePlayHUD|DFSpeedNative' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
+          ! dpkg-deb -f "$pkg" Conflicts | grep -Eiq 'com.duoface.independent|com.duoface.visual12'
+          mkdir -p sideplay/artifacts/native12chrome9
+          cp "$pkg" sideplay/artifacts/native12chrome9/com.duoface.sideplaydisplay_0.1.7~native12chrome9_iphoneos-arm64.deb
+          (cd sideplay/artifacts/native12chrome9 && shasum -a 256 *.deb > SHA256SUMS.txt)
+          cat sideplay/artifacts/native12chrome9/SHA256SUMS.txt
+      - name: Upload test DEB
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Native12-UI-Recovery-QA9
+          path: sideplay/artifacts/native12chrome9/
+      - name: Persist QA artifact to development branch for Sileo pinning
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/artifacts/native12chrome9/
+          if ! git diff --cached --quiet; then
+            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA9 artifact [skip ci]'
+            # Parallel UI work may advance this branch while macOS builds.
+            # Replay the artifact-only commit on latest remote before pushing.
+            for attempt in 1 2 3 4 5; do
+              git fetch origin feature/duoface-qa9-chrome-divider-recovery
+              git rebase FETCH_HEAD
+              if git push origin HEAD:feature/duoface-qa9-chrome-divider-recovery; then
+                echo 'QA9_ARTIFACT_PUSH_VERIFIED'
+                exit 0
+              fi
+              sleep 2
+            done
+            echo 'QA9_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
+            exit 1
+          fi
