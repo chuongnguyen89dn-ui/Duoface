@@ -1,0 +1,47 @@
+name: SidePlay split owner method lookup
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-split-owner-readonly.yml'
+      - 'sideplay/native12-display/tools/inspect_sideplay_split_owners.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-split-owner-metadata
+  cancel-in-progress: false
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import existing independent QA MachO parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/native-parser"
+          git fetch --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/native-parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native-parser/audit_native12_license_class_xrefs.py"
+      - name: Map actual SidePlay split pane layout class/selectors
+        shell: bash
+        env:
+          SIDEPLAY_PARSER_DIR: ${{ runner.temp }}/native-parser
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/tools/inspect_sideplay_split_owners.py
+          test -s sideplay/native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json
+      - name: Persist read-only source evidence on development branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(sideplay): record actual pane and divider ObjC selectors [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
