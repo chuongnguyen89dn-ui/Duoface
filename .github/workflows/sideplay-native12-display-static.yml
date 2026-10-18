@@ -29,3 +29,9 @@ jobs:
           set -euo pipefail
           ! grep -RE 'CBBridgeManager|CBWindow|ARWCarPlayManager|SidePlay\.dylib' \
             sideplay/native12-display/*.[ch]
+      - name: Check independent Native12 divider behavior
+        run: |
+          cc -std=c11 -Wall -Wextra -Werror -pedantic -O2 sideplay/native12-display/gesture/DFSPNative12Gestures.c sideplay/native12-display/gesture/tests/test_gesture.c -lm -o /tmp/gesture
+          /tmp/gesture
+      - name: Check actual SPDash adapter bindings
+        run: python3 sideplay/native12-display/validation/check_wiring.py
