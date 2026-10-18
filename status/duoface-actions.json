@@ -1,334 +1,412 @@
 {
-  "checked_at_utc": "2026-10-18T06:01:19.843208+00:00",
+  "checked_at_utc": "2026-10-18T11:19:37.556929+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1322,
+  "total_actions_runs": 1488,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
-    "DuoFace Visual12 standalone engine and CB facade link test": {
-      "recent_runs": 25,
-      "success": 9,
-      "failure": 6,
-      "other": 10
-    },
-    ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
-      "recent_runs": 60,
-      "success": 0,
-      "failure": 60,
-      "other": 0
-    },
     "DuoFace Actions status snapshot": {
       "recent_runs": 1,
       "success": 0,
       "failure": 0,
       "other": 1
     },
-    "Readonly actual Native12 HUD8 vs original104 UI DEBs": {
-      "recent_runs": 14,
-      "success": 10,
+    "SidePlay Native12 approved logo assets QA4 DEB": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay Native12 frame and drag rootless QA DEB": {
+      "recent_runs": 4,
+      "success": 2,
       "failure": 2,
-      "other": 2
+      "other": 0
+    },
+    "SidePlay Native12 whole-display static tests": {
+      "recent_runs": 26,
+      "success": 25,
+      "failure": 1,
+      "other": 0
+    },
+    "SidePlay Native12 function bridge static verification": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay visible Zoom QA rootless DEB": {
+      "recent_runs": 9,
+      "success": 3,
+      "failure": 2,
+      "other": 4
+    },
+    "SidePlay split owner method lookup": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay exact window owner evidence": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay Native12 host UIKit compile-only": {
+      "recent_runs": 3,
+      "success": 3,
+      "failure": 0,
+      "other": 0
+    },
+    "Native104 exact CarPlay class geometry": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "Native104 original layout evidence": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay normal dock static check": {
+      "recent_runs": 6,
+      "success": 6,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay window ObjC geometry trace": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay CarPlay geometry static trace": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "SidePlay unpack original DEB to repository": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
+      "recent_runs": 40,
+      "success": 0,
+      "failure": 40,
+      "other": 0
+    },
+    "MyTweak independent SceneHost (QA only)": {
+      "recent_runs": 1,
+      "success": 0,
+      "failure": 1,
+      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39102551623,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 134,
-      "status": "pending",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102551623",
-      "created_at": "2026-10-18T06:01:14Z",
-      "head_sha": "ddab37b885f4a6e6002baf2f0bff470834a12953"
-    },
-    {
-      "id": 39102550956,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 467,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102550956",
-      "created_at": "2026-10-18T06:01:13Z",
-      "head_sha": "ddab37b885f4a6e6002baf2f0bff470834a12953"
-    },
-    {
-      "id": 39102548480,
+      "id": 39122769903,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 31,
+      "run_number": 32,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102548480",
-      "created_at": "2026-10-18T06:01:11Z",
-      "head_sha": "ec72a486e75ce751f17e3505752326f1120daed1"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39122769903",
+      "created_at": "2026-10-18T11:19:28Z",
+      "head_sha": "b469661bdf7c7f4523e67a5974bec1dd891ac5f8"
     },
     {
-      "id": 39102533557,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 133,
-      "status": "in_progress",
-      "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102533557",
-      "created_at": "2026-10-18T06:00:59Z",
-      "head_sha": "e82a91bbad597d4a599f2077dce375dbcacb7818"
-    },
-    {
-      "id": 39102532564,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 466,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102532564",
-      "created_at": "2026-10-18T06:00:58Z",
-      "head_sha": "e82a91bbad597d4a599f2077dce375dbcacb7818"
-    },
-    {
-      "id": 39102488822,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 132,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102488822",
-      "created_at": "2026-10-18T06:00:21Z",
-      "head_sha": "062ec9c0d406e1b597ebb245c422cac4ceccffcb"
-    },
-    {
-      "id": 39102488034,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 465,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102488034",
-      "created_at": "2026-10-18T06:00:20Z",
-      "head_sha": "062ec9c0d406e1b597ebb245c422cac4ceccffcb"
-    },
-    {
-      "id": 39102383379,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 464,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102383379",
-      "created_at": "2026-10-18T05:58:34Z",
-      "head_sha": "7df755b6b8fa204eca40a0ed73aebfb8a7fb31dd"
-    },
-    {
-      "id": 39102317247,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 463,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102317247",
-      "created_at": "2026-10-18T05:57:18Z",
-      "head_sha": "b4ee13388fa5aed833171f47985dde3fa83749e4"
-    },
-    {
-      "id": 39102303935,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 131,
+      "id": 39121873603,
+      "name": "SidePlay Native12 approved logo assets QA4 DEB",
+      "run_number": 14,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102303935",
-      "created_at": "2026-10-18T05:57:01Z",
-      "head_sha": "e18d689a32d57fbb76473ead8b859cddf95372b6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121873603",
+      "created_at": "2026-10-18T11:06:04Z",
+      "head_sha": "a386ef1131087007b2dca71e23af21cbec643e67"
     },
     {
-      "id": 39102303293,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 462,
+      "id": 39121326554,
+      "name": "SidePlay Native12 frame and drag rootless QA DEB",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121326554",
+      "created_at": "2026-10-18T10:58:05Z",
+      "head_sha": "7b5b9047b79894f131697c5aec73ac144bad7904"
+    },
+    {
+      "id": 39121282637,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121282637",
+      "created_at": "2026-10-18T10:57:23Z",
+      "head_sha": "9d63a3f9aa5c8425757931ea08ad1b03fac767e0"
+    },
+    {
+      "id": 39121221229,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121221229",
+      "created_at": "2026-10-18T10:56:25Z",
+      "head_sha": "3f7646862fc2ae665e2663c0d5ceb739442210f3"
+    },
+    {
+      "id": 39121214162,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 24,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102303293",
-      "created_at": "2026-10-18T05:57:01Z",
-      "head_sha": "e18d689a32d57fbb76473ead8b859cddf95372b6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121214162",
+      "created_at": "2026-10-18T10:56:19Z",
+      "head_sha": "df68e9fdc332d60e001c10eb3f359f9c10f0c613"
     },
     {
-      "id": 39102300188,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 130,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102300188",
-      "created_at": "2026-10-18T05:56:58Z",
-      "head_sha": "b92bcfe8ee359b89618b4dc3cc0e8a2cbcace133"
-    },
-    {
-      "id": 39102299467,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 461,
+      "id": 39121177893,
+      "name": "SidePlay Native12 frame and drag rootless QA DEB",
+      "run_number": 12,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102299467",
-      "created_at": "2026-10-18T05:56:57Z",
-      "head_sha": "b92bcfe8ee359b89618b4dc3cc0e8a2cbcace133"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121177893",
+      "created_at": "2026-10-18T10:55:45Z",
+      "head_sha": "11b75efd0fbfe1b92a6365a4684a4a72c9f450c0"
     },
     {
-      "id": 39102286665,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 129,
+      "id": 39121117842,
+      "name": "SidePlay Native12 function bridge static verification",
+      "run_number": 1,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102286665",
-      "created_at": "2026-10-18T05:56:44Z",
-      "head_sha": "7cd915ad03c7e9cc06a74736a2fb40c3cf4b9513"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121117842",
+      "created_at": "2026-10-18T10:54:49Z",
+      "head_sha": "20d811ff9586b18c7f8c8b11fd98727fcf872523"
     },
     {
-      "id": 39102285773,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 460,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102285773",
-      "created_at": "2026-10-18T05:56:43Z",
-      "head_sha": "7cd915ad03c7e9cc06a74736a2fb40c3cf4b9513"
-    },
-    {
-      "id": 39102218236,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
+      "id": 39121097406,
+      "name": "SidePlay Native12 whole-display static tests",
       "run_number": 23,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102218236",
-      "created_at": "2026-10-18T05:55:27Z",
-      "head_sha": "14c44c9e0dd99bb030fe27430c88385fc5201532"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121097406",
+      "created_at": "2026-10-18T10:54:31Z",
+      "head_sha": "727362f6e426cc157719ed0eb036888fb3d349a6"
     },
     {
-      "id": 39102217510,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 459,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102217510",
-      "created_at": "2026-10-18T05:55:27Z",
-      "head_sha": "14c44c9e0dd99bb030fe27430c88385fc5201532"
-    },
-    {
-      "id": 39102158125,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 458,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102158125",
-      "created_at": "2026-10-18T05:54:24Z",
-      "head_sha": "ab4250058c9acaf751c98b2748b99ad0c45440c6"
-    },
-    {
-      "id": 39102094919,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 457,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102094919",
-      "created_at": "2026-10-18T05:53:16Z",
-      "head_sha": "327cd29e9029250b35e938d07929e9b31b85018b"
-    },
-    {
-      "id": 39102083373,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
+      "id": 39121095813,
+      "name": "SidePlay Native12 whole-display static tests",
       "run_number": 22,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102083373",
-      "created_at": "2026-10-18T05:53:03Z",
-      "head_sha": "10e995477463882ea476d01e912a237a118c1be9"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121095813",
+      "created_at": "2026-10-18T10:54:29Z",
+      "head_sha": "1db0303d93110cf8b10df939d0197faf1688b039"
     },
     {
-      "id": 39102082643,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 456,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102082643",
-      "created_at": "2026-10-18T05:53:03Z",
-      "head_sha": "10e995477463882ea476d01e912a237a118c1be9"
-    },
-    {
-      "id": 39102074795,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
+      "id": 39121070778,
+      "name": "SidePlay Native12 whole-display static tests",
       "run_number": 21,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102074795",
-      "created_at": "2026-10-18T05:52:54Z",
-      "head_sha": "df412f5d4788ad0a39d34f53f125864b600d8bf0"
-    },
-    {
-      "id": 39102073932,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 455,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39102073932",
-      "created_at": "2026-10-18T05:52:53Z",
-      "head_sha": "df412f5d4788ad0a39d34f53f125864b600d8bf0"
-    },
-    {
-      "id": 39101879710,
-      "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 128,
-      "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101879710",
-      "created_at": "2026-10-18T05:49:32Z",
-      "head_sha": "52d7039e08a3037faec56e8b0fe18b667142b6bd"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121070778",
+      "created_at": "2026-10-18T10:54:06Z",
+      "head_sha": "8cb282a9bea2379ceb39ee364806f468a7029ff0"
     },
     {
-      "id": 39101878924,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 454,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101878924",
-      "created_at": "2026-10-18T05:49:31Z",
-      "head_sha": "52d7039e08a3037faec56e8b0fe18b667142b6bd"
-    },
-    {
-      "id": 39101868270,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 453,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101868270",
-      "created_at": "2026-10-18T05:49:20Z",
-      "head_sha": "6e3389b2cc9b7cd77f3fe0e37d65524e8c48f747"
-    },
-    {
-      "id": 39101826645,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
+      "id": 39121060448,
+      "name": "SidePlay Native12 whole-display static tests",
       "run_number": 20,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101826645",
-      "created_at": "2026-10-18T05:48:36Z",
-      "head_sha": "bb2080a3c1f098128f5a22c22a4958d7933f7375"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121060448",
+      "created_at": "2026-10-18T10:53:55Z",
+      "head_sha": "53453424c9754519dceb20afc63727a75456eb44"
     },
     {
-      "id": 39101825889,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 452,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101825889",
-      "created_at": "2026-10-18T05:48:35Z",
-      "head_sha": "bb2080a3c1f098128f5a22c22a4958d7933f7375"
-    },
-    {
-      "id": 39101730530,
-      "name": "Readonly actual Native12 HUD8 vs original104 UI DEBs",
+      "id": 39121055482,
+      "name": "SidePlay Native12 whole-display static tests",
       "run_number": 19,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101730530",
-      "created_at": "2026-10-18T05:46:54Z",
-      "head_sha": "ef5088429c49f02ec5914fa179ff1314b71cea1c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121055482",
+      "created_at": "2026-10-18T10:53:51Z",
+      "head_sha": "78985004564c63e149596aca0db95bcd961d5c51"
     },
     {
-      "id": 39101729522,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 451,
+      "id": 39121050801,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121050801",
+      "created_at": "2026-10-18T10:53:46Z",
+      "head_sha": "86c0d81ea381dbff41a4d7241c4b8c46f30ab938"
+    },
+    {
+      "id": 39120980455,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120980455",
+      "created_at": "2026-10-18T10:52:38Z",
+      "head_sha": "1d1e2ec3c9ab26f2a46b809ad4e6764b978f801a"
+    },
+    {
+      "id": 39120974390,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120974390",
+      "created_at": "2026-10-18T10:52:33Z",
+      "head_sha": "cf2a533539a18f777df77736c0364d159bfb2890"
+    },
+    {
+      "id": 39120852019,
+      "name": "SidePlay Native12 frame and drag rootless QA DEB",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120852019",
+      "created_at": "2026-10-18T10:50:40Z",
+      "head_sha": "12338d6bbb0e5bac7cd642673e00e501d45157a2"
+    },
+    {
+      "id": 39120779780,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120779780",
+      "created_at": "2026-10-18T10:49:38Z",
+      "head_sha": "ba83e68fb320aa230ee555e556b20100ec7d889a"
+    },
+    {
+      "id": 39120689953,
+      "name": "SidePlay Native12 frame and drag rootless QA DEB",
+      "run_number": 10,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39101729522",
-      "created_at": "2026-10-18T05:46:53Z",
-      "head_sha": "ef5088429c49f02ec5914fa179ff1314b71cea1c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120689953",
+      "created_at": "2026-10-18T10:48:15Z",
+      "head_sha": "cd44b78d36614e18f4ae192b16078a2690998e78"
+    },
+    {
+      "id": 39120682774,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120682774",
+      "created_at": "2026-10-18T10:48:08Z",
+      "head_sha": "e245360f31257abb23b9daa77e5245a71b8f7b08"
+    },
+    {
+      "id": 39120676754,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120676754",
+      "created_at": "2026-10-18T10:48:02Z",
+      "head_sha": "2c17f93d748752587d1fa1399139969c48a44b85"
+    },
+    {
+      "id": 39120644682,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120644682",
+      "created_at": "2026-10-18T10:47:33Z",
+      "head_sha": "ea0ac69758b93a5b2bcf5e084a511dfe0b1c5cff"
+    },
+    {
+      "id": 39120606244,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120606244",
+      "created_at": "2026-10-18T10:46:55Z",
+      "head_sha": "918e338de0e35a49dacbcbbdff4cfbeed5e414e2"
+    },
+    {
+      "id": 39120557462,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120557462",
+      "created_at": "2026-10-18T10:46:11Z",
+      "head_sha": "cd23b80fe07bc796146db32e8087ea05924b69a3"
+    },
+    {
+      "id": 39120484496,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120484496",
+      "created_at": "2026-10-18T10:45:08Z",
+      "head_sha": "c96c059dc6242a6930c40e04d95c326b9d072b5e"
+    },
+    {
+      "id": 39120307831,
+      "name": "SidePlay split owner method lookup",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120307831",
+      "created_at": "2026-10-18T10:42:25Z",
+      "head_sha": "517d1c5e749c98f308277809897c1894d259093f"
+    },
+    {
+      "id": 39120293286,
+      "name": "SidePlay Native12 whole-display static tests",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120293286",
+      "created_at": "2026-10-18T10:42:12Z",
+      "head_sha": "58ec7ec8c90db22ba9bb4436f4c70d290743c05e"
+    },
+    {
+      "id": 39119996352,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119996352",
+      "created_at": "2026-10-18T10:37:36Z",
+      "head_sha": "a7a4a5502f6c700676d82311d21161efadbac4c7"
+    },
+    {
+      "id": 39119950358,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119950358",
+      "created_at": "2026-10-18T10:36:55Z",
+      "head_sha": "62365eab4fd9b37793185572d5383ef464f81be4"
+    },
+    {
+      "id": 39119946177,
+      "name": "SidePlay visible Zoom QA rootless DEB",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119946177",
+      "created_at": "2026-10-18T10:36:51Z",
+      "head_sha": "ebd1f5c68f5439974bb5b9b71fc5d22dc7254f36"
     }
   ]
 }
