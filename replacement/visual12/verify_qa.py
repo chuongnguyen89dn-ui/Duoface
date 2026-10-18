@@ -15,7 +15,7 @@ assert deb.is_file() and deb.stat().st_size > 30000, "Missing or truncated DEB"
 control = subprocess.check_output(["dpkg-deb", "-f", str(deb)], text=True)
 assert "Package: com.duoface.visual12\n" in control
 assert "Architecture: iphoneos-arm64\n" in control
-assert "Version: 1.0.3-12~standalone1\n" in control
+assert "Version: 1.0.3-12~ui8native1\n" in control
 assert "Conflicts:" not in control
 assert "Replaces:" not in control
 data = subprocess.check_output(["dpkg-deb", "--fsys-tarfile", str(deb)])
@@ -43,6 +43,12 @@ for path in files:
     assert not lower.startswith("var/mobile/library/preferences/"), f"Unexpected preference overwrite: {path}"
 assert not any("com.duoface.independent" in x for x in files)
 assert not any("com.duonavi.app" in x for x in files)
+# UI migration is source-owned: native HUD UIView and original split controller,
+# never the licensed DuoNavi/CB renderer or the Native Speed7 SpringBoard driver.
+assert b"DFV12NativeHUD8" in files[tweak], "Native HUD8 UI missing from QA dylib"
+assert b"DFV12SplitController" in files[tweak], "QA split controller missing"
+assert b"S7Reconcile" not in files[tweak], "Native CBWindow driver must not enter QA"
+
 
 app_info = plistlib.loads(files[app + "Info.plist"])
 pref_info = plistlib.loads(files[prefs + "Info.plist"])
@@ -93,4 +99,4 @@ for scale in (1,2,3):
     assert struct.unpack_from(">II",png,16) == (29*scale,29*scale)
 print("VISUAL12_QA_DEB_PACKAGE_MACHO_SIGNATURE_ASSET_CHECKS_PASS")
 print(f"package={deb.name} files={len(files)} size={deb.stat().st_size} sha256={hashlib.sha256(deb.read_bytes()).hexdigest()}")
-print("NOT_TESTED_ON_IPHONE, NOT_PUBLISHED_TO_SILEO, NATIVE12_HUB8_UNCHANGED")
+print("DEVICE_TEST_PENDING; SILEO_PUBLISH_IS_SEPARATE; NATIVE12_HUB8_UNCHANGED")
