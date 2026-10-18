@@ -4,6 +4,24 @@
 
 > **ĐÍNH CHÍNH THEO PHẢN HỒI NGƯỜI DÙNG (18/10/2026):** `Root.plist` của bản DEB có khai báo `PSSwitchCell key=carDock label="Thanh dock CarPlay" default=false`; **chưa có ảnh/log/thiết bị xác minh menu này thật sự xuất hiện trong SidePlay đang chạy và bật nó sẽ trả lại thanh bar hệ thống**. Hướng dẫn ở mục 5 “bật Thanh dock CarPlay” là **phương án kiểm chứng có điều kiện**, không phải chức năng đã kiểm chứng. Root.plist candidate đổi default không phải bản sửa fullscreen runtime; 4/4 test chỉ là unit/static. Không đòi người dùng thực hiện bước này như một giải pháp đã chắc chắn.
 
+
+## 0. KẾT QUẢ THỬ MÁY + XÁC MINH CALLSITE (2026-10-18, mới nhất)
+
+**USER_DEVICE_OBSERVATION:** Người dùng gửi ảnh có hai thiết bị: SidePlay Settings hiển thị mục **Thanh dock CarPlay** với công tắc màu xanh ở trạng thái bật; màn hình CarPlay bên cạnh vẫn có hai pane (bản đồ và YouTube) chiếm diện tích màn hình, không thấy thanh bar/sidebar hệ thống như DuoNavi 1.0.4. Theo xác nhận trực tiếp của user: "Đúng là nó có. Nhưng ko có tác dụng hiện lại." Bằng chứng ảnh nằm trong cuộc chat hiện tại; chưa upload ảnh lên GitHub. Tình trạng chính thức: **CAR_DOCK_TOGGLE_NOT_SUFFICIENT**, không phải lỗi chỉ ở `Root.plist.default`.
+
+**STATIC_TRACE_VERIFIED:** Quét trực tiếp `SidePlay.dylib` SHA256 `0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971`, arm64 SHA256 `e4e324a2a03dad89aeb492ba188555faf4bb3bcd34e9b9119f713ff6fc99a611`. GitHub Actions [39115979117](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39115979117) và [39116112514](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39116112514) thành công, bằng chứng tại `sideplay/normal-carplay/audit/geometry-selector-evidence.json` và `geometry-objc-window-trace.txt`.
+
+Từ bản disassembly arm64 được `llvm-objdump-18` chú thích:
+- `0x145c0–0x145cc`: đọc `carDockMode` trong quá trình mở cửa sổ CarPlay.
+- **`0x14648–0x1467c`**: lấy `_UIWindowLevelAlert`, nạp **10.0**, thực hiện `fadd d8,d0,d1`, rồi gọi `setWindowLevel:` với `d8` (**windowLevel = UIWindowLevelAlert + 10**). **Đây là cơ chế đưa cửa sổ ở lớp phủ rất cao và là ứng viên nguyên nhân che native dock/bar.** Còn phải đo thực tế thứ tự z-order của CarPlay Dashboard/host trên iOS 16 trước khi khẳng định là root cause duy nhất.
+- **`0x17b88–0x17bbc`**: đọc `SPPrefBool(@"carDock", false)`; chỉ khi bật mới gọi `carDockArea` rồi `CGRectIsNull` để trả trạng thái hợp lệ. Phân tích này cho thấy bật cờ không trực tiếp xử lý z-order.
+- **`0x17e04–0x17e34`**: `carDockMode` chọn selector `carDockArea` hoặc `carWindowFrame` để tính vùng chứa. Chức năng đang thao tác **geometry**, không chứng minh sẽ hiện lại native CarPlay sidebar.
+- **`0x1a5dc–0x1a62c`**: khi tính vùng hiển thị, có `autoCarArea:`, rồi `carDockMode` chọn giữa hai tập CGRect; đường này tách khỏi `windowLevel`.
+
+**KẾT LUẬN ĐÃ CẬP NHẬT:** Cờ dock đã bật vẫn bị fullscreen; candidate chỉ đổi `carDock.default=true` **không phải bản sửa lỗi**, không merge và không đóng gói từ candidate đó. Ưu tiên nghiên cứu thay đổi **z-order của riêng SidePlay CarPlay window** kết hợp khung nội dung theo usable bounds đã xác minh từ DuoNavi 1.0.4. Không thay level tất cả `UIWindow` trong SpringBoard hoặc ẩn/hiện giả thanh bar. Một thay đổi windowLevel có thể làm SidePlay biến mất dưới Dashboard; phải tách test có cờ bật/tắt và có rollback trước bất kỳ bản cài iPhone X nào.
+
+**TRẠNG THÁI:** evidence static PASS, user visual confirmation PASS, patch runtime CHƯA có, CI iOS/DEB CHƯA chạy, trên máy thật CHƯA kiểm tra thay đổi windowLevel. Không được coi đây là lỗi đã sửa.
+
 ## 1. Vấn đề cần giải
 
 Người dùng quan sát **SidePlay tự trải kín CarPlay khi kết nối**, trong khi giao diện DuoNavi 1.0.4 ban đầu còn nhìn thấy thanh bar/dock CarPlay; fullscreen chỉ xuất hiện sau khi đã dùng chức năng từ Airaw. Mục tiêu là **trạng thái bình thường trước fullscreen**, không phải tạo một nút fullscreen mới và không phải tắt tự mở SidePlay.
