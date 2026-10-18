@@ -291,13 +291,13 @@ def cli():
     if len(mode_windows)<3 or not any(x["selector"]=="setCompactMode:" for x in mode_windows):
         raise RuntimeError("original104 layout mode setter trace incomplete")
     mode_doc=a.out_md.parent/"ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt"
-    mode_doc.write_text("\\n".join([
+    mode_doc.write_text("\n".join([
         "# READONLY ORIGINAL DUONAVI 1.0.4 PILL FLAG CONTROL FLOW",
         "Original Dashboard SHA256 "+ORIG_DASH_SHA,
         "CBBridgedSplitApp.layoutSplitViews IMP "+orig_layout["imp"],
         "This is original104 FUNCTION data, NOT Native12 visual sizing.",
-        *[("\\n## "+win["selector"]+" @"+win["address"]+"\\n"+
-          "\\n".join(win["asm"])) for win in mode_windows], ""
+        *[("\n## "+win["selector"]+" @"+win["address"]+"\n"+
+          "\n".join(win["asm"])) for win in mode_windows], ""
     ]),encoding="utf-8")
     sidecar=a.out_json.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json"
     sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
