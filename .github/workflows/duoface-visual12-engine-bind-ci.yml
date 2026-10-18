@@ -7,6 +7,8 @@ on:
       - 'replacement/visual12/tests/test_native_shell_structure.py'
       - 'scripts/audit_native12_ui_dimensions.py'
       - 'scripts/check_native12_deb_ui_bridge_contract.py'
+      - 'scripts/test_original104_function_native12_visual_focus.py'
+      - 'audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json'
       - 'audit/native12-deb-original104-ui/METRICS.json'
       - 'replacement/visual12/fullscreen/**'
       - 'replacement/cb-compat/**'
@@ -40,6 +42,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 replacement/visual12/tests/test_native_shell_structure.py
+      - name: Verify original104 functional and Native12 visual UI focus contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/test_original104_function_native12_visual_focus.py
       - name: Compile and link source-only CarPlay owner with CB facade
         shell: bash
         run: |
