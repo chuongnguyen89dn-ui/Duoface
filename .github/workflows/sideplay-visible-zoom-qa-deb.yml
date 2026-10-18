@@ -1,11 +1,12 @@
-name: SidePlay Native12 approved logo assets QA4 DEB
+name: SidePlay Native12 native UI center-pill focus/restore QA5 DEB
 on:
   push:
-    branches: [feature/sideplay-native12-assets-launch]
+    branches: [feature/duoface-native12-ui-on-sideplay-host]
     paths:
       - '.github/workflows/sideplay-visible-zoom-qa-deb.yml'
       - 'sideplay/sileo-qa/**'
       - 'sideplay/native12-display/DFSPNativeFrame.*'
+      - 'sideplay/native12-display/DFSPNativeSlotPill.*'
   workflow_dispatch:
 permissions:
   contents: write
@@ -58,7 +59,7 @@ jobs:
           pkg="$(find sideplay/sileo-qa/packages -maxdepth 1 -type f -name '*.deb' | head -1)"
           test -s "$pkg"
           test "$(dpkg-deb -f "$pkg" Package)" = "com.duoface.sideplaydisplay"
-          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.2~native12assets4"
+          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.3~native12ui5"
           test "$(dpkg-deb -f "$pkg" Architecture)" = "iphoneos-arm64"
           dpkg-deb -c "$pkg" | tee "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           grep -F 'DuoFaceSidePlayDisplayQA.dylib' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
@@ -68,35 +69,35 @@ jobs:
           done
           ! grep -Ei 'DuoFaceDashboard|DuoNavi|SidePlay.dylib|SidePlay.app|SidePlayHUD|DFSpeedNative' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           ! dpkg-deb -f "$pkg" Conflicts | grep -Eiq 'com.duoface.independent|com.duoface.visual12'
-          mkdir -p sideplay/artifacts/native12assets4
-          cp "$pkg" sideplay/artifacts/native12assets4/com.duoface.sideplaydisplay_0.1.2~native12assets4_iphoneos-arm64.deb
-          (cd sideplay/artifacts/native12assets4 && shasum -a 256 *.deb > SHA256SUMS.txt)
-          cat sideplay/artifacts/native12assets4/SHA256SUMS.txt
+          mkdir -p sideplay/artifacts/native12ui5
+          cp "$pkg" sideplay/artifacts/native12ui5/com.duoface.sideplaydisplay_0.1.3~native12ui5_iphoneos-arm64.deb
+          (cd sideplay/artifacts/native12ui5 && shasum -a 256 *.deb > SHA256SUMS.txt)
+          cat sideplay/artifacts/native12ui5/SHA256SUMS.txt
       - name: Upload test DEB
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFace-SidePlay-Native12-Assets-QA4
-          path: sideplay/artifacts/native12assets4/
+          name: DuoFace-SidePlay-Native12-UI-QA5
+          path: sideplay/artifacts/native12ui5/
       - name: Persist QA artifact to development branch for Sileo pinning
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- sideplay/artifacts/native12assets4/
+          git add -- sideplay/artifacts/native12ui5/
           if ! git diff --cached --quiet; then
-            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA4 artifact [skip ci]'
+            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA5 artifact [skip ci]'
             # Parallel UI work may advance this branch while macOS builds.
             # Replay the artifact-only commit on latest remote before pushing.
             for attempt in 1 2 3 4 5; do
-              git fetch origin feature/sideplay-native12-assets-launch
+              git fetch origin feature/duoface-native12-ui-on-sideplay-host
               git rebase FETCH_HEAD
-              if git push origin HEAD:feature/sideplay-native12-assets-launch; then
-                echo 'QA4_ARTIFACT_PUSH_VERIFIED'
+              if git push origin HEAD:feature/duoface-native12-ui-on-sideplay-host; then
+                echo 'QA5_ARTIFACT_PUSH_VERIFIED'
                 exit 0
               fi
               sleep 2
             done
-            echo 'QA4_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
+            echo 'QA5_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
             exit 1
           fi
