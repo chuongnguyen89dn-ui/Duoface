@@ -1,5 +1,18 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — ĐÃ HOÀN TÁC thử nghiệm sai hướng, đối chiếu SHA thành công
+
+- YÊU CẦU: kiểm tra lại, thay đổi nào không tuân thủ đúng cách viết/lifecycle của DuoFace gốc thì hoàn tác và cập nhật hồ sơ. Native12/Hub8/Sileo không thay đổi.
+- ĐÃ HOÀN TÁC trên branch `feature/visual12-duodash-recovery`:
+  - `replacement/visual12/engine/runtime/DFIInterface.inc` commit `a8e5e3ccffdf09cf9fda1aef3959d6b087a92343` — xóa property, init, shutdown coordinator thử nghiệm; blob SHA khôi phục `e9491282bba8fc32e71b3b973a475d7329fb4852`.
+  - `replacement/visual12/engine/runtime/DFIRuntime.m` commit `1632bba8b51d9388f1970db08f19fb8e74a75ba1` — bỏ import bridge dư; blob SHA `8fa38f75156764aba923cf5a089411694ca8b72b`.
+  - `replacement/visual12/engine/runtime/DFCarPlayBridgeAPI.h` commit `53f59583fc882102e9e00f082d29af4729597645` — hoàn API trước khi thêm layout 8; blob SHA `8e6e0810c39d9fbf89b8b0871b8ac991b14f986b`.
+  - `replacement/visual12/engine/runtime/DFCarPlaySplitCoordinator.m` commit `c8900d9e537b0fc337efbdd7a9be0b9ee80b7272` — hoàn geometry, property, validation thử nghiệm; blob SHA `3c0125e5571954ecb7ce91f67a25e5875f36ab91`.
+- ĐÃ KIỂM CHỨNG: fetch lại cả bốn file trên GitHub, tất cả SHA đúng như trước chuỗi commit thử nghiệm vừa qua. Không dùng `git reset` để tránh mất lịch sử; các commit hoàn tác vẫn truy vết được.
+- CHƯA LÀM: build/CI, DEB/Sileo, thử thiết bị; chưa xác minh tính tương đồng với mã nhị phân Duonavi. Các thay đổi trước chuỗi trên chưa được kiểm định nên không tự ý hoàn tác rộng hơn.
+- NEXT: tìm và đối chiếu nguồn/reference Duonavi và native12/visual12 có sẵn trong repo, tách rõ phần license khỏi lifecycle, chỉ chỉnh source theo trình tự đã xác minh rồi mới build.
+
+
 ## 2026-10-18 — Yêu cầu kiến trúc gốc được nhắc lại (ưu tiên cao nhất)
 
 - YÊU CẦU MỚI NHẤT: học đúng cách viết và thứ tự ghép nối của DuoFace native12/visual12 gốc; giữ giao diện và hành vi y hệt; chỉ loại bỏ phụ thuộc giấy phép trong phần mã độc lập được phép chỉnh. Không tự thiết kế một coordinator/QA UI thay cho kiến trúc gốc.
