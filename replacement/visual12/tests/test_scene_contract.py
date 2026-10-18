@@ -21,7 +21,16 @@ assert poll.index("if(pane.width>0 && pane.height>0)[self resizeTo:pane];") < po
 assert poll.index("[self applySize];") < poll.index("self.sceneReadyNotified=YES;")
 sizing = method(runtime,"- (void)resizeTo:(CGSize)size {","- (void)applySize {")
 assert "round(size.width*2)" in sizing and "round(size.height*2)" in sizing
-assert "CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height)" in sizing
+# Decompiled 1.0.4: the nested device app view is resized as well, with
+# UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight (0x12).
+assert "inner.frame=(CGRect){CGPointZero,logical};" in sizing
+assert "inner.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight" in sizing
+assert "view.frame=(CGRect){CGPointZero,logical};" in sizing
+assert "CGAffineTransformMakeScale(scale,scale)" in sizing
+assert "NSInteger orientation=UIInterfaceOrientationPortrait;" in sizing
+assert 'DFIRect(settings,@"setFrame:"' in runtime
+assert 'if(geometry[@"orientation"])' in runtime
+assert "Original updateSceneSettingsFrame changes the frame" in runtime
 for w,h in [(120,200),(401.25,270.75),(600,280)]:
     original104 = (math.floor(2*w+0.5),math.floor(2*h+0.5))
     # C99/ObjC round() and ARM64 FRINTA both round a positive half away
