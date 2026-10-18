@@ -208,9 +208,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)viewDidLayoutSubviews {
  [super viewDidLayoutSubviews];if(self.shuttingDown)return;
  DFIPerfCount(@"layout_passes");
- CGRect bounds=self.view.bounds;
-
- DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
+ CGRect bounds=self.view.bounds;DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;self.paneButtons[i].hidden=CGRectIsEmpty(frame)||frame.size.width<40||frame.size.height<35;
