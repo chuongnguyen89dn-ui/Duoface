@@ -122,8 +122,6 @@ static NSArray *DFIAvailableApps(void) {
 @interface DFV12SplitController ()
 @property(nonatomic,strong) NSArray<UIView *> *panes;
 @property(nonatomic,strong) NSMutableArray *hosts;
-@property(nonatomic,strong) DFCarPlaySplitCoordinator *sceneBridge;
-
 @property(nonatomic,strong) NSArray<UIButton *> *emptyButtons;
 @property(nonatomic,strong) NSArray<UIButton *> *paneButtons;
 @property(nonatomic,strong) NSArray<UIButton *> *grips;
@@ -166,9 +164,6 @@ static NSArray *DFIAvailableApps(void) {
   UIButton *corner=[self button:@"ellipsis" label:DFIT(@"Chọn app trong khung",@"Choose pane app") action:@selector(choose:)];corner.tag=i;corner.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];corner.layer.cornerRadius=12;[self.view addSubview:corner];[buttons addObject:corner];
  }
  self.panes=panes;self.emptyButtons=empty;self.paneButtons=buttons;
- NSError *bridgeError=nil;
- self.sceneBridge=[[DFCarPlaySplitCoordinator alloc]initWithRootController:self panes:self.panes error:&bridgeError];
- if(bridgeError) NSLog(@"DuoFace bridge setup: %@",bridgeError.localizedDescription);
  for(int i=0;i<2;i++){
   UIView *line=[UIView new];line.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.18];line.userInteractionEnabled=NO;[self.view addSubview:line];[lines addObject:line];
   UIButton *g=[UIButton buttonWithType:UIButtonTypeCustom];g.tag=i;g.accessibilityLabel=DFIT(@"Kéo đổi tỷ lệ; chạm mở thanh công cụ",@"Drag to resize; tap for toolbar");[g addTarget:self action:@selector(menu) forControlEvents:UIControlEventTouchUpInside];[g addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(drag:)]];UIView *mark=[UIView new];mark.tag=77;mark.userInteractionEnabled=NO;mark.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.9];mark.layer.cornerRadius=1.5;[g addSubview:mark];[self.view addSubview:g];[grips addObject:g];
@@ -404,8 +399,6 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)exitSplit{DFIStop();}
 - (void)shutdown {
- [self.sceneBridge stop];
- self.sceneBridge=nil;
  DFIPerfMark(@"shutdown",nil);
  if(self.shuttingDown)return;self.shuttingDown=YES;[self.pendingPanes removeAllObjects];[self.hideTimer invalidate];[self dismissPanel];for(id host in self.hosts)if(host!=NSNull.null)[host close];[self.hosts removeAllObjects];
 }
