@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — USER-REQUESTED ROLLBACK / STOP
+- User ordered: "Hoàn tác lại mọi việc" and stop. Do not continue implementation without a new instruction.
+- Restored `replacement/visual12/engine/runtime/DFIInterface.inc` byte-for-byte to source at baseline commit `dbea5e8166e992b8026edd67e7add77c49e7ce29` via rollback commit `4eae4c9d01e610c05e14dd571d651c28c77058ec`; refetch content equality verified. This removes all HUD QA experiments from this exchange. Existing prior scene-owner/lifecycle fixes through dbea5e8 remain as baseline.
+- The intervening commits `f95c905` and `e68d4fe` remain in Git history (no force push), but their source effects are removed. Earlier notes about porting HUD8 are historical only, NOT active instructions. Native/Sileo and other repositories untouched.
+- No new build/device test. Stop work now. This handoff note is retained solely as rollback audit evidence.
+
+
 ## 2026-10-18 — CORRECTION: revert premature HUD before full Native8 UI transfer
 - User explicitly corrected implementation order: migrate/verify the **entire Native HUD 8 interface and functions** into existing QA first, not implement a standalone mock bubble. The previous `f95c905` addition was premature and not a faithful Native8 port.
 - ACTUAL FIX: source commit `e68d4fe0a544f78f3a11802c6022f0e29a3615b3` removes the QA-only `DFV12Speed8HUD` class, owner property, viewDidLoad mount and layout logic from `replacement/visual12/engine/runtime/DFIInterface.inc`; refetch verified symbol absent. Existing QA scene lifecycle and `standalone6invalidate` fix remain unchanged. Native Sileo untouched.
