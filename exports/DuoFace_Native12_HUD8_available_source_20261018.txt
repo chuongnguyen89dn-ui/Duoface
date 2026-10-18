@@ -147,3 +147,315 @@ DuoFaceSmartConnection_FRAMEWORKS := UIKit Foundation
 include $(THEOS_MAKE_PATH)/tweak.mk
 ########## END FILE: Makefile.smart-connection-stage ##########
 
+########## BEGIN FILE: Makefile.speed-source-stage ##########
+# DuoFace speed source app hooks: compile-only; bundled internally on future DEB.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedSources
+DuoFaceSpeedSources_FILES := runtime/speedbubble/DFSpeedAppObserver.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedSources_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedSources_CCFLAGS := -std=c++17
+DuoFaceSpeedSources_FRAMEWORKS := Foundation CoreLocation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speed-source-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-host-stage ##########
+# Native12 HUD-only verification: no third-party or map-app hook is built.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedBubbleBridge.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-host-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-native7split-stage ##########
+# SpringBoard in-place DuoFace Native12 HUD; no global window or Waze hooks
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-native7split-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-native8compact-stage ##########
+# SpringBoard in-place DuoFace Native12 HUD; no global window or Waze hooks
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm runtime/speedbubble/DFSpeedTransport8.mm runtime/speedbubble/DFSpeedGMapReader8.mm
+DuoFaceSpeedHUD_CFLAGS := -DDF_SPEED_HUD_SPRINGBOARD=1 -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-native8compact-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-native9trusted-qa-stage ##########
+# SpringBoard in-place DuoFace Native12 HUD; no global window or Waze hooks
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm runtime/speedbubble/DFSpeedTransport9.mm runtime/speedbubble/DFSpeedGMapReader9.mm runtime/speedbubble/DFSpeedInstalledSourceCatalog9.mm
+DuoFaceSpeedHUD_CFLAGS := -DDF_SPEED_HUD_SPRINGBOARD=1 -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-native9trusted-qa-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-scene-stage ##########
+# Native12 Speed5 isolated high scene UIWindow in SpringBoard; no CarPlayApp or Waze injection.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedSceneOverlay.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-scene-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-split6-probe-stage ##########
+# Native12 Speed6Probe: same single CarPlayApp module, evidence-only host metadata.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := CarPlayApp
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedNativeHostProbe.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-split6-probe-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-split6-stage ##########
+# Native12 Speed6: only a DuoFace Dashboard CBWindow view; never a global CarPlay UIWindow.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := CarPlayApp
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedNativeSplitHost.mm runtime/speedbubble/DFSpeedTransport.mm
+DuoFaceSpeedHUD_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-split6-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-springboard-owner-stage ##########
+# READ-ONLY owner diagnostic injected ONLY into SpringBoard.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedOwner
+DuoFaceSpeedOwner_FILES := runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm
+DuoFaceSpeedOwner_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedOwner_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-springboard-owner-stage ##########
+
+########## BEGIN FILE: Makefile.speedhud-stage ##########
+# DuoFace Native12 Speed HUD source-only compile; no packaging or Sileo.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSpeedHUD
+DuoFaceSpeedHUD_FILES := runtime/speedbubble/DFSpeedBubbleBridge.mm runtime/speedbubble/DFSpeedTransport.mm runtime/speedbubble/DFSpeedGMapReader.mm
+DuoFaceSpeedHUD_CFLAGS := -DDF_SPEED_HUD_SPRINGBOARD=1 -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSpeedHUD_CCFLAGS := -std=c++17
+DuoFaceSpeedHUD_FRAMEWORKS := UIKit Foundation
+# iPhoneOS: notify(3) symbols are supplied by libSystem; -lnotify is absent.
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.speedhud-stage ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_duoface_diagnostic_deb.py ##########
+#!/usr/bin/env python3
+"""Package a separate read-only DuoFace SpringBoard diagnostic for Dopamine rootless."""
+from __future__ import annotations
+import argparse, hashlib, json, pathlib, shutil, subprocess, tempfile
+
+PACKAGE="com.duoface.diagnostic"
+VERSION="0.1.0~diag1"
+ARCH="iphoneos-arm64"
+DEST=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
+FILTER=pathlib.Path("DuoFaceDiagnostic.plist")
+PREVIOUS=pathlib.Path("dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb")
+PREVIOUS_SHA="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+
+def sha(p: pathlib.Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+def run(*args: object) -> None:
+    subprocess.run([str(v) for v in args],check=True)
+
+def main() -> None:
+    p=argparse.ArgumentParser()
+    p.add_argument("--dylib",type=pathlib.Path,required=True)
+    p.add_argument("--output",type=pathlib.Path,required=True)
+    p.add_argument("--report",type=pathlib.Path,required=True)
+    opts=p.parse_args()
+    assert PREVIOUS.is_file() and sha(PREVIOUS)==PREVIOUS_SHA, "Speed8 baseline must be preserved"
+    assert opts.dylib.is_file() and opts.dylib.stat().st_size>1000
+    assert FILTER.is_file() and FILTER.read_text().strip()==(
+        '{ Filter = { Executables = ("SpringBoard"); }; }')
+    assert not opts.output.exists() and not opts.report.exists()
+    with tempfile.TemporaryDirectory(prefix="duoface-diagnostic-") as temp:
+        root=pathlib.Path(temp)/"pkg"
+        target=root/DEST
+        target.mkdir(parents=True)
+        dylib=target/"DuoFaceDiagnostic.dylib"
+        plist=target/"DuoFaceDiagnostic.plist"
+        shutil.copyfile(opts.dylib,dylib)
+        dylib.chmod(0o755)
+        shutil.copyfile(FILTER,plist)
+        run("ldid","-S",dylib)
+        run("lipo",dylib,"-verify_arch","arm64")
+        run("plutil","-lint",plist)
+        control=root/"DEBIAN"/"control"
+        control.parent.mkdir(parents=True)
+        control.write_text(
+            f"Package: {PACKAGE}\n"
+            "Name: DuoFace Diagnostic Log\n"
+            f"Version: {VERSION}\n"
+            f"Architecture: {ARCH}\n"
+            "Maintainer: DuoFace Project\n"
+            "Section: Tweaks\n"
+            "Priority: optional\n"
+            "Depends: com.duoface.independent\n"
+            "Description: Independent read-only CarPlay state logger for DuoFace; no change to DuoFace itself.\n"
+        )
+        relative=[p.relative_to(root).as_posix() for p in root.rglob("*")
+                  if p.is_file() and p.relative_to(root).parts[0]!="DEBIAN"]
+        assert sorted(relative)==sorted([str(DEST/"DuoFaceDiagnostic.dylib"),
+                                         str(DEST/"DuoFaceDiagnostic.plist")])
+        (root/"DEBIAN/md5sums").write_text("".join(
+            hashlib.md5((root/x).read_bytes()).hexdigest()+"  "+x+"\n"
+            for x in sorted(relative)))
+        opts.output.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",root,opts.output)
+    def field(key: str) -> str:
+        return subprocess.check_output(
+            ["dpkg-deb","-f",str(opts.output),key],text=True).strip()
+    assert (field("Package"),field("Version"),field("Architecture"))==(PACKAGE,VERSION,ARCH)
+    assert field("Depends")=="com.duoface.independent"
+    assert sha(PREVIOUS)==PREVIOUS_SHA, "No changes to existing DuoFace archive"
+    info={
+        "status":"BUILT_STATIC_QA_DEVICE_UNTESTED",
+        "package":PACKAGE,"version":VERSION,"architecture":ARCH,
+        "depends":"com.duoface.independent",
+        "dylib_only_springboard":True,
+        "no_replacement_of_duoface_files":True,
+        "file_count":len(relative),
+        "files":sorted(relative),
+        "speed8_baseline_sha256_unchanged":PREVIOUS_SHA,
+        "output_sha256":sha(opts.output),
+        "runtime_log":"/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl",
+        "uikit_events_observed_not_carplay_icon_tap_hook":True,
+        "has_method_hooks":False,"creates_uiwindow":False,
+        "sileo_published":False,"device_tested":False
+    }
+    opts.report.parent.mkdir(parents=True,exist_ok=True)
+    opts.report.write_text(json.dumps(info,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(info))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_duoface_diagnostic_deb.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_duoface_diagnostic2_deb.py ##########
+#!/usr/bin/env python3
+"""DIAG2 replaces only the separate diagnostic package, never com.duoface.independent."""
+from __future__ import annotations
+import argparse,hashlib,json,pathlib,shutil,subprocess,tempfile
+PACKAGE="com.duoface.diagnostic"
+VERSION="0.2.0~diag2"
+ARCH="iphoneos-arm64"
+ROOT=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
+PLIST=pathlib.Path("DuoFaceDiagnostic2.plist")
+SPEED8=pathlib.Path("dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb")
+PIN="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def run(*args):subprocess.run([str(x) for x in args],check=True)
+def main():
+    a=argparse.ArgumentParser()
+    for x in ("dylib","output","report"):a.add_argument("--"+x,required=True,type=pathlib.Path)
+    args=a.parse_args()
+    assert SPEED8.is_file() and sha(SPEED8)==PIN,"Speed8 baseline modified/missing"
+    assert args.dylib.is_file() and args.dylib.stat().st_size>1000
+    assert PLIST.read_text().strip()=='{ Filter = { Executables = ("SpringBoard", "CarPlayApp", "CarPlay", "DashBoard"); }; }'
+    assert not args.output.exists() and not args.report.exists()
+    with tempfile.TemporaryDirectory(prefix="duoface-diag2-") as t:
+        pkg=pathlib.Path(t)/"pkg"
+        target=pkg/ROOT
+        target.mkdir(parents=True)
+        lib=target/"DuoFaceDiagnostic2.dylib"
+        dst=target/"DuoFaceDiagnostic2.plist"
+        shutil.copyfile(args.dylib,lib)
+        shutil.copyfile(PLIST,dst)
+        lib.chmod(0o755)
+        run("ldid","-S",lib)
+        run("lipo",lib,"-verify_arch","arm64")
+        run("plutil","-lint",dst)
+        files=sorted(p.relative_to(pkg).as_posix() for p in target.iterdir() if p.is_file())
+        assert files==sorted([str(ROOT/"DuoFaceDiagnostic2.dylib"),str(ROOT/"DuoFaceDiagnostic2.plist")])
+        debian=pkg/"DEBIAN"
+        debian.mkdir()
+        (debian/"control").write_text(
+            f"Package: {PACKAGE}\nName: DuoFace Diagnostic DIAG2\nVersion: {VERSION}\nArchitecture: {ARCH}\n"
+            "Maintainer: DuoFace Project\nSection: Tweaks\nPriority: optional\n"
+            "Depends: com.duoface.independent\n"
+            "Description: Optional DuoFace CarPlay-Dashboard/SpringBoard trace for iPhone X; ABI-guarded and no UI changes.\n"
+        )
+        (debian/"md5sums").write_text("".join(hashlib.md5((pkg/x).read_bytes()).hexdigest()+"  "+x+"\n" for x in files))
+        args.output.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",pkg,args.output)
+    def field(s):return subprocess.check_output(["dpkg-deb","-f",str(args.output),s],text=True).strip()
+    assert tuple(field(s) for s in ("Package","Version","Architecture","Depends"))==(PACKAGE,VERSION,ARCH,"com.duoface.independent")
+    assert sha(SPEED8)==PIN
+    report={
+       "status":"BUILT_STATIC_QA_NOT_DEVICE_TESTED",
+       "package":PACKAGE,"version":VERSION,"architecture":ARCH,
+       "replaces_diag1_package_on_install":True,
+       "depends":"com.duoface.independent",
+       "file_count":len(files),"files":files,
+       "output_sha256":sha(args.output),
+       "speed8_baseline_sha256_unchanged":PIN,
+       "signature_guarded_message_hooks":True,
+       "no_duoface_independent_files":True,
+       "creates_uiwindow":False,
+       "forces_activation":False,
+       "log_files":["/var/mobile/Library/Logs/DuoFaceDiagnostic2-SpringBoard.jsonl","/var/mobile/Library/Logs/DuoFaceDiagnostic2-CarPlay.jsonl"],
+       "carplay_executable_names_are_candidates_only":True,
+       "sileo_published":False,"device_tested":False
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n")
+    print(json.dumps(report))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_duoface_diagnostic2_deb.py ##########
+
