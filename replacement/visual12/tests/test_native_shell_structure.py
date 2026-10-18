@@ -25,7 +25,7 @@ assert '[self.nativeSplitSurface bringSubviewToFront:pill]' in ui
 assert 'initWithSlot:i target:self pickAction:@selector(choose:)' in ui
 assert 'focusAction:@selector(zoomPane:)' in ui
 assert 'initWithIndex:i target:self action:@selector(drag:)' in ui
-assert '@selector(menu)' in ui
+assert 'tapAction:@selector(swapPanes)' in ui
 assert 'self.toolbar=[[DFINativePickerMenuBar alloc]initWithFrame:' in ui
 assert 'DFINativePickerCard *card=' in ui
 assert 'self.pickerShade=shade' in ui
