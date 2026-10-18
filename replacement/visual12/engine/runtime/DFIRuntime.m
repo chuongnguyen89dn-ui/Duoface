@@ -324,6 +324,7 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
 @end
 
 #include "DFIChrome.inc"
+#include "DFV12NativeHUD8.inc"
 #include "DFIInterface.inc"
 
 static id DFICarDisplay(void) {
