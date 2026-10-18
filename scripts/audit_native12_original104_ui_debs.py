@@ -223,6 +223,12 @@ def cli():
             if name=="native12":
                 from audit_native12_divider_geometry import inspect_native12
                 results[name]["divider_geometry_constants"]=inspect_native12(binary)
+            if name=="original104":
+                from audit_native12_divider_geometry import read_double_vmaddr
+                # Original104 layoutSplitViews 0x10c5c8 uses this literal
+                # as pane-height compact guard. 0x10c9a8 gives width 320pt.
+                results[name]["pill_compact_height_guard_literal"] = read_double_vmaddr(
+                    binary,0x33ebe8)
     result=dict(status="NATIVE12_VS_ORIGINAL104_ACTUAL_DEB_READONLY",
        static_only=True,device_tested=False,qa_interface_modified=False,
        **results)
@@ -257,6 +263,9 @@ def cli():
                     "84d88:","84db8:","84ddc:","84e2c:"):
         if not any(x.startswith(address) for x in native_focus_asm):
             raise RuntimeError("Pinned Native12 pill ARM64 focus instruction absent "+address)
+    original_compact_h=orig["pill_compact_height_guard_literal"]["value"]
+    if not 0 < original_compact_h < 1600:
+        raise RuntimeError("original104 compact height guard outside plausible bounds")
     crosswalk={
        "status":"ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_STATIC_PASS",
        "static_only":True,"carplay_device_verified":False,
@@ -283,7 +292,17 @@ def cli():
           "normal_hide":["restoreButton"],
           "normal_separator_frame":"CGRect(halfWidth-0.25,3.5,0.5,pillHeight-7)",
           "init_separator_color":"white alpha 0.25 (0x8486c-0x84898)",
-          "known_compact_mode_trigger":False
+          "original104_compact_conditions":{
+              "height_lt_pt":original_compact_h,
+              "width_lt_pt":320.0,
+              "width_machine_code":"10c9a8-10c9b8",
+              "height_literal_vmaddr":"0x33ebe8",
+              "height_machine_code":"10c99c-10c9a4",
+              "boolean_or_machine_code":"10c9b8",
+              "setCompactMode_call":"10c9f0-10c9f8",
+              "proven_branch_only":True
+          },
+          "known_compact_mode_trigger":True
        },
        "qa_contract":"focus updates independent pane layout + scene host resize/applySize; no external CBBridgeManager",
        "open_gates":["Original104 compact/show-expand input conditions still need full loop dataflow",
@@ -327,7 +346,8 @@ def cli():
       "## 3. Independent QA parity and unresolved scope",
       "- Verify DFINativeShell.inc focus, separator, and full-width restore against this record.",
       "- DFIInterface.inc focus/restore relies on DFV12SceneHost.resizeTo -> applySize; no original license/manager.",
-      "- Do NOT infer the triggering input to setCompactMode: or setShowsExpandButton: until original104 full CFG trace.",
+      "- Original104 compact branch: pane.width <320pt OR pane.height <"+str(original_compact_h)+"pt (0x10c99c-0x10c9f8).",
+      "- Branch-level proof only: other layout/focus states and showsExpandButton still need full dispatch mapping.",
       "- UI correctness and CarPlay scene visibility still need physical tests.",""
     ]),encoding="utf-8")
     # Small actionable disassembly slices, because full JSON can exceed
