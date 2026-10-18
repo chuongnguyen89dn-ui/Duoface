@@ -207,6 +207,49 @@ def cli():
     a.out_md.parent.mkdir(parents=True,exist_ok=True)
     a.out_json.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     native=results["native12"];orig=results["original104"]
+    # Small actionable disassembly slices, because full JSON can exceed
+    # connector text limits. These are data, not executable vendor code.
+    detail = []
+    probes=[
+        ("CBSlotPillView","initWithSlotIndex:"),
+        ("CBSlotPillView","updateBoundsSize"),
+        ("CBSlotPillView","layoutSubviews"),
+        ("CBDividerView","initWithFrame:isVertical:"),
+        ("CBDividerView","updateGripLayout"),
+    ]
+    for cls,method in probes:
+        record=next((x for x in native["classes"][cls]["selected"]
+                     if x["name"]==method),None)
+        before=next((x for x in orig["classes"][cls]["selected"]
+                     if x["name"]==method),None)
+        if not record or not record.get("present"):continue
+        sample=record.get("full_layout_asm",[])
+        detail.extend(["",f"## {cls}::{method}, Native12 IMP {record['imp']}, "+
+                       f"original104 IMP {before.get('imp') if before else 'not scanned'}",
+                       f"Method length sampled: {record['instruction_count']} lines. "+
+                       "Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.",
+                       "### Raw ARM64 for reproducing dimensions"])
+        detail+=sample[:520]
+    (a.out_json.parent/"PILL_DIVIDER_NATIVE12_ASM.txt").write_text(
+        "\n".join(["# IMMUTABLE_NATIVE12_DEB_PILL_DIVIDER_STATIC_DISASSEMBLY",
+                   "Native12 Dashboard SHA256 "+NATIVE_DASH_SHA,
+                   "Binary ARM64 assembly only; no live view dimensions or dynamic dispatch proven.",
+                   *detail,""]),encoding="utf-8")
+    brief=dict(status="NATIVE12_ACTUAL_DEB_COMPACT_UI_MAP",static_only=True,
+        deb_sha256=native["deb_sha256"],
+        original104_deb_sha256=orig["deb_sha256"],
+        native12_assets=[dict(path=x["path"],width_px=x["width_px"],
+              height_px=x["height_px"],alpha_range=[x.get("alpha_min"),x.get("alpha_max")],
+              sha256=x["sha256"]) for x in native["png_assets"] if
+              "/DuoFace/" in x["path"]],
+        method_bridge={cls:dict(owner=QA_OWNERS[cls],native_method_names=
+            native["classes"][cls]["catalog_method_names"],
+            original104_method_names=orig["classes"][cls]["catalog_method_names"],
+            selected=[dict(method=y["name"],imp=y.get("imp"),present=y.get("present"))
+                      for y in native["classes"][cls]["selected"]])
+            for cls in TARGETS})
+    (a.out_json.parent/"COMPACT_UI_CONTRACT.json").write_text(
+        json.dumps(brief,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     lines=["# Native12 Speed8 HUD vs DuoNavi 1.0.4 — actual DEB static dimension / asset audit",
      "", f"Status: **{result['status']}**. Debs pinned by SHA256.",
      "**Only static artifacts/method samples; neither Objective-C dispatch nor live CarPlay rects are established.**",
