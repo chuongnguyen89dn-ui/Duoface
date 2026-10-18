@@ -77,7 +77,7 @@
       "component": "Pane pill",
       "dimension": "74x30; upper-right 2pt",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 281,
+      "line": 289,
       "assurance": "qa",
       "state": "not-native-proven",
       "found": true
@@ -107,7 +107,7 @@
       "component": "Divider pan touch",
       "dimension": "16pt; thin stroke 1pt",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 290,
+      "line": 300,
       "assurance": "qa",
       "state": "not-native-proven",
       "found": true
@@ -117,7 +117,7 @@
       "component": "Divider logo control",
       "dimension": "36x44pt",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 290,
+      "line": 301,
       "assurance": "qa",
       "state": "not-native-proven",
       "found": true
@@ -134,12 +134,42 @@
     },
     {
       "id": "divider_tap",
-      "component": "Current independent logo action",
-      "dimension": "tap opens menu, should swap",
+      "component": "Approved independent logo action",
+      "dimension": "tap swaps apps",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 163,
+      "line": 171,
+      "assurance": "approved-native",
+      "state": "corrected",
+      "found": true
+    },
+    {
+      "id": "divider_hold_qa",
+      "component": "Independent hold recognizer",
+      "dimension": "0.30s",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 200,
+      "assurance": "approved-native",
+      "state": "corrected",
+      "found": true
+    },
+    {
+      "id": "divider_move_qa",
+      "component": "Independent logo position storage",
+      "dimension": "fraction 0.10..0.90 of divider",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 571,
       "assurance": "qa",
-      "state": "known-wrong",
+      "state": "needs-device",
+      "found": true
+    },
+    {
+      "id": "split_restore",
+      "component": "Restore the prior ratio",
+      "dimension": "do not reset fraction/secondary",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 436,
+      "assurance": "qa",
+      "state": "corrected",
       "found": true
     },
     {
@@ -147,7 +177,7 @@
       "component": "Sheet width",
       "dimension": "max 470, responsive min180, 8pt margins",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 238,
+      "line": 243,
       "assurance": "qa",
       "state": "not-native-proven",
       "found": true
@@ -157,7 +187,7 @@
       "component": "Sheet height",
       "dimension": "max 280, min140, content 40pt*count+55",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 239,
+      "line": 244,
       "assurance": "qa",
       "state": "not-native-proven",
       "found": true
@@ -167,7 +197,7 @@
       "component": "Sheet rounding",
       "dimension": "20pt original V12",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 215,
+      "line": 220,
       "assurance": "original12",
       "state": "reference",
       "found": true
@@ -177,7 +207,7 @@
       "component": "Sheet outline",
       "dimension": "0pt approved; original was 1pt",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 217,
+      "line": 222,
       "assurance": "approved-native",
       "state": "reference",
       "found": true
@@ -187,7 +217,7 @@
       "component": "Picker menu row",
       "dimension": "30pt, replaces old 40pt experiment",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 310,
+      "line": 324,
       "assurance": "approved-native",
       "state": "reference",
       "found": true
@@ -207,7 +237,7 @@
       "component": "App/Zoom/Style/Close widths",
       "dimension": "43/51/47/51pt",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 312,
+      "line": 326,
       "assurance": "approved-native",
       "state": "reference",
       "found": true
@@ -217,7 +247,7 @@
       "component": "Close X reserved",
       "dimension": "48pt; QA X 32x26",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 310,
+      "line": 324,
       "assurance": "approved-native",
       "state": "partial",
       "found": true
@@ -367,7 +397,7 @@
       "component": "Pane touched border",
       "dimension": "1pt active, 0 otherwise",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 263,
+      "line": 271,
       "assurance": "qa",
       "state": "needs-device",
       "found": true
@@ -383,9 +413,9 @@
       "found": true
     }
   ],
-  "sourceCount": 34,
-  "found": 34,
+  "sourceCount": 37,
+  "found": 37,
   "missing": [],
-  "changes": "Native12 approved picker sheet radius20, border0 committed f311628; earlier QA radius14/border1",
+  "changes": "Sheet radius20/border0; logo tap swap, 0.30s hold move, split ratio saved; compile/device gates separate",
   "pending": "UI device screenshot & logging for CarPlay dock, app cropping, frame sizes, pill and divider gestures"
 }
