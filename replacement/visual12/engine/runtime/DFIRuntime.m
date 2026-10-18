@@ -254,7 +254,10 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     // round(slot.width*2), round(slot.height*2), returning CGSizeZero if invalid.
     // Do NOT change 2x as a speculative correction of cramped app UI.
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
-    NSInteger orientation=logical.width>=logical.height ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait;
+    // Original DuoNavi 1.0.4 updateLayout (0xacb50,0xacb84) and
+    // updateSceneSettingsFrame (0xad45c,0xad490) pass orientation=1
+    // to both SB device-app content reference APIs, independently of slot ratio.
+    NSInteger orientation=UIInterfaceOrientationPortrait;
     @try {
         self.deviceController=[self.controller valueForKey:@"_deviceAppViewController"];
         if(self.deviceController) {
@@ -271,13 +274,26 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
         }
     } @catch(NSException *exception) { DFILog(exception.reason); }
     UIView *view=self.controller.view;
+    // Original updateLayout first resets its host and nested SB app view to
+    // identity and gives each the native 2x frame; the nested app view has
+    // flexible-width | flexible-height (0x12) autoresizing enabled.
+    // Merely assigning host.bounds leaves the embedded view with stale geometry.
     view.transform=CGAffineTransformIdentity;
-    view.bounds=(CGRect){CGPointZero,logical};
+    view.frame=(CGRect){CGPointZero,logical};
+    UIView *inner=DFIGet(self.deviceController,@"view");
+    if([inner isKindOfClass:UIView.class] && inner!=view){
+        inner.transform=CGAffineTransformIdentity;
+        inner.frame=(CGRect){CGPointZero,logical};
+        inner.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+    // Native uses a single uniform scale for both axes.
+    CGFloat scale=MIN(size.width/logical.width,size.height/logical.height);
+    if(!isfinite(scale)||scale<=0)scale=0.5;
+    view.transform=CGAffineTransformMakeScale(scale,scale);
     view.center=CGPointMake(size.width/2,size.height/2);
-    view.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
-    DFILog([NSString stringWithFormat:@"QA geometry bundle=%@ pane=%@ native=%@ scale=%.3f/%.3f",
+    DFILog([NSString stringWithFormat:@"QA geometry bundle=%@ pane=%@ native=%@ inner=%@ uniformScale=%.4f refOrientation=%ld",
         self.bundleID,NSStringFromCGSize(size),NSStringFromCGSize(logical),
-        size.width/logical.width,size.height/logical.height]);
+        inner?NSStringFromCGRect(inner.frame):@"missing",scale,(long)orientation]);
     if(self.scene && !CGSizeEqualToSize(self.appliedSize,size)) [self applySize];
 }
 - (void)applySize {
@@ -287,12 +303,13 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     if(!settings || ![settings respondsToSelector:NSSelectorFromString(@"setFrame:")] || ![self.scene respondsToSelector:update]) return;
     CGSize logical=CGSizeMake(round(self.requestedSize.width*2),round(self.requestedSize.height*2));
     DFIRect(settings,@"setFrame:",(CGRect){CGPointZero,logical});
-    DFIInteger(settings,@"setInterfaceOrientation:",logical.width>=logical.height ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait);
+    // Original updateSceneSettingsFrame changes the frame and lifecycle flags,
+    // but does not forcibly set the FBScene interface orientation here.
+    // Device content reference orientation is configured above (=portrait).
     DFIBool(settings,@"setForeground:",YES);
     DFIBool(settings,@"setBackgrounded:",NO);
     @synchronized(DFIHostedScenes) {
-        [DFISceneGeometry setObject:@{@"frame":[NSValue valueWithCGRect:(CGRect){CGPointZero,logical}],
-            @"orientation":@(logical.width>=logical.height ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait)} forKey:self.scene];
+        [DFISceneGeometry setObject:@{@"frame":[NSValue valueWithCGRect:(CGRect){CGPointZero,logical}]} forKey:self.scene];
     }
     ((void(*)(id,SEL,id,id,id))objc_msgSend)(self.scene,update,settings,nil,nil);
     self.appliedSize=self.requestedSize;
@@ -513,7 +530,10 @@ static void DFIUpdate(id scene,SEL selector,id settings,id context,id completion
             DFIBool(copy,@"setForeground:",YES); DFIBool(copy,@"setBackgrounded:",NO);
             if(geometry) {
                 DFIRect(copy,@"setFrame:",[geometry[@"frame"] CGRectValue]);
-                DFIInteger(copy,@"setInterfaceOrientation:",[geometry[@"orientation"] integerValue]);
+                // Only override orientation if an explicitly verified native
+                // scene-policy entry is present; the original uses frame-only here.
+                if(geometry[@"orientation"])
+                    DFIInteger(copy,@"setInterfaceOrientation:",[geometry[@"orientation"] integerValue]);
             }
             settings=copy ?: settings;
         } @catch(NSException *e) { DFILog(e.reason); }
