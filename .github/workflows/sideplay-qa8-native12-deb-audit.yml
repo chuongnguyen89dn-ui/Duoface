@@ -1,0 +1,108 @@
+name: Audit QA8 vs Native12 HUD8 and SidePlay 1.0.4 DEBs
+on:
+  push:
+    branches: [feature/duoface-native12-qa8-late-host-bootstrap]
+    paths:
+      - '.github/workflows/sideplay-qa8-native12-deb-audit.yml'
+      - 'sideplay/tools/audit_qa8_vs_native12_packages.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-qa8-native12-static-audit
+  cancel-in-progress: false
+jobs:
+  forensic-compare:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read matching GitHub iOS CarPlay skills ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' \
+            --output "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip" >/dev/null
+          unzip -Z1 "$RUNNER_TEMP/carplay-skill.zip"
+          while IFS= read -r path; do
+            if [[ "$path" == *SKILL.md || "$path" == *README.md ]]; then
+              echo "BEGIN_SKILL_ZIP_ENTRY:$path"
+              unzip -p "$RUNNER_TEMP/carplay-skill.zip" "$path" | head -c 16000
+              printf '\nEND_SKILL_ZIP_ENTRY:%s\n' "$path"
+            fi
+          done < <(unzip -Z1 "$RUNNER_TEMP/carplay-skill.zip")
+      - name: Install DEB tooling
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          command -v dpkg-deb
+          command -v file
+          command -v otool
+          command -v lipo
+          command -v nm
+          command -v strings
+      - name: Download immutable native12 and SidePlay reference DEBs
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$RUNNER_TEMP/forensic"
+          mkdir -p "$SRC"
+          cp 'sideplay/artifacts/native12bootstrap8/com.duoface.sideplaydisplay_0.1.6~native12bootstrap8_iphoneos-arm64.deb' "$SRC/qa8.deb"
+          curl -fL --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            -o "$SRC/native12.deb"
+          curl -fL --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/acae0bd11887d1acd6260a309017825b64391b9d/com.sideplay_1.0.4-1_iphoneos-arm64.deb' \
+            -o "$SRC/sideplay104.deb"
+          (cd "$SRC" &&
+           printf '%s  %s\n' \
+             e14a3c8fe9ae6ee44b6dae6fb4521a16c94bf42e837bca2bd79b36a39a3d86d0 qa8.deb \
+             2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad native12.deb \
+             7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c sideplay104.deb | shasum -a 256 -c -)
+      - name: Audit EVERY extracted file and compare binaries + filters
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$RUNNER_TEMP/forensic"
+          python3 sideplay/tools/audit_qa8_vs_native12_packages.py \
+            --qa8 "$SRC/qa8.deb" \
+            --qa8-sha256 e14a3c8fe9ae6ee44b6dae6fb4521a16c94bf42e837bca2bd79b36a39a3d86d0 \
+            --native12 "$SRC/native12.deb" \
+            --native12-sha256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad \
+            --sideplay104 "$SRC/sideplay104.deb" \
+            --sideplay104-sha256 7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c \
+            --out sideplay/audit/qa8-vs-native12-20261018
+          ls -lah sideplay/audit/qa8-vs-native12-20261018/
+          sed -n '1,130p' sideplay/audit/qa8-vs-native12-20261018/REPORT.md
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA8-Native12-3DEB-forensics
+          path: sideplay/audit/qa8-vs-native12-20261018/
+          retention-days: 90
+      - name: Persist audited manifests and report to project branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/audit/qa8-vs-native12-20261018/
+          if git diff --cached --quiet; then
+            echo 'AUDIT_OUTPUT_ALREADY_UNCHANGED'
+            exit 0
+          fi
+          git commit -m 'audit(sideplay): persist verified QA8 vs Native12 vs SidePlay DEB inventories [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin feature/duoface-native12-qa8-late-host-bootstrap
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-native12-qa8-late-host-bootstrap; then
+              echo 'FORENSIC_AUDIT_PERSISTED_GITHUB'
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'FORENSIC_AUDIT_PUSH_FAILED' >&2
+          exit 1
