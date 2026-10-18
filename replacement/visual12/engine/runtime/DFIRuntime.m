@@ -90,6 +90,7 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
 @property(nonatomic) CGSize appliedSize;
 @property(nonatomic) NSUInteger attempts;
 @property(nonatomic) BOOL closed;
+@property(nonatomic) BOOL sceneReadyNotified;
 @end
 
 @implementation DFV12SceneHost
@@ -158,6 +159,18 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     [container addSubview:self.controller.view];
     [self.controller didMoveToParentViewController:parent];
     if(self.handle) @synchronized(DFIHostedScenes) { [DFIHandleOwners setObject:self forKey:self.handle]; }
+    // Geometry must be established BEFORE requesting a scene, as in original
+    // CBBridgedUIAppView.updateLayout / updateSceneSettingsFrame.
+    CGSize paneSize=container.bounds.size;
+    if(paneSize.width<=0 || paneSize.height<=0){
+        DFILog([NSString stringWithFormat:@"QA attach deferred empty pane bundle=%@ bounds=%@",
+            self.bundleID,NSStringFromCGRect(container.bounds)]);
+        // The independent caller must attach only after layout has a nonzero frame.
+        return;
+    }
+    [self resizeTo:paneSize];
+    DFILog([NSString stringWithFormat:@"QA scene mode request bundle=%@ pane=%@ native=%@",
+        self.bundleID,NSStringFromCGSize(paneSize),NSStringFromCGSize(self.requestedSize)]);
     [self.controller beginAppearanceTransition:YES animated:NO];
     DFIInteger(self.controller,@"setRequestedMode:",2);
     [self.controller endAppearanceTransition];
@@ -198,10 +211,17 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
                         }
                     }
                 }
-                DFILog([NSString stringWithFormat:@"scene attached bundle=%@ class=%@",self.bundleID,NSStringFromClass([scene class])]);
-                if(self.ready) self.ready();
+                DFILog([NSString stringWithFormat:@"scene attached bundle=%@ class=%@ geometry=%@",
+                    self.bundleID,NSStringFromClass([scene class]),NSStringFromCGSize(self.requestedSize)]);
             }
             if(!CGSizeEqualToSize(self.appliedSize,self.requestedSize)) [self applySize];
+            if(!self.sceneReadyNotified && self.requestedSize.width>0 && self.requestedSize.height>0 &&
+               CGSizeEqualToSize(self.appliedSize,self.requestedSize)) {
+                self.sceneReadyNotified=YES;
+                DFILog([NSString stringWithFormat:@"QA scene ready bundle=%@ pane=%@",
+                    self.bundleID,NSStringFromCGSize(self.requestedSize)]);
+                if(self.ready) self.ready();
+            }
             return;
         }
         if(self.scene || ++self.attempts>48) {
@@ -219,11 +239,15 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
 }
 - (void)resizeTo:(CGSize)size {
     if(self.closed || size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
-    if(CGSizeEqualToSize(self.requestedSize,size)) { DFIPerfCount(@"resize_skipped"); return; }
+    if(CGSizeEqualToSize(self.requestedSize,size) &&
+       CGSizeEqualToSize(self.appliedSize,size) && self.deviceController) {
+        DFIPerfCount(@"resize_skipped"); return;
+    }
     DFIPerfCount(@"resize_applied");
     self.requestedSize=size;
-    // Render at twice the pane's logical size, then scale uniformly. This keeps
-    // text usable without stretching either axis and preserves UIKit hit testing.
+    // Original DuoNavi 1.0.4 calculateNativeSizeForSlotRect: does exactly
+    // round(slot.width*2), round(slot.height*2), returning CGSizeZero if invalid.
+    // Do NOT change 2x as a speculative correction of cramped app UI.
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     NSInteger orientation=logical.width>=logical.height ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait;
     @try {
@@ -246,6 +270,9 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     view.bounds=(CGRect){CGPointZero,logical};
     view.center=CGPointMake(size.width/2,size.height/2);
     view.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
+    DFILog([NSString stringWithFormat:@"QA geometry bundle=%@ pane=%@ native=%@ scale=%.3f/%.3f",
+        self.bundleID,NSStringFromCGSize(size),NSStringFromCGSize(logical),
+        size.width/logical.width,size.height/logical.height]);
     if(self.scene && !CGSizeEqualToSize(self.appliedSize,size)) [self applySize];
 }
 - (void)applySize {
@@ -264,6 +291,8 @@ static DFCarPlayQARootController *DFIQARoot; // Uses DFIWindow; never a second o
     }
     ((void(*)(id,SEL,id,id,id))objc_msgSend)(self.scene,update,settings,nil,nil);
     self.appliedSize=self.requestedSize;
+    DFILog([NSString stringWithFormat:@"QA scene frame applied bundle=%@ frame=%@",
+        self.bundleID,NSStringFromCGRect((CGRect){CGPointZero,logical})]);
     DFIPerfCount(@"scene_updates");
 }
 - (void)close {
