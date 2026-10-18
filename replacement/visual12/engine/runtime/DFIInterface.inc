@@ -306,11 +306,20 @@ static NSArray *DFIAvailableApps(void) {
   CGFloat relative=DFIClamp([self.dividerLogoPositions[i] doubleValue],.1,.9);
   if(vertical){
    self.lines[i].frame=CGRectMake(r.origin.x-8,r.origin.y,16,r.size.height);
-   self.grips[i].frame=CGRectMake(r.origin.x-18,r.origin.y+relative*r.size.height-22,36,44);
   }else{
    self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);
-   self.grips[i].frame=CGRectMake(r.origin.x+relative*r.size.width-22,r.origin.y-18,44,36);
   }
+  // Actual Native12 CBDividerView.updateGripLayout (0xff4b4..0xff4d0):
+  // side=28pt when the divider's SHORT bounds axis <280pt, else 30pt.
+  // Verified native Mach-O literal at 0x312488; original move buttons are
+  // square (d2=d3=d8 at the setFrame: call 0xff6c0). Do not confuse
+  // the button's visible frame with the wider independent pan-track.
+  CGFloat shortAxis=vertical?CGRectGetWidth(self.lines[i].bounds):
+                             CGRectGetHeight(self.lines[i].bounds);
+  CGFloat side=shortAxis<280.0?28.0:30.0;
+  self.grips[i].frame=vertical?
+    CGRectMake(r.origin.x-side/2.0,r.origin.y+relative*r.size.height-side/2.0,side,side):
+    CGRectMake(r.origin.x+relative*r.size.width-side/2.0,r.origin.y-side/2.0,side,side);
   [(DFINativeDividerTrack *)self.lines[i] positionStrokeVertically:vertical];
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
