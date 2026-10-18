@@ -1,0 +1,48 @@
+name: Native104 original layout evidence
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-native104-geometry-audit.yml'
+      - 'sideplay/native104-geometry/tools/audit_native104_geometry.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native104-geometry-trace
+  cancel-in-progress: false
+jobs:
+  audit-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check disassembler availability
+        run: |
+          set -euo pipefail
+          if ! command -v llvm-objdump >/dev/null && ! command -v llvm-objdump-18 >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm
+          fi
+      - name: Extract original DuoNavi1.0.4 and trace geometry IMPs
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/native104-geometry/tools/audit_native104_geometry.py
+          python3 sideplay/native104-geometry/tools/audit_native104_geometry.py | tee /tmp/native104-geometry-summary.txt
+          test -s sideplay/native104-geometry/audit/original104-geometry-methods.json
+      - name: Persist static original layout evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- sideplay/native104-geometry/audit/original104-geometry-methods.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(native104): preserve geometry method evidence [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native104-original-geometry
+          path: sideplay/native104-geometry/audit/original104-geometry-methods.json
+          if-no-files-found: warn
