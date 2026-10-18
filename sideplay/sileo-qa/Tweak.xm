@@ -31,6 +31,8 @@
 - (UIView *)chipView;
 - (UIView *)layoutButton;
 - (id)appViewController;
+- (NSInteger)scaleMode;
+- (void)layoutInFrame:(CGRect)frame scaleMode:(NSInteger)mode;
 @end
 
 static __weak UIWindow *DFSPWindow;
@@ -39,6 +41,9 @@ static DFSPNativeFrame *DFSPUI;
 static id<DFSPNativeFrameDelegate> DFSPAdapter;
 static BOOL DFSPRefreshing=NO;
 static BOOL DFSPUpdatingRatio=NO;
+static BOOL DFSPApplyingPaneFocus=NO;
+static NSInteger DFSPFocusedSlot=-1;
+static NSMapTable<UIView *, NSNumber *> *DFSPFocusedHiddenViews;
 static void DFSPRefresh(void);
 static CGFloat DFSPOriginalLevel;
 static CGRect DFSPOriginalFrame;
@@ -219,6 +224,53 @@ static CGRect DFSPPaneRect(SPPane *pane) {
         return CGRectZero;
     return [view.superview convertRect:view.frame toView:DFSPUI];
 }
+// Focus/restore only ONE actual SidePlay-hosted SPPane. Split ratio is not
+// changed; no CB binary is linked. Device resize/touch correctness is pending.
+static void DFSPRestorePaneVisibility(void) {
+    NSEnumerator *it=[DFSPFocusedHiddenViews keyEnumerator];
+    UIView *v=nil;
+    while ((v=[it nextObject])) {
+        NSNumber *original=[DFSPFocusedHiddenViews objectForKey:v];
+        if (original) v.hidden=original.boolValue;
+    }
+    [DFSPFocusedHiddenViews removeAllObjects];
+    DFSPFocusedHiddenViews=nil;
+}
+static BOOL DFSPApplyPaneFocus(void) {
+    if (DFSPFocusedSlot<0 || !DFSPWindow || !DFSPUI ||
+        DFSPApplyingPaneFocus) return NO;
+    NSArray *panes=DFSPPanes();
+    if(panes.count<2 || DFSPFocusedSlot>1)return NO;
+    SPPane *one=panes[0],*two=panes[1];
+    UIView *v0=[one view],*v1=[two view];
+    if(!v0 || !v1 || !v0.superview || !v1.superview ||
+       v0.window!=DFSPWindow || v1.window!=DFSPWindow)return NO;
+    // Geometry is the union of the REAL split panes, not window fullscreen.
+    CGRect full=CGRectUnion(DFSPPaneRect(one),DFSPPaneRect(two));
+    if (!DFSPRectOK(full))return NO;
+    SPPane *active=panes[(NSUInteger)DFSPFocusedSlot];
+    UIView *activeView=[active view];
+    CGRect owned=[activeView.superview convertRect:full fromView:DFSPUI];
+    if (!DFSPRectOK(owned))return NO;
+    DFSPApplyingPaneFocus=YES;
+    [active layoutInFrame:owned scaleMode:[active scaleMode]];
+    if (!DFSPFocusedHiddenViews)
+        DFSPFocusedHiddenViews=[NSMapTable weakToStrongObjectsMapTable];
+    UIView *other=(DFSPFocusedSlot==0)?v1:v0;
+    if(![DFSPFocusedHiddenViews objectForKey:other])
+        [DFSPFocusedHiddenViews setObject:@(other.hidden) forKey:other];
+    other.hidden=YES;
+    DFSPUI.focusedSlot=DFSPFocusedSlot;
+    DFSPApplyingPaneFocus=NO;
+    return YES;
+}
+static void DFSPClearPaneFocus(BOOL updateLayout) {
+    DFSPFocusedSlot=-1;
+    DFSPUI.focusedSlot=-1;
+    DFSPRestorePaneVisibility();
+    if(updateLayout && DFSPManager && !DFSPApplyingPaneFocus)
+        [DFSPManager layout:NO]; // host restores both real app scene frames
+}
 static void DFSPRefresh(void) {
     if (!DFSPUI || !DFSPManager || !DFSPWindow ||
         DFSPRefreshing || DFSPUpdatingRatio)return;
@@ -242,6 +294,7 @@ static void DFSPRefresh(void) {
         DFSPHideReplacedView([pane layoutButton]);
         if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
+    DFSPUI.focusedSlot=DFSPFocusedSlot;
     DFSPUI.frame=DFSPWindow.bounds;
     [DFSPUI updateFirst:one second:two
         hasFirstApp:firstApp hasSecondApp:secondApp
@@ -253,6 +306,25 @@ static void DFSPRefresh(void) {
 @interface DFSPNativeAdapter : NSObject <DFSPNativeFrameDelegate>
 @end
 @implementation DFSPNativeAdapter
+- (void)nativeFrameRequestedFocusForSlot:(NSInteger)slot {
+    if (slot<0 || slot>1 || !DFSPManager || DFSPFocusedSlot>=0)return;
+    // Ensure host starts from a valid SidePlay two-pane scene/layout.
+    DFSPFocusedSlot=slot;
+    if (!DFSPApplyPaneFocus()) {
+        DFSPClearPaneFocus(NO);
+        DFSPLog(@"Native12 focus refused: invalid real pane geometry");
+        return;
+    }
+    DFSPLog([NSString stringWithFormat:
+            @"Native12 focus slot=%ld using real SPPane layoutInFrame:",(long)slot]);
+    DFSPRefresh();
+}
+- (void)nativeFrameRequestedRestoreForSlot:(NSInteger)slot {
+    if (slot!=DFSPFocusedSlot || !DFSPManager)return;
+    DFSPClearPaneFocus(YES);
+    DFSPRefresh();
+    DFSPLog([NSString stringWithFormat:@"Native12 restore slot=%ld",(long)slot]);
+}
 - (void)nativeFrameRequestedAppForSlot:(NSInteger)slot {
     NSArray *panes=DFSPPanes();
     if(slot>=0 && slot<(NSInteger)panes.count) {
@@ -309,6 +381,7 @@ static void DFSPRemove(void) {
         oldWindow.windowLevel=DFSPOriginalLevel;
         oldWindow.frame=DFSPOriginalFrame;
     }
+    DFSPClearPaneFocus(YES);
     [DFSPUI resetForDisconnect];
     DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
     DFSPUI=nil;
@@ -342,6 +415,8 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPManager=owner;
     DFSPFull=NO;
     DFSPApplying=NO;
+    DFSPFocusedSlot=-1;
+    DFSPRestorePaneVisibility();
     DFSPLayoutCalls=0;
     DFSPAdapter=[DFSPNativeAdapter new];
     DFSPUI=[[DFSPNativeFrame alloc]initWithFrame:window.bounds];
@@ -393,7 +468,13 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 }
 - (void)layout:(BOOL)animated {
     %orig(animated);
-    if (DFSPManager==self && !DFSPApplying) DFSPRefresh();
+    // Old SidePlay may relayout on rotation, ratio/style and scene updates.
+    // Re-apply owner-visible focused pane after the original host layout.
+    if (DFSPManager==self && !DFSPApplying && !DFSPApplyingPaneFocus) {
+        if (DFSPFocusedSlot>=0 && !DFSPApplyPaneFocus())
+            DFSPClearPaneFocus(NO);
+        DFSPRefresh();
+    }
 }
 - (void)layoutRootView {
     // Old host/layout still renders app content, but cannot own NORMAL frame.
