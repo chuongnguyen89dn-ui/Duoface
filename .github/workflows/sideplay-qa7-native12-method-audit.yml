@@ -1,0 +1,90 @@
+name: QA7 installed versus Native12 complete method ABI audit
+on:
+  push:
+    branches: [feature/duoface-native12-qa8-late-host-bootstrap]
+    paths:
+      - '.github/workflows/sideplay-qa7-native12-method-audit.yml'
+      - 'sideplay/tools/audit_qa7_native12_method_abis.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-qa7-native12-method-audit
+  cancel-in-progress: false
+jobs:
+  inspect-all-functions:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install package tooling
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          xcrun --find otool
+      - name: Stage EXACT QA7 as installed / approved Native12 / SidePlay 1.0.4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/inspect"
+          cp 'sideplay/artifacts/native12visual7/com.duoface.sideplaydisplay_0.1.5~native12visual7_iphoneos-arm64.deb' "$RUNNER_TEMP/inspect/qa7.deb"
+          curl -fL --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/inspect/native12.deb"
+          curl -fL --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/acae0bd11887d1acd6260a309017825b64391b9d/com.sideplay_1.0.4-1_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/inspect/sideplay104.deb"
+          cd "$RUNNER_TEMP/inspect"
+          printf '%s  %s\n' \
+            c221584b16af24f844dbb968d90ffbcd6efbbc64a312a6582d955fc45348901d qa7.deb \
+            2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad native12.deb \
+            7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c sideplay104.deb | shasum -a 256 -c -
+          echo QA7_NATIVE12_SIDEPLAY_EXACT_DEBS_SHA256_PASS
+      - name: Dump all class methods, IMPs, function starts, symbols and raw otool metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$RUNNER_TEMP/inspect"
+          python3 sideplay/tools/audit_qa7_native12_method_abis.py \
+            --qa7 "$SRC/qa7.deb" \
+            --qa7-sha256 c221584b16af24f844dbb968d90ffbcd6efbbc64a312a6582d955fc45348901d \
+            --native12 "$SRC/native12.deb" \
+            --native12-sha256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad \
+            --sideplay104 "$SRC/sideplay104.deb" \
+            --sideplay104-sha256 7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c \
+            --out 'sideplay/audit/qa7-vs-native12-methods-20261018'
+          head -55 'sideplay/audit/qa7-vs-native12-methods-20261018/METHOD_AUDIT.md'
+      - name: Upload unabridged raw ObjC metadata and full method report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-QA7-Native12-all-methods
+          path: sideplay/audit/qa7-vs-native12-methods-20261018/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Commit full method index and comparative report
+        shell: bash
+        run: |
+          set -euo pipefail
+          DIR='sideplay/audit/qa7-vs-native12-methods-20261018'
+          test -s "$DIR/METHOD_AUDIT.md"
+          test -s "$DIR/method-index.json"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$DIR/METHOD_AUDIT.md" "$DIR/method-index.json" "$DIR/summary.json"
+          if git diff --cached --quiet; then
+            echo METHOD_SCAN_ALREADY_PERSISTED
+            exit 0
+          fi
+          git commit -m 'audit(sideplay): persist QA7 installed vs Native12 method-level evidence [skip ci]'
+          for n in 1 2 3 4; do
+            git fetch origin feature/duoface-native12-qa8-late-host-bootstrap
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-native12-qa8-late-host-bootstrap; then
+              echo QA7_NATIVE12_METHOD_INDEX_PERSISTED_GITHUB
+              exit 0
+            fi
+            sleep 2
+          done
+          echo METHOD_INDEX_PERSIST_FAILED >&2
+          exit 1
