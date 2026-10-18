@@ -19,7 +19,7 @@ checks={
  "no_window_contraction_during_normal": "window.frame=desired;" not in t and
     "window.frame=normal" not in t and "oldWindow.frame=DFSPOriginalFrame;" in t,
  "no_unverified_dock_prefs_override": "- (BOOL)carDockMode {" not in t and
-    "- (CGRect)carWindowFrameNow {" not in t and "- (void)setCarWindowFrame:" not in t,
+    "- (CGRect)carWindowFrameNow {" not in t and "- (void)setCarWindowFrame:(CGRect)frame {" not in t,
  "safebounds_in_window_coords": 'CGRect screenRect=window.bounds;' in t and
     'CGRectContainsRect(screenRect, usable)' in t,
  "original_window_presentation_rollback": all(x in t for x in
