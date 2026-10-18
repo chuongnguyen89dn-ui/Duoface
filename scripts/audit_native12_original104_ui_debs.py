@@ -144,6 +144,15 @@ def inspect_methods(meta,asm):
                     ("CBMultitaskingOverlayView","layoutSubviews"),
                     ("CBBridgedSplitApp","layoutSplitViews"),
                  } else {}),
+                 **({"mode_setter_windows":[{"address":row.split(":")[0],
+                       "selector":next((v for v in
+                          ("setFocusedMode:","setShowsExpandButton:","setCompactMode:")
+                          if "Objc selector ref: "+v in row),""),
+                       "asm":instr[max(0,i-28):min(len(instr),i+36)]}
+                     for i,row in enumerate(instr) if any(
+                     "Objc selector ref: "+v in row for v in
+                     ("setFocusedMode:","setShowsExpandButton:","setCompactMode:"))]}
+                     if cls=="CBBridgedSplitApp" and selector=="layoutSplitViews" else {}),
                  **({"sizing_raw":instr[:96]} if selector=="calculateNativeSizeForSlotRect:" else {})))
         result[cls]=dict(class_in_metadata=bool(catalog),
              catalog_methods=len(catalog),catalog_method_names=sorted(catalog.keys()),
@@ -278,6 +287,18 @@ def cli():
        "open_gates":["Original104 compact/show-expand input conditions still need full loop dataflow",
                      "Real CarPlay touch/scene/appearance cannot be established by DEB metadata"]
     }
+    mode_windows=orig_layout.get("mode_setter_windows",[])
+    if len(mode_windows)<3 or not any(x["selector"]=="setCompactMode:" for x in mode_windows):
+        raise RuntimeError("original104 layout mode setter trace incomplete")
+    mode_doc=a.out_md.parent/"ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt"
+    mode_doc.write_text("\\n".join([
+        "# READONLY ORIGINAL DUONAVI 1.0.4 PILL FLAG CONTROL FLOW",
+        "Original Dashboard SHA256 "+ORIG_DASH_SHA,
+        "CBBridgedSplitApp.layoutSplitViews IMP "+orig_layout["imp"],
+        "This is original104 FUNCTION data, NOT Native12 visual sizing.",
+        *[("\\n## "+win["selector"]+" @"+win["address"]+"\\n"+
+          "\\n".join(win["asm"])) for win in mode_windows], ""
+    ]),encoding="utf-8")
     sidecar=a.out_json.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json"
     sidecar.write_text(json.dumps(crosswalk,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     focus_md=a.out_md.parent/"FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md"
