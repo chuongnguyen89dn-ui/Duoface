@@ -93,7 +93,14 @@ class MachO:
         return None
     def val(self,va,form):
         n=struct.calcsize("<"+form);p=self.off(va,n)
-        return struct.unpack_from("<"+form,self.b,p)[0] if p is not None else None
+        v=struct.unpack_from("<"+form,self.b,p)[0] if p is not None else None
+        # iOS dyld chained fixups store high tag bits in on-disk pointers.
+        # For pointers only, canonicalize iff the raw value is unmappable and
+        # the 48-bit-address candidate maps to an actual file-backed segment.
+        if form=="Q" and v and self.off(v) is None:
+            candidate=v & 0x0000ffffffffffff
+            if self.off(candidate) is not None:return candidate
+        return v
     def st(self,va):
         p=self.off(va)
         if p is None:return None
@@ -297,6 +304,16 @@ def run(args):
         if count==0:raise RuntimeError(label+" parse zero methods; inspect raw otool instead")
     classes={m["class"] for b in result["sideplay104"] for m in b["objc_methods"]}
     if "SPDash" not in classes:raise RuntimeError("SPDash missing: full selector coverage cannot be claimed")
+    counts={label:sum(b["method_count"] for b in bins) for label,bins in result.items()}
+    by_class={label:collections.Counter(m["class"] for b in bins for m in b["objc_methods"])
+              for label,bins in result.items()}
+    assert counts["qa7"]==110, "QA7 should expose 110 methods for exact pinned binary"
+    assert counts["native12"]==1385, "Native12 expected 1385 methods for exact pinned binary"
+    assert counts["sideplay104"]==863, "SidePlay expected 863 methods for exact pinned binary"
+    assert by_class["sideplay104"]["SPDash"]==154
+    assert by_class["sideplay104"]["SPPane"]==127
+    assert by_class["native12"]["CBWindow"]==37
+    print("SOURCE_AUDIT_REFERENCE_CLASS_COUNTS_MATCH: SPDash=154 SPPane=127 CBWindow=37")
     print("QA7_NATIVE12_SIDEPLAY_METHOD_SCAN_PASS")
 if __name__=="__main__":
     p=argparse.ArgumentParser()
