@@ -1,13 +1,8 @@
-name: DuoFace QA original104 app geometry and scene lifecycle DEB
+name: DuoFace QA DEB (manual gate - Native12 shell visual parity)
+# Native12 UI shell visual parity has NOT been accepted. Do not automatically
+# emit/overwrite the last Sileo-shipped v5 DEB when source changes.
+# Only a deliberate dispatch after UI view-tree and device acceptance can package.
 on:
-  push:
-    branches: [feature/visual12-duodash-recovery]
-    paths:
-      - 'replacement/visual12/build_qa.sh'
-      - 'replacement/visual12/verify_qa.py'
-      - 'replacement/visual12/tests/**'
-      - 'replacement/visual12/engine/runtime/**'
-      - '.github/workflows/duoface-visual12-standalone-qa-deb.yml'
   workflow_dispatch:
 permissions:
   contents: write
