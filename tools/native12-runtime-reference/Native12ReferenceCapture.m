@@ -116,9 +116,19 @@ static NSDictionary *DFProbeView(UIView *v, UIWindow *w, NSUInteger depth,
     node[@"children"]=children;
     return node;
 }
-static NSArray *DFProbeScreens(void) {
+static NSArray *DFProbeScreens(UIApplication *app) {
     NSMutableArray *r=[NSMutableArray array];
-    for (UIScreen *s in UIScreen.screens) {
+    // UIKit iOS16 deprecates UIScreen.screens; enumerate scenes explicitly.
+    NSMutableOrderedSet<UIScreen *> *found=[NSMutableOrderedSet orderedSet];
+    [found addObject:UIScreen.mainScreen];
+    if (@available(iOS 13.0,*)) {
+        for (UIScene *scene in app.connectedScenes) {
+            if ([scene isKindOfClass:UIWindowScene.class] &&
+                ((UIWindowScene *)scene).screen)
+                [found addObject:((UIWindowScene *)scene).screen];
+        }
+    }
+    for (UIScreen *s in found) {
         [r addObject:@{
             @"bounds_pt":DFProbeRect(s.bounds),
             @"native_scale":@(s.nativeScale),
@@ -133,8 +143,8 @@ static void DFProbeCaptureNow(void) {
     UIApplication *app=UIApplication.sharedApplication;
     if (!app) return;
     NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSet];
-    for (UIWindow *w in app.windows)
-        if ([w isKindOfClass:UIWindow.class]) [windows addObject:w];
+    // UIWindowScene.windows is the supported iOS16 API. A special native
+    // window not registered to a scene is a coverage limitation, NOT absence.
     if (@available(iOS 13.0,*)) {
         for (UIScene *s in app.connectedScenes) {
             if (![s isKindOfClass:UIWindowScene.class]) continue;
@@ -171,7 +181,7 @@ static void DFProbeCaptureNow(void) {
         @"read_only":@YES,
         @"contains_no_view_text_or_images":@YES,
         @"note":@"Native12 UI hierarchy snapshot; does not measure on-screen visual pixels, input actions, or full software behavior",
-        @"screens":DFProbeScreens(),
+        @"screens":DFProbeScreens(app),
         @"windows":out,
         @"other_windows_not_recorded":@(skipped)
     };
