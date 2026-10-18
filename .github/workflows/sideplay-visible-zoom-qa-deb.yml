@@ -1,12 +1,14 @@
-name: SidePlay Native12 native UI center-pill focus/restore QA5 DEB
+name: DuoFace Native12 root host QA6 (experimental)
 on:
   push:
-    branches: [feature/duoface-native12-ui-on-sideplay-host]
+    branches: [feature/duoface-native12-root-geometry-qa6]
     paths:
       - '.github/workflows/sideplay-visible-zoom-qa-deb.yml'
       - 'sideplay/sileo-qa/**'
       - 'sideplay/native12-display/DFSPNativeFrame.*'
       - 'sideplay/native12-display/DFSPNativeSlotPill.*'
+      - 'sideplay/native12-display/DFSPNative12Host.*'
+      - 'sideplay/native12-display/validation/check_qa6_root_safety.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -47,6 +49,9 @@ jobs:
       - name: Enforce approved DuoFace Native12 two-pill integration
         shell: bash
         run: python3 sideplay/native12-display/validation/check_duoface_qa5_parity.py
+      - name: Prevent unsafe window shrinking and duplicated controls
+        shell: bash
+        run: python3 sideplay/native12-display/validation/check_qa6_root_safety.py
       - name: Build independent SidePlay Native12 frame and split drag (no vendor binary)
         shell: bash
         run: |
@@ -62,7 +67,7 @@ jobs:
           pkg="$(find sideplay/sileo-qa/packages -maxdepth 1 -type f -name '*.deb' | head -1)"
           test -s "$pkg"
           test "$(dpkg-deb -f "$pkg" Package)" = "com.duoface.sideplaydisplay"
-          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.3~native12ui5"
+          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.4~native12root6"
           test "$(dpkg-deb -f "$pkg" Architecture)" = "iphoneos-arm64"
           dpkg-deb -c "$pkg" | tee "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           grep -F 'DuoFaceSidePlayDisplayQA.dylib' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
@@ -72,35 +77,35 @@ jobs:
           done
           ! grep -Ei 'DuoFaceDashboard|DuoNavi|SidePlay.dylib|SidePlay.app|SidePlayHUD|DFSpeedNative' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           ! dpkg-deb -f "$pkg" Conflicts | grep -Eiq 'com.duoface.independent|com.duoface.visual12'
-          mkdir -p sideplay/artifacts/native12ui5
-          cp "$pkg" sideplay/artifacts/native12ui5/com.duoface.sideplaydisplay_0.1.3~native12ui5_iphoneos-arm64.deb
-          (cd sideplay/artifacts/native12ui5 && shasum -a 256 *.deb > SHA256SUMS.txt)
-          cat sideplay/artifacts/native12ui5/SHA256SUMS.txt
+          mkdir -p sideplay/artifacts/native12root6
+          cp "$pkg" sideplay/artifacts/native12root6/com.duoface.sideplaydisplay_0.1.4~native12root6_iphoneos-arm64.deb
+          (cd sideplay/artifacts/native12root6 && shasum -a 256 *.deb > SHA256SUMS.txt)
+          cat sideplay/artifacts/native12root6/SHA256SUMS.txt
       - name: Upload test DEB
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFace-SidePlay-Native12-UI-QA5
-          path: sideplay/artifacts/native12ui5/
+          name: DuoFace-Native12-Root-Host-QA6
+          path: sideplay/artifacts/native12root6/
       - name: Persist QA artifact to development branch for Sileo pinning
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- sideplay/artifacts/native12ui5/
+          git add -- sideplay/artifacts/native12root6/
           if ! git diff --cached --quiet; then
-            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA5 artifact [skip ci]'
+            git commit -m 'artifact(sideplay): preserve SidePlay Native12 QA6 artifact [skip ci]'
             # Parallel UI work may advance this branch while macOS builds.
             # Replay the artifact-only commit on latest remote before pushing.
             for attempt in 1 2 3 4 5; do
-              git fetch origin feature/duoface-native12-ui-on-sideplay-host
+              git fetch origin feature/duoface-native12-root-geometry-qa6
               git rebase FETCH_HEAD
-              if git push origin HEAD:feature/duoface-native12-ui-on-sideplay-host; then
-                echo 'QA5_ARTIFACT_PUSH_VERIFIED'
+              if git push origin HEAD:feature/duoface-native12-root-geometry-qa6; then
+                echo 'QA6_ARTIFACT_PUSH_VERIFIED'
                 exit 0
               fi
               sleep 2
             done
-            echo 'QA5_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
+            echo 'QA6_ARTIFACT_PUSH_FAILED_AFTER_RETRIES' >&2
             exit 1
           fi
