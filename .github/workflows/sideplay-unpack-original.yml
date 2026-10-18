@@ -1,0 +1,60 @@
+name: SidePlay unpack original DEB to repository
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sideplay-unpack-original.yml'
+      - 'sideplay/tools/extract_sideplay_deb.py'
+      - 'com.sideplay_1.0.4-1_iphoneos-arm64.deb'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sideplay-unpack-original-main
+  cancel-in-progress: false
+
+jobs:
+  unpack-original:
+    name: Static unpack and commit (no installation / no build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Verify exact original and unpack without running binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f com.sideplay_1.0.4-1_iphoneos-arm64.deb
+          python3 -m py_compile sideplay/tools/extract_sideplay_deb.py
+          python3 sideplay/tools/extract_sideplay_deb.py --deb com.sideplay_1.0.4-1_iphoneos-arm64.deb
+          test -s sideplay/audit/deb-1.0.4-1/inventory.json
+          test -s sideplay/audit/deb-1.0.4-1/SHA256SUMS.txt
+      - name: Save unpacked files and full static inventory to GitHub
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- sideplay/extracted-1.0.4-1 sideplay/audit/deb-1.0.4-1
+          if git diff --cached --quiet; then
+            echo 'No unpacked changes to commit.'
+          else
+            git commit -m 'audit(sideplay): preserve full DEB payload, control, file hashes and Mach-O inventory [skip ci]'
+            git push origin HEAD:main
+          fi
+      - name: Upload forensic evidence even if repository push fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sideplay-1041-unpacked-static-evidence
+          path: |
+            sideplay/extracted-1.0.4-1/
+            sideplay/audit/deb-1.0.4-1/
+          if-no-files-found: warn
+          retention-days: 30
