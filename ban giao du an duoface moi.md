@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Ghi mã GitHub hoạt động trở lại: static UI baseline guard
+
+- Người dùng yêu cầu thử lại sau khi thao tác ghi mã bị chặn.
+- ĐÃ COMMIT mã nguồn test `replacement/visual12/verify_full_ui_parity.py` trên branch `feature/visual12-duodash-recovery`, commit `7a3507483b27297343918090c9a13768b0179dd1`; đọc lại file qua GitHub xác nhận nội dung.
+- Script xác minh dấu mốc UI gốc `DFV12SplitController`, `DFV12List`, layout 1–8, ba vùng, toolbar, panel. Lệnh khi checkout repo: `python3 replacement/visual12/verify_full_ui_parity.py`. Chưa chạy script trong CI; đây chỉ là guard tĩnh baseline, KHÔNG phải đã ghép hoặc kiểm thử thiết bị.
+- Yêu cầu bắt buộc không đổi: tái sử dụng toàn bộ giao diện hiện tại, theo trình tự lifecycle gốc; không triển khai bản hai vùng, không sửa Native12/Hub8, chưa deploy Sileo.
+- NEXT: mở rộng gate để kiểm tra parity runtime/bridge và đọc toàn bộ luồng `DFV12SplitController` trước khi nối scene owner duy nhất, giữ tám layout và ba vùng.
+
+
 ## 2026-10-18 — YÊU CẦU MỚI THAY THẾ kế hoạch ghép 2 vùng
 
 - USER REQUIREMENT (ưu tiên cao nhất): phải ghép **giống hệt DuoFace đang sử dụng**, bao gồm mọi bố cục/vùng/menu/tính năng hiện tại; KHÔNG làm bản 2 vùng trước và KHÔNG giảm chức năng.
