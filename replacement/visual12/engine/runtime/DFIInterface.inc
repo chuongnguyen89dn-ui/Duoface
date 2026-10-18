@@ -297,13 +297,25 @@ static NSArray *DFIAvailableApps(void) {
  for(id h in self.hosts)if(h!=NSNull.null&&[[h bundleID]isEqual:bid])return;
  [self.pendingPanes addObject:@(pane)];
  NSError *error=nil;DFV12SceneHost *host=[[DFV12SceneHost alloc]initWithBundleID:bid error:&error];if(!host){[self.pendingPanes removeObject:@(pane)];[self message:error.localizedDescription?:@"Không mở được ứng dụng"];return;}
- id previous=self.hosts[pane];NSString *old=previous==NSNull.null?nil:[previous bundleID];if(previous!=NSNull.null)[previous close];self.hosts[pane]=host;
+ id previous=self.hosts[pane];NSString *old=previous==NSNull.null?nil:[previous bundleID];
+ // Transfer slot ownership before closing the previous scene so stale callbacks
+ // cannot clear the new host while original-style invalidation is in progress.
+ self.hosts[pane]=host;
+ if(previous!=NSNull.null)[previous close];
  __weak typeof(self) weak=self;__weak DFV12SceneHost *wh=host;
  host.failure=^(NSString *reason){DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i==NSNotFound||s.shuttingDown)return;[s.pendingPanes removeObject:@(pane)];s.hosts[i]=NSNull.null;s.emptyButtons[i].enabled=YES;s.emptyButtons[i].hidden=NO;[s.emptyButtons[i] setTitle:reason forState:0];};
  host.ready=^{DFV12SplitController *s=weak;DFV12SceneHost *h=wh;if(!s||!h)return;NSUInteger i=[s.hosts indexOfObjectIdenticalTo:h];if(i!=NSNotFound&&!s.shuttingDown){[s.pendingPanes removeObject:@(pane)];s.emptyButtons[i].hidden=YES;s.emptyButtons[i].enabled=YES;}};
  [self.emptyButtons[pane]setTitle:DFIT(@"Đang mở…",@"Opening…") forState:0];self.emptyButtons[pane].hidden=NO;self.emptyButtons[pane].enabled=NO;
  @try{[host attachTo:self container:self.panes[pane]];[DFIManaged addObject:bid];DFISetObject(DFIStateMonitor,@"updateInterestedBundleIDs:",DFIManaged.allObjects);[self.panes[pane]bringSubviewToFront:self.emptyButtons[pane]];[host resizeTo:self.panes[pane].bounds.size];DFIWritePreference(@[@"left",@"right",@"third"][pane],bid);}
- @catch(NSException *e){[self.pendingPanes removeObject:@(pane)];[host close];self.hosts[pane]=NSNull.null;self.emptyButtons[pane].enabled=YES;[self.emptyButtons[pane]setTitle:e.reason forState:0];}
+ @catch(NSException *e){
+     [self.pendingPanes removeObject:@(pane)];
+     if(self.hosts[pane]==host)self.hosts[pane]=NSNull.null;
+     [host close];
+     self.emptyButtons[pane].hidden=NO;
+     self.emptyButtons[pane].enabled=YES;
+     [self.emptyButtons[pane]setTitle:e.reason forState:0];
+     return;
+ }
  if(old&&[DFIPref(@"closeReplaced")boolValue])DFITerminate(old,nil,^(NSString *status){[weak message:status];});
 }
 - (void)saveLayout{DFIWritePreference(@"layout",@(self.layoutKind));DFIWritePreference(@"fraction",@(self.fraction));DFIWritePreference(@"secondary",@(self.secondary));}
