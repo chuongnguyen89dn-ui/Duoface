@@ -43,7 +43,7 @@ def read_double_vmaddr(path: Path, virtual_address: int) -> dict:
         if kind == LC_SEGMENT_64:
             if size < 72:
                 raise ValueError("invalid 64-bit segment command")
-            name = struct.unpack_from("<16s", raw, offset+8)[0].split(b"\\0")[0]
+            name = struct.unpack_from("<16s", raw, offset+8)[0].split(b"\0")[0]
             vm_start, vm_size, file_offset, file_size = struct.unpack_from(
                 "<QQQQ", raw, offset+24)
             if vm_start <= virtual_address and virtual_address + 8 <= vm_start + file_size:
@@ -100,7 +100,7 @@ def self_test() -> None:
     b=bytearray(0x3000)
     struct.pack_into("<IiiIIIII",b,0,MH_MAGIC_64,0x0100000c,0,6,1,72,0,0)
     struct.pack_into("<II16sQQQQiiII",b,32,
-        LC_SEGMENT_64,72,b"__DATA_CONST".ljust(16,b"\\0"),
+        LC_SEGMENT_64,72,b"__DATA_CONST".ljust(16,b"\0"),
         0x311000,0x2000,0x100,0x2000,7,3,0,0)
     struct.pack_into("<d",b,0x100+0x1488,32.0)
     struct.pack_into("<d",b,0x100+0x948,-12.0)
