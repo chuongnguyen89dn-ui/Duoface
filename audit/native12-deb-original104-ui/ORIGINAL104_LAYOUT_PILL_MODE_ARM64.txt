@@ -1,0 +1,202 @@
+# READONLY ORIGINAL DUONAVI 1.0.4 PILL FLAG CONTROL FLOW
+Original Dashboard SHA256 44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15
+CBBridgedSplitApp.layoutSplitViews IMP 0x10bad8
+This is original104 FUNCTION data, NOT Native12 visual sizing.
+
+## setFocusedMode: @10bd74
+10bd04:	09 09 44 f9	ldr	x9, [x8, #0x810] ; Objc selector ref: setBorderWidth:
+10bd08:	1f 20 03 d5	nop
+10bd0c:	08 e5 41 f9	ldr	x8, [x8, #0x3c8]
+10bd10:	e8 27 08 a9	stp	x8, x9, [sp, #0x80]
+10bd14:	e8 14 00 b0	adrp	x8, 669 ; 0x3a8000
+10bd18:	09 dd 43 f9	ldr	x9, [x8, #0x7b8] ; Objc selector ref: CGColor
+10bd1c:	1f 20 03 d5	nop
+10bd20:	08 11 44 f9	ldr	x8, [x8, #0x820]
+10bd24:	e8 27 07 a9	stp	x8, x9, [sp, #0x70]
+10bd28:	e8 14 00 b0	adrp	x8, 669 ; 0x3a8000
+10bd2c:	09 05 44 f9	ldr	x9, [x8, #0x808] ; Objc selector ref: setMasksToBounds:
+10bd30:	1f 20 03 d5	nop
+10bd34:	08 fd 45 f9	ldr	x8, [x8, #0xbf8]
+10bd38:	e8 67 00 f9	str	x8, [sp, #0xc8]
+10bd3c:	e8 14 00 b0	adrp	x8, 669 ; 0x3a8000
+10bd40:	08 cd 40 f9	ldr	x8, [x8, #0x198] ; Objc selector ref: bundleIdentifier
+10bd44:	e8 27 06 a9	stp	x8, x9, [sp, #0x60]
+10bd48:	e8 14 00 b0	adrp	x8, 669 ; 0x3a8000
+10bd4c:	09 75 41 f9	ldr	x9, [x8, #0x2e8] ; Objc selector ref: length
+10bd50:	1f 20 03 d5	nop
+10bd54:	08 c9 46 f9	ldr	x8, [x8, #0xd90]
+10bd58:	e8 a7 02 a9	stp	x8, x9, [sp, #0x28]
+10bd5c:	e8 14 00 b0	adrp	x8, 669 ; 0x3a8000
+10bd60:	09 bd 44 f9	ldr	x9, [x8, #0x978] ; Objc selector ref: setNeedsLayout
+10bd64:	1f 20 03 d5	nop
+10bd68:	08 6d 44 f9	ldr	x8, [x8, #0x8d8]
+10bd6c:	e8 a7 03 a9	stp	x8, x9, [sp, #0x38]
+10bd70:	e8 14 00 d0	adrp	x8, 670 ; 0x3a9000
+10bd74:	09 35 43 f9	ldr	x9, [x8, #0x668] ; Objc selector ref: setFocusedMode:
+10bd78:	1f 20 03 d5	nop
+10bd7c:	08 ed 42 f9	ldr	x8, [x8, #0x5d8]
+10bd80:	e8 27 05 a9	stp	x8, x9, [sp, #0x50]
+10bd84:	08 15 00 90	adrp	x8, 672 ; 0x3ab000
+10bd88:	09 15 00 90	adrp	x9, 672 ; 0x3ab000
+10bd8c:	0b 10 6e 1e	fmov	d11, #1.00000000
+10bd90:	8a 11 00 f0	adrp	x10, 563 ; 0x33e000
+10bd94:	4c c5 45 fd	ldr	d12, [x10, #0xb88]
+10bd98:	1f 20 03 d5	nop
+10bd9c:	4d 4d 43 fd	ldr	d13, [x10, #0x698]
+10bda0:	8a 11 00 b0	adrp	x10, 561 ; 0x33c000
+10bda4:	4e 05 44 fd	ldr	d14, [x10, #0x808]
+10bda8:	8a 11 00 f0	adrp	x10, 563 ; 0x33e000
+10bdac:	4f 01 43 fd	ldr	d15, [x10, #0x600]
+10bdb0:	16 65 81 b9	ldrsw	x22, [x8, #0x164]
+10bdb4:	3a 55 81 b9	ldrsw	x26, [x9, #0x154]
+10bdb8:	f4 7b 00 f9	str	x20, [sp, #0xf0]
+10bdbc:	f6 73 00 f9	str	x22, [sp, #0xe0]
+10bdc0:	fa 6b 00 f9	str	x26, [sp, #0xd0]
+10bdc4:	fb e7 0a a9	stp	x27, x25, [sp, #0xa8]
+10bdc8:	60 6a 7b f8	ldr	x0, [x19, x27]
+10bdcc:	e1 03 14 aa	mov	x1, x20
+10bdd0:	e2 03 18 aa	mov	x2, x24
+10bdd4:	6b 1e 08 94	bl	0x313780 ; Objc message: -[x0 setFocusedMode:]
+10bdd8:	fd 03 1d aa	mov	x29, x29
+10bddc:	81 1e 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+10bde0:	f5 03 00 aa	mov	x21, x0
+10bde4:	60 6a 76 f8	ldr	x0, [x19, x22]
+10bde8:	e1 03 17 aa	mov	x1, x23
+10bdec:	65 1e 08 94	bl	0x313780 ; Objc message: -[x0 setFocusedMode:]
+10bdf0:	1f 03 00 eb	cmp	x24, x0
+10bdf4:	22 01 00 54	b.hs	0x10be18
+10bdf8:	60 6a 76 f8	ldr	x0, [x19, x22]
+10bdfc:	e1 03 14 aa	mov	x1, x20
+10be00:	e2 03 18 aa	mov	x2, x24
+
+## setShowsExpandButton: @10c584
+10c514:	0a 09 44 f9	ldr	x10, [x8, #0x810] ; Objc selector ref: setBorderWidth:
+10c518:	1f 20 03 d5	nop
+10c51c:	08 e5 41 f9	ldr	x8, [x8, #0x3c8]
+10c520:	e8 2b 09 a9	stp	x8, x10, [sp, #0x90]
+10c524:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c528:	0a dd 43 f9	ldr	x10, [x8, #0x7b8] ; Objc selector ref: CGColor
+10c52c:	1f 20 03 d5	nop
+10c530:	08 11 44 f9	ldr	x8, [x8, #0x820]
+10c534:	e8 2b 08 a9	stp	x8, x10, [sp, #0x80]
+10c538:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c53c:	08 05 44 f9	ldr	x8, [x8, #0x808] ; Objc selector ref: setMasksToBounds:
+10c540:	e8 3f 00 f9	str	x8, [sp, #0x78]
+10c544:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c548:	0a 31 43 f9	ldr	x10, [x8, #0x660] ; Objc selector ref: setAudioOnlyBackgroundMode:
+10c54c:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c550:	08 cd 40 f9	ldr	x8, [x8, #0x198] ; Objc selector ref: bundleIdentifier
+10c554:	e8 2b 05 a9	stp	x8, x10, [sp, #0x50]
+10c558:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c55c:	0a 75 41 f9	ldr	x10, [x8, #0x2e8] ; Objc selector ref: length
+10c560:	1f 20 03 d5	nop
+10c564:	08 c5 46 f9	ldr	x8, [x8, #0xd88]
+10c568:	e8 ab 00 a9	stp	x8, x10, [sp, #0x8]
+10c56c:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c570:	0a bd 44 f9	ldr	x10, [x8, #0x978] ; Objc selector ref: setNeedsLayout
+10c574:	1f 20 03 d5	nop
+10c578:	08 6d 44 f9	ldr	x8, [x8, #0x8d8]
+10c57c:	e8 ab 01 a9	stp	x8, x10, [sp, #0x18]
+10c580:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c584:	0a 4d 42 f9	ldr	x10, [x8, #0x498] ; Objc selector ref: setShowsExpandButton:
+10c588:	1f 20 03 d5	nop
+10c58c:	08 35 43 f9	ldr	x8, [x8, #0x668]
+10c590:	e8 2b 04 a9	stp	x8, x10, [sp, #0x40]
+10c594:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c598:	08 ed 42 f9	ldr	x8, [x8, #0x5d8] ; Objc selector ref: setCompactMode:
+10c59c:	e8 1f 00 f9	str	x8, [sp, #0x38]
+10c5a0:	b5 d2 41 f9	ldr	x21, [x21, #0x3a0]
+10c5a4:	88 11 00 d0	adrp	x8, 562 ; 0x33e000
+10c5a8:	09 c5 45 fd	ldr	d9, [x8, #0xb88]
+10c5ac:	1f 20 03 d5	nop
+10c5b0:	0b 4d 43 fd	ldr	d11, [x8, #0x698]
+10c5b4:	88 11 00 90	adrp	x8, 560 ; 0x33c000
+10c5b8:	0c 05 44 fd	ldr	d12, [x8, #0x808]
+10c5bc:	88 11 00 d0	adrp	x8, 562 ; 0x33e000
+10c5c0:	0d 01 43 fd	ldr	d13, [x8, #0x600]
+10c5c4:	1f 20 03 d5	nop
+10c5c8:	00 f5 45 fd	ldr	d0, [x8, #0xbe8]
+10c5cc:	e0 1b 00 fd	str	d0, [sp, #0x30]
+10c5d0:	68 fd 43 f9	ldr	x8, [x11, #0x7f8]
+10c5d4:	e8 8b 00 f9	str	x8, [sp, #0x110]
+10c5d8:	28 fd 45 f9	ldr	x8, [x9, #0xbf8]
+10c5dc:	e8 d7 06 a9	stp	x8, x21, [sp, #0x68]
+10c5e0:	f8 67 00 f9	str	x24, [sp, #0xc8]
+10c5e4:	e0 03 1a aa	mov	x0, x26
+10c5e8:	e1 03 19 aa	mov	x1, x25
+10c5ec:	65 1c 08 94	bl	0x313780 ; Objc message: -[x0 setCompactMode:]
+10c5f0:	9f 02 00 eb	cmp	x20, x0
+10c5f4:	62 26 00 54	b.hs	0x10cac0
+10c5f8:	e0 03 1a aa	mov	x0, x26
+10c5fc:	f5 77 40 f9	ldr	x21, [sp, #0xe8]
+10c600:	e1 03 15 aa	mov	x1, x21
+10c604:	e2 03 14 aa	mov	x2, x20
+10c608:	5e 1c 08 94	bl	0x313780 ; Objc message: -[x0 setCompactMode:]
+10c60c:	fd 03 1d aa	mov	x29, x29
+10c610:	74 1c 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+
+## setCompactMode: @10c598
+10c528:	0a dd 43 f9	ldr	x10, [x8, #0x7b8] ; Objc selector ref: CGColor
+10c52c:	1f 20 03 d5	nop
+10c530:	08 11 44 f9	ldr	x8, [x8, #0x820]
+10c534:	e8 2b 08 a9	stp	x8, x10, [sp, #0x80]
+10c538:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c53c:	08 05 44 f9	ldr	x8, [x8, #0x808] ; Objc selector ref: setMasksToBounds:
+10c540:	e8 3f 00 f9	str	x8, [sp, #0x78]
+10c544:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c548:	0a 31 43 f9	ldr	x10, [x8, #0x660] ; Objc selector ref: setAudioOnlyBackgroundMode:
+10c54c:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c550:	08 cd 40 f9	ldr	x8, [x8, #0x198] ; Objc selector ref: bundleIdentifier
+10c554:	e8 2b 05 a9	stp	x8, x10, [sp, #0x50]
+10c558:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c55c:	0a 75 41 f9	ldr	x10, [x8, #0x2e8] ; Objc selector ref: length
+10c560:	1f 20 03 d5	nop
+10c564:	08 c5 46 f9	ldr	x8, [x8, #0xd88]
+10c568:	e8 ab 00 a9	stp	x8, x10, [sp, #0x8]
+10c56c:	e8 14 00 90	adrp	x8, 668 ; 0x3a8000
+10c570:	0a bd 44 f9	ldr	x10, [x8, #0x978] ; Objc selector ref: setNeedsLayout
+10c574:	1f 20 03 d5	nop
+10c578:	08 6d 44 f9	ldr	x8, [x8, #0x8d8]
+10c57c:	e8 ab 01 a9	stp	x8, x10, [sp, #0x18]
+10c580:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c584:	0a 4d 42 f9	ldr	x10, [x8, #0x498] ; Objc selector ref: setShowsExpandButton:
+10c588:	1f 20 03 d5	nop
+10c58c:	08 35 43 f9	ldr	x8, [x8, #0x668]
+10c590:	e8 2b 04 a9	stp	x8, x10, [sp, #0x40]
+10c594:	e8 14 00 b0	adrp	x8, 669 ; 0x3a9000
+10c598:	08 ed 42 f9	ldr	x8, [x8, #0x5d8] ; Objc selector ref: setCompactMode:
+10c59c:	e8 1f 00 f9	str	x8, [sp, #0x38]
+10c5a0:	b5 d2 41 f9	ldr	x21, [x21, #0x3a0]
+10c5a4:	88 11 00 d0	adrp	x8, 562 ; 0x33e000
+10c5a8:	09 c5 45 fd	ldr	d9, [x8, #0xb88]
+10c5ac:	1f 20 03 d5	nop
+10c5b0:	0b 4d 43 fd	ldr	d11, [x8, #0x698]
+10c5b4:	88 11 00 90	adrp	x8, 560 ; 0x33c000
+10c5b8:	0c 05 44 fd	ldr	d12, [x8, #0x808]
+10c5bc:	88 11 00 d0	adrp	x8, 562 ; 0x33e000
+10c5c0:	0d 01 43 fd	ldr	d13, [x8, #0x600]
+10c5c4:	1f 20 03 d5	nop
+10c5c8:	00 f5 45 fd	ldr	d0, [x8, #0xbe8]
+10c5cc:	e0 1b 00 fd	str	d0, [sp, #0x30]
+10c5d0:	68 fd 43 f9	ldr	x8, [x11, #0x7f8]
+10c5d4:	e8 8b 00 f9	str	x8, [sp, #0x110]
+10c5d8:	28 fd 45 f9	ldr	x8, [x9, #0xbf8]
+10c5dc:	e8 d7 06 a9	stp	x8, x21, [sp, #0x68]
+10c5e0:	f8 67 00 f9	str	x24, [sp, #0xc8]
+10c5e4:	e0 03 1a aa	mov	x0, x26
+10c5e8:	e1 03 19 aa	mov	x1, x25
+10c5ec:	65 1c 08 94	bl	0x313780 ; Objc message: -[x0 setCompactMode:]
+10c5f0:	9f 02 00 eb	cmp	x20, x0
+10c5f4:	62 26 00 54	b.hs	0x10cac0
+10c5f8:	e0 03 1a aa	mov	x0, x26
+10c5fc:	f5 77 40 f9	ldr	x21, [sp, #0xe8]
+10c600:	e1 03 15 aa	mov	x1, x21
+10c604:	e2 03 14 aa	mov	x2, x20
+10c608:	5e 1c 08 94	bl	0x313780 ; Objc message: -[x0 setCompactMode:]
+10c60c:	fd 03 1d aa	mov	x29, x29
+10c610:	74 1c 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+10c614:	f7 03 00 aa	mov	x23, x0
+10c618:	e1 63 40 f9	ldr	x1, [sp, #0xc0]
+10c61c:	59 1c 08 94	bl	0x313780 ; Objc message: -[x0 setCompactMode:]
+10c620:	0e 1c a0 4e	mov.16b	v14, v0
+10c624:	28 1c a1 4e	mov.16b	v8, v1
