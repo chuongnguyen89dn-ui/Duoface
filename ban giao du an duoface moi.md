@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Đã xác định đường ghép UI thực tế
+
+- Đọc `replacement/visual12/engine/runtime/DFIInterface.inc`: giao diện DuoFace thực tế là `DFV12SplitController`, có `DFV12List` picker, toolbar/panel, menu, layout 1–8, 3 panes; tự giữ `hosts` và điều khiển `DFV12SceneHost`.
+- Đọc `DFIChrome.inc`: Zoom chrome có logic restore riêng; không đồng nhất với `focusPane` của bridge.
+- Đọc `DFCarPlaySplitCoordinator.m`: bridge độc lập hiện chỉ hỗ trợ **hai** pane, API openApp, closePane, ratio, swap, focus, restore; owner check từ chối `CBBridgeManager` tồn tại. Không thể nối thẳng toàn bộ layout 3 pane hoặc dùng đồng thời hai owner.
+- Phương án an toàn: tạo adapter UI hai pane trong nhánh QA; tái dùng style/assets/picker/menu của DFV12 nhưng mọi open/close/resize scene phải chuyển qua coordinator duy nhất. Layout 3-pane và chrome zoom để giai đoạn sau, không giả vờ đã hỗ trợ. Không chạm Native12/Hub8 và package hiện đang chạy.
+- Chưa commit thay đổi runtime/adapter, chưa build/deploy. Bước tiếp theo: tách UI presentation khỏi scene ownership và wire các callback App/Zoom/Style/Close với coordinator, build gói QA version mới, kiểm chứng trên thiết bị.
+
+
 ## 2026-10-18 — Ghép UI QA: rà soát adapter, chưa sửa runtime
 
 - Người dùng yêu cầu tiếp tục ghép giao diện DuoFace cũ vào bridge CarPlay độc lập đã test hoạt động bình thường trên thiết bị.
