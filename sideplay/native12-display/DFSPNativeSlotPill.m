@@ -26,7 +26,7 @@ static UIButton *DFSPActionButton(NSInteger slot, NSString *image,
 @property(nonatomic,strong) UIButton *restoreButton;
 @property(nonatomic,strong) UIView *separator;
 @property(nonatomic,readwrite) NSInteger slot;
-@property(nonatomic,readwrite) BOOL focused;
+@property(nonatomic,readwrite) BOOL slotFocused;
 @property(nonatomic,readwrite) BOOL compact;
 @property(nonatomic,readwrite) BOOL allowsExpand;
 @end
@@ -62,7 +62,7 @@ static UIButton *DFSPActionButton(NSInteger slot, NSString *image,
 }
 - (void)configureFocused:(BOOL)focused compact:(BOOL)compact
              allowsExpand:(BOOL)allowsExpand {
-    self.focused=focused;
+    self.slotFocused=focused;
     self.compact=compact;
     self.allowsExpand=allowsExpand;
     self.menuButton.hidden=focused;
@@ -73,7 +73,7 @@ static UIButton *DFSPActionButton(NSInteger slot, NSString *image,
 }
 - (CGSize)nativeSize {
     // Source: saved Native12 CBSlotPillView.updateBoundsSize evidence (six modes).
-    CGFloat w=self.focused?(self.compact?72:80):
+    CGFloat w=self.slotFocused?(self.compact?72:80):
              (self.allowsExpand?(self.compact?64:76):(self.compact?38:44));
     return CGSizeMake(w,self.compact?19:22);
 }
@@ -82,7 +82,7 @@ static UIButton *DFSPActionButton(NSInteger slot, NSString *image,
     CGFloat w=CGRectGetWidth(self.bounds),h=CGRectGetHeight(self.bounds),half=w/2;
     self.menuButton.frame=self.allowsExpand?CGRectMake(0,0,half,h):self.bounds;
     self.expandButton.frame=CGRectMake(half,0,w-half,h);
-    self.restoreButton.frame=self.focused?self.bounds:self.expandButton.frame;
+    self.restoreButton.frame=self.slotFocused?self.bounds:self.expandButton.frame;
     self.separator.frame=CGRectMake(half-0.25,3.5,0.5,MAX(0,h-7));
 }
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
