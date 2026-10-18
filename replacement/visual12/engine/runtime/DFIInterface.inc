@@ -310,13 +310,13 @@ static NSArray *DFIAvailableApps(void) {
    self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);
   }
   // Actual Native12 CBDividerView.updateGripLayout (0xff4b4..0xff4d0):
-  // side=28pt when the divider's SHORT bounds axis <280pt, else 30pt.
+  // side=28pt when the divider's LONG bounds axis <280pt, else 30pt.
   // Verified native Mach-O literal at 0x312488; original move buttons are
   // square (d2=d3=d8 at the setFrame: call 0xff6c0). Do not confuse
   // the button's visible frame with the wider independent pan-track.
-  CGFloat shortAxis=vertical?CGRectGetWidth(self.lines[i].bounds):
-                             CGRectGetHeight(self.lines[i].bounds);
-  CGFloat side=shortAxis<280.0?28.0:30.0;
+  CGFloat dividerSpan=vertical?CGRectGetHeight(self.lines[i].bounds):
+                                CGRectGetWidth(self.lines[i].bounds);
+  CGFloat side=dividerSpan<280.0?28.0:30.0;
   self.grips[i].frame=vertical?
     CGRectMake(r.origin.x-side/2.0,r.origin.y+relative*r.size.height-side/2.0,side,side):
     CGRectMake(r.origin.x+relative*r.size.width-side/2.0,r.origin.y-side/2.0,side,side);
