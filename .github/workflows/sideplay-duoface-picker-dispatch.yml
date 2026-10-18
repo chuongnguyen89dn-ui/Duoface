@@ -1,0 +1,54 @@
+name: DuoFace Native12 picker host dispatch trace
+on:
+  push:
+    branches: [feature/duoface-native12-ui-on-sideplay-host]
+    paths:
+      - '.github/workflows/sideplay-duoface-picker-dispatch.yml'
+      - 'sideplay/native12-display/tools/inspect_spdash_picker_dispatch.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: sideplay-duoface-picker-dispatch
+  cancel-in-progress: true
+jobs:
+  original-picker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load previously verified MachO parser from DuoFace QA history
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/native-parser"
+          git fetch --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/native-parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native-parser/audit_native12_license_class_xrefs.py"
+      - name: Inspect only original SidePlay app-picker dispatch methods
+        env:
+          SIDEPLAY_PARSER_DIR: ${{ runner.temp }}/native-parser
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/tools/inspect_spdash_picker_dispatch.py
+          test -s sideplay/native12-display/audit/SP_PICKER_DISPATCH.json
+      - name: Save callsite evidence for independent DuoFace picker integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/native12-display/audit/SP_PICKER_DISPATCH.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(duoface): document SidePlay host app-picker callsites [skip ci]'
+            for attempt in 1 2 3; do
+              git fetch origin feature/duoface-native12-ui-on-sideplay-host
+              git rebase FETCH_HEAD
+              if git push origin HEAD:feature/duoface-native12-ui-on-sideplay-host; then
+                echo 'PICKER_AUDIT_SAVED'
+                exit 0
+              fi
+            done
+            exit 1
+          fi
