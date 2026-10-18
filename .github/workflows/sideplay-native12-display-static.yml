@@ -1,7 +1,7 @@
 name: SidePlay Native12 whole-display static tests
 on:
   push:
-    branches: [feature/sideplay-normal-carplay-dock]
+    branches: [feature/sideplay-native12-integration-validation]
     paths:
       - '.github/workflows/sideplay-native12-display-static.yml'
       - 'sideplay/native12-display/**'
@@ -29,3 +29,5 @@ jobs:
           set -euo pipefail
           ! grep -RE 'CBBridgeManager|CBWindow|ARWCarPlayManager|SidePlay\.dylib' \
             sideplay/native12-display/*.[ch]
+      - name: Check Native12 frame bindings to real SidePlay owners
+        run: python3 sideplay/native12-display/validation/check_wiring.py
