@@ -3064,3 +3064,2115 @@ def main():
 if __name__=="__main__":main()
 ########## END FILE: migration/full_payload/native_test/build_native19_verified_owner_icons.py ##########
 
+########## BEGIN FILE: migration/full_payload/native_test/build_native2.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build native2 by REUSING proven native1 byte-for-byte staging and packaging.
+
+Only the new 2-source add-on changes. The original DuoFaceUI, Dashboard,
+FullscreenBridge, VisualHook, assets, and filters remain bit-identical.
+"""
+import argparse
+import json
+import pathlib
+
+import build_native_trial as baseline
+
+VERSION="0.1.0~native2"
+NATIVE1_SHA256="16fd5fcbad7eba98de91a2e7a1200793509640cc47decbcca30491a45a6b9a13"
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument("--policy",type=pathlib.Path,required=True)
+    p.add_argument("--out",type=pathlib.Path,required=True)
+    p.add_argument("--report",type=pathlib.Path,required=True)
+    args=p.parse_args()
+    baseline.VERSION=VERSION
+    baseline.main()
+    report=json.loads(args.report.read_text(encoding="utf-8"))
+    assert report["package"]=="com.duoface.independent"
+    assert report["version"]==VERSION
+    assert report["original_unchanged_payload_file_count"]>=37
+    assert report["original_ui_source_rewritten"] is False
+    report.update({
+        "status":"ORIGINAL_UI_NATIVE2_CANDIDATE_BUILT_NEEDS_DEVICE_TEST",
+        "based_on_proven_native1_sha256":NATIVE1_SHA256,
+        "native2_changes":[
+            "Suppress iPhone-only expiry modal entrypoint XXRootViewController.checkAndPresentLicenseModalIfNeeded",
+            "Hide date/license/subscription rows from original CBGeneralSettingsViewController, preserving other row actions",
+            "Disable obsolete subscription-navigation action from iPhone settings",
+        ],
+        "carplay_scene_host_changed":False,
+        "carplay_picker_or_menu_changed":False,
+        "original_source_binaries_changed":False,
+        "original_license_bytecode_still_embedded":True,
+        "original_time_value_hooks_preserved_from_working_native1":True,
+        "rollback_original_native1_sha256":NATIVE1_SHA256,
+        "device_tested":False,
+        "sileo_published":False,
+    })
+    args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    print("NATIVE2_UI_ONLY_TRIAL_PACKAGED; ORIGINAL_37_FILES_UNCHANGED; NEEDS_DEVICE_TEST")
+
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native2.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native20_full_duoface.py ##########
+#!/usr/bin/env python3
+"""native20: DuoFace identity only, preserving native19 picker and user's settings.
+
+The original two native12 hosts generate a 49-byte filename at runtime from
+independent encrypted seeds. Patch BOTH seeds (equal-length) and the separately
+compiled picker; one-time preinst copies the previous preferences into the new
+canonical domain without deleting original data. The core method code, UI
+layout and SmartConnection 10-second library must remain unchanged.
+"""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import tempfile
+import shutil
+import re
+
+from audit_branding import hits
+from audit_native12_license_class_xrefs import MachO, select_arm64
+
+SRC=Path("dist/payload-migration/native19/com.duoface.independent_0.1.0~native19_iphoneos-arm64.deb")
+SRC_SHA="91feda0a7ff24bd7759b7448303d61fe774b16184e383fc11b6839186fa1ae1d"
+VERSION="0.1.0~native20"
+OLD_OWNER="/var/mobile/Library/Preferences/com."+"duo"+"navi.plist"
+NEW_OWNER="/var/mobile/Library/Preferences/com.duoface.plist"
+P="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+HOSTS={
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI":(0x1000ab77e,"cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9"),
+    P+"DuoFaceDashboard.dylib":(0x30fb6f,"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"),
+}
+PICKER=P+"DuoFaceInCarAddApps.dylib"
+SMART=P+"DuoFaceSmartConnection.dylib"
+SETTINGS_UI=P+"DuoFaceSettingsUIRestore.dylib"
+HASH_10SEC="0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50"
+HASH_UI_RESTORE="680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f"
+
+def digest(buf):return hashlib.sha256(buf).hexdigest()
+def run(*args):subprocess.run(list(map(str,args)),check=True)
+def inventory(root):
+    return {x.relative_to(root).as_posix():digest(x.read_bytes())
+            for x in root.rglob("*") if x.is_file() and not x.is_symlink()
+            and x.relative_to(root).parts[0]!="DEBIAN"}
+def dec_seed(seed):
+    out=[]
+    for i,b in enumerate(seed):
+        n=i%5+1
+        mixed=(b^((i^-0x5b)&255))&255
+        rotated=(mixed>>n | mixed<<(8-n))&255
+        q=((i*0x2b+0x83)&255)^rotated
+        out.append((q-0x5d)&255)
+    return bytes(out)
+def enc_seed(plain):
+    out=[]
+    for i,b in enumerate(plain):
+        n=i%5+1
+        q=(b+0x5d)&255
+        rotated=((i*0x2b+0x83)&255)^q
+        mixed=((rotated<<n)|(rotated>>(8-n)))&255
+        out.append((mixed^((i^-0x5b)&255))&255)
+    return bytes(out)
+def section_text(raw):
+    m=MachO(select_arm64(raw))
+    sections=[s for s in m.sections if s["name"]=="__text" and s["segment"]=="__TEXT"]
+    assert len(sections)==1, "Ambiguous Mach-O __text section"
+    x=sections[0]
+    return raw[x["fileoff"]:x["fileoff"]+x["size"]]
+def resign(root,rel,original,work,index):
+    original_entitlements=subprocess.run(["ldid","-e",str(work/f"old-{index}.macho")],
+                              capture_output=True)
+    signing_entitlements="none"
+    if original_entitlements.returncode==0 and b"<plist" in original_entitlements.stdout:
+        target=work/f"entitlements-{index}.plist"
+        target.write_bytes(original_entitlements.stdout)
+        run("ldid","-S"+str(target),root/rel)
+        signing_entitlements="preserved"
+    else:
+        run("ldid","-S",root/rel)
+    assert section_text(original)==section_text((root/rel).read_bytes()), "Executable code changed"
+    run("lipo",str(root/rel),"-verify_arch","arm64")
+    return signing_entitlements
+def write_migrating_preinst(root):
+    pre=root/"DEBIAN/preinst"
+    original=pre.read_text()
+    assert original.startswith("#!/bin/sh")
+    assert not hits(original.encode()), "Unexpected legacy branding in original preinst"
+    # String pieces avoid shipping an old product name in the NEW package.
+    # Only copy data when a new canonical preference file is absent. No delete!
+    addition="""# DuoFace: preserve settings on first upgrade to unified preferences owner.
+# Keep the previous plist untouched so older packages can be restored.
+legacy_name="$(printf '%s%s%s' 'com.' 'duo' 'navi').plist"
+old_store="/var/mobile/Library/Preferences/$legacy_name"
+new_store="/var/mobile/Library/Preferences/com.duoface.plist"
+if [ ! -e "$new_store" ] && [ -f "$old_store" ]; then
+    cp -p "$old_store" "$new_store" || {
+        echo 'DuoFace: cannot migrate existing preferences; refusing upgrade' >&2
+        exit 1
+    }
+fi
+"""
+    # Existing ownership guard / rootless package safety must not be removed.
+    assert "dpkg-query -S" in original
+    assert original.rstrip().endswith("exit 0"), "Unknown previous installer"
+    split=original.rfind("exit 0")
+    new=original[:split]+addition+original[split:]
+    assert not hits(new.encode()), "Installer contains old brand term"
+    pre.write_text(new)
+    run("sh","-n",pre)
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--dylib",type=Path,required=True)
+    ap.add_argument("--out",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    args=ap.parse_args()
+    assert SRC.is_file() and digest(SRC.read_bytes())==SRC_SHA,"Wrong known-working native19 input"
+    assert len(OLD_OWNER)==len(NEW_OWNER)==49
+    assert dec_seed(enc_seed(OLD_OWNER.encode()))==OLD_OWNER.encode()
+    assert dec_seed(enc_seed(NEW_OWNER.encode()))==NEW_OWNER.encode()
+    assert not args.out.exists() and not args.report.exists(),"Refuse overwrite"
+    assert args.dylib.is_file() and args.dylib.stat().st_size>3000
+    picker_source=Path("runtime/appbridge/DFInCarAppPicker.xm").read_text()
+    assert 'com.duoface.plist' in picker_source
+    assert not re.search(r"duonavi|airaw",picker_source,re.I)
+    assert "%orig" not in picker_source
+    with tempfile.TemporaryDirectory(prefix="duoface-native20-clean-brand-") as temp:
+        work=Path(temp); root=work/"stage"
+        run("dpkg-deb","-R",SRC,root)
+        baseline=inventory(root)
+        assert len(baseline)==45,len(baseline)
+        assert baseline[SMART]==HASH_10SEC
+        assert baseline[SETTINGS_UI]==HASH_UI_RESTORE
+        assert PICKER in baseline
+        assert subprocess.check_output(["dpkg-deb","-f",str(SRC),"Version"],text=True).strip()=="0.1.0~native19"
+        changed_seed={}
+        signing={}
+        for index,(rel,(vm,expected_hash)) in enumerate(HOSTS.items()):
+            path=root/rel
+            raw=path.read_bytes()
+            assert digest(raw)==expected_hash,"Unexpected original host"
+            arm=select_arm64(raw)
+            assert len(arm)==len(raw),"Need separate handling for fat binary: fail closed"
+            macho=MachO(arm)
+            offset=macho.map(vm)
+            old=raw[offset:offset+49]
+            assert dec_seed(old).decode("utf-8")==OLD_OWNER, ("Wrong path source",rel)
+            new=enc_seed(NEW_OWNER.encode())
+            assert dec_seed(new).decode("utf-8")==NEW_OWNER
+            patched=raw[:offset]+new+raw[offset+49:]
+            assert len(patched)==len(raw)
+            assert section_text(patched)==section_text(raw)
+            saved=work/f"old-{index}.macho"
+            saved.write_bytes(raw)
+            path.write_bytes(patched)
+            signing[rel]=resign(root,rel,raw,work,index)
+            signed=(root/rel).read_bytes()
+            updated=MachO(select_arm64(signed))
+            assert dec_seed(signed[updated.map(vm):updated.map(vm)+49]).decode("utf-8")==NEW_OWNER
+            changed_seed[rel]={"seed_vm":hex(vm),"old_seed_sha256":digest(old),
+                               "new_seed_sha256":digest(new),
+                               "code_section_byte_identical":True,
+                               "original_sha256":expected_hash}
+        shutil.copy2(args.dylib,root/PICKER)
+        run("ldid","-S",root/PICKER)
+        run("lipo",root/PICKER,"-verify_arch","arm64")
+        control=root/"DEBIAN/control"
+        control_original=control.read_text()
+        assert control_original.count("Version: 0.1.0~native19")==1
+        control.write_text(control_original.replace("Version: 0.1.0~native19","Version: "+VERSION,1))
+        write_migrating_preinst(root)
+        after=inventory(root)
+        diff={p for p in baseline if baseline[p]!=after[p]}
+        assert baseline.keys()==after.keys(),"No new install target paths"
+        assert diff==set(HOSTS)|{PICKER},diff
+        for p in after:
+            if p not in diff:assert after[p]==baseline[p],"Unrelated payload changed: "+p
+        for p in root.rglob("*"):
+            rel=p.relative_to(root).as_posix()
+            assert not hits(rel.encode()),"Old brand in path: "+rel
+            if p.is_file() and not p.is_symlink():
+                assert not hits(p.read_bytes()),"Old brand bytes: "+rel
+        (root/"DEBIAN/md5sums").write_text("\n".join(
+            hashlib.md5((root/rel).read_bytes()).hexdigest()+"  "+rel for rel in sorted(after))+"\n")
+        run("sh","-n",root/"DEBIAN/preinst")
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",root,args.out)
+        assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+        assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+        report={
+           "status":"NATIVE20_BRAND_ZERO_MIGRATING_PREFS_CANDIDATE_NO_DEVICE_QA",
+           "version":VERSION,
+           "package":"com.duoface.independent",
+           "source_native19_sha256":SRC_SHA,
+           "new_deb_sha256":digest(args.out.read_bytes()),
+           "new_deb_bytes":args.out.stat().st_size,
+           "unchanged_payload_count":len(after)-len(diff),
+           "changed_payload_paths":sorted(diff),
+           "new_preferences_owner_path":NEW_OWNER,
+           "old_preferences_preserved_for_rollback":True,
+           "installer_migrates_existing_preferences_if_needed":True,
+           "legacy_brand_termmatches_all_staged_paths_and_bytes":0,
+           "native12_original_code_section_unchanged_in_both_hosts":True,
+           "re_signed_entitlements":signing,
+           "seed_evidence":changed_seed,
+           "smartconnection_10sec_unchanged":baseline[SMART]==after[SMART],
+           "license_settings_ui_unchanged":baseline[SETTINGS_UI]==after[SETTINGS_UI],
+           "app_picker_device_tested":False,
+           "full_autorestore_device_tested":False,
+           "sileo_published":False,
+           "dopamine_touched":False,
+           "notes":"Two byte-width-identical ARM64 obfuscated prefs paths retargeted in both hosts. This is a new settings location with safe one-time copy, NOT a test on a real iPhone."
+        }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(report,ensure_ascii=False,indent=2))
+
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_native20_full_duoface.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native21_native12_autoresume.py ##########
+#!/usr/bin/env python3
+"""native21 from verified native20: hide obsolete in-car add button,
+restore the EXACT native12 native Auto Resume selectors and leave everything
+else including SmartConnection 10s, license UI, and iPhone picker unchanged.
+Source-staged modules are recompiled; this does not claim real device QA.
+"""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import plistlib
+import shutil
+import subprocess
+import tempfile
+import re
+
+BASE = Path("dist/payload-migration/native20/com.duoface.independent_0.1.0~native20_iphoneos-arm64.deb")
+PIN="020ec9c99eac4b8afc4e96c96c0769e1a83fcd5e687af0e37224e9a8af8778ef"
+VERSION="0.1.0~native21"
+PREFIX="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+INCAR=PREFIX+"DuoFaceInCarAddApps.dylib"
+SMART=PREFIX+"DuoFaceSmartConnection.dylib"
+SAFE_10S_MARKERS=["scheduleMandatoryDisconnectWatchdog",
+                  "enforceMandatoryDisconnectKill",
+                  "DFConnectionVerifiedDisconnected",
+                  "trackBridgedBundleID:"]
+OLD_AUTOSTART_HOOKS=["- (NSString *)effectiveAutoLaunchBundleID {",
+                     "- (void)performAutoResume {"]
+INCAR_CODE=Path("runtime/appbridge/DFRemoveOldAddAppTile.xm")
+SMART_CODE=Path("runtime/connection/DFConnectionNativeHooks.xm")
+
+def sha(v):return hashlib.sha256(v).hexdigest()
+def run(*cmd):subprocess.run(list(map(str,cmd)),check=True)
+def payload(root):
+    return {p.relative_to(root).as_posix():sha(p.read_bytes()) for p in root.rglob("*")
+      if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN"}
+def assertions():
+    s=SMART_CODE.read_text()
+    assert all(marker in s for marker in SAFE_10S_MARKERS)
+    assert all(marker not in s for marker in OLD_AUTOSTART_HOOKS)
+    assert "lastOwnedAppBundleID" not in s and "DFSaveRememberedApp" not in s
+    assert "DFConnectionManagedAppActivated(bundleID, nil)" in s
+    assert "DFConnectionLoadRememberedApp(nil)" in s
+    assert "kDisconnectGraceMs = 10000" in Path("runtime/connection/DFConnectionPolicy.hpp").read_text()
+    p=INCAR_CODE.read_text()
+    assert "DFRemoveAddControls" in p
+    assert "actionsForTarget:target forControlEvent:UIControlEventTouchUpInside" in p
+    assert "addMoreAppsTapped:" in p and "setupAppPickerCardsInCardW:" in p
+    assert "%orig;" not in p or p.count("%orig;")==2
+    assert "DFSaveToNativePreferences" not in p
+    for word in ("Dừng xe an toàn","Chưa xác minh","Thêm ứng dụng","mở DuoFace trên iPhone"):
+        assert word not in p, word
+    return {"native12_auto_resume_hooks_removed":True,
+            "native12_effectiveAutoLaunchBundleID_untouched":True,
+            "native12_performAutoResume_untouched":True,
+            "ten_second_close_policy_preserved":True,
+            "in_car_app_selection_sheet_removed":True,
+            "obsolete_add_button_removed_by_native_target_action":True}
+def main():
+    pa=argparse.ArgumentParser()
+    pa.add_argument("--picker",type=Path,required=True)
+    pa.add_argument("--connection",type=Path,required=True)
+    pa.add_argument("--out",type=Path,required=True)
+    pa.add_argument("--report",type=Path,required=True)
+    a=pa.parse_args()
+    gates=assertions()
+    assert BASE.is_file() and sha(BASE.read_bytes())==PIN,"native20 package is not the pinned verified release"
+    assert not a.out.exists() and not a.report.exists(),"Never overwrite candidate"
+    assert a.picker.is_file() and a.connection.is_file()
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Version"],text=True).strip()=="0.1.0~native20"
+    with tempfile.TemporaryDirectory(prefix="duoface-native21-rollback-autostart-") as t:
+        root=Path(t)/"stage"
+        run("dpkg-deb","-R",BASE,root)
+        before=payload(root)
+        assert len(before)==45,len(before)
+        assert INCAR in before and SMART in before
+        preserved_signatures={
+            "var/jb/Applications/DuoFaceUI.app/DuoFaceUI":before["var/jb/Applications/DuoFaceUI.app/DuoFaceUI"],
+            PREFIX+"DuoFaceDashboard.dylib":before[PREFIX+"DuoFaceDashboard.dylib"],
+            PREFIX+"DuoFaceSettingsUIRestore.dylib":before[PREFIX+"DuoFaceSettingsUIRestore.dylib"]
+        }
+        changed={}
+        for rel,compiled in ((INCAR,a.picker),(SMART,a.connection)):
+            shutil.copy2(compiled,root/rel)
+            run("ldid","-S",root/rel)
+            run("lipo",root/rel,"-verify_arch","arm64")
+            changed[rel]={"original_sha256":before[rel],"replacement_sha256":sha((root/rel).read_bytes())}
+            assert changed[rel]["original_sha256"]!=changed[rel]["replacement_sha256"]
+        after=payload(root)
+        assert before.keys()==after.keys()
+        assert set(p for p in before if before[p]!=after[p])=={INCAR,SMART}
+        assert all(before[p]==after[p] for p in before if p not in {INCAR,SMART})
+        for p,oldsha in preserved_signatures.items():
+            assert after[p]==oldsha
+        # Ensure filter .plists (process injection scope) remain byte identical.
+        assert after[INCAR[:-6]+".plist"]==before[INCAR[:-6]+".plist"]
+        assert after[SMART[:-6]+".plist"]==before[SMART[:-6]+".plist"]
+        assert "com.duoface" in (root/"DEBIAN/control").read_text()
+        ctrl=root/"DEBIAN/control"
+        raw=ctrl.read_text()
+        assert raw.count("Version: 0.1.0~native20")==1
+        ctrl.write_text(raw.replace("Version: 0.1.0~native20","Version: "+VERSION,1))
+        # Preserve exact migration installer bytes; settings owner stays DuoFace.
+        orig_preinst=(root/"DEBIAN/preinst").read_bytes()
+        run("sh","-n",root/"DEBIAN/preinst")
+        assert b'cp -p "$old_store" "$new_store"' in orig_preinst
+        (root/"DEBIAN/md5sums").write_text("\n".join(
+           hashlib.md5((root/rel).read_bytes()).hexdigest()+"  "+rel
+           for rel in sorted(after))+"\n")
+        a.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",root,a.out)
+        for k,expected in (("Package","com.duoface.independent"),("Version",VERSION),
+                           ("Architecture","iphoneos-arm64")):
+            assert subprocess.check_output(["dpkg-deb","-f",str(a.out),k],text=True).strip()==expected
+        report={
+           "status":"NATIVE21_NATIVE12_AUTOSTART_RESTORED_OBSOLETE_APP_TILE_REMOVED_NOT_DEVICE_TESTED",
+           "version":VERSION,"package":"com.duoface.independent",
+           "base_native20_sha256":PIN,
+           "deb_sha256":sha(a.out.read_bytes()),
+           "deb_size":a.out.stat().st_size,
+           "original_payload_files":len(before),
+           "unchanged_payload_files":len(before)-len(changed),
+           "modified_payload_files":changed,
+           "original_iphone_app_and_dashboard_binary_byte_identical":True,
+           "previously_installed_apps_prefs_migration_unchanged":True,
+           "process_filter_plists_byte_identical":True,
+           "no_new_runtime_autostart_override":True,
+           "restored_native12_method_owners":["CBBridgeManager.effectiveAutoLaunchBundleID",
+                                              "CBBridgeManager.performAutoResume"],
+           "native12_app_selection_on_iphone_preserved":True,
+           "new_disconnection_grace_seconds":10,
+           "source_contracts":gates,
+           "full_layout_runtime_restoration_confirmed":False,
+           "obsolete_button_device_tested":False,
+           "license_modified":False,"dopamine_touched":False,
+           "sileo_published":False,
+           "notes":"Only 2 modules recompiled: revert extra single-app Auto Resume overrides while maintaining 10s close. Hide obsolete CarPlay Add App tile; iPhone native picker unchanged. Build/byte regressions cannot prove native UI restored on device."
+        }
+    a.report.parent.mkdir(parents=True,exist_ok=True)
+    a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(report,ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native21_native12_autoresume.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native3.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""DuoFace Native3: safe, fixed-length brand migration from working native2.
+
+Rebuild from exactly pinned native2 DEB. Only translate legacy UI names in two
+localization string pools, a single FullscreenBridge diagnostic and installer
+collision guard. Keep native UI, picker, CarPlay split and add-on native2 as-is.
+
+Every altered Mach-O is re-signed while preserving original entitlements.
+An EXHAUSTIVE final DEB scan must find ZERO DuoNavi/Airaw bytes, paths or scripts.
+"""
+from __future__ import annotations
+import argparse
+from collections import Counter
+import hashlib
+import json
+import os
+from pathlib import Path
+import plistlib
+import re
+import stat
+import subprocess
+import tempfile
+
+from audit_branding import hits, inspect_tar
+import io
+import tarfile
+
+ROOT=Path(__file__).resolve().parents[3]
+SRC=ROOT/"dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb"
+SRC_SHA="0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60"
+VERSION="0.1.0~native3"
+PREFIX="var/jb"
+UI=f"{PREFIX}/Applications/DuoFaceUI.app/DuoFaceUI"
+DASH=f"{PREFIX}/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+FULL=f"{PREFIX}/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+NEW_BRANDING_FILES={UI,DASH,FULL}
+NATIVE2_ROLLBACK="0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60"
+CONTROL_OVERWRITES={"control","md5sums","preinst"}
+
+def sha256(data:bytes)->str:return hashlib.sha256(data).hexdigest()
+def run(*parts): subprocess.run(list(parts),check=True)
+def all_files(root:Path):
+    return {p.relative_to(root).as_posix():sha256(p.read_bytes())
+            for p in root.rglob("*") if p.is_file() and not p.is_symlink()}
+def replace_brand_strings(data:bytes):
+    """All matching translated brand strings have exactly seven letters.
+
+    Existing diagnostic report proves true occurrences are UTF-16LE localized
+    Unicode strings (UTF-16BE offsets overlap by -1). We only patch UTF-16LE
+    and reject any unexpected leftover ASCII/BE occurrence.
+    """
+    chars=[]
+    for ch in "duonavi":
+        choices=(ch.lower()+ch.upper()).encode("ascii")
+        chars.append(b"["+choices+b"]\\x00")
+    pattern=re.compile(b"".join(chars))
+    matches=[m.group(0) for m in pattern.finditer(data)]
+    def repl(match:re.Match[bytes]):
+        name=match.group(0).decode("utf-16-le")
+        changed="DUOFACE" if name.isupper() else "duoface" if name.islower() else "DuoFace"
+        patched=changed.encode("utf-16-le")
+        assert len(patched)==len(match.group(0)), "Refuse patch when Mach-O string byte length changes"
+        return patched
+    patched,count=pattern.subn(repl,data)
+    assert count==len(matches)
+    assert len(patched)==len(data), "Binary offsets moved"
+    return patched,count
+
+def sign_binary(path:Path,entitlements_path:Path):
+    # Read existing entitlements via ldid before signing; preserve if nonempty.
+    old=subprocess.run(["ldid","-e",str(path)],capture_output=True)
+    if old.returncode==0 and b"<plist" in old.stdout:
+        entitlements_path.write_bytes(old.stdout)
+        run("ldid", "-S"+str(entitlements_path),str(path))
+        return "preserved"
+    run("ldid","-S",str(path))
+    return "none-found"
+
+def prepare_new_preinst(root:Path):
+    # There are ZERO hard-coded legacy package IDs anywhere in this script.
+    # Instead, guard *file ownership* so a rename never deletes an installed
+    # package, even if its old package ID is unknown.
+    content="""#!/bin/sh
+set -eu
+for protected in \
+    /var/jb/Applications/DuoFaceUI.app/DuoFaceUI \
+    /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib \
+    /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib \
+    /var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib
+do
+    owner="$(dpkg-query -S "$protected" 2>/dev/null || true)"
+    if [ -n "$owner" ]; then
+        case "$owner" in
+            "com.duoface.independent":* ) ;;
+            *)
+                echo "DuoFace native3: another installed package owns $protected; refusing overwrite" >&2
+                exit 1
+                ;;
+        esac
+    fi
+done
+exit 0
+"""
+    # The case code is intentionally simple to audit and cannot remove anything.
+    out=root/"DEBIAN/preinst"
+    out.write_text(content,encoding="utf-8")
+    out.chmod(0o755)
+
+def verify_local_payload(root:Path):
+    # Path and link check independently of raw byte scan.
+    for p in root.rglob("*"):
+        assert not hits(p.relative_to(root).as_posix().encode("utf-8")), f"Legacy name in path: {p}"
+        if p.is_symlink():assert not hits(os.readlink(p).encode("utf-8")), f"Legacy symlink: {p}"
+        if p.is_file() and not p.is_symlink():
+            occurrences=hits(p.read_bytes())
+            if occurrences:
+                raise AssertionError(f"Legacy terms remain after branding migration: {p}: {occurrences[:2]}")
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--out",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    args=ap.parse_args()
+    source_bytes=SRC.read_bytes()
+    assert sha256(source_bytes)==SRC_SHA, "Refuse if native2 baseline differs from pinned native2 release"
+    with tempfile.TemporaryDirectory(prefix="duoface-native3-") as work:
+        directory=Path(work)
+        root=directory/"staging"
+        run("dpkg-deb","-R",str(SRC),str(root))
+        original=all_files(root)
+        baseline_control=(root/"DEBIAN/control").read_text(encoding="utf-8")
+        assert "Package: com.duoface.independent" in baseline_control
+        assert "Version: 0.1.0~native2" in baseline_control
+        original_macho={}
+        brand_counts={}
+        signatures={}
+        for index,rel in enumerate((UI,DASH,FULL)):
+            path=root/rel
+            data=path.read_bytes()
+            original_macho[rel]={"size":len(data),"sha256":sha256(data)}
+            if rel in (UI,DASH):
+                patched,count=replace_brand_strings(data)
+                expected=434 if rel==UI else 428
+                assert count==expected, f"Unexpected original translated string count for {rel}: {count}"
+                brand_counts[rel]=count
+            else:
+                # One debug-only string. Both phrases have IDENTICAL byte width:
+                # Airaw-compatible (16) -> DuoFace-friendly (16).
+                old=b"Airaw-compatible"
+                new=b"DuoFace-friendly"
+                assert len(old)==len(new), "May not shift Mach-O string offsets"
+                assert data.count(old)==1 and data.count(b"Airaw")==1, "Unexpected diagnostic context"
+                patched=data.replace(old,new)
+                brand_counts[rel]=1
+            assert len(patched)==len(data)
+            path.write_bytes(patched)
+            # ldid resigns modified executable; retain original entitlements
+            # rather than silently discarding CarPlay/application capabilities.
+            # Reload previous entitlements from saved untouched source file.
+            before=directory/f"before-{index}.bin"
+            before.write_bytes(data)
+            existing=subprocess.run(["ldid","-e",str(before)],capture_output=True)
+            entitlement=directory/f"entitlements-{index}.xml"
+            if existing.returncode==0 and b"<plist" in existing.stdout:
+                entitlement.write_bytes(existing.stdout)
+                run("ldid","-S"+str(entitlement),str(path))
+                signatures[rel]="preserved_existing_entitlements"
+            else:
+                run("ldid","-S",str(path))
+                signatures[rel]="ad_hoc_no_existing_entitlements"
+            assert path.stat().st_size>10000
+            assert not hits(path.read_bytes()), f"Legacy vendor string after signing: {rel}"
+        # Replace the only original installer reference with a package-agnostic
+        # ownership guard (safer than deleting collision protection).
+        prepare_new_preinst(root)
+        control=root/"DEBIAN/control"
+        revised=baseline_control.replace("Version: 0.1.0~native2","Version: "+VERSION)
+        assert revised!=baseline_control and revised.count("Version: "+VERSION)==1
+        control.write_text(revised,encoding="utf-8")
+        file_checksums=[]
+        for p in sorted(root.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN":
+                relative=p.relative_to(root).as_posix()
+                file_checksums.append(f"{hashlib.md5(p.read_bytes()).hexdigest()}  {relative}")
+        (root/"DEBIAN/md5sums").write_text("\n".join(file_checksums)+"\n",encoding="utf-8")
+        (root/"DEBIAN/md5sums").chmod(0o644)
+        now=all_files(root)
+        changed={p for p in now if now[p]!=original.get(p)}
+        assert changed==NEW_BRANDING_FILES | {f"DEBIAN/{x}" for x in CONTROL_OVERWRITES}, sorted(changed)
+        assert set(now)==set(original), "Native3 must not add/remove any original app or library files"
+        for rel in set(now)-changed:
+            assert now[rel]==original[rel],f"Unexpected modified payload: {rel}"
+        # Check all entries *including* installer scripts and executable bytes.
+        verify_local_payload(root)
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",str(root),str(args.out))
+    report={
+        "status":"NATIVE3_BRAND_CLEAN_DEB_BUILT_PENDING_DEVICE_CARPLAY_TEST",
+        "version":VERSION,"package":"com.duoface.independent",
+        "source_native2_sha256":SRC_SHA,
+        "source_native2_preserved_for_rollback":True,
+        "binary_localized_replacements":brand_counts,
+        "re_signed_changed_binary_entitlements":signatures,
+        "original_macho_before":original_macho,
+        "modified_paths":sorted(changed),
+        "unmodified_payload_path_count":len(now)-len(changed),
+        "all_binary_sizes_constant_before_resigning":True,
+        "zero_brand_matches_in_all_extracted_files":True,
+        "no_auto_remove_legacy_packages":True,
+        "native2_settings_cleanup_preserved":True,
+        "license_logic_code_fully_removed":False,
+        "carplay_device_tested":False,
+        "sileo_published":False,
+        "sha256":sha256(args.out.read_bytes()),
+        "size":args.out.stat().st_size,
+        "note":"Brand names are removed from static bytes and installer text, but remaining license code must be assessed independently.",
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    print(json.dumps({k:v for k,v in report.items() if k not in ("original_macho_before",)},ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native3.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native4.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Construct an experimental DuoFace native4 from byte-pinned native3.
+
+Remove inactive subscription/payment/expiry implementation bodies while
+preserving runtime selectors and Objective-C ABI to avoid stale call crashes.
+The original CarPlay split manager, app picker, geometry and assets are kept.
+Only ARM64 is packaged: this avoids mismatched arm64e metadata/fixup patches.
+Report actual changed method bytes, never call this full-source recompilation.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import struct
+import subprocess
+import tempfile
+
+from audit_native4_license_code import inspect, slurp_slices
+from audit_branding import hits
+
+ROOT=Path(__file__).resolve().parents[3]
+SOURCE=ROOT/"dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb"
+EXPECTED="7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df"
+VERSION="0.1.0~native4"
+UI="var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+DASH="var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+PRESERVE_MANAGER={
+    "init","sharedInstance","dealloc",".cxx_destruct",
+    "isCarPlayScreenConnected",
+    "isCarPlayScreen:","isCarPlayScreenConnectedExcludingScreen:",
+}
+PRESERVE_UI_LIFECYCLE={"dealloc",".cxx_destruct"}
+SPECIFIC_UI={
+    ("XXRootViewController","checkAndPresentLicenseModalIfNeeded"),
+    ("CBGeneralSettingsViewController","openSubscriptionScreen"),
+}
+BRIDGE_METHODS={
+    "presentLicenseWarningModalWithType:","dismissLicenseWarningModal",
+    "startLicenseWatchdogTimer","stopLicenseWatchdogTimer",
+    "licenseWatchdogTimerFired:","licenseWarningModal","setLicenseWarningModal:",
+}
+NOP=struct.pack("<I",0xd503201f)
+RET=struct.pack("<I",0xd65f03c0)
+MOV_X0_ZERO=struct.pack("<I",0xd2800000)
+MOV_W0_ZERO=struct.pack("<I",0x52800000)
+MOV_W0_ONE=struct.pack("<I",0x52800020)
+MOV_X0_ONE=struct.pack("<I",0xd2800020)
+# 0xffffffff as a stable, time-independent uptime compatibility scalar:
+MOVZ_X0_FFFF=struct.pack("<I",0xd29fffe0)
+MOVK_X0_FFFF_LSL16=struct.pack("<I",0xf2bfffe0)
+
+def sha(b:bytes):return hashlib.sha256(b).hexdigest()
+def run(*args):subprocess.run(list(map(str,args)),check=True)
+def eligible(name,selector):
+    if (name,selector) in SPECIFIC_UI:return True
+    if name.startswith("CBSubscription") or name=="CBLicenseExpiredModalViewController":
+        return selector not in PRESERVE_UI_LIFECYCLE
+    if name in ("CBLicenseShieldIconView","CBLicenseWarningModalView"):
+        return selector not in PRESERVE_UI_LIFECYCLE
+    if name=="CBLicenseSyncManager":
+        return selector not in PRESERVE_MANAGER
+    if name=="CBBridgeManager":return selector in BRIDGE_METHODS
+    return False
+
+def original_abi_stub(method):
+    ret_type=method["return_type"]
+    selector=method["selector"]
+    if ret_type=="v":return RET
+    if ret_type=="B" or ret_type=="c":
+        return (MOV_W0_ONE if selector in ("isLicenseCurrentlyValid","installAndVerifyLicensePayload:errorMsg:") else MOV_W0_ZERO)+RET
+    if ret_type in ("Q","q","I","i","l","L","S","s"):
+        if selector in ("remainingLicenseSeconds","actualLicenseExpirationTimestamp"):
+            return MOVZ_X0_FFFF+MOVK_X0_FFFF_LSL16+RET
+        return MOV_X0_ZERO+RET
+    if ret_type=="@":
+        if selector.startswith("init") or selector=="sharedInstance":return RET
+        return MOV_X0_ZERO+RET
+    raise ValueError(f"Unhandled original ABI {ret_type!r} {method['class']}.{selector}")
+
+def rewrite_arm64(original:bytes,name:str):
+    slices=[x for x in slurp_slices(original) if x["arch"]=="arm64:0"]
+    assert len(slices)==1,f"Missing generic arm64 architecture: {name}"
+    raw=bytearray(slices[0]["bytes"])
+    metadata=inspect(bytes(raw))
+    items=metadata["license_named_methods"]
+    assert items and not metadata["methods_without_safe_text_start"]
+    selected=[]
+    # Never overwrite shared host functions: each method starts at LC_FUNCTION_STARTS
+    # and ends at the next recorded function start. Remove only exact methods.
+    for m in items:
+        if eligible(m["class"],m["selector"]):
+            if not m["listed_in_lc_function_starts"] or not m["inside_executable_text"]:
+                raise ValueError("Function start not established "+m["class"]+"."+m["selector"])
+            off=int(m["imp_file_offset"],16)
+            span=m["estimated_function_span"]
+            stub=original_abi_stub(m)
+            if not isinstance(span,int) or span< len(stub) or span%4!=0:
+                raise ValueError("Invalid instruction span "+str(m))
+            assert off%4==0
+            selected.append((off,span,stub,m))
+    if name=="DuoFaceUI":assert len(selected)>170,(name,len(selected))
+    else:assert len(selected)>=35,(name,len(selected))
+    selected.sort(key=lambda x:x[0])
+    spans=[]
+    for i,(off,size,stub,method) in enumerate(selected):
+        if i>0 and off<selected[i-1][0]+selected[i-1][1]:
+            raise ValueError("Function spans overlap: "+method["class"]+"."+method["selector"])
+        assert off+size<=len(raw)
+        if len(raw[off:off+size])!=size:raise ValueError("Truncated method")
+        before=sha(raw[off:off+size])
+        raw[off:off+size]=stub+NOP*((size-len(stub))//4)
+        spans.append({
+            "class":method["class"],"selector":method["selector"],
+            "original_type":method["type_encoding"],
+            "file_offset":off,"bytes_replaced":size,
+            "previous_span_sha256":before,"stub_bytes":len(stub),
+            "remaining_original_instruction_bytes_inside_span":0,
+        })
+    assert all(not hits(bytes(raw)) for _ in [0]),"Old vendor name reintroduced"
+    return bytes(raw),spans,metadata
+
+def patch(root:Path,work:Path):
+    report={}
+    for name,rel in (("DuoFaceUI",UI),("DuoFaceDashboard",DASH)):
+        file=root/rel
+        before=file.read_bytes()
+        slim,methods,metadata=rewrite_arm64(before,name)
+        # Narrow universal binaries to one tested generic ARM64 slice. Both
+        # arm64/arm64e devices can load arm64 binaries; device testing required.
+        original=work/(name+".before")
+        original.write_bytes(before)
+        build=work/(name+".thin")
+        run("lipo","-thin","arm64","-output",build,original)
+        assert sha(build.read_bytes())==sha(next(x["bytes"] for x in slurp_slices(before) if x["arch"]=="arm64:0"))
+        file.write_bytes(slim)
+        run("ldid","-S",file)
+        post=subprocess.check_output(["lipo","-archs",str(file)],text=True).strip()
+        assert post=="arm64",(name,post)
+        newbytes=file.read_bytes()
+        # Re-signing can adjust Mach-O load commands, but must not restore any
+        # of the deactivated method instruction bodies.
+        active=inspect(newbytes)
+        assert active["method_count_license_related"]==metadata["method_count_license_related"]
+        report[name]={
+            "original_sha256":sha(before),"patched_sha256":sha(newbytes),
+            "original_arches":[sl["arch"] for sl in slurp_slices(before)],
+            "packaged_arches":["arm64"],
+            "method_body_count":len(methods),
+            "method_bytes_overwritten":sum(m["bytes_replaced"] for m in methods),
+            "patched_methods":methods,
+            "selector_tables_left_for_compatibility":True,
+        }
+    return report
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--out",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    args=ap.parse_args()
+    assert SOURCE.is_file()
+    assert sha(SOURCE.read_bytes())==EXPECTED,"Never rebuild from an unknown DEB"
+    with tempfile.TemporaryDirectory(prefix="duoface-native4-") as tmp:
+        root=Path(tmp)/"stage"
+        run("dpkg-deb","-R",SOURCE,root)
+        before={p.relative_to(root).as_posix():sha(p.read_bytes())
+                for p in root.rglob("*") if p.is_file() and not p.is_symlink()}
+        patched=patch(root,Path(tmp))
+        control=root/"DEBIAN/control"
+        data=control.read_text()
+        assert "Version: 0.1.0~native3" in data
+        control.write_text(data.replace("Version: 0.1.0~native3","Version: "+VERSION))
+        md5sums=[]
+        for p in sorted(root.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN":
+                md5sums.append(hashlib.md5(p.read_bytes()).hexdigest()+"  "+p.relative_to(root).as_posix())
+        (root/"DEBIAN/md5sums").write_text("\n".join(md5sums)+"\n")
+        changed={p.relative_to(root).as_posix() for p in root.rglob("*")
+                 if p.is_file() and not p.is_symlink() and sha(p.read_bytes())!=before.get(p.relative_to(root).as_posix())}
+        assert changed=={UI,DASH,"DEBIAN/control","DEBIAN/md5sums"},changed
+        for p in root.rglob("*"):
+            if p.is_file() and not p.is_symlink():
+                assert not hits(p.read_bytes()),"Vendor names found in resulting file "+str(p)
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",root,args.out)
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+    report={
+        "status":"NATIVE4_EXPERIMENTAL_CODE_BODIES_REPLACED_NOT_CARPLAY_TESTED",
+        "package":"com.duoface.independent","version":VERSION,
+        "baseline_native3_sha256":EXPECTED,
+        "method_bodies":patched,
+        "changed_payload_paths":sorted(changed),
+        "untouched_original_files":len(before)-len(changed),
+        "compiled_original_carplay_picker_source_rewritten":False,
+        "all_embedded_license_strings_removed":False,
+        "all_embedded_license_code_proven_removed":False,
+        "what_removed":"Selected original method implementation bodies replaced by ABI-compatible inert return stubs; selector metadata retained.",
+        "no_remote_license_sync_in_replaced_methods":True,
+        "other_unknown_code_paths_may_still_exist":True,
+        "source_native3_preserved_for_rollback":True,
+        "device_tested":False,"sileo_published":False,
+        "deb_sha256":sha(args.out.read_bytes()),"deb_size":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps({
+        "version":VERSION,"status":report["status"],
+        "methods_removed":{k:v["method_body_count"] for k,v in patched.items()},
+        "bytes_replaced":{k:v["method_bytes_overwritten"] for k,v in patched.items()},
+        "deb_sha256":report["deb_sha256"],"deb_size":report["deb_size"],
+    },ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native4.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native5.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""DuoFace native5: reversible final expiry UI quarantine over device-OK native4.
+
+Treat this as a STAGED TRIAL, never as proof that all license code is gone:
+* neutralize two late-expiry state methods in iPhone app with exact ARM64 ABI;
+* mask only user-facing static license/activation wording, not selector/keys;
+* generate a complete residual method list with "safe-next-action" categories;
+* leave CBBridgeManager and all CarPlay lifecycle/host routines untouched.
+
+All non-whitelisted payloads must remain byte-identical to native4.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import struct
+import subprocess
+import tempfile
+from audit_native4_license_code import inspect
+from audit_branding import hits
+
+ROOT=Path(__file__).resolve().parents[3]
+BASE=ROOT/"dist/payload-migration/native4/com.duoface.independent_0.1.0~native4_iphoneos-arm64.deb"
+EXPECTED="517cc6ccf84716e40b80116834cf1c874e9ae5027584dc94118cc8f6c4f7f244"
+VERSION="0.1.0~native5"
+FILES={
+    "DuoFaceUI":"var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "DuoFaceDashboard":"var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+}
+FLAG_METHODS={
+    ("XXRootViewController","isShowingExpiredModal"):("B16@0:8",struct.pack("<II",0x52800000,0xd65f03c0)),
+    ("XXRootViewController","setIsShowingExpiredModal:"):("v20@0:8B16",struct.pack("<I",0xd65f03c0)),
+}
+NOP=struct.pack("<I",0xd503201f)
+
+# Static, human-visible text ONLY. No Objective-C class, selector, localization
+# KEY_..., callback, API URL, resource path, ID or receipt data is edited.
+PRESENTATION_ONLY=[
+    "License Expired",
+    "License Not Activated",
+    "License Status",
+    "DuoFace Pro License",
+    "SUBSCRIPTION & LICENSE",
+    "ENTER ACTIVATION CODE (GIFTCODE)",
+    "License Download Incomplete",
+    "Activation Failed",
+    "Lifetime license. All features are permanently available.",
+    "DuoFace requires an active license to run on CarPlay. Please activate to get started.",
+    "Your DuoFace CarPlay license has expired. Please renew or enter an activation code to continue using the app on your vehicle.",
+    "Your license period has ended. Please park your vehicle safely and open DuoFace on your iPhone to renew.",
+    "Please park your vehicle safely and open DuoFace on your iPhone to activate your license.",
+]
+KEYWORDS=("license","licence","subscription","expiration","expired","activation","trial","giftcode","payment","receipt","hardwareid","deviceid")
+
+def sha(data:bytes)->str:return hashlib.sha256(data).hexdigest()
+def cmd(*args):subprocess.run(list(map(str,args)),check=True)
+
+def sections(blob:bytes):
+    assert blob[:4]==bytes.fromhex("cffaedfe"),"native4 only supports generic arm64 slice"
+    n=struct.unpack_from("<I",blob,16)[0]
+    cursor=32
+    for _ in range(n):
+        command,length=struct.unpack_from("<II",blob,cursor)
+        assert length>=8 and cursor+length<=len(blob)
+        if command==0x19:
+            amount=struct.unpack_from("<I",blob,cursor+64)[0]
+            for i in range(amount):
+                at=cursor+72+i*80
+                assert at+80<=cursor+length
+                sec=blob[at:at+16].split(b"\x00")[0].decode("ascii","replace")
+                seg=blob[at+16:at+32].split(b"\x00")[0].decode("ascii","replace")
+                size=struct.unpack_from("<Q",blob,at+40)[0]
+                offset=struct.unpack_from("<I",blob,at+48)[0]
+                if offset+size<=len(blob):
+                    yield seg,sec,offset,size
+        cursor+=length
+
+def replace_expired_flags(blob:bytearray):
+    methods=inspect(bytes(blob))["license_named_methods"]
+    targets={}
+    for method in methods:
+        key=(method["class"],method["selector"])
+        if key in FLAG_METHODS:
+            assert key not in targets,("duplicate original method",key)
+            typ,stub=FLAG_METHODS[key]
+            assert method["type_encoding"]==typ,(key,method["type_encoding"])
+            assert method["listed_in_lc_function_starts"],key
+            assert method["inside_executable_text"],key
+            offset=int(method["imp_file_offset"],16)
+            length=method["estimated_function_span"]
+            assert length%4==0 and length>=len(stub)
+            old=bytes(blob[offset:offset+length])
+            new=stub+NOP*((length-len(stub))//4)
+            assert old!=new,(key,"already neutralized; refuse redundant release")
+            blob[offset:offset+length]=new
+            targets[key]={
+               "class":key[0],"selector":key[1],"signature":typ,
+               "file_offset":offset,"byte_count":length,
+               "before_sha256":sha(old),"after_sha256":sha(new),
+               "replacement":"ABI-compatible false getter/no-op setter; original selector metadata retained",
+               "state":"temporarily_disabled_native5",
+               "next_after_device_pass":"Candidate to remove unused expiry-state storage/calls after static caller audit; retain ABI if needed",
+            }
+    assert len(targets)==2,("Expected both expired state methods",list(targets))
+    return list(targets.values())
+
+def mask_static_ui(blob:bytearray):
+    changes=[]
+    for seg,sec,off,length in sections(blob):
+        if (seg,sec) not in {("__TEXT","__cstring"),("__TEXT","__ustring"),("__TEXT_EXEC","__cstring")}:continue
+        bound=off+length
+        enc="utf-16-le" if sec=="__ustring" else "utf-8"
+        null=b"\x00\x00" if enc=="utf-16-le" else b"\x00"
+        for label in PRESENTATION_ONLY:
+            old=label.encode(enc)
+            # Mask with spaces; keeps all pointers, file offsets, encodings and
+            # original terminators. This *hides*, not deletes from source.
+            new=" "*len(label)
+            replacement=new.encode(enc)
+            assert len(replacement)==len(old)
+            cur=off
+            while True:
+                idx=bytes(blob).find(old,cur,bound)
+                if idx<0:break
+                end=idx+len(old)
+                # Match full NUL-terminated literal, never a suffix of a key,
+                # Objective-C method or class name.
+                prev_ok=(idx==off or blob[idx-len(null):idx]==null)
+                next_ok=(end+len(null)<=bound and blob[end:end+len(null)]==null)
+                if prev_ok and next_ok:
+                    blob[idx:end]=replacement
+                    changes.append({"file_offset":idx,"section":seg+","+sec,
+                                    "label":label,"encoding":enc,"byte_count":len(old),
+                                    "before_sha256":sha(old),"after_sha256":sha(replacement),
+                                    "state":"temporarily_hidden_native5",
+                                    "next_after_device_pass":"Candidate for physical deletion only after verifying no referenced localization/data keys"})
+                cur=end
+    return changes
+
+def categorise_remaining(binary_name,metadata,hidden):
+    records=[]
+    targets={(item["class"],item["selector"]) for item in hidden}
+    for method in metadata["license_named_methods"]:
+        key=(method["class"],method["selector"])
+        if key in targets:
+            state="temporarily_disabled_native5"
+            next_step="Check callers; decide whether to remove storage and selector after native5 device PASS"
+        elif method["class"]=="CBLicenseSyncManager" and (
+             method["selector"] in {"isCarPlayScreenConnected","isCarPlayScreen:",
+                                    "isCarPlayScreenConnectedExcludingScreen:"}):
+            state="retain_carplay_screen_detection"
+            next_step="Keep until code ownership refactoring; active CarPlay screen tracking"
+        elif method["selector"] in {"dealloc",".cxx_destruct","init","sharedInstance"}:
+            state="retain_runtime_lifecycle"
+            next_step="Do not remove until object allocation/caller graph proves dead"
+        else:
+            state="retained_compatibility_or_unverified"
+            next_step="Investigate callers and original binary reference paths before deletion"
+        records.append({"binary":binary_name,"class":method["class"],"selector":method["selector"],
+                        "kind":method["kind"],"method_type":method["type_encoding"],
+                        "state":state,"next_step":next_step})
+    return records
+
+def preserve_entitlements_and_resign(file:Path,before:bytes,work:Path,key:str):
+    old=work/(key+"-before.dylib")
+    old.write_bytes(before)
+    probe=subprocess.run(["ldid","-e",str(old)],capture_output=True)
+    if probe.returncode==0 and b"<plist" in probe.stdout:
+        ent=work/(key+"-entitlements.xml")
+        ent.write_bytes(probe.stdout)
+        cmd("ldid","-S"+str(ent),file)
+        return "reused_prior_entitlements"
+    cmd("ldid","-S",file)
+    return "no_embedded_entitlements_found"
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--out",type=Path,required=True)
+    parser.add_argument("--report",type=Path,required=True)
+    parser.add_argument("--deletion-list",type=Path,required=True)
+    args=parser.parse_args()
+    assert sha(BASE.read_bytes())==EXPECTED,"Do not build from unknown native4 DEB"
+    with tempfile.TemporaryDirectory(prefix="duoface-native5-") as work:
+        staging=Path(work)/"stage"
+        cmd("dpkg-deb","-R",BASE,staging)
+        original={p.relative_to(staging).as_posix():sha(p.read_bytes())
+                  for p in staging.rglob("*") if p.is_file() and not p.is_symlink()}
+        payload={}
+        todo=[]
+        all_hidden=0
+        for name,rel in FILES.items():
+            file=staging/rel
+            before=file.read_bytes()
+            data=bytearray(before)
+            hidden=replace_expired_flags(data) if name=="DuoFaceUI" else []
+            # Scan remaining ObjC method signatures BEFORE masking data.
+            all_methods=inspect(bytes(data))
+            literal_masks=mask_static_ui(data)
+            payload[name]={"method_flags":hidden,"masked_ui_literals":literal_masks,
+                           "before_sha256":sha(before),"mask_count":len(literal_masks)}
+            todo+=categorise_remaining(name,all_methods,hidden)
+            all_hidden+=len(literal_masks)
+            file.write_bytes(bytes(data))
+            payload[name]["code_signing"]=preserve_entitlements_and_resign(file,before,Path(work),name)
+            payload[name]["after_sha256"]=sha(file.read_bytes())
+            assert len(file.read_bytes())>10000
+            assert not hits(file.read_bytes())
+        assert all_hidden>=4,("No meaningful static license UI strings found in native4",all_hidden)
+        control=staging/"DEBIAN/control"
+        text=control.read_text(encoding="utf-8")
+        assert "Package: com.duoface.independent" in text
+        assert "Version: 0.1.0~native4" in text
+        control.write_text(text.replace("Version: 0.1.0~native4","Version: "+VERSION),encoding="utf-8")
+        md5=[]
+        for p in sorted(staging.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(staging).parts[0]!="DEBIAN":
+                md5.append(hashlib.md5(p.read_bytes()).hexdigest()+"  "+p.relative_to(staging).as_posix())
+        (staging/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n")
+        newer={p.relative_to(staging).as_posix():sha(p.read_bytes())
+               for p in staging.rglob("*") if p.is_file() and not p.is_symlink()}
+        changed=sorted(x for x in newer if newer[x]!=original.get(x))
+        expected_paths=sorted(list(FILES.values())+["DEBIAN/control","DEBIAN/md5sums"])
+        assert changed==expected_paths,(changed,expected_paths)
+        assert newer.keys()==original.keys(),"Packaging must not add/remove paths"
+        for k in newer:
+            if k not in changed:assert original[k]==newer[k],k
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",staging,args.out)
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+    ledger={
+        "status":"NATIVE5_RESIDUAL_LICENSE_DELETION_LEDGER_PENDING_REAL_DEVICE_APPROVAL",
+        "baseline_native4_sha256":EXPECTED,
+        "all_method_inventory":todo,
+        "ui_literal_hidden_records":[{"binary":k,**m} for k,v in payload.items() for m in v["masked_ui_literals"]],
+        "method_hidden_records":[{"binary":k,**m} for k,v in payload.items() for m in v["method_flags"]],
+        "caution":"class names, Objective-C selector strings and lifecycle logic remain for ABI; hiding text or neutralizing a method is NOT proof of full removal",
+        "next_after_carplay_pass":"Audit dynamic callers/initialization and physical delete only separately verified unused code/data.",
+        "device_tested":False,
+    }
+    result={
+       "status":"NATIVE5_STAGED_EXPIRED_UI_HIDDEN_NEEDS_DEVICE_TEST",
+       "package":"com.duoface.independent","version":VERSION,
+       "source_native4_sha256":EXPECTED,
+       "changed_paths":changed,
+       "untouched_files":len(original)-len(changed),
+       "new_expired_state_methods_neutralized":sum(len(v["method_flags"]) for v in payload.values()),
+       "hidden_literal_count":all_hidden,
+       "changed_binaries":payload,
+       "zero_old_brand_matches":True,
+       "remaining_license_class_and_selector_metadata":True,
+       "full_license_removal":False,
+       "same_native_carplay_source_and_resources":True,
+       "native4_rollback_file_preserved":True,
+       "device_tested":False,"sileo_published":False,
+       "deb_sha256":sha(args.out.read_bytes()),"deb_size":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.deletion_list.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\n")
+    args.deletion_list.write_text(json.dumps(ledger,indent=2,ensure_ascii=False)+"\n")
+    print(json.dumps({k:v for k,v in result.items() if k!="changed_binaries"},ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native5.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native6.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""DuoFace Mới native6: erase ONLY 26 native5-hidden presentation literals.
+
+This is targeted string-data excision, NOT full license-subsystem removal.
+Do not remove ObjC class/selector metadata, lifecycle routines or CarPlay code.
+The 2 expiry-modal method implementations were already inert in native5.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import tempfile
+
+from build_native5 import FILES, sections, preserve_entitlements_and_resign, sha, cmd
+from audit_branding import hits
+
+ROOT = Path(__file__).resolve().parents[3]
+SOURCE = ROOT / "dist/payload-migration/native5/com.duoface.independent_0.1.0~native5_iphoneos-arm64.deb"
+SOURCE_HASH = "9b0b45cb4f9f26ae7c16d9aea8366d032e337f262397e253e0078958d5a46a26"
+LEDGER = ROOT / "dist/payload-migration/native5/DANH_SACH_CHO_XOA.json"
+VERSION = "0.1.0~native6"
+
+
+def erase_approved_display_strings(name: str, original: bytes, entries: list[dict]):
+    data = bytearray(original)
+    allowed_sections = {
+        (seg + "," + sec, offset, offset + size)
+        for seg, sec, offset, size in sections(original)
+        if (seg, sec) in {("__TEXT", "__cstring"), ("__TEXT", "__ustring"),
+                          ("__TEXT_EXEC", "__cstring")}
+    }
+    assert len(entries) == 13, (name, len(entries))
+    used = set()
+    removed = []
+    for row in entries:
+        start = int(row["file_offset"])
+        count = int(row["byte_count"])
+        end = start + count
+        assert count > 0 and (start, end) not in used
+        assert any(s == row["section"] and lo <= start < end <= hi
+                   for s, lo, hi in allowed_sections), (name, row)
+        used.add((start, end))
+        old = bytes(data[start:end])
+        # Native5 wrote only space bytes (UTF8 or UTF16); verify exact old SHA.
+        assert sha(old) == row["after_sha256"], (name, row["label"])
+        assert old == (" " * len(row["label"])).encode(row["encoding"])
+        assert sha(row["label"].encode(row["encoding"])) == row["before_sha256"]
+        # In native6 the old placeholder DATA BYTES are erased, not hidden
+        # behind printable blanks. NUL termination remains safe for C pointers.
+        new = bytes(count)
+        data[start:end] = new
+        removed.append({
+            "binary": name, "file_offset": start, "byte_count": count,
+            "original_label": row["label"], "section": row["section"],
+            "encoding": row["encoding"], "native5_sha256": sha(old),
+            "native6_sha256": sha(new), "operation": "zeroed_presentation_data"
+        })
+    intervals = sorted(used)
+    assert all(a[1] <= b[0] for a, b in zip(intervals, intervals[1:]))
+    return bytes(data), removed
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--out", type=Path, required=True)
+    p.add_argument("--report", type=Path, required=True)
+    args = p.parse_args()
+    assert sha(SOURCE.read_bytes()) == SOURCE_HASH, "Unknown native5 baseline"
+    ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
+    literals = ledger["ui_literal_hidden_records"]
+    methods = ledger["method_hidden_records"]
+    assert len(literals) == 26 and len(methods) == 2
+    assert all(m["state"] == "temporarily_disabled_native5" for m in methods)
+    assert {m["selector"] for m in methods} == {
+        "isShowingExpiredModal", "setIsShowingExpiredModal:"}
+    with tempfile.TemporaryDirectory(prefix="duoface-native6-") as temp:
+        tmp = Path(temp)
+        stage = tmp / "stage"
+        cmd("dpkg-deb", "-R", SOURCE, stage)
+        original = {
+            f.relative_to(stage).as_posix(): sha(f.read_bytes())
+            for f in stage.rglob("*") if f.is_file() and not f.is_symlink()
+        }
+        operations = []
+        signatures = {}
+        for name, rel in FILES.items():
+            f = stage / rel
+            before = f.read_bytes()
+            selected = [x for x in literals if x["binary"] == name]
+            revised, erased = erase_approved_display_strings(name, before, selected)
+            if name == "DuoFaceUI":
+                for m in methods:
+                    st = int(m["file_offset"])
+                    end = st + int(m["byte_count"])
+                    assert sha(before[st:end]) == m["after_sha256"]
+                    assert before[st:end] == revised[st:end], "Must retain expiry ABI"
+            assert len(revised) == len(before)
+            f.write_bytes(revised)
+            signatures[name] = preserve_entitlements_and_resign(f, before, tmp, name)
+            assert not hits(f.read_bytes()), ("Old brand reintroduced", name)
+            operations.extend(erased)
+        assert len(operations) == 26
+        control = stage / "DEBIAN/control"
+        old_control = control.read_text(encoding="utf-8")
+        assert "Package: com.duoface.independent" in old_control
+        assert "Version: 0.1.0~native5" in old_control
+        control.write_text(old_control.replace(
+            "Version: 0.1.0~native5", "Version: " + VERSION), encoding="utf-8")
+        md5sums = []
+        for f in sorted(stage.rglob("*")):
+            if f.is_file() and not f.is_symlink() and f.relative_to(stage).parts[0] != "DEBIAN":
+                md5sums.append(hashlib.md5(f.read_bytes()).hexdigest()
+                               + "  " + f.relative_to(stage).as_posix())
+        (stage / "DEBIAN/md5sums").write_text("\n".join(md5sums) + "\n")
+        current = {
+            f.relative_to(stage).as_posix(): sha(f.read_bytes())
+            for f in stage.rglob("*") if f.is_file() and not f.is_symlink()
+        }
+        assert original.keys() == current.keys()
+        changed = sorted(k for k in original if original[k] != current[k])
+        assert changed == sorted([
+            "DEBIAN/control", "DEBIAN/md5sums", *FILES.values()
+        ]), changed
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        cmd("dpkg-deb", "--build", "--root-owner-group", stage, args.out)
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(args.out), "Package"], text=True
+    ).strip() == "com.duoface.independent"
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(args.out), "Version"], text=True
+    ).strip() == VERSION
+    report = {
+        "status": "NATIVE6_ZERO_ERASED_DISPLAY_LITERALS_PENDING_CI_AND_DEVICE_TEST",
+        "source_native5_sha256": SOURCE_HASH,
+        "package": "com.duoface.independent", "version": VERSION,
+        "zero_erased_presentation_literals": len(operations),
+        "zero_erased_data_bytes": sum(x["byte_count"] for x in operations),
+        "changes": operations, "changed_paths": changed,
+        "untouched_files": len(original) - len(changed),
+        "signatures": signatures,
+        "expired_accessor_implementations": "Retained native5 inert ABI stubs",
+        "license_class_selector_metadata_still_present": True,
+        "all_embedded_license_code_proven_removed": False,
+        "native5_and_native4_rollback_preserved": True,
+        "carplay_executable_sections_modified": False,
+        "device_tested": False, "sileo_published": False,
+        "deb_sha256": sha(args.out.read_bytes()),
+        "deb_size": args.out.stat().st_size
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+                           encoding="utf-8")
+    print(json.dumps({k: v for k, v in report.items() if k != "changes"},
+                     indent=2, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_native6.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native7.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Native7 STAGED HIDE: user-visible license/subscription copy only.
+
+39 explicitly audited NUL-terminated strings x2 binaries: replace with spaces
+of identical byte count, retaining original terminators/pointers/selector/keys.
+CarPlay hosts, runtime lifecycle, and every instruction remain untouched.
+Native6 remains the immutable rollback; native7 is NOT physical deletion.
+"""
+from __future__ import annotations
+import argparse, hashlib, json, subprocess, tempfile
+from pathlib import Path
+from build_native5 import FILES, sections, preserve_entitlements_and_resign, sha, cmd
+from audit_branding import hits
+
+ROOT=Path(__file__).resolve().parents[3]
+SOURCE=ROOT/"dist/payload-migration/native6/com.duoface.independent_0.1.0~native6_iphoneos-arm64.deb"
+EXPECTED="88b0e9358c075e2131ddb9e6ac25689584765d1285120e2e3282ce8a5bb3df15"
+AUDIT=ROOT/"audit/payload-migration/NATIVE6_REMAINING_LICENSE_READONLY.json"
+VERSION="0.1.0~native7"
+# Only whole, visually presentable labels; all data keys, log tags, class names,
+# ObjC selectors, synchronization identifiers and CarPlay control copy excluded.
+UI_COPY=[
+    "Connect to CarPlay to start your %ld-day free trial, or choose a plan below to activate.",
+    "Connect to CarPlay for a free trial, or choose a plan below to activate.",
+    "OR REDEEM GIFTCODE",
+    "%ld-day trial ($0)",
+    "Enter giftcode...",
+    "Please enter a giftcode before activating.",
+    "Giftcode is invalid or already used.",
+    "Activated Successfully!",
+    "DuoFace Pro license activated. All CarPlay multitasking features are ready to use!",
+    "Awaiting Payment",
+    "Order Expired",
+    "Activate Now",
+    "Lifetime license on this device.",
+    "Connect to CarPlay to start your %ld-day free trial, or select a plan below.",
+    "Connect to CarPlay to start your free trial, or select a plan below.",
+    "Resume Pending Payment Page",
+    "Enter activation code from your reseller or direct purchase:",
+    "Don't have a code? Contact your reseller or support team for quick activation.",
+    "Enter activation code...",
+    "Reopen Payment Page",
+    "Please enter an activation code before continuing.",
+    "Activation code is invalid or already used.",
+    "License Sync Incomplete",
+    "DuoFace Pro license activated successfully. Connect to CarPlay to enjoy multitasking!",
+    "Unable to load subscription plans. Please check your network connection and try again.",
+    "Loading subscription plans...",
+    "License Duration",
+    "Licencia no activada",
+    "Licencia caducada",
+    "Guarda este ID de dispositivo para transferir tu licencia a otro equipo (hasta 10 veces).",
+    "Estado de licencia",
+    "Entrez le code d'activation de votre revendeur ou du support :",
+    "Expiration serveur",
+    "Statut de licence",
+    "Voer activatiecode van verkoper of ondersteuning in:",
+    "Licencja nieaktywna",
+    "Licencja nieaktywowana",
+    "Okres licencji",
+    "Status licencji"
+]
+
+
+def mask_selected(name, before, catalog):
+    targets=[x for x in catalog if x["display_literal"] in UI_COPY]
+    assert len(targets)==len(UI_COPY)==39, (name,len(targets))
+    assert {x["display_literal"] for x in targets}==set(UI_COPY)
+    segmap={(seg,sec):(off,off+size) for seg,sec,off,size in sections(before)}
+    data=bytearray(before)
+    records=[]
+    for row in targets:
+        start=row["file_offset"]
+        size=row["byte_count"]
+        stop=start+size
+        sec=row["section"]
+        assert sec=="__cstring"
+        assert any(key[1]==sec and lo<=start<stop<=hi for key,(lo,hi) in segmap.items())
+        old=bytes(data[start:stop])
+        assert old==row["display_literal"].encode("utf-8")
+        assert sha(old)==row["sha256"]
+        assert data[stop:stop+1]==b"\x00"
+        assert data[start-1:start] in (b"\x00",b"") # whole C string
+        replacement=b" "*size
+        assert len(old)==len(replacement)
+        data[start:stop]=replacement
+        records.append({
+            "binary":name,"label":row["display_literal"],"file_offset":start,
+            "byte_count":size,"native6_sha256":sha(old),
+            "native7_sha256":sha(replacement),"section":"__cstring",
+            "state":"temporarily_hidden_native7",
+        })
+    pairs=sorted((x["file_offset"],x["file_offset"]+x["byte_count"]) for x in records)
+    assert all(a[1]<=b[0] for a,b in zip(pairs,pairs[1:]))
+    return bytes(data),records
+
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--out",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    args=ap.parse_args()
+    assert sha(SOURCE.read_bytes())==EXPECTED
+    audit=json.loads(AUDIT.read_text())
+    assert audit["native6_sha256"]==EXPECTED and audit["raw_deb_unchanged"]
+    assert len(UI_COPY)==len(set(UI_COPY))==39
+    records=[]
+    signs={}
+    with tempfile.TemporaryDirectory(prefix="duoface-native7-") as temp:
+        temp=Path(temp)
+        stage=temp/"stage"
+        cmd("dpkg-deb","-R",SOURCE,stage)
+        prior={p.relative_to(stage).as_posix():sha(p.read_bytes())
+               for p in stage.rglob("*") if p.is_file() and not p.is_symlink()}
+        for name,rel in FILES.items():
+            p=stage/rel
+            original=p.read_bytes()
+            revised,changed=mask_selected(name,original,audit["binaries"][name]["strings"])
+            assert len(revised)==len(original)
+            p.write_bytes(revised)
+            signs[name]=preserve_entitlements_and_resign(p,original,temp,name)
+            assert not hits(p.read_bytes())
+            records.extend(changed)
+        assert len(records)==78
+        control=stage/"DEBIAN/control"
+        c=control.read_text()
+        assert "Package: com.duoface.independent" in c
+        assert "Version: 0.1.0~native6" in c
+        control.write_text(c.replace("Version: 0.1.0~native6","Version: "+VERSION))
+        md5sums=[]
+        for p in sorted(stage.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(stage).parts[0]!="DEBIAN":
+                md5sums.append(hashlib.md5(p.read_bytes()).hexdigest()+"  "+p.relative_to(stage).as_posix())
+        (stage/"DEBIAN/md5sums").write_text("\n".join(md5sums)+"\n")
+        after={p.relative_to(stage).as_posix():sha(p.read_bytes())
+               for p in stage.rglob("*") if p.is_file() and not p.is_symlink()}
+        changed_paths=sorted(k for k in prior if prior[k]!=after[k])
+        assert prior.keys()==after.keys()
+        assert changed_paths==sorted([*FILES.values(),"DEBIAN/control","DEBIAN/md5sums"])
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",stage,args.out)
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+    report={
+      "status":"NATIVE7_ONLY_STATIC_UI_COPY_STAGED_HIDE_NEEDS_DEVICE_TEST",
+      "source_native6_sha256":EXPECTED,"package":"com.duoface.independent",
+      "version":VERSION,"presentation_labels_masked":39,
+      "presentation_literal_occurrences_masked":len(records),
+      "presentation_bytes_masked":sum(x["byte_count"] for x in records),
+      "masks":records,"changed_paths":changed_paths,
+      "unchanged_all_other_payload_files":len(prior)-len(changed_paths),
+      "machine_code_changed":False,"objc_metadata_or_keys_changed":False,
+      "carplay_host_and_screen_detection_changed":False,
+      "lifecycle_changed":False,"license_full_removal":False,
+      "signatures":signs,"native6_rollback_preserved":True,
+      "device_tested":False,"sileo_published":False,
+      "deb_sha256":sha(args.out.read_bytes()),"deb_size":args.out.stat().st_size}
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n")
+    print(json.dumps({k:v for k,v in report.items() if k!="masks"},indent=2,ensure_ascii=False))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native7.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native8.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Native8: staged native7 39-label presentation hide + source-built 0.30s logo-grip hook.
+
+Immutable source native6. EXACT two existing Mach-O binaries change in approved
+__cstring literal ranges; all original code/CarPlay/ObjC metadata remains byte-identical.
+The original DuoFaceVisualHook.dylib alone is replaced by source-compiled hook.
+No other payload file or legacy package ID may change.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import subprocess
+import tempfile
+from pathlib import Path
+from build_native5 import FILES, preserve_entitlements_and_resign, sha, cmd
+from build_native7 import SOURCE, EXPECTED, AUDIT, UI_COPY, mask_selected
+from audit_branding import hits
+
+ROOT = Path(__file__).resolve().parents[3]
+VERSION = "0.1.0~native8"
+HOOK_REL = "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+HOOK_FILTER_REL = "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist"
+
+
+def files_and_digests(stage):
+    return {
+        p.relative_to(stage).as_posix(): sha(p.read_bytes())
+        for p in stage.rglob("*") if p.is_file() and not p.is_symlink()
+    }
+
+
+def build():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--hook", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--report", required=True, type=Path)
+    args = parser.parse_args()
+    assert sha(SOURCE.read_bytes()) == EXPECTED, "native6 baseline changed"
+    catalog = json.loads(AUDIT.read_text(encoding="utf-8"))
+    assert catalog["native6_sha256"] == EXPECTED and catalog["raw_deb_unchanged"]
+    assert len(UI_COPY) == len(set(UI_COPY)) == 39
+    assert args.hook.is_file() and args.hook.stat().st_size > 10000
+    hook_source = ROOT / "src/DuoFaceVisualHook.m"
+    grip_source = ROOT / "src/DFDividerLogoGrip.inc"
+    hook_code = hook_source.read_text(encoding="utf-8")
+    grip_code = grip_source.read_text(encoding="utf-8")
+    assert '#include "DFDividerLogoGrip.inc"' in hook_code
+    assert "DFInstallLogoGripHooks(hook, divider)" in hook_code
+    assert "kDFLogoHoldThreshold = 0.30" in grip_code
+    assert "DFLogoMoveWithHold" in grip_code
+    assert "setSplitRatio:" not in grip_code
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(SOURCE), "Package"], text=True
+    ).strip() == "com.duoface.independent"
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(SOURCE), "Version"], text=True
+    ).strip() == "0.1.0~native6"
+
+    records, signing = [], {}
+    with tempfile.TemporaryDirectory(prefix="duoface-native8-") as td:
+        root = Path(td)
+        stage = root / "stage"
+        cmd("dpkg-deb", "-R", SOURCE, stage)
+        original = files_and_digests(stage)
+        assert HOOK_REL in original and HOOK_FILTER_REL in original
+        assert all(rel in original for rel in FILES.values())
+
+        for name, rel in FILES.items():
+            target = stage / rel
+            before = target.read_bytes()
+            result, masks = mask_selected(name, before, catalog["binaries"][name]["strings"])
+            assert len(result) == len(before), "Mach-O length changed"
+            target.write_bytes(result)
+            signing[name] = preserve_entitlements_and_resign(target, before, root, name)
+            assert not hits(target.read_bytes()), "Old brand present"
+            records.extend(masks)
+        assert len(records) == 78
+        assert all(m["state"] == "temporarily_hidden_native7" for m in records)
+
+        original_hook = (stage / HOOK_REL).read_bytes()
+        new_hook = args.hook.read_bytes()
+        assert new_hook[:4] == bytes.fromhex("cffaedfe"), "Hook not ARM64 Mach-O"
+        (stage / HOOK_REL).write_bytes(new_hook)
+        signing["DuoFaceVisualHook"] = preserve_entitlements_and_resign(
+            stage / HOOK_REL, original_hook, root, "DuoFaceVisualHook"
+        )
+        new_hook_signed_sha256 = sha((stage / HOOK_REL).read_bytes())
+        assert new_hook_signed_sha256 != sha(original_hook)
+        assert (stage / HOOK_FILTER_REL).is_file()
+        assert not hits((stage / HOOK_REL).read_bytes())
+
+        control = stage / "DEBIAN/control"
+        old_control = control.read_text(encoding="utf-8")
+        assert "Package: com.duoface.independent" in old_control
+        assert "Version: 0.1.0~native6" in old_control
+        control.write_text(
+            old_control.replace("Version: 0.1.0~native6", "Version: " + VERSION),
+            encoding="utf-8",
+        )
+        md5sums = []
+        for p in sorted(stage.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(stage).parts[0] != "DEBIAN":
+                md5sums.append(
+                    hashlib.md5(p.read_bytes()).hexdigest() + "  " +
+                    p.relative_to(stage).as_posix()
+                )
+        (stage / "DEBIAN/md5sums").write_text("\n".join(md5sums) + "\n")
+        updated = files_and_digests(stage)
+        assert original.keys() == updated.keys(), "payload added or dropped files"
+        changed = sorted(k for k in original if original[k] != updated[k])
+        expected = sorted([
+            "DEBIAN/control", "DEBIAN/md5sums", HOOK_REL, *FILES.values()
+        ])
+        assert changed == expected, (changed, expected)
+
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        assert not args.out.exists(), "Refusing to overwrite existing native8 DEB"
+        cmd("dpkg-deb", "--build", "--root-owner-group", stage, args.out)
+
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(args.out), "Package"], text=True
+    ).strip() == "com.duoface.independent"
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(args.out), "Version"], text=True
+    ).strip() == VERSION
+    assert subprocess.check_output(
+        ["dpkg-deb", "-f", str(args.out), "Architecture"], text=True
+    ).strip() == "iphoneos-arm64"
+    result = {
+        "status": "NATIVE8_TWO_SCOPE_STAGED_LICENSE_COPY_AND_LOGO_DRAG_NEEDS_DEVICE_QA",
+        "baseline_native6_sha256": EXPECTED,
+        "package": "com.duoface.independent",
+        "version": VERSION,
+        "target_rootless_architecture": "iphoneos-arm64",
+        "license_ui_strings_selected": len(UI_COPY),
+        "license_ui_literal_occurrences_hidden": len(records),
+        "license_ui_selected_bytes": sum(x["byte_count"] for x in records),
+        "actual_changed_literal_bytes_expected": sum(
+            sum(v != 0x20 for v in m["label"].encode("utf-8")) for m in records
+        ),
+        "masks": records,
+        "replaced_hook": HOOK_REL,
+        "original_hook_sha256": sha(original_hook),
+        "new_hook_sha256": new_hook_signed_sha256,
+        "hook_compiled_input_sha256": sha(new_hook),
+        "hook_source_sha256": sha(hook_source.read_bytes()),
+        "grip_source_sha256": sha(grip_source.read_bytes()),
+        "hold_duration_seconds": 0.30,
+        "changed_payload_and_control_paths": changed,
+        "unchanged_payload_files": len(original) - len(changed),
+        "signing": signing,
+        "carplay_host_and_detectors_modified": False,
+        "native_host_code_modified": False,
+        "objc_class_selector_metadata_modified": False,
+        "license_full_removal_claimed": False,
+        "device_tested": False,
+        "sileo_published": False,
+        "native6_rollback_preserved": True,
+        "deb_sha256": sha(args.out.read_bytes()),
+        "deb_size": args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({k:v for k,v in result.items() if k != "masks"}, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    build()
+########## END FILE: migration/full_payload/native_test/build_native8.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native9.py ##########
+#!/usr/bin/env python3
+"""Native9 CarPlay repair candidate: native6 ORIGINAL visuals + isolated logo.
+
+This script intentionally does NOT rebuild/replace DuoFaceVisualHook.dylib.
+Only the 39 x 2 already audited static license-display literals are masked,
+and a separately compiled/signed DuoFaceLogoGripOnly.dylib + EXACT original
+Substrate injection filter are added. Native divider pan is not hooked.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import plistlib
+import subprocess
+import tempfile
+from pathlib import Path
+from build_native5 import FILES, preserve_entitlements_and_resign, sha, cmd
+from build_native7 import SOURCE, EXPECTED, AUDIT, UI_COPY, mask_selected
+from build_native8 import files_and_digests
+from audit_branding import hits
+
+ROOT = Path(__file__).resolve().parents[3]
+VERSION = "0.1.0~native9"
+BASE_VISUAL = "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+BASE_FILTER = BASE_VISUAL.removesuffix(".dylib") + ".plist"
+GRIP_DYLIB = "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib"
+GRIP_FILTER = GRIP_DYLIB.removesuffix(".dylib") + ".plist"
+ORIGINAL_VISUAL_SHA256 = "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d"
+
+def validate_source():
+    standalone = (ROOT/"src/DuoFaceLogoGripOnly.m").read_text(encoding="utf-8")
+    gesture = (ROOT/"src/DFDividerLogoGrip.inc").read_text(encoding="utf-8")
+    assert "#define DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN 1" in standalone
+    assert '#include "DFDividerLogoGrip.inc"' in standalone
+    assert "DFInstallLogoGripHooks(hook, divider)" in standalone
+    assert "kDFLogoHoldThreshold = 0.30" in gesture
+    assert "DFLogoMoveWithHold" in gesture
+    assert "setSplitRatio:" not in gesture
+    assert "DFSetButtonBackgroundColor" not in standalone
+    assert "_expandButton" not in standalone and "_restoreButton" not in standalone
+    assert "DFLogoDividerPan" not in standalone
+    for marker in ("DFLogoGripHold", "DFLogoGripDown", "DFLogoGripUp",
+                   "DFLogoRestorePositionBeforeLayout"):
+        assert marker in gesture
+    qa = json.loads((ROOT/"audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json").read_text(encoding="utf-8"))
+    assert qa["status"] == "SOURCE_ONLY_NATIVE9_LOGO_ISOLATION_ROUTE_PASS"
+    assert all(qa["cases"].values()) and len(qa["cases"]) == 16
+    return {
+        "grip_only_source_sha256": sha((ROOT/"src/DuoFaceLogoGripOnly.m").read_bytes()),
+        "gesture_source_sha256": sha((ROOT/"src/DFDividerLogoGrip.inc").read_bytes()),
+        "source_only_qa_report_sha256": sha((ROOT/"audit/native9/LOGO_ISOLATION_SOURCE_ONLY.json").read_bytes()),
+    }
+
+def package():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--hook", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--report", required=True, type=Path)
+    args=parser.parse_args()
+    sources=validate_source()
+    assert sha(SOURCE.read_bytes()) == EXPECTED, "native6 baseline SHA changed"
+    old_catalog=json.loads(AUDIT.read_text(encoding="utf-8"))
+    assert old_catalog["native6_sha256"]==EXPECTED and old_catalog["raw_deb_unchanged"]
+    assert len(UI_COPY)==len(set(UI_COPY))==39
+    assert args.hook.is_file() and args.hook.stat().st_size>10000
+    hook=args.hook.read_bytes()
+    assert hook[:4]==bytes.fromhex("cffaedfe"), "not ARM64 Mach-O"
+    assert b"DuoFaceGripOnly" in hook and b"DuoFaceGrip" in hook
+    assert subprocess.check_output(["dpkg-deb","-f",str(SOURCE),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(SOURCE),"Version"],text=True).strip()=="0.1.0~native6"
+    assert subprocess.check_output(["dpkg-deb","-f",str(SOURCE),"Architecture"],text=True).strip()=="iphoneos-arm64"
+
+    args.out.parent.mkdir(parents=True,exist_ok=True)
+    assert not args.out.exists(), "Refuse to overwrite existing native9 DEB"
+    masks=[]
+    signed={}
+    with tempfile.TemporaryDirectory(prefix="duoface-native9-") as td:
+        temp=Path(td)
+        stage=temp/"stage"
+        cmd("dpkg-deb","-R",SOURCE,stage)
+        before=files_and_digests(stage)
+        assert BASE_VISUAL in before and BASE_FILTER in before
+        assert GRIP_DYLIB not in before and GRIP_FILTER not in before
+        for rel in FILES.values(): assert rel in before
+        base_filter=(stage/BASE_FILTER).read_bytes()
+        filter_plist=plistlib.loads(base_filter)
+        # No made-up process list: the additive tweak inherits EXACT native6 filter.
+        assert filter_plist.get("Filter") and filter_plist["Filter"].get("Bundles")
+        assert sha((stage/BASE_VISUAL).read_bytes())==ORIGINAL_VISUAL_SHA256
+
+        for name,rel in FILES.items():
+            target=stage/rel
+            src=target.read_bytes()
+            masked,found=mask_selected(name,src,old_catalog["binaries"][name]["strings"])
+            assert len(src)==len(masked)
+            target.write_bytes(masked)
+            signed[name]=preserve_entitlements_and_resign(target,src,temp,name)
+            assert not hits(target.read_bytes())
+            masks.extend(found)
+        assert len(masks)==78
+        assert all(x["state"]=="temporarily_hidden_native7" for x in masks)
+
+        grip=stage/GRIP_DYLIB
+        grip.parent.mkdir(parents=True,exist_ok=True)
+        grip.write_bytes(hook)
+        # This independent MRC hook has no dedicated entitlement dependency.
+        cmd("ldid","-S",grip)
+        signed_grip_sha=sha(grip.read_bytes())
+        (stage/GRIP_FILTER).write_bytes(base_filter)
+        assert (stage/GRIP_FILTER).read_bytes()==(stage/BASE_FILTER).read_bytes()
+        assert not hits(grip.read_bytes())
+
+        control=stage/"DEBIAN/control"
+        initial_control=control.read_text(encoding="utf-8")
+        assert "Package: com.duoface.independent" in initial_control
+        assert "Version: 0.1.0~native6" in initial_control
+        control.write_text(initial_control.replace("Version: 0.1.0~native6", "Version: "+VERSION),
+                           encoding="utf-8")
+
+        md5=[]
+        for p in sorted(stage.rglob("*")):
+            if p.is_file() and not p.is_symlink() and p.relative_to(stage).parts[0]!="DEBIAN":
+                md5.append(hashlib.md5(p.read_bytes()).hexdigest()+"  "+p.relative_to(stage).as_posix())
+        (stage/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n")
+        after=files_and_digests(stage)
+        assert set(after)-set(before)=={GRIP_DYLIB,GRIP_FILTER}
+        assert not (set(before)-set(after)), "Existing payload cannot lose any files"
+        changed=sorted(k for k in before if before[k]!=after[k])
+        expected=sorted([*FILES.values(),"DEBIAN/control","DEBIAN/md5sums"])
+        assert changed==expected,(changed,expected)
+        assert before[BASE_VISUAL]==after[BASE_VISUAL]==ORIGINAL_VISUAL_SHA256
+        assert before[BASE_FILTER]==after[BASE_FILTER]
+        assert len(after)==len(before)+2
+        assert sum(1 for x in masks if x["binary"]=="DuoFaceUI")==39
+        assert sum(1 for x in masks if x["binary"]=="DuoFaceDashboard")==39
+        cmd("dpkg-deb","--build","--root-owner-group",stage,args.out)
+
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Architecture"],text=True).strip()=="iphoneos-arm64"
+    result={
+        "status":"NATIVE9_ORIGINAL_VISUAL_PLUS_GRIP_ONLY_STAGED_NEEDS_CARPLAY_DEVICE_QA",
+        "native6_base_sha256":EXPECTED,
+        "package":"com.duoface.independent",
+        "version":VERSION,
+        "architecture":"iphoneos-arm64",
+        "license_labels_selected":39,
+        "license_copy_occurrences_hidden":len(masks),
+        "literal_selected_bytes":sum(m["byte_count"] for m in masks),
+        "actual_changed_literal_bytes_expected":sum(
+            sum(x!=0x20 for x in m["label"].encode("utf-8")) for m in masks),
+        "masks":masks,
+        "original_visual_sha256_unchanged":ORIGINAL_VISUAL_SHA256,
+        "original_visual_filter_sha256_unchanged":before[BASE_FILTER],
+        "new_grip_dylib":GRIP_DYLIB,
+        "new_grip_sha256":signed_grip_sha,
+        "new_grip_filter":GRIP_FILTER,
+        "new_grip_filter_sha256":before[BASE_FILTER],
+        "hook_input_sha256":sha(hook),
+        "hook_src":sources,
+        "changed_existing_paths":changed,
+        "added_paths":sorted([GRIP_DYLIB,GRIP_FILTER]),
+        "untouched_existing_payload_files":len(before)-len(changed),
+        "resigned_existing":signed,
+        "native_divider_pan_hooked":False,
+        "fullscreen_legacy_visual_hook_replaced":False,
+        "source_native6_rollback_preserved":True,
+        "native8_rollback_preserved":True,
+        "logo_hold_duration_seconds":0.30,
+        "license_code_fully_removed":False,
+        "device_tested":False,
+        "sileo_published":False,
+        "deb_sha256":sha(args.out.read_bytes()),
+        "deb_bytes":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps({k:v for k,v in result.items() if k!="masks"},ensure_ascii=False,indent=2))
+
+if __name__=="__main__":
+    package()
+########## END FILE: migration/full_payload/native_test/build_native9.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_visual12_duodash_trace.py ##########
+#!/usr/bin/env python3
+"""Package a reversible DuoDash-focused activation trace on top of VisualTest12.
+
+This is NOT an activation fix. No DuoDash/Airaw/proprietary binary is bundled.
+The preserved VisualTest12 UI/Dashboard, all baseline assets, and separate Hub
+are byte-identical. Only two diagnostic files and package metadata are added.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import plistlib
+import subprocess
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[3]
+BASE = ROOT / ("dist/visualtest12-connectprobe1/"
+               "com.duonavi.app_1.0.3-12~visualtest12launch2probe1_iphoneos-arm64.deb")
+BASE_SHA256 = "43c7ffbaae23fa39a19c63e276f50cfd35c66ce1ea7ab887f9a78cc077738841"
+PACKAGE = "com.duonavi.app"
+OLD_VERSION = "1.0.3-12~visualtest12launch2probe1"
+VERSION = "1.0.3-12~visualtest12launch3ddtrace1"
+LIB_NAME = "DFDuoDashActivationTrace.dylib"
+PLIST_NAME = "DFDuoDashActivationTrace.plist"
+INJECT = "var/jb/Library/MobileSubstrate/DynamicLibraries"
+FILTER = ROOT / "runtime/visualtest12/DFDuoDashActivationTrace.plist"
+EXPECTED_BUNDLES = {
+    "com.apple.springboard",
+    "com.apple.CarPlayApp",
+    "com.duoface.duofaceui",
+    "com.duonavi.app",
+}
+
+def sha(blob: bytes) -> str:
+    return hashlib.sha256(blob).hexdigest()
+
+def field(package: Path, name: str) -> str:
+    return subprocess.check_output(
+        ["dpkg-deb", "-f", str(package), name], text=True
+    ).strip()
+
+def all_regular_files(root: Path) -> dict[str, str]:
+    return {
+        p.relative_to(root).as_posix(): sha(p.read_bytes())
+        for p in root.rglob("*") if p.is_file() and not p.is_symlink()
+    }
+
+def all_symlinks(root: Path) -> dict[str, str]:
+    return {
+        p.relative_to(root).as_posix(): str(p.readlink())
+        for p in root.rglob("*") if p.is_symlink()
+    }
+
+def run(*args: object) -> None:
+    subprocess.run([str(s) for s in args], check=True)
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dylib", type=Path, required=True)
+    parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--report", type=Path, required=True)
+    args = parser.parse_args()
+
+    assert BASE.is_file(), f"Missing exact baseline: {BASE}"
+    assert sha(BASE.read_bytes()) == BASE_SHA256, "baseline DEB fingerprint changed"
+    assert field(BASE, "Package") == PACKAGE
+    assert field(BASE, "Version") == OLD_VERSION
+    assert field(BASE, "Architecture") == "iphoneos-arm64"
+    assert args.dylib.is_file() and args.dylib.stat().st_size > 4000
+    dylib = args.dylib.read_bytes()
+    assert dylib[:4] == bytes.fromhex("cffaedfe"), "expected signed ARM64 Mach-O"
+    filters = plistlib.loads(FILTER.read_bytes())
+    assert set(filters["Filter"]["Bundles"]) == EXPECTED_BUNDLES
+    assert not args.out.exists(), "refuse accidental overwrite"
+    assert args.out.resolve() != BASE.resolve()
+
+    with tempfile.TemporaryDirectory(prefix="duoface-ddtrace-") as dirname:
+        root = Path(dirname) / "payload"
+        run("dpkg-deb", "-R", BASE, root)
+        before = all_regular_files(root)
+        before_links = all_symlinks(root)
+        targets = {f"{INJECT}/{LIB_NAME}", f"{INJECT}/{PLIST_NAME}"}
+        assert not (targets & set(before)), "diagnostic already in source package"
+
+        output = root / INJECT
+        output.mkdir(parents=True, exist_ok=True)
+        (output / LIB_NAME).write_bytes(dylib)
+        (output / PLIST_NAME).write_bytes(FILTER.read_bytes())
+
+        control = root / "DEBIAN/control"
+        text = control.read_text(encoding="utf-8")
+        oldline = f"Version: {OLD_VERSION}\n"
+        assert text.count(oldline) == 1
+        control.write_text(text.replace(oldline, f"Version: {VERSION}\n"),
+                           encoding="utf-8")
+        checksums = []
+        for file in sorted(root.rglob("*")):
+            if file.is_file() and not file.is_symlink():
+                relative = file.relative_to(root).as_posix()
+                if not relative.startswith("DEBIAN/"):
+                    checksums.append(hashlib.md5(file.read_bytes()).hexdigest()
+                                     + "  " + relative)
+        (root / "DEBIAN/md5sums").write_text("\n".join(checksums) + "\n")
+
+        after = all_regular_files(root)
+        assert all_symlinks(root) == before_links, "original symlinks changed"
+        assert set(after) - set(before) == targets
+        assert not set(before) - set(after), "source file disappeared"
+        changed = sorted(k for k in before if before[k] != after[k])
+        assert changed == ["DEBIAN/control", "DEBIAN/md5sums"], changed
+        # Original payload and existing connection probe are untouched.
+        original_payload = [k for k in before if k.startswith("var/jb/")]
+        assert all(before[k] == after[k] for k in original_payload)
+
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        run("dpkg-deb", "--build", "--root-owner-group", root, args.out)
+
+    assert field(args.out, "Package") == PACKAGE
+    assert field(args.out, "Version") == VERSION
+    assert field(args.out, "Architecture") == "iphoneos-arm64"
+    report = {
+        "status": "VISUALTEST12_DUODASH_ACTIVATION_TRACE_BUILD",
+        "package": PACKAGE, "version": VERSION,
+        "baseline_package_sha256": BASE_SHA256,
+        "baseline_version": OLD_VERSION,
+        "added_files": sorted(targets),
+        "modified_files": changed,
+        "removed_files": [],
+        "original_visualtest12_core_unchanged": True,
+        "existing_connection_probe_unchanged": True,
+        "airaw_code_or_binary_bundled": False,
+        "duodash_binary_bundled": False,
+        "duodash_process_events_targeted": [
+            "CBBridgeManagerDashboard.requestActivation:",
+            "CBBridgeManagerDashboard.startBridging:",
+            "CBBridgeManagerDashboard.prepareAndRequestActivation:",
+            "CBBridgeManagerDashboard.bridgeDidActivate:",
+            "CBBridgeManager.requestStateChange:",
+            "CBBridgeManager.loadNewAppFromCurrentRequest:",
+            "CBBridgeManager.handleCarPlayConnectionChanged:",
+        ],
+        "separate_hub_modified": False,
+        "activation_fixed": False,
+        "app_bridge_fixed": False,
+        "device_tested": False,
+        "sileo_published": False,
+        "log_location": "/var/mobile/Documents/DuoFaceDuoDashTrace/{SpringBoard,CarPlayApp,DuoFaceUI}.jsonl",
+        "new_dylib_sha256": sha(dylib),
+        "new_filter_sha256": sha(FILTER.read_bytes()),
+        "output_deb_sha256": sha(args.out.read_bytes()),
+        "output_deb_bytes": args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                           encoding="utf-8")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+if __name__ == "__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_visual12_duodash_trace.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_visual12_gate_repair.py ##########
+#!/usr/bin/env python3
+"""Build a FUNCTIONAL three-getter VisualTest12 repair, not another log probe.
+
+Source must be exact original VisualTest12, NOT mass-neutralized launchfix1 or
+any independent Hub binary. Reversible candidate; real CarPlay QA pending.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import plistlib
+import subprocess
+import tempfile
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[3]
+SOURCE=ROOT/"dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb"
+PIN="8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a"
+OLD="1.0.3-12~visualtest"
+VERSION="1.0.3-12~visualtest12repair1"
+PACKAGE="com.duonavi.app"
+INJECT="var/jb/Library/MobileSubstrate/DynamicLibraries"
+SOURCE_PLIST=ROOT/"runtime/visualtest12/DFVisual12GateRepair.plist"
+LIB="DFVisual12GateRepair.dylib"
+PLIST="DFVisual12GateRepair.plist"
+BUNDLES={"com.apple.springboard","com.apple.CarPlayApp",
+         "com.duoface.duofaceui","com.duonavi.app"}
+
+def sha(data:bytes)->str:
+    return hashlib.sha256(data).hexdigest()
+
+def run(*args:object)->None:
+    subprocess.run([str(x) for x in args],check=True)
+
+def dpkg_field(path:Path,key:str)->str:
+    return subprocess.check_output(
+        ["dpkg-deb","-f",str(path),key],text=True).strip()
+
+def files(path:Path)->dict[str,str]:
+    return {p.relative_to(path).as_posix():sha(p.read_bytes())
+            for p in path.rglob("*") if p.is_file() and not p.is_symlink()}
+
+def symlinks(path:Path)->dict[str,str]:
+    return {p.relative_to(path).as_posix():str(p.readlink())
+            for p in path.rglob("*") if p.is_symlink()}
+
+def main()->None:
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--dylib",required=True,type=Path)
+    ap.add_argument("--out",required=True,type=Path)
+    ap.add_argument("--report",required=True,type=Path)
+    args=ap.parse_args()
+    assert SOURCE.is_file() and sha(SOURCE.read_bytes())==PIN, "wrong VisualTest12 original"
+    assert dpkg_field(SOURCE,"Package")==PACKAGE
+    assert dpkg_field(SOURCE,"Version")==OLD
+    assert dpkg_field(SOURCE,"Architecture")=="iphoneos-arm64"
+    assert args.dylib.is_file() and args.dylib.stat().st_size>4000
+    dylib=args.dylib.read_bytes()
+    assert dylib[:4]==bytes.fromhex("cffaedfe"),"expected signed arm64 Mach-O dylib"
+    cfg=plistlib.loads(SOURCE_PLIST.read_bytes())
+    assert set(cfg["Filter"]["Bundles"])==BUNDLES
+    assert args.out.resolve()!=SOURCE.resolve() and not args.out.exists()
+    with tempfile.TemporaryDirectory(prefix="visual12-gate-repair-") as temp:
+        stage=Path(temp)/"stage"
+        run("dpkg-deb","-R",SOURCE,stage)
+        before=files(stage)
+        old_symlinks=symlinks(stage)
+        targets={f"{INJECT}/{LIB}",f"{INJECT}/{PLIST}"}
+        assert not (targets & set(before))
+        dest=stage/INJECT
+        dest.mkdir(parents=True,exist_ok=True)
+        (dest/LIB).write_bytes(dylib)
+        (dest/PLIST).write_bytes(SOURCE_PLIST.read_bytes())
+        control=stage/"DEBIAN/control"
+        ctrl=control.read_text(encoding="utf-8")
+        pattern=f"Version: {OLD}\n"
+        assert ctrl.count(pattern)==1
+        control.write_text(ctrl.replace(pattern,f"Version: {VERSION}\n"),encoding="utf-8")
+        md5=[]
+        for path in sorted(stage.rglob("*")):
+            if path.is_file() and not path.is_symlink():
+                rel=path.relative_to(stage).as_posix()
+                if not rel.startswith("DEBIAN/"):
+                    md5.append(hashlib.md5(path.read_bytes()).hexdigest()+"  "+rel)
+        (stage/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n")
+        after=files(stage)
+        assert symlinks(stage)==old_symlinks
+        assert not (set(before)-set(after)), "original file removed"
+        new_files=set(after)-set(before)
+        assert new_files-targets <= {"DEBIAN/md5sums"},new_files
+        assert new_files & targets == targets
+        modified=sorted(k for k in before if after[k]!=before[k])
+        assert set(modified)<= {"DEBIAN/control","DEBIAN/md5sums"} and "DEBIAN/control" in modified
+        preserved=[k for k in before if k.startswith("var/jb/")]
+        assert preserved and all(before[k]==after[k] for k in preserved)
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",stage,args.out)
+    assert dpkg_field(args.out,"Package")==PACKAGE
+    assert dpkg_field(args.out,"Version")==VERSION
+    assert dpkg_field(args.out,"Architecture")=="iphoneos-arm64"
+    report={
+        "status":"VISUALTEST12_FUNCTIONAL_LICENSE_GATE_CANDIDATE_NOT_DEVICE_PROVEN",
+        "package":PACKAGE,"version":VERSION,"original_source_sha256":PIN,
+        "source_version":OLD,
+        "added_files":sorted(targets),"changed_files":modified,
+        "removed_original_files":[],
+        "all_original_payload_files_byte_identical":True,
+        "entire_original_scene_bridge_and_lifecycle_unmodified":True,
+        "module":"runtime/visualtest12/DFVisual12GateRepair.m",
+        "patched_getters":["CBLicenseSyncManager isLicenseCurrentlyValid",
+                           "CBLicenseSyncManager remainingLicenseSeconds",
+                           "CBLicenseSyncManager actualLicenseExpirationTimestamp"],
+        "total_original_methods_neutralized":0,
+        "duodash_binary_bundled":False,"airaw_binary_bundled":False,
+        "hub_changed":False,"only_logging_probe":False,
+        "device_tested":False,"sileo_published":False,
+        "fallback_if_hooks_dont_load":"original behavior (unmodified source core)",
+        "recovery_proven":False,
+        "new_module_sha256":sha(dylib),
+        "output_sha256":sha(args.out.read_bytes()),
+        "output_bytes":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n")
+    print(json.dumps(report,indent=2,ensure_ascii=False))
+
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_visual12_gate_repair.py ##########
+
