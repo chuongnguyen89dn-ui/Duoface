@@ -82,6 +82,7 @@
     UIButton *_dotsButton;
     UIButton *_expandButton;
     UIButton *_restoreButton;
+    UIView *_separatorView;
     BOOL _focusedMode;
 }
 static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
@@ -124,8 +125,14 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
         _dotsButton.accessibilityLabel=@"Chọn ứng dụng trong ô";
         _expandButton.accessibilityLabel=@"Phóng to ô";
         _restoreButton.accessibilityLabel=@"Khôi phục chia màn hình";
+        // Actual Native12 initWithSlotIndex: 0x84820..0x848b4:
+        // 0.5pt separator line, UIColor white with alpha 0.25.
+        _separatorView=[[UIView alloc]initWithFrame:CGRectMake(0,4,0.5,14)];
+        _separatorView.backgroundColor=[UIColor colorWithWhite:1.0 alpha:0.25];
+        _separatorView.userInteractionEnabled=NO;
         [self.contentView addSubview:_dotsButton];
         [self.contentView addSubview:_expandButton];
+        [self.contentView addSubview:_separatorView];
         [self.contentView addSubview:_restoreButton];
         [self setFocused:NO];
     }
@@ -152,6 +159,7 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     // transition, not a second app-picker action while focused.
     _dotsButton.hidden=focused;
     _expandButton.hidden=focused || !_showsExpandButton;
+    _separatorView.hidden=focused || !_showsExpandButton;
     _restoreButton.hidden=!focused;
     [self setNeedsLayout];
 }
@@ -174,6 +182,9 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     CGFloat half=width*0.5;
     _dotsButton.frame=CGRectMake(0,0,half,height);
     _expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height);
+    // Native12 nonfocused branch 0x84e64..0x84e94 uses x=half-0.25,
+    // y=3.5, width 0.5 and height (pill height-7).
+    _separatorView.frame=CGRectMake(half-0.25,3.5,0.5,MAX(0,height-7.0));
     // Focused Native12 branch 0x84d70..0x84d88 sends the current
     // entire pill bounds to restoreButton.setFrame: (not right half).
     _restoreButton.frame=_focusedMode?self.bounds:_expandButton.frame;
