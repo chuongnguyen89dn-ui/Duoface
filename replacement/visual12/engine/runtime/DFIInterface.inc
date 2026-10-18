@@ -156,7 +156,8 @@ static NSArray *DFIAvailableApps(void) {
   UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];b.tintColor=UIColor.whiteColor;b.titleLabel.font=[UIFont systemFontOfSize:DFIFontSize()];b.titleLabel.numberOfLines=0;b.titleLabel.textAlignment=NSTextAlignmentCenter;b.tag=i;[b addTarget:self action:@selector(choose:) forControlEvents:UIControlEventTouchUpInside];[p addSubview:b];[empty addObject:b];
   DFINativeSlotPillView *pill=[[DFINativeSlotPillView alloc]
     initWithSlot:i target:self pickAction:@selector(choose:)
-    focusAction:@selector(zoomPane:)];
+    focusAction:@selector(zoomPane:)
+    restoreAction:@selector(restorePane:)];
   [self.nativeSplitSurface addSubview:pill];
   [buttons addObject:pill.dotsButton];[zooms addObject:pill.expandButton];
   [pills addObject:pill];
@@ -396,6 +397,22 @@ static NSArray *DFIAvailableApps(void) {
      if(index<0 || index>=4)continue;
      DFIStyleApprovedTab(button,titles[index],symbols[index],index==self.selectedTab);
  }
+}
+- (void)restorePane:(UIButton *)button {
+ NSInteger pane=button.tag;
+ if(self.shuttingDown || pane<0 || pane>=self.panes.count || self.maximized!=pane)return;
+ // Native12 CBSlotPillView exposes a distinct onRestoreTapped callback.
+ // Preserve split fraction/secondary from before focus; do not touch Zoom
+ // chrome or recreate any app scene.
+ [self dismissPanel];
+ self.maximized=-1;
+ [self saveLayout];
+ DFIPerfMark(@"pane_restore",@{@"pane":@(pane)});
+ DFILog([NSString stringWithFormat:@"Native12 source-owned slot restore pane=%ld ratio=%.3f/%.3f",
+       (long)pane,self.fraction,self.secondary]);
+ [self.view setNeedsLayout];
+ [self.view layoutIfNeeded];
+ [self armHide];
 }
 - (void)zoomPane:(UIButton *)button {
  NSInteger pane=button.tag;
