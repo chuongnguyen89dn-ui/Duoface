@@ -4,6 +4,7 @@ on:
     branches: [feature/visual12-duodash-recovery]
     paths:
       - 'replacement/visual12/engine/**'
+      - 'replacement/visual12/tests/test_native_shell_structure.py'
       - 'replacement/visual12/fullscreen/**'
       - 'replacement/cb-compat/**'
       - '.github/workflows/duoface-visual12-engine-bind-ci.yml'
@@ -19,6 +20,11 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+      - name: Verify Native12 independent visual class/view-tree contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 replacement/visual12/tests/test_native_shell_structure.py
       - name: Compile and link source-only CarPlay owner with CB facade
         shell: bash
         run: |
@@ -38,6 +44,9 @@ jobs:
             replacement/cb-compat/DFCBCompat.m \
             replacement/visual12/fullscreen/DFVisual12HostGeometry.m
           test "$(xcrun lipo -archs "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib")" = arm64
+          for cls in DFINativeWindowSurface DFINativeSplitSurface DFINativeSlotPillView DFINativeDividerTrack DFINativeDividerLogo DFINativePickerCard DFINativePickerMenuBar; do
+            xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F "_OBJC_CLASS_$_$cls"
+          done
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBBindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F 'DFCarPlaySplitCoordinator'
