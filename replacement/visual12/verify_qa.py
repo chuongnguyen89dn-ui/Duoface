@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-owned DuoFace Visual12 DEB QA: not proof of real CarPlay behavior."""
+"""Source-owned DuoFace Visual12 DEB QA: Native104 per-pane controls; not proof of real CarPlay behavior."""
 import hashlib
 import io
 import json
@@ -15,7 +15,7 @@ assert deb.is_file() and deb.stat().st_size > 30000, "Missing or truncated DEB"
 control = subprocess.check_output(["dpkg-deb", "-f", str(deb)], text=True)
 assert "Package: com.duoface.visual12\n" in control
 assert "Architecture: iphoneos-arm64\n" in control
-assert "Version: 1.0.3-12~native104ui3\n" in control
+assert "Version: 1.0.3-12~ui8native3\n" in control
 assert "Conflicts:" not in control
 assert "Replaces:" not in control
 data = subprocess.check_output(["dpkg-deb", "--fsys-tarfile", str(deb)])
