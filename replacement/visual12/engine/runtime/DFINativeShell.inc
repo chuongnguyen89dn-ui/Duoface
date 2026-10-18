@@ -71,7 +71,8 @@
 @property(nonatomic,strong,readonly) UIButton *expandButton;
 @property(nonatomic,strong,readonly) UIButton *restoreButton;
 - (instancetype)initWithSlot:(NSInteger)slot target:(id)target
-                 pickAction:(SEL)pickAction focusAction:(SEL)focusAction;
+                 pickAction:(SEL)pickAction focusAction:(SEL)focusAction
+          restoreAction:(SEL)restoreAction;
 - (void)setFocused:(BOOL)focused;
 @end
 @implementation DFINativeSlotPillView {
@@ -97,7 +98,8 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     return button;
 }
 - (instancetype)initWithSlot:(NSInteger)slot target:(id)target
-                 pickAction:(SEL)pickAction focusAction:(SEL)focusAction {
+                 pickAction:(SEL)pickAction focusAction:(SEL)focusAction
+          restoreAction:(SEL)restoreAction {
     if((self=[super initWithEffect:
           [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemThinMaterialDark]])) {
         self.layer.cornerRadius=13.0;
@@ -109,7 +111,7 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
         _expandButton=DFINativePillButton(slot,@"arrow.up.left.and.arrow.down.right",
              @"VisualAssets/duoface-fullscreen.png",@"expand",target,focusAction);
         _restoreButton=DFINativePillButton(slot,@"arrow.down.right.and.arrow.up.left",
-             @"VisualAssets/duoface-fullscreen.png",@"restore",target,focusAction);
+             @"VisualAssets/duoface-fullscreen.png",@"restore",target,restoreAction);
         _dotsButton.accessibilityLabel=@"Chọn ứng dụng trong ô";
         _expandButton.accessibilityLabel=@"Phóng to ô";
         _restoreButton.accessibilityLabel=@"Khôi phục chia màn hình";
