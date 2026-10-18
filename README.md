@@ -1,5 +1,8 @@
 # DuoFace
 
+> **ƯU TIÊN HOẠT ĐỘNG TỪ 2026-10-18 15:52 ICT — SIDEPLAY → DUOFACE:** Dừng tiếp tục vá hướng CarPlay DuoFace phụ thuộc giấy phép. Mở luồng **xây dựng nền SidePlay tương thích chức năng bằng mã độc lập từ đầu, sau đó chuyển đầy đủ giao diện DuoFace Native12/Visual12/HUD8**. Ghi chép mọi checkpoint mới tại **[sideplay/tiep tuc du an.md](./sideplay/tiep%20tuc%20du%20an.md)**. Giữ nguyên các bản Native/Visual/Hub và QA hiện tại; **chưa có source/bản DEB mới hoặc xác minh máy thật cho hướng SidePlay**. Phần ưu tiên ngày 2026-10-17 bên dưới là lịch sử và đã được quyết định mới thay thế.
+
+
 > **Ưu tiên mới 2026-10-17 — cứu DuoFace VisualTest12 chạy lại trước:** tạm hoãn viết App Bridge độc lập hoàn chỉnh. Trước mắt kiểm tra và tái sử dụng có chọn lọc cơ chế scene host của DuoDash (Airaw chỉ tham khảo fullscreen/chrome), giữ split UI DuoFace và giữ nguyên Native12 Hub. **Chưa có DEB mới / chưa có xác minh thiết bị chạy lại.** [Quyết định và bước kiểm tra chi tiết](./docs/duodash-native-appbridge-replacement-visualtest12-20261017.md#ưu-tiên-mới-17102026--khôi-phục-chạy-được-trước).
 
 
