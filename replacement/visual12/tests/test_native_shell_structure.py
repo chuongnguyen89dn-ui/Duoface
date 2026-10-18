@@ -126,6 +126,20 @@ assert 'self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));' in
 assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
 assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
 assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
+# Receiver screenshot QA7: bottom-centre ellipsis was legacy QA chrome,
+# not the Native12 per-pane picker. Preserve native slot-pill entrypoints.
+assert 'self.edge.hidden=YES;' in ui
+assert 'initWithSlot:i target:self pickAction:@selector(choose:)' in ui
+assert 'self.edge.hidden=self.panel!=nil;' not in ui
+# Cancelled drag must undo only the current gesture, never wipe a user's
+# saved custom divider fraction/secondary.
+assert 'self.dragStartFraction=self.fraction;' in ui
+assert 'self.dragStartSecondary=self.secondary;' in ui
+assert 'self.dragGestureActive=YES;' in ui
+assert 'self.fraction=self.dragStartFraction;' in ui
+assert 'self.secondary=self.dragStartSecondary;' in ui
+assert 'self.dragGestureActive=NO;' in ui
+assert 'self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self armHide];' not in ui
 assert 'self.layer.cornerRadius=11.0;' in src, 'Original Native12 pill corner 11pt'
 # Native12 immutable ARM64 CBSlotPillView.pointInside:withEvent: expands
 # the nominal CGRect by (8,10) points; source-only parity, no touch pass.
