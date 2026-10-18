@@ -91,6 +91,9 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
                 "inspected_instruction_count": len(rows),
                 "selectors_and_calls": selectors,
                 "important_instructions": matching[:110],
+                # Full bounded raw arithmetic is required for 17-instruction native sizing.
+                # Other methods retain selector-only bounded samples (no binary payload).
+                "native_size_raw_instructions": rows[:64] if method == "calculateNativeSizeForSlotRect:" else [],
                 "static_only_not_runtime": True,
             })
     return {
@@ -121,6 +124,8 @@ def markdown(result: dict) -> str:
             out.append("- \`" + sel.replace("\n", " ") + "\`")
         if not row["selectors_and_calls"]:
             out.append("- No resolvable selector refs in this bounded assembly window")
+        if row["native_size_raw_instructions"]:
+            out += ["", "~~~asm", *row["native_size_raw_instructions"], "~~~"]
         out += ["", "<details omitted: raw bounded refs preserved in JSON>", ""]
     out += [
         "## Next implementation gate", "",
