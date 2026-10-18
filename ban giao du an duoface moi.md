@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — USER_CLARIFICATION_MYTWEAK_ZIP_NOT_143_EXPORT
+
+- **ĐÍNH CHÍNH Ý NGƯỜI DÙNG:** Câu “Vậy những tài liệu đó ko giúp ích đc gì về việc tách giấy phép hay nối nguồn?” trực tiếp nhắc đến **file ZIP `mytweak.zip` người dùng gửi** chứ **KHÔNG** hỏi bộ export 143 files Native12/HUD8. Trả lời trước bị lệch đối tượng; tuyệt đối không lặp lại nhầm lẫn đó.
+- **KIỂM TRA LẠI ZIP GỐC (container):** `/mnt/data/mytweak.zip` SHA256 `caf1557d1f9ac4828cf13cf8a5876a60c4b596b57b2951a8e9ac4d428225e015`, 27 ZIP entries bao gồm 3 thư mục = 24 tệp, ZIP integrity PASS. `mytweak/MTBridgeCoordinator.m` lắng nghe UIScreenDidConnect/Disconnect và tự tạo `MTBridgeWindow` riêng, gắn `makeKeyAndVisible` trên mọi non-main UIScreen; `mytweak/MTAppLauncher.m` yêu cầu `MTSceneHost.hostViewForBundleID:error:`, nhưng `mytweak/MTSceneHost.m` xác nhận **CHƯA IMPLEMENT** và trả NSError `MyTweak` code `1001`, `nil`. Đây chỉ là scaffolding UI/bridge, không có core scene app-hosting hoàn chỉnh và không có ABI nối vào `CBBridgeManagerDashboard`/`CBLicenseSyncManager` gốc.
+- **GIÁ TRỊ THỰC TẾ:** Dùng `MTBridgeCoordinator`/UI/picker làm **tham khảo source-owned** khi tự xây host độc lập là có ích; **không thể** cài MyTweak chồng Native12 hay đổi trực tiếp thành “bộ thay giấy phép” mà vẫn giữ native UI/scene. Nguy cơ hai window owners nếu ghép thẳng. QA nguồn độc lập đã có host scene thực, nhưng UI chưa tương đương Native12. Chưa thực hiện chỉnh sửa mã hoặc build nào.
+- **TÀI LIỆU ĐÃ CÓ:** `docs/mytweak-020-vs-native12-license-carplay-assessment-20261018.md` mô tả module và hạn chế. Khi tiếp tục, ưu tiên trả lời ngắn trọng tâm **mytweak.zip**; không đánh đồng ZIP MyTweak với `exports/DuoFace_Native12_HUD8_available_source_20261018.txt`.
+
+
 ## 2026-10-18 — NATIVE12_EXPORTED_SOURCE_HAS_INTEGRATION_VALUE
 
 - **QUESTION/CLARIFICATION:** Người dùng hỏi bộ 143 tệp text có ích cho tách giấy phép và nối nguồn hay không. **ĐÁNH GIÁ:** Có, quan trọng trong việc xác định ABI/callback và giữ UI/HUD Native12, nhưng đó chỉ là mã tweak, script và thử nghiệm ngoài lõi, **không phải nguyên source Native12**.
