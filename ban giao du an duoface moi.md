@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — XÁC ĐỊNH ĐƯỢC nguồn Native HUD 8 để chuyển sang QA
+
+- Đã truy cây GitHub branch `feature/visual12-duodash-recovery` (935 paths) và xác định đúng **Native12 Speed8 Compact** (không nhầm Hub8): `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm` (renderer/owner), `DFSpeedTransport8.mm` (Darwin source transport), `DFSpeedGMapReader8.mm` (GMap reader); build `Makefile.speedhud-native8compact-stage`; QA workflow `.github/workflows/duoface-native12-speed8compact-qa.yml`; binary tham chiếu `dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb`, SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.
+- Đã đọc `dist/payload-migration/native12-speed8compact/BAO_CAO.json`, `audit/speedbubble/SPEED8_IPHONEX_CARPLAY_LAUNCH_REGRESSION_20261017.md`, `audit/speedbubble/SPEED8_WAZE_NO_PUBLISHER_ROOT_CAUSE_20261017.md`, Makefile. Speed8 thay duy nhất HUD dylib, 42/43 payload giữ nguyên, gắn HUD vào native split SpringBoard `CBBridgeManager`/`CBBridgedSplitApp`/`CBWindow` khi có ít nhất 2 pane; không tạo UIWindow. QA hiện dùng `DFV12SplitController`/`DFV12SceneHost`, nên **không thể coi HUD native sẽ tự xuất hiện chỉ bằng chép dylib**. Phải thiết kế adapter nhận host QA hoặc hợp đồng scene tương đương; giữ một owner tránh trùng overlay.
+- Người dùng xác nhận Native HUD 8 có bong bóng HUD; điều này chứng minh hiển thị trên bản Native đã dùng, KHÔNG chứng minh số tốc độ Waze luôn hợp lệ. Báo cáo gốc cho biết chưa có publisher Waze trong Speed8; selection chỉ yêu cầu dữ liệu, không tạo publisher.
+- Trạng thái: đã xác minh đúng nguồn, **chưa copy hay tích hợp HUD vào QA**, chưa build/test. Giữ nguyên Native trên Sileo và fix `standalone6invalidate`.
+- NEXT: đọc toàn bộ `DFSpeedNativeSplit8SpringBoard.mm` + `DFSpeedTransport8.mm` + `DFSpeedGMapReader8.mm`, so sánh điểm owner và scene root với `DFV12SplitController`; chọn điểm attach HUD QA duy nhất không cần native `CBBridgedSplitApp` và giữ nguồn dữ liệu độc lập, sau đó commit patch QA, CI và test.
+
+
 ## 2026-10-18 — BỔ SUNG QUAN TRỌNG: Native HUD 8 đã có bong bóng HUD
 
 - Người dùng xác nhận **bản Native HUD 8 hiện đã có bong bóng HUD**. Đây là chức năng hiện hữu cần bảo toàn khi tái sử dụng sang Visual12 QA, KHÔNG viết lại bong bóng giả lập từ đầu và KHÔNG coi đây là tính năng chưa có.
