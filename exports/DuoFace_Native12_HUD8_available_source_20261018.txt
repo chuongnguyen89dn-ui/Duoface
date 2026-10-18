@@ -1,0 +1,149 @@
+DUOFACE NATIVE12 + HUD8 — AVAILABLE TEXT SOURCE EXPORT
+Repository: https://github.com/chuongnguyen89dn-ui/Duoface
+Snapshot source commit: 8827bb1e4c216d0e880d5bb426a9ece929ad6101
+Expected existing text source files (selected scope): 143
+Selected source prefixes: src/, runtime/ (excluding visualtest12), migration/full_payload/native_test/ (excluding static audit/trace/inspect scripts), Makefile* and DuoFaceSpeed*.plist
+Source is raw UTF-8 from existing GitHub repository. Full original Native12 source NOT available.
+Native12 executable DuoFaceUI and DuoFaceDashboard.dylib remain compiled Mach-O ARM64; this document does not contain their original Objective-C source.
+The file lists historical build and experimental stages as-is. It has not been built or tested.
+DuoFace QA replacement engine under replacement/visual12/ is a SEPARATE project component and intentionally excluded.
+Original Native12+Speed8 DEB SHA256: 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad
+Use markers "########## BEGIN FILE: path" / "########## END FILE: path" to split originals.
+Status: PARTIAL EXPORT UNTIL 143 MARKERS ARE VERIFIED.
+----------------------------------------------
+########## BEGIN FILE: DuoFaceSpeedHUD.plist ##########
+{ Filter = { Bundles = ("com.apple.CarPlayApp"); }; }
+########## END FILE: DuoFaceSpeedHUD.plist ##########
+
+########## BEGIN FILE: DuoFaceSpeedHUDNative7.plist ##########
+{ Filter = { Executables = ("SpringBoard"); }; }
+########## END FILE: DuoFaceSpeedHUDNative7.plist ##########
+
+########## BEGIN FILE: DuoFaceSpeedHUDScene.plist ##########
+{ Filter = { Executables = ("SpringBoard"); }; }
+########## END FILE: DuoFaceSpeedHUDScene.plist ##########
+
+########## BEGIN FILE: DuoFaceSpeedHUDSplit6.plist ##########
+{ Filter = { Bundles = ("com.apple.CarPlayApp"); }; }
+########## END FILE: DuoFaceSpeedHUDSplit6.plist ##########
+
+########## BEGIN FILE: DuoFaceSpeedOwner.plist ##########
+{ Filter = { Executables = ("SpringBoard"); }; }
+########## END FILE: DuoFaceSpeedOwner.plist ##########
+
+########## BEGIN FILE: DuoFaceSpeedSources.plist ##########
+{ Filter = { Bundles = (
+  "com.google.Maps", "com.waze.iphone", "vn.vietmap.live", "com.lumi.GOFA"
+); }; }
+########## END FILE: DuoFaceSpeedSources.plist ##########
+
+########## BEGIN FILE: Makefile.appbridge-stage ##########
+# Source-level compile-only CarPlay Add App extension; no DEB packaging.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceInCarAddApps
+DuoFaceInCarAddApps_FILES := runtime/appbridge/DFInCarAppPicker.xm
+DuoFaceInCarAddApps_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceInCarAddApps_FRAMEWORKS := Foundation UIKit
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.appbridge-stage ##########
+
+########## BEGIN FILE: Makefile.duoface-diagnostic-stage ##########
+# Independent rootless diagnostic: produces DuoFaceDiagnostic.dylib only.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceDiagnostic
+DuoFaceDiagnostic_FILES := runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm
+DuoFaceDiagnostic_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceDiagnostic_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.duoface-diagnostic-stage ##########
+
+########## BEGIN FILE: Makefile.duoface-diagnostic2-stage ##########
+# Isolated trace probe: never builds or overwrites the DuoFace app package.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceDiagnostic2
+DuoFaceDiagnostic2_FILES := runtime/speedbubble/DFSpeedDiagnostic2.mm
+DuoFaceDiagnostic2_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceDiagnostic2_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.duoface-diagnostic2-stage ##########
+
+########## BEGIN FILE: Makefile.duoface-diagnostic3-stage ##########
+# Isolated trace probe: never builds or overwrites the DuoFace app package.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceDiagnostic3
+DuoFaceDiagnostic3_FILES := runtime/speedbubble/DFSpeedDiagnostic3.mm
+DuoFaceDiagnostic3_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceDiagnostic3_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.duoface-diagnostic3-stage ##########
+
+########## BEGIN FILE: Makefile.fullscreen ##########
+TARGET := iphone:clang:latest:14.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceFullscreenBridge
+DuoFaceFullscreenBridge_FILES := runtime/fullscreen/DFRuntimeEntry.mm runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFPickerZoomMenu.xm runtime/fullscreen/DFFullscreenCoordinator.mm
+DuoFaceFullscreenBridge_CFLAGS := -fobjc-arc -Wall -Wextra
+DuoFaceFullscreenBridge_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.fullscreen ##########
+
+########## BEGIN FILE: Makefile.fullscreen-adapter-check ##########
+TARGET := iphone:clang:latest:14.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceFullscreenAdapterCheck
+DuoFaceFullscreenAdapterCheck_FILES := runtime/fullscreen/DFHostGeometry.xm runtime/fullscreen/DFFullscreenTransport.mm runtime/fullscreen/DFDashboardChrome.xm runtime/fullscreen/DFPickerZoomMenu.xm runtime/fullscreen/DFFullscreenCoordinator.mm
+DuoFaceFullscreenAdapterCheck_CFLAGS := -fobjc-arc -Wall -Wextra
+DuoFaceFullscreenAdapterCheck_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.fullscreen-adapter-check ##########
+
+########## BEGIN FILE: Makefile.native21-hide-add-app ##########
+# native21: CarPlay picker remains native12; only hide obsolete Add-App tile.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceInCarAddApps
+DuoFaceInCarAddApps_FILES := runtime/appbridge/DFRemoveOldAddAppTile.xm
+DuoFaceInCarAddApps_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceInCarAddApps_FRAMEWORKS := Foundation UIKit
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.native21-hide-add-app ##########
+
+########## BEGIN FILE: Makefile.smart-connection-stage ##########
+# COMPILE-ONLY SOURCE STAGING; never invoke 'make package' from CI.
+TARGET := iphone:clang:latest:15.0
+ARCHS := arm64
+THEOS_PACKAGE_SCHEME := rootless
+INSTALL_TARGET_PROCESSES := SpringBoard
+include $(THEOS)/makefiles/common.mk
+TWEAK_NAME := DuoFaceSmartConnection
+DuoFaceSmartConnection_FILES := runtime/connection/DFConnectionNativeHooks.xm runtime/connection/DFConnectionSettingsHook.xm runtime/connection/DFConnectionAdapter.mm runtime/connection/DFConnectionPolicy.cpp
+DuoFaceSmartConnection_CFLAGS := -fobjc-arc -fblocks -Wall -Wextra -Werror
+DuoFaceSmartConnection_CCFLAGS := -std=c++17
+DuoFaceSmartConnection_FRAMEWORKS := UIKit Foundation
+include $(THEOS_MAKE_PATH)/tweak.mk
+########## END FILE: Makefile.smart-connection-stage ##########
+
