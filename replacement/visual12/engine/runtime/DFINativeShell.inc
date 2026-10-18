@@ -247,6 +247,13 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     }
     return self;
 }
+// Native12 CBDividerView.pointInside:withEvent: (0xff864..0xff8dc)
+// first tests every move-button frame expanded via CGRectInset(-12,-12).
+// Keep the real grip visually 28/30pt but preserve its generous touch zone.
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if(self.hidden || self.alpha<=0.01)return NO;
+    return CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
+}
 @end
 
 @interface DFINativePickerCard : UIVisualEffectView
