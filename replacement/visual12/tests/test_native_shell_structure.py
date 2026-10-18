@@ -128,7 +128,9 @@ assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
 assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
 # Receiver screenshot QA7: bottom-centre ellipsis was legacy QA chrome,
 # not the Native12 per-pane picker. Preserve native slot-pill entrypoints.
-assert 'self.edge.hidden=YES;' in ui
+assert '@property(nonatomic,strong) UIButton *edge;' not in ui
+assert '@selector(edgeTap)' not in ui
+assert 'self.edge' not in ui
 assert 'initWithSlot:i target:self pickAction:@selector(choose:)' in ui
 assert 'self.edge.hidden=self.panel!=nil;' not in ui
 # Cancelled drag must undo only the current gesture, never wipe a user's
