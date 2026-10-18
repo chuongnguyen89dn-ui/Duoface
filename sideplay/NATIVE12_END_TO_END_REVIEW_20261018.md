@@ -14,7 +14,7 @@ Mỗi chức năng mới thay tương đương phải **ẩn UI SidePlay cũ (kh
 | QA2 `0.1.0~zoomqa2` | hook `SPDash` geometry/dock | Đã build DEB trên feature | Chưa có device PASS; không chứa giao diện Native12 chính |
 | QA3 `0.1.1~native12frame3` | `DFSPNativeFrame.m` + `SPDash`, [CI 39121326554](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121326554) | Có shell, divider gesture, menu, logo ngang source-owned. **Sileo** [39121041655](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/39121041655) | Sai pill (1 nút góc trên trái), app/style vẫn picker SidePlay, startup/HUD8 chưa port, không có device PASS |
 | QA4 `0.1.2~native12assets4` | `feature/sideplay-native12-assets-launch`, [CI 39121873603](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121873603) | DEB hash SHA256 `82e38059c4f221a2efbf74b090962efe29b7b83c22582dadef4d488e8264a420`, 4 PNG thật bên trong | Có ảnh PNG ≠ UI hoàn chỉnh; pill vẫn chỉ 1 nút góc trái; chưa có per-pane focus; **chưa lên Sileo, chưa device PASS** |
-| QA5 development | branch `feature/duoface-native12-ui-on-sideplay-host` | Mã mới `DFSPNativeSlotPill.[hm]`, `DFSPNativeFrame.[hm]`, `Tweak.xm`, kiểm thử `check_duoface_qa5_parity.py` | Chưa kết luận build/device; chờ CI, không gọi hoàn thiện |
+| QA5 development | branch `feature/duoface-native12-ui-on-sideplay-host` | Mã mới `DFSPNativeSlotPill.[hm]`, `DFSPNativeFrame.[hm]`, `Tweak.xm`, kiểm thử `check_duoface_qa5_parity.py` | **CI [39124602767](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124602767) PASS**, artifact DEB SHA256 `52f39ac091508556eece4879420c9fc22199df35ab2ded355226bc635414c118`; còn device chưa test, không gọi hoàn thiện |
 
 ## Đối chiếu Native12 đã lưu và hành vi hiện hữu
 
@@ -50,3 +50,11 @@ Mỗi chức năng mới thay tương đương phải **ẩn UI SidePlay cũ (kh
 3. Kết nối lại Native HUD8 đã duyệt bằng owner riêng và có teardown; giữ app host SidePlay không phụ thuộc CB licensing.
 4. Cho người dùng **test qua Sileo** khi gói an toàn, trên iPhone X lúc xe đỗ: root Normal/dock, 2 pill ở giữa, App button, per-pane Focus/Restore, 2 app scene live, ratio/hold/swap, Zoom in/out, close/reconnect/respring. Lưu ảnh và log từng mục.
 5. Chỉ sau device PASS mới loại legacy SidePlay UI trong build DuoFace độc lập và ngừng phụ thuộc SidePlay gốc.
+
+## Bằng chứng mới cho việc thay picker SidePlay bằng giao diện DuoFace
+
+**Targeted static audit (không quét lại DEB):** `sideplay/native12-display/tools/inspect_spdash_picker_dispatch.py`, workflow [39124696779](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124696779) **SUCCESS**, artifact commit tại `sideplay/native12-display/audit/SP_PICKER_DISPATCH.json`. Original `SidePlay.dylib` SHA256 `0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971`.
+
+Các selector thật **trên `SPDash`** được xác minh: `-installedApps` ABI `@16@0:8`, `-showPickerForPane:`, `-buildPickerForPane:`, `-pickerAppTapped:`, `-pickApp:` ABI `v24@0:8@16`, `-dismissPicker`. Trên `SPPane`: `-loadApp:`, `-unloadApp` và `-appViewController`. **Điều này chứng tỏ host có nguồn danh sách app và action chọn/khởi chạy tách khỏi thao tác dựng giao diện SidePlay**, hỗ trợ phương án sau: `Native12 cards` DuoFace-owned → object app từ `installedApps` → `pickApp:` trên owner SidePlay đã xác thực. **Chưa xác minh chính xác kiểu từng phần tử của `installedApps`, điều kiện `pickApp:` hay luồng xác định pane trước khi chọn; không được giả định `pickApp:` nhận bundle ID string, không phát hành picker giả.**
+
+Nguồn tham khảo độc lập đã có: `feature/visual12-duodash-recovery:replacement/visual12/engine/runtime/DFINativePickerCards.inc`, chứa controller, paging, Recent, card app. Cần tách UI khỏi QA nguồn này và viết adapter đúng semantics SidePlay, test chọn app và chuyển scene 2 ô trên máy trước khi vô hiệu hóa picker SidePlay.
