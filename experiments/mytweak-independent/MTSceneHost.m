@@ -199,7 +199,8 @@ static void MTInt(id obj, NSString *method, NSInteger value) {
         [self failed:MTError(113,[@"Scene poll exception: " stringByAppendingString:e.reason?:@"unknown"])];
     }
 }
-- (void)failed:(NSError *)error {    MTSceneLog(@"scene-failed",self.bundleID,error.localizedDescription);
+- (void)failed:(NSError *)error {
+    MTSceneLog(@"scene-failed",self.bundleID,error.localizedDescription);
     UIView *target=self;
     [self stop];
     [[NSNotificationCenter defaultCenter] postNotificationName:MTSceneHostDidFailNotification
