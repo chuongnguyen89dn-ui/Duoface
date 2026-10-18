@@ -1,0 +1,47 @@
+name: MyTweak independent SceneHost (QA only)
+on:
+  push:
+    branches:
+      - feature/visual12-duodash-recovery
+    paths:
+      - 'experiments/mytweak-independent/**'
+      - '.github/workflows/mytweak-scenehost-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mytweak-scenehost-qa:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Static source contract tests
+        run: python3 -m unittest discover -s experiments/mytweak-independent/tests -v
+
+      - name: Setup rootless Theos
+        uses: mhtrf1921-hash/theos-action@02738dd687f058cff73407c245e08e622c72cdf1
+        with:
+          theos-dir: theos
+          theos-src: https://github.com/theos/theos
+          theos-sdks: https://github.com/theos/sdks
+          theos-sdks-branch: master
+
+      - name: Install GNU make
+        run: brew install make
+
+      - name: Build isolated DEB for test only
+        working-directory: experiments/mytweak-independent
+        env:
+          THEOS: ${{ github.workspace }}/theos
+        run: gmake package FINALPACKAGE=1
+
+      - name: Upload test package (NOT published to Sileo)
+        uses: actions/upload-artifact@v4
+        with:
+          name: mytweak-independent-scenehost-qa
+          path: experiments/mytweak-independent/packages/*.deb
+          if-no-files-found: error
