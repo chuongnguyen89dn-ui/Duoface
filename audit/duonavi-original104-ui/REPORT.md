@@ -123,6 +123,32 @@ Instructions sampled: 218 to 0xb2814.
 
 <details omitted: raw bounded refs preserved in JSON>
 
+## CBWindow::carPlayContentInsets — 0xb1370
+Instructions sampled: 151 to 0xb15cc.
+
+- \`stringWithContentsOfFile:encoding:error:\`
+- \`+[NSString stringWithContentsOfFile:encoding:error:]\`
+- \`length\`
+- \`-[x0 length]\`
+- \`activeCarPlayWindow\`
+- \`+[CBWindow activeCarPlayWindow]\`
+- \`rootWindow\`
+- \`-[x0 rootWindow]\`
+- \`safeAreaInsets\`
+- \`-[x0 safeAreaInsets]\`
+
+<details omitted: raw bounded refs preserved in JSON>
+
+## CBWindow::carPlayUsableBounds — 0xb15cc
+Instructions sampled: 63 to 0xb16c8.
+
+- \`carPlayScreenBounds\`
+- \`-[x0 carPlayScreenBounds]\`
+- \`carPlayContentInsets\`
+- \`-[x0 carPlayContentInsets]\`
+
+<details omitted: raw bounded refs preserved in JSON>
+
 ## CBWindow::showAppPickerForSlot: — 0xb3148
 Instructions sampled: 44 to 0xb31f8.
 
