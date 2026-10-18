@@ -26,7 +26,13 @@ Do not ship the original vendor compiled Dashboard or its CBBridgeManager/licens
 ## Evidence and tests
 
 - Native12 + original104 pinned DEB audit: `scripts/audit_native12_original104_ui_debs.py` and `.github/workflows/duoface-native12-actual-deb-ui-audit.yml`, report `audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json` and Markdown companion.
-- Full original104 `layoutSplitViews` ARM64 control flow exported into `audit/native12-deb-original104-ui/ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt`, to decode the input to compact/show-expand. `0x10c9a8` compares pane width to 320pt; a second height threshold is loaded from Mach-O VM `0x33ebe8` and must be verified from the original immutable binary before QA behavior changes.
+- Full original104 `layoutSplitViews` ARM64 control flow exported into `audit/native12-deb-original104-ui/ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt`. At `0x10c99c..0x10c9f8` the original branch enables compact if **pane.height <220pt OR pane.width <320pt**. The height threshold **220.0** was actually read from original DuoNavi1.0.4 arm64 Mach-O VM `0x33ebe8` (read-only lipo thin slice of SHA-pinned DEB); width **320.0** at instruction `0x10c9a8`. This is one proved branch, not exhaustive semantics for `setShowsExpandButton:`.
 - QA source regression: `replacement/visual12/tests/test_native_shell_structure.py`; two-source regression: `scripts/test_original104_function_native12_visual_focus.py`; iOS16 ARM64 compile/link workflow `.github/workflows/duoface-visual12-engine-bind-ci.yml`.
 
 **Boundary:** successful audit or ARM64 compile does NOT mean a DEB is built, installed, uploaded to Sileo, or that all eight layouts, Dock/safe area, app switch, crash/exitMode or device touch work. Stable Native12 HUD8 is untouched.
+
+## Implemented independent QA connection
+
+- QA `DFIInterface.inc` now evaluates `hasPane && (width<320pt || height<220pt)` before calling `[nativePill setCompactMode:compactPane]`. The original DEB supplies the **functional condition**; independent `DFINativeSlotPillView.nativeReferenceSize` supplies actual **Native12 visual widths/heights**.
+- `setFocused:` selects Restore-only mode. No original vendor CB class or license code is loaded.
+- Tested statically via `scripts/test_original104_function_native12_visual_focus.py` and `test_native_shell_structure.py`; actual scene transition/compact screenshots remain **UNVERIFIED** until headunit test. The show-expand input in other original branches remains an open audit item.
