@@ -1,4 +1,4 @@
-name: DuoFace Visual12 standalone QA DEB (never Sileo)
+name: DuoFace Visual12 Native12 HUD8 UI QA DEB (publish separately)
 on:
   push:
     branches: [feature/visual12-duodash-recovery]
@@ -12,7 +12,7 @@ permissions:
   contents: write
 concurrency:
   group: visual12-qa-deb
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build-qa:
     runs-on: macos-15
@@ -31,6 +31,7 @@ jobs:
           test -s replacement/cb-compat/DFCBCompat.m
           test -s dist/visual-1.0.3-12/assets/duoface-icon.png
           test ! -e replacement/visual12/engine/runtime/DuoFaceDashboard.dylib
+          test -s replacement/visual12/engine/runtime/DFV12NativeHUD8.inc
       - name: Install iOS rootless DEB build tools
         shell: bash
         run: |
@@ -42,23 +43,23 @@ jobs:
         run: |
           set -euo pipefail
           bash replacement/visual12/build_qa.sh
-          p='dist/visual12-standalone-qa/com.duoface.visual12_1.0.3-12~standalone1_iphoneos-arm64.deb'
+          p='dist/visual12-native8ui1-qa/com.duoface.visual12_1.0.3-12~ui8native1_iphoneos-arm64.deb'
           test -s "$p"
           test "$(dpkg-deb -f "$p" Package)" = 'com.duoface.visual12'
-          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~standalone1'
+          test "$(dpkg-deb -f "$p" Version)" = '1.0.3-12~ui8native1'
           python3 replacement/visual12/verify_qa.py "$p"
-          cat dist/visual12-standalone-qa/BAO_CAO.json
-          cat dist/visual12-standalone-qa/SHA256SUMS
+          cat dist/visual12-native8ui1-qa/BAO_CAO.json
+          cat dist/visual12-native8ui1-qa/SHA256SUMS
       - name: Upload verified DEB as CI artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFaceVisual12-Standalone-QA
+          name: DuoFaceVisual12-Native8-UI-QA
           path: |
-            dist/visual12-standalone-qa/*.deb
-            dist/visual12-standalone-qa/BAO_CAO.json
-            dist/visual12-standalone-qa/CONTENTS.txt
-            dist/visual12-standalone-qa/SHA256SUMS
+            dist/visual12-native8ui1-qa/*.deb
+            dist/visual12-native8ui1-qa/BAO_CAO.json
+            dist/visual12-native8ui1-qa/CONTENTS.txt
+            dist/visual12-native8ui1-qa/SHA256SUMS
           if-no-files-found: error
       - name: Save exact DEB and QA checkpoint in project branch
         if: success()
@@ -67,7 +68,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/visual12-standalone-qa
+          git add dist/visual12-native8ui1-qa
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'artifact: preserve standalone Visual12 QA DEB and SHA256 [skip ci]'
           for attempt in 1 2 3 4 5; do
