@@ -94,6 +94,11 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
                 # Full bounded raw arithmetic is required for 17-instruction native sizing.
                 # Other methods retain selector-only bounded samples (no binary payload).
                 "native_size_raw_instructions": rows[:64] if method == "calculateNativeSizeForSlotRect:" else [],
+                # Preserve the real original scene-layout assembly for the
+                # next geometry/hit-test comparison; bounded to two methods,
+                # no binary or vendor runtime is copied into QA.
+                "original_scene_layout_asm": rows[:800] if method in (
+                    "updateLayout", "updateSceneSettingsFrame") and cls == "CBBridgedUIAppView" else [],
                 "static_only_not_runtime": True,
             })
     return {
