@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — standalone6invalidate BUILD PASS / chưa test thiết bị
+
+- Source commit: `15c280b0973750cea135976225b8d118836f9de6`.
+- GitHub Actions: https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39082943435 — job build-qa-g1g2 completed/success; compile, sign, package verification, upload và persist đều success.
+- Artifact commit: `168507ce766ee1ede058c8e9784031d16f57229f`.
+- DEB: `dist/visual12-g1g2-qa/com.duoface.visual12_1.0.3-12~standalone6invalidate_iphoneos-arm64.deb`, 1,070,912 bytes.
+- SHA256: `349a76657a301b8736126287b11fc8166e9a6441dbdb82fcb64e02820e5c45c5`; BAO_CAO.json và SHA256SUMS đã đọc lại từ GitHub, đúng source/version/run.
+- Không sửa Native12/Hub8, chưa phát hành Sileo, chưa cài máy thật. Không kết luận hết crash hoặc bảo đảm CarPlay không bị ảnh hưởng cho tới khi test đóng/đổi pane và reconnect trên iPhone10,6 iOS16.7.16.
+
+
 ## 2026-10-18 — standalone6invalidate: sửa teardown theo DEB gốc, chờ build/test
 
 - Thay `_setCurrentMode:0` + giữ controller 5 giây bằng `setRequestedMode:0`, tháo containment, `invalidate`, rồi giải phóng. Guard ABI yêu cầu invalidate. Close được chuyển về main thread, idempotent và ngắt callback/timer trước teardown.
