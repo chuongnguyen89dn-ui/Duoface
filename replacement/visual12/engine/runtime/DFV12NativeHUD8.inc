@@ -13,6 +13,7 @@
 @property(nonatomic,strong) UILabel *dismissTarget;
 @property(nonatomic,assign) BOOL dismissedForSession;
 @property(nonatomic,assign) BOOL qaHasActiveSplit;
+@property(nonatomic,copy) BOOL (^qaSplitState)(void);
 @property(nonatomic,strong) UIView *settingsPanel;
 @property(nonatomic,assign) CGFloat visualScale;
 @property(nonatomic,assign) CGFloat visualOpacity;
@@ -108,6 +109,7 @@ static CGPoint DFV12HUDClampCenter(CGPoint center,CGRect area,CGSize size);
 }
 - (void)tick:(NSTimer *)timer {
     (void)timer;
+    if(self.qaSplitState)self.qaHasActiveSplit=self.qaSplitState();
     // Native8 visual/gesture UI; independent QA transport is intentionally deferred.
     // No synthesized speed/limit. The indicator appears only with two QA app scenes.
     if(!self.window || self.dismissedForSession || !self.qaHasActiveSplit) {
