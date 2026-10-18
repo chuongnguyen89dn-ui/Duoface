@@ -14,7 +14,15 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch pinned Native12 8-layout reference (read-only)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin c11ff1181eeda01dfc5e81f5166c99ba0287cfed
+          git show FETCH_HEAD:replacement/visual12/engine/DFILayouts.h > "$RUNNER_TEMP/DFILayouts.h"
+          test -s "$RUNNER_TEMP/DFILayouts.h"
       - name: Detect unported Native12 geometry and missing bar owner
+        env:
+          NATIVE12_LAYOUTS_REFERENCE_FILE: ${{ runner.temp }}/DFILayouts.h
         run: |
           set -euo pipefail
           python3 sideplay/native12-display/validation/audit_qa5_geometry_coverage.py | tee qa5-geometry-audit.json
