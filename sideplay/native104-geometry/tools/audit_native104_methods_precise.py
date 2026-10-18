@@ -11,6 +11,7 @@ import io
 import json
 import os
 import sys
+import struct
 import tarfile
 import subprocess
 import tempfile
@@ -61,11 +62,27 @@ def main():
         except (ValueError,KeyError,IndexError,AssertionError):
             continue
     starts=sorted(starts)
+    # Addresses taken only from verified handleDividerPan and layoutSplitViews
+    # disassembly of this SHA-pinned binary; read constants, do not guess clamp.
+    ratio_addrs={
+        "pan_lower_bound":0x33c828,
+        "pan_upper_bound":0x33c830,
+        "pan_snap_offset_a":0x33f5a8,
+        "pan_snap_offset_b":0x33f5b0,
+        "pan_snap_threshold":0x33e5b8,
+    }
+    literals={}
+    for name,addr in ratio_addrs.items():
+        try:
+            val=struct.unpack_from("<d",m.data,m.map(addr))[0]
+            literals[name]={"address":hex(addr),"value":val}
+        except (ValueError,KeyError,IndexError,struct.error) as err:
+            literals[name]={"address":hex(addr),"error":str(err)}
     out={"status":"STATIC ORIGINAL DUONAVI 1.0.4 DIRECT OBJC CLASS METHODS",
          "original_deb_sha256":EXACT_SHA,"dashboard_sha256":digest(raw),
          "arm64_sha256":digest(select_arm64(raw)),
          "qa_parser_source_ref":"feature/visual12-duodash-recovery",
-         "methods":{},"missing":[],"not_licensing_source":True,"device_tested":False}
+         "methods":{},"missing":[],"ratio_literal_values":literals,"not_licensing_source":True,"device_tested":False}
     for cls,selectors in CLASSES.items():
         if cls not in classes:
             out["missing"].append("CLASS "+cls)
@@ -93,5 +110,5 @@ def main():
     DEST.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps({"deb_sha":EXACT_SHA,"binary_sha":out["dashboard_sha256"],
           "classes":{k:{n:v["imp"] for n,v in sub.items()} for k,sub in out["methods"].items()},
-          "missing":out["missing"],"size_bytes":DEST.stat().st_size},ensure_ascii=False,indent=2))
+          "missing":out["missing"],"ratio_literal_values":literals,"size_bytes":DEST.stat().st_size},ensure_ascii=False,indent=2))
 if __name__=="__main__":main()
