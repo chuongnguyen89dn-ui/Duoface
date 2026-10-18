@@ -1,0 +1,104 @@
+name: Readonly original DuoNavi 1.0.4 scene lifecycle audit
+on:
+  push:
+    branches:
+      - feature/visual12-duodash-recovery
+    paths:
+      - .github/workflows/duoface-original104-scene-readonly.yml
+      - scripts/audit_original104_scene_lifecycle.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original104-scene-readonly
+  cancel-in-progress: false
+jobs:
+  inspect-original-deb:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Debian extractor on macOS
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          xcrun --find llvm-objdump
+          command -v otool
+      - name: Inspect original 1.0.4 package and Mach-O without patching
+        shell: bash
+        run: |
+          set -euo pipefail
+          ORIGINAL="dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb"
+          TMP="audit-tmp/original104"
+          RAW="$TMP/raw"
+          EXTRACT="$TMP/payload"
+          mkdir -p "$RAW" "$EXTRACT"
+          test -s "$ORIGINAL"
+          dpkg-deb -f "$ORIGINAL" > "$RAW/control.txt"
+          dpkg-deb -c "$ORIGINAL" > "$RAW/files.txt"
+          dpkg-deb -x "$ORIGINAL" "$EXTRACT"
+          dpkg-deb -e "$ORIGINAL" "$TMP/DEBIAN"
+          find "$TMP/DEBIAN" -type f | sort | while read -r file; do
+            echo "--- $(basename "$file") ---"
+            sed -n '1,200p' "$file"
+          done > "$RAW/install-scripts.txt"
+          DASHBOARD="$(find "$EXTRACT" -type f -name 'DuoNaviDashboard.dylib' -print -quit)"
+          if [[ -z "$DASHBOARD" || ! -s "$DASHBOARD" ]]; then
+            echo "::error::DuoNaviDashboard.dylib not found in original 1.0.4 package"
+            exit 1
+          fi
+          file "$DASHBOARD" | tee "$RAW/binary-file.txt"
+          shasum -a 256 "$ORIGINAL" "$DASHBOARD" | tee "$RAW/checksums.txt"
+          otool -L "$DASHBOARD" > "$RAW/libraries.txt" || true
+          nm -a "$DASHBOARD" > "$RAW/symbols.txt" 2>&1 || true
+          strings -a "$DASHBOARD" > "$RAW/strings.txt" || true
+          otool -ov "$DASHBOARD" > "$RAW/objc.txt" 2>&1 || true
+          xcrun llvm-objdump --macho --objc-meta-data "$DASHBOARD" > "$RAW/llvm-objc.txt" 2>&1 || true
+          xcrun llvm-objdump --macho --disassemble "$DASHBOARD" > "$RAW/disasm.txt" 2>&1 || true
+          REPORT="audit/duonavi-original104-scene/REPORT.md"
+          python3 scripts/audit_original104_scene_lifecycle.py \
+            --deb "$ORIGINAL" --binary "$DASHBOARD" --raw "$RAW" \
+            --out "$REPORT" --commit "$GITHUB_SHA"
+          test -s "$REPORT"
+          cp "$REPORT" "$RUNNER_TEMP/original104-REPORT.md"
+          echo "ORIGINAL_104_STATIC_AUDIT_READY"
+      - name: Upload raw evidence and report for independent review
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original104-scene-static-evidence
+          path: |
+            audit/duonavi-original104-scene/REPORT.md
+            audit-tmp/original104/raw/*.txt
+          if-no-files-found: warn
+      - name: Persist report on same QA branch (no build or Sileo)
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          BRANCH="feature/visual12-duodash-recovery"
+          TARGET="audit/duonavi-original104-scene/REPORT.md"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git reset --hard "origin/$BRANCH"
+            mkdir -p audit/duonavi-original104-scene
+            cp "$RUNNER_TEMP/original104-REPORT.md" "$TARGET"
+            git add "$TARGET"
+            if git diff --cached --quiet; then
+              echo "ORIGINAL_104_REPORT_ALREADY_SAVED"
+              exit 0
+            fi
+            git commit -m 'audit(original104): persist scene lifecycle static evidence [skip ci]'
+            if git push origin "HEAD:$BRANCH"; then
+              echo "ORIGINAL_104_REPORT_PERSISTED_GITHUB"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo '::error::Audit ran but GitHub report persistence failed'
+          exit 1
