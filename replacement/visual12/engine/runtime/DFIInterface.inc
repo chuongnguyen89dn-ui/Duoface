@@ -119,6 +119,60 @@ static NSArray *DFIAvailableApps(void) {
 @implementation DFV12LayoutIcon
 - (void)drawRect:(CGRect)rect{[super drawRect:rect];DFIFrames f=DFIFramesMake(CGRectInset(self.bounds,9,8),self.kind,self.kind==4?1./3:.5,self.kind==4?2./3:.5,-1);[[UIColor.whiteColor colorWithAlphaComponent:.85]setStroke];for(int i=0;i<f.count;i++){UIBezierPath *p=[UIBezierPath bezierPathWithRoundedRect:CGRectInset(f.panes[i],1.5,1.5) cornerRadius:2];p.lineWidth=1.2;[p stroke];}}
 @end
+// QA-only Speed8 compact HUD UI; the native SpringBoard driver is not loaded.
+@interface DFV12Speed8HUD : UIView
+@property(nonatomic,strong) UILabel *speed;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UIView *sign;
+@property(nonatomic,weak) UIViewController *presenter;
+@end
+@implementation DFV12Speed8HUD
+- (instancetype)initWithFrame:(CGRect)frame {
+ if((self=[super initWithFrame:frame])){
+  self.backgroundColor=[UIColor colorWithRed:.12 green:.16 blue:.20 alpha:.94];
+  self.layer.cornerRadius=23;self.clipsToBounds=YES;
+  _speed=[UILabel new];_speed.text=@"—";_speed.textColor=UIColor.whiteColor;_speed.textAlignment=NSTextAlignmentCenter;_speed.font=[UIFont monospacedDigitSystemFontOfSize:22 weight:UIFontWeightBold];
+  _unit=[UILabel new];_unit.text=@"km/h";_unit.textColor=UIColor.whiteColor;_unit.textAlignment=NSTextAlignmentCenter;_unit.font=[UIFont systemFontOfSize:9];
+  _sign=[UIView new];_sign.backgroundColor=UIColor.whiteColor;_sign.layer.borderWidth=2.5;_sign.layer.borderColor=UIColor.redColor.CGColor;_sign.layer.cornerRadius=17;
+  _limit=[UILabel new];_limit.text=@"—";_limit.textColor=UIColor.blackColor;_limit.textAlignment=NSTextAlignmentCenter;_limit.font=[UIFont monospacedDigitSystemFontOfSize:17 weight:UIFontWeightBold];
+  [self addSubview:_speed];[self addSubview:_unit];[self addSubview:_sign];[_sign addSubview:_limit];
+  [self addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(moveHUD:)]];
+  UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(options:)];hold.minimumPressDuration=.6;[self addGestureRecognizer:hold];
+  self.accessibilityLabel=@"DuoFace Speed8 HUD; hold for settings";
+ }
+ return self;
+}
+- (void)layoutSubviews {
+ [super layoutSubviews];CGFloat k=self.bounds.size.height/46.;
+ self.layer.cornerRadius=self.bounds.size.height/2;
+ self.speed.frame=CGRectMake(5*k,k,57*k,27*k);
+ self.unit.frame=CGRectMake(5*k,27*k,57*k,15*k);
+ self.sign.frame=CGRectMake(self.bounds.size.width-38*k,6*k,34*k,34*k);
+ self.sign.layer.cornerRadius=17*k;self.limit.frame=self.sign.bounds;
+}
+- (void)moveHUD:(UIPanGestureRecognizer *)g {
+ UIView *parent=self.superview;if(!parent)return;
+ CGPoint d=[g translationInView:parent];CGPoint c=CGPointMake(self.center.x+d.x,self.center.y+d.y);
+ CGFloat hx=self.bounds.size.width/2,hy=self.bounds.size.height/2;
+ self.center=CGPointMake(MAX(hx,MIN(parent.bounds.size.width-hx,c.x)),MAX(hy,MIN(parent.bounds.size.height-hy,c.y)));
+ [g setTranslation:CGPointZero inView:parent];
+ if(g.state==UIGestureRecognizerStateEnded){
+  NSUserDefaults *prefs=[NSUserDefaults standardUserDefaults];[prefs setDouble:self.center.x/MAX(parent.bounds.size.width,1) forKey:@"DFV12Speed8X"];[prefs setDouble:self.center.y/MAX(parent.bounds.size.height,1) forKey:@"DFV12Speed8Y"];
+ }
+}
+- (void)options:(UILongPressGestureRecognizer *)g {
+ if(g.state!=UIGestureRecognizerStateBegan||!self.presenter)return;
+ UIAlertController *a=[UIAlertController alertControllerWithTitle:@"DuoFace HUD 8" message:@"HUD QA • dữ liệu tốc độ sẽ ghép sau" preferredStyle:UIAlertControllerStyleAlert];
+ __weak typeof(self) weak=self;
+ [a addAction:[UIAlertAction actionWithTitle:@"Thu nhỏ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *x){(void)x;DFV12Speed8HUD *h=weak;CGRect f=h.frame;CGFloat w=MAX(76,f.size.width-10);h.bounds=CGRectMake(0,0,w,w*46/104);[h setNeedsLayout];}]];
+ [a addAction:[UIAlertAction actionWithTitle:@"Phóng to" style:UIAlertActionStyleDefault handler:^(UIAlertAction *x){(void)x;DFV12Speed8HUD *h=weak;CGRect f=h.frame;CGFloat w=MIN(150,f.size.width+10);h.bounds=CGRectMake(0,0,w,w*46/104);[h setNeedsLayout];}]];
+ [a addAction:[UIAlertAction actionWithTitle:@"Độ mờ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *x){(void)x;weak.alpha=weak.alpha>.8?.6:1;}]];
+ [a addAction:[UIAlertAction actionWithTitle:@"Ẩn HUD" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *x){(void)x;weak.hidden=YES;}]];
+ [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+ [self.presenter presentViewController:a animated:YES completion:nil];
+}
+@end
 @interface DFV12SplitController ()
 @property(nonatomic,strong) NSArray<UIView *> *panes;
 @property(nonatomic,strong) NSMutableArray *hosts;
@@ -140,6 +194,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic) BOOL shuttingDown;
 @property(nonatomic,strong) UILabel *statusLabel;
 @property(nonatomic,strong) UIImageView *approvedLogo;
+@property(nonatomic,strong) DFV12Speed8HUD *speedHUD;
 @property(nonatomic) NSInteger activePane,selectedTab;
 @property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
@@ -188,6 +243,7 @@ static NSArray *DFIAvailableApps(void) {
   [self.toolbarStack addSubview:b];
  }
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
+ self.speedHUD=[[DFV12Speed8HUD alloc]initWithFrame:CGRectMake(0,0,104,46)];self.speedHUD.presenter=self;[self.view addSubview:self.speedHUD];
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
  for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
 }
@@ -208,7 +264,9 @@ static NSArray *DFIAvailableApps(void) {
 - (void)viewDidLayoutSubviews {
  [super viewDidLayoutSubviews];if(self.shuttingDown)return;
  DFIPerfCount(@"layout_passes");
- CGRect bounds=self.view.bounds;DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
+ CGRect bounds=self.view.bounds;
+ if(self.speedHUD){NSUserDefaults *prefs=[NSUserDefaults standardUserDefaults];CGFloat x=[prefs objectForKey:@"DFV12Speed8X"]?[prefs doubleForKey:@"DFV12Speed8X"]:.5;CGFloat y=[prefs objectForKey:@"DFV12Speed8Y"]?[prefs doubleForKey:@"DFV12Speed8Y"]:.2;CGFloat hw=self.speedHUD.bounds.size.width/2,hh=self.speedHUD.bounds.size.height/2;self.speedHUD.center=CGPointMake(MAX(hw,MIN(bounds.size.width-hw,x*bounds.size.width)),MAX(hh,MIN(bounds.size.height-hh,y*bounds.size.height)));[self.view bringSubviewToFront:self.speedHUD];}
+ DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;self.paneButtons[i].hidden=CGRectIsEmpty(frame)||frame.size.width<40||frame.size.height<35;
