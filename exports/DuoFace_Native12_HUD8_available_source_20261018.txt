@@ -8983,3 +8983,1526 @@ static NSUserDefaults *DFConnectionSettingsStore(void) {
 %end
 ########## END FILE: runtime/connection/DFConnectionSettingsHook.xm ##########
 
+########## BEGIN FILE: runtime/DuoFaceFullscreenBridge.xm ##########
+// EXPERIMENTAL fullscreen-only bridge. Does not embed Airaw or alter DuoFace's split logic.
+// Based on verified Airaw host scene selectors; requires CarPlay runtime validation.
+// Do not ship to Sileo without device test.
+#import <UIKit/UIKit.h>
+#import <objc/message.h>
+#import <objc/runtime.h>
+
+// No fullscreen UI may be attached to the DuoFace split pill.
+static BOOL DFHostFull = NO;
+static __weak UIViewController *DFHostController;
+static CGRect DFSavedFrame;
+static BOOL DFHasSavedFrame = NO;
+static __weak UIViewController *DFScene = nil;
+static __weak UIButton *DFBarButton = nil;
+static BOOL DFVisible = NO;
+
+static BOOL DFSendBool(id obj, NSString *name, BOOL value) {
+    SEL sel = NSSelectorFromString(name);
+    if (!obj || ![obj respondsToSelector:sel]) return NO;
+    ((void (*)(id, SEL, BOOL))objc_msgSend)(obj, sel, value);
+    return YES;
+}
+static void DFApplyFullscreen(BOOL enable) {
+    UIViewController *host = DFScene ?: DFHostController;
+    if ((enable && !DFVisible) || !host || !host.view || !host.view.superview) {
+        NSLog(@"[DuoFaceFullscreen] host unavailable; no change");
+        return;
+    }
+    UIView *v = host.view;
+    if (enable) {
+        if (!DFHasSavedFrame) {
+            DFSavedFrame = v.frame;
+            DFHasSavedFrame = YES;
+        }
+        // Airaw's verified chrome selector, guarded for OS variations.
+        BOOL chrome = DFSendBool(host, @"setDefaultAppChromeHidden:", YES);
+        UIView *container = v.superview;
+        v.transform = CGAffineTransformIdentity;
+        v.frame = container.bounds;
+        DFHostFull = YES;
+        NSLog(@"[DuoFaceFullscreen] enter chrome=%d", chrome);
+    } else {
+        DFSendBool(host, @"setDefaultAppChromeHidden:", NO);
+        v.transform = CGAffineTransformIdentity;
+        if (DFHasSavedFrame) v.frame = DFSavedFrame;
+        DFHasSavedFrame = NO;
+        DFHostFull = NO;
+        NSLog(@"[DuoFaceFullscreen] restore");
+    }
+}
+// Airaw 1.7.1k method requestFullscreenToggle sends this exact name.
+// Use a local listener so the test remains functional without Airaw installed.
+static NSString * const kDFFullscreenEvent = @"jp.airaw.host.fullscreen";
+@interface DFFullscreenEventReceiver : NSObject
++ (instancetype)shared;
+- (void)received:(NSNotification *)note;
+@end
+@implementation DFFullscreenEventReceiver
++ (instancetype)shared {
+    static DFFullscreenEventReceiver *receiver;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        receiver = [DFFullscreenEventReceiver new];
+        [[NSNotificationCenter defaultCenter] addObserver:receiver selector:@selector(received:) name:kDFFullscreenEvent object:nil];
+    });
+    return receiver;
+}
+- (void)received:(NSNotification *)note {
+    NSNumber *enabled = [note.userInfo objectForKey:@"enabled"];
+    DFApplyFullscreen(enabled ? enabled.boolValue : !DFHostFull);
+}
+@end
+static void DFRequestFullscreen(NSNumber *enabled) {
+    [DFFullscreenEventReceiver shared];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDFFullscreenEvent object:nil
+                                                     userInfo:enabled ? @{@"enabled":enabled} : nil];
+}
+static void DFToggleFullscreen(void) { DFRequestFullscreen(nil); }
+
+// Diagnostic: constructor runs only if the dylib is actually injected into this process.
+__attribute__((constructor)) static void DFBridgeLoaded(void) {
+    NSLog(@"[DuoFaceFullscreen] LOADED process=%@ bundle=%@ DBApplicationVC=%d CBSlotPillView=%d DBRootStatusBarVC=%d DBDockRootVC=%d",
+          [NSProcessInfo processInfo].processName, [NSBundle mainBundle].bundleIdentifier,
+          objc_getClass("DBApplicationViewController") != Nil,
+          objc_getClass("CBSlotPillView") != Nil,
+          objc_getClass("DBRootStatusBarViewController") != Nil,
+          objc_getClass("DBDockRootViewController") != Nil);
+}
+
+// Fullscreen control must be owned by a CarPlay top-bar controller and gated by the active DuoFace application scene.
+// Host controller is captured by its existing layout callback.
+// Bind the existing DuoFace fullscreen pill action to the host fullscreen bridge.
+%hook DBApplicationViewController
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFHostController = (UIViewController *)self;
+    // Actual CarPlay pill placement is handled by CBSlotPillView.
+}
+%end
+
+// Explicit entry point for future DuoFace UI binding.
+// Avoid redirecting expandTapped:/restoreTapped: before confirming target ownership.
+@interface DuoFaceFullscreenAction : NSObject
++ (void)toggle;
++ (void)restore;
+@end
+@implementation DuoFaceFullscreenAction
++ (void)toggle { DFToggleFullscreen(); }
++ (void)restore { DFRequestFullscreen(@NO); }
+@end
+
+
+// Split-pill actions deliberately remain untouched. Fullscreen must be triggered
+// exclusively by the future top CarPlay status-bar control while DuoFace is visible.
+
+static void DFUpdateButton(void) { if (DFBarButton) DFBarButton.hidden = !DFVisible; }
+static NSString *DFSceneID(id scene) {
+    for (NSString *key in @[@"appIdentifier", @"applicationIdentifier", @"bundleIdentifier"]) {
+        SEL selector = NSSelectorFromString(key);
+        if ([scene respondsToSelector:selector]) {
+            id value = ((id (*)(id, SEL))objc_msgSend)(scene, selector);
+            if ([value isKindOfClass:[NSString class]]) return value;
+        }
+    }
+    return nil;
+}
+static void DFSceneChanged(UIViewController *scene, BOOL appeared) {
+    NSString *identifier = DFSceneID(scene);
+    if (appeared && [identifier isEqualToString:@"com.duonavi.app"]) {
+        DFScene = scene;
+        DFVisible = YES;
+    } else if (!appeared && scene == DFScene) {
+        if (DFHostFull) DFApplyFullscreen(NO);
+        DFVisible = NO;
+        DFScene = nil;
+    }
+    DFUpdateButton();
+}
+%hook DBApplicationSceneViewController
+- (void)viewDidAppear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, YES);
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, NO);
+}
+%end
+%hook CARApplicationSceneViewController
+- (void)viewDidAppear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, YES);
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    %orig;
+    DFSceneChanged((UIViewController *)self, NO);
+}
+%end
+
+@interface DFBarAction : NSObject
++ (instancetype)shared;
+- (void)pressed:(id)sender;
+@end
+@implementation DFBarAction
++ (instancetype)shared {
+    static DFBarAction *instance;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ instance = [DFBarAction new]; });
+    return instance;
+}
+- (void)pressed:(id)sender {
+    NSLog(@"[DuoFaceFullscreen] pressed visible=%d scene=%@ host=%@", DFVisible, DFScene, DFHostController);
+    if (!DFVisible || !DFScene) {
+        NSLog(@"[DuoFaceFullscreen] ignored: DuoFace scene not active");
+        return;
+    }
+    DFToggleFullscreen();
+}
+@end
+static void DFInstallBar(UIViewController *host) {
+    if (!host || !host.view) return;
+    UIButton *button = (UIButton *)[host.view viewWithTag:871204];
+    if (!button) {
+        button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.tag = 871204;
+        button.frame = CGRectMake(MAX(0, CGRectGetWidth(host.view.bounds) - 50), 2, 44, 44);
+        button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        button.tintColor = UIColor.yellowColor;
+        button.backgroundColor = [UIColor colorWithRed:0.15 green:0.3 blue:0.9 alpha:0.95];
+        button.layer.cornerRadius = 8;
+        [button setTitle:@"FULL" forState:UIControlStateNormal];
+        if (@available(iOS 13.0, *)) {
+            [button setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"] forState:UIControlStateNormal];
+        }
+        [button addTarget:[DFBarAction shared] action:@selector(pressed:) forControlEvents:UIControlEventTouchUpInside];
+        [host.view addSubview:button];
+        NSLog(@"[DuoFaceFullscreen] bar installed %@", NSStringFromClass(host.class));
+    }
+    DFBarButton = button;
+    DFUpdateButton();
+}
+%hook DBRootStatusBarViewController
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
+%end
+%hook CARRootStatusBarViewController
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
+%end
+%hook DBDockRootViewController
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFInstallBar((UIViewController *)self);
+}
+%end
+########## END FILE: runtime/DuoFaceFullscreenBridge.xm ##########
+
+########## BEGIN FILE: runtime/DuoFaceHostGeometryProbe.xm ##########
+// Experimental, read-only CarPlay host geometry probe. Does NOT toggle fullscreen.
+// Do not install on production; compile and test in isolated development package.
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+static void DFLogHost(NSString *event, id obj) {
+    UIView *v = [obj isKindOfClass:[UIView class]] ? obj :
+        ([obj isKindOfClass:[UIViewController class]] ? [(UIViewController *)obj view] : nil);
+    if (!v || !v.window) return;
+    NSLog(@"[DuoFaceHostProbe] %@ class=%@ frame=%@ bounds=%@ window=%@ safe=%@ hidden=%d",
+          event, NSStringFromClass([obj class]), NSStringFromCGRect(v.frame),
+          NSStringFromCGRect(v.bounds), NSStringFromCGRect(v.window.bounds),
+          NSStringFromUIEdgeInsets(v.safeAreaInsets), v.hidden);
+}
+%hook DBDockWindow
+- (void)layoutSubviews { %orig; DFLogHost(@"dock-layout", self); }
+%end
+%hook DBApplicationViewController
+- (void)viewDidLayoutSubviews { %orig; DFLogHost(@"app-layout", self); }
+%end
+%hook DBDockRootViewController
+- (void)viewDidLayoutSubviews { %orig; DFLogHost(@"dock-root-layout", self); }
+%end
+########## END FILE: runtime/DuoFaceHostGeometryProbe.xm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFDashboardChrome.h ##########
+#import <UIKit/UIKit.h>
+
+// Dashboard half, matched to Airaw's DB/CARStatusBarWindow chrome receiver.
+FOUNDATION_EXPORT BOOL DFInstallDashboardChromeHooks(void);
+FOUNDATION_EXPORT BOOL DFDashboardSetChromeHidden(BOOL hidden, NSString **reason);
+FOUNDATION_EXPORT void DFDashboardRestoreChrome(void);
+########## END FILE: runtime/fullscreen/DFDashboardChrome.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFDashboardChrome.xm ##########
+#import "DFDashboardChrome.h"
+
+// Airaw receiver 0xe610 uses nativeChromeHidden -> statusbarWindow.setHidden:.
+// The iOS26 dock hook is deliberately not substituted for the iOS16 receiver.
+@interface DBStatusBarWindow : UIWindow
+@end
+@interface CARStatusBarWindow : UIWindow
+@end
+
+static NSHashTable<UIWindow *> *DFChromeWindows;
+static NSMapTable<UIWindow *, NSNumber *> *DFChromeSnapshots;
+static BOOL DFChromeHidden;
+static BOOL DFChromeHooksInstalled;
+
+static void DFObserveChromeWindow(UIWindow *window) {
+    if (!window) return;
+    [DFChromeWindows addObject:window];
+    if (DFChromeHidden) {
+        if (![DFChromeSnapshots objectForKey:window])
+            [DFChromeSnapshots setObject:@(window.hidden) forKey:window];
+        window.hidden = YES;
+    }
+}
+void DFDashboardRestoreChrome(void) {
+    NSCAssert(NSThread.isMainThread, @"Chrome restore requires main thread");
+    DFChromeHidden = NO;
+    for (UIWindow *window in DFChromeSnapshots.keyEnumerator) {
+        NSNumber *hidden = [DFChromeSnapshots objectForKey:window];
+        if (hidden) window.hidden = hidden.boolValue;
+    }
+    [DFChromeSnapshots removeAllObjects];
+}
+BOOL DFDashboardSetChromeHidden(BOOL hidden, NSString **reason) {
+    NSCAssert(NSThread.isMainThread, @"Chrome transition requires main thread");
+    if (!hidden) { DFDashboardRestoreChrome(); return YES; }
+    if (!DFChromeHooksInstalled || DFChromeWindows.allObjects.count == 0) {
+        if (reason) *reason = @"Airaw-compatible statusbar window has not been observed";
+        return NO;
+    }
+    DFChromeHidden = YES;
+    for (UIWindow *window in DFChromeWindows.allObjects) DFObserveChromeWindow(window);
+    for (UIWindow *window in DFChromeWindows.allObjects) {
+        if (!window.hidden) {
+            DFDashboardRestoreChrome();
+            if (reason) *reason = @"statusbar window did not accept hidden state";
+            return NO;
+        }
+    }
+    return YES;
+}
+
+%group DFDashboardChromeDB
+%hook DBStatusBarWindow
+- (void)layoutSubviews {
+    %orig;
+    DFObserveChromeWindow((UIWindow *)self);
+}
+%end
+%end
+%group DFDashboardChromeCAR
+%hook CARStatusBarWindow
+- (void)layoutSubviews {
+    %orig;
+    DFObserveChromeWindow((UIWindow *)self);
+}
+%end
+%end
+
+BOOL DFInstallDashboardChromeHooks(void) {
+    if (DFChromeHooksInstalled) return YES;
+    NSString *bundle = NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    if (![@[@"com.apple.carplayapp", @"com.apple.carplay", @"com.apple.dashboard"] containsObject:bundle])
+        return NO;
+    DFChromeWindows = [NSHashTable weakObjectsHashTable];
+    DFChromeSnapshots = [NSMapTable weakToStrongObjectsMapTable];
+    if (NSClassFromString(@"DBStatusBarWindow")) {
+        %init(DFDashboardChromeDB);
+        DFChromeHooksInstalled = YES;
+    } else if (NSClassFromString(@"CARStatusBarWindow")) {
+        %init(DFDashboardChromeCAR);
+        DFChromeHooksInstalled = YES;
+    }
+    return DFChromeHooksInstalled;
+}
+########## END FILE: runtime/fullscreen/DFDashboardChrome.xm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFFullscreenCoordinator.h ##########
+#import <Foundation/Foundation.h>
+FOUNDATION_EXPORT BOOL DFStartFullscreenAdapter(void);
+########## END FILE: runtime/fullscreen/DFFullscreenCoordinator.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFFullscreenCoordinator.mm ##########
+#import "DFFullscreenCoordinator.h"
+#import "DFFullscreenTransport.h"
+#import "DFDashboardChrome.h"
+#import "DFPickerZoomMenu.h"
+static NSString * const DFMenuZoomEvent=@"com.duoface.fullscreen.picker.v1";
+static BOOL DFTransitionPending, DFHostActive, DFFullscreenConfirmed, DFAdapterStarted;
+static NSUInteger DFTransitionGeneration;
+@interface NSObject (DFDistributedObserve)
++ (id)defaultCenter;
+- (void)addObserver:(id)observer selector:(SEL)sel name:(NSString *)name object:(id)obj;
+@end
+static void DFRestoreAfterFailure(NSString *reason) {
+    NSLog(@"[DuoFaceFullscreen] rollback %@",reason);
+    DFDashboardRestoreChrome(); DFFullscreenConfirmed=NO;
+    DFRequestHostFullscreen(NO,^(BOOL ok, NSString *hostReason) {
+        DFTransitionPending=NO;
+        NSLog(@"[DuoFaceFullscreen] rollback restored=%d %@",ok,hostReason);
+    });
+}
+static void DFEnterFullscreen(void) {
+    if (!DFHostActive || DFTransitionPending || DFFullscreenConfirmed) return;
+    DFTransitionPending=YES; NSUInteger gen=++DFTransitionGeneration;
+    DFRequestHostFullscreen(YES,^(BOOL applied,NSString *reason) {
+        if (gen!=DFTransitionGeneration) {
+            DFRestoreAfterFailure(@"owner changed"); return;
+        }
+        if (!applied || !DFHostActive) {
+            DFRestoreAfterFailure(reason?:@"host unavailable"); return;
+        }
+        NSString *chromeReason=nil;
+        if (!DFDashboardSetChromeHidden(YES,&chromeReason)) {
+            DFRestoreAfterFailure(chromeReason); return;
+        }
+        DFFullscreenConfirmed=YES; DFTransitionPending=NO;
+        NSLog(@"[DuoFaceFullscreen] Zoom In ACK host+chrome");
+    });
+}
+static void DFExitFullscreen(void) {
+    if (DFTransitionPending || !DFFullscreenConfirmed) return;
+    DFTransitionPending=YES; ++DFTransitionGeneration;
+    DFRequestHostFullscreen(NO,^(BOOL restored,NSString *reason) {
+        if (restored) {
+            DFDashboardRestoreChrome(); DFFullscreenConfirmed=NO;
+            NSLog(@"[DuoFaceFullscreen] Zoom Out ACK host");
+        } else {
+            DFQueryFullscreenHost();
+            NSLog(@"[DuoFaceFullscreen] Zoom Out failed %@",reason);
+        }
+        DFTransitionPending=NO;
+    });
+}
+@interface DFZoomReceiver:NSObject
+- (void)received:(NSNotification *)notification;
+@end
+@implementation DFZoomReceiver
+- (void)received:(NSNotification *)notification {
+    NSDictionary *info=notification.userInfo;
+    if (![info isKindOfClass:NSDictionary.class] || ![info[@"version"] isEqual:@1] ||
+        ![info[@"expanded"] isKindOfClass:NSNumber.class] ||
+        ![info[@"requestID"] isKindOfClass:NSString.class] ||
+        [info[@"requestID"] length]==0) return;
+    BOOL expanded=[info[@"expanded"] boolValue];
+    dispatch_async(dispatch_get_main_queue(),^{
+        if (expanded) DFEnterFullscreen(); else DFExitFullscreen();
+    });
+}
+@end
+static DFZoomReceiver *DFReceiver;
+BOOL DFStartFullscreenAdapter(void) {
+    NSCAssert(NSThread.isMainThread,@"main thread");
+    if (DFAdapterStarted) return YES;
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    if ([bundle isEqualToString:@"com.apple.springboard"]) {
+        // The picker UI (including 40pt Zoom item) must not disappear just
+        // because host transport initializes late during CarPlay startup.
+        BOOL pickerReady=DFInstallPickerZoomMenuHooks();
+        BOOL transportReady=DFStartFullscreenTransport(YES,nil);
+        if (!pickerReady || !transportReady) {
+            NSLog(@"[DuoFaceFullscreen] bootstrap pending picker=%d transport=%d",
+                  pickerReady,transportReady);
+            return NO; // Existing entrypoint retries; picker hook stays installed.
+        }
+        DFAdapterStarted=YES;
+        return YES;
+    }
+    if (![@[@"com.apple.carplayapp",@"com.apple.carplay",@"com.apple.dashboard"]
+        containsObject:bundle]) return NO;
+    if (!DFInstallDashboardChromeHooks()) return NO;
+    if (!DFStartFullscreenTransport(NO,^(NSDictionary *state) {
+        BOOL active=[state[@"active"] boolValue], expanded=[state[@"expanded"] boolValue];
+        if (!active && DFHostActive) ++DFTransitionGeneration;
+        DFHostActive=active;
+        if (!active || !expanded) {
+            DFDashboardRestoreChrome();
+            DFFullscreenConfirmed=NO; DFTransitionPending=NO;
+        }
+    })) return NO;
+    Class cls=NSClassFromString(@"NSDistributedNotificationCenter");
+    id center=[cls respondsToSelector:@selector(defaultCenter)]?[cls defaultCenter]:nil;
+    if (![center respondsToSelector:@selector(addObserver:selector:name:object:)]) return NO;
+    DFReceiver=[DFZoomReceiver new];
+    [center addObserver:DFReceiver selector:@selector(received:)
+                  name:DFMenuZoomEvent object:nil];
+    DFAdapterStarted=YES; return YES;
+}
+########## END FILE: runtime/fullscreen/DFFullscreenCoordinator.mm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFFullscreenTransport.h ##########
+#import <Foundation/Foundation.h>
+
+// All entry points and callbacks are main-thread only.
+// Result acknowledges host geometry, not Dashboard chrome or device validation.
+FOUNDATION_EXPORT BOOL DFStartFullscreenTransport(BOOL springBoard,
+    void (^stateChanged)(NSDictionary *state));
+FOUNDATION_EXPORT void DFRequestHostFullscreen(BOOL expanded,
+    void (^completion)(BOOL applied, NSString *reason));
+FOUNDATION_EXPORT void DFQueryFullscreenHost(void);
+########## END FILE: runtime/fullscreen/DFFullscreenTransport.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFFullscreenTransport.mm ##########
+#import "DFFullscreenTransport.h"
+#import "DFHostGeometry.h"
+#import "DFPickerZoomMenu.h"
+#import <objc/message.h>
+
+// Separate namespace prevents collisions with an installed copy of Airaw.
+static NSString * const DFCommandEvent = @"com.duoface.fullscreen.command.v1";
+static NSString * const DFStateEvent = @"com.duoface.fullscreen.state.v1";
+static const NSTimeInterval DFLeaseSeconds = 6.0;
+
+@interface NSObject (DFDistributedCenterSelectors)
++ (id)defaultCenter;
+- (void)addObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object;
+- (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info;
+@end
+
+@interface DFFullscreenTransport : NSObject
+@property(nonatomic, strong) id center;
+@property(nonatomic) BOOL host;
+@property(nonatomic, copy) NSString *client;
+@property(nonatomic) NSUInteger sequence;
+@property(nonatomic, copy) NSString *pendingID;
+@property(nonatomic) BOOL pendingEnabled;
+@property(nonatomic, copy) void (^pendingCompletion)(BOOL, NSString *);
+@property(nonatomic, copy) void (^stateChanged)(NSDictionary *);
+@property(nonatomic) BOOL ownsFullscreen;
+@property(nonatomic) BOOL desiredExpanded;
+@property(nonatomic, strong) NSTimer *timer;
+@property(nonatomic, copy) NSString *leaseOwner;
+@property(nonatomic) NSTimeInterval leaseDeadline;
+@property(nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *lastSequences;
+- (void)received:(NSNotification *)notification;
+- (void)send:(NSString *)operation enabled:(BOOL)enabled requestID:(NSString *)requestID;
+- (void)publish:(NSString *)requestID client:(NSString *)client reason:(NSString *)reason;
+- (void)handleCommand:(NSDictionary *)info;
+- (void)handleState:(NSDictionary *)info;
+@end
+
+static DFFullscreenTransport *DFTransport;
+static NSTimeInterval DFNow(void) { return NSProcessInfo.processInfo.systemUptime; }
+static BOOL DFToken(id token) {
+    return [token isKindOfClass:NSString.class] && [token length] > 0 && [token length] <= 64;
+}
+
+@implementation DFFullscreenTransport
+- (void)post:(NSString *)name info:(NSDictionary *)info {
+    [self.center postNotificationName:name object:nil userInfo:info];
+}
+- (void)send:(NSString *)operation enabled:(BOOL)enabled requestID:(NSString *)requestID {
+    [self post:DFCommandEvent info:@{@"version":@1, @"client":self.client,
+        @"sequence":@(++self.sequence), @"operation":operation,
+        @"expanded":@(enabled), @"requestID":requestID ?: @""}];
+}
+- (void)publish:(NSString *)requestID client:(NSString *)client reason:(NSString *)reason {
+    [self post:DFStateEvent info:@{@"version":@1, @"active":@(DFHostCanExpand()),
+        @"expanded":@(DFHostIsExpanded()), @"requestID":requestID ?: @"",
+        @"client":client ?: @"", @"owner":self.leaseOwner ?: @"",
+        @"reason":reason ?: @""}];
+}
+- (void)received:(NSNotification *)notification {
+    NSDictionary *info = [notification.userInfo copy];
+    if (![info isKindOfClass:NSDictionary.class] || ![info[@"version"] isEqual:@1]) return;
+    // Distributed notifications need not arrive on the UI thread.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.host) [self handleCommand:info];
+        else [self handleState:info];
+    });
+}
+- (void)handleCommand:(NSDictionary *)info {
+    NSString *client = info[@"client"], *operation = info[@"operation"];
+    NSNumber *sequence = info[@"sequence"];
+    if (!DFToken(client) || ![sequence isKindOfClass:NSNumber.class] ||
+        sequence.unsignedLongLongValue == 0 || ![operation isKindOfClass:NSString.class]) return;
+    NSUInteger previous = self.lastSequences[client].unsignedIntegerValue;
+    if (sequence.unsignedLongLongValue <= previous) return;
+    // Bound the retained sender set; never discard an active lease owner.
+    if (!self.lastSequences[client] && self.lastSequences.count >= 16) {
+        if (self.leaseOwner) return;
+        [self.lastSequences removeAllObjects];
+    }
+    self.lastSequences[client] = sequence;
+    if ([operation isEqualToString:@"query"]) {
+        [self publish:nil client:client reason:nil]; return;
+    }
+    if ([operation isEqualToString:@"renew"]) {
+        if ([client isEqualToString:self.leaseOwner] && DFHostIsExpanded())
+            self.leaseDeadline = DFNow()+DFLeaseSeconds;
+        return;
+    }
+    NSString *requestID = info[@"requestID"];
+    if (![operation isEqualToString:@"set"] || !DFToken(requestID) ||
+        ![info[@"expanded"] isKindOfClass:NSNumber.class]) return;
+    BOOL enable = [info[@"expanded"] boolValue];
+    if (self.leaseOwner && ![client isEqualToString:self.leaseOwner]) {
+        [self publish:requestID client:client reason:@"host leased to another Dashboard session"];
+        return;
+    }
+    NSString *reason = nil;
+    BOOL applied = DFHostSetExpanded(enable, &reason);
+    if (applied && enable) {
+        self.leaseOwner = client; self.leaseDeadline = DFNow()+DFLeaseSeconds;
+    } else if (!DFHostIsExpanded()) {
+        self.leaseOwner = nil; self.leaseDeadline = 0;
+    }
+    [self publish:requestID client:client reason:reason];
+    DFPickerZoomMenuRefresh();
+}
+- (void)handleState:(NSDictionary *)info {
+    if (![info[@"active"] isKindOfClass:NSNumber.class] ||
+        ![info[@"expanded"] isKindOfClass:NSNumber.class]) return;
+    BOOL expanded = [info[@"expanded"] boolValue];
+    BOOL ours = [info[@"owner"] isEqual:self.client];
+    self.ownsFullscreen = expanded && ours && self.desiredExpanded;
+    if (expanded && ours && !self.desiredExpanded) {
+        [self send:@"set" enabled:NO requestID:NSUUID.UUID.UUIDString];
+        return; // Ignore a late enter ACK after cancellation; do not renew its lease.
+    }
+    if (self.stateChanged) self.stateChanged(info);
+    if (self.pendingID && [info[@"client"] isEqual:self.client] &&
+        [info[@"requestID"] isEqual:self.pendingID]) {
+        BOOL success = expanded == self.pendingEnabled && (!expanded || ours) &&
+            [info[@"reason"] length] == 0;
+        void (^completion)(BOOL, NSString *) = self.pendingCompletion;
+        self.pendingID = nil; self.pendingCompletion = nil;
+        if (completion) completion(success, info[@"reason"]);
+    }
+}
+- (void)tick {
+    if (self.host) {
+        if (self.leaseOwner && (DFNow() > self.leaseDeadline || !DFHostIsExpanded())) {
+            DFHostRestore(); self.leaseOwner = nil;
+            [self publish:nil client:nil reason:@"host lease ended"];
+            DFPickerZoomMenuRefresh();
+        }
+    } else if (self.ownsFullscreen) {
+        [self send:@"renew" enabled:YES requestID:nil];
+    } else if (!self.pendingID) {
+        [self send:@"query" enabled:NO requestID:nil];
+    }
+}
+@end
+
+BOOL DFStartFullscreenTransport(BOOL springBoard, void (^stateChanged)(NSDictionary *)) {
+    NSCAssert(NSThread.isMainThread, @"Transport starts on main thread");
+    if (DFTransport) return DFTransport.host == springBoard;
+    Class cls = NSClassFromString(@"NSDistributedNotificationCenter");
+    if (![cls respondsToSelector:@selector(defaultCenter)]) return NO;
+    id center = [cls defaultCenter];
+    if (![center respondsToSelector:@selector(addObserver:selector:name:object:)] ||
+        ![center respondsToSelector:@selector(postNotificationName:object:userInfo:)]) return NO;
+    if (springBoard && !DFInstallHostGeometryHooks()) return NO;
+    DFFullscreenTransport *transport = [DFFullscreenTransport new];
+    transport.host = springBoard; transport.center = center;
+    transport.client = NSUUID.UUID.UUIDString;
+    transport.lastSequences = [NSMutableDictionary dictionary];
+    transport.stateChanged = stateChanged;
+    DFTransport = transport;
+    [center addObserver:transport selector:@selector(received:)
+        name:springBoard ? DFCommandEvent : DFStateEvent object:nil];
+    transport.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:transport
+        selector:@selector(tick) userInfo:nil repeats:YES];
+    if (springBoard) {
+        DFHostSetLifecycleCallback(^{
+            if (!DFHostIsExpanded()) {
+                transport.leaseOwner = nil; transport.leaseDeadline = 0;
+            }
+            [transport publish:nil client:nil reason:nil];
+            DFPickerZoomMenuRefresh();
+        });
+        [transport publish:nil client:nil reason:nil];
+    } else DFQueryFullscreenHost();
+    return YES;
+}
+void DFQueryFullscreenHost(void) {
+    NSCAssert(NSThread.isMainThread, @"Host query must run on main thread");
+    if (DFTransport && !DFTransport.host) [DFTransport send:@"query" enabled:NO requestID:nil];
+}
+void DFRequestHostFullscreen(BOOL expanded, void (^completion)(BOOL, NSString *)) {
+    NSCAssert(NSThread.isMainThread, @"Host request must run on main thread");
+    DFFullscreenTransport *transport = DFTransport;
+    if (!transport || transport.host || transport.pendingID) {
+        if (completion) completion(NO, @"transport unavailable or request pending");
+        return;
+    }
+    NSString *requestID = NSUUID.UUID.UUIDString;
+    transport.desiredExpanded = expanded;
+    transport.pendingID = requestID; transport.pendingEnabled = expanded;
+    transport.pendingCompletion = completion;
+    [transport send:@"set" enabled:expanded requestID:requestID];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3*NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        if (![transport.pendingID isEqual:requestID]) return;
+        void (^done)(BOOL, NSString *) = transport.pendingCompletion;
+        transport.pendingID = nil; transport.pendingCompletion = nil;
+        transport.ownsFullscreen = NO;
+        transport.desiredExpanded = NO;
+        // A newer sequence invalidates a delayed enter command; lease is a second rollback path.
+        [transport send:@"set" enabled:NO requestID:NSUUID.UUID.UUIDString];
+        if (done) done(NO, @"host acknowledgment timed out; restore requested");
+    });
+}
+########## END FILE: runtime/fullscreen/DFFullscreenTransport.mm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFHostGeometry.h ##########
+#import <UIKit/UIKit.h>
+
+// SpringBoard half of the v12 adapter. All calls must run on the main thread.
+// Staged implementation: not linked into the host4 build yet.
+FOUNDATION_EXPORT BOOL DFInstallHostGeometryHooks(void);
+FOUNDATION_EXPORT BOOL DFHostCanExpand(void);
+FOUNDATION_EXPORT BOOL DFHostIsExpanded(void);
+FOUNDATION_EXPORT BOOL DFHostSetExpanded(BOOL expanded, NSString **reason);
+FOUNDATION_EXPORT void DFHostRestore(void);
+FOUNDATION_EXPORT void DFHostSetLifecycleCallback(void (^callback)(void));
+########## END FILE: runtime/fullscreen/DFHostGeometry.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFHostGeometry.xm ##########
+// v12-only geometry adapter, reconstructed from the hash-pinned audit.
+// CBWindow geometry: 0xb1aac; split layout: 0x1044f8; owner: 0x2ca140.
+// This module changes neither licensing nor split/focus selection.
+#import "DFHostGeometry.h"
+#import <objc/runtime.h>
+#import <math.h>
+typedef void (^DFHostCompletion)(void);
+
+@interface CBWindow : NSObject
++ (CGRect)carPlayScreenBounds;
++ (CGRect)carPlayUsableBounds;
+@property(nonatomic) CGRect appFrame;
+@property(nonatomic, readonly) UIWindow *rootWindow;
+@property(nonatomic, readonly) UIView *contentView;
+@property(nonatomic, readonly) BOOL isVisible;
+- (void)resizeWindows;
+- (void)show;
+// ObjC metadata v24@0:8@?16: this argument is a completion block, NOT a BOOL.
+- (void)hide:(DFHostCompletion)completion;
+- (void)destroyWindows;
+@end
+
+@interface CBBridgedSplitApp : NSObject
+@property(nonatomic, readonly) UIView *view;
+- (void)layoutSplitViews;
+@end
+
+@interface CBBridgeManager : NSObject
++ (instancetype)sharedInstanceIfExists;
+@property(nonatomic, readonly) BOOL activated;
+@property(nonatomic, readonly) CBWindow *window;
+@property(nonatomic, readonly) id currentApp;
+@property(nonatomic) CGRect appFrame;
+@property(nonatomic) CGSize renderSize;
+- (void)deactivateCurrentApp;
+@end
+
+@interface DFHostSnapshot : NSObject
+@property(nonatomic, weak) CBBridgeManager *manager;
+@property(nonatomic, weak) CBWindow *window;
+@property(nonatomic, weak) CBBridgedSplitApp *app;
+@property(nonatomic, weak) UIView *content;
+@property(nonatomic, weak) UIView *appView;
+@property(nonatomic) CGRect managerFrame;
+@property(nonatomic) CGSize renderSize;
+@property(nonatomic) CGRect windowFrame;
+@property(nonatomic) CGRect contentFrame;
+@property(nonatomic) CGRect appViewFrame;
+@property(nonatomic) CGAffineTransform appViewTransform;
+@end
+@implementation DFHostSnapshot
+@end
+
+static DFHostSnapshot *DFSnapshot;
+static BOOL DFExpanded;
+static BOOL DFRelayoutInProgress;
+static BOOL DFHooksInstalled;
+static __weak CBWindow *DFHidingWindow;
+static void (^DFLifecycleCallback)(void);
+
+static CBBridgeManager *DFManager(void) {
+    Class cls = NSClassFromString(@"CBBridgeManager");
+    return [cls respondsToSelector:@selector(sharedInstanceIfExists)] ?
+        [cls sharedInstanceIfExists] : nil;
+}
+static BOOL DFRectValid(CGRect rect) {
+    return isfinite(rect.origin.x) && isfinite(rect.origin.y) &&
+        isfinite(rect.size.width) && isfinite(rect.size.height) &&
+        rect.size.width > 0 && rect.size.height > 0;
+}
+static BOOL DFSameOwner(void) {
+    CBBridgeManager *manager = DFManager();
+    return DFSnapshot && manager == DFSnapshot.manager && manager.activated &&
+        manager.window == DFSnapshot.window && manager.currentApp == DFSnapshot.app &&
+        manager.window.contentView == DFSnapshot.content &&
+        [DFSnapshot.app view] == DFSnapshot.appView;
+}
+BOOL DFHostCanExpand(void) {
+    NSCAssert(NSThread.isMainThread, @"Host geometry must run on main thread");
+    CBBridgeManager *manager = DFManager();
+    CBWindow *window = manager.window;
+    id app = manager.currentApp;
+    Class splitClass = NSClassFromString(@"CBBridgedSplitApp");
+    if (!DFHooksInstalled || !manager.activated || !window.isVisible || window == DFHidingWindow ||
+        !splitClass || ![app isKindOfClass:splitClass]) return NO;
+    UIView *view = [app view];
+    return window.rootWindow && !window.rootWindow.hidden && window.contentView &&
+        view && [view isDescendantOfView:window.contentView] &&
+        DFRectValid([NSClassFromString(@"CBWindow") carPlayScreenBounds]);
+}
+BOOL DFHostIsExpanded(void) { return DFExpanded && DFSameOwner(); }
+void DFHostSetLifecycleCallback(void (^callback)(void)) { DFLifecycleCallback = [callback copy]; }
+
+static void DFRelayout(void) {
+    if (DFRelayoutInProgress || !DFSameOwner()) return;
+    DFRelayoutInProgress = YES;
+    @try {
+        CBWindow *window = DFSnapshot.window;
+        CBBridgeManager *manager = DFSnapshot.manager;
+        CGRect bounds = [NSClassFromString(@"CBWindow") carPlayUsableBounds];
+        manager.appFrame = bounds;
+        // Same render-size calculation as v12 metrics callback at 0x1d14e0.
+        manager.renderSize = CGSizeMake(roundf((float)(bounds.size.width * 2)),
+                                        roundf((float)(bounds.size.height * 2)));
+        window.appFrame = bounds;
+        [window resizeWindows];
+        // resizeWindows owns contentView; use the actual parent coordinate space.
+        UIView *view = DFSnapshot.appView;
+        UIView *parent = view.superview;
+        if (parent) view.frame = [parent convertRect:window.contentView.bounds
+                                           fromView:window.contentView];
+        [DFSnapshot.app layoutSplitViews];
+        [view setNeedsLayout];
+        [view layoutIfNeeded];
+    } @finally {
+        DFRelayoutInProgress = NO;
+    }
+}
+
+void DFHostRestore(void) {
+    NSCAssert(NSThread.isMainThread, @"Host restore must run on main thread");
+    DFHostSnapshot *saved = DFSnapshot;
+    if (!saved) { DFExpanded = NO; return; }
+    BOOL sameOwner = DFSameOwner();
+    DFExpanded = NO; // Disable the usable-bounds override before restoring.
+    DFSnapshot = nil;
+    if (sameOwner) {
+        saved.manager.appFrame = saved.managerFrame;
+        saved.manager.renderSize = saved.renderSize;
+        saved.window.appFrame = saved.windowFrame;
+        [saved.window resizeWindows];
+        saved.content.frame = saved.contentFrame;
+        saved.appView.transform = saved.appViewTransform;
+        saved.appView.frame = saved.appViewFrame;
+        [saved.app layoutSplitViews];
+        [saved.appView setNeedsLayout];
+        [saved.appView layoutIfNeeded];
+    }
+    NSLog(@"[DuoFaceFullscreen] host restored sameOwner=%d", sameOwner);
+}
+
+BOOL DFHostSetExpanded(BOOL expanded, NSString **reason) {
+    NSCAssert(NSThread.isMainThread, @"Host transition must run on main thread");
+    if (!expanded) { DFHostRestore(); return YES; }
+    if (DFHostIsExpanded()) return YES;
+    if (DFSnapshot) DFHostRestore();
+    if (!DFHostCanExpand()) {
+        if (reason) *reason = @"v12 split host unavailable";
+        return NO;
+    }
+    CBBridgeManager *manager = DFManager();
+    CBWindow *window = manager.window;
+    CBBridgedSplitApp *app = manager.currentApp;
+    DFHostSnapshot *saved = [DFHostSnapshot new];
+    saved.manager = manager; saved.window = window; saved.app = app;
+    saved.content = window.contentView; saved.appView = app.view;
+    saved.managerFrame = manager.appFrame; saved.renderSize = manager.renderSize;
+    saved.windowFrame = window.appFrame; saved.contentFrame = window.contentView.frame;
+    saved.appViewFrame = app.view.frame; saved.appViewTransform = app.view.transform;
+    // A transformed split root requires a separate coordinate audit, not a guessed reset.
+    if (!CGAffineTransformIsIdentity(saved.appViewTransform)) {
+        if (reason) *reason = @"split root has an unsupported transform";
+        return NO;
+    }
+    DFSnapshot = saved; DFExpanded = YES;
+    @try { DFRelayout(); }
+    @catch (NSException *exception) {
+        if (reason) *reason = exception.reason;
+        DFHostRestore();
+        return NO;
+    }
+    CGRect expected = [NSClassFromString(@"CBWindow") carPlayScreenBounds];
+    CGRect actual = window.contentView.frame;
+    BOOL applied = DFSameOwner() && fabs(actual.origin.x-expected.origin.x)<0.5 &&
+        fabs(actual.origin.y-expected.origin.y)<0.5 &&
+        fabs(actual.size.width-expected.size.width)<0.5 &&
+        fabs(actual.size.height-expected.size.height)<0.5;
+    if (!applied) {
+        DFHostRestore();
+        if (reason) *reason = @"content geometry did not match CarPlay display";
+        return NO;
+    }
+    NSLog(@"[DuoFaceFullscreen] host geometry applied %@", NSStringFromCGRect(actual));
+    return YES; // This is geometry success only; Dashboard chrome needs its own ACK.
+}
+
+%group DFHostGeometry
+%hook CBWindow
++ (CGRect)carPlayUsableBounds {
+    if (DFExpanded && DFSameOwner()) return [self carPlayScreenBounds];
+    return %orig;
+}
+- (void)resizeWindows {
+    %orig;
+    if (DFExpanded && self == DFSnapshot.window && !DFRelayoutInProgress) DFRelayout();
+}
+- (void)show {
+    if (self == DFHidingWindow) DFHidingWindow = nil;
+    %orig;
+    if (DFLifecycleCallback) DFLifecycleCallback();
+}
+- (void)hide:(DFHostCompletion)completion {
+    if (self == DFSnapshot.window) DFHostRestore();
+    DFHidingWindow = self;
+    DFHostCompletion wrapped = ^{
+        if (completion) completion();
+        if (DFLifecycleCallback) DFLifecycleCallback();
+    };
+    %orig(wrapped);
+    if (DFLifecycleCallback) DFLifecycleCallback();
+}
+- (void)destroyWindows {
+    if (self == DFSnapshot.window) DFHostRestore();
+    %orig;
+    if (DFLifecycleCallback) DFLifecycleCallback();
+}
+%end
+%hook CBBridgeManager
+- (void)deactivateCurrentApp {
+    if (self == DFSnapshot.manager) DFHostRestore();
+    %orig;
+    if (DFLifecycleCallback) DFLifecycleCallback();
+}
+%end
+%end
+
+BOOL DFInstallHostGeometryHooks(void) {
+    if (DFHooksInstalled) return YES;
+    if (![[NSBundle.mainBundle.bundleIdentifier lowercaseString] isEqualToString:@"com.apple.springboard"])
+        return NO;
+    if (!NSClassFromString(@"CBWindow") || !NSClassFromString(@"CBBridgeManager") ||
+        !NSClassFromString(@"CBBridgedSplitApp")) return NO;
+    %init(DFHostGeometry);
+    DFHooksInstalled = YES;
+    return YES;
+}
+########## END FILE: runtime/fullscreen/DFHostGeometry.xm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFPickerZoomMenu.h ##########
+#import <UIKit/UIKit.h>
+FOUNDATION_EXPORT BOOL DFInstallPickerZoomMenuHooks(void);
+FOUNDATION_EXPORT void DFPickerZoomMenuRefresh(void);
+########## END FILE: runtime/fullscreen/DFPickerZoomMenu.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFPickerZoomMenu.xm ##########
+#import "DFPickerZoomMenu.h"
+#import "DFHostGeometry.h"
+#import <objc/runtime.h>
+#import <math.h>
+
+// Original v12 CBMultitaskingOverlayView getter (IMP 0xABA54).
+// The three native switchTo... actions update this state themselves.
+@interface NSObject (DFNativePickerMode)
+- (NSInteger)overlayMode;
+@end
+// Native three segment actions are untouched. SpringBoard owns this v12 picker.
+static NSString * const DFMenuZoomEvent = @"com.duoface.fullscreen.picker.v1";
+static NSHashTable<UIView *> *DFOverlays;
+static const void *DFZoomKey = &DFZoomKey;
+static BOOL DFHookReady;
+// Scoped exclusively to native app-picker card construction. No global plus replacement.
+static BOOL DFBuildingNativeAddTile;
+// Scope native class-localized status strings strictly to construction of the
+// Close/recent rows; never change stored PID/slot data or other screens.
+static BOOL DFBuildingNativeRecentRows;
+@interface NSObject (DFDistributedPost)
++ (id)defaultCenter;
+- (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)info;
+@end
+@interface DFZoomAction : NSObject
+- (void)pressed:(UIButton *)sender;
+@end
+static DFZoomAction *DFAction;
+static UIButton *DFTab(id overlay, const char *name) {
+    Ivar ivar = class_getInstanceVariable(object_getClass(overlay), name);
+    id value = ivar ? object_getIvar(overlay, ivar) : nil;
+    return [value isKindOfClass:UIButton.class] ? value : nil;
+}
+// The native v12 picker owns the dimming view, shadow carrier and blur card.
+// Keep those UIKit views in place: dimming-view's tap recognizer dismisses the
+// picker and its alpha must stay 1. Only clear their visual chrome.
+static UIView *DFPickerNativeViewIvar(id overlay, const char *name) {
+    Ivar ivar=class_getInstanceVariable(object_getClass(overlay),name);
+    id object=ivar?object_getIvar(overlay,ivar):nil;
+    return [object isKindOfClass:UIView.class]?(UIView *)object:nil;
+}
+// Preserve the ORIGINAL v12 picker materials instead of painting a guessed
+// color. CBMultitaskingOverlayView.initWithFrame: (0xA0420) creates the
+// original UIBlurEffect style 0x12 and installs its native tinted contentView,
+// dimBackground and cardShadowContainer. Do not clear/replace those visuals;
+// only suppress the user-rejected picker outline. Native dismiss gestures,
+// hitboxes, rounded corners and the original blur stay intact.
+static void DFClearNativePickerChrome(UIView *overlay) {
+    UIView *dim=DFPickerNativeViewIvar(overlay,"_dimBackground");
+    UIView *shadow=DFPickerNativeViewIvar(overlay,"_cardShadowContainer");
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (dim) dim.layer.borderWidth=0.0;
+    if (shadow) shadow.layer.borderWidth=0.0;
+    if (card) {
+        card.layer.borderWidth=0.0;
+        if ([card isKindOfClass:UIVisualEffectView.class]) {
+            UIVisualEffectView *blur=(UIVisualEffectView *)card;
+            // Leave blur.effect AND blur.contentView.backgroundColor untouched.
+            blur.contentView.layer.borderWidth=0.0;
+        }
+    }
+}
+static const void *DFStackIconKey=&DFStackIconKey;
+static void DFDecorate(UIButton *b, NSString *title, NSString *symbol, UIFont *font) {
+    [b setTitle:title forState:UIControlStateNormal];
+    UIImage *image=[UIImage systemImageNamed:symbol withConfiguration:
+        [UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightRegular]];
+    UIImageView *icon=objc_getAssociatedObject(b,DFStackIconKey);
+    if (!icon) {
+        icon=[UIImageView new];
+        icon.contentMode=UIViewContentModeScaleAspectFit;
+        icon.userInteractionEnabled=NO;
+        [b addSubview:icon];
+        objc_setAssociatedObject(b,DFStackIconKey,icon,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    icon.image=image;
+    icon.tintColor=b.tintColor;
+    icon.frame=CGRectMake((CGRectGetWidth(b.bounds)-16)/2.0,1,16,16);
+    [b setImage:nil forState:UIControlStateNormal];
+    if (font) b.titleLabel.font=font;
+    b.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    b.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    b.titleLabel.textAlignment=NSTextAlignmentCenter;
+    b.titleEdgeInsets=UIEdgeInsetsMake(19,0,0,0);
+    b.contentEdgeInsets=UIEdgeInsetsZero;
+    b.titleLabel.adjustsFontSizeToFitWidth=YES;
+    b.titleLabel.minimumScaleFactor=0.85;
+    b.titleLabel.lineBreakMode=NSLineBreakByClipping;
+}
+static UIColor *DFApprovedLogoRed(void);
+// The v12 recent-app renderer adds its activity heading UILabel and native
+// close-all UIButton to the SAME sheet contentView (audit: 0xA6A38, 0xA6D8C).
+// Reuse the original UIButton: retain its closeAllBridgedAppsTapped: target.
+// This removes only the redundant visible heading, not the running-app data.
+static BOOL DFNativeCloseAllAction(UIButton *button) {
+    for (id target in button.allTargets) {
+        NSArray<NSString *> *actions=
+            [button actionsForTarget:target
+                    forControlEvent:UIControlEventTouchUpInside];
+        if ([actions containsObject:@"closeAllBridgedAppsTapped:"]) return YES;
+    }
+    return NO;
+}
+static void DFRestyleRecentClearAll(UIView *overlay) {
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (![card isKindOfClass:UIVisualEffectView.class]) return;
+    UIView *content=((UIVisualEffectView *)card).contentView;
+    UILabel *heading=nil;
+    UIButton *clearAll=nil;
+    for (UIView *view in content.subviews) {
+        if ([view isKindOfClass:UIButton.class] &&
+            DFNativeCloseAllAction((UIButton *)view))
+            clearAll=(UIButton *)view;
+        else if ([view isKindOfClass:UILabel.class]) {
+            UILabel *label=(UILabel *)view;
+            NSString *title=[label.text stringByTrimmingCharactersInSet:
+                NSCharacterSet.whitespaceAndNewlineCharacterSet];
+            if (title.length>0 &&
+                [title rangeOfString:@"Đang hoạt động"
+                            options:NSCaseInsensitiveSearch].location==0)
+                heading=label;
+        }
+    }
+    if (!heading || !clearAll || !heading.superview || !clearAll.superview)
+        return; // Leave native layout intact when the target view changes.
+    CGRect location=[heading.superview convertRect:heading.frame
+                                            toView:clearAll.superview];
+    if (!isfinite(location.origin.x) || !isfinite(location.origin.y) ||
+        CGRectGetHeight(location)<14.0) return;
+    CGFloat width=MIN(84.0,CGRectGetWidth(clearAll.superview.bounds)-
+                        CGRectGetMinX(location)-8.0);
+    if (width<68.0) return;
+    // Center the 30pt control vertically within the former 34pt heading.
+    clearAll.frame=CGRectMake(location.origin.x,
+        location.origin.y+(location.size.height-30.0)/2.0,width,30.0);
+    UIFont *font=[(clearAll.titleLabel.font?:[UIFont systemFontOfSize:10])
+                  fontWithSize:10.0];
+    DFDecorate(clearAll,@"Clear All",@"trash",font);
+    clearAll.backgroundColor=UIColor.clearColor;
+    clearAll.layer.borderWidth=0.0;
+    clearAll.layer.cornerRadius=0.0;
+    UIColor *accent=DFApprovedLogoRed();
+    [clearAll setTitleColor:accent forState:UIControlStateNormal];
+    clearAll.tintColor=accent;
+    UIImageView *icon=objc_getAssociatedObject(clearAll,DFStackIconKey);
+    if (icon) icon.tintColor=accent;
+    clearAll.accessibilityLabel=@"Clear All";
+    heading.hidden=YES;
+}
+// Original v12 builds each recent-app card as a 56pt row with a 20pt
+// UIImageView, a title UILabel (top), a secondary status UILabel (below),
+// and a native UIButton on the right. All four are children of that row:
+// see v12 host audit 0xA71B0, 0xA7320, 0xA73E8, 0xA74C4, 0xA7770.
+// Reflow these EXISTING controls; do not create a second close/restart button.
+static const void *DFRecentInlineStatusKey=&DFRecentInlineStatusKey;
+static NSInteger DFNativeSingleAppAction(UIButton *button) {
+    for (id target in button.allTargets) {
+        NSArray<NSString *> *actions=
+            [button actionsForTarget:target
+                    forControlEvent:UIControlEventTouchUpInside];
+        if ([actions containsObject:@"restartSingleAppTapped:"]) return 1;
+        if ([actions containsObject:@"closeSingleAppTapped:"]) return 2;
+    }
+    return 0;
+}
+static BOOL DFRestyleOneRecentAppRow(UIView *row) {
+    if (CGRectGetWidth(row.bounds)<140.0 ||
+        CGRectGetHeight(row.bounds)<32.0) return NO;
+    UILabel *status=objc_getAssociatedObject(row,DFRecentInlineStatusKey);
+    UILabel *name=nil;
+    UIImageView *logo=nil;
+    UIButton *action=nil;
+    NSInteger kind=0;
+    for (UIView *view in row.subviews) {
+        if ([view isKindOfClass:UILabel.class]) {
+            UILabel *label=(UILabel *)view;
+            if (!status && ([label.text isEqualToString:@"🟢"] ||
+                            [label.text isEqualToString:@"🔴"])) status=label;
+            else if (label!=status && label.text.length>0 && !name) name=label;
+        } else if ([view isKindOfClass:UIImageView.class]) {
+            UIImageView *candidate=(UIImageView *)view;
+            if (!logo && candidate.image &&
+                CGRectGetWidth(candidate.frame)<=44.0 &&
+                CGRectGetHeight(candidate.frame)<=44.0) logo=candidate;
+        } else if ([view isKindOfClass:UIButton.class]) {
+            NSInteger originalAction=DFNativeSingleAppAction((UIButton *)view);
+            if (originalAction) {
+                action=(UIButton *)view;
+                kind=originalAction;
+            }
+        }
+    }
+    // Associated pointer survives subsequent native layout passes. If the
+    // saved status was encountered before the title, locate the title now.
+    if (status && !name) {
+        for (UIView *view in row.subviews) {
+            if ([view isKindOfClass:UILabel.class] && view!=status &&
+                ((UILabel *)view).text.length>0) {
+                name=(UILabel *)view;
+                break;
+            }
+        }
+    }
+    if (!name || !status || status.superview!=row || !logo ||
+        !action || !kind) return NO;
+    // A native active-slot row has Restart; every off-slot row has Close.
+    // Require the original status and action to agree instead of guessing.
+    BOOL live=(kind==1);
+    if (!objc_getAssociatedObject(row,DFRecentInlineStatusKey)) {
+        if (live!=[status.text isEqualToString:@"🟢"]) return NO;
+        objc_setAssociatedObject(row,DFRecentInlineStatusKey,status,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    CGFloat centerY=CGRectGetMidY(row.bounds);
+    CGRect logoFrame=logo.frame;
+    logoFrame.origin.y=round(centerY-CGRectGetHeight(logoFrame)/2.0);
+    logo.frame=logoFrame;
+    CGFloat left=MAX(CGRectGetMaxX(logoFrame)+8.0,
+                     CGRectGetMinX(name.frame));
+    CGFloat actionLeft=CGRectGetMinX(action.frame);
+    CGFloat maxNameWidth=actionLeft-10.0-left-16.0-5.0;
+    if (maxNameWidth<28.0) return NO;
+    UIFont *nameFont=name.font?:[UIFont systemFontOfSize:13.0];
+    CGFloat needed=ceil([name.text sizeWithAttributes:
+        @{NSFontAttributeName:nameFont}].width)+3.0;
+    CGFloat nameWidth=MAX(24.0,MIN(maxNameWidth,needed));
+    CGFloat nameHeight=MIN(21.0,MAX(16.0,CGRectGetHeight(name.frame)));
+    name.frame=CGRectMake(round(left),
+        round(centerY-nameHeight/2.0),nameWidth,nameHeight);
+    name.numberOfLines=1;
+    name.lineBreakMode=NSLineBreakByTruncatingTail;
+    // 14pt regular filled-circle glyph renders as a restrained ~9-10pt dot.
+    // Keep it five points beyond the actual (possibly truncated) app title.
+    status.text=@"●";
+    status.font=[UIFont systemFontOfSize:14.0 weight:UIFontWeightRegular];
+    status.textAlignment=NSTextAlignmentCenter;
+    status.frame=CGRectMake(CGRectGetMaxX(name.frame)+5.0,
+                             round(centerY-10.0),16.0,20.0);
+    UIColor *color=live?
+        [UIColor colorWithRed:52.0/255.0 green:199.0/255.0
+                        blue:89.0/255.0 alpha:1.0]:
+        DFApprovedLogoRed();
+    status.textColor=color;
+    status.accessibilityLabel=live?@"Live":@"Chạy ngầm";
+    // Only replace the glyph of the ORIGINAL native action control. Its
+    // target/selector/accessibilityIdentifier and broad hitbox are retained.
+    NSString *symbol=live?@"arrow.clockwise":@"xmark.circle";
+    UIImage *glyph=[UIImage systemImageNamed:symbol withConfiguration:
+        [UIImageSymbolConfiguration configurationWithPointSize:18.0
+                                                        weight:UIImageSymbolWeightRegular]];
+    if (glyph) {
+        UIImage *templateImage=[glyph imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [action setImage:templateImage forState:UIControlStateNormal];
+        [action setImage:templateImage forState:UIControlStateHighlighted];
+    }
+    [action setTitle:@"" forState:UIControlStateNormal];
+    [action setTitle:@"" forState:UIControlStateHighlighted];
+    action.tintColor=color;
+    action.backgroundColor=UIColor.clearColor;
+    action.layer.borderWidth=0.0;
+    action.layer.borderColor=UIColor.clearColor.CGColor;
+    action.imageEdgeInsets=UIEdgeInsetsZero;
+    action.titleEdgeInsets=UIEdgeInsetsZero;
+    action.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    action.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    CGRect buttonFrame=action.frame;
+    buttonFrame.origin.y=round(centerY-CGRectGetHeight(buttonFrame)/2.0);
+    action.frame=buttonFrame;
+    action.accessibilityLabel=live?@"Mở lại":@"Đóng ứng dụng";
+    return YES;
+}
+static void DFRestyleRecentRowDescendants(UIView *view, NSUInteger depth) {
+    if (depth>8) return;
+    if (DFRestyleOneRecentAppRow(view)) return;
+    for (UIView *child in view.subviews) {
+        if ([child isKindOfClass:UILabel.class] ||
+            [child isKindOfClass:UIImageView.class] ||
+            [child isKindOfClass:UIButton.class]) continue;
+        DFRestyleRecentRowDescendants(child,depth+1);
+    }
+}
+static void DFRestyleNativeRecentAppRows(UIView *overlay) {
+    UIView *card=DFPickerNativeViewIvar(overlay,"_sheetCard");
+    if (![card isKindOfClass:UIVisualEffectView.class]) return;
+    DFRestyleRecentRowDescendants(
+        ((UIVisualEffectView *)card).contentView,0);
+}
+// One canonical accent sampled from the approved, installed horizontal logo.
+// audit/approved-logo-red.json: SHA256 78450d8ee4759353bdc21f27a06016c03fab61038ae60109ba21515c087b0089
+// RGB (227,2,15), #E3020F. Shared with src/DuoFaceBorderRunner.m.
+static UIColor *DFApprovedLogoRed(void) {
+    return [UIColor colorWithRed:227.0/255.0 green:2.0/255.0 blue:15.0/255.0 alpha:1.0];
+}
+// MENU ONLY: prefer the cropped, alpha-transparent derivative of the
+// unchanged approved logo. Preserve the original asset for splash and elsewhere.
+// The packaging step must install the derivative into the rootless support path
+// before any separately authorized DEB build; otherwise use the original.
+static UIImage *DFPickerApprovedHeaderLogo(void) {
+    static UIImage *image;
+    if (!image) {
+        NSString *root=@"/var/jb/Library/Application Support/DuoFace/";
+        image=[UIImage imageWithContentsOfFile:
+            [root stringByAppendingString:@"duoface-logo-picker-alpha-v2.png"]];
+        if (!image) image=[UIImage imageWithContentsOfFile:
+            [root stringByAppendingString:@"duoface-logo.png"]];
+    }
+    return image;
+}
+// Reuse the approved 960x240 artwork in a compact leading menu slot.
+// The logo stays on the SAME row as four native menu buttons.
+static CGRect DFNativeHeaderLogoFrame(UIView *overlay, UIView *rowParent,
+                                      CGFloat leftEdge, CGFloat rightEdge,
+                                      CGFloat rowTop, CGFloat rowHeight) {
+    Ivar iconIvar=class_getInstanceVariable(object_getClass(overlay),"_headerIcon");
+    Ivar labelIvar=class_getInstanceVariable(object_getClass(overlay),"_titleLabel");
+    id iconObj=iconIvar?object_getIvar(overlay,iconIvar):nil;
+    id labelObj=labelIvar?object_getIvar(overlay,labelIvar):nil;
+    if (![iconObj isKindOfClass:UIImageView.class] ||
+        ![labelObj isKindOfClass:UILabel.class]) return CGRectNull;
+    UIImageView *headerIcon=iconObj;
+    UILabel *title=labelObj;
+    UIImage *logo=DFPickerApprovedHeaderLogo();
+    if (!logo || !headerIcon.superview || !title.superview ||
+        ![rowParent isDescendantOfView:overlay]) {
+        title.hidden=NO;
+        return CGRectNull;
+    }
+    CGFloat width=rightEdge-leftEdge;
+    if (!isfinite(width) || width<32.0 || !isfinite(rowTop) ||
+        !isfinite(rowHeight) || rowHeight<16.0) {
+        title.hidden=NO;
+        return CGRectNull;
+    }
+    CGRect target=CGRectMake(leftEdge,rowTop,width,rowHeight);
+    headerIcon.frame=[headerIcon.superview convertRect:target fromView:rowParent];
+    headerIcon.image=logo;
+    headerIcon.contentMode=UIViewContentModeScaleAspectFit;
+    headerIcon.backgroundColor=UIColor.clearColor;
+    headerIcon.opaque=NO;
+    headerIcon.layer.borderWidth=0.0;
+    headerIcon.clipsToBounds=YES;
+    title.hidden=YES;
+    return target;
+}
+// The v12 native content views are laid out for 22/26pt tabs. The 30pt
+// single row takes a few more points: move only overlapping content below,
+// leaving the native header, X, buttons, callbacks, and sheet untouched.
+static void DFReflowPickerContent(UIView *parent, UIView *overlay,
+                                  NSArray<UIView *> *menuButtons,
+                                  CGFloat nativeBottom, CGFloat desiredTop) {
+    Ivar headerIvar=class_getInstanceVariable(object_getClass(overlay),"_headerIcon");
+    Ivar titleIvar=class_getInstanceVariable(object_getClass(overlay),"_titleLabel");
+    UIView *header=headerIvar?object_getIvar(overlay,headerIvar):nil;
+    UIView *title=titleIvar?object_getIvar(overlay,titleIvar):nil;
+    if (desiredTop<=nativeBottom+1.0) return;
+    for (UIView *child in parent.subviews) {
+        if (child==header || child==title || [menuButtons containsObject:child])
+            continue;
+        CGRect frame=child.frame;
+        // Ignore the card background, native close X and decorative elements
+        // above the old menu. Only shift actual content immediately below it.
+        if (!isfinite(frame.origin.y) || !isfinite(frame.size.height) ||
+            frame.size.height<10.0 || frame.origin.y<nativeBottom-1.0 ||
+            frame.origin.y>=desiredTop) continue;
+        CGFloat oldBottom=CGRectGetMaxY(frame);
+        frame.origin.y=desiredTop;
+        if ([child isKindOfClass:UIScrollView.class]) {
+            frame.size.height=MAX(30.0,oldBottom-desiredTop);
+        }
+        child.frame=frame;
+    }
+}
+static void DFLayoutPicker(UIView *overlay) {
+    UIButton *app=DFTab(overlay,"_appSegmentBtn");
+    UIButton *style=DFTab(overlay,"_layoutSegmentBtn");
+    UIButton *close=DFTab(overlay,"_recentSegmentBtn");
+    if (!app || !style || !close || !app.superview ||
+        style.superview!=app.superview || close.superview!=app.superview) return;
+    UIView *parent=app.superview; // Native rounded menu-background container.
+    UIView *contentView=parent.superview; // Native sheet content, not menu container.
+    if (!contentView) return;
+    UIButton *zoom=objc_getAssociatedObject(overlay,DFZoomKey);
+    if (!zoom) {
+        zoom=[UIButton buttonWithType:UIButtonTypeCustom];
+        [zoom addTarget:DFAction action:@selector(pressed:) forControlEvents:UIControlEventTouchUpInside];
+        zoom.accessibilityHint=@"Phóng to hoặc thu nhỏ giao diện DuoFace";
+        objc_setAssociatedObject(overlay,DFZoomKey,zoom,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [parent addSubview:zoom];
+    } else if (zoom.superview!=parent) {
+        [zoom removeFromSuperview]; [parent addSubview:zoom];
+    }
+    // 2026-10-14 owner override: ONE native-height ROW, not a giant 2-row
+    // logo banner. Leftmost slot = the approved horizontal DuoFace logo;
+    // four compact native App / Zoom / Style / Close slots follow.
+    CGFloat sheetWidth=CGRectGetWidth(contentView.bounds);
+    if (!isfinite(sheetWidth) || sheetWidth<148.0) {
+        NSLog(@"[DuoFaceFullscreen] picker sheet width invalid %.1f",sheetWidth);
+        return;
+    }
+    const CGFloat menuHeight=30.0;
+    const CGFloat sideInset=8.0;
+    // Compact intrinsic widths, leaving the native X its own unobstructed
+    // hit region. Never stretch the menu parent over the close button.
+    const CGFloat logoWidth=120.0; // Approved PNG 960x240 at 30pt height.
+    // Buttons use their abbreviated labels; distribute the remaining
+    // horizontal room over the logo-to-App, three tab, and Close-to-X gaps.
+    // The last 48pt plus the side inset belongs exclusively to native X.
+    const CGFloat xReserved=48.0;
+    const CGFloat desired[4]={43.0,51.0,47.0,51.0};
+    const CGFloat buttonTotal=192.0;
+    CGFloat available=sheetWidth-2.0*sideInset-logoWidth-xReserved;
+    CGFloat gap=MAX(6.0,(available-buttonTotal)/5.0);
+    CGFloat buttonSpace=available-5.0*gap;
+    CGFloat scale=MIN(1.0,buttonSpace/buttonTotal);
+    if (!isfinite(scale) || scale<0.72) {
+        NSLog(@"[DuoFaceFullscreen] insufficient safe picker width %.1f",sheetWidth);
+        return;
+    }
+    CGFloat widths[4]={0};
+    CGFloat menuWidth=0.0;
+    for (int i=0;i<4;i++) {
+        widths[i]=floor(desired[i]*scale);
+        menuWidth+=widths[i];
+    }
+    menuWidth+=3.0*gap;
+    CGRect nativeMenuFrame=parent.frame;
+    CGFloat nativeBottom=CGRectGetMaxY(nativeMenuFrame);
+    CGFloat menuTop=CGRectGetMinY(nativeMenuFrame);
+    DFNativeHeaderLogoFrame(overlay,contentView,sideInset,
+                            sideInset+logoWidth,menuTop,menuHeight);
+    CGRect menuFrame=nativeMenuFrame;
+    menuFrame.origin.x=sideInset+logoWidth+gap;
+    menuFrame.origin.y=menuTop;
+    menuFrame.size.width=menuWidth;
+    menuFrame.size.height=menuHeight;
+    parent.frame=menuFrame;
+    parent.backgroundColor=UIColor.clearColor;
+    parent.layer.cornerRadius=0.0;
+    parent.layer.borderWidth=0.0;
+    CGFloat x=0.0;
+    UIButton *buttons[4]={app,zoom,style,close};
+    for (int i=0;i<4;i++) {
+        buttons[i].frame=CGRectMake(x,0,widths[i],menuHeight);
+        x+=widths[i]+gap;
+    }
+    // Native _sheetCard (UIVisualEffectView) owns the actual blur and 1pt
+    // outline. Preserve its hierarchy, native X and dismiss recognizer.
+    DFClearNativePickerChrome(overlay);
+    overlay.layer.borderWidth=0.0;
+    // Preserve the native _sheetCard contentView tint from v12 initWithFrame:.
+    contentView.layer.borderWidth=0.0;
+    for (UIView *v in contentView.subviews) {
+        if (v==parent) continue;
+        if (CGRectGetHeight(v.bounds)<=2.0 && CGRectGetWidth(v.bounds)>sheetWidth*0.55) {
+            v.hidden=YES; // Native decorative horizontal separator only.
+        }
+    }
+    DFReflowPickerContent(contentView,overlay,@[parent],
+                          nativeBottom,menuTop+menuHeight+2.0);
+    // Preserve the native font weight; only set approved 10pt size.
+    UIFont *originalFont=app.titleLabel.font?:[UIFont systemFontOfSize:10.0];
+    UIFont *font=[originalFont fontWithSize:10.0];
+    BOOL expanded=DFHostIsExpanded();
+    zoom.enabled=expanded || DFHostCanExpand();
+    zoom.alpha=zoom.enabled?1.0:0.5;
+    NSString *zoomTitle=@"Zoom";
+    zoom.accessibilityLabel=expanded?@"Zoom Out":@"Zoom In";
+    DFDecorate(app,@"App",@"square.grid.2x2",font);
+    DFDecorate(zoom,zoomTitle,expanded?@"arrow.down.right.and.arrow.up.left":
+        @"arrow.up.left.and.arrow.down.right",font);
+    DFDecorate(style,@"Style",@"rectangle.3.group",font);
+    DFDecorate(close,@"Close",@"xmark.circle",font);
+    // Getter is present in the original v12 class (IMP 0xABA54).
+    // The original actions set the mode, so no duplicate event handlers.
+    NSInteger mode=[overlay respondsToSelector:@selector(overlayMode)]?
+        [(id)overlay overlayMode]:-1;
+    UIButton *active=nil;
+    if (mode==0) active=app;
+    else if (mode==1) active=style;
+    else if (mode==2) active=close;
+    // Do not pin the red highlight to Zoom while a native App/Style/Close
+    // tab is actually selected. Preserve native overlayMode as source of truth.
+    if (expanded && mode<0) active=zoom;
+    UIColor *originalActiveColor=active.backgroundColor;
+    UIColor *red=DFApprovedLogoRed();
+    UIColor *inactiveText=[UIColor colorWithWhite:0.68 alpha:1.0];
+    for (UIButton *button in @[app,zoom,style,close]) {
+        BOOL selected=button==active;
+        button.layer.cornerRadius=0.0;
+        button.layer.borderWidth=0.0;
+        button.backgroundColor=selected?(red?:originalActiveColor):UIColor.clearColor;
+        UIColor *textColor=selected?UIColor.whiteColor:inactiveText;
+        [button setTitleColor:textColor forState:UIControlStateNormal];
+        button.tintColor=textColor;
+        UIImageView *icon=objc_getAssociatedObject(button,DFStackIconKey);
+        if (icon) icon.tintColor=textColor;
+    }
+    if (mode==2) {
+        DFRestyleRecentClearAll(overlay);
+        DFRestyleNativeRecentAppRows(overlay);
+    }
+    [DFOverlays addObject:overlay];
+}
+@implementation DFZoomAction
+- (void)pressed:(UIButton *)sender {
+    BOOL expanded=DFHostIsExpanded();
+    if (!expanded && !DFHostCanExpand()) return;
+    Class cls=NSClassFromString(@"NSDistributedNotificationCenter");
+    id center=[cls respondsToSelector:@selector(defaultCenter)]?[cls defaultCenter]:nil;
+    if (![center respondsToSelector:@selector(postNotificationName:object:userInfo:)]) return;
+    [center postNotificationName:DFMenuZoomEvent object:nil
+       userInfo:@{@"version":@1,@"expanded":@(!expanded),@"requestID":NSUUID.UUID.UUIDString}];
+    sender.enabled=NO;
+    NSLog(@"[DuoFaceFullscreen] native picker zoom requested=%d",!expanded);
+}
+@end
+%group DFPickerZoom
+// The v12 IMP is void(self,SEL,double,double,double), verified in
+// audit/v12-picker-targeted-controls-20261015.txt at 0xa3e5c.
+// Its only SF symbol 'plus' belongs to the native Add App tile.
+%hook CBMultitaskingOverlayView
+- (void)setupAppPickerCardsInCardW:(double)cardW
+                             cardH:(double)cardH
+                          contentY:(double)contentY {
+    BOOL previous=DFBuildingNativeAddTile;
+    DFBuildingNativeAddTile=YES;
+    %orig;
+    DFBuildingNativeAddTile=previous;
+}
+// Original renderer owns the heading and the close-all action. Restyle the
+// existing UIButton only after native construction; never replace its target.
+- (void)setupRecentAppsCardsInCardW:(double)cardW
+                              cardH:(double)cardH
+                           contentY:(double)contentY {
+    // The original renderer chooses one of three localized status keys:
+    // active CarPlay slot, off-slot PID, or off-slot/no confirmed PID.
+    // Keep that decision and all native buttons. Localize only the visible
+    // status output to the two owner-approved color dots.
+    BOOL wasBuilding=DFBuildingNativeRecentRows;
+    DFBuildingNativeRecentRows=YES;
+    %orig;
+    DFBuildingNativeRecentRows=wasBuilding;
+    DFRestyleRecentClearAll((UIView *)self);
+    DFRestyleNativeRecentAppRows((UIView *)self);
+}
+- (void)setupCardContent {
+    %orig;
+    DFLayoutPicker((UIView *)self);
+}
+- (void)layoutSubviews {
+    %orig;
+    DFLayoutPicker((UIView *)self);
+}
+%end
+%hook CBLocalization
++ (NSString *)localizedStringForKey:(NSString *)key {
+    // The key owner is verified in v12 DuoFaceDashboard.dylib at 0xA75B8
+    // (RUNNING_TAG), 0xA769C (PID_TAG), and 0xA7700 (BACKGROUND_TAG).
+    // Native stringWithFormat ignores surplus PID/slot arguments when there
+    // is no format placeholder. The corresponding UILabel stays native.
+    if (DFBuildingNativeRecentRows && NSThread.isMainThread) {
+        if ([key isEqualToString:@"OVERLAY_RUNNING_TAG"]) return @"🟢";
+        if ([key isEqualToString:@"OVERLAY_PID_TAG"] ||
+            [key isEqualToString:@"OVERLAY_BACKGROUND_TAG"]) return @"🔴";
+    }
+    return %orig;
+}
+%end
+%hook UIImage
++ (UIImage *)systemImageNamed:(NSString *)name
+           withConfiguration:(UIImageSymbolConfiguration *)configuration {
+    if (DFBuildingNativeAddTile && [name isEqualToString:@"plus"]) {
+        UIImage *dots=%orig(@"ellipsis",configuration);
+        if (dots) return dots;
+    }
+    return %orig;
+}
+%end
+%end
+BOOL DFInstallPickerZoomMenuHooks(void) {
+    if (DFHookReady) return YES;
+    if (![[NSBundle.mainBundle.bundleIdentifier lowercaseString] isEqualToString:@"com.apple.springboard"] ||
+        !NSClassFromString(@"CBMultitaskingOverlayView")) return NO;
+    DFOverlays=[NSHashTable weakObjectsHashTable]; DFAction=[DFZoomAction new];
+    %init(DFPickerZoom); DFHookReady=YES; return YES;
+}
+void DFPickerZoomMenuRefresh(void) {
+    if (!DFHookReady || !NSThread.isMainThread) return;
+    for (UIView *overlay in DFOverlays.allObjects)
+        if (overlay.window) DFLayoutPicker(overlay);
+}
+########## END FILE: runtime/fullscreen/DFPickerZoomMenu.xm ##########
+
