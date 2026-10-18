@@ -320,6 +320,12 @@ def cli():
                 lines.append(asm[idx])
                 previous = idx
             if not kept: lines.append("No bounded method evidence available")
+            if cls == "CBSlotPillView" and selector == "updateBoundsSize" and asm:
+                lines += ["", "Full bounded updateBoundsSize CFG for distinguishing size branches:", ""]
+                lines += asm
+            if cls == "CBDividerView" and selector == "updateGripLayout" and asm:
+                lines += ["", "Full bounded divider grip layout for frame register tracing:", ""]
+                lines += asm
             lines += ["~~~", ""]
     lines += ["**Acceptance still pending:** proven point frame sizes and physical CarPlay",
               "display, divider hit-test and scene layout; do not alter approved Native12.", ""]
