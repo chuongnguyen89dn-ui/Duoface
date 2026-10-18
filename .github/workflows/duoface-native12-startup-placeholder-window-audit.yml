@@ -1,0 +1,85 @@
+name: Native12 full startup placeholder CarPlay window ARM64 read-only
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - 'scripts/audit_native12_startup_placeholder_window_methods.py'
+      - '.github/workflows/duoface-native12-startup-placeholder-window-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-startup-placeholder-window-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inspect immutable signed Native12 and original104 ARM64, no execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          python3 scripts/audit_native12_startup_placeholder_window_methods.py \
+            --native 'dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            --original 'dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' \
+            --out 'audit/native12-startup-placeholder-window/METHODS.json'
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('audit/native12-startup-placeholder-window/METHODS.json')
+          o=json.loads(path.read_text())
+          assert o["status"] == "READONLY_NATIVE12_104_STARTUP_PLACEHOLDER_WINDOW_ARM64_STATIC_PASS"
+          assert o["native12"]["classes"]["CBSplitSplashScreenView"]["methods"]["layoutSubviews"]["present"]
+          assert o["native12"]["classes"]["CBSlotPlaceholderView"]["methods"]["layoutSubviews"]["present"]
+          out=["# Verified read-only original104 vs Native12 startup, placeholder and CarPlay window ARM64",
+               "", "This is static disassembly only, never native UI/device validation.",
+               "", "| Binary | Class | Methods in binary | Selected methods and IMPs |",
+               "| --- | --- | ---: | --- |"]
+          for side in ("native12","original104"):
+              for cls,entry in o[side]["classes"].items():
+                  selected=", ".join(f'{name} {item.get("imp","NOT_PRESENT")}'
+                                     for name,item in entry["methods"].items())
+                  out.append(f'| {side} | {cls} | {entry["metadata_catalog_method_count"]} | {selected} |')
+          out.extend(["", "## Geometry / compositing method review gates",
+                      "Review ARM64 in METHODS.json at each method's `arithmetic_and_uikit_windows`;",
+                      "do not invent UIWindowLevel, color, CGRect or live CarPlay safeArea.",
+                      "Port startup splash/slot placeholder/window/input behaviors as independent UIKit.",
+                      "Never link original Dashboard binary, CBBridgeManager or trial/license code.",
+                      ""])
+          Path('audit/native12-startup-placeholder-window/REPORT.md').write_text("\n".join(out))
+          print("NATIVE12_SPLASH_PLACEHOLDER_WINDOW_METHODS_REPORT_PREPARED")
+          PY
+      - name: Upload full verified traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Native12-startup-placeholder-window-original104-readonly
+          path: |
+            audit/native12-startup-placeholder-window/METHODS.json
+            audit/native12-startup-placeholder-window/REPORT.md
+          if-no-files-found: warn
+      - name: Persist audited evidence to correct project GitHub branch
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/native12-startup-placeholder-window
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'audit(native-ui): save real Native12 startup/placeholder/window ARM64 evidence [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            if git push origin HEAD:feature/visual12-duodash-recovery; then
+              echo 'NATIVE12_SPLASH_PLACEHOLDER_WINDOW_EVIDENCE_PERSISTED'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
