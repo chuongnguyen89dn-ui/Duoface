@@ -180,7 +180,10 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     // All six verified Native12 pill widths are even, so width*0.5
     // equals the native rounded-half result without a libm call.
     CGFloat half=width*0.5;
-    _dotsButton.frame=CGRectMake(0,0,half,height);
+    // Native12 layoutSubviews 0x84ff0..0x85044 (showsExpandButton=NO):
+    // dots remains visible, expand + separator + restore hidden, and the
+    // sole dots button receives the entire pill bounds (NOT half width).
+    _dotsButton.frame=_showsExpandButton?CGRectMake(0,0,half,height):self.bounds;
     _expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height);
     // Native12 nonfocused branch 0x84e64..0x84e94 uses x=half-0.25,
     // y=3.5, width 0.5 and height (pill height-7).
