@@ -2,11 +2,11 @@
 
 Read-only archive and ObjC static metadata, not device parity or vendor code reuse.
 
-| Package | Files | Directories | PNG | App icon PNG | UI PNG | Dylib | Plist | ObjC classes listed |
+| Package | Files | Directories | PNG | App icon PNG | UI PNG | Dylib | Plist | ObjC class/protocol candidates listed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| native12 | 43 | 21 | 25 | 18 | 7 | 6 | 7 | 492 |
-| qa7 | 23 | 15 | 14 | 5 | 9 | 1 | 4 | 224 |
-| original104 | 50 | 38 | 21 | 18 | 3 | 2 | 2 | 497 |
+| native12 | 43 | 21 | 25 | 18 | 7 | 6 | 7 | 49 |
+| qa7 | 23 | 15 | 14 | 5 | 9 | 1 | 4 | 19 |
+| original104 | 50 | 38 | 21 | 18 | 3 | 2 | 2 | 60 |
 
 ## Six core UI families from actual binary, not six total UI files
 - **window**: CBWindow ({'CBWindow': 37} ObjC methods); QA owner DFINativeWindowSurface + DFIStart; full parity **NO**
