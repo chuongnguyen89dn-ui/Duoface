@@ -15,7 +15,7 @@ assert deb.is_file() and deb.stat().st_size > 30000, "Missing or truncated DEB"
 control = subprocess.check_output(["dpkg-deb", "-f", str(deb)], text=True)
 assert "Package: com.duoface.visual12\n" in control
 assert "Architecture: iphoneos-arm64\n" in control
-assert "Version: 1.0.3-12~ui8native2\n" in control
+assert "Version: 1.0.3-12~native104ui3\n" in control
 assert "Conflicts:" not in control
 assert "Replaces:" not in control
 data = subprocess.check_output(["dpkg-deb", "--fsys-tarfile", str(deb)])
@@ -47,6 +47,10 @@ assert not any("com.duonavi.app" in x for x in files)
 # never the licensed DuoNavi/CB renderer or the Native Speed7 SpringBoard driver.
 assert b"DFV12NativeHUD8" in files[tweak], "Native HUD8 UI missing from QA dylib"
 assert b"DFV12SplitController" in files[tweak], "QA split controller missing"
+assert b"zoomPane:" in files[tweak], "Independent per-pane zoom/restore absent"
+assert b"duoface.pane.%d.zoom" in files[tweak], "Native-like per-slot pill missing"
+assert b"CBLicenseSyncManager" not in files[tweak], "Vendor license runtime must not enter QA"
+assert b"licenseWatchdogTimerFired" not in files[tweak], "Vendor watchdog must not enter QA"
 assert b"S7Reconcile" not in files[tweak], "Native CBWindow driver must not enter QA"
 
 
