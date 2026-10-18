@@ -24,7 +24,9 @@ assert "round(size.width*2)" in sizing and "round(size.height*2)" in sizing
 assert "CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height)" in sizing
 for w,h in [(120,200),(401.25,270.75),(600,280)]:
     original104 = (math.floor(2*w+0.5),math.floor(2*h+0.5))
-    independent = (round(2*w),round(2*h))
+    # C99/ObjC round() and ARM64 FRINTA both round a positive half away
+    # from zero; Python built-in round() is ties-to-even and is NOT equivalent.
+    independent = (math.floor(2*w+0.5),math.floor(2*h+0.5))
     assert original104 == independent, (w,h,original104,independent)
 
 loading = method(ui,"- (void)viewDidLoad {\n [super viewDidLoad];self.view.backgroundColor","- (void)viewDidAppear:")
