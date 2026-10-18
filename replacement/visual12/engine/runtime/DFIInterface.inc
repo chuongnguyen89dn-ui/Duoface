@@ -322,7 +322,14 @@ static NSArray *DFIAvailableApps(void) {
 - (void)setLayout:(UIButton *)b {
  DFIPerfMark(@"layout_change",@{@"layout":@(b.tag)});
  self.layoutKind=b.tag;self.maximized=-1;self.fraction=b.tag==4?1./3:.5;self.secondary=b.tag==4?2./3:.5;NSInteger count=b.tag==1?1:(b.tag<=3?2:3);
- for(NSInteger i=count;i<3;i++)if(self.hosts[i]!=NSNull.null){[self.hosts[i]close];self.hosts[i]=NSNull.null;self.emptyButtons[i].hidden=NO;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];}
+ for(NSInteger i=count;i<3;i++){
+     [self.pendingPanes removeObject:@(i)];
+     id host=self.hosts[i];
+     if(host!=NSNull.null){self.hosts[i]=NSNull.null;[host close];}
+     self.emptyButtons[i].hidden=NO;self.emptyButtons[i].enabled=YES;
+     [self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];
+     DFIWritePreference(@[@"left",@"right",@"third"][i],nil);
+ }
  [self saveLayout];[self dismissPanel];[self armHide];[self.view setNeedsLayout];
 }
 - (void)drag:(UIPanGestureRecognizer *)g {
@@ -346,7 +353,14 @@ static NSArray *DFIAvailableApps(void) {
  [self armHide];[self.view setNeedsLayout];
 }
 - (void)detachBundle:(NSString *)bid {
- for(int i=0;i<3;i++)if(self.hosts[i]!=NSNull.null&&[[self.hosts[i]bundleID]isEqual:bid]){[self.hosts[i]close];self.hosts[i]=NSNull.null;self.emptyButtons[i].hidden=NO;self.emptyButtons[i].enabled=YES;[self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];DFIWritePreference(@[@"left",@"right",@"third"][i],nil);}
+ for(int i=0;i<3;i++)if(self.hosts[i]!=NSNull.null&&[[self.hosts[i]bundleID]isEqual:bid]){
+     id host=self.hosts[i];self.hosts[i]=NSNull.null;
+     [self.pendingPanes removeObject:@(i)];
+     [host close];
+     self.emptyButtons[i].hidden=NO;self.emptyButtons[i].enabled=YES;
+     [self.emptyButtons[i]setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];
+     DFIWritePreference(@[@"left",@"right",@"third"][i],nil);
+ }
 }
 - (void)tasks {
  self.selectedTab=3;[self updateApprovedTabs];
