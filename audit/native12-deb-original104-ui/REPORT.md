@@ -73,6 +73,13 @@ No vendor binary is embedded in independent QA. Distinguish image pixel dimensio
 - `expandTapped:`: Native12 `0x85698`; original104 `0x844a4`. Native selector refs: `bounceButton:, -[x0 bounceButton:], sharedInstance, +[CBBridgeManager sharedInstance], currentApp, -[x0 currentApp], noteUserActivity, -[x0 noteUserActivity], onExpandTapped, -[x0 onExpandTapped]`. Arithmetic/control samples: 0.
 - `restoreTapped:`: Native12 `0x857b0`; original104 `0x845bc`. Native selector refs: `bounceButton:, -[x0 bounceButton:], sharedInstance, +[CBBridgeManager sharedInstance], currentApp, -[x0 currentApp], noteUserActivity, -[x0 noteUserActivity], onRestoreTapped, -[x0 onRestoreTapped], onPillTapped, -[x0 onPillTapped]`. Arithmetic/control samples: 0.
 - `handleLongPress:`: Native12 `0x853f0`; original104 `0x841fc`. Native selector refs: `state, -[x0 state], bounceButton:, -[x0 bounceButton:], sharedInstance, +[CBBridgeManager sharedInstance], currentApp, -[x0 currentApp], noteUserActivity, -[x0 noteUserActivity], onPillLongPressed, -[x0 onPillLongPressed], onPillTapped, -[x0 onPillTapped]`. Arithmetic/control samples: 0.
+- `setIsCompactMode:`: Native12 `0x85bec`; original104 `0x84aac`. Native selector refs: ``. Arithmetic/control samples: 0.
+- `setIsFocusedMode:`: Native12 `0x85bbc`; original104 `0x84a7c`. Native selector refs: ``. Arithmetic/control samples: 0.
+- `setShowsExpandButton:`: Native12 `0x852f0`; original104 `0x840fc`. Native selector refs: `updateBoundsSize, -[x0 updateBoundsSize]`. Arithmetic/control samples: 0.
+- `setFocusedMode:`: Native12 `0x85308`; original104 `0x84114`. Native selector refs: `updateBoundsSize, -[x0 updateBoundsSize]`. Arithmetic/control samples: 0.
+- `isCompactMode`: Native12 `0x85bdc`; original104 `0x84a9c`. Native selector refs: ``. Arithmetic/control samples: 0.
+- `isFocusedMode`: Native12 `0x85bac`; original104 `0x84a6c`. Native selector refs: ``. Arithmetic/control samples: 0.
+- `showsExpandButton`: Native12 `0x85bcc`; original104 `0x84a8c`. Native selector refs: ``. Arithmetic/control samples: 0.
 
 ### CBDividerView
 - `initWithFrame:isVertical:`: Native12 `0xfe7dc`; original104 `0x105a14`. Native selector refs: `initWithFrame:, -[[x0 super] initWithFrame:], clearColor, +[UIColor clearColor], setBackgroundColor:, -[x0 setBackgroundColor:], setUserInteractionEnabled:, -[x0 setUserInteractionEnabled:], setClipsToBounds:, -[x0 setClipsToBounds:], array, +[NSMutableArray array], -[x0 array], new, +[CBDividerButtonInfo new]`. Arithmetic/control samples: 5.

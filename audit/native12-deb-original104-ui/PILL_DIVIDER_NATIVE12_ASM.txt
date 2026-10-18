@@ -966,6 +966,42 @@ Method length sampled: 341 lines. Floating registers / constants need tracing be
 8517c:	c3 fa ff 54	b.lo	0x850d4
 85180:	03 ff ff 17	b	0x84d8c
 
+## CBSlotPillView::setIsCompactMode:, Native12 IMP 0x85bec, original104 IMP 0x84aac
+Method length sampled: 4 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+85bec:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85bf0:	08 61 8c b9	ldrsw	x8, [x8, #0xc60]
+85bf4:	02 68 28 38	strb	w2, [x0, x8]
+85bf8:	c0 03 5f d6	ret
+
+## CBSlotPillView::setIsFocusedMode:, Native12 IMP 0x85bbc, original104 IMP 0x84a7c
+Method length sampled: 4 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+85bbc:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+85bc0:	08 59 8c b9	ldrsw	x8, [x8, #0xc58]
+85bc4:	02 68 28 38	strb	w2, [x0, x8]
+85bc8:	c0 03 5f d6	ret
+
+## CBSlotPillView::setShowsExpandButton:, Native12 IMP 0x852f0, original104 IMP 0x840fc
+Method length sampled: 6 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+852f0:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+852f4:	08 5d 8c b9	ldrsw	x8, [x8, #0xc5c]
+852f8:	02 68 28 38	strb	w2, [x0, x8]
+852fc:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+85300:	01 89 47 f9	ldr	x1, [x8, #0xf10] ; Objc selector ref: updateBoundsSize
+85304:	7f 9e 09 14	b	0x2ecd00 ; Objc message: -[x0 updateBoundsSize]
+
+## CBSlotPillView::setFocusedMode:, Native12 IMP 0x85308, original104 IMP 0x84114
+Method length sampled: 6 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
+### Raw ARM64 for reproducing dimensions
+85308:	c8 17 00 d0	adrp	x8, 762 ; 0x37f000
+8530c:	08 59 8c b9	ldrsw	x8, [x8, #0xc58]
+85310:	02 68 28 38	strb	w2, [x0, x8]
+85314:	c8 17 00 90	adrp	x8, 760 ; 0x37d000
+85318:	01 89 47 f9	ldr	x1, [x8, #0xf10] ; Objc selector ref: updateBoundsSize
+8531c:	79 9e 09 14	b	0x2ecd00 ; Objc message: -[x0 updateBoundsSize]
+
 ## CBDividerView::initWithFrame:isVertical:, Native12 IMP 0xfe7dc, original104 IMP 0x105a14
 Method length sampled: 155 lines. Floating registers / constants need tracing before assigning final CGPoint/CGRect sizes.
 ### Raw ARM64 for reproducing dimensions

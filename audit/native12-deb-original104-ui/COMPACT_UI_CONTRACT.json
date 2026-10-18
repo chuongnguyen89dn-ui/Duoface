@@ -486,6 +486,41 @@
           "method": "handleLongPress:",
           "imp": "0x853f0",
           "present": true
+        },
+        {
+          "method": "setIsCompactMode:",
+          "imp": "0x85bec",
+          "present": true
+        },
+        {
+          "method": "setIsFocusedMode:",
+          "imp": "0x85bbc",
+          "present": true
+        },
+        {
+          "method": "setShowsExpandButton:",
+          "imp": "0x852f0",
+          "present": true
+        },
+        {
+          "method": "setFocusedMode:",
+          "imp": "0x85308",
+          "present": true
+        },
+        {
+          "method": "isCompactMode",
+          "imp": "0x85bdc",
+          "present": true
+        },
+        {
+          "method": "isFocusedMode",
+          "imp": "0x85bac",
+          "present": true
+        },
+        {
+          "method": "showsExpandButton",
+          "imp": "0x85bcc",
+          "present": true
         }
       ]
     },
