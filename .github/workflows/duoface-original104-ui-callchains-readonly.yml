@@ -1,0 +1,91 @@
+name: Readonly DuoNavi 1.0.4 original UI call-chain audit
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - scripts/audit_original104_ui_callchains.py
+      - .github/workflows/duoface-original104-ui-callchains-readonly.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original104-ui-readonly
+  cancel-in-progress: false
+jobs:
+  inspect-original-ui:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install original DEB extraction utility
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          xcrun --find llvm-objdump
+      - name: Read original 1.0.4 UI method routes (no patch, no runtime)
+        shell: bash
+        run: |
+          set -euo pipefail
+          ORIGINAL='dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb'
+          test -s "$ORIGINAL"
+          WORK="$RUNNER_TEMP/duonavi104-ui-readonly"
+          mkdir -p "$WORK/payload" "$WORK/raw" "$WORK/out"
+          dpkg-deb -x "$ORIGINAL" "$WORK/payload"
+          DASHBOARD="$(find "$WORK/payload" -type f -name 'DuoNaviDashboard.dylib' -print -quit)"
+          test -n "$DASHBOARD"
+          xcrun llvm-objdump --macho --objc-meta-data "$DASHBOARD" > "$WORK/raw/llvm-objc.txt"
+          xcrun llvm-objdump --macho --disassemble "$DASHBOARD" > "$WORK/raw/disasm.txt"
+          python3 scripts/audit_original104_ui_callchains.py \
+            --deb "$ORIGINAL" --dashboard "$DASHBOARD" \
+            --metadata "$WORK/raw/llvm-objc.txt" --disasm "$WORK/raw/disasm.txt" \
+            --json "$WORK/out/ORIGINAL104_UI_CALLCHAINS.json" \
+            --report "$WORK/out/REPORT.md"
+          python3 - "$WORK/out/ORIGINAL104_UI_CALLCHAINS.json" <<'PY'
+          import json,sys
+          o=json.load(open(sys.argv[1]))
+          assert o['total_methods'] == 25, o['total_methods']
+          assert not o['dynamic_objc_dispatch_proven']
+          assert o['status'] == 'ORIGINAL104_UI_CALLCHAINS_READONLY_STATIC_PASS'
+          print('ORIGINAL104_25_NATIVE_UI_METHODS_VERIFIED_READONLY')
+          PY
+      - name: Upload read-only original analysis, no compiled binary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: duonavi104-original-ui-method-evidence
+          path: |
+            ${{ runner.temp }}/duonavi104-ui-readonly/out/*.json
+            ${{ runner.temp }}/duonavi104-ui-readonly/out/*.md
+          if-no-files-found: warn
+      - name: Persist only JSON/Markdown report in actual DuoFace repo
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/visual12-duodash-recovery'
+          TMP="$RUNNER_TEMP/duonavi104-ui-readonly/out"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git reset --hard "origin/$BRANCH"
+            mkdir -p audit/duonavi-original104-ui
+            cp "$TMP/ORIGINAL104_UI_CALLCHAINS.json" audit/duonavi-original104-ui/
+            cp "$TMP/REPORT.md" audit/duonavi-original104-ui/
+            git add audit/duonavi-original104-ui/
+            if git diff --cached --quiet; then
+              echo 'ORIGINAL104_UI_REPORT_ALREADY_SAVED'
+              exit 0
+            fi
+            git commit -m 'audit(original104): persist UI/gesture/scene method call-chain map [skip ci]'
+            if git push origin "HEAD:$BRANCH"; then
+              echo 'ORIGINAL104_UI_REPORT_PERSISTED_GITHUB'
+              exit 0
+            fi
+            sleep 2
+          done
+          echo '::error::Read-only audit succeeded but GitHub report persistence failed'
+          exit 1
