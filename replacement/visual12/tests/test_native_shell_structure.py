@@ -131,10 +131,19 @@ assert 'self.layer.cornerRadius=11.0;' in src, 'Original Native12 pill corner 11
 # the nominal CGRect by (8,10) points; source-only parity, no touch pass.
 assert 'CGRectContainsPoint(CGRectInset(self.bounds,-8.0,-10.0),point)' in src
 assert 'if(self.hidden || self.alpha<=0.01)return NO;' in src
-assert 'CGRectGetMaxX(frame)-78,CGRectGetMinY(frame)+3,76,22' in ui
-assert '_dotsButton.frame=CGRectMake(4,0,30,22)' in src
-assert '_expandButton.frame=CGRectMake(39,0,30,22)' in src
-assert 'self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<76||frame.size.height<22;' in ui
+# The actual immutable Native12 updateBoundsSize method is stateful, not
+# a permanent 76x22 rectangle. The original version's six paths are:
+# focused(80,72), normal/expand(76,64), normal/no-expand(44,38), h22/19.
+assert '- (CGSize)nativeReferenceSize {' in src
+assert '_focusedMode?(_compactMode?72.0:80.0)' in src
+assert '_showsExpandButton?(_compactMode?64.0:76.0)' in src
+assert '(_compactMode?38.0:44.0)' in src
+assert 'CGSizeMake(width,_compactMode?19.0:22.0)' in src
+assert 'CGSize nativeSize=[nativePill nativeReferenceSize];' in ui
+assert 'CGRectGetMaxX(frame)-nativeSize.width-2' in ui
+assert 'frame.size.height<nativeSize.height' in ui
+assert '_dotsButton.frame=CGRectMake(4,0,30,height)' in src
+assert '_expandButton.frame=CGRectMake(MAX(4,width-35),0,30,height)' in src
 assert 'self.layer.cornerRadius=20.0;' in src
 assert 'self.contentView.layer.borderWidth=0.0;' in src
 
