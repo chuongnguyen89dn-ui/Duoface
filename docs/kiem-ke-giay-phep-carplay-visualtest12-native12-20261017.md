@@ -62,3 +62,33 @@
 - `audit/payload-migration/VISUALTEST12_HISTORICAL_CORE_SOURCES.json`
 
 **Trạng thái:** Báo cáo đọc-only. Chưa chỉnh binary, build DEB, update Sileo, thử trên thiết bị trong lượt kiểm kê. Không được mô tả việc loại trial bằng phương pháp bypass entitlement của nhị phân bên thứ ba như việc đã hoàn tất.
+
+
+## 2026-10-18 — CHECK_DIAGRAM_GATE_20261018: xác minh sơ đồ GP/CP và lý do getter VIP không mở CarPlay
+
+**Mục tiêu:** Kiểm chứng sơ đồ do người dùng đưa ra, bao gồm các class GP, CP, phần đan xen và bản VisualTest12 repair1. Đây là **audit chỉ đọc**, KHÔNG chứng minh sửa được thiết bị và KHÔNG thay đổi binary.
+
+### Bằng chứng đối chiếu
+
+1. **Sơ đồ theo hai Mach-O là đúng ở mức inventory:** `DuoFaceUI.app/DuoFaceUI` có `CBLicenseSyncManager`, controller VIP/subscription/expiry và `XXRootViewController.checkAndPresentLicenseModalIfNeeded`; `DuoFaceDashboard.dylib` có `CBBridgeManager` (75 methods), picker, split, scene và `CBBridgeManagerDashboard`. Nhưng nhãn GP/CP không thể là bằng chứng một class có thể bị xóa nguyên khối; `CBLicenseSyncManager` còn 4 implementation CarPlay screen detection trong **mỗi** Mach-O (tổng 8). Các lớp phụ trợ Fullscreen/VisualHook/Grip/SpeedHUD chỉ **chưa phát hiện trực tiếp cơ chế hạn dùng trong audit**, không phải chứng nhận vĩnh viễn "không chứa license".
+2. **Repair1 chỉ thay ba *instance getter*** ở `runtime/visualtest12/DFVisual12GateRepair.m`: `isLicenseCurrentlyValid` => `YES`, `remainingLicenseSeconds` => 3650 ngày, `actualLicenseExpirationTimestamp` => now+3650 ngày. `DFVisual12GateRepair.plist` lọc `SpringBoard`, `CarPlayApp`, `DuoFaceUI`, `com.duonavi.app`, nhưng cài hook **có điều kiện**: đúng process, class `CBLicenseSyncManager` đã load, `MSHookMessageEx` tồn tại, cả ba ABI instance khớp. Không có log chứng minh hook thành công ở **mọi** process; hiện VIP thay đổi chỉ chứng minh một luồng hiển thị đã đổi. Không có hook `CBBridgeManagerDashboard`, `CBWindow`, `requestActivation:` hoặc scene owner. `dist/visualtest12-repair1/BAO_CAO.json` xác nhận toàn bộ host/scene/lifecycle cũ byte-identical, chỉ thêm 2 file hook + sửa control.
+3. **Native12 thậm chí đã có một số stub giấy phép trong 2 core Mach-O**, không phải chỉ do Repair1: `audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json` ghi `DuoFaceUI CBLicenseSyncManager.-isLicenseCurrentlyValid` VM `0x10005a7c0` bắt đầu `mov w0,#1; ret`, `DuoFaceDashboard` VM `0x3adb8` cũng trả `BOOL YES`; `remainingLicenseSeconds` và `actualLicenseExpirationTimestamp` dạng fixed constant. `DuoFaceDashboard CBLicenseSyncManager.-checkAndSyncLicenseIfNeeded` VM `0x5fbac` bắt đầu `ret`. Dẫu vậy **iPhone X vẫn không mở được Native12** theo người dùng. Không thể từ đó suy ra licensing hoàn toàn không còn, cũng không thể quy lỗi tất cả cho license.
+4. **Đường gọi thật có đan xen:** Trong cùng báo cáo, `DuoFaceDashboard CBBridgeManager.-requestStateChange:` VM `0x13b158` có selector `checkAndSyncLicenseIfNeeded` (xref instruction khoảng `0x13b1f8`), tiếp theo `isDisplayValid`, `isVisible`, `window`, `deactivateCurrentApp`, `loadNewAppFromCurrentRequest:`. Vì audit mới có disassembly tĩnh và dynamic dispatch chưa giải, **không xác định** hàm sync quyết định activate hay chỉ là side-effect.
+5. **Policy/activation là cổng khác, chưa nằm trong ba getter:** `CBBridgeManagerDashboard.+isDashboardPolicySignalActive` VM `0x284068`, `+shouldInterceptLaunchForApp:` VM `0x2a314c`, `-requestActivation:` VM `0x2a3ad0` đều có thân ARM64 không-trivial, chưa được chứng minh là proxy trực tiếp của `CBLicenseSyncManager.isLicenseCurrentlyValid`. Kết quả đọc-only DIAG3 được ghi trong `NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json`: 27 lần policy=false, 8 yêu cầu mở app không chính thức bị intercept, windowCreated=false. **Đây là quan sát, không phải xác minh nguyên nhân**: `license_expiry_cause_proven=false` và `static_direct_call_graph_fully_resolved=false`.
+6. `DFDuoDashActivationTrace.m` là một tracer giữ original IMP: thu `CBBridgeManagerDashboard requestActivation:/startBridging:/prepareAndRequestActivation:/bridgeDidActivate:` và `CBBridgeManager requestStateChange:/loadNewAppFromCurrentRequest:/handleCarPlayConnectionChanged:`; ghi `bridge_activated`, `dashboard_policy_active`, `external_display_count`, `duoface_window_class_present` theo process vào `/var/mobile/Documents/DuoFaceDuoDashTrace/{SpringBoard,CarPlayApp,DuoFaceUI}.jsonl`. Chưa thấy dữ liệu probe này trong audit đã đọc chứng minh khác biệt ở đúng event/thiết bị.
+
+### Phân loại kết luận
+
+- **Đã xác minh:** sơ đồ nhóm class theo file; getter Repair1 giới hạn 3 instance methods; Native12 có stub validity/sync; policy/activation vẫn nằm trong code khác; chưa có runtime device pass.
+- **Giả thuyết cần kiểm:** policy=false có thể là một điều kiện không cấp scene/window, nhưng cũng có thể là dấu hiệu một lỗi khác (owner, display, khởi tạo, injection, session). Chưa có bằng chứng để khẳng định đồng nhất policy=false với trial expired.
+- **Chưa chứng minh:** xóa `CBLicenseSyncManager` hoặc `CBBridgeManager` vẫn giữ CarPlay; thay 3 getter mở được session; bản gốc còn quyền sử dụng renderer độc lập; cách nhị phân can thiệp an toàn cho mọi thiết bị.
+- **Bước có thể thực hiện tiếp (chỉ đọc):** lập timeline theo cùng session: CarPlay display connected → `requestActivation:`/policy → `CBBridgeManager.activated` → `CBWindow.createWindows/show` → `CBBridgedUIAppView` scene attached, đối chiếu iPhone X và iPhone 8 Plus nếu có log cùng phiên bản, kèm nguồn, giờ và bundle. Kiểm tra mismatch process của Repair1, quá trình đăng ký original hooks và crash/exitMode tách riêng; không đoán bằng VIP hiển thị.
+- **Hướng kiến trúc:** ưu tiên nghiên cứu ranh giới giữ UI Native12 nếu có quyền sử dụng mã gốc hoặc API được phép; không copy/link runtime độc quyền hay vô hiệu hóa license có hiệu lực bằng một bản vá đoán mò. Chưa tự ý chuyển nhánh, build, chỉnh gói ổn định hoặc cập nhật Sileo.
+
+### Tệp nguồn kiểm chứng
+
+- `runtime/visualtest12/DFVisual12GateRepair.{m,plist}`
+- `runtime/visualtest12/DFDuoDashActivationTrace.m`
+- `dist/visualtest12-repair1/{BAO_CAO.json,CONTENTS.txt}`
+- `audit/payload-migration/{NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json,LICENSE_BOUNDARY_AUDIT.json,VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json,NATIVE12_LICENSE_CLASSREF_CODE_XREFS.json,NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json}`
+- GitHub baseline: `feature/visual12-duodash-recovery` at `8e77499ed5b49c8337742393e5e751f9549caf8a`; đọc tài liệu ZIP skills từ Gpt-training- qua `DEB_IPA_SKILL.md` fallback text do công cụ không giải được ZIP trực tiếp.
