@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — SOURCE_EXPORT_NATIVE12_HUD8_RECONSTRUCTION_SCRIPT
+
+- **NHIỆM VỤ:** Người dùng muốn toàn bộ code Native12 + HUD8 dưới dạng file, không DEB. GitHub thật không chứa source hoàn chỉnh hai Mach-O `DuoFaceUI` và `DuoFaceDashboard.dylib`, vì vậy không hứa source gốc 100%, không giải biên dịch thành nguồn giả.
+- **ĐÃ THỰC HIỆN:** xuất chính xác **143 file text** từ immutable source tree `8827bb1e4c216d0e880d5bb426a9ece929ad6101` sang `exports/DuoFace_Native12_HUD8_available_source_20261018.txt` (~832 KB), tách rõ `src/`, `runtime/`, Makefile/cấu hình và lịch sử script build; loại trừ engine QA `replacement/visual12/`, không chứa DEB/binary/PNG. Source export HEAD được xác minh có **143 marker BEGIN**, **143 marker END**, thứ tự và byte length khớp 143 path git tree, tổng **810045 UTF-8 source bytes**, mismatch 0; file `sha=6cd3c06e6950939092286051f04cb57b41c60807`; nguồn DEB pin SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.
+- **CÔNG CỤ ĐÃ LƯU:** `exports/extract_native12_hud8_txt_to_zip.py` commit `8a72ae72c527a465dc7a99d310ea2782b7f562be`, lấy TXT từ GitHub commit pin `f4de581f740885a236b5f2c59e4872d91b5f6ee5` hoặc --input local, kiểm tra 143 tệp rồi ghi ZIP chứa 143 file source và README. Script có code hoàn chỉnh nhưng môi trường container không truy cập Github qua DNS, nên **chưa kiểm thử tải GitHub end-to-end**. Đã py_compile script tương đương được tạo cục bộ, ZIP hướng dẫn/tạo ZIP `/mnt/data/DuoFace_Native12_HUD8_may_tao_ZIP.zip` đã zip test PASS, chỉ là file tạm cung cấp cho chat, **không phải ZIP 143 mã nguồn đầy đủ**.
+- **TRẠNG THÁI:** File TXT mã nguồn tồn tại bền vững trên GitHub và đã kiểm tra; script unpacker lưu GitHub. Không sửa Native12/QA code, không build DEB, không deploy Sileo, không test thiết bị. `main`/stable giữ nguyên. Bước nếu cần source gốc Native12: chỉ có ARM64 compiled + báo cáo audit, không có đủ Objective-C source nên không thể xuất source gốc bằng thao tác copy.
+
+
 ## 2026-10-18 — PRESERVE_NATIVE12_ONLY_SEPARATE_LICENSE_COUPLING
 
 - **YÊU CẦU MỚI, THAY HƯỚNG ƯU TIÊN TRƯỚC:** Người dùng chọn giữ **đúng cấu trúc Native12 + HUD8**, chỉ can thiệp vào các vị trí giấy phép thực sự đan xen CarPlay; không tiếp tục dựng lại toàn bộ giao diện QA. Không xóa toàn bộ `CBBridgeManager`/`CBLicenseSyncManager`, không thay HUD8/divider/picker/window/scene, không sửa gói stable/main.
