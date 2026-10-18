@@ -139,10 +139,10 @@ assert '_focusedMode?(_compactMode?72.0:80.0)' in src
 assert '_showsExpandButton?(_compactMode?64.0:76.0)' in src
 assert '(_compactMode?38.0:44.0)' in src
 assert 'CGSizeMake(width,_compactMode?19.0:22.0)' in src
-# Actual immutable Native12 CBDividerView.updateGripLayout, short axis 280pt
+# Actual Native12 CBDividerView.updateGripLayout selects LONG axis (length) vs 280pt
 # switch and 28/30pt square move-button CGRect, NOT former QA 36x44.
-assert 'CGFloat shortAxis=vertical?CGRectGetWidth(self.lines[i].bounds):' in ui
-assert 'CGFloat side=shortAxis<280.0?28.0:30.0;' in ui
+assert 'CGFloat dividerSpan=vertical?CGRectGetHeight(self.lines[i].bounds):' in ui
+assert 'CGFloat side=dividerSpan<280.0?28.0:30.0;' in ui
 assert 'r.origin.y+relative*r.size.height-side/2.0,side,side' in ui
 assert 'r.origin.x+relative*r.size.width-side/2.0,r.origin.y-side/2.0,side,side' in ui
 assert 'CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point)' in src
