@@ -29,6 +29,17 @@ CI đã xác nhận **6 asset giao diện** trong `replacement/visual12/build_qa
 
 Nguồn máy đọc được: `audit/native12-deb-original104-ui/METRICS.json` và `REPORT.md`, [Actions 39099109883](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39099109883), SUCCESS. Phân tích sâu các phương thức đúng của pill/divider chạy [39099571859](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39099571859), SUCCESS. Tệp `PILL_DIVIDER_NATIVE12_ASM.txt` và `COMPACT_UI_CONTRACT.json` sẽ chứa các đoạn máy rút gọn có thể đọc tiếp khi workflow mới lưu thành công.
 
+## Kích thước UIKit thật tìm từ phương thức Native12 (không nhầm với PNG)
+
+Qua bản quét tăng cường `audit/native12-deb-original104-ui/PILL_DIVIDER_NATIVE12_ASM.txt` lấy từ chính `DuoFaceDashboard.dylib` SHA256 đã khóa:
+
+- `CBSlotPillView::initWithSlotIndex:` Native12 IMP `0x841c0`, khoảng `0x84208–0x84224` gọi `-[super initWithFrame:]` bằng thanh ghi UIKit `d0=0,d1=0,d2=76,d3=22` => **kích thước khởi tạo 76×22pt**, bo góc **11pt** ở `0x84328–0x84334`. Original104 cùng phương thức IMP `0x82f74`, không dùng địa chỉ Native12 để thao tác bản cũ.
+- `CBSlotPillView::updateBoundsSize` Native12 IMP `0x85184`, `0x851b8–0x85228`: các hằng double IEEE754 gồm 38,44,64,72,76,80pt cho chiều rộng; cao **19 hoặc 22pt**, được `fcsel` theo cờ điều khiển. **Chưa gán được chắc chắn tên cờ cho từng nhánh**, đang quét thêm getter/setter `setIsCompactMode:`, `setIsFocusedMode:`, `setShowsExpandButton:` để tái tạo bảng trạng thái đúng. Không coi tất cả trạng thái đều 76×22.
+- `CBDividerView::updateGripLayout` Native12 IMP `0xff460`: tại `0xff4b4–0xff4d0` đọc `bounds`, chọn hằng **28 hoặc 30pt** cho `d8` theo kích thước màn/khung, và dùng `relativePos` để đặt các `moveButtons`. Đây là kích thước nội bộ của grip, **chưa đủ xác định chính xác CGRect của logo bấm** (còn phụ thuộc orientation và thiết lập vị trí).
+- Sai lệch QA cũ pill 74×30/bo13 đã sửa **mặc định** sang `76×22`/bo11, `DFINativeShell.inc` commit `e8dd2892c2264365838c49e8064245a8149a8df2` và `DFIInterface.inc` commit `8e008d07fe7618a5b4dd84d12526a2bbc52105f1`. Các nút con được hạ cao về 22pt cho không bị clip; **bề rộng nút con vẫn là ước lượng QA**, cần máy gốc để đo trùng.
+- Kiểm thử đã thêm `replacement/visual12/tests/test_native_shell_structure.py` commit `34e5ee86e0be65f85bdef309225ed630da9eb0d9`. `scripts/audit_native12_ui_dimensions.py` đổi sang số đo đã kiểm chứng ở `a57eb7ceb232dc5ad3ee3ed40d717c568a2e0cbf`. CI compile-only cho source mới cần kiểm tra trạng thái run sau commit.
+- UI nối riêng `CBSlotPillView.onRestoreTapped` → `DFINativeSlotPillView.restoreAction` → `DFV12SplitController.restorePane:` để thoát focus **không reset fraction/secondary**, commit `13baea7f739b274e3e60fcb07a91496a7612d7fd`, `11031050ff3dc5924ee0e7dc6a9c2461f7859670`. Source contract test commit `7f2c5b5221a609b80e8e51a158cf1986f8128288`, [Actions 39099542478](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39099542478) compile SUCCESS. **Chưa có device UI test**.
+
 ## Bản đồ ghép nối trực tiếp từ mã máy hai DEB (không sao chép vendor runtime)
 
 | Chủ sở hữu Native12 (cùng lớp trong original104) | Phương thức gốc đã thấy | Thành phần độc lập DuoFace | Đã nối/đang thiếu |
