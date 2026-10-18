@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Shutdown bridge, tránh bật hai scene paths
+
+- Đã rà `DFIInterface.inc`: `openBundle` hiện tự tạo `DFV12SceneHost`, `hosts[]` được dùng ở layout, picker, detach, layout change, shutdown. Việc chuyển sang coordinator cần thay **đồng bộ** các vị trí này; không thể chỉ đổi `openBundle`.
+- Commit `b3308741c2b746235e53fa0a79f16cd4e91e0765` thử start bridge trong `viewDidAppear`; nhận ra chưa chuyển scene ownership nên lập tức hoàn tác bằng `32bc41fd6097519bf93e46a648de3e2678de3685` (source trở lại như trước).
+- Commit `cd256bf01195dcd89afc8cea757abaadbe6f1387`: `shutdown` gọi `[self.sceneBridge stop]` và nil bridge trước khi dọn legacy hosts; bridge chưa được start trong UI gốc.
+- Chưa chuyển open/replace/close sang bridge, chưa build/CI/deploy. Đừng phát hành nhánh này. NEXT: thiết kế adapter giữ trạng thái bundleID per pane tách khỏi scene host; chuyển toàn bộ các nơi đọc/ghi `self.hosts` trong một commit được kiểm tra kỹ; start coordinator trước khi restore prefs/open, stop idempotent; chạy build QA.
+
+
 ## 2026-10-18 — Nối bước đầu controller gốc với bridge (CHƯA chuyển scene ownership)
 
 - Đã đọc `DFIInterface.inc` openBundle/choose/shutdown và `DFIRuntime.m` DFIStart/DFIQAStart/DFIStop: controller gốc tự quản `DFV12SceneHost`, nên tuyệt đối chưa khởi động bridge song song trước khi chuyển hẳn đường open/close.
