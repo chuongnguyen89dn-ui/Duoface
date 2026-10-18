@@ -140,6 +140,8 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic) BOOL shuttingDown;
 @property(nonatomic,strong) UILabel *statusLabel;
 @property(nonatomic,strong) UIImageView *approvedLogo;
+@property(nonatomic,strong) DFV12NativeHUD8 *native8HUD;
+@property(nonatomic) BOOL native8HUDPositionRestored;
 @property(nonatomic) NSInteger activePane,selectedTab;
 @property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
@@ -201,6 +203,10 @@ static NSArray *DFIAvailableApps(void) {
   DFIStyleApprovedTab(b,labels[i],symbols[i],i==0);
   [self.toolbarStack addSubview:b];
  }
+ self.native8HUD=[[DFV12NativeHUD8 alloc] initWithFrame:CGRectMake(0,0,104,46)];
+ // Speed8 UIView is mounted once on the existing QA controller, never on a second window.
+ [self.view addSubview:self.native8HUD];
+ self.native8HUD.qaHasActiveSplit=NO;
  self.statusLabel=[UILabel new];self.statusLabel.textColor=UIColor.whiteColor;self.statusLabel.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.5];self.statusLabel.font=[UIFont systemFontOfSize:12];self.statusLabel.textAlignment=NSTextAlignmentCenter;self.statusLabel.numberOfLines=2;self.statusLabel.hidden=YES;[self.view addSubview:self.statusLabel];
  NSInteger count=self.layoutKind==1?1:(self.layoutKind<=3?2:3);
  for(NSInteger i=0;i<count;i++){NSString *bid=DFIPref(@[@"left",@"right",@"third"][i]);if([bid isKindOfClass:NSString.class]&&bid.length)[self openBundle:bid pane:i];}
@@ -268,6 +274,18 @@ static NSArray *DFIAvailableApps(void) {
     controls[i].frame=CGRectMake((i%4)*bw,44+(i/4)*bh,bw,bh);
   }
  }
+ // Native8 is split-only, above the app panes but below an active native picker.
+ NSInteger activeCount=0;
+ for(id host in self.hosts)if(host!=NSNull.null && [host scene])activeCount++;
+ self.native8HUD.qaHasActiveSplit=activeCount>=2 && self.maximized<0;
+ if(!self.native8HUDPositionRestored && !CGRectIsEmpty(self.view.bounds)){
+  [self.native8HUD restoreSavedPosition];
+  self.native8HUDPositionRestored=YES;
+ }
+ [self.native8HUD tick:nil];
+ [self.view bringSubviewToFront:self.native8HUD];
+ if(self.panel)[self.view bringSubviewToFront:self.panel];
+ [self.view bringSubviewToFront:self.statusLabel];
  [self updateInteractionBorders];
 }
 - (void)armHide {
@@ -465,6 +483,8 @@ static NSArray *DFIAvailableApps(void) {
  self.shuttingDown=YES;
  [self.pendingPanes removeAllObjects];
  [self.hideTimer invalidate];
+ [self.native8HUD stop];
+ [self.native8HUD removeFromSuperview];self.native8HUD=nil;
  [self dismissPanel];
  // Release pane ownership before scene teardown; callbacks must not observe a live slot.
  NSArray *retiringHosts=[self.hosts copy];
