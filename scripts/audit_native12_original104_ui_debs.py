@@ -301,8 +301,8 @@ def cli():
     hit=dg["literals"]["divider_hit_region_constant"]["value"]
     lines += ["## Decoded Native12 divider geometry literal evidence", "",
       "Read-only Mach-O LC_SEGMENT_64 mapping, pinned SHA; static, not receiver dimensions.",
-      f"- Short-axis threshold: **{threshold:g}pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).",
-      "- Native move/grip button frame: square **28x28pt** for short-axis less than threshold,",
+      f"- Along-divider length threshold: **{threshold:g}pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).",
+      "- Native move/grip button frame: square **28x28pt** for divider length less than threshold,",
       "  square **30x30pt** otherwise; setFrame d2=d3=d8 at ff6b0–ff6c0.",
       f"- Hit-test literal: **{hit:g}** at VM 0x311948 (ARM64 ff858–ff864).",
       "  This constant alone is not a complete resolved hit rectangle.",
