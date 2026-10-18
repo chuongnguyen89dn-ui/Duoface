@@ -286,8 +286,10 @@ static NSArray *DFIAvailableApps(void) {
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;
-  self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<74||frame.size.height<30;
-  self.panePills[i].frame=CGRectMake(CGRectGetMaxX(frame)-76,CGRectGetMinY(frame)+3,74,30);
+  self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<76||frame.size.height<22;
+  // CBSlotPillView.initWithSlotIndex: actual Native12 DEB init frame 76x22 pt;
+  // updateBoundsSize has mode-specific sizes; those remain under separate audit.
+  self.panePills[i].frame=CGRectMake(CGRectGetMaxX(frame)-78,CGRectGetMinY(frame)+3,76,22);
   DFINativeSlotPillView *nativePill=(DFINativeSlotPillView *)self.panePills[i];
   [nativePill setFocused:self.maximized==i];
   [nativePill setNeedsLayout];
