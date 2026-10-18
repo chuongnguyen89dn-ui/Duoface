@@ -13,6 +13,8 @@
 
 > **TEST RECHECK — 2026-10-18 ~16:26 ICT:** GitHub Actions [run 39115299884](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39115299884), job `117639771876`, commit `29531b274343efe91c9bbab46fc9d2491bd62f8b` **SUCCESS**: 4/4 Python regression tests pass, SHA256 kiểm tra DEB gốc `OK`. Kết quả **chỉ áp dụng cho preset cấu hình**, không chứng minh đã thấy thanh dock thực tế trên xe.
 
+> **ĐÍNH CHÍNH 2026-10-18 — CHƯA XÁC MINH TÙY CHỌN TRÊN MÁY:** User chất vấn hướng dẫn sai rằng SidePlay có thể vào Settings và bật thanh bar. **Chứng cứ duy nhất tại thời điểm này**: trong DEB `SidePlayPrefs.bundle/Root.plist` có hàng `PSSwitchCell`, `key=carDock`, `label=Thanh dock CarPlay`, `default=false`. Chưa kiểm chứng liệu mục đó được PreferenceLoader hiển thị trên thiết bị; chưa chứng minh nó điều khiển thanh bar/sidebar hệ thống hay đưa host về vùng `carPlayUsableBounds` như DuoNavi 1.0.4. Không tiếp tục hướng dẫn người dùng bật mục này như một biện pháp đã xác thực. Nhánh candidate hiện tại `feature/sideplay-normal-carplay-dock` chỉ đổi **default metadata**, **không phải fix runtime**; test 4/4 chỉ xác minh cấu hình. Kế tiếp phải chứng minh cơ chế/window-level/geometry và runtime trước khi gọi nó là sửa fullscreen. Giữ nguyên DEB gốc và không build hay phát hành.
+
 ## 1. QUYẾT ĐỊNH MỚI NHẤT — USER_DECISION (2026-10-18)
 
 - Hướng CarPlay DuoFace hiện tại được chủ dự án tuyên bố **thất bại vì chưa tách được phụ thuộc giấy phép**. Không tiếp tục vá giấy phép hoặc trộn lõi DuoNavi/QA vào DuoFace để cứu phương án cũ.
