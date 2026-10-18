@@ -47,6 +47,18 @@ for forbidden in ('@implementation CBBridgeManager','@implementation CBLicenseSy
 assert 'DFV12SceneHost' in runtime
 assert 'DFCBUnbindHost(DFIWindow)' in runtime
 assert 'DFIWindow=window' in runtime
-assert "UIWindowLevelAlert+100" in runtime, "Documented, not yet corrected window owner"
+assert "UIWindowLevelAlert+100" in runtime, "Actual window level still requires receiver stack verification"
+# Original DuoNavi 1.0.4 carPlayContentInsets fallback is precisely
+# (top=0,left=64,bottom=0,right=0), verified by ARM64 fmov d9,#64.
+assert "UIEdgeInsetsMake(0,64,0,0)" in src
+assert "self.window.safeAreaInsets" in src
+assert "CGRectGetWidth(r)<100" in src and "CGRectGetHeight(r)<100" in src
+assert "if(!CGRectContainsPoint(_splitSurface.frame,point))return nil;" in src
+assert "window.backgroundColor=UIColor.clearColor;" in runtime
+assert "window.opaque=NO;" in runtime
+assert "CGRect splitFrame=[(DFINativeWindowSurface *)self.view usableContentFrame];" in ui
+assert "self.nativeSplitSurface.frame=splitFrame;" in ui
+assert "[g locationInView:self.nativeSplitSurface]" in ui
+assert "DFINativePickerCardFrame(splitFrame," in ui
 print("DFINATIVE_UI_WINDOW_SPLIT_PILL_DIVIDER_PICKER_VIEW_TREE_STATIC_PASS")
 print("DEVICE_SCREENSHOT_AND_CARPLAY_STATUS_BAR_NOT_YET_VERIFIED")
