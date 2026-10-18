@@ -1,0 +1,18 @@
+ new Debian package, version 2.0.
+ size 4352576 bytes: control archive=888 bytes.
+     536 bytes,    13 lines      control
+     241 bytes,     9 lines   *  postinst             #!/bin/sh
+     530 bytes,    14 lines   *  prerm                #!/bin/sh
+ Package: com.sideplay
+ Name: SidePlay
+ Description: Split screen for CarPlay. Run any app on the car screen, one or two side by side.
+ Depends: firmware (>= 15.0), mobilesubstrate, preferenceloader
+ Conflicts: com.cortex.carplayenable, com.pavunato.carsurf, com.bmt.dash, com.chou.googlemaps.vietmap
+ Maintainer: SidePlay
+ Author: SidePlay
+ Section: Tweaks
+ SileoDepiction: https://sideplay.pages.dev/depictions/com.sideplay.json
+ Icon: https://sideplay.pages.dev/CydiaIcon.png
+ Architecture: iphoneos-arm64
+ Version: 1.0.4-1
+ Installed-Size: 7196

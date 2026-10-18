@@ -1,0 +1,289 @@
+[
+  {
+    "path": "rootfs/var/jb/Applications/SidePlay.app/Info.plist",
+    "format": "xml",
+    "data": {
+      "CFBundleDevelopmentRegion": "vi",
+      "CFBundleExecutable": "SidePlay",
+      "CFBundleIdentifier": "com.sideplay.app",
+      "CFBundleInfoDictionaryVersion": "6.0",
+      "CFBundleName": "SidePlay",
+      "CFBundleDisplayName": "SidePlay",
+      "CFBundlePackageType": "APPL",
+      "CFBundleShortVersionString": "1.0.4",
+      "CFBundleVersion": "5",
+      "CFBundleSupportedPlatforms": [
+        "iPhoneOS"
+      ],
+      "MinimumOSVersion": "15.0",
+      "UIDeviceFamily": [
+        1,
+        2
+      ],
+      "UIRequiredDeviceCapabilities": [
+        "arm64"
+      ],
+      "CFBundleIcons": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "AppIcon40x40",
+            "AppIcon60x60"
+          ],
+          "CFBundleIconName": "AppIcon"
+        }
+      },
+      "CFBundleURLTypes": [
+        {
+          "CFBundleURLName": "com.sideplay.app",
+          "CFBundleURLSchemes": [
+            "sideplay"
+          ]
+        }
+      ],
+      "UIUserInterfaceStyle": "Dark",
+      "UILaunchScreen": {
+        "UIColorName": ""
+      },
+      "UISupportedInterfaceOrientations": [
+        "UIInterfaceOrientationPortrait"
+      ],
+      "UIBackgroundModes": [
+        "audio"
+      ],
+      "UIApplicationSceneManifest": {
+        "UIApplicationSupportsMultipleScenes": true,
+        "UISceneConfigurations": {
+          "UIWindowSceneSessionRoleApplication": [
+            {
+              "UISceneConfigurationName": "Phone",
+              "UISceneClassName": "UIWindowScene",
+              "UISceneDelegateClassName": "SPPhoneSceneDelegate"
+            }
+          ],
+          "CPTemplateApplicationSceneSessionRoleApplication": [
+            {
+              "UISceneConfigurationName": "CarPlay",
+              "UISceneClassName": "CPTemplateApplicationScene",
+              "UISceneDelegateClassName": "SPCarSceneDelegate"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.plist",
+    "error": "Invalid file"
+  },
+  {
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.plist",
+    "error": "Invalid file"
+  },
+  {
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.plist",
+    "error": "Invalid file"
+  },
+  {
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.plist",
+    "error": "Invalid file"
+  },
+  {
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.plist",
+    "error": "Invalid file"
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Info.plist",
+    "format": "xml",
+    "data": {
+      "CFBundleDevelopmentRegion": "en",
+      "CFBundleExecutable": "SidePlayPrefs",
+      "CFBundleIdentifier": "com.sideplay.prefs",
+      "CFBundleInfoDictionaryVersion": "6.0",
+      "CFBundlePackageType": "BNDL",
+      "CFBundleShortVersionString": "1.0.4",
+      "CFBundleVersion": "5",
+      "NSPrincipalClass": "SPRootListController"
+    }
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/Root.plist",
+    "format": "xml",
+    "data": {
+      "items": [
+        {
+          "cell": "PSGroupCell",
+          "label": "Chung"
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": true,
+          "key": "enabled",
+          "label": "Bật SidePlay"
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": true,
+          "key": "autoOpen",
+          "label": "Tự mở khi cắm CarPlay"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Mở nhanh"
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "SPQuickProfileController",
+          "label": "Lối tắt 1",
+          "profile": 1
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "SPQuickProfileController",
+          "label": "Lối tắt 2",
+          "profile": 2
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": true,
+          "key": "restoreLast",
+          "label": "Mở lại bố cục lần cuối"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Bong bóng tốc độ"
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "SPHPreferencesController",
+          "label": "Bong bóng tốc độ"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Ứng dụng"
+        },
+        {
+          "cell": "PSLinkCell",
+          "detail": "SPAppListController",
+          "label": "Tùy chỉnh từng app"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Hiển thị"
+        },
+        {
+          "cell": "PSLinkListCell",
+          "default": 3,
+          "detail": "PSListItemsController",
+          "key": "scaleMode",
+          "label": "Cách hiển thị app",
+          "validTitles": [
+            "Mặc định",
+            "Giữ tỉ lệ",
+            "Phủ kín ô"
+          ],
+          "validValues": [
+            3,
+            0,
+            1
+          ]
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": true,
+          "key": "autoHideBar",
+          "label": "Tự ẩn thanh điều khiển"
+        },
+        {
+          "cell": "PSLinkListCell",
+          "default": 5,
+          "detail": "PSListItemsController",
+          "key": "barHideDelay",
+          "label": "Ẩn sau",
+          "validTitles": [
+            "5 giây",
+            "10 giây",
+            "30 giây",
+            "60 giây"
+          ],
+          "validValues": [
+            5,
+            10,
+            30,
+            60
+          ]
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": false,
+          "key": "carDock",
+          "label": "Thanh dock CarPlay"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Màn hình ô tô"
+        },
+        {
+          "cell": "PSSwitchCell",
+          "default": true,
+          "key": "autoFitCar",
+          "label": "Tự động theo màn hình xe"
+        },
+        {
+          "cell": "PSStaticTextCell",
+          "label": "Thu phóng khung (%)"
+        },
+        {
+          "cell": "PSSliderCell",
+          "default": 100.0,
+          "key": "carZoom",
+          "max": 130.0,
+          "min": 70.0,
+          "showValue": true
+        },
+        {
+          "action": "calibrateCar",
+          "cell": "PSButtonCell",
+          "label": "Căn màn hình thủ công"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Cài đặt"
+        },
+        {
+          "action": "respring",
+          "cell": "PSButtonCell",
+          "label": "Respring"
+        },
+        {
+          "action": "resetAll",
+          "cell": "PSButtonCell",
+          "label": "Đặt lại tất cả cài đặt"
+        },
+        {
+          "cell": "PSGroupCell",
+          "label": "Báo cáo lỗi"
+        },
+        {
+          "action": "reportBug",
+          "cell": "PSButtonCell",
+          "label": "Báo cáo lỗi"
+        }
+      ],
+      "title": "SidePlay"
+    }
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceLoader/Preferences/SidePlay.plist",
+    "format": "xml",
+    "data": {
+      "entry": {
+        "bundle": "SidePlayPrefs",
+        "cell": "PSLinkCell",
+        "detail": "SPRootListController",
+        "icon": "icon.png",
+        "isController": true,
+        "label": "SidePlay"
+      }
+    }
+  }
+]

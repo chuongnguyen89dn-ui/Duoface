@@ -1,0 +1,268 @@
+[
+  {
+    "kind": "macho64",
+    "magic": "0xcffaedfe",
+    "cpu_type": 16777228,
+    "file_type": 2,
+    "ncmds": 30,
+    "sizeofcmds": 3688,
+    "load_dylibs": [
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CarPlay.framework/CarPlay"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/QuartzCore.framework/QuartzCore"
+      }
+    ],
+    "rpaths": [
+      "/var/jb/Library/Frameworks",
+      "/var/jb/usr/lib",
+      "@loader_path/.jbroot/Library/Frameworks",
+      "@loader_path/.jbroot/usr/lib"
+    ],
+    "segments": [
+      "__PAGEZERO",
+      "__TEXT",
+      "__DATA_CONST",
+      "__DATA",
+      "__LINKEDIT"
+    ],
+    "has_code_signature": true,
+    "path": "rootfs/var/jb/Applications/SidePlay.app/SidePlay",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/001-SidePlay.strings.txt",
+    "strings_count": 1273
+  },
+  {
+    "kind": "fat_macho",
+    "magic": "0xcafebabe",
+    "note": "fat slices retained; extract architecture slices separately before call-graph work",
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/002-SidePlay.dylib.strings.txt",
+    "strings_count": 6459
+  },
+  {
+    "kind": "macho64",
+    "magic": "0xcffaedfe",
+    "cpu_type": 16777228,
+    "file_type": 6,
+    "ncmds": 28,
+    "sizeofcmds": 3608,
+    "load_dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SidePlayHUDGofa.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/swift/libswiftCore.dylib"
+      }
+    ],
+    "rpaths": [
+      "/var/jb/Library/Frameworks",
+      "/var/jb/usr/lib",
+      "@loader_path/.jbroot/Library/Frameworks",
+      "@loader_path/.jbroot/usr/lib",
+      "/usr/lib/swift"
+    ],
+    "segments": [
+      "__TEXT",
+      "__DATA_CONST",
+      "__DATA",
+      "__LINKEDIT"
+    ],
+    "has_code_signature": true,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/003-SidePlayHUDGofa.dylib.strings.txt",
+    "strings_count": 916
+  },
+  {
+    "kind": "fat_macho",
+    "magic": "0xcafebabe",
+    "note": "fat slices retained; extract architecture slices separately before call-graph work",
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/004-SidePlayHUDRelay.dylib.strings.txt",
+    "strings_count": 1594
+  },
+  {
+    "kind": "macho64",
+    "magic": "0xcffaedfe",
+    "cpu_type": 16777228,
+    "file_type": 6,
+    "ncmds": 26,
+    "sizeofcmds": 3512,
+    "load_dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SidePlayHUDVietMap.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      }
+    ],
+    "rpaths": [
+      "/var/jb/Library/Frameworks",
+      "/var/jb/usr/lib",
+      "@loader_path/.jbroot/Library/Frameworks",
+      "@loader_path/.jbroot/usr/lib"
+    ],
+    "segments": [
+      "__TEXT",
+      "__DATA_CONST",
+      "__DATA",
+      "__LINKEDIT"
+    ],
+    "has_code_signature": true,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/005-SidePlayHUDVietMap.dylib.strings.txt",
+    "strings_count": 1120
+  },
+  {
+    "kind": "macho64",
+    "magic": "0xcffaedfe",
+    "cpu_type": 16777228,
+    "file_type": 6,
+    "ncmds": 26,
+    "sizeofcmds": 3432,
+    "load_dylibs": [
+      {
+        "command": "0xd",
+        "name": "@rpath/SidePlayHUDWaze.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libobjc.A.dylib"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/Foundation.framework/Foundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/UIKit.framework/UIKit"
+      },
+      {
+        "command": "0xc",
+        "name": "/System/Library/Frameworks/CoreLocation.framework/CoreLocation"
+      },
+      {
+        "command": "0xc",
+        "name": "@rpath/CydiaSubstrate.framework/CydiaSubstrate"
+      },
+      {
+        "command": "0xc",
+        "name": "/usr/lib/libSystem.B.dylib"
+      }
+    ],
+    "rpaths": [
+      "/var/jb/Library/Frameworks",
+      "/var/jb/usr/lib",
+      "@loader_path/.jbroot/Library/Frameworks",
+      "@loader_path/.jbroot/usr/lib"
+    ],
+    "segments": [
+      "__TEXT",
+      "__DATA_CONST",
+      "__DATA",
+      "__LINKEDIT"
+    ],
+    "has_code_signature": true,
+    "path": "rootfs/var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/006-SidePlayHUDWaze.dylib.strings.txt",
+    "strings_count": 1038
+  },
+  {
+    "kind": "fat_macho",
+    "magic": "0xcafebabe",
+    "note": "fat slices retained; extract architecture slices separately before call-graph work",
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs",
+    "strings_file": "sideplay/audit/deb-1.0.4-1/macho-strings/007-SidePlayPrefs.strings.txt",
+    "strings_count": 4011
+  }
+]

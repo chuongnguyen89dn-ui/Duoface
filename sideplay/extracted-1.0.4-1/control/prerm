@@ -1,0 +1,14 @@
+#!/bin/sh
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    # Tell the SidePlay server this iPhone removed it (anonymous install list, app/main.m); in the background
+    if [ -x /var/jb/Applications/SidePlay.app/SidePlay ]; then
+        (/var/jb/Applications/SidePlay.app/SidePlay --sp-goodbye >/dev/null 2>&1 &) || true
+    fi
+    for u in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+        if [ -x "$u" ]; then
+            "$u" -u /var/jb/Applications/SidePlay.app || true
+            break
+        fi
+    done
+fi
+exit 0

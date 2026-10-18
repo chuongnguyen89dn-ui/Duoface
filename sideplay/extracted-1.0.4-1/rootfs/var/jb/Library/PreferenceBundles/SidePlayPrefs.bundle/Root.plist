@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Chung</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>enabled</string>
+			<key>label</key>
+			<string>Bật SidePlay</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>autoOpen</string>
+			<key>label</key>
+			<string>Tự mở khi cắm CarPlay</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Mở nhanh</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>SPQuickProfileController</string>
+			<key>label</key>
+			<string>Lối tắt 1</string>
+			<key>profile</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>SPQuickProfileController</string>
+			<key>label</key>
+			<string>Lối tắt 2</string>
+			<key>profile</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>restoreLast</string>
+			<key>label</key>
+			<string>Mở lại bố cục lần cuối</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Bong bóng tốc độ</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>SPHPreferencesController</string>
+			<key>label</key>
+			<string>Bong bóng tốc độ</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Ứng dụng</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>SPAppListController</string>
+			<key>label</key>
+			<string>Tùy chỉnh từng app</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Hiển thị</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>3</integer>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>scaleMode</string>
+			<key>label</key>
+			<string>Cách hiển thị app</string>
+			<key>validTitles</key>
+			<array>
+				<string>Mặc định</string>
+				<string>Giữ tỉ lệ</string>
+				<string>Phủ kín ô</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>3</integer>
+				<integer>0</integer>
+				<integer>1</integer>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>autoHideBar</string>
+			<key>label</key>
+			<string>Tự ẩn thanh điều khiển</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>5</integer>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>barHideDelay</string>
+			<key>label</key>
+			<string>Ẩn sau</string>
+			<key>validTitles</key>
+			<array>
+				<string>5 giây</string>
+				<string>10 giây</string>
+				<string>30 giây</string>
+				<string>60 giây</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>5</integer>
+				<integer>10</integer>
+				<integer>30</integer>
+				<integer>60</integer>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>key</key>
+			<string>carDock</string>
+			<key>label</key>
+			<string>Thanh dock CarPlay</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Màn hình ô tô</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>autoFitCar</string>
+			<key>label</key>
+			<string>Tự động theo màn hình xe</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Thu phóng khung (%)</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>100.0</real>
+			<key>key</key>
+			<string>carZoom</string>
+			<key>max</key>
+			<real>130.0</real>
+			<key>min</key>
+			<real>70.0</real>
+			<key>showValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>calibrateCar</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Căn màn hình thủ công</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Cài đặt</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>respring</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Respring</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>resetAll</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Đặt lại tất cả cài đặt</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Báo cáo lỗi</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>reportBug</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Báo cáo lỗi</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>SidePlay</string>
+</dict>
+</plist>

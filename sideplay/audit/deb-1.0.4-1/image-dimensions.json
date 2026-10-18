@@ -1,0 +1,716 @@
+[
+  {
+    "path": "rootfs/var/jb/Applications/SidePlay.app/AppIcon40x40@2x.png",
+    "type": "PNG",
+    "width": 80,
+    "height": 80
+  },
+  {
+    "path": "rootfs/var/jb/Applications/SidePlay.app/AppIcon40x40@3x.png",
+    "type": "PNG",
+    "width": 120,
+    "height": 120
+  },
+  {
+    "path": "rootfs/var/jb/Applications/SidePlay.app/AppIcon60x60@2x.png",
+    "type": "PNG",
+    "width": 120,
+    "height": 120
+  },
+  {
+    "path": "rootfs/var/jb/Applications/SidePlay.app/AppIcon60x60@3x.png",
+    "type": "PNG",
+    "width": 180,
+    "height": 180
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon.png",
+    "type": "PNG",
+    "width": 29,
+    "height": 29
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@2x.png",
+    "type": "PNG",
+    "width": 58,
+    "height": 58
+  },
+  {
+    "path": "rootfs/var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/icon@3x.png",
+    "type": "PNG",
+    "width": 87,
+    "height": 87
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/accident-minor.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/accident.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/animal.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/assistance.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/average-speed-enforcement.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/bad-weather.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/blocked-lane.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/both-shoulders-ending.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/bus-lane-cam.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/camera_ai.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/closed-lane-construction.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/closed-lane-crash.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/closure.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/cyclist.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/dangerous-curves.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/dangerous-intersection.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/dangerous-zone.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/distance-between-vehicles-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/dummy-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/emergency-vehicle.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/fork.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-animals.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-broken-light.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-construction.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-object-on-road.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-on-shoulder.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-pothole.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-roadkill.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-stopped.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-weather-flood.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-weather-fog.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-weather-hail.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-weather-ice.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard-weather-snow.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazard.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hazardonroad.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/highway-crosswalk.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/highway_rest_area.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/hov-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/intersection.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/khu_dan_cu.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/lanes-merging.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/left-lane-ending.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/left-shoulder-ending.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/leftAndRightTurnOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/leftTurnOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/limit_80.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/merge.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/missing-sign.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/narrow-bridge.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noEntry.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noEntryNoLeftTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noEntryNoRightTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noLeftTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noLeftTurnNoRightTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noLeftTurnUTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noRightTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noRightTurnUTurn.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noUTurnLeft.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noUTurnRight.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/no_passing_in.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/no_passing_out.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/noise-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/oil-spill.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/penalty_camera.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/phone-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/police-mobile-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/police.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/railway.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/rain.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/raised-crosswalk.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/red-light-and-speed-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/residential_area_in.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/residential_area_out.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/retrict_unknown.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/right-lane-ending.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/right-shoulder-ending.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/rightTurnOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/school-zone.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/seatbelt-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/slippery-road.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/slow_down.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed-bumps.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_10.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_100.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_110.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_120.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_15.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_20.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_25.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_30.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_35.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_40.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_45.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_5.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_50.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_60.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_70.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_80.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_90.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/speed_limit_camera.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/stop-sign-camera.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/stop_lane.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/straightAheadOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/straightAndLeftTurnOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/straightAndRightTurnOnly.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/toll.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/toll_etc.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/topes.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/traffic_camera.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/tunnel.png",
+    "type": "PNG",
+    "width": 256,
+    "height": 256
+  },
+  {
+    "path": "rootfs/var/jb/usr/share/sideplay-hud/unplowed-road.png",
+    "type": "PNG",
+    "width": 1024,
+    "height": 1024
+  }
+]
