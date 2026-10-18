@@ -56,6 +56,13 @@ assert "CGRectGetWidth(r)<100" in src and "CGRectGetHeight(r)<100" in src
 assert "if(!CGRectContainsPoint(_splitSurface.frame,point))return nil;" in src
 assert "window.backgroundColor=UIColor.clearColor;" in runtime
 assert "window.opaque=NO;" in runtime
+assert 'if(DFIChromeZoomRequested())' in runtime
+assert 'DFIChromeSetZoom(NO);' in runtime
+chrome=(root/"replacement/visual12/engine/runtime/DFIChrome.inc").read_text()
+for cls in ("DBStatusBarWindow","CARStatusBarWindow","DBDockWindow"):
+    assert cls in chrome
+assert 'window.hidden=YES' in chrome
+assert 'DFIChromeRestore' in chrome
 assert "CGRect splitFrame=[(DFINativeWindowSurface *)self.view usableContentFrame];" in ui
 assert "self.nativeSplitSurface.frame=splitFrame;" in ui
 assert "[g locationInView:self.nativeSplitSurface]" in ui
