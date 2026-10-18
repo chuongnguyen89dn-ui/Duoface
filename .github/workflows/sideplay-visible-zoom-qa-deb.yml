@@ -1,10 +1,11 @@
-name: SidePlay visible Zoom QA rootless DEB
+name: SidePlay Native12 frame and drag rootless QA DEB
 on:
   push:
     branches: [feature/sideplay-normal-carplay-dock]
     paths:
       - '.github/workflows/sideplay-visible-zoom-qa-deb.yml'
       - 'sideplay/sileo-qa/**'
+      - 'sideplay/native12-display/DFSPNativeFrame.*'
   workflow_dispatch:
 permissions:
   contents: write
@@ -26,7 +27,17 @@ jobs:
           git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
           brew install ldid dpkg
           echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
-      - name: Build independent SidePlay Zoom overlay (no vendor binary)
+      - name: Stage exact approved Native12 DuoFace logo asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE='dist/visual-1.0.3-12/assets/duoface-logo-picker-alpha-v2.png'
+          DEST='sideplay/sileo-qa/layout/Library/Application Support/DuoFaceSidePlayDisplayQA'
+          test -s "$SOURCE"
+          mkdir -p "$DEST"
+          cp "$SOURCE" "$DEST/duoface-logo-picker-alpha-v2.png"
+          (cd "$DEST" && shasum -a 256 duoface-logo-picker-alpha-v2.png)
+      - name: Build independent SidePlay Native12 frame and split drag (no vendor binary)
         shell: bash
         run: |
           set -euo pipefail
@@ -41,29 +52,29 @@ jobs:
           pkg="$(find sideplay/sileo-qa/packages -maxdepth 1 -type f -name '*.deb' | head -1)"
           test -s "$pkg"
           test "$(dpkg-deb -f "$pkg" Package)" = "com.duoface.sideplaydisplay"
-          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.0~zoomqa2"
+          test "$(dpkg-deb -f "$pkg" Version)" = "0.1.1~native12frame3"
           test "$(dpkg-deb -f "$pkg" Architecture)" = "iphoneos-arm64"
           dpkg-deb -c "$pkg" | tee "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           grep -F 'DuoFaceSidePlayDisplayQA.dylib' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           grep -F 'DuoFaceSidePlayDisplayQA.plist' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           ! grep -Ei 'DuoFaceDashboard|DuoNavi|SidePlay.dylib|SidePlay.app|SidePlayHUD|DFSpeedNative' "$RUNNER_TEMP/sideplay-qa-manifest.txt"
           ! dpkg-deb -f "$pkg" Conflicts | grep -Eiq 'com.duoface.independent|com.duoface.visual12'
-          mkdir -p sideplay/artifacts/zoomqa2
-          cp "$pkg" sideplay/artifacts/zoomqa2/com.duoface.sideplaydisplay_0.1.0~zoomqa2_iphoneos-arm64.deb
-          (cd sideplay/artifacts/zoomqa2 && shasum -a 256 *.deb > SHA256SUMS.txt)
-          cat sideplay/artifacts/zoomqa2/SHA256SUMS.txt
+          mkdir -p sideplay/artifacts/native12frame3
+          cp "$pkg" sideplay/artifacts/native12frame3/com.duoface.sideplaydisplay_0.1.1~native12frame3_iphoneos-arm64.deb
+          (cd sideplay/artifacts/native12frame3 && shasum -a 256 *.deb > SHA256SUMS.txt)
+          cat sideplay/artifacts/native12frame3/SHA256SUMS.txt
       - name: Upload test DEB
         uses: actions/upload-artifact@v4
         with:
-          name: DuoFace-SidePlay-Display-Zoom-QA2
-          path: sideplay/artifacts/zoomqa2/
+          name: DuoFace-SidePlay-Native12-Frame-QA3
+          path: sideplay/artifacts/native12frame3/
       - name: Persist QA artifact to development branch for Sileo pinning
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- sideplay/artifacts/zoomqa2/
+          git add -- sideplay/artifacts/native12frame3/
           if ! git diff --cached --quiet; then
             git commit -m 'artifact(sideplay): preserve independent visible Zoom QA2 DEB [skip ci]'
             git push origin HEAD:feature/sideplay-normal-carplay-dock
