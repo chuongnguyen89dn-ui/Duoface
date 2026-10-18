@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Swap pane geometry sync, commit dbea5e8
+
+- Source commit `dbea5e8166e992b8026edd67e7add77c49e7ce29` on `feature/visual12-duodash-recovery`, `replacement/visual12/engine/runtime/DFIInterface.inc`, verified by refetch: `swapPanes` retains existing `DFV12SceneHost` and moves its view/container, then immediately calls `[host resizeTo:self.panes[i].bounds.size]`. No new scene, no second coordinator, no licensing. Existing 8 layouts/3 pane and `standalone6invalidate` close unchanged.
+- Evidence: source prior to change moved `host.controller.view` and updated `host.container` without immediately updating bridged scene geometry. Original104 comparison remains `docs/duoface-original104-scene-teardown-vs-qa-20261018.md`; this geometry sync is an independent DuoFace correction, NOT proven verbatim from original binary.
+- CI confirmed for previous replacement commit `377e069ba5fae255dcf13a60715c26e6b4aff78a`: standalone engine/link run `39087641336` completed SUCCESS, QA DEB run `39087641338` completed SUCCESS. No new-device testing. Check CI for `dbea5e8` next. Do not publish QA to Sileo or change Native12/Hub8.
+
+
 ## 2026-10-18 — Replacement scene owner guard, commit 377e069
 
 - User requests continuous implementation based on DuoNavi 1.0.4 behavior without licensing or donor runtime dependency. Preserve confirmed `standalone6invalidate` fix and Visual12 UI.
