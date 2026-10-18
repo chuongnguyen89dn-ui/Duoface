@@ -177,9 +177,9 @@ def cli():
             expected=NATIVE_DASH_SHA if name=="native12" else ORIG_DASH_SHA
             if hashfile(binary)!=expected:raise RuntimeError(f"{name} actual Dashboard SHA mismatch")
             meta=subprocess.run(["xcrun","llvm-objdump","--macho","--objc-meta-data",str(binary)],
-                                check=True,capture_output=True,text=True).stdout
+                                check=True,capture_output=True).stdout.decode("utf-8","replace")
             dis=subprocess.run(["xcrun","llvm-objdump","--macho","--disassemble",str(binary)],
-                               check=True,capture_output=True,text=True).stdout
+                               check=True,capture_output=True).stdout.decode("utf-8","replace")
             results[name]=dict(
                  deb_sha256=NATIVE_DEB_SHA if name=="native12" else ORIG_DEB_SHA,
                  dashboard_sha256=expected,
