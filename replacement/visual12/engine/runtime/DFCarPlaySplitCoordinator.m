@@ -31,7 +31,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
 - (instancetype)initWithRootController:(UIViewController *)root
                                   panes:(NSArray<UIView *> *)panes
                                   error:(NSError **)error {
-    if (!root || panes.count != 2 || panes[0] == panes[1] ||
+    if (!root || (panes.count != 2 && panes.count != 3) || panes[0] == panes[1] ||
         ![panes[0] isKindOfClass:UIView.class] ||
         ![panes[1] isKindOfClass:UIView.class]) {
         if (error) *error=DFCPError(DFCarPlayErrorInvalidRequest,
@@ -41,7 +41,8 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     if (!(self=[super init])) return nil;
     _root=root;
     _panes=[panes copy];
-    _hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,nil];
+    _hosts=[NSMutableArray array];
+    for (NSUInteger i=0; i<panes.count; i++) [_hosts addObject:NSNull.null];
     _pending=[NSMutableDictionary dictionary];
     _ratio=.5;
     _focused=-1;
@@ -76,7 +77,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     if (done) done(error);
 }
 - (void)finishPane:(NSUInteger)pane host:(DFV12SceneHost *)host error:(NSError *)error {
-    if (pane>1 || self.hosts[pane]!=host) return;
+    if (pane>=self.panes.count || self.hosts[pane]!=host) return;
     NSNumber *key=@(pane);
     DFCarPlayCompletion done=self.pending[key];
     [self.pending removeObjectForKey:key];
@@ -103,7 +104,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     if (!error && self.pending[@(pane)])
         error=DFCPError(DFCarPlayErrorBusy,@"Pane is still opening");
     if (!error) {
-        for (NSUInteger i=0;i<2;i++) {
+        for (NSUInteger i=0;i<self.panes.count;i++) {
             DFV12SceneHost *other=self.hosts[i]==NSNull.null?nil:self.hosts[i];
             if (other && [other.bundleID isEqualToString:bundleID]) {
                 error=DFCPError(DFCarPlayErrorBusy,@"Bundle already hosted in another pane");
@@ -177,9 +178,11 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     CGRect r=self.root.view.bounds;
     if (CGRectIsEmpty(r) || !isfinite(r.size.width) || !isfinite(r.size.height)) return;
     CGFloat split=r.size.width*self.ratio;
-    CGRect frames[2]={
+    // Three-pane baseline: third pane uses the right half's lower section.
+    CGRect frames[3]={
         CGRectMake(CGRectGetMinX(r),CGRectGetMinY(r),split,r.size.height),
-        CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r),r.size.width-split,r.size.height)
+        CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r),r.size.width-split,self.panes.count==3?r.size.height/2:r.size.height),
+        CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r)+r.size.height/2,r.size.width-split,r.size.height/2)
     };
     for (NSUInteger i=0;i<2;i++) {
         BOOL focus=self.focused>=0;
@@ -242,8 +245,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
         dispatch_async(dispatch_get_main_queue(),^{[self stop];});
         return;
     }
-    [self cancelAndClose:0];
-    [self cancelAndClose:1];
+    for (NSUInteger i=0;i<self.panes.count;i++) [self cancelAndClose:i];
     self.started=NO;
     self.focused=-1;
     // The single external UIWindow belongs to the caller; never destroy it here.
