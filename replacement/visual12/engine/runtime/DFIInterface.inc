@@ -404,6 +404,8 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)exitSplit{DFIStop();}
 - (void)shutdown {
+ [self.sceneBridge stop];
+ self.sceneBridge=nil;
  DFIPerfMark(@"shutdown",nil);
  if(self.shuttingDown)return;self.shuttingDown=YES;[self.pendingPanes removeAllObjects];[self.hideTimer invalidate];[self dismissPanel];for(id host in self.hosts)if(host!=NSNull.null)[host close];[self.hosts removeAllObjects];
 }
