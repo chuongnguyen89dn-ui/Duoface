@@ -39,7 +39,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
 }
 @interface DFSPNativeFrame () <UIGestureRecognizerDelegate>
 @property(nonatomic,strong) NSArray<DFSPNativeSlotPill *> *pills;
-@property(nonatomic,strong) NSArray<UIButton *> *placeholders;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
 @property(nonatomic,strong) UIView *dividerLine;
@@ -72,7 +71,7 @@ static double DFSPClampRatio(double r, BOOL snap) {
     self.currentRatio=0.5;
     _focusedSlot=-1;
     self.logoRelativePosition=0.5;
-    NSMutableArray *pills=[NSMutableArray array],*placeholders=[NSMutableArray array];
+    NSMutableArray *pills=[NSMutableArray array];
     for (NSInteger i=0;i<2;i++) {
         // TWO independent actions per slot, with verified six Native12 modes.
         DFSPNativeSlotPill *pill=[[DFSPNativeSlotPill alloc]
@@ -82,16 +81,9 @@ static double DFSPClampRatio(double r, BOOL snap) {
              restoreAction:@selector(restoreTapped:)];
         [self addSubview:pill]; [pills addObject:pill];
 
-        UIButton *empty=[UIButton buttonWithType:UIButtonTypeSystem];
-        empty.tag=i;
-        empty.tintColor=UIColor.whiteColor;
-        [empty setTitle:@"＋ Chọn ứng dụng" forState:UIControlStateNormal];
-        empty.titleLabel.font=[UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
-        empty.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.native.slot.%ld.placeholder",(long)i];
-        [empty addTarget:self action:@selector(pillTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:empty]; [placeholders addObject:empty];
     }
-    self.pills=pills;self.placeholders=placeholders;
+    self.pills=pills; // no second oversized add-app control beside native pill
+
 
     UIView *track=[UIView new];
     track.backgroundColor=UIColor.clearColor;
@@ -247,13 +239,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
         if (visible) pill.frame=CGRectMake(CGRectGetMidX(rect)-pillSize.width/2,
                                           CGRectGetMinY(rect)+topInset,
                                           pillSize.width,pillSize.height);
-        UIButton *empty=self.placeholders[i];
-        empty.hidden=!visible || (i==0?self.hasFirst:self.hasSecond);
-        if (valid) {
-            // Empty-pane hint stays BELOW the central pill, never obscuring it.
-            empty.frame=CGRectMake(CGRectGetMidX(rect)-76,
-                                   CGRectGetMidY(rect)+23,152,34);
-        }
     }
     CGRect a=self.firstRect, b=self.secondRect;
     BOOL valid=CGRectGetWidth(a)>100 && CGRectGetHeight(a)>100 &&
@@ -314,7 +299,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
     if (self.hidden || self.alpha<=0.01)return nil;
     if (self.pickerVisible)return [super hitTest:point withEvent:event];
     NSMutableArray<UIView *> *targets=[NSMutableArray arrayWithArray:self.pills];
-    [targets addObjectsFromArray:self.placeholders];
     [targets addObject:self.dividerTrack];
     [targets addObject:self.dividerLogo];
     for(UIView *view in [targets reverseObjectEnumerator]) {
