@@ -1,5 +1,10 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Native HUD 8 visual QA code checkpoint
+- Source commit `f95c905e67e5e4de4a0a36ced1cba752114567e3`: `replacement/visual12/engine/runtime/DFIInterface.inc` now contains `DFV12Speed8HUD` and a single HUD owned by `DFV12SplitController`. Initial compact bubble has speed/limit placeholders, drag position persistence, long-press resize/opacity/hide controls. This is only a partial UI port; source selection, limit toggle, full settings persistence and data transport not yet ported.
+- QA source commit read-back verified. CI/device testing not yet verified. Native on Sileo untouched. Next check Visual12 QA compiler, then port remaining Native8 controls and correct HUD geometry.
+
+
 ## 2026-10-18 — ƯU TIÊN MỚI: chuyển UI/chức năng Native HUD 8 trước, dữ liệu để sau
 
 - Người dùng sửa thứ tự công việc: **NGAY BÂY GIỜ chuyển giao diện và chức năng đang có của Native HUD 8 sang Visual12 QA**; bỏ qua điều tra Waze/GMap producer và độ chính xác tốc độ trong giai đoạn này. Không trì hoãn ghép UI để giải quyết dữ liệu.
