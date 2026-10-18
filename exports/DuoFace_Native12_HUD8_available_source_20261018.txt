@@ -1638,3 +1638,1429 @@ def main():
 if __name__=="__main__":main()
 ########## END FILE: migration/full_payload/native_test/build_native12_speed6split1_candidate.py ##########
 
+########## BEGIN FILE: migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py ##########
+#!/usr/bin/env python3
+"""Losslessly preserve released Speed6zProbe1; append only read-only SpringBoard owner module."""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import pathlib
+import shutil
+import subprocess
+import tempfile
+
+BASE=pathlib.Path("dist/payload-migration/native12-speed6probe1/com.duoface.independent_0.1.0~native12+speed6zprobe1_iphoneos-arm64.deb")
+PIN="42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e"
+VERSION="0.1.0~native12+speed6zzowner1"
+DIR=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
+NEW=("DuoFaceSpeedOwner.dylib","DuoFaceSpeedOwner.plist")
+BAN=("DuoFaceSpeedSources","WazeGMapHUDSource","GofaGMapHUDSource","VietMapGoogleMapsSource","GMapHUDPlacementRelay","GMapHUDOverspeedScreen","GoogleMapsVietMap")
+def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def cmd(*args): subprocess.run([str(a) for a in args],check=True)
+def inventory(root):
+    return {str(p.relative_to(root)):digest(p) for p in root.rglob("*")
+        if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN"}
+
+def main():
+    parser=argparse.ArgumentParser()
+    for field in ("owner","output","report"):
+        parser.add_argument("--"+field,required=True,type=pathlib.Path)
+    a=parser.parse_args()
+    assert BASE.is_file() and digest(BASE)==PIN, "Released Speed6zProbe1 exact DEB SHA mismatch"
+    assert a.owner.is_file() and a.owner.stat().st_size>3000, "Missing compiled arm64 owner module"
+    assert not a.output.exists() and not a.report.exists(), "Do not overwrite prior package"
+    with tempfile.TemporaryDirectory(prefix="duoface-ownerprobe-") as td:
+        root=pathlib.Path(td)/"payload"
+        cmd("dpkg-deb","-R",BASE,root)
+        before=inventory(root)
+        assert len(before)==41,len(before)
+        assert not any(any(item in key for item in BAN) for key in before)
+        lib=root/DIR
+        for p in ("DuoFaceDashboard","DuoFaceFullscreenBridge","DuoFaceVisualHook","DuoFaceLogoGripOnly","DuoFaceSpeedHUD"):
+            assert str(DIR/(p+".dylib")) in before,p
+        assert str(DIR/"DuoFaceSpeedHUD.plist") in before
+        assert "var/jb/Applications/DuoFaceUI.app/DuoFaceUI" in before
+        owner=lib/NEW[0]
+        plist=lib/NEW[1]
+        assert owner.stem==plist.stem
+        assert not owner.exists() and not plist.exists()
+        shutil.copy2(a.owner,owner)
+        owner.chmod(0o755)
+        shutil.copy2("DuoFaceSpeedOwner.plist",plist)
+        assert b"SpringBoard" in plist.read_bytes()
+        assert b"Executables" in plist.read_bytes()
+        assert b"CarPlayApp" not in plist.read_bytes()
+        cmd("ldid","-S",owner)
+        cmd("lipo",owner,"-verify_arch","arm64")
+        cmd("plutil","-lint",plist)
+        ctrl=root/"DEBIAN/control"
+        original=ctrl.read_text()
+        assert "Version: 0.1.0~native12+speed6zprobe1" in original
+        ctrl.write_text(original.replace("Version: 0.1.0~native12+speed6zprobe1","Version: "+VERSION,1))
+        after=inventory(root)
+        assert set(after)-set(before)=={str(DIR/n) for n in NEW}
+        assert all(after[p]==s for p,s in before.items()),"Original CarPlay HUD or Native12 changed"
+        (root/"DEBIAN/md5sums").write_text("".join(
+            hashlib.md5((root/p).read_bytes()).hexdigest()+"  "+p+"\n"
+            for p in sorted(after)))
+        a.output.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",root,a.output)
+        appended={str(DIR/n):after[str(DIR/n)] for n in NEW}
+    get=lambda f:subprocess.check_output(["dpkg-deb","-f",str(a.output),f],text=True).strip()
+    assert (get("Package"),get("Version"),get("Architecture"))==(
+        "com.duoface.independent",VERSION,"iphoneos-arm64")
+    report={
+        "status":"SPEED6ZZOWNER1_SPRINGBOARD_OWNER_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+        "input_released_speed6_sha256":PIN,
+        "input_native12_lineage_sha256":"85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7",
+        "output_sha256":digest(a.output),
+        "preserved_file_count":len(before),
+        "all_previous_speed6_payload_files_byte_identical":True,
+        "new_module":appended,
+        "new_module_count":len(NEW),
+        "springboard_readonly":True,
+        "no_springboard_uiwindow_creation_or_method_hooks":True,
+        "carplay_hud_injection_and_gates_unchanged":True,
+        "no_third_party_injection_or_waze_hooks":True,
+        "springboard_probe_log":"/var/mobile/Library/Logs/DuoFaceSpeedOwner-SpringBoard.jsonl",
+        "carplay_existing_log":"/var/mobile/Library/Logs/DuoFaceSpeed6-CarPlayApp.jsonl",
+        "sileo_published":False,
+        "device_tested":False,
+    }
+    a.report.parent.mkdir(parents=True,exist_ok=True)
+    a.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n")
+    print(json.dumps(report,ensure_ascii=False))
+
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native12_speed7split_candidate.py ##########
+#!/usr/bin/env python3
+"""Speed7: replace only the old wrong-process CarPlay HUD with in-place SpringBoard split HUD."""
+from __future__ import annotations
+import argparse,hashlib,json,pathlib,shutil,subprocess,tempfile
+BASE=pathlib.Path("dist/payload-migration/native12-speed6zzowner1/com.duoface.independent_0.1.0~native12+speed6zzowner1_iphoneos-arm64.deb")
+PIN="d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a"
+VERSION="0.1.0~native12+speed7split"
+DIR=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
+REPLACE=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")
+BAN=("DuoFaceSpeedSources","WazeGMapHUDSource","GofaGMapHUDSource",
+     "GMapHUDPlacementRelay","GMapHUDOverspeedScreen","GoogleMapsVietMap")
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def cmd(*args):subprocess.run([str(v) for v in args],check=True)
+def payload(root):
+    return {p.relative_to(root).as_posix():sha(p) for p in root.rglob("*")
+            if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+    p=argparse.ArgumentParser()
+    for x in ("hud","output","report"):p.add_argument("--"+x,required=True,type=pathlib.Path)
+    a=p.parse_args()
+    assert BASE.is_file() and sha(BASE)==PIN,"Immutable installed baseline wrong"
+    assert a.hud.is_file() and a.hud.stat().st_size>3000
+    assert not a.output.exists() and not a.report.exists()
+    with tempfile.TemporaryDirectory(prefix="duoface-native-speed7split-") as td:
+        root=pathlib.Path(td)/"stage"
+        cmd("dpkg-deb","-R",BASE,root)
+        before=payload(root)
+        assert len(before)==43,len(before)
+        assert not any(any(x in z for x in BAN) for z in before)
+        originals={z:d for z,d in before.items() if z not in {str(DIR/n) for n in REPLACE}}
+        assert len(originals)==41
+        assert str(DIR/"DuoFaceSpeedOwner.dylib") in originals
+        assert str(DIR/"DuoFaceSpeedOwner.plist") in originals
+        for z in ("DuoFaceDashboard","DuoFaceFullscreenBridge",
+                  "DuoFaceVisualHook","DuoFaceLogoGripOnly"):
+            assert str(DIR/(z+".dylib")) in originals
+        dest=root/DIR
+        dll=dest/"DuoFaceSpeedHUD.dylib"
+        plist=dest/"DuoFaceSpeedHUD.plist"
+        assert dll.is_file() and plist.is_file() and dll.stem==plist.stem
+        # Root owner probe remains unchanged; old CarPlayApp renderer deliberately replaced.
+        shutil.copy2(a.hud,dll);dll.chmod(0o755)
+        shutil.copy2("DuoFaceSpeedHUDNative7.plist",plist)
+        assert b"SpringBoard" in plist.read_bytes()
+        assert b"CarPlayApp" not in plist.read_bytes()
+        cmd("ldid","-S",dll)
+        cmd("lipo",dll,"-verify_arch","arm64")
+        cmd("plutil","-lint",plist)
+        ctrl=root/"DEBIAN/control"
+        text=ctrl.read_text()
+        assert "Version: 0.1.0~native12+speed6zzowner1" in text
+        ctrl.write_text(text.replace("Version: 0.1.0~native12+speed6zzowner1","Version: "+VERSION,1))
+        after=payload(root)
+        assert set(after)==set(before)
+        assert all(after[z]==d for z,d in originals.items()),"Unrelated payload changed"
+        assert before[str(DIR/"DuoFaceSpeedHUD.dylib")]!=after[str(DIR/"DuoFaceSpeedHUD.dylib")]
+        assert before[str(DIR/"DuoFaceSpeedHUD.plist")]!=after[str(DIR/"DuoFaceSpeedHUD.plist")]
+        (root/"DEBIAN/md5sums").write_text("".join(
+          hashlib.md5((root/z).read_bytes()).hexdigest()+"  "+z+"\n"
+          for z in sorted(after)))
+        a.output.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",root,a.output)
+        replaced={str(DIR/n):{"before":before[str(DIR/n)],"after":after[str(DIR/n)]} for n in REPLACE}
+    get=lambda field:subprocess.check_output(["dpkg-deb","-f",str(a.output),field],text=True).strip()
+    assert (get("Package"),get("Version"),get("Architecture"))==(
+        "com.duoface.independent",VERSION,"iphoneos-arm64")
+    report={
+      "status":"SPEED7_NATIVE12_SPRINGBOARD_SPLIT_RENDERER_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+      "baseline_speed6zzowner1_sha256":PIN,
+      "output_sha256":sha(a.output),
+      "preserved_files_byte_identical":len(originals),
+      "replaced_files_exact_count":len(REPLACE),
+      "replaced_only_HUD_dylib_and_plist":True,
+      "original_native12_and_springboard_owner_probe_unchanged":True,
+      "carplayapp_HUD_injection_removed":True,
+      "speed7_filter_springboard_only":True,
+      "creates_new_UIWindow":False,
+      "requires_native_bridged_split_app_two_attached_panels":True,
+      "root_class_verified_from_real_device":"CBTouchPassThroughRootSceneWindow",
+      "source_data_independent_placeholder":True,
+      "new_hud_files":replaced,
+      "runtime_log":"/var/mobile/Library/Logs/DuoFaceSpeedSplit7-SpringBoard.jsonl",
+      "sileo_published":False,
+      "device_tested":False,
+      "risk":"SplitApp.appViews and panel attachment must be checked on real device. Do not claim Home=0/1 split/exit=0 before real test."
+    }
+    a.report.parent.mkdir(parents=True,exist_ok=True)
+    a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(report))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native12_speed7split_candidate.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native12_speed8compact_candidate.py ##########
+#!/usr/bin/env python3
+"""Speed8: keep every working Native12+Speed7 file except updated Speed8 HUD binary."""
+from __future__ import annotations
+import argparse,hashlib,json,pathlib,shutil,subprocess,tempfile
+BASE=pathlib.Path("dist/payload-migration/native12-speed7split/com.duoface.independent_0.1.0~native12+speed7split_iphoneos-arm64.deb")
+PIN="a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155"
+VERSION="0.1.0~native12+speed8compact"
+DIR=pathlib.Path("var/jb/Library/MobileSubstrate/DynamicLibraries")
+REPLACE=("DuoFaceSpeedHUD.dylib",)
+BAN=("DuoFaceSpeedSources","WazeGMapHUDSource","GofaGMapHUDSource",
+     "GMapHUDPlacementRelay","GMapHUDOverspeedScreen","GoogleMapsVietMap")
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def cmd(*args):subprocess.run([str(v) for v in args],check=True)
+def payload(root):
+    return {p.relative_to(root).as_posix():sha(p) for p in root.rglob("*")
+            if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+    p=argparse.ArgumentParser()
+    for x in ("hud","output","report"):p.add_argument("--"+x,required=True,type=pathlib.Path)
+    a=p.parse_args()
+    assert BASE.is_file() and sha(BASE)==PIN,"Immutable installed baseline wrong"
+    assert a.hud.is_file() and a.hud.stat().st_size>3000
+    assert not a.output.exists() and not a.report.exists()
+    with tempfile.TemporaryDirectory(prefix="duoface-native-speed8compact-") as td:
+        root=pathlib.Path(td)/"stage"
+        cmd("dpkg-deb","-R",BASE,root)
+        before=payload(root)
+        assert len(before)==43,len(before)
+        assert not any(any(x in z for x in BAN) for z in before)
+        originals={z:d for z,d in before.items() if z not in {str(DIR/n) for n in REPLACE}}
+        assert len(originals)==42
+        assert str(DIR/"DuoFaceSpeedOwner.dylib") in originals
+        assert str(DIR/"DuoFaceSpeedOwner.plist") in originals
+        for z in ("DuoFaceDashboard","DuoFaceFullscreenBridge",
+                  "DuoFaceVisualHook","DuoFaceLogoGripOnly"):
+            assert str(DIR/(z+".dylib")) in originals
+        dest=root/DIR
+        dll=dest/"DuoFaceSpeedHUD.dylib"
+        plist=dest/"DuoFaceSpeedHUD.plist"
+        assert dll.is_file() and plist.is_file() and dll.stem==plist.stem
+        # Root owner probe, Native12 payload and proven Speed7 SpringBoard filter remain unchanged.
+        shutil.copy2(a.hud,dll);dll.chmod(0o755)
+        assert b"SpringBoard" in plist.read_bytes()
+        assert b"CarPlayApp" not in plist.read_bytes()
+        cmd("ldid","-S",dll)
+        cmd("lipo",dll,"-verify_arch","arm64")
+        cmd("plutil","-lint",plist)
+        ctrl=root/"DEBIAN/control"
+        text=ctrl.read_text()
+        assert "Version: 0.1.0~native12+speed7split" in text
+        ctrl.write_text(text.replace("Version: 0.1.0~native12+speed7split","Version: "+VERSION,1))
+        after=payload(root)
+        assert set(after)==set(before)
+        assert all(after[z]==d for z,d in originals.items()),"Unrelated payload changed"
+        assert before[str(DIR/"DuoFaceSpeedHUD.dylib")]!=after[str(DIR/"DuoFaceSpeedHUD.dylib")]
+        assert before[str(DIR/"DuoFaceSpeedHUD.plist")]==after[str(DIR/"DuoFaceSpeedHUD.plist")], "Original working SpringBoard filter altered"
+        (root/"DEBIAN/md5sums").write_text("".join(
+          hashlib.md5((root/z).read_bytes()).hexdigest()+"  "+z+"\n"
+          for z in sorted(after)))
+        a.output.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",root,a.output)
+        replaced={str(DIR/n):{"before":before[str(DIR/n)],"after":after[str(DIR/n)]} for n in REPLACE}
+    get=lambda field:subprocess.check_output(["dpkg-deb","-f",str(a.output),field],text=True).strip()
+    assert (get("Package"),get("Version"),get("Architecture"))==(
+        "com.duoface.independent",VERSION,"iphoneos-arm64")
+    report={
+      "status":"SPEED8_COMPACT_SETTINGS_GMAP_WIRE_QA_STATIC_PASS_NOT_DEVICE_TESTED",
+      "baseline_speed7split_sha256":PIN,
+      "output_sha256":sha(a.output),
+      "preserved_files_byte_identical":len(originals),
+      "replaced_files_exact_count":len(REPLACE),
+      "replaced_only_HUD_dylib":True,
+      "original_native12_and_springboard_owner_probe_unchanged":True,
+      "carplayapp_HUD_injection_removed":True,
+      "speed8_reuses_speed7_springboard_only_filter":True,
+      "creates_new_UIWindow":False,
+      "requires_native_bridged_split_app_two_attached_panels":True,
+      "root_class_verified_from_real_device":"CBTouchPassThroughRootSceneWindow",
+      "gmaphud_wire_reader_compiled":True,
+      "data_feed_live_on_device_verified":False,
+      "new_hud_files":replaced,
+      "runtime_log":"/var/mobile/Library/Logs/DuoFaceSpeedSplit8-SpringBoard.jsonl",
+      "sileo_published":False,
+      "device_tested":False,
+      "risk":"On-device Speed8 compact visual, full-screen drag, live source and Waze stable all UNTESTED. Proven user Speed7 remains available."
+    }
+    a.report.parent.mkdir(parents=True,exist_ok=True)
+    a.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(report))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native12_speed8compact_candidate.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native12_speedbubble_candidate.py ##########
+#!/usr/bin/env python3
+"""Build a single-bubble SPEEDHUD TEST candidate from EXACT user-tested Native12.
+
+Native12 (sha256 pinned) stays byte-exact in every pre-existing payload file.
+This does NOT integrate native13-21. Does not upload to Sileo on its own.
+The GMapHUD v0.2.3 source-only publishers remain individually version guarded.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import plistlib
+import subprocess
+import tempfile
+
+from stage_gmaphud_modules_for_duoface import (
+    stage as stage_publishers, NATIVE12_SHA256, GMAP_SHA256, DYLIB_DIR,
+)
+
+BASE = Path("dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb")
+VERSION = "0.1.0~native12+speedhud1"
+NEW = ("DuoFaceSpeedHUD", "DuoFaceSpeedSources")
+FILTERS = {
+    "DuoFaceSpeedHUD": {"com.apple.springboard"},
+    "DuoFaceSpeedSources": {
+        "com.google.Maps", "com.waze.iphone",
+        "vn.vietmap.live", "com.lumi.GOFA",
+    },
+}
+PROTECTED = (
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+)
+FORBIDDEN = ("GMapHUDOverspeedScreen", "GMapHUDPlacementRelay",
+             "GoogleMapsVietMap", "DuoFaceInCarAddApps", "DuoFaceSmartConnection")
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def run(*args: str) -> None:
+    subprocess.run(args, check=True)
+
+def dpkg_field(deb: Path, key: str) -> str:
+    return subprocess.check_output(["dpkg-deb", "-f", str(deb), key], text=True).strip()
+
+def snapshot(root: Path) -> dict:
+    files = {}
+    for p in root.rglob("*"):
+        r = p.relative_to(root)
+        if r.parts[0] == "DEBIAN":
+            continue
+        if p.is_symlink():
+            files[r.as_posix()] = {"symlink": p.readlink().as_posix()}
+        elif p.is_file():
+            files[r.as_posix()] = {"sha256": sha(p), "mode": p.stat().st_mode & 0o7777}
+    return files
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--gmaphud", type=Path, required=True)
+    ap.add_argument("--hud-dylib", type=Path, required=True)
+    ap.add_argument("--source-dylib", type=Path, required=True)
+    ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--report", type=Path, required=True)
+    args = ap.parse_args()
+    assert BASE.is_file() and sha(BASE)==NATIVE12_SHA256, "Wrong Native12! No native13+"
+    assert args.gmaphud.is_file() and sha(args.gmaphud)==GMAP_SHA256, "Wrong GMapHUD"
+    assert not args.out.exists() and not args.report.exists(), "Never overwrite an existing candidate"
+    assert dpkg_field(BASE,"Package")=="com.duoface.independent"
+    assert dpkg_field(BASE,"Architecture")=="iphoneos-arm64"
+    assert dpkg_field(BASE,"Version")=="0.1.0~native12"
+    run("dpkg","--compare-versions",VERSION,"gt","0.1.0~native12")
+    run("dpkg","--compare-versions",VERSION,"lt","0.1.0~native13")
+    with tempfile.TemporaryDirectory(prefix="duoface-native12-speed1-") as tmp:
+        root = Path(tmp)
+        stage = root/"stage"
+        import_report = root/"import.json"
+        import_data = stage_publishers(args.gmaphud,stage,import_report,BASE)
+        assert import_data["single_duoface_hud_only"]
+        assert len(import_data["copied"])==8
+        before_root = root/"native12-ref"
+        run("dpkg-deb","-R",str(BASE),str(before_root))
+        original = snapshot(before_root)
+        assert len(original)>30
+        for protected in PROTECTED:
+            assert protected in original, f"Native12 protected host missing: {protected}"
+        newly_added = set(import_data["copied"])
+        libdir = stage/DYLIB_DIR
+        compiled = {}
+        for name,compiled_path in zip(NEW,(args.hud_dylib,args.source_dylib)):
+            assert compiled_path.is_file() and compiled_path.stat().st_size>2000
+            relative = (DYLIB_DIR/(name+".dylib")).as_posix()
+            filter_relative = (DYLIB_DIR/(name+".plist")).as_posix()
+            dest = stage/relative
+            f = stage/filter_relative
+            assert not dest.exists() and not f.exists()
+            dest.write_bytes(compiled_path.read_bytes())
+            dest.chmod(0o755)
+            f.write_bytes(Path(name+".plist").read_bytes())
+            assert set(plistlib.loads(f.read_bytes())["Filter"]["Bundles"]) == FILTERS[name]
+            run("ldid","-S",str(dest))
+            run("lipo",str(dest),"-verify_arch","arm64")
+            run("plutil","-lint",str(f))
+            compiled[name] = {"dylib":relative,"dylib_sha256":sha(dest),
+                              "plist":filter_relative,"plist_sha256":sha(f)}
+            newly_added.update((relative,filter_relative))
+        after = snapshot(stage)
+        for bad in FORBIDDEN:
+            assert not any(bad in p for p in after),f"Forbidden other-version/duplicate UI: {bad}"
+        assert all(k in after and v==after[k] for k,v in original.items()), "Native12 file modified!"
+        assert set(after)-set(original)==newly_added, (
+            "Wrong set of added files",sorted(set(after)-set(original)),sorted(newly_added))
+        assert not (libdir/"A_DuoFaceNativeNoLease.dylib").exists()
+        control = stage/"DEBIAN/control"
+        old_control=control.read_text(encoding="utf-8")
+        assert "Version: 0.1.0~native12" in old_control
+        control.write_text(old_control.replace("Version: 0.1.0~native12",
+                              "Version: "+VERSION,1),encoding="utf-8")
+        # No hidden full-app reprovisioning: all byte-identical baseline files remain.
+        md5=[]
+        for rel in sorted(after):
+            f=stage/rel
+            if f.is_file() and not f.is_symlink():
+                md5.append(hashlib.md5(f.read_bytes()).hexdigest()+"  "+rel)
+        (stage/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n",encoding="utf-8")
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",str(stage),str(args.out))
+    assert dpkg_field(args.out,"Package")=="com.duoface.independent"
+    assert dpkg_field(args.out,"Architecture")=="iphoneos-arm64"
+    assert dpkg_field(args.out,"Version")==VERSION
+    report={
+        "status":"BUILT_NATIVE12_SPEEDHUD1_TEST_CANDIDATE_NOT_DEVICE_TESTED",
+        "base":"dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb",
+        "base_sha256":NATIVE12_SHA256,
+        "gmaphud_023_sha256":GMAP_SHA256,
+        "version":VERSION,
+        "candidate_sha256":sha(args.out),
+        "candidate_size":args.out.stat().st_size,
+        "all_original_payload_byte_identical":True,
+        "original_payload_count":len(original),
+        "added_exact_count":len(newly_added),
+        "added_source_files":import_data["copied"],
+        "added_duoface_tweaks":compiled,
+        "no_second_hud_renderer":True,
+        "google_maps_speed_limit_implemented":False,
+        "user_installs_extra_hud_tweaks":False,
+        "sileo_published":False,
+        "device_tested":False,
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
+    print(json.dumps(report,indent=2,ensure_ascii=False))
+
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_native12_speedbubble_candidate.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native12_without_lease_bridge.py ##########
+#!/usr/bin/env python3
+"""Create reversible native12 trial removing the ENTIRE obsolete license-only hook.
+
+This removes the separate A_DuoFaceNativeNoLease.dylib and its injection
+.plist from the signed native11 package. It never truncates or renames any
+Objective-C class/selector data in the main Dashboard or application Mach-O.
+
+Rationale: all 10 explicit callback target methods in the hook's published
+source already have ABI-compatible replacement bodies in native4. Still,
+cross-process dynamic references cannot be ruled out by this static audit.
+This is a CANDIDATE; not proven to work until actual device tests.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+import tempfile
+
+from build_native5 import cmd, sha
+from build_native8 import files_and_digests
+
+ROOT=Path(__file__).resolve().parents[3]
+BASE=ROOT/"dist/payload-migration/native11/com.duoface.independent_0.1.0~native11_iphoneos-arm64.deb"
+BASE_SHA="f51180308e7bfd3a86af011c7370290eee4be59d6c7aced5c5ff790e685dc2c5"
+NATIVE10_SHA="3d39b181d0089ae9a7797eb1ca05790155d1b242e50ca2cff362e0a818ff8d29"
+VERSION="0.1.0~native12"
+PREFIX="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+REMOVALS={
+    PREFIX+"A_DuoFaceNativeNoLease.dylib",
+    PREFIX+"A_DuoFaceNativeNoLease.plist",
+}
+HOOK=ROOT/"migration/full_payload/native_test/DuoFaceNoLeaseBridge.mm"
+NEUTRALIZED=ROOT/"dist/payload-migration/native4/BAO_CAO.json"
+
+EXPECTED_MANAGER={
+    "isLicenseCurrentlyValid","remainingLicenseSeconds",
+    "actualLicenseExpirationTimestamp","checkAndSyncLicenseIfNeeded",
+    "checkAndSyncLicenseIfNeededWithSource:","resolvedLicenseServerEndpoint",
+}
+EXPECTED_BRIDGE={
+    "startLicenseWatchdogTimer","stopLicenseWatchdogTimer",
+    "licenseWatchdogTimerFired:","presentLicenseWarningModalWithType:",
+}
+
+def source_check() -> dict:
+    source=HOOK.read_text(encoding="utf-8")
+    assert "DFITargetProcess" in source and "DFIHookMethod" in source
+    a=set(re.findall(r'DFIInstallMethodForValue\(manager,@"([^"]+)"',source))
+    b=set(re.findall(r'DFIHookMethod\(manager,@"([^"]+)"',source))
+    c=set(re.findall(r'DFIHookMethod\(bridge,@"([^"]+)"',source))
+    assert a|b==EXPECTED_MANAGER,(a|b,EXPECTED_MANAGER)
+    assert c==EXPECTED_BRIDGE,(c,EXPECTED_BRIDGE)
+    assert len(a)+len(b)+len(c)==10
+    patched=json.loads(NEUTRALIZED.read_text(encoding="utf-8"))["method_bodies"]
+    summary={}
+    for binary,obj in patched.items():
+        methods=obj["patched_methods"]
+        expected={(m["class"],m["selector"]) for m in methods}
+        for selector in EXPECTED_MANAGER:
+            assert ("CBLicenseSyncManager",selector) in expected,(binary,selector)
+        if binary=="DuoFaceDashboard":
+            for selector in EXPECTED_BRIDGE:
+                assert ("CBBridgeManager",selector) in expected,(binary,selector)
+        summary[binary]={
+            "license_manager_hook_selectors_previously_neutralized":len(EXPECTED_MANAGER),
+            "bridge_hook_selectors_previously_neutralized":len(EXPECTED_BRIDGE)
+            if binary=="DuoFaceDashboard" else 0,
+        }
+    return summary
+
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--out",required=True,type=Path)
+    ap.add_argument("--report",required=True,type=Path)
+    args=ap.parse_args()
+    assert BASE.is_file() and sha(BASE.read_bytes())==BASE_SHA
+    assert not args.out.exists(),"Refuse overwrite of package or previous release"
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Version"],text=True).strip()=="0.1.0~native11"
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Architecture"],text=True).strip()=="iphoneos-arm64"
+    source_trace=source_check()
+    with tempfile.TemporaryDirectory(prefix="duoface-native12-strip-module-") as td:
+        stage=Path(td)/"stage"
+        cmd("dpkg-deb","-R",BASE,stage)
+        before=files_and_digests(stage)
+        assert set(REMOVALS)<=set(before),"Baseline module or filter absent"
+        orig_control=(stage/"DEBIAN/control").read_text()
+        assert "Version: 0.1.0~native11" in orig_control
+        sizes={}
+        for relative in REMOVALS:
+            file=stage/relative
+            assert file.is_file() and not file.is_symlink()
+            sizes[relative]=file.stat().st_size
+            file.unlink()
+        assert sizes[PREFIX+"A_DuoFaceNativeNoLease.dylib"]>1000
+        # Check all other files, including DEBIAN scripts, for literal
+        # dynamic-load references. A runtime ObjC callback is a separate risk.
+        any_refs={}
+        needle=b"A_DuoFaceNativeNoLease"
+        for f in stage.rglob("*"):
+            # md5sums is *expected* to mention removed files until the next
+            # step regenerates it. All executable/config/maintainer files are
+            # still searched; only the stale inventory is excluded.
+            if f.relative_to(stage).as_posix()=="DEBIAN/md5sums":
+                continue
+            if f.is_file() and not f.is_symlink() and needle in f.read_bytes():
+                any_refs[f.relative_to(stage).as_posix()]=True
+        assert not any_refs,any_refs
+        control=stage/"DEBIAN/control"
+        control.write_text(orig_control.replace(
+            "Version: 0.1.0~native11","Version: "+VERSION),encoding="utf-8")
+        checksums=[]
+        for f in sorted(stage.rglob("*")):
+            if f.is_file() and not f.is_symlink() and f.relative_to(stage).parts[0]!="DEBIAN":
+                checksums.append(hashlib.md5(f.read_bytes()).hexdigest()+
+                                 "  "+f.relative_to(stage).as_posix())
+        (stage/"DEBIAN/md5sums").write_text("\n".join(checksums)+"\n")
+        after=files_and_digests(stage)
+        assert set(before)-set(after)==REMOVALS
+        assert not (set(after)-set(before))
+        changed=sorted(k for k in before if k in after and before[k]!=after[k])
+        assert changed==["DEBIAN/control","DEBIAN/md5sums"],changed
+        assert len(before)-len(after)==2
+        assert len(before)>30
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        cmd("dpkg-deb","--build","--root-owner-group",stage,args.out)
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Version"],text=True).strip()==VERSION
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(args.out),"Architecture"],text=True).strip()=="iphoneos-arm64"
+    report={
+        "status":"NATIVE12_WHOLE_OBSOLETE_LEASE_HOOK_LIBRARY_AND_FILTER_REMOVED_FROM_REAL_DEB",
+        "source_native11_sha256":BASE_SHA,
+        "source_native10_verified_by_user_sha256":NATIVE10_SHA,
+        "package":"com.duoface.independent","version":VERSION,
+        "architecture":"iphoneos-arm64",
+        "files_physically_removed":sorted(REMOVALS),
+        "bytes_removed_uncompressed":sum(sizes.values()),
+        "size_by_removed_file":sizes,
+        "selector_hooks_previously_neutralized_in_native4":source_trace,
+        "matching_hook_selector_count":10,
+        "all_other_payload_files_byte_identical":True,
+        "all_8_carplay_method_bodies_byte_identical":True,
+        "all_app_and_dashboard_code_and_objc_metadata_byte_identical":True,
+        "full_screen_logo_divider_ui_unchanged":True,
+        "main_macho_license_class_metadata_still_present":True,
+        "all_license_code_and_metadata_fully_removed":False,
+        "dynamic_objc_or_process_dependency_proven_absent":False,
+        "only_existing_files_changed":changed,
+        "baseline_module_load_name_references_in_other_files":any_refs,
+        "new_deb_on_sileo":False,"device_tested":False,
+        "native10_and_native11_rollback_preserved":True,
+        "deb_sha256":sha(args.out.read_bytes()),
+        "deb_size":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    print(json.dumps(report,indent=2,ensure_ascii=False))
+
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_native12_without_lease_bridge.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native13_features_candidate.py ##########
+#!/usr/bin/env python3
+"""Build an UNPUBLISHED native13 QA candidate from immutable native12 and two
+separately compiled/signature-checked DuoFace-only connection and picker hooks.
+
+Never claims license metadata was removed; physical excision has its own QA gate.
+No Sileo publishing, no change to native12 and no implicit destructive cleanup.
+"""
+import argparse, hashlib, json, os, pathlib, shutil, subprocess, tempfile
+
+BASE=pathlib.Path("dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb")
+SHA="85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
+VERSION="0.1.0~native13"
+ROOT="var/jb/Library/MobileSubstrate/DynamicLibraries"
+ADDED=("DuoFaceSmartConnection","DuoFaceInCarAddApps")
+PROTECTED=(
+  "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+  "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+  "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+  "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+  "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+)
+def run(*args):
+    subprocess.run(args,check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+def digest(data):return hashlib.sha256(data).hexdigest()
+def collect(stage):
+    return {f.relative_to(stage).as_posix():digest(f.read_bytes()) for f in stage.rglob("*")
+            if f.is_file() and not f.is_symlink() and f.relative_to(stage).parts[0]!="DEBIAN"}
+def main():
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--smart-dylib",required=True,type=pathlib.Path)
+    ap.add_argument("--app-dylib",required=True,type=pathlib.Path)
+    ap.add_argument("--out",required=True,type=pathlib.Path)
+    ap.add_argument("--report",required=True,type=pathlib.Path)
+    args=ap.parse_args()
+    assert digest(BASE.read_bytes())==SHA,"immutable native12 DEB hash mismatch"
+    assert not args.out.exists(),"native13 candidate must not overwrite"
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Package"],text=True).strip()=="com.duoface.independent"
+    assert subprocess.check_output(["dpkg-deb","-f",str(BASE),"Version"],text=True).strip()=="0.1.0~native12"
+    with tempfile.TemporaryDirectory(prefix="duoface-native13-qa-only-") as tmp:
+        root=pathlib.Path(tmp)/"root"
+        run("dpkg-deb","-R",str(BASE),str(root))
+        orig=collect(root)
+        for rel in PROTECTED:
+            assert rel in orig,rel
+        libdir=root/ROOT
+        added={}
+        for name,src in zip(ADDED,(args.smart_dylib,args.app_dylib)):
+            assert src.is_file() and len(src.read_bytes())>2000,src
+            dylib=libdir/(name+".dylib")
+            filt=libdir/(name+".plist")
+            assert not dylib.exists() and not filt.exists(),(dylib,filt)
+            shutil.copy2(src,dylib)
+            shutil.copy2(pathlib.Path(name+".plist"),filt)
+            # Standalone Theos outputs need valid iOS code signature to inject.
+            run("ldid","-S",str(dylib))
+            run("lipo",str(dylib),"-verify_arch","arm64")
+            run("plutil","-lint",str(filt))
+            added[name]={"dylib":f"{ROOT}/{name}.dylib","plist":f"{ROOT}/{name}.plist",
+                         "sha256":digest(dylib.read_bytes()),"filter_sha256":digest(filt.read_bytes())}
+        control=root/"DEBIAN/control"
+        s=control.read_text(encoding="utf-8")
+        assert "Version: 0.1.0~native12" in s
+        control.write_text(s.replace("Version: 0.1.0~native12",f"Version: {VERSION}",1),encoding="utf-8")
+        current=collect(root)
+        unexpected=set(current)-set(orig)-{f"{ROOT}/{n}.{ext}" for n in ADDED for ext in ("dylib","plist")}
+        assert not unexpected,unexpected
+        assert all(current[k]==v for k,v in orig.items()),"native12 legacy file modified"
+        assert all(current.get(rel)==orig[rel] for rel in PROTECTED)
+        assert f"{ROOT}/A_DuoFaceNativeNoLease.dylib" not in current
+        # Rebuild package member checksum list with the exact updated payload.
+        md5=[]
+        for path in sorted(current):
+            payload=(root/path).read_bytes()
+            md5.append(f"{hashlib.md5(payload).hexdigest()}  {path}")
+        (root/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n")
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",str(root),str(args.out))
+        report={
+         "status":"NATIVE13_TWO_FEATURES_SIGNED_COMBINED_QA_CANDIDATE_NOT_PUBLISHED",
+         "package":"com.duoface.independent","version":VERSION,
+         "input_native12_sha256":SHA,"candidate_sha256":digest(args.out.read_bytes()),
+         "added_modules":added,"existing_payload_entries_unchanged":len(orig),
+         "all_original_payload_byte_identical":True,
+         "all_five_carplay_and_visual_hosts_byte_identical":True,
+         "old_license_hook_still_absent":True,
+         "remaining_license_class_metadata_physically_removed":False,
+         "full_license_excision_verified":False,
+         "sileo_published":False,"device_tested":False,
+         "must_not_publish_as_complete_license_excision":True
+        }
+        args.report.parent.mkdir(parents=True,exist_ok=True)
+        args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+        print(json.dumps(report,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native13_features_candidate.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native14_license_class_trial.py ##########
+#!/usr/bin/env python3
+"""Physical trial excision of 14 orphan license/subscription ObjC class records.
+Experimental DEVICE-TEST CANDIDATE, not proof of runtime liveness or FULL
+license-removal. Input is native13 with two features; native12 stays immutable.
+"""
+import argparse,hashlib,json,os,pathlib,subprocess,tempfile
+from audit_native12_license_class_xrefs import MachO,select_arm64,BINARIES
+ROOT=pathlib.Path(__file__).resolve().parents[3]
+BASE=ROOT/"dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb"
+BASE_SHA="cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3"
+AUDIT=ROOT/"audit/payload-migration/NATIVE12_ACTUAL_LICENSE_CLASS_XREFS.json"
+SOURCE=ROOT/"audit/payload-migration/NATIVE12_LICENSE_XREF_CALLSITE_OWNERS.json"
+VERSION="0.1.0~native14"
+def sha(b):return hashlib.sha256(b).hexdigest()
+def run(*a):
+ p=subprocess.run(a,text=True,capture_output=True)
+ if p.returncode:raise RuntimeError(f"{a}: {p.stdout[-1000:]} {p.stderr[-2000:]}")
+ return p.stdout
+def patch_host(original,classes):
+ m=MachO(select_arm64(original));out=bytearray(original)
+ original_class_names=set(m.classes())
+ if len(classes) not in (2,12):raise ValueError("Unexpected proposed count")
+ done=[];used=set()
+ for item in classes:
+  name=item["class"]; pointer=int(item["class_ptr"],16)
+  assert name in original_class_names,(name,"original class missing")
+  assert not item["safe_to_delete"],"Audit marks this unproven dynamic liveness"
+  assert len(item["pointer_references"])==3
+  actual_roles={p["role"] for p in item["pointer_references"]}
+  assert actual_roles=={"class_registration","direct_reference"}
+  for p in item["pointer_references"]:
+   off=p["fileoff"]
+   assert 0<off<len(out)-8 and off not in used
+   assert int.from_bytes(out[off:off+8],"little")==pointer,(name,off,"pointer mismatch")
+   out[off:off+8]=b"\x00"*8
+   used.add(off)
+  seen=0
+  for pos in item["literal_file_offsets"]:
+   expected=name.encode("ascii")
+   assert out[pos:pos+len(expected)+1]==expected+b"\x00",(name,pos)
+   out[pos:pos+len(expected)]=b"\x00"*len(expected)
+   seen+=1
+  # The former xref report lists class-name metadata literals but does not
+  # claim the list is complete. Only erase additional NUL-terminated literal
+  # occurrences if independently verified inside a non-instruction string
+  # section. Never alter __text, method instructions, or arbitrary binary data.
+  extra=[]
+  embedded=[]
+  needle=name.encode("ascii")
+  for sec in m.sections:
+   if sec["name"] not in ("__cstring","__objc_classname","__objc_methname"):
+    continue
+   off=sec["fileoff"]; end=off+sec["size"]
+   cursor=off
+   while True:
+    pos=out.find(needle,cursor,end)
+    if pos<0:break
+    cursor=pos+len(needle)
+    # Prefixes in protocol names or ObjC type encodings are NOT the class
+    # name literal. Preserve these unrelated identifiers exactly.
+    if pos+len(needle)>=end or out[pos+len(needle)]!=0:
+     embedded.append({"file_offset":pos,"section":sec["name"],"why":"prefix of longer token"})
+     continue
+    if pos>off and out[pos-1] not in (0,32,34,64,91):
+     embedded.append({"file_offset":pos,"section":sec["name"],"why":"embedded in other token"})
+     continue
+    out[pos:pos+len(needle)]=b"\x00"*len(needle)
+    extra.append({"file_offset":pos,"section":sec["name"]})
+  done.append({"class":name,"registry_and_ref_slots_zeroed":3,
+               "name_literals_zeroed":seen+len(extra),"extra_validated_literals":extra,"preserved_embedded_protocol_or_type_names":embedded,
+               "method_records_persist_in_unregistered_metadata":item["method_count"]})
+ result=bytes(out)
+ after=MachO(select_arm64(result))
+ actual=set(after.classes())
+ assert not set(item["class"] for item in classes)&actual
+ assert actual==original_class_names-set(item["class"] for item in classes)
+ # No registered class or standalone class-name literal may remain.
+ # Do NOT confuse protocol names (e.g. CBSubscriptionCheckoutCellDelegate)
+ # or method type encodings with the excised class itself.
+ for item in classes:
+  needle=item["class"].encode("ascii")
+  at=0
+  while True:
+   at=result.find(needle,at)
+   if at<0:break
+   right=result[at+len(needle):at+len(needle)+1]
+   left=result[at-1:at] if at else b""
+   if right in (b"\x00",b"") and left in (b"",b"\x00",b" ",b'"',b"@",b"<",b"["):
+    raise RuntimeError("EXACT_CLASSNAME_LITERAL_REMAINS "+item["class"]+" "+hex(at))
+   at+=len(needle)
+ for s in m.sections:
+  if s["name"]=="__text":
+   assert original[s["fileoff"]:s["fileoff"]+s["size"]]==result[s["fileoff"]:s["fileoff"]+s["size"]]
+ return result,done,len(original_class_names),len(actual)
+def md5list(stage):
+ out=[]
+ for f in sorted(stage.rglob("*")):
+  if f.is_file() and not f.is_symlink() and f.relative_to(stage).parts[0]!="DEBIAN":
+   out.append(f"{hashlib.md5(f.read_bytes()).hexdigest()}  {f.relative_to(stage).as_posix()}")
+ return "\n".join(out)+"\n"
+def main():
+ ap=argparse.ArgumentParser()
+ ap.add_argument("--out",type=pathlib.Path,required=True)
+ ap.add_argument("--report",type=pathlib.Path,required=True)
+ a=ap.parse_args()
+ assert sha(BASE.read_bytes())==BASE_SHA,(sha(BASE.read_bytes()),"pin native13")
+ assert not a.out.exists()
+ report=json.loads(AUDIT.read_text())
+ assert report["candidates_checked"]==14 and not report["physical_excision_completed"]
+ owners=json.loads(SOURCE.read_text())
+ assert owners["status"]=="NATIVE12_LICENSE_CLASSREF_CALLSITE_OWNERS_READONLY"
+ # 3 direct ARM64 references are in ONE previously neutralized ObjC method.
+ links=owners["binaries"]["DuoFaceUI"]["xref_owners"]
+ assert len(links)==3
+ assert {p["method_owner"]["method"] for p in links}=={"-checkAndPresentLicenseModalIfNeeded"}
+ assert {p["method_owner"]["class"] for p in links}=={"XXRootViewController"}
+ assert owners["binaries"]["DuoFaceDashboard"]["xref_owners"]==[]
+ with tempfile.TemporaryDirectory(prefix="duoface-native14-license-class-excision-") as tmp:
+  root=pathlib.Path(tmp)/"unpack"
+  run("dpkg-deb","-R",str(BASE),str(root))
+  beforeControl=(root/"DEBIAN/control").read_text()
+  assert "Version: 0.1.0~native13" in beforeControl
+  details={};changed=set()
+  for bin,path in BINARIES.items():
+   target=root/path
+   raw=target.read_bytes()
+   old_sig=run("ldid","-e",str(target)).strip()
+   patched,classes,oldcount,newcount=patch_host(raw,report["binaries"][bin]["candidate_classes"])
+   target.write_bytes(patched)
+   # Preserve every original entitlement if present; never downgrade privileges.
+   if old_sig.startswith("<?xml") or "<plist" in old_sig:
+    ent=pathlib.Path(tmp)/(bin+".entitlements")
+    ent.write_text(old_sig)
+    run("ldid","-S"+str(ent),str(target))
+   elif not old_sig:
+    run("ldid","-S",str(target))
+   else:
+    raise RuntimeError("unrecognized entitlement output for "+bin)
+   # Resigning may resize LC_CODE_SIGNATURE but must not change class/object code.
+   m=MachO(select_arm64(target.read_bytes()))
+   assert len(m.classes())==newcount
+   details[bin]={"before_registered_classes":oldcount,"after_registered_classes":newcount,
+                 "removed_classes":classes,"host_sha256":sha(target.read_bytes()),
+                 "signed":True,"all_original_text_instructions_unchanged_pre_signature":True}
+   changed.add(path)
+  (root/"DEBIAN/control").write_text(beforeControl.replace("Version: 0.1.0~native13",
+                                                            "Version: "+VERSION,1))
+  (root/"DEBIAN/md5sums").write_text(md5list(root))
+  a.out.parent.mkdir(parents=True,exist_ok=True)
+  run("dpkg-deb","--build","--root-owner-group",str(root),str(a.out))
+  assert run("dpkg-deb","-f",str(a.out),"Version").strip()==VERSION
+  result={
+    "status":"NATIVE14_EXPERIMENTAL_14_LICENSE_CLASSES_UNREGISTERED_AND_NAMES_ERASED",
+    "package":"com.duoface.independent","version":VERSION,
+    "base_native13_sha256":BASE_SHA,"deb_sha256":sha(a.out.read_bytes()),
+    "isolated_license_classes_removed_from_objc_registration":sum(
+      len(z["removed_classes"]) for z in details.values()),
+    "class_registration_and_ref_pointer_slots_zeroed":42,
+    "license_class_name_literal_copies_erased":sum(
+      z["name_literals_zeroed"] for b in details.values() for z in b["removed_classes"]),
+    "remaining_method_metadata_and_shared_license_literals_may_exist":True,
+    "all_license_related_code_physically_removed":False,
+    "dynamic_runtime_safety_proven":False,
+    "remaining_8_carplay_methods_preserved_code_sections":True,
+    "license_xref_calls_are_in_previously_neutralized_entry_method":True,
+    "source_code_instruction_changes":False,
+    "host_modified_paths":sorted(changed),
+    "binaries":details,
+    "sileo_deployed":False,"device_tested":False,
+    "experimental_only_do_not_claim_full_license_cleanup":True
+  }
+  a.report.parent.mkdir(parents=True,exist_ok=True)
+  a.report.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
+  print(json.dumps({k:v for k,v in result.items() if k!="binaries"},indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native14_license_class_trial.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native15_restore_license_classes.py ##########
+#!/usr/bin/env python3
+"""Emergency native15 from exact native13, undo only native14 experimental ObjC class erasure.
+Preserve signed 2 feature modules and immutable native12 host binaries.
+This is NOT a restoration of old neutralized 312 license method bodies.
+"""
+import argparse, hashlib, json, pathlib, re, subprocess, tempfile
+BASE=pathlib.Path("dist/payload-migration/native13/com.duoface.independent_0.1.0~native13_iphoneos-arm64.deb")
+ORIGINAL=pathlib.Path("dist/payload-migration/native12/com.duoface.independent_0.1.0~native12_iphoneos-arm64.deb")
+SOURCE_SHA="cff76573be10a73bfd423e988b803812e3375af4db6567a9229c1b04156f2cf3"
+ORIGINAL_SHA="85d754ea887eb8dd0659f65a5b2e3425564f617983937579753bad1a69433bf7"
+VERSION="0.1.0~native15"
+DIR="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+UI="var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+DASH=DIR+"DuoFaceDashboard.dylib"
+MODS=("DuoFaceSmartConnection","DuoFaceInCarAddApps")
+def sha(data):return hashlib.sha256(data).hexdigest()
+def cmd(*args):return subprocess.check_output(args,stderr=subprocess.STDOUT,text=True).strip()
+def files(root):return {p.relative_to(root).as_posix():sha(p.read_bytes()) for p in root.rglob("*") if p.is_file() and p.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+    a=argparse.ArgumentParser()
+    a.add_argument("--out",type=pathlib.Path,required=True)
+    a.add_argument("--report",type=pathlib.Path,required=True)
+    p=a.parse_args()
+    assert sha(BASE.read_bytes())==SOURCE_SHA,"native13 candidate input hash mismatch"
+    assert sha(ORIGINAL.read_bytes())==ORIGINAL_SHA,"native12 tested baseline hash mismatch"
+    assert cmd("dpkg-deb","-f",str(BASE),"Package")=="com.duoface.independent"
+    assert cmd("dpkg-deb","-f",str(BASE),"Version")=="0.1.0~native13"
+    assert not p.out.exists(),"candidate must not overwrite"
+    with tempfile.TemporaryDirectory(prefix="duoface-native15-recovery-") as td:
+        stage=pathlib.Path(td)/"native15"
+        base12=pathlib.Path(td)/"native12"
+        subprocess.run(["dpkg-deb","-R",str(BASE),str(stage)],check=True)
+        subprocess.run(["dpkg-deb","-x",str(ORIGINAL),str(base12)],check=True)
+        initial=files(stage);ref12=files(base12)
+        assert set(initial)-set(ref12)=={DIR+x+ext for x in MODS for ext in (".dylib",".plist")}
+        assert all(initial[k]==value for k,value in ref12.items()),"native13 host drift from tested native12"
+        assert UI in initial and DASH in initial
+        for m in MODS:
+            assert DIR+m+".dylib" in initial and DIR+m+".plist" in initial
+        assert not any("A_DuoFaceNativeNoLease" in k for k in initial)
+        # Native14 altered only these hosts. Native15 source is pre-excision native13
+        # and must preserve their exact bytes, not patch a corrupted metadata table.
+        ui_bytes=(stage/UI).read_bytes()
+        dash_bytes=(stage/DASH).read_bytes()
+        from audit_native12_license_class_xrefs import MachO, select_arm64
+        classes_ui=MachO(select_arm64(ui_bytes)).classes()
+        classes_dash=MachO(select_arm64(dash_bytes)).classes()
+        restored_ui=(
+            "CBLicenseExpiredModalViewController","CBSubscriptionCheckoutCell",
+            "CBSubscriptionGiftcodeInputCell","CBSubscriptionGiftcodeRedeemCell",
+            "CBSubscriptionHardwareIDCell","CBSubscriptionOrderCoordinator",
+            "CBSubscriptionPendingOrderCell","CBSubscriptionPlanCardCell",
+            "CBSubscriptionStatusCell","CBSubscriptionViewController",
+            "CBSubscriptionVIPCardCell","CBSubscriptionVIPStatusCell",
+        )
+        restored_dash=("CBLicenseShieldIconView","CBLicenseWarningModalView")
+        assert all(c in classes_ui for c in restored_ui), "12 original UI license classes not all registered"
+        assert all(c in classes_dash for c in restored_dash), "2 original dashboard license classes missing"
+        assert len(classes_ui)==27 and len(classes_dash)==36, "original ObjC class counts have changed"
+        ctl=stage/"DEBIAN/control"
+        raw=ctl.read_text()
+        assert re.search(r"(?m)^Version: 0\.1\.0~native13$",raw)
+        ctl.write_text(re.sub(r"(?m)^Version: 0\.1\.0~native13$",f"Version: {VERSION}",raw,count=1))
+        after=files(stage)
+        assert after==initial, "original app/dylib bytes changed during repackaging"
+        for k in (UI,DASH):
+            assert after[k]==ref12[k]
+        checks=[]
+        for name in sorted(after):
+            checks.append(hashlib.md5((stage/name).read_bytes()).hexdigest()+"  "+name)
+        (stage/"DEBIAN/md5sums").write_text("\n".join(checks)+"\n")
+        p.out.parent.mkdir(parents=True,exist_ok=True)
+        subprocess.run(["dpkg-deb","--build","--root-owner-group",str(stage),str(p.out)],check=True)
+        assert cmd("dpkg-deb","-f",str(p.out),"Version")==VERSION
+        assert cmd("dpkg-deb","-f",str(p.out),"Architecture")=="iphoneos-arm64"
+        assert cmd("dpkg-deb","-f",str(p.out),"Package")=="com.duoface.independent"
+        report={
+           "status":"NATIVE15_RESTORED_14_CLASS_REGISTRATIONS_FROM_NATIVE13_FEATURES_PRESERVED",
+           "package":"com.duoface.independent","version":VERSION,
+           "native15_sha256":sha(p.out.read_bytes()),"source_native13_sha256":SOURCE_SHA,
+           "known_device_working_native12_sha256":ORIGINAL_SHA,
+           "input_native14_experimental_license_class_removal_reused":False,
+           "restored_original_objc_license_classes":14,
+           "restored_UI_class_names":list(restored_ui),"restored_Dashboard_class_names":list(restored_dash),
+           "registered_UI_classes":len(classes_ui),"registered_Dashboard_classes":len(classes_dash),
+           "both_new_features_present":True,
+           "two_signed_hook_modules":{m:{"dylib_sha256":after[DIR+m+".dylib"],"plist_sha256":after[DIR+m+".plist"]} for m in MODS},
+           "all_legacy_payload_entries_exactly_equal_to_native12":True,
+           "all_native13_payload_entries_unchanged":True,
+           "older_native12_preexisting_license_method_stubs_restored":False,
+           "complete_original_license_system_restored":False,
+           "device_tested":False,"sileo_published":False,
+           "warning":"Only undo experimental native14 erasure; native12 pre-existing method neutralizations remain, because native12 was last known device-working baseline."
+        }
+        p.report.parent.mkdir(parents=True,exist_ok=True)
+        p.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+        print(json.dumps(report,ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native15_restore_license_classes.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native16_carplay_app_picker_fix.py ##########
+#!/usr/bin/env python3
+"""Create native16 from EXACT published native15, replacing only CarPlay Add Apps hook + plist.
+Never touch Dopamine, native12/15 installed bytes, or existing license machinery.
+"""
+import argparse,hashlib,json,pathlib,plistlib,re,shutil,subprocess,tempfile
+BASE=pathlib.Path("dist/payload-migration/native15/com.duoface.independent_0.1.0~native15_iphoneos-arm64.deb")
+BASE_SHA="8d111e638dce357dfb1187c5b10fdf776d7485c95198ad4cf248d6b51d1740e3"
+ROOT="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+MOD=ROOT+"DuoFaceInCarAddApps"
+HOSTS=("var/jb/Applications/DuoFaceUI.app/DuoFaceUI",ROOT+"DuoFaceDashboard.dylib")
+SHA_HOSTS=("cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+           "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+VERSION="0.1.0~native16"
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def command(*argv):return subprocess.check_output(argv,text=True,stderr=subprocess.STDOUT).strip()
+def inventory(root):
+ return {p.relative_to(root).as_posix():sha(p.read_bytes()) for p in root.rglob("*")
+         if p.is_file() and p.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+ ap=argparse.ArgumentParser()
+ ap.add_argument("--picker-dylib",required=True,type=pathlib.Path)
+ ap.add_argument("--out",required=True,type=pathlib.Path)
+ ap.add_argument("--report",required=True,type=pathlib.Path)
+ args=ap.parse_args()
+ assert sha(BASE.read_bytes())==BASE_SHA,"Native15 published input SHA mismatch"
+ assert command("dpkg-deb","-f",str(BASE),"Package")=="com.duoface.independent"
+ assert command("dpkg-deb","-f",str(BASE),"Version")=="0.1.0~native15"
+ assert not args.out.exists(),"Never overwrite existing DEB"
+ assert len(args.picker_dylib.read_bytes())>2000
+ with tempfile.TemporaryDirectory(prefix="duoface-native16-picker-fix-") as tmp:
+  stage=pathlib.Path(tmp)/"stage"
+  subprocess.run(["dpkg-deb","-R",str(BASE),str(stage)],check=True)
+  original=inventory(stage)
+  assert all(original.get(name)==value for name,value in zip(HOSTS,SHA_HOSTS))
+  assert ROOT+"DuoFaceSmartConnection.dylib" in original
+  assert ROOT+"DuoFaceSmartConnection.plist" in original
+  assert MOD+".dylib" in original and MOD+".plist" in original
+  new_module=stage/(MOD+".dylib")
+  new_filter=stage/(MOD+".plist")
+  shutil.copy2(args.picker_dylib,new_module)
+  shutil.copy2(pathlib.Path("DuoFaceInCarAddApps.plist"),new_filter)
+  # Sign only the independent replacement module.
+  subprocess.run(["ldid","-S",str(new_module)],check=True)
+  subprocess.run(["lipo",str(new_module),"-verify_arch","arm64"],check=True)
+  filt=plistlib.loads(new_filter.read_bytes())["Filter"]
+  expected={"SpringBoard","CarPlay","CarPlayApp","Dashboard"}
+  assert set(filt["Executables"])==expected,filt
+  assert set(filt["Bundles"])=={"com.apple.springboard","com.apple.CarPlay",
+   "com.apple.CarPlayApp","com.apple.dashboard"},filt
+  current=inventory(stage)
+  assert set(current)==set(original)
+  changed={k for k in current if current[k]!=original[k]}
+  assert changed=={MOD+".dylib",MOD+".plist"},changed
+  assert all(current.get(name)==value for name,value in zip(HOSTS,SHA_HOSTS))
+  assert current[ROOT+"DuoFaceSmartConnection.dylib"]==original[ROOT+"DuoFaceSmartConnection.dylib"]
+  assert current[ROOT+"DuoFaceSmartConnection.plist"]==original[ROOT+"DuoFaceSmartConnection.plist"]
+  ctl=stage/"DEBIAN/control"
+  text=ctl.read_text()
+  assert re.search(r"(?m)^Version: 0\.1\.0~native15$",text)
+  ctl.write_text(re.sub(r"(?m)^Version: 0\.1\.0~native15$",f"Version: {VERSION}",text,count=1))
+  (stage/"DEBIAN/md5sums").write_text("\n".join(hashlib.md5((stage/k).read_bytes()).hexdigest()+"  "+k for k in sorted(current))+"\n")
+  args.out.parent.mkdir(parents=True,exist_ok=True)
+  subprocess.run(["dpkg-deb","--build","--root-owner-group",str(stage),str(args.out)],check=True)
+  assert command("dpkg-deb","-f",str(args.out),"Version")==VERSION
+  assert command("dpkg-deb","-f",str(args.out),"Architecture")=="iphoneos-arm64"
+  report={"status":"NATIVE16_FIXED_APP_PICKER_HOST_INJECTION_QA_CANDIDATE",
+    "package":"com.duoface.independent","version":VERSION,
+    "published_native15_base_sha256":BASE_SHA,"native16_sha256":sha(args.out.read_bytes()),
+    "changed_payload_paths":sorted(changed),"preserved_legacy_payload_count":len(original)-len(changed),
+    "preserved_original_host_sha256":dict(zip(HOSTS,SHA_HOSTS)),
+    "preserved_smart_connection_dylib_sha256":current[ROOT+"DuoFaceSmartConnection.dylib"],
+    "new_picker_dylib_sha256":current[MOD+".dylib"],
+    "new_filter_sha256":current[MOD+".plist"],
+    "injection_executables":sorted(expected),"injection_bundles":sorted(filt["Bundles"]),
+    "native15_likely_missed_CarPlayApp_Dashboard_process":True,
+    "same_original_preferences_policy_preserved":True,
+    "dopamine_configuration_touched":False,"jailbreak_tweaks_run":False,
+    "native12_and_native15_untouched":True,
+    "device_tested":False,"sileo_published":False,
+    "limitations":"Actual process, preferences location, and picker persistence must be tested on iPhone."}
+  args.report.parent.mkdir(parents=True,exist_ok=True)
+  args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+  print(json.dumps(report,ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native16_carplay_app_picker_fix.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native17_settings_ui_parity.py ##########
+#!/usr/bin/env python3
+"""Repackage native16 as native17 with exactly one DuoFaceUI-only presentation module.
+
+DuoFaceUI and Dashboard are EXACT native12 byte sequences. Do not change
+license method bodies/ObjC metadata, old NoLease hook, CarPlay, SmartConnection,
+or 10-second disconnect logic. Source DEB is pinned and never overwritten.
+"""
+import argparse
+import hashlib
+import json
+import pathlib
+import plistlib
+import re
+import shutil
+import subprocess
+import tempfile
+
+BASE = pathlib.Path("dist/payload-migration/native16/com.duoface.independent_0.1.0~native16_iphoneos-arm64.deb")
+BASE_SHA = "5d5cbd368c24d0c074b081d16aaf7d006467c3e9cfef01ee12378ce79d716fae"
+VERSION = "0.1.0~native17"
+PREFIX = "var/jb/Library/MobileSubstrate/DynamicLibraries/"
+MOD = PREFIX + "DuoFaceSettingsUIRestore"
+UI = "var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+DASH = PREFIX + "DuoFaceDashboard.dylib"
+EXPECTED_HOSTS = {
+    UI: "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+    DASH: "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+}
+EXPECTED_SMART = "0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50"
+EXPECTED_CARPLAY = "d0246415f4020f353e5ec7373d8d375cbbda868471fd1a467f8e57654c4d01ad"
+
+def sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+def cmd(*args: str) -> str:
+    return subprocess.check_output(args, stderr=subprocess.STDOUT, text=True).strip()
+
+def inventory(root: pathlib.Path) -> dict[str, str]:
+    return {p.relative_to(root).as_posix(): sha(p.read_bytes())
+            for p in root.rglob("*")
+            if p.is_file() and not p.is_symlink() and p.relative_to(root).parts[0] != "DEBIAN"}
+
+def check_source_only_ui(source: str) -> None:
+    required = ("CBGeneralSettingsViewController", "DFIsObsoleteLicenseRow",
+                "DFVisibleCount", "DFVisibleCell", "DFVisibleSelect",
+                "com.duoface.duofaceui")
+    assert all(word in source for word in required), "Expected native2 UI row filtering missing"
+    forbidden = ("CBLicenseSyncManager", "checkAndSyncLicenseIfNeeded",
+                 "isLicenseCurrentlyValid", "licenseWatchdogTimerFired",
+                 "A_DuoFaceNativeNoLease", "terminateApplicationWithBundleID:")
+    assert all(word not in source for word in forbidden), "License/CarPlay runtime must NOT be restored"
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dylib", required=True, type=pathlib.Path)
+    ap.add_argument("--out", required=True, type=pathlib.Path)
+    ap.add_argument("--report", required=True, type=pathlib.Path)
+    args = ap.parse_args()
+    assert BASE.is_file() and sha(BASE.read_bytes()) == BASE_SHA, "Native16 published artifact mismatch"
+    assert cmd("dpkg-deb", "-f", str(BASE), "Package") == "com.duoface.independent"
+    assert cmd("dpkg-deb", "-f", str(BASE), "Version") == "0.1.0~native16"
+    assert not args.out.exists() and not args.report.exists(), "Refuse overwrite of an existing build"
+    assert args.dylib.is_file() and len(args.dylib.read_bytes()) > 2000, "Missing compiled UI module"
+    source = pathlib.Path("runtime/settings/DFSettingsUIRestore.mm").read_text()
+    check_source_only_ui(source)
+    with tempfile.TemporaryDirectory(prefix="duoface-native17-restore-ui-") as td:
+        stage = pathlib.Path(td) / "stage"
+        subprocess.run(["dpkg-deb", "-R", str(BASE), str(stage)], check=True)
+        before = inventory(stage)
+        assert len(before) >= 43
+        assert all(before.get(path) == checksum for path, checksum in EXPECTED_HOSTS.items())
+        assert before.get(PREFIX + "DuoFaceSmartConnection.dylib") == EXPECTED_SMART
+        assert before.get(PREFIX + "DuoFaceInCarAddApps.dylib") == EXPECTED_CARPLAY
+        assert not any("A_DuoFaceNativeNoLease" in p for p in before)
+        assert MOD + ".dylib" not in before and MOD + ".plist" not in before
+        shutil.copy2(args.dylib, stage / (MOD + ".dylib"))
+        shutil.copy2(pathlib.Path("runtime/settings/DuoFaceSettingsUIRestore.plist"), stage / (MOD + ".plist"))
+        subprocess.run(["ldid", "-S", str(stage / (MOD + ".dylib"))], check=True)
+        subprocess.run(["lipo", str(stage / (MOD + ".dylib")), "-verify_arch", "arm64"], check=True)
+        filt = plistlib.loads((stage / (MOD + ".plist")).read_bytes())["Filter"]
+        assert filt == {"Executables": ["DuoFaceUI"], "Bundles": ["com.duoface.duofaceui"]}, filt
+        after = inventory(stage)
+        assert set(after) - set(before) == {MOD + ".dylib", MOD + ".plist"}
+        assert not set(before) - set(after)
+        assert all(after[k] == before[k] for k in before), "Existing native16 payload modified"
+        control = stage / "DEBIAN/control"
+        raw = control.read_text()
+        assert re.search(r"(?m)^Version: 0\.1\.0~native16$", raw)
+        control.write_text(re.sub(r"(?m)^Version: 0\.1\.0~native16$", "Version: " + VERSION, raw, count=1))
+        checks = [hashlib.md5((stage / p).read_bytes()).hexdigest() + "  " + p
+                  for p in sorted(after)]
+        (stage / "DEBIAN/md5sums").write_text("\n".join(checks) + "\n")
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["dpkg-deb", "--build", "--root-owner-group", str(stage), str(args.out)], check=True)
+        assert cmd("dpkg-deb", "-f", str(args.out), "Package") == "com.duoface.independent"
+        assert cmd("dpkg-deb", "-f", str(args.out), "Version") == VERSION
+        assert cmd("dpkg-deb", "-f", str(args.out), "Architecture") == "iphoneos-arm64"
+        report = {
+            "status": "NATIVE17_IOS_SETTINGS_UI_ONLY_NATIVE12_CORE_EXACT_NOT_DEVICE_TESTED",
+            "package": "com.duoface.independent",
+            "version": VERSION,
+            "base_published_native16_sha256": BASE_SHA,
+            "deb_sha256": sha(args.out.read_bytes()),
+            "deb_bytes": args.out.stat().st_size,
+            "preserved_native16_payload_entries": len(before),
+            "new_payload_paths": [MOD + ".dylib", MOD + ".plist"],
+            "all_native16_original_payload_byte_identical": True,
+            "native12_exact_original_host_sha256": EXPECTED_HOSTS,
+            "smartconnection_10s_unchanged_sha256": EXPECTED_SMART,
+            "carplay_addapps_unchanged_sha256": EXPECTED_CARPLAY,
+            "ui_module_sha256": after[MOD + ".dylib"],
+            "ui_plist_sha256": after[MOD + ".plist"],
+            "restored_license_methods_or_registration": False,
+            "original_nolease_library_reintroduced": False,
+            "dopamine_touched": False,
+            "device_tested": False,
+            "published_to_sileo": False,
+            "limitations": "This restores native2-era SETTINGS ROW PRESENTATION only. It does NOT change the native12 license core, prove its runtime behavior, or verify row filtering on an iPhone.",
+        }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+if __name__ == "__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_native17_settings_ui_parity.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native18_direct_addapp.py ##########
+#!/usr/bin/env python3
+"""Rebuild only direct AddApps module from published, hash-pinned native17.
+
+The immutable source contains the native12 exact license core, native17
+settings-only UI restoration and 10 second SmartConnection. No edits to those
+files, original media, CarPlay menu layout or tweak filters.
+"""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import tempfile
+
+BASE=Path("dist/payload-migration/native17/com.duoface.independent_0.1.0~native17_iphoneos-arm64.deb")
+BASE_SHA="60f8a4277dd9df912036f93fc8edfd0897a516752f3014863459d5ce89ad5fff"
+VERSION="0.1.0~native18"
+PREF="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+MODULE=PREF+"DuoFaceInCarAddApps.dylib"
+DASH=PREF+"DuoFaceDashboard.dylib"
+UI="var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+SMART=PREF+"DuoFaceSmartConnection.dylib"
+UI_RESTORE=PREF+"DuoFaceSettingsUIRestore.dylib"
+REQUIRED_HASHES={
+ UI:"cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+ DASH:"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+ SMART:"0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+ UI_RESTORE:"680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f",
+}
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def check(*args):return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT).strip()
+def entries(root):
+ return {f.relative_to(root).as_posix():sha(f.read_bytes()) for f in root.rglob("*")
+         if f.is_file() and not f.is_symlink() and f.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+ ap=argparse.ArgumentParser()
+ ap.add_argument("--dylib",required=True,type=Path)
+ ap.add_argument("--out",required=True,type=Path)
+ ap.add_argument("--report",required=True,type=Path)
+ args=ap.parse_args()
+ assert BASE.is_file() and sha(BASE.read_bytes())==BASE_SHA
+ assert check("dpkg-deb","-f",str(BASE),"Package")=="com.duoface.independent"
+ assert check("dpkg-deb","-f",str(BASE),"Version")=="0.1.0~native17"
+ assert check("dpkg-deb","-f",str(BASE),"Architecture")=="iphoneos-arm64"
+ assert args.dylib.is_file() and len(args.dylib.read_bytes())>3000
+ assert not args.out.exists() and not args.report.exists(), "No overwrite of signed release"
+ source=Path("runtime/appbridge/DFInCarAppPicker.xm").read_text()
+ assert source.count("- (void)addMoreAppsTapped:(id)sender {") == 1
+ assert "%orig" not in source, "Old modal fallback must never be reachable through new hook"
+ assert 'dict[@"appSettings"]' in source and "kDFBridgedAppsKey" in source
+ assert "DFInCarAppPicker" in source and "DFSaveToNativePreferences" in source
+ assert "Dừng xe an toàn và mở DuoFace trên iPhone" not in source
+ with tempfile.TemporaryDirectory(prefix="duoface-native18-app-picker-") as tmp:
+  stage=Path(tmp)/"stage"
+  subprocess.run(["dpkg-deb","-R",str(BASE),str(stage)],check=True)
+  before=entries(stage)
+  assert len(before)==45, len(before)
+  assert all(before.get(k)==v for k,v in REQUIRED_HASHES.items())
+  assert MODULE in before and PREF+"DuoFaceInCarAddApps.plist" in before
+  assert not any("A_DuoFaceNativeNoLease" in x for x in before)
+  shutil.copy2(args.dylib,stage/MODULE)
+  subprocess.run(["ldid","-S",str(stage/MODULE)],check=True)
+  subprocess.run(["lipo",str(stage/MODULE),"-verify_arch","arm64"],check=True)
+  after=entries(stage)
+  changed={p for p in before if before[p]!=after[p]}
+  assert before.keys()==after.keys()
+  assert changed=={MODULE},changed
+  assert all(after[k]==v for k,v in REQUIRED_HASHES.items())
+  filt=PREF+"DuoFaceInCarAddApps.plist"
+  assert before[filt]==after[filt]
+  control=stage/"DEBIAN/control"
+  text=control.read_text()
+  assert "Version: 0.1.0~native17" in text
+  control.write_text(text.replace("Version: 0.1.0~native17","Version: "+VERSION,1))
+  (stage/"DEBIAN/md5sums").write_text("\n".join(
+       hashlib.md5((stage/f).read_bytes()).hexdigest()+"  "+f for f in sorted(after))+"\n")
+  args.out.parent.mkdir(parents=True,exist_ok=True)
+  subprocess.run(["dpkg-deb","--build","--root-owner-group",str(stage),str(args.out)],check=True)
+  assert check("dpkg-deb","-f",str(args.out),"Version")==VERSION
+  assert check("dpkg-deb","-f",str(args.out),"Package")=="com.duoface.independent"
+  report={
+   "status":"NATIVE18_DIRECT_CARPLAY_ADD_APP_NO_ORIGINAL_MODAL_COMPILED_CANDIDATE",
+   "version":VERSION,"package":"com.duoface.independent",
+   "source_native17_sha256":BASE_SHA,
+   "native18_sha256":sha(args.out.read_bytes()),
+   "native18_bytes":args.out.stat().st_size,
+   "original_payload_files_preserved_count":len(before)-len(changed),
+   "changed_payload_paths":sorted(changed),
+   "every_other_native17_payload_byte_identical":True,
+   "native12_exact_license_core_preserved":True,
+   "required_preserved_hashes":REQUIRED_HASHES,
+   "picker_filter_plist_unchanged_sha256":after[filt],
+   "new_picker_sha256":after[MODULE],
+   "old_carplay_alert_fallback_in_new_module_source":False,
+   "old_alert_bytes_still_in_unmodified_legacy_Dashboard":True,
+   "appSettings_and_bridgedApps_schema_from_native_disassembly":True,
+   "shared_config_file_discovery_runtime_confirmed":False,
+   "app_picker_device_tested":False,
+   "sileo_published":False,
+   "dopamine_touched":False,
+   "notes":"When loaded, tap opens native in-car sheet; if settings ownership is unverified it reports the blocker and REFUSES write, never calls old modal. Need device QA for injection and persistence."
+  }
+ args.report.parent.mkdir(parents=True,exist_ok=True)
+ args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+ print(json.dumps(report,ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native18_direct_addapp.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_native19_verified_owner_icons.py ##########
+#!/usr/bin/env python3
+"""Rebuild only direct AddApps module from published, hash-pinned native18.
+
+The immutable source contains the native12 exact license core, native18
+settings-only UI restoration and 10 second SmartConnection. No edits to those
+files, original media, CarPlay menu layout or tweak filters.
+"""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import tempfile
+
+BASE=Path("dist/payload-migration/native18/com.duoface.independent_0.1.0~native18_iphoneos-arm64.deb")
+BASE_SHA="dfbcde5a309f7e90c414c2a10385e96aab3f17ebab0c7dd491313c9ef6a63503"
+VERSION="0.1.0~native19"
+PREF="var/jb/Library/MobileSubstrate/DynamicLibraries/"
+MODULE=PREF+"DuoFaceInCarAddApps.dylib"
+DASH=PREF+"DuoFaceDashboard.dylib"
+UI="var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+SMART=PREF+"DuoFaceSmartConnection.dylib"
+UI_RESTORE=PREF+"DuoFaceSettingsUIRestore.dylib"
+REQUIRED_HASHES={
+ UI:"cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+ DASH:"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+ SMART:"0986cf70b4c613ad011520204337e1e2b403d24111f39f14f70628fb57e61d50",
+ UI_RESTORE:"680f79a1bb4d58a3bf277f7ed253f88627459390599a0818660f89dabe2e629f",
+}
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def check(*args):return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT).strip()
+def entries(root):
+ return {f.relative_to(root).as_posix():sha(f.read_bytes()) for f in root.rglob("*")
+         if f.is_file() and not f.is_symlink() and f.relative_to(root).parts[0]!="DEBIAN"}
+def main():
+ ap=argparse.ArgumentParser()
+ ap.add_argument("--dylib",required=True,type=Path)
+ ap.add_argument("--out",required=True,type=Path)
+ ap.add_argument("--report",required=True,type=Path)
+ args=ap.parse_args()
+ assert BASE.is_file() and sha(BASE.read_bytes())==BASE_SHA
+ assert check("dpkg-deb","-f",str(BASE),"Package")=="com.duoface.independent"
+ assert check("dpkg-deb","-f",str(BASE),"Version")=="0.1.0~native18"
+ assert check("dpkg-deb","-f",str(BASE),"Architecture")=="iphoneos-arm64"
+ assert args.dylib.is_file() and len(args.dylib.read_bytes())>3000
+ assert not args.out.exists() and not args.report.exists(), "No overwrite of signed release"
+ source=Path("runtime/appbridge/DFInCarAppPicker.xm").read_text()
+ assert source.count("- (void)addMoreAppsTapped:(id)sender {") == 1
+ assert "%orig" not in source, "Old modal fallback must never be reachable through new hook"
+ assert 'dict[@"appSettings"]' in source and "kDFBridgedAppsKey" in source
+ assert "DFInCarAppPicker" in source and "DFSaveToNativePreferences" in source
+ assert 'com.duonavi.plist' in source and "DFInCarIconForBundle" in source
+ assert "Dừng xe an toàn và mở DuoFace trên iPhone" not in source
+ with tempfile.TemporaryDirectory(prefix="duoface-native19-app-picker-") as tmp:
+  stage=Path(tmp)/"stage"
+  subprocess.run(["dpkg-deb","-R",str(BASE),str(stage)],check=True)
+  before=entries(stage)
+  assert len(before)==45, len(before)
+  assert all(before.get(k)==v for k,v in REQUIRED_HASHES.items())
+  assert MODULE in before and PREF+"DuoFaceInCarAddApps.plist" in before
+  assert not any("A_DuoFaceNativeNoLease" in x for x in before)
+  shutil.copy2(args.dylib,stage/MODULE)
+  subprocess.run(["ldid","-S",str(stage/MODULE)],check=True)
+  subprocess.run(["lipo",str(stage/MODULE),"-verify_arch","arm64"],check=True)
+  after=entries(stage)
+  changed={p for p in before if before[p]!=after[p]}
+  assert before.keys()==after.keys()
+  assert changed=={MODULE},changed
+  assert all(after[k]==v for k,v in REQUIRED_HASHES.items())
+  filt=PREF+"DuoFaceInCarAddApps.plist"
+  assert before[filt]==after[filt]
+  control=stage/"DEBIAN/control"
+  text=control.read_text()
+  assert "Version: 0.1.0~native18" in text
+  control.write_text(text.replace("Version: 0.1.0~native18","Version: "+VERSION,1))
+  (stage/"DEBIAN/md5sums").write_text("\n".join(
+       hashlib.md5((stage/f).read_bytes()).hexdigest()+"  "+f for f in sorted(after))+"\n")
+  args.out.parent.mkdir(parents=True,exist_ok=True)
+  subprocess.run(["dpkg-deb","--build","--root-owner-group",str(stage),str(args.out)],check=True)
+  assert check("dpkg-deb","-f",str(args.out),"Version")==VERSION
+  assert check("dpkg-deb","-f",str(args.out),"Package")=="com.duoface.independent"
+  report={
+   "status":"NATIVE19_DIRECT_CARPLAY_ADD_APP_NO_ORIGINAL_MODAL_COMPILED_CANDIDATE",
+   "version":VERSION,"package":"com.duoface.independent",
+   "source_native18_sha256":BASE_SHA,
+   "native19_sha256":sha(args.out.read_bytes()),
+   "native19_bytes":args.out.stat().st_size,
+   "original_payload_files_preserved_count":len(before)-len(changed),
+   "changed_payload_paths":sorted(changed),
+   "every_other_native18_payload_byte_identical":True,
+   "native12_exact_license_core_preserved":True,
+   "required_preserved_hashes":REQUIRED_HASHES,
+   "picker_filter_plist_unchanged_sha256":after[filt],
+   "new_picker_sha256":after[MODULE],
+   "old_carplay_alert_fallback_in_new_module_source":False,
+   "old_alert_bytes_still_in_unmodified_legacy_Dashboard":True,
+   "appSettings_and_bridgedApps_schema_from_native_disassembly":True,
+   "shared_config_file_discovery_runtime_confirmed":False,
+   "app_picker_device_tested":False,
+   "sileo_published":False,
+   "dopamine_touched":False,
+   "notes":"native19 uses exact native12 decoded legacy preference pathname, validates live list, and provides icon fallback; not yet tested on iPhone or CarPlay. Auto Resume and layout unchanged."
+  }
+ args.report.parent.mkdir(parents=True,exist_ok=True)
+ args.report.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
+ print(json.dumps(report,ensure_ascii=False,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_native19_verified_owner_icons.py ##########
+
