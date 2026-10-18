@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — GP_CP_DIAGRAM_GATE_REPAIR_AUDIT_CHECKPOINT
+
+- **YÊU CẦU:** Người dùng cung cấp sơ đồ GP/CP của `DuoFaceUI.app/DuoFaceUI` và `DuoFaceDashboard.dylib`, yêu cầu tìm hiểu file/đối chiếu hiện trạng. Không có lệnh sửa binary hay phát hành.
+- **ĐÃ XÁC MINH (GitHub source+audit):** `runtime/visualtest12/DFVisual12GateRepair.m` chỉ hook **ba instance getter** `CBLicenseSyncManager` (validity/remaining/expiry); process-filter/ABI/load-time còn giới hạn; không hook `CBBridgeManagerDashboard`. `audit/payload-migration/NATIVE12_LICENSE_ACTIVATION_GATE_READONLY.json` xác nhận native12 **đã có** validity=YES ở cả UI và Dashboard, sync Dashboard return ngay; tuy nhiên `CBBridgeManagerDashboard.+isDashboardPolicySignalActive` VM 0x284068, `+shouldInterceptLaunchForApp:` 0x2a314c, `-requestActivation:` 0x2a3ad0 là phương thức riêng còn thân xử lý. `CBBridgeManager.-requestStateChange:` VM 0x13b158 có call selector `checkAndSyncLicenseIfNeeded` và các thao tác display/window/scene state. DIAG3 đã ghi 27 policy=false, 8 intercepted requests, no window; **chưa có causal proof** trial→policy.
+- **KẾT QUẢ:** File báo cáo cũ `docs/kiem-ke-giay-phep-carplay-visualtest12-native12-20261017.md` được **bổ sung** mục `CHECK_DIAGRAM_GATE_20261018`, commit `b01186ba295f6aa651170773985fe27f3b7df63b`. Không xóa/sửa báo cáo trước; không sửa source, DEB, Sileo; không chạy Actions hay test xe.
+- **BƯỚC KẾ TIẾP:** Chỉ đọc/tracing tương quan thời gian theo một session: kết nối CarPlay → policy/requestActivation → activated → CBWindow create/show → app attach. Đối chiếu iPhone X/iPhone 8 Plus khi có log; điều tra process nào thực nạp hook, không mặc định UI VIP=3650 đại diện cả SpringBoard. Không loại nguyên class `CBLicenseSyncManager/CBBridgeManager`, không bẻ entitlement hay sửa bản Sileo ổn định. Nếu có quyền đối với source gốc, ưu tiên thiết kế `CarPlayHost` không phụ thuộc `LicenseService`; nếu không có, sử dụng nguồn independent.
+- **GIỚI HẠN:** ZIP skill `skills/02-ios-deb-ipa-carplay.zip` đã tìm thấy trong Gpt-training- nhưng connector không giải binary và container báo DNS raw.githubusercontent.com thất bại; đã đọc hướng dẫn Markdown `DEB_IPA_SKILL.md` cùng `AGENTS.md`/`PROJECT_INSTRUCTIONS.md`; không nhận đã giải ZIP.
+
+
 ## 2026-10-18 — SO SÁNH KHẢ THI NATIVE12 LICENSE–CARPLAY VS QA FULL UI
 
 - **Ý KIẾN MỚI CỦA NGƯỜI DÙNG:** So với việc khôi phục toàn bộ UI Native12 trên nền QA, việc giữ Native12 và tìm cách tách ranh giới giấy phép/CarPlay có vẻ khả thi hơn. Đây là **đề xuất ưu tiên so sánh**, không phải yêu cầu đã được xác nhận cho phép can thiệp binary vendor, release Sileo hay thay gói Native12/HUD8 ổn định. Không mặc định đã chuyển hướng sửa mã.
