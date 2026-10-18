@@ -77,6 +77,22 @@ assert 'duoface.native.picker.app-cards' in cards
 assert 'pickerCardTapped:' in cards and 'recentActionTapped:' in cards
 assert 'UIControl *card=' in cards
 assert 'cardWidth' in cards and 'card.layer.cornerRadius' in cards
+# Original DuoNavi 1.0.4 evidence: selector trace a35cc includes
+# gridCols/gridRows/hideIconLabels, setPagingEnabled, UIPageControl,
+# setNumberOfPages, setCurrentPage, and horizontal contentSize.
+assert 'UIPageControl *_pageControl;' in cards
+assert '[_pageControl addTarget:self action:@selector(pageControlChanged:)' in cards
+assert '_scrollView.pagingEnabled=!recent;' in cards
+assert '_scrollView.alwaysBounceHorizontal=!recent && pageCount>1;' in cards
+assert '_pageControl.numberOfPages=recent?0:pageCount;' in cards
+assert 'CGSizeMake(pageCount*width,scrollHeight)' in cards
+assert 'nativeGridCols' in cards and 'value>=4 && value<=6?value:4' in cards
+assert 'nativeGridRows' in cards and 'value==2 || value==3?value:2' in cards
+assert 'nativeHideIconLabels' in cards
+assert 'scrollViewDidEndDecelerating:' in cards
+assert 'duoface.native.picker.pages' in cards
+assert 'DFIApprovedLiveGreen()' in cards and 'DFIApprovedRed()' in cards
+
 assert 'DFINativePickerCardsController' in (root/"replacement/visual12/verify_full_ui_parity.py").read_text()
 assert 'const CGFloat desiredTab[4]={43.0,51.0,47.0,51.0};' in ui
 assert 'const CGFloat desiredTotal=192.0;' in ui
