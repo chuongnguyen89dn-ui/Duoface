@@ -1,5 +1,6 @@
 // Independent UI, loaded after DFV12SceneHost so all scene lifetime operations stay shared.
 #import "DFIApprovedVisuals.h"
+#include "DFINativeShell.inc"
 static void DFIStop(void);
 static NSMutableSet<NSString *> *DFIManaged;
 static NSMutableSet<NSString *> *DFITerminating;
@@ -120,6 +121,7 @@ static NSArray *DFIAvailableApps(void) {
 - (void)drawRect:(CGRect)rect{[super drawRect:rect];DFIFrames f=DFIFramesMake(CGRectInset(self.bounds,9,8),self.kind,self.kind==4?1./3:.5,self.kind==4?2./3:.5,-1);[[UIColor.whiteColor colorWithAlphaComponent:.85]setStroke];for(int i=0;i<f.count;i++){UIBezierPath *p=[UIBezierPath bezierPathWithRoundedRect:CGRectInset(f.panes[i],1.5,1.5) cornerRadius:2];p.lineWidth=1.2;[p stroke];}}
 @end
 @interface DFV12SplitController ()
+@property(nonatomic,strong) DFINativeSplitSurface *nativeSplitSurface;
 @property(nonatomic,strong) NSArray<UIView *> *panes;
 @property(nonatomic,strong) NSMutableArray *hosts;
 @property(nonatomic,strong) NSArray<UIButton *> *emptyButtons;
@@ -150,13 +152,24 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSMutableSet<NSNumber *> *pendingPanes;
 @end
 @implementation DFV12SplitController
+- (void)loadView {
+ self.view=[[DFINativeWindowSurface alloc]initWithFrame:UIScreen.mainScreen.bounds];
+}
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{return UIInterfaceOrientationMaskAll;}
 - (BOOL)prefersStatusBarHidden{return YES;}
 - (UIButton *)button:(NSString *)symbol label:(NSString *)label action:(SEL)action {
  UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setImage:[UIImage systemImageNamed:symbol] forState:UIControlStateNormal];b.tintColor=UIColor.whiteColor;b.accessibilityLabel=label;[b addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];return b;
 }
 - (UIVisualEffectView *)glass {
- UIVisualEffectView *v=[[UIVisualEffectView alloc]initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark]];v.layer.cornerRadius=12;v.clipsToBounds=YES;v.layer.borderWidth=1;v.layer.borderColor=[UIColor colorWithWhite:0.75 alpha:0.25].CGColor;[self.view addSubview:v];return v;
+ // Native structure: a backdrop outside the native sheet card and its header.
+ [self.pickerShade removeFromSuperview];
+ UIControl *shade=[[UIControl alloc]initWithFrame:self.view.bounds];
+ shade.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.34];
+ shade.accessibilityIdentifier=@"duoface.native.picker.backdrop";
+ [shade addTarget:self action:@selector(dismissPanel) forControlEvents:UIControlEventTouchUpInside];
+ [self.view addSubview:shade];self.pickerShade=shade;
+ DFINativePickerCard *card=[[DFINativePickerCard alloc]initWithFrame:CGRectZero];
+ [self.view addSubview:card];return card;
 }
 // Native12 picker: approved horizontal logo + four tabs on a single 30pt row
 // INSIDE the sheet. The root split never owns a floating toolbar.
@@ -173,49 +186,41 @@ static NSArray *DFIAvailableApps(void) {
  [self updateApprovedTabs];
 }
 - (void)viewDidLoad {
- [super viewDidLoad];self.view.backgroundColor=UIColor.blackColor;self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
+ [super viewDidLoad];self.view.backgroundColor=UIColor.clearColor;
+ self.overrideUserInterfaceStyle=UIUserInterfaceStyleDark;
+ self.nativeSplitSurface=((DFINativeWindowSurface *)self.view).splitSurface;
+ NSAssert(self.nativeSplitSurface,@"Native split surface absent");
  self.layoutKind=DFIPref(@"layout")?[DFIPref(@"layout") integerValue]:2;if(self.layoutKind<1||self.layoutKind>8)self.layoutKind=2;
  self.fraction=DFIPref(@"fraction")?DFIClamp([DFIPref(@"fraction") doubleValue],.02,.98):(self.layoutKind==4?1./3:.5);
  self.secondary=DFIPref(@"secondary")?DFIClamp([DFIPref(@"secondary") doubleValue],.02,.98):(self.layoutKind==4?2./3:.5);self.maximized=-1;self.activePane=0;self.selectedTab=0;self.interactionActive=NO;self.pendingPanes=[NSMutableSet set];
  self.hosts=[NSMutableArray arrayWithObjects:NSNull.null,NSNull.null,NSNull.null,nil];NSMutableArray *panes=[NSMutableArray array],*empty=[NSMutableArray array],*buttons=[NSMutableArray array],*zooms=[NSMutableArray array],*pills=[NSMutableArray array],*grips=[NSMutableArray array],*lines=[NSMutableArray array];
  for(int i=0;i<3;i++){
-  UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;[self.view addSubview:p];[panes addObject:p];
+  UIView *p=[UIView new];p.backgroundColor=UIColor.blackColor;p.clipsToBounds=YES;
+  p.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.native.pane.%d",i];
+  [self.nativeSplitSurface addSubview:p];[panes addObject:p];
   UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];[b setTitle:DFIT(@"＋ Chọn ứng dụng",@"＋ Choose app") forState:0];b.tintColor=UIColor.whiteColor;b.titleLabel.font=[UIFont systemFontOfSize:DFIFontSize()];b.titleLabel.numberOfLines=0;b.titleLabel.textAlignment=NSTextAlignmentCenter;b.tag=i;[b addTarget:self action:@selector(choose:) forControlEvents:UIControlEventTouchUpInside];[p addSubview:b];[empty addObject:b];
-  // The original 1.0.4 CBSlotPillView has distinct dots/expand/restore controls.
-  // Implement equivalent per-slot UIKit controls on the independent QA owner,
-  // never add a vendor CBSlotPillView or its licensing/runtime dependencies.
-  UIVisualEffectView *pill=[[UIVisualEffectView alloc]initWithEffect:
-      [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemThinMaterialDark]];
-  pill.layer.cornerRadius=13;pill.clipsToBounds=YES;
-  UIButton *corner=[self button:@"ellipsis" label:DFIT(@"Chọn app trong khung",@"Choose pane app") action:@selector(choose:)];
-  corner.tag=i;corner.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.pane.%d.app",i];
-  UIImage *picker=DFIApprovedArtwork(@"VisualAssets/duoface-picker.png");
-  if(picker)[corner setImage:picker forState:UIControlStateNormal];
-  UIButton *zoom=[self button:@"arrow.up.left.and.arrow.down.right"
-       label:DFIT(@"Phóng to khung",@"Zoom pane") action:@selector(zoomPane:)];
-  zoom.tag=i;zoom.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.pane.%d.zoom",i];
-  UIImage *expand=DFIApprovedArtwork(@"VisualAssets/duoface-fullscreen.png");
-  if(expand)[zoom setImage:expand forState:UIControlStateNormal];
-  [pill.contentView addSubview:corner];[pill.contentView addSubview:zoom];
-  [self.view addSubview:pill];[buttons addObject:corner];[zooms addObject:zoom];[pills addObject:pill];
+  DFINativeSlotPillView *pill=[[DFINativeSlotPillView alloc]
+    initWithSlot:i target:self pickAction:@selector(choose:)
+    focusAction:@selector(zoomPane:)];
+  [self.nativeSplitSurface addSubview:pill];
+  [buttons addObject:pill.dotsButton];[zooms addObject:pill.expandButton];
+  [pills addObject:pill];
  }
  self.panes=panes;self.emptyButtons=empty;self.paneButtons=buttons;
  self.paneZoomButtons=zooms;self.panePills=pills;
  for(int i=0;i<2;i++){
-  // Original CBDividerView takes ratio pan anywhere on the divider, not only
-  // on its central swap/hold button. Keep a 16pt transparent live touch strip.
-  UIView *line=[UIView new];line.tag=i;line.backgroundColor=UIColor.clearColor;
-  line.userInteractionEnabled=YES;
-  [line addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(drag:)]];
-  UIView *stroke=[UIView new];stroke.tag=78;stroke.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.18];
-  stroke.userInteractionEnabled=NO;[line addSubview:stroke];
-  [self.view addSubview:line];[lines addObject:line];
-  UIButton *g=[UIButton buttonWithType:UIButtonTypeCustom];g.tag=i;g.accessibilityLabel=DFIT(@"Kéo đổi tỷ lệ; chạm mở thanh công cụ",@"Drag to resize; tap for toolbar");[g addTarget:self action:@selector(menu) forControlEvents:UIControlEventTouchUpInside];[g addGestureRecognizer:[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(drag:)]];UIView *mark=[UIView new];mark.tag=77;mark.userInteractionEnabled=NO;mark.backgroundColor=[UIColor.whiteColor colorWithAlphaComponent:.9];mark.layer.cornerRadius=1.5;[g addSubview:mark];[self.view addSubview:g];[grips addObject:g];
+  DFINativeDividerTrack *track=[[DFINativeDividerTrack alloc]
+    initWithIndex:i target:self action:@selector(drag:)];
+  [self.nativeSplitSurface addSubview:track];[lines addObject:track];
+  DFINativeDividerLogo *logo=[[DFINativeDividerLogo alloc]
+    initWithIndex:i target:self tapAction:@selector(menu)
+    panAction:@selector(drag:)];
+  [self.nativeSplitSurface addSubview:logo];[grips addObject:logo];
  }
  self.grips=grips;self.lines=lines;
  self.edge=[self button:@"ellipsis" label:DFIT(@"Mở thanh công cụ",@"Show toolbar") action:@selector(edgeTap)];self.edge.layer.cornerRadius=12;self.edge.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];[self.view addSubview:self.edge];
  // Native12 sheet header remains detached until a picker/layout/recents sheet opens.
- self.toolbar=[[UIVisualEffectView alloc]initWithEffect:nil];self.toolbar.backgroundColor=UIColor.clearColor;self.toolbar.hidden=YES;
+ self.toolbar=[[DFINativePickerMenuBar alloc]initWithFrame:CGRectZero];self.toolbar.hidden=YES;
  self.toolbarStack=[UIView new];self.toolbarStack.backgroundColor=UIColor.clearColor;
  [self.toolbar.contentView addSubview:self.toolbarStack];
  NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
