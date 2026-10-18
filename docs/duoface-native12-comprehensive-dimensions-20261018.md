@@ -17,21 +17,24 @@
 | Window usable area | source: safe area -> left 64 fallback | `replacement/visual12/engine/runtime/DFINativeShell.inc:48` | original104 / reference |
 | Minimum usable size | 100x100 | `replacement/visual12/engine/runtime/DFINativeShell.inc:50` | original104 / fallback |
 | Layout modes | 8 kinds (1,2,3,4,5,6,7,8) | `replacement/visual12/engine/DFILayouts.h:10` | approved / needs-device |
-| Pane pill | 74x30; upper-right 2pt | `replacement/visual12/engine/runtime/DFIInterface.inc:281` | qa / not-native-proven |
+| Pane pill | 74x30; upper-right 2pt | `replacement/visual12/engine/runtime/DFIInterface.inc:289` | qa / not-native-proven |
 | App button | 30x26 at (4,2) | `replacement/visual12/engine/runtime/DFINativeShell.inc:132` | qa / not-native-proven |
 | Expand/restore button | 30x26 at (39,2) | `replacement/visual12/engine/runtime/DFINativeShell.inc:133` | qa / not-native-proven |
-| Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:290` | qa / not-native-proven |
-| Divider logo control | 36x44pt | `replacement/visual12/engine/runtime/DFIInterface.inc:290` | qa / not-native-proven |
+| Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:300` | qa / not-native-proven |
+| Divider logo control | 36x44pt | `replacement/visual12/engine/runtime/DFIInterface.inc:301` | qa / not-native-proven |
 | Approved native logo hold | 0.30s | `src/DFDividerLogoGrip.inc:10` | approved-native / missing-in-qa |
-| Current independent logo action | tap opens menu, should swap | `replacement/visual12/engine/runtime/DFIInterface.inc:163` | qa / known-wrong |
-| Sheet width | max 470, responsive min180, 8pt margins | `replacement/visual12/engine/runtime/DFINativeShell.inc:238` | qa / not-native-proven |
-| Sheet height | max 280, min140, content 40pt*count+55 | `replacement/visual12/engine/runtime/DFINativeShell.inc:239` | qa / not-native-proven |
-| Sheet rounding | 20pt original V12 | `replacement/visual12/engine/runtime/DFINativeShell.inc:215` | original12 / reference |
-| Sheet outline | 0pt approved; original was 1pt | `replacement/visual12/engine/runtime/DFINativeShell.inc:217` | approved-native / reference |
-| Picker menu row | 30pt, replaces old 40pt experiment | `replacement/visual12/engine/runtime/DFIInterface.inc:310` | approved-native / reference |
+| Approved independent logo action | tap swaps apps | `replacement/visual12/engine/runtime/DFIInterface.inc:171` | approved-native / corrected |
+| Independent hold recognizer | 0.30s | `replacement/visual12/engine/runtime/DFINativeShell.inc:200` | approved-native / corrected |
+| Independent logo position storage | fraction 0.10..0.90 of divider | `replacement/visual12/engine/runtime/DFIInterface.inc:571` | qa / needs-device |
+| Restore the prior ratio | do not reset fraction/secondary | `replacement/visual12/engine/runtime/DFIInterface.inc:436` | qa / corrected |
+| Sheet width | max 470, responsive min180, 8pt margins | `replacement/visual12/engine/runtime/DFINativeShell.inc:243` | qa / not-native-proven |
+| Sheet height | max 280, min140, content 40pt*count+55 | `replacement/visual12/engine/runtime/DFINativeShell.inc:244` | qa / not-native-proven |
+| Sheet rounding | 20pt original V12 | `replacement/visual12/engine/runtime/DFINativeShell.inc:220` | original12 / reference |
+| Sheet outline | 0pt approved; original was 1pt | `replacement/visual12/engine/runtime/DFINativeShell.inc:222` | approved-native / reference |
+| Picker menu row | 30pt, replaces old 40pt experiment | `replacement/visual12/engine/runtime/DFIInterface.inc:324` | approved-native / reference |
 | Header logo | 120x30pt at full width | `runtime/fullscreen/DFPickerZoomMenu.xm:404` | approved-native / reference |
-| App/Zoom/Style/Close widths | 43/51/47/51pt | `replacement/visual12/engine/runtime/DFIInterface.inc:312` | approved-native / reference |
-| Close X reserved | 48pt; QA X 32x26 | `replacement/visual12/engine/runtime/DFIInterface.inc:310` | approved-native / partial |
+| App/Zoom/Style/Close widths | 43/51/47/51pt | `replacement/visual12/engine/runtime/DFIInterface.inc:326` | approved-native / reference |
+| Close X reserved | 48pt; QA X 32x26 | `replacement/visual12/engine/runtime/DFIInterface.inc:324` | approved-native / partial |
 | Menu icon | 16pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:55` | approved-native / reference |
 | Menu label | 10pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:38` | approved-native / reference |
 | App grid columns | valid 4..6; default 4 | `replacement/visual12/engine/runtime/DFINativePickerCards.inc:58` | original104 / reference |
@@ -46,13 +49,13 @@
 | HUD settings | 169pt tall; 220..320pt wide | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:273` | native8-source / reference |
 | HUD eight settings | 4 columns, each height49, stride57 | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:289` | native8-source / reference |
 | HUD settings hold | 0.6s | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:48` | native8-source / reference |
-| Pane touched border | 1pt active, 0 otherwise | `replacement/visual12/engine/runtime/DFIInterface.inc:263` | qa / needs-device |
+| Pane touched border | 1pt active, 0 otherwise | `replacement/visual12/engine/runtime/DFIInterface.inc:271` | qa / needs-device |
 | Approved logo red | RGB 227/2/15 | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:10` | approved-native / reference |
 
 ## Lỗi chênh lệch và thứ tự sửa
 
 1. **Đã sửa có chứng cứ:** bo góc picker 20pt, viền 0pt theo native đã duyệt; CI [39098247134](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39098247134) compile ARM64 PASS. Kích thước ngang menu 30pt (không 40pt).
-2. **Đã dựng nhưng chưa xác minh:** 8 bố cục, pill/chọn app/zoom, đường chia, logo. Thao tác logo hiện **tap → menu** trong QA, trái yêu cầu **tap → swap, giữ 0,30s → di chuyển logo**. Tính năng nhấn giữ đúng này hiện chỉ nằm trong hook Native cũ `src/DFDividerLogoGrip.inc`, không tự động đi sang QA.
+2. **Đã sửa mã nguồn, chưa nghiệm thu thiết bị:** logo chia nay **tap → swap**, **giữ ≥0,30s → kéo dọc thanh chia**; riêng từng logo lưu vị trí tương đối 0,10–0,90; pan trên thanh ngoài logo vẫn thay tỷ lệ; thoát focus giữ `fraction/secondary` gốc. Các handler được viết độc lập, chưa có ảnh hoặc log CarPlay chứng minh đúng hành vi.
 3. **Chưa đo được từ bản đang truy cập:** độ rộng/cao pill Native12 thực tế; tọa độ logo và divider hit-test native; kích thước từng card/ảnh/chấm trang native sau renderer; các frame ứng dụng khi mở thật; vị trí hệ thống Dock/status từng đầu màn.
 4. **Điều kiện đạt:** cần xuất log frame ở chính CarPlay, ảnh màn hình thực cho 8 layout + picker + từng pane ở độ phân giải máy, đối chiếu thông số pixel/point và callbacks; compiler PASS ≠ CarPlay UI PASS.
 
