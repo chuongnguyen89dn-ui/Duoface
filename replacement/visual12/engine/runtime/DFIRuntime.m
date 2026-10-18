@@ -429,8 +429,12 @@ static void DFIStart(void) {
         UIWindow *window=((id(*)(id,SEL,id))objc_msgSend)([windowClass alloc],windowInit,config);
         if(!window || CGRectIsEmpty(window.bounds)) { DFILog(@"empty external window"); return; }
         DFIRoot=[DFV12SplitController new]; DFIWindow=window;
+        // Original 1.0.4 CBWindow composes a separate usable content rectangle
+        // rather than opaque black above the native 64pt CarPlay dock/sidebar.
+        // Keep level unchanged until exact receiver window-stack is verified.
         window.windowLevel=UIWindowLevelAlert+100;
-        window.backgroundColor=UIColor.blackColor;
+        window.backgroundColor=UIColor.clearColor;
+        window.opaque=NO;
         window.rootViewController=DFIRoot;
         window.hidden=NO;
         // Bind the already-created owner: never create another scene/window.
