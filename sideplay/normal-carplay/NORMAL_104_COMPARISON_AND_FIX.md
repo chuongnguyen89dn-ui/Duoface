@@ -2,6 +2,8 @@
 
 **Quyết định mới 2026-10-18:** chỉ xử lý trạng thái **không fullscreen mặc định lúc kết nối CarPlay, còn thấy thanh dock/bar hệ thống**. Tạm dừng mọi việc phân tích fat-slice sâu, HUD, thay scene-host và chuyển UI DuoFace. Không chỉnh sửa DEB gốc, không đụng Native12/Visual12/Hub8/QA, không phát hành Sileo.
 
+> **ĐÍNH CHÍNH THEO PHẢN HỒI NGƯỜI DÙNG (18/10/2026):** `Root.plist` của bản DEB có khai báo `PSSwitchCell key=carDock label="Thanh dock CarPlay" default=false`; **chưa có ảnh/log/thiết bị xác minh menu này thật sự xuất hiện trong SidePlay đang chạy và bật nó sẽ trả lại thanh bar hệ thống**. Hướng dẫn ở mục 5 “bật Thanh dock CarPlay” là **phương án kiểm chứng có điều kiện**, không phải chức năng đã kiểm chứng. Root.plist candidate đổi default không phải bản sửa fullscreen runtime; 4/4 test chỉ là unit/static. Không đòi người dùng thực hiện bước này như một giải pháp đã chắc chắn.
+
 ## 1. Vấn đề cần giải
 
 Người dùng quan sát **SidePlay tự trải kín CarPlay khi kết nối**, trong khi giao diện DuoNavi 1.0.4 ban đầu còn nhìn thấy thanh bar/dock CarPlay; fullscreen chỉ xuất hiện sau khi đã dùng chức năng từ Airaw. Mục tiêu là **trạng thái bình thường trước fullscreen**, không phải tạo một nút fullscreen mới và không phải tắt tự mở SidePlay.
