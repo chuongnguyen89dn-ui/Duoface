@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Đã tích hợp hình học 8 layout vào bridge độc lập
+
+- COMMIT `d0e71db87b5ada3bbfef4bb25ea9b67521891397`: `DFCarPlaySplitCoordinator.m` import `../DFILayouts.h`, dùng chính `DFIFramesMake` gốc cho bố cục 1–8, thêm `setLayoutKind:fraction:secondary:` tương ứng hợp đồng ở commit `7672f2a`; lưu fraction, secondary, kind; giới hạn 3-pane phù hợp.
+- Đã fetch lại source từ GitHub và xác minh `DFIFramesMake` + selector có trong file.
+- Chưa nối nguyên UI `DFV12SplitController` với bridge; QA root vẫn là 2 pane. Chưa chạy compile, Actions, Sileo, test máy thật. Không gọi đây là bản hoàn chỉnh.
+- NEXT: đối chiếu `DFV12SplitController` với coordinator; tách scene ownership tránh duplicate, giữ nguyên UI 3 vùng và 8 layout; sau đó compile/test QA riêng, không thay Native12/Hub8.
+
+
 ## 2026-10-18 — CODE CHANGE: bridge coordinator 3 pane (chưa tích hợp UI)
 
 - Repo `chuongnguyen89dn-ui/Duoface`, branch `feature/visual12-duodash-recovery`.
