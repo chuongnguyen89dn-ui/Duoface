@@ -66,7 +66,7 @@ def inventory_relevant(text: str) -> list[tuple[str, str, int]]:
     method = None
     for line in text.splitlines():
         found_class = re.search(
-            r"^\\s*name\\s+0x[0-9a-fA-F]+\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*$",
+            r"^\s*name\s+0x[0-9a-fA-F]+\s+([A-Za-z_][A-Za-z0-9_]*)\s*$",
             line,
         )
         if found_class:
@@ -74,23 +74,23 @@ def inventory_relevant(text: str) -> list[tuple[str, str, int]]:
             reading = False
             method = None
             continue
-        if cls and re.search(r"^\\s*baseMethods\\s+0x[0-9a-fA-F]+", line):
-            reading = not re.search(r"^\\s*baseMethods\\s+0x0\\s*$", line)
+        if cls and re.search(r"^\s*baseMethods\s+0x[0-9a-fA-F]+", line):
+            reading = not re.search(r"^\s*baseMethods\s+0x0\s*$", line)
             continue
-        if reading and re.search(r"^\\s*baseProtocols\\b", line):
+        if reading and re.search(r"^\s*baseProtocols\b", line):
             cls = None
             reading = False
             continue
         if not reading or not cls:
             continue
         found_method = re.search(
-            r"^\\s*name\\s+0x[0-9a-fA-F]+\\s+\\(0x[0-9a-fA-F]+\\)\\s+(.+?)\\s*$",
+            r"^\s*name\s+0x[0-9a-fA-F]+\s+\(0x[0-9a-fA-F]+\)\s+(.+?)\s*$",
             line,
         )
         if found_method:
             method = found_method.group(1)
         found_imp = re.search(
-            r"^\\s*imp\\s+0x[0-9a-fA-F]+\\s+\\(0x([0-9a-fA-F]+)\\)",
+            r"^\s*imp\s+0x[0-9a-fA-F]+\s+\(0x([0-9a-fA-F]+)\)",
             line,
         )
         if method and found_imp:
