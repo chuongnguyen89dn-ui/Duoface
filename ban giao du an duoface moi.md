@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Sửa race callback scene gốc (không thay owner)
+
+- SOURCE: `replacement/visual12/engine/runtime/DFIInterface.inc` `DFV12SplitController -openBundle:pane:`. Đã xác minh `host.failure` và `host.ready` trước đây xóa `pendingPanes[pane]` **trước** khi kiểm tra `indexOfObjectIdenticalTo:host`. Callback host cũ/không còn thuộc `hosts[]` có thể xóa pending của host mới.
+- FIX commit `7f836dba76d73813bc1d9d1a83f80982d13ce6f2`: trong cả hai callback, tìm host theo identity và kiểm tra `shuttingDown` trước khi xóa pending; callback cũ được bỏ qua. Không đổi `DFV12SceneHost` init/attach/resize/close, giao diện, layout, giấy phép, QA bridge hay Sileo.
+- VERIFICATION: fetch lại `DFIInterface.inc` GitHub, blob SHA `efbb4f8929fe43d3350d9d541585f31058c1fef7`, xác nhận hai guard trong nội dung. Chưa build/CI/test thiết bị; đây là sửa phòng ngừa dựa trên source, chưa chứng minh giải quyết crash.
+- EXTERNAL: Apple `https://developer.apple.com/documentation/uikit/uiscenedelegate/scenediddisconnect(_:)` xác nhận disconnect khác background; Theos `https://github.com/theos/headers/blob/master/SpringBoard/SBAppViewController.h` xác nhận các API hosting/`invalidate` tồn tại trong headers nhưng bản header có deprecated iOS 11, không bảo đảm iOS 16 ABI. Không suy diễn hành vi private hosting từ UIKit docs.
+- NEXT: kiểm tra callback ordering và `pendingPanes` trong detach/swap; chạy build CI bằng workflow hiện hữu, xác minh log và artifact trước phát hành Sileo. Không ghi nhận test khi chưa có run.
+
+
 ## 2026-10-18 — Kỹ năng và nguồn Apple cho suy luận scene lifecycle
 
 - Đã đọc `Gpt-training-/SKILL_INDEX.md`, `PROJECT_INSTRUCTIONS.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`; xác định ZIP liên quan trong repo kỹ năng: `skills/01-github-continuity.zip`, `skills/02-ios-deb-ipa-carplay.zip`, `skills/05-research-debug-testing.zip`. Chưa đọc nội dung các ZIP; cần đọc khi công cụ hỗ trợ hoặc dùng bản extracted đã xác minh.
