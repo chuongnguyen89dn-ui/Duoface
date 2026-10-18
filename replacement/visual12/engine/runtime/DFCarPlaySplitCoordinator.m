@@ -99,7 +99,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     }
     NSError *error=self.started?[self ownerError]:
         DFCPError(DFCarPlayErrorUnavailable,@"Bridge has not started");
-    if (!error && (pane>1 || ![bundleID isKindOfClass:NSString.class] || !bundleID.length))
+    if (!error && (pane>=self.panes.count || ![bundleID isKindOfClass:NSString.class] || !bundleID.length))
         error=DFCPError(DFCarPlayErrorInvalidRequest,@"Invalid bundle identifier or pane");
     if (!error && self.pending[@(pane)])
         error=DFCPError(DFCarPlayErrorBusy,@"Pane is still opening");
@@ -153,7 +153,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     }
 }
 - (void)cancelAndClose:(NSUInteger)pane {
-    if (pane>1) return;
+    if (pane>=self.panes.count) return;
     DFV12SceneHost *host=self.hosts[pane]==NSNull.null?nil:self.hosts[pane];
     DFCarPlayCompletion done=self.pending[@(pane)];
     [self.pending removeObjectForKey:@(pane)];
@@ -184,7 +184,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
         CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r),r.size.width-split,self.panes.count==3?r.size.height/2:r.size.height),
         CGRectMake(CGRectGetMinX(r)+split,CGRectGetMinY(r)+r.size.height/2,r.size.width-split,r.size.height/2)
     };
-    for (NSUInteger i=0;i<2;i++) {
+    for (NSUInteger i=0;i<self.panes.count;i++) {
         BOOL focus=self.focused>=0;
         self.panes[i].hidden=focus && (NSInteger)i!=self.focused;
         self.panes[i].frame=(focus && (NSInteger)i==self.focused)?r:frames[i];
@@ -211,7 +211,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     id first=self.hosts[0];
     self.hosts[0]=self.hosts[1];
     self.hosts[1]=first;
-    for (NSUInteger i=0;i<2;i++) {
+    for (NSUInteger i=0;i<self.panes.count;i++) {
         DFV12SceneHost *host=self.hosts[i]==NSNull.null?nil:self.hosts[i];
         if (host) [host moveToContainer:self.panes[i]];
     }
@@ -223,7 +223,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
         dispatch_async(dispatch_get_main_queue(),^{[self focusPane:pane];});
         return;
     }
-    if (!self.started || pane>1) return;
+    if (!self.started || pane>=self.panes.count) return;
     self.focused=(NSInteger)pane;
     [self layoutPanes];
 }
@@ -236,7 +236,7 @@ static void DFCPLog(NSString *event, NSUInteger pane, NSString *detail) {
     [self layoutPanes];
 }
 - (BOOL)hasLiveSceneInPane:(NSUInteger)pane {
-    if (!DFCPMainThread() || pane>1) return NO;
+    if (!DFCPMainThread() || pane>=self.panes.count) return NO;
     DFV12SceneHost *host=self.hosts[pane]==NSNull.null?nil:self.hosts[pane];
     return host.scene!=nil;
 }
