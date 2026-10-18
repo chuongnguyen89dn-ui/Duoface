@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-17T23:11:57.199646+00:00",
+  "checked_at_utc": "2026-10-18T01:10:11.449807+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 841,
+  "total_actions_runs": 923,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -11,330 +11,336 @@
       "other": 1
     },
     ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
-      "recent_runs": 71,
+      "recent_runs": 64,
       "success": 0,
-      "failure": 71,
+      "failure": 64,
       "other": 0
-    },
-    "DuoFace CarPlay G1 G2 QA DEB - independent package": {
-      "recent_runs": 6,
-      "success": 3,
-      "failure": 2,
-      "other": 1
     },
     "DuoFace Visual12 standalone engine and CB facade link test": {
       "recent_runs": 18,
-      "success": 8,
-      "failure": 1,
-      "other": 9
+      "success": 10,
+      "failure": 0,
+      "other": 8
+    },
+    "DuoFace CarPlay G1 G2 QA DEB - independent package": {
+      "recent_runs": 11,
+      "success": 6,
+      "failure": 2,
+      "other": 3
     },
     "DuoFace G1 G2 Sileo LIVE package and hash check": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
+    },
+    "Readonly original DuoNavi 1.0.4 scene lifecycle audit": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39078072213,
+      "id": 39085478884,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 29,
+      "run_number": 30,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39078072213",
-      "created_at": "2026-10-17T23:11:46Z",
-      "head_sha": "49f57239e5f714f5f1c658d3ad86e848d29e11a5"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085478884",
+      "created_at": "2026-10-18T01:10:04Z",
+      "head_sha": "1810887d71b446bfa97a04c4c0914c335e4a7fd1"
     },
     {
-      "id": 39077895957,
+      "id": 39085441745,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 185,
+      "run_number": 238,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077895957",
-      "created_at": "2026-10-17T23:09:09Z",
-      "head_sha": "e50e018852606a09f9d537185eb50559340038f3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085441745",
+      "created_at": "2026-10-18T01:09:29Z",
+      "head_sha": "701dfca4aebef897055b155e00cbca9ff6737633"
     },
     {
-      "id": 39077881257,
-      "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
-      "run_number": 6,
+      "id": 39085422625,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 47,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077881257",
-      "created_at": "2026-10-17T23:08:56Z",
-      "head_sha": "6347fb837338815ec49b1011c0956839e0224df6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085422625",
+      "created_at": "2026-10-18T01:09:09Z",
+      "head_sha": "c8900d9e537b0fc337efbdd7a9be0b9ee80b7272"
     },
     {
-      "id": 39077880469,
+      "id": 39085421989,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 184,
+      "run_number": 237,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077880469",
-      "created_at": "2026-10-17T23:08:56Z",
-      "head_sha": "6347fb837338815ec49b1011c0956839e0224df6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085421989",
+      "created_at": "2026-10-18T01:09:08Z",
+      "head_sha": "c8900d9e537b0fc337efbdd7a9be0b9ee80b7272"
     },
     {
-      "id": 39077878352,
-      "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
-      "run_number": 5,
+      "id": 39085412533,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 46,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077878352",
-      "created_at": "2026-10-17T23:08:54Z",
-      "head_sha": "316f55074822628e68d69c3ee53eeb5af68dfb07"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085412533",
+      "created_at": "2026-10-18T01:08:59Z",
+      "head_sha": "53f59583fc882102e9e00f082d29af4729597645"
     },
     {
-      "id": 39077877649,
+      "id": 39085411861,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 183,
+      "run_number": 236,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077877649",
-      "created_at": "2026-10-17T23:08:53Z",
-      "head_sha": "316f55074822628e68d69c3ee53eeb5af68dfb07"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085411861",
+      "created_at": "2026-10-18T01:08:58Z",
+      "head_sha": "53f59583fc882102e9e00f082d29af4729597645"
     },
     {
-      "id": 39077875674,
+      "id": 39085406096,
       "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
-      "run_number": 4,
+      "run_number": 14,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077875674",
-      "created_at": "2026-10-17T23:08:51Z",
-      "head_sha": "d7a168ea586dfc4a98b01f4b4806da8eb49399ac"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085406096",
+      "created_at": "2026-10-18T01:08:53Z",
+      "head_sha": "1632bba8b51d9388f1970db08f19fb8e74a75ba1"
     },
     {
-      "id": 39077874873,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 182,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077874873",
-      "created_at": "2026-10-17T23:08:50Z",
-      "head_sha": "d7a168ea586dfc4a98b01f4b4806da8eb49399ac"
-    },
-    {
-      "id": 39077863688,
+      "id": 39085406056,
       "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 30,
+      "run_number": 45,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077863688",
-      "created_at": "2026-10-17T23:08:39Z",
-      "head_sha": "655b8faea24304709724ebdcfefe0bdc06c461be"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085406056",
+      "created_at": "2026-10-18T01:08:52Z",
+      "head_sha": "1632bba8b51d9388f1970db08f19fb8e74a75ba1"
     },
     {
-      "id": 39077862961,
+      "id": 39085405332,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 181,
+      "run_number": 235,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077862961",
-      "created_at": "2026-10-17T23:08:38Z",
-      "head_sha": "655b8faea24304709724ebdcfefe0bdc06c461be"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085405332",
+      "created_at": "2026-10-18T01:08:52Z",
+      "head_sha": "1632bba8b51d9388f1970db08f19fb8e74a75ba1"
     },
     {
-      "id": 39077803547,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 180,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077803547",
-      "created_at": "2026-10-17T23:07:46Z",
-      "head_sha": "a4f96718fd065197e1b64ae1dd621b1ec8e9679c"
-    },
-    {
-      "id": 39077693591,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 179,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077693591",
-      "created_at": "2026-10-17T23:06:03Z",
-      "head_sha": "53117bf714c96357a52b6784140863c025b41236"
-    },
-    {
-      "id": 39077108957,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 178,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39077108957",
-      "created_at": "2026-10-17T22:57:11Z",
-      "head_sha": "c09fe8877a73d6a4cfad1cca5bc4987af9a5d390"
-    },
-    {
-      "id": 39067879010,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 28,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39067879010",
-      "created_at": "2026-10-17T20:42:51Z",
-      "head_sha": "16fe9fc549bb1122220a7405ad2126e6495e5b31"
-    },
-    {
-      "id": 39053284587,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 27,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39053284587",
-      "created_at": "2026-10-17T17:19:59Z",
-      "head_sha": "d8956d5101b5c4624b887963f16f14802b3658ac"
-    },
-    {
-      "id": 39050023651,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 177,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39050023651",
-      "created_at": "2026-10-17T16:34:46Z",
-      "head_sha": "4270fa24e2464bcc95a7897665898a1c8dd652e8"
-    },
-    {
-      "id": 39049934531,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 176,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049934531",
-      "created_at": "2026-10-17T16:33:31Z",
-      "head_sha": "61e6af79d696dafb845519219dffe2c417c0e6b5"
-    },
-    {
-      "id": 39049797898,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 175,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049797898",
-      "created_at": "2026-10-17T16:31:40Z",
-      "head_sha": "125a9b9775d2a9c8bd56e1990d264e30bfa5fc37"
-    },
-    {
-      "id": 39049780033,
-      "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049780033",
-      "created_at": "2026-10-17T16:31:25Z",
-      "head_sha": "6b536df18951768711880a1c8f33eea1a04d57c9"
-    },
-    {
-      "id": 39049778979,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 174,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049778979",
-      "created_at": "2026-10-17T16:31:24Z",
-      "head_sha": "6b536df18951768711880a1c8f33eea1a04d57c9"
-    },
-    {
-      "id": 39049772914,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 173,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049772914",
-      "created_at": "2026-10-17T16:31:20Z",
-      "head_sha": "2a0eee6a6a8ed3e4c40dcbdb5b0828645ee444fd"
-    },
-    {
-      "id": 39049698158,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 172,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049698158",
-      "created_at": "2026-10-17T16:30:23Z",
-      "head_sha": "18b73207f339778bbfca999fecc01c6e30f8389a"
-    },
-    {
-      "id": 39049672620,
-      "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049672620",
-      "created_at": "2026-10-17T16:30:05Z",
-      "head_sha": "d16bec6a8abe275b08218d945cc7f8da61c51e7f"
-    },
-    {
-      "id": 39049671398,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 171,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049671398",
-      "created_at": "2026-10-17T16:30:05Z",
-      "head_sha": "d16bec6a8abe275b08218d945cc7f8da61c51e7f"
-    },
-    {
-      "id": 39049659204,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 170,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049659204",
-      "created_at": "2026-10-17T16:29:56Z",
-      "head_sha": "fc7f009e43f096d0798e5602e6ddb04086c87542"
-    },
-    {
-      "id": 39049337113,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 169,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049337113",
-      "created_at": "2026-10-17T16:25:27Z",
-      "head_sha": "e5a471c998411a6ef529f8d65326174746561b45"
-    },
-    {
-      "id": 39049320735,
+      "id": 39085398572,
       "name": "DuoFace Visual12 standalone engine and CB facade link test",
-      "run_number": 29,
+      "run_number": 44,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085398572",
+      "created_at": "2026-10-18T01:08:45Z",
+      "head_sha": "a8e5e3ccffdf09cf9fda1aef3959d6b087a92343"
+    },
+    {
+      "id": 39085397863,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 234,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085397863",
+      "created_at": "2026-10-18T01:08:44Z",
+      "head_sha": "a8e5e3ccffdf09cf9fda1aef3959d6b087a92343"
+    },
+    {
+      "id": 39085044654,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 233,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39085044654",
+      "created_at": "2026-10-18T01:03:07Z",
+      "head_sha": "b6a0e1dfb9baec0cfdd7d77294d453e3b049c3ec"
+    },
+    {
+      "id": 39084930963,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 232,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084930963",
+      "created_at": "2026-10-18T01:01:21Z",
+      "head_sha": "bfb9c5422beb1e8bb9258f7a4bf05feb3b466df2"
+    },
+    {
+      "id": 39084916024,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 43,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049320735",
-      "created_at": "2026-10-17T16:25:13Z",
-      "head_sha": "0c41adf13a185f18ed8d0df0b863b4bf94cc8fff"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084916024",
+      "created_at": "2026-10-18T01:01:08Z",
+      "head_sha": "cd256bf01195dcd89afc8cea757abaadbe6f1387"
     },
     {
-      "id": 39049319647,
+      "id": 39084915133,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 168,
+      "run_number": 231,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39049319647",
-      "created_at": "2026-10-17T16:25:13Z",
-      "head_sha": "0c41adf13a185f18ed8d0df0b863b4bf94cc8fff"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084915133",
+      "created_at": "2026-10-18T01:01:07Z",
+      "head_sha": "cd256bf01195dcd89afc8cea757abaadbe6f1387"
     },
     {
-      "id": 39048980440,
-      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 167,
+      "id": 39084910172,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 42,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39048980440",
-      "created_at": "2026-10-17T16:20:30Z",
-      "head_sha": "f0d4bf96391620035dc3466bdd3cccb06ddf887c"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084910172",
+      "created_at": "2026-10-18T01:01:03Z",
+      "head_sha": "32bc41fd6097519bf93e46a648de3e2678de3685"
     },
     {
-      "id": 39048834638,
+      "id": 39084909146,
       "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
-      "run_number": 166,
+      "run_number": 230,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39048834638",
-      "created_at": "2026-10-17T16:18:31Z",
-      "head_sha": "5e8d583e213cd2c85e0baa91bb640617182e5b73"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084909146",
+      "created_at": "2026-10-18T01:01:02Z",
+      "head_sha": "32bc41fd6097519bf93e46a648de3e2678de3685"
+    },
+    {
+      "id": 39084902824,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 41,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084902824",
+      "created_at": "2026-10-18T01:00:56Z",
+      "head_sha": "b3308741c2b746235e53fa0a79f16cd4e91e0765"
+    },
+    {
+      "id": 39084901947,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 229,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084901947",
+      "created_at": "2026-10-18T01:00:56Z",
+      "head_sha": "b3308741c2b746235e53fa0a79f16cd4e91e0765"
+    },
+    {
+      "id": 39084769884,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 228,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084769884",
+      "created_at": "2026-10-18T00:58:57Z",
+      "head_sha": "a5894a1dd40fc35ba89c3399be60c5d7813e9d21"
+    },
+    {
+      "id": 39084759464,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 40,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084759464",
+      "created_at": "2026-10-18T00:58:46Z",
+      "head_sha": "0bc8727766ee9af95a5c34c2a64b325ca196702d"
+    },
+    {
+      "id": 39084758737,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 227,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084758737",
+      "created_at": "2026-10-18T00:58:45Z",
+      "head_sha": "0bc8727766ee9af95a5c34c2a64b325ca196702d"
+    },
+    {
+      "id": 39084750853,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 39,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084750853",
+      "created_at": "2026-10-18T00:58:37Z",
+      "head_sha": "8598a10246886269f238cfab83042d3edb4a5d48"
+    },
+    {
+      "id": 39084750848,
+      "name": "DuoFace CarPlay G1 G2 QA DEB - independent package",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084750848",
+      "created_at": "2026-10-18T00:58:37Z",
+      "head_sha": "8598a10246886269f238cfab83042d3edb4a5d48"
+    },
+    {
+      "id": 39084750180,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 226,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084750180",
+      "created_at": "2026-10-18T00:58:37Z",
+      "head_sha": "8598a10246886269f238cfab83042d3edb4a5d48"
+    },
+    {
+      "id": 39084745639,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 38,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084745639",
+      "created_at": "2026-10-18T00:58:32Z",
+      "head_sha": "88e4e52799804643868fed155f18feacef637396"
+    },
+    {
+      "id": 39084744946,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 225,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084744946",
+      "created_at": "2026-10-18T00:58:31Z",
+      "head_sha": "88e4e52799804643868fed155f18feacef637396"
+    },
+    {
+      "id": 39084703149,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 224,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084703149",
+      "created_at": "2026-10-18T00:57:49Z",
+      "head_sha": "cd63a25b5079ea8e90b62c5abb213449597fd3ae"
+    },
+    {
+      "id": 39084690771,
+      "name": "DuoFace Visual12 standalone engine and CB facade link test",
+      "run_number": 37,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084690771",
+      "created_at": "2026-10-18T00:57:36Z",
+      "head_sha": "c592c1372a6c836fec243e6a0c2fcf216341e159"
+    },
+    {
+      "id": 39084690031,
+      "name": ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml",
+      "run_number": 223,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39084690031",
+      "created_at": "2026-10-18T00:57:35Z",
+      "head_sha": "c592c1372a6c836fec243e6a0c2fcf216341e159"
     }
   ]
 }
