@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Nối bước đầu controller gốc với bridge (CHƯA chuyển scene ownership)
+
+- Đã đọc `DFIInterface.inc` openBundle/choose/shutdown và `DFIRuntime.m` DFIStart/DFIQAStart/DFIStop: controller gốc tự quản `DFV12SceneHost`, nên tuyệt đối chưa khởi động bridge song song trước khi chuyển hẳn đường open/close.
+- COMMIT `88e4e52799804643868fed155f18feacef637396`: thêm property `sceneBridge` vào `DFV12SplitController`.
+- COMMIT `8598a10246886269f238cfab83042d3edb4a5d48`: import `DFCarPlayBridgeAPI.h` trong `DFIRuntime.m`.
+- COMMIT `0bc8727766ee9af95a5c34c2a64b325ca196702d`: khởi tạo coordinator tham chiếu chính ba pane views của controller gốc; **chưa gọi startWithCompletion** và **chưa chuyển openBundle sang bridge**, nên vẫn chỉ scene owner cũ hoạt động. Đây là bước nối cấu trúc, không phải ghép xong.
+- Chưa build, CI, Sileo hoặc kiểm thử thiết bị. Cần xem xét vòng giữ root/coordinator và teardown trước khi bật bridge.
+- NEXT: chuyển openBundle, close/replaced, shutdown và lifecycle về một owner bridge duy nhất trong QA opt-in; giữ nguyên menu, picker, 8 layouts, prefs và UI; build kiểm tra compile trước phát hành.
+
+
 ## 2026-10-18 — Tiếp tục kiểm tra nối nguyên giao diện
 
 - Đã đọc `DFIInterface.inc` (31,747 ký tự), `DFIRuntime.m` (38,012 ký tự) và `DFCarPlaySplitCoordinator.m`. `DFV12SplitController` là giao diện gốc với ba panes, toolbar App/Zoom/Style/Close, layout 1–8 và lifecycle `DFV12SceneHost`; QA root là controller khác, không thể coi là bản ghép hoàn chỉnh.
