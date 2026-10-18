@@ -17,26 +17,26 @@
 | Window usable area | source: safe area -> left 64 fallback | `replacement/visual12/engine/runtime/DFINativeShell.inc:48` | original104 / reference |
 | Minimum usable size | 100x100 | `replacement/visual12/engine/runtime/DFINativeShell.inc:50` | original104 / fallback |
 | Layout modes | 8 kinds (1,2,3,4,5,6,7,8) | `replacement/visual12/engine/DFILayouts.h:10` | approved / needs-device |
-| Pane pill | 74x30; upper-right 2pt | `replacement/visual12/engine/runtime/DFIInterface.inc:289` | qa / not-native-proven |
-| App button | 30x26 at (4,2) | `replacement/visual12/engine/runtime/DFINativeShell.inc:132` | qa / not-native-proven |
-| Expand/restore button | 30x26 at (39,2) | `replacement/visual12/engine/runtime/DFINativeShell.inc:133` | qa / not-native-proven |
-| Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:300` | qa / not-native-proven |
-| Divider logo control | 36x44pt | `replacement/visual12/engine/runtime/DFIInterface.inc:301` | qa / not-native-proven |
+| Pane pill | 38..80pt wide; 19/22pt tall, native flags | `replacement/visual12/engine/runtime/DFINativeShell.inc:145` | native12-actual-deb-updateBoundsSize / six-modes-corrected-source-not-device |
+| App button | QA 30pt wide at x4, pill-dependent height | `replacement/visual12/engine/runtime/DFINativeShell.inc:167` | qa / not-native-proven |
+| Expand/restore button | QA 30pt wide at right-35, dynamic height | `replacement/visual12/engine/runtime/DFINativeShell.inc:168` | qa / not-native-proven |
+| Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:308` | qa / not-native-proven |
+| Divider logo control | 36x44pt | `replacement/visual12/engine/runtime/DFIInterface.inc:309` | qa / not-native-proven |
 | Approved native logo hold | 0.30s | `src/DFDividerLogoGrip.inc:10` | approved-native / missing-in-qa |
-| Approved independent logo action | tap swaps apps | `replacement/visual12/engine/runtime/DFIInterface.inc:171` | approved-native / corrected |
-| Independent hold recognizer | 0.30s | `replacement/visual12/engine/runtime/DFINativeShell.inc:200` | approved-native / corrected |
-| Independent logo position storage | fraction 0.10..0.90 of divider | `replacement/visual12/engine/runtime/DFIInterface.inc:571` | qa / needs-device |
-| Restore the prior ratio | do not reset fraction/secondary | `replacement/visual12/engine/runtime/DFIInterface.inc:436` | qa / corrected |
-| Sheet width | max 470, responsive min180, 8pt margins | `replacement/visual12/engine/runtime/DFINativeShell.inc:243` | qa / not-native-proven |
-| Sheet height | max 280, min140, content 40pt*count+55 | `replacement/visual12/engine/runtime/DFINativeShell.inc:244` | qa / not-native-proven |
-| Sheet rounding | 20pt original V12 | `replacement/visual12/engine/runtime/DFINativeShell.inc:220` | original12 / reference |
-| Sheet outline | 0pt approved; original was 1pt | `replacement/visual12/engine/runtime/DFINativeShell.inc:222` | approved-native / reference |
-| Picker menu row | 30pt, replaces old 40pt experiment | `replacement/visual12/engine/runtime/DFIInterface.inc:324` | approved-native / reference |
+| Approved independent logo action | tap swaps apps | `replacement/visual12/engine/runtime/DFIInterface.inc:172` | approved-native / corrected |
+| Independent hold recognizer | 0.30s | `replacement/visual12/engine/runtime/DFINativeShell.inc:243` | approved-native / corrected |
+| Independent logo position storage | fraction 0.10..0.90 of divider | `replacement/visual12/engine/runtime/DFIInterface.inc:595` | qa / needs-device |
+| Restore the prior ratio | do not reset fraction/secondary | `replacement/visual12/engine/runtime/DFIInterface.inc:460` | qa / corrected |
+| Sheet width | max 470, responsive min180, 8pt margins | `replacement/visual12/engine/runtime/DFINativeShell.inc:286` | qa / not-native-proven |
+| Sheet height | max 280, min140, content 40pt*count+55 | `replacement/visual12/engine/runtime/DFINativeShell.inc:287` | qa / not-native-proven |
+| Sheet rounding | 20pt original V12 | `replacement/visual12/engine/runtime/DFINativeShell.inc:263` | original12 / reference |
+| Sheet outline | 0pt approved; original was 1pt | `replacement/visual12/engine/runtime/DFINativeShell.inc:265` | approved-native / reference |
+| Picker menu row | 30pt, replaces old 40pt experiment | `replacement/visual12/engine/runtime/DFIInterface.inc:332` | approved-native / reference |
 | Header logo | 120x30pt at full width | `runtime/fullscreen/DFPickerZoomMenu.xm:404` | approved-native / reference |
-| App/Zoom/Style/Close widths | 43/51/47/51pt | `replacement/visual12/engine/runtime/DFIInterface.inc:326` | approved-native / reference |
-| Close X reserved | 48pt; QA X 32x26 | `replacement/visual12/engine/runtime/DFIInterface.inc:324` | approved-native / partial |
-| Menu icon | 16pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:55` | approved-native / reference |
-| Menu label | 10pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:38` | approved-native / reference |
+| App/Zoom/Style/Close widths | 43/51/47/51pt | `replacement/visual12/engine/runtime/DFIInterface.inc:334` | approved-native / reference |
+| Close X reserved | 48pt; QA X 32x26 | `replacement/visual12/engine/runtime/DFIInterface.inc:332` | approved-native / partial |
+| Menu icon | 16pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:64` | approved-native / reference |
+| Menu label | 10pt | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:53` | approved-native / reference |
 | App grid columns | valid 4..6; default 4 | `replacement/visual12/engine/runtime/DFINativePickerCards.inc:58` | original104 / reference |
 | App grid rows | valid 2..3; default 2 | `replacement/visual12/engine/runtime/DFINativePickerCards.inc:63` | original104 / reference |
 | App grid orientation | horizontal paged with UIPageControl | `replacement/visual12/engine/runtime/DFINativePickerCards.inc:151` | original104 / reference |
@@ -49,8 +49,11 @@
 | HUD settings | 169pt tall; 220..320pt wide | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:273` | native8-source / reference |
 | HUD eight settings | 4 columns, each height49, stride57 | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:289` | native8-source / reference |
 | HUD settings hold | 0.6s | `replacement/visual12/engine/runtime/DFV12NativeHUD8.inc:48` | native8-source / reference |
-| Pane touched border | 1pt active, 0 otherwise | `replacement/visual12/engine/runtime/DFIInterface.inc:271` | qa / needs-device |
+| Pane touched border | 1pt active, 0 otherwise | `replacement/visual12/engine/runtime/DFIInterface.inc:272` | qa / needs-device |
 | Approved logo red | RGB 227/2/15 | `replacement/visual12/engine/runtime/DFIApprovedVisuals.h:10` | approved-native / reference |
+
+
+**Sau quét DEB Native12 thật:** `CBSlotPillView.updateBoundsSize` chính thức chọn một trong 6 chiều rộng **38/44/64/72/76/80pt**, và chiều cao **19/22pt**, theo cờ isFocusedMode, showsExpandButton, isCompactMode. Source-owned `DFINativeSlotPillView.nativeReferenceSize` + `DFIInterface.inc` hiện dùng bảng này. **Mới chứng minh mã nguồn; chưa kiểm tra cảm ứng/hitbox/Compact trigger trên xe.** Chi tiết tại [báo cáo DEB](duoface-native12-actual-deb-ui-component-bridge-20261018.md).
 
 ## Lỗi chênh lệch và thứ tự sửa
 
