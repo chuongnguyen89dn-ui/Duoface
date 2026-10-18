@@ -1,0 +1,56 @@
+name: Native104 exact CarPlay class geometry
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-native104-class-geometry.yml'
+      - 'sideplay/native104-geometry/tools/audit_native104_methods_precise.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native104-exact-geometry
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Read verified reusable MachO parser from existing DuoFace QA branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/native104parser"
+          git fetch --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/native104parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/native104parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile "$RUNNER_TEMP/native104parser/"*.py
+      - name: Directly inspect source original DuoNavi 1.0.4 geometry methods
+        shell: bash
+        env:
+          NATIVE104_PARSER_DIR: ${{ runner.temp }}/native104parser
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/native104-geometry/tools/audit_native104_methods_precise.py
+          python3 sideplay/native104-geometry/tools/audit_native104_methods_precise.py
+          test -s sideplay/native104-geometry/audit/native104-class-layout.json
+      - name: Persist original class/selector/ratio evidence in feature branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- sideplay/native104-geometry/audit/native104-class-layout.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(native104): class-mapped original split and usable CarPlay ratio [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original104-class-layout-evidence
+          path: sideplay/native104-geometry/audit/native104-class-layout.json
+          if-no-files-found: warn
