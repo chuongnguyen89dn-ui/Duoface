@@ -21,7 +21,7 @@
 | App button | QA 30pt wide at x4, pill-dependent height | `replacement/visual12/engine/runtime/DFINativeShell.inc:167` | qa / not-native-proven |
 | Expand/restore button | QA 30pt wide at right-35, dynamic height | `replacement/visual12/engine/runtime/DFINativeShell.inc:168` | qa / not-native-proven |
 | Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:308` | qa / not-native-proven |
-| Divider logo control | 36x44pt | `replacement/visual12/engine/runtime/DFIInterface.inc:309` | qa / not-native-proven |
+| Divider logo control | Square 28pt if divider length <280pt; else square 30pt | `replacement/visual12/engine/runtime/DFIInterface.inc:319` | native12-actual-deb-updateGripLayout / corrected-source-not-device |
 | Approved native logo hold | 0.30s | `src/DFDividerLogoGrip.inc:10` | approved-native / missing-in-qa |
 | Approved independent logo action | tap swaps apps | `replacement/visual12/engine/runtime/DFIInterface.inc:172` | approved-native / corrected |
 | Independent hold recognizer | 0.30s | `replacement/visual12/engine/runtime/DFINativeShell.inc:243` | approved-native / corrected |
@@ -59,7 +59,7 @@
 
 1. **Đã sửa có chứng cứ:** bo góc picker 20pt, viền 0pt theo native đã duyệt; CI [39098247134](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39098247134) compile ARM64 PASS. Kích thước ngang menu 30pt (không 40pt).
 2. **Đã sửa mã nguồn, chưa nghiệm thu thiết bị:** logo chia nay **tap → swap**, **giữ ≥0,30s → kéo dọc thanh chia**; riêng từng logo lưu vị trí tương đối 0,10–0,90; pan trên thanh ngoài logo vẫn thay tỷ lệ; thoát focus giữ `fraction/secondary` gốc. Các handler được viết độc lập, chưa có ảnh hoặc log CarPlay chứng minh đúng hành vi.
-3. **Chưa đo được từ bản đang truy cập:** độ rộng/cao pill Native12 thực tế; tọa độ logo và divider hit-test native; kích thước từng card/ảnh/chấm trang native sau renderer; các frame ứng dụng khi mở thật; vị trí hệ thống Dock/status từng đầu màn.
+3. **Chưa đo được trên thiết bị thật:** tọa độ logo và hit-test runtime, trigger compact của pill, kích thước từng card/ảnh/chấm trang native sau renderer; các frame ứng dụng khi mở thật; vị trí hệ thống Dock/status từng đầu màn.
 4. **Điều kiện đạt:** cần xuất log frame ở chính CarPlay, ảnh màn hình thực cho 8 layout + picker + từng pane ở độ phân giải máy, đối chiếu thông số pixel/point và callbacks; compiler PASS ≠ CarPlay UI PASS.
 
 ## Khôi phục công việc
@@ -71,6 +71,13 @@
 ## Bằng chứng binary Native12 cần đào sâu — không thay bằng suy đoán
 
 - `audit/visual-methods-arm64.txt` kiểm kê chính xác `CBSlotPillView.layoutSubviews` tại IMP `0x84c30` và `updateBoundsSize` tại `0x85184`; các callback riêng `dotsTapped:` `0x85580`, `expandTapped:` `0x85698`, `restoreTapped:` `0x857b0`. Tệp **chưa chứa phép đo kích thước pill** từ phần disassembly tương ứng, do đó không được xác nhận 74×30 là Native12.
-- Cùng nguồn ghi `CBDividerView.layoutSubviews` `0xff410` và `updateGripLayout` `0xff460`, `pointInside:withEvent:` `0xff728`, `hitTest:withEvent:` `0xff974`. Đây là mục tiêu tiếp theo để xác minh kích thước nút/touch thực tế, chưa phải bằng chứng kích thước logo 36×44 hay dải nhận kéo 16pt.
+- Cùng nguồn ghi `CBDividerView.layoutSubviews` `0xff410` và `updateGripLayout` `0xff460`, `pointInside:withEvent:` `0xff728`, `hitTest:withEvent:` `0xff974`. Đã giải được khung nút vuông 28/30pt từ `setFrame:` tại 0xff6c0 và ngưỡng chiều dài divider 280pt (literal VM 0x312488). Nút QA 36×44pt cũ đã được thay. Dải pan 16pt vẫn là QA, chưa được xác nhận từ native hay thiết bị.
 - iOS 16 source-only ARM64 compiler cảnh báo `UIButton.titleEdgeInsets` có thể bị bỏ qua khi button có configuration. Đã sửa riêng `DFIApprovedVisuals.h` để căn **16pt icon trên, nhãn 10pt dưới** bằng UIImageView/UILabel có frame; không thay callback. Commit `55610b042fcb9c257a4e1000c762951a3902a126`, static regression `e30ce515370d9224613f6c81d0b7a8d7ae33406b`. Chỉ là kiểm tra code, chưa có ảnh xe.
 - Chưa chốt pixel sheet/card/toolbar theo độ phân giải thật; muốn kết luận phải có frame log từ CarPlay và ảnh Native12 đã cài. Không tự ép `UIWindowLevelAlert+100` thành số khác trước khi xác minh window stacking.
+
+## Bổ sung: kích thước divider gốc đã được giải mã 18/10/2026
+
+- Hệ thống kiểm chứng read-only [Actions 39100554270](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39100554270) đọc DEB Native12 pinned SHA256 và ánh xạ LC_SEGMENT_64. Giá trị `0x312488` = **280.0pt**; `0x311948` = ngưỡng alpha **0.01**, không phải kích thước.
+- Ở ARM64 `CBDividerView.updateGripLayout` `ff4b4–ff4d0`: `fcsel d0,d2,d3,eq` chọn **bounds.width** cho divider ngang, **bounds.height** cho divider dọc. Đây là **chiều dài vạch chia**, không phải độ dày; `d8` = 28pt nếu chiều dài <280pt, ngược lại 30pt. `setFrame:` tại `ff6a8–ff6c0` đặt **hình vuông d2=d3=d8**.
+- Native `CBDividerView.pointInside:withEvent:` có `CGRectInset(...,-12,-12)` quanh nút; QA đã sửa kích thước hiển thị và vùng chạm tương ứng tại `DFIInterface.inc`, `DFINativeShell.inc`. Giữ hoạt động tap/hold/pan cũ, không thay scene/window.
+- Tình trạng: **đã sửa nguồn QA và kiểm chứng ARM64 tĩnh, chưa đo/duyệt giao diện trên CarPlay thật**; chưa đóng DEB hoặc phát hành Sileo.
