@@ -12,6 +12,10 @@ static BOOL DFSPChromeNormalVisible=YES;
 static BOOL DFSPChromeApplying=NO;
 static BOOL DFSPChromeInstalled=NO;
 static NSUInteger DFSPChromeGeneration=0;
+static NSUInteger DFSPChromeLastAckGeneration=NSUIntegerMax;
+static NSInteger DFSPChromeLastAckVisible=-1;
+static NSInteger DFSPChromeLastAckWindowCount=-1;
+static NSInteger DFSPChromeLastAckSuccess=-1;
 static NSHashTable<UIWindow *> *DFSPChromeWindows;
 static NSMapTable<UIWindow *,NSNumber *> *DFSPChromeSnapshots;
 static id DFSPChromeObserver;
@@ -43,6 +47,16 @@ static void DFSPChromeSendAck(NSString *message) {
             if (win.hidden==DFSPChromeNormalVisible) correct=NO;
         }
     }
+    // layoutSubviews can fire every frame: emit ACK only when the state
+    // actually changes. Prevent distributed-notification/console flooding.
+    if (DFSPChromeLastAckGeneration==DFSPChromeGeneration &&
+        DFSPChromeLastAckVisible==(NSInteger)DFSPChromeNormalVisible &&
+        DFSPChromeLastAckWindowCount==(NSInteger)DFSPChromeWindows.allObjects.count &&
+        DFSPChromeLastAckSuccess==(NSInteger)correct)return;
+    DFSPChromeLastAckGeneration=DFSPChromeGeneration;
+    DFSPChromeLastAckVisible=(NSInteger)DFSPChromeNormalVisible;
+    DFSPChromeLastAckWindowCount=(NSInteger)DFSPChromeWindows.allObjects.count;
+    DFSPChromeLastAckSuccess=(NSInteger)correct;
     NSLog(@"[DuoFaceQA9Chrome] gen=%lu normal=%d windows=%lu ACK=%d %@",
           (unsigned long)DFSPChromeGeneration,DFSPChromeNormalVisible,
           (unsigned long)DFSPChromeWindows.allObjects.count,correct,message);
@@ -73,6 +87,9 @@ static void DFSPChromeApplyToWindow(UIWindow *win) {
 }
 static void DFSPChromeObserve(UIWindow *win) {
     if (!DFSPChromeActive || !DFSPIsCarPlayStatusWindow(win))return;
+    // Avoid queuing another update for every UIKit layout pulse once stable.
+    if ([DFSPChromeWindows containsObject:win] &&
+        win.hidden==!DFSPChromeNormalVisible)return;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!DFSPChromeActive)return;
         DFSPChromeApplyToWindow(win);
