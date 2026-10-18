@@ -282,15 +282,34 @@ static NSArray *DFIAvailableApps(void) {
       nativeCardFrame.origin.y=CGRectGetMidY(splitFrame)-nativeCardFrame.size.height/2.0;}
   self.panel.frame=nativeCardFrame;
   CGFloat w=nativeCardFrame.size.width,h=nativeCardFrame.size.height;
-  CGFloat headerWidth=MAX(120,w-64);
-  self.toolbar.frame=CGRectMake(8,7,headerWidth,30);
-  CGFloat logoWidth=MIN(120,MAX(40,headerWidth*0.29));
-  self.approvedLogo.frame=CGRectMake(0,0,logoWidth,30);
-  self.toolbarStack.frame=CGRectMake(logoWidth+6,0,MAX(70,headerWidth-logoWidth-6),30);
-  CGFloat tabWidth=CGRectGetWidth(self.toolbarStack.bounds)/4.0;
+  // Native12 DFPickerZoomMenu owner: exactly ONE 30pt line. The original
+  // 470pt sheet assigns 120pt logo, a 48pt reserved native X area, buttons
+  // with widths 43/51/47/51 and distributes remaining room as equal gaps.
+  // For narrower receivers, reduce the logo and glyph widths proportionally
+  // rather than stacking into QA's old second header row.
+  const CGFloat nativeSide=8.0, nativeMenuHeight=30.0, closeReserved=48.0;
+  CGFloat logoWidth=MIN(120.0,MAX(78.0,w*.27));
+  const CGFloat desiredTab[4]={43.0,51.0,47.0,51.0};
+  const CGFloat desiredTotal=192.0;
+  CGFloat available=w-2*nativeSide-logoWidth-closeReserved;
+  CGFloat tabGap=MAX(4.0,(available-desiredTotal)/5.0);
+  CGFloat tabScale=MIN(1.0,MAX(.58,(available-tabGap*5)/desiredTotal));
+  CGFloat tabWidths[4]={0};CGFloat menuWidth=0;
+  for(int tab=0;tab<4;tab++){
+   tabWidths[tab]=floor(desiredTab[tab]*tabScale);
+   menuWidth+=tabWidths[tab];
+  }
+  menuWidth+=3.0*tabGap;
+  self.toolbar.frame=CGRectMake(nativeSide,7,w-2*nativeSide-closeReserved,nativeMenuHeight);
+  self.approvedLogo.frame=CGRectMake(0,0,logoWidth,nativeMenuHeight);
+  self.toolbarStack.frame=CGRectMake(logoWidth+tabGap,0,menuWidth,nativeMenuHeight);
+  CGFloat tabX=0;
   for(UIView *tab in self.toolbarStack.subviews){
    if(![tab isKindOfClass:UIButton.class])continue;
-   tab.frame=CGRectMake(((UIButton *)tab).tag*tabWidth,0,tabWidth,30);
+   NSInteger index=((UIButton *)tab).tag;
+   if(index<0 || index>=4)continue;
+   tab.frame=CGRectMake(tabX,0,tabWidths[index],nativeMenuHeight);
+   tabX+=tabWidths[index]+tabGap;
   }
   [self updateApprovedTabs];
   self.pickerClose.frame=CGRectMake(w-42,9,32,26);
