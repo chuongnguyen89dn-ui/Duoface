@@ -15979,3 +15979,953 @@ __attribute__((constructor)) static void DFOwnerProbeStart(void) {
 }
 ########## END FILE: runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm ##########
 
+########## BEGIN FILE: runtime/speedbubble/DFSpeedTransport.h ##########
+#pragma once
+#import <Foundation/Foundation.h>
+// Versioned DuoFace-owned IPC between separately injected app source and
+// DuoFace's SpringBoard CarPlay UIWindow. No GOFAHUD/GMapHUD runtime dependency.
+// ALL LIMITS IN km/h. A missing speed limit must remain unknown, never 0.
+typedef NS_ENUM(NSInteger, DFSpeedAppSource) {
+  DFSpeedAppSourceNone=0, DFSpeedAppSourceGoogleMaps=1,
+  DFSpeedAppSourceWaze=2, DFSpeedAppSourceVietMap=3,
+  DFSpeedAppSourceGOFA=4
+};
+typedef struct {
+  DFSpeedAppSource source;
+  NSInteger currentKmh;
+  NSInteger limitKmh;
+  BOOL hasCurrent;
+  BOOL hasLimit;
+  NSTimeInterval ageSeconds;
+} DFSpeedHUDRecord;
+FOUNDATION_EXPORT BOOL DFSpeedHUDPublish(DFSpeedAppSource source,
+  NSInteger currentKmh, BOOL hasCurrent, NSInteger limitKmh, BOOL hasLimit);
+FOUNDATION_EXPORT BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record);
+########## END FILE: runtime/speedbubble/DFSpeedTransport.h ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedTransport.mm ##########
+#import "DFSpeedTransport.h"
+#include "DFSpeedProtocol.hpp"
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+#include "DFSpeedGMapReader.hpp"
+#endif
+#include <notify.h>
+#include <cmath>
+// No timer in source apps; apps publish on real, fresh source changes.
+// Darwin notify is process-agnostic but MUST be verified on a jailbroken iPhone.
+namespace {
+  int gTokens[5] = {-1,-1,-1,-1,-1};
+  void Setup() {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+      for (int i=1; i<=4; ++i) {
+        const char *name=DFSpeed::NotifyName(static_cast<DFSpeed::Source>(i));
+        int token=-1;
+        if (notify_register_check(name,&token)==NOTIFY_STATUS_OK)
+          gTokens[i]=token;
+      }
+    });
+  }
+  uint32_t UptimeSeconds() {
+    double t=NSProcessInfo.processInfo.systemUptime;
+    return (std::isfinite(t) && t>0) ? static_cast<uint32_t>(t) : 0;
+  }
+}
+BOOL DFSpeedHUDPublish(DFSpeedAppSource src, NSInteger speed, BOOL hasSpeed,
+                       NSInteger limit, BOOL hasLimit) {
+  if (src<1 || src>4) return NO;
+  Setup();
+  if (gTokens[src]<0) return NO;
+  // Do not infer a speed limit from road type or a previous sample.
+  if ((hasSpeed && (speed<0 || speed>400)) ||
+      (hasLimit && (limit<=0 || limit>200))) return NO;
+  DFSpeed::Sample s;
+  s.source=static_cast<DFSpeed::Source>(src);
+  s.uptimeSec=UptimeSeconds();
+  s.speedKmh=hasSpeed ? static_cast<uint16_t>(speed):0;
+  s.limitKmh=hasLimit ? static_cast<uint16_t>(limit):0;
+  s.speedValid=hasSpeed; s.limitValid=hasLimit;
+  uint64_t encoded=0;
+  if (!DFSpeed::Encode(s,encoded)) return NO;
+  const char *name=DFSpeed::NotifyName(s.source);
+  if (notify_set_state(gTokens[src],encoded)!=NOTIFY_STATUS_OK) return NO;
+  return notify_post(name)==NOTIFY_STATUS_OK;
+}
+BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
+  if (!record) return NO;
+  Setup();
+  // One source is always chosen as a unit: no Waze speed + GOFA speed limit.
+  uint32_t now=UptimeSeconds();
+  // Four app sources feed exactly ONE DuoFace-owned visual bubble.
+  // Publish/subscribe are not a request to launch missing apps.
+  DFSpeed::Sample live[5];
+  size_t count=0;
+  for (int src=1; src<=4; ++src) {
+    if (gTokens[src]<0) continue;
+    uint64_t raw=0;
+    if (notify_get_state(gTokens[src],&raw)!=NOTIFY_STATUS_OK) continue;
+    DFSpeed::Sample sample;
+    if (DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
+      live[count++]=sample;
+  }
+  // Read the actual Waze/VietMap/GOFA speed+limit samples published by
+  // GMapHUD v0.2.3's source adapters, not their CarPlay HUD/window.
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+  DFSpeed::Sample native;
+  if (DFSpeed::ReadPinnedGMapWire(native)) live[count++]=native;
+#endif
+  static DFSpeed::Source previous=DFSpeed::Source::None;
+  DFSpeed::Sample best;
+  if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
+    previous=DFSpeed::Source::None;
+    return NO;
+  }
+  previous=best.source;
+  record->source=static_cast<DFSpeedAppSource>(best.source);
+  record->currentKmh=best.speedKmh;
+  record->limitKmh=best.limitKmh;
+  record->hasCurrent=best.speedValid;
+  record->hasLimit=best.limitValid;
+  record->ageSeconds=static_cast<NSTimeInterval>(now-best.uptimeSec);
+  return YES;
+}
+########## END FILE: runtime/speedbubble/DFSpeedTransport.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedTransport8.mm ##########
+#import "DFSpeedTransport.h"
+#include "DFSpeedProtocol.hpp"
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+#include "DFSpeedGMapReader.hpp"
+#endif
+#include <notify.h>
+#include <cmath>
+// No timer in source apps; apps publish on real, fresh source changes.
+// Darwin notify is process-agnostic but MUST be verified on a jailbroken iPhone.
+namespace {
+  int gTokens[5] = {-1,-1,-1,-1,-1};
+  void Setup() {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+      for (int i=1; i<=4; ++i) {
+        const char *name=DFSpeed::NotifyName(static_cast<DFSpeed::Source>(i));
+        int token=-1;
+        if (notify_register_check(name,&token)==NOTIFY_STATUS_OK)
+          gTokens[i]=token;
+      }
+    });
+  }
+  uint32_t UptimeSeconds() {
+    double t=NSProcessInfo.processInfo.systemUptime;
+    return (std::isfinite(t) && t>0) ? static_cast<uint32_t>(t) : 0;
+  }
+}
+BOOL DFSpeedHUDPublish(DFSpeedAppSource src, NSInteger speed, BOOL hasSpeed,
+                       NSInteger limit, BOOL hasLimit) {
+  if (src<1 || src>4) return NO;
+  Setup();
+  if (gTokens[src]<0) return NO;
+  // Do not infer a speed limit from road type or a previous sample.
+  if ((hasSpeed && (speed<0 || speed>400)) ||
+      (hasLimit && (limit<=0 || limit>200))) return NO;
+  DFSpeed::Sample s;
+  s.source=static_cast<DFSpeed::Source>(src);
+  s.uptimeSec=UptimeSeconds();
+  s.speedKmh=hasSpeed ? static_cast<uint16_t>(speed):0;
+  s.limitKmh=hasLimit ? static_cast<uint16_t>(limit):0;
+  s.speedValid=hasSpeed; s.limitValid=hasLimit;
+  uint64_t encoded=0;
+  if (!DFSpeed::Encode(s,encoded)) return NO;
+  const char *name=DFSpeed::NotifyName(s.source);
+  if (notify_set_state(gTokens[src],encoded)!=NOTIFY_STATUS_OK) return NO;
+  return notify_post(name)==NOTIFY_STATUS_OK;
+}
+BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
+  if (!record) return NO;
+  Setup();
+  // One source is always chosen as a unit: no Waze speed + GOFA speed limit.
+  uint32_t now=UptimeSeconds();
+  // Four app sources feed exactly ONE DuoFace-owned visual bubble.
+  NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+  NSInteger pinned=[prefs integerForKey:@"source"];
+  if(pinned!=2 && pinned!=3 && pinned!=4) pinned=0;
+  // Publish/subscribe are not a request to launch missing apps.
+  DFSpeed::Sample live[5];
+  size_t count=0;
+  for (int src=1; src<=4; ++src) {
+    if (pinned && src!=pinned) continue;
+    if (gTokens[src]<0) continue;
+    uint64_t raw=0;
+    if (notify_get_state(gTokens[src],&raw)!=NOTIFY_STATUS_OK) continue;
+    DFSpeed::Sample sample;
+    if (DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
+      live[count++]=sample;
+  }
+  // Read the actual Waze/VietMap/GOFA speed+limit samples published by
+  // GMapHUD v0.2.3's source adapters, not their CarPlay HUD/window.
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+  DFSpeed::Sample native;
+  if (DFSpeed::ReadPinnedGMapWire(native) &&
+      (!pinned || static_cast<NSInteger>(native.source)==pinned)) live[count++]=native;
+#endif
+  static DFSpeed::Source previous=DFSpeed::Source::None;
+  DFSpeed::Sample best;
+  if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
+    previous=DFSpeed::Source::None;
+    return NO;
+  }
+  previous=best.source;
+  record->source=static_cast<DFSpeedAppSource>(best.source);
+  record->currentKmh=best.speedKmh;
+  record->limitKmh=best.limitKmh;
+  record->hasCurrent=best.speedValid;
+  record->hasLimit=best.limitValid;
+  record->ageSeconds=static_cast<NSTimeInterval>(now-best.uptimeSec);
+  return YES;
+}
+########## END FILE: runtime/speedbubble/DFSpeedTransport8.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedTransport9.mm ##########
+#import "DFSpeedTransport.h"
+#import "DFSpeedInstalledSourceCatalog9.h"
+#include "DFSpeedProtocol.hpp"
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+#include "DFSpeedGMapReader.hpp"
+#endif
+#include <notify.h>
+#include <cmath>
+// No timer in source apps; apps publish on real, fresh source changes.
+// Darwin notify is process-agnostic but MUST be verified on a jailbroken iPhone.
+namespace {
+  int gTokens[5] = {-1,-1,-1,-1,-1};
+  void Setup() {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+      for (int i=1; i<=4; ++i) {
+        const char *name=DFSpeed::NotifyName(static_cast<DFSpeed::Source>(i));
+        int token=-1;
+        if (notify_register_check(name,&token)==NOTIFY_STATUS_OK)
+          gTokens[i]=token;
+      }
+    });
+  }
+  uint32_t UptimeSeconds() {
+    double t=NSProcessInfo.processInfo.systemUptime;
+    return (std::isfinite(t) && t>0) ? static_cast<uint32_t>(t) : 0;
+  }
+}
+BOOL DFSpeedHUDPublish(DFSpeedAppSource src, NSInteger speed, BOOL hasSpeed,
+                       NSInteger limit, BOOL hasLimit) {
+  if (src<1 || src>4) return NO;
+  Setup();
+  if (gTokens[src]<0) return NO;
+  // Do not infer a speed limit from road type or a previous sample.
+  if ((hasSpeed && (speed<0 || speed>400)) ||
+      (hasLimit && (limit<=0 || limit>200))) return NO;
+  DFSpeed::Sample s;
+  s.source=static_cast<DFSpeed::Source>(src);
+  s.uptimeSec=UptimeSeconds();
+  s.speedKmh=hasSpeed ? static_cast<uint16_t>(speed):0;
+  s.limitKmh=hasLimit ? static_cast<uint16_t>(limit):0;
+  s.speedValid=hasSpeed; s.limitValid=hasLimit;
+  uint64_t encoded=0;
+  if (!DFSpeed::Encode(s,encoded)) return NO;
+  const char *name=DFSpeed::NotifyName(s.source);
+  if (notify_set_state(gTokens[src],encoded)!=NOTIFY_STATUS_OK) return NO;
+  return notify_post(name)==NOTIFY_STATUS_OK;
+}
+BOOL DFSpeedHUDReadBest(DFSpeedHUDRecord *record) {
+  if (!record) return NO;
+  Setup();
+  // One source is always chosen as a unit: no Waze speed + GOFA speed limit.
+  uint32_t now=UptimeSeconds();
+  // Four app sources feed exactly ONE DuoFace-owned visual bubble.
+  NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:@"com.duoface.speedhud"];
+  NSInteger pinned=[prefs integerForKey:@"source"];
+  // Speed9 never silently falls back to any other application.
+  if(!DFSpeedSourceInstalled(pinned)) return NO;
+  // Publish/subscribe are not a request to launch missing apps.
+  DFSpeed::Sample live[5];
+  size_t count=0;
+  for (int src=1; src<=4; ++src) {
+    if (pinned && src!=pinned) continue;
+    if (gTokens[src]<0) continue;
+    uint64_t raw=0;
+    if (notify_get_state(gTokens[src],&raw)!=NOTIFY_STATUS_OK) continue;
+    DFSpeed::Sample sample;
+    if (DFSpeed::Decode(raw,static_cast<DFSpeed::Source>(src),now,sample))
+      live[count++]=sample;
+  }
+  // Read the actual Waze/VietMap/GOFA speed+limit samples published by
+  // GMapHUD v0.2.3's source adapters, not their CarPlay HUD/window.
+#if defined(DF_SPEED_HUD_SPRINGBOARD)
+  DFSpeed::Sample native;
+  if (DFSpeed::ReadPinnedGMapWire(native) &&
+      (!pinned || static_cast<NSInteger>(native.source)==pinned)) live[count++]=native;
+#endif
+  static DFSpeed::Source previous=DFSpeed::Source::None;
+  DFSpeed::Sample best;
+  if (!DFSpeed::ChooseUnifiedSample(live,count,previous,best)) {
+    previous=DFSpeed::Source::None;
+    return NO;
+  }
+  previous=best.source;
+  record->source=static_cast<DFSpeedAppSource>(best.source);
+  record->currentKmh=best.speedKmh;
+  record->limitKmh=best.limitKmh;
+  record->hasCurrent=best.speedValid;
+  record->hasLimit=best.limitValid;
+  record->ageSeconds=static_cast<NSTimeInterval>(now-best.uptimeSec);
+  return YES;
+}
+########## END FILE: runtime/speedbubble/DFSpeedTransport9.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/test_speed_protocol.cpp ##########
+#include "DFSpeedProtocol.hpp"
+#include "DFSpeedGMapWire.hpp"
+#include <cassert>
+#include <cstring>
+#include <iostream>
+using namespace DFSpeed;
+int main() {
+  for(Source s: {Source::GoogleMaps,Source::Waze,Source::VietMap,Source::GOFA}) {
+    assert(NotifyName(s)!=nullptr);
+    Sample in; in.source=s; in.uptimeSec=1000; in.speedKmh=82;
+    in.limitKmh=80; in.speedValid=true; in.limitValid=true;
+    uint64_t raw=0; assert(Encode(in,raw));
+    Sample out; assert(Decode(raw,s,1001,out));
+    assert(out.source==s && out.speedKmh==82 && out.limitKmh==80);
+    assert(!Decode(raw,s,1006,out)); // stale source
+    assert(!Decode(raw,s,999,out));  // future sample
+    assert(!Decode(raw,Source::None,1001,out)); // wrong source
+    assert(!Decode(raw^1,s,1001,out)); // wrong schema version
+    assert(!Decode(raw^(uint64_t(1)<<28),s,1001,out)); // cross-source mix
+    in.limitValid=false; in.limitKmh=99; assert(Encode(in,raw));
+    assert(Decode(raw,s,1001,out) && !out.limitValid && out.limitKmh==0);
+    in.speedValid=false; in.limitValid=false; assert(!Encode(in,raw));
+    in.speedValid=true; in.speedKmh=401; assert(!Encode(in,raw));
+    in.speedKmh=0; in.limitValid=true; in.limitKmh=0; assert(!Encode(in,raw));
+  }
+  // One GOFA-inspired display, four alternative application sources.
+  Sample waze; waze.source=Source::Waze; waze.uptimeSec=100;
+  waze.speedValid=true; waze.speedKmh=81;
+  Sample vietmap; vietmap.source=Source::VietMap; vietmap.uptimeSec=99;
+  vietmap.speedValid=true; vietmap.limitValid=true;
+  vietmap.speedKmh=79; vietmap.limitKmh=80;
+  Sample picked;
+  const Sample pair[]={waze,vietmap};
+  assert(ChooseUnifiedSample(pair,2,Source::None,picked));
+  assert(picked.source==Source::VietMap && picked.limitKmh==80); // prefer complete within 1s
+  assert(ChooseUnifiedSample(pair,2,Source::Waze,picked));
+  assert(picked.source==Source::VietMap); // complete source wins
+  // A strictly newer live reading takes over (no indefinite stickiness).
+  waze.uptimeSec=102;
+  const Sample newer[]={waze,vietmap};
+  assert(ChooseUnifiedSample(newer,2,Source::VietMap,picked));
+  assert(picked.source==Source::Waze && !picked.limitValid);
+  // When equally fresh and complete, prior source avoids visual thrashing.
+  Sample gofa=vietmap; gofa.source=Source::GOFA;
+  const Sample ties[]={gofa,vietmap};
+  assert(ChooseUnifiedSample(ties,2,Source::GOFA,picked));
+  assert(picked.source==Source::GOFA);
+  // Never stitch speed from one app with a speed limit from a different app.
+  Sample limitOnly=vietmap; limitOnly.source=Source::GoogleMaps;
+  limitOnly.speedValid=false; limitOnly.speedKmh=0;
+  const Sample split[]={waze,limitOnly};
+  assert(ChooseUnifiedSample(split,2,Source::None,picked));
+  assert(picked.source==Source::Waze && !picked.limitValid);
+  assert(!ChooseUnifiedSample(nullptr,0,Source::None,picked));
+  // Pinned GMapHUD 0.2.3 atomic format: schema 1/even revision 2,
+  // milliseconds monotonic speed/limit. Never accept torn writes.
+  const auto sampleWord=[](unsigned value,unsigned ms) {
+      return (uint64_t(ms)<<10)|512|value;
+  };
+  const uint64_t sel=(uint64_t(3)<<3)|2; // Waze selected + epoch
+  Sample gmap;
+  assert(DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap));
+  assert(gmap.source==Source::Waze &&
+         gmap.speedKmh==68 && gmap.limitKmh==80);
+  assert(!DecodeGVMFrame(sel,sel,sel,257,257,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // odd commit
+  assert(!DecodeGVMFrame(sel,sel,sel,513,769,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // torn
+  assert(!DecodeGVMFrame(sel,sel+8,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,100000),101.0,gmap)); // epoch switch
+  assert(!DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,90000),sampleWord(80,90000),101.0,gmap)); // stale 11s
+  assert(DecodeGVMFrame(sel,sel,sel,513,513,
+          sampleWord(68,100000),sampleWord(80,90000),101.0,gmap));
+  assert(gmap.speedValid && !gmap.limitValid); // no stale speed limit
+  assert(GVMSource(1)==Source::VietMap);
+  assert(GVMSource(2)==Source::Waze);
+  assert(GVMSource(3)==Source::GOFA);
+  assert(GVMSource(4)==Source::None); // Google Maps has no GVM source ID
+  assert(NotifyName(Source::None)==nullptr);
+  std::cout<<"DF_SPEED_PROTOCOL_UNIT_PASS (4 sources, one bubble, arbitration, freshness, unknown limit)"<<std::endl;
+}
+########## END FILE: runtime/speedbubble/test_speed_protocol.cpp ##########
+
+########## BEGIN FILE: runtime/VisualOnlyPrototype.xm ##########
+// EXPERIMENTAL ONLY — not built, not tested on iOS or CarPlay.
+// Visual-only Logos hook; never change button actions, frames, hit insets, or split logic.
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+
+static UIImage *DFImage(NSString *name) {
+    NSString *path = [@"/var/jb/Library/Application Support/DuoFace/VisualAssets"
+                      stringByAppendingPathComponent:name];
+    return [UIImage imageWithContentsOfFile:path];
+}
+static BOOL DFHasAction(UIButton *b, NSString *selector) {
+    for (id target in b.allTargets) {
+        for (NSString *name in [b actionsForTarget:target forControlEvent:UIControlEventTouchUpInside] ?: @[])
+            if ([name isEqualToString:selector]) return YES;
+        for (NSString *name in [b actionsForTarget:target forControlEvent:UIControlEventTouchDown] ?: @[])
+            if ([name isEqualToString:selector]) return YES;
+    }
+    return NO;
+}
+static void DFOverlay(UIButton *button, NSString *filename) {
+    UIImage *image = DFImage(filename);
+    if (!image || CGRectIsEmpty(button.bounds)) return;
+    const NSInteger tag = 0xD0FA;
+    UIImageView *view = [button viewWithTag:tag];
+    if (view && ![view isKindOfClass:UIImageView.class]) return;
+    if (!view) {
+        view = [[UIImageView alloc] initWithFrame:button.bounds];
+        view.tag = tag;
+        view.userInteractionEnabled = NO;
+        view.contentMode = UIViewContentModeScaleAspectFit;
+        [button addSubview:view];
+    }
+    view.frame = button.bounds;
+    view.image = image;
+    [button bringSubviewToFront:view];
+    // Do not change UIButton's own image or targets until device validation.
+}
+static void DFScan(UIView *root) {
+    if ([root isKindOfClass:UIButton.class]) {
+        UIButton *b = (UIButton *)root;
+        if (DFHasAction(b, @"dotsTapped:"))
+            DFOverlay(b, @"duoface-picker.png");
+        else if (DFHasAction(b, @"expandTapped:") || DFHasAction(b, @"restoreTapped:"))
+            DFOverlay(b, @"duoface-fullscreen.png");
+        else if (DFHasAction(b, @"moveButtonTouchDown:") ||
+                 DFHasAction(b, @"moveButtonTouchUp:"))
+            DFOverlay(b, @"duoface-swap.png");
+    }
+    for (UIView *child in [root.subviews copy]) {
+        if (child.tag == 0xD0FA) continue;
+        DFScan(child);
+    }
+}
+%hook CBSlotPillView
+- (void)layoutSubviews {
+    %orig;
+    DFScan(self);
+}
+%end
+%hook CBDividerView
+- (void)layoutSubviews {
+    %orig;
+    DFScan(self);
+}
+%end
+%hook CBSplitSplashScreenView
+- (void)layoutSubviews {
+    %orig;
+    // Splash background/label structure not yet validated; intentionally
+    // do not alter loading animation, logo or splash subviews here.
+}
+%end
+########## END FILE: runtime/VisualOnlyPrototype.xm ##########
+
+########## BEGIN FILE: src/DuoFaceBorderRunner.m ##########
+// DuoFace native activity border: RED only while user interacts.
+// Source is included by DuoFaceVisualHook.m; no standalone dylib.
+// Uses CBBridgedSplitApp's OWN noteUserActivity/startBlinkingSession/
+// stopBlinkingSession timeout. No independent timer or animation.
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+#import <stdlib.h>
+
+static IMP DFNativeBorderStart=NULL, DFNativeBorderStop=NULL;
+static IMP DFNativeSplitLayout=NULL, DFNativeFocusSlot=NULL, DFNativeRestoreSplit=NULL;
+static IMP DFNativeSessionStart=NULL, DFNativeSessionStop=NULL;
+static BOOL DFBorderHooksInstalled=NO;
+static char DFFocusAssociation, DFRunningAssociation, DFKnownBorderViewsKey;
+static const CGFloat DFVisibleLineWidth=1.0;
+
+static BOOL DFFocusHidden(id controller) {
+    return [objc_getAssociatedObject(controller,&DFFocusAssociation) boolValue];
+}
+static NSHashTable *DFKnownBorderViewsFor(id controller) {
+    NSHashTable *views=objc_getAssociatedObject(controller,&DFKnownBorderViewsKey);
+    if (!views) {
+        views=[NSHashTable weakObjectsHashTable];
+        objc_setAssociatedObject(controller,&DFKnownBorderViewsKey,views,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return views;
+}
+static void DFTrackBorderView(id controller, UIView *view) {
+    if ([view isKindOfClass:[UIView class]]) {
+        [DFKnownBorderViewsFor(controller) addObject:view];
+    }
+}
+static UIColor *DFBorderLogoRed(void) {
+    // One approved red: audit/approved-logo-red.json, RGB(227,2,15).
+    return [UIColor colorWithRed:227.0/255.0 green:2.0/255.0 blue:15.0/255.0 alpha:1.0];
+}
+static void DFRemoveLegacyBorderEffects(UIView *view) {
+    // Remove only our old red/white runner and black backing layers, if any.
+    // The native blue borderColor animation is intentionally never started.
+    [view.layer removeAnimationForKey:@"borderPulse"];
+    NSArray *layers=[NSArray arrayWithArray:(view.layer.sublayers?:@[])];
+    for (CALayer *layer in layers) {
+        if ([layer isKindOfClass:[CAShapeLayer class]] &&
+            layer.zPosition>=1000.0 && layer.zPosition<=1003.0) {
+            [layer removeAllAnimations];
+            [layer removeFromSuperlayer];
+        }
+    }
+}
+static void DFSetBorderVisible(UIView *view, BOOL visible) {
+    if (![view isKindOfClass:[UIView class]]) return;
+    DFRemoveLegacyBorderEffects(view);
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    view.layer.borderColor=(visible?DFBorderLogoRed():[UIColor clearColor]).CGColor;
+    view.layer.borderWidth=visible?DFVisibleLineWidth:0.0;
+    [CATransaction commit];
+}
+static void DFUpdateFocusBorders(id controller) {
+    BOOL focused=DFFocusHidden(controller);
+    for (UIView *view in [DFKnownBorderViewsFor(controller) allObjects]) {
+        BOOL nativeSessionActive=[objc_getAssociatedObject(view,&DFRunningAssociation) boolValue];
+        DFSetBorderVisible(view,nativeSessionActive && !focused);
+    }
+}
+static void DFFocusSlotHook(id self, SEL cmd, NSInteger slot, BOOL animated) {
+    // Keep native focus geometry/callback. A focused pane NEVER has border.
+    objc_setAssociatedObject(self,&DFFocusAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    DFUpdateFocusBorders(self);
+    ((void(*)(id,SEL,NSInteger,BOOL))DFNativeFocusSlot)(self,cmd,slot,animated);
+    DFUpdateFocusBorders(self);
+}
+static void DFRestoreSplitHook(id self, SEL cmd, BOOL animated) {
+    ((void(*)(id,SEL,BOOL))DFNativeRestoreSplit)(self,cmd,animated);
+    objc_setAssociatedObject(self,&DFFocusAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    // Returning to split must NOT leave a permanent static red border.
+    // If native idle already fired, the border remains invisible.
+    DFUpdateFocusBorders(self);
+}
+static void DFBorderStartHook(id self, SEL cmd, UIView *view) {
+    // Original native START would create the infinite BLUE borderPulse.
+    // Do NOT call it. The original session still owns the idle timeout.
+    (void)cmd;
+    void (^update)(void)=^{
+        if (![view isKindOfClass:[UIView class]]) return;
+        DFTrackBorderView(self,view);
+        objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        DFSetBorderVisible(view,!DFFocusHidden(self));
+        NSLog(@"[DuoFaceBorder] RED ON user activity view=%p focus=%d",view,DFFocusHidden(self));
+    };
+    if ([NSThread isMainThread]) update();
+    else dispatch_async(dispatch_get_main_queue(),update);
+}
+static void DFBorderStopHook(id self, SEL cmd, UIView *view) {
+    // Keep original native STOP cleanup and EXACT same idle cadence as swap UI.
+    ((void(*)(id,SEL,id))DFNativeBorderStop)(self,cmd,view);
+    void (^update)(void)=^{
+        if (![view isKindOfClass:[UIView class]]) return;
+        DFTrackBorderView(self,view);
+        objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        DFSetBorderVisible(view,NO);
+        NSLog(@"[DuoFaceBorder] RED OFF native idle view=%p",view);
+    };
+    if ([NSThread isMainThread]) update();
+    else dispatch_async(dispatch_get_main_queue(),update);
+}
+// Mirror the SAME native interaction session that shows and hides the
+// switch/divider controls. Calling %orig/IMP retains their exact idle timer.
+static void DFSessionStartHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSessionStart)(self,cmd);
+    for (UIView *view in [DFKnownBorderViewsFor(self) allObjects]) {
+        objc_setAssociatedObject(view,&DFRunningAssociation,@YES,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    DFUpdateFocusBorders(self);
+    NSLog(@"[DuoFaceBorder] native interaction session START");
+}
+static void DFSessionStopHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSessionStop)(self,cmd);
+    for (UIView *view in [DFKnownBorderViewsFor(self) allObjects]) {
+        objc_setAssociatedObject(view,&DFRunningAssociation,@NO,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    DFUpdateFocusBorders(self);
+    NSLog(@"[DuoFaceBorder] native interaction session IDLE");
+}
+static void DFSplitLayoutHook(id self, SEL cmd) {
+    ((void(*)(id,SEL))DFNativeSplitLayout)(self,cmd);
+    DFUpdateFocusBorders(self);
+}
+static void DFInstallBorderRunner(Class controller, void (*hook)(Class,SEL,IMP,IMP *)) {
+    if (DFBorderHooksInstalled || !controller || !hook) return;
+    SEL start = @selector(startContainerBorderBlinking:);
+    SEL stop = @selector(stopContainerBorderBlinking:);
+    // Exact class CBBridgedSplitApp and selector signatures verified in original ObjC metadata.
+    Method m1 = class_getInstanceMethod(controller,start);
+    Method m2 = class_getInstanceMethod(controller,stop);
+    if (!m1 || !m2) {
+        NSLog(@"[DuoFaceBorder] native start/stop selectors missing");
+        return;
+    }
+    if (strcmp(method_getTypeEncoding(m1),"v24@0:8@16") ||
+        strcmp(method_getTypeEncoding(m2),"v24@0:8@16")) {
+        NSLog(@"[DuoFaceBorder] signature mismatch start=%s stop=%s",
+              method_getTypeEncoding(m1),method_getTypeEncoding(m2));
+        return;
+    }
+    SEL layout = @selector(layoutSplitViews);
+    if (class_getInstanceMethod(controller,layout)) hook(controller,layout,(IMP)DFSplitLayoutHook,&DFNativeSplitLayout);
+    hook(controller,start,(IMP)DFBorderStartHook,&DFNativeBorderStart);
+    hook(controller,stop,(IMP)DFBorderStopHook,&DFNativeBorderStop);
+    // Explicit native interaction-session hooks ensure red is hidden on
+    // inactivity even if native code bypasses a per-container STOP callback.
+    Method startSession=class_getInstanceMethod(controller,@selector(startBlinkingSession));
+    Method stopSession=class_getInstanceMethod(controller,@selector(stopBlinkingSession));
+    if (startSession && stopSession &&
+        method_getNumberOfArguments(startSession)==2 &&
+        method_getNumberOfArguments(stopSession)==2 &&
+        method_getTypeEncoding(startSession)[0]=='v' &&
+        method_getTypeEncoding(stopSession)[0]=='v') {
+        hook(controller,@selector(startBlinkingSession),(IMP)DFSessionStartHook,&DFNativeSessionStart);
+        hook(controller,@selector(stopBlinkingSession),(IMP)DFSessionStopHook,&DFNativeSessionStop);
+    } else NSLog(@"[DuoFaceBorder] native activity session hook unavailable; using per-container START/STOP");
+    Method focus=class_getInstanceMethod(controller,@selector(focusSlot:animated:));
+    Method restore=class_getInstanceMethod(controller,@selector(restoreSplitAnimated:));
+    // Check argument types by index; ObjC encodings contain stack offsets between them.
+    BOOL safe=NO;
+    if (focus && restore && method_getNumberOfArguments(focus)==4 &&
+        method_getNumberOfArguments(restore)==3) {
+        char *slotType=method_copyArgumentType(focus,2);
+        char *focusAnimated=method_copyArgumentType(focus,3);
+        char *restoreAnimated=method_copyArgumentType(restore,2);
+        safe=slotType && (!strcmp(slotType,@encode(NSInteger)) ||
+            !strcmp(slotType,@encode(NSUInteger))) &&
+            focusAnimated && (!strcmp(focusAnimated,"B") || !strcmp(focusAnimated,"c")) &&
+            restoreAnimated && (!strcmp(restoreAnimated,"B") || !strcmp(restoreAnimated,"c"));
+        if (slotType) free(slotType);
+        if (focusAnimated) free(focusAnimated);
+        if (restoreAnimated) free(restoreAnimated);
+    }
+    if (safe) {
+        hook(controller,@selector(focusSlot:animated:),(IMP)DFFocusSlotHook,&DFNativeFocusSlot);
+        hook(controller,@selector(restoreSplitAnimated:),(IMP)DFRestoreSplitHook,&DFNativeRestoreSplit);
+    }
+    DFBorderHooksInstalled = (DFNativeBorderStart != NULL && DFNativeBorderStop != NULL);
+    NSLog(@"[DuoFaceBorder] install %@ start=%p stop=%p focus=%p restore=%p",
+          DFBorderHooksInstalled?@"OK":@"FAILED",
+          DFNativeBorderStart,DFNativeBorderStop,DFNativeFocusSlot,DFNativeRestoreSplit);
+}
+########## END FILE: src/DuoFaceBorderRunner.m ##########
+
+########## BEGIN FILE: src/DuoFaceLogoGripOnly.m ##########
+// DuoFace native9 candidate — surgical standalone 0.30s movable logo.
+// DOES NOT change native6's compiled DuoFaceVisualHook.dylib. No style,
+// fullscreen/picker, divider ratio, border, or app-host hooks live in this file.
+// The filter for this module should mirror native6's original VisualHook.plist.
+//
+// This is source-only analysis/compile preparation, NOT a published DEB.
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <dlfcn.h>
+#import <mach-o/dyld.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+
+// Reuse the actual gesture logic proven to move the native button on-device.
+// Preserve the entire native CBDividerView.handlePan: callback unconditionally.
+#define DF_LOGO_PRESERVE_NATIVE_DIVIDER_PAN 1
+typedef void (*DFHookFn)(Class, SEL, IMP, IMP *);
+
+static id DFObjectIvar(id object, const char *name) {
+    if (!object || !name) return nil;
+    Ivar ivar = class_getInstanceVariable([object class], name);
+    const char *type = ivar ? ivar_getTypeEncoding(ivar) : NULL;
+    return type && type[0] == '@' ? object_getIvar(object, ivar) : nil;
+}
+#include "DFDividerLogoGrip.inc"
+
+static IMP oldDFGripOnlyLayout;
+static BOOL DFGripOnlyLayoutHookInstalled;
+static void *DFGripOnlySubstrateHandle;
+
+static void DFGripOnlyLayout(id divider, SEL cmd) {
+    // Native6 visual library may already have hooked layoutSubviews.
+    // Always call its complete chain FIRST, then only restore the real button
+    // frame and native gesture delay; never redraw or replace any image.
+    ((void (*)(id, SEL))oldDFGripOnlyLayout)(divider, cmd);
+    if (DFLogoRestorePositionBeforeLayout(divider) &&
+        [divider respondsToSelector:@selector(updateGripLayout)]) {
+        ((void (*)(id, SEL))objc_msgSend)(
+            divider, @selector(updateGripLayout));
+    }
+    id buttons = DFObjectIvar(divider, "_moveButtons");
+    if ([buttons isKindOfClass:[NSArray class]]) {
+        for (id button in (NSArray *)buttons)
+            DFLogoSetNativeHoldThreshold((UIButton *)button);
+    }
+}
+
+static DFHookFn DFGripOnlySubstrate(void) {
+    DFHookFn hook = (DFHookFn)dlsym(RTLD_DEFAULT, "MSHookMessageEx");
+    if (hook) return hook;
+    static BOOL attempted;
+    if (attempted) return NULL;
+    attempted = YES;
+    DFGripOnlySubstrateHandle =
+        dlopen("/var/jb/usr/lib/libsubstrate.dylib", RTLD_NOW | RTLD_GLOBAL);
+    if (!DFGripOnlySubstrateHandle)
+        DFGripOnlySubstrateHandle =
+            dlopen("/usr/lib/libsubstrate.dylib", RTLD_NOW | RTLD_GLOBAL);
+    return DFGripOnlySubstrateHandle
+        ? (DFHookFn)dlsym(DFGripOnlySubstrateHandle, "MSHookMessageEx") : NULL;
+}
+
+static void DFGripOnlyInstall(void) {
+    if (DFGripOnlyLayoutHookInstalled) return;
+    Class divider = objc_getClass("CBDividerView");
+    if (!divider || !class_getInstanceMethod(divider, @selector(layoutSubviews)))
+        return;
+    DFHookFn hook = DFGripOnlySubstrate();
+    if (!hook) return;
+    if (!DFInstallLogoGripHooks(hook, divider)) {
+        NSLog(@"[DuoFaceGripOnly] missing native methods; original UI/pan preserved");
+        return;
+    }
+    hook(divider, @selector(layoutSubviews),
+         (IMP)DFGripOnlyLayout, &oldDFGripOnlyLayout);
+    DFGripOnlyLayoutHookInstalled = YES;
+    NSLog(@"[DuoFaceGripOnly] installed: 0.30s logo drag; native divider pan, fullscreen, visual library untouched");
+}
+
+static void DFGripOnlyImageAdded(const struct mach_header *mh, intptr_t slide) {
+    (void)mh;
+    (void)slide;
+    dispatch_async(dispatch_get_main_queue(), ^{ DFGripOnlyInstall(); });
+}
+
+__attribute__((constructor)) static void DFGripOnlyInit(void) {
+    _dyld_register_func_for_add_image(DFGripOnlyImageAdded);
+    dispatch_async(dispatch_get_main_queue(), ^{ DFGripOnlyInstall(); });
+}
+########## END FILE: src/DuoFaceLogoGripOnly.m ##########
+
+########## BEGIN FILE: src/DuoFaceVisualHook.m ##########
+// Visual-only: preserve native controls, callbacks, gestures and loading animation.
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+#import <dlfcn.h>
+#import <mach-o/dyld.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+#include "DuoFaceBorderRunner.m"
+typedef void (*DFHookFn)(Class, SEL, IMP, IMP *);
+static NSString * const kAssets = @"/var/jb/Library/Application Support/DuoFace/";
+static char kOverlayKey;
+static char kVisualOnlyKey;
+static IMP oldButtonSetBackgroundColor, oldLayerSetBorderWidth, oldLayerSetBorderColor;
+static BOOL visualSetterHooksInstalled;
+static void DFSetButtonBackgroundColor(UIButton *button, SEL cmd, UIColor *color) {
+    if (objc_getAssociatedObject(button, &kVisualOnlyKey)) color = [UIColor clearColor];
+    ((void (*)(id, SEL, id))oldButtonSetBackgroundColor)(button, cmd, color);
+}
+static void DFSetLayerBorderWidth(CALayer *layer, SEL cmd, CGFloat width) {
+    if (objc_getAssociatedObject(layer, &kVisualOnlyKey)) width = 0;
+    ((void (*)(id, SEL, CGFloat))oldLayerSetBorderWidth)(layer, cmd, width);
+}
+static void DFSetLayerBorderColor(CALayer *layer, SEL cmd, CGColorRef color) {
+    if (objc_getAssociatedObject(layer, &kVisualOnlyKey)) color = [UIColor clearColor].CGColor;
+    ((void (*)(id, SEL, CGColorRef))oldLayerSetBorderColor)(layer, cmd, color);
+}
+
+static IMP oldPillLayout, oldDividerLayout, oldSplashLayout;
+static BOOL pillInstalled, dividerInstalled, splashInstalled;
+static BOOL pickerLogged, fullscreenLogged, swapLogged, splashLogged;
+
+static UIImage *DFImage(NSString *name) {
+    static NSMutableDictionary *cache;
+    if (!cache) cache = [[NSMutableDictionary alloc] init];
+    UIImage *image = [cache objectForKey:name];
+    if (!image) {
+        image = [UIImage imageWithContentsOfFile:[kAssets stringByAppendingString:name]];
+        if (image) [cache setObject:image forKey:name];
+    }
+    return image;
+}
+// Ivar names/types verified in actual ObjC metadata; never hard-code offsets.
+static id DFObjectIvar(id object, const char *name) {
+    Ivar ivar = class_getInstanceVariable([object class], name);
+    const char *type = ivar ? ivar_getTypeEncoding(ivar) : NULL;
+    return type && type[0] == '@' ? object_getIvar(object, ivar) : nil;
+}
+static BOOL DFApplyButton(id value, NSString *asset, BOOL round) {
+    if (![value isKindOfClass:[UIButton class]]) return NO;
+    UIButton *button = (UIButton *)value;
+    UIImage *image = DFImage(asset);
+    if (!image) return NO;
+    UIImageView *overlay = objc_getAssociatedObject(button, &kOverlayKey);
+    if (!overlay) {
+        overlay = [[UIImageView alloc] initWithFrame:button.bounds];
+        overlay.userInteractionEnabled = NO;
+        overlay.isAccessibilityElement = NO;
+        overlay.contentMode = UIViewContentModeScaleAspectFit;
+        overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [button addSubview:overlay];
+        objc_setAssociatedObject(button, &kOverlayKey, overlay, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [overlay release];
+    }
+    overlay.frame = button.bounds;
+    overlay.image = image;
+    overlay.clipsToBounds = round;
+    overlay.layer.cornerRadius = round ? MIN(button.bounds.size.width, button.bounds.size.height)/2.0 : 0;
+    // Keep the working DuoFace overlay, but suppress only native button artwork.
+    // Do not remove UIButton, its handlers, gesture recognizers or unrelated layers.
+    objc_setAssociatedObject(button, &kVisualOnlyKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(button.layer, &kVisualOnlyKey, @YES, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    button.imageView.hidden = YES;
+    for (NSUInteger state = 0; state < 16; state++) {
+        UIControlState controlState = (UIControlState)state;
+        if ([button backgroundImageForState:controlState])
+            [button setBackgroundImage:nil forState:controlState];
+    }
+    button.backgroundColor = [UIColor clearColor];
+    // Remove native badge chrome, but preserve UIButton and its blink transform.
+    // This intentionally leaves the parent layer's transform/animations intact.
+    button.layer.borderWidth = 0.0;
+    button.layer.borderColor = [UIColor clearColor].CGColor;
+    button.layer.shadowOpacity = 0.0f;
+    button.layer.shadowRadius = 0.0f;
+    button.layer.shadowColor = [UIColor clearColor].CGColor;
+    button.layer.shadowOffset = CGSizeZero;
+    [button bringSubviewToFront:overlay];
+    return YES;
+}
+// The source-only feature uses native UIButton and Objective-C callbacks.
+#include "DFDividerLogoGrip.inc"
+
+static void DFPillLayout(UIView *self, SEL cmd) {
+    ((void(*)(id,SEL))oldPillLayout)(self, cmd);
+    if (DFApplyButton(DFObjectIvar(self, "_dotsButton"), @"VisualAssets/duoface-picker.png", NO)) {
+        id dots = DFObjectIvar(self, "_dotViews");
+        if ([dots isKindOfClass:[NSArray class]])
+            for (id dot in dots)
+                if ([dot isKindOfClass:[UIView class]]) [(UIView *)dot setHidden:YES];
+        if (!pickerLogged) { NSLog(@"[DuoFaceVisual12] picker applied; dots hidden"); pickerLogged=YES; }
+    }
+    BOOL expand = DFApplyButton(DFObjectIvar(self, "_expandButton"), @"VisualAssets/duoface-fullscreen.png", NO);
+    BOOL restore = DFApplyButton(DFObjectIvar(self, "_restoreButton"), @"VisualAssets/duoface-fullscreen.png", NO);
+    if ((expand || restore) && !fullscreenLogged) {
+        NSLog(@"[DuoFaceVisual12] fullscreen/restore applied; actions unchanged"); fullscreenLogged=YES;
+    }
+}
+static void DFDividerLayout(UIView *self, SEL cmd) {
+    ((void(*)(id,SEL))oldDividerLayout)(self, cmd);
+    // Retain the moved BUTTON's hitbox as well as its overlay across layouts.
+    if (DFGripHooksInstalled && DFLogoRestorePositionBeforeLayout(self))
+        ((void (*)(id, SEL))objc_msgSend)(self, @selector(updateGripLayout));
+    id buttons = DFObjectIvar(self, "_moveButtons");
+    if (![buttons isKindOfClass:[NSArray class]]) return;
+    for (id button in buttons) {
+        if (DFGripHooksInstalled) DFLogoSetNativeHoldThreshold((UIButton *)button);
+        if (DFApplyButton(button, @"VisualAssets/duoface-swap.png", YES) && !swapLogged) {
+            NSLog(@"[DuoFaceVisual12] divider native tap preserved; hold=0.30s logo position only; split-pan outside unchanged");
+            swapLogged=YES;
+        }
+    }
+}
+static void DFSplashLayout(UIView *self, SEL cmd) {
+    ((void(*)(id,SEL))oldSplashLayout)(self, cmd);
+    id value = DFObjectIvar(self, "_logoImageView");
+    if (![value isKindOfClass:[UIImageView class]]) return;
+    UIImageView *logo = (UIImageView *)value;
+    NSString *asset = logo.bounds.size.height > logo.bounds.size.width
+        ? @"duoface-logo-vert.png" : @"duoface-logo.png";
+    UIImage *image = DFImage(asset);
+    if (!image) return;
+    logo.image = image;
+    logo.contentMode = UIViewContentModeScaleAspectFit;
+    self.backgroundColor = [UIColor blackColor];
+    NSMutableArray *stack = [NSMutableArray arrayWithObject:self];
+    while (stack.count) {
+        UIView *v = [[stack lastObject] retain];
+        [stack removeLastObject];
+        if ([v isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)v;
+            if ([label.text isEqualToString:@"TWO SCREENS. ZERO LIMITS."] ||
+                [label.text isEqualToString:@"WORKS WITH APPLE CARPLAY"] ||
+                [label.text isEqualToString:@"TWO FACES ONE SCREEN"])
+                label.hidden = YES; // Exact slogan is already part of approved logo.
+        }
+        [stack addObjectsFromArray:v.subviews];
+        [v release];
+    }
+    if (!splashLogged) {
+        NSLog(@"[DuoFaceVisual12] splash %@ applied; original loading untouched", asset); splashLogged=YES;
+    }
+}
+static void DFInstall(void) {
+    if (pillInstalled && dividerInstalled && splashInstalled &&
+        DFBorderHooksInstalled && DFGripHooksInstalled) return;
+    DFHookFn hook = (DFHookFn)dlsym(RTLD_DEFAULT, "MSHookMessageEx");
+    static BOOL triedLibrary;
+    if (!hook && !triedLibrary) {
+        triedLibrary = YES;
+        void *handle = dlopen("/var/jb/usr/lib/libsubstrate.dylib", RTLD_NOW | RTLD_GLOBAL);
+        if (!handle) handle = dlopen("/usr/lib/libsubstrate.dylib", RTLD_NOW | RTLD_GLOBAL);
+        if (handle) hook = (DFHookFn)dlsym(handle, "MSHookMessageEx");
+    }
+    if (!hook) return;
+    if (!visualSetterHooksInstalled) {
+        hook(objc_getClass("UIButton"), @selector(setBackgroundColor:), (IMP)DFSetButtonBackgroundColor, &oldButtonSetBackgroundColor);
+        hook(objc_getClass("CALayer"), @selector(setBorderWidth:), (IMP)DFSetLayerBorderWidth, &oldLayerSetBorderWidth);
+        hook(objc_getClass("CALayer"), @selector(setBorderColor:), (IMP)DFSetLayerBorderColor, &oldLayerSetBorderColor);
+        visualSetterHooksInstalled = YES;
+    }
+    Class pill = objc_getClass("CBSlotPillView");
+    Class divider = objc_getClass("CBDividerView");
+    Class splash = objc_getClass("CBSplitSplashScreenView");
+    Class split = objc_getClass("CBBridgedSplitApp");
+    DFInstallBorderRunner(split,hook);
+    if (pill && !pillInstalled) {
+        hook(pill, @selector(layoutSubviews), (IMP)DFPillLayout, &oldPillLayout);
+        pillInstalled=YES; NSLog(@"[DuoFaceVisual12] CBSlotPillView hook installed");
+    }
+    if (divider && !DFGripHooksInstalled) {
+        if (!DFInstallLogoGripHooks(hook, divider))
+            NSLog(@"[DuoFaceGrip] native grip methods unavailable; original gestures preserved");
+    }
+    if (divider && !dividerInstalled) {
+        hook(divider, @selector(layoutSubviews), (IMP)DFDividerLayout, &oldDividerLayout);
+        dividerInstalled=YES; NSLog(@"[DuoFaceVisual12] CBDividerView hook installed");
+    }
+    if (splash && !splashInstalled) {
+        hook(splash, @selector(layoutSubviews), (IMP)DFSplashLayout, &oldSplashLayout);
+        splashInstalled=YES; NSLog(@"[DuoFaceVisual12] CBSplitSplashScreenView hook installed");
+    }
+}
+static void DFImageAdded(const struct mach_header *header, intptr_t slide) {
+    (void)header; (void)slide;
+    // Wait until ObjC class registration finishes; install on main queue.
+    dispatch_async(dispatch_get_main_queue(), ^{ DFInstall(); });
+}
+__attribute__((constructor)) static void DFInit(void) {
+    _dyld_register_func_for_add_image(DFImageAdded);
+    dispatch_async(dispatch_get_main_queue(), ^{ DFInstall(); });
+}
+########## END FILE: src/DuoFaceVisualHook.m ##########
+
