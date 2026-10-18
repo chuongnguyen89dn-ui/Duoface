@@ -209,6 +209,9 @@ def cli():
                  dashboard_path=str(binary.relative_to(root)),
                  png_assets=scan_assets(root),
                  classes=inspect_methods(meta,dis))
+            if name=="native12":
+                from audit_native12_divider_geometry import inspect_native12
+                results[name]["divider_geometry_constants"]=inspect_native12(binary)
     result=dict(status="NATIVE12_VS_ORIGINAL104_ACTUAL_DEB_READONLY",
        static_only=True,device_tested=False,qa_interface_modified=False,
        **results)
@@ -249,6 +252,7 @@ def cli():
                    "Binary ARM64 assembly only; no live view dimensions or dynamic dispatch proven.",
                    *detail,""]),encoding="utf-8")
     brief=dict(status="NATIVE12_ACTUAL_DEB_COMPACT_UI_MAP",static_only=True,
+        divider_geometry=native["divider_geometry_constants"],
         deb_sha256=native["deb_sha256"],
         original104_deb_sha256=orig["deb_sha256"],
         native12_assets=[dict(path=x["path"],width_px=x["width_px"],
@@ -292,6 +296,17 @@ def cli():
               f"Native selector refs: `{', '.join(n.get('selector_refs',[])[:15])}`. "
               f"Arithmetic/control samples: {len(n.get('geometry_instruction_samples',[]))}.")
         lines.append("")
+    dg=native["divider_geometry_constants"]
+    threshold=dg["button_geometry"]["threshold_pt"]
+    hit=dg["literals"]["divider_hit_region_constant"]["value"]
+    lines += ["## Decoded Native12 divider geometry literal evidence", "",
+      "Read-only Mach-O LC_SEGMENT_64 mapping, pinned SHA; static, not receiver dimensions.",
+      f"- Short-axis threshold: **{threshold:g}pt** at VM 0x312488 (ARM64 ff4bc–ff4d0).",
+      "- Native move/grip button frame: square **28x28pt** for short-axis less than threshold,",
+      "  square **30x30pt** otherwise; setFrame d2=d3=d8 at ff6b0–ff6c0.",
+      f"- Hit-test literal: **{hit:g}** at VM 0x311948 (ARM64 ff858–ff864).",
+      "  This constant alone is not a complete resolved hit rectangle.",
+      "- QA divider button visual frame / hit forwarding still require code and parked-CarPlay validation.", ""]
     lines+=["## Interpretation and implementation order","",
       "1. Use actual Native12 PNG hashes/dimensions and approve asset choice. Never infer UIButton size from PNG pixel size.",
       "2. Recover Native12 class-specific layout, hit rectangles and gestures from the bounded disassembly above; prove owner/selector version by version.",
