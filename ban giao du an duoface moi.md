@@ -1,5 +1,11 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — BỔ SUNG QUAN TRỌNG: Native HUD 8 đã có bong bóng HUD
+
+- Người dùng xác nhận **bản Native HUD 8 hiện đã có bong bóng HUD**. Đây là chức năng hiện hữu cần bảo toàn khi tái sử dụng sang Visual12 QA, KHÔNG viết lại bong bóng giả lập từ đầu và KHÔNG coi đây là tính năng chưa có.
+- Khi xác định source/commit Native HUD 8, phải truy theo cả đường khởi tạo, dữ liệu tốc độ, overlay/owner, vòng đời show/hide, vị trí, thao tác và điều kiện CarPlay; kiểm tra xung đột với UI/split QA trước khi ghép. Không tự khẳng định HUD đã hoạt động trong QA khi chưa thử.
+- Không thay bản Native HUD 8 trên Sileo; QA vẫn trên `feature/visual12-duodash-recovery`, giữ `standalone6invalidate` và CarPlay độc lập không giấy phép.
+
 ## 2026-10-18 — YÊU CẦU MỚI: tái sử dụng Native HUD 8 vào QA hiện tại
 
 - QUYẾT ĐỊNH CỦA NGƯỜI DÙNG (thay đổi phạm vi trước đây): ưu tiên mang nguyên các chức năng/giao diện đã hoạt động của **bản Native HUD 8** sang nhánh QA đang phát triển `feature/visual12-duodash-recovery`, thay vì viết lại. Đây là yêu cầu ghép mã/đối chiếu tính tương thích, KHÔNG phải yêu cầu thay bản Native đang cài trên Sileo.
