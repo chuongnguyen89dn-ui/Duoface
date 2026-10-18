@@ -40,6 +40,9 @@ static __weak UIWindow *DFSPWindow;
 static __weak SPDash *DFSPManager;
 static DFSPNativeFrame *DFSPUI;
 static DFSPNative12Host *DFSPHost;
+// The validated root geometry can be unavailable on some CarPlay scene variants.
+// Keep the DuoFace-owned UI visible without altering the vendor app scene.
+static BOOL DFSPVisualCompatibility=NO;
 static id<DFSPNativeFrameDelegate> DFSPAdapter;
 static BOOL DFSPRefreshing=NO;
 static BOOL DFSPUpdatingRatio=NO;
@@ -149,7 +152,11 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
     UIWindow *window=DFSPWindow;
     DFSPNative12Host *host=DFSPHost;
     if (!window || !host || !host.isAttached ||
-        !DFSPExternal(window) || DFSPApplying) return NO;
+        !DFSPExternal(window) || DFSPApplying) {
+        if (DFSPVisualCompatibility)
+            DFSPLog(@"QA7: Zoom blocked: host/chrome not verified; native UI stays visible");
+        return NO;
+    }
     BOOL wasFull=DFSPFull;
     DFSPApplying=YES;
     BOOL applied=full?[host applyFullscreen]:[host applyNormal];
@@ -365,6 +372,7 @@ static void DFSPRemove(void) {
     UIWindow *oldWindow=DFSPWindow;
     [DFSPHost restoreAndDetach];
     DFSPHost=nil;
+    DFSPVisualCompatibility=NO;
     if (oldWindow) {
         oldWindow.windowLevel=DFSPOriginalLevel;
         if (DFSPHasOriginalWindowBackground) {
@@ -400,7 +408,8 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         return;
     }
     if (DFSPWindow==window && DFSPUI) {
-        if (!DFSPFull) (void)DFSPApply(NO,@"reconnected");
+        if (!DFSPFull && DFSPHost) (void)DFSPApply(NO,@"reconnected");
+        DFSPRefresh();
         return;
     }
     if (DFSPWindow && DFSPWindow!=window) DFSPRemove();
@@ -418,20 +427,26 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     CGRect usable=DFSPSystemUsableRect(window);
     DFSPHost=[[DFSPNative12Host alloc]initWithCarPlayWindow:window
                     contentRoot:realRoot nativeUsableInWindow:usable];
-    if (!DFSPHost) {
-        DFSPLog([NSString stringWithFormat:
-          @"QA6 host refused unsafe geometry window=%@ bounds=%@ root=%@ usable=%@",
-          NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds),
-          realRoot,NSStringFromCGRect(usable)]);
-        DFSPRemove();
-        return;
-    }
+    DFSPVisualCompatibility=(DFSPHost==nil);
+    DFSPLog([NSString stringWithFormat:
+      @"QA7 owner-check attached=%d rootInWindow=%d rootTransform=%@ rootFrame=%@ rootBounds=%@ windowFrame=%@ windowBounds=%@ usable=%@ safe=%@",
+      DFSPHost!=nil,
+      realRoot && [realRoot isDescendantOfView:window],
+      realRoot?NSStringFromCGAffineTransform(realRoot.transform):@"nil",
+      realRoot?NSStringFromCGRect(realRoot.frame):@"nil",
+      realRoot?NSStringFromCGRect(realRoot.bounds):@"nil",
+      NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds),
+      NSStringFromCGRect(usable),NSStringFromUIEdgeInsets(window.safeAreaInsets)]);
+    // A rejected host must NEVER silently restore the old SidePlay controls.
+    // Reversible visual-only mode does not resize UIWindow or hosted scenes;
+    // Zoom remains disabled until the native geometry/chrome owner is confirmed.
     DFSPOriginalWindowBackground=window.backgroundColor;
     DFSPOriginalWindowOpaque=window.opaque;
     DFSPHasOriginalWindowBackground=YES;
-    // Transparent outside the content-owned usable area.
-    window.opaque=NO;
-    window.backgroundColor=UIColor.clearColor;
+    if (DFSPHost) {
+        window.opaque=NO;
+        window.backgroundColor=UIColor.clearColor;
+    }
     DFSPAdapter=[DFSPNativeAdapter new];
     DFSPUI=[[DFSPNativeFrame alloc]initWithFrame:window.bounds];
     DFSPUI.delegate=DFSPAdapter;
@@ -440,11 +455,18 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPLog([NSString stringWithFormat:
         @"SPDash host attached external=%@ originalFrame=%@ oldLevel=%.1f",
         window.screen,NSStringFromCGRect(DFSPOriginalFrame),DFSPOriginalLevel]);
-    if (!DFSPApply(NO,@"startup")) {
-        DFSPLog(@"startup override FAILED; disable replacement and restore old UI");
-        DFSPRemove(); // no hidden legacy UI while the new display is broken
-        return;
+    if (DFSPHost && !DFSPApply(NO,@"startup")) {
+        DFSPLog(@"QA7: host Normal failed; preserving DuoFace UI only; no scene/window crop");
+        [DFSPHost restoreAndDetach];
+        DFSPHost=nil;
+        DFSPVisualCompatibility=YES;
+        // Keep original SidePlay root and window chrome geometry untouched.
+        window.windowLevel=DFSPOriginalLevel;
+        window.backgroundColor=DFSPOriginalWindowBackground;
+        window.opaque=DFSPOriginalWindowOpaque;
     }
+    if (DFSPVisualCompatibility)
+        DFSPLog(@"QA7 VISUAL_COMPATIBILITY: DuoFace pill/divider mounted, unsafe zoom disabled; native system bar UNVERIFIED");
     DFSPRefresh();
 }
 %hook SPDash
@@ -489,13 +511,13 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 static void DFSPTryInit(unsigned attempt) {
     if (objc_getClass("SPDash")) {
         %init;
-        DFSPLog(@"SPDash display takeover hooks QA2 installed");
+        DFSPLog(@"QA7 injection and SPDash hooks installed (0.1.5~native12visual7)");
         return;
     }
     if (attempt<30)
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,1000000000),
                        dispatch_get_main_queue(), ^{DFSPTryInit(attempt+1);});
-    else DFSPLog(@"SPDash class missing; disabled");
+    else DFSPLog(@"QA7: SPDash class missing after 30 attempts; check SpringBoard injection and installed QA version");
 }
 %ctor {
     @autoreleasepool {
