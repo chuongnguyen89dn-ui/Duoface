@@ -1,9 +1,9 @@
 Package: com.duoface.sideplaydisplay
 Name: DuoFace SidePlay Display Zoom QA
-Version: 0.1.0~zoomqa1
+Version: 0.1.0~zoomqa2
 Architecture: iphoneos-arm64
 Section: Tweaks
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.sideplay (>= 1.0.4-1)
-Description: Non-destructive SidePlay display test overlay. Separate Zoom In/Out and CarPlay window-level test for real-device verification. Requires separately installed SidePlay. Does not modify DuoFace Native12 HUD8.
+Description: SidePlay normal-geometry takeover QA2: temporarily suppress old fullscreen frame/dock decision; restore 64pt native fallback and test Zoom In/Out. Requires separately installed SidePlay. Does not modify DuoFace Native12 HUD8.
