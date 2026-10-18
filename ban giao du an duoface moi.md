@@ -1,5 +1,14 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Đã tìm được chứng cứ gốc ngay trong repo, không đoán lifecycle
+
+- Đã đọc `Gpt-training-/SKILL_INDEX.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`.
+- Đã xác minh repo `Duoface` có gói tham chiếu `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb` và `audit/duonavi-original104-scene/REPORT.md` (report ghi nguồn commit `ae0bd972d0ff25f53ef064ee1f83a17efeb130a5`, DEB sha256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`). Không cần repo riêng `Duonavi` để bắt đầu đối chiếu.
+- Đã đọc `audit/payload-migration/ORIGINAL_RUNTIME_CONTRACT.json`, `VISUALTEST12_CARPLAY_BOUNDED_METHOD_PARITY.json`, `VISUALTEST12_ACTUAL_LICENSE_BOUNDARY.json`. Bản audit xác nhận license classes `CBSubscriptionViewController`, `CBLicenseExpiredModalViewController`, `CBLicenseSyncManager` còn nằm trong binary VisualTest12; việc bỏ preference/hình thức không chứng minh đã tách license. Chứng cứ bounded-method parity là static byte comparison, **không chứng minh thứ tự lifecycle runtime**.
+- Quyết định: tiếp tục dùng `DFV12SceneHost` và `DFV12SplitController` hiện hữu làm baseline; không bật coordinator thử nghiệm, không ghép lại UI hai pane. Trước khi sửa source phải xác minh chuỗi scene open/attach/ready/failure/close/shutdown từ reference và code, phân biệt bằng chứng static với thực nghiệm.
+- Chưa sửa mã thêm ở checkpoint này; chưa chạy build/CI, chưa Sileo. NEXT: đọc report scene chi tiết + script audit teardown, đối chiếu các owner scene thực tế; thiết kế sửa nhỏ theo gốc, sau đó chạy static test và CI trên nhánh QA.
+
+
 ## 2026-10-18 — ĐÃ HOÀN TÁC thử nghiệm sai hướng, đối chiếu SHA thành công
 
 - YÊU CẦU: kiểm tra lại, thay đổi nào không tuân thủ đúng cách viết/lifecycle của DuoFace gốc thì hoàn tác và cập nhật hồ sơ. Native12/Hub8/Sileo không thay đổi.
