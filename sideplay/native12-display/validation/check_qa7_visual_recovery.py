@@ -12,8 +12,8 @@ def must(flag,why):
     if not flag: raise AssertionError(why)
     print("PASS",why)
 must("DFSPNative12Host.m" in mk, "Native12 content root code still linked")
-must("0.1.5~native12visual7" in ctl, "QA7 isolated package version")
-must("QA7 injection and SPDash hooks installed" in src, "early injection has an observable startup marker")
+must("0.1.7~native12chrome9" in ctl, "QA9 isolated package version")
+must("QA9 injection and SPDash hooks installed" in src, "early injection has an observable startup marker")
 must("QA7 owner-check attached=" in src and "rootTransform=" in src,
     "log distinguishes unsuitable root geometry/transform")
 must("DFSPVisualCompatibility=(DFSPHost==nil);" in src,
@@ -36,9 +36,9 @@ must("DFSPVisualCompatibility" in src and
     'QA7: Zoom blocked:' in src and
     "if (!window || !host || !host.isAttached" in src,
     "unsafe Zoom cannot trigger native fullscreen without verified host")
-must("DFSPHideReplacedView([pane chipView]);" in src and
-    "DFSPHideReplacedView([pane layoutButton]);" in src,
-    "old SidePlay duplicate pill controls still hidden on live refresh")
+must("DFSPHideLegacyPaneControls(pane);" in src and
+    "[pane chipView]" in src and "[pane layoutButton]" in src,
+    "replaced SidePlay controls hidden using QA9 helper on live refresh")
 must("DFSPUI=[[DFSPNativeFrame alloc]initWithFrame:window.bounds];" in src and
     "DFSPRefresh();" in src[end:],
     "DuoFace shell is created in both normal and compatible visual mode")
@@ -47,4 +47,4 @@ must("window.frame=desired;" not in src and "w.frame=target;" not in host,
 must("CGRectGetMidX(rect)-pillSize.width/2" in ui and
     "CGRectGetMinY(rect)+topInset" in ui,
     "Native12 pill top-centers each live pane")
-print("QA7 SOURCE SAFETY PASS — system bar, device scenes, 8 layouts still NOT VERIFIED")
+print("QA9 SOURCE SAFETY PASS — chrome ACK code linked, device scenes and bar not yet tested")
