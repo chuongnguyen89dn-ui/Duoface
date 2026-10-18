@@ -1,0 +1,23 @@
+name: SidePlay Native12 function bridge static verification
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-native12-frame-bridge.yml'
+      - 'sideplay/native12-display/tests/check_original_host_bridge.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native12-frame:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate actual SidePlay ABI, Native12 default frame and draggable split wiring
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/tests/check_original_host_bridge.py
+          test -s sideplay/artifacts/native12frame3/SHA256SUMS.txt
+          (cd sideplay/artifacts/native12frame3 && sha256sum -c SHA256SUMS.txt)
