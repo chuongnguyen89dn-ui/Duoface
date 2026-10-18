@@ -46,10 +46,11 @@ jobs:
           python3 - "$WORK/out/ORIGINAL104_UI_CALLCHAINS.json" <<'PY'
           import json,sys
           o=json.load(open(sys.argv[1]))
-          assert o['total_methods'] == 27, o['total_methods']
+          assert o['total_methods'] == 31, o['total_methods']
+          assert len([m for m in o['methods'] if m['class']=='CBMultitaskingOverlayView'])==4
           assert not o['dynamic_objc_dispatch_proven']
           assert o['status'] == 'ORIGINAL104_UI_CALLCHAINS_READONLY_STATIC_PASS'
-          print('ORIGINAL104_27_NATIVE_UI_WINDOW_AND_CHROME_METHODS_VERIFIED_READONLY')
+          print('ORIGINAL104_31_NATIVE_UI_PICKER_WINDOW_AND_CHROME_METHODS_VERIFIED_READONLY')
           PY
       - name: Upload read-only original analysis, no compiled binary
         if: always()
