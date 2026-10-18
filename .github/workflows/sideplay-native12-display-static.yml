@@ -1,0 +1,31 @@
+name: SidePlay Native12 whole-display static tests
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - '.github/workflows/sideplay-native12-display-static.yml'
+      - 'sideplay/native12-display/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  native12-display:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile independent whole-display UI controller
+        run: |
+          set -euo pipefail
+          cc -std=c11 -Wall -Wextra -Werror -pedantic -O2 \
+            sideplay/native12-display/DFSPDisplayState.c \
+            sideplay/native12-display/tests/test_display_state.c \
+            -o /tmp/test-sideplay-native12-display
+      - name: Validate normal boot and explicit Zoom in/out
+        run: /tmp/test-sideplay-native12-display
+      - name: Reject accidental linking to SidePlay or DuoNavi binaries
+        run: |
+          set -euo pipefail
+          ! grep -RE 'CBBridgeManager|CBWindow|ARWCarPlayManager|SidePlay\.dylib' \
+            sideplay/native12-display/*.[ch]
