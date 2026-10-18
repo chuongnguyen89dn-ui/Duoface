@@ -230,7 +230,11 @@ static double DFSPClampRatio(double r, BOOL snap) {
         BOOL focused=(self.focusedSlot==i);
         BOOL visible=valid && (self.focusedSlot<0 || focused);
         BOOL compact=(CGRectGetWidth(rect)<320.0 || CGRectGetHeight(rect)<220.0);
-        [pill configureFocused:focused compact:compact allowsExpand:YES];
+        CGRect peer=rects[(NSUInteger)(1-i)].CGRectValue;
+        BOOL allowsExpand=CGRectGetWidth(peer)>60 && CGRectGetHeight(peer)>60;
+        // Native12 single-pane mode: only App (44x22 / compact 38x19).
+        // Focused mode still displays Restore (80x22 / compact 72x19).
+        [pill configureFocused:focused compact:compact allowsExpand:allowsExpand];
         CGSize pillSize=[pill nativeSize];
         pill.hidden=!visible || CGRectGetWidth(rect)<pillSize.width ||
                      CGRectGetHeight(rect)<pillSize.height;
