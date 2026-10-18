@@ -1,0 +1,93 @@
+name: Native12 complete signed DEB UI/asset inventory vs QA7
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - scripts/audit_native12_complete_deb_inventory.py
+      - .github/workflows/duoface-native12-complete-deb-inventory.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-complete-ui-inventory-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  full-inventory:
+    runs-on: macos-15
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install read-only DEB and PNG inspection dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          xcrun --find llvm-objdump
+          python3 -m venv "$RUNNER_TEMP/native12-full-inventory-venv"
+          "$RUNNER_TEMP/native12-full-inventory-venv/bin/python" -m pip install --quiet Pillow
+      - name: Scan all original Native12/QA7/original104 DEB payload members and ObjC classes
+        shell: bash
+        run: |
+          set -euo pipefail
+          D='audit/native12-complete-deb-inventory'
+          mkdir -p "$D"
+          "$RUNNER_TEMP/native12-full-inventory-venv/bin/python" \
+            scripts/audit_native12_complete_deb_inventory.py \
+            --native-deb 'dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            --qa-deb 'dist/visual12-native-shell7-visual-qa/com.duoface.visual12_1.0.3-12~ui8native7_iphoneos-arm64.deb' \
+            --original-deb 'dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' \
+            --out-json "$D/INVENTORY.json" \
+            --out-md "$D/REPORT.md"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('audit/native12-complete-deb-inventory/INVENTORY.json').read_text())
+          assert x["read_only"] and not x["device_ui_verified"]
+          assert x["packages"]["native12"]["counts"]["files"] == 43
+          assert x["packages"]["native12"]["counts"]["png"] == 25
+          assert x["packages"]["qa7"]["counts"]["files"] == 23
+          assert x["packages"]["native12"]["counts"]["dylib"] == 6
+          assert x["packages"]["qa7"]["counts"]["dylib"] == 1
+          d=x["packages"]["native12"]["machos"]
+          assert any("DuoFaceDashboard.dylib" in name for name in d)
+          classes=[name for v in d.values() for name in v["classes"]]
+          for must in ("CBWindow","CBBridgedSplitApp","CBMultitaskingOverlayView",
+                       "CBSlotPillView","CBDividerView","CBBridgedUIAppView"):
+              assert must in classes, f"Missing actual Native12 UI class {must}"
+          print("NATIVE12_PAYLOAD_43_FILES_25_PNG_6_UI_FAMILIES_STATIC_CLASS_PROOF_PASS")
+          PY
+      - name: Upload full scan artifact for recovery
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native12-complete-signed-deb-ui-and-resource-inventory
+          path: |
+            audit/native12-complete-deb-inventory/INVENTORY.json
+            audit/native12-complete-deb-inventory/REPORT.md
+          if-no-files-found: warn
+      - name: Persist complete inventory to GitHub project, without vendor binaries
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/native12-complete-deb-inventory/INVENTORY.json audit/native12-complete-deb-inventory/REPORT.md
+          if git diff --cached --quiet; then
+            echo 'NATIVE12_COMPLETE_INVENTORY_ALREADY_COMMITTED'
+            exit 0
+          fi
+          git commit -m 'audit(native12): persist exhaustive immutable DEB payload/PNG/class inventory [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/visual12-duodash-recovery
+            git rebase origin/feature/visual12-duodash-recovery
+            if git push origin HEAD:feature/visual12-duodash-recovery; then
+              echo 'NATIVE12_COMPLETE_INVENTORY_PERSISTED'
+              exit 0
+            fi
+            sleep 2
+          done
+          echo '::error::Scan succeeded but GitHub branch push failed'
+          exit 1
