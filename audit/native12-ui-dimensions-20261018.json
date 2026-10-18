@@ -1,0 +1,391 @@
+{
+  "audit": "Native12 HUD8 original104 / independent QA source geometry",
+  "date": "2026-10-18",
+  "repo": "chuongnguyen89dn-ui/Duoface",
+  "branch": "feature/visual12-duodash-recovery",
+  "sources": [
+    {
+      "path": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "read": true
+    },
+    {
+      "path": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "read": true
+    },
+    {
+      "path": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "read": true
+    },
+    {
+      "path": "runtime/fullscreen/DFPickerZoomMenu.xm",
+      "read": true
+    },
+    {
+      "path": "replacement/visual12/engine/runtime/DFIApprovedVisuals.h",
+      "read": true
+    },
+    {
+      "path": "replacement/visual12/engine/DFILayouts.h",
+      "read": true
+    },
+    {
+      "path": "src/DFDividerLogoGrip.inc",
+      "read": true
+    },
+    {
+      "path": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "read": true
+    }
+  ],
+  "legacy": "tiep tuc du an.md (2026-10-14 older 40pt menu superseded by approved 30pt)",
+  "referenceOriginal": "audit/duonavi-original104-ui/ORIGINAL104_UI_CALLCHAINS.json",
+  "referenceNative": "runtime/fullscreen/DFPickerZoomMenu.xm",
+  "status": "STATIC_SOURCE_CONFIDENCE_ONLY_NOT_DEVICE_VERIFIED",
+  "dimensions": [
+    {
+      "id": "carplay_safearea",
+      "component": "Window usable area",
+      "dimension": "source: safe area -> left 64 fallback",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 48,
+      "assurance": "original104",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "window_minimum",
+      "component": "Minimum usable size",
+      "dimension": "100x100",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 50,
+      "assurance": "original104",
+      "state": "fallback",
+      "found": true
+    },
+    {
+      "id": "layouts",
+      "component": "Layout modes",
+      "dimension": "8 kinds (1,2,3,4,5,6,7,8)",
+      "source": "replacement/visual12/engine/DFILayouts.h",
+      "line": 10,
+      "assurance": "approved",
+      "state": "needs-device",
+      "found": true
+    },
+    {
+      "id": "pane_pill",
+      "component": "Pane pill",
+      "dimension": "74x30; upper-right 2pt",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 281,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "pill_app",
+      "component": "App button",
+      "dimension": "30x26 at (4,2)",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 132,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "pill_focus",
+      "component": "Expand/restore button",
+      "dimension": "30x26 at (39,2)",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 133,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "divider_strip",
+      "component": "Divider pan touch",
+      "dimension": "16pt; thin stroke 1pt",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 290,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "divider_logo",
+      "component": "Divider logo control",
+      "dimension": "36x44pt",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 290,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "divider_hold",
+      "component": "Approved native logo hold",
+      "dimension": "0.30s",
+      "source": "src/DFDividerLogoGrip.inc",
+      "line": 10,
+      "assurance": "approved-native",
+      "state": "missing-in-qa",
+      "found": true
+    },
+    {
+      "id": "divider_tap",
+      "component": "Current independent logo action",
+      "dimension": "tap opens menu, should swap",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 163,
+      "assurance": "qa",
+      "state": "known-wrong",
+      "found": true
+    },
+    {
+      "id": "sheet_width",
+      "component": "Sheet width",
+      "dimension": "max 470, responsive min180, 8pt margins",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 238,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "sheet_height",
+      "component": "Sheet height",
+      "dimension": "max 280, min140, content 40pt*count+55",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 239,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "sheet_radius",
+      "component": "Sheet rounding",
+      "dimension": "20pt original V12",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 215,
+      "assurance": "original12",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "sheet_border",
+      "component": "Sheet outline",
+      "dimension": "0pt approved; original was 1pt",
+      "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
+      "line": 217,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "header_height",
+      "component": "Picker menu row",
+      "dimension": "30pt, replaces old 40pt experiment",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 310,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "header_logo",
+      "component": "Header logo",
+      "dimension": "120x30pt at full width",
+      "source": "runtime/fullscreen/DFPickerZoomMenu.xm",
+      "line": 404,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "header_tabs",
+      "component": "App/Zoom/Style/Close widths",
+      "dimension": "43/51/47/51pt",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 312,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "header_x",
+      "component": "Close X reserved",
+      "dimension": "48pt; QA X 32x26",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 310,
+      "assurance": "approved-native",
+      "state": "partial",
+      "found": true
+    },
+    {
+      "id": "header_icon",
+      "component": "Menu icon",
+      "dimension": "16pt",
+      "source": "replacement/visual12/engine/runtime/DFIApprovedVisuals.h",
+      "line": 55,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "header_font",
+      "component": "Menu label",
+      "dimension": "10pt",
+      "source": "replacement/visual12/engine/runtime/DFIApprovedVisuals.h",
+      "line": 38,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "app_cols",
+      "component": "App grid columns",
+      "dimension": "valid 4..6; default 4",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 58,
+      "assurance": "original104",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "app_rows",
+      "component": "App grid rows",
+      "dimension": "valid 2..3; default 2",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 63,
+      "assurance": "original104",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "app_pages",
+      "component": "App grid orientation",
+      "dimension": "horizontal paged with UIPageControl",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 151,
+      "assurance": "original104",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "app_gap",
+      "component": "Card spacing",
+      "dimension": "8pt",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 146,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "app_icon",
+      "component": "App card icon",
+      "dimension": "22..44pt",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 186,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "recent_height",
+      "component": "Recent card height",
+      "dimension": "52pt",
+      "source": "replacement/visual12/engine/runtime/DFINativePickerCards.inc",
+      "line": 162,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "layout_icon",
+      "component": "Layout preview inset",
+      "dimension": "9x8pt and 1.2pt outline",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 68,
+      "assurance": "qa",
+      "state": "not-native-proven",
+      "found": true
+    },
+    {
+      "id": "speed_hud",
+      "component": "Speed8 floating HUD",
+      "dimension": "104x46pt * scale",
+      "source": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "line": 250,
+      "assurance": "native8-source",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "limit_circle",
+      "component": "HUD limit circle",
+      "dimension": "34pt ring, 17 radius",
+      "source": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "line": 66,
+      "assurance": "native8-source",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "hud_settings",
+      "component": "HUD settings",
+      "dimension": "169pt tall; 220..320pt wide",
+      "source": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "line": 273,
+      "assurance": "native8-source",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "hud_buttons",
+      "component": "HUD eight settings",
+      "dimension": "4 columns, each height49, stride57",
+      "source": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "line": 289,
+      "assurance": "native8-source",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "hud_hold",
+      "component": "HUD settings hold",
+      "dimension": "0.6s",
+      "source": "replacement/visual12/engine/runtime/DFV12NativeHUD8.inc",
+      "line": 48,
+      "assurance": "native8-source",
+      "state": "reference",
+      "found": true
+    },
+    {
+      "id": "border",
+      "component": "Pane touched border",
+      "dimension": "1pt active, 0 otherwise",
+      "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
+      "line": 263,
+      "assurance": "qa",
+      "state": "needs-device",
+      "found": true
+    },
+    {
+      "id": "red",
+      "component": "Approved logo red",
+      "dimension": "RGB 227/2/15",
+      "source": "replacement/visual12/engine/runtime/DFIApprovedVisuals.h",
+      "line": 10,
+      "assurance": "approved-native",
+      "state": "reference",
+      "found": true
+    }
+  ],
+  "sourceCount": 34,
+  "found": 34,
+  "missing": [],
+  "changes": "Native12 approved picker sheet radius20, border0 committed f311628; earlier QA radius14/border1",
+  "pending": "UI device screenshot & logging for CarPlay dock, app cropping, frame sizes, pill and divider gestures"
+}
