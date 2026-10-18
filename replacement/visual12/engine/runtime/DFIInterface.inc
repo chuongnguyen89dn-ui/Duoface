@@ -78,7 +78,6 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) NSArray<UIButton *> *grips;
 @property(nonatomic,strong) NSArray<UIView *> *lines;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *dividerLogoPositions;
-@property(nonatomic,strong) UIButton *edge;
 @property(nonatomic,strong) UIVisualEffectView *toolbar;
 @property(nonatomic,strong) UIView *toolbarStack;
 @property(nonatomic,strong) UIVisualEffectView *panel;
@@ -176,7 +175,6 @@ static NSArray *DFIAvailableApps(void) {
   [self.nativeSplitSurface addSubview:logo];[grips addObject:logo];
  }
  self.grips=grips;self.lines=lines;
- self.edge=[self button:@"ellipsis" label:DFIT(@"Mở thanh công cụ",@"Show toolbar") action:@selector(edgeTap)];self.edge.layer.cornerRadius=12;self.edge.backgroundColor=[UIColor.blackColor colorWithAlphaComponent:.18];[self.view addSubview:self.edge];
  // Native12 sheet header remains detached until a picker/layout/recents sheet opens.
  self.toolbar=[[DFINativePickerMenuBar alloc]initWithFrame:CGRectZero];self.toolbar.hidden=YES;
  self.toolbarStack=[UIView new];self.toolbarStack.backgroundColor=UIColor.clearColor;
@@ -335,11 +333,6 @@ static NSArray *DFIAvailableApps(void) {
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
  self.pickerShade.frame=splitFrame;
- self.edge.frame=CGRectMake(CGRectGetMidX(splitFrame)-20,CGRectGetMaxY(splitFrame)-28,40,24);
- // The old alpha-QA floating ellipsis is NOT a Native12 split control.
- // Native12 actions remain reachable from each pane's slot pill; eliminate
- // the extra bottom-centre button seen on the real receiver screenshot.
- self.edge.hidden=YES;
  self.statusLabel.frame=CGRectMake(CGRectGetMinX(splitFrame)+8,CGRectGetMinY(splitFrame)+4,splitFrame.size.width-16,34);
  if(self.panel){
   CGRect nativeCardFrame=DFINativePickerCardFrame(splitFrame,self.list?self.list.rows.count:4);
@@ -397,7 +390,6 @@ static NSArray *DFIAvailableApps(void) {
  }
  for(UIVisualEffectView *pill in self.panePills)if(!pill.hidden)
      [self.nativeSplitSurface bringSubviewToFront:pill];
- [self.view bringSubviewToFront:self.edge];
  // Native8 is split-only, above the app panes but below an active native picker.
  NSInteger activeCount=0;
  for(id host in self.hosts)if(host!=NSNull.null && [host scene])activeCount++;
@@ -480,7 +472,6 @@ static NSArray *DFIAvailableApps(void) {
  [self armHide];
 }
 - (void)menu{if(self.panel)[self dismissPanel];else [self showAppMenu];[self armHide];[self.view setNeedsLayout];}
-- (void)edgeTap{if(self.maximized>=0){self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
 - (void)dismissPanel{
  if(self.list){[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;}
  [self.panel removeFromSuperview];self.panel=nil;
