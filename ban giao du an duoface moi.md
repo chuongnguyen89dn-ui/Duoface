@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Kỹ năng và nguồn Apple cho suy luận scene lifecycle
+
+- Đã đọc `Gpt-training-/SKILL_INDEX.md`, `PROJECT_INSTRUCTIONS.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`; xác định ZIP liên quan trong repo kỹ năng: `skills/01-github-continuity.zip`, `skills/02-ios-deb-ipa-carplay.zip`, `skills/05-research-debug-testing.zip`. Chưa đọc nội dung các ZIP; cần đọc khi công cụ hỗ trợ hoặc dùng bản extracted đã xác minh.
+- Tham khảo Apple Developer: `https://developer.apple.com/documentation/uikit/uiscenedelegate/scenediddisconnect(_:)`, `https://developer.apple.com/documentation/uikit/uiscenedelegate/scene(_:willConnectTo:options:)`, `https://developer.apple.com/documentation/CarPlay/displaying-content-in-carplay`, `https://developer.apple.com/documentation/CarPlay`.
+- KIẾN THỨC ĐÃ XÁC MINH: `sceneDidDisconnect` báo UIKit đã ngắt scene; chuyển app sang background không đồng nghĩa disconnect. `willConnectTo` có thể xảy ra khi tạo/khôi phục UI. CarPlay chính thức dùng scene + entitlement/template; không chứng minh private scene hosting của tweak.
+- SUY LUẬN CẦN TEST (chưa phải nguyên nhân đã xác nhận): nếu DuoFace gộp foreground/background với scene teardown hoặc gọi close hai lần khi disconnect/shutdown thì có thể dẫn tới mất app/crash. Cần trace bằng log `DFV12SceneHost` và lifecycle, kiểm chứng trên iOS 16 trước khi sửa.
+- Đã đọc `audit/duonavi-original104-scene/REPORT.md` (static report), thấy chuỗi log `DISCONNECT_TRACE` về stopping `_currentApp` rồi destroying `CBWindow`, nhưng đây chỉ là chuỗi ký tự tĩnh, không chứng minh runtime ordering.
+- Không sửa mã/CI/Sileo tại checkpoint nghiên cứu này. NEXT: đọc kỹ năng ZIP có thể giải nén; lập bảng đối chiếu sự kiện foreground, disconnect, explicit close, shutdown trong source và report; thêm kiểm thử lifecycle độc lập nếu xác minh được hành vi.
+
+
 ## 2026-10-18 — Đã tìm được chứng cứ gốc ngay trong repo, không đoán lifecycle
 
 - Đã đọc `Gpt-training-/SKILL_INDEX.md`, `AGENTS.md`, `DEB_IPA_SKILL.md`.
