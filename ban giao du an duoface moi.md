@@ -1,5 +1,12 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — QA build tự động đã kích hoạt
+
+- Đã sửa `.github/workflows/duoface-visual12-standalone-qa-deb.yml`: thêm `replacement/visual12/engine/runtime/**` vào `on.push.paths` để các thay đổi runtime trên branch `feature/visual12-duodash-recovery` tự chạy QA. Commit `1a45849adb93f2772ad5b7bce54a4257074fe2cd`, fetch lại YAML xác nhận đúng nội dung.
+- Run mới được GitHub xác nhận: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39086286753`, run id `39086286753`, event `push`, head SHA `1a45849adb93f2772ad5b7bce54a4257074fe2cd`, trạng thái lúc kiểm tra `queued`, conclusion `null` (2026-10-18 01:23:06 UTC). Chưa kết luận build xanh, chưa có artifact mới, chưa phát hành Sileo.
+- Lưu ý workflow tên `(never Sileo)` là QA riêng, không tự xuất bản; đừng nhầm với workflow phát hành. NEXT: đọc trạng thái run và job logs; khi success xác minh artifact SHA/package/version và quyết định bước Sileo riêng; khi failed sửa đúng lỗi rồi push để workflow tự chạy lại.
+
+
 ## 2026-10-18 — Sửa race callback scene gốc (không thay owner)
 
 - SOURCE: `replacement/visual12/engine/runtime/DFIInterface.inc` `DFV12SplitController -openBundle:pane:`. Đã xác minh `host.failure` và `host.ready` trước đây xóa `pendingPanes[pane]` **trước** khi kiểm tra `indexOfObjectIdenticalTo:host`. Callback host cũ/không còn thuộc `hosts[]` có thể xóa pending của host mới.
