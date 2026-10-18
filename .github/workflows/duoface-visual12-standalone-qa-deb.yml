@@ -1,12 +1,7 @@
 name: DuoFace Native12 shell visual acceptance QA - not Sileo yet
-# One versioned UI-shell visual acceptance candidate, not a native parity claim.
-# Trigger only from this deliberate workflow edit; never from regular runtime
-# source edits, and never reuse/overwrite the last shipped v5 artifact.
+# Native12 UI shell6 has a pinned, CI-built, Sileo-published QA artifact.
+# Future release builds are manual-only until the user evaluates visual parity.
 on:
-  push:
-    branches: [feature/visual12-duodash-recovery]
-    paths:
-      - '.github/workflows/duoface-visual12-standalone-qa-deb.yml'
   workflow_dispatch:
 permissions:
   contents: write
