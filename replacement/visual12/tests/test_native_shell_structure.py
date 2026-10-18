@@ -127,6 +127,10 @@ assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
 assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
 assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
 assert 'self.layer.cornerRadius=11.0;' in src, 'Original Native12 pill corner 11pt'
+# Native12 immutable ARM64 CBSlotPillView.pointInside:withEvent: expands
+# the nominal CGRect by (8,10) points; source-only parity, no touch pass.
+assert 'CGRectContainsPoint(CGRectInset(self.bounds,-8.0,-10.0),point)' in src
+assert 'if(self.hidden || self.alpha<=0.01)return NO;' in src
 assert 'CGRectGetMaxX(frame)-78,CGRectGetMinY(frame)+3,76,22' in ui
 assert '_dotsButton.frame=CGRectMake(4,0,30,22)' in src
 assert '_expandButton.frame=CGRectMake(39,0,30,22)' in src
