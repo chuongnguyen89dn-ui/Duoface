@@ -1,6 +1,7 @@
 // Independent UI, loaded after DFV12SceneHost so all scene lifetime operations stay shared.
 #import "DFIApprovedVisuals.h"
 #include "DFINativeShell.inc"
+#include "DFINativePickerCards.inc"
 static void DFIStop(void);
 static NSMutableSet<NSString *> *DFIManaged;
 static NSMutableSet<NSString *> *DFITerminating;
@@ -60,60 +61,6 @@ static NSArray *DFIAvailableApps(void) {
     }
     return [apps sortedArrayUsingComparator:^NSComparisonResult(id a,id b){return [a[@"title"] localizedCaseInsensitiveCompare:b[@"title"]];}];
 }
-@interface DFV12List : UITableViewController
-@property(nonatomic,strong) NSArray<NSDictionary *> *rows;
-@property(nonatomic,copy) void(^pick)(NSDictionary *);
-@property(nonatomic,copy) void(^touch)(void);
-@property(nonatomic,copy) void(^act)(NSDictionary *row);
-@end
-@implementation DFV12List
-- (void)viewDidLoad{[super viewDidLoad];self.tableView.backgroundColor=UIColor.clearColor;self.tableView.rowHeight=40;self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;}
-- (NSInteger)tableView:(UITableView *)v numberOfRowsInSection:(NSInteger)s{return self.rows.count;}
-- (UITableViewCell *)tableView:(UITableView *)v cellForRowAtIndexPath:(NSIndexPath *)p{
- NSDictionary *item=self.rows[p.row];
- UITableViewCell *c=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
- c.backgroundColor=UIColor.clearColor;
- c.textLabel.text=item[@"title"];
- c.textLabel.font=[UIFont systemFontOfSize:MIN(16,MAX(12,DFIFontSize()))];
- c.textLabel.textColor=UIColor.whiteColor;
- c.textLabel.adjustsFontSizeToFitWidth=YES;
- NSString *bid=item[@"id"];
- if([bid isKindOfClass:NSString.class] && bid.length && ![bid isEqual:@"*"]){
-   UIImage *icon=nil;
-   SEL iconSel=NSSelectorFromString(@"_applicationIconImageForBundleIdentifier:format:scale:");
-   if([UIImage respondsToSelector:iconSel]){
-     @try {icon=((UIImage *(*)(id,SEL,id,NSInteger,CGFloat))objc_msgSend)(
-                UIImage.class,iconSel,bid,0,UIScreen.mainScreen.scale);}
-     @catch(NSException *e){DFILog(e.reason);}
-   }
-   c.imageView.image=icon?:[UIImage systemImageNamed:@"square.grid.2x2"];
-   c.imageView.tintColor=UIColor.whiteColor;
- }
- if([item[@"type"] isEqual:@"recent"]){
-   BOOL live=[item[@"live"] boolValue];
-   UIColor *color=live?DFIApprovedLiveGreen():DFIApprovedRed();
-   UILabel *dot=[UILabel new];dot.text=@"●";dot.font=[UIFont systemFontOfSize:14];
-   dot.textColor=color;dot.textAlignment=NSTextAlignmentCenter;dot.frame=CGRectMake(0,0,16,28);
-   UIButton *action=[UIButton buttonWithType:UIButtonTypeSystem];
-   action.tag=p.row;action.tintColor=color;action.frame=CGRectMake(0,0,35,36);
-   [action setImage:[UIImage systemImageNamed:live?@"arrow.clockwise":@"xmark.circle"] forState:UIControlStateNormal];
-   action.accessibilityLabel=live?@"Refresh":@"Đóng ứng dụng";
-   [action addTarget:self action:@selector(recentAction:) forControlEvents:UIControlEventTouchUpInside];
-   UIStackView *right=[[UIStackView alloc]initWithArrangedSubviews:@[dot,action]];
-   right.axis=UILayoutConstraintAxisHorizontal;right.spacing=2;
-   right.alignment=UIStackViewAlignmentCenter;right.frame=CGRectMake(0,0,53,36);
-   c.accessoryView=right;
- }
- return c;
-}
-- (void)tableView:(UITableView *)v didSelectRowAtIndexPath:(NSIndexPath *)p{[v deselectRowAtIndexPath:p animated:YES];if(self.touch)self.touch();if(self.pick)self.pick(self.rows[p.row]);}
-- (void)recentAction:(UIButton *)sender{
- if(sender.tag<0||sender.tag>=self.rows.count)return;
- if(self.touch)self.touch();
- if(self.act)self.act(self.rows[sender.tag]);
-}
-- (void)scrollViewWillBeginDragging:(UIScrollView *)v{if(self.touch)self.touch();}
-@end
 @interface DFV12LayoutIcon : UIButton
 @property(nonatomic) int kind;
 @end
@@ -137,7 +84,7 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) UIControl *pickerShade;
 @property(nonatomic,strong) UIButton *pickerClose;
 @property(nonatomic) BOOL interactionActive;
-@property(nonatomic,strong) DFV12List *list;
+@property(nonatomic,strong) DFINativePickerCardsController *list;
 @property(nonatomic,strong) NSTimer *hideTimer;
 @property(nonatomic) NSInteger layoutKind,maximized,panelPane;
 @property(nonatomic) CGFloat fraction,secondary;
@@ -382,7 +329,7 @@ static NSArray *DFIAvailableApps(void) {
  [self updateInteractionBorders];
 }
 - (void)armHide {
- [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.tableView.dragging||weak.list.tableView.decelerating){[weak armHide];return;}if(!weak.panel){weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}}];
+ [self.hideTimer invalidate];__weak typeof(self) weak=self;self.hideTimer=[NSTimer scheduledTimerWithTimeInterval:3 repeats:NO block:^(NSTimer *t){if(weak.list.scrollView.dragging||weak.list.scrollView.decelerating){[weak armHide];return;}if(!weak.panel){weak.toolbar.hidden=YES;[weak.view setNeedsLayout];}}];
 }
 - (void)updateApprovedTabs {
  NSArray *titles=@[@"App",@"Zoom",@"Style",@"Close"];
@@ -441,7 +388,7 @@ static NSArray *DFIAvailableApps(void) {
  self.toolbar.hidden=YES;[self.view setNeedsLayout];
 }
 - (void)showRows:(NSArray *)rows pane:(NSInteger)pane pick:(void(^)(NSDictionary *))pick {
- [self dismissPanel];self.panelPane=pane;self.panel=[self glass];[self attachNativePickerHeader];DFV12List *list=[DFV12List new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
+ [self dismissPanel];self.panelPane=pane;self.panel=[self glass];[self attachNativePickerHeader];DFINativePickerCardsController *list=[DFINativePickerCardsController new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
 - (void)choose:(UIButton *)button {
  NSInteger index=button.tag;
