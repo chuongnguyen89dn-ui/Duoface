@@ -18,8 +18,8 @@
 | Minimum usable size | 100x100 | `replacement/visual12/engine/runtime/DFINativeShell.inc:50` | original104 / fallback |
 | Layout modes | 8 kinds (1,2,3,4,5,6,7,8) | `replacement/visual12/engine/DFILayouts.h:10` | approved / needs-device |
 | Pane pill | 38..80pt wide; 19/22pt tall, native flags | `replacement/visual12/engine/runtime/DFINativeShell.inc:145` | native12-actual-deb-updateBoundsSize / six-modes-corrected-source-not-device |
-| App button | QA 30pt wide at x4, pill-dependent height | `replacement/visual12/engine/runtime/DFINativeShell.inc:167` | qa / not-native-proven |
-| Expand/restore button | QA 30pt wide at right-35, dynamic height | `replacement/visual12/engine/runtime/DFINativeShell.inc:168` | qa / not-native-proven |
+| App button | Left half of actual pill width, full pill height | `replacement/visual12/engine/runtime/DFINativeShell.inc:170` | native12-actual-deb-layoutSubviews / corrected-source-not-device |
+| Expand/restore button | Right half of actual pill width, full pill height | `replacement/visual12/engine/runtime/DFINativeShell.inc:171` | native12-actual-deb-layoutSubviews / corrected-source-not-device |
 | Divider pan touch | 16pt; thin stroke 1pt | `replacement/visual12/engine/runtime/DFIInterface.inc:308` | qa / not-native-proven |
 | Divider logo control | Square 28pt if divider length <280pt; else square 30pt | `replacement/visual12/engine/runtime/DFIInterface.inc:319` | native12-actual-deb-updateGripLayout / corrected-source-not-device |
 | Approved native logo hold | 0.30s | `src/DFDividerLogoGrip.inc:10` | approved-native / missing-in-qa |
@@ -81,3 +81,9 @@
 - Ở ARM64 `CBDividerView.updateGripLayout` `ff4b4–ff4d0`: `fcsel d0,d2,d3,eq` chọn **bounds.width** cho divider ngang, **bounds.height** cho divider dọc. Đây là **chiều dài vạch chia**, không phải độ dày; `d8` = 28pt nếu chiều dài <280pt, ngược lại 30pt. `setFrame:` tại `ff6a8–ff6c0` đặt **hình vuông d2=d3=d8**.
 - Native `CBDividerView.pointInside:withEvent:` có `CGRectInset(...,-12,-12)` quanh nút; QA đã sửa kích thước hiển thị và vùng chạm tương ứng tại `DFIInterface.inc`, `DFINativeShell.inc`. Giữ hoạt động tap/hold/pan cũ, không thay scene/window.
 - Tình trạng: **đã sửa nguồn QA và kiểm chứng ARM64 tĩnh, chưa đo/duyệt giao diện trên CarPlay thật**; chưa đóng DEB hoặc phát hành Sileo.
+
+### Bổ sung: bố trí nút bên trong pill
+
+- `CBSlotPillView.layoutSubviews` (Native12 IMP 0x84c30) lấy độ rộng/chiều cao từ `bounds`, chia độ rộng pill làm hai (`fmul width×0.5` rồi làm tròn) để đặt nút đầu `CGRect(0,0,half,height)` và nút còn lại `CGRect(half,0,width-half,height)`; hai nút cùng chiều cao pill.
+- Sáu độ rộng Native12 đã xác minh đều là số chẵn 38/44/64/72/76/80pt, nên QA `half=width*0.5` chính xác trên các kích thước đó. Thay các nút 30pt trước đây vốn chồng nhau khi pill còn 38pt.
+- Nút focus/restore đã có callback QA, nhưng `setFocused`/ẩn hiện/gesture thực vẫn cần nghiệm thu trên CarPlay; không đồng nhất source/công thức với kiểm thử cảm ứng.
