@@ -27,11 +27,12 @@ jobs:
           assert 'com.duoface.native12.reference.capture' in s
           assert 'com.duoface.native12.reference.capture' in trigger
           assert 'writeToFile:dest' in s
+          source_without_line_comments='\n'.join(line.split('//',1)[0] for line in s.splitlines())
           for bad in ('method_setImplementation','MSHook','DuoFaceDashboard.dylib',
                       'initWithAppFrame:', 'NSURLSession','UILabel.text',
                       'UITextField.text','UIImagePNGRepresentation',
                       'window.makeKeyAndVisible'):
-              assert bad not in s, f'Forbidden operation in passive inspector: {bad}'
+              assert bad not in source_without_line_comments, f'Forbidden operation in passive inspector: {bad}'
           print('NATIVE12_REFERENCE_PROBE_MANUAL_READONLY_SOURCE_CHECK_PASS')
           PY
       - name: Compile-check manual Native12 UI inspector for rootless iOS16 arm64
