@@ -1,0 +1,46 @@
+name: SidePlay window ObjC geometry trace
+on:
+  push:
+    branches: [feature/sideplay-normal-carplay-dock]
+    paths:
+      - .github/workflows/sideplay-geometry-objc.yml
+      - sideplay/normal-carplay/tools/trace_dock_calls.py
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  carplay-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Provide arm64 MachO inspection tool
+        shell: bash
+        run: |
+          if ! command -v llvm-objdump >/dev/null && ! compgen -c | grep -q '^llvm-objdump-'; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm
+          fi
+          (command -v llvm-objdump || command -v llvm-objdump-20 || command -v llvm-objdump-19 || command -v llvm-objdump-18 || command -v llvm-objdump-14)
+      - name: Verify original binary then trace ObjC and window geometry paths
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/normal-carplay/tools/trace_dock_calls.py
+          python3 sideplay/normal-carplay/tools/trace_dock_calls.py
+          test -s sideplay/normal-carplay/audit/geometry-objc-window-trace.txt
+      - name: Persist trace only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- sideplay/normal-carplay/audit/geometry-objc-window-trace.txt
+          if ! git diff --cached --quiet; then
+            git commit -m 'audit(sideplay): preserve CarPlay dock geometry method trace [skip ci]'
+            git push origin HEAD:feature/sideplay-normal-carplay-dock
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sideplay-window-objc-trace
+          path: sideplay/normal-carplay/audit/geometry-objc-window-trace.txt
+          if-no-files-found: warn
