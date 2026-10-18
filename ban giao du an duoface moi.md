@@ -1,5 +1,15 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — MYTWEAK_MODULE_REPLACEABLE_VS_BLOCKER_EXACT
+
+- **YÊU CẦU:** Người dùng hỏi cụ thể với **file `mytweak.zip`**, những module nào thay được trong Native12/HUD8 và vướng chính xác điểm nào; không đề nghị quay lại 143-file export.
+- **ĐÃ XÁC MINH TRỰC TIẾP ZIP:** `MTAppLibrary.m` (LSApplicationWorkspace list), `MTAppPickerViewController.m` (picker UITableView), `MTSplitContainerViewController.m` (UI 2-pane/divider 8pt/ratio 0.25–0.75, fullscreen double-tap), `MTBridgeCoordinator.m` (UIScreen connect/disconnect, own UIWindow), `MTBridgeWindow.m` (UIWindow subclass). **Chỉ có thể tái dùng làm module UIKit/catalog/event trong app mới độc lập**, sau chỉnh sửa. **Không có module nào tự thay trực tiếp lõi GP/scene Native12 mà giữ nguyên Native12 UI**.
+- **CHỐT BLOCKERS:** `MTSceneHost.m:hostViewForBundleID:error:` trả `nil` + `NSError code 1001` vô điều kiện → `MTAppLauncher.m` fail, không host được app. Không implement ABI `CBWindow`, `CBBridgeManager`, `CBBridgeManagerDashboard`/`CBLicenseSyncManager`, không quản lý scene/touch/resize/lifecycle. `MTBridgeCoordinator` coi mọi non-main screen là CarPlay và tạo UIWindow thứ hai → có nguy cơ tranh owner khi ghép native. Native12 GUI & CP/GP vẫn đan xen trong hai Mach-O đã biên dịch không có full source gốc. HUD8 chỉ hoạt động khi native `CBWindow` + two attached appViews tồn tại. Không có device test chứng minh MyTweak base hoạt động trên DiPlay iOS16.
+- **GIẢI THÍCH RANH GIỚI:** Thay catalog/picker/view split **trong app độc lập** là khả thi về source; thay riêng giấy phép **trong binary Native12 đang dùng** bằng `mytweak.zip` là KHÔNG, và giữ GUI Native12 gốc không còn khi bỏ original bridge core. Không mặc định policy=false do hết trial; nguồn QA có scene host riêng nhưng UI fidelity và exitMode chưa đạt.
+- **EVIDENCE CHECKPOINT:** bổ sung mục `MT_TO_NATIVE12_SPECIFIC_REPLACEABILITY_MATRIX` trong `docs/mytweak-020-vs-native12-license-carplay-assessment-20261018.md`, commit `ea729569fd141f5a75e2e8716b8b42fddbb7c50b`; bản ZIP `/mnt/data/mytweak.zip` chỉ là upload ở container SHA256 `caf1557d1f9ac4828cf13cf8a5876a60c4b596b57b2951a8e9ac4d428225e015` (chưa upload binary lên GitHub). Không sửa mã, build, deploy hoặc thử CarPlay. Native12/HUD8 Sileo và `main` giữ nguyên.
+- **BƯỚC TIẾP NỐI:** Nếu muốn app độc lập: dùng scene host source đã có của QA thay vì MyTweak stub, một owner rồi tái tạo UI/adapter; nếu muốn giữ Native12 gốc: chỉ đọc/truy quyền sử dụng+source và các callsite GP/CP, không ghép MyTweak thành giải pháp thay giấy phép.
+
+
 ## 2026-10-18 — USER_CLARIFICATION_MYTWEAK_ZIP_NOT_143_EXPORT
 
 - **ĐÍNH CHÍNH Ý NGƯỜI DÙNG:** Câu “Vậy những tài liệu đó ko giúp ích đc gì về việc tách giấy phép hay nối nguồn?” trực tiếp nhắc đến **file ZIP `mytweak.zip` người dùng gửi** chứ **KHÔNG** hỏi bộ export 143 files Native12/HUD8. Trả lời trước bị lệch đối tượng; tuyệt đối không lặp lại nhầm lẫn đó.
