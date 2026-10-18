@@ -45,7 +45,7 @@ jobs:
             replacement/visual12/fullscreen/DFVisual12HostGeometry.m
           test "$(xcrun lipo -archs "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib")" = arm64
           for cls in DFINativeWindowSurface DFINativeSplitSurface DFINativeSlotPillView DFINativeDividerTrack DFINativeDividerLogo DFINativePickerCard DFINativePickerMenuBar; do
-            xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F "_OBJC_CLASS_$_$cls"
+            xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_OBJC_CLASS_$_'"$cls"
           done
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBBindHost'
           xcrun nm -gU "$RUNNER_TEMP/DuoFaceVisual12Engine.dylib" | grep -F '_DFCBUnbindHost'
