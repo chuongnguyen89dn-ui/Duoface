@@ -129,7 +129,9 @@ assert 'UILongPressGestureRecognizer *hold=' in src
 assert 'hold.minimumPressDuration=0.30;' in src
 assert 'hold.cancelsTouchesInView=YES;' in src
 assert 'initWithTarget:target action:holdAction' in src
-assert 'panAction:(SEL)panAction' not in src
+# Quick pan on the visible grip now resizes the split via existing drag:;
+# hold still owns along-line logo reposition.
+assert 'panAction:(SEL)panAction' in src
 assert '- (void)moveDividerLogo:(UILongPressGestureRecognizer *)recognizer' in ui
 assert 'self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));' in ui
 assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
