@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Replacement scene owner guard, commit 377e069
+
+- User requests continuous implementation based on DuoNavi 1.0.4 behavior without licensing or donor runtime dependency. Preserve confirmed `standalone6invalidate` fix and Visual12 UI.
+- Verified code commit `377e069ba5fae255dcf13a60715c26e6b4aff78a` on `feature/visual12-duodash-recovery`: in `replacement/visual12/engine/runtime/DFIInterface.inc` `openBundle:pane:`, `hosts[pane]=newHost` now happens before `[previous close]` so stale callbacks cannot own the replacement slot. Exception path clears ownership only if it still equals the failed host, closes it, restores empty button and returns (no erroneous closeReplaced). This is independent DuoFace lifecycle handling, not copied licensing code.
+- Previous `451329391d08a56b7dbf8cc39fe00c3ea97336f8` Visual12 QA run `39087368927` SUCCESS and standalone engine/link run `39087368860` SUCCESS. Unrelated speed8 workflow failure must not be conflated with Visual12.
+- Not yet tested: CI for `377e069`, iPhone runtime, `swapPanes` during scene lifecycle. Do not claim those pass; no Sileo deployment. Next: check new Visual12 CI runs, audit swap pane resize/callback identity and close/replace transitions; maintain single owner and original104 mode0/invalidate baseline.
+
+
 ## 2026-10-18 — Scene slot teardown integration commits 88c63f7 / 4513293
 
 - USER GOAL: continue independently implementing DuoFace using original DuoNavi 1.0.4 scene-lifecycle evidence, WITHOUT donor license/binary dependency. Preserve user-tested `standalone6invalidate` scene-close fix; do not alter Native12/Hub8/Sileo.
