@@ -46,6 +46,51 @@ def context(text: str, radius: int, max_hits: int, cap: int) -> tuple[str, int]:
     return result or "[NO_MATCH_IN_OUTPUT]\n", len(matched)
 
 
+
+def inventory(text: str) -> list[tuple[str, str, int]]:
+    """Resolve class -> method -> IMP from LLVM's original ObjC metadata."""
+    rows = []
+    cls = None
+    reading = False
+    method = None
+    classes = {"CBBridgedUIAppView", "CBWindow", "CBBridgedSplitApp"}
+    for line in text.splitlines():
+        found_class = re.search(r"^\s*name\s+0x[0-9a-fA-F]+\s+(CBBridgedUIAppView|CBWindow|CBBridgedSplitApp)\s*$", line)
+        if found_class:
+            cls = found_class.group(1)
+            reading = False
+            method = None
+            continue
+        if cls and re.search(r"^\s*baseMethods\s+0x[0-9a-fA-F]+", line):
+            reading = not re.search(r"^\s*baseMethods\s+0x0\s*$", line)
+            continue
+        if reading and re.search(r"^\s*baseProtocols\b", line):
+            cls = None
+            reading = False
+            continue
+        if not reading:
+            continue
+        found_method = re.search(r"^\s*name\s+0x[0-9a-fA-F]+\s+\(0x[0-9a-fA-F]+\)\s+(.+?)\s*$", line)
+        if found_method:
+            method = found_method.group(1)
+        found_imp = re.search(r"^\s*imp\s+0x[0-9a-fA-F]+\s+\(0x([0-9a-fA-F]+)\)", line)
+        if method and found_imp:
+            rows.append((cls, method, int(found_imp.group(1), 16)))
+            method = None
+    return rows
+
+
+def disasm_at(text: str, address: int, width: int = 0x4c0, max_lines: int = 220) -> str:
+    matched = []
+    for line in text.splitlines():
+        m = re.match(r"^\s*([0-9a-fA-F]+):", line)
+        if m and address <= int(m.group(1), 16) < address+width:
+            matched.append(line)
+            if len(matched) >= max_lines:
+                break
+    return "\n".join(matched) if matched else "[NO_DISASSEMBLY_LINES_AT_IMP]"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     for name in ("deb", "binary", "raw", "out"):
@@ -83,6 +128,18 @@ def main() -> int:
             snippet, matches = raw[:cap] or "[UNAVAILABLE]", 0
         body += ["## " + heading, f"Source file: {filename}; matches={matches}",
                  "", "~~~text", snippet.rstrip(), "~~~", ""]
+    methods = inventory(read(args.raw / "llvm-objc.txt"))
+    body += ["## Original class instance methods with IMP addresses", "",
+             "Method addresses below are statically derived from original 1.0.4 ObjC metadata.",
+             "They are not V12 addresses and do not by themselves show call order.", ""]
+    for cls, method, address in methods:
+        body.append(f"- {cls}::{method} IMP=0x{address:x}")
+    body.append("")
+    disassembly = read(args.raw / "disasm.txt")
+    for cls, method, address in methods:
+        if re.search(r"dismiss|destroyWindows|dealloc|invalidate|close|stop|hide|detach|restore", method, re.I):
+            body += [f"### Original {cls}::{method} at 0x{address:x}", "",
+                     "~~~asm", disasm_at(disassembly, address), "~~~", ""]
     body += [
         "## Next analysis gate", "",
         "Identify exact original 1.0.4 method IMPs from ObjC metadata; "
