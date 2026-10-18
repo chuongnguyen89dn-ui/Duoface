@@ -258,8 +258,11 @@ static NSArray *DFIAvailableApps(void) {
     CGRectIsEmpty(self.view.bounds))return;
  self.savedAppsRestoreStarted=YES;
  self.nextSavedPane=0;
- DFILog([NSString stringWithFormat:@"QA root appeared window=%@ frame=%@",
-       self.view.window,NSStringFromCGRect(self.view.bounds)]);
+ DFILog([NSString stringWithFormat:
+       @"Native UI root attached bounds=%@ usable=%@ safe=%@ windowLevel=%.1f",
+       NSStringFromCGRect(self.view.bounds),
+       NSStringFromCGRect([(DFINativeWindowSurface *)self.view usableContentFrame]),
+       NSStringFromUIEdgeInsets(self.view.safeAreaInsets),self.view.window.windowLevel]);
  __weak typeof(self) weak=self;
  dispatch_async(dispatch_get_main_queue(),^{[weak.view layoutIfNeeded];[weak restoreNextSavedPane];});
 }
@@ -299,7 +302,11 @@ static NSArray *DFIAvailableApps(void) {
 - (void)viewDidLayoutSubviews {
  [super viewDidLayoutSubviews];if(self.shuttingDown)return;
  DFIPerfCount(@"layout_passes");
- CGRect bounds=self.view.bounds;DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
+ CGRect windowBounds=self.view.bounds;
+ CGRect splitFrame=[(DFINativeWindowSurface *)self.view usableContentFrame];
+ self.nativeSplitSurface.frame=splitFrame;
+ CGRect bounds=self.nativeSplitSurface.bounds;
+ DFIFrames f=DFIFramesMake(bounds,(int)self.layoutKind,self.fraction,self.secondary,(int)self.maximized);
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;
@@ -318,15 +325,14 @@ static NSArray *DFIAvailableApps(void) {
   [(DFINativeDividerTrack *)self.lines[i] positionStrokeVertically:vertical];
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
- self.nativeSplitSurface.frame=bounds;
- self.pickerShade.frame=bounds;
- self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-28,40,24);
+ self.pickerShade.frame=splitFrame;
+ self.edge.frame=CGRectMake(CGRectGetMidX(splitFrame)-20,CGRectGetMaxY(splitFrame)-28,40,24);
  self.edge.hidden=self.panel!=nil;
- self.statusLabel.frame=CGRectMake(8,4,bounds.size.width-16,34);
+ self.statusLabel.frame=CGRectMake(CGRectGetMinX(splitFrame)+8,CGRectGetMinY(splitFrame)+4,splitFrame.size.width-16,34);
  if(self.panel){
-  CGRect nativeCardFrame=DFINativePickerCardFrame(bounds,self.list?self.list.rows.count:4);
-  if(!self.list){nativeCardFrame.size.height=MIN(198,MAX(90,bounds.size.height-16));
-      nativeCardFrame.origin.y=CGRectGetMidY(bounds)-nativeCardFrame.size.height/2.0;}
+  CGRect nativeCardFrame=DFINativePickerCardFrame(splitFrame,self.list?self.list.rows.count:4);
+  if(!self.list){nativeCardFrame.size.height=MIN(198,MAX(90,splitFrame.size.height-16));
+      nativeCardFrame.origin.y=CGRectGetMidY(splitFrame)-nativeCardFrame.size.height/2.0;}
   self.panel.frame=nativeCardFrame;
   CGFloat w=nativeCardFrame.size.width,h=nativeCardFrame.size.height;
   CGFloat headerWidth=MAX(120,w-64);
@@ -549,10 +555,14 @@ static NSArray *DFIAvailableApps(void) {
  if(g.state==UIGestureRecognizerStateBegan) DFIPerfMark(@"drag_begin",nil);
  if(g.state==UIGestureRecognizerStateEnded || g.state==UIGestureRecognizerStateCancelled) DFIPerfMark(@"drag_end",nil);
  [self.hideTimer invalidate];if(g.state==UIGestureRecognizerStateBegan){[self dismissPanel];self.toolbar.hidden=YES;}
- DFIFrames f=DFIFramesMake(self.view.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);int n=(int)g.view.tag;if(n>=f.boundaryCount)return;CGPoint p=[g locationInView:self.view];BOOL vertical=f.vertical[n];CGFloat length=vertical?self.view.bounds.size.width:self.view.bounds.size.height;if(length<=0)return;double raw=DFIClamp((vertical?p.x:p.y)/length,0,1),v=raw;
+ DFIFrames f=DFIFramesMake(self.nativeSplitSurface.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);
+ int n=(int)g.view.tag;if(n>=f.boundaryCount)return;
+ CGPoint p=[g locationInView:self.nativeSplitSurface];
+ BOOL vertical=f.vertical[n];CGFloat length=vertical?self.nativeSplitSurface.bounds.size.width:self.nativeSplitSurface.bounds.size.height;if(length<=0)return;double raw=DFIClamp((vertical?p.x:p.y)/length,0,1),v=raw;
  if(n==0){if(self.layoutKind==4)v=MIN(v,self.secondary);self.fraction=v;}else {if(self.layoutKind==4)v=MAX(v,self.fraction);self.secondary=v;}
  if(g.state==UIGestureRecognizerStateEnded){
-  if(raw<.03||raw>.97){DFIFrames end=DFIFramesMake(self.view.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);CGRect boundary=f.boundaries[n];CGPoint probe=CGPointMake(CGRectGetMidX(boundary),CGRectGetMidY(boundary));if(vertical)probe.x=raw<.03?self.view.bounds.size.width-.1:.1;else probe.y=raw<.03?self.view.bounds.size.height-.1:.1;double area=-1;NSInteger candidate=-1;for(int i=0;i<end.count;i++){CGRect r=end.panes[i];double a=r.size.width*r.size.height;if(a>area){area=a;self.maximized=i;}if(!CGRectIsEmpty(r)&&CGRectContainsPoint(r,probe))candidate=i;}if(candidate>=0)self.maximized=candidate;}
+  if(raw<.03||raw>.97){DFIFrames end=DFIFramesMake(self.nativeSplitSurface.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);CGRect boundary=f.boundaries[n];CGPoint probe=CGPointMake(CGRectGetMidX(boundary),CGRectGetMidY(boundary));if(vertical)probe.x=raw<.03?self.nativeSplitSurface.bounds.size.width-.1:.1;
+   else probe.y=raw<.03?self.nativeSplitSurface.bounds.size.height-.1:.1;double area=-1;NSInteger candidate=-1;for(int i=0;i<end.count;i++){CGRect r=end.panes[i];double a=r.size.width*r.size.height;if(a>area){area=a;self.maximized=i;}if(!CGRectIsEmpty(r)&&CGRectContainsPoint(r,probe))candidate=i;}if(candidate>=0)self.maximized=candidate;}
   [self saveLayout];[self armHide];
  }else if(g.state==UIGestureRecognizerStateCancelled){self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self armHide];}
  [self.view setNeedsLayout];[self.view layoutIfNeeded];
