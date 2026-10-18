@@ -171,7 +171,8 @@ static NSArray *DFIAvailableApps(void) {
   [self.nativeSplitSurface addSubview:track];[lines addObject:track];
   DFINativeDividerLogo *logo=[[DFINativeDividerLogo alloc]
     initWithIndex:i target:self tapAction:@selector(swapPanes)
-    holdAction:@selector(moveDividerLogo:)];
+    holdAction:@selector(moveDividerLogo:)
+    panAction:@selector(drag:)];
   [self.nativeSplitSurface addSubview:logo];[grips addObject:logo];
  }
  self.grips=grips;self.lines=lines;
