@@ -6,6 +6,8 @@ on:
       - 'replacement/visual12/engine/**'
       - 'replacement/visual12/tests/test_native_shell_structure.py'
       - 'scripts/audit_native12_ui_dimensions.py'
+      - 'scripts/check_native12_deb_ui_bridge_contract.py'
+      - 'audit/native12-deb-original104-ui/METRICS.json'
       - 'replacement/visual12/fullscreen/**'
       - 'replacement/cb-compat/**'
       - '.github/workflows/duoface-visual12-engine-bind-ci.yml'
@@ -28,6 +30,11 @@ jobs:
           python3 scripts/audit_native12_ui_dimensions.py --strict \
             --json "$RUNNER_TEMP/native12-ui-dimensions.json" \
             --md "$RUNNER_TEMP/native12-ui-dimensions.md"
+      - name: Verify actual Native12 DEB assets and original104-to-DuoFace bridge contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/check_native12_deb_ui_bridge_contract.py
       - name: Verify Native12 independent visual class/view-tree contracts
         shell: bash
         run: |
