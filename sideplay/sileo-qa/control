@@ -1,9 +1,9 @@
 Package: com.duoface.sideplaydisplay
-Name: DuoFace Native12 UI Recovery QA7
-Version: 0.1.5~native12visual7
+Name: DuoFace Native12 Late Host Bootstrap QA8
+Version: 0.1.6~native12bootstrap8
 Architecture: iphoneos-arm64
 Section: Tweaks
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.sideplay (>= 1.0.4-1)
-Description: DuoFace Native12 visual UI fallback when CarPlay host validation fails, detailed boot diagnostics; no unsafe window crop. Requires SidePlay host; system bar/full UI still experimental.
+Description: DuoFace Native12 UI hook late-load bootstrap and live scene reattach diagnostics; no unsafe window crop. Requires SidePlay host; system bar/full UI still experimental.
