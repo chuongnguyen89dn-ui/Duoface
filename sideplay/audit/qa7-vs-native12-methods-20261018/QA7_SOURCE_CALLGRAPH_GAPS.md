@@ -23,6 +23,16 @@
 - **Không có** source-owned distributed command/ACK từ host tới CarPlay process, không có `DFDashboardChrome` receiver/hook trong QA7; không có kiểm tra statusBarWindow thực tế. **P0 architecture gap** giải thích vì sao không có bảo đảm khôi phục thanh bar. Đây là lý do từ mã, **không đủ khẳng định subclass nào bị ẩn trên máy**.
 - Không sửa bằng cách co lại `UIWindow.frame`, ép `windowLevel` hoặc đổi 64pt. Cần trace correct host/window + bar receiver với CarPlay thực và an toàn scene.
 
+## QA7 bỏ qua chính các hàm định kích thước CarPlay của SidePlay
+
+Đối chiếu chuỗi thực thi **Tweak.xm tại commit QA7 release** `beafe5b6...`:
+- `-carWindowFrameNow`: **1 lần xuất hiện và chỉ ở khai báo `@interface SPDash`**, **0 lần gọi thực thi**.
+- `-setCarWindowFrame:`: **1 lần xuất hiện chỉ ở khai báo**, **0 lần gọi**.
+- `-carDockMode`: khai báo 1 lần + một lần trong comment nói không cưỡng ép `carDockMode=NO`; **0 lần dùng để tính usable bounds**.
+- `DFSPSystemUsableRect`: 3 lần trong logic, tự lấy `window.safeAreaInsets` và dùng lề trái 64pt nếu inset không xác định.
+
+Trong SidePlay gốc, selector audit xác minh `SPDash.carWindowFrameNow` tại IMP `0x17df0`, `SPDash.carDockMode` tại `0x17b78`, `SPDash.layoutRootView` tại `0x1a2f0`, `SPDash.saveManualCarArea:windowBounds:` tại `0x197b0`. Vì vậy QA7 **chưa đọc đúng cơ chế mode/area đang được SidePlay sử dụng** dù đã khai báo selector. Đây là sai khác **có bằng chứng ở đường gọi**, không chứng minh trực tiếp window nào che thanh bar trên máy. Khi sửa phải lấy dữ liệu usable/chrome từ owner đáng tin và trạng thái trên xe, không đơn giản gọi `setCarWindowFrame:` vì nó có nguy cơ crop scene.
+
 ## Đường gọi chức năng: Native12 → QA7 → SidePlay
 
 | Nhóm | Native12/HUD8 có gì | QA7 đang làm | Độ tương đồng chắc chắn |
