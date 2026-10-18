@@ -16,9 +16,15 @@ static UIColor *DFSPApprovedRed(void) {
     return [UIColor colorWithRed:227.0/255.0 green:2.0/255.0
                            blue:15.0/255.0 alpha:1.0];
 }
+static UIImage *DFSPApprovedArtwork(NSString *name) {
+    // Only load assets installed by this independent QA package.
+    if (!name.length || [name containsString:@".."] ||
+        [name containsString:@"/"]) return nil;
+    NSString *root=@"/var/jb/Library/Application Support/DuoFaceSidePlayDisplayQA/";
+    return [UIImage imageWithContentsOfFile:[root stringByAppendingString:name]];
+}
 static UIImage *DFSPLogo(void) {
-    NSString *path=@"/var/jb/Library/Application Support/DuoFaceSidePlayDisplayQA/duoface-logo-picker-alpha-v2.png";
-    return [UIImage imageWithContentsOfFile:path];
+    return DFSPApprovedArtwork(@"duoface-logo-picker-alpha-v2.png");
 }
 static double DFSPClampRatio(double r, BOOL snap) {
     if (!isfinite(r)) r=0.5;
@@ -74,7 +80,10 @@ static double DFSPClampRatio(double r, BOOL snap) {
         pill.layer.borderWidth=0.5;
         pill.layer.borderColor=[UIColor colorWithWhite:1 alpha:0.25].CGColor;
         pill.tintColor=UIColor.whiteColor;
-        [pill setImage:[UIImage systemImageNamed:@"ellipsis"] forState:UIControlStateNormal];
+        // Native12 artwork has priority, SF Symbol is only a missing-file fallback.
+        UIImage *pillArt=DFSPApprovedArtwork(@"duoface-picker.png");
+        [pill setImage:pillArt ?: [UIImage systemImageNamed:@"ellipsis"]
+            forState:UIControlStateNormal];
         pill.imageView.contentMode=UIViewContentModeScaleAspectFit;
         pill.accessibilityLabel=@"Chọn ứng dụng trong ô";
         pill.accessibilityIdentifier=[NSString stringWithFormat:@"duoface.native.slot.%ld.pill",(long)i];
@@ -114,8 +123,11 @@ static double DFSPClampRatio(double r, BOOL snap) {
     logo.layer.cornerRadius=15.0;
     logo.accessibilityIdentifier=@"duoface.native.divider.logo";
     logo.accessibilityLabel=@"Thanh chia DuoFace";
-    [logo setImage:[UIImage systemImageNamed:@"arrow.left.arrow.right"]
+    // Match the approved Native12 divider artwork, not the temporary QA arrow.
+    UIImage *swapArt=DFSPApprovedArtwork(@"duoface-swap.png");
+    [logo setImage:swapArt ?: [UIImage systemImageNamed:@"arrow.left.arrow.right"]
          forState:UIControlStateNormal];
+    logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     [logo addTarget:self action:@selector(swapTapped:)
        forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:logo];self.dividerLogo=logo;
