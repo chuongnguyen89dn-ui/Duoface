@@ -11,6 +11,7 @@
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
+- (UIWindow *)carWindow; // verified original SPDash property in archived selector audit
 - (void)setCarWindowFrame:(CGRect)frame;
 - (CGRect)carWindowFrameNow;
 - (BOOL)carDockMode;
@@ -56,6 +57,9 @@ static BOOL DFSPFull = NO;
 static BOOL DFSPApplying = NO;
 static NSUInteger DFSPSequence = 0;
 static NSUInteger DFSPLayoutCalls = 0;
+static BOOL DFSPBootstrapQueued=NO;
+static __weak UIWindow *DFSPSkippedCarWindow;
+static NSUInteger DFSPMissingCarWindowLogCount=0;
 // Only visual elements replaced by the approved Native12 shell are hidden.
 // Weak keys avoid retaining a disposed SidePlay pane/scene across reconnect.
 static NSMapTable<UIView *, NSNumber *> *DFSPHiddenOriginalViews;
@@ -469,6 +473,46 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
         DFSPLog(@"QA7 VISUAL_COMPATIBILITY: DuoFace pill/divider mounted, unsafe zoom disabled; native system bar UNVERIFIED");
     DFSPRefresh();
 }
+// QA8 startup recovery: SPDash.setCarWindow: can run BEFORE Substrate installs
+// this hook. Reattach from the original SPDash.carWindow property on any
+// subsequent live layout event. Keep the original app/scene untouched.
+static void DFSPBootstrapFromLiveOwner(SPDash *owner, NSString *trigger) {
+    if (!owner || DFSPApplying || DFSPBootstrapQueued) return;
+    UIWindow *window=[owner carWindow]; // exact original selector, SHA-audited
+    if (!window) {
+        if (DFSPMissingCarWindowLogCount++ < 3)
+            DFSPLog([NSString stringWithFormat:
+               @"QA8 BOOTSTRAP_WAIT trigger=%@ carWindow=nil",trigger]);
+        return;
+    }
+    if (DFSPManager==owner && DFSPWindow==window && DFSPUI)return;
+    if (!DFSPExternal(window)) {
+        if (DFSPSkippedCarWindow!=window) {
+            DFSPSkippedCarWindow=window;
+            DFSPLog([NSString stringWithFormat:
+                @"QA8 BOOTSTRAP_REJECT trigger=%@ windowScreen=%@ mainScreen=%@ windowFrame=%@",
+                trigger,window.screen,UIScreen.mainScreen,NSStringFromCGRect(window.frame)]);
+        }
+        return;
+    }
+    DFSPBootstrapQueued=YES;
+    NSUInteger generation=++DFSPSequence;
+    __weak SPDash *weakOwner=owner;
+    __weak UIWindow *weakWindow=window;
+    dispatch_async(dispatch_get_main_queue(),^{
+        DFSPBootstrapQueued=NO;
+        SPDash *actual=weakOwner;
+        UIWindow *live=weakWindow;
+        if (!actual || !live || [actual carWindow]!=live) {
+            DFSPLog(@"QA8 BOOTSTRAP_STALE active owner/window changed");
+            return;
+        }
+        DFSPLog([NSString stringWithFormat:
+                @"QA8 BOOTSTRAP_ATTACH source=%@ generation=%lu",
+                trigger,(unsigned long)generation]);
+        DFSPInstall(actual,live,generation,0);
+    });
+}
 %hook SPDash
 - (void)setCarWindow:(UIWindow *)window {
     %orig; // preserve creation and app hosting; replace only display control
@@ -487,6 +531,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 // Never force carDockMode=NO or re-assign its UIWindow.frame from QA.
 - (void)layout:(BOOL)animated {
     %orig(animated);
+    DFSPBootstrapFromLiveOwner(self,@"SPDash.layout");
     if (DFSPManager==self && DFSPHost && !DFSPApplying &&
         ![DFSPHost reconcileAfterSystemLayout])
         DFSPLog(@"QA6: host content-root reconcile after SPDash.layout failed");
@@ -500,6 +545,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 }
 - (void)layoutRootView {
     %orig; // preserve SPDash scene/app layout; adjust only validated root.
+    DFSPBootstrapFromLiveOwner(self,@"SPDash.layoutRootView");
     if (DFSPManager==self && DFSPWindow && DFSPHost && !DFSPApplying) {
         if (![DFSPHost reconcileAfterSystemLayout])
             DFSPLog(@"QA6: content-root reconcile after SPDash.layoutRootView failed");
@@ -508,21 +554,29 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 }
 %end
 
+static BOOL DFSPHookInstalled=NO;
 static void DFSPTryInit(unsigned attempt) {
+    if (DFSPHookInstalled)return;
     if (objc_getClass("SPDash")) {
+        DFSPHookInstalled=YES;
         %init;
-        DFSPLog(@"QA7 injection and SPDash hooks installed (0.1.5~native12visual7)");
+        DFSPLog(@"QA8 HOOKS_READY: SPDash detected and swizzled (0.1.6~native12bootstrap8); waiting for carWindow/layout");
         return;
     }
-    if (attempt<30)
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,1000000000),
-                       dispatch_get_main_queue(), ^{DFSPTryInit(attempt+1);});
-    else DFSPLog(@"QA7: SPDash class missing after 30 attempts; check SpringBoard injection and installed QA version");
+    if (attempt==0 || (attempt%12)==0)
+        DFSPLog([NSString stringWithFormat:
+            @"QA8 CLASS_WAIT attempt=%u: SPDash not loaded yet",attempt]);
+    // Previous QA7 gave up after 30 seconds; SPDash is loaded lazily on
+    // some devices, including long after SpringBoard started. Single class
+    // check every 5 seconds until it arrives, no vendor binary modification.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,5LL*NSEC_PER_SEC),
+        dispatch_get_main_queue(), ^{DFSPTryInit(attempt+1);});
 }
 %ctor {
     @autoreleasepool {
         if (![NSBundle.mainBundle.bundleIdentifier.lowercaseString
-               isEqualToString:@"com.apple.springboard"]) return;
+                isEqualToString:@"com.apple.springboard"])return;
+        DFSPLog(@"QA8 CONSTRUCTOR: SpringBoard dylib loaded; wait for SPDash");
         dispatch_async(dispatch_get_main_queue(), ^{DFSPTryInit(0);});
     }
 }
