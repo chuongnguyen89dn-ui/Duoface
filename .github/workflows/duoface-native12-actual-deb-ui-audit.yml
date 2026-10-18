@@ -78,6 +78,7 @@ jobs:
             ${{ runner.temp }}/native12-original104/PILL_DIVIDER_NATIVE12_ASM.txt
             ${{ runner.temp }}/native12-original104/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json
             ${{ runner.temp }}/native12-original104/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md
+            ${{ runner.temp }}/native12-original104/ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt
           if-no-files-found: warn
       - name: Persist audited JSON and report to DuoFace GitHub
         if: success()
@@ -98,6 +99,7 @@ jobs:
             cp "$OUT/PILL_DIVIDER_NATIVE12_ASM.txt" audit/native12-deb-original104-ui/PILL_DIVIDER_NATIVE12_ASM.txt
             cp "$OUT/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json" audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.json
             cp "$OUT/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md" audit/native12-deb-original104-ui/FOCUS_ORIGINAL104_NATIVE12_UI_CROSSWALK.md
+            cp "$OUT/ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt" audit/native12-deb-original104-ui/ORIGINAL104_LAYOUT_PILL_MODE_ARM64.txt
             git add audit/native12-deb-original104-ui/
             if git diff --cached --quiet; then
               echo 'NATIVE12_ACTUAL_DEB_UI_EVIDENCE_ALREADY_PERSISTED'
