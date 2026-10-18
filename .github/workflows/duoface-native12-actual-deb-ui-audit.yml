@@ -4,6 +4,7 @@ on:
     branches: [feature/visual12-duodash-recovery]
     paths:
       - scripts/audit_native12_original104_ui_debs.py
+      - scripts/audit_native12_divider_geometry.py
       - .github/workflows/duoface-native12-actual-deb-ui-audit.yml
   workflow_dispatch:
 permissions:
@@ -27,6 +28,8 @@ jobs:
           xcrun --find llvm-objdump
           python3 -m venv "$RUNNER_TEMP/native-ui-python"
           "$RUNNER_TEMP/native-ui-python/bin/python" -m pip install --quiet Pillow
+      - name: Validate Mach-O parser against synthetic thin ARM64 fixture
+        run: python3 scripts/audit_native12_divider_geometry.py --self-test
       - name: Analyze ONLY immutable original104 and Native12 HUD8 Debian files
         shell: bash
         run: |
@@ -49,6 +52,13 @@ jobs:
           assert any(x['path'].endswith('/VisualAssets/duoface-swap.png') for x in images)
           assert all(x.get('nontransparent_bbox_px') is not None for x in images)
           assert len(data['native12']['classes']) == len(data['original104']['classes']) == 6
+          from math import isfinite
+          dg=data['native12']['divider_geometry_constants']
+          side=dg['button_geometry']
+          assert side['small_button_side_pt']==28 and side['large_button_side_pt']==30
+          assert isfinite(side['threshold_pt']) and 0 < side['threshold_pt'] < 1024
+          assert dg['literals']['divider_short_axis_threshold']['vmaddr']=='0x312488'
+          print('NATIVE12_DIVIDER_MACHO_LITERALS_STATIC_PASS threshold=',side['threshold_pt'])
           print('NATIVE12_REAL_DEB_LOGO_PNG_AND_UI_IMP_COMPARISON_READONLY_PASS')
           PY
       - name: Upload reproducible evidence, no vendor image/binary
