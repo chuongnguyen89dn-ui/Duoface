@@ -210,6 +210,26 @@ static NSArray *DFIAvailableApps(void) {
        NSStringFromCGRect(self.view.bounds),
        NSStringFromCGRect([(DFINativeWindowSurface *)self.view usableContentFrame]),
        NSStringFromUIEdgeInsets(self.view.safeAreaInsets),self.view.window.windowLevel]);
+ // Only the SpringBoard-process window inventory is visible here. The real
+ // CarPlay status/dock windows may live in another process; absence from this
+ // list is NOT evidence they do not exist. Never force windowLevel blindly.
+ NSUInteger statusSeen=0;
+ for(UIWindow *candidate in UIApplication.sharedApplication.windows){
+   NSString *type=NSStringFromClass(candidate.class);
+   BOOL chrome=[@[@"DBStatusBarWindow",@"CARStatusBarWindow",@"DBDockWindow"]
+                         containsObject:type];
+   if(candidate!=self.view.window && !chrome)continue;
+   if(chrome)statusSeen++;
+   DFILog([NSString stringWithFormat:
+       @"Native UI SB window %@ level=%.1f hidden=%d frame=%@ safe=%@ owner=%d",
+       type,candidate.windowLevel,(int)candidate.hidden,
+       NSStringFromCGRect(candidate.frame),
+       NSStringFromUIEdgeInsets(candidate.safeAreaInsets),
+       (int)(candidate==self.view.window)]);
+ }
+ DFILog([NSString stringWithFormat:
+       @"Native UI SB window inventory chrome_seen=%lu (CarPlay process must be checked separately)",
+       (unsigned long)statusSeen]);
  __weak typeof(self) weak=self;
  dispatch_async(dispatch_get_main_queue(),^{[weak.view layoutIfNeeded];[weak restoreNextSavedPane];});
 }
