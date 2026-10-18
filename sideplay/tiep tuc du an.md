@@ -10,6 +10,9 @@
 
 > **MỚI NHẤT 2026-10-18 — ƯU TIÊN GIỮ THANH BAR CARPLAY:** Người dùng yêu cầu **tạm dừng phân tích nhị phân sâu/scene/HUD**, chỉ đưa SidePlay từ trạng thái fullscreen ngay khi kết nối về chế độ CarPlay thường kiểu DuoNavi 1.0.4 (dock/bar hệ thống vẫn còn). Đã xác minh từ bản giải nén: `SidePlayPrefs.bundle/Root.plist` đặt `carDock.default=false`; core có `carDockMode/carDockArea/carWindowFrame`. Code candidate độc lập ở nhánh [`feature/sideplay-normal-carplay-dock`](https://github.com/chuongnguyen89dn-ui/Duoface/tree/feature/sideplay-normal-carplay-dock), hồ sơ chi tiết [NORMAL_104_COMPARISON_AND_FIX.md](https://github.com/chuongnguyen89dn-ui/Duoface/blob/feature/sideplay-normal-carplay-dock/sideplay/normal-carplay/NORMAL_104_COMPARISON_AND_FIX.md). Chỉ đổi default `carDock` sang true ở bản copy, script giữ các prefs khác; run [39115213941](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39115213941) **static PASS**, DEB nguyên bản không đổi. **Chưa device PASS/chưa sửa binary/chưa có DEB phát hành**. Muốn kiểm chứng hiệu quả thực tế cần bật SidePlay > Hiển thị > Thanh dock CarPlay trên máy đang cài và reconnect. Không tự merge hoặc thay bản Native/Visual/Hub/QA/Sileo.
 
+
+> **TEST RECHECK — 2026-10-18 ~16:26 ICT:** GitHub Actions [run 39115299884](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39115299884), job `117639771876`, commit `29531b274343efe91c9bbab46fc9d2491bd62f8b` **SUCCESS**: 4/4 Python regression tests pass, SHA256 kiểm tra DEB gốc `OK`. Kết quả **chỉ áp dụng cho preset cấu hình**, không chứng minh đã thấy thanh dock thực tế trên xe.
+
 ## 1. QUYẾT ĐỊNH MỚI NHẤT — USER_DECISION (2026-10-18)
 
 - Hướng CarPlay DuoFace hiện tại được chủ dự án tuyên bố **thất bại vì chưa tách được phụ thuộc giấy phép**. Không tiếp tục vá giấy phép hoặc trộn lõi DuoNavi/QA vào DuoFace để cứu phương án cũ.
