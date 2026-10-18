@@ -305,12 +305,9 @@ static NSArray *DFIAvailableApps(void) {
   self.emptyButtons[i].frame=self.panes[i].bounds;
   self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<74||frame.size.height<30;
   self.panePills[i].frame=CGRectMake(CGRectGetMaxX(frame)-76,CGRectGetMinY(frame)+3,74,30);
-  self.paneButtons[i].frame=CGRectMake(4,2,30,26);
-  self.paneZoomButtons[i].frame=CGRectMake(39,2,30,26);
-  BOOL selected=self.maximized==i;
-  self.paneZoomButtons[i].accessibilityLabel=selected?
-       DFIT(@"Khôi phục chia màn hình",@"Restore split"):
-       DFIT(@"Phóng to khung",@"Zoom pane");
+  DFINativeSlotPillView *nativePill=(DFINativeSlotPillView *)self.panePills[i];
+  [nativePill setFocused:self.maximized==i];
+  [nativePill setNeedsLayout];
   if(!CGRectIsEmpty(frame)&&self.hosts[i]!=NSNull.null)[self.hosts[i] resizeTo:frame.size];
  }
  for(int i=0;i<2;i++){
@@ -318,20 +315,20 @@ static NSArray *DFIAvailableApps(void) {
   CGRect r=f.boundaries[i];BOOL vertical=f.vertical[i];
   if(vertical){self.lines[i].frame=CGRectMake(r.origin.x-8,r.origin.y,16,r.size.height);self.grips[i].frame=CGRectMake(r.origin.x-18,CGRectGetMidY(r)-22,36,44);}
   else {self.lines[i].frame=CGRectMake(r.origin.x,r.origin.y-8,r.size.width,16);self.grips[i].frame=CGRectMake(CGRectGetMidX(r)-22,r.origin.y-18,44,36);}
-  [self.lines[i] viewWithTag:78].frame=vertical?
-      CGRectMake(7.5,0,1,CGRectGetHeight(self.lines[i].bounds)):
-      CGRectMake(0,7.5,CGRectGetWidth(self.lines[i].bounds),1);
-  [self.grips[i] viewWithTag:77].frame=vertical?CGRectMake(16.5,8,3,28):CGRectMake(8,16.5,28,3);
+  [(DFINativeDividerTrack *)self.lines[i] positionStrokeVertically:vertical];
  }
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
+ self.nativeSplitSurface.frame=bounds;
+ self.pickerShade.frame=bounds;
  self.edge.frame=CGRectMake(CGRectGetMidX(bounds)-20,bounds.size.height-28,40,24);
  self.edge.hidden=self.panel!=nil;
  self.statusLabel.frame=CGRectMake(8,4,bounds.size.width-16,34);
  if(self.panel){
-  CGFloat w=MIN(470,MAX(180,bounds.size.width-16));
-  CGFloat desired=self.list?MIN(280,MAX(140,self.list.rows.count*40+55)):198;
-  CGFloat h=MIN(desired,MAX(90,bounds.size.height-16));
-  self.panel.frame=CGRectMake((bounds.size.width-w)/2,MAX(0,(bounds.size.height-h)/2),w,h);
+  CGRect nativeCardFrame=DFINativePickerCardFrame(bounds,self.list?self.list.rows.count:4);
+  if(!self.list){nativeCardFrame.size.height=MIN(198,MAX(90,bounds.size.height-16));
+      nativeCardFrame.origin.y=CGRectGetMidY(bounds)-nativeCardFrame.size.height/2.0;}
+  self.panel.frame=nativeCardFrame;
+  CGFloat w=nativeCardFrame.size.width,h=nativeCardFrame.size.height;
   CGFloat headerWidth=MAX(120,w-64);
   self.toolbar.frame=CGRectMake(8,7,headerWidth,30);
   CGFloat logoWidth=MIN(120,MAX(40,headerWidth*0.29));
@@ -358,11 +355,11 @@ static NSArray *DFIAvailableApps(void) {
  // Scene-hosted app views must never own the native-like divider/pill hit region.
  // Raise the actual receiver views at every layout, but leave app touch free elsewhere.
  for(int i=0;i<2;i++)if(!self.lines[i].hidden){
-  [self.view bringSubviewToFront:self.lines[i]];
-  [self.view bringSubviewToFront:self.grips[i]];
+  [self.nativeSplitSurface bringSubviewToFront:self.lines[i]];
+  [self.nativeSplitSurface bringSubviewToFront:self.grips[i]];
  }
  for(UIVisualEffectView *pill in self.panePills)if(!pill.hidden)
-     [self.view bringSubviewToFront:pill];
+     [self.nativeSplitSurface bringSubviewToFront:pill];
  [self.view bringSubviewToFront:self.edge];
  // Native8 is split-only, above the app panes but below an active native picker.
  NSInteger activeCount=0;
@@ -431,7 +428,12 @@ static NSArray *DFIAvailableApps(void) {
 }
 - (void)menu{if(self.panel)[self dismissPanel];else [self showAppMenu];[self armHide];[self.view setNeedsLayout];}
 - (void)edgeTap{if(self.maximized>=0){self.maximized=-1;self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self saveLayout];[self.view setNeedsLayout];}else [self menu];}
-- (void)dismissPanel{if(self.list){[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;}[self.panel removeFromSuperview];self.panel=nil;self.toolbar.hidden=YES;[self.view setNeedsLayout];}
+- (void)dismissPanel{
+ if(self.list){[self.list willMoveToParentViewController:nil];[self.list.view removeFromSuperview];[self.list removeFromParentViewController];self.list=nil;}
+ [self.panel removeFromSuperview];self.panel=nil;
+ [self.pickerShade removeFromSuperview];self.pickerShade=nil;
+ self.toolbar.hidden=YES;[self.view setNeedsLayout];
+}
 - (void)showRows:(NSArray *)rows pane:(NSInteger)pane pick:(void(^)(NSDictionary *))pick {
  [self dismissPanel];self.panelPane=pane;self.panel=[self glass];[self attachNativePickerHeader];DFV12List *list=[DFV12List new];list.rows=rows;list.pick=pick;list.act=pick;__weak typeof(self) weak=self;list.touch=^{[weak armHide];};self.list=list;[self addChildViewController:list];[self.panel.contentView addSubview:list.view];[list didMoveToParentViewController:self];[self armHide];[self.view setNeedsLayout];
 }
