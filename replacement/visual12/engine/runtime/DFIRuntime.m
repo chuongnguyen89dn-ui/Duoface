@@ -409,6 +409,13 @@ static void DFIStart(void) {
     if([DFIPref(@"qaEnabled") boolValue]) return;
 #endif
     if(!DFIEnabled())return;
+    // Chrome-only fullscreen was explicitly a menu Zoom action in approved
+    // Native12. A saved QA zoomEnabled=YES must not start a fresh CarPlay
+    // session with DBDockWindow/DBStatusBarWindow permanently hidden.
+    if(DFIChromeZoomRequested()) {
+        DFILog(@"Native shell restoring stale CarPlay chrome Zoom on start");
+        DFIChromeSetZoom(NO);
+    }
     // Fail closed when an existing legacy CarPlay host owns its runtime.
     // Package IDs alone do not isolate SpringBoard scene ownership.
     if(NSClassFromString(@"CBBridgeManager")) {
