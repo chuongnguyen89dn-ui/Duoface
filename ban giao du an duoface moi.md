@@ -1,5 +1,17 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — ĐÃ GIẢI MÃ THÀNH CÔNG DUONAVI 1.0.4 / CHỐT KHÁC BIỆT ĐÓNG SCENE
+
+**CONFIRMED từ binary gốc:** GitHub Actions `39082350491` và `39082485471` đều `completed/success`. DEB gốc `dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb` SHA256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`; extracted `DuoNaviDashboard.dylib` SHA256 `44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15`. `otool -ov`, `llvm-objdump --macho --objc-meta-data` và `--disassemble` đã chạy thật trên macOS 15. Báo cáo kết quả `audit/duonavi-original104-scene/REPORT.md` được Actions commit vào QA `9852ca66bfb55d482283fb8370120a0b575dde12`; raw artifact run 39082350491 `12118894756` (và raw artifact lần 2 tra từ run 39082485471 khi cần). Đây là **original 1.0.4**, không phải binary Visual12.
+
+**Đã đối chiếu ARM64:** gốc `CBBridgedUIAppView dismiss` IMP `0xaedf8`: `setInvalidated:YES` → `setHosting:NO` → appearance transition → `setRequestedMode:0` → `willMoveToParent:nil` → `removeFromParent` → `invalidate` app controller → zero/release controller → `invalidate` wrapper → zero/release. Các nhánh có điều kiện. `dealloc` IMP `0xaf4d8` gọi `dismiss` trước super. `CBWindow dismiss` IMP `0xb30c4` gọi `destroyWindows` IMP `0xb2d14`; destructor làm tương tự. `CBBridgedSplitApp closeSlot:` IMP `0x112318` có `dismiss` rồi remove subview trong nhánh liên quan. **Khác biệt lớn của QA:** `DFV12SceneHost close` đang dùng `_setCurrentMode:0`, không `invalidate` controller, và giữ controller `dispatch_after(5s)` đã gây crash; gốc dùng `setRequestedMode:0` rồi `invalidate`, không tìm thấy 5s release trong đường này. Không coi đây là proof chắc chắn fix trên thiết bị; cần QA test.
+
+**File bằng chứng đã commit và đọc:** `scripts/audit_original104_scene_lifecycle.py` commit `ec66a026` / cập nhật `ae0bd972`; `.github/workflows/duoface-original104-scene-readonly.yml` commit `93617793`; report `audit/duonavi-original104-scene/REPORT.md` commit `9852ca66`; bản đối chiếu kỹ thuật `docs/duoface-original104-scene-teardown-vs-qa-20261018.md` commit `2157fbcf4cace96283b6d0982f5a733b726e0b5b`. Không ghi thay đổi vào Gpt-training-. Nhánh `feature/visual12-duodash-recovery`; main không đổi. Repo phát hành Sileo `carplaydsp` không đổi.
+
+**Đã thực hiện:** phân tích tĩnh 1.0.4, có báo cáo và disassembly, hai run success; chưa sửa runtime, chưa build DEB mới, chưa deploy/test máy. **Việc kế tiếp:** đọc bản đối chiếu trên và kiểm tra ABI `setRequestedMode:/invalidate` của target iOS 16; thử tối thiểu *QA-only* sửa `DFV12SceneHost.close`: yêu cầu mode 0, invalidate controller đúng trình tự, bỏ timeout. Vì bản `standalone5lifecycle` là bản đang được thử, nếu build tiếp phải dùng version và output path mới (không ghi đè hoặc đưa Sileo khi chưa được yêu cầu), compile/verify qua workflow macOS và sau đó xác minh crash bằng thiết bị. Native12/Hub8 và G1/G2 đang hoạt động không đổi.
+
+
+
 ## 2026-10-18 — KIỂM TRA DUONAVI 1.0.4 TRÊN MACOS ACTIONS (CHƯA CÓ KẾT QUẢ)
 
 - **Xác minh repo và nhánh:** `chuongnguyen89dn-ui/Duoface` / `feature/visual12-duodash-recovery`; checkpoint đầu vào `a529b3987175c93147b4566766678df10504e728`. KHÔNG dùng main làm nhánh QA; main đã diverged. Đã đọc mã `DFIRuntime.m` (`DFV12SceneHost close` và `DFIStop`), `DFCarPlaySplitCoordinator.m` (`cancelAndClose/stop`), `DFCarPlayQARootController.m` (`shutdown`); các báo cáo v12 và audit 1.0.4 lịch sử. Vẫn cần bằng chứng từ DuoNavi gốc 1.0.4 để xác định call sequence.
