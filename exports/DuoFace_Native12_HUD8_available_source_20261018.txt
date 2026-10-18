@@ -10506,3 +10506,1717 @@ void DFPickerZoomMenuRefresh(void) {
 }
 ########## END FILE: runtime/fullscreen/DFPickerZoomMenu.xm ##########
 
+########## BEGIN FILE: runtime/fullscreen/DFRestoreMenu.h ##########
+#import <UIKit/UIKit.h>
+
+// Fullscreen close-control subset of ARWHostMenuView's default TOP edge.
+// Does not reimplement Airaw's app picker, Control Center, or scale controls.
+@interface DFRestoreMenu : UIView
+@property(nonatomic, copy) void (^onCloseRequested)(void);
+- (BOOL)installOnContainer:(UIView *)container alignedToHostView:(UIView *)hostView;
+- (void)alignToHostView;
+- (void)clearCallbacks;
+@end
+########## END FILE: runtime/fullscreen/DFRestoreMenu.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFRestoreMenu.mm ##########
+#import "DFRestoreMenu.h"
+
+// Fullscreen-only recovery control for the v12 split host.
+// The old Airaw-inspired white grabber overlaid its own close target on
+// some CarPlay screen geometries. A directly tappable exit button replaces
+// the grabber + tap-to-reveal panel, without changing the host restore path.
+@interface DFRestoreMenu ()
+@property(nonatomic, weak) UIView *hostView;
+@property(nonatomic, strong) UIButton *closeButton;
+@end
+
+@implementation DFRestoreMenu
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (!(self = [super initWithFrame:frame])) return nil;
+    self.backgroundColor = UIColor.clearColor;
+    self.clipsToBounds = NO;
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 44, 44);
+    button.tintColor = UIColor.whiteColor;
+    button.backgroundColor = [UIColor colorWithWhite:0.08 alpha:0.88];
+    button.layer.cornerRadius = 12.0;
+    button.clipsToBounds = YES;
+    button.accessibilityLabel = @"Thu nhỏ";
+    button.accessibilityHint = @"Khôi phục bố cục chia hai màn hình";
+    UIImage *image = [UIImage systemImageNamed:@"arrow.down.right.and.arrow.up.left"
+        withConfiguration:[UIImageSymbolConfiguration
+            configurationWithPointSize:20 weight:UIImageSymbolWeightMedium]];
+    [button setImage:image forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(didTapRestore:)
+        forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:button];
+    self.closeButton = button;
+    return self;
+}
+
+- (BOOL)installOnContainer:(UIView *)container alignedToHostView:(UIView *)hostView {
+    if (!container || !hostView || container.window != hostView.window || !hostView.window) return NO;
+    self.hostView = hostView;
+    [container addSubview:self];
+    [self alignToHostView];
+    BOOL installed = self.superview == container &&
+                     self.bounds.size.width >= 44 &&
+                     self.closeButton.superview == self &&
+                     self.closeButton.enabled;
+    NSLog(@"[DuoFaceFullscreen] restore control installed=%d", installed);
+    return installed;
+}
+
+- (void)alignToHostView {
+    UIView *host = self.hostView;
+    if (!host || !self.superview) return;
+    CGRect rect = [self.superview convertRect:host.bounds fromView:host];
+    // An edge-aligned 44pt button replaces the 168pt transparent grabber area.
+    self.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 52);
+    [self setNeedsLayout];
+    [self.superview bringSubviewToFront:self];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGFloat width = self.bounds.size.width;
+    self.closeButton.frame = CGRectMake(MAX(0.0, (width - 44.0) * 0.5),
+                                        4.0, 44.0, 44.0);
+}
+
+// Forward touches only inside the visible 44x44 exit button.
+// Both video/map panes receive all other touches as before.
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (self.hidden || self.alpha < 0.01 || !self.userInteractionEnabled ||
+        !self.closeButton.enabled || self.closeButton.hidden) return nil;
+    if (!CGRectContainsPoint(self.closeButton.frame, point)) return nil;
+    CGPoint local = [self.closeButton convertPoint:point fromView:self];
+    return [self.closeButton hitTest:local withEvent:event];
+}
+
+- (void)didTapRestore:(UIButton *)sender {
+    (void)sender;
+    NSLog(@"[DuoFaceFullscreen] direct restore button tapped");
+    if (self.onCloseRequested) self.onCloseRequested();
+}
+
+- (void)clearCallbacks {
+    self.onCloseRequested = nil;
+    self.hostView = nil;
+}
+@end
+########## END FILE: runtime/fullscreen/DFRestoreMenu.mm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFRuntimeEntry.mm ##########
+// Only enables the already compiled v12 Dashboard <-> SpringBoard adapter.
+// The original split dashboard and license/day payload remain untouched.
+#import <Foundation/Foundation.h>
+#import "DFFullscreenCoordinator.h"
+
+static void DFStartAdapterWhenLoaded(NSUInteger attempt) {
+    NSCAssert(NSThread.isMainThread, @"Fullscreen bootstraps on main thread");
+    if (DFStartFullscreenAdapter()) {
+        NSLog(@"[DuoFaceFullscreen] candidate adapter started in %@",
+              NSProcessInfo.processInfo.processName);
+        return;
+    }
+    if (attempt >= 30) {
+        NSLog(@"[DuoFaceFullscreen] candidate adapter unavailable in %@ after class-load retries",
+              NSProcessInfo.processInfo.processName);
+        return;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFStartAdapterWhenLoaded(attempt + 1);
+    });
+}
+__attribute__((constructor)) static void DFCandidateAdapterEntry(void) {
+    @autoreleasepool {
+        NSString *bundle = NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+        if (![@[@"com.apple.springboard", @"com.apple.carplayapp",
+                 @"com.apple.carplay", @"com.apple.dashboard"] containsObject:bundle]) return;
+        dispatch_async(dispatch_get_main_queue(), ^{ DFStartAdapterWhenLoaded(0); });
+    }
+}
+########## END FILE: runtime/fullscreen/DFRuntimeEntry.mm ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFStatusBarControl.h ##########
+#import <UIKit/UIKit.h>
+FOUNDATION_EXPORT BOOL DFInstallStatusBarControlHooks(void (^pressed)(void));
+FOUNDATION_EXPORT void DFSetStatusBarControlState(BOOL visible, BOOL enabled);
+########## END FILE: runtime/fullscreen/DFStatusBarControl.h ##########
+
+########## BEGIN FILE: runtime/fullscreen/DFStatusBarControl.xm ##########
+#import "DFStatusBarControl.h"
+#import <objc/message.h>
+
+// Airaw: defaults 0x8330–0x83d0; installer 0x14c94–0x14dd0.
+// x=12.5, y=42, size=20. Symbol pointSize=10, weight=3, background image,
+// white tint, initially hidden, target is the owning bar controller.
+@interface DBDockRootViewController : UIViewController
+- (void)df_carplayFullscreen;
+@end
+@interface DBRootStatusBarViewController : UIViewController
+- (void)df_carplayFullscreen;
+@end
+@interface CARRootStatusBarViewController : UIViewController
+- (void)df_carplayFullscreen;
+@end
+static NSMapTable<UIViewController *, UIButton *> *DFControls;
+static BOOL DFControlVisible;
+static BOOL DFControlEnabled;
+static BOOL DFControlInstalled;
+static void (^DFControlPressed)(void);
+
+static void DFLayoutControl(UIViewController *owner) {
+    if (!owner.isViewLoaded) return;
+    UIButton *button = [DFControls objectForKey:owner];
+    if (!button) {
+        button = [[UIButton alloc] initWithFrame:CGRectMake(12.5, 42, 20, 20)];
+        UIImageSymbolConfiguration *configuration = [UIImageSymbolConfiguration
+            configurationWithPointSize:10 weight:(UIImageSymbolWeight)3];
+        UIImage *image = [UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"
+                                withConfiguration:configuration];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+        [button addTarget:owner action:NSSelectorFromString(@"df_carplayFullscreen")
+            forControlEvents:UIControlEventTouchUpInside];
+        button.hidden = YES; button.tintColor = UIColor.whiteColor;
+        button.accessibilityLabel = @"DuoFace fullscreen";
+        [owner.view addSubview:button];
+        [DFControls setObject:button forKey:owner];
+    }
+    button.hidden = !DFControlVisible;
+    button.enabled = DFControlEnabled;
+}
+void DFSetStatusBarControlState(BOOL visible, BOOL enabled) {
+    NSCAssert(NSThread.isMainThread, @"Control state requires main thread");
+    DFControlVisible = visible; DFControlEnabled = enabled;
+    for (UIViewController *owner in DFControls.keyEnumerator) DFLayoutControl(owner);
+}
+static void DFBarPressed(void) {
+    if (DFControlVisible && DFControlEnabled && DFControlPressed) DFControlPressed();
+}
+
+%group DFStatusControlDock
+%hook DBDockRootViewController
+- (void)viewDidLoad {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+%new
+- (void)df_carplayFullscreen { DFBarPressed(); }
+%end
+%end
+%group DFStatusControlDB
+%hook DBRootStatusBarViewController
+- (void)viewDidLoad {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+%new
+- (void)df_carplayFullscreen { DFBarPressed(); }
+%end
+%end
+%group DFStatusControlCAR
+%hook CARRootStatusBarViewController
+- (void)viewDidLoad {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFLayoutControl((UIViewController *)self);
+}
+%new
+- (void)df_carplayFullscreen { DFBarPressed(); }
+%end
+%end
+
+BOOL DFInstallStatusBarControlHooks(void (^pressed)(void)) {
+    if (DFControlInstalled) return YES;
+    NSString *bundle = NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    if (![@[@"com.apple.carplayapp", @"com.apple.carplay", @"com.apple.dashboard"] containsObject:bundle])
+        return NO;
+    DFControls = [NSMapTable weakToStrongObjectsMapTable];
+    DFControlPressed = [pressed copy];
+    // Same availability priority as Airaw; only one host family, avoiding duplicates.
+    if (NSClassFromString(@"DBDockRootViewController")) {
+        %init(DFStatusControlDock); DFControlInstalled = YES;
+    } else if (NSClassFromString(@"DBRootStatusBarViewController")) {
+        %init(DFStatusControlDB); DFControlInstalled = YES;
+    } else if (NSClassFromString(@"CARRootStatusBarViewController")) {
+        %init(DFStatusControlCAR); DFControlInstalled = YES;
+    }
+    return DFControlInstalled;
+}
+########## END FILE: runtime/fullscreen/DFStatusBarControl.xm ##########
+
+########## BEGIN FILE: runtime/settings/DFSettingsUIRestore.mm ##########
+// DuoFace native17: restore only the settings-row presentation lost when the
+// combined native2 NoLease dylib was removed in the known-working native12.
+// Intentionally NO license validity hooks, watchdog hooks, or activation changes.
+// The host binary remains byte-identical to native12 and native16.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+
+static NSInteger (*DFOrigRows)(id, SEL, UITableView *, NSInteger)=NULL;
+static UITableViewCell *(*DFOrigCell)(id, SEL, UITableView *, NSIndexPath *)=NULL;
+static void (*DFOrigSelect)(id, SEL, UITableView *, NSIndexPath *)=NULL;
+static BOOL DFInstalled=NO;
+static BOOL DFInspecting=NO;
+
+static BOOL DFIsObsoleteLicenseRow(UITableViewCell *cell) {
+    if (![cell isKindOfClass:UITableViewCell.class]) return NO;
+    // The same iPhone-only terms as the user-verified native2 row filter.
+    NSArray *terms=@[@"duoface pro", @"subscription", @"license", @"licence",
+        @"giấy phép", @"thời hạn", @"ngày sử dụng", @"hạn dùng",
+        @"suscripción", @"licencia", @"abonnement", @"licentie",
+        @"licencja", @"lizen", @"einddatum"];
+    for (id candidate in @[cell.textLabel.text?:@"", cell.detailTextLabel.text?:@""]) {
+        if (![candidate isKindOfClass:NSString.class]) continue;
+        NSString *s=[candidate lowercaseString];
+        for (NSString *term in terms) if ([s containsString:term]) return YES;
+    }
+    NSString *className=NSStringFromClass(cell.class).lowercaseString;
+    return [className containsString:@"subscription"] ||
+           [className containsString:@"license"];
+}
+static NSArray<NSNumber *> *DFVisibleOriginalRows(id owner, UITableView *table,
+                                                    NSInteger section) {
+    if (!DFOrigRows || !DFOrigCell || DFInspecting || !NSThread.isMainThread)
+        return nil; // preserve original behavior when unsure
+    NSInteger count=DFOrigRows(owner,@selector(tableView:numberOfRowsInSection:),table,section);
+    if (count<0 || count>60) return nil;
+    NSMutableArray<NSNumber *> *indices=[NSMutableArray array];
+    DFInspecting=YES;
+    @try {
+        for (NSInteger i=0;i<count;i++) {
+            NSIndexPath *p=[NSIndexPath indexPathForRow:i inSection:section];
+            UITableViewCell *cell=DFOrigCell(owner,
+                @selector(tableView:cellForRowAtIndexPath:),table,p);
+            if (!DFIsObsoleteLicenseRow(cell)) [indices addObject:@(i)];
+        }
+    } @catch (NSException *exception) {
+        // No half-filtered tables. Original callbacks stay installed.
+        NSLog(@"[DuoFaceSettingsUIRestore] original-cell inspection failed (%@)",
+              exception.name);
+        return nil;
+    } @finally {
+        DFInspecting=NO;
+    }
+    return indices;
+}
+static NSIndexPath *DFOriginalIndexPath(id owner,UITableView *table,NSIndexPath *visible) {
+    if (!visible || visible.section<0 || visible.row<0) return visible;
+    NSArray<NSNumber *> *indices=DFVisibleOriginalRows(owner,table,visible.section);
+    if (!indices) return visible; // fail open, don't rewrite unknown rows
+    if (visible.row>=indices.count) return nil;
+    return [NSIndexPath indexPathForRow:indices[(NSUInteger)visible.row].integerValue
+                             inSection:visible.section];
+}
+static NSInteger DFVisibleCount(id self,SEL cmd,UITableView *table,NSInteger section) {
+    NSInteger original=DFOrigRows(self,cmd,table,section);
+    NSArray *indices=DFVisibleOriginalRows(self,table,section);
+    return indices ? (NSInteger)indices.count : original;
+}
+static UITableViewCell *DFVisibleCell(id self,SEL cmd,UITableView *table,NSIndexPath *path) {
+    NSIndexPath *original=DFOriginalIndexPath(self,table,path);
+    if (!original) return [[UITableViewCell alloc]
+        initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    return DFOrigCell(self,cmd,table,original);
+}
+static void DFVisibleSelect(id self,SEL cmd,UITableView *table,NSIndexPath *path) {
+    NSIndexPath *original=DFOriginalIndexPath(self,table,path);
+    if (original && DFOrigSelect) DFOrigSelect(self,cmd,table,original);
+}
+static BOOL DFMethodABI(Method method,NSUInteger argc,char expected) {
+    if (!method) return NO;
+    const char *enc=method_getTypeEncoding(method);
+    NSMethodSignature *signature=enc?[NSMethodSignature signatureWithObjCTypes:enc]:nil;
+    if (!signature || signature.numberOfArguments!=argc) return NO;
+    char actual=signature.methodReturnType[0];
+    return expected=='q' ? (actual=='q'||actual=='i') : actual==expected;
+}
+static void DFInstallSettingsUIOnly(void) {
+    if (DFInstalled || !NSThread.isMainThread) return;
+    Class settings=NSClassFromString(@"CBGeneralSettingsViewController");
+    if (!settings) return;
+    Method rows=class_getInstanceMethod(settings,@selector(tableView:numberOfRowsInSection:));
+    Method cells=class_getInstanceMethod(settings,@selector(tableView:cellForRowAtIndexPath:));
+    Method select=class_getInstanceMethod(settings,@selector(tableView:didSelectRowAtIndexPath:));
+    if (!DFMethodABI(rows,4,'q') || !DFMethodABI(cells,4,'@') ||
+        !DFMethodABI(select,4,'v')) return;
+
+    // Wrapping whatever callback is CURRENTLY registered also preserves the
+    // separately injected SmartConnection 10-second section when present.
+    DFOrigRows=(decltype(DFOrigRows))method_getImplementation(rows);
+    DFOrigCell=(decltype(DFOrigCell))method_getImplementation(cells);
+    DFOrigSelect=(decltype(DFOrigSelect))method_getImplementation(select);
+    if (!DFOrigRows || !DFOrigCell || !DFOrigSelect) return;
+    method_setImplementation(rows,(IMP)DFVisibleCount);
+    method_setImplementation(cells,(IMP)DFVisibleCell);
+    method_setImplementation(select,(IMP)DFVisibleSelect);
+    DFInstalled=YES;
+    NSLog(@"[DuoFaceSettingsUIRestore] native2 settings-row filter restored; license behavior untouched");
+}
+__attribute__((constructor)) static void DFStartSettingsUIOnly(void) {
+    @autoreleasepool {
+        if (![NSBundle.mainBundle.bundleIdentifier.lowercaseString
+                isEqualToString:@"com.duoface.duofaceui"]) return;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFInstallSettingsUIOnly();
+            if (DFInstalled) return;
+            __block NSUInteger attempts=0;
+            [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer *timer) {
+                DFInstallSettingsUIOnly();
+                if (DFInstalled || ++attempts>=120) [timer invalidate];
+            }];
+        });
+    }
+}
+########## END FILE: runtime/settings/DFSettingsUIRestore.mm ##########
+
+########## BEGIN FILE: runtime/settings/DuoFaceSettingsUIRestore.plist ##########
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict><key>Filter</key><dict>
+<key>Executables</key><array><string>DuoFaceUI</string></array>
+<key>Bundles</key><array><string>com.duoface.duofaceui</string></array>
+</dict></dict></plist>
+########## END FILE: runtime/settings/DuoFaceSettingsUIRestore.plist ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedAppObserver.mm ##########
+// DuoFace-owned source module candidate; built into DuoFace, not separately installed.
+// Read CURRENT speed only from GPS updates already delivered to a user-installed
+// map app. It does not request location permission, wake apps, or spoof limits.
+// A dedicated, version-verified map adapter must provide speed limits later.
+#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+#import <objc/runtime.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#import <string.h>
+
+static DFSpeedAppSource DFRunningApp=DFSpeedAppSourceNone;
+static IMP DFOriginalSetDelegate=NULL;
+static NSMutableDictionary<NSString *,NSValue *> *DFOriginalDelegates;
+static NSObject *DFDelegateLock;
+
+static DFSpeedAppSource DFSourceForBundle(NSString *bundle) {
+    if ([bundle isEqualToString:@"com.google.Maps"]) return DFSpeedAppSourceGoogleMaps;
+    if ([bundle isEqualToString:@"com.waze.iphone"]) return DFSpeedAppSourceWaze;
+    if ([bundle isEqualToString:@"vn.vietmap.live"]) return DFSpeedAppSourceVietMap;
+    if ([bundle isEqualToString:@"com.lumi.GOFA"]) return DFSpeedAppSourceGOFA;
+    return DFSpeedAppSourceNone;
+}
+static BOOL DFLocationFresh(CLLocation *loc) {
+    if (![loc isKindOfClass:CLLocation.class] ||
+        !isfinite(loc.speed) || loc.speed<0 || loc.speed>111.111 ||
+        !isfinite(loc.horizontalAccuracy) || loc.horizontalAccuracy<0 ||
+        !loc.timestamp) return NO;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-loc.timestamp.timeIntervalSince1970;
+    return isfinite(age) && age>=-1 && age<=5;
+}
+static void DFObserveFreshAppGPS(id locations) {
+    if (![locations isKindOfClass:NSArray.class] ||
+        ![(NSArray *)locations count]) return;
+    CLLocation *loc=[(NSArray *)locations lastObject];
+    if (!DFLocationFresh(loc)) return;
+    NSInteger kmh=lround(loc.speed * 3.6);
+    // Without a source-backed limit, show unknown, NEVER guess a traffic rule.
+    DFSpeedHUDPublish(DFRunningApp,kmh,YES,0,NO);
+}
+static IMP DFOriginalDelegateIMPFor(id delegate) {
+    Class cls=object_getClass(delegate);
+    @synchronized(DFDelegateLock) {
+        for (Class k=cls; k; k=class_getSuperclass(k)) {
+            NSValue *v=DFOriginalDelegates[NSStringFromClass(k)];
+            if (v) return (IMP)v.pointerValue;
+        }
+    }
+    return NULL;
+}
+static void DFWrappedDidUpdate(id delegate,SEL cmd,
+                               CLLocationManager *manager,NSArray *locations) {
+    DFObserveFreshAppGPS(locations);
+    IMP imp=DFOriginalDelegateIMPFor(delegate);
+    if (imp && imp!=(IMP)DFWrappedDidUpdate)
+        ((void(*)(id,SEL,CLLocationManager *,NSArray *))imp)
+          (delegate,cmd,manager,locations);
+}
+static void DFWrapDelegateIfSafe(id delegate) {
+    if (!delegate || !DFDelegateLock) return;
+    Class cls=object_getClass(delegate);
+    if (!cls || ![delegate respondsToSelector:
+                      @selector(locationManager:didUpdateLocations:)]) return;
+    SEL sel=@selector(locationManager:didUpdateLocations:);
+    Method method=class_getInstanceMethod(cls,sel);
+    if (!method || method_getNumberOfArguments(method)!=4) return;
+    char *ret=method_copyReturnType(method);
+    BOOL valid=ret && strcmp(ret,"v")==0;
+    if (ret) free(ret);
+    if (!valid) return;
+    @synchronized(DFDelegateLock) {
+        NSString *name=NSStringFromClass(cls);
+        if (DFOriginalDelegates[name]) return;
+        IMP original=method_getImplementation(method);
+        if (!original || original==(IMP)DFWrappedDidUpdate) return;
+        const char *types=method_getTypeEncoding(method);
+        if (!types) return;
+        // Replace even inherited implementations; class_replaceMethod can
+        // legitimately return NULL for inherited methods. Always retain the
+        // actual original IMP retrieved above to preserve app callback.
+        class_replaceMethod(cls,sel,(IMP)DFWrappedDidUpdate,types);
+        DFOriginalDelegates[name]=[NSValue valueWithPointer:(void *)original];
+    }
+}
+static void DFWrappedSetDelegate(CLLocationManager *self,SEL cmd,id delegate) {
+    if (delegate) DFWrapDelegateIfSafe(delegate);
+    if (DFOriginalSetDelegate)
+        ((void(*)(id,SEL,id))DFOriginalSetDelegate)(self,cmd,delegate);
+}
+static void DFInstallGPSObserver(void) {
+    Class cls=NSClassFromString(@"CLLocationManager");
+    SEL sel=@selector(setDelegate:);
+    Method m=cls ? class_getInstanceMethod(cls,sel):NULL;
+    if (!m || method_getNumberOfArguments(m)!=3) return;
+    char *ret=method_copyReturnType(m);
+    BOOL valid=ret && strcmp(ret,"v")==0;
+    if (ret) free(ret);
+    if (!valid) return;
+    DFDelegateLock=[NSObject new];
+    DFOriginalDelegates=[NSMutableDictionary new];
+    DFOriginalSetDelegate=method_setImplementation(m,(IMP)DFWrappedSetDelegate);
+    if (!DFOriginalSetDelegate)
+        NSLog(@"[DuoFaceSpeedHUD] CoreLocation delegate observer unavailable");
+}
+__attribute__((constructor)) static void DFStartSourceObserver(void) {
+    @autoreleasepool {
+        DFRunningApp=DFSourceForBundle(NSBundle.mainBundle.bundleIdentifier);
+        if (DFRunningApp==DFSpeedAppSourceNone) return;
+        DFInstallGPSObserver();
+        // This hook observes app-provided CLLocation only. No fallback fake
+        // limit is published, and no user app is opened programmatically.
+    }
+}
+########## END FILE: runtime/speedbubble/DFSpeedAppObserver.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedBubbleBridge.mm ##########
+// DuoFace Native12 candidate: ONE GOFA-inspired speed HUD for FOUR alternative app data sources.
+// Inject this module into the verified DuoFace CarPlay process only; no global SpringBoard HUD.
+// Native12 CBWindow selectors and rootWindow class are verified by existing audits.
+// Speed4 split-host candidate: device visibility is not yet verified.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import "DFSpeedTransport.h"
+#import <math.h>
+#include <string.h>
+
+// Actual DuoFace Native12 owner; not the Apple CarPlay home window.
+@interface CBWindow : NSObject
+@property(nonatomic,readonly) UIWindow *rootWindow;
+@property(nonatomic,readonly) UIViewController *rootViewController;
+@property(nonatomic,readonly) UIView *contentView;
+@property(nonatomic,readonly) BOOL isVisible;
+@end
+
+@interface DFSpeedNativeHUD : UIView
+@property(nonatomic,strong) UILabel *current;
+@property(nonatomic,strong) UILabel *limit;
+@property(nonatomic,strong) UILabel *unit;
+@property(nonatomic,strong) UIView *limitRing;
+@property(nonatomic,strong) NSTimer *timer;
+@property(nonatomic,strong) UILabel *dismissTarget;
+@property(nonatomic,assign) BOOL dismissedForSession;
+@property(nonatomic,weak) CBWindow *ownerBridge;
+- (void)pan:(UIPanGestureRecognizer *)recognizer;
+- (void)restoreSavedPosition;
+- (void)tick:(NSTimer *)timer;
+- (void)stop;
+@end
+
+@implementation DFSpeedNativeHUD
+- (instancetype)initWithFrame:(CGRect)frame {
+    if ((self=[super initWithFrame:frame])) {
+        // GOFA: only the bubble grabs taps/drags; the rest of CarPlay keeps touches.
+        self.userInteractionEnabled=YES;
+        UIPanGestureRecognizer *move=[[UIPanGestureRecognizer alloc]
+            initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:move];
+        // GOFA reference: dark horizontal pill, bright speed text, traffic-sign limit.
+        self.backgroundColor=[UIColor colorWithRed:0.12 green:0.16 blue:0.20 alpha:0.94];
+        self.layer.cornerRadius=32;
+        self.layer.masksToBounds=YES;
+        _current=[UILabel new];
+        _current.textAlignment=NSTextAlignmentCenter;
+        _current.textColor=UIColor.whiteColor;
+        _current.font=[UIFont monospacedDigitSystemFontOfSize:30 weight:UIFontWeightBold];
+        _unit=[UILabel new];
+        _unit.text=@"km/h"; _unit.textAlignment=NSTextAlignmentCenter;
+        _unit.textColor=[UIColor colorWithWhite:0.9 alpha:1];
+        _unit.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
+        _limitRing=[UIView new];
+        _limitRing.backgroundColor=UIColor.whiteColor;
+        _limitRing.layer.borderColor=[UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1].CGColor;
+        _limitRing.layer.borderWidth=4;
+        _limitRing.layer.cornerRadius=25;
+        _limit=[UILabel new];
+        _limit.textAlignment=NSTextAlignmentCenter;
+        _limit.textColor=UIColor.blackColor;
+        _limit.font=[UIFont monospacedDigitSystemFontOfSize:21 weight:UIFontWeightBold];
+        [self addSubview:_current]; [self addSubview:_unit];
+        [self addSubview:_limitRing]; [_limitRing addSubview:_limit];
+        // CarPlay HUD startup is independent of data availability. Never invent a number.
+        _current.text=@"—"; _limit.text=@"—";
+        self.hidden=NO;
+    }
+    return self;
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    const CGFloat w=self.bounds.size.width, h=self.bounds.size.height;
+    // One compact GOFA-style panel: speed left, ONE speed-limit sign right.
+    // No camera sign, secondary road sign or separate provider mini-bubble.
+    _current.frame=CGRectMake(7,4,w-65,39);
+    _unit.frame=CGRectMake(7,40,w-65,15);
+    _limitRing.frame=CGRectMake(w-56,(h-50)/2,50,50);
+    _limit.frame=_limitRing.bounds;
+}
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    if (self.window && !_timer) {
+        _timer=[NSTimer timerWithTimeInterval:1.0 target:self
+                     selector:@selector(tick:) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [self tick:_timer];
+    } else if (!self.window) {
+        [self stop];
+    }
+}
+- (void)tick:(NSTimer *)timer {
+    (void)timer;
+    if (!self.window || self.dismissedForSession) {
+        self.hidden=YES; return;
+    }
+    if (!self.ownerBridge || !self.ownerBridge.isVisible) {
+        self.hidden=YES; return;
+    }
+    DFSpeedHUDRecord sample={};
+    if (!DFSpeedHUDReadBest(&sample)) {
+        // Visible diagnostic state: no data is not the same as no HUD.
+        self.current.text=@"—";
+        self.limit.text=@"—";
+        self.limitRing.layer.borderColor=UIColor.lightGrayColor.CGColor;
+        self.accessibilityLabel=@"DuoFace speed: awaiting a verified source";
+        self.hidden=NO;
+        return;
+    }
+    if (self.dismissedForSession) { self.hidden=YES; return; }
+    self.hidden=NO;
+    self.current.text=sample.hasCurrent
+        ? [NSString stringWithFormat:@"%ld",(long)sample.currentKmh] : @"—";
+    self.limit.text=sample.hasLimit
+        ? [NSString stringWithFormat:@"%ld",(long)sample.limitKmh] : @"—";
+    self.limitRing.layer.borderColor=(sample.hasLimit
+        ? [UIColor colorWithRed:0.89 green:0.13 blue:0.13 alpha:1]
+        : UIColor.lightGrayColor).CGColor;
+    self.accessibilityLabel=[NSString stringWithFormat:
+        @"DuoFace: speed %@ km/h; limit %@ km/h",
+        self.current.text,self.limit.text];
+}
+
+static NSString *const kDFSpeedHUDPrefs=@"com.duoface.speedhud";
+static NSString *const kDFSpeedPosX=@"positionX";
+static NSString *const kDFSpeedPosY=@"positionY";
+static CGRect DFAllowedArea(UIView *view) {
+    UIView *parent=view.superview;
+    if (!parent) return CGRectZero;
+    CGRect area=UIEdgeInsetsInsetRect(parent.bounds,parent.safeAreaInsets);
+    if (CGRectIsEmpty(area) || !isfinite(area.size.width) || !isfinite(area.size.height))
+        area=parent.bounds;
+    return CGRectInset(area,6,6);
+}
+static CGPoint DFClampCenter(CGPoint center,CGRect area,CGSize size) {
+    const CGFloat hx=size.width*0.5, hy=size.height*0.5;
+    CGFloat minX=CGRectGetMinX(area)+hx, maxX=CGRectGetMaxX(area)-hx;
+    CGFloat minY=CGRectGetMinY(area)+hy, maxY=CGRectGetMaxY(area)-hy;
+    if (maxX<minX) { minX=CGRectGetMidX(area); maxX=minX; }
+    if (maxY<minY) { minY=CGRectGetMidY(area); maxY=minY; }
+    return CGPointMake(fmax(minX,fmin(maxX,center.x)),
+                       fmax(minY,fmin(maxY,center.y)));
+}
+- (void)restoreSavedPosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area)) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    if (![prefs objectForKey:kDFSpeedPosX] || ![prefs objectForKey:kDFSpeedPosY]) {
+        // GOFA reference image: default upper-right, adjustable everywhere.
+        self.center=DFClampCenter(CGPointMake(CGRectGetMaxX(area)-self.bounds.size.width/2,
+                     CGRectGetMinY(area)+self.bounds.size.height/2),area,self.bounds.size);
+        return;
+    }
+    double x=[prefs doubleForKey:kDFSpeedPosX], y=[prefs doubleForKey:kDFSpeedPosY];
+    if (!isfinite(x) || !isfinite(y) || x<0 || x>1 || y<0 || y>1) return;
+    self.center=DFClampCenter(CGPointMake(CGRectGetMinX(area)+area.size.width*x,
+              CGRectGetMinY(area)+area.size.height*y),area,self.bounds.size);
+}
+- (void)savePosition {
+    CGRect area=DFAllowedArea(self);
+    if (CGRectIsEmpty(area) || area.size.width<=0 || area.size.height<=0) return;
+    NSUserDefaults *prefs=[[NSUserDefaults alloc] initWithSuiteName:kDFSpeedHUDPrefs];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.x-CGRectGetMinX(area))/area.size.width))
+             forKey:kDFSpeedPosX];
+    [prefs setDouble:fmax(0,fmin(1,(self.center.y-CGRectGetMinY(area))/area.size.height))
+             forKey:kDFSpeedPosY];
+}
+- (void)showDismissTarget {
+    if (!self.superview || self.dismissTarget) return;
+    UILabel *target=[[UILabel alloc] initWithFrame:CGRectMake(0,0,62,62)];
+    target.backgroundColor=[UIColor colorWithWhite:0.09 alpha:0.92];
+    target.layer.cornerRadius=31;
+    target.layer.borderWidth=2;
+    target.layer.borderColor=[UIColor colorWithRed:0.95 green:0.3 blue:0.3 alpha:1].CGColor;
+    target.text=@"×";
+    target.font=[UIFont systemFontOfSize:38 weight:UIFontWeightSemibold];
+    target.textColor=UIColor.whiteColor;
+    target.textAlignment=NSTextAlignmentCenter;
+    target.userInteractionEnabled=NO; // Indicator only, not a competing HUD.
+    CGRect area=DFAllowedArea(self);
+    target.center=CGPointMake(CGRectGetMidX(area),
+                       CGRectGetMaxY(area)-target.bounds.size.height/2);
+    [self.superview addSubview:target];
+    self.dismissTarget=target;
+}
+- (void)pan:(UIPanGestureRecognizer *)gesture {
+    if (!self.superview || self.dismissedForSession) return;
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+            [self showDismissTarget];
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGPoint move=[gesture translationInView:self.superview];
+            CGPoint next=CGPointMake(self.center.x+move.x,self.center.y+move.y);
+            self.center=DFClampCenter(next,DFAllowedArea(self),self.bounds.size);
+            [gesture setTranslation:CGPointZero inView:self.superview];
+            break;
+        }
+        case UIGestureRecognizerStateEnded: {
+            CGRect drop=self.dismissTarget ? CGRectInset(self.dismissTarget.frame,-18,-18):CGRectZero;
+            BOOL hide= !CGRectIsEmpty(drop) && CGRectContainsPoint(drop,self.center);
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            if (hide) {
+                // GOFA-like drag to X. Session-only: next CarPlay window
+                // recreate resets it; no hidden-forever state without restore UI.
+                self.dismissedForSession=YES;
+                self.hidden=YES;
+                [_timer invalidate]; _timer=nil;
+            } else {
+                [self savePosition];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+            break;
+        default: break;
+    }
+}
+- (void)stop {
+    [_timer invalidate]; _timer=nil;
+    [self.dismissTarget removeFromSuperview]; self.dismissTarget=nil;
+    self.hidden=YES;
+}
+
+@end
+
+static char kDFSpeedViewKey;
+static __weak UIWindow *kDFOnlyWindow;
+static __weak UIView *kDFOnlyHost;
+static NSString *kDFLastHostStatus;
+static void DFHostStatus(NSString *status) {
+    if (![status isEqualToString:kDFLastHostStatus]) {
+        kDFLastHostStatus=[status copy];
+        NSLog(@"[DuoFaceSpeedHUD][split-owner] %@",status);
+    }
+}
+static __weak DFSpeedNativeHUD *kDFOnlyHUD;
+static __weak CBWindow *kDFOnlyBridge;
+static IMP kDFOriginalShow=NULL, kDFOriginalResize=NULL, kDFOriginalDestroy=NULL;
+static BOOL kDFSpeedBridgeInstalled=NO;
+static BOOL DFValidBounds(CGRect rect) {
+    return isfinite(rect.size.width) && isfinite(rect.size.height) &&
+           rect.size.width>=220 && rect.size.height>=120;
+}
+// Exact Native12 exposes both CBWindow.contentView and rootViewController.
+// Verify their REAL view/window relationship: no arbitrary CarPlay-wide windows.
+static UIView *DFVerifiedSplitHost(CBWindow *bridge, UIWindow *root) {
+    if (![root isKindOfClass:UIWindow.class] || root.hidden ||
+        root.alpha<=0.01 || !DFValidBounds(root.bounds)) {
+        DFHostStatus(@"WAIT: native CBWindow root hidden/small/unavailable");
+        return nil;
+    }
+    UIView *content=bridge.contentView;
+    UIView *controller=bridge.rootViewController.viewIfLoaded;
+    if (![content isKindOfClass:UIView.class] || content.window!=root) {
+        DFHostStatus(@"WAIT: CBWindow contentView is not in root UIWindow");
+        return nil;
+    }
+    // Prefer root controller's view above BOTH split panes, not either app pane.
+    UIView *host=nil;
+    if ([controller isKindOfClass:UIView.class] && controller.window==root) {
+        for (UIView *v=content;v;v=v.superview) {
+            if (v==controller) {host=controller;break;}
+        }
+    }
+    // If Native12 uses a direct root contentView, that is the guarded fallback.
+    if (!host) host=content;
+    if (!DFValidBounds(host.bounds) || host.hidden || host.alpha<=0.01) {
+        DFHostStatus(@"WAIT: verified split host not laid out/visible yet");
+        return nil;
+    }
+    return host;
+}
+static void DFPlaceSpeedView(CBWindow *bridge) {
+    UIWindow *nativeWindow=bridge.rootWindow;
+    UIView *host=DFVerifiedSplitHost(bridge,nativeWindow);
+    if (!host) return;
+    // Singleton is keyed to the split HOST, not to each app pane or Home scene.
+    if (kDFOnlyHUD && kDFOnlyHost!=host) {
+        [kDFOnlyHUD stop];
+        [kDFOnlyHUD removeFromSuperview];
+        if (kDFOnlyHost)
+            objc_setAssociatedObject(kDFOnlyHost,&kDFSpeedViewKey,nil,
+                                     OBJC_ASSOCIATION_ASSIGN);
+        kDFOnlyHUD=nil;kDFOnlyWindow=nil;kDFOnlyHost=nil;kDFOnlyBridge=nil;
+    }
+    DFSpeedNativeHUD *hud=objc_getAssociatedObject(host,&kDFSpeedViewKey);
+    BOOL isNew=(hud==nil);
+    if (!hud) {
+        hud=[[DFSpeedNativeHUD alloc] initWithFrame:CGRectZero];
+        hud.ownerBridge=bridge;
+        objc_setAssociatedObject(host,&kDFSpeedViewKey,hud,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [host addSubview:hud];
+    }
+    hud.ownerBridge=bridge;
+    hud.bounds=CGRectMake(0,0,142,64);
+    if (isNew) [hud restoreSavedPosition];
+    [host bringSubviewToFront:hud];
+    kDFOnlyBridge=bridge;kDFOnlyWindow=nativeWindow;kDFOnlyHost=host;kDFOnlyHUD=hud;
+    [hud tick:nil];
+    DFHostStatus(@"MOUNTED: one HUD in CBWindow split host (device visibility still requires visual test)");
+}
+static void DFAttachHUDToBridgeWindow(id bridge) {
+    if (![NSThread isMainThread]) {
+        __weak id weakOwner=bridge;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            id owner=weakOwner;
+            if (owner) DFAttachHUDToBridgeWindow(owner);
+        });
+        return;
+    }
+    Class cls=object_getClass(bridge);
+    const char *image=cls ? class_getImageName(cls):NULL;
+    if (!image || !strstr(image,"DuoFaceDashboard.dylib") ||
+        ![bridge respondsToSelector:@selector(rootWindow)] ||
+        ![bridge respondsToSelector:@selector(isVisible)] ||
+        !((CBWindow *)bridge).isVisible) return;
+    // Set the owner before the view is added; didMoveToWindow ticks immediately.
+    kDFOnlyBridge=(CBWindow *)bridge;
+    UIWindow *window=((CBWindow *)bridge).rootWindow;
+    DFPlaceSpeedView((CBWindow *)bridge);
+    if (kDFOnlyHUD && kDFOnlyWindow==window) {
+        kDFOnlyHUD.ownerBridge=(CBWindow *)bridge;
+        [kDFOnlyHUD tick:nil];
+    }
+}
+static void DFRemoveHUDFromBridgeWindow(id bridge) {
+    if (![NSThread isMainThread] || kDFOnlyBridge!=bridge) return;
+    [kDFOnlyHUD stop];
+    [kDFOnlyHUD removeFromSuperview];
+    if (kDFOnlyHost)
+        objc_setAssociatedObject(kDFOnlyHost,&kDFSpeedViewKey,nil,
+                                 OBJC_ASSOCIATION_ASSIGN);
+    kDFOnlyHUD=nil;kDFOnlyWindow=nil;kDFOnlyHost=nil;kDFOnlyBridge=nil;
+    DFHostStatus(@"UNMOUNTED: split owner destroyed/inactive");
+}
+// Native12 CBBridgeManager.window is the missing direct path to its live
+// CBWindow instance (audit: sharedInstanceIfExists + window). No global
+// UIWindow scanning, no per-app injection and no simulated GOFA producer.
+static id DFCurrentNativeOwner(void) {
+    Class cls=NSClassFromString(@"CBBridgeManager");
+    SEL shared=NSSelectorFromString(@"sharedInstanceIfExists");
+    if (!cls || ![cls respondsToSelector:shared]) {
+        DFHostStatus(@"WAIT: CBBridgeManager class unavailable in this process");
+        return nil;
+    }
+    id manager=((id(*)(id,SEL))objc_msgSend)(cls,shared);
+    SEL windowSel=NSSelectorFromString(@"window");
+    if (!manager || ![manager respondsToSelector:windowSel]) {
+        DFHostStatus(@"WAIT: CBBridgeManager singleton/window unavailable");
+        return nil;
+    }
+    id owner=((id(*)(id,SEL))objc_msgSend)(manager,windowSel);
+    Class windowClass=NSClassFromString(@"CBWindow");
+    if (!windowClass || ![owner isKindOfClass:windowClass]) {
+        DFHostStatus(@"WAIT: manager.window is not a native CBWindow");
+        return nil;
+    }
+    return owner;
+}
+static void DFReconcileSplitHUD(void) {
+    if (![NSThread isMainThread]) return;
+    id owner=DFCurrentNativeOwner();
+    if (owner) {
+        if (!((CBWindow *)owner).isVisible) {
+            if (kDFOnlyBridge) DFRemoveHUDFromBridgeWindow(kDFOnlyBridge);
+            DFHostStatus(@"WAIT: manager CBWindow inactive");
+            return;
+        }
+        DFAttachHUDToBridgeWindow(owner);
+    } else if (kDFOnlyBridge && !kDFOnlyBridge.isVisible) {
+        DFRemoveHUDFromBridgeWindow(kDFOnlyBridge);
+    }
+}
+@interface DFHUDReconcileDriver : NSObject
+- (void)refresh:(NSTimer *)timer;
+- (void)windowBecameVisible:(NSNotification *)note;
+@end
+@implementation DFHUDReconcileDriver
+- (void)refresh:(NSTimer *)timer {(void)timer;DFReconcileSplitHUD();}
+- (void)windowBecameVisible:(NSNotification *)note {
+    (void)note;DFReconcileSplitHUD();
+}
+@end
+static DFHUDReconcileDriver *kDFHUDDriver;
+static void DFStartSplitReconcile(void) {
+    if (kDFHUDDriver) return;
+    kDFHUDDriver=[DFHUDReconcileDriver new];
+    NSTimer *timer=[NSTimer timerWithTimeInterval:1.0 target:kDFHUDDriver
+                      selector:@selector(refresh:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    [[NSNotificationCenter defaultCenter] addObserver:kDFHUDDriver
+        selector:@selector(windowBecameVisible:)
+        name:UIWindowDidBecomeVisibleNotification object:nil];
+    DFReconcileSplitHUD();
+}
+static void DFWrappedShow(id self,SEL cmd) {
+    ((void(*)(id,SEL))kDFOriginalShow)(self,cmd);
+    DFAttachHUDToBridgeWindow(self);
+}
+static void DFWrappedResize(id self,SEL cmd) {
+    ((void(*)(id,SEL))kDFOriginalResize)(self,cmd);
+    DFAttachHUDToBridgeWindow(self);
+}
+static void DFWrappedDestroy(id self,SEL cmd) {
+    DFRemoveHUDFromBridgeWindow(self);
+    ((void(*)(id,SEL))kDFOriginalDestroy)(self,cmd);
+}
+static void DFTryInstallBridge(unsigned attempts) {
+    if (kDFSpeedBridgeInstalled || !NSThread.isMainThread) return;
+    Class cls=NSClassFromString(@"CBWindow");
+    const char *image=cls?class_getImageName(cls):NULL;
+    if (cls && image && strstr(image,"DuoFaceDashboard.dylib")) {
+        SEL sels[]={@selector(show),@selector(resizeWindows),@selector(destroyWindows)};
+        IMP wrappers[]={(IMP)DFWrappedShow,(IMP)DFWrappedResize,(IMP)DFWrappedDestroy};
+        Method methods[3]={NULL,NULL,NULL};
+        IMP originals[3]={NULL,NULL,NULL};
+        BOOL valid=YES;
+        for (unsigned i=0;i<3;i++) {
+            methods[i]=class_getInstanceMethod(cls,sels[i]);
+            if (!methods[i] || strcmp(method_getTypeEncoding(methods[i]),"v16@0:8")!=0) {
+                valid=NO;break;
+            }
+            originals[i]=method_getImplementation(methods[i]);
+            if (!originals[i] || originals[i]==wrappers[i]) {valid=NO;break;}
+        }
+        if (valid) {
+            // Prevalidate all three original IMPs BEFORE mutating any method:
+            // never accidentally capture a wrapper as its own original.
+            kDFOriginalShow=originals[0];
+            kDFOriginalResize=originals[1];
+            kDFOriginalDestroy=originals[2];
+            for (unsigned i=0;i<3;i++)
+                method_setImplementation(methods[i],wrappers[i]);
+            kDFSpeedBridgeInstalled=YES;
+            NSLog(@"[DuoFaceSpeedHUD] Native12 CBWindow hooks ready");
+            DFReconcileSplitHUD(); // existing split owner, even if show fired earlier
+            return;
+        }
+    }
+    if (attempts>=30) {
+        DFHostStatus(@"WARN: CBWindow hook timeout; manager reconciliation remains active");
+        return;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+        dispatch_get_main_queue(), ^{ DFTryInstallBridge(attempts+1); });
+}
+
+__attribute__((constructor)) static void DFStartSpeedHUD(void) {
+    @autoreleasepool {
+        NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+        if ([bundle isEqualToString:@"com.apple.carplayapp"]) {
+            // Hook the REAL DuoFaceDashboard CBWindow lifecycle only.
+            // No global CPWindow/window-scanning code is installed.
+            dispatch_async(dispatch_get_main_queue(), ^{ DFStartSplitReconcile(); DFTryInstallBridge(0); });
+        }
+    }
+}
+########## END FILE: runtime/speedbubble/DFSpeedBubbleBridge.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedDiagnostic2.mm ##########
+// DuoFace Diagnostic2 — iPhone X only, no UI mutation, no forced activation.
+// Read-only invocation tracing, signature-guarded hooks. Deployment is optional QA.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <dlfcn.h>
+#import <sys/stat.h>
+#import <unistd.h>
+#import <stdint.h>
+#import <dispatch/dispatch.h>
+
+static NSString *const kLogRoot=@"/var/mobile/Library/Logs";
+static NSString *sLogPath;
+static NSString *sProcessName;
+static NSString *sBundleID;
+static dispatch_source_t sTimer;
+static unsigned long sPolls=0;
+// Weakly observe the already-existing Dashboard manager ONLY after a real intercepted call.
+static __weak id sObservedDashboardManager=nil;
+static BOOL sLoggedWriterError=NO;
+
+static NSString *DFClass(id obj) {
+    return obj ? NSStringFromClass([obj class]) : @"nil";
+}
+static id DFCallObj(id obj, const char *selector) {
+    if(!obj)return nil;
+    SEL sel=sel_registerName(selector);
+    if(![obj respondsToSelector:sel])return nil;
+    return ((id (*)(id, SEL))objc_msgSend)(obj,sel);
+}
+static NSNumber *DFCallBool(id obj, const char *selector) {
+    if(!obj)return nil;
+    SEL sel=sel_registerName(selector);
+    if(![obj respondsToSelector:sel])return nil;
+    Method m=class_getInstanceMethod(object_getClass(obj),sel);
+    if(!m)m=class_getInstanceMethod([obj class],sel);
+    if(!m)return nil;
+    char buf[16]={0}; method_getReturnType(m,buf,sizeof(buf));
+    if(!strchr("BcCiIsSlLqQ",buf[0]))return nil;
+    return @(((BOOL (*)(id,SEL))objc_msgSend)(obj,sel));
+}
+static NSString *DFBoolText(NSNumber *v) {return v ? (v.boolValue?@"true":@"false") : @"unknown";}
+static NSDictionary *DFSnapshot(void) {
+    Class sb=NSClassFromString(@"CBBridgeManager");
+    Class win=NSClassFromString(@"CBWindow");
+    id manager=DFCallObj(sb,"sharedInstanceIfExists");
+    id dashManager=sObservedDashboardManager;
+    id window=DFCallObj(manager,"window");
+    id active=DFCallObj(win,"activeCarPlayWindow");
+    id app=DFCallObj(manager,"currentApp");
+    NSNumber *a=DFCallBool(manager,"activated");
+    NSNumber *p=DFCallBool(dashManager,"pending");
+    NSNumber *da=DFCallBool(dashManager,"activated");
+    return @{
+      @"sb_manager_class":DFClass(manager),
+      @"dashboard_manager_class":DFClass(dashManager),
+      @"manager_activated":DFBoolText(a),
+      @"dashboard_pending":DFBoolText(p),
+      @"dashboard_activated":DFBoolText(da),
+      @"window_class":DFClass(window),
+      @"active_window_class":DFClass(active),
+      @"current_app_class":DFClass(app),
+      @"screen_count":@([UIScreen screens].count),
+      @"external_screen_present":@([UIScreen screens].count>1)
+    };
+}
+static void DFWrite(NSString *event, NSDictionary *details) {
+    @autoreleasepool {
+        if(!sLogPath)return;
+        NSMutableDictionary *payload=[NSMutableDictionary dictionaryWithDictionary:@{
+           @"time_unix":@([[NSDate date] timeIntervalSince1970]),
+           @"pid":@(getpid()),
+           @"process":sProcessName?:@"unknown",
+           @"bundle":sBundleID?:@"unknown",
+           @"event":event?:@"nil",
+           @"version":@"diag2"
+        }];
+        if(details)payload[@"details"]=details;
+        NSData *data=[NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
+        if(!data)return;
+        @synchronized([NSFileManager defaultManager]) {
+            const char *filename=sLogPath.fileSystemRepresentation;
+            struct stat st;
+            if(stat(filename,&st)==0 && st.st_size>3*1024*1024) {
+                NSString *previous=[sLogPath stringByAppendingString:@".previous"];
+                unlink(previous.fileSystemRepresentation);
+                rename(filename,previous.fileSystemRepresentation);
+            }
+            FILE *fp=fopen(filename,"a");
+            if(!fp) {
+                if(!sLoggedWriterError) {
+                    sLoggedWriterError=YES;
+                    NSLog(@"[DuoFaceDiagnostic2] log write unavailable process=%@ path=%@",sProcessName,sLogPath);
+                }
+                return;
+            }
+            fwrite(data.bytes,1,data.length,fp);
+            fputc('\n',fp);
+            fclose(fp);
+        }
+    }
+}
+
+static void DFRecordReceiver(id receiver) {
+    Class dc=NSClassFromString(@"CBBridgeManagerDashboard");
+    if(dc && receiver && [receiver isKindOfClass:dc])sObservedDashboardManager=receiver;
+}
+
+// Forward exactly the original GP argument register(s); do NOT dereference app arguments.
+// Only install when Objective-C runtime confirms void return and 0/1 GP-register arguments.
+typedef void (*DFHookMessageExType)(Class,SEL,IMP,IMP*);
+static DFHookMessageExType sMSHook=NULL;
+static BOOL DFInstall(const char *cls,const char *name,int argc,IMP replacement,IMP *original) {
+    Class c=objc_getClass(cls);
+    if(!c)return NO;
+    SEL selector=sel_registerName(name);
+    Method m=class_getInstanceMethod(c,selector);
+    if(!m)return NO;
+    char ret[32]={0};
+    method_getReturnType(m,ret,sizeof(ret));
+    unsigned n=method_getNumberOfArguments(m);
+    NSString *reason=@"ok";
+    if(ret[0]!='v'||ret[1]!=0||n!=(unsigned)(argc+2))reason=@"unexpected_return_or_arity";
+    if([reason isEqualToString:@"ok"]) {
+        for(int j=2;j<argc+2;j++) {
+            char t[32]={0};
+            method_getArgumentType(m,j,t,sizeof(t));
+            // integer, pointer, object and block use GPR under arm64; never log argument objects.
+            if(!strchr("@#:^*BcCsSiIlLqQ",t[0])) {reason=@"non_gp_argument";break;}
+        }
+    }
+    if(![reason isEqualToString:@"ok"]) {
+        DFWrite(@"HOOK_SKIPPED_ABI",@{@"class":@(cls),@"selector":@(name),@"encoding":@(method_getTypeEncoding(m)),@"reason":reason});
+        return NO;
+    }
+    if(!sMSHook) {
+        DFWrite(@"HOOK_UNAVAILABLE",@{@"class":@(cls),@"selector":@(name)});
+        return NO;
+    }
+    sMSHook(c,selector,replacement,original);
+    DFWrite(@"HOOK_INSTALLED",@{@"class":@(cls),@"selector":@(name),@"encoding":@(method_getTypeEncoding(m))});
+    return YES;
+}
+
+#define ONE_HOOK(NAME,CLASS,SELECTOR) \
+ static void (*orig_##NAME)(id,SEL,uintptr_t)=NULL; \
+ static void probe_##NAME(id self,SEL cmd,uintptr_t arg) { \
+     DFRecordReceiver(self); \
+     DFWrite(@"ENTER_" #NAME,DFSnapshot()); \
+     if(orig_##NAME) orig_##NAME(self,cmd,arg); \
+     DFWrite(@"EXIT_" #NAME,DFSnapshot()); \
+ } \
+ static BOOL installed_##NAME=NO; \
+ static void install_##NAME(void){ \
+     if(!installed_##NAME)installed_##NAME=DFInstall(CLASS,SELECTOR,1,(IMP)probe_##NAME,(IMP*)&orig_##NAME); \
+ }
+#define ZERO_HOOK(NAME,CLASS,SELECTOR) \
+ static void (*orig_##NAME)(id,SEL)=NULL; \
+ static void probe_##NAME(id self,SEL cmd) { \
+     DFWrite(@"ENTER_" #NAME,DFSnapshot()); \
+     if(orig_##NAME)orig_##NAME(self,cmd); \
+     DFWrite(@"EXIT_" #NAME,DFSnapshot()); \
+ } \
+ static BOOL installed_##NAME=NO; \
+ static void install_##NAME(void){ \
+     if(!installed_##NAME)installed_##NAME=DFInstall(CLASS,SELECTOR,0,(IMP)probe_##NAME,(IMP*)&orig_##NAME); \
+ }
+
+ONE_HOOK(DashIconTap,"CBBridgeManagerDashboard","handleDockIconTap:")
+ONE_HOOK(DashRequestActivation,"CBBridgeManagerDashboard","requestActivation:")
+ONE_HOOK(DashPrepareActivation,"CBBridgeManagerDashboard","prepareAndRequestActivation:")
+ONE_HOOK(DashBridgeActivated,"CBBridgeManagerDashboard","bridgeDidActivate:")
+ONE_HOOK(DashStateChanged,"CBBridgeManagerDashboard","handleSBStateChange:")
+ONE_HOOK(SBAppRequest,"CBBridgeManager","receivedAppRequestNotification:")
+ONE_HOOK(SBDockTap,"CBBridgeManager","receivedDockTapNotification:")
+ONE_HOOK(SBStateChange,"CBBridgeManager","requestStateChange:")
+ONE_HOOK(SBSetWindow,"CBBridgeManager","setWindow:")
+ZERO_HOOK(WindowCreate,"CBWindow","createWindows")
+ZERO_HOOK(WindowShow,"CBWindow","show")
+ZERO_HOOK(WindowDestroy,"CBWindow","destroyWindows")
+
+static void DFTryInstall(void) {
+    install_DashIconTap();
+    install_DashRequestActivation();
+    install_DashPrepareActivation();
+    install_DashBridgeActivated();
+    install_DashStateChanged();
+    install_SBAppRequest();
+    install_SBDockTap();
+    install_SBStateChange();
+    install_SBSetWindow();
+    install_WindowCreate();
+    install_WindowShow();
+    install_WindowDestroy();
+}
+static void DFOnUIKitScreen(NSNotification *notification) {
+    DFWrite(@"SCREEN_EVENT",@{@"name":notification.name?:@"nil",@"snapshot":DFSnapshot()});
+}
+static void DFStart(void) {
+    if(!NSThread.isMainThread)return;
+    sProcessName=NSProcessInfo.processInfo.processName?:@"unknown";
+    sBundleID=NSBundle.mainBundle.bundleIdentifier?:@"unknown";
+    BOOL spring=[sProcessName isEqualToString:@"SpringBoard"];
+    BOOL carplay=[sProcessName isEqualToString:@"CarPlayApp"]||
+      [sProcessName isEqualToString:@"CarPlay"]||
+      [sProcessName isEqualToString:@"DashBoard"]||
+      [sBundleID hasPrefix:@"com.apple.carplay"]||
+      [sBundleID isEqualToString:@"com.apple.CarPlayApp"];
+    if(!spring&&!carplay)return;
+    [NSFileManager.defaultManager createDirectoryAtPath:kLogRoot
+        withIntermediateDirectories:YES attributes:nil error:nil];
+    sLogPath=[kLogRoot stringByAppendingPathComponent:spring?
+        @"DuoFaceDiagnostic2-SpringBoard.jsonl":@"DuoFaceDiagnostic2-CarPlay.jsonl"];
+    sMSHook=(DFHookMessageExType)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+    DFWrite(@"LOADED",@{@"hook_api_present":@(sMSHook!=NULL),@"snapshot":DFSnapshot()});
+    for(NSString *name in @[UIScreenDidConnectNotification,UIScreenDidDisconnectNotification,UIScreenModeDidChangeNotification]) {
+       [NSNotificationCenter.defaultCenter addObserverForName:name object:nil queue:NSOperationQueue.mainQueue
+          usingBlock:^(NSNotification *n){DFOnUIKitScreen(n);}];
+    }
+    DFTryInstall();
+    sTimer=dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0,0,dispatch_get_main_queue());
+    dispatch_source_set_timer(sTimer,dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+        2*NSEC_PER_SEC,200*NSEC_PER_MSEC);
+    dispatch_source_set_event_handler(sTimer,^{
+        sPolls++;
+        // Retry hooks if CarPlay initializes classes after tweak injection.
+        if(sPolls%3==0)DFTryInstall();
+        if(sPolls%5==0)DFWrite(@"HEARTBEAT",@{@"poll":@(sPolls),@"snapshot":DFSnapshot()});
+    });
+    dispatch_resume(sTimer);
+}
+__attribute__((constructor))
+static void DFDiagnostic2Init(void) {
+    dispatch_async(dispatch_get_main_queue(),^{DFStart();});
+}
+########## END FILE: runtime/speedbubble/DFSpeedDiagnostic2.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedDiagnostic3.mm ##########
+// DuoFace Diagnostic3 — iPhone X only, no UI mutation, no forced activation.
+// Read-only invocation tracing, signature-guarded hooks. Deployment is optional QA.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <dlfcn.h>
+#import <sys/stat.h>
+#import <unistd.h>
+#import <stdint.h>
+#import <dispatch/dispatch.h>
+
+static NSString *const kLogRoot=@"/var/mobile/Library/Logs";
+static NSString *sLogPath;
+static NSString *sProcessName;
+static NSString *sBundleID;
+static dispatch_source_t sTimer;
+static unsigned long sPolls=0;
+// Weakly observe the already-existing Dashboard manager ONLY after a real intercepted call.
+static __weak id sObservedDashboardManager=nil;
+static BOOL sLoggedWriterError=NO;
+
+static NSString *DFClass(id obj) {
+    return obj ? NSStringFromClass([obj class]) : @"nil";
+}
+static id DFCallObj(id obj, const char *selector) {
+    if(!obj)return nil;
+    SEL sel=sel_registerName(selector);
+    if(![obj respondsToSelector:sel])return nil;
+    return ((id (*)(id, SEL))objc_msgSend)(obj,sel);
+}
+static NSNumber *DFCallBool(id obj, const char *selector) {
+    if(!obj)return nil;
+    SEL sel=sel_registerName(selector);
+    if(![obj respondsToSelector:sel])return nil;
+    Method m=class_getInstanceMethod(object_getClass(obj),sel);
+    if(!m)m=class_getInstanceMethod([obj class],sel);
+    if(!m)return nil;
+    char buf[16]={0}; method_getReturnType(m,buf,sizeof(buf));
+    if(!strchr("BcCiIsSlLqQ",buf[0]))return nil;
+    return @(((BOOL (*)(id,SEL))objc_msgSend)(obj,sel));
+}
+static NSString *DFBoolText(NSNumber *v) {return v ? (v.boolValue?@"true":@"false") : @"unknown";}
+static NSDictionary *DFSnapshot(void) {
+    Class sb=NSClassFromString(@"CBBridgeManager");
+    Class win=NSClassFromString(@"CBWindow");
+    id manager=DFCallObj(sb,"sharedInstanceIfExists");
+    id dashManager=sObservedDashboardManager;
+    id window=DFCallObj(manager,"window");
+    id active=DFCallObj(win,"activeCarPlayWindow");
+    id app=DFCallObj(manager,"currentApp");
+    NSNumber *a=DFCallBool(manager,"activated");
+    NSNumber *p=DFCallBool(dashManager,"pending");
+    NSNumber *da=DFCallBool(dashManager,"activated");
+    return @{
+      @"sb_manager_class":DFClass(manager),
+      @"dashboard_manager_class":DFClass(dashManager),
+      @"manager_activated":DFBoolText(a),
+      @"dashboard_pending":DFBoolText(p),
+      @"dashboard_activated":DFBoolText(da),
+      @"window_class":DFClass(window),
+      @"active_window_class":DFClass(active),
+      @"current_app_class":DFClass(app),
+      @"screen_count":@([UIScreen screens].count),
+      @"external_screen_present":@([UIScreen screens].count>1)
+    };
+}
+static void DFWrite(NSString *event, NSDictionary *details) {
+    @autoreleasepool {
+        if(!sLogPath)return;
+        NSMutableDictionary *payload=[NSMutableDictionary dictionaryWithDictionary:@{
+           @"time_unix":@([[NSDate date] timeIntervalSince1970]),
+           @"pid":@(getpid()),
+           @"process":sProcessName?:@"unknown",
+           @"bundle":sBundleID?:@"unknown",
+           @"event":event?:@"nil",
+           @"version":@"diag3"
+        }];
+        if(details)payload[@"details"]=details;
+        NSData *data=[NSJSONSerialization dataWithJSONObject:payload options:0 error:nil];
+        if(!data)return;
+        @synchronized([NSFileManager defaultManager]) {
+            const char *filename=sLogPath.fileSystemRepresentation;
+            struct stat st;
+            if(stat(filename,&st)==0 && st.st_size>3*1024*1024) {
+                NSString *previous=[sLogPath stringByAppendingString:@".previous"];
+                unlink(previous.fileSystemRepresentation);
+                rename(filename,previous.fileSystemRepresentation);
+            }
+            FILE *fp=fopen(filename,"a");
+            if(!fp) {
+                if(!sLoggedWriterError) {
+                    sLoggedWriterError=YES;
+                    NSLog(@"[DuoFaceDiagnostic3] log write unavailable process=%@ path=%@",sProcessName,sLogPath);
+                }
+                return;
+            }
+            fwrite(data.bytes,1,data.length,fp);
+            fputc('\n',fp);
+            fclose(fp);
+        }
+    }
+}
+
+static void DFRecordReceiver(id receiver) {
+    Class dc=NSClassFromString(@"CBBridgeManagerDashboard");
+    if(dc && receiver && [receiver isKindOfClass:dc])sObservedDashboardManager=receiver;
+}
+
+// Forward exactly the original GP argument register(s); do NOT dereference app arguments.
+// Only install when Objective-C runtime confirms void return and 0/1 GP-register arguments.
+typedef void (*DFHookMessageExType)(Class,SEL,IMP,IMP*);
+static DFHookMessageExType sMSHook=NULL;
+static BOOL DFInstall(const char *cls,const char *name,int argc,IMP replacement,IMP *original) {
+    Class c=objc_getClass(cls);
+    if(!c)return NO;
+    SEL selector=sel_registerName(name);
+    Method m=class_getInstanceMethod(c,selector);
+    if(!m)return NO;
+    char ret[32]={0};
+    method_getReturnType(m,ret,sizeof(ret));
+    unsigned n=method_getNumberOfArguments(m);
+    NSString *reason=@"ok";
+    if(ret[0]!='v'||ret[1]!=0||n!=(unsigned)(argc+2))reason=@"unexpected_return_or_arity";
+    if([reason isEqualToString:@"ok"]) {
+        for(int j=2;j<argc+2;j++) {
+            char t[32]={0};
+            method_getArgumentType(m,j,t,sizeof(t));
+            // integer, pointer, object and block use GPR under arm64; never log argument objects.
+            if(!strchr("@#:^*BcCsSiIlLqQ",t[0])) {reason=@"non_gp_argument";break;}
+        }
+    }
+    if(![reason isEqualToString:@"ok"]) {
+        DFWrite(@"HOOK_SKIPPED_ABI",@{@"class":@(cls),@"selector":@(name),@"encoding":@(method_getTypeEncoding(m)),@"reason":reason});
+        return NO;
+    }
+    if(!sMSHook) {
+        DFWrite(@"HOOK_UNAVAILABLE",@{@"class":@(cls),@"selector":@(name)});
+        return NO;
+    }
+    sMSHook(c,selector,replacement,original);
+    DFWrite(@"HOOK_INSTALLED",@{@"class":@(cls),@"selector":@(name),@"encoding":@(method_getTypeEncoding(m))});
+    return YES;
+}
+
+#define ONE_HOOK(NAME,CLASS,SELECTOR) \
+ static void (*orig_##NAME)(id,SEL,uintptr_t)=NULL; \
+ static void probe_##NAME(id self,SEL cmd,uintptr_t arg) { \
+     DFRecordReceiver(self); \
+     DFWrite(@"ENTER_" #NAME,DFSnapshot()); \
+     if(orig_##NAME) orig_##NAME(self,cmd,arg); \
+     DFWrite(@"EXIT_" #NAME,DFSnapshot()); \
+ } \
+ static BOOL installed_##NAME=NO; \
+ static void install_##NAME(void){ \
+     if(!installed_##NAME)installed_##NAME=DFInstall(CLASS,SELECTOR,1,(IMP)probe_##NAME,(IMP*)&orig_##NAME); \
+ }
+#define ZERO_HOOK(NAME,CLASS,SELECTOR) \
+ static void (*orig_##NAME)(id,SEL)=NULL; \
+ static void probe_##NAME(id self,SEL cmd) { \
+     DFWrite(@"ENTER_" #NAME,DFSnapshot()); \
+     if(orig_##NAME)orig_##NAME(self,cmd); \
+     DFWrite(@"EXIT_" #NAME,DFSnapshot()); \
+ } \
+ static BOOL installed_##NAME=NO; \
+ static void install_##NAME(void){ \
+     if(!installed_##NAME)installed_##NAME=DFInstall(CLASS,SELECTOR,0,(IMP)probe_##NAME,(IMP*)&orig_##NAME); \
+ }
+
+ONE_HOOK(DashIconTap,"CBBridgeManagerDashboard","handleDockIconTap:")
+ONE_HOOK(DashRequestActivation,"CBBridgeManagerDashboard","requestActivation:")
+ONE_HOOK(DashPrepareActivation,"CBBridgeManagerDashboard","prepareAndRequestActivation:")
+ONE_HOOK(DashBridgeActivated,"CBBridgeManagerDashboard","bridgeDidActivate:")
+ONE_HOOK(DashStateChanged,"CBBridgeManagerDashboard","handleSBStateChange:")
+ONE_HOOK(SBAppRequest,"CBBridgeManager","receivedAppRequestNotification:")
+ONE_HOOK(SBDockTap,"CBBridgeManager","receivedDockTapNotification:")
+ONE_HOOK(SBStateChange,"CBBridgeManager","requestStateChange:")
+ONE_HOOK(SBSetWindow,"CBBridgeManager","setWindow:")
+ZERO_HOOK(WindowCreate,"CBWindow","createWindows")
+ZERO_HOOK(WindowShow,"CBWindow","show")
+ZERO_HOOK(WindowDestroy,"CBWindow","destroyWindows")
+
+
+/*
+ * Passive observation of DuoFace's class-level CarPlay policy decision.
+ * Call original exactly once; never change its return value or modify state.
+ */
+static NSString *DFTraceIdentifier(id arg) {
+    if(!arg)return @"nil";
+    NSString *s=nil;
+    if([arg isKindOfClass:NSString.class])s=(NSString *)arg;
+    else {
+        SEL b=sel_registerName("bundleIdentifier");
+        if([arg respondsToSelector:b]) {
+            id value=((id (*)(id,SEL))objc_msgSend)(arg,b);
+            if([value isKindOfClass:NSString.class])s=value;
+        }
+    }
+    if(!s)return [NSString stringWithFormat:@"<%@>",DFClass(arg)];
+    if(s.length==0 || s.length>120)return @"<redacted>";
+    NSCharacterSet *allowed=[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._-"];
+    if([s rangeOfCharacterFromSet:allowed.invertedSet].location!=NSNotFound)return @"<redacted>";
+    return s;
+}
+static BOOL DFTracePolicyHook(const char *methodName, BOOL hasArg, IMP replacement, IMP *original) {
+    Class cls=objc_getClass("CBBridgeManagerDashboard");
+    if(!cls)return NO;
+    SEL sel=sel_registerName(methodName);
+    Method m=class_getClassMethod(cls,sel);
+    if(!m)return NO;
+    char ret[16]={0},argType[32]={0};
+    method_getReturnType(m,ret,sizeof(ret));
+    unsigned argc=method_getNumberOfArguments(m);
+    if(hasArg && argc==3)method_getArgumentType(m,2,argType,sizeof(argType));
+    if(!sMSHook || (ret[0]!='B' && ret[0]!='c') || ret[1]!=0 ||
+        argc!=(hasArg?3u:2u) || (hasArg && argType[0]!='@')) {
+        DFWrite(@"POLICY_HOOK_SKIPPED_ABI",@{@"method":@(methodName),
+           @"encoding":@(method_getTypeEncoding(m)),@"hasHookAPI":@(sMSHook!=NULL)});
+        return NO;
+    }
+    Class meta=object_getClass((id)cls);
+    sMSHook(meta,sel,replacement,original);
+    DFWrite(@"POLICY_HOOK_INSTALLED",@{@"method":@(methodName),
+        @"encoding":@(method_getTypeEncoding(m))});
+    return YES;
+}
+#define DF_POLICY_ONE(NAME,SELECTOR) \
+static BOOL (*sOrig_##NAME)(id,SEL,id)=NULL; \
+static BOOL DFPolicy_##NAME(id owner,SEL sel,id arg) { \
+    BOOL result=sOrig_##NAME ? sOrig_##NAME(owner,sel,arg) : NO; \
+    DFWrite(@"POLICY_" #NAME,@{@"app":DFTraceIdentifier(arg),@"result":@(result), \
+        @"snapshot":DFSnapshot()}); \
+    return result; \
+} \
+static BOOL sHooked_##NAME=NO; \
+static void DFInstall_##NAME(void) { \
+    if(!sHooked_##NAME)sHooked_##NAME=DFTracePolicyHook(SELECTOR,YES,(IMP)DFPolicy_##NAME,(IMP *)&sOrig_##NAME); \
+}
+#define DF_POLICY_ZERO(NAME,SELECTOR) \
+static BOOL (*sOrig_##NAME)(id,SEL)=NULL; \
+static BOOL DFPolicy_##NAME(id owner,SEL sel) { \
+    BOOL result=sOrig_##NAME ? sOrig_##NAME(owner,sel) : NO; \
+    DFWrite(@"POLICY_" #NAME,@{@"result":@(result),@"snapshot":DFSnapshot()}); \
+    return result; \
+} \
+static BOOL sHooked_##NAME=NO; \
+static void DFInstall_##NAME(void) { \
+    if(!sHooked_##NAME)sHooked_##NAME=DFTracePolicyHook(SELECTOR,NO,(IMP)DFPolicy_##NAME,(IMP *)&sOrig_##NAME); \
+}
+DF_POLICY_ONE(IsOfficialApp,"isOfficialApp:")
+DF_POLICY_ONE(IsBridgedApp,"isBridgedApp:")
+DF_POLICY_ONE(ShouldInterceptLaunch,"shouldInterceptLaunchForApp:")
+DF_POLICY_ZERO(PolicySignalActive,"isDashboardPolicySignalActive")
+
+static void DFTryInstall(void) {
+    install_DashIconTap();
+    install_DashRequestActivation();
+    install_DashPrepareActivation();
+    install_DashBridgeActivated();
+    install_DashStateChanged();
+    install_SBAppRequest();
+    install_SBDockTap();
+    install_SBStateChange();
+    install_SBSetWindow();
+    install_WindowCreate();
+    install_WindowShow();
+    install_WindowDestroy();
+    DFInstall_IsOfficialApp();
+    DFInstall_IsBridgedApp();
+    DFInstall_ShouldInterceptLaunch();
+    DFInstall_PolicySignalActive();
+}
+static void DFOnUIKitScreen(NSNotification *notification) {
+    DFWrite(@"SCREEN_EVENT",@{@"name":notification.name?:@"nil",@"snapshot":DFSnapshot()});
+}
+static void DFStart(void) {
+    if(!NSThread.isMainThread)return;
+    sProcessName=NSProcessInfo.processInfo.processName?:@"unknown";
+    sBundleID=NSBundle.mainBundle.bundleIdentifier?:@"unknown";
+    BOOL spring=[sProcessName isEqualToString:@"SpringBoard"];
+    BOOL carplay=[sProcessName isEqualToString:@"CarPlayApp"]||
+      [sProcessName isEqualToString:@"CarPlay"]||
+      [sProcessName isEqualToString:@"DashBoard"]||
+      [sBundleID hasPrefix:@"com.apple.carplay"]||
+      [sBundleID isEqualToString:@"com.apple.CarPlayApp"];
+    if(!spring&&!carplay)return;
+    [NSFileManager.defaultManager createDirectoryAtPath:kLogRoot
+        withIntermediateDirectories:YES attributes:nil error:nil];
+    sLogPath=[kLogRoot stringByAppendingPathComponent:spring?
+        @"DuoFaceDiagnostic3-SpringBoard.jsonl":@"DuoFaceDiagnostic3-CarPlay.jsonl"];
+    sMSHook=(DFHookMessageExType)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+    DFWrite(@"LOADED",@{@"hook_api_present":@(sMSHook!=NULL),@"snapshot":DFSnapshot()});
+    for(NSString *name in @[UIScreenDidConnectNotification,UIScreenDidDisconnectNotification,UIScreenModeDidChangeNotification]) {
+       [NSNotificationCenter.defaultCenter addObserverForName:name object:nil queue:NSOperationQueue.mainQueue
+          usingBlock:^(NSNotification *n){DFOnUIKitScreen(n);}];
+    }
+    DFTryInstall();
+    sTimer=dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0,0,dispatch_get_main_queue());
+    dispatch_source_set_timer(sTimer,dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+        2*NSEC_PER_SEC,200*NSEC_PER_MSEC);
+    dispatch_source_set_event_handler(sTimer,^{
+        sPolls++;
+        // Retry hooks if CarPlay initializes classes after tweak injection.
+        if(sPolls%3==0)DFTryInstall();
+        if(sPolls%5==0)DFWrite(@"HEARTBEAT",@{@"poll":@(sPolls),@"snapshot":DFSnapshot()});
+    });
+    dispatch_resume(sTimer);
+}
+__attribute__((constructor))
+static void DFDiagnostic3Init(void) {
+    dispatch_async(dispatch_get_main_queue(),^{DFStart();});
+}
+########## END FILE: runtime/speedbubble/DFSpeedDiagnostic3.mm ##########
+
+########## BEGIN FILE: runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm ##########
+// DuoFace Diagnostic v1 — passive, SpringBoard-only iOS 16 rootless probe.
+// Does not swizzle, hook, create windows, activate scenes, change settings,
+// or collect user content, app identifiers, coordinates or URLs.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <objc/message.h>
+#import <math.h>
+#import <stdio.h>
+#import <sys/stat.h>
+#import <unistd.h>
+
+static NSString *const kDFDiagPath=@"/var/mobile/Library/Logs/DuoFaceDiagnostic-SpringBoard.jsonl";
+static NSData *sDFDiagLastSignature=nil;
+static NSTimeInterval sDFDiagLastWrite=0;
+static NSUInteger sDFDiagPolls=0;
+
+static id DFDiagGet(id obj, const char *selector) {
+    SEL sel=sel_registerName(selector);
+    return obj && [obj respondsToSelector:sel] ?
+        ((id (*)(id,SEL))objc_msgSend)(obj,sel) : nil;
+}
+static BOOL DFDiagGetBool(id obj,const char *selector) {
+    SEL sel=sel_registerName(selector);
+    return obj && [obj respondsToSelector:sel] ?
+        ((BOOL (*)(id,SEL))objc_msgSend)(obj,sel) : NO;
+}
+static NSString *DFDiagClassName(id obj) {
+    return obj ? NSStringFromClass([obj class]) : @"nil";
+}
+static NSString *DFDiagImage(Class cls) {
+    const char *path=cls ? class_getImageName(cls) : NULL;
+    if(!path)return @"nil";
+    NSString *value=[NSString stringWithUTF8String:path];
+    return value.lastPathComponent ?: @"unknown";
+}
+static NSNumber *DFDiagNumber(CGFloat value) {
+    return @(isfinite(value) ? (double)value : -1.0);
+}
+static NSArray *DFDiagSize(CGSize size) {
+    return @[DFDiagNumber(size.width),DFDiagNumber(size.height)];
+}
+static NSDictionary *DFDiagWindow(id native, Class windowClass) {
+    BOOL valid=native && windowClass && [native isKindOfClass:windowClass];
+    id rootObject=valid ? DFDiagGet(native,"rootWindow") : nil;
+    UIWindow *root=[rootObject isKindOfClass:UIWindow.class] ? rootObject : nil;
+    id vcObject=valid ? DFDiagGet(native,"rootViewController") : nil;
+    UIViewController *vc=[vcObject isKindOfClass:UIViewController.class] ? vcObject : nil;
+    id contentObject=valid ? DFDiagGet(native,"contentView") : nil;
+    UIView *content=[contentObject isKindOfClass:UIView.class] ? contentObject : nil;
+    UIView *controller=vc.viewIfLoaded;
+    id screen=root.screen;
+    return @{
+        @"class":DFDiagClassName(native),
+        @"valid_CBWindow":@(valid),
+        @"visible":@(valid && DFDiagGetBool(native,"isVisible")),
+        @"root_class":DFDiagClassName(rootObject),
+        @"root_bounds":DFDiagSize(root ? root.bounds.size : CGSizeZero),
+        @"root_hidden":@(root ? root.hidden : YES),
+        @"root_alpha":DFDiagNumber(root ? root.alpha : -1.0),
+        @"external_screen":@(screen && screen != UIScreen.mainScreen),
+        @"scene_role":root.windowScene.session.role ?: @"nil",
+        @"view_controller_class":DFDiagClassName(vcObject),
+        @"content_class":DFDiagClassName(contentObject),
+        @"controller_attached":@(root && controller && controller.window==root),
+        @"content_attached":@(root && content && content.window==root)
+    };
+}
+static void DFDiagWrite(NSString *event, NSDictionary *details) {
+    NSMutableDictionary *record=[@{
+       @"time":@(NSDate.date.timeIntervalSince1970),
+       @"pid":@(getpid()),
+       @"process":NSProcessInfo.processInfo.processName ?: @"nil",
+       @"event":event ?: @"unknown",
+       @"diag_version":@"1",
+       @"read_only":@YES
+    } mutableCopy];
+    if(details)[record addEntriesFromDictionary:details];
+    NSData *encoded=[NSJSONSerialization dataWithJSONObject:record options:0 error:nil];
+    if(!encoded)return;
+    NSFileManager *fm=NSFileManager.defaultManager;
+    [fm createDirectoryAtPath:@"/var/mobile/Library/Logs"
+       withIntermediateDirectories:YES attributes:nil error:nil];
+    // Keep a bounded diagnostic trail, rotating at 5 MiB.
+    struct stat info;
+    if(stat(kDFDiagPath.fileSystemRepresentation,&info)==0 && info.st_size>5*1024*1024) {
+        NSString *old=[kDFDiagPath stringByAppendingString:@".previous"];
+        [fm removeItemAtPath:old error:nil];
+        [fm moveItemAtPath:kDFDiagPath toPath:old error:nil];
+    }
+    FILE *fp=fopen(kDFDiagPath.fileSystemRepresentation,"a");
+    if(!fp)return;
+    fwrite(encoded.bytes,1,encoded.length,fp);
+    fputc('\n',fp);
+    fclose(fp);
+}
+static void DFDiagPoll(void) {
+    if(!NSThread.isMainThread)return;
+    ++sDFDiagPolls;
+    Class managerClass=NSClassFromString(@"CBBridgeManager");
+    Class windowClass=NSClassFromString(@"CBWindow");
+    Class splitClass=NSClassFromString(@"CBBridgedSplitApp");
+    id manager=DFDiagGet(managerClass,"sharedInstanceIfExists");
+    id owner=DFDiagGet(manager,"window");
+    id active=DFDiagGet(windowClass,"activeCarPlayWindow");
+    id current=DFDiagGet(manager,"currentApp");
+    id panes=DFDiagGet(current,"appViews");
+    id currentView=DFDiagGet(current,"view");
+    BOOL validOwner=owner && windowClass && [owner isKindOfClass:windowClass];
+    NSString *stage=!managerClass ? @"MISSING_MANAGER_CLASS" :
+        !manager ? @"MISSING_MANAGER_INSTANCE" :
+        !owner ? @"MANAGER_EXISTS_NO_WINDOW" :
+        !validOwner ? @"WRONG_WINDOW_CLASS" :
+        @"MANAGER_WINDOW_PRESENT";
+    NSUInteger connected=[UIScreen screens].count;
+    NSDictionary *snapshot=@{
+      @"stage":stage,
+      @"manager_image":DFDiagImage(managerClass),
+      @"window_image":DFDiagImage(windowClass),
+      @"split_image":DFDiagImage(splitClass),
+      @"manager_class":DFDiagClassName(manager),
+      @"window":DFDiagWindow(owner,windowClass),
+      @"active_window":DFDiagWindow(active,windowClass),
+      @"current_app_class":DFDiagClassName(current),
+      @"current_is_split":@(current && splitClass && [current isKindOfClass:splitClass]),
+      @"current_view_class":DFDiagClassName(currentView),
+      @"app_views_count":@([panes isKindOfClass:NSArray.class] ? [panes count] : -1),
+      @"screen_count":@(connected)
+    };
+    NSData *signature=[NSJSONSerialization dataWithJSONObject:snapshot
+        options:NSJSONWritingSortedKeys error:nil];
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    BOOL changed=signature && ![signature isEqualToData:sDFDiagLastSignature];
+    if(changed || now-sDFDiagLastWrite>=10.0) {
+        DFDiagWrite(changed ? @"STATE_CHANGED" : @"HEARTBEAT",
+          @{@"state":snapshot,@"poll":@(sDFDiagPolls)});
+        sDFDiagLastSignature=[signature copy];
+        sDFDiagLastWrite=now;
+    }
+}
+@interface DFDiagDriver:NSObject
+- (void)onTimer:(NSTimer *)timer;
+- (void)onUIKitEvent:(NSNotification *)note;
+@end
+@implementation DFDiagDriver
+- (void)onTimer:(NSTimer *)timer {
+    (void)timer;
+    @autoreleasepool { DFDiagPoll(); }
+}
+- (void)onUIKitEvent:(NSNotification *)note {
+    DFDiagWrite(@"UIKIT_NOTIFICATION",@{@"notification":note.name ?: @"nil"});
+    DFDiagPoll();
+}
+@end
+static DFDiagDriver *sDFDiagDriver=nil;
+__attribute__((constructor)) static void DFDiagStart(void) {
+    if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        DFDiagWrite(@"LOADED",@{
+           @"reason":@"passive_poll_no_hooks_no_windows",
+           @"springboard_only":@YES
+        });
+        sDFDiagDriver=[DFDiagDriver new];
+        NSNotificationCenter *center=NSNotificationCenter.defaultCenter;
+        for(NSString *name in @[
+            UIScreenDidConnectNotification,
+            UIScreenDidDisconnectNotification,
+            UIScreenModeDidChangeNotification,
+            UIApplicationDidBecomeActiveNotification,
+            UIApplicationWillResignActiveNotification,
+            UIApplicationDidEnterBackgroundNotification,
+            UIApplicationWillEnterForegroundNotification
+        ]) {
+            [center addObserver:sDFDiagDriver selector:@selector(onUIKitEvent:)
+              name:name object:nil];
+        }
+        NSTimer *timer=[NSTimer timerWithTimeInterval:0.5
+            target:sDFDiagDriver selector:@selector(onTimer:)
+            userInfo:nil repeats:YES];
+        [NSRunLoop.mainRunLoop addTimer:timer forMode:NSRunLoopCommonModes];
+        DFDiagPoll();
+    });
+}
+########## END FILE: runtime/speedbubble/DFSpeedDiagnosticSpringBoard.mm ##########
+
