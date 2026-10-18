@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# DuoNavi 1.0.4 control-contract migration QA DEB; Sileo published only via separately verified publisher. Main product remains unchanged.
+# Original104 scene sequencing/geometry regression QA DEB; Sileo published only via separately verified publisher. Main product remains unchanged.
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 PIN="d5227b4cb42bb0143e63840c95eff8d776b73068"
-OUT="dist/visual12-native104ui3b-qa"
+OUT="dist/visual12-original104-scene4-qa"
 WORK="$RUNNER_TEMP/visual12-qa"
 STAGE="$WORK/stage"
 APP="$STAGE/var/jb/Applications/DuoFaceVisual12.app"
@@ -83,13 +83,13 @@ PY
 cat > "$STAGE/DEBIAN/control" <<'CONTROL'
 Package: com.duoface.visual12
 Name: DuoFace CarPlay Standalone (QA only)
-Version: 1.0.3-12~ui8native3
+Version: 1.0.3-12~ui8native4
 Architecture: iphoneos-arm64
 Maintainer: chuongnguyen89dn-ui
 Author: chuongnguyen89dn-ui
 Section: Tweaks
 Depends: preferenceloader, firmware (>= 16.0), firmware (<< 17.0), mobilesubstrate (>= 0.9.5000) | ellekit
-Description: Independent scene-host QA with native per-pane picker/focus and live-scene divider pan experiment. HUD data/full original UI parity pending.
+Description: Independent scene-host QA with 1.0.4-native scene geometry timing and serialized app replacement; CarPlay device validation still pending.
 CONTROL
 SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -arch arm64 -isysroot "$SDK" \
@@ -120,7 +120,7 @@ ldid -S "$PREF/DuoFaceVisual12Prefs"
 ldid -S"$WORK/templates/signed.plist" "$APP/DuoFaceVisual12"
 chmod 0755 "$APP/DuoFaceVisual12" "$PREF/DuoFaceVisual12Prefs" "$TWEAK/DuoFaceVisual12.dylib" "$STAGE/DEBIAN/postinst" "$STAGE/DEBIAN/postrm"
 chmod 0644 "$STAGE/DEBIAN/control" "$TWEAK/DuoFaceVisual12.plist"
-FILE="$OUT/com.duoface.visual12_1.0.3-12~ui8native3_iphoneos-arm64.deb"
+FILE="$OUT/com.duoface.visual12_1.0.3-12~ui8native4_iphoneos-arm64.deb"
 dpkg-deb --build --root-owner-group "$STAGE" "$FILE"
 python3 replacement/visual12/verify_qa.py "$FILE"
 shasum -a 256 "$FILE" > "$OUT/SHA256SUMS"
@@ -130,7 +130,7 @@ import hashlib,json,os,sys
 from pathlib import Path
 p=Path(sys.argv[1])
 report={"status":"QA_DEB_BUILT_DEVICE_NOT_TESTED","package_id":"com.duoface.visual12",
-"version":"1.0.3-12~ui8native3","source_commit":os.getenv("GITHUB_SHA"),
+"version":"1.0.3-12~ui8native4","source_commit":os.getenv("GITHUB_SHA"),
 "run_id":os.getenv("GITHUB_RUN_ID"),"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),
 "size_bytes":p.stat().st_size,"path":str(p),"main_product":"Native12 + Hub8 unchanged",
 "device_tested":False,"ui_v12_verified":False,"two_apps_tested":False,
