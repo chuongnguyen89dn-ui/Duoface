@@ -124,9 +124,9 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
     // Physically keep the old SidePlay fullscreen window OUT of the native
     // sidebar region in NORMAL; merely changing z-order (QA1) was not enough.
     window.frame=desired;
-    // Match original window level in fullscreen. In NORMAL stay below system
-    // bar while preserving the whole SidePlay app host in the usable region.
-    CGFloat targetLevel=full ? DFSPOriginalLevel : (UIWindowLevelNormal+1.0);
+    // Keep QA1's device-observed visible Z level to avoid hiding SidePlay
+    // behind Dashboard; suppress old fullscreen by contracting the window.
+    CGFloat targetLevel=full ? DFSPOriginalLevel : (UIWindowLevelStatusBar-1.0);
     window.windowLevel=targetLevel;
     [window setNeedsLayout];
     [window layoutIfNeeded];
@@ -269,7 +269,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
                 if (++DFSPLayoutCalls<=5)
                     DFSPLog(@"old SidePlay relayout attempted fullscreen; normalized");
             }
-            CGFloat desiredLevel=DFSPFull?DFSPOriginalLevel:UIWindowLevelNormal+1.0;
+            CGFloat desiredLevel=DFSPFull?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;
             if (fabs(window.windowLevel-desiredLevel)>0.5)
                 window.windowLevel=desiredLevel;
         }
