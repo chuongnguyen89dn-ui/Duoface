@@ -62,6 +62,10 @@ jobs:
           assert cross['status']=='ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_STATIC_PASS'
           assert cross['original_functional_entrypoints']['focusSlot:animated:']['requires'][-1]=='refreshSceneLayout'
           assert cross['native12_visual_pill']['focused_restore_frame'].startswith('entire pill bounds')
+          cond=cross['native12_visual_pill']['original104_compact_conditions']
+          assert cond['width_lt_pt']==320 and 0<cond['height_lt_pt']<1600
+          assert cond['proven_branch_only'] and cross['native12_visual_pill']['known_compact_mode_trigger']
+          print('ORIGINAL104_COMPACT_GUARD_STATIC_PASS height_lt',cond['height_lt_pt'])
           print('ORIGINAL104_FUNCTION_NATIVE12_VISUAL_FOCUS_CROSSWALK_PASS')
           print('NATIVE12_DIVIDER_MACHO_LITERALS_STATIC_PASS threshold=',side['threshold_pt'])
           print('NATIVE12_REAL_DEB_LOGO_PNG_AND_UI_IMP_COMPARISON_READONLY_PASS')
