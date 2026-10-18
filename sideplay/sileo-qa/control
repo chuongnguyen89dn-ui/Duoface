@@ -1,9 +1,9 @@
 Package: com.duoface.sideplaydisplay
-Name: DuoFace SidePlay Display Zoom QA
-Version: 0.1.0~zoomqa2
+Name: DuoFace SidePlay Native12 Frame QA
+Version: 0.1.1~native12frame3
 Architecture: iphoneos-arm64
 Section: Tweaks
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.sideplay (>= 1.0.4-1)
-Description: SidePlay normal-geometry takeover QA2: temporarily suppress old fullscreen frame/dock decision; restore 64pt native fallback and test Zoom In/Out. Requires separately installed SidePlay. Does not modify DuoFace Native12 HUD8.
+Description: Native12 UI frame, app pills, App/Zoom/Style/Close sheet and draggable split connected to SidePlay app host; rootless isolated device QA.
