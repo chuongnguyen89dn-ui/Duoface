@@ -124,7 +124,10 @@ assert 'panAction:(SEL)panAction' not in src
 assert '- (void)moveDividerLogo:(UILongPressGestureRecognizer *)recognizer' in ui
 assert 'self.dividerLogoPositions[index]=@(DFIClamp(offset/length,.10,.90));' in ui
 assert 'DFIWritePreference(@"dividerLogoPositions"' in ui
-assert 'self.maximized=-1;[self saveLayout];[self.view setNeedsLayout];' in ui
+assert '- (void)restorePane:(UIButton *)button {' in ui
+assert 'self.maximized=-1;' in ui
+assert '[self saveLayout];' in ui
+assert 'self.fraction=self.layoutKind==4?1./3:.5;' not in ui
 assert 'self.maximized=-1;self.fraction=self.layoutKind==4' not in ui
 # Receiver screenshot QA7: bottom-centre ellipsis was legacy QA chrome,
 # not the Native12 per-pane picker. Preserve native slot-pill entrypoints.
