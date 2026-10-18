@@ -295,6 +295,10 @@ static NSArray *DFIAvailableApps(void) {
   BOOL hasPane=!CGRectIsEmpty(frame);
   BOOL compactPane=hasPane &&
     (CGRectGetWidth(frame)<320.0 || CGRectGetHeight(frame)<220.0);
+  // Original104's layoutSplitViews invokes setShowsExpandButton:NO for a
+  // branch without an expandable peer; one-pane QA has no such peer.
+  // This is a source-owned single-pane rule (device parity not yet tested).
+  [nativePill setShowsExpandButton:f.count>1];
   [nativePill setCompactMode:compactPane];
   [nativePill setFocused:self.maximized==i];
   CGSize nativeSize=[nativePill nativeReferenceSize];
