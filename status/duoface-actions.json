@@ -1,14 +1,68 @@
 {
-  "checked_at_utc": "2026-10-18T11:19:37.556929+00:00",
+  "checked_at_utc": "2026-10-18T15:57:35.525114+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1488,
+  "total_actions_runs": 1518,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 1,
-      "success": 0,
+      "recent_runs": 2,
+      "success": 1,
       "failure": 0,
       "other": 1
+    },
+    "QA7 installed versus Native12 complete method ABI audit": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "Audit QA8 vs Native12 HUD8 and SidePlay 1.0.4 DEBs": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace Native12 UI recovery QA8 (testing)": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 1,
+      "other": 1
+    },
+    "DuoFace Native12 UI recovery QA7 (testing)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace Native12 root host QA6 (experimental)": {
+      "recent_runs": 3,
+      "success": 1,
+      "failure": 2,
+      "other": 0
+    },
+    "DuoFace QA5 geometry gap audit (NOT device pass)": {
+      "recent_runs": 3,
+      "success": 0,
+      "failure": 3,
+      "other": 0
+    },
+    "DuoFace Native12 QA5 UI parity gate": {
+      "recent_runs": 6,
+      "success": 3,
+      "failure": 3,
+      "other": 0
+    },
+    "SidePlay Native12 native UI center-pill focus/restore QA5 DEB": {
+      "recent_runs": 6,
+      "success": 2,
+      "failure": 3,
+      "other": 1
+    },
+    "DuoFace Native12 picker host dispatch trace": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
     },
     "SidePlay Native12 approved logo assets QA4 DEB": {
       "recent_runs": 1,
@@ -95,9 +149,9 @@
       "other": 0
     },
     ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
-      "recent_runs": 40,
+      "recent_runs": 10,
       "success": 0,
-      "failure": 40,
+      "failure": 10,
       "other": 0
     },
     "MyTweak independent SceneHost (QA only)": {
@@ -109,304 +163,304 @@
   },
   "latest_runs": [
     {
-      "id": 39122769903,
+      "id": 39142801823,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 32,
+      "run_number": 33,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39122769903",
-      "created_at": "2026-10-18T11:19:28Z",
-      "head_sha": "b469661bdf7c7f4523e67a5974bec1dd891ac5f8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39142801823",
+      "created_at": "2026-10-18T15:57:25Z",
+      "head_sha": "9349aa0354846f01caf10517087bae77a40b595d"
     },
     {
-      "id": 39121873603,
-      "name": "SidePlay Native12 approved logo assets QA4 DEB",
-      "run_number": 14,
+      "id": 39136991320,
+      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121873603",
-      "created_at": "2026-10-18T11:06:04Z",
-      "head_sha": "a386ef1131087007b2dca71e23af21cbec643e67"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136991320",
+      "created_at": "2026-10-18T14:39:42Z",
+      "head_sha": "f23ecb430575743b63ada0e62a83b644f28c1039"
     },
     {
-      "id": 39121326554,
-      "name": "SidePlay Native12 frame and drag rootless QA DEB",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121326554",
-      "created_at": "2026-10-18T10:58:05Z",
-      "head_sha": "7b5b9047b79894f131697c5aec73ac144bad7904"
-    },
-    {
-      "id": 39121282637,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 26,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121282637",
-      "created_at": "2026-10-18T10:57:23Z",
-      "head_sha": "9d63a3f9aa5c8425757931ea08ad1b03fac767e0"
-    },
-    {
-      "id": 39121221229,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 25,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121221229",
-      "created_at": "2026-10-18T10:56:25Z",
-      "head_sha": "3f7646862fc2ae665e2663c0d5ceb739442210f3"
-    },
-    {
-      "id": 39121214162,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 24,
+      "id": 39136819748,
+      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "run_number": 4,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121214162",
-      "created_at": "2026-10-18T10:56:19Z",
-      "head_sha": "df68e9fdc332d60e001c10eb3f359f9c10f0c613"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136819748",
+      "created_at": "2026-10-18T14:37:20Z",
+      "head_sha": "edd35eb0ea8be30957d5946a40bda87d30fef905"
     },
     {
-      "id": 39121177893,
-      "name": "SidePlay Native12 frame and drag rootless QA DEB",
-      "run_number": 12,
+      "id": 39136671306,
+      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "run_number": 3,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121177893",
-      "created_at": "2026-10-18T10:55:45Z",
-      "head_sha": "11b75efd0fbfe1b92a6365a4684a4a72c9f450c0"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136671306",
+      "created_at": "2026-10-18T14:35:20Z",
+      "head_sha": "bb4ac4fe86cae90dffd4c8a5d459fac75247c2a9"
     },
     {
-      "id": 39121117842,
-      "name": "SidePlay Native12 function bridge static verification",
+      "id": 39136476406,
+      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136476406",
+      "created_at": "2026-10-18T14:32:46Z",
+      "head_sha": "0013e955f9e954f58784c8c7e4c55473d0dacea9"
+    },
+    {
+      "id": 39135800130,
+      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39135800130",
+      "created_at": "2026-10-18T14:23:51Z",
+      "head_sha": "3c6486cffaaad6e67a0a892840817ccc09dd3beb"
+    },
+    {
+      "id": 39134932320,
+      "name": "Audit QA8 vs Native12 HUD8 and SidePlay 1.0.4 DEBs",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121117842",
-      "created_at": "2026-10-18T10:54:49Z",
-      "head_sha": "20d811ff9586b18c7f8c8b11fd98727fcf872523"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39134932320",
+      "created_at": "2026-10-18T14:12:14Z",
+      "head_sha": "529f1eb9c9524d734c9208695f89d1efcc47f4fb"
     },
     {
-      "id": 39121097406,
-      "name": "SidePlay Native12 whole-display static tests",
+      "id": 39132437344,
+      "name": "DuoFace Native12 UI recovery QA8 (testing)",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132437344",
+      "created_at": "2026-10-18T13:38:31Z",
+      "head_sha": "4e7ec05890b2dbd3323b5d990154c92aba74ca28"
+    },
+    {
+      "id": 39132210913,
+      "name": "DuoFace Native12 UI recovery QA8 (testing)",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132210913",
+      "created_at": "2026-10-18T13:35:26Z",
+      "head_sha": "df995bdbe1a2c0d6a31a96ad0089b81cdc31d87d"
+    },
+    {
+      "id": 39132117057,
+      "name": "DuoFace Native12 UI recovery QA8 (testing)",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132117057",
+      "created_at": "2026-10-18T13:34:11Z",
+      "head_sha": "93f27f373330ecfb80d3f5e07c91546c0e006017"
+    },
+    {
+      "id": 39131070908,
+      "name": "DuoFace Native12 UI recovery QA7 (testing)",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39131070908",
+      "created_at": "2026-10-18T13:19:58Z",
+      "head_sha": "e26590d8d338c7dd3aabf4870b3cc2c6d0823198"
+    },
+    {
+      "id": 39128366743,
+      "name": "DuoFace Native12 root host QA6 (experimental)",
       "run_number": 23,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121097406",
-      "created_at": "2026-10-18T10:54:31Z",
-      "head_sha": "727362f6e426cc157719ed0eb036888fb3d349a6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128366743",
+      "created_at": "2026-10-18T12:41:49Z",
+      "head_sha": "7069e132619729abd114c8c14a6881fcb456c0de"
     },
     {
-      "id": 39121095813,
-      "name": "SidePlay Native12 whole-display static tests",
+      "id": 39128189740,
+      "name": "DuoFace Native12 root host QA6 (experimental)",
       "run_number": 22,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121095813",
-      "created_at": "2026-10-18T10:54:29Z",
-      "head_sha": "1db0303d93110cf8b10df939d0197faf1688b039"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128189740",
+      "created_at": "2026-10-18T12:39:22Z",
+      "head_sha": "7f275b9f2055cd5baa86b58e99ae9d2daceb5f8a"
     },
     {
-      "id": 39121070778,
-      "name": "SidePlay Native12 whole-display static tests",
+      "id": 39128068091,
+      "name": "DuoFace Native12 root host QA6 (experimental)",
       "run_number": 21,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121070778",
-      "created_at": "2026-10-18T10:54:06Z",
-      "head_sha": "8cb282a9bea2379ceb39ee364806f468a7029ff0"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128068091",
+      "created_at": "2026-10-18T12:37:36Z",
+      "head_sha": "52bf83dfa348d3fd6cf908fc78c39e6590cbbaed"
     },
     {
-      "id": 39121060448,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121060448",
-      "created_at": "2026-10-18T10:53:55Z",
-      "head_sha": "53453424c9754519dceb20afc63727a75456eb44"
-    },
-    {
-      "id": 39121055482,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121055482",
-      "created_at": "2026-10-18T10:53:51Z",
-      "head_sha": "78985004564c63e149596aca0db95bcd961d5c51"
-    },
-    {
-      "id": 39121050801,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39121050801",
-      "created_at": "2026-10-18T10:53:46Z",
-      "head_sha": "86c0d81ea381dbff41a4d7241c4b8c46f30ab938"
-    },
-    {
-      "id": 39120980455,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120980455",
-      "created_at": "2026-10-18T10:52:38Z",
-      "head_sha": "1d1e2ec3c9ab26f2a46b809ad4e6764b978f801a"
-    },
-    {
-      "id": 39120974390,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120974390",
-      "created_at": "2026-10-18T10:52:33Z",
-      "head_sha": "cf2a533539a18f777df77736c0364d159bfb2890"
-    },
-    {
-      "id": 39120852019,
-      "name": "SidePlay Native12 frame and drag rootless QA DEB",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120852019",
-      "created_at": "2026-10-18T10:50:40Z",
-      "head_sha": "12338d6bbb0e5bac7cd642673e00e501d45157a2"
-    },
-    {
-      "id": 39120779780,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120779780",
-      "created_at": "2026-10-18T10:49:38Z",
-      "head_sha": "ba83e68fb320aa230ee555e556b20100ec7d889a"
-    },
-    {
-      "id": 39120689953,
-      "name": "SidePlay Native12 frame and drag rootless QA DEB",
-      "run_number": 10,
+      "id": 39127494898,
+      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
+      "run_number": 3,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120689953",
-      "created_at": "2026-10-18T10:48:15Z",
-      "head_sha": "cd44b78d36614e18f4ae192b16078a2690998e78"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127494898",
+      "created_at": "2026-10-18T12:29:34Z",
+      "head_sha": "eebf094c19560681e4625940c5e1dc323755d54e"
     },
     {
-      "id": 39120682774,
-      "name": "SidePlay visible Zoom QA rootless DEB",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120682774",
-      "created_at": "2026-10-18T10:48:08Z",
-      "head_sha": "e245360f31257abb23b9daa77e5245a71b8f7b08"
-    },
-    {
-      "id": 39120676754,
-      "name": "SidePlay visible Zoom QA rootless DEB",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120676754",
-      "created_at": "2026-10-18T10:48:02Z",
-      "head_sha": "2c17f93d748752587d1fa1399139969c48a44b85"
-    },
-    {
-      "id": 39120644682,
-      "name": "SidePlay visible Zoom QA rootless DEB",
-      "run_number": 7,
+      "id": 39127471875,
+      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
+      "run_number": 2,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120644682",
-      "created_at": "2026-10-18T10:47:33Z",
-      "head_sha": "ea0ac69758b93a5b2bcf5e084a511dfe0b1c5cff"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127471875",
+      "created_at": "2026-10-18T12:29:13Z",
+      "head_sha": "a0ccb4b2ae24326e1acb3ddb1fa80eeef1f5d88c"
     },
     {
-      "id": 39120606244,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 14,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120606244",
-      "created_at": "2026-10-18T10:46:55Z",
-      "head_sha": "918e338de0e35a49dacbcbbdff4cfbeed5e414e2"
-    },
-    {
-      "id": 39120557462,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120557462",
-      "created_at": "2026-10-18T10:46:11Z",
-      "head_sha": "cd23b80fe07bc796146db32e8087ea05924b69a3"
-    },
-    {
-      "id": 39120484496,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120484496",
-      "created_at": "2026-10-18T10:45:08Z",
-      "head_sha": "c96c059dc6242a6930c40e04d95c326b9d072b5e"
-    },
-    {
-      "id": 39120307831,
-      "name": "SidePlay split owner method lookup",
+      "id": 39127352092,
+      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
       "run_number": 1,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120307831",
-      "created_at": "2026-10-18T10:42:25Z",
-      "head_sha": "517d1c5e749c98f308277809897c1894d259093f"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127352092",
+      "created_at": "2026-10-18T12:27:29Z",
+      "head_sha": "0786d96afdb62a7c926d263cc84ad3616afe1ed8"
     },
     {
-      "id": 39120293286,
-      "name": "SidePlay Native12 whole-display static tests",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39120293286",
-      "created_at": "2026-10-18T10:42:12Z",
-      "head_sha": "58ec7ec8c90db22ba9bb4436f4c70d290743c05e"
-    },
-    {
-      "id": 39119996352,
-      "name": "SidePlay visible Zoom QA rootless DEB",
+      "id": 39126662869,
+      "name": "DuoFace Native12 QA5 UI parity gate",
       "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119996352",
-      "created_at": "2026-10-18T10:37:36Z",
-      "head_sha": "a7a4a5502f6c700676d82311d21161efadbac4c7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126662869",
+      "created_at": "2026-10-18T12:17:23Z",
+      "head_sha": "52f56ae7e000d859b9bb29ff08b47a12ff3cd50a"
     },
     {
-      "id": 39119950358,
-      "name": "SidePlay visible Zoom QA rootless DEB",
+      "id": 39126628967,
+      "name": "DuoFace Native12 QA5 UI parity gate",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119950358",
-      "created_at": "2026-10-18T10:36:55Z",
-      "head_sha": "62365eab4fd9b37793185572d5383ef464f81be4"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126628967",
+      "created_at": "2026-10-18T12:16:53Z",
+      "head_sha": "5c88c69e90238ced215c78192721f1da1b9ad558"
     },
     {
-      "id": 39119946177,
-      "name": "SidePlay visible Zoom QA rootless DEB",
+      "id": 39126628914,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126628914",
+      "created_at": "2026-10-18T12:16:53Z",
+      "head_sha": "5c88c69e90238ced215c78192721f1da1b9ad558"
+    },
+    {
+      "id": 39124696779,
+      "name": "DuoFace Native12 picker host dispatch trace",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124696779",
+      "created_at": "2026-10-18T11:48:08Z",
+      "head_sha": "d87bfbfb92ab4445390dc306cf306fc4ead4a98c"
+    },
+    {
+      "id": 39124602767,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124602767",
+      "created_at": "2026-10-18T11:46:41Z",
+      "head_sha": "824f61c88242c91353bf4aa26f7065d644d64fb8"
+    },
+    {
+      "id": 39124572572,
+      "name": "DuoFace Native12 QA5 UI parity gate",
       "run_number": 4,
       "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124572572",
+      "created_at": "2026-10-18T11:46:15Z",
+      "head_sha": "9d7be7a2201acf3bd44537981139ed0a7ff0ddee"
+    },
+    {
+      "id": 39124572548,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 18,
+      "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39119946177",
-      "created_at": "2026-10-18T10:36:51Z",
-      "head_sha": "ebd1f5c68f5439974bb5b9b71fc5d22dc7254f36"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124572548",
+      "created_at": "2026-10-18T11:46:15Z",
+      "head_sha": "9d7be7a2201acf3bd44537981139ed0a7ff0ddee"
+    },
+    {
+      "id": 39124356475,
+      "name": "DuoFace Native12 QA5 UI parity gate",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124356475",
+      "created_at": "2026-10-18T11:42:59Z",
+      "head_sha": "1ad3eb42757ede885ccc59ce47aa1366228c30f7"
+    },
+    {
+      "id": 39124356354,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124356354",
+      "created_at": "2026-10-18T11:42:59Z",
+      "head_sha": "1ad3eb42757ede885ccc59ce47aa1366228c30f7"
+    },
+    {
+      "id": 39124346295,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124346295",
+      "created_at": "2026-10-18T11:42:50Z",
+      "head_sha": "5e21b12168b575db98a806610a6493a8eae28e17"
+    },
+    {
+      "id": 39124346291,
+      "name": "DuoFace Native12 QA5 UI parity gate",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124346291",
+      "created_at": "2026-10-18T11:42:50Z",
+      "head_sha": "5e21b12168b575db98a806610a6493a8eae28e17"
+    },
+    {
+      "id": 39124287680,
+      "name": "DuoFace Native12 QA5 UI parity gate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124287680",
+      "created_at": "2026-10-18T11:41:56Z",
+      "head_sha": "5579d3658c09d52a4ae982ae1d2d088e74ebfd6b"
+    },
+    {
+      "id": 39124199249,
+      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124199249",
+      "created_at": "2026-10-18T11:40:37Z",
+      "head_sha": "d86898848590c458a13f7b9f2e7cabdf53f23888"
     }
   ]
 }
