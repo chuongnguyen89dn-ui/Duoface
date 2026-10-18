@@ -115,11 +115,11 @@
     {
       "id": "divider_logo",
       "component": "Divider logo control",
-      "dimension": "36x44pt",
+      "dimension": "28pt square if divider length <280pt, else 30pt square",
       "source": "replacement/visual12/engine/runtime/DFIInterface.inc",
-      "line": 309,
-      "assurance": "qa",
-      "state": "not-native-proven",
+      "line": 319,
+      "assurance": "native12-actual-deb-updateGripLayout",
+      "state": "corrected-source-not-device",
       "found": true
     },
     {
