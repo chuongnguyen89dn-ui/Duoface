@@ -13,7 +13,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
-from audit_original104_scene_lifecycle import inventory, checksum
+from audit_original104_scene_lifecycle import checksum
 
 DEB_SHA = "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd"
 DASH_SHA = "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15"
@@ -52,6 +52,53 @@ EXTRA = re.compile(
 ADDRESS = re.compile(r"^\s*([0-9a-fA-F]+):")
 
 
+def inventory_relevant(text: str) -> list[tuple[str, str, int]]:
+    """Parse ALL target classes; the earlier scene-only inventory excluded overlay.
+
+    LLVM Objective-C --macho --objc-meta-data contains class 'name' rows,
+    followed by 'baseMethods' and method (name, imp) pairs. Never claim a
+    class is absent because a scene-lifecycle-only filter omitted it.
+    """
+    rows = []
+    classes = set(TARGETS)
+    cls = None
+    reading = False
+    method = None
+    for line in text.splitlines():
+        found_class = re.search(
+            r"^\\s*name\\s+0x[0-9a-fA-F]+\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*$",
+            line,
+        )
+        if found_class:
+            cls = found_class.group(1) if found_class.group(1) in classes else None
+            reading = False
+            method = None
+            continue
+        if cls and re.search(r"^\\s*baseMethods\\s+0x[0-9a-fA-F]+", line):
+            reading = not re.search(r"^\\s*baseMethods\\s+0x0\\s*$", line)
+            continue
+        if reading and re.search(r"^\\s*baseProtocols\\b", line):
+            cls = None
+            reading = False
+            continue
+        if not reading or not cls:
+            continue
+        found_method = re.search(
+            r"^\\s*name\\s+0x[0-9a-fA-F]+\\s+\\(0x[0-9a-fA-F]+\\)\\s+(.+?)\\s*$",
+            line,
+        )
+        if found_method:
+            method = found_method.group(1)
+        found_imp = re.search(
+            r"^\\s*imp\\s+0x[0-9a-fA-F]+\\s+\\(0x([0-9a-fA-F]+)\\)",
+            line,
+        )
+        if method and found_imp:
+            rows.append((cls, method, int(found_imp.group(1), 16)))
+            method = None
+    return rows
+
+
 def disassembly_map(path: Path) -> dict[int, str]:
     result = {}
     for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -64,7 +111,7 @@ def disassembly_map(path: Path) -> dict[int, str]:
 def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
     assert checksum(deb) == DEB_SHA, "Original 1.0.4 DEB SHA mismatch"
     assert checksum(dashboard) == DASH_SHA, "Original 1.0.4 dashboard SHA mismatch"
-    methods = inventory(metadata.read_text(encoding="utf-8", errors="replace"))
+    methods = inventory_relevant(metadata.read_text(encoding="utf-8", errors="replace"))
     byclass = {(c, m): addr for c, m, addr in methods}
     ordered = sorted(byclass.values())
     code = disassembly_map(disasm)
@@ -126,6 +173,8 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
         "dynamic_objc_dispatch_proven": False,
         "license_gate_runtime_proven": False,
         "native12_byte_or_callback_parity_proven": False,
+        "metadata_scope_includes_overlay": True,
+        "metadata_class_method_counts": {cls: sum(1 for x in methods if x[0] == cls) for cls in TARGETS},
         "total_methods": len(results), "methods": results,
     }
 
