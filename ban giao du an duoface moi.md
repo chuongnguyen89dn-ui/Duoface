@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Ghép UI QA: rà soát adapter, chưa sửa runtime
+
+- Người dùng yêu cầu tiếp tục ghép giao diện DuoFace cũ vào bridge CarPlay độc lập đã test hoạt động bình thường trên thiết bị.
+- Đã kiểm tra lại `DFCarPlayQARootController.m` và `DFCarPlaySplitCoordinator.m`: bridge có `openApp:inPane:completion:`, `setSplitRatio:`, `focusPane:`, `restoreSplit`, `closePane:` và `swapPanes`. QA root hiện chưa có giao diện menu DuoFace chính thức; UI QA chỉ có hai pane.
+- Đã thử ghi adapter QA root qua GitHub nhưng lệnh bị cơ chế an toàn chặn, KHÔNG có commit mã, build hoặc phát hành mới. Không tự nhận đã ghép xong.
+- Tiếp theo: tìm và đọc `DFIInterface.inc`, `DFIChrome.inc` cùng layout/menu Native12; đối chiếu đường điều khiển để tích hợp từng chức năng vào QA mà không tạo scene owner thứ hai. Trước khi ghi mã phải bảo đảm không ảnh hưởng Native12/Hub8 hoặc gói Sileo hiện tại.
+
+
 ## 2026-10-18 — USER DEVICE PASS standalone6invalidate; chuyển sang ghép giao diện
 
 - USER_REPORTED (chưa có log tự động): người dùng đã cập nhật bản QA standalone6invalidate từ Sileo và sử dụng bình thường; chưa báo lỗi SpringBoard khi sử dụng. Không suy rộng thành stress-test/reconnect đã PASS.
