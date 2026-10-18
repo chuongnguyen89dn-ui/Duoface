@@ -286,12 +286,17 @@ static NSArray *DFIAvailableApps(void) {
  for(int i=0;i<3;i++){
   CGRect frame=f.panes[i];self.panes[i].frame=frame;self.panes[i].hidden=CGRectIsEmpty(frame);
   self.emptyButtons[i].frame=self.panes[i].bounds;
-  self.panePills[i].hidden=CGRectIsEmpty(frame)||frame.size.width<76||frame.size.height<22;
-  // CBSlotPillView.initWithSlotIndex: actual Native12 DEB init frame 76x22 pt;
-  // updateBoundsSize has mode-specific sizes; those remain under separate audit.
-  self.panePills[i].frame=CGRectMake(CGRectGetMaxX(frame)-78,CGRectGetMinY(frame)+3,76,22);
   DFINativeSlotPillView *nativePill=(DFINativeSlotPillView *)self.panePills[i];
+  // Native12 CBSlotPillView.updateBoundsSize chooses the actual outer bounds
+  // from focused / compact / showsExpand flags, not one hardcoded QA frame.
+  // Compact mode is NOT guessed from headunit width; independent settings/
+  // true native trigger still require separately validated call-chain mapping.
   [nativePill setFocused:self.maximized==i];
+  CGSize nativeSize=[nativePill nativeReferenceSize];
+  nativePill.hidden=CGRectIsEmpty(frame)||frame.size.width<nativeSize.width||
+                         frame.size.height<nativeSize.height;
+  nativePill.frame=CGRectMake(CGRectGetMaxX(frame)-nativeSize.width-2,
+                             CGRectGetMinY(frame)+3,nativeSize.width,nativeSize.height);
   [nativePill setNeedsLayout];
   if(!CGRectIsEmpty(frame)&&self.hosts[i]!=NSNull.null)[self.hosts[i] resizeTo:frame.size];
  }
