@@ -22,6 +22,7 @@ DASH_SHA = "44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15"
 TARGETS = {
     "CBWindow": [
         "createWindows", "show", "resizeWindows",
+        "carPlayContentInsets", "carPlayUsableBounds",
         "showAppPickerForSlot:", "showLayoutChooser", "showRecentApps",
         "destroyWindows",
     ],
@@ -99,6 +100,9 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
                 # no binary or vendor runtime is copied into QA.
                 "original_scene_layout_asm": rows[:800] if method in (
                     "updateLayout", "updateSceneSettingsFrame") and cls == "CBBridgedUIAppView" else [],
+                "original_window_chrome_asm": rows[:800] if method in (
+                    "createWindows", "resizeWindows", "carPlayContentInsets",
+                    "carPlayUsableBounds") and cls == "CBWindow" else [],
                 "static_only_not_runtime": True,
             })
     return {
