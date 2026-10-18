@@ -26,6 +26,11 @@ TARGETS = {
         "showAppPickerForSlot:", "showLayoutChooser", "showRecentApps",
         "destroyWindows",
     ],
+    "CBMultitaskingOverlayView": [
+        "layoutSubviews", "setupCardContent",
+        "setupAppPickerCardsInCardW:cardH:contentY:",
+        "setupRecentAppsCardsInCardW:cardH:contentY:",
+    ],
     "CBBridgedSplitApp": [
         "handleDividerPan:isVertical:state:", "layoutSplitViews",
         "focusSlot:animated:", "restoreSplitAnimated:",
@@ -69,6 +74,13 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
         for method in names:
             key = (cls, method)
             if key not in byclass:
+                if cls == "CBMultitaskingOverlayView":
+                    results.append({
+                        "class": cls, "method": method, "present_in_original104": False,
+                        "static_only_not_runtime": True,
+                        "note": "Not found in original1.0.4 metadata; do not substitute later Native12 IMP",
+                    })
+                    continue
                 raise AssertionError(f"Missing verified original method: {cls}::{method}")
             start = byclass[key]
             nxt = min((v for v in ordered if v > start), default=start + 0x1200)
@@ -103,6 +115,8 @@ def run(deb: Path, dashboard: Path, metadata: Path, disasm: Path) -> dict:
                 "original_window_chrome_asm": rows[:800] if method in (
                     "createWindows", "resizeWindows", "carPlayContentInsets",
                     "carPlayUsableBounds") and cls == "CBWindow" else [],
+                "original_overlay_card_asm": rows[:1400] if cls == "CBMultitaskingOverlayView" else [],
+                "present_in_original104": True,
                 "static_only_not_runtime": True,
             })
     return {
@@ -125,6 +139,10 @@ def markdown(result: dict) -> str:
         "actual event order and Native12 matching are **not** established by this output.", "",
     ]
     for row in result["methods"]:
+        if not row.get("present_in_original104", True):
+            out += [f"## {row['class']}::{row['method']} — absent in 1.0.4 metadata",
+                    "No method IMP; inspect Native12 independently.", ""]
+            continue
         out.append(f"## {row['class']}::{row['method']} — {row['original104_imp']}")
         out.append(f"Instructions sampled: {row['inspected_instruction_count']} "
                    f"to {row['bounded_end']}.")
