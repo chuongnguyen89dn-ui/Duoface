@@ -1,6 +1,6 @@
 # Original DuoNavi 1.0.4 scene lifecycle static evidence
 
-Source commit: 9361779355a95c497a42c4cd8499d24821ac6bbe
+Source commit: ae0bd972d0ff25f53ef064ee1f83a17efeb130a5
 DEB: dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb sha256=f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd
 Mach-O: audit-tmp/original104/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib sha256=44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15
 
@@ -3249,6 +3249,3288 @@ Source file: disasm.txt; matches=147
  176115 |    b1738:	ee 87 09 14	b	0x3136f0 ; symbol stub for: _objc_autoreleaseReturnValue
  176116 |    b173c:	f
 [TRUNCATED]
+~~~
+
+## Original class instance methods with IMP addresses
+
+Method addresses below are statically derived from original 1.0.4 ObjC metadata.
+They are not V12 addresses and do not by themselves show call order.
+
+- CBBridgedUIAppView::initWithBundleIdentifier: IMP=0xac1a4
+- CBBridgedUIAppView::initWithBundleIdentifier:scale: IMP=0xac1b4
+- CBBridgedUIAppView::setAppScale: IMP=0xac318
+- CBBridgedUIAppView::setAudioOnlyBackgroundMode: IMP=0xac334
+- CBBridgedUIAppView::layoutSubviews IMP=0xac3cc
+- CBBridgedUIAppView::hitTest:withEvent: IMP=0xac448
+- CBBridgedUIAppView::touchesBegan:withEvent: IMP=0xac5a0
+- CBBridgedUIAppView::calculateNativeSizeForSlotRect: IMP=0xac788
+- CBBridgedUIAppView::updateLayout IMP=0xac7cc
+- CBBridgedUIAppView::updateSceneSettingsFrame IMP=0xad368
+- CBBridgedUIAppView::updateSceneFrame IMP=0xadc24
+- CBBridgedUIAppView::refreshSceneLayout IMP=0xadc30
+- CBBridgedUIAppView::startInParentViewController: IMP=0xadd08
+- CBBridgedUIAppView::start IMP=0xaede8
+- CBBridgedUIAppView::dismiss IMP=0xaedf8
+- CBBridgedUIAppView::hostedScene IMP=0xaefb4
+- CBBridgedUIAppView::openURLInScene: IMP=0xaf250
+- CBBridgedUIAppView::dealloc IMP=0xaf4d8
+- CBBridgedUIAppView::bundleIdentifier IMP=0xaf550
+- CBBridgedUIAppView::setBundleIdentifier: IMP=0xaf560
+- CBBridgedUIAppView::appViewController IMP=0xaf56c
+- CBBridgedUIAppView::setAppViewController: IMP=0xaf57c
+- CBBridgedUIAppView::wrapperView IMP=0xaf590
+- CBBridgedUIAppView::setWrapperView: IMP=0xaf5a0
+- CBBridgedUIAppView::appScale IMP=0xaf5b4
+- CBBridgedUIAppView::hosting IMP=0xaf5c4
+- CBBridgedUIAppView::setHosting: IMP=0xaf5d4
+- CBBridgedUIAppView::invalidated IMP=0xaf5e4
+- CBBridgedUIAppView::setInvalidated: IMP=0xaf5f4
+- CBBridgedUIAppView::audioOnlyBackgroundMode IMP=0xaf604
+- CBBridgedUIAppView::.cxx_destruct IMP=0xaf614
+- CBWindow::initWithAppFrame: IMP=0xaf960
+- CBWindow::getCarPlayDisplay IMP=0xb16c8
+- CBWindow::createWindows IMP=0xb173c
+- CBWindow::aiBubbleView IMP=0xb2064
+- CBWindow::voiceSessionManager:didChangeState: IMP=0xb2230
+- CBWindow::multitaskingOverlay IMP=0xb2374
+- CBWindow::resizeWindows IMP=0xb24ac
+- CBWindow::show IMP=0xb2814
+- CBWindow::hide: IMP=0xb29b0
+- CBWindow::isDisplayValid IMP=0xb2bc0
+- CBWindow::destroyWindows IMP=0xb2d14
+- CBWindow::dismiss IMP=0xb30c4
+- CBWindow::dealloc IMP=0xb30d0
+- CBWindow::showAppPickerForSlot: IMP=0xb3148
+- CBWindow::showLayoutChooser IMP=0xb31f8
+- CBWindow::showRecentApps IMP=0xb32a0
+- CBWindow::appFrame IMP=0xb3348
+- CBWindow::setAppFrame: IMP=0xb3354
+- CBWindow::rootWindow IMP=0xb3368
+- CBWindow::setRootWindow: IMP=0xb3370
+- CBWindow::rootViewController IMP=0xb337c
+- CBWindow::setRootViewController: IMP=0xb3384
+- CBWindow::contentView IMP=0xb3390
+- CBWindow::setContentView: IMP=0xb3398
+- CBWindow::multitaskingPill IMP=0xb33a4
+- CBWindow::setMultitaskingPill: IMP=0xb33ac
+- CBWindow::setMultitaskingOverlay: IMP=0xb33b8
+- CBWindow::setAiBubbleView: IMP=0xb33c4
+- CBWindow::isVisible IMP=0xb33d0
+- CBWindow::setIsVisible: IMP=0xb33d8
+- CBWindow::.cxx_destruct IMP=0xb33e0
+- CBWindow::activeCarPlayWindow IMP=0xafa24
+- CBWindow::resetCachedBounds IMP=0xafa40
+- CBWindow::carPlayWindowScene IMP=0xafb60
+- CBWindow::carPlayUIScreen IMP=0xb0538
+- CBWindow::carPlayCADisplay IMP=0xb06d4
+- CBWindow::carPlayScreenScale IMP=0xb0c74
+- CBWindow::carPlayScreenBounds IMP=0xb0ddc
+- CBWindow::carPlayContentInsets IMP=0xb1370
+- CBWindow::carPlayUsableBounds IMP=0xb15cc
+- CBBridgedSplitApp::initWithBundleIdentifier:frame: IMP=0x109bb8
+- CBBridgedSplitApp::initWithBundleIdentifier:frame:showSplash: IMP=0x109bc8
+- CBBridgedSplitApp::handleDividerPan:isVertical:state: IMP=0x10b4c0
+- CBBridgedSplitApp::layoutSplitViews IMP=0x10bad8
+- CBBridgedSplitApp::focusSlot:animated: IMP=0x10ce70
+- CBBridgedSplitApp::restoreSplitAnimated: IMP=0x10d40c
+- CBBridgedSplitApp::toggleFocusForSlot: IMP=0x10daf8
+- CBBridgedSplitApp::rotateAllSlotsClockwise IMP=0x10db40
+- CBBridgedSplitApp::configureDividerButtons IMP=0x10ddf4
+- CBBridgedSplitApp::updateScale:forSlot: IMP=0x11042c
+- CBBridgedSplitApp::moveSlot:direction: IMP=0x11057c
+- CBBridgedSplitApp::handleDividerSwapPressed: IMP=0x11061c
+- CBBridgedSplitApp::swapSlot:withSlot: IMP=0x1107b0
+- CBBridgedSplitApp::evictAppFromPhoneScreen: IMP=0x110f70
+- CBBridgedSplitApp::replaceAppInSlot:withBundleIdentifier: IMP=0x111090
+- CBBridgedSplitApp::restartSlot: IMP=0x1117d4
+- CBBridgedSplitApp::restartAppWithBundleIdentifier: IMP=0x1120a8
+- CBBridgedSplitApp::removeAppWithBundleIdentifier: IMP=0x1121e0
+- CBBridgedSplitApp::closeSlot: IMP=0x112318
+- CBBridgedSplitApp::closeAllSlots IMP=0x1128a8
+- CBBridgedSplitApp::persistSlotOrder IMP=0x112c9c
+- CBBridgedSplitApp::start IMP=0x1132fc
+- CBBridgedSplitApp::startInParentViewController: IMP=0x11330c
+- CBBridgedSplitApp::stop IMP=0x1136dc
+- CBBridgedSplitApp::noteUserActivity IMP=0x113b68
+- CBBridgedSplitApp::startBlinkingSession IMP=0x113c98
+- CBBridgedSplitApp::stopBlinkingSession IMP=0x1276ec
+- CBBridgedSplitApp::startContainerBorderBlinking: IMP=0x127c20
+- CBBridgedSplitApp::stopContainerBorderBlinking: IMP=0x127e6c
+- CBBridgedSplitApp::splashScreenView IMP=0x127f74
+- CBBridgedSplitApp::setSplashScreenView: IMP=0x127f84
+- CBBridgedSplitApp::appViews IMP=0x127f98
+- CBBridgedSplitApp::setAppViews: IMP=0x127fa8
+- CBBridgedSplitApp::placeholders IMP=0x127fbc
+- CBBridgedSplitApp::setPlaceholders: IMP=0x127fcc
+- CBBridgedSplitApp::containers IMP=0x127fe0
+- CBBridgedSplitApp::setContainers: IMP=0x127ff0
+- CBBridgedSplitApp::dividers IMP=0x128004
+- CBBridgedSplitApp::setDividers: IMP=0x128014
+- CBBridgedSplitApp::slotPills IMP=0x128028
+- CBBridgedSplitApp::setSlotPills: IMP=0x128038
+- CBBridgedSplitApp::splitPreset IMP=0x12804c
+- CBBridgedSplitApp::setSplitPreset: IMP=0x12805c
+- CBBridgedSplitApp::splitRatio IMP=0x12806c
+- CBBridgedSplitApp::setSplitRatio: IMP=0x12807c
+- CBBridgedSplitApp::focusedSlotIndex IMP=0x12808c
+- CBBridgedSplitApp::setFocusedSlotIndex: IMP=0x12809c
+- CBBridgedSplitApp::isTransitioningFocus IMP=0x1280ac
+- CBBridgedSplitApp::setIsTransitioningFocus: IMP=0x1280bc
+- CBBridgedSplitApp::.cxx_destruct IMP=0x1280cc
+- CBBridgedSplitApp::text IMP=0x128654
+- CBBridgedSplitApp::setText: IMP=0x128660
+- CBBridgedSplitApp::audioStreamFollowing IMP=0x128668
+- CBBridgedSplitApp::setAudioStreamFollowing: IMP=0x128670
+- CBBridgedSplitApp::.cxx_destruct IMP=0x128678
+
+### Original CBBridgedUIAppView::dismiss at 0xaedf8
+
+~~~asm
+   aedf8:	f8 5f bc a9	stp	x24, x23, [sp, #-0x40]!
+   aedfc:	f6 57 01 a9	stp	x22, x21, [sp, #0x10]
+   aee00:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+   aee04:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+   aee08:	fd c3 00 91	add	x29, sp, #0x30
+   aee0c:	f3 03 00 aa	mov	x19, x0
+   aee10:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aee14:	01 71 47 f9	ldr	x1, [x8, #0xee0] ; Objc selector ref: setInvalidated:
+   aee18:	22 00 80 52	mov	w2, #0x1
+   aee1c:	59 92 09 94	bl	0x313780 ; Objc message: -[x0 setInvalidated:]
+   aee20:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aee24:	01 31 47 f9	ldr	x1, [x8, #0xe60] ; Objc selector ref: setHosting:
+   aee28:	e0 03 13 aa	mov	x0, x19
+   aee2c:	02 00 80 52	mov	w2, #0x0
+   aee30:	54 92 09 94	bl	0x313780 ; Objc message: -[x0 setHosting:]
+   aee34:	e8 17 00 90	adrp	x8, 764 ; 0x3aa000
+   aee38:	17 d1 8f b9	ldrsw	x23, [x8, #0xfd0]
+   aee3c:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aee40:	d6 17 00 d0	adrp	x22, 762 ; 0x3a8000
+   aee44:	40 09 00 b4	cbz	x0, 0xaef6c
+   aee48:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aee4c:	15 75 47 f9	ldr	x21, [x8, #0xee8] ; Objc selector ref: beginAppearanceTransition:animated:
+   aee50:	1f 20 03 d5	nop
+   aee54:	14 ad 41 f9	ldr	x20, [x8, #0x358]
+   aee58:	e1 03 14 aa	mov	x1, x20
+   aee5c:	e2 03 15 aa	mov	x2, x21
+   aee60:	48 92 09 94	bl	0x313780 ; Objc message: -[x0 beginAppearanceTransition:animated:]
+   aee64:	40 01 00 34	cbz	w0, 0xaee8c
+   aee68:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aee6c:	e1 03 15 aa	mov	x1, x21
+   aee70:	02 00 80 52	mov	w2, #0x0
+   aee74:	03 00 80 52	mov	w3, #0x0
+   aee78:	42 92 09 94	bl	0x313780 ; Objc message: -[x0 beginAppearanceTransition:animated:]
+   aee7c:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aee80:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aee84:	01 79 47 f9	ldr	x1, [x8, #0xef0] ; Objc selector ref: endAppearanceTransition
+   aee88:	3e 92 09 94	bl	0x313780 ; Objc message: -[x0 endAppearanceTransition]
+   aee8c:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aee90:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aee94:	15 61 47 f9	ldr	x21, [x8, #0xec0] ; Objc selector ref: setRequestedMode:
+   aee98:	e1 03 14 aa	mov	x1, x20
+   aee9c:	e2 03 15 aa	mov	x2, x21
+   aeea0:	38 92 09 94	bl	0x313780 ; Objc message: -[x0 setRequestedMode:]
+   aeea4:	a0 00 00 34	cbz	w0, 0xaeeb8
+   aeea8:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aeeac:	e1 03 15 aa	mov	x1, x21
+   aeeb0:	02 00 80 d2	mov	x2, #0x0
+   aeeb4:	33 92 09 94	bl	0x313780 ; Objc message: -[x0 setRequestedMode:]
+   aeeb8:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aeebc:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aeec0:	01 e1 46 f9	ldr	x1, [x8, #0xdc0] ; Objc selector ref: view
+   aeec4:	2f 92 09 94	bl	0x313780 ; Objc message: -[x0 view]
+   aeec8:	fd 03 1d aa	mov	x29, x29
+   aeecc:	45 92 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   aeed0:	f5 03 00 aa	mov	x21, x0
+   aeed4:	c1 2a 45 f9	ldr	x1, [x22, #0xa50]
+   aeed8:	2a 92 09 94	bl	0x313780 ; Objc message: -[x0 view]
+   aeedc:	e0 03 15 aa	mov	x0, x21
+   aeee0:	34 92 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   aeee4:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aeee8:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aeeec:	15 7d 47 f9	ldr	x21, [x8, #0xef8] ; Objc selector ref: willMoveToParentViewController:
+   aeef0:	e1 03 14 aa	mov	x1, x20
+   aeef4:	e2 03 15 aa	mov	x2, x21
+   aeef8:	22 92 09 94	bl	0x313780 ; Objc message: -[x0 willMoveToParentViewController:]
+   aeefc:	a0 00 00 34	cbz	w0, 0xaef10
+   aef00:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef04:	e1 03 15 aa	mov	x1, x21
+   aef08:	02 00 80 d2	mov	x2, #0x0
+   aef0c:	1d 92 09 94	bl	0x313780 ; Objc message: -[x0 willMoveToParentViewController:]
+   aef10:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef14:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aef18:	15 81 47 f9	ldr	x21, [x8, #0xf00] ; Objc selector ref: removeFromParentViewController
+   aef1c:	e1 03 14 aa	mov	x1, x20
+   aef20:	e2 03 15 aa	mov	x2, x21
+   aef24:	17 92 09 94	bl	0x313780 ; Objc message: -[x0 removeFromParentViewController]
+   aef28:	80 00 00 34	cbz	w0, 0xaef38
+   aef2c:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef30:	e1 03 15 aa	mov	x1, x21
+   aef34:	13 92 09 94	bl	0x313780 ; Objc message: -[x0 removeFromParentViewController]
+   aef38:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef3c:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aef40:	15 c1 43 f9	ldr	x21, [x8, #0x780] ; Objc selector ref: invalidate
+   aef44:	e1 03 14 aa	mov	x1, x20
+   aef48:	e2 03 15 aa	mov	x2, x21
+   aef4c:	0d 92 09 94	bl	0x313780 ; Objc message: -[x0 invalidate]
+   aef50:	80 00 00 34	cbz	w0, 0xaef60
+   aef54:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef58:	e1 03 15 aa	mov	x1, x21
+   aef5c:	09 92 09 94	bl	0x313780 ; Objc message: -[x0 invalidate]
+   aef60:	60 6a 77 f8	ldr	x0, [x19, x23]
+   aef64:	7f 6a 37 f8	str	xzr, [x19, x23]
+   aef68:	12 92 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   aef6c:	e8 17 00 90	adrp	x8, 764 ; 0x3aa000
+   aef70:	14 cd 8f b9	ldrsw	x20, [x8, #0xfcc]
+   aef74:	60 6a 74 f8	ldr	x0, [x19, x20]
+   aef78:	40 01 00 b4	cbz	x0, 0xaefa0
+   aef7c:	c1 2a 45 f9	ldr	x1, [x22, #0xa50]
+   aef80:	00 92 09 94	bl	0x313780 ; Objc message: -[x0 invalidate]
+   aef84:	60 6a 74 f8	ldr	x0, [x19, x20]
+   aef88:	7f 6a 34 f8	str	xzr, [x19, x20]
+   aef8c:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+   aef90:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+   aef94:	f6 57 41 a9	ldp	x22, x21, [sp, #0x10]
+   aef98:	f8 5f c4 a8	ldp	x24, x23, [sp], #0x40
+   aef9c:	05 92 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   aefa0:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+   aefa4:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+   aefa8:	f6 57 41 a9	ldp	x22, x21, [sp, #0x10]
+   aefac:	f8 5f c4 a8	ldp	x24, x23, [sp], #0x40
+   aefb0:	c0 03 5f d6	ret
+   aefb4:	fa 67 bb a9	stp	x26, x25, [sp, #-0x50]!
+   aefb8:	f8 5f 01 a9	stp	x24, x23, [sp, #0x10]
+   aefbc:	f6 57 02 a9	stp	x22, x21, [sp, #0x20]
+   aefc0:	f4 4f 03 a9	stp	x20, x19, [sp, #0x30]
+   aefc4:	fd 7b 04 a9	stp	x29, x30, [sp, #0x40]
+   aefc8:	fd 03 01 91	add	x29, sp, #0x40
+   aefcc:	f6 03 00 aa	mov	x22, x0
+   aefd0:	e8 17 00 90	adrp	x8, 764 ; 0x3aa000
+   aefd4:	1a d1 8f b9	ldrsw	x26, [x8, #0xfd0]
+   aefd8:	00 68 7a f8	ldr	x0, [x0, x26]
+   aefdc:	a0 12 00 b4	cbz	x0, 0xaf230
+   aefe0:	c8 17 00 d0	adrp	x8, 762 ; 0x3a8000
+   aefe4:	13 05 47 f9	ldr	x19, [x8, #0xe08] ; Objc selector ref: scene
+   aefe8:	1f 20 03 d5	nop
+   aefec:	14 ad 41 f9	ldr	x20, [x8, #0x358]
+   aeff0:	e1 03 14 aa	mov	x1, x20
+   aeff4:	e2 03 13 aa	mov	x2, x19
+   aeff8:	e2 91 09 94	bl	0x313780 ; Objc message: -[x0 scene]
+   aeffc:	60 01 00 34	cbz	w0, 0xaf028
+   af000:	c0 6a 7a f8	ldr	x0, [x22, x26]
+   af004:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af008:	01 25 45 f9	ldr	x1, [x8, #0xa48] ; Objc selector ref: performSelector:
+   af00c:	e2 03 13 aa	mov	x2, x19
+   af010:	dc 91 09 94	bl	0x313780 ; Objc message: -[x0 performSelector:]
+   af014:	fd 03 1d aa	mov	x29, x29
+   af018:	f2 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af01c:	60 00 00 b4	cbz	x0, 0xaf028
+   af020:	f8 03 00 aa	mov	x24, x0
+   af024:	84 00 00 14	b	0xaf234
+   af028:	c0 6a 7a f8	ldr	x0, [x22, x26]
+   af02c:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af030:	15 fd 46 f9	ldr	x21, [x8, #0xdf8] ; Objc selector ref: sceneHandle
+   af034:	e1 03 14 aa	mov	x1, x20
+   af038:	e2 03 15 aa	mov	x2, x21
+   af03c:	d1 91 09 94	bl	0x313780 ; Objc message: -[x0 sceneHandle]
+   af040:	60 05 00 34	cbz	w0, 0xaf0ec
+   af044:	c0 6a 7a f8	ldr	x0, [x22, x26]
+   af048:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af04c:	19 25 45 f9	ldr	x25, [x8, #0xa48] ; Objc selector ref: performSelector:
+   af050:	e1 03 19 aa	mov	x1, x25
+   af054:	e2 03 15 aa	mov	x2, x21
+   af058:	ca 91 09 94	bl	0x313780 ; Objc message: -[x0 performSelector:]
+   af05c:	fd 03 1d aa	mov	x29, x29
+   af060:	e0 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af064:	f7 03 00 aa	mov	x23, x0
+   af068:	e0 03 00 b4	cbz	x0, 0xaf0e4
+   af06c:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af070:	18 01 47 f9	ldr	x24, [x8, #0xe00] ; Objc selector ref: sceneIfExists
+   af074:	e0 03 17 aa	mov	x0, x23
+   af078:	e1 03 14 aa	mov	x1, x20
+   af07c:	e2 03 18 aa	mov	x2, x24
+   af080:	c0 91 09 94	bl	0x313780 ; Objc message: -[x0 sceneIfExists]
+   af084:	20 01 00 34	cbz	w0, 0xaf0a8
+   af088:	e0 03 17 aa	mov	x0, x23
+   af08c:	e1 03 19 aa	mov	x1, x25
+   af090:	e2 03 18 aa	mov	x2, x24
+   af094:	bb 91 09 94	bl	0x313780 ; Objc message: -[x0 sceneIfExists]
+   af098:	fd 03 1d aa	mov	x29, x29
+   af09c:	d1 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af0a0:	f8 03 00 aa	mov	x24, x0
+   af0a4:	c0 01 00 b5	cbnz	x0, 0xaf0dc
+   af0a8:	e0 03 17 aa	mov	x0, x23
+   af0ac:	e1 03 14 aa	mov	x1, x20
+   af0b0:	e2 03 13 aa	mov	x2, x19
+   af0b4:	b3 91 09 94	bl	0x313780 ; Objc message: -[x0 sceneIfExists]
+   af0b8:	60 01 00 34	cbz	w0, 0xaf0e4
+   af0bc:	e0 03 17 aa	mov	x0, x23
+   af0c0:	e1 03 19 aa	mov	x1, x25
+   af0c4:	e2 03 13 aa	mov	x2, x19
+   af0c8:	ae 91 09 94	bl	0x313780 ; Objc message: -[x0 sceneIfExists]
+   af0cc:	fd 03 1d aa	mov	x29, x29
+   af0d0:	c4 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af0d4:	f8 03 00 aa	mov	x24, x0
+   af0d8:	60 00 00 b4	cbz	x0, 0xaf0e4
+   af0dc:	e0 03 17 aa	mov	x0, x23
+   af0e0:	4e 00 00 14	b	0xaf218
+   af0e4:	e0 03 17 aa	mov	x0, x23
+   af0e8:	b2 91 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af0ec:	c0 6a 7a f8	ldr	x0, [x22, x26]
+   af0f0:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af0f4:	01 c9 41 f9	ldr	x1, [x8, #0x390] ; Objc selector ref: class
+   af0f8:	a2 91 09 94	bl	0x313780 ; Objc message: -[x0 class]
+   af0fc:	01 14 00 f0	adrp	x1, 643 ; 0x332000
+   af100:	21 6c 14 91	add	x1, x1, #0x51b ; literal pool for: "_deviceAppViewController"
+   af104:	09 91 09 94	bl	0x313528 ; symbol stub for: _class_getInstanceVariable
+   af108:	40 09 00 b4	cbz	x0, 0xaf230
+   af10c:	e1 03 00 aa	mov	x1, x0
+   af110:	c0 6a 7a f8	ldr	x0, [x22, x26]
+   af114:	d4 91 09 94	bl	0x313864 ; symbol stub for: _object_getIvar
+   af118:	fd 03 1d aa	mov	x29, x29
+   af11c:	b1 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af120:	f6 03 00 aa	mov	x22, x0
+   af124:	20 08 00 b4	cbz	x0, 0xaf228
+   af128:	e0 03 16 aa	mov	x0, x22
+   af12c:	e1 03 14 aa	mov	x1, x20
+   af130:	e2 03 13 aa	mov	x2, x19
+   af134:	93 91 09 94	bl	0x313780 ; Objc message: -[x0 class]
+   af138:	40 01 00 34	cbz	w0, 0xaf160
+   af13c:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af140:	01 25 45 f9	ldr	x1, [x8, #0xa48] ; Objc selector ref: performSelector:
+   af144:	e0 03 16 aa	mov	x0, x22
+   af148:	e2 03 13 aa	mov	x2, x19
+   af14c:	8d 91 09 94	bl	0x313780 ; Objc message: -[x0 performSelector:]
+   af150:	fd 03 1d aa	mov	x29, x29
+   af154:	a3 91 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   af158:	f8 03 00 aa	mov	x24, x0
+   af15c:	c0 05 00 b5	cbnz	x0, 0xaf214
+   af160:	e0 03 16 aa	mov	x0, x22
+   af164:	e1 03 14 aa	mov	x1, x20
+~~~
+
+### Original CBBridgedUIAppView::dealloc at 0xaf4d8
+
+~~~asm
+   af4d8:	ff 03 01 d1	sub	sp, sp, #0x40
+   af4dc:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+   af4e0:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+   af4e4:	fd c3 00 91	add	x29, sp, #0x30
+   af4e8:	f3 03 00 aa	mov	x19, x0
+   af4ec:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af4f0:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af4f4:	08 01 40 f9	ldr	x8, [x8]
+   af4f8:	e8 0f 00 f9	str	x8, [sp, #0x18]
+   af4fc:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af500:	01 95 47 f9	ldr	x1, [x8, #0xf28] ; Objc selector ref: dismiss
+   af504:	9f 90 09 94	bl	0x313780 ; Objc message: -[x0 dismiss]
+   af508:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af50c:	08 e1 46 f9	ldr	x8, [x8, #0xdc0] ; Objc class ref: CBBridgedUIAppView
+   af510:	f3 a3 00 a9	stp	x19, x8, [sp, #0x8]
+   af514:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af518:	01 d1 43 f9	ldr	x1, [x8, #0x7a0] ; Objc selector ref: dealloc
+   af51c:	e0 23 00 91	add	x0, sp, #0x8
+   af520:	9e 90 09 94	bl	0x313798 ; Objc message: -[[x0 super] dealloc]
+   af524:	e8 0f 40 f9	ldr	x8, [sp, #0x18]
+   af528:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af52c:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af530:	29 01 40 f9	ldr	x9, [x9]
+   af534:	3f 01 08 eb	cmp	x9, x8
+   af538:	a1 00 00 54	b.ne	0xaf54c
+   af53c:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+   af540:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+   af544:	ff 03 01 91	add	sp, sp, #0x40
+   af548:	c0 03 5f d6	ret
+   af54c:	dc 8f 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   af550:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af554:	02 b9 8f b9	ldrsw	x2, [x8, #0xfb8]
+   af558:	03 00 80 52	mov	w3, #0x0
+   af55c:	80 90 09 14	b	0x31375c ; symbol stub for: _objc_getProperty
+   af560:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af564:	03 b9 8f b9	ldrsw	x3, [x8, #0xfb8]
+   af568:	a7 90 09 14	b	0x313804 ; symbol stub for: _objc_setProperty_nonatomic_copy
+   af56c:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af570:	08 d1 8f b9	ldrsw	x8, [x8, #0xfd0]
+   af574:	00 68 68 f8	ldr	x0, [x0, x8]
+   af578:	c0 03 5f d6	ret
+   af57c:	e1 03 02 aa	mov	x1, x2
+   af580:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af584:	08 d1 8f b9	ldrsw	x8, [x8, #0xfd0]
+   af588:	00 00 08 8b	add	x0, x0, x8
+   af58c:	a1 90 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   af590:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af594:	08 cd 8f b9	ldrsw	x8, [x8, #0xfcc]
+   af598:	00 68 68 f8	ldr	x0, [x0, x8]
+   af59c:	c0 03 5f d6	ret
+   af5a0:	e1 03 02 aa	mov	x1, x2
+   af5a4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5a8:	08 cd 8f b9	ldrsw	x8, [x8, #0xfcc]
+   af5ac:	00 00 08 8b	add	x0, x0, x8
+   af5b0:	98 90 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   af5b4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5b8:	08 bd 8f b9	ldrsw	x8, [x8, #0xfbc]
+   af5bc:	00 68 68 fc	ldr	d0, [x0, x8]
+   af5c0:	c0 03 5f d6	ret
+   af5c4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5c8:	08 c1 8f b9	ldrsw	x8, [x8, #0xfc0]
+   af5cc:	00 68 68 38	ldrb	w0, [x0, x8]
+   af5d0:	c0 03 5f d6	ret
+   af5d4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5d8:	08 c1 8f b9	ldrsw	x8, [x8, #0xfc0]
+   af5dc:	02 68 28 38	strb	w2, [x0, x8]
+   af5e0:	c0 03 5f d6	ret
+   af5e4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5e8:	08 c5 8f b9	ldrsw	x8, [x8, #0xfc4]
+   af5ec:	00 68 68 38	ldrb	w0, [x0, x8]
+   af5f0:	c0 03 5f d6	ret
+   af5f4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5f8:	08 c5 8f b9	ldrsw	x8, [x8, #0xfc4]
+   af5fc:	02 68 28 38	strb	w2, [x0, x8]
+   af600:	c0 03 5f d6	ret
+   af604:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af608:	08 c9 8f b9	ldrsw	x8, [x8, #0xfc8]
+   af60c:	00 68 68 38	ldrb	w0, [x0, x8]
+   af610:	c0 03 5f d6	ret
+   af614:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   af618:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   af61c:	fd 43 00 91	add	x29, sp, #0x10
+   af620:	f3 03 00 aa	mov	x19, x0
+   af624:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af628:	08 cd 8f b9	ldrsw	x8, [x8, #0xfcc]
+   af62c:	00 00 08 8b	add	x0, x0, x8
+   af630:	01 00 80 d2	mov	x1, #0x0
+   af634:	77 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af638:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af63c:	08 d1 8f b9	ldrsw	x8, [x8, #0xfd0]
+   af640:	60 02 08 8b	add	x0, x19, x8
+   af644:	01 00 80 d2	mov	x1, #0x0
+   af648:	72 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af64c:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af650:	08 b9 8f b9	ldrsw	x8, [x8, #0xfb8]
+   af654:	60 02 08 8b	add	x0, x19, x8
+   af658:	01 00 80 d2	mov	x1, #0x0
+   af65c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+   af660:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+   af664:	6b 90 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   af668:	ff 03 05 d1	sub	sp, sp, #0x140
+   af66c:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af670:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af674:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af678:	fd c3 04 91	add	x29, sp, #0x130
+   af67c:	09 00 80 d2	mov	x9, #0x0
+   af680:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af684:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af688:	08 01 40 f9	ldr	x8, [x8]
+   af68c:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af690:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af694:	08 81 20 91	add	x8, x8, #0x820
+   af698:	8a 0d 80 52	mov	w10, #0x6c
+   af69c:	4a 5d 00 11	add	w10, w10, #0x17
+   af6a0:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af6a4:	ab 99 99 f2	movk	x11, #0xcccd
+   af6a8:	6c 05 80 52	mov	w12, #0x2b
+   af6ac:	4d 0b 80 12	mov	w13, #-0x5b
+   af6b0:	4e 15 80 52	mov	w14, #0xaa
+   af6b4:	ef 03 00 91	mov	x15, sp
+   af6b8:	30 7d cb 9b	umulh	x16, x9, x11
+   af6bc:	10 fe 42 d3	lsr	x16, x16, #2
+   af6c0:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af6c4:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af6c8:	00 69 69 38	ldrb	w0, [x8, x9]
+   af6cc:	21 01 0d 4a	eor	w1, w9, w13
+   af6d0:	22 00 00 2a	orr	w2, w1, w0
+   af6d4:	42 78 1f 53	lsl	w2, w2, #1
+   af6d8:	20 00 00 0b	add	w0, w1, w0
+   af6dc:	40 00 00 4b	sub	w0, w2, w0
+   af6e0:	30 01 10 4b	sub	w16, w9, w16
+   af6e4:	01 06 00 11	add	w1, w16, #0x1
+   af6e8:	00 1c 00 12	and	w0, w0, #0xff
+   af6ec:	01 24 c1 1a	lsr	w1, w0, w1
+   af6f0:	10 0a 00 52	eor	w16, w16, #0x7
+   af6f4:	10 20 d0 1a	lsl	w16, w0, w16
+   af6f8:	30 00 10 2a	orr	w16, w1, w16
+   af6fc:	20 02 10 2a	orr	w0, w17, w16
+   af700:	00 78 1f 53	lsl	w0, w0, #1
+   af704:	30 02 10 0b	add	w16, w17, w16
+   af708:	10 00 10 4b	sub	w16, w0, w16
+   af70c:	10 76 01 51	sub	w16, w16, #0x5d
+   af710:	31 05 00 91	add	x17, x9, #0x1
+   af714:	20 7e 09 1b	mul	w0, w17, w9
+   af718:	01 02 0e 4a	eor	w1, w16, w14
+   af71c:	1f 00 00 72	tst	w0, #0x1
+   af720:	10 02 81 1a	csel	w16, w16, w1, eq
+   af724:	f0 69 29 38	strb	w16, [x15, x9]
+   af728:	e9 03 11 aa	mov	x9, x17
+   af72c:	3f 5e 00 f1	cmp	x17, #0x17
+   af730:	41 fc ff 54	b.ne	0xaf6b8
+   af734:	ff 5f 00 39	strb	wzr, [sp, #0x17]
+   af738:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af73c:	00 cd 44 f9	ldr	x0, [x8, #0x998] ; Objc class ref: _OBJC_CLASS_$_NSString
+   af740:	da 8f 09 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+   af744:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af748:	01 45 41 f9	ldr	x1, [x8, #0x288] ; Objc selector ref: initWithBytes:length:encoding:
+   af74c:	e2 03 00 91	mov	x2, sp
+   af750:	e3 02 80 52	mov	w3, #0x17
+   af754:	84 00 80 52	mov	w4, #0x4
+   af758:	0a 90 09 94	bl	0x313780 ; Objc message: +[NSString initWithBytes:length:encoding:]
+   af75c:	f3 03 00 aa	mov	x19, x0
+   af760:	00 e4 00 4f	movi.16b	v0, #0x0
+   af764:	e0 03 00 ad	stp	q0, q0, [sp]
+   af768:	e0 03 01 ad	stp	q0, q0, [sp, #0x20]
+   af76c:	e0 03 02 ad	stp	q0, q0, [sp, #0x40]
+   af770:	e0 03 03 ad	stp	q0, q0, [sp, #0x60]
+   af774:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   af778:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   af77c:	e0 03 06 ad	stp	q0, q0, [sp, #0xc0]
+   af780:	08 16 00 f0	adrp	x8, 707 ; 0x372000
+   af784:	08 81 2f 91	add	x8, x8, #0xbe0 ; Objc cfstring ref: @""
+   af788:	1f 00 00 f1	cmp	x0, #0x0
+   af78c:	00 01 80 9a	csel	x0, x8, x0, eq
+   af790:	e0 03 07 ad	stp	q0, q0, [sp, #0xe0]
+   af794:	0a 90 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   af798:	f4 03 00 aa	mov	x20, x0
+   af79c:	e0 03 13 aa	mov	x0, x19
+   af7a0:	04 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7a4:	e8 17 00 b0	adrp	x8, 765 ; 0x3ac000
+   af7a8:	00 fd 47 f9	ldr	x0, [x8, #0xff8]
+   af7ac:	14 fd 07 f9	str	x20, [x8, #0xff8]
+   af7b0:	00 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7b4:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   af7b8:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af7bc:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af7c0:	29 01 40 f9	ldr	x9, [x9]
+   af7c4:	3f 01 08 eb	cmp	x9, x8
+   af7c8:	c1 00 00 54	b.ne	0xaf7e0
+   af7cc:	fd 7b 53 a9	ldp	x29, x30, [sp, #0x130]
+   af7d0:	f4 4f 52 a9	ldp	x20, x19, [sp, #0x120]
+   af7d4:	fc 6f 51 a9	ldp	x28, x27, [sp, #0x110]
+   af7d8:	ff 03 05 91	add	sp, sp, #0x140
+   af7dc:	c0 03 5f d6	ret
+   af7e0:	37 8f 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   af7e4:	ff 03 05 d1	sub	sp, sp, #0x140
+   af7e8:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af7ec:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af7f0:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af7f4:	fd c3 04 91	add	x29, sp, #0x130
+   af7f8:	09 00 80 d2	mov	x9, #0x0
+   af7fc:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af800:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af804:	08 01 40 f9	ldr	x8, [x8]
+   af808:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af80c:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af810:	08 dd 20 91	add	x8, x8, #0x837
+   af814:	8a 0d 80 52	mov	w10, #0x6c
+   af818:	4a 5d 00 11	add	w10, w10, #0x17
+   af81c:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af820:	ab 99 99 f2	movk	x11, #0xcccd
+   af824:	6c 05 80 52	mov	w12, #0x2b
+   af828:	4d 0b 80 12	mov	w13, #-0x5b
+   af82c:	4e 15 80 52	mov	w14, #0xaa
+   af830:	ef 03 00 91	mov	x15, sp
+   af834:	30 7d cb 9b	umulh	x16, x9, x11
+   af838:	10 fe 42 d3	lsr	x16, x16, #2
+   af83c:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af840:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af844:	00 69 69 38	ldrb	w0, [x8, x9]
+~~~
+
+### Original CBBridgedUIAppView::invalidated at 0xaf5e4
+
+~~~asm
+   af5e4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5e8:	08 c5 8f b9	ldrsw	x8, [x8, #0xfc4]
+   af5ec:	00 68 68 38	ldrb	w0, [x0, x8]
+   af5f0:	c0 03 5f d6	ret
+   af5f4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5f8:	08 c5 8f b9	ldrsw	x8, [x8, #0xfc4]
+   af5fc:	02 68 28 38	strb	w2, [x0, x8]
+   af600:	c0 03 5f d6	ret
+   af604:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af608:	08 c9 8f b9	ldrsw	x8, [x8, #0xfc8]
+   af60c:	00 68 68 38	ldrb	w0, [x0, x8]
+   af610:	c0 03 5f d6	ret
+   af614:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   af618:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   af61c:	fd 43 00 91	add	x29, sp, #0x10
+   af620:	f3 03 00 aa	mov	x19, x0
+   af624:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af628:	08 cd 8f b9	ldrsw	x8, [x8, #0xfcc]
+   af62c:	00 00 08 8b	add	x0, x0, x8
+   af630:	01 00 80 d2	mov	x1, #0x0
+   af634:	77 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af638:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af63c:	08 d1 8f b9	ldrsw	x8, [x8, #0xfd0]
+   af640:	60 02 08 8b	add	x0, x19, x8
+   af644:	01 00 80 d2	mov	x1, #0x0
+   af648:	72 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af64c:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af650:	08 b9 8f b9	ldrsw	x8, [x8, #0xfb8]
+   af654:	60 02 08 8b	add	x0, x19, x8
+   af658:	01 00 80 d2	mov	x1, #0x0
+   af65c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+   af660:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+   af664:	6b 90 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   af668:	ff 03 05 d1	sub	sp, sp, #0x140
+   af66c:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af670:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af674:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af678:	fd c3 04 91	add	x29, sp, #0x130
+   af67c:	09 00 80 d2	mov	x9, #0x0
+   af680:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af684:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af688:	08 01 40 f9	ldr	x8, [x8]
+   af68c:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af690:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af694:	08 81 20 91	add	x8, x8, #0x820
+   af698:	8a 0d 80 52	mov	w10, #0x6c
+   af69c:	4a 5d 00 11	add	w10, w10, #0x17
+   af6a0:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af6a4:	ab 99 99 f2	movk	x11, #0xcccd
+   af6a8:	6c 05 80 52	mov	w12, #0x2b
+   af6ac:	4d 0b 80 12	mov	w13, #-0x5b
+   af6b0:	4e 15 80 52	mov	w14, #0xaa
+   af6b4:	ef 03 00 91	mov	x15, sp
+   af6b8:	30 7d cb 9b	umulh	x16, x9, x11
+   af6bc:	10 fe 42 d3	lsr	x16, x16, #2
+   af6c0:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af6c4:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af6c8:	00 69 69 38	ldrb	w0, [x8, x9]
+   af6cc:	21 01 0d 4a	eor	w1, w9, w13
+   af6d0:	22 00 00 2a	orr	w2, w1, w0
+   af6d4:	42 78 1f 53	lsl	w2, w2, #1
+   af6d8:	20 00 00 0b	add	w0, w1, w0
+   af6dc:	40 00 00 4b	sub	w0, w2, w0
+   af6e0:	30 01 10 4b	sub	w16, w9, w16
+   af6e4:	01 06 00 11	add	w1, w16, #0x1
+   af6e8:	00 1c 00 12	and	w0, w0, #0xff
+   af6ec:	01 24 c1 1a	lsr	w1, w0, w1
+   af6f0:	10 0a 00 52	eor	w16, w16, #0x7
+   af6f4:	10 20 d0 1a	lsl	w16, w0, w16
+   af6f8:	30 00 10 2a	orr	w16, w1, w16
+   af6fc:	20 02 10 2a	orr	w0, w17, w16
+   af700:	00 78 1f 53	lsl	w0, w0, #1
+   af704:	30 02 10 0b	add	w16, w17, w16
+   af708:	10 00 10 4b	sub	w16, w0, w16
+   af70c:	10 76 01 51	sub	w16, w16, #0x5d
+   af710:	31 05 00 91	add	x17, x9, #0x1
+   af714:	20 7e 09 1b	mul	w0, w17, w9
+   af718:	01 02 0e 4a	eor	w1, w16, w14
+   af71c:	1f 00 00 72	tst	w0, #0x1
+   af720:	10 02 81 1a	csel	w16, w16, w1, eq
+   af724:	f0 69 29 38	strb	w16, [x15, x9]
+   af728:	e9 03 11 aa	mov	x9, x17
+   af72c:	3f 5e 00 f1	cmp	x17, #0x17
+   af730:	41 fc ff 54	b.ne	0xaf6b8
+   af734:	ff 5f 00 39	strb	wzr, [sp, #0x17]
+   af738:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af73c:	00 cd 44 f9	ldr	x0, [x8, #0x998] ; Objc class ref: _OBJC_CLASS_$_NSString
+   af740:	da 8f 09 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+   af744:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af748:	01 45 41 f9	ldr	x1, [x8, #0x288] ; Objc selector ref: initWithBytes:length:encoding:
+   af74c:	e2 03 00 91	mov	x2, sp
+   af750:	e3 02 80 52	mov	w3, #0x17
+   af754:	84 00 80 52	mov	w4, #0x4
+   af758:	0a 90 09 94	bl	0x313780 ; Objc message: +[NSString initWithBytes:length:encoding:]
+   af75c:	f3 03 00 aa	mov	x19, x0
+   af760:	00 e4 00 4f	movi.16b	v0, #0x0
+   af764:	e0 03 00 ad	stp	q0, q0, [sp]
+   af768:	e0 03 01 ad	stp	q0, q0, [sp, #0x20]
+   af76c:	e0 03 02 ad	stp	q0, q0, [sp, #0x40]
+   af770:	e0 03 03 ad	stp	q0, q0, [sp, #0x60]
+   af774:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   af778:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   af77c:	e0 03 06 ad	stp	q0, q0, [sp, #0xc0]
+   af780:	08 16 00 f0	adrp	x8, 707 ; 0x372000
+   af784:	08 81 2f 91	add	x8, x8, #0xbe0 ; Objc cfstring ref: @""
+   af788:	1f 00 00 f1	cmp	x0, #0x0
+   af78c:	00 01 80 9a	csel	x0, x8, x0, eq
+   af790:	e0 03 07 ad	stp	q0, q0, [sp, #0xe0]
+   af794:	0a 90 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   af798:	f4 03 00 aa	mov	x20, x0
+   af79c:	e0 03 13 aa	mov	x0, x19
+   af7a0:	04 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7a4:	e8 17 00 b0	adrp	x8, 765 ; 0x3ac000
+   af7a8:	00 fd 47 f9	ldr	x0, [x8, #0xff8]
+   af7ac:	14 fd 07 f9	str	x20, [x8, #0xff8]
+   af7b0:	00 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7b4:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   af7b8:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af7bc:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af7c0:	29 01 40 f9	ldr	x9, [x9]
+   af7c4:	3f 01 08 eb	cmp	x9, x8
+   af7c8:	c1 00 00 54	b.ne	0xaf7e0
+   af7cc:	fd 7b 53 a9	ldp	x29, x30, [sp, #0x130]
+   af7d0:	f4 4f 52 a9	ldp	x20, x19, [sp, #0x120]
+   af7d4:	fc 6f 51 a9	ldp	x28, x27, [sp, #0x110]
+   af7d8:	ff 03 05 91	add	sp, sp, #0x140
+   af7dc:	c0 03 5f d6	ret
+   af7e0:	37 8f 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   af7e4:	ff 03 05 d1	sub	sp, sp, #0x140
+   af7e8:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af7ec:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af7f0:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af7f4:	fd c3 04 91	add	x29, sp, #0x130
+   af7f8:	09 00 80 d2	mov	x9, #0x0
+   af7fc:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af800:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af804:	08 01 40 f9	ldr	x8, [x8]
+   af808:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af80c:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af810:	08 dd 20 91	add	x8, x8, #0x837
+   af814:	8a 0d 80 52	mov	w10, #0x6c
+   af818:	4a 5d 00 11	add	w10, w10, #0x17
+   af81c:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af820:	ab 99 99 f2	movk	x11, #0xcccd
+   af824:	6c 05 80 52	mov	w12, #0x2b
+   af828:	4d 0b 80 12	mov	w13, #-0x5b
+   af82c:	4e 15 80 52	mov	w14, #0xaa
+   af830:	ef 03 00 91	mov	x15, sp
+   af834:	30 7d cb 9b	umulh	x16, x9, x11
+   af838:	10 fe 42 d3	lsr	x16, x16, #2
+   af83c:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af840:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af844:	00 69 69 38	ldrb	w0, [x8, x9]
+   af848:	21 01 0d 4a	eor	w1, w9, w13
+   af84c:	22 00 00 2a	orr	w2, w1, w0
+   af850:	42 78 1f 53	lsl	w2, w2, #1
+   af854:	20 00 00 0b	add	w0, w1, w0
+   af858:	40 00 00 4b	sub	w0, w2, w0
+   af85c:	30 01 10 4b	sub	w16, w9, w16
+   af860:	01 06 00 11	add	w1, w16, #0x1
+   af864:	00 1c 00 12	and	w0, w0, #0xff
+   af868:	01 24 c1 1a	lsr	w1, w0, w1
+   af86c:	10 0a 00 52	eor	w16, w16, #0x7
+   af870:	10 20 d0 1a	lsl	w16, w0, w16
+   af874:	30 00 10 2a	orr	w16, w1, w16
+   af878:	20 02 10 2a	orr	w0, w17, w16
+   af87c:	00 78 1f 53	lsl	w0, w0, #1
+   af880:	30 02 10 0b	add	w16, w17, w16
+   af884:	10 00 10 4b	sub	w16, w0, w16
+   af888:	10 76 01 51	sub	w16, w16, #0x5d
+   af88c:	31 05 00 91	add	x17, x9, #0x1
+   af890:	20 7e 09 1b	mul	w0, w17, w9
+   af894:	01 02 0e 4a	eor	w1, w16, w14
+   af898:	1f 00 00 72	tst	w0, #0x1
+   af89c:	10 02 81 1a	csel	w16, w16, w1, eq
+   af8a0:	f0 69 29 38	strb	w16, [x15, x9]
+   af8a4:	e9 03 11 aa	mov	x9, x17
+   af8a8:	3f 9a 00 f1	cmp	x17, #0x26
+   af8ac:	41 fc ff 54	b.ne	0xaf834
+   af8b0:	ff 9b 00 39	strb	wzr, [sp, #0x26]
+   af8b4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af8b8:	00 cd 44 f9	ldr	x0, [x8, #0x998] ; Objc class ref: _OBJC_CLASS_$_NSString
+   af8bc:	7b 8f 09 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+   af8c0:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af8c4:	01 45 41 f9	ldr	x1, [x8, #0x288] ; Objc selector ref: initWithBytes:length:encoding:
+   af8c8:	e2 03 00 91	mov	x2, sp
+   af8cc:	c3 04 80 52	mov	w3, #0x26
+   af8d0:	84 00 80 52	mov	w4, #0x4
+   af8d4:	ab 8f 09 94	bl	0x313780 ; Objc message: +[NSString initWithBytes:length:encoding:]
+   af8d8:	f3 03 00 aa	mov	x19, x0
+   af8dc:	00 e4 00 4f	movi.16b	v0, #0x0
+   af8e0:	e0 03 00 ad	stp	q0, q0, [sp]
+   af8e4:	e0 03 01 ad	stp	q0, q0, [sp, #0x20]
+   af8e8:	e0 03 02 ad	stp	q0, q0, [sp, #0x40]
+   af8ec:	e0 03 03 ad	stp	q0, q0, [sp, #0x60]
+   af8f0:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   af8f4:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   af8f8:	e0 03 06 ad	stp	q0, q0, [sp, #0xc0]
+   af8fc:	08 16 00 f0	adrp	x8, 707 ; 0x372000
+   af900:	08 81 2f 91	add	x8, x8, #0xbe0 ; Objc cfstring ref: @""
+   af904:	1f 00 00 f1	cmp	x0, #0x0
+   af908:	00 01 80 9a	csel	x0, x8, x0, eq
+   af90c:	e0 03 07 ad	stp	q0, q0, [sp, #0xe0]
+   af910:	ab 8f 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   af914:	f4 03 00 aa	mov	x20, x0
+   af918:	e0 03 13 aa	mov	x0, x19
+   af91c:	a5 8f 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af920:	e8 17 00 d0	adrp	x8, 766 ; 0x3ad000
+   af924:	00 05 40 f9	ldr	x0, [x8, #0x8]
+   af928:	14 05 00 f9	str	x20, [x8, #0x8]
+   af92c:	a1 8f 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af930:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   af934:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af938:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af93c:	29 01 40 f9	ldr	x9, [x9]
+   af940:	3f 01 08 eb	cmp	x9, x8
+   af944:	c1 00 00 54	b.ne	0xaf95c
+   af948:	fd 7b 53 a9	ldp	x29, x30, [sp, #0x130]
+   af94c:	f4 4f 52 a9	ldp	x20, x19, [sp, #0x120]
+   af950:	fc 6f 51 a9	ldp	x28, x27, [sp, #0x110]
+~~~
+
+### Original CBBridgedUIAppView::setInvalidated: at 0xaf5f4
+
+~~~asm
+   af5f4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af5f8:	08 c5 8f b9	ldrsw	x8, [x8, #0xfc4]
+   af5fc:	02 68 28 38	strb	w2, [x0, x8]
+   af600:	c0 03 5f d6	ret
+   af604:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af608:	08 c9 8f b9	ldrsw	x8, [x8, #0xfc8]
+   af60c:	00 68 68 38	ldrb	w0, [x0, x8]
+   af610:	c0 03 5f d6	ret
+   af614:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   af618:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   af61c:	fd 43 00 91	add	x29, sp, #0x10
+   af620:	f3 03 00 aa	mov	x19, x0
+   af624:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af628:	08 cd 8f b9	ldrsw	x8, [x8, #0xfcc]
+   af62c:	00 00 08 8b	add	x0, x0, x8
+   af630:	01 00 80 d2	mov	x1, #0x0
+   af634:	77 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af638:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af63c:	08 d1 8f b9	ldrsw	x8, [x8, #0xfd0]
+   af640:	60 02 08 8b	add	x0, x19, x8
+   af644:	01 00 80 d2	mov	x1, #0x0
+   af648:	72 90 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   af64c:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af650:	08 b9 8f b9	ldrsw	x8, [x8, #0xfb8]
+   af654:	60 02 08 8b	add	x0, x19, x8
+   af658:	01 00 80 d2	mov	x1, #0x0
+   af65c:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+   af660:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+   af664:	6b 90 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   af668:	ff 03 05 d1	sub	sp, sp, #0x140
+   af66c:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af670:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af674:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af678:	fd c3 04 91	add	x29, sp, #0x130
+   af67c:	09 00 80 d2	mov	x9, #0x0
+   af680:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af684:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af688:	08 01 40 f9	ldr	x8, [x8]
+   af68c:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af690:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af694:	08 81 20 91	add	x8, x8, #0x820
+   af698:	8a 0d 80 52	mov	w10, #0x6c
+   af69c:	4a 5d 00 11	add	w10, w10, #0x17
+   af6a0:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af6a4:	ab 99 99 f2	movk	x11, #0xcccd
+   af6a8:	6c 05 80 52	mov	w12, #0x2b
+   af6ac:	4d 0b 80 12	mov	w13, #-0x5b
+   af6b0:	4e 15 80 52	mov	w14, #0xaa
+   af6b4:	ef 03 00 91	mov	x15, sp
+   af6b8:	30 7d cb 9b	umulh	x16, x9, x11
+   af6bc:	10 fe 42 d3	lsr	x16, x16, #2
+   af6c0:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af6c4:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af6c8:	00 69 69 38	ldrb	w0, [x8, x9]
+   af6cc:	21 01 0d 4a	eor	w1, w9, w13
+   af6d0:	22 00 00 2a	orr	w2, w1, w0
+   af6d4:	42 78 1f 53	lsl	w2, w2, #1
+   af6d8:	20 00 00 0b	add	w0, w1, w0
+   af6dc:	40 00 00 4b	sub	w0, w2, w0
+   af6e0:	30 01 10 4b	sub	w16, w9, w16
+   af6e4:	01 06 00 11	add	w1, w16, #0x1
+   af6e8:	00 1c 00 12	and	w0, w0, #0xff
+   af6ec:	01 24 c1 1a	lsr	w1, w0, w1
+   af6f0:	10 0a 00 52	eor	w16, w16, #0x7
+   af6f4:	10 20 d0 1a	lsl	w16, w0, w16
+   af6f8:	30 00 10 2a	orr	w16, w1, w16
+   af6fc:	20 02 10 2a	orr	w0, w17, w16
+   af700:	00 78 1f 53	lsl	w0, w0, #1
+   af704:	30 02 10 0b	add	w16, w17, w16
+   af708:	10 00 10 4b	sub	w16, w0, w16
+   af70c:	10 76 01 51	sub	w16, w16, #0x5d
+   af710:	31 05 00 91	add	x17, x9, #0x1
+   af714:	20 7e 09 1b	mul	w0, w17, w9
+   af718:	01 02 0e 4a	eor	w1, w16, w14
+   af71c:	1f 00 00 72	tst	w0, #0x1
+   af720:	10 02 81 1a	csel	w16, w16, w1, eq
+   af724:	f0 69 29 38	strb	w16, [x15, x9]
+   af728:	e9 03 11 aa	mov	x9, x17
+   af72c:	3f 5e 00 f1	cmp	x17, #0x17
+   af730:	41 fc ff 54	b.ne	0xaf6b8
+   af734:	ff 5f 00 39	strb	wzr, [sp, #0x17]
+   af738:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af73c:	00 cd 44 f9	ldr	x0, [x8, #0x998] ; Objc class ref: _OBJC_CLASS_$_NSString
+   af740:	da 8f 09 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+   af744:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af748:	01 45 41 f9	ldr	x1, [x8, #0x288] ; Objc selector ref: initWithBytes:length:encoding:
+   af74c:	e2 03 00 91	mov	x2, sp
+   af750:	e3 02 80 52	mov	w3, #0x17
+   af754:	84 00 80 52	mov	w4, #0x4
+   af758:	0a 90 09 94	bl	0x313780 ; Objc message: +[NSString initWithBytes:length:encoding:]
+   af75c:	f3 03 00 aa	mov	x19, x0
+   af760:	00 e4 00 4f	movi.16b	v0, #0x0
+   af764:	e0 03 00 ad	stp	q0, q0, [sp]
+   af768:	e0 03 01 ad	stp	q0, q0, [sp, #0x20]
+   af76c:	e0 03 02 ad	stp	q0, q0, [sp, #0x40]
+   af770:	e0 03 03 ad	stp	q0, q0, [sp, #0x60]
+   af774:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   af778:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   af77c:	e0 03 06 ad	stp	q0, q0, [sp, #0xc0]
+   af780:	08 16 00 f0	adrp	x8, 707 ; 0x372000
+   af784:	08 81 2f 91	add	x8, x8, #0xbe0 ; Objc cfstring ref: @""
+   af788:	1f 00 00 f1	cmp	x0, #0x0
+   af78c:	00 01 80 9a	csel	x0, x8, x0, eq
+   af790:	e0 03 07 ad	stp	q0, q0, [sp, #0xe0]
+   af794:	0a 90 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   af798:	f4 03 00 aa	mov	x20, x0
+   af79c:	e0 03 13 aa	mov	x0, x19
+   af7a0:	04 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7a4:	e8 17 00 b0	adrp	x8, 765 ; 0x3ac000
+   af7a8:	00 fd 47 f9	ldr	x0, [x8, #0xff8]
+   af7ac:	14 fd 07 f9	str	x20, [x8, #0xff8]
+   af7b0:	00 90 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af7b4:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   af7b8:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af7bc:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af7c0:	29 01 40 f9	ldr	x9, [x9]
+   af7c4:	3f 01 08 eb	cmp	x9, x8
+   af7c8:	c1 00 00 54	b.ne	0xaf7e0
+   af7cc:	fd 7b 53 a9	ldp	x29, x30, [sp, #0x130]
+   af7d0:	f4 4f 52 a9	ldp	x20, x19, [sp, #0x120]
+   af7d4:	fc 6f 51 a9	ldp	x28, x27, [sp, #0x110]
+   af7d8:	ff 03 05 91	add	sp, sp, #0x140
+   af7dc:	c0 03 5f d6	ret
+   af7e0:	37 8f 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   af7e4:	ff 03 05 d1	sub	sp, sp, #0x140
+   af7e8:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+   af7ec:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+   af7f0:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+   af7f4:	fd c3 04 91	add	x29, sp, #0x130
+   af7f8:	09 00 80 d2	mov	x9, #0x0
+   af7fc:	08 16 00 b0	adrp	x8, 705 ; 0x370000
+   af800:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af804:	08 01 40 f9	ldr	x8, [x8]
+   af808:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   af80c:	68 14 00 f0	adrp	x8, 655 ; 0x33e000
+   af810:	08 dd 20 91	add	x8, x8, #0x837
+   af814:	8a 0d 80 52	mov	w10, #0x6c
+   af818:	4a 5d 00 11	add	w10, w10, #0x17
+   af81c:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+   af820:	ab 99 99 f2	movk	x11, #0xcccd
+   af824:	6c 05 80 52	mov	w12, #0x2b
+   af828:	4d 0b 80 12	mov	w13, #-0x5b
+   af82c:	4e 15 80 52	mov	w14, #0xaa
+   af830:	ef 03 00 91	mov	x15, sp
+   af834:	30 7d cb 9b	umulh	x16, x9, x11
+   af838:	10 fe 42 d3	lsr	x16, x16, #2
+   af83c:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+   af840:	31 29 0c 1b	madd	w17, w9, w12, w10
+   af844:	00 69 69 38	ldrb	w0, [x8, x9]
+   af848:	21 01 0d 4a	eor	w1, w9, w13
+   af84c:	22 00 00 2a	orr	w2, w1, w0
+   af850:	42 78 1f 53	lsl	w2, w2, #1
+   af854:	20 00 00 0b	add	w0, w1, w0
+   af858:	40 00 00 4b	sub	w0, w2, w0
+   af85c:	30 01 10 4b	sub	w16, w9, w16
+   af860:	01 06 00 11	add	w1, w16, #0x1
+   af864:	00 1c 00 12	and	w0, w0, #0xff
+   af868:	01 24 c1 1a	lsr	w1, w0, w1
+   af86c:	10 0a 00 52	eor	w16, w16, #0x7
+   af870:	10 20 d0 1a	lsl	w16, w0, w16
+   af874:	30 00 10 2a	orr	w16, w1, w16
+   af878:	20 02 10 2a	orr	w0, w17, w16
+   af87c:	00 78 1f 53	lsl	w0, w0, #1
+   af880:	30 02 10 0b	add	w16, w17, w16
+   af884:	10 00 10 4b	sub	w16, w0, w16
+   af888:	10 76 01 51	sub	w16, w16, #0x5d
+   af88c:	31 05 00 91	add	x17, x9, #0x1
+   af890:	20 7e 09 1b	mul	w0, w17, w9
+   af894:	01 02 0e 4a	eor	w1, w16, w14
+   af898:	1f 00 00 72	tst	w0, #0x1
+   af89c:	10 02 81 1a	csel	w16, w16, w1, eq
+   af8a0:	f0 69 29 38	strb	w16, [x15, x9]
+   af8a4:	e9 03 11 aa	mov	x9, x17
+   af8a8:	3f 9a 00 f1	cmp	x17, #0x26
+   af8ac:	41 fc ff 54	b.ne	0xaf834
+   af8b0:	ff 9b 00 39	strb	wzr, [sp, #0x26]
+   af8b4:	c8 17 00 f0	adrp	x8, 763 ; 0x3aa000
+   af8b8:	00 cd 44 f9	ldr	x0, [x8, #0x998] ; Objc class ref: _OBJC_CLASS_$_NSString
+   af8bc:	7b 8f 09 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+   af8c0:	c8 17 00 b0	adrp	x8, 761 ; 0x3a8000
+   af8c4:	01 45 41 f9	ldr	x1, [x8, #0x288] ; Objc selector ref: initWithBytes:length:encoding:
+   af8c8:	e2 03 00 91	mov	x2, sp
+   af8cc:	c3 04 80 52	mov	w3, #0x26
+   af8d0:	84 00 80 52	mov	w4, #0x4
+   af8d4:	ab 8f 09 94	bl	0x313780 ; Objc message: +[NSString initWithBytes:length:encoding:]
+   af8d8:	f3 03 00 aa	mov	x19, x0
+   af8dc:	00 e4 00 4f	movi.16b	v0, #0x0
+   af8e0:	e0 03 00 ad	stp	q0, q0, [sp]
+   af8e4:	e0 03 01 ad	stp	q0, q0, [sp, #0x20]
+   af8e8:	e0 03 02 ad	stp	q0, q0, [sp, #0x40]
+   af8ec:	e0 03 03 ad	stp	q0, q0, [sp, #0x60]
+   af8f0:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   af8f4:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   af8f8:	e0 03 06 ad	stp	q0, q0, [sp, #0xc0]
+   af8fc:	08 16 00 f0	adrp	x8, 707 ; 0x372000
+   af900:	08 81 2f 91	add	x8, x8, #0xbe0 ; Objc cfstring ref: @""
+   af904:	1f 00 00 f1	cmp	x0, #0x0
+   af908:	00 01 80 9a	csel	x0, x8, x0, eq
+   af90c:	e0 03 07 ad	stp	q0, q0, [sp, #0xe0]
+   af910:	ab 8f 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   af914:	f4 03 00 aa	mov	x20, x0
+   af918:	e0 03 13 aa	mov	x0, x19
+   af91c:	a5 8f 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af920:	e8 17 00 d0	adrp	x8, 766 ; 0x3ad000
+   af924:	00 05 40 f9	ldr	x0, [x8, #0x8]
+   af928:	14 05 00 f9	str	x20, [x8, #0x8]
+   af92c:	a1 8f 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   af930:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   af934:	09 16 00 b0	adrp	x9, 705 ; 0x370000
+   af938:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   af93c:	29 01 40 f9	ldr	x9, [x9]
+   af940:	3f 01 08 eb	cmp	x9, x8
+   af944:	c1 00 00 54	b.ne	0xaf95c
+   af948:	fd 7b 53 a9	ldp	x29, x30, [sp, #0x130]
+   af94c:	f4 4f 52 a9	ldp	x20, x19, [sp, #0x120]
+   af950:	fc 6f 51 a9	ldp	x28, x27, [sp, #0x110]
+   af954:	ff 03 05 91	add	sp, sp, #0x140
+   af958:	c0 03 5f d6	ret
+   af95c:	d8 8e 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   af960:	ff 83 01 d1	sub	sp, sp, #0x60
+~~~
+
+### Original CBWindow::hide: at 0xb29b0
+
+~~~asm
+   b29b0:	ff 43 02 d1	sub	sp, sp, #0x90
+   b29b4:	f6 57 06 a9	stp	x22, x21, [sp, #0x60]
+   b29b8:	f4 4f 07 a9	stp	x20, x19, [sp, #0x70]
+   b29bc:	fd 7b 08 a9	stp	x29, x30, [sp, #0x80]
+   b29c0:	fd 03 02 91	add	x29, sp, #0x80
+   b29c4:	f3 03 00 aa	mov	x19, x0
+   b29c8:	e8 15 00 d0	adrp	x8, 702 ; 0x370000
+   b29cc:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b29d0:	08 01 40 f9	ldr	x8, [x8]
+   b29d4:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+   b29d8:	e0 03 02 aa	mov	x0, x2
+   b29dc:	78 83 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b29e0:	f4 03 00 aa	mov	x20, x0
+   b29e4:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b29e8:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b29ec:	01 e1 43 f9	ldr	x1, [x8, #0x7c0] ; Objc selector ref: layer
+   b29f0:	64 83 09 94	bl	0x313780 ; Objc message: -[x0 layer]
+   b29f4:	fd 03 1d aa	mov	x29, x29
+   b29f8:	7a 83 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b29fc:	f5 03 00 aa	mov	x21, x0
+   b2a00:	a8 17 00 f0	adrp	x8, 759 ; 0x3a9000
+   b2a04:	01 51 40 f9	ldr	x1, [x8, #0xa0] ; Objc selector ref: removeAllAnimations
+   b2a08:	5e 83 09 94	bl	0x313780 ; Objc message: -[x0 removeAllAnimations]
+   b2a0c:	e0 03 15 aa	mov	x0, x21
+   b2a10:	68 83 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2a14:	e8 15 00 d0	adrp	x8, 702 ; 0x370000
+   b2a18:	08 a1 40 f9	ldr	x8, [x8, #0x140] ; literal pool symbol address: __NSConcreteStackBlock
+   b2a1c:	c9 17 00 90	adrp	x9, 760 ; 0x3aa000
+   b2a20:	35 71 45 f9	ldr	x21, [x9, #0xae0] ; Objc class ref: _OBJC_CLASS_$_UIView
+   b2a24:	f4 a3 02 a9	stp	x20, x8, [sp, #0x28]
+   b2a28:	49 14 00 d0	adrp	x9, 650 ; 0x33c000
+   b2a2c:	20 d9 44 fd	ldr	d0, [x9, #0x9b0]
+   b2a30:	69 05 00 10	adr	x9, #172
+   b2a34:	1f 20 03 d5	nop
+   b2a38:	e0 1f 00 fd	str	d0, [sp, #0x38]
+   b2a3c:	ea 15 00 d0	adrp	x10, 702 ; 0x370000
+   b2a40:	4a c1 2f 91	add	x10, x10, #0xbf0
+   b2a44:	e9 2b 04 a9	stp	x9, x10, [sp, #0x40]
+   b2a48:	f3 2b 00 f9	str	x19, [sp, #0x50]
+   b2a4c:	e8 03 00 f9	str	x8, [sp]
+   b2a50:	e0 07 00 fd	str	d0, [sp, #0x8]
+   b2a54:	08 05 00 10	adr	x8, #160
+   b2a58:	1f 20 03 d5	nop
+   b2a5c:	e9 15 00 d0	adrp	x9, 702 ; 0x370000
+   b2a60:	29 81 39 91	add	x9, x9, #0xe60
+   b2a64:	e8 27 01 a9	stp	x8, x9, [sp, #0x10]
+   b2a68:	f3 13 00 f9	str	x19, [sp, #0x20]
+   b2a6c:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2a70:	13 4d 44 f9	ldr	x19, [x8, #0x898] ; Objc selector ref: animateWithDuration:animations:completion:
+   b2a74:	e0 03 14 aa	mov	x0, x20
+   b2a78:	51 83 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b2a7c:	f4 03 00 aa	mov	x20, x0
+   b2a80:	68 14 00 90	adrp	x8, 652 ; 0x33e000
+   b2a84:	00 e1 42 fd	ldr	d0, [x8, #0x5c0]
+   b2a88:	e2 c3 00 91	add	x2, sp, #0x30
+   b2a8c:	e3 03 00 91	mov	x3, sp
+   b2a90:	e0 03 15 aa	mov	x0, x21
+   b2a94:	e1 03 13 aa	mov	x1, x19
+   b2a98:	3a 83 09 94	bl	0x313780 ; Objc message: +[UIView animateWithDuration:animations:completion:]
+   b2a9c:	e0 17 40 f9	ldr	x0, [sp, #0x28]
+   b2aa0:	44 83 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2aa4:	e0 03 14 aa	mov	x0, x20
+   b2aa8:	42 83 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2aac:	a8 83 5d f8	ldur	x8, [x29, #-0x28]
+   b2ab0:	e9 15 00 d0	adrp	x9, 702 ; 0x370000
+   b2ab4:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b2ab8:	29 01 40 f9	ldr	x9, [x9]
+   b2abc:	3f 01 08 eb	cmp	x9, x8
+   b2ac0:	c1 00 00 54	b.ne	0xb2ad8
+   b2ac4:	fd 7b 48 a9	ldp	x29, x30, [sp, #0x80]
+   b2ac8:	f4 4f 47 a9	ldp	x20, x19, [sp, #0x70]
+   b2acc:	f6 57 46 a9	ldp	x22, x21, [sp, #0x60]
+   b2ad0:	ff 43 02 91	add	sp, sp, #0x90
+   b2ad4:	c0 03 5f d6	ret
+   b2ad8:	79 82 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   b2adc:	08 10 40 f9	ldr	x8, [x0, #0x20]
+   b2ae0:	00 11 40 f9	ldr	x0, [x8, #0x20]
+   b2ae4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2ae8:	01 1d 45 f9	ldr	x1, [x8, #0xa38] ; Objc selector ref: setAlpha:
+   b2aec:	e0 03 67 9e	fmov	d0, xzr
+   b2af0:	24 83 09 14	b	0x313780 ; Objc message: -[x0 setAlpha:]
+   b2af4:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   b2af8:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   b2afc:	fd 43 00 91	add	x29, sp, #0x10
+   b2b00:	f3 03 00 aa	mov	x19, x0
+   b2b04:	c1 04 00 34	cbz	w1, 0xb2b9c
+   b2b08:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b0c:	00 11 40 f9	ldr	x0, [x8, #0x20]
+   b2b10:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2b14:	01 a9 44 f9	ldr	x1, [x8, #0x950] ; Objc selector ref: setHidden:
+   b2b18:	22 00 80 52	mov	w2, #0x1
+   b2b1c:	19 83 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b2b20:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b24:	1f 61 00 39	strb	wzr, [x8, #0x18]
+   b2b28:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b2c:	00 11 40 f9	ldr	x0, [x8, #0x20]
+   b2b30:	a8 17 00 f0	adrp	x8, 759 ; 0x3a9000
+   b2b34:	14 61 40 f9	ldr	x20, [x8, #0xc0] ; Objc selector ref: resignKeyWindow
+   b2b38:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2b3c:	01 ad 41 f9	ldr	x1, [x8, #0x358] ; Objc selector ref: respondsToSelector:
+   b2b40:	e2 03 14 aa	mov	x2, x20
+   b2b44:	0f 83 09 94	bl	0x313780 ; Objc message: -[x0 respondsToSelector:]
+   b2b48:	a0 00 00 34	cbz	w0, 0xb2b5c
+   b2b4c:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b50:	00 11 40 f9	ldr	x0, [x8, #0x20]
+   b2b54:	e1 03 14 aa	mov	x1, x20
+   b2b58:	0a 83 09 94	bl	0x313780 ; Objc message: -[x0 respondsToSelector:]
+   b2b5c:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b60:	00 21 40 f9	ldr	x0, [x8, #0x40]
+   b2b64:	c0 01 00 b4	cbz	x0, 0xb2b9c
+   b2b68:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2b6c:	01 55 44 f9	ldr	x1, [x8, #0x8a8] ; Objc selector ref: superview
+   b2b70:	04 83 09 94	bl	0x313780 ; Objc message: -[x0 superview]
+   b2b74:	fd 03 1d aa	mov	x29, x29
+   b2b78:	1a 83 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2b7c:	f4 03 00 aa	mov	x20, x0
+   b2b80:	0c 83 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2b84:	d4 00 00 b4	cbz	x20, 0xb2b9c
+   b2b88:	68 12 40 f9	ldr	x8, [x19, #0x20]
+   b2b8c:	00 21 40 f9	ldr	x0, [x8, #0x40]
+   b2b90:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2b94:	01 35 45 f9	ldr	x1, [x8, #0xa68] ; Objc selector ref: dismissOverlay
+   b2b98:	fa 82 09 94	bl	0x313780 ; Objc message: -[x0 dismissOverlay]
+   b2b9c:	60 16 40 f9	ldr	x0, [x19, #0x28]
+   b2ba0:	a0 00 00 b4	cbz	x0, 0xb2bb4
+   b2ba4:	01 08 40 f9	ldr	x1, [x0, #0x10]
+   b2ba8:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+   b2bac:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+   b2bb0:	20 00 1f d6	br	x1
+   b2bb4:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+   b2bb8:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+   b2bbc:	c0 03 5f d6	ret
+   b2bc0:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b2bc4:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b2bc8:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b2bcc:	fd 83 00 91	add	x29, sp, #0x20
+   b2bd0:	08 10 40 f9	ldr	x8, [x0, #0x20]
+   b2bd4:	48 03 00 b4	cbz	x8, 0xb2c3c
+   b2bd8:	f5 03 00 aa	mov	x21, x0
+   b2bdc:	d6 17 00 90	adrp	x22, 760 ; 0x3aa000
+   b2be0:	c0 9e 45 f9	ldr	x0, [x22, #0xb38] ; Objc class ref: CBWindow
+   b2be4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2be8:	01 d5 47 f9	ldr	x1, [x8, #0xfa8] ; Objc selector ref: carPlayWindowScene
+   b2bec:	e5 82 09 94	bl	0x313780 ; Objc message: +[CBWindow carPlayWindowScene]
+   b2bf0:	fd 03 1d aa	mov	x29, x29
+   b2bf4:	fb 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2bf8:	f3 03 00 aa	mov	x19, x0
+   b2bfc:	40 02 00 b4	cbz	x0, 0xb2c44
+   b2c00:	a0 12 40 f9	ldr	x0, [x21, #0x20]
+   b2c04:	a8 17 00 f0	adrp	x8, 759 ; 0x3a9000
+   b2c08:	14 65 40 f9	ldr	x20, [x8, #0xc8] ; Objc selector ref: windowScene
+   b2c0c:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2c10:	01 ad 41 f9	ldr	x1, [x8, #0x358] ; Objc selector ref: respondsToSelector:
+   b2c14:	e2 03 14 aa	mov	x2, x20
+   b2c18:	da 82 09 94	bl	0x313780 ; Objc message: -[x0 respondsToSelector:]
+   b2c1c:	60 04 00 34	cbz	w0, 0xb2ca8
+   b2c20:	a0 12 40 f9	ldr	x0, [x21, #0x20]
+   b2c24:	e1 03 14 aa	mov	x1, x20
+   b2c28:	d6 82 09 94	bl	0x313780 ; Objc message: -[x0 respondsToSelector:]
+   b2c2c:	fd 03 1d aa	mov	x29, x29
+   b2c30:	ec 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2c34:	f4 03 00 aa	mov	x20, x0
+   b2c38:	1a 00 00 14	b	0xb2ca0
+   b2c3c:	15 00 80 52	mov	w21, #0x0
+   b2c40:	30 00 00 14	b	0xb2d00
+   b2c44:	c0 9e 45 f9	ldr	x0, [x22, #0xb38]
+   b2c48:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2c4c:	01 a5 47 f9	ldr	x1, [x8, #0xf48] ; Objc selector ref: carPlayUIScreen
+   b2c50:	cc 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayUIScreen]
+   b2c54:	fd 03 1d aa	mov	x29, x29
+   b2c58:	e2 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2c5c:	f4 03 00 aa	mov	x20, x0
+   b2c60:	80 02 00 b4	cbz	x0, 0xb2cb0
+   b2c64:	a0 12 40 f9	ldr	x0, [x21, #0x20]
+   b2c68:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2c6c:	16 ad 47 f9	ldr	x22, [x8, #0xf58] ; Objc selector ref: screen
+   b2c70:	1f 20 03 d5	nop
+   b2c74:	01 ad 41 f9	ldr	x1, [x8, #0x358]
+   b2c78:	e2 03 16 aa	mov	x2, x22
+   b2c7c:	c1 82 09 94	bl	0x313780 ; Objc message: -[x0 screen]
+   b2c80:	00 01 00 34	cbz	w0, 0xb2ca0
+   b2c84:	a0 12 40 f9	ldr	x0, [x21, #0x20]
+   b2c88:	e1 03 16 aa	mov	x1, x22
+   b2c8c:	bd 82 09 94	bl	0x313780 ; Objc message: -[x0 screen]
+   b2c90:	fd 03 1d aa	mov	x29, x29
+   b2c94:	d3 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2c98:	35 00 80 52	mov	w21, #0x1
+   b2c9c:	14 00 00 14	b	0xb2cec
+   b2ca0:	35 00 80 52	mov	w21, #0x1
+   b2ca4:	13 00 00 14	b	0xb2cf0
+   b2ca8:	35 00 80 52	mov	w21, #0x1
+   b2cac:	13 00 00 14	b	0xb2cf8
+   b2cb0:	c0 9e 45 f9	ldr	x0, [x22, #0xb38]
+   b2cb4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2cb8:	01 cd 47 f9	ldr	x1, [x8, #0xf98] ; Objc selector ref: carPlayCADisplay
+   b2cbc:	b1 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2cc0:	fd 03 1d aa	mov	x29, x29
+   b2cc4:	c7 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2cc8:	00 01 00 b4	cbz	x0, 0xb2ce8
+   b2ccc:	a8 06 40 f9	ldr	x8, [x21, #0x8]
+   b2cd0:	1f 01 00 f1	cmp	x8, #0x0
+   b2cd4:	e9 17 9f 1a	cset	w9, eq
+   b2cd8:	1f 01 00 eb	cmp	x8, x0
+   b2cdc:	e8 17 9f 1a	cset	w8, eq
+   b2ce0:	35 01 08 2a	orr	w21, w9, w8
+   b2ce4:	02 00 00 14	b	0xb2cec
+   b2ce8:	15 00 80 52	mov	w21, #0x0
+   b2cec:	b1 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2cf0:	e0 03 14 aa	mov	x0, x20
+   b2cf4:	af 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2cf8:	e0 03 13 aa	mov	x0, x19
+   b2cfc:	ad 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2d00:	e0 03 15 aa	mov	x0, x21
+   b2d04:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b2d08:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b2d0c:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b2d10:	c0 03 5f d6	ret
+   b2d14:	fc 6f ba a9	stp	x28, x27, [sp, #-0x60]!
+   b2d18:	fa 67 01 a9	stp	x26, x25, [sp, #0x10]
+   b2d1c:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+~~~
+
+### Original CBWindow::destroyWindows at 0xb2d14
+
+~~~asm
+   b2d14:	fc 6f ba a9	stp	x28, x27, [sp, #-0x60]!
+   b2d18:	fa 67 01 a9	stp	x26, x25, [sp, #0x10]
+   b2d1c:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+   b2d20:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+   b2d24:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+   b2d28:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+   b2d2c:	fd 43 01 91	add	x29, sp, #0x50
+   b2d30:	ff 43 09 d1	sub	sp, sp, #0x250
+   b2d34:	f3 03 00 aa	mov	x19, x0
+   b2d38:	e8 15 00 d0	adrp	x8, 702 ; 0x370000
+   b2d3c:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b2d40:	08 01 40 f9	ldr	x8, [x8]
+   b2d44:	a8 03 1a f8	stur	x8, [x29, #-0x60]
+   b2d48:	1f 60 00 39	strb	wzr, [x0, #0x18]
+   b2d4c:	00 20 40 f9	ldr	x0, [x0, #0x40]
+   b2d50:	b9 17 00 d0	adrp	x25, 758 ; 0x3a8000
+   b2d54:	c0 00 00 b4	cbz	x0, 0xb2d6c
+   b2d58:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+   b2d5c:	89 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2d60:	60 22 40 f9	ldr	x0, [x19, #0x40]
+   b2d64:	7f 22 00 f9	str	xzr, [x19, #0x40]
+   b2d68:	92 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2d6c:	60 1e 40 f9	ldr	x0, [x19, #0x38]
+   b2d70:	c0 00 00 b4	cbz	x0, 0xb2d88
+   b2d74:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+   b2d78:	82 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2d7c:	60 1e 40 f9	ldr	x0, [x19, #0x38]
+   b2d80:	7f 1e 00 f9	str	xzr, [x19, #0x38]
+   b2d84:	8b 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2d88:	60 26 40 f9	ldr	x0, [x19, #0x48]
+   b2d8c:	c0 00 00 b4	cbz	x0, 0xb2da4
+   b2d90:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+   b2d94:	7b 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2d98:	60 26 40 f9	ldr	x0, [x19, #0x48]
+   b2d9c:	7f 26 00 f9	str	xzr, [x19, #0x48]
+   b2da0:	84 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2da4:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b2da8:	bb 17 00 d0	adrp	x27, 758 ; 0x3a8000
+   b2dac:	b7 17 00 d0	adrp	x23, 758 ; 0x3a8000
+   b2db0:	e0 0d 00 b4	cbz	x0, 0xb2f6c
+   b2db4:	00 e4 00 4f	movi.16b	v0, #0x0
+   b2db8:	a0 03 3c ad	stp	q0, q0, [x29, #-0x80]
+   b2dbc:	a0 03 3b ad	stp	q0, q0, [x29, #-0xa0]
+   b2dc0:	75 2f 45 f9	ldr	x21, [x27, #0xa58]
+   b2dc4:	e1 03 15 aa	mov	x1, x21
+   b2dc8:	6e 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2dcc:	fd 03 1d aa	mov	x29, x29
+   b2dd0:	84 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2dd4:	f6 03 00 aa	mov	x22, x0
+   b2dd8:	f4 d6 41 f9	ldr	x20, [x23, #0x3a8]
+   b2ddc:	a2 83 02 d1	sub	x2, x29, #0xa0
+   b2de0:	e3 03 06 91	add	x3, sp, #0x180
+   b2de4:	e1 03 14 aa	mov	x1, x20
+   b2de8:	04 02 80 52	mov	w4, #0x10
+   b2dec:	65 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2df0:	60 03 00 b4	cbz	x0, 0xb2e5c
+   b2df4:	f7 03 00 aa	mov	x23, x0
+   b2df8:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+   b2dfc:	1c 01 40 f9	ldr	x28, [x8]
+   b2e00:	1a 00 80 d2	mov	x26, #0x0
+   b2e04:	38 2b 45 f9	ldr	x24, [x25, #0xa50]
+   b2e08:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+   b2e0c:	08 01 40 f9	ldr	x8, [x8]
+   b2e10:	1f 01 1c eb	cmp	x8, x28
+   b2e14:	60 00 00 54	b.eq	0xb2e20
+   b2e18:	e0 03 16 aa	mov	x0, x22
+   b2e1c:	44 82 09 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+   b2e20:	a8 83 56 f8	ldur	x8, [x29, #-0x98]
+   b2e24:	00 79 7a f8	ldr	x0, [x8, x26, lsl #3]
+   b2e28:	e1 03 18 aa	mov	x1, x24
+   b2e2c:	55 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2e30:	5a 07 00 91	add	x26, x26, #0x1
+   b2e34:	5f 03 17 eb	cmp	x26, x23
+   b2e38:	83 fe ff 54	b.lo	0xb2e08
+   b2e3c:	a2 83 02 d1	sub	x2, x29, #0xa0
+   b2e40:	e3 03 06 91	add	x3, sp, #0x180
+   b2e44:	e0 03 16 aa	mov	x0, x22
+   b2e48:	e1 03 14 aa	mov	x1, x20
+   b2e4c:	04 02 80 52	mov	w4, #0x10
+   b2e50:	4c 82 09 94	bl	0x313780 ; Objc message: -[x0 carPlayCADisplay]
+   b2e54:	f7 03 00 aa	mov	x23, x0
+   b2e58:	40 fd ff b5	cbnz	x0, 0xb2e00
+   b2e5c:	e0 03 16 aa	mov	x0, x22
+   b2e60:	54 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2e64:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b2e68:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2e6c:	16 21 44 f9	ldr	x22, [x8, #0x840] ; Objc selector ref: contentView
+   b2e70:	1f 20 03 d5	nop
+   b2e74:	01 ad 41 f9	ldr	x1, [x8, #0x358]
+   b2e78:	e2 03 16 aa	mov	x2, x22
+   b2e7c:	41 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2e80:	80 06 00 34	cbz	w0, 0xb2f50
+   b2e84:	00 e4 00 4f	movi.16b	v0, #0x0
+   b2e88:	e0 03 0b ad	stp	q0, q0, [sp, #0x160]
+   b2e8c:	e0 03 0a ad	stp	q0, q0, [sp, #0x140]
+   b2e90:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b2e94:	e1 03 16 aa	mov	x1, x22
+   b2e98:	3a 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2e9c:	fd 03 1d aa	mov	x29, x29
+   b2ea0:	50 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2ea4:	f6 03 00 aa	mov	x22, x0
+   b2ea8:	e1 03 15 aa	mov	x1, x21
+   b2eac:	35 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2eb0:	fd 03 1d aa	mov	x29, x29
+   b2eb4:	4b 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2eb8:	f5 03 00 aa	mov	x21, x0
+   b2ebc:	e0 03 16 aa	mov	x0, x22
+   b2ec0:	3c 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2ec4:	e2 03 05 91	add	x2, sp, #0x140
+   b2ec8:	e3 03 03 91	add	x3, sp, #0xc0
+   b2ecc:	e0 03 15 aa	mov	x0, x21
+   b2ed0:	e1 03 14 aa	mov	x1, x20
+   b2ed4:	04 02 80 52	mov	w4, #0x10
+   b2ed8:	2a 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2edc:	60 03 00 b4	cbz	x0, 0xb2f48
+   b2ee0:	f6 03 00 aa	mov	x22, x0
+   b2ee4:	e8 ab 40 f9	ldr	x8, [sp, #0x150]
+   b2ee8:	18 01 40 f9	ldr	x24, [x8]
+   b2eec:	1a 00 80 d2	mov	x26, #0x0
+   b2ef0:	37 2b 45 f9	ldr	x23, [x25, #0xa50]
+   b2ef4:	e8 ab 40 f9	ldr	x8, [sp, #0x150]
+   b2ef8:	08 01 40 f9	ldr	x8, [x8]
+   b2efc:	1f 01 18 eb	cmp	x8, x24
+   b2f00:	60 00 00 54	b.eq	0xb2f0c
+   b2f04:	e0 03 15 aa	mov	x0, x21
+   b2f08:	09 82 09 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+   b2f0c:	e8 a7 40 f9	ldr	x8, [sp, #0x148]
+   b2f10:	00 79 7a f8	ldr	x0, [x8, x26, lsl #3]
+   b2f14:	e1 03 17 aa	mov	x1, x23
+   b2f18:	1a 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2f1c:	5a 07 00 91	add	x26, x26, #0x1
+   b2f20:	5f 03 16 eb	cmp	x26, x22
+   b2f24:	83 fe ff 54	b.lo	0xb2ef4
+   b2f28:	e2 03 05 91	add	x2, sp, #0x140
+   b2f2c:	e3 03 03 91	add	x3, sp, #0xc0
+   b2f30:	e0 03 15 aa	mov	x0, x21
+   b2f34:	e1 03 14 aa	mov	x1, x20
+   b2f38:	04 02 80 52	mov	w4, #0x10
+   b2f3c:	11 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2f40:	f6 03 00 aa	mov	x22, x0
+   b2f44:	40 fd ff b5	cbnz	x0, 0xb2eec
+   b2f48:	e0 03 15 aa	mov	x0, x21
+   b2f4c:	19 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2f50:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b2f54:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+   b2f58:	0a 82 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b2f5c:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b2f60:	7f 1a 00 f9	str	xzr, [x19, #0x30]
+   b2f64:	13 82 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b2f68:	b7 17 00 d0	adrp	x23, 758 ; 0x3a8000
+   b2f6c:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b2f70:	00 08 00 b4	cbz	x0, 0xb3070
+   b2f74:	a8 17 00 d0	adrp	x8, 758 ; 0x3a8000
+   b2f78:	01 a9 44 f9	ldr	x1, [x8, #0x950] ; Objc selector ref: setHidden:
+   b2f7c:	22 00 80 52	mov	w2, #0x1
+   b2f80:	00 82 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b2f84:	00 e4 00 4f	movi.16b	v0, #0x0
+   b2f88:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+   b2f8c:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+   b2f90:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b2f94:	61 2f 45 f9	ldr	x1, [x27, #0xa58]
+   b2f98:	fa 81 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b2f9c:	fd 03 1d aa	mov	x29, x29
+   b2fa0:	10 82 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b2fa4:	f4 03 00 aa	mov	x20, x0
+   b2fa8:	f5 d6 41 f9	ldr	x21, [x23, #0x3a8]
+   b2fac:	e2 03 02 91	add	x2, sp, #0x80
+   b2fb0:	e3 03 00 91	mov	x3, sp
+   b2fb4:	e1 03 15 aa	mov	x1, x21
+   b2fb8:	04 02 80 52	mov	w4, #0x10
+   b2fbc:	f1 81 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b2fc0:	60 03 00 b4	cbz	x0, 0xb302c
+   b2fc4:	f6 03 00 aa	mov	x22, x0
+   b2fc8:	e8 4b 40 f9	ldr	x8, [sp, #0x90]
+   b2fcc:	18 01 40 f9	ldr	x24, [x8]
+   b2fd0:	1a 00 80 d2	mov	x26, #0x0
+   b2fd4:	37 2b 45 f9	ldr	x23, [x25, #0xa50]
+   b2fd8:	e8 4b 40 f9	ldr	x8, [sp, #0x90]
+   b2fdc:	08 01 40 f9	ldr	x8, [x8]
+   b2fe0:	1f 01 18 eb	cmp	x8, x24
+   b2fe4:	60 00 00 54	b.eq	0xb2ff0
+   b2fe8:	e0 03 14 aa	mov	x0, x20
+   b2fec:	d0 81 09 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+   b2ff0:	e8 47 40 f9	ldr	x8, [sp, #0x88]
+   b2ff4:	00 79 7a f8	ldr	x0, [x8, x26, lsl #3]
+   b2ff8:	e1 03 17 aa	mov	x1, x23
+   b2ffc:	e1 81 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b3000:	5a 07 00 91	add	x26, x26, #0x1
+   b3004:	5f 03 16 eb	cmp	x26, x22
+   b3008:	83 fe ff 54	b.lo	0xb2fd8
+   b300c:	e2 03 02 91	add	x2, sp, #0x80
+   b3010:	e3 03 00 91	mov	x3, sp
+   b3014:	e0 03 14 aa	mov	x0, x20
+   b3018:	e1 03 15 aa	mov	x1, x21
+   b301c:	04 02 80 52	mov	w4, #0x10
+   b3020:	d8 81 09 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+   b3024:	f6 03 00 aa	mov	x22, x0
+   b3028:	40 fd ff b5	cbnz	x0, 0xb2fd0
+   b302c:	e0 03 14 aa	mov	x0, x20
+   b3030:	e0 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3034:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b3038:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b303c:	01 d9 46 f9	ldr	x1, [x8, #0xdb0] ; Objc selector ref: isKeyWindow
+   b3040:	d0 81 09 94	bl	0x313780 ; Objc message: -[x0 isKeyWindow]
+   b3044:	a0 00 00 34	cbz	w0, 0xb3058
+   b3048:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b304c:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3050:	01 61 40 f9	ldr	x1, [x8, #0xc0] ; Objc selector ref: resignKeyWindow
+   b3054:	cb 81 09 94	bl	0x313780 ; Objc message: -[x0 resignKeyWindow]
+   b3058:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b305c:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+   b3060:	c8 81 09 94	bl	0x313780 ; Objc message: -[x0 resignKeyWindow]
+   b3064:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b3068:	7f 12 00 f9	str	xzr, [x19, #0x20]
+   b306c:	d1 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3070:	60 06 40 f9	ldr	x0, [x19, #0x8]
+   b3074:	7f 06 00 f9	str	xzr, [x19, #0x8]
+   b3078:	ce 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b307c:	60 0a 40 f9	ldr	x0, [x19, #0x10]
+   b3080:	7f 0a 00 f9	str	xzr, [x19, #0x10]
+~~~
+
+### Original CBWindow::dismiss at 0xb30c4
+
+~~~asm
+   b30c4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b30c8:	01 69 40 f9	ldr	x1, [x8, #0xd0] ; Objc selector ref: destroyWindows
+   b30cc:	ad 81 09 14	b	0x313780 ; Objc message: -[x0 destroyWindows]
+   b30d0:	ff 03 01 d1	sub	sp, sp, #0x40
+   b30d4:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+   b30d8:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+   b30dc:	fd c3 00 91	add	x29, sp, #0x30
+   b30e0:	f3 03 00 aa	mov	x19, x0
+   b30e4:	e8 15 00 b0	adrp	x8, 701 ; 0x370000
+   b30e8:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b30ec:	08 01 40 f9	ldr	x8, [x8]
+   b30f0:	e8 0f 00 f9	str	x8, [sp, #0x18]
+   b30f4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b30f8:	01 69 40 f9	ldr	x1, [x8, #0xd0] ; Objc selector ref: destroyWindows
+   b30fc:	a1 81 09 94	bl	0x313780 ; Objc message: -[x0 destroyWindows]
+   b3100:	a8 17 00 f0	adrp	x8, 759 ; 0x3aa000
+   b3104:	08 e5 46 f9	ldr	x8, [x8, #0xdc8] ; Objc class ref: CBWindow
+   b3108:	f3 a3 00 a9	stp	x19, x8, [sp, #0x8]
+   b310c:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3110:	01 d1 43 f9	ldr	x1, [x8, #0x7a0] ; Objc selector ref: dealloc
+   b3114:	e0 23 00 91	add	x0, sp, #0x8
+   b3118:	a0 81 09 94	bl	0x313798 ; Objc message: -[[x0 super] dealloc]
+   b311c:	e8 0f 40 f9	ldr	x8, [sp, #0x18]
+   b3120:	e9 15 00 b0	adrp	x9, 701 ; 0x370000
+   b3124:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b3128:	29 01 40 f9	ldr	x9, [x9]
+   b312c:	3f 01 08 eb	cmp	x9, x8
+   b3130:	a1 00 00 54	b.ne	0xb3144
+   b3134:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+   b3138:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+   b313c:	ff 03 01 91	add	sp, sp, #0x40
+   b3140:	c0 03 5f d6	ret
+   b3144:	de 80 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   b3148:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b314c:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b3150:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b3154:	fd 83 00 91	add	x29, sp, #0x20
+   b3158:	f3 03 02 aa	mov	x19, x2
+   b315c:	f4 03 00 aa	mov	x20, x0
+   b3160:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3164:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3168:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b316c:	85 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b3170:	fd 03 1d aa	mov	x29, x29
+   b3174:	9b 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3178:	f5 03 00 aa	mov	x21, x0
+   b317c:	60 00 00 b4	cbz	x0, 0xb3188
+   b3180:	f6 03 15 aa	mov	x22, x21
+   b3184:	0a 00 00 14	b	0xb31ac
+   b3188:	80 1a 40 f9	ldr	x0, [x20, #0x30]
+   b318c:	40 00 00 b5	cbnz	x0, 0xb3194
+   b3190:	80 12 40 f9	ldr	x0, [x20, #0x20]
+   b3194:	8a 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b3198:	f6 03 00 aa	mov	x22, x0
+   b319c:	e0 03 15 aa	mov	x0, x21
+   b31a0:	84 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b31a4:	f5 03 16 aa	mov	x21, x22
+   b31a8:	f6 01 00 b4	cbz	x22, 0xb31e4
+   b31ac:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b31b0:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b31b4:	e0 03 14 aa	mov	x0, x20
+   b31b8:	72 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b31bc:	fd 03 1d aa	mov	x29, x29
+   b31c0:	88 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b31c4:	f4 03 00 aa	mov	x20, x0
+   b31c8:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b31cc:	01 71 40 f9	ldr	x1, [x8, #0xe0] ; Objc selector ref: showAppPickerForSlot:parentView:
+   b31d0:	e2 03 13 aa	mov	x2, x19
+   b31d4:	e3 03 15 aa	mov	x3, x21
+   b31d8:	6a 81 09 94	bl	0x313780 ; Objc message: -[x0 showAppPickerForSlot:parentView:]
+   b31dc:	e0 03 14 aa	mov	x0, x20
+   b31e0:	74 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b31e4:	e0 03 16 aa	mov	x0, x22
+   b31e8:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b31ec:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b31f0:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b31f4:	6f 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b31f8:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b31fc:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b3200:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b3204:	fd 83 00 91	add	x29, sp, #0x20
+   b3208:	f3 03 00 aa	mov	x19, x0
+   b320c:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3210:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3214:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b3218:	5a 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b321c:	fd 03 1d aa	mov	x29, x29
+   b3220:	70 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3224:	f4 03 00 aa	mov	x20, x0
+   b3228:	60 00 00 b4	cbz	x0, 0xb3234
+   b322c:	f5 03 14 aa	mov	x21, x20
+   b3230:	0a 00 00 14	b	0xb3258
+   b3234:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b3238:	40 00 00 b5	cbnz	x0, 0xb3240
+   b323c:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b3240:	5f 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b3244:	f5 03 00 aa	mov	x21, x0
+   b3248:	e0 03 14 aa	mov	x0, x20
+   b324c:	59 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3250:	f4 03 15 aa	mov	x20, x21
+   b3254:	d5 01 00 b4	cbz	x21, 0xb328c
+   b3258:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b325c:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b3260:	e0 03 13 aa	mov	x0, x19
+   b3264:	47 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b3268:	fd 03 1d aa	mov	x29, x29
+   b326c:	5d 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3270:	f3 03 00 aa	mov	x19, x0
+   b3274:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3278:	01 75 40 f9	ldr	x1, [x8, #0xe8] ; Objc selector ref: showLayoutChooserInParentView:
+   b327c:	e2 03 14 aa	mov	x2, x20
+   b3280:	40 81 09 94	bl	0x313780 ; Objc message: -[x0 showLayoutChooserInParentView:]
+   b3284:	e0 03 13 aa	mov	x0, x19
+   b3288:	4a 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b328c:	e0 03 15 aa	mov	x0, x21
+   b3290:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b3294:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b3298:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b329c:	45 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b32a0:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b32a4:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b32a8:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b32ac:	fd 83 00 91	add	x29, sp, #0x20
+   b32b0:	f3 03 00 aa	mov	x19, x0
+   b32b4:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b32b8:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b32bc:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b32c0:	30 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b32c4:	fd 03 1d aa	mov	x29, x29
+   b32c8:	46 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b32cc:	f4 03 00 aa	mov	x20, x0
+   b32d0:	60 00 00 b4	cbz	x0, 0xb32dc
+   b32d4:	f5 03 14 aa	mov	x21, x20
+   b32d8:	0a 00 00 14	b	0xb3300
+   b32dc:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b32e0:	40 00 00 b5	cbnz	x0, 0xb32e8
+   b32e4:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b32e8:	35 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b32ec:	f5 03 00 aa	mov	x21, x0
+   b32f0:	e0 03 14 aa	mov	x0, x20
+   b32f4:	2f 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b32f8:	f4 03 15 aa	mov	x20, x21
+   b32fc:	d5 01 00 b4	cbz	x21, 0xb3334
+   b3300:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3304:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b3308:	e0 03 13 aa	mov	x0, x19
+   b330c:	1d 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b3310:	fd 03 1d aa	mov	x29, x29
+   b3314:	33 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3318:	f3 03 00 aa	mov	x19, x0
+   b331c:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3320:	01 79 40 f9	ldr	x1, [x8, #0xf0] ; Objc selector ref: showRecentAppsInParentView:
+   b3324:	e2 03 14 aa	mov	x2, x20
+   b3328:	16 81 09 94	bl	0x313780 ; Objc message: -[x0 showRecentAppsInParentView:]
+   b332c:	e0 03 13 aa	mov	x0, x19
+   b3330:	20 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3334:	e0 03 15 aa	mov	x0, x21
+   b3338:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b333c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b3340:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b3344:	1b 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b3348:	00 04 45 6d	ldp	d0, d1, [x0, #0x50]
+   b334c:	02 0c 46 6d	ldp	d2, d3, [x0, #0x60]
+   b3350:	c0 03 5f d6	ret
+   b3354:	00 28 00 fd	str	d0, [x0, #0x50]
+   b3358:	01 2c 00 fd	str	d1, [x0, #0x58]
+   b335c:	02 30 00 fd	str	d2, [x0, #0x60]
+   b3360:	03 34 00 fd	str	d3, [x0, #0x68]
+   b3364:	c0 03 5f d6	ret
+   b3368:	00 10 40 f9	ldr	x0, [x0, #0x20]
+   b336c:	c0 03 5f d6	ret
+   b3370:	e1 03 02 aa	mov	x1, x2
+   b3374:	00 80 00 91	add	x0, x0, #0x20
+   b3378:	26 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b337c:	00 14 40 f9	ldr	x0, [x0, #0x28]
+   b3380:	c0 03 5f d6	ret
+   b3384:	e1 03 02 aa	mov	x1, x2
+   b3388:	00 a0 00 91	add	x0, x0, #0x28
+   b338c:	21 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b3390:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3394:	c0 03 5f d6	ret
+   b3398:	e1 03 02 aa	mov	x1, x2
+   b339c:	00 c0 00 91	add	x0, x0, #0x30
+   b33a0:	1c 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33a4:	00 1c 40 f9	ldr	x0, [x0, #0x38]
+   b33a8:	c0 03 5f d6	ret
+   b33ac:	e1 03 02 aa	mov	x1, x2
+   b33b0:	00 e0 00 91	add	x0, x0, #0x38
+   b33b4:	17 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33b8:	e1 03 02 aa	mov	x1, x2
+   b33bc:	00 00 01 91	add	x0, x0, #0x40
+   b33c0:	14 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33c4:	e1 03 02 aa	mov	x1, x2
+   b33c8:	00 20 01 91	add	x0, x0, #0x48
+   b33cc:	11 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33d0:	00 60 40 39	ldrb	w0, [x0, #0x18]
+   b33d4:	c0 03 5f d6	ret
+   b33d8:	02 60 00 39	strb	w2, [x0, #0x18]
+   b33dc:	c0 03 5f d6	ret
+   b33e0:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   b33e4:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   b33e8:	fd 43 00 91	add	x29, sp, #0x10
+   b33ec:	f3 03 00 aa	mov	x19, x0
+   b33f0:	00 20 01 91	add	x0, x0, #0x48
+   b33f4:	01 00 80 d2	mov	x1, #0x0
+   b33f8:	06 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b33fc:	60 02 01 91	add	x0, x19, #0x40
+   b3400:	01 00 80 d2	mov	x1, #0x0
+   b3404:	03 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3408:	60 e2 00 91	add	x0, x19, #0x38
+   b340c:	01 00 80 d2	mov	x1, #0x0
+   b3410:	00 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3414:	60 c2 00 91	add	x0, x19, #0x30
+   b3418:	01 00 80 d2	mov	x1, #0x0
+   b341c:	fd 80 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3420:	60 a2 00 91	add	x0, x19, #0x28
+   b3424:	01 00 80 d2	mov	x1, #0x0
+   b3428:	fa 80 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b342c:	60 82 00 91	add	x0, x19, #0x20
+   b3430:	01 00 80 d2	mov	x1, #0x0
+~~~
+
+### Original CBWindow::dealloc at 0xb30d0
+
+~~~asm
+   b30d0:	ff 03 01 d1	sub	sp, sp, #0x40
+   b30d4:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+   b30d8:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+   b30dc:	fd c3 00 91	add	x29, sp, #0x30
+   b30e0:	f3 03 00 aa	mov	x19, x0
+   b30e4:	e8 15 00 b0	adrp	x8, 701 ; 0x370000
+   b30e8:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b30ec:	08 01 40 f9	ldr	x8, [x8]
+   b30f0:	e8 0f 00 f9	str	x8, [sp, #0x18]
+   b30f4:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b30f8:	01 69 40 f9	ldr	x1, [x8, #0xd0] ; Objc selector ref: destroyWindows
+   b30fc:	a1 81 09 94	bl	0x313780 ; Objc message: -[x0 destroyWindows]
+   b3100:	a8 17 00 f0	adrp	x8, 759 ; 0x3aa000
+   b3104:	08 e5 46 f9	ldr	x8, [x8, #0xdc8] ; Objc class ref: CBWindow
+   b3108:	f3 a3 00 a9	stp	x19, x8, [sp, #0x8]
+   b310c:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3110:	01 d1 43 f9	ldr	x1, [x8, #0x7a0] ; Objc selector ref: dealloc
+   b3114:	e0 23 00 91	add	x0, sp, #0x8
+   b3118:	a0 81 09 94	bl	0x313798 ; Objc message: -[[x0 super] dealloc]
+   b311c:	e8 0f 40 f9	ldr	x8, [sp, #0x18]
+   b3120:	e9 15 00 b0	adrp	x9, 701 ; 0x370000
+   b3124:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+   b3128:	29 01 40 f9	ldr	x9, [x9]
+   b312c:	3f 01 08 eb	cmp	x9, x8
+   b3130:	a1 00 00 54	b.ne	0xb3144
+   b3134:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+   b3138:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+   b313c:	ff 03 01 91	add	sp, sp, #0x40
+   b3140:	c0 03 5f d6	ret
+   b3144:	de 80 09 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+   b3148:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b314c:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b3150:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b3154:	fd 83 00 91	add	x29, sp, #0x20
+   b3158:	f3 03 02 aa	mov	x19, x2
+   b315c:	f4 03 00 aa	mov	x20, x0
+   b3160:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3164:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3168:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b316c:	85 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b3170:	fd 03 1d aa	mov	x29, x29
+   b3174:	9b 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3178:	f5 03 00 aa	mov	x21, x0
+   b317c:	60 00 00 b4	cbz	x0, 0xb3188
+   b3180:	f6 03 15 aa	mov	x22, x21
+   b3184:	0a 00 00 14	b	0xb31ac
+   b3188:	80 1a 40 f9	ldr	x0, [x20, #0x30]
+   b318c:	40 00 00 b5	cbnz	x0, 0xb3194
+   b3190:	80 12 40 f9	ldr	x0, [x20, #0x20]
+   b3194:	8a 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b3198:	f6 03 00 aa	mov	x22, x0
+   b319c:	e0 03 15 aa	mov	x0, x21
+   b31a0:	84 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b31a4:	f5 03 16 aa	mov	x21, x22
+   b31a8:	f6 01 00 b4	cbz	x22, 0xb31e4
+   b31ac:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b31b0:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b31b4:	e0 03 14 aa	mov	x0, x20
+   b31b8:	72 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b31bc:	fd 03 1d aa	mov	x29, x29
+   b31c0:	88 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b31c4:	f4 03 00 aa	mov	x20, x0
+   b31c8:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b31cc:	01 71 40 f9	ldr	x1, [x8, #0xe0] ; Objc selector ref: showAppPickerForSlot:parentView:
+   b31d0:	e2 03 13 aa	mov	x2, x19
+   b31d4:	e3 03 15 aa	mov	x3, x21
+   b31d8:	6a 81 09 94	bl	0x313780 ; Objc message: -[x0 showAppPickerForSlot:parentView:]
+   b31dc:	e0 03 14 aa	mov	x0, x20
+   b31e0:	74 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b31e4:	e0 03 16 aa	mov	x0, x22
+   b31e8:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b31ec:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b31f0:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b31f4:	6f 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b31f8:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b31fc:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b3200:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b3204:	fd 83 00 91	add	x29, sp, #0x20
+   b3208:	f3 03 00 aa	mov	x19, x0
+   b320c:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3210:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b3214:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b3218:	5a 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b321c:	fd 03 1d aa	mov	x29, x29
+   b3220:	70 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3224:	f4 03 00 aa	mov	x20, x0
+   b3228:	60 00 00 b4	cbz	x0, 0xb3234
+   b322c:	f5 03 14 aa	mov	x21, x20
+   b3230:	0a 00 00 14	b	0xb3258
+   b3234:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b3238:	40 00 00 b5	cbnz	x0, 0xb3240
+   b323c:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b3240:	5f 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b3244:	f5 03 00 aa	mov	x21, x0
+   b3248:	e0 03 14 aa	mov	x0, x20
+   b324c:	59 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3250:	f4 03 15 aa	mov	x20, x21
+   b3254:	d5 01 00 b4	cbz	x21, 0xb328c
+   b3258:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b325c:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b3260:	e0 03 13 aa	mov	x0, x19
+   b3264:	47 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b3268:	fd 03 1d aa	mov	x29, x29
+   b326c:	5d 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3270:	f3 03 00 aa	mov	x19, x0
+   b3274:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3278:	01 75 40 f9	ldr	x1, [x8, #0xe8] ; Objc selector ref: showLayoutChooserInParentView:
+   b327c:	e2 03 14 aa	mov	x2, x20
+   b3280:	40 81 09 94	bl	0x313780 ; Objc message: -[x0 showLayoutChooserInParentView:]
+   b3284:	e0 03 13 aa	mov	x0, x19
+   b3288:	4a 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b328c:	e0 03 15 aa	mov	x0, x21
+   b3290:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b3294:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b3298:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b329c:	45 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b32a0:	f6 57 bd a9	stp	x22, x21, [sp, #-0x30]!
+   b32a4:	f4 4f 01 a9	stp	x20, x19, [sp, #0x10]
+   b32a8:	fd 7b 02 a9	stp	x29, x30, [sp, #0x20]
+   b32ac:	fd 83 00 91	add	x29, sp, #0x20
+   b32b0:	f3 03 00 aa	mov	x19, x0
+   b32b4:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b32b8:	a8 17 00 b0	adrp	x8, 757 ; 0x3a8000
+   b32bc:	01 21 44 f9	ldr	x1, [x8, #0x840] ; Objc selector ref: contentView
+   b32c0:	30 81 09 94	bl	0x313780 ; Objc message: -[x0 contentView]
+   b32c4:	fd 03 1d aa	mov	x29, x29
+   b32c8:	46 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b32cc:	f4 03 00 aa	mov	x20, x0
+   b32d0:	60 00 00 b4	cbz	x0, 0xb32dc
+   b32d4:	f5 03 14 aa	mov	x21, x20
+   b32d8:	0a 00 00 14	b	0xb3300
+   b32dc:	60 1a 40 f9	ldr	x0, [x19, #0x30]
+   b32e0:	40 00 00 b5	cbnz	x0, 0xb32e8
+   b32e4:	60 12 40 f9	ldr	x0, [x19, #0x20]
+   b32e8:	35 81 09 94	bl	0x3137bc ; symbol stub for: _objc_retain
+   b32ec:	f5 03 00 aa	mov	x21, x0
+   b32f0:	e0 03 14 aa	mov	x0, x20
+   b32f4:	2f 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b32f8:	f4 03 15 aa	mov	x20, x21
+   b32fc:	d5 01 00 b4	cbz	x21, 0xb3334
+   b3300:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3304:	01 6d 40 f9	ldr	x1, [x8, #0xd8] ; Objc selector ref: multitaskingOverlay
+   b3308:	e0 03 13 aa	mov	x0, x19
+   b330c:	1d 81 09 94	bl	0x313780 ; Objc message: -[x0 multitaskingOverlay]
+   b3310:	fd 03 1d aa	mov	x29, x29
+   b3314:	33 81 09 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+   b3318:	f3 03 00 aa	mov	x19, x0
+   b331c:	a8 17 00 d0	adrp	x8, 758 ; 0x3a9000
+   b3320:	01 79 40 f9	ldr	x1, [x8, #0xf0] ; Objc selector ref: showRecentAppsInParentView:
+   b3324:	e2 03 14 aa	mov	x2, x20
+   b3328:	16 81 09 94	bl	0x313780 ; Objc message: -[x0 showRecentAppsInParentView:]
+   b332c:	e0 03 13 aa	mov	x0, x19
+   b3330:	20 81 09 94	bl	0x3137b0 ; symbol stub for: _objc_release
+   b3334:	e0 03 15 aa	mov	x0, x21
+   b3338:	fd 7b 42 a9	ldp	x29, x30, [sp, #0x20]
+   b333c:	f4 4f 41 a9	ldp	x20, x19, [sp, #0x10]
+   b3340:	f6 57 c3 a8	ldp	x22, x21, [sp], #0x30
+   b3344:	1b 81 09 14	b	0x3137b0 ; symbol stub for: _objc_release
+   b3348:	00 04 45 6d	ldp	d0, d1, [x0, #0x50]
+   b334c:	02 0c 46 6d	ldp	d2, d3, [x0, #0x60]
+   b3350:	c0 03 5f d6	ret
+   b3354:	00 28 00 fd	str	d0, [x0, #0x50]
+   b3358:	01 2c 00 fd	str	d1, [x0, #0x58]
+   b335c:	02 30 00 fd	str	d2, [x0, #0x60]
+   b3360:	03 34 00 fd	str	d3, [x0, #0x68]
+   b3364:	c0 03 5f d6	ret
+   b3368:	00 10 40 f9	ldr	x0, [x0, #0x20]
+   b336c:	c0 03 5f d6	ret
+   b3370:	e1 03 02 aa	mov	x1, x2
+   b3374:	00 80 00 91	add	x0, x0, #0x20
+   b3378:	26 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b337c:	00 14 40 f9	ldr	x0, [x0, #0x28]
+   b3380:	c0 03 5f d6	ret
+   b3384:	e1 03 02 aa	mov	x1, x2
+   b3388:	00 a0 00 91	add	x0, x0, #0x28
+   b338c:	21 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b3390:	00 18 40 f9	ldr	x0, [x0, #0x30]
+   b3394:	c0 03 5f d6	ret
+   b3398:	e1 03 02 aa	mov	x1, x2
+   b339c:	00 c0 00 91	add	x0, x0, #0x30
+   b33a0:	1c 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33a4:	00 1c 40 f9	ldr	x0, [x0, #0x38]
+   b33a8:	c0 03 5f d6	ret
+   b33ac:	e1 03 02 aa	mov	x1, x2
+   b33b0:	00 e0 00 91	add	x0, x0, #0x38
+   b33b4:	17 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33b8:	e1 03 02 aa	mov	x1, x2
+   b33bc:	00 00 01 91	add	x0, x0, #0x40
+   b33c0:	14 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33c4:	e1 03 02 aa	mov	x1, x2
+   b33c8:	00 20 01 91	add	x0, x0, #0x48
+   b33cc:	11 81 09 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+   b33d0:	00 60 40 39	ldrb	w0, [x0, #0x18]
+   b33d4:	c0 03 5f d6	ret
+   b33d8:	02 60 00 39	strb	w2, [x0, #0x18]
+   b33dc:	c0 03 5f d6	ret
+   b33e0:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+   b33e4:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+   b33e8:	fd 43 00 91	add	x29, sp, #0x10
+   b33ec:	f3 03 00 aa	mov	x19, x0
+   b33f0:	00 20 01 91	add	x0, x0, #0x48
+   b33f4:	01 00 80 d2	mov	x1, #0x0
+   b33f8:	06 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b33fc:	60 02 01 91	add	x0, x19, #0x40
+   b3400:	01 00 80 d2	mov	x1, #0x0
+   b3404:	03 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3408:	60 e2 00 91	add	x0, x19, #0x38
+   b340c:	01 00 80 d2	mov	x1, #0x0
+   b3410:	00 81 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3414:	60 c2 00 91	add	x0, x19, #0x30
+   b3418:	01 00 80 d2	mov	x1, #0x0
+   b341c:	fd 80 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3420:	60 a2 00 91	add	x0, x19, #0x28
+   b3424:	01 00 80 d2	mov	x1, #0x0
+   b3428:	fa 80 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b342c:	60 82 00 91	add	x0, x19, #0x20
+   b3430:	01 00 80 d2	mov	x1, #0x0
+   b3434:	f7 80 09 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+   b3438:	60 42 00 91	add	x0, x19, #0x10
+   b343c:	01 00 80 d2	mov	x1, #0x0
+~~~
+
+### Original CBBridgedSplitApp::restoreSplitAnimated: at 0x10d40c
+
+~~~asm
+  10d40c:	fc 6f ba a9	stp	x28, x27, [sp, #-0x60]!
+  10d410:	fa 67 01 a9	stp	x26, x25, [sp, #0x10]
+  10d414:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+  10d418:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+  10d41c:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+  10d420:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+  10d424:	fd 43 01 91	add	x29, sp, #0x50
+  10d428:	ff 43 0b d1	sub	sp, sp, #0x2d0
+  10d42c:	08 13 00 f0	adrp	x8, 611 ; 0x370000
+  10d430:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  10d434:	08 01 40 f9	ldr	x8, [x8]
+  10d438:	a8 03 1a f8	stur	x8, [x29, #-0x60]
+  10d43c:	e8 14 00 d0	adrp	x8, 670 ; 0x3ab000
+  10d440:	08 75 81 b9	ldrsw	x8, [x8, #0x174]
+  10d444:	09 68 68 38	ldrb	w9, [x0, x8]
+  10d448:	69 20 00 35	cbnz	w9, 0x10d854
+  10d44c:	fc 03 00 aa	mov	x28, x0
+  10d450:	e2 0f 00 b9	str	w2, [sp, #0xc]
+  10d454:	62 00 00 34	cbz	w2, 0x10d460
+  10d458:	29 00 80 52	mov	w9, #0x1
+  10d45c:	89 6b 28 38	strb	w9, [x28, x8]
+  10d460:	e8 14 00 d0	adrp	x8, 670 ; 0x3ab000
+  10d464:	08 51 81 b9	ldrsw	x8, [x8, #0x150]
+  10d468:	09 00 80 92	mov	x9, #-0x1
+  10d46c:	89 6b 28 f8	str	x9, [x28, x8]
+  10d470:	00 e4 00 4f	movi.16b	v0, #0x0
+  10d474:	a0 03 3b ad	stp	q0, q0, [x29, #-0xa0]
+  10d478:	a0 03 3c ad	stp	q0, q0, [x29, #-0x80]
+  10d47c:	e8 14 00 d0	adrp	x8, 670 ; 0x3ab000
+  10d480:	08 5d 81 b9	ldrsw	x8, [x8, #0x15c]
+  10d484:	80 6b 68 f8	ldr	x0, [x28, x8]
+  10d488:	cd 18 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  10d48c:	f6 03 00 aa	mov	x22, x0
+  10d490:	c8 14 00 f0	adrp	x8, 667 ; 0x3a8000
+  10d494:	01 d5 41 f9	ldr	x1, [x8, #0x3a8] ; Objc selector ref: countByEnumeratingWithState:objects:count:
+  10d498:	a2 83 02 d1	sub	x2, x29, #0xa0
+  10d49c:	e3 03 08 91	add	x3, sp, #0x200
+  10d4a0:	e1 0f 00 f9	str	x1, [sp, #0x18]
+  10d4a4:	04 02 80 52	mov	w4, #0x10
+  10d4a8:	b6 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d4ac:	d3 14 00 f0	adrp	x19, 667 ; 0x3a8000
+  10d4b0:	60 04 00 b4	cbz	x0, 0x10d53c
+  10d4b4:	f7 03 00 aa	mov	x23, x0
+  10d4b8:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  10d4bc:	15 01 40 f9	ldr	x21, [x8]
+  10d4c0:	da 14 00 f0	adrp	x26, 667 ; 0x3a8000
+  10d4c4:	1b 00 80 d2	mov	x27, #0x0
+  10d4c8:	74 aa 44 f9	ldr	x20, [x19, #0x950]
+  10d4cc:	58 17 44 f9	ldr	x24, [x26, #0x828]
+  10d4d0:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  10d4d4:	08 01 40 f9	ldr	x8, [x8]
+  10d4d8:	1f 01 15 eb	cmp	x8, x21
+  10d4dc:	60 00 00 54	b.eq	0x10d4e8
+  10d4e0:	e0 03 16 aa	mov	x0, x22
+  10d4e4:	92 18 08 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  10d4e8:	a8 83 56 f8	ldur	x8, [x29, #-0x98]
+  10d4ec:	19 79 7b f8	ldr	x25, [x8, x27, lsl #3]
+  10d4f0:	e0 03 19 aa	mov	x0, x25
+  10d4f4:	e1 03 14 aa	mov	x1, x20
+  10d4f8:	02 00 80 52	mov	w2, #0x0
+  10d4fc:	a1 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d500:	e0 03 19 aa	mov	x0, x25
+  10d504:	e1 03 18 aa	mov	x1, x24
+  10d508:	22 00 80 52	mov	w2, #0x1
+  10d50c:	9d 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d510:	7b 07 00 91	add	x27, x27, #0x1
+  10d514:	7f 03 17 eb	cmp	x27, x23
+  10d518:	c3 fd ff 54	b.lo	0x10d4d0
+  10d51c:	a2 83 02 d1	sub	x2, x29, #0xa0
+  10d520:	e3 03 08 91	add	x3, sp, #0x200
+  10d524:	e0 03 16 aa	mov	x0, x22
+  10d528:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  10d52c:	04 02 80 52	mov	w4, #0x10
+  10d530:	94 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d534:	f7 03 00 aa	mov	x23, x0
+  10d538:	60 fc ff b5	cbnz	x0, 0x10d4c4
+  10d53c:	e0 03 16 aa	mov	x0, x22
+  10d540:	9c 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d544:	00 e4 00 4f	movi.16b	v0, #0x0
+  10d548:	e0 03 0f ad	stp	q0, q0, [sp, #0x1e0]
+  10d54c:	e0 03 0e ad	stp	q0, q0, [sp, #0x1c0]
+  10d550:	e8 14 00 d0	adrp	x8, 670 ; 0x3ab000
+  10d554:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  10d558:	80 6b 68 f8	ldr	x0, [x28, x8]
+  10d55c:	98 18 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  10d560:	f6 03 00 aa	mov	x22, x0
+  10d564:	e2 03 07 91	add	x2, sp, #0x1c0
+  10d568:	e3 03 05 91	add	x3, sp, #0x140
+  10d56c:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  10d570:	04 02 80 52	mov	w4, #0x10
+  10d574:	83 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d578:	80 03 00 b4	cbz	x0, 0x10d5e8
+  10d57c:	f4 03 00 aa	mov	x20, x0
+  10d580:	e8 eb 40 f9	ldr	x8, [sp, #0x1d0]
+  10d584:	15 01 40 f9	ldr	x21, [x8]
+  10d588:	18 00 80 d2	mov	x24, #0x0
+  10d58c:	77 aa 44 f9	ldr	x23, [x19, #0x950]
+  10d590:	e8 eb 40 f9	ldr	x8, [sp, #0x1d0]
+  10d594:	08 01 40 f9	ldr	x8, [x8]
+  10d598:	1f 01 15 eb	cmp	x8, x21
+  10d59c:	60 00 00 54	b.eq	0x10d5a8
+  10d5a0:	e0 03 16 aa	mov	x0, x22
+  10d5a4:	62 18 08 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  10d5a8:	e8 e7 40 f9	ldr	x8, [sp, #0x1c8]
+  10d5ac:	00 79 78 f8	ldr	x0, [x8, x24, lsl #3]
+  10d5b0:	e1 03 17 aa	mov	x1, x23
+  10d5b4:	02 00 80 52	mov	w2, #0x0
+  10d5b8:	72 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d5bc:	18 07 00 91	add	x24, x24, #0x1
+  10d5c0:	1f 03 14 eb	cmp	x24, x20
+  10d5c4:	63 fe ff 54	b.lo	0x10d590
+  10d5c8:	e2 03 07 91	add	x2, sp, #0x1c0
+  10d5cc:	e3 03 05 91	add	x3, sp, #0x140
+  10d5d0:	e0 03 16 aa	mov	x0, x22
+  10d5d4:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  10d5d8:	04 02 80 52	mov	w4, #0x10
+  10d5dc:	69 18 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  10d5e0:	f4 03 00 aa	mov	x20, x0
+  10d5e4:	20 fd ff b5	cbnz	x0, 0x10d588
+  10d5e8:	e0 03 16 aa	mov	x0, x22
+  10d5ec:	71 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d5f0:	e8 14 00 b0	adrp	x8, 669 ; 0x3aa000
+  10d5f4:	00 81 45 f9	ldr	x0, [x8, #0xb00] ; Objc class ref: CBBridgeManager
+  10d5f8:	c8 14 00 f0	adrp	x8, 667 ; 0x3a8000
+  10d5fc:	01 51 41 f9	ldr	x1, [x8, #0x2a0] ; Objc selector ref: sharedInstance
+  10d600:	e1 13 00 f9	str	x1, [sp, #0x20]
+  10d604:	5f 18 08 94	bl	0x313780 ; Objc message: +[CBBridgeManager sharedInstance]
+  10d608:	fd 03 1d aa	mov	x29, x29
+  10d60c:	75 18 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  10d610:	f4 03 00 aa	mov	x20, x0
+  10d614:	e8 14 00 90	adrp	x8, 668 ; 0x3a9000
+  10d618:	01 25 43 f9	ldr	x1, [x8, #0x648] ; Objc selector ref: saveBridgeStateToDisk
+  10d61c:	59 18 08 94	bl	0x313780 ; Objc message: -[x0 saveBridgeStateToDisk]
+  10d620:	e0 03 14 aa	mov	x0, x20
+  10d624:	63 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d628:	00 e4 00 4f	movi.16b	v0, #0x0
+  10d62c:	e0 03 09 ad	stp	q0, q0, [sp, #0x120]
+  10d630:	e0 03 08 ad	stp	q0, q0, [sp, #0x100]
+  10d634:	e8 14 00 d0	adrp	x8, 670 ; 0x3ab000
+  10d638:	08 55 81 b9	ldrsw	x8, [x8, #0x154]
+  10d63c:	fc 0b 00 f9	str	x28, [sp, #0x10]
+  10d640:	80 6b 68 f8	ldr	x0, [x28, x8]
+  10d644:	5e 18 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  10d648:	e2 03 04 91	add	x2, sp, #0x100
+  10d64c:	e3 03 02 91	add	x3, sp, #0x80
+  10d650:	e0 17 00 f9	str	x0, [sp, #0x28]
+  10d654:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  10d658:	04 02 80 52	mov	w4, #0x10
+  10d65c:	49 18 08 94	bl	0x313780 ; Objc message: -[x0 saveBridgeStateToDisk]
+  10d660:	20 09 00 b4	cbz	x0, 0x10d784
+  10d664:	f8 03 00 aa	mov	x24, x0
+  10d668:	e8 8b 40 f9	ldr	x8, [sp, #0x110]
+  10d66c:	16 01 40 f9	ldr	x22, [x8]
+  10d670:	17 00 80 d2	mov	x23, #0x0
+  10d674:	c8 14 00 f0	adrp	x8, 667 ; 0x3a8000
+  10d678:	19 cd 40 f9	ldr	x25, [x8, #0x198] ; Objc selector ref: bundleIdentifier
+  10d67c:	1f 20 03 d5	nop
+  10d680:	1a 75 41 f9	ldr	x26, [x8, #0x2e8]
+  10d684:	e8 14 00 90	adrp	x8, 668 ; 0x3a9000
+  10d688:	1b 29 43 f9	ldr	x27, [x8, #0x650] ; Objc selector ref: sendStateToApp:shouldBridge:
+  10d68c:	e8 8b 40 f9	ldr	x8, [sp, #0x110]
+  10d690:	08 01 40 f9	ldr	x8, [x8]
+  10d694:	1f 01 16 eb	cmp	x8, x22
+  10d698:	60 00 00 54	b.eq	0x10d6a4
+  10d69c:	e0 17 40 f9	ldr	x0, [sp, #0x28]
+  10d6a0:	23 18 08 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  10d6a4:	e8 87 40 f9	ldr	x8, [sp, #0x108]
+  10d6a8:	1c 79 77 f8	ldr	x28, [x8, x23, lsl #3]
+  10d6ac:	e0 03 1c aa	mov	x0, x28
+  10d6b0:	e1 03 19 aa	mov	x1, x25
+  10d6b4:	33 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  10d6b8:	fd 03 1d aa	mov	x29, x29
+  10d6bc:	49 18 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  10d6c0:	f4 03 00 aa	mov	x20, x0
+  10d6c4:	60 04 00 b4	cbz	x0, 0x10d750
+  10d6c8:	e0 03 1c aa	mov	x0, x28
+  10d6cc:	e1 03 19 aa	mov	x1, x25
+  10d6d0:	2c 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  10d6d4:	fd 03 1d aa	mov	x29, x29
+  10d6d8:	42 18 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  10d6dc:	f3 03 00 aa	mov	x19, x0
+  10d6e0:	e1 03 1a aa	mov	x1, x26
+  10d6e4:	27 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  10d6e8:	f5 03 00 aa	mov	x21, x0
+  10d6ec:	e0 03 13 aa	mov	x0, x19
+  10d6f0:	30 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d6f4:	e0 03 14 aa	mov	x0, x20
+  10d6f8:	2e 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d6fc:	f5 02 00 b4	cbz	x21, 0x10d758
+  10d700:	e8 14 00 b0	adrp	x8, 669 ; 0x3aa000
+  10d704:	00 81 45 f9	ldr	x0, [x8, #0xb00] ; Objc class ref: CBBridgeManager
+  10d708:	e1 13 40 f9	ldr	x1, [sp, #0x20]
+  10d70c:	1d 18 08 94	bl	0x313780 ; Objc message: +[CBBridgeManager sendStateToApp:shouldBridge:]
+  10d710:	fd 03 1d aa	mov	x29, x29
+  10d714:	33 18 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  10d718:	f4 03 00 aa	mov	x20, x0
+  10d71c:	e0 03 1c aa	mov	x0, x28
+  10d720:	e1 03 19 aa	mov	x1, x25
+  10d724:	17 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  10d728:	fd 03 1d aa	mov	x29, x29
+  10d72c:	2d 18 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  10d730:	f3 03 00 aa	mov	x19, x0
+  10d734:	e0 03 14 aa	mov	x0, x20
+  10d738:	e1 03 1b aa	mov	x1, x27
+  10d73c:	e2 03 13 aa	mov	x2, x19
+  10d740:	23 00 80 52	mov	w3, #0x1
+  10d744:	0f 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  10d748:	e0 03 13 aa	mov	x0, x19
+  10d74c:	19 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d750:	e0 03 14 aa	mov	x0, x20
+  10d754:	17 18 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  10d758:	f7 06 00 91	add	x23, x23, #0x1
+  10d75c:	ff 02 18 eb	cmp	x23, x24
+  10d760:	63 f9 ff 54	b.lo	0x10d68c
+  10d764:	e2 03 04 91	add	x2, sp, #0x100
+  10d768:	e3 03 02 91	add	x3, sp, #0x80
+  10d76c:	e0 17 40 f9	ldr	x0, [sp, #0x28]
+  10d770:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  10d774:	04 02 80 52	mov	w4, #0x10
+  10d778:	02 18 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+~~~
+
+### Original CBBridgedSplitApp::closeSlot: at 0x112318
+
+~~~asm
+  112318:	e9 23 b9 6d	stp	d9, d8, [sp, #-0x70]!
+  11231c:	fc 6f 01 a9	stp	x28, x27, [sp, #0x10]
+  112320:	fa 67 02 a9	stp	x26, x25, [sp, #0x20]
+  112324:	f8 5f 03 a9	stp	x24, x23, [sp, #0x30]
+  112328:	f6 57 04 a9	stp	x22, x21, [sp, #0x40]
+  11232c:	f4 4f 05 a9	stp	x20, x19, [sp, #0x50]
+  112330:	fd 7b 06 a9	stp	x29, x30, [sp, #0x60]
+  112334:	fd 83 01 91	add	x29, sp, #0x60
+  112338:	ff 03 07 d1	sub	sp, sp, #0x1c0
+  11233c:	e8 12 00 d0	adrp	x8, 606 ; 0x370000
+  112340:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  112344:	08 01 40 f9	ldr	x8, [x8]
+  112348:	a8 03 19 f8	stur	x8, [x29, #-0x70]
+  11234c:	e2 28 f8 b7	tbnz	x2, #0x3f, 0x112868
+  112350:	f4 03 02 aa	mov	x20, x2
+  112354:	f8 03 00 aa	mov	x24, x0
+  112358:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  11235c:	13 55 81 b9	ldrsw	x19, [x8, #0x154]
+  112360:	00 68 73 f8	ldr	x0, [x0, x19]
+  112364:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112368:	15 d1 41 f9	ldr	x21, [x8, #0x3a0] ; Objc selector ref: count
+  11236c:	e1 03 15 aa	mov	x1, x21
+  112370:	04 05 08 94	bl	0x313780 ; Objc message: -[x0 count]
+  112374:	1f 00 14 eb	cmp	x0, x20
+  112378:	89 27 00 54	b.ls	0x112868
+  11237c:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  112380:	19 5d 81 b9	ldrsw	x25, [x8, #0x15c]
+  112384:	00 6b 79 f8	ldr	x0, [x24, x25]
+  112388:	e1 03 15 aa	mov	x1, x21
+  11238c:	fd 04 08 94	bl	0x313780 ; Objc message: -[x0 count]
+  112390:	1f 00 14 eb	cmp	x0, x20
+  112394:	a9 26 00 54	b.ls	0x112868
+  112398:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  11239c:	08 51 81 b9	ldrsw	x8, [x8, #0x150]
+  1123a0:	09 6b 68 f8	ldr	x9, [x24, x8]
+  1123a4:	29 0f f8 b7	tbnz	x9, #0x3f, 0x112588
+  1123a8:	f3 57 01 a9	stp	x19, x21, [sp, #0x10]
+  1123ac:	f4 63 02 a9	stp	x20, x24, [sp, #0x20]
+  1123b0:	09 00 80 92	mov	x9, #-0x1
+  1123b4:	09 6b 28 f8	str	x9, [x24, x8]
+  1123b8:	00 e4 00 4f	movi.16b	v0, #0x0
+  1123bc:	a0 83 3b ad	stp	q0, q0, [x29, #-0x90]
+  1123c0:	a0 83 3a ad	stp	q0, q0, [x29, #-0xb0]
+  1123c4:	f9 07 00 f9	str	x25, [sp, #0x8]
+  1123c8:	00 6b 79 f8	ldr	x0, [x24, x25]
+  1123cc:	fc 04 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  1123d0:	f7 03 00 aa	mov	x23, x0
+  1123d4:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  1123d8:	16 d5 41 f9	ldr	x22, [x8, #0x3a8] ; Objc selector ref: countByEnumeratingWithState:objects:count:
+  1123dc:	a2 c3 02 d1	sub	x2, x29, #0xb0
+  1123e0:	e3 c3 03 91	add	x3, sp, #0xf0
+  1123e4:	e1 03 16 aa	mov	x1, x22
+  1123e8:	04 02 80 52	mov	w4, #0x10
+  1123ec:	e5 04 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1123f0:	bc 14 00 d0	adrp	x28, 662 ; 0x3a8000
+  1123f4:	80 05 00 b4	cbz	x0, 0x1124a4
+  1123f8:	f8 03 00 aa	mov	x24, x0
+  1123fc:	a8 03 56 f8	ldur	x8, [x29, #-0xa0]
+  112400:	13 01 40 f9	ldr	x19, [x8]
+  112404:	08 10 6e 1e	fmov	d8, #1.00000000
+  112408:	15 00 80 d2	mov	x21, #0x0
+  11240c:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112410:	19 a9 44 f9	ldr	x25, [x8, #0x950] ; Objc selector ref: setHidden:
+  112414:	f4 03 1c aa	mov	x20, x28
+  112418:	9a 1f 45 f9	ldr	x26, [x28, #0xa38]
+  11241c:	1f 20 03 d5	nop
+  112420:	1b 15 44 f9	ldr	x27, [x8, #0x828]
+  112424:	a8 03 56 f8	ldur	x8, [x29, #-0xa0]
+  112428:	08 01 40 f9	ldr	x8, [x8]
+  11242c:	1f 01 13 eb	cmp	x8, x19
+  112430:	60 00 00 54	b.eq	0x11243c
+  112434:	e0 03 17 aa	mov	x0, x23
+  112438:	bd 04 08 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  11243c:	a8 83 55 f8	ldur	x8, [x29, #-0xa8]
+  112440:	1c 79 75 f8	ldr	x28, [x8, x21, lsl #3]
+  112444:	e0 03 1c aa	mov	x0, x28
+  112448:	e1 03 19 aa	mov	x1, x25
+  11244c:	02 00 80 52	mov	w2, #0x0
+  112450:	cc 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  112454:	e0 03 1c aa	mov	x0, x28
+  112458:	e1 03 1a aa	mov	x1, x26
+  11245c:	00 1d a8 4e	mov.16b	v0, v8
+  112460:	c8 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  112464:	e0 03 1c aa	mov	x0, x28
+  112468:	e1 03 1b aa	mov	x1, x27
+  11246c:	22 00 80 52	mov	w2, #0x1
+  112470:	c4 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  112474:	b5 06 00 91	add	x21, x21, #0x1
+  112478:	bf 02 18 eb	cmp	x21, x24
+  11247c:	43 fd ff 54	b.lo	0x112424
+  112480:	a2 c3 02 d1	sub	x2, x29, #0xb0
+  112484:	e3 c3 03 91	add	x3, sp, #0xf0
+  112488:	e0 03 17 aa	mov	x0, x23
+  11248c:	e1 03 16 aa	mov	x1, x22
+  112490:	04 02 80 52	mov	w4, #0x10
+  112494:	bb 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  112498:	f8 03 00 aa	mov	x24, x0
+  11249c:	fc 03 14 aa	mov	x28, x20
+  1124a0:	40 fb ff b5	cbnz	x0, 0x112408
+  1124a4:	e0 03 17 aa	mov	x0, x23
+  1124a8:	c2 04 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1124ac:	00 e4 00 4f	movi.16b	v0, #0x0
+  1124b0:	e0 83 06 ad	stp	q0, q0, [sp, #0xd0]
+  1124b4:	e0 83 05 ad	stp	q0, q0, [sp, #0xb0]
+  1124b8:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  1124bc:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  1124c0:	e9 17 40 f9	ldr	x9, [sp, #0x28]
+  1124c4:	20 69 68 f8	ldr	x0, [x9, x8]
+  1124c8:	bd 04 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  1124cc:	f7 03 00 aa	mov	x23, x0
+  1124d0:	e2 c3 02 91	add	x2, sp, #0xb0
+  1124d4:	e3 c3 00 91	add	x3, sp, #0x30
+  1124d8:	e1 03 16 aa	mov	x1, x22
+  1124dc:	04 02 80 52	mov	w4, #0x10
+  1124e0:	a8 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  1124e4:	f5 0f 40 f9	ldr	x21, [sp, #0x18]
+  1124e8:	80 04 00 b4	cbz	x0, 0x112578
+  1124ec:	f8 03 00 aa	mov	x24, x0
+  1124f0:	e8 63 40 f9	ldr	x8, [sp, #0xc0]
+  1124f4:	13 01 40 f9	ldr	x19, [x8]
+  1124f8:	08 10 6e 1e	fmov	d8, #1.00000000
+  1124fc:	14 00 80 d2	mov	x20, #0x0
+  112500:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112504:	19 a9 44 f9	ldr	x25, [x8, #0x950] ; Objc selector ref: setHidden:
+  112508:	9a 1f 45 f9	ldr	x26, [x28, #0xa38]
+  11250c:	e8 63 40 f9	ldr	x8, [sp, #0xc0]
+  112510:	08 01 40 f9	ldr	x8, [x8]
+  112514:	1f 01 13 eb	cmp	x8, x19
+  112518:	60 00 00 54	b.eq	0x112524
+  11251c:	e0 03 17 aa	mov	x0, x23
+  112520:	83 04 08 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  112524:	e8 5f 40 f9	ldr	x8, [sp, #0xb8]
+  112528:	1b 79 74 f8	ldr	x27, [x8, x20, lsl #3]
+  11252c:	e0 03 1b aa	mov	x0, x27
+  112530:	e1 03 19 aa	mov	x1, x25
+  112534:	02 00 80 52	mov	w2, #0x0
+  112538:	92 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  11253c:	e0 03 1b aa	mov	x0, x27
+  112540:	e1 03 1a aa	mov	x1, x26
+  112544:	00 1d a8 4e	mov.16b	v0, v8
+  112548:	8e 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  11254c:	94 06 00 91	add	x20, x20, #0x1
+  112550:	9f 02 18 eb	cmp	x20, x24
+  112554:	c3 fd ff 54	b.lo	0x11250c
+  112558:	e2 c3 02 91	add	x2, sp, #0xb0
+  11255c:	e3 c3 00 91	add	x3, sp, #0x30
+  112560:	e0 03 17 aa	mov	x0, x23
+  112564:	e1 03 16 aa	mov	x1, x22
+  112568:	04 02 80 52	mov	w4, #0x10
+  11256c:	85 04 08 94	bl	0x313780 ; Objc message: -[x0 setHidden:]
+  112570:	f8 03 00 aa	mov	x24, x0
+  112574:	40 fc ff b5	cbnz	x0, 0x1124fc
+  112578:	e0 03 17 aa	mov	x0, x23
+  11257c:	8d 04 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112580:	f4 63 42 a9	ldp	x20, x24, [sp, #0x20]
+  112584:	f9 cf 40 a9	ldp	x25, x19, [sp, #0x8]
+  112588:	00 6b 73 f8	ldr	x0, [x24, x19]
+  11258c:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112590:	1b b5 44 f9	ldr	x27, [x8, #0x968] ; Objc selector ref: objectAtIndexedSubscript:
+  112594:	e1 03 1b aa	mov	x1, x27
+  112598:	e2 03 14 aa	mov	x2, x20
+  11259c:	79 04 08 94	bl	0x313780 ; Objc message: -[x0 objectAtIndexedSubscript:]
+  1125a0:	fd 03 1d aa	mov	x29, x29
+  1125a4:	8f 04 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  1125a8:	f6 03 00 aa	mov	x22, x0
+  1125ac:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  1125b0:	01 cd 40 f9	ldr	x1, [x8, #0x198] ; Objc selector ref: bundleIdentifier
+  1125b4:	73 04 08 94	bl	0x313780 ; Objc message: -[x0 bundleIdentifier]
+  1125b8:	fd 03 1d aa	mov	x29, x29
+  1125bc:	89 04 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  1125c0:	f7 03 00 aa	mov	x23, x0
+  1125c4:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  1125c8:	01 25 42 f9	ldr	x1, [x8, #0x448] ; Objc selector ref: copy
+  1125cc:	6d 04 08 94	bl	0x313780 ; Objc message: -[x0 copy]
+  1125d0:	fa 03 00 aa	mov	x26, x0
+  1125d4:	e0 03 17 aa	mov	x0, x23
+  1125d8:	76 04 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1125dc:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  1125e0:	01 95 47 f9	ldr	x1, [x8, #0xf28] ; Objc selector ref: dismiss
+  1125e4:	e0 03 16 aa	mov	x0, x22
+  1125e8:	66 04 08 94	bl	0x313780 ; Objc message: -[x0 dismiss]
+  1125ec:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  1125f0:	01 29 45 f9	ldr	x1, [x8, #0xa50] ; Objc selector ref: removeFromSuperview
+  1125f4:	f6 17 00 f9	str	x22, [sp, #0x28]
+  1125f8:	e0 03 16 aa	mov	x0, x22
+  1125fc:	61 04 08 94	bl	0x313780 ; Objc message: -[x0 removeFromSuperview]
+  112600:	d6 14 00 90	adrp	x22, 664 ; 0x3aa000
+  112604:	b7 14 00 d0	adrp	x23, 662 ; 0x3a8000
+  112608:	7a 02 00 b4	cbz	x26, 0x112654
+  11260c:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112610:	01 75 41 f9	ldr	x1, [x8, #0x2e8] ; Objc selector ref: length
+  112614:	e0 03 1a aa	mov	x0, x26
+  112618:	5a 04 08 94	bl	0x313780 ; Objc message: -[x0 length]
+  11261c:	c0 01 00 b4	cbz	x0, 0x112654
+  112620:	c0 82 45 f9	ldr	x0, [x22, #0xb00]
+  112624:	e1 52 41 f9	ldr	x1, [x23, #0x2a0]
+  112628:	56 04 08 94	bl	0x313780 ; Objc message: -[x0 length]
+  11262c:	fd 03 1d aa	mov	x29, x29
+  112630:	6c 04 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112634:	f7 03 00 aa	mov	x23, x0
+  112638:	a8 14 00 f0	adrp	x8, 663 ; 0x3a9000
+  11263c:	01 29 43 f9	ldr	x1, [x8, #0x650] ; Objc selector ref: sendStateToApp:shouldBridge:
+  112640:	e2 03 1a aa	mov	x2, x26
+  112644:	03 00 80 52	mov	w3, #0x0
+  112648:	4e 04 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  11264c:	e0 03 17 aa	mov	x0, x23
+  112650:	58 04 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112654:	fb eb 01 a9	stp	x27, x26, [sp, #0x18]
+  112658:	00 6b 79 f8	ldr	x0, [x24, x25]
+  11265c:	e1 03 1b aa	mov	x1, x27
+  112660:	e2 03 14 aa	mov	x2, x20
+  112664:	47 04 08 94	bl	0x313780 ; Objc message: -[x0 sendStateToApp:shouldBridge:]
+  112668:	fd 03 1d aa	mov	x29, x29
+  11266c:	5d 04 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112670:	f9 03 00 aa	mov	x25, x0
+  112674:	c8 14 00 90	adrp	x8, 664 ; 0x3aa000
+  112678:	00 09 46 f9	ldr	x0, [x8, #0xc10] ; Objc class ref: CBBridgedUIAppView
+  11267c:	0b 04 08 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+  112680:	a8 14 00 f0	adrp	x8, 663 ; 0x3a9000
+  112684:	01 45 42 f9	ldr	x1, [x8, #0x488] ; Objc selector ref: initWithBundleIdentifier:
+~~~
+
+### Original CBBridgedSplitApp::closeAllSlots at 0x1128a8
+
+~~~asm
+  1128a8:	ff c3 03 d1	sub	sp, sp, #0xf0
+  1128ac:	fc 6f 09 a9	stp	x28, x27, [sp, #0x90]
+  1128b0:	fa 67 0a a9	stp	x26, x25, [sp, #0xa0]
+  1128b4:	f8 5f 0b a9	stp	x24, x23, [sp, #0xb0]
+  1128b8:	f6 57 0c a9	stp	x22, x21, [sp, #0xc0]
+  1128bc:	f4 4f 0d a9	stp	x20, x19, [sp, #0xd0]
+  1128c0:	fd 7b 0e a9	stp	x29, x30, [sp, #0xe0]
+  1128c4:	fd 83 03 91	add	x29, sp, #0xe0
+  1128c8:	f3 03 00 aa	mov	x19, x0
+  1128cc:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  1128d0:	08 51 81 b9	ldrsw	x8, [x8, #0x150]
+  1128d4:	09 00 80 92	mov	x9, #-0x1
+  1128d8:	09 68 28 f8	str	x9, [x0, x8]
+  1128dc:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  1128e0:	16 55 81 b9	ldrsw	x22, [x8, #0x154]
+  1128e4:	00 68 76 f8	ldr	x0, [x0, x22]
+  1128e8:	b7 14 00 d0	adrp	x23, 662 ; 0x3a8000
+  1128ec:	f5 d2 41 f9	ldr	x21, [x23, #0x3a0] ; Objc selector ref: count
+  1128f0:	e1 03 15 aa	mov	x1, x21
+  1128f4:	a3 03 08 94	bl	0x313780 ; Objc message: -[x0 count]
+  1128f8:	80 19 00 b4	cbz	x0, 0x112c28
+  1128fc:	14 00 80 d2	mov	x20, #0x0
+  112900:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112904:	1a b5 44 f9	ldr	x26, [x8, #0x968] ; Objc selector ref: objectAtIndexedSubscript:
+  112908:	1f 20 03 d5	nop
+  11290c:	09 cd 40 f9	ldr	x9, [x8, #0x198]
+  112910:	1f 20 03 d5	nop
+  112914:	08 25 42 f9	ldr	x8, [x8, #0x448]
+  112918:	a8 a7 39 a9	stp	x8, x9, [x29, #-0x68]
+  11291c:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112920:	09 95 47 f9	ldr	x9, [x8, #0xf28] ; Objc selector ref: dismiss
+  112924:	1f 20 03 d5	nop
+  112928:	08 29 45 f9	ldr	x8, [x8, #0xa50]
+  11292c:	e8 a7 06 a9	stp	x8, x9, [sp, #0x68]
+  112930:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112934:	08 75 41 f9	ldr	x8, [x8, #0x2e8] ; Objc selector ref: length
+  112938:	e8 33 00 f9	str	x8, [sp, #0x60]
+  11293c:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112940:	19 51 41 f9	ldr	x25, [x8, #0x2a0] ; Objc selector ref: sharedInstance
+  112944:	a8 14 00 f0	adrp	x8, 663 ; 0x3a9000
+  112948:	09 29 43 f9	ldr	x9, [x8, #0x650] ; Objc selector ref: sendStateToApp:shouldBridge:
+  11294c:	1f 20 03 d5	nop
+  112950:	0a 45 42 f9	ldr	x10, [x8, #0x488]
+  112954:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112958:	0b 85 43 f9	ldr	x11, [x8, #0x708] ; Objc selector ref: bounds
+  11295c:	1f 20 03 d5	nop
+  112960:	08 fd 43 f9	ldr	x8, [x8, #0x7f8]
+  112964:	e8 af 04 a9	stp	x8, x11, [sp, #0x48]
+  112968:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  11296c:	08 a9 44 f9	ldr	x8, [x8, #0x950] ; Objc selector ref: setHidden:
+  112970:	e9 a3 03 a9	stp	x9, x8, [sp, #0x38]
+  112974:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112978:	08 a5 43 f9	ldr	x8, [x8, #0x748] ; Objc selector ref: setAutoresizingMask:
+  11297c:	e8 2b 02 a9	stp	x8, x10, [sp, #0x20]
+  112980:	a8 14 00 f0	adrp	x8, 663 ; 0x3a9000
+  112984:	09 4d 43 f9	ldr	x9, [x8, #0x698] ; Objc selector ref: insertSubview:atIndex:
+  112988:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  11298c:	08 71 46 f9	ldr	x8, [x8, #0xce0] ; Objc selector ref: setObject:atIndexedSubscript:
+  112990:	e8 27 01 a9	stp	x8, x9, [sp, #0x10]
+  112994:	a8 14 00 d0	adrp	x8, 662 ; 0x3a8000
+  112998:	c9 14 00 b0	adrp	x9, 665 ; 0x3ab000
+  11299c:	08 fd 45 f9	ldr	x8, [x8, #0xbf8]
+  1129a0:	e8 07 00 f9	str	x8, [sp, #0x8]
+  1129a4:	fc d2 41 f9	ldr	x28, [x23, #0x3a0]
+  1129a8:	28 5d 81 b9	ldrsw	x8, [x9, #0x15c]
+  1129ac:	a8 83 1a f8	stur	x8, [x29, #-0x58]
+  1129b0:	f9 1b 00 f9	str	x25, [sp, #0x30]
+  1129b4:	fa 2f 00 f9	str	x26, [sp, #0x58]
+  1129b8:	60 6a 76 f8	ldr	x0, [x19, x22]
+  1129bc:	e1 03 1a aa	mov	x1, x26
+  1129c0:	e2 03 14 aa	mov	x2, x20
+  1129c4:	6f 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  1129c8:	fd 03 1d aa	mov	x29, x29
+  1129cc:	85 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  1129d0:	fb 03 00 aa	mov	x27, x0
+  1129d4:	a1 03 5a f8	ldur	x1, [x29, #-0x60]
+  1129d8:	6a 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  1129dc:	fd 03 1d aa	mov	x29, x29
+  1129e0:	80 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  1129e4:	f8 03 00 aa	mov	x24, x0
+  1129e8:	a1 83 59 f8	ldur	x1, [x29, #-0x68]
+  1129ec:	65 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  1129f0:	f7 03 00 aa	mov	x23, x0
+  1129f4:	e0 03 18 aa	mov	x0, x24
+  1129f8:	6e 03 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1129fc:	e0 03 1b aa	mov	x0, x27
+  112a00:	e1 3b 40 f9	ldr	x1, [sp, #0x70]
+  112a04:	5f 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a08:	e0 03 1b aa	mov	x0, x27
+  112a0c:	e1 37 40 f9	ldr	x1, [sp, #0x68]
+  112a10:	5c 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a14:	57 02 00 b4	cbz	x23, 0x112a5c
+  112a18:	e0 03 17 aa	mov	x0, x23
+  112a1c:	e1 33 40 f9	ldr	x1, [sp, #0x60]
+  112a20:	58 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a24:	c0 01 00 b4	cbz	x0, 0x112a5c
+  112a28:	c8 14 00 90	adrp	x8, 664 ; 0x3aa000
+  112a2c:	00 81 45 f9	ldr	x0, [x8, #0xb00] ; Objc class ref: CBBridgeManager
+  112a30:	e1 03 19 aa	mov	x1, x25
+  112a34:	53 03 08 94	bl	0x313780 ; Objc message: +[CBBridgeManager setObject:atIndexedSubscript:]
+  112a38:	fd 03 1d aa	mov	x29, x29
+  112a3c:	69 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112a40:	f8 03 00 aa	mov	x24, x0
+  112a44:	e1 1f 40 f9	ldr	x1, [sp, #0x38]
+  112a48:	e2 03 17 aa	mov	x2, x23
+  112a4c:	03 00 80 52	mov	w3, #0x0
+  112a50:	4c 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a54:	e0 03 18 aa	mov	x0, x24
+  112a58:	56 03 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112a5c:	a8 83 5a f8	ldur	x8, [x29, #-0x58]
+  112a60:	60 6a 68 f8	ldr	x0, [x19, x8]
+  112a64:	e1 03 15 aa	mov	x1, x21
+  112a68:	46 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a6c:	9f 02 00 eb	cmp	x20, x0
+  112a70:	42 0c 00 54	b.hs	0x112bf8
+  112a74:	a8 83 5a f8	ldur	x8, [x29, #-0x58]
+  112a78:	60 6a 68 f8	ldr	x0, [x19, x8]
+  112a7c:	e1 03 1a aa	mov	x1, x26
+  112a80:	e2 03 14 aa	mov	x2, x20
+  112a84:	3f 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112a88:	fd 03 1d aa	mov	x29, x29
+  112a8c:	55 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112a90:	40 0b 00 b4	cbz	x0, 0x112bf8
+  112a94:	f8 03 00 aa	mov	x24, x0
+  112a98:	c8 14 00 90	adrp	x8, 664 ; 0x3aa000
+  112a9c:	00 09 46 f9	ldr	x0, [x8, #0xc10] ; Objc class ref: CBBridgedUIAppView
+  112aa0:	02 03 08 94	bl	0x3136a8 ; symbol stub for: _objc_alloc
+  112aa4:	e1 17 40 f9	ldr	x1, [sp, #0x28]
+  112aa8:	02 13 00 90	adrp	x2, 608 ; 0x372000
+  112aac:	42 80 2f 91	add	x2, x2, #0xbe0 ; Objc cfstring ref: @""
+  112ab0:	34 03 08 94	bl	0x313780 ; Objc message: +[CBBridgedUIAppView setObject:atIndexedSubscript:]
+  112ab4:	f9 03 00 aa	mov	x25, x0
+  112ab8:	e0 03 18 aa	mov	x0, x24
+  112abc:	e1 2b 40 f9	ldr	x1, [sp, #0x50]
+  112ac0:	30 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112ac4:	e0 03 19 aa	mov	x0, x25
+  112ac8:	e1 27 40 f9	ldr	x1, [sp, #0x48]
+  112acc:	2d 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112ad0:	e0 03 19 aa	mov	x0, x25
+  112ad4:	e1 23 40 f9	ldr	x1, [sp, #0x40]
+  112ad8:	22 00 80 52	mov	w2, #0x1
+  112adc:	29 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112ae0:	e0 03 19 aa	mov	x0, x25
+  112ae4:	e1 13 40 f9	ldr	x1, [sp, #0x20]
+  112ae8:	42 02 80 52	mov	w2, #0x12
+  112aec:	25 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112af0:	e0 03 18 aa	mov	x0, x24
+  112af4:	e1 0f 40 f9	ldr	x1, [sp, #0x18]
+  112af8:	e2 03 19 aa	mov	x2, x25
+  112afc:	03 00 80 d2	mov	x3, #0x0
+  112b00:	20 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b04:	60 6a 76 f8	ldr	x0, [x19, x22]
+  112b08:	e1 0b 40 f9	ldr	x1, [sp, #0x10]
+  112b0c:	e2 03 19 aa	mov	x2, x25
+  112b10:	e3 03 14 aa	mov	x3, x20
+  112b14:	1b 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b18:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  112b1c:	1a 59 81 b9	ldrsw	x26, [x8, #0x158]
+  112b20:	60 6a 7a f8	ldr	x0, [x19, x26]
+  112b24:	e1 03 15 aa	mov	x1, x21
+  112b28:	16 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b2c:	9f 02 00 eb	cmp	x20, x0
+  112b30:	02 03 00 54	b.hs	0x112b90
+  112b34:	60 6a 7a f8	ldr	x0, [x19, x26]
+  112b38:	e1 2f 40 f9	ldr	x1, [sp, #0x58]
+  112b3c:	e2 03 14 aa	mov	x2, x20
+  112b40:	10 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b44:	fd 03 1d aa	mov	x29, x29
+  112b48:	26 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112b4c:	fa 03 00 aa	mov	x26, x0
+  112b50:	e0 03 18 aa	mov	x0, x24
+  112b54:	e1 2b 40 f9	ldr	x1, [sp, #0x50]
+  112b58:	0a 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b5c:	e0 03 1a aa	mov	x0, x26
+  112b60:	e1 27 40 f9	ldr	x1, [sp, #0x48]
+  112b64:	07 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b68:	e0 03 1a aa	mov	x0, x26
+  112b6c:	e1 23 40 f9	ldr	x1, [sp, #0x40]
+  112b70:	02 00 80 52	mov	w2, #0x0
+  112b74:	03 03 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b78:	e0 03 18 aa	mov	x0, x24
+  112b7c:	e1 07 40 f9	ldr	x1, [sp, #0x8]
+  112b80:	e2 03 1a aa	mov	x2, x26
+  112b84:	ff 02 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112b88:	e0 03 1a aa	mov	x0, x26
+  112b8c:	09 03 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112b90:	c8 14 00 b0	adrp	x8, 665 ; 0x3ab000
+  112b94:	1a 65 81 b9	ldrsw	x26, [x8, #0x164]
+  112b98:	60 6a 7a f8	ldr	x0, [x19, x26]
+  112b9c:	e1 03 15 aa	mov	x1, x21
+  112ba0:	f8 02 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112ba4:	9f 02 00 eb	cmp	x20, x0
+  112ba8:	c2 01 00 54	b.hs	0x112be0
+  112bac:	60 6a 7a f8	ldr	x0, [x19, x26]
+  112bb0:	e1 2f 40 f9	ldr	x1, [sp, #0x58]
+  112bb4:	e2 03 14 aa	mov	x2, x20
+  112bb8:	f2 02 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112bbc:	fd 03 1d aa	mov	x29, x29
+  112bc0:	08 03 08 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  112bc4:	f5 03 00 aa	mov	x21, x0
+  112bc8:	e0 03 18 aa	mov	x0, x24
+  112bcc:	e1 07 40 f9	ldr	x1, [sp, #0x8]
+  112bd0:	e2 03 15 aa	mov	x2, x21
+  112bd4:	eb 02 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+  112bd8:	e0 03 15 aa	mov	x0, x21
+  112bdc:	f5 02 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112be0:	e0 03 19 aa	mov	x0, x25
+  112be4:	f3 02 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112be8:	e0 03 18 aa	mov	x0, x24
+  112bec:	f1 02 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112bf0:	f9 1b 40 f9	ldr	x25, [sp, #0x30]
+  112bf4:	fa 2f 40 f9	ldr	x26, [sp, #0x58]
+  112bf8:	e0 03 17 aa	mov	x0, x23
+  112bfc:	ed 02 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112c00:	e0 03 1b aa	mov	x0, x27
+  112c04:	eb 02 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  112c08:	94 06 00 91	add	x20, x20, #0x1
+  112c0c:	60 6a 76 f8	ldr	x0, [x19, x22]
+  112c10:	e1 03 1c aa	mov	x1, x28
+  112c14:	db 02 08 94	bl	0x313780 ; Objc message: -[x0 setObject:atIndexedSubscript:]
+~~~
+
+### Original CBBridgedSplitApp::stop at 0x1136dc
+
+~~~asm
+  1136dc:	fc 6f ba a9	stp	x28, x27, [sp, #-0x60]!
+  1136e0:	fa 67 01 a9	stp	x26, x25, [sp, #0x10]
+  1136e4:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+  1136e8:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+  1136ec:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+  1136f0:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+  1136f4:	fd 43 01 91	add	x29, sp, #0x50
+  1136f8:	ff 43 0f d1	sub	sp, sp, #0x3d0
+  1136fc:	f3 03 00 aa	mov	x19, x0
+  113700:	e8 12 00 b0	adrp	x8, 605 ; 0x370000
+  113704:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  113708:	08 01 40 f9	ldr	x8, [x8]
+  11370c:	a8 03 1a f8	stur	x8, [x29, #-0x60]
+  113710:	a8 14 00 d0	adrp	x8, 662 ; 0x3a9000
+  113714:	01 79 43 f9	ldr	x1, [x8, #0x6f0] ; Objc selector ref: stopBlinkingSession
+  113718:	1a 00 08 94	bl	0x313780 ; Objc message: -[x0 stopBlinkingSession]
+  11371c:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  113720:	14 69 81 b9	ldrsw	x20, [x8, #0x168]
+  113724:	60 6a 74 f8	ldr	x0, [x19, x20]
+  113728:	b9 14 00 b0	adrp	x25, 661 ; 0x3a8000
+  11372c:	c0 00 00 b4	cbz	x0, 0x113744
+  113730:	21 2b 45 f9	ldr	x1, [x25, #0xa50]
+  113734:	13 00 08 94	bl	0x313780 ; Objc message: -[x0 stopBlinkingSession]
+  113738:	60 6a 74 f8	ldr	x0, [x19, x20]
+  11373c:	7f 6a 34 f8	str	xzr, [x19, x20]
+  113740:	1c 00 08 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  113744:	00 e4 00 4f	movi.16b	v0, #0x0
+  113748:	a0 03 3c ad	stp	q0, q0, [x29, #-0x80]
+  11374c:	a0 03 3b ad	stp	q0, q0, [x29, #-0xa0]
+  113750:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  113754:	18 55 81 b9	ldrsw	x24, [x8, #0x154]
+  113758:	60 6a 78 f8	ldr	x0, [x19, x24]
+  11375c:	18 00 08 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  113760:	f5 03 00 aa	mov	x21, x0
+  113764:	a8 14 00 b0	adrp	x8, 661 ; 0x3a8000
+  113768:	14 d5 41 f9	ldr	x20, [x8, #0x3a8] ; Objc selector ref: countByEnumeratingWithState:objects:count:
+  11376c:	a2 83 02 d1	sub	x2, x29, #0xa0
+  113770:	e3 03 0c 91	add	x3, sp, #0x300
+  113774:	e1 03 14 aa	mov	x1, x20
+  113778:	04 02 80 52	mov	w4, #0x10
+  11377c:	01 00 08 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  113780:	80 03 00 b4	cbz	x0, 0x1137f0
+  113784:	f6 03 00 aa	mov	x22, x0
+  113788:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  11378c:	1a 01 40 f9	ldr	x26, [x8]
+  113790:	bb 14 00 b0	adrp	x27, 661 ; 0x3a8000
+  113794:	1c 00 80 d2	mov	x28, #0x0
+  113798:	77 97 47 f9	ldr	x23, [x27, #0xf28]
+  11379c:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  1137a0:	08 01 40 f9	ldr	x8, [x8]
+  1137a4:	1f 01 1a eb	cmp	x8, x26
+  1137a8:	60 00 00 54	b.eq	0x1137b4
+  1137ac:	e0 03 15 aa	mov	x0, x21
+  1137b0:	df ff 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  1137b4:	a8 83 56 f8	ldur	x8, [x29, #-0x98]
+  1137b8:	00 79 7c f8	ldr	x0, [x8, x28, lsl #3]
+  1137bc:	e1 03 17 aa	mov	x1, x23
+  1137c0:	f0 ff 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1137c4:	9c 07 00 91	add	x28, x28, #0x1
+  1137c8:	9f 03 16 eb	cmp	x28, x22
+  1137cc:	83 fe ff 54	b.lo	0x11379c
+  1137d0:	a2 83 02 d1	sub	x2, x29, #0xa0
+  1137d4:	e3 03 0c 91	add	x3, sp, #0x300
+  1137d8:	e0 03 15 aa	mov	x0, x21
+  1137dc:	e1 03 14 aa	mov	x1, x20
+  1137e0:	04 02 80 52	mov	w4, #0x10
+  1137e4:	e7 ff 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1137e8:	f6 03 00 aa	mov	x22, x0
+  1137ec:	40 fd ff b5	cbnz	x0, 0x113794
+  1137f0:	e0 03 15 aa	mov	x0, x21
+  1137f4:	ef ff 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1137f8:	60 6a 78 f8	ldr	x0, [x19, x24]
+  1137fc:	a8 14 00 d0	adrp	x8, 662 ; 0x3a9000
+  113800:	15 7d 42 f9	ldr	x21, [x8, #0x4f8] ; Objc selector ref: removeAllObjects
+  113804:	e1 03 15 aa	mov	x1, x21
+  113808:	de ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  11380c:	00 e4 00 4f	movi.16b	v0, #0x0
+  113810:	e0 03 17 ad	stp	q0, q0, [sp, #0x2e0]
+  113814:	e0 03 16 ad	stp	q0, q0, [sp, #0x2c0]
+  113818:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  11381c:	1a 59 81 b9	ldrsw	x26, [x8, #0x158]
+  113820:	60 6a 7a f8	ldr	x0, [x19, x26]
+  113824:	e6 ff 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  113828:	f6 03 00 aa	mov	x22, x0
+  11382c:	e2 03 0b 91	add	x2, sp, #0x2c0
+  113830:	e3 03 09 91	add	x3, sp, #0x240
+  113834:	e1 03 14 aa	mov	x1, x20
+  113838:	04 02 80 52	mov	w4, #0x10
+  11383c:	d1 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113840:	60 03 00 b4	cbz	x0, 0x1138ac
+  113844:	f7 03 00 aa	mov	x23, x0
+  113848:	e8 6b 41 f9	ldr	x8, [sp, #0x2d0]
+  11384c:	1b 01 40 f9	ldr	x27, [x8]
+  113850:	1c 00 80 d2	mov	x28, #0x0
+  113854:	38 2b 45 f9	ldr	x24, [x25, #0xa50]
+  113858:	e8 6b 41 f9	ldr	x8, [sp, #0x2d0]
+  11385c:	08 01 40 f9	ldr	x8, [x8]
+  113860:	1f 01 1b eb	cmp	x8, x27
+  113864:	60 00 00 54	b.eq	0x113870
+  113868:	e0 03 16 aa	mov	x0, x22
+  11386c:	b0 ff 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  113870:	e8 67 41 f9	ldr	x8, [sp, #0x2c8]
+  113874:	00 79 7c f8	ldr	x0, [x8, x28, lsl #3]
+  113878:	e1 03 18 aa	mov	x1, x24
+  11387c:	c1 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113880:	9c 07 00 91	add	x28, x28, #0x1
+  113884:	9f 03 17 eb	cmp	x28, x23
+  113888:	83 fe ff 54	b.lo	0x113858
+  11388c:	e2 03 0b 91	add	x2, sp, #0x2c0
+  113890:	e3 03 09 91	add	x3, sp, #0x240
+  113894:	e0 03 16 aa	mov	x0, x22
+  113898:	e1 03 14 aa	mov	x1, x20
+  11389c:	04 02 80 52	mov	w4, #0x10
+  1138a0:	b8 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  1138a4:	f7 03 00 aa	mov	x23, x0
+  1138a8:	40 fd ff b5	cbnz	x0, 0x113850
+  1138ac:	e0 03 16 aa	mov	x0, x22
+  1138b0:	c0 ff 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1138b4:	60 6a 7a f8	ldr	x0, [x19, x26]
+  1138b8:	e1 03 15 aa	mov	x1, x21
+  1138bc:	b1 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  1138c0:	00 e4 00 4f	movi.16b	v0, #0x0
+  1138c4:	e0 03 11 ad	stp	q0, q0, [sp, #0x220]
+  1138c8:	e0 03 10 ad	stp	q0, q0, [sp, #0x200]
+  1138cc:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  1138d0:	1a 5d 81 b9	ldrsw	x26, [x8, #0x15c]
+  1138d4:	60 6a 7a f8	ldr	x0, [x19, x26]
+  1138d8:	b9 ff 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  1138dc:	f6 03 00 aa	mov	x22, x0
+  1138e0:	e2 03 08 91	add	x2, sp, #0x200
+  1138e4:	e3 03 06 91	add	x3, sp, #0x180
+  1138e8:	e1 03 14 aa	mov	x1, x20
+  1138ec:	04 02 80 52	mov	w4, #0x10
+  1138f0:	a4 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  1138f4:	60 03 00 b4	cbz	x0, 0x113960
+  1138f8:	f7 03 00 aa	mov	x23, x0
+  1138fc:	e8 0b 41 f9	ldr	x8, [sp, #0x210]
+  113900:	1b 01 40 f9	ldr	x27, [x8]
+  113904:	1c 00 80 d2	mov	x28, #0x0
+  113908:	38 2b 45 f9	ldr	x24, [x25, #0xa50]
+  11390c:	e8 0b 41 f9	ldr	x8, [sp, #0x210]
+  113910:	08 01 40 f9	ldr	x8, [x8]
+  113914:	1f 01 1b eb	cmp	x8, x27
+  113918:	60 00 00 54	b.eq	0x113924
+  11391c:	e0 03 16 aa	mov	x0, x22
+  113920:	83 ff 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  113924:	e8 07 41 f9	ldr	x8, [sp, #0x208]
+  113928:	00 79 7c f8	ldr	x0, [x8, x28, lsl #3]
+  11392c:	e1 03 18 aa	mov	x1, x24
+  113930:	94 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113934:	9c 07 00 91	add	x28, x28, #0x1
+  113938:	9f 03 17 eb	cmp	x28, x23
+  11393c:	83 fe ff 54	b.lo	0x11390c
+  113940:	e2 03 08 91	add	x2, sp, #0x200
+  113944:	e3 03 06 91	add	x3, sp, #0x180
+  113948:	e0 03 16 aa	mov	x0, x22
+  11394c:	e1 03 14 aa	mov	x1, x20
+  113950:	04 02 80 52	mov	w4, #0x10
+  113954:	8b ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113958:	f7 03 00 aa	mov	x23, x0
+  11395c:	40 fd ff b5	cbnz	x0, 0x113904
+  113960:	e0 03 16 aa	mov	x0, x22
+  113964:	93 ff 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  113968:	60 6a 7a f8	ldr	x0, [x19, x26]
+  11396c:	e1 03 15 aa	mov	x1, x21
+  113970:	84 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113974:	00 e4 00 4f	movi.16b	v0, #0x0
+  113978:	e0 03 0b ad	stp	q0, q0, [sp, #0x160]
+  11397c:	e0 03 0a ad	stp	q0, q0, [sp, #0x140]
+  113980:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  113984:	1a 61 81 b9	ldrsw	x26, [x8, #0x160]
+  113988:	60 6a 7a f8	ldr	x0, [x19, x26]
+  11398c:	8c ff 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  113990:	f6 03 00 aa	mov	x22, x0
+  113994:	e2 03 05 91	add	x2, sp, #0x140
+  113998:	e3 03 03 91	add	x3, sp, #0xc0
+  11399c:	e1 03 14 aa	mov	x1, x20
+  1139a0:	04 02 80 52	mov	w4, #0x10
+  1139a4:	77 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  1139a8:	60 03 00 b4	cbz	x0, 0x113a14
+  1139ac:	f7 03 00 aa	mov	x23, x0
+  1139b0:	e8 ab 40 f9	ldr	x8, [sp, #0x150]
+  1139b4:	1b 01 40 f9	ldr	x27, [x8]
+  1139b8:	1c 00 80 d2	mov	x28, #0x0
+  1139bc:	38 2b 45 f9	ldr	x24, [x25, #0xa50]
+  1139c0:	e8 ab 40 f9	ldr	x8, [sp, #0x150]
+  1139c4:	08 01 40 f9	ldr	x8, [x8]
+  1139c8:	1f 01 1b eb	cmp	x8, x27
+  1139cc:	60 00 00 54	b.eq	0x1139d8
+  1139d0:	e0 03 16 aa	mov	x0, x22
+  1139d4:	56 ff 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  1139d8:	e8 a7 40 f9	ldr	x8, [sp, #0x148]
+  1139dc:	00 79 7c f8	ldr	x0, [x8, x28, lsl #3]
+  1139e0:	e1 03 18 aa	mov	x1, x24
+  1139e4:	67 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  1139e8:	9c 07 00 91	add	x28, x28, #0x1
+  1139ec:	9f 03 17 eb	cmp	x28, x23
+  1139f0:	83 fe ff 54	b.lo	0x1139c0
+  1139f4:	e2 03 05 91	add	x2, sp, #0x140
+  1139f8:	e3 03 03 91	add	x3, sp, #0xc0
+  1139fc:	e0 03 16 aa	mov	x0, x22
+  113a00:	e1 03 14 aa	mov	x1, x20
+  113a04:	04 02 80 52	mov	w4, #0x10
+  113a08:	5e ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113a0c:	f7 03 00 aa	mov	x23, x0
+  113a10:	40 fd ff b5	cbnz	x0, 0x1139b8
+  113a14:	e0 03 16 aa	mov	x0, x22
+  113a18:	66 ff 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  113a1c:	60 6a 7a f8	ldr	x0, [x19, x26]
+  113a20:	e1 03 15 aa	mov	x1, x21
+  113a24:	57 ff 07 94	bl	0x313780 ; Objc message: -[x0 removeAllObjects]
+  113a28:	00 e4 00 4f	movi.16b	v0, #0x0
+  113a2c:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+  113a30:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+  113a34:	c8 14 00 90	adrp	x8, 664 ; 0x3ab000
+  113a38:	1a 65 81 b9	ldrsw	x26, [x8, #0x164]
+  113a3c:	60 6a 7a f8	ldr	x0, [x19, x26]
+  113a40:	5f ff 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  113a44:	f6 03 00 aa	mov	x22, x0
+  113a48:	e2 03 02 91	add	x2, sp, #0x80
+~~~
+
+### Original CBBridgedSplitApp::stopBlinkingSession at 0x1276ec
+
+~~~asm
+  1276ec:	fc 6f ba a9	stp	x28, x27, [sp, #-0x60]!
+  1276f0:	fa 67 01 a9	stp	x26, x25, [sp, #0x10]
+  1276f4:	f8 5f 02 a9	stp	x24, x23, [sp, #0x20]
+  1276f8:	f6 57 03 a9	stp	x22, x21, [sp, #0x30]
+  1276fc:	f4 4f 04 a9	stp	x20, x19, [sp, #0x40]
+  127700:	fd 7b 05 a9	stp	x29, x30, [sp, #0x50]
+  127704:	fd 43 01 91	add	x29, sp, #0x50
+  127708:	ff 43 08 d1	sub	sp, sp, #0x210
+  12770c:	f3 03 00 aa	mov	x19, x0
+  127710:	48 12 00 b0	adrp	x8, 585 ; 0x370000
+  127714:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  127718:	08 01 40 f9	ldr	x8, [x8]
+  12771c:	a8 83 1a f8	stur	x8, [x29, #-0x58]
+  127720:	08 14 00 f0	adrp	x8, 643 ; 0x3aa000
+  127724:	00 bd 45 f9	ldr	x0, [x8, #0xb78] ; Objc class ref: _OBJC_CLASS_$_NSThread
+  127728:	08 14 00 d0	adrp	x8, 642 ; 0x3a9000
+  12772c:	01 3d 40 f9	ldr	x1, [x8, #0x78] ; Objc selector ref: isMainThread
+  127730:	14 b0 07 94	bl	0x313780 ; Objc message: +[NSThread isMainThread]
+  127734:	80 10 00 36	tbz	w0, #0x0, 0x127944
+  127738:	f8 03 04 91	add	x24, sp, #0x100
+  12773c:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127740:	14 7d 81 b9	ldrsw	x20, [x8, #0x17c]
+  127744:	60 6a 74 f8	ldr	x0, [x19, x20]
+  127748:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  12774c:	01 c1 43 f9	ldr	x1, [x8, #0x780] ; Objc selector ref: invalidate
+  127750:	0c b0 07 94	bl	0x313780 ; Objc message: -[x0 invalidate]
+  127754:	60 6a 74 f8	ldr	x0, [x19, x20]
+  127758:	7f 6a 34 f8	str	xzr, [x19, x20]
+  12775c:	15 b0 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  127760:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127764:	08 71 81 b9	ldrsw	x8, [x8, #0x170]
+  127768:	7f 6a 28 38	strb	wzr, [x19, x8]
+  12776c:	00 e4 00 4f	movi.16b	v0, #0x0
+  127770:	00 03 06 ad	stp	q0, q0, [x24, #0xc0]
+  127774:	00 03 07 ad	stp	q0, q0, [x24, #0xe0]
+  127778:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  12777c:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  127780:	60 6a 68 f8	ldr	x0, [x19, x8]
+  127784:	0e b0 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  127788:	f5 03 00 aa	mov	x21, x0
+  12778c:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127790:	14 d5 41 f9	ldr	x20, [x8, #0x3a8] ; Objc selector ref: countByEnumeratingWithState:objects:count:
+  127794:	a2 83 02 d1	sub	x2, x29, #0xa0
+  127798:	e3 03 05 91	add	x3, sp, #0x140
+  12779c:	e1 03 14 aa	mov	x1, x20
+  1277a0:	04 02 80 52	mov	w4, #0x10
+  1277a4:	f7 af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1277a8:	80 03 00 b4	cbz	x0, 0x127818
+  1277ac:	f6 03 00 aa	mov	x22, x0
+  1277b0:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  1277b4:	19 01 40 f9	ldr	x25, [x8]
+  1277b8:	1a 14 00 d0	adrp	x26, 642 ; 0x3a9000
+  1277bc:	1b 00 80 d2	mov	x27, #0x0
+  1277c0:	57 83 43 f9	ldr	x23, [x26, #0x700]
+  1277c4:	a8 03 57 f8	ldur	x8, [x29, #-0x90]
+  1277c8:	08 01 40 f9	ldr	x8, [x8]
+  1277cc:	1f 01 19 eb	cmp	x8, x25
+  1277d0:	60 00 00 54	b.eq	0x1277dc
+  1277d4:	e0 03 15 aa	mov	x0, x21
+  1277d8:	d5 af 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  1277dc:	a8 83 56 f8	ldur	x8, [x29, #-0x98]
+  1277e0:	00 79 7b f8	ldr	x0, [x8, x27, lsl #3]
+  1277e4:	e1 03 17 aa	mov	x1, x23
+  1277e8:	e6 af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1277ec:	7b 07 00 91	add	x27, x27, #0x1
+  1277f0:	7f 03 16 eb	cmp	x27, x22
+  1277f4:	83 fe ff 54	b.lo	0x1277c4
+  1277f8:	a2 83 02 d1	sub	x2, x29, #0xa0
+  1277fc:	e3 03 05 91	add	x3, sp, #0x140
+  127800:	e0 03 15 aa	mov	x0, x21
+  127804:	e1 03 14 aa	mov	x1, x20
+  127808:	04 02 80 52	mov	w4, #0x10
+  12780c:	dd af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  127810:	f6 03 00 aa	mov	x22, x0
+  127814:	40 fd ff b5	cbnz	x0, 0x1277bc
+  127818:	e0 03 15 aa	mov	x0, x21
+  12781c:	e5 af 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  127820:	00 e4 00 4f	movi.16b	v0, #0x0
+  127824:	00 03 01 ad	stp	q0, q0, [x24, #0x20]
+  127828:	00 03 00 ad	stp	q0, q0, [x24]
+  12782c:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127830:	08 5d 81 b9	ldrsw	x8, [x8, #0x15c]
+  127834:	60 6a 68 f8	ldr	x0, [x19, x8]
+  127838:	e1 af 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  12783c:	f5 03 00 aa	mov	x21, x0
+  127840:	e2 03 04 91	add	x2, sp, #0x100
+  127844:	e3 03 02 91	add	x3, sp, #0x80
+  127848:	e1 03 14 aa	mov	x1, x20
+  12784c:	04 02 80 52	mov	w4, #0x10
+  127850:	cc af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  127854:	a0 03 00 b4	cbz	x0, 0x1278c8
+  127858:	f6 03 00 aa	mov	x22, x0
+  12785c:	e8 8b 40 f9	ldr	x8, [sp, #0x110]
+  127860:	18 01 40 f9	ldr	x24, [x8]
+  127864:	19 14 00 d0	adrp	x25, 642 ; 0x3a9000
+  127868:	1a 00 80 d2	mov	x26, #0x0
+  12786c:	37 87 43 f9	ldr	x23, [x25, #0x708]
+  127870:	e8 8b 40 f9	ldr	x8, [sp, #0x110]
+  127874:	08 01 40 f9	ldr	x8, [x8]
+  127878:	1f 01 18 eb	cmp	x8, x24
+  12787c:	60 00 00 54	b.eq	0x127888
+  127880:	e0 03 15 aa	mov	x0, x21
+  127884:	aa af 07 94	bl	0x31372c ; symbol stub for: _objc_enumerationMutation
+  127888:	e8 87 40 f9	ldr	x8, [sp, #0x108]
+  12788c:	02 79 7a f8	ldr	x2, [x8, x26, lsl #3]
+  127890:	e0 03 13 aa	mov	x0, x19
+  127894:	e1 03 17 aa	mov	x1, x23
+  127898:	ba af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  12789c:	5a 07 00 91	add	x26, x26, #0x1
+  1278a0:	5f 03 16 eb	cmp	x26, x22
+  1278a4:	63 fe ff 54	b.lo	0x127870
+  1278a8:	e2 03 04 91	add	x2, sp, #0x100
+  1278ac:	e3 03 02 91	add	x3, sp, #0x80
+  1278b0:	e0 03 15 aa	mov	x0, x21
+  1278b4:	e1 03 14 aa	mov	x1, x20
+  1278b8:	04 02 80 52	mov	w4, #0x10
+  1278bc:	b1 af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  1278c0:	f6 03 00 aa	mov	x22, x0
+  1278c4:	20 fd ff b5	cbnz	x0, 0x127868
+  1278c8:	e0 03 15 aa	mov	x0, x21
+  1278cc:	b9 af 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  1278d0:	08 14 00 f0	adrp	x8, 643 ; 0x3aa000
+  1278d4:	00 71 45 f9	ldr	x0, [x8, #0xae0] ; Objc class ref: _OBJC_CLASS_$_UIView
+  1278d8:	48 12 00 b0	adrp	x8, 585 ; 0x370000
+  1278dc:	08 a1 40 f9	ldr	x8, [x8, #0x140] ; literal pool symbol address: __NSConcreteStackBlock
+  1278e0:	f3 a3 02 a9	stp	x19, x8, [sp, #0x28]
+  1278e4:	a9 10 00 b0	adrp	x9, 533 ; 0x33c000
+  1278e8:	20 d9 44 fd	ldr	d0, [x9, #0x9b0]
+  1278ec:	e0 1f 00 fd	str	d0, [sp, #0x38]
+  1278f0:	09 07 00 10	adr	x9, #224
+  1278f4:	1f 20 03 d5	nop
+  1278f8:	4a 12 00 b0	adrp	x10, 585 ; 0x370000
+  1278fc:	4a c1 2f 91	add	x10, x10, #0xbf0
+  127900:	e9 2b 04 a9	stp	x9, x10, [sp, #0x40]
+  127904:	f3 2b 00 f9	str	x19, [sp, #0x50]
+  127908:	e8 07 00 f9	str	x8, [sp, #0x8]
+  12790c:	28 0f 00 10	adr	x8, #484
+  127910:	1f 20 03 d5	nop
+  127914:	49 12 00 b0	adrp	x9, 585 ; 0x370000
+  127918:	29 81 30 91	add	x9, x9, #0xc20
+  12791c:	e0 0b 00 fd	str	d0, [sp, #0x10]
+  127920:	e8 a7 01 a9	stp	x8, x9, [sp, #0x18]
+  127924:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127928:	01 4d 44 f9	ldr	x1, [x8, #0x898] ; Objc selector ref: animateWithDuration:animations:completion:
+  12792c:	a8 10 00 f0	adrp	x8, 535 ; 0x33e000
+  127930:	00 01 43 fd	ldr	d0, [x8, #0x600]
+  127934:	e2 c3 00 91	add	x2, sp, #0x30
+  127938:	e3 23 00 91	add	x3, sp, #0x8
+  12793c:	91 af 07 94	bl	0x313780 ; Objc message: +[UIView animateWithDuration:animations:completion:]
+  127940:	11 00 00 14	b	0x127984
+  127944:	48 12 00 b0	adrp	x8, 585 ; 0x370000
+  127948:	08 a1 40 f9	ldr	x8, [x8, #0x140] ; literal pool symbol address: __NSConcreteStackBlock
+  12794c:	e8 2f 00 f9	str	x8, [sp, #0x58]
+  127950:	a8 10 00 b0	adrp	x8, 533 ; 0x33c000
+  127954:	00 d9 44 fd	ldr	d0, [x8, #0x9b0]
+  127958:	48 03 00 10	adr	x8, #104
+  12795c:	1f 20 03 d5	nop
+  127960:	e0 33 00 fd	str	d0, [sp, #0x60]
+  127964:	49 12 00 b0	adrp	x9, 585 ; 0x370000
+  127968:	29 c1 2f 91	add	x9, x9, #0xbf0
+  12796c:	e8 a7 06 a9	stp	x8, x9, [sp, #0x68]
+  127970:	f3 3f 00 f9	str	x19, [sp, #0x78]
+  127974:	40 12 00 b0	adrp	x0, 585 ; 0x370000
+  127978:	00 b4 40 f9	ldr	x0, [x0, #0x168] ; literal pool symbol address: __dispatch_main_q
+  12797c:	e1 63 01 91	add	x1, sp, #0x58
+  127980:	f6 ae 07 94	bl	0x313558 ; symbol stub for: _dispatch_async
+  127984:	a8 83 5a f8	ldur	x8, [x29, #-0x58]
+  127988:	49 12 00 b0	adrp	x9, 585 ; 0x370000
+  12798c:	29 b1 40 f9	ldr	x9, [x9, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  127990:	29 01 40 f9	ldr	x9, [x9]
+  127994:	3f 01 08 eb	cmp	x9, x8
+  127998:	21 01 00 54	b.ne	0x1279bc
+  12799c:	ff 43 08 91	add	sp, sp, #0x210
+  1279a0:	fd 7b 45 a9	ldp	x29, x30, [sp, #0x50]
+  1279a4:	f4 4f 44 a9	ldp	x20, x19, [sp, #0x40]
+  1279a8:	f6 57 43 a9	ldp	x22, x21, [sp, #0x30]
+  1279ac:	f8 5f 42 a9	ldp	x24, x23, [sp, #0x20]
+  1279b0:	fa 67 41 a9	ldp	x26, x25, [sp, #0x10]
+  1279b4:	fc 6f c6 a8	ldp	x28, x27, [sp], #0x60
+  1279b8:	c0 03 5f d6	ret
+  1279bc:	c0 ae 07 94	bl	0x3134bc ; symbol stub for: ___stack_chk_fail
+  1279c0:	00 10 40 f9	ldr	x0, [x0, #0x20]
+  1279c4:	08 14 00 d0	adrp	x8, 642 ; 0x3a9000
+  1279c8:	01 79 43 f9	ldr	x1, [x8, #0x6f0] ; Objc selector ref: stopBlinkingSession
+  1279cc:	6d af 07 14	b	0x313780 ; Objc message: -[x0 stopBlinkingSession]
+  1279d0:	ff 83 04 d1	sub	sp, sp, #0x120
+  1279d4:	fa 67 0d a9	stp	x26, x25, [sp, #0xd0]
+  1279d8:	f8 5f 0e a9	stp	x24, x23, [sp, #0xe0]
+  1279dc:	f6 57 0f a9	stp	x22, x21, [sp, #0xf0]
+  1279e0:	f4 4f 10 a9	stp	x20, x19, [sp, #0x100]
+  1279e4:	fd 7b 11 a9	stp	x29, x30, [sp, #0x110]
+  1279e8:	fd 43 04 91	add	x29, sp, #0x110
+  1279ec:	48 12 00 b0	adrp	x8, 585 ; 0x370000
+  1279f0:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  1279f4:	08 01 40 f9	ldr	x8, [x8]
+  1279f8:	a8 83 1b f8	stur	x8, [x29, #-0x48]
+  1279fc:	00 e4 00 4f	movi.16b	v0, #0x0
+  127a00:	e0 03 04 ad	stp	q0, q0, [sp, #0x80]
+  127a04:	e0 03 05 ad	stp	q0, q0, [sp, #0xa0]
+  127a08:	08 10 40 f9	ldr	x8, [x0, #0x20]
+  127a0c:	29 14 00 90	adrp	x9, 644 ; 0x3ab000
+  127a10:	29 65 81 b9	ldrsw	x9, [x9, #0x164]
+  127a14:	00 69 69 f8	ldr	x0, [x8, x9]
+  127a18:	69 af 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  127a1c:	f3 03 00 aa	mov	x19, x0
+  127a20:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127a24:	14 d5 41 f9	ldr	x20, [x8, #0x3a8] ; Objc selector ref: countByEnumeratingWithState:objects:count:
+  127a28:	e2 03 02 91	add	x2, sp, #0x80
+  127a2c:	e3 03 00 91	mov	x3, sp
+  127a30:	e1 03 14 aa	mov	x1, x20
+  127a34:	04 02 80 52	mov	w4, #0x10
+  127a38:	52 af 07 94	bl	0x313780 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+  127a3c:	a0 03 00 b4	cbz	x0, 0x127ab0
+  127a40:	f5 03 00 aa	mov	x21, x0
+  127a44:	e8 4b 40 f9	ldr	x8, [sp, #0x90]
+  127a48:	17 01 40 f9	ldr	x23, [x8]
+  127a4c:	18 14 00 b0	adrp	x24, 641 ; 0x3a8000
+  127a50:	19 00 80 d2	mov	x25, #0x0
+  127a54:	16 1f 45 f9	ldr	x22, [x24, #0xa38]
+  127a58:	e8 4b 40 f9	ldr	x8, [sp, #0x90]
+~~~
+
+### Original CBBridgedSplitApp::stopContainerBorderBlinking: at 0x127e6c
+
+~~~asm
+  127e6c:	f8 5f bc a9	stp	x24, x23, [sp, #-0x40]!
+  127e70:	f6 57 01 a9	stp	x22, x21, [sp, #0x10]
+  127e74:	f4 4f 02 a9	stp	x20, x19, [sp, #0x20]
+  127e78:	fd 7b 03 a9	stp	x29, x30, [sp, #0x30]
+  127e7c:	fd c3 00 91	add	x29, sp, #0x30
+  127e80:	f4 03 02 aa	mov	x20, x2
+  127e84:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127e88:	15 e1 43 f9	ldr	x21, [x8, #0x7c0] ; Objc selector ref: layer
+  127e8c:	e0 03 02 aa	mov	x0, x2
+  127e90:	4b ae 07 94	bl	0x3137bc ; symbol stub for: _objc_retain
+  127e94:	f3 03 00 aa	mov	x19, x0
+  127e98:	e0 03 14 aa	mov	x0, x20
+  127e9c:	e1 03 15 aa	mov	x1, x21
+  127ea0:	38 ae 07 94	bl	0x313780 ; Objc message: -[x0 layer]
+  127ea4:	fd 03 1d aa	mov	x29, x29
+  127ea8:	4e ae 07 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  127eac:	f6 03 00 aa	mov	x22, x0
+  127eb0:	08 14 00 d0	adrp	x8, 642 ; 0x3a9000
+  127eb4:	01 a5 41 f9	ldr	x1, [x8, #0x348] ; Objc selector ref: removeAnimationForKey:
+  127eb8:	82 13 00 f0	adrp	x2, 627 ; 0x39a000
+  127ebc:	42 00 0d 91	add	x2, x2, #0x340 ; Objc cfstring ref: @"borderPulse"
+  127ec0:	30 ae 07 94	bl	0x313780 ; Objc message: -[x0 removeAnimationForKey:]
+  127ec4:	e0 03 16 aa	mov	x0, x22
+  127ec8:	3a ae 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  127ecc:	08 14 00 f0	adrp	x8, 643 ; 0x3aa000
+  127ed0:	00 0d 45 f9	ldr	x0, [x8, #0xa18] ; Objc class ref: _OBJC_CLASS_$_UIColor
+  127ed4:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127ed8:	01 e5 41 f9	ldr	x1, [x8, #0x3c8] ; Objc selector ref: colorWithRed:green:blue:alpha:
+  127edc:	a8 10 00 f0	adrp	x8, 535 ; 0x33e000
+  127ee0:	00 c5 45 fd	ldr	d0, [x8, #0xb88]
+  127ee4:	1f 20 03 d5	nop
+  127ee8:	01 4d 43 fd	ldr	d1, [x8, #0x698]
+  127eec:	a8 10 00 b0	adrp	x8, 533 ; 0x33c000
+  127ef0:	02 05 44 fd	ldr	d2, [x8, #0x808]
+  127ef4:	a8 10 00 f0	adrp	x8, 535 ; 0x33e000
+  127ef8:	03 01 43 fd	ldr	d3, [x8, #0x600]
+  127efc:	21 ae 07 94	bl	0x313780 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+  127f00:	fd 03 1d aa	mov	x29, x29
+  127f04:	37 ae 07 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  127f08:	30 ae 07 94	bl	0x3137c8 ; symbol stub for: _objc_retainAutorelease
+  127f0c:	f6 03 00 aa	mov	x22, x0
+  127f10:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127f14:	01 dd 43 f9	ldr	x1, [x8, #0x7b8] ; Objc selector ref: CGColor
+  127f18:	1a ae 07 94	bl	0x313780 ; Objc message: -[x0 CGColor]
+  127f1c:	f7 03 00 aa	mov	x23, x0
+  127f20:	e0 03 14 aa	mov	x0, x20
+  127f24:	e1 03 15 aa	mov	x1, x21
+  127f28:	16 ae 07 94	bl	0x313780 ; Objc message: -[x0 CGColor]
+  127f2c:	fd 03 1d aa	mov	x29, x29
+  127f30:	2c ae 07 94	bl	0x3137e0 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+  127f34:	f4 03 00 aa	mov	x20, x0
+  127f38:	e0 03 13 aa	mov	x0, x19
+  127f3c:	1d ae 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  127f40:	08 14 00 b0	adrp	x8, 641 ; 0x3a8000
+  127f44:	01 11 44 f9	ldr	x1, [x8, #0x820] ; Objc selector ref: setBorderColor:
+  127f48:	e0 03 14 aa	mov	x0, x20
+  127f4c:	e2 03 17 aa	mov	x2, x23
+  127f50:	0c ae 07 94	bl	0x313780 ; Objc message: -[x0 setBorderColor:]
+  127f54:	e0 03 14 aa	mov	x0, x20
+  127f58:	16 ae 07 94	bl	0x3137b0 ; symbol stub for: _objc_release
+  127f5c:	e0 03 16 aa	mov	x0, x22
+  127f60:	fd 7b 43 a9	ldp	x29, x30, [sp, #0x30]
+  127f64:	f4 4f 42 a9	ldp	x20, x19, [sp, #0x20]
+  127f68:	f6 57 41 a9	ldp	x22, x21, [sp, #0x10]
+  127f6c:	f8 5f c4 a8	ldp	x24, x23, [sp], #0x40
+  127f70:	10 ae 07 14	b	0x3137b0 ; symbol stub for: _objc_release
+  127f74:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127f78:	08 69 81 b9	ldrsw	x8, [x8, #0x168]
+  127f7c:	00 68 68 f8	ldr	x0, [x0, x8]
+  127f80:	c0 03 5f d6	ret
+  127f84:	e1 03 02 aa	mov	x1, x2
+  127f88:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127f8c:	08 69 81 b9	ldrsw	x8, [x8, #0x168]
+  127f90:	00 00 08 8b	add	x0, x0, x8
+  127f94:	1f ae 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  127f98:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127f9c:	08 55 81 b9	ldrsw	x8, [x8, #0x154]
+  127fa0:	00 68 68 f8	ldr	x0, [x0, x8]
+  127fa4:	c0 03 5f d6	ret
+  127fa8:	e1 03 02 aa	mov	x1, x2
+  127fac:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127fb0:	08 55 81 b9	ldrsw	x8, [x8, #0x154]
+  127fb4:	00 00 08 8b	add	x0, x0, x8
+  127fb8:	16 ae 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  127fbc:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127fc0:	08 59 81 b9	ldrsw	x8, [x8, #0x158]
+  127fc4:	00 68 68 f8	ldr	x0, [x0, x8]
+  127fc8:	c0 03 5f d6	ret
+  127fcc:	e1 03 02 aa	mov	x1, x2
+  127fd0:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127fd4:	08 59 81 b9	ldrsw	x8, [x8, #0x158]
+  127fd8:	00 00 08 8b	add	x0, x0, x8
+  127fdc:	0d ae 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  127fe0:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127fe4:	08 5d 81 b9	ldrsw	x8, [x8, #0x15c]
+  127fe8:	00 68 68 f8	ldr	x0, [x0, x8]
+  127fec:	c0 03 5f d6	ret
+  127ff0:	e1 03 02 aa	mov	x1, x2
+  127ff4:	28 14 00 90	adrp	x8, 644 ; 0x3ab000
+  127ff8:	08 5d 81 b9	ldrsw	x8, [x8, #0x15c]
+  127ffc:	00 00 08 8b	add	x0, x0, x8
+  128000:	04 ae 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  128004:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128008:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  12800c:	00 68 68 f8	ldr	x0, [x0, x8]
+  128010:	c0 03 5f d6	ret
+  128014:	e1 03 02 aa	mov	x1, x2
+  128018:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  12801c:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  128020:	00 00 08 8b	add	x0, x0, x8
+  128024:	fb ad 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  128028:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  12802c:	08 65 81 b9	ldrsw	x8, [x8, #0x164]
+  128030:	00 68 68 f8	ldr	x0, [x0, x8]
+  128034:	c0 03 5f d6	ret
+  128038:	e1 03 02 aa	mov	x1, x2
+  12803c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128040:	08 65 81 b9	ldrsw	x8, [x8, #0x164]
+  128044:	00 00 08 8b	add	x0, x0, x8
+  128048:	f2 ad 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  12804c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128050:	08 49 81 b9	ldrsw	x8, [x8, #0x148]
+  128054:	00 68 68 f8	ldr	x0, [x0, x8]
+  128058:	c0 03 5f d6	ret
+  12805c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128060:	08 49 81 b9	ldrsw	x8, [x8, #0x148]
+  128064:	02 68 28 f8	str	x2, [x0, x8]
+  128068:	c0 03 5f d6	ret
+  12806c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128070:	08 4d 81 b9	ldrsw	x8, [x8, #0x14c]
+  128074:	00 68 68 fc	ldr	d0, [x0, x8]
+  128078:	c0 03 5f d6	ret
+  12807c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128080:	08 4d 81 b9	ldrsw	x8, [x8, #0x14c]
+  128084:	00 68 28 fc	str	d0, [x0, x8]
+  128088:	c0 03 5f d6	ret
+  12808c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128090:	08 51 81 b9	ldrsw	x8, [x8, #0x150]
+  128094:	00 68 68 f8	ldr	x0, [x0, x8]
+  128098:	c0 03 5f d6	ret
+  12809c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  1280a0:	08 51 81 b9	ldrsw	x8, [x8, #0x150]
+  1280a4:	02 68 28 f8	str	x2, [x0, x8]
+  1280a8:	c0 03 5f d6	ret
+  1280ac:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  1280b0:	08 75 81 b9	ldrsw	x8, [x8, #0x174]
+  1280b4:	00 68 68 38	ldrb	w0, [x0, x8]
+  1280b8:	c0 03 5f d6	ret
+  1280bc:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  1280c0:	08 75 81 b9	ldrsw	x8, [x8, #0x174]
+  1280c4:	02 68 28 38	strb	w2, [x0, x8]
+  1280c8:	c0 03 5f d6	ret
+  1280cc:	f4 4f be a9	stp	x20, x19, [sp, #-0x20]!
+  1280d0:	fd 7b 01 a9	stp	x29, x30, [sp, #0x10]
+  1280d4:	fd 43 00 91	add	x29, sp, #0x10
+  1280d8:	f3 03 00 aa	mov	x19, x0
+  1280dc:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  1280e0:	08 65 81 b9	ldrsw	x8, [x8, #0x164]
+  1280e4:	00 00 08 8b	add	x0, x0, x8
+  1280e8:	01 00 80 d2	mov	x1, #0x0
+  1280ec:	c9 ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  1280f0:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  1280f4:	08 61 81 b9	ldrsw	x8, [x8, #0x160]
+  1280f8:	60 02 08 8b	add	x0, x19, x8
+  1280fc:	01 00 80 d2	mov	x1, #0x0
+  128100:	c4 ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  128104:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128108:	08 5d 81 b9	ldrsw	x8, [x8, #0x15c]
+  12810c:	60 02 08 8b	add	x0, x19, x8
+  128110:	01 00 80 d2	mov	x1, #0x0
+  128114:	bf ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  128118:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  12811c:	08 59 81 b9	ldrsw	x8, [x8, #0x158]
+  128120:	60 02 08 8b	add	x0, x19, x8
+  128124:	01 00 80 d2	mov	x1, #0x0
+  128128:	ba ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  12812c:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128130:	08 55 81 b9	ldrsw	x8, [x8, #0x154]
+  128134:	60 02 08 8b	add	x0, x19, x8
+  128138:	01 00 80 d2	mov	x1, #0x0
+  12813c:	b5 ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  128140:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128144:	08 69 81 b9	ldrsw	x8, [x8, #0x168]
+  128148:	60 02 08 8b	add	x0, x19, x8
+  12814c:	01 00 80 d2	mov	x1, #0x0
+  128150:	b0 ad 07 94	bl	0x313810 ; symbol stub for: _objc_storeStrong
+  128154:	08 14 00 f0	adrp	x8, 643 ; 0x3ab000
+  128158:	08 7d 81 b9	ldrsw	x8, [x8, #0x17c]
+  12815c:	60 02 08 8b	add	x0, x19, x8
+  128160:	01 00 80 d2	mov	x1, #0x0
+  128164:	fd 7b 41 a9	ldp	x29, x30, [sp, #0x10]
+  128168:	f4 4f c2 a8	ldp	x20, x19, [sp], #0x20
+  12816c:	a9 ad 07 14	b	0x313810 ; symbol stub for: _objc_storeStrong
+  128170:	ff 03 05 d1	sub	sp, sp, #0x140
+  128174:	fc 6f 11 a9	stp	x28, x27, [sp, #0x110]
+  128178:	f4 4f 12 a9	stp	x20, x19, [sp, #0x120]
+  12817c:	fd 7b 13 a9	stp	x29, x30, [sp, #0x130]
+  128180:	fd c3 04 91	add	x29, sp, #0x130
+  128184:	09 00 80 d2	mov	x9, #0x0
+  128188:	48 12 00 90	adrp	x8, 584 ; 0x370000
+  12818c:	08 b1 40 f9	ldr	x8, [x8, #0x160] ; literal pool symbol address: ___stack_chk_guard
+  128190:	08 01 40 f9	ldr	x8, [x8]
+  128194:	a8 83 1d f8	stur	x8, [x29, #-0x28]
+  128198:	a8 10 00 f0	adrp	x8, 535 ; 0x33f000
+  12819c:	08 81 17 91	add	x8, x8, #0x5e0
+  1281a0:	8a 0d 80 52	mov	w10, #0x6c
+  1281a4:	4a 5d 00 11	add	w10, w10, #0x17
+  1281a8:	eb e7 02 b2	mov	x11, #-0x3333333333333334
+  1281ac:	ab 99 99 f2	movk	x11, #0xcccd
+  1281b0:	6c 05 80 52	mov	w12, #0x2b
+  1281b4:	4d 0b 80 12	mov	w13, #-0x5b
+  1281b8:	4e 15 80 52	mov	w14, #0xaa
+  1281bc:	ef 03 00 91	mov	x15, sp
+  1281c0:	30 7d cb 9b	umulh	x16, x9, x11
+  1281c4:	10 fe 42 d3	lsr	x16, x16, #2
+  1281c8:	10 0a 10 0b	add	w16, w16, w16, lsl #2
+  1281cc:	31 29 0c 1b	madd	w17, w9, w12, w10
+  1281d0:	00 69 69 38	ldrb	w0, [x8, x9]
+  1281d4:	21 01 0d 4a	eor	w1, w9, w13
+  1281d8:	22 00 00 2a	orr	w2, w1, w0
 ~~~
 
 ## Next analysis gate
