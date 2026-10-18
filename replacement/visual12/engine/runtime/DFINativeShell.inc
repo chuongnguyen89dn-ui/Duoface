@@ -137,6 +137,14 @@ static UIButton *DFINativePillButton(NSInteger slot, NSString *symbol,
     _expandButton.frame=CGRectMake(39,0,30,22);
     _restoreButton.frame=_expandButton.frame;
 }
+// Native12 CBSlotPillView.pointInside:withEvent: at 0x85348 expands
+// CGRect hit bounds by 8pt horizontally and 10pt vertically. This only
+// follows the parent hit region; child-button hit forwarding still needs
+// a stopped-car touch test and is NOT assumed proven by this method.
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    if(self.hidden || self.alpha<=0.01)return NO;
+    return CGRectContainsPoint(CGRectInset(self.bounds,-8.0,-10.0),point);
+}
 @end
 
 @interface DFINativeDividerTrack : UIView
