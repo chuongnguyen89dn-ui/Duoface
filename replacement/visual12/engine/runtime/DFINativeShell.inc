@@ -19,6 +19,7 @@
 
 @interface DFINativeWindowSurface : UIView
 @property(nonatomic,strong,readonly) DFINativeSplitSurface *splitSurface;
+- (CGRect)usableContentFrame;
 @end
 @implementation DFINativeWindowSurface {
     DFINativeSplitSurface *_splitSurface;
@@ -34,11 +35,34 @@
     return self;
 }
 - (DFINativeSplitSurface *)splitSurface{return _splitSurface;}
+- (CGRect)usableContentFrame {
+    // ARM64 DuoNavi 1.0.4 CBWindow.carPlayContentInsets (IMP 0xb1370):
+    // uses an explicit configuration/real UIWindow.safeAreaInsets first;
+    // if all are zero, the fallback is (top=0,left=64,bottom=0,right=0).
+    // carPlayUsableBounds (0xb15cc) subtracts these from the full screen,
+    // with a minimum 100x100 viability gate. It is NOT a decorative fake dock.
+    UIEdgeInsets e=self.safeAreaInsets;
+    if(e.top<=0 && e.left<=0 && e.bottom<=0 && e.right<=0 && self.window)
+        e=self.window.safeAreaInsets;
+    if(e.top<=0 && e.left<=0 && e.bottom<=0 && e.right<=0)
+        e=UIEdgeInsetsMake(0,64,0,0);
+    CGRect r=UIEdgeInsetsInsetRect(self.bounds,e);
+    if(CGRectGetWidth(r)<100 || CGRectGetHeight(r)<100) {
+        // Keep a viable split; do not let malformed headunit safeArea hide it.
+        r=CGRectInset(self.bounds,0,0);
+        if(CGRectGetWidth(r)>164)r.origin.x+=64,r.size.width-=64;
+    }
+    return CGRectIntegral(r);
+}
 - (void)layoutSubviews {
     [super layoutSubviews];
-    // Full native usableBounds/window-level geometry needs a verified receiver
-    // sample. Never invent a fake system CarPlay bar or guessed safe inset.
-    _splitSurface.frame=self.bounds;
+    _splitSurface.frame=[self usableContentFrame];
+}
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // The root scene is a transparent compositor outside actual split content.
+    // Do not claim/intercept the left CarPlay Dock or status-bar hit region.
+    if(!CGRectContainsPoint(_splitSurface.frame,point))return nil;
+    return [super hitTest:point withEvent:event];
 }
 @end
 
