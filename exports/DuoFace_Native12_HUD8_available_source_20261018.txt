@@ -5176,3 +5176,978 @@ if __name__=="__main__":
     main()
 ########## END FILE: migration/full_payload/native_test/build_visual12_gate_repair.py ##########
 
+########## BEGIN FILE: migration/full_payload/native_test/build_visualtest12_connection_probe.py ##########
+#!/usr/bin/env python3
+"""Stage exact VisualTest12 launchfix1 + a READ-ONLY connection telemetry dylib.
+
+This is not a repair to activation, licence, CarBridge or screen detection.
+The original core must remain byte-exact; never touches independent Hub.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import plistlib
+import subprocess
+import tempfile
+
+ROOT=Path(__file__).resolve().parents[3]
+ORIGINAL=ROOT/"dist/visualtest12-launchfix1/com.duonavi.app_1.0.3-12~visualtest12launch1_iphoneos-arm64.deb"
+PIN="e30148affc767ce039040f0e0cccd9a0ecbd40e523ee66409ca96e6ef2085f02"
+FILTER=ROOT/"runtime/visualtest12/DFVisual12ConnectionProbe.plist"
+PKG="com.duonavi.app"
+OLD_VERSION="1.0.3-12~visualtest12launch1"
+VERSION="1.0.3-12~visualtest12launch2probe1"
+TARGET="var/jb/Library/MobileSubstrate/DynamicLibraries"
+LIB="DFVisual12ConnectionProbe.dylib"
+PLIST="DFVisual12ConnectionProbe.plist"
+
+def sha(b:bytes)->str:return hashlib.sha256(b).hexdigest()
+def run(*cmd)->None:subprocess.run(list(map(str,cmd)),check=True)
+def field(p:Path,key:str)->str:
+    return subprocess.check_output(["dpkg-deb","-f",str(p),key],text=True).strip()
+def all_files(p:Path)->dict[str,str]:
+    return {f.relative_to(p).as_posix():sha(f.read_bytes()) for f in p.rglob("*")
+            if f.is_file() and not f.is_symlink()}
+
+def main()->None:
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--dylib",type=Path,required=True)
+    ap.add_argument("--out",type=Path,required=True)
+    ap.add_argument("--report",type=Path,required=True)
+    args=ap.parse_args()
+    assert sha(ORIGINAL.read_bytes())==PIN
+    assert field(ORIGINAL,"Package")==PKG
+    assert field(ORIGINAL,"Version")==OLD_VERSION
+    assert field(ORIGINAL,"Architecture")=="iphoneos-arm64"
+    assert args.dylib.is_file() and args.dylib.stat().st_size>4000
+    dylib=args.dylib.read_bytes()
+    assert dylib[:4]==bytes.fromhex("cffaedfe"),"expected generic ARM64 signed Mach-O dylib"
+    filters=plistlib.loads(FILTER.read_bytes())
+    bundles=filters["Filter"]["Bundles"]
+    assert set(bundles)=={"com.apple.springboard","com.duoface.duofaceui","com.duonavi.app"}
+    assert args.out!=ORIGINAL and not args.out.exists()
+    with tempfile.TemporaryDirectory(prefix="visual12-connect-probe-") as temp:
+        root=Path(temp)/"stage"
+        run("dpkg-deb","-R",ORIGINAL,root)
+        before=all_files(root)
+        for entry in (LIB,PLIST):
+            assert (TARGET+"/"+entry) not in before
+        loc=root/TARGET
+        (loc/LIB).write_bytes(dylib)
+        (loc/PLIST).write_bytes(FILTER.read_bytes())
+        control=root/"DEBIAN/control"
+        data=control.read_text()
+        assert "Package: "+PKG+"\n" in data
+        assert "Version: "+OLD_VERSION+"\n" in data
+        control.write_text(data.replace("Version: "+OLD_VERSION+"\n",
+                                        "Version: "+VERSION+"\n"))
+        md5=[]
+        for f in sorted(root.rglob("*")):
+            if f.is_file() and not f.is_symlink() and f.relative_to(root).parts[0]!="DEBIAN":
+                md5.append(hashlib.md5(f.read_bytes()).hexdigest()+"  "+f.relative_to(root).as_posix())
+        (root/"DEBIAN/md5sums").write_text("\n".join(md5)+"\n")
+        after=all_files(root)
+        added=sorted(set(after)-set(before))
+        removed=sorted(set(before)-set(after))
+        changed=sorted(k for k in before if k in after and before[k]!=after[k])
+        assert not removed,removed
+        assert added==sorted((TARGET+"/"+LIB,TARGET+"/"+PLIST)),added
+        assert changed==["DEBIAN/control","DEBIAN/md5sums"],changed
+        assert all(before[k]==after[k] for k in before
+                   if k.startswith("var/jb/Applications/") or
+                      k.endswith("DuoFaceDashboard.dylib") or
+                      k.endswith("DuoFaceVisualHook.dylib")), "original core changed"
+        args.out.parent.mkdir(parents=True,exist_ok=True)
+        run("dpkg-deb","--build","--root-owner-group",root,args.out)
+    assert field(args.out,"Package")==PKG
+    assert field(args.out,"Version")==VERSION
+    assert field(args.out,"Architecture")=="iphoneos-arm64"
+    result={
+       "status":"VISUALTEST12_CONNECTION_PROBE_PRESERVES_ALL_EXISTING_CORE_BYTES",
+       "source_sha256":PIN,"package":PKG,"version":VERSION,
+       "source_version":OLD_VERSION,
+       "added_files":added,"changed_files":changed,
+       "removed_files":removed,"unchanged_original_core":True,
+       "all_prior_payload_byte_identical_except_control_md5":True,
+       "new_dylib_sha256":sha(dylib),"new_filter_sha256":sha(FILTER.read_bytes()),
+       "filter_bundles":bundles,
+       "read_only_telemetry":True,
+       "writes":"/var/mobile/Documents/DuoFaceConnectionProbe/{SpringBoard,DuoFaceUI}.jsonl",
+       "separate_hub_modified":False,
+       "physical_carplay_connection_fixed":False,
+       "license_completely_removed":False,
+       "device_tested":False,"sileo_published":False,
+       "output_deb_sha256":sha(args.out.read_bytes()),
+       "output_deb_bytes":args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True,exist_ok=True)
+    args.report.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
+    print(json.dumps(result,indent=2))
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/build_visualtest12_connection_probe.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/build_visualtest12_launchfix1.py ##########
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Build actual com.duonavi.app VisualTest12 launch recovery test candidate.
+
+Source is EXACT original VisualTest12 DEB, never the independent Hub binary.
+Apply previously device-tested Native4 291 license method stubs and the
+Native5 two expiry-state methods to its own ARM64 slices. Preserve all other
+original package files including original CarPlay hook and asset bundle.
+This is an installable recovery TEST, not runtime-proven/full-source rewrite.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import struct
+import subprocess
+import tempfile
+
+from audit_native4_license_code import inspect, slurp_slices
+from build_native4 import eligible, original_abi_stub, NOP
+from build_native5 import FLAG_METHODS, preserve_entitlements_and_resign
+
+ROOT = Path(__file__).resolve().parents[3]
+SOURCE = ROOT / "dist/visual-1.0.3-12/com.duoface.app_1.0.3-12_visualtest_iphoneos-arm64.deb"
+SOURCE_SHA = "8b7dedf77b9ec05465b83fdb6e2d7127800eac232a34ecf12f2c08b3983a481a"
+VERSION = "1.0.3-12~visualtest12launch1"
+PACKAGE = "com.duonavi.app"
+FILES = {
+    "DuoFaceUI": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "DuoFaceDashboard": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+}
+EXPECTED_COUNTS = {"DuoFaceUI": 248, "DuoFaceDashboard": 43}
+
+def digest(blob: bytes) -> str:
+    return hashlib.sha256(blob).hexdigest()
+
+def getfield(package: Path, key: str) -> str:
+    return subprocess.check_output(["dpkg-deb", "-f", str(package), key], text=True).strip()
+
+def write_patched_arm64(original: bytes, name: str) -> tuple[bytes, list[dict], list[dict], dict]:
+    slices = list(slurp_slices(original))
+    generic = [x for x in slices if x["arch"] == "arm64:0"]
+    assert len(generic) == 1, (name, [s["arch"] for s in slices])
+    raw = bytearray(generic[0]["bytes"])
+    inventory = inspect(bytes(raw))
+    assert not inventory["parser_warnings"], (name, inventory["parser_warnings"])
+    assert not inventory["methods_without_safe_text_start"], (name, inventory["methods_without_safe_text_start"][:7])
+    selected, expired, spans = [], [], []
+    found_flags = set()
+    for method in inventory["license_named_methods"]:
+        key = (method["class"], method["selector"])
+        is_license_method = eligible(*key)
+        is_expiry_state_method = name == "DuoFaceUI" and key in FLAG_METHODS
+        if not (is_license_method or is_expiry_state_method):
+            continue
+        assert method["listed_in_lc_function_starts"] and method["inside_executable_text"], key
+        off = int(method["imp_file_offset"], 16)
+        size = method["estimated_function_span"]
+        assert isinstance(size, int) and 4 <= size < 100000 and size % 4 == off % 4 == 0, key
+        if is_expiry_state_method:
+            expected_sig, stub = FLAG_METHODS[key]
+            assert method["type_encoding"] == expected_sig, (key, method["type_encoding"])
+            found_flags.add(key)
+        else:
+            stub = original_abi_stub(method)
+        assert 0 < len(stub) <= size and len(stub) % 4 == 0
+        spans.append((off, off + size, key))
+        original_span = bytes(raw[off:off + size])
+        assert len(original_span) == size
+        result = {
+            "class": method["class"],
+            "selector": method["selector"],
+            "signature": method["type_encoding"],
+            "offset_in_original_arm64": off, "size": size,
+            "before_sha256": digest(original_span),
+            "first_32_before_hex": original_span[:32].hex(),
+            "stub_hex": stub.hex(),
+        }
+        if is_expiry_state_method:
+            expired.append(result)
+        else:
+            selected.append(result)
+        raw[off:off + size] = stub + NOP * ((size - len(stub)) // 4)
+    spans.sort()
+    for last, now in zip(spans, spans[1:]):
+        assert last[1] <= now[0], ("overlap", name, last, now)
+    assert len(selected) == EXPECTED_COUNTS[name], (name, len(selected), EXPECTED_COUNTS[name])
+    assert len(expired) == (2 if name == "DuoFaceUI" else 0), (name, expired)
+    assert found_flags == (set(FLAG_METHODS) if name == "DuoFaceUI" else set())
+    after = inspect(bytes(raw))
+    assert (after["method_count_license_related"]
+            == inventory["method_count_license_related"])
+    assert [m["class"] for m in after["license_named_methods"]] == [
+        m["class"] for m in inventory["license_named_methods"]
+    ], name
+    return bytes(raw), selected, expired, {
+        "source_archs": [s["arch"] for s in slices],
+        "target_archs": ["arm64"],
+        "related_class_method_metadata_retained": True,
+        "source_raw_host_sha256": digest(original),
+        "source_arm64_sha256": digest(generic[0]["bytes"]),
+    }
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", required=True, type=Path)
+    ap.add_argument("--report", required=True, type=Path)
+    args = ap.parse_args()
+    assert SOURCE.is_file() and digest(SOURCE.read_bytes()) == SOURCE_SHA
+    assert getfield(SOURCE, "Package") == PACKAGE
+    assert getfield(SOURCE, "Version") == "1.0.3-12~visualtest"
+    assert getfield(SOURCE, "Architecture") == "iphoneos-arm64"
+    assert args.out != SOURCE and not args.out.exists(), "Do not overwrite baseline"
+
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="visual12-launch1-") as dirname:
+        root = Path(dirname)
+        stage = root / "stage"
+        subprocess.run(["dpkg-deb", "-R", str(SOURCE), str(stage)], check=True)
+        before = {p.relative_to(stage).as_posix(): digest(p.read_bytes())
+                  for p in stage.rglob("*") if p.is_file() and not p.is_symlink()}
+        result = {}
+        for name, rel in FILES.items():
+            file = stage / rel
+            original = file.read_bytes()
+            patched, methods, flags, meta = write_patched_arm64(original, name)
+            # ldid signs only generic ARM64; the previously unmodified arm64e
+            # slice is intentionally not shipped and must not run stale logic.
+            file.write_bytes(patched)
+            meta.update({
+                "methods_neutralized": len(methods),
+                "expired_flags_neutralized": len(flags),
+                "patched_methods": methods,
+                "expired_flags": flags,
+                "entitlements": preserve_entitlements_and_resign(
+                    file, original, root, name),
+                "signed_host_sha256": digest(file.read_bytes()),
+            })
+            assert len(file.read_bytes()) >= len(patched)
+            result[name] = meta
+        control = stage / "DEBIAN/control"
+        original_control = control.read_text(encoding="utf-8")
+        assert "Package: com.duonavi.app\n" in original_control
+        assert "Version: 1.0.3-12~visualtest\n" in original_control
+        control.write_text(original_control.replace(
+            "Version: 1.0.3-12~visualtest\n",
+            "Version: " + VERSION + "\n"), encoding="utf-8")
+        md5lines = []
+        for f in sorted(stage.rglob("*")):
+            if f.is_file() and not f.is_symlink() and f.relative_to(stage).parts[0] != "DEBIAN":
+                md5lines.append(hashlib.md5(f.read_bytes()).hexdigest()
+                                + "  " + f.relative_to(stage).as_posix())
+        (stage / "DEBIAN/md5sums").write_text("\n".join(md5lines) + "\n")
+        after = {p.relative_to(stage).as_posix(): digest(p.read_bytes())
+                 for p in stage.rglob("*") if p.is_file() and not p.is_symlink()}
+        removed = set(before) - set(after)
+        added = set(after) - set(before)
+        # Original VisualTest12 package may omit DEBIAN/md5sums; generating
+        # its standard manifest is allowed but removing any original is not.
+        assert not removed, ("Original payload removed", removed)
+        assert added <= {"DEBIAN/md5sums"}, ("Unexpected added payload", added)
+        changed = sorted(k for k in after if before.get(k) != after[k])
+        expected = sorted(list(FILES.values()) + ["DEBIAN/control", "DEBIAN/md5sums"])
+        assert changed == expected, (changed, expected)
+        assert sum(x["methods_neutralized"] for x in result.values()) == 291
+        assert sum(x["expired_flags_neutralized"] for x in result.values()) == 2
+        subprocess.run(["dpkg-deb", "--build", "--root-owner-group",
+                        str(stage), str(args.out)], check=True)
+
+    assert getfield(args.out, "Package") == PACKAGE
+    assert getfield(args.out, "Version") == VERSION
+    assert getfield(args.out, "Architecture") == "iphoneos-arm64"
+    report = {
+        "status": "VISUALTEST12_ORIGINAL_PACKAGE_LAUNCH_RECOVERY_SIGNED_DEB_CANDIDATE",
+        "original_visualtest12_sha256": SOURCE_SHA,
+        "package": PACKAGE, "version": VERSION, "arch": "iphoneos-arm64",
+        "patched": result, "changed_original_paths": changed,
+        "untouched_file_count": sum(before[k] == after[k] for k in before),
+        "manifest_newly_created_if_missing": "DEBIAN/md5sums" not in before,
+        "original_visualhook_files_unchanged": all(
+            before[k] == after[k] for k in before
+            if "DuoFaceVisualHook" in k),
+        "source_original_package_retained": True,
+        "hub_modified": False,
+        "legacy_class_and_selector_metadata_retained": True,
+        "not_proven_every_license_dependency_physically_removed": True,
+        "launch_test_on_expired_device": "PENDING_REAL_DEVICE",
+        "carplay_device_test": "PENDING_REAL_DEVICE",
+        "sileo_published": False,
+        "rollback_source_sha256": SOURCE_SHA,
+        "output_sha256": digest(args.out.read_bytes()),
+        "output_bytes": args.out.stat().st_size,
+    }
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps({
+        "status": report["status"], "package": PACKAGE, "version": VERSION,
+        "patched": {k: {"license_methods": len(v["patched_methods"]),
+                        "expiry_flags": len(v["expired_flags"])}
+                    for k, v in result.items()},
+        "deb_sha256": report["output_sha256"],
+        "device_launch_not_yet_tested": True,
+    }, indent=2))
+
+if __name__ == "__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/build_visualtest12_launchfix1.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed6probe_contract.py ##########
+#!/usr/bin/env python3
+"""Check actual Native12 ABI and Speed6Probe read-only single-renderer regression."""
+from pathlib import Path
+import json
+def main():
+    r=Path(".")
+    source=(r/"runtime/speedbubble/DFSpeedNativeHostProbe.mm").read_text()
+    previous=(r/"runtime/speedbubble/DFSpeedNativeSplitHost.mm").read_text()
+    mk=(r/"Makefile.speedhud-split6-probe-stage").read_text()
+    plist=(r/"DuoFaceSpeedHUDSplit6.plist").read_text()
+    pack=(r/"migration/full_payload/native_test/build_native12_speed6probe1_candidate.py").read_text()
+    native=json.loads((r/"audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json").read_text())
+    assert native["classes"]["CBWindow"]["+activeCarPlayWindow"]["objc_type"]=="@16@0:8"
+    assert native["classes"]["CBBridgeManagerDashboard"]["-activated"]["objc_type"]=="B16@0:8"
+    assert native["classes"]["CBBridgeManagerDashboard"]["-bridgeDidActivate:"]["objc_type"]=="v24@0:8@16"
+    assert native["classes"]["CBWindow"]["-hide:"]["objc_type"]=="v24@0:8@?16"
+    assert source.split("// Speed6: NEW renderer")[0]==previous.split("// Speed6: NEW renderer")[0]
+    for code in ("S6DashboardActive()","S6OriginalGOFARendererDisabled()",
+          "S6VerifiedHost(owner)","[host addSubview:s6HUD]",
+          "[host bringSubviewToFront:s6HUD]","S6Unmount"):
+        assert code in source,code
+    for probe in ("PROBE_NATIVE_HOST","raw_active_window_class","raw_is_CBWindow",
+          "host_probe_reason","root_scene_role","content_window_matches_root",
+          "controller_window_matches_root","content_descends_from_controller",
+          "hooks","s6ProbePrevious","now-s6ProbeAt<15.0"):
+        assert probe in source,probe
+    for forbidden in ("DFProbeCarPlayHostWindows","windowLevel=10000000",
+         "initWithWindowScene:","connectedScenes","local.gofahud.carplay.show"):
+        assert forbidden not in source,forbidden
+    assert 'NSBundle.mainBundle.bundleIdentifier.lowercaseString' in source
+    assert '@"com.apple.carplayapp"' in source
+    assert "DFSpeedNativeHostProbe.mm runtime/speedbubble/DFSpeedTransport.mm" in mk
+    assert "DFSpeedNativeSplitHost.mm" not in mk and "DFSpeedSceneOverlay" not in mk
+    assert 'Bundles = ("com.apple.CarPlayApp")' in plist and "SpringBoard" not in plist
+    assert 'NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")' in pack
+    assert 'shutil.copy2("DuoFaceSpeedHUDSplit6.plist",plist)' in pack
+    assert 'assert dll.stem==plist.stem' in pack
+    assert 'VERSION="0.1.0~native12+speed6zprobe1"' in pack
+    assert '"host_probe_only_no_gate_relaxation":True' in pack
+    assert '"scene_overlay_window_created":False' in pack
+    print("SPEED6PROBE_NATIVE12_ABI_SINGLE_SPLIT_HOST_AND_LOG_SAFETY_STATIC_PASS_NOT_DEVICE_TESTED")
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/check_native12_speed6probe_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed6split_contract.py ##########
+#!/usr/bin/env python3
+"""Speed6 static safety regression; NOT proof of CarPlay runtime visibility."""
+from pathlib import Path
+import json
+
+def main():
+    root=Path(".")
+    mm=(root/"runtime/speedbubble/DFSpeedNativeSplitHost.mm").read_text()
+    make=(root/"Makefile.speedhud-split6-stage").read_text()
+    plist=(root/"DuoFaceSpeedHUDSplit6.plist").read_text()
+    pack=(root/"migration/full_payload/native_test/build_native12_speed6split_candidate.py").read_text()
+    audit=json.loads((root/"audit/speedbubble/NATIVE12_GOFAHUD_SPLIT_SCENE_OWNER_READONLY.json").read_text())
+    methods=audit["classes"]
+    assert methods["CBWindow"]["+activeCarPlayWindow"]["objc_type"]=="@16@0:8"
+    assert methods["CBBridgeManagerDashboard"]["-activated"]["objc_type"]=="B16@0:8"
+    assert methods["CBBridgeManagerDashboard"]["-bridgeDidActivate:"]["objc_type"]=="v24@0:8@16"
+    assert methods["CBBridgeManagerDashboard"]["-bridgeDidDeactivate"]["objc_type"]=="v16@0:8"
+    assert methods["CBWindow"]["-show"]["objc_type"]=="v16@0:8"
+    assert methods["CBWindow"]["-hide:"]["objc_type"]=="v24@0:8@?16"
+    assert methods["CBWindow"]["-destroyWindows"]["objc_type"]=="v16@0:8"
+    assert 'Bundles = ("com.apple.CarPlayApp")' in plist and "SpringBoard" not in plist
+    assert "com.waze" not in plist and "CarPlayTemplateUIHost" not in plist
+    assert "DFSpeedNativeSplitHost.mm runtime/speedbubble/DFSpeedTransport.mm" in make
+    assert "DFSpeedSceneOverlay.mm" not in make and "DFSpeedBubbleBridge.mm" not in make
+    assert "S6DashboardActive()" in mm and "S6VerifiedHost(owner)" in mm
+    assert "S6OriginalGOFARendererDisabled()" in mm
+    assert 'local.gofahud.carplay.show' not in mm
+    assert "initWithWindowScene:" not in mm
+    assert "windowLevel=10000000" not in mm
+    assert "connectedScenes" not in mm
+    assert "DFProbeCarPlayHostWindows" not in mm
+    assert "[host addSubview:s6HUD]" in mm
+    assert "[host bringSubviewToFront:s6HUD]" in mm
+    assert "S6Unmount" in mm
+    assert "CBBridgeManagerDashboard" in mm
+    assert "NSClassFromString(@\"GOFACarGlobalWindow\")" in mm
+    assert "GOFAHUD" not in plist
+    assert "speed6split" in pack
+    assert 'NEW=("DuoFaceSpeedHUD.dylib","DuoFaceSpeedHUD.plist")' in pack
+    assert 'shutil.copy2("DuoFaceSpeedHUDSplit6.plist",plist)' in pack
+    assert '"scene_overlay_window_created":False' in pack
+    assert '"no_third_party_injection_or_waze_hooks":True' in pack
+    assert "0.1.0~native12+speed6split" in pack
+    assert "DuoFaceSpeedHUDSplit6.plist" in pack
+    print("SPEED6_SPLIT_HOST_NATIVE12_ABI_AND_ONE_RENDERER_STATIC_PASS; NOT_DEVICE_TESTED")
+if __name__=="__main__":
+    main()
+########## END FILE: migration/full_payload/native_test/check_native12_speed6split_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed6zzowner1_contract.py ##########
+#!/usr/bin/env python3
+"""Read-only SpringBoard owner probe: no extra CarPlay renderer and native API pin checks."""
+from pathlib import Path
+import json
+def main():
+    root=Path(".")
+    code=(root/"runtime/speedbubble/DFSpeedSpringBoardOwnerProbe.mm").read_text()
+    make=(root/"Makefile.speedhud-springboard-owner-stage").read_text()
+    plist=(root/"DuoFaceSpeedOwner.plist").read_text()
+    pkg=(root/"migration/full_payload/native_test/build_native12_speed6zzowner1_candidate.py").read_text()
+    audit=json.loads((root/"audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json").read_text())
+    owner=audit["methods"]["CBBridgeManager"]
+    assert owner["+sharedInstanceIfExists"]["objc_type"]=="@16@0:8"
+    assert owner["-window"]["objc_type"]=="@16@0:8"
+    native=audit["methods"]["CBWindow"]
+    assert native["+activeCarPlayWindow"]["objc_type"]=="@16@0:8"
+    assert native["-rootWindow"]["objc_type"]=="@16@0:8"
+    for required in (
+        "sharedInstanceIfExists","activeCarPlayWindow","SPRINGBOARD_NATIVE12_OWNER_PROBE",
+        "SPRINGBOARD_OWNER_PROBE_LOADED","DuoFaceSpeedOwner-SpringBoard.jsonl",
+        "manager_window","manager_instance_class","native_CBWindow","external_screen",
+        "scene_role","content_window_is_root","content_descends_controller",
+        "now-DFOwnerLastWrite<15.0","isEqualToString:@\"SpringBoard\"",
+    ): assert required in code,required
+    for forbidden in (
+        "method_setImplementation","MSHookMessageEx","initWithWindowScene:",
+        "windowLevel","makeKeyAndVisible","addSubview:","connectedScenes",
+        "setWindowScene:","sharedInstance\");", "local.gofahud.carplay.show",
+    ): assert forbidden not in code,forbidden
+    assert "DFSpeedSpringBoardOwnerProbe.mm" in make
+    assert "DFSpeedSceneOverlay.mm" not in make
+    assert "DuoFaceSpeedOwner" in make
+    assert 'Executables = ("SpringBoard")' in plist
+    assert "CarPlayApp" not in plist
+    assert 'VERSION="0.1.0~native12+speed6zzowner1"' in pkg
+    assert 'PIN="42f7300463fa7aeecfb28342298e5faf3c77dcf0319e77964a6b35622eba722e"' in pkg
+    assert 'NEW=("DuoFaceSpeedOwner.dylib","DuoFaceSpeedOwner.plist")' in pkg
+    assert "len(before)==41" in pkg
+    assert '"all_previous_speed6_payload_files_byte_identical":True' in pkg
+    assert '"no_springboard_uiwindow_creation_or_method_hooks":True' in pkg
+    print("OWNERPROBE_NATIVE12_KNOWN_ABI_READONLY_NO_UIWINDOW_NO_WAZE_PASS_NOT_DEVICE_TESTED")
+if __name__=="__main__":main()
+########## END FILE: migration/full_payload/native_test/check_native12_speed6zzowner1_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed7split_contract.py ##########
+#!/usr/bin/env python3
+"""Speed7 QA: Native12 ABI, signed split root+2 real attached pane gate, zero extra UIWindow."""
+from pathlib import Path
+import json
+r=Path(".")
+s=(r/"runtime/speedbubble/DFSpeedNativeSplit7SpringBoard.mm").read_text()
+original=(r/"runtime/speedbubble/DFSpeedNativeSplitHost.mm").read_text()
+mk=(r/"Makefile.speedhud-native7split-stage").read_text()
+pl=(r/"DuoFaceSpeedHUDNative7.plist").read_text()
+pkg=(r/"migration/full_payload/native_test/build_native12_speed7split_candidate.py").read_text()
+audit=json.loads((r/"audit/speedbubble/NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json").read_text())
+assert s.split("// Speed7: Native12 SpringBoard in-place split host")[0].strip().replace(
+    "// Speed7: same visual HUD implementation, now hosted in native SpringBoard split view.",
+    "// Inject this module into the verified DuoFace CarPlay process only; no global SpringBoard HUD.",
+) == original.split("// Speed6: NEW renderer targeting")[0].strip()
+for cls,sel,kind in [
+ ("CBBridgeManager","+sharedInstanceIfExists","@16@0:8"),
+ ("CBBridgeManager","-window","@16@0:8"),
+ ("CBBridgeManager","-currentApp","@16@0:8"),
+ ("CBWindow","-rootWindow","@16@0:8"),
+ ("CBWindow","-isVisible","B16@0:8"),
+]:
+    # -currentApp was additionally observed in pinned lifecycle audit workflow.
+    if sel in audit["methods"][cls]:
+        assert audit["methods"][cls][sel]["objc_type"]==kind,(cls,sel)
+    else: assert sel=="-currentApp" # Native12 split-lifecycle verified in CI output 38999369950.
+for required in (
+ "CBBridgeManager","sharedInstanceIfExists","CBBridgedSplitApp","currentApp",
+ "appViews","count<2 || count>4","attached<2",
+ "S7Ancestor(pane,splitRoot)","pane.window==root",
+ "splitRoot.window!=root","root.screen==UIScreen.mainScreen",
+ "CBTouchPassThroughRootSceneWindow","[controller addSubview:s7HUD]",
+ "[controller bringSubviewToFront:s7HUD]","S7Unmount",
+ "SPLIT7_MOUNTED_ONE_NATIVE_HOST","DuoFaceSpeedSplit7-SpringBoard.jsonl",
+):
+    assert required in s,required
+for forbidden in ("[[UIWindow alloc]","initWithWindowScene:","windowLevel=10000000",
+ "connectedScenes","method_setImplementation","MSHookMessageEx",
+ "local.gofahud.carplay.show","DuoFaceSpeedScene"):
+    assert forbidden not in s,forbidden
+assert "DFSpeedNativeSplit7SpringBoard.mm runtime/speedbubble/DFSpeedTransport.mm" in mk
+assert 'Executables = ("SpringBoard")' in pl and "CarPlayApp" not in pl
+assert 'VERSION="0.1.0~native12+speed7split"' in pkg
+assert 'PIN="d63cf64a5139c7c235b9836b963f2a6a9f25ac414c4eda79bcea07ddda32475a"' in pkg
+assert 'assert len(before)==43' in pkg
+assert '"replaced_only_HUD_dylib_and_plist":True' in pkg
+assert '"creates_new_UIWindow":False' in pkg
+print("SPEED7_NATIVE12_SINGLE_SPLIT_PANE_GATE_41_BYTE_IDENTICAL_STATIC_PASS_NOT_DEVICE_TESTED")
+########## END FILE: migration/full_payload/native_test/check_native12_speed7split_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed8compact_contract.py ##########
+#!/usr/bin/env python3
+"""Speed8 static regression contract. Real Mac Theos build and device test are separate gates."""
+from pathlib import Path
+p=Path(".")
+src=(p/"runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm").read_text()
+make=(p/"Makefile.speedhud-native8compact-stage").read_text()
+reader=(p/"runtime/speedbubble/DFSpeedGMapReader8.mm").read_text()
+transport=(p/"runtime/speedbubble/DFSpeedTransport8.mm").read_text()
+builder=(p/"migration/full_payload/native_test/build_native12_speed8compact_candidate.py").read_text()
+plist=(p/"DuoFaceSpeedHUDNative7.plist").read_text()
+for x in ("CBBridgeManager","CBWindow","CBBridgedSplitApp","currentApp",
+          "count<2 || count>4","attached<2","pane.window==root",
+          "CBTouchPassThroughRootSceneWindow","S7Unmount",
+          "[root addSubview:s7HUD]","[root bringSubviewToFront:s7HUD]",
+          "DFAllowedArea(s7HUD)","initWithFrame:CGRectMake(0,0,104,46)",
+          "UILongPressGestureRecognizer","showSettings:",
+          "settingsAction:","DuoFaceSpeedSplit8-SpringBoard.jsonl"):
+    assert x in src,x
+assert "CGRect area=parent.bounds;" in src
+assert "s7HUD.superview==root && s7HUD.window==root" in src
+for x in ("[[UIWindow alloc]","windowLevel=10000000","initWithWindowScene:",
+          "connectedScenes","method_setImplementation","MSHookMessageEx",
+          "local.gofahud.carplay.show"):
+    assert x not in src,x
+assert "DFSpeedNativeSplit8SpringBoard.mm" in make
+assert "DFSpeedTransport8.mm" in make and "DFSpeedGMapReader8.mm" in make
+assert "-DDF_SPEED_HUD_SPRINGBOARD=1" in make
+assert "Executables = (\"SpringBoard\")" in plist
+assert "RequestPinnedGMapSource" in reader and "com.chou.gmaphud.source.selection" in reader
+assert "selectedSource" in src and '@"source"' in reader
+assert "DFSpeed::ReadPinnedGMapWire(native)" in transport
+assert "if (pinned && src!=pinned)" in transport
+assert 'PIN="a59c65f96457b436a0adf581ce96ad0a7fd769552f13ca67112b41b525811155"' in builder
+assert 'VERSION="0.1.0~native12+speed8compact"' in builder
+assert 'REPLACE=("DuoFaceSpeedHUD.dylib",)' in builder
+assert "assert len(originals)==42" in builder
+assert '"data_feed_live_on_device_verified":False' in builder
+print("SPEED8_STATIC_DRAG_SETTINGS_GMAP_READER_AND_42_UNCHANGED_PAYLOAD_PASS_NOT_DEVICE_TESTED")
+########## END FILE: migration/full_payload/native_test/check_native12_speed8compact_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/check_native12_speed9trusted_source_contract.py ##########
+#!/usr/bin/env python3
+"""Static QA of Speed9 source-selection candidate; NO live source producer claim."""
+from pathlib import Path
+r=Path(".")
+hud=(r/"runtime/speedbubble/DFSpeedNativeSplit9TrustedSourcesSpringBoard.mm").read_text()
+reader=(r/"runtime/speedbubble/DFSpeedGMapReader9.mm").read_text()
+tx=(r/"runtime/speedbubble/DFSpeedTransport9.mm").read_text()
+catalog=(r/"runtime/speedbubble/DFSpeedInstalledSourceCatalog9.mm").read_text()
+mk=(r/"Makefile.speedhud-native9trusted-qa-stage").read_text()
+for required in (
+    'CBTouchPassThroughRootSceneWindow','CBBridgedSplitApp','count<2 || count>4',
+    'attached<2','pane.window==root','S7Unmount',
+    '[root addSubview:s7HUD]','[root bringSubviewToFront:s7HUD]',
+    'DFSpeedInstalledSupportedSources','showSourcePicker','selectSource:',
+    'source==0', 'self.selectedSource=0',
+    'DuoFaceSpeedSplit9-SpringBoard.jsonl',
+    'initWithFrame:CGRectMake(0,0,104,46)'):
+    assert required in hud, required
+for forbidden in (
+    '[[UIWindow alloc]','initWithWindowScene:','windowLevel=10000000',
+    'MSHookMessageEx','method_setImplementation','com.google.Maps'):
+    assert forbidden not in hud,forbidden
+for name in ('com.waze.iphone','vn.vietmap.live','com.lumi.GOFA','LSApplicationProxy',
+             'applicationProxyForIdentifier:'):
+    assert name in catalog,name
+assert '"Auto"' not in hud
+assert 'if(!DFSpeedSourceInstalled(pinned)) return NO;' in tx
+assert 'if(!DFSpeedSourceInstalled(pinned)) return false;' in reader
+assert 'DFSpeedGMapReader9.mm' in mk
+assert 'DFSpeedTransport9.mm' in mk
+assert 'DFSpeedInstalledSourceCatalog9.mm' in mk
+assert '-DDF_SPEED_HUD_SPRINGBOARD=1' in mk
+assert 'CarPlayApp' not in (r/'DuoFaceSpeedHUDNative7.plist').read_text()
+print('SPEED9_STATIC_MANUAL_INSTALLED_SOURCE_ONLY_SAME_SPLIT_HUD_PASS')
+print('NO_NUMERIC_PROVIDER_BUILT; SILEO_UNCHANGED; DEVICE_UNTESTED')
+########## END FILE: migration/full_payload/native_test/check_native12_speed9trusted_source_contract.py ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/DuoFaceNative2UICleanup.mm ##########
+// DuoFace Mới native2: remove obsolete date/activation UI from original
+// app SETTINGS only. Preserve original Dashboard, CarPlay picker/split/Zoom
+// and every visual asset untouched. Removable/rollback test module.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+
+static NSInteger (*DFIOriginalSettingsRows)(id,SEL,UITableView *,NSInteger)=NULL;
+static UITableViewCell *(*DFIOriginalSettingsCell)(id,SEL,UITableView *,NSIndexPath *)=NULL;
+static void (*DFIOriginalSettingsSelect)(id,SEL,UITableView *,NSIndexPath *)=NULL;
+static NSMutableSet<NSString *> *DFIHiddenLicenseRowKeys;
+static BOOL DFIUIFilterInstalled=NO;
+static BOOL DFIUIFiltering=NO;
+
+static void DFIUIInfo(NSString *message) {
+    NSLog(@"[DuoFaceNative2UI] %@",message);
+}
+static void DFINoExpiredDialog(id self,SEL cmd) { (void)self;(void)cmd; }
+static void DFINoSubscriptionNavigation(id self,SEL cmd) { (void)self;(void)cmd; }
+
+static BOOL DFISettingsIsLicenseText(NSString *source) {
+    if(![source isKindOfClass:NSString.class] || !source.length)return NO;
+    NSString *s=source.lowercaseString;
+    // Exact subscription/expiration terms; do not suppress normal CarPlay
+    // status, DuoFace Team, language, springboard, or other setting rows.
+    NSArray<NSString *> *terms=@[
+        @"duoface pro", @"subscription", @"license", @"licence",
+        @"giấy phép", @"thời hạn", @"ngày sử dụng", @"hạn dùng",
+        @"suscripción", @"licencia", @"abonnement", @"licentie",
+        @"licencja", @"lizen", @"einddatum"
+    ];
+    for(NSString *term in terms)
+        if([s containsString:term])return YES;
+    return NO;
+}
+static BOOL DFISettingsCellIsLicense(UITableViewCell *cell) {
+    if(![cell isKindOfClass:UITableViewCell.class])return NO;
+    if(DFISettingsIsLicenseText(cell.textLabel.text) ||
+       DFISettingsIsLicenseText(cell.detailTextLabel.text))return YES;
+    NSString *className=NSStringFromClass(cell.class).lowercaseString;
+    if([className containsString:@"subscription"] ||
+       [className containsString:@"license"])return YES;
+    return NO;
+}
+static NSArray<NSNumber *> *DFISettingsOriginalVisibleRows(id owner,UITableView *table,NSInteger section) {
+    NSInteger total=DFIOriginalSettingsRows(owner,@selector(tableView:numberOfRowsInSection:),table,section);
+    if(total<=0 || total>60 || !DFIOriginalSettingsCell || DFIUIFiltering) {
+        NSMutableArray *all=[NSMutableArray array];
+        for(NSInteger i=0;i<MAX(0,MIN(total,60));i++)[all addObject:@(i)];
+        return all;
+    }
+    DFIUIFiltering=YES;
+    NSMutableArray<NSNumber *> *visible=[NSMutableArray array];
+    for(NSInteger i=0;i<total;i++) {
+        NSIndexPath *originalPath=[NSIndexPath indexPathForRow:i inSection:section];
+        UITableViewCell *cell=nil;
+        @try {
+            cell=DFIOriginalSettingsCell(owner,@selector(tableView:cellForRowAtIndexPath:),
+                                         table,originalPath);
+        } @catch(NSException *exception) {
+            DFIUIInfo([NSString stringWithFormat:@"original cell inspect failed; preserve section=%ld, row=%ld (%@)",
+                       (long)section,(long)i,exception.name]);
+            [visible removeAllObjects];
+            for(NSInteger x=0;x<total;x++)[visible addObject:@(x)];
+            break;
+        }
+        if(DFISettingsCellIsLicense(cell)) {
+            NSString *key=[NSString stringWithFormat:@"%ld:%ld",(long)section,(long)i];
+            if(![DFIHiddenLicenseRowKeys containsObject:key]) {
+                [DFIHiddenLicenseRowKeys addObject:key];
+                DFIUIInfo([NSString stringWithFormat:@"HIDE obsolete subscription row %@",key]);
+            }
+            continue;
+        }
+        [visible addObject:@(i)];
+    }
+    DFIUIFiltering=NO;
+    return visible;
+}
+static NSInteger DFISettingsRows(id self,SEL cmd,UITableView *table,NSInteger section) {
+    if(!DFIOriginalSettingsRows)return 0;
+    if(![NSThread isMainThread] || DFIUIFiltering)
+        return DFIOriginalSettingsRows(self,cmd,table,section);
+    return DFISettingsOriginalVisibleRows(self,table,section).count;
+}
+static NSIndexPath *DFIMappedPath(id self,UITableView *table,NSIndexPath *visiblePath) {
+    if(!visiblePath || visiblePath.section<0 || visiblePath.row<0)return visiblePath;
+    NSArray<NSNumber *> *indices=DFISettingsOriginalVisibleRows(self,table,visiblePath.section);
+    if(visiblePath.row>=indices.count)return nil;
+    return [NSIndexPath indexPathForRow:indices[visiblePath.row].integerValue
+                             inSection:visiblePath.section];
+}
+static UITableViewCell *DFISettingsCell(id self,SEL cmd,UITableView *table,NSIndexPath *indexPath) {
+    NSIndexPath *original=DFIMappedPath(self,table,indexPath);
+    if(!original) {
+        DFIUIInfo(@"Out-of-bounds filtered row; safe empty cell");
+        return [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    }
+    return DFIOriginalSettingsCell(self,cmd,table,original);
+}
+static void DFISettingsSelect(id self,SEL cmd,UITableView *table,NSIndexPath *indexPath) {
+    NSIndexPath *original=DFIMappedPath(self,table,indexPath);
+    if(original && DFIOriginalSettingsSelect)
+        DFIOriginalSettingsSelect(self,cmd,table,original);
+}
+static BOOL DFIInstallSimpleNoOp(Class cls,SEL sel,IMP replacement) {
+    if(!cls)return NO;
+    Method method=class_getInstanceMethod(cls,sel);
+    if(!method)return NO;
+    NSMethodSignature *sig=[NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(method)];
+    if(!sig || sig.numberOfArguments!=2 || sig.methodReturnType[0]!='v')return NO;
+    method_setImplementation(method,replacement);
+    DFIUIInfo([NSString stringWithFormat:@"disabled obsolete UI action %@[%@ %@]",
+               @"-",NSStringFromClass(cls),NSStringFromSelector(sel)]);
+    return YES;
+}
+static void DFIInstallNative2UI(void) {
+    if(DFIUIFilterInstalled)return;
+    Class settings=NSClassFromString(@"CBGeneralSettingsViewController");
+    Class root=NSClassFromString(@"XXRootViewController");
+    if(!settings || !root)return;
+    const SEL rows=@selector(tableView:numberOfRowsInSection:);
+    const SEL cells=@selector(tableView:cellForRowAtIndexPath:);
+    const SEL select=@selector(tableView:didSelectRowAtIndexPath:);
+    Method mRows=class_getInstanceMethod(settings,rows);
+    Method mCells=class_getInstanceMethod(settings,cells);
+    Method mSelect=class_getInstanceMethod(settings,select);
+    if(!mRows || !mCells || !mSelect)return;
+    NSMethodSignature *rs=[NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(mRows)];
+    NSMethodSignature *cs=[NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(mCells)];
+    NSMethodSignature *ss=[NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(mSelect)];
+    if(!rs || !cs || !ss || rs.numberOfArguments!=4 ||
+       cs.numberOfArguments!=4 || ss.numberOfArguments!=4 ||
+       !strchr("qi",rs.methodReturnType[0]) ||
+       cs.methodReturnType[0]!='@' || ss.methodReturnType[0]!='v') {
+        DFIUIInfo(@"Original settings ABI mismatch; preserve unmodified behavior");
+        return;
+    }
+    DFIHiddenLicenseRowKeys=[NSMutableSet new];
+    DFIOriginalSettingsRows=(decltype(DFIOriginalSettingsRows))method_getImplementation(mRows);
+    DFIOriginalSettingsCell=(decltype(DFIOriginalSettingsCell))method_getImplementation(mCells);
+    DFIOriginalSettingsSelect=(decltype(DFIOriginalSettingsSelect))method_getImplementation(mSelect);
+    method_setImplementation(mRows,(IMP)DFISettingsRows);
+    method_setImplementation(mCells,(IMP)DFISettingsCell);
+    method_setImplementation(mSelect,(IMP)DFISettingsSelect);
+    DFIInstallSimpleNoOp(settings,@selector(openSubscriptionScreen),(IMP)DFINoSubscriptionNavigation);
+    DFIInstallSimpleNoOp(root,@selector(checkAndPresentLicenseModalIfNeeded),(IMP)DFINoExpiredDialog);
+    DFIUIFilterInstalled=YES;
+    DFIUIInfo(@"native2 settings-only cleanup installed; CarPlay native rendering untouched");
+}
+__attribute__((constructor)) static void DFIStartNative2SettingsCleanup(void) {
+    @autoreleasepool {
+        NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+        // Never touch SpringBoard/CarPlay/Dashboard or another iPhone app.
+        if(![bundle isEqualToString:@"com.duoface.duofaceui"])return;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFIInstallNative2UI();
+            [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer *timer) {
+                if(DFIUIFilterInstalled){[timer invalidate];return;}
+                static NSUInteger attempts=0;
+                if(++attempts>=100){[timer invalidate];DFIUIInfo(@"Settings class unavailable, no changes applied");return;}
+                DFIInstallNative2UI();
+            }];
+        });
+    }
+}
+########## END FILE: migration/full_payload/native_test/DuoFaceNative2UICleanup.mm ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/DuoFaceNoLeaseBridge.mm ##########
+// DuoFace native trial: retain original UI / split engine, redirect license-only
+// entrypoints in the project runtime. Never touches split/layout/picker selectors.
+// Experimental implementation: real-device reports determine remaining dependencies.
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+#import <dispatch/dispatch.h>
+#import <string.h>
+
+static NSString *const DFILogPrefix = @"[DuoFaceNativeTrial]";
+static NSMutableSet<NSString *> *DFIHookedMethods;
+static NSUInteger DFIInstallRound = 0;
+static BOOL DFIEnabledTestMode = NO;
+static BOOL DFIBoolYes(id obj, SEL sel) { (void)obj;(void)sel;return YES; }
+static signed char DFICharYes(id obj, SEL sel) { (void)obj;(void)sel;return 1; }
+static long long DFILongYes(id obj, SEL sel) { (void)obj;(void)sel;return 1LL; }
+static double DFITrialSeconds(id obj, SEL sel) { (void)obj;(void)sel;return 315360000.0; }
+static float DFITrialFloat(id obj, SEL sel) { (void)obj;(void)sel;return 315360000.0f; }
+static id DFIEmptyEndpoint(id obj, SEL sel) { (void)obj;(void)sel;return nil; }
+static void DFINoWork(id obj, SEL sel) { (void)obj;(void)sel; }
+static void DFINoWorkArg(id obj, SEL sel, id arg) { (void)obj;(void)sel;(void)arg; }
+static BOOL DFIValidateNoPayload(id obj, SEL sel, id payload, id errorOut) {
+    (void)obj;(void)sel;(void)payload;(void)errorOut;return YES;
+}
+static void DFILog(NSString *message) {
+    NSLog(@"%@ %@", DFILogPrefix, message);
+}
+static BOOL DFITargetProcess(void) {
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    if([bundle isEqualToString:@"com.duoface.duofaceui"])return YES;
+    if([bundle isEqualToString:@"com.duoface.independent"])return YES;
+    return [@[@"com.apple.springboard",@"com.apple.carplay",
+              @"com.apple.carplayapp",@"com.apple.dashboard"] containsObject:bundle];
+}
+static BOOL DFIHookMethod(Class cls, NSString *selectorName, const char *returnTypes,
+                          IMP implementation, NSUInteger arguments) {
+    if(!cls || !selectorName.length || !DFIEnabledTestMode)return NO;
+    Method method=class_getInstanceMethod(cls,NSSelectorFromString(selectorName));
+    if(!method)return NO;
+    NSString *key=[NSString stringWithFormat:@"%@.%@",NSStringFromClass(cls),selectorName];
+    if([DFIHookedMethods containsObject:key])return YES;
+    const char *signature=method_getTypeEncoding(method);
+    if(!signature)return NO;
+    NSMethodSignature *sig=[NSMethodSignature signatureWithObjCTypes:signature];
+    if(!sig || sig.numberOfArguments != arguments) {
+        DFILog([NSString stringWithFormat:@"SKIP type/argc mismatch %@ %s",key,signature]);
+        return NO;
+    }
+    char type=sig.methodReturnType[0];
+    if(!strchr(returnTypes,type)) {
+        DFILog([NSString stringWithFormat:@"SKIP return ABI mismatch %@ %s",key,signature]);
+        return NO;
+    }
+    IMP previous=method_setImplementation(method,implementation);
+    if(!previous) {
+        DFILog([NSString stringWithFormat:@"SKIP no original IMP %@",key]);
+        return NO;
+    }
+    [DFIHookedMethods addObject:key];
+    DFILog([NSString stringWithFormat:@"TEST_REDIRECT %@ signature=%s",key,signature]);
+    return YES;
+}
+static void DFIInstallMethodForValue(Class cls, NSString *sel, BOOL seconds) {
+    Method method=class_getInstanceMethod(cls,NSSelectorFromString(sel));
+    if(!method)return;
+    const char *types=method_getTypeEncoding(method);
+    NSMethodSignature *sig=types?[NSMethodSignature signatureWithObjCTypes:types]:nil;
+    if(!sig || sig.numberOfArguments!=2)return;
+    switch(sig.methodReturnType[0]) {
+        case 'B': DFIHookMethod(cls,sel,"B",(IMP)DFIBoolYes,2);break;
+        case 'c': DFIHookMethod(cls,sel,"c",(IMP)DFICharYes,2);break;
+        case 'i': case 's': case 'l': case 'q': case 'I': case 'S': case 'L': case 'Q':
+             DFIHookMethod(cls,sel,"isqlISLQ",(IMP)DFILongYes,2);break;
+        case 'd': DFIHookMethod(cls,sel,"d",(IMP)DFITrialSeconds,2);break;
+        case 'f': DFIHookMethod(cls,sel,"f",(IMP)DFITrialFloat,2);break;
+        default:
+            DFILog([NSString stringWithFormat:@"SKIP unknown value ABI %@ %s",sel,types]);
+            break;
+    }
+    (void)seconds;
+}
+static void DFIInstallIfAvailable(void) {
+    if(!DFIEnabledTestMode)return;
+    Class manager=NSClassFromString(@"CBLicenseSyncManager");
+    if(manager){
+        DFIInstallMethodForValue(manager,@"isLicenseCurrentlyValid",NO);
+        DFIInstallMethodForValue(manager,@"remainingLicenseSeconds",YES);
+        DFIInstallMethodForValue(manager,@"actualLicenseExpirationTimestamp",YES);
+        DFIHookMethod(manager,@"checkAndSyncLicenseIfNeeded","v",(IMP)DFINoWork,2);
+        DFIHookMethod(manager,@"checkAndSyncLicenseIfNeededWithSource:","v",(IMP)DFINoWorkArg,3);
+        DFIHookMethod(manager,@"resolvedLicenseServerEndpoint","@",(IMP)DFIEmptyEndpoint,2);
+        // Some builds expose manual install; intentionally leave untouched as
+        // native project test does not install or generate license payloads.
+    }
+    Class bridge=NSClassFromString(@"CBBridgeManager");
+    if(bridge){
+        DFIHookMethod(bridge,@"startLicenseWatchdogTimer","v",(IMP)DFINoWork,2);
+        DFIHookMethod(bridge,@"stopLicenseWatchdogTimer","v",(IMP)DFINoWork,2);
+        DFIHookMethod(bridge,@"licenseWatchdogTimerFired:","v",(IMP)DFINoWorkArg,3);
+        DFIHookMethod(bridge,@"presentLicenseWarningModalWithType:","v",(IMP)DFINoWorkArg,3);
+        // dismissLicenseWarningModal left original so existing popup can close.
+    }
+    if(DFIInstallRound%10==0)
+       DFILog([NSString stringWithFormat:@"hooked=%lu round=%lu core=%@ license=%@",
+               (unsigned long)DFIHookedMethods.count,(unsigned long)DFIInstallRound,
+               bridge?@"YES":@"NO",manager?@"YES":@"NO"]);
+}
+__attribute__((constructor)) static void DFILaunchNativeTrial(void) {
+    @autoreleasepool {
+        if(!DFITargetProcess())return;
+        // This namespaced package is not co-installable with the legacy host.
+        // Test behavior is always explicit in the package build: do not depend
+        // on the user's personal license state.
+        DFIEnabledTestMode=YES;
+        DFIHookedMethods=[NSMutableSet new];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFIInstallIfAvailable();
+            [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer *timer){
+                if(++DFIInstallRound>120){[timer invalidate];return;}
+                DFIInstallIfAvailable();
+            }];
+        });
+    }
+}
+########## END FILE: migration/full_payload/native_test/DuoFaceNoLeaseBridge.mm ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/HUONG_DAN_TEST_NATIVE2.md ##########
+# DuoFace Mới native2 — kiểm tra trực tiếp và quay về native1
+
+## Bản đang phát hành
+
+- Gói Sileo: `com.duoface.independent`.
+- Version: `0.1.0~native2`.
+- Nguồn: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`.
+- Binary DEB: `dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb`.
+- SHA256 chính xác: `0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60`.
+- Bằng chứng build: `38710799434` SUCCESS; GitHub Pages build + deploy `38711100288` SUCCESS; tải lại Sileo APT/DEB và hash run `38711414564` SUCCESS.
+- Giữ nguyên 37 tệp gốc thuộc DuoFace; *không thay đổi* tệp nhị phân UI, Dashboard, FullscreenBridge, VisualHook, picker, menu, tất cả logo/ảnh. Chỉ bổ sung phần xử lý UI settings trong chính add-on riêng đã tồn tại ở native1.
+
+## Test trên thiết bị đang đỗ xe
+
+1. Tại Sileo đã có nguồn `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, Refresh và kiểm tra **DuoFace Mới (Native thử nghiệm)** có Version **`0.1.0~native2`**; nâng cấp từ native1.
+2. Trong DuoFace trên **iPhone**, vào phần **Cài đặt**. Xác minh không còn hàng thông tin đăng ký/giấy phép/thời hạn (ví dụ DuoFace Pro hoặc subscription) và không có hộp thoại đòi gia hạn khi mở app. Các hàng *Ngôn ngữ, Trạng thái CarPlay, DuoFace Team, SpringBoard, Cài đặt* phải vẫn thao tác như trước. Nếu để trống một hàng hoặc nút lệch thì chụp ảnh.
+3. Kết nối CarPlay, chọn 2 ứng dụng vào hai vùng và thử đổi vài lần. So sánh menu nền native, logo ngang, App – Zoom – Style – Close, bố cục, focus, restore, viền, chia tỉ lệ với native1. **Không thử trong lúc lái xe.**
+4. Respring và kết nối lại CarPlay; xác nhận không crash hoặc xuất hiện thông báo thời hạn. Nếu lỗi, ghi tên app, màn hình, thời điểm và thao tác gần nhất. Log native2 nếu có tiền tố `[DuoFaceNative2UI]`; log native1 core nếu có `[DuoFaceNativeTrial]`.
+
+## Cách quay về native1 khi lỗi
+
+**Native1 đã được giữ nguyên tuyệt đối trên GitHub, không ghi đè:**
+
+- `dist/payload-migration/native1/com.duoface.independent_0.1.0~native1_iphoneos-arm64.deb` tại commit `6c6a1f6a1a4802373be14ddfb92c71e28a880d49`.
+- SHA256: `16fd5fcbad7eba98de91a2e7a1200793509640cc47decbcca30491a45a6b9a13`.
+- Link GitHub: `https://github.com/chuongnguyen89dn-ui/Duoface/blob/6c6a1f6a1a4802373be14ddfb92c71e28a880d49/dist/payload-migration/native1/com.duoface.independent_0.1.0~native1_iphoneos-arm64.deb`.
+- Có thể quay lại bằng cách khôi phục nguồn Sileo cho package `com.duoface.independent` trỏ về native1 cùng hash đã kiểm và chạy lại Pages/verify, hoặc thực hiện downgrade gói (không tự gỡ/xóa package cũ nếu chưa có xác nhận từ người dùng).
+- **Không tự cập nhật lại `com.duonavi.app`**, không sửa root source `tiep tuc du an.md` cũ.
+
+## Những phần vẫn cần thêm bằng chứng
+
+- Đã compile và kiểm byte gốc, nhưng **chưa test native2 trên iPhone/CarPlay thực**.
+- Các phương thức/chuỗi kiểm tra cấp phép vẫn được chứa trong hai nhị phân original `DuoFaceUI`, `DuoFaceDashboard.dylib`; native2 mới chỉ triệt tiêu **lớp hiển thị ngày và đường mở giao diện đăng ký**. Add-on native1 giữ chức năng cốt lõi đã chạy thành công trên hai máy. Không báo đã xóa toàn bộ mã licence khỏi binary.
+- Chỉ sau khi native2 được xác nhận hoạt động tốt trên 2 máy mới tiếp tục dọn các điểm đồng bộ/network còn lại theo các vòng thử nghiệm có bản rollback.
+########## END FILE: migration/full_payload/native_test/HUONG_DAN_TEST_NATIVE2.md ##########
+
+########## BEGIN FILE: migration/full_payload/native_test/HUONG_DAN_TEST_NATIVE3.md ##########
+# DuoFace Mới native3 — xác minh sạch chữ thương hiệu cũ và test CarPlay
+
+**Phiên bản:** `com.duoface.independent` — `0.1.0~native3`.
+
+## Bản thay đổi chính xác
+
+Đây là bản phát triển tiếp trực tiếp từ `native2` đang có trên Sileo. **Không dựng lại bất kỳ màn hình, picker hay nút Zoom/Style/Close nào.**
+
+- Đổi **434** chuỗi thương hiệu `DuoNavi` → `DuoFace` trong phần dịch của app gốc `DuoFaceUI`.
+- Đổi **428** chuỗi `DuoNavi` → `DuoFace` trong các phần dịch nhúng của `DuoFaceDashboard.dylib`.
+- Đổi 1 câu log chẩn đoán `Airaw-compatible` → `DuoFace-friendly` trong `DuoFaceFullscreenBridge.dylib`; **cùng 16 byte**, không thay cấu trúc nhị phân.
+- Bỏ tên package legacy ghi cứng khỏi script cài đặt. Thay bằng **kiểm tra sở hữu tệp qua `dpkg-query -S`**; nếu một package khác sở hữu các tệp gốc, bộ cài **từ chối**, không tự xóa gói cũ.
+- Ký lại ba Mach-O đã thay chuỗi. `__TEXT,__text` của app và hai thư viện nguyên byte trên **hai slice arm64 và arm64e** (với app và Dashboard), và trên slice arm64 (FullscreenBridge) so với native2. 36 file data khác hoàn toàn không thay byte, gồm toàn bộ assets/logo/menu và native2 runtime addon.
+- Kiểm tra mọi file trong DEB gồm tên file, symlink, ASCII và UTF-16 BE/LE, 59 data entries/5 control entries: **0 kết quả `duonavi` hoặc `airaw`**. Báo cáo: `dist/payload-migration/native3/BRAND_ZERO_AUDIT.json`.
+
+**CI/DEB đã được kiểm chứng:**
+- Build `38718598923` success; regression mã máy/installer `38718992400` success.
+- `dist/payload-migration/native3/com.duoface.independent_0.1.0~native3_iphoneos-arm64.deb`
+- SHA256 `7040338f37ebb1d1d2bee5adffd9cc0558b595b1ebcb9283169ab8d7f71bf2df`.
+- GitHub blob `0f159d2672cb1fc1d0d68e2024258868d0cd710f`. Bản native2 giữ nguyên cho rollback: SHA256 `0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60`.
+
+## ĐIỀU QUAN TRỌNG: thương hiệu đã sạch, mã giấy phép chưa bị xóa sạch
+
+Bản `native2` đã được xác nhận trên iPhone **không còn hiển thị ngày sử dụng và kích hoạt**. `native3` giữ nguyên bản đó. Tuy nhiên các lớp `CBLicenseSyncManager`, hàm `isLicenseCurrentlyValid`, các chuỗi tiếng Anh “license/subscription/trial” vẫn còn trong nhị phân `DuoFaceUI` và `DuoFaceDashboard.dylib` của baseline. Việc thay tên thương hiệu không xóa code cấp phép. Không đánh đồng hai loại kiểm tra.
+
+Đây là bản thử giúp xác minh đổi sạch định danh vendor nhưng vẫn bảo toàn công năng CarPlay. Việc tách tiếp lõi giấy phép phải làm trong bản kiểm tra kế tiếp, khi biết kết quả thử `native3` trên hai máy.
+
+## Các bước thử thực tế
+
+1. Đỗ xe, mở Sileo, refresh nguồn `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, kiểm phiên bản **native3** của gói `com.duoface.independent`, nâng cấp từ native2. Không cần gỡ app DuoFace Mới đang chạy, giữ package ID.
+2. Mở DuoFace trên iPhone: kiểm logo/nhãn/menu và Cài đặt không còn ngày, kích hoạt; không có nhãn “DuoNavi” hoặc “Airaw” ở bất cứ màn nào.
+3. Kết nối CarPlay và thử chọn app 2 ô, đổi ứng dụng nhiều lần, Swap, Zoom In/Out, Style, Close App, Refresh/X, Clear All, phóng focus/restore. Kiểm màn không hiện tên cũ.
+4. Kiểm lại sau respring, ngắt và kết nối lại CarPlay. Kiểm trên cả hai máy (máy 2 trước đây từng không cài được bản cũ).
+5. Nếu có lỗi, gửi ảnh và mô tả bước gây lỗi, log có prefix `DuoFaceNativeTrial` hoặc `DuoFaceNative2UI`; cung cấp crash log SpringBoard/CarPlay nếu có.
+
+## Cách quay về native2
+
+Bản native2 **không bị thay đổi trên GitHub**:
+`https://github.com/chuongnguyen89dn-ui/Duoface/blob/2b9a1cd0ff84f7e12110655ed5ed32076aef7e61/dist/payload-migration/native2/com.duoface.independent_0.1.0~native2_iphoneos-arm64.deb`
+
+SHA256: `0d48d13e4c5965f8d787d86fa4c7776145cd843e98e7cae0b516779271264e60`.
+
+Nếu có lỗi sẽ đổi nguồn Sileo của **riêng gói `com.duoface.independent`** về URL/SHA native2 và chạy lại Pages/Live Verify; người dùng không cần tự sửa binary. Tất cả gói khác trong nguồn Sileo vẫn nguyên.
+########## END FILE: migration/full_payload/native_test/HUONG_DAN_TEST_NATIVE3.md ##########
+
