@@ -69,8 +69,16 @@ def objc_metadata(binary: Path):
     for line in meta.stdout.splitlines():
         m = NAME.match(line)
         if m:
-            current = m.group(1)
-            classes.setdefault(current, [])
+            proposed = m.group(1)
+            # ObjC -objc-meta-data also prints instance-variable and property
+            # names as 'name 0x...' (e.g. _app, _currentRatio). These are NOT
+            # class declarations. Count only class/protocol-style identifiers.
+            # Still a static candidate count, not a formal linker class total.
+            if proposed[:1].isupper() or proposed.startswith("_Tt"):
+                current = proposed
+                classes.setdefault(current, [])
+            else:
+                current = None
             active = False
             continue
         if current is None:
@@ -90,7 +98,7 @@ def objc_metadata(binary: Path):
         "class_count": len(classes),
         "method_count": sum(map(len, classes.values())),
         "classes": {k: classes[k] for k in sorted(classes)},
-        "metadata_note": "Static llvm-objdump ObjC metadata; stripped or Swift symbols may not appear",
+        "metadata_note": "Candidate class/protocol-style identifiers from static metadata (uppercase names only), not a certified count of every Objective-C runtime class; stripped or Swift symbols may not appear",
     }
 
 
@@ -172,7 +180,7 @@ def read_deb(path, label):
         "ui_asset_png": sum(x["role"] == "ui_asset" for x in result["images"]),
         "dylib": sum(x["path"].endswith(".dylib") for x in result["all_files"]),
         "plist": sum(x["path"].endswith(".plist") for x in result["all_files"]),
-        "objc_classes_listed": sum(x["class_count"] for x in result["machos"].values()),
+        "objc_class_candidates_listed": sum(x["class_count"] for x in result["machos"].values()),
         "objc_methods_listed": sum(x.get("method_count", 0) for x in result["machos"].values()),
     }
     return result
@@ -245,14 +253,14 @@ def main():
         "# DuoFace full immutable DEB scan — Native12 vs QA7 and DuoNavi 1.0.4",
         "", "Read-only archive and ObjC static metadata, not device parity or vendor code reuse.",
         "",
-        "| Package | Files | Directories | PNG | App icon PNG | UI PNG | Dylib | Plist | ObjC classes listed |",
+        "| Package | Files | Directories | PNG | App icon PNG | UI PNG | Dylib | Plist | ObjC class/protocol candidates listed |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for name, pack in all_data.items():
         c = pack["counts"]
         lines.append(f'| {name} | {c["files"]} | {c["directories"]} | '
                      f'{c["png"]} | {c["app_icon_png"]} | {c["ui_asset_png"]} | '
-                     f'{c["dylib"]} | {c["plist"]} | {c["objc_classes_listed"]} |')
+                     f'{c["dylib"]} | {c["plist"]} | {c["objc_class_candidates_listed"]} |')
     lines += ["", "## Six core UI families from actual binary, not six total UI files"]
     for k, v in families.items():
         lines.append(f'- **{k}**: {", ".join(v["native_class_names"])} '
