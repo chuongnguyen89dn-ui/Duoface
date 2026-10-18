@@ -157,7 +157,11 @@ assert '[nativePill setCompactMode:compactPane];' in ui
 assert ui.index('[nativePill setCompactMode:compactPane];') < ui.index('[nativePill setFocused:self.maximized==i];')
 assert 'CGRectGetMaxX(frame)-nativeSize.width-2' in ui
 assert 'frame.size.height<nativeSize.height' in ui
-assert '_dotsButton.frame=CGRectMake(0,0,half,height)' in src
+# Original Native12 no-expand ARM64 0x84ff0..0x85044 passes the full
+# container bounds to dotsButton.setFrame:, not the normal split half.
+assert '_dotsButton.frame=_showsExpandButton?CGRectMake(0,0,half,height):self.bounds;' in src
+assert '[nativePill setShowsExpandButton:f.count>1];' in ui
+assert ui.index('[nativePill setShowsExpandButton:f.count>1];') < ui.index('[nativePill setCompactMode:compactPane];')
 assert '_expandButton.frame=CGRectMake(half,0,MAX(0,width-half),height)' in src
 # Focused Native12 layoutSubviews 0x84cf8..0x84d88 hides dots,
 # separator and expand, then uses the complete bounds for restoreButton.
