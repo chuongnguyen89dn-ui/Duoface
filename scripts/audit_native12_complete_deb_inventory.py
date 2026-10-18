@@ -50,7 +50,9 @@ def objc_metadata(binary: Path):
     arch = subprocess.run(["xcrun", "lipo", "-archs", str(binary)],
                           text=True, capture_output=True, check=False)
     target = binary
-    if arch.returncode == 0 and "arm64" in arch.stdout.split():
+    if (arch.returncode == 0 and "arm64" in arch.stdout.split() and
+        binary.read_bytes()[:4] in (b"\\xca\\xfe\\xba\\xbe", b"\\xbe\\xba\\xfe\\xca",
+                                     b"\\xca\\xfe\\xba\\xbf", b"\\xbf\\xba\\xfe\\xca")):
         # Some signed originals are FAT; objc-objdump requires the ARM64 slice.
         sliced = binary.with_name(binary.name + ".arm64")
         subprocess.run(["xcrun", "lipo", "-thin", "arm64", str(binary),
