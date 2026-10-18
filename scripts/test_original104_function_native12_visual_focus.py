@@ -27,7 +27,11 @@ visual=contract["native12_visual_pill"]
 assert visual["layout_imp"]=="0x84c30"
 assert set(("dotsButton","separatorView","expandButton"))==set(visual["focused_hide"])
 assert visual["focused_show"]==["restoreButton"]
-assert visual["known_compact_mode_trigger"] is False
+assert visual["known_compact_mode_trigger"] is True
+guard=visual["original104_compact_conditions"]
+assert guard["proven_branch_only"]
+assert guard["height_lt_pt"]==220.0 and guard["width_lt_pt"]==320.0
+assert guard["height_literal_vmaddr"]=="0x33ebe8"
 
 shell=(ROOT/"replacement/visual12/engine/runtime/DFINativeShell.inc").read_text()
 ui=(ROOT/"replacement/visual12/engine/runtime/DFIInterface.inc").read_text()
@@ -45,6 +49,9 @@ for snippet in (
     assert snippet in shell, snippet
 for snippet in (
     "[nativePill setFocused:self.maximized==i];",
+    "BOOL compactPane=hasPane &&",
+    "(CGRectGetWidth(frame)<320.0 || CGRectGetHeight(frame)<220.0);",
+    "[nativePill setCompactMode:compactPane];",
     "CGSize nativeSize=[nativePill nativeReferenceSize];",
     "- (void)restorePane:(UIButton *)button {",
     "- (void)zoomPane:(UIButton *)button {",
