@@ -248,13 +248,21 @@ static double DFSPClampRatio(double r, BOOL snap) {
     if (valid) {
         CGRect tr;
         if (self.verticalDivider) {
-            CGFloat x=(CGRectGetMaxX(a)+CGRectGetMinX(b))*0.5;
+            // Pane index is logical slot order, NOT necessarily left-to-right.
+            // Compute the real shared edge of the two hosted pane rectangles.
+            BOOL firstLeft=CGRectGetMidX(a)<=CGRectGetMidX(b);
+            CGFloat x=firstLeft?
+                 (CGRectGetMaxX(a)+CGRectGetMinX(b))*0.5:
+                 (CGRectGetMaxX(b)+CGRectGetMinX(a))*0.5;
             tr=CGRectMake(x-16,MAX(CGRectGetMinY(a),CGRectGetMinY(b)),
                           32,MIN(CGRectGetMaxY(a),CGRectGetMaxY(b))-
                                   MAX(CGRectGetMinY(a),CGRectGetMinY(b)));
             self.dividerLine.frame=CGRectMake(15.5,0,1,MAX(0,tr.size.height));
         } else {
-            CGFloat y=(CGRectGetMaxY(a)+CGRectGetMinY(b))*0.5;
+            BOOL firstTop=CGRectGetMidY(a)<=CGRectGetMidY(b);
+            CGFloat y=firstTop?
+                 (CGRectGetMaxY(a)+CGRectGetMinY(b))*0.5:
+                 (CGRectGetMaxY(b)+CGRectGetMinY(a))*0.5;
             tr=CGRectMake(MAX(CGRectGetMinX(a),CGRectGetMinX(b)),y-16,
                           MIN(CGRectGetMaxX(a),CGRectGetMaxX(b))-
                             MAX(CGRectGetMinX(a),CGRectGetMinX(b)),32);
@@ -357,6 +365,12 @@ static double DFSPClampRatio(double r, BOOL snap) {
     double ratio=self.verticalDivider?
         (point.x-CGRectGetMinX(whole))/CGRectGetWidth(whole):
         (point.y-CGRectGetMinY(whole))/CGRectGetHeight(whole);
+    // SPDash.ratio belongs to pane[0]. If it has been swapped to right or
+    // bottom, the physical leading-edge fraction must be inverted.
+    BOOL reversed=self.verticalDivider?
+        CGRectGetMidX(self.firstRect)>CGRectGetMidX(self.secondRect):
+        CGRectGetMidY(self.firstRect)>CGRectGetMidY(self.secondRect);
+    if (reversed)ratio=1.0-ratio;
     BOOL ended=pan.state==UIGestureRecognizerStateEnded||
                pan.state==UIGestureRecognizerStateCancelled;
     if(pan.state==UIGestureRecognizerStateBegan||
