@@ -85,21 +85,21 @@
     {
       "id": "pill_app",
       "component": "App button",
-      "dimension": "QA 30pt wide at x4, pill-dependent height",
+      "dimension": "Left half of actual pill width, full pill height",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 167,
-      "assurance": "qa",
-      "state": "not-native-proven",
+      "line": 170,
+      "assurance": "native12-actual-deb-layoutSubviews",
+      "state": "corrected-source-not-device",
       "found": true
     },
     {
       "id": "pill_focus",
       "component": "Expand/restore button",
-      "dimension": "QA 30pt wide at right-35, dynamic height",
+      "dimension": "Right half of actual pill width, full pill height",
       "source": "replacement/visual12/engine/runtime/DFINativeShell.inc",
-      "line": 168,
-      "assurance": "qa",
-      "state": "not-native-proven",
+      "line": 171,
+      "assurance": "native12-actual-deb-layoutSubviews",
+      "state": "corrected-source-not-device",
       "found": true
     },
     {
