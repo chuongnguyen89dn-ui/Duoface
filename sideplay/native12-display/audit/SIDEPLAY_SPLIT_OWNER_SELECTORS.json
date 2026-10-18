@@ -1,0 +1,711 @@
+{
+  "sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+  "source": "verified extracted original SidePlay.dylib arm64",
+  "status": "STATIC_METHOD_DECLARATIONS_ONLY_NOT_EXECUTED",
+  "matches": [
+    {
+      "class": "SPCalibrationView",
+      "selectors": [
+        {
+          "selector": "-initWithFrame:",
+          "imp": "0xe47c",
+          "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16"
+        },
+        {
+          "selector": "-layoutSubviews",
+          "imp": "0xf394",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-dragged:",
+          "imp": "0xfe94",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 31
+    },
+    {
+      "class": "SPDashCard",
+      "selectors": [
+        {
+          "selector": "-initWithSplit:title:",
+          "imp": "0x106b4",
+          "type": "@32@0:8q16@24"
+        },
+        {
+          "selector": "-applyStyle",
+          "imp": "0x10b24",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-layoutSubviews",
+          "imp": "0x10fd4",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-split",
+          "imp": "0x119e4",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-setSplit:",
+          "imp": "0x119f4",
+          "type": "v24@0:8q16"
+        },
+        {
+          "selector": "-diagramPanes",
+          "imp": "0x11a28",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setDiagramPanes:",
+          "imp": "0x11a38",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 12
+    },
+    {
+      "class": "SPCardScroll",
+      "selectors": [
+        {
+          "selector": "-touchesShouldCancelInContentView:",
+          "imp": "0x11a8c",
+          "type": "B24@0:8@16"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "class": "SPDashQuick",
+      "selectors": [
+        {
+          "selector": "-initWithSplit:apps:",
+          "imp": "0x11a94",
+          "type": "@32@0:8q16@24"
+        },
+        {
+          "selector": "-layoutSubviews",
+          "imp": "0x125c0",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-split",
+          "imp": "0x12a64",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-setSplit:",
+          "imp": "0x12a74",
+          "type": "v24@0:8q16"
+        },
+        {
+          "selector": "-diagramPanes",
+          "imp": "0x12ac4",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setDiagramPanes:",
+          "imp": "0x12ad4",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 16
+    },
+    {
+      "class": "SPDash",
+      "selectors": [
+        {
+          "selector": "-panes",
+          "imp": "0x12e8c",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-makeMainScreenWindow",
+          "imp": "0x13a88",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-retireCarWindow",
+          "imp": "0x17a5c",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-carDockMode",
+          "imp": "0x17b78",
+          "type": "B16@0:8"
+        },
+        {
+          "selector": "-carWindowFrameNow",
+          "imp": "0x17df0",
+          "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8"
+        },
+        {
+          "selector": "-saveManualCarArea:windowBounds:",
+          "imp": "0x197b0",
+          "type": "v80@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16{CGRect={CGPoint=dd}{CGSize=dd}}48"
+        },
+        {
+          "selector": "-startCalibration",
+          "imp": "0x19b58",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-showCalibration",
+          "imp": "0x19ca4",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-endCalibration:",
+          "imp": "0x1a15c",
+          "type": "v20@0:8B16"
+        },
+        {
+          "selector": "-layoutRootView",
+          "imp": "0x1a2f0",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-iconButton:size:action:",
+          "imp": "0x1af2c",
+          "type": "@40@0:8@16d24:32"
+        },
+        {
+          "selector": "-saveLastLayout",
+          "imp": "0x1d1e0",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-restoreLastLayout",
+          "imp": "0x1d67c",
+          "type": "B16@0:8"
+        },
+        {
+          "selector": "-layoutChooser",
+          "imp": "0x1ddb4",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-scrollViewWillEndDragging:withVelocity:targetContentOffset:",
+          "imp": "0x1e840",
+          "type": "v48@0:8@16{CGPoint=dd}24N^{CGPoint=dd}40"
+        },
+        {
+          "selector": "-revealChosenLayout:",
+          "imp": "0x1e96c",
+          "type": "v20@0:8B16"
+        },
+        {
+          "selector": "-noticeViewFor:",
+          "imp": "0x1f100",
+          "type": "@24@0:8@16"
+        },
+        {
+          "selector": "-previewService:",
+          "imp": "0x20b48",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-chooseLayoutFromCard:",
+          "imp": "0x21b10",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-loadPaneApps",
+          "imp": "0x22190",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-quitAppsOutOfPanes",
+          "imp": "0x22cbc",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-layout:",
+          "imp": "0x23624",
+          "type": "v20@0:8B16"
+        },
+        {
+          "selector": "-paneAppDidTerminate:",
+          "imp": "0x241a4",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-paneRequestsLayouts:",
+          "imp": "0x24314",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-paneRequestsSwap:",
+          "imp": "0x24398",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-paneRequestsClose:",
+          "imp": "0x24708",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-paneRequestsAppPicker:",
+          "imp": "0x249b0",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-gestureRecognizer:shouldReceiveTouch:",
+          "imp": "0x24a0c",
+          "type": "B32@0:8@16@24"
+        },
+        {
+          "selector": "-showPickerForPane:",
+          "imp": "0x25618",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-buildPickerForPane:",
+          "imp": "0x256d8",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-hostedAppViewControllerForSceneHandle:",
+          "imp": "0x26990",
+          "type": "@24@0:8@16"
+        },
+        {
+          "selector": "-window",
+          "imp": "0x27184",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setWindow:",
+          "imp": "0x2718c",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-carWindow",
+          "imp": "0x27198",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setCarWindow:",
+          "imp": "0x271a0",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-carWindowFrame",
+          "imp": "0x271ac",
+          "type": "{CGRect={CGPoint=dd}{CGSize=dd}}16@0:8"
+        },
+        {
+          "selector": "-setCarWindowFrame:",
+          "imp": "0x271b8",
+          "type": "v48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16"
+        },
+        {
+          "selector": "-carWindowScreen",
+          "imp": "0x271cc",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setCarWindowScreen:",
+          "imp": "0x271d8",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-glowView",
+          "imp": "0x271f4",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setGlowView:",
+          "imp": "0x271fc",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-rootView",
+          "imp": "0x27208",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setRootView:",
+          "imp": "0x27210",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-chooserView",
+          "imp": "0x2721c",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setChooserView:",
+          "imp": "0x27224",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-noticeView",
+          "imp": "0x27290",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setNoticeView:",
+          "imp": "0x27298",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-calibrationPending",
+          "imp": "0x272e8",
+          "type": "B16@0:8"
+        },
+        {
+          "selector": "-setCalibrationPending:",
+          "imp": "0x272f0",
+          "type": "v20@0:8B16"
+        },
+        {
+          "selector": "-calibrationView",
+          "imp": "0x272f8",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setCalibrationView:",
+          "imp": "0x27300",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-areaView",
+          "imp": "0x2730c",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setAreaView:",
+          "imp": "0x27314",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-pickerView",
+          "imp": "0x27320",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setPickerView:",
+          "imp": "0x27328",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-setPanes:",
+          "imp": "0x27334",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-slotOrder",
+          "imp": "0x27350",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setSlotOrder:",
+          "imp": "0x27358",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-split",
+          "imp": "0x27364",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-setSplit:",
+          "imp": "0x2736c",
+          "type": "v24@0:8q16"
+        },
+        {
+          "selector": "-ratio",
+          "imp": "0x27374",
+          "type": "d16@0:8"
+        },
+        {
+          "selector": "-setRatio:",
+          "imp": "0x2737c",
+          "type": "v24@0:8d16"
+        },
+        {
+          "selector": "-scaleMode",
+          "imp": "0x27384",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-setScaleMode:",
+          "imp": "0x2738c",
+          "type": "v24@0:8q16"
+        },
+        {
+          "selector": "-paneApps",
+          "imp": "0x27394",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setPaneApps:",
+          "imp": "0x2739c",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 154
+    },
+    {
+      "class": "SPHudGestures",
+      "selectors": [
+        {
+          "selector": "-panned:",
+          "imp": "0x279c4",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 4
+    },
+    {
+      "class": "SPLoadingView",
+      "selectors": [
+        {
+          "selector": "-initWithFrame:",
+          "imp": "0x29568",
+          "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16"
+        },
+        {
+          "selector": "-buildGrid",
+          "imp": "0x29668",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-ringLayer:color:width:",
+          "imp": "0x2afa8",
+          "type": "@40@0:8@16@24d32"
+        },
+        {
+          "selector": "-layoutSubviews",
+          "imp": "0x2b12c",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-stopAnimations",
+          "imp": "0x2b9d0",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-grid",
+          "imp": "0x2c484",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setGrid:",
+          "imp": "0x2c494",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-gridMask",
+          "imp": "0x2c4a8",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setGridMask:",
+          "imp": "0x2c4b8",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-iconView",
+          "imp": "0x2c580",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setIconView:",
+          "imp": "0x2c590",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-blockScale",
+          "imp": "0x2c634",
+          "type": "d16@0:8"
+        },
+        {
+          "selector": "-setBlockScale:",
+          "imp": "0x2c644",
+          "type": "v24@0:8d16"
+        }
+      ],
+      "count": 41
+    },
+    {
+      "class": "SPPane",
+      "selectors": [
+        {
+          "selector": "-buildViews",
+          "imp": "0x2da8c",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-layoutTapped",
+          "imp": "0x2f4bc",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-layoutInFrame:scaleMode:",
+          "imp": "0x2f6e0",
+          "type": "v56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48"
+        },
+        {
+          "selector": "-applySceneFrame:",
+          "imp": "0x313f8",
+          "type": "v32@0:8{CGSize=dd}16"
+        },
+        {
+          "selector": "-restoreSceneFrame",
+          "imp": "0x31468",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-setSceneFrame:orientation:",
+          "imp": "0x31500",
+          "type": "v56@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16q48"
+        },
+        {
+          "selector": "-listenForTouchesIn:",
+          "imp": "0x33844",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-sceneViewOrientation",
+          "imp": "0x34f70",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-view",
+          "imp": "0x36644",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setView:",
+          "imp": "0x3664c",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-appViewController",
+          "imp": "0x3666c",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setAppViewController:",
+          "imp": "0x36674",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-chipView",
+          "imp": "0x366fc",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setChipView:",
+          "imp": "0x36704",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-layoutButton",
+          "imp": "0x36738",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setLayoutButton:",
+          "imp": "0x36740",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-contentView",
+          "imp": "0x36774",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setContentView:",
+          "imp": "0x3677c",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-canvasView",
+          "imp": "0x36788",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setCanvasView:",
+          "imp": "0x36790",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-scaleMode",
+          "imp": "0x367fc",
+          "type": "q16@0:8"
+        },
+        {
+          "selector": "-setScaleMode:",
+          "imp": "0x36804",
+          "type": "v24@0:8q16"
+        },
+        {
+          "selector": "-sceneFrameChanged",
+          "imp": "0x3680c",
+          "type": "B16@0:8"
+        },
+        {
+          "selector": "-setSceneFrameChanged:",
+          "imp": "0x36814",
+          "type": "v20@0:8B16"
+        },
+        {
+          "selector": "-sceneSize",
+          "imp": "0x3681c",
+          "type": "{CGSize=dd}16@0:8"
+        },
+        {
+          "selector": "-setSceneSize:",
+          "imp": "0x36824",
+          "type": "v32@0:8{CGSize=dd}16"
+        },
+        {
+          "selector": "-loadingView",
+          "imp": "0x36880",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setLoadingView:",
+          "imp": "0x36888",
+          "type": "v24@0:8@16"
+        },
+        {
+          "selector": "-touchNotification",
+          "imp": "0x36948",
+          "type": "@16@0:8"
+        },
+        {
+          "selector": "-setTouchNotification:",
+          "imp": "0x36954",
+          "type": "v24@0:8@16"
+        }
+      ],
+      "count": 127
+    },
+    {
+      "class": "SPHOverspeedFrameSidePlay",
+      "selectors": [
+        {
+          "selector": "-initWithFrame:",
+          "imp": "0x448f0",
+          "type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16"
+        },
+        {
+          "selector": "-layoutSubviews",
+          "imp": "0x44afc",
+          "type": "v16@0:8"
+        },
+        {
+          "selector": "-didMoveToWindow",
+          "imp": "0x45350",
+          "type": "v16@0:8"
+        }
+      ],
+      "count": 11
+    }
+  ]
+}
