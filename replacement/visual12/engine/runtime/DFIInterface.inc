@@ -85,6 +85,8 @@ static NSArray *DFIAvailableApps(void) {
 @property(nonatomic,strong) UIControl *pickerShade;
 @property(nonatomic,strong) UIButton *pickerClose;
 @property(nonatomic) BOOL interactionActive;
+@property(nonatomic) CGFloat dragStartFraction,dragStartSecondary;
+@property(nonatomic) BOOL dragGestureActive;
 @property(nonatomic,strong) DFINativePickerCardsController *list;
 @property(nonatomic,strong) NSTimer *hideTimer;
 @property(nonatomic) NSInteger layoutKind,maximized,panelPane;
@@ -334,7 +336,10 @@ static NSArray *DFIAvailableApps(void) {
  // Native12 uses a single header row IN the picker sheet; no root floating toolbar.
  self.pickerShade.frame=splitFrame;
  self.edge.frame=CGRectMake(CGRectGetMidX(splitFrame)-20,CGRectGetMaxY(splitFrame)-28,40,24);
- self.edge.hidden=self.panel!=nil;
+ // The old alpha-QA floating ellipsis is NOT a Native12 split control.
+ // Native12 actions remain reachable from each pane's slot pill; eliminate
+ // the extra bottom-centre button seen on the real receiver screenshot.
+ self.edge.hidden=YES;
  self.statusLabel.frame=CGRectMake(CGRectGetMinX(splitFrame)+8,CGRectGetMinY(splitFrame)+4,splitFrame.size.width-16,34);
  if(self.panel){
   CGRect nativeCardFrame=DFINativePickerCardFrame(splitFrame,self.list?self.list.rows.count:4);
@@ -621,7 +626,12 @@ static NSArray *DFIAvailableApps(void) {
  [self.view setNeedsLayout];
 }
 - (void)drag:(UIPanGestureRecognizer *)g {
- if(g.state==UIGestureRecognizerStateBegan) DFIPerfMark(@"drag_begin",nil);
+ if(g.state==UIGestureRecognizerStateBegan){
+  self.dragStartFraction=self.fraction;
+  self.dragStartSecondary=self.secondary;
+  self.dragGestureActive=YES;
+  DFIPerfMark(@"drag_begin",nil);
+ }
  if(g.state==UIGestureRecognizerStateEnded || g.state==UIGestureRecognizerStateCancelled) DFIPerfMark(@"drag_end",nil);
  [self.hideTimer invalidate];if(g.state==UIGestureRecognizerStateBegan){[self dismissPanel];self.toolbar.hidden=YES;}
  DFIFrames f=DFIFramesMake(self.nativeSplitSurface.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);
@@ -633,7 +643,18 @@ static NSArray *DFIAvailableApps(void) {
   if(raw<.03||raw>.97){DFIFrames end=DFIFramesMake(self.nativeSplitSurface.bounds,(int)self.layoutKind,self.fraction,self.secondary,-1);CGRect boundary=f.boundaries[n];CGPoint probe=CGPointMake(CGRectGetMidX(boundary),CGRectGetMidY(boundary));if(vertical)probe.x=raw<.03?self.nativeSplitSurface.bounds.size.width-.1:.1;
    else probe.y=raw<.03?self.nativeSplitSurface.bounds.size.height-.1:.1;double area=-1;NSInteger candidate=-1;for(int i=0;i<end.count;i++){CGRect r=end.panes[i];double a=r.size.width*r.size.height;if(a>area){area=a;self.maximized=i;}if(!CGRectIsEmpty(r)&&CGRectContainsPoint(r,probe))candidate=i;}if(candidate>=0)self.maximized=candidate;}
   [self saveLayout];[self armHide];
- }else if(g.state==UIGestureRecognizerStateCancelled){self.fraction=self.layoutKind==4?1./3:.5;self.secondary=self.layoutKind==4?2./3:.5;[self armHide];}
+ }else if(g.state==UIGestureRecognizerStateCancelled){
+  // An interrupted drag must roll back to the actual pre-gesture split,
+  // never to the old alpha-QA 50:50 / 1:3 default.
+  if(self.dragGestureActive){
+   self.fraction=self.dragStartFraction;
+   self.secondary=self.dragStartSecondary;
+  }
+  [self armHide];
+ }
+ if(g.state==UIGestureRecognizerStateEnded ||
+    g.state==UIGestureRecognizerStateCancelled ||
+    g.state==UIGestureRecognizerStateFailed)self.dragGestureActive=NO;
  [self.view setNeedsLayout];[self.view layoutIfNeeded];
 }
 - (void)swapPanes {
