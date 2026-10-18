@@ -40,7 +40,7 @@ assert 'VisualAssets/duoface-picker.png' in src
 assert 'VisualAssets/duoface-fullscreen.png' in src
 assert 'VisualAssets/duoface-swap.png' in src
 assert 'CGRectGetMidX(windowBounds)' in src
-assert 'DFINativePickerCardFrame(bounds,' in ui
+assert 'DFINativePickerCardFrame(splitFrame,' in ui
 for forbidden in ('@implementation CBBridgeManager','@implementation CBLicenseSyncManager',
                   'licenseWatchdogTimerFired','DuoNaviDashboard.dylib'):
     assert forbidden not in src, forbidden
