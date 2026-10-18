@@ -9,6 +9,7 @@ on:
       - 'sideplay/native12-display/DFSPNativeSlotPill.*'
       - 'sideplay/native12-display/DFSPNative12Host.*'
       - 'sideplay/native12-display/validation/check_qa7_visual_recovery.py'
+      - 'sideplay/native12-display/validation/check_qa8_late_host_bootstrap.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -52,6 +53,9 @@ jobs:
       - name: Detect host failure and prevent silent SidePlay UI fallback
         shell: bash
         run: python3 sideplay/native12-display/validation/check_qa7_visual_recovery.py
+      - name: Verify QA8 handles lazily loaded SidePlay hosts and missed window creation
+        shell: bash
+        run: python3 sideplay/native12-display/validation/check_qa8_late_host_bootstrap.py
       - name: Build independent SidePlay Native12 frame and split drag (no vendor binary)
         shell: bash
         run: |
