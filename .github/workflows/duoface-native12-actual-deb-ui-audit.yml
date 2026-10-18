@@ -1,0 +1,91 @@
+name: Readonly actual Native12 HUD8 vs original104 UI DEBs
+on:
+  push:
+    branches: [feature/visual12-duodash-recovery]
+    paths:
+      - scripts/audit_native12_original104_ui_debs.py
+      - .github/workflows/duoface-native12-actual-deb-ui-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-original104-actual-deb-ui-audit
+  cancel-in-progress: false
+jobs:
+  audit-native-original:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Read-only extract tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          xcrun --find llvm-objdump
+          python3 -m venv "$RUNNER_TEMP/native-ui-python"
+          "$RUNNER_TEMP/native-ui-python/bin/python" -m pip install --quiet Pillow
+      - name: Analyze ONLY immutable original104 and Native12 HUD8 Debian files
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/native12-original104"
+          mkdir -p "$OUT"
+          "$RUNNER_TEMP/native-ui-python/bin/python" scripts/audit_native12_original104_ui_debs.py \
+            --native-deb 'dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            --original-deb 'dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' \
+            --out-json "$OUT/METRICS.json" --out-md "$OUT/REPORT.md"
+          "$RUNNER_TEMP/native-ui-python/bin/python" - "$OUT/METRICS.json" <<'PY'
+          import json,sys
+          data=json.load(open(sys.argv[1]))
+          assert data['status']=='NATIVE12_VS_ORIGINAL104_ACTUAL_DEB_READONLY'
+          assert data['native12']['dashboard_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert data['original104']['dashboard_sha256']=='44fdd4b4df0e3cc277ca69f71129da356f3bd8d6af70e0fde1ef36f266b66d15'
+          images=data['native12']['png_assets']
+          assert any(x['path'].endswith('/duoface-logo.png') for x in images)
+          assert any(x['path'].endswith('/duoface-logo-picker-alpha-v2.png') for x in images)
+          assert any(x['path'].endswith('/VisualAssets/duoface-swap.png') for x in images)
+          assert all(x.get('nontransparent_bbox_px') is not None for x in images)
+          assert len(data['native12']['classes']) == len(data['original104']['classes']) == 6
+          print('NATIVE12_REAL_DEB_LOGO_PNG_AND_UI_IMP_COMPARISON_READONLY_PASS')
+          PY
+      - name: Upload reproducible evidence, no vendor image/binary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native12-actual-deb-original104-ui-geometry-evidence
+          path: |
+            ${{ runner.temp }}/native12-original104/METRICS.json
+            ${{ runner.temp }}/native12-original104/REPORT.md
+          if-no-files-found: warn
+      - name: Persist audited JSON and report to DuoFace GitHub
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/visual12-duodash-recovery'
+          OUT="$RUNNER_TEMP/native12-original104"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git reset --hard "origin/$BRANCH"
+            mkdir -p audit/native12-deb-original104-ui
+            cp "$OUT/METRICS.json" audit/native12-deb-original104-ui/METRICS.json
+            cp "$OUT/REPORT.md" audit/native12-deb-original104-ui/REPORT.md
+            git add audit/native12-deb-original104-ui/
+            if git diff --cached --quiet; then
+              echo 'NATIVE12_ACTUAL_DEB_UI_EVIDENCE_ALREADY_PERSISTED'
+              exit 0
+            fi
+            git commit -m 'audit(native12): persist actual immutable DEB PNG/method geometry [skip ci]'
+            if git push origin "HEAD:$BRANCH"; then
+              echo 'NATIVE12_ACTUAL_DEB_UI_EVIDENCE_PERSISTED'
+              exit 0
+            fi
+            sleep 2
+          done
+          echo '::error::Actual DEB audited but GitHub persistence failed'
+          exit 1
