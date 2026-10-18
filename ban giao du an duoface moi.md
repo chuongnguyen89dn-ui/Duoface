@@ -1,5 +1,13 @@
 # Bàn giao dự án DuoFace mới
 
+## 2026-10-18 — Người dùng xác nhận standalone6invalidate đã sửa được crash đóng scene
+
+- KẾT QUẢ THỬ MÁY DO NGƯỜI DÙNG XÁC NHẬN: `standalone6invalidate` **đã sửa được lỗi crash khi đóng scene**. Đây là kết quả thực tế mới nhất, thay thế trạng thái cũ 'chưa test/chưa xác nhận fix' trong các checkpoint trước. Không tự suy rộng sang mọi lỗi hoặc mọi thiết bị.
+- BASELINE CẦN GIỮ: `1.0.3-12~standalone6invalidate`; bản `standalone5lifecycle` vẫn lỗi và không được dùng làm baseline. Không sửa lại teardown `setRequestedMode:0`/`invalidate` khi chưa có lỗi mới.
+- PHÂN BIỆT: commit guard race `7f836db`, `68d5575` và run QA `39086286753` success là thay đổi/kiểm tra sau đó, không phải bằng chứng riêng về fix crash. `exitMode` khi respring là vấn đề khác, chưa có kết luận nguyên nhân hoặc trạng thái khắc phục; không tự gộp vào crash đóng scene.
+- NEXT: tiếp tục công việc CarPlay độc lập và ghép giao diện gốc từ baseline đã được xác nhận, bảo toàn Native12/Hub8 và không tự phát hành QA lên Sileo. Ghi nhận lời người dùng ngay khi có kết quả test, không yêu cầu thử lại phần đã pass.
+
+
 ## 2026-10-18 — Đính chính hướng công việc sau QA thành công
 
 - Người dùng nhắc phải đọc lịch sử và tiếp tục đúng mục tiêu, không đẩy việc chạy CI sang người dùng. Đã đọc lại hồ sơ bàn giao thực tế trên nhánh `feature/visual12-duodash-recovery`.
