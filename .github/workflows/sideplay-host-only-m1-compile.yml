@@ -1,0 +1,83 @@
+name: DuoFace M1 app-host-only boundary build gate
+on:
+  push:
+    branches: [feature/duoface-native12-host-only-bridge-m1]
+    paths:
+      - '.github/workflows/sideplay-host-only-m1-compile.yml'
+      - 'sideplay/host-only/**'
+      - 'sideplay/sileo-qa/Tweak.xm'
+      - 'sideplay/sileo-qa/Makefile'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  host-only-build:
+    runs-on: macos-15
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check host-only API and Native12 visual invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/host-only/validation/check_host_only_bridge_m1.py
+          python3 sideplay/host-only/validation/check_host_only_bridge_m1.py
+          python3 sideplay/native12-display/validation/check_qa11_device_regressions.py
+      - name: Setup same verified QA11 iOS16 rootless Theos toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Stage unchanged Native12 approved art
+        shell: bash
+        run: |
+          set -euo pipefail
+          FROM='dist/visual-1.0.3-12/assets'
+          DEST='sideplay/sileo-qa/layout/Library/Application Support/DuoFaceSidePlayDisplayQA'
+          mkdir -p "$DEST"
+          test -s "$FROM/duoface-logo-picker-alpha-v2.png"
+          cp "$FROM/duoface-logo-picker-alpha-v2.png" "$DEST/"
+          for art in duoface-picker.png duoface-swap.png duoface-fullscreen.png; do
+            test -s "$FROM/VisualAssets/$art"
+            cp "$FROM/VisualAssets/$art" "$DEST/"
+          done
+      - name: Compile changed bridge and Native12 visual without creating any DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd sideplay/sileo-qa
+          make clean all
+          echo HOST_M1_THEOS_COMPILE_PASS_NO_PACKAGE_NO_SILEO
+      - name: Check no vendor binary or unapproved package was produced
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! find sideplay/sileo-qa -type f -name '*.deb' | grep .
+          ! grep -E 'SidePlay\.dylib|SidePlay\.app' sideplay/sileo-qa/Makefile
+          grep -F '../host-only/DFSPSceneHostBridge.m' sideplay/sileo-qa/Makefile
+          echo HOST_M1_NO_PACKAGE_OUTPUT
+      - name: Commit durable CI milestone PASS
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE='sideplay/host-only/validation/M1_CI_RESULT.txt'
+          printf 'HOST_ONLY_M1_STATIC_AND_THEOS_COMPILE=PASS\nRUN_ID=%s\nTESTED_SHA=%s\nTIME_UTC=%s\nNO_DEB=true\nNOT_DEVICE_TESTED=true\n' \
+            "$GITHUB_RUN_ID" "$GITHUB_SHA" "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$FILE"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$FILE"
+          git commit -m 'test(host-only): verified M1 native scene host boundary [skip ci]'
+          for retry in 1 2 3 4; do
+            git fetch origin feature/duoface-native12-host-only-bridge-m1
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-native12-host-only-bridge-m1; then
+              echo HOST_M1_GITHUB_CHECKPOINT_VERIFIED
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
