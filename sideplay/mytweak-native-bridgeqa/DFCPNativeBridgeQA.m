@@ -3,6 +3,7 @@
 // V1BC retains ownership of TWO iPhone scenes. This module mirrors an independent
 // raster surface (not the original layer), so it NEVER steals UIKit's layer.
 #import "DFCPNativeBridgeQA.h"
+#import "DFNativeSidebarTrial.h"
 #import "../mytweak-independent-v1a/prototype/MTCPBridgeContract.h"
 #import "../mytweak-independent-v1a/prototype/MTCPCommandRelay.h"
 #import "../mytweak-independent-v1a/prototype/MTCPRemoteLayer.h"
@@ -49,6 +50,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,strong) MTCPRemoteLayerProducer *publisher;
 @property(nonatomic,strong) MTCPCommandRelay *relay;
 @property(nonatomic,strong) MTCPDashboardOwner *owner;
+@property(nonatomic,strong) DFNativeSidebarTrial *sidebarTrial;
 @property(nonatomic,strong) CALayer *mirrorLayer;
 @property(nonatomic,weak) UIViewController *currentRoot;
 @property(nonatomic,weak) UIWindow *currentWindow;
@@ -200,6 +202,8 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     return nil;
 }
 - (void)tickCarPlay {
+    if(!self.sidebarTrial)self.sidebarTrial=[DFNativeSidebarTrial new];
+    [self.sidebarTrial tickWithSurface:MTCPBridgeReadSurface(nil)];
     if(self.owner.attached) {[self.owner refresh];return;}
     UIViewController *dashboard=[self nativeDashboardRoot];
     if(!dashboard)return;
@@ -217,6 +221,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(!MTCPBridgeExplicitOptIn()) {
         if(self.publisher)[self stopPublisher];
         if(self.owner.attached)[self.owner detach];
+        [self.sidebarTrial stop];
         return;
     }
     NSString *process=NSProcessInfo.processInfo.processName;
