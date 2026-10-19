@@ -20,6 +20,8 @@ FOUNDATION_EXPORT BOOL MTCPBridgeWriteCommand(NSString *session, NSString *actio
 FOUNDATION_EXPORT void MTCPBridgeInvalidateSurface(NSString *session);
 // Actual CarPlay-owned CALayerHost ACK (not proof of visible pixels or Home).
 FOUNDATION_EXPORT NSString *MTCPBridgeReceiverAckFile(void);
+FOUNDATION_EXPORT BOOL MTCPBridgeValidateReceiverAck(NSDictionary * _Nullable record,
+    NSString *session, NSTimeInterval now);
 FOUNDATION_EXPORT BOOL MTCPBridgeWriteReceiverAck(NSString *session, uint32_t contextID,
     CGRect normalizedContentRect);
 FOUNDATION_EXPORT NSDictionary * _Nullable MTCPBridgeReadReceiverAck(NSString *session);
