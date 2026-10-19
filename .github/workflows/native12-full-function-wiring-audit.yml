@@ -1,0 +1,105 @@
+name: Native12 8 Mach-O real callsite and IMP graph (forensic only)
+on:
+  push:
+    branches: [analysis/native12-complete-wiring-20261019]
+    paths:
+      - '.github/workflows/native12-full-function-wiring-audit.yml'
+      - 'sideplay/tools/audit_native12_macho_wiring.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-wiring-audit-deb-hash-pinned
+  cancel-in-progress: false
+jobs:
+  full-arm64-audit:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read iOS/CarPlay skill ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 \
+             'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' \
+             -o "$RUNNER_TEMP/ios-skill.zip"
+          unzip -t "$RUNNER_TEMP/ios-skill.zip"
+          unzip -Z1 "$RUNNER_TEMP/ios-skill.zip"
+          while IFS= read -r path; do
+            if [[ "$path" == *SKILL.md || "$path" == *README.md ]]; then
+              unzip -p "$RUNNER_TEMP/ios-skill.zip" "$path" | head -c 20000
+              printf '\n'
+            fi
+          done < <(unzip -Z1 "$RUNNER_TEMP/ios-skill.zip")
+      - name: Install read-only Mach-O/DEB analysis tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg llvm
+          echo "/opt/homebrew/opt/llvm/bin" >> "$GITHUB_PATH"
+          /opt/homebrew/opt/llvm/bin/llvm-objdump --version | head -4
+          command -v dpkg-deb
+      - name: Fetch immutable original Native12 HUD8 DEB and exact existing ABI index
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/reference"
+          curl -fLsS --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/reference/native12.deb"
+          printf '%s  %s\n' \
+            2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad \
+            "$RUNNER_TEMP/reference/native12.deb" | shasum -a 256 -c -
+          curl -fLsS --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/a57815b2430092a9c27811a88b53f9bbbb70312d/sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' \
+            -o "$RUNNER_TEMP/reference/method-index.json"
+          test "$(git hash-object "$RUNNER_TEMP/reference/method-index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          test "$(dpkg-deb -f "$RUNNER_TEMP/reference/native12.deb" Package)" = "com.duoface.independent"
+          test "$(dpkg-deb -f "$RUNNER_TEMP/reference/native12.deb" Architecture)" = "iphoneos-arm64"
+          dpkg-deb -x "$RUNNER_TEMP/reference/native12.deb" "$RUNNER_TEMP/reference/payload"
+          echo NATIVE12_IMMUTABLE_DEB_AND_ABI_INDEX_VERIFIED
+      - name: Static-disassemble EVERY Native12 Mach-O and map callsites to IMP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/tools/audit_native12_macho_wiring.py \
+            --payload "$RUNNER_TEMP/reference/payload" \
+            --method-index "$RUNNER_TEMP/reference/method-index.json" \
+            --output sideplay/audit/native12-wiring-20261019
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("sideplay/audit/native12-wiring-20261019")
+          s=json.loads((p/"SUMMARY.json").read_text())
+          assert len(s["binaries"])==8
+          assert sum(x["objc_methods"] for x in s["binaries"])==1385
+          for item in s["binaries"]:
+              assert (p/item["file"]).stat().st_size>100
+          print("NATIVE12_ALL_8_BINARIES_STATIC_EVIDENCE_VERIFIED")
+          for i in s["binaries"]:print(i)
+          PY
+      - name: Archive raw machine callsite evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Whole-MachO-Callsite-IMP-Graph
+          path: sideplay/audit/native12-wiring-20261019/
+          retention-days: 90
+      - name: Commit full evidence to GitHub without modifying runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/audit/native12-wiring-20261019
+          git commit -m 'audit(native12): preserve 8-binary IMP graph and uncertain ObjC callsite evidence [skip ci]'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/native12-complete-wiring-20261019
+            git rebase FETCH_HEAD
+            if git push origin HEAD:analysis/native12-complete-wiring-20261019; then
+              echo NATIVE12_COMPLETE_WIRING_GRAPH_PERSISTED_ON_GITHUB
+              exit 0
+            fi
+            sleep 3
+          done
+          exit 1
