@@ -100,9 +100,9 @@ static void MTV1ADockViews(UIWindow *window) {
     }
     NSNotificationCenter *nc=NSNotificationCenter.defaultCenter;
     [nc addObserver:probe selector:@selector(screenChanged:)
-               name:UIScreenDidConnectNotification object:nil];
+               name:UISceneDidActivateNotification object:nil];
     [nc addObserver:probe selector:@selector(screenChanged:)
-               name:UIScreenDidDisconnectNotification object:nil];
+               name:UISceneDidDisconnectNotification object:nil];
     MTV1ALog(@"diagnostic-start", @"readOnly=1 windowCreates=0 sceneLaunches=0");
     [probe snapshot];
 }
@@ -143,11 +143,11 @@ static void MTV1ADockViews(UIWindow *window) {
         }
     }
     MTV1ALog(@"carplay-display", [NSString stringWithFormat:
-        @"external=%d screenIDCount=%lu displayCount=%lu matched=%d uiScreens=%lu",
+        @"external=%d screenIDCount=%lu displayCount=%lu matched=%d connectedScenes=%lu",
         device!=nil,
         [screenIDs isKindOfClass:NSArray.class] ? (unsigned long)[screenIDs count] : 0UL,
         [displays isKindOfClass:NSArray.class] ? (unsigned long)[displays count] : 0UL,
-        matched,(unsigned long)UIScreen.screens.count]);
+        matched,(unsigned long)UIApplication.sharedApplication.connectedScenes.count]);
 
     // UIApplication.windows is deprecated on iOS15+ and misses multi-scene ownership.
     // This passive inventory is limited to windows exposed by connected UIWindowScenes.

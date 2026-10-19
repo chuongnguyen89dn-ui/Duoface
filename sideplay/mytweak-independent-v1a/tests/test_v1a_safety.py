@@ -24,8 +24,8 @@ class V1ASafetyTest(unittest.TestCase):
         s=(P/"MTPreflight.m").read_text()
         for item in ("method_getTypeEncoding", "defaultEntityWithApplicationForMainDisplay:",
                      "screenIDs", "uniqueId", "UIApplication.sharedApplication.connectedScenes", "UIWindowScene.class",
-                     "AppDock", "window.windowScene", "diagnostic-start",
-                     "snapshot-end", "UIScreenDidDisconnectNotification"):
+                     "AppDock", "window.windowScene", "connectedScenes=%lu", "diagnostic-start",
+                     "snapshot-end", "UISceneDidDisconnectNotification", "UISceneDidActivateNotification"):
             self.assertIn(item,s)
         self.assertIn("MTPreflight.m",(P/"Makefile").read_text())
     def test_preserve_existing_recovery(self):
