@@ -1,0 +1,12 @@
+test_existing_backup_protection (test_activation.ReversibleExplicitOptin.test_existing_backup_protection) ... ok
+test_idempotent_reconfiguration_respects_user_changes (test_activation.ReversibleExplicitOptin.test_idempotent_reconfiguration_respects_user_changes) ... ok
+test_new_install_then_remove (test_activation.ReversibleExplicitOptin.test_new_install_then_remove) ... ok
+test_preexisting_preferences_exact_restore (test_activation.ReversibleExplicitOptin.test_preexisting_preferences_exact_restore) ... ok
+test_script_not_auto_respring_or_modify_v1bc (test_activation.ReversibleExplicitOptin.test_script_not_auto_respring_or_modify_v1bc) ... ok
+test_symlink_protection (test_activation.ReversibleExplicitOptin.test_symlink_protection) ... ok
+test_user_edits_preserved_when_restore_backup (test_activation.ReversibleExplicitOptin.test_user_edits_preserved_when_restore_backup) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.051s
+
+OK
