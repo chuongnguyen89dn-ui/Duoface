@@ -25,6 +25,8 @@ class NativeDockContract(unittest.TestCase):
         self.assertIn('NSProcessInfo.processInfo.processName',p)
         self.assertIn('if (!enabled) return;',p)
         self.assertIn('com.duoface.mytweak.v1bc.plist',p)
+        for needle in ('dock-probe-state','prefsReadable','dock-window-inventory','dockClassWindows'):
+            self.assertIn(needle,p)
         self.assertNotIn('NSClassFromString(@"CB',p)
         for x in ('addSubview:','insertSubview:','makeKeyAndVisible','setWindowLevel:'):
             self.assertNotIn(x,p)
