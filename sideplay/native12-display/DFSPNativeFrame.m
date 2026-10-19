@@ -234,7 +234,8 @@ static double DFSPClampRatio(double r, BOOL snap) {
         // Focused mode still displays Restore (80x22 / compact 72x19).
         [pill configureFocused:focused compact:compact allowsExpand:allowsExpand];
         CGSize pillSize=[pill nativeSize];
-        pill.hidden=!visible || CGRectGetWidth(rect)<pillSize.width ||
+        pill.hidden=!visible || self.pickerVisible ||
+                     CGRectGetWidth(rect)<pillSize.width ||
                      CGRectGetHeight(rect)<pillSize.height;
         // Approved Native12 HUD8 presentation: TOP-CENTER of EACH pane.
         // The DEB audit proves pill size/modes, not global UI coordinates.
