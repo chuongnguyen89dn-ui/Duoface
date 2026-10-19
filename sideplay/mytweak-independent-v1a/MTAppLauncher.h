@@ -4,6 +4,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MTAppSession : NSObject
 @property (nonatomic, copy) NSString *bundleID;
 @property (nonatomic, copy) NSString *displayName;
@@ -17,6 +19,8 @@
 
 // Mở app theo bundleID. Trả về session nếu thành công, nil + error nếu không.
 - (nullable MTAppSession *)launchAppWithBundleID:(NSString *)bundleID
-                                           error:(NSError **)error;
+                                           error:(NSError * _Nullable * _Nullable)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

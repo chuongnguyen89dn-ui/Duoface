@@ -4,6 +4,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MTAppSession;
 @class MTAppSlotViewController;
 
@@ -22,3 +24,5 @@
 - (void)clearSlot;                          // về trạng thái trống
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,6 +3,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MTAppPickerViewController;
 
 @protocol MTAppPickerDelegate <NSObject>
@@ -17,3 +19,5 @@
 @property (nonatomic, weak, nullable) id<MTAppPickerDelegate> delegate;
 
 @end
+
+NS_ASSUME_NONNULL_END
