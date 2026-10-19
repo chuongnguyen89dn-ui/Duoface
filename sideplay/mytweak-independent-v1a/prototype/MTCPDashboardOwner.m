@@ -32,17 +32,27 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     if (!MTCPNativeContentIsWithinScreen(screen,screen))return NO;
     BOOL found=NO;
     CGRect accepted=CGRectNull;
-    for (UIWindow *w in dashboard.windowScene.windows) {
-        NSString *name=NSStringFromClass(w.class);
-        if (![name isEqualToString:@"DBStatusBarWindow"] &&
-            ![name isEqualToString:@"CARStatusBarWindow"])continue;
-        if (w.hidden || w.alpha<0.95 || w.screen!=dashboard.screen)continue;
-        CGRect frame=[dashboard convertRect:w.bounds fromWindow:w];
-        CGRect usable=CGRectNull;
-        if (!MTCPNativeUsableBounds(screen,frame,&usable,NULL))continue;
-        if (found && !CGRectEqualToRect(accepted,usable))return NO;
-        found=YES;
-        accepted=usable;
+    // A CarPlay process can own more than one active external UIWindowScene;
+    // the status window may be a sibling scene of the Dashboard root.
+    NSUInteger inspected=0;
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if (![scene isKindOfClass:UIWindowScene.class] ||
+            scene.activationState!=UISceneActivationStateForegroundActive)continue;
+        UIWindowScene *ws=(UIWindowScene *)scene;
+        if (ws.screen!=dashboard.screen)continue;
+        for (UIWindow *w in ws.windows) {
+            if (++inspected>32)return NO; // ambiguous scene topology: fail closed
+            NSString *name=NSStringFromClass(w.class);
+            if (![name isEqualToString:@"DBStatusBarWindow"] &&
+                ![name isEqualToString:@"CARStatusBarWindow"])continue;
+            if (w.hidden || w.alpha<0.95 || w.screen!=dashboard.screen)continue;
+            CGRect frame=[dashboard convertRect:w.bounds fromWindow:w];
+            CGRect usable=CGRectNull;
+            if (!MTCPNativeUsableBounds(screen,frame,&usable,NULL))continue;
+            if (found && !CGRectEqualToRect(accepted,usable))return NO;
+            found=YES;
+            accepted=usable;
+        }
     }
     if (!found)return NO;
     *content=accepted;
