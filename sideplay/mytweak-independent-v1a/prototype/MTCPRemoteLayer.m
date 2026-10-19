@@ -24,8 +24,17 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
 @interface MTCPRemoteLayerProducer ()
 @property(nonatomic,strong) id remoteContext;
 @property(nonatomic,copy,readwrite) NSString *session;
+@property(nonatomic,strong) NSTimer *leaseTimer;
+@property(nonatomic,assign) CGRect advertisedBounds;
+@property(nonatomic,assign) uint32_t advertisedContextID;
 @end
 @implementation MTCPRemoteLayerProducer
+- (void)refreshLease:(NSTimer *)timer {
+    (void)timer;
+    if (!MTCPBridgeExplicitOptIn() || !MTCPMainThread() || !self.session ||
+        !MTCPBridgeWriteSurface(self.session,self.advertisedContextID,self.advertisedBounds))
+        [self invalidate]; // Fail closed on stale or missing lease.
+}
 - (BOOL)publishLayer:(CALayer *)layer normalizedContentBounds:(CGRect)bounds {
     if (!MTCPMainThread() || !MTCPIsProcess(@"SpringBoard",nil) ||
         !MTCPBridgeExplicitOptIn() || ![layer isKindOfClass:CALayer.class] ||
@@ -44,6 +53,10 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
         NSString *session=NSUUID.UUID.UUIDString;
         if (!MTCPBridgeWriteSurface(session,contextID,bounds))return NO;
         self.remoteContext=context;self.session=session;
+        self.advertisedContextID=contextID;self.advertisedBounds=bounds;
+        self.leaseTimer=[NSTimer scheduledTimerWithTimeInterval:0.75
+                         target:self selector:@selector(refreshLease:)
+                         userInfo:nil repeats:YES];
         return YES;
     } @catch(NSException *ex) {
         NSLog(@"[MyTweakCarPlayPrototype] remote producer rejected %@",ex.name);
@@ -51,9 +64,10 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
     }
 }
 - (void)invalidate {
+    [self.leaseTimer invalidate];self.leaseTimer=nil;
     if (self.session)MTCPBridgeInvalidateSurface(self.session);
     // Clearing a remote context must not mutate the source layer hierarchy.
-    self.remoteContext=nil;self.session=nil;
+    self.remoteContext=nil;self.session=nil;self.advertisedContextID=0;
 }
 - (void)dealloc { [self invalidate]; }
 @end
@@ -62,8 +76,32 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
 @property(nonatomic,copy,readwrite) NSString *session;
 @property(nonatomic,assign) unsigned long long commandSequence;
 @property(nonatomic,assign) NSTimeInterval lastMoveAt;
+@property(nonatomic,strong) NSTimer *leaseTimer;
+@property(nonatomic,weak) UIView *nativeOwner;
+@property(nonatomic,assign) uint32_t contextID;
 @end
 @implementation MTCPRemoteLayerReceiver
+- (void)checkLease:(NSTimer *)timer {
+    (void)timer;
+    UIView *owner=self.nativeOwner;
+    NSDictionary *packet=MTCPBridgeReadSurface(self.session);
+    if (!MTCPMainThread() || !owner || !owner.window || !owner.window.windowScene ||
+        owner.window.screen==UIScreen.mainScreen || !packet ||
+        [packet[@"ContextID"] unsignedIntValue]!=self.contextID) {
+        [self disconnect]; // No orphan layer over native UI.
+        return;
+    }
+    UIEdgeInsets inset=owner.safeAreaInsets;
+    if (inset.top<=0 && inset.bottom<=0 && inset.left<=0 && inset.right<=0) {
+        [self disconnect];return;
+    }
+    CGRect usable=UIEdgeInsetsInsetRect(owner.bounds,inset);
+    if (CGRectIsEmpty(usable) || usable.size.width<160 || usable.size.height<80) {
+        [self disconnect];return;
+    }
+    self.frame=usable;
+    self.remoteLayer.frame=usable;
+}
 - (BOOL)connectWithOwnedContentView:(UIView *)owner {
     if (!MTCPMainThread() || !MTCPIsProcess(@"CarPlay",@"CarPlayApp") ||
         !MTCPBridgeExplicitOptIn() || !owner || !owner.window ||
@@ -90,6 +128,11 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
         self.remoteLayer=host;
         self.frame=usable;self.session=surface[@"Session"];
         self.commandSequence=0;
+        self.contextID=[surface[@"ContextID"] unsignedIntValue];
+        self.nativeOwner=owner;
+        self.leaseTimer=[NSTimer scheduledTimerWithTimeInterval:0.75
+                         target:self selector:@selector(checkLease:)
+                         userInfo:nil repeats:YES];
         // This view does not claim to deliver all UIKit touch semantics.
         // The source-side touch-injection adapter still requires device validation.
         self.backgroundColor=UIColor.clearColor;
@@ -130,9 +173,11 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
     (void)event;[self sendPointer:touches phase:@"cancel"];
 }
 - (void)disconnect {
+    [self.leaseTimer invalidate];self.leaseTimer=nil;
     [self.remoteLayer removeFromSuperlayer];
     [self removeFromSuperview];
     self.remoteLayer=nil;self.session=nil;self.commandSequence=0;
+    self.nativeOwner=nil;self.contextID=0;
 }
 - (void)dealloc { [self disconnect]; }
 @end
