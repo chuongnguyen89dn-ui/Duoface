@@ -15,9 +15,12 @@ static BOOL MTCPIsProcess(NSString *a,NSString *b) {
 NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
     Class ctx=NSClassFromString(@"CAContext");
     Class host=NSClassFromString(@"CALayerHost");
+    // CAContext layer/contextId accessors are dynamically vended properties
+    // and can return NO from instancesRespondToSelector: (Chromium QuartzCore
+    // remote-layer compatibility check). Inspect runtime property metadata.
     BOOL producer=(ctx && [ctx respondsToSelector:NSSelectorFromString(@"remoteContextWithOptions:")] &&
-                   [ctx instancesRespondToSelector:NSSelectorFromString(@"setLayer:")] &&
-                   [ctx instancesRespondToSelector:NSSelectorFromString(@"contextId")]);
+                   class_getProperty(ctx,"layer") != NULL &&
+                   class_getProperty(ctx,"contextId") != NULL);
     BOOL consumer=(host && [host instancesRespondToSelector:NSSelectorFromString(@"setContextId:")]);
     return @{@"ProducerAPI":@(producer),@"ReceiverAPI":@(consumer)};
 }
