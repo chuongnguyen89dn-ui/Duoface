@@ -47,6 +47,7 @@ static void MTShellLog(NSString *reason,NSString *details) {
        @"Producer":@"IndependentDuoFaceShell",@"Kind":@"NativeCarPlayWindowScene",
        @"CarPlayRole":@(nativeRole),@"GeometryValid":@(valid),
        @"HasNonzeroInsets":@(hasInsets),
+       @"NativeContentExcludesChrome":@(valid && !CGRectEqualToRect(usable,screen)),
        @"X":@(usable.origin.x/screen.size.width),
        @"Y":@(usable.origin.y/screen.size.height),
        @"Width":@(usable.size.width/screen.size.width),

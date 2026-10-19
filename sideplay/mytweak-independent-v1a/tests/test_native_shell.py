@@ -15,7 +15,7 @@ class NativeScene(unittest.TestCase):
         a=s('shell/MTDuoFaceShell.m')
         for name in ('initWithWindowScene:','sceneDidBecomeActive:',
                      'sceneDidEnterBackground:','sceneDidDisconnect:',
-                     'HasNonzeroInsets','NativeCarPlayWindowScene'):
+                     'NativeContentExcludesChrome','NativeCarPlayWindowScene'):
             if name=="initWithWindowScene:":
                 self.assertIn('initWithWindowScene:ws',a)
             elif name=="HasNonzeroInsets":
@@ -25,7 +25,7 @@ class NativeScene(unittest.TestCase):
         self.assertNotIn('CBBridgeManager',a)
     def test_shell_geometry_not_guessing_pixels(self):
         a=s('MTNativeShellGeometry.m')
-        for term in ('CarPlayRole','GeometryValid','HasNonzeroInsets',
+        for term in ('CarPlayRole','GeometryValid','NativeContentExcludesChrome',
                      'age>4.0','IndependentDuoFaceShell',
                      'NativeCarPlayWindowScene','CGRectEqualToRect(content,bounds)'):
             self.assertIn(term,a)

@@ -112,7 +112,7 @@ static id MTCarPlayDisplay(void) {
                       [shell[@"Kind"] isEqualToString:@"NativeCarPlayWindowScene"] &&
                       [shell[@"CarPlayRole"] isEqual:@YES] &&
                       [shell[@"GeometryValid"] isEqual:@YES] &&
-                      [shell[@"HasNonzeroInsets"] isEqual:@YES] &&
+                      [shell[@"NativeContentExcludesChrome"] isEqual:@YES] &&
                       age>=0 && age<4.0);
     if (!nativeReady) {
         if (self.bridgeWindow)[self detach];

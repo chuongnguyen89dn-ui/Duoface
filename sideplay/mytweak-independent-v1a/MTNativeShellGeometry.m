@@ -13,7 +13,7 @@ BOOL MTNativeShellUsableRect(CGRect bounds,NSDictionary *record,CGRect *out) {
         ![record[@"Kind"] isEqualToString:@"NativeCarPlayWindowScene"] ||
         ![record[@"CarPlayRole"] isEqual:@YES] ||
         ![record[@"GeometryValid"] isEqual:@YES] ||
-        ![record[@"HasNonzeroInsets"] isEqual:@YES])return NO;
+        ![record[@"NativeContentExcludesChrome"] isEqual:@YES])return NO;
     for (NSString *key in @[@"X",@"Y",@"Width",@"Height",@"Timestamp",@"DisplayAspect"])
         if (!MTNumberFinite(record[key]))return NO;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[record[@"Timestamp"] doubleValue];

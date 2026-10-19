@@ -40,7 +40,7 @@ static void MTAStatus(NSString *action,NSString *result) {
 }
 static BOOL MTACallKnownNativeActivation(id workspace,NSString *bundleID) {
     if (!workspace || ![NSThread isMainThread] ||
-        ![bundleID isEqualToString:kHome] && ![bundleID isEqualToString:kShell])
+        !([bundleID isEqualToString:kHome] || [bundleID isEqualToString:kShell]))
         return NO;
     Class controllerClass=NSClassFromString(@"DBApplicationController");
     Class requestClass=NSClassFromString(@"DBMutableWorkspaceStateChangeRequest");
