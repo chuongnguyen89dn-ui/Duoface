@@ -117,7 +117,7 @@ void MTCPBridgeInvalidateSurface(NSString *session) {
 // CarPlay owned-receiver state is a separate, short-lived and session-bound
 // acknowledgement. It never grants CarPlay entitlement or creates an app scene.
 NSString *MTCPBridgeReceiverAckFile(void) { return kReceiverAck; }
-static BOOL MTCPReceiverAckHeader(NSDictionary *record,NSString *session,NSTimeInterval now) {
+BOOL MTCPBridgeValidateReceiverAck(NSDictionary *record,NSString *session,NSTimeInterval now) {
     if (!MTCPHeader(record,@"receiver-ack",session,now))return NO;
     id context=record[@"ContextID"];
     if (![context isKindOfClass:NSNumber.class] ||
@@ -147,14 +147,14 @@ BOOL MTCPBridgeWriteReceiverAck(NSString *session,uint32_t contextID,CGRect b) {
        @"RootClass":@"DBDashboardRootViewController",
        @"X":@(b.origin.x),@"Y":@(b.origin.y),
        @"Width":@(b.size.width),@"Height":@(b.size.height)};
-    if (!MTCPReceiverAckHeader(ack,session,NSDate.date.timeIntervalSince1970))return NO;
+    if (!MTCPBridgeValidateReceiverAck(ack,session,NSDate.date.timeIntervalSince1970))return NO;
     return [ack writeToFile:kReceiverAck atomically:YES];
 }
 NSDictionary *MTCPBridgeReadReceiverAck(NSString *session) {
     if (!MTCPBridgeExplicitOptIn() || !MTCPValidSession(session))return nil;
     NSDictionary *surface=MTCPBridgeReadSurface(session);
     NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:kReceiverAck];
-    if (!MTCPReceiverAckHeader(ack,session,NSDate.date.timeIntervalSince1970) ||
+    if (!MTCPBridgeValidateReceiverAck(ack,session,NSDate.date.timeIntervalSince1970) ||
         ![ack[@"ContextID"] isEqual:surface[@"ContextID"]])return nil;
     return ack;
 }
