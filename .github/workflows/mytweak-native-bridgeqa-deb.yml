@@ -1,0 +1,105 @@
+name: DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)
+on:
+  push:
+    branches: [feature/mytweak-native-dashboard-owner-20261019]
+    paths:
+      - '.github/workflows/mytweak-native-bridgeqa-deb.yml'
+      - 'sideplay/mytweak-native-bridgeqa/**'
+      - 'sideplay/mytweak-independent-v1a/prototype/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native-bridgeqa-build
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: QA safety tests and native contract tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
+      - name: Setup Theos rootless SDK
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile standalone CarPlay + SpringBoard QA addon
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-native-bridgeqa
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" = 1
+          DEB="${debs[0]}"
+          test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.carplay.nativebridgeqa'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.1~bridgeqa1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$DEB" > "$RUNNER_TEMP/nativebridgeqa-content.txt"
+          grep -F '/DFNativeDashboardBridgeQA.dylib' "$RUNNER_TEMP/nativebridgeqa-content.txt"
+          grep -F '/DFNativeDashboardBridgeQA.plist' "$RUNNER_TEMP/nativebridgeqa-content.txt"
+          test "$(grep -c '^-' "$RUNNER_TEMP/nativebridgeqa-content.txt")" = 2
+          mkdir -p "$RUNNER_TEMP/qaextracted"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/qaextracted"
+          FILTER="$(find "$RUNNER_TEMP/qaextracted" -name DFNativeDashboardBridgeQA.plist -print -quit)"
+          test -n "$FILTER"
+          FILTER="$FILTER" python3 - <<'PY'
+          import os,plistlib
+          with open(os.environ['FILTER'],'rb') as f: p=plistlib.load(f)
+          assert p['Filter']['Executables']==['SpringBoard','CarPlay','CarPlayApp'],p
+          print('EXACT_PROCESS_FILTER_PASS')
+          PY
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa1"
+          mkdir -p "$OUT"
+          cp "$DEB" "$OUT/"
+          cp "$RUNNER_TEMP/nativebridgeqa-content.txt" "$OUT/FILE_LIST.txt"
+          (cd "$OUT" && shasum -a 256 "$(basename "$DEB")" > SHA256SUMS.txt)
+          {
+             echo NATIVE_BRIDGE_QA_BUILD=PASS
+             echo "RUN_ID=$GITHUB_RUN_ID"
+             echo "SOURCE_SHA=$GITHUB_SHA"
+             echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+             echo "PACKAGE=$(basename "$DEB")"
+             echo "SHA256=$(shasum -a 256 "$DEB" | awk '{print $1}')"
+             echo "BYTES=$(wc -c < "$DEB" | tr -d ' ')"
+             echo ACTIVE_DEFAULT=false
+             echo SPRINGBOARD_LS_HOOKS=false
+             echo ORIGINAL_V1BC_REPLACED=false
+             echo DOCK_RESTORED_ON_DEVICE=false
+             echo LIVE_IPHONE_APP_GESTURES_IMPLEMENTED=false
+             echo HARDWARE_TESTED=false
+             echo SILEO_PUBLISHED=false
+          } > "$OUT/CI_RESULT.txt"
+      - name: Upload build QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoFace-native-dashboard-bridgeqa1-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-native-bridgeqa1/
+          if-no-files-found: error
+      - name: Persist isolated QA build to GitHub
+        run: |
+          set -euo pipefail
+          BRANCH=feature/mytweak-native-dashboard-owner-20261019
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-native-bridgeqa1/
+          git commit -m 'artifacts: independent native Dashboard QA DEB [skip ci]'
+          for attempt in 1 2 3 4 5; do
+             git fetch origin "$BRANCH"
+             git rebase "origin/$BRANCH"
+             if git push origin HEAD:"$BRANCH"; then
+                git fetch origin "$BRANCH"
+                git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-bridgeqa1/CI_RESULT.txt" | grep -F 'NATIVE_BRIDGE_QA_BUILD=PASS'
+                exit 0
+             fi
+             sleep 2
+          done
+          exit 1
