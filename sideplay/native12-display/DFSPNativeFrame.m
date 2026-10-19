@@ -41,7 +41,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
 @property(nonatomic,strong) NSArray<DFSPNativeSlotPill *> *pills;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
-@property(nonatomic,strong) UIView *dividerLine;
 @property(nonatomic,strong) UIPanGestureRecognizer *dividerPan;
 @property(nonatomic,strong) UILongPressGestureRecognizer *logoHold;
 @property(nonatomic,strong) UIView *shade;
@@ -59,6 +58,14 @@ static double DFSPClampRatio(double r, BOOL snap) {
 @property(nonatomic) BOOL inFullscreen;
 @property(nonatomic) BOOL hasFirst;
 @property(nonatomic) BOOL hasSecond;
+// Freeze origin and direction during a ratio drag as SidePlay updates scene frames.
+@property(nonatomic) BOOL splitPanActive;
+@property(nonatomic) BOOL splitPanVertical;
+@property(nonatomic) BOOL splitPanReversed;
+@property(nonatomic) CGRect splitPanInitialUnion;
+@property(nonatomic) CGPoint splitPanInitialTouch;
+@property(nonatomic) double splitPanInitialRatio;
+@property(nonatomic) double splitPanLastRatio;
 @end
 @implementation DFSPNativeFrame
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -89,22 +96,24 @@ static double DFSPClampRatio(double r, BOOL snap) {
     track.backgroundColor=UIColor.clearColor;
     track.accessibilityIdentifier=@"duoface.native.divider.track";
     [self addSubview:track];self.dividerTrack=track;
-    UIView *line=[UIView new];
-    line.backgroundColor=[UIColor colorWithWhite:1 alpha:0.18];
-    line.userInteractionEnabled=NO;
-    [track addSubview:line];self.dividerLine=line;
+    // Transparent ratio hit target only. The duplicate one-pixel QA stripe
+    // was not the approved DuoFace visual and overlapped SidePlay borders.
 
     UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self
                                                                       action:@selector(dragDivider:)];
     pan.maximumNumberOfTouches=1;
-    pan.cancelsTouchesInView=NO;
+    pan.cancelsTouchesInView=YES;
     pan.delegate=self;
     [track addGestureRecognizer:pan];self.dividerPan=pan;
 
     UIButton *logo=[UIButton buttonWithType:UIButtonTypeCustom];
-    logo.backgroundColor=[UIColor colorWithWhite:0.17 alpha:0.96];
+    // The approved artwork has no charcoal background disk or outline.
+    logo.backgroundColor=UIColor.clearColor;
+    logo.opaque=NO;
+    logo.layer.borderWidth=0;
+    logo.layer.shadowOpacity=0;
     logo.tintColor=UIColor.whiteColor;
-    logo.layer.cornerRadius=15.0;
+    logo.layer.cornerRadius=0;
     logo.accessibilityIdentifier=@"duoface.native.divider.logo";
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     // Match the approved Native12 divider artwork, not the temporary QA arrow.
@@ -122,11 +131,8 @@ static double DFSPClampRatio(double r, BOOL snap) {
     hold.allowableMovement=14.0;
     hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];self.logoHold=hold;
-    UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
-                                    initWithTarget:self action:@selector(dragDivider:)];
-    logoPan.maximumNumberOfTouches=1;
-    [logoPan requireGestureRecognizerToFail:hold];
-    [logo addGestureRecognizer:logoPan];
+    // No extra pan on the logo: tap swaps and hold moves only the logo.
+    // Split ratio remains on dividerTrack so the two gestures cannot race.
 
     // Header exists only IN the approved 20pt radius app picker sheet.
     UIControl *shade=[[UIControl alloc]initWithFrame:self.bounds];
@@ -203,7 +209,7 @@ static double DFSPClampRatio(double r, BOOL snap) {
     self.firstRect=first;self.secondRect=second;
     self.hasFirst=firstApp;self.hasSecond=secondApp;
     self.inFullscreen=fullscreen;
-    self.currentRatio=DFSPClampRatio(ratio,NO);
+    if (!self.splitPanActive)self.currentRatio=DFSPClampRatio(ratio,NO);
     // Detect Native12 divider axis from real SidePlay panes, not preset labels.
     if (!CGRectIsEmpty(first)&&!CGRectIsEmpty(second)) {
         self.verticalDivider=fabs(CGRectGetMidX(second)-CGRectGetMidX(first)) >
@@ -243,8 +249,8 @@ static double DFSPClampRatio(double r, BOOL snap) {
     CGRect a=self.firstRect, b=self.secondRect;
     BOOL valid=CGRectGetWidth(a)>100 && CGRectGetHeight(a)>100 &&
                CGRectGetWidth(b)>100 && CGRectGetHeight(b)>100;
-    self.dividerTrack.hidden=!valid || self.focusedSlot>=0;
-    self.dividerLogo.hidden=!valid || self.focusedSlot>=0;
+    self.dividerTrack.hidden=!valid || self.focusedSlot>=0 || self.pickerVisible;
+    self.dividerLogo.hidden=!valid || self.focusedSlot>=0 || self.pickerVisible;
     if (valid) {
         CGRect tr;
         if (self.verticalDivider) {
@@ -257,7 +263,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
             tr=CGRectMake(x-16,MAX(CGRectGetMinY(a),CGRectGetMinY(b)),
                           32,MIN(CGRectGetMaxY(a),CGRectGetMaxY(b))-
                                   MAX(CGRectGetMinY(a),CGRectGetMinY(b)));
-            self.dividerLine.frame=CGRectMake(15.5,0,1,MAX(0,tr.size.height));
         } else {
             BOOL firstTop=CGRectGetMidY(a)<=CGRectGetMidY(b);
             CGFloat y=firstTop?
@@ -266,7 +271,6 @@ static double DFSPClampRatio(double r, BOOL snap) {
             tr=CGRectMake(MAX(CGRectGetMinX(a),CGRectGetMinX(b)),y-16,
                           MIN(CGRectGetMaxX(a),CGRectGetMaxX(b))-
                             MAX(CGRectGetMinX(a),CGRectGetMinX(b)),32);
-            self.dividerLine.frame=CGRectMake(0,15.5,MAX(0,tr.size.width),1);
         }
         self.dividerTrack.frame=tr;
         CGFloat length=self.verticalDivider?tr.size.height:tr.size.width;
@@ -334,12 +338,16 @@ static double DFSPClampRatio(double r, BOOL snap) {
 - (void)pillTapped:(UIButton *)sender {
     self.selectedSlot=sender.tag;
     self.pickerVisible=YES;self.shade.hidden=NO;
+    self.dividerTrack.hidden=YES;
+    self.dividerLogo.hidden=YES;
+    for (DFSPNativeSlotPill *pill in self.pills)pill.hidden=YES;
     [self bringSubviewToFront:self.shade];
     [self setNeedsLayout];[self layoutIfNeeded];
 }
 - (void)dismissPicker {
     self.pickerVisible=NO;
     self.shade.hidden=YES;
+    [self setNeedsLayout];
 }
 - (void)menuTapped:(UIButton *)sender {
     NSInteger tab=sender.tag;
@@ -358,26 +366,50 @@ static double DFSPClampRatio(double r, BOOL snap) {
     [self.delegate nativeFrameRequestedSwap];
 }
 - (void)dragDivider:(UIPanGestureRecognizer *)pan {
-    if (self.dividerTrack.hidden)return;
-    CGPoint point=[pan locationInView:self];
-    CGRect whole=CGRectUnion(self.firstRect,self.secondRect);
-    if(CGRectGetWidth(whole)<=100 || CGRectGetHeight(whole)<=100)return;
-    double ratio=self.verticalDivider?
-        (point.x-CGRectGetMinX(whole))/CGRectGetWidth(whole):
-        (point.y-CGRectGetMinY(whole))/CGRectGetHeight(whole);
-    // SPDash.ratio belongs to pane[0]. If it has been swapped to right or
-    // bottom, the physical leading-edge fraction must be inverted.
-    BOOL reversed=self.verticalDivider?
-        CGRectGetMidX(self.firstRect)>CGRectGetMidX(self.secondRect):
-        CGRectGetMidY(self.firstRect)>CGRectGetMidY(self.secondRect);
-    if (reversed)ratio=1.0-ratio;
-    BOOL ended=pan.state==UIGestureRecognizerStateEnded||
-               pan.state==UIGestureRecognizerStateCancelled;
-    if(pan.state==UIGestureRecognizerStateBegan||
-       pan.state==UIGestureRecognizerStateChanged||ended) {
-        ratio=DFSPClampRatio(ratio,ended);
+    if (self.pickerVisible || self.focusedSlot>=0 || self.inFullscreen ||
+        self.dividerTrack.hidden)return;
+    UIGestureRecognizerState state=pan.state;
+    if (state==UIGestureRecognizerStateBegan) {
+        CGRect whole=CGRectUnion(self.firstRect,self.secondRect);
+        if (!isfinite(whole.origin.x) || !isfinite(whole.origin.y) ||
+            CGRectGetWidth(whole)<=100 || CGRectGetHeight(whole)<=100)return;
+        self.splitPanInitialUnion=whole;
+        self.splitPanVertical=self.verticalDivider;
+        self.splitPanReversed=self.verticalDivider?
+          CGRectGetMidX(self.firstRect)>CGRectGetMidX(self.secondRect):
+          CGRectGetMidY(self.firstRect)>CGRectGetMidY(self.secondRect);
+        self.splitPanInitialTouch=[pan locationInView:self];
+        self.splitPanInitialRatio=DFSPClampRatio(self.currentRatio,NO);
+        self.splitPanLastRatio=self.splitPanInitialRatio;
+        self.splitPanActive=YES;
+        // Touch-down does NOT change ratio even off-center inside the track.
+        return;
+    }
+    if (!self.splitPanActive)return;
+    BOOL ended=state==UIGestureRecognizerStateEnded;
+    BOOL cancelled=state==UIGestureRecognizerStateCancelled||
+                   state==UIGestureRecognizerStateFailed;
+    if (state!=UIGestureRecognizerStateChanged && !ended && !cancelled)return;
+    CGPoint now=[pan locationInView:self];
+    CGFloat extent=self.splitPanVertical?
+         CGRectGetWidth(self.splitPanInitialUnion):
+         CGRectGetHeight(self.splitPanInitialUnion);
+    if (!isfinite(extent) || extent<100)return;
+    CGFloat delta=self.splitPanVertical?
+         now.x-self.splitPanInitialTouch.x:
+         now.y-self.splitPanInitialTouch.y;
+    double ratio=self.splitPanInitialRatio+
+         (self.splitPanReversed?-1.0:1.0)*(double)delta/(double)extent;
+    ratio=cancelled?self.splitPanInitialRatio:DFSPClampRatio(ratio,ended);
+    // Avoid expensive SPDash.layout: calls for subpixel touch noise.
+    if (fabs(ratio-self.splitPanLastRatio)>=0.003 || ended || cancelled) {
+        self.splitPanLastRatio=ratio;
         self.currentRatio=ratio;
-        [self.delegate nativeFrameDraggedToRatio:ratio ended:ended];
+        [self.delegate nativeFrameDraggedToRatio:ratio ended:(ended||cancelled)];
+    }
+    if (ended || cancelled) {
+        self.splitPanActive=NO;
+        [self setNeedsLayout];
     }
 }
 - (void)moveLogo:(UILongPressGestureRecognizer *)hold {
@@ -393,6 +425,7 @@ static double DFSPClampRatio(double r, BOOL snap) {
 }
 - (void)resetForDisconnect {
     [self dismissPicker];
+    self.splitPanActive=NO;
     self.delegate=nil;
     [self removeFromSuperview];
 }
