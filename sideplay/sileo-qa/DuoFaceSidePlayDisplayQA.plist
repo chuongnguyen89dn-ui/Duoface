@@ -1,7 +1,5 @@
 {
   Filter = {
-    // Multiple filter types are OR-ed only when Substrate Mode is Any.
-    // Bundles alone cannot prove the CarPlay/Dashboard executable is injected.
     Mode = "Any";
     Bundles = (
       "com.apple.springboard",
