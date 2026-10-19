@@ -155,6 +155,13 @@ static BOOL MTIsDockClassName(NSString *name) {
 }
 - (void)scan:(NSTimer *)timer {
     (void)timer;
+    // Only hook CarPlay's native window when the user explicitly enables
+    // the existing trial in Filza. No side-effects on normal CarPlay startup.
+    NSDictionary *prefs=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist"];
+    BOOL enabled=[prefs[@"Enabled"] respondsToSelector:@selector(boolValue)] &&
+                 [prefs[@"Enabled"] boolValue];
+    if (!enabled) return;
     [self hookDockWindowIfPossible];
     Class cls=NSClassFromString(@"DBDockWindow");
     if (!cls) { if (!self.lastDescription)self.lastDescription=@"missing-class";return; }
