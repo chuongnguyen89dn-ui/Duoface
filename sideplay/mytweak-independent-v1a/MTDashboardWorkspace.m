@@ -76,6 +76,9 @@ static void MTWorkspaceImageMapped(const struct mach_header *header) {
     MTInstallWorkspaceObserver();
 }
 @implementation MTDashboardWorkspace
++ (id)liveDashboardWorkspace {
+    return MTIsCarPlayDashboardProcess() ? gDashboardWorkspace : nil;
+}
 + (void)installEarlyObserver {
     if (!MTIsCarPlayDashboardProcess())return;
     if (gObserverArmed)return;

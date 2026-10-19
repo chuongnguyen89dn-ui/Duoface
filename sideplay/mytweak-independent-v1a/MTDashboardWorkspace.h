@@ -5,5 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MTDashboardWorkspace : NSObject
 + (void)installEarlyObserver;
 + (NSDictionary<NSString *,id> *)snapshot;
+/// Non-retaining owner reference, CarPlay process only; nil on disconnect.
++ (id _Nullable)liveDashboardWorkspace;
 @end
 NS_ASSUME_NONNULL_END

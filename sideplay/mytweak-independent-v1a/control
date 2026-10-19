@@ -1,9 +1,9 @@
 Package: com.duoface.mytweak.v1a.preflight
-Name: DuoFace MyTweak Dashboard Workspace Research
-Version: 0.2.3~workspace1
+Name: DuoFace MyTweak Native Dashboard Activation Candidate
+Version: 0.2.4~activation1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: Independent MyTweak split host and opt-in native CarPlay Dashboard workspace owner read-only capture. Work-in-progress: native Dock/Home navigation NOT implemented; no fake Dock or vendor core. Not for user-facing Sileo until an actionable fix.
+Description: Independent split host; CarPlay Dashboard owner+native workspace activation for system Home and own-shell candidate. No fake dock or vendor core. Native Dock still requires a CarPlay-admitted scene and real-device test.

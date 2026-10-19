@@ -4,6 +4,7 @@
 #import "MTTrialLog.h"
 #import "MTDashboardContext.h"
 #import "MTDashboardUsableRect.h"
+#import "MTDashboardActivation.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 @interface MTBridgeCoordinator ()
@@ -178,6 +179,8 @@ static id MTCarPlayDisplay(void) {
 }
 - (void)stopAndDisable {
     [[self class] setTrialEnabled:NO];
+    // Ask Apple DashBoard for its real Home transition, then remove our host.
+    [MTDashboardActivation requestNativeHomeFromSpringBoard];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self detach];
         self.attemptedForThisConnection=NO;
