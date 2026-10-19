@@ -1,0 +1,9 @@
+Package: com.duoface.carplay.nativebridgeqa
+Name: DuoFace Native Dashboard Bridge QA (Opt-in)
+Version: 0.0.1~bridgeqa1
+Architecture: iphoneos-arm64
+Section: Development
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0), mobilesubstrate, com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1)
+Description: Separate opt-in first-party CarPlay Dashboard render bridge. Existing two-app host remains owned by SpringBoard; a separate snapshot CAContext is displayed only if native system sidebar is actually visible. Attempts menu button taps only; phone-app gesture forwarding and true Dock/Home restoration not yet completed. No LS hooks, no original package replacement, disabled by default.
