@@ -6,6 +6,7 @@ program from the DEB. LLVM Mach-O disassembly is assigned to LC_FUNCTION_STARTS
 and exact Objective-C IMP. Selector matches are CANDIDATES, not proven receivers.
 """
 import argparse,bisect,collections,gzip,hashlib,json,pathlib,re,subprocess,os
+from native12_objc_stub_decoder import decode_objc_stubs
 INSN=re.compile(r'^\s*([0-9a-fA-F]+):\s+(\w[\w.]*)\s*(.*)$')
 OBJ=re.compile(r'Objc message:\s*([+-])\[([^\]]+?)\s+([^\]]+)\]')
 BL=re.compile(r'^\s*(0x[0-9a-fA-F]+)')
@@ -37,6 +38,7 @@ def analyze(path,rec,selector_index):
   p=line.split()
   if len(p)>=4 and p[1]=='__objc_stubs':
    lo=int(p[3],16);objc_stubs.append((lo,lo+int(p[2],16)))
+ resolved_stubs=decode_objc_stubs(path)
  parsed=collections.defaultdict(lambda:dict(objc=[],direct=[],external=collections.Counter(),
                       unresolved=0,indirect=0,insns=0,branches=0))
  for line in shell('--macho','--disassemble','--no-show-raw-insn',str(path)).splitlines():
@@ -62,7 +64,17 @@ def analyze(path,rec,selector_index):
   addr=BL.search(operand)
   if addr:
    target=int(addr.group(1),16)
-   if any(lo<=target<hi for lo,hi in objc_stubs):d['unresolved']+=1
+   if target in resolved_stubs:
+    stub=resolved_stubs[target]
+    sel=stub['selector']
+    # Exact selector from __objc_selrefs; receiver x0 remains dynamic.
+    cands=[entry for key,entries in selector_index.items()
+           if key[1]==sel for entry in entries]
+    d['objc'].append({'pc':hex(pc),'type':'unknown +/-','receiver':'dynamic x0',
+          'selector':sel,'certainty':'OPTIMIZED_STUB_SELECTOR_EXACT_RECEIVER_UNKNOWN',
+          'objc_stub':stub,'candidate_count':len(cands),'candidate_methods':cands[:24]})
+   elif any(lo<=target<hi for lo,hi in objc_stubs):
+    d['unresolved']+=1
    if target in imap:
     d['direct'].append({'pc':hex(pc),'imp':hex(target),'methods':imap[target]})
    else:
@@ -88,6 +100,7 @@ def analyze(path,rec,selector_index):
  return {'binary':rec['filename'],'sha256':sha(path),'methods':methods,
    'function_starts':len(starts),'orphan_c_functions_with_calls':orphans,
    'stats':{'objc_methods':len(meth),'lc_function_starts':len(rec['lc_function_starts']),
+    'objc_stub_selectors_resolved':len(resolved_stubs),
     'recognized_selector_calls_in_methods':sum(len(m['objc_callsites']) for m in methods),
     'recognized_selector_calls_in_orphan_functions':sum(len(x['objc_callsites']) for x in orphans),
     'unresolved_objc_stub_calls_in_methods':sum(m['unresolved_objc_stubs'] for m in methods),
