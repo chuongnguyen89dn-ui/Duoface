@@ -14,10 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasHostedAppInSlot:(NSUInteger)slot;
 - (nullable UIView *)hostedSceneViewForSlot:(NSUInteger)slot;
 - (CGRect)hostedFrameForSlot:(NSUInteger)slot relativeToView:(UIView *)target;
-// These calls are for later, gated function-by-function migrations.
-// Not used to replace working SidePlay app launching in milestone M1.
-- (BOOL)loadBundleIdentifier:(NSString *)bundleID intoSlot:(NSUInteger)slot;
-- (BOOL)unloadSlot:(NSUInteger)slot;
+// M1 is intentionally READ ONLY. Native12 picker will request launching
+// only after M2 verifies whether SidePlay -loadApp: expects an SBApplication
+// object, an identifier, or another type; ObjC encoding "@" does NOT tell us.
 @end
 
 NS_ASSUME_NONNULL_END
