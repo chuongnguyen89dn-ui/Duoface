@@ -131,8 +131,17 @@ static double DFSPClampRatio(double r, BOOL snap) {
     hold.allowableMovement=14.0;
     hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];self.logoHold=hold;
-    // No extra pan on the logo: tap swaps and hold moves only the logo.
-    // Split ratio remains on dividerTrack so the two gestures cannot race.
+    // Restore the QA7 working path: the logo itself is the ratio drag handle.
+    // QA10 deleted this recognizer, leaving only a 32pt transparent track
+    // underneath the logo (which consumes the touch) -> fixed split.
+    // Require the logo relocation long-press to fail before ratio drag, as QA7
+    // did; hold moves the logo ALONG the split, pan moves split PERPENDICULAR.
+    UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
+                                    initWithTarget:self action:@selector(dragDivider:)];
+    logoPan.maximumNumberOfTouches=1;
+    logoPan.cancelsTouchesInView=YES;
+    [logoPan requireGestureRecognizerToFail:hold];
+    [logo addGestureRecognizer:logoPan];
 
     // Header exists only IN the approved 20pt radius app picker sheet.
     UIControl *shade=[[UIControl alloc]initWithFrame:self.bounds];
