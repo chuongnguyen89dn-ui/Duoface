@@ -100,9 +100,10 @@ static void DFTick(NSTimer *timer) {
             DFLog(@"begin",@"read-only native scene ownership; no window modification");
             DFProbeOnce();
             if (!DFProbeFinished)
-                [NSTimer scheduledTimerWithTimeInterval:2.0
-                    target:[NSBlockOperation blockOperationWithBlock:^{}]
-                    selector:@selector(main) userInfo:nil repeats:NO];
+                [NSTimer scheduledTimerWithTimeInterval:2.0 repeats:YES
+                    block:^(NSTimer *timer) {
+                        DFTick(timer);
+                    }];
           });
     }
 }
