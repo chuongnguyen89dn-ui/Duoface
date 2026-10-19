@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/mytweak-native-appdock-20261019]
     paths:
-      - '.github/workflows/mytweak-native-dock1.yml'
+      - '.github/workflows/mytweak-native-dock-candidate.yml'
       - 'sideplay/mytweak-independent-v1a/**'
   workflow_dispatch:
 permissions:
