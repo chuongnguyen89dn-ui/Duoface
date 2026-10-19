@@ -65,9 +65,10 @@ check("DFSPDockRequest(YES,full,DFSPSequence)" in source and
       "DFSPDockRequest(NO,NO,DFSPSequence)" in source and
       "DFSPChromeRequest(" not in source,
       "SpringBoard switches Native dock mode at Normal/Zoom/fallback/disconnect")
-check("DFSPSystemUsableRect(window)" in source and
-      "DFSPNativeFallbackLeft = 64.0" in source and
-      "UIEdgeInsetsInsetRect(screenRect, inset)" in source and
+check("DFSPNativeDockUsableBounds(window)" in source and
+      "CGRect DFSPNativeDockUsableBounds(UIWindow *window)" in dock and
+      "insets.left=64.0;" in dock and
+      "UIEdgeInsetsInsetRect(all,insets)" in dock and
       "window.windowLevel=DFSPOriginalLevel" in source and
       "nativeUsableInWindow:usable" in source and
       "- (BOOL)applyNormal" in host,
