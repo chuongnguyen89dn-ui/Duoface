@@ -29,8 +29,15 @@
 #pragma clang diagnostic pop
 
     for (id proxy in proxies) {
-        NSString *bundleID = [proxy valueForKey:@"applicationIdentifier"];
-        NSString *name = [proxy valueForKey:@"localizedName"];
+
+        NSString *bundleID=nil, *name=nil;
+        @try {
+            bundleID=[proxy valueForKey:@"applicationIdentifier"];
+            name=[proxy valueForKey:@"localizedName"];
+        } @catch (NSException *exception) {
+            NSLog(@"[MyTweakV1BC] event=app-proxy-skipped type=%@",NSStringFromClass(exception.class));
+            continue;
+        }
         if (bundleID.length == 0) {
             continue;
         }

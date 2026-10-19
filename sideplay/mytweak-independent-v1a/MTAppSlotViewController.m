@@ -33,6 +33,14 @@
                    action:@selector(pickButtonTapped)
          forControlEvents:UIControlEventTouchUpInside];
     [_topBar addSubview:_pickButton];
+    UIButton *close=[UIButton buttonWithType:UIButtonTypeSystem];
+    close.accessibilityIdentifier=@"MTV1BCSlotClose";
+    [close setTitle:@"×" forState:UIControlStateNormal];
+    [close setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(clearSlot) forControlEvents:UIControlEventTouchUpInside];
+    close.frame=CGRectMake(0,0,30,40);
+    close.tag=7101;
+    [_topBar addSubview:close];
 
     // Vùng nội dung bên dưới.
     _contentView = [[UIView alloc] init];
@@ -49,6 +57,7 @@
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc]
         initWithTarget:self action:@selector(contentDoubleTapped)];
     doubleTap.numberOfTapsRequired = 2;
+    doubleTap.cancelsTouchesInView=NO; // Preserve hosted app touch events.
     [_contentView addGestureRecognizer:doubleTap];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sceneHostDidFail:) name:MTSceneHostDidFailNotification object:nil];
@@ -66,8 +75,9 @@
     CGFloat w = self.view.bounds.size.width;
     CGFloat h = self.view.bounds.size.height;
     self.topBar.frame = CGRectMake(0, 0, w, 44);
-    self.titleLabel.frame = CGRectMake(12, 0, w - 120, 44);
-    self.pickButton.frame = CGRectMake(w - 100, 0, 100, 44);
+    self.titleLabel.frame = CGRectMake(12, 0, MAX(0,w - 142), 44);
+    self.pickButton.frame = CGRectMake(MAX(0,w - 120), 0, 88, 44);
+    [self.topBar viewWithTag:7101].frame=CGRectMake(MAX(0,w-32),0,30,44);
     self.contentView.frame = CGRectMake(0, 44, w, h - 44);
     self.placeholderLabel.frame = self.contentView.bounds;
     for (UIView *sub in self.contentView.subviews) {

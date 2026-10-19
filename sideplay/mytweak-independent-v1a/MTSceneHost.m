@@ -2,6 +2,7 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No CBBridgeManager, no vendor license, no replacement for Apple authorization.
 #import "MTSceneHost.h"
+#import "MTTrialLog.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -15,6 +16,7 @@ static void MTSceneLog(NSString *event, NSString *bundleID, NSString *detail) {
     NSString *line = [NSString stringWithFormat:@"[MyTweakScene] event=%@ bundle=%@ %@",
                       event ?: @"unknown", bundleID ?: @"-", detail ?: @""];
     NSLog(@"%@", line);
+    MTTrialLog(event,[NSString stringWithFormat:@"bundle=%@ %@",bundleID ?: @"-",detail ?: @""]);
     // One short app-scoped diagnostic file for iPhone X testing; no secrets.
     int fd = open("/var/mobile/Library/Logs/MyTweakSceneHost.log",
                   O_WRONLY | O_APPEND | O_CREAT, 0644);
@@ -226,17 +228,10 @@ static void MTInt(id obj, NSString *method, NSInteger value) {
             ((void (*)(id,SEL))objc_msgSend)(self.appController,invalidate);
         MTSceneLog(@"invalidate-done",self.bundleID,@"");
     } @catch (NSException *e) { MTSceneLog(@"invalidate-warning",self.bundleID,e.reason); }
-    // Restore original scene background/foreground state where that API exists.
-    @try {
-        id settings=[self.sceneSettingsBefore mutableCopy];
-        SEL update=NSSelectorFromString(@"updateSettings:withTransitionContext:completion:");
-        if (settings && [self.scene respondsToSelector:update]) {
-            MTBool(settings,@"setForeground:",NO);
-            MTBool(settings,@"setBackgrounded:",YES);
-            ((void (*)(id,SEL,id,id,id))objc_msgSend)(self.scene,update,settings,nil,nil);
-            MTSceneLog(@"scene-settings-restored",self.bundleID,@"");
-        }
-    } @catch (NSException *e) { MTSceneLog(@"scene-restore-warning",self.bundleID,e.reason); }
+    // Do not send a fabricated/nil FrontBoard transition context during close.
+    // Request mode 0 + invalidate above; iPhone exitmode crash risk is monitored.
+    MTSceneLog(@"close-no-private-settings-restore",self.bundleID,@"");
+
     [self removeFromSuperview];
     [self.owner didFinishSurface:self];
     self.scene=nil; self.sceneSettingsBefore=nil; self.entity=nil; self.appController=nil;
