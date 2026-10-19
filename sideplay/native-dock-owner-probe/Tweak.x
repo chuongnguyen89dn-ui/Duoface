@@ -1,5 +1,5 @@
 // DuoFace experimental first-party CarPlay process ownership report.
-// IMPORTANT: no Logos hooks, no LSBundleProxy swizzles, no views, no synthetic Dock.
+// IMPORTANT: no hooks, no runtime swizzling, no UI modification or fake Dock.
 // Filtered to CarPlay/CarPlayApp processes only, never SpringBoard.
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
