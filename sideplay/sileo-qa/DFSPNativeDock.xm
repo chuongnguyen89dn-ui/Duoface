@@ -33,15 +33,21 @@ CGRect DFSPNativeDockUsableBounds(UIWindow *window) {
     return usable;
 }
 
+// Native12 DuoFaceDashboard.dylib imports the actual Apple App Dock
+// controller classes DBAppDockViewController / CARAppDockViewController
+// (verified in hash-pinned Native12 Mach-O strings). QA10 only hooked the
+// STATUS BAR, hence did not target the left app-icon Dock at all.
+// QA11 observes these real UIKit controllers; no imitation icons or
+// dependencies on the license-coupled CBBridgeManager.
 // Port of the SOURCE-OWNED Native12 DashboardChrome behavior:
 // observe the actual DBStatusBarWindow/CARStatusBarWindow, snapshot original
 // hidden state, restore it on teardown. The original Native12 host does not
 // create a dock UIView. iOS CarPlay supplies the entire icon/status strip.
 // No CBBridgeManager, licensing, vendor binary, or fake dock UI is imported.
 //
-// Unlike QA9/QA10's obsolete ChromeBridge, Normal explicitly requests the
-// genuine CarPlay system strip visible (not merely unhidden by restoring an
-// already-hidden snapshot). Zoom hides only this system-owned status window.
+// Native12 statusbar behavior: Normal restores ORIGINAL state, Zoom hides.
+// Separately restore/show the genuine DB/CAR AppDockViewController in Normal.
+// Statusbar ACK alone does NOT prove app dock icons exist.
 // Darwin signals are name-only, and are never interpreted as visual proof.
 static CFStringRef const DFSPDockNormal = CFSTR("com.duoface.qa10.nativedock.v1.normal");
 static CFStringRef const DFSPDockZoom = CFSTR("com.duoface.qa10.nativedock.v1.zoom");
@@ -55,6 +61,9 @@ static NSHashTable<UIWindow *> *DFSPDockWindows;
 static NSMapTable<UIWindow *,NSNumber *> *DFSPDockOriginalHidden;
 static BOOL DFSPDockRequested=NO, DFSPDockZoomRequested=NO;
 static BOOL DFSPDockApplying=NO, DFSPDockHookReady=NO;
+static BOOL DFSPAppDockHookReady=NO;
+static NSHashTable<UIViewController *> *DFSPAppDockControllers;
+static NSMapTable<UIView *, NSDictionary *> *DFSPAppDockSnapshots;
 static NSUInteger DFSPDockAckCount=0,DFSPDockRequestSerial=0;
 static NSUInteger DFSPDockLastWindowCount=NSUIntegerMax;
 static NSInteger DFSPDockLastVisible=-1,DFSPDockLastOK=-1;
@@ -62,6 +71,8 @@ static char DFSPDockObserverKey;
 
 @interface DBStatusBarWindow : UIWindow @end
 @interface CARStatusBarWindow : UIWindow @end
+@interface DBAppDockViewController : UIViewController @end
+@interface CARAppDockViewController : UIViewController @end
 
 static void DFSPDockLog(NSString *message, BOOL store) {
     NSLog(@"[DuoFaceNativeDock] %@",message);
@@ -89,6 +100,55 @@ static BOOL DFSPDockIsWindow(UIWindow *w) {
     NSString *name=w?NSStringFromClass(w.class):@"";
     return [name isEqualToString:@"DBStatusBarWindow"] ||
            [name isEqualToString:@"CARStatusBarWindow"];
+}
+static BOOL DFSPIsAppleAppDockVC(UIViewController *controller) {
+    if (!controller)return NO;
+    Class db=NSClassFromString(@"DBAppDockViewController");
+    Class car=NSClassFromString(@"CARAppDockViewController");
+    return (db && [controller isKindOfClass:db]) ||
+           (car && [controller isKindOfClass:car]);
+}
+static void DFSPDockObserveAppController(UIViewController *controller) {
+    if (!DFSPIsAppleAppDockVC(controller) || !controller.isViewLoaded)return;
+    if (!DFSPAppDockControllers)
+        DFSPAppDockControllers=[NSHashTable weakObjectsHashTable];
+    if (!DFSPAppDockSnapshots)
+        DFSPAppDockSnapshots=[NSMapTable weakToStrongObjectsMapTable];
+    UIView *dockView=controller.view;
+    if (!dockView)return;
+    [DFSPAppDockControllers addObject:controller];
+    if (![DFSPAppDockSnapshots objectForKey:dockView]) {
+        [DFSPAppDockSnapshots setObject:
+           @{@"hidden":@(dockView.hidden),@"alpha":@(dockView.alpha)}
+           forKey:dockView];
+    }
+    if (!DFSPDockRequested || !dockView.window)return;
+    BOOL expectedHidden=DFSPDockZoomRequested;
+    // No extra custom Dock; preserve Apple's existing icons/status/launcher.
+    if (dockView.hidden!=expectedHidden) dockView.hidden=expectedHidden;
+    if (!expectedHidden && dockView.alpha<0.99)dockView.alpha=1.0;
+    DFSPDockLog([NSString stringWithFormat:
+       @"APPDOCK class=%@ mounted=YES mode=%@ hidden=%d alpha=%.2f frame=%@",
+       NSStringFromClass(controller.class),
+       DFSPDockZoomRequested?@"Zoom":@"Normal",
+       dockView.hidden,dockView.alpha,NSStringFromCGRect(dockView.frame)],NO);
+}
+static void DFSPDockFindAppControllersInWindow(UIWindow *window) {
+    if (!window)return;
+    // UIKit's real controller is often under a Dashboard root container.
+    // Inspect view responders without creating a new controller or moving views.
+    NSMutableArray<UIView *> *queue=[NSMutableArray arrayWithObject:window];
+    NSUInteger checked=0;
+    while (queue.count && checked++<500) {
+        UIView *v=queue.firstObject;
+        [queue removeObjectAtIndex:0];
+        UIResponder *owner=v.nextResponder;
+        if ([owner isKindOfClass:UIViewController.class] &&
+            DFSPIsAppleAppDockVC((UIViewController *)owner))
+            DFSPDockObserveAppController((UIViewController *)owner);
+        for (UIView *child in v.subviews)
+            if (queue.count<500)[queue addObject:child];
+    }
 }
 static void DFSPDockSetWindow(UIWindow *w) {
     if (!DFSPDockRequested || !DFSPDockIsWindow(w))return;
@@ -123,10 +183,12 @@ static void DFSPDockAck(NSString *reason) {
     DFSPDockLastWindowCount=count;
     DFSPDockLastVisible=(NSInteger)!DFSPDockZoomRequested;
     DFSPDockLastOK=(NSInteger)correct;
+    NSUInteger appDockSeen=DFSPAppDockControllers.allObjects.count;
     NSString *klass=count?NSStringFromClass(DFSPDockWindows.allObjects.firstObject.class):@"none";
     DFSPDockLog([NSString stringWithFormat:
-        @"receiver mode=%@ class=%@ windowCount=%lu applied=%d reason=%@",
-        DFSPDockZoomRequested?@"Zoom":@"Normal",klass,(unsigned long)count,correct,reason],NO);
+        @"receiver mode=%@ class=%@ windowCount=%lu appDockControllerCount=%lu statusbarApplied=%d reason=%@",
+        DFSPDockZoomRequested?@"Zoom":@"Normal",klass,(unsigned long)count,
+        (unsigned long)appDockSeen,correct,reason],NO);
     if (!DFSPDockRequested)return;
     CFStringRef event=correct?(DFSPDockZoomRequested?DFSPDockAckZoom:DFSPDockAckNormal)
                              :DFSPDockAckMissing;
@@ -145,6 +207,7 @@ static void DFSPDockVisitWindows(void) {
                 NSStringFromClass(w.class),w.hidden,w.windowLevel,
                 NSStringFromCGRect(w.frame)]];
             DFSPDockSetWindow(w);
+            DFSPDockFindAppControllersInWindow(w);
         }
     }
     DFSPDockLog([NSString stringWithFormat:
@@ -172,6 +235,15 @@ static void DFSPDockRestoreOriginal(void) {
     }
     [DFSPDockOriginalHidden removeAllObjects];
     [DFSPDockWindows removeAllObjects];
+    for (UIView *view in DFSPAppDockSnapshots.keyEnumerator) {
+        NSDictionary *snapshot=[DFSPAppDockSnapshots objectForKey:view];
+        if (snapshot) {
+            view.hidden=[snapshot[@"hidden"] boolValue];
+            view.alpha=[snapshot[@"alpha"] doubleValue];
+        }
+    }
+    [DFSPAppDockSnapshots removeAllObjects];
+    [DFSPAppDockControllers removeAllObjects];
     DFSPDockLastWindowCount=NSUIntegerMax;
     DFSPDockLastVisible=-1;DFSPDockLastOK=-1;
     DFSPDockPost(DFSPDockAckDetach);
@@ -249,22 +321,59 @@ static void DFSPDockRegister(CFStringRef name) {
 %end
 %end
 
+%group DFSPAppleAppDockDB
+%hook DBAppDockViewController
+- (void)viewDidAppear:(BOOL)animated {
+    %orig(animated);
+    DFSPDockObserveAppController((UIViewController *)self);
+}
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFSPDockObserveAppController((UIViewController *)self);
+}
+%end
+%end
+%group DFSPAppleAppDockCAR
+%hook CARAppDockViewController
+- (void)viewDidAppear:(BOOL)animated {
+    %orig(animated);
+    DFSPDockObserveAppController((UIViewController *)self);
+}
+- (void)viewDidLayoutSubviews {
+    %orig;
+    DFSPDockObserveAppController((UIViewController *)self);
+}
+%end
+%end
+
 static void DFSPDockInstall(unsigned attempt) {
-    if (DFSPDockHookReady)return;
-    if (NSClassFromString(@"DBStatusBarWindow")) {
-        %init(DFSPNativeDockDB);
-        DFSPDockHookReady=YES;
-    } else if (NSClassFromString(@"CARStatusBarWindow")) {
-        %init(DFSPNativeDockCAR);
-        DFSPDockHookReady=YES;
+    if (!DFSPDockHookReady) {
+        if (NSClassFromString(@"DBStatusBarWindow")) {
+            %init(DFSPNativeDockDB);
+            DFSPDockHookReady=YES;
+        } else if (NSClassFromString(@"CARStatusBarWindow")) {
+            %init(DFSPNativeDockCAR);
+            DFSPDockHookReady=YES;
+        }
     }
-    if (DFSPDockHookReady) {
-        DFSPDockVisitWindows();
-        DFSPDockAck(@"Native12 class observer installed");
-    } else if (attempt<40) {
+    if (!DFSPAppDockHookReady) {
+        if (NSClassFromString(@"DBAppDockViewController")) {
+            %init(DFSPAppleAppDockDB);
+            DFSPAppDockHookReady=YES;
+        } else if (NSClassFromString(@"CARAppDockViewController")) {
+            %init(DFSPAppleAppDockCAR);
+            DFSPAppDockHookReady=YES;
+        }
+    }
+    DFSPDockVisitWindows();
+    if (DFSPDockHookReady || DFSPAppDockHookReady)
+        DFSPDockAck(@"real iOS16 CarPlay Dashboard owners inspected");
+    if ((!DFSPDockHookReady || !DFSPAppDockHookReady) && attempt<40) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,NSEC_PER_SEC/2),
-              dispatch_get_main_queue(),^{DFSPDockInstall(attempt+1);});
-    } else DFSPDockLog(@"CarPlay dock/statusbar UIWindow subclass not available (device not verified)",NO);
+          dispatch_get_main_queue(),^{DFSPDockInstall(attempt+1);});
+    } else if (!DFSPAppDockHookReady) {
+        DFSPDockLog(@"APPDOCK_MISSING: neither DBAppDockViewController nor CARAppDockViewController found in this process",NO);
+    }
 }
 static void DFSPDockStartup(void) {
     NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString?:@"";
