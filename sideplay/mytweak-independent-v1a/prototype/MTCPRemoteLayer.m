@@ -71,6 +71,25 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
 }
 - (void)dealloc { [self invalidate]; }
 @end
+// Dashboard's iOS16 UIWindow often reports UIEdgeInsetsZero despite its
+// separate 45pt statusbar window. Only a measured, Dashboard-owned SUBVIEW
+// may use zero safe insets. Never accept the Dashboard root itself.
+static BOOL MTCPVerifiedNativeOwner(UIView *owner) {
+    if (!owner || !owner.window || !owner.superview ||
+        ![owner.accessibilityIdentifier isEqualToString:@"duoface.native.content.host"])return NO;
+    UIWindow *w=owner.window;
+    UIViewController *root=w.rootViewController;
+    if (!root || ![NSStringFromClass(root.class) isEqualToString:@"DBDashboardRootViewController"] ||
+        owner==root.view || owner.superview!=root.view ||
+        w.screen==UIScreen.mainScreen || !w.windowScene)return NO;
+    CGRect screen=root.view.bounds;
+    CGRect bounds=owner.frame;
+    if (CGRectIsEmpty(bounds) || bounds.size.width<160 || bounds.size.height<80 ||
+        !CGRectContainsRect(screen,bounds))return NO;
+    // The owning coordinator has already checked the system's ACTUAL native
+    // visible statusbar; no independent 45pt or 64pt fallback is permitted.
+    return YES;
+}
 @interface MTCPRemoteLayerReceiver ()
 @property(nonatomic,strong) CALayer *remoteLayer;
 @property(nonatomic,copy,readwrite) NSString *session;
@@ -91,10 +110,8 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
         [self disconnect]; // No orphan layer over native UI.
         return;
     }
+    if (!MTCPVerifiedNativeOwner(owner)) {[self disconnect];return;}
     UIEdgeInsets inset=owner.safeAreaInsets;
-    if (inset.top<=0 && inset.bottom<=0 && inset.left<=0 && inset.right<=0) {
-        [self disconnect];return;
-    }
     CGRect usable=UIEdgeInsetsInsetRect(owner.bounds,inset);
     if (CGRectIsEmpty(usable) || usable.size.width<160 || usable.size.height<80) {
         [self disconnect];return;
@@ -109,9 +126,9 @@ NSDictionary<NSString *,NSNumber *> *MTCPRemoteLayerCapabilities(void) {
              isEqualToString:@"duoface.native.content.host"])return NO;
     // Callers must explicitly supply a native, already system-owned content view.
     // Never search for Dashboard's root window and never replace its view controller.
-    if (owner.window.screen==UIScreen.mainScreen)return NO;
+    if (owner.window.screen==UIScreen.mainScreen ||
+        !MTCPVerifiedNativeOwner(owner))return NO;
     UIEdgeInsets inset=owner.safeAreaInsets;
-    if (inset.top<=0 && inset.bottom<=0 && inset.left<=0 && inset.right<=0)return NO;
     CGRect usable=UIEdgeInsetsInsetRect(owner.bounds,inset);
     if (CGRectIsEmpty(usable) || usable.size.width<160 || usable.size.height<80)return NO;
     if (![MTCPRemoteLayerCapabilities()[@"ReceiverAPI"] boolValue])return NO;
