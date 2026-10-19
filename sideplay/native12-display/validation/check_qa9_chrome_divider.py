@@ -48,6 +48,11 @@ check('Mode = "Any";' in plist and
       "Executables" in plist and "CarPlayApp" in plist and
       "Dashboard" in plist,
       "Substrate loads receiver by CarPlay executable using Mode Any, not bundle alone")
+check("CFNotificationCenterPostNotification(center,name,NULL,NULL,true)" in bridge and
+      "DFSPChromeAwaitAck" in bridge and
+      "retry=%lu/4" in bridge and "ACK TIMEOUT" in bridge and
+      "DFSPChromeDarwinCallback" in bridge,
+      "bounded late-process retry with Darwin's name-only payload and timeout logs")
 check("DFSPChromeRestore()" in bridge and
       "DFSPChromeRequest(NO,YES,DFSPSequence)" in source and
       "DFSPChromeSnapshots" in bridge,
