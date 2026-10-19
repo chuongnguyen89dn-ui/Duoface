@@ -1,1 +1,14 @@
-{ Filter = { Bundles = ( "com.apple.springboard", "com.apple.CarPlayApp", "com.apple.carplayapp", "com.apple.CarPlay", "com.apple.carplay", "com.apple.dashboard", "com.apple.Dashboard" ); }; }
+{
+  Filter = {
+    // Multiple filter types are OR-ed only when Substrate Mode is Any.
+    // Bundles alone cannot prove the CarPlay/Dashboard executable is injected.
+    Mode = "Any";
+    Bundles = (
+      "com.apple.springboard",
+      "com.apple.CarPlayApp", "com.apple.carplayapp",
+      "com.apple.CarPlay", "com.apple.carplay",
+      "com.apple.dashboard", "com.apple.Dashboard"
+    );
+    Executables = ( "SpringBoard", "CarPlayApp", "CarPlay", "Dashboard" );
+  };
+}
