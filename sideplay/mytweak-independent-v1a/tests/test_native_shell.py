@@ -7,7 +7,7 @@ P=Path(__file__).resolve().parents[1]
 def s(name):return (P/name).read_text(encoding='utf8')
 class NativeScene(unittest.TestCase):
     def test_first_party_shell_and_carplay_role(self):
-        data=plistlib.loads((P/'shell/Info.plist').read_bytes())
+        data=plistlib.loads((P/'shell/Resources/Info.plist').read_bytes())
         self.assertEqual(data['CFBundleIdentifier'],'com.duoface.mytweak.shell')
         self.assertEqual(data['CFBundleExecutable'],'MTDuoFaceShell')
         self.assertIn('UIWindowSceneSessionRoleCarPlay',data['UIApplicationSceneManifest']['UISceneConfigurations'])
