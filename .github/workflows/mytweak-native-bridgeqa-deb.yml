@@ -41,7 +41,7 @@ jobs:
           test "${#debs[@]}" = 1
           DEB="${debs[0]}"
           test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.carplay.nativebridgeqa'
-          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.1~bridgeqa1'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.2~sidebartest1'
           test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$DEB" > "$RUNNER_TEMP/nativebridgeqa-content.txt"
           grep -F '/DFNativeDashboardBridgeQA.dylib' "$RUNNER_TEMP/nativebridgeqa-content.txt"
@@ -72,6 +72,8 @@ jobs:
              echo "BYTES=$(wc -c < "$DEB" | tr -d ' ')"
              echo ACTIVE_DEFAULT=false
              echo SPRINGBOARD_LS_HOOKS=false
+             echo NATIVE_BAR_TRIAL_THIRD_OPTIN_REQUIRED=true
+             echo NATIVE_BAR_TRIAL_MAX_SECONDS=45
              echo ORIGINAL_V1BC_REPLACED=false
              echo DOCK_RESTORED_ON_DEVICE=false
              echo LIVE_IPHONE_APP_GESTURES_IMPLEMENTED=false
