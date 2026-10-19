@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleDevelopmentRegion</key><string>en</string>
+<key>CFBundleDisplayName</key><string>DuoFace</string>
+<key>CFBundleExecutable</key><string>MTDuoFaceShell</string>
+<key>CFBundleIdentifier</key><string>com.duoface.mytweak.shell</string>
+<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+<key>CFBundleName</key><string>DuoFace</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleShortVersionString</key><string>0.2.5</string>
+<key>CFBundleVersion</key><string>5</string>
+<key>LSRequiresIPhoneOS</key><true/>
+<key>UIRequiredDeviceCapabilities</key><array><string>arm64</string></array>
+<key>SBStarkLaunchModes</key><array><string>Default</string></array>
+<key>UIApplicationSceneManifest</key>
+<dict><key>UIApplicationSupportsMultipleScenes</key><true/>
+<key>UISceneConfigurations</key><dict>
+<key>UIWindowSceneSessionRoleApplication</key><array><dict>
+<key>UISceneConfigurationName</key><string>DuoFacePhone</string>
+<key>UISceneDelegateClassName</key><string>MTDuoFaceShellScene</string>
+</dict></array>
+<key>UIWindowSceneSessionRoleCarPlay</key><array><dict>
+<key>UISceneConfigurationName</key><string>DuoFaceCarPlay</string>
+<key>UISceneDelegateClassName</key><string>MTDuoFaceShellScene</string>
+</dict></array>
+</dict></dict>
+</dict></plist>
