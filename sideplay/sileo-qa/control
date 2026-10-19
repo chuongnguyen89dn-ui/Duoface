@@ -1,9 +1,9 @@
 Package: com.duoface.sideplaydisplay
-Name: DuoFace Native12 Dock + Split QA10
-Version: 0.1.8~native12dock10
+Name: DuoFace Native12 Dock + Split QA11
+Version: 0.1.9~native12dock11
 Architecture: iphoneos-arm64
 Section: Tweaks
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.sideplay (>= 1.0.4-1)
-Description: DuoFace QA10 built from QA7: Native12-derived Apple CarPlay Dock Normal/Zoom, hide obsolete SidePlay splitter, restore picker/menu overlays, stabilize split gestures. Requires SidePlay scene host; on-device CarPlay verification pending.
+Description: DuoFace QA11: restores QA7 logo ratio drag, suppresses residual SidePlay per-pane bars and detects genuine Apple AppDockViewController for Normal/Zoom; experimental on-device verification needed. Requires SidePlay scene host; on-device CarPlay verification pending.
