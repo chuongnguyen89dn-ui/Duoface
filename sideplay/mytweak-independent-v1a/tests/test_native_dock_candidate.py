@@ -40,12 +40,13 @@ class NativeDockContract(unittest.TestCase):
         self.assertNotIn('64.0',l)
         self.assertNotIn('48.0',l)
         c=src("MTBridgeCoordinator.m")
-        self.assertIn('refreshNativeDockGeometry',c)
+        self.assertIn('refreshDashboardContentGeometry',c)
         self.assertIn('mtUnobstructedFrame',c)
-        self.assertIn('MTDockContentRect(full,data,&desired)',c)
-        self.assertIn('native-dock-not-measured-use-original',c)
+        self.assertIn('MTDashboardUsableRect(full,context,&desired)',c)
+        self.assertIn('dashboard-context-missing-preserve-existing',c)
         self.assertIn('w.frame=desired',c)
         self.assertIn('if (!enabled || !present)',c)
+        self.assertNotIn('MTDockContentRect(full,data,&desired)',c)
     def test_preserve_existing_host_modes(self):
         root=src("MTBridgeRootViewController.m")
         for x in ('@"App"','@"Split 2"','@"Swap"','@"Zoom"','@"Close"','mtWantsNativeDock'):
@@ -57,7 +58,7 @@ class NativeDockContract(unittest.TestCase):
         self.assertIn('stopAllHosts',src("MTBridgeCoordinator.m"))
     def test_pkg_release_not_vendor_or_system_spoof(self):
         c=src("control")
-        self.assertIn("Version: 0.2.1~dock1",c)
+        self.assertIn("Version: 0.2.2~dashctx1",c)
         self.assertIn("Package: com.duoface.mytweak.v1a.preflight",c)
         self.assertNotIn("Conflicts:",c)
         self.assertNotIn("Replaces:",c)
