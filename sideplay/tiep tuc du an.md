@@ -1,5 +1,9 @@
 # SIDEPLAY — HỒ SƠ THEO DÕI VÀ BÀN GIAO (DuoFace)
 
+
+## V1BC IMAGE OBSERVATION 2026-10-19
+User shared photo of handheld iPhone screen in landscape displaying MyTweak V1B+C combined UI with top controls App, Single, Swap, Zoom, Close; visible content panes 70mai Dash Cam Pro Plus+ and ChatGPT, plus light-blue divider and per-pane app picker. This is direct visual evidence of two app surfaces/UI on the handheld phone display, NOT independent verification of the vehicle's external CarPlay head unit or real AppDock. The user asked how to test; instructions provided for independent touch/scroll, Split/Single, Swap, ratio drag, divider hold >=0.3s, Zoom, separate X, audio and global Close/exitmode; obtain two Filza logs and screenshot/video of head unit if possible. Open question: is same UI present on vehicle's CarPlay display, or only iPhone? Keep state as CARPLAY_EXTERNAL_SCREEN_UNVERIFIED, TOUCH_UNVERIFIED, AUDIO_UNVERIFIED, CLOSE_UNVERIFIED. Do not change QA11/Native12/HUD8 based on this photo.
+
 > **2026-10-19 — V1BC FILZA ON/OFF UI:** Hai ảnh người dùng cung cấp xác minh file `/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist` đã hiện trong Filza, `Root > Enabled` đang **NO (false)**; người dùng đã mở màn sửa Boolean thành công, **chưa có bằng chứng chuyển thành YES hoặc giao diện CarPlay hoạt động**. Đã hướng dẫn gạt switch sang YES, Quay lại → Xong/lưu, chờ khoảng 2 giây khi xe đỗ và đã nối CarPlay; KHÔNG nhấn nút Xóa đỏ, không cần NewTerm/respring. V1BC pixels/touch/audio/dual scenes/real Apple Dock vẫn chưa nghiệm thu; chờ phản hồi/log. Đã lưu checkpoint chi tiết ở `sideplay/audit/mytweak-v1bc-20261019/CHECKPOINT.md` nhánh `feature/mytweak-v1bc-combined-20261019`, commit `eb478667f99d0259751983cffe0abb7508391f71`.
 
 
