@@ -37,6 +37,17 @@ jobs:
                 -Werror -Wno-deprecated-declarations -I "$ROOT" "$ROOT/$FILE"
             done
           done
+      - name: Run executable contract rejection cases on macOS
+        run: |
+          set -euo pipefail
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          xcrun --sdk macosx clang -fobjc-arc -Werror \
+            -Wno-deprecated-declarations -I "$ROOT" \
+            -framework Foundation -framework CoreGraphics \
+            "$ROOT/MTCPBridgeContract.m" \
+            "$ROOT/tests/MTCPBridgeContractTests.m" \
+            -o "$RUNNER_TEMP/mytweak-cp-contract-tests"
+          "$RUNNER_TEMP/mytweak-cp-contract-tests" 2>&1 | tee "$RUNNER_TEMP/carplay-prototype-runtime.log"
       - name: Save proven source-only CI checkpoint to target repository
         run: |
           set -euo pipefail
@@ -47,7 +58,7 @@ jobs:
             echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
             echo "SOURCE_SHA=$GITHUB_SHA"
             echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-            echo "STATIC_TESTS=PASS"
+            echo "STATIC_TESTS=PASS"\n            echo "RUNTIME_CONTRACT_TESTS=PASS"
             echo "OBJC_SYNTAX_ARM64_ARM64E=PASS"
             echo DEVICE_TESTED=false
             echo SCENE_OWNERSHIP_VERIFIED=false
@@ -56,11 +67,11 @@ jobs:
             echo DEB_BUILT=false
             echo QA11_NATIVE12_HUD8_UNCHANGED=true
           } > "$DEST/CI_RESULT.txt"
-          cp "$RUNNER_TEMP/carplay-prototype-tests.log" "$DEST/STATIC_TESTS.log"
+          cp "$RUNNER_TEMP/carplay-prototype-tests.log" "$DEST/STATIC_TESTS.log"\n          cp "$RUNNER_TEMP/carplay-prototype-runtime.log" "$DEST/RUNTIME_CONTRACT_TESTS.log"
           (cd sideplay/mytweak-independent-v1a/prototype &&
             shasum -a 256 MTCPBridgeContract.h MTCPBridgeContract.m \
               MTCPRemoteLayer.h MTCPRemoteLayer.m MTCPCommandRelay.h \
-              MTCPCommandRelay.m README.md) > "$DEST/SOURCE_SHA256SUMS.txt"
+              MTCPCommandRelay.m README.md tests/MTCPBridgeContractTests.m) > "$DEST/SOURCE_SHA256SUMS.txt"
       - name: Upload source test checkpoint
         uses: actions/upload-artifact@v4
         with:
