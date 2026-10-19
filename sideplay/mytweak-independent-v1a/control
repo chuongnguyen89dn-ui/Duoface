@@ -1,9 +1,9 @@
 Package: com.duoface.mytweak.v1a.preflight
-Name: DuoFace MyTweak V1A Preflight (Diagnostic Only)
-Version: 0.1.0~v1a1
+Name: DuoFace MyTweak V1B+C Combined CarPlay Test
+Version: 0.2.0~v1bc1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: Independent read-only SpringBoard and CarPlay API diagnostics. Does NOT launch applications, create windows, or replace QA11. Experimental; device validation pending. Install separately and keep a verified recovery route.
+Description: Optional single+dual CarPlay scene trial with app picker, draggable divider, swap, zoom, close and passive logs. Disabled by default, Filza-controlled. Does not uninstall QA11/Native12/HUD8; device QA pending.
