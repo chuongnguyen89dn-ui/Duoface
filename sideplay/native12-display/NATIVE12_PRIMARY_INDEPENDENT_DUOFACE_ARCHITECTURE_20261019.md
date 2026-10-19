@@ -13,12 +13,15 @@ Yêu cầu mới nhất của người dùng **điều chỉnh** chủ trương 
 - `sideplay/host-only/validation/check_host_only_bridge_m1.py` kiểm đúng ranh giới, version QA11 không đổi, audit selector; `.github/workflows/sideplay-host-only-m1-compile.yml` biên dịch iOS16 rootless **không tạo DEB hoặc cập nhật Sileo**, ghi `sideplay/host-only/validation/M1_CI_RESULT.txt` nếu compile PASS thực. Không tự suy từ việc commit mã là build PASS.
 - Đã chứng minh ABI host tại SidePlay arm64 selector index `sideplay/native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json` và audit ba gói trước; Native12/HUD8/Visual12 là chuẩn toàn bộ UI.
 
+
+**Sửa lại phân định M1 sau kiểm tra ABI:** `SPPane.loadApp:` có type encoding `v24@0:8@16`: đây chỉ là `id`, **chưa biết đó là `SBApplication`, `NSString` hay kiểu khác**. Từng có prototype M1 truyền trực tiếp `NSString *`, đã gỡ hẳn khỏi `DFSPSceneHostBridge.h/.m` **trước khi build/triển khai**. M1 chỉ đọc 2 scene và không gọi load/unload. Lượt CI duy nhất được dùng để kiểm `make clean all`; không được xem đó là test CarPlay hoặc cấp phép.
+
 ### Danh mục thay từng chức năng — chỉ cắt code SidePlay sau nghiệm thu
 
 | Thứ tự | Chức năng | SidePlay còn phải dùng | DuoFace cần sở hữu | Trạng thái |
 |---|---|---|---|---|
-| M1 | Hai scene sống, app-present, geometry đọc lại | `SPDash.panes`, `SPPane.view/appViewController` | Native12 visual shell nhận trạng thái qua host-only adapter | **ĐÃ SỬA CODE; CI/device chưa rõ** |
-| M2 | App picker + chọn ứng dụng | `SPPane.loadApp:` mới là host request | Picker UI, danh sách app, menu Native12; bỏ `SPDash.showPickerForPane` | Chưa làm |
+| M1 | Hai scene sống, app-present, geometry đọc lại | `SPDash.panes`, `SPPane.view/appViewController` | Native12 visual shell nhận trạng thái qua host-only adapter | **ĐÃ SỬA CODE READ-ONLY; CI/device chưa rõ** |
+| M2 | App picker + chọn ứng dụng | `SPPane.loadApp:` chỉ được gọi sau khi xác minh đúng kiểu đối tượng tham số; chưa gọi ở M1 | Picker UI, danh sách app, menu Native12; bỏ `SPDash.showPickerForPane` | Chưa làm |
 | M3 | Close, swap và kéo tỷ lệ | `SPPane.unloadApp`, hosted scene views | Native12 split owner, gesture/logo/ratio, slot order; bỏ `paneRequestsClose/Swap`, `SPDash.setRatio/layout` khi ổn | Chưa làm |
 | M4 | Dock/Normal/Zoom | CarPlay scene/window do iOS + host SidePlay hoạt động | Native12 AppDock/window/chrome policy; đo controller thật trên xe trước khi thay | Chưa đạt nghiệm thu |
 | M5 | Style, 8 layouts, viền, HUD8, cấu hình | Chỉ app scene hosting | Native12 UI và HUD8 source-owned, không SidePlay HUD/Style/menu | Chưa làm |
