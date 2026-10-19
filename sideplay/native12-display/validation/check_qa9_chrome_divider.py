@@ -34,13 +34,20 @@ check(all(x in plist for x in (
        "com.apple.dashboard")),
       "multi-process filter injects sender in SpringBoard and receiver in CarPlay Dashboard")
 check("DBStatusBarWindow" in bridge and "CARStatusBarWindow" in bridge and
-      "%group DFSPQA9ChromeDB" in bridge and "%group DFSPQA9ChromeCAR" in bridge and
+      "%group DFSPQA10ChromeDB" in bridge and "%group DFSPQA10ChromeCAR" in bridge and
       "DFSPChromeInstallHooks" in bridge,
       "original iOS16 status-bar subclasses observed without global UIWindow hooking")
-check("NSDistributedNotificationCenter" in bridge and
-      "DFSPChromeRequestEvent" in bridge and "DFSPChromeAckEvent" in bridge and
-      '"generation"' in bridge and "visibilityApplied" in bridge,
-      "per-process request and explicit chrome-window ACK channel present")
+check("CFNotificationCenterGetDarwinNotifyCenter" in bridge and
+      "DFSPChromeShow" in bridge and "DFSPChromeHide" in bridge and
+      "DFSPChromeReset" in bridge and
+      "DFSPChromeAckShown" in bridge and "DFSPChromeAckMissing" in bridge and
+      "ACK TIMEOUT" in bridge and
+      "NSClassFromString(@\"NSDistributedNotificationCenter\")" not in bridge,
+      "Darwin request/ACK channel replaces unsupported iOS distributed notifications")
+check('Mode = "Any";' in plist and
+      "Executables" in plist and "CarPlayApp" in plist and
+      "Dashboard" in plist,
+      "Substrate loads receiver by CarPlay executable using Mode Any, not bundle alone")
 check("DFSPChromeRestore()" in bridge and
       "DFSPChromeRequest(NO,YES,DFSPSequence)" in source and
       "DFSPChromeSnapshots" in bridge,
@@ -59,7 +66,8 @@ check("DFSPRestoreReplacedViews()" in source and
       "teardown restores legacy UI and never crops SidePlay CarPlay UIWindow")
 check("CGRectGetMaxX(b)+CGRectGetMinX(a)" in frame and
       "CGRectGetMaxY(b)+CGRectGetMinY(a)" in frame and
-      ("if (reversed)ratio=1.0-ratio;" in frame or\n       "self.splitPanReversed?-1.0:1.0" in frame),
+      ("if (reversed)ratio=1.0-ratio;" in frame or
+     "self.splitPanReversed?-1.0:1.0" in frame),
       "divider edge and drag ratio handle pane0 right or bottom")
 check("DFSPSystemUsableRect" in source and
       "carDockArea" in source and
