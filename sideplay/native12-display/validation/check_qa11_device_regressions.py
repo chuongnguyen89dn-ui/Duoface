@@ -69,6 +69,6 @@ must("DFSPNativeDockUsableBounds(window)" in tweak and
      "DFSPNativeFallbackLeft" not in tweak and
      "window.windowLevel=DFSPOriginalLevel;" in tweak,
      "single Native12-style dock usable-bounds owner with unchanged host window level")
-must("0.1.8~native12dock10" in control,
+must("0.1.9~native12dock11" in control,
      "no accidental production release/version bump before QA11 build approval")
 print("QA11_STATIC_REGRESSION_PASS — APPLE CARPLAY DOCK NOT VISUALLY VERIFIED")
