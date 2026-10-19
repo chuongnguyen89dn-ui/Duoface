@@ -1,0 +1,45 @@
+# Build MyTweak .deb tren GitHub Actions (may macOS mien phi) — khong can may Mac.
+# Cach dung: day repo nay len GitHub -> tab Actions -> chon "Build .deb" -> Run workflow
+# -> doi job chay xong -> tai file .deb tu muc Artifacts.
+#
+# Co so: theos-action (MIT) cai Theos + iOS SDK tu dong tren runner.
+# Them buoc brew install make de chac chan co GNU make (Theos bat buoc),
+# vi macOS mac dinh chi co BSD make.
+
+name: Build .deb
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Theos
+        # Pin theo commit SHA da kiem chung (thay vi tag troi) de tranh
+        # hanh vi thay doi bat ngo tu action cua ben thu ba.
+        uses: mhtrf1921-hash/theos-action@02738dd687f058cff73407c245e08e622c72cdf1
+        with:
+          theos-dir: 'theos'
+          theos-src: 'https://github.com/theos/theos'
+          theos-sdks: 'https://github.com/theos/sdks'
+          theos-sdks-branch: 'master'
+
+      - name: Install GNU make
+        run: brew install make
+
+      - name: Build package
+        run: |
+          export THEOS="$GITHUB_WORKSPACE/theos"
+          gmake package FINALPACKAGE=1
+
+      - name: Upload .deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: mytweak-deb
+          path: packages/*.deb
+          if-no-files-found: error

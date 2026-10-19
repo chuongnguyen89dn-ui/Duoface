@@ -1,0 +1,40 @@
+name: MyTweak v1a passive SceneHost ABI preflight (no package)
+on:
+  push:
+    branches: [feature/mytweak-independent-v1a-diagnostic-20261019]
+    paths:
+      - '.github/workflows/mytweak-v1a-diagnostic-compile.yml'
+      - 'sideplay/mytweak-independent-v1a/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mytweak-v1a-diagnostic-compile
+  cancel-in-progress: true
+jobs:
+  v1a-static-and-compile:
+    runs-on: macos-15
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - name: v1a static contract
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          python3 -m unittest discover -s tests -v
+          grep -F '#define MT_V1A_PREFLIGHT_ONLY 1' Tweak.x
+      - name: Setup verified Theos toolchain pattern
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile only; never package or publish
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          make clean all
+          ! find . -type f -name '*.deb' | grep .
+          echo MYTWEAK_V1A_STATIC_AND_THEOS_COMPILE_PASS_NO_DEB_NO_DEVICE_TEST
