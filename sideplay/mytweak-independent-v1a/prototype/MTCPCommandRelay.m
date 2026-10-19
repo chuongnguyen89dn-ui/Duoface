@@ -8,6 +8,11 @@
 @property(nonatomic,assign) int token;
 @end
 @implementation MTCPCommandRelay
+- (instancetype)init {
+    self=[super init];
+    if (self)_token=-1;
+    return self;
+}
 - (BOOL)startForSession:(NSString *)session handler:(void (^)(NSDictionary *))handler {
     if (self.session || ![NSThread isMainThread] ||
         ![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"] ||
