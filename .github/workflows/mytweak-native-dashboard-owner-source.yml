@@ -1,0 +1,100 @@
+name: DuoFace native Dashboard owner layout/source validation (NO DEB)
+on:
+  push:
+    branches: [feature/mytweak-native-dashboard-owner-20261019]
+    paths:
+      - '.github/workflows/mytweak-native-dashboard-owner-source.yml'
+      - 'sideplay/mytweak-independent-v1a/prototype/**'
+      - 'sideplay/mytweak-independent-v1a/tests/test_native_dashboard_owner.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mytweak-native-dashboard-owner-source
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run native-owner safety and inherited bridge regression
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          python3 -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/dashboard-owner-source.log"
+      - name: Compile iOS16 arm64 and arm64e Objective-C
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          for ARCH in arm64 arm64e; do
+            for FILE in MTCPNativeChromeLayout.m MTCPDashboardOwner.m MTCPRemoteLayer.m MTCPBridgeContract.m; do
+              echo "Compiling $ARCH $FILE"
+              xcrun --sdk iphoneos clang -target "${ARCH}-apple-ios16.0" \
+                 -isysroot "$SDK" -fobjc-arc -x objective-c -fsyntax-only \
+                 -Werror -Wno-deprecated-declarations -I "$ROOT" "$ROOT/$FILE"
+            done
+          done
+      - name: Execute real native geometry regression on macOS
+        run: |
+          set -euo pipefail
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          xcrun --sdk macosx clang -fobjc-arc -Werror \
+            -framework Foundation -framework CoreGraphics \
+            "$ROOT/MTCPNativeChromeLayout.m" \
+            "$ROOT/tests/MTCPNativeChromeLayoutTests.m" \
+            -o "$RUNNER_TEMP/mytweak-native-layout-tests"
+          "$RUNNER_TEMP/mytweak-native-layout-tests" 2>&1 | tee "$RUNNER_TEMP/dashboard-owner-runtime.log"
+      - name: Persist source-only proof
+        run: |
+          set -euo pipefail
+          DEST=sideplay/test-artifacts/mytweak-native-dashboard-owner-source
+          mkdir -p "$DEST"
+          cp "$RUNNER_TEMP/dashboard-owner-source.log" "$DEST/SOURCE_TESTS.log"
+          cp "$RUNNER_TEMP/dashboard-owner-runtime.log" "$DEST/RUNTIME_GEOMETRY.log"
+          (cd sideplay/mytweak-independent-v1a/prototype && shasum -a 256 \
+            MTCPNativeChromeLayout.h MTCPNativeChromeLayout.m \
+            MTCPDashboardOwner.h MTCPDashboardOwner.m MTCPRemoteLayer.m \
+            tests/MTCPNativeChromeLayoutTests.m) > "$DEST/SOURCE_SHA256SUMS.txt"
+          {
+            echo NATIVE_DASHBOARD_OWNER_SOURCE=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo OBJC_IOS16_ARM64_ARM64E=PASS
+            echo NATIVE_GEOMETRY_EXECUTION=PASS
+            echo DEVICE_TESTED=false
+            echo ACTUAL_NATIVE_DOCK_FIXED=false
+            echo NATIVE_UI_ACTIVATION_IMPLEMENTED=false
+            echo V1BC_LIVE_SOURCE_PUBLISHER_WIRED=false
+            echo FULL_TOUCH_DELIVERY_IMPLEMENTED=false
+            echo DEB_BUILT=false
+            echo SILEO_PUBLISHED=false
+            echo MYTWEAK_RECOVERY_QA11_NATIVE12_HUD8_UNCHANGED=true
+          } > "$DEST/CI_RESULT.txt"
+      - name: Upload branch-only source evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mytweak-native-owner-source-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-native-dashboard-owner-source/
+          if-no-files-found: error
+      - name: Save source proof to same isolated branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/mytweak-native-dashboard-owner-20261019
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-native-dashboard-owner-source/
+          git commit -m 'tests: native owner geometry and syntax proof [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-dashboard-owner-source/CI_RESULT.txt" | grep -F 'NATIVE_DASHBOARD_OWNER_SOURCE=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
