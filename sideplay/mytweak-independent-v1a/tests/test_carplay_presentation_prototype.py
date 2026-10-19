@@ -79,5 +79,17 @@ class NativeCarPlayPrototype(unittest.TestCase):
                     'SpringBoard _handle', 'objc_msgSend']:
             self.assertNotIn(bad,s)
 
+    def test_safe_split_command_dispatch(self):
+        s=source("MTCPHostCommandAdapter.m")
+        for text in ['MTCPBridgeExplicitOptIn()', 'processName isEqualToString:@"SpringBoard"',
+                     '[root swapApps]', '[root toggleSplit]', '[root toggleZoom]',
+                     '[[MTBridgeCoordinator sharedCoordinator] stopAndDisable]',
+                     'return NO;']:
+            self.assertIn(text,s)
+        for banned in ['setWindowLevel:', 'FBSDisplayConfiguration',
+                       'initWithDisplayConfiguration:', 'LSBundleProxy', 'SBApplicationController',
+                       'handleDockIconTap:', 'UIEvent', 'GSEvent']:
+            self.assertNotIn(banned,s)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
