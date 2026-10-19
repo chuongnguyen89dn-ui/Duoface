@@ -9,6 +9,7 @@
 #import "../native12-display/DFSPNativeFrame.h"
 #import "../native12-display/DFSPNative12Host.h"
 #import "DFSPNativeDock.h"
+#import "../host-only/DFSPSceneHostBridge.h"
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
@@ -55,6 +56,9 @@ static __weak UIWindow *DFSPWindow;
 static __weak SPDash *DFSPManager;
 static DFSPNativeFrame *DFSPUI;
 static DFSPNative12Host *DFSPHost;
+// First host-only milestone: only app scene presence and rectangles cross
+// from SidePlay into the Native12-owned visual shell.
+static DFSPSceneHostBridge *DFSPSceneBridge;
 // The validated root geometry can be unavailable on some CarPlay scene variants.
 // Keep the DuoFace-owned UI visible without altering the vendor app scene.
 static BOOL DFSPVisualCompatibility=NO;
@@ -427,19 +431,25 @@ static void DFSPRefresh(void) {
         DFSPLog(@"QA10 SidePlay picker no longer visible; DuoFace UI resumed");
     }
     NSArray *panes=DFSPPanes();
+    if (!DFSPSceneBridge || DFSPSceneBridge.host!=DFSPManager ||
+        DFSPSceneBridge.carWindow!=DFSPWindow) {
+        DFSPLog(@"Host-only bridge unavailable; refusing stale scene snapshot");
+        DFSPRefreshing=NO;
+        return;
+    }
     CGRect one=CGRectZero,two=CGRectZero;
     BOOL firstApp=NO,secondApp=NO;
     if(panes.count>0 && [panes[0] isKindOfClass:objc_getClass("SPPane")]) {
         SPPane *pane=panes[0];
-        one=DFSPPaneRect(pane);
-        firstApp=[pane appViewController]!=nil;
+        one=[DFSPSceneBridge hostedFrameForSlot:0 relativeToView:DFSPUI];
+        firstApp=[DFSPSceneBridge hasHostedAppInSlot:0];
         DFSPHideLegacyPaneControls(pane);
         if(!firstApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
     if(panes.count>1 && [panes[1] isKindOfClass:objc_getClass("SPPane")]) {
         SPPane *pane=panes[1];
-        two=DFSPPaneRect(pane);
-        secondApp=[pane appViewController]!=nil;
+        two=[DFSPSceneBridge hostedFrameForSlot:1 relativeToView:DFSPUI];
+        secondApp=[DFSPSceneBridge hasHostedAppInSlot:1];
         DFSPHideLegacyPaneControls(pane);
         if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
@@ -556,6 +566,7 @@ static void DFSPRemove(void) {
     DFSPDockRequest(NO,NO,DFSPSequence);
     [DFSPHost restoreAndDetach];
     DFSPHost=nil;
+    DFSPSceneBridge=nil; // lifecycle ends with the leased SidePlay scene
     DFSPVisualCompatibility=NO;
     if (oldWindow) {
         oldWindow.windowLevel=DFSPOriginalLevel;
@@ -604,6 +615,10 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPOriginalFrame=window.frame;
     DFSPWindow=window;
     DFSPManager=owner;
+    DFSPSceneBridge=[[DFSPSceneHostBridge alloc]
+        initWithLiveHost:owner carWindow:window];
+    if (!DFSPSceneBridge)
+        DFSPLog(@"Host-only bridge cannot verify SPDash + external UIWindow; refusing scene actions");
     DFSPOldPaneBarsSuppressed=YES;
     DFSPLegacyModalOpen=NO;
     ++DFSPLegacyModalEpoch;
