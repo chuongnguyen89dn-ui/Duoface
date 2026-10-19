@@ -23,6 +23,17 @@ static void MTV1ALog(NSString *event, NSString *detail) {
 static id MTV1ARead(id target, NSString *selector) {
     SEL sel = NSSelectorFromString(selector);
     if (!target || ![target respondsToSelector:sel]) return nil;
+    // These private selectors are version-dependent. Never interpret a scalar as id.
+    BOOL classTarget=class_isMetaClass(object_getClass(target));
+    Method method=classTarget ? class_getClassMethod((Class)target,sel)
+                              : class_getInstanceMethod([target class],sel);
+    char returnType[16]={0};
+    if (method) method_getReturnType(method,returnType,sizeof(returnType));
+    if (!method || returnType[0]!='@') {
+        MTV1ALog(@"read-skipped", [NSString stringWithFormat:
+            @"selector=%@ nonObjectReturn=%s",selector,method ? returnType : "missing"]);
+        return nil;
+    }
     @try {
         return ((id (*)(id, SEL))objc_msgSend)(target, sel);
     } @catch (NSException *exception) {
@@ -44,11 +55,9 @@ static void MTV1ASelector(NSString *className, NSString *selector, BOOL classMet
 }
 static void MTV1ADockViews(UIWindow *window) {
     NSMutableArray<UIView *> *queue=[NSMutableArray array];
-    if (window.rootViewController.viewIfLoaded) {
-        [queue addObject:window.rootViewController.viewIfLoaded];
-    } else {
-        [queue addObjectsFromArray:window.subviews];
-    }
+    // Start at all window children; the AppDock may be a sibling of root.view.
+    // Never force a lazy root view to load just for diagnostics.
+    [queue addObjectsFromArray:window.subviews];
     NSUInteger inspected=0, found=0;
     while (queue.count && inspected<400) {
         UIView *view=queue.lastObject;
