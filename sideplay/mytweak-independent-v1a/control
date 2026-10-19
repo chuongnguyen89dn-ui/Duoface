@@ -1,9 +1,9 @@
 Package: com.duoface.mytweak.v1a.preflight
-Name: DuoFace MyTweak V1B+C Combined CarPlay Test
-Version: 0.2.0~v1bc1
+Name: DuoFace MyTweak V1BC Recovery (SpringBoard-safe)
+Version: 0.2.6~recovery1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: Optional single+dual CarPlay scene trial with app picker, draggable divider, swap, zoom, close and passive logs. Disabled by default, Filza-controlled. Does not uninstall QA11/Native12/HUD8; device QA pending.
+Description: Recovery from unstable 0.2.5 shell. Restores device-tested V1BC two-pane scene host and gestures; no LaunchServices swizzle, no CarPlay process hook, no bundled CarPlay app. Default opt-in. Native Apple Dock is NOT fixed.
