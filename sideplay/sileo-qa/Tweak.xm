@@ -486,7 +486,10 @@ static void DFSPRefresh(void) {
     // stable gesture delta. Never mutate the window or each SPPane frame.
     [manager setRatio:ratio];
     double accepted=[manager ratio];
-    [manager layout:ended];
+    // SPDash.layout: takes an ANIMATED flag, not a gesture-ended flag.
+    // layout:YES on TouchEnded was animating the last ratio adjustment,
+    // causing a second visible jump after a supposedly completed drag.
+    [manager layout:NO];
     double afterLayout=[manager ratio];
     DFSPUpdatingRatio=NO;
     if (ended && (fabs(afterLayout-ratio)>0.012 ||
