@@ -58,7 +58,8 @@ jobs:
             echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
             echo "SOURCE_SHA=$GITHUB_SHA"
             echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-            echo "STATIC_TESTS=PASS"\n            echo "RUNTIME_CONTRACT_TESTS=PASS"
+            echo "STATIC_TESTS=PASS"
+            echo "RUNTIME_CONTRACT_TESTS=PASS"
             echo "OBJC_SYNTAX_ARM64_ARM64E=PASS"
             echo DEVICE_TESTED=false
             echo SCENE_OWNERSHIP_VERIFIED=false
@@ -67,7 +68,8 @@ jobs:
             echo DEB_BUILT=false
             echo QA11_NATIVE12_HUD8_UNCHANGED=true
           } > "$DEST/CI_RESULT.txt"
-          cp "$RUNNER_TEMP/carplay-prototype-tests.log" "$DEST/STATIC_TESTS.log"\n          cp "$RUNNER_TEMP/carplay-prototype-runtime.log" "$DEST/RUNTIME_CONTRACT_TESTS.log"
+          cp "$RUNNER_TEMP/carplay-prototype-tests.log" "$DEST/STATIC_TESTS.log"
+          cp "$RUNNER_TEMP/carplay-prototype-runtime.log" "$DEST/RUNTIME_CONTRACT_TESTS.log"
           (cd sideplay/mytweak-independent-v1a/prototype &&
             shasum -a 256 MTCPBridgeContract.h MTCPBridgeContract.m \
               MTCPRemoteLayer.h MTCPRemoteLayer.m MTCPCommandRelay.h \
