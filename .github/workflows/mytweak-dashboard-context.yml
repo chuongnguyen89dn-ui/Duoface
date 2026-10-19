@@ -23,7 +23,8 @@ jobs:
           cd sideplay/mytweak-independent-v1a
           python3 -m unittest discover -s tests -v
           grep -Fq 'DFV1APreflight_FILES = V1ATweak.x MTPreflight.m MTTrialLog.m' Makefile
-          grep -Fq 'MTNativeDockProbe.m MTDockLayout.m' Makefile || grep -Fq 'MTDockLayout.m MTNativeDockProbe.m' Makefile
+          grep -Fq 'MTDashboardContext.m MTDashboardUsableRect.m' Makefile
+          ! grep -Eq 'MTNativeDockProbe.m|MTDockLayout.m' Makefile
           grep -Fq '<string>CarPlay</string>' DFV1APreflight.plist
           grep -Fq '<string>CarPlayApp</string>' DFV1APreflight.plist
           grep -Fq 'MTDashboardContext.m MTDashboardUsableRect.m' Makefile
@@ -80,7 +81,7 @@ jobs:
             echo DASHBOARD_CONTENT_SAFEAREA_SOURCE=actual_CarPlay_UI_root_window
             echo APPLE_APPDOCK_HOME_NAVIGATION_VERIFIED=false
             echo USER_DEVICE_TEST_REQUIRED=true
-            echo NATIVE_DOCK_SOURCE=CarPlay_DB_DockWindow
+            echo NATIVE_DOCK_SOURCE=CarPlay_root_safe_area_no_Dock_hook
             echo DOCK_MOCK_RENDERING=false
           } > "$DEST/CI_RESULT.txt"
           echo MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_DEB_BUILD_AND_INSPECT_PASS
