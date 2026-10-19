@@ -1,0 +1,32 @@
+name: DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)
+on:
+  push:
+    branches: [feature/duoface-qa10-picker-divider-source-only]
+    paths:
+      - '.github/workflows/sideplay-qa10-source-tests.yml'
+      - 'sideplay/native12-display/DFSPNativeFrame.m'
+      - 'sideplay/sileo-qa/Tweak.xm'
+      - 'sideplay/native12-display/validation/check_qa*.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-source-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify no package build or release workflow
+        run: |
+          set -euo pipefail
+          test -f sideplay/sileo-qa/control
+          grep -F 'Version: 0.1.7~native12chrome9' sideplay/sileo-qa/control
+          echo QA10_TESTS_ONLY_NO_DEB_OR_SILEO_DEPLOY
+      - name: Regression gates on exact repo source
+        run: |
+          set -euo pipefail
+          python3 sideplay/native12-display/validation/check_duoface_qa5_parity.py
+          python3 sideplay/native12-display/validation/check_qa7_visual_recovery.py
+          python3 sideplay/native12-display/validation/check_qa9_chrome_divider.py
+          python3 sideplay/native12-display/validation/check_qa10_picker_divider.py
+          echo QA10_ALL_SOURCE_TESTS_PASS_NO_DEB_BUILT
