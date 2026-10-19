@@ -36,8 +36,7 @@ check("hostedFrameForSlot:0 relativeToView:DFSPUI" in tweak and
       "two Native12 slot statuses and view rectangles now pass host boundary")
 check("SPDash" in src and "SPPane" in src and
       all(k in src for k in ("- (NSArray *)panes;", "- (UIView *)view;",
-        "- (id)appViewController;","- (void)loadApp:(NSString *)bundleIdentifier;",
-        "- (void)unloadApp;")),
+        "- (id)appViewController;")),
       "host boundary has only verified app/scene lifecycle selectors")
 check(all(k not in src for k in (
       "- (void)layoutChooser;", "- (void)showPickerForPane:",
@@ -46,10 +45,11 @@ check(all(k not in src for k in (
       "@selector(licenseWatchdogTimerFired:)", "#import \"SidePlay",
       "CBBridgeManager *", "@selector(unlock)")),
       "no SidePlay UI/layout/license or Native12 license-bundled manager API in host boundary")
-check("request dispatched, NOT proof" in src and
-      "request dispatched, not a finished scene teardown" in src and
-      "not used to replace working SidePlay app launching in milestone M1" in h,
-      "future load/unload requests are explicitly gated pending device acceptance")
+check("loadBundleIdentifier:" not in src and
+      "loadBundleIdentifier:" not in h and
+      "- (void)loadApp:" not in src and
+      "M1 is intentionally READ ONLY" in h,
+      "ObjC encoding @ cannot establish -loadApp: parameter type; launching deliberately gated until M2")
 check("Package: com.duoface.sideplaydisplay" in ctl and
       "Version: 0.1.9~native12dock11" in ctl and
       "com.sideplay (>= 1.0.4-1)" in ctl and
