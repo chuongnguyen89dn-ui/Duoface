@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-19T17:33:29.169827+00:00",
+  "checked_at_utc": "2026-10-19T22:27:17.355360+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1646,
+  "total_actions_runs": 1647,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 3,
-      "success": 2,
+      "recent_runs": 4,
+      "success": 3,
       "failure": 0,
       "other": 1
     },
@@ -107,19 +107,29 @@
       "other": 0
     },
     "QA11 CarPlay restore drag/nav/dock source checks": {
-      "recent_runs": 7,
-      "success": 6,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 1,
       "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 39335035801,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 40,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39335035801",
+      "created_at": "2026-10-19T22:27:06Z",
+      "head_sha": "37f361a3f635d20d4829046a2f7bc855ebce8aee"
+    },
+    {
       "id": 39295101734,
       "name": "DuoFace Actions status snapshot",
       "run_number": 39,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39295101734",
       "created_at": "2026-10-19T17:33:16Z",
       "head_sha": "86cf7e56879ec893940a614d171e1523457ff512"
@@ -403,16 +413,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39229124218",
       "created_at": "2026-10-19T09:18:56Z",
       "head_sha": "15b2b712a1594801db94c2833fc35e2af5e789d5"
-    },
-    {
-      "id": 39224894335,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224894335",
-      "created_at": "2026-10-19T08:44:15Z",
-      "head_sha": "9422547b9bd6ce1327cd90f31665af5c3e1a1fc3"
     }
   ]
 }
