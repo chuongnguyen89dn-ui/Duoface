@@ -1,0 +1,43 @@
+#!/bin/sh
+# Explicit opt-in is the act of installing this distinctly named activation package.
+# Never touch /var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist.
+# Never respring, swizzle, change SpringBoard admission, or alter Sileo packages.
+set -eu
+case "${1:-}" in configure) ;; *) exit 0;; esac
+PREFDIR=/var/mobile/Library/Preferences
+TARGET="$PREFDIR/com.duoface.mytweak.carplay-bridge.plist"
+BACKUP="$PREFDIR/com.duoface.mytweak.carplay-bridge.before-activateqa.plist"
+MARKER="$PREFDIR/com.duoface.mytweak.carplay-bridge.activateqa-state"
+TEMPLATE=/var/jb/usr/share/doc/duoface-nativebridgeqa-activate/enabled.plist
+umask 077
+if [ ! -f "$TEMPLATE" ] || [ -L "$TARGET" ] || [ -L "$MARKER" ] || [ -L "$BACKUP" ]; then
+  echo 'DuoFace QA activation: unsafe or missing file; no change' >&2
+  exit 1
+fi
+if [ -e "$MARKER" ]; then
+  # Already installed/configured: never silently replace user modifications.
+  echo 'DuoFace QA activation already configured; preserving current settings'
+  exit 0
+fi
+if [ -e "$BACKUP" ]; then
+  echo 'DuoFace QA activation: preexisting backup; refusing to overwrite it' >&2
+  exit 1
+fi
+mkdir -p "$PREFDIR"
+STATE=created
+if [ -e "$TARGET" ]; then
+  if [ ! -f "$TARGET" ]; then exit 1; fi
+  cp -p "$TARGET" "$BACKUP"
+  STATE=backedup
+fi
+TMP="$PREFDIR/.duoface-nativebridgeqa.$$"
+trap 'rm -f "$TMP"' 0
+cp "$TEMPLATE" "$TMP"
+chmod 0644 "$TMP"
+chown mobile:mobile "$TMP"
+printf '%s\n' "$STATE" > "$MARKER"
+chmod 0600 "$MARKER"
+chown mobile:mobile "$MARKER"
+mv -f "$TMP" "$TARGET"
+echo 'DuoFace QA: bridge prefs installed by explicit opt-in; 45s native sidebar trial only'
+exit 0
