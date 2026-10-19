@@ -1,0 +1,111 @@
+{
+  "static_not_runtime": true,
+  "source_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "selector_edges_are_candidates": true,
+  "binaries": [
+    {
+      "binary": "DuoFaceUI",
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "file": "DuoFaceUI.json.gz",
+      "function_starts": 726,
+      "objc_methods": 522,
+      "lc_function_starts": 726,
+      "recognized_selector_calls_in_methods": 1748,
+      "recognized_selector_calls_in_orphan_functions": 757,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 0,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceDashboard.dylib",
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "file": "DuoFaceDashboard.dylib.json.gz",
+      "function_starts": 1526,
+      "objc_methods": 757,
+      "lc_function_starts": 1526,
+      "recognized_selector_calls_in_methods": 6079,
+      "recognized_selector_calls_in_orphan_functions": 3138,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 0,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceFullscreenBridge.dylib",
+      "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+      "file": "DuoFaceFullscreenBridge.dylib.json.gz",
+      "function_starts": 123,
+      "objc_methods": 61,
+      "lc_function_starts": 123,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 106,
+      "unresolved_objc_stub_calls_in_orphans": 492,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceLogoGripOnly.dylib",
+      "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+      "file": "DuoFaceLogoGripOnly.dylib.json.gz",
+      "function_starts": 23,
+      "objc_methods": 0,
+      "lc_function_starts": 23,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 0,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceSpeedHUD.dylib",
+      "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+      "file": "DuoFaceSpeedHUD.dylib.json.gz",
+      "function_starts": 66,
+      "objc_methods": 44,
+      "lc_function_starts": 66,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 312,
+      "unresolved_objc_stub_calls_in_orphans": 110,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceSpeedOwner.dylib",
+      "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+      "file": "DuoFaceSpeedOwner.dylib.json.gz",
+      "function_starts": 11,
+      "objc_methods": 1,
+      "lc_function_starts": 11,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 67,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "DuoFaceVisualHook.dylib",
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+      "file": "DuoFaceVisualHook.dylib.json.gz",
+      "function_starts": 33,
+      "objc_methods": 0,
+      "lc_function_starts": 33,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 0,
+      "unresolved_indirect": "potentially not fully resolved"
+    },
+    {
+      "binary": "duoface_cboptimize_helper",
+      "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+      "file": "duoface_cboptimize_helper.json.gz",
+      "function_starts": 1,
+      "objc_methods": 0,
+      "lc_function_starts": 1,
+      "recognized_selector_calls_in_methods": 0,
+      "recognized_selector_calls_in_orphan_functions": 0,
+      "unresolved_objc_stub_calls_in_methods": 0,
+      "unresolved_objc_stub_calls_in_orphans": 0,
+      "unresolved_indirect": "potentially not fully resolved"
+    }
+  ]
+}
