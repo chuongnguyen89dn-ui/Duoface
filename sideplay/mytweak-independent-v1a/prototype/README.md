@@ -10,6 +10,7 @@ This directory **is not compiled into** `DFV1APreflight`; no Sileo package conta
 - `MTCPRemoteLayerReceiver`: CarPlay/CarPlayApp-only, explicit call requiring caller-supplied, **already system-owned** external `UIWindowScene` content view with identifier `duoface.native.content.host` and system safeArea; attaches `CALayerHost` only within that owner view's usable rectangle. Never finds/patches Apple's Dashboard root window.
 - Touch packet sender: single-pointer begin/move/end/cancel normalized to the viewer; 60 Hz move limit; strict opt-in, anti-stale session and monotonic sequence.
 - `MTCPCommandRelay`: SpringBoard session-bound notify reader with replay checks and supplied callback, no automatic touch synthesis or arbitrary application launch.
+- `MTCPHostCommandAdapter`: explicit SpringBoard-side receiver for already-validated `swap`, `split`, `zoom`, `close` commands, using existing V1BC root methods. `home` and `pointer` deliberately return unsupported; does not yet have a running installation/call site.
 
 ## Not implemented / blockers to resolve before UI candidate
 1. **Who supplies the legitimately CarPlay-owned content view?** No connection to Apple's `CPTemplateApplicationScene` or private Dashboard roster is implemented; official Apple access to a custom CarPlay window is restricted and cannot be assumed for an arbitrary app.
