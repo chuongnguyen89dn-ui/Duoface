@@ -58,6 +58,14 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,assign) BOOL pointerDown;
 @property(nonatomic,assign) NSTimeInterval lastImageTime;
 @property(nonatomic,assign) NSUInteger ticks;
+// Never lower the original source window until a CarPlay-owned receiver ACK.
+// Trial is capped at 45s and is restored when ACK/session/tweak disappears.
+@property(nonatomic,weak) UIWindow *yieldedSourceWindow;
+@property(nonatomic,assign) UIWindowLevel savedSourceLevel;
+@property(nonatomic,assign) UIWindowLevel expectedSourceLevel;
+@property(nonatomic,copy) NSString *yieldSession;
+@property(nonatomic,copy) NSString *exhaustedYieldSession;
+@property(nonatomic,assign) NSTimeInterval yieldSince;
 @end
 @implementation DFCPNativeBridgeQA
 + (instancetype)shared {
@@ -75,6 +83,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
 - (void)stopPublisher {
+    [self restoreYieldedSourceWindow:@"publisher-stopped"];
     [self.relay stop];self.relay=nil;
     [self.publisher invalidate];self.publisher=nil;
     self.mirrorLayer=nil;self.currentRoot=nil;self.currentWindow=nil;
@@ -143,6 +152,81 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     self.mirrorLayer.bounds=(CGRect){CGPointZero,view.bounds.size};
     return YES;
 }
+// System owner in the user's native log: Dashboard UIWindowLevel=-1,
+// DBStatusBarWindow level=0. V1BC's external window uses UIWindowLevelNormal
+// (0), which may occlude native Dashboard chrome even after receiver attach.
+// This two-phase, ACK-bounded test yields BELOW Dashboard root (-2), instead
+// of changing Apple-owned windows or stealing iPhone app scene layers.
+- (BOOL)sourceYieldExperimentEnabled {
+    NSDictionary *cfg=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist"];
+    return MTCPBridgeExplicitOptIn() &&
+           [cfg[@"NativeSidebarTrial"] isKindOfClass:NSNumber.class] &&
+           [cfg[@"NativeSidebarTrial"] boolValue];
+}
+- (void)restoreYieldedSourceWindow:(NSString *)reason {
+    UIWindow *w=self.yieldedSourceWindow;
+    if (w && fabs(w.windowLevel-self.expectedSourceLevel)<0.10) {
+        @try {
+            w.windowLevel=self.savedSourceLevel;
+            DFQAWrite(@"source-window-restored",
+                [NSString stringWithFormat:@"reason=%@ level=%.2f",reason,
+                   (double)w.windowLevel]);
+        } @catch(NSException *ex) {
+            DFQAWrite(@"source-window-restore-exception",ex.name);
+        }
+    }
+    self.yieldedSourceWindow=nil;
+    self.yieldSession=nil;
+    self.yieldSince=0;
+}
+- (void)tickNativeDashboardSourceYield:(UIWindow *)w {
+    NSString *session=self.publisher.session;
+    NSDictionary *ack=session?MTCPBridgeReadReceiverAck(session):nil;
+    BOOL canTry=[self sourceYieldExperimentEnabled] && w && session && ack &&
+                 w==self.currentWindow && !w.hidden && w.alpha>=0.95 &&
+                 [w.rootViewController isKindOfClass:NSClassFromString(@"MTBridgeRootViewController")];
+    if (self.yieldedSourceWindow) {
+        BOOL expired=(NSDate.date.timeIntervalSince1970-self.yieldSince>45);
+        BOOL changed=fabs(self.yieldedSourceWindow.windowLevel-self.expectedSourceLevel)>0.10;
+        if (!canTry || expired || changed || w!=self.yieldedSourceWindow ||
+            ![session isEqualToString:self.yieldSession]) {
+            if (self.yieldSession)self.exhaustedYieldSession=self.yieldSession;
+            // If another component changed the level, preserve its newer value.
+            [self restoreYieldedSourceWindow:expired?@"45sec-lease-expired":
+                    changed?@"native-system-changed-level":@"native-ack-lost"];
+        }
+        return;
+    }
+    if (!canTry || [session isEqualToString:self.exhaustedYieldSession])return;
+    if (fabs(w.windowLevel-UIWindowLevelNormal)>0.10)return;
+    // An ACK only confirms a layer attached to a real Dashboard-owned view,
+    // not pixels rendered or tappable Apple Home. Require bounded content.
+    double width=[ack[@"Width"] doubleValue], height=[ack[@"Height"] doubleValue];
+    if (!isfinite(width) || !isfinite(height) || width<0.70 || height<0.70)return;
+    UIWindowLevel previous=w.windowLevel;
+    UIWindowLevel destination=UIWindowLevelNormal-2.0;
+    @try {
+        w.windowLevel=destination;
+        if (fabs(w.windowLevel-destination)>=0.10) {
+            // Do not try to fight with a system-assigned window level.
+            if (fabs(w.windowLevel-previous)<0.10) return;
+            DFQAWrite(@"source-window-yield-rejected",@"unexpected-level");
+            return;
+        }
+        self.savedSourceLevel=previous;
+        self.expectedSourceLevel=destination;
+        self.yieldedSourceWindow=w;
+        self.yieldSession=[session copy];
+        self.yieldSince=NSDate.date.timeIntervalSince1970;
+        DFQAWrite(@"source-window-yielded-after-native-ack",
+            [NSString stringWithFormat:@"session=%@ level=%.2f->%.2f content=%.3fx%.3f max=45s",
+                session,(double)previous,(double)destination,width,height]);
+    } @catch(NSException *ex) {
+        self.exhaustedYieldSession=session;
+        DFQAWrite(@"source-window-yield-exception",ex.name);
+    }
+}
 - (void)tickSpringBoard {
     UIWindow *w=nil;UIViewController *root=[self activeV1BCRootWithWindow:&w];
     if(!root) {
@@ -183,8 +267,10 @@ static BOOL DFQAValidRoot(UIViewController *root) {
         if(![self capture:root]) {
             DFQAWrite(@"capture-failed",@"stopped safely");
             [self stopPublisher];
+            return;
         }
     }
+    [self tickNativeDashboardSourceYield:w];
 }
 - (UIViewController *)nativeDashboardRoot {
     NSUInteger inspected=0;
@@ -219,6 +305,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(!NSThread.isMainThread)return;
     self.ticks++;
     if(!MTCPBridgeExplicitOptIn()) {
+        [self restoreYieldedSourceWindow:@"explicit-opt-out"];
         if(self.publisher)[self stopPublisher];
         if(self.owner.attached)[self.owner detach];
         [self.sidebarTrial stop];
