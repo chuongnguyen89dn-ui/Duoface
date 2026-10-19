@@ -29,7 +29,7 @@
 - (UIView *)pickerView;
 - (BOOL)showingChooser;
 - (void)layoutChooser;
-- (void)revealChosenLayout:(id)selection;
+- (void)revealChosenLayout:(BOOL)shown;
 - (void)paneRequestsClose:(id)pane;
 - (void)paneRequestsSwap:(id)pane;
 @end
@@ -658,8 +658,8 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     if (DFSPManager==self)DFSPSetSidePlayModal(YES,@"layoutChooser");
     %orig;
 }
-- (void)revealChosenLayout:(id)selection {
-    %orig(selection);
+- (void)revealChosenLayout:(BOOL)shown {
+    %orig(shown);
     if (DFSPManager==self)
         DFSPMaybeResumeAfterSidePlayModal(self,@"revealChosenLayout",0);
 }
