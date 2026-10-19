@@ -53,9 +53,10 @@ check("DFSPDockOriginalHidden" in dock and
       "DFSPDockPost(DFSPDockAckDetach)" in dock,
       "original Apple dock state restored upon CarPlay scene detach")
 check("DFSPDockZoomRequested=CFEqual(name,DFSPDockZoom)" in dock and
-      "BOOL hide=DFSPDockZoomRequested" in dock and
-      "win.hidden=hide" not in dock and "w.hidden=hide" in dock,
-      "Normal explicitly shows system dock; Zoom hides; source-managed rollback")
+      "BOOL hide=DFSPDockZoomRequested?YES:original.boolValue" in dock and
+      "win.hidden=hide" not in dock and "w.hidden=hide" in dock and
+      "DFSPDockOriginalHidden" in dock,
+      "Native12 system chrome ownership: Normal restores original, only Zoom hides")
 check("CFNotificationCenterGetDarwinNotifyCenter()" in dock and
       "DFSPDockNormal" in dock and "DFSPDockZoom" in dock and
       "DFSPDockDetach" in dock and "DFSPDockAckMissing" in dock and
