@@ -699,7 +699,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
 static void DFSPTryInit(unsigned attempt) {
     if (objc_getClass("SPDash")) {
         %init;
-        DFSPLog(@"QA9 injection and SPDash hooks installed (0.1.7~native12chrome9)");
+        DFSPLog(@"QA9 injection and SPDash hooks installed (0.1.8~native12dock10)");
         return;
     }
     if (attempt<30)
