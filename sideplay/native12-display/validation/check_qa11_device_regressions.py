@@ -50,9 +50,21 @@ must("DFSPSetSidePlayModal(YES" in tweak and
 must("BOOL hide=DFSPDockZoomRequested?YES:original.boolValue;" in dock and
      "if (DFSPDockRequested && DFSPDockZoomRequested && !DFSPDockApplying)" in dock,
      "only Zoom hides system chrome; Normal RESTORES original, never forces new bar")
+must("DBAppDockViewController" in dock and
+     "CARAppDockViewController" in dock and
+     "%group DFSPAppleAppDockDB" in dock and
+     "%group DFSPAppleAppDockCAR" in dock and
+     "DFSPDockObserveAppController" in dock and
+     "DFSPDockFindAppControllersInWindow" in dock,
+     "QA11 targets real Apple CarPlay App Dock controller, not only status-bar windows")
+must("appDockApplied" in dock and
+     "CARPLAY_APP_DOCK_CONTROLLER_MISSING_OR_UNMOUNTED" in dock and
+     "NORMAL_APPDOCK_CONTROLLER_APPLIED" in dock and
+     "DFSPDockOriginalHidden" in dock,
+     "real App Dock mounted/visibility state is required for success ACK")
 must("CarPlay process=%@" in dock and
-     "scene windows=%@" in dock and "appDockVC not verified" in dock,
-     "real CarPlay process/window inventory logged to diagnose missing app Dock")
+     "scene windows=%@" in dock and "APPDOCK class=%@" in dock,
+     "CarPlay UIKit windows and actual app-dock controller logged separately")
 must("DFSPNativeDockUsableBounds(window)" in tweak and
      "DFSPNativeFallbackLeft" not in tweak and
      "window.windowLevel=DFSPOriginalLevel;" in tweak,
