@@ -8,7 +8,7 @@ class Safety(unittest.TestCase):
     def test_standalone_and_disabled_by_default(self):
         c=read("control")
         self.assertIn("Package: com.duoface.carplay.nativebridgeqa",c)
-        self.assertIn("Version: 0.0.1~bridgeqa1",c)
+        self.assertIn("Version: 0.0.2~sidebartest1",c)
         self.assertIn("com.duoface.mytweak.v1a.preflight",c)
         for s in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(s,c)
         code=read("DFCPNativeBridgeQA.m")
@@ -50,4 +50,11 @@ class Safety(unittest.TestCase):
         self.assertIn("MTCPNativeChromeLayout.m",m)
         self.assertIn("MTCPCommandRelay.m",m)
         self.assertNotIn("MTBridgeCoordinator.m",m)
+        self.assertIn("DFNativeSidebarTrial.m",m)
+    def test_temporary_real_sidebar_third_optin_and_reversible(self):
+        s=read("DFNativeSidebarTrial.m")
+        for x in ['cfg[@"NativeSidebarTrial"]','cfg[@"Enabled"]','@"DBStatusBarWindow"','@"DBRootStatusBarViewController"','NSDate.date.timeIntervalSince1970-self.beganAt>45','w.frame=self.originalFrame','DFClose(f.origin.x,-f.size.width)','self.exhaustedSession']:
+            self.assertIn(x,s)
+        for bad in ("w.hidden=NO","UIWindowLevel","LSBundleProxy"):
+            self.assertNotIn(bad,s)
 if __name__=="__main__":unittest.main(verbosity=2)
