@@ -308,7 +308,9 @@ static void DFSPHideLegacySplitStrips(CGRect one, CGRect two,
         if (!candidate || candidate==p0 || candidate==p1 ||
             [candidate isKindOfClass:UIControl.class] ||
             [candidate isKindOfClass:UIScrollView.class] ||
-            candidate.userInteractionEnabled || candidate.hidden ||
+            // UIView defaults to userInteractionEnabled=YES; that does not
+            // prove it is a draggable control. Preserve *actual* gestures.
+            candidate.gestureRecognizers.count>0 || candidate.hidden ||
             [p0 isDescendantOfView:candidate] ||
             [p1 isDescendantOfView:candidate] ||
             candidate.subviews.count>0)continue;
