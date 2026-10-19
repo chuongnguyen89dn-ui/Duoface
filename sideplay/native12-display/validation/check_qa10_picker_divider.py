@@ -40,6 +40,7 @@ verify("fabs(ratio-self.splitPanLastRatio)>=0.003" in frame and
        "ratio=cancelled?self.splitPanInitialRatio:DFSPClampRatio(ratio,ended)" in frame,
        "subpixel jitter gated and cancelled gesture restores previous split")
 verify("self.dividerTrack.hidden=YES;" in frame and
+       "self.pickerVisible ||" in frame and
        "for (DFSPNativeSlotPill *pill in self.pills)pill.hidden=YES;" in frame,
        "DuoFace modal hides behind its own App/Zoom/Style/Close menu")
 verify("DFSPSetSidePlayModal(YES" in tweak and
@@ -58,7 +59,7 @@ verify("- (void)revealChosenLayout:(BOOL)shown" in tweak and
        "- (void)layoutChooser" in tweak,
        "SidePlay show/dismiss chooser method type matches original BOOL ABI")
 verify("DFSPHideLegacySplitStrips(one,two,panes)" in tweak and
-       "candidate.userInteractionEnabled" in tweak and
+       "candidate.gestureRecognizers.count>0" in tweak and
        "[p0 isDescendantOfView:candidate]" in tweak and
        "candidate.subviews.count>0" in tweak and
        "DFSPHideReplacedView(candidate)" in tweak,
