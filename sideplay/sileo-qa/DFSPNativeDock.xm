@@ -98,7 +98,11 @@ static void DFSPDockSetWindow(UIWindow *w) {
     [DFSPDockWindows addObject:w];
     if (![DFSPDockOriginalHidden objectForKey:w])
         [DFSPDockOriginalHidden setObject:@(w.hidden) forKey:w];
-    BOOL hide=DFSPDockZoomRequested;
+    // The actual Native12 DashboardChrome owner ONLY forces hidden in Zoom.
+    // In Normal it restores the system's original hidden state instead of
+    // unconditionally setting hidden=NO (QA10 wrongly exposed an old bar).
+    NSNumber *original=[DFSPDockOriginalHidden objectForKey:w];
+    BOOL hide=DFSPDockZoomRequested?YES:original.boolValue;
     if (w.hidden!=hide) {
         DFSPDockApplying=YES;
         w.hidden=hide;
@@ -108,8 +112,11 @@ static void DFSPDockSetWindow(UIWindow *w) {
 static void DFSPDockAck(NSString *reason) {
     NSUInteger count=DFSPDockWindows.allObjects.count;
     BOOL correct=count>0;
-    for (UIWindow *w in DFSPDockWindows.allObjects)
-        if (w.hidden!=DFSPDockZoomRequested)correct=NO;
+    for (UIWindow *w in DFSPDockWindows.allObjects) {
+        NSNumber *initial=[DFSPDockOriginalHidden objectForKey:w];
+        BOOL expected=DFSPDockZoomRequested?YES:initial.boolValue;
+        if (!initial || w.hidden!=expected)correct=NO;
+    }
     if (DFSPDockLastWindowCount==count &&
         DFSPDockLastVisible==(NSInteger)!DFSPDockZoomRequested &&
         DFSPDockLastOK==(NSInteger)correct)return;
@@ -127,14 +134,29 @@ static void DFSPDockAck(NSString *reason) {
 }
 static void DFSPDockVisitWindows(void) {
     UIApplication *app=UIApplication.sharedApplication;
+    // QA10 statusbar != guaranteed CarPlay launcher Dock. Record real
+    // scene/window ownership; do not claim ACK as a visible app dock.
+    NSMutableArray<NSString *> *inventory=[NSMutableArray array];
     for (UIScene *scene in app.connectedScenes) {
         if (![scene isKindOfClass:UIWindowScene.class])continue;
-        for (UIWindow *w in ((UIWindowScene *)scene).windows)DFSPDockSetWindow(w);
+        for (UIWindow *w in ((UIWindowScene *)scene).windows) {
+            [inventory addObject:[NSString stringWithFormat:
+                @"%@ hidden=%d level=%.1f frame=%@",
+                NSStringFromClass(w.class),w.hidden,w.windowLevel,
+                NSStringFromCGRect(w.frame)]];
+            DFSPDockSetWindow(w);
+        }
     }
+    DFSPDockLog([NSString stringWithFormat:
+         @"CarPlay process=%@ scene windows=%@; appDockVC not verified",
+         NSProcessInfo.processInfo.processName,[inventory componentsJoinedByString:@" | "]],NO);
 }
 static void DFSPDockObserveWindow(UIWindow *w) {
     if (!DFSPDockRequested || !DFSPDockIsWindow(w))return;
-    if ([DFSPDockWindows containsObject:w] && w.hidden==DFSPDockZoomRequested)return;
+    NSNumber *original=[DFSPDockOriginalHidden objectForKey:w];
+    BOOL target=DFSPDockZoomRequested?YES:original.boolValue;
+    if ([DFSPDockWindows containsObject:w] && original &&
+        w.hidden==target)return;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (!DFSPDockRequested)return;
         DFSPDockSetWindow(w);
@@ -205,7 +227,9 @@ static void DFSPDockRegister(CFStringRef name) {
     DFSPDockObserveWindow((UIWindow *)self);
 }
 - (void)setHidden:(BOOL)hidden {
-    if (DFSPDockRequested && !DFSPDockApplying)hidden=DFSPDockZoomRequested;
+    // Never force show CarPlay statusbar in Normal. Return ownership to iOS.
+    if (DFSPDockRequested && DFSPDockZoomRequested && !DFSPDockApplying)
+        hidden=YES;
     %orig(hidden);
 }
 %end
@@ -217,7 +241,9 @@ static void DFSPDockRegister(CFStringRef name) {
     DFSPDockObserveWindow((UIWindow *)self);
 }
 - (void)setHidden:(BOOL)hidden {
-    if (DFSPDockRequested && !DFSPDockApplying)hidden=DFSPDockZoomRequested;
+    // Never force show CarPlay statusbar in Normal. Return ownership to iOS.
+    if (DFSPDockRequested && DFSPDockZoomRequested && !DFSPDockApplying)
+        hidden=YES;
     %orig(hidden);
 }
 %end
