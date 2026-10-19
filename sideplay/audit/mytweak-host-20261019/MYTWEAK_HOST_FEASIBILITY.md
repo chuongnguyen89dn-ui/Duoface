@@ -1,5 +1,57 @@
 # MyTweak có thể thay SidePlay làm host CarPlay cho DuoFace không?
 
+## Quyết định kiến trúc mới: MyTweak sở hữu UI lẫn host (2026-10-19)
+
+**Nguồn yêu cầu mới:** Người dùng chỉ ra sơ đồ “Native12 core → SceneHost adapter → SidePlay” vẫn dễ dẫn tới nối trực tiếp các class đóng `CB*` chứa license. Đề xuất đảo chiều: **MyTweak là root UI/window/split/picker do chính dự án sở hữu và phát triển độc lập `MTSceneHost` v1a→v1c; Native12/Visual12/HUD8 chỉ là chuẩn UX/hành vi, tuyệt đối không là binary/runtime dependency.** Đây là thay đổi kiến trúc được ưu tiên **để thử nghiệm có cổng kiểm chứng**, thay vì tiếp tục QA overlay SidePlay. Giữ các gói hiện đang phát hành để rollback, không tự cắt SidePlay hoặc sửa giấy phép.
+
+### Kiểm chứng lại mã gốc được user gửi, không nhầm bản stub
+
+- Nguồn: `MyTweak_Independent_SceneHost_trial_source_20261018.txt` (Project Library), SHA256 raw UTF-8 `ea561904b62717f617706ba453e004f037feef4a3c6cdab2c00327f0dac50e16`; 25 file, 1.552 dòng tổng nguồn.
+- Đã trích đủ 25 file thành thư mục thử tạm (không tính lưu bền vững) và chạy `python /mnt/data/mytweak_decision/extracted/mytweak/tests/test_scenehost_contract.py` → **6/6 PASS, 0.006 giây**, chỉ static source, **KHÔNG iOS build/CarPlay test**.
+- **UI thực có:** `MTBridgeRootViewController`, `MTSplitContainerViewController` với 2 slot + 8pt divider, pan ratio 25–75%, fullscreen double-tap; `MTAppPickerViewController` bảng app; `MTAppSlotViewController` với thanh tiêu đề 44pt và nút chọn app; `MTAppLauncher` gọi `MTSceneHost`. UI là **alpha riêng của MyTweak, chưa đạt hình/kích thước/hành vi Native12**.
+- **HUD chưa có trong nguồn này:** không có `MTHUD`, `SpeedHUD` hoặc module tốc độ trong 25 file/Makefile; câu “HUD đã có sẵn” có thể áp dụng phiên bản MyTweak khác mà chưa có chứng cứ. Cần bổ sung module do MyTweak sở hữu khi source mới được kiểm chứng.
+- **Chưa có bản mã v1b/v1c trong nguồn này:** việc gọi tên `MTSceneHost v1a→v1c` là các **mốc phát triển đề xuất**, không được ghi như đã chạy.
+- **Host thử nghiệm thật đã có:** `MTBridgeCoordinator` dùng `AVExternalDevice.currentCarPlayExternalDevice` + `CADisplay.uniqueId`, `FBSDisplayConfiguration`, `UIRootSceneWindow`. `MTSceneHost.m` 332 dòng tạo `SBDeviceApplicationSceneEntity`, `SBAppViewController`, `setRequestedMode:2`; poll scene handle 36 lần mỗi 0,35s, update scene resize, stop/invalidate và cleanup. Không import/link bất cứ class `CBBridgeManager`, `CBWindow`, `SPDash`, `SPPane` hoặc package vendor.
+- **Chưa chứng minh scene hiển thị:** `host-created` chỉ tạo view pending, `scene-ready` chỉ chứng minh `sceneHandle.sceneIfExists` không nil. Mã `layoutScene` dùng hệ số logical 2x/host transform 0,5x **giả định** từ nguồn tham khảo, chưa nghiệm thu pixels/touch. `MTBridgeRootViewController.view` và split view nền **đen opaque toàn màn hình**, dù `UIRootSceneWindow.opaque=NO`; không có `AppDockVC` → nguy cơ che Dock thật và không thể tuyên bố đã khắc phục Dock.
+- **Vấn đề ký hiệu private API:** thực tế `SBDeviceApplicationSceneEntity` thử `initWithApplicationForMainDisplay:`/ `newEntityWithApplicationForMainDisplay:` nhưng chưa có runtime introspection iOS16.7.x; dùng MainDisplay entity khi trình bày trên CarPlay external display là giả thuyết cần xác minh. SpringBoard crashes/scene teardown vẫn có thể xảy ra. Không có quyền giả định các private selector tương thích chỉ nhờ source test.
+
+### So sánh kiến trúc được chọn
+
+| Tiêu chí | SidePlay host + UI MyTweak/Native12 reimplementation | MyTweak hoàn toàn làm chủ UI + host |
+|---|---|---|
+| App đang chạy trên CarPlay | Đã được user kiểm nghiệm từ SidePlay, ít rủi ro host | **Chưa chứng minh** scene render/touch/audio |
+| Đồng sở hữu UI, menu, frame | Nguy cơ còn `SPDash.layout:/SPPane.layoutInFrame:` | **Không còn phụ thuộc class vendor**; một split/UI owner |
+| Giấy phép bên thứ ba | Phụ thuộc SidePlay hợp lệ nếu vẫn giữ host | **Không có code/license vendor trong nguồn**, không cần nối watchdog Native12 |
+| Dock Apple thật | Vẫn chưa chạy trong QA sideplay | **Cũng chưa được giải**; source có opaque root che Dock |
+| Phù hợp mục tiêu độc lập lâu dài | Trung bình; khó loại hoàn toàn SidePlay | **Ưu tiên nghiên cứu dài hạn**, nhưng cần POC host |
+| Thời gian có chức năng xem app ngay | SidePlay hiện dễ hơn | MyTweak có rủi ro private API và kiểm thử cao hơn |
+
+**Kết luận:** Đồng ý **MyTweak là root sản phẩm ưu tiên cho kiến trúc độc lập**, nhưng chỉ chuyển sang thay SidePlay/Native12 runtime sau khi PoC chứng minh được App scene thật. Không được nhầm ưu thế kiến trúc với host đã hoạt động hoặc dễ hoàn thành nhanh hơn.
+
+### Sơ đồ mới
+
+```mermaid
+flowchart TB
+ UI["MyTweak (chủ giao diện độc lập): Root, slot, picker, split, style, zoom, HUD sẽ bổ sung"] --> CORE["MTUIState + MTSplitController (một owner)"]
+ CORE --> API["MTSceneHost API (của chính MyTweak)"]
+ API --> SCENE["SpringBoard / FrontBoard private scene APIs (cần kiểm tra iOS16)"]
+ SCENE --> RENDER["Hai ứng dụng thật trên CarPlay"]
+ IOS["Apple CarPlay native AppDock + status area"] -. "Cần xác minh scene/window, không tự vẽ giả" .-> CORE
+ NATIVE["Native12/Visual12/HUD8"] -. "Đối chiếu UX/hành vi, KHÔNG link binary/class" .-> UI
+ SIDE["SidePlay 1.0.4"] -. "Chỉ bản tham chiếu chức năng và rollback, không phụ thuộc lúc build MyTweak" .-> API
+```
+
+### Giai đoạn kỹ thuật GO/NO-GO
+
+1. **v1a diagnostic:** ghi rõ chính xác các class/selector SpringBoard hiện có trên máy, CarPlay `CADisplay`, trạng thái window/UIScene/AppDock, thử launch **một** app, bảo đảm không crash. Không ghép Native12.
+2. **v1b app-host proof:** xác nhận **pixels app thật**, touch/scroll, audio, foreground, orientation và close/restore trong một slot. `scene-ready` chỉ log, không phải GO.
+3. **v1c dual-host + native Dock:** hai app đồng thời, drag ratio, fullscreen, detach/reconnect/respring không SpringBoard crash/exitmode, Apple AppDock hiển thị đủ icons và trạng thái hệ thống Normal. **No native Dock = NO-GO**, chỉnh owner/z-order/insets thực tế, không đặt 64pt giả.
+4. **Sau v1c PASS:** nâng UI MyTweak theo bản đặc tả hành vi Native12 (chứ không chép các lớp đóng), thêm HUD8 độc lập; xóa hoàn toàn thử nghiệm ghép SidePlay/QA khỏi **gói MyTweak**, giữ QA11 trên Sileo làm rollback cho tới khi bản độc lập nghiệm thu.
+5. Không đóng gói, cài đồng thời hoặc tự nâng version Sileo **khi chưa được yêu cầu triển khai**. Giữ mọi bản ổn định.
+
+**GOAL/Owner được thay đổi:** hướng trước ưu tiên SidePlay host-only là **fallback để sử dụng hiện tại**, không còn là mục tiêu dài hạn duy nhất. MyTweak độc lập được ưu tiên làm ứng viên kiến trúc lâu dài, điều kiện quyết định là v1a→v1c có thiết bị xác minh. Chưa có runtime/source edits/build/deploy mới trong lượt đánh giá.
+
+
 Kiểm tra 2026-10-19. **KẾT LUẬN: khả thi để thử như host ĐỘC LẬP, CHƯA CÓ bằng chứng hoạt động trên CarPlay thật, chưa được chọn làm host thay SidePlay.** Không can thiệp giấy phép Native12 hoặc SidePlay.
 
 ## Nguồn đã kiểm chứng
