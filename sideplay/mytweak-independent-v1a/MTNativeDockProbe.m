@@ -161,19 +161,41 @@ static BOOL MTIsDockClassName(NSString *name) {
        @"/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist"];
     BOOL enabled=[prefs[@"Enabled"] respondsToSelector:@selector(boolValue)] &&
                  [prefs[@"Enabled"] boolValue];
-    if (!enabled) return;
-    [self hookDockWindowIfPossible];
+    // Always expose one concise owner diagnosis, even if the shared Filza
+    // preference file is inaccessible from the distinct CarPlay process.
+    // This is read-only; the actual Dock hook remains opt-in.
     Class cls=NSClassFromString(@"DBDockWindow");
-    if (!cls) { if (!self.lastDescription)self.lastDescription=@"missing-class";return; }
+    static NSInteger previousState=-1;
+    NSInteger state=enabled ? (cls ? 2 : 1) : 0;
+    if (previousState!=state) {
+        previousState=state;
+        MTLogDock(@"dock-probe-state",[NSString stringWithFormat:
+          @"enabled=%d class=%@ prefsReadable=%d hookAllowed=%d",
+          enabled,cls ? NSStringFromClass(cls) : @"missing",
+          prefs!=nil,enabled]);
+    }
+    if (!enabled) return;
+    if (!cls) return;
+    [self hookDockWindowIfPossible];
     UIApplication *app=UIApplication.sharedApplication;
     NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSet];
     for (UIScene *scene in app.connectedScenes) {
         if ([scene isKindOfClass:UIWindowScene.class])
             [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
     }
+    NSUInteger found=0;
     for (UIWindow *window in windows) {
-        if ([window isKindOfClass:cls])
+        if ([window isKindOfClass:cls]) {
+            found++;
             [self captureWindow:window reason:@"scene-window-scan"];
+        }
+    }
+    static NSInteger previousFound=-1;
+    if (previousFound!=(NSInteger)found) {
+        previousFound=(NSInteger)found;
+        MTLogDock(@"dock-window-inventory",[NSString stringWithFormat:
+          @"total=%lu dockClassWindows=%lu hooked=%d",
+          (unsigned long)windows.count,(unsigned long)found,self.hooked]);
     }
 }
 @end
