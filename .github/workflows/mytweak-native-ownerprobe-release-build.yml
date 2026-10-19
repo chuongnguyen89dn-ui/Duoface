@@ -55,9 +55,13 @@ jobs:
           test "$(find "$RUNNER_TEMP/ownerprobe-extract" -type f | wc -l | tr -d ' ')" -eq 2
           plist="$(find "$RUNNER_TEMP/ownerprobe-extract" -name DFNativeDockOwnerProbe.plist -print -quit)"
           test -n "$plist"
-          grep -Fq '<string>CarPlay</string>' "$plist"
-          grep -Fq '<string>CarPlayApp</string>' "$plist"
-          ! grep -Fq 'SpringBoard' "$plist"
+          PROBE_FILTER_PLIST="$plist" python3 - <<'PY'
+          import os, plistlib
+          with open(os.environ["PROBE_FILTER_PLIST"],"rb") as fh:
+              settings=plistlib.load(fh)
+          assert settings.get("Filter",{}).get("Executables")==["CarPlay","CarPlayApp"],settings
+          print("CARPLAY_ONLY_BINARY_PLIST_FILTER_PASS")
+          PY
           DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-ownerprobe1"
           mkdir -p "$DEST"
           cp "$PKG" "$DEST/"
