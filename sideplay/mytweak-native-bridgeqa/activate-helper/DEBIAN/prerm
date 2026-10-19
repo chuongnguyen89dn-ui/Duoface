@@ -1,0 +1,40 @@
+#!/bin/sh
+# Uninstall of activation helper restores prefs / removes opt-in; does not uninstall QA tweak.
+set -eu
+case "${1:-}" in remove|deconfigure|upgrade) ;; *) exit 0;; esac
+PREFDIR=/var/mobile/Library/Preferences
+TARGET="$PREFDIR/com.duoface.mytweak.carplay-bridge.plist"
+BACKUP="$PREFDIR/com.duoface.mytweak.carplay-bridge.before-activateqa.plist"
+MARKER="$PREFDIR/com.duoface.mytweak.carplay-bridge.activateqa-state"
+TEMPLATE=/var/jb/usr/share/doc/duoface-nativebridgeqa-activate/enabled.plist
+ARCHIVE="$PREFDIR/com.duoface.mytweak.carplay-bridge.user-edited-after-activateqa.plist"
+[ -f "$MARKER" ] || exit 0
+if [ -L "$TARGET" ] || [ -L "$MARKER" ] || [ -L "$BACKUP" ] || [ -L "$ARCHIVE" ]; then
+  echo 'DuoFace QA deactivation: unsafe symlink, manual cleanup required' >&2
+  exit 1
+fi
+STATE="$(cat "$MARKER")"
+# If user edited our enabled configuration, preserve those edits in an
+# archive to avoid overwriting data, while ensuring the active trial is OFF.
+if [ -f "$TARGET" ] && [ -f "$TEMPLATE" ] && ! cmp -s "$TARGET" "$TEMPLATE"; then
+  if [ -e "$ARCHIVE" ]; then
+    echo 'DuoFace QA deactivation: archive exists, manual cleanup required' >&2
+    exit 1
+  fi
+  cp -p "$TARGET" "$ARCHIVE"
+fi
+case "$STATE" in
+  backedup)
+    if [ -f "$BACKUP" ]; then
+      mv -f "$BACKUP" "$TARGET"
+    else
+      echo 'DuoFace QA deactivation: backup missing; leaving prefs untouched' >&2
+      exit 1
+    fi
+    ;;
+  created) rm -f "$TARGET" ;;
+  *) echo 'DuoFace QA deactivation: invalid marker' >&2; exit 1 ;;
+esac
+rm -f "$MARKER"
+echo 'DuoFace QA: restored original bridge prefs, explicit trial disabled'
+exit 0
