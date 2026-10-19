@@ -59,11 +59,15 @@ verify("- (void)revealChosenLayout:(BOOL)shown" in tweak and
        "- (void)layoutChooser" in tweak,
        "SidePlay show/dismiss chooser method type matches original BOOL ABI")
 verify("DFSPHideLegacySplitStrips(one,two,panes)" in tweak and
-       "candidate.gestureRecognizers.count>0" in tweak and
+       "candidate.gestureRecognizers.count==0" in tweak and
+       "idx<queue.count && idx<256" in tweak and
        "[p0 isDescendantOfView:candidate]" in tweak and
        "candidate.subviews.count>0" in tweak and
        "DFSPHideReplacedView(candidate)" in tweak,
        "legacy split decoration only hidden when noninteractive and scene-free")
+verify("!DFSPPickerViewStillPresented(DFSPManager)" in tweak and
+       "DuoFace UI resumed" in tweak,
+       "indirect SidePlay modal dismissal restores QA overlay on next layout")
 verify("window.windowLevel=DFSPOriginalLevel;" in tweak and
        "window.windowLevel=full?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;" not in tweak,
        "restore original CarPlay host window level instead of covering lower dock")
