@@ -30,7 +30,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           ROOT=sideplay/mytweak-independent-v1a/prototype
           for ARCH in arm64 arm64e; do
-            for FILE in MTCPBridgeContract.m MTCPRemoteLayer.m MTCPCommandRelay.m; do
+            for FILE in MTCPBridgeContract.m MTCPRemoteLayer.m MTCPCommandRelay.m MTCPHostCommandAdapter.m; do
               echo "Syntax compiling $ARCH $FILE"
               xcrun --sdk iphoneos clang -target "${ARCH}-apple-ios16.0" \
                 -isysroot "$SDK" -fobjc-arc -x objective-c -fsyntax-only \
@@ -73,7 +73,7 @@ jobs:
           (cd sideplay/mytweak-independent-v1a/prototype &&
             shasum -a 256 MTCPBridgeContract.h MTCPBridgeContract.m \
               MTCPRemoteLayer.h MTCPRemoteLayer.m MTCPCommandRelay.h \
-              MTCPCommandRelay.m README.md tests/MTCPBridgeContractTests.m) > "$DEST/SOURCE_SHA256SUMS.txt"
+              MTCPCommandRelay.m MTCPHostCommandAdapter.h MTCPHostCommandAdapter.m README.md tests/MTCPBridgeContractTests.m) > "$DEST/SOURCE_SHA256SUMS.txt"
       - name: Upload source test checkpoint
         uses: actions/upload-artifact@v4
         with:
