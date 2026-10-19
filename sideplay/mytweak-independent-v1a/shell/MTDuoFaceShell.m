@@ -23,6 +23,7 @@ static void MTShellLog(NSString *reason,NSString *details) {
 }
 @interface MTDuoFaceShellScene : UIResponder <UIWindowSceneDelegate>
 @property(nonatomic,strong) UIWindow *window;
+@property(nonatomic,strong) NSTimer *geometryTimer;
 @end
 @implementation MTDuoFaceShellScene
 - (void)publishGeometry {
@@ -86,9 +87,19 @@ static void MTShellLog(NSString *reason,NSString *details) {
        @"role=%@ scene=%@",session.role,NSStringFromClass(ws.class)]);
     [self publishGeometry];
 }
+- (void)refreshGeometry:(NSTimer *)timer { (void)timer; [self publishGeometry]; }
 - (void)sceneDidBecomeActive:(UIScene *)scene {
     (void)scene;
+    if (!self.geometryTimer)
+        self.geometryTimer=[NSTimer scheduledTimerWithTimeInterval:1.2 target:self
+             selector:@selector(refreshGeometry:) userInfo:nil repeats:YES];
     [self publishGeometry];
+}
+- (void)sceneDidEnterBackground:(UIScene *)scene {
+    (void)scene;
+    [self.geometryTimer invalidate];self.geometryTimer=nil;
+    [[NSFileManager defaultManager] removeItemAtPath:kShellScenePath error:nil];
+    MTShellLog(@"native-scene-background",@"external-host-must-hide");
 }
 - (void)windowScene:(UIWindowScene *)windowScene didUpdateCoordinateSpace:(id<UICoordinateSpace>)previousCoordinateSpace
            interfaceOrientation:(UIInterfaceOrientation)previousInterfaceOrientation
@@ -100,6 +111,7 @@ static void MTShellLog(NSString *reason,NSString *details) {
 - (void)sceneDidDisconnect:(UIScene *)scene {
     (void)scene;
     [[NSFileManager defaultManager] removeItemAtPath:kShellScenePath error:nil];
+    [self.geometryTimer invalidate];self.geometryTimer=nil;
     self.window.hidden=YES;self.window=nil;
     MTShellLog(@"scene-disconnected",@"native-scene-closed");
 }

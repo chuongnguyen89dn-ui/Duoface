@@ -4,6 +4,7 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <notify.h>
+#import <math.h>
 
 static NSString *const kControlPath=@"/var/mobile/Library/Preferences/com.duoface.mytweak.dashboard-control.plist";
 static NSString *const kStatusPath=@"/var/mobile/Library/Preferences/com.duoface.mytweak.dashboard-control-status.plist";

@@ -7,6 +7,7 @@
 #import "MTDashboardContext.h"
 #import "MTDashboardWorkspace.h"
 #import "MTDashboardActivation.h"
+#import "MTCarPlayAdmission.h"
 
 %group MTSpringBoardHook
 %hook SpringBoard
@@ -24,6 +25,7 @@
 
 %ctor {
     @autoreleasepool {
+        [MTCarPlayAdmission installIfNeeded];
         NSString *process=NSProcessInfo.processInfo.processName;
         if ([process isEqualToString:@"SpringBoard"]) {
             %init(MTSpringBoardHook);

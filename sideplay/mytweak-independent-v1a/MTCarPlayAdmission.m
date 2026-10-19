@@ -62,7 +62,7 @@ static BOOL MTInstall(Class cls,SEL sel,IMP replacement,IMP *out,NSUInteger argC
     Method m=class_getInstanceMethod(cls,sel);
     if (!m || method_getNumberOfArguments(m)!=argCount)return NO;
     char returnType[8]={0};method_getReturnType(m,returnType,sizeof(returnType));
-    if (returnType[0]!=ret)return NO;
+    if (returnType[0]!=ret && !(ret=='B' && returnType[0]=='c'))return NO;
     IMP orig=method_getImplementation(m);
     if (!orig || orig==replacement)return NO;
     *out=orig;
