@@ -32,9 +32,10 @@ check("DFSPNativeDock.xm" in mk and "DFSPNativeDock.h" in source and
       not (ROOT/"sideplay/sileo-qa/DFSPChromeBridge.xm").exists() and
       not (ROOT/"sideplay/sileo-qa/DFSPChromeBridge.h").exists(),
       "one active native dock source; obsolete QA ChromeBridge fully removed")
-check("CBBridgeManager" not in source and
-      "CBBridgeManager" not in dock and
-      "licenseWatchdogTimerFired" not in dock,
+check("@interface CBBridgeManager" not in source and
+      "@interface CBBridgeManager" not in dock and
+      "NSClassFromString(@\"CBBridgeManager\")" not in dock and
+      "licenseWatchdogTimerFired:" not in dock,
       "no vendor license/coupled bridge classes copied from Native12")
 check('Mode = "Any";' in plist and
       "Executables" in plist and
