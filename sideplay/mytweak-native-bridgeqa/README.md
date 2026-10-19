@@ -1,4 +1,4 @@
-# DuoFace Native Dashboard Bridge QA 0.0.2
+# DuoFace Native Dashboard Bridge QA 0.0.3 (native receiver ACK and source yield)
 New standalone QA package **not** replacing existing MyTweak `0.2.6~recovery1`, Native12/HUD8, QA11 or OwnerProbe.
 
 ## Implemented (experimental)
@@ -7,6 +7,7 @@ New standalone QA package **not** replacing existing MyTweak `0.2.6~recovery1`, 
 - CarPlay process scans real active Dashboard window `DBDashboardRootViewController`, real `DBStatusBarWindow` visible-screen geometry. Attaches `CALayerHost` inside the measured native content area only. In the actual user owner log `x=-45` statusbar offscreen, it **fails closed** and makes no overlay. Does not force native system statusbar location or make native Apple Dock appear.
 - CarPlay-to-SpringBoard Darwin notifications with 2s UUID-session and anti-replay. Pointer mapping triggers **only** the existing V1BC menu buttons (`App`, `Split 2/Single`, `Swap`, `Zoom`, `Close`). iPhone apps cannot yet receive general touch/drag/gesture events via this transport.
 - Optional third opt-in NativeSidebarTrial=true in the second plist: for at most 45 seconds, only if a real DBStatusBarWindow is visibly active but entirely offscreen at x=-its actual width, move that exact Apple window to x=0. On expiration, opt-out, session lost or disconnect restore the original frame only if Apple has not already repositioned it. Not a fabricated Dock, and no proof native Home actually works until tested.
+- **New verified-code handoff experiment (QA3):** CarPlay reports a short-lived `receiver-ack` record only when its CALayerHost actually attaches to an Apple-owned Dashboard root and remains within the measured native usable bounds. SpringBoard, after checking same session/context and third opt-in `NativeSidebarTrial=true`, temporarily lowers **its own V1BC UIWindow.windowLevel** from 0 to -2 (native Dashboard root level -1 in the original device log), so it should no longer paint over the Apple bar and its Dashboard receiver. Auto-restores original level after 45s, when ACK expires, source window changes, disconnect, or opt-out; never changes Apple's native window level, creates a fake Dock, or removes the source UIView. This is not yet hardware-tested and the raster mirror may omit remote video pixels. It is not proof of Home/CarPlay app registration.
 - CarPlay quit, invalid active display, opt-out, session expiry or disconnect removes the overlay/lease and leaves the original host running; no install/upgrade script triggers a respring.
 
 ## Config (optional after verified CI / on safe parked device)
