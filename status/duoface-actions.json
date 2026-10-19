@@ -1,14 +1,26 @@
 {
-  "checked_at_utc": "2026-10-18T21:34:00.828910+00:00",
+  "checked_at_utc": "2026-10-19T00:14:34.911418+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1520,
+  "total_actions_runs": 1529,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)": {
+      "recent_runs": 4,
+      "success": 0,
+      "failure": 4,
+      "other": 0
+    },
+    "DuoFace Native12 QA9 Chrome+Divider (build and archive)": {
+      "recent_runs": 4,
+      "success": 1,
+      "failure": 1,
+      "other": 2
     },
     "QA7 installed versus Native12 complete method ABI audit": {
       "recent_runs": 5,
@@ -147,27 +159,105 @@
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    ".github/workflows/duoface-speed8-iphonex-handoff-checkpoint.yml": {
-      "recent_runs": 8,
-      "success": 0,
-      "failure": 8,
-      "other": 0
-    },
-    "MyTweak independent SceneHost (QA only)": {
-      "recent_runs": 1,
-      "success": 0,
-      "failure": 1,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 39179874547,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 36,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179874547",
+      "created_at": "2026-10-19T00:14:25Z",
+      "head_sha": "a12b52b60da663f61e013b53ba58662a09de24a7"
+    },
+    {
+      "id": 39179860837,
+      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179860837",
+      "created_at": "2026-10-19T00:14:14Z",
+      "head_sha": "248bc8664de439ab8fefbae7ffb42dc2b143fe3e"
+    },
+    {
+      "id": 39179767635,
+      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179767635",
+      "created_at": "2026-10-19T00:13:00Z",
+      "head_sha": "63468b3ae4a4345f0222f6e0b630213466d23a47"
+    },
+    {
+      "id": 39179749690,
+      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179749690",
+      "created_at": "2026-10-19T00:12:46Z",
+      "head_sha": "22c05020eb903ec2cb07a49b6222c4f4994b8324"
+    },
+    {
+      "id": 39179656122,
+      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179656122",
+      "created_at": "2026-10-19T00:11:30Z",
+      "head_sha": "89aa36157138f83f683558a68ab1f0113156d151"
+    },
+    {
+      "id": 39177535040,
+      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177535040",
+      "created_at": "2026-10-18T23:40:54Z",
+      "head_sha": "8fac1e746b70dbfa0a4f0c15e4b382acbaddb451"
+    },
+    {
+      "id": 39177377623,
+      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177377623",
+      "created_at": "2026-10-18T23:38:40Z",
+      "head_sha": "02bb3a1d3591618a5e5d9d827d34238afc06165f"
+    },
+    {
+      "id": 39177354472,
+      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177354472",
+      "created_at": "2026-10-18T23:38:18Z",
+      "head_sha": "8afa7897eb29eb67230245174d4aca9042073b3f"
+    },
+    {
+      "id": 39177302480,
+      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177302480",
+      "created_at": "2026-10-18T23:37:33Z",
+      "head_sha": "ecf421cc1eeea551e1e8c5e7ce4fd4d5e0aca768"
+    },
+    {
       "id": 39168392878,
       "name": "DuoFace Actions status snapshot",
       "run_number": 35,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39168392878",
       "created_at": "2026-10-18T21:33:52Z",
       "head_sha": "8eeb4558b0f783f773d7711401176d1f27aa65f3"
@@ -371,96 +461,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126628967",
       "created_at": "2026-10-18T12:16:53Z",
       "head_sha": "5c88c69e90238ced215c78192721f1da1b9ad558"
-    },
-    {
-      "id": 39126628914,
-      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126628914",
-      "created_at": "2026-10-18T12:16:53Z",
-      "head_sha": "5c88c69e90238ced215c78192721f1da1b9ad558"
-    },
-    {
-      "id": 39124696779,
-      "name": "DuoFace Native12 picker host dispatch trace",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124696779",
-      "created_at": "2026-10-18T11:48:08Z",
-      "head_sha": "d87bfbfb92ab4445390dc306cf306fc4ead4a98c"
-    },
-    {
-      "id": 39124602767,
-      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124602767",
-      "created_at": "2026-10-18T11:46:41Z",
-      "head_sha": "824f61c88242c91353bf4aa26f7065d644d64fb8"
-    },
-    {
-      "id": 39124572572,
-      "name": "DuoFace Native12 QA5 UI parity gate",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124572572",
-      "created_at": "2026-10-18T11:46:15Z",
-      "head_sha": "9d7be7a2201acf3bd44537981139ed0a7ff0ddee"
-    },
-    {
-      "id": 39124572548,
-      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124572548",
-      "created_at": "2026-10-18T11:46:15Z",
-      "head_sha": "9d7be7a2201acf3bd44537981139ed0a7ff0ddee"
-    },
-    {
-      "id": 39124356475,
-      "name": "DuoFace Native12 QA5 UI parity gate",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124356475",
-      "created_at": "2026-10-18T11:42:59Z",
-      "head_sha": "1ad3eb42757ede885ccc59ce47aa1366228c30f7"
-    },
-    {
-      "id": 39124356354,
-      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124356354",
-      "created_at": "2026-10-18T11:42:59Z",
-      "head_sha": "1ad3eb42757ede885ccc59ce47aa1366228c30f7"
-    },
-    {
-      "id": 39124346295,
-      "name": "SidePlay Native12 native UI center-pill focus/restore QA5 DEB",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124346295",
-      "created_at": "2026-10-18T11:42:50Z",
-      "head_sha": "5e21b12168b575db98a806610a6493a8eae28e17"
-    },
-    {
-      "id": 39124346291,
-      "name": "DuoFace Native12 QA5 UI parity gate",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39124346291",
-      "created_at": "2026-10-18T11:42:50Z",
-      "head_sha": "5e21b12168b575db98a806610a6493a8eae28e17"
     }
   ]
 }
