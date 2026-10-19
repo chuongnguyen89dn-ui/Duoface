@@ -8,6 +8,8 @@
 @interface MTBridgeRootViewController : UIViewController
 
 // Mở màn chọn app cho một slot (hiện trên chính màn CarPlay).
+- (BOOL)mtWantsNativeDock;
+
 - (void)presentAppPickerForSlot:(MTAppSlotViewController *)slot;
 
 @end

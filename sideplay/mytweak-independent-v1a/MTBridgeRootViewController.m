@@ -55,6 +55,7 @@
     }
     self.splitContainer.view.frame=CGRectMake(0,menuH,w,MAX(0,h-menuH));
 }
+- (BOOL)mtWantsNativeDock { return !self.splitContainer.mtFullscreen; }
 - (void)chooseApp {
     [self presentAppPickerForSlot:self.splitContainer.leftSlot];
 }

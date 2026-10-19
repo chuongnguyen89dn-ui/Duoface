@@ -8,5 +8,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL singlePaneMode;
 - (void)toggleFullscreenForSlot:(MTAppSlotViewController *)slot;
 - (void)swapSlots;
+@property(nonatomic,assign,readonly) BOOL mtFullscreen;
 @end
 NS_ASSUME_NONNULL_END

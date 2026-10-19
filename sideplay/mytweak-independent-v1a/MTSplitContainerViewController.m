@@ -82,6 +82,7 @@
     [self.view layoutIfNeeded];
     MTTrialLog(@"split-swap",[NSString stringWithFormat:@"leftRatio=%.3f",self.leftRatio]);
 }
+- (BOOL)mtFullscreen { return self.fullscreenSlot != nil; }
 - (void)toggleFullscreenForSlot:(MTAppSlotViewController *)slot {
     self.fullscreenSlot=(self.fullscreenSlot==slot)?nil:slot;
     [UIView animateWithDuration:0.22 animations:^{[self.view setNeedsLayout];[self.view layoutIfNeeded];}];

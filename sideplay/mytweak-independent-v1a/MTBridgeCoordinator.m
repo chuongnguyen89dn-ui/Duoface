@@ -2,6 +2,7 @@
 #import "MTBridgeRootViewController.h"
 #import "MTSceneHost.h"
 #import "MTTrialLog.h"
+#import "MTDockLayout.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 @interface MTBridgeCoordinator ()
@@ -12,6 +13,8 @@
 @property(nonatomic,assign) BOOL attemptedForThisConnection;
 @property(nonatomic,assign) BOOL hadDisplay;
 @property(nonatomic,assign) BOOL lastEnabled;
+@property(nonatomic,assign) CGRect mtUnobstructedFrame;
+@property(nonatomic,copy) NSString *lastDockLayoutMode;
 @end
 @implementation MTBridgeCoordinator
 + (instancetype)sharedCoordinator {
@@ -94,7 +97,8 @@ static id MTCarPlayDisplay(void) {
     }
     self.lastEnabled=enabled;
     self.hadDisplay=present;
-    if (self.bridgeWindow || self.attemptedForThisConnection) return;
+    if (self.bridgeWindow) { [self refreshNativeDockGeometry]; return; }
+    if (self.attemptedForThisConnection) return;
     self.attemptedForThisConnection=YES; // Fail closed: no retry storm.
     [self attachToCarPlayDisplay:display];
 }
@@ -122,10 +126,39 @@ static id MTCarPlayDisplay(void) {
         self.bridgeWindow=window;
         self.carPlayConnected=YES;
         window.hidden=NO;
+        self.mtUnobstructedFrame=window.frame;
+        [self refreshNativeDockGeometry];
         MTTrialLog(@"window-shown",[NSString stringWithFormat:@"class=%@ frame=%@ bounds=%@",NSStringFromClass(window.class),NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds)]);
     } @catch (NSException *ex) {
         MTTrialLog(@"window-exception",ex.reason ?: @"?");
         [self detach];
+    }
+}
+// Only reveal CarPlay's ACTUAL DBDockWindow region, measured in the native
+// CarPlay process. No width constants, no fake icons, no private Dock mutation.
+- (void)refreshNativeDockGeometry {
+    UIWindow *w=self.bridgeWindow;
+    if (!w) return;
+    CGRect full=self.mtUnobstructedFrame;
+    if (CGRectIsEmpty(full)) return;
+    MTBridgeRootViewController *root=[w.rootViewController isKindOfClass:MTBridgeRootViewController.class]
+          ? (MTBridgeRootViewController *)w.rootViewController : nil;
+    NSDictionary *data=[NSDictionary dictionaryWithContentsOfFile:MTDockRecordPath()];
+    CGRect desired=full;
+    BOOL dockMapped=([root mtWantsNativeDock] &&
+                     MTDockContentRect(full,data,&desired));
+    NSString *mode=dockMapped?@"native-dock-region-reserved":
+        ([root mtWantsNativeDock]?@"native-dock-not-measured-use-original":@"zoom-fullscreen");
+    if (![mode isEqualToString:self.lastDockLayoutMode]) {
+        MTTrialLog(@"native-dock-layout",[NSString stringWithFormat:
+          @"mode=%@ from=%@ to=%@ nativeKind=%@",
+          mode,NSStringFromCGRect(w.frame),NSStringFromCGRect(desired),data[@"Kind"] ?: @"none"]);
+        self.lastDockLayoutMode=mode;
+    }
+    if (!CGRectEqualToRect(w.frame,desired)) {
+        w.frame=desired;
+        [root.view setNeedsLayout];
+        [root.view layoutIfNeeded];
     }
 }
 - (void)detach {
@@ -136,6 +169,8 @@ static id MTCarPlayDisplay(void) {
         self.bridgeWindow=nil;
     }
     self.carPlayConnected=NO;
+    self.mtUnobstructedFrame=CGRectZero;
+    self.lastDockLayoutMode=nil;
     MTTrialLog(@"detached",@"all-hosts-stopped");
 }
 - (void)stopAndDisable {
