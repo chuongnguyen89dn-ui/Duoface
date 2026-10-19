@@ -30,6 +30,10 @@ def sections_for_binary(path):
   return None
  return sections,read_va
 def decode_objc_stubs(path,tool='llvm-objdump'):
+ # Native12 also bundles an arm64/arm64e FAT helper; it has no ObjC stubs.
+ data=pathlib.Path(path).read_bytes()
+ if len(data)<32 or struct.unpack_from('<I',data,0)[0]!=0xfeedfacf:
+  return {}
  sections,read=sections_for_binary(path)
  if '__objc_stubs' not in sections:return {}
  result=subprocess.run([tool,'--disassemble','--section=__objc_stubs',
