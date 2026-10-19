@@ -1,5 +1,34 @@
 # Quyết định kiến trúc — Native12 là sản phẩm, SidePlay chỉ là khung sườn tham khảo
 
+## Bổ sung quyết định mới: giữ SidePlay CHỈ để host app/CarBridge (2026-10-19)
+
+Yêu cầu mới nhất của người dùng **điều chỉnh** chủ trương cũ “gỡ toàn bộ SidePlay runtime”: do lõi Native12 trước đây có giấy phép gắn với CarPlay, người dùng muốn **tạm thời hoặc lâu dài giữ đúng phần SidePlay đã hoạt động để host ứng dụng/CarBridge lên CarPlay, bao gồm kiểm tra cấp phép hợp lệ nếu SidePlay có**, sau đó **loại bỏ mọi SidePlay UI/ratio/picker/Style/HUD/menu** khi đã có bản thay thế từ Native12. Đây là phương án hybrid **DuoFace product + SidePlay host-only provider**, không có hai chủ UI. Chỉ giữ khả năng kết nối đã được thử; không cố gỡ hay vô hiệu hóa giấy phép bên thứ ba.
+
+**Sự thật đã xác minh:** trong DEB SidePlay 1.0.4-1 không phát hiện được một “CarPlay license dylib” tách riêng được chứng minh. Gói có `SidePlay.app` scene delegate `SPCarSceneDelegate`, `SidePlay.dylib` (`SPDash/SPPane`), và các module UI/HUD/phụ khác. Các selector `serviceBlocked/serviceChecked` tồn tại, nhưng không đủ để khẳng định đó là giấy phép. **Không được cắt nhị phân vendor hoặc bỏ dependency chỉ dựa trên suy đoán**. Nếu SidePlay không cấp API host-only chính thức, sử dụng **adapter gọi có kiểm soát những selector host/scene đã đo từ DEB**, giữ package hợp lệ như dependency cho tới khi thay thế/không cần đến nó; không chỉnh giấy phép hay watchdog.
+
+### Bước triển khai thực tế M1 (đã sửa mã, chưa tuyên bố nghiệm thu xe)
+
+- Branch riêng `feature/duoface-native12-host-only-bridge-m1` **fork QA11** (QA11 Sileo vẫn giữ nguyên). Source `sideplay/host-only/DFSPSceneHostBridge.h/.m` chỉ tương tác 5 method SidePlay 1.0.4 đã tìm trong ObjC ABI: `SPDash.panes`, `SPPane.view`, `SPPane.appViewController`, `SPPane.loadApp:`, `SPPane.unloadApp`. **Không import** lớp SidePlay chooser/style/ratio/menu, không gọi license/service API, không nhúng vendor binary.
+- `sideplay/sileo-qa/Tweak.xm`: ở đường **render hai ô**, trạng thái app và CGRect scene được chuyển qua `DFSPSceneHostBridge`; kiểm liveness owner/window, release lease khi disconnect. Phần App picker, Close, ratio/Style vẫn đang gọi SidePlay trong QA11, chưa tuyên bố thay hay xóa được. `Makefile` đã thêm module mới.
+- `sideplay/host-only/validation/check_host_only_bridge_m1.py` kiểm đúng ranh giới, version QA11 không đổi, audit selector; `.github/workflows/sideplay-host-only-m1-compile.yml` biên dịch iOS16 rootless **không tạo DEB hoặc cập nhật Sileo**, ghi `sideplay/host-only/validation/M1_CI_RESULT.txt` nếu compile PASS thực. Không tự suy từ việc commit mã là build PASS.
+- Đã chứng minh ABI host tại SidePlay arm64 selector index `sideplay/native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json` và audit ba gói trước; Native12/HUD8/Visual12 là chuẩn toàn bộ UI.
+
+### Danh mục thay từng chức năng — chỉ cắt code SidePlay sau nghiệm thu
+
+| Thứ tự | Chức năng | SidePlay còn phải dùng | DuoFace cần sở hữu | Trạng thái |
+|---|---|---|---|---|
+| M1 | Hai scene sống, app-present, geometry đọc lại | `SPDash.panes`, `SPPane.view/appViewController` | Native12 visual shell nhận trạng thái qua host-only adapter | **ĐÃ SỬA CODE; CI/device chưa rõ** |
+| M2 | App picker + chọn ứng dụng | `SPPane.loadApp:` mới là host request | Picker UI, danh sách app, menu Native12; bỏ `SPDash.showPickerForPane` | Chưa làm |
+| M3 | Close, swap và kéo tỷ lệ | `SPPane.unloadApp`, hosted scene views | Native12 split owner, gesture/logo/ratio, slot order; bỏ `paneRequestsClose/Swap`, `SPDash.setRatio/layout` khi ổn | Chưa làm |
+| M4 | Dock/Normal/Zoom | CarPlay scene/window do iOS + host SidePlay hoạt động | Native12 AppDock/window/chrome policy; đo controller thật trên xe trước khi thay | Chưa đạt nghiệm thu |
+| M5 | Style, 8 layouts, viền, HUD8, cấu hình | Chỉ app scene hosting | Native12 UI và HUD8 source-owned, không SidePlay HUD/Style/menu | Chưa làm |
+| M6 | Dọn phụ thuộc UI SidePlay | App/CarPlay bridge hợp lệ **nếu vẫn cần** | Bỏ 100% SidePlay GUI/HUD hooks/asset/interface, kiểm clean install và giấy phép được giữ nguyên | Chưa làm |
+
+**Điểm dừng kỹ thuật:** SidePlay package gốc vẫn có giao diện tích hợp trong cùng `SidePlay.dylib`; **chưa có source độc lập hoặc API được kiểm chứng để đóng gói chỉ “CarPlay license”**. Không được nói đã cắt nhị phân gốc; chỉ có thể thay owner DuoFace từng chức năng và chặn UI vendor có chọn lọc cho đến khi đủ bằng chứng/giải pháp được phép. Mọi milestone phải test trên xe thực, nhất là Dock, scene và hai ứng dụng.
+
+---
+
+
 Ngày ghi: 2026-10-19. Nguồn yêu cầu mới nhất của người dùng: “Tại sao ta vẫn còn phụ thuộc SidePlay? Bạn biết Native12 là một app mạnh hơn hoàn toàn không? SidePlay chỉ là khung sườn để ta không phải dựng lại từ đầu thôi.”
 
 ## 1. Quyết định bắt buộc, thay thế hướng “SidePlay host lâu dài”
