@@ -755,7 +755,7 @@ static BOOL DFSPOwnedPane(SPPane *pane) {
 static void DFSPTryInit(unsigned attempt) {
     if (objc_getClass("SPDash")) {
         %init;
-        DFSPLog(@"QA9 injection and SPDash hooks installed (0.1.8~native12dock10)");
+        DFSPLog(@"QA11 injection and SPDash hooks installed (0.1.9~native12dock11)");
         return;
     }
     if (attempt<30)
