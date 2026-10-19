@@ -9,11 +9,15 @@ ROOT=Path(__file__).resolve().parents[1]
 class TestSceneHostContract(unittest.TestCase):
     def get(self,name):return (ROOT/name).read_text(encoding='utf-8')
     def test_original_project_files_preserved(self):
+        # The 11 source units are preserved, but not linked into diagnostic DEB.
+        originals=('Tweak.x', 'MTBridgeCoordinator.m', 'MTBridgeWindow.m',
+                   'MTBridgeRootViewController.m','MTSplitContainerViewController.m',
+                   'MTAppSlotViewController.m','MTAppPickerViewController.m',
+                   'MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m','MTPreflight.m')
+        self.assertEqual(len(originals),11)
+        for name in originals:self.assertTrue((ROOT/name).is_file(),name)
         make=self.get('Makefile')
-        files=' '.join(line.strip().rstrip('\\') for line in make.splitlines() if line.startswith('MyTweak_FILES') or line.startswith('\t'))
-        found=re.findall(r'\b[A-Za-z_]+\.(?:m|x)\b',files)
-        self.assertEqual(len(found),11)
-        for name in found:self.assertTrue((ROOT/name).is_file(),name)
+        self.assertIn('DFV1APreflight_FILES = V1ATweak.x MTPreflight.m',make)
     def test_no_stub_and_correct_springboard_classes(self):
         s=self.get('MTSceneHost.m')
         for sym in ('SBApplicationController','SBDeviceApplicationSceneEntity','SBAppViewController',

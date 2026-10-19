@@ -1,8 +1,9 @@
-Package: com.nguyen.mytweak
-Name: MyTweak
-Version: 0.2.0
+Package: com.duoface.mytweak.v1a.preflight
+Name: DuoFace MyTweak V1A Preflight (Diagnostic Only)
+Version: 0.1.0~v1a1
 Architecture: iphoneos-arm64
-Description: CarPlay bridge viet lai tu dau (ban alpha): hien cua so tren man CarPlay, chia 2 app, chon app. Code goc 100%.
-Maintainer: Nguyen
-Author: Nguyen
-Section: Tweaks
+Section: Development
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0), mobilesubstrate
+Description: Independent read-only SpringBoard and CarPlay API diagnostics. Does NOT launch applications, create windows, or replace QA11. Experimental; device validation pending. Install separately and keep a verified recovery route.

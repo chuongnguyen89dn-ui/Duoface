@@ -1,0 +1,101 @@
+name: MyTweak V1A isolated passive diagnostic DEB (GitHub artifact only)
+on:
+  push:
+    branches: [feature/mytweak-independent-v1a-diagnostic-20261019]
+    paths:
+      - '.github/workflows/mytweak-v1a-build-package.yml'
+      - 'sideplay/mytweak-independent-v1a/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mytweak-v1a-build-package
+  cancel-in-progress: true
+jobs:
+  package-offline:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source safety gate
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          python3 -m unittest discover -s tests -v
+          grep -Fx 'DFV1APreflight_FILES = V1ATweak.x MTPreflight.m' Makefile
+          ! grep -E '^DFV1APreflight_FILES.*(MTSceneHost|MTBridgeCoordinator|MTSplit)' Makefile
+      - name: Theos iOS 16 rootless setup
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build and inspect isolated package
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" -eq 1
+          PKG="${debs[0]}"
+          test "$(dpkg-deb -f "$PKG" Package)" = 'com.duoface.mytweak.v1a.preflight'
+          test "$(dpkg-deb -f "$PKG" Version)" = '0.1.0~v1a1'
+          test "$(dpkg-deb -f "$PKG" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$PKG" > /tmp/mytweak-v1a-file-list.txt
+          grep -F '/DFV1APreflight.dylib' /tmp/mytweak-v1a-file-list.txt
+          grep -F '/DFV1APreflight.plist' /tmp/mytweak-v1a-file-list.txt
+          ! grep -E '/(MyTweak|SidePlay|DuoFaceNative12)\.dylib' /tmp/mytweak-v1a-file-list.txt
+          mkdir -p /tmp/mytweak-v1a-unpack
+          dpkg-deb -x "$PKG" /tmp/mytweak-v1a-unpack
+          test "$(find /tmp/mytweak-v1a-unpack -type f | wc -l | tr -d ' ')" -eq 2
+          DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-v1a"
+          mkdir -p "$DEST"
+          cp "$PKG" "$DEST/"
+          cp /tmp/mytweak-v1a-file-list.txt "$DEST/FILE_LIST.txt"
+          (cd "$DEST" && shasum -a 256 "$(basename "$PKG")" > SHA256SUMS)
+          {
+            echo 'MYTWEAK_V1A_DEB_BUILD=PASS'
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "TESTED_SHA=$GITHUB_SHA"
+            echo "TIME_UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "PKG_FILE=$(basename "$PKG")"
+            echo "PKG_BYTES=$(wc -c < "$PKG" | tr -d ' ')"
+            echo 'STATIC_SOURCE_CONTRACT=PASS'
+            echo 'PACKAGE_CONTENT_FILES=2'
+            echo 'ROOTLESS_ARCHS=arm64,arm64e'
+            echo 'SCENE_HOST_INCLUDED=false'
+            echo 'APP_LAUNCH_ENABLED=false'
+            echo 'SILEO_PUBLISHED=false'
+            echo 'DEVICE_TESTED=false'
+          } > "$DEST/CI_RESULT.txt"
+          echo MYTWEAK_V1A_PACKAGE_VALIDATED_NO_DEPLOY
+      - name: Upload downloadable build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-mytweak-v1a-preflight-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-v1a/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit DEB, checksum and manifest into project repo
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-v1a/
+          git commit -m 'artifacts(mytweak): store v1a diagnostic DEB and checksum [skip ci]'
+          BRANCH='feature/mytweak-independent-v1a-diagnostic-20261019'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              test "$(git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-v1a/CI_RESULT.txt" | grep '^MYTWEAK_V1A_DEB_BUILD=')" = 'MYTWEAK_V1A_DEB_BUILD=PASS'
+              echo MYTWEAK_V1A_PACKAGE_GITHUB_PERSISTED
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1

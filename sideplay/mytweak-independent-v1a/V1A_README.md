@@ -15,3 +15,8 @@ At SpringBoard startup and external screen connect/disconnect, log selector avai
 
 ## Rollback and independence
 Current QA11 \`0.1.9~native12dock11\` and Native12/HUD8 public builds must remain unchanged. Never merge/test two CarPlay hosts concurrently. Native12/Visual12/HUD8 are behavior and visual references only, **not runtime/class dependencies**. This branch does not modify licensing, SidePlay DEB, or publish Sileo.
+
+## Isolated DEB build candidate — v1a1 (2026-10-19)
+The isolated package builds only `V1ATweak.x` plus `MTPreflight.m` as `com.duoface.mytweak.v1a.preflight`. The binary is `DFV1APreflight.dylib`, not `MyTweak.dylib`, and contains no UI or app-scene host code. Original source remains for v1b/v1c. All build outputs must be saved to `sideplay/test-artifacts/mytweak-v1a/` on the same repository branch.
+
+No automatic Sileo publication or installation. Before any manual on-device install, save a rollback path, verify SpringBoard safe mode and avoid other CarPlay host experiments; use parked vehicle only. Collect `[MyTweakV1A]` lines (and `/var/mobile/Library/Logs/MyTweakV1A.log` if writable), display/window/AppDock results, and any SpringBoard `.ips`. Removal package command: `dpkg -r com.duoface.mytweak.v1a.preflight` (follow device recovery instructions if SpringBoard cannot boot). QA11/Native12/HUD8 unchanged.

@@ -1,15 +1,14 @@
 THEOS_PACKAGE_SCHEME = rootless
 ARCHS = arm64 arm64e
-TARGET = iphone:clang:latest:15.0
+TARGET = iphone:clang:latest:16.0
+INSTALL_TARGET_PROCESSES = SpringBoard
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = MyTweak
-MyTweak_FILES = Tweak.x MTBridgeCoordinator.m MTBridgeWindow.m \
-	MTBridgeRootViewController.m MTSplitContainerViewController.m \
-	MTAppSlotViewController.m MTAppPickerViewController.m \
-	MTAppLibrary.m MTAppLauncher.m MTSceneHost.m MTPreflight.m
-MyTweak_CFLAGS = -fobjc-arc
-MyTweak_FRAMEWORKS = UIKit Foundation
+# No app-host or UI source is linked into the diagnostic DEB.
+TWEAK_NAME = DFV1APreflight
+DFV1APreflight_FILES = V1ATweak.x MTPreflight.m
+DFV1APreflight_CFLAGS = -fobjc-arc
+DFV1APreflight_FRAMEWORKS = UIKit Foundation
 
 include $(THEOS_MAKE_PATH)/tweak.mk
