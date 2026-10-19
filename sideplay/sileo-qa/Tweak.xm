@@ -8,7 +8,7 @@
 #import <math.h>
 #import "../native12-display/DFSPNativeFrame.h"
 #import "../native12-display/DFSPNative12Host.h"
-#import "DFSPChromeBridge.h"
+#import "DFSPNativeDock.h"
 
 @interface SPDash : NSObject
 - (void)setCarWindow:(UIWindow *)window;
@@ -229,9 +229,9 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
         [window setNeedsLayout];
         [window layoutIfNeeded];
         DFSPRefresh();
-        // Notify the *actual* CarPlay/Dashboard process; root-only resizing
-        // cannot make DBStatusBarWindow/CARStatusBarWindow reappear.
-        DFSPChromeRequest(YES,!full,DFSPSequence);
+        // Native12 port: let the CarPlay-owned dock/status strip render in its
+        // own window while DuoFace root occupies only the usable bounds.
+        DFSPDockRequest(YES,full,DFSPSequence);
     } else {
         if (wasFull) [host applyFullscreen]; else [host applyNormal];
     }
@@ -541,8 +541,8 @@ static void DFSPRefresh(void) {
 
 static void DFSPRemove(void) {
     UIWindow *oldWindow=DFSPWindow;
-    // Reset CarPlay chrome ownership and original hidden-state snapshots.
-    DFSPChromeRequest(NO,YES,DFSPSequence);
+    // Release the Native12-style CarPlay system Dock ownership on disconnect.
+    DFSPDockRequest(NO,NO,DFSPSequence);
     [DFSPHost restoreAndDetach];
     DFSPHost=nil;
     DFSPVisualCompatibility=NO;
@@ -651,9 +651,9 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     }
     if (DFSPVisualCompatibility)
         DFSPLog(@"QA9 VISUAL_COMPATIBILITY: visual-only, Zoom locked; CarPlay bar receiver requested; window unchanged");
-    // Request native system bar even if geometry validation rejected the root.
+    // Request the real CarPlay system Dock even if root geometry validation failed.
     // This must never mutate the SidePlay app-scene/window geometry.
-    if (!DFSPHost)DFSPChromeRequest(YES,YES,DFSPSequence);
+    if (!DFSPHost)DFSPDockRequest(YES,NO,DFSPSequence);
     DFSPRefresh();
 }
 %hook SPDash
