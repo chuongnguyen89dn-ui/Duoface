@@ -1,9 +1,9 @@
 Package: com.duoface.carplay.nativebridgeqa
 Name: DuoFace Native Dashboard Bridge QA (Opt-in)
-Version: 0.0.2~sidebartest1
+Version: 0.0.3~nativehandoff1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1)
-Description: Disabled-by-default standalone CarPlay Dashboard QA with optional 45-second real Apple statusbar reposition trial by third opt-in. Includes independent snapshot CAContext bridge and V1BC menu relay, no fake Dock/Home, no LS hooks. Device Dock/Home behavior not verified.
+Description: Independent CarPlay QA, explicit opt-in; real Dashboard receiver ACK plus reversible 45-second source window level handoff below native Dashboard, no boot-time LS hook, no fake Dock. Real Dock/Home and app pixels on hardware not yet validated.
