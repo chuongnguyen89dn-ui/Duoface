@@ -1,6 +1,37 @@
 #import "DFSPNativeDock.h"
 #import <UIKit/UIKit.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <math.h>
+
+// Source-owned Native12 CBWindow +carPlayContentInsets and
+// +carPlayUsableBounds use the display's own usable region (left 64pt
+// in iOS16 left-dock layout). Adapt that policy to the SidePlay-owned
+// external window WITHOUT importing CBWindow/CBBridgeManager/license code.
+// Use actual UIKit insets if CarPlay gives a driver-side dock inset; if
+// it only reports a top/zero inset, reserve the Native12 driver-side strip.
+CGRect DFSPNativeDockUsableBounds(UIWindow *window) {
+    if (!window || !window.screen || window.screen==UIScreen.mainScreen)
+        return CGRectNull;
+    CGRect all=window.bounds;
+    if (!isfinite(all.origin.x) || !isfinite(all.origin.y) ||
+        !isfinite(all.size.width) || !isfinite(all.size.height) ||
+        all.size.width<=100 || all.size.height<=100)return CGRectNull;
+    UIEdgeInsets insets=window.safeAreaInsets;
+    if (!isfinite(insets.top)||!isfinite(insets.left)||
+        !isfinite(insets.bottom)||!isfinite(insets.right)||
+        insets.top<0||insets.left<0||insets.bottom<0||insets.right<0)
+        insets=UIEdgeInsetsZero;
+    // Native12 fixed 64pt left inset when a CarPlay dock inset is not
+    // supplied. Respect right/bottom anchored docks if UIKit reports one.
+    if (insets.left<32 && insets.right<32 && insets.bottom<32)
+        insets.left=64.0;
+    CGRect usable=UIEdgeInsetsInsetRect(all,insets);
+    if (!isfinite(usable.origin.x) || !isfinite(usable.origin.y) ||
+        !isfinite(usable.size.width) || !isfinite(usable.size.height) ||
+        usable.size.width<=100 || usable.size.height<=100 ||
+        !CGRectContainsRect(all,usable))return CGRectNull;
+    return usable;
+}
 
 // Port of the SOURCE-OWNED Native12 DashboardChrome behavior:
 // observe the actual DBStatusBarWindow/CARStatusBarWindow, snapshot original
