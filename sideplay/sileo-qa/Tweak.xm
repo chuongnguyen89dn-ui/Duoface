@@ -405,6 +405,16 @@ static void DFSPRefresh(void) {
     if (!DFSPUI || !DFSPManager || !DFSPWindow ||
         DFSPRefreshing || DFSPUpdatingRatio)return;
     DFSPRefreshing=YES;
+    // SidePlay can dismiss its picker through a direct pane event rather
+    // than dismissPicker; recover on its next layout when it is truly gone.
+    if (DFSPLegacyModalOpen && ![DFSPManager showingChooser] &&
+        !DFSPPickerViewStillPresented(DFSPManager)) {
+        DFSPLegacyModalOpen=NO;
+        ++DFSPLegacyModalEpoch;
+        DFSPUI.hidden=NO;
+        DFSPUI.userInteractionEnabled=YES;
+        DFSPLog(@"QA10 SidePlay picker no longer visible; DuoFace UI resumed");
+    }
     NSArray *panes=DFSPPanes();
     CGRect one=CGRectZero,two=CGRectZero;
     BOOL firstApp=NO,secondApp=NO;
