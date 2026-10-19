@@ -5,6 +5,7 @@
 #import "MTBridgeCoordinator.h"
 #import "MTTrialLog.h"
 #import "MTDashboardContext.h"
+#import "MTDashboardWorkspace.h"
 
 %group MTSpringBoardHook
 %hook SpringBoard
@@ -27,6 +28,8 @@
             %init(MTSpringBoardHook);
         } else if ([process isEqualToString:@"CarPlay"] ||
                    [process isEqualToString:@"CarPlayApp"]) {
+            if ([process isEqualToString:@"CarPlay"])
+                [MTDashboardWorkspace installEarlyObserver];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
                            dispatch_get_main_queue(), ^{
                 // Read-only scene/root geometry owner discovery first.

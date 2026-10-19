@@ -9,7 +9,6 @@ static BOOL gInstalled = NO;
 static BOOL gObserverArmed = NO;
 static NSString *const kLog=@"/var/mobile/Library/Logs/MyTweakWorkspace.log";
 static NSString *const kOwner=@"DBDashboardWorkspaceOwner";
-static void (*MTLogOriginalNoop)(void)=NULL;
 static id (*MTOriginalWorkspaceInit)(id,SEL,id)=NULL;
 static void MTWSLog(NSString *message) {
     NSString *line=[NSString stringWithFormat:@"[MyTweakWorkspace] %@\n",message];

@@ -61,13 +61,14 @@ class DashboardContextContract(unittest.TestCase):
         self.assertIn("setTrialEnabled:NO",c)
     def test_distinct_sandbox_and_version(self):
         control=source("control")
-        self.assertIn("Version: 0.2.2~dashctx1",control)
+        self.assertIn("Version: 0.2.3~workspace1",control)
         self.assertIn("Package: com.duoface.mytweak.v1a.preflight",control)
         for forbidden in ("Conflicts:","Replaces:","DuoNaviDashboard.dylib"):
             self.assertNotIn(forbidden,control)
         make=source("Makefile")
         self.assertIn("MTDashboardContext.m",make)
         self.assertIn("MTDashboardUsableRect.m",make)
+        self.assertIn("MTDashboardWorkspace.m",make)
         self.assertIn("THEOS_PACKAGE_SCHEME = rootless",make)
         self.assertIn("ARCHS = arm64 arm64e",make)
         self.assertNotIn("Airaw.dylib",make)

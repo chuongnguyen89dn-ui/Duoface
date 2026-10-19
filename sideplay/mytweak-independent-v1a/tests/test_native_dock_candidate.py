@@ -58,7 +58,7 @@ class NativeDockContract(unittest.TestCase):
         self.assertIn('stopAllHosts',src("MTBridgeCoordinator.m"))
     def test_pkg_release_not_vendor_or_system_spoof(self):
         c=src("control")
-        self.assertIn("Version: 0.2.2~dashctx1",c)
+        self.assertIn("Version: 0.2.3~workspace1",c)
         self.assertIn("Package: com.duoface.mytweak.v1a.preflight",c)
         self.assertNotIn("Conflicts:",c)
         self.assertNotIn("Replaces:",c)

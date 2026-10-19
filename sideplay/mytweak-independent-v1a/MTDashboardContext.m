@@ -1,6 +1,7 @@
 // Independent CarPlay process discovery. This file NEVER mutates Apple windows,
 // scene activation, Dock visibility or the dashboard workspace.
 #import "MTDashboardContext.h"
+#import "MTDashboardWorkspace.h"
 #import <objc/runtime.h>
 #import <math.h>
 
@@ -142,7 +143,7 @@ static BOOL MTExcludedWindow(UIWindow *w) {
          NSStringFromUIEdgeInsets(insets),NSStringFromUIEdgeInsets(rootInsets),
          (unsigned long)sceneCount,(unsigned long)windows.count,valid,nonzero]);
     }
-    NSDictionary *record=@{
+    NSMutableDictionary *record=[@{
         @"Producer":@"CarPlay",
         @"Kind":@"CarPlayRootWindowSafeArea",
         @"SourceProcess":NSProcessInfo.processInfo.processName,
@@ -156,7 +157,8 @@ static BOOL MTExcludedWindow(UIWindow *w) {
         @"SceneCount":@(sceneCount),
         @"WorkspaceClassPresent":@(NSClassFromString(@"DBWorkspace")!=Nil),
         @"DashboardOwnerClassPresent":@(NSClassFromString(@"DBDashboardWorkspaceOwner")!=Nil)
-    };
+    } mutableCopy];
+    [record addEntriesFromDictionary:[MTDashboardWorkspace snapshot]];
     static BOOL loggedError=NO;
     if (![record writeToFile:MTContextRecord atomically:YES] && !loggedError) {
         loggedError=YES;

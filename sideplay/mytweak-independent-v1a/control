@@ -1,9 +1,9 @@
 Package: com.duoface.mytweak.v1a.preflight
-Name: DuoFace MyTweak CarPlay Dashboard Context Candidate
-Version: 0.2.2~dashctx1
+Name: DuoFace MyTweak Dashboard Workspace Research
+Version: 0.2.3~workspace1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: Independently hosted two-app MyTweak with CarPlay-process root scene and safe-area context observation, guarded native-usable frame application; no fake Dock or vendor binary. Device acceptance pending. QA11/Native12/HUD8 unchanged.
+Description: Independent MyTweak split host and opt-in native CarPlay Dashboard workspace owner read-only capture. Work-in-progress: native Dock/Home navigation NOT implemented; no fake Dock or vendor core. Not for user-facing Sileo until an actionable fix.
