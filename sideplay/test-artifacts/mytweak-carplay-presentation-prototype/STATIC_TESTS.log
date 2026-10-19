@@ -1,0 +1,26 @@
+test_double_explicit_opt_in_and_no_boot_hook (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_double_explicit_opt_in_and_no_boot_hook) ... ok
+test_envelope_validation_and_replay (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_envelope_validation_and_replay) ... ok
+test_isolated_from_installed_v1bc (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_isolated_from_installed_v1bc) ... ok
+test_opt_in_command_relay_no_synthetic_touch (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_opt_in_command_relay_no_synthetic_touch) ... ok
+test_system_owned_host_contract (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_system_owned_host_contract) ... ok
+test_no_stub_and_correct_springboard_classes (test_scenehost_contract.TestSceneHostContract.test_no_stub_and_correct_springboard_classes) ... ok
+test_no_vendor_libraries_in_project_code (test_scenehost_contract.TestSceneHostContract.test_no_vendor_libraries_in_project_code) ... ok
+test_original_project_files_preserved (test_scenehost_contract.TestSceneHostContract.test_original_project_files_preserved) ... ok
+test_rootless_injection (test_scenehost_contract.TestSceneHostContract.test_rootless_injection) ... ok
+test_single_owner_window_and_no_alert (test_scenehost_contract.TestSceneHostContract.test_single_owner_window_and_no_alert) ... ok
+test_slot_cleanup_and_error_surface (test_scenehost_contract.TestSceneHostContract.test_slot_cleanup_and_error_surface) ... ok
+test_compiled_binary_contains_only_preflight (test_v1a_package_isolation.PackageIsolation.test_compiled_binary_contains_only_preflight) ... ok
+test_preserve_host_source_for_later (test_v1a_package_isolation.PackageIsolation.test_preserve_host_source_for_later) ... ok
+test_unique_package (test_v1a_package_isolation.PackageIsolation.test_unique_package) ... ok
+test_diagnostic_is_default_and_never_launches (test_v1a_safety.V1ASafetyTest.test_diagnostic_is_default_and_never_launches) ... ok
+test_preserve_existing_recovery (test_v1a_safety.V1ASafetyTest.test_preserve_existing_recovery) ... ok
+test_required_runtime_evidence (test_v1a_safety.V1ASafetyTest.test_required_runtime_evidence) ... ok
+test_filza_kill_switch (test_v1bc_combined.CombinedContract.test_filza_kill_switch) ... ok
+test_host_logs_and_teardown (test_v1bc_combined.CombinedContract.test_host_logs_and_teardown) ... ok
+test_single_dual_ratio_swap_zoom (test_v1bc_combined.CombinedContract.test_single_dual_ratio_swap_zoom) ... ok
+test_v1bc_package (test_v1bc_combined.CombinedContract.test_v1bc_package) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.003s
+
+OK
