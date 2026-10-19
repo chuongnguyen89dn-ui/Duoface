@@ -26,9 +26,12 @@ verify("logo.backgroundColor=UIColor.clearColor" in frame and
        "no QA dark disk, stroke or shadow behind approved DuoFace logo")
 verify("dividerLine" not in frame and "UIView *line=" not in frame,
        "unapproved QA one-pixel full-pane stripe removed")
-verify("logoPan" not in frame and "action:@selector(moveLogo:)" in frame and
+verify("UIPanGestureRecognizer *logoPan" in frame and
+       "[logoPan requireGestureRecognizerToFail:hold]" in frame and
+       "[logo addGestureRecognizer:logoPan]" in frame and
+       "action:@selector(moveLogo:)" in frame and
        "action:@selector(dragDivider:)" in frame,
-       "logo hold and divider ratio pan have separate gesture ownership")
+       "QA7 logo drag restored alongside separate hold-to-reposition gesture")
 verify("self.splitPanInitialTouch=[pan locationInView:self]" in frame and
        "self.splitPanInitialUnion=whole" in frame and
        "self.splitPanInitialRatio=DFSPClampRatio(self.currentRatio,NO)" in frame and
