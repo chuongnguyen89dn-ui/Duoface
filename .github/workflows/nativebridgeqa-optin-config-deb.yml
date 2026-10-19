@@ -1,0 +1,95 @@
+name: DuoFace Native Bridge QA Filza-free explicit opt-in DEB
+on:
+  push:
+    branches: [feature/mytweak-native-dashboard-owner-20261019]
+    paths:
+      - '.github/workflows/nativebridgeqa-optin-config-deb.yml'
+      - 'sideplay/mytweak-native-bridgeqa/activate-helper/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nativebridgeqa-optin-config
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify reversible postinst and prerm on isolated temp system
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/activate-helper/tests -v 2>&1 | tee "$RUNNER_TEMP/nativebridge-optin-tests.log"
+      - name: Build separate rootless opt-in package, NO respring
+        run: |
+          set -euo pipefail
+          bash sideplay/mytweak-native-bridgeqa/activate-helper/build.sh
+          DEB=sideplay/mytweak-native-bridgeqa/activate-helper/packages/com.duoface.carplay.nativebridgeqa.activate_0.0.1~configfix1_iphoneos-arm64.deb
+          test -s "$DEB"
+          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.carplay.nativebridgeqa.activate
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.1~configfix1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          dpkg-deb -f "$DEB" Depends | grep -F 'com.duoface.carplay.nativebridgeqa'
+          ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/optin-extracted"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/optin-extracted"
+          dpkg-deb -e "$DEB" "$RUNNER_TEMP/optin-extracted/DEBIAN"
+          test -x "$RUNNER_TEMP/optin-extracted/DEBIAN/postinst"
+          test -x "$RUNNER_TEMP/optin-extracted/DEBIAN/prerm"
+          test "$(find "$RUNNER_TEMP/optin-extracted/var" -type f | wc -l)" -eq 1
+          python3 - <<'PY'
+          import plistlib
+          from pathlib import Path
+          p=Path(__import__('os').environ['RUNNER_TEMP'])/'optin-extracted/var/jb/usr/share/doc/duoface-nativebridgeqa-activate/enabled.plist'
+          assert plistlib.loads(p.read_bytes())=={'Enabled':True,'NativeSidebarTrial':True}
+          print('EXACT_OPTIN_TWO_BOOLEAN_VALUES_PASS')
+          PY
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/nativebridgeqa-activate-configfix1"
+          mkdir -p "$OUT"
+          cp "$DEB" "$OUT/"
+          (cd "$OUT" && sha256sum *.deb > SHA256SUMS.txt)
+          cp "$RUNNER_TEMP/nativebridge-optin-tests.log" "$OUT/RUNTIME_ROLLBACK_TESTS.log"
+          dpkg-deb -c "$DEB" > "$OUT/PAYLOAD_LIST.txt"
+          dpkg-deb -f "$DEB" > "$OUT/CONTROL.txt"
+          {
+            echo OPTIN_CONFIG_HELPER_BUILD=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo 'PACKAGE=com.duoface.carplay.nativebridgeqa.activate'
+            echo 'VERSION=0.0.1~configfix1'
+            echo "DEB_SHA256=$(sha256sum "$DEB" | cut -d' ' -f1)"
+            echo "DEB_BYTES=$(wc -c < "$DEB" | tr -d ' ')"
+            echo 'CANNOT_ASSUME_POSTINST_DEVICE_RUNTIME=true'
+            echo 'USER_EXPLICIT_INSTALL_REQUIRED=true'
+            echo 'NO_RESPIING=true'
+            echo 'STABLE_V1BC_UNCHANGED=true'
+            echo 'REAL_DOCK_TESTED=false'
+            echo 'SILEO_PUBLISHED=false'
+          } > "$OUT/CI_RESULT.txt"
+      - name: Upload installable configuration helper
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFaceNativeBridgeOptInConfig-${{github.run_id}}
+          path: sideplay/test-artifacts/nativebridgeqa-activate-configfix1/
+          if-no-files-found: error
+      - name: Save tested rootless DEB in project branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/mytweak-native-dashboard-owner-20261019
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/nativebridgeqa-activate-configfix1/
+          git commit -m 'artifacts: preserve Filza-free opt-in config DEB and rollback tests [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/nativebridgeqa-activate-configfix1/CI_RESULT.txt" | grep -Fx 'OPTIN_CONFIG_HELPER_BUILD=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
