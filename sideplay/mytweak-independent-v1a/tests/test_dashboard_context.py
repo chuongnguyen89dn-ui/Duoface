@@ -43,11 +43,11 @@ class DashboardContextContract(unittest.TestCase):
         self.assertNotIn("48.0",g)
         self.assertNotIn("64.0",g)
         b=source("MTBridgeCoordinator.m")
-        self.assertIn("MTDashboardUsableRect(full,context,&desired)",b)
-        self.assertIn("MTDashboardContextPath()",b)
+        self.assertIn("MTNativeShellUsableRect(full,shell,&desired)",b)
+        self.assertIn("MTNativeShellRecordPath()",b)
         self.assertIn('@"dashboard-layout"',b)
-        self.assertIn('@"dashboard-context-missing-preserve-existing"',b)
-        self.assertIn('CGRect desired=full;',b)
+        self.assertIn('@"native-shell-lost"',b)
+        self.assertIn('CGRect desired=CGRectZero;',b)
         self.assertNotIn('MTDockContentRect(full,data,&desired)',b)
     def test_preserve_host_and_one_springboard_owner(self):
         c=source("MTBridgeCoordinator.m")
@@ -61,7 +61,7 @@ class DashboardContextContract(unittest.TestCase):
         self.assertIn("setTrialEnabled:NO",c)
     def test_distinct_sandbox_and_version(self):
         control=source("control")
-        self.assertIn("Version: 0.2.3~workspace1",control)
+        self.assertIn("Version: 0.2.5~shell1",control)
         self.assertIn("Package: com.duoface.mytweak.v1a.preflight",control)
         for forbidden in ("Conflicts:","Replaces:","DuoNaviDashboard.dylib"):
             self.assertNotIn(forbidden,control)

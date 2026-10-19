@@ -35,6 +35,6 @@ class WorkspaceOwnerContract(unittest.TestCase):
         self.assertNotIn("MTNativeDockProbe.m",mk)
         self.assertNotIn("MTDockLayout.m",mk)
         c=source("control")
-        self.assertIn("0.2.3~workspace1",c)
-        self.assertIn("NOT implemented",c)
+        self.assertIn("0.2.5~shell1",c)
+        self.assertIn("native Home request",c)
 if __name__=="__main__":unittest.main(verbosity=2)

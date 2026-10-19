@@ -8,7 +8,7 @@ class PackageIsolation(unittest.TestCase):
     def test_unique_package(self):
         c=(ROOT/'control').read_text()
         self.assertIn('Package: com.duoface.mytweak.v1a.preflight',c)
-        self.assertIn('Version: 0.2.3~workspace1',c)
+        self.assertIn('Version: 0.2.5~shell1',c)
         self.assertIn('Architecture: iphoneos-arm64',c)
         self.assertNotIn('com.sideplay',c)
         self.assertNotIn('Conflicts:',c)
@@ -16,7 +16,7 @@ class PackageIsolation(unittest.TestCase):
         mk=(ROOT/'Makefile').read_text()
         m=re.search(r'^DFV1APreflight_FILES = (.+)$',mk,re.MULTILINE)
         self.assertIsNotNone(m)
-        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m','MTTrialLog.m','MTBridgeCoordinator.m','MTBridgeRootViewController.m','MTSplitContainerViewController.m','MTAppSlotViewController.m','MTAppPickerViewController.m','MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m','MTDashboardContext.m','MTDashboardUsableRect.m','MTDashboardWorkspace.m'])
+        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m','MTTrialLog.m','MTBridgeCoordinator.m','MTBridgeRootViewController.m','MTSplitContainerViewController.m','MTAppSlotViewController.m','MTAppPickerViewController.m','MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m','MTDashboardContext.m','MTDashboardUsableRect.m','MTDashboardWorkspace.m','MTDashboardActivation.m','MTCarPlayAdmission.m','MTNativeShellGeometry.m'])
         self.assertIn('THEOS_PACKAGE_SCHEME = rootless',mk)
         self.assertIn('INSTALL_TARGET_PROCESSES = SpringBoard CarPlay CarPlayApp',mk)
         self.assertIn('arm64 arm64e',mk)
