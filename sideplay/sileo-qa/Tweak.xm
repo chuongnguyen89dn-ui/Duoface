@@ -46,6 +46,8 @@
 - (id)appViewController;
 - (NSInteger)scaleMode;
 - (void)layoutInFrame:(CGRect)frame scaleMode:(NSInteger)mode;
+- (BOOL)barHidden;
+- (void)slideBarHidden:(BOOL)hidden;
 @end
 
 static __weak UIWindow *DFSPWindow;
@@ -74,6 +76,35 @@ static NSUInteger DFSPLayoutCalls = 0;
 // Only visual elements replaced by the approved Native12 shell are hidden.
 // Weak keys avoid retaining a disposed SidePlay pane/scene across reconnect.
 static NSMapTable<UIView *, NSNumber *> *DFSPHiddenOriginalViews;
+// SidePlay has a separate per-pane navigation/slide bar in addition to
+// chipView/layoutButton. QA10 hid the buttons but never told SPPane to hide
+// its own navigation bar, so it resurfaced on Zoom and menu transitions.
+// Snapshot original state and restore on disconnect; NEVER touch real app
+// scene views or the system Apple CarPlay Dock.
+static void DFSPLog(NSString *message);
+static NSMapTable<SPPane *,NSNumber *> *DFSPOriginalPaneBars;
+static void DFSPSuppressLegacyPaneBar(SPPane *pane) {
+    if (!pane || !DFSPManager || !DFSPUI)return;
+    if (!DFSPOriginalPaneBars)
+        DFSPOriginalPaneBars=[NSMapTable weakToStrongObjectsMapTable];
+    if (![DFSPOriginalPaneBars objectForKey:pane])
+        [DFSPOriginalPaneBars setObject:@([pane barHidden]) forKey:pane];
+    if (![pane barHidden]) {
+        [pane slideBarHidden:YES];
+        DFSPLog([NSString stringWithFormat:@"QA11 SidePlay pane navigation hidden class=%@",
+                 NSStringFromClass(pane.class)]);
+    }
+}
+static void DFSPRestoreLegacyPaneBars(void) {
+    NSMapTable<SPPane *,NSNumber *> *saved=DFSPOriginalPaneBars;
+    DFSPOriginalPaneBars=nil; // don't re-snapshot during restoration
+    for (SPPane *pane in saved.keyEnumerator) {
+        NSNumber *original=[saved objectForKey:pane];
+        if (original && [pane barHidden]!=original.boolValue)
+            [pane slideBarHidden:original.boolValue];
+    }
+}
+
 static void DFSPHideReplacedView(UIView *view) {
     if (!view || !DFSPUI || !DFSPWindow) return;
     if (!DFSPHiddenOriginalViews)
@@ -245,6 +276,7 @@ static void DFSPHideSidePlayPlaceholder(UIView *view,NSUInteger depth) {
 }
 static void DFSPHideLegacyPaneControls(SPPane *pane) {
     if (!pane || !DFSPUI)return;
+    DFSPSuppressLegacyPaneBar(pane);
     // These property getter selectors are verified in SidePlay 1.0.4 arm64.
     // Hide only buttons/text replaced by DuoFace; NEVER pane.view,
     // appViewController, contentView, canvasView or scene lifecycle.
@@ -535,6 +567,7 @@ static void DFSPRemove(void) {
     DFSPClearPaneFocus(YES);
     [DFSPUI resetForDisconnect];
     DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
+    DFSPRestoreLegacyPaneBars(); // undo SidePlay per-pane navigation suppression
     DFSPLegacyModalOpen=NO;
     ++DFSPLegacyModalEpoch;
     DFSPUI=nil;
