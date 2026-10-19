@@ -12,7 +12,7 @@ def must(flag,why):
     if not flag: raise AssertionError(why)
     print("PASS",why)
 must("DFSPNative12Host.m" in mk, "Native12 content root code still linked")
-must("0.1.8~native12dock10" in ctl, "QA10 isolated package version")
+must("0.1.9~native12dock11" in ctl, "QA10 isolated package version")
 must("QA9 injection and SPDash hooks installed" in src, "early injection has an observable startup marker")
 must("QA7 owner-check attached=" in src and "rootTransform=" in src,
     "log distinguishes unsuitable root geometry/transform")
