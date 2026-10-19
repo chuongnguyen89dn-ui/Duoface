@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-19T10:53:24.256020+00:00",
+  "checked_at_utc": "2026-10-19T17:33:29.169827+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1627,
+  "total_actions_runs": 1646,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -10,23 +10,23 @@
       "failure": 0,
       "other": 1
     },
+    "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)": {
+      "recent_runs": 29,
+      "success": 4,
+      "failure": 1,
+      "other": 24
+    },
+    "DuoFace native Dashboard owner layout/source validation (NO DEB)": {
+      "recent_runs": 12,
+      "success": 9,
+      "failure": 0,
+      "other": 3
+    },
     "DuoFace Native Bridge QA Filza-free explicit opt-in DEB": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)": {
-      "recent_runs": 17,
-      "success": 3,
-      "failure": 1,
-      "other": 13
-    },
-    "DuoFace native Dashboard owner layout/source validation (NO DEB)": {
-      "recent_runs": 6,
-      "success": 5,
-      "failure": 0,
-      "other": 1
     },
     "DuoFace Native Dock owner probe QA DEB (not auto-Sileo)": {
       "recent_runs": 3,
@@ -111,33 +111,205 @@
       "success": 6,
       "failure": 1,
       "other": 0
-    },
-    "DuoFace QA10 Dock + Divider + Menu (build and archive)": {
-      "recent_runs": 2,
-      "success": 1,
-      "failure": 1,
-      "other": 0
-    },
-    "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)": {
-      "recent_runs": 13,
-      "success": 3,
-      "failure": 10,
-      "other": 0
-    },
-    "DuoFace QA10 Native Dock static source-only verification": {
-      "recent_runs": 3,
-      "success": 3,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 39295101734,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 39,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39295101734",
+      "created_at": "2026-10-19T17:33:16Z",
+      "head_sha": "86cf7e56879ec893940a614d171e1523457ff512"
+    },
+    {
+      "id": 39245807812,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 29,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245807812",
+      "created_at": "2026-10-19T11:36:03Z",
+      "head_sha": "e965149bb0c443c8a27fd434cd2e03a0150097fa"
+    },
+    {
+      "id": 39245746249,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 28,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245746249",
+      "created_at": "2026-10-19T11:35:33Z",
+      "head_sha": "e8433c6a6c6d0407f7d58b27742d42f02723e40a"
+    },
+    {
+      "id": 39245702247,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245702247",
+      "created_at": "2026-10-19T11:35:12Z",
+      "head_sha": "c8bcb2fb1fd61d8c04f1f75dfe8ad540850fafbd"
+    },
+    {
+      "id": 39245687088,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245687088",
+      "created_at": "2026-10-19T11:35:05Z",
+      "head_sha": "2f24ac10710584b4f5c6fb045304bde36ce1e733"
+    },
+    {
+      "id": 39245674328,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245674328",
+      "created_at": "2026-10-19T11:34:59Z",
+      "head_sha": "a6d48fb68f522ee16c930c2c29d41a24dd99abf8"
+    },
+    {
+      "id": 39245584726,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245584726",
+      "created_at": "2026-10-19T11:34:15Z",
+      "head_sha": "00b0cdb377bd558b41ce4f0e3e52d40d55fd2d23"
+    },
+    {
+      "id": 39245584671,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245584671",
+      "created_at": "2026-10-19T11:34:15Z",
+      "head_sha": "00b0cdb377bd558b41ce4f0e3e52d40d55fd2d23"
+    },
+    {
+      "id": 39245512406,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245512406",
+      "created_at": "2026-10-19T11:33:39Z",
+      "head_sha": "5cef05dbbd42768cbea7c4927f4d320edf4ea41a"
+    },
+    {
+      "id": 39245512385,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245512385",
+      "created_at": "2026-10-19T11:33:39Z",
+      "head_sha": "5cef05dbbd42768cbea7c4927f4d320edf4ea41a"
+    },
+    {
+      "id": 39245502994,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245502994",
+      "created_at": "2026-10-19T11:33:34Z",
+      "head_sha": "cbf6a1c5cd100e359bc6043962149a9d3d35f5d1"
+    },
+    {
+      "id": 39245502970,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245502970",
+      "created_at": "2026-10-19T11:33:34Z",
+      "head_sha": "cbf6a1c5cd100e359bc6043962149a9d3d35f5d1"
+    },
+    {
+      "id": 39245404950,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245404950",
+      "created_at": "2026-10-19T11:32:46Z",
+      "head_sha": "3420ad5f2d543166434203f73022cdbaec5aea5b"
+    },
+    {
+      "id": 39245279434,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245279434",
+      "created_at": "2026-10-19T11:31:44Z",
+      "head_sha": "a1e45a52bd4e53511070debfc21285cfee6c9b09"
+    },
+    {
+      "id": 39245279383,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245279383",
+      "created_at": "2026-10-19T11:31:44Z",
+      "head_sha": "a1e45a52bd4e53511070debfc21285cfee6c9b09"
+    },
+    {
+      "id": 39245219250,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245219250",
+      "created_at": "2026-10-19T11:31:14Z",
+      "head_sha": "45a34478c1afed2019f250ba566689aa9b1f6bff"
+    },
+    {
+      "id": 39245219123,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245219123",
+      "created_at": "2026-10-19T11:31:14Z",
+      "head_sha": "45a34478c1afed2019f250ba566689aa9b1f6bff"
+    },
+    {
+      "id": 39245212082,
+      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245212082",
+      "created_at": "2026-10-19T11:31:10Z",
+      "head_sha": "ad66b9f0e8e76b3507b57522b44008d1899497be"
+    },
+    {
+      "id": 39245211784,
+      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39245211784",
+      "created_at": "2026-10-19T11:31:10Z",
+      "head_sha": "ad66b9f0e8e76b3507b57522b44008d1899497be"
+    },
+    {
       "id": 39240650633,
       "name": "DuoFace Actions status snapshot",
       "run_number": 38,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39240650633",
       "created_at": "2026-10-19T10:53:14Z",
       "head_sha": "ac5eb8344797a81f61175d8d0c9fa8cd136f6267"
@@ -241,196 +413,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224894335",
       "created_at": "2026-10-19T08:44:15Z",
       "head_sha": "9422547b9bd6ce1327cd90f31665af5c3e1a1fc3"
-    },
-    {
-      "id": 39224867752,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224867752",
-      "created_at": "2026-10-19T08:44:02Z",
-      "head_sha": "e9699e4f768e2f8db68be136751921c0c1856e2b"
-    },
-    {
-      "id": 39224848025,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224848025",
-      "created_at": "2026-10-19T08:43:52Z",
-      "head_sha": "953cbe9f53aef7de35c3f79fe6d12de47c29e311"
-    },
-    {
-      "id": 39224839314,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224839314",
-      "created_at": "2026-10-19T08:43:47Z",
-      "head_sha": "205bcb6c617b096bf1e22c0ff3ab236e24a6943b"
-    },
-    {
-      "id": 39224830966,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224830966",
-      "created_at": "2026-10-19T08:43:43Z",
-      "head_sha": "ab3780e77e52bc9313abddbe1874e866d02389ff"
-    },
-    {
-      "id": 39224822055,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224822055",
-      "created_at": "2026-10-19T08:43:39Z",
-      "head_sha": "bc57666ab664337aa9dbea5e1c96ef00d052e461"
-    },
-    {
-      "id": 39224704019,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224704019",
-      "created_at": "2026-10-19T08:42:40Z",
-      "head_sha": "cf16ad1f6dafa0c8787c4b2c8e8993c6f296439d"
-    },
-    {
-      "id": 39224697696,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224697696",
-      "created_at": "2026-10-19T08:42:37Z",
-      "head_sha": "e0be0a3cd7064d8e1c0bb22af0c26a439d8be290"
-    },
-    {
-      "id": 39224328730,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39224328730",
-      "created_at": "2026-10-19T08:39:31Z",
-      "head_sha": "4bfd04f2054536b1996aa24756dd81dd7338945a"
-    },
-    {
-      "id": 39223390576,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39223390576",
-      "created_at": "2026-10-19T08:31:38Z",
-      "head_sha": "9f687b26953922d6751758a75a100feaf0e1a628"
-    },
-    {
-      "id": 39223269961,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39223269961",
-      "created_at": "2026-10-19T08:30:38Z",
-      "head_sha": "821d198209666269c38859dc52c0ef6af14f23e8"
-    },
-    {
-      "id": 39223152114,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39223152114",
-      "created_at": "2026-10-19T08:29:42Z",
-      "head_sha": "29a5d8d63fbbeeddf3ed56fb1780b2729052c717"
-    },
-    {
-      "id": 39223011193,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39223011193",
-      "created_at": "2026-10-19T08:28:28Z",
-      "head_sha": "0593053902eb40ab8488a3345e73dbca4fc36963"
-    },
-    {
-      "id": 39222793011,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39222793011",
-      "created_at": "2026-10-19T08:26:35Z",
-      "head_sha": "64a3e66ad3ff87718dc04887b2b598e3052927ea"
-    },
-    {
-      "id": 39222787806,
-      "name": "DuoFace native Dashboard owner layout/source validation (NO DEB)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39222787806",
-      "created_at": "2026-10-19T08:26:32Z",
-      "head_sha": "1717f501256c6291b7854b369cf9ea3ba166bc1c"
-    },
-    {
-      "id": 39215869331,
-      "name": "DuoFace Native Dock owner probe QA DEB (not auto-Sileo)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39215869331",
-      "created_at": "2026-10-19T07:25:17Z",
-      "head_sha": "e7499e89e3fa83ede52a89432d717959c0257387"
-    },
-    {
-      "id": 39215682330,
-      "name": "DuoFace Native Dock owner probe QA DEB (not auto-Sileo)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39215682330",
-      "created_at": "2026-10-19T07:23:35Z",
-      "head_sha": "78cd8bb4a29a6eef73982ed4be4885088b31d54e"
-    },
-    {
-      "id": 39215606329,
-      "name": "DuoFace Native Dock owner probe QA DEB (not auto-Sileo)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39215606329",
-      "created_at": "2026-10-19T07:22:51Z",
-      "head_sha": "1b897eef1641492eeb42665248646de8b1455727"
-    },
-    {
-      "id": 39214888188,
-      "name": "DuoFace isolated CarPlay presentation protocol (NO DEB)",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39214888188",
-      "created_at": "2026-10-19T07:16:04Z",
-      "head_sha": "36c9bd0f233456ec3022b96f82a6cdc43302c8c3"
-    },
-    {
-      "id": 39214864918,
-      "name": "DuoFace isolated CarPlay presentation protocol (NO DEB)",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39214864918",
-      "created_at": "2026-10-19T07:15:51Z",
-      "head_sha": "647e6eec670bce4b5da84ac7e35dac4a4aa9ba16"
     }
   ]
 }
