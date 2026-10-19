@@ -10,7 +10,7 @@ on:
       - '.github/workflows/sideplay-qa11-source-safety.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   qa11-source:
     runs-on: ubuntu-latest
@@ -26,3 +26,26 @@ jobs:
           grep -F 'logoPan' sideplay/native12-display/DFSPNativeFrame.m
           grep -F 'slideBarHidden:(BOOL)' sideplay/sileo-qa/Tweak.xm
           echo QA11_SOURCE_TEST_PASS_NOT_A_DEVICE_TEST
+      - name: Persist QA11 source regression result after successful tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE='sideplay/audit/qa11-20261019-source-regression.txt'
+          mkdir -p "$(dirname "$FILE")"
+          printf 'QA11_SOURCE_REGRESSION=PASS\nRUN_ID=%s\nTEST_COMMIT=%s\nTESTED_UTC=%s\nNO_DEB_BUILD=true\n' \
+            "$GITHUB_RUN_ID" "$GITHUB_SHA" "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" > "$FILE"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$FILE"
+          git commit -m 'test(qa11): persist verified source regression [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin feature/duoface-qa11-restore-native-dock-split-menu
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-qa11-restore-native-dock-split-menu; then
+              echo QA11_GITHUB_SOURCE_CHECKPOINT_PUSH_SUCCESS
+              exit 0
+            fi
+            sleep 2
+          done
+          echo QA11_CI_SOURCE_CHECKPOINT_PUSH_FAILURE >&2
+          exit 1
