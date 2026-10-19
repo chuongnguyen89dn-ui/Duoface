@@ -17,7 +17,7 @@ def verify(ok, label):
     if not ok:raise AssertionError(label)
     print("QA10_PASS",label)
 
-verify("Version: 0.1.8~native12dock10" in ctrl,
+verify("Version: 0.1.9~native12dock11" in ctrl,
        "source-only; packaging version unchanged, no premature release")
 verify("logo.backgroundColor=UIColor.clearColor" in frame and
        "logo.layer.borderWidth=0" in frame and
