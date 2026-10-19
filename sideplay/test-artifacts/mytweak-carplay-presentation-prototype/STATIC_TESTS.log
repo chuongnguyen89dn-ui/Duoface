@@ -2,6 +2,7 @@ test_double_explicit_opt_in_and_no_boot_hook (test_carplay_presentation_prototyp
 test_envelope_validation_and_replay (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_envelope_validation_and_replay) ... ok
 test_isolated_from_installed_v1bc (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_isolated_from_installed_v1bc) ... ok
 test_opt_in_command_relay_no_synthetic_touch (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_opt_in_command_relay_no_synthetic_touch) ... ok
+test_safe_split_command_dispatch (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_safe_split_command_dispatch) ... ok
 test_system_owned_host_contract (test_carplay_presentation_prototype.NativeCarPlayPrototype.test_system_owned_host_contract) ... ok
 test_no_stub_and_correct_springboard_classes (test_scenehost_contract.TestSceneHostContract.test_no_stub_and_correct_springboard_classes) ... ok
 test_no_vendor_libraries_in_project_code (test_scenehost_contract.TestSceneHostContract.test_no_vendor_libraries_in_project_code) ... ok
@@ -21,6 +22,6 @@ test_single_dual_ratio_swap_zoom (test_v1bc_combined.CombinedContract.test_singl
 test_v1bc_package (test_v1bc_combined.CombinedContract.test_v1bc_package) ... ok
 
 ----------------------------------------------------------------------
-Ran 21 tests in 0.003s
+Ran 22 tests in 0.009s
 
 OK
