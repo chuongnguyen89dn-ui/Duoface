@@ -367,9 +367,15 @@ static double DFSPClampRatio(double r, BOOL snap) {
     [self.delegate nativeFrameRequestedSwap];
 }
 - (void)dragDivider:(UIPanGestureRecognizer *)pan {
-    if (self.pickerVisible || self.focusedSlot>=0 || self.inFullscreen ||
-        self.dividerTrack.hidden)return;
+    // Modal, focus or Zoom cannot share the ratio gesture.
+    if (self.pickerVisible || self.focusedSlot>=0 || self.inFullscreen) {
+        self.splitPanActive=NO;
+        return;
+    }
     UIGestureRecognizerState state=pan.state;
+    // The transparent track may briefly become hidden during host relayout.
+    // Do not drop Ended/Cancelled, which must release a live pan session.
+    if (self.dividerTrack.hidden && state==UIGestureRecognizerStateBegan)return;
     if (state==UIGestureRecognizerStateBegan) {
         CGRect whole=CGRectUnion(self.firstRect,self.secondRect);
         if (!isfinite(whole.origin.x) || !isfinite(whole.origin.y) ||
