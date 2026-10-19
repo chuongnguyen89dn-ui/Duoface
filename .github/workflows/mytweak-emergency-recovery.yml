@@ -57,7 +57,7 @@ jobs:
           mkdir -p /tmp/mytweak-v1bc-extract
           dpkg-deb -x "$PKG" /tmp/mytweak-v1bc-extract
           test "$(find /tmp/mytweak-v1bc-extract -type f | wc -l | tr -d ' ')" = 2
-          DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-v1bc"
+          DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-recovery-safe1"
           mkdir -p "$DEST"
           cp "$PKG" "$DEST/"
           cp /tmp/mytweak-v1bc-files.txt "$DEST/FILE_LIST.txt"
