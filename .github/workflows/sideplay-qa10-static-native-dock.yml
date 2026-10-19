@@ -1,0 +1,41 @@
+name: DuoFace QA10 Native Dock static source-only verification
+on:
+  push:
+    branches:
+      - feature/duoface-qa10-picker-divider-source-only
+    paths:
+      - '.github/workflows/sideplay-qa10-static-native-dock.yml'
+      - 'sideplay/sileo-qa/Tweak.xm'
+      - 'sideplay/sileo-qa/DFSPNativeDock.*'
+      - 'sideplay/sileo-qa/DFSPChromeBridge.*'
+      - 'sideplay/sileo-qa/Makefile'
+      - 'sideplay/sileo-qa/DuoFaceSidePlayDisplayQA.plist'
+      - 'sideplay/native12-display/validation/check_qa9_chrome_divider.py'
+      - 'sideplay/native12-display/validation/check_qa10_picker_divider.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm no DEB compilation or packaging
+        run: |
+          set -euo pipefail
+          ! grep -F 'DFSPChromeBridge.xm' sideplay/sileo-qa/Makefile
+          ! test -e sideplay/sileo-qa/DFSPChromeBridge.xm
+          ! test -e sideplay/sileo-qa/DFSPChromeBridge.h
+          grep -F 'DFSPNativeDock.xm' sideplay/sileo-qa/Makefile
+          grep -F 'DFSPNativeDockUsableBounds(window)' sideplay/sileo-qa/Tweak.xm
+          echo QA10_NATIVE_DOCK_EXCLUSIVE_OWNER_SOURCE_ONLY
+      - name: Run geometry and Native12 dock regression
+        run: |
+          set -euo pipefail
+          python3 -m py_compile \
+            sideplay/native12-display/validation/check_qa9_chrome_divider.py \
+            sideplay/native12-display/validation/check_qa10_picker_divider.py
+          python3 sideplay/native12-display/validation/check_qa9_chrome_divider.py
+          python3 sideplay/native12-display/validation/check_qa10_picker_divider.py
+          echo QA10_NATIVE_DOCK_AND_SPLIT_SOURCE_ONLY_ALL_PASS
