@@ -68,8 +68,10 @@ verify("window.windowLevel=DFSPOriginalLevel;" in tweak and
        "window.windowLevel=full?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;" not in tweak,
        "restore original CarPlay host window level instead of covering lower dock")
 verify("QA10 SidePlay ratio drift" in tweak and
-       "afterLayout=[manager ratio]" in tweak,
-       "final SidePlay ratio mismatch diagnosed without changing scene host")
+       "afterLayout=[manager ratio]" in tweak and
+       "[manager layout:NO];" in tweak and
+       "[manager layout:ended];" not in tweak,
+       "SidePlay layout:animated is never mistaken for gesture-ended; avoid final animation jump")
 verify("DFSPRestoreReplacedViews();" in tweak and
        "DFSPLegacyModalOpen=NO;" in tweak,
        "visual changes reversibly reset when CarPlay disconnects")
