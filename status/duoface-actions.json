@@ -1,19 +1,79 @@
 {
-  "checked_at_utc": "2026-10-19T00:14:34.911418+00:00",
+  "checked_at_utc": "2026-10-19T04:54:17.880006+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1529,
+  "total_actions_runs": 1576,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
     },
-    "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)": {
-      "recent_runs": 4,
-      "success": 0,
+    "DuoFace MyTweak native Apple AppDock candidate build (no publish)": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace MyTweak V1B+C combined single package": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "MyTweak V1A isolated passive diagnostic DEB (GitHub artifact only)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "MyTweak v1a passive SceneHost ABI preflight (no package)": {
+      "recent_runs": 7,
+      "success": 2,
       "failure": 4,
+      "other": 1
+    },
+    "Native12 8 Mach-O real callsite and IMP graph (forensic only)": {
+      "recent_runs": 3,
+      "success": 2,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace M1 app-host-only boundary build gate": {
+      "recent_runs": 5,
+      "success": 1,
+      "failure": 4,
+      "other": 0
+    },
+    "DuoFace QA11 Genuine App Dock and restored logo drag (candidate)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "QA11 CarPlay restore drag/nav/dock source checks": {
+      "recent_runs": 7,
+      "success": 6,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA10 Dock + Divider + Menu (build and archive)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)": {
+      "recent_runs": 16,
+      "success": 3,
+      "failure": 13,
+      "other": 0
+    },
+    "DuoFace QA10 Native Dock static source-only verification": {
+      "recent_runs": 3,
+      "success": 3,
+      "failure": 0,
       "other": 0
     },
     "DuoFace Native12 QA9 Chrome+Divider (build and archive)": {
@@ -83,14 +143,14 @@
       "other": 0
     },
     "SidePlay Native12 frame and drag rootless QA DEB": {
-      "recent_runs": 4,
-      "success": 2,
-      "failure": 2,
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
       "other": 0
     },
     "SidePlay Native12 whole-display static tests": {
-      "recent_runs": 26,
-      "success": 25,
+      "recent_runs": 7,
+      "success": 6,
       "failure": 1,
       "other": 0
     },
@@ -99,368 +159,308 @@
       "success": 1,
       "failure": 0,
       "other": 0
-    },
-    "SidePlay visible Zoom QA rootless DEB": {
-      "recent_runs": 9,
-      "success": 3,
-      "failure": 2,
-      "other": 4
-    },
-    "SidePlay split owner method lookup": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay exact window owner evidence": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay Native12 host UIKit compile-only": {
-      "recent_runs": 3,
-      "success": 3,
-      "failure": 0,
-      "other": 0
-    },
-    "Native104 exact CarPlay class geometry": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
-    },
-    "Native104 original layout evidence": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay normal dock static check": {
-      "recent_runs": 6,
-      "success": 6,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay window ObjC geometry trace": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay CarPlay geometry static trace": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "SidePlay unpack original DEB to repository": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39179874547,
+      "id": 39201789527,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 36,
+      "run_number": 37,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179874547",
-      "created_at": "2026-10-19T00:14:25Z",
-      "head_sha": "a12b52b60da663f61e013b53ba58662a09de24a7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39201789527",
+      "created_at": "2026-10-19T04:54:07Z",
+      "head_sha": "580d4cbfac2bccbe402a2c2804cad90b5431777d"
     },
     {
-      "id": 39179860837,
-      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179860837",
-      "created_at": "2026-10-19T00:14:14Z",
-      "head_sha": "248bc8664de439ab8fefbae7ffb42dc2b143fe3e"
-    },
-    {
-      "id": 39179767635,
-      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179767635",
-      "created_at": "2026-10-19T00:13:00Z",
-      "head_sha": "63468b3ae4a4345f0222f6e0b630213466d23a47"
-    },
-    {
-      "id": 39179749690,
-      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "id": 39198826089,
+      "name": "DuoFace MyTweak native Apple AppDock candidate build (no publish)",
       "run_number": 2,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179749690",
-      "created_at": "2026-10-19T00:12:46Z",
-      "head_sha": "22c05020eb903ec2cb07a49b6222c4f4994b8324"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39198826089",
+      "created_at": "2026-10-19T04:18:40Z",
+      "head_sha": "af216fb72d3cb92b2fe27b7f6b6d92afa31382a1"
     },
     {
-      "id": 39179656122,
-      "name": "DuoFace QA10 picker and split SOURCE-ONLY (NO DEB)",
+      "id": 39198590988,
+      "name": "DuoFace MyTweak native Apple AppDock candidate build (no publish)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39198590988",
+      "created_at": "2026-10-19T04:15:50Z",
+      "head_sha": "6961612133403c1d320e8a97a20b8ac5dcd55730"
+    },
+    {
+      "id": 39196033155,
+      "name": "DuoFace MyTweak V1B+C combined single package",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39196033155",
+      "created_at": "2026-10-19T03:43:26Z",
+      "head_sha": "71428282d2e75eda06c5eeb2bad1604bb830e00b"
+    },
+    {
+      "id": 39193723175,
+      "name": "MyTweak V1A isolated passive diagnostic DEB (GitHub artifact only)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39193723175",
+      "created_at": "2026-10-19T03:14:14Z",
+      "head_sha": "376a317412d6a6b4cb0da78d10dcdad703bde0e2"
+    },
+    {
+      "id": 39193723153,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39193723153",
+      "created_at": "2026-10-19T03:14:14Z",
+      "head_sha": "376a317412d6a6b4cb0da78d10dcdad703bde0e2"
+    },
+    {
+      "id": 39193550626,
+      "name": "MyTweak V1A isolated passive diagnostic DEB (GitHub artifact only)",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39179656122",
-      "created_at": "2026-10-19T00:11:30Z",
-      "head_sha": "89aa36157138f83f683558a68ab1f0113156d151"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39193550626",
+      "created_at": "2026-10-19T03:12:05Z",
+      "head_sha": "6388132019457cb3cf23bc20fa44319560cf5b5f"
     },
     {
-      "id": 39177535040,
-      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177535040",
-      "created_at": "2026-10-18T23:40:54Z",
-      "head_sha": "8fac1e746b70dbfa0a4f0c15e4b382acbaddb451"
-    },
-    {
-      "id": 39177377623,
-      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
-      "run_number": 3,
+      "id": 39193550532,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
+      "run_number": 6,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177377623",
-      "created_at": "2026-10-18T23:38:40Z",
-      "head_sha": "02bb3a1d3591618a5e5d9d827d34238afc06165f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39193550532",
+      "created_at": "2026-10-19T03:12:05Z",
+      "head_sha": "6388132019457cb3cf23bc20fa44319560cf5b5f"
     },
     {
-      "id": 39177354472,
-      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177354472",
-      "created_at": "2026-10-18T23:38:18Z",
-      "head_sha": "8afa7897eb29eb67230245174d4aca9042073b3f"
-    },
-    {
-      "id": 39177302480,
-      "name": "DuoFace Native12 QA9 Chrome+Divider (build and archive)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39177302480",
-      "created_at": "2026-10-18T23:37:33Z",
-      "head_sha": "ecf421cc1eeea551e1e8c5e7ce4fd4d5e0aca768"
-    },
-    {
-      "id": 39168392878,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 35,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39168392878",
-      "created_at": "2026-10-18T21:33:52Z",
-      "head_sha": "8eeb4558b0f783f773d7711401176d1f27aa65f3"
-    },
-    {
-      "id": 39155297073,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 34,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39155297073",
-      "created_at": "2026-10-18T18:41:16Z",
-      "head_sha": "1935dfc373c8a7d6743766cb8f4bf15c4c771e99"
-    },
-    {
-      "id": 39142801823,
-      "name": "DuoFace Actions status snapshot",
-      "run_number": 33,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39142801823",
-      "created_at": "2026-10-18T15:57:25Z",
-      "head_sha": "9349aa0354846f01caf10517087bae77a40b595d"
-    },
-    {
-      "id": 39136991320,
-      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "id": 39192934222,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
       "run_number": 5,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136991320",
-      "created_at": "2026-10-18T14:39:42Z",
-      "head_sha": "f23ecb430575743b63ada0e62a83b644f28c1039"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39192934222",
+      "created_at": "2026-10-19T03:04:36Z",
+      "head_sha": "8f4c2e513e92c8b3b9d4c861e1634ffed8d2dfda"
     },
     {
-      "id": 39136819748,
-      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "id": 39192773866,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
       "run_number": 4,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136819748",
-      "created_at": "2026-10-18T14:37:20Z",
-      "head_sha": "edd35eb0ea8be30957d5946a40bda87d30fef905"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39192773866",
+      "created_at": "2026-10-19T03:02:33Z",
+      "head_sha": "6614bd94c83dad7ee6ee6ce31c467fa15bdc54de"
     },
     {
-      "id": 39136671306,
-      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "id": 39192590761,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
       "run_number": 3,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136671306",
-      "created_at": "2026-10-18T14:35:20Z",
-      "head_sha": "bb4ac4fe86cae90dffd4c8a5d459fac75247c2a9"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39192590761",
+      "created_at": "2026-10-19T03:00:17Z",
+      "head_sha": "70c0ea48e31e55ac47f6f5fad1a15bd1175a52d4"
     },
     {
-      "id": 39136476406,
-      "name": "QA7 installed versus Native12 complete method ABI audit",
+      "id": 39192534488,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
       "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39136476406",
-      "created_at": "2026-10-18T14:32:46Z",
-      "head_sha": "0013e955f9e954f58784c8c7e4c55473d0dacea9"
-    },
-    {
-      "id": 39135800130,
-      "name": "QA7 installed versus Native12 complete method ABI audit",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39135800130",
-      "created_at": "2026-10-18T14:23:51Z",
-      "head_sha": "3c6486cffaaad6e67a0a892840817ccc09dd3beb"
-    },
-    {
-      "id": 39134932320,
-      "name": "Audit QA8 vs Native12 HUD8 and SidePlay 1.0.4 DEBs",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39134932320",
-      "created_at": "2026-10-18T14:12:14Z",
-      "head_sha": "529f1eb9c9524d734c9208695f89d1efcc47f4fb"
-    },
-    {
-      "id": 39132437344,
-      "name": "DuoFace Native12 UI recovery QA8 (testing)",
-      "run_number": 27,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132437344",
-      "created_at": "2026-10-18T13:38:31Z",
-      "head_sha": "4e7ec05890b2dbd3323b5d990154c92aba74ca28"
-    },
-    {
-      "id": 39132210913,
-      "name": "DuoFace Native12 UI recovery QA8 (testing)",
-      "run_number": 26,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132210913",
-      "created_at": "2026-10-18T13:35:26Z",
-      "head_sha": "df995bdbe1a2c0d6a31a96ad0089b81cdc31d87d"
-    },
-    {
-      "id": 39132117057,
-      "name": "DuoFace Native12 UI recovery QA8 (testing)",
-      "run_number": 25,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39132117057",
-      "created_at": "2026-10-18T13:34:11Z",
-      "head_sha": "93f27f373330ecfb80d3f5e07c91546c0e006017"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39192534488",
+      "created_at": "2026-10-19T02:59:36Z",
+      "head_sha": "c9eb70fec67ce6a0e78017fdaa7d9fb853502137"
     },
     {
-      "id": 39131070908,
-      "name": "DuoFace Native12 UI recovery QA7 (testing)",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39131070908",
-      "created_at": "2026-10-18T13:19:58Z",
-      "head_sha": "e26590d8d338c7dd3aabf4870b3cc2c6d0823198"
-    },
-    {
-      "id": 39128366743,
-      "name": "DuoFace Native12 root host QA6 (experimental)",
-      "run_number": 23,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128366743",
-      "created_at": "2026-10-18T12:41:49Z",
-      "head_sha": "7069e132619729abd114c8c14a6881fcb456c0de"
-    },
-    {
-      "id": 39128189740,
-      "name": "DuoFace Native12 root host QA6 (experimental)",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128189740",
-      "created_at": "2026-10-18T12:39:22Z",
-      "head_sha": "7f275b9f2055cd5baa86b58e99ae9d2daceb5f8a"
-    },
-    {
-      "id": 39128068091,
-      "name": "DuoFace Native12 root host QA6 (experimental)",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39128068091",
-      "created_at": "2026-10-18T12:37:36Z",
-      "head_sha": "52bf83dfa348d3fd6cf908fc78c39e6590cbbaed"
-    },
-    {
-      "id": 39127494898,
-      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127494898",
-      "created_at": "2026-10-18T12:29:34Z",
-      "head_sha": "eebf094c19560681e4625940c5e1dc323755d54e"
-    },
-    {
-      "id": 39127471875,
-      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127471875",
-      "created_at": "2026-10-18T12:29:13Z",
-      "head_sha": "a0ccb4b2ae24326e1acb3ddb1fa80eeef1f5d88c"
-    },
-    {
-      "id": 39127352092,
-      "name": "DuoFace QA5 geometry gap audit (NOT device pass)",
+      "id": 39192417465,
+      "name": "MyTweak v1a passive SceneHost ABI preflight (no package)",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39127352092",
-      "created_at": "2026-10-18T12:27:29Z",
-      "head_sha": "0786d96afdb62a7c926d263cc84ad3616afe1ed8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39192417465",
+      "created_at": "2026-10-19T02:58:01Z",
+      "head_sha": "189da0ac58580489d63f7a86ea20d96218d863a9"
     },
     {
-      "id": 39126662869,
-      "name": "DuoFace Native12 QA5 UI parity gate",
+      "id": 39189503227,
+      "name": "Native12 8 Mach-O real callsite and IMP graph (forensic only)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39189503227",
+      "created_at": "2026-10-19T02:20:29Z",
+      "head_sha": "005436b6eb65c8675a864e1cb32c3bb2f468aec7"
+    },
+    {
+      "id": 39189386245,
+      "name": "Native12 8 Mach-O real callsite and IMP graph (forensic only)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39189386245",
+      "created_at": "2026-10-19T02:19:00Z",
+      "head_sha": "a72472aa90a5e0352b9d6247eefc4995c0e3f5e6"
+    },
+    {
+      "id": 39188515560,
+      "name": "Native12 8 Mach-O real callsite and IMP graph (forensic only)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39188515560",
+      "created_at": "2026-10-19T02:08:05Z",
+      "head_sha": "0d4b51b6b95e67c0e73e8c2667d195f595920774"
+    },
+    {
+      "id": 39187099922,
+      "name": "DuoFace M1 app-host-only boundary build gate",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39187099922",
+      "created_at": "2026-10-19T01:49:31Z",
+      "head_sha": "cc53ebef37a2943faea083a01c1f51c988095c3e"
+    },
+    {
+      "id": 39187072607,
+      "name": "DuoFace M1 app-host-only boundary build gate",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39187072607",
+      "created_at": "2026-10-19T01:49:08Z",
+      "head_sha": "06da73edc9b9915950e609c099c919819c7c67ab"
+    },
+    {
+      "id": 39187066688,
+      "name": "DuoFace M1 app-host-only boundary build gate",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39187066688",
+      "created_at": "2026-10-19T01:49:03Z",
+      "head_sha": "fb16b56b28f8487c6b3fb60c0db9330daf396557"
+    },
+    {
+      "id": 39187060247,
+      "name": "DuoFace M1 app-host-only boundary build gate",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39187060247",
+      "created_at": "2026-10-19T01:48:58Z",
+      "head_sha": "3330d408171b0462c3c70e86289a91f7e3cfd854"
+    },
+    {
+      "id": 39186696930,
+      "name": "DuoFace M1 app-host-only boundary build gate",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39186696930",
+      "created_at": "2026-10-19T01:44:04Z",
+      "head_sha": "c99b7abebd909c569e143ca77762d45956069769"
+    },
+    {
+      "id": 39185029212,
+      "name": "DuoFace QA11 Genuine App Dock and restored logo drag (candidate)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39185029212",
+      "created_at": "2026-10-19T01:22:10Z",
+      "head_sha": "65fe40f06ed90e139a3ae51bd38d06a9ccf50292"
+    },
+    {
+      "id": 39184906861,
+      "name": "DuoFace QA11 Genuine App Dock and restored logo drag (candidate)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184906861",
+      "created_at": "2026-10-19T01:20:25Z",
+      "head_sha": "6c7f2895fe166bbd45781a3b3299cabf527655bb"
+    },
+    {
+      "id": 39184869152,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184869152",
+      "created_at": "2026-10-19T01:19:58Z",
+      "head_sha": "1f9f8823b1d72bdb902e24a2e8b39968d2141b15"
+    },
+    {
+      "id": 39184865233,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
       "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126662869",
-      "created_at": "2026-10-18T12:17:23Z",
-      "head_sha": "52f56ae7e000d859b9bb29ff08b47a12ff3cd50a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184865233",
+      "created_at": "2026-10-19T01:19:55Z",
+      "head_sha": "cc9627dcfaef8c83e8f5b14ba152cae6cf0101cc"
     },
     {
-      "id": 39126628967,
-      "name": "DuoFace Native12 QA5 UI parity gate",
+      "id": 39184830031,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39126628967",
-      "created_at": "2026-10-18T12:16:53Z",
-      "head_sha": "5c88c69e90238ced215c78192721f1da1b9ad558"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184830031",
+      "created_at": "2026-10-19T01:19:26Z",
+      "head_sha": "d15ec48f8fc9919631b4f81599af88a8bc09b093"
+    },
+    {
+      "id": 39184791410,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184791410",
+      "created_at": "2026-10-19T01:18:54Z",
+      "head_sha": "a4941dd63b8d25b77b871bf67b07aee43ef95c0b"
+    },
+    {
+      "id": 39184741851,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184741851",
+      "created_at": "2026-10-19T01:18:14Z",
+      "head_sha": "071a747c0c621f447c4c2cf3baea80348e3f6e1e"
+    },
+    {
+      "id": 39184581239,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184581239",
+      "created_at": "2026-10-19T01:16:08Z",
+      "head_sha": "9887a66e7719dee66ced8f1f0d311f356ede5731"
+    },
+    {
+      "id": 39184556349,
+      "name": "QA11 CarPlay restore drag/nav/dock source checks",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39184556349",
+      "created_at": "2026-10-19T01:15:49Z",
+      "head_sha": "3d44dbc159b3b3f645fc34c057e9a915a20175a9"
     }
   ]
 }
