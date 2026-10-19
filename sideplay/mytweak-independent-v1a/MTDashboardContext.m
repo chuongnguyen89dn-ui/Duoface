@@ -84,7 +84,8 @@ static BOOL MTExcludedWindow(UIWindow *w) {
         sceneCount++;
         [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
     }
-    [windows addObjectsFromArray:app.windows];
+    // UIWindowScene.windows is the supported iOS 16 enumeration API.
+    // UIApplication.windows is deprecated and triggers Theos -Werror.
     UIWindow *best=nil;
     CGRect bestBounds=CGRectZero;
     CGFloat bestArea=0;
