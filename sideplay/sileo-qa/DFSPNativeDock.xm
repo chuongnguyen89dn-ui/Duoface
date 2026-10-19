@@ -66,6 +66,8 @@ static NSHashTable<UIViewController *> *DFSPAppDockControllers;
 static NSMapTable<UIView *, NSDictionary *> *DFSPAppDockSnapshots;
 static NSUInteger DFSPDockAckCount=0,DFSPDockRequestSerial=0;
 static NSUInteger DFSPDockLastWindowCount=NSUIntegerMax;
+static NSUInteger DFSPDockLastAppCount=NSUIntegerMax;
+static void DFSPDockAck(NSString *reason);
 static NSInteger DFSPDockLastVisible=-1,DFSPDockLastOK=-1;
 static char DFSPDockObserverKey;
 
@@ -132,6 +134,7 @@ static void DFSPDockObserveAppController(UIViewController *controller) {
        NSStringFromClass(controller.class),
        DFSPDockZoomRequested?@"Zoom":@"Normal",
        dockView.hidden,dockView.alpha,NSStringFromCGRect(dockView.frame)],NO);
+    DFSPDockAck(@"genuine AppDockViewController attached");
 }
 static void DFSPDockFindAppControllersInWindow(UIWindow *window) {
     if (!window)return;
@@ -177,21 +180,38 @@ static void DFSPDockAck(NSString *reason) {
         BOOL expected=DFSPDockZoomRequested?YES:initial.boolValue;
         if (!initial || w.hidden!=expected)correct=NO;
     }
+    NSUInteger dockMounted=0;
+    for (UIViewController *controller in DFSPAppDockControllers.allObjects)
+        if (controller.isViewLoaded && controller.view.window)++dockMounted;
     if (DFSPDockLastWindowCount==count &&
+        DFSPDockLastAppCount==dockMounted &&
         DFSPDockLastVisible==(NSInteger)!DFSPDockZoomRequested &&
         DFSPDockLastOK==(NSInteger)correct)return;
     DFSPDockLastWindowCount=count;
+    DFSPDockLastAppCount=dockMounted;
     DFSPDockLastVisible=(NSInteger)!DFSPDockZoomRequested;
     DFSPDockLastOK=(NSInteger)correct;
-    NSUInteger appDockSeen=DFSPAppDockControllers.allObjects.count;
+    NSUInteger appDockSeen=0;
+    BOOL appDockApplied=YES;
+    for (UIViewController *controller in DFSPAppDockControllers.allObjects) {
+        if (!controller.isViewLoaded || !controller.view.window)continue;
+        ++appDockSeen;
+        if (controller.view.hidden!=DFSPDockZoomRequested ||
+            (!DFSPDockZoomRequested && controller.view.alpha<0.99))
+            appDockApplied=NO;
+    }
+    if (!appDockSeen)appDockApplied=NO;
     NSString *klass=count?NSStringFromClass(DFSPDockWindows.allObjects.firstObject.class):@"none";
     DFSPDockLog([NSString stringWithFormat:
-        @"receiver mode=%@ class=%@ windowCount=%lu appDockControllerCount=%lu statusbarApplied=%d reason=%@",
+        @"receiver mode=%@ statusbarClass=%@ windowCount=%lu appDockMounted=%lu statusbarApplied=%d appDockApplied=%d reason=%@",
         DFSPDockZoomRequested?@"Zoom":@"Normal",klass,(unsigned long)count,
-        (unsigned long)appDockSeen,correct,reason],NO);
+        (unsigned long)appDockSeen,correct,appDockApplied,reason],NO);
     if (!DFSPDockRequested)return;
-    CFStringRef event=correct?(DFSPDockZoomRequested?DFSPDockAckZoom:DFSPDockAckNormal)
-                             :DFSPDockAckMissing;
+    // The QA10 mistake was ACKing a STATUS BAR even when no icon Dock existed.
+    // Only the actual mounted Apple AppDockViewController validates the command.
+    CFStringRef event=appDockApplied?
+        (DFSPDockZoomRequested?DFSPDockAckZoom:DFSPDockAckNormal)
+        :DFSPDockAckMissing;
     DFSPDockPost(event);
 }
 static void DFSPDockVisitWindows(void) {
@@ -245,6 +265,7 @@ static void DFSPDockRestoreOriginal(void) {
     [DFSPAppDockSnapshots removeAllObjects];
     [DFSPAppDockControllers removeAllObjects];
     DFSPDockLastWindowCount=NSUIntegerMax;
+    DFSPDockLastAppCount=NSUIntegerMax;
     DFSPDockLastVisible=-1;DFSPDockLastOK=-1;
     DFSPDockPost(DFSPDockAckDetach);
 }
@@ -263,9 +284,9 @@ static void DFSPDockReceive(CFStringRef name) {
 static void DFSPDockAckReceived(CFStringRef name) {
     ++DFSPDockAckCount;
     NSString *result=@"UNKNOWN";
-    if (CFEqual(name,DFSPDockAckNormal))result=@"NORMAL_WINDOW_VISIBLE";
-    else if (CFEqual(name,DFSPDockAckZoom))result=@"ZOOM_WINDOW_HIDDEN";
-    else if (CFEqual(name,DFSPDockAckMissing))result=@"CARPLAY_DOCK_WINDOW_NOT_OBSERVED";
+    if (CFEqual(name,DFSPDockAckNormal))result=@"NORMAL_APPDOCK_CONTROLLER_APPLIED";
+    else if (CFEqual(name,DFSPDockAckZoom))result=@"ZOOM_APPDOCK_CONTROLLER_HIDDEN";
+    else if (CFEqual(name,DFSPDockAckMissing))result=@"CARPLAY_APP_DOCK_CONTROLLER_MISSING_OR_UNMOUNTED";
     else if (CFEqual(name,DFSPDockAckDetach))result=@"WINDOW_RESTORED";
     DFSPDockLog([NSString stringWithFormat:
         @"ACK=%@ serial=%lu (window state, visual dock still needs device confirmation)",
