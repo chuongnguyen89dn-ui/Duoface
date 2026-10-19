@@ -108,10 +108,12 @@ jobs:
           dpkg-deb -x "$pkg" "$RUNNER_TEMP/qa10-payload"
           FILTER="$RUNNER_TEMP/qa10-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSidePlayDisplayQA.plist"
           test -s "$FILTER"
-          grep -F 'com.apple.CarPlayApp' "$FILTER"
-          grep -F 'com.apple.springboard' "$FILTER"
-          grep -F 'Mode = "Any";' "$FILTER"
-          grep -F 'Executables' "$FILTER"
+          # dpkg embeds compiled binary plist; grep plaintext on it is unreliable.
+          /usr/libexec/PlistBuddy -c 'Print :Filter:Bundles' "$FILTER" | grep -F 'com.apple.CarPlayApp'
+          /usr/libexec/PlistBuddy -c 'Print :Filter:Bundles' "$FILTER" | grep -F 'com.apple.springboard'
+          test "$(/usr/libexec/PlistBuddy -c 'Print :Filter:Mode' "$FILTER")" = 'Any'
+          /usr/libexec/PlistBuddy -c 'Print :Filter:Executables' "$FILTER" | grep -F 'CarPlayApp'
+          /usr/libexec/PlistBuddy -c 'Print :Filter:Executables' "$FILTER" | grep -F 'SpringBoard'
           DYLIB="$RUNNER_TEMP/qa10-payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSidePlayDisplayQA.dylib"
           test -s "$DYLIB"
           nm -a "$DYLIB" | grep -F 'DFSPDockRequest' || strings "$DYLIB" | grep -F 'qa10.nativedock.v1.normal'
