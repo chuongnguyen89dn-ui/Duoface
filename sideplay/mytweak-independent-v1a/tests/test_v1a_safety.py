@@ -23,7 +23,7 @@ class V1ASafetyTest(unittest.TestCase):
     def test_required_runtime_evidence(self):
         s=(P/"MTPreflight.m").read_text()
         for item in ("method_getTypeEncoding", "defaultEntityWithApplicationForMainDisplay:",
-                     "screenIDs", "uniqueId", "UIApplication.sharedApplication.windows",
+                     "screenIDs", "uniqueId", "UIApplication.sharedApplication.connectedScenes", "UIWindowScene.class",
                      "AppDock", "window.windowScene", "diagnostic-start",
                      "snapshot-end", "UIScreenDidDisconnectNotification"):
             self.assertIn(item,s)

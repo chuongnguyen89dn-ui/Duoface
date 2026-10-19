@@ -149,7 +149,15 @@ static void MTV1ADockViews(UIWindow *window) {
         [displays isKindOfClass:NSArray.class] ? (unsigned long)[displays count] : 0UL,
         matched,(unsigned long)UIScreen.screens.count]);
 
-    NSArray<UIWindow *> *windows=UIApplication.sharedApplication.windows;
+    // UIApplication.windows is deprecated on iOS15+ and misses multi-scene ownership.
+    // This passive inventory is limited to windows exposed by connected UIWindowScenes.
+    NSMutableOrderedSet<UIWindow *> *seen=[NSMutableOrderedSet orderedSet];
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if ([scene isKindOfClass:UIWindowScene.class]) {
+            [seen addObjectsFromArray:((UIWindowScene *)scene).windows];
+        }
+    }
+    NSArray<UIWindow *> *windows=seen.array;
     MTV1ALog(@"window-count",[NSString stringWithFormat:@"count=%lu",
         (unsigned long)windows.count]);
     NSUInteger inspected=0;
