@@ -5,12 +5,13 @@ on:
     paths:
       - '.github/workflows/native12-full-function-wiring-audit.yml'
       - 'sideplay/tools/audit_native12_macho_wiring.py'
+      - 'sideplay/tools/native12_objc_stub_decoder.py'
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
   group: native12-wiring-audit-deb-hash-pinned
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   full-arm64-audit:
     runs-on: macos-15
@@ -74,6 +75,10 @@ jobs:
           s=json.loads((p/"SUMMARY.json").read_text())
           assert len(s["binaries"])==8
           assert sum(x["objc_methods"] for x in s["binaries"])==1385
+          unresolved=sum(x["unresolved_objc_stub_calls_in_methods"]+
+                         x["unresolved_objc_stub_calls_in_orphans"] for x in s["binaries"])
+          assert unresolved < 50, f"too many undecoded optimized ObjC stubs: {unresolved}"
+          print("NATIVE12_OPTIMIZED_STUB_SELECTORS_RESOLVED",unresolved,"remaining unresolved")
           for item in s["binaries"]:
               assert (p/item["file"]).stat().st_size>100
           print("NATIVE12_ALL_8_BINARIES_STATIC_EVIDENCE_VERIFIED")
