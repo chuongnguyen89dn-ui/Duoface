@@ -24,7 +24,12 @@
 - (double)ratio;
 - (void)setRatio:(double)value;
 - (void)showPickerForPane:(id)pane;
+- (void)dismissPicker;
+- (void)pickerAppTapped:(id)sender;
+- (UIView *)pickerView;
+- (BOOL)showingChooser;
 - (void)layoutChooser;
+- (void)revealChosenLayout:(id)selection;
 - (void)paneRequestsClose:(id)pane;
 - (void)paneRequestsSwap:(id)pane;
 @end
@@ -52,6 +57,9 @@ static DFSPNative12Host *DFSPHost;
 static BOOL DFSPVisualCompatibility=NO;
 static id<DFSPNativeFrameDelegate> DFSPAdapter;
 static BOOL DFSPRefreshing=NO;
+// A SidePlay-owned picker/Style modal must own the frontmost touch surface.
+static BOOL DFSPLegacyModalOpen=NO;
+static NSUInteger DFSPLegacyModalEpoch=0;
 static BOOL DFSPUpdatingRatio=NO;
 static BOOL DFSPApplyingPaneFocus=NO;
 static NSInteger DFSPFocusedSlot=-1;
@@ -119,6 +127,49 @@ static void DFSPLog(NSString *message) {
     } @catch (NSException *ignored) { (void)ignored; }
 }
 
+// This only coordinates view visibility; SidePlay remains responsible for
+// creating/dismissing its own picker and hosted app scenes.
+static void DFSPSetSidePlayModal(BOOL visible, NSString *reason) {
+    if (DFSPLegacyModalOpen==visible &&
+        (!DFSPUI || DFSPUI.hidden==visible))return;
+    DFSPLegacyModalOpen=visible;
+    ++DFSPLegacyModalEpoch;
+    if (DFSPUI) {
+        DFSPUI.hidden=visible;
+        DFSPUI.userInteractionEnabled=!visible;
+    }
+    DFSPLog([NSString stringWithFormat:@"QA10 SidePlay modal=%d cause=%@; DuoFace overlay %@",
+             visible,reason,visible?@"suspended":@"restored"]);
+    if (!visible)DFSPRefresh();
+}
+static BOOL DFSPPickerViewStillPresented(SPDash *owner) {
+    UIView *panel=owner?[owner pickerView]:nil;
+    if (!panel || panel.hidden || panel.alpha<=0.01 || !panel.window ||
+        panel.window!=DFSPWindow)return NO;
+    CGRect inWindow=[panel convertRect:panel.bounds toView:DFSPWindow];
+    CGRect inter=CGRectIntersection(inWindow,DFSPWindow.bounds);
+    return !CGRectIsNull(inter) && !CGRectIsEmpty(inter) &&
+           CGRectGetWidth(inter)>80 && CGRectGetHeight(inter)>60;
+}
+static void DFSPMaybeResumeAfterSidePlayModal(SPDash *owner,
+                                              NSString *reason,
+                                              NSUInteger retries) {
+    if (!owner || owner!=DFSPManager || !DFSPLegacyModalOpen)return;
+    BOOL active=[owner showingChooser] || DFSPPickerViewStillPresented(owner);
+    if (!active) {
+        DFSPSetSidePlayModal(NO,reason);
+        return;
+    }
+    // UIKit dismissal may animate; never resurrect controls on top of
+    // a live SidePlay picker. The next layout also checks this state.
+    if (retries<12) {
+        __weak SPDash *weakOwner=owner;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,150000000),
+                       dispatch_get_main_queue(),^{
+            DFSPMaybeResumeAfterSidePlayModal(weakOwner,reason,retries+1);
+        });
+    } else DFSPLog(@"QA10 modal still owned by SidePlay; kept overlay suspended");
+}
 static BOOL DFSPRectOK(CGRect rect) {
     return isfinite(rect.origin.x) && isfinite(rect.origin.y) &&
            isfinite(rect.size.width) && isfinite(rect.size.height) &&
@@ -171,7 +222,10 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
         DFSPFull=full;
         // Z-order alone cannot conjure the system bar; the window outside
         // the actual content root must also stay transparent.
-        window.windowLevel=full?DFSPOriginalLevel:UIWindowLevelStatusBar-1.0;
+        // QA9 raised a full-screen SidePlay UIWindow to statusbar-1,
+        // which can cover a lower-level CarPlay dock even if it is unhidden.
+        // Keep SidePlay's original z-order in both Normal and Zoom.
+        window.windowLevel=DFSPOriginalLevel;
         [window setNeedsLayout];
         [window layoutIfNeeded];
         DFSPRefresh();
@@ -228,6 +282,50 @@ static void DFSPHideLegacyPaneControls(SPPane *pane) {
                                 [pane titleLabel]?:[NSNull null]]) {
         if ([candidate isKindOfClass:UIView.class])
             DFSPHideReplacedView(candidate);
+    }
+}
+// SidePlay can leave a decorative 1-4pt strip between two SPPane views.
+// Do NOT hide SPDash.rootView, scene owners, overlays or interactive controls.
+// Only a plain, noninteractive, scene-free sibling at the actual shared edge
+// qualifies; other SidePlay decoration stays until device hierarchy confirms.
+static void DFSPHideLegacySplitStrips(CGRect one, CGRect two,
+                                     NSArray *panes) {
+    if (panes.count<2 || !DFSPUI || !DFSPManager ||
+        !DFSPRectOK(one) || !DFSPRectOK(two))return;
+    UIView *root=[DFSPManager rootView];
+    UIView *p0=[panes[0] view],*p1=[panes[1] view];
+    if (!root || !p0 || !p1 || root.window!=DFSPWindow)return;
+    BOOL vertical=fabs(CGRectGetMidX(two)-CGRectGetMidX(one))>
+                  fabs(CGRectGetMidY(two)-CGRectGetMidY(one));
+    CGFloat split=vertical?
+       (CGRectGetMidX(one)<CGRectGetMidX(two)?
+        (CGRectGetMaxX(one)+CGRectGetMinX(two))*0.5:
+        (CGRectGetMaxX(two)+CGRectGetMinX(one))*0.5):
+       (CGRectGetMidY(one)<CGRectGetMidY(two)?
+        (CGRectGetMaxY(one)+CGRectGetMinY(two))*0.5:
+        (CGRectGetMaxY(two)+CGRectGetMinY(one))*0.5);
+    for (UIView *candidate in root.subviews) {
+        if (!candidate || candidate==p0 || candidate==p1 ||
+            [candidate isKindOfClass:UIControl.class] ||
+            [candidate isKindOfClass:UIScrollView.class] ||
+            candidate.userInteractionEnabled || candidate.hidden ||
+            [p0 isDescendantOfView:candidate] ||
+            [p1 isDescendantOfView:candidate] ||
+            candidate.subviews.count>0)continue;
+        CGRect rect=[candidate convertRect:candidate.bounds toView:DFSPUI];
+        CGFloat thickness=vertical?CGRectGetWidth(rect):CGRectGetHeight(rect);
+        CGFloat span=vertical?CGRectGetHeight(rect):CGRectGetWidth(rect);
+        CGFloat expected=vertical?
+            MIN(CGRectGetHeight(one),CGRectGetHeight(two)):
+            MIN(CGRectGetWidth(one),CGRectGetWidth(two));
+        CGFloat center=vertical?CGRectGetMidX(rect):CGRectGetMidY(rect);
+        if (isfinite(thickness) && thickness>0 && thickness<=4 &&
+            span>=expected*0.65 && fabs(center-split)<=6) {
+            DFSPHideReplacedView(candidate);
+            DFSPLog([NSString stringWithFormat:
+                @"QA10 hidden SidePlay decorative split strip class=%@ frame=%@",
+                NSStringFromClass(candidate.class),NSStringFromCGRect(rect)]);
+        }
     }
 }
 static CGRect DFSPPaneRect(SPPane *pane) {
@@ -304,6 +402,15 @@ static void DFSPRefresh(void) {
         DFSPHideLegacyPaneControls(pane);
         if(!secondApp) DFSPHideSidePlayPlaceholder([pane view],0);
     }
+    DFSPHideLegacySplitStrips(one,two,panes);
+    // The SidePlay app picker/Style sheet is above the DuoFace scene chrome.
+    // Never bring the DuoFace divider/logo over a genuine modal.
+    if (DFSPLegacyModalOpen) {
+        DFSPUI.hidden=YES;
+        DFSPUI.userInteractionEnabled=NO;
+        DFSPRefreshing=NO;
+        return;
+    }
     DFSPUI.focusedSlot=DFSPFocusedSlot;
     DFSPUI.frame=DFSPWindow.bounds;
     [DFSPUI updateFirst:one second:two
@@ -373,11 +480,18 @@ static void DFSPRefresh(void) {
     SPDash *manager=DFSPManager;
     if (!manager || !isfinite(ratio))return;
     DFSPUpdatingRatio=YES;
+    // SPDash owns the real scene split: the QA divider only sends its
+    // stable gesture delta. Never mutate the window or each SPPane frame.
     [manager setRatio:ratio];
-    // The existing SidePlay host applies the new ratio to its REAL SPPane
-    // view + scene frames. We do not resize a decorative fake split image.
+    double accepted=[manager ratio];
     [manager layout:ended];
+    double afterLayout=[manager ratio];
     DFSPUpdatingRatio=NO;
+    if (ended && (fabs(afterLayout-ratio)>0.012 ||
+                  fabs(accepted-ratio)>0.012))
+        DFSPLog([NSString stringWithFormat:
+            @"QA10 SidePlay ratio drift requested=%.5f accepted=%.5f afterLayout=%.5f split=%ld",
+            ratio,accepted,afterLayout,(long)[manager split]]);
     DFSPRefresh();
     if(ended) {
         NSArray *parts=DFSPPanes();
@@ -413,6 +527,8 @@ static void DFSPRemove(void) {
     DFSPClearPaneFocus(YES);
     [DFSPUI resetForDisconnect];
     DFSPRestoreReplacedViews(); // true state rollback, including originally hidden views
+    DFSPLegacyModalOpen=NO;
+    ++DFSPLegacyModalEpoch;
     DFSPUI=nil;
     DFSPAdapter=nil;
     DFSPWindow=nil;
@@ -443,6 +559,8 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPOriginalFrame=window.frame;
     DFSPWindow=window;
     DFSPManager=owner;
+    DFSPLegacyModalOpen=NO;
+    ++DFSPLegacyModalEpoch;
     DFSPFull=NO;
     DFSPApplying=NO;
     DFSPFocusedSlot=-1;
@@ -518,6 +636,32 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     dispatch_async(dispatch_get_main_queue(), ^{
         DFSPInstall(weakOwner,weakWindow,generation,0);
     });
+}
+// SidePlay owns these modal panels. QA9 kept its own divider/logo above
+// them by calling bringSubviewToFront: on every refresh.
+- (void)showPickerForPane:(id)pane {
+    if (DFSPManager==self)DFSPSetSidePlayModal(YES,@"showPickerForPane");
+    %orig(pane);
+    if (DFSPManager==self)DFSPSetSidePlayModal(YES,@"picker presented");
+}
+- (void)dismissPicker {
+    %orig;
+    if (DFSPManager==self)
+        DFSPMaybeResumeAfterSidePlayModal(self,@"dismissPicker",0);
+}
+- (void)pickerAppTapped:(id)sender {
+    %orig(sender);
+    if (DFSPManager==self)
+        DFSPMaybeResumeAfterSidePlayModal(self,@"pickerAppTapped",0);
+}
+- (void)layoutChooser {
+    if (DFSPManager==self)DFSPSetSidePlayModal(YES,@"layoutChooser");
+    %orig;
+}
+- (void)revealChosenLayout:(id)selection {
+    %orig(selection);
+    if (DFSPManager==self)
+        DFSPMaybeResumeAfterSidePlayModal(self,@"revealChosenLayout",0);
 }
 // App-host preferences/frame selectors remain owned by SidePlay.
 // Never force carDockMode=NO or re-assign its UIWindow.frame from QA.
