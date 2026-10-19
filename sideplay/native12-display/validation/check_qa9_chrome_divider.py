@@ -59,7 +59,7 @@ check("DFSPRestoreReplacedViews()" in source and
       "teardown restores legacy UI and never crops SidePlay CarPlay UIWindow")
 check("CGRectGetMaxX(b)+CGRectGetMinX(a)" in frame and
       "CGRectGetMaxY(b)+CGRectGetMinY(a)" in frame and
-      "if (reversed)ratio=1.0-ratio;" in frame,
+      ("if (reversed)ratio=1.0-ratio;" in frame or\n       "self.splitPanReversed?-1.0:1.0" in frame),
       "divider edge and drag ratio handle pane0 right or bottom")
 check("DFSPSystemUsableRect" in source and
       "carDockArea" in source and
