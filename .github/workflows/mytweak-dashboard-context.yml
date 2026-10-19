@@ -1,0 +1,112 @@
+name: DuoFace MyTweak CarPlay Dashboard context candidate (CI only)
+on:
+  push:
+    branches: [feature/mytweak-dashboard-context-20261019]
+    paths:
+      - '.github/workflows/mytweak-dashboard-context.yml'
+      - 'sideplay/mytweak-independent-v1a/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mytweak-dashboard-context1
+  cancel-in-progress: true
+jobs:
+  compile-and-package:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source test and contract
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          python3 -m unittest discover -s tests -v
+          grep -Fq 'DFV1APreflight_FILES = V1ATweak.x MTPreflight.m MTTrialLog.m' Makefile
+          grep -Fq 'MTNativeDockProbe.m MTDockLayout.m' Makefile || grep -Fq 'MTDockLayout.m MTNativeDockProbe.m' Makefile
+          grep -Fq '<string>CarPlay</string>' DFV1APreflight.plist
+          grep -Fq '<string>CarPlayApp</string>' DFV1APreflight.plist
+          grep -Fq 'MTDashboardContext.m MTDashboardUsableRect.m' Makefile
+          grep -Fq 'Version: 0.2.2~dashctx1' control
+      - name: Install Theos iOS 16 rootless
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build one combined DEB and inspect exact payload
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" -eq 1
+          PKG="${debs[0]}"
+          test "$(dpkg-deb -f "$PKG" Package)" = 'com.duoface.mytweak.v1a.preflight'
+          test "$(dpkg-deb -f "$PKG" Version)" = '0.2.2~dashctx1'
+          test "$(dpkg-deb -f "$PKG" Architecture)" = 'iphoneos-arm64'
+          ! dpkg-deb -f "$PKG" | grep -E '^(Conflicts|Replaces|Breaks):'
+          dpkg-deb -c "$PKG" > /tmp/mytweak-dashboard-files.txt
+          grep -F '/DFV1APreflight.dylib' /tmp/mytweak-dashboard-files.txt
+          grep -F '/DFV1APreflight.plist' /tmp/mytweak-dashboard-files.txt
+          ! grep -Ei '/(SidePlay|DuoFaceDashboard|DuoDash|Airaw|MyTweak)\.dylib' /tmp/mytweak-dashboard-files.txt
+          mkdir -p /tmp/mytweak-dashboard-extract
+          dpkg-deb -x "$PKG" /tmp/mytweak-dashboard-extract
+          test "$(find /tmp/mytweak-dashboard-extract -type f | wc -l | tr -d ' ')" = 2
+          DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-dashboard-context1"
+          mkdir -p "$DEST"
+          cp "$PKG" "$DEST/"
+          cp /tmp/mytweak-dashboard-files.txt "$DEST/FILE_LIST.txt"
+          (cd "$DEST" && shasum -a 256 "$(basename "$PKG")" > SHA256SUMS)
+          {
+            echo MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_BUILD=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "TESTED_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "PACKAGE=$(basename "$PKG")"
+            echo "BYTES=$(wc -c < "$PKG" | tr -d ' ')"
+            echo TEST_SCOPE=static,compiler,package-layout
+            echo DEVICE_TESTED=false
+            echo APP_PIXELS_VERIFIED=false
+            echo SILEO_PUBLISHED=false
+            echo HOST_DEFAULT_ENABLED=false
+            echo QA11_NATIVE12_HUD8_UNCHANGED=true
+            echo NATIVE_APPDOCK_DEVICE_TESTED=false
+            echo NATIVE_APPDOCK_ACTUALLY_VISIBLE=false
+            echo CARPLAY_DASHBOARD_CONTEXT_DEVICE_VERIFIED=false
+            echo DASHBOARD_CONTENT_SAFEAREA_SOURCE=actual_CarPlay_UI_root_window
+            echo APPLE_APPDOCK_HOME_NAVIGATION_VERIFIED=false
+            echo USER_DEVICE_TEST_REQUIRED=true
+            echo NATIVE_DOCK_SOURCE=CarPlay_DB_DockWindow
+            echo DOCK_MOCK_RENDERING=false
+          } > "$DEST/CI_RESULT.txt"
+          echo MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_DEB_BUILD_AND_INSPECT_PASS
+      - name: Upload GitHub Actions artifact (not Sileo)
+        uses: actions/upload-artifact@v4
+        with:
+          name: mytweak-dashboard-context1-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-dashboard-context1/
+          if-no-files-found: error
+      - name: Save DEB SHA and build result to DuoFace
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-dashboard-context1/
+          git commit -m 'artifacts(mytweak): persist dashboard context candidate DEB and SHA256 [skip ci]'
+          BRANCH='feature/mytweak-dashboard-context-20261019'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              test "$(git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-dashboard-context1/CI_RESULT.txt" | grep '^MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_BUILD=')" = 'MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_BUILD=PASS'
+              echo MYTWEAK_DASHBOARD_CONTEXT_CANDIDATE_GITHUB_PERSISTED
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
