@@ -100,7 +100,6 @@ static void DFSPRestoreReplacedViews(void) {
         NSLog(@"[DuoFaceSidePlayDisplayQA] Restored %lu old SidePlay UI items",
               (unsigned long)restored);
 }
-static const CGFloat DFSPNativeFallbackLeft = 64.0;
 static UIColor *DFSPOriginalWindowBackground;
 static BOOL DFSPOriginalWindowOpaque=YES;
 static BOOL DFSPHasOriginalWindowBackground=NO;
@@ -179,30 +178,6 @@ static BOOL DFSPExternal(UIWindow *window) {
     UIScreen *screen = window.screen;
     return screen && screen != UIScreen.mainScreen;
 }
-static CGRect DFSPSystemUsableRect(UIWindow *window) {
-    if (!window || !DFSPExternal(window)) return CGRectNull;
-    // Work in WINDOW-LOCAL coordinates, not UIScreen coordinates.
-    CGRect screenRect=window.bounds;
-    if (!DFSPRectOK(screenRect)) return CGRectNull;
-    UIEdgeInsets inset = window.safeAreaInsets;
-    BOOL usableInsets = isfinite(inset.top) && isfinite(inset.left) &&
-                        isfinite(inset.bottom) && isfinite(inset.right) &&
-                        inset.top>=0 && inset.left>=0 &&
-                        inset.bottom>=0 && inset.right>=0 &&
-                        (inset.top>0 || inset.left>0 ||
-                         inset.bottom>0 || inset.right>0);
-    if (!usableInsets) {
-        // Native DuoNavi 1.0.4 +[CBWindow carPlayContentInsets]:
-        // original arm64 at 0xb1544 loads d9 = 64.0 (left), others 0.
-        // This is a SAFE fallback from the approved original's behavior,
-        // not a SidePlay carDockArea or invented scale fraction.
-        inset = UIEdgeInsetsMake(0, DFSPNativeFallbackLeft, 0, 0);
-    }
-    CGRect usable = UIEdgeInsetsInsetRect(screenRect, inset);
-    if (!DFSPRectOK(usable) || !CGRectContainsRect(screenRect, usable))
-        return CGRectNull;
-    return usable;
-}
 // Never contract the system's CarPlay UIWindow: on-device QA5 proved
 // window.frame mutation crops the scene and exposes Home behind it.
 // A separate content-root owner keeps the window and native chrome distinct.
@@ -241,7 +216,7 @@ static BOOL DFSPApply(BOOL full, NSString *source) {
       applied,full,source,NSStringFromCGRect(window.frame),
       NSStringFromCGRect(window.bounds),
       NSStringFromCGRect([DFSPManager rootView].frame),
-      NSStringFromCGRect(DFSPSystemUsableRect(window)),window.windowLevel,
+      NSStringFromCGRect(DFSPNativeDockUsableBounds(window)),window.windowLevel,
       NSStringFromUIEdgeInsets(window.safeAreaInsets)]);
     return applied;
 }
@@ -601,7 +576,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPLayoutCalls=0;
     // Fail closed instead of applying an unverified global window crop.
     UIView *realRoot=[owner rootView];
-    CGRect usable=DFSPSystemUsableRect(window);
+    CGRect usable=DFSPNativeDockUsableBounds(window);
     // SidePlay's own dock geometry is recorded verbatim for real-device triage.
     // carDockArea is a CGRect from its original arm64 method metadata; do not
     // force it into UIWindow-local coordinates without an owner validation.
