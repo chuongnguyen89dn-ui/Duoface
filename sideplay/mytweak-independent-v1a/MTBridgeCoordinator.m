@@ -3,6 +3,8 @@
 #import "MTSceneHost.h"
 #import "MTTrialLog.h"
 #import "MTDockLayout.h"
+#import "MTDashboardContext.h"
+#import "MTDashboardUsableRect.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 @interface MTBridgeCoordinator ()
@@ -97,7 +99,7 @@ static id MTCarPlayDisplay(void) {
     }
     self.lastEnabled=enabled;
     self.hadDisplay=present;
-    if (self.bridgeWindow) { [self refreshNativeDockGeometry]; return; }
+    if (self.bridgeWindow) { [self refreshDashboardContentGeometry]; return; }
     if (self.attemptedForThisConnection) return;
     self.attemptedForThisConnection=YES; // Fail closed: no retry storm.
     [self attachToCarPlayDisplay:display];
@@ -127,32 +129,34 @@ static id MTCarPlayDisplay(void) {
         self.carPlayConnected=YES;
         window.hidden=NO;
         self.mtUnobstructedFrame=window.frame;
-        [self refreshNativeDockGeometry];
+        [self refreshDashboardContentGeometry];
         MTTrialLog(@"window-shown",[NSString stringWithFormat:@"class=%@ frame=%@ bounds=%@",NSStringFromClass(window.class),NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds)]);
     } @catch (NSException *ex) {
         MTTrialLog(@"window-exception",ex.reason ?: @"?");
         [self detach];
     }
 }
-// Only reveal CarPlay's ACTUAL DBDockWindow region, measured in the native
-// CarPlay process. No width constants, no fake icons, no private Dock mutation.
-- (void)refreshNativeDockGeometry {
+// Use only the actual CarPlay UI process's root safe-area geometry.
+// This is NOT a synthetic sidebar, nor proof that Apple's Dock is visible.
+- (void)refreshDashboardContentGeometry {
     UIWindow *w=self.bridgeWindow;
     if (!w) return;
     CGRect full=self.mtUnobstructedFrame;
-    if (CGRectIsEmpty(full)) return;
-    MTBridgeRootViewController *root=[w.rootViewController isKindOfClass:MTBridgeRootViewController.class]
-          ? (MTBridgeRootViewController *)w.rootViewController : nil;
-    NSDictionary *data=[NSDictionary dictionaryWithContentsOfFile:MTDockRecordPath()];
+    if (CGRectIsEmpty(full))return;
+    MTBridgeRootViewController *root=
+      [w.rootViewController isKindOfClass:MTBridgeRootViewController.class]
+      ? (MTBridgeRootViewController *)w.rootViewController : nil;
+    BOOL normal=([root mtWantsNativeDock]);
+    NSDictionary *context=[NSDictionary dictionaryWithContentsOfFile:MTDashboardContextPath()];
     CGRect desired=full;
-    BOOL dockMapped=([root mtWantsNativeDock] &&
-                     MTDockContentRect(full,data,&desired));
-    NSString *mode=dockMapped?@"native-dock-region-reserved":
-        ([root mtWantsNativeDock]?@"native-dock-not-measured-use-original":@"zoom-fullscreen");
+    BOOL verified=(normal && MTDashboardUsableRect(full,context,&desired));
+    NSString *mode=verified ? @"carplay-root-safearea-measured" :
+        (normal ? @"dashboard-context-missing-preserve-existing" : @"zoom-fullscreen");
     if (![mode isEqualToString:self.lastDockLayoutMode]) {
-        MTTrialLog(@"native-dock-layout",[NSString stringWithFormat:
-          @"mode=%@ from=%@ to=%@ nativeKind=%@",
-          mode,NSStringFromCGRect(w.frame),NSStringFromCGRect(desired),data[@"Kind"] ?: @"none"]);
+        MTTrialLog(@"dashboard-layout",[NSString stringWithFormat:
+          @"mode=%@ full=%@ target=%@ contextKind=%@ producer=%@",
+          mode,NSStringFromCGRect(full),NSStringFromCGRect(desired),
+          context[@"Kind"] ?: @"none",context[@"Producer"] ?: @"none"]);
         self.lastDockLayoutMode=mode;
     }
     if (!CGRectEqualToRect(w.frame,desired)) {

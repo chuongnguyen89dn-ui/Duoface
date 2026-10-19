@@ -1,9 +1,9 @@
 Package: com.duoface.mytweak.v1a.preflight
-Name: DuoFace MyTweak Native AppDock Candidate (Real Dock)
-Version: 0.2.1~dock1
+Name: DuoFace MyTweak CarPlay Dashboard Context Candidate
+Version: 0.2.2~dashctx1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: Independent combined v1bc app host with a CarPlay-process read-only DBDockWindow observer and native Dock geometry-aware layout. No fake dock, source gated; device acceptance pending. Preserves QA11/Native12/HUD8.
+Description: Independently hosted two-app MyTweak with CarPlay-process root scene and safe-area context observation, guarded native-usable frame application; no fake Dock or vendor binary. Device acceptance pending. QA11/Native12/HUD8 unchanged.
