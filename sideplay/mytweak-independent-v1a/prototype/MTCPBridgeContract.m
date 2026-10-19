@@ -33,8 +33,11 @@ static BOOL MTCPFiniteUnit(id value) {
 static BOOL MTCPHeader(NSDictionary *record,NSString *kind,NSString *session,
                         NSTimeInterval now) {
     if (![record isKindOfClass:NSDictionary.class])return NO;
+    // A malformed plist must never send -isEqualToString: to NSNumber/NSArray.
+    id recordKind=record[@"Kind"];
     if (![record[@"Version"] isEqual:@1] ||
-        ![record[@"Kind"] isEqualToString:kind] ||
+        ![recordKind isKindOfClass:NSString.class] ||
+        ![recordKind isEqualToString:kind] ||
         !MTCPValidSession(record[@"Session"]) ||
         !MTCPRecent(record[@"Timestamp"],now))return NO;
     if (session && ![record[@"Session"] isEqualToString:session])return NO;
