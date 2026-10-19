@@ -1,0 +1,87 @@
+name: DuoFace isolated CarPlay presentation protocol (NO DEB)
+on:
+  push:
+    branches:
+      - feature/mytweak-carplayapp-presentation-20261019
+    paths:
+      - '.github/workflows/mytweak-carplay-presentation-prototype.yml'
+      - 'sideplay/mytweak-independent-v1a/prototype/**'
+      - 'sideplay/mytweak-independent-v1a/tests/test_carplay_presentation_prototype.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mytweak-cp-presentation-prototype
+  cancel-in-progress: true
+jobs:
+  source-and-ios16-syntax:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python safety contracts
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          python3 -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/carplay-prototype-tests.log"
+      - name: Compile isolated ObjC protocol against iOS SDK (arm64/arm64e)
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          for ARCH in arm64 arm64e; do
+            for FILE in MTCPBridgeContract.m MTCPRemoteLayer.m MTCPCommandRelay.m; do
+              echo "Syntax compiling $ARCH $FILE"
+              xcrun --sdk iphoneos clang -target "${ARCH}-apple-ios16.0" \
+                -isysroot "$SDK" -fobjc-arc -x objective-c -fsyntax-only \
+                -Werror -Wno-deprecated-declarations -I "$ROOT" "$ROOT/$FILE"
+            done
+          done
+      - name: Save proven source-only CI checkpoint to target repository
+        run: |
+          set -euo pipefail
+          DEST=sideplay/test-artifacts/mytweak-carplay-presentation-prototype
+          mkdir -p "$DEST"
+          {
+            echo CARPLAY_PRESENTATION_SOURCE_PROTOTYPE=PASS
+            echo "GITHUB_RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "STATIC_TESTS=PASS"
+            echo "OBJC_SYNTAX_ARM64_ARM64E=PASS"
+            echo DEVICE_TESTED=false
+            echo SCENE_OWNERSHIP_VERIFIED=false
+            echo TOUCH_DELIVERY_IMPLEMENTED=false
+            echo SILEO_PUBLISHED=false
+            echo DEB_BUILT=false
+            echo QA11_NATIVE12_HUD8_UNCHANGED=true
+          } > "$DEST/CI_RESULT.txt"
+          cp "$RUNNER_TEMP/carplay-prototype-tests.log" "$DEST/STATIC_TESTS.log"
+          (cd sideplay/mytweak-independent-v1a/prototype &&
+            shasum -a 256 MTCPBridgeContract.h MTCPBridgeContract.m \
+              MTCPRemoteLayer.h MTCPRemoteLayer.m MTCPCommandRelay.h \
+              MTCPCommandRelay.m README.md) > "$DEST/SOURCE_SHA256SUMS.txt"
+      - name: Upload source test checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp-presentation-source-prototype-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-carplay-presentation-prototype/
+          if-no-files-found: error
+      - name: Persist checked CI evidence in DuoFace project repo (NO deploy)
+        run: |
+          set -euo pipefail
+          BRANCH=feature/mytweak-carplayapp-presentation-20261019
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-carplay-presentation-prototype/
+          git commit -m 'tests: persist CarPlay prototype syntax/safety evidence [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-carplay-presentation-prototype/CI_RESULT.txt" | grep -F 'CARPLAY_PRESENTATION_SOURCE_PROTOTYPE=PASS'
+              exit 0
+            fi
+          done
+          exit 1
