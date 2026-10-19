@@ -16,7 +16,7 @@ class PackageIsolation(unittest.TestCase):
         mk=(ROOT/'Makefile').read_text()
         m=re.search(r'^DFV1APreflight_FILES = (.+)$',mk,re.MULTILINE)
         self.assertIsNotNone(m)
-        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m','MTTrialLog.m','MTBridgeCoordinator.m','MTBridgeRootViewController.m','MTSplitContainerViewController.m','MTAppSlotViewController.m','MTAppPickerViewController.m','MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m','MTDockLayout.m','MTNativeDockProbe.m','MTDashboardContext.m','MTDashboardUsableRect.m'])
+        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m','MTTrialLog.m','MTBridgeCoordinator.m','MTBridgeRootViewController.m','MTSplitContainerViewController.m','MTAppSlotViewController.m','MTAppPickerViewController.m','MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m','MTDashboardContext.m','MTDashboardUsableRect.m'])
         self.assertIn('THEOS_PACKAGE_SCHEME = rootless',mk)
         self.assertIn('INSTALL_TARGET_PROCESSES = SpringBoard CarPlay CarPlayApp',mk)
         self.assertIn('arm64 arm64e',mk)

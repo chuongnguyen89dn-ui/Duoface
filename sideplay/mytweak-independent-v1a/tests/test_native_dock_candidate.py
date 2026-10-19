@@ -15,7 +15,7 @@ class NativeDockContract(unittest.TestCase):
         entry=src("V1ATweak.x")
         self.assertIn("%group MTSpringBoardHook",entry)
         self.assertIn("%init(MTSpringBoardHook)",entry)
-        self.assertIn("startForCarPlayProcess",entry)
+        self.assertNotIn("startForCarPlayProcess",entry)
         p=src("MTNativeDockProbe.m")
         for x in ('@"DBDockWindow"', '"CarPlay"', '"real-DBDockWindow"',
                   'MTOriginalDockLayout(window,cmd)','class_addMethod',
@@ -63,8 +63,8 @@ class NativeDockContract(unittest.TestCase):
         self.assertNotIn("Conflicts:",c)
         self.assertNotIn("Replaces:",c)
         mk=src("Makefile")
-        self.assertIn("MTNativeDockProbe.m",mk)
-        self.assertIn("MTDockLayout.m",mk)
+        self.assertNotIn("MTNativeDockProbe.m",mk)
+        self.assertNotIn("MTDockLayout.m",mk)
         self.assertIn("THEOS_PACKAGE_SCHEME = rootless",mk)
         self.assertNotIn("Airaw.dylib",mk)
         self.assertNotIn("CarSurf.dylib",mk)

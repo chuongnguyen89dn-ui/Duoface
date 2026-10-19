@@ -13,7 +13,7 @@ class CombinedContract(unittest.TestCase):
         m=re.search(r'^DFV1APreflight_FILES = (.*)$',src('Makefile'),re.M)
         self.assertIsNotNone(m)
         files=m.group(1).split()
-        self.assertEqual(len(files),15)
+        self.assertEqual(len(files),13)
         for name in files:self.assertTrue((P/name).is_file(),name)
         self.assertIn('MTSceneHost.m',files)
         self.assertIn('MTBridgeCoordinator.m',files)

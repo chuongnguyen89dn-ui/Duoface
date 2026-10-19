@@ -4,7 +4,6 @@
 #import "MTPreflight.h"
 #import "MTBridgeCoordinator.h"
 #import "MTTrialLog.h"
-#import "MTNativeDockProbe.h"
 #import "MTDashboardContext.h"
 
 %group MTSpringBoardHook
@@ -32,8 +31,6 @@
                            dispatch_get_main_queue(), ^{
                 // Read-only scene/root geometry owner discovery first.
                 [MTDashboardContext startIfCarPlayUIProcess];
-                if ([NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"])
-                    [MTNativeDockProbe startForCarPlayProcess];
             });
         }
     }

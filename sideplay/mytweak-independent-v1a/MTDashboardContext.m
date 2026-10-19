@@ -114,7 +114,7 @@ static BOOL MTExcludedWindow(UIWindow *w) {
         return;
     }
     UIEdgeInsets insets=best.safeAreaInsets;
-    UIView *root=best.rootViewController.view;
+    UIView *root=best.rootViewController.isViewLoaded ? best.rootViewController.view : nil;
     UIEdgeInsets rootInsets=root ? root.safeAreaInsets : UIEdgeInsetsZero;
     // Use only the actual root window's safeAreaInsets for geometry, not
     // arbitrary side padding measured from a nested card/picker.
