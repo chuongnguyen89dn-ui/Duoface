@@ -23,6 +23,15 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
+      - name: Execute same-session receiver ACK validation in native Foundation
+        run: |
+          set -euo pipefail
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          xcrun --sdk macosx clang -fobjc-arc \
+            -framework Foundation -framework CoreGraphics \
+            "$ROOT/MTCPBridgeContract.m" "$ROOT/tests/MTCPReceiverAckTests.m" \
+            -o "$RUNNER_TEMP/receiver-ack-tests"
+          "$RUNNER_TEMP/receiver-ack-tests" 2>&1 | tee "$RUNNER_TEMP/native-receiver-ack-tests.log"
       - name: Setup Theos rootless SDK
         run: |
           set -euo pipefail
@@ -41,7 +50,7 @@ jobs:
           test "${#debs[@]}" = 1
           DEB="${debs[0]}"
           test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.carplay.nativebridgeqa'
-          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.2~sidebartest1'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.3~nativehandoff1'
           test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$DEB" > "$RUNNER_TEMP/nativebridgeqa-content.txt"
           grep -F '/DFNativeDashboardBridgeQA.dylib' "$RUNNER_TEMP/nativebridgeqa-content.txt"
@@ -57,10 +66,11 @@ jobs:
           assert p['Filter']['Executables']==['SpringBoard','CarPlay','CarPlayApp'],p
           print('EXACT_PROCESS_FILTER_PASS')
           PY
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa1"
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa3"
           mkdir -p "$OUT"
           cp "$DEB" "$OUT/"
           cp "$RUNNER_TEMP/nativebridgeqa-content.txt" "$OUT/FILE_LIST.txt"
+          cp "$RUNNER_TEMP/native-receiver-ack-tests.log" "$OUT/NATIVE_ACK_TESTS.log"
           (cd "$OUT" && shasum -a 256 "$(basename "$DEB")" > SHA256SUMS.txt)
           {
              echo NATIVE_BRIDGE_QA_BUILD=PASS
@@ -75,6 +85,9 @@ jobs:
              echo NATIVE_BAR_TRIAL_THIRD_OPTIN_REQUIRED=true
              echo NATIVE_BAR_TRIAL_MAX_SECONDS=45
              echo ORIGINAL_V1BC_REPLACED=false
+             echo SOURCE_WINDOW_YIELD_ONLY_AFTER_NATIVE_ACK=true
+             echo SOURCE_WINDOW_YIELD_MAX_SECONDS=45
+             echo REAL_NATIVE_DOCK_VISIBLE_UNVERIFIED=true
              echo DOCK_RESTORED_ON_DEVICE=false
              echo LIVE_IPHONE_APP_GESTURES_IMPLEMENTED=false
              echo HARDWARE_TESTED=false
@@ -84,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: duoFace-native-dashboard-bridgeqa1-${{ github.run_id }}
-          path: sideplay/test-artifacts/mytweak-native-bridgeqa1/
+          path: sideplay/test-artifacts/mytweak-native-bridgeqa3/
           if-no-files-found: error
       - name: Persist isolated QA build to GitHub
         run: |
@@ -92,14 +105,14 @@ jobs:
           BRANCH=feature/mytweak-native-dashboard-owner-20261019
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sideplay/test-artifacts/mytweak-native-bridgeqa1/
+          git add sideplay/test-artifacts/mytweak-native-bridgeqa3/
           git commit -m 'artifacts: independent native Dashboard QA DEB [skip ci]'
           for attempt in 1 2 3 4 5; do
              git fetch origin "$BRANCH"
              git rebase "origin/$BRANCH"
              if git push origin HEAD:"$BRANCH"; then
                 git fetch origin "$BRANCH"
-                git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-bridgeqa1/CI_RESULT.txt" | grep -F 'NATIVE_BRIDGE_QA_BUILD=PASS'
+                git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-bridgeqa3/CI_RESULT.txt" | grep -F 'NATIVE_BRIDGE_QA_BUILD=PASS'
                 exit 0
              fi
              sleep 2
