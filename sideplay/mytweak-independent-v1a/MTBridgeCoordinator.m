@@ -5,6 +5,7 @@
 #import "MTDashboardContext.h"
 #import "MTDashboardUsableRect.h"
 #import "MTDashboardActivation.h"
+#import "MTNativeShellGeometry.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 @interface MTBridgeCoordinator ()
@@ -17,6 +18,8 @@
 @property(nonatomic,assign) BOOL lastEnabled;
 @property(nonatomic,assign) CGRect mtUnobstructedFrame;
 @property(nonatomic,copy) NSString *lastDockLayoutMode;
+@property(nonatomic,assign) NSUInteger nativeShellRequests;
+@property(nonatomic,assign) NSTimeInterval lastShellRequestTime;
 @end
 @implementation MTBridgeCoordinator
 + (instancetype)sharedCoordinator {
@@ -93,15 +96,40 @@ static id MTCarPlayDisplay(void) {
     if (!enabled || !present) {
         if (self.bridgeWindow) [self detach];
         self.attemptedForThisConnection=NO;
+        self.nativeShellRequests=0;
+        self.lastShellRequestTime=0;
         self.lastEnabled=enabled;
         self.hadDisplay=present;
         return;
     }
     self.lastEnabled=enabled;
     self.hadDisplay=present;
+    NSDictionary *shell=[NSDictionary dictionaryWithContentsOfFile:MTNativeShellRecordPath()];
+    NSNumber *timestamp=shell[@"Timestamp"];
+    NSTimeInterval age=[timestamp respondsToSelector:@selector(doubleValue)] ?
+          NSDate.date.timeIntervalSince1970-[timestamp doubleValue] : 1e9;
+    BOOL nativeReady=([shell[@"Producer"] isEqualToString:@"IndependentDuoFaceShell"] &&
+                      [shell[@"Kind"] isEqualToString:@"NativeCarPlayWindowScene"] &&
+                      [shell[@"CarPlayRole"] isEqual:@YES] &&
+                      [shell[@"GeometryValid"] isEqual:@YES] &&
+                      [shell[@"HasNonzeroInsets"] isEqual:@YES] &&
+                      age>=0 && age<4.0);
+    if (!nativeReady) {
+        if (self.bridgeWindow)[self detach];
+        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+        if (self.nativeShellRequests<8 && now-self.lastShellRequestTime>=3.0) {
+            self.nativeShellRequests++;
+            self.lastShellRequestTime=now;
+            [MTDashboardActivation requestDuoFaceShellFromSpringBoard];
+            MTTrialLog(@"native-shell-awaiting",
+              [NSString stringWithFormat:@"request=%lu CarPlay-scene-not-yet-verified",
+              (unsigned long)self.nativeShellRequests]);
+        }
+        return;
+    }
     if (self.bridgeWindow) { [self refreshDashboardContentGeometry]; return; }
     if (self.attemptedForThisConnection) return;
-    self.attemptedForThisConnection=YES; // Fail closed: no retry storm.
+    self.attemptedForThisConnection=YES;
     [self attachToCarPlayDisplay:display];
 }
 - (void)attachToCarPlayDisplay:(id)display {
@@ -127,42 +155,52 @@ static id MTCarPlayDisplay(void) {
         window.windowLevel=UIWindowLevelNormal;
         self.bridgeWindow=window;
         self.carPlayConnected=YES;
-        window.hidden=NO;
         self.mtUnobstructedFrame=window.frame;
-        [self refreshDashboardContentGeometry];
+        CGRect nativeContent=CGRectZero;
+        NSDictionary *shell=[NSDictionary dictionaryWithContentsOfFile:MTNativeShellRecordPath()];
+        if (!MTNativeShellUsableRect(window.frame,shell,&nativeContent)) {
+            MTTrialLog(@"native-shell-frame-rejected",
+              @"native scene geometry unavailable: refusing full-cover external window");
+            [self detach];
+            return;
+        }
+        window.frame=nativeContent;
+        window.hidden=NO;
+        MTTrialLog(@"native-shell-window-attached",
+          [NSString stringWithFormat:@"shell-role=CarPlay content=%@",
+          NSStringFromCGRect(nativeContent)]);
         MTTrialLog(@"window-shown",[NSString stringWithFormat:@"class=%@ frame=%@ bounds=%@",NSStringFromClass(window.class),NSStringFromCGRect(window.frame),NSStringFromCGRect(window.bounds)]);
     } @catch (NSException *ex) {
         MTTrialLog(@"window-exception",ex.reason ?: @"?");
         [self detach];
     }
 }
-// Use only the actual CarPlay UI process's root safe-area geometry.
-// This is NOT a synthetic sidebar, nor proof that Apple's Dock is visible.
+// Native CarPlay shell is the ONLY accepted external presentation owner.
+// Even Zoom is constrained inside its OS-owned scene's actual usable rectangle.
 - (void)refreshDashboardContentGeometry {
     UIWindow *w=self.bridgeWindow;
     if (!w) return;
     CGRect full=self.mtUnobstructedFrame;
     if (CGRectIsEmpty(full))return;
-    MTBridgeRootViewController *root=
-      [w.rootViewController isKindOfClass:MTBridgeRootViewController.class]
-      ? (MTBridgeRootViewController *)w.rootViewController : nil;
-    BOOL normal=([root mtWantsNativeDock]);
-    NSDictionary *context=[NSDictionary dictionaryWithContentsOfFile:MTDashboardContextPath()];
-    CGRect desired=full;
-    BOOL verified=(normal && MTDashboardUsableRect(full,context,&desired));
-    NSString *mode=verified ? @"carplay-root-safearea-measured" :
-        (normal ? @"dashboard-context-missing-preserve-existing" : @"zoom-fullscreen");
-    if (![mode isEqualToString:self.lastDockLayoutMode]) {
-        MTTrialLog(@"dashboard-layout",[NSString stringWithFormat:
-          @"mode=%@ full=%@ target=%@ contextKind=%@ producer=%@",
-          mode,NSStringFromCGRect(full),NSStringFromCGRect(desired),
-          context[@"Kind"] ?: @"none",context[@"Producer"] ?: @"none"]);
+    NSDictionary *shell=[NSDictionary dictionaryWithContentsOfFile:MTNativeShellRecordPath()];
+    CGRect desired=CGRectZero;
+    if (!MTNativeShellUsableRect(full,shell,&desired)) {
+        MTTrialLog(@"native-shell-lost",@"scene disappeared/stale; stop external host");
+        [self detach];
+        self.attemptedForThisConnection=NO;
+        return;
+    }
+    NSString *mode=@"native-CarPlay-app-usable-bounds";
+    if (![self.lastDockLayoutMode isEqualToString:mode]) {
         self.lastDockLayoutMode=mode;
+        MTTrialLog(@"dashboard-layout",[NSString stringWithFormat:
+          @"mode=%@ nativeFrame=%@ shell=%@",
+          mode,NSStringFromCGRect(desired),shell[@"Kind"]?:@"missing"]);
     }
     if (!CGRectEqualToRect(w.frame,desired)) {
         w.frame=desired;
-        [root.view setNeedsLayout];
-        [root.view layoutIfNeeded];
+        [w.rootViewController.view setNeedsLayout];
+        [w.rootViewController.view layoutIfNeeded];
     }
 }
 - (void)detach {
