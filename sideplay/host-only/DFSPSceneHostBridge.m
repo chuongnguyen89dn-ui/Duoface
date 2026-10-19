@@ -11,8 +11,6 @@
 @interface SPPane : NSObject
 - (UIView *)view;
 - (id)appViewController;
-- (void)loadApp:(NSString *)bundleIdentifier;
-- (void)unloadApp;
 @end
 
 @interface DFSPSceneHostBridge ()
@@ -73,21 +71,5 @@
         !isfinite(rect.size.width) || !isfinite(rect.size.height) ||
         rect.size.width<=0 || rect.size.height<=0)return CGRectNull;
     return rect;
-}
-- (BOOL)loadBundleIdentifier:(NSString *)bundleID intoSlot:(NSUInteger)slot {
-    if (!bundleID.length || ![NSThread isMainThread])return NO;
-    SPPane *pane=[self paneAtSlot:slot];
-    if (!pane || ![pane respondsToSelector:@selector(loadApp:)])return NO;
-    // SidePlay remains responsible for its own scene/CarBridge lifecycle and
-    // any valid authorization. We only forward a user-selected bundle ID.
-    [pane loadApp:bundleID];
-    return YES; // request dispatched, NOT proof of successful app presentation
-}
-- (BOOL)unloadSlot:(NSUInteger)slot {
-    if (![NSThread isMainThread])return NO;
-    SPPane *pane=[self paneAtSlot:slot];
-    if (!pane || ![pane respondsToSelector:@selector(unloadApp)])return NO;
-    [pane unloadApp];
-    return YES; // request dispatched, not a finished scene teardown guarantee
 }
 @end
