@@ -1,0 +1,28 @@
+name: QA11 CarPlay restore drag/nav/dock source checks
+on:
+  push:
+    branches: [feature/duoface-qa11-restore-native-dock-split-menu]
+    paths:
+      - 'sideplay/native12-display/DFSPNativeFrame.m'
+      - 'sideplay/sileo-qa/Tweak.xm'
+      - 'sideplay/sileo-qa/DFSPNativeDock.xm'
+      - 'sideplay/native12-display/validation/check_qa11_device_regressions.py'
+      - '.github/workflows/sideplay-qa11-source-safety.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa11-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: QA11 inspect source and compare QA7 drag
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/native12-display/validation/check_qa11_device_regressions.py
+          python3 sideplay/native12-display/validation/check_qa11_device_regressions.py
+          grep -F 'logoPan' sideplay/native12-display/DFSPNativeFrame.m
+          grep -F 'slideBarHidden:(BOOL)' sideplay/sileo-qa/Tweak.xm
+          echo QA11_SOURCE_TEST_PASS_NOT_A_DEVICE_TEST
