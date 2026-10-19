@@ -98,7 +98,7 @@ static void MTWorkspaceImageMapped(const struct mach_header *header) {
         @"WorkspaceHookInstalled":@(gInstalled),
         @"WorkspaceCaptured":@(workspace!=nil),
     }];
-    // Read-only optional introspection; do not call requestStateChange:.
+    // Read-only optional introspection; never change CarPlay's workspace state.
     if (workspace) {
         data[@"WorkspaceRuntimeClass"]=NSStringFromClass([workspace class]);
         SEL stateSelector=NSSelectorFromString(@"state");
