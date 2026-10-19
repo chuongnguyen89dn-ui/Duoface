@@ -58,6 +58,21 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     *content=accepted;
     return YES;
 }
+// A receiver ACK is not a "Dock visible" assertion. It means the
+// system-owned Dashboard child has an active CALayerHost with a live surface.
+- (BOOL)writeLiveReceiverAck:(UIWindow *)w {
+    if (!self.attached || !self.receiver.session ||
+        !MTCPDashboardWindow(self.dashboardRoot,NULL) || !w ||
+        CGRectGetWidth(w.bounds)<=0 || CGRectGetHeight(w.bounds)<=0)return NO;
+    NSDictionary *packet=MTCPBridgeReadSurface(self.receiver.session);
+    uint32_t cid=[packet[@"ContextID"] unsignedIntValue];
+    CGRect r=self.contentRect, b=w.bounds;
+    CGRect normalized=CGRectMake((CGRectGetMinX(r)-CGRectGetMinX(b))/CGRectGetWidth(b),
+                      (CGRectGetMinY(r)-CGRectGetMinY(b))/CGRectGetHeight(b),
+                      CGRectGetWidth(r)/CGRectGetWidth(b),
+                      CGRectGetHeight(r)/CGRectGetHeight(b));
+    return cid!=0 && MTCPBridgeWriteReceiverAck(self.receiver.session,cid,normalized);
+}
 - (BOOL)attachToDashboardRoot:(UIViewController *)root {
     if (![NSThread isMainThread] || !MTCPDashboardProcess() ||
         !MTCPBridgeExplicitOptIn() || self.attached)return NO;
@@ -85,6 +100,9 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     self.receiver=receiver;
     self.contentRect=usable;
     self.attached=YES;
+    if (![self writeLiveReceiverAck:w]) {
+        [self detach];return NO; // No sender handoff without valid acknowledgement.
+    }
     return YES;
 }
 - (void)refresh {
@@ -103,8 +121,10 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     }
     self.contentView.frame=local;
     self.contentRect=usable;
+    if (![self writeLiveReceiverAck:w]) [self detach];
 }
 - (void)detach {
+    if (self.receiver.session)MTCPBridgeInvalidateReceiverAck(self.receiver.session);
     [self.receiver disconnect];
     [self.contentView removeFromSuperview];
     self.receiver=nil;
