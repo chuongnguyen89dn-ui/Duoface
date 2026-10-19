@@ -2,12 +2,16 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 FOUNDATION_EXPORT NSString *const MTSceneHostDidFailNotification;
 
 @interface MTSceneHost : NSObject
 + (instancetype)sharedHost;
 // Creates a pending host surface; scene readiness is asynchronous.
-- (nullable UIView *)hostViewForBundleID:(NSString *)bundleID error:(NSError **)error;
+- (nullable UIView *)hostViewForBundleID:(NSString *)bundleID error:(NSError * _Nullable * _Nullable)error;
 - (void)releaseHostedView:(UIView *)view;
 - (void)stopAllHosts;
 @end
+
+NS_ASSUME_NONNULL_END
