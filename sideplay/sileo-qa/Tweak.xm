@@ -304,29 +304,47 @@ static void DFSPHideLegacySplitStrips(CGRect one, CGRect two,
        (CGRectGetMidY(one)<CGRectGetMidY(two)?
         (CGRectGetMaxY(one)+CGRectGetMinY(two))*0.5:
         (CGRectGetMaxY(two)+CGRectGetMinY(one))*0.5);
-    for (UIView *candidate in root.subviews) {
-        if (!candidate || candidate==p0 || candidate==p1 ||
-            [candidate isKindOfClass:UIControl.class] ||
-            [candidate isKindOfClass:UIScrollView.class] ||
-            // UIView defaults to userInteractionEnabled=YES; that does not
-            // prove it is a draggable control. Preserve *actual* gestures.
-            candidate.gestureRecognizers.count>0 || candidate.hidden ||
-            [p0 isDescendantOfView:candidate] ||
-            [p1 isDescendantOfView:candidate] ||
-            candidate.subviews.count>0)continue;
-        CGRect rect=[candidate convertRect:candidate.bounds toView:DFSPUI];
-        CGFloat thickness=vertical?CGRectGetWidth(rect):CGRectGetHeight(rect);
-        CGFloat span=vertical?CGRectGetHeight(rect):CGRectGetWidth(rect);
-        CGFloat expected=vertical?
-            MIN(CGRectGetHeight(one),CGRectGetHeight(two)):
-            MIN(CGRectGetWidth(one),CGRectGetWidth(two));
-        CGFloat center=vertical?CGRectGetMidX(rect):CGRectGetMidY(rect);
-        if (isfinite(thickness) && thickness>0 && thickness<=4 &&
-            span>=expected*0.65 && fabs(center-split)<=6) {
-            DFSPHideReplacedView(candidate);
-            DFSPLog([NSString stringWithFormat:
-                @"QA10 hidden SidePlay decorative split strip class=%@ frame=%@",
-                NSStringFromClass(candidate.class),NSStringFromCGRect(rect)]);
+    // The original SidePlay areaView can nest its decoration beneath rootView.
+    // Walk at most 256 views / four layers, but NEVER enter a real pane scene.
+    NSMutableArray<UIView *> *queue=[NSMutableArray arrayWithObject:root];
+    NSMutableArray<NSNumber *> *depths=[NSMutableArray arrayWithObject:@0];
+    for (NSUInteger idx=0; idx<queue.count && idx<256;idx++) {
+        UIView *parent=queue[idx];
+        NSUInteger depth=depths[idx].unsignedIntegerValue;
+        if (depth>4)continue;
+        for (UIView *candidate in parent.subviews) {
+            if (!candidate || candidate==p0 || candidate==p1 ||
+                [candidate isDescendantOfView:p0] ||
+                [candidate isDescendantOfView:p1] ||
+                candidate.window!=DFSPWindow ||
+                [candidate isKindOfClass:UIControl.class] ||
+                [candidate isKindOfClass:UIScrollView.class])continue;
+            BOOL ownsPane=[p0 isDescendantOfView:candidate] ||
+                          [p1 isDescendantOfView:candidate];
+            if (!ownsPane && !candidate.hidden &&
+                candidate.gestureRecognizers.count==0 &&
+                candidate.subviews.count==0) {
+                CGRect rect=[candidate convertRect:candidate.bounds toView:DFSPUI];
+                CGFloat thickness=vertical?CGRectGetWidth(rect):CGRectGetHeight(rect);
+                CGFloat span=vertical?CGRectGetHeight(rect):CGRectGetWidth(rect);
+                CGFloat expected=vertical?
+                    MIN(CGRectGetHeight(one),CGRectGetHeight(two)):
+                    MIN(CGRectGetWidth(one),CGRectGetWidth(two));
+                CGFloat center=vertical?CGRectGetMidX(rect):CGRectGetMidY(rect);
+                if (isfinite(thickness) && thickness>0 && thickness<=4 &&
+                    span>=expected*0.65 && fabs(center-split)<=6) {
+                    DFSPHideReplacedView(candidate);
+                    DFSPLog([NSString stringWithFormat:
+                        @"QA10 hidden SidePlay decorative split strip class=%@ frame=%@",
+                        NSStringFromClass(candidate.class),NSStringFromCGRect(rect)]);
+                }
+            }
+            if (depth<4 && queue.count<256 && candidate.subviews.count>0 &&
+                ![candidate isKindOfClass:UIScrollView.class] &&
+                ![candidate isKindOfClass:UIControl.class]) {
+                [queue addObject:candidate];
+                [depths addObject:@(depth+1)];
+            }
         }
     }
 }
