@@ -253,6 +253,28 @@ void DFSPChromeInstallReceiver(void) {
         dispatch_async(dispatch_get_main_queue(),^{DFSPChromeInstallHooks(0);});
     }
 }
+// A CarPlay process can start after SpringBoard has already attached SPDash.
+// Retry a bounded number of missed command notifications; an ACK for a
+// missing status window stops retries because the receiver is working and
+// will recheck when the status window appears later.
+static void DFSPChromeAwaitAck(CFStringRef event, NSUInteger serial,
+                               NSUInteger ackBefore, NSUInteger attempt) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
+                   dispatch_get_main_queue(),^{
+        if (DFSPChromeRequestSerial!=serial || DFSPChromeAckCount!=ackBefore)return;
+        if (attempt<4) {
+            DFSPChromeLog([NSString stringWithFormat:
+                  @"no receiver ACK serial=%lu retry=%lu/4",
+                  (unsigned long)serial,(unsigned long)attempt],YES);
+            DFSPChromePost(event);
+            DFSPChromeAwaitAck(event,serial,ackBefore,attempt+1);
+        } else {
+            DFSPChromeLog([NSString stringWithFormat:
+                 @"ACK TIMEOUT serial=%lu: CarPlay process/receiver not verified after 4 retries",
+                 (unsigned long)serial],YES);
+        }
+    });
+}
 void DFSPChromeRequest(BOOL active, BOOL normalVisible, NSUInteger generation) {
     // Do not assume a successful send means a statusbar/dock actually appeared.
     NSUInteger serial=++DFSPChromeRequestSerial;
@@ -263,16 +285,9 @@ void DFSPChromeRequest(BOOL active, BOOL normalVisible, NSUInteger generation) {
     DFSPChromeLog([NSString stringWithFormat:
          @"Darwin request serial=%lu gen=%lu active=%d normal=%d",
          (unsigned long)serial,(unsigned long)generation,active,normalVisible],YES);
-    // Missing CarPlay window or process injection can be diagnosed WITHOUT
-    // looking at private UI: user log explicitly records unacknowledged commands.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,2*NSEC_PER_SEC),
-                   dispatch_get_main_queue(),^{
-        if (DFSPChromeRequestSerial==serial && DFSPChromeAckCount==ackBefore)
-            DFSPChromeLog([NSString stringWithFormat:
-               @"ACK TIMEOUT serial=%lu: CarPlay receiver/process/window not verified",
-               (unsigned long)serial],YES);
-    });
+    DFSPChromeAwaitAck(event,serial,ackBefore,1);
 }
+
 %ctor {
     @autoreleasepool { DFSPChromeInstallReceiver(); }
 }
