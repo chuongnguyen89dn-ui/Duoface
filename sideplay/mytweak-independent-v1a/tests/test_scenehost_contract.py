@@ -17,7 +17,7 @@ class TestSceneHostContract(unittest.TestCase):
         self.assertEqual(len(originals),11)
         for name in originals:self.assertTrue((ROOT/name).is_file(),name)
         make=self.get('Makefile')
-        self.assertIn('DFV1APreflight_FILES = V1ATweak.x MTPreflight.m',make)
+        self.assertIn('DFV1APreflight_FILES = V1ATweak.x MTPreflight.m MTTrialLog.m MTBridgeCoordinator.m MTBridgeRootViewController.m MTSplitContainerViewController.m MTAppSlotViewController.m MTAppPickerViewController.m MTAppLibrary.m MTAppLauncher.m MTSceneHost.m',make)
     def test_no_stub_and_correct_springboard_classes(self):
         s=self.get('MTSceneHost.m')
         for sym in ('SBApplicationController','SBDeviceApplicationSceneEntity','SBAppViewController',

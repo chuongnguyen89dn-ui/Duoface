@@ -8,7 +8,7 @@ class PackageIsolation(unittest.TestCase):
     def test_unique_package(self):
         c=(ROOT/'control').read_text()
         self.assertIn('Package: com.duoface.mytweak.v1a.preflight',c)
-        self.assertIn('Version: 0.1.0~v1a1',c)
+        self.assertIn('Version: 0.2.0~v1bc1',c)
         self.assertIn('Architecture: iphoneos-arm64',c)
         self.assertNotIn('com.sideplay',c)
         self.assertNotIn('Conflicts:',c)
@@ -16,13 +16,13 @@ class PackageIsolation(unittest.TestCase):
         mk=(ROOT/'Makefile').read_text()
         m=re.search(r'^DFV1APreflight_FILES = (.+)$',mk,re.MULTILINE)
         self.assertIsNotNone(m)
-        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m'])
+        self.assertEqual(m.group(1).split(),['V1ATweak.x','MTPreflight.m','MTTrialLog.m','MTBridgeCoordinator.m','MTBridgeRootViewController.m','MTSplitContainerViewController.m','MTAppSlotViewController.m','MTAppPickerViewController.m','MTAppLibrary.m','MTAppLauncher.m','MTSceneHost.m'])
         self.assertIn('THEOS_PACKAGE_SCHEME = rootless',mk)
         self.assertIn('INSTALL_TARGET_PROCESSES = SpringBoard',mk)
         self.assertIn('arm64 arm64e',mk)
         entry=(ROOT/'V1ATweak.x').read_text()
         self.assertIn('[MTPreflight startReadOnlyDiagnostics]',entry)
-        for bad in ('MTSceneHost','MTBridgeCoordinator','initWithDisplayConfiguration:',
+        for bad in ('initWithDisplayConfiguration:',
                     'setRequestedMode:', 'makeKeyAndVisible','loadApp:','CBBridgeManager'):
             self.assertNotIn(bad,entry)
         self.assertIn('com.apple.springboard',(ROOT/'DFV1APreflight.plist').read_text())
