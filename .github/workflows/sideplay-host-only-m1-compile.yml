@@ -10,12 +10,36 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: duoface-m1-host-only-compile
+  cancel-in-progress: true
 jobs:
   host-only-build:
     runs-on: macos-15
     timeout-minutes: 22
     steps:
       - uses: actions/checkout@v4
+      - name: Record CI run ID before compilation
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE='sideplay/host-only/validation/M1_CI_RUN.txt'
+          printf 'M1_RUN_ID=%s\nM1_SOURCE_SHA=%s\nM1_ACTIONS_URL=https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/%s\n' \
+            "$GITHUB_RUN_ID" "$GITHUB_SHA" "$GITHUB_RUN_ID" > "$FILE"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$FILE"
+          git commit -m 'ci(m1): record build job for diagnosis [skip ci]'
+          for attempt in 1 2 3 4; do
+            git fetch origin feature/duoface-native12-host-only-bridge-m1
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-native12-host-only-bridge-m1; then
+              echo M1_RUN_ID_SAVED
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
       - name: Check host-only API and Native12 visual invariants
         shell: bash
         run: |
