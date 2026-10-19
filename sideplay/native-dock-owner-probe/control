@@ -1,0 +1,9 @@
+Package: com.duoface.carplay.ownerprobe
+Name: DuoFace Native Dock Owner Probe (QA)
+Version: 0.0.1~ownerprobe1
+Architecture: iphoneos-arm64
+Section: Development
+Priority: optional
+Maintainer: DuoFace Independent
+Depends: firmware (>= 16.0), mobilesubstrate
+Description: Read-only CarPlay native window, safe-area and workspace capability diagnostics. Does not hook SpringBoard, LaunchServices, AppDock or third-party apps. Does not modify the DuoFace MyTweak or QA11 packages. Does not fix Dock; device test pending.
