@@ -47,6 +47,7 @@
 - (NSInteger)scaleMode;
 - (void)layoutInFrame:(CGRect)frame scaleMode:(NSInteger)mode;
 - (BOOL)barHidden;
+- (void)setBarHidden:(BOOL)hidden;
 - (void)slideBarHidden:(BOOL)hidden;
 @end
 
@@ -82,6 +83,7 @@ static NSMapTable<UIView *, NSNumber *> *DFSPHiddenOriginalViews;
 // Snapshot original state and restore on disconnect; NEVER touch real app
 // scene views or the system Apple CarPlay Dock.
 static void DFSPLog(NSString *message);
+static BOOL DFSPOldPaneBarsSuppressed=NO;
 static NSMapTable<SPPane *,NSNumber *> *DFSPOriginalPaneBars;
 static void DFSPSuppressLegacyPaneBar(SPPane *pane) {
     if (!pane || !DFSPManager || !DFSPUI)return;
@@ -96,6 +98,8 @@ static void DFSPSuppressLegacyPaneBar(SPPane *pane) {
     }
 }
 static void DFSPRestoreLegacyPaneBars(void) {
+    // Disable hooks BEFORE restoring the user's original SidePlay bar state.
+    DFSPOldPaneBarsSuppressed=NO;
     NSMapTable<SPPane *,NSNumber *> *saved=DFSPOriginalPaneBars;
     DFSPOriginalPaneBars=nil; // don't re-snapshot during restoration
     for (SPPane *pane in saved.keyEnumerator) {
@@ -600,6 +604,7 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
     DFSPOriginalFrame=window.frame;
     DFSPWindow=window;
     DFSPManager=owner;
+    DFSPOldPaneBarsSuppressed=YES;
     DFSPLegacyModalOpen=NO;
     ++DFSPLegacyModalEpoch;
     DFSPFull=NO;
@@ -726,6 +731,24 @@ static void DFSPInstall(SPDash *owner, UIWindow *window,
             DFSPLog(@"QA6: content-root reconcile after SPDash.layoutRootView failed");
         DFSPRefresh();
     }
+}
+%end
+
+static BOOL DFSPOwnedPane(SPPane *pane) {
+    if (!DFSPOldPaneBarsSuppressed || !pane || !DFSPManager || !DFSPUI)return NO;
+    NSArray *panes=[DFSPManager panes];
+    return [panes isKindOfClass:NSArray.class] && [panes containsObject:pane];
+}
+%hook SPPane
+// Guard BOTH presentation entry points: SidePlay timer/layout calls either
+// setter or slideBarHidden after our initial one-off hiding pass.
+- (void)setBarHidden:(BOOL)hidden {
+    if (DFSPOwnedPane(self))hidden=YES;
+    %orig(hidden);
+}
+- (void)slideBarHidden:(BOOL)hidden {
+    if (DFSPOwnedPane(self))hidden=YES;
+    %orig(hidden);
 }
 %end
 
