@@ -1,0 +1,107 @@
+name: DuoFace Native Dock owner probe QA DEB (not auto-Sileo)
+on:
+  push:
+    branches: [feature/mytweak-carplayapp-presentation-20261019]
+    paths:
+      - '.github/workflows/mytweak-native-ownerprobe-release-build.yml'
+      - 'sideplay/native-dock-owner-probe/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mytweak-native-ownerprobe-build
+  cancel-in-progress: true
+jobs:
+  build-owner-probe:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source safety checks (no native Dock spoofing)
+        run: |
+          set -euo pipefail
+          cd sideplay/native-dock-owner-probe
+          python3 -m unittest discover -s tests -p 'test_*.py' -v
+          grep -Fq 'DFNativeDockOwnerProbe_FILES = Tweak.x' Makefile
+          ! grep -E 'SpringBoard|CarPlayApp' Makefile
+          ! grep -E '^Conflicts:|^Replaces:' control
+      - name: Setup Theos rootless iOS 16
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build QA DEB, verify exact two-file CarPlay-only payload
+        run: |
+          set -euo pipefail
+          cd sideplay/native-dock-owner-probe
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" -eq 1
+          PKG="${debs[0]}"
+          test "$(dpkg-deb -f "$PKG" Package)" = 'com.duoface.carplay.ownerprobe'
+          test "$(dpkg-deb -f "$PKG" Version)" = '0.0.1~ownerprobe1'
+          test "$(dpkg-deb -f "$PKG" Architecture)" = 'iphoneos-arm64'
+          ! dpkg-deb -f "$PKG" | grep -E '^(Conflicts|Replaces|Breaks):'
+          dpkg-deb -c "$PKG" > "$RUNNER_TEMP/ownerprobe-files.txt"
+          grep -F '/DFNativeDockOwnerProbe.dylib' "$RUNNER_TEMP/ownerprobe-files.txt"
+          grep -F '/DFNativeDockOwnerProbe.plist' "$RUNNER_TEMP/ownerprobe-files.txt"
+          ! grep -Ei '/(SpringBoard|DuoNavi|Airaw|DuoDash|MTDuoFaceShell)\.' "$RUNNER_TEMP/ownerprobe-files.txt"
+          mkdir -p "$RUNNER_TEMP/ownerprobe-extract"
+          dpkg-deb -x "$PKG" "$RUNNER_TEMP/ownerprobe-extract"
+          test "$(find "$RUNNER_TEMP/ownerprobe-extract" -type f | wc -l | tr -d ' ')" -eq 2
+          plist="$(find "$RUNNER_TEMP/ownerprobe-extract" -name DFNativeDockOwnerProbe.plist -print -quit)"
+          test -n "$plist"
+          grep -Fq '<string>CarPlay</string>' "$plist"
+          grep -Fq '<string>CarPlayApp</string>' "$plist"
+          ! grep -Fq 'SpringBoard' "$plist"
+          DEST="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-ownerprobe1"
+          mkdir -p "$DEST"
+          cp "$PKG" "$DEST/"
+          cp "$RUNNER_TEMP/ownerprobe-files.txt" "$DEST/FILE_LIST.txt"
+          (cd "$DEST" && shasum -a 256 "$(basename "$PKG")" > SHA256SUMS)
+          {
+            echo OWNER_PROBE_PACKAGE_BUILD=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "PACKAGE=$(basename "$PKG")"
+            echo "BYTES=$(wc -c < "$PKG" | tr -d ' ')"
+            echo "SHA256=$(shasum -a 256 "$PKG" | awk '{print $1}')"
+            echo PROCESS_FILTER=CarPlay,CarPlayApp
+            echo SPRINGBOARD_HOOKS=false
+            echo LAUNCHSERVICES_SWIZZLES=false
+            echo NATIVE_DOCK_FIXED=false
+            echo DEVICE_TESTED=false
+            echo SILEO_PUBLISHED=false
+            echo MYTWEAK_RECOVERY_UNCHANGED=true
+            echo QA11_NATIVE12_HUD8_UNCHANGED=true
+          } > "$DEST/CI_RESULT.txt"
+      - name: Upload isolated QA DEB
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native-ownerprobe1-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-native-ownerprobe1/
+          if-no-files-found: error
+      - name: Save build evidence and DEB to DuoFace repository
+        run: |
+          set -euo pipefail
+          BRANCH='feature/mytweak-carplayapp-presentation-20261019'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/mytweak-native-ownerprobe1/
+          git commit -m 'artifacts(ownerprobe): store independent QA DEB/checksum [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-ownerprobe1/CI_RESULT.txt" | grep -F 'OWNER_PROBE_PACKAGE_BUILD=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
