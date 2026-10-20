@@ -1,0 +1,118 @@
+name: DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/jb-embedded-appbridge/tests/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-jb-embedded-standalone
+  cancel-in-progress: true
+jobs:
+  package-candidate:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Self-contained payload / no vendor code unit tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
+      - name: Prepare rootless Theos and toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build independent SpringBoard two-app host (default OFF)
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-independent-v1a
+          make clean package FINALPACKAGE=1
+          test -s 'packages/com.duoface.mytweak.v1a.preflight_0.2.0~v1bc1_iphoneos-arm64.deb'
+      - name: Build native Dashboard receiver (default OFF)
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-native-bridgeqa
+          make clean package FINALPACKAGE=1
+          test -s 'packages/com.duoface.carplay.nativebridgeqa_0.0.6~dockcrop1_iphoneos-arm64.deb'
+      - name: Build existing CarPlay-only own-bundle admission candidate
+        run: |
+          set -euo pipefail
+          cd sideplay/firstparty-carplay-admission
+          make clean package FINALPACKAGE=1
+          test -s 'packages/com.duoface.carplay.firstpartyadmission_0.0.5~ready1_iphoneos-arm64.deb'
+      - name: Build own iPhone and native host apps
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          bash sideplay/duoface-qa-app/build.sh
+      - name: Merge into ONE staged rootless package and validate
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.1~candidate1_iphoneos-arm64.deb'
+          test -s "$PACKAGE"
+          test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.1~candidate1'
+          test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$PACKAGE" Depends | grep -i -E 'carbridge|carplayenable|sideplay|duonavi|duodash'
+          python3 - <<'PY'
+          import json
+          p='sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json'
+          d=json.load(open(p))
+          assert len(d['source_packages'])==5
+          assert len(d['source_packages'])==len(set(x['package'] for x in d['source_packages']))
+          assert not d['contains_third_party_carbridge']
+          assert d['separate_carbridge_dependency'] is False
+          assert d['sileo_published'] is False and d['device_carplay_icon_tested'] is False
+          assert d['requires_replacing_old_qa_packages'] is True
+          print('JB_EMBEDDED_SINGLE_DEB_SOURCE_PACKAGE_PASS sha=',d['sha256'])
+          PY
+          mkdir -p sideplay/jb-embedded-appbridge/evidence
+          cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
+          (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 *.deb > SHA256SUMS.txt)
+          {
+            echo 'SOURCE_BUNDLE_CANDIDATE=PASS'
+            echo 'SILEO_PUBLISHED=false'
+            echo 'DEVICE_NATIVE_CARPLAY_ICON_VERIFIED=false'
+            echo 'DEVICE_TWO_APP_BRIDGE_VERIFIED=false'
+            echo 'NEEDS_PREVIOUS_QA_MIGRATION_REVIEW=true'
+            echo 'NO_SEPARATE_CARBRIDGE_PACKAGE=true'
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+          } > sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-jb-embedded-carbridge-candidate-${{ github.run_id }}
+          path: |
+            sideplay/jb-embedded-appbridge/packages/*.deb
+            sideplay/jb-embedded-appbridge/packages/SHA256SUMS.txt
+            sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
+            sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
+          if-no-files-found: error
+      - name: Save isolated candidate and hashes to feature branch only
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/jb-embedded-appbridge/packages/*.deb                   sideplay/jb-embedded-appbridge/packages/SHA256SUMS.txt                   sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt                   sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'artifacts: one-package independent JB embedded appbridge candidate [skip ci]'
+          for i in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then exit 0; fi
+            sleep 2
+          done
+          exit 1
