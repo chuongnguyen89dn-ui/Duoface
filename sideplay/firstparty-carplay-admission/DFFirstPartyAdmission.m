@@ -95,9 +95,10 @@ static void DFTraceLog(NSString *s) {
 }
 static BOOL DFTraceObserve(id proxy,id key,Class expected,Class valuesExpected,id real,NSString *selector) {
     // Diagnostic never logs unrelated app IDs, methods or any personal data.
-    if(!DFTraceOwnBundle(proxy))return NO;
+    // Idle hot path exits before inspecting any app metadata.
     NSDictionary *request=DFTraceActiveRequest();
     if(!request)return NO;
+    if(!DFTraceOwnBundle(proxy))return NO;
     NSString *run=request[@"RequestID"];
     @synchronized(DFHostID){
         if(![DFTraceRunID isEqualToString:run]){DFTraceRunID=[run copy];DFTraceSamples=0;}
