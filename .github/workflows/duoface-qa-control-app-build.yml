@@ -1,0 +1,137 @@
+name: DuoFace QA iPhone Control App + Native Bridge 5 build (rootless)
+on:
+  push:
+    branches: [feature/duoface-qa-control-app-20261020]
+    paths:
+      - '.github/workflows/duoface-qa-control-app-build.yml'
+      - 'sideplay/duoface-qa-app/**'
+      - 'sideplay/mytweak-native-bridgeqa/**'
+      - 'sideplay/mytweak-independent-v1a/prototype/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa-control-app-build
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate app behavior, source safety and V1BC regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/qa-app-tests.log"
+          python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
+          ROOT=sideplay/mytweak-independent-v1a/prototype
+          xcrun --sdk macosx clang -fobjc-arc -framework Foundation -framework CoreGraphics \
+            "$ROOT/MTCPBridgeContract.m" "$ROOT/tests/MTCPReceiverAckTests.m" \
+            -o "$RUNNER_TEMP/native-ack-test"
+          "$RUNNER_TEMP/native-ack-test" 2>&1 | tee "$RUNNER_TEMP/native-ack-tests.log"
+      - name: Install Theos rootless toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile QA5 existing separate independent CarPlay runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd sideplay/mytweak-native-bridgeqa
+          make clean package FINALPACKAGE=1
+          DEB=(packages/*.deb)
+          test "${#DEB[@]}" = 1
+          test "$(dpkg-deb -f "${DEB[0]}" Package)" = 'com.duoface.carplay.nativebridgeqa'
+          test "$(dpkg-deb -f "${DEB[0]}" Version)" = '0.0.5~controlapp1'
+          test "$(dpkg-deb -f "${DEB[0]}" Architecture)" = 'iphoneos-arm64'
+          mkdir -p "$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa5"
+          cp "${DEB[0]}" "$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa5/"
+      - name: Compile signed home-screen app for iPhone iOS16
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-qa-app/build.sh 2>&1 | tee "$RUNNER_TEMP/qa-app-build.log"
+          DEB=sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.0~app1_iphoneos-arm64.deb
+          test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.qa.controlapp'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.1.0~app1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          dpkg-deb -f "$DEB" Depends | grep -F 'com.duoface.carplay.nativebridgeqa'
+          test "$(dpkg-deb -c "$DEB" | grep -c '/Applications/DuoFaceQA.app/')" -ge 6
+          mkdir -p "$RUNNER_TEMP/duoface-qa-app-extract" "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/duoface-qa-app-extract"
+          dpkg-deb -e "$DEB" "$RUNNER_TEMP/duoface-qa-app-extract/DEBIAN"
+          test -x "$RUNNER_TEMP/duoface-qa-app-extract/DEBIAN/postinst"
+          test -x "$RUNNER_TEMP/duoface-qa-app-extract/DEBIAN/prerm"
+          APP="$RUNNER_TEMP/duoface-qa-app-extract/var/jb/Applications/DuoFaceQA.app"
+          test -x "$APP/DuoFaceQA" || test -s "$APP/DuoFaceQA"
+          file "$APP/DuoFaceQA" | grep -F 'arm64'
+          test "$(find "$APP" -maxdepth 1 -name 'AppIcon*.png' | wc -l | tr -d ' ')" -eq 4
+          ldid -e "$APP/DuoFaceQA" | grep -F 'com.apple.private.security.no-container'
+          cp "$DEB" "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1/"
+          dpkg-deb -c "$DEB" > "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1/PAYLOAD_LIST.txt"
+          cp "$RUNNER_TEMP/qa-app-build.log" "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1/APP_BUILD.log"
+          cp "$RUNNER_TEMP/qa-app-tests.log" "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1/APP_TESTS.log"
+          cp "$RUNNER_TEMP/native-ack-tests.log" "$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-qa-control-app1/NATIVE_ACK_TESTS.log"
+      - name: Hash files and checkpoint exact version
+        shell: bash
+        run: |
+          set -euo pipefail
+          for FOLDER in sideplay/test-artifacts/duoface-qa-control-app1 sideplay/test-artifacts/mytweak-native-bridgeqa5; do
+            (cd "$FOLDER" && shasum -a 256 *.deb > SHA256SUMS.txt)
+            echo "SHA256 proof: $FOLDER"
+            cat "$FOLDER/SHA256SUMS.txt"
+          done
+          {
+            echo DUOFACE_QA_IPHONE_APP_BUILD=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo 'PACKAGE=com.duoface.qa.controlapp'
+            echo 'VERSION=0.1.0~app1'
+            echo 'NATIVE_QA_VERSION=0.0.5~controlapp1'
+            echo 'APP_HAS_IPHONE_ICON=true'
+            echo 'APP_MANAGES_MYTWEAK_DASHBOARD_TRIAL_NORMAL_FULLSCREEN=true'
+            echo 'APP_SHARES_LOG=true'
+            echo 'NO_FILZA_REQUIRED=true'
+            echo 'DEFAULT_TRIAL_AUTO_ENABLED=false'
+            echo 'NO_BOOT_TIME_LS_HOOKS=true'
+            echo 'DEVICE_INSTALLED=false'
+            echo 'PHYSICAL_CARPLAY_DOCK_HOME_VERIFIED=false'
+            echo 'SILEO_PUBLISHED=false'
+            echo 'RECOVERY_NATIVE12_QA11_HUD8_UNCHANGED=true'
+          } > sideplay/test-artifacts/duoface-qa-control-app1/CI_RESULT.txt
+      - name: Upload app and bridge binary artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-qa-iphone-app-and-bridge-${{ github.run_id }}
+          path: |
+            sideplay/test-artifacts/duoface-qa-control-app1/
+            sideplay/test-artifacts/mytweak-native-bridgeqa5/
+          if-no-files-found: error
+      - name: Persist real DEB + checksum into actual DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-qa-control-app-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/duoface-qa-control-app1/ sideplay/test-artifacts/mytweak-native-bridgeqa5/
+          git commit -m 'artifacts: DuoFace QA iPhone app and native bridge QA5 rootless DEBs [skip ci]'
+          for i in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/duoface-qa-control-app1/CI_RESULT.txt" | grep -Fx 'DUOFACE_QA_IPHONE_APP_BUILD=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
