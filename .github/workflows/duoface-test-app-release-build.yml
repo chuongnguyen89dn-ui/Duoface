@@ -1,0 +1,114 @@
+name: DuoFace Test real iPhone App + SpringBoard Controller DEB
+on:
+  push:
+    branches: [feature/mytweak-native-dashboard-owner-20261019]
+    paths:
+      - 'sideplay/duoface-test-app/**'
+      - '.github/workflows/duoface-test-app-release-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duo-face-independent-real-test-app-build
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Contract tests (genuine app, actions wired, 45s restore, no LS hooks)
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-test-app/tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/testapp-contract-tests.log"
+      - name: Install packaging tools
+        run: |
+          set -euo pipefail
+          brew install ldid dpkg
+      - name: Build UIKit iPhone app and isolated SpringBoard companion
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-test-app
+          bash scripts/build.sh 2>&1 | tee "$RUNNER_TEMP/testapp-build.log"
+          DEB=packages/com.duoface.testapp_0.1.0~app1_iphoneos-arm64.deb
+          test -s "$DEB"
+          mkdir -p "$RUNNER_TEMP/testapp-extracted"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/testapp-extracted"
+          dpkg-deb -e "$DEB" "$RUNNER_TEMP/testapp-extracted/DEBIAN"
+          test -x "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/DuoFaceTest"
+          test -f "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/Info.plist"
+          test -d "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/LaunchScreen.storyboardc"
+          test -s "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/AppIcon60x60@2x.png"
+          test -s "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/AppIcon60x60@3x.png"
+          test -s "$RUNNER_TEMP/testapp-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoFaceTestController.dylib"
+          test -f "$RUNNER_TEMP/testapp-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoFaceTestController.plist"
+          test -x "$RUNNER_TEMP/testapp-extracted/DEBIAN/postinst"
+          ! grep -q 'Respring' "$RUNNER_TEMP/testapp-extracted/DEBIAN/postinst"
+          grep -F 'com.duoface.carplay.nativebridgeqa' "$RUNNER_TEMP/testapp-extracted/DEBIAN/control"
+          export DEB_EXTRACT="$RUNNER_TEMP/testapp-extracted"
+          python3 - <<'PY'
+          from pathlib import Path
+          import plistlib,os
+          folder=Path(os.environ['DEB_EXTRACT'])
+          app=folder/'var/jb/Applications/DuoFaceTest.app'
+          info=plistlib.loads((app/'Info.plist').read_bytes())
+          assert info['CFBundleIdentifier']=='com.duoface.testapp'
+          assert info['CFBundlePackageType']=='APPL'
+          assert info['CFBundleExecutable']=='DuoFaceTest'
+          fl=plistlib.loads((folder/'var/jb/Library/MobileSubstrate/DynamicLibraries/DFDuoFaceTestController.plist').read_bytes())
+          assert fl['Filter']['Executables']==['SpringBoard']
+          for img in ('AppIcon60x60@2x.png','AppIcon60x60@3x.png'):
+              assert (app/img).read_bytes()[:8]==bytes.fromhex('89504e470d0a1a0a')
+          print('REAL_SILEO_IPHONE_APP_ICON_AND_SPRINGBOARD_COMPANION_PASS')
+          PY
+          "$RUNNER_TEMP/testapp-extracted/var/jb/Applications/DuoFaceTest.app/DuoFaceTest" >/dev/null 2>&1 && exit 1 || true
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/duoface-test-app1"
+          mkdir -p "$OUT"
+          cp "$DEB" "$OUT/"
+          cp "$RUNNER_TEMP/testapp-build.log" "$OUT/BUILD_LOG.txt"
+          cp "$RUNNER_TEMP/testapp-contract-tests.log" "$OUT/SAFETY_TESTS.log"
+          dpkg-deb -c "$DEB" > "$OUT/PACKAGE_FILES.txt"
+          dpkg-deb -f "$DEB" > "$OUT/PACKAGE_CONTROL.txt"
+          (cd "$OUT" && shasum -a 256 *.deb > SHA256SUMS.txt)
+          {
+            echo REAL_IPHONE_APP_BUILD=PASS
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "DEB=$(basename "$DEB")"
+            echo "SHA256=$(shasum -a 256 "$DEB" | cut -d' ' -f1)"
+            echo "BYTES=$(wc -c < "$DEB" | tr -d ' ')"
+            echo 'APP_BUNDLE_PRESENT=true'
+            echo 'HOME_ICON_PNGS_PRESENT=true'
+            echo 'BRIDGE_SPRINGBOARD_RECEIVER_PRESENT=true'
+            echo 'FILZA_REQUIRED=false'
+            echo 'START_EXPLICIT_UI_ONLY=true'
+            echo 'AUTO_STOP_45_SECONDS=true'
+            echo 'MYTWEAK_RECOVERY_UNCHANGED=true'
+            echo 'APPLE_DOCK_DEVICE_VERIFIED=false'
+            echo 'SILEO_PUBLISHED=false'
+          } > "$OUT/CI_RESULT.txt"
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Test-iPhone-App-${{ github.run_id }}
+          path: sideplay/test-artifacts/duoface-test-app1/
+          if-no-files-found: error
+      - name: Persist installable .deb and exact SHA in the actual project
+        run: |
+          set -euo pipefail
+          BRANCH=feature/mytweak-native-dashboard-owner-20261019
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/duoface-test-app1/
+          git commit -m 'artifacts: preserve launchable DuoFace Test app DEB and regression tests [skip ci]'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH";then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/duoface-test-app1/CI_RESULT.txt" | grep -Fx 'REAL_IPHONE_APP_BUILD=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
