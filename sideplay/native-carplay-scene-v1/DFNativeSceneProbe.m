@@ -41,6 +41,30 @@ static void DFProbeNativeWorkspaceABI(void) {
       request?@"yes":@"no",DFProbeMethodABI(request,@selector(activateApplication:),NO),
       owner?@"yes":@"no"]);
 }
+// First-party app-admission ABI survey only. No private method invocation or swizzle.
+static void DFProbeNativeAppAdmissionABI(void) {
+    Class catalog=NSClassFromString(@"CARApplication");
+    Class proxy=NSClassFromString(@"LSBundleProxy");
+    Class fb=NSClassFromString(@"FBSApplicationInfo");
+    Class workspace=NSClassFromString(@"DBWorkspace");
+    Class appInfo=NSClassFromString(@"DBApplicationInfo");
+    DFProbeLog([NSString stringWithFormat:
+      @"native-admission-abi CARApplication=%@ allInstalled=%@ byBundleID=%@ "
+      "LSBundleProxy=%@ typed3=%@ typed2=%@ bulk=%@ infoDictionary=%@ "
+      "FBSApplicationInfo=%@ fbBulk=%@ DBApplicationInfo=%@ workspaceInitOwner=%@",
+      catalog?@"yes":@"no",
+      DFProbeMethodABI(catalog,@selector(_allInstalledApplications),YES),
+      DFProbeMethodABI(catalog,@selector(_allInstalledApplicationsByBundleIdentifier),YES),
+      proxy?@"yes":@"no",
+      DFProbeMethodABI(proxy,NSSelectorFromString(@"entitlementValueForKey:ofClass:valuesOfClass:"),NO),
+      DFProbeMethodABI(proxy,NSSelectorFromString(@"entitlementValueForKey:ofClass:"),NO),
+      DFProbeMethodABI(proxy,@selector(entitlementValuesForKeys:),NO),
+      DFProbeMethodABI(proxy,@selector(infoDictionary),NO),
+      fb?@"yes":@"no",
+      DFProbeMethodABI(fb,@selector(entitlementValuesForKeys:),NO),
+      appInfo?@"yes":@"no",
+      DFProbeMethodABI(workspace,@selector(initWithOwner:),NO)]);
+}
 + (instancetype)shared {
     static DFNativeSceneProbe *o;
     static dispatch_once_t once;
@@ -53,6 +77,7 @@ static void DFProbeNativeWorkspaceABI(void) {
     self.session=NSUUID.UUID.UUIDString;
     DFProbeLog([NSString stringWithFormat:@"passive-start process=%@ version=0.0.1 no-ui-mutation",p]);
     DFProbeNativeWorkspaceABI();
+    DFProbeNativeAppAdmissionABI();
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.5 target:self
         selector:@selector(tick) userInfo:nil repeats:YES];
     [self tick];
@@ -60,6 +85,9 @@ static void DFProbeNativeWorkspaceABI(void) {
 - (void)tick {
     if(!NSThread.isMainThread)return;
     self.ticks++;
+    // CarPlaySupport classes may load after application startup.
+    // Repeat type-only inspection every ~30 seconds, never call admission APIs.
+    if(self.ticks%20==0)DFProbeNativeAppAdmissionABI();
     CGRect full=CGRectNull, usable=CGRectNull;
     BOOL chrome=NO, dashboard=NO;
     UIWindow *dashboardWindow=nil;
