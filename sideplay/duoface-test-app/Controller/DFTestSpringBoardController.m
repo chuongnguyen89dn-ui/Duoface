@@ -34,9 +34,9 @@ static void DFWriteLog(NSString *line) {
         (void)write(fd,d.bytes,d.length);close(fd);}
 }
 static BOOL DFWritePrefs(NSString *path,NSDictionary *prefs) {
-    if(!path || !prefs || [[NSFileManager defaultManager] fileExistsAtPath:path] &&
-        [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil]
-             fileType] != NSFileTypeRegular)return NO;
+    if(!path || !prefs)return NO;
+    NSDictionary *attrs=[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+    if(attrs && ![attrs[NSFileType] isEqualToString:NSFileTypeRegular])return NO;
     BOOL ok=[prefs writeToFile:path atomically:YES];
     if(ok)chmod(path.UTF8String,0644);
     return ok;
@@ -52,7 +52,7 @@ static void DFRestore(BOOL expired) {
         // Preserve all other stable prefs, only restore the one base bit.
         NSMutableDictionary *base=[DFRead(DFBase) mutableCopy]?:[NSMutableDictionary dictionary];
         id former=state[@"BaseEnabled"];
-        if([former isKindOfClass:NSNumber.class])
+        if([state[@"BaseHadKey"] boolValue] && [former isKindOfClass:NSNumber.class])
             base[@"Enabled"]=former;
         else [base removeObjectForKey:@"Enabled"];
         DFWritePrefs(DFBase,base);
@@ -79,7 +79,8 @@ static void DFStartTest(void) {
     NSNumber *priorBase=[original[@"Enabled"] isKindOfClass:NSNumber.class]?original[@"Enabled"]:nil;
     NSDictionary *state=@{@"Started":@(NSDate.date.timeIntervalSince1970),
                           @"Expires":@(NSDate.date.timeIntervalSince1970+45),
-                          @"BaseEnabled":priorBase?:[NSNull null]};
+                          @"BaseHadKey":@(priorBase!=nil),
+                          @"BaseEnabled":priorBase?:@NO};
     if(![state writeToFile:DFLease atomically:YES]){DFPost(DFError);return;}
     base[@"Enabled"]=@YES;
     bridge[@"Enabled"]=@YES;
