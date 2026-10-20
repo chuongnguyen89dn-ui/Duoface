@@ -52,3 +52,21 @@ BOOL MTCPNativeUsableBounds(CGRect screen,CGRect bar,CGRect *usable,MTCPDockEdge
     if (edge)*edge=candidate;
     return YES;
 }
+
+// Native12 formula: x=screen.x+left,y=screen.y+top,
+// width=screen.width-left-right,height=screen.height-top-bottom.
+// Fullscreen uses original screen bounds (all insets 0), and Normal restores
+// a *captured, valid* insets rectangle rather than multiplying by a ratio.
+BOOL MTCPNativeUsableFromInsets(CGRect screen,CGFloat top,CGFloat left,
+                                CGFloat bottom,CGFloat right,CGRect *usable) {
+    if(usable)*usable=CGRectNull;
+    if(!MTCPRectFinite(screen) || screen.size.width<200 ||
+       screen.size.height<120 || !isfinite(top) || !isfinite(left) ||
+       !isfinite(bottom) || !isfinite(right) ||
+       top<0 || left<0 || bottom<0 || right<0)return NO;
+    CGRect content=CGRectMake(screen.origin.x+left,screen.origin.y+top,
+       screen.size.width-left-right,screen.size.height-top-bottom);
+    if(!MTCPNativeContentIsWithinScreen(screen,content))return NO;
+    if(usable)*usable=content;
+    return YES;
+}
