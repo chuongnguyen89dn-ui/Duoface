@@ -7,7 +7,7 @@ class NativeOwnerSafety(unittest.TestCase):
  def test_independent_package_and_exact_carplay_filter(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativejoinprobe",c)
-  self.assertIn("Version: 0.0.2~bargeometry1",c)
+  self.assertIn("Version: 0.0.3~rosterabi1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   filter=plistlib.loads((R/"DFNativeSceneJoinProbe.plist").read_bytes())
@@ -28,14 +28,15 @@ class NativeOwnerSafety(unittest.TestCase):
                    'if(dashboardWindow)break;', 'nativeBarWindow=w;barInScene=visible;'):
    self.assertIn(required,c)
   self.assertNotIn('CGRect frame=w.frame;',c)
-  for method in ('DBWorkspace', 'DBApplicationController',
+  for method in ('CARApplication', 'LSBundleProxy', 'FBSApplicationInfo',
+                 'DFProbeNativeAppAdmissionABI()', 'DBWorkspace', 'DBApplicationController',
                  'DBDashboardWorkspaceOwner', 'DBMutableWorkspaceStateChangeRequest',
                  'method_getTypeEncoding', 'DFProbeNativeWorkspaceABI()'):
    self.assertIn(method,c)
   self.assertIn('previous[@"Session"] isEqual:self.session',c)
   for forbidden in ('candidate.frame=','bar.hidden=', 'setWindowLevel:',
           'initWithDisplayConfiguration:', 'UIRootSceneWindow', 'drawViewHierarchyInRect',
-          'LSBundleProxy','CARApplication', 'objc_msgSend',
+          'objc_msgSend',
           'setRootViewController:','makeKeyAndVisible','SBApplicationController'):
    self.assertNotIn(forbidden,c)
  def test_boot_safety_and_source_boundary(self):
