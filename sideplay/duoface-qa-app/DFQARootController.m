@@ -9,7 +9,6 @@ static NSString *const DFBridge=@"/var/mobile/Library/Preferences/com.duoface.my
 static NSString *const DFSource=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-surface.plist";
 static NSString *const DFAck=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-receiver-ack.plist";
 static NSString *const DFNativeLog=@"/var/mobile/Library/Logs/DuoFaceNativeBridgeQA.log";
-static NSString *const DFEngineLog=@"/var/mobile/Library/Logs/DuoFaceMyTweakV1BC.log";
 
 static NSDictionary *DFPrefs(NSString *path) {
     NSDictionary *d=[NSDictionary dictionaryWithContentsOfFile:path];
