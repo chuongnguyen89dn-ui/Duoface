@@ -1,5 +1,15 @@
-# DuoFace Native Dashboard Bridge QA 0.0.3 (native receiver ACK and source yield)
+# DuoFace Native Dashboard Bridge QA 0.0.4 — Native12 Normal ↔ host Fullscreen geometry
 New standalone QA package **not** replacing existing MyTweak `0.2.6~recovery1`, Native12/HUD8, QA11 or OwnerProbe.
+
+## Geometry from verified 2026-10-14 Native12 history
+
+This update implements **independent equivalents** of Native12's screen-vs-usable content model; it does not copy proprietary binaries, frameworks or licensing.
+
+- Normal: Apple Dashboard root/window stays full `carPlayScreenBounds`. The child content region is computed from *measured real* content insets `{top,left,bottom,right}`, without hardcoded 45pt/64pt/90% and without changing `UIWindow.frame`.
+- Fullscreen (host, NOT per-slot focus): remote V1BC menu `Zoom` is routed over the authenticated SpringBoard→CarPlay session. On the same Dashboard-owned child view, content becomes full screen and the real CarPlay statusbar gets hidden, with hidden state/content geometry snapped first. The source root app and its two split panes are untouched; original selected-pane toggleZoom is not invoked by remote QA's host Zoom.
+- Exit: the SAME `Zoom` menu triggers saved normal content geometry and native bar hidden-state restoration. If the system has changed its layout, stop/rollback rather than force a guessed pixel ratio.
+- Source Window yield remains a separate short 45-second ACK-gated experiment and is **not** a Native12 semantic replacement. Real Apple Dock/Home is not confirmed until device test. `drawViewHierarchyInRect:` can omit remote application/video pixels.
+- User's measured iPhone X screen is 507.333333×240 points and (when the native left bar is onscreen) width 45 → normal pane width 462.333333; fullscreen width 507.333333, **not a universal fixed ratio**.
 
 ## Implemented (experimental)
 - On SpringBoard, after a 10s delay, reflectively discovers **existing** V1BC `MTBridgeCoordinator.bridgeWindow.rootViewController`; never creates/changes a system UIWindow. An off-by-default pair of opt-in preferences gates activation.
