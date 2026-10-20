@@ -20,9 +20,14 @@ class NativeOwnerSafety(unittest.TestCase):
    # window.safeAreaInsets corresponds to dashboardWindow.safeAreaInsets
    if expected=='window.safeAreaInsets':expected='dashboardWindow.safeAreaInsets'
    self.assertIn(expected,c)
+  for method in ('DBWorkspace', 'DBApplicationController',
+                 'DBDashboardWorkspaceOwner', 'DBMutableWorkspaceStateChangeRequest',
+                 'method_getTypeEncoding', 'DFProbeNativeWorkspaceABI()'):
+   self.assertIn(method,c)
+  self.assertIn('previous[@"Session"] isEqual:self.session',c)
   for forbidden in ('candidate.frame=','bar.hidden=', 'setWindowLevel:',
           'initWithDisplayConfiguration:', 'UIRootSceneWindow', 'drawViewHierarchyInRect',
-          'LSBundleProxy','CARApplication','requestStateChange:', 'objc_msgSend',
+          'LSBundleProxy','CARApplication', 'objc_msgSend',
           'setRootViewController:','makeKeyAndVisible','SBApplicationController'):
    self.assertNotIn(forbidden,c)
  def test_boot_safety_and_source_boundary(self):
