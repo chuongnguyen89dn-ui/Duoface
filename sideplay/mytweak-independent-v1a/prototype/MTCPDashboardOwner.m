@@ -21,6 +21,7 @@
 @property(nonatomic,assign) BOOL nativeChromeModified;
 @end
 @implementation MTCPDashboardOwner
+- (NSString *)receiverSession { return self.receiver.session; }
 - (CGRect)activeContentRect { return self.attached?self.contentRect:CGRectNull; }
 static BOOL MTCPDashboardProcess(void) {
     NSString *p=NSProcessInfo.processInfo.processName;
