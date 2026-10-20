@@ -1,0 +1,110 @@
+name: DuoFace native CarPlay-owned scene read-only probe (isolated)
+on:
+  push:
+    branches: [feature/duoface-native-scene-join-v1-20261020]
+    paths:
+      - '.github/workflows/duoface-native-scene-join-v1.yml'
+      - 'sideplay/native-carplay-scene-v1/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native-scene-join-v1
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate standalone read-only CarPlay scene contract
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_*.py' -v
+          xcrun --sdk macosx clang -fobjc-arc -Wall -Wextra \
+            -framework Foundation -framework CoreGraphics \
+            sideplay/native-carplay-scene-v1/DFNativeSceneContract.m \
+            sideplay/native-carplay-scene-v1/tests/DFNativeSceneContractTests.m \
+            -o "$RUNNER_TEMP/native-scene-contract-tests"
+          "$RUNNER_TEMP/native-scene-contract-tests" 2>&1 | tee "$RUNNER_TEMP/native-scene-contract-tests.log"
+      - name: Install Theos iOS rootless build toolchain
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile independent CarPlay process diagnostic (not an app-host solution)
+        run: |
+          set -euo pipefail
+          cd sideplay/native-carplay-scene-v1
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" = 1
+          deb="${debs[0]}"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.carplay.nativejoinprobe'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.0.1~sceneprobe1'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          dpkg-deb -c "$deb" > "$RUNNER_TEMP/nativejoin-list.txt"
+          test "$(grep -c '^-' "$RUNNER_TEMP/nativejoin-list.txt")" = 2
+          grep -F '/DFNativeSceneJoinProbe.dylib' "$RUNNER_TEMP/nativejoin-list.txt"
+          grep -F '/DFNativeSceneJoinProbe.plist' "$RUNNER_TEMP/nativejoin-list.txt"
+          mkdir -p "$RUNNER_TEMP/nativejoin-extracted"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/nativejoin-extracted"
+          FILTER="$(find "$RUNNER_TEMP/nativejoin-extracted" -name DFNativeSceneJoinProbe.plist -print -quit)"
+          test -n "$FILTER"
+          FILTER="$FILTER" python3 - <<'PY'
+          import plistlib,os
+          with open(os.environ['FILTER'],'rb') as f: p=plistlib.load(f)
+          assert p['Filter']['Executables']==['CarPlay','CarPlayApp'],p
+          print('NATIVE_SCENE_ONLY_CARPLAY_FILTER_PASS')
+          PY
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-carplay-scene-v1"
+          mkdir -p "$OUT"
+          cp "$deb" "$OUT/"
+          cp "$RUNNER_TEMP/nativejoin-list.txt" "$OUT/FILE_LIST.txt"
+          cp "$RUNNER_TEMP/native-scene-contract-tests.log" "$OUT/UNIT_TESTS.log"
+          (cd "$OUT" && shasum -a 256 "$(basename "$deb")" > SHA256SUMS.txt)
+          {
+            echo "NATIVE_SCENE_JOIN_STAGE_A=PASS"
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "TIMESTAMP_UTC=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo "PACKAGE=$(basename "$deb")"
+            echo "SHA256=$(shasum -a 256 "$deb" | awk '{print $1}')"
+            echo "BYTES=$(wc -c < "$deb" | tr -d ' ')"
+            echo CARPLAY_NATIVE_DOCK_UI_MUTATIONS=false
+            echo SPRINGBOARD_INJECTION=false
+            echo APP_ADMISSION_IMPLEMENTED=false
+            echo LIVE_IPHONE_APP_BRIDGE_IMPLEMENTED=false
+            echo TWO_APP_TOUCH_IMPLEMENTED=false
+            echo DEVICE_TESTED=false
+            echo SILEO_PUBLISHED=false
+          } > "$OUT/CI_RESULT.txt"
+      - name: Upload isolated read-only diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: duoface-native-scene-join-v1-${{ github.run_id }}
+          path: sideplay/test-artifacts/native-carplay-scene-v1/
+          if-no-files-found: error
+      - name: Persist candidate artifact to this GitHub branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-native-scene-join-v1-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/native-carplay-scene-v1/
+          git commit -m 'artifacts: native-scene join read-only stage A QA [skip ci]'
+          for attempt in 1 2 3 4 5; do
+             git fetch origin "$BRANCH"
+             git rebase "origin/$BRANCH"
+             if git push origin HEAD:"$BRANCH"; then
+                git fetch origin "$BRANCH"
+                git show "origin/$BRANCH:sideplay/test-artifacts/native-carplay-scene-v1/CI_RESULT.txt" | grep -F 'NATIVE_SCENE_JOIN_STAGE_A=PASS'
+                exit 0
+             fi
+             sleep 2
+          done
+          exit 1
