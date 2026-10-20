@@ -17,6 +17,7 @@ static NSString *const DFSBStatus=@"/var/mobile/Library/Preferences/com.duoface.
 static NSString *const DFAdmissionConfig=@"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist";
 static NSString *const DFAdmissionKill=@"/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable";
 static NSString *const DFAdmissionLog=@"/var/mobile/Library/Logs/DuoFaceFirstPartyAdmission.log";
+static CFStringRef const DFAdmissionSignal=CFSTR("com.duoface.firstparty-admission.refresh");
 static NSString *const DFSBLog=@"/var/mobile/Library/Logs/DuoFaceSBAdmissionProbe.log";
 
 static NSDictionary *DFPrefs(NSString *path) {
@@ -336,6 +337,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     BOOL a=[self writeFirstParty:NO];
     BOOL b=[[NSFileManager defaultManager] createFileAtPath:DFAdmissionKill
                 contents:[@"off" dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+    if(a&&b) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+         DFAdmissionSignal,NULL,NULL,YES);
     if(!(a&&b)) [self alert:@"Tắt chưa xác nhận" message:@"Không xác nhận được khóa an toàn. Đừng thử thêm."];
     [self refresh];
 }
@@ -354,7 +357,9 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
             (void)[self writeFirstParty:NO];
             [self alert:@"Không bật" message:@"Chưa tháo được khóa an toàn."];
         } else {
-            [self alert:@"Đã cho phép thử" message:@"Cấu hình đã ghi; CHƯA chứng minh hook chạy. Chỉ khi tiến trình CarPlay nạp module mới có hiệu lực; không tự khởi động lại SpringBoard. Chọn Admission và Chia sẻ log."];
+            CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+                DFAdmissionSignal,NULL,NULL,YES);
+            [self alert:@"Đã gửi tín hiệu thử" message:@"Đã lưu cấu hình và gửi tín hiệu trực tiếp đến tiến trình CarPlay đang chạy. Xem tab Admission để xác nhận module phản hồi; không tự khởi động lại SpringBoard. Nếu module chưa nạp, vẫn chưa có phản hồi."];
         }
         [self refresh];
     }]];

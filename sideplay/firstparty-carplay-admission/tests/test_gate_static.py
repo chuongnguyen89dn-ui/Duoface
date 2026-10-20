@@ -12,7 +12,9 @@ class CandidateSafety(unittest.TestCase):
         'if(real)return real','DFOriginal3(proxy,sel,key,expected,valueClass)',
         'DFOriginal2(proxy,sel,key,expected)','NSNumber.class','DFExplicitConsent()',
         'DFDisable','RiskAcknowledged','if(os.majorVersion!=16','method_getTypeEncoding',
-        'MSHookMessageEx','bundleIdentifier','SBStarkCapable','CARCapableApp'):
+        'MSHookMessageEx','CFNotificationCenterAddObserver','DFRefreshSignal',
+        'dispatch_get_main_queue','DFCheckConsentAndArm(@"qa-notify")','DFExplicitConsent()',
+        'DFHooksInstalled','bundleIdentifier','SBStarkCapable','CARCapableApp'):
    self.assertIn(required,s)
   for forbidden in ('LSBundleInfoCachedValues','FBSApplicationInfo','CARApplicationController',
        'DBWorkspace','launchctl','killall','sbreload','postinst','windowLevel',
@@ -26,4 +28,7 @@ class CandidateSafety(unittest.TestCase):
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
   self.assertIn("INSTALL_TARGET_PROCESSES =",read("Makefile"))
+  self.assertIn("Version: 0.0.2~signal1",c)
+  self.assertIn("if(!DFOriginal3)return nil;",read("DFFirstPartyAdmission.m"))
+  self.assertIn("if(!DFOriginal2)return nil;",read("DFFirstPartyAdmission.m"))
 if __name__=="__main__":unittest.main(verbosity=2)

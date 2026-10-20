@@ -38,10 +38,10 @@ jobs:
           set -euo pipefail
           cd sideplay/firstparty-carplay-admission
           make clean package FINALPACKAGE=1
-          FILE="packages/com.duoface.carplay.firstpartyadmission_0.0.1~candidate1_iphoneos-arm64.deb"
+          FILE="packages/com.duoface.carplay.firstpartyadmission_0.0.2~signal1_iphoneos-arm64.deb"
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = 'com.duoface.carplay.firstpartyadmission'
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.1~candidate1'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.2~signal1'
           ! dpkg-deb -f "$FILE" | grep -E '^(Conflicts|Replaces|Breaks):'
           mkdir -p "$RUNNER_TEMP/df-extract"
           dpkg-deb -x "$FILE" "$RUNNER_TEMP/df-extract"
@@ -53,7 +53,7 @@ jobs:
           assert d['Filter']['Executables']==['CarPlay'],d
           print('CARPLAY_ONLY_FILTER_PASS')
           PY
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-candidate1"
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-signal2"
           mkdir -p "$OUT"
           cp "$FILE" "$OUT/"
           (cd "$OUT" && shasum -a 256 "$(basename "$FILE")" > SHA256SUMS.txt)
@@ -70,19 +70,19 @@ jobs:
             echo "SILEO_PUBLISHED=false"
             echo "HOST_APP_PUBLISHED=false"
           } > "$OUT/CI_RESULT.txt"
-      - name: Build independently signed native scene host and iPhone QA 0.1.3
+      - name: Build independently signed native scene host and iPhone QA 0.1.4
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
           bash sideplay/duoface-qa-app/build.sh
           HOST="sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb"
-          QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.3~admission1_iphoneos-arm64.deb"
+          QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.4~signal1_iphoneos-arm64.deb"
           test -s "$HOST"
           test -s "$QA"
           test "$(dpkg-deb -f "$HOST" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$QA" Version)" = '0.1.3~admission1'
-          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.1~candidate1)'
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-candidate1"
+          test "$(dpkg-deb -f "$QA" Version)" = '0.1.4~signal1'
+          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.2~signal1)'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-signal2"
           cp "$HOST" "$QA" "$OUT/"
           (cd "$OUT" && shasum -a 256 "$(basename "$HOST")" "$(basename "$QA")" >> SHA256SUMS.txt)
           echo "IPHONE_QA_GUI_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: duo-firstparty-admission-candidate-${{ github.run_id }}
-          path: sideplay/test-artifacts/firstparty-admission-candidate1/
+          path: sideplay/test-artifacts/firstparty-admission-signal2/
           if-no-files-found: error
       - name: Save build artifacts to feature branch
         run: |
@@ -98,7 +98,7 @@ jobs:
           BRANCH=feature/duoface-firstparty-carplay-admission-20261020
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sideplay/test-artifacts/firstparty-admission-candidate1/
+          git add sideplay/test-artifacts/firstparty-admission-signal2/
           git commit -m 'artifacts: first-party admission candidate quarantined [skip ci]'
           for i in 1 2 3; do
             git fetch origin "$BRANCH"

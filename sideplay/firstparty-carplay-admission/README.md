@@ -21,3 +21,27 @@ SpringBoard app library admission has an additional gate: its FBS bulk method wa
 Do not publish or enable this candidate automatically. After CI, inspect class-return behavior, build a reversible first-party SpringBoard roster strategy only after isolating the correct caller and verifying its ABI; prepare an interactive QA consent and rollback path before any device trial. Keep QA6, QA11, native12/HUD8 and published QA 0.1.2 unchanged.
 
 References: external CarSurf iOS16 admission explanation (concept only; unlicensed files NOT copied), Apple CarPlay entitlements documentation. Original implementation independent and minimal.
+
+## iOS16 device screenshot fix — version 0.0.2~signal1 / QA 0.1.4
+
+User-supplied QA 0.1.3 screenshot showed config Enabled and an old constructor line
+`[DFAdmission/CarPlay] idle: disabled or unsupported iOS`. The old module
+returned early when consent was OFF at process load, so subsequent QA button
+presses could not install hooks until process restart. This is a verified source
+design flaw; it does not prove that any CarPlay native app was accepted.
+
+This revision **registers only a Darwin notification listener at CarPlay load**.
+After the user explicitly accepts QA consent, the iPhone QA app writes preferences
+and posts `com.duoface.firstparty-admission.refresh`. The CarPlay module receives
+the notification, queues validation on the main queue, rechecks current consent,
+OS major version 16 and exact typed API encodings, and arms the two getter hooks
+only when every gate passes. Repeating consent does not reinstall already-armed
+hooks. The emergency OFF button creates the kill file and posts the same signal:
+already-installed hooks become inert because all eligible lookups consult consent
+at call time. Nothing restarts SpringBoard or CarPlay. If the module was never
+loaded, no callback is expected; QA must not claim a successful registration.
+
+Do not confuse the `opt-in two typed getters armed via qa-notify` diagnostic with
+a real Dashboard icon or a UIKit-owned CarPlay scene: SpringBoard roster inclusion
+is still unimplemented. Required on-device evidence: new log after clicking
+Enable, actual first-party Dashboard entry and native scene lifecycle separately.
