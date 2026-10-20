@@ -1,0 +1,57 @@
+name: DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)
+on:
+  push:
+    branches:
+      - feature/duoface-firstparty-carplay-admission-20261020
+    paths:
+      - 'sideplay/audit/carplay-open-source-20261020/verify_admission_coverage.py'
+      - 'sideplay/audit/carplay-open-source-20261020/tests/test_coverage_gate.py'
+      - '.github/workflows/duoface-ios16-admission-offline-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert static coverage and preserve unknown runtime gates
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/audit/carplay-open-source-20261020/tests -p 'test_*.py' -v
+          python3 sideplay/audit/carplay-open-source-20261020/verify_admission_coverage.py --strict --output sideplay/audit/carplay-open-source-20261020/ADMISSION_OFFLINE_COVERAGE.json
+          python3 - <<'PY'
+          import json
+          p='sideplay/audit/carplay-open-source-20261020/ADMISSION_OFFLINE_COVERAGE.json'
+          a=json.load(open(p))
+          assert a['result']=='PASS_SOURCE_STATIC'
+          assert a['runtime_unknown']
+          assert a['device_tested_by_this_script'] is False
+          assert a['source_changed_by_this_script'] is False
+          print('DUOFACE_ADMISSION_OFFLINE_SOURCE_PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-ios16-admission-offline-${{ github.run_id }}
+          path: sideplay/audit/carplay-open-source-20261020/ADMISSION_OFFLINE_COVERAGE.json
+          if-no-files-found: error
+      - name: Save static evidence to source repo branch, never Sileo
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-firstparty-carplay-admission-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/audit/carplay-open-source-20261020/ADMISSION_OFFLINE_COVERAGE.json
+          if git diff --cached --quiet; then
+            echo 'Static report already current'
+            exit 0
+          fi
+          git commit -m 'evidence: offline CarPlay admission coverage snapshot [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then exit 0; fi
+            sleep 2
+          done
+          exit 1
