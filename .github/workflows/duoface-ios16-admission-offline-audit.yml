@@ -6,6 +6,8 @@ on:
     paths:
       - 'sideplay/audit/carplay-open-source-20261020/verify_admission_coverage.py'
       - 'sideplay/audit/carplay-open-source-20261020/tests/test_coverage_gate.py'
+      - 'sideplay/audit/carplay-open-source-20261020/analyze_consolidated_trace.py'
+      - 'sideplay/audit/carplay-open-source-20261020/consolidated_tests/**'
       - '.github/workflows/duoface-ios16-admission-offline-audit.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/audit/carplay-open-source-20261020/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/audit/carplay-open-source-20261020/consolidated_tests -p 'test_*.py' -v
           python3 sideplay/audit/carplay-open-source-20261020/verify_admission_coverage.py --strict --output sideplay/audit/carplay-open-source-20261020/ADMISSION_OFFLINE_COVERAGE.json
           python3 - <<'PY'
           import json
