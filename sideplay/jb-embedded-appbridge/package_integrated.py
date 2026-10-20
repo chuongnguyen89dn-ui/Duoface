@@ -10,11 +10,11 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.0~v1bc1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.6~dockcrop1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.5~ready1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb"),
  ("com.duoface.qa.controlapp","sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.7~ready1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.1~candidate1"
+VERSION="0.0.2~nativecontent1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -80,9 +80,12 @@ def build():
     "sileo_published":False,
     "device_carplay_icon_tested":False,
     "real_two_app_scene_tested":False,
+    "native_content_receiver_compiled":True,
+    "native_content_receiver_device_verified":False,
     "risks":["SpringBoard injection present in own V1BC module; baseline not validated on this exact phone",
              "old QA packages conflict; do NOT install this staged package in place",
-             "Home app roster/CarPlay scene admission still needs actual device proof"]}
+             "Home app roster/CarPlay scene admission still needs actual device proof",
+             "System-issued scene CAContext receiver exists but touch and device overlay are unverified"]}
   (OUT/"PACKAGING_PROVENANCE.json").write_text(json.dumps(data,indent=2,ensure_ascii=False)+"\n")
   print("DUOFACE_JB_EMBEDDED_CANDIDATE_BUILT",destination,data["sha256"],len(seen))
 def main():

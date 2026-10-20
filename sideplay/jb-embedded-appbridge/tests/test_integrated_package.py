@@ -25,5 +25,7 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   s=SRC.read_text()
   self.assertIn('sileo_published":False',s)
   self.assertIn('real_two_app_scene_tested":False',s)
+  self.assertIn('native_content_receiver_compiled":True',s)
+  self.assertIn('native_content_receiver_device_verified":False',s)
   self.assertIn('requires_replacing_old_qa_packages":True',s)
 if __name__=="__main__":unittest.main(verbosity=2)

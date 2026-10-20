@@ -6,6 +6,7 @@ on:
       - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/jb-embedded-appbridge/tests/**'
+      - 'sideplay/duoface-native-scene-host/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -22,6 +23,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
@@ -55,15 +57,16 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
+          test -s 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb'
           bash sideplay/duoface-qa-app/build.sh
       - name: Merge into ONE staged rootless package and validate
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.1~candidate1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.2~nativecontent1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.1~candidate1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.2~nativecontent1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$PACKAGE" Depends | grep -i -E 'carbridge|carplayenable|sideplay|duonavi|duodash'
           python3 - <<'PY'
@@ -76,6 +79,8 @@ jobs:
           assert d['separate_carbridge_dependency'] is False
           assert d['sileo_published'] is False and d['device_carplay_icon_tested'] is False
           assert d['requires_replacing_old_qa_packages'] is True
+          assert d['native_content_receiver_compiled'] is True
+          assert d['native_content_receiver_device_verified'] is False
           print('JB_EMBEDDED_SINGLE_DEB_SOURCE_PACKAGE_PASS sha=',d['sha256'])
           PY
           mkdir -p sideplay/jb-embedded-appbridge/evidence
@@ -88,6 +93,8 @@ jobs:
             echo 'DEVICE_TWO_APP_BRIDGE_VERIFIED=false'
             echo 'NEEDS_PREVIOUS_QA_MIGRATION_REVIEW=true'
             echo 'NO_SEPARATE_CARBRIDGE_PACKAGE=true'
+            echo 'NATIVE_CONTENT_RECEIVER_DEVICE_VERIFIED=false'
+            echo 'SYSTEM_ISSUED_CARPLAY_SCENE_VERIFIED=false'
             echo "RUN_ID=$GITHUB_RUN_ID"
             echo "SOURCE_SHA=$GITHUB_SHA"
           } > sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
