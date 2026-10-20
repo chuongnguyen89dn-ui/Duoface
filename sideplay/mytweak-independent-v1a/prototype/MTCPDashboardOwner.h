@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,readonly,getter=isHostFullscreen) BOOL hostFullscreen;
 // Whole-host fullscreen, not selected split-slot focus. Captures and restores
 // the exact native bar hidden state and last measured normal content rect.
-- (BOOL)setHostFullscreen:(BOOL)fullscreen;
+- (BOOL)applyHostFullscreen:(BOOL)fullscreen;
 - (BOOL)attachToDashboardRoot:(UIViewController *)dashboardRoot;
 - (void)refresh;
 - (void)detach;
