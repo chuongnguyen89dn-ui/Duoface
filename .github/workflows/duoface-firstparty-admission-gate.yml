@@ -82,7 +82,7 @@ jobs:
           test -s "$HOST"
           test -s "$QA"
           test "$(dpkg-deb -f "$HOST" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f \"$HOST\" Version)" = '0.0.2~template1'
+          test "$(dpkg-deb -f "$HOST" Version)" = '0.0.2~template1'
           test "$(dpkg-deb -f "$QA" Version)" = '0.1.7~ready1'
           dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.5~ready1)'
           dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.sbadmissionprobe (>= 0.0.1~readonly1)'
