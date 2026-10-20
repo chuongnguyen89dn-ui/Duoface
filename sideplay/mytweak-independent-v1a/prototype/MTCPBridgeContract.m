@@ -4,6 +4,7 @@ static NSString *const kBridgeConfig=@"/var/mobile/Library/Preferences/com.duofa
 static NSString *const kEngineConfig=@"/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist";
 static NSString *const kSurface=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-surface.plist";
 static NSString *const kCommand=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-command.plist";
+static NSString *const kHostFullscreen=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-host-fullscreen.plist";
 static NSString *const kReceiverAck=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-receiver-ack.plist";
 static NSTimeInterval const kMaxAge=2.0;
 NSString *MTCPBridgeSurfaceFile(void) { return kSurface; }
@@ -162,4 +163,30 @@ void MTCPBridgeInvalidateReceiverAck(NSString *session) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kReceiverAck];
     if (MTCPValidSession(session) && [record[@"Session"] isEqualToString:session])
         [[NSFileManager defaultManager] removeItemAtPath:kReceiverAck error:nil];
+}
+
+// DuoFace Native12: host geometry and split-slot focus are separate modes.
+// This one-shot value is repeatedly refreshed by an actual live SpringBoard
+// publisher, expires in two seconds, and cannot enable a bridge by itself.
+BOOL MTCPBridgeWriteHostFullscreen(NSString *session,BOOL fullscreen) {
+    if (![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"] ||
+        !MTCPBridgeExplicitOptIn() || !MTCPValidSession(session) ||
+        !MTCPBridgeReadSurface(session))return NO;
+    NSDictionary *record=@{@"Version":@1,@"Kind":@"host-fullscreen",
+        @"Session":session,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+        @"Fullscreen":@(fullscreen)};
+    return [record writeToFile:kHostFullscreen atomically:YES];
+}
+NSNumber *MTCPBridgeReadHostFullscreen(NSString *session) {
+    if (!MTCPBridgeExplicitOptIn() || !MTCPValidSession(session) ||
+        !MTCPBridgeReadSurface(session))return nil;
+    NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kHostFullscreen];
+    if (!MTCPHeader(record,@"host-fullscreen",session,NSDate.date.timeIntervalSince1970) ||
+        ![record[@"Fullscreen"] isKindOfClass:NSNumber.class])return nil;
+    return record[@"Fullscreen"];
+}
+void MTCPBridgeInvalidateHostFullscreen(NSString *session) {
+    NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kHostFullscreen];
+    if (MTCPValidSession(session) && [record[@"Session"] isEqualToString:session])
+        [[NSFileManager defaultManager] removeItemAtPath:kHostFullscreen error:nil];
 }
