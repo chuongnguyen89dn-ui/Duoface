@@ -6,6 +6,7 @@ on:
       - '.github/workflows/duoface-native-scene-join-v1.yml'
       - 'sideplay/native-carplay-scene-v1/**'
       - 'sideplay/duoface-qa-app/**'
+      - 'sideplay/duoface-native-scene-host/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -23,6 +24,7 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
           xcrun --sdk macosx clang -fobjc-arc -Wall -Wextra \
             -framework Foundation -framework CoreGraphics \
             sideplay/native-carplay-scene-v1/DFNativeSceneContract.m \
@@ -47,7 +49,7 @@ jobs:
           test "${#debs[@]}" = 1
           deb="${debs[0]}"
           test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.carplay.nativejoinprobe'
-          test "$(dpkg-deb -f "$deb" Version)" = '0.0.2~bargeometry1'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.0.3~rosterabi1'
           test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$deb" > "$RUNNER_TEMP/nativejoin-list.txt"
           test "$(grep -c '^-' "$RUNNER_TEMP/nativejoin-list.txt")" = 2
@@ -106,6 +108,39 @@ jobs:
           echo "IPHONe_QA_APP_NATIVE_SCENE_VIEWER=PASS" >> "$OUT/CI_RESULT.txt"
           echo "QA_APP_VERSION=0.1.1~nativeprobe1" >> "$OUT/CI_RESULT.txt"
           echo "QA_APP_SHA256=$(shasum -a 256 "$deb" | awk '{print $1}')" >> "$OUT/CI_RESULT.txt"
+      - name: Build isolated first-party real CarPlay UIWindowScene host candidate
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh 2>&1 | tee "$RUNNER_TEMP/native-scene-host-build.log"
+          deb='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb'
+          test -s "$deb"
+          test "$(dpkg-deb -f "$deb" Package)" = com.duoface.carplay.nativescenehost
+          test "$(dpkg-deb -f "$deb" Version)" = '0.0.1~scenehost1'
+          test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
+          ! dpkg-deb -f "$deb" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/native-scene-host-extracted"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native-scene-host-extracted"
+          app="$RUNNER_TEMP/native-scene-host-extracted/var/jb/Applications/DuoFaceNativeHost.app"
+          test -s "$app/DuoFaceNativeHost"
+          APP_INFO="$app/Info.plist" python3 - <<'PY'
+          import plistlib,os
+          with open(os.environ['APP_INFO'],'rb') as f: info=plistlib.load(f)
+          assert info['CFBundleIdentifier']=='com.duoface.native.scenehost'
+          scenes=info['UIApplicationSceneManifest']['UISceneConfigurations']
+          assert scenes['UIWindowSceneSessionRoleCarPlay'][0]['UISceneClassName']=='UIWindowScene'
+          assert scenes['UIWindowSceneSessionRoleCarPlay'][0]['UISceneDelegateClassName']=='DFNativeHostCarSceneDelegate'
+          assert 'UIWindowSceneSessionRoleApplication' in scenes
+          print('NATIVE_CARPLAY_OWNED_SCENE_HOST_MANIFEST_PASS')
+          PY
+          ldid -e "$app/DuoFaceNativeHost" | grep -F 'platform-application'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-carplay-scene-v1"
+          cp "$deb" "$OUT/"
+          cp "$RUNNER_TEMP/native-scene-host-build.log" "$OUT/NATIVE_SCENE_HOST_BUILD.log"
+          (cd "$OUT" && shasum -a 256 "$(basename "$deb")" >> SHA256SUMS.txt)
+          echo "NATIVE_SCENE_HOST_APP_CANDIDATE_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+          echo "NATIVE_SCENE_HOST_APP_ADMITTED_TO_CARPLAY=false" >> "$OUT/CI_RESULT.txt"
+          echo "NATIVE_SCENE_HOST_SILEO_PUBLISHED=false" >> "$OUT/CI_RESULT.txt"
+          echo "NATIVE_SCENE_HOST_SHA256=$(shasum -a 256 "$deb" | awk '{print $1}')" >> "$OUT/CI_RESULT.txt"
       - name: Upload isolated read-only diagnostic artifact
         uses: actions/upload-artifact@v4
         with:
