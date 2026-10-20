@@ -1,9 +1,9 @@
 Package: com.duoface.carplay.nativebridgeqa
 Name: DuoFace Native Dashboard Bridge QA (Opt-in)
-Version: 0.0.5~controlapp1
+Version: 0.0.6~dockcrop1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1)
-Description: Independent DuoFace QA5, controllable from proper DuoFace QA iPhone app (no Filza), explicit opt-in: Native12-style Normal content=full display minus measured 4 edge insets, whole-host Fullscreen=full display and native statusbar hidden; restore captured normal region/chrome on Zoom. Per-slot zoom unchanged. Includes ack-gated source yield; no LS hooks, native Dock/Home device verification pending.
+Description: Isolated DuoFace QA6 (no Filza) experiment. With explicit NativeSidebarTrial opt-in and valid live native Dashboard ACK, crop the ORIGINAL SpringBoard source UIWindow to the measured Dock-free CarPlay content area, retaining original live scene touch path; restore original frame after 45s/ACK loss/opt-out/changed scene. NO guessed Dock width, no UIWindowLevel lowering, no system Dock clone, no boot-time LaunchServices hooks. Physical Dock/Home and app touch in cropped window are UNVERIFIED.
