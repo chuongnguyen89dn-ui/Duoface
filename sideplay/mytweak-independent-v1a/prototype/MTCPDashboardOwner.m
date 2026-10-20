@@ -67,7 +67,16 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content,
         }
     }
     if (!found)return NO;
-    *content=accepted;
+    // Native12 equivalent: derive content geometry through 4 dynamic
+    // content insets; these are measured from the native statusbar, NOT 45pt.
+    CGFloat left=CGRectGetMinX(accepted)-CGRectGetMinX(screen);
+    CGFloat top=CGRectGetMinY(accepted)-CGRectGetMinY(screen);
+    CGFloat right=CGRectGetMaxX(screen)-CGRectGetMaxX(accepted);
+    CGFloat bottom=CGRectGetMaxY(screen)-CGRectGetMaxY(accepted);
+    CGRect fromInsets=CGRectNull;
+    if (!MTCPNativeUsableFromInsets(screen,top,left,bottom,right,&fromInsets) ||
+        !CGRectEqualToRect(fromInsets,accepted))return NO;
+    *content=fromInsets;
     if (barOut)*barOut=acceptedBar;
     return YES;
 }
@@ -143,7 +152,10 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content,
         self.savedNativeBarWindow=bar;
         self.savedNativeBarFrame=bar.frame;
         self.savedNativeBarHidden=bar.hidden;
-        CGRect full=w.bounds;
+        // Full-screen means ZERO content insets on the same full root,
+        // corresponding to v12 carPlayUsableBounds -> carPlayScreenBounds.
+        CGRect full=CGRectNull;
+        if (!MTCPNativeUsableFromInsets(w.bounds,0,0,0,0,&full))return NO;
         CGRect rootRect=[self.dashboardRoot.view convertRect:full fromView:w];
         if (!MTCPNativeContentIsWithinScreen(self.dashboardRoot.view.bounds,rootRect))return NO;
         // Same two-part transition as Native12/Airaw: real content region
