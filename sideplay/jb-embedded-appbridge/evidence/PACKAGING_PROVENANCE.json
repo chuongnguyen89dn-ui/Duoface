@@ -1,13 +1,13 @@
 {
   "kind": "code-packaging-only-not-carplay-validation",
   "output": "sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.2~nativecontent1_iphoneos-arm64.deb",
-  "sha256": "8dcea380b7c21b072526d882489868eeb9c6bce1750a1f2c9cfb5fc1197d8a13",
+  "sha256": "e31cb928dc994041cce8e54820546f26479151012477f672749bbb3a7eaecaa0",
   "source_packages": [
     {
       "package": "com.duoface.mytweak.v1a.preflight",
       "input": "sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.0~v1bc1_iphoneos-arm64.deb",
       "version": "0.2.0~v1bc1",
-      "sha256": "a829f32d7cf2c24f2ed8ccb8b1fc27a8fe5ec568f5ebce65b91729045715a742",
+      "sha256": "a9494eccefcbb12ab68ed63bd366c6b245ab7c54c17828797678954f149bfb7b",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
@@ -18,7 +18,7 @@
       "package": "com.duoface.carplay.nativebridgeqa",
       "input": "sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.6~dockcrop1_iphoneos-arm64.deb",
       "version": "0.0.6~dockcrop1",
-      "sha256": "3b692ce7e86c9ffc5b17b18db817d7bcf52393c7334ff010db1f0f5a1b2bae2d",
+      "sha256": "06dd0055771e08ee7da99085ac7980e60a0f3704c68c8804e6b0bd9882cb1ea2",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
@@ -29,7 +29,7 @@
       "package": "com.duoface.carplay.firstpartyadmission",
       "input": "sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.5~ready1_iphoneos-arm64.deb",
       "version": "0.0.5~ready1",
-      "sha256": "2457ecbe4385c49247958712b3900dd2e4789a1507d18e4ec8a269bc7aaa85cb",
+      "sha256": "dfa329aa8fbf586c55046a13e37e22cb3866d1d7b5ece9fdd8b54efbcf863b7d",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
@@ -40,7 +40,7 @@
       "package": "com.duoface.carplay.nativescenehost",
       "input": "sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb",
       "version": "0.0.2~nativecontent1",
-      "sha256": "4bb12dfecf042fe35e160d5539f6a32a96ca6f18b828f97a92c7cc4a60447ac5",
+      "sha256": "d2f7ef278fe09c4b62f3dda404f84838efe472e83852abb388a9bdc0d6069ba5",
       "payload_count": 2,
       "paths": [
         "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
@@ -51,7 +51,7 @@
       "package": "com.duoface.qa.controlapp",
       "input": "sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.7~ready1_iphoneos-arm64.deb",
       "version": "0.1.7~ready1",
-      "sha256": "d4342a852344e3d0f9ce62f6f241949355e7853d7c45bb4acc7e9231f20d1c05",
+      "sha256": "4719134a6de816640795db8ac01e39384435cb0d7d400e5e7ac6b927bbda318c",
       "payload_count": 6,
       "paths": [
         "var/jb/Applications/DuoFaceQA.app/AppIcon40x40@2x.png",
