@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in remove|purge|upgrade) ;; *) exit 0;; esac
+for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$CACHE" ]; then "$CACHE" -u /var/jb/Applications/DuoFaceTest.app || true;break;fi
+done
