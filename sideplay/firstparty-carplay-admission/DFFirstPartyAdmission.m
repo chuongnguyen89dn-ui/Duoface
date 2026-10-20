@@ -64,7 +64,8 @@ static BOOL DFEligible(id proxy, id key, Class expected, Class valuesExpected) {
 }
 
 static NSDictionary *DFTraceActiveRequest(void) {
-    if(access(DFDisable,F_OK)==0 || access(DFTraceDisable,F_OK)==0)return nil;
+    if(!DFExplicitConsent() || access(DFDisable,F_OK)==0 ||
+       access(DFTraceDisable,F_OK)==0)return nil;
     NSDictionary *r=[NSDictionary dictionaryWithContentsOfFile:DFTraceRequest];
     if(![r isKindOfClass:NSDictionary.class] ||
        ![r[@"Enabled"] isKindOfClass:NSNumber.class] || ![r[@"Enabled"] boolValue] ||
