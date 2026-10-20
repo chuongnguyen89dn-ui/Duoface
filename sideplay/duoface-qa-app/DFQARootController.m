@@ -383,8 +383,15 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     BOOL written=[req writeToFile:DFTraceRequest atomically:YES];
     BOOL killed=[[NSFileManager defaultManager] createFileAtPath:DFTraceDisable
          contents:[@"disabled" dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
-    if(!(written&&killed))[self alert:@"Dừng chưa hoàn tất"
-                  message:@"Chưa xác minh được cấu hình tắt đo. Không tiếp tục thử."];
+    // Do not leave the matching SpringBoard one-shot request armed after Stop.
+    NSMutableDictionary *sb=[DFPrefs(DFSBRequest) mutableCopy];
+    BOOL sbStopped=YES;
+    if([sb[@"Kind"] isEqualToString:@"consolidated-target"]) {
+        sb[@"Enabled"]=@NO;
+        sbStopped=[sb writeToFile:DFSBRequest atomically:YES];
+    }
+    if(!(written&&killed&&sbStopped))[self alert:@"Dừng chưa hoàn tất"
+                  message:@"Chưa xác minh được cả hai yêu cầu đã dừng. Không tiếp tục thử."];
     [self refresh];
 }
 - (void)startAdmissionTrace:(id)sender {
