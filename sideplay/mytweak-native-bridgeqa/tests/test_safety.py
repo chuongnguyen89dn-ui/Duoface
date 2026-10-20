@@ -8,7 +8,7 @@ class Safety(unittest.TestCase):
     def test_standalone_and_disabled_by_default(self):
         c=read("control")
         self.assertIn("Package: com.duoface.carplay.nativebridgeqa",c)
-        self.assertIn("Version: 0.0.5~controlapp1",c)
+        self.assertIn("Version: 0.0.6~dockcrop1",c)
         self.assertIn("com.duoface.mytweak.v1a.preflight",c)
         for s in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(s,c)
         code=read("DFCPNativeBridgeQA.m")
@@ -57,22 +57,42 @@ class Safety(unittest.TestCase):
             self.assertIn(x,s)
         for bad in ("w.hidden=NO","UIWindowLevel","LSBundleProxy"):
             self.assertNotIn(bad,s)
-    def test_ack_binds_native_session_before_yield_and_restores(self):
+    def test_ack_binds_native_session_before_live_window_crop(self):
         q=read("DFCPNativeBridgeQA.m")
         own=(ROOT/"../mytweak-independent-v1a/prototype/MTCPDashboardOwner.m").read_text()
         ctr=(ROOT/"../mytweak-independent-v1a/prototype/MTCPBridgeContract.m").read_text()
         self.assertIn("MTCPBridgeReadReceiverAck(session)",q)
-        self.assertIn("if (!canTry",q)
-        self.assertIn("source-window-yielded-after-native-ack",q)
-        self.assertIn("source-window-restored",q)
-        self.assertIn("w.windowLevel=destination;",q)
-        self.assertIn("w.windowLevel=self.savedSourceLevel;",q)
+        self.assertIn("if(!canTry",q)
+        self.assertIn("source-window-cropped-after-native-ack",q)
+        self.assertIn("source-window-crop-restored",q)
+        self.assertIn("w.frame=target;",q)
+        self.assertIn("w.frame=self.savedSourceFrame;",q)
+        self.assertIn("CGRectContainsRect(original,target)",q)
+        self.assertIn("DFQAFrameNear(original,carBounds)",q)
         self.assertIn("NSDate.date.timeIntervalSince1970-self.yieldSince>45",q)
         self.assertIn("self.exhaustedYieldSession=self.yieldSession",q)
         self.assertIn('cfg[@"NativeSidebarTrial"]',q)
         self.assertIn("MTCPBridgeWriteReceiverAck(",own)
         self.assertIn("MTCPBridgeInvalidateReceiverAck(",own)
-        self.assertIn('MTCPBridgeValidateReceiverAck(',ctr)
-        self.assertIn('kMaxAge=2.0',ctr)
-        self.assertNotIn('UIApplication.sharedApplication.keyWindow=',q)
+        self.assertIn("MTCPBridgeValidateReceiverAck(",ctr)
+        self.assertIn("kMaxAge=2.0",ctr)
+        # New approach does not lower UIWindow.level or inject touch.
+        self.assertNotIn("w.windowLevel=destination;",q)
+        self.assertNotIn("w.windowLevel=self.savedSourceLevel;",q)
+        self.assertNotIn("UIApplication.sharedApplication.keyWindow=",q)
+        self.assertNotIn("DDFindDock",q)
+    def test_ack_geometry_matches_device_recorded_normal(self):
+        # A 45pt native left bar on an actual 507.3333pt CarPlay display.
+        screen_width, screen_height=507.33333333333331,240.0
+        ack={"X":45.0/screen_width,"Y":0.0,
+             "Width":(screen_width-45.0)/screen_width,"Height":1.0}
+        x=ack["X"]*screen_width
+        w=ack["Width"]*screen_width
+        assert abs(x-45.0)<1e-5
+        assert abs(w-462.3333333333333)<1e-5
+        self.assertEqual(ack["Height"]*screen_height,240.0)
+        # Changing ONLY the child view is insufficient while a covering
+        # SpringBoard external UIWindow still spans the system Dock.
+        self.assertIn("w.frame=target;",read("DFCPNativeBridgeQA.m"))
+
 if __name__=="__main__":unittest.main(verbosity=2)
