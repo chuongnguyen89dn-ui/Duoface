@@ -44,6 +44,8 @@ class CandidateSafety(unittest.TestCase):
   self.assertEqual(s.count('hook(c,s3,'),1)
   self.assertEqual(s.count('hook(c,s2,'),1)
   self.assertNotIn('hook(cached',s)
+  self.assertIn('sel_registerName("_newApplicationLibrary")',s)
+  self.assertNotIn('objc_msgSend)(dash,library',s)
  def test_carplay_preflight_loaded_version_no_springboard_restart(self):
   s=read("DFFirstPartyAdmission.m")
   for must in ("DFTracePreflight","DFTraceSignal","DFTraceStatus",
@@ -62,7 +64,7 @@ class CandidateSafety(unittest.TestCase):
               'DFExplicitConsent()','DFHostID','30','CFNotificationCenterAddObserver'):
    self.assertIn(key,s)
   for blocked in ('LSApplicationWorkspace','registerApplication','unregisterApplication',
-     'activateApplication','_newApplicationLibrary','requestStateChange',
+     'activateApplication','requestStateChange',
      'FBSApplicationInfo','LSBundleInfoCachedValues','method_setImplementation'):
    self.assertNotIn(blocked,s)
 if __name__=="__main__":unittest.main(verbosity=2)
