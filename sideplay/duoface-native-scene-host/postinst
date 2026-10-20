@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in configure) ;; *) exit 0 ;; esac
+APP=/var/jb/Applications/DuoFaceNativeHost.app
+[ -d "$APP" ] || { echo "DuoFace Native Host: app bundle missing" >&2; exit 1; }
+for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$CACHE" ]; then
+    "$CACHE" -p "$APP" || echo "DuoFace Native Host: uicache failed; check app registration" >&2
+    exit 0
+  fi
+done
+echo "DuoFace Native Host: uicache unavailable; files installed but icon unconfirmed" >&2
+exit 0

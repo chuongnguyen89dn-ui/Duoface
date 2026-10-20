@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.nativescenehost
 Name: DuoFace Native Dashboard Scene Host (Development)
-Version: 0.0.2~nativecontent1
+Version: 0.0.3~registered1
 Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0)
-Description: Independent first-party UIKit app with a real CarPlay UIWindowScene role and scene lifecycle handlers. Uses only a UIKit-provided window, never shows/moves the system Dock, and does NOT spoof admission or claim two interactive apps; includes a fail-closed opt-in CAContext content receiver inside UIKit-issued CarPlay scene. Developer staging package: not published to Sileo until admission path has safety gate.
+Description: Independent first-party UIKit app with a real CarPlay UIWindowScene role and scene lifecycle handlers. Uses only a UIKit-provided window, never shows/moves the system Dock, and does NOT spoof admission or claim two interactive apps; includes a fail-closed opt-in CAContext content receiver inside UIKit-issued CarPlay scene. App registration uses opt-in-safe postinst uicache -p with no respring. Device CarPlay admission still unverified.

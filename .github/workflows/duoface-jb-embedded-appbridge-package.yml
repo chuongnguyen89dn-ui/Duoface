@@ -7,6 +7,7 @@ on:
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/jb-embedded-appbridge/tests/**'
       - 'sideplay/duoface-native-scene-host/**'
+      - 'sideplay/jb-embedded-appbridge/scripts/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
       - 'sideplay/firstparty-carplay-admission/**'
   workflow_dispatch:
@@ -59,17 +60,25 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          test -s 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb'
+          test -s 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.3~registered1_iphoneos-arm64.deb'
           bash sideplay/duoface-qa-app/build.sh
       - name: Merge into ONE staged rootless package and validate
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.4~sbpair1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.5~registered1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.4~sbpair1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.5~registered1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
+          mkdir -p "$RUNNER_TEMP/duoface-package-control"
+          dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
+          test -x "$RUNNER_TEMP/duoface-package-control/postinst"
+          test -x "$RUNNER_TEMP/duoface-package-control/postrm"
+          grep -q 'DuoFaceNativeHost.app' "$RUNNER_TEMP/duoface-package-control/postinst"
+          grep -q 'DuoFaceQA.app' "$RUNNER_TEMP/duoface-package-control/postinst"
+          ! grep -E 'killall|sbreload|ldrestart|launchctl' "$RUNNER_TEMP/duoface-package-control/"post*
+
           ! dpkg-deb -f "$PACKAGE" Depends | grep -i -E 'carbridge|carplayenable|sideplay|duonavi|duodash'
           python3 - <<'PY'
           import json
@@ -83,6 +92,8 @@ jobs:
           assert d['requires_replacing_old_qa_packages'] is True
           assert d['native_content_receiver_compiled'] is True
           assert d['native_content_receiver_device_verified'] is False
+          assert d['uicache_registration_scripts_included'] is True
+          assert d['auto_respring_on_install'] is False
           print('JB_EMBEDDED_SINGLE_DEB_SOURCE_PACKAGE_PASS sha=',d['sha256'])
           PY
           mkdir -p sideplay/jb-embedded-appbridge/evidence
@@ -91,6 +102,8 @@ jobs:
           {
             echo 'SOURCE_BUNDLE_CANDIDATE=PASS'
             echo 'SILEO_PUBLISHED=false'
+            echo 'UICACHE_POSTINST_INCLUDED=true'
+            echo 'UICACHE_ON_DEVICE_CONFIRMED=false'
             echo 'DEVICE_NATIVE_CARPLAY_ICON_VERIFIED=false'
             echo 'DEVICE_TWO_APP_BRIDGE_VERIFIED=false'
             echo 'NEEDS_PREVIOUS_QA_MIGRATION_REVIEW=true'

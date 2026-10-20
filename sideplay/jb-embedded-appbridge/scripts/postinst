@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in configure) ;; *) exit 0 ;; esac
+# Only register our two independent UI bundles. No process restart, no
+# preference changes, no CarPlay allowance, no vendor library registration.
+for APP in /var/jb/Applications/DuoFaceNativeHost.app /var/jb/Applications/DuoFaceQA.app; do
+  [ -d "$APP" ] || { echo "DuoFace integrated: app missing $APP" >&2; exit 1; }
+  FOUND=0
+  for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+    if [ -x "$CACHE" ]; then
+      FOUND=1
+      "$CACHE" -p "$APP" || echo "DuoFace integrated: uicache failed for $APP" >&2
+      break
+    fi
+  done
+  [ "$FOUND" = 1 ] || echo "DuoFace integrated: uicache absent, icon unconfirmed $APP" >&2
+done
+exit 0

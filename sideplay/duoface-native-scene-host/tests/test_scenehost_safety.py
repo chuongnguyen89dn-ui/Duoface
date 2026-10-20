@@ -36,11 +36,21 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.0.2~nativecontent1",c)
+  self.assertIn("Version: 0.0.3~registered1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
-  self.assertFalse((R/"postinst").exists())
+  self.assertTrue((R/"postinst").exists())
+  self.assertTrue((R/"postrm").exists())
   self.assertFalse((R/"prerm").exists())
+  for name in ("postinst","postrm"):
+   data=file(name)
+   self.assertIn("DuoFaceNativeHost.app",data)
+   self.assertIn("uicache",data)
+   for forbidden in ("killall","sbreload","ldrestart","launchctl","rm -rf","defaults write",
+                     "com.apple.developer.carplay","SpringBoard restart"):
+    self.assertNotIn(forbidden,data)
+  self.assertIn('case "${1:-}" in configure',file("postinst"))
+  self.assertIn('case "${1:-}" in remove',file("postrm"))
  def test_native_content_receiver_stays_in_system_scene_safe_area(self):
   s=file("DFNativeHostSurfaceView.m")
   root=file("DFNativeHostRootController.m")

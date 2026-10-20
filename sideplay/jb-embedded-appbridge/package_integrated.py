@@ -14,7 +14,7 @@ ORDER=[
  ("com.duoface.qa.controlapp","sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.7~ready1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.4~sbpair1"
+VERSION="0.0.5~registered1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -53,6 +53,15 @@ def build():
     "sha256":hashlib.sha256(archive.read_bytes()).hexdigest(),
     "payload_count":len(paths),
     "paths":paths})
+  # Merged DEBs lose their source maintainer scripts during dpkg-deb -x.
+  # Explicitly supply minimal, auditable uicache scripts for BOTH real apps.
+  scripts=ROOT/"sideplay/jb-embedded-appbridge/scripts"
+  for kind in ("postinst","postrm"):
+   src=scripts/kind
+   if not src.is_file():raise RuntimeError("Missing registration script "+str(src))
+   target=stage/"DEBIAN"/kind
+   shutil.copy2(src,target)
+   target.chmod(0o755)
   controls=[
     "Package: "+NAME,
     "Name: DuoFace JB Embedded AppBridge (Quarantined Candidate)",
@@ -82,6 +91,8 @@ def build():
     "real_two_app_scene_tested":False,
     "native_content_receiver_compiled":True,
     "native_content_receiver_device_verified":False,
+    "uicache_registration_scripts_included":True,
+    "auto_respring_on_install":False,
     "risks":["SpringBoard injection present in own V1BC module; baseline not validated on this exact phone",
              "old QA packages conflict; do NOT install this staged package in place",
              "Home app roster/CarPlay scene admission still needs actual device proof",

@@ -28,4 +28,19 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   self.assertIn('native_content_receiver_compiled":True',s)
   self.assertIn('native_content_receiver_device_verified":False',s)
   self.assertIn('requires_replacing_old_qa_packages":True',s)
+  self.assertIn('"uicache_registration_scripts_included":True',s)
+  self.assertIn('"auto_respring_on_install":False',s)
+ def test_merged_two_app_uicache_scripts(self):
+  base=ROOT/"sideplay/jb-embedded-appbridge/scripts"
+  src=SRC.read_text()
+  for kind in ("postinst","postrm"):
+   s=(base/kind).read_text()
+   self.assertIn("DuoFaceNativeHost.app",s)
+   self.assertIn("DuoFaceQA.app",s)
+   self.assertIn("uicache",s)
+   for forbidden in ("killall","sbreload","ldrestart","launchctl","rm -rf",
+                     "uicache -a","apt install","dpkg --remove"):
+    self.assertNotIn(forbidden,s)
+  self.assertIn('for kind in ("postinst","postrm")',src)
+  self.assertIn('target.chmod(0o755)',src)
 if __name__=="__main__":unittest.main(verbosity=2)

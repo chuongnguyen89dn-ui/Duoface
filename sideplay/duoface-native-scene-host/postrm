@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in remove) ;; *) exit 0 ;; esac
+APP=/var/jb/Applications/DuoFaceNativeHost.app
+for CACHE in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$CACHE" ]; then "$CACHE" -u "$APP" || true; break; fi
+done
+exit 0

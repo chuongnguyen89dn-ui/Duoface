@@ -16,7 +16,9 @@ cp Info.plist "$APP/Info.plist"
 ldid -Sentitlements.plist "$APP/DuoFaceNativeHost"
 plutil -lint "$APP/Info.plist"
 cp control "$TMP/DEBIAN/control"
-# Intentionally no postinst/prerm, no respring, no LS cache modification.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb"
+cp postinst postrm "$TMP/DEBIAN/"
+chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
+# Only uicache app registration; no respring or CarPlay runtime state changes.
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.0.3~registered1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
