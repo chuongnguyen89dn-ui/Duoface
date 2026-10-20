@@ -5,6 +5,7 @@
 #import <fcntl.h>
 #import <unistd.h>
 #import <math.h>
+#import <objc/runtime.h>
 @interface DFNativeSceneProbe : NSObject
 @property(nonatomic,strong) NSTimer *timer;
 @property(nonatomic,copy) NSString *session;
@@ -20,6 +21,26 @@ static void DFProbeLog(NSString *message) {
     if(fd>=0){NSData *d=[line dataUsingEncoding:NSUTF8StringEncoding];
         (void)write(fd,d.bytes,d.length);close(fd);}
 }
+// ABI introspection only; NEVER invoke private workspace API here.
+static NSString *DFProbeMethodABI(Class cls,SEL selector,BOOL classMethod) {
+    if(!cls)return @"class-unavailable";
+    Method m=classMethod?class_getClassMethod(cls,selector):class_getInstanceMethod(cls,selector);
+    if(!m)return @"selector-unavailable";
+    const char *abi=method_getTypeEncoding(m);
+    return abi?[NSString stringWithUTF8String:abi]:@"ABI-unavailable";
+}
+static void DFProbeNativeWorkspaceABI(void) {
+    Class workspace=NSClassFromString(@"DBWorkspace");
+    Class controller=NSClassFromString(@"DBApplicationController");
+    Class request=NSClassFromString(@"DBMutableWorkspaceStateChangeRequest");
+    Class owner=NSClassFromString(@"DBDashboardWorkspaceOwner");
+    DFProbeLog([NSString stringWithFormat:
+      @"native-workspace-abi workspace=%@ requestStateChange=%@ controller=%@ sharedInstance=%@ request=%@ activateApplication=%@ owner=%@",
+      workspace?@"yes":@"no",DFProbeMethodABI(workspace,@selector(requestStateChange:),NO),
+      controller?@"yes":@"no",DFProbeMethodABI(controller,@selector(sharedInstance),YES),
+      request?@"yes":@"no",DFProbeMethodABI(request,@selector(activateApplication:),NO),
+      owner?@"yes":@"no"]);
+}
 + (instancetype)shared {
     static DFNativeSceneProbe *o;
     static dispatch_once_t once;
@@ -31,6 +52,7 @@ static void DFProbeLog(NSString *message) {
     if(![p isEqual:@"CarPlay"] && ![p isEqual:@"CarPlayApp"])return;
     self.session=NSUUID.UUID.UUIDString;
     DFProbeLog([NSString stringWithFormat:@"passive-start process=%@ version=0.0.1 no-ui-mutation",p]);
+    DFProbeNativeWorkspaceABI();
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.5 target:self
         selector:@selector(tick) userInfo:nil repeats:YES];
     [self tick];
@@ -81,7 +103,10 @@ static void DFProbeLog(NSString *message) {
             [record writeToFile:DFNativeSceneOwnerRecordPath atomically:YES];
         }
     } else {
-        [[NSFileManager defaultManager] removeItemAtPath:DFNativeSceneOwnerRecordPath error:nil];
+        // Never erase a record written by the other CarPlay host process.
+        NSDictionary *previous=[NSDictionary dictionaryWithContentsOfFile:DFNativeSceneOwnerRecordPath];
+        if([previous[@"Session"] isEqual:self.session])
+          [[NSFileManager defaultManager] removeItemAtPath:DFNativeSceneOwnerRecordPath error:nil];
     }
     NSString *state=[NSString stringWithFormat:@"dashboard=%d nativeChrome=%d full=%@ usable=%@",
       dashboard,chrome,NSStringFromCGRect(full),NSStringFromCGRect(usable)];
