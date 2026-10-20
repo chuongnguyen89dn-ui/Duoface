@@ -5,4 +5,4 @@ Architecture: iphoneos-arm64
 Maintainer: DuoFace Independent
 Depends: mobilesubstrate, firmware (>= 16.0)
 Section: Development
-Description: Isolated SpringBoard-only one-shot read-only Objective-C ABI inventory for iOS16 CarPlay app admission. Disabled by default; requires a fresh 30sec opt-in request from iPhone QA app. Never modifies entitlement values, LaunchServices records, CarPlay native Dock or application scenes. No automatic respring or postinstall commands.
+Description: SpringBoard iOS16 one-shot ABI inventory; optional two original entitlement return-class reads for first-party DuoFace Host under a fresh 30sec QA request. No method hooks, LS writes, entitlement mutation, Dock or scene changes. No auto-respring or postinstall commands.
