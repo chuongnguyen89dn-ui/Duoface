@@ -1,20 +1,20 @@
 {
-  "checked_at_utc": "2026-10-20T13:38:52.789804+00:00",
+  "checked_at_utc": "2026-10-20T18:31:33.008671+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1741,
+  "total_actions_runs": 1753,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
+      "recent_runs": 12,
+      "success": 7,
+      "failure": 2,
+      "other": 3
     },
     "DuoFace JB reference DEB audit (no install/publish)": {
       "recent_runs": 2,
@@ -65,25 +65,145 @@
       "other": 0
     },
     "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)": {
-      "recent_runs": 23,
-      "success": 3,
+      "recent_runs": 16,
+      "success": 1,
       "failure": 0,
-      "other": 20
+      "other": 15
     },
     "DuoFace native Dashboard owner layout/source validation (NO DEB)": {
-      "recent_runs": 12,
-      "success": 4,
+      "recent_runs": 10,
+      "success": 3,
       "failure": 3,
-      "other": 5
+      "other": 4
     }
   },
   "latest_runs": [
     {
+      "id": 39475473028,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 44,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39475473028",
+      "created_at": "2026-10-20T18:31:21Z",
+      "head_sha": "a6fe96660fcd55fe22463293cac9e1e77bf16fdd"
+    },
+    {
+      "id": 39450597322,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39450597322",
+      "created_at": "2026-10-20T15:40:29Z",
+      "head_sha": "96ae4e2d612368b71b8fd5847e3c481cfd3b0a13"
+    },
+    {
+      "id": 39449652261,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39449652261",
+      "created_at": "2026-10-20T15:34:22Z",
+      "head_sha": "018ee024fea142a091ea42f98114298245a2e353"
+    },
+    {
+      "id": 39449597917,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39449597917",
+      "created_at": "2026-10-20T15:34:01Z",
+      "head_sha": "70c33750d365517d4452c3f8e27ea48bff8b2d1a"
+    },
+    {
+      "id": 39449545943,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39449545943",
+      "created_at": "2026-10-20T15:33:41Z",
+      "head_sha": "c2daa896bc8429e4359ae78040e5e24d8bab3e37"
+    },
+    {
+      "id": 39448202820,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 8,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39448202820",
+      "created_at": "2026-10-20T15:25:08Z",
+      "head_sha": "5da435d8f17fedd59fb8e4db51da692e8c6f7cfd"
+    },
+    {
+      "id": 39446570347,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39446570347",
+      "created_at": "2026-10-20T15:14:26Z",
+      "head_sha": "a3820b5877ff0bf277338cd6ba75471cda2ec2e3"
+    },
+    {
+      "id": 39443323748,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39443323748",
+      "created_at": "2026-10-20T14:53:14Z",
+      "head_sha": "9eca32d99c55c19a8c46d3fd97c8bf3c70e6ceaf"
+    },
+    {
+      "id": 39443283751,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39443283751",
+      "created_at": "2026-10-20T14:52:58Z",
+      "head_sha": "5768c922e62daf2cd8d47cd2006ea2a16975dd8f"
+    },
+    {
+      "id": 39439590986,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39439590986",
+      "created_at": "2026-10-20T14:28:53Z",
+      "head_sha": "ff5c7851c234d1901a3f51747826a46a9888f9a6"
+    },
+    {
+      "id": 39435929119,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39435929119",
+      "created_at": "2026-10-20T14:04:13Z",
+      "head_sha": "460959c95d3407bcc26dbb60c1cc53f3f5c7fe78"
+    },
+    {
+      "id": 39435552379,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39435552379",
+      "created_at": "2026-10-20T14:01:40Z",
+      "head_sha": "ca844ea29eaeb9dbc4dbc103234508a2ee58e35c"
+    },
+    {
       "id": 39432181416,
       "name": "DuoFace Actions status snapshot",
       "run_number": 43,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39432181416",
       "created_at": "2026-10-20T13:38:42Z",
       "head_sha": "8ee12f4692fa07e195a1fc70c2eede11bfcafe17"
@@ -257,126 +377,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411203609",
       "created_at": "2026-10-20T10:54:21Z",
       "head_sha": "bc1bf31804a3c713a5448f3fccd6f4e7ce6402a6"
-    },
-    {
-      "id": 39411197893,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 13,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411197893",
-      "created_at": "2026-10-20T10:54:18Z",
-      "head_sha": "9c71c9708455d7dad9de4f63f4b70bcd858bfa72"
-    },
-    {
-      "id": 39410783677,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 12,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410783677",
-      "created_at": "2026-10-20T10:50:42Z",
-      "head_sha": "848f6d4838c3a9c43935225a1a1ddb4e84a2e9ac"
-    },
-    {
-      "id": 39410723214,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 11,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410723214",
-      "created_at": "2026-10-20T10:50:12Z",
-      "head_sha": "836c014f0f152ee17027cba57d51fdc54776a588"
-    },
-    {
-      "id": 39410596250,
-      "name": "DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410596250",
-      "created_at": "2026-10-20T10:49:05Z",
-      "head_sha": "1822b56f6d7eb923bc5c13152927a2ae8fa4fc2f"
-    },
-    {
-      "id": 39410051849,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410051849",
-      "created_at": "2026-10-20T10:44:22Z",
-      "head_sha": "7c59bee56e6b25f45200dc077bcf065342d28ad0"
-    },
-    {
-      "id": 39410045294,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410045294",
-      "created_at": "2026-10-20T10:44:19Z",
-      "head_sha": "f8bcae5ab585458b2fc15e0eee82646adf582b08"
-    },
-    {
-      "id": 39409739778,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39409739778",
-      "created_at": "2026-10-20T10:41:43Z",
-      "head_sha": "9a248bb9b7af3028dec085e8573a1b34e0977121"
-    },
-    {
-      "id": 39409479237,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39409479237",
-      "created_at": "2026-10-20T10:39:29Z",
-      "head_sha": "d865ebf69b6d560f75452d531042e44c541eec48"
-    },
-    {
-      "id": 39408127730,
-      "name": "DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39408127730",
-      "created_at": "2026-10-20T10:27:59Z",
-      "head_sha": "0f1e24b08ab9c5fee011fe5b5d12db51e4244292"
-    },
-    {
-      "id": 39400238863,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39400238863",
-      "created_at": "2026-10-20T09:22:49Z",
-      "head_sha": "bb70314cd1df960bbcebc6c3826f1fe828d7ff9b"
-    },
-    {
-      "id": 39397394886,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39397394886",
-      "created_at": "2026-10-20T08:59:30Z",
-      "head_sha": "5339275b3c82954ee9c07a440933415bc4204155"
-    },
-    {
-      "id": 39397265591,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39397265591",
-      "created_at": "2026-10-20T08:58:24Z",
-      "head_sha": "ace25ddc2cd73a9bba9a3660561f9032b05d9b80"
     }
   ]
 }
