@@ -93,7 +93,8 @@ static void DFReadOnlyInventory(NSString *requestID) {
     Class appProxy=NSClassFromString(@"LSApplicationProxy");
     Class carApp=NSClassFromString(@"CARApplication");
     Class dbWorkspace=NSClassFromString(@"DBWorkspace");
-    // Read method type encodings ONLY. Do not construct / invoke private APIs.
+    // Base inventory reads method encodings. Only an optional one-shot target
+    // request invokes the two original getters after ABI and bundle checks.
     NSString *details=[NSString stringWithFormat:
        @"FBSApplicationInfo=%@ fbBulk=%@ "
         @"LSBundleInfoCachedValues=%@ boolForKey=%@ objectForKey=%@ numberForKey=%@ "
