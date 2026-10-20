@@ -89,7 +89,7 @@ void DFNativeHostLog(NSString *message) {
         DFNativeHostLog(@"car-scene-refused-main-screen");return;
     }
     // A CarPlay-owned UIWindowScene must be provided by UIKit FIRST.
-    // Never use UIRootSceneWindow, FBSDisplayConfiguration or windowLevel.
+    // Do not create any foreign-display window or change the native system chrome.
     self.window=[[UIWindow alloc] initWithWindowScene:ws];
     self.window.rootViewController=[[DFNativeHostRootController alloc] initWithCarPlay:YES];
     [self.window makeKeyAndVisible];
