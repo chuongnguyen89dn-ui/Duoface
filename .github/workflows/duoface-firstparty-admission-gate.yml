@@ -5,6 +5,8 @@ on:
     paths:
       - '.github/workflows/duoface-firstparty-admission-gate.yml'
       - 'sideplay/firstparty-carplay-admission/**'
+      - 'sideplay/duoface-qa-app/**'
+      - 'sideplay/duoface-native-scene-host/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -18,7 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Verify isolated fail-closed gate
-        run: python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
       - name: Prepare rootless Theos
         run: |
           set -euo pipefail
@@ -64,6 +70,23 @@ jobs:
             echo "SILEO_PUBLISHED=false"
             echo "HOST_APP_PUBLISHED=false"
           } > "$OUT/CI_RESULT.txt"
+      - name: Build independently signed native scene host and iPhone QA 0.1.3
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          bash sideplay/duoface-qa-app/build.sh
+          HOST="sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb"
+          QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.3~admission1_iphoneos-arm64.deb"
+          test -s "$HOST"
+          test -s "$QA"
+          test "$(dpkg-deb -f "$HOST" Package)" = com.duoface.carplay.nativescenehost
+          test "$(dpkg-deb -f "$QA" Version)" = '0.1.3~admission1'
+          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.1~candidate1)'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-candidate1"
+          cp "$HOST" "$QA" "$OUT/"
+          (cd "$OUT" && shasum -a 256 "$(basename "$HOST")" "$(basename "$QA")" >> SHA256SUMS.txt)
+          echo "IPHONE_QA_GUI_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+          echo "NATIVE_HOST_CANDIDATE_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
       - uses: actions/upload-artifact@v4
         with:
           name: duo-firstparty-admission-candidate-${{ github.run_id }}
