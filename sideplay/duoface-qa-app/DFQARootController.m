@@ -9,6 +9,8 @@ static NSString *const DFBridge=@"/var/mobile/Library/Preferences/com.duoface.my
 static NSString *const DFSource=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-surface.plist";
 static NSString *const DFAck=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-receiver-ack.plist";
 static NSString *const DFNativeLog=@"/var/mobile/Library/Logs/DuoFaceNativeBridgeQA.log";
+static NSString *const DFSceneProbeLog=@"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log";
+static NSString *const DFSceneProbeRecord=@"/var/mobile/Library/Preferences/com.duoface.native-scene-owner.v1.plist";
 
 static NSDictionary *DFPrefs(NSString *path) {
     NSDictionary *d=[NSDictionary dictionaryWithContentsOfFile:path];
@@ -57,6 +59,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
 @property(nonatomic,strong) UISegmentedControl *geometry;
 @property(nonatomic,strong) UILabel *infoLabel;
 @property(nonatomic,strong) UILabel *detailLabel;
+@property(nonatomic,strong) UILabel *nativeSceneLabel;
+@property(nonatomic,strong) UISegmentedControl *logSource;
 @property(nonatomic,strong) UITextView *logView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
 @end
@@ -164,6 +168,19 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
         font:[UIFont systemFontOfSize:12]];
     self.detailLabel.textColor=UIColor.secondaryLabelColor;
     [self.stack addArrangedSubview:self.detailLabel];
+    [self.stack addArrangedSubview:[self label:@"CarPlay scene hệ thống (chỉ đọc)"
+                                      font:[UIFont boldSystemFontOfSize:17]]];
+    self.nativeSceneLabel=[self label:@"Chưa nhận dữ liệu native scene"
+                                 font:[UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular]];
+    [self.stack addArrangedSubview:self.nativeSceneLabel];
+    UILabel *nativeHint=[self label:@"Không bật Dock bằng lệnh. Chỉ đọc scene và API thật; không đăng ký app hay thay đổi cửa sổ."
+                                font:[UIFont systemFontOfSize:12]];
+    nativeHint.textColor=UIColor.secondaryLabelColor;
+    [self.stack addArrangedSubview:nativeHint];
+    self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native scene"]];
+    self.logSource.selectedSegmentIndex=1;
+    [self.logSource addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self.stack addArrangedSubview:self.logSource];
     [self.stack addArrangedSubview:[self label:@"Nhật ký cầu nối"
                   font:[UIFont boldSystemFontOfSize:17]]];
     self.logView=[UITextView new];
@@ -275,12 +292,31 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
       sending?@"Có phiên mới":@"Chưa có phiên mới",
       receiving?@"ACK còn hiệu lực":@"Chưa có ACK"];
     self.detailLabel.text=@"ACK không phải bằng chứng Dock/Home đã hiển thị. Quan sát trên xe và xem log khi kiểm tra.";
-    if(!self.logView.isFirstResponder)
-        self.logView.text=DFLastLines(DFNativeLog,65);
+    NSDictionary *native=DFPrefs(DFSceneProbeRecord);
+    BOOL fresh=DFFresh(native) && [native[@"Kind"] isEqual:@"native-dash-readonly"];
+    BOOL chrome=fresh && [native[@"ChromeObserved"] respondsToSelector:@selector(boolValue)] &&
+                [native[@"ChromeObserved"] boolValue];
+    NSString *metrics=fresh?[NSString stringWithFormat:@"%.1fx%.1f | nội dung x=%.1f y=%.1f w=%.1f h=%.1f",
+         [native[@"FullW"] doubleValue], [native[@"FullH"] doubleValue],
+         [native[@"UsableX"] doubleValue], [native[@"UsableY"] doubleValue],
+         [native[@"UsableW"] doubleValue], [native[@"UsableH"] doubleValue]]:
+         @"Chưa có bản ghi từ tiến trình CarPlay";
+    self.nativeSceneLabel.text=[NSString stringWithFormat:
+        @"Dashboard scene: %@\nDock hệ thống được nhìn thấy: %@\n%@\n"
+         "Có Dashboard không có nghĩa DuoFace đã đăng ký thành app.",
+         fresh?@"Đang có phiên":@"Chưa có phiên",
+         fresh?(chrome?@"Có":@"Không xác nhận"):@"Chưa rõ",
+         metrics];
+    if(!self.logView.isFirstResponder) {
+        NSString *path=self.logSource.selectedSegmentIndex==1?DFSceneProbeLog:DFNativeLog;
+        self.logView.text=DFLastLines(path,65);
+    }
 }
 - (void)shareLog:(id)sender {
-    NSString *s=[NSString stringWithFormat:@"DuoFace QA report\n%@\n\n%@\n",
-       self.infoLabel.text?:@"",DFLastLines(DFNativeLog,400)];
+    NSString *s=[NSString stringWithFormat:
+       @"DuoFace QA report\n%@\n%@\n\n--- Native Scene ---\n%@\n\n--- QA6 ---\n%@\n",
+       self.infoLabel.text?:@"",self.nativeSceneLabel.text?:@"",
+       DFLastLines(DFSceneProbeLog,350),DFLastLines(DFNativeLog,200)];
     UIActivityViewController *v=[[UIActivityViewController alloc] initWithActivityItems:@[s]
        applicationActivities:nil];
     v.popoverPresentationController.sourceView=(UIView *)sender;
