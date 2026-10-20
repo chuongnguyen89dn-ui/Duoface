@@ -12,6 +12,13 @@
 @property(nonatomic,strong) MTCPRemoteLayerReceiver *receiver;
 @property(nonatomic,assign) CGRect contentRect;
 @property(nonatomic,assign,readwrite) BOOL attached;
+@property(nonatomic,assign,readwrite,getter=isHostFullscreen) BOOL hostFullscreen;
+@property(nonatomic,assign) CGRect savedNormalContentRect;
+@property(nonatomic,assign) CGRect savedNormalScreenRect;
+@property(nonatomic,assign) CGRect savedNativeBarFrame;
+@property(nonatomic,weak) UIWindow *savedNativeBarWindow;
+@property(nonatomic,assign) BOOL savedNativeBarHidden;
+@property(nonatomic,assign) BOOL nativeChromeModified;
 @end
 @implementation MTCPDashboardOwner
 - (CGRect)activeContentRect { return self.attached?self.contentRect:CGRectNull; }
@@ -27,11 +34,14 @@ static BOOL MTCPDashboardWindow(UIViewController *root,UIWindow **window) {
     if (window)*window=w;
     return YES;
 }
-static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
+static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content,
+                                   UIWindow **barOut) {
+    if (barOut)*barOut=nil;
     CGRect screen=dashboard.bounds;
     if (!MTCPNativeContentIsWithinScreen(screen,screen))return NO;
     BOOL found=NO;
     CGRect accepted=CGRectNull;
+    UIWindow *acceptedBar=nil;
     // A CarPlay process can own more than one active external UIWindowScene;
     // the status window may be a sibling scene of the Dashboard root.
     NSUInteger inspected=0;
@@ -52,10 +62,12 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
             if (found && !CGRectEqualToRect(accepted,usable))return NO;
             found=YES;
             accepted=usable;
+            acceptedBar=w;
         }
     }
     if (!found)return NO;
     *content=accepted;
+    if (barOut)*barOut=acceptedBar;
     return YES;
 }
 // A receiver ACK is not a "Dock visible" assertion. It means the
@@ -79,7 +91,8 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     UIWindow *w=nil;
     if (!MTCPDashboardWindow(root,&w))return NO;
     CGRect usable=CGRectNull;
-    if (!MTCPNativeBarContent(w,&usable))return NO;
+    UIWindow *bar=nil;
+    if (!MTCPNativeBarContent(w,&usable,&bar))return NO;
     // The source is a session-bound real CAContext, not a fabricated snapshot.
     if (!MTCPBridgeReadSurface(nil))return NO;
     CGRect local=[root.view convertRect:usable fromView:w];
@@ -99,10 +112,75 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     self.contentView=host;
     self.receiver=receiver;
     self.contentRect=usable;
+    self.savedNormalContentRect=usable;
+    self.savedNormalScreenRect=w.bounds;
+    self.savedNativeBarWindow=bar;
+    self.savedNativeBarFrame=bar.frame;
+    self.savedNativeBarHidden=bar.hidden;
+    self.hostFullscreen=NO;
+    self.nativeChromeModified=NO;
     self.attached=YES;
     if (![self writeLiveReceiverAck:w]) {
         [self detach];return NO; // No sender handoff without valid acknowledgement.
     }
+    return YES;
+}
+// Native12-equivalent geometry state: the Apple-owned window/root stays
+// full display; only the hosted pane region changes. Do NOT crop UIWindow.
+// Fullscreen hides the existing native chrome; exit restores its saved state.
+- (BOOL)setHostFullscreen:(BOOL)fullscreen {
+    if (![NSThread isMainThread] || !self.attached)return NO;
+    if (self.hostFullscreen==fullscreen)return YES;
+    UIWindow *w=nil;
+    if (!MTCPDashboardWindow(self.dashboardRoot,&w))return NO;
+    if (fullscreen) {
+        CGRect usable=CGRectNull;UIWindow *bar=nil;
+        if (!MTCPNativeBarContent(w,&usable,&bar) || !bar || bar.hidden)return NO;
+        if (!MTCPNativeContentIsWithinScreen(w.bounds,usable))return NO;
+        self.savedNormalContentRect=usable;
+        self.savedNormalScreenRect=w.bounds;
+        self.savedNativeBarWindow=bar;
+        self.savedNativeBarFrame=bar.frame;
+        self.savedNativeBarHidden=bar.hidden;
+        CGRect full=w.bounds;
+        CGRect rootRect=[self.dashboardRoot.view convertRect:full fromView:w];
+        if (!MTCPNativeContentIsWithinScreen(self.dashboardRoot.view.bounds,rootRect))return NO;
+        // Same two-part transition as Native12/Airaw: real content region
+        // screenBounds + native system bar hidden. Do not touch rootWindow.frame.
+        bar.hidden=YES;
+        if (!bar.hidden)return NO;
+        self.nativeChromeModified=YES;
+        self.contentView.frame=rootRect;
+        self.contentRect=full;
+        self.hostFullscreen=YES;
+        if (![self writeLiveReceiverAck:w]) {
+            [self setHostFullscreen:NO];return NO;
+        }
+        NSLog(@"[DuoFaceNativeGeometry] enter normal=%@ full=%@ barHidden=%d",
+              NSStringFromCGRect(usable),NSStringFromCGRect(full),bar.hidden);
+        return YES;
+    }
+    // Exit: restore Chrome first; only if it is still hidden by our own
+    // transition. If Apple changed the state/owner, never fight it.
+    if(self.nativeChromeModified && self.savedNativeBarWindow &&
+       self.savedNativeBarWindow.hidden)
+        self.savedNativeBarWindow.hidden=self.savedNativeBarHidden;
+    self.nativeChromeModified=NO;
+    CGRect usable=CGRectNull;UIWindow *bar=nil;
+    BOOL live=MTCPNativeBarContent(w,&usable,&bar);
+    if (!live && CGRectEqualToRect(w.bounds,self.savedNormalScreenRect) &&
+        MTCPNativeContentIsWithinScreen(w.bounds,self.savedNormalContentRect))
+        usable=self.savedNormalContentRect;
+    else if (!live)return NO;
+    CGRect local=[self.dashboardRoot.view convertRect:usable fromView:w];
+    if (!MTCPNativeContentIsWithinScreen(self.dashboardRoot.view.bounds,local))return NO;
+    self.contentView.frame=local;
+    self.contentRect=usable;
+    self.hostFullscreen=NO;
+    if (![self writeLiveReceiverAck:w])return NO;
+    NSLog(@"[DuoFaceNativeGeometry] restore normal=%@ full=%@ barHidden=%d",
+          NSStringFromCGRect(usable),NSStringFromCGRect(w.bounds),
+          self.savedNativeBarWindow.hidden);
     return YES;
 }
 - (void)refresh {
@@ -114,16 +192,40 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content) {
     UIWindow *w=nil;
     if (!MTCPDashboardWindow(self.dashboardRoot,&w)) {[self detach];return;}
     CGRect usable=CGRectNull;
-    if (!MTCPNativeBarContent(w,&usable)) {[self detach];return;}
+    UIWindow *bar=nil;
+    if (self.hostFullscreen) {
+        // Native bar is deliberately hidden; do not fail the geometry check.
+        if (!self.savedNativeBarWindow || self.savedNativeBarWindow.screen!=w.screen ||
+            !self.savedNativeBarWindow.hidden) {[self detach];return;}
+        usable=w.bounds;
+    } else if (!MTCPNativeBarContent(w,&usable,&bar)) {
+        [self detach];return;
+    }
     CGRect local=[self.dashboardRoot.view convertRect:usable fromView:w];
     if (!MTCPNativeContentIsWithinScreen(self.dashboardRoot.view.bounds,local)) {
         [self detach];return;
     }
     self.contentView.frame=local;
     self.contentRect=usable;
+    if (!self.hostFullscreen) {
+        self.savedNormalContentRect=usable;
+        self.savedNormalScreenRect=w.bounds;
+        self.savedNativeBarWindow=bar;
+        self.savedNativeBarFrame=bar.frame;
+        self.savedNativeBarHidden=bar.hidden;
+    }
     if (![self writeLiveReceiverAck:w]) [self detach];
 }
 - (void)detach {
+    // Exact owner/chrome state restoration before the receiver disappears.
+    if (self.nativeChromeModified && self.savedNativeBarWindow &&
+        self.savedNativeBarWindow.hidden)
+        self.savedNativeBarWindow.hidden=self.savedNativeBarHidden;
+    self.hostFullscreen=NO;
+    self.nativeChromeModified=NO;
+    self.savedNativeBarWindow=nil;
+    self.savedNormalContentRect=CGRectNull;
+    self.savedNormalScreenRect=CGRectNull;
     if (self.receiver.session)MTCPBridgeInvalidateReceiverAck(self.receiver.session);
     [self.receiver disconnect];
     [self.contentView removeFromSuperview];
