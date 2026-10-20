@@ -86,3 +86,39 @@ DFSceneSurfaceTransport (UNRESOLVED IMPLEMENTATION BOUNDARY)
 **Completed in this analysis**: checked real original Native12 ARM64 instruction traces around `CBWindow.createWindows` from `NATIVE12_SPEED4_SPLIT_OWNER_CHAIN_READONLY.json`; confirmed class/selector ABI and trace of per-pane `startInParentViewController`; compared directly to V1BC `MTBridgeCoordinator.m`, `MTSceneHost.m`, `MTAppSlotViewController.m`, `MTSplitContainerViewController.m`, `MTBridgeRootViewController.m`; cross-checked original SidePlay 1.0.4 strings, CarSurf native dashboard workspace/scene design.
 **NOT complete**: no proven CarPlay-owned DuoFace entitlement/roster implementation; no proven cross-process touch transport; no compiling/building new executable; no runtime proof for a native CarPlay app scene enclosing two independently hosted views. A simulator/CI pass cannot close those device gates.
 **Avoid misunderstanding**: Native12 `CBWindow.createWindows` probes CarPlay UIWindowScene first but **still falls back to independent UIRootSceneWindow**. It is not proof that Native12 obtains natural Dock ownership by itself. The app must actually be admitted into native Dashboard workspace.
+
+## 5. Cross-process CONTROL PLANE: additional Native12 ABI verification
+
+**Not just two slot selectors:** Native12's original, separately compiled CarPlay-dashboard half and bridge-manager half have a concrete activation/IPC control chain. Verified from `feature/duoface-exact-payload-migration:audit/payload-migration/NATIVE12_CONNECTION_FULL_OWNERS_READONLY.json` directly on 2026-10-20:
+
+**Dashboard-facing `CBBridgeManagerDashboard`:**
+| API | ARM64 IMP | ObjC ABI | Responsibility suggested by selector (not runtime-tested) |
+|---|---|---|---|
+| `prepareAndRequestActivation:` | `0x2a3478` | `v24@0:8@16` | Prepare native Dashboard activation |
+| `requestActivation:` | `0x2a3ad0` | `v24@0:8@16` | Request opening bridged app |
+| `requestStateChange:` | `0x2a3f04` | `v24@0:8@16` | Forward desired UI state |
+| `bridgeDidActivate:` | `0x2a4738` | `v24@0:8@16` | Acknowledge activation |
+| `bridgeDidDeactivate` | `0x2a47ac` | `v16@0:8` | Handle app/scene close |
+| `handleDockIconTap:` | `0x2a47fc` | `v24@0:8@16` | Respond to native dock activity |
+| `setAppDockActiveBundleID:` | `0x2a4934` | `v24@0:8@16` | Reflect active app status |
+| `setHomeButtonInApp:` | `0x2a4a3c` | `v20@0:8B16` | Update Home state, not evidence it creates a Dock |
+
+**SpringBoard bridge `CBBridgeManager`:**
+| API | ARM64 IMP | ObjC ABI |
+|---|---|---|
+| `receivedDashboardReadyNotification:` | `0x1d0f10` | `v24@0:8@16` |
+| `sendStateToApp:shouldBridge:` | `0x1d1624` | `v28@0:8@16B24` |
+| `receivedStateChangeRequestNotificiation:` | `0x24968c` | `v24@0:8@16` |
+| `receivedDockTapNotification:` | `0x249868` | `v24@0:8@16` |
+| `requestStateChange:` | `0x13b158` | `v24@0:8@16` |
+| `switchToSplitWithLeft:right:ratio:` | `0x24d120` | `v40@0:8@16@24d32` |
+
+**What this settles:** Native12's workflow distinguishes **native Dashboard activation/control** from the **two-pane scene host and viewport**. Even without licensed internals, DuoFace can design its OWN session/action protocol between independent Dashboard scene owner and existing SpringBoard-owned V1BC app host, preserving the slot API and not importing `CBBridgeManager`. Existing `sideplay/mytweak-independent-v1a/prototype/MTCPBridgeContract.m` provides a session-scoped ACK/surface channel for QA5/QA6, but currently its image transport cannot carry UIKit gestures; this is a real data-plane gap, not a need to rebuild the app picker/divider.
+
+**New independent interface to implement (contract, not production-ready code):**
+- CarPlay native scene owner: `sessionID`, `sceneID`, `normalContentRect`, `displayRotation`, `activeSlot`, `slotA/slotB IDs`, `state=connected|foreground|background|disconnected`.
+- SpringBoard V1BC host: `createSlot(slot,bundleID,sceneSession)`, `resizeSlot(slot,CGRect)`, `swapSlots`, `focusSlot`, `removeSlot`, `teardown(session)`; persist identity per slot, don't reinitialize when swapping.
+- Live scene presentation + full interactive input: **MUST** prove the renderer and hit-test routing across the process boundary. An authenticated layer ContextID can render but does not by itself deliver touches; pointer stream needs its own source-specific event bridge or native FBS-scene integration. Do not use `drawViewHierarchyInRect:` (QA5 image) or menu-only taps as proof.
+- Versioned authenticated state: ACK must include expected process, source session, display/scene generation, slotID, monotonic sequence. On disconnect/new session, refuse stale remote events and close only sessions the adapter actually owns; fail closed on private ABI mismatch.
+
+**Practical implication:** The complete **layout/split lifecycle** exists in original DEBs and also partly in V1BC, so the expensive part need not be written from scratch. The **missing native workspace ownership and cross-process rendering + touch** still require independent engineering and real iPhone X acceptance; no existing report proves those last connectors are functional.
