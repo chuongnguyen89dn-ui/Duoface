@@ -1,10 +1,12 @@
 // Independent DuoFace native CarPlay scene-entry proof. NO vendor bridge code.
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <CarPlay/CarPlay.h>
 #import <fcntl.h>
 #import <unistd.h>
 
 static NSString *const DFCarPlayRole=@"UIWindowSceneSessionRoleCarPlay";
+static NSString *const DFTemplateRole=@"CPTemplateApplicationSceneSessionRoleApplication";
 void DFNativeHostLog(NSString *message) {
     NSString *line=[NSString stringWithFormat:@"[DuoFaceNativeHost] %@\n",message];
     NSLog(@"%@",line);
@@ -23,6 +25,9 @@ void DFNativeHostLog(NSString *message) {
 @interface DFNativeHostCarSceneDelegate : UIResponder <UIWindowSceneDelegate>
 @property(nonatomic,strong) UIWindow *window;
 @end
+@interface DFNativeHostTemplateSceneDelegate : UIResponder <CPTemplateApplicationSceneDelegate>
+@property(nonatomic,strong) CPInterfaceController *interfaceController;
+@end
 @interface DFNativeHostAppDelegate : UIResponder <UIApplicationDelegate>
 @end
 @implementation DFNativeHostAppDelegate
@@ -36,6 +41,15 @@ void DFNativeHostLog(NSString *message) {
  options:(UISceneConnectionOptions *)options API_AVAILABLE(ios(13.0)) {
     (void)app;(void)options;
     NSString *role=session.role;
+    if([role isEqualToString:DFTemplateRole]){
+        // Apple-issued category entitlement and provisioning are required.
+        // Never remap template scenes to UIWindowScene.
+        UISceneConfiguration *config=[UISceneConfiguration
+            configurationWithName:@"DuoFace Authorized CarPlay Template" sessionRole:role];
+        config.sceneClass=CPTemplateApplicationScene.class;
+        config.delegateClass=DFNativeHostTemplateSceneDelegate.class;
+        return config;
+    }
     if([role isEqualToString:DFCarPlayRole]){
         DFNativeHostLog(@"CarPlay-role-request-received native-scene-no-window-created-yet");
         UISceneConfiguration *config=[UISceneConfiguration
@@ -111,5 +125,25 @@ void DFNativeHostLog(NSString *message) {
         self.window.hidden=YES;self.window.rootViewController=nil;self.window=nil;
         DFNativeHostLog(@"native-carplay-scene-disconnected release-owned-window");
     }
+}
+@end
+
+@implementation DFNativeHostTemplateSceneDelegate
+- (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
+   didConnectInterfaceController:(CPInterfaceController *)controller {
+    (void)scene;
+    self.interfaceController=controller;
+    CPListItem *item=[[CPListItem alloc] initWithText:@"DuoFace Native Host"
+                                           detailText:@"Authorized CarPlay scene connected"];
+    CPListSection *section=[[CPListSection alloc] initWithItems:@[item]];
+    CPListTemplate *root=[[CPListTemplate alloc] initWithTitle:@"DuoFace" sections:@[section]];
+    [controller setRootTemplate:root animated:NO completion:nil];
+    DFNativeHostLog(@"official-template-carplay-scene-connected; no arbitrary app mirroring");
+}
+- (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
+ didDisconnectInterfaceController:(CPInterfaceController *)controller {
+    (void)scene;(void)controller;
+    self.interfaceController=nil;
+    DFNativeHostLog(@"official-template-carplay-scene-disconnected");
 }
 @end
