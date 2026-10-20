@@ -1,6 +1,6 @@
 // DuoFace independent QA: an actual iPhone app and a SINGLE test dashboard.
 // Do not claim the physical CarPlay Dock is working from plist/ACK alone.
-// Writes only two known pref dictionaries; no SpringBoard LS hooks, no respring.
+// Enables only explicit QA preferences. The separate admission module may hook SpringBoard after consent; no respring.
 #import <UIKit/UIKit.h>
 #import <math.h>
 #import <CoreFoundation/CoreFoundation.h>
@@ -26,6 +26,7 @@ static CFStringRef const DFAdmissionSignal=CFSTR("com.duoface.firstparty-admissi
 static NSString *const DFRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.firstparty-roster.request.plist";
 static CFStringRef const DFRosterSignal=CFSTR("com.duoface.firstparty-admission.roster-readonly");
 static NSString *const DFSBLog=@"/var/mobile/Library/Logs/DuoFaceSBAdmissionProbe.log";
+static NSString *const DFRosterSBLog=@"/var/mobile/Library/Logs/DuoFaceFirstPartySpringBoard.log";
 
 static NSDictionary *DFPrefs(NSString *path) {
     NSDictionary *d=[NSDictionary dictionaryWithContentsOfFile:path];
@@ -221,7 +222,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                   selector:@selector(stopAdmissionTrace:) danger:YES]];
     self.traceReadinessLabel=[self label:@"Chưa chạy chẩn đoán. Không thể coi đã nạp module." font:[UIFont systemFontOfSize:12]];
     [self.stack addArrangedSubview:self.traceReadinessLabel];
-    [self.stack addArrangedSubview:[self label:@"Thử khi xe đang đỗ. Bản này chỉ áp dụng cho tiến trình CarPlay, KHÔNG sửa SpringBoard hoặc thanh Dock. Chưa chứng minh biểu tượng DuoFace đã xuất hiện." font:[UIFont systemFontOfSize:12]]];
+    [self.stack addArrangedSubview:[self label:@"Thử khi xe đang đỗ. Bản admission mới có hook giới hạn bundle DuoFace trong cả SpringBoard và CarPlay (có rủi ro). Nút Tắt ngăn hook trả quyền mới. Chưa xác nhận biểu tượng xe." font:[UIFont systemFontOfSize:12]]];
     self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native", @"SB", @"Admission"]];
     self.logSource.selectedSegmentIndex=1;
     [self.logSource addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -360,7 +361,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
 }
 - (void)enableFirstParty:(id)sender {
     UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Thử đường đăng ký DuoFace?"
-      message:@"CẢNH BÁO: ứng viên chưa kiểm thử trên máy. Chỉ bật khi xe đang đỗ; có thể làm CarPlay lỗi. Không tự respring. Nút Tắt sẽ tạo khóa ngăn tác động mới."
+      message:@"CẢNH BÁO: module đăng ký có hook SpringBoard VÀ CarPlay, có nguy cơ khiến SpringBoard lỗi/safe mode. Chỉ thử khi xe đang đỗ, có cách khôi phục jailbreak. Không tự respring. Nút Tắt tạo kill switch ngăn câu trả lời hook mới."
       preferredStyle:UIAlertControllerStyleAlert];
     [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
     [a addAction:[UIAlertAction actionWithTitle:@"Tôi đồng ý" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
@@ -537,7 +538,10 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
         NSString *path=self.logSource.selectedSegmentIndex==3?DFAdmissionLog:
               (self.logSource.selectedSegmentIndex==2?DFSBLog:
               (self.logSource.selectedSegmentIndex==1?DFSceneProbeLog:DFNativeLog));
-        self.logView.text=self.logSource.selectedSegmentIndex==3?
+        self.logView.text=self.logSource.selectedSegmentIndex==2?
+           [NSString stringWithFormat:@"--- SpringBoard first-party roster ---\n%@\n\n--- Earlier readonly ABI probe ---\n%@",
+              DFLastLines(DFRosterSBLog,65),DFLastLines(DFSBLog,35)]:
+           self.logSource.selectedSegmentIndex==3?
            [NSString stringWithFormat:@"--- Live original getter trace ---\n%@\n\n--- Earlier admission log ---\n%@",
               DFLastLines(DFTraceLog,35),DFLastLines(DFAdmissionLog,30)]:DFLastLines(path,65);
     }
@@ -550,7 +554,9 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
        [NSString stringWithFormat:@"%@\n%@",self.firstPartyLabel.text?:@"",self.traceReadinessLabel.text?:@""],
        [NSString stringWithFormat:@"--- Original getter trace ---\n%@\n--- Existing admission ---\n%@",
          DFLastLines(DFTraceLog,80),DFLastLines(DFAdmissionLog,80)],
-       DFLastLines(DFSBLog,120),DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];
+       [NSString stringWithFormat:@"--- SpringBoard first-party roster ---\n%@\n--- Older ABI probe ---\n%@",
+         DFLastLines(DFRosterSBLog,120),DFLastLines(DFSBLog,120)],
+       DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];
     UIActivityViewController *v=[[UIActivityViewController alloc] initWithActivityItems:@[s]
        applicationActivities:nil];
     v.popoverPresentationController.sourceView=(UIView *)sender;

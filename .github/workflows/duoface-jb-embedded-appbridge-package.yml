@@ -10,6 +10,7 @@ on:
       - 'sideplay/jb-embedded-appbridge/scripts/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
       - 'sideplay/firstparty-carplay-admission/**'
+      - 'sideplay/duoface-qa-app/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -28,6 +29,7 @@ jobs:
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/mytweak-independent-v1a/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/mytweak-native-bridgeqa/tests -p 'test_*.py' -v
       - name: Prepare rootless Theos and toolchain
@@ -66,10 +68,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.5~registered1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.6~rosterlog1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.5~registered1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.6~rosterlog1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"

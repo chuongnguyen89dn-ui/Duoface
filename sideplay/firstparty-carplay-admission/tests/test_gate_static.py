@@ -79,4 +79,8 @@ class CandidateSafety(unittest.TestCase):
   for x in ('method_setImplementation','DBWorkspace','killall','sbreload'):
    self.assertNotIn(x,s)
   self.assertIn('DFCheckConsentAndArm(@"constructor-early")',read("DFFirstPartyAdmission.m"))
+  for marker in ("DuoFaceFirstPartySpringBoard.log","springboard-firstparty-roster-hooks-armed",
+                 "firstparty-bulk-cache-tagged","firstparty-flag-queried",
+                 "__sync_bool_compare_and_swap", "springboard-roster-ABI-not-matched"):
+   self.assertIn(marker,s)
 if __name__=="__main__":unittest.main(verbosity=2)

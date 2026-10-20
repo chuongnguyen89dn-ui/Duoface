@@ -16,6 +16,14 @@ static id (*origBulk)(id,SEL,id)=NULL;
 static BOOL (*origBool)(id,SEL,id)=NULL;
 static NSMapTable *tagged=nil;
 static NSLock *tagLock=nil;
+static volatile int firstBulkLog=0;
+static volatile int firstFlagLog=0;
+// Tiny bounded first-party-only events. No app IDs, no per-query hot-path I/O.
+static void rosterLog(const char *message) {
+    int fd=open("/var/mobile/Library/Logs/DuoFaceFirstPartySpringBoard.log",
+                O_WRONLY|O_APPEND|O_CREAT,0644);
+    if(fd>=0){(void)write(fd,message,strlen(message));close(fd);}
+}
 static BOOL armed=NO;
 static BOOL consent(void) {
     if(access(kKill,F_OK)==0 ||
@@ -49,6 +57,8 @@ static id bulkHook(id proxy,SEL cmd,id keys) {
       Class cache=NSClassFromString(@"LSBundleInfoCachedValues");
       if(!cache||![real isKindOfClass:cache])return real;
       [tagLock lock];[tagged setObject:kID forKey:real];[tagLock unlock];
+      if(__sync_bool_compare_and_swap(&firstBulkLog,0,1))
+          rosterLog("firstparty-bulk-cache-tagged; icon-not-yet-proven\n");
     }@catch(NSException *e){(void)e;}
     return real; // preserve private LS runtime class and original object
 }
@@ -58,6 +68,8 @@ static BOOL boolHook(id obj,SEL cmd,id key) {
     if(real||!consent()||!wanted(key))return real;
     @try {
       [tagLock lock];BOOL match=[[tagged objectForKey:obj] isEqualToString:kID];[tagLock unlock];
+      if(match && __sync_bool_compare_and_swap(&firstFlagLog,0,1))
+          rosterLog("firstparty-flag-queried; icon-not-yet-proven\n");
       return match ? YES : real;
     }@catch(NSException *e){(void)e;return real;}
 }
@@ -72,9 +84,12 @@ static void arm(void) {
     Class cache=NSClassFromString(@"LSBundleInfoCachedValues");
     SEL bulk=sel_registerName("entitlementValuesForKeys:");
     SEL boolean=sel_registerName("boolForKey:");
-    if(!abi(proxy,bulk,"@24@0:8@16")||!abi(cache,boolean,"B24@0:8@16"))return;
+    if(!abi(proxy,bulk,"@24@0:8@16")||!abi(cache,boolean,"B24@0:8@16")){
+        rosterLog("springboard-roster-ABI-not-matched; no-hooks\n");
+        return;
+    }
     DFSBHook hook=(DFSBHook)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
-    if(!hook)return;
+    if(!hook){rosterLog("springboard-hook-API-unavailable; no-hooks\n");return;}
     if(!tagged)tagged=[NSMapTable weakToStrongObjectsMapTable];
     if(!tagLock)tagLock=[NSLock new];
     hook(proxy,bulk,(IMP)bulkHook,(IMP *)&origBulk);
@@ -82,6 +97,7 @@ static void arm(void) {
     hook(cache,boolean,(IMP)boolHook,(IMP *)&origBool);
     if(!origBool)return;
     armed=YES;
+    rosterLog("springboard-firstparty-roster-hooks-armed; icon-not-yet-proven\n");
     NSLog(@"[DuoFaceRosterSB] original cached-value path armed; icon not proven");
 }
 static void refresh(CFNotificationCenterRef c,void *o,CFStringRef n,
