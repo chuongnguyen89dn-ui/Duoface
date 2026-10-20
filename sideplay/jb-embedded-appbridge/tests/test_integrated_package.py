@@ -43,4 +43,11 @@ class EmbeddedPackagePolicy(unittest.TestCase):
     self.assertNotIn(forbidden,s)
   self.assertIn('for kind in ("postinst","postrm")',src)
   self.assertIn('target.chmod(0o755)',src)
+ def test_nativehost_version_matches_real_build_output(self):
+  import re
+  build=(ROOT/"sideplay/duoface-native-scene-host/build.sh").read_text()
+  expected=re.search(r'OUT="\\$ROOT/packages/(com\\.duoface\\.carplay\\.nativescenehost_[^"]+\\.deb)"',build)
+  self.assertIsNotNone(expected,"NativeHost build script must declare a DEB output")
+  self.assertIn(expected.group(1),SRC.read_text(),
+                "Integrated package must consume exact NativeHost version produced by build.sh")
 if __name__=="__main__":unittest.main(verbosity=2)
