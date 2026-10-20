@@ -1,0 +1,8 @@
+Package: com.duoface.carplay.sbadmissionprobe
+Name: DuoFace SpringBoard Admission ABI Probe (Read-only)
+Version: 0.0.1~readonly1
+Architecture: iphoneos-arm64
+Maintainer: DuoFace Independent
+Depends: mobilesubstrate, firmware (>= 16.0)
+Section: Development
+Description: Isolated SpringBoard-only one-shot read-only Objective-C ABI inventory for iOS16 CarPlay app admission. Disabled by default; requires a fresh 30sec opt-in request from iPhone QA app. Never modifies entitlement values, LaunchServices records, CarPlay native Dock or application scenes. No automatic respring or postinstall commands.
