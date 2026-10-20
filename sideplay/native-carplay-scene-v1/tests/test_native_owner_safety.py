@@ -7,7 +7,7 @@ class NativeOwnerSafety(unittest.TestCase):
  def test_independent_package_and_exact_carplay_filter(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativejoinprobe",c)
-  self.assertIn("Version: 0.0.1~sceneprobe1",c)
+  self.assertIn("Version: 0.0.2~bargeometry1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   filter=plistlib.loads((R/"DFNativeSceneJoinProbe.plist").read_bytes())
