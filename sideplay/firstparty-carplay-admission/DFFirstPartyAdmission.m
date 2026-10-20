@@ -7,7 +7,8 @@
 #import <unistd.h>
 #import <fcntl.h>
 #import <string.h>
-extern void MSHookMessageEx(Class, SEL, IMP, IMP *);
+#import <dlfcn.h>
+typedef void (*DFHookMethod)(Class, SEL, IMP, IMP *);
 
 static NSString *const DFHostID=@"com.duoface.native.scenehost";
 static NSString *const DFPrefs=@"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist";
@@ -82,8 +83,11 @@ __attribute__((constructor)) static void DFAdmissionEntry(void) {
            !t2 || strcmp(t2,"@32@0:8@16#24")!=0) {
             DFLog(@"ABI mismatch: no hook installed"); return;
         }
-        MSHookMessageEx(c,s3,(IMP)DFEntitlement3,(IMP *)&DFOriginal3);
-        MSHookMessageEx(c,s2,(IMP)DFEntitlement2,(IMP *)&DFOriginal2);
+        // Runtime-resolve instead of requiring the substrate linker stub. If absent: no hooks.
+        DFHookMethod hook=(DFHookMethod)dlsym(RTLD_DEFAULT,"MSHookMessageEx");
+        if(!hook){DFLog(@"hook API missing: no admission hooks installed");return;}
+        hook(c,s3,(IMP)DFEntitlement3,(IMP *)&DFOriginal3);
+        hook(c,s2,(IMP)DFEntitlement2,(IMP *)&DFOriginal2);
         if(!DFOriginal3 || !DFOriginal2)
             DFLog(@"hook original unavailable: fail closed for affected call sites");
         else DFLog(@"opt-in two typed getters armed; only first-party bundle; no SpringBoard hook");
