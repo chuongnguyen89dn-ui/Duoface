@@ -77,11 +77,12 @@ jobs:
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
           bash sideplay/duoface-qa-app/build.sh
-          HOST="sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb"
+          HOST="sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~template1_iphoneos-arm64.deb"
           QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.7~ready1_iphoneos-arm64.deb"
           test -s "$HOST"
           test -s "$QA"
           test "$(dpkg-deb -f "$HOST" Package)" = com.duoface.carplay.nativescenehost
+          test "$(dpkg-deb -f \"$HOST\" Version)" = '0.0.2~template1'
           test "$(dpkg-deb -f "$QA" Version)" = '0.1.7~ready1'
           dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.5~ready1)'
           dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.sbadmissionprobe (>= 0.0.1~readonly1)'
@@ -90,6 +91,8 @@ jobs:
           (cd "$OUT" && shasum -a 256 "$(basename "$HOST")" "$(basename "$QA")" >> SHA256SUMS.txt)
           echo "IPHONE_QA_GUI_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
           echo "NATIVE_HOST_CANDIDATE_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+          echo 'NATIVE_HOST_CARPLAY_ENTITLEMENT_APPROVED=false' >> "$OUT/CI_RESULT.txt"
+          echo 'PHYSICAL_CARPLAY_ADMISSION_VERIFIED=false' >> "$OUT/CI_RESULT.txt"
       - name: Verify no new SpringBoard package or reload
         run: |
           set -euo pipefail
