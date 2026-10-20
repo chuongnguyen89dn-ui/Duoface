@@ -41,7 +41,7 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertIn("disableFirstParty:",s)
   self.assertIn('CFSTR("com.duoface.firstparty-admission.refresh")',s)
   self.assertIn("DFAdmissionSignal,NULL,NULL,YES",s)
-  self.assertIn("0.0.2~signal1",c)
+  self.assertIn("0.0.2~signal1",read("control"))
   self.assertIn("DFLastLines(DFAdmissionLog,80)",s)
   self.assertIn("runSBAdmissionProbe:",s)
   self.assertIn("CFNotificationCenterPostNotification",s)
