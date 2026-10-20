@@ -269,7 +269,7 @@ static BOOL DFQAFrameNear(CGRect a,CGRect b) {
         if(!DFQAFrameNear(w.frame,target)) {
             // Reject unsupported root-scene window sizing and revert immediately.
             if(DFQAFrameNear(w.frame,original)==NO)w.frame=original;
-            DFQAWrite(@"source-window-crop-rejected",@"UIRootSceneWindow-did-not-accept-frame");
+            DFQAWrite(@"source-window-crop-rejected",@"external-root-window-did-not-accept-frame");
             self.exhaustedYieldSession=session;
             return;
         }
