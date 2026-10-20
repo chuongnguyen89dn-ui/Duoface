@@ -1,9 +1,9 @@
 Package: com.duoface.carplay.nativebridgeqa
 Name: DuoFace Native Dashboard Bridge QA (Opt-in)
-Version: 0.0.4~nativegeometry1
+Version: 0.0.5~controlapp1
 Architecture: iphoneos-arm64
 Section: Development
 Priority: optional
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate, com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1)
-Description: Independent DuoFace QA4, explicit opt-in: Native12-style Normal content=full display minus measured 4 edge insets, whole-host Fullscreen=full display and native statusbar hidden; restore captured normal region/chrome on Zoom. Per-slot zoom unchanged. Includes ack-gated source yield; no LS hooks, native Dock/Home device verification pending.
+Description: Independent DuoFace QA5, controllable from proper DuoFace QA iPhone app (no Filza), explicit opt-in: Native12-style Normal content=full display minus measured 4 edge insets, whole-host Fullscreen=full display and native statusbar hidden; restore captured normal region/chrome on Zoom. Per-slot zoom unchanged. Includes ack-gated source yield; no LS hooks, native Dock/Home device verification pending.
