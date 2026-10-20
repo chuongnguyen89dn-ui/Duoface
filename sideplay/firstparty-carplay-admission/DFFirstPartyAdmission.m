@@ -108,11 +108,8 @@ static BOOL DFTraceObserve(id proxy,id key,Class expected,Class valuesExpected,i
             @"run=%@ sample=%d/16 selector=%@ key=%@ expected=%@ valuesExpected=%@ originalClass=%@ originalNil=%d auditOnly=true",
             run,DFTraceSamples,selector,keyName,DFTraceClass(expected),
             DFTraceClass(valuesExpected),kind,real==nil]);
-        if(DFTraceSamples>=16){
-            NSMutableDictionary *off=[request mutableCopy];off[@"Enabled"]=@NO;
-            BOOL saved=[off writeToFile:DFTraceRequest atomically:YES];
-            DFTraceLog([NSString stringWithFormat:@"run=%@ completed cap=16 disabled=%d",run,saved]);
-        }
+        if(DFTraceSamples==16)DFTraceLog([NSString stringWithFormat:
+            @"run=%@ log-cap-reached; pass-through continues until 180s expiry or QA stop",run]);
     }
     return YES;
 }

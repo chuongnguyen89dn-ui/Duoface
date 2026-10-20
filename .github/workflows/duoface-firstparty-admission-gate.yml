@@ -7,6 +7,7 @@ on:
       - 'sideplay/firstparty-carplay-admission/**'
       - 'sideplay/duoface-qa-app/**'
       - 'sideplay/duoface-native-scene-host/**'
+      - 'sideplay/springboard-admission-probe/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -24,6 +25,7 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/springboard-admission-probe/tests -p 'test_*.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
       - name: Prepare rootless Theos
         run: |
@@ -38,10 +40,10 @@ jobs:
           set -euo pipefail
           cd sideplay/firstparty-carplay-admission
           make clean package FINALPACKAGE=1
-          FILE="packages/com.duoface.carplay.firstpartyadmission_0.0.3~roster1_iphoneos-arm64.deb"
+          FILE="packages/com.duoface.carplay.firstpartyadmission_0.0.4~trace1_iphoneos-arm64.deb"
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = 'com.duoface.carplay.firstpartyadmission'
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.3~roster1'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.4~trace1'
           ! dpkg-deb -f "$FILE" | grep -E '^(Conflicts|Replaces|Breaks):'
           mkdir -p "$RUNNER_TEMP/df-extract"
           dpkg-deb -x "$FILE" "$RUNNER_TEMP/df-extract"
@@ -53,7 +55,7 @@ jobs:
           assert d['Filter']['Executables']==['CarPlay'],d
           print('CARPLAY_ONLY_FILTER_PASS')
           PY
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-roster-readonly1"
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-consolidated-trace1"
           mkdir -p "$OUT"
           cp "$FILE" "$OUT/"
           (cd "$OUT" && shasum -a 256 "$(basename "$FILE")" > SHA256SUMS.txt)
@@ -70,27 +72,53 @@ jobs:
             echo "SILEO_PUBLISHED=false"
             echo "HOST_APP_PUBLISHED=false"
           } > "$OUT/CI_RESULT.txt"
-      - name: Build independently signed native scene host and iPhone QA 0.1.5
+      - name: Build independently signed native scene host and iPhone QA 0.1.6
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
           bash sideplay/duoface-qa-app/build.sh
           HOST="sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb"
-          QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.5~roster1_iphoneos-arm64.deb"
+          QA="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.6~trace1_iphoneos-arm64.deb"
           test -s "$HOST"
           test -s "$QA"
           test "$(dpkg-deb -f "$HOST" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$QA" Version)" = '0.1.5~roster1'
-          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.3~roster1)'
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-roster-readonly1"
+          test "$(dpkg-deb -f "$QA" Version)" = '0.1.6~trace1'
+          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.firstpartyadmission (>= 0.0.4~trace1)'
+          dpkg-deb -f "$QA" Depends | grep -F 'com.duoface.carplay.sbadmissionprobe (>= 0.0.2~target1)'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-consolidated-trace1"
           cp "$HOST" "$QA" "$OUT/"
           (cd "$OUT" && shasum -a 256 "$(basename "$HOST")" "$(basename "$QA")" >> SHA256SUMS.txt)
           echo "IPHONE_QA_GUI_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
           echo "NATIVE_HOST_CANDIDATE_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+      - name: Build SpringBoard-only one-shot own-bundle reader (NO runtime hook)
+        run: |
+          set -euo pipefail
+          cd sideplay/springboard-admission-probe
+          make clean package FINALPACKAGE=1
+          SB=packages/com.duoface.carplay.sbadmissionprobe_0.0.2~target1_iphoneos-arm64.deb
+          test -s "$SB"
+          test "$(dpkg-deb -f "$SB" Package)" = com.duoface.carplay.sbadmissionprobe
+          test "$(dpkg-deb -f "$SB" Version)" = '0.0.2~target1'
+          mkdir -p "$RUNNER_TEMP/df-sb-extract"
+          dpkg-deb -x "$SB" "$RUNNER_TEMP/df-sb-extract"
+          FILTER="$(find "$RUNNER_TEMP/df-sb-extract" -name DFReadOnlySBAdmissionProbe.plist -print -quit)"
+          test -n "$FILTER"
+          FILTER="$FILTER" python3 - <<'PY'
+          import os,plistlib
+          with open(os.environ['FILTER'],'rb') as f: d=plistlib.load(f)
+          assert d['Filter']['Executables']==['SpringBoard'],d
+          PY
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-consolidated-trace1"
+          cp "$SB" "$OUT/"
+          (cd "$OUT" && shasum -a 256 "$(basename "$SB")" >> SHA256SUMS.txt)
+          echo "SPRINGBOARD_TARGET_READER_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+          echo "SPRINGBOARD_GETTER_HOOKS=false" >> "$OUT/CI_RESULT.txt"
+          echo "CONSOLIDATED_HARDWARE_DEVICE_TESTED=false" >> "$OUT/CI_RESULT.txt"
+          echo "SILEO_PUBLISHED=false" >> "$OUT/CI_RESULT.txt"
       - uses: actions/upload-artifact@v4
         with:
           name: duo-firstparty-admission-candidate-${{ github.run_id }}
-          path: sideplay/test-artifacts/firstparty-roster-readonly1/
+          path: sideplay/test-artifacts/firstparty-consolidated-trace1/
           if-no-files-found: error
       - name: Save build artifacts to feature branch
         run: |
@@ -98,7 +126,7 @@ jobs:
           BRANCH=feature/duoface-firstparty-carplay-admission-20261020
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sideplay/test-artifacts/firstparty-roster-readonly1/
+          git add sideplay/test-artifacts/firstparty-consolidated-trace1/
           git commit -m 'artifacts: first-party admission candidate quarantined [skip ci]'
           for i in 1 2 3; do
             git fetch origin "$BRANCH"

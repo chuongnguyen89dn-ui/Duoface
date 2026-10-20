@@ -17,6 +17,9 @@ static NSString *const DFSBStatus=@"/var/mobile/Library/Preferences/com.duoface.
 static NSString *const DFAdmissionConfig=@"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist";
 static NSString *const DFAdmissionKill=@"/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable";
 static NSString *const DFAdmissionLog=@"/var/mobile/Library/Logs/DuoFaceFirstPartyAdmission.log";
+static NSString *const DFTraceRequest=@"/var/mobile/Library/Preferences/com.duoface.admission-trace.request.plist";
+static NSString *const DFTraceLog=@"/var/mobile/Library/Logs/DuoFaceAdmissionTrace.log";
+static NSString *const DFTraceDisable=@"/var/mobile/Library/Preferences/.duoface-admission-trace-disable";
 static CFStringRef const DFAdmissionSignal=CFSTR("com.duoface.firstparty-admission.refresh");
 static NSString *const DFRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.firstparty-roster.request.plist";
 static CFStringRef const DFRosterSignal=CFSTR("com.duoface.firstparty-admission.roster-readonly");
@@ -209,6 +212,10 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                   selector:@selector(disableFirstParty:) danger:YES]];
     [self.stack addArrangedSubview:[self button:@"Kiểm tra Native Host trong CarPlay (chỉ đọc)"
                   selector:@selector(runRosterProbe:) danger:NO]];
+    [self.stack addArrangedSubview:[self button:@"Một lần đo tổng hợp (không đổi quyền)"
+                  selector:@selector(startAdmissionTrace:) danger:NO]];
+    [self.stack addArrangedSubview:[self button:@"Dừng phép đo tổng hợp"
+                  selector:@selector(stopAdmissionTrace:) danger:YES]];
     [self.stack addArrangedSubview:[self label:@"Thử khi xe đang đỗ. Bản này chỉ áp dụng cho tiến trình CarPlay, KHÔNG sửa SpringBoard hoặc thanh Dock. Chưa chứng minh biểu tượng DuoFace đã xuất hiện." font:[UIFont systemFontOfSize:12]]];
     self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native", @"SB", @"Admission"]];
     self.logSource.selectedSegmentIndex=1;
@@ -369,6 +376,63 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     }]];
     [self presentViewController:a animated:YES completion:nil];
 }
+- (void)stopAdmissionTrace:(id)sender {
+    (void)sender;
+    NSMutableDictionary *req=[DFPrefs(DFTraceRequest) mutableCopy];
+    req[@"Enabled"]=@NO;
+    BOOL written=[req writeToFile:DFTraceRequest atomically:YES];
+    BOOL killed=[[NSFileManager defaultManager] createFileAtPath:DFTraceDisable
+         contents:[@"disabled" dataUsingEncoding:NSUTF8StringEncoding] attributes:nil];
+    if(!(written&&killed))[self alert:@"Dừng chưa hoàn tất"
+                  message:@"Chưa xác minh được cấu hình tắt đo. Không tiếp tục thử."];
+    [self refresh];
+}
+- (void)startAdmissionTrace:(id)sender {
+    (void)sender;
+    if(!DFFlag(DFAdmissionConfig,@"Enabled") ||
+       !DFFlag(DFAdmissionConfig,@"RiskAcknowledged") ||
+       [[NSFileManager defaultManager] fileExistsAtPath:DFAdmissionKill]) {
+       [self alert:@"Chưa đủ điều kiện" message:@"Chỉ dùng với thử nghiệm CarPlay đã bật. Không tự kích hoạt quyền hay can thiệp SpringBoard."];
+       return;
+    }
+    UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Chẩn đoán CarPlay tổng hợp?"
+      message:@"Một yêu cầu duy nhất, giới hạn 180 giây / 16 mẫu. Trên CarPlay chỉ đọc kết quả GỐC của hai hook hiện có; SpringBoard chỉ đọc 2 entitlement của DuoFace, không hook hay sửa quyền. KHÔNG tự khởi động lại thiết bị. Đây là ứng viên CHƯA kiểm thử trên máy; chỉ dùng khi xe đỗ và có phương án khôi phục."
+      preferredStyle:UIAlertControllerStyleAlert];
+    [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+    [a addAction:[UIAlertAction actionWithTitle:@"Tôi đồng ý" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        (void)action;
+        NSString *rid=NSUUID.UUID.UUIDString;
+        NSNumber *now=@(NSDate.date.timeIntervalSince1970);
+        NSDictionary *trace=@{@"Enabled":@YES,@"AuditOnly":@YES,
+           @"HostBundleID":@"com.duoface.native.scenehost",
+           @"RequestID":rid,@"RequestAt":now};
+        NSDictionary *sbreq=@{@"Enabled":@YES,@"Kind":@"consolidated-target",
+           @"Version":@2,@"RequestID":rid,@"RequestAt":now};
+        // Both must be durable before notifying SpringBoard. Roll back trace on failure.
+        BOOL traceOK=[trace writeToFile:DFTraceRequest atomically:YES];
+        BOOL sbOK=traceOK && [sbreq writeToFile:DFSBRequest atomically:YES];
+        if(!(traceOK && sbOK)) {
+            NSMutableDictionary *off=[trace mutableCopy];off[@"Enabled"]=@NO;
+            (void)[off writeToFile:DFTraceRequest atomically:YES];
+            [self alert:@"Không gửi được" message:@"Không ghi đủ cả hai yêu cầu. Không thực hiện."];
+            return;
+        }
+        NSError *e=nil;[[NSFileManager defaultManager] removeItemAtPath:DFTraceDisable error:&e];
+        if([[NSFileManager defaultManager] fileExistsAtPath:DFTraceDisable]) {
+            NSMutableDictionary *off=[trace mutableCopy];off[@"Enabled"]=@NO;
+            (void)[off writeToFile:DFTraceRequest atomically:YES];
+            [self alert:@"Chưa sẵn sàng" message:@"Không xóa được khóa an toàn. Yêu cầu không được bật."];
+            return;
+        }
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+            CFSTR("com.duoface.nativejoin.sborder.probe"),NULL,NULL,YES);
+        [self alert:@"Đã gửi một yêu cầu"
+          message:@"Không tự khởi động lại SpringBoard. Trace CarPlay sẽ chỉ ghi kết quả gốc nếu tiến trình đã nạp phiên bản mới và có lượt gọi từ hệ thống. Hai tệp log có cùng RequestID. Không có mẫu KHÔNG được coi là thành công."];
+        self.logSource.selectedSegmentIndex=3;
+        [self refresh];
+    }]];
+    [self presentViewController:a animated:YES completion:nil];
+}
 - (void)runRosterProbe:(id)sender {
     (void)sender;
     if(!DFFlag(DFAdmissionConfig,@"Enabled") ||
@@ -452,7 +516,9 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
         NSString *path=self.logSource.selectedSegmentIndex==3?DFAdmissionLog:
               (self.logSource.selectedSegmentIndex==2?DFSBLog:
               (self.logSource.selectedSegmentIndex==1?DFSceneProbeLog:DFNativeLog));
-        self.logView.text=DFLastLines(path,65);
+        self.logView.text=self.logSource.selectedSegmentIndex==3?
+           [NSString stringWithFormat:@"--- Live original getter trace ---\n%@\n\n--- Earlier admission log ---\n%@",
+              DFLastLines(DFTraceLog,35),DFLastLines(DFAdmissionLog,30)]:DFLastLines(path,65);
     }
 }
 - (void)shareLog:(id)sender {
@@ -460,7 +526,9 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
        @"DuoFace QA report\n%@\n%@\n%@\n%@\n\n--- FirstParty CarPlay Admission ---\n%@\n\n--- SpringBoard Admission ABI ---\n%@\n\n--- Native Scene ---\n%@\n\n--- QA6 ---\n%@\n",
        self.infoLabel.text?:@"",self.nativeSceneLabel.text?:@"",
        self.sbAdmissionLabel.text?:@"",self.firstPartyLabel.text?:@"",
-       DFLastLines(DFAdmissionLog,80),DFLastLines(DFSBLog,120),DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];
+       [NSString stringWithFormat:@"--- Original getter trace ---\n%@\n--- Existing admission ---\n%@",
+         DFLastLines(DFTraceLog,80),DFLastLines(DFAdmissionLog,80)],
+       DFLastLines(DFSBLog,120),DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];
     UIActivityViewController *v=[[UIActivityViewController alloc] initWithActivityItems:@[s]
        applicationActivities:nil];
     v.popoverPresentationController.sourceView=(UIView *)sender;
