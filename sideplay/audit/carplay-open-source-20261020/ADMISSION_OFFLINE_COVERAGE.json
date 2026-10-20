@@ -1,0 +1,63 @@
+{
+  "device_tested_by_this_script": false,
+  "evidence": {
+    "allowlist_firstparty_only": true,
+    "carplay_ls_lookup_encoding_from_device_not_source": "@24@0:8@16",
+    "does_not_hook_bulk_getter": true,
+    "does_not_hook_cached_values": true,
+    "does_not_log_all_getter_invocations": true,
+    "has_expected_number_check": true,
+    "has_values_expected_number_check": true,
+    "hook_is_queued_on_main_from_constructor": true,
+    "host_declared_bundle_id": "com.duoface.native.scenehost",
+    "host_entitlement_keys": [
+      "com.apple.private.security.container-required",
+      "com.apple.private.security.no-container",
+      "platform-application"
+    ],
+    "host_has_apple_category_entitlement": false,
+    "host_has_carplay_window_role": true,
+    "injection_executables": [
+      "CarPlay"
+    ],
+    "no_springboard_admission_hook": true,
+    "prevents_original_non_nil_override": true,
+    "sb_bool_encoding_from_device_not_source": "B24@0:8@16",
+    "sb_only_abi_inventory": true,
+    "two_typed_getter_hooks_present": true,
+    "typed2_ABI_guarded": true,
+    "typed3_ABI_guarded": true,
+    "user_optin_per_call": true
+  },
+  "inputs": {
+    "gate": "sideplay/firstparty-carplay-admission/DFFirstPartyAdmission.m",
+    "host_entitlements": "sideplay/duoface-native-scene-host/entitlements.plist",
+    "host_info": "sideplay/duoface-native-scene-host/Info.plist",
+    "inject_filter": "sideplay/firstparty-carplay-admission/DFFirstPartyAdmission.plist",
+    "springboard_probe": "sideplay/springboard-admission-probe/DFSpringBoardAdmissionProbe.m"
+  },
+  "kind": "source-static-only",
+  "result": "PASS_SOURCE_STATIC",
+  "runtime_unknown": [
+    "process_hosting_DashBoard_in_this_exact_build",
+    "typed3_key_and_class_arguments_on_real_inclusion_pass",
+    "original_typed3_return_type_and_value",
+    "whether_roster_filter_invoked_before_hook_installed",
+    "SpringBoard_cached_values_origin_identity_and_actual_return",
+    "real_DashBoard_filtered_roster_membership",
+    "native_host_scene_issued_by_system"
+  ],
+  "source_changed_by_this_script": false,
+  "static_checks": {
+    "both_abi_guards_present": true,
+    "filter_only_CarPlay": true,
+    "firstparty_bundle_consistent": true,
+    "no_new_springboard_hook": true,
+    "original_preserved": true,
+    "permission_per_call": true,
+    "role_declared": true,
+    "sb_readonly": true,
+    "two_getters_hooked": true
+  },
+  "target": "com.duoface.native.scenehost"
+}
