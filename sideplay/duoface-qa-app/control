@@ -1,9 +1,9 @@
 Package: com.duoface.qa.controlapp
 Name: DuoFace QA Control (App tren iPhone)
-Version: 0.1.6~trace1
+Version: 0.1.7~ready1
 Architecture: iphoneos-arm64
 Section: Utilities
 Priority: optional
 Maintainer: DuoFace Independent
-Depends: firmware (>= 16.0), com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1), com.duoface.carplay.nativebridgeqa (>= 0.0.5~controlapp1), com.duoface.carplay.nativejoinprobe (>= 0.0.1~sceneprobe1), com.duoface.carplay.sbadmissionprobe (>= 0.0.2~target1), com.duoface.carplay.firstpartyadmission (>= 0.0.4~trace1), com.duoface.carplay.nativescenehost (>= 0.0.1~scenehost1)
+Depends: firmware (>= 16.0), com.duoface.mytweak.v1a.preflight (>= 0.2.6~recovery1), com.duoface.carplay.nativebridgeqa (>= 0.0.5~controlapp1), com.duoface.carplay.nativejoinprobe (>= 0.0.1~sceneprobe1), com.duoface.carplay.sbadmissionprobe (>= 0.0.1~readonly1), com.duoface.carplay.firstpartyadmission (>= 0.0.5~ready1), com.duoface.carplay.nativescenehost (>= 0.0.1~scenehost1)
 Description: iPhone user-consented one-shot SpringBoard admission ABI check and Native CarPlay read-only scene/ABI log viewer plus existing independent rootless UIKit iPhone test app with home-screen icon, MyTweak/Dashboard/45s Dock toggles, Normal/Fullscreen requests, live session/ACK status, readable and shareable logs and safe stop. No Filza/config-copy/terminal required. Does not claim physical CarPlay Dock/Home has been fixed. Installs separately from stable engine.

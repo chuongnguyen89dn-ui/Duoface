@@ -9,7 +9,7 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertEqual(p["CFBundlePackageType"],"APPL")
   c=read("control")
   self.assertIn("Package: com.duoface.qa.controlapp",c)
-  self.assertIn("Version: 0.1.6~trace1",c)
+  self.assertIn("Version: 0.1.7~ready1",c)
   self.assertIn("com.duoface.carplay.sbadmissionprobe",c)
   self.assertIn("com.duoface.carplay.firstpartyadmission",c)
   self.assertIn("com.duoface.carplay.nativescenehost",c)
@@ -41,8 +41,8 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertIn("disableFirstParty:",s)
   self.assertIn('CFSTR("com.duoface.firstparty-admission.refresh")',s)
   self.assertIn("DFAdmissionSignal,NULL,NULL,YES",s)
-  self.assertIn("0.0.4~trace1",read("control"))
-  self.assertIn("0.0.2~target1",read("control"))
+  self.assertIn("0.0.5~ready1",read("control"))
+  self.assertIn("0.0.1~readonly1",read("control"))
   for label in ("startAdmissionTrace:","stopAdmissionTrace:","DuoFaceAdmissionTrace.log",
                 "com.duoface.admission-trace.request.plist","AuditOnly",
                 "Kind\":@\"consolidated-target", "DFTraceDisable"):
@@ -51,6 +51,10 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertIn("DFRosterSignal,NULL,NULL,YES",s)
   self.assertIn("com.duoface.firstparty-roster.request.plist",s)
   self.assertIn("DFLastLines(DFAdmissionLog,80)",s)
+  for required in ("DFTraceStatus","DFTraceSignal","traceReadinessLabel",
+                   "readyAck","hookReady","CHƯA SẴN SÀNG","integerValue]==5"):
+   self.assertIn(required,s)
+  self.assertNotIn('@"Kind":@"consolidated-target",',s[s.index("- (void)startAdmissionTrace:"):s.index("- (void)runRosterProbe:")])
   self.assertIn('sb[@"Enabled"]=@NO',s)
   self.assertIn('sbStopped=[sb writeToFile:DFSBRequest atomically:YES]',s)
   self.assertIn('if(!(written&&killed&&sbStopped))',s)

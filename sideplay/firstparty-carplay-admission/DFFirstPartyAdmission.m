@@ -27,6 +27,8 @@ static NSString *const DFTraceLogFile=@"/var/mobile/Library/Logs/DuoFaceAdmissio
 static const char *DFTraceDisable="/var/mobile/Library/Preferences/.duoface-admission-trace-disable";
 static volatile int DFTraceSamples=0;
 static NSString *DFTraceRunID=nil;
+static CFStringRef const DFTraceSignal=CFSTR("com.duoface.admission-trace.preflight");
+static NSString *const DFTraceStatus=@"/var/mobile/Library/Preferences/com.duoface.admission-trace.status.plist";
 
 static void DFLog(NSString *message) {
     NSString *s=[NSString stringWithFormat:@"[DFAdmission/CarPlay] %@\n",message];
@@ -250,6 +252,43 @@ static void DFRosterCallback(CFNotificationCenterRef center,void *observer,
     (void)center;(void)observer;(void)name;(void)object;(void)info;
     dispatch_async(dispatch_get_main_queue(), ^{DFReadOnlyRosterProbe();});
 }
+
+// A deterministic handshake from ALREADY RUNNING CarPlay; replaces any need
+// to reload SpringBoard or assume package installation means a dylib is loaded.
+// Only one target UUID, read-only class/ABI introspection, no app library calls.
+static void DFTracePreflight(void) {
+    NSDictionary *req=DFTraceActiveRequest();
+    if(!req){DFLog(@"trace-preflight ignored: consent, kill switch or request invalid");return;}
+    NSString *run=req[@"RequestID"];
+    DFCheckConsentAndArm(@"trace-preflight");
+    Class bundle=NSClassFromString(@"LSBundleProxy");
+    SEL s3=sel_registerName("entitlementValueForKey:ofClass:valuesOfClass:");
+    Method getter=bundle?class_getInstanceMethod(bundle,s3):NULL;
+    NSString *typed=getter&&method_getTypeEncoding(getter)?
+        [NSString stringWithUTF8String:method_getTypeEncoding(getter)]:@"unavailable";
+    Class dash=NSClassFromString(@"DashBoard");
+    SEL library=sel_registerName("_newApplicationLibrary");
+    Method method=dash?class_getClassMethod(dash,library):NULL;
+    NSString *factoryABI=method&&method_getTypeEncoding(method)?
+        [NSString stringWithUTF8String:method_getTypeEncoding(method)]:@"unavailable";
+    BOOL ready=DFHooksInstalled&&DFOriginal3&&DFOriginal2;
+    NSDictionary *status=@{
+       @"Version":@5, @"Process":@"CarPlay", @"RequestID":run,
+       @"Timestamp":@(NSDate.date.timeIntervalSince1970),@"PID":@(getpid()),
+       @"HooksReady":@(ready), @"Kind":@"firstparty-trace-preflight",
+       @"Typed3ABI":typed, @"DashBoardFactoryABI":factoryABI,
+       @"Reason":ready?@"existing-getters-armed":@"hooks-not-ready"
+    };
+    BOOL written=[status writeToFile:DFTraceStatus atomically:YES];
+    DFTraceLog([NSString stringWithFormat:
+       @"run=%@ preflightAck=%d version=5 hooksReady=%d typed3ABI=%@ DashBoardFactoryABI=%@; no application library invoked",
+       run,written,ready,typed,factoryABI]);
+}
+static void DFTraceCallback(CFNotificationCenterRef center,void *observer,
+    CFStringRef name,const void *object,CFDictionaryRef info) {
+    (void)center;(void)observer;(void)name;(void)object;(void)info;
+    dispatch_async(dispatch_get_main_queue(), ^{DFTracePreflight();});
+}
 __attribute__((constructor)) static void DFAdmissionEntry(void) {
     @autoreleasepool {
         // SpringBoard must NEVER load this candidate.
@@ -259,6 +298,9 @@ __attribute__((constructor)) static void DFAdmissionEntry(void) {
             CFNotificationSuspensionBehaviorDeliverImmediately);
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
             NULL,DFRosterCallback,DFRosterSignal,NULL,
+            CFNotificationSuspensionBehaviorDeliverImmediately);
+        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
+            NULL,DFTraceCallback,DFTraceSignal,NULL,
             CFNotificationSuspensionBehaviorDeliverImmediately);
         if(DFTraceActiveRequest())DFTraceLog([NSString stringWithFormat:@"run=%@ module-constructor process=CarPlay (library timing unknown)",DFTraceActiveRequest()[@"RequestID"]]);
         DFLog(@"loaded: consent + one-shot roster observer registered (no implicit entitlement change)");

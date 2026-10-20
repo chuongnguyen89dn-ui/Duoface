@@ -19,6 +19,8 @@ static NSString *const DFAdmissionKill=@"/var/mobile/Library/Preferences/.duofac
 static NSString *const DFAdmissionLog=@"/var/mobile/Library/Logs/DuoFaceFirstPartyAdmission.log";
 static NSString *const DFTraceRequest=@"/var/mobile/Library/Preferences/com.duoface.admission-trace.request.plist";
 static NSString *const DFTraceLog=@"/var/mobile/Library/Logs/DuoFaceAdmissionTrace.log";
+static NSString *const DFTraceStatus=@"/var/mobile/Library/Preferences/com.duoface.admission-trace.status.plist";
+static CFStringRef const DFTraceSignal=CFSTR("com.duoface.admission-trace.preflight");
 static NSString *const DFTraceDisable=@"/var/mobile/Library/Preferences/.duoface-admission-trace-disable";
 static CFStringRef const DFAdmissionSignal=CFSTR("com.duoface.firstparty-admission.refresh");
 static NSString *const DFRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.firstparty-roster.request.plist";
@@ -75,6 +77,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
 @property(nonatomic,strong) UILabel *nativeSceneLabel;
 @property(nonatomic,strong) UILabel *sbAdmissionLabel;
 @property(nonatomic,strong) UILabel *firstPartyLabel;
+@property(nonatomic,strong) UILabel *traceReadinessLabel;
 @property(nonatomic,strong) UISegmentedControl *logSource;
 @property(nonatomic,strong) UITextView *logView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
@@ -216,6 +219,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                   selector:@selector(startAdmissionTrace:) danger:NO]];
     [self.stack addArrangedSubview:[self button:@"Dừng phép đo tổng hợp"
                   selector:@selector(stopAdmissionTrace:) danger:YES]];
+    self.traceReadinessLabel=[self label:@"Chưa chạy chẩn đoán. Không thể coi đã nạp module." font:[UIFont systemFontOfSize:12]];
+    [self.stack addArrangedSubview:self.traceReadinessLabel];
     [self.stack addArrangedSubview:[self label:@"Thử khi xe đang đỗ. Bản này chỉ áp dụng cho tiến trình CarPlay, KHÔNG sửa SpringBoard hoặc thanh Dock. Chưa chứng minh biểu tượng DuoFace đã xuất hiện." font:[UIFont systemFontOfSize:12]]];
     self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native", @"SB", @"Admission"]];
     self.logSource.selectedSegmentIndex=1;
@@ -403,7 +408,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
        return;
     }
     UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Chẩn đoán CarPlay tổng hợp?"
-      message:@"Một yêu cầu duy nhất, giới hạn 180 giây / 16 mẫu. Trên CarPlay chỉ đọc kết quả GỐC của hai hook hiện có; SpringBoard chỉ đọc 2 entitlement của DuoFace, không hook hay sửa quyền. KHÔNG tự khởi động lại thiết bị. Đây là ứng viên CHƯA kiểm thử trên máy; chỉ dùng khi xe đỗ và có phương án khôi phục."
+      message:@"Một lần, tối đa 180 giây / 16 mẫu. CarPlay tự báo đã nạp module và đúng phiên bản, rồi chỉ đọc kết quả GỐC của hai hook hiện có. KHÔNG cần nâng cấp hay khởi động lại SpringBoard. Không sửa Dock/quyền ứng dụng. Nếu CarPlay chưa nạp module sẽ báo CHƯA SẴN SÀNG, không coi đã thành công."
       preferredStyle:UIAlertControllerStyleAlert];
     [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
     [a addAction:[UIAlertAction actionWithTitle:@"Tôi đồng ý" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
@@ -413,15 +418,10 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
         NSDictionary *trace=@{@"Enabled":@YES,@"AuditOnly":@YES,
            @"HostBundleID":@"com.duoface.native.scenehost",
            @"RequestID":rid,@"RequestAt":now};
-        NSDictionary *sbreq=@{@"Enabled":@YES,@"Kind":@"consolidated-target",
-           @"Version":@2,@"RequestID":rid,@"RequestAt":now};
-        // Both must be durable before notifying SpringBoard. Roll back trace on failure.
+        // The existing SpringBoard v0.0.1 remains untouched; no respring needed.
         BOOL traceOK=[trace writeToFile:DFTraceRequest atomically:YES];
-        BOOL sbOK=traceOK && [sbreq writeToFile:DFSBRequest atomically:YES];
-        if(!(traceOK && sbOK)) {
-            NSMutableDictionary *off=[trace mutableCopy];off[@"Enabled"]=@NO;
-            (void)[off writeToFile:DFTraceRequest atomically:YES];
-            [self alert:@"Không gửi được" message:@"Không ghi đủ cả hai yêu cầu. Không thực hiện."];
+        if(!traceOK) {
+            [self alert:@"Không gửi được" message:@"Không lưu được yêu cầu CarPlay. Không thực hiện."];
             return;
         }
         NSError *e=nil;[[NSFileManager defaultManager] removeItemAtPath:DFTraceDisable error:&e];
@@ -431,10 +431,11 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
             [self alert:@"Chưa sẵn sàng" message:@"Không xóa được khóa an toàn. Yêu cầu không được bật."];
             return;
         }
+        // The already-loaded CarPlay process answers with a versioned ACK.
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
-            CFSTR("com.duoface.nativejoin.sborder.probe"),NULL,NULL,YES);
+            DFTraceSignal,NULL,NULL,YES);
         [self alert:@"Đã gửi một yêu cầu"
-          message:@"Không tự khởi động lại SpringBoard. Trace CarPlay sẽ chỉ ghi kết quả gốc nếu tiến trình đã nạp phiên bản mới và có lượt gọi từ hệ thống. Hai tệp log có cùng RequestID. Không có mẫu KHÔNG được coi là thành công."];
+          message:@"Xem trạng thái phiên bản/ACK CarPlay ngay bên dưới. Nếu không nhận ACK mới phiên bản 5 thì module chưa nạp: KHÔNG tiếp tục thử, không respring. Log chỉ ghi tối đa 16 mẫu, không đổi quyền trong khi đo."];
         self.logSource.selectedSegmentIndex=3;
         [self refresh];
     }]];
@@ -467,6 +468,19 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     [self presentViewController:a animated:YES completion:nil];
 }
 - (void)refresh {
+    NSDictionary *traceReq=DFPrefs(DFTraceRequest);
+    NSDictionary *traceAck=DFPrefs(DFTraceStatus);
+    NSString *rid=[traceReq[@"RequestID"] isKindOfClass:NSString.class]?traceReq[@"RequestID"]:nil;
+    NSTimeInterval age=[NSDate.date timeIntervalSince1970]-[traceAck[@"Timestamp"] doubleValue];
+    BOOL sameTrace=rid.length>0 && [rid isEqualToString:traceAck[@"RequestID"]];
+    BOOL readyAck=sameTrace && age>=0 && age<180 &&
+       [traceAck[@"Version"] integerValue]==5 &&
+       [traceAck[@"Process"] isEqualToString:@"CarPlay"];
+    BOOL hookReady=readyAck && [traceAck[@"HooksReady"] boolValue];
+    self.traceReadinessLabel.text=!rid.length?@"Chưa yêu cầu kiểm tra module.":
+       !readyAck?@"CHƯA SẴN SÀNG: không có ACK mới từ CarPlay v5; dừng và chia sẻ log, không respring.":
+       hookReady?[NSString stringWithFormat:@"CarPlay v5 ĐÃ NẠP, hook đã sẵn sàng; pid=%@. Chưa phải đã đăng ký Dashboard.",traceAck[@"PID"]]:
+       @"CarPlay v5 đã phản hồi nhưng hook chưa sẵn sàng; KHÔNG coi kiểm thử thành công.";
     BOOL base=DFFlag(DFBase,@"Enabled");
     BOOL bridge=DFFlag(DFBridge,@"Enabled");
     BOOL trial=DFFlag(DFBridge,@"NativeSidebarTrial");
@@ -532,7 +546,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     NSString *s=[NSString stringWithFormat:
        @"DuoFace QA report\n%@\n%@\n%@\n%@\n\n--- FirstParty CarPlay Admission ---\n%@\n\n--- SpringBoard Admission ABI ---\n%@\n\n--- Native Scene ---\n%@\n\n--- QA6 ---\n%@\n",
        self.infoLabel.text?:@"",self.nativeSceneLabel.text?:@"",
-       self.sbAdmissionLabel.text?:@"",self.firstPartyLabel.text?:@"",
+       self.sbAdmissionLabel.text?:@"",
+       [NSString stringWithFormat:@"%@\n%@",self.firstPartyLabel.text?:@"",self.traceReadinessLabel.text?:@""],
        [NSString stringWithFormat:@"--- Original getter trace ---\n%@\n--- Existing admission ---\n%@",
          DFLastLines(DFTraceLog,80),DFLastLines(DFAdmissionLog,80)],
        DFLastLines(DFSBLog,120),DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];

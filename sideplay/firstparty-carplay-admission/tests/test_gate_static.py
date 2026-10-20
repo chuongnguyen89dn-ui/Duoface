@@ -28,7 +28,7 @@ class CandidateSafety(unittest.TestCase):
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
   self.assertIn("INSTALL_TARGET_PROCESSES =",read("Makefile"))
-  self.assertIn("Version: 0.0.4~trace1",c)
+  self.assertIn("Version: 0.0.5~ready1",c)
   self.assertIn("if(!DFOriginal3)return nil;",read("DFFirstPartyAdmission.m"))
   self.assertIn("if(!DFOriginal2)return nil;",read("DFFirstPartyAdmission.m"))
  def test_diagnostic_pass_through_and_bounded(self):
@@ -44,6 +44,16 @@ class CandidateSafety(unittest.TestCase):
   self.assertEqual(s.count('hook(c,s3,'),1)
   self.assertEqual(s.count('hook(c,s2,'),1)
   self.assertNotIn('hook(cached',s)
+ def test_carplay_preflight_loaded_version_no_springboard_restart(self):
+  s=read("DFFirstPartyAdmission.m")
+  for must in ("DFTracePreflight","DFTraceSignal","DFTraceStatus",
+      '"Version":@5','@"HooksReady":@(ready)','DFHooksInstalled&&DFOriginal3&&DFOriginal2',
+      'method_getTypeEncoding(method)','DashBoardFactoryABI',
+      'CFNotificationCenterAddObserver','DFCheckConsentAndArm(@"trace-preflight")'):
+   self.assertIn(must,s)
+  self.assertNotIn('hook(dash',s)
+  self.assertNotIn('method_setImplementation',s)
+  self.assertNotIn('requestStateChange',s)
  def test_roster_probe_is_readonly_one_shot(self):
   s=read("DFFirstPartyAdmission.m")
   for key in ('roster-readonly','DFRosterSignal','DFLastRosterRequestID',
