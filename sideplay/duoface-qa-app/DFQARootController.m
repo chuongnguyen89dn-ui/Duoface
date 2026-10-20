@@ -3,6 +3,7 @@
 // Writes only two known pref dictionaries; no SpringBoard LS hooks, no respring.
 #import <UIKit/UIKit.h>
 #import <math.h>
+#import <CoreFoundation/CoreFoundation.h>
 
 static NSString *const DFBase=@"/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist";
 static NSString *const DFBridge=@"/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist";
@@ -11,6 +12,9 @@ static NSString *const DFAck=@"/var/mobile/Library/Preferences/com.duoface.mytwe
 static NSString *const DFNativeLog=@"/var/mobile/Library/Logs/DuoFaceNativeBridgeQA.log";
 static NSString *const DFSceneProbeLog=@"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log";
 static NSString *const DFSceneProbeRecord=@"/var/mobile/Library/Preferences/com.duoface.native-scene-owner.v1.plist";
+static NSString *const DFSBRequest=@"/var/mobile/Library/Preferences/com.duoface.sb-admission-probe.request.plist";
+static NSString *const DFSBStatus=@"/var/mobile/Library/Preferences/com.duoface.sb-admission-probe.status.plist";
+static NSString *const DFSBLog=@"/var/mobile/Library/Logs/DuoFaceSBAdmissionProbe.log";
 
 static NSDictionary *DFPrefs(NSString *path) {
     NSDictionary *d=[NSDictionary dictionaryWithContentsOfFile:path];
@@ -60,6 +64,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
 @property(nonatomic,strong) UILabel *infoLabel;
 @property(nonatomic,strong) UILabel *detailLabel;
 @property(nonatomic,strong) UILabel *nativeSceneLabel;
+@property(nonatomic,strong) UILabel *sbAdmissionLabel;
 @property(nonatomic,strong) UISegmentedControl *logSource;
 @property(nonatomic,strong) UITextView *logView;
 @property(nonatomic,strong) NSTimer *refreshTimer;
@@ -177,7 +182,18 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                                 font:[UIFont systemFontOfSize:12]];
     nativeHint.textColor=UIColor.secondaryLabelColor;
     [self.stack addArrangedSubview:nativeHint];
-    self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native scene"]];
+    [self.stack addArrangedSubview:[self label:@"Đăng ký Dashboard — SpringBoard (chỉ đọc)"
+                                      font:[UIFont boldSystemFontOfSize:17]]];
+    self.sbAdmissionLabel=[self label:@"Chưa chạy phép kiểm tra SpringBoard."
+                                 font:[UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular]];
+    [self.stack addArrangedSubview:self.sbAdmissionLabel];
+    [self.stack addArrangedSubview:[self button:@"Kiểm tra API SpringBoard một lần"
+                      selector:@selector(runSBAdmissionProbe:) danger:NO]];
+    UILabel *sbHint=[self label:@"Mặc định TẮT. Chỉ đọc chữ ký API iOS 16, không sửa quyền và không tự khởi động lại SpringBoard."
+                              font:[UIFont systemFontOfSize:12]];
+    sbHint.textColor=UIColor.secondaryLabelColor;
+    [self.stack addArrangedSubview:sbHint];
+    self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native scene", @"SpringBoard"]];
     self.logSource.selectedSegmentIndex=1;
     [self.logSource addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     [self.stack addArrangedSubview:self.logSource];
@@ -252,6 +268,29 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     [a addAction:[UIAlertAction actionWithTitle:@"Bật thử" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *x){[self set:DFBridge key:@"NativeSidebarTrial" flag:YES];}]];
     [self presentViewController:a animated:YES completion:nil];
 }
+- (void)runSBAdmissionProbe:(id)sender {
+    (void)sender;
+    UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Kiểm tra API SpringBoard?"
+      message:@"Chỉ đọc chữ ký hàm một lần trên iOS 16. Không hook, không sửa quyền ứng dụng, không khởi động lại SpringBoard. Nếu module chưa được nạp, app sẽ báo chưa có kết quả."
+      preferredStyle:UIAlertControllerStyleAlert];
+    [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel
+                                           handler:^(UIAlertAction *x){(void)x;}]];
+    [a addAction:[UIAlertAction actionWithTitle:@"Kiểm tra" style:UIAlertActionStyleDefault
+                                           handler:^(UIAlertAction *x){
+        (void)x;
+        NSString *uuid=NSUUID.UUID.UUIDString;
+        NSDictionary *request=@{@"Enabled":@YES, @"RequestID":uuid,
+                      @"RequestAt":@(NSDate.date.timeIntervalSince1970),@"Version":@1};
+        if(![request writeToFile:DFSBRequest atomically:YES]){
+           [self alert:@"Không gửi được" message:@"Chưa ghi được yêu cầu kiểm tra. Không cần mở Filza."];
+           return;
+        }
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+             CFSTR("com.duoface.nativejoin.sborder.probe"),NULL,NULL,YES);
+        [self refresh];
+    }]];
+    [self presentViewController:a animated:YES completion:nil];
+}
 - (void)geometryChanged:(UISegmentedControl *)control {
     if(!DFFlag(DFBase,@"Enabled") || !DFFlag(DFBridge,@"Enabled")) {
         [self alert:@"Cầu nối chưa hoạt động" message:@"Bật MyTweak và Dashboard trước khi đổi chế độ."];
@@ -307,16 +346,32 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
          fresh?@"Đang có phiên":@"Chưa có phiên",
          fresh?(chrome?@"Có":@"Không xác nhận"):@"Chưa rõ",
          metrics];
+    NSDictionary *req=DFPrefs(DFSBRequest);
+    NSDictionary *status=DFPrefs(DFSBStatus);
+    NSString *requestID=[req[@"RequestID"] isKindOfClass:NSString.class]?req[@"RequestID"]:nil;
+    BOOL same=requestID.length>0 && [requestID isEqual:status[@"RequestID"]];
+    NSTimeInterval seconds=NSDate.date.timeIntervalSince1970-[req[@"RequestAt"] doubleValue];
+    BOOL recent=isfinite(seconds) && seconds>=0 && seconds<300;
+    if(same && recent && [status[@"State"] isKindOfClass:NSString.class]) {
+        self.sbAdmissionLabel.text=[NSString stringWithFormat:@"Kết quả: %@\n%@",
+             status[@"State"],status[@"Summary"]?:@""];
+    } else if(requestID.length>0 && recent) {
+        self.sbAdmissionLabel.text=@"Đã gửi yêu cầu; chưa nhận kết quả. Nếu SpringBoard chưa nạp module, phép kiểm tra sẽ không tự chạy.";
+    } else {
+        self.sbAdmissionLabel.text=@"Chưa có yêu cầu kiểm tra SpringBoard mới.";
+    }
     if(!self.logView.isFirstResponder) {
-        NSString *path=self.logSource.selectedSegmentIndex==1?DFSceneProbeLog:DFNativeLog;
+        NSString *path=self.logSource.selectedSegmentIndex==2?DFSBLog:
+              (self.logSource.selectedSegmentIndex==1?DFSceneProbeLog:DFNativeLog);
         self.logView.text=DFLastLines(path,65);
     }
 }
 - (void)shareLog:(id)sender {
     NSString *s=[NSString stringWithFormat:
-       @"DuoFace QA report\n%@\n%@\n\n--- Native Scene ---\n%@\n\n--- QA6 ---\n%@\n",
+       @"DuoFace QA report\n%@\n%@\n%@\n\n--- SpringBoard Admission ABI ---\n%@\n\n--- Native Scene ---\n%@\n\n--- QA6 ---\n%@\n",
        self.infoLabel.text?:@"",self.nativeSceneLabel.text?:@"",
-       DFLastLines(DFSceneProbeLog,350),DFLastLines(DFNativeLog,200)];
+       self.sbAdmissionLabel.text?:@"",
+       DFLastLines(DFSBLog,120),DFLastLines(DFSceneProbeLog,120),DFLastLines(DFNativeLog,100)];
     UIActivityViewController *v=[[UIActivityViewController alloc] initWithActivityItems:@[s]
        applicationActivities:nil];
     v.popoverPresentationController.sourceView=(UIView *)sender;
