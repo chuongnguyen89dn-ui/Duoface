@@ -8,7 +8,7 @@ class Safety(unittest.TestCase):
     def test_standalone_and_disabled_by_default(self):
         c=read("control")
         self.assertIn("Package: com.duoface.carplay.nativebridgeqa",c)
-        self.assertIn("Version: 0.0.3~nativehandoff1",c)
+        self.assertIn("Version: 0.0.4~nativegeometry1",c)
         self.assertIn("com.duoface.mytweak.v1a.preflight",c)
         for s in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(s,c)
         code=read("DFCPNativeBridgeQA.m")
