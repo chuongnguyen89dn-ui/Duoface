@@ -63,7 +63,10 @@ static void DFProbeNativeWorkspaceABI(void) {
     CGRect full=CGRectNull, usable=CGRectNull;
     BOOL chrome=NO, dashboard=NO;
     UIWindow *dashboardWindow=nil;
+    UIWindow *nativeBarWindow=nil;
+    CGRect barInScene=CGRectNull;
     NSUInteger inspected=0;
+    // Two passes: first find Dashboard; then measure system bar in SAME scene.
     for(UIScene *scene in UIApplication.sharedApplication.connectedScenes){
         if(![scene isKindOfClass:UIWindowScene.class] ||
            scene.activationState!=UISceneActivationStateForegroundActive)continue;
@@ -72,28 +75,66 @@ static void DFProbeNativeWorkspaceABI(void) {
         CGRect extent=ws.coordinateSpace.bounds;
         for(UIWindow *w in ws.windows){
             if(++inspected>64)break;
-            if(!w.screen || w.screen!=ws.screen || w.hidden || w.alpha<0.95)continue;
-            NSString *kind=NSStringFromClass(w.class);
-            NSString *root=NSStringFromClass(w.rootViewController.class);
-            if([root isEqual:@"DBDashboardRootViewController"] && !dashboardWindow){
-                dashboard=YES;dashboardWindow=w;
-                full=extent;
-            }
-            if([kind isEqual:@"DBDockWindow"] ||
-               [kind isEqual:@"DBStatusBarWindow"]){
-                CGRect b=[w convertRect:w.bounds toWindow:dashboardWindow];
-                if(CGRectIsNull(b) || !isfinite(b.origin.x) || !isfinite(b.origin.y))continue;
-                // Visibility is an observation, never a request to restore it.
-                if(CGRectIntersectsRect(extent,b))chrome=YES;
+            if(w.screen!=ws.screen || w.hidden || w.alpha<0.95)continue;
+            if([NSStringFromClass(w.rootViewController.class)
+                isEqual:@"DBDashboardRootViewController"]){
+                dashboardWindow=w;dashboard=YES;full=extent;break;
             }
         }
-        if(dashboard)break;
+        if(!dashboardWindow)continue;
+        // Never use convertRect:toWindow: with a nil or foreign window.
+        for(UIWindow *w in ws.windows){
+            if(w.screen!=ws.screen || w.hidden || w.alpha<0.95)continue;
+            NSString *kind=NSStringFromClass(w.class);
+            if(![kind isEqual:@"DBDockWindow"] &&
+               ![kind isEqual:@"DBStatusBarWindow"])continue;
+            CGRect frame=w.frame;
+            if(!isfinite(frame.origin.x) || !isfinite(frame.origin.y) ||
+               !isfinite(frame.size.width) || !isfinite(frame.size.height))continue;
+            CGRect visible=CGRectIntersection(extent,frame);
+            if(CGRectIsNull(visible) || CGRectIsEmpty(visible))continue;
+            chrome=YES;
+            if(!nativeBarWindow || CGRectGetWidth(visible)*CGRectGetHeight(visible)>
+               CGRectGetWidth(barInScene)*CGRectGetHeight(barInScene)){
+               nativeBarWindow=w;barInScene=visible;
+            }
+        }
+        break;
     }
     if(dashboardWindow){
         UIEdgeInsets i=dashboardWindow.safeAreaInsets;
-        if(!DFNativeSceneUsable(full,i.top,i.left,i.bottom,i.right,&usable)){
-            // An unknown safe area is NOT permission to guess Dock width.
-            usable=full;
+        CGFloat t=i.top,l=i.left,b=i.bottom,r=i.right;
+        NSString *measurement=@"dashboard-safe-area";
+        if(nativeBarWindow && !CGRectIsNull(barInScene)){
+            // Derive actual bar thickness ONLY if a visible bar touches exactly
+            // one native scene edge; never guess pixels or reposition the bar.
+            CGFloat epsilon=1.0;
+            BOOL leftEdge=fabs(CGRectGetMinX(barInScene)-CGRectGetMinX(full))<epsilon;
+            BOOL rightEdge=fabs(CGRectGetMaxX(barInScene)-CGRectGetMaxX(full))<epsilon;
+            BOOL topEdge=fabs(CGRectGetMinY(barInScene)-CGRectGetMinY(full))<epsilon;
+            BOOL bottomEdge=fabs(CGRectGetMaxY(barInScene)-CGRectGetMaxY(full))<epsilon;
+            if(CGRectGetHeight(barInScene)>full.size.height*0.65 &&
+               CGRectGetWidth(barInScene)<full.size.width*0.30 &&
+               leftEdge!=rightEdge){
+                CGFloat x=CGRectGetWidth(barInScene);
+                if(leftEdge)l=MAX(l,x);else r=MAX(r,x);
+                measurement=@"native-bar-frame-vertical";
+            }else if(CGRectGetWidth(barInScene)>full.size.width*0.65 &&
+                     CGRectGetHeight(barInScene)<full.size.height*0.30 &&
+                     topEdge!=bottomEdge){
+                CGFloat y=CGRectGetHeight(barInScene);
+                if(topEdge)t=MAX(t,y);else b=MAX(b,y);
+                measurement=@"native-bar-frame-horizontal";
+            }
+        }
+        if(!DFNativeSceneUsable(full,t,l,b,r,&usable)){
+            usable=full;measurement=@"unresolved-full-scene-no-guess";
+        }
+        if(nativeBarWindow && ![self.lastDescription containsString:@"native-bar-frame="]){
+            DFProbeLog([NSString stringWithFormat:
+                @"native-bar-frame=%@ window=%@ method=%@ safeInsets=%@",
+                NSStringFromCGRect(barInScene),NSStringFromClass(nativeBarWindow.class),
+                measurement,NSStringFromUIEdgeInsets(i)]);
         }
         NSDictionary *record=DFNativeSceneOwnerRecord(self.session,full,usable,
                               chrome,NSDate.date.timeIntervalSince1970);
@@ -108,8 +149,8 @@ static void DFProbeNativeWorkspaceABI(void) {
         if([previous[@"Session"] isEqual:self.session])
           [[NSFileManager defaultManager] removeItemAtPath:DFNativeSceneOwnerRecordPath error:nil];
     }
-    NSString *state=[NSString stringWithFormat:@"dashboard=%d nativeChrome=%d full=%@ usable=%@",
-      dashboard,chrome,NSStringFromCGRect(full),NSStringFromCGRect(usable)];
+    NSString *state=[NSString stringWithFormat:@"dashboard=%d nativeChrome=%d full=%@ usable=%@ native-bar-frame=%@",
+      dashboard,chrome,NSStringFromCGRect(full),NSStringFromCGRect(usable),NSStringFromCGRect(barInScene)];
     if(![self.lastDescription isEqual:state] || self.ticks%20==0){
         self.lastDescription=state;DFProbeLog(state);
     }
