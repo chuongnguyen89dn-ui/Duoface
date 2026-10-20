@@ -1,0 +1,176 @@
+{
+  "method": "static dpkg extraction + magic + strings only; no binary inclusion",
+  "entries": [
+    {
+      "label": "SidePlay 1.0.4",
+      "repo_path": "com.sideplay_1.0.4-1_iphoneos-arm64.deb",
+      "sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+      "control": "Package: com.sideplay\nName: SidePlay\nDescription: Split screen for CarPlay. Run any app on the car screen, one or two side by side.\nDepends: firmware (>= 15.0), mobilesubstrate, preferenceloader\nConflicts: com.cortex.carplayenable, com.pavunato.carsurf, com.bmt.dash, com.chou.googlemaps.vietmap\nMaintainer: SidePlay\nAuthor: SidePlay\nSection: Tweaks\nSileoDepiction: https://sideplay.pages.dev/depictions/com.sideplay.json\nIcon: https://sideplay.pages.dev/CydiaIcon.png\nArchitecture: iphoneos-arm64\nVersion: 1.0.4-1\nInstalled-Size: 7196",
+      "filter_plists": [],
+      "macho": [
+        {
+          "path": "var/jb/Library/PreferenceBundles/SidePlayPrefs.bundle/SidePlayPrefs",
+          "bytes": 613648,
+          "markers": [
+            "LSApplicationProxy",
+            "SpringBoard"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDRelay.dylib",
+          "bytes": 240128,
+          "markers": [
+            "SpringBoard"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDWaze.dylib",
+          "bytes": 145328,
+          "markers": [
+            "MSHookMessageEx"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlay.dylib",
+          "bytes": 899088,
+          "markers": [
+            "LSApplicationProxy",
+            "SpringBoard",
+            "CarPlayApp",
+            "MSHookMessageEx"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDVietMap.dylib",
+          "bytes": 162752,
+          "markers": [
+            "LSApplicationProxy",
+            "SpringBoard",
+            "MSHookMessageEx"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/SidePlayHUDGofa.dylib",
+          "bytes": 129936,
+          "markers": [
+            "MSHookMessageEx"
+          ]
+        },
+        {
+          "path": "var/jb/Applications/SidePlay.app/SidePlay",
+          "bytes": 178672,
+          "markers": [
+            "CPTemplateApplicationScene",
+            "SpringBoard"
+          ]
+        }
+      ],
+      "maintenance": {
+        "prerm": {
+          "chars": 530,
+          "restart_commands": false
+        },
+        "postinst": {
+          "chars": 241,
+          "restart_commands": false
+        }
+      },
+      "total_files": 139
+    },
+    {
+      "label": "DuoNavi 1.0.4",
+      "repo_path": "dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb",
+      "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+      "control": "Package: com.duonavi.app\nName: DuoNavi\nDescription: Split your screen and run apps side-by-side on Apple CarPlay.\nMaintainer: DuoNavi Team <support@duonavi.com>\nAuthor: DuoNavi Team\nSection: Tweaks\nDepends: mobilesubstrate (>= 0.9.5000), firmware (>= 13.0)\nConflicts: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13\nReplaces: oldabi, com.yourcompany.carbridgedashboard, com.bvn.carbridge13, com.leftyfl1p.carbridge13\nProvides: oldabi, com.yourcompany.carbridgedashboard, com.leftyfl1p.carbridge13\nSileoDepiction: https://repo.duonavi.com/com.duonavi.app.json\nIcon: https://duonavi.com/apple-touch-icon.png\nArchitecture: iphoneos-arm64\nVersion: 1.0.4\nInstalled-Size: 11060",
+      "filter_plists": [
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.plist",
+          "filter": {
+            "Bundles": [
+              "com.apple.CarPlayApp",
+              "com.apple.CarPlay",
+              "com.apple.dashboard",
+              "com.apple.springboard",
+              "com.apple.SpringBoard",
+              "com.google.ios.youtube",
+              "com.google.ios.youtubemusic",
+              "com.netflix.Netflix",
+              "org.videolan.vlc-ios",
+              "com.apple.mobilesafari",
+              "tv.twitch",
+              "com.zhiliaoapp.musically",
+              "com.google.Maps",
+              "com.waze.iphone",
+              "com.spotify.client",
+              "com.apple.Preferences",
+              "com.apple.mobilenotes",
+              "com.apple.mobilephone",
+              "com.apple.Music",
+              "com.google.chrome.ios",
+              "com.apple.BarcodeScanner",
+              "com.apple.PrintKit.Print-Center",
+              "com.duonavi.duonaviui"
+            ]
+          }
+        }
+      ],
+      "macho": [
+        {
+          "path": "var/jb/usr/libexec/cboptimize_helper",
+          "bytes": 150720,
+          "markers": []
+        },
+        {
+          "path": "var/jb/usr/lib/ellekit/OldABI.dylib",
+          "bytes": 67552,
+          "markers": [
+            "SpringBoard"
+          ]
+        },
+        {
+          "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+          "bytes": 7921472,
+          "markers": [
+            "CarBridge",
+            "FBSApplicationLibrary",
+            "CARApplication",
+            "_newApplicationLibrary",
+            "requestStateChange",
+            "LSApplicationProxy",
+            "SpringBoard",
+            "CarPlayApp",
+            "MSHookMessageEx",
+            "CBBridgeManager",
+            "bridgedApps",
+            "bridgeDidActivate",
+            "activateApplication"
+          ]
+        },
+        {
+          "path": "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+          "bytes": 2435008,
+          "markers": [
+            "CarBridge",
+            "SpringBoard",
+            "CarPlayApp",
+            "CBBridgeManager",
+            "bridgedApps"
+          ]
+        }
+      ],
+      "maintenance": {
+        "prerm": {
+          "chars": 634,
+          "restart_commands": false
+        },
+        "postinst": {
+          "chars": 4856,
+          "restart_commands": false
+        }
+      },
+      "total_files": 53
+    }
+  ],
+  "source_code_copied": false,
+  "installed_or_executed": false
+}
