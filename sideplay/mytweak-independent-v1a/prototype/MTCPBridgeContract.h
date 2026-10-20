@@ -26,4 +26,9 @@ FOUNDATION_EXPORT BOOL MTCPBridgeWriteReceiverAck(NSString *session, uint32_t co
     CGRect normalizedContentRect);
 FOUNDATION_EXPORT NSDictionary * _Nullable MTCPBridgeReadReceiverAck(NSString *session);
 FOUNDATION_EXPORT void MTCPBridgeInvalidateReceiverAck(NSString *session);
+// Two-process, session-bound whole-host fullscreen state. Distinct from
+// a selected split pane's native focus/zoom.
+FOUNDATION_EXPORT BOOL MTCPBridgeWriteHostFullscreen(NSString *session, BOOL fullscreen);
+FOUNDATION_EXPORT NSNumber * _Nullable MTCPBridgeReadHostFullscreen(NSString *session);
+FOUNDATION_EXPORT void MTCPBridgeInvalidateHostFullscreen(NSString *session);
 NS_ASSUME_NONNULL_END
