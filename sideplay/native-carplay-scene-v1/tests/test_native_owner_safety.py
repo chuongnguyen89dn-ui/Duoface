@@ -20,6 +20,14 @@ class NativeOwnerSafety(unittest.TestCase):
    # window.safeAreaInsets corresponds to dashboardWindow.safeAreaInsets
    if expected=='window.safeAreaInsets':expected='dashboardWindow.safeAreaInsets'
    self.assertIn(expected,c)
+  # On iOS16 the native bar is often owned by a sibling CarPlay UIWindowScene.
+  # These MUST be cross-scene measurements on the same UIScreen, not w.frame.
+  for required in ('ws.screen!=dashboardWindow.screen',
+                   'convertRect:w.bounds fromWindow:w',
+                   'CARStatusBarWindow', 'CGRectIntersection(full,converted)',
+                   'if(dashboardWindow)break;', 'nativeBarWindow=w;barInScene=visible;'):
+   self.assertIn(required,c)
+  self.assertNotIn('CGRect frame=w.frame;',c)
   for method in ('DBWorkspace', 'DBApplicationController',
                  'DBDashboardWorkspaceOwner', 'DBMutableWorkspaceStateChangeRequest',
                  'method_getTypeEncoding', 'DFProbeNativeWorkspaceABI()'):
