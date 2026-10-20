@@ -1,0 +1,126 @@
+name: DuoFace SpringBoard admission ABI observation (read-only)
+on:
+  push:
+    branches: [feature/duoface-sb-admission-probe-20261020]
+    paths:
+      - '.github/workflows/duoface-sb-admission-probe.yml'
+      - 'sideplay/springboard-admission-probe/**'
+      - 'sideplay/duoface-qa-app/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-sb-admission-probe
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce opt-in, read-only SpringBoard ABI and QA regression tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/springboard-admission-probe/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
+      - name: Install rootless Theos and packaging tools
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile SpringBoard-only diagnostic without any automatic restart
+        run: |
+          set -euo pipefail
+          cd sideplay/springboard-admission-probe
+          make clean package FINALPACKAGE=1
+          shopt -s nullglob
+          debs=(packages/*.deb)
+          test "${#debs[@]}" -eq 1
+          DEB="${debs[0]}"
+          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.carplay.sbadmissionprobe
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.1~readonly1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/sb-admission-probe1"
+          mkdir -p "$OUT" "$RUNNER_TEMP/sb-readonly-extract"
+          dpkg-deb -c "$DEB" | tee "$OUT/FILE_LIST.txt"
+          test "$(grep -c '^-' "$OUT/FILE_LIST.txt")" -eq 2
+          grep -F '/DFReadOnlySBAdmissionProbe.dylib' "$OUT/FILE_LIST.txt"
+          grep -F '/DFReadOnlySBAdmissionProbe.plist' "$OUT/FILE_LIST.txt"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/sb-readonly-extract"
+          FILTER="$(find "$RUNNER_TEMP/sb-readonly-extract" -name DFReadOnlySBAdmissionProbe.plist -print -quit)"
+          test -n "$FILTER"
+          FILTER="$FILTER" python3 - <<'PY'
+          import os,plistlib
+          with open(os.environ['FILTER'],'rb') as f: p=plistlib.load(f)
+          assert p['Filter']['Executables']==['SpringBoard'],p
+          print('SPRINGBOARD_EXCLUSIVE_PROCESS_FILTER_PASS')
+          PY
+          cp "$DEB" "$OUT/"
+          (cd "$OUT" && shasum -a 256 "$(basename "$DEB")" > SHA256SUMS.txt)
+          {
+            echo "SB_ABI_READONLY_SOURCE_AND_BUILD=PASS"
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "CHECKED_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "SB_PACKAGE=$(basename "$DEB")"
+            echo "SB_SHA256=$(shasum -a 256 "$DEB" | awk '{print $1}')"
+            echo "SB_BYTES=$(wc -c < "$DEB" | tr -d ' ')"
+            echo "SB_FILTER_SPRINGBOARD_ONLY=true"
+            echo "DEFAULT_OPT_IN=false"
+            echo "ENTITLEMENT_OVERRIDES=false"
+            echo "PRIVATE_GETTER_CALLS=false"
+            echo "AUTO_RESPRING=false"
+            echo "ADMISSION_IMPLEMENTED=false"
+            echo "NATIVE_HOST_CARPLAY_ADMITTED=false"
+            echo "DEVICE_TESTED=false"
+            echo "SILEO_PUBLISHED=false"
+          } > "$OUT/CI_RESULT.txt"
+      - name: Build actual iPhone control app v0.1.2 with one-shot ABI button
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-qa-app/build.sh 2>&1 | tee "$RUNNER_TEMP/sb-qa-build.log"
+          DEB="sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.2~sbgate1_iphoneos-arm64.deb"
+          test -s "$DEB"
+          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.qa.controlapp
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.1.2~sbgate1'
+          dpkg-deb -f "$DEB" Depends | grep -F 'com.duoface.carplay.sbadmissionprobe (>= 0.0.1~readonly1)'
+          mkdir -p "$RUNNER_TEMP/sb-qa-extract"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/sb-qa-extract"
+          test -s "$RUNNER_TEMP/sb-qa-extract/var/jb/Applications/DuoFaceQA.app/DuoFaceQA"
+          ldid -e "$RUNNER_TEMP/sb-qa-extract/var/jb/Applications/DuoFaceQA.app/DuoFaceQA" | grep -F 'com.apple.private.security.no-container'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/sb-admission-probe1"
+          cp "$DEB" "$OUT/"
+          cp "$RUNNER_TEMP/sb-qa-build.log" "$OUT/IPHONE_QA_BUILD.log"
+          (cd "$OUT" && shasum -a 256 "$(basename "$DEB")" >> SHA256SUMS.txt)
+          echo "IPHONE_QA_APP_VERSION=0.1.2~sbgate1" >> "$OUT/CI_RESULT.txt"
+          echo "IPHONE_QA_APP_BUILD=PASS" >> "$OUT/CI_RESULT.txt"
+          echo "IPHONE_QA_APP_SHA256=$(shasum -a 256 "$DEB" | awk '{print $1}')" >> "$OUT/CI_RESULT.txt"
+      - name: Attach candidate packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: duo-sb-admission-readonly-${{ github.run_id }}
+          path: sideplay/test-artifacts/sb-admission-probe1/
+          if-no-files-found: error
+      - name: Save complete reproducible artifacts to isolated GitHub branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-sb-admission-probe-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/sb-admission-probe1/
+          git commit -m 'artifacts: SpringBoard readonly ABI + phone QA 0.1.2 [skip ci]'
+          for attempt in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git show "origin/$BRANCH:sideplay/test-artifacts/sb-admission-probe1/CI_RESULT.txt" | grep -F 'SB_ABI_READONLY_SOURCE_AND_BUILD=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
