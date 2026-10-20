@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import <fcntl.h>
 #import <unistd.h>
 #import <math.h>
@@ -45,6 +46,45 @@ static void DFFinish(NSString *state,NSString *details,NSString *requestID) {
     DFLog([NSString stringWithFormat:@"result state=%@ statusWritten=%d request=%@ %@",
         state,wrote,requestID?:@"-",details?:@""]);
 }
+
+// Runs ONLY after the existing one-shot request has been validated and disarmed.
+// Reads a single own-bundle proxy, original selectors only; no hooks or LS writes.
+static NSString *DFTargetReadOnlySummary(void) {
+    Class app=NSClassFromString(@"LSApplicationProxy");
+    SEL lookup=sel_registerName("applicationProxyForIdentifier:");
+    NSString *abi=DFEncoding(app,lookup,YES);
+    if(![abi isEqualToString:@"@24@0:8@16"])return [NSString stringWithFormat:@"target-skipped lookup-ABI=%@",abi];
+    Method m=class_getClassMethod(app,lookup);
+    if(!m)return @"target-skipped class-selector-unavailable";
+    id proxy=((id(*)(id,SEL,id))method_getImplementation(m))(app,lookup,@"com.duoface.native.scenehost");
+    if(!proxy)return @"target-absent SpringBoard LSApplicationProxy";
+    SEL bid=sel_registerName("bundleIdentifier");
+    if(![proxy respondsToSelector:bid])return @"target-skipped missing bundleIdentifier";
+    id actual=((id(*)(id,SEL))objc_msgSend)(proxy,bid);
+    if(![actual isKindOfClass:NSString.class] ||
+       ![actual isEqualToString:@"com.duoface.native.scenehost"])
+       return @"target-skipped wrong bundleID";
+    NSString *typedABI=DFEncoding([proxy class],
+          sel_registerName("entitlementValueForKey:ofClass:valuesOfClass:"),NO);
+    if(![typedABI isEqualToString:@"@40@0:8@16#24#32"])
+      return [NSString stringWithFormat:@"target-found typed3-ABI=%@ NO PRIVATE GETTER CALLED",typedABI];
+    SEL selector=sel_registerName("entitlementValueForKey:ofClass:valuesOfClass:");
+    Method getter=class_getInstanceMethod([proxy class],selector);
+    if(!getter)return @"target-found getter-missing";
+    IMP original=method_getImplementation(getter);
+    if(!original)return @"target-found getter-IMP-missing";
+    NSMutableArray *results=[NSMutableArray array];
+    for(NSString *key in @[@"CARCapableApp",@"SBStarkCapable"]) {
+        id value=((id(*)(id,SEL,id,Class,Class))original)(
+           proxy,selector,key,NSNumber.class,NSNumber.class);
+        [results addObject:[NSString stringWithFormat:@"%@=%@",key,
+          value?NSStringFromClass([value class]):@"nil"]];
+    }
+    return [NSString stringWithFormat:
+       @"target-found process=SpringBoard pid=%d wall=%.3f uptime=%.3f typed3ABI=%@ classes=%@ cached-values-origin=UNKNOWN (not Dashboard membership)",
+       getpid(),NSDate.date.timeIntervalSince1970,NSProcessInfo.processInfo.systemUptime,
+       typedABI,[results componentsJoinedByString:@","]];
+}
 static void DFReadOnlyInventory(NSString *requestID) {
     Class fbs=NSClassFromString(@"FBSApplicationInfo");
     Class cached=NSClassFromString(@"LSBundleInfoCachedValues");
@@ -70,6 +110,11 @@ static void DFReadOnlyInventory(NSString *requestID) {
        DFClassName(appProxy),
        DFEncoding(appProxy,NSSelectorFromString(@"applicationProxyForIdentifier:"),YES),
        DFClassName(carApp),DFClassName(dbWorkspace)];
+    NSDictionary *request=[NSDictionary dictionaryWithContentsOfFile:DFRequestPath];
+    if([request[@"Kind"] isEqualToString:@"consolidated-target"]) {
+        NSString *summary=DFTargetReadOnlySummary();
+        details=[NSString stringWithFormat:@"%@ | %@",details,summary];
+    }
     DFFinish(@"complete",details,requestID);
 }
 static void DFRunOnce(void) {

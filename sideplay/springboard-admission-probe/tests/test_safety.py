@@ -7,7 +7,7 @@ class SBProbeSafety(unittest.TestCase):
   self.assertEqual(x["Filter"]["Executables"],["SpringBoard"])
   c=read("control")
   self.assertIn("Package: com.duoface.carplay.sbadmissionprobe",c)
-  self.assertIn("0.0.1~readonly1",c)
+  self.assertIn("0.0.2~target1",c)
   for forbidden in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(forbidden,c)
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
@@ -19,7 +19,7 @@ class SBProbeSafety(unittest.TestCase):
                "objectForInfoDictionaryKey:ofClass:"):
    self.assertIn(item,m)
   for bad in ("%hook","MSHookMessageEx","method_setImplementation","method_exchangeImplementations",
-              "objc_msgSend","objc_addLoadImageFunc","_dyld_register_func_for_add_image",
+              "objc_addLoadImageFunc","_dyld_register_func_for_add_image",
               "windowLevel", "UIRootSceneWindow","SBAppViewController","sbreload",
               "entitlementValueForKey3(", "applicationProxyForIdentifier:)",
               "launchctl","killall","CARApplicationController"):
@@ -33,6 +33,14 @@ class SBProbeSafety(unittest.TestCase):
   self.assertIn("if(![off writeToFile:DFRequestPath atomically:YES])",m)
   self.assertIn("DuoFaceSBAdmissionProbe.log",m)
   self.assertIn("springboard-admission-readonly",m)
+  self.assertIn('request[@"Kind"] isEqualToString:@"consolidated-target"',m)
+  self.assertIn('com.duoface.native.scenehost',m)
+  self.assertIn('age>30',m)
+  self.assertIn('cached-values-origin=UNKNOWN',m)
+  self.assertIn('method_getImplementation',m)
+  self.assertIn('original)(\n           proxy,selector,key,NSNumber.class,NSNumber.class)',m)
+  self.assertNotIn("MSHookMessageEx",m)
+  self.assertNotIn("method_setImplementation",m)
   self.assertIn("RequestID",m)
  def test_theos_rootless_safe(self):
   s=read("Makefile")

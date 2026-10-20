@@ -21,6 +21,12 @@ static CFStringRef const DFRefreshSignal=CFSTR("com.duoface.firstparty-admission
 static CFStringRef const DFRosterSignal=CFSTR("com.duoface.firstparty-admission.roster-readonly");
 static NSString *const DFRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.firstparty-roster.request.plist";
 static NSString *DFLastRosterRequestID=nil;
+// The diagnostic borrows the EXISTING two typed hooks. No extra method hook.
+static NSString *const DFTraceRequest=@"/var/mobile/Library/Preferences/com.duoface.admission-trace.request.plist";
+static NSString *const DFTraceLogFile=@"/var/mobile/Library/Logs/DuoFaceAdmissionTrace.log";
+static const char *DFTraceDisable="/var/mobile/Library/Preferences/.duoface-admission-trace-disable";
+static volatile int DFTraceSamples=0;
+static NSString *DFTraceRunID=nil;
 
 static void DFLog(NSString *message) {
     NSString *s=[NSString stringWithFormat:@"[DFAdmission/CarPlay] %@\n",message];
@@ -56,9 +62,64 @@ static BOOL DFEligible(id proxy, id key, Class expected, Class valuesExpected) {
         return [name isKindOfClass:NSString.class] && [name isEqualToString:DFHostID];
     } @catch(NSException *e) { return NO; }
 }
+
+static NSDictionary *DFTraceActiveRequest(void) {
+    if(access(DFDisable,F_OK)==0 || access(DFTraceDisable,F_OK)==0)return nil;
+    NSDictionary *r=[NSDictionary dictionaryWithContentsOfFile:DFTraceRequest];
+    if(![r isKindOfClass:NSDictionary.class] ||
+       ![r[@"Enabled"] isKindOfClass:NSNumber.class] || ![r[@"Enabled"] boolValue] ||
+       ![r[@"AuditOnly"] isKindOfClass:NSNumber.class] || ![r[@"AuditOnly"] boolValue] ||
+       ![r[@"HostBundleID"] isEqualToString:DFHostID] ||
+       ![r[@"RequestID"] isKindOfClass:NSString.class] ||
+       ![[NSUUID alloc] initWithUUIDString:r[@"RequestID"]] ||
+       ![r[@"RequestAt"] isKindOfClass:NSNumber.class])return nil;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[r[@"RequestAt"] doubleValue];
+    return age>=0 && age<=180 ? r : nil;
+}
+static BOOL DFTraceOwnBundle(id proxy) {
+    @try {
+        SEL s=sel_registerName("bundleIdentifier");
+        if(![proxy respondsToSelector:s])return NO;
+        id bundle=((id(*)(id,SEL))objc_msgSend)(proxy,s);
+        return [bundle isKindOfClass:NSString.class] && [bundle isEqualToString:DFHostID];
+    } @catch(NSException *exception) {return NO;}
+}
+static NSString *DFTraceClass(Class c) {return c?NSStringFromClass(c):@"nil";}
+static void DFTraceLog(NSString *s) {
+    NSString *line=[NSString stringWithFormat:@"[DFTrace] wall=%.3f uptime=%.3f pid=%d %@\n",
+        NSDate.date.timeIntervalSince1970,NSProcessInfo.processInfo.systemUptime,getpid(),s];
+    int fd=open(DFTraceLogFile.fileSystemRepresentation,O_WRONLY|O_CREAT|O_APPEND,0644);
+    if(fd>=0){NSData *d=[line dataUsingEncoding:NSUTF8StringEncoding];
+       if(d.length)(void)write(fd,d.bytes,d.length);close(fd);}
+}
+static BOOL DFTraceObserve(id proxy,id key,Class expected,Class valuesExpected,id real,NSString *selector) {
+    // Diagnostic never logs unrelated app IDs, methods or any personal data.
+    if(!DFTraceOwnBundle(proxy))return NO;
+    NSDictionary *request=DFTraceActiveRequest();
+    if(!request)return NO;
+    NSString *run=request[@"RequestID"];
+    @synchronized(DFHostID){
+        if(![DFTraceRunID isEqualToString:run]){DFTraceRunID=[run copy];DFTraceSamples=0;}
+        if(DFTraceSamples>=16)return YES; // AuditOnly pass-through, even after log cap.
+        DFTraceSamples++;
+        NSString *keyName=[key isKindOfClass:NSString.class]?key:@"non-string";
+        NSString *kind=real?NSStringFromClass([real class]):@"nil";
+        DFTraceLog([NSString stringWithFormat:
+            @"run=%@ sample=%d/16 selector=%@ key=%@ expected=%@ valuesExpected=%@ originalClass=%@ originalNil=%d auditOnly=true",
+            run,DFTraceSamples,selector,keyName,DFTraceClass(expected),
+            DFTraceClass(valuesExpected),kind,real==nil]);
+        if(DFTraceSamples>=16){
+            NSMutableDictionary *off=[request mutableCopy];off[@"Enabled"]=@NO;
+            BOOL saved=[off writeToFile:DFTraceRequest atomically:YES];
+            DFTraceLog([NSString stringWithFormat:@"run=%@ completed cap=16 disabled=%d",run,saved]);
+        }
+    }
+    return YES;
+}
 static id DFEntitlement3(id proxy, SEL sel, id key, Class expected, Class valueClass) {
     if(!DFOriginal3)return nil; // Hook original missing: fail closed, never dereference NULL.
     id real=DFOriginal3(proxy,sel,key,expected,valueClass);
+    if(DFTraceObserve(proxy,key,expected,valueClass,real,@"typed3"))return real;
     if(real)return real;
     if(!DFEligible(proxy,key,expected,valueClass))return real;
     DFLog([NSString stringWithFormat:@"bundle=%@ selector=typed3 key=%@ original=nil result=number",DFHostID,key]);
@@ -67,6 +128,7 @@ static id DFEntitlement3(id proxy, SEL sel, id key, Class expected, Class valueC
 static id DFEntitlement2(id proxy, SEL sel, id key, Class expected) {
     if(!DFOriginal2)return nil;
     id real=DFOriginal2(proxy,sel,key,expected);
+    if(DFTraceObserve(proxy,key,expected,Nil,real,@"typed2"))return real;
     if(real)return real;
     if(!DFEligible(proxy,key,expected,Nil))return real;
     DFLog([NSString stringWithFormat:@"bundle=%@ selector=typed2 key=%@ original=nil result=number",DFHostID,key]);
@@ -106,6 +168,7 @@ static void DFCheckConsentAndArm(NSString *reason) {
     hook(c,s2,(IMP)DFEntitlement2,(IMP *)&DFOriginal2);
     if(!DFOriginal2){DFLog(@"hook original2 unavailable; no capability granted");return;}
     DFHooksInstalled=YES;
+    if(DFTraceActiveRequest())DFTraceLog([NSString stringWithFormat:@"run=%@ hook-ready via=%@ (not proof of library filter order)",DFTraceActiveRequest()[@"RequestID"],reason]);
     DFLog([NSString stringWithFormat:@"opt-in two typed getters armed via %@; only first-party bundle; no SpringBoard hook",reason]);
 }
 static void DFRefreshCallback(CFNotificationCenterRef center,void *observer,
@@ -198,6 +261,7 @@ __attribute__((constructor)) static void DFAdmissionEntry(void) {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
             NULL,DFRosterCallback,DFRosterSignal,NULL,
             CFNotificationSuspensionBehaviorDeliverImmediately);
+        if(DFTraceActiveRequest())DFTraceLog([NSString stringWithFormat:@"run=%@ module-constructor process=CarPlay (library timing unknown)",DFTraceActiveRequest()[@"RequestID"]]);
         DFLog(@"loaded: consent + one-shot roster observer registered (no implicit entitlement change)");
         dispatch_async(dispatch_get_main_queue(), ^{DFCheckConsentAndArm(@"startup");});
     }

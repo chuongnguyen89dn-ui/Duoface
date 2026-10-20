@@ -28,9 +28,21 @@ class CandidateSafety(unittest.TestCase):
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
   self.assertIn("INSTALL_TARGET_PROCESSES =",read("Makefile"))
-  self.assertIn("Version: 0.0.3~roster1",c)
+  self.assertIn("Version: 0.0.4~trace1",c)
   self.assertIn("if(!DFOriginal3)return nil;",read("DFFirstPartyAdmission.m"))
   self.assertIn("if(!DFOriginal2)return nil;",read("DFFirstPartyAdmission.m"))
+ def test_diagnostic_pass_through_and_bounded(self):
+  s=read("DFFirstPartyAdmission.m")
+  for value in ('DFTraceObserve(proxy,key,expected,valueClass,real,@"typed3"))return real;',
+                'DFTraceObserve(proxy,key,expected,Nil,real,@"typed2"))return real;',
+                'DFTraceOwnBundle(proxy)','DFTraceActiveRequest()',
+                'age<=180','DFTraceSamples>=16','off[@"Enabled"]=@NO',
+                'originalClass=%@','valuesExpected=%@','auditOnly=true',
+                'DuoFaceAdmissionTrace.log','DFTraceDisable'):
+   self.assertIn(value,s)
+  self.assertEqual(s.count('hook(c,s3,'),1)
+  self.assertEqual(s.count('hook(c,s2,'),1)
+  self.assertNotIn('hook(cached',s)
  def test_roster_probe_is_readonly_one_shot(self):
   s=read("DFFirstPartyAdmission.m")
   for key in ('roster-readonly','DFRosterSignal','DFLastRosterRequestID',
