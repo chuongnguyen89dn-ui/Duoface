@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in remove|deconfigure) ;; *) exit 0;; esac
+# This package does NOT uninstall either native QA bridge or V1BC core.
+# Disable only QA runtime preference before removing the interface.
+TARGET=/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist
+# Do not mutate user preferences in a maintainer script; the app has a Stop button.
+APP=/var/jb/Applications/DuoFaceQA.app
+for BIN in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$BIN" ]; then "$BIN" -u "$APP" || true; break; fi
+done
+exit 0
