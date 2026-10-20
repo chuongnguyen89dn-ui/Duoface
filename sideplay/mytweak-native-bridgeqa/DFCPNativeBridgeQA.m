@@ -80,7 +80,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.timer || !NSThread.isMainThread)return;
     NSString *process=NSProcessInfo.processInfo.processName;
     if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:process])return;
-    DFQAWrite(@"start",@"version=0.0.4~nativegeometry1; normal=dynamic-insets; fullscreen=screen-bounds; no-automatic-UI");
+    DFQAWrite(@"start",@"version=0.0.5~controlapp1; normal=dynamic-insets; fullscreen=screen-bounds; no-automatic-UI");
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
@@ -101,6 +101,13 @@ static BOOL DFQAValidRoot(UIViewController *root) {
         DFQAWrite(@"whole-host-geometry-command-rejected",@"live session required");
         return;
     }
+    // Reflect remote Zoom back to the iPhone control app. The app is only
+    // another user-authorized writer; the SpringBoard owner still owns scene.
+    NSString *prefs=@"/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist";
+    NSMutableDictionary *cfg=[[NSDictionary dictionaryWithContentsOfFile:prefs] mutableCopy];
+    if (!cfg)cfg=[NSMutableDictionary new];
+    cfg[@"HostFullscreen"]=@(next);
+    [cfg writeToFile:prefs atomically:YES];
     self.wholeHostFullscreen=next;
     DFQAWrite(@"whole-host-geometry-request",
        next?@"fullscreen-content+hide-native-chrome":@"normal-content+restore-native-chrome");
@@ -298,6 +305,17 @@ static BOOL DFQAValidRoot(UIViewController *root) {
             [self stopPublisher];
             return;
         }
+    }
+    // The visible DuoFace QA iPhone app sets Desired HostFullscreen in the
+    // same preferences. Read it once per tick and send the existing session
+    // lease to the Dashboard owner. Never reinterpret per-slot Zoom as host.
+    id requested=[NSDictionary dictionaryWithContentsOfFile:
+         @"/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist"][@"HostFullscreen"];
+    if([requested isKindOfClass:NSNumber.class] &&
+       self.wholeHostFullscreen!=[requested boolValue]) {
+        self.wholeHostFullscreen=[requested boolValue];
+        DFQAWrite(@"qa-control-app-fullscreen-mode",
+            self.wholeHostFullscreen?@"full-screen-requested":@"normal-requested");
     }
     if(self.publisher.session &&
        !MTCPBridgeWriteHostFullscreen(self.publisher.session,self.wholeHostFullscreen) &&
