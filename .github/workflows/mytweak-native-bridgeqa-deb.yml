@@ -1,7 +1,7 @@
-name: DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)
+name: DuoFace QA6 Live Window Dock Crop Candidate (opt-in)
 on:
   push:
-    branches: [feature/mytweak-native-dashboard-owner-20261019]
+    branches: [feature/duoface-dock-crop-livewindow-20261020]
     paths:
       - '.github/workflows/mytweak-native-bridgeqa-deb.yml'
       - 'sideplay/mytweak-native-bridgeqa/**'
@@ -10,7 +10,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: duoface-native-bridgeqa-build
+  group: duoface-dock-crop-livewindow-build
   cancel-in-progress: true
 jobs:
   build:
@@ -50,7 +50,7 @@ jobs:
           test "${#debs[@]}" = 1
           DEB="${debs[0]}"
           test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.carplay.nativebridgeqa'
-          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.4~nativegeometry1'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.6~dockcrop1'
           test "$(dpkg-deb -f "$DEB" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$DEB" > "$RUNNER_TEMP/nativebridgeqa-content.txt"
           grep -F '/DFNativeDashboardBridgeQA.dylib' "$RUNNER_TEMP/nativebridgeqa-content.txt"
@@ -66,7 +66,7 @@ jobs:
           assert p['Filter']['Executables']==['SpringBoard','CarPlay','CarPlayApp'],p
           print('EXACT_PROCESS_FILTER_PASS')
           PY
-          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa4"
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/mytweak-native-bridgeqa6"
           mkdir -p "$OUT"
           cp "$DEB" "$OUT/"
           cp "$RUNNER_TEMP/nativebridgeqa-content.txt" "$OUT/FILE_LIST.txt"
@@ -85,38 +85,38 @@ jobs:
              echo NATIVE_BAR_TRIAL_THIRD_OPTIN_REQUIRED=true
              echo NATIVE_BAR_TRIAL_MAX_SECONDS=45
              echo ORIGINAL_V1BC_REPLACED=false
-             echo SOURCE_WINDOW_YIELD_ONLY_AFTER_NATIVE_ACK=true
-             echo SOURCE_WINDOW_YIELD_MAX_SECONDS=45
+             echo SOURCE_WINDOW_CROP_ONLY_AFTER_NATIVE_ACK=true
+             echo SOURCE_WINDOW_CROP_MAX_SECONDS=45
              echo NATIVE12_NORMAL_DYNAMIC_INSETS=true
              echo NATIVE12_WHOLE_HOST_FULLSCREEN_ZERO_INSETS=true
              echo NATIVE12_NORMAL_CHROME_SNAPSHOT_RESTORE=true
              echo PER_SLOT_ZOOM_CODE_CHANGED=false
              echo REAL_NATIVE_DOCK_VISIBLE_UNVERIFIED=true
              echo DOCK_RESTORED_ON_DEVICE=false
-             echo LIVE_IPHONE_APP_GESTURES_IMPLEMENTED=false
+             echo SOURCE_APP_GESTURES_PRESERVED_BY_ORIGINAL_WINDOW=UNVERIFIED
              echo HARDWARE_TESTED=false
              echo SILEO_PUBLISHED=false
           } > "$OUT/CI_RESULT.txt"
       - name: Upload build QA
         uses: actions/upload-artifact@v4
         with:
-          name: duoFace-native-dashboard-bridgeqa1-${{ github.run_id }}
-          path: sideplay/test-artifacts/mytweak-native-bridgeqa4/
+          name: duoFace-livewindow-dockcrop6-${{ github.run_id }}
+          path: sideplay/test-artifacts/mytweak-native-bridgeqa6/
           if-no-files-found: error
       - name: Persist isolated QA build to GitHub
         run: |
           set -euo pipefail
-          BRANCH=feature/mytweak-native-dashboard-owner-20261019
+          BRANCH=feature/duoface-dock-crop-livewindow-20261020
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sideplay/test-artifacts/mytweak-native-bridgeqa4/
+          git add sideplay/test-artifacts/mytweak-native-bridgeqa6/
           git commit -m 'artifacts: independent native Dashboard QA DEB [skip ci]'
           for attempt in 1 2 3 4 5; do
              git fetch origin "$BRANCH"
              git rebase "origin/$BRANCH"
              if git push origin HEAD:"$BRANCH"; then
                 git fetch origin "$BRANCH"
-                git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-bridgeqa4/CI_RESULT.txt" | grep -F 'NATIVE_BRIDGE_QA_BUILD=PASS'
+                git show "origin/$BRANCH:sideplay/test-artifacts/mytweak-native-bridgeqa6/CI_RESULT.txt" | grep -F 'NATIVE_BRIDGE_QA_BUILD=PASS'
                 exit 0
              fi
              sleep 2
