@@ -5,6 +5,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
+#import <notify.h>
+#import <math.h>
 #import "../mytweak-independent-v1a/prototype/MTCPBridgeContract.h"
 
 @interface DFNativeHostSurfaceView : UIView
@@ -16,13 +18,16 @@
 @property(nonatomic,strong) CALayer *remote;
 @property(nonatomic,copy) NSString *session;
 @property(nonatomic) uint32_t contextID;
+@property(nonatomic,weak) UITouch *activeTouch;
+@property(nonatomic) unsigned long long commandSequence;
+@property(nonatomic) NSTimeInterval lastMoveAt;
 @end
 @implementation DFNativeHostSurfaceView
 - (instancetype)initWithFrame:(CGRect)frame {
     if((self=[super initWithFrame:frame])) {
         self.opaque=NO;
         self.backgroundColor=UIColor.clearColor;
-        self.userInteractionEnabled=NO; // No unverified touch replay.
+        self.userInteractionEnabled=YES; // Sends session-bound intent only, never synthesizes UIKit app touches.
         self.layer.masksToBounds=YES;
     }
     return self;
@@ -44,6 +49,8 @@
         NSLog(@"[DuoFaceNativeHost] native-content-lease-ended");
     }
     self.session=nil;self.contextID=0;
+    self.activeTouch=nil;self.commandSequence=0;
+    self.lastMoveAt=0;
 }
 - (void)refresh:(NSTimer *)timer {
     (void)timer;
@@ -75,6 +82,7 @@
             self.remote=layer;
             self.session=[session copy];
             self.contextID=cid;
+            self.commandSequence=0;self.lastMoveAt=0;
             NSLog(@"[DuoFaceNativeHost] native-content-context-attached (not CarPlay app admission)");
         } @catch(NSException *e) {
             NSLog(@"[DuoFaceNativeHost] native-content-context-failed %@",e.name);
@@ -86,6 +94,56 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.remote.frame=self.bounds;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    // Do not swallow native CarPlay input if there is no active, consented
+    // visual source. The native status bar/Dock remain owned by iOS.
+    if(!self.remote || !self.session || ![self hasSystemOwnedCarPlayWindow] ||
+       !MTCPBridgeExplicitOptIn())return NO;
+    return [super pointInside:point withEvent:event];
+}
+- (void)relayTouch:(UITouch *)touch phase:(NSString *)phase {
+    if(!touch || !self.remote || !self.session ||
+       ![self hasSystemOwnedCarPlayWindow] || !MTCPBridgeExplicitOptIn() ||
+       !MTCPBridgeReadSurface(self.session) || CGRectIsEmpty(self.bounds))return;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if([phase isEqualToString:@"move"] && now-self.lastMoveAt<1.0/60.0)return;
+    if([phase isEqualToString:@"move"])self.lastMoveAt=now;
+    CGPoint pt=[touch locationInView:self];
+    double x=pt.x/CGRectGetWidth(self.bounds);
+    double y=pt.y/CGRectGetHeight(self.bounds);
+    if(!isfinite(x) || !isfinite(y))return;
+    CGPoint normalized=CGPointMake(fmax(0.0,fmin(1.0,x)),fmax(0.0,fmin(1.0,y)));
+    // SpringBoard's current DFCPNativeBridgeQA.deliverPacket: explicitly
+    // accepts only its own menu UIButtons, NEVER arbitrary app touch replay.
+    if(MTCPBridgeWriteCommand(self.session,@"pointer",++self.commandSequence,phase,normalized))
+        notify_post("com.duoface.mytweak.cp-command");
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.activeTouch || touches.count!=1)return;
+    self.activeTouch=touches.anyObject;
+    [self relayTouch:self.activeTouch phase:@"begin"];
+}
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.activeTouch && [touches containsObject:self.activeTouch])
+        [self relayTouch:self.activeTouch phase:@"move"];
+}
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.activeTouch && [touches containsObject:self.activeTouch]) {
+        [self relayTouch:self.activeTouch phase:@"end"];
+        self.activeTouch=nil;
+    }
+}
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.activeTouch && [touches containsObject:self.activeTouch]) {
+        [self relayTouch:self.activeTouch phase:@"cancel"];
+        self.activeTouch=nil;
+    }
 }
 - (void)start {
     if(self.lease || !NSThread.isMainThread || ![self hasSystemOwnedCarPlayWindow])
