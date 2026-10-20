@@ -1,0 +1,86 @@
+name: DuoFace firstparty CarPlay admission candidate (NOT publish)
+on:
+  push:
+    branches: [feature/duoface-firstparty-carplay-admission-20261020]
+    paths:
+      - '.github/workflows/duoface-firstparty-admission-gate.yml'
+      - 'sideplay/firstparty-carplay-admission/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duo-firstparty-admission
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify isolated fail-closed gate
+        run: python3 -m unittest discover -s sideplay/firstparty-carplay-admission/tests -p 'test_*.py' -v
+      - name: Prepare rootless Theos
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Compile candidate in quarantine
+        run: |
+          set -euo pipefail
+          cd sideplay/firstparty-carplay-admission
+          make clean package FINALPACKAGE=1
+          FILE="packages/com.duoface.carplay.firstpartyadmission_0.0.1~candidate1_iphoneos-arm64.deb"
+          test -s "$FILE"
+          test "$(dpkg-deb -f "$FILE" Package)" = 'com.duoface.carplay.firstpartyadmission'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.1~candidate1'
+          ! dpkg-deb -f "$FILE" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/df-extract"
+          dpkg-deb -x "$FILE" "$RUNNER_TEMP/df-extract"
+          FILTER="$(find "$RUNNER_TEMP/df-extract" -name DFFirstPartyAdmission.plist -print -quit)"
+          test -n "$FILTER"
+          FILTER="$FILTER" python3 - <<'PY'
+          import os,plistlib
+          with open(os.environ['FILTER'],'rb') as f: d=plistlib.load(f)
+          assert d['Filter']['Executables']==['CarPlay'],d
+          print('CARPLAY_ONLY_FILTER_PASS')
+          PY
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/firstparty-admission-candidate1"
+          mkdir -p "$OUT"
+          cp "$FILE" "$OUT/"
+          (cd "$OUT" && shasum -a 256 "$(basename "$FILE")" > SHA256SUMS.txt)
+          {
+            echo "FIRSTPARTY_ADMISSION_CANDIDATE_SOURCE_BUILD=PASS"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "PACKAGE=$(basename "$FILE")"
+            echo "CARPLAY_ONLY=true"
+            echo "SPRINGBOARD_INJECTION=false"
+            echo "DEFAULT_OFF=true"
+            echo "BUNDLE_ALLOWLIST=com.duoface.native.scenehost"
+            echo "APP_ADMISSION_DEVICE_TESTED=false"
+            echo "SILEO_PUBLISHED=false"
+            echo "HOST_APP_PUBLISHED=false"
+          } > "$OUT/CI_RESULT.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duo-firstparty-admission-candidate-${{ github.run_id }}
+          path: sideplay/test-artifacts/firstparty-admission-candidate1/
+          if-no-files-found: error
+      - name: Save build artifacts to feature branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-firstparty-carplay-admission-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/test-artifacts/firstparty-admission-candidate1/
+          git commit -m 'artifacts: first-party admission candidate quarantined [skip ci]'
+          for i in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then exit 0; fi
+            sleep 2
+          done
+          exit 1
