@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in configure) ;; *) exit 0;; esac
+# Register ONLY the app icon. Never respring or enable dangerous QA flags.
+APP=/var/jb/Applications/DuoFaceQA.app
+if [ ! -d "$APP" ]; then echo "DuoFace QA: missing app bundle" >&2; exit 1; fi
+for BIN in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$BIN" ]; then "$BIN" -p "$APP" || echo "DuoFace QA: icon cache update requires manual retry" >&2; exit 0; fi
+done
+echo 'DuoFace QA: uicache unavailable; app files installed but icon registration unconfirmed' >&2
+exit 0
