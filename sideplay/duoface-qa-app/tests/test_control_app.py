@@ -39,7 +39,7 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertIn("DFLastLines(DFSBLog,120)",s)
   self.assertIn("com.duoface.native-scene-owner.v1.plist",s)
   self.assertIn('self.nativeSceneLabel.text',s)
-  self.assertIn('DFLastLines(DFSceneProbeLog,350)',s)
+  self.assertIn('DFLastLines(DFSceneProbeLog,120)',s)
   self.assertIn("Không ghi được",s)
   self.assertIn("ACK không phải",s)
   for forbidden in ("system(","execv(","LSBundleProxy",
