@@ -21,6 +21,6 @@ chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/prerm"
 plutil -lint "$APP/Info.plist"
 xcrun codesign -d --entitlements :- "$APP/DuoFaceQA" > "$ROOT/packages/ENTITLEMENTS_VERIFIED.plist" 2>&1 || \
   ldid -e "$APP/DuoFaceQA" > "$ROOT/packages/ENTITLEMENTS_VERIFIED.plist"
-OUT="$ROOT/packages/com.duoface.qa.controlapp_0.1.0~app1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.qa.controlapp_0.1.1~nativeprobe1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
