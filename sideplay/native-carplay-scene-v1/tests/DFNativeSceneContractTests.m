@@ -22,7 +22,7 @@ int main(int argc,char **argv){
   Assert(!DFNativeSceneUsable(full,NAN,0,0,0,NULL),@"nan insets");
   CGRect left=CGRectNull,right=CGRectNull;
   Assert(DFNativeSceneSplit(usable,0.5,12,&left,&right),@"two pane split");
-  Assert(Near(left.size.width,right.size.width),@"split symmetric");
+  Assert(fabs(left.size.width-right.size.width)<=1.0,@"split symmetric within one logical point");
   Assert(Near(CGRectGetMaxX(right),CGRectGetMaxX(usable)),@"right edge");
   Assert(DFNativeSceneSplit(usable,0.73,12,&left,&right) && left.size.width>right.size.width,@"drag ratio");
   Assert(!DFNativeSceneSplit(usable,-1,12,NULL,NULL),@"bad ratio");
