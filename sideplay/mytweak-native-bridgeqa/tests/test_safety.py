@@ -8,7 +8,7 @@ class Safety(unittest.TestCase):
     def test_standalone_and_disabled_by_default(self):
         c=read("control")
         self.assertIn("Package: com.duoface.carplay.nativebridgeqa",c)
-        self.assertIn("Version: 0.0.6~dockcrop1",c)
+        self.assertIn("Version: 0.0.7~steadyack1",c)
         self.assertIn("com.duoface.mytweak.v1a.preflight",c)
         for s in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(s,c)
         code=read("DFCPNativeBridgeQA.m")
@@ -53,7 +53,7 @@ class Safety(unittest.TestCase):
         self.assertIn("DFNativeSidebarTrial.m",m)
     def test_temporary_real_sidebar_third_optin_and_reversible(self):
         s=read("DFNativeSidebarTrial.m")
-        for x in ['cfg[@"NativeSidebarTrial"]','cfg[@"Enabled"]','@"DBStatusBarWindow"','@"DBRootStatusBarViewController"','NSDate.date.timeIntervalSince1970-self.beganAt>45','w.frame=self.originalFrame','DFClose(f.origin.x,-f.size.width)','self.exhaustedSession']:
+        for x in ['cfg[@"NativeSidebarTrial"]','cfg[@"Enabled"]','@"DBStatusBarWindow"','@"DBRootStatusBarViewController"','now-self.beganAt>45','w.frame=self.originalFrame','DFClose(f.origin.x,-f.size.width)','self.exhaustedSession']:
             self.assertIn(x,s)
         for bad in ("w.hidden=NO","UIWindowLevel","LSBundleProxy"):
             self.assertNotIn(bad,s)
@@ -69,7 +69,14 @@ class Safety(unittest.TestCase):
         self.assertIn("w.frame=self.savedSourceFrame;",q)
         self.assertIn("CGRectContainsRect(original,target)",q)
         self.assertIn("DFQAFrameNear(original,carBounds)",q)
-        self.assertIn("NSDate.date.timeIntervalSince1970-self.yieldSince>45",q)
+        self.assertNotIn("NSDate.date.timeIntervalSince1970-self.yieldSince>45",q)
+        self.assertIn("MTCPBridgeReadReceiverAck(session)",q)
+        self.assertIn("now-self.ackLostSince<=4.0",q)
+        self.assertIn("DFQAFrameNear(bound,self.expectedSourceFrame)",q)
+        bar=read("DFNativeSidebarTrial.m")
+        self.assertIn("MTCPBridgeReadReceiverAck(session)",bar)
+        self.assertIn("now-self.lastValidAckAt>4.0",bar)
+        self.assertIn("bootstrapExpired",bar)
         self.assertIn("self.exhaustedYieldSession=self.yieldSession",q)
         self.assertIn('cfg[@"NativeSidebarTrial"]',q)
         self.assertIn("MTCPBridgeWriteReceiverAck(",own)

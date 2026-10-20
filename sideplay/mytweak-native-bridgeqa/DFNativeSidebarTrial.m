@@ -25,6 +25,7 @@ static void DFNativeLog(NSString *event,NSString *detail) {
 @property(nonatomic,copy) NSString *leaseSession;
 @property(nonatomic,copy) NSString *exhaustedSession;
 @property(nonatomic,assign) NSTimeInterval beganAt;
+@property(nonatomic,assign) NSTimeInterval lastValidAckAt;
 @property(nonatomic,assign,readwrite) BOOL active;
 @end
 @implementation DFNativeSidebarTrial
@@ -44,6 +45,7 @@ static BOOL DFRectMatches(CGRect a,CGRect b) {
         DFNativeLog(@"original-native-frame-restored",NSStringFromCGRect(w.frame));
     }
     self.active=NO;self.changedWindow=nil;self.leaseSession=nil;
+    self.lastValidAckAt=0;
     self.originalFrame=CGRectNull;self.expectedFrame=CGRectNull;
 }
 - (void)tickWithSurface:(NSDictionary *)surface {
@@ -53,9 +55,19 @@ static BOOL DFRectMatches(CGRect a,CGRect b) {
     NSString *session=[surface[@"Session"] isKindOfClass:NSString.class]?surface[@"Session"]:nil;
     if(!allowed || !DFNativeExplicitTrial() || !session) {[self stop];return;}
     if(self.active) {
+        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+        // Permit 45s bootstrap, then require refreshed exact-session
+        // receiver ACK; do not retain the native window from surface alone.
+        NSDictionary *ack=MTCPBridgeReadReceiverAck(session);
+        if(ack)self.lastValidAckAt=now;
+        BOOL bootstrapExpired=(self.lastValidAckAt<=0 && now-self.beganAt>45);
+        BOOL ackLost=(self.lastValidAckAt>0 && now-self.lastValidAckAt>4.0);
         if(![session isEqualToString:self.leaseSession] ||
-           NSDate.date.timeIntervalSince1970-self.beganAt>45 ||
+           bootstrapExpired || ackLost ||
            !self.changedWindow || self.changedWindow.hidden) {
+            if(bootstrapExpired || ackLost)
+                DFNativeLog(@"native-ack-lease-ended",bootstrapExpired?
+                    @"bootstrap-45s-no-ack":@"ack-missing-more-than-4s");
             self.exhaustedSession=self.leaseSession;
             [self stop];return;
         }
@@ -112,9 +124,10 @@ static BOOL DFRectMatches(CGRect a,CGRect b) {
         self.expectedFrame=destination;
         self.leaseSession=session;
         self.beganAt=NSDate.date.timeIntervalSince1970;
+        self.lastValidAckAt=0;
         self.active=YES;
         DFNativeLog(@"native-frame-trial",
-            [NSString stringWithFormat:@"original=%@ new=%@ leaseMaxSeconds=45",
+            [NSString stringWithFormat:@"original=%@ new=%@ bootstrapMaxSeconds=45 nativeAckRequired=1",
                 NSStringFromCGRect(original),NSStringFromCGRect(destination)]);
     }@catch(NSException *ex){
         self.exhaustedSession=session;

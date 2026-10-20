@@ -60,13 +60,13 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,assign) NSUInteger ticks;
 // Crop only the SpringBoard-owned live source UIWindow, not the rendered image.
 // CarPlay supplies a short-lived measured native content rectangle via ACK.
-// Trial lasts <=45s and restores the original frame if we still own it.
+// Session-bound trial retains the crop only with a verified live native ACK.
 @property(nonatomic,weak) UIWindow *yieldedSourceWindow;
 @property(nonatomic,assign) CGRect savedSourceFrame;
 @property(nonatomic,assign) CGRect expectedSourceFrame;
 @property(nonatomic,copy) NSString *yieldSession;
 @property(nonatomic,copy) NSString *exhaustedYieldSession;
-@property(nonatomic,assign) NSTimeInterval yieldSince;
+@property(nonatomic,assign) NSTimeInterval ackLostSince;
 // CarPlay native geometry state; not split-pane focusSlot/zoom.
 @property(nonatomic,assign) BOOL wholeHostFullscreen;
 @end
@@ -81,7 +81,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.timer || !NSThread.isMainThread)return;
     NSString *process=NSProcessInfo.processInfo.processName;
     if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:process])return;
-    DFQAWrite(@"start",@"version=0.0.6~dockcrop1; trial=live-source-window-native-content-crop; no-automatic-UI");
+    DFQAWrite(@"start",@"version=0.0.7~steadyack1; trial=ack-backed-live-source-window-native-content-crop; no-automatic-UI");
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
@@ -223,26 +223,47 @@ static BOOL DFQAFrameNear(CGRect a,CGRect b) {
     }
     self.yieldedSourceWindow=nil;
     self.yieldSession=nil;
-    self.yieldSince=0;
+    self.ackLostSince=0;
     self.savedSourceFrame=CGRectNull;
     self.expectedSourceFrame=CGRectNull;
 }
 - (void)tickNativeDashboardSourceYield:(UIWindow *)w {
     NSString *session=self.publisher.session;
     NSDictionary *ack=session?MTCPBridgeReadReceiverAck(session):nil;
-    BOOL canTry=[self sourceYieldExperimentEnabled] && w && session && ack &&
-                 !self.wholeHostFullscreen && w==self.currentWindow &&
-                 !w.hidden && w.alpha>=0.95 && w.screen!=UIScreen.mainScreen &&
-                 [w.rootViewController isKindOfClass:NSClassFromString(@"MTBridgeRootViewController")];
+    BOOL baseReady=[self sourceYieldExperimentEnabled] && w && session &&
+                   !self.wholeHostFullscreen && w==self.currentWindow &&
+                   !w.hidden && w.alpha>=0.95 && w.screen!=UIScreen.mainScreen &&
+                   [w.rootViewController isKindOfClass:NSClassFromString(@"MTBridgeRootViewController")];
+    BOOL canTry=baseReady && ack;
     if(self.yieldedSourceWindow) {
-        BOOL expired=(NSDate.date.timeIntervalSince1970-self.yieldSince>45);
         BOOL changed=!DFQAFrameNear(self.yieldedSourceWindow.frame,self.expectedSourceFrame);
-        if(!canTry || expired || changed || w!=self.yieldedSourceWindow ||
-           ![session isEqualToString:self.yieldSession]) {
-            if(self.yieldSession)self.exhaustedYieldSession=self.yieldSession;
-            [self restoreYieldedSourceWindow:expired?@"45sec-lease-expired":
-               changed?@"native-system-changed-frame":@"native-ack-or-mode-lost"];
+        BOOL sameOwner=baseReady && !changed &&
+                       w==self.yieldedSourceWindow &&
+                       [session isEqualToString:self.yieldSession];
+        if(sameOwner && ack) {
+            // The same fresh receiver and geometry renew the trial, rather
+            // than an unrelated 45-second timer. Never guess Dock width.
+            CGRect saved=self.savedSourceFrame;
+            CGRect bound=CGRectMake(saved.origin.x+[ack[@"X"] doubleValue]*saved.size.width,
+                saved.origin.y+[ack[@"Y"] doubleValue]*saved.size.height,
+                [ack[@"Width"] doubleValue]*saved.size.width,
+                [ack[@"Height"] doubleValue]*saved.size.height);
+            if(DFQAFrameNear(bound,self.expectedSourceFrame)) {
+                self.ackLostSince=0;
+                return;
+            }
+            DFQAWrite(@"source-window-native-viewport-changed",@"restore-previous-owner-frame");
+        } else if(sameOwner && !ack) {
+            // Do not flash fullscreen on one stale ACK. Restore safely if
+            // four seconds have passed without a renewed native owner ACK.
+            NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+            if(self.ackLostSince<=0)self.ackLostSince=now;
+            if(now-self.ackLostSince<=4.0)return;
+            DFQAWrite(@"source-window-ack-lost",@"more-than-four-seconds");
         }
+        if(self.yieldSession)self.exhaustedYieldSession=self.yieldSession;
+        [self restoreYieldedSourceWindow:changed?@"native-system-changed-frame":
+             baseReady?@"native-ack-missing-or-geometry-changed":@"session-or-mode-lost"];
         return;
     }
     if(!canTry || [session isEqualToString:self.exhaustedYieldSession])return;
@@ -277,10 +298,10 @@ static BOOL DFQAFrameNear(CGRect a,CGRect b) {
         self.expectedSourceFrame=target;
         self.yieldedSourceWindow=w;
         self.yieldSession=[session copy];
-        self.yieldSince=NSDate.date.timeIntervalSince1970;
+        self.ackLostSince=0;
         [w.rootViewController.view setNeedsLayout];
         DFQAWrite(@"source-window-cropped-after-native-ack",
-            [NSString stringWithFormat:@"session=%@ original=%@ live=%@ level=%.2f max=45s",
+            [NSString stringWithFormat:@"session=%@ original=%@ live=%@ level=%.2f ACK-backed",
                session,NSStringFromCGRect(original),NSStringFromCGRect(w.frame),
                (double)w.windowLevel]);
     } @catch(NSException *ex) {
