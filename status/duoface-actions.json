@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-20T07:42:46.766245+00:00",
+  "checked_at_utc": "2026-10-20T13:38:52.789804+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1708,
+  "total_actions_runs": 1741,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -9,6 +9,30 @@
       "success": 4,
       "failure": 0,
       "other": 1
+    },
+    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace JB reference DEB audit (no install/publish)": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace firstparty CarPlay admission candidate (NOT publish)": {
+      "recent_runs": 27,
+      "success": 10,
+      "failure": 7,
+      "other": 10
+    },
+    "DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
     },
     "DuoFace SpringBoard admission ABI observation (read-only)": {
       "recent_runs": 2,
@@ -41,324 +65,318 @@
       "other": 0
     },
     "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)": {
-      "recent_runs": 48,
-      "success": 6,
-      "failure": 1,
-      "other": 41
+      "recent_runs": 23,
+      "success": 3,
+      "failure": 0,
+      "other": 20
     },
     "DuoFace native Dashboard owner layout/source validation (NO DEB)": {
-      "recent_runs": 18,
-      "success": 8,
+      "recent_runs": 12,
+      "success": 4,
       "failure": 3,
-      "other": 7
-    },
-    "DuoFace Native Bridge QA Filza-free explicit opt-in DEB": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
+      "other": 5
     }
   },
   "latest_runs": [
     {
-      "id": 39388304856,
+      "id": 39432181416,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 42,
+      "run_number": 43,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39388304856",
-      "created_at": "2026-10-20T07:42:36Z",
-      "head_sha": "7d51b1def5d72ad097b358715b26e3ef624d10fc"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39432181416",
+      "created_at": "2026-10-20T13:38:42Z",
+      "head_sha": "8ee12f4692fa07e195a1fc70c2eede11bfcafe17"
     },
     {
-      "id": 39386480850,
-      "name": "DuoFace SpringBoard admission ABI observation (read-only)",
+      "id": 39430322204,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39430322204",
+      "created_at": "2026-10-20T13:25:53Z",
+      "head_sha": "c70350a4c1c3ce62c5897a0a84829a56073f7174"
+    },
+    {
+      "id": 39429088870,
+      "name": "DuoFace JB reference DEB audit (no install/publish)",
       "run_number": 2,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39386480850",
-      "created_at": "2026-10-20T07:26:06Z",
-      "head_sha": "12e35d5645b9edad44390633d27bb5c28794d54d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39429088870",
+      "created_at": "2026-10-20T13:17:10Z",
+      "head_sha": "167b666d135fb35a567cb562bd2d63f57b26ec96"
     },
     {
-      "id": 39386383493,
-      "name": "DuoFace SpringBoard admission ABI observation (read-only)",
+      "id": 39428983050,
+      "name": "DuoFace JB reference DEB audit (no install/publish)",
       "run_number": 1,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39386383493",
-      "created_at": "2026-10-20T07:25:13Z",
-      "head_sha": "d1f5cab097f9a0db474843b88ab75d46d6ba1533"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39428983050",
+      "created_at": "2026-10-20T13:16:24Z",
+      "head_sha": "c0aef0a31759dc8d6286a9654454ceaf76338db9"
     },
     {
-      "id": 39385479876,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
-      "run_number": 20,
+      "id": 39420900979,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 27,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39385479876",
-      "created_at": "2026-10-20T07:16:51Z",
-      "head_sha": "d7e2cfe348432b23407333c2cc2bb907f568cd10"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420900979",
+      "created_at": "2026-10-20T12:15:34Z",
+      "head_sha": "73f1318a82e4f2ac2d5a37d1c3bfaeda2a46a0f7"
     },
     {
-      "id": 39384426145,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39420652383,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420652383",
+      "created_at": "2026-10-20T12:13:37Z",
+      "head_sha": "310c6d1a9773bf52919df01e8a5307ac820ded54"
+    },
+    {
+      "id": 39420451056,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420451056",
+      "created_at": "2026-10-20T12:12:00Z",
+      "head_sha": "ff6cb0a4533df218f11bbb976cab23aff32d683a"
+    },
+    {
+      "id": 39420409035,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420409035",
+      "created_at": "2026-10-20T12:11:40Z",
+      "head_sha": "b2f6076c75f0a8b077ae99599f1a43cb3e8f9304"
+    },
+    {
+      "id": 39420369278,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 23,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420369278",
+      "created_at": "2026-10-20T12:11:21Z",
+      "head_sha": "d6e325016ca04f7c135d74cd2a5c1c7710572df9"
+    },
+    {
+      "id": 39420333841,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420333841",
+      "created_at": "2026-10-20T12:11:04Z",
+      "head_sha": "75991b70a17a647af52d8361261bcba89954ef7b"
+    },
+    {
+      "id": 39420303624,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420303624",
+      "created_at": "2026-10-20T12:10:48Z",
+      "head_sha": "62fed57c667d4dbbb60a4e1e699e4eeee769ed8a"
+    },
+    {
+      "id": 39420261285,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420261285",
+      "created_at": "2026-10-20T12:10:27Z",
+      "head_sha": "a4602832a510f7ca05e7b63b954b097552da7b21"
+    },
+    {
+      "id": 39413144555,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 19,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39384426145",
-      "created_at": "2026-10-20T07:06:48Z",
-      "head_sha": "01af6ad026c5b2875adc8cd10210b4ff4beb6f09"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39413144555",
+      "created_at": "2026-10-20T11:11:06Z",
+      "head_sha": "6a79ed170210153830c7f1de485ad12b8871a15c"
     },
     {
-      "id": 39382552551,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39413040040,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 18,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382552551",
-      "created_at": "2026-10-20T06:48:33Z",
-      "head_sha": "ae1381e3b25d2e78c5b7d615c06ca859cbb5adf4"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39413040040",
+      "created_at": "2026-10-20T11:10:13Z",
+      "head_sha": "c6438d3103dfda5cff8fc8ad1407988ddd8129b6"
     },
     {
-      "id": 39382496222,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39412915955,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 17,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382496222",
-      "created_at": "2026-10-20T06:47:59Z",
-      "head_sha": "68f715dbbb1f5550bbdf30eff2d09ac6c96bc5de"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39412915955",
+      "created_at": "2026-10-20T11:09:10Z",
+      "head_sha": "40103b608e9dca2e586f48256db582a9e803a557"
     },
     {
-      "id": 39382487529,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39411254419,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 16,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382487529",
-      "created_at": "2026-10-20T06:47:53Z",
-      "head_sha": "848bf44c4f6390066bd76ef70fa733d905ff661e"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411254419",
+      "created_at": "2026-10-20T10:54:48Z",
+      "head_sha": "27ee7acc9cc4ae2d0b7362eeaddc44b5ea3b54ee"
     },
     {
-      "id": 39382476561,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39411247376,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 15,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382476561",
-      "created_at": "2026-10-20T06:47:47Z",
-      "head_sha": "d3a976a7c152d0a06868cea21bf835519a5b44b2"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411247376",
+      "created_at": "2026-10-20T10:54:45Z",
+      "head_sha": "c4494b8f3c69dc7916ae27467f6a35c0323f3b45"
     },
     {
-      "id": 39382435929,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39411203609,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 14,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382435929",
-      "created_at": "2026-10-20T06:47:22Z",
-      "head_sha": "80ff4a825f41b41f74bcac99575389c0ec895916"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411203609",
+      "created_at": "2026-10-20T10:54:21Z",
+      "head_sha": "bc1bf31804a3c713a5448f3fccd6f4e7ce6402a6"
     },
     {
-      "id": 39382408976,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39411197893,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 13,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39382408976",
-      "created_at": "2026-10-20T06:47:05Z",
-      "head_sha": "43a8fc9b1a7f571a4fe0f0164c9be48acb23f286"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411197893",
+      "created_at": "2026-10-20T10:54:18Z",
+      "head_sha": "9c71c9708455d7dad9de4f63f4b70bcd858bfa72"
     },
     {
-      "id": 39380392443,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39410783677,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 12,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39380392443",
-      "created_at": "2026-10-20T06:26:41Z",
-      "head_sha": "00efc68cf36e506bf654a4192a20f225cc729e2a"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410783677",
+      "created_at": "2026-10-20T10:50:42Z",
+      "head_sha": "848f6d4838c3a9c43935225a1a1ddb4e84a2e9ac"
     },
     {
-      "id": 39380358436,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39410723214,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 11,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39380358436",
-      "created_at": "2026-10-20T06:26:20Z",
-      "head_sha": "4b3f641cf7e2cef810ebbaf3fa38674273533e7e"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410723214",
+      "created_at": "2026-10-20T10:50:12Z",
+      "head_sha": "836c014f0f152ee17027cba57d51fdc54776a588"
     },
     {
-      "id": 39380009807,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39410596250,
+      "name": "DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410596250",
+      "created_at": "2026-10-20T10:49:05Z",
+      "head_sha": "1822b56f6d7eb923bc5c13152927a2ae8fa4fc2f"
+    },
+    {
+      "id": 39410051849,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 10,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39380009807",
-      "created_at": "2026-10-20T06:22:39Z",
-      "head_sha": "13d9a500e7d27bd8c252c2abcc8907b3b6d2cc45"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410051849",
+      "created_at": "2026-10-20T10:44:22Z",
+      "head_sha": "7c59bee56e6b25f45200dc077bcf065342d28ad0"
     },
     {
-      "id": 39380002803,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39410045294,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 9,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39380002803",
-      "created_at": "2026-10-20T06:22:34Z",
-      "head_sha": "025fbba4746cbecadc48913864b2d0762bf56791"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39410045294",
+      "created_at": "2026-10-20T10:44:19Z",
+      "head_sha": "f8bcae5ab585458b2fc15e0eee82646adf582b08"
     },
     {
-      "id": 39379989562,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39409739778,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 8,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39379989562",
-      "created_at": "2026-10-20T06:22:26Z",
-      "head_sha": "eb3e2c65f5006f0d7f86ddf90e7e34377c3dce85"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39409739778",
+      "created_at": "2026-10-20T10:41:43Z",
+      "head_sha": "9a248bb9b7af3028dec085e8573a1b34e0977121"
     },
     {
-      "id": 39379965828,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39409479237,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 7,
       "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39379965828",
-      "created_at": "2026-10-20T06:22:11Z",
-      "head_sha": "5a6230c5fa0975610447d5077920aee9add7a265"
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39409479237",
+      "created_at": "2026-10-20T10:39:29Z",
+      "head_sha": "d865ebf69b6d560f75452d531042e44c541eec48"
     },
     {
-      "id": 39378670272,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39408127730,
+      "name": "DuoFace iOS16 CarPlay admission offline coverage (NO PACKAGE)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39408127730",
+      "created_at": "2026-10-20T10:27:59Z",
+      "head_sha": "0f1e24b08ab9c5fee011fe5b5d12db51e4244292"
+    },
+    {
+      "id": 39400238863,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 6,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39378670272",
-      "created_at": "2026-10-20T06:08:14Z",
-      "head_sha": "412964e60ecd26fcb9def4384d458365e39be7fe"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39400238863",
+      "created_at": "2026-10-20T09:22:49Z",
+      "head_sha": "bb70314cd1df960bbcebc6c3826f1fe828d7ff9b"
     },
     {
-      "id": 39378598089,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39397394886,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 5,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39378598089",
-      "created_at": "2026-10-20T06:07:27Z",
-      "head_sha": "30c09b80469a173aac4ad0f165e877d9ae500a5e"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39397394886",
+      "created_at": "2026-10-20T08:59:30Z",
+      "head_sha": "5339275b3c82954ee9c07a440933415bc4204155"
     },
     {
-      "id": 39377838075,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
+      "id": 39397265591,
+      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
       "run_number": 4,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39377838075",
-      "created_at": "2026-10-20T05:59:28Z",
-      "head_sha": "5f381ab52ed8ddb69cb53829b7e0d2f90c08d7b5"
-    },
-    {
-      "id": 39377792752,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
-      "run_number": 3,
-      "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39377792752",
-      "created_at": "2026-10-20T05:58:58Z",
-      "head_sha": "f5a9fee7aa6a12e6558241c10c85f6d294c0f379"
-    },
-    {
-      "id": 39377545450,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39377545450",
-      "created_at": "2026-10-20T05:56:06Z",
-      "head_sha": "f8b610d9b03b34a5321c57f6f4668850d31886b5"
-    },
-    {
-      "id": 39377477066,
-      "name": "DuoFace native CarPlay-owned scene read-only probe (isolated)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39377477066",
-      "created_at": "2026-10-20T05:55:19Z",
-      "head_sha": "8779c19236913b71786644468c8786edeb5251b2"
-    },
-    {
-      "id": 39373545901,
-      "name": "DuoFace QA6 Live Window Dock Crop Candidate (opt-in)",
-      "run_number": 50,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39373545901",
-      "created_at": "2026-10-20T05:11:19Z",
-      "head_sha": "83378fd9f25ff5584e4495a8f6bdc44fe234d9e9"
-    },
-    {
-      "id": 39373410676,
-      "name": "DuoFace QA6 Live Window Dock Crop Candidate (opt-in)",
-      "run_number": 49,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39373410676",
-      "created_at": "2026-10-20T05:09:50Z",
-      "head_sha": "07fd6e8a3ed613069f29481995b5c9872f47dd8f"
-    },
-    {
-      "id": 39361562813,
-      "name": "DuoFace Test real iPhone App + SpringBoard Controller DEB",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39361562813",
-      "created_at": "2026-10-20T02:55:47Z",
-      "head_sha": "223f2c19c300a854f27970c3f2a236332afa7daa"
-    },
-    {
-      "id": 39361496981,
-      "name": "DuoFace QA iPhone Control App + Native Bridge 5 build (rootless)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39361496981",
-      "created_at": "2026-10-20T02:55:05Z",
-      "head_sha": "397f2c385f92a86da4b27cf5a57bba452ac88530"
-    },
-    {
-      "id": 39361483650,
-      "name": "DuoFace Test real iPhone App + SpringBoard Controller DEB",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39361483650",
-      "created_at": "2026-10-20T02:54:57Z",
-      "head_sha": "ec9ec0627564b729b521ce5b1f1d1b1fc6c9df9c"
-    },
-    {
-      "id": 39361341871,
-      "name": "DuoFace QA iPhone Control App + Native Bridge 5 build (rootless)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39361341871",
-      "created_at": "2026-10-20T02:53:21Z",
-      "head_sha": "a4194389e3661cbba10f3d27500f5e5ced1c47f8"
-    },
-    {
-      "id": 39359925329,
-      "name": "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)",
-      "run_number": 48,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39359925329",
-      "created_at": "2026-10-20T02:37:31Z",
-      "head_sha": "08afa0b83ba585944d23c234075902f843c2b192"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39397265591",
+      "created_at": "2026-10-20T08:58:24Z",
+      "head_sha": "ace25ddc2cd73a9bba9a3660561f9032b05d9b80"
     }
   ]
 }
