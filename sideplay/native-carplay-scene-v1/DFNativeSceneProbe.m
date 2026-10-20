@@ -66,40 +66,56 @@ static void DFProbeNativeWorkspaceABI(void) {
     UIWindow *nativeBarWindow=nil;
     CGRect barInScene=CGRectNull;
     NSUInteger inspected=0;
-    // Two passes: first find Dashboard; then measure system bar in SAME scene.
+    // FIRST: find the real Dashboard root on the external display.
     for(UIScene *scene in UIApplication.sharedApplication.connectedScenes){
         if(![scene isKindOfClass:UIWindowScene.class] ||
            scene.activationState!=UISceneActivationStateForegroundActive)continue;
         UIWindowScene *ws=(UIWindowScene *)scene;
         if(ws.screen==UIScreen.mainScreen)continue;
-        CGRect extent=ws.coordinateSpace.bounds;
         for(UIWindow *w in ws.windows){
             if(++inspected>64)break;
             if(w.screen!=ws.screen || w.hidden || w.alpha<0.95)continue;
             if([NSStringFromClass(w.rootViewController.class)
                 isEqual:@"DBDashboardRootViewController"]){
-                dashboardWindow=w;dashboard=YES;full=extent;break;
+                dashboardWindow=w;dashboard=YES;
+                full=w.bounds;break;
             }
         }
-        if(!dashboardWindow)continue;
-        // Never use convertRect:toWindow: with a nil or foreign window.
-        for(UIWindow *w in ws.windows){
-            if(w.screen!=ws.screen || w.hidden || w.alpha<0.95)continue;
-            NSString *kind=NSStringFromClass(w.class);
-            if(![kind isEqual:@"DBDockWindow"] &&
-               ![kind isEqual:@"DBStatusBarWindow"])continue;
-            CGRect frame=w.frame;
-            if(!isfinite(frame.origin.x) || !isfinite(frame.origin.y) ||
-               !isfinite(frame.size.width) || !isfinite(frame.size.height))continue;
-            CGRect visible=CGRectIntersection(extent,frame);
-            if(CGRectIsNull(visible) || CGRectIsEmpty(visible))continue;
-            chrome=YES;
-            if(!nativeBarWindow || CGRectGetWidth(visible)*CGRectGetHeight(visible)>
-               CGRectGetWidth(barInScene)*CGRectGetHeight(barInScene)){
-               nativeBarWindow=w;barInScene=visible;
+        if(dashboardWindow)break;
+    }
+    if(dashboardWindow){
+        // SECOND: Apple can host the sidebar in a SIBLING UIWindowScene on
+        // the SAME UIScreen. Never assume the bar belongs to Dashboard's scene.
+        inspected=0;
+        for(UIScene *scene in UIApplication.sharedApplication.connectedScenes){
+            if(![scene isKindOfClass:UIWindowScene.class] ||
+               scene.activationState!=UISceneActivationStateForegroundActive)continue;
+            UIWindowScene *ws=(UIWindowScene *)scene;
+            if(ws.screen!=dashboardWindow.screen)continue;
+            for(UIWindow *w in ws.windows){
+                if(++inspected>64)break;
+                if(w.screen!=dashboardWindow.screen ||
+                   w.hidden || w.alpha<0.95)continue;
+                NSString *kind=NSStringFromClass(w.class);
+                if(![kind isEqual:@"DBDockWindow"] &&
+                   ![kind isEqual:@"DBStatusBarWindow"] &&
+                   ![kind isEqual:@"CARStatusBarWindow"])continue;
+                CGRect converted=[dashboardWindow convertRect:w.bounds fromWindow:w];
+                if(!isfinite(converted.origin.x) || !isfinite(converted.origin.y) ||
+                   !isfinite(converted.size.width) || !isfinite(converted.size.height))
+                    continue;
+                CGRect visible=CGRectIntersection(full,converted);
+                if(CGRectIsNull(visible) || CGRectIsEmpty(visible))continue;
+                chrome=YES; // Observed visible system window; not a show command.
+                // Keep the largest visible system bar; do not synthesize geometry.
+                if(!nativeBarWindow ||
+                   CGRectGetWidth(visible)*CGRectGetHeight(visible)>
+                   CGRectGetWidth(barInScene)*CGRectGetHeight(barInScene)){
+                    nativeBarWindow=w;barInScene=visible;
+                }
             }
+            if(inspected>64)break;
         }
-        break;
     }
     if(dashboardWindow){
         UIEdgeInsets i=dashboardWindow.safeAreaInsets;
