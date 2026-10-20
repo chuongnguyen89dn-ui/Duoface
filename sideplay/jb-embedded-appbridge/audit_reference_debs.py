@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read-only audit of original reference DEBs. Never install or redistribute binaries."""
 import argparse,hashlib,json,pathlib,plistlib,re,subprocess,tempfile
-ROOT=pathlib.Path(__file__).resolve().parents[3]
+ROOT=pathlib.Path(__file__).resolve().parents[2]
 DEBS={"SidePlay 1.0.4":"com.sideplay_1.0.4-1_iphoneos-arm64.deb",
       "DuoNavi 1.0.4":"dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb"}
 MARKERS=("CarBridge","CARCapableApp","SBStarkCapable","entitlementValueForKey",
