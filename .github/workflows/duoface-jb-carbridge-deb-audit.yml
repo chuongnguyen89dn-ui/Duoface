@@ -1,0 +1,52 @@
+name: DuoFace JB reference DEB audit (no install/publish)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/jb-embedded-appbridge/audit_reference_debs.py'
+      - '.github/workflows/duoface-jb-carbridge-deb-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect original SidePlay and DuoNavi DEBs (read-only)
+        run: |
+          set -euo pipefail
+          python3 sideplay/jb-embedded-appbridge/audit_reference_debs.py --out sideplay/jb-embedded-appbridge/evidence/REFERENCE_DEB_AUDIT.json
+          python3 - <<'PY'
+          import json
+          d=json.load(open('sideplay/jb-embedded-appbridge/evidence/REFERENCE_DEB_AUDIT.json'))
+          assert d['installed_or_executed'] is False
+          assert d['source_code_copied'] is False
+          assert len(d['entries'])==2
+          for x in d['entries']:
+              assert x['total_files']>0
+              print(x['label'],x['sha256'],x['total_files'],x['filter_plists'])
+              print("RELEVANT_MACHO",x['macho'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jb-reference-deb-${{ github.run_id }}
+          path: sideplay/jb-embedded-appbridge/evidence/REFERENCE_DEB_AUDIT.json
+          if-no-files-found: error
+      - name: Save compact evidence back to this feature branch
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sideplay/jb-embedded-appbridge/evidence/REFERENCE_DEB_AUDIT.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'evidence: JB CarPlay reference DEB static audit [skip ci]'
+          for i in 1 2 3; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then exit 0; fi
+            sleep 2
+          done
+          exit 1
