@@ -303,7 +303,7 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
          @"Chưa có bản ghi từ tiến trình CarPlay";
     self.nativeSceneLabel.text=[NSString stringWithFormat:
         @"Dashboard scene: %@\nDock hệ thống được nhìn thấy: %@\n%@\n"
-         "Có Dashboard không có nghĩa DuoFace đã đăng ký thành app.",
+         @"Có Dashboard không có nghĩa DuoFace đã đăng ký thành app.",
          fresh?@"Đang có phiên":@"Chưa có phiên",
          fresh?(chrome?@"Có":@"Không xác nhận"):@"Chưa rõ",
          metrics];
