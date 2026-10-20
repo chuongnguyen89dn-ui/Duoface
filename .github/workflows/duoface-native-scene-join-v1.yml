@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-native-scene-join-v1.yml'
       - 'sideplay/native-carplay-scene-v1/**'
+      - 'sideplay/duoface-qa-app/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -21,6 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/native-carplay-scene-v1/tests -p 'test_*.py' -v
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
           xcrun --sdk macosx clang -fobjc-arc -Wall -Wextra \
             -framework Foundation -framework CoreGraphics \
             sideplay/native-carplay-scene-v1/DFNativeSceneContract.m \
@@ -83,6 +85,27 @@ jobs:
             echo DEVICE_TESTED=false
             echo SILEO_PUBLISHED=false
           } > "$OUT/CI_RESULT.txt"
+      - name: Compile iPhone QA app with native scene / ABI viewer, no Filza
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-qa-app/build.sh 2>&1 | tee "$RUNNER_TEMP/native-scene-qa-app-build.log"
+          deb='sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.1~nativeprobe1_iphoneos-arm64.deb'
+          test -s "$deb"
+          test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.qa.controlapp'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.1.1~nativeprobe1'
+          dpkg-deb -f "$deb" Depends | grep -F 'com.duoface.carplay.nativejoinprobe'
+          mkdir -p "$RUNNER_TEMP/native-scene-app-extract"
+          dpkg-deb -x "$deb" "$RUNNER_TEMP/native-scene-app-extract"
+          app="$RUNNER_TEMP/native-scene-app-extract/var/jb/Applications/DuoFaceQA.app"
+          test -s "$app/DuoFaceQA"
+          ldid -e "$app/DuoFaceQA" | grep -F 'com.apple.private.security.no-container'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-carplay-scene-v1"
+          cp "$deb" "$OUT/"
+          cp "$RUNNER_TEMP/native-scene-qa-app-build.log" "$OUT/IPHONE_QA_APP_BUILD.log"
+          (cd "$OUT" && shasum -a 256 "$(basename "$deb")" >> SHA256SUMS.txt)
+          echo "IPHONe_QA_APP_NATIVE_SCENE_VIEWER=PASS" >> "$OUT/CI_RESULT.txt"
+          echo "QA_APP_VERSION=0.1.1~nativeprobe1" >> "$OUT/CI_RESULT.txt"
+          echo "QA_APP_SHA256=$(shasum -a 256 "$deb" | awk '{print $1}')" >> "$OUT/CI_RESULT.txt"
       - name: Upload isolated read-only diagnostic artifact
         uses: actions/upload-artifact@v4
         with:
