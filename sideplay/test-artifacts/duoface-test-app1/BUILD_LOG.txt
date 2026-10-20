@@ -1,0 +1,15 @@
+App/DFAppDelegate.m:51:31: warning: 'contentEdgeInsets' is deprecated: first deprecated in iOS 15.0 - This property is ignored when using UIButtonConfiguration [-Wdeprecated-declarations]
+   51 |     v.layer.cornerRadius=12;v.contentEdgeInsets=UIEdgeInsetsMake(16,12,16,12);
+      |                               ^
+/Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIButton.h:162:35: note: 'contentEdgeInsets' has been explicitly marked deprecated here
+  162 | @property(nonatomic) UIEdgeInsets contentEdgeInsets API_DEPRECATED("This property is ignored when using UIButtonConfiguration", ios(2.0,15.0), tvos(2.0,15.0), visionos(1.0, 1.0)) UI_APPEARANCE_SELECTOR API_UNAVAILABLE(watchos); // default is UIEdgeInsetsZero. On tvOS 10 or later, default is nonzero except for custom buttons.
+      |                                   ^
+1 warning generated.
+Original DuoFace Test icon assets generated for 120pt and 180pt
+Home icon app bundle + exact SpringBoard-only filter verified
+dpkg-deb: warning: root directory /var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/tmp.e49D4kX0zB/package has unusual owner or group 501:20
+dpkg-deb: hint: you might need to pass --root-owner-group, see <https://wiki.debian.org/Teams/Dpkg/RootlessBuilds> for further details
+dpkg-deb: warning: ignoring 1 warning about the control file(s)
+dpkg-deb: building package 'com.duoface.testapp' in '/Users/runner/work/Duoface/Duoface/sideplay/duoface-test-app/packages/com.duoface.testapp_0.1.0~app1_iphoneos-arm64.deb'.
+Built real DuoFace Test.app and SpringBoard companion: /Users/runner/work/Duoface/Duoface/sideplay/duoface-test-app/packages/com.duoface.testapp_0.1.0~app1_iphoneos-arm64.deb
+39e40b43f8b121090d5df41a6ad37e352c8d6bfdcf27cb20f5c5514bd7420444  /Users/runner/work/Duoface/Duoface/sideplay/duoface-test-app/packages/com.duoface.testapp_0.1.0~app1_iphoneos-arm64.deb

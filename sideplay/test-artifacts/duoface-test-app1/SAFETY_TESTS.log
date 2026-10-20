@@ -1,0 +1,12 @@
+test_actions_are_wired_to_real_user_controls (test_app_package.InstalledAppContract.test_actions_are_wired_to_real_user_controls) ... ok
+test_actual_launchable_app_not_settings_panel (test_app_package.InstalledAppContract.test_actual_launchable_app_not_settings_panel) ... ok
+test_app_icon_generated_independently (test_app_package.InstalledAppContract.test_app_icon_generated_independently) ... ok
+test_explicit_45s_optin_auto_restores (test_app_package.InstalledAppContract.test_explicit_45s_optin_auto_restores) ... ok
+test_installer_never_activates_on_install (test_app_package.InstalledAppContract.test_installer_never_activates_on_install) ... ok
+test_single_sileo_app_with_auto_dependencies (test_app_package.InstalledAppContract.test_single_sileo_app_with_auto_dependencies) ... ok
+test_springboard_only_no_boot_admission_hooks (test_app_package.InstalledAppContract.test_springboard_only_no_boot_admission_hooks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK
