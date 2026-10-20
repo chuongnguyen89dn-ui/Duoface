@@ -1,4 +1,5 @@
 #import "DFNativeSidebarTrial.h"
+#import "../mytweak-independent-v1a/prototype/MTCPBridgeContract.h"
 #import <math.h>
 #import <fcntl.h>
 #import <unistd.h>
