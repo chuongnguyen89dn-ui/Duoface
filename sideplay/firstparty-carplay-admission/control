@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.firstpartyadmission
 Name: DuoFace First-party CarPlay Admission (Developer Candidate)
-Version: 0.0.5~ready1
+Version: 0.0.6~sbpair1
 Architecture: iphoneos-arm64
 Maintainer: DuoFace Independent
 Depends: mobilesubstrate, firmware (>= 16.0)
 Section: Development
-Description: iOS16 CarPlay-process-only opt-in first-party admission prototype. Disabled unless explicit risk consent and bundle match. Does not inject SpringBoard, alter Dock, grant capability to other apps, restart processes or publish a working CarPlay host.
+Description: iOS16 one-bundle dual-process CarPlay plus SpringBoard opt-in roster prototype. Disabled unless explicit risk consent and bundle match. Does not inject SpringBoard, alter Dock, grant capability to other apps, restart processes or publish a working CarPlay host.

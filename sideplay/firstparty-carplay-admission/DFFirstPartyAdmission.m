@@ -304,6 +304,6 @@ __attribute__((constructor)) static void DFAdmissionEntry(void) {
             CFNotificationSuspensionBehaviorDeliverImmediately);
         if(DFTraceActiveRequest())DFTraceLog([NSString stringWithFormat:@"run=%@ module-constructor process=CarPlay (library timing unknown)",DFTraceActiveRequest()[@"RequestID"]]);
         DFLog(@"loaded: consent + one-shot roster observer registered (no implicit entitlement change)");
-        dispatch_async(dispatch_get_main_queue(), ^{DFCheckConsentAndArm(@"startup");});
+        DFCheckConsentAndArm(@"constructor-early");
     }
 }

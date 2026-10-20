@@ -8,6 +8,7 @@ on:
       - 'sideplay/jb-embedded-appbridge/tests/**'
       - 'sideplay/duoface-native-scene-host/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
+      - 'sideplay/firstparty-carplay-admission/**'
   workflow_dispatch:
 permissions:
   contents: write
@@ -53,7 +54,7 @@ jobs:
           set -euo pipefail
           cd sideplay/firstparty-carplay-admission
           make clean package FINALPACKAGE=1
-          test -s 'packages/com.duoface.carplay.firstpartyadmission_0.0.5~ready1_iphoneos-arm64.deb'
+          test -s 'packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb'
       - name: Build own iPhone and native host apps
         run: |
           set -euo pipefail
@@ -64,10 +65,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.3~steadyack1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.4~sbpair1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.3~steadyack1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.4~sbpair1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$PACKAGE" Depends | grep -i -E 'carbridge|carplayenable|sideplay|duonavi|duodash'
           python3 - <<'PY'

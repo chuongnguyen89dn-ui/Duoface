@@ -3,7 +3,7 @@ P=pathlib.Path(__file__).resolve().parents[1]
 def read(name):return (P/name).read_text()
 class CandidateSafety(unittest.TestCase):
  def test_process_is_carplay_only(self):
-  assert plistlib.loads((P/"DFFirstPartyAdmission.plist").read_bytes())["Filter"]["Executables"]==["CarPlay"]
+  assert plistlib.loads((P/"DFFirstPartyAdmission.plist").read_bytes())["Filter"]["Executables"]==["CarPlay","SpringBoard"]
   self.assertIn('processName isEqualToString:@"CarPlay"',read("DFFirstPartyAdmission.m"))
   self.assertIn("SpringBoard must NEVER load",read("DFFirstPartyAdmission.m"))
  def test_exact_abi_and_narrow_bundle(self):
@@ -28,7 +28,7 @@ class CandidateSafety(unittest.TestCase):
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
   self.assertIn("INSTALL_TARGET_PROCESSES =",read("Makefile"))
-  self.assertIn("Version: 0.0.5~ready1",c)
+  self.assertIn("Version: 0.0.6~sbpair1",c)
   self.assertIn("if(!DFOriginal3)return nil;",read("DFFirstPartyAdmission.m"))
   self.assertIn("if(!DFOriginal2)return nil;",read("DFFirstPartyAdmission.m"))
  def test_diagnostic_pass_through_and_bounded(self):
@@ -67,4 +67,16 @@ class CandidateSafety(unittest.TestCase):
      'activateApplication','requestStateChange',
      'FBSApplicationInfo','LSBundleInfoCachedValues','method_setImplementation'):
    self.assertNotIn(blocked,s)
+ def test_firstparty_springboard_cached_value_path(self):
+  s=read("DFFirstPartySpringBoard.m")
+  for x in ('"@24@0:8@16"','"B24@0:8@16"','LSBundleInfoCachedValues',
+      'weakToStrongObjectsMapTable','MSHookMessageEx','origBulk(proxy,cmd,keys)',
+      'origBool(obj,cmd,key)','return real; // preserve private LS runtime class',
+      'kKill','RiskAcknowledged','com.duoface.native.scenehost','SpringBoard',
+      'CFNotificationCenterAddObserver','arm(); // early initial roster'):
+   self.assertIn(x,s)
+  self.assertIn('DFFirstPartySpringBoard.m',read("Makefile"))
+  for x in ('method_setImplementation','DBWorkspace','killall','sbreload'):
+   self.assertNotIn(x,s)
+  self.assertIn('DFCheckConsentAndArm(@"constructor-early")',read("DFFirstPartyAdmission.m"))
 if __name__=="__main__":unittest.main(verbosity=2)
