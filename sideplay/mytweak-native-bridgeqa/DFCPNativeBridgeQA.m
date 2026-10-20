@@ -80,7 +80,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.timer || !NSThread.isMainThread)return;
     NSString *process=NSProcessInfo.processInfo.processName;
     if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:process])return;
-    DFQAWrite(@"start",@"disabled-by-default; no window creation");
+    DFQAWrite(@"start",@"version=0.0.4~nativegeometry1; normal=dynamic-insets; fullscreen=screen-bounds; no-automatic-UI");
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
@@ -324,10 +324,17 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.owner.attached) {
         NSNumber *mode=MTCPBridgeReadHostFullscreen(self.owner.receiverSession);
         BOOL requested=mode ? mode.boolValue : NO;
-        if(self.owner.isHostFullscreen!=requested &&
-           ![self.owner applyHostFullscreen:requested] && self.ticks%15==0)
-            DFQAWrite(@"native-host-geometry-rejected",
-                     requested?@"enter-fullscreen":@"restore-normal");
+        if(self.owner.isHostFullscreen!=requested) {
+            if([self.owner applyHostFullscreen:requested]) {
+                DFQAWrite(@"native-host-geometry-applied",
+                    [NSString stringWithFormat:@"mode=%@ content=%@",
+                       requested?@"FULL-screen-no-insets":@"NORMAL-saved-insets",
+                       NSStringFromCGRect(self.owner.activeContentRect)]);
+            } else if(self.ticks%15==0) {
+                DFQAWrite(@"native-host-geometry-rejected",
+                          requested?@"enter-fullscreen":@"restore-normal");
+            }
+        }
     }
     if(!self.sidebarTrial)self.sidebarTrial=[DFNativeSidebarTrial new];
     [self.sidebarTrial tickWithSurface:MTCPBridgeReadSurface(nil)];
