@@ -1,6 +1,7 @@
 // Independent read-only, one-shot ABI inventory for DuoFace iOS16.
-// NO entitlement getter invocation, method hook, cached-value substitution,
-// LS database writes, scene activation, Dock change, daemon restart or respring.
+// Default ABI inventory; optional validated request reads ONLY two own-bundle
+// original getter return classes. No hooks, cached-value substitution,
+// LS database writes, scene activation, Dock change, restart or respring.
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <objc/runtime.h>
