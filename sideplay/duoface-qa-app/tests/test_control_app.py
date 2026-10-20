@@ -45,7 +45,7 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertIn("0.0.1~readonly1",read("control"))
   for label in ("startAdmissionTrace:","stopAdmissionTrace:","DuoFaceAdmissionTrace.log",
                 "com.duoface.admission-trace.request.plist","AuditOnly",
-                "Kind\":@\"consolidated-target", "DFTraceDisable"):
+                "DFTraceStatus", "DFTraceDisable"):
    self.assertIn(label,s)
   self.assertIn("runRosterProbe:",s)
   self.assertIn("DFRosterSignal,NULL,NULL,YES",s)
