@@ -50,8 +50,8 @@ static void DFProbeNativeAppAdmissionABI(void) {
     Class appInfo=NSClassFromString(@"DBApplicationInfo");
     DFProbeLog([NSString stringWithFormat:
       @"native-admission-abi CARApplication=%@ allInstalled=%@ byBundleID=%@ "
-      "LSBundleProxy=%@ typed3=%@ typed2=%@ bulk=%@ infoDictionary=%@ "
-      "FBSApplicationInfo=%@ fbBulk=%@ DBApplicationInfo=%@ workspaceInitOwner=%@",
+      @"LSBundleProxy=%@ typed3=%@ typed2=%@ bulk=%@ infoDictionary=%@ "
+      @"FBSApplicationInfo=%@ fbBulk=%@ DBApplicationInfo=%@ workspaceInitOwner=%@",
       catalog?@"yes":@"no",
       DFProbeMethodABI(catalog,@selector(_allInstalledApplications),YES),
       DFProbeMethodABI(catalog,@selector(_allInstalledApplicationsByBundleIdentifier),YES),
