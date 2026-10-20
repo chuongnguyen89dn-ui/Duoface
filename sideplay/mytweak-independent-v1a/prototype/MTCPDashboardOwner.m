@@ -129,7 +129,7 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content,
 // Native12-equivalent geometry state: the Apple-owned window/root stays
 // full display; only the hosted pane region changes. Do NOT crop UIWindow.
 // Fullscreen hides the existing native chrome; exit restores its saved state.
-- (BOOL)setHostFullscreen:(BOOL)fullscreen {
+- (BOOL)applyHostFullscreen:(BOOL)fullscreen {
     if (![NSThread isMainThread] || !self.attached)return NO;
     if (self.hostFullscreen==fullscreen)return YES;
     UIWindow *w=nil;
@@ -155,7 +155,7 @@ static BOOL MTCPNativeBarContent(UIWindow *dashboard,CGRect *content,
         self.contentRect=full;
         self.hostFullscreen=YES;
         if (![self writeLiveReceiverAck:w]) {
-            [self setHostFullscreen:NO];return NO;
+            [self applyHostFullscreen:NO];return NO;
         }
         NSLog(@"[DuoFaceNativeGeometry] enter normal=%@ full=%@ barHidden=%d",
               NSStringFromCGRect(usable),NSStringFromCGRect(full),bar.hidden);
