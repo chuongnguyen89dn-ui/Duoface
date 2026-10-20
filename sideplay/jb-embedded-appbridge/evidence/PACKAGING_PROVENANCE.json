@@ -1,13 +1,13 @@
 {
   "kind": "code-packaging-only-not-carplay-validation",
-  "output": "sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.1~candidate1_iphoneos-arm64.deb",
-  "sha256": "70b74717c0f4dc926818edc57544ae1786d583957ff0d3661b8e400f5023dd95",
+  "output": "sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.2~nativecontent1_iphoneos-arm64.deb",
+  "sha256": "8dcea380b7c21b072526d882489868eeb9c6bce1750a1f2c9cfb5fc1197d8a13",
   "source_packages": [
     {
       "package": "com.duoface.mytweak.v1a.preflight",
       "input": "sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.0~v1bc1_iphoneos-arm64.deb",
       "version": "0.2.0~v1bc1",
-      "sha256": "e8c02b1fed667377d02df281ab55a45d89620cf65aeb88722c9152600c05034b",
+      "sha256": "a829f32d7cf2c24f2ed8ccb8b1fc27a8fe5ec568f5ebce65b91729045715a742",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
@@ -18,7 +18,7 @@
       "package": "com.duoface.carplay.nativebridgeqa",
       "input": "sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.6~dockcrop1_iphoneos-arm64.deb",
       "version": "0.0.6~dockcrop1",
-      "sha256": "7d17c913f2faa9598ddb34bfd5fa60890f55f9e701f9c33fb60dd6690b895749",
+      "sha256": "3b692ce7e86c9ffc5b17b18db817d7bcf52393c7334ff010db1f0f5a1b2bae2d",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
@@ -29,7 +29,7 @@
       "package": "com.duoface.carplay.firstpartyadmission",
       "input": "sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.5~ready1_iphoneos-arm64.deb",
       "version": "0.0.5~ready1",
-      "sha256": "3b8307b445bb3b08b7ba82c74e5ebf3684e9abb4c93e8c76ae3758c1f4ca0357",
+      "sha256": "2457ecbe4385c49247958712b3900dd2e4789a1507d18e4ec8a269bc7aaa85cb",
       "payload_count": 2,
       "paths": [
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
@@ -38,9 +38,9 @@
     },
     {
       "package": "com.duoface.carplay.nativescenehost",
-      "input": "sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.1~scenehost1_iphoneos-arm64.deb",
-      "version": "0.0.1~scenehost1",
-      "sha256": "4a532f2e6b6a07e054b86963f7baa5c5718c5184e7288720a10b7f39d26613ed",
+      "input": "sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.2~nativecontent1_iphoneos-arm64.deb",
+      "version": "0.0.2~nativecontent1",
+      "sha256": "4bb12dfecf042fe35e160d5539f6a32a96ca6f18b828f97a92c7cc4a60447ac5",
       "payload_count": 2,
       "paths": [
         "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
@@ -51,7 +51,7 @@
       "package": "com.duoface.qa.controlapp",
       "input": "sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.7~ready1_iphoneos-arm64.deb",
       "version": "0.1.7~ready1",
-      "sha256": "9d82ce0e98c27121f031c12db9b053348b02f25d21f6d1185d8ae564cf24df99",
+      "sha256": "d4342a852344e3d0f9ce62f6f241949355e7853d7c45bb4acc7e9231f20d1c05",
       "payload_count": 6,
       "paths": [
         "var/jb/Applications/DuoFaceQA.app/AppIcon40x40@2x.png",
@@ -71,9 +71,12 @@
   "sileo_published": false,
   "device_carplay_icon_tested": false,
   "real_two_app_scene_tested": false,
+  "native_content_receiver_compiled": true,
+  "native_content_receiver_device_verified": false,
   "risks": [
     "SpringBoard injection present in own V1BC module; baseline not validated on this exact phone",
     "old QA packages conflict; do NOT install this staged package in place",
-    "Home app roster/CarPlay scene admission still needs actual device proof"
+    "Home app roster/CarPlay scene admission still needs actual device proof",
+    "System-issued scene CAContext receiver exists but touch and device overlay are unverified"
   ]
 }
