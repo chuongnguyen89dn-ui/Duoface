@@ -1,5 +1,5 @@
 // Dedicated SpringBoard-only DuoFace Test command receiver.
-// No LSBundleProxy/scene swizzles, no UI window, no unsolicited enable.
+// No app discovery changes, no UI window, no unsolicited enable.
 // The app's explicit 45-second confirmation is the ONLY start path.
 #import <Foundation/Foundation.h>
 #import <CoreFoundation/CoreFoundation.h>
