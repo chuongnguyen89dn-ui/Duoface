@@ -66,6 +66,8 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,copy) NSString *yieldSession;
 @property(nonatomic,copy) NSString *exhaustedYieldSession;
 @property(nonatomic,assign) NSTimeInterval yieldSince;
+// CarPlay native geometry state; not split-pane focusSlot/zoom.
+@property(nonatomic,assign) BOOL wholeHostFullscreen;
 @end
 @implementation DFCPNativeBridgeQA
 + (instancetype)shared {
@@ -84,10 +86,24 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 }
 - (void)stopPublisher {
     [self restoreYieldedSourceWindow:@"publisher-stopped"];
+    if (self.publisher.session)MTCPBridgeInvalidateHostFullscreen(self.publisher.session);
+    self.wholeHostFullscreen=NO;
     [self.relay stop];self.relay=nil;
     [self.publisher invalidate];self.publisher=nil;
     self.mirrorLayer=nil;self.currentRoot=nil;self.currentWindow=nil;
     self.pointerDown=NO;self.lastImageTime=0;
+}
+- (void)toggleWholeHostFullscreen {
+    NSString *session=self.publisher.session;
+    if(!session || !MTCPBridgeExplicitOptIn())return;
+    BOOL next=!self.wholeHostFullscreen;
+    if(!MTCPBridgeWriteHostFullscreen(session,next)) {
+        DFQAWrite(@"whole-host-geometry-command-rejected",@"live session required");
+        return;
+    }
+    self.wholeHostFullscreen=next;
+    DFQAWrite(@"whole-host-geometry-request",
+       next?@"fullscreen-content+hide-native-chrome":@"normal-content+restore-native-chrome");
 }
 - (void)deliverPacket:(NSDictionary *)packet toRoot:(UIViewController *)root {
     if(!DFQAValidRoot(root) || !MTCPBridgeExplicitOptIn())return;
@@ -113,12 +129,23 @@ static BOOL DFQAValidRoot(UIViewController *root) {
         NSString *title=button.currentTitle;
         if(![@[@"App",@"Split 2",@"Single",@"Swap",@"Zoom",@"Close"] containsObject:title])return;
         if(!button.enabled || button.hidden || button.alpha<0.95)return;
+        // Native12 host Zoom is NOT CBBridgedSplitApp.focusSlot:.
+        // In the native CarPlay receiver, route only this menu action to
+        // whole-host bounds + chrome; leave source V1BC per-slot code intact.
+        if([title isEqualToString:@"Zoom"]) {
+            [self toggleWholeHostFullscreen];
+            return;
+        }
         [button sendActionsForControlEvents:UIControlEventTouchUpInside];
         DFQAWrite(@"menu-tap",title);
     } else if([@[@"swap",@"split",@"zoom",@"close"] containsObject:action]) {
         SEL sel=NSSelectorFromString([@{@"swap":@"swapApps",
             @"split":@"toggleSplit",@"zoom":@"toggleZoom",
             @"close":@"closeTrial"} objectForKey:action]);
+        if([action isEqualToString:@"zoom"]) {
+            [self toggleWholeHostFullscreen];
+            return;
+        }
         if([root respondsToSelector:sel]) {
             @try{((void(*)(id,SEL))objc_msgSend)(root,sel);
                  DFQAWrite(@"menu-command",action);}
@@ -246,6 +273,8 @@ static BOOL DFQAValidRoot(UIViewController *root) {
             self.mirrorLayer=nil;return;
         }
         self.publisher=publisher;
+        self.wholeHostFullscreen=NO;
+        MTCPBridgeWriteHostFullscreen(publisher.session,NO);
         self.currentRoot=root;self.currentWindow=w;
         __weak typeof(self) weakSelf=self;
         MTCPCommandRelay *relay=[MTCPCommandRelay new];
@@ -270,6 +299,10 @@ static BOOL DFQAValidRoot(UIViewController *root) {
             return;
         }
     }
+    if(self.publisher.session &&
+       !MTCPBridgeWriteHostFullscreen(self.publisher.session,self.wholeHostFullscreen) &&
+       self.ticks%30==0)
+        DFQAWrite(@"whole-host-mode-lease-failed",@"no live publisher/bridge");
     [self tickNativeDashboardSourceYield:w];
 }
 - (UIViewController *)nativeDashboardRoot {
@@ -288,6 +321,14 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     return nil;
 }
 - (void)tickCarPlay {
+    if(self.owner.attached) {
+        NSNumber *mode=MTCPBridgeReadHostFullscreen(self.owner.receiverSession);
+        BOOL requested=mode ? mode.boolValue : NO;
+        if(self.owner.isHostFullscreen!=requested &&
+           ![self.owner setHostFullscreen:requested] && self.ticks%15==0)
+            DFQAWrite(@"native-host-geometry-rejected",
+                     requested?@"enter-fullscreen":@"restore-normal");
+    }
     if(!self.sidebarTrial)self.sidebarTrial=[DFNativeSidebarTrial new];
     [self.sidebarTrial tickWithSurface:MTCPBridgeReadSurface(nil)];
     if(self.owner.attached) {[self.owner refresh];return;}
