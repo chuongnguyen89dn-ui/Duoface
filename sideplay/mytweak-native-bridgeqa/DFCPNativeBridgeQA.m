@@ -325,7 +325,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
         NSNumber *mode=MTCPBridgeReadHostFullscreen(self.owner.receiverSession);
         BOOL requested=mode ? mode.boolValue : NO;
         if(self.owner.isHostFullscreen!=requested &&
-           ![self.owner setHostFullscreen:requested] && self.ticks%15==0)
+           ![self.owner applyHostFullscreen:requested] && self.ticks%15==0)
             DFQAWrite(@"native-host-geometry-rejected",
                      requested?@"enter-fullscreen":@"restore-normal");
     }
