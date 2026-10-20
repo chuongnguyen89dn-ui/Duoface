@@ -58,11 +58,12 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,assign) BOOL pointerDown;
 @property(nonatomic,assign) NSTimeInterval lastImageTime;
 @property(nonatomic,assign) NSUInteger ticks;
-// Never lower the original source window until a CarPlay-owned receiver ACK.
-// Trial is capped at 45s and is restored when ACK/session/tweak disappears.
+// Crop only the SpringBoard-owned live source UIWindow, not the rendered image.
+// CarPlay supplies a short-lived measured native content rectangle via ACK.
+// Trial lasts <=45s and restores the original frame if we still own it.
 @property(nonatomic,weak) UIWindow *yieldedSourceWindow;
-@property(nonatomic,assign) UIWindowLevel savedSourceLevel;
-@property(nonatomic,assign) UIWindowLevel expectedSourceLevel;
+@property(nonatomic,assign) CGRect savedSourceFrame;
+@property(nonatomic,assign) CGRect expectedSourceFrame;
 @property(nonatomic,copy) NSString *yieldSession;
 @property(nonatomic,copy) NSString *exhaustedYieldSession;
 @property(nonatomic,assign) NSTimeInterval yieldSince;
@@ -80,7 +81,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.timer || !NSThread.isMainThread)return;
     NSString *process=NSProcessInfo.processInfo.processName;
     if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:process])return;
-    DFQAWrite(@"start",@"version=0.0.5~controlapp1; normal=dynamic-insets; fullscreen=screen-bounds; no-automatic-UI");
+    DFQAWrite(@"start",@"version=0.0.6~dockcrop1; trial=live-source-window-native-content-crop; no-automatic-UI");
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
@@ -198,67 +199,94 @@ static BOOL DFQAValidRoot(UIViewController *root) {
            [cfg[@"NativeSidebarTrial"] isKindOfClass:NSNumber.class] &&
            [cfg[@"NativeSidebarTrial"] boolValue];
 }
+// Use the already authenticated receiver-ACK geometry, never search for Dock
+// inside SpringBoard's UIApplication.windows (native Dock is in CarPlay).
+// A separate UIWindow can obscure native chrome even when its split UIView shrinks.
+static BOOL DFQAFrameNear(CGRect a,CGRect b) {
+    return fabs(a.origin.x-b.origin.x)<1.0 && fabs(a.origin.y-b.origin.y)<1.0 &&
+           fabs(a.size.width-b.size.width)<1.0 && fabs(a.size.height-b.size.height)<1.0;
+}
 - (void)restoreYieldedSourceWindow:(NSString *)reason {
     UIWindow *w=self.yieldedSourceWindow;
-    if (w && fabs(w.windowLevel-self.expectedSourceLevel)<0.10) {
+    if(w && DFQAFrameNear(w.frame,self.expectedSourceFrame)) {
         @try {
-            w.windowLevel=self.savedSourceLevel;
-            DFQAWrite(@"source-window-restored",
-                [NSString stringWithFormat:@"reason=%@ level=%.2f",reason,
-                   (double)w.windowLevel]);
+            w.frame=self.savedSourceFrame;
+            [w.rootViewController.view setNeedsLayout];
+            DFQAWrite(@"source-window-crop-restored",
+                [NSString stringWithFormat:@"reason=%@ frame=%@",reason,
+                 NSStringFromCGRect(w.frame)]);
         } @catch(NSException *ex) {
             DFQAWrite(@"source-window-restore-exception",ex.name);
         }
+    } else if(w) {
+        DFQAWrite(@"source-window-restore-skipped",@"system-or-other-owner-changed-frame");
     }
     self.yieldedSourceWindow=nil;
     self.yieldSession=nil;
     self.yieldSince=0;
+    self.savedSourceFrame=CGRectNull;
+    self.expectedSourceFrame=CGRectNull;
 }
 - (void)tickNativeDashboardSourceYield:(UIWindow *)w {
     NSString *session=self.publisher.session;
     NSDictionary *ack=session?MTCPBridgeReadReceiverAck(session):nil;
     BOOL canTry=[self sourceYieldExperimentEnabled] && w && session && ack &&
-                 w==self.currentWindow && !w.hidden && w.alpha>=0.95 &&
+                 !self.wholeHostFullscreen && w==self.currentWindow &&
+                 !w.hidden && w.alpha>=0.95 && w.screen!=UIScreen.mainScreen &&
                  [w.rootViewController isKindOfClass:NSClassFromString(@"MTBridgeRootViewController")];
-    if (self.yieldedSourceWindow) {
+    if(self.yieldedSourceWindow) {
         BOOL expired=(NSDate.date.timeIntervalSince1970-self.yieldSince>45);
-        BOOL changed=fabs(self.yieldedSourceWindow.windowLevel-self.expectedSourceLevel)>0.10;
-        if (!canTry || expired || changed || w!=self.yieldedSourceWindow ||
-            ![session isEqualToString:self.yieldSession]) {
-            if (self.yieldSession)self.exhaustedYieldSession=self.yieldSession;
-            // If another component changed the level, preserve its newer value.
+        BOOL changed=!DFQAFrameNear(self.yieldedSourceWindow.frame,self.expectedSourceFrame);
+        if(!canTry || expired || changed || w!=self.yieldedSourceWindow ||
+           ![session isEqualToString:self.yieldSession]) {
+            if(self.yieldSession)self.exhaustedYieldSession=self.yieldSession;
             [self restoreYieldedSourceWindow:expired?@"45sec-lease-expired":
-                    changed?@"native-system-changed-level":@"native-ack-lost"];
+               changed?@"native-system-changed-frame":@"native-ack-or-mode-lost"];
         }
         return;
     }
-    if (!canTry || [session isEqualToString:self.exhaustedYieldSession])return;
-    if (fabs(w.windowLevel-UIWindowLevelNormal)>0.10)return;
-    // An ACK only confirms a layer attached to a real Dashboard-owned view,
-    // not pixels rendered or tappable Apple Home. Require bounded content.
-    double width=[ack[@"Width"] doubleValue], height=[ack[@"Height"] doubleValue];
-    if (!isfinite(width) || !isfinite(height) || width<0.70 || height<0.70)return;
-    UIWindowLevel previous=w.windowLevel;
-    UIWindowLevel destination=UIWindowLevelNormal-2.0;
+    if(!canTry || [session isEqualToString:self.exhaustedYieldSession])return;
+    // A live receiver authenticated both the actual native bar and its
+    // drawable content bounds. ACK is *not* proof of Dock/Home functionality.
+    double x=[ack[@"X"] doubleValue], y=[ack[@"Y"] doubleValue];
+    double width=[ack[@"Width"] doubleValue],height=[ack[@"Height"] doubleValue];
+    if(!isfinite(x)||!isfinite(y)||!isfinite(width)||!isfinite(height) ||
+       x<0 || y<0 || x>0.30 || y>0.30 || width<0.70 || height<0.70 ||
+       width>1 || height>1 || x+width>1.001 || y+height>1.001 ||
+       (x<0.005 && y<0.005 && width>0.995 && height>0.995))return;
+    CGRect original=w.frame;
+    CGRect carBounds=w.screen.bounds;
+    // Reject mismatched display units/orientation: never crop an unknown screen.
+    if(!DFQAFrameNear(original,carBounds) ||
+       fabs(w.windowLevel-UIWindowLevelNormal)>0.10)return;
+    CGRect target=CGRectMake(original.origin.x+x*original.size.width,
+       original.origin.y+y*original.size.height,
+       width*original.size.width,height*original.size.height);
+    if(!CGRectContainsRect(original,target) ||
+       target.size.width<160 || target.size.height<80)return;
     @try {
-        w.windowLevel=destination;
-        if (fabs(w.windowLevel-destination)>=0.10) {
-            // Do not try to fight with a system-assigned window level.
-            if (fabs(w.windowLevel-previous)<0.10) return;
-            DFQAWrite(@"source-window-yield-rejected",@"unexpected-level");
+        w.frame=target;
+        if(!DFQAFrameNear(w.frame,target)) {
+            // Reject unsupported root-scene window sizing and revert immediately.
+            if(DFQAFrameNear(w.frame,original)==NO)w.frame=original;
+            DFQAWrite(@"source-window-crop-rejected",@"UIRootSceneWindow-did-not-accept-frame");
+            self.exhaustedYieldSession=session;
             return;
         }
-        self.savedSourceLevel=previous;
-        self.expectedSourceLevel=destination;
+        self.savedSourceFrame=original;
+        self.expectedSourceFrame=target;
         self.yieldedSourceWindow=w;
         self.yieldSession=[session copy];
         self.yieldSince=NSDate.date.timeIntervalSince1970;
-        DFQAWrite(@"source-window-yielded-after-native-ack",
-            [NSString stringWithFormat:@"session=%@ level=%.2f->%.2f content=%.3fx%.3f max=45s",
-                session,(double)previous,(double)destination,width,height]);
+        [w.rootViewController.view setNeedsLayout];
+        DFQAWrite(@"source-window-cropped-after-native-ack",
+            [NSString stringWithFormat:@"session=%@ original=%@ live=%@ level=%.2f max=45s",
+               session,NSStringFromCGRect(original),NSStringFromCGRect(w.frame),
+               (double)w.windowLevel]);
     } @catch(NSException *ex) {
         self.exhaustedYieldSession=session;
-        DFQAWrite(@"source-window-yield-exception",ex.name);
+        DFQAWrite(@"source-window-crop-exception",ex.name);
+        if(DFQAFrameNear(w.frame,target))w.frame=original;
     }
 }
 - (void)tickSpringBoard {
