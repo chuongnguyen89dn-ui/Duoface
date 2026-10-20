@@ -47,7 +47,7 @@ jobs:
           test "${#debs[@]}" = 1
           deb="${debs[0]}"
           test "$(dpkg-deb -f "$deb" Package)" = 'com.duoface.carplay.nativejoinprobe'
-          test "$(dpkg-deb -f "$deb" Version)" = '0.0.1~sceneprobe1'
+          test "$(dpkg-deb -f "$deb" Version)" = '0.0.2~bargeometry1'
           test "$(dpkg-deb -f "$deb" Architecture)" = 'iphoneos-arm64'
           dpkg-deb -c "$deb" > "$RUNNER_TEMP/nativejoin-list.txt"
           test "$(grep -c '^-' "$RUNNER_TEMP/nativejoin-list.txt")" = 2
