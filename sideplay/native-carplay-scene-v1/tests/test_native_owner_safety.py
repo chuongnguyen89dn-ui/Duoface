@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+import unittest, plistlib
+from pathlib import Path
+R=Path(__file__).resolve().parents[1]
+def file(n):return (R/n).read_text()
+class NativeOwnerSafety(unittest.TestCase):
+ def test_independent_package_and_exact_carplay_filter(self):
+  c=file("control")
+  self.assertIn("Package: com.duoface.carplay.nativejoinprobe",c)
+  self.assertIn("Version: 0.0.1~sceneprobe1",c)
+  self.assertNotIn("Conflicts:",c)
+  self.assertNotIn("Replaces:",c)
+  filter=plistlib.loads((R/"DFNativeSceneJoinProbe.plist").read_bytes())
+  self.assertEqual(filter["Filter"]["Executables"],["CarPlay","CarPlayApp"])
+ def test_only_read_native_window_state(self):
+  c=file("DFNativeSceneProbe.m")
+  for expected in ('DBDashboardRootViewController','DBDockWindow','DBStatusBarWindow',
+                   'window.safeAreaInsets','DFNativeSceneUsable(',
+                   'UISceneActivationStateForegroundActive','DFNativeSceneOwnerRecord('):
+   # window.safeAreaInsets corresponds to dashboardWindow.safeAreaInsets
+   if expected=='window.safeAreaInsets':expected='dashboardWindow.safeAreaInsets'
+   self.assertIn(expected,c)
+  for forbidden in ('candidate.frame=','bar.hidden=', 'setWindowLevel:',
+          'initWithDisplayConfiguration:', 'UIRootSceneWindow', 'drawViewHierarchyInRect',
+          'LSBundleProxy','CARApplication','requestStateChange:', 'objc_msgSend',
+          'setRootViewController:','makeKeyAndVisible','SBApplicationController'):
+   self.assertNotIn(forbidden,c)
+ def test_boot_safety_and_source_boundary(self):
+  t=file("Tweak.x")
+  self.assertNotIn("%hook",t)
+  self.assertIn("DFNativeSceneProbeStart()",t)
+  self.assertIn("10*NSEC_PER_SEC",t)
+  for bad in ("SpringBoard", "objc_addLoadImageFunc", "MSHookMessageEx"):
+   self.assertNotIn(bad,t)
+  m=file("Makefile")
+  self.assertIn("arm64 arm64e",m)
+  self.assertIn("DFNativeSceneContract.m",m)
+  self.assertNotIn("DFNativeSidebarTrial.m",m)
+ def test_contract_refuses_stale_session(self):
+  c=file("DFNativeSceneContract.m")
+  for required in ('age>3.0', 'CGRectContainsRect(f,u)',
+                   'DFNativeSceneSplit(', 'isfinite', 'Kind', 'Session'):
+   self.assertIn(required,c)
+  self.assertNotIn('45.0',c)
+if __name__=="__main__":unittest.main(verbosity=2)
