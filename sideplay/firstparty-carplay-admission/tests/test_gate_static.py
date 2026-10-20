@@ -28,7 +28,18 @@ class CandidateSafety(unittest.TestCase):
   self.assertFalse((P/"postinst").exists())
   self.assertFalse((P/"prerm").exists())
   self.assertIn("INSTALL_TARGET_PROCESSES =",read("Makefile"))
-  self.assertIn("Version: 0.0.2~signal1",c)
+  self.assertIn("Version: 0.0.3~roster1",c)
   self.assertIn("if(!DFOriginal3)return nil;",read("DFFirstPartyAdmission.m"))
   self.assertIn("if(!DFOriginal2)return nil;",read("DFFirstPartyAdmission.m"))
+ def test_roster_probe_is_readonly_one_shot(self):
+  s=read("DFFirstPartyAdmission.m")
+  for key in ('roster-readonly','DFRosterSignal','DFLastRosterRequestID',
+              'appProxy=absent','CarPlayRole=%@','@24@0:8@16',
+              '@32@0:8@16#24','writeToFile:DFRosterRequest atomically:YES',
+              'DFExplicitConsent()','DFHostID','30','CFNotificationCenterAddObserver'):
+   self.assertIn(key,s)
+  for blocked in ('LSApplicationWorkspace','registerApplication','unregisterApplication',
+     'activateApplication','_newApplicationLibrary','requestStateChange',
+     'FBSApplicationInfo','LSBundleInfoCachedValues','method_setImplementation'):
+   self.assertNotIn(blocked,s)
 if __name__=="__main__":unittest.main(verbosity=2)

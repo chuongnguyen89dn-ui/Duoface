@@ -18,6 +18,8 @@ static NSString *const DFAdmissionConfig=@"/var/mobile/Library/Preferences/com.d
 static NSString *const DFAdmissionKill=@"/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable";
 static NSString *const DFAdmissionLog=@"/var/mobile/Library/Logs/DuoFaceFirstPartyAdmission.log";
 static CFStringRef const DFAdmissionSignal=CFSTR("com.duoface.firstparty-admission.refresh");
+static NSString *const DFRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.firstparty-roster.request.plist";
+static CFStringRef const DFRosterSignal=CFSTR("com.duoface.firstparty-admission.roster-readonly");
 static NSString *const DFSBLog=@"/var/mobile/Library/Logs/DuoFaceSBAdmissionProbe.log";
 
 static NSDictionary *DFPrefs(NSString *path) {
@@ -205,6 +207,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                   selector:@selector(enableFirstParty:) danger:NO]];
     [self.stack addArrangedSubview:[self button:@"Tắt đăng ký ngay"
                   selector:@selector(disableFirstParty:) danger:YES]];
+    [self.stack addArrangedSubview:[self button:@"Kiểm tra Native Host trong CarPlay (chỉ đọc)"
+                  selector:@selector(runRosterProbe:) danger:NO]];
     [self.stack addArrangedSubview:[self label:@"Thử khi xe đang đỗ. Bản này chỉ áp dụng cho tiến trình CarPlay, KHÔNG sửa SpringBoard hoặc thanh Dock. Chưa chứng minh biểu tượng DuoFace đã xuất hiện." font:[UIFont systemFontOfSize:12]]];
     self.logSource=[[UISegmentedControl alloc] initWithItems:@[@"QA6", @"Native", @"SB", @"Admission"]];
     self.logSource.selectedSegmentIndex=1;
@@ -361,6 +365,32 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
                 DFAdmissionSignal,NULL,NULL,YES);
             [self alert:@"Đã gửi tín hiệu thử" message:@"Đã lưu cấu hình và gửi tín hiệu trực tiếp đến tiến trình CarPlay đang chạy. Xem tab Admission để xác nhận module phản hồi; không tự khởi động lại SpringBoard. Nếu module chưa nạp, vẫn chưa có phản hồi."];
         }
+        [self refresh];
+    }]];
+    [self presentViewController:a animated:YES completion:nil];
+}
+- (void)runRosterProbe:(id)sender {
+    (void)sender;
+    if(!DFFlag(DFAdmissionConfig,@"Enabled") ||
+       !DFFlag(DFAdmissionConfig,@"RiskAcknowledged") ||
+       [[NSFileManager defaultManager] fileExistsAtPath:DFAdmissionKill]){
+        [self alert:@"Chưa bật thử đăng ký" message:@"Tính năng chỉ đọc dùng cùng sự đồng ý hiện tại. Không bật cầu nối cũ."];
+        return;
+    }
+    UIAlertController *a=[UIAlertController alertControllerWithTitle:@"Kiểm tra Native Host một lần?"
+        message:@"Đọc thông tin duy nhất ứng dụng DuoFace Native Host trong tiến trình CarPlay. Không sửa quyền, danh sách ứng dụng, Dock hoặc SpringBoard."
+        preferredStyle:UIAlertControllerStyleAlert];
+    [a addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+    [a addAction:[UIAlertAction actionWithTitle:@"Kiểm tra" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        (void)action;
+        NSDictionary *request=@{@"Enabled":@YES,@"HostBundleID":@"com.duoface.native.scenehost",
+           @"RequestID":NSUUID.UUID.UUIDString,@"RequestAt":@(NSDate.date.timeIntervalSince1970)};
+        if(![request writeToFile:DFRosterRequest atomically:YES]){
+            [self alert:@"Không gửi được" message:@"Không ghi được yêu cầu chỉ đọc."];return;
+        }
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+            DFRosterSignal,NULL,NULL,YES);
+        self.logSource.selectedSegmentIndex=3;
         [self refresh];
     }]];
     [self presentViewController:a animated:YES completion:nil];
