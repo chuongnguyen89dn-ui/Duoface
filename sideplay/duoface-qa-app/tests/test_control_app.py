@@ -9,7 +9,7 @@ class DuoFaceQACtrl(unittest.TestCase):
   self.assertEqual(p["CFBundlePackageType"],"APPL")
   c=read("control")
   self.assertIn("Package: com.duoface.qa.controlapp",c)
-  self.assertIn("Version: 0.1.0~app1",c)
+  self.assertIn("Version: 0.1.1~nativeprobe1",c)\n  self.assertIn("com.duoface.carplay.nativejoinprobe",c)
   self.assertIn("0.0.5~controlapp1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
@@ -29,7 +29,7 @@ class DuoFaceQACtrl(unittest.TestCase):
                    "writeToFile:path atomically:YES"]:
    if required=="source[@":continue
    self.assertIn(required,s)
-  self.assertIn("DuoFaceNativeBridgeQA.log",s)
+  self.assertIn("DuoFaceNativeBridgeQA.log",s)\n  self.assertIn("DuoFaceNativeSceneJoin.log",s)\n  self.assertIn("com.duoface.native-scene-owner.v1.plist",s)\n  self.assertIn('self.nativeSceneLabel.text',s)\n  self.assertIn('DFLastLines(DFSceneProbeLog,350)',s)
   self.assertIn("Không ghi được",s)
   self.assertIn("ACK không phải",s)
   for forbidden in ("system(","execv(","LSBundleProxy",
