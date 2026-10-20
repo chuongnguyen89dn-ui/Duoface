@@ -1,0 +1,11 @@
+# Single-package jailbreak DuoFace AppBridge staging — 2026-10-20
+
+Goal: user wants the CarBridge-EQUIVALENT to ship **inside independent DuoFace**, without installing a separate CarBridge package. Physical target iPhone X iOS16 rootless JB/DiPlay; native Apple Dock, 2 live iPhone application panes.
+
+Reference DEBs inspected in workflow 39429088870, JSON evidence/REFERENCE_DEB_AUDIT.json. DuoNavi 1.0.4 itself contains CarBridge API/class markers and Provides legacy CarBridge dependency names; SidePlay 1.0.4-1 is self-contained and conflicts with CarPlayEnable and CarSurf. This proves packaging/design can be self-contained, NOT that source can be copied. NEVER include vendor libraries or license logic.
+
+Initial packaging candidate combines EXISTING independent DuoFace source-built components only: MyTweak V1BC SpringBoard scene host; QA6 CarPlay native-dashboard receiver; CarPlay firstparty admission candidate; native UIViewScene host and iPhone QA. Their binary payloads are grouped into ONE rootless DEB with filename `com.duoface.jb.embedded_0.0.1~candidate1_iphoneos-arm64.deb` (output generated in CI). It has NO dependency on external CarBridge. The merge refuses any non-rootless path, duplicate files, unexpected package identity, or vendor package. Does not install, respring, publish or copy license components.
+
+**Hard blockers:** First-party CarPlay icon acceptance is NOT proven; current default-off gate has yielded only version-5 ACK (not inclusion). The V1BC source can still own foreign SpringBoard display UIWindow and QA6 crop path is experimental; two touchable panes with real system Dock are not validated end-to-end. The combined candidate necessarily conflicts with installed older standalone DuoFace QA modules. DO NOT publish or tell user to install until proven safe migration/rollback and physical in-car acceptance. It is an actual single-package engineering staging step, not a claim the final CarBridge replacement is complete.
+
+Build/test from repo on macOS runner with Theos and ldid: build all five own packages and run `python3 sideplay/jb-embedded-appbridge/package_integrated.py --build`. Verify source package hashes, file path list and DPKG control; keep old safe public Sileo. No official Apple CPTemplate detour.
