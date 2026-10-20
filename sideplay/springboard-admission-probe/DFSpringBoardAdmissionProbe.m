@@ -55,9 +55,9 @@ static void DFReadOnlyInventory(NSString *requestID) {
     // Read method type encodings ONLY. Do not construct / invoke private APIs.
     NSString *details=[NSString stringWithFormat:
        @"FBSApplicationInfo=%@ fbBulk=%@ "
-        "LSBundleInfoCachedValues=%@ boolForKey=%@ objectForKey=%@ numberForKey=%@ "
-        "LSBundleProxy=%@ typed3=%@ typed2=%@ bulk=%@ infoKey=%@ "
-        "LSApplicationProxy=%@ byBundle=%@ CARApplication=%@ workspace=%@",
+        @"LSBundleInfoCachedValues=%@ boolForKey=%@ objectForKey=%@ numberForKey=%@ "
+        @"LSBundleProxy=%@ typed3=%@ typed2=%@ bulk=%@ infoKey=%@ "
+        @"LSApplicationProxy=%@ byBundle=%@ CARApplication=%@ workspace=%@",
        DFClassName(fbs),DFEncoding(fbs,@selector(entitlementValuesForKeys:),NO),
        DFClassName(cached),DFEncoding(cached,@selector(boolForKey:),NO),
        DFEncoding(cached,@selector(objectForKey:),NO),
