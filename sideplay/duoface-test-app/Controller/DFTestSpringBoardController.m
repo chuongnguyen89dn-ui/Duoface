@@ -5,6 +5,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <dispatch/dispatch.h>
 #import <fcntl.h>
+#import <sys/stat.h>
 #import <unistd.h>
 static NSString *const DFBase=@"/var/mobile/Library/Preferences/com.duoface.mytweak.v1bc.plist";
 static NSString *const DFBridge=@"/var/mobile/Library/Preferences/com.duoface.mytweak.carplay-bridge.plist";
