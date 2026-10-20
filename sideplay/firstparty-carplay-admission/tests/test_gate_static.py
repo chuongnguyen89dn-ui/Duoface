@@ -36,6 +36,7 @@ class CandidateSafety(unittest.TestCase):
   for value in ('DFTraceObserve(proxy,key,expected,valueClass,real,@"typed3"))return real;',
                 'DFTraceObserve(proxy,key,expected,Nil,real,@"typed2"))return real;',
                 'DFTraceOwnBundle(proxy)','DFTraceActiveRequest()',
+                'if(!DFExplicitConsent() || access(DFDisable,F_OK)==0',
                 'age<=180','DFTraceSamples>=16','log-cap-reached',
                 'originalClass=%@','valuesExpected=%@','auditOnly=true',
                 'DuoFaceAdmissionTrace.log','DFTraceDisable'):
