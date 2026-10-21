@@ -16,6 +16,7 @@
 @property(nonatomic) BOOL touchesEnabled;
 @property(nonatomic) BOOL verticalDivider;
 @property(nonatomic) NSInteger focusedSlot;
+@property(nonatomic,strong) UIView *startupSplash;
 @end
 @implementation DFNative12BasicController
 - (instancetype)init { if((self=[super init])){_ratio=0.5;_verticalDivider=YES;_focusedSlot=-1;}return self; }
@@ -68,10 +69,46 @@
  // CPWindow remains a visual receiver; avoid duplicate noninteractive buttons.
  self.leftMenu.hidden=YES;self.rightMenu.hidden=YES;
  self.logo.hidden=YES;
+ // Reproduce the approved black Native12 logo splash in the CarPlay
+ // presentation window without interacting with or obscuring the Apple Dock.
+ UIView *splash=[UIView new];
+ splash.backgroundColor=UIColor.blackColor;
+ splash.userInteractionEnabled=NO;
+ [self.view addSubview:splash];self.startupSplash=splash;
+ UIImage *asset=[UIImage imageWithContentsOfFile:[[NSBundle mainBundle]
+           pathForResource:@"duoface-logo" ofType:@"png" inDirectory:@"VisualAssets"]];
+ UIImageView *brand=[[UIImageView alloc]initWithImage:asset];
+ brand.tag=9237;brand.contentMode=UIViewContentModeScaleAspectFit;
+ [splash addSubview:brand];
  [self.view setNeedsLayout];
+}
+- (void)viewDidAppear:(BOOL)animated {
+ [super viewDidAppear:animated];
+ UIView *splash=self.startupSplash;
+ if(!splash)return;
+ dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.6*NSEC_PER_SEC)),
+       dispatch_get_main_queue(), ^{
+   if(splash!=self.startupSplash)return;
+   [UIView animateWithDuration:.32 animations:^{splash.alpha=0;}
+          completion:^(BOOL finished){
+       (void)finished;
+       if(splash==self.startupSplash){
+           [splash removeFromSuperview];self.startupSplash=nil;
+       }
+   }];
+ });
 }
 - (void)viewDidLayoutSubviews {
  [super viewDidLayoutSubviews];
+ if(self.startupSplash){
+    CGRect area=CGRectIsEmpty(self.view.safeAreaLayoutGuide.layoutFrame)?
+       self.view.bounds:self.view.safeAreaLayoutGuide.layoutFrame;
+    self.startupSplash.frame=area;
+    UIImageView *logo=[self.startupSplash viewWithTag:9237];
+    CGFloat width=MIN(area.size.width*.8,400);
+    logo.frame=CGRectMake((area.size.width-width)/2,(area.size.height-width/4)/2,
+                           width,width/4);
+ }
  CGRect area=self.view.safeAreaLayoutGuide.layoutFrame;
  if(CGRectIsEmpty(area))area=self.view.bounds;
  CGFloat width=CGRectGetWidth(area),height=CGRectGetHeight(area);
