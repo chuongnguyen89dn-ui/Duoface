@@ -137,11 +137,11 @@ static void DFCLog(NSString *text) {
     for(NSInteger slot=0;slot<2;slot++) {
         CGRect frame=CGRectMake(cr.origin.x+10,cr.origin.y+3,76,22);
         UIViewController *root=[self emptyRoot:frame];
-        UIView *pill=[UIView new];
+        UIVisualEffectView *pill=[[UIVisualEffectView alloc]
+                  initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemThinMaterialDark]];
         pill.frame=root.view.bounds;
         pill.layer.cornerRadius=11;
         pill.layer.masksToBounds=YES;
-        pill.backgroundColor=[UIColor colorWithWhite:.16 alpha:.94];
         pill.layer.borderColor=[UIColor colorWithWhite:1 alpha:.25].CGColor;
         pill.layer.borderWidth=.5;
         [root.view addSubview:pill];
@@ -151,21 +151,23 @@ static void DFCLog(NSString *text) {
                              action:@selector(zoomPressed:)];
         menu.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         zoom.titleLabel.font=[UIFont boldSystemFontOfSize:13];
-        UIImage *pickerArt=DFCArtwork(@"duoface-picker");
-        UIImage *zoomArt=DFCArtwork(@"duoface-fullscreen");
-        if(pickerArt){
-            [menu setTitle:@"" forState:UIControlStateNormal];
-            [menu setImage:pickerArt forState:UIControlStateNormal];
-            menu.imageView.contentMode=UIViewContentModeScaleAspectFit;
-        }
-        if(zoomArt){
-            [zoom setTitle:@"" forState:UIControlStateNormal];
-            [zoom setImage:zoomArt forState:UIControlStateNormal];
-            zoom.imageView.contentMode=UIViewContentModeScaleAspectFit;
-        }
-        menu.frame=CGRectMake(0,0,48,22);
-        zoom.frame=CGRectMake(48,0,28,22);
-        [pill addSubview:menu];[pill addSubview:zoom];
+        // The approved picker PNG is a 256x70 COMPOSITE strip, not an
+        // icon. Stretching it into 48x22 made the enormous black/white
+        // blocks visible on the real CarPlay screenshot. Source-own the
+        // Native12 two-action pill and use proper alpha symbols instead.
+        [menu setTitle:@"" forState:UIControlStateNormal];
+        [zoom setTitle:@"" forState:UIControlStateNormal];
+        UIImageSymbolConfiguration *symbol=[UIImageSymbolConfiguration
+                      configurationWithPointSize:12 weight:UIImageSymbolWeightMedium];
+        [menu setImage:[UIImage systemImageNamed:@"ellipsis" withConfiguration:symbol]
+              forState:UIControlStateNormal];
+        [zoom setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"
+                                     withConfiguration:symbol]
+              forState:UIControlStateNormal];
+        menu.frame=CGRectMake(0,0,38,22);
+        zoom.frame=CGRectMake(38,0,38,22);
+        [pill.contentView addSubview:menu];
+        [pill.contentView addSubview:zoom];
         UIWindow *w=[self makeWindow:frame root:root level:2];
         if(!w){[self stop];return NO;}
         [self.pillWindows addObject:w];
@@ -179,7 +181,7 @@ static void DFCLog(NSString *text) {
     self.dividerTrack.backgroundColor=UIColor.clearColor;
     UIView *line=[UIView new];
     line.tag=718;
-    line.backgroundColor=[UIColor colorWithWhite:1 alpha:.16];
+    line.backgroundColor=[UIColor clearColor];
     line.userInteractionEnabled=NO;
     [root.view addSubview:line];
     UIPanGestureRecognizer *trackPan=[[UIPanGestureRecognizer alloc]
@@ -189,12 +191,15 @@ static void DFCLog(NSString *text) {
     UIButton *logo=[self button:@"⇄" tag:0 action:@selector(swapPressed:)];
     logo.backgroundColor=UIColor.clearColor;
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
-    UIImage *swapArt=DFCArtwork(@"duoface-swap");
-    if(swapArt){
-        [logo setTitle:@"" forState:UIControlStateNormal];
-        [logo setImage:swapArt forState:UIControlStateNormal];
-        logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
-    }
+    // The 120x120 reference swap bitmap includes an opaque dark square
+    // in this asset set. Use the original QA-native vector fallback instead:
+    // the divider logo must have no black disk/background on CarPlay.
+    [logo setTitle:@"" forState:UIControlStateNormal];
+    UIImage *arrow=[[UIImage systemImageNamed:@"arrow.left.arrow.right"]
+                       imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [logo setImage:arrow forState:UIControlStateNormal];
+    logo.tintColor=UIColor.whiteColor;
+    logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
     UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
@@ -301,15 +306,18 @@ static void DFCLog(NSString *text) {
         w.frame=f;
         UIView *v=w.rootViewController.view;
         v.frame=CGRectMake(0,0,width,height);
-        UIView *pill=v.subviews.firstObject;
+        UIVisualEffectView *pill=(UIVisualEffectView *)v.subviews.firstObject;
         pill.frame=v.bounds; pill.layer.cornerRadius=height/2;
         UIButton *menu=self.pillMenu[(NSUInteger)i];
         UIButton *zoom=self.pillZoom[(NSUInteger)i];
-        menu.frame=CGRectMake(0,0,self.focus==i?0:width*.64,height);
+        menu.frame=CGRectMake(0,0,self.focus==i?0:width/2,height);
         zoom.frame=CGRectMake(CGRectGetMaxX(menu.frame),0,
                               width-CGRectGetMaxX(menu.frame),height);
         menu.hidden=self.focus==i;
-        [zoom setTitle:self.focus==i?@"↙":@"↗" forState:UIControlStateNormal];
+        UIImage *icon=[UIImage systemImageNamed:self.focus==i?
+             @"arrow.down.right.and.arrow.up.left":
+             @"arrow.up.left.and.arrow.down.right"];
+        [zoom setImage:icon forState:UIControlStateNormal];
         w.hidden=!show;
     }
     CGRect tr=self.verticalDivider?
