@@ -9,7 +9,7 @@ NSInteger DFSlotCountForPreset(NSInteger preset) {
 BOOL DFPrimaryDividerIsVertical(NSInteger preset) {
     return preset==0 || preset==2 || preset==3 || preset==6 || preset==7;
 }
-void DFComputePresetFrames(CGRect b, NSInteger preset, CGFloat ratio, CGRect out[4]) {
+void DFComputePresetFrames(CGRect b, NSInteger preset, CGFloat ratio, CGRect *out) {
     for(int i=0;i<4;i++)out[i]=CGRectNull;
     if(!isfinite(ratio))ratio=.5;
     ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
