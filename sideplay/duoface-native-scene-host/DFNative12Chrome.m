@@ -549,8 +549,9 @@ static void DFCLog(NSString *text) {
         BOOL focused=(self.focus==i);
         BOOL show=(self.focus<0 || focused)&&!self.pickerVisible;
         CGFloat compact=(pane[i].size.width<320||pane[i].size.height<220);
-        CGFloat width=focused?(compact?72:80):
-               (ready?(compact?64:76):(compact?38:44));
+        // Two split-pane controls must be usable before a scene is loaded.
+        // Pressing Zoom on an empty pane opens the actual installed app picker.
+        CGFloat width=focused?(compact?72:80):(compact?64:76);
         CGFloat height=compact?19:22;
         CGRect f=CGRectMake(CGRectGetMidX(pane[i])-width/2,
                             CGRectGetMinY(pane[i])+3,width,height);
@@ -561,11 +562,12 @@ static void DFCLog(NSString *text) {
         pill.frame=v.bounds; pill.layer.cornerRadius=height/2;
         UIButton *menu=self.pillMenu[(NSUInteger)i];
         UIButton *zoom=self.pillZoom[(NSUInteger)i];
-        menu.frame=CGRectMake(0,0,focused?0:(ready?width/2:width),height);
+        menu.frame=CGRectMake(0,0,focused?0:width/2,height);
         zoom.frame=CGRectMake(CGRectGetMaxX(menu.frame),0,
                               width-CGRectGetMaxX(menu.frame),height);
         menu.hidden=focused;
-        zoom.hidden=!(focused||ready);
+        // Never silently hide the second button in an empty/pending pane.
+        zoom.hidden=NO;
         UIImage *icon=[UIImage systemImageNamed:self.focus==i?
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
@@ -629,11 +631,18 @@ static void DFCLog(NSString *text) {
 }
 - (void)zoomPressed:(UIButton *)sender {
     [self noteUserActivity];
-    NSInteger physical=(self.swapped && sender.tag<2)?1-sender.tag:sender.tag;
-    if(self.focus!=sender.tag &&
-       (physical<0 || physical>=DFSlotCountForPreset(self.preset) ||
-        ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))return;
-    self.focus=(self.focus==sender.tag)?-1:sender.tag;
+    NSInteger slot=sender.tag;
+    if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
+    NSInteger physical=(self.swapped && slot<2)?1-slot:slot;
+    // An unloaded scene cannot be focused. Respond by allowing selection of
+    // a real app, not by silently ignoring the visible Zoom action.
+    if(self.focus!=slot && ![self.sceneHandleReady[(NSUInteger)physical] boolValue]){
+        self.selectedSlot=slot;
+        [self openAppPickerForSlot:slot];
+        DFCLog([NSString stringWithFormat:@"zoom-requires-real-app slot=%ld picker-opened",(long)slot]);
+        return;
+    }
+    self.focus=(self.focus==slot)?-1:slot;
     [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":self.focus==1?@"FocusRight":self.focus==2?@"FocusSlot2":@"FocusSlot3")
          ratio:nil];
     [self layoutControls];
@@ -644,14 +653,9 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
-             NSInteger physical=(self.swapped && self.selectedSlot<2)?1-self.selectedSlot:self.selectedSlot;
-             if(self.focus<0 &&
-                (physical<0||physical>=DFSlotCountForPreset(self.preset)||
-                 ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))break;
-             self.focus=self.focus<0?self.selectedSlot:-1;
-             [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":self.focus==1?@"FocusRight":self.focus==2?@"FocusSlot2":@"FocusSlot3")
-                  ratio:nil];
-             [self layoutControls];break;
+             // Keep main-menu Zoom and per-pane Zoom behavior identical.
+             [self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];
+             break;
       }
       case 2:self.preset=(self.preset+1)%8;
              self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
