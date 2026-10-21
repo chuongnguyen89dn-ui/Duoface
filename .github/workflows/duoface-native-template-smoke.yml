@@ -5,6 +5,8 @@ on:
     paths:
       - '.github/workflows/duoface-native-template-smoke.yml'
       - 'sideplay/duoface-native-scene-host/**'
+      # Persisted DEBs and audit JSON are OUTPUT, not fresh source changes.
+      - '!sideplay/duoface-native-scene-host/packages/**'
   workflow_dispatch:
 permissions:
   contents: write
