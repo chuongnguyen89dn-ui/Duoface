@@ -10,6 +10,8 @@
 
 static NSString *const DFCarPlayRole=@"UIWindowSceneSessionRoleCarPlay";
 static NSString *const DFTemplateRole=@"CPTemplateApplicationSceneSessionRoleApplication";
+static NSString *const DFAckPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
+static const char *const DFAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 void DFNativeHostLog(NSString *message) {
     NSString *line=[NSString stringWithFormat:@"[DuoFaceNativeHost] %@\n",message];
     NSLog(@"%@",line);
@@ -163,6 +165,7 @@ void DFNativeHostLog(NSString *message) {
     }
     self.touchSession=nil;
     self.lastTouchSequence=0;
+    [[NSFileManager defaultManager] removeItemAtPath:DFAckPath error:nil];
 }
 - (void)renewTouchOwnerHeartbeat:(NSTimer *)timer {
     if(timer!=self.touchHeartbeat || !self.touchSession)return;
@@ -195,6 +198,7 @@ void DFNativeHostLog(NSString *message) {
     }
     self.touchSession=[NSUUID UUID].UUIDString;
     self.lastTouchSequence=0;
+    [[NSFileManager defaultManager] removeItemAtPath:DFAckPath error:nil];
     __weak typeof(self) weakOwner=self;
     int token=-1;
     int registered=notify_register_dispatch(
@@ -243,7 +247,7 @@ void DFNativeHostLog(NSString *message) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:path];
     id session=record[@"Session"], sequence=record[@"Sequence"];
     id timestamp=record[@"Timestamp"],action=record[@"Action"];
-    if(![record[@"Version"] isEqual:@1] ||
+    if(![record[@"Version"] isEqual:@2] ||
        ![session isKindOfClass:NSString.class] ||
        ![session isEqualToString:self.touchSession] ||
        ![sequence isKindOfClass:NSNumber.class] ||
@@ -266,16 +270,47 @@ void DFNativeHostLog(NSString *message) {
            ([(NSNumber *)ratio integerValue]!=0 &&
             [(NSNumber *)ratio integerValue]!=1))return;
     }else if(ratio!=nil)return;
+    // CarPlay only acknowledges the REAL post-action SpringBoard state.
+    // It must never execute a second, fake split manager or mutate CPWindow.
+    NSDictionary *state=record[@"State"];
+    if(![state isKindOfClass:NSDictionary.class] ||
+       ![state[@"Version"] isEqual:@2] ||
+       ![state[@"Owner"] isEqualToString:@"SpringBoard"])return;
+    for(NSString *key in @[@"Ratio",@"Vertical",@"Swapped",@"Focus",
+                             @"SelectedSlot",@"SlotCount",@"RunningScenes",
+                             @"PendingScenes",@"StartupActive",@"PickerVisible"]){
+        if(![state[key] isKindOfClass:NSNumber.class])return;
+    }
+    double currentRatio=[state[@"Ratio"] doubleValue];
+    NSInteger focus=[state[@"Focus"] integerValue];
+    NSInteger count=[state[@"SlotCount"] integerValue];
+    NSInteger selected=[state[@"SelectedSlot"] integerValue];
+    if(!isfinite(currentRatio) || currentRatio<1.0/3.0 ||
+       currentRatio>2.0/3.0 || count!=2 || focus< -1 || focus>=count ||
+       selected<0 || selected>=count ||
+       [state[@"RunningScenes"] integerValue]<0 ||
+       [state[@"RunningScenes"] integerValue]>count ||
+       [state[@"PendingScenes"] integerValue]<0 ||
+       [state[@"PendingScenes"] integerValue]>count)return;
+    if([action isEqualToString:@"Ratio"] &&
+       fabs(currentRatio-[ratio doubleValue])>0.06)return;
+    if([action isEqualToString:@"Restore"] && focus!= -1)return;
+    if([action isEqualToString:@"FocusLeft"] && focus!=0)return;
+    if([action isEqualToString:@"FocusRight"] && focus!=1)return;
     self.lastTouchSequence=[sequence unsignedIntegerValue];
-    if([action isEqualToString:@"Ratio"])
-        [self.basicController setPresetRatio:(CGFloat)[ratio doubleValue]];
-    else if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"])
-        [self.basicController performCarPlayControl:action slot:[(NSNumber *)ratio integerValue]];
-    else
-        [self.basicController performCarPlayControl:action];
+    NSDictionary *ack=@{@"Version":@2,@"Session":session,
+                         @"Sequence":sequence,@"Accepted":@YES,
+                         @"Action":action,@"Owner":@"SpringBoard",
+                         @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+    if(![ack writeToFile:DFAckPath atomically:YES]){
+        DFNativeHostLog(@"touchowner-state-ack-write-failed");
+        return;
+    }
+    int ackResult=notify_post(DFAckNotify);
     DFNativeHostLog([NSString stringWithFormat:
-      @"touchowner-command-applied session=%@ seq=%lu action=%@ ratio=%@",
-      session,(unsigned long)self.lastTouchSequence,action,ratio?:@"-"]);
+       @"touchowner-state-ack session=%@ seq=%lu action=%@ ratio=%@ focus=%ld scenes=%@ notify=%d",
+       session,(unsigned long)self.lastTouchSequence,action,
+       state[@"Ratio"],(long)focus,state[@"RunningScenes"],ackResult]);
 }
 - (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
        didConnectInterfaceController:(CPInterfaceController *)controller
