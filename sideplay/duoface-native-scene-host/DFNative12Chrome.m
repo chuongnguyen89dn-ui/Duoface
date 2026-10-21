@@ -263,7 +263,9 @@ static void DFCLog(NSString *text) {
     self.dividerTrack.backgroundColor=UIColor.clearColor;
     UIView *line=[UIView new];
     line.tag=718;
-    line.backgroundColor=[UIColor clearColor];
+    // The real split boundary must remain perceptible without painting
+    // a permanent red/green status outline around playing apps.
+    line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];
     line.userInteractionEnabled=NO;
     [root.view addSubview:line];
     UIPanGestureRecognizer *trackPan=[[UIPanGestureRecognizer alloc]
@@ -609,13 +611,27 @@ static void DFCLog(NSString *text) {
         BOOL loaded=([self.sceneHandleReady[(NSUInteger)i] boolValue] &&
                      self.hostedScenes[(NSUInteger)i]!=NSNull.null);
         BOOL negotiating=(self.pendingScenes[(NSUInteger)i]!=NSNull.null);
-        appWindow.hidden=(!(loaded||negotiating) ||
-                           (self.focus>=0 && self.focus!=visualSlot));
-        // Border belongs to real app-scene container. No touch interception.
-        v.layer.borderWidth=(!self.startupActive && self.focus<0 && loaded &&
-           NSDate.date.timeIntervalSince1970<self.borderUntil)?1.:0.;
-        v.layer.borderColor=[UIColor colorWithRed:227./255 green:2./255
-                                                  blue:15./255 alpha:1].CGColor;
+        // A pane is still a *real, empty app container* before the user
+        // selects an installed application. Hiding both windows when empty
+        // made the screen look like a single, unimplemented CarPlay page.
+        // Preserve the same UIWindow/UIView for pending and loaded scenes:
+        // no demo tiles, labels or invented app content.
+        BOOL focusedElsewhere=(self.focus>=0 && self.focus!=visualSlot);
+        appWindow.hidden=(self.startupActive || focusedElsewhere);
+        // An empty/negotiating window must NEVER steal input from the native
+        // CarPlay UI. Only a proven ready app may receive gestures in a slot.
+        appWindow.userInteractionEnabled=loaded;
+        // Native12 policy: a faint neutral outline identifies EMPTY panes;
+        // a RED outline appears only briefly after a real user action; a
+        // loaded pane never retains a permanent border while playing media.
+        BOOL splitVisible=(!self.startupActive && self.focus<0);
+        BOOL touched=(splitVisible && !self.pickerVisible &&
+                     NSDate.date.timeIntervalSince1970<self.borderUntil);
+        BOOL empty=(!loaded && !negotiating);
+        v.layer.borderWidth=splitVisible?(touched?1.0:(empty?0.75:0.0)):0.0;
+        v.layer.borderColor=(touched?
+          [UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1]:
+          [UIColor colorWithWhite:1 alpha:.25]).CGColor;
         v.layer.cornerRadius=10;
     }
 }
