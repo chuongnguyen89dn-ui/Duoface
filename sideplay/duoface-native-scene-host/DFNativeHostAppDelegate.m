@@ -154,14 +154,24 @@ void DFNativeHostLog(NSString *message) {
 - (void)stopTouchOwnerWithReason:(NSString *)reason {
     [self.touchHeartbeat invalidate];self.touchHeartbeat=nil;
     if(self.touchSession){
-        int rc=notify_post("com.duoface.nativehost.touchowner.stop.v1");
-        notify_cancel(self.touchRelayToken);
+        // Commit an inactive session tombstone BEFORE the Darwin stop notify.
+        // A queued start callback must not read the previous fresh Active=YES
+        // heartbeat and recreate the external UI after CarPlay Home.
         NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
         NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:path];
-        if([record[@"Session"] isEqualToString:self.touchSession])
-            [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        BOOL revoked=YES;
+        if([record[@"Session"] isEqualToString:self.touchSession]){
+            NSDictionary *inactive=@{@"Version":@1,@"Session":self.touchSession,
+                                     @"Active":@NO,@"Timestamp":@0};
+            revoked=[inactive writeToFile:path atomically:YES];
+            if(!revoked)
+                [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        }
+        int rc=notify_post("com.duoface.nativehost.touchowner.stop.v1");
+        notify_cancel(self.touchRelayToken);
         DFNativeHostLog([NSString stringWithFormat:
-             @"touchowner-stop reason=%@ notify=%d",reason?:@"unknown",rc]);
+             @"touchowner-stop reason=%@ revoked=%d notify=%d",
+             reason?:@"unknown",revoked,rc]);
     }
     self.touchSession=nil;
     self.lastTouchSequence=0;
