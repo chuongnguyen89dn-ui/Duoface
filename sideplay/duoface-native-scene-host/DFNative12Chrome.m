@@ -114,6 +114,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UILabel *pickerBrand;
 @property(nonatomic,assign) CGFloat ratio;
 @property(nonatomic,assign) CGFloat dragStartRatio;
+@property(nonatomic,assign) CGPoint dragStartScreenPoint;
 @property(nonatomic,assign) CGFloat logoFraction;
 @property(nonatomic,assign) BOOL verticalDivider;
 @property(nonatomic,assign) NSInteger preset;
@@ -797,12 +798,26 @@ static void DFCLog(NSString *text) {
     [self emit:@"SWAP" ratio:nil];
     DFCLog(@"swap-button");
 }
+// The divider window itself is re-framed on every split resize.
+// Measure finger displacement in the fixed external UIScreen coordinate space,
+// never in the moving dividerTrack or its movable UIWindow. The historical
+// Native12/visual12 reference uses a fixed split root for this reason.
+- (CGPoint)dividerTouchOnScreen:(UIPanGestureRecognizer *)pan {
+    CGPoint local=[pan locationInView:self.dividerTrack];
+    id<UICoordinateSpace> screen=self.dividerWindow.screen.coordinateSpace;
+    return screen?[self.dividerTrack convertPoint:local toCoordinateSpace:screen]:
+                  CGPointMake(NAN,NAN);
+}
 - (void)dividerPan:(UIPanGestureRecognizer *)pan {
     if(self.pickerVisible||self.focus>=0)return;
     UIGestureRecognizerState state=pan.state;
     if(state==UIGestureRecognizerStateBegan) {
+        CGPoint start=[self dividerTouchOnScreen:pan];
+        if(!isfinite(start.x)||!isfinite(start.y))return;
         [self noteUserActivity];
-        self.dragStartRatio=self.ratio;self.panActive=YES;
+        self.dragStartRatio=self.ratio;
+        self.dragStartScreenPoint=start;
+        self.panActive=YES;
         DFCLog(@"divider-pan-begin");return;
     }
     if(!self.panActive)return;
@@ -810,12 +825,16 @@ static void DFCLog(NSString *text) {
     BOOL cancel=state==UIGestureRecognizerStateCancelled ||
                 state==UIGestureRecognizerStateFailed;
     if(state!=UIGestureRecognizerStateChanged && !end && !cancel)return;
+    CGPoint current=[self dividerTouchOnScreen:pan];
+    if((!isfinite(current.x)||!isfinite(current.y)) && !cancel)return;
     CGFloat displacement=self.verticalDivider?
-        [pan translationInView:self.dividerTrack].x:
-        [pan translationInView:self.dividerTrack].y;
+        current.x-self.dragStartScreenPoint.x:
+        current.y-self.dragStartScreenPoint.y;
     CGFloat extent=self.verticalDivider?self.contentRect.size.width:
                                      self.contentRect.size.height;
-    CGFloat proposed=self.dragStartRatio+(self.preset==3 || self.preset==5?-1:1)*displacement/extent;
+    if(extent<=0||!isfinite(extent))return;
+    CGFloat proposed=self.dragStartRatio+
+        (self.preset==3 || self.preset==5?-1:1)*displacement/extent;
     self.ratio=cancel?self.dragStartRatio:(end?DFCSnap(proposed):DFCClamp(proposed));
     [self layoutControls];
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
