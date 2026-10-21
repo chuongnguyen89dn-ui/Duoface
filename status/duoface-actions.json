@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-21T18:44:18.420062+00:00",
+  "checked_at_utc": "2026-10-21T22:26:34.682790+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2240,
+  "total_actions_runs": 2241,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 1,
-      "success": 0,
+      "recent_runs": 2,
+      "success": 1,
       "failure": 0,
       "other": 1
     },
@@ -23,10 +23,10 @@
       "other": 20
     },
     "DuoFace independent CarPlay template scene candidate (isolated DEB)": {
-      "recent_runs": 55,
+      "recent_runs": 54,
       "success": 5,
       "failure": 7,
-      "other": 43
+      "other": 42
     },
     "Native12 original divider clamp and snap constants - immutable Mach-O": {
       "recent_runs": 1,
@@ -43,11 +43,21 @@
   },
   "latest_runs": [
     {
+      "id": 39686496356,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 50,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39686496356",
+      "created_at": "2026-10-21T22:26:26Z",
+      "head_sha": "ad850a1c198d739db91df4966cdf0efbc5193c03"
+    },
+    {
       "id": 39655379850,
       "name": "DuoFace Actions status snapshot",
       "run_number": 49,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39655379850",
       "created_at": "2026-10-21T18:44:06Z",
       "head_sha": "6747e2d4660237ee51d02198a6c8f696a2ee56de"
@@ -331,16 +341,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631360663",
       "created_at": "2026-10-21T16:03:56Z",
       "head_sha": "c05f9965c8a33fd2ea57fcd3d084a313d7adc98a"
-    },
-    {
-      "id": 39631312518,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 210,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631312518",
-      "created_at": "2026-10-21T16:03:37Z",
-      "head_sha": "525de750f47329f47ac2a63874432f3ef71dd174"
     }
   ]
 }
