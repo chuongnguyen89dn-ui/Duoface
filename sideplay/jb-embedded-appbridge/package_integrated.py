@@ -10,11 +10,11 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.22~sceneproof2_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.24~videolog1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-PINNED_NATIVEHOST_SHA256="6a83f4bb1a1dc0c94614e556381a31cf3e4c356e98f2acb4da39a428480ba2ba"
-VERSION="0.0.19~sceneproof2"
+PINNED_NATIVEHOST_SHA256="b5ab48b7fdaacb75e3c31bbe5420962a8de0a6952c3bf065a7b117ba07a78820"
+VERSION="0.0.20~videolog1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
