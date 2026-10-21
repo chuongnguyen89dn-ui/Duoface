@@ -30,10 +30,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.7~cpbar1_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.8~touchowner1_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.7~cpbar1'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.8~touchowner1'
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
           OUT="$RUNNER_TEMP/nativehost-check"
@@ -41,6 +41,12 @@ jobs:
           dpkg-deb -x "$FILE" "$OUT"
           APP="$OUT/var/jb/Applications/DuoFaceNativeHost.app"
           test -s "$APP/DuoFaceNativeHost"
+          PROBE="$OUT/var/jb/Library/MobileSubstrate/DynamicLibraries"
+          test -s "$PROBE/DFTouchOwnerProbe.dylib"
+          test -s "$PROBE/DFTouchOwnerProbe.plist"
+          ldid -e "$PROBE/DFTouchOwnerProbe.dylib" > "$RUNNER_TEMP/touchowner-entitlements.xml"
+          grep -F 'com.duoface.native.scenehost' "$APP/Info.plist"
+          ! grep -Fq 'com.apple.CarPlayApp' "$PROBE/DFTouchOwnerProbe.plist"
           ldid -e "$APP/DuoFaceNativeHost" > "$RUNNER_TEMP/nativehost-entitlements.xml"
           grep -F 'com.apple.developer.carplay-maps' "$RUNNER_TEMP/nativehost-entitlements.xml"
           grep -F 'platform-application' "$RUNNER_TEMP/nativehost-entitlements.xml"
