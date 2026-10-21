@@ -289,7 +289,7 @@ void DFNativeHostLog(NSString *message) {
     for(NSString *key in @[@"Ratio",@"Vertical",@"Swapped",@"Focus",
                              @"SelectedSlot",@"SlotCount",@"RunningScenes",
                              @"PendingScenes",@"StartupActive",@"PickerVisible",
-                             @"ActiveSlots",@"Preset"]){
+                             @"ActiveSlots",@"Preset",@"SplitPreset",@"SplitMode"]){
         if(![state[key] isKindOfClass:NSNumber.class])return;
     }
     double currentRatio=[state[@"Ratio"] doubleValue];
@@ -298,6 +298,11 @@ void DFNativeHostLog(NSString *message) {
     NSInteger selected=[state[@"SelectedSlot"] integerValue];
     NSInteger active=[state[@"ActiveSlots"] integerValue];
     NSInteger preset=[state[@"Preset"] integerValue];
+    NSInteger splitPreset=[state[@"SplitPreset"] integerValue];
+    NSInteger splitMode=[state[@"SplitMode"] integerValue];
+    // Original presetSelected: @0xaa4f0 propagates the SAME chosen tag to
+    // both splitPreset and splitMode before notifying Dashboard.
+    if(splitPreset!=preset || splitMode!=preset)return;
     if(!isfinite(currentRatio) || currentRatio<1.0/3.0 ||
        currentRatio>2.0/3.0 || count!=4 || active<2 || active>4 ||
        preset<0 || preset>7 || focus< -1 || focus>=active ||
