@@ -2,6 +2,7 @@
 // The system CPWindow stays untouched. No vendor binary, app hosting,
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
+#import "DFNative12Chrome.h"
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -12,12 +13,10 @@
 
 static const char *const kStart = "com.duoface.nativehost.touchowner.start.v1";
 static const char *const kStop  = "com.duoface.nativehost.touchowner.stop.v1";
-static UIWindow *sWindow;
-static UILabel *sGestureLabel;
+static DFNative12Chrome *sChrome;
 static NSString *sSession;
-static NSUInteger sTaps, sGeneration, sSequence;
-static CGFloat sRatio=0.5, sDragStartRatio=0.5;
-static NSTimeInterval sLastRatioSent;
+static NSUInteger sSequence, sGeneration;
+
 static BOOL sActivated;
 static int sStartToken=-1, sStopToken=-1;
 static NSString *const kSessionFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
@@ -79,9 +78,10 @@ static BOOL DFReadFreshSession(void) {
     return YES;
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
-    if(!sWindow || !sSession || ![NSProcessInfo.processInfo.processName
+    if(!sChrome || !sSession || ![NSProcessInfo.processInfo.processName
                               isEqualToString:@"SpringBoard"])return;
-    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio"] containsObject:action])return;
+    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",
+           @"FocusLeft",@"FocusRight",@"Restore"] containsObject:action])return;
     if([action isEqualToString:@"Ratio"] &&
        (![ratio isKindOfClass:NSNumber.class] ||
         !isfinite(ratio.doubleValue) ||
@@ -89,6 +89,10 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
     NSMutableDictionary *message=[@{@"Version":@1,@"Session":sSession,
        @"Timestamp":@(NSDate.date.timeIntervalSince1970),
        @"Sequence":@(++sSequence),@"Action":action} mutableCopy];
+    if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"]){
+        if(!ratio||![ratio isKindOfClass:NSNumber.class]||
+           (ratio.integerValue!=0&&ratio.integerValue!=1))return;
+    }else if(![action isEqualToString:@"Ratio"] && ratio)return;
     if(ratio)message[@"Ratio"]=ratio;
     if(![message writeToFile:kCommandFile atomically:YES]){
         DFTOLog(@"command-write-failed",action);return;
@@ -99,66 +103,18 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
 }
 static void DFStopProbe(NSString *reason) {
     sGeneration++;
-    if(sWindow) {
-        sWindow.hidden=YES;
-        sWindow.rootViewController=nil;
-        sWindow=nil;
-        sGestureLabel=nil;
+    if(sChrome){
+        [sChrome stop];sChrome=nil;
         DFTOLog(@"window-detached",reason);
     }
-    sActivated=NO;sSession=nil;
+    sSession=nil;sActivated=NO;
 }
-@interface DFTouchOwnerHandler : NSObject
-@end
-@implementation DFTouchOwnerHandler
-- (void)tapped:(UIButton *)sender {
-    if(!sActivated || !sWindow)return;
-    NSArray *actions=@[@"App",@"Zoom",@"Style",@"SWAP",@"Close"];
-    if(sender.tag<0 || sender.tag>=(NSInteger)actions.count)return;
-    NSString *action=actions[(NSUInteger)sender.tag];
-    sTaps++;
-    DFTOLog(@"real-button-action",[NSString stringWithFormat:
-      @"action=%@ count=%lu",action,(unsigned long)sTaps]);
-    DFSendCommand(action,nil);
-}
-- (void)dividerPanned:(UIPanGestureRecognizer *)pan {
-    if(!sWindow || !sGestureLabel || !sSession)return;
-    if(pan.state==UIGestureRecognizerStateBegan){
-        sDragStartRatio=sRatio;
-        DFTOLog(@"divider-pan-begin",[NSString stringWithFormat:@"ratio=%.3f",sRatio]);
-        return;
-    }
-    if(pan.state==UIGestureRecognizerStateChanged ||
-       pan.state==UIGestureRecognizerStateEnded){
-        CGFloat dx=[pan translationInView:sWindow].x;
-        CGFloat ratio=MAX(1.0/3.0,MIN(2.0/3.0,
-                      sDragStartRatio+dx/230.0));
-        sRatio=ratio;
-        sGestureLabel.text=[NSString stringWithFormat:
-           @"KÉO CHIA %.0f/%.0f",ratio*100,(1-ratio)*100];
-        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-        BOOL ended=(pan.state==UIGestureRecognizerStateEnded);
-        if(ended || now-sLastRatioSent>=0.05){
-            DFSendCommand(@"Ratio",@(ratio));
-            sLastRatioSent=now;
-        }
-        if(ended)DFTOLog(@"divider-pan-end",
-             [NSString stringWithFormat:@"ratio=%.3f",ratio]);
-    } else if(pan.state==UIGestureRecognizerStateCancelled){
-        sRatio=sDragStartRatio;
-        sGestureLabel.text=[NSString stringWithFormat:
-           @"KÉO CHIA %.0f/%.0f",sRatio*100,(1-sRatio)*100];
-        DFSendCommand(@"Ratio",@(sRatio));
-        DFTOLog(@"divider-pan-cancel",@"rollback");
-    }
-}
-@end
-static DFTouchOwnerHandler *sHandler;
 static void DFStartProbe(void) {
-    if(sActivated || sWindow)return;
-    sActivated=YES; // one attempt per CarPlay activation, no retry storm.
+    if(sActivated||sChrome)return;
+    sActivated=YES;
     if(!DFReadFreshSession()){
-        DFTOLog(@"session-rejected",@"missing-stale-or-invalid-launch");return;
+        DFTOLog(@"session-rejected",@"missing-stale-or-invalid-launch");
+        sActivated=NO;return;
     }
     id display=DFConnectedCarDisplay();
     Class configuration=NSClassFromString(@"FBSDisplayConfiguration");
@@ -168,82 +124,62 @@ static void DFStartProbe(void) {
     if(!display || !configuration || !windowClass ||
        ![configuration instancesRespondToSelector:makeConfig] ||
        ![windowClass instancesRespondToSelector:makeWindow]) {
-        DFTOLog(@"preflight-rejected",
-           [NSString stringWithFormat:@"display=%d config=%d window=%d",
-               display!=nil,configuration!=nil,windowClass!=nil]);
-        return;
+        DFTOLog(@"preflight-rejected",@"external-display-or-window-ABI-missing");
+        DFStopProbe(@"preflight-failed");return;
     }
     @try {
+        // Inspect only; never show a discovery window.
         id config=((id(*)(id,SEL,id,BOOL))objc_msgSend)(
             [configuration alloc],makeConfig,display,NO);
-        UIWindow *window=((id(*)(id,SEL,id))objc_msgSend)(
+        UIWindow *discovery=((id(*)(id,SEL,id))objc_msgSend)(
             [windowClass alloc],makeWindow,config);
-        if(!window || ![window isKindOfClass:UIWindow.class] ||
-           !window.screen || window.screen==UIScreen.mainScreen) {
-            DFTOLog(@"window-rejected",@"not-an-external-UIWindow");
-            return;
+        if(![discovery isKindOfClass:UIWindow.class] ||
+           !discovery.screen || discovery.screen==UIScreen.mainScreen){
+            DFStopProbe(@"external-display-unavailable");return;
         }
-        // A bounded 230 x 80pt QA strip, never covering Apple Dock.
-        CGRect screen=window.screen.bounds;
-        if(CGRectGetWidth(screen)<320 || CGRectGetHeight(screen)<160) {
-            DFTOLog(@"window-rejected",@"screen-bounds-too-small");
-            return;
+        CGRect screen=discovery.screen.bounds;
+        NSDictionary *launch=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
+        id value=launch[@"ContentRect"];
+        CGRect region=CGRectNull;
+        if([value isKindOfClass:NSString.class])region=CGRectFromString(value);
+        // CarPlay Dock owns the left rail. Even a mistaken client geometry
+        // cannot place our touch windows in that area.
+        CGFloat safeLeft=CGRectGetMinX(screen)+MAX(42,screen.size.width*.082);
+        if(CGRectIsNull(region) || CGRectIsEmpty(region) ||
+           !isfinite(region.origin.x) || !isfinite(region.origin.y) ||
+           !CGRectContainsRect(screen,CGRectInset(region,1,1))) {
+            region=CGRectMake(safeLeft,screen.origin.y,
+                    CGRectGetMaxX(screen)-safeLeft,screen.size.height);
+        }else{
+            CGFloat x=MAX(region.origin.x,safeLeft);
+            CGFloat right=MIN(CGRectGetMaxX(region),CGRectGetMaxX(screen));
+            CGFloat y=MAX(region.origin.y,screen.origin.y);
+            CGFloat bottom=MIN(CGRectGetMaxY(region),CGRectGetMaxY(screen));
+            region=CGRectMake(x,y,MAX(0,right-x),MAX(0,bottom-y));
         }
-        CGRect target=CGRectMake(CGRectGetMaxX(screen)-242,
-                                 CGRectGetMinY(screen)+8,230,80);
-        window.frame=target;
-        if(fabs(window.frame.size.width-230)>1 ||
-           fabs(window.frame.size.height-80)>1) {
-            DFTOLog(@"window-rejected",@"window-does-not-support-bounded-frame");
-            return;
+        if(region.size.width<300 || region.size.height<145) {
+            DFTOLog(@"preflight-rejected",@"content-too-small");
+            DFStopProbe(@"content-invalid");return;
         }
-        UIViewController *root=[UIViewController new];
-        root.view=[[UIView alloc]initWithFrame:CGRectMake(0,0,230,80)];
-        root.view.backgroundColor=[UIColor colorWithWhite:0.15 alpha:0.96];
-        root.view.layer.cornerRadius=10;
-        root.view.clipsToBounds=YES;
-        NSArray<NSString *> *labels=@[@"App",@"Zoom",@"Style",@"Swap",@"Close"];
-        for(NSUInteger i=0;i<labels.count;i++){
-            UIButton *button=[UIButton buttonWithType:UIButtonTypeSystem];
-            button.tag=(NSInteger)i;
-            button.frame=CGRectMake(i*46,0,46,35);
-            button.backgroundColor=[UIColor colorWithWhite:.25 alpha:1.0];
-            [button setTitle:labels[i] forState:UIControlStateNormal];
-            [button setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-            button.titleLabel.font=[UIFont boldSystemFontOfSize:11];
-            [button addTarget:sHandler action:@selector(tapped:)
-                      forControlEvents:UIControlEventTouchUpInside];
-            [root.view addSubview:button];
+        sChrome=[[DFNative12Chrome alloc] initWithDisplay:display
+                 configuration:configuration windowClass:windowClass
+                 contentRect:region command:^(NSString *action,NSNumber *ratio){
+            DFSendCommand(action,ratio);
+        }];
+        if(![sChrome start]) {
+            DFStopProbe(@"chrome-window-create-failed");return;
         }
-        UILabel *drag=[UILabel new];
-        drag.frame=CGRectMake(0,40,230,40);
-        drag.backgroundColor=[UIColor colorWithRed:.1 green:.55 blue:.86 alpha:1];
-        drag.text=@"KÉO CHIA 50/50";
-        drag.textAlignment=NSTextAlignmentCenter;
-        drag.textColor=UIColor.whiteColor;
-        drag.font=[UIFont boldSystemFontOfSize:13];
-        drag.userInteractionEnabled=YES;
-        UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]
-                  initWithTarget:sHandler action:@selector(dividerPanned:)];
-        [drag addGestureRecognizer:pan];
-        [root.view addSubview:drag];
-        window.rootViewController=root;
-        window.backgroundColor=UIColor.clearColor;
-        window.opaque=NO;
-        window.windowLevel=UIWindowLevelNormal+1;
-        sWindow=window;sGestureLabel=drag;sTaps=0;
-        window.hidden=NO;
-        DFTOLog(@"gesture-owner-window-visible",
-           [NSString stringWithFormat:@"class=%@ frame=%@ screen=%@",
-               NSStringFromClass(window.class),NSStringFromCGRect(window.frame),
-               NSStringFromCGRect(screen)]);
+        DFTOLog(@"native12-ui-owner-visible",
+          [NSString stringWithFormat:@"windowCount=4 content=%@",
+           NSStringFromCGRect(region)]);
         NSUInteger generation=++sGeneration;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,30*NSEC_PER_SEC),
+        // QA fail-safe only; no overlay survives disconnect and restart.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,600*NSEC_PER_SEC),
                        dispatch_get_main_queue(), ^{
-            if(sGeneration==generation)DFStopProbe(@"timeout-30s");
+            if(sGeneration==generation)DFStopProbe(@"safety-expiry-600s");
         });
-    } @catch(NSException *exception) {
-        DFTOLog(@"window-exception",exception.reason);
+    }@catch(NSException *exception){
+        DFTOLog(@"window-exception",exception.name);
         DFStopProbe(@"exception");
     }
 }
