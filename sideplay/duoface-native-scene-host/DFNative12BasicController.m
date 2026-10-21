@@ -51,7 +51,7 @@
   b.titleLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];
   [b addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];[self.view addSubview:b];
  }
- self.status=[self caption:@"NATIVE12 UI TEST  •  Chưa host ứng dụng" size:10];[self.view addSubview:self.status];
+ self.status=[self caption:@"0.0.7 CPBAR • Chạm nút CarPlay phía trên" size:10];[self.view addSubview:self.status];
  self.menuSheet=[UIView new];self.menuSheet.backgroundColor=[UIColor colorWithWhite:.13 alpha:.97];
  self.menuSheet.layer.cornerRadius=20;self.menuSheet.hidden=YES;[self.view addSubview:self.menuSheet];
  NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
@@ -100,13 +100,34 @@
  self.status.text=@"Đã đổi vị trí 2 ô thử nghiệm";
 }
 - (void)showMenu:(id)sender { (void)sender;self.menuSheet.hidden=!self.menuSheet.hidden; }
+- (void)setPresetRatio:(CGFloat)ratio {
+ // CarPlay CPWindow cannot receive a direct divider drag. Set ratio
+ // from a genuine system template action instead.
+ self.ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
+ self.status.text=[NSString stringWithFormat:@"CarPlay ratio: %.0f / %.0f",self.ratio*100,(1-self.ratio)*100];
+ [self.view setNeedsLayout];
+}
+- (void)performCarPlayControl:(NSString *)action {
+ if([action isEqualToString:@"SWAP"]){[self swap:nil];return;}
+ if([action isEqualToString:@"LEFT"]){[self setPresetRatio:1.0/3.0];return;}
+ if([action isEqualToString:@"RIGHT"]){[self setPresetRatio:2.0/3.0];return;}
+ if([action isEqualToString:@"App"]){
+   self.status.text=@"App: chưa nối host ứng dụng iPhone";
+ } else if([action isEqualToString:@"Zoom"]){
+   self.expanded=!self.expanded;
+   self.status.text=self.expanded?@"CarPlay Zoom: 1 ô":@"CarPlay Zoom: 2 ô";
+   [self.view setNeedsLayout];
+ } else if([action isEqualToString:@"Style"]){
+   [self setPresetRatio:0.5];
+ } else if([action isEqualToString:@"Close"]){
+   self.menuSheet.hidden=YES;
+   self.status.text=@"CarPlay Close: đã đóng menu";
+ }
+}
 - (void)menuAction:(UIButton *)sender {
  self.menuSheet.hidden=YES;
- switch(sender.tag){
-  case 0:self.status.text=@"App: picker chưa nối scene";break;
-  case 1:self.expanded=!self.expanded;self.status.text=self.expanded?@"Zoom: thử 1 ô":@"Zoom: trở lại 2 ô";[self.view setNeedsLayout];break;
-  case 2:self.ratio=.5;self.status.text=@"Style: 50 / 50";[self.view setNeedsLayout];break;
-  default:self.status.text=@"Close: đã đóng menu";break;
- }
+ NSArray *actions=@[@"App",@"Zoom",@"Style",@"Close"];
+ if(sender.tag>=0 && sender.tag<(NSInteger)actions.count)
+   [self performCarPlayControl:actions[(NSUInteger)sender.tag]];
 }
 @end
