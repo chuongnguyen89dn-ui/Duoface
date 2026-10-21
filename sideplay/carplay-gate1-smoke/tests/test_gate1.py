@@ -74,7 +74,7 @@ class Gate1Safety(unittest.TestCase):
  def test_ios16_fbs_refresh_when_db_controller_missing(self):
   bridge=get("Gate1RosterBridge.m")
   for required in ('FBSApplicationInfo','DFTrackLibrary(owner)','weakObjectsHashTable',
-      'DFRefreshFBS(nonce);return;', 'FBS_CACHE_INVALIDATED_CHECK_CARPLAY_HOME',
+      'DFRefreshFBS(nonce);return;', 'FBS_OWN_APP_RETURNED_NOT_HOME_VERIFIED',
       'FBS_NO_LIVE_LIBRARY_SEEN_RECONNECT_CARPLAY',
       'FBS_INVALIDATE_ABI_UNAVAILABLE', 'DFMatches([library class],"invalidate",NO'):
     self.assertIn(required,bridge)
@@ -83,7 +83,7 @@ class Gate1Safety(unittest.TestCase):
   app=get("Gate1App.m")
   self.assertGreater(app.rindex('--- THỬ ĐƯA VÀO CARPLAY ---'),
                      app.index('--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---'))
-  self.assertIn("FBS libraries refreshed=",app)
+  self.assertIn("FBS refreshed=",app)
  def test_device_zero_query_fix_enumerates_real_fbs_instance(self):
   code=get("Gate1RosterBridge.m")
   self.assertIn('((void(*)(id,SEL))objc_msgSend)(library,invalidate)',code)
