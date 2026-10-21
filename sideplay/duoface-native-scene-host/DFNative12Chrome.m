@@ -1,4 +1,6 @@
 #import "DFNative12Chrome.h"
+#import "DFSceneHost.h"
+#import "DFAppPickerVC.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import <math.h>
@@ -35,7 +37,7 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
-@interface DFNative12Chrome ()
+@interface DFNative12Chrome () <DFAppPickerDelegate>
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) Class configurationClass;
 @property(nonatomic,assign) Class externalWindowClass;
@@ -45,6 +47,10 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *pillWindows;
 @property(nonatomic,strong) UIWindow *dividerWindow;
 @property(nonatomic,strong) UIWindow *pickerWindow;
+@property(nonatomic,strong) UIWindow *appPickerWindow;
+@property(nonatomic,strong) DFAppPickerVC *appPickerController;
+@property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
+@property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
 @property(nonatomic,strong) NSArray<UIButton *> *pillZoom;
@@ -73,6 +79,8 @@ static void DFCLog(NSString *text) {
         _callback=[command copy];_ratio=.5;_logoFraction=.5;
         _verticalDivider=YES;_focus=-1;_selectedSlot=0;
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
+        _appSceneWindows=[NSMutableArray new];
+        _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
     }return self;
 }
 - (UIWindow *)makeWindow:(CGRect)frame root:(UIViewController *)root
@@ -271,6 +279,28 @@ static void DFCLog(NSString *text) {
     [sheet addSubview:dismiss];
     self.pickerWindow=[self makeWindow:picker root:pc level:3];
     if(!self.pickerWindow){[self stop];return NO;}
+    // Two REAL app-scene containers from SpringBoard, created but kept
+    // hidden until a user explicitly selects an installed application.
+    // Do not claim "APP scene ready" just because the external window exists.
+    for(NSInteger i=0;i<2;i++){
+        CGRect rect=CGRectMake(cr.origin.x+(i?cr.size.width/2:0),
+                               cr.origin.y,cr.size.width/2,cr.size.height);
+        UIViewController *slotRoot=[self emptyRoot:rect];
+        slotRoot.view.clipsToBounds=YES;
+        UIWindow *slotWindow=[self makeWindow:rect root:slotRoot level:0.5];
+        if(!slotWindow){[self stop];return NO;}
+        [self.appSceneWindows addObject:slotWindow];
+    }
+    self.appPickerController=[DFAppPickerVC new];
+    self.appPickerController.delegate=self;
+    CGRect chooserRect=CGRectInset(cr,MAX(8,(cr.size.width-480)/2),
+                MAX(8,(cr.size.height-330)/2));
+    if(chooserRect.size.width<220||chooserRect.size.height<110){
+        [self stop];return NO;
+    }
+    self.appPickerWindow=[self makeWindow:chooserRect
+          root:self.appPickerController level:4];
+    if(!self.appPickerWindow){[self stop];return NO;}
     [self layoutControls];
     DFCLog([NSString stringWithFormat:
         @"native12-chrome-start windows=%lu content=%@",
@@ -335,6 +365,20 @@ static void DFCLog(NSString *text) {
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerWindow.hidden=(self.focus>=0||self.pickerVisible);
     self.pickerWindow.hidden=!self.pickerVisible;
+    for(NSInteger i=0;i<2;i++){
+        UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
+        NSInteger visualSlot=self.swapped?1-i:i;
+        CGRect target=pane[visualSlot];
+        if(self.focus>=0 && visualSlot==self.focus)target=cr;
+        appWindow.frame=target;
+        UIView *v=appWindow.rootViewController.view;
+        v.frame=CGRectMake(0,0,target.size.width,target.size.height);
+        for(UIView *child in v.subviews)child.frame=v.bounds;
+        BOOL loaded=(self.hostedScenes[(NSUInteger)i]!=NSNull.null);
+        appWindow.hidden=(!loaded || self.pickerVisible ||
+                           self.appPickerWindow.hidden==NO ||
+                           (self.focus>=0 && self.focus!=visualSlot));
+    }
 }
 - (void)pillPressed:(UIButton *)sender {
     self.selectedSlot=sender.tag;
@@ -355,7 +399,7 @@ static void DFCLog(NSString *text) {
 - (void)menuAction:(UIButton *)sender {
     [self closeMenu:nil];
     switch(sender.tag){
-      case 0:[self emit:@"App" ratio:@(self.selectedSlot)];break;
+      case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:self.focus=self.focus<0?self.selectedSlot:-1;
              [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
                   ratio:nil];
@@ -364,9 +408,63 @@ static void DFCLog(NSString *text) {
              self.ratio=.5;self.focus=-1;
              [self emit:@"Style" ratio:nil];
              [self layoutControls];break;
-      case 3:[self emit:@"Close" ratio:@(self.selectedSlot)];break;
+      case 3:[self closeHostedSlot:self.selectedSlot];break;
       default:break;
     }
+}
+- (void)openAppPickerForSlot:(NSInteger)slot {
+    if(slot!=0 && slot!=1)return;
+    self.selectedSlot=slot;
+    self.appPickerWindow.hidden=NO;
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:@"real-app-picker-open slot=%ld",(long)slot]);
+}
+- (void)appPickerDidCancel:(DFAppPickerVC *)picker {
+    if(picker!=self.appPickerController)return;
+    self.appPickerWindow.hidden=YES;
+    [self layoutControls];
+}
+- (void)appPicker:(DFAppPickerVC *)picker
+ didSelectBundleID:(NSString *)bundleID displayName:(NSString *)name {
+    if(picker!=self.appPickerController || !self.appPickerWindow || 
+       ![bundleID isKindOfClass:NSString.class] || !bundleID.length)return;
+    NSInteger slot=self.selectedSlot;
+    NSInteger physicalSlot=self.swapped?1-slot:slot;
+    if(physicalSlot<0 || physicalSlot>=2)return;
+    if(self.hostedScenes[(NSUInteger)physicalSlot]!=NSNull.null)
+        [self closeHostedSlot:slot];
+    NSError *error=nil;
+    UIView *host=[[DFSceneHost sharedHost] hostViewForBundleID:bundleID
+                                                          error:&error];
+    if(!host){
+        DFCLog([NSString stringWithFormat:@"app-host-refused id=%@ reason=%@",
+                         bundleID,error.localizedDescription?:@"unknown"]);
+        return;
+    }
+    UIWindow *slotWindow=self.appSceneWindows[(NSUInteger)physicalSlot];
+    UIView *container=slotWindow.rootViewController.view;
+    host.frame=container.bounds;
+    host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    [container addSubview:host];
+    self.hostedScenes[(NSUInteger)physicalSlot]=host;
+    self.appPickerWindow.hidden=YES;
+    [self layoutControls];
+    [self emit:@"App" ratio:@(slot)];
+    DFCLog([NSString stringWithFormat:
+          @"app-host-pending slot=%ld bundle=%@ name=%@",
+          (long)slot,bundleID,name]);
+}
+- (void)closeHostedSlot:(NSInteger)slot {
+    NSInteger physicalSlot=self.swapped?1-slot:slot;
+    if(physicalSlot<0||physicalSlot>=2)return;
+    UIView *view=self.hostedScenes[(NSUInteger)physicalSlot];
+    if([view isKindOfClass:UIView.class])
+        [[DFSceneHost sharedHost] releaseHostedView:view];
+    self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
+    UIWindow *window=self.appSceneWindows[(NSUInteger)physicalSlot];
+    window.hidden=YES;
+    [self emit:@"Close" ratio:@(slot)];
+    DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
 - (void)swapPressed:(id)sender {
     (void)sender;
@@ -417,6 +515,10 @@ static void DFCLog(NSString *text) {
 }
 - (void)stop {
     self.callback=nil;
+    [self.appPickerController setDelegate:nil];
+    [[DFSceneHost sharedHost] stopAllHosts];
+    self.appPickerWindow.hidden=YES;
+    for(UIWindow *w in self.appSceneWindows)w.hidden=YES;
     for(UIWindow *w in self.windows){
         w.hidden=YES;
         w.rootViewController=nil;
@@ -424,6 +526,8 @@ static void DFCLog(NSString *text) {
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.pickerWindow=nil;
+    self.appPickerWindow=nil;self.appPickerController=nil;
+    [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     self.dividerTrack=nil;self.dividerLogo=nil;
     self.pillMenu=nil;self.pillZoom=nil;self.pickerBrand=nil;
     DFCLog(@"native12-chrome-stop");
