@@ -38,7 +38,12 @@ void DFNativeHostLog(NSString *message) {
 @property(nonatomic,copy) NSString *touchSession;
 @property(nonatomic,assign) int touchRelayToken;
 @property(nonatomic,assign) NSUInteger lastTouchSequence;
+@property(nonatomic,strong) NSTimer *touchHeartbeat;
+@property(nonatomic,weak) CPTemplateApplicationScene *touchOwnerScene;
 - (void)consumeTouchCommand;
+- (void)startTouchOwnerForScene:(CPTemplateApplicationScene *)scene;
+- (void)stopTouchOwnerWithReason:(NSString *)reason;
+- (void)renewTouchOwnerHeartbeat:(NSTimer *)timer;
 @end
 @interface DFNativeHostAppDelegate : UIResponder <UIApplicationDelegate>
 @end
@@ -142,6 +147,89 @@ void DFNativeHostLog(NSString *message) {
 // Navigation-template acceptance is a distinct path from native UIKit
 // UIWindowSceneSessionRoleCarPlay. Never spoof a synthetic scene or system Dock.
 @implementation DFNativeHostTemplateSceneDelegate
+// CPTemplate can stay connected while CarPlay Home is frontmost.
+// A connected window is NOT an active input-owner session.
+- (void)stopTouchOwnerWithReason:(NSString *)reason {
+    [self.touchHeartbeat invalidate];self.touchHeartbeat=nil;
+    if(self.touchSession){
+        int rc=notify_post("com.duoface.nativehost.touchowner.stop.v1");
+        notify_cancel(self.touchRelayToken);
+        NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+        NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:path];
+        if([record[@"Session"] isEqualToString:self.touchSession])
+            [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        DFNativeHostLog([NSString stringWithFormat:
+             @"touchowner-stop reason=%@ notify=%d",reason?:@"unknown",rc]);
+    }
+    self.touchSession=nil;
+    self.lastTouchSequence=0;
+}
+- (void)renewTouchOwnerHeartbeat:(NSTimer *)timer {
+    if(timer!=self.touchHeartbeat || !self.touchSession)return;
+    if(!self.carWindow || !self.basicController || !self.touchOwnerScene ||
+       self.touchOwnerScene.activationState!=UISceneActivationStateForegroundActive){
+        [self stopTouchOwnerWithReason:@"not-active-or-home"];
+        return;
+    }
+    CPWindow *w=self.carWindow;
+    CGRect frame=w.frame,safe=w.safeAreaLayoutGuide.layoutFrame;
+    if(CGRectIsEmpty(safe))safe=w.bounds;
+    CGRect content=CGRectMake(frame.origin.x+safe.origin.x,
+         frame.origin.y+safe.origin.y,safe.size.width,safe.size.height);
+    NSDictionary *pulse=@{@"Version":@1,@"Session":self.touchSession,
+            @"Active":@YES,@"Timestamp":@(NSDate.date.timeIntervalSince1970),
+            @"ContentRect":NSStringFromCGRect(content)};
+    NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+    if(![pulse writeToFile:path atomically:YES])
+        [self stopTouchOwnerWithReason:@"heartbeat-write-failed"];
+}
+- (void)startTouchOwnerForScene:(CPTemplateApplicationScene *)scene {
+    if(self.touchSession || !self.carWindow || !self.basicController)return;
+    self.touchOwnerScene=scene;
+    if(scene.activationState==UISceneActivationStateBackground ||
+       scene.activationState==UISceneActivationStateUnattached)return;
+    self.touchSession=[NSUUID UUID].UUIDString;
+    self.lastTouchSequence=0;
+    __weak typeof(self) weakOwner=self;
+    int token=-1;
+    int registered=notify_register_dispatch(
+         "com.duoface.nativehost.touchowner.command.v1",&token,
+         dispatch_get_main_queue(),^(int received) {
+             (void)received;[weakOwner consumeTouchCommand];
+         });
+    if(registered!=0){
+        DFNativeHostLog(@"touchowner-command-listener-failed");
+        self.touchSession=nil;return;
+    }
+    self.touchRelayToken=token;
+    NSTimer *timer=[NSTimer timerWithTimeInterval:0.75 target:self
+          selector:@selector(renewTouchOwnerHeartbeat:) userInfo:nil repeats:YES];
+    self.touchHeartbeat=timer;
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    // First write must be fresh BEFORE asking SpringBoard to show controls.
+    [self renewTouchOwnerHeartbeat:timer];
+    if(!self.touchSession)return;
+    int rc=notify_post("com.duoface.nativehost.touchowner.start.v1");
+    DFNativeHostLog([NSString stringWithFormat:
+         @"touchowner-start session=%@ notify=%d",self.touchSession,rc]);
+}
+- (void)sceneWillResignActive:(UIScene *)scene {
+    if(scene==self.touchOwnerScene)
+        [self stopTouchOwnerWithReason:@"scene-resigned-carplay-home"];
+}
+- (void)sceneDidEnterBackground:(UIScene *)scene {
+    if(scene==self.touchOwnerScene)
+        [self stopTouchOwnerWithReason:@"scene-background"];
+}
+- (void)sceneDidDisconnect:(UIScene *)scene {
+    if(scene==self.touchOwnerScene)
+        [self stopTouchOwnerWithReason:@"scene-disconnected"];
+}
+- (void)sceneDidBecomeActive:(UIScene *)scene {
+    if([scene isKindOfClass:CPTemplateApplicationScene.class] &&
+       self.carWindow && self.basicController)
+        [self startTouchOwnerForScene:(CPTemplateApplicationScene *)scene];
+}
 // A bounded UI action stream only. Never synthesize UIKit touches or
 // command any external app scene. The parent visual split owns ratio.
 - (void)consumeTouchCommand {
@@ -242,46 +330,7 @@ void DFNativeHostLog(NSString *message) {
     }
     map.mapButtons=buttons;
     [controller setRootTemplate:map animated:NO completion:nil];
-    // The external input-owner window is instantiated only after a fresh
-    // session-bound launch request, with this template receiver registered.
-    self.touchSession=[NSUUID UUID].UUIDString;
-    self.lastTouchSequence=0;
-    int token=-1;
-    int registered=notify_register_dispatch(
-        "com.duoface.nativehost.touchowner.command.v1",&token,
-        dispatch_get_main_queue(),^(int received) {
-            (void)received;
-            __strong typeof(weakSelf) owner=weakSelf;
-            [owner consumeTouchCommand];
-        });
-    if(registered!=0) {
-        DFNativeHostLog(@"touchowner-command-listener-failed");
-        self.touchSession=nil;
-    } else {
-        self.touchRelayToken=token;
-        NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
-        // Transfer geometry from the CarPlay-issued scene (not a hard-coded
-        // touchscreen size). External chrome still enforces an isolated
-        // minimum Dock inset before creating any touch target.
-        [window layoutIfNeeded];
-        CGRect frame=window.frame;
-        CGRect safe=window.safeAreaLayoutGuide.layoutFrame;
-        if(CGRectIsEmpty(safe))safe=window.bounds;
-        CGRect content=CGRectMake(frame.origin.x+safe.origin.x,
-            frame.origin.y+safe.origin.y,safe.size.width,safe.size.height);
-        NSDictionary *launch=@{@"Version":@1,@"Session":self.touchSession,
-                 @"Timestamp":@(NSDate.date.timeIntervalSince1970),
-                 @"ContentRect":NSStringFromCGRect(content)};
-        if([launch writeToFile:path atomically:YES]){
-            int n=notify_post("com.duoface.nativehost.touchowner.start.v1");
-            DFNativeHostLog([NSString stringWithFormat:
-                @"touchowner-session-started session=%@ notify=%d",self.touchSession,n]);
-        }else{
-            DFNativeHostLog(@"touchowner-session-write-failed");
-            notify_cancel(self.touchRelayToken);
-            self.touchSession=nil;
-        }
-    }
+    [self startTouchOwnerForScene:scene];
     DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
 }
 - (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
@@ -294,13 +343,8 @@ void DFNativeHostLog(NSString *message) {
     self.carWindow=nil;
     self.basicController=nil;
     self.touchCount=0;
-    int n=notify_post("com.duoface.nativehost.touchowner.stop.v1");
-    if(self.touchSession){
-        notify_cancel(self.touchRelayToken);
-        self.touchSession=nil;
-        self.lastTouchSequence=0;
-    }
-    DFNativeHostLog([NSString stringWithFormat:@"touchowner-deactivation-notify status=%d",n]);
+    [self stopTouchOwnerWithReason:@"template-disconnected"];
+    self.touchOwnerScene=nil;
     DFNativeHostLog(@"native-carplay-template-scene-disconnected");
 }
 @end
