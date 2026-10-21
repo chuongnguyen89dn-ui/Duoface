@@ -7,6 +7,7 @@
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray<DFAppInfo *> *apps;
+@property (nonatomic, assign) NSUInteger inventoryGeneration;
 @end
 
 @implementation DFAppPickerVC
@@ -39,18 +40,31 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
 
-    // Đọc danh sách app trên background để không khựng UI.
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        NSArray<DFAppInfo *> *apps = [DFAppLibrary installedUserApps];
+    self.apps=@[];
+    [self refreshInstalledApps];
+}
+
+- (void)refreshInstalledApps {
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{[self refreshInstalledApps];});
+        return;
+    }
+    if(!self.isViewLoaded)return;
+    NSUInteger generation=++self.inventoryGeneration;
+    // Capture a weak owner so an in-flight query cannot retain a closed
+    // picker across scene shutdown/reconnect.
+    __weak typeof(self) weakSelf=self;
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0), ^{
+        NSArray<DFAppInfo *> *results=[DFAppLibrary installedUserApps];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.apps = apps;
-            [self.tableView reloadData];
-            NSLog(@"[DuoFace] App picker loaded %lu apps",
-                  (unsigned long)apps.count);
+            DFAppPickerVC *owner=weakSelf;
+            if(!owner || owner.inventoryGeneration!=generation)return;
+            owner.apps=results?:@[];
+            [owner.tableView reloadData];
+            NSLog(@"[DuoFace] installed-apps-current=%lu",(unsigned long)owner.apps.count);
         });
     });
 }
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     CGFloat w = self.view.bounds.size.width;

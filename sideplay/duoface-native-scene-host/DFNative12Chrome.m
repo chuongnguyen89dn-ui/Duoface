@@ -413,9 +413,10 @@ static void DFCLog(NSString *text) {
         UIView *v=appWindow.rootViewController.view;
         v.frame=CGRectMake(0,0,target.size.width,target.size.height);
         for(UIView *child in v.subviews)child.frame=v.bounds;
+        // Native12 keeps genuine app scenes visible BEHIND the App/Style
+        // sheet and picker. A modal must never detach/suspend both scenes.
         BOOL loaded=(self.hostedScenes[(NSUInteger)i]!=NSNull.null);
-        appWindow.hidden=(!loaded || self.pickerVisible ||
-                           self.appPickerWindow.hidden==NO ||
+        appWindow.hidden=(!loaded ||
                            (self.focus>=0 && self.focus!=visualSlot));
     }
 }
@@ -455,6 +456,9 @@ static void DFCLog(NSString *text) {
 - (void)openAppPickerForSlot:(NSInteger)slot {
     if(slot!=0 && slot!=1)return;
     self.selectedSlot=slot;
+    // Picker contents are read fresh every time. Do not reuse a stale
+    // LSApplicationWorkspace snapshot across install/remove operations.
+    [self.appPickerController refreshInstalledApps];
     self.appPickerWindow.hidden=NO;
     [self layoutControls];
     DFCLog([NSString stringWithFormat:@"real-app-picker-open slot=%ld",(long)slot]);
@@ -479,6 +483,10 @@ static void DFCLog(NSString *text) {
     if(!host){
         DFCLog([NSString stringWithFormat:@"app-host-refused id=%@ reason=%@",
                          bundleID,error.localizedDescription?:@"unknown"]);
+        // Leave the actual picker visible after a failed host request; do
+        // not display a blank app pane as though launch succeeded.
+        self.appPickerWindow.hidden=NO;
+        [self layoutControls];
         return;
     }
     UIWindow *slotWindow=self.appSceneWindows[(NSUInteger)physicalSlot];
@@ -491,7 +499,7 @@ static void DFCLog(NSString *text) {
     [self layoutControls];
     [self emit:@"App" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:
-          @"app-host-pending slot=%ld bundle=%@ name=%@",
+          @"app-scene-pending-not-render-verified slot=%ld bundle=%@ name=%@",
           (long)slot,bundleID,name]);
 }
 - (void)sceneReady:(NSNotification *)note {

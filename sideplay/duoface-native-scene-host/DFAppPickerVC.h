@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DFAppPickerVC : UIViewController
 
 @property (nonatomic, weak, nullable) id<DFAppPickerDelegate> delegate;
+// Reload the real installed-app inventory every time the CarPlay picker opens.
+- (void)refreshInstalledApps;
 
 @end
 

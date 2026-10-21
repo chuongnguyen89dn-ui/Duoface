@@ -297,7 +297,9 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         [controller loadViewIfNeeded];
         DFSceneSurface *view=[DFSceneSurface new];
         view.bundleID=bundleID; view.entity=entity; view.appController=controller; view.owner=self;
-        view.backgroundColor=UIColor.blackColor;
+        // The CarPlay renderer should never display a fake black app tile
+        // while FrontBoard is still negotiating a real app scene.
+        view.backgroundColor=UIColor.clearColor;
         view.clipsToBounds=YES;
         self.live[bundleID]=view;
         DFSceneLog(@"host-created",bundleID,@"pending-window-attach");
