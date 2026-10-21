@@ -1,0 +1,76 @@
+name: DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-carplay-gate1-smoke.yml'
+      - 'sideplay/carplay-gate1-smoke/**'
+      - 'sideplay/firstparty-carplay-admission/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-gate1-smoke
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify no collision with Native12/HUD8 or installed QA packages
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/carplay-gate1-smoke/tests -p 'test_*.py' -v
+      - name: Prepare Theos and rootless SDK
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --recursive https://github.com/theos/theos.git "$RUNNER_TEMP/theos"
+          rm -rf "$RUNNER_TEMP/theos/sdks"
+          git clone --depth 1 https://github.com/theos/sdks.git "$RUNNER_TEMP/theos/sdks"
+          brew install ldid dpkg
+          echo "THEOS=$RUNNER_TEMP/theos" >> "$GITHUB_ENV"
+      - name: Build ONLY isolated CarPlay Gate1 test
+        run: |
+          set -euo pipefail
+          bash sideplay/carplay-gate1-smoke/build.sh
+          FILE='sideplay/carplay-gate1-smoke/packages/com.duoface.carplay.gate1smoke_0.0.1~smoke1_iphoneos-arm64.deb'
+          test -s "$FILE"
+          test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
+          test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.gate1smoke
+          ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
+          dpkg-deb -c "$FILE" | grep 'DuoFaceGate1.app/DuoFaceGate1'
+          dpkg-deb -c "$FILE" | grep 'AppIcon60x60@3x.png'
+          dpkg-deb -c "$FILE" | grep 'DFGate1SmokeAdmission.dylib'
+          dpkg-deb -e "$FILE" "$RUNNER_TEMP/gate1-controls"
+          test -x "$RUNNER_TEMP/gate1-controls/postinst"
+          test -x "$RUNNER_TEMP/gate1-controls/prerm"
+          test -x "$RUNNER_TEMP/gate1-controls/postrm"
+          ! grep -E 'killall|sbreload|ldrestart|launchctl' "$RUNNER_TEMP/gate1-controls/"post*
+          shasum -a 256 "$FILE"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Gate1-Smoke-Not-Installed
+          path: |
+            sideplay/carplay-gate1-smoke/packages/*.deb
+          if-no-files-found: error
+      - name: Persist exact DEB and SHA in THIS feature branch only
+        run: |
+          set -euo pipefail
+          cd sideplay/carplay-gate1-smoke
+          sha256sum packages/*.deb > packages/SHA256SUMS.txt
+          {
+            echo 'SOURCE_BUNDLE_CANDIDATE=PASS'
+            echo 'GATE1_HOME_ICON_DEVICE_VERIFIED=false'
+            echo 'GATE1_SYSTEM_ISSUED_SCENE_DEVICE_VERIFIED=false'
+            echo 'SILEO_PUBLISHED=false'
+            echo 'NO_CONFLICTS_OR_REPLACES=true'
+            echo 'AUTOMATIC_RESPRING=false'
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+          } > packages/CI_RESULT.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f packages/*.deb packages/SHA256SUMS.txt packages/CI_RESULT.txt
+          git commit -m 'build(gate1): persist standalone signed smoke DEB and SHA [skip ci]'
+          git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020
