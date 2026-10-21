@@ -25,7 +25,7 @@ ART="$ROOT/../../dist/visual-1.0.3-12/assets"
 APP_ART="$APP/VisualAssets"
 SYSTEM_ART="$TMP/var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets"
 mkdir -p "$APP_ART" "$SYSTEM_ART"
-for f in duoface-logo.png duoface-logo-vert.png; do
+for f in duoface-logo.png duoface-logo-vert.png duoface-logo-picker-alpha-v2.png; do
   test -s "$ART/$f"
   cp "$ART/$f" "$APP_ART/$f"
   cp "$ART/$f" "$SYSTEM_ART/$f"
