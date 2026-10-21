@@ -2,7 +2,7 @@
 // project's own prior scene-host experiments; no vendor binary or license.
 // DuoFace independent scene host for jailbroken iOS 16 SpringBoard.
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
-// No CBBridgeManager, no vendor license, no replacement for Apple authorization.
+// No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
