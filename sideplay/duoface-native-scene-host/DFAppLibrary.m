@@ -1,6 +1,7 @@
 // Independently maintained first-party DuoFace module, ported from the
 // project's own prior scene-host experiments; no vendor binary or license.
 #import "DFAppLibrary.h"
+#import "DFAppEligibility.h"
 
 @implementation DFAppInfo
 @end
@@ -40,11 +41,8 @@
             NSLog(@"[DuoFaceScene] event=app-proxy-skipped type=%@",NSStringFromClass(exception.class));
             continue;
         }
-        if (bundleID.length == 0) {
+        if (!DFIsEligibleAppID(bundleID)) {
             continue;
-        }
-        if ([bundleID hasPrefix:@"com.apple."]) {
-            continue; // bỏ app hệ thống, chỉ lấy app người dùng cài
         }
         if (name.length == 0) {
             name = bundleID;

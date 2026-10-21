@@ -1,6 +1,7 @@
 // First-party DuoFace startup. Show genuine device/session data only.
 // Do not draw sample split panes, fake app scenes or inert settings controls.
 #import <UIKit/UIKit.h>
+#import "DFAppEligibility.h"
 #import <objc/message.h>
 #import <math.h>
 @interface DFNativeHostSurfaceView : UIView
@@ -52,8 +53,7 @@
       @try {bundle=[proxy valueForKey:@"applicationIdentifier"];
             name=[proxy valueForKey:@"localizedName"];}
       @catch(NSException *e){(void)e;continue;}
-      if(![bundle isKindOfClass:NSString.class] ||
-          ![(NSString *)bundle length] || [(NSString *)bundle hasPrefix:@"com.apple."])continue;
+      if(!DFIsEligibleAppID(bundle))continue;
       if(![name isKindOfClass:NSString.class] || ![(NSString *)name length])name=bundle;
       [items addObject:@{@"name":name,@"bundle":bundle}];
    }
