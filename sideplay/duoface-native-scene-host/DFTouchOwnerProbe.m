@@ -96,7 +96,7 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
     if(!sChrome || !sSession || ![NSProcessInfo.processInfo.processName
                               isEqualToString:@"SpringBoard"])return;
     if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",
-           @"FocusLeft",@"FocusRight",@"Restore"] containsObject:action])return;
+           @"FocusLeft",@"FocusRight",@"FocusSlot2",@"FocusSlot3",@"Restore"] containsObject:action])return;
     if([action isEqualToString:@"Ratio"] &&
        (![ratio isKindOfClass:NSNumber.class] ||
         !isfinite(ratio.doubleValue) ||
@@ -109,7 +109,7 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
        ![state[@"SlotCount"] isKindOfClass:NSNumber.class])return;
     if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"]){
         if(!ratio||![ratio isKindOfClass:NSNumber.class]||
-           (ratio.integerValue!=0&&ratio.integerValue!=1))return;
+           (ratio.integerValue<0||ratio.integerValue>3))return;
     }else if(![action isEqualToString:@"Ratio"] && ratio)return;
     NSMutableDictionary *message=[@{@"Version":@2,@"Session":sSession,
        @"Timestamp":@(NSDate.date.timeIntervalSince1970),
