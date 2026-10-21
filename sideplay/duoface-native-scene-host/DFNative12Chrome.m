@@ -18,6 +18,13 @@ static CGFloat DFCSnap(CGFloat x) {
         if(fabs(x-stop.doubleValue)<.04)return stop.doubleValue;
     return x;
 }
+static UIImage *DFCArtwork(NSString *name) {
+    // Approved independent artwork is packaged with this first-party tweak.
+    if([name containsString:@"/"] || [name containsString:@".."])return nil;
+    NSString *dir=@"/var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/";
+    return [UIImage imageWithContentsOfFile:
+          [dir stringByAppendingString:[name stringByAppendingString:@".png"]]];
+}
 static void DFCLog(NSString *text) {
     NSString *s=[NSString stringWithFormat:@"[DFNative12Chrome] %@\n",text];
     NSLog(@"%@",s);
@@ -144,6 +151,18 @@ static void DFCLog(NSString *text) {
                              action:@selector(zoomPressed:)];
         menu.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         zoom.titleLabel.font=[UIFont boldSystemFontOfSize:13];
+        UIImage *pickerArt=DFCArtwork(@"duoface-picker");
+        UIImage *zoomArt=DFCArtwork(@"duoface-fullscreen");
+        if(pickerArt){
+            [menu setTitle:@"" forState:UIControlStateNormal];
+            [menu setImage:pickerArt forState:UIControlStateNormal];
+            menu.imageView.contentMode=UIViewContentModeScaleAspectFit;
+        }
+        if(zoomArt){
+            [zoom setTitle:@"" forState:UIControlStateNormal];
+            [zoom setImage:zoomArt forState:UIControlStateNormal];
+            zoom.imageView.contentMode=UIViewContentModeScaleAspectFit;
+        }
         menu.frame=CGRectMake(0,0,48,22);
         zoom.frame=CGRectMake(48,0,28,22);
         [pill addSubview:menu];[pill addSubview:zoom];
@@ -170,6 +189,12 @@ static void DFCLog(NSString *text) {
     UIButton *logo=[self button:@"⇄" tag:0 action:@selector(swapPressed:)];
     logo.backgroundColor=UIColor.clearColor;
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
+    UIImage *swapArt=DFCArtwork(@"duoface-swap");
+    if(swapArt){
+        [logo setTitle:@"" forState:UIControlStateNormal];
+        [logo setImage:swapArt forState:UIControlStateNormal];
+        logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
+    }
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
     UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
@@ -185,8 +210,8 @@ static void DFCLog(NSString *text) {
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
-    CGFloat pw=MIN(430,cr.size.width-20);
-    CGFloat ph=MIN(112,cr.size.height-12);
+    CGFloat pw=MIN(470,cr.size.width-20);
+    CGFloat ph=MIN(150,MAX(110,cr.size.height-16));
     CGRect picker=CGRectMake(CGRectGetMidX(cr)-pw/2,
                              CGRectGetMidY(cr)-ph/2,pw,ph);
     UIViewController *pc=[self emptyRoot:picker];
@@ -194,11 +219,18 @@ static void DFCLog(NSString *text) {
     sheet.backgroundColor=[UIColor colorWithWhite:.12 alpha:.97];
     sheet.layer.cornerRadius=20;
     sheet.layer.masksToBounds=YES;
+    UIImage *horizontal=DFCArtwork(@"duoface-logo");
+    UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
+    brandImage.contentMode=UIViewContentModeScaleAspectFit;
+    brandImage.frame=CGRectMake(8,8,MIN(120,pw*.27),30);
+    brandImage.userInteractionEnabled=NO;
+    [sheet addSubview:brandImage];
     UILabel *brand=[UILabel new];
-    brand.text=@"DUOFACE";brand.textColor=[UIColor colorWithRed:.89 green:.01 blue:.06 alpha:1];
+    brand.text=horizontal?@"":@"DUOFACE";
+    brand.textColor=[UIColor colorWithRed:.89 green:.01 blue:.06 alpha:1];
     brand.font=[UIFont boldSystemFontOfSize:17];
     brand.textAlignment=NSTextAlignmentCenter;
-    brand.frame=CGRectMake(8,8,MIN(112,pw*.27),30);
+    brand.frame=brandImage.frame;
     [sheet addSubview:brand];self.pickerBrand=brand;
     NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
     NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
