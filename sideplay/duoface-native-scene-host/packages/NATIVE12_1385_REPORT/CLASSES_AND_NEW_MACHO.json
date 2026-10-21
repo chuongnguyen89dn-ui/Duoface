@@ -24,7 +24,7 @@
     {
       "class": "CBAppPickerViewController",
       "methods": 16,
-      "selector_string_matches": 6,
+      "selector_string_matches": 7,
       "category": "PICKER_SETTINGS",
       "functional_parity_proven": false
     },
@@ -52,14 +52,14 @@
     {
       "class": "CBAppsManagerViewController",
       "methods": 38,
-      "selector_string_matches": 9,
+      "selector_string_matches": 10,
       "category": "OTHER",
       "functional_parity_proven": false
     },
     {
       "class": "CBAssistantAboutViewController",
       "methods": 24,
-      "selector_string_matches": 8,
+      "selector_string_matches": 9,
       "category": "VOICE_AUDIO",
       "functional_parity_proven": false
     },
@@ -192,7 +192,7 @@
     {
       "class": "CBGeneralSettingsViewController",
       "methods": 30,
-      "selector_string_matches": 8,
+      "selector_string_matches": 9,
       "category": "PICKER_SETTINGS",
       "functional_parity_proven": false
     },
@@ -241,7 +241,7 @@
     {
       "class": "CBMultitaskingOverlayView",
       "methods": 66,
-      "selector_string_matches": 8,
+      "selector_string_matches": 10,
       "category": "PICKER_SETTINGS",
       "functional_parity_proven": false
     },
@@ -297,7 +297,7 @@
     {
       "class": "CBSplitViewController",
       "methods": 42,
-      "selector_string_matches": 9,
+      "selector_string_matches": 10,
       "category": "PICKER_SETTINGS",
       "functional_parity_proven": false
     },
@@ -374,7 +374,7 @@
     {
       "class": "CBSubscriptionViewController",
       "methods": 71,
-      "selector_string_matches": 9,
+      "selector_string_matches": 10,
       "category": "LICENSE_EXCLUDED",
       "functional_parity_proven": false
     },
@@ -467,15 +467,15 @@
     {
       "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
       "name": "DuoFaceNativeHost",
-      "bytes": 151792,
-      "sha256": "01a433750c841cd4aa308a14d90e7ba7bde57b3005daa45f6c72617ff9eca729",
+      "bytes": 153840,
+      "sha256": "2691bead108409473c58b60b0c7222f4c9e54e9f27ebb85c906486ed6aec09d6",
       "mach_o": true
     },
     {
       "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
       "name": "DFTouchOwnerProbe.dylib",
-      "bytes": 199264,
-      "sha256": "1487a312bef144e816a9d191df1983be59252ffb1616f2bfd427513d2da68e39",
+      "bytes": 200064,
+      "sha256": "d1bd11ecd542cb262e395de5d4f0db79dced4cb24d37a049411a1a7b6b70fa30",
       "mach_o": true
     }
   ]
