@@ -3,9 +3,17 @@
 <plist version="1.0"><dict>
  <key>CFBundleIdentifier</key><string>com.duoface.native.scenehost</string>
  <key>CFBundleExecutable</key><string>DuoFaceNativeHost</string>
- <key>CFBundleName</key><string>DuoFaceNativeHost</string>
- <key>CFBundleDisplayName</key><string>DuoFace Native Host</string>
+ <key>CFBundleName</key><string>DuoFace</string>
+ <key>CFBundleDisplayName</key><string>DuoFace</string>
  <key>CFBundlePackageType</key><string>APPL</string>
+ <key>UILaunchStoryboardName</key><string>DuoFaceLaunchScreen</string>
+ <key>CFBundleIcons</key><dict><key>CFBundlePrimaryIcon</key><dict>
+  <key>CFBundleIconFiles</key><array><string>DuoFaceIcon60</string></array>
+  <key>UIPrerenderedIcon</key><false/>
+ </dict></dict>
+ <key>CFBundleIcons~ipad</key><dict><key>CFBundlePrimaryIcon</key><dict>
+  <key>CFBundleIconFiles</key><array><string>DuoFaceIcon60</string></array>
+ </dict></dict>
  <key>CFBundleVersion</key><string>1</string>
  <key>CFBundleShortVersionString</key><string>0.1.0</string>
  <key>LSRequiresIPhoneOS</key><true/>
