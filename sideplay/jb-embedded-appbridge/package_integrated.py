@@ -14,7 +14,8 @@ ORDER=[
  ("com.duoface.qa.controlapp","sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.8~roster1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.11~native12bundle3"
+PINNED_NATIVEHOST_SHA256="46bf9136178278d1762dd5fe46c3a9e4ddf8d49a02424391c7d7fdd73b2b330f"
+VERSION="0.0.12~pinnednative13"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -28,6 +29,10 @@ def build():
   for i,(pkg,relpath) in enumerate(ORDER):
    archive=ROOT/relpath
    if not archive.is_file():raise RuntimeError("Missing own module "+relpath)
+   if pkg=="com.duoface.carplay.nativescenehost":
+    observed=hashlib.sha256(archive.read_bytes()).hexdigest()
+    if observed!=PINNED_NATIVEHOST_SHA256:
+     raise RuntimeError("Native Host artifact differs from independently verified 3-DEB audit: "+observed)
    package=execute(["dpkg-deb","-f",str(archive),"Package"]).strip()
    if package!=pkg:raise RuntimeError("Wrong package "+package)
    if any(x in package for x in EXCLUDED):raise RuntimeError("Vendor module not allowed")
