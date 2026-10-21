@@ -1,0 +1,417 @@
+[
+  {
+    "feature": "CarPlay native scene/admission",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBWindow",
+      "CBBridgeManagerDashboard"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNativeHostTemplateSceneDelegate": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+      ],
+      "DFFirstPartyAdmission": []
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Khởi động splash logo ngang và thanh tiến trình",
+    "native12_method_count": 32,
+    "native12_classes_present": [
+      "CBSplitSplashScreenView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFNative12BasicController": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Bộ chọn app cards/icon/Recent/paging",
+    "native12_method_count": 82,
+    "native12_classes_present": [
+      "CBMultitaskingOverlayView",
+      "CBAppPickerViewController"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFAppPickerVC": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFAppLibrary": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Host app iPhone bình thường",
+    "native12_method_count": 45,
+    "native12_classes_present": [
+      "CBBridgedUIAppView",
+      "CBBridgedUIApp"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "YouTube/video/audio phát không Safe Mode",
+    "native12_method_count": 45,
+    "native12_classes_present": [
+      "CBBridgedUIAppView",
+      "CBBridgedUIApp"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Hiển thị hai app thật độc lập",
+    "native12_method_count": 78,
+    "native12_classes_present": [
+      "CBBridgedSplitApp",
+      "CBBridgedUIAppView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Cảm ứng hai app, scroll, player control",
+    "native12_method_count": 29,
+    "native12_classes_present": [
+      "CBBridgedUIAppView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFTouchOwnerProbe": [],
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Chia màn và kéo tỷ lệ, nhớ tỷ lệ",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBBridgedSplitApp",
+      "CBDividerView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Hoán đổi trái-phải, giữ logo",
+    "native12_method_count": 63,
+    "native12_classes_present": [
+      "CBDividerView",
+      "CBSlotPillView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Phóng to một ô, hoàn tác",
+    "native12_method_count": 85,
+    "native12_classes_present": [
+      "CBBridgedSplitApp",
+      "DFFullscreenTransport"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Phóng to thật sự ẩn Dock, hoàn tác",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBBridgeManagerDashboard",
+      "CBWindow"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Tám layout, chế độ đa khung Native12",
+    "native12_method_count": 127,
+    "native12_classes_present": [
+      "CBDashboardSettings",
+      "CBMultitaskingOverlayView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Thay app slot/close/restore/atomic state",
+    "native12_method_count": 124,
+    "native12_classes_present": [
+      "CBBridgedSplitApp",
+      "CBBridgeManager"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Đúng vị trí/timer/hitbox của các pill",
+    "native12_method_count": 36,
+    "native12_classes_present": [
+      "CBSlotPillView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Viền đỏ khi chạm và tự ẩn",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBBridgedSplitApp",
+      "CBDividerView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Logo, icon, màu sắc, bo góc và hiệu ứng",
+    "native12_method_count": 98,
+    "native12_classes_present": [
+      "CBMultitaskingOverlayView",
+      "CBSplitSplashScreenView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFAppPickerVC": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Về CarPlay Home ẩn thanh/menu tức thì",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBWindow",
+      "CBBridgeManagerDashboard"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFTouchOwnerProbe": [],
+      "DFNativeHostTemplateSceneDelegate": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Reconnect, exitmode, SpringBoard stability",
+    "native12_method_count": 112,
+    "native12_classes_present": [
+      "CBBridgeManager",
+      "CBWindow"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "DFTouchOwnerProbe": []
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Dock và geometry nhiều màn CarPlay",
+    "native12_method_count": 76,
+    "native12_classes_present": [
+      "CBWindow",
+      "CBBridgeManagerDashboard"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNative12Chrome": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Audio focus và playback video",
+    "native12_method_count": 29,
+    "native12_classes_present": [
+      "CBBridgedUIAppView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Bong bóng HUD8 4 nguồn/tự ẩn",
+    "native12_method_count": 45,
+    "native12_classes_present": [
+      "DFSpeedNativeHUD",
+      "DFSpeedSplit7Driver",
+      "DFOwnerPollingDriver"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFTouchOwnerProbe": []
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Trợ lý nói chuyện/voice mic",
+    "native12_method_count": 84,
+    "native12_classes_present": [
+      "CBAssistantManager",
+      "CBBridgedAssistantView"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNativeHostRootController": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Cài đặt app iPhone/preferences",
+    "native12_method_count": 93,
+    "native12_classes_present": [
+      "CBGeneralSettingsViewController",
+      "CBSplitViewController",
+      "CBAppManager"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFNativeHostRootController": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Đồng bộ SpringBoard/CarPlay/app process",
+    "native12_method_count": 114,
+    "native12_classes_present": [
+      "CBBridgeManager",
+      "CBBridgeManagerDashboard"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFTouchOwnerProbe": [],
+      "DFSceneHost": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ]
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  },
+  {
+    "feature": "Injection filters/entitlement lifecycle",
+    "native12_method_count": 112,
+    "native12_classes_present": [
+      "CBWindow",
+      "CBBridgeManager"
+    ],
+    "candidate_names_present_as_strings": {
+      "DFFirstPartyAdmission": [],
+      "DFTouchOwnerProbe": []
+    },
+    "source_or_binary_similarity_is_not_proof": true,
+    "full_functional_parity_proven": false,
+    "result": "KHONG_DAT"
+  }
+]
