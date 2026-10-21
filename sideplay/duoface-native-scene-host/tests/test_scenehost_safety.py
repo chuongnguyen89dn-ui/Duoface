@@ -164,7 +164,7 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertIn(name,build)
   # Reference sizes and hitboxes from own DFSPNativeSlotPill and Native12 audit.
   self.assertIn("CGFloat width=focused?(compact?72:80)",chrome)
-  self.assertIn("ready?(compact?64:76):(compact?38:44)",chrome)
+  self.assertIn("CGFloat width=focused?(compact?72:80):(compact?64:76)",chrome)
   self.assertIn("CGFloat height=compact?19:22",chrome)
   self.assertIn("pill.layer.cornerRadius=11",chrome)
   self.assertIn("sheet.layer.cornerRadius=20",chrome)
@@ -178,7 +178,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('UIImage *swapArt=DFCArtwork(@"duoface-swap")',chrome)
   self.assertIn("fabs(x-stop.doubleValue)<.04",chrome)
   self.assertIn("self.preset=(self.preset+1)%8",chrome)
-  self.assertIn("self.focus=(self.focus==sender.tag)?-1:sender.tag",chrome)
+  self.assertIn("self.focus=(self.focus==slot)?-1:slot",chrome)
   self.assertIn("self.ratio=cancel?self.dragStartRatio",chrome)
   self.assertIn("divider-pan-begin",chrome)
   self.assertIn("divider-pan-end",chrome)
@@ -380,12 +380,37 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@YES",chrome)
   self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@NO",chrome)
   self.assertIn("CGFloat width=focused?(compact?72:80)",chrome)
-  self.assertIn("ready?(compact?64:76):(compact?38:44)",chrome)
-  self.assertIn("zoom.hidden=!(focused||ready)",chrome)
+  self.assertIn("CGFloat width=focused?(compact?72:80):(compact?64:76)",chrome)
+  self.assertIn("zoom.hidden=NO",chrome)
   self.assertIn("if(self.focus==slot)self.focus=-1",chrome)
   self.assertIn("if(self.focus==visual)self.focus=-1",chrome)
   self.assertIn("self.sceneHandleReady removeAllObjects",chrome)
   self.assertIn("self.appPickerWindow.hidden=NO",chrome)
+ def test_split_panes_keep_both_buttons_and_real_zoom_dispatch(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("zoom.hidden=NO",chrome)
+  self.assertIn("menu.frame=CGRectMake(0,0,focused?0:width/2,height)",chrome)
+  self.assertIn("zoom.accessibilityLabel=ready?",chrome)
+  handler=chrome.split("- (void)zoomPressed:(UIButton *)sender {",1)[1].split("- (void)menuAction:",1)[0]
+  self.assertIn("if(self.focus!=slot && ![self.sceneHandleReady[(NSUInteger)physical] boolValue])",handler)
+  self.assertIn("[self openAppPickerForSlot:slot];",handler)
+  self.assertIn("self.focus=(self.focus==slot)?-1:slot;",handler)
+  menu=chrome.split("- (void)menuAction:(UIButton *)sender {",1)[1].split("- (void)openAppPickerForSlot:",1)[0]
+  self.assertIn("[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];",menu)
+  for key in ("case 0:","case 1:","case 2:","case 3:"):
+   self.assertIn(key,menu)
+  self.assertIn("self.preset=(self.preset+1)%8",menu)
+  self.assertIn("closeHostedSlot:self.selectedSlot",menu)
+
+ def test_media_scene_deduplicates_private_resize_in_pending_state(self):
+  host=file("DFSceneHost.m")
+  self.assertIn("if (CGSizeEqualToSize(size,self.lastApplied)) return;",host)
+  self.assertIn("self.lastApplied=CGSizeZero;",host)
+  self.assertIn('DFSceneLog(@"resize"',host)
+  self.assertIn('setContentReferenceSize:withInterfaceOrientation:',host)
+  self.assertNotIn("scene,update,settings,nil,nil",host)
+  # Defensive regression only; not evidence of on-device Safe Mode repair.
+
  def test_scene_ready_needs_scene_handle_and_live_host_state(self):
   host=file("DFSceneHost.m")
   self.assertIn("DFHostingFlag",host)
@@ -517,7 +542,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
   self.assertIn("host.transform=CGAffineTransformMakeScale",host)
   for preserved in ("self.swapped=!self.swapped","self.ratio=cancel?self.dragStartRatio",
-                    "self.focus=(self.focus==sender.tag)?-1:sender.tag",
+                    "self.focus=(self.focus==slot)?-1:slot",
                     "app-replace-pending-existing-retained"):
    self.assertIn(preserved,chrome)
   self.assertNotIn("CBBridgeManager",host)
