@@ -298,7 +298,9 @@ static void DFCLog(NSString *text) {
     [root.view addSubview:logo];
     UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
                                   initWithTarget:self action:@selector(logoHold:)];
-    hold.minimumPressDuration=.30;
+    hold.minimumPressDuration=3.0;
+    // Current user override: hold the logo for three full seconds before moving.
+    // Once recognized, drag along the divider only; short tap still swaps.
     hold.allowableMovement=14;
     [logo addGestureRecognizer:hold];
     UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
