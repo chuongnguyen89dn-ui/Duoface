@@ -10,11 +10,11 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.26~fixedpan1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.27~hold3s1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-PINNED_NATIVEHOST_SHA256="c67ebb7f0970678cfaefa5e6b54f17498d1d83b32e88ada11cf22defe471089a"
-VERSION="0.0.22~fixedpan1"
+PINNED_NATIVEHOST_SHA256="85655eeac048d14b96b94bf52003ebc79f32d1ddcbe7aa98f3af4ebbcbc3e6ce"
+VERSION="0.0.23~hold3s1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -68,10 +68,10 @@ def build():
    target.chmod(0o755)
   controls=[
     "Package: "+NAME,
-    "Name: DuoFace JB Embedded AppBridge (Quarantined Candidate)",
+    "Name: DuoFace Independent (Integrated CarPlay Beta)",
     "Version: "+VERSION,
     "Architecture: iphoneos-arm64",
-    "Section: Development",
+    "Section: Applications",
     "Priority: optional",
     "Maintainer: DuoFace Independent",
     "Depends: firmware (>= 16.0), mobilesubstrate",
@@ -80,7 +80,7 @@ def build():
     # without blindly deleting its files or user data in maintainer scripts.
     "Conflicts: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
     "Replaces: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
-    "Description: Quarantined independent JB integrated source-only DuoFace app bridge. Combines existing own SpringBoard scene host, native Dashboard receiver, firstparty admission candidate, native host and the ONE first-party DuoFace iPhone UI; no separate QA demo app. Does not require standalone CarBridge. Physical CarPlay icon and dual-app touch not verified; DO NOT PUBLISH or install without conflict/rollback review.",
+    "Description: Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation.",
   ]
   (stage/"DEBIAN/control").write_text("\n".join(controls)+"\n")
   OUT.mkdir(parents=True,exist_ok=True)
