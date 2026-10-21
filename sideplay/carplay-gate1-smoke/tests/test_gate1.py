@@ -52,7 +52,7 @@ class Gate1Safety(unittest.TestCase):
    for key in ("com.duoface.gate1smoke","oldEffective",
                "com.duoface.gate1smoke.refresh",".duoface-gate1smoke-disable"):
     self.assertIn(key,src)
-   self.assertNotIn("com.duoface.native.scenehost",src)
+   self.assertEqual(src.count("com.duoface.native.scenehost"),1) # read-only old gate check
    self.assertNotIn("com.duoface.firstparty-admission.refresh",src)
   self.assertIn("gate1-smoke-SpringBoard-loaded", (P/".generated"/"Gate1SpringBoard.m").read_text())
   p=plistlib.loads((P/"DFGate1SmokeAdmission.plist").read_bytes())
