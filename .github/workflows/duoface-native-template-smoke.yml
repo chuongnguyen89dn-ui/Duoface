@@ -30,10 +30,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.12~native12bundle2_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.12~native12bundle2'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.13~native12bundle3'
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
           OUT="$RUNNER_TEMP/nativehost-check"
@@ -82,7 +82,7 @@ jobs:
           python3 sideplay/duoface-native-scene-host/tests/compare_source_debs.py \
             --native12 "$RUNNER_TEMP/duoface-native12-reference.deb" \
             --duonavi "$RUNNER_TEMP/duonavi-original-reference.deb" \
-            --candidate 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.12~native12bundle2_iphoneos-arm64.deb' \
+            --candidate 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb' \
             --out sideplay/duoface-native-scene-host/packages/NATIVE12_DEB_CROSSWALK.json
       - uses: actions/upload-artifact@v4
         with:
