@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleIdentifier</key><string>com.duoface.gate1smoke</string>
+<key>CFBundleExecutable</key><string>DuoFaceGate1</string>
+<key>CFBundleName</key><string>DuoFaceGate1</string>
+<key>CFBundleDisplayName</key><string>DuoFace CarPlay Gate 1</string>
+<key>CFBundlePackageType</key><string>APPL</string>
+<key>CFBundleVersion</key><string>1</string>
+<key>CFBundleShortVersionString</key><string>0.0.1</string>
+<key>LSRequiresIPhoneOS</key><true/>
+<key>SBStarkLaunchModes</key><array><string>Default</string></array>
+<key>UIDeviceFamily</key><array><integer>1</integer></array>
+<key>UIApplicationSceneManifest</key><dict>
+<key>UIApplicationSupportsMultipleScenes</key><true/>
+<key>UISceneConfigurations</key><dict>
+<key>UIWindowSceneSessionRoleApplication</key><array><dict>
+<key>UISceneConfigurationName</key><string>Gate1 Phone</string>
+<key>UISceneClassName</key><string>UIWindowScene</string>
+<key>UISceneDelegateClassName</key><string>Gate1Scene</string>
+</dict></array>
+<key>UIWindowSceneSessionRoleCarPlay</key><array><dict>
+<key>UISceneConfigurationName</key><string>Gate1 CarPlay</string>
+<key>UISceneClassName</key><string>UIWindowScene</string>
+<key>UISceneDelegateClassName</key><string>Gate1Scene</string>
+</dict></array>
+</dict></dict>
+</dict></plist>

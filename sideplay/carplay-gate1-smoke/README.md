@@ -1,0 +1,11 @@
+# DuoFace Gate 1 – isolated jailbreak CarPlay acceptance test
+This is **not** DuoFace Native12 and not the combined 0.0.7 candidate. Test only the native CarPlay Home icon and system-issued UIWindowScene on an iPhone X iOS16 rootless jailbreak, DiPlay head unit.
+
+- Single distinct package `com.duoface.carplay.gate1smoke`; unique app bundle `com.duoface.gate1smoke`; no Conflicts, Replaces, Provides or dependencies on other DuoFace QA packages. Never copies vendor binaries or images.
+- Reuses *independent project own code* `sideplay/firstparty-carplay-admission` as source at build only, deriving unique bundle ID, prefs, logs and notification. It does not modify or load the existing live app's firstparty preference, unless checking for an already-enabled gate (refuses to double arm).
+- Installer registers the independent iPhone test app with `uicache -p`; sets its own kill switch and does **not** restart SpringBoard. Sileo may require a one-time respring to load the new tweak process filter; no auto-respring in maintainer scripts.
+- Opening the phone test app does not arm the hook. Press **BẬT thử nghiệm trong 10 phút**, acknowledge risk, and reconnect CarPlay. Consent expires in 600s; hook refuses consent beyond 900s or when kill switch exists. **TẮT NGAY** re-enables kill switch; uninstall also creates it before removing payload.
+- The app shows separate logs `DuoFaceGate1SpringBoard.log`, `DuoFaceGate1CarPlay.log`, `DuoFaceGate1Scene.log`. A blue screen with "DUOFACE GATE 1 / NATIVE CARPLAY SCENE" proves genuine UIKit external window issuance; plain uicache/LS hooks alone do not.
+- Do not run with another firstparty-admission beta enabled. Testing an iOS16 SpringBoard tweak can crash/safe mode; run only parked, with recovery access. No package can guarantee hardware safety before trial.
+- Acceptance: one and only one CarPlay Home icon; tapping opens true CarPlay window; Dock still system-owned; disconnect/reconnect; turn off and remove without affecting installed QA/Native12/HUD8.
+- **No CI test can establish physical icon, CarPlay entitlement, receiver acceptance or touch.** Do not proceed to any Native12/HUD8/dual-app feature before Gate 1 device confirmation.

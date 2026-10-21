@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in remove|deconfigure|upgrade) ;; *) exit 0;; esac
+mkdir -p /var/mobile/Library/Preferences
+: > /var/mobile/Library/Preferences/.duoface-gate1smoke-disable
+# Already-installed dynamic hooks immediately become passive before uninstall.
+exit 0

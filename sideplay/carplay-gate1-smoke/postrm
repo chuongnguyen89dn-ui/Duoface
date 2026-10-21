@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in remove) ;; *) exit 0;; esac
+for TOOL in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$TOOL" ]; then "$TOOL" -u /var/jb/Applications/DuoFaceGate1.app || true; break; fi
+done
+exit 0

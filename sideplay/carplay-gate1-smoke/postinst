@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+case "${1:-}" in configure) ;; *) exit 0;; esac
+APP=/var/jb/Applications/DuoFaceGate1.app
+[ -d "$APP" ] || { echo "DuoFace Gate1 app not installed" >&2; exit 1; }
+mkdir -p /var/mobile/Library/Preferences
+# Default OFF, including upgrades. No auto-respring, uninstall of other QA,
+# SpringBoard manipulation, or unconditional CarPlay entitlement mutation.
+: > /var/mobile/Library/Preferences/.duoface-gate1smoke-disable
+for TOOL in /var/jb/usr/bin/uicache /usr/bin/uicache; do
+  if [ -x "$TOOL" ]; then "$TOOL" -p "$APP" || true; break; fi
+done
+exit 0
