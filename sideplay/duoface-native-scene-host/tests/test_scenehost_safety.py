@@ -197,6 +197,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('backgroundColor',splash)
   build=file("build.sh")
   self.assertIn("xcrun ibtool",build)
+  self.assertIn("duoface-logo-picker-alpha-v2.png",build)
   self.assertIn("DuoFaceIcon60@2x.png",build)
   self.assertIn("DuoFaceIcon60@3x.png",build)
   for path in ("duoface-logo.png","duoface-logo-vert.png",
@@ -210,7 +211,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"Trang chủ",@"Ứng dụng",@"Cài đặt"',phone)
   self.assertIn('self.mainLogo=logo',phone)
   self.assertNotIn('DFCArtwork(@"duoface-swap")',spring)
-  self.assertIn('DFCArtwork(@"duoface-logo")',spring)
+  self.assertIn('DFCArtwork(@"duoface-logo-picker-alpha-v2")',spring)
   self.assertNotIn('DFCArtwork(@"duoface-picker")',spring)
  def test_independent_two_real_host_scene_opt_in_and_exit_cleanup(self):
   chrome=file("DFNative12Chrome.m")
