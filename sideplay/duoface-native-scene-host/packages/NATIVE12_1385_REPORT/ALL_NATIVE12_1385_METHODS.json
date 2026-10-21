@@ -3585,7 +3585,10 @@
       "native_type_encoding": "q16@0:8",
       "native_imp": "0x100017f34",
       "category": "PICKER_SETTINGS",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -10169,7 +10172,10 @@
       "native_type_encoding": "q16@0:8",
       "native_imp": "0x11feb4",
       "category": "BRIDGE_SCENE",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -11553,7 +11559,10 @@
       "native_type_encoding": "q16@0:8",
       "native_imp": "0x37f48",
       "category": "PICKER_SETTINGS",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -11565,7 +11574,10 @@
       "native_type_encoding": "q16@0:8",
       "native_imp": "0x37f38",
       "category": "PICKER_SETTINGS",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
