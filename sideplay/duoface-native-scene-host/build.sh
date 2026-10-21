@@ -17,7 +17,7 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -o "$DYLIB" DFTouchOwnerProbe.m
+  -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
 cp Info.plist "$APP/Info.plist"
