@@ -30,9 +30,9 @@ jobs:
           git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12-audit-inputs/native12.deb"
           git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
           git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/native12-audit-inputs/method-index.json"
-          cp 'sideplay/jb-embedded-appbridge/evidence/runs/39689799009/com.duoface.jb.embedded_0.0.22~fixedpan1_iphoneos-arm64.deb' "$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb"
+          cp 'sideplay/jb-embedded-appbridge/evidence/runs/39692161273/com.duoface.jb.embedded_0.0.23~hold3s1_iphoneos-arm64.deb' "$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb"
           echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/native12-audit-inputs/native12.deb" | shasum -a 256 -c -
-          echo 'bb6eab0e92490e532c276b4d8101d2a6e01a83505da0601906accc52b603a11a  '"$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb" | shasum -a 256 -c -
+          echo '296fc26633e76690682f2fcfb77391ec6b729a3bdfbeb1defb6ce7999dcf699e  '"$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb" | shasum -a 256 -c -
           test "$(git hash-object "$RUNNER_TEMP/native12-audit-inputs/method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
           echo 'NATIVE12_VS_NEW_DUOFACE_ONLY_IMMUTABLE_INPUTS_PASS'
       - name: Compare every file and all 1385 original Objective-C methods
@@ -42,12 +42,12 @@ jobs:
             --native12 "$RUNNER_TEMP/native12-audit-inputs/native12.deb" \
             --new "$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb" \
             --index "$RUNNER_TEMP/native12-audit-inputs/method-index.json" \
-            --new-sha256 bb6eab0e92490e532c276b4d8101d2a6e01a83505da0601906accc52b603a11a \
+            --new-sha256 296fc26633e76690682f2fcfb77391ec6b729a3bdfbeb1defb6ce7999dcf699e \
             --expected-new-files 28 \
-            --out sideplay/audit/native12-vs-new-20261021/results-0.0.22
+            --out sideplay/audit/native12-vs-new-20261021/results-0.0.23
           python3 - <<'PY'
           import json,pathlib
-          p=pathlib.Path('sideplay/audit/native12-vs-new-20261021/results-0.0.22')
+          p=pathlib.Path('sideplay/audit/native12-vs-new-20261021/results-0.0.23')
           s=json.loads((p/'SUMMARY.json').read_text())
           assert s['scope']=='ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI'
           assert s['original_objc_methods']==1385
@@ -61,15 +61,15 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: Native12-vs-DuoFace-New-0.0.22-Complete-File-Method-Gap-${{ github.run_id }}
-          path: sideplay/audit/native12-vs-new-20261021/results-0.0.22/
+          name: Native12-vs-DuoFace-New-0.0.23-Complete-File-Method-Gap-${{ github.run_id }}
+          path: sideplay/audit/native12-vs-new-20261021/results-0.0.23/
           if-no-files-found: error
       - name: Persist ALL audit results in CORRECT project branch
         run: |
           set -euo pipefail
           BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
-          SOURCE="$(pwd)/sideplay/audit/native12-vs-new-20261021/results-0.0.22"
-          TARGET='sideplay/audit/native12-vs-new-20261021/results-0.0.22'
+          SOURCE="$(pwd)/sideplay/audit/native12-vs-new-20261021/results-0.0.23"
+          TARGET='sideplay/audit/native12-vs-new-20261021/results-0.0.23'
           test -s "$SOURCE/ALL_NATIVE12_1385_METHODS.json"
           test -s "$SOURCE/FILE_INVENTORY.json"
           for attempt in 1 2 3 4; do
