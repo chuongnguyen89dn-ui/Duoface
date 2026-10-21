@@ -83,23 +83,49 @@ jobs:
       - name: Save exact binary evidence in DuoFace feature branch
         run: |
           set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f sideplay/duoface-native-scene-host/packages/*.deb
-          git add -f sideplay/duoface-native-scene-host/packages/SHA256SUMS.txt sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
-          git commit -m 'build(nativehost): persist signed template CarPlay DEB and SHA [skip ci]'
-          # Other sessions may update the project handoff while this job builds.
-          # Rebase the artifact-only commit onto the current remote HEAD,
-          # never force-push or discard an intervening checkpoint.
+          # Never rebase a generated binary onto moving CI_RESULT/SHA files:
+          # it causes an add/add conflict whenever another job published first.
           BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          SUB='sideplay/duoface-native-scene-host'
+          VERSION="$(awk '/^Version:/{print $2}' "$SUB/control")"
+          FILE="com.duoface.carplay.nativescenehost_${VERSION}_iphoneos-arm64.deb"
+          SOURCE="$(pwd)/$SUB/packages/$FILE"
+          CI_SOURCE="$(pwd)/$SUB/packages/CI_RESULT.txt"
+          test -s "$SOURCE"
+          test -s "$CI_SOURCE"
           for attempt in 1 2 3 4 5; do
             git fetch --no-tags origin "$BRANCH"
-            git rebase FETCH_HEAD
-            if git push origin "HEAD:refs/heads/$BRANCH"; then
-              echo "NATIVEHOST_BINARY_SAVED_TO_GITHUB=PASS attempt=$attempt"
+            CURRENT="$(mktemp -d)"
+            git worktree add --detach "$CURRENT" FETCH_HEAD
+            git -C "$CURRENT" config user.name 'github-actions[bot]'
+            git -C "$CURRENT" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            TARGET="$CURRENT/$SUB/packages/$FILE"
+            if test -f "$TARGET"; then
+              if ! cmp -s "$SOURCE" "$TARGET"; then
+                echo "Existing different binary for immutable version $VERSION — bump package version, do not overwrite" >&2
+                git worktree remove --force "$CURRENT"
+                rmdir "$CURRENT" 2>/dev/null || true
+                exit 1
+              fi
+              echo "NATIVEHOST_BINARY_SAVED_TO_GITHUB=PASS already-existing-identical"
+              git worktree remove --force "$CURRENT"
+              rmdir "$CURRENT" 2>/dev/null || true
               exit 0
             fi
-            echo "Concurrent branch update during artifact save, retry $attempt/5"
+            cp "$SOURCE" "$TARGET"
+            cp "$CI_SOURCE" "$CURRENT/$SUB/packages/CI_RESULT.txt"
+            (cd "$CURRENT/$SUB" && shasum -a 256 packages/*.deb > packages/SHA256SUMS.txt)
+            git -C "$CURRENT" add -f "$SUB/packages/$FILE" "$SUB/packages/SHA256SUMS.txt" "$SUB/packages/CI_RESULT.txt"
+            git -C "$CURRENT" commit -m "build(nativehost): save immutable $VERSION signed binary and SHA [skip ci]"
+            if git -C "$CURRENT" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "NATIVEHOST_BINARY_SAVED_TO_GITHUB=PASS attempt=$attempt"
+              git worktree remove --force "$CURRENT"
+              rmdir "$CURRENT" 2>/dev/null || true
+              exit 0
+            fi
+            git worktree remove --force "$CURRENT"
+            rmdir "$CURRENT" 2>/dev/null || true
+            echo "Concurrent branch update, retry safe binary save $attempt/5"
           done
-          echo "Failed to save artifact after 5 safe push attempts" >&2
+          echo "Failed to save binary after 5 safe retries" >&2
           exit 1
