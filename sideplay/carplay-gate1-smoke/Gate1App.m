@@ -197,6 +197,10 @@ static NSString *Enable(BOOL allowPauseOld) {
   CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
       CFSTR("com.duoface.gate1smoke.diag-run"),NULL,NULL,YES);
   [self readStatus];
+  // The two processes answer asynchronously. Display actual matching-nonce
+  // results without requiring the user to press Refresh again.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{[self readStatus];});
 }
 - (void)readStatus {
   NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
@@ -230,6 +234,9 @@ static NSString *Enable(BOOL allowPauseOld) {
   }
   [text appendString:@"\nKhông trả lời = không có bằng chứng. Roster không phải icon thật.\nKhông thay Dock hệ thống."];
   self.logView.text=text;
+  if(nonce.length>0) {
+    [self.logView scrollRangeToVisible:NSMakeRange(text.length,0)];
+  }
 }
 @end
 @interface Gate1Scene : UIResponder <UIWindowSceneDelegate>
