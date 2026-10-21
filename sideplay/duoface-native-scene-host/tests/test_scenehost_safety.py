@@ -253,13 +253,13 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("sceneIfExists",scene)
   self.assertIn("scene-handle-observed-render-unverified",scene)
   self.assertIn("DFSceneHostDidBecomeReadyNotification",scene)
-  self.assertIn("scene-handle-attached-render-unverified",chrome)
+  self.assertIn("scene-replace-committed-render-unverified",chrome)
   self.assertIn("real-scene-failed",chrome)
   self.assertIn("invalidate-done",scene)
   self.assertIn("stopAllHosts",scene)
   self.assertIn("DFAppPickerVC *appPickerController",chrome)
   self.assertIn("appPicker:(",chrome)
-  self.assertIn("app-scene-pending-not-render-verified",chrome)
+  self.assertIn("app-replace-pending-existing-retained",chrome)
   self.assertIn("app-host-refused",chrome)
   self.assertIn("closeHostedSlot:",chrome)
   self.assertIn("openAppPickerForSlot:",chrome)
@@ -292,7 +292,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("checkAndSyncLicense",chrome)
   self.assertNotIn("licenseWatchdog",chrome)
   self.assertNotIn('@"AppBundleID"',chrome)
-  self.assertIn("scene-handle-attached-render-unverified",chrome)
+  self.assertIn("scene-replace-committed-render-unverified",chrome)
   self.assertIn("scene-handle-observed-render-unverified",file("DFSceneHost.m"))
  def test_native12_real_scene_survives_picker_and_launch_fails_closed(self):
   chrome=file("DFNative12Chrome.m")
@@ -307,7 +307,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.appPickerController refreshInstalledApps",chrome)
   self.assertIn("self.appPickerWindow.hidden=NO",chrome)
   self.assertIn("app-host-refused",chrome)
-  self.assertIn("app-scene-pending-not-render-verified",chrome)
+  self.assertIn("app-replace-pending-existing-retained",chrome)
   self.assertIn("void)refreshInstalledApps",api)
   self.assertIn("inventoryGeneration",picker)
   self.assertIn("owner.inventoryGeneration!=generation",picker)
@@ -337,6 +337,42 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("host-preflight-denied",host)
   self.assertNotIn("if (scene) {",host)
   self.assertIn("scene-handle-observed-render-unverified",host)
+ def test_atomic_native12_replace_keeps_live_app_until_scene_ready(self):
+  chrome=file("DFNative12Chrome.m")
+  host=file("DFSceneHost.m")
+  header=file("DFSceneHost.h")
+  self.assertIn("bundleIDForHostedView:",header)
+  self.assertIn("self.live[surface.bundleID]==surface",host)
+  self.assertIn("pendingScenes",chrome)
+  self.assertIn("app-replace-pending-existing-retained",chrome)
+  self.assertIn("scene-replace-committed-render-unverified",chrome)
+  self.assertIn("scene-replace-rolled-back-old-app-retained",chrome)
+  self.assertIn("replace-same-app-noop",chrome)
+  self.assertIn("self.pendingScenes[(NSUInteger)physicalSlot]=host",chrome)
+  self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@YES",chrome)
+  self.assertIn("host.userInteractionEnabled=NO",chrome)
+  self.assertIn("host.userInteractionEnabled=YES",chrome)
+  self.assertIn("self.pendingScenes[(NSUInteger)i]=NSNull.null",chrome)
+  self.assertIn("self.pendingScenes removeAllObjects",chrome)
+  self.assertNotIn("if(self.hostedScenes[(NSUInteger)physicalSlot]!=NSNull.null)\\n         [self closeHostedSlot:slot]",chrome)
+  # A new app must not be reported successfully selected before sceneReady.
+  start=chrome.index("- (void)appPicker:(DFAppPickerVC *)picker")
+  ready=chrome.index("- (void)sceneReady:",start)
+  selection=chrome[start:ready]
+  self.assertNotIn('[self emit:@"App"',selection)
+  self.assertIn("pendingScenes[(NSUInteger)physicalSlot]=host",selection)
+  after=chrome[ready:chrome.index("- (void)sceneFailed:",ready)]
+  self.assertLess(after.index("self.hostedScenes[(NSUInteger)i]=host"),
+                  after.index("[self emit:@\"App\""))
+  self.assertLess(after.index("host.userInteractionEnabled=YES"),
+                  after.index("[self emit:@\"App\""))
+  self.assertLess(after.index("self.hostedScenes[(NSUInteger)i]=host"),
+                  after.index("releaseHostedView:prior"))
+  # A pending failure leaves an old app: release only the failed pending host.
+  failed=chrome[chrome.index("- (void)sceneFailed:"):chrome.index("- (void)closeHostedSlot:")]
+  self.assertIn("self.pendingScenes[(NSUInteger)i]==host",failed)
+  self.assertIn("self.pendingScenes[(NSUInteger)i]=NSNull.null",failed)
+  self.assertNotIn("releaseHostedView:prior",failed)
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
