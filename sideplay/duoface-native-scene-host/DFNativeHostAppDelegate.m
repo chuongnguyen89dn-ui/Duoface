@@ -186,8 +186,13 @@ void DFNativeHostLog(NSString *message) {
 - (void)startTouchOwnerForScene:(CPTemplateApplicationScene *)scene {
     if(self.touchSession || !self.carWindow || !self.basicController)return;
     self.touchOwnerScene=scene;
-    if(scene.activationState==UISceneActivationStateBackground ||
-       scene.activationState==UISceneActivationStateUnattached)return;
+    // CPTemplate can be CONNECTED while CarPlay Home owns the foreground.
+    // ForegroundInactive must NOT create standalone SpringBoard windows:
+    // sceneDidBecomeActive: is the only authority to start the chrome.
+    if(scene.activationState!=UISceneActivationStateForegroundActive){
+        DFNativeHostLog(@"touchowner-deferred-until-carplay-foreground-active");
+        return;
+    }
     self.touchSession=[NSUUID UUID].UUIDString;
     self.lastTouchSequence=0;
     __weak typeof(self) weakOwner=self;
