@@ -40,7 +40,7 @@
     if(self.carPlay){
         // The alternate UIKit CarPlay role never creates a phone-style
         // settings panel, system Dock or a second overlay controller.
-        UILabel *state=[self label:@"DuoFace\nNative12 · CarPlay"
+        UILabel *state=[self label:@"DuoFace\nNative12 · CarPlay\nChưa nối hai ứng dụng iPhone"
                              size:19 color:UIColor.whiteColor];
         [self.view addSubview:state];
         [NSLayoutConstraint activateConstraints:@[
