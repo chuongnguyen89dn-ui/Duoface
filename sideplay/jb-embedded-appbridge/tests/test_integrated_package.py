@@ -6,7 +6,7 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   s=SRC.read_text()
   for x in ("com.duoface.mytweak.v1a.preflight","com.duoface.carplay.nativebridgeqa",
             "com.duoface.carplay.firstpartyadmission","com.duoface.carplay.nativescenehost",
-            "com.duoface.qa.controlapp","no_such_test"):
+            "no_such_test"):
    if x=="no_such_test":continue
    self.assertIn(x,s)
   self.assertIn('"Depends: firmware (>= 16.0), mobilesubstrate"',s)
@@ -30,18 +30,21 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   self.assertIn('requires_replacing_old_qa_packages":True',s)
   self.assertIn('"uicache_registration_scripts_included":True',s)
   self.assertIn('"auto_respring_on_install":False',s)
- def test_merged_two_app_uicache_scripts(self):
+ def test_merged_one_app_uicache_scripts(self):
   base=ROOT/"sideplay/jb-embedded-appbridge/scripts"
   src=SRC.read_text()
   for kind in ("postinst","postrm"):
    s=(base/kind).read_text()
    self.assertIn("DuoFaceNativeHost.app",s)
-   self.assertIn("DuoFaceQA.app",s)
+   self.assertNotIn("DuoFaceQA.app",s)
    self.assertIn("uicache",s)
    for forbidden in ("killall","sbreload","ldrestart","launchctl","rm -rf",
                      "uicache -a","apt install","dpkg --remove"):
     self.assertNotIn(forbidden,s)
   self.assertIn('for kind in ("postinst","postrm")',src)
+  self.assertIn('"com.duoface.qa.controlapp"',src)
+  self.assertIn('PINNED_NATIVEHOST_SHA256',src)
+  self.assertIn('Native Host artifact differs from independently verified Native12-only A-Z DEB audit',src)
   self.assertIn('target.chmod(0o755)',src)
  def test_nativehost_version_matches_real_build_output(self):
   import re
