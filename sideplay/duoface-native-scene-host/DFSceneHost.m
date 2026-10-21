@@ -140,7 +140,13 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (!self.started || self.stopped) return;
     CGSize size=self.bounds.size;
     if (size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
-    if (CGSizeEqualToSize(size,self.lastApplied) && self.ready) return;
+    // Runtime safety: SpringBoard hosts video and ordinary apps. Do not
+    // repeatedly reconfigure a pending remote scene for the same geometry.
+    // In the old code, every window layout before readiness reissued private
+    // setContentReferenceSize: even when neither axis had moved. This can
+    // race a media scene becoming active. A READY transition explicitly
+    // zeroes lastApplied once in pollScene to perform one valid refresh.
+    if (CGSizeEqualToSize(size,self.lastApplied)) return;
     // The independent QA reference and original v1.0.4 arithmetic both use 2x
     // source pixels and 0.5x host scale; must be confirmed on real iPhone X.
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
