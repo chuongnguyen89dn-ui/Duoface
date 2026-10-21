@@ -1,19 +1,25 @@
 {
-  "checked_at_utc": "2026-10-20T22:23:07.642766+00:00",
+  "checked_at_utc": "2026-10-21T01:41:07.631166+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 1754,
+  "total_actions_runs": 1764,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 4,
-      "success": 3,
+      "recent_runs": 5,
+      "success": 4,
       "failure": 0,
       "other": 1
     },
+    "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)": {
+      "recent_runs": 7,
+      "success": 4,
+      "failure": 1,
+      "other": 2
+    },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 12,
-      "success": 7,
-      "failure": 2,
+      "recent_runs": 14,
+      "success": 8,
+      "failure": 3,
       "other": 3
     },
     "DuoFace JB reference DEB audit (no install/publish)": {
@@ -65,25 +71,125 @@
       "other": 0
     },
     "DuoFace native V1BC Dashboard bridge QA DEB (opt-in separate)": {
-      "recent_runs": 16,
+      "recent_runs": 10,
       "success": 1,
       "failure": 0,
-      "other": 15
+      "other": 9
     },
     "DuoFace native Dashboard owner layout/source validation (NO DEB)": {
-      "recent_runs": 9,
+      "recent_runs": 5,
       "success": 3,
-      "failure": 2,
-      "other": 4
+      "failure": 0,
+      "other": 2
     }
   },
   "latest_runs": [
     {
+      "id": 39528726778,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 46,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39528726778",
+      "created_at": "2026-10-21T01:40:54Z",
+      "head_sha": "4cbb80f41cd9bf4dc1936f3c5f9a47e2fcd49aa2"
+    },
+    {
+      "id": 39528331434,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 7,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39528331434",
+      "created_at": "2026-10-21T01:36:47Z",
+      "head_sha": "01d180747ec239d6b319a0567fbfccbe2908cac3"
+    },
+    {
+      "id": 39528323151,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39528323151",
+      "created_at": "2026-10-21T01:36:41Z",
+      "head_sha": "d428f66a2d07057311447ef66b36d415a024c34f"
+    },
+    {
+      "id": 39528315343,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39528315343",
+      "created_at": "2026-10-21T01:36:37Z",
+      "head_sha": "31db5a3f646b2d192364e3b691045bf193c9b27f"
+    },
+    {
+      "id": 39528230156,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39528230156",
+      "created_at": "2026-10-21T01:35:44Z",
+      "head_sha": "6f7df7d8cd6919002ba03b658210f667117a3826"
+    },
+    {
+      "id": 39522725164,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39522725164",
+      "created_at": "2026-10-21T00:40:23Z",
+      "head_sha": "761148efbaa6d2b80616e769abc25b8e79646e4c"
+    },
+    {
+      "id": 39522157457,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39522157457",
+      "created_at": "2026-10-21T00:34:44Z",
+      "head_sha": "f31a68fc1b10e07347c4a905da29bc2940d44ff7"
+    },
+    {
+      "id": 39521876195,
+      "name": "DuoFace Gate 1 isolated CarPlay Home smoke DEB (NO SILEO PROMOTION)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39521876195",
+      "created_at": "2026-10-21T00:31:53Z",
+      "head_sha": "69aa7b1ea227d0427a3d19085d1eeae7e943d3ef"
+    },
+    {
+      "id": 39519149419,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39519149419",
+      "created_at": "2026-10-21T00:05:24Z",
+      "head_sha": "93e6f6562e35b3fce1a6c07c92b4cd2129d56caa"
+    },
+    {
+      "id": 39519027750,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39519027750",
+      "created_at": "2026-10-21T00:04:18Z",
+      "head_sha": "431fd2f655d42864f47b424b2cb5da19c47d9bf5"
+    },
+    {
       "id": 39507684852,
       "name": "DuoFace Actions status snapshot",
       "run_number": 45,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39507684852",
       "created_at": "2026-10-20T22:22:56Z",
       "head_sha": "e05ba2be3bb17f9da5b535732b1a95143727d111"
@@ -277,106 +383,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420451056",
       "created_at": "2026-10-20T12:12:00Z",
       "head_sha": "ff6cb0a4533df218f11bbb976cab23aff32d683a"
-    },
-    {
-      "id": 39420409035,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 24,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420409035",
-      "created_at": "2026-10-20T12:11:40Z",
-      "head_sha": "b2f6076c75f0a8b077ae99599f1a43cb3e8f9304"
-    },
-    {
-      "id": 39420369278,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 23,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420369278",
-      "created_at": "2026-10-20T12:11:21Z",
-      "head_sha": "d6e325016ca04f7c135d74cd2a5c1c7710572df9"
-    },
-    {
-      "id": 39420333841,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 22,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420333841",
-      "created_at": "2026-10-20T12:11:04Z",
-      "head_sha": "75991b70a17a647af52d8361261bcba89954ef7b"
-    },
-    {
-      "id": 39420303624,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 21,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420303624",
-      "created_at": "2026-10-20T12:10:48Z",
-      "head_sha": "62fed57c667d4dbbb60a4e1e699e4eeee769ed8a"
-    },
-    {
-      "id": 39420261285,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 20,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39420261285",
-      "created_at": "2026-10-20T12:10:27Z",
-      "head_sha": "a4602832a510f7ca05e7b63b954b097552da7b21"
-    },
-    {
-      "id": 39413144555,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 19,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39413144555",
-      "created_at": "2026-10-20T11:11:06Z",
-      "head_sha": "6a79ed170210153830c7f1de485ad12b8871a15c"
-    },
-    {
-      "id": 39413040040,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 18,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39413040040",
-      "created_at": "2026-10-20T11:10:13Z",
-      "head_sha": "c6438d3103dfda5cff8fc8ad1407988ddd8129b6"
-    },
-    {
-      "id": 39412915955,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 17,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39412915955",
-      "created_at": "2026-10-20T11:09:10Z",
-      "head_sha": "40103b608e9dca2e586f48256db582a9e803a557"
-    },
-    {
-      "id": 39411254419,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 16,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411254419",
-      "created_at": "2026-10-20T10:54:48Z",
-      "head_sha": "27ee7acc9cc4ae2d0b7362eeaddc44b5ea3b54ee"
-    },
-    {
-      "id": 39411247376,
-      "name": "DuoFace firstparty CarPlay admission candidate (NOT publish)",
-      "run_number": 15,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39411247376",
-      "created_at": "2026-10-20T10:54:45Z",
-      "head_sha": "c4494b8f3c69dc7916ae27467f6a35c0323f3b45"
     }
   ]
 }
