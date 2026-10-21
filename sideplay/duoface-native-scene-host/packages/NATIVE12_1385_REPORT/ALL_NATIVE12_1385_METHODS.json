@@ -11947,7 +11947,9 @@
       "native_type_encoding": "B32@0:8@16@24",
       "native_imp": "0xfea48",
       "category": "SPLIT_UI",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -12119,7 +12121,8 @@
       "native_imp": "0xff728",
       "category": "SPLIT_UI",
       "new_selector_string_only": [
-        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
@@ -14458,7 +14461,8 @@
       "native_imp": "0x840ac",
       "category": "SPLIT_UI",
       "new_selector_string_only": [
-        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
@@ -14670,7 +14674,8 @@
       "native_imp": "0x85348",
       "category": "SPLIT_UI",
       "new_selector_string_only": [
-        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost"
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
