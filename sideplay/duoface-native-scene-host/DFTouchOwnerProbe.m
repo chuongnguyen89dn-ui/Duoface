@@ -8,6 +8,7 @@
 #import <objc/message.h>
 #import <notify.h>
 #import <math.h>
+#import <float.h>
 #import <fcntl.h>
 #import <unistd.h>
 
@@ -68,7 +69,8 @@ static id DFConnectedCarDisplay(void) {
 static BOOL DFReadFreshSession(void) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
     id value=record[@"Session"], stamp=record[@"Timestamp"];
-    if(![record[@"Version"] isEqual:@1] ||
+    if(![record[@"Active"] isEqual:@YES] ||
+       ![record[@"Version"] isEqual:@1] ||
        ![value isKindOfClass:NSString.class] ||
        ![[NSUUID alloc] initWithUUIDString:value] ||
        ![stamp isKindOfClass:NSNumber.class])return NO;
@@ -78,6 +80,13 @@ static BOOL DFReadFreshSession(void) {
     return YES;
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
+    id stamp=pulse[@"Timestamp"];
+    NSTimeInterval age=[stamp isKindOfClass:NSNumber.class]?
+         NSDate.date.timeIntervalSince1970-[stamp doubleValue]:DBL_MAX;
+    if(![pulse[@"Active"] isEqual:@YES] ||
+       ![pulse[@"Session"] isEqualToString:sSession] ||
+       !isfinite(age) || age<0 || age>2.5)return;
     if(!sChrome || !sSession || ![NSProcessInfo.processInfo.processName
                               isEqualToString:@"SpringBoard"])return;
     if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",
@@ -108,6 +117,26 @@ static void DFStopProbe(NSString *reason) {
         DFTOLog(@"window-detached",reason);
     }
     sSession=nil;sActivated=NO;
+}
+// Independent SpringBoard watchdog: works even if CarPlay app crashes,
+// is suspended on Home, or fails to deliver a scene disconnect callback.
+static void DFWatchdog(NSUInteger generation) {
+    if(generation!=sGeneration || !sChrome || !sActivated)return;
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
+    id stamp=pulse[@"Timestamp"];
+    NSTimeInterval age=[stamp isKindOfClass:NSNumber.class]?
+        NSDate.date.timeIntervalSince1970-[stamp doubleValue]:DBL_MAX;
+    if(![pulse[@"Active"] isEqual:@YES] ||
+       ![pulse[@"Session"] isEqualToString:sSession] ||
+       !isfinite(age) || age<0 || age>2.5){
+        DFTOLog(@"watchdog-detach",
+           [NSString stringWithFormat:@"age=%.2f active=%@ session-match=%d",
+            age,pulse[@"Active"],[pulse[@"Session"] isEqualToString:sSession]]);
+        DFStopProbe(@"inactive-or-stale-heartbeat");
+        return;
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,1*NSEC_PER_SEC),
+        dispatch_get_main_queue(),^{DFWatchdog(generation);});
 }
 static void DFStartProbe(void) {
     if(sActivated||sChrome)return;
@@ -173,6 +202,7 @@ static void DFStartProbe(void) {
           [NSString stringWithFormat:@"windowCount=4 content=%@",
            NSStringFromCGRect(region)]);
         NSUInteger generation=++sGeneration;
+        DFWatchdog(generation);
         // QA fail-safe only; no overlay survives disconnect and restart.
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,600*NSEC_PER_SEC),
                        dispatch_get_main_queue(), ^{
