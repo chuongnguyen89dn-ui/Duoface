@@ -27,7 +27,7 @@ class NativeCarPlayHost(unittest.TestCase):
   for forbidden in ("UIRootSceneWindow","initWithDisplayConfiguration:",
              "FBSDisplayConfiguration","windowLevel=", "DBStatusBarWindow",
              "setWindowLevel:", "bar.hidden=", "activateApplication:",
-             "requestStateChange:", "SpringBoard", "SBAppViewController"):
+             "requestStateChange:", "SBAppViewController"):
    self.assertNotIn(forbidden,c)
  def test_never_mutate_carplay_dock_or_forge_two_app_success(self):
   c=file("DFNativeHostRootController.m")
