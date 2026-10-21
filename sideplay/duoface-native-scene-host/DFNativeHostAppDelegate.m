@@ -350,13 +350,14 @@ void DFNativeHostLog(NSString *message) {
     didDisconnectInterfaceController:(CPInterfaceController *)controller
                            fromWindow:(CPWindow *)window {
     (void)scene;(void)controller;
-    // Release only our contents; CarPlay retains ownership of its window.
+    // Revoke the sole external SpringBoard owner FIRST. Native12's
+    // disconnect order must not leave a live overlay after CPWindow retires.
+    [self stopTouchOwnerWithReason:@"template-disconnected"];
     if(window && window==self.carWindow)window.rootViewController=nil;
     self.interfaceController=nil;
     self.carWindow=nil;
     self.basicController=nil;
     self.touchCount=0;
-    [self stopTouchOwnerWithReason:@"template-disconnected"];
     self.touchOwnerScene=nil;
     DFNativeHostLog(@"native-carplay-template-scene-disconnected");
 }
