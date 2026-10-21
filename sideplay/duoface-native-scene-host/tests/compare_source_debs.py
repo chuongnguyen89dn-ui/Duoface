@@ -37,8 +37,9 @@ def signature(root):
         if f.suffix==".dylib" or f.name in ("DuoFaceUI","DuoNaviUI","DuoFaceNativeHost",
                                            "duoface_cboptimize_helper"):
             data=f.read_bytes()
-            if data[:4] not in (b"\\xcf\\xfa\\xed\\xfe",b"\\xce\\xfa\\xed\\xfe",
-                                 b"\\xca\\xfe\\xba\\xbe",b"\\xbe\\xba\\xfe\\xca"):
+            if data[:4] not in (b"\xcf\xfa\xed\xfe",b"\xce\xfa\xed\xfe",
+                                 b"\xca\xfe\xba\xbe",b"\xbe\xba\xfe\xca",
+                                 b"\xca\xfe\xba\xbf",b"\xbf\xba\xfe\xca"):
                 continue
             strings=run("strings","-a",str(f))
             found.update(x for x in ORIGINAL_MARKERS+OWN_MARKERS if x in strings)
