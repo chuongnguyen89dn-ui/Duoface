@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.5~roster1",c)
+  self.assertIn("Version: 0.0.6~fbsrefresh1",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -71,6 +71,19 @@ class Gate1Safety(unittest.TestCase):
   self.assertIn("Gate1RosterBridge.m",get("Makefile"))
   self.assertIn("THỬ HIỆN TRÊN CARPLAY",get("Gate1App.m"))
   self.assertIn("runAdmission",get("Gate1App.m"))
+ def test_ios16_fbs_refresh_when_db_controller_missing(self):
+  bridge=get("Gate1RosterBridge.m")
+  for required in ('FBSApplicationInfo','DFTrackLibrary(owner)','weakObjectsHashTable',
+      'DFRefreshFBS(nonce);return;', 'FBS_CACHE_INVALIDATED_CHECK_CARPLAY_HOME',
+      'FBS_NO_LIVE_LIBRARY_SEEN_RECONNECT_CARPLAY',
+      'FBS_INVALIDATE_ABI_UNAVAILABLE', 'DFMatches([library class],"invalidate",NO'):
+    self.assertIn(required,bridge)
+  self.assertNotIn('if(!c){DFReport(nonce,@"DASHBOARD_CONTROLLER_NOT_LOADED"',bridge)
+  self.assertNotIn('setIconState:forVehicleID:',bridge)
+  app=get("Gate1App.m")
+  self.assertGreater(app.rindex('--- THỬ ĐƯA VÀO CARPLAY ---'),
+                     app.index('--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---'))
+  self.assertIn("FBS libraries refreshed=",app)
  def test_scope_generates_only_our_gate(self):
   subprocess.run([sys.executable,str(P/"prepare.py")],check=True)
   for f in ("Gate1CarPlay.m","Gate1SpringBoard.m"):

@@ -19,6 +19,15 @@ static id (*DFOriginalList)(id,SEL)=NULL;
 static __strong id DFPinnedInfo=nil;
 static __strong id DFPinnedApp=nil;
 static NSString *DFLastNonce=nil;
+// Weak references: do not extend lifetime of Dashboard's native FBS objects.
+static NSHashTable *DFSeenLibraries=nil;
+static unsigned long DFNaturalListQueries=0;
+static unsigned long DFOwnListAdditions=0;
+static void DFTrackLibrary(id library){
+ if(!library)return;
+ if(!DFSeenLibraries)DFSeenLibraries=[NSHashTable weakObjectsHashTable];
+ @synchronized(DFSeenLibraries){[DFSeenLibraries addObject:library];}
+}
 static BOOL DFLive(void){
  return NSProcessInfo.processInfo.operatingSystemVersion.majorVersion==16 &&
  [NSProcessInfo.processInfo.processName isEqualToString:@"CarPlay"];
@@ -58,7 +67,9 @@ static void DFReport(NSString *nonce,NSString *result,NSDictionary *extra){
 static id DFNewInfo(void){
  if(!DFConsent())return nil;
  Class ls=NSClassFromString(@"LSApplicationProxy");
+ // iOS 16 can expose FBSApplicationInfo without iOS 18's DBApplicationInfo.
  Class info=NSClassFromString(@"DBApplicationInfo");
+ if(!info)info=NSClassFromString(@"FBSApplicationInfo");
  if(!DFMatches(ls,"applicationProxyForIdentifier:",YES,@"@24@0:8@16") ||
     !DFMatches(info,"initWithApplicationProxy:",NO,@"@24@0:8@16"))return nil;
  @try{
@@ -81,21 +92,24 @@ static id DFNewInfo(void){
  }@catch(NSException *e){NSLog(@"[Gate1Roster] info-exception=%@",e.name);return nil;}
 }
 static id DFList(id owner,SEL sel){
+ DFTrackLibrary(owner);
  id original=DFOriginalList?DFOriginalList(owner,sel):nil;
  if(!DFConsent()||![original isKindOfClass:NSArray.class])return original;
+ DFNaturalListQueries++;
  @try{
  for(id item in original)if([DFBundle(item) isEqualToString:DFID])return original;
  id info=DFNewInfo();
  if(!info)return original;
  NSMutableArray *expanded=[original mutableCopy];
  [expanded addObject:info];
+ DFOwnListAdditions++;
  NSLog(@"[Gate1Roster] own app appended to live FBS list: %lu -> %lu",
   (unsigned long)[original count],(unsigned long)expanded.count);
  return expanded;
  }@catch(NSException *e){NSLog(@"[Gate1Roster] list-exception=%@",e.name);return original;}
 }
 static void DFInstall(void){
- if(!DFConsent()||DFHooked)return;
+ if(!DFLive()||DFHooked)return;
  Class library=NSClassFromString(@"FBSApplicationLibrary");
  if(!DFMatches(library,"allInstalledApplications",NO,@"@16@0:8")){
  NSLog(@"[Gate1Roster] FBS library/ABI unavailable; no mutation");return;
@@ -126,12 +140,42 @@ static void DFInstallForwarder(void){
  DFFallbackForward=method_getImplementation(class_getInstanceMethod(c,s));
  (void)class_addMethod(c,s,(IMP)DFForward,"@24@0:8:16");
 }
+
+// iOS16 does not always load DBApplicationController. Re-evaluate only
+// FBSApplicationLibrary objects that CarPlay itself has already handed us.
+// This does NOT create an icon, mutate a vehicle layout or claim a native scene.
+static void DFRefreshFBS(NSString *nonce){
+ NSArray *libraries=DFSeenLibraries ? DFSeenLibraries.allObjects : @[];
+ NSUInteger refreshed=0, abiUnavailable=0;
+ SEL invalidate=sel_registerName("invalidate");
+ for(id library in libraries){
+  if(!library || ![library respondsToSelector:invalidate] ||
+     !DFMatches([library class],"invalidate",NO,@"v16@0:8")){
+   abiUnavailable++;continue;
+  }
+  @try{
+   ((void(*)(id,SEL))objc_msgSend)(library,invalidate);
+   refreshed++;
+  }@catch(NSException *e){
+   NSLog(@"[Gate1Roster] FBS invalidate exception=%@",e.name);
+  }
+ }
+ NSDictionary *stats=@{@"SeenLibraries":@(libraries.count),
+   @"FBSRefreshed":@(refreshed),@"FBSABIUnavailable":@(abiUnavailable),
+   @"FBSQueriesSinceLoad":@(DFNaturalListQueries),
+   @"FBSOwnAdditionsSinceLoad":@(DFOwnListAdditions),
+   @"HomeIconVerified":@NO,@"SceneVerified":@NO};
+ if(refreshed>0)DFReport(nonce,@"FBS_CACHE_INVALIDATED_CHECK_CARPLAY_HOME",stats);
+ else if(libraries.count==0)DFReport(nonce,@"FBS_NO_LIVE_LIBRARY_SEEN_RECONNECT_CARPLAY",stats);
+ else DFReport(nonce,@"FBS_INVALIDATE_ABI_UNAVAILABLE",stats);
+}
+
 static void DFApply(NSString *nonce){
  if(!DFConsent()){DFReport(nonce,@"DISABLED",nil);return;}
  DFInstall();
  if(!DFHooked){DFReport(nonce,@"FBS_HOOK_NOT_READY",nil);return;}
  Class c=NSClassFromString(@"DBApplicationController");
- if(!c){DFReport(nonce,@"DASHBOARD_CONTROLLER_NOT_LOADED",nil);return;}
+ if(!c){DFRefreshFBS(nonce);return;}
  SEL shared=sel_registerName("sharedInstance");
  SEL get=sel_registerName("applicationWithBundleIdentifier:");
  SEL load=sel_registerName("_loadApplicationWithInfo:");
@@ -140,7 +184,8 @@ static void DFApply(NSString *nonce){
     !DFMatches(c,"applicationWithBundleIdentifier:",NO,@"@24@0:8@16") ||
     !DFMatches(c,"_loadApplicationWithInfo:",NO,@"v24@0:8@16") ||
     !DFMatches(c,"_didAddApplications:",NO,@"v24@0:8@16")){
- DFReport(nonce,@"DASHBOARD_ABI_MISMATCH",nil);return;
+ // A class name alone is not proof of the iOS16 method contract.
+ DFRefreshFBS(nonce);return;
  }
  @try{
  id ctl=((id(*)(id,SEL))objc_msgSend)(c,shared);

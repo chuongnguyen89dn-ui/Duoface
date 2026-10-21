@@ -247,8 +247,6 @@ static NSString *Enable(BOOL allowPauseOld) {
   NSDictionary *rosterRp=[NSDictionary dictionaryWithContentsOfFile:kRosterReply];
   BOOL rosterFresh=[rosterRp[@"RequestID"] isEqual:rosterRq[@"RequestID"]] &&
     [rosterRq[@"RequestID"] isKindOfClass:NSString.class];
-  [text appendFormat:@"\n--- THỬ ĐƯA VÀO CARPLAY ---\n%@\n",
-    rosterFresh?(rosterRp[@"Result"]?:@"NO_RESULT"):@"CARPLAY_CHƯA_TRẢ_LỜI"];
   [text appendString:@"\n--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---\n"];
   for(NSArray *item in @[@[@"SpringBoard",kDiagSB],@[@"CarPlay",kDiagCar]]){
     NSDictionary *report=[NSDictionary dictionaryWithContentsOfFile:item[1]];
@@ -263,6 +261,16 @@ static NSString *Enable(BOOL allowPauseOld) {
     }
   }
   [text appendString:@"\nKhông trả lời = không có bằng chứng. Roster không phải icon thật.\nKhông thay Dock hệ thống."];
+  // Show the ONE result from the requested CarPlay admission last, not buried
+  // above verbose legacy diagnostics when the text view autoscrolls to the end.
+  [text appendFormat:@"\n\n--- THỬ ĐƯA VÀO CARPLAY ---\n%@\n",
+    rosterFresh?(rosterRp[@"Result"]?:@"NO_RESULT"):
+    (rosterRq[@"RequestID"]?@"CARPLAY_CHƯA_TRẢ_LỜI":@"CHƯA NHẤN NÚT THỬ")];
+  if(rosterFresh && rosterRp[@"FBSRefreshed"])
+    [text appendFormat:@"FBS libraries refreshed=%@ / seen=%@; queries=%@; added=%@\n",
+      rosterRp[@"FBSRefreshed"],rosterRp[@"SeenLibraries"],
+      rosterRp[@"FBSQueriesSinceLoad"]?:@0,rosterRp[@"FBSOwnAdditionsSinceLoad"]?:@0];
+  [text appendString:@"Danh sách FBS không đồng nghĩa icon CarPlay đã hiện."];
   self.logView.text=text;
   if(nonce.length>0) {
     [self.logView scrollRangeToVisible:NSMakeRange(text.length,0)];
