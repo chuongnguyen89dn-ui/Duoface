@@ -318,9 +318,11 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self emit:@"App" ratio:@(self.selectedSlot)];break;
       case 1:self.focus=self.focus<0?self.selectedSlot:-1;
-             [self emit:@"Zoom" ratio:nil];[self layoutControls];break;
+             [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
+                  ratio:nil];
+             [self layoutControls];break;
       case 2:self.verticalDivider=!self.verticalDivider;
-             self.ratio=.5;
+             self.ratio=.5;self.focus=-1;
              [self emit:@"Style" ratio:nil];
              [self layoutControls];break;
       case 3:[self emit:@"Close" ratio:@(self.selectedSlot)];break;
