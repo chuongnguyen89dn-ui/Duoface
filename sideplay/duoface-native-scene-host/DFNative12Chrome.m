@@ -74,6 +74,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
+@property(nonatomic,strong) NSMutableArray<NSNumber *> *sceneHandleReady;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
 @property(nonatomic,strong) NSArray<UIButton *> *pillZoom;
@@ -111,6 +112,7 @@ static void DFCLog(NSString *text) {
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
         _appSceneWindows=[NSMutableArray new];
         _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
+        _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO]];
     }return self;
 }
 - (UIWindow *)makeWindow:(CGRect)frame root:(UIViewController *)root
@@ -366,9 +368,16 @@ static void DFCLog(NSString *text) {
     if(self.focus>=0 && self.focus<=1) pane[self.focus]=cr;
     for(NSInteger i=0;i<2;i++) {
         UIWindow *w=self.pillWindows[(NSUInteger)i];
-        BOOL show=(self.focus<0 || self.focus==i)&&!self.pickerVisible;
+        // Reproduce Native12 six pill states from DFSPNativeSlotPill:
+        // empty/loaded/focused, each normal or compact. An empty or
+        // pending slot must not offer a nonfunctional fullscreen action.
+        NSInteger physicalSlot=self.swapped?1-i:i;
+        BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
+        BOOL focused=(self.focus==i);
+        BOOL show=(self.focus<0 || focused)&&!self.pickerVisible;
         CGFloat compact=(pane[i].size.width<320||pane[i].size.height<220);
-        CGFloat width=(self.focus==i)?(compact?72:80):(compact?64:76);
+        CGFloat width=focused?(compact?72:80):
+               (ready?(compact?64:76):(compact?38:44));
         CGFloat height=compact?19:22;
         CGRect f=CGRectMake(CGRectGetMidX(pane[i])-width/2,
                             CGRectGetMinY(pane[i])+3,width,height);
@@ -379,10 +388,11 @@ static void DFCLog(NSString *text) {
         pill.frame=v.bounds; pill.layer.cornerRadius=height/2;
         UIButton *menu=self.pillMenu[(NSUInteger)i];
         UIButton *zoom=self.pillZoom[(NSUInteger)i];
-        menu.frame=CGRectMake(0,0,self.focus==i?0:width/2,height);
+        menu.frame=CGRectMake(0,0,focused?0:(ready?width/2:width),height);
         zoom.frame=CGRectMake(CGRectGetMaxX(menu.frame),0,
                               width-CGRectGetMaxX(menu.frame),height);
-        menu.hidden=self.focus==i;
+        menu.hidden=focused;
+        zoom.hidden=!(focused||ready);
         UIImage *icon=[UIImage systemImageNamed:self.focus==i?
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
@@ -431,6 +441,10 @@ static void DFCLog(NSString *text) {
     self.pickerVisible=NO;[self layoutControls];
 }
 - (void)zoomPressed:(UIButton *)sender {
+    NSInteger physical=self.swapped?1-sender.tag:sender.tag;
+    if(self.focus!=sender.tag &&
+       (physical<0 || physical>1 ||
+        ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))return;
     self.focus=(self.focus==sender.tag)?-1:sender.tag;
     [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
          ratio:nil];
@@ -440,10 +454,16 @@ static void DFCLog(NSString *text) {
     [self closeMenu:nil];
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
-      case 1:self.focus=self.focus<0?self.selectedSlot:-1;
+      case 1:{
+             NSInteger physical=self.swapped?1-self.selectedSlot:self.selectedSlot;
+             if(self.focus<0 &&
+                (physical<0||physical>1||
+                 ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))break;
+             self.focus=self.focus<0?self.selectedSlot:-1;
              [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
                   ratio:nil];
              [self layoutControls];break;
+      }
       case 2:self.verticalDivider=!self.verticalDivider;
              self.ratio=.5;self.focus=-1;
              [self saveSplitState];
@@ -495,6 +515,7 @@ static void DFCLog(NSString *text) {
     host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [container addSubview:host];
     self.hostedScenes[(NSUInteger)physicalSlot]=host;
+    self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
     [self emit:@"App" ratio:@(slot)];
@@ -507,6 +528,7 @@ static void DFCLog(NSString *text) {
     if(![host isKindOfClass:UIView.class])return;
     for(NSInteger i=0;i<2;i++){
        if(self.hostedScenes[(NSUInteger)i]==host){
+          self.sceneHandleReady[(NSUInteger)i]=@YES;
           DFCLog([NSString stringWithFormat:@"scene-handle-attached-render-unverified slot=%ld bundle=%@",
              (long)i,note.userInfo[@"bundleID"]?:@"unknown"]);
           [self layoutControls];
@@ -520,6 +542,9 @@ static void DFCLog(NSString *text) {
     for(NSInteger i=0;i<2;i++){
        if(self.hostedScenes[(NSUInteger)i]==host){
           self.hostedScenes[(NSUInteger)i]=NSNull.null;
+          self.sceneHandleReady[(NSUInteger)i]=@NO;
+          NSInteger visual=self.swapped?1-i:i;
+          if(self.focus==visual)self.focus=-1;
           self.appSceneWindows[(NSUInteger)i].hidden=YES;
           DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
                 (long)i,note.userInfo[@"error"]?:@"unknown"]);
@@ -535,8 +560,11 @@ static void DFCLog(NSString *text) {
     if([view isKindOfClass:UIView.class])
         [[DFSceneHost sharedHost] releaseHostedView:view];
     self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
+    self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
+    if(self.focus==slot)self.focus=-1;
     UIWindow *window=self.appSceneWindows[(NSUInteger)physicalSlot];
     window.hidden=YES;
+    [self layoutControls];
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
@@ -608,6 +636,7 @@ static void DFCLog(NSString *text) {
     self.dividerWindow=nil;self.pickerWindow=nil;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
+    [self.sceneHandleReady removeAllObjects];
     self.dividerTrack=nil;self.dividerLogo=nil;
     self.pillMenu=nil;self.pillZoom=nil;self.pickerBrand=nil;
     DFCLog(@"native12-chrome-stop");

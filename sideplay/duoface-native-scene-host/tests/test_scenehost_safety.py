@@ -158,7 +158,8 @@ class NativeCarPlayHost(unittest.TestCase):
   for name in ("DFNative12Chrome.m","DFTouchOwnerProbe.m"):
    self.assertIn(name,build)
   # Reference sizes and hitboxes from own DFSPNativeSlotPill and Native12 audit.
-  self.assertIn("CGFloat width=(self.focus==i)?(compact?72:80):(compact?64:76)",chrome)
+  self.assertIn("CGFloat width=focused?(compact?72:80)",chrome)
+  self.assertIn("ready?(compact?64:76):(compact?38:44)",chrome)
   self.assertIn("CGFloat height=compact?19:22",chrome)
   self.assertIn("pill.layer.cornerRadius=11",chrome)
   self.assertIn("sheet.layer.cornerRadius=20",chrome)
@@ -306,6 +307,19 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("DFAppLibrary installedUserApps",picker)
   self.assertIn("view.backgroundColor=UIColor.clearColor",host)
   self.assertNotIn('view.backgroundColor=UIColor.blackColor;',host)
+ def test_native12_six_pill_states_bound_to_real_host(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("sceneHandleReady",chrome)
+  self.assertIn("self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO",chrome)
+  self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@YES",chrome)
+  self.assertIn("self.sceneHandleReady[(NSUInteger)i]=@NO",chrome)
+  self.assertIn("CGFloat width=focused?(compact?72:80)",chrome)
+  self.assertIn("ready?(compact?64:76):(compact?38:44)",chrome)
+  self.assertIn("zoom.hidden=!(focused||ready)",chrome)
+  self.assertIn("if(self.focus==slot)self.focus=-1",chrome)
+  self.assertIn("if(self.focus==visual)self.focus=-1",chrome)
+  self.assertIn("self.sceneHandleReady removeAllObjects",chrome)
+  self.assertIn("self.appPickerWindow.hidden=NO",chrome)
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
