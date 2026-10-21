@@ -196,7 +196,7 @@ void DFNativeHostLog(NSString *message) {
     map.mapButtons=buttons;
     [controller setRootTemplate:map animated:NO completion:nil];
     DFNativeHostLog(@"0.0.8 user-external-input-owner-probe ready; app-window touch unverified");
-    // SpringBoard-owned, narrow touch target. Never mutate system Dock/CPWindow.
+    // Narrow external touch receiver; never mutate system Dock or CPWindow.
     int n=notify_post("com.duoface.nativehost.touchowner.start.v1");
     DFNativeHostLog([NSString stringWithFormat:@"touchowner-activation-notify status=%d",n]);
     DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
