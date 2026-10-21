@@ -6,5 +6,5 @@ NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXPORT NSInteger DFSlotCountForPreset(NSInteger preset);
 FOUNDATION_EXPORT BOOL DFPrimaryDividerIsVertical(NSInteger preset);
 FOUNDATION_EXPORT void DFComputePresetFrames(CGRect usableBounds, NSInteger preset,
-                                              CGFloat ratio, CGRect outFrames[4]);
+                                              CGFloat ratio, CGRect * _Nonnull outFrames);
 NS_ASSUME_NONNULL_END
