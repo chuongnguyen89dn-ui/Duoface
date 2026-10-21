@@ -39,7 +39,7 @@ for src,dest,pref in [
         anchor='if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;'
         assert text.count(anchor)==1
         text=text.replace(anchor,anchor+'\n      rosterLog("gate1-smoke-SpringBoard-loaded; default-off\\n");')
-    assert 'com.duoface.native.scenehost' not in text
+    assert text.count('com.duoface.native.scenehost')==1  # only old-gate safety guard
     assert 'com.duoface.gate1smoke' in text
     assert '.duoface-gate1smoke-disable' in text
     assert 'oldEffective' in text
