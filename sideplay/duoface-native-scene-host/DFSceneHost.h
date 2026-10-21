@@ -13,6 +13,7 @@ FOUNDATION_EXPORT NSString *const DFSceneHostDidBecomeReadyNotification;
 + (instancetype)sharedHost;
 // Creates a pending host surface; scene readiness is asynchronous.
 - (nullable UIView *)hostViewForBundleID:(NSString *)bundleID error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSString *)bundleIDForHostedView:(UIView *)view;
 - (void)releaseHostedView:(UIView *)view;
 - (void)stopAllHosts;
 @end
