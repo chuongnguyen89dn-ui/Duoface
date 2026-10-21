@@ -246,10 +246,17 @@ static void DFCLog(NSString *text) {
     // in this asset set. Use the original QA-native vector fallback instead:
     // the divider logo must have no black disk/background on CarPlay.
     [logo setTitle:@"" forState:UIControlStateNormal];
-    UIImage *arrow=[[UIImage systemImageNamed:@"arrow.left.arrow.right"]
-                       imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    // Original-approved two-face swap artwork is 120x120 but has opaque
+    // square corners. Circular-mask it at the Native12 28/30pt grip size
+    // rather than shipping a dark square over live app content.
+    UIImage *smallArt=DFCArtwork(@"duoface-swap");
+    UIImage *arrow=smallArt?
+        [smallArt imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]:
+        [[UIImage systemImageNamed:@"arrow.left.arrow.right"]
+            imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [logo setImage:arrow forState:UIControlStateNormal];
     logo.tintColor=UIColor.whiteColor;
+    logo.layer.masksToBounds=YES;
     logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
@@ -487,6 +494,7 @@ static void DFCLog(NSString *text) {
     self.dividerLogo.frame=self.verticalDivider?
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
+    self.dividerLogo.layer.cornerRadius=size/2;
     self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible);
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     for(NSInteger i=0;i<2;i++){
