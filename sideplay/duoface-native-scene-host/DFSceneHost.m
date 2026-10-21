@@ -11,6 +11,7 @@
 #import <unistd.h>
 
 NSString *const DFSceneHostDidFailNotification = @"com.duoface.scene.failure";
+NSString *const DFSceneHostDidBecomeReadyNotification = @"com.duoface.scene.ready";
 static NSString *const DFSceneErrorDomain = @"com.duoface.scene";
 
 static void DFSceneLog(NSString *event, NSString *bundleID, NSString *detail) {
@@ -191,6 +192,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 self.lastApplied=CGSizeZero;
                 [self layoutScene];
                 DFSceneLog(@"scene-ready",self.bundleID,NSStringFromCGRect(self.bounds));
+                [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             return;
         }

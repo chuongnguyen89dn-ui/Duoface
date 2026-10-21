@@ -138,6 +138,10 @@ static void DFCLog(NSString *text) {
     return b;
 }
 - (BOOL)start {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -268,7 +272,7 @@ static void DFCLog(NSString *text) {
         [sheet addSubview:b];
     }
     UILabel *hint=[UILabel new];
-    hint.text=@"Native12 · giao diện độc lập · chưa host app iPhone";
+    hint.text=@"DuoFace · App chọn ứng dụng đã cài";
     hint.font=[UIFont systemFontOfSize:10];
     hint.textColor=[UIColor colorWithWhite:.8 alpha:1];
     hint.textAlignment=NSTextAlignmentCenter;
@@ -454,6 +458,32 @@ static void DFCLog(NSString *text) {
           @"app-host-pending slot=%ld bundle=%@ name=%@",
           (long)slot,bundleID,name]);
 }
+- (void)sceneReady:(NSNotification *)note {
+    UIView *host=(UIView *)note.object;
+    if(![host isKindOfClass:UIView.class])return;
+    for(NSInteger i=0;i<2;i++){
+       if(self.hostedScenes[(NSUInteger)i]==host){
+          DFCLog([NSString stringWithFormat:@"real-scene-created slot=%ld bundle=%@",
+             (long)i,note.userInfo[@"bundleID"]?:@"unknown"]);
+          [self layoutControls];
+          return;
+       }
+    }
+}
+- (void)sceneFailed:(NSNotification *)note {
+    UIView *host=(UIView *)note.object;
+    if(![host isKindOfClass:UIView.class])return;
+    for(NSInteger i=0;i<2;i++){
+       if(self.hostedScenes[(NSUInteger)i]==host){
+          self.hostedScenes[(NSUInteger)i]=NSNull.null;
+          self.appSceneWindows[(NSUInteger)i].hidden=YES;
+          DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
+                (long)i,note.userInfo[@"error"]?:@"unknown"]);
+          [self layoutControls];
+          return;
+       }
+    }
+}
 - (void)closeHostedSlot:(NSInteger)slot {
     NSInteger physicalSlot=self.swapped?1-slot:slot;
     if(physicalSlot<0||physicalSlot>=2)return;
@@ -514,6 +544,7 @@ static void DFCLog(NSString *text) {
         DFCLog(@"logo-reposition-long-hold");
 }
 - (void)stop {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.callback=nil;
     [self.appPickerController setDelegate:nil];
     [[DFSceneHost sharedHost] stopAllHosts];
