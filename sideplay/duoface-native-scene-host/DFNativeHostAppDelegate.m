@@ -160,17 +160,24 @@ void DFNativeHostLog(NSString *message) {
        ![action isKindOfClass:NSString.class])return;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[timestamp doubleValue];
     if(!isfinite(age) || age<0 || age>2.0)return;
-    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio"] containsObject:action])return;
+    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",@"FocusLeft",@"FocusRight",@"Restore"] containsObject:action])return;
     id ratio=record[@"Ratio"];
     if([action isEqualToString:@"Ratio"]) {
         if(![ratio isKindOfClass:NSNumber.class] ||
            !isfinite([ratio doubleValue]) ||
            [ratio doubleValue]<1.0/3.0 ||
            [ratio doubleValue]>2.0/3.0)return;
-    } else if(ratio!=nil)return;
+    }else if([action isEqualToString:@"App"] ||
+             [action isEqualToString:@"Close"]){
+        if(![ratio isKindOfClass:NSNumber.class] ||
+           ([(NSNumber *)ratio integerValue]!=0 &&
+            [(NSNumber *)ratio integerValue]!=1))return;
+    }else if(ratio!=nil)return;
     self.lastTouchSequence=[sequence unsignedIntegerValue];
     if([action isEqualToString:@"Ratio"])
         [self.basicController setPresetRatio:(CGFloat)[ratio doubleValue]];
+    else if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"])
+        [self.basicController performCarPlayControl:action slot:[(NSNumber *)ratio integerValue]];
     else
         [self.basicController performCarPlayControl:action];
     DFNativeHostLog([NSString stringWithFormat:
@@ -253,8 +260,18 @@ void DFNativeHostLog(NSString *message) {
     } else {
         self.touchRelayToken=token;
         NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+        // Transfer geometry from the CarPlay-issued scene (not a hard-coded
+        // touchscreen size). External chrome still enforces an isolated
+        // minimum Dock inset before creating any touch target.
+        [window layoutIfNeeded];
+        CGRect frame=window.frame;
+        CGRect safe=window.safeAreaLayoutGuide.layoutFrame;
+        if(CGRectIsEmpty(safe))safe=window.bounds;
+        CGRect content=CGRectMake(frame.origin.x+safe.origin.x,
+            frame.origin.y+safe.origin.y,safe.size.width,safe.size.height);
         NSDictionary *launch=@{@"Version":@1,@"Session":self.touchSession,
-                                @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+                 @"Timestamp":@(NSDate.date.timeIntervalSince1970),
+                 @"ContentRect":NSStringFromCGRect(content)};
         if([launch writeToFile:path atomically:YES]){
             int n=notify_post("com.duoface.nativehost.touchowner.start.v1");
             DFNativeHostLog([NSString stringWithFormat:
