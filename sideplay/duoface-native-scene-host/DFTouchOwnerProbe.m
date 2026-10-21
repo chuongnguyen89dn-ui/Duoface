@@ -19,7 +19,7 @@ static NSString *sSession;
 static NSUInteger sSequence, sGeneration;
 
 static BOOL sActivated;
-static int sStartToken=-1, sStopToken=-1, sAckToken=-1;
+static int sStartToken=-1, sStopToken=-1, sAckToken=-1, sLayoutToken=-1;
 static NSUInteger sLastAckSequence=0;
 static NSUInteger sRetryCount=0;
 static NSTimeInterval sRetryAt=0;
@@ -307,8 +307,18 @@ static void DFInstallTouchOwnerProbe(void) {
                        dispatch_get_main_queue(),^(int t) {
                 (void)t;DFReceiveAck();
             });
+            int layout=notify_register_dispatch(
+                    "com.duoface.nativehost.layout.changed.v1",&sLayoutToken,
+                    dispatch_get_main_queue(),^(int t) {
+                (void)t;
+                if(sChrome && sActivated){
+                    if(![sChrome applyLayoutSettingsFromDisk])
+                        DFTOLog(@"layout-update-rejected",@"invalid-persisted-layout");
+                }
+            });
             DFTOLog(@"listener-registered",
-                [NSString stringWithFormat:@"start=%d stop=%d ack=%d",a,b,ack]);
+                [NSString stringWithFormat:@"start=%d stop=%d ack=%d layout=%d",
+                 a,b,ack,layout]);
         });
     }
 }
