@@ -1,0 +1,38 @@
+name: DuoNavi 1.0.4 Voice Server Read-Only Audit
+
+on:
+  push:
+    branches:
+      - research/duonavi104-voice-server-audit-20261021
+    paths:
+      - .github/workflows/duonavi104-voice-server-static.yml
+      - sideplay/tools/duonavi_voice_static_audit.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and inspect original DEB without making network calls to vendor
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb
+          python3 -m py_compile sideplay/tools/duonavi_voice_static_audit.py
+          python3 sideplay/tools/duonavi_voice_static_audit.py \
+            --deb dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --out out/duonavi104-voice-static
+      - name: Show sanitized output
+        shell: bash
+        run: cat out/duonavi104-voice-static/static-voice-server.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duonavi104-voice-server-static-audit
+          path: |
+            out/duonavi104-voice-static/static-voice-server.json
+            out/duonavi104-voice-static/static-voice-server.md
+          if-no-files-found: error
