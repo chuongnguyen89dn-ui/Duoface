@@ -10,12 +10,11 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb"),
- ("com.duoface.qa.controlapp","sideplay/duoface-qa-app/packages/com.duoface.qa.controlapp_0.1.8~roster1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.14~native12parity1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-PINNED_NATIVEHOST_SHA256="46bf9136178278d1762dd5fe46c3a9e4ddf8d49a02424391c7d7fdd73b2b330f"
-VERSION="0.0.12~pinnednative13"
+PINNED_NATIVEHOST_SHA256="e4470c51f95cf4b94787e23464137263f08bcb008342a20fa0a8b10bf8f1adcf"
+VERSION="0.0.13~native12parity1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -32,7 +31,7 @@ def build():
    if pkg=="com.duoface.carplay.nativescenehost":
     observed=hashlib.sha256(archive.read_bytes()).hexdigest()
     if observed!=PINNED_NATIVEHOST_SHA256:
-     raise RuntimeError("Native Host artifact differs from independently verified 3-DEB audit: "+observed)
+     raise RuntimeError("Native Host artifact differs from independently verified Native12-only A-Z DEB audit: "+observed)
    package=execute(["dpkg-deb","-f",str(archive),"Package"]).strip()
    if package!=pkg:raise RuntimeError("Wrong package "+package)
    if any(x in package for x in EXCLUDED):raise RuntimeError("Vendor module not allowed")
@@ -59,7 +58,7 @@ def build():
     "payload_count":len(paths),
     "paths":paths})
   # Merged DEBs lose their source maintainer scripts during dpkg-deb -x.
-  # Explicitly supply minimal, auditable uicache scripts for BOTH real apps.
+  # Explicitly supply minimal uicache scripts for the ONE DuoFace app.
   scripts=ROOT/"sideplay/jb-embedded-appbridge/scripts"
   for kind in ("postinst","postrm"):
    src=scripts/kind
@@ -76,9 +75,12 @@ def build():
     "Priority: optional",
     "Maintainer: DuoFace Independent",
     "Depends: firmware (>= 16.0), mobilesubstrate",
-    "Conflicts: "+", ".join(x[0] for x in ORDER),
-    "Replaces: "+", ".join(x[0] for x in ORDER),
-    "Description: Quarantined independent JB integrated source-only DuoFace app bridge. Combines existing own SpringBoard scene host, native Dashboard receiver, firstparty admission candidate, native host and iPhone control GUI. Does not require standalone CarBridge. Physical CarPlay icon and dual-app touch not verified; DO NOT PUBLISH or install without conflict/rollback review.",
+    # The old first-party QA icon must not be shipped as a second visible
+    # app in a final integrated DuoFace. Conflict with the old QA package
+    # without blindly deleting its files or user data in maintainer scripts.
+    "Conflicts: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
+    "Replaces: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
+    "Description: Quarantined independent JB integrated source-only DuoFace app bridge. Combines existing own SpringBoard scene host, native Dashboard receiver, firstparty admission candidate, native host and the ONE first-party DuoFace iPhone UI; no separate QA demo app. Does not require standalone CarBridge. Physical CarPlay icon and dual-app touch not verified; DO NOT PUBLISH or install without conflict/rollback review.",
   ]
   (stage/"DEBIAN/control").write_text("\n".join(controls)+"\n")
   OUT.mkdir(parents=True,exist_ok=True)
