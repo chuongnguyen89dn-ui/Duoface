@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-21T13:54:53.747041+00:00",
+  "checked_at_utc": "2026-10-21T18:44:18.420062+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2117,
+  "total_actions_runs": 2240,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -11,330 +11,336 @@
       "other": 1
     },
     "Native12 vs new DuoFace ALL file+1385 methods — strict parity audit": {
-      "recent_runs": 6,
-      "success": 5,
-      "failure": 1,
+      "recent_runs": 4,
+      "success": 4,
+      "failure": 0,
       "other": 0
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 51,
-      "success": 6,
-      "failure": 7,
-      "other": 38
+      "recent_runs": 38,
+      "success": 5,
+      "failure": 13,
+      "other": 20
     },
     "DuoFace independent CarPlay template scene candidate (isolated DEB)": {
-      "recent_runs": 40,
-      "success": 4,
-      "failure": 12,
-      "other": 24
+      "recent_runs": 55,
+      "success": 5,
+      "failure": 7,
+      "other": 43
     },
-    "Native12 vs NEW DuoFace ONLY exhaustive file and ObjC method comparison": {
-      "recent_runs": 2,
-      "success": 2,
+    "Native12 original divider clamp and snap constants - immutable Mach-O": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Native12 ORIGINAL ARM64 Layout IMP Evidence - NO invented presets": {
+      "recent_runs": 1,
+      "success": 1,
       "failure": 0,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39612142716,
+      "id": 39655379850,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 48,
+      "run_number": 49,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39612142716",
-      "created_at": "2026-10-21T13:54:44Z",
-      "head_sha": "3aef65b1a82d9676f7c24db2fe562d82cec1a1fe"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39655379850",
+      "created_at": "2026-10-21T18:44:06Z",
+      "head_sha": "6747e2d4660237ee51d02198a6c8f696a2ee56de"
     },
     {
-      "id": 39607798000,
+      "id": 39643257810,
       "name": "Native12 vs new DuoFace ALL file+1385 methods — strict parity audit",
-      "run_number": 6,
+      "run_number": 10,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607798000",
-      "created_at": "2026-10-21T13:25:01Z",
-      "head_sha": "8e361fa770aeb33ccd59b937310b73f690c72cce"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39643257810",
+      "created_at": "2026-10-21T17:22:45Z",
+      "head_sha": "4631bdbd9d16c48bceb8cbf3c19e1329d9fef2b3"
     },
     {
-      "id": 39607371328,
+      "id": 39642199126,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 184,
+      "run_number": 233,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607371328",
-      "created_at": "2026-10-21T13:22:02Z",
-      "head_sha": "ad0f8b5ffe2e90eebc820e2d2c566462f24565e4"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39642199126",
+      "created_at": "2026-10-21T17:15:38Z",
+      "head_sha": "80c1d301ae06d7791656574452290790d71bfede"
     },
     {
-      "id": 39607356155,
+      "id": 39642192083,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 232,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39642192083",
+      "created_at": "2026-10-21T17:15:35Z",
+      "head_sha": "5b9614be361c88691cf32ce9085f98876c4b6085"
+    },
+    {
+      "id": 39641652056,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 165,
+      "run_number": 232,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607356155",
-      "created_at": "2026-10-21T13:21:55Z",
-      "head_sha": "30ba2e0c5a9fdcc899988d35dd8063f6dcb9751d"
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641652056",
+      "created_at": "2026-10-21T17:12:04Z",
+      "head_sha": "0d291db2e360182ce43ccd916fbfc70ec22c0eee"
     },
     {
-      "id": 39607188652,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 183,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607188652",
-      "created_at": "2026-10-21T13:20:47Z",
-      "head_sha": "7232ec183bdd6c6cc59774208622de075bc8e612"
-    },
-    {
-      "id": 39607142964,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 182,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607142964",
-      "created_at": "2026-10-21T13:20:30Z",
-      "head_sha": "7232ec183bdd6c6cc59774208622de075bc8e612"
-    },
-    {
-      "id": 39607124813,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 181,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39607124813",
-      "created_at": "2026-10-21T13:20:23Z",
-      "head_sha": "7d54c25eb6468789f0e880dcc09028e9bf33148f"
-    },
-    {
-      "id": 39606845774,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 180,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606845774",
-      "created_at": "2026-10-21T13:18:30Z",
-      "head_sha": "c7e05e24a96e8ca3a946ae8ca7bd1e1d4a5cc9ef"
-    },
-    {
-      "id": 39606845589,
+      "id": 39641644165,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 164,
+      "run_number": 231,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606845589",
-      "created_at": "2026-10-21T13:18:30Z",
-      "head_sha": "c7e05e24a96e8ca3a946ae8ca7bd1e1d4a5cc9ef"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641644165",
+      "created_at": "2026-10-21T17:12:01Z",
+      "head_sha": "076714e8ec70cab1c633cd481f6d324fa498571b"
     },
     {
-      "id": 39606648813,
+      "id": 39641633958,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 163,
+      "run_number": 230,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606648813",
-      "created_at": "2026-10-21T13:17:08Z",
-      "head_sha": "3102ea868acd35b02e5e9df8d75622617217ae2c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641633958",
+      "created_at": "2026-10-21T17:11:57Z",
+      "head_sha": "54e0ac56d2dd799d1890e2e75dbec7f8b95adc3f"
     },
     {
-      "id": 39606632940,
+      "id": 39641627595,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 162,
+      "run_number": 229,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606632940",
-      "created_at": "2026-10-21T13:17:02Z",
-      "head_sha": "7e0dfb90e3a333898ba98e797a0c0a2383229bb6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641627595",
+      "created_at": "2026-10-21T17:11:54Z",
+      "head_sha": "fb933b58d24242400cd76dec491985c03421fd45"
     },
     {
-      "id": 39606632922,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 179,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606632922",
-      "created_at": "2026-10-21T13:17:02Z",
-      "head_sha": "7e0dfb90e3a333898ba98e797a0c0a2383229bb6"
-    },
-    {
-      "id": 39606616157,
+      "id": 39641595704,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 161,
+      "run_number": 228,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606616157",
-      "created_at": "2026-10-21T13:16:55Z",
-      "head_sha": "e7933a23045e5a9e5ca69fbfd8b80c26b53b8d89"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641595704",
+      "created_at": "2026-10-21T17:11:41Z",
+      "head_sha": "eaadcfaaa3b6bf8a4561c9b9e35d6cee798622d1"
     },
     {
-      "id": 39606616108,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 178,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606616108",
-      "created_at": "2026-10-21T13:16:55Z",
-      "head_sha": "e7933a23045e5a9e5ca69fbfd8b80c26b53b8d89"
-    },
-    {
-      "id": 39606597538,
+      "id": 39641553240,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 160,
+      "run_number": 227,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606597538",
-      "created_at": "2026-10-21T13:16:47Z",
-      "head_sha": "6fe7ed438e3b6d252a952347f34751f491190550"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39641553240",
+      "created_at": "2026-10-21T17:11:23Z",
+      "head_sha": "f8bddb16863abc02a61615495ec5b24fa6856fb3"
     },
     {
-      "id": 39606597532,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 177,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606597532",
-      "created_at": "2026-10-21T13:16:47Z",
-      "head_sha": "6fe7ed438e3b6d252a952347f34751f491190550"
-    },
-    {
-      "id": 39606546720,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 176,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606546720",
-      "created_at": "2026-10-21T13:16:26Z",
-      "head_sha": "c7e05e24a96e8ca3a946ae8ca7bd1e1d4a5cc9ef"
-    },
-    {
-      "id": 39606546528,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 159,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606546528",
-      "created_at": "2026-10-21T13:16:26Z",
-      "head_sha": "c7e05e24a96e8ca3a946ae8ca7bd1e1d4a5cc9ef"
-    },
-    {
-      "id": 39606491411,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 175,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606491411",
-      "created_at": "2026-10-21T13:16:03Z",
-      "head_sha": "93127b7309dd3c69cad2fc14baece80d0d1df50a"
-    },
-    {
-      "id": 39606491403,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 158,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39606491403",
-      "created_at": "2026-10-21T13:16:03Z",
-      "head_sha": "93127b7309dd3c69cad2fc14baece80d0d1df50a"
-    },
-    {
-      "id": 39605836495,
+      "id": 39636986406,
       "name": "Native12 vs new DuoFace ALL file+1385 methods — strict parity audit",
-      "run_number": 5,
+      "run_number": 9,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605836495",
-      "created_at": "2026-10-21T13:11:38Z",
-      "head_sha": "33cae1db1eb10caf459822a15c85f4e9f5f13cf3"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39636986406",
+      "created_at": "2026-10-21T16:41:12Z",
+      "head_sha": "91c958398d38ce207613ee585f377b586a1bc97e"
     },
     {
-      "id": 39605304309,
+      "id": 39636503361,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 174,
+      "run_number": 231,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605304309",
-      "created_at": "2026-10-21T13:07:57Z",
-      "head_sha": "adc33a6f7dcccfff9589049d29ff617be973a6d8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39636503361",
+      "created_at": "2026-10-21T16:37:57Z",
+      "head_sha": "98b60edad4ace7355cf33a7d6f3d3d9bca624f94"
     },
     {
-      "id": 39605281067,
+      "id": 39636485834,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 173,
+      "run_number": 230,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605281067",
-      "created_at": "2026-10-21T13:07:47Z",
-      "head_sha": "4573cbcc80d8da1d6f9bedeb4ae055516e7c7b22"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39636485834",
+      "created_at": "2026-10-21T16:37:50Z",
+      "head_sha": "87925a7e661d6419f68a06f5b92b7cb5c684550c"
     },
     {
-      "id": 39605253145,
+      "id": 39635633523,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 157,
+      "run_number": 226,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635633523",
+      "created_at": "2026-10-21T16:32:09Z",
+      "head_sha": "150696d7968ef8160967c8d5bfeac33b850171b1"
+    },
+    {
+      "id": 39635610000,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 225,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635610000",
+      "created_at": "2026-10-21T16:31:59Z",
+      "head_sha": "5830d1a402f5493566412056c8a02845cf1188af"
+    },
+    {
+      "id": 39635576799,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 224,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635576799",
+      "created_at": "2026-10-21T16:31:46Z",
+      "head_sha": "0cecbc23bc1ff0aad94ecf29eec5fc940029f922"
+    },
+    {
+      "id": 39635554545,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 223,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635554545",
+      "created_at": "2026-10-21T16:31:37Z",
+      "head_sha": "25f96502cf1d2317ad8be0270ab92d97f9982f2b"
+    },
+    {
+      "id": 39635508301,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 222,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605253145",
-      "created_at": "2026-10-21T13:07:35Z",
-      "head_sha": "52a4924d7adeb76e5bbf54b46d0d482757dd6c23"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635508301",
+      "created_at": "2026-10-21T16:31:18Z",
+      "head_sha": "652ceb111f37288e9adde711a05a537d0e915887"
     },
     {
-      "id": 39605252932,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 172,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605252932",
-      "created_at": "2026-10-21T13:07:35Z",
-      "head_sha": "52a4924d7adeb76e5bbf54b46d0d482757dd6c23"
-    },
-    {
-      "id": 39605040328,
+      "id": 39635428528,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 156,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605040328",
-      "created_at": "2026-10-21T13:06:05Z",
-      "head_sha": "7268fe158c18c06206d37b066c5fd83c8db38039"
-    },
-    {
-      "id": 39605021733,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 171,
+      "run_number": 221,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605021733",
-      "created_at": "2026-10-21T13:05:56Z",
-      "head_sha": "7b0935e3f33f6e35a8a6199d1b42f8d1f7223e42"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635428528",
+      "created_at": "2026-10-21T16:30:47Z",
+      "head_sha": "584477f5a755c9616fe01efc064cf92f2054abed"
     },
     {
-      "id": 39605021690,
+      "id": 39635384532,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 155,
+      "run_number": 220,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39605021690",
-      "created_at": "2026-10-21T13:05:56Z",
-      "head_sha": "7b0935e3f33f6e35a8a6199d1b42f8d1f7223e42"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635384532",
+      "created_at": "2026-10-21T16:30:31Z",
+      "head_sha": "02885208f76482bd71fb2068e1cf321db5345bf6"
     },
     {
-      "id": 39604996193,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 170,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39604996193",
-      "created_at": "2026-10-21T13:05:46Z",
-      "head_sha": "f35b1753c07e424eb91453b8cfe647ac75df689f"
-    },
-    {
-      "id": 39604996136,
+      "id": 39635151539,
       "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 154,
+      "run_number": 219,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635151539",
+      "created_at": "2026-10-21T16:28:58Z",
+      "head_sha": "00d6ef37f7da0623db3c88ae64825aef1898aaeb"
+    },
+    {
+      "id": 39635141124,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 218,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39604996136",
-      "created_at": "2026-10-21T13:05:46Z",
-      "head_sha": "f35b1753c07e424eb91453b8cfe647ac75df689f"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39635141124",
+      "created_at": "2026-10-21T16:28:54Z",
+      "head_sha": "ae11398b92ce8154bab1fae0d5d46dc9f0e915d5"
+    },
+    {
+      "id": 39631659888,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 217,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631659888",
+      "created_at": "2026-10-21T16:05:49Z",
+      "head_sha": "a1877283c002f771547411bfd206071f49066820"
+    },
+    {
+      "id": 39631640673,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 216,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631640673",
+      "created_at": "2026-10-21T16:05:42Z",
+      "head_sha": "e06e85bc93113273dd0370de2e345169f80532e4"
+    },
+    {
+      "id": 39631621494,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 215,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631621494",
+      "created_at": "2026-10-21T16:05:34Z",
+      "head_sha": "cc06ecbce38244798888259f1bddf775c8523ab4"
+    },
+    {
+      "id": 39631602891,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 214,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631602891",
+      "created_at": "2026-10-21T16:05:27Z",
+      "head_sha": "2ccd86c4f1847c641d5bf7756a0ea1d025761c5e"
+    },
+    {
+      "id": 39631507394,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 213,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631507394",
+      "created_at": "2026-10-21T16:04:53Z",
+      "head_sha": "729f0dbc839d21b920d72769fd03ea092acd1871"
+    },
+    {
+      "id": 39631418580,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 212,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631418580",
+      "created_at": "2026-10-21T16:04:17Z",
+      "head_sha": "6e57eee30510bf1b68a069016b43c80ab7cb60ef"
+    },
+    {
+      "id": 39631360663,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 211,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631360663",
+      "created_at": "2026-10-21T16:03:56Z",
+      "head_sha": "c05f9965c8a33fd2ea57fcd3d084a313d7adc98a"
+    },
+    {
+      "id": 39631312518,
+      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
+      "run_number": 210,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39631312518",
+      "created_at": "2026-10-21T16:03:37Z",
+      "head_sha": "525de750f47329f47ac2a63874432f3ef71dd174"
     }
   ]
 }
