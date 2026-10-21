@@ -6,6 +6,7 @@
 #import <fcntl.h>
 #import <unistd.h>
 #import <notify.h>
+#import <math.h>
 
 static NSString *const DFCarPlayRole=@"UIWindowSceneSessionRoleCarPlay";
 static NSString *const DFTemplateRole=@"CPTemplateApplicationSceneSessionRoleApplication";
@@ -34,6 +35,10 @@ void DFNativeHostLog(NSString *message) {
 @property(nonatomic,strong) CPWindow *carWindow;
 @property(nonatomic,strong) DFNative12BasicController *basicController;
 @property(nonatomic,assign) NSUInteger touchCount;
+@property(nonatomic,copy) NSString *touchSession;
+@property(nonatomic,assign) int touchRelayToken;
+@property(nonatomic,assign) NSUInteger lastTouchSequence;
+- (void)consumeTouchCommand;
 @end
 @interface DFNativeHostAppDelegate : UIResponder <UIApplicationDelegate>
 @end
@@ -137,6 +142,41 @@ void DFNativeHostLog(NSString *message) {
 // Navigation-template acceptance is a distinct path from native UIKit
 // UIWindowSceneSessionRoleCarPlay. Never spoof a synthetic scene or system Dock.
 @implementation DFNativeHostTemplateSceneDelegate
+// A bounded UI action stream only. Never synthesize UIKit touches or
+// command any SpringBoard app scene. The parent visual split owns ratio.
+- (void)consumeTouchCommand {
+    if(!self.basicController || !self.touchSession)return;
+    NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.command.plist";
+    NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:path];
+    id session=record[@"Session"], sequence=record[@"Sequence"];
+    id timestamp=record[@"Timestamp"],action=record[@"Action"];
+    if(![record[@"Version"] isEqual:@1] ||
+       ![session isKindOfClass:NSString.class] ||
+       ![session isEqualToString:self.touchSession] ||
+       ![sequence isKindOfClass:NSNumber.class] ||
+       [sequence unsignedLongLongValue]<=self.lastTouchSequence ||
+       [sequence unsignedLongLongValue]>1000000000ULL ||
+       ![timestamp isKindOfClass:NSNumber.class] ||
+       ![action isKindOfClass:NSString.class])return;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[timestamp doubleValue];
+    if(!isfinite(age) || age<0 || age>2.0)return;
+    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio"] containsObject:action])return;
+    id ratio=record[@"Ratio"];
+    if([action isEqualToString:@"Ratio"]) {
+        if(![ratio isKindOfClass:NSNumber.class] ||
+           !isfinite([ratio doubleValue]) ||
+           [ratio doubleValue]<1.0/3.0 ||
+           [ratio doubleValue]>2.0/3.0)return;
+    } else if(ratio!=nil)return;
+    self.lastTouchSequence=[sequence unsignedIntegerValue];
+    if([action isEqualToString:@"Ratio"])
+        [self.basicController setPresetRatio:(CGFloat)[ratio doubleValue]];
+    else
+        [self.basicController performCarPlayControl:action];
+    DFNativeHostLog([NSString stringWithFormat:
+      @"touchowner-command-applied session=%@ seq=%lu action=%@ ratio=%@",
+      session,(unsigned long)self.lastTouchSequence,action,ratio?:@"-"]);
+}
 - (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
        didConnectInterfaceController:(CPInterfaceController *)controller
                             toWindow:(CPWindow *)window {
@@ -195,10 +235,36 @@ void DFNativeHostLog(NSString *message) {
     }
     map.mapButtons=buttons;
     [controller setRootTemplate:map animated:NO completion:nil];
-    DFNativeHostLog(@"0.0.8 user-external-input-owner-probe ready; app-window touch unverified");
-    // Narrow external touch receiver; never mutate system Dock or CPWindow.
-    int n=notify_post("com.duoface.nativehost.touchowner.start.v1");
-    DFNativeHostLog([NSString stringWithFormat:@"touchowner-activation-notify status=%d",n]);
+    // The external input-owner window is instantiated only after a fresh
+    // session-bound launch request, with this template receiver registered.
+    self.touchSession=[NSUUID UUID].UUIDString;
+    self.lastTouchSequence=0;
+    int token=-1;
+    int registered=notify_register_dispatch(
+        "com.duoface.nativehost.touchowner.command.v1",&token,
+        dispatch_get_main_queue(),^(int received) {
+            (void)received;
+            __strong typeof(weakSelf) owner=weakSelf;
+            [owner consumeTouchCommand];
+        });
+    if(registered!=0) {
+        DFNativeHostLog(@"touchowner-command-listener-failed");
+        self.touchSession=nil;
+    } else {
+        self.touchRelayToken=token;
+        NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
+        NSDictionary *launch=@{@"Version":@1,@"Session":self.touchSession,
+                                @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+        if([launch writeToFile:path atomically:YES]){
+            int n=notify_post("com.duoface.nativehost.touchowner.start.v1");
+            DFNativeHostLog([NSString stringWithFormat:
+                @"touchowner-session-started session=%@ notify=%d",self.touchSession,n]);
+        }else{
+            DFNativeHostLog(@"touchowner-session-write-failed");
+            notify_cancel(self.touchRelayToken);
+            self.touchSession=nil;
+        }
+    }
     DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
 }
 - (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
@@ -212,6 +278,11 @@ void DFNativeHostLog(NSString *message) {
     self.basicController=nil;
     self.touchCount=0;
     int n=notify_post("com.duoface.nativehost.touchowner.stop.v1");
+    if(self.touchSession){
+        notify_cancel(self.touchRelayToken);
+        self.touchSession=nil;
+        self.lastTouchSequence=0;
+    }
     DFNativeHostLog([NSString stringWithFormat:@"touchowner-deactivation-notify status=%d",n]);
     DFNativeHostLog(@"native-carplay-template-scene-disconnected");
 }
