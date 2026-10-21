@@ -232,7 +232,7 @@ static void DFCLog(NSString *text) {
     sheet.backgroundColor=[UIColor colorWithWhite:.12 alpha:.97];
     sheet.layer.cornerRadius=20;
     sheet.layer.masksToBounds=YES;
-    UIImage *horizontal=DFCArtwork(@"duoface-logo");
+    UIImage *horizontal=DFCArtwork(@"duoface-logo-picker-alpha-v2");
     UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
     brandImage.contentMode=UIViewContentModeScaleAspectFit;
     brandImage.frame=CGRectMake(8,8,MIN(120,pw*.27),30);
