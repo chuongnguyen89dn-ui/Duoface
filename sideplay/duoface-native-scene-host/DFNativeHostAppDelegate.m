@@ -150,30 +150,51 @@ void DFNativeHostLog(NSString *message) {
     self.basicController=root;
     window.rootViewController=root;
     CPMapTemplate *map=[CPMapTemplate new];
-    // CPMapTemplate owns CarPlay touch dispatch. Ordinary UIButton gestures
-    // in its map surface are not a supported touch entry point. Probe with
-    // system-owned CPMapButtons to distinguish missing input from UI wiring.
+    // Apple CPWindow deliberately refuses taps/drags into custom UIKit
+    // content. Only system-owned CarPlay buttons can handle these actions.
+    // Keep the button bar visible; the earlier map-only probe did not make
+    // Native12's UIKit controls interactive.
+    map.automaticallyHidesNavigationBar=NO;
+    map.hidesButtonsWithNavigationBar=NO;
     __weak typeof(self) weakSelf=self;
-    NSArray *titles=@[@"LEFT",@"RIGHT",@"SWAP"];
-    NSMutableArray *buttons=[NSMutableArray array];
-    for(NSString *title in titles){
+    NSArray<NSString *> *commands=@[@"App",@"Zoom",@"Style",@"Close"];
+    NSMutableArray<CPBarButton *> *barButtons=[NSMutableArray array];
+    for(NSString *command in commands){
+        CPBarButton *button=[[CPBarButton alloc] initWithTitle:command handler:^(CPBarButton *pressed){
+            (void)pressed;
+            __strong typeof(weakSelf) strongSelf=weakSelf;
+            if(!strongSelf || !strongSelf.basicController)return;
+            strongSelf.touchCount++;
+            [strongSelf.basicController performCarPlayControl:command];
+            DFNativeHostLog([NSString stringWithFormat:
+               @"carplay-system-bar-command-confirmed action=%@ count=%lu",
+               command,(unsigned long)strongSelf.touchCount]);
+        }];
+        [barButtons addObject:button];
+    }
+    map.leadingNavigationBarButtons=@[barButtons[0],barButtons[1]];
+    map.trailingNavigationBarButtons=@[barButtons[2],barButtons[3]];
+    NSArray<NSString *> *titles=@[@"LEFT",@"RIGHT",@"SWAP"];
+    NSArray<NSString *> *symbols=@[@"arrow.left",@"arrow.right",@"arrow.left.arrow.right"];
+    NSMutableArray<CPMapButton *> *buttons=[NSMutableArray array];
+    for(NSUInteger i=0;i<titles.count;i++){
+        NSString *command=titles[i];
         CPMapButton *button=[[CPMapButton alloc] initWithHandler:^(CPMapButton *pressed){
             (void)pressed;
             __strong typeof(weakSelf) strongSelf=weakSelf;
-            if(!strongSelf)return;
+            if(!strongSelf || !strongSelf.basicController)return;
             strongSelf.touchCount++;
-            DFNativeHostLog([NSString stringWithFormat:@"carplay-template-touch-confirmed button=%@ count=%lu",title,(unsigned long)strongSelf.touchCount]);
-            if([title isEqualToString:@"SWAP"]){
-                [strongSelf.basicController swap:nil];
-            } else {
-                strongSelf.basicController.view.accessibilityValue=[NSString stringWithFormat:@"CarPlay touch %@ %lu",title,(unsigned long)strongSelf.touchCount];
-            }
+            [strongSelf.basicController performCarPlayControl:command];
+            DFNativeHostLog([NSString stringWithFormat:
+                @"carplay-system-map-command-confirmed action=%@ count=%lu",
+                command,(unsigned long)strongSelf.touchCount]);
         }];
-        button.image=[UIImage systemImageNamed:([title isEqualToString:@"SWAP"]?@"arrow.left.arrow.right":@"hand.tap")];
+        button.image=[UIImage systemImageNamed:symbols[i]];
         [buttons addObject:button];
     }
     map.mapButtons=buttons;
     [controller setRootTemplate:map animated:NO completion:nil];
+    DFNativeHostLog(@"carplay-template-controls-0.0.7 attached 4 bar + 3 map buttons");
     DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
 }
 - (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
