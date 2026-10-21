@@ -38,13 +38,24 @@ static NSDictionary *DFCRestoreLayout(void) {
     NSNumber *preset=record[@"Preset"];
     if(preset && (![preset isKindOfClass:NSNumber.class] ||
        preset.integerValue<0 || preset.integerValue>7))return nil;
+    // Exact ORIGINAL CBMultitaskingOverlayView.presetSelected: @0xaa4f0
+    // writes the SAME selected UIButton.tag into splitPreset and splitMode.
+    // Preserve this dual-state selection contract in our independent prefs.
+    for(NSString *key in @[@"splitPreset",@"splitMode"]){
+        id value=record[key];
+        if(value && (![value isKindOfClass:NSNumber.class] ||
+                     [value integerValue]<0 || [value integerValue]>7 ||
+                     (preset && [value integerValue]!=preset.integerValue)))
+            return nil;
+    }
     return record;
 }
 static BOOL DFCSaveLayout(CGFloat ratio, CGFloat logo, BOOL vertical, BOOL swapped, NSInteger preset) {
     if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
        !isfinite(logo) || logo<.1 || logo>.9)return NO;
     NSDictionary *record=@{@"Version":@1,@"Ratio":@(ratio),
-        @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped),@"Preset":@(preset)};
+        @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped),
+        @"Preset":@(preset),@"splitPreset":@(preset),@"splitMode":@(preset)};
     return [record writeToFile:kDFLayoutPath atomically:YES];
 }
 static UIImage *DFCArtwork(NSString *name) {
@@ -451,6 +462,8 @@ static void DFCLog(NSString *text) {
         @"SlotCount":@(self.hostedScenes.count),
         @"ActiveSlots":@(DFSlotCountForPreset(self.preset)),
         @"Preset":@(self.preset),
+        @"SplitPreset":@(self.preset),
+        @"SplitMode":@(self.preset),
         @"Owner":@"SpringBoard",
     };
 }
