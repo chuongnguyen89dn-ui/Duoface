@@ -1,0 +1,84 @@
+{
+  "kind": "STATIC_DEB_CONTENT_COMPARISON_NOT_HARDWARE_VERIFICATION",
+  "reference_git_commit": "1286a3ef868cf7e29804bcddf7e20b2eae707ce1",
+  "original_native12": {
+    "package": "com.duoface.independent",
+    "version": "0.1.0~native12+speed8compact",
+    "architecture": "iphoneos-arm64",
+    "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "binary_files": [
+      "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+      "var/jb/usr/libexec/duoface_cboptimize_helper"
+    ],
+    "markers": [
+      "CBBridgeManager",
+      "CBBridgedSplitApp",
+      "CBDividerView",
+      "CBMultitaskingOverlayView",
+      "CBSplitSplashScreenView",
+      "CBWindow",
+      "SBAppViewController",
+      "checkAndSyncLicenseIfNeeded"
+    ]
+  },
+  "original_duonavi": {
+    "package": "com.duonavi.app",
+    "version": "1.0.4",
+    "architecture": "iphoneos-arm64",
+    "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
+    "binary_files": [
+      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
+      "var/jb/usr/lib/ellekit/OldABI.dylib"
+    ],
+    "markers": [
+      "CBBridgeManager",
+      "CBBridgedSplitApp",
+      "CBDividerView",
+      "CBMultitaskingOverlayView",
+      "CBSplitSplashScreenView",
+      "CBWindow",
+      "SBAppViewController",
+      "checkAndSyncLicenseIfNeeded"
+    ]
+  },
+  "independent_candidate": {
+    "package": "com.duoface.carplay.nativescenehost",
+    "version": "0.1.12~native12bundle2",
+    "architecture": "iphoneos-arm64",
+    "sha256": "b51984e680f5c1834e026af5b88bd954b1df3013d4a4161e836df5ea588e5692",
+    "binary_files": [
+      "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+    ],
+    "markers": [
+      "DFNative12Chrome",
+      "DFSceneHost",
+      "SBAppViewController"
+    ]
+  },
+  "candidate_assets": {
+    "duoface-logo.png": true,
+    "duoface-logo-vert.png": true,
+    "duoface-logo-picker-alpha-v2.png": true,
+    "duoface-picker.png": true,
+    "duoface-fullscreen.png": true,
+    "duoface-swap.png": true
+  },
+  "licensed_original_manager_excluded": true,
+  "original_binary_copied": false,
+  "touch_split_swap_zoom_video_hardware_verified": false,
+  "missing_runtime_parity": [
+    "Native12 8 split presets/4 slots",
+    "per-slot fullscreen dock management",
+    "HUD8/settings/voice",
+    "video playback Safe Mode repro+crash trace",
+    "exact pixel and original splash timing"
+  ]
+}
