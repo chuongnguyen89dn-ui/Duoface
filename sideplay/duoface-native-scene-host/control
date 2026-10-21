@@ -5,4 +5,4 @@ Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), mobilesubstrate
-Description: First-party independent Native12 split visual scene and bounded UIKit control windows: two top-center slot pills, 28/30-point divider logo, ratio pan (one-third to two-thirds with snapping), 0.30-second logo reposition, App/Zoom/Style/Close picker, per-slot focus/restore, swap and vertical/horizontal split. Rootless CarPlay, keeps Apple Dock and session-bound input relay. No vendor code, licenses or iPhone app scene hosting yet.
+Description: First-party experimental iOS16 rootless CarPlay app scene host. Real installed-app picker, source-owned external SBAppViewController host, scene-ready/failure signals, split/swap/focus/drag and strict disconnect/heartbeat teardown. The CarPlay receiver draws no demo panes or fake action buttons; iPhone shows only actual installed-app inventory and active-session status. No external vendor binary or licensing; actual dual-app rendering and touch on iPhone X/CarPlay not yet device-verified. Unreleased candidate.
