@@ -425,6 +425,27 @@ static void DFCLog(NSString *text) {
         }
     });
 }
+- (NSDictionary<NSString *,id> *)stateSnapshot {
+    // A post-action observation of REAL owned scenes and layout; never
+    // fabricated from the command being reported to the CarPlay process.
+    NSInteger running=0,pending=0;
+    for(id view in self.hostedScenes)if(view!=[NSNull null])running++;
+    for(id view in self.pendingScenes)if(view!=[NSNull null])pending++;
+    return @{
+        @"Version":@2,
+        @"Ratio":@(self.ratio),
+        @"Vertical":@(self.verticalDivider),
+        @"Swapped":@(self.swapped),
+        @"Focus":@(self.focus),
+        @"SelectedSlot":@(self.selectedSlot),
+        @"PickerVisible":@(self.pickerVisible),
+        @"StartupActive":@(self.startupActive),
+        @"RunningScenes":@(running),
+        @"PendingScenes":@(pending),
+        @"SlotCount":@(self.hostedScenes.count),
+        @"Owner":@"SpringBoard",
+    };
+}
 - (void)emit:(NSString *)action ratio:(NSNumber *)ratio {
     if(!self.callback)return;
     self.callback(action,ratio);
