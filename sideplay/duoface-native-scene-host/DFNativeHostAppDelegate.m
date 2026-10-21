@@ -282,7 +282,7 @@ void DFNativeHostLog(NSString *message) {
     self.interfaceController=controller;
     self.carWindow=window; // Provided by CarPlay, not created with UIWindow alloc.
     // Do not expose CPMapTemplate dummy buttons: all live actions belong
-    // to the one source-owned SpringBoard DFNative12Chrome and real scenes.
+    // to the one source-owned external native DFNative12Chrome and real scenes.
     DFNative12BasicController *root=[DFNative12BasicController new];
     self.basicController=root;
     window.rootViewController=root;
