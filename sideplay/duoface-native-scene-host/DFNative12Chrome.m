@@ -1,6 +1,7 @@
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
+#import "DFLayoutEngine.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import <math.h>
@@ -34,13 +35,16 @@ static NSDictionary *DFCRestoreLayout(void) {
     double logo=[record[@"LogoFraction"] doubleValue];
     if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
        !isfinite(logo) || logo<.1 || logo>.9)return nil;
+    NSNumber *preset=record[@"Preset"];
+    if(preset && (![preset isKindOfClass:NSNumber.class] ||
+       preset.integerValue<0 || preset.integerValue>7))return nil;
     return record;
 }
-static BOOL DFCSaveLayout(CGFloat ratio, CGFloat logo, BOOL vertical, BOOL swapped) {
+static BOOL DFCSaveLayout(CGFloat ratio, CGFloat logo, BOOL vertical, BOOL swapped, NSInteger preset) {
     if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
        !isfinite(logo) || logo<.1 || logo>.9)return NO;
     NSDictionary *record=@{@"Version":@1,@"Ratio":@(ratio),
-        @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped)};
+        @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped),@"Preset":@(preset)};
     return [record writeToFile:kDFLayoutPath atomically:YES];
 }
 static UIImage *DFCArtwork(NSString *name) {
@@ -89,6 +93,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) CGFloat dragStartRatio;
 @property(nonatomic,assign) CGFloat logoFraction;
 @property(nonatomic,assign) BOOL verticalDivider;
+@property(nonatomic,assign) NSInteger preset;
 @property(nonatomic,assign) BOOL swapped;
 @property(nonatomic,assign) BOOL pickerVisible;
 @property(nonatomic,assign) NSInteger focus;
@@ -106,19 +111,21 @@ static void DFCLog(NSString *text) {
         _display=display;_configurationClass=configurationClass;
         _externalWindowClass=windowClass;_contentRect=content;
         _callback=[command copy];_ratio=.5;_logoFraction=.5;
-        _verticalDivider=YES;_focus=-1;_selectedSlot=0;
+        _verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=0;
         NSDictionary *prior=DFCRestoreLayout();
         if(prior){
             _ratio=[prior[@"Ratio"] doubleValue];
             _logoFraction=[prior[@"LogoFraction"] doubleValue];
             _verticalDivider=[prior[@"Vertical"] boolValue];
             _swapped=[prior[@"Swapped"] boolValue];
+            _preset=prior[@"Preset"]?[prior[@"Preset"] integerValue]:(_verticalDivider?0:1);
+            _verticalDivider=DFPrimaryDividerIsVertical(_preset);
         }
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
         _appSceneWindows=[NSMutableArray new];
-        _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
-        _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
-        _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO]];
+        _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
+        _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
+        _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO,@NO,@NO]];
     }return self;
 }
 - (UIWindow *)makeWindow:(CGRect)frame root:(UIViewController *)root
@@ -185,7 +192,7 @@ static void DFCLog(NSString *text) {
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
     NSMutableArray *menus=[NSMutableArray new],*zooms=[NSMutableArray new];
-    for(NSInteger slot=0;slot<2;slot++) {
+    for(NSInteger slot=0;slot<4;slot++) {
         CGRect frame=CGRectMake(cr.origin.x+10,cr.origin.y+3,76,22);
         UIViewController *root=[self emptyRoot:frame];
         UIVisualEffectView *pill=[[UIVisualEffectView alloc]
@@ -332,9 +339,8 @@ static void DFCLog(NSString *text) {
     // Two REAL app-scene containers from SpringBoard, created but kept
     // hidden until a user explicitly selects an installed application.
     // Do not claim "APP scene ready" just because the external window exists.
-    for(NSInteger i=0;i<2;i++){
-        CGRect rect=CGRectMake(cr.origin.x+(i?cr.size.width/2:0),
-                               cr.origin.y,cr.size.width/2,cr.size.height);
+    for(NSInteger i=0;i<4;i++){
+        CGRect rect=CGRectMake(cr.origin.x,cr.origin.y,MAX(30,cr.size.width/4),cr.size.height);
         UIViewController *slotRoot=[self emptyRoot:rect];
         slotRoot.view.clipsToBounds=YES;
         UIWindow *slotWindow=[self makeWindow:rect root:slotRoot level:0.5];
@@ -443,6 +449,8 @@ static void DFCLog(NSString *text) {
         @"RunningScenes":@(running),
         @"PendingScenes":@(pending),
         @"SlotCount":@(self.hostedScenes.count),
+        @"ActiveSlots":@(DFSlotCountForPreset(self.preset)),
+        @"Preset":@(self.preset),
         @"Owner":@"SpringBoard",
     };
 }
@@ -452,29 +460,23 @@ static void DFCLog(NSString *text) {
 }
 - (void)saveSplitState {
     if(!DFCSaveLayout(self.ratio,self.logoFraction,
-                      self.verticalDivider,self.swapped))
+                      self.verticalDivider,self.swapped,self.preset))
         DFCLog(@"split-layout-persist-failed");
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
     CGFloat p=DFCClamp(self.ratio);
-    CGRect pane[2];
-    if(self.verticalDivider) {
-        CGFloat x=cr.origin.x+cr.size.width*p;
-        pane[0]=CGRectMake(cr.origin.x,cr.origin.y,x-cr.origin.x,cr.size.height);
-        pane[1]=CGRectMake(x,cr.origin.y,CGRectGetMaxX(cr)-x,cr.size.height);
-    } else {
-        CGFloat y=cr.origin.y+cr.size.height*p;
-        pane[0]=CGRectMake(cr.origin.x,cr.origin.y,cr.size.width,y-cr.origin.y);
-        pane[1]=CGRectMake(cr.origin.x,y,cr.size.width,CGRectGetMaxY(cr)-y);
-    }
-    if(self.focus>=0 && self.focus<=1) pane[self.focus]=cr;
-    for(NSInteger i=0;i<2;i++) {
+    CGRect pane[4];
+    DFComputePresetFrames(cr,self.preset,p,pane);
+    NSInteger activeSlots=DFSlotCountForPreset(self.preset);
+    if(self.focus>=0 && self.focus<activeSlots)pane[self.focus]=cr;
+    for(NSInteger i=0;i<4;i++) {
         UIWindow *w=self.pillWindows[(NSUInteger)i];
+        if(i>=activeSlots){w.hidden=YES;continue;}
         // Reproduce Native12 six pill states from DFSPNativeSlotPill:
         // empty/loaded/focused, each normal or compact. An empty or
         // pending slot must not offer a nonfunctional fullscreen action.
-        NSInteger physicalSlot=self.swapped?1-i:i;
+        NSInteger physicalSlot=(self.swapped && i<2)?1-i:i;
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
         BOOL show=(self.focus<0 || focused)&&!self.pickerVisible;
@@ -518,9 +520,10 @@ static void DFCLog(NSString *text) {
     self.dividerLogo.layer.cornerRadius=size/2;
     self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible);
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
-    for(NSInteger i=0;i<2;i++){
+    for(NSInteger i=0;i<4;i++){
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
-        NSInteger visualSlot=self.swapped?1-i:i;
+        NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
+        if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
         appWindow.frame=target;
@@ -555,12 +558,12 @@ static void DFCLog(NSString *text) {
 }
 - (void)zoomPressed:(UIButton *)sender {
     [self noteUserActivity];
-    NSInteger physical=self.swapped?1-sender.tag:sender.tag;
+    NSInteger physical=(self.swapped && sender.tag<2)?1-sender.tag:sender.tag;
     if(self.focus!=sender.tag &&
-       (physical<0 || physical>1 ||
+       (physical<0 || physical>=DFSlotCountForPreset(self.preset) ||
         ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))return;
     self.focus=(self.focus==sender.tag)?-1:sender.tag;
-    [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
+    [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":self.focus==1?@"FocusRight":self.focus==2?@"FocusSlot2":@"FocusSlot3")
          ratio:nil];
     [self layoutControls];
 }
@@ -570,17 +573,19 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
-             NSInteger physical=self.swapped?1-self.selectedSlot:self.selectedSlot;
+             NSInteger physical=(self.swapped && self.selectedSlot<2)?1-self.selectedSlot:self.selectedSlot;
              if(self.focus<0 &&
-                (physical<0||physical>1||
+                (physical<0||physical>=DFSlotCountForPreset(self.preset)||
                  ![self.sceneHandleReady[(NSUInteger)physical] boolValue]))break;
              self.focus=self.focus<0?self.selectedSlot:-1;
-             [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":@"FocusRight")
+             [self emit:self.focus<0?@"Restore":(self.focus==0?@"FocusLeft":self.focus==1?@"FocusRight":self.focus==2?@"FocusSlot2":@"FocusSlot3")
                   ratio:nil];
              [self layoutControls];break;
       }
-      case 2:self.verticalDivider=!self.verticalDivider;
-             self.ratio=.5;self.focus=-1;
+      case 2:self.preset=(self.preset+1)%8;
+             self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
+             self.focus=-1;
+             self.selectedSlot=MIN(self.selectedSlot,DFSlotCountForPreset(self.preset)-1);
              [self saveSplitState];
              [self emit:@"Style" ratio:nil];
              [self layoutControls];break;
@@ -589,7 +594,7 @@ static void DFCLog(NSString *text) {
     }
 }
 - (void)openAppPickerForSlot:(NSInteger)slot {
-    if(slot!=0 && slot!=1)return;
+    if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
     self.selectedSlot=slot;
     // Picker contents are read fresh every time. Do not reuse a stale
     // LSApplicationWorkspace snapshot across install/remove operations.
@@ -608,8 +613,8 @@ static void DFCLog(NSString *text) {
     if(picker!=self.appPickerController || !self.appPickerWindow || 
        ![bundleID isKindOfClass:NSString.class] || !bundleID.length)return;
     NSInteger slot=self.selectedSlot;
-    NSInteger physicalSlot=self.swapped?1-slot:slot;
-    if(physicalSlot<0 || physicalSlot>=2)return;
+    NSInteger physicalSlot=(self.swapped && slot<2)?1-slot:slot;
+    if(physicalSlot<0 || physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *active=self.hostedScenes[(NSUInteger)physicalSlot];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
@@ -654,7 +659,7 @@ static void DFCLog(NSString *text) {
 - (void)sceneReady:(NSNotification *)note {
     UIView *host=(UIView *)note.object;
     if(![host isKindOfClass:UIView.class])return;
-    for(NSInteger i=0;i<2;i++){
+    for(NSInteger i=0;i<4;i++){
        if(self.pendingScenes[(NSUInteger)i]==host){
           // Commit only after the next app has a scene + hosting state.
           UIView *prior=self.hostedScenes[(NSUInteger)i];
@@ -665,7 +670,7 @@ static void DFCLog(NSString *text) {
           [self layoutControls];
           if([prior isKindOfClass:UIView.class] && prior!=host)
               [[DFSceneHost sharedHost] releaseHostedView:prior];
-          NSInteger visual=self.swapped?1-i:i;
+          NSInteger visual=(self.swapped && i<2)?1-i:i;
           [self emit:@"App" ratio:@(visual)];
           DFCLog([NSString stringWithFormat:
               @"scene-replace-committed-render-unverified slot=%ld bundle=%@",
@@ -677,7 +682,7 @@ static void DFCLog(NSString *text) {
 - (void)sceneFailed:(NSNotification *)note {
     UIView *host=(UIView *)note.object;
     if(![host isKindOfClass:UIView.class])return;
-    for(NSInteger i=0;i<2;i++){
+    for(NSInteger i=0;i<4;i++){
        if(self.pendingScenes[(NSUInteger)i]==host){
           self.pendingScenes[(NSUInteger)i]=NSNull.null;
           DFCLog([NSString stringWithFormat:
@@ -688,7 +693,7 @@ static void DFCLog(NSString *text) {
        if(self.hostedScenes[(NSUInteger)i]==host){
           self.hostedScenes[(NSUInteger)i]=NSNull.null;
           self.sceneHandleReady[(NSUInteger)i]=@NO;
-          NSInteger visual=self.swapped?1-i:i;
+          NSInteger visual=(self.swapped && i<2)?1-i:i;
           if(self.focus==visual)self.focus=-1;
           self.appSceneWindows[(NSUInteger)i].hidden=YES;
           DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
@@ -698,8 +703,8 @@ static void DFCLog(NSString *text) {
     }
 }
 - (void)closeHostedSlot:(NSInteger)slot {
-    NSInteger physicalSlot=self.swapped?1-slot:slot;
-    if(physicalSlot<0||physicalSlot>=2)return;
+    NSInteger physicalSlot=(self.swapped && slot<2)?1-slot:slot;
+    if(physicalSlot<0||physicalSlot>=DFSlotCountForPreset(self.preset))return;
     DFSceneHost *owner=[DFSceneHost sharedHost];
     UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
     if([pending isKindOfClass:UIView.class])[owner releaseHostedView:pending];
@@ -742,7 +747,7 @@ static void DFCLog(NSString *text) {
         [pan translationInView:self.dividerTrack].y;
     CGFloat extent=self.verticalDivider?self.contentRect.size.width:
                                      self.contentRect.size.height;
-    CGFloat proposed=self.dragStartRatio+displacement/extent;
+    CGFloat proposed=self.dragStartRatio+(self.preset==3 || self.preset==5?-1:1)*displacement/extent;
     self.ratio=cancel?self.dragStartRatio:(end?DFCSnap(proposed):DFCClamp(proposed));
     [self layoutControls];
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
