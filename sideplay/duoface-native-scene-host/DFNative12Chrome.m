@@ -348,17 +348,17 @@ static void DFCLog(NSString *text) {
     // One source-owned SpringBoard presentation; controls cannot pre-empt launch.
     UIViewController *launch=[self emptyRoot:cr];
     launch.view.backgroundColor=UIColor.blackColor;
-    UIImageView *brand=[[UIImageView alloc]initWithImage:DFCArtwork(@"duoface-logo")];
-    brand.contentMode=UIViewContentModeScaleAspectFit;
+    UIImageView *startupLogo=[[UIImageView alloc]initWithImage:DFCArtwork(@"duoface-logo")];
+    startupLogo.contentMode=UIViewContentModeScaleAspectFit;
     CGFloat lw=MIN(cr.size.width*.7,310),lh=lw/4.;
-    brand.frame=CGRectMake((cr.size.width-lw)/2,cr.size.height*.35-lh/2,lw,lh);
-    [launch.view addSubview:brand];
+    startupLogo.frame=CGRectMake((cr.size.width-lw)/2,cr.size.height*.35-lh/2,lw,lh);
+    [launch.view addSubview:startupLogo];
     UILabel *motto=[UILabel new];
     motto.text=@"TWO FACES ONE SCREEN";
     motto.font=[UIFont systemFontOfSize:10 weight:UIFontWeightSemibold];
     motto.textColor=UIColor.whiteColor;
     motto.textAlignment=NSTextAlignmentCenter;
-    motto.frame=CGRectMake(5,CGRectGetMaxY(brand.frame)+4,cr.size.width-10,18);
+    motto.frame=CGRectMake(5,CGRectGetMaxY(startupLogo.frame)+4,cr.size.width-10,18);
     [launch.view addSubview:motto];
     CGFloat barWidth=MIN(cr.size.width*.58,240);
     UIView *track=[[UIView alloc]initWithFrame:CGRectMake((cr.size.width-barWidth)/2,
