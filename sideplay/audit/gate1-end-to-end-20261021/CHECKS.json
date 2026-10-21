@@ -1,0 +1,98 @@
+{
+  "schema_version": "duoface-gate1-end2end-audit-v1",
+  "date": "2026-10-21",
+  "repo": "chuongnguyen89dn-ui/Duoface",
+  "branch": "feature/duoface-jb-embedded-appbridge-20261020",
+  "feature_commit": "2f9b881a240aaac6ba8df8665e6143833a2058a0",
+  "upstream_reference": {
+    "repo": "pavunato/carsurf",
+    "sha": "72cd0f8bf8d0bd1086e78fe7c7be6fff715702f8",
+    "code_copied": false,
+    "license_verified": false
+  },
+  "ci_latest_verified_run": 39528331434,
+  "public_beta_version": "0.0.3~enablefix1",
+  "device": {
+    "enabled_pref": true,
+    "legacy_paused": true,
+    "carplay_home_icon": false,
+    "system_carplay_scene": "not_verified",
+    "post_enable_hooks": "not_verified"
+  },
+  "source_blobs": {
+    "sideplay/carplay-gate1-smoke/Gate1App.m": "5bb33846c92adf6e2ae33c97d8f4a84a905cba28",
+    "sideplay/firstparty-carplay-admission/DFFirstPartySpringBoard.m": "10af054ca100f511f21bce9ac206be79c96e7f46",
+    "sideplay/firstparty-carplay-admission/DFFirstPartyAdmission.m": "b9ef350985a5bbff94a8a3466b58de935b57b622",
+    "sideplay/carplay-gate1-smoke/Info.plist": "8958aa272187b8f8d0f5eaf5ab8ff21f9f522117",
+    "sideplay/carplay-gate1-smoke/prepare.py": "e3f36b268d694353ab198bf9eab6ff4f6f1980d0",
+    "sideplay/carplay-gate1-smoke/tests/test_gate1.py": "f0141a14a1940f1751b543cbcdfe3881f12941f2",
+    "sideplay/carplay-gate1-smoke/postinst": "e75371e3af977fe3003d90f5ffbbcb30eda1254a",
+    "sideplay/carplay-gate1-smoke/prerm": "5a5984fe2a1afad3953a3cbab4c32fdd146c4864",
+    "sideplay/carplay-gate1-smoke/control": "9bf3ffbbb7a96c19824c81e66bbb7bb142a38072",
+    "sideplay/carplay-gate1-smoke/build.sh": "459d43a4fdd036ae944ad34356bcd1c644452d12",
+    "sideplay/carplay-gate1-smoke/DFGate1SmokeAdmission.plist": "0c600748945041a568b9babab2fca1087406bebc"
+  },
+  "gates": [
+    {
+      "id": "G0",
+      "name": "rootless DEB & iPhone uicache",
+      "status": "static_present"
+    },
+    {
+      "id": "G1",
+      "name": "SpringBoard + CarPlay dylib loaded",
+      "status": "device_reported_loaded"
+    },
+    {
+      "id": "G2",
+      "name": "User consent",
+      "status": "device_pref_yes_not_admission"
+    },
+    {
+      "id": "G3",
+      "name": "LS typed getter returns queried for own app",
+      "status": "static_source_only_runtime_unknown"
+    },
+    {
+      "id": "G4",
+      "name": "SB cached getter returns queried",
+      "status": "static_source_only_runtime_unknown"
+    },
+    {
+      "id": "G5",
+      "name": "DashBoard application roster inclusion and live refresh",
+      "status": "not_implemented"
+    },
+    {
+      "id": "G6",
+      "name": "Vehicle-specific icon layout synchronization",
+      "status": "not_implemented_may_not_be_first_blocker"
+    },
+    {
+      "id": "G7",
+      "name": "Home icon visible",
+      "status": "device_fail"
+    },
+    {
+      "id": "G8",
+      "name": "Click-to-activate Dashboard workspace",
+      "status": "not_implemented_in_own_code_system_may_handle"
+    },
+    {
+      "id": "G9",
+      "name": "UIKit issued CarPlay scene",
+      "status": "delegate_present_device_unverified"
+    },
+    {
+      "id": "G10",
+      "name": "Native12 HUD8 two-app touch",
+      "status": "out_of_scope"
+    }
+  ],
+  "decision": {
+    "sileo_release": false,
+    "source_runtime_changes": false,
+    "why": "Do not ship another unmeasured Gate1; need post-enable iOS16 runtime ABI and roster evidence.",
+    "next": "Read after-enable CarPlay and SpringBoard hook logs plus Dashboard inclusion/roster ABI before implementing guarded one-bundle refresh."
+  }
+}
