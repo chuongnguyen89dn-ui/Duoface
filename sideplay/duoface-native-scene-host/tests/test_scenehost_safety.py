@@ -206,6 +206,31 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertNotIn(text,chrome)
   self.assertNotIn("DBDockWindow",chrome)
   self.assertNotIn("requestStateChange:",chrome)
+ def test_original_native12_logo_hit_owner_is_separate_from_ratio_pan(self):
+  # Original Native12 method index (CBDividerView): pointInside,
+  # handleMoveButtonLongPress, moveButtonTouchUp, and handlePan are distinct.
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("@interface DFNativeDividerGripButton : UIButton",chrome)
+  self.assertIn("CGRectInset(self.bounds,-12.0,-12.0)",chrome)
+  self.assertIn("DFAppPickerDelegate, UIGestureRecognizerDelegate",chrome)
+  self.assertIn("trackPan.delegate=self",chrome)
+  self.assertIn("gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer",chrome)
+  self.assertIn("shouldReceiveTouch:(UITouch *)touch",chrome)
+  self.assertIn("gestureRecognizer.view!=self.dividerTrack",chrome)
+  self.assertIn("CGRectInset(self.dividerLogo.frame,-12.0,-12.0)",chrome)
+  self.assertIn("return !CGRectContainsPoint(logoHit,p);",chrome)
+  self.assertIn("initWithTarget:self action:@selector(logoHold:)",chrome)
+  self.assertIn("initWithTarget:self action:@selector(dividerPan:)",chrome)
+  self.assertIn("requireGestureRecognizerToFail:hold",chrome)
+  self.assertIn("forControlEvents:UIControlEventTouchUpInside",chrome)
+  self.assertIn("action:@selector(swapPressed:)",chrome)
+  hold=chrome[chrome.index("- (void)logoHold:"):chrome.index("- (void)stop {",chrome.index("- (void)logoHold:"))]
+  self.assertIn("self.logoFraction=",hold)
+  self.assertNotIn("swapPressed",hold)
+  pan=chrome[chrome.index("- (void)dividerPan:"):chrome.index("- (void)logoHold:")]
+  self.assertIn("self.ratio=cancel?self.dragStartRatio",pan)
+  self.assertNotIn("self.logoFraction=",pan)
+
  def test_native12_approved_artwork_iphone_home_and_launch(self):
   info=plistlib.loads((R/"Info.plist").read_bytes())
   self.assertEqual(info["CFBundleDisplayName"],"DuoFace")
