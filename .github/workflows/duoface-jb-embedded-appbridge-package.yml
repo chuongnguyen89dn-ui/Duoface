@@ -70,18 +70,18 @@ jobs:
           # NativeHost DEB has already passed iOS16 signing and exact original
           # Native12-only original-vs-independent DEB audit; do NOT rebuild
           # same immutable version: clang/ldid/dpkg timestamps change SHA.
-          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.25~gestureowner1_iphoneos-arm64.deb'
+          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.26~fixedpan1_iphoneos-arm64.deb'
           test -s "$NATIVE"
-          echo 'fef92578d407debc2dc05e5234e286d238e44e9245cceb6d314ed695188c2a4d  '"$NATIVE" | shasum -a 256 -c -
+          echo 'c67ebb7f0970678cfaefa5e6b54f17498d1d83b32e88ada11cf22defe471089a  '"$NATIVE" | shasum -a 256 -c -
           test -s 'sideplay/duoface-native-scene-host/packages/NATIVE12_DEB_CROSSWALK.json'
       - name: Merge into ONE staged rootless package and validate
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.21~gestureowner1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.22~fixedpan1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.21~gestureowner1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.22~fixedpan1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
