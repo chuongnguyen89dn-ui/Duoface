@@ -167,19 +167,16 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     }
     host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
     host.center=CGPointMake(size.width/2,size.height/2);
-    if (self.scene) {
-        @try {
-            id settings=DFCall0(self.scene,@"mutableSettings");
-            SEL setFrame=NSSelectorFromString(@"setFrame:");
-            SEL update=NSSelectorFromString(@"updateSettings:withTransitionContext:completion:");
-            if (settings && [settings respondsToSelector:setFrame] && [self.scene respondsToSelector:update]) {
-                ((void (*)(id,SEL,CGRect))objc_msgSend)(settings,setFrame,(CGRect){CGPointZero,logical});
-                DFHostBool(settings,@"setForeground:",YES);
-                DFHostBool(settings,@"setBackgrounded:",NO);
-                ((void (*)(id,SEL,id,id,id))objc_msgSend)(self.scene,update,settings,nil,nil);
-            }
-        } @catch (NSException *e) { DFSceneLog(@"scene-resize-warning",self.bundleID,e.reason); }
-    }
+    // CRASH-RISK MITIGATION: never mutate a live media scene with
+    // updateSettings:withTransitionContext:completion: and a NIL transition.
+    // The original Native12 bridge owns a complete FrontBoard transition;
+    // this independent host does not. Keep the working per-slot UIKit
+    // transform and SBAppViewController content-reference resize above.
+    // A nil transition is not a valid substitute for the source app's
+    // media/rotation lifecycle and can destabilize SpringBoard on video.
+    if(self.scene && !CGSizeEqualToSize(size,self.lastApplied))
+        DFSceneLog(@"native-app-geometry-reference-only-no-nil-frontboard-transition",
+                   self.bundleID,NSStringFromCGSize(size));
     self.lastApplied=size;
     DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
 }
