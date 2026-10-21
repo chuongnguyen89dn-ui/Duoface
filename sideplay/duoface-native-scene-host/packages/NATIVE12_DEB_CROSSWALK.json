@@ -1,6 +1,7 @@
 {
   "kind": "STATIC_DEB_CONTENT_COMPARISON_NOT_HARDWARE_VERIFICATION",
   "reference_git_commit": "1286a3ef868cf7e29804bcddf7e20b2eae707ce1",
+  "scope": "ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI",
   "original_native12": {
     "package": "com.duoface.independent",
     "version": "0.1.0~native12+speed8compact",
@@ -27,32 +28,11 @@
       "checkAndSyncLicenseIfNeeded"
     ]
   },
-  "original_duonavi": {
-    "package": "com.duonavi.app",
-    "version": "1.0.4",
-    "architecture": "iphoneos-arm64",
-    "sha256": "f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd",
-    "binary_files": [
-      "var/jb/Applications/DuoNaviUI.app/DuoNaviUI",
-      "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoNaviDashboard.dylib",
-      "var/jb/usr/lib/ellekit/OldABI.dylib"
-    ],
-    "markers": [
-      "CBBridgeManager",
-      "CBBridgedSplitApp",
-      "CBDividerView",
-      "CBMultitaskingOverlayView",
-      "CBSplitSplashScreenView",
-      "CBWindow",
-      "SBAppViewController",
-      "checkAndSyncLicenseIfNeeded"
-    ]
-  },
   "independent_candidate": {
     "package": "com.duoface.carplay.nativescenehost",
-    "version": "0.1.13~native12bundle3",
+    "version": "0.1.14~native12parity1",
     "architecture": "iphoneos-arm64",
-    "sha256": "46bf9136178278d1762dd5fe46c3a9e4ddf8d49a02424391c7d7fdd73b2b330f",
+    "sha256": "e4470c51f95cf4b94787e23464137263f08bcb008342a20fa0a8b10bf8f1adcf",
     "binary_files": [
       "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
       "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
