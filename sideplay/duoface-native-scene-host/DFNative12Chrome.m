@@ -528,6 +528,9 @@ static void DFCLog(NSString *text) {
     UIView *container=slotWindow.rootViewController.view;
     host.frame=container.bounds;
     host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    // A transparent pending host must not steal touch input from the
+    // still-running application underneath until the new scene is ready.
+    host.userInteractionEnabled=NO;
     self.pendingScenes[(NSUInteger)physicalSlot]=host;
     [container addSubview:host];
     self.appPickerWindow.hidden=YES;
@@ -547,6 +550,7 @@ static void DFCLog(NSString *text) {
           self.pendingScenes[(NSUInteger)i]=NSNull.null;
           self.hostedScenes[(NSUInteger)i]=host;
           self.sceneHandleReady[(NSUInteger)i]=@YES;
+          host.userInteractionEnabled=YES;
           [self layoutControls];
           if([prior isKindOfClass:UIView.class] && prior!=host)
               [[DFSceneHost sharedHost] releaseHostedView:prior];
