@@ -19,6 +19,7 @@ static id (*DFOriginalList)(id,SEL)=NULL;
 static __strong id DFPinnedInfo=nil;
 static __strong id DFPinnedApp=nil;
 static NSString *DFLastNonce=nil;
+static NSString *DFLastInfoFailure=@"NOT_ATTEMPTED";
 // Weak references: do not extend lifetime of Dashboard's native FBS objects.
 static NSHashTable *DFSeenLibraries=nil;
 static unsigned long DFNaturalListQueries=0;
@@ -65,31 +66,50 @@ static void DFReport(NSString *nonce,NSString *result,NSDictionary *extra){
 }
 // All ABI gates are checked before sending private selectors.
 static id DFNewInfo(void){
- if(!DFConsent())return nil;
+ DFLastInfoFailure=@"NOT_ATTEMPTED";
+ if(!DFConsent()){DFLastInfoFailure=@"GATE_DISABLED";return nil;}
  Class ls=NSClassFromString(@"LSApplicationProxy");
- // iOS 16 can expose FBSApplicationInfo without iOS 18's DBApplicationInfo.
+ // A Dashboard class is not required on iOS16, so try native FBS metadata.
  Class info=NSClassFromString(@"DBApplicationInfo");
  if(!info)info=NSClassFromString(@"FBSApplicationInfo");
- if(!DFMatches(ls,"applicationProxyForIdentifier:",YES,@"@24@0:8@16") ||
-    !DFMatches(info,"initWithApplicationProxy:",NO,@"@24@0:8@16"))return nil;
+ if(!info){DFLastInfoFailure=@"FBS_INFO_CLASS_MISSING";return nil;}
+ if(!DFMatches(ls,"applicationProxyForIdentifier:",YES,@"@24@0:8@16")){
+    DFLastInfoFailure=@"LS_PROXY_GETTER_ABI";return nil;
+ }
+ if(!DFMatches(info,"initWithApplicationProxy:",NO,@"@24@0:8@16")){
+    DFLastInfoFailure=@"FBS_INFO_INIT_ABI";return nil;
+ }
  @try{
  id p=((id(*)(id,SEL,id))objc_msgSend)(ls,sel_registerName("applicationProxyForIdentifier:"),DFID);
- if(![DFBundle(p) isEqualToString:DFID])return nil;
- if(DFPinnedInfo)return DFPinnedInfo;
+ if(![DFBundle(p) isEqualToString:DFID]){
+   DFLastInfoFailure=@"OWN_LS_PROXY_MISSING";return nil;
+ }
+ if(DFPinnedInfo){DFLastInfoFailure=@"CACHED_OWN_INFO";return DFPinnedInfo;}
  id object=((id(*)(id,SEL,id))objc_msgSend)([info alloc],sel_registerName("initWithApplicationProxy:"),p);
- if(![DFBundle(object) isEqualToString:DFID])return nil;
- // iOS16 may have no CarKit declaration. Require actual installation validity.
+ if(!object){DFLastInfoFailure=@"FBS_INFO_INIT_NIL";return nil;}
+ if(![DFBundle(object) isEqualToString:DFID]){
+   DFLastInfoFailure=@"FBS_INFO_BUNDLE_MISMATCH";return nil;
+ }
+ // Check only selectors that are actually present with exact iOS16 ABI.
  const char *checks[]={"isValid","isInstalled"};
  for(NSUInteger i=0;i<2;i++){
    const char *name=checks[i];
    SEL s=sel_registerName(name);
    if([object respondsToSelector:s] && DFMatches([object class],name,NO,@"B16@0:8")){
-     if(!((BOOL(*)(id,SEL))objc_msgSend)(object,s))return nil;
+     if(!((BOOL(*)(id,SEL))objc_msgSend)(object,s)){
+       DFLastInfoFailure=i==0?@"FBS_INFO_INVALID":@"FBS_INFO_NOT_INSTALLED";
+       return nil;
+     }
    }
  }
  DFPinnedInfo=object; // Dashboard may retain non-owning pointers.
+ DFLastInfoFailure=@"OWN_FBS_INFO_CREATED";
  return object;
- }@catch(NSException *e){NSLog(@"[Gate1Roster] info-exception=%@",e.name);return nil;}
+ }@catch(NSException *e){
+   DFLastInfoFailure=@"FBS_INFO_EXCEPTION";
+   NSLog(@"[Gate1Roster] info-exception=%@",e.name);
+   return nil;
+ }
 }
 static id DFList(id owner,SEL sel){
  DFTrackLibrary(owner);
@@ -146,8 +166,13 @@ static void DFInstallForwarder(void){
 // This does NOT create an icon, mutate a vehicle layout or claim a native scene.
 static void DFRefreshFBS(NSString *nonce){
  NSArray *libraries=DFSeenLibraries ? DFSeenLibraries.allObjects : @[];
- NSUInteger refreshed=0, abiUnavailable=0;
+ NSUInteger refreshed=0, abiUnavailable=0, queried=0, ownReturned=0;
+ NSUInteger queryABIUnavailable=0;
  SEL invalidate=sel_registerName("invalidate");
+ SEL all=sel_registerName("allInstalledApplications");
+ DFLastInfoFailure=@"NOT_ATTEMPTED";
+ // Only native FBS library instances that CarPlay already queried are used.
+ // A cache invalidation alone yielded 0 queries on the actual 0.0.6 device.
  for(id library in libraries){
   if(!library || ![library respondsToSelector:invalidate] ||
      !DFMatches([library class],"invalidate",NO,@"v16@0:8")){
@@ -156,16 +181,39 @@ static void DFRefreshFBS(NSString *nonce){
   @try{
    ((void(*)(id,SEL))objc_msgSend)(library,invalidate);
    refreshed++;
+   // The missing step: ask the same native FBS object to enumerate once,
+   // letting our original hooked path evaluate ONLY our own bundle ID.
+   // This is NOT a system icon-layout write or proof Dashboard consumed it.
+   if([library respondsToSelector:all] &&
+      DFMatches([library class],"allInstalledApplications",NO,@"@16@0:8")){
+     id result=((id(*)(id,SEL))objc_msgSend)(library,all);
+     if([result isKindOfClass:NSArray.class]){
+       queried++;
+       for(id item in result){
+         if([DFBundle(item) isEqualToString:DFID]){
+           ownReturned++;break;
+         }
+       }
+     }
+   }else{
+     queryABIUnavailable++;
+   }
   }@catch(NSException *e){
-   NSLog(@"[Gate1Roster] FBS invalidate exception=%@",e.name);
+   NSLog(@"[Gate1Roster] FBS refresh/query exception=%@",e.name);
+   DFLastInfoFailure=@"FBS_QUERY_EXCEPTION";
   }
  }
  NSDictionary *stats=@{@"SeenLibraries":@(libraries.count),
    @"FBSRefreshed":@(refreshed),@"FBSABIUnavailable":@(abiUnavailable),
+   @"FBSQueriedNow":@(queried),@"FBSOwnReturnedNow":@(ownReturned),
+   @"FBSQueryABIUnavailable":@(queryABIUnavailable),
+   @"FBSInfoResult":DFLastInfoFailure?:@"UNKNOWN",
    @"FBSQueriesSinceLoad":@(DFNaturalListQueries),
    @"FBSOwnAdditionsSinceLoad":@(DFOwnListAdditions),
    @"HomeIconVerified":@NO,@"SceneVerified":@NO};
- if(refreshed>0)DFReport(nonce,@"FBS_CACHE_INVALIDATED_CHECK_CARPLAY_HOME",stats);
+ if(ownReturned>0)DFReport(nonce,@"FBS_OWN_APP_RETURNED_NOT_HOME_VERIFIED",stats);
+ else if(queried>0)DFReport(nonce,@"FBS_QUERY_NO_OWN_APP",stats);
+ else if(refreshed>0)DFReport(nonce,@"FBS_QUERY_UNAVAILABLE",stats);
  else if(libraries.count==0)DFReport(nonce,@"FBS_NO_LIVE_LIBRARY_SEEN_RECONNECT_CARPLAY",stats);
  else DFReport(nonce,@"FBS_INVALIDATE_ABI_UNAVAILABLE",stats);
 }

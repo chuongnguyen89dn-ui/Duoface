@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.6~fbsrefresh1",c)
+  self.assertIn("Version: 0.0.7~fbsquery1",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -84,6 +84,19 @@ class Gate1Safety(unittest.TestCase):
   self.assertGreater(app.rindex('--- THỬ ĐƯA VÀO CARPLAY ---'),
                      app.index('--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---'))
   self.assertIn("FBS libraries refreshed=",app)
+ def test_device_zero_query_fix_enumerates_real_fbs_instance(self):
+  code=get("Gate1RosterBridge.m")
+  self.assertIn('((void(*)(id,SEL))objc_msgSend)(library,invalidate)',code)
+  self.assertIn('((id(*)(id,SEL))objc_msgSend)(library,all)',code)
+  self.assertIn('DFMatches([library class],"allInstalledApplications",NO',code)
+  self.assertIn('FBS_QUERY_NO_OWN_APP',code)
+  self.assertIn('FBS_OWN_APP_RETURNED_NOT_HOME_VERIFIED',code)
+  self.assertIn('FBSInfoResult',code)
+  self.assertIn('FBS_OWN_APP_RETURNED_NOT_HOME_VERIFIED',code)
+  self.assertIn('InfoResult=%@',get("Gate1App.m"))
+  self.assertIn('ownReturned=%@',get("Gate1App.m"))
+  for unsafe in ('setIconState:forVehicleID:', 'killall', 'sbreload', 'requestStateChange:'):
+   self.assertNotIn(unsafe,code)
  def test_scope_generates_only_our_gate(self):
   subprocess.run([sys.executable,str(P/"prepare.py")],check=True)
   for f in ("Gate1CarPlay.m","Gate1SpringBoard.m"):

@@ -267,9 +267,11 @@ static NSString *Enable(BOOL allowPauseOld) {
     rosterFresh?(rosterRp[@"Result"]?:@"NO_RESULT"):
     (rosterRq[@"RequestID"]?@"CARPLAY_CHƯA_TRẢ_LỜI":@"CHƯA NHẤN NÚT THỬ")];
   if(rosterFresh && rosterRp[@"FBSRefreshed"])
-    [text appendFormat:@"FBS libraries refreshed=%@ / seen=%@; queries=%@; added=%@\n",
+    [text appendFormat:@"FBS refreshed=%@ / seen=%@; queriedNow=%@; ownReturned=%@\nqueriesTotal=%@; additionsTotal=%@\nInfoResult=%@\n",
       rosterRp[@"FBSRefreshed"],rosterRp[@"SeenLibraries"],
-      rosterRp[@"FBSQueriesSinceLoad"]?:@0,rosterRp[@"FBSOwnAdditionsSinceLoad"]?:@0];
+      rosterRp[@"FBSQueriedNow"]?:@0,rosterRp[@"FBSOwnReturnedNow"]?:@0,
+      rosterRp[@"FBSQueriesSinceLoad"]?:@0,rosterRp[@"FBSOwnAdditionsSinceLoad"]?:@0,
+      rosterRp[@"FBSInfoResult"]?:@"NOT_ATTEMPTED"];
   [text appendString:@"Danh sách FBS không đồng nghĩa icon CarPlay đã hiện."];
   self.logView.text=text;
   if(nonce.length>0) {
