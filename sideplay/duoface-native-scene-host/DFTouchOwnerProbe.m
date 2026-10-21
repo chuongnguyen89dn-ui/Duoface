@@ -19,9 +19,12 @@ static NSString *sSession;
 static NSUInteger sSequence, sGeneration;
 
 static BOOL sActivated;
-static int sStartToken=-1, sStopToken=-1;
+static int sStartToken=-1, sStopToken=-1, sAckToken=-1;
+static NSUInteger sLastAckSequence=0;
 static NSString *const kSessionFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 static NSString *const kCommandFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.command.plist";
+static NSString *const kAckFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
+static const char *const kAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 static const char *const kCommandNotify="com.duoface.nativehost.touchowner.command.v1";
 
 static void DFTOLog(NSString *event, NSString *detail) {
@@ -76,7 +79,7 @@ static BOOL DFReadFreshSession(void) {
        ![stamp isKindOfClass:NSNumber.class])return NO;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
     if(!isfinite(age) || age<0 || age>5)return NO;
-    sSession=[value copy];sSequence=0;
+    sSession=[value copy];sSequence=0;sLastAckSequence=0;
     return YES;
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
@@ -95,9 +98,16 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
        (![ratio isKindOfClass:NSNumber.class] ||
         !isfinite(ratio.doubleValue) ||
         ratio.doubleValue<1.0/3.0 || ratio.doubleValue>2.0/3.0))return;
-    NSMutableDictionary *message=[@{@"Version":@1,@"Session":sSession,
+    // Source UI action already executed before this post-action message.
+    // Send a snapshot of the REAL owner, never a command that a second
+    // controller will "pretend" to execute or mutate independently.
+    NSDictionary *state=[sChrome stateSnapshot];
+    if(![state[@"Owner"] isEqualToString:@"SpringBoard"] ||
+       ![state[@"SlotCount"] isKindOfClass:NSNumber.class])return;
+    NSMutableDictionary *message=[@{@"Version":@2,@"Session":sSession,
        @"Timestamp":@(NSDate.date.timeIntervalSince1970),
-       @"Sequence":@(++sSequence),@"Action":action} mutableCopy];
+       @"Sequence":@(++sSequence),@"Action":action,
+       @"State":state} mutableCopy];
     if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"]){
         if(!ratio||![ratio isKindOfClass:NSNumber.class]||
            (ratio.integerValue!=0&&ratio.integerValue!=1))return;
@@ -110,13 +120,28 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
     DFTOLog(@"command-dispatched",[NSString stringWithFormat:
        @"action=%@ seq=%lu status=%d",action,(unsigned long)sSequence,rc]);
 }
+static void DFReceiveAck(void) {
+    NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:kAckFile];
+    id session=ack[@"Session"],number=ack[@"Sequence"];
+    if(!sChrome || ![ack[@"Version"] isEqual:@2] ||
+       ![ack[@"Accepted"] isEqual:@YES] ||
+       ![session isKindOfClass:NSString.class] ||
+       ![session isEqualToString:sSession] ||
+       ![number isKindOfClass:NSNumber.class])return;
+    NSUInteger sequence=[number unsignedIntegerValue];
+    if(sequence<=sLastAckSequence || sequence>sSequence)return;
+    sLastAckSequence=sequence;
+    DFTOLog(@"carplay-state-ack", [NSString stringWithFormat:
+         @"session=%@ seq=%lu action=%@ owner=%@",
+         session,(unsigned long)sequence,ack[@"Action"],ack[@"Owner"]]);
+}
 static void DFStopProbe(NSString *reason) {
     sGeneration++;
     if(sChrome){
         [sChrome stop];sChrome=nil;
         DFTOLog(@"window-detached",reason);
     }
-    sSession=nil;sActivated=NO;
+    sSession=nil;sActivated=NO;sLastAckSequence=0;
 }
 // Independent SpringBoard watchdog: works even if CarPlay app crashes,
 // is suspended on Home, or fails to deliver a scene disconnect callback.
@@ -226,8 +251,12 @@ static void DFInstallTouchOwnerProbe(void) {
                       dispatch_get_main_queue(),^(int t) {
                 (void)t;DFStopProbe(@"nativehost-disconnected");
             });
+            int ack=notify_register_dispatch(kAckNotify,&sAckToken,
+                       dispatch_get_main_queue(),^(int t) {
+                (void)t;DFReceiveAck();
+            });
             DFTOLog(@"listener-registered",
-                [NSString stringWithFormat:@"start=%d stop=%d",a,b]);
+                [NSString stringWithFormat:@"start=%d stop=%d ack=%d",a,b,ack]);
         });
     }
 }
