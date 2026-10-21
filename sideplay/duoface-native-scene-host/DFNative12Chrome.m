@@ -755,13 +755,14 @@ static void DFCLog(NSString *text) {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.callback=nil;
     [self.appPickerController setDelegate:nil];
+    // The Native12 CBWindow destroys/hides chrome at scene deactivation.
+    // Hide EVERY SpringBoard window before unloading SBAppViewControllers:
+    // scene invalidation can be slow for media apps, and must never leave
+    // divider/menu controls drawn over CarPlay Home during that delay.
+    for(UIWindow *w in self.windows)w.hidden=YES;
+    DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
-    self.appPickerWindow.hidden=YES;
-    for(UIWindow *w in self.appSceneWindows)w.hidden=YES;
-    for(UIWindow *w in self.windows){
-        w.hidden=YES;
-        w.rootViewController=nil;
-    }
+    for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.pickerWindow=nil;self.splashWindow=nil;
