@@ -75,7 +75,19 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
-@interface DFNative12Chrome () <DFAppPickerDelegate>
+// Native12 CBDividerView.pointInside:withEvent: expands each move-button
+// target by 12pt. Do not resize the artwork or route logo holds to ratio pan.
+@interface DFNativeDividerGripButton : UIButton
+@end
+@implementation DFNativeDividerGripButton
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.hidden || self.alpha<=0.01)return NO;
+    return CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
+}
+@end
+
+@interface DFNative12Chrome () <DFAppPickerDelegate, UIGestureRecognizerDelegate>
 @property(nonatomic,strong) id display;
 @property(nonatomic,assign) Class configurationClass;
 @property(nonatomic,assign) Class externalWindowClass;
@@ -256,9 +268,14 @@ static void DFCLog(NSString *text) {
     UIPanGestureRecognizer *trackPan=[[UIPanGestureRecognizer alloc]
                              initWithTarget:self action:@selector(dividerPan:)];
     trackPan.maximumNumberOfTouches=1;
+    // A touch starting on the logo is owned by its tap/hold/early-pan
+    // recognizers. The parent divider pan must not consume that touch.
+    trackPan.delegate=self;
     [self.dividerTrack addGestureRecognizer:trackPan];
-    UIButton *logo=[self button:@"⇄" tag:0 action:@selector(swapPressed:)];
+    UIButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
+    [logo addTarget:self action:@selector(swapPressed:)
+              forControlEvents:UIControlEventTouchUpInside];
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
     // The 120x120 reference swap bitmap includes an opaque dark square
     // in this asset set. Use the original QA-native vector fallback instead:
@@ -427,6 +444,16 @@ static void DFCLog(NSString *text) {
         @"native12-chrome-start windows=%lu content=%@",
         (unsigned long)self.windows.count,NSStringFromCGRect(cr)]);
     return YES;
+}
+// Original Native12 separates logo hit/long-press from divider ratio pan.
+// Give the move-button its +/-12pt touch slop (within the bounded window)
+// without letting the parent track's pan steal the same touch sequence.
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+       shouldReceiveTouch:(UITouch *)touch {
+    if(gestureRecognizer.view!=self.dividerTrack || !self.dividerLogo)return YES;
+    CGPoint p=[touch locationInView:self.dividerTrack];
+    CGRect logoHit=CGRectInset(self.dividerLogo.frame,-12.0,-12.0);
+    return !CGRectContainsPoint(logoHit,p);
 }
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
