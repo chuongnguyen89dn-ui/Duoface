@@ -16,7 +16,7 @@ xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
 DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-  -framework UIKit -framework Foundation -framework QuartzCore \
+  -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
   -o "$DYLIB" DFTouchOwnerProbe.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
