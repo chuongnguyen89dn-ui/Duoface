@@ -667,4 +667,30 @@ class NativeCarPlayHost(unittest.TestCase):
   # These independently written layouts still lack original Native12
   # pixel-wise replay; source self-consistency is NOT parity verification.
 
+ def test_springboard_safe_mode_has_manual_iphone_crash_report_export(self):
+  phone=file("DFNativeHostRootController.m")
+  collector=file("DFNativeDiagnostics.m")
+  header=file("DFNativeDiagnostics.h")
+  build=file("build.sh")
+  self.assertIn("DFNativeDiagnostics.m",build)
+  self.assertIn("#import \"DFNativeDiagnostics.h\"",phone)
+  self.assertIn("shareCarPlayDiagnostics:",phone)
+  self.assertIn("Xuất log / lỗi CarPlay",phone)
+  self.assertIn("UIAlertController",phone)
+  self.assertIn("UIActivityViewController",phone)
+  self.assertIn("prepareShareFiles",header)
+  self.assertIn("prepareShareFiles",collector)
+  self.assertIn("DuoFaceSceneHost.log",collector)
+  self.assertIn("DuoFaceTouchOwner.log",collector)
+  self.assertIn("DuoFaceNativeSceneJoin.log",collector)
+  self.assertIn("springboard",collector)
+  self.assertIn("carplay",collector)
+  self.assertIn("MIN((NSUInteger)3,found.count)",collector)
+  self.assertIn("8*1024*1024",collector)
+  self.assertIn("30*24*3600",collector)
+  self.assertNotIn("URLSession",collector)
+  self.assertNotIn("dataTaskWithRequest",collector)
+  self.assertNotIn("http://",collector)
+  self.assertNotIn("https://",collector)
+
 if __name__=="__main__":unittest.main(verbosity=2)
