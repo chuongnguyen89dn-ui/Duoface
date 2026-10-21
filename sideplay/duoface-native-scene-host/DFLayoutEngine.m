@@ -9,6 +9,18 @@ NSInteger DFSlotCountForPreset(NSInteger preset) {
 BOOL DFPrimaryDividerIsVertical(NSInteger preset) {
     return preset==0 || preset==2 || preset==3 || preset==6 || preset==7;
 }
+CGFloat DFPrimaryDividerCoordinate(CGRect bounds, NSInteger preset, CGFloat ratio) {
+    // Exact internal invariant: divider follows the boundary controlled by
+    // ratio, including preset 7 where the first TWO strips share the left side.
+    // Full equivalence to Native12 original preset shapes is not yet proved.
+    if(!isfinite(ratio))ratio=.5;
+    ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
+    BOOL vertical=DFPrimaryDividerIsVertical(preset);
+    CGFloat extent=vertical?bounds.size.width:bounds.size.height;
+    CGFloat origin=vertical?bounds.origin.x:bounds.origin.y;
+    BOOL reverse=(preset==3 || preset==5);
+    return origin+extent*(reverse?1.0-ratio:ratio);
+}
 void DFComputePresetFrames(CGRect b, NSInteger preset, CGFloat ratio, CGRect *out) {
     for(int i=0;i<4;i++)out[i]=CGRectNull;
     if(!isfinite(ratio))ratio=.5;
