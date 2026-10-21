@@ -31,6 +31,8 @@ void DFNativeHostLog(NSString *message) {
 @interface DFNativeHostTemplateSceneDelegate : UIResponder <CPTemplateApplicationSceneDelegate>
 @property(nonatomic,strong) CPInterfaceController *interfaceController;
 @property(nonatomic,strong) CPWindow *carWindow;
+@property(nonatomic,strong) DFNative12BasicController *basicController;
+@property(nonatomic,assign) NSUInteger touchCount;
 @end
 @interface DFNativeHostAppDelegate : UIResponder <UIApplicationDelegate>
 @end
@@ -145,8 +147,33 @@ void DFNativeHostLog(NSString *message) {
     self.carWindow=window; // Provided by CarPlay, not created with UIWindow alloc.
     // Native12 basic visual test, hosted ONLY in CarPlay-issued CPWindow.
     DFNative12BasicController *root=[DFNative12BasicController new];
+    self.basicController=root;
     window.rootViewController=root;
     CPMapTemplate *map=[CPMapTemplate new];
+    // CPMapTemplate owns CarPlay touch dispatch. Ordinary UIButton gestures
+    // in its map surface are not a supported touch entry point. Probe with
+    // system-owned CPMapButtons to distinguish missing input from UI wiring.
+    __weak typeof(self) weakSelf=self;
+    NSArray *titles=@[@"LEFT",@"RIGHT",@"SWAP"];
+    NSMutableArray *buttons=[NSMutableArray array];
+    for(NSString *title in titles){
+        CPMapButton *button=[CPMapButton new];
+        button.image=[UIImage systemImageNamed:([title isEqualToString:@"SWAP"]?@"arrow.left.arrow.right":@"hand.tap")];
+        button.handler=^(CPMapButton *pressed){
+            (void)pressed;
+            __strong typeof(weakSelf) strongSelf=weakSelf;
+            if(!strongSelf)return;
+            strongSelf.touchCount++;
+            DFNativeHostLog([NSString stringWithFormat:@"carplay-template-touch-confirmed button=%@ count=%lu",title,(unsigned long)strongSelf.touchCount]);
+            if([title isEqualToString:@"SWAP"]){
+                [strongSelf.basicController swap:nil];
+            } else {
+                strongSelf.basicController.view.accessibilityValue=[NSString stringWithFormat:@"CarPlay touch %@ %lu",title,(unsigned long)strongSelf.touchCount];
+            }
+        };
+        [buttons addObject:button];
+    }
+    map.mapButtons=buttons;
     [controller setRootTemplate:map animated:NO completion:nil];
     DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
 }
@@ -158,6 +185,8 @@ void DFNativeHostLog(NSString *message) {
     if(window && window==self.carWindow)window.rootViewController=nil;
     self.interfaceController=nil;
     self.carWindow=nil;
+    self.basicController=nil;
+    self.touchCount=0;
     DFNativeHostLog(@"native-carplay-template-scene-disconnected");
 }
 @end
