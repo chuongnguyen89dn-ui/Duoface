@@ -9,7 +9,7 @@ extern BOOL DFGate1SpringBoardHooksReady(void);
 static NSString *const own=@"com.duoface.gate1smoke";
 static NSString *const req=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-request.plist";
 static NSString *const pref=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.plist";
-static NSString *const kill=@"/var/mobile/Library/Preferences/.duoface-gate1smoke-disable";
+static NSString *const kGateKill=@"/var/mobile/Library/Preferences/.duoface-gate1smoke-disable";
 static NSString *previous=nil;
 static NSString *ABI(Class c,SEL s,BOOL cls){
  Method m=c?(cls?class_getClassMethod(c,s):class_getInstanceMethod(c,s)):NULL;
@@ -52,7 +52,7 @@ static void Inspect(void){
  NSString *process=NSProcessInfo.processInfo.processName;
  BOOL car=[process isEqualToString:@"CarPlay"],sb=[process isEqualToString:@"SpringBoard"];
  if((!car&&!sb)||NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
- if(access(kill.fileSystemRepresentation,F_OK)==0)return;
+ if(access(kGateKill.fileSystemRepresentation,F_OK)==0)return;
  NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:pref];
  if(![p[@"Enabled"] boolValue]||![p[@"RiskAcknowledged"] boolValue]||
     ![p[@"HostBundleID"] isEqualToString:own])return;
