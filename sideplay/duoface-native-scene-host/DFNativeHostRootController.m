@@ -134,7 +134,7 @@
        @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist"];
  NSInteger n=[record[@"Preset"] isKindOfClass:NSNumber.class]?
        [record[@"Preset"] integerValue]:
-       ([record[@"Vertical"] boolValue]?0:1);
+       (record?([record[@"Vertical"] boolValue]?0:1):0);
  self.currentPreset=MAX(0,MIN(7,n));
 }
 - (BOOL)writeNativeLayoutPreset:(NSInteger)preset {
