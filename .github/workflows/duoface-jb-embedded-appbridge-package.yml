@@ -125,19 +125,45 @@ jobs:
             sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt
             sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
           if-no-files-found: error
-      - name: Save isolated candidate and hashes to feature branch only
+      - name: Save immutable QA artifact and hashes in project branch
         run: |
           set -euo pipefail
-          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sideplay/jb-embedded-appbridge/packages/*.deb                   sideplay/jb-embedded-appbridge/packages/SHA256SUMS.txt                   sideplay/jb-embedded-appbridge/packages/CI_RESULT.txt                   sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'artifacts: one-package independent JB embedded appbridge candidate [skip ci]'
-          for i in 1 2 3; do
-            git fetch origin "$BRANCH"
-            git rebase "origin/$BRANCH"
-            if git push origin HEAD:"$BRANCH"; then exit 0; fi
-            sleep 2
+          # Preserve every experimental build under its own run ID, never
+          # replace the earlier versioned candidate or another job's SHA.
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          SOURCE_ROOT="$(pwd)"
+          SRC="$SOURCE_ROOT/sideplay/jb-embedded-appbridge"
+          RUN_DIR="sideplay/jb-embedded-appbridge/evidence/runs/${GITHUB_RUN_ID}"
+          test -s "$SRC/packages/CI_RESULT.txt"
+          test -s "$SRC/evidence/PACKAGING_PROVENANCE.json"
+          compgen -G "$SRC/packages/*.deb" > /dev/null
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            DEST="$TEMP/$RUN_DIR"
+            if test -d "$DEST"; then
+              echo "Run evidence already exists; refusing to overwrite" >&2
+              git worktree remove --force "$TEMP"
+              exit 1
+            fi
+            mkdir -p "$DEST"
+            cp "$SRC"/packages/*.deb "$DEST/"
+            cp "$SRC/packages/CI_RESULT.txt" "$DEST/"
+            cp "$SRC/evidence/PACKAGING_PROVENANCE.json" "$DEST/"
+            (cd "$DEST" && shasum -a 256 *.deb > SHA256SUMS.txt)
+            printf '%s\n' "SOURCE_SHA=$GITHUB_SHA" "RUN_ID=$GITHUB_RUN_ID" > "$DEST/BUILD_SOURCE.txt"
+            git -C "$TEMP" add -f "$RUN_DIR"
+            git -C "$TEMP" commit -m "artifacts: preserve isolated AppBridge QA run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "APPBRIDGE_GITHUB_RUN_ARCHIVE=PASS run=$GITHUB_RUN_ID attempt=$attempt"
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent feature branch update, retry $attempt/5"
           done
+          echo "FAILED to persist QA artifact after 5 safe retries" >&2
           exit 1
