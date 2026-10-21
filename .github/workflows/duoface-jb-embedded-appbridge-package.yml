@@ -63,16 +63,16 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          test -s 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.12~native12bundle2_iphoneos-arm64.deb'
+          test -s 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb'
           bash sideplay/duoface-qa-app/build.sh
       - name: Merge into ONE staged rootless package and validate
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.10~native12bundle2_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.11~native12bundle3_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.10~native12bundle2'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.11~native12bundle3'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
