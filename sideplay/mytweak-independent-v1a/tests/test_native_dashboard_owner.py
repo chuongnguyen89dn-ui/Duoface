@@ -42,7 +42,7 @@ class NativeOwner(unittest.TestCase):
         c=(P/"control").read_text()
         self.assertNotIn("MTCPDashboardOwner.m",maker)
         self.assertNotIn("MTCPNativeChromeLayout.m",maker)
-        self.assertIn("Version: 0.2.0~v1bc1",c)
+        self.assertIn("Version: 0.2.1~divider1",c)
         self.assertIn("SpringBoard",maker)
         self.assertNotIn("CarPlayApp",maker)
         self.assertNotIn("com.duoface.carplay.ownerprobe",maker)

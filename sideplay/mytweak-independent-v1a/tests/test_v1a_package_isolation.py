@@ -8,7 +8,7 @@ class PackageIsolation(unittest.TestCase):
     def test_unique_package(self):
         c=(ROOT/'control').read_text()
         self.assertIn('Package: com.duoface.mytweak.v1a.preflight',c)
-        self.assertIn('Version: 0.2.0~v1bc1',c)
+        self.assertIn('Version: 0.2.1~divider1',c)
         self.assertIn('Architecture: iphoneos-arm64',c)
         self.assertNotIn('com.sideplay',c)
         self.assertNotIn('Conflicts:',c)

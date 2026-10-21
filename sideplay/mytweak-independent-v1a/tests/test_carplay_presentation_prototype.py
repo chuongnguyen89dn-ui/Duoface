@@ -15,7 +15,7 @@ class NativeCarPlayPrototype(unittest.TestCase):
         m = (ROOT/"Makefile").read_text()
         control = (ROOT/"control").read_text()
         filt = (ROOT/"DFV1APreflight.plist").read_text()
-        self.assertIn("Version: 0.2.0~v1bc1", control)
+        self.assertIn("Version: 0.2.1~divider1", control)
         self.assertIn("INSTALL_TARGET_PROCESSES = SpringBoard", m)
         self.assertNotIn("MTCPBridge", m)
         self.assertNotIn("MTCPRemote", m)
