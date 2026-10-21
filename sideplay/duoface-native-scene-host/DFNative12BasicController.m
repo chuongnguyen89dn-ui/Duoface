@@ -51,7 +51,7 @@
   b.titleLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];
   [b addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];[self.view addSubview:b];
  }
- self.status=[self caption:@"0.0.8 TOUCHOWNER • Chạm nút đỏ góc phải để thử 30 giây" size:10];[self.view addSubview:self.status];
+ self.status=[self caption:@"0.0.9 GESTURE • Thử nút và KÉO CHIA trên bảng nhỏ" size:10];[self.view addSubview:self.status];
  self.menuSheet=[UIView new];self.menuSheet.backgroundColor=[UIColor colorWithWhite:.13 alpha:.97];
  self.menuSheet.layer.cornerRadius=20;self.menuSheet.hidden=YES;[self.view addSubview:self.menuSheet];
  NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
