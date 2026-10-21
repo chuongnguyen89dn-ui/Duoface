@@ -259,6 +259,7 @@ static void DFCLog(NSString *text) {
         pane[0]=CGRectMake(cr.origin.x,cr.origin.y,cr.size.width,y-cr.origin.y);
         pane[1]=CGRectMake(cr.origin.x,y,cr.size.width,CGRectGetMaxY(cr)-y);
     }
+    if(self.focus>=0 && self.focus<=1) pane[self.focus]=cr;
     for(NSInteger i=0;i<2;i++) {
         UIWindow *w=self.pillWindows[(NSUInteger)i];
         BOOL show=(self.focus<0 || self.focus==i)&&!self.pickerVisible;
