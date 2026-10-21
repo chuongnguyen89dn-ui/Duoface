@@ -206,7 +206,7 @@ void DFNativeHostLog(NSString *message) {
           selector:@selector(renewTouchOwnerHeartbeat:) userInfo:nil repeats:YES];
     self.touchHeartbeat=timer;
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-    // First write must be fresh BEFORE asking SpringBoard to show controls.
+    // First write must be fresh BEFORE requesting external input controls.
     [self renewTouchOwnerHeartbeat:timer];
     if(!self.touchSession)return;
     int rc=notify_post("com.duoface.nativehost.touchowner.start.v1");
