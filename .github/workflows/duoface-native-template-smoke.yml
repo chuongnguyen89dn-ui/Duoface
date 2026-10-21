@@ -76,4 +76,18 @@ jobs:
           git add -f sideplay/duoface-native-scene-host/packages/*.deb
           git add -f sideplay/duoface-native-scene-host/packages/SHA256SUMS.txt sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
           git commit -m 'build(nativehost): persist signed template CarPlay DEB and SHA [skip ci]'
-          git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020
+          # Other sessions may update the project handoff while this job builds.
+          # Rebase the artifact-only commit onto the current remote HEAD,
+          # never force-push or discard an intervening checkpoint.
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            git rebase FETCH_HEAD
+            if git push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "NATIVEHOST_BINARY_SAVED_TO_GITHUB=PASS attempt=$attempt"
+              exit 0
+            fi
+            echo "Concurrent branch update during artifact save, retry $attempt/5"
+          done
+          echo "Failed to save artifact after 5 safe push attempts" >&2
+          exit 1
