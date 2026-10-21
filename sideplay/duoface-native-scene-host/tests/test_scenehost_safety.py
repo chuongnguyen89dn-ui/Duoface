@@ -301,7 +301,8 @@ class NativeCarPlayHost(unittest.TestCase):
   host=file("DFSceneHost.m")
   # Real hosted app scene remains visible behind menu and app chooser:
   # native12 split controller overlays controls; modal cannot suspend apps.
-  self.assertIn("appWindow.hidden=(!loaded ||",chrome)
+  self.assertIn("appWindow.hidden=(!(loaded||negotiating) ||",chrome)
+  self.assertIn("self.pendingScenes[(NSUInteger)i]!=NSNull.null",chrome)
   self.assertNotIn("appWindow.hidden=(!loaded || self.pickerVisible",chrome)
   self.assertNotIn("self.appPickerWindow.hidden==NO ||",chrome)
   self.assertIn("self.appPickerController refreshInstalledApps",chrome)
