@@ -46,6 +46,14 @@ static void DFHostBool(id obj, NSString *method, BOOL value) {
     if (obj && [obj respondsToSelector:sel])
         ((void (*)(id, SEL, BOOL))objc_msgSend)(obj, sel, value);
 }
+// SBAppViewController exposes both canHostAnApp and isHostingAnApp on the
+// public Theos headers. Guard the optional private selectors and do not
+// infer live app hosting solely from a nonnil sceneHandle.
+static BOOL DFHostingFlag(id target, NSString *method, BOOL fallback) {
+    SEL sel=NSSelectorFromString(method);
+    if(!target || ![target respondsToSelector:sel])return fallback;
+    return ((BOOL(*)(id,SEL))objc_msgSend)(target,sel);
+}
 static void DFHostInt(id obj, NSString *method, NSInteger value) {
     SEL sel = NSSelectorFromString(method);
     if (obj && [obj respondsToSelector:sel])
@@ -181,7 +189,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     @try {
         id handle=DFCall0(self.appController,@"sceneHandle");
         id scene=DFCall0(handle,@"sceneIfExists");
-        if (scene) {
+        // The scene handle can exist before hosting begins. For an
+        // implementation which exposes isHostingAnApp, require BOTH.
+        BOOL isHosting=DFHostingFlag(self.appController,@"isHostingAnApp",YES);
+        if(scene && isHosting) {
             if (!self.scene) {
                 self.scene=scene;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
@@ -197,7 +208,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             return;
         }
         if (++self.tries>=36) {
-            [self failed:DFSceneError(112,@"Hết thời gian chờ scene của ứng dụng trên CarPlay")];
+            DFSceneLog(@"scene-host-timeout",self.bundleID,
+                  [NSString stringWithFormat:@"handle=%d hosting=%d",
+                           scene!=nil,isHosting]);
+            [self failed:DFSceneError(112,@"Hết thời gian chờ scene và host ứng dụng thật")];
         }
     } @catch (NSException *e) {
         [self failed:DFSceneError(113,[@"Scene poll exception: " stringByAppendingString:e.reason?:@"unknown"])];
@@ -295,6 +309,11 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             return nil;
         }
         [controller loadViewIfNeeded];
+        if(!DFHostingFlag(controller,@"canHostAnApp",YES)){
+            DFSceneLog(@"host-preflight-denied",bundleID,@"SBAppViewController.canHostAnApp=NO");
+            if(error)*error=DFSceneError(107,@"SBAppViewController không thể host ứng dụng này");
+            return nil;
+        }
         DFSceneSurface *view=[DFSceneSurface new];
         view.bundleID=bundleID; view.entity=entity; view.appController=controller; view.owner=self;
         // The CarPlay renderer should never display a fake black app tile

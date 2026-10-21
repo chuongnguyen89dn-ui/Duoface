@@ -320,6 +320,16 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(self.focus==visual)self.focus=-1",chrome)
   self.assertIn("self.sceneHandleReady removeAllObjects",chrome)
   self.assertIn("self.appPickerWindow.hidden=NO",chrome)
+ def test_scene_ready_needs_scene_handle_and_live_host_state(self):
+  host=file("DFSceneHost.m")
+  self.assertIn("DFHostingFlag",host)
+  self.assertIn('@"canHostAnApp"',host)
+  self.assertIn('@"isHostingAnApp"',host)
+  self.assertIn("if(scene && isHosting)",host)
+  self.assertIn("scene-host-timeout",host)
+  self.assertIn("host-preflight-denied",host)
+  self.assertNotIn("if (scene) {",host)
+  self.assertIn("scene-handle-observed-render-unverified",host)
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
