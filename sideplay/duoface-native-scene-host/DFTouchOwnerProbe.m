@@ -1,4 +1,4 @@
-// Independent, 30-second, on-demand CarPlay touch-owner diagnostic for iOS 16.
+// Independent long-lived native CarPlay input owner, session-scoped for iOS 16.
 // The system CPWindow stays untouched. No vendor binary, app hosting,
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
@@ -78,7 +78,7 @@ static BOOL DFReadFreshSession(void) {
        ![[NSUUID alloc] initWithUUIDString:value] ||
        ![stamp isKindOfClass:NSNumber.class])return NO;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
-    if(!isfinite(age) || age<0 || age>5)return NO;
+    if(!isfinite(age) || age<0 || age>2.5)return NO;
     sSession=[value copy];sSequence=0;sLastAckSequence=0;
     return YES;
 }
@@ -136,12 +136,27 @@ static void DFReceiveAck(void) {
          session,(unsigned long)sequence,ack[@"Action"],ack[@"Owner"]]);
 }
 static void DFStopProbe(NSString *reason) {
+    // Revoke the current generation BEFORE any potentially slow media-scene
+    // teardown. Queued start/ACK commands can never revive a closed session.
     sGeneration++;
-    if(sChrome){
-        [sChrome stop];sChrome=nil;
+    sActivated=NO;
+    sSession=nil;
+    sLastAckSequence=0;
+    DFNative12Chrome *old=sChrome;
+    sChrome=nil;
+    if(old){
+        [old stop];
         DFTOLog(@"window-detached",reason);
     }
-    sSession=nil;sActivated=NO;sLastAckSequence=0;
+}
+static BOOL DFSessionStillActive(void) {
+    NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:kSessionFile];
+    id timestamp=pulse[@"Timestamp"];
+    if(!sSession || ![pulse[@"Session"] isEqualToString:sSession] ||
+       ![pulse[@"Active"] isEqual:@YES] ||
+       ![timestamp isKindOfClass:NSNumber.class])return NO;
+    NSTimeInterval age=NSDate.date.timeIntervalSince1970-[timestamp doubleValue];
+    return isfinite(age) && age>=0 && age<=2.5;
 }
 // Independent SpringBoard watchdog: works even if CarPlay app crashes,
 // is suspended on Home, or fails to deliver a scene disconnect callback.
@@ -160,7 +175,9 @@ static void DFWatchdog(NSUInteger generation) {
         DFStopProbe(@"inactive-or-stale-heartbeat");
         return;
     }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,1*NSEC_PER_SEC),
+    // A .5-second watchdog only backs up the immediate CarPlay stop signal.
+    // No arbitrary session-expiry timer: active trips must run indefinitely.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.5*NSEC_PER_SEC)),
         dispatch_get_main_queue(),^{DFWatchdog(generation);});
 }
 static void DFStartProbe(void) {
@@ -215,6 +232,12 @@ static void DFStartProbe(void) {
             DFTOLog(@"preflight-rejected",@"content-too-small");
             DFStopProbe(@"content-invalid");return;
         }
+        // CarPlay Home may be pressed after the initial file read but before
+        // expensive CADisplay/window ABI probing completes. Never show
+        // anything from a revoked session or an obsolete queued start.
+        if(!DFSessionStillActive()){
+            DFStopProbe(@"session-revoked-before-window-start");return;
+        }
         sChrome=[[DFNative12Chrome alloc] initWithDisplay:display
                  configuration:configuration windowClass:windowClass
                  contentRect:region command:^(NSString *action,NSNumber *ratio){
@@ -223,16 +246,16 @@ static void DFStartProbe(void) {
         if(![sChrome start]) {
             DFStopProbe(@"chrome-window-create-failed");return;
         }
+        if(!DFSessionStillActive()){
+            DFStopProbe(@"session-revoked-during-window-start");return;
+        }
         DFTOLog(@"native12-ui-owner-visible",
           [NSString stringWithFormat:@"windowCount=4 content=%@",
            NSStringFromCGRect(region)]);
         NSUInteger generation=++sGeneration;
+        // Native12 parity: remain active as long as CarPlay's foreground
+        // owner sends fresh heartbeats; Home disconnect/revoke tears down.
         DFWatchdog(generation);
-        // QA fail-safe only; no overlay survives disconnect and restart.
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,600*NSEC_PER_SEC),
-                       dispatch_get_main_queue(), ^{
-            if(sGeneration==generation)DFStopProbe(@"safety-expiry-600s");
-        });
     }@catch(NSException *exception){
         DFTOLog(@"window-exception",exception.name);
         DFStopProbe(@"exception");
