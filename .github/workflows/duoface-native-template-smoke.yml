@@ -30,10 +30,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.14~native12parity1_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.13~native12bundle3'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.14~native12parity1'
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
           OUT="$RUNNER_TEMP/nativehost-check"
@@ -72,18 +72,39 @@ jobs:
           mkdir -p sideplay/duoface-native-scene-host/packages
           (cd sideplay/duoface-native-scene-host && shasum -a 256 packages/*.deb > packages/SHA256SUMS.txt)
           printf 'SOURCE_SHA=%s\nRUN_ID=%s\nBUILD_AND_SIGNATURE=PASS\nSILEO_PUBLISHED=false\nHOME_ICON_DEVICE_VERIFIED=false\nCARPLAY_SCENE_DEVICE_VERIFIED=false\nDUAL_APP_TOUCH_VERIFIED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
-      - name: Compare actual immutable Native12 + DuoNavi DEBs against NEW nativehost
+      - name: Strict A-Z Native12-only direct DEB audit on THIS compiled candidate
         run: |
           set -euo pipefail
           REF=1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          INDEX_REF=a57815b2430092a9c27811a88b53f9bbbb70312d
           git fetch --no-tags --depth=1 origin "$REF"
-          git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/duoface-native12-reference.deb"
-          git show "$REF:dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb" > "$RUNNER_TEMP/duonavi-original-reference.deb"
+          git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/native12-reference.deb"
+          git fetch --no-tags --depth=1 origin "$INDEX_REF"
+          git show "$INDEX_REF:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json" > "$RUNNER_TEMP/native12-method-index.json"
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.14~native12parity1_iphoneos-arm64.deb'
+          SHA="$(shasum -a 256 "$FILE" | awk '{print $1}')"
           python3 sideplay/duoface-native-scene-host/tests/compare_source_debs.py \
-            --native12 "$RUNNER_TEMP/duoface-native12-reference.deb" \
-            --duonavi "$RUNNER_TEMP/duonavi-original-reference.deb" \
-            --candidate 'sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.13~native12bundle3_iphoneos-arm64.deb' \
+            --native12 "$RUNNER_TEMP/native12-reference.deb" \
+            --candidate "$FILE" \
             --out sideplay/duoface-native-scene-host/packages/NATIVE12_DEB_CROSSWALK.json
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/native12-reference.deb" \
+            --new "$FILE" \
+            --index "$RUNNER_TEMP/native12-method-index.json" \
+            --new-sha256 "$SHA" \
+            --expected-new-files 22 \
+            --out sideplay/duoface-native-scene-host/packages/NATIVE12_1385_REPORT
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('sideplay/duoface-native-scene-host/packages/NATIVE12_1385_REPORT')
+          d=json.loads((p/'SUMMARY.json').read_text())
+          assert d['original_objc_methods']==1385 and d['original_macho']==8
+          assert d['new_files']==22 and d['feature_gates']==25
+          assert d['feature_gates_pass']==0 and d['verdict']=='KHONG_DAT'
+          assert len(json.loads((p/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods'])==1385
+          print('NATIVE12_1385_METHOD_EACH_CANDIDATE_AUDIT_VERIFIED')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: DuoFace-Native-Template-Beta-Not-Installed
@@ -92,6 +113,7 @@ jobs:
             sideplay/duoface-native-scene-host/packages/SHA256SUMS.txt
             sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
             sideplay/duoface-native-scene-host/packages/NATIVE12_DEB_CROSSWALK.json
+            sideplay/duoface-native-scene-host/packages/NATIVE12_1385_REPORT/
           if-no-files-found: error
       - name: Save exact binary evidence in DuoFace feature branch
         run: |
@@ -105,9 +127,11 @@ jobs:
           SOURCE="$(pwd)/$SUB/packages/$FILE"
           CI_SOURCE="$(pwd)/$SUB/packages/CI_RESULT.txt"
           AUDIT_SOURCE="$(pwd)/$SUB/packages/NATIVE12_DEB_CROSSWALK.json"
+          ALL_METHODS_DIR="$(pwd)/$SUB/packages/NATIVE12_1385_REPORT"
           test -s "$SOURCE"
           test -s "$CI_SOURCE"
           test -s "$AUDIT_SOURCE"
+          test -s "$ALL_METHODS_DIR/ALL_NATIVE12_1385_METHODS.json"
           for attempt in 1 2 3 4 5; do
             git fetch --no-tags origin "$BRANCH"
             CURRENT="$(mktemp -d)"
@@ -130,8 +154,10 @@ jobs:
             cp "$SOURCE" "$TARGET"
             cp "$CI_SOURCE" "$CURRENT/$SUB/packages/CI_RESULT.txt"
             cp "$AUDIT_SOURCE" "$CURRENT/$SUB/packages/NATIVE12_DEB_CROSSWALK.json"
+            mkdir -p "$CURRENT/$SUB/packages/NATIVE12_1385_REPORT"
+            cp "$ALL_METHODS_DIR"/* "$CURRENT/$SUB/packages/NATIVE12_1385_REPORT/"
             (cd "$CURRENT/$SUB" && shasum -a 256 packages/*.deb > packages/SHA256SUMS.txt)
-            git -C "$CURRENT" add -f "$SUB/packages/$FILE" "$SUB/packages/SHA256SUMS.txt" "$SUB/packages/CI_RESULT.txt" "$SUB/packages/NATIVE12_DEB_CROSSWALK.json"
+            git -C "$CURRENT" add -f "$SUB/packages/$FILE" "$SUB/packages/SHA256SUMS.txt" "$SUB/packages/CI_RESULT.txt" "$SUB/packages/NATIVE12_DEB_CROSSWALK.json" "$SUB/packages/NATIVE12_1385_REPORT"
             git -C "$CURRENT" commit -m "build(nativehost): save immutable $VERSION signed binary and SHA [skip ci]"
             if git -C "$CURRENT" push origin "HEAD:refs/heads/$BRANCH"; then
               echo "NATIVEHOST_BINARY_SAVED_TO_GITHUB=PASS attempt=$attempt"
