@@ -14,9 +14,11 @@
 @property(nonatomic) BOOL swapped;
 @property(nonatomic) BOOL expanded;
 @property(nonatomic) BOOL touchesEnabled;
+@property(nonatomic) BOOL verticalDivider;
+@property(nonatomic) NSInteger focusedSlot;
 @end
 @implementation DFNative12BasicController
-- (instancetype)init { if((self=[super init]))_ratio=0.5;return self; }
+- (instancetype)init { if((self=[super init])){_ratio=0.5;_verticalDivider=YES;_focusedSlot=-1;}return self; }
 - (UILabel *)caption:(NSString *)title size:(CGFloat)size {
  UILabel *l=[UILabel new];l.text=title;l.textColor=UIColor.whiteColor;l.font=[UIFont systemFontOfSize:size weight:UIFontWeightMedium];l.textAlignment=NSTextAlignmentCenter;l.numberOfLines=0;return l;
 }
@@ -51,7 +53,7 @@
   b.titleLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];
   [b addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];[self.view addSubview:b];
  }
- self.status=[self caption:@"0.0.9 GESTURE • Thử nút và KÉO CHIA trên bảng nhỏ" size:10];[self.view addSubview:self.status];
+ self.status=[self caption:@"0.1.0 NATIVE12 · Độc lập · Chưa nối app scene" size:10];[self.view addSubview:self.status];
  self.menuSheet=[UIView new];self.menuSheet.backgroundColor=[UIColor colorWithWhite:.13 alpha:.97];
  self.menuSheet.layer.cornerRadius=20;self.menuSheet.hidden=YES;[self.view addSubview:self.menuSheet];
  NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
@@ -62,6 +64,10 @@
   [b addTarget:self action:@selector(menuAction:) forControlEvents:UIControlEventTouchUpInside];
   b.frame=CGRectMake(i*68,0,68,42);[self.menuSheet addSubview:b];
  }
+ // Actual UIKit input is owned by bounded independent external windows.
+ // CPWindow remains a visual receiver; avoid duplicate noninteractive buttons.
+ self.leftMenu.hidden=YES;self.rightMenu.hidden=YES;
+ self.logo.hidden=YES;
  [self.view setNeedsLayout];
 }
 - (void)viewDidLayoutSubviews {
@@ -71,18 +77,37 @@
  CGFloat width=CGRectGetWidth(area),height=CGRectGetHeight(area);
  CGFloat x=CGRectGetMinX(area),y=CGRectGetMinY(area);
  CGFloat margin=3,bar=3;
- CGFloat split=round(width*self.ratio);
- CGFloat lw=MAX(0,split-bar/2-margin),rw=MAX(0,width-split-bar/2-margin);
- self.leftSlot.frame=CGRectMake(x+margin,y+margin,lw,MAX(0,height-2*margin));
- self.rightSlot.frame=CGRectMake(x+split+bar/2,y+margin,rw,MAX(0,height-2*margin));
- self.divider.frame=CGRectMake(x+split-17,y,34,height);
- self.logo.frame=CGRectMake(x+split-15,y+height/2-15,30,30);
- self.leftMenu.frame=CGRectMake(CGRectGetMidX(self.leftSlot.frame)-38,y+5,76,22);
- self.rightMenu.frame=CGRectMake(CGRectGetMidX(self.rightSlot.frame)-38,y+5,76,22);
+ CGFloat split=round((self.verticalDivider?width:height)*self.ratio);
+ if(self.verticalDivider) {
+   CGFloat lw=MAX(0,split-bar/2-margin),rw=MAX(0,width-split-bar/2-margin);
+   self.leftSlot.frame=CGRectMake(x+margin,y+margin,lw,MAX(0,height-2*margin));
+   self.rightSlot.frame=CGRectMake(x+split+bar/2,y+margin,rw,MAX(0,height-2*margin));
+   self.divider.frame=CGRectMake(x+split-16,y,32,height);
+   self.logo.frame=CGRectMake(x+split-15,y+height/2-15,30,30);
+ } else {
+   CGFloat th=MAX(0,split-bar/2-margin),bh=MAX(0,height-split-bar/2-margin);
+   self.leftSlot.frame=CGRectMake(x+margin,y+margin,MAX(0,width-2*margin),th);
+   self.rightSlot.frame=CGRectMake(x+margin,y+split+bar/2,MAX(0,width-2*margin),bh);
+   self.divider.frame=CGRectMake(x,y+split-16,width,32);
+   self.logo.frame=CGRectMake(x+width/2-15,y+split-15,30,30);
+ }
+ self.leftMenu.frame=CGRectMake(CGRectGetMidX(self.leftSlot.frame)-38,
+                                  CGRectGetMinY(self.leftSlot.frame)+3,76,22);
+ self.rightMenu.frame=CGRectMake(CGRectGetMidX(self.rightSlot.frame)-38,
+                                  CGRectGetMinY(self.rightSlot.frame)+3,76,22);
  self.status.frame=CGRectMake(x+4,y+height-22,width-8,18);
  self.menuSheet.frame=CGRectMake(x+(width-272)/2,y+MAX(2,(height-42)/2),272,42);
- if(self.expanded){self.rightSlot.hidden=YES;self.leftSlot.frame=CGRectInset(area,3,3);}
- else self.rightSlot.hidden=NO;
+ self.leftSlot.hidden=NO;self.rightSlot.hidden=NO;
+ if(self.expanded) {
+     self.leftSlot.hidden=self.focusedSlot==1;
+     self.rightSlot.hidden=self.focusedSlot!=1;
+     UIView *focused=self.focusedSlot==1?self.rightSlot:self.leftSlot;
+     focused.frame=CGRectInset(area,3,3);
+ }
+ // Visible Native12 pills/divider/selector are drawn by external input owner,
+ // not duplicates in navigation CPWindow.
+ self.leftMenu.hidden=YES;self.rightMenu.hidden=YES;
+ self.logo.hidden=YES;self.menuSheet.hidden=YES;
 }
 - (void)drag:(UIPanGestureRecognizer *)pan {
  CGPoint p=[pan locationInView:self.view];CGRect a=self.view.safeAreaLayoutGuide.layoutFrame;
@@ -101,27 +126,42 @@
 }
 - (void)showMenu:(id)sender { (void)sender;self.menuSheet.hidden=!self.menuSheet.hidden; }
 - (void)setPresetRatio:(CGFloat)ratio {
- // CarPlay CPWindow cannot receive a direct divider drag. Set ratio
- // from a genuine system template action instead.
+ // Native12 behavior: both panes share one source-owned ratio state.
  self.ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
- self.status.text=[NSString stringWithFormat:@"CarPlay ratio: %.0f / %.0f",self.ratio*100,(1-self.ratio)*100];
+ self.status.text=[NSString stringWithFormat:@"Native12 tỷ lệ %.0f / %.0f",self.ratio*100,(1-self.ratio)*100];
  [self.view setNeedsLayout];
 }
 - (void)performCarPlayControl:(NSString *)action {
+ [self performCarPlayControl:action slot:0];
+}
+- (void)performCarPlayControl:(NSString *)action slot:(NSInteger)slot {
  if([action isEqualToString:@"SWAP"]){[self swap:nil];return;}
  if([action isEqualToString:@"LEFT"]){[self setPresetRatio:1.0/3.0];return;}
  if([action isEqualToString:@"RIGHT"]){[self setPresetRatio:2.0/3.0];return;}
- if([action isEqualToString:@"App"]){
-   self.status.text=@"App: chưa nối host ứng dụng iPhone";
- } else if([action isEqualToString:@"Zoom"]){
-   self.expanded=!self.expanded;
-   self.status.text=self.expanded?@"CarPlay Zoom: 1 ô":@"CarPlay Zoom: 2 ô";
-   [self.view setNeedsLayout];
- } else if([action isEqualToString:@"Style"]){
-   [self setPresetRatio:0.5];
- } else if([action isEqualToString:@"Close"]){
-   self.menuSheet.hidden=YES;
-   self.status.text=@"CarPlay Close: đã đóng menu";
+ if([action isEqualToString:@"FocusLeft"] || [action isEqualToString:@"FocusRight"]){
+    self.focusedSlot=[action isEqualToString:@"FocusLeft"]?0:1;
+    self.expanded=YES;
+    self.status.text=self.focusedSlot==0?@"Native12: ô trái đầy vùng nội dung":@"Native12: ô phải đầy vùng nội dung";
+    [self.view setNeedsLayout];
+ }else if([action isEqualToString:@"Restore"]){
+    self.focusedSlot=-1;self.expanded=NO;
+    self.status.text=@"Native12: khôi phục 2 ô";
+    [self.view setNeedsLayout];
+ }else if([action isEqualToString:@"App"]){
+    self.status.text=[NSString stringWithFormat:@"App ô %ld: chưa nối host scene",(long)(slot+1)];
+ }else if([action isEqualToString:@"Zoom"]){
+    self.expanded=!self.expanded;
+    self.focusedSlot=self.expanded?0:-1;
+    self.status.text=self.expanded?@"Native12 Zoom: một ô":@"Native12 Zoom: hai ô";
+    [self.view setNeedsLayout];
+ }else if([action isEqualToString:@"Style"]){
+    self.verticalDivider=!self.verticalDivider;
+    self.ratio=.5;
+    self.expanded=NO;self.focusedSlot=-1;
+    self.status.text=self.verticalDivider?@"Native12: chia trái/phải":@"Native12: chia trên/dưới";
+    [self.view setNeedsLayout];
+ }else if([action isEqualToString:@"Close"]){
+    self.status.text=[NSString stringWithFormat:@"Close ô %ld: chưa có app để đóng",(long)(slot+1)];
  }
 }
 - (void)menuAction:(UIButton *)sender {
