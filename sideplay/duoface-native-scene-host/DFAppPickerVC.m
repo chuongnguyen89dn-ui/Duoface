@@ -4,6 +4,7 @@
 #import "DFAppPickerVC.h"
 #import "DFAppLibrary.h"
 #import <objc/message.h>
+#import <math.h>
 
 static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 @interface DFNativeAppCard : UICollectionViewCell
@@ -42,6 +43,8 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 @property(nonatomic,strong) UIView *sheet;
 @property(nonatomic,strong) UISegmentedControl *modes;
 @property(nonatomic,strong) UICollectionView *cards;
+@property(nonatomic,strong) UIPageControl *pageControl;
+@property(nonatomic,assign) NSInteger cardsPerPage;
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UIButton *closeButton;
 @property(nonatomic,strong) NSArray<DFAppInfo *> *apps;
@@ -74,18 +77,33 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     self.modes=[[UISegmentedControl alloc]initWithItems:@[@"Ứng dụng",@"Gần đây"]];
     self.modes.selectedSegmentIndex=0;
     self.modes.selectedSegmentTintColor=[UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1];
-    [self.modes addTarget:self action:@selector(reloadCards) forControlEvents:UIControlEventValueChanged];
+    [self.modes addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventValueChanged];
     [self.sheet addSubview:self.modes];
     UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
-    layout.scrollDirection=UICollectionViewScrollDirectionVertical;
-    layout.minimumInteritemSpacing=8;
-    layout.minimumLineSpacing=8;
+    // Native12 CBMultitaskingOverlayView has distinct pageControlChanged:
+    // and card-page setup methods. Use a horizontal page, not a long vertical
+    // scrolling inventory which can trap the CarPlay touchscreen.
+    layout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    layout.minimumInteritemSpacing=0;
+    layout.minimumLineSpacing=0;
     self.cards=[[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
     self.cards.backgroundColor=UIColor.clearColor;
     self.cards.dataSource=self;self.cards.delegate=self;
-    self.cards.alwaysBounceVertical=YES;
+    self.cards.pagingEnabled=YES;
+    self.cards.alwaysBounceHorizontal=YES;
+    self.cards.showsHorizontalScrollIndicator=NO;
+    self.cards.showsVerticalScrollIndicator=NO;
+    self.cardsPerPage=4;
     [self.cards registerClass:DFNativeAppCard.class forCellWithReuseIdentifier:@"DFNativeCard"];
     [self.sheet addSubview:self.cards];
+    self.pageControl=[UIPageControl new];
+    self.pageControl.pageIndicatorTintColor=[UIColor colorWithWhite:.5 alpha:1];
+    self.pageControl.currentPageIndicatorTintColor=[UIColor colorWithRed:227./255
+                                                        green:2./255 blue:15./255 alpha:1];
+    [self.pageControl addTarget:self action:@selector(pageControlChanged:)
+                forControlEvents:UIControlEventValueChanged];
+    self.pageControl.accessibilityLabel=@"Trang ứng dụng DuoFace";
+    [self.sheet addSubview:self.pageControl];
     self.closeButton=[UIButton buttonWithType:UIButtonTypeSystem];
     [self.closeButton setTitle:@"×" forState:UIControlStateNormal];
     self.closeButton.tintColor=UIColor.whiteColor;
@@ -107,8 +125,15 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
                                     MAX(70,w-CGRectGetMaxX(logo.frame)-46),27);
     self.closeButton.frame=CGRectMake(w-37,3,33,34);
     self.modes.frame=CGRectMake(9,39,w-18,30);
-    self.cards.frame=CGRectMake(9,76,w-18,MAX(18,h-83));
+    // One page has a single row of genuine installed-app cards. Each page
+    // fills the full viewport, including the padded final row.
+    self.cards.frame=CGRectMake(9,74,MAX(100,w-18),MAX(30,h-115));
+    self.pageControl.frame=CGRectMake(10,MAX(82,h-38),w-20,27);
+    NSInteger columns=MAX(2,MIN(5,(NSInteger)floor(self.cards.bounds.size.width/86.)));
+    BOOL geometryChanged=(self.cardsPerPage!=columns);
+    self.cardsPerPage=columns;
     [self.cards.collectionViewLayout invalidateLayout];
+    if(geometryChanged)[self reloadCards];
 }
 - (NSArray<DFAppInfo *> *)visibleApps {
     if(self.modes.selectedSegmentIndex!=1)return self.apps;
@@ -123,7 +148,45 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     }
     return output;
 }
-- (void)reloadCards { [self.cards reloadData]; }
+- (NSInteger)pageCount {
+    NSInteger count=(NSInteger)self.visibleApps.count;
+    NSInteger capacity=MAX(1,self.cardsPerPage);
+    return MAX(1,(count+capacity-1)/capacity);
+}
+- (void)reloadCards {
+    // Keep the delegate wired to the REAL DFAppInfo bundle, not a display
+    // placeholder; visual slots past the last bundle are blank padding.
+    self.pageControl.numberOfPages=[self pageCount];
+    self.pageControl.currentPage=0;
+    self.pageControl.hidden=(self.pageControl.numberOfPages<=1);
+    [self.cards reloadData];
+    [self.cards setContentOffset:CGPointZero animated:NO];
+}
+- (void)modeChanged:(UISegmentedControl *)sender {
+    (void)sender;[self reloadCards];
+}
+- (void)pageControlChanged:(UIPageControl *)sender {
+    CGFloat width=self.cards.bounds.size.width;
+    if(width<=0)return;
+    NSInteger page=MAX(0,MIN(sender.currentPage,[self pageCount]-1));
+    [self.cards setContentOffset:CGPointMake(page*width,0) animated:YES];
+}
+- (void)updateCurrentPage {
+    CGFloat width=self.cards.bounds.size.width;
+    if(width<=0)return;
+    NSInteger page=(NSInteger)lround(self.cards.contentOffset.x/width);
+    self.pageControl.currentPage=MAX(0,MIN(page,[self pageCount]-1));
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if(scrollView==self.cards)[self updateCurrentPage];
+}
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if(scrollView==self.cards)[self updateCurrentPage];
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                 willDecelerate:(BOOL)decelerate {
+    if(scrollView==self.cards && !decelerate)[self updateCurrentPage];
+}
 - (void)refreshInstalledApps {
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{[self refreshInstalledApps];});
@@ -147,16 +210,18 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
     (void)collectionView;(void)section;
-    return (NSInteger)self.visibleApps.count;
+    return [self pageCount]*MAX(1,self.cardsPerPage);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)layout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     (void)layout;(void)indexPath;
     CGFloat width=collectionView.bounds.size.width;
-    NSInteger columns=MAX(2,MIN(5,(NSInteger)(width/95)));
-    CGFloat w=MAX(60,(width-8*(columns-1))/columns);
-    return CGSizeMake(w,77);
+    // Make each N-card page exactly viewport-wide. A single row avoids
+    // layout wrapping and preserves true UIPageControl indices.
+    NSInteger columns=MAX(1,self.cardsPerPage);
+    CGFloat w=width/columns;
+    return CGSizeMake(w,MIN(77,collectionView.bounds.size.height-1));
 }
 - (UIImage *)installedIconForBundle:(NSString *)bundleID {
     // Private iOS launcher imagery is optional; never invent another app icon.
@@ -176,7 +241,14 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
                               dequeueReusableCellWithReuseIdentifier:@"DFNativeCard"
                                                       forIndexPath:indexPath];
     NSArray<DFAppInfo *> *display=[self visibleApps];
-    if((NSUInteger)indexPath.item>=display.count)return card;
+    if((NSUInteger)indexPath.item>=display.count){
+        card.hidden=YES;
+        card.title.text=nil;
+        card.icon.image=nil;
+        card.accessibilityLabel=nil;
+        return card;
+    }
+    card.hidden=NO;
     DFAppInfo *app=display[indexPath.item];
     card.title.text=app.displayName;
     card.icon.image=[self installedIconForBundle:app.bundleID];
