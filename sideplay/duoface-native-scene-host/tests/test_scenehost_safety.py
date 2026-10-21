@@ -456,4 +456,38 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertIn(preserved,chrome)
   self.assertNotIn("CBBridgeManager",host)
   self.assertNotIn("checkAndSyncLicense",host)
+
+ def test_native12_home_teardown_hides_windows_before_scene_invalidate(self):
+  chrome=file("DFNative12Chrome.m")
+  stop=chrome.split("- (void)stop {")[-1]
+  self.assertIn('home-teardown-all-external-windows-hidden-before-scene-invalidate',stop)
+  hidden=stop.index("for(UIWindow *w in self.windows)w.hidden=YES;")
+  scene=stop.index("[[DFSceneHost sharedHost] stopAllHosts];")
+  root=stop.index("for(UIWindow *w in self.windows)w.rootViewController=nil;")
+  self.assertLess(hidden,scene,"CarPlay Home must hide windows before media scene teardown")
+  self.assertLess(scene,root,"Do not nil live roots before scene host release")
+  self.assertIn("self.startupActive=NO",stop)
+  self.assertIn("self.callback=nil",stop)
+
+ def test_native12_picker_pages_real_apps_with_recent_and_no_fake_items(self):
+  picker=file("DFAppPickerVC.m")
+  markers=("UICollectionViewScrollDirectionHorizontal","self.cards.pagingEnabled=YES",
+           "UIPageControl","pageControlChanged:","updateCurrentPage",
+           "scrollViewDidEndDecelerating:","scrollViewDidEndScrollingAnimation:",
+           "visibleApps","DFAppLibrary installedUserApps",
+           "didSelectBundleID:app.bundleID displayName:app.displayName")
+  for x in markers:self.assertIn(x,picker)
+  self.assertIn("return [self pageCount]*MAX(1,self.cardsPerPage);",picker)
+  self.assertIn("if((NSUInteger)indexPath.item>=display.count)return;",picker)
+  self.assertIn("card.hidden=YES",picker)
+  self.assertIn("card.hidden=NO",picker)
+  self.assertNotIn("UICollectionViewScrollDirectionVertical",picker)
+
+ def test_native12_only_no_duonavi_comparator(self):
+  audit=file("tests/compare_source_debs.py")
+  self.assertIn("NATIVE12_ONLY_DEB_COMPARISON_STATIC_PASS",audit)
+  self.assertIn("ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI",audit)
+  self.assertNotIn('ap.add_argument("--duonavi"',audit)
+  self.assertNotIn("DUONAVI_SHA=",audit)
+
 if __name__=="__main__":unittest.main(verbosity=2)
