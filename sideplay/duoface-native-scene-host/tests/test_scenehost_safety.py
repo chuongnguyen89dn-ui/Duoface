@@ -111,7 +111,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("DFNative12Chrome *sChrome",probe)
   self.assertIn("CGRectContainsRect",chrome)
   self.assertIn("w.frame=frame",chrome)
-  self.assertIn("safety-expiry-600s",probe)
+  self.assertNotIn("safety-expiry-600s",probe)
+  self.assertIn("DFSessionStillActive()",probe)
+  self.assertIn("session-revoked-before-window-start",probe)
   self.assertIn("DFWatchdog(generation)",probe)
   self.assertIn("inactive-or-stale-heartbeat",probe)
   self.assertIn('pulse[@"Active"]',probe)
@@ -180,7 +182,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("divider-pan-end",chrome)
   self.assertIn("logo-reposition-long-hold",chrome)
   self.assertIn("self.pillWindows",chrome)
-  self.assertIn("safety-expiry-600s",file("DFTouchOwnerProbe.m"))
+  self.assertNotIn("safety-expiry-600s",file("DFTouchOwnerProbe.m"))
   self.assertNotIn("self.basicController setPresetRatio:",receiver)
   self.assertNotIn("self.basicController performCarPlayControl:",receiver)
   self.assertIn('state[@"Owner"] isEqualToString:@"SpringBoard"',receiver)
@@ -518,5 +520,25 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('performCarPlayControl:',passive)
   self.assertNotIn('startupSplash',passive)
   self.assertIn('duoface-native-loading-line',chrome)
+
+ def test_home_revocation_before_stop_and_no_ten_minute_kill(self):
+  probe=file("DFTouchOwnerProbe.m")
+  car=file("DFNativeHostAppDelegate.m")
+  self.assertNotIn("safety-expiry-600s",probe)
+  self.assertNotIn("600*NSEC_PER_SEC",probe)
+  self.assertIn("DFSessionStillActive",probe)
+  self.assertIn("session-revoked-before-window-start",probe)
+  self.assertIn("session-revoked-during-window-start",probe)
+  self.assertIn("generation!=sGeneration",probe)
+  self.assertIn("sGeneration++;",probe)
+  self.assertIn("sActivated=NO;",probe)
+  stop=car[car.index("- (void)stopTouchOwnerWithReason:(NSString *)reason {"):
+           car.index("- (void)renewTouchOwnerHeartbeat:",car.index("- (void)stopTouchOwnerWithReason:(NSString *)reason {"))]
+  self.assertIn('@"Active":@NO',stop)
+  self.assertLess(stop.index("[inactive writeToFile:path atomically:YES]"),
+                  stop.index('notify_post("com.duoface.nativehost.touchowner.stop.v1")'))
+  disconnect=car[car.index("- (void)templateApplicationScene:",car.index("@implementation DFNativeHostTemplateSceneDelegate")+1):]
+  self.assertLess(disconnect.index('[self stopTouchOwnerWithReason:@"template-disconnected"]'),
+                  disconnect.index("window.rootViewController=nil"))
 
 if __name__=="__main__":unittest.main(verbosity=2)
