@@ -7,11 +7,16 @@ on:
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/jb-embedded-appbridge/tests/**'
       - 'sideplay/duoface-native-scene-host/**'
+      - '!sideplay/duoface-native-scene-host/packages/**'
       - 'sideplay/jb-embedded-appbridge/scripts/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
+      - '!sideplay/mytweak-native-bridgeqa/packages/**'
       - 'sideplay/mytweak-independent-v1a/**'
+      - '!sideplay/mytweak-independent-v1a/packages/**'
       - 'sideplay/firstparty-carplay-admission/**'
+      - '!sideplay/firstparty-carplay-admission/packages/**'
       - 'sideplay/duoface-qa-app/**'
+      - '!sideplay/duoface-qa-app/packages/**'
   workflow_dispatch:
 permissions:
   contents: write
