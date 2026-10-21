@@ -191,7 +191,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 self.ready=YES;
                 self.lastApplied=CGSizeZero;
                 [self layoutScene];
-                DFSceneLog(@"scene-ready",self.bundleID,NSStringFromCGRect(self.bounds));
+                DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             return;

@@ -20,6 +20,29 @@ static CGFloat DFCSnap(CGFloat x) {
         if(fabs(x-stop.doubleValue)<.04)return stop.doubleValue;
     return x;
 }
+// Persist only fully source-owned layout settings, never private scene handles
+// or vendor-license state. App scenes are created fresh on each connection.
+static NSString *const kDFLayoutPath=
+    @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
+static NSDictionary *DFCRestoreLayout(void) {
+    NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kDFLayoutPath];
+    if(![record isKindOfClass:NSDictionary.class] ||
+       ![record[@"Version"] isEqual:@1])return nil;
+    for(NSString *key in @[@"Ratio",@"LogoFraction",@"Vertical",@"Swapped"])
+        if(![record[key] isKindOfClass:NSNumber.class])return nil;
+    double ratio=[record[@"Ratio"] doubleValue];
+    double logo=[record[@"LogoFraction"] doubleValue];
+    if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
+       !isfinite(logo) || logo<.1 || logo>.9)return nil;
+    return record;
+}
+static BOOL DFCSaveLayout(CGFloat ratio, CGFloat logo, BOOL vertical, BOOL swapped) {
+    if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
+       !isfinite(logo) || logo<.1 || logo>.9)return NO;
+    NSDictionary *record=@{@"Version":@1,@"Ratio":@(ratio),
+        @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped)};
+    return [record writeToFile:kDFLayoutPath atomically:YES];
+}
 static UIImage *DFCArtwork(NSString *name) {
     // Approved independent artwork is packaged with this first-party tweak.
     if([name containsString:@"/"] || [name containsString:@".."])return nil;
@@ -78,6 +101,13 @@ static void DFCLog(NSString *text) {
         _externalWindowClass=windowClass;_contentRect=content;
         _callback=[command copy];_ratio=.5;_logoFraction=.5;
         _verticalDivider=YES;_focus=-1;_selectedSlot=0;
+        NSDictionary *prior=DFCRestoreLayout();
+        if(prior){
+            _ratio=[prior[@"Ratio"] doubleValue];
+            _logoFraction=[prior[@"LogoFraction"] doubleValue];
+            _verticalDivider=[prior[@"Vertical"] boolValue];
+            _swapped=[prior[@"Swapped"] boolValue];
+        }
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
         _appSceneWindows=[NSMutableArray new];
         _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
@@ -315,6 +345,11 @@ static void DFCLog(NSString *text) {
     if(!self.callback)return;
     self.callback(action,ratio);
 }
+- (void)saveSplitState {
+    if(!DFCSaveLayout(self.ratio,self.logoFraction,
+                      self.verticalDivider,self.swapped))
+        DFCLog(@"split-layout-persist-failed");
+}
 - (void)layoutControls {
     CGRect cr=self.contentRect;
     CGFloat p=DFCClamp(self.ratio);
@@ -410,6 +445,7 @@ static void DFCLog(NSString *text) {
              [self layoutControls];break;
       case 2:self.verticalDivider=!self.verticalDivider;
              self.ratio=.5;self.focus=-1;
+             [self saveSplitState];
              [self emit:@"Style" ratio:nil];
              [self layoutControls];break;
       case 3:[self closeHostedSlot:self.selectedSlot];break;
@@ -463,7 +499,7 @@ static void DFCLog(NSString *text) {
     if(![host isKindOfClass:UIView.class])return;
     for(NSInteger i=0;i<2;i++){
        if(self.hostedScenes[(NSUInteger)i]==host){
-          DFCLog([NSString stringWithFormat:@"real-scene-created slot=%ld bundle=%@",
+          DFCLog([NSString stringWithFormat:@"scene-handle-attached-render-unverified slot=%ld bundle=%@",
              (long)i,note.userInfo[@"bundleID"]?:@"unknown"]);
           [self layoutControls];
           return;
@@ -499,6 +535,8 @@ static void DFCLog(NSString *text) {
 - (void)swapPressed:(id)sender {
     (void)sender;
     self.swapped=!self.swapped;
+    [self saveSplitState];
+    [self layoutControls];
     [self emit:@"SWAP" ratio:nil];
     DFCLog(@"swap-button");
 }
@@ -527,6 +565,7 @@ static void DFCLog(NSString *text) {
         self.lastSent=now;[self emit:@"Ratio" ratio:@(self.ratio)];
     }
     if(end||cancel){
+        if(end)[self saveSplitState];
         self.panActive=NO;DFCLog(end?@"divider-pan-end":@"divider-pan-cancel");
     }
 }
@@ -540,8 +579,10 @@ static void DFCLog(NSString *text) {
     if(span<40)return;
     self.logoFraction=MAX(.1,MIN(.9,position/span));
     [self layoutControls];
-    if(hold.state==UIGestureRecognizerStateEnded)
+    if(hold.state==UIGestureRecognizerStateEnded){
+        [self saveSplitState];
         DFCLog(@"logo-reposition-long-hold");
+    }
 }
 - (void)stop {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
