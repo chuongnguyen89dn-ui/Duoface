@@ -76,8 +76,12 @@ def write(path,value):path.write_text(json.dumps(value,indent=2,ensure_ascii=Fal
 def main():
     ap=argparse.ArgumentParser()
     for x in ("native12","new","index","out"):ap.add_argument("--"+x,required=True,type=pathlib.Path)
+    # Immutable previously audited aggregate remains the default, but CI
+    # may compare every NEW build by supplying its actual SHA256 and file count.
+    ap.add_argument("--new-sha256",default=NEW_SHA)
+    ap.add_argument("--expected-new-files",type=int,default=34)
     a=ap.parse_args()
-    for p,expected in ((a.native12,NATIVE_SHA),(a.new,NEW_SHA)):
+    for p,expected in ((a.native12,NATIVE_SHA),(a.new,a.new_sha256)):
         if sha(p)!=expected:raise SystemExit("SHA PIN FAILED: "+str(p))
     if run("git","hash-object",str(a.index)).strip()!=INDEX_SHA:raise SystemExit("Original method index SHA pin FAILED")
     records=json.loads(a.index.read_text())["native12"]
@@ -92,7 +96,7 @@ def main():
         oldbin=[x for x in original if x["mach_o"]]
         newbin=[x for x in new if x["mach_o"]]
         assert len(oldbin)==8, "not all 8 reference Mach-O files"
-        assert len(new)==34, "unexpected new merged package file count"
+        assert len(new)==a.expected_new_files, "unexpected candidate DEB file count"
         foundbins={p.name:p for p in o.rglob("*") if p.is_file() and macho(p)}
         for r in records:
             assert r["filename"] in foundbins
@@ -135,7 +139,7 @@ def main():
               "source_or_binary_similarity_is_not_proof":True,
               "full_functional_parity_proven":False,"result":"KHONG_DAT"})
         summary={"scope":"ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI",
-          "native12_sha256":NATIVE_SHA,"new_duoface_sha256":NEW_SHA,
+          "native12_sha256":NATIVE_SHA,"new_duoface_sha256":a.new_sha256,
           "original_method_index_blob":INDEX_SHA,"time_utc":datetime.now(timezone.utc).isoformat(),
           "original_files":len(original),"new_files":len(new),
           "original_macho":len(oldbin),"new_macho":len(newbin),
@@ -158,7 +162,7 @@ def main():
         write(a.out/"FEATURE_GATES.json",gates)
         md=["# Native12 gốc ↔ DuoFace mới — TOÀN BỘ file và 1.385 method",
            "","**KẾT LUẬN: KHÔNG ĐẠT tương đồng Native12.**",
-           "","Bản gốc: "+NATIVE_SHA,"Bản mới: "+NEW_SHA,
+           "","Bản gốc: "+NATIVE_SHA,"Bản mới: "+a.new_sha256,
            "","## Kiểm kê bytecode",
            f"- Native12: {len(original)} file, {len(oldbin)} Mach-O, {len(clsmap)} ObjC classes, {len(allmethods)} ObjC methods.",
            f"- DuoFace mới: {len(new)} file, {len(newbin)} Mach-O.",
