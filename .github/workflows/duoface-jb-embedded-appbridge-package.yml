@@ -68,7 +68,7 @@ jobs:
         run: |
           set -euo pipefail
           # NativeHost DEB has already passed iOS16 signing and exact original
-          # Native12+DuoNavi three-way audit. NEVER rebuild it here under the
+          # Native12-only original-vs-independent DEB audit; do NOT rebuild
           # same immutable version: clang/ldid/dpkg timestamps change SHA.
           NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.25~gestureowner1_iphoneos-arm64.deb'
           test -s "$NATIVE"
