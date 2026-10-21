@@ -1,0 +1,46 @@
+{
+  "evidence": "ORIGINAL_NATIVE12_IMMUTABLE_MACHO_VALUE_NOT_RUNTIME",
+  "macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "source_method": "CBBridgedSplitApp.handleDividerPan:isVertical:state:",
+  "source_imp": "0x103ee0",
+  "constants": {
+    "drag_min": {
+      "address": "0x30fb18",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3210008,
+      "raw_hex": "555555555555d53f",
+      "double": 0.3333333333333333
+    },
+    "drag_max": {
+      "address": "0x30fb20",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3210016,
+      "raw_hex": "555555555555e53f",
+      "double": 0.6666666666666666
+    },
+    "snap_threshold": {
+      "address": "0x3116c8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217096,
+      "raw_hex": "7b14ae47e17aa43f",
+      "double": 0.04
+    },
+    "snap_offset_a": {
+      "address": "0x3124b8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3220664,
+      "raw_hex": "555555555555d5bf",
+      "double": -0.3333333333333333
+    },
+    "snap_offset_b": {
+      "address": "0x3124c0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3220672,
+      "raw_hex": "555555555555e5bf",
+      "double": -0.6666666666666666
+    }
+  },
+  "confidence": "DOUBLE_VALUES_FROM_VM_MAPPING;BRANCH_SEMANTICS_REQUIRE_REVIEW",
+  "compiled_new_layout_patched": false,
+  "runtime_parity_proven": false
+}
