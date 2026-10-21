@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.1~smoke1",c)
+  self.assertIn("Version: 0.0.2~smoke2",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -50,6 +50,8 @@ class Gate1Safety(unittest.TestCase):
   src=get("build.sh")
   self.assertIn('python3 prepare.py',src)
   self.assertIn('make clean package FINALPACKAGE=1',src)
+  self.assertIn('-Wl,-headerpad,0x1000',src)
+  self.assertIn('verify_macho.py',src)
   self.assertIn('DuoFaceGate1.app',src)
   self.assertIn('DFGate1SmokeAdmission.dylib',src)
   self.assertIn("test -s",src)

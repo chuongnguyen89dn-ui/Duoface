@@ -8,7 +8,7 @@ mkdir -p "$ROOT/packages"
 make clean package FINALPACKAGE=1
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
-INPUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.1~smoke1_iphoneos-arm64.deb"
+INPUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.2~smoke2_iphoneos-arm64.deb"
 test -s "$INPUT"
 dpkg-deb -x "$INPUT" "$TMP"
 DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGate1SmokeAdmission.dylib"
@@ -19,10 +19,12 @@ mkdir -p "$APP" "$TMP/DEBIAN"
 SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -Wl,-headerpad,0x1000 \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
   -o "$APP/DuoFaceGate1" Gate1App.m
 cp Info.plist "$APP/Info.plist"
 ldid -Sentitlements.plist "$APP/DuoFaceGate1"
+python3 "$ROOT/verify_macho.py" "$APP/DuoFaceGate1"
 plutil -lint "$APP/Info.plist"
 # Deterministic icon; no copied vendor graphics or external assets.
 APP_PATH="$APP" python3 - <<'PY'
@@ -56,7 +58,7 @@ chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/prerm" "$TMP/DEBIAN/postrm"
 # Inspect forbidden overlaps before the final package is written.
 test "$(find "$TMP/var/jb/Applications" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = 1
 test "$(find "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries" -type f | wc -l | tr -d ' ')" = 2
-OUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.1~smoke1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.2~smoke2_iphoneos-arm64.deb"
 rm -f "$OUT"
 dpkg-deb --build --root-owner-group "$TMP" "$OUT"
 test "$(dpkg-deb -f "$OUT" Package)" = com.duoface.carplay.gate1smoke

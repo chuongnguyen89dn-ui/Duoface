@@ -9,3 +9,6 @@ This is **not** DuoFace Native12 and not the combined 0.0.7 candidate. Test only
 - Do not run with another firstparty-admission beta enabled. Testing an iOS16 SpringBoard tweak can crash/safe mode; run only parked, with recovery access. No package can guarantee hardware safety before trial.
 - Acceptance: one and only one CarPlay Home icon; tapping opens true CarPlay window; Dock still system-owned; disconnect/reconnect; turn off and remove without affecting installed QA/Native12/HUD8.
 - **No CI test can establish physical icon, CarPlay entitlement, receiver acceptance or touch.** Do not proceed to any Native12/HUD8/dual-app feature before Gate 1 device confirmation.
+
+## Mach-O signing safety (0.0.2~smoke2)
+The previous iOS16 CarPlay Split alpha crashed with SIGILL when code-signature load-command data overlapped `__text`. Gate1 now links its UI executable with `-Wl,-headerpad,0x1000` and checks the signed 64-bit Mach-O header/load-command bounds and LC_CODE_SIGNATURE intersection with every stored section. This is a binary integrity test, not real device execution proof. Bumped package to 0.0.2~smoke2 to avoid retaining earlier smoke1 bytes in Sileo caches.
