@@ -4,11 +4,12 @@
 #import "DFAppEligibility.h"
 #import <objc/message.h>
 #import <math.h>
+#import <notify.h>
 @interface DFNativeHostSurfaceView : UIView
 - (void)start;
 - (void)stop;
 @end
-@interface DFNativeHostRootController : UIViewController <UITableViewDataSource>
+@interface DFNativeHostRootController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,assign) BOOL carPlay;
 @property(nonatomic,strong) DFNativeHostSurfaceView *nativeSurface;
 @property(nonatomic,strong) UIImageView *mainLogo;
@@ -16,6 +17,7 @@
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
+@property(nonatomic,assign) NSInteger currentPreset;
 - (instancetype)initWithCarPlay:(BOOL)carPlay;
 @end
 @implementation DFNativeHostRootController
@@ -81,7 +83,7 @@
  UIImageView *logo=[[UIImageView alloc]initWithImage:[self art:@"duoface-logo"]];
  logo.translatesAutoresizingMaskIntoConstraints=NO;logo.contentMode=UIViewContentModeScaleAspectFit;
  [self.view addSubview:logo];self.mainLogo=logo;
- UISegmentedControl *tabs=[[UISegmentedControl alloc]initWithItems:@[@"Trạng thái",@"Ứng dụng"]];
+ UISegmentedControl *tabs=[[UISegmentedControl alloc]initWithItems:@[@"Trạng thái",@"Ứng dụng",@"Bố cục"]];
  tabs.translatesAutoresizingMaskIntoConstraints=NO;tabs.selectedSegmentIndex=0;
  tabs.selectedSegmentTintColor=[UIColor colorWithRed:.82 green:.02 blue:.08 alpha:1];
  [tabs addTarget:self action:@selector(tabChanged:) forControlEvents:UIControlEventValueChanged];
@@ -90,7 +92,7 @@
  [self.view addSubview:state];self.stateLabel=state;
  UITableView *list=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
- list.dataSource=self;list.hidden=YES;list.allowsSelection=NO;
+ list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
  [self.view addSubview:list];self.appsTable=list;
  [NSLayoutConstraint activateConstraints:@[
    [logo.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:28],
@@ -111,6 +113,7 @@
    [list.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor constant:-6]
  ]];
  self.installedApps=[self queryInstalledApps];
+ [self readSavedPreset];
  [list reloadData];
  [self reloadLiveStatus];
 }
@@ -126,25 +129,82 @@
       @"CarPlay: phiên điều khiển đang hoạt động\nMở App trên màn hình xe để chọn ứng dụng":
       @"CarPlay: không có phiên điều khiển đang hoạt động\nKết nối CarPlay và mở DuoFace trên màn hình xe";
 }
+- (void)readSavedPreset {
+ NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:
+       @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist"];
+ NSInteger n=[record[@"Preset"] isKindOfClass:NSNumber.class]?
+       [record[@"Preset"] integerValue]:
+       ([record[@"Vertical"] boolValue]?0:1);
+ self.currentPreset=MAX(0,MIN(7,n));
+}
+- (BOOL)writeNativeLayoutPreset:(NSInteger)preset {
+ if(preset<0||preset>7)return NO;
+ NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
+ NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:path]?:@{};
+ NSNumber *ratio=[old[@"Ratio"] isKindOfClass:NSNumber.class]?old[@"Ratio"]:@.5;
+ NSNumber *logo=[old[@"LogoFraction"] isKindOfClass:NSNumber.class]?old[@"LogoFraction"]:@.5;
+ double r=ratio.doubleValue,l=logo.doubleValue;
+ if(!isfinite(r)||r<1.0/3.0||r>2.0/3.0)ratio=@.5;
+ if(!isfinite(l)||l<.1||l>.9)logo=@.5;
+ NSNumber *swapped=[old[@"Swapped"] isKindOfClass:NSNumber.class]?old[@"Swapped"]:@NO;
+ BOOL vertical=(preset==0||preset==2||preset==3||preset==6||preset==7);
+ NSDictionary *state=@{@"Version":@1,@"Preset":@(preset),
+                       @"Ratio":ratio,@"LogoFraction":logo,
+                       @"Vertical":@(vertical),@"Swapped":swapped};
+ if(![state writeToFile:path atomically:YES])return NO;
+ self.currentPreset=preset;
+ // A real SpringBoard owner consumes this; do not render duplicate app panes.
+ notify_post("com.duoface.nativehost.layout.changed.v1");
+ return YES;
+}
 - (void)tabChanged:(UISegmentedControl *)control {
- BOOL showingList=(control.selectedSegmentIndex==1);
+ BOOL showingList=(control.selectedSegmentIndex!=0);
  self.stateLabel.hidden=showingList;self.appsTable.hidden=!showingList;
- if(showingList){self.installedApps=[self queryInstalledApps];[self.appsTable reloadData];}
+ if(showingList){
+   if(control.selectedSegmentIndex==1)self.installedApps=[self queryInstalledApps];
+   else [self readSavedPreset];
+   [self.appsTable reloadData];
+ }
  else [self reloadLiveStatus];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
- (void)tableView;(void)section;return (NSInteger)self.installedApps.count;
+ (void)tableView;(void)section;
+ return self.tabs.selectedSegmentIndex==2?8:(NSInteger)self.installedApps.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
  if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                      reuseIdentifier:@"DuoFaceInstalled"];
- NSDictionary *item=self.installedApps[(NSUInteger)indexPath.row];
- cell.textLabel.text=item[@"name"];cell.detailTextLabel.text=item[@"bundle"];
+ if(self.tabs.selectedSegmentIndex==2){
+    NSArray *titles=@[@"Chia trái / phải",@"Chia trên / dưới",
+      @"Trái lớn · phải hai ô",@"Phải lớn · trái hai ô",
+      @"Trên lớn · dưới hai ô",@"Dưới lớn · trên hai ô",
+      @"Bốn ô 2 × 2",@"Bốn ô dọc"];
+    NSInteger preset=indexPath.row;
+    cell.textLabel.text=titles[(NSUInteger)preset];
+    cell.detailTextLabel.text=@"Bố cục scene thật trên CarPlay";
+    cell.accessoryType=preset==self.currentPreset?
+       UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
+ } else {
+    NSDictionary *item=self.installedApps[(NSUInteger)indexPath.row];
+    cell.textLabel.text=item[@"name"];cell.detailTextLabel.text=item[@"bundle"];
+    cell.accessoryType=UITableViewCellAccessoryNone;
+ }
  cell.backgroundColor=[UIColor colorWithWhite:.10 alpha:1];
  cell.textLabel.textColor=UIColor.whiteColor;
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ [tableView deselectRowAtIndexPath:indexPath animated:YES];
+ if(self.tabs.selectedSegmentIndex!=2)return;
+ BOOL success=[self writeNativeLayoutPreset:indexPath.row];
+ if(success){[self.appsTable reloadData];return;}
+ UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Không lưu được bố cục"
+   message:@"Không ghi được cấu hình DuoFace. Bố cục CarPlay hiện tại không bị thay đổi."
+   preferredStyle:UIAlertControllerStyleAlert];
+ [alert addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+ [self presentViewController:alert animated:YES completion:nil];
 }
 - (void)viewDidAppear:(BOOL)animated {
  [super viewDidAppear:animated];
