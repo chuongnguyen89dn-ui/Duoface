@@ -236,7 +236,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('@"APP 1"',phone)
   self.assertNotIn('@"APP 2"',phone)
   self.assertNotIn("mainContent",phone)
-  self.assertNotIn('DFCArtwork(@"duoface-swap")',spring)
+  self.assertIn('UIImage *smallArt=DFCArtwork(@"duoface-swap")',spring)
+  self.assertIn("self.dividerLogo.layer.cornerRadius=size/2",spring)
   self.assertIn('DFCArtwork(@"duoface-logo-picker-alpha-v2")',spring)
   self.assertNotIn('DFCArtwork(@"duoface-picker")',spring)
  def test_independent_two_real_host_scene_opt_in_and_exit_cleanup(self):
