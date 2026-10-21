@@ -148,7 +148,11 @@
  if(!isfinite(l)||l<.1||l>.9)logo=@.5;
  NSNumber *swapped=[old[@"Swapped"] isKindOfClass:NSNumber.class]?old[@"Swapped"]:@NO;
  BOOL vertical=(preset==0||preset==2||preset==3||preset==6||preset==7);
+ // Original Native12 presetSelected: @0xaa4f0 commits selected tag to
+ // BOTH splitPreset and splitMode before notifying active Dashboard.
+ // Only recreate this observable state update in independent DuoFace.
  NSDictionary *state=@{@"Version":@1,@"Preset":@(preset),
+                       @"splitPreset":@(preset),@"splitMode":@(preset),
                        @"Ratio":ratio,@"LogoFraction":logo,
                        @"Vertical":@(vertical),@"Swapped":swapped};
  if(![state writeToFile:path atomically:YES])return NO;
