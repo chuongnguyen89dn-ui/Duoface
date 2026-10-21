@@ -9,6 +9,7 @@ on:
       - 'sideplay/duoface-native-scene-host/**'
       - 'sideplay/jb-embedded-appbridge/scripts/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
+      - 'sideplay/mytweak-independent-v1a/**'
       - 'sideplay/firstparty-carplay-admission/**'
       - 'sideplay/duoface-qa-app/**'
   workflow_dispatch:
@@ -45,13 +46,13 @@ jobs:
           set -euo pipefail
           cd sideplay/mytweak-independent-v1a
           make clean package FINALPACKAGE=1
-          test -s 'packages/com.duoface.mytweak.v1a.preflight_0.2.0~v1bc1_iphoneos-arm64.deb'
+          test -s 'packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb'
       - name: Build native Dashboard receiver (default OFF)
         run: |
           set -euo pipefail
           cd sideplay/mytweak-native-bridgeqa
           make clean package FINALPACKAGE=1
-          test -s 'packages/com.duoface.carplay.nativebridgeqa_0.0.7~steadyack1_iphoneos-arm64.deb'
+          test -s 'packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb'
       - name: Build existing CarPlay-only own-bundle admission candidate
         run: |
           set -euo pipefail
@@ -68,10 +69,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.6~rosterlog1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.7~divider1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.6~rosterlog1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.7~divider1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"

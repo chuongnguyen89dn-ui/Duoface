@@ -8,7 +8,14 @@
 @property(nonatomic,strong) UIView *dividerView;
 @property(nonatomic,weak,nullable) MTAppSlotViewController *fullscreenSlot;
 @end
-@implementation MTSplitContainerViewController { CGFloat _panStartRatio; }
+@implementation MTSplitContainerViewController {
+    CGFloat _panStartRatio;
+    BOOL _remoteDividerActive;
+    CGFloat _remoteDividerOriginX;
+    CGFloat _remoteDividerRatio;
+    NSTimeInterval _remoteDividerStartAt;
+    BOOL _remoteDividerDragged;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.leftRatio=0.5;
@@ -54,6 +61,61 @@
         self.dividerView.frame=CGRectMake(leftWidth,0,dividerWidth,h);
         self.rightSlot.view.frame=CGRectMake(leftWidth+dividerWidth,0,usable-leftWidth,h);
     }
+}
+
+// CarPlay native receiver sends validated, short-lived normalized pointer
+// phases through SpringBoard. This owns ONLY our divider, not app content.
+- (BOOL)remoteDividerPhase:(NSString *)phase localPoint:(CGPoint)point {
+    if (![NSThread isMainThread] || ![phase isKindOfClass:NSString.class] ||
+        !isfinite(point.x) || !isfinite(point.y))return NO;
+    if ([phase isEqualToString:@"begin"]) {
+        _remoteDividerActive=NO;
+        if (self.singlePaneMode || self.fullscreenSlot ||
+            self.dividerView.hidden || CGRectIsEmpty(self.view.bounds) ||
+            point.y<0 || point.y>CGRectGetHeight(self.view.bounds))return NO;
+        // 24pt hit area around the REAL view divider, not an invisible
+        // fullscreen overlay that would steal taps inside hosted iPhone apps.
+        if (fabs(point.x-CGRectGetMidX(self.dividerView.frame))>24.0)return NO;
+        _remoteDividerActive=YES;
+        _remoteDividerOriginX=point.x;
+        _remoteDividerRatio=self.leftRatio;
+        _remoteDividerDragged=NO;
+        _remoteDividerStartAt=NSDate.date.timeIntervalSince1970;
+        return YES;
+    }
+    if (!_remoteDividerActive)return NO;
+    if (self.singlePaneMode || self.fullscreenSlot) {
+        _remoteDividerActive=NO;
+        return NO;
+    }
+    if ([phase isEqualToString:@"cancel"]) {
+        self.leftRatio=_remoteDividerRatio;
+        [self.view setNeedsLayout];
+        _remoteDividerActive=NO;
+        return YES;
+    }
+    if (![phase isEqualToString:@"move"] && ![phase isEqualToString:@"end"])return NO;
+    CGFloat delta=point.x-_remoteDividerOriginX;
+    if (fabs(delta)>6.0)_remoteDividerDragged=YES;
+    CGFloat width=CGRectGetWidth(self.view.bounds);
+    if (width<24.0){_remoteDividerActive=NO;return NO;}
+    if (_remoteDividerDragged) {
+        self.leftRatio=fmax(0.25,fmin(0.75,_remoteDividerRatio+delta/width));
+        [self.view setNeedsLayout];
+    }
+    if ([phase isEqualToString:@"end"]) {
+        NSTimeInterval held=NSDate.date.timeIntervalSince1970-_remoteDividerStartAt;
+        BOOL longPress=!_remoteDividerDragged && held>=0.30 && held<10.0;
+        _remoteDividerActive=NO;
+        if (longPress) {
+            [self swapSlots];
+            MTTrialLog(@"remote-divider-hold",@"swap-owned-slots");
+        } else if (_remoteDividerDragged) {
+            MTTrialLog(@"remote-divider-ratio",
+              [NSString stringWithFormat:@"left=%.3f",self.leftRatio]);
+        }
+    }
+    return YES;
 }
 - (void)dividerPanned:(UIPanGestureRecognizer *)pan {
     if (self.fullscreenSlot || self.singlePaneMode) return;

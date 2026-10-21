@@ -55,6 +55,19 @@
     }
     self.splitContainer.view.frame=CGRectMake(0,menuH,w,MAX(0,h-menuH));
 }
+
+// Accept only a remote drag that STARTED within the known physical divider.
+// App windows, picker modals, and menu controls never receive fabricated taps.
+- (BOOL)remoteDividerPhase:(NSString *)phase normalizedPoint:(CGPoint)point {
+    if (![NSThread isMainThread] || !self.isViewLoaded ||
+        !isfinite(point.x) || !isfinite(point.y) ||
+        point.x<0 || point.x>1 || point.y<0 || point.y>1 ||
+        self.presentedViewController || !self.splitContainer)return NO;
+    CGPoint rootPoint=CGPointMake(point.x*CGRectGetWidth(self.view.bounds),
+                                  point.y*CGRectGetHeight(self.view.bounds));
+    CGPoint splitPoint=[self.splitContainer.view convertPoint:rootPoint fromView:self.view];
+    return [self.splitContainer remoteDividerPhase:phase localPoint:splitPoint];
+}
 - (void)chooseApp {
     [self presentAppPickerForSlot:self.splitContainer.leftSlot];
 }

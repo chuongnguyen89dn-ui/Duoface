@@ -8,5 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL singlePaneMode;
 - (void)toggleFullscreenForSlot:(MTAppSlotViewController *)slot;
 - (void)swapSlots;
+// Consume validated CarPlay coordinate phases for the split handle only.
+- (BOOL)remoteDividerPhase:(NSString *)phase localPoint:(CGPoint)point;
 @end
 NS_ASSUME_NONNULL_END

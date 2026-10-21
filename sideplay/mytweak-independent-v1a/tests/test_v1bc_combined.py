@@ -7,7 +7,7 @@ class CombinedContract(unittest.TestCase):
     def test_v1bc_package(self):
         c=src('control')
         self.assertIn('Package: com.duoface.mytweak.v1a.preflight',c)
-        self.assertIn('Version: 0.2.0~v1bc1',c)
+        self.assertIn('Version: 0.2.1~divider1',c)
         self.assertNotIn('Conflicts:',c)
         self.assertNotIn('Replaces:',c)
         m=re.search(r'^DFV1APreflight_FILES = (.*)$',src('Makefile'),re.M)
@@ -39,6 +39,22 @@ class CombinedContract(unittest.TestCase):
         t=src('MTAppSlotViewController.m')
         self.assertIn('doubleTap.cancelsTouchesInView=NO',t)
         self.assertIn('MTV1BCSlotClose',t)
+    def test_remote_divider_in_native_content_coordinates(self):
+        root=src("MTBridgeRootViewController.m")
+        split=src("MTSplitContainerViewController.m")
+        for key in ("remoteDividerPhase:","normalizedPoint:","convertPoint:rootPoint fromView:self.view",
+                    "self.presentedViewController"):
+            self.assertIn(key,root)
+        for key in ("fabs(point.x-CGRectGetMidX(self.dividerView.frame))>24.0",
+                    "_remoteDividerActive","_remoteDividerDragged",
+                    "self.singlePaneMode || self.fullscreenSlot",
+                    "[phase isEqualToString:@\"cancel\"]",
+                    "self.leftRatio=_remoteDividerRatio",
+                    "fmax(0.25,fmin(0.75",
+                    "held>=0.30","[self swapSlots]"):
+            self.assertIn(key,split)
+        for bad in ("UITouch alloc", "GSEventCreate", "IOHIDEvent", "sendEvent:"):
+            self.assertNotIn(bad,split)
     def test_host_logs_and_teardown(self):
         h=src('MTSceneHost.m')
         for x in ('SBAppViewController','SBDeviceApplicationSceneEntity',

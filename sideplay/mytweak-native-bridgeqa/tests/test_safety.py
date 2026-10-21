@@ -8,7 +8,7 @@ class Safety(unittest.TestCase):
     def test_standalone_and_disabled_by_default(self):
         c=read("control")
         self.assertIn("Package: com.duoface.carplay.nativebridgeqa",c)
-        self.assertIn("Version: 0.0.7~steadyack1",c)
+        self.assertIn("Version: 0.0.8~divider1",c)
         self.assertIn("com.duoface.mytweak.v1a.preflight",c)
         for s in ("Conflicts:","Replaces:","Breaks:"):self.assertNotIn(s,c)
         code=read("DFCPNativeBridgeQA.m")
@@ -41,6 +41,15 @@ class Safety(unittest.TestCase):
             self.assertIn(needed,c)
         for wrong in ("UIEvent *fabricated","GSEvent","IOHIDEvent","setPressed","touchesWithEvent"):
             self.assertNotIn(wrong,c)
+    def test_remote_divider_not_general_app_touch(self):
+        q=read("DFCPNativeBridgeQA.m")
+        root=(ROOT/"../mytweak-independent-v1a/MTBridgeRootViewController.m").read_text()
+        for key in ("remoteDividerActive","remoteDividerPhase:normalizedPoint:",
+                    "if(self.remoteDividerActive)", "self.remoteDividerActive=NO"):
+            self.assertIn(key,q)
+        self.assertIn("convertPoint:rootPoint fromView:self.view",root)
+        self.assertIn("UIButton.class",q)
+        self.assertNotIn("sendEvent:",q)
     def test_package_contents(self):
         m=read("Makefile")
         self.assertIn("THEOS_PACKAGE_SCHEME = rootless",m)

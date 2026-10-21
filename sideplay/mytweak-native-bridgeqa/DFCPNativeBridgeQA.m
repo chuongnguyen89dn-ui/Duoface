@@ -56,6 +56,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
 @property(nonatomic,weak) UIWindow *currentWindow;
 @property(nonatomic,assign) CGPoint tapDown;
 @property(nonatomic,assign) BOOL pointerDown;
+@property(nonatomic,assign) BOOL remoteDividerActive;
 @property(nonatomic,assign) NSTimeInterval lastImageTime;
 @property(nonatomic,assign) NSUInteger ticks;
 // Crop only the SpringBoard-owned live source UIWindow, not the rendered image.
@@ -81,7 +82,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     if(self.timer || !NSThread.isMainThread)return;
     NSString *process=NSProcessInfo.processInfo.processName;
     if(![@[@"SpringBoard",@"CarPlay",@"CarPlayApp"] containsObject:process])return;
-    DFQAWrite(@"start",@"version=0.0.7~steadyack1; trial=ack-backed-live-source-window-native-content-crop; no-automatic-UI");
+    DFQAWrite(@"start",@"version=0.0.8~divider1; trial=ack-backed-live-source-window-native-content-crop; no-automatic-UI");
     self.timer=[NSTimer scheduledTimerWithTimeInterval:1.0 target:self
                      selector:@selector(tick) userInfo:nil repeats:YES];
 }
@@ -92,7 +93,7 @@ static BOOL DFQAValidRoot(UIViewController *root) {
     [self.relay stop];self.relay=nil;
     [self.publisher invalidate];self.publisher=nil;
     self.mirrorLayer=nil;self.currentRoot=nil;self.currentWindow=nil;
-    self.pointerDown=NO;self.lastImageTime=0;
+    self.pointerDown=NO;self.remoteDividerActive=NO;self.lastImageTime=0;
 }
 - (void)toggleWholeHostFullscreen {
     NSString *session=self.publisher.session;
@@ -120,11 +121,30 @@ static BOOL DFQAValidRoot(UIViewController *root) {
         NSString *phase=packet[@"Phase"];
         CGPoint p=CGPointMake([packet[@"X"] doubleValue],[packet[@"Y"] doubleValue]);
         if(!isfinite(p.x)||!isfinite(p.y)||p.x<0||p.x>1||p.y<0||p.y>1)return;
+        // The trusted V1BC divider has its OWN constrained gesture adapter;
+        // all other taps remain restricted to the existing native menu.
+        SEL divider=NSSelectorFromString(@"remoteDividerPhase:normalizedPoint:");
+        BOOL hasDivider=[root respondsToSelector:divider];
         if([phase isEqualToString:@"begin"]) {
-            self.tapDown=p;self.pointerDown=YES;return;
+            self.tapDown=p;self.pointerDown=YES;
+            self.remoteDividerActive=hasDivider &&
+                ((BOOL(*)(id,SEL,id,CGPoint))objc_msgSend)(root,divider,phase,p);
+            return;
         }
-        if([phase isEqualToString:@"cancel"]) {self.pointerDown=NO;return;}
-        if(![phase isEqualToString:@"end"] || !self.pointerDown)return;
+        if([phase isEqualToString:@"cancel"]) {
+            if(self.remoteDividerActive && hasDivider)
+                ((BOOL(*)(id,SEL,id,CGPoint))objc_msgSend)(root,divider,phase,p);
+            self.remoteDividerActive=NO;self.pointerDown=NO;return;
+        }
+        if(!self.pointerDown)return;
+        if(self.remoteDividerActive) {
+            if(hasDivider)((BOOL(*)(id,SEL,id,CGPoint))objc_msgSend)(root,divider,phase,p);
+            if([phase isEqualToString:@"end"]) {
+                self.remoteDividerActive=NO;self.pointerDown=NO;
+            }
+            return;
+        }
+        if(![phase isEqualToString:@"end"])return;
         self.pointerDown=NO;
         if(hypot(p.x-self.tapDown.x,p.y-self.tapDown.y)>0.025)return;
         CGPoint pos=CGPointMake(CGRectGetWidth(root.view.bounds)*p.x,
