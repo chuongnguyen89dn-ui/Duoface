@@ -147,7 +147,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.10~atomicreplace1",build)
+  self.assertIn("0.1.11~native12bundle1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -377,7 +377,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.10~atomicreplace1",c)
+  self.assertIn("Version: 0.1.11~native12bundle1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -421,4 +421,38 @@ class NativeCarPlayHost(unittest.TestCase):
   for name in ("UIRootSceneWindow","FBSDisplayConfiguration","SBAppViewController",
                "requestStateChange:","setWindowLevel:", "DBDockWindow", "entitlementValueForKey:"):
    self.assertNotIn(name,s)
+
+ def test_integrated_native12_cards_splash_activity_and_media_scene_safety(self):
+  picker=file("DFAppPickerVC.m")
+  chrome=file("DFNative12Chrome.m")
+  host=file("DFSceneHost.m")
+  entry=file("DFNativeHostAppDelegate.m")
+  self.assertIn("UICollectionViewDataSource",picker)
+  self.assertIn("DFNativeAppCard",picker)
+  self.assertIn("DFRecentKey",picker)
+  self.assertIn("installedIconForBundle:",picker)
+  self.assertIn("DFAppLibrary installedUserApps",picker)
+  self.assertNotIn("UITableViewDataSource",picker)
+  self.assertIn('DFCArtwork(@"duoface-logo")',chrome)
+  self.assertIn("duoface-native-loading-line",chrome)
+  self.assertIn("self.startupActive=YES",chrome)
+  self.assertIn("self.startupActive=NO",chrome)
+  self.assertIn("w.hidden=(!show||self.startupActive)",chrome)
+  self.assertIn("self.splashWindow.hidden=NO",chrome)
+  self.assertIn("noteUserActivity",chrome)
+  self.assertIn("self.borderUntil",chrome)
+  self.assertIn("self.focus<0 && loaded",chrome)
+  self.assertIn("227./255",chrome)
+  self.assertIn("scene.activationState!=UISceneActivationStateForegroundActive",entry)
+  self.assertIn("touchowner-deferred-until-carplay-foreground-active",entry)
+  self.assertIn("native-app-geometry-reference-only-no-nil-frontboard-transition",host)
+  self.assertNotIn("scene,update,settings,nil,nil",host)
+  self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
+  self.assertIn("host.transform=CGAffineTransformMakeScale",host)
+  for preserved in ("self.swapped=!self.swapped","self.ratio=cancel?self.dragStartRatio",
+                    "self.focus=(self.focus==sender.tag)?-1:sender.tag",
+                    "app-replace-pending-existing-retained"):
+   self.assertIn(preserved,chrome)
+  self.assertNotIn("CBBridgeManager",host)
+  self.assertNotIn("checkAndSyncLicense",host)
 if __name__=="__main__":unittest.main(verbosity=2)
