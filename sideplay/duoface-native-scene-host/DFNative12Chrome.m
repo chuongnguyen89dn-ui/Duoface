@@ -542,9 +542,12 @@ static void DFCLog(NSString *text) {
         [zoom setImage:icon forState:UIControlStateNormal];
         w.hidden=(!show||self.startupActive);
     }
+    // Source-owned ratio boundary, not maxX/Y of the first app. In preset 7
+    // the left side is TWO real strips: pane[0] ends at ratio/2, not ratio.
+    CGFloat boundary=DFPrimaryDividerCoordinate(cr,self.preset,p);
     CGRect tr=self.verticalDivider?
-        CGRectMake(CGRectGetMaxX(pane[0])-16,cr.origin.y+2,32,cr.size.height-4):
-        CGRectMake(cr.origin.x+2,CGRectGetMaxY(pane[0])-16,cr.size.width-4,32);
+        CGRectMake(boundary-16,cr.origin.y+2,32,cr.size.height-4):
+        CGRectMake(cr.origin.x+2,boundary-16,cr.size.width-4,32);
     self.dividerWindow.frame=tr;
     self.dividerTrack.frame=CGRectMake(0,0,tr.size.width,tr.size.height);
     UIView *line=[self.dividerTrack viewWithTag:718];
