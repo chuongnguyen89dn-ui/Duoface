@@ -6,8 +6,9 @@ on:
       - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
       - 'sideplay/jb-embedded-appbridge/package_integrated.py'
       - 'sideplay/jb-embedded-appbridge/tests/**'
-      - 'sideplay/duoface-native-scene-host/**'
-      - '!sideplay/duoface-native-scene-host/packages/**'
+      # NativeHost changes build the isolated package first. Only a subsequent
+      # SHA-pinned package_integrated.py update can trigger this aggregated build.
+      # This avoids testing a new NativeHost control Version against an old pin.
       - 'sideplay/jb-embedded-appbridge/scripts/**'
       - 'sideplay/mytweak-native-bridgeqa/**'
       - '!sideplay/mytweak-native-bridgeqa/packages/**'
