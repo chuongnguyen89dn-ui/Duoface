@@ -38,6 +38,11 @@ done
 test -s "$ART/duoface-icon.png"
 sips -s format png -z 120 120 "$ART/duoface-icon.png" --out "$APP/DuoFaceIcon60@2x.png" >/dev/null
 sips -s format png -z 180 180 "$ART/duoface-icon.png" --out "$APP/DuoFaceIcon60@3x.png" >/dev/null
+# iOS splash is compiled by Xcode's Interface Builder; copy the logo at
+# bundle root as well so the launch scene can resolve its image by name.
+cp "$ART/duoface-logo.png" "$APP/duoface-logo.png"
+xcrun ibtool --errors --warnings --notices \
+  --compile "$APP/DuoFaceLaunchScreen.storyboardc" DuoFaceLaunchScreen.storyboard
 cp Info.plist "$APP/Info.plist"
 ldid -Sentitlements.plist "$APP/DuoFaceNativeHost"
 plutil -lint "$APP/Info.plist"
