@@ -20,6 +20,24 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
+# Assets are our previously approved DuoFace artwork from the project's source.
+ART="$ROOT/../../dist/visual-1.0.3-12/assets"
+APP_ART="$APP/VisualAssets"
+SYSTEM_ART="$TMP/var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets"
+mkdir -p "$APP_ART" "$SYSTEM_ART"
+for f in duoface-logo.png duoface-logo-vert.png; do
+  test -s "$ART/$f"
+  cp "$ART/$f" "$APP_ART/$f"
+  cp "$ART/$f" "$SYSTEM_ART/$f"
+done
+for f in duoface-picker.png duoface-fullscreen.png duoface-swap.png; do
+  test -s "$ART/VisualAssets/$f"
+  cp "$ART/VisualAssets/$f" "$APP_ART/$f"
+  cp "$ART/VisualAssets/$f" "$SYSTEM_ART/$f"
+done
+test -s "$ART/duoface-icon.png"
+sips -s format png -z 120 120 "$ART/duoface-icon.png" --out "$APP/DuoFaceIcon60@2x.png" >/dev/null
+sips -s format png -z 180 180 "$ART/duoface-icon.png" --out "$APP/DuoFaceIcon60@3x.png" >/dev/null
 cp Info.plist "$APP/Info.plist"
 ldid -Sentitlements.plist "$APP/DuoFaceNativeHost"
 plutil -lint "$APP/Info.plist"
