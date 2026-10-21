@@ -188,8 +188,16 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         id scene=DFCall0(handle,@"sceneIfExists");
         // The scene handle can exist before hosting begins. For an
         // implementation which exposes isHostingAnApp, require BOTH.
-        BOOL isHosting=DFHostingFlag(self.appController,@"isHostingAnApp",YES);
-        if(scene && isHosting) {
+        // A sceneHandle may exist even when no remote app content is hosted.
+        // Fail closed if the private capability is missing or the host has
+        // not been attached to THIS CarPlay app container's window.
+        // This is a readiness safety gate, NOT a media crash fix.
+        BOOL supportsHosting=[self.appController respondsToSelector:
+                                       NSSelectorFromString(@"isHostingAnApp")];
+        BOOL isHosting=DFHostingFlag(self.appController,@"isHostingAnApp",NO);
+        BOOL viewAttached=(self.appController.view.window!=nil &&
+                           self.appController.view.window==self.window);
+        if(scene && supportsHosting && isHosting && viewAttached) {
             if (!self.scene) {
                 self.scene=scene;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
@@ -204,10 +212,19 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             }
             return;
         }
-        if (++self.tries>=36) {
+        ++self.tries;
+        if(self.tries==3 || self.tries==10 || self.tries==25){
+            DFSceneLog(@"scene-awaiting-real-host",self.bundleID,
+                [NSString stringWithFormat:
+                    @"handle=%d supportsHosting=%d hosting=%d windowAttached=%d attempts=%lu",
+                    scene!=nil,supportsHosting,isHosting,viewAttached,
+                    (unsigned long)self.tries]);
+        }
+        if (self.tries>=36) {
             DFSceneLog(@"scene-host-timeout",self.bundleID,
-                  [NSString stringWithFormat:@"handle=%d hosting=%d",
-                           scene!=nil,isHosting]);
+                  [NSString stringWithFormat:
+                    @"handle=%d supportsHosting=%d hosting=%d windowAttached=%d",
+                    scene!=nil,supportsHosting,isHosting,viewAttached]);
             [self failed:DFSceneError(112,@"Hết thời gian chờ scene và host ứng dụng thật")];
         }
     } @catch (NSException *e) {
