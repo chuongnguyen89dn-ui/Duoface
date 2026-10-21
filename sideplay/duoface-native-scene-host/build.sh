@@ -9,7 +9,7 @@ APP="$TMP/var/jb/Applications/DuoFaceNativeHost.app"
 mkdir -p "$APP" "$TMP/DEBIAN" "$ROOT/packages"
 xcrun --sdk iphoneos clang -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-  -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
+  -framework UIKit -framework CarPlay -framework Foundation -framework QuartzCore -framework CoreGraphics \
   -o "$APP/DuoFaceNativeHost" main.m DFNativeHostAppDelegate.m DFNativeHostRootController.m \
   DFNativeHostSurfaceView.m ../mytweak-independent-v1a/prototype/MTCPBridgeContract.m
 cp Info.plist "$APP/Info.plist"
@@ -19,6 +19,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.0.3~registered1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.0.4~template1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

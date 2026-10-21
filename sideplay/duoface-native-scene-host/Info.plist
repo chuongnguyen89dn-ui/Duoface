@@ -7,7 +7,7 @@
  <key>CFBundleDisplayName</key><string>DuoFace Native Host</string>
  <key>CFBundlePackageType</key><string>APPL</string>
  <key>CFBundleVersion</key><string>1</string>
- <key>CFBundleShortVersionString</key><string>0.0.2</string>
+ <key>CFBundleShortVersionString</key><string>0.0.4</string>
  <key>LSRequiresIPhoneOS</key><true/>
  <key>SBStarkLaunchModes</key><array><string>Default</string></array>
  <key>UIDeviceFamily</key><array><integer>1</integer></array>
@@ -18,6 +18,11 @@
         <key>UISceneConfigurationName</key><string>DuoFace iPhone Status</string>
         <key>UISceneClassName</key><string>UIWindowScene</string>
         <key>UISceneDelegateClassName</key><string>DFNativeHostPhoneSceneDelegate</string>
+     </dict></array>
+     <key>CPTemplateApplicationSceneSessionRoleApplication</key><array><dict>
+        <key>UISceneConfigurationName</key><string>DuoFace Template CarPlay Scene</string>
+        <key>UISceneClassName</key><string>CPTemplateApplicationScene</string>
+        <key>UISceneDelegateClassName</key><string>DFNativeHostTemplateSceneDelegate</string>
      </dict></array>
      <key>UIWindowSceneSessionRoleCarPlay</key><array><dict>
         <key>UISceneConfigurationName</key><string>DuoFace Native CarPlay Scene</string>

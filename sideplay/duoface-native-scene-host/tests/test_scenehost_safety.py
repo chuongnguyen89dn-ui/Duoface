@@ -12,7 +12,11 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertEqual(configs["UIWindowSceneSessionRoleCarPlay"][0]["UISceneClassName"],"UIWindowScene")
   self.assertEqual(configs["UIWindowSceneSessionRoleCarPlay"][0]["UISceneDelegateClassName"],"DFNativeHostCarSceneDelegate")
   self.assertIn("UIWindowSceneSessionRoleApplication",configs)
-  self.assertFalse(any(k.startswith("com.apple.developer.carplay") for k in plistlib.loads((R/"entitlements.plist").read_bytes())))
+  ent=plistlib.loads((R/"entitlements.plist").read_bytes())
+  self.assertTrue(ent["com.apple.developer.carplay-maps"])
+  self.assertFalse(any(k.startswith("com.apple.developer.carplay") and k!="com.apple.developer.carplay-maps" for k in ent))
+  self.assertEqual(configs["CPTemplateApplicationSceneSessionRoleApplication"][0]["UISceneClassName"],"CPTemplateApplicationScene")
+  self.assertEqual(configs["CPTemplateApplicationSceneSessionRoleApplication"][0]["UISceneDelegateClassName"],"DFNativeHostTemplateSceneDelegate")
  def test_system_must_supply_scene_no_foreign_window(self):
   c=file("DFNativeHostAppDelegate.m")
   self.assertIn("initWithWindowScene:ws",c)
@@ -33,10 +37,27 @@ class NativeCarPlayHost(unittest.TestCase):
                     "SBAppViewController","UIRootSceneWindow","[window setFrame",
                     "entitlementValueForKey"):
    self.assertNotIn(forbidden,c)
+ def test_navigation_template_is_system_owned_and_not_tweak_ui(self):
+  c=file("DFNativeHostAppDelegate.m")
+  for marker in ("#import <CarPlay/CarPlay.h>",
+     "CPTemplateApplicationSceneSessionRoleApplication",
+     "CPTemplateApplicationScene.class", "DFNativeHostTemplateSceneDelegate",
+     "templateApplicationScene:(CPTemplateApplicationScene *)scene",
+     "didConnectInterfaceController:(CPInterfaceController *)controller",
+     "toWindow:(CPWindow *)window", "setRootTemplate:map animated:NO",
+     "native-carplay-template-scene-connected",
+     "templateApplicationScene:(CPTemplateApplicationScene *)scene",
+     "didDisconnectInterfaceController:(CPInterfaceController *)controller",
+     "self.carWindow=nil"):
+   self.assertIn(marker,c)
+  self.assertNotIn("setWindowLevel:",c)
+  self.assertNotIn("DBDockWindow",c)
+  self.assertIn("-framework CarPlay",file("build.sh"))
+  self.assertIn("ldid -Sentitlements.plist",file("build.sh"))
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.0.3~registered1",c)
+  self.assertIn("Version: 0.0.4~template1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())

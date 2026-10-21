@@ -1,10 +1,12 @@
 // Independent DuoFace native CarPlay scene-entry proof. NO vendor bridge code.
 #import <UIKit/UIKit.h>
+#import <CarPlay/CarPlay.h>
 #import <Foundation/Foundation.h>
 #import <fcntl.h>
 #import <unistd.h>
 
 static NSString *const DFCarPlayRole=@"UIWindowSceneSessionRoleCarPlay";
+static NSString *const DFTemplateRole=@"CPTemplateApplicationSceneSessionRoleApplication";
 void DFNativeHostLog(NSString *message) {
     NSString *line=[NSString stringWithFormat:@"[DuoFaceNativeHost] %@\n",message];
     NSLog(@"%@",line);
@@ -23,6 +25,12 @@ void DFNativeHostLog(NSString *message) {
 @interface DFNativeHostCarSceneDelegate : UIResponder <UIWindowSceneDelegate>
 @property(nonatomic,strong) UIWindow *window;
 @end
+// An independent CarPlay template entry point, separate from the earlier
+// generic UIKit role. CarPlay provides the CPWindow; we never create one.
+@interface DFNativeHostTemplateSceneDelegate : UIResponder <CPTemplateApplicationSceneDelegate>
+@property(nonatomic,strong) CPInterfaceController *interfaceController;
+@property(nonatomic,strong) CPWindow *carWindow;
+@end
 @interface DFNativeHostAppDelegate : UIResponder <UIApplicationDelegate>
 @end
 @implementation DFNativeHostAppDelegate
@@ -36,6 +44,14 @@ void DFNativeHostLog(NSString *message) {
  options:(UISceneConnectionOptions *)options API_AVAILABLE(ios(13.0)) {
     (void)app;(void)options;
     NSString *role=session.role;
+    if([role isEqualToString:DFTemplateRole]){
+        DFNativeHostLog(@"CarPlay-template-role-issued-by-system");
+        UISceneConfiguration *config=[UISceneConfiguration
+            configurationWithName:@"DuoFace Template CarPlay Scene" sessionRole:role];
+        config.sceneClass=CPTemplateApplicationScene.class;
+        config.delegateClass=DFNativeHostTemplateSceneDelegate.class;
+        return config;
+    }
     if([role isEqualToString:DFCarPlayRole]){
         DFNativeHostLog(@"CarPlay-role-request-received native-scene-no-window-created-yet");
         UISceneConfiguration *config=[UISceneConfiguration
@@ -111,5 +127,50 @@ void DFNativeHostLog(NSString *message) {
         self.window.hidden=YES;self.window.rootViewController=nil;self.window=nil;
         DFNativeHostLog(@"native-carplay-scene-disconnected release-owned-window");
     }
+}
+@end
+
+// Navigation-template acceptance is a distinct path from native UIKit
+// UIWindowSceneSessionRoleCarPlay. Never spoof a synthetic scene or system Dock.
+@implementation DFNativeHostTemplateSceneDelegate
+- (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
+       didConnectInterfaceController:(CPInterfaceController *)controller
+                            toWindow:(CPWindow *)window {
+    if(![scene.session.role isEqualToString:DFTemplateRole] || !controller || !window) {
+        DFNativeHostLog(@"template-scene-rejected-invalid-role-or-window");
+        return;
+    }
+    self.interfaceController=controller;
+    self.carWindow=window; // Provided by CarPlay, not created with UIWindow alloc.
+    UIViewController *root=[UIViewController new];
+    root.view.backgroundColor=[UIColor colorWithRed:0.04 green:0.17 blue:0.26 alpha:1];
+    UILabel *label=[UILabel new];
+    label.translatesAutoresizingMaskIntoConstraints=NO;
+    label.text=@"DUOFACE\nCARPLAY NATIVE SCENE\nSTANDALONE TEST";
+    label.numberOfLines=0;
+    label.font=[UIFont boldSystemFontOfSize:19];
+    label.textColor=UIColor.whiteColor;
+    label.textAlignment=NSTextAlignmentCenter;
+    [root.view addSubview:label];
+    [NSLayoutConstraint activateConstraints:@[
+        [label.centerXAnchor constraintEqualToAnchor:root.view.safeAreaLayoutGuide.centerXAnchor],
+        [label.centerYAnchor constraintEqualToAnchor:root.view.safeAreaLayoutGuide.centerYAnchor],
+        [label.leadingAnchor constraintGreaterThanOrEqualToAnchor:root.view.safeAreaLayoutGuide.leadingAnchor constant:10],
+        [label.trailingAnchor constraintLessThanOrEqualToAnchor:root.view.safeAreaLayoutGuide.trailingAnchor constant:-10]
+    ]];
+    window.rootViewController=root;
+    CPMapTemplate *map=[CPMapTemplate new];
+    [controller setRootTemplate:map animated:NO completion:nil];
+    DFNativeHostLog(@"native-carplay-template-scene-connected UIKit-issued CPWindow, not app-host success");
+}
+- (void)templateApplicationScene:(CPTemplateApplicationScene *)scene
+    didDisconnectInterfaceController:(CPInterfaceController *)controller
+                           fromWindow:(CPWindow *)window {
+    (void)scene;(void)controller;
+    // Release only our contents; CarPlay retains ownership of its window.
+    if(window && window==self.carWindow)window.rootViewController=nil;
+    self.interfaceController=nil;
+    self.carWindow=nil;
+    DFNativeHostLog(@"native-carplay-template-scene-disconnected");
 }
 @end

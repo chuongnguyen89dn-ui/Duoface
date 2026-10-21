@@ -1,0 +1,78 @@
+name: DuoFace independent CarPlay template scene candidate (isolated DEB)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native-template-smoke.yml'
+      - 'sideplay/duoface-native-scene-host/**'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native-template-smoke
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate isolated CarPlay scene contract
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_*.py' -v
+      - name: Install rootless artifact tools
+        run: |
+          set -euo pipefail
+          brew install ldid dpkg
+      - name: Build and verify genuine CarPlay template host
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-native-scene-host/build.sh
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.0.4~template1_iphoneos-arm64.deb'
+          test -s "$FILE"
+          test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.0.4~template1'
+          test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
+          OUT="$RUNNER_TEMP/nativehost-check"
+          mkdir -p "$OUT"
+          dpkg-deb -x "$FILE" "$OUT"
+          APP="$OUT/var/jb/Applications/DuoFaceNativeHost.app"
+          test -s "$APP/DuoFaceNativeHost"
+          ldid -e "$APP/DuoFaceNativeHost" > "$RUNNER_TEMP/nativehost-entitlements.xml"
+          grep -F 'com.apple.developer.carplay-maps' "$RUNNER_TEMP/nativehost-entitlements.xml"
+          grep -F 'platform-application' "$RUNNER_TEMP/nativehost-entitlements.xml"
+          APP_PATH="$APP" python3 - <<'PY'
+          import plistlib,os
+          from pathlib import Path
+          app=Path(os.environ["APP_PATH"])
+          with (app/"Info.plist").open("rb") as f: info=plistlib.load(f)
+          assert info["CFBundleIdentifier"]=="com.duoface.native.scenehost"
+          scenes=info["UIApplicationSceneManifest"]["UISceneConfigurations"]
+          native=scenes["CPTemplateApplicationSceneSessionRoleApplication"][0]
+          assert native["UISceneClassName"]=="CPTemplateApplicationScene"
+          assert native["UISceneDelegateClassName"]=="DFNativeHostTemplateSceneDelegate"
+          assert scenes["UIWindowSceneSessionRoleCarPlay"][0]["UISceneClassName"]=="UIWindowScene"
+          print("DUOFACE_CPTEMPLATE_MANIFEST_PASS")
+          PY
+          mkdir -p sideplay/duoface-native-scene-host/packages
+          (cd sideplay/duoface-native-scene-host && shasum -a 256 packages/*.deb > packages/SHA256SUMS.txt)
+          printf 'SOURCE_SHA=%s\nRUN_ID=%s\nBUILD_AND_SIGNATURE=PASS\nSILEO_PUBLISHED=false\nHOME_ICON_DEVICE_VERIFIED=false\nCARPLAY_SCENE_DEVICE_VERIFIED=false\nDUAL_APP_TOUCH_VERIFIED=false\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" > sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace-Native-Template-Beta-Not-Installed
+          path: |
+            sideplay/duoface-native-scene-host/packages/*.deb
+            sideplay/duoface-native-scene-host/packages/SHA256SUMS.txt
+            sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
+          if-no-files-found: error
+      - name: Save exact binary evidence in DuoFace feature branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f sideplay/duoface-native-scene-host/packages/*.deb
+          git add -f sideplay/duoface-native-scene-host/packages/SHA256SUMS.txt sideplay/duoface-native-scene-host/packages/CI_RESULT.txt
+          git commit -m 'build(nativehost): persist signed template CarPlay DEB and SHA [skip ci]'
+          git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020
