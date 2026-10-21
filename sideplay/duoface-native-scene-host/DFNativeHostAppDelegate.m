@@ -143,7 +143,7 @@ void DFNativeHostLog(NSString *message) {
 // UIWindowSceneSessionRoleCarPlay. Never spoof a synthetic scene or system Dock.
 @implementation DFNativeHostTemplateSceneDelegate
 // A bounded UI action stream only. Never synthesize UIKit touches or
-// command any SpringBoard app scene. The parent visual split owns ratio.
+// command any external app scene. The parent visual split owns ratio.
 - (void)consumeTouchCommand {
     if(!self.basicController || !self.touchSession)return;
     NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.command.plist";
