@@ -267,7 +267,7 @@ void DFNativeHostLog(NSString *message) {
        ![action isKindOfClass:NSString.class])return;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[timestamp doubleValue];
     if(!isfinite(age) || age<0 || age>2.0)return;
-    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",@"FocusLeft",@"FocusRight",@"Restore"] containsObject:action])return;
+    if(![@[@"App",@"Zoom",@"Style",@"Close",@"SWAP",@"Ratio",@"FocusLeft",@"FocusRight",@"FocusSlot2",@"FocusSlot3",@"Restore"] containsObject:action])return;
     id ratio=record[@"Ratio"];
     if([action isEqualToString:@"Ratio"]) {
         if(![ratio isKindOfClass:NSNumber.class] ||
@@ -277,8 +277,8 @@ void DFNativeHostLog(NSString *message) {
     }else if([action isEqualToString:@"App"] ||
              [action isEqualToString:@"Close"]){
         if(![ratio isKindOfClass:NSNumber.class] ||
-           ([(NSNumber *)ratio integerValue]!=0 &&
-            [(NSNumber *)ratio integerValue]!=1))return;
+           ([(NSNumber *)ratio integerValue]<0 ||
+            [(NSNumber *)ratio integerValue]>3))return;
     }else if(ratio!=nil)return;
     // CarPlay only acknowledges the REAL post-action SpringBoard state.
     // It must never execute a second, fake split manager or mutate CPWindow.
@@ -288,16 +288,20 @@ void DFNativeHostLog(NSString *message) {
        ![state[@"Owner"] isEqualToString:@"SpringBoard"])return;
     for(NSString *key in @[@"Ratio",@"Vertical",@"Swapped",@"Focus",
                              @"SelectedSlot",@"SlotCount",@"RunningScenes",
-                             @"PendingScenes",@"StartupActive",@"PickerVisible"]){
+                             @"PendingScenes",@"StartupActive",@"PickerVisible",
+                             @"ActiveSlots",@"Preset"]){
         if(![state[key] isKindOfClass:NSNumber.class])return;
     }
     double currentRatio=[state[@"Ratio"] doubleValue];
     NSInteger focus=[state[@"Focus"] integerValue];
     NSInteger count=[state[@"SlotCount"] integerValue];
     NSInteger selected=[state[@"SelectedSlot"] integerValue];
+    NSInteger active=[state[@"ActiveSlots"] integerValue];
+    NSInteger preset=[state[@"Preset"] integerValue];
     if(!isfinite(currentRatio) || currentRatio<1.0/3.0 ||
-       currentRatio>2.0/3.0 || count!=2 || focus< -1 || focus>=count ||
-       selected<0 || selected>=count ||
+       currentRatio>2.0/3.0 || count!=4 || active<2 || active>4 ||
+       preset<0 || preset>7 || focus< -1 || focus>=active ||
+       selected<0 || selected>=active ||
        [state[@"RunningScenes"] integerValue]<0 ||
        [state[@"RunningScenes"] integerValue]>count ||
        [state[@"PendingScenes"] integerValue]<0 ||
@@ -307,6 +311,8 @@ void DFNativeHostLog(NSString *message) {
     if([action isEqualToString:@"Restore"] && focus!= -1)return;
     if([action isEqualToString:@"FocusLeft"] && focus!=0)return;
     if([action isEqualToString:@"FocusRight"] && focus!=1)return;
+    if([action isEqualToString:@"FocusSlot2"] && focus!=2)return;
+    if([action isEqualToString:@"FocusSlot3"] && focus!=3)return;
     self.lastTouchSequence=[sequence unsignedIntegerValue];
     NSDictionary *ack=@{@"Version":@2,@"Session":session,
                          @"Sequence":sequence,@"Accepted":@YES,
