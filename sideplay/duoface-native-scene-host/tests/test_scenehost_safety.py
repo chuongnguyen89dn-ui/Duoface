@@ -206,6 +206,29 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertNotIn(text,chrome)
   self.assertNotIn("DBDockWindow",chrome)
   self.assertNotIn("requestStateChange:",chrome)
+ def test_native12_divider_ratio_uses_static_screen_coordinates_not_moving_window(self):
+  # Original Native12/visual12 puts ratio movement in a static content root.
+  # Chrome instead re-frames a tiny divider UIWindow on every move. Measuring
+  # translationInView: that same view feeds window motion back into the input.
+  chrome=file("DFNative12Chrome.m")
+  start=chrome.index("- (CGPoint)dividerTouchOnScreen:")
+  end=chrome.index("- (void)logoHold:",start)
+  pan=chrome[start:end]
+  self.assertIn("self.dividerWindow.screen.coordinateSpace",pan)
+  self.assertIn("convertPoint:local toCoordinateSpace:screen",pan)
+  self.assertIn("self.dragStartScreenPoint=start;",pan)
+  self.assertIn("current.x-self.dragStartScreenPoint.x",pan)
+  self.assertIn("current.y-self.dragStartScreenPoint.y",pan)
+  self.assertIn("self.ratio=cancel?self.dragStartRatio",pan)
+  self.assertIn("DFCSnap(proposed):DFCClamp(proposed)",pan)
+  self.assertIn("self.preset==3 || self.preset==5?-1:1",pan)
+  self.assertNotIn("translationInView:self.dividerTrack",pan)
+  self.assertNotIn("self.logoFraction=",pan)
+  self.assertIn("self.panActive=NO;",pan)
+  # Three original actions are still discrete after the pointer correction.
+  self.assertIn("action:@selector(swapPressed:)",chrome)
+  self.assertIn("action:@selector(logoHold:)",chrome)
+
  def test_original_native12_logo_hit_owner_is_separate_from_ratio_pan(self):
   # Original Native12 method index (CBDividerView): pointInside,
   # handleMoveButtonLongPress, moveButtonTouchUp, and handlePan are distinct.
