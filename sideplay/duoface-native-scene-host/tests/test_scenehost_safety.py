@@ -578,4 +578,22 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"FocusSlot3"',probe)
   self.assertNotIn("self.verticalDivider=!self.verticalDivider",chrome)
 
+ def test_native12_live_iphone_layout_settings_drive_real_springboard_owner(self):
+  phone=file("DFNativeHostRootController.m")
+  probe=file("DFTouchOwnerProbe.m")
+  chrome=file("DFNative12Chrome.m")
+  header=file("DFNative12Chrome.h")
+  self.assertIn('@"Trạng thái",@"Ứng dụng",@"Bố cục"',phone)
+  self.assertIn('writeNativeLayoutPreset:',phone)
+  self.assertIn('com.duoface.nativehost.layout.changed.v1',phone)
+  self.assertIn('@"Preset":@(preset)',phone)
+  self.assertIn('com.duoface.nativehost.layout.changed.v1',probe)
+  self.assertIn('[sChrome applyLayoutSettingsFromDisk]',probe)
+  self.assertIn('- (BOOL)applyLayoutSettingsFromDisk;',header)
+  self.assertIn('DFComputePresetFrames(cr,self.preset,p,pane)',chrome)
+  self.assertIn('live-preset-updated',chrome)
+  self.assertIn('self.appPickerWindow.hidden=YES;',chrome)
+  self.assertIn('DFSlotCountForPreset(self.preset)',chrome)
+  self.assertNotIn('UIRootSceneWindow',phone)
+
 if __name__=="__main__":unittest.main(verbosity=2)
