@@ -9,6 +9,6 @@
     self.view.backgroundColor=UIColor.blackColor;
     self.view.userInteractionEnabled=NO;
 }
-// DO NOT implement dummy performCarPlayControl:/setPresetRatio: handlers.
+// Do not implement a second set of control handlers in the CarPlay root.
 // Post-action snapshots are validated/ACKed by the CarPlay scene delegate.
 @end
