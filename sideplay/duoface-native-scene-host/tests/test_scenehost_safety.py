@@ -541,4 +541,19 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertLess(disconnect.index('[self stopTouchOwnerWithReason:@"template-disconnected"]'),
                   disconnect.index("window.rootViewController=nil"))
 
+ def test_owner_retries_only_latest_real_state_without_reapplying_ui(self):
+  probe=file("DFTouchOwnerProbe.m")
+  app=file("DFNativeHostAppDelegate.m")
+  self.assertIn('latest-state-ack-retry',probe)
+  self.assertIn('sRetryCount<3',probe)
+  self.assertIn('now-sRetryAt>=.8',probe)
+  self.assertIn('last[@"Sequence"] unsignedIntegerValue]==sSequence',probe)
+  self.assertIn('retry[@"Timestamp"]=@(now)',probe)
+  self.assertIn('notify_post(kCommandNotify)',probe)
+  self.assertIn('DFReceiveAck();',probe)
+  self.assertIn('sRetryCount=0;sRetryAt=0;',probe)
+  self.assertIn('@"State":state',probe)
+  self.assertIn('@"Accepted":@YES',app)
+  self.assertNotIn('self.basicController performCarPlayControl:',app)
+
 if __name__=="__main__":unittest.main(verbosity=2)
