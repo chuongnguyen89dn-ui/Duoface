@@ -176,7 +176,7 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
                               dequeueReusableCellWithReuseIdentifier:@"DFNativeCard"
                                                       forIndexPath:indexPath];
     NSArray<DFAppInfo *> *display=[self visibleApps];
-    if(indexPath.item>=display.count)return card;
+    if((NSUInteger)indexPath.item>=display.count)return card;
     DFAppInfo *app=display[indexPath.item];
     card.title.text=app.displayName;
     card.icon.image=[self installedIconForBundle:app.bundleID];
@@ -188,7 +188,7 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
  didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     (void)collectionView;
     NSArray<DFAppInfo *> *display=[self visibleApps];
-    if(indexPath.item>=display.count)return;
+    if((NSUInteger)indexPath.item>=display.count)return;
     DFAppInfo *app=display[indexPath.item];
     if(app.bundleID.length){
         NSArray *prior=[[NSUserDefaults standardUserDefaults] objectForKey:DFRecentKey];
