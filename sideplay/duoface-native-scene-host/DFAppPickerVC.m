@@ -45,6 +45,7 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 @property(nonatomic,strong) UILabel *titleLabel;
 @property(nonatomic,strong) UIButton *closeButton;
 @property(nonatomic,strong) NSArray<DFAppInfo *> *apps;
+@property(nonatomic,readonly) NSArray<DFAppInfo *> *visibleApps;
 @property(nonatomic,assign) NSUInteger inventoryGeneration;
 @end
 @implementation DFAppPickerVC
