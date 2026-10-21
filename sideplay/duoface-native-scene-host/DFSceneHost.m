@@ -305,6 +305,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         [missing addObject:@"SBDeviceApplicationSceneEntity init/factory missing"];
     if (!controllerClass || ![controllerClass instancesRespondToSelector:controllerInit] ||
         ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"setRequestedMode:")] ||
+        ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"canHostAnApp")] ||
+        ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"isHostingAnApp")] ||
         ![controllerClass instancesRespondToSelector:NSSelectorFromString(@"invalidate")])
         [missing addObject:@"SBAppViewController host API missing"];
     if (missing.count) {
@@ -323,7 +325,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             return nil;
         }
         [controller loadViewIfNeeded];
-        if(!DFHostingFlag(controller,@"canHostAnApp",YES)){
+        // Never assume hosting capability YES when a private selector is absent.
+        if(!DFHostingFlag(controller,@"canHostAnApp",NO)){
             DFSceneLog(@"host-preflight-denied",bundleID,@"SBAppViewController.canHostAnApp=NO");
             if(error)*error=DFSceneError(107,@"SBAppViewController không thể host ứng dụng này");
             return nil;
