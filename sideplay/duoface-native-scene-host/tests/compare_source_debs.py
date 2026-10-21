@@ -8,7 +8,6 @@ from runtime equivalence and records the exact immutable inputs.
 import argparse, hashlib, json, pathlib, subprocess, tempfile
 
 NATIVE_SHA="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
-DUONAVI_SHA="f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd"
 REFERENCE_COMMIT="1286a3ef868cf7e29804bcddf7e20b2eae707ce1"
 ORIGINAL_MARKERS=("CBBridgeManager","checkAndSyncLicenseIfNeeded",
                   "CBSplitSplashScreenView","CBMultitaskingOverlayView",
@@ -54,22 +53,19 @@ def assess(label,path,sha,extract_dir):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--native12",type=pathlib.Path,required=True)
-    ap.add_argument("--duonavi",type=pathlib.Path,required=True)
     ap.add_argument("--candidate",type=pathlib.Path,required=True)
     ap.add_argument("--out",type=pathlib.Path,required=True)
     a=ap.parse_args()
     with tempfile.TemporaryDirectory() as directory:
         base=pathlib.Path(directory)
         native=assess("Native12",a.native12,NATIVE_SHA,base/"native")
-        duonavi=assess("DuoNavi",a.duonavi,DUONAVI_SHA,base/"duonavi")
         candidate=assess("Independent",a.candidate,None,base/"candidate")
         if candidate["package"]!="com.duoface.carplay.nativescenehost":
             raise ValueError("Unexpected output package")
         if candidate["architecture"]!="iphoneos-arm64":
             raise ValueError("Unexpected rootless architecture")
-        for name,record in (("Native12",native),("DuoNavi",duonavi)):
-            if not record["binary_files"]:
-                raise ValueError(f"{name} reference did not unpack Mach-O content")
+        if not native["binary_files"]:
+            raise ValueError("Native12 reference did not unpack Mach-O content")
         if "SBAppViewController" not in candidate["markers"]:
             raise ValueError("Independent host source is not present in candidate Mach-O")
         if any(x in candidate["markers"] for x in ("CBBridgeManager","checkAndSyncLicenseIfNeeded")):
@@ -81,7 +77,8 @@ def main():
         report={
            "kind":"STATIC_DEB_CONTENT_COMPARISON_NOT_HARDWARE_VERIFICATION",
            "reference_git_commit":REFERENCE_COMMIT,
-           "original_native12":native,"original_duonavi":duonavi,
+           "scope":"ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI",
+           "original_native12":native,
            "independent_candidate":candidate,"candidate_assets":assets,
            "licensed_original_manager_excluded":True,
            "original_binary_copied":False,
@@ -93,7 +90,6 @@ def main():
         }
         a.out.parent.mkdir(parents=True,exist_ok=True)
         a.out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
-        print("NATIVE12_DUONAVI_DEB_COMPARISON_STATIC_PASS")
-        print("native12="+native["sha256"],"duonavi="+duonavi["sha256"],
-              "candidate="+candidate["sha256"])
+        print("NATIVE12_ONLY_DEB_COMPARISON_STATIC_PASS")
+        print("native12="+native["sha256"],"candidate="+candidate["sha256"])
 if __name__=="__main__":main()
