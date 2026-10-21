@@ -1,0 +1,96 @@
+name: Native12 vs new DuoFace ALL file+1385 methods — strict parity audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-vs-new-duoface-full-parity.yml'
+      - 'sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-vs-new-duoface-exact-two-debs
+  cancel-in-progress: true
+jobs:
+  native12-direct-full-audit:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install DEB inspection tools (never install extracted payload)
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v strings
+      - name: Fetch SHA-pinned ORIGINAL Native12 and exact NEW DuoFace DEBs + 1385 methods
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/native12-audit-inputs"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12-audit-inputs/native12.deb"
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/native12-audit-inputs/method-index.json"
+          cp 'sideplay/jb-embedded-appbridge/evidence/runs/39592301388/com.duoface.jb.embedded_0.0.12~pinnednative13_iphoneos-arm64.deb' "$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/native12-audit-inputs/native12.deb" | shasum -a 256 -c -
+          echo '6476498212ede843640a7be305a275981cf639ac963c7d7760631fd7fd4718a7  '"$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb" | shasum -a 256 -c -
+          test "$(git hash-object "$RUNNER_TEMP/native12-audit-inputs/method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          echo 'NATIVE12_VS_NEW_DUOFACE_ONLY_IMMUTABLE_INPUTS_PASS'
+      - name: Compare every file and all 1385 original Objective-C methods
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/native12-audit-inputs/native12.deb" \
+            --new "$RUNNER_TEMP/native12-audit-inputs/new-duoface.deb" \
+            --index "$RUNNER_TEMP/native12-audit-inputs/method-index.json" \
+            --out sideplay/audit/native12-vs-new-20261021/results
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/native12-vs-new-20261021/results')
+          s=json.loads((p/'SUMMARY.json').read_text())
+          assert s['scope']=='ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI'
+          assert s['original_objc_methods']==1385
+          assert s['original_macho']==8
+          assert s['new_files']==34
+          assert s['feature_gates']==25 and s['feature_gates_pass']==0
+          assert s['verdict']=='KHONG_DAT'
+          methods=json.loads((p/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods']
+          assert len(methods)==1385
+          print('NATIVE12_NEW_DUOFACE_FULL_AUDIT_SAVED',s)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-vs-DuoFace-New-Complete-File-Method-Gap-${{ github.run_id }}
+          path: sideplay/audit/native12-vs-new-20261021/results/
+          if-no-files-found: error
+      - name: Persist ALL audit results in CORRECT project branch
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          SOURCE="$(pwd)/sideplay/audit/native12-vs-new-20261021/results"
+          TARGET='sideplay/audit/native12-vs-new-20261021/results'
+          test -s "$SOURCE/ALL_NATIVE12_1385_METHODS.json"
+          test -s "$SOURCE/FILE_INVENTORY.json"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$TARGET/SUMMARY.json"; then
+              echo 'Refusing to overwrite an earlier successful audit'
+              git worktree remove --force "$TEMP"
+              exit 1
+            fi
+            mkdir -p "$TEMP/$TARGET"
+            cp "$SOURCE"/* "$TEMP/$TARGET/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$TARGET"
+            git -C "$TEMP" commit -m "audit(native12): save original vs new 1385-method and all-file parity evidence [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo 'NATIVE12_NEW_FULL_AUDIT_PERSISTED_TO_GITHUB=PASS'
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+            echo "Concurrent branch change retry $attempt"
+          done
+          exit 1
