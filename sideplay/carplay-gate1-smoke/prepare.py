@@ -43,5 +43,9 @@ for src,dest,pref in [
     assert 'com.duoface.gate1smoke' in text
     assert '.duoface-gate1smoke-disable' in text
     assert 'oldEffective' in text
+    if dest=="Gate1CarPlay.m":
+        text += "\nBOOL DFGate1CarPlayHooksReady(void){return DFHooksInstalled&&DFOriginal3&&DFOriginal2;}\n"
+    else:
+        text += "\nBOOL DFGate1SpringBoardHooksReady(void){return armed&&origBulk&&origBool;}\n"
     (OUT/dest).write_text(text)
 print("GATE1_OWN_BUNDLE_SCOPED_GENERATION_PASS")

@@ -11,6 +11,9 @@ static NSString *const kOldKill=@"/var/mobile/Library/Preferences/.duoface-first
 static NSString *const kPauseMarker=@"/var/mobile/Library/Preferences/.duoface-gate1smoke-paused-old";
 static NSString *const kSB=@"/var/mobile/Library/Logs/DuoFaceGate1SpringBoard.log";
 static NSString *const kCP=@"/var/mobile/Library/Logs/DuoFaceGate1CarPlay.log";
+static NSString *const kDiagRequest=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-request.plist";
+static NSString *const kDiagCar=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-carplay.plist";
+static NSString *const kDiagSB=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-springboard.plist";
 static NSString *const kScene=@"/var/mobile/Library/Logs/DuoFaceGate1Scene.log";
 static void Log(NSString *message) {
   NSString *row=[NSString stringWithFormat:@"[Gate1] %@\n",message];
@@ -126,10 +129,11 @@ static NSString *Enable(BOOL allowPauseOld) {
   UIButton *on=[self button:@"BẬT thử nghiệm CarPlay" action:@selector(askEnable)];
   UIButton *off=[self button:@"TẮT NGAY / KHÓA AN TOÀN" action:@selector(stopTest)];
   UIButton *refresh=[self button:@"ĐỌC TRẠNG THÁI" action:@selector(readStatus)];
+  UIButton *probe=[self button:@"KIỂM TRA ĐĂNG KÝ" action:@selector(runProbe)];
   UITextView *log=[UITextView new];log.editable=NO;log.backgroundColor=UIColor.blackColor;
   log.textColor=UIColor.greenColor;log.font=[UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
   self.logView=log;
-  UIStackView *stack=[[UIStackView alloc] initWithArrangedSubviews:@[intro,on,off,refresh,log]];
+  UIStackView *stack=[[UIStackView alloc] initWithArrangedSubviews:@[intro,on,off,probe,refresh,log]];
   stack.axis=UILayoutConstraintAxisVertical;stack.spacing=12;
   stack.translatesAutoresizingMaskIntoConstraints=NO;
   [self.view addSubview:stack];
@@ -141,6 +145,7 @@ static NSString *Enable(BOOL allowPauseOld) {
     [on.heightAnchor constraintEqualToConstant:50],
     [off.heightAnchor constraintEqualToConstant:50],
     [refresh.heightAnchor constraintEqualToConstant:50],
+    [probe.heightAnchor constraintEqualToConstant:50],
     [log.heightAnchor constraintGreaterThanOrEqualToConstant:230],
     [stack.widthAnchor constraintEqualToAnchor:self.view.widthAnchor constant:-32]
   ]];
@@ -176,6 +181,23 @@ static NSString *Enable(BOOL allowPauseOld) {
   if(reason)Log([NSString stringWithFormat:@"disable-error=%@",reason]);
   [self readStatus];
 }
+- (void)runProbe {
+  NSDictionary *cfg=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
+  if(![cfg[@"Enabled"] boolValue]||
+     [[NSFileManager defaultManager] fileExistsAtPath:kKill]){
+    Log(@"diag-not-started: gate-disabled");[self readStatus];return;
+  }
+  NSString *nonce=NSUUID.UUID.UUIDString;
+  NSDictionary *request=@{@"Enabled":@YES,@"AuditOnly":@YES,
+      @"RequestID":nonce,@"RequestedAt":@(NSDate.date.timeIntervalSince1970),
+      @"HostBundleID":@"com.duoface.gate1smoke"};
+  if(![request writeToFile:kDiagRequest atomically:YES]){
+    Log(@"diag-request-write-failed");return;
+  }
+  CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+      CFSTR("com.duoface.gate1smoke.diag-run"),NULL,NULL,YES);
+  [self readStatus];
+}
 - (void)readStatus {
   NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
   NSFileManager *fm=NSFileManager.defaultManager;
@@ -191,7 +213,22 @@ static NSString *Enable(BOOL allowPauseOld) {
     if(s.length>2800)s=[s substringFromIndex:s.length-2800];
     [text appendFormat:@"--- %@ ---\n%@\n",info[0],s?:@"(chưa có log)"];
   }
-  [text appendString:@"\nKhông có log scene = chưa được xác minh.\nKhông thay Dock hệ thống."];
+  NSDictionary *rq=[NSDictionary dictionaryWithContentsOfFile:kDiagRequest];
+  NSString *nonce=rq[@"RequestID"];
+  [text appendString:@"\n--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---\n"];
+  for(NSArray *item in @[@[@"SpringBoard",kDiagSB],@[@"CarPlay",kDiagCar]]){
+    NSDictionary *report=[NSDictionary dictionaryWithContentsOfFile:item[1]];
+    BOOL fresh=nonce.length>0&&[report[@"RequestID"] isEqualToString:nonce];
+    [text appendFormat:@"%@: %@\n",item[0],fresh?@"ĐÃ TRẢ LỜI":@"CHƯA TRẢ LỜI"];
+    if(fresh){
+      for(NSString *k in @[@"HookReady",@"LSOwn",@"Roster",@"LSABI3",
+       @"CachedBoolABI",@"DashBoardLoaded",@"DBControllerLoaded",
+       @"DBSharedABI",@"DBLookupABI",@"InclusionABI",@"IconLayout"]){
+        if(report[k])[text appendFormat:@"  %@=%@\n",k,report[k]];
+      }
+    }
+  }
+  [text appendString:@"\nKhông trả lời = không có bằng chứng. Roster không phải icon thật.\nKhông thay Dock hệ thống."];
   self.logView.text=text;
 }
 @end

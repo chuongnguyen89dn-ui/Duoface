@@ -34,7 +34,7 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/carplay-gate1-smoke/build.sh
-          FILE='sideplay/carplay-gate1-smoke/packages/com.duoface.carplay.gate1smoke_0.0.3~enablefix1_iphoneos-arm64.deb'
+          FILE='sideplay/carplay-gate1-smoke/packages/com.duoface.carplay.gate1smoke_0.0.4~runtimeaudit1_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.gate1smoke

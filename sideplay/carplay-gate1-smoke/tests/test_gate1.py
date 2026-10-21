@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.3~enablefix1",c)
+  self.assertIn("Version: 0.0.4~runtimeaudit1",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -45,6 +45,19 @@ class Gate1Safety(unittest.TestCase):
    self.assertIn(marker,app)
   self.assertNotIn("enable-refused (old gate enabled or preferences denied)",app)
   self.assertNotIn("TTL_REMAINING",app)
+ def test_runtime_one_shot_diagnostic_scope(self):
+  p=get("Gate1RuntimeProbe.m")
+  for term in ("RequestID","AuditOnly","age>45","LSApplicationProxy",
+     "DBApplicationController","HookReady","OWN_APP_MISSING_FROM_ROSTER",
+     "CARPLAY_PROCESS_ONLY","NOT_PROBED_WITHOUT_VERIFIED_VEHICLE"):
+   self.assertIn(term,p)
+  for forbidden in ("setIconState:forVehicleID:","requestStateChange:",
+      "_loadApplicationWithInfo:","killall","sbreload"):
+   self.assertNotIn(forbidden,p)
+  self.assertIn("Gate1RuntimeProbe.m",get("Makefile"))
+  self.assertIn("DFGate1CarPlayHooksReady",get("prepare.py"))
+  self.assertIn("DFGate1SpringBoardHooksReady",get("prepare.py"))
+  self.assertIn("KIỂM TRA ĐĂNG KÝ",get("Gate1App.m"))
  def test_scope_generates_only_our_gate(self):
   subprocess.run([sys.executable,str(P/"prepare.py")],check=True)
   for f in ("Gate1CarPlay.m","Gate1SpringBoard.m"):
