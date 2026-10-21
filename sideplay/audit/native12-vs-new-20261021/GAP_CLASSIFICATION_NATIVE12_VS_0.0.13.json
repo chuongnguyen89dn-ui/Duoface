@@ -1,0 +1,532 @@
+{
+  "title": "Native12-only vs independent DuoFace 0.0.13: phân loại chênh lệch và khả năng bù",
+  "reference": {
+    "original_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "current_sha256": "f33496cfc6221afe64bbc3fbcc3599ca079b76cbede80319c7e72e7b4b2fc02b",
+    "method_index_blob": "efa45df59bc3c16887cc979bf3aedc0c93c92111",
+    "compare_run": 39598478579,
+    "repo_commit": "7b076f89b548d11ab607e9ffecce3a88ceef6579",
+    "branch": "feature/duoface-jb-embedded-appbridge-20261020"
+  },
+  "observed_binary_counts": {
+    "original_files": 43,
+    "current_files": 28,
+    "original_macho": 8,
+    "current_macho": 5,
+    "original_objc_methods": 1385,
+    "selector_text_matches": 292
+  },
+  "definitions": {
+    "type": {
+      "SAI": "Mã hiện có nhưng khác hành vi/hình học/vòng đời gốc",
+      "THIEU": "Không có implementation chức năng trong DEB mới",
+      "MOT_PHAN": "Có lõi thật hoặc UI nhưng chưa đủ chức năng",
+      "CHUA_KIEM_CHUNG": "Có mã và timer nhưng thiếu bằng chứng runtime không thể xác định hoạt động đúng"
+    },
+    "remedy": {
+      "BU": "Giữ mã độc lập đang có, bổ sung/sửa nối hàm hay giao diện",
+      "VIET_LAI": "Thay hoặc tạo module vận hành độc lập; có thể giữ phần đã hoạt động, không chép nhị phân gốc"
+    }
+  },
+  "counts": {
+    "types": {
+      "SAI": 9,
+      "MOT_PHAN": 9,
+      "THIEU": 6,
+      "CHUA_KIEM_CHUNG": 1
+    },
+    "remedies": {
+      "VIET_LAI": 16,
+      "BU": 9
+    },
+    "priorities": {
+      "P0": 12,
+      "P1": 9,
+      "P2": 4
+    },
+    "total": 25
+  },
+  "release_gate": "NO_GO_STATIC_AND_USER_DEVICE_VIDEO_P0",
+  "notes": [
+    "Không so DuoNavi.",
+    "25 gates NO GO theo chuẩn đồng nhất đầy đủ; không có nghĩa mọi nút đều hỏng.",
+    "Không ghép nguyên CBBridgeManager hay nhị phân sở hữu khác gắn license. Các chức năng vận hành phải thay bằng mã độc lập.",
+    "Không có stack .ips của lỗi YouTube trong hồ sơ được kiểm tra; không xác nhận gốc lỗi runtime.",
+    "Không bắt số file/Mach-O phải bằng Native12 vì kiến trúc độc lập, chỉ yêu cầu chức năng/ảnh/UX parity đúng."
+  ],
+  "items": [
+    {
+      "id": "01",
+      "feature": "CarPlay native scene/admission",
+      "original_classes": [
+        "CBWindow",
+        "CBBridgeManagerDashboard"
+      ],
+      "original_methods_indexed": 76,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Hai owner CarPlay/SpringBoard; template CPMapTemplate + SpringBoard UIWindow rời, chưa có state-machine admission/receiver như Native12.",
+      "candidate_source": "DFNativeHostAppDelegate.m; DFTouchOwnerProbe.m; DFFirstPartyAdmission.m",
+      "implementation_path": "Tạo một bộ native scene ownership/ack + định tuyến receiver khi ForegroundActive, không chuyển app thành UI demo.",
+      "acceptance_test": "CarPlay app scene nhận trạng thái thực, các cửa sổ được tạo/đóng đúng scene; Home không bị overlay trễ.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "02",
+      "feature": "Khởi động splash logo ngang và thanh tiến trình",
+      "original_classes": [
+        "CBSplitSplashScreenView"
+      ],
+      "original_methods_indexed": 32,
+      "type": "SAI",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "Hai splash độc lập: BasicController CPWindow logo fade ~1.5s và Chrome SpringBoard logo+line ~1.3s; không cùng điểm ready/dismiss.",
+      "candidate_source": "DFNative12BasicController.m; DFNative12Chrome.m",
+      "implementation_path": "Dùng một launch session với onWillDismiss/onDismissed; logo+line chỉ do một owner render và bàn giao theo readiness.",
+      "acceptance_test": "Khi launch/reconnect không hiện pill trước splash hoặc splash chồng nhau; đạt kích thước/timing Native12.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "03",
+      "feature": "Bộ chọn app cards/icon/Recent/paging",
+      "original_classes": [
+        "CBMultitaskingOverlayView",
+        "CBAppPickerViewController"
+      ],
+      "original_methods_indexed": 82,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "UICollectionView card/Recent+pageControl đã có; chưa có preset/mode cards, restart/close running apps, shadow card/layout 1:1.",
+      "candidate_source": "DFAppPickerVC.m; DFNative12Chrome.menuAction; DFAppLibrary",
+      "implementation_path": "Bù mode Style/preset, running/recent actions, shadows/hitboxes, state sync; không thay callback chọn app thật.",
+      "acceptance_test": "App/Recent/Style/Close/Restart hoạt động; card/page indicator đúng ảnh Native12 trên xe.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "04",
+      "feature": "Host app iPhone bình thường",
+      "original_classes": [
+        "CBBridgedUIAppView",
+        "CBBridgedUIApp"
+      ],
+      "original_methods_indexed": 45,
+      "type": "MOT_PHAN",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "SBAppViewController/SBDeviceApplicationSceneEntity mở app thường; mode=2, handle ready chỉ kiểm scene tồn tại; lifecycle chưa so Native12.",
+      "candidate_source": "DFSceneHost.m DFSceneSurface.start/pollScene/layoutScene/stop",
+      "implementation_path": "Giữ lõi host thật; viết lớp scene-transaction controller độc lập với ready/visible/attached/failed/closing và ABI typing.",
+      "acceptance_test": "App thường mở và đóng/lặp ổn, render thật không chỉ sceneHandle; không phá giao diện khi thay slot.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "05",
+      "feature": "YouTube/video/audio phát không Safe Mode",
+      "original_classes": [
+        "CBBridgedUIAppView",
+        "CBBridgedUIApp"
+      ],
+      "original_methods_indexed": 45,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "YouTube/video user báo SpringBoard Safe Mode; private media/orientation/audio lifecycle chưa có, bỏ nil FrontBoard transition chỉ giảm rủi ro.",
+      "candidate_source": "DFSceneHost.m layoutScene, pollScene, stop",
+      "implementation_path": "Thu SpringBoard .ips và event trace; thay media/orientation/teardown sai ABI, phân biệt app audio/video scene; tránh gọi private chưa chứng minh.",
+      "acceptance_test": "Mở YouTube/VLC, phát/seek/pause/tắt 10 lần không Safe Mode, stack không còn lỗi.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "06",
+      "feature": "Hiển thị hai app thật độc lập",
+      "original_classes": [
+        "CBBridgedSplitApp",
+        "CBBridgedUIAppView"
+      ],
+      "original_methods_indexed": 78,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "Chỉ 2 UIWindow appSceneWindows, hostedScenes/pendingScenes/ready arrays size 2; hai app báo mở trên bản cũ, 0.0.13 chưa test.",
+      "candidate_source": "DFNative12Chrome.m init/layoutControls; DFSceneHost.m",
+      "implementation_path": "Mở rộng state động 1..4 slot, giữ atomic host và scene real; mô hình tách slots/layout, không nhân bản cửa sổ giả.",
+      "acceptance_test": "Hai app chạy đồng thời, chạm vào mỗi ô; bố cục 3/4 ô không làm mất scene.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "07",
+      "feature": "Cảm ứng hai app, scroll, player control",
+      "original_classes": [
+        "CBBridgedUIAppView"
+      ],
+      "original_methods_indexed": 29,
+      "type": "MOT_PHAN",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "App thường có touch; chưa chứng minh hitTest/touches forwarding trên video/scroll/cử chỉ khi đổi orientation/zoom.",
+      "candidate_source": "DFSceneHost.m; DFNative12Chrome.m; DFTouchOwnerProbe.m",
+      "implementation_path": "Giữ UIKit hit-test đang hoạt động; xử lý event ownership đúng app window/scene, tránh overlay intercept và các synthetic UITouch.",
+      "acceptance_test": "Tap/scroll/player controls trong hai ô và fullscreen thực, không crash.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "08",
+      "feature": "Chia màn và kéo tỷ lệ, nhớ tỷ lệ",
+      "original_classes": [
+        "CBBridgedSplitApp",
+        "CBDividerView"
+      ],
+      "original_methods_indexed": 76,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "dividerPan ratio clamp 1/3..2/3 snap 4%; mới tính hai pane theo verticalDivider, thiếu mẫu multi-slot Native12.",
+      "candidate_source": "DFNative12Chrome.m DFCClamp/DFCSnap/layoutControls/dividerPan/DFCSaveLayout",
+      "implementation_path": "Giữ pan, persistence, thêm layout engine cho tám preset/4 slot và phân phối scene geometry thực.",
+      "acceptance_test": "Drag frame của mọi app đồng bộ, state restore và không stripe lệch.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "09",
+      "feature": "Hoán đổi trái-phải, giữ logo",
+      "original_classes": [
+        "CBDividerView",
+        "CBSlotPillView"
+      ],
+      "original_methods_indexed": 63,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "swapped boolean và logoTap; long hold thay vị trí logo chứ không phải mọi thao tác rotate/move/slot order Native12.",
+      "candidate_source": "DFNative12Chrome.m swapPressed/dividerPan/logoHold",
+      "implementation_path": "Giữ tap swap, logo pan và hold 0.30s; thêm moveSlot, rotateAllSlotsClockwise/persistSlotOrder theo preset thật.",
+      "acceptance_test": "Tap, hold, đổi trái-phải và đổi ô trong 4-slot không lẫn app.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "10",
+      "feature": "Phóng to một ô, hoàn tác",
+      "original_classes": [
+        "CBBridgedSplitApp",
+        "DFFullscreenTransport"
+      ],
+      "original_methods_indexed": 85,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "focus chỉ đặt pane selected=contentRect; không có native fullscreen lease/state ACK/snapshot restore.",
+      "candidate_source": "DFNative12Chrome.m zoomPressed/menuAction/layoutControls; runtime/fullscreen/DFFullscreenTransport.mm (source tham khảo)",
+      "implementation_path": "Bổ sung độc lập focus transaction/lease/ack/rollback; tái dùng ý tưởng IPC có kiểm chứng từ code dự án nhưng không kéo host gốc.",
+      "acceptance_test": "Zoom/Restore trả về đúng frame, focus, ratio, scene/gesture qua 10 chu kỳ.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "11",
+      "feature": "Phóng to thật sự ẩn Dock, hoàn tác",
+      "original_classes": [
+        "CBBridgeManagerDashboard",
+        "CBWindow"
+      ],
+      "original_methods_indexed": 76,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Không có điều khiển AppDockVC system-owned; contentRect luôn trừ Dock, fullscreen không được ẩn Dock.",
+      "candidate_source": "DFNative12Chrome.m; DFNativeHostAppDelegate.m; runtime/fullscreen/DFHostGeometry.xm (tham khảo)",
+      "implementation_path": "Viết service Dock của CarPlay/Dashboard thật kiểm đúng process/ABI/window + trạng thái trước/sau; rollback nếu không có class.",
+      "acceptance_test": "Zoom In thực sự ẩn Dock và mở rộng đúng app; Zoom Out khôi phục Dock nguyên trạng, không che giả.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "12",
+      "feature": "Tám layout, chế độ đa khung Native12",
+      "original_classes": [
+        "CBDashboardSettings",
+        "CBMultitaskingOverlayView"
+      ],
+      "original_methods_indexed": 127,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P1",
+      "observed_gap": "Style chỉ đảo verticalDivider và ratio=.5; 2 slot hardcoded, không có splitPreset, gridRows/gridCols 8 layout và 4-slot.",
+      "candidate_source": "DFNative12Chrome.m init/layoutControls/menuAction case2; CBDashboardSettings original indices",
+      "implementation_path": "Viết DFLayoutEngine với 8 preset canonical + frame cho 1-4 app, chọn preset cards; port thuật toán độc lập, không copy binary.",
+      "acceptance_test": "Cả 8 preset tác động app thật, kéo ratio/swap/focus vẫn đúng, lưu/khôi phục.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "13",
+      "feature": "Thay app slot/close/restore/atomic state",
+      "original_classes": [
+        "CBBridgedSplitApp",
+        "CBBridgeManager"
+      ],
+      "original_methods_indexed": 124,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P1",
+      "observed_gap": "Có pending host + old host retained đến sceneReady; scene ready chỉ sceneHandle+isHostingAnApp, render chưa chứng minh; no restart slot/all.",
+      "candidate_source": "DFNative12Chrome.m appPicker:didSelect/sceneReady/sceneFailed/closeHostedSlot; DFSceneHost.m",
+      "implementation_path": "Giữ atomic replace, bù restart, close all, recovery timeout/verified visible, persist slot order.",
+      "acceptance_test": "App cũ vẫn chạy nếu app mới fail, không lost focus hoặc tắt app khác.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "14",
+      "feature": "Đúng vị trí/timer/hitbox của các pill",
+      "original_classes": [
+        "CBSlotPillView"
+      ],
+      "original_methods_indexed": 36,
+      "type": "SAI",
+      "remedy": "BU",
+      "priority": "P2",
+      "observed_gap": "Pill size 38/44/64/76, focus 72/80; menu/zoom có state, nhưng original six modes/hitbox/autohide chưa xác thực.",
+      "candidate_source": "DFNative12Chrome.m layoutControls; sideplay/native12-display/DFSPNativeSlotPill.m (UI source)",
+      "implementation_path": "Bù native state machine empty/loaded/focused+compact, hide/reveal/activity timers, hitbox quan sát.",
+      "acceptance_test": "Pill đúng 76x22/bo 11 và trạng thái Native12, không chặn app.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "15",
+      "feature": "Viền đỏ khi chạm và tự ẩn",
+      "original_classes": [
+        "CBBridgedSplitApp",
+        "CBDividerView"
+      ],
+      "original_methods_indexed": 76,
+      "type": "SAI",
+      "remedy": "BU",
+      "priority": "P2",
+      "observed_gap": "Viền 1pt #E3020F ẩn sau 2.1s chỉ khi thao tác UI; không đúng session/border animation Native12; không viền khi focused.",
+      "candidate_source": "DFNative12Chrome.m noteUserActivity/layoutControls; native12-display/DFSPNativeFrame.m",
+      "implementation_path": "Bù event-based blinking/reveal/hide theo activity thực trên app window, không chạy permanent runner và không thêm touch layer.",
+      "acceptance_test": "Viền đúng hiệu ứng trên 2/4 slot, tự ẩn và không xuất hiện khi zoom.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "16",
+      "feature": "Logo, icon, màu sắc, bo góc và hiệu ứng",
+      "original_classes": [
+        "CBMultitaskingOverlayView",
+        "CBSplitSplashScreenView"
+      ],
+      "original_methods_indexed": 98,
+      "type": "MOT_PHAN",
+      "remedy": "BU",
+      "priority": "P2",
+      "observed_gap": "6 PNG được đóng giống byte theo basename nhưng 13 cặp trùng do nhiều path; icon gốc nhiều size, asset nhỏ/trạng thái menu chưa dùng đầy đủ.",
+      "candidate_source": "DFNative12Chrome.m DFCArtwork; DFAppPickerVC.m; VisualAssets; app Info.plist",
+      "implementation_path": "Tái dùng artwork đã được phê duyệt, bù các kích thước/icon/opacity/shadow/gradient và asset manifest; không chép Mach-O.",
+      "acceptance_test": "Đúng logo ngang/dọc/grip/picker/splash, màu và ảnh so Native12, không fallback SF Symbol khi có asset.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "17",
+      "feature": "Về CarPlay Home ẩn thanh/menu tức thì",
+      "original_classes": [
+        "CBWindow",
+        "CBBridgeManagerDashboard"
+      ],
+      "original_methods_indexed": 76,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Đã đổi stop() ẩn windows trước scene invalidate; nhưng Darwin stop từ CPTemplate có thể tới muộn; watchdog 1s / stale 2.5s.",
+      "candidate_source": "DFNativeHostAppDelegate.m stopTouchOwner; DFTouchOwnerProbe.m DFWatchdog/DFStopProbe; DFNative12Chrome.stop",
+      "implementation_path": "Thay bằng Home activation owner + synchronous hide signal/visible generation ACK, session keyed teardown; watchdog chỉ fallback.",
+      "acceptance_test": "Ngay thời điểm Home không còn thanh, menu, black splash; 10 lần back/reopen không overlay treo.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "18",
+      "feature": "Reconnect, exitmode, SpringBoard stability",
+      "original_classes": [
+        "CBBridgeManager",
+        "CBWindow"
+      ],
+      "original_methods_indexed": 112,
+      "type": "CHUA_KIEM_CHUNG",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Nguồn có timer scene poll .35s, heartbeat .75s, watchdog, cleanup; chưa chứng minh interleaving/restart/multiple scene race.",
+      "candidate_source": "DFSceneHost.m start/stop/pollScene; DFNativeHostAppDelegate; DFTouchOwnerProbe",
+      "implementation_path": "Viết deterministic state machine destroy/attach/disconnect, cancel timers generation, idempotent cleanup & receiver ack.",
+      "acceptance_test": "Không exitmode khi respring/reconnect/launch/close 10-20 chu kỳ; logs và .ips.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "19",
+      "feature": "Dock và geometry nhiều màn CarPlay",
+      "original_classes": [
+        "CBWindow",
+        "CBBridgeManagerDashboard"
+      ],
+      "original_methods_indexed": 76,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "App scene bounds phụ thuộc static contentRect và springboard UIRootSceneWindow; Native12 có carPlayContentInsets/usableBounds/updateCarPlayMetrics/dock owner.",
+      "candidate_source": "DFNative12Chrome.m makeWindow/layoutControls; DFTouchOwnerProbe.m DFStartProbe",
+      "implementation_path": "Viết geometry provider đo current CarPlay screen/Dock metrics và orientation/resize, relay thay đổi sang app scenes.",
+      "acceptance_test": "Dock normal đúng diện tích mọi xe, ẩn Dock đúng focus, tự scale 507x240/và màn khác.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "20",
+      "feature": "Audio focus và playback video",
+      "original_classes": [
+        "CBBridgedUIAppView"
+      ],
+      "original_methods_indexed": 29,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Mới có SBAppViewController view transform 2x + requestedMode; không có media AVAudioSession/scene interruptions/route/focus.",
+      "candidate_source": "DFSceneHost.m; DFNativeHostAppDelegate.m",
+      "implementation_path": "Tạo audio/media session lifecycle riêng có request/teardown, xử lý interruptions/rotation đúng process; cần device crash log.",
+      "acceptance_test": "Youtube/VLC âm thanh video ổn và không làm CarPlay audio focus hỏng.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "21",
+      "feature": "Bong bóng HUD8 4 nguồn/tự ẩn",
+      "original_classes": [
+        "DFSpeedNativeHUD",
+        "DFSpeedSplit7Driver",
+        "DFOwnerPollingDriver"
+      ],
+      "original_methods_indexed": 45,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P1",
+      "observed_gap": "Không có DFSpeedNativeHUD/Owner implementation hay speed four-source service trong 5 Mach-O; original SpeedHUD/SpeedOwner chỉ có binary tham chiếu.",
+      "candidate_source": "New DFHUDOwner/DFHUDView/DFSpeedSource adapters chưa có; original method-index DFSpeedNativeHUD",
+      "implementation_path": "Viết HUD8 độc lập (4 nguồn hợp pháp có dữ liệu), position/pan/close/opacity/settings+persist, host cùng lifecycle DuoFace.",
+      "acceptance_test": "1 bong bóng tốc độ thực, chọn nguồn Waze/GMaps/VMaps/GOFA nếu dữ liệu có, sống/ẩn đúng vòng đời.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "22",
+      "feature": "Trợ lý nói chuyện/voice mic",
+      "original_classes": [
+        "CBAssistantManager",
+        "CBBridgedAssistantView"
+      ],
+      "original_methods_indexed": 84,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P2",
+      "observed_gap": "Không có CBAssistantManager tương đương; new phone root chỉ status/apps, thiếu STT/AVAudioEngine/mic HUD.",
+      "candidate_source": "DFNativeHostRootController.m; new VoiceService to create",
+      "implementation_path": "Viết voice service mới với Speech/AVAudioEngine + command router thật, server AI nếu cần; không gọi vendor backend/giấy phép.",
+      "acceptance_test": "Nhận mic, nói tiếng Việt, voice commands thật và báo lỗi server rõ.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "23",
+      "feature": "Cài đặt app iPhone/preferences",
+      "original_classes": [
+        "CBGeneralSettingsViewController",
+        "CBSplitViewController",
+        "CBAppManager"
+      ],
+      "original_methods_indexed": 93,
+      "type": "THIEU",
+      "remedy": "VIET_LAI",
+      "priority": "P1",
+      "observed_gap": "RootController có 2 tab Trạng thái/Ứng dụng chỉ đọc; CBGeneralSettingsViewController, CBSplitViewController, CBAppManager không có bản tương ứng.",
+      "candidate_source": "DFNativeHostRootController.m",
+      "implementation_path": "Tạo UI preferences/allow-list/layout/HUD/audio nguồn thật và store versioned, đồng bộ CarPlay qua một owner.",
+      "acceptance_test": "Thao tác cài đặt trên iPhone lưu và cập nhật CarPlay thật, không dùng danh sách chỉ đọc.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "24",
+      "feature": "Đồng bộ SpringBoard/CarPlay/app process",
+      "original_classes": [
+        "CBBridgeManager",
+        "CBBridgeManagerDashboard"
+      ],
+      "original_methods_indexed": 114,
+      "type": "SAI",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "consumeTouchCommand chuyển setPresetRatio/performCarPlayControl sang DFNative12BasicController, nhưng phương thức này chỉ NSLog; main chrome sửa trong SpringBoard -> hai owner không đồng bộ ACK.",
+      "candidate_source": "DFNativeHostAppDelegate.m consumeTouchCommand; DFNative12BasicController.m; DFNativeDashboardBridgeQA.m",
+      "implementation_path": "Xây typed IPC command/state/ack, một owner duy nhất thay đổi layout/app/Zoom và receiver báo trạng thái thực; xóa receipt-only lệnh giả.",
+      "acceptance_test": "Touch input -> đúng owner -> state applied -> ack, hai tiến trình nhất quán với sự kiện Home/Zoom/video.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    },
+    {
+      "id": "25",
+      "feature": "Injection filters/entitlement lifecycle",
+      "original_classes": [
+        "CBWindow",
+        "CBBridgeManager"
+      ],
+      "original_methods_indexed": 112,
+      "type": "MOT_PHAN",
+      "remedy": "VIET_LAI",
+      "priority": "P0",
+      "observed_gap": "Bản mới 4 tweak dylib vẫn có tên QA/preflight; source injection filters đang dùng SpringBoard/CarPlay và probe; original chia filter theo app/media/fullscreen/HUD.",
+      "candidate_source": "DFTouchOwnerProbe.plist; DFNativeDashboardBridgeQA.plist; DFFirstPartyAdmission.plist; package_integrated.py",
+      "implementation_path": "Kiểm entitlement/filter ABI mỗi process, loại module QA tạm sau khi thay đường thực, không ép entitlement vô tội vạ.",
+      "acceptance_test": "Sileo 1 app/DEB, chỉ inject đúng process, không treo SpringBoard; app và Dock hoạt động đúng.",
+      "parity": "KHONG_DAT",
+      "source_confidence": "SOURCE_AND_IMMUTABLE_DEB_STATIC",
+      "device_verified_for_version_0_0_13": false
+    }
+  ]
+}
