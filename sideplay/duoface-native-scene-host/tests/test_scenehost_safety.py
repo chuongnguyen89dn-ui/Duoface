@@ -640,4 +640,31 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"SplitMode":@(self.preset)',chrome)
   self.assertIn('splitPreset!=preset || splitMode!=preset',receiver)
 
+ def test_divider_tracks_true_ratio_boundary_for_four_strip_preset(self):
+  # The divider must move between the TWO left and TWO right scene
+  # containers. It must never use maxX of the first of four strips.
+  layout=file("DFLayoutEngine.m")
+  header=file("DFLayoutEngine.h")
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("CGFloat DFPrimaryDividerCoordinate(",header)
+  self.assertIn("CGFloat DFPrimaryDividerCoordinate(",layout)
+  self.assertIn("BOOL reverse=(preset==3 || preset==5)",layout)
+  self.assertIn("origin+extent*(reverse?1.0-ratio:ratio)",layout)
+  self.assertIn("CGFloat boundary=DFPrimaryDividerCoordinate(cr,self.preset,p)",chrome)
+  self.assertIn("CGRectMake(boundary-16",chrome)
+  self.assertNotIn("CGRectGetMaxX(pane[0])-16",chrome)
+  self.assertNotIn("CGRectGetMaxY(pane[0])-16",chrome)
+  self.assertIn("out[0]=CGRectMake(x,y,a/2,h)",layout)
+  self.assertIn("out[1]=CGRectMake(x+a/2,y,a/2,h)",layout)
+  self.assertIn("out[2]=CGRectMake(x+a,y,(w-a)/2,h)",layout)
+  # Normalized values: after TWO strips, x == a == ratio * width.
+  for ratio in (1/3,.5,2/3):
+   width=507.333
+   a=width*ratio
+   xs=[0,a/2,a,a+(width-a)/2,width]
+   self.assertTrue(math.isclose(xs[2],a,abs_tol=1e-8))
+   self.assertGreater(xs[2],xs[1])
+  # These independently written layouts still lack original Native12
+  # pixel-wise replay; source self-consistency is NOT parity verification.
+
 if __name__=="__main__":unittest.main(verbosity=2)
