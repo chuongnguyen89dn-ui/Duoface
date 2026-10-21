@@ -8,7 +8,7 @@ mkdir -p "$ROOT/packages"
 make clean package FINALPACKAGE=1
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
-INPUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.4~runtimeaudit1_iphoneos-arm64.deb"
+INPUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.5~roster1_iphoneos-arm64.deb"
 test -s "$INPUT"
 dpkg-deb -x "$INPUT" "$TMP"
 DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFGate1SmokeAdmission.dylib"
@@ -58,7 +58,7 @@ chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/prerm" "$TMP/DEBIAN/postrm"
 # Inspect forbidden overlaps before the final package is written.
 test "$(find "$TMP/var/jb/Applications" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = 1
 test "$(find "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries" -type f | wc -l | tr -d ' ')" = 2
-OUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.4~runtimeaudit1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.gate1smoke_0.0.5~roster1_iphoneos-arm64.deb"
 rm -f "$OUT"
 dpkg-deb --build --root-owner-group "$TMP" "$OUT"
 test "$(dpkg-deb -f "$OUT" Package)" = com.duoface.carplay.gate1smoke

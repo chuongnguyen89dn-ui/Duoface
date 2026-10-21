@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.4~runtimeaudit1",c)
+  self.assertIn("Version: 0.0.5~roster1",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -58,6 +58,19 @@ class Gate1Safety(unittest.TestCase):
   self.assertIn("DFGate1CarPlayHooksReady",get("prepare.py"))
   self.assertIn("DFGate1SpringBoardHooksReady",get("prepare.py"))
   self.assertIn("KIỂM TRA ĐĂNG KÝ",get("Gate1App.m"))
+ def test_new_roster_bridge_is_one_bundle_and_opt_in(self):
+  s=get("Gate1RosterBridge.m")
+  for marker in ('com.duoface.gate1smoke','FBSApplicationLibrary',
+                 'allInstalledApplications','DBApplicationController',
+                 '_loadApplicationWithInfo:','_didAddApplications:',
+                 'DFConsent','DFMatches','RequestID','roster-apply'):
+   self.assertIn(marker,s)
+  for forbidden in ('setIconState:forVehicleID:','requestStateChange:',
+                    'killall','sbreload','com.pavunato.carsurf'):
+   self.assertNotIn(forbidden,s)
+  self.assertIn("Gate1RosterBridge.m",get("Makefile"))
+  self.assertIn("THỬ HIỆN TRÊN CARPLAY",get("Gate1App.m"))
+  self.assertIn("runAdmission",get("Gate1App.m"))
  def test_scope_generates_only_our_gate(self):
   subprocess.run([sys.executable,str(P/"prepare.py")],check=True)
   for f in ("Gate1CarPlay.m","Gate1SpringBoard.m"):

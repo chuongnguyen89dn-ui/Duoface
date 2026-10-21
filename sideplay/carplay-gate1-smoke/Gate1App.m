@@ -13,6 +13,8 @@ static NSString *const kSB=@"/var/mobile/Library/Logs/DuoFaceGate1SpringBoard.lo
 static NSString *const kCP=@"/var/mobile/Library/Logs/DuoFaceGate1CarPlay.log";
 static NSString *const kDiagRequest=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-request.plist";
 static NSString *const kDiagCar=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-carplay.plist";
+static NSString *const kRosterRequest=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.roster-request.plist";
+static NSString *const kRosterReply=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.roster-response.plist";
 static NSString *const kDiagSB=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.diag-springboard.plist";
 static NSString *const kScene=@"/var/mobile/Library/Logs/DuoFaceGate1Scene.log";
 static void Log(NSString *message) {
@@ -130,10 +132,11 @@ static NSString *Enable(BOOL allowPauseOld) {
   UIButton *off=[self button:@"TẮT NGAY / KHÓA AN TOÀN" action:@selector(stopTest)];
   UIButton *refresh=[self button:@"ĐỌC TRẠNG THÁI" action:@selector(readStatus)];
   UIButton *probe=[self button:@"KIỂM TRA ĐĂNG KÝ" action:@selector(runProbe)];
+  UIButton *admit=[self button:@"THỬ HIỆN TRÊN CARPLAY" action:@selector(runAdmission)];
   UITextView *log=[UITextView new];log.editable=NO;log.backgroundColor=UIColor.blackColor;
   log.textColor=UIColor.greenColor;log.font=[UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
   self.logView=log;
-  UIStackView *stack=[[UIStackView alloc] initWithArrangedSubviews:@[intro,on,off,probe,refresh,log]];
+  UIStackView *stack=[[UIStackView alloc] initWithArrangedSubviews:@[intro,on,off,admit,probe,refresh,log]];
   stack.axis=UILayoutConstraintAxisVertical;stack.spacing=12;
   stack.translatesAutoresizingMaskIntoConstraints=NO;
   [self.view addSubview:stack];
@@ -146,6 +149,7 @@ static NSString *Enable(BOOL allowPauseOld) {
     [off.heightAnchor constraintEqualToConstant:50],
     [refresh.heightAnchor constraintEqualToConstant:50],
     [probe.heightAnchor constraintEqualToConstant:50],
+    [admit.heightAnchor constraintEqualToConstant:50],
     [log.heightAnchor constraintGreaterThanOrEqualToConstant:230],
     [stack.widthAnchor constraintEqualToAnchor:self.view.widthAnchor constant:-32]
   ]];
@@ -180,6 +184,26 @@ static NSString *Enable(BOOL allowPauseOld) {
   NSString *reason=Disable();
   if(reason)Log([NSString stringWithFormat:@"disable-error=%@",reason]);
   [self readStatus];
+}
+- (void)runAdmission {
+  NSDictionary *cfg=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
+  if(![cfg[@"Enabled"] boolValue] ||
+     ![cfg[@"RiskAcknowledged"] boolValue] ||
+     [[NSFileManager defaultManager] fileExistsAtPath:kKill]){
+    Log(@"roster-not-started: gate-disabled");[self readStatus];return;
+  }
+  NSString *nonce=NSUUID.UUID.UUIDString;
+  NSDictionary *request=@{@"Enabled":@YES,@"RequestID":nonce,
+    @"RequestedAt":@(NSDate.date.timeIntervalSince1970),
+    @"HostBundleID":@"com.duoface.gate1smoke"};
+  if(![request writeToFile:kRosterRequest atomically:YES]){
+    Log(@"roster-request-write-failed");[self readStatus];return;
+  }
+  CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+    CFSTR("com.duoface.gate1smoke.roster-apply"),NULL,NULL,YES);
+  [self readStatus];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+    dispatch_get_main_queue(), ^{[self readStatus];});
 }
 - (void)runProbe {
   NSDictionary *cfg=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
@@ -219,6 +243,12 @@ static NSString *Enable(BOOL allowPauseOld) {
   }
   NSDictionary *rq=[NSDictionary dictionaryWithContentsOfFile:kDiagRequest];
   NSString *nonce=rq[@"RequestID"];
+  NSDictionary *rosterRq=[NSDictionary dictionaryWithContentsOfFile:kRosterRequest];
+  NSDictionary *rosterRp=[NSDictionary dictionaryWithContentsOfFile:kRosterReply];
+  BOOL rosterFresh=[rosterRp[@"RequestID"] isEqual:rosterRq[@"RequestID"]] &&
+    [rosterRq[@"RequestID"] isKindOfClass:NSString.class];
+  [text appendFormat:@"\n--- THỬ ĐƯA VÀO CARPLAY ---\n%@\n",
+    rosterFresh?(rosterRp[@"Result"]?:@"NO_RESULT"):@"CARPLAY_CHƯA_TRẢ_LỜI"];
   [text appendString:@"\n--- KẾT QUẢ ĐĂNG KÝ (CHỈ ĐỌC) ---\n"];
   for(NSArray *item in @[@[@"SpringBoard",kDiagSB],@[@"CarPlay",kDiagCar]]){
     NSDictionary *report=[NSDictionary dictionaryWithContentsOfFile:item[1]];
