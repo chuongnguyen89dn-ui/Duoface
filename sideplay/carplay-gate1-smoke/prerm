@@ -3,5 +3,11 @@ set -eu
 case "${1:-}" in remove|deconfigure|upgrade) ;; *) exit 0;; esac
 mkdir -p /var/mobile/Library/Preferences
 : > /var/mobile/Library/Preferences/.duoface-gate1smoke-disable
+OWNED=/var/mobile/Library/Preferences/.duoface-gate1smoke-paused-old
+OLD=/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable
+if [ -f "$OWNED" ]; then
+  rm -f "$OLD"
+  rm -f "$OWNED"
+fi
 # Already-installed dynamic hooks immediately become passive before uninstall.
 exit 0

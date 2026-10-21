@@ -24,16 +24,15 @@ for src,dest,pref in [
     for old,new in replacements.items():
         text=text.replace(old,new)
     assert text.count(pref)==1,(src,"consent anchor missing")
-    name="d" if dest=="Gate1CarPlay.m" else "p"
     guard=f"""
-    // Gate1 consent expires in ten minutes; reboot cannot reactivate stale hooks.
-    NSNumber *expire={name}[@"ExpiresAt"];
-    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-    if(![expire isKindOfClass:NSNumber.class] ||
-       expire.doubleValue<=now || expire.doubleValue>now+900.0)return NO;
+    // Don't refuse dormant legacy Enabled prefs while its kill switch is ON.
     NSDictionary *other=[NSDictionary dictionaryWithContentsOfFile:
         @"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist"];
-    if([other[@"Enabled"] boolValue])return NO; // never knowingly double-enable gates
+    BOOL oldEffective=[other[@"Enabled"] boolValue] &&
+        [other[@"RiskAcknowledged"] boolValue] &&
+        [other[@"HostBundleID"] isEqualToString:@"com.duoface.native.scenehost"] &&
+        access("/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable",F_OK)!=0;
+    if(oldEffective)return NO;
 """
     text=text.replace(pref,pref+guard)
     if dest=="Gate1SpringBoard.m":
@@ -43,6 +42,6 @@ for src,dest,pref in [
     assert 'com.duoface.native.scenehost' not in text
     assert 'com.duoface.gate1smoke' in text
     assert '.duoface-gate1smoke-disable' in text
-    assert 'now+900.0' in text
+    assert 'oldEffective' in text
     (OUT/dest).write_text(text)
 print("GATE1_OWN_BUNDLE_SCOPED_GENERATION_PASS")

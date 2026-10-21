@@ -6,6 +6,9 @@
 static NSString *const kRole=@"UIWindowSceneSessionRoleCarPlay";
 static NSString *const kPrefs=@"/var/mobile/Library/Preferences/com.duoface.gate1smoke.plist";
 static NSString *const kKill=@"/var/mobile/Library/Preferences/.duoface-gate1smoke-disable";
+static NSString *const kOldPrefs=@"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist";
+static NSString *const kOldKill=@"/var/mobile/Library/Preferences/.duoface-firstparty-admission-disable";
+static NSString *const kPauseMarker=@"/var/mobile/Library/Preferences/.duoface-gate1smoke-paused-old";
 static NSString *const kSB=@"/var/mobile/Library/Logs/DuoFaceGate1SpringBoard.log";
 static NSString *const kCP=@"/var/mobile/Library/Logs/DuoFaceGate1CarPlay.log";
 static NSString *const kScene=@"/var/mobile/Library/Logs/DuoFaceGate1Scene.log";
@@ -20,25 +23,80 @@ static void Signal(void) {
   CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
     CFSTR("com.duoface.gate1smoke.refresh"),NULL,NULL,YES);
 }
-static void Disable(void) {
-  [[NSFileManager defaultManager] createFileAtPath:kKill contents:[NSData data] attributes:nil];
-  [@{@"Enabled":@NO,@"HostBundleID":@"com.duoface.gate1smoke",
-      @"RiskAcknowledged":@NO,@"ExpiresAt":@0} writeToFile:kPrefs atomically:YES];
-  Signal();Log(@"test-disabled kill-switch-active");
+static BOOL OldGateActive(void) {
+  NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:kOldPrefs];
+  return [old[@"Enabled"] boolValue] && [old[@"RiskAcknowledged"] boolValue] &&
+    [old[@"HostBundleID"] isEqualToString:@"com.duoface.native.scenehost"] &&
+    ![NSFileManager.defaultManager fileExistsAtPath:kOldKill];
 }
-static BOOL Enable(void) {
-  NSDictionary *older=[NSDictionary dictionaryWithContentsOfFile:
-     @"/var/mobile/Library/Preferences/com.duoface.firstparty-admission.plist"];
-  if([older[@"Enabled"] boolValue])return NO;
-  NSTimeInterval expires=NSDate.date.timeIntervalSince1970+600;
-  NSDictionary *prefs=@{@"Enabled":@YES,@"RiskAcknowledged":@YES,
-      @"HostBundleID":@"com.duoface.gate1smoke",@"ExpiresAt":@(expires)};
-  // Consent is never changed during install: explicit in-app action only.
-  if(![prefs writeToFile:kPrefs atomically:YES])return NO;
-  if([[NSFileManager defaultManager] fileExistsAtPath:kKill])
-    [[NSFileManager defaultManager] removeItemAtPath:kKill error:nil];
-  Signal();Log(@"test-enabled ten-minute-timeout; reconnect-CarPlay");
+static void NotifyOldGate(void) {
+  CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+    CFSTR("com.duoface.firstparty-admission.refresh"),NULL,NULL,YES);
+}
+static BOOL RestoreLegacyGate(void) {
+  NSFileManager *fm=NSFileManager.defaultManager;
+  if(![fm fileExistsAtPath:kPauseMarker])return YES;
+  if(![fm fileExistsAtPath:kKill])return NO;
+  NSError *error=nil;
+  if([fm fileExistsAtPath:kOldKill] && ![fm removeItemAtPath:kOldKill error:&error]){
+    Log(@"old-gate-restore-failed: kill file cannot be removed");return NO;
+  }
+  [fm removeItemAtPath:kPauseMarker error:nil];
+  NotifyOldGate();
+  Log(@"old-gate-restored-by-gate1");
   return YES;
+}
+static NSString *Disable(void) {
+  NSFileManager *fm=NSFileManager.defaultManager;
+  if(![fm createFileAtPath:kKill contents:[NSData data] attributes:nil])
+    return @"cannot-write-gate1-kill-file";
+  [@{@"Enabled":@NO,@"RiskAcknowledged":@NO,
+      @"HostBundleID":@"com.duoface.gate1smoke"} writeToFile:kPrefs atomically:YES];
+  Signal();
+  if(!RestoreLegacyGate())return @"old-gate-restoration-failed";
+  Log(@"test-disabled kill-switch-active");
+  return nil;
+}
+static NSString *Enable(BOOL allowPauseOld) {
+  NSFileManager *fm=NSFileManager.defaultManager;
+  BOOL oldActive=OldGateActive();
+  if(oldActive && !allowPauseOld)return @"old-gate-active-needs-confirmation";
+  BOOL paused=NO;
+  if(oldActive){
+    // Exclusivity by explicit consent; do not modify legacy prefs or binaries.
+    if(![fm createFileAtPath:kPauseMarker contents:[NSData data] attributes:nil])
+      return @"cannot-create-legacy-pause-marker";
+    if(![fm createFileAtPath:kOldKill contents:[NSData data] attributes:nil]){
+      [fm removeItemAtPath:kPauseMarker error:nil];
+      return @"cannot-pause-legacy-gate";
+    }
+    paused=YES;
+    NotifyOldGate();
+    Log(@"legacy-gate-paused-by-user");
+  }
+  NSDictionary *prefs=@{@"Enabled":@YES,@"RiskAcknowledged":@YES,
+      @"HostBundleID":@"com.duoface.gate1smoke"};
+  if(![prefs writeToFile:kPrefs atomically:YES]){
+    [fm createFileAtPath:kKill contents:[NSData data] attributes:nil];
+    if(paused)RestoreLegacyGate();
+    return @"cannot-write-gate1-preferences";
+  }
+  NSDictionary *readback=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
+  if(![readback[@"Enabled"] boolValue] ||
+     ![readback[@"HostBundleID"] isEqualToString:@"com.duoface.gate1smoke"]){
+    [fm createFileAtPath:kKill contents:[NSData data] attributes:nil];
+    if(paused)RestoreLegacyGate();
+    return @"gate1-preferences-readback-failed";
+  }
+  NSError *error=nil;
+  if([fm fileExistsAtPath:kKill] && ![fm removeItemAtPath:kKill error:&error]){
+    [fm createFileAtPath:kKill contents:[NSData data] attributes:nil];
+    if(paused)RestoreLegacyGate();
+    return @"cannot-remove-gate1-kill-file";
+  }
+  Signal();
+  Log(@"gate1-enabled-user-controlled-no-timeout");
+  return nil;
 }
 @interface Gate1Status : UIViewController
 @property(nonatomic,strong) UITextView *logView;
@@ -65,7 +123,7 @@ static BOOL Enable(void) {
   intro.text=@"DuoFace · CarPlay Gate 1\nChỉ kiểm tra biểu tượng và scene thật.\nKhông chứa Native12 / HUD / hai ô.";
   intro.textColor=UIColor.whiteColor;intro.numberOfLines=0;
   intro.font=[UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
-  UIButton *on=[self button:@"BẬT thử nghiệm trong 10 phút" action:@selector(askEnable)];
+  UIButton *on=[self button:@"BẬT thử nghiệm CarPlay" action:@selector(askEnable)];
   UIButton *off=[self button:@"TẮT NGAY / KHÓA AN TOÀN" action:@selector(stopTest)];
   UIButton *refresh=[self button:@"ĐỌC TRẠNG THÁI" action:@selector(readStatus)];
   UITextView *log=[UITextView new];log.editable=NO;log.backgroundColor=UIColor.blackColor;
@@ -89,29 +147,43 @@ static BOOL Enable(void) {
   [self readStatus];
 }
 - (void)viewDidAppear:(BOOL)animated {[super viewDidAppear:animated];[self readStatus];}
+- (void)showResult:(NSString *)reason {
+  if(reason.length){
+    Log([NSString stringWithFormat:@"enable-refused-reason=%@",reason]);
+    UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Gate 1 không bật được"
+       message:reason preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+  }
+  [self readStatus];
+}
 - (void)askEnable {
-  UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Thử CarPlay jailbreak"
-    message:@"Chỉ khi xe đang đỗ. Thao tác này kích hoạt hook giới hạn app Gate1 trong SpringBoard + CarPlay, có thể gây safe mode. Hết hạn sau 10 phút; nút TẮT sẽ khóa ngay. Phải có cách khôi phục jailbreak." preferredStyle:UIAlertControllerStyleAlert];
+  BOOL oldActive=OldGateActive();
+  NSString *message=oldActive?
+    @"Gate DuoFace QA cũ đang hoạt động. Bạn đồng ý TẠM KHÓA gate cũ khi bật Gate 1? Không xóa hay thay đổi gói cũ; Gate 1 sẽ khôi phục khi TẮT/gỡ cài đặt. Chỉ thử khi xe đỗ.":
+    @"Thử biểu tượng và scene CarPlay. Bật đến khi bạn nhấn TẮT hoặc gỡ gói; không còn giới hạn 10 phút. Có nguy cơ safe mode, cần cách khôi phục jailbreak.";
+  UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"DuoFace Gate 1"
+    message:message preferredStyle:UIAlertControllerStyleAlert];
   [alert addAction:[UIAlertAction actionWithTitle:@"HỦY" style:UIAlertActionStyleCancel handler:nil]];
-  [alert addAction:[UIAlertAction actionWithTitle:@"Tôi chấp nhận và BẬT"
-     style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
-       (void)action;
-       if(!Enable()){
-         Log(@"enable-refused (old gate enabled or preferences denied)");
-       }
-       [self readStatus];
-     }]];
+  [alert addAction:[UIAlertAction actionWithTitle:oldActive?@"Tạm khóa gate cũ và BẬT":@"BẬT thử nghiệm"
+    style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
+      (void)action;[self showResult:Enable(oldActive)];
+  }]];
   [self presentViewController:alert animated:YES completion:nil];
 }
-- (void)stopTest {(void)self;Disable();[self readStatus];}
+- (void)stopTest {
+  NSString *reason=Disable();
+  if(reason)Log([NSString stringWithFormat:@"disable-error=%@",reason]);
+  [self readStatus];
+}
 - (void)readStatus {
   NSDictionary *p=[NSDictionary dictionaryWithContentsOfFile:kPrefs];
-  NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-  BOOL enabled=[p[@"Enabled"] boolValue] && [p[@"ExpiresAt"] doubleValue]>now &&
-               ![[NSFileManager defaultManager] fileExistsAtPath:kKill];
+  NSFileManager *fm=NSFileManager.defaultManager;
+  BOOL enabled=[p[@"Enabled"] boolValue] && ![fm fileExistsAtPath:kKill];
   NSMutableString *text=[NSMutableString stringWithFormat:
-    @"GATE1_ENABLED=%@\nTTL_REMAINING=%.0fs\n\n",enabled?@"YES":@"NO",
-    MAX(0,[p[@"ExpiresAt"] doubleValue]-now)];
+    @"GATE1_ENABLED=%@\\nGATE1_MODE=MANUAL_NO_TIMEOUT\\nOLD_GATE_ACTIVE=%@\\nOLD_GATE_PAUSED_BY_GATE1=%@\\n\\n",
+    enabled?@"YES":@"NO",OldGateActive()?@"YES":@"NO",
+    [fm fileExistsAtPath:kPauseMarker]?@"YES":@"NO"];
   for(NSArray *info in @[@[@"SpringBoard admission",kSB],
                          @[@"CarPlay admission",kCP],
                          @[@"System-issued scene",kScene]]) {

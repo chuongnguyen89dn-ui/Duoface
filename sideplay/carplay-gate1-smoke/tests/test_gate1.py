@@ -7,7 +7,7 @@ class Gate1Safety(unittest.TestCase):
  def test_unique_isolated_dpkg(self):
   c=get("control")
   self.assertIn("Package: com.duoface.carplay.gate1smoke",c)
-  self.assertIn("Version: 0.0.2~smoke2",c)
+  self.assertIn("Version: 0.0.3~enablefix1",c)
   self.assertIn("iphoneos-arm64",c)
   for x in ("Conflicts:","Replaces:","Breaks:","Provides:","com.duonavi","com.duoface.independent"):
    self.assertNotIn(x,c)
@@ -22,7 +22,7 @@ class Gate1Safety(unittest.TestCase):
    self.assertNotIn(forbidden,get("Gate1App.m"))
  def test_default_off_auto_expiry_and_kill_switch(self):
   app=get("Gate1App.m")
-  for marker in ('@"ExpiresAt":@(expires)','10 phút','Disable();','com.duoface.gate1smoke.refresh',
+  for marker in ('GATE1_MODE=MANUAL_NO_TIMEOUT','Disable();','com.duoface.gate1smoke.refresh',
                  '.duoface-gate1smoke-disable', 'com.duoface.gate1smoke',
                  'RiskAcknowledged','enable-refused'):
    self.assertIn(marker,app)
@@ -34,11 +34,22 @@ class Gate1Safety(unittest.TestCase):
   self.assertIn(".duoface-gate1smoke-disable",get("postinst"))
   self.assertIn(".duoface-gate1smoke-disable",get("prerm"))
   self.assertIn("uicache",get("postinst"))
+  self.assertIn(".duoface-gate1smoke-paused-old",get("prerm"))
+ def test_enable_button_reports_exact_failure_and_restores_legacy(self):
+  app=get("Gate1App.m")
+  for marker in ("OldGateActive(void)","kOldKill","kPauseMarker",
+       "enable-refused-reason=","cannot-write-gate1-preferences",
+       "cannot-pause-legacy-gate","cannot-remove-gate1-kill-file",
+       "gate1-preferences-readback-failed","RestoreLegacyGate",
+       "GATE1_MODE=MANUAL_NO_TIMEOUT","Tạm khóa gate cũ và BẬT"):
+   self.assertIn(marker,app)
+  self.assertNotIn("enable-refused (old gate enabled or preferences denied)",app)
+  self.assertNotIn("TTL_REMAINING",app)
  def test_scope_generates_only_our_gate(self):
   subprocess.run([sys.executable,str(P/"prepare.py")],check=True)
   for f in ("Gate1CarPlay.m","Gate1SpringBoard.m"):
    src=(P/".generated"/f).read_text()
-   for key in ("com.duoface.gate1smoke","ExpiresAt","now+900.0",
+   for key in ("com.duoface.gate1smoke","oldEffective",
                "com.duoface.gate1smoke.refresh",".duoface-gate1smoke-disable"):
     self.assertIn(key,src)
    self.assertNotIn("com.duoface.native.scenehost",src)

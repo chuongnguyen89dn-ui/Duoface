@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.gate1smoke
 Name: DuoFace CarPlay Gate 1 (Safe Beta)
-Version: 0.0.2~smoke2
+Version: 0.0.3~enablefix1
 Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0), firmware (<< 17.0), mobilesubstrate
-Description: Independent minimal 10-minute opt-in CarPlay Home and native UIWindowScene test, no two-app/Native12/HUD8 code. Different app and tweak IDs; never replaces installed DuoFace QA or Native12/HUD8. Explicit app UI starts test, kill switch on uninstall. SpringBoard tweak remains default OFF.
+Description: Independent manual user-controlled opt-in CarPlay Home and native UIWindowScene test, no two-app/Native12/HUD8 code. Different app and tweak IDs; never replaces installed DuoFace QA or Native12/HUD8. Explicit app UI starts test, kill switch on uninstall. SpringBoard tweak remains default OFF.
