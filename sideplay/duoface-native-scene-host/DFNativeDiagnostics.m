@@ -32,8 +32,8 @@
     // crashes. Do not collect arbitrary apps' reports or device identifiers.
     NSMutableString *summary=[NSMutableString stringWithFormat:
          @"DuoFace CarPlay / media scene diagnostic (manual export)\n"
-          "Date: %@\niOS: %@\nApp: %@\n"
-          "This file contains technical diagnostics; share only with a trusted recipient.\n",
+          @"Date: %@\niOS: %@\nApp: %@\n"
+          @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
     NSArray<NSString *> *ownLogs=@[
