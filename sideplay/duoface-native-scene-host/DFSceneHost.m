@@ -329,6 +329,13 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         return nil;
     }
 }
+- (NSString *)bundleIDForHostedView:(UIView *)view {
+    if (![view isKindOfClass:DFSceneSurface.class])return nil;
+    DFSceneSurface *surface=(DFSceneSurface *)view;
+    // Only return identities of actual owned surfaces; do not accept
+    // arbitrary views or allow a scene from another process to be replaced.
+    return self.live[surface.bundleID]==surface ? surface.bundleID : nil;
+}
 - (void)didFinishSurface:(DFSceneSurface *)surface {
     if (self.live[surface.bundleID]==surface) [self.live removeObjectForKey:surface.bundleID];
 }
