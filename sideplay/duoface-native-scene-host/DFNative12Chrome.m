@@ -71,6 +71,10 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UIWindow *dividerWindow;
 @property(nonatomic,strong) UIWindow *pickerWindow;
 @property(nonatomic,strong) UIWindow *appPickerWindow;
+@property(nonatomic,strong) UIWindow *splashWindow;
+@property(nonatomic,assign) BOOL startupActive;
+@property(nonatomic,assign) NSTimeInterval borderUntil;
+@property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
@@ -172,6 +176,7 @@ static void DFCLog(NSString *text) {
     return b;
 }
 - (BOOL)start {
+    self.startupActive=YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -339,11 +344,79 @@ static void DFCLog(NSString *text) {
     self.appPickerWindow=[self makeWindow:chooserRect
           root:self.appPickerController level:4];
     if(!self.appPickerWindow){[self stop];return NO;}
+    // Show genuine DuoFace horizontal logo and animated progress BEFORE chrome.
+    // One source-owned SpringBoard presentation; controls cannot pre-empt launch.
+    UIViewController *launch=[self emptyRoot:cr];
+    launch.view.backgroundColor=UIColor.blackColor;
+    UIImageView *brand=[[UIImageView alloc]initWithImage:DFCArtwork(@"duoface-logo")];
+    brand.contentMode=UIViewContentModeScaleAspectFit;
+    CGFloat lw=MIN(cr.size.width*.7,310),lh=lw/4.;
+    brand.frame=CGRectMake((cr.size.width-lw)/2,cr.size.height*.35-lh/2,lw,lh);
+    [launch.view addSubview:brand];
+    UILabel *motto=[UILabel new];
+    motto.text=@"TWO FACES ONE SCREEN";
+    motto.font=[UIFont systemFontOfSize:10 weight:UIFontWeightSemibold];
+    motto.textColor=UIColor.whiteColor;
+    motto.textAlignment=NSTextAlignmentCenter;
+    motto.frame=CGRectMake(5,CGRectGetMaxY(brand.frame)+4,cr.size.width-10,18);
+    [launch.view addSubview:motto];
+    CGFloat barWidth=MIN(cr.size.width*.58,240);
+    UIView *track=[[UIView alloc]initWithFrame:CGRectMake((cr.size.width-barWidth)/2,
+                     CGRectGetMaxY(motto.frame)+14,barWidth,3)];
+    track.backgroundColor=[UIColor colorWithWhite:.26 alpha:1];
+    track.layer.cornerRadius=1.5;
+    track.clipsToBounds=YES;
+    [launch.view addSubview:track];
+    CALayer *fill=[CALayer layer];
+    fill.anchorPoint=CGPointMake(0,.5);
+    fill.position=CGPointMake(0,1.5);
+    fill.bounds=CGRectMake(0,0,barWidth,3);
+    fill.backgroundColor=[UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1].CGColor;
+    [track.layer addSublayer:fill];
+    CABasicAnimation *load=[CABasicAnimation animationWithKeyPath:@"bounds.size.width"];
+    load.fromValue=@0;
+    load.toValue=@(barWidth);
+    load.duration=1.25;
+    load.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [fill addAnimation:load forKey:@"duoface-native-loading-line"];
+    self.splashWindow=[self makeWindow:cr root:launch level:5];
+    if(!self.splashWindow){[self stop];return NO;}
     [self layoutControls];
+    self.splashWindow.hidden=NO;
+    __weak typeof(self) weakOwner=self;
+    UIWindow *initial=self.splashWindow;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.3*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+       DFNative12Chrome *owner=weakOwner;
+       if(!owner || !owner.startupActive || owner.splashWindow!=initial)return;
+       [UIView animateWithDuration:.2 animations:^{initial.alpha=0;}
+           completion:^(BOOL finished){
+               (void)finished;
+               if(!owner || !owner.startupActive || owner.splashWindow!=initial)return;
+               owner.startupActive=NO;
+               initial.hidden=YES;
+               [owner layoutControls];
+               DFCLog(@"native12-logo-and-loading-line-completed");
+           }];
+    });
     DFCLog([NSString stringWithFormat:
         @"native12-chrome-start windows=%lu content=%@",
         (unsigned long)self.windows.count,NSStringFromCGRect(cr)]);
     return YES;
+}
+- (void)noteUserActivity {
+    self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
+    NSUInteger seq=++self.borderGeneration;
+    [self layoutControls];
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2.1*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFNative12Chrome *owner=weakOwner;
+        if(owner && owner.borderGeneration==seq){
+            owner.borderUntil=0;
+            [owner layoutControls];
+        }
+    });
 }
 - (void)emit:(NSString *)action ratio:(NSNumber *)ratio {
     if(!self.callback)return;
@@ -399,7 +472,7 @@ static void DFCLog(NSString *text) {
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
         [zoom setImage:icon forState:UIControlStateNormal];
-        w.hidden=!show;
+        w.hidden=(!show||self.startupActive);
     }
     CGRect tr=self.verticalDivider?
         CGRectMake(CGRectGetMaxX(pane[0])-16,cr.origin.y+2,32,cr.size.height-4):
@@ -414,8 +487,8 @@ static void DFCLog(NSString *text) {
     self.dividerLogo.frame=self.verticalDivider?
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
-    self.dividerWindow.hidden=(self.focus>=0||self.pickerVisible);
-    self.pickerWindow.hidden=!self.pickerVisible;
+    self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible);
+    self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     for(NSInteger i=0;i<2;i++){
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         NSInteger visualSlot=self.swapped?1-i:i;
@@ -432,9 +505,16 @@ static void DFCLog(NSString *text) {
         BOOL negotiating=(self.pendingScenes[(NSUInteger)i]!=NSNull.null);
         appWindow.hidden=(!(loaded||negotiating) ||
                            (self.focus>=0 && self.focus!=visualSlot));
+        // Border belongs to real app-scene container. No touch interception.
+        v.layer.borderWidth=(!self.startupActive && self.focus<0 && loaded &&
+           NSDate.date.timeIntervalSince1970<self.borderUntil)?1.:0.;
+        v.layer.borderColor=[UIColor colorWithRed:227./255 green:2./255
+                                                  blue:15./255 alpha:1].CGColor;
+        v.layer.cornerRadius=10;
     }
 }
 - (void)pillPressed:(UIButton *)sender {
+    [self noteUserActivity];
     self.selectedSlot=sender.tag;
     self.pickerVisible=YES;
     [self layoutControls];
@@ -445,6 +525,7 @@ static void DFCLog(NSString *text) {
     self.pickerVisible=NO;[self layoutControls];
 }
 - (void)zoomPressed:(UIButton *)sender {
+    [self noteUserActivity];
     NSInteger physical=self.swapped?1-sender.tag:sender.tag;
     if(self.focus!=sender.tag &&
        (physical<0 || physical>1 ||
@@ -455,6 +536,7 @@ static void DFCLog(NSString *text) {
     [self layoutControls];
 }
 - (void)menuAction:(UIButton *)sender {
+    [self noteUserActivity];
     [self closeMenu:nil];
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
@@ -606,6 +688,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)swapPressed:(id)sender {
     (void)sender;
+    [self noteUserActivity];
     self.swapped=!self.swapped;
     [self saveSplitState];
     [self layoutControls];
@@ -616,6 +699,7 @@ static void DFCLog(NSString *text) {
     if(self.pickerVisible||self.focus>=0)return;
     UIGestureRecognizerState state=pan.state;
     if(state==UIGestureRecognizerStateBegan) {
+        [self noteUserActivity];
         self.dragStartRatio=self.ratio;self.panActive=YES;
         DFCLog(@"divider-pan-begin");return;
     }
@@ -637,7 +721,7 @@ static void DFCLog(NSString *text) {
         self.lastSent=now;[self emit:@"Ratio" ratio:@(self.ratio)];
     }
     if(end||cancel){
-        if(end)[self saveSplitState];
+        if(end){[self saveSplitState];[self noteUserActivity];}
         self.panActive=NO;DFCLog(end?@"divider-pan-end":@"divider-pan-cancel");
     }
 }
@@ -657,6 +741,9 @@ static void DFCLog(NSString *text) {
     }
 }
 - (void)stop {
+    self.startupActive=NO;
+    ++self.borderGeneration;
+    self.borderUntil=0;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.callback=nil;
     [self.appPickerController setDelegate:nil];
@@ -669,7 +756,7 @@ static void DFCLog(NSString *text) {
     }
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.pickerWindow=nil;
+    self.dividerWindow=nil;self.pickerWindow=nil;self.splashWindow=nil;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
