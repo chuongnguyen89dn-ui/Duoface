@@ -286,7 +286,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"Vertical"',chrome)
   self.assertIn('@"Swapped"',chrome)
   self.assertIn("writeToFile:kDFLayoutPath atomically:YES",chrome)
-  self.assertIn("if(end)[self saveSplitState]",chrome)
+  self.assertIn("if(end){[self saveSplitState];[self noteUserActivity];}",chrome)
   self.assertIn("self.swapped=!self.swapped;",chrome)
   self.assertIn("self.verticalDivider=!self.verticalDivider;",chrome)
   self.assertNotIn("checkAndSyncLicense",chrome)
