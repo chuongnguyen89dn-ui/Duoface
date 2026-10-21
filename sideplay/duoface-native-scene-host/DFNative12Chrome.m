@@ -75,7 +75,6 @@ static void DFCLog(NSString *text) {
     if(!_display || !_configurationClass || !_externalWindowClass ||
        ![_configurationClass instancesRespondToSelector:configSelector] ||
        ![_externalWindowClass instancesRespondToSelector:windowSelector])return nil;
-    CGRect screen=[UIScreen mainScreen].bounds;
     // Never construct a window on the phone display or outside the external
     // CarPlay content rect. The Dock's left region remains system-owned.
     if(!isfinite(frame.origin.x) || !isfinite(frame.origin.y) ||
@@ -87,8 +86,7 @@ static void DFCLog(NSString *text) {
         UIWindow *w=((id(*)(id,SEL,id))objc_msgSend)(
             [_externalWindowClass alloc],windowSelector,config);
         if(![w isKindOfClass:UIWindow.class] || !w.screen ||
-           w.screen==UIScreen.mainScreen || CGRectEqualToRect(w.screen.bounds,screen)
-           && w.screen==UIScreen.mainScreen)return nil;
+           w.screen==UIScreen.mainScreen)return nil;
         w.frame=frame;
         if(fabs(w.frame.origin.x-frame.origin.x)>2 ||
            fabs(w.frame.origin.y-frame.origin.y)>2 ||
