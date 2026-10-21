@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.nativescenehost
 Name: DuoFace Native Dashboard Scene Host (Development)
-Version: 0.0.4~template1
+Version: 0.0.5~native12ui1
 Architecture: iphoneos-arm64
 Section: Development
 Maintainer: DuoFace Independent
 Depends: firmware (>= 16.0)
-Description: Isolated iOS16 jailbreak test of a real CPTemplateApplicationScene navigation callback (CarPlay-issued CPWindow) plus legacy generic UIKit scene role. Own blank test scene only; not yet a two-app bridge or a verified CarPlay Home icon. Existing system Dock remains OS-owned. No vendor code. No automatic respring.
+Description: Independent Native12-inspired basic split chrome test inside system-issued CarPlay CPWindow. Two empty slots, draggable ratio, swap, App/Zoom/Style/Close menu. No external app hosting yet, no vendor code, no Dock override, no automatic respring.

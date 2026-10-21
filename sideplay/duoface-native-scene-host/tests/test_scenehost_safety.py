@@ -54,10 +54,19 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("DBDockWindow",c)
   self.assertIn("-framework CarPlay",file("build.sh"))
   self.assertIn("ldid -Sentitlements.plist",file("build.sh"))
+ def test_native12_ui1_basic_chrome_contract(self):
+  app=file("DFNativeHostAppDelegate.m")
+  ui=file("DFNative12BasicController.m")
+  self.assertIn("DFNative12BasicController *root=[DFNative12BasicController new]",app)
+  for marker in ("APP 1","APP 2","CHƯA NỐI SCENE","App","Zoom","Style","Close","UIPanGestureRecognizer","self.ratio","self.swapped","safeAreaLayoutGuide","self.menuSheet"):
+   self.assertIn(marker,ui)
+  for forbidden in ("DBDockWindow","setWindowLevel:","SBAppViewController","CALayerHost","requestStateChange:","CarBridge"):
+   self.assertNotIn(forbidden,ui)
+  self.assertIn("DFNative12BasicController.m",file("build.sh"))
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.0.4~template1",c)
+  self.assertIn("Version: 0.0.5~native12ui1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())

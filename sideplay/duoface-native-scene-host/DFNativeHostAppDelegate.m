@@ -1,6 +1,7 @@
 // Independent DuoFace native CarPlay scene-entry proof. NO vendor bridge code.
 #import <UIKit/UIKit.h>
 #import <CarPlay/CarPlay.h>
+#import "DFNative12BasicController.h"
 #import <Foundation/Foundation.h>
 #import <fcntl.h>
 #import <unistd.h>
@@ -142,22 +143,8 @@ void DFNativeHostLog(NSString *message) {
     }
     self.interfaceController=controller;
     self.carWindow=window; // Provided by CarPlay, not created with UIWindow alloc.
-    UIViewController *root=[UIViewController new];
-    root.view.backgroundColor=[UIColor colorWithRed:0.04 green:0.17 blue:0.26 alpha:1];
-    UILabel *label=[UILabel new];
-    label.translatesAutoresizingMaskIntoConstraints=NO;
-    label.text=@"DUOFACE\nCARPLAY NATIVE SCENE\nSTANDALONE TEST";
-    label.numberOfLines=0;
-    label.font=[UIFont boldSystemFontOfSize:19];
-    label.textColor=UIColor.whiteColor;
-    label.textAlignment=NSTextAlignmentCenter;
-    [root.view addSubview:label];
-    [NSLayoutConstraint activateConstraints:@[
-        [label.centerXAnchor constraintEqualToAnchor:root.view.safeAreaLayoutGuide.centerXAnchor],
-        [label.centerYAnchor constraintEqualToAnchor:root.view.safeAreaLayoutGuide.centerYAnchor],
-        [label.leadingAnchor constraintGreaterThanOrEqualToAnchor:root.view.safeAreaLayoutGuide.leadingAnchor constant:10],
-        [label.trailingAnchor constraintLessThanOrEqualToAnchor:root.view.safeAreaLayoutGuide.trailingAnchor constant:-10]
-    ]];
+    // Native12 basic visual test, hosted ONLY in CarPlay-issued CPWindow.
+    DFNative12BasicController *root=[DFNative12BasicController new];
     window.rootViewController=root;
     CPMapTemplate *map=[CPMapTemplate new];
     [controller setRootTemplate:map animated:NO completion:nil];
