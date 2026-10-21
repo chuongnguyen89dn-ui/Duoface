@@ -568,6 +568,7 @@ static void DFCLog(NSString *text) {
         menu.hidden=focused;
         // Never silently hide the second button in an empty/pending pane.
         zoom.hidden=NO;
+        zoom.accessibilityLabel=ready?@"Zoom ứng dụng":@"Chọn ứng dụng để dùng Zoom";
         UIImage *icon=[UIImage systemImageNamed:self.focus==i?
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
