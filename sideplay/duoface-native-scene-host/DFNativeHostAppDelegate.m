@@ -157,9 +157,7 @@ void DFNativeHostLog(NSString *message) {
     NSArray *titles=@[@"LEFT",@"RIGHT",@"SWAP"];
     NSMutableArray *buttons=[NSMutableArray array];
     for(NSString *title in titles){
-        CPMapButton *button=[CPMapButton new];
-        button.image=[UIImage systemImageNamed:([title isEqualToString:@"SWAP"]?@"arrow.left.arrow.right":@"hand.tap")];
-        button.handler=^(CPMapButton *pressed){
+        CPMapButton *button=[[CPMapButton alloc] initWithHandler:^(CPMapButton *pressed){
             (void)pressed;
             __strong typeof(weakSelf) strongSelf=weakSelf;
             if(!strongSelf)return;
@@ -170,7 +168,8 @@ void DFNativeHostLog(NSString *message) {
             } else {
                 strongSelf.basicController.view.accessibilityValue=[NSString stringWithFormat:@"CarPlay touch %@ %lu",title,(unsigned long)strongSelf.touchCount];
             }
-        };
+        }];
+        button.image=[UIImage systemImageNamed:([title isEqualToString:@"SWAP"]?@"arrow.left.arrow.right":@"hand.tap")];
         [buttons addObject:button];
     }
     map.mapButtons=buttons;
