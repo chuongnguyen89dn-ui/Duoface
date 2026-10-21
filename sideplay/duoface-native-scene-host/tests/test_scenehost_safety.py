@@ -1,5 +1,7 @@
 import unittest
 import plistlib
+import json
+import math
 from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def file(n):return (R/n).read_text()
@@ -595,5 +597,38 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('self.appPickerWindow.hidden=YES;',chrome)
   self.assertIn('DFSlotCountForPreset(self.preset)',chrome)
   self.assertNotIn('UIRootSceneWindow',phone)
+
+ def test_original_native12_split_ratio_numeric_constants_are_exact(self):
+  """Compare actual ARM64 __const double values, not a guessed threshold."""
+  source=R.parents[1]/"sideplay/audit/native12-layout-forensic-20261021/constants/DIVIDER_CONSTANTS.json"
+  result=json.loads(source.read_text())
+  self.assertEqual(result["macho_sha256"],
+                   "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+  constants={k:v["double"] for k,v in result["constants"].items()}
+  self.assertTrue(math.isclose(constants["drag_min"],1.0/3.0,abs_tol=1e-12))
+  self.assertTrue(math.isclose(constants["drag_max"],2.0/3.0,abs_tol=1e-12))
+  self.assertEqual(constants["snap_threshold"],.04)
+  self.assertTrue(math.isclose(constants["snap_offset_a"],-1.0/3.0,abs_tol=1e-12))
+  self.assertTrue(math.isclose(constants["snap_offset_b"],-2.0/3.0,abs_tol=1e-12))
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("MAX(1.0/3.0,MIN(2.0/3.0,x))",chrome)
+  self.assertIn("if(fabs(x-stop.doubleValue)<.04)",chrome)
+  self.assertIn('for(NSNumber *stop in @[@(1.0/3.0),@.5,@(2.0/3.0)])',chrome)
+
+ def test_original_preset_dual_write_from_imp_is_live_and_ack_checked(self):
+  """presetSelected @0xaa4f0 uses both splitMode and splitPreset, same UIButton.tag."""
+  original=(R.parents[1]/"sideplay/audit/native12-layout-forensic-20261021/evidence/REPORT.md").read_text()
+  section=original.split("## CBMultitaskingOverlayView.presetSelected: @ 0xaa4f0",1)[1].split("\\n## ",1)[0]
+  self.assertIn('splitPreset',section)
+  self.assertIn('splitMode',section)
+  chrome=file("DFNative12Chrome.m")
+  phone=file("DFNativeHostRootController.m")
+  receiver=file("DFNativeHostAppDelegate.m")
+  for name in ("splitPreset","splitMode"):
+   self.assertIn('@"'+name+'":@(preset)',chrome)
+   self.assertIn('@"'+name+'":@(preset)',phone)
+  self.assertIn('@"SplitPreset":@(self.preset)',chrome)
+  self.assertIn('@"SplitMode":@(self.preset)',chrome)
+  self.assertIn('splitPreset!=preset || splitMode!=preset',receiver)
 
 if __name__=="__main__":unittest.main(verbosity=2)
