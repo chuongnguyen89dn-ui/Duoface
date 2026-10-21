@@ -2,6 +2,7 @@
 // Do not draw sample split panes, fake app scenes or inert settings controls.
 #import <UIKit/UIKit.h>
 #import "DFAppEligibility.h"
+#import "DFNativeDiagnostics.h"
 #import <objc/message.h>
 #import <math.h>
 #import <notify.h>
@@ -14,6 +15,7 @@
 @property(nonatomic,strong) DFNativeHostSurfaceView *nativeSurface;
 @property(nonatomic,strong) UIImageView *mainLogo;
 @property(nonatomic,strong) UILabel *stateLabel;
+@property(nonatomic,strong) UIButton *diagnosticsButton;
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
@@ -90,6 +92,16 @@
  [self.view addSubview:tabs];self.tabs=tabs;
  UILabel *state=[self makeText:15];
  [self.view addSubview:state];self.stateLabel=state;
+ UIButton *diagnostics=[UIButton buttonWithType:UIButtonTypeSystem];
+ diagnostics.translatesAutoresizingMaskIntoConstraints=NO;
+ [diagnostics setTitle:@"Xuất log / lỗi CarPlay" forState:UIControlStateNormal];
+ diagnostics.titleLabel.font=[UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+ [diagnostics setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+ diagnostics.backgroundColor=[UIColor colorWithRed:.56 green:.08 blue:.12 alpha:1];
+ diagnostics.layer.cornerRadius=10;
+ [diagnostics addTarget:self action:@selector(shareCarPlayDiagnostics:)
+           forControlEvents:UIControlEventTouchUpInside];
+ [self.view addSubview:diagnostics];self.diagnosticsButton=diagnostics;
  UITableView *list=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleInsetGrouped];
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
  list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
@@ -107,6 +119,10 @@
    [state.topAnchor constraintEqualToAnchor:tabs.bottomAnchor constant:32],
    [state.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:22],
    [state.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-22],
+   [diagnostics.topAnchor constraintEqualToAnchor:state.bottomAnchor constant:20],
+   [diagnostics.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:32],
+   [diagnostics.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-32],
+   [diagnostics.heightAnchor constraintEqualToConstant:46],
    [list.topAnchor constraintEqualToAnchor:tabs.bottomAnchor constant:12],
    [list.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor constant:14],
    [list.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor constant:-14],
@@ -161,9 +177,43 @@
  notify_post("com.duoface.nativehost.layout.changed.v1");
  return YES;
 }
+- (void)shareCarPlayDiagnostics:(UIButton *)sender {
+    if(self.carPlay)return;
+    UIAlertController *confirm=[UIAlertController alertControllerWithTitle:@"Xuất chẩn đoán DuoFace"
+       message:@"Chỉ lấy log DuoFace và tối đa 3 báo cáo lỗi SpringBoard/CarPlay gần đây. Báo cáo có thể chứa tên ứng dụng và thông tin kỹ thuật. Không tự gửi lên mạng; bạn quyết định nơi chia sẻ."
+       preferredStyle:UIAlertControllerStyleAlert];
+    [confirm addAction:[UIAlertAction actionWithTitle:@"Hủy"
+         style:UIAlertActionStyleCancel handler:nil]];
+    __weak typeof(self) weakSelf=self;
+    [confirm addAction:[UIAlertAction actionWithTitle:@"Tạo báo cáo"
+         style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        (void)action;
+        typeof(self) strongSelf=weakSelf;
+        if(!strongSelf)return;
+        NSArray<NSURL *> *items=[DFNativeDiagnostics prepareShareFiles];
+        if(!items.count){
+            UIAlertController *error=[UIAlertController alertControllerWithTitle:@"Không tạo được báo cáo"
+               message:@"Không ghi được file chẩn đoán vào thư mục tạm."
+               preferredStyle:UIAlertControllerStyleAlert];
+            [error addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleDefault handler:nil]];
+            [strongSelf presentViewController:error animated:YES completion:nil];
+            return;
+        }
+        UIActivityViewController *activity=[[UIActivityViewController alloc]
+                  initWithActivityItems:items applicationActivities:nil];
+        UIPopoverPresentationController *popover=activity.popoverPresentationController;
+        if(popover){
+            popover.sourceView=sender;
+            popover.sourceRect=sender.bounds;
+        }
+        [strongSelf presentViewController:activity animated:YES completion:nil];
+    }]];
+    [self presentViewController:confirm animated:YES completion:nil];
+}
 - (void)tabChanged:(UISegmentedControl *)control {
  BOOL showingList=(control.selectedSegmentIndex!=0);
- self.stateLabel.hidden=showingList;self.appsTable.hidden=!showingList;
+ self.stateLabel.hidden=showingList;self.diagnosticsButton.hidden=showingList;
+ self.appsTable.hidden=!showingList;
  if(showingList){
    if(control.selectedSegmentIndex==1)self.installedApps=[self queryInstalledApps];
    else [self readSavedPreset];
