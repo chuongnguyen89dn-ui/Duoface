@@ -6,6 +6,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 #import <notify.h>
+#import <math.h>
 #import <fcntl.h>
 #import <unistd.h>
 
