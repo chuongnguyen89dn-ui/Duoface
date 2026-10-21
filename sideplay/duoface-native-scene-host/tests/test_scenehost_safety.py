@@ -359,7 +359,9 @@ class NativeCarPlayHost(unittest.TestCase):
   host=file("DFSceneHost.m")
   # Real hosted app scene remains visible behind menu and app chooser:
   # native12 split controller overlays controls; modal cannot suspend apps.
-  self.assertIn("appWindow.hidden=(!(loaded||negotiating) ||",chrome)
+  self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
+  self.assertIn("appWindow.userInteractionEnabled=loaded;",chrome)
+  self.assertNotIn("appWindow.hidden=(!(loaded||negotiating)",chrome)
   self.assertIn("self.pendingScenes[(NSUInteger)i]!=NSNull.null",chrome)
   self.assertNotIn("appWindow.hidden=(!loaded || self.pickerVisible",chrome)
   self.assertNotIn("self.appPickerWindow.hidden==NO ||",chrome)
@@ -386,6 +388,36 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(self.focus==visual)self.focus=-1",chrome)
   self.assertIn("self.sceneHandleReady removeAllObjects",chrome)
   self.assertIn("self.appPickerWindow.hidden=NO",chrome)
+ def test_stage_one_two_panes_visible_with_real_controls_and_touch_safe_borders(self):
+  chrome=file("DFNative12Chrome.m")
+  layout=file("DFLayoutEngine.m")
+  # Default Native12 two-pane split, no simulated player or third window.
+  self.assertIn("_ratio=.5;_logoFraction=.5;",chrome)
+  self.assertIn("_verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=0;",chrome)
+  self.assertIn("if(preset<=1)return 2;",layout)
+  self.assertIn("for(NSInteger slot=0;slot<4;slot++)",chrome)
+  self.assertIn("if(i>=activeSlots){w.hidden=YES;continue;}",chrome)
+  self.assertIn("if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}",chrome)
+  self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
+  self.assertIn("appWindow.userInteractionEnabled=loaded;",chrome)
+  # Empty slots are visible, but never intercept app or system touches.
+  self.assertIn("BOOL empty=(!loaded && !negotiating);",chrome)
+  self.assertIn("v.layer.borderWidth=splitVisible?(touched?1.0:(empty?0.75:0.0)):0.0;",chrome)
+  self.assertIn("[UIColor colorWithWhite:1 alpha:.25]",chrome)
+  self.assertIn("227./255 green:2./255 blue:15./255",chrome)
+  self.assertIn("line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];",chrome)
+  self.assertIn("self.focus<0",chrome)
+  self.assertIn("self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;",chrome)
+  self.assertIn("self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible)",chrome)
+  # Both REAL per-pane button dispatches remain present at every empty slot.
+  self.assertIn("zoom.hidden=NO",chrome)
+  self.assertIn("action:@selector(pillPressed:)",chrome)
+  self.assertIn("action:@selector(zoomPressed:)",chrome)
+  self.assertIn("zoom-requires-real-app",chrome)
+  self.assertIn("[self openAppPickerForSlot:slot];",chrome)
+  self.assertIn("case 2:self.preset=(self.preset+1)%8;",chrome)
+  self.assertIn("case 3:[self closeHostedSlot:self.selectedSlot];",chrome)
+
  def test_split_panes_keep_both_buttons_and_real_zoom_dispatch(self):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("zoom.hidden=NO",chrome)
@@ -533,7 +565,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.splashWindow.hidden=NO",chrome)
   self.assertIn("noteUserActivity",chrome)
   self.assertIn("self.borderUntil",chrome)
-  self.assertIn("self.focus<0 && loaded",chrome)
+  self.assertIn("BOOL splitVisible=(!self.startupActive && self.focus<0);",chrome)
+  self.assertIn("BOOL empty=(!loaded && !negotiating);",chrome)
+  self.assertIn("v.layer.borderWidth=splitVisible?",chrome)
   self.assertIn("227./255",chrome)
   self.assertIn("scene.activationState!=UISceneActivationStateForegroundActive",entry)
   self.assertIn("touchowner-deferred-until-carplay-foreground-active",entry)
