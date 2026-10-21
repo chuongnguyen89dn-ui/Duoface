@@ -21,6 +21,8 @@ static NSUInteger sSequence, sGeneration;
 static BOOL sActivated;
 static int sStartToken=-1, sStopToken=-1, sAckToken=-1;
 static NSUInteger sLastAckSequence=0;
+static NSUInteger sRetryCount=0;
+static NSTimeInterval sRetryAt=0;
 static NSString *const kSessionFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 static NSString *const kCommandFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.command.plist";
 static NSString *const kAckFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
@@ -80,6 +82,7 @@ static BOOL DFReadFreshSession(void) {
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
     if(!isfinite(age) || age<0 || age>2.5)return NO;
     sSession=[value copy];sSequence=0;sLastAckSequence=0;
+    sRetryCount=0;sRetryAt=0;
     return YES;
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
@@ -104,18 +107,19 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
     NSDictionary *state=[sChrome stateSnapshot];
     if(![state[@"Owner"] isEqualToString:@"SpringBoard"] ||
        ![state[@"SlotCount"] isKindOfClass:NSNumber.class])return;
-    NSMutableDictionary *message=[@{@"Version":@2,@"Session":sSession,
-       @"Timestamp":@(NSDate.date.timeIntervalSince1970),
-       @"Sequence":@(++sSequence),@"Action":action,
-       @"State":state} mutableCopy];
     if([action isEqualToString:@"App"]||[action isEqualToString:@"Close"]){
         if(!ratio||![ratio isKindOfClass:NSNumber.class]||
            (ratio.integerValue!=0&&ratio.integerValue!=1))return;
     }else if(![action isEqualToString:@"Ratio"] && ratio)return;
+    NSMutableDictionary *message=[@{@"Version":@2,@"Session":sSession,
+       @"Timestamp":@(NSDate.date.timeIntervalSince1970),
+       @"Sequence":@(++sSequence),@"Action":action,
+       @"State":state} mutableCopy];
     if(ratio)message[@"Ratio"]=ratio;
     if(![message writeToFile:kCommandFile atomically:YES]){
         DFTOLog(@"command-write-failed",action);return;
     }
+    sRetryCount=0;sRetryAt=NSDate.date.timeIntervalSince1970;
     int rc=notify_post(kCommandNotify);
     DFTOLog(@"command-dispatched",[NSString stringWithFormat:
        @"action=%@ seq=%lu status=%d",action,(unsigned long)sSequence,rc]);
@@ -142,6 +146,7 @@ static void DFStopProbe(NSString *reason) {
     sActivated=NO;
     sSession=nil;
     sLastAckSequence=0;
+    sRetryCount=0;sRetryAt=0;
     DFNative12Chrome *old=sChrome;
     sChrome=nil;
     if(old){
@@ -174,6 +179,30 @@ static void DFWatchdog(NSUInteger generation) {
             age,pulse[@"Active"],[pulse[@"Session"] isEqualToString:sSession]]);
         DFStopProbe(@"inactive-or-stale-heartbeat");
         return;
+    }
+    // Darwin notifies may be coalesced or dropped when the CarPlay process is
+    // briefly busy. A single atomic file contains the LATEST real-state
+    // observation, so retry only its notify/receipt (never re-run a UI command).
+    // Also read persisted ACK in case the return notification was dropped.
+    DFReceiveAck();
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(sSequence>sLastAckSequence && sRetryCount<3 &&
+       sRetryAt>0 && now-sRetryAt>=.8){
+        NSDictionary *last=[NSDictionary dictionaryWithContentsOfFile:kCommandFile];
+        if([last[@"Version"] isEqual:@2] &&
+           [last[@"Session"] isEqualToString:sSession] &&
+           [last[@"Sequence"] unsignedIntegerValue]==sSequence){
+            NSMutableDictionary *retry=[last mutableCopy];
+            retry[@"Timestamp"]=@(now);
+            if([retry writeToFile:kCommandFile atomically:YES]){
+                sRetryAt=now;
+                ++sRetryCount;
+                int result=notify_post(kCommandNotify);
+                DFTOLog(@"latest-state-ack-retry", [NSString stringWithFormat:
+                   @"seq=%lu attempt=%lu notify=%d",
+                   (unsigned long)sSequence,(unsigned long)sRetryCount,result]);
+            }
+        }
     }
     // A .5-second watchdog only backs up the immediate CarPlay stop signal.
     // No arbitrary session-expiry timer: active trips must run indefinitely.
