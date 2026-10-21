@@ -1,0 +1,92 @@
+name: Native12 vs NEW DuoFace ONLY exhaustive file and ObjC method comparison
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py'
+      - '.github/workflows/native12-new-only-full-parity.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-new-only-full-parity
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare DEB inspector
+        run: brew install dpkg
+      - name: Fetch SHA-pinned ORIGINAL Native12 and method index; do NOT fetch DuoNavi
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pinned"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/pinned/native12.deb"
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/pinned/native12-method-index.json"
+          NEW='sideplay/jb-embedded-appbridge/evidence/runs/39592301388/com.duoface.jb.embedded_0.0.12~pinnednative13_iphoneos-arm64.deb'
+          test -s "$NEW"
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/pinned/native12.deb" | shasum -a 256 -c -
+          echo "6476498212ede843640a7be305a275981cf639ac963c7d7760631fd7fd4718a7  $NEW" | shasum -a 256 -c -
+          test "$(git hash-object "$RUNNER_TEMP/pinned/native12-method-index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          echo TWO_DEB_ONLY_BYTE_AND_METHOD_INDEX_VERIFIED
+      - name: Compare EVERY payload file and ALL 1385 original ObjC methods
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/pinned/native12.deb" \
+            --new 'sideplay/jb-embedded-appbridge/evidence/runs/39592301388/com.duoface.jb.embedded_0.0.12~pinnednative13_iphoneos-arm64.deb' \
+            --index "$RUNNER_TEMP/pinned/native12-method-index.json" \
+            --out sideplay/audit/native12-vs-new-20261021/output
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/native12-vs-new-20261021/output')
+          v=json.loads((p/'SUMMARY.json').read_text())
+          assert v['scope']=='ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI'
+          assert v['original_objc_methods']==1385
+          assert v['original_macho']==8
+          assert v['new_files']==34
+          assert v['feature_gates']==25
+          assert v['verdict']=='KHONG_DAT'
+          assert len(json.loads((p/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods'])==1385
+          print('ONLY_NATIVE12_NEW_FULL_AUDIT_VERIFIED_AND_PARITY_NOT_PROVEN')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-New-only-Full-1385-Method-File-Audit
+          path: sideplay/audit/native12-vs-new-20261021/output/
+          if-no-files-found: error
+      - name: Commit report into same target branch with conflict-safe retry
+        run: |
+          set -euo pipefail
+          TARGET_BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          SUB=sideplay/audit/native12-vs-new-20261021
+          SOURCE="$(pwd)/$SUB/output"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$TARGET_BRANCH"
+            WORK="$(mktemp -d)"
+            git worktree add --detach "$WORK" FETCH_HEAD
+            git -C "$WORK" config user.name 'github-actions[bot]'
+            git -C "$WORK" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            mkdir -p "$WORK/$SUB"
+            cp "$SOURCE"/*.json "$SOURCE"/*.md "$WORK/$SUB/"
+            git -C "$WORK" add "$SUB"
+            if git -C "$WORK" diff --cached --quiet; then
+              echo NATIVE12_NEW_FULL_AUDIT_ALREADY_SAVED
+              git worktree remove --force "$WORK"
+              exit 0
+            fi
+            git -C "$WORK" commit -m 'audit(native12): save every file and all 1385 original method comparisons [skip ci]'
+            if git -C "$WORK" push origin "HEAD:refs/heads/$TARGET_BRANCH"; then
+              echo NATIVE12_NEW_FULL_AUDIT_GITHUB_SAVED
+              git worktree remove --force "$WORK"
+              exit 0
+            fi
+            git worktree remove --force "$WORK"
+            echo "Concurrent branch changed, retry $attempt"
+          done
+          echo 'Audit results not saved - failed 5 safe retries' >&2
+          exit 1
