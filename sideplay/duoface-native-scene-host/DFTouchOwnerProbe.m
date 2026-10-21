@@ -74,7 +74,7 @@ static BOOL DFReadFreshSession(void) {
        ![stamp isKindOfClass:NSNumber.class])return NO;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
     if(!isfinite(age) || age<0 || age>5)return NO;
-    sSession=[value copy];sSequence=0;sRatio=0.5;sLastRatioSent=0;
+    sSession=[value copy];sSequence=0;
     return YES;
 }
 static void DFSendCommand(NSString *action,NSNumber *ratio) {
@@ -188,7 +188,6 @@ static void DFInstallTouchOwnerProbe(void) {
     @autoreleasepool {
         if(![NSProcessInfo.processInfo.processName isEqualToString:@"SpringBoard"])return;
         dispatch_async(dispatch_get_main_queue(), ^{
-            sHandler=[DFTouchOwnerHandler new];
             int a=notify_register_dispatch(kStart,&sStartToken,
                       dispatch_get_main_queue(),^(int t) {
                 (void)t;DFStartProbe();
