@@ -181,7 +181,7 @@ static NSString *Enable(BOOL allowPauseOld) {
   NSFileManager *fm=NSFileManager.defaultManager;
   BOOL enabled=[p[@"Enabled"] boolValue] && ![fm fileExistsAtPath:kKill];
   NSMutableString *text=[NSMutableString stringWithFormat:
-    @"GATE1_ENABLED=%@\\nGATE1_MODE=MANUAL_NO_TIMEOUT\\nOLD_GATE_ACTIVE=%@\\nOLD_GATE_PAUSED_BY_GATE1=%@\\n\\n",
+    @"GATE1_ENABLED=%@\nGATE1_MODE=MANUAL_NO_TIMEOUT\nOLD_GATE_ACTIVE=%@\nOLD_GATE_PAUSED_BY_GATE1=%@\n\n",
     enabled?@"YES":@"NO",OldGateActive()?@"YES":@"NO",
     [fm fileExistsAtPath:kPauseMarker]?@"YES":@"NO"];
   for(NSArray *info in @[@[@"SpringBoard admission",kSB],
