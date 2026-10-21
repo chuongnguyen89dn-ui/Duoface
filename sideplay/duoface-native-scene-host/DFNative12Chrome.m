@@ -74,6 +74,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
+@property(nonatomic,strong) NSMutableArray *pendingScenes;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *sceneHandleReady;
 @property(nonatomic,strong) UIView *dividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
@@ -112,6 +113,7 @@ static void DFCLog(NSString *text) {
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
         _appSceneWindows=[NSMutableArray new];
         _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
+        _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null]]];
         _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO]];
     }return self;
 }
@@ -425,8 +427,10 @@ static void DFCLog(NSString *text) {
         for(UIView *child in v.subviews)child.frame=v.bounds;
         // Native12 keeps genuine app scenes visible BEHIND the App/Style
         // sheet and picker. A modal must never detach/suspend both scenes.
-        BOOL loaded=(self.hostedScenes[(NSUInteger)i]!=NSNull.null);
-        appWindow.hidden=(!loaded ||
+        BOOL loaded=([self.sceneHandleReady[(NSUInteger)i] boolValue] &&
+                     self.hostedScenes[(NSUInteger)i]!=NSNull.null);
+        BOOL negotiating=(self.pendingScenes[(NSUInteger)i]!=NSNull.null);
+        appWindow.hidden=(!(loaded||negotiating) ||
                            (self.focus>=0 && self.focus!=visualSlot));
     }
 }
@@ -495,16 +499,27 @@ static void DFCLog(NSString *text) {
     NSInteger slot=self.selectedSlot;
     NSInteger physicalSlot=self.swapped?1-slot:slot;
     if(physicalSlot<0 || physicalSlot>=2)return;
-    if(self.hostedScenes[(NSUInteger)physicalSlot]!=NSNull.null)
-        [self closeHostedSlot:slot];
+    DFSceneHost *owner=[DFSceneHost sharedHost];
+    UIView *active=self.hostedScenes[(NSUInteger)physicalSlot];
+    UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
+    NSString *activeID=[active isKindOfClass:UIView.class]?
+         [owner bundleIDForHostedView:active]:nil;
+    if([activeID isEqualToString:bundleID]){
+        self.appPickerWindow.hidden=YES;
+        [self layoutControls];
+        DFCLog([NSString stringWithFormat:@"replace-same-app-noop slot=%ld bundle=%@",
+            (long)slot,bundleID]);return;
+    }
+    if([pending isKindOfClass:UIView.class]){
+        [owner releaseHostedView:pending];
+        self.pendingScenes[(NSUInteger)physicalSlot]=NSNull.null;
+    }
     NSError *error=nil;
-    UIView *host=[[DFSceneHost sharedHost] hostViewForBundleID:bundleID
-                                                          error:&error];
+    UIView *host=[owner hostViewForBundleID:bundleID error:&error];
     if(!host){
         DFCLog([NSString stringWithFormat:@"app-host-refused id=%@ reason=%@",
                          bundleID,error.localizedDescription?:@"unknown"]);
-        // Leave the actual picker visible after a failed host request; do
-        // not display a blank app pane as though launch succeeded.
+        // Old app remains live and visible; allow another real app choice.
         self.appPickerWindow.hidden=NO;
         [self layoutControls];
         return;
@@ -513,25 +528,33 @@ static void DFCLog(NSString *text) {
     UIView *container=slotWindow.rootViewController.view;
     host.frame=container.bounds;
     host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.pendingScenes[(NSUInteger)physicalSlot]=host;
     [container addSubview:host];
-    self.hostedScenes[(NSUInteger)physicalSlot]=host;
-    self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
-    [self emit:@"App" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:
-          @"app-scene-pending-not-render-verified slot=%ld bundle=%@ name=%@",
-          (long)slot,bundleID,name]);
+         @"app-replace-pending-existing-retained slot=%ld bundle=%@ name=%@",
+         (long)slot,bundleID,name]);
+    // Success is emitted only after sceneReady: confirms the new live scene.
 }
 - (void)sceneReady:(NSNotification *)note {
     UIView *host=(UIView *)note.object;
     if(![host isKindOfClass:UIView.class])return;
     for(NSInteger i=0;i<2;i++){
-       if(self.hostedScenes[(NSUInteger)i]==host){
+       if(self.pendingScenes[(NSUInteger)i]==host){
+          // Commit only after the next app has a scene + hosting state.
+          UIView *prior=self.hostedScenes[(NSUInteger)i];
+          self.pendingScenes[(NSUInteger)i]=NSNull.null;
+          self.hostedScenes[(NSUInteger)i]=host;
           self.sceneHandleReady[(NSUInteger)i]=@YES;
-          DFCLog([NSString stringWithFormat:@"scene-handle-attached-render-unverified slot=%ld bundle=%@",
-             (long)i,note.userInfo[@"bundleID"]?:@"unknown"]);
           [self layoutControls];
+          if([prior isKindOfClass:UIView.class] && prior!=host)
+              [[DFSceneHost sharedHost] releaseHostedView:prior];
+          NSInteger visual=self.swapped?1-i:i;
+          [self emit:@"App" ratio:@(visual)];
+          DFCLog([NSString stringWithFormat:
+              @"scene-replace-committed-render-unverified slot=%ld bundle=%@",
+              (long)i,note.userInfo[@"bundleID"]?:@"unknown"]);
           return;
        }
     }
@@ -540,6 +563,13 @@ static void DFCLog(NSString *text) {
     UIView *host=(UIView *)note.object;
     if(![host isKindOfClass:UIView.class])return;
     for(NSInteger i=0;i<2;i++){
+       if(self.pendingScenes[(NSUInteger)i]==host){
+          self.pendingScenes[(NSUInteger)i]=NSNull.null;
+          DFCLog([NSString stringWithFormat:
+            @"scene-replace-rolled-back-old-app-retained slot=%ld error=%@",
+            (long)i,note.userInfo[@"error"]?:@"unknown"]);
+          [self layoutControls];return;
+       }
        if(self.hostedScenes[(NSUInteger)i]==host){
           self.hostedScenes[(NSUInteger)i]=NSNull.null;
           self.sceneHandleReady[(NSUInteger)i]=@NO;
@@ -548,17 +578,19 @@ static void DFCLog(NSString *text) {
           self.appSceneWindows[(NSUInteger)i].hidden=YES;
           DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
                 (long)i,note.userInfo[@"error"]?:@"unknown"]);
-          [self layoutControls];
-          return;
+          [self layoutControls];return;
        }
     }
 }
 - (void)closeHostedSlot:(NSInteger)slot {
     NSInteger physicalSlot=self.swapped?1-slot:slot;
     if(physicalSlot<0||physicalSlot>=2)return;
+    DFSceneHost *owner=[DFSceneHost sharedHost];
+    UIView *pending=self.pendingScenes[(NSUInteger)physicalSlot];
+    if([pending isKindOfClass:UIView.class])[owner releaseHostedView:pending];
+    self.pendingScenes[(NSUInteger)physicalSlot]=NSNull.null;
     UIView *view=self.hostedScenes[(NSUInteger)physicalSlot];
-    if([view isKindOfClass:UIView.class])
-        [[DFSceneHost sharedHost] releaseHostedView:view];
+    if([view isKindOfClass:UIView.class])[owner releaseHostedView:view];
     self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
     self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
     if(self.focus==slot)self.focus=-1;
@@ -636,6 +668,7 @@ static void DFCLog(NSString *text) {
     self.dividerWindow=nil;self.pickerWindow=nil;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
+    [self.pendingScenes removeAllObjects];
     [self.sceneHandleReady removeAllObjects];
     self.dividerTrack=nil;self.dividerLogo=nil;
     self.pillMenu=nil;self.pillZoom=nil;self.pickerBrand=nil;
