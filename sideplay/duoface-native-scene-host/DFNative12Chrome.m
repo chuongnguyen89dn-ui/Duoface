@@ -458,6 +458,31 @@ static void DFCLog(NSString *text) {
     if(!self.callback)return;
     self.callback(action,ratio);
 }
+- (BOOL)applyLayoutSettingsFromDisk {
+    NSDictionary *saved=DFCRestoreLayout();
+    if(!saved)return NO;
+    NSInteger preset=saved[@"Preset"]?[saved[@"Preset"] integerValue]:
+       ([saved[@"Vertical"] boolValue]?0:1);
+    if(preset<0 || preset>7)return NO;
+    // This changes the actual scene geometry and survives a reconnect.
+    // Never release the two previously running real apps when switching to
+    // three/four slots; merely hide inactive containers and restore later.
+    self.preset=preset;
+    self.ratio=[saved[@"Ratio"] doubleValue];
+    self.logoFraction=[saved[@"LogoFraction"] doubleValue];
+    self.swapped=[saved[@"Swapped"] boolValue];
+    self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
+    NSInteger active=DFSlotCountForPreset(preset);
+    self.selectedSlot=MIN(self.selectedSlot,active-1);
+    if(self.focus>=active)self.focus=-1;
+    self.pickerVisible=NO;
+    self.appPickerWindow.hidden=YES;
+    [self layoutControls];
+    [self emit:@"Style" ratio:nil];
+    DFCLog([NSString stringWithFormat:@"live-preset-updated preset=%ld slots=%ld",
+             (long)preset,(long)active]);
+    return YES;
+}
 - (void)saveSplitState {
     if(!DFCSaveLayout(self.ratio,self.logoFraction,
                       self.verticalDivider,self.swapped,self.preset))
