@@ -127,6 +127,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UIImageView *styleHeaderLogo;
 @property(nonatomic,assign) BOOL styleVisible;
 @property(nonatomic,strong) UIWindow *appPickerWindow;
+@property(nonatomic,assign) BOOL appPickerVisible;
 @property(nonatomic,strong) UIWindow *splashWindow;
 @property(nonatomic,assign) BOOL startupActive;
 @property(nonatomic,assign) NSTimeInterval borderUntil;
@@ -833,7 +834,7 @@ static void DFCLog(NSString *text) {
         NSInteger physicalSlot=(self.swapped && i<2)?1-i:i;
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
-        BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible;
+        BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible&&!self.appPickerVisible;
         BOOL allReady=YES;
         for(NSInteger k=0;k<activeSlots;k++){
             NSInteger actual=(self.swapped && k<2)?1-k:k;
@@ -890,7 +891,7 @@ static void DFCLog(NSString *text) {
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
     self.dividerLogo.hidden=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
-    self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible);
+    self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
     if(!CGRectIsNull(second)){
         BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
@@ -904,9 +905,10 @@ static void DFCLog(NSString *text) {
                               CGRectMake(0,15,sf.size.width,2);
     }
     self.secondaryDividerWindow.hidden=(self.startupActive||activeSlots<3||
-        self.focus>=0||self.pickerVisible||self.styleVisible||CGRectIsNull(second));
+        self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible||CGRectIsNull(second));
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
+    self.appPickerWindow.hidden=(self.startupActive||!self.appPickerVisible);
     for(NSInteger i=0;i<4;i++){
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
@@ -965,6 +967,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)openStylePicker {
     self.pickerVisible=NO;
+    self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     self.styleVisible=YES;
     [self layoutControls];
@@ -1043,6 +1046,9 @@ static void DFCLog(NSString *text) {
 - (void)openAppPickerForSlot:(NSInteger)slot {
     if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
     self.selectedSlot=slot;
+    self.appPickerVisible=YES;
+    self.pickerVisible=NO;
+    self.styleVisible=NO;
     // Picker contents are read fresh every time. Do not reuse a stale
     // LSApplicationWorkspace snapshot across install/remove operations.
     [self.appPickerController presentInstalledApps];
@@ -1084,6 +1090,9 @@ static void DFCLog(NSString *text) {
 - (void)openRunningAppManager {
     // The original Close page opens RECENT/RUNNING APP cards with genuine
     // per-app Close/Restart and Close All. X always dismisses this page.
+    self.appPickerVisible=YES;
+    self.pickerVisible=NO;
+    self.styleVisible=NO;
     [self.appPickerController presentRunningApps:[self ownedRunningBundleIDs]];
     self.appPickerWindow.hidden=NO;
     [self layoutControls];
@@ -1121,6 +1130,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
+    self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
 }
@@ -1137,6 +1147,7 @@ static void DFCLog(NSString *text) {
     NSString *activeID=[active isKindOfClass:UIView.class]?
          [owner bundleIDForHostedView:active]:nil;
     if([activeID isEqualToString:bundleID]){
+        self.appPickerVisible=NO;
         self.appPickerWindow.hidden=YES;
         [self layoutControls];
         DFCLog([NSString stringWithFormat:@"replace-same-app-noop slot=%ld bundle=%@",
@@ -1152,6 +1163,7 @@ static void DFCLog(NSString *text) {
         DFCLog([NSString stringWithFormat:@"app-host-refused id=%@ reason=%@",
                          bundleID,error.localizedDescription?:@"unknown"]);
         // Old app remains live and visible; allow another real app choice.
+        self.appPickerVisible=YES;
         self.appPickerWindow.hidden=NO;
         [self layoutControls];
         return;
@@ -1165,6 +1177,7 @@ static void DFCLog(NSString *text) {
     host.userInteractionEnabled=NO;
     self.pendingScenes[(NSUInteger)physicalSlot]=host;
     [container addSubview:host];
+    self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
     DFCLog([NSString stringWithFormat:
