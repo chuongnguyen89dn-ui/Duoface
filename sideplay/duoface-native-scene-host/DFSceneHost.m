@@ -268,6 +268,20 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             }
         }
         if (applied) {
+            // Native12 SHA-gated CBBridgedUIAppView.refreshSceneLayout
+            // IMP @ade58: updateSceneSettingsFrame -> setNeedsLayout on
+            // both hosted views -> layoutIfNeeded. The old independent path
+            // changed private frame but did NOT flush the visual layer tree,
+            // leaving players with a stale orientation/viewport on resize.
+            // Keep original Portrait=1 ABI, never guess Landscape.
+            [self.appController.view setNeedsLayout];
+            if([inner isKindOfClass:UIView.class] &&
+               inner!=self.appController.view)[inner setNeedsLayout];
+            [self.appController.view layoutIfNeeded];
+            if([inner isKindOfClass:UIView.class] &&
+               inner!=self.appController.view)[inner layoutIfNeeded];
+            DFSceneLog(@"original-native12-refresh-scene-layout-after-reference",
+                       self.bundleID,NSStringFromCGSize(logical));
             self.committedReferenceSize=size;
             DFSceneLog(@"media-reference-committed-after-stable-viewport",
                        self.bundleID,NSStringFromCGSize(size));
