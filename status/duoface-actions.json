@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-22T07:42:38.083645+00:00",
+  "checked_at_utc": "2026-10-22T13:53:18.725076+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2365,
+  "total_actions_runs": 2427,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -10,23 +10,65 @@
       "failure": 0,
       "other": 1
     },
+    "DuoFace Native12 source-only UIKit and original behavior regression": {
+      "recent_runs": 30,
+      "success": 19,
+      "failure": 4,
+      "other": 7
+    },
+    "Native12 original media viewport transform exact thresholds": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Native12 original inner card header exact constants": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Native12 original Style preview helper 25 exact colors": {
+      "recent_runs": 2,
+      "success": 1,
+      "failure": 1,
+      "other": 0
+    },
+    "Native12 original nine-card thumbnail helper 0x9efe0": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Native12 ORIGINAL media orientation and app host layout IMP": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
+    "Native12 ORIGINAL App Recent Close UI IMP exact evidence": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
     "DuoFace independent CarPlay template scene candidate (isolated DEB)": {
-      "recent_runs": 56,
-      "success": 16,
-      "failure": 27,
-      "other": 13
+      "recent_runs": 39,
+      "success": 11,
+      "failure": 13,
+      "other": 15
+    },
+    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
+      "recent_runs": 8,
+      "success": 7,
+      "failure": 0,
+      "other": 1
     },
     "Original Native12 dismiss bridge ivar owner forensic (NO RELEASE)": {
       "recent_runs": 2,
       "success": 1,
       "failure": 1,
       "other": 0
-    },
-    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 15,
-      "success": 13,
-      "failure": 0,
-      "other": 2
     },
     "Native12 original dismiss shared selector reference (NO RELEASE)": {
       "recent_runs": 2,
@@ -59,324 +101,312 @@
       "other": 0
     },
     "Native12 REAL original DEB card count forensic (NO RELEASE)": {
-      "recent_runs": 9,
-      "success": 7,
-      "failure": 2,
-      "other": 0
-    },
-    "Native12 Original Nine Preview Geometry Binary (NO RELEASE)": {
-      "recent_runs": 3,
+      "recent_runs": 4,
       "success": 2,
-      "failure": 1,
-      "other": 0
-    },
-    "Native12 original DEB versus DuoFace exact UI audit (NO RELEASE)": {
-      "recent_runs": 5,
-      "success": 4,
-      "failure": 1,
+      "failure": 2,
       "other": 0
     }
   },
   "latest_runs": [
     {
-      "id": 39742371365,
+      "id": 39790845720,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 52,
+      "run_number": 53,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39742371365",
-      "created_at": "2026-10-22T07:42:30Z",
-      "head_sha": "137de55664d601538cd18584bd1457077d483b79"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39790845720",
+      "created_at": "2026-10-22T13:53:07Z",
+      "head_sha": "d191390250de8db68bd59a76e7755dabf0019209"
     },
     {
-      "id": 39741411487,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 305,
+      "id": 39781015289,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 30,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39741411487",
-      "created_at": "2026-10-22T07:34:18Z",
-      "head_sha": "5c6c35da9e280bfa8db067dd5f37ee758bb7ff6c"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39781015289",
+      "created_at": "2026-10-22T12:45:40Z",
+      "head_sha": "b4baaac0927e4a7ef652befd90177679dfbf1522"
     },
     {
-      "id": 39741037084,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 304,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39741037084",
-      "created_at": "2026-10-22T07:31:05Z",
-      "head_sha": "7fdd5de28f715ff151e713c0774ddb0dceb34754"
-    },
-    {
-      "id": 39739371586,
-      "name": "Original Native12 dismiss bridge ivar owner forensic (NO RELEASE)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39739371586",
-      "created_at": "2026-10-22T07:16:35Z",
-      "head_sha": "d347c518b2a2401687b20f35d7434e8fc00c3c26"
-    },
-    {
-      "id": 39739236941,
-      "name": "Original Native12 dismiss bridge ivar owner forensic (NO RELEASE)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39739236941",
-      "created_at": "2026-10-22T07:15:25Z",
-      "head_sha": "7c03cbfb87879d369789ca0ea47095995c830737"
-    },
-    {
-      "id": 39738749297,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 253,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39738749297",
-      "created_at": "2026-10-22T07:11:06Z",
-      "head_sha": "6574fbf3edd3969abfa874508e8106cc7df6ee86"
-    },
-    {
-      "id": 39738620890,
-      "name": "Native12 original dismiss shared selector reference (NO RELEASE)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39738620890",
-      "created_at": "2026-10-22T07:09:59Z",
-      "head_sha": "e351b26a4f1c40b91b0f99ad6115418854741006"
-    },
-    {
-      "id": 39738591515,
-      "name": "Native12 original dismiss shared selector reference (NO RELEASE)",
-      "run_number": 1,
+      "id": 39780976898,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 29,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39738591515",
-      "created_at": "2026-10-22T07:09:43Z",
-      "head_sha": "1019b16863e1a2d1967ba4c86f3e7bf121f3c0db"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780976898",
+      "created_at": "2026-10-22T12:45:24Z",
+      "head_sha": "7f2d84f9ad0ded83043ad5a75eb137df7e3314d4"
     },
     {
-      "id": 39738541641,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 303,
+      "id": 39780913054,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 28,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780913054",
+      "created_at": "2026-10-22T12:44:58Z",
+      "head_sha": "330bf389298c2e45b449d9ebd93d1861189f6a66"
+    },
+    {
+      "id": 39780906353,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780906353",
+      "created_at": "2026-10-22T12:44:55Z",
+      "head_sha": "743428c787fd5f5c69ff5dfd945f9cb7fc5fe934"
+    },
+    {
+      "id": 39780896387,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780896387",
+      "created_at": "2026-10-22T12:44:51Z",
+      "head_sha": "7b86647e1c1b9ea30cad22a3eb5d38ece6af2812"
+    },
+    {
+      "id": 39780367354,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 25,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39738541641",
-      "created_at": "2026-10-22T07:09:15Z",
-      "head_sha": "e05564a4b862db0795598495be039775ad6b68ce"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780367354",
+      "created_at": "2026-10-22T12:41:03Z",
+      "head_sha": "86e5e38f8a08b2fa0071d221e8ba80174b9f3479"
     },
     {
-      "id": 39737949588,
-      "name": "Native12 original scene settings block invoke forensic (NO RELEASE)",
-      "run_number": 2,
+      "id": 39780337752,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 24,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780337752",
+      "created_at": "2026-10-22T12:40:51Z",
+      "head_sha": "4ff743a4e28e9739734f443447a601fe4e9b3aa0"
+    },
+    {
+      "id": 39780251195,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 23,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39737949588",
-      "created_at": "2026-10-22T07:04:00Z",
-      "head_sha": "ebe747e2f7f9fd6b376c882143f2413405400dbe"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780251195",
+      "created_at": "2026-10-22T12:40:14Z",
+      "head_sha": "15cdba2c12f8e9287053a372a1fdc9ed8fecd0a5"
     },
     {
-      "id": 39737765754,
-      "name": "Native12 original scene settings block invoke forensic (NO RELEASE)",
+      "id": 39779067595,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 22,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39779067595",
+      "created_at": "2026-10-22T12:31:38Z",
+      "head_sha": "09aae76def25cbeeeb9d435b0ac9b7b19c5066da"
+    },
+    {
+      "id": 39778821884,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 21,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39778821884",
+      "created_at": "2026-10-22T12:29:56Z",
+      "head_sha": "dcb80fba185f4d1a94dd5634a28265a11f65e77b"
+    },
+    {
+      "id": 39777335393,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 20,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39777335393",
+      "created_at": "2026-10-22T12:19:00Z",
+      "head_sha": "27b2828deed2f9b994f5e3d76f932230c8570a45"
+    },
+    {
+      "id": 39777261708,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 19,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39777261708",
+      "created_at": "2026-10-22T12:18:27Z",
+      "head_sha": "f376d000b0d2be4bb4ca8fafb58fa5415cb6c592"
+    },
+    {
+      "id": 39776832523,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 18,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776832523",
+      "created_at": "2026-10-22T12:15:18Z",
+      "head_sha": "41ecb4e807bec5ab47ca73ee2ad94e839e0b348c"
+    },
+    {
+      "id": 39776716733,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 17,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776716733",
+      "created_at": "2026-10-22T12:14:27Z",
+      "head_sha": "8222ff277c07fc093eb6bb84fff3cb911fe84df4"
+    },
+    {
+      "id": 39776659662,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776659662",
+      "created_at": "2026-10-22T12:14:01Z",
+      "head_sha": "e08f915c1615c3cbe746225cf4e02f4b5e8ccdf4"
+    },
+    {
+      "id": 39776458978,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 15,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776458978",
+      "created_at": "2026-10-22T12:12:29Z",
+      "head_sha": "ac577b9c23cb9a054b6f1a6e91700b6035e4f42b"
+    },
+    {
+      "id": 39776322820,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 14,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776322820",
+      "created_at": "2026-10-22T12:11:27Z",
+      "head_sha": "b939c242304027558036e9ebb61557abda899d55"
+    },
+    {
+      "id": 39776112601,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 13,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776112601",
+      "created_at": "2026-10-22T12:09:51Z",
+      "head_sha": "4b554932be986ae56bad851e5c85f735a1702a40"
+    },
+    {
+      "id": 39776067623,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39776067623",
+      "created_at": "2026-10-22T12:09:30Z",
+      "head_sha": "5b5545d57255922021f688f39a6c7ed82e47e1eb"
+    },
+    {
+      "id": 39775610531,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39775610531",
+      "created_at": "2026-10-22T12:06:00Z",
+      "head_sha": "f6f984860e16e91451caaffd960946317a495bce"
+    },
+    {
+      "id": 39775584510,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39775584510",
+      "created_at": "2026-10-22T12:05:48Z",
+      "head_sha": "e3a0227fb3f22a4114f4f13b603d42bc8fed25ff"
+    },
+    {
+      "id": 39775342730,
+      "name": "Native12 original media viewport transform exact thresholds",
       "run_number": 1,
       "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39737765754",
-      "created_at": "2026-10-22T07:02:22Z",
-      "head_sha": "41f225b8b1b757962275bbfb337223bf638a031c"
-    },
-    {
-      "id": 39737272480,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 252,
-      "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39737272480",
-      "created_at": "2026-10-22T06:57:56Z",
-      "head_sha": "729beadf5511aeef1af979ec5e3a3125986002ae"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39775342730",
+      "created_at": "2026-10-22T12:03:56Z",
+      "head_sha": "44d30429dd2283463230ef8459d2dc4ca8572ec9"
     },
     {
-      "id": 39737020160,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 302,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39737020160",
-      "created_at": "2026-10-22T06:55:31Z",
-      "head_sha": "ec04cec2a06ee7f81e60f16d9e39434ed7dd6ae0"
-    },
-    {
-      "id": 39736984718,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 301,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39736984718",
-      "created_at": "2026-10-22T06:55:12Z",
-      "head_sha": "63f20f3278f23c62e56fd4dc0e0435b2822646eb"
-    },
-    {
-      "id": 39736752742,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 251,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39736752742",
-      "created_at": "2026-10-22T06:53:02Z",
-      "head_sha": "881bf0a68dbd051b7987e649e1748c7c31c8a315"
-    },
-    {
-      "id": 39736594294,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 300,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39736594294",
-      "created_at": "2026-10-22T06:51:32Z",
-      "head_sha": "08cadfe28408805021dc54a2b2903a067eaf7709"
-    },
-    {
-      "id": 39736465834,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 299,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39736465834",
-      "created_at": "2026-10-22T06:50:20Z",
-      "head_sha": "caef277e24cafec8035ec8328b037aa371ab5fb5"
-    },
-    {
-      "id": 39735680942,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 250,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39735680942",
-      "created_at": "2026-10-22T06:42:56Z",
-      "head_sha": "584f92722486795a1459edd4de7c13cdbc6b0bbf"
-    },
-    {
-      "id": 39735413167,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 298,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39735413167",
-      "created_at": "2026-10-22T06:40:24Z",
-      "head_sha": "836d40c166e647737acc800ec1e61c23203a1a3d"
-    },
-    {
-      "id": 39735271890,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 297,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39735271890",
-      "created_at": "2026-10-22T06:39:05Z",
-      "head_sha": "6000b147e4f0ce4aae2d616d437c9ab33c8787c3"
-    },
-    {
-      "id": 39735212627,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 296,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39735212627",
-      "created_at": "2026-10-22T06:38:31Z",
-      "head_sha": "c42f575e13c70f12085cb29c0baf90a93f27336b"
-    },
-    {
-      "id": 39734863342,
-      "name": "Native12 immutable outer Style layout four literal verification (NO RELEASE)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39734863342",
-      "created_at": "2026-10-22T06:35:10Z",
-      "head_sha": "819b8b2d67eb61dde17936e2348f1a2e0a19053e"
-    },
-    {
-      "id": 39732740224,
-      "name": "Native12 ORIGINAL gallery and media IMP evidence",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39732740224",
-      "created_at": "2026-10-22T06:14:41Z",
-      "head_sha": "8eb93cb9b271ee17932601ba3070b132c266174c"
-    },
-    {
-      "id": 39732625073,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 249,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39732625073",
-      "created_at": "2026-10-22T06:13:33Z",
-      "head_sha": "2c6eabd8f25904c34f32cb473f5f80138d02cf75"
-    },
-    {
-      "id": 39732379936,
-      "name": "DuoFace independent CarPlay template scene candidate (isolated DEB)",
-      "run_number": 295,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39732379936",
-      "created_at": "2026-10-22T06:11:09Z",
-      "head_sha": "5d6560003d015f13f6150b732802e24da211bd84"
-    },
-    {
-      "id": 39732091042,
-      "name": "Native12 original Style gallery constants - immutable Mach-O",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39732091042",
-      "created_at": "2026-10-22T06:08:19Z",
-      "head_sha": "45e1d3ddb0ba5916cabe2389a7928e43047244a4"
-    },
-    {
-      "id": 39731899695,
-      "name": "Native12 original Style gallery constants - immutable Mach-O",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39731899695",
-      "created_at": "2026-10-22T06:06:24Z",
-      "head_sha": "31999f4a7d3f60cbd4c752c859adc211404dc21b"
-    },
-    {
-      "id": 39729486916,
-      "name": "Native12 REAL original DEB card count forensic (NO RELEASE)",
+      "id": 39774672646,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
       "run_number": 9,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39729486916",
-      "created_at": "2026-10-22T05:41:45Z",
-      "head_sha": "43e43d3e6138daa330e8efc53d18c2f686265988"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39774672646",
+      "created_at": "2026-10-22T11:58:49Z",
+      "head_sha": "4c49ff06bdc0c031af745c3575b8c61821251e80"
     },
     {
-      "id": 39729429943,
-      "name": "Native12 REAL original DEB card count forensic (NO RELEASE)",
+      "id": 39774638182,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
       "run_number": 8,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39729429943",
-      "created_at": "2026-10-22T05:41:10Z",
-      "head_sha": "ad96a16a927d11b845101c34261748aa532da345"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39774638182",
+      "created_at": "2026-10-22T11:58:32Z",
+      "head_sha": "5d5f16e695f2d533cd23cede4da9a3c1ce40942a"
     },
     {
-      "id": 39729421863,
-      "name": "Native12 REAL original DEB card count forensic (NO RELEASE)",
+      "id": 39774508505,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
       "run_number": 7,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39729421863",
-      "created_at": "2026-10-22T05:41:05Z",
-      "head_sha": "ad44f6d7b4a14c6a61090077f3555ab41d1fd716"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39774508505",
+      "created_at": "2026-10-22T11:57:31Z",
+      "head_sha": "cbb9e5cecc2a7bcad8254c2fb728c028aa6a33fa"
+    },
+    {
+      "id": 39774423988,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 6,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39774423988",
+      "created_at": "2026-10-22T11:56:50Z",
+      "head_sha": "2f4fe9b61caadf53d3d157b9db3faa4d2d915abf"
+    },
+    {
+      "id": 39774309017,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 5,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39774309017",
+      "created_at": "2026-10-22T11:55:56Z",
+      "head_sha": "88b4e2cfd925e89796646e9bcc3cb25f9f586b56"
+    },
+    {
+      "id": 39773723186,
+      "name": "Native12 original inner card header exact constants",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39773723186",
+      "created_at": "2026-10-22T11:51:19Z",
+      "head_sha": "e0e61c4fc7546008c67a04c42014675a75fd1220"
+    },
+    {
+      "id": 39770202206,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39770202206",
+      "created_at": "2026-10-22T11:23:23Z",
+      "head_sha": "1620e2cb5085eb4f203aeaafe7ee347d5c41f17e"
     }
   ]
 }
