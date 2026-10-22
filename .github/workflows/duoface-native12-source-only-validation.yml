@@ -1,0 +1,43 @@
+name: DuoFace Native12 source-only UIKit and original behavior regression
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/duoface-native-scene-host/DFNative12PresetPreview.*'
+      - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
+      - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
+      - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
+      - '.github/workflows/duoface-native12-source-only-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: duo-native12-source-only-validation
+  cancel-in-progress: true
+jobs:
+  source-contract-no-deb:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run actual independent Native12 source contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
+          echo NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
+      - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          test -d "$SDK"
+          cd sideplay/duoface-native-scene-host
+          for FILE in DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m; do
+            echo "COMPILING_SOURCE_ONLY $FILE"
+            xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+              -target arm64-apple-ios16.0 -isysroot "$SDK" \
+              -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+              -Wno-deprecated-declarations -I . "$FILE"
+          done
+          echo NATIVE12_SOURCE_ONLY_ARM64_SDK_SYNTAX_PASS_NO_SIGNED_DEB
