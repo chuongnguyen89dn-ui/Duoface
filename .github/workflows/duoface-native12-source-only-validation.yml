@@ -12,6 +12,8 @@ on:
       - 'sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m'
       - 'sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m'
       - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
+      - 'sideplay/duoface-native-scene-host/speed8/**'
+      - 'sideplay/duoface-native-scene-host/tests/test_speed8_protocol.py'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - '.github/workflows/duoface-native12-source-only-validation.yml'
@@ -37,6 +39,8 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_speed8_protocol.py' -v
+          echo NATIVE12_SPEED8_HISTORICAL_OWN_DATA_PROTOCOL_COMPILED_NOT_HUD_ENABLED
           python3 -m py_compile sideplay/jb-embedded-appbridge/package_integrated.py
           echo NATIVE12_ONE_DEB_CURRENT_SOURCE_PIN_POLICY_PASS_NO_PACKAGE_BUILD
           echo NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
