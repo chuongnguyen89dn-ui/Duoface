@@ -12,6 +12,7 @@
 
 NSString *const DFSceneHostDidFailNotification = @"com.duoface.scene.failure";
 NSString *const DFSceneHostDidBecomeReadyNotification = @"com.duoface.scene.ready";
+NSString *const DFSceneHostDidObserveTouchNotification = @"com.duoface.scene.actual.touch";
 static NSString *const DFSceneErrorDomain = @"com.duoface.scene";
 
 static void DFSceneLog(NSString *event, NSString *bundleID, NSString *detail) {
@@ -290,6 +291,14 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             self.lastHitLogAt=now;
             DFSceneLog(@"media-pane-hit-test-target",
                        self.bundleID,NSStringFromClass(target.class));
+            __weak typeof(self) weakSurface=self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                DFSceneSurface *surface=weakSurface;
+                if(!surface || surface.stopped || !surface.ready)return;
+                [[NSNotificationCenter defaultCenter]
+                     postNotificationName:DFSceneHostDidObserveTouchNotification
+                     object:surface userInfo:nil];
+            });
         }
     }
     return target;
