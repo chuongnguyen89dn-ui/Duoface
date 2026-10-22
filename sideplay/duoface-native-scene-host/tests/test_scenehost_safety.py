@@ -346,7 +346,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("writeToFile:kDFLayoutPath atomically:YES",chrome)
   self.assertIn("if(end){[self saveSplitState];[self noteUserActivity];}",chrome)
   self.assertIn("self.swapped=!self.swapped;",chrome)
-  self.assertIn("DFComputePresetFrames(cr,self.preset,p,pane)",chrome)
+  self.assertIn("DFComputePresetFramesWithSecondary(cr,self.preset,p,self.secondaryRatio,pane)",chrome)
   self.assertNotIn("checkAndSyncLicense",chrome)
   self.assertNotIn("licenseWatchdog",chrome)
   self.assertNotIn('@"AppBundleID"',chrome)
@@ -711,14 +711,14 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"Accepted":@YES',app)
   self.assertNotIn('self.basicController performCarPlayControl:',app)
 
- def test_native12_four_genuine_slots_eight_layout_contract(self):
+ def test_native12_eight_approved_1_to_3_scene_layout_contract(self):
   chrome=file("DFNative12Chrome.m")
   layout=file("DFLayoutEngine.m")
   app=file("DFNativeHostAppDelegate.m")
   probe=file("DFTouchOwnerProbe.m")
   build=file("build.sh")
   self.assertIn("DFLayoutEngine.m",build)
-  self.assertIn("DFComputePresetFrames(cr,self.preset,p,pane)",chrome)
+  self.assertIn("DFComputePresetFramesWithSecondary(cr,self.preset,p,self.secondaryRatio,pane)",chrome)
   self.assertIn("self.preset=selected",chrome)
   self.assertIn('@"Preset":@(self.preset)',chrome)
   self.assertIn('@"ActiveSlots":@(DFSlotCountForPreset(self.preset))',chrome)
@@ -726,9 +726,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("for(NSInteger i=0;i<4;i++)",chrome)
   self.assertIn('self.focus==2?@"FocusSlot2":@"FocusSlot3"',chrome)
   self.assertIn("NSInteger DFSlotCountForPreset",layout)
-  for i in range(9):self.assertIn("case %d:"%i,layout)
-  self.assertIn("active<1 || active>4",app)
-  self.assertIn("count!=4",app)
+  for i in range(8):self.assertIn("case %d:"%i,layout)
+  self.assertIn("active<1 || active>3",app)
+  self.assertIn("count!=4",app)  # four retained backing hosts, max three visible
   self.assertIn('@"FocusSlot2"',probe)
   self.assertIn('@"FocusSlot3"',probe)
   self.assertNotIn("self.verticalDivider=!self.verticalDivider",chrome)
@@ -745,7 +745,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('com.duoface.nativehost.layout.changed.v1',probe)
   self.assertIn('[sChrome applyLayoutSettingsFromDisk]',probe)
   self.assertIn('- (BOOL)applyLayoutSettingsFromDisk;',header)
-  self.assertIn('DFComputePresetFrames(cr,self.preset,p,pane)',chrome)
+  self.assertIn('DFComputePresetFramesWithSecondary(cr,self.preset,p,self.secondaryRatio,pane)',chrome)
   self.assertIn('live-preset-updated',chrome)
   self.assertIn('self.appPickerWindow.hidden=YES;',chrome)
   self.assertIn('DFSlotCountForPreset(self.preset)',chrome)
@@ -784,32 +784,24 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"SplitMode":@(self.preset)',chrome)
   self.assertIn('splitPreset!=preset || splitMode!=preset',receiver)
 
- def test_divider_tracks_true_ratio_boundary_for_four_strip_preset(self):
-  # The divider must move between the TWO left and TWO right scene
-  # containers. It must never use maxX of the first of four strips.
+ def test_native12_secondary_boundary_not_four_strip_demo(self):
   layout=file("DFLayoutEngine.m")
   header=file("DFLayoutEngine.h")
   chrome=file("DFNative12Chrome.m")
-  self.assertIn("CGFloat DFPrimaryDividerCoordinate(",header)
   self.assertIn("CGFloat DFPrimaryDividerCoordinate(",layout)
-  self.assertIn("BOOL reverse=(preset==3 || preset==5)",layout)
-  self.assertIn("origin+extent*(reverse?1.0-ratio:ratio)",layout)
-  self.assertIn("CGFloat boundary=DFPrimaryDividerCoordinate(cr,self.preset,p)",chrome)
-  self.assertIn("CGRectMake(boundary-16",chrome)
-  self.assertNotIn("CGRectGetMaxX(pane[0])-16",chrome)
-  self.assertNotIn("CGRectGetMaxY(pane[0])-16",chrome)
-  self.assertIn("out[0]=CGRectMake(x,y,a/2,h)",layout)
-  self.assertIn("out[1]=CGRectMake(x+a/2,y,a/2,h)",layout)
-  self.assertIn("out[2]=CGRectMake(x+a,y,(w-a)/2,h)",layout)
-  # Normalized values: after TWO strips, x == a == ratio * width.
-  for ratio in (1/3,.5,2/3):
-   width=507.333
-   a=width*ratio
-   xs=[0,a/2,a,a+(width-a)/2,width]
-   self.assertTrue(math.isclose(xs[2],a,abs_tol=1e-8))
-   self.assertGreater(xs[2],xs[1])
-  # These independently written layouts still lack original Native12
-  # pixel-wise replay; source self-consistency is NOT parity verification.
+  self.assertIn("DFSecondaryDividerRect",header)
+  self.assertIn("DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio)",chrome)
+  self.assertIn("self.secondaryDividerWindow.hidden=",chrome)
+  self.assertIn("secondary-divider-pan-end",chrome)
+  self.assertIn("CGFloat proposed=self.dragStartSecondary+delta/extent;",chrome)
+  self.assertNotIn("four independent live quadrants",layout)
+  self.assertNotIn("four strips",layout)
+  self.assertIn("case 3:",layout)
+  self.assertIn("case 7:",layout)
+  self.assertNotIn("case 8:",layout)
+  for fraction in (1/3,.5,2/3):
+   self.assertGreater(fraction,0)
+   self.assertLess(fraction,1)
 
  def test_springboard_safe_mode_has_manual_iphone_crash_report_export(self):
   phone=file("DFNativeHostRootController.m")
