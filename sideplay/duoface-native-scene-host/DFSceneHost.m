@@ -127,6 +127,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         DFHostBool(self.appController, @"setIgnoresOcclusions:", NO);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
         [self layoutScene];
+        // Seed one initial remote content frame before mode=2. This is
+        // required by some scene owners; later resizes are debounced.
+        self.pendingReferenceSize=self.bounds.size;
+        [self commitSceneGeometry:nil];
         [self.appController beginAppearanceTransition:YES animated:NO];
         DFHostInt(self.appController, @"setRequestedMode:", 2);
         [self.appController endAppearanceTransition];
@@ -171,9 +175,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
 }
 - (void)commitSceneGeometry:(NSTimer *)timer {
-    if (self.geometryCommitTimer!=timer) return;
+    if (timer && self.geometryCommitTimer!=timer) return;
     self.geometryCommitTimer=nil;
-    if (self.stopped || !self.ready || !self.window || !self.appController) return;
+    if (self.stopped || !self.window || !self.appController ||
+        (!self.ready && !CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero))) return;
     CGSize size=self.pendingReferenceSize;
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
