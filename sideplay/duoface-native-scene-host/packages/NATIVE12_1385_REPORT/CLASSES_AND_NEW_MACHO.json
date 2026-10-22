@@ -143,7 +143,7 @@
     {
       "class": "CBBridgedUIAppView",
       "methods": 29,
-      "selector_string_matches": 6,
+      "selector_string_matches": 7,
       "category": "BRIDGE_SCENE",
       "functional_parity_proven": false
     },
@@ -171,7 +171,7 @@
     {
       "class": "CBDividerView",
       "methods": 27,
-      "selector_string_matches": 4,
+      "selector_string_matches": 5,
       "category": "SPLIT_UI",
       "functional_parity_proven": false
     },
@@ -283,7 +283,7 @@
     {
       "class": "CBSplitContainerView",
       "methods": 6,
-      "selector_string_matches": 3,
+      "selector_string_matches": 4,
       "category": "SPLIT_UI",
       "functional_parity_proven": false
     },
@@ -388,7 +388,7 @@
     {
       "class": "CBUIAppContainerView",
       "methods": 6,
-      "selector_string_matches": 3,
+      "selector_string_matches": 4,
       "category": "OTHER",
       "functional_parity_proven": false
     },
@@ -474,8 +474,8 @@
     {
       "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
       "name": "DFTouchOwnerProbe.dylib",
-      "bytes": 220624,
-      "sha256": "7d5d79766b61023a10834b72d34c1c855e7e7a6d3ae30981b7460c0fc4f65e04",
+      "bytes": 222160,
+      "sha256": "a4c99f3650fb4db72422df1015db263cb8562e6fe3a9c4a2b5599fe50a2bf53a",
       "mach_o": true
     }
   ]

@@ -3,12 +3,12 @@
 **KẾT LUẬN: KHÔNG ĐẠT tương đồng Native12.**
 
 Bản gốc: 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad
-Bản mới: ea1ed68618b32460d98d577e1637d6c1bd89d39502cd0b81bbfaa91b5746ff42
+Bản mới: bd823aefd69b9c42959a6e2c498b9f2ab9367896b833d15d0efc7f91d25d89ca
 
 ## Kiểm kê bytecode
 - Native12: 43 file, 8 Mach-O, 66 ObjC classes, 1385 ObjC methods.
 - DuoFace mới: 22 file, 2 Mach-O.
-- Tên selector gốc còn xuất hiện trong ít nhất một Mach-O mới: 282/1385 (chỉ dấu chữ, KHÔNG phải hàm tương đương).
+- Tên selector gốc còn xuất hiện trong ít nhất một Mach-O mới: 286/1385 (chỉ dấu chữ, KHÔNG phải hàm tương đương).
 - File trùng basename và toàn bộ bytes: 13. Tính năng giao diện KHÔNG tự đạt nhờ trùng logo.
 
 ## 25 cổng tương đồng — tất cả KHÔNG ĐẠT
