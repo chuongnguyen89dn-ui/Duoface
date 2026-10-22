@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-22T13:53:18.725076+00:00",
+  "checked_at_utc": "2026-10-22T18:37:03.330214+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2427,
+  "total_actions_runs": 2428,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 2,
-      "success": 1,
+      "recent_runs": 3,
+      "success": 2,
       "failure": 0,
       "other": 1
     },
@@ -53,10 +53,10 @@
       "other": 0
     },
     "DuoFace independent CarPlay template scene candidate (isolated DEB)": {
-      "recent_runs": 39,
+      "recent_runs": 38,
       "success": 11,
       "failure": 13,
-      "other": 15
+      "other": 14
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
       "recent_runs": 8,
@@ -109,11 +109,21 @@
   },
   "latest_runs": [
     {
+      "id": 39832926104,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 54,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39832926104",
+      "created_at": "2026-10-22T18:36:52Z",
+      "head_sha": "79b057ebaf75c6addc7f7f2708ab26f5e876c9d2"
+    },
+    {
       "id": 39790845720,
       "name": "DuoFace Actions status snapshot",
       "run_number": 53,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39790845720",
       "created_at": "2026-10-22T13:53:07Z",
       "head_sha": "d191390250de8db68bd59a76e7755dabf0019209"
@@ -397,16 +407,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39773723186",
       "created_at": "2026-10-22T11:51:19Z",
       "head_sha": "e0e61c4fc7546008c67a04c42014675a75fd1220"
-    },
-    {
-      "id": 39770202206,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39770202206",
-      "created_at": "2026-10-22T11:23:23Z",
-      "head_sha": "1620e2cb5085eb4f203aeaafe7ee347d5c41f17e"
     }
   ]
 }
