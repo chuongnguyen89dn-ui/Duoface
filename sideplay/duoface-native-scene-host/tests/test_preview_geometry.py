@@ -80,4 +80,40 @@ void probe_header(double w,double h,double *o){
         self.assertEqual(self.measure(float('nan'),300),[0.0]*16)
         self.assertEqual(self.measure(500,-1),[0.0]*16)
 
+
+class OriginalNative12MediaGeometry(unittest.TestCase):
+    """Original SHA-pinned updateLayout numerical contract, not video device QA."""
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp=tempfile.TemporaryDirectory()
+        root=pathlib.Path(cls.tmp.name)
+        (root/'media.c').write_text('''#include "DFNative12MediaGeometry.h"
+void probe_media(double w,double h,double *out) {
+ DFOriginalMediaGeometry m=DFNative12MediaGeometry(w,h);
+ out[0]=m.nativeWidth;out[1]=m.nativeHeight;
+ out[2]=m.scale;out[3]=m.cornerRadius;
+}
+''')
+        subprocess.run(['cc','-std=c99','-shared','-fPIC','-I',str(ROOT),
+                        str(root/'media.c'),'-lm','-o',str(root/'media.so')],check=True)
+        cls.fn=ctypes.CDLL(str(root/'media.so')).probe_media
+        cls.fn.argtypes=[ctypes.c_double,ctypes.c_double,ctypes.POINTER(ctypes.c_double)]
+    @classmethod
+    def tearDownClass(cls):cls.tmp.cleanup()
+    def probe(self,w,h):
+        out=(ctypes.c_double*4)();self.fn(w,h,out);return list(out)
+    def test_original_uniform_min_scale_portrait_logical_dimensions(self):
+        # Both axes MUST use one uniform scale, unlike old independent x/y.
+        data=self.probe(333.333,221.111)
+        self.assertEqual(data[0],667)
+        self.assertEqual(data[1],442)
+        self.assertAlmostEqual(data[2],min(333.333/667,221.111/442),places=9)
+        self.assertAlmostEqual(data[3],10/data[2],places=9)
+    def test_original_width600_switches_corner_policy(self):
+        self.assertEqual(self.probe(600,300),[1200,600,.5,0])
+        self.assertEqual(self.probe(500,300),[1000,600,.5,20])
+    def test_invalid_media_is_not_transformed(self):
+        for w,h in [(float('nan'),300),(0,200),(300,float('inf'))]:
+            self.assertEqual(self.probe(w,h),[0]*4)
+
 if __name__=='__main__':unittest.main()
