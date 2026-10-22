@@ -191,16 +191,30 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         // evidence before changing the portrait compatibility contract.
         SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:");
         SEL sz3=NSSelectorFromString(@"setContentReferenceSize:withContentOrientation:andContainerOrientation:");
-        BOOL applied=NO;
-        if ([deviceController respondsToSelector:sz]) {
+        // Original Native12 CBBridgedUIAppView.updateSceneSettingsFrame
+        // IMP 0xad5bc: two INDEPENDENT child selector guards (ad688/ad6bc),
+        // followed by a separate main-controller guard (ad6ec). All original
+        // orientations are 1 (Portrait). This changes only the verified
+        // sizing selector dispatch; NO speculative scene settings block.
+        BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO;
+        if (deviceController && [deviceController respondsToSelector:sz]) {
             ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(deviceController,sz,
                              logical,UIInterfaceOrientationPortrait);
-            applied=YES;
-        } else if ([deviceController respondsToSelector:sz3]) {
+            child2Applied=YES;
+        }
+        if (deviceController && [deviceController respondsToSelector:sz3]) {
             ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(deviceController,sz3,
                        logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
-            applied=YES;
+            child3Applied=YES;
         }
+        if (self.appController && [self.appController respondsToSelector:sz]) {
+            ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(self.appController,sz,
+                             logical,UIInterfaceOrientationPortrait);
+            main2Applied=YES;
+        }
+        BOOL applied=child2Applied||child3Applied||main2Applied;
+        DFSceneLog(@"original-native12-scene-size-dispatch",self.bundleID,
+           [NSString stringWithFormat:@"child2=%d child3=%d main2=%d",child2Applied,child3Applied,main2Applied]);
         UIView *inner=DFCall0(deviceController,@"view");
         if ([inner isKindOfClass:UIView.class] && inner!=self.appController.view) {
             inner.transform=CGAffineTransformIdentity;

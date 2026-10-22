@@ -297,6 +297,30 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerLogo.layer.cornerRadius=size/2",spring)
   self.assertIn('DFCArtwork(@"duoface-logo-picker-alpha-v2")',spring)
   self.assertNotIn('DFCArtwork(@"duoface-picker")',spring)
+ def test_original_native12_scene_size_three_separate_guards(self):
+  # Original SHA-pinned updateSceneSettingsFrame IMP 0xad5bc:
+  # child2 @ad6a4; child3 @ad6dc; main2 @ad708; all Portrait=1.
+  original=(R.parent/"audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json")
+  report=json.loads(original.read_text())
+  self.assertEqual(report["dashboard_macho_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+  imp=next(m for m in report["methods"] if m["class"]=="CBBridgedUIAppView" and m["selector"]=="updateSceneSettingsFrame")
+  self.assertEqual(imp["imp"],"0xad5bc")
+  for pc in ("ad6a4:", "ad6dc:", "ad708:"):
+   self.assertTrue(any(s.startswith(pc) for s in imp["instructions"]))
+  source=file("DFSceneHost.m")
+  section=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  self.assertIn("BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO",section)
+  self.assertIn("if (deviceController && [deviceController respondsToSelector:sz])",section)
+  self.assertIn("if (deviceController && [deviceController respondsToSelector:sz3])",section)
+  self.assertIn("if (self.appController && [self.appController respondsToSelector:sz])",section)
+  self.assertIn("BOOL applied=child2Applied||child3Applied||main2Applied;",section)
+  self.assertNotIn("else if ([deviceController respondsToSelector:sz3])",section)
+  self.assertEqual(section.count("logical,UIInterfaceOrientationPortrait);"),2)
+  self.assertIn("logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);",section)
+  self.assertNotIn("UIInterfaceOrientationLandscape",section)
+  self.assertIn("original-native12-scene-size-dispatch",section)
+  self.assertIn("if (!self.ready) return;",source)
+
  def test_independent_two_real_host_scene_opt_in_and_exit_cleanup(self):
   chrome=file("DFNative12Chrome.m")
   scene=file("DFSceneHost.m")
