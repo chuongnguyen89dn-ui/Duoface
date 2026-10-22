@@ -1098,6 +1098,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('NSArray *innerModeNames=@[@"Apps",@"Layout",@"Recent"]',src)
   self.assertIn('UIImage systemImageNamed:@"rectangle.split.2x1.fill"',src)
   self.assertIn('UIImage systemImageNamed:@"xmark"',src)
+  self.assertIn('DFNative12CardHeader originalMenu=DFOriginalCardHeader(width,height);',src)
+  self.assertIn('self.menuDismiss.layer.cornerRadius=originalMenu.dismiss.width/2;',src)
+  self.assertNotIn('self.menuDismiss.frame=CGRectMake(width-42,9,32,26);',src)
   self.assertIn("CGRectMake(0,native.contentY,styleW",src)
   self.assertNotIn("const CGFloat styleTabWidths[4]",src)
   # Preserve user-facing outer four actions, real Close and Zoom callback.
