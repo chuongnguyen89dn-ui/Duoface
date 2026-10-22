@@ -80,8 +80,16 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL ready;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) CGSize lastApplied;
+// UIKit viewport moves immediately; remote media content-reference commits
+// only after split/zoom stops changing, to avoid FrontBoard churn.
+@property(nonatomic) CGSize pendingReferenceSize;
+@property(nonatomic) CGSize committedReferenceSize;
+@property(nonatomic,strong) NSTimer *geometryCommitTimer;
+@property(nonatomic) NSTimeInterval lastViewportLogAt;
+@property(nonatomic) NSTimeInterval lastHitLogAt;
 - (void)start;
 - (void)layoutScene;
+- (void)commitSceneGeometry:(NSTimer *)timer;
 - (void)pollScene:(NSTimer *)timer;
 - (void)stop;
 - (void)failed:(NSError *)error;
@@ -140,51 +148,88 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (!self.started || self.stopped) return;
     CGSize size=self.bounds.size;
     if (size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
-    // Runtime safety: SpringBoard hosts video and ordinary apps. Do not
-    // repeatedly reconfigure a pending remote scene for the same geometry.
-    // In the old code, every window layout before readiness reissued private
-    // setContentReferenceSize: even when neither axis had moved. This can
-    // race a media scene becoming active. A READY transition explicitly
-    // zeroes lastApplied once in pollScene to perform one valid refresh.
     if (CGSizeEqualToSize(size,self.lastApplied)) return;
-    // The independent QA reference and original v1.0.4 arithmetic both use 2x
-    // source pixels and 0.5x host scale; must be confirmed on real iPhone X.
+    // A divider drag can produce dozens of intermediate frames. Scale the
+    // existing UIKit scene immediately and leave the remote player intact.
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     UIView *host=self.appController.view;
     host.transform=CGAffineTransformIdentity;
     host.frame=(CGRect){CGPointZero,logical};
+    host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
+    host.center=CGPointMake(size.width/2,size.height/2);
+    self.lastApplied=size;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if (now-self.lastViewportLogAt>0.5) {
+        self.lastViewportLogAt=now;
+        DFSceneLog(@"media-viewport-ui-only",self.bundleID,NSStringFromCGSize(size));
+    }
+    DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
+    if (!self.ready) return;
+    self.pendingReferenceSize=size;
+    [self.geometryCommitTimer invalidate];
+    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:0.30
+        target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+}
+- (void)commitSceneGeometry:(NSTimer *)timer {
+    if (self.geometryCommitTimer!=timer) return;
+    self.geometryCommitTimer=nil;
+    if (self.stopped || !self.ready || !self.window || !self.appController) return;
+    CGSize size=self.pendingReferenceSize;
+    if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
+        !CGSizeEqualToSize(size,self.bounds.size) ||
+        size.width<=0 || size.height<=0) return;
+    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     @try {
         id deviceController=[self.appController valueForKey:@"_deviceAppViewController"];
+        // Readiness and stable-geometry gate. Do not guess orientation from
+        // CarPlay aspect ratio; actual remote video orientation needs device
+        // evidence before changing the portrait compatibility contract.
         SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:");
         SEL sz3=NSSelectorFromString(@"setContentReferenceSize:withContentOrientation:andContainerOrientation:");
-        if ([deviceController respondsToSelector:sz])
-            ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(deviceController,sz,logical,UIInterfaceOrientationPortrait);
-        else if ([deviceController respondsToSelector:sz3])
-            ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(deviceController,sz3,logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
+        BOOL applied=NO;
+        if ([deviceController respondsToSelector:sz]) {
+            ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(deviceController,sz,
+                             logical,UIInterfaceOrientationPortrait);
+            applied=YES;
+        } else if ([deviceController respondsToSelector:sz3]) {
+            ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(deviceController,sz3,
+                       logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
+            applied=YES;
+        }
         UIView *inner=DFCall0(deviceController,@"view");
-        if ([inner isKindOfClass:UIView.class] && inner!=host) {
+        if ([inner isKindOfClass:UIView.class] && inner!=self.appController.view) {
             inner.transform=CGAffineTransformIdentity;
             inner.frame=(CGRect){CGPointZero,logical};
             inner.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         }
         DFHostInt(deviceController,@"setHomeGrabberDisplayMode:",1);
+        if (applied) {
+            self.committedReferenceSize=size;
+            DFSceneLog(@"media-reference-committed-after-stable-viewport",
+                       self.bundleID,NSStringFromCGSize(size));
+        } else {
+            DFSceneLog(@"media-reference-abi-unavailable",self.bundleID,@"private resize selector unavailable");
+        }
     } @catch (NSException *e) {
-        DFSceneLog(@"geometry-warning",self.bundleID,e.reason);
+        DFSceneLog(@"media-geometry-commit-warning",self.bundleID,e.reason);
     }
-    host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
-    host.center=CGPointMake(size.width/2,size.height/2);
-    // CRASH-RISK MITIGATION: never mutate a live media scene with
-    // updateSettings:withTransitionContext:completion: and a NIL transition.
-    // The original Native12 bridge owns a complete FrontBoard transition;
-    // this independent host does not. Keep the working per-slot UIKit
-    // transform and SBAppViewController content-reference resize above.
-    // A nil transition is not a valid substitute for the source app's
-    // media/rotation lifecycle and can destabilize SpringBoard on video.
-    if(self.scene && !CGSizeEqualToSize(size,self.lastApplied))
-        DFSceneLog(@"native-app-geometry-reference-only-no-nil-frontboard-transition",
-                   self.bundleID,NSStringFromCGSize(size));
-    self.lastApplied=size;
-    DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
+    // Never fake a nil FrontBoard transition or invalidate a playing scene
+    // as a stand-in for a valid media rotation state change.
+    DFSceneLog(@"native-app-geometry-reference-only-no-nil-frontboard-transition",
+               self.bundleID,NSStringFromCGSize(size));
+}
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *target=[super hitTest:point withEvent:event];
+    // Passive routing observation only; do not steal gestures from the player.
+    if (self.ready && target && event && event.type==UIEventTypeTouches) {
+        NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+        if (now-self.lastHitLogAt>0.8) {
+            self.lastHitLogAt=now;
+            DFSceneLog(@"media-pane-hit-test-target",
+                       self.bundleID,NSStringFromClass(target.class));
+        }
+    }
+    return target;
 }
 - (void)pollScene:(NSTimer *)timer {
     (void)timer;
@@ -212,6 +257,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             if (!self.ready) {
                 self.ready=YES;
                 self.lastApplied=CGSizeZero;
+                self.committedReferenceSize=CGSizeZero;
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
@@ -248,6 +294,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (self.stopped) return;
     self.stopped=YES;
     [self.timer invalidate]; self.timer=nil;
+    [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
     @try {
         if (self.started) {
             [self.appController beginAppearanceTransition:NO animated:NO];
