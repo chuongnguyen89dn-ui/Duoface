@@ -20,8 +20,8 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m DFLayoutEngine.m DFSceneHost.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
-// The native Apple AppDock owner lives inside the actual CarPlay UI process.
-// This receiver is separate from the SpringBoard pane/input scene host.
+# The native Apple AppDock owner lives inside the actual CarPlay UI process.
+# This receiver is separate from the SpringBoard pane/input scene host.
 DOCK_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
