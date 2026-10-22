@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
     didSelectBundleID:(NSString *)bundleID
           displayName:(NSString *)name;
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker;
+// Original CBMultitaskingOverlayView.showRecentAppsInParentView:
+// native controls operate on verified live bundle identifiers, never
+// installed-app guesses, stored Recent history, or an invented demo list.
+- (void)appPicker:(DFAppPickerVC *)picker closeRunningBundleID:(NSString *)bundleID;
+- (void)appPicker:(DFAppPickerVC *)picker restartRunningBundleID:(NSString *)bundleID;
+- (void)appPickerCloseAllRunning:(DFAppPickerVC *)picker;
 @end
 
 @interface DFAppPickerVC : UIViewController
@@ -21,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable) id<DFAppPickerDelegate> delegate;
 // Reload the real installed-app inventory every time the CarPlay picker opens.
 - (void)refreshInstalledApps;
+// Switch existing App picker between original App and live-running Close mode.
+// Only real DFSceneHost-owned, scene-ready bundle IDs may be supplied.
+- (void)presentInstalledApps;
+- (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs;
 
 @end
 
