@@ -12,6 +12,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - '.github/workflows/duoface-native12-source-only-validation.yml'
+      - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
+      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
+      - 'sideplay/jb-embedded-appbridge/tests/test_integrated_package.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,6 +33,9 @@ jobs:
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
+          python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
+          python3 -m py_compile sideplay/jb-embedded-appbridge/package_integrated.py
+          echo NATIVE12_ONE_DEB_CURRENT_SOURCE_PIN_POLICY_PASS_NO_PACKAGE_BUILD
           echo NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
       - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
         shell: bash
