@@ -249,6 +249,11 @@ static void DFCLog(NSString *text) {
     return b;
 }
 - (BOOL)start {
+    // A previously stopped Chrome can be reused after reconnect. Do not
+    // resurrect an App/Close modal or stale outer menu on CarPlay Home.
+    self.pickerVisible=NO;
+    self.appPickerVisible=NO;
+    self.styleVisible=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1442,6 +1447,8 @@ static void DFCLog(NSString *text) {
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
+    self.appPickerVisible=NO;
+    self.pickerVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
