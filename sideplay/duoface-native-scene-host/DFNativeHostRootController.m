@@ -151,10 +151,14 @@
  NSInteger n=[record[@"Preset"] isKindOfClass:NSNumber.class]?
        [record[@"Preset"] integerValue]:
        (record?([record[@"Vertical"] boolValue]?0:1):0);
- self.currentPreset=MAX(0,MIN(8,n));
+ if([record[@"Version"] isEqual:@1]){
+    const NSInteger legacy[9]={1,2,4,5,6,7,3,3,0};
+    n=(n>=0 && n<=8)?legacy[n]:1;
+ }
+ self.currentPreset=MAX(0,MIN(7,n));
 }
 - (BOOL)writeNativeLayoutPreset:(NSInteger)preset {
- if(preset<0||preset>8)return NO;
+ if(preset<0||preset>7)return NO;
  NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
  NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:path]?:@{};
  NSNumber *ratio=[old[@"Ratio"] isKindOfClass:NSNumber.class]?old[@"Ratio"]:@.5;
@@ -163,13 +167,13 @@
  if(!isfinite(r)||r<1.0/3.0||r>2.0/3.0)ratio=@.5;
  if(!isfinite(l)||l<.1||l>.9)logo=@.5;
  NSNumber *swapped=[old[@"Swapped"] isKindOfClass:NSNumber.class]?old[@"Swapped"]:@NO;
- BOOL vertical=(preset==0||preset==2||preset==3||preset==6||preset==7);
+ BOOL vertical=(preset!=2&&preset!=6&&preset!=7);
  // Original Native12 presetSelected: @0xaa4f0 commits selected tag to
  // BOTH splitPreset and splitMode before notifying active Dashboard.
  // Only recreate this observable state update in independent DuoFace.
- NSDictionary *state=@{@"Version":@1,@"Preset":@(preset),
+ NSDictionary *state=@{@"Version":@2,@"Preset":@(preset),
                        @"splitPreset":@(preset),@"splitMode":@(preset),
-                       @"Ratio":ratio,@"LogoFraction":logo,
+                       @"Ratio":ratio,@"Secondary":@.5,@"LogoFraction":logo,
                        @"Vertical":@(vertical),@"Swapped":swapped};
  if(![state writeToFile:path atomically:YES])return NO;
  self.currentPreset=preset;
@@ -223,17 +227,16 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  (void)tableView;(void)section;
- return self.tabs.selectedSegmentIndex==2?9:(NSInteger)self.installedApps.count;
+ return self.tabs.selectedSegmentIndex==2?8:(NSInteger)self.installedApps.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
  if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                      reuseIdentifier:@"DuoFaceInstalled"];
  if(self.tabs.selectedSegmentIndex==2){
-    NSArray *titles=@[@"Chia trái / phải",@"Chia trên / dưới",
-      @"Trái lớn · phải hai ô",@"Phải lớn · trái hai ô",
-      @"Trên lớn · dưới hai ô",@"Dưới lớn · trên hai ô",
-      @"Bốn ô 2 × 2",@"Bốn ô dọc",@"Một ô · toàn vùng CarPlay"];
+    NSArray *titles=@[@"Một khung",@"Trái / phải",@"Trên / dưới",
+        @"Ba cột",@"Một trái, hai phải",@"Hai trái, một phải",
+        @"Một trên, hai dưới",@"Hai trên, một dưới"];
     NSInteger preset=indexPath.row;
     cell.textLabel.text=titles[(NSUInteger)preset];
     cell.detailTextLabel.text=@"Bố cục scene thật trên CarPlay";
