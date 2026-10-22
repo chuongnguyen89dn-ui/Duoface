@@ -974,7 +974,7 @@ static void DFCLog(NSString *text) {
              break;
       }
       case 2:[self openStylePicker];break;
-      case 3:[self closeHostedSlot:self.selectedSlot];break;
+      case 3:[self openRunningAppManager];break;
       default:break;
     }
 }
@@ -983,10 +983,79 @@ static void DFCLog(NSString *text) {
     self.selectedSlot=slot;
     // Picker contents are read fresh every time. Do not reuse a stale
     // LSApplicationWorkspace snapshot across install/remove operations.
+    [self.appPickerController presentInstalledApps];
     [self.appPickerController refreshInstalledApps];
     self.appPickerWindow.hidden=NO;
     [self layoutControls];
     DFCLog([NSString stringWithFormat:@"real-app-picker-open slot=%ld",(long)slot]);
+}
+// Original Native12 CBMultitaskingOverlayView.setupRecentAppsCards @0xa678c
+// queries runningBridgedApplications. Independent DuoFace instead queries
+// real DFSceneHost-owned, ready scenes, NEVER installed/recent/demo records.
+- (NSArray<NSString *> *)ownedRunningBundleIDs {
+    DFSceneHost *host=[DFSceneHost sharedHost];
+    NSMutableOrderedSet<NSString *> *bids=[NSMutableOrderedSet new];
+    for(NSInteger physical=0;physical<4;physical++){
+        if(![self.sceneHandleReady[(NSUInteger)physical] boolValue])continue;
+        UIView *surface=self.hostedScenes[(NSUInteger)physical];
+        if(![surface isKindOfClass:UIView.class])continue;
+        NSString *bid=[host bundleIDForHostedView:surface];
+        if(bid.length)[bids addObject:bid];
+    }
+    return bids.array;
+}
+- (NSInteger)visualSlotForVerifiedRunningBundleID:(NSString *)bundleID {
+    if(![bundleID isKindOfClass:NSString.class] || !bundleID.length)return -1;
+    NSInteger count=DFSlotCountForPreset(self.preset);
+    DFSceneHost *owner=[DFSceneHost sharedHost];
+    for(NSInteger physical=0;physical<4;physical++){
+        if(![self.sceneHandleReady[(NSUInteger)physical] boolValue])continue;
+        UIView *surface=self.hostedScenes[(NSUInteger)physical];
+        NSString *actual=[surface isKindOfClass:UIView.class]?
+                     [owner bundleIDForHostedView:surface]:nil;
+        if(![actual isEqualToString:bundleID])continue;
+        NSInteger visual=(self.swapped && physical<2)?1-physical:physical;
+        if(visual>=0 && visual<count)return visual;
+    }
+    return -1; // hidden old preset: no speculative scene intervention
+}
+- (void)openRunningAppManager {
+    // The original Close page opens RECENT/RUNNING APP cards with genuine
+    // per-app Close/Restart and Close All. X always dismisses this page.
+    [self.appPickerController presentRunningApps:[self ownedRunningBundleIDs]];
+    self.appPickerWindow.hidden=NO;
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:@"original-running-close-open actual=%lu",
+        (unsigned long)[self ownedRunningBundleIDs].count]);
+}
+- (void)appPicker:(DFAppPickerVC *)picker closeRunningBundleID:(NSString *)bundleID {
+    if(picker!=self.appPickerController)return;
+    NSInteger slot=[self visualSlotForVerifiedRunningBundleID:bundleID];
+    if(slot<0){DFCLog(@"close-refused-no-live-owned-bundle");return;}
+    [self closeHostedSlot:slot];
+    [picker presentRunningApps:[self ownedRunningBundleIDs]];
+}
+- (void)appPicker:(DFAppPickerVC *)picker restartRunningBundleID:(NSString *)bundleID {
+    if(picker!=self.appPickerController)return;
+    NSInteger slot=[self visualSlotForVerifiedRunningBundleID:bundleID];
+    if(slot<0){DFCLog(@"restart-refused-no-live-owned-bundle");return;}
+    [self closeHostedSlot:slot];
+    self.selectedSlot=slot;
+    // Use the EXISTING real SceneHost asynchronous app-start path, not a
+    // fake ACK or a UIApplication deep link.
+    [self appPicker:picker didSelectBundleID:bundleID displayName:bundleID];
+    DFCLog([NSString stringWithFormat:@"restart-real-scene-pending bundle=%@",bundleID]);
+}
+- (void)appPickerCloseAllRunning:(DFAppPickerVC *)picker {
+    if(picker!=self.appPickerController)return;
+    NSArray<NSString *> *snapshot=[self ownedRunningBundleIDs];
+    for(NSString *bid in snapshot){
+        NSInteger slot=[self visualSlotForVerifiedRunningBundleID:bid];
+        if(slot>=0)[self closeHostedSlot:slot];
+    }
+    [picker presentRunningApps:[self ownedRunningBundleIDs]];
+    DFCLog([NSString stringWithFormat:@"close-all-owned-live-scene-count=%lu",
+        (unsigned long)snapshot.count]);
 }
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
