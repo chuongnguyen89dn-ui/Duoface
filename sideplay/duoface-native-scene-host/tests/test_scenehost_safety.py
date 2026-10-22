@@ -1146,4 +1146,15 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('self.cardsPerPage=capacity;',picker)
   self.assertIn('CGRect chooserRect=styleRect;',chrome)
 
+
+ def test_carplay_home_stop_reconnect_drops_app_menu_visibility(self):
+  chrome=file("DFNative12Chrome.m")
+  start=chrome[chrome.index("- (BOOL)start {"):chrome.index("- (void)layoutControls {")]
+  self.assertIn("self.appPickerVisible=NO;",start)
+  self.assertIn("self.pickerVisible=NO;",start)
+  stopped=chrome[chrome.index("- (void)stop {"):]
+  self.assertIn("self.appPickerVisible=NO;",stopped)
+  self.assertIn("self.pickerVisible=NO;",stopped)
+  self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",stopped)
+
 if __name__=="__main__":unittest.main(verbosity=2)
