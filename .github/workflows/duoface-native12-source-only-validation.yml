@@ -4,6 +4,8 @@ on:
     branches: [feature/duoface-jb-embedded-appbridge-20261020]
     paths:
       - 'sideplay/duoface-native-scene-host/DFNative12PresetPreview.*'
+      - 'sideplay/duoface-native-scene-host/DFNative12PreviewGeometry.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_preview_geometry.py'
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
@@ -25,6 +27,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           echo NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
       - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
         shell: bash

@@ -512,10 +512,12 @@ static void DFCLog(NSString *text) {
         CGFloat thumbH=54;
         // Exact original 0x9efe0 calls UIGraphics and returns a UIImage.
         // Do not substitute white demo UIView blocks for the bitmap.
-        UIImage *preview=DFNative12PresetPreview(idx,CGSizeMake(thumbW,thumbH));
+        UIImage *preview=DFNative12PresetPreview(idx,idx==self.preset,CGSizeMake(thumbW,thumbH));
         UIImageView *thumb=[[UIImageView alloc] initWithImage:preview];
         thumb.frame=CGRectMake(roundf((float)((metrics.cardWidth-thumbW)/2)),
                                6,thumbW,thumbH);
+        thumb.tag=12001;
+        thumb.highlighted=(idx==self.preset);
         thumb.contentMode=UIViewContentModeScaleAspectFit;
         thumb.backgroundColor=UIColor.clearColor;
         thumb.userInteractionEnabled=NO;
@@ -748,6 +750,11 @@ static void DFCLog(NSString *text) {
     CGRect cr=self.contentRect;
     for(UIButton *choice in self.styleChoices){
         BOOL selected=(choice.tag==self.preset);
+        UIImageView *thumb=(UIImageView *)[choice viewWithTag:12001];
+        if([thumb isKindOfClass:UIImageView.class] && thumb.highlighted!=selected){
+            thumb.image=DFNative12PresetPreview(choice.tag,selected,thumb.bounds.size);
+            thumb.highlighted=selected;
+        }
         choice.layer.borderWidth=selected?2:1;
         choice.backgroundColor=selected?
             [UIColor colorWithRed:.04 green:.2 blue:.45 alpha:.95]:
