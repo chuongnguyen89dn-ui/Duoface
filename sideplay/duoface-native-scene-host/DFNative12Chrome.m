@@ -402,8 +402,6 @@ static void DFCLog(NSString *text) {
     brand.frame=brandImage.frame;
     [sheet addSubview:brand];self.pickerBrand=brand;
     NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
-    NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
-                        @"rectangle.3.group",@"xmark.circle"];
     NSMutableArray<UIButton *> *actions=[NSMutableArray new];
     // Native12-approved 30pt ONE row; logo, App, Zoom, Style, Close.
     const CGFloat widths[4]={43,51,47,51};
@@ -748,11 +746,6 @@ static void DFCLog(NSString *text) {
     self.menuBrandImage.frame=brandFrame;
     self.pickerBrand.frame=brandFrame;
     self.menuDismiss.frame=CGRectMake(width-42,9,32,26);
-    NSString *region=[NSString stringWithFormat:@"%ld",(long)self.selectedSlot+1];
-    if(self.preset==1 && self.selectedSlot<2)
-        region=self.selectedSlot==0?@"trái":@"phải";
-    else if(self.preset==2 && self.selectedSlot<2)
-        region=self.selectedSlot==0?@"trên":@"dưới";
     self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
