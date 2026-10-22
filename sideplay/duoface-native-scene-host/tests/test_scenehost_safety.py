@@ -394,7 +394,7 @@ class NativeCarPlayHost(unittest.TestCase):
   # Default Native12 two-pane split, no simulated player or third window.
   self.assertIn("_ratio=.5;_logoFraction=.5;",chrome)
   self.assertIn("_verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=1;_secondaryRatio=.5;",chrome)
-  self.assertIn("return preset==0?1:(preset==1||preset==2?2:3);",layout)
+  self.assertIn("return preset==0?1:(preset==1||preset==2?2:(preset==8?4:3));",layout)
   self.assertIn("for(NSInteger slot=0;slot<4;slot++)",chrome)
   self.assertIn("if(i>=activeSlots){w.hidden=YES;continue;}",chrome)
   self.assertIn("if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}",chrome)
@@ -798,7 +798,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("four strips",layout)
   self.assertIn("case 3:",layout)
   self.assertIn("case 7:",layout)
-  self.assertNotIn("case 8:",layout)
+  self.assertIn("case 8:",layout)
   for fraction in (1/3,.5,2/3):
    self.assertGreater(fraction,0)
    self.assertLess(fraction,1)
