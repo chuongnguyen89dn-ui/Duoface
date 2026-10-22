@@ -1,0 +1,22 @@
+{
+  "original_source_imp": "0xacc6c",
+  "original_source_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "constants": {
+    "media_scale_threshold_310c60": {
+      "address": "0x310c60",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3214432,
+      "raw_hex": "9a9999999999a93f",
+      "double": 0.05
+    },
+    "media_corner_width_threshold_311910": {
+      "address": "0x311910",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217680,
+      "raw_hex": "0000000000c08240",
+      "double": 600.0
+    }
+  },
+  "device_media_parity_verified": false
+}
