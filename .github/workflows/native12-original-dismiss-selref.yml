@@ -1,0 +1,67 @@
+name: Native12 original dismiss shared selector reference (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-dismiss-selref.yml'
+      - 'sideplay/audit/native12-continuation-4888299/resolve_original_dismiss_shared_selref.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-dismiss-selector-original
+  cancel-in-progress: true
+jobs:
+  decode-original-selector:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch immutable Native12 and extract exact shared selector pointer
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          mkdir -p "$RUNNER_TEMP/selector"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/selector/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/selector/original.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$RUNNER_TEMP/selector/original.deb" "$RUNNER_TEMP/selector/root"
+          BIN="$RUNNER_TEMP/selector/root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$BIN" | shasum -a 256 -c -
+          python3 sideplay/audit/native12-continuation-4888299/resolve_original_dismiss_shared_selref.py --binary "$BIN" --out sideplay/audit/native12-continuation-4888299/dismiss-selref
+          cat sideplay/audit/native12-continuation-4888299/dismiss-selref/ORIGINAL_DISMISS_SHARED_SELECTOR.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-original-dismiss-same-selector-proof
+          path: sideplay/audit/native12-continuation-4888299/dismiss-selref/ORIGINAL_DISMISS_SHARED_SELECTOR.json
+          if-no-files-found: error
+      - name: Save original byte evidence in DuoFace repo, no app mutation
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          FILE='sideplay/audit/native12-continuation-4888299/dismiss-selref/ORIGINAL_DISMISS_SHARED_SELECTOR.json'
+          SRC="$(pwd)/$FILE"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -s "$TEMP/$FILE"; then
+              cmp "$SRC" "$TEMP/$FILE"
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_DISMISS_SELECTOR_ALREADY_IDENTICAL
+              exit 0
+            fi
+            mkdir -p "$TEMP/$(dirname "$FILE")"
+            cp "$SRC" "$TEMP/$FILE"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$FILE"
+            git -C "$TEMP" commit -m 'audit(native12): verify actual shared dismiss selector pointer [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_DISMISS_SELREF_GITHUB_SAVED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
