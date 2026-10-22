@@ -1084,7 +1084,7 @@ class NativeCarPlayHost(unittest.TestCase):
   geo=file("DFNative12CardHeaderGeometry.h")
   lit=json.loads((R.parent/"audit/native12-continuation-96fa4ec/CARD_HEADER_LITERALS.json").read_text())
   self.assertEqual(lit["macho_sha256"],
-                   "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280a695ea")
+                   "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
   nums=lit["constants"]
   for key,value in [("header_311768",260),("header_311770",440),
                     ("header_311830",210),("header_311838",190)]:
