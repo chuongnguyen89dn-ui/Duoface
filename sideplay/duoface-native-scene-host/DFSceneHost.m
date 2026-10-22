@@ -4,6 +4,7 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
+#import "DFNative12MediaGeometry.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -156,12 +157,20 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (CGSizeEqualToSize(size,self.lastApplied)) return;
     // A divider drag can produce dozens of intermediate frames. Scale the
     // existing UIKit scene immediately and leave the remote player intact.
-    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+    // Original CBBridgedUIAppView.updateLayout @accf4, ad03c-ad0c8:
+    // roundf(2*slot), uniform min(width/nativeW,height/nativeH),
+    // original threshold .05 and corner policy <600. No guessed rotation.
+    DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
+    if(native.scale<=0)return;
+    CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
     UIView *host=self.appController.view;
     host.transform=CGAffineTransformIdentity;
     host.frame=(CGRect){CGPointZero,logical};
-    host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
+    host.transform=CGAffineTransformMakeScale(native.scale,native.scale);
     host.center=CGPointMake(size.width/2,size.height/2);
+    host.layer.cornerRadius=native.cornerRadius;
+    host.layer.cornerCurve=kCACornerCurveContinuous;
+    host.clipsToBounds=YES;
     self.lastApplied=size;
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if (now-self.lastViewportLogAt>0.5) {
@@ -184,7 +193,9 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
         size.width<=0 || size.height<=0) return;
-    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+    DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
+    if(native.scale<=0)return;
+    CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
     @try {
         // Native12 original CBBridgedUIAppView.updateSceneSettingsFrame
         // IMP 0xad5bc: KVC exception handler adb18..adb94 performs
