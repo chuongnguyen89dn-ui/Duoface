@@ -1,0 +1,71 @@
+{
+  "evidence": "ORIGINAL_SHA_VERIFIED_MACHO_LITERALS_NOT_RUNTIME",
+  "macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "source_imp": "0xa5e78",
+  "source_selector": "setupPresetCardsInCardW:cardH:contentY:",
+  "constants": {
+    "gallery_six_column_threshold": {
+      "address": "0x3117d8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217368,
+      "raw_hex": "0000000000808140",
+      "double": 560.0
+    },
+    "gallery_row_stride": {
+      "address": "0x3117e0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217376,
+      "raw_hex": "0000000000805340",
+      "double": 78.0
+    },
+    "gallery_card_height": {
+      "address": "0x3117e8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217384,
+      "raw_hex": "0000000000805040",
+      "double": 66.0
+    },
+    "gallery_content_height": {
+      "address": "0x3117f8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217400,
+      "raw_hex": "0000000000406840",
+      "double": 194.0
+    },
+    "gallery_unselected_blue": {
+      "address": "0x3117f0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217392,
+      "raw_hex": "52b81e85eb51c83f",
+      "double": 0.19
+    },
+    "gallery_check_red": {
+      "address": "0x311720",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217184,
+      "raw_hex": "7b14ae47e17ab43f",
+      "double": 0.08
+    },
+    "gallery_check_green": {
+      "address": "0x311728",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217192,
+      "raw_hex": "a4703d0ad7a3e03f",
+      "double": 0.52
+    }
+  },
+  "immediates": {
+    "horizontal_inset": 14,
+    "column_gap": 10,
+    "first_row_y": 22,
+    "corner_radius": 12,
+    "preview_height": 54,
+    "preview_top": 6,
+    "preview_width": "roundf(cardWidth - 14)",
+    "selected_border": 2,
+    "unselected_border": 1,
+    "selection_badge_size": 17
+  },
+  "new_runtime_changed": false,
+  "device_verified": false
+}
