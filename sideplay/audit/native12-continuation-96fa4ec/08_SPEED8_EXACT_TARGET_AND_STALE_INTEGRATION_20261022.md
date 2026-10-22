@@ -1,0 +1,22 @@
+# Native12 + Speed8compact reference — exact baseline identity and release-source gap
+
+2026-10-22 Asia/Ho_Chi_Minh. Task: continue independent DuoFace to match *specific* Native12 8 Speed user baseline, never guessed UI/functions, never vendor runtime/license.
+
+## Exactly which DEB has been analyzed?
+
+**YES: version `0.1.0~native12+speed8compact` has been byte-inspected** in earlier archived macOS runners. Git source immutable commit `1286a3ef868cf7e29804bcddf7e20b2eae707ce1`, exact path:
+`dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb`.
+Artifact size **1,745,196 bytes** / Git blob SHA **1aa4f57a75b198f13738b8aff0f0bee41a90f66e** / DEB SHA256 **2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad**. Source of proof: same-commit `BAO_CAO.json`, `SHA256SUMS`, `CONTENTS.txt`. This variant was built over Speed7: **42 payload files were identical**, **only SpeedHUD dylib replaced**, old SHA `c0450e05709bca3c1beb65af3ad8929e58184c218f6d91a6ef9e2ec27633fb7d`, new SHA `8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364`. `original_native12_and_springboard_owner_probe_unchanged=true`, inject only SpringBoard; GMap wire compiled, HUD/device feed **NOT tested**, 8 Speed package **NOT published to Sileo**. It is an archived project-authored Native12+Speed8 **QA derivative**, not an immutable unmodified vendor-release binary. Do not call it a pristine stock binary.
+
+The archive contains 43 files, **8 Mach-O** (DuoFaceUI, DuoFaceDashboard, DuoFaceFullscreenBridge, DuoFaceLogoGripOnly, DuoFaceSpeedHUD, DuoFaceSpeedOwner, DuoFaceVisualHook, cboptimize helper). Dashboard SHA `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`. Full original class/selector/PC audit already preserved:
+- `sideplay/audit/native12-wiring-20261019/WIRING_REPORT.md` and `SUMMARY.json` (1385 ObjC methods; 2509 function-starts; 1087 indirect ObjC stubs UNRESOLVED).
+- `sideplay/audit/native12-vs-new-20261021/ALL_NATIVE12_1385_METHODS.json` and 25 parity gates: last signed older candidate 0/25, not current source.
+- `sideplay/audit/native12-continuation-4888299/original-picker-close-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json`, original actual 14 IMP / 6289 ARM64 instructions.
+- `sideplay/audit/native12-continuation-96fa4ec` original card/header/Style/media SHA-decoded literal workflows. 49 source Python + 9 compiled C + arm64 UIKit syntax PASS as of CI39777335393 (not DEB/device).
+
+**Crucial new blocker found 2026-10-22:** current independent final package assembler
+`sideplay/jb-embedded-appbridge/package_integrated.py` still hardcodes `0.0.37~native12dockzoom1`, takes prebuilt **NativeHost 0.1.47~realdock1**, pins SHA `82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941`; corresponding manual workflow `.github/workflows/duoface-jb-embedded-appbridge-package.yml` explicitly **does not rebuild this host**. Active native host build script `sideplay/duoface-native-scene-host/build.sh` and `control` already set **0.1.49~native12cards1**. Thus running previous integration would publish the OLD compiled .47 and **exclude all newly committed original-geometry/card/video/visibility/reconnect fixes**. Existing integration test `sideplay/jb-embedded-appbridge/tests/test_integrated_package.py::test_nativehost_version_matches_real_build_output` already expects identical build output and is currently set to catch this exact mismatch. **Do not run old packaging/publish to Sileo.** No present independent Speed8 source implementation in package ORDER (four own modules, no independent SpeedHUD); do not silently copy vendor `DuoFaceSpeedHUD.dylib`, license, or modify another repo.
+
+**Required next code fix:** replace stale .47 pin with 1:1 current-source-built .49 host in manual one-package workflow; enforce one generated artifact and SHA/provenance, no hidden old .47 fallback and no auto public publish. Rebuild and validate only staged integrated candidate, then check real hardware UI/Zoom/YouTube/SafeMode/Speed8 source parity. If 8 Speed HUD is required in new independent package, implement separately from proven source/event/UX evidence without third-party binary copying, before claiming full parity. Hardware gating remains open.
+
+Verified using GitHub repo/file/commit metadata and previously SHA-pinned CI evidence; NOT claiming this turn directly loaded DEB bytes into assistant local container (connector only returns text). Last on-device exact Speed8 visual comparison is not proven.
