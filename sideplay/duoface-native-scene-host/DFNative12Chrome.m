@@ -97,6 +97,9 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *pillWindows;
 @property(nonatomic,strong) UIWindow *dividerWindow;
 @property(nonatomic,strong) UIWindow *pickerWindow;
+@property(nonatomic,strong) UIWindow *styleWindow;
+@property(nonatomic,strong) NSArray<UIButton *> *styleChoices;
+@property(nonatomic,assign) BOOL styleVisible;
 @property(nonatomic,strong) UIWindow *appPickerWindow;
 @property(nonatomic,strong) UIWindow *splashWindow;
 @property(nonatomic,assign) BOOL startupActive;
@@ -378,6 +381,73 @@ static void DFCLog(NSString *text) {
     [sheet addSubview:dismiss];self.menuDismiss=dismiss;
     self.pickerWindow=[self makeWindow:picker root:pc level:3];
     if(!self.pickerWindow){[self stop];return NO;}
+    // Native12-inspired Style gallery: explicit selectable split arrangements,
+    // not the old invisible preset++ on each press. Miniatures are geometry
+    // previews only (DFLayoutEngine), NOT simulated embedded applications.
+    CGFloat styleW=MIN(cr.size.width-12,280);
+    CGFloat styleH=MIN(cr.size.height-8,228);
+    CGRect styleRect=CGRectMake(CGRectGetMidX(cr)-styleW/2,
+                                  CGRectGetMidY(cr)-styleH/2,styleW,styleH);
+    UIViewController *styleRoot=[self emptyRoot:styleRect];
+    UIView *styleSheet=styleRoot.view;
+    styleSheet.backgroundColor=[UIColor colorWithWhite:.11 alpha:.98];
+    styleSheet.layer.cornerRadius=16;
+    styleSheet.layer.masksToBounds=YES;
+    UILabel *styleHeading=[[UILabel alloc] initWithFrame:CGRectMake(12,2,styleW-52,29)];
+    styleHeading.text=@"Style · Chọn kiểu chia màn hình";
+    styleHeading.textColor=UIColor.whiteColor;
+    styleHeading.font=[UIFont boldSystemFontOfSize:12];
+    [styleSheet addSubview:styleHeading];
+    UIButton *dismissStyle=[self button:@"×" tag:0 action:@selector(closeStylePicker:)];
+    dismissStyle.frame=CGRectMake(styleW-37,1,34,30);
+    [styleSheet addSubview:dismissStyle];
+    NSArray<NSString *> *styleNames=@[@"2 dọc",@"2 ngang",@"1 trái + 2",
+       @"2 + 1 phải",@"1 trên + 2",@"2 + 1 dưới",@"4 ô",@"4 cột"];
+    NSMutableArray<UIButton *> *choices=[NSMutableArray new];
+    CGFloat styleCellWidth=(styleW-18)/2;
+    CGFloat styleCellHeight=(styleH-38)/4;
+    for(NSInteger idx=0;idx<8;idx++){
+        UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
+        button.frame=CGRectMake(6+(idx%2)*(styleCellWidth+6),
+               31+(idx/2)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-3));
+        button.layer.cornerRadius=7;
+        button.layer.borderWidth=1;
+        button.layer.borderColor=[UIColor colorWithWhite:1 alpha:.26].CGColor;
+        button.backgroundColor=[UIColor colorWithWhite:1 alpha:.08];
+        button.accessibilityLabel=styleNames[(NSUInteger)idx];
+        CGFloat thumbW=MIN(45,styleCellWidth*.40);
+        CGFloat thumbH=MIN(23,styleCellHeight-10);
+        UIView *thumb=[[UIView alloc] initWithFrame:CGRectMake(7,
+                  (CGRectGetHeight(button.frame)-thumbH)/2,thumbW,thumbH)];
+        thumb.backgroundColor=[UIColor colorWithWhite:1 alpha:.05];
+        thumb.layer.borderWidth=.6;
+        thumb.layer.borderColor=[UIColor colorWithWhite:1 alpha:.5].CGColor;
+        thumb.userInteractionEnabled=NO;
+        CGRect regions[4];
+        DFComputePresetFrames(CGRectMake(0,0,thumbW,thumbH),idx,.5,regions);
+        for(NSInteger slot=0;slot<DFSlotCountForPreset(idx);slot++){
+            CGRect region=CGRectInset(regions[slot],.7,.7);
+            if(CGRectIsNull(region)||CGRectIsEmpty(region))continue;
+            UIView *segment=[[UIView alloc]initWithFrame:region];
+            segment.backgroundColor=[UIColor colorWithWhite:1 alpha:.43];
+            segment.userInteractionEnabled=NO;
+            [thumb addSubview:segment];
+        }
+        [button addSubview:thumb];
+        UILabel *desc=[[UILabel alloc] initWithFrame:CGRectMake(
+              thumbW+11,0,styleCellWidth-thumbW-15,CGRectGetHeight(button.frame))];
+        desc.text=styleNames[(NSUInteger)idx];
+        desc.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
+        desc.textColor=UIColor.whiteColor;
+        desc.numberOfLines=2;
+        desc.userInteractionEnabled=NO;
+        [button addSubview:desc];
+        [styleSheet addSubview:button];
+        [choices addObject:button];
+    }
+    self.styleChoices=choices;
+    self.styleWindow=[self makeWindow:styleRect root:styleRoot level:4];
+    if(!self.styleWindow){[self stop];return NO;}
     // Two REAL app-scene containers from SpringBoard, created but kept
     // hidden until a user explicitly selects an installed application.
     // Do not claim "APP scene ready" just because the external window exists.
@@ -497,6 +567,7 @@ static void DFCLog(NSString *text) {
         @"Focus":@(self.focus),
         @"SelectedSlot":@(self.selectedSlot),
         @"PickerVisible":@(self.pickerVisible),
+        @"StylePickerVisible":@(self.styleVisible),
         @"StartupActive":@(self.startupActive),
         @"RunningScenes":@(running),
         @"PendingScenes":@(pending),
@@ -530,6 +601,7 @@ static void DFCLog(NSString *text) {
     self.selectedSlot=MIN(self.selectedSlot,active-1);
     if(self.focus>=active)self.focus=-1;
     self.pickerVisible=NO;
+    self.styleVisible=NO;
     self.appPickerWindow.hidden=YES;
     [self layoutControls];
     [self emit:@"Style" ratio:nil];
@@ -575,6 +647,14 @@ static void DFCLog(NSString *text) {
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
+    for(UIButton *choice in self.styleChoices){
+        BOOL selected=(choice.tag==self.preset);
+        choice.layer.borderWidth=selected?1.6:1;
+        choice.layer.borderColor=(selected?
+           [UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1]:
+           [UIColor colorWithWhite:1 alpha:.26]).CGColor;
+        choice.accessibilityValue=selected?@"Đang chọn":@"Chọn kiểu";
+    }
     CGFloat p=DFCClamp(self.ratio);
     CGRect pane[4];
     DFComputePresetFrames(cr,self.preset,p,pane);
@@ -591,7 +671,7 @@ static void DFCLog(NSString *text) {
         NSInteger physicalSlot=(self.swapped && i<2)?1-i:i;
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
-        BOOL show=(self.focus<0 || focused)&&!self.pickerVisible;
+        BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible;
         CGFloat compact=(pane[i].size.width<320||pane[i].size.height<220);
         // Two split-pane controls must be usable before a scene is loaded.
         // Pressing Zoom on an empty pane opens the actual installed app picker.
@@ -636,8 +716,9 @@ static void DFCLog(NSString *text) {
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
-    self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible);
+    self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible||self.styleVisible);
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
+    self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     for(NSInteger i=0;i<4;i++){
         UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
@@ -680,6 +761,7 @@ static void DFCLog(NSString *text) {
 - (void)pillPressed:(UIButton *)sender {
     [self noteUserActivity];
     self.selectedSlot=sender.tag;
+    self.styleVisible=NO;
     self.pickerVisible=YES;
     [self layoutControls];
     DFCLog([NSString stringWithFormat:@"picker-open slot=%ld",(long)sender.tag]);
@@ -687,6 +769,33 @@ static void DFCLog(NSString *text) {
 - (void)closeMenu:(id)sender {
     (void)sender;
     self.pickerVisible=NO;[self layoutControls];
+}
+- (void)closeStylePicker:(id)sender {
+    (void)sender;
+    self.styleVisible=NO;
+    [self layoutControls];
+}
+- (void)openStylePicker {
+    self.pickerVisible=NO;
+    self.appPickerWindow.hidden=YES;
+    self.styleVisible=YES;
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:@"style-choices-visible selected=%ld",(long)self.preset]);
+}
+- (void)selectStylePreset:(UIButton *)sender {
+    NSInteger selected=sender.tag;
+    if(!self.styleVisible || selected<0 || selected>7)return;
+    [self noteUserActivity];
+    self.preset=selected;
+    self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
+    self.focus=-1;
+    self.selectedSlot=MIN(self.selectedSlot,DFSlotCountForPreset(self.preset)-1);
+    self.styleVisible=NO;
+    [self saveSplitState];
+    [self emit:@"Style" ratio:nil];
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:@"style-preset-selected preset=%ld slots=%ld",
+           (long)selected,(long)DFSlotCountForPreset(selected)]);
 }
 - (void)zoomPressed:(UIButton *)sender {
     [self noteUserActivity];
@@ -716,13 +825,7 @@ static void DFCLog(NSString *text) {
              [self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];
              break;
       }
-      case 2:self.preset=(self.preset+1)%8;
-             self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
-             self.focus=-1;
-             self.selectedSlot=MIN(self.selectedSlot,DFSlotCountForPreset(self.preset)-1);
-             [self saveSplitState];
-             [self emit:@"Style" ratio:nil];
-             [self layoutControls];break;
+      case 2:[self openStylePicker];break;
       case 3:[self closeHostedSlot:self.selectedSlot];break;
       default:break;
     }
@@ -943,7 +1046,8 @@ static void DFCLog(NSString *text) {
     for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.pickerWindow=nil;self.splashWindow=nil;
+    self.dividerWindow=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
+    self.styleChoices=nil;self.styleVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
