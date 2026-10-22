@@ -112,6 +112,10 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSArray<UIButton *> *pillZoom;
 @property(nonatomic,strong) NSArray<UIButton *> *pillMenu;
 @property(nonatomic,strong) UILabel *pickerBrand;
+@property(nonatomic,strong) UIImageView *menuBrandImage;
+@property(nonatomic,strong) UILabel *menuContext;
+@property(nonatomic,strong) UIButton *menuDismiss;
+@property(nonatomic,strong) NSArray<UIButton *> *menuActions;
 @property(nonatomic,assign) CGFloat ratio;
 @property(nonatomic,assign) CGFloat dragStartRatio;
 @property(nonatomic,assign) CGPoint dragStartScreenPoint;
@@ -313,10 +317,11 @@ static void DFCLog(NSString *text) {
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
-    CGFloat pw=MIN(470,cr.size.width-20);
-    CGFloat ph=MIN(150,MAX(110,cr.size.height-16));
-    CGRect picker=CGRectMake(CGRectGetMidX(cr)-pw/2,
-                             CGRectGetMidY(cr)-ph/2,pw,ph);
+    // Keep the action menu inside the selected split pane rather than
+    // covering the whole dual-app display as a centered 470pt sheet.
+    CGFloat pw=MIN(cr.size.width-12,236);
+    CGFloat ph=MIN(cr.size.height-12,154);
+    CGRect picker=CGRectMake(cr.origin.x+8,CGRectGetMidY(cr)-ph/2,pw,ph);
     UIViewController *pc=[self emptyRoot:picker];
     UIView *sheet=pc.view;
     sheet.backgroundColor=[UIColor colorWithWhite:.12 alpha:.97];
@@ -325,9 +330,9 @@ static void DFCLog(NSString *text) {
     UIImage *horizontal=DFCArtwork(@"duoface-logo-picker-alpha-v2");
     UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
     brandImage.contentMode=UIViewContentModeScaleAspectFit;
-    brandImage.frame=CGRectMake(8,8,MIN(120,pw*.27),30);
+    brandImage.frame=CGRectMake(8,4,MIN(110,pw*.51),28);
     brandImage.userInteractionEnabled=NO;
-    [sheet addSubview:brandImage];
+    [sheet addSubview:brandImage];self.menuBrandImage=brandImage;
     UILabel *brand=[UILabel new];
     brand.text=horizontal?@"":@"DUOFACE";
     brand.textColor=[UIColor colorWithRed:.89 green:.01 blue:.06 alpha:1];
@@ -338,12 +343,14 @@ static void DFCLog(NSString *text) {
     NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];
     NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
                         @"rectangle.3.group",@"xmark.circle"];
-    CGFloat start=CGRectGetMaxX(brand.frame)+4;
-    CGFloat bw=(pw-start-34)/4;
+    NSMutableArray<UIButton *> *actions=[NSMutableArray new];
+    CGFloat bw=(pw-18)/2;
     for(NSInteger i=0;i<4;i++){
         UIButton *b=[self button:names[(NSUInteger)i] tag:i
                          action:@selector(menuAction:)];
-        b.frame=CGRectMake(start+i*bw,6,bw,52);
+        // Two columns of actual UIKit actions: 44pt touch rows on narrow
+        // split CarPlay panes; never shrink to a decorative icon strip.
+        b.frame=CGRectMake(9+(i%2)*bw,36+(i/2)*44,bw,43);
         UIImage *img=[UIImage systemImageNamed:symbols[(NSUInteger)i]];
         [b setImage:img forState:UIControlStateNormal];
         b.tintColor=UIColor.whiteColor;
@@ -356,17 +363,19 @@ static void DFCLog(NSString *text) {
             b.configuration=conf;
         }
         [sheet addSubview:b];
+        [actions addObject:b];
     }
+    self.menuActions=actions;
     UILabel *hint=[UILabel new];
-    hint.text=@"DuoFace · App chọn ứng dụng đã cài";
-    hint.font=[UIFont systemFontOfSize:10];
+    hint.text=@"Ô trái · App · Zoom · Style · Close";
+    hint.font=[UIFont systemFontOfSize:9];
     hint.textColor=[UIColor colorWithWhite:.8 alpha:1];
     hint.textAlignment=NSTextAlignmentCenter;
     hint.frame=CGRectMake(6,ph-24,pw-12,19);
-    [sheet addSubview:hint];
+    [sheet addSubview:hint];self.menuContext=hint;
     UIButton *dismiss=[self button:@"×" tag:0 action:@selector(closeMenu:)];
     dismiss.frame=CGRectMake(pw-32,8,30,32);
-    [sheet addSubview:dismiss];
+    [sheet addSubview:dismiss];self.menuDismiss=dismiss;
     self.pickerWindow=[self makeWindow:picker root:pc level:3];
     if(!self.pickerWindow){[self stop];return NO;}
     // Two REAL app-scene containers from SpringBoard, created but kept
@@ -533,6 +542,37 @@ static void DFCLog(NSString *text) {
                       self.verticalDivider,self.swapped,self.preset))
         DFCLog(@"split-layout-persist-failed");
 }
+// Position real App/Zoom/Style/Close controls in the pane whose ellipsis
+// was touched. The same menu HWND and button handlers are reused for both.
+- (void)layoutContextMenuForPane:(CGRect)pane {
+    if(!self.pickerWindow || CGRectIsNull(pane) || CGRectIsEmpty(pane))return;
+    CGRect cr=self.contentRect;
+    CGFloat width=MIN(cr.size.width-12,MIN(236,MAX(206,pane.size.width-10)));
+    CGFloat height=MIN(cr.size.height-12,154);
+    CGFloat x=MAX(CGRectGetMinX(cr)+4,MIN(CGRectGetMidX(pane)-width/2,
+                                          CGRectGetMaxX(cr)-width-4));
+    CGFloat y=MAX(CGRectGetMinY(cr)+4,MIN(CGRectGetMidY(pane)-height/2,
+                                          CGRectGetMaxY(cr)-height-4));
+    self.pickerWindow.frame=CGRectMake(x,y,width,height);
+    UIView *sheet=self.pickerWindow.rootViewController.view;
+    sheet.frame=CGRectMake(0,0,width,height);
+    CGFloat cells=(width-18)/2;
+    for(NSUInteger i=0;i<self.menuActions.count;i++){
+        self.menuActions[i].frame=CGRectMake(9+(i%2)*cells,36+(i/2)*44,cells,43);
+    }
+    CGRect brandFrame=CGRectMake(8,4,MIN(110,width*.51),28);
+    self.menuBrandImage.frame=brandFrame;
+    self.pickerBrand.frame=brandFrame;
+    self.menuDismiss.frame=CGRectMake(width-32,5,29,29);
+    NSString *region=[NSString stringWithFormat:@"%ld",(long)self.selectedSlot+1];
+    if(self.preset==0 && self.selectedSlot<2)
+        region=self.selectedSlot==0?@"trái":@"phải";
+    else if(self.preset==1 && self.selectedSlot<2)
+        region=self.selectedSlot==0?@"trên":@"dưới";
+    self.menuContext.text=[NSString stringWithFormat:
+        @"Ô %@ · App · Zoom · Style · Close",region];
+    self.menuContext.frame=CGRectMake(6,height-23,width-12,19);
+}
 - (void)layoutControls {
     CGRect cr=self.contentRect;
     CGFloat p=DFCClamp(self.ratio);
@@ -540,6 +580,8 @@ static void DFCLog(NSString *text) {
     DFComputePresetFrames(cr,self.preset,p,pane);
     NSInteger activeSlots=DFSlotCountForPreset(self.preset);
     if(self.focus>=0 && self.focus<activeSlots)pane[self.focus]=cr;
+    NSInteger menuSlot=MAX(0,MIN(activeSlots-1,self.selectedSlot));
+    [self layoutContextMenuForPane:pane[menuSlot]];
     for(NSInteger i=0;i<4;i++) {
         UIWindow *w=self.pillWindows[(NSUInteger)i];
         if(i>=activeSlots){w.hidden=YES;continue;}
@@ -908,6 +950,7 @@ static void DFCLog(NSString *text) {
     [self.sceneHandleReady removeAllObjects];
     self.dividerTrack=nil;self.dividerLogo=nil;
     self.pillMenu=nil;self.pillZoom=nil;self.pickerBrand=nil;
+    self.menuBrandImage=nil;self.menuContext=nil;self.menuDismiss=nil;self.menuActions=nil;
     DFCLog(@"native12-chrome-stop");
 }
 @end
