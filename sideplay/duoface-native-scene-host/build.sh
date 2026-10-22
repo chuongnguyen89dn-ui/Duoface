@@ -17,9 +17,19 @@ DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dy
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \
-  -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m DFLayoutEngine.m DFSceneHost.m DFAppLibrary.m DFAppPickerVC.m
+  -o "$DYLIB" DFTouchOwnerProbe.m DFNative12Chrome.m DFLayoutEngine.m DFSceneHost.m DFAppLibrary.m DFAppPickerVC.m DFDockZoomCoordinator.m
 cp DFTouchOwnerProbe.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
 ldid -S "$DYLIB"
+// The native Apple AppDock owner lives inside the actual CarPlay UI process.
+// This receiver is separate from the SpringBoard pane/input scene host.
+DOCK_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation -framework CoreGraphics \
+  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m
+cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
+ldid -S "$DOCK_DYLIB"
+
 # Assets are our previously approved DuoFace artwork from the project's source.
 ART="$ROOT/../../dist/visual-1.0.3-12/assets"
 APP_ART="$APP/VisualAssets"
@@ -50,6 +60,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.46~zoomgeometry1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.47~realdock1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"
