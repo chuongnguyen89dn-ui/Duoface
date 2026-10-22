@@ -418,33 +418,33 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("case 2:[self openStylePicker];break;",chrome)
   self.assertIn("case 3:[self closeHostedSlot:self.selectedSlot];",chrome)
 
- def test_style_buttons_follow_original_native12_eight_reference_modes(self):
+ def test_style_buttons_follow_original_native12_nine_binary_preview_cases(self):
   chrome=file("DFNative12Chrome.m")
   engine=file("DFLayoutEngine.m")
   phone=file("DFNativeHostRootController.m")
   bridge=file("DFNativeHostAppDelegate.m")
   self.assertIn('NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",',chrome)
-  self.assertIn("for(NSInteger idx=0;idx<8;idx++)",chrome)
-  self.assertIn("if(!self.styleVisible || selected<0 || selected>7)return;",chrome)
+  self.assertIn("for(NSInteger idx=0;idx<9;idx++)",chrome)
+  self.assertIn("if(!self.styleVisible || selected<0 || selected>8)return;",chrome)
   self.assertIn("DFComputePresetFramesWithSecondary",chrome)
   self.assertIn("DFSecondaryDividerRect",engine)
   self.assertIn("self.secondaryDividerWindow.hidden=",chrome)
   self.assertIn("secondary-divider-pan-end",chrome)
-  self.assertIn("return preset==0?1:(preset==1||preset==2?2:3);",engine)
+  self.assertIn("return preset==0?1:(preset==1||preset==2?2:(preset==8?4:3));",engine)
   self.assertIn("case 0:out[0]=b;break;",engine)
   self.assertIn("for(int i=0;i<4;i++)out[i]=CGRectNull;",engine)
   self.assertIn('normalized[@"Version"]=@2',chrome)
   self.assertIn("DFCanonicalPreset",chrome)
-  self.assertIn('return self.tabs.selectedSegmentIndex==2?8:',phone)
-  self.assertIn("active<1 || active>3",bridge)
+  self.assertIn('return self.tabs.selectedSegmentIndex==2?9:',phone)
+  self.assertIn("active<1 || active>4",bridge)
   self.assertIn('self.preset=selected;',chrome)
   self.assertIn("self.styleWindow.hidden=(self.startupActive||!self.styleVisible);",chrome)
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
   self.assertIn("CGRectGetMidX(pane[i])-width/2",chrome)
   self.assertNotIn('@"4 cột"',chrome)
-  self.assertNotIn('@"4 ô"',chrome)
-  self.assertNotIn("for(NSInteger idx=0;idx<9;idx++)",chrome)
-  self.assertNotIn("case 8:",engine)
+  self.assertIn('@"Bốn ô"',chrome)
+  self.assertIn("for(NSInteger idx=0;idx<9;idx++)",chrome)
+  self.assertIn("case 8:",engine)
 
  def test_native12_approved_one_row_four_actions_no_mock_zoom(self):
   chrome=file("DFNative12Chrome.m")
@@ -711,7 +711,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"Accepted":@YES',app)
   self.assertNotIn('self.basicController performCarPlayControl:',app)
 
- def test_native12_eight_approved_1_to_3_scene_layout_contract(self):
+ def test_native12_original_nine_1_to_4_scene_layout_contract(self):
   chrome=file("DFNative12Chrome.m")
   layout=file("DFLayoutEngine.m")
   app=file("DFNativeHostAppDelegate.m")
@@ -726,9 +726,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("for(NSInteger i=0;i<4;i++)",chrome)
   self.assertIn('self.focus==2?@"FocusSlot2":@"FocusSlot3"',chrome)
   self.assertIn("NSInteger DFSlotCountForPreset",layout)
-  for i in range(8):self.assertIn("case %d:"%i,layout)
-  self.assertIn("active<1 || active>3",app)
-  self.assertIn("count!=4",app)  # four retained backing hosts, max three visible
+  for i in range(9):self.assertIn("case %d:"%i,layout)
+  self.assertIn("active<1 || active>4",app)
+  self.assertIn("count!=4",app)  # four retained backing hosts, max four visible
   self.assertIn('@"FocusSlot2"',probe)
   self.assertIn('@"FocusSlot3"',probe)
   self.assertNotIn("self.verticalDivider=!self.verticalDivider",chrome)
