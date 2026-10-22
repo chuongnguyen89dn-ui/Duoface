@@ -1,4 +1,5 @@
 #import "DFNative12GalleryGeometry.h"
+#import "DFNative12OuterGeometry.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
@@ -435,10 +436,13 @@ static void DFCLog(NSString *text) {
     // Native12-inspired Style gallery: explicit selectable split arrangements,
     // not the old invisible preset++ on each press. Miniatures are geometry
     // previews only (DFLayoutEngine), NOT simulated embedded applications.
-    CGFloat styleW=MIN(cr.size.width-12,470);
-    CGFloat styleH=MIN(cr.size.height-8,220);
-    CGRect styleRect=CGRectMake(CGRectGetMidX(cr)-styleW/2,
-                                  CGRectGetMidY(cr)-styleH/2,styleW,styleH);
+    // Native12 CBMultitaskingOverlayView.layoutSubviews @0xa28e8:
+    // four byte-verified literals + fminnm + frinta; this replaces the
+    // locally invented 470x220 cap, without altering scene/window ownership.
+    DFNative12OuterSheetRect outer=DFNative12OuterGeometry(cr.size.width,cr.size.height);
+    CGFloat styleW=(CGFloat)outer.width,styleH=(CGFloat)outer.height;
+    CGRect styleRect=CGRectMake(cr.origin.x+(CGFloat)outer.x,
+                                cr.origin.y+(CGFloat)outer.y,styleW,styleH);
     UIViewController *styleRoot=[self emptyRoot:styleRect];
     UIView *styleSheet=styleRoot.view;
     styleSheet.backgroundColor=UIColor.clearColor;

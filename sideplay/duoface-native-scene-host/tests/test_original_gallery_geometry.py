@@ -34,4 +34,34 @@ class OriginalGalleryGeometry(unittest.TestCase):
         self.assertIn("button.accessibilityLabel=styleNames",section)
         self.assertIn('checkmark.circle.fill',section)
         self.assertIn("self.styleSelectionBadges[(NSUInteger)choice.tag].hidden=!selected",chrome)
+
+    def test_original_outer_style_layout_executable_and_source_wired(self):
+        evidence=json.loads((R.parent/"audit/native12-continuation-4888299/outer-constants/ORIGINAL_OUTER_LAYOUT_CONSTANTS.json").read_text())
+        self.assertEqual(evidence["original_macho_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+        c={k:v["double"] for k,v in evidence["literals"].items()}
+        self.assertEqual(c["outer_width_breakpoint"],500)
+        self.assertEqual(c["outer_height_breakpoint"],300)
+        compiler=shutil.which("cc")
+        self.assertIsNotNone(compiler)
+        with tempfile.TemporaryDirectory() as tmp:
+            p=pathlib.Path(tmp)
+            (p/"test_outer.c").write_text(
+                '#include <stdio.h>\\n#include "DFNative12OuterGeometry.h"\\n'
+                'int main(void){double wh[][2]={{320,240},{507.3333333,240},{480,320},{960,540},{800,299},{500,300},{499.99,299.99}};'
+                'for(int i=0;i<7;i++){DFNative12OuterSheetRect s=DFNative12OuterGeometry(wh[i][0],wh[i][1]);'
+                'printf("%.9f %.9f %.9f %.9f %.9f %.9f\\\\n",wh[i][0],wh[i][1],s.width,s.height,s.x,s.y);}return 0;}')
+            subprocess.run([compiler,"-std=c99","-Wall","-Werror","-I",str(R),str(p/"test_outer.c"),"-lm","-o",str(p/"outer")],check=True)
+            rows=subprocess.check_output([str(p/"outer")],text=True).splitlines()
+        self.assertEqual(len(rows),7)
+        for row in rows:
+            w,h,rw,rh,rx,ry=map(float,row.split())
+            expected_w=min(w-(10 if w<c["outer_width_breakpoint"] else 24),c["outer_max_card_width"])
+            expected_h=min(h-(8 if h<c["outer_height_breakpoint"] else 18),c["outer_max_card_height"])
+            self.assertAlmostEqual(rw,expected_w,places=5)
+            self.assertAlmostEqual(rh,expected_h,places=5)
+            self.assertAlmostEqual(rx,round((w-expected_w)/2),places=4)
+            self.assertAlmostEqual(ry,round((h-expected_h)/2),places=4)
+        chrome=(R/"DFNative12Chrome.m").read_text()
+        self.assertIn("DFNative12OuterGeometry(cr.size.width,cr.size.height)",chrome)
+        self.assertNotIn("CGFloat styleW=MIN(cr.size.width-12,470)",chrome)
 if __name__=="__main__":unittest.main()
