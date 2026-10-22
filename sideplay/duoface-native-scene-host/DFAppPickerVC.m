@@ -299,6 +299,9 @@
     return MAX(1,(count+capacity-1)/capacity);
 }
 - (void)reloadCards {
+    // Inventory/host state changes must also refresh original zero-result
+    // artwork; collection reload alone doesn't invoke viewDidLayoutSubviews.
+    [self.view setNeedsLayout];
     // Keep the delegate wired to the REAL DFAppInfo bundle, not a display
     // placeholder; visual slots past the last bundle are blank padding.
     self.pageControl.numberOfPages=[self pageCount];
