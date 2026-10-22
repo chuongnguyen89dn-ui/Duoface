@@ -32,10 +32,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.46~zoomgeometry1_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.47~realdock1_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.46~zoomgeometry1'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.47~realdock1'
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
           OUT="$RUNNER_TEMP/nativehost-check"
@@ -52,6 +52,13 @@ jobs:
           strings "$PROBE/DFTouchOwnerProbe.dylib" | grep -F 'logo-reposition-long-hold'
           strings "$PROBE/DFTouchOwnerProbe.dylib" | grep -F 'FocusRight'
           test -s "$PROBE/DFTouchOwnerProbe.plist"
+          test -s "$PROBE/DFCarPlayDockOwner.dylib"
+          test -s "$PROBE/DFCarPlayDockOwner.plist"
+          grep -F 'CarPlayApp' "$PROBE/DFCarPlayDockOwner.plist"
+          ! grep -Fq 'SpringBoard' "$PROBE/DFCarPlayDockOwner.plist"
+          strings "$PROBE/DFCarPlayDockOwner.dylib" | grep -F 'no-verified-live-native-appdock'
+          strings "$PROBE/DFTouchOwnerProbe.dylib" | grep -F 'dock-command-not-delivered'
+
           ldid -e "$PROBE/DFTouchOwnerProbe.dylib" > "$RUNNER_TEMP/touchowner-entitlements.xml"
           grep -F 'com.duoface.native.scenehost' "$APP/Info.plist"
           ! grep -Fq 'com.apple.CarPlayApp' "$PROBE/DFTouchOwnerProbe.plist"
@@ -83,7 +90,7 @@ jobs:
           git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/native12-reference.deb"
           git fetch --no-tags --depth=1 origin "$INDEX_REF"
           git show "$INDEX_REF:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json" > "$RUNNER_TEMP/native12-method-index.json"
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.46~zoomgeometry1_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.47~realdock1_iphoneos-arm64.deb'
           SHA="$(shasum -a 256 "$FILE" | awk '{print $1}')"
           python3 sideplay/duoface-native-scene-host/tests/compare_source_debs.py \
             --native12 "$RUNNER_TEMP/native12-reference.deb" \
@@ -94,7 +101,7 @@ jobs:
             --new "$FILE" \
             --index "$RUNNER_TEMP/native12-method-index.json" \
             --new-sha256 "$SHA" \
-            --expected-new-files 22 \
+            --expected-new-files 24 \
             --out sideplay/duoface-native-scene-host/packages/NATIVE12_1385_REPORT
           python3 - <<'PY'
           import json
@@ -102,7 +109,7 @@ jobs:
           p=Path('sideplay/duoface-native-scene-host/packages/NATIVE12_1385_REPORT')
           d=json.loads((p/'SUMMARY.json').read_text())
           assert d['original_objc_methods']==1385 and d['original_macho']==8
-          assert d['new_files']==22 and d['feature_gates']==25
+          assert d['new_files']==24 and d['feature_gates']==25
           assert d['feature_gates_pass']==0 and d['verdict']=='KHONG_DAT'
           assert len(json.loads((p/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods'])==1385
           print('NATIVE12_1385_METHOD_EACH_CANDIDATE_AUDIT_VERIFIED')
