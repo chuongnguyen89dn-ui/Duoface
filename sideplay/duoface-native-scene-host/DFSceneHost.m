@@ -363,8 +363,12 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             [self.appController beginAppearanceTransition:NO animated:NO];
             [self.appController endAppearanceTransition];
             DFHostInt(self.appController,@"setRequestedMode:",0);
-            [self.appController willMoveToParentViewController:nil];
+            // Original Native12 dismiss IMP 0xaf01c: child view
+            // removeFromSuperview @af0fc PRECEDES willMove:nil @af130.
+            // Only reorder our OWN SBAppViewController child calls;
+            // bridge-object setInvalidated:/setHosting: do not apply here.
             [self.appController.view removeFromSuperview];
+            [self.appController willMoveToParentViewController:nil];
             [self.appController removeFromParentViewController];
         }
     } @catch (NSException *e) { DFSceneLog(@"close-warning",self.bundleID,e.reason); }

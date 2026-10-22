@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.44~zoomack1",build)
+  self.assertIn("0.1.45~originaldismiss1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.44~zoomack1",c)
+  self.assertIn("Version: 0.1.45~originaldismiss1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -919,5 +919,32 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('DFDashboardSetChromeHidden(',app)
   self.assertNotIn('DFRequestHostFullscreen(',app)
   self.assertIn('@"Action":action',app)
+
+ def test_original_native12_dismiss_child_view_teardown_order(self):
+  """Actual SHA-locked Native12 dismiss orders remove(view) before willMove(nil).
+  Do not mistake wrapperView.removeFromSuperview for a second invalidate.
+  Static parity does not establish an iPhone ExitSafeMode fix.
+  """
+  orig=R.parents[1]/"sideplay/audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"
+  d=json.loads(orig.read_text())
+  self.assertEqual(d["dashboard_macho_sha256"],
+                   "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+  m=next(x for x in d["methods"] if x["class"]=="CBBridgedUIAppView" and x["selector"]=="dismiss")
+  self.assertEqual(m["imp"],"0xaf01c")
+  pc={line.split(":",1)[0]:line for line in m["instructions"]}
+  self.assertIn("ldr",pc["af0f8"]) # original shared removeFromSuperview selref
+  self.assertIn("bl",pc["af0fc"])
+  self.assertIn("bl",pc["af130"])
+  self.assertIn("bl",pc["af158"])
+  self.assertIn("bl",pc["af180"])
+  owned=file("DFSceneHost.m").split("- (void)stop {",1)[1].split("\n@end",1)[0]
+  self.assertLess(owned.index("[self.appController.view removeFromSuperview]"),
+                  owned.index("[self.appController willMoveToParentViewController:nil]"))
+  self.assertLess(owned.index("[self.appController willMoveToParentViewController:nil]"),
+                  owned.index("[self.appController removeFromParentViewController]"))
+  self.assertLess(owned.index("[self.appController removeFromParentViewController]"),
+                  owned.index('SEL invalidate=NSSelectorFromString(@"invalidate")'))
+  self.assertNotIn('DFHostBool(self.appController,@"setInvalidated:"',owned)
+  self.assertNotIn('DFHostBool(self.appController,@"setHosting:"',owned)
 
 if __name__=="__main__":unittest.main(verbosity=2)
