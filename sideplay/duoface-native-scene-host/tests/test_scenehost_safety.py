@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.48~native12ui1",build)
+  self.assertIn("0.1.49~native12cards1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.48~native12ui1",c)
+  self.assertIn("Version: 0.1.49~native12cards1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1032,5 +1032,15 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFComputePresetFramesWithSecondary',chrome)
   self.assertIn('for(NSInteger idx=0;idx<9;idx++)',chrome)
   self.assertIn('self.ratio=DFNative12DefaultPrimaryRatio(selected)',chrome)
+
+ def test_original_native12_app_card_pagination_four_by_two(self):
+  """Original immutable Native12 card grid uses at most four columns,
+  and a two-row default from real 0xa3e5c selector path.
+  """
+  picker=file("DFAppPickerVC.m")
+  self.assertIn("self.cardsPerPage=8;",picker)
+  self.assertIn("NSInteger columns=4*2;",picker)
+  self.assertIn("CGFloat w=width/4.0;",picker)
+  self.assertIn("CGFloat h=collectionView.bounds.size.height/2.0;",picker)
 
 if __name__=="__main__":unittest.main(verbosity=2)
