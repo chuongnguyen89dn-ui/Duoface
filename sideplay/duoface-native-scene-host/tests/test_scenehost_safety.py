@@ -1078,4 +1078,30 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('appPickerCloseAllRunning',pheader)
   self.assertNotIn('self.runningBundleIDs=[self recentApps]',picker)
 
+
+ def test_SHA_original_inner_modal_three_modes_vs_outer_four_actions(self):
+  src=file("DFNative12Chrome.m")
+  geo=file("DFNative12CardHeaderGeometry.h")
+  lit=json.loads((R.parent/"audit/native12-continuation-96fa4ec/CARD_HEADER_LITERALS.json").read_text())
+  self.assertEqual(lit["macho_sha256"],
+                   "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280a695ea")
+  nums=lit["constants"]
+  for key,value in [("header_311768",260),("header_311770",440),
+                    ("header_311830",210),("header_311838",190)]:
+   self.assertEqual(nums[key]["double"],value)
+  self.assertIn("const double headerH=compactH?32.0:38.0;",geo)
+  self.assertIn("const double zone=(w<440.0)?190.0:210.0;",geo)
+  self.assertIn("m.contentY=headerH+0.5;",geo)
+  self.assertIn("m.tabButtons[2]",geo)
+  self.assertIn('const NSInteger innerModeTags[3]={0,2,3}',src)
+  self.assertIn('NSArray *innerModeNames=@[@"Apps",@"Layout",@"Recent"]',src)
+  self.assertIn('UIImage systemImageNamed:@"rectangle.split.2x1.fill"',src)
+  self.assertIn('UIImage systemImageNamed:@"xmark"',src)
+  self.assertIn("CGRectMake(0,native.contentY,styleW",src)
+  self.assertNotIn("const CGFloat styleTabWidths[4]",src)
+  # Preserve user-facing outer four actions, real Close and Zoom callback.
+  self.assertIn('NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"]',src)
+  self.assertIn('case 3:[self openRunningAppManager];break;',src)
+  self.assertIn('case 1:{',src)
+
 if __name__=="__main__":unittest.main(verbosity=2)
