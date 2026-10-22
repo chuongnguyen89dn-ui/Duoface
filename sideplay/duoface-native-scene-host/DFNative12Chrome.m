@@ -431,8 +431,17 @@ static void DFCLog(NSString *text) {
     hint.textAlignment=NSTextAlignmentCenter;
     hint.frame=CGRectMake(8,MIN(ph-25,52),pw-16,19);
     [sheet addSubview:hint];self.menuContext=hint;
-    UIButton *dismiss=[self button:@"×" tag:0 action:@selector(closeMenu:)];
-    dismiss.frame=CGRectMake(pw-42,9,32,26);
+    // Preserve the OUTER four actions but use Native12's decoded
+    // source-owned X imagery/geometry. X dismisses, Close manages apps.
+    DFNative12CardHeader menuHeader=DFOriginalCardHeader(pw,ph);
+    UIButton *dismiss=[self button:@"" tag:0 action:@selector(closeMenu:)];
+    dismiss.frame=CGRectMake(menuHeader.dismiss.x,menuHeader.dismiss.y,
+                  menuHeader.dismiss.width,menuHeader.dismiss.height);
+    dismiss.backgroundColor=[UIColor colorWithRed:.18 green:.18 blue:.22 alpha:.9];
+    dismiss.layer.cornerRadius=menuHeader.dismiss.width/2;
+    [dismiss setImage:[UIImage systemImageNamed:@"xmark"] forState:UIControlStateNormal];
+    dismiss.tintColor=UIColor.whiteColor;
+    dismiss.accessibilityLabel=@"Đóng menu";
     [sheet addSubview:dismiss];self.menuDismiss=dismiss;
     self.pickerWindow=[self makeWindow:picker root:pc level:3];
     if(!self.pickerWindow){[self stop];return NO;}
