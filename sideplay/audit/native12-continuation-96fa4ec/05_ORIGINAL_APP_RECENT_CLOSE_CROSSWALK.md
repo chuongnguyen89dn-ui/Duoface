@@ -1,0 +1,25 @@
+# Native12 original App/Recent/Close — reuse exact prior disassembly, delta against current sources
+
+Timestamp: 2026-10-22 (Asia/Ho_Chi_Minh). Original immutable DEB SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`, original Dashboard Mach-O SHA256 `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`.
+
+**Source of truth, already reverse-engineered and persisted**: `sideplay/audit/native12-continuation-4888299/original-picker-close-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json`, Git blob `2a8b03008c8ebb2b40d42d43a68846d08bf5c9c1` (14 original IMPs, 6289 instructions). Earlier audit `ORIGINAL_PREVIEW_RUNNING_CLOSE_IMPLEMENTATION_20261022.md`, user-approved one-integrated-DEB policy and old handoffs are retained. No need to re-extract binary.
+
+## Exact original implementation evidence
+- `setupCardContent` IMP `0xa2a58` and numeric audit `CARD_HEADER_LITERALS.json`: **inner three modes** `TAB_APPS` / `TAB_LAYOUT` / `TAB_RECENT`; callbacks `switchToAppPickerMode`, `switchToLayoutChooserMode`, `switchToRecentMode`. Icon modes SF `square.grid.2x2.fill`, `rectangle.split.2x1.fill`, `app.badge.fill`; `xmark` closes overlay separately. Header 32/38, contentY 32.5/38.5; tab-zone width190/210.
+- `setupAppPickerCardsInCardW:cardH:contentY:` IMP `0xa3e5c`: `CBDashboardSettings.gridCols/gridRows` (`a40b4/a40d4`) default cap4×2; `CBOverlayScrollView` paging enabled `a41c4..a41cc`; `UIPageControl` inactive `colorWithWhite:1 alpha:.25` @`a42fc..a4304`, **active white** via `whiteColor` @`a4338` → `setCurrentPageIndicatorTintColor:` @`a4354`. No blank/no-app visual uses `square.stack.3d.up.slash` @`a45ac`, local keys `NO_APPS_TITLE` and `NO_APPS_DESC` @`a468c/a47b8`; original add-app button uses `plus` and `OVERLAY_ADD_APP` @`a5a0c/a5b3c`.
+- `setupRecentAppsCardsInCardW:cardH:contentY:` IMP `0xa678c`: actual `CBBridgeManager.runningBridgedApplications` @`a6818`; `OVERLAY_ACTIVE_COUNT` / `OVERLAY_NO_ACTIVE` @`a6990/a6a04`; CLOSE ALL @`a6c74`, real action `closeAllBridgedAppsTapped:` @`a6d68`. Real running records include `inActiveSlot`, `slotIndex`, `pid` @`a70dc/a7110/a7148`, in addition to `bundleIdentifier`, `displayName`, `icon`; this is NOT merely a stored recent-launch list. Empty running state shield icon `checkmark.shield.fill` @`a7b64` and localized `OVERLAY_ALL_CLOSED_TITLE` / `OVERLAY_ALL_CLOSED_DESC` @`a7c44/a7d54`.
+- `closeSingleAppTapped:` @`0xa9484`, `restartSingleAppTapped:` @`0xa91ec`, `closeAllBridgedAppsTapped:` @`0xa9838` actually forward to original bridge manager terminate/restart APIs; independent `DFSceneHost.releaseHostedView` does **NOT** have equivalent OS-process termination. Do not call this fully implemented.
+
+## Independently verified source mismatch at start of current task
+- `DFAppPickerVC.m` currently creates only **two** segments `Ứng dụng/Gần đây`; `modeChanged:` just reloads; `visibleApps` for segment1 is stored `DFRecentKey` history, **not** original live bridged applications; in runningMode the switcher is hidden and Close All overlaps the top tabs. Thus the native three-mode App/Layout/Recent selector, including returning from Recent to App, is not correctly wired. Original had three actual modes; do not retain invented stored-recent list as if it were native running.
+- `DFNative12Chrome.m` App chooser window currently uses own artificial `480x330` cap, while original `CBMultitaskingOverlayView.layoutSubviews` outer card rect is already decoded/implemented in `DFNative12OuterGeometry.h`; Style was fixed to original but App/Recent was not.
+- `DFAppPickerVC.m` dot controls currently use inactive white alpha .5 and active RED (227/255,2/255,15/255), whereas original exact is white .25 and white. Existing blank picker has neither native SF symbol nor meaningful empty state.
+- Keep actual `DFSceneHost` ownership and fail-closed real bundle ID checks. Existing delegate `appPickerCloseAllRunning` releases only owned scenes; absolutely do not invent fake process manager or import vendor code/license. Preserve external App/Zoom/Style/Close and one-final-integrated-DEB manual publishing policy.
+
+## Smallest source fix sequence
+1. Reuse source-owned original outer card geometry for App picker window (do not affect existing app scene or Dock). Replace two-mode stored-recent switcher with original three actions App/Layout/Recent and connect real owner callbacks through `DFAppPickerDelegate`; keep recent = verified live scenes only, no app history fallback.
+2. Move Close-All/count below original three-mode header so they do not overlap; preserve actual scene release/restart and explicit X.
+3. Correct exact original page-control colors, add only original-evidenced empty-state SF symbol; leave translated unknown source strings explicitly marked for later language provenance rather than claiming exact copy.
+4. Run existing 46 Python contract tests, 6 compiled C numeric tests, iOS16 arm64 Objective-C syntax CI; verify post-commit. No DEB/Sileo/device success claim until actual build and user iPhone test.
+
+STATUS at first checkpoint: **forensic only; implementation pending**.
