@@ -1,3 +1,5 @@
+> **ĐÍNH CHÍNH SAU KHI ĐỌC BYTE SELREF THẬT** (CI [39738620890](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39738620890) SUCCESS): selref **0x37db28** của cả `af0f8` và `af1a0` là cùng con trỏ raw `d03c2f0000000000` → VM `0x2f3cd0` → selector **`removeFromSuperview`**. Chứng cứ `sideplay/audit/native12-continuation-4888299/dismiss-selref/ORIGINAL_DISMISS_SHARED_SELECTOR.json`, SHA original Dashboard `9e02a4...`. Do đó chú thích llvm `af1a4 invalidate` là SAI, còn `af0fc` cũng không phải `view`. Callsite thật: `af0fc` gỡ view của appController; `af1a4` gỡ subview thứ hai của bridge. `af170..af180` mới là đường `invalidate` của controller con. **Không được tự gọi scene.invalidate như đã suy diễn ở các báo cáo cũ**. Identity/ivar type của subview thứ hai chưa được chứng minh bằng selref này.
+>
 # Native12 ORIGINAL scene settings block: giải nghĩa lời gọi bằng ARM64, không phỏng đoán (2026-10-22)
 
 ## Nguồn thật và phạm vi
