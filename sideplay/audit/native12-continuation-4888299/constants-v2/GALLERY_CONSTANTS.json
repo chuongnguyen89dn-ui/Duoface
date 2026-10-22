@@ -1,0 +1,134 @@
+{
+  "evidence": "ORIGINAL_SHA_VERIFIED_MACHO_LITERALS_NOT_RUNTIME",
+  "macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "source_imp": "0xa5e78",
+  "source_selector": "setupPresetCardsInCardW:cardH:contentY:",
+  "constants": {
+    "gallery_six_column_threshold": {
+      "address": "0x3117d8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217368,
+      "raw_hex": "0000000000808140",
+      "double": 560.0
+    },
+    "gallery_row_stride": {
+      "address": "0x3117e0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217376,
+      "raw_hex": "0000000000805340",
+      "double": 78.0
+    },
+    "gallery_card_height": {
+      "address": "0x3117e8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217384,
+      "raw_hex": "0000000000805040",
+      "double": 66.0
+    },
+    "gallery_content_height": {
+      "address": "0x3117f8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217400,
+      "raw_hex": "0000000000406840",
+      "double": 194.0
+    },
+    "gallery_unselected_blue": {
+      "address": "0x3117f0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217392,
+      "raw_hex": "52b81e85eb51c83f",
+      "double": 0.19
+    },
+    "gallery_check_red": {
+      "address": "0x311720",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217184,
+      "raw_hex": "7b14ae47e17ab43f",
+      "double": 0.08
+    },
+    "gallery_check_green": {
+      "address": "0x311728",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217192,
+      "raw_hex": "a4703d0ad7a3e03f",
+      "double": 0.52
+    },
+    "gallery_selected_red": {
+      "address": "0x3116c8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217096,
+      "raw_hex": "7b14ae47e17aa43f",
+      "double": 0.04
+    },
+    "gallery_selected_green": {
+      "address": "0x30f9c8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3209672,
+      "raw_hex": "9a9999999999c93f",
+      "double": 0.2
+    },
+    "gallery_selected_blue": {
+      "address": "0x311718",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217176,
+      "raw_hex": "cdccccccccccdc3f",
+      "double": 0.45
+    },
+    "gallery_fill_alpha": {
+      "address": "0x30faf8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3209976,
+      "raw_hex": "666666666666ee3f",
+      "double": 0.95
+    },
+    "gallery_border_red": {
+      "address": "0x310cd0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3214544,
+      "raw_hex": "b81e85eb51b8be3f",
+      "double": 0.12
+    },
+    "gallery_border_green": {
+      "address": "0x30faa8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3209896,
+      "raw_hex": "8fc2f5285c8fe23f",
+      "double": 0.58
+    },
+    "gallery_unselected_red": {
+      "address": "0x311790",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217296,
+      "raw_hex": "ec51b81e85ebc13f",
+      "double": 0.14
+    },
+    "gallery_unselected_green": {
+      "address": "0x30f9a8",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3209640,
+      "raw_hex": "333333333333c33f",
+      "double": 0.15
+    },
+    "gallery_border_alpha": {
+      "address": "0x30fac0",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3209920,
+      "raw_hex": "0ad7a3703d0ac73f",
+      "double": 0.18
+    }
+  },
+  "immediates": {
+    "horizontal_inset": 14,
+    "column_gap": 10,
+    "first_row_y": 22,
+    "corner_radius": 12,
+    "preview_height": 54,
+    "preview_top": 6,
+    "preview_width": "roundf(cardWidth - 14)",
+    "selected_border": 2,
+    "unselected_border": 1,
+    "selection_badge_size": 17
+  },
+  "new_runtime_changed": false,
+  "device_verified": false
+}
