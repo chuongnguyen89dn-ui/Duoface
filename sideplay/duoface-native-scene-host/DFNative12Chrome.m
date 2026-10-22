@@ -1,3 +1,4 @@
+#import "DFNative12GalleryGeometry.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
@@ -116,6 +117,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UIWindow *pickerWindow;
 @property(nonatomic,strong) UIWindow *styleWindow;
 @property(nonatomic,strong) NSArray<UIButton *> *styleChoices;
+@property(nonatomic,strong) NSArray<UIImageView *> *styleSelectionBadges;
 @property(nonatomic,strong) NSArray<UIButton *> *styleHeaderActions;
 @property(nonatomic,strong) UIImageView *styleHeaderLogo;
 @property(nonatomic,assign) BOOL styleVisible;
@@ -488,25 +490,30 @@ static void DFCLog(NSString *text) {
          @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
          @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới",
           @"Bốn ô"];
+    // Exact original card container/metrics from original IMP 0xa5e78.
+    // Keep the existing outer sheet/header until their own binary audit is done.
+    UIScrollView *gallery=[[UIScrollView alloc] initWithFrame:
+        CGRectMake(0,46,styleW,MAX(1,styleH-46-4))];
+    gallery.contentSize=CGSizeMake(styleW,194);
+    gallery.delaysContentTouches=YES;
+    [styleSheet addSubview:gallery];
+    DFNative12GalleryMetrics metrics=DFNative12Gallery(styleW);
     NSMutableArray<UIButton *> *choices=[NSMutableArray new];
-    CGFloat styleCellWidth=(styleW-24)/5;
-    CGFloat styleCellHeight=(styleH-54)/2;
+    NSMutableArray<UIImageView *> *badges=[NSMutableArray new];
     for(NSInteger idx=0;idx<9;idx++){
         UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
-        button.frame=CGRectMake(6+(idx%5)*(styleCellWidth+4),
-               46+(idx/5)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
-        button.layer.cornerRadius=7;
-        button.layer.borderWidth=1;
-        button.layer.borderColor=[UIColor colorWithWhite:1 alpha:.26].CGColor;
-        button.backgroundColor=[UIColor colorWithWhite:1 alpha:.08];
+        button.frame=CGRectMake(14+(idx%metrics.columns)*(metrics.cardWidth+10),
+               22+(idx/metrics.columns)*metrics.rowStride,
+               metrics.cardWidth,metrics.cardHeight);
+        button.layer.cornerRadius=12;
+        button.layer.cornerCurve=kCACornerCurveContinuous;
+        button.clipsToBounds=YES;
         button.accessibilityLabel=styleNames[(NSUInteger)idx];
-        CGFloat thumbW=MIN(45,styleCellWidth*.40);
-        CGFloat thumbH=MIN(23,styleCellHeight-10);
-        UIView *thumb=[[UIView alloc] initWithFrame:CGRectMake(7,
-                  (CGRectGetHeight(button.frame)-thumbH)/2,thumbW,thumbH)];
-        thumb.backgroundColor=[UIColor colorWithWhite:1 alpha:.05];
-        thumb.layer.borderWidth=.6;
-        thumb.layer.borderColor=[UIColor colorWithWhite:1 alpha:.5].CGColor;
+        CGFloat thumbW=metrics.previewWidth;
+        CGFloat thumbH=54;
+        UIView *thumb=[[UIView alloc] initWithFrame:CGRectMake(
+                  roundf((float)((metrics.cardWidth-thumbW)/2)),6,thumbW,thumbH)];
+        thumb.backgroundColor=UIColor.clearColor;
         thumb.userInteractionEnabled=NO;
         CGRect regions[4];
         DFComputePresetFramesWithSecondary(CGRectMake(0,0,thumbW,thumbH),idx,
@@ -520,17 +527,23 @@ static void DFCLog(NSString *text) {
             [thumb addSubview:segment];
         }
         [button addSubview:thumb];
-        UILabel *desc=[[UILabel alloc] initWithFrame:CGRectMake(
-              thumbW+11,0,styleCellWidth-thumbW-15,CGRectGetHeight(button.frame))];
-        desc.text=styleNames[(NSUInteger)idx];
-        desc.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
-        desc.textColor=UIColor.whiteColor;
-        desc.numberOfLines=2;
-        desc.userInteractionEnabled=NO;
-        [button addSubview:desc];
-        [styleSheet addSubview:button];
+        // Native original uses image-only cards; retain localized text for
+        // VoiceOver, not an invented visible caption beside the preview.
+        UIImageSymbolConfiguration *palette=[UIImageSymbolConfiguration
+            configurationWithPaletteColors:@[UIColor.whiteColor,
+                [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]]];
+        UIImageView *badge=[[UIImageView alloc] initWithImage:
+            [[UIImage systemImageNamed:@"checkmark.circle.fill"] imageWithConfiguration:palette]];
+        badge.frame=CGRectMake(metrics.cardWidth-21,4,17,17);
+        badge.layer.shadowColor=UIColor.blackColor.CGColor;
+        badge.layer.shadowRadius=3;
+        badge.userInteractionEnabled=NO;
+        [button addSubview:badge];
+        [badges addObject:badge];
+        [gallery addSubview:button];
         [choices addObject:button];
     }
+    self.styleSelectionBadges=badges;
     self.styleChoices=choices;
     self.styleWindow=[self makeWindow:styleRect root:styleRoot level:4];
     if(!self.styleWindow){[self stop];return NO;}
@@ -741,10 +754,14 @@ static void DFCLog(NSString *text) {
     CGRect cr=self.contentRect;
     for(UIButton *choice in self.styleChoices){
         BOOL selected=(choice.tag==self.preset);
-        choice.layer.borderWidth=selected?1.6:1;
+        choice.layer.borderWidth=selected?2:1;
+        choice.backgroundColor=selected?
+            [UIColor colorWithRed:.04 green:.2 blue:.45 alpha:.95]:
+            [UIColor colorWithRed:.14 green:.15 blue:.19 alpha:.95];
         choice.layer.borderColor=(selected?
-           [UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1]:
-           [UIColor colorWithWhite:1 alpha:.26]).CGColor;
+           [UIColor colorWithRed:.12 green:.58 blue:1 alpha:1]:
+           [UIColor colorWithWhite:1 alpha:.18]).CGColor;
+        self.styleSelectionBadges[(NSUInteger)choice.tag].hidden=!selected;
         choice.accessibilityValue=selected?@"Đang chọn":@"Chọn kiểu";
     }
     CGFloat p=DFCClamp(self.ratio);
@@ -1205,7 +1222,7 @@ static void DFCLog(NSString *text) {
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
-    self.styleChoices=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
+    self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
