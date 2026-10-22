@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.46~zoomgeometry1",build)
+  self.assertIn("0.1.47~realdock1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.46~zoomgeometry1",c)
+  self.assertIn("Version: 0.1.47~realdock1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -897,28 +897,42 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("http://",collector)
   self.assertNotIn("https://",collector)
 
- def test_zoom_missing_real_native12_owner_must_reject_false_positive_ack(self):
-  """Legacy fullscreen used real SpringBoard geometry and Dashboard chrome.
-  Independent host must not report Zoom success from an inert state snapshot.
-  This is a truthful fail-closed intermediate step, not fullscreen parity.
+ def test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success(self):
+  """CarPlay process Dock owner must precede SpringBoard geometry.
+  Static contract only; device proof is a separate gate.
   """
   chrome=file("DFNative12Chrome.m")
   app=file("DFNativeHostAppDelegate.m")
   probe=file("DFTouchOwnerProbe.m")
+  coordinator=file("DFDockZoomCoordinator.m")
+  receiver=file("DFCarPlayDockOwner.m")
+  plist=file("DFCarPlayDockOwner.plist")
+  build=file("build.sh")
   self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
-  self.assertIn('BOOL isWholeHostZoom=[action isEqualToString:@"Zoom"];',app)
-  self.assertIn('BOOL accepted=!isWholeHostZoom;',app)
-  self.assertIn('@"Accepted":@(accepted)',app)
-  self.assertIn('native-dock-and-geometry-owner-not-wired',app)
-  self.assertIn('native12-zoom-not-applied-missing-real-dock-owner',app)
+  self.assertIn('DFDockZoomToggle(sChrome,sSession',probe)
+  self.assertIn('DFDockZoomDetach(sChrome,sSession)',probe)
+  self.assertIn('DFZSend(session,sDesired,sPendingRequest,sPendingSequence)',coordinator)
+  self.assertIn('DFZConsumeAck',coordinator)
+  self.assertIn('[chrome applyHostFullscreenToScreenBoundsAfterDockAck:bounds]',coordinator)
+  self.assertLess(coordinator.index('BOOL owner=[ack[@"Applied"]'),
+                  coordinator.index('[chrome applyHostFullscreenToScreenBoundsAfterDockAck:bounds]'))
+  self.assertIn('@"DockOwnerVerified":@(applied)',receiver)
+  self.assertIn('no-verified-live-native-appdock',receiver)
+  self.assertIn('DFZFreshSession(session)',receiver)
+  self.assertIn('DFZRestore();',receiver)
+  self.assertIn('DFZWatch(++DFZGeneration)',receiver)
+  self.assertNotIn('DBStatusBarWindow',receiver)
+  self.assertNotIn('CBDashboardShared',receiver.split('static BOOL DFZCarPlayProcess',1)[1])
+  self.assertIn('BOOL accepted=!isWholeHostZoom || verified;',app)
+  self.assertIn('matchingSession && owner && dock && geometry && request',app)
   self.assertIn('if(![ack[@"Accepted"] boolValue])',probe)
-  self.assertIn('carplay-action-not-applied',probe)
-  self.assertLess(probe.index('sLastAckSequence=sequence;',probe.index('static void DFReceiveAck')),
-                  probe.index('if(![ack[@"Accepted"] boolValue])'))
+  self.assertIn('DFCarPlayDockOwner.dylib',build)
+  self.assertIn('DFDockZoomCoordinator.m',build)
+  self.assertIn('<string>CarPlayApp</string>',plist)
+  self.assertNotIn('<string>SpringBoard</string>',plist)
   self.assertNotIn('DFHostSetExpanded(',app)
   self.assertNotIn('DFDashboardSetChromeHidden(',app)
   self.assertNotIn('DFRequestHostFullscreen(',app)
-  self.assertIn('@"Action":action',app)
 
  def test_original_native12_dismiss_child_view_teardown_order(self):
   """Actual SHA-locked Native12 dismiss orders remove(view) before willMove(nil).
@@ -977,12 +991,13 @@ class NativeCarPlayHost(unittest.TestCase):
   assert 'self.focus=' not in restore
   assert 'if(self.hostFullscreen)[self restoreHostFullscreenGeometry];' in chrome
   assert '@"HostFullscreenGeometry":@(self.hostFullscreen)' in chrome
-  # There is no proven CarPlay-AppDock receiver in the new independent build
-  # yet; this method must not be connected to a speculative button handler.
+  # The new independent native Dock receiver is in CarPlay, never
+  # fabricating a Dock inside this SpringBoard host or template app.
   assert '[self applyHostFullscreenToScreenBoundsAfterDockAck:' not in chrome
   assert 'applyHostFullscreenToScreenBoundsAfterDockAck:' not in owner
   assert 'applyHostFullscreenToScreenBoundsAfterDockAck:' not in app
-  assert 'BOOL accepted=!isWholeHostZoom;' in app
+  assert 'BOOL accepted=!isWholeHostZoom || verified;' in app
   assert 'DBDockWindow' not in chrome
+  assert 'DFDockZoomToggle(sChrome,sSession' in owner
 
 if __name__=="__main__":unittest.main(verbosity=2)
