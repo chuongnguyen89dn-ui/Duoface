@@ -1,0 +1,86 @@
+name: Native12 immutable outer Style layout four literal verification (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-outer-layout-constants.yml'
+      - 'sideplay/audit/native12-continuation-4888299/decode_outer_layout_constants.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-outer-style-literals
+  cancel-in-progress: true
+jobs:
+  audit-original-only:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read exact central iOS CarPlay skill ZIP
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/skill.zip"
+          echo 'c87b5ed9ef196c13f42dd41df49a032369028742cc8f6d56569637daf76ec7cf  '"$RUNNER_TEMP/skill.zip" | shasum -a 256 -c -
+          unzip -t "$RUNNER_TEMP/skill.zip"
+          unzip -p "$RUNNER_TEMP/skill.zip" SKILL.md
+          unzip -p "$RUNNER_TEMP/skill.zip" references/DEB_IPA_SKILL.md
+      - name: Check immutable ORIGINAL DEB and extract Mach-O (read only)
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          REF="$RUNNER_TEMP/native12-outer"
+          mkdir -p "$REF"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REF/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REF/original.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$REF/original.deb" "$REF/root"
+          BIN="$REF/root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$BIN" | shasum -a 256 -c -
+          python3 sideplay/audit/native12-continuation-4888299/decode_outer_layout_constants.py --macho "$BIN" --out sideplay/audit/native12-continuation-4888299/outer-constants
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/native12-continuation-4888299/outer-constants/ORIGINAL_OUTER_LAYOUT_CONSTANTS.json')
+          d=json.loads(p.read_text())
+          assert d['original_macho_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert len(d['literals'])==4
+          assert d['vendor_source_copied'] is False and d['device_tested'] is False
+          print('NATIVE12_OUTER_LAYOUT_FOUR_LITERALS_SOURCE_VERIFIED')
+          print(p.read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Original-Outer-Style-Literals-No-Release
+          path: sideplay/audit/native12-continuation-4888299/outer-constants/ORIGINAL_OUTER_LAYOUT_CONSTANTS.json
+          if-no-files-found: error
+      - name: Persist exact extracted evidence without overwriting concurrency
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          DEST='sideplay/audit/native12-continuation-4888299/outer-constants/ORIGINAL_OUTER_LAYOUT_CONSTANTS.json'
+          SOURCE="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -f "$TEMP/$DEST"; then
+              cmp "$SOURCE" "$TEMP/$DEST"
+              git worktree remove --force "$TEMP"
+              echo NATIVE12_OUTER_EVIDENCE_ALREADY_IDENTICAL
+              exit 0
+            fi
+            mkdir -p "$TEMP/$(dirname "$DEST")"
+            cp "$SOURCE" "$TEMP/$DEST"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(native12): preserve decoded original outer gallery literals [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo NATIVE12_OUTER_EVIDENCE_GITHUB_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo Native12 evidence push failed >&2
+          exit 1
