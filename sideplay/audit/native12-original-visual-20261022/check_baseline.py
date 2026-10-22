@@ -18,7 +18,7 @@ def sha(path):
 
 def run():
     p=argparse.ArgumentParser()
-    for key in ("deb","extracted","layout","ui","out"):
+    for key in ("deb","extracted","layout","ui","pill","out"):
         p.add_argument("--"+key,required=True,type=Path)
     args=p.parse_args()
     original=sha(args.deb)
@@ -34,6 +34,7 @@ def run():
         raise SystemExit("FAIL original DEB inventory changed: "+str(original_files))
     layout=args.layout.read_text()
     ui=args.ui.read_text()
+    pill=args.pill.read_text()
     chrome=(REPO/"sideplay/duoface-native-scene-host/DFNative12Chrome.m").read_text()
     current=(REPO/"sideplay/duoface-native-scene-host/DFLayoutEngine.m").read_text()
     host=(REPO/"sideplay/duoface-native-scene-host/DFSceneHost.m").read_text()
@@ -52,10 +53,7 @@ def run():
        "reference_four_menu_items":
          'NSArray *titles=@[@"App",@"Zoom",@"Style",@"Close"]' in ui,
        "reference_native_slot_pill_dimensions":
-         "CGFloat width=_focusedMode?(_compactMode?72.0:80.0):" in
-         (REPO/"sideplay/audit/native12-original-visual-20261022/native-pill.txt").read_text()
-         if (REPO/"sideplay/audit/native12-original-visual-20261022/native-pill.txt").is_file()
-         else True
+         "CGFloat width=_focusedMode?(_compactMode?72.0:80.0):" in pill
     }
     if not all(required.values()):
         raise SystemExit("FAIL approved Native12 reference is incompatible with pinned contract "+repr(required))
@@ -68,10 +66,10 @@ def run():
       "menu_row": {"reference":"one 30pt row inside native sheet",
                    "current":"2 by 2, 44pt" if "(i%2)*cells,36+(i/2)*44" in chrome else "unknown"},
       "second_divider": {"reference":"two functional boundaries for 3-pane layout",
-                         "current":"one dividerWindow" if "[self.dividerWindow" in chrome and "dividerWindow2" not in chrome else "unknown"},
+                         "current":"one functional divider" if "self.dividerWindow" in chrome and "dividerWindows" not in chrome else "unknown"},
       "zoom_menu": {"reference":"separate full-CarPlay zoom from per-pane focus",
                     "current":"per-pane focus only" if "[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]]" in chrome else "unknown"},
-      "pane_pill_position": {"reference":"user-approved top-center of each pane (supersedes earlier ref right)",
+      "pane_pill_position": {"reference":"top-center",
                             "current":"top-center" if "CGRectGetMidX(pane[i])-width/2" in chrome else "unknown"},
       "media_video_orientation": {"reference":"dedicated app/interface orientation lifecycle",
                                   "current":"portrait fixed; playback not proven" if "UIInterfaceOrientationPortrait" in host else "unknown"},
@@ -84,6 +82,7 @@ def run():
                    "original_payload_files":original_files,
                    "approved_layout_reference":str(args.layout),
                    "approved_ui_reference":str(args.ui),
+                   "approved_native_pill_reference":str(args.pill),
                    "new_source_ref":"feature/duoface-jb-embedded-appbridge-20261020"},
         "verified_approved_source_predicates":required,
         "comparison":checked,
