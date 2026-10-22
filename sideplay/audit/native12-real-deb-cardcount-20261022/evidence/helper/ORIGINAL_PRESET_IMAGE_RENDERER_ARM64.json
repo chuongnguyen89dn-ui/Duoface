@@ -5,6 +5,58 @@
   "renderer_function_entry": "0x9efe0",
   "renderer_boundary_before_CBOverlayScrollView": "0x9ff68",
   "instruction_count": 994,
+  "nine_case_jump_table": {
+    "table_vmaddr": "0x310d3e",
+    "file_offset": 3214654,
+    "adr_base": "0x9f290",
+    "cases": [
+      {
+        "preset_tag": 0,
+        "table_u16": 0,
+        "renderer_case_pc": "0x9f290"
+      },
+      {
+        "preset_tag": 1,
+        "table_u16": 27,
+        "renderer_case_pc": "0x9f2fc"
+      },
+      {
+        "preset_tag": 2,
+        "table_u16": 61,
+        "renderer_case_pc": "0x9f384"
+      },
+      {
+        "preset_tag": 3,
+        "table_u16": 94,
+        "renderer_case_pc": "0x9f408"
+      },
+      {
+        "preset_tag": 4,
+        "table_u16": 153,
+        "renderer_case_pc": "0x9f4f4"
+      },
+      {
+        "preset_tag": 5,
+        "table_u16": 205,
+        "renderer_case_pc": "0x9f5c4"
+      },
+      {
+        "preset_tag": 6,
+        "table_u16": 256,
+        "renderer_case_pc": "0x9f690"
+      },
+      {
+        "preset_tag": 7,
+        "table_u16": 308,
+        "renderer_case_pc": "0x9f760"
+      },
+      {
+        "preset_tag": 8,
+        "table_u16": 721,
+        "renderer_case_pc": "0x9fdd4"
+      }
+    ]
+  },
   "function_is_static_not_objc_selector": true,
   "actual_control_flow_decoded": false,
   "all_nine_card_visual_shapes_verified": false,
