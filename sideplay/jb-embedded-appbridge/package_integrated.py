@@ -10,15 +10,19 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.47~realdock1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.49~native12cards1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-PINNED_NATIVEHOST_SHA256="82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941"
-VERSION="0.0.37~native12dockzoom1"
+PINNED_NATIVEHOST_SHA256=None  # Mandatory per-run SHA256 from the current-source signed .49 host; no old .47 fallback.
+VERSION="0.0.38~native12sourcehost49"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
-def build():
+def build(expected_nativehost_sha256,expected_source_sha):
+ if not expected_nativehost_sha256 or len(expected_nativehost_sha256)!=64 or any(c not in "0123456789abcdef" for c in expected_nativehost_sha256):
+  raise RuntimeError("Must pass exactly verified newly signed native host SHA256")
+ if not expected_source_sha or len(expected_source_sha)!=40 or any(c not in "0123456789abcdef" for c in expected_source_sha):
+  raise RuntimeError("Must pass exact current checkout Git commit SHA; refuse unverifiable old artifact")
  provenance=[]
  with tempfile.TemporaryDirectory() as temporary:
   temp=pathlib.Path(temporary)
@@ -30,7 +34,7 @@ def build():
    if not archive.is_file():raise RuntimeError("Missing own module "+relpath)
    if pkg=="com.duoface.carplay.nativescenehost":
     observed=hashlib.sha256(archive.read_bytes()).hexdigest()
-    if observed!=PINNED_NATIVEHOST_SHA256:
+    if observed!=expected_nativehost_sha256:
      raise RuntimeError("Native Host artifact differs from independently verified Native12-only A-Z DEB audit: "+observed)
    package=execute(["dpkg-deb","-f",str(archive),"Package"]).strip()
    if package!=pkg:raise RuntimeError("Wrong package "+package)
@@ -89,6 +93,10 @@ def build():
   data={"kind":"code-packaging-only-not-carplay-validation","output":str(destination.relative_to(ROOT)),
     "sha256":hashlib.sha256(destination.read_bytes()).hexdigest(),
     "source_packages":provenance,"files":len(seen),
+    "nativehost_build_sha256":expected_nativehost_sha256,
+    "source_git_commit":expected_source_sha,
+    "original_reference_native12_speed8compact_sha256":"2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+    "native12_speed8_hud_independent_parity_proven":False,
     "contains_third_party_carbridge":False,
     "only_original_duoface_code":True,
     "separate_carbridge_dependency":False,
@@ -109,6 +117,8 @@ def build():
 def main():
  p=argparse.ArgumentParser()
  p.add_argument("--build",action="store_true",required=True)
+ p.add_argument("--expected-nativehost-sha256",required=True,help="SHA256 measured after building new current-source 0.1.49 signed native host")
+ p.add_argument("--expected-source-sha",required=True,help="Immutable 40-char SHA of current Git checkout")
  p.parse_args()
- build()
+ build(p.parse_args().expected_nativehost_sha256,p.parse_args().expected_source_sha)
 if __name__=="__main__":main()
