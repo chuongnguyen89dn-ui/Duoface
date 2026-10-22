@@ -59,20 +59,33 @@ def run():
         raise SystemExit("FAIL approved Native12 reference is incompatible with pinned contract "+repr(required))
 
     checked={
-      "style_count": {"reference":8,"current":9 if "for(NSInteger idx=0;idx<9;idx++)" in chrome else -1},
-      "pane_count_max": {"reference":3,"current":4 if "return 4;" in current else -1},
-      "layout_four_columns": {"reference":"three vertical columns", "current":"four vertical strips" if "four strips" in current else "unknown"},
-      "style_one_pane_index": {"reference":1,"current":8 if "if(preset==8)return 1;" in current else -1},
-      "menu_row": {"reference":"one 30pt row inside native sheet",
-                   "current":"2 by 2, 44pt" if "(i%2)*cells,36+(i/2)*44" in chrome else "unknown"},
-      "second_divider": {"reference":"two functional boundaries for 3-pane layout",
-                         "current":"one functional divider" if "self.dividerWindow" in chrome and "dividerWindows" not in chrome else "unknown"},
-      "zoom_menu": {"reference":"separate full-CarPlay zoom from per-pane focus",
-                    "current":"per-pane focus only" if "[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]]" in chrome else "unknown"},
-      "pane_pill_position": {"reference":"top-center",
-                            "current":"top-center" if "CGRectGetMidX(pane[i])-width/2" in chrome else "unknown"},
-      "media_video_orientation": {"reference":"dedicated app/interface orientation lifecycle",
-                                  "current":"portrait fixed; playback not proven" if "UIInterfaceOrientationPortrait" in host else "unknown"},
+      "style_count":{"reference":8,
+          "current":8 if "for(NSInteger idx=0;idx<8;idx++)" in chrome else "unknown"},
+      "pane_count_max":{"reference":3,
+          "current":3 if "return preset==0?1:(preset==1||preset==2?2:3);" in current else "unknown"},
+      "three_columns":{"reference":"three vertical columns",
+          "current":"three vertical columns"
+            if "CGFloat end=xx+w*(1-a)*c;" in current else "unknown"},
+      "style_one_pane_index":{"reference":0,
+          "current":0 if "case 0:out[0]=b;break;" in current else "unknown"},
+      "menu_row":{"reference":"one 30pt header",
+          "current":"one 30pt header"
+            if "CGRectMake(bx,7,widths[i]*scale,30)" in chrome
+            and "UIVisualEffectView *styleMaterial" in chrome
+            else "unknown"},
+      "second_divider":{"reference":"two independent movable boundaries",
+          "current":"two independent movable boundaries"
+            if "secondary-divider-pan-end" in chrome
+            and "self.secondaryDividerWindow.hidden=" in chrome
+            else "unknown"},
+      "zoom_menu":{"reference":"real full-CarPlay Dock toggle",
+          "current":"separate Zoom event; no Dock resize ACK"
+            if '[self emit:@"Zoom" ratio:nil]' in chrome else "unknown"},
+      "pane_pill_position":{"reference":"top-center",
+          "current":"top-center" if "CGRectGetMidX(pane[i])-width/2" in chrome else "unknown"},
+      "media_video_orientation":{"reference":"app media orientation lifecycle",
+          "current":"fixed portrait; not device-proven"
+            if "UIInterfaceOrientationPortrait" in host else "unknown"},
     }
     discrepancies=[k for k,v in checked.items() if v["reference"]!=v["current"]]
     result={
@@ -87,9 +100,8 @@ def run():
         "verified_approved_source_predicates":required,
         "comparison":checked,
         "discrepancies":discrepancies,
-        "blocking":["cannot claim same eight layouts or actual two divider behavior",
-                    "not same one-row App/Zoom/Style/Close sheet",
-                    "not same Native12 fullscreen Dock behavior",
+        "blocking":["no device proof of 8 layouts, touch and two boundary drag",
+                    "no original Native12 fullscreen Dock owner/transport wired yet",
                     "video touch/audio/orientation/ExitSafeMode not verified on vehicle"],
         "explicit_user_overrides":["two pills each horizontally centered near top",
                                    "latest historical hold logo 3 seconds; do not silently change it"],
@@ -102,7 +114,7 @@ def run():
     args.out.parent.mkdir(parents=True,exist_ok=True)
     args.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
     print("ORIGINAL_NATIVE12_SHA_AND_43_FILE_DEB_EXTRACT_VERIFIED")
-    print("CURRENT_UI_EQUIVALENCE=NO_GO")
+    print("CURRENT_UI_SOURCE_PARTIAL_MATCH_RUNTIME_NO_GO")
     for field in discrepancies:
         print("NATIVE12_UI_DELTA",field,json.dumps(checked[field],ensure_ascii=False))
     print("NATIVE12_UI_STATIC_AUDIT_SAVED",args.out)

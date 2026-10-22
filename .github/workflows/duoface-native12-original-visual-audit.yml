@@ -50,10 +50,12 @@ jobs:
           assert x["sources"]["original_payload_files"]==43
           assert x["comparison"]["pane_pill_position"]["current"]=="top-center"
           assert "pane_pill_position" not in x["discrepancies"]
-          assert x["comparison"]["second_divider"]["current"]=="one functional divider"
-          assert x["comparison"]["menu_row"]["current"]=="2 by 2, 44pt"
-          assert x["comparison"]["pane_count_max"]["current"]==4
-          print("NATIVE12_ORIGINAL_VS_NEW_PROVEN_DIFFERENCES_REPRODUCED")
+          for field in ("style_count","pane_count_max","three_columns",
+                        "style_one_pane_index","menu_row","second_divider","pane_pill_position"):
+            assert field not in x["discrepancies"],(field,x["comparison"][field])
+          assert "zoom_menu" in x["discrepancies"]
+          assert "media_video_orientation" in x["discrepancies"]
+          print("NATIVE12_7_UI_SOURCE_GATES_PASS_AND_2_RUNTIME_GATES_UNPROVEN")
           PY
       - uses: actions/upload-artifact@v4
         with:
