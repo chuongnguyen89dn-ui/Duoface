@@ -72,7 +72,7 @@ def main():
    "current_independent_style_picker_count":9 if current_nine else "unknown",
    "eight_from_project_authored_reconstruction_not_original_machine_code":True,
    "do_not_assert_mapping_from_card_count_alone":True,
-   "all_nine_original_visual_layout_shapes_verified":True,
+   "all_nine_original_visual_layout_shapes_verified":False,
    "original_native12_runtime_ui_tested":False,
    "new_duoface_device_tested":False,
    "release_allowed_based_on_this_audit":False
