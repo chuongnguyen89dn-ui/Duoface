@@ -304,8 +304,8 @@ void DFNativeHostLog(NSString *message) {
     // both splitPreset and splitMode before notifying Dashboard.
     if(splitPreset!=preset || splitMode!=preset)return;
     if(!isfinite(currentRatio) || currentRatio<1.0/3.0 ||
-       currentRatio>2.0/3.0 || count!=4 || active<1 || active>3 ||
-       preset<0 || preset>7 || focus< -1 || focus>=active ||
+       currentRatio>2.0/3.0 || count!=4 || active<1 || active>4 ||
+       preset<0 || preset>8 || focus< -1 || focus>=active ||
        selected<0 || selected>=active ||
        [state[@"RunningScenes"] integerValue]<0 ||
        [state[@"RunningScenes"] integerValue]>count ||
