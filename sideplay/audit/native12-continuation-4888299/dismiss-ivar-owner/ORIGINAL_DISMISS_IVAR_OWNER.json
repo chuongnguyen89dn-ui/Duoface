@@ -1,0 +1,76 @@
+{
+  "kind": "ORIGINAL_NATIVE12_CB_BRIDGED_UI_APP_VIEW_IVAR_OWNER_NOT_RUNTIME",
+  "original_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "original_dashboard_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "class": "CBBridgedUIAppView",
+  "class_vm": "0x380280",
+  "class_ro_vm": "0x37a848",
+  "dismiss_imp": "0xaf01c",
+  "captured_ivars": [
+    {
+      "name": "_hosting",
+      "type": "B",
+      "offset_slot": "0x37fcdc",
+      "offset": 8
+    },
+    {
+      "name": "_invalidated",
+      "type": "B",
+      "offset_slot": "0x37fce0",
+      "offset": 9
+    },
+    {
+      "name": "_audioOnlyBackgroundMode",
+      "type": "B",
+      "offset_slot": "0x37fce4",
+      "offset": 10
+    },
+    {
+      "name": "_bundleIdentifier",
+      "type": "@\"NSString\"",
+      "offset_slot": "0x37fcd4",
+      "offset": 16
+    },
+    {
+      "name": "_appViewController",
+      "type": "@\"SBAppViewController\"",
+      "offset_slot": "0x37fcec",
+      "offset": 24
+    },
+    {
+      "name": "_wrapperView",
+      "type": "@\"UIView\"",
+      "offset_slot": "0x37fce8",
+      "offset": 32
+    },
+    {
+      "name": "_appScale",
+      "type": "d",
+      "offset_slot": "0x37fcd8",
+      "offset": 40
+    }
+  ],
+  "callsite_owner_mapping": {
+    "controller_offset_slot": {
+      "name": "_appViewController",
+      "type": "@\"SBAppViewController\"",
+      "offset_slot": "0x37fcec",
+      "offset": 24
+    },
+    "secondary_offset_slot": {
+      "name": "_wrapperView",
+      "type": "@\"UIView\"",
+      "offset_slot": "0x37fce8",
+      "offset": 32
+    }
+  },
+  "secondary_receiver_selector": "removeFromSuperview",
+  "secondary_receiver_selector_pcs": [
+    "0xaf1a0",
+    "0xaf1a4"
+  ],
+  "runtime_receiver_identity_verified": false,
+  "vendor_binary_included": false,
+  "new_runtime_modified": false,
+  "device_verified": false
+}
