@@ -1,0 +1,33 @@
+# Native12 ORIGINAL scene settings block: giải nghĩa lời gọi bằng ARM64, không phỏng đoán (2026-10-22)
+
+## Nguồn thật và phạm vi
+
+- Original Native12 DEB pinned commit `1286a3ef868cf7e29804bcddf7e20b2eae707ce1`, SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`; `DuoFaceDashboard.dylib` SHA256 `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`. Không dùng DuoNavi/SidePlay làm bản gốc; không chép Mach-O vendor vào app mới.
+- [GitHub Actions 39737949588](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39737949588) **SUCCESS**; bản lưu thật `sideplay/audit/native12-continuation-4888299/scene-block-invoke/SCENE_SETTINGS_BLOCK_INVOKE_ARM64.json`, đúng **118 instruction**, range `0xadc74..0xade4c`, byte nguồn/hash và metadata đều kiểm tra. Lần thử đầu 39737765754 FAIL do `llvm-objdump` không có PATH trong *cùng* step, không phải lỗi nhị phân; sửa `ebe747e2`, lần 39737949588 PASS.
+- Caller `CBBridgedUIAppView.updateSceneSettingsFrame` IMP `0xad5bc`: `adaa8 adr x8,#460` tính invoke PC = `0xadc74`; `adab8 stp x8,x9,[sp,#0x20]` ghi invoke+descriptor vào block, `adabc stp d8,d9,[sp,#0x30]` capture native width,height, `adac0 add x2,sp,#0x10`, `adac4 x0=x25(scene)`, `adac8 x1=x26(updateSettingsWithBlock:)`, `adacc objc_msgSend`. Đây là đường gọi block **của scene**, không phải tín hiệu Zoom hay AVAudioSession.
+
+## Đúng thứ tự lệnh trong block invoke `0xadc74`
+
+Chú thích `objc message` trên lệnh `bl` dễ sai vì không theo lại x1; tra selector vừa nạp vào x1.
+
+| PC gốc | Đối tượng / điều kiện | Lệnh đã chứng minh |
+|---|---|---|
+| `adc84..adc90` | x21 block, x19 scene **settings object** (argument thứ 2 của block) | giữ settings để sửa trong block |
+| `adc98..adcb0` | `respondsToSelector:setFrame:` trên settings | nếu có, tại `adcb4..adcc8` gọi `setFrame:` với origin zero và width/height từ block captures `[x21,#0x20]` |
+| `adcd0..adcfc` | `class_getInstanceVariable("_frame")` | nếu ivar tồn tại, lấy offset và set origin (0,0) + native width,height vào `_frame`, dù setter có hay không |
+| `add04..add30` | `respondsToSelector:setForeground:` | truyền YES (w2=1) |
+| `add38..add64` | `respondsToSelector:setOccluded:` | truyền NO (w2=0) |
+| `add6c..add98` | `respondsToSelector:setUnderLock:` | truyền NO |
+| `adda0..addcc` | `respondsToSelector:setCanShowWhileLocked:` | truyền YES |
+| `addd4..ade00` | `respondsToSelector:setDeactivationReasons:` | truyền 0 |
+| `ade08..ade34` | `respondsToSelector:setIdleModeEnabled:` | truyền NO |
+| `ade38..ade48` | cleanup release | return |
+
+**Không được thay thế tất cả bằng một `setFrame` trên UIView**: block chỉnh *FBS scene settings* và cờ foreground/occlusion/lock, không chỉ điều chỉnh layer của app. `DFSceneHost.layoutScene` hiện chỉ transform UIKit + commit child2,child3,parent2 ở `commitSceneGeometry:`; chưa có tương đương scene settings mutation. Đây là GAP **đã chứng minh bằng instruction gốc**. Parent/child setters và KVC fallback đã nối trong `0.1.42`, nhưng không đủ để gọi media parity.
+
+## Ranh giới an toàn để triển khai tiếp
+
+- Cần xác thực scene settings receiver thuộc scene đang hosting app thật; `DFSceneHost.pollScene` đã có `sceneHandle`, `sceneIfExists`, `isHostingAnApp`, `viewAttached` gate nhưng đó chỉ là readiness, không chứng minh `updateSettingsWithBlock:` khả dụng trên iPhone X.
+- Trước khi thêm block mutation, phải kiểm trace của bản Native12 `dismiss` IMP `0xaf01c` và `DFSceneHost.stop` để hiểu cờ `setForeground`, `setOccluded`, `_frame` sẽ được phục hồi/hủy lúc Home/ExitSafeMode. Không tự bật foreground hay `setCanShowWhileLocked:` khi chưa giải teardown; đây là thay đổi trạng thái hệ thống.
+- Cần test thực sau khi có implementation theo ABI: hai video/apps, seek/play/audio, resize, Home/Close/respring, device iOS16. Đồng thời giữ `UIInterfaceOrientationPortrait=1` theo bản original. Không đồng nhất build/test tĩnh với kết quả thiết bị.
+- Original blocker `0xadc74` đã **giải mã được invoke body**; nội dung block bây giờ có bằng chứng thực. Chưa có mã mới thực thi các setters trên scene, chưa tuyên bố fix video hoặc ExitSafeMode.
