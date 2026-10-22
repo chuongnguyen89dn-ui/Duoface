@@ -35,7 +35,9 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
         [self.closeRunning setTitle:@"Đóng" forState:UIControlStateNormal];
         self.closeRunning.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         self.closeRunning.tintColor=UIColor.whiteColor;
-        self.closeRunning.backgroundColor=[UIColor colorWithRed:.5 green:.13 blue:.15 alpha:.96];
+        // Match the proven original CLOSE ALL red instead of a guessed shade.
+        self.closeRunning.backgroundColor=
+            [UIColor colorWithRed:.88 green:.18 blue:.22 alpha:.95];
         self.closeRunning.layer.cornerRadius=6;
         [self.contentView addSubview:self.closeRunning];
         self.restartRunning=[UIButton buttonWithType:UIButtonTypeSystem];
@@ -115,7 +117,11 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     [self.closeAllRunningButton setTitle:@"Đóng tất cả" forState:UIControlStateNormal];
     self.closeAllRunningButton.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
     self.closeAllRunningButton.tintColor=UIColor.whiteColor;
-    self.closeAllRunningButton.backgroundColor=[UIColor colorWithRed:.5 green:.13 blue:.15 alpha:.96];
+    // Original Native12 @0xa6ab4..0xa6ad8 exact verified literals:
+    // red 0x30fab8=.88, green 0x30fac0=.18,
+    // blue 0x311730=.22, alpha 0x30faf8=.95.
+    self.closeAllRunningButton.backgroundColor=
+        [UIColor colorWithRed:.88 green:.18 blue:.22 alpha:.95];
     self.closeAllRunningButton.layer.cornerRadius=14;
     self.closeAllRunningButton.hidden=YES;
     [self.closeAllRunningButton addTarget:self action:@selector(closeAllRunningTapped:)
