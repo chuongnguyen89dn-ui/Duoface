@@ -487,7 +487,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];",menu)
   for key in ("case 0:","case 1:","case 2:","case 3:"):
    self.assertIn(key,menu)
-  self.assertIn("self.preset=selected",menu)
+  self.assertIn("case 2:[self openStylePicker];break;",menu)
   self.assertIn("closeHostedSlot:self.selectedSlot",menu)
 
  def test_media_scene_deduplicates_private_resize_in_pending_state(self):
