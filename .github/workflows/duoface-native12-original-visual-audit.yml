@@ -28,6 +28,7 @@ jobs:
           git fetch --no-tags --depth=1 origin "$VIS"
           git show "$VIS:replacement/visual12/engine/DFILayouts.h" > "$RUNNER_TEMP/DFILayouts.h"
           git show "$VIS:replacement/visual12/engine/runtime/DFIInterface.inc" > "$RUNNER_TEMP/DFIInterface.inc"
+          git show "$VIS:replacement/visual12/engine/runtime/DFINativeShell.inc" > "$RUNNER_TEMP/DFINativeShell.inc"
           printf '%s\n' 'EXTRACTED_PINNED_NATIVE12_REAL_DEB_AND_APPROVED_INDEPENDENT_UI_REFERENCE'
       - name: Compare source UI semantics without modifying old DEB or shipping a release
         shell: bash
@@ -38,6 +39,7 @@ jobs:
             --extracted "$RUNNER_TEMP/original-extracted" \
             --layout "$RUNNER_TEMP/DFILayouts.h" \
             --ui "$RUNNER_TEMP/DFIInterface.inc" \
+            --pill "$RUNNER_TEMP/DFINativeShell.inc" \
             --out sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json
           test -s sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json
           python3 - <<'PY'
@@ -47,6 +49,8 @@ jobs:
           assert x["status"]=="NO_GO_NATIVE12_EXACT_VISUAL_FUNCTION_PARITY"
           assert x["sources"]["original_payload_files"]==43
           assert x["comparison"]["pane_pill_position"]["current"]=="top-center"
+          assert "pane_pill_position" not in x["discrepancies"]
+          assert x["comparison"]["second_divider"]["current"]=="one functional divider"
           assert x["comparison"]["menu_row"]["current"]=="2 by 2, 44pt"
           assert x["comparison"]["pane_count_max"]["current"]==4
           print("NATIVE12_ORIGINAL_VS_NEW_PROVEN_DIFFERENCES_REPRODUCED")
