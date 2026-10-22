@@ -8,7 +8,7 @@ class OriginalGalleryGeometry(unittest.TestCase):
         self.assertIsNotNone(compiler, "C compiler required for executed gallery geometry")
         with tempfile.TemporaryDirectory() as tmp:
             p=pathlib.Path(tmp)
-            (p/"test.c").write_text('#include <stdio.h>\n#include "DFNative12GalleryGeometry.h"\nint main(void){double w[]={320,450.3333333,470,559.999,560,600,960};for(int i=0;i<7;i++){DFNative12GalleryMetrics m=DFNative12Gallery(w[i]);printf("%.9f %d %.9f %.9f %.9f %.9f %.9f\\n",w[i],m.columns,m.cardWidth,m.cardHeight,m.rowStride,m.contentHeight,m.previewWidth);}return 0;}\n')
+            (p/"test.c").write_text('#include <stdio.h>\n#include "DFNative12GalleryGeometry.h"\nint main(void){double w[]={320,450.3333333,470,559.999,560,600,960};for(int i=0;i<7;i++){DFNative12GalleryMetrics m=DFNative12Gallery(w[i]);printf("%.9f %d %.9f %.9f %.9f %.9f %.9f\n",w[i],m.columns,m.cardWidth,m.cardHeight,m.rowStride,m.contentHeight,m.previewWidth);}return 0;}\n')
             subprocess.run([compiler,"-std=c99","-Wall","-Werror","-I",str(R),str(p/"test.c"),"-lm","-o",str(p/"test")],check=True)
             rows=subprocess.check_output([str(p/"test")],text=True).splitlines()
         self.assertEqual(len(rows),7)
@@ -46,10 +46,10 @@ class OriginalGalleryGeometry(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             p=pathlib.Path(tmp)
             (p/"test_outer.c").write_text(
-                '#include <stdio.h>\\n#include "DFNative12OuterGeometry.h"\\n'
+                '#include <stdio.h>\n#include "DFNative12OuterGeometry.h"\n'
                 'int main(void){double wh[][2]={{320,240},{507.3333333,240},{480,320},{960,540},{800,299},{500,300},{499.99,299.99}};'
                 'for(int i=0;i<7;i++){DFNative12OuterSheetRect s=DFNative12OuterGeometry(wh[i][0],wh[i][1]);'
-                'printf("%.9f %.9f %.9f %.9f %.9f %.9f\\\\n",wh[i][0],wh[i][1],s.width,s.height,s.x,s.y);}return 0;}')
+                'printf("%.9f %.9f %.9f %.9f %.9f %.9f\\\n",wh[i][0],wh[i][1],s.width,s.height,s.x,s.y);}return 0;}')
             subprocess.run([compiler,"-std=c99","-Wall","-Werror","-I",str(R),str(p/"test_outer.c"),"-lm","-o",str(p/"outer")],check=True)
             rows=subprocess.check_output([str(p/"outer")],text=True).splitlines()
         self.assertEqual(len(rows),7)
