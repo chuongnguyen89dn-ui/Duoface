@@ -8,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString *const DFSceneHostDidFailNotification;
 FOUNDATION_EXPORT NSString *const DFSceneHostDidBecomeReadyNotification;
+FOUNDATION_EXPORT NSString *const DFSceneHostDidObserveTouchNotification;
 
 @interface DFSceneHost : NSObject
 + (instancetype)sharedHost;
