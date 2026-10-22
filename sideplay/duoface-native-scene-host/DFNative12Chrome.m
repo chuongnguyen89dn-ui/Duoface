@@ -800,7 +800,13 @@ static void DFCLog(NSString *text) {
     CGRect brandFrame=CGRectMake(8,7,logoW,30);
     self.menuBrandImage.frame=brandFrame;
     self.pickerBrand.frame=brandFrame;
-    self.menuDismiss.frame=CGRectMake(width-42,9,32,26);
+    // The initial X was decoded from original setupCardContent. Re-layout
+    // must NOT override it with the old local 32×26 invented rectangle.
+    DFNative12CardHeader originalMenu=DFOriginalCardHeader(width,height);
+    self.menuDismiss.frame=CGRectMake(originalMenu.dismiss.x,
+                originalMenu.dismiss.y,originalMenu.dismiss.width,
+                originalMenu.dismiss.height);
+    self.menuDismiss.layer.cornerRadius=originalMenu.dismiss.width/2;
     self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
