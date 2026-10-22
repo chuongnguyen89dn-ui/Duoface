@@ -22,7 +22,8 @@ jobs:
           set -euo pipefail
           command -v llvm-objdump || brew install llvm
           command -v dpkg-deb || brew install dpkg
-          echo "/opt/homebrew/opt/llvm/bin" >> "$GITHUB_PATH"
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+          command -v llvm-objdump
           mkdir -p "$RUNNER_TEMP/native12-block"
           git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
           git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12-block/native12.deb"
