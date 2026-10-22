@@ -1,3 +1,4 @@
+#import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
 #import "DFNative12OuterGeometry.h"
@@ -457,42 +458,82 @@ static void DFCLog(NSString *text) {
     styleMaterial.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     styleMaterial.userInteractionEnabled=NO;
     [styleSheet addSubview:styleMaterial];
-    // Style is the second page of the SAME Native12 30pt picker header,
-    // not an invented screen with unrelated stacked headings.
-    UIImageView *styleLogo=[[UIImageView alloc]initWithImage:horizontal];
+    // Original Native12 CBMultitaskingOverlayView.setupCardContent @0xa2a58:
+    // The INNER selector is Apps / Layout / Recent (three modes), not
+    // the separate OUTER App / Zoom / Style / Close toolbar above.
+    // This geometry was decoded from original immutable Dashboard bytes;
+    // no vendor application code or licensing is executed here.
+    DFNative12CardHeader native=DFOriginalCardHeader(styleW,styleH);
+    UIImageView *styleLogo=[[UIImageView alloc] initWithImage:
+        [UIImage systemImageNamed:@"rectangle.split.2x1.fill"]];
+    styleLogo.frame=CGRectMake(native.icon.x,native.icon.y,
+                              native.icon.width,native.icon.height);
+    styleLogo.tintColor=[UIColor colorWithRed:.08 green:.52 blue:1 alpha:1];
     styleLogo.contentMode=UIViewContentModeScaleAspectFit;
-    styleLogo.frame=CGRectMake(8,7,MIN(120,styleW*.25),30);
     styleLogo.userInteractionEnabled=NO;
     [styleSheet addSubview:styleLogo];
     self.styleHeaderLogo=styleLogo;
+    UILabel *styleTitle=[UILabel new];
+    styleTitle.text=@"Layout"; // Original localized OVERLAY_LAYOUT mode 1.
+    styleTitle.textColor=UIColor.whiteColor;
+    styleTitle.font=[UIFont systemFontOfSize:styleW<440?11.5:13 weight:UIFontWeightBold];
+    styleTitle.adjustsFontSizeToFitWidth=YES;
+    styleTitle.minimumScaleFactor=.7;
+    styleTitle.lineBreakMode=NSLineBreakByTruncatingTail;
+    styleTitle.frame=CGRectMake(native.title.x,native.title.y,
+                                 native.title.width,native.title.height);
+    [styleSheet addSubview:styleTitle];
+    UIView *modeBar=[[UIView alloc] initWithFrame:CGRectMake(native.tabs.x,
+        native.tabs.y,native.tabs.width,native.tabs.height)];
+    modeBar.layer.cornerRadius=8;
+    modeBar.layer.cornerCurve=kCACornerCurveContinuous;
+    modeBar.clipsToBounds=YES;
+    [styleSheet addSubview:modeBar];
+    NSArray *innerModeNames=@[@"Apps",@"Layout",@"Recent"];
+    const NSInteger innerModeTags[3]={0,2,3}; // existing real owner actions
     NSMutableArray<UIButton *> *styleTabs=[NSMutableArray new];
-    const CGFloat styleTabWidths[4]={43,51,47,51};
-    CGFloat styleBX=8+MIN(120,MAX(65,styleW*.25))+5;
-    CGFloat styleScale=MIN(1.0,MAX(.58,(styleW-MIN(120,MAX(65,styleW*.25))-68)/192));
-    for(NSInteger tab=0;tab<4;tab++){
-        UIButton *action=[self button:names[(NSUInteger)tab] tag:tab
-                      action:@selector(menuAction:)];
-        action.frame=CGRectMake(styleBX,7,styleTabWidths[tab]*styleScale,30);
-        styleBX+=styleTabWidths[tab]*styleScale;
-        action.titleLabel.font=[UIFont systemFontOfSize:10];
+    for(NSInteger tab=0;tab<3;tab++){
+        UIButton *action=[self button:innerModeNames[(NSUInteger)tab]
+                                  tag:innerModeTags[tab]
+                               action:@selector(menuAction:)];
+        DFNative12CardRect frame=native.tabButtons[tab];
+        action.frame=CGRectMake(frame.x,frame.y,frame.width,frame.height);
+        action.titleLabel.font=[UIFont systemFontOfSize:styleW<440?10:11
+                                                      weight:UIFontWeightMedium];
         action.titleLabel.adjustsFontSizeToFitWidth=YES;
-        action.titleLabel.minimumScaleFactor=.75;
-        action.titleLabel.lineBreakMode=NSLineBreakByClipping;
-        [styleSheet addSubview:action];
+        action.titleLabel.minimumScaleFactor=.7;
+        action.layer.cornerRadius=6;
+        action.layer.cornerCurve=kCACornerCurveContinuous;
+        action.backgroundColor=tab==1?
+            [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:
+            UIColor.clearColor;
+        [modeBar addSubview:action];
         [styleTabs addObject:action];
     }
     self.styleHeaderActions=styleTabs;
-    UIButton *dismissStyle=[self button:@"×" tag:0 action:@selector(closeStylePicker:)];
-    dismissStyle.frame=CGRectMake(styleW-42,9,32,26);
+    // The original X image dismisses its sheet; Recent/Close is a
+    // different action that works only on real owned app scenes.
+    UIButton *dismissStyle=[self button:@"" tag:0 action:@selector(closeStylePicker:)];
+    dismissStyle.frame=CGRectMake(native.dismiss.x,native.dismiss.y,
+                                  native.dismiss.width,native.dismiss.height);
+    dismissStyle.backgroundColor=[UIColor colorWithRed:.18 green:.18 blue:.22 alpha:.9];
+    dismissStyle.layer.cornerRadius=native.dismiss.width/2;
+    [dismissStyle setImage:[UIImage systemImageNamed:@"xmark"]
+                 forState:UIControlStateNormal];
+    dismissStyle.tintColor=UIColor.whiteColor;
+    dismissStyle.accessibilityLabel=@"Đóng menu";
     [styleSheet addSubview:dismissStyle];
+    UIView *headerSeparator=[[UIView alloc] initWithFrame:
+        CGRectMake(0,native.headerHeight,styleW,.5)];
+    headerSeparator.backgroundColor=[UIColor colorWithWhite:1 alpha:.12];
+    [styleSheet addSubview:headerSeparator];
     NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",
          @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
          @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới",
           @"Bốn ô"];
-    // Exact original card container/metrics from original IMP 0xa5e78.
-    // Keep the existing outer sheet/header until their own binary audit is done.
+    // Original @0xa3dd8 passes headerHeight+.5 to the nine-preset page.
     UIScrollView *gallery=[[UIScrollView alloc] initWithFrame:
-        CGRectMake(0,46,styleW,MAX(1,styleH-46-4))];
+        CGRectMake(0,native.contentY,styleW,MAX(1,styleH-native.contentY-4))];
     gallery.contentSize=CGSizeMake(styleW,194);
     gallery.delaysContentTouches=YES;
     [styleSheet addSubview:gallery];
