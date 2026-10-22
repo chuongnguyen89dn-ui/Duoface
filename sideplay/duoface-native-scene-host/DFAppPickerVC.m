@@ -2,11 +2,11 @@
 // Native12 CBMultitaskingOverlayView CARD/RECENT behavior contract.
 // Real installed bundles from DFAppLibrary; no private vendor runtime.
 #import "DFAppPickerVC.h"
+#import "DFNative12CardHeaderGeometry.h"
 #import "DFAppLibrary.h"
 #import <objc/message.h>
 #import <math.h>
 
-static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 @interface DFNativeAppCard : UICollectionViewCell
 @property(nonatomic,strong) UIImageView *icon;
 @property(nonatomic,strong) UILabel *title;
@@ -69,7 +69,13 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
 
 @interface DFAppPickerVC () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property(nonatomic,strong) UIView *sheet;
-@property(nonatomic,strong) UISegmentedControl *modes;
+@property(nonatomic,strong) UIView *modes;
+@property(nonatomic,strong) NSArray<UIButton *> *modeButtons;
+@property(nonatomic,assign) NSInteger currentMode;
+@property(nonatomic,strong) UIImageView *headerIcon;
+@property(nonatomic,strong) UIView *headerSeparator;
+@property(nonatomic,strong) UIImageView *emptyImage;
+@property(nonatomic,strong) UILabel *emptyTitle;
 @property(nonatomic,strong) UICollectionView *cards;
 @property(nonatomic,strong) UIPageControl *pageControl;
 @property(nonatomic,assign) NSInteger cardsPerPage;
@@ -93,24 +99,44 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     self.sheet.layer.borderWidth=.5;
     self.sheet.layer.borderColor=[UIColor colorWithWhite:1 alpha:.25].CGColor;
     [self.view addSubview:self.sheet];
-    UIImage *logo=[UIImage imageWithContentsOfFile:
-       @"/var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo-picker-alpha-v2.png"];
-    if(logo){
-        UIImageView *brand=[[UIImageView alloc]initWithImage:logo];
-        brand.contentMode=UIViewContentModeScaleAspectFit;
-        brand.tag=927;
-        [self.sheet addSubview:brand];
-    }
+    // Original setupCardContent @0xa2a58 uses a mode-specific 18pt SF symbol.
+    // Outer four actions retain their separate approved DuoFace PNG assets.
+    self.headerIcon=[UIImageView new];
+    self.headerIcon.contentMode=UIViewContentModeScaleAspectFit;
+    self.headerIcon.tintColor=[UIColor colorWithRed:.08 green:.52 blue:1 alpha:1];
+    [self.sheet addSubview:self.headerIcon];
     self.titleLabel=[UILabel new];
     self.titleLabel.text=@"ỨNG DỤNG";
     self.titleLabel.textColor=UIColor.whiteColor;
     self.titleLabel.font=[UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     [self.sheet addSubview:self.titleLabel];
-    self.modes=[[UISegmentedControl alloc]initWithItems:@[@"Ứng dụng",@"Gần đây"]];
-    self.modes.selectedSegmentIndex=0;
-    self.modes.selectedSegmentTintColor=[UIColor colorWithRed:227./255 green:2./255 blue:15./255 alpha:1];
-    [self.modes addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventValueChanged];
+    // Original inner overlay: THREE real modes (Apps, Layout, Recent),
+    // not stored launch-history masquerading as currently running apps.
+    self.modes=[UIView new];
+    self.modes.layer.cornerRadius=8;
+    self.modes.layer.cornerCurve=kCACornerCurveContinuous;
+    self.modes.clipsToBounds=YES;
     [self.sheet addSubview:self.modes];
+    NSArray<NSString *> *names=@[@"Apps",@"Layout",@"Recent"];
+    NSMutableArray<UIButton *> *actions=[NSMutableArray new];
+    for(NSInteger i=0;i<3;i++){
+        UIButton *tab=[UIButton buttonWithType:UIButtonTypeSystem];
+        tab.tag=i;
+        [tab setTitle:names[(NSUInteger)i] forState:UIControlStateNormal];
+        tab.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
+        tab.titleLabel.adjustsFontSizeToFitWidth=YES;
+        tab.titleLabel.minimumScaleFactor=.7;
+        tab.layer.cornerRadius=6;
+        [tab addTarget:self action:@selector(nativeModePressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+        [self.modes addSubview:tab];
+        [actions addObject:tab];
+    }
+    self.modeButtons=actions;
+    self.currentMode=0;
+    self.headerSeparator=[UIView new];
+    self.headerSeparator.backgroundColor=[UIColor colorWithWhite:1 alpha:.12];
+    [self.sheet addSubview:self.headerSeparator];
     // The original RECENT mode is a list of REAL running apps and provides
     // a separate CLOSE ALL button (original @0xa6c74 / @0xa6d70).
     self.closeAllRunningButton=[UIButton buttonWithType:UIButtonTypeSystem];
@@ -152,49 +178,101 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     [self.cards registerClass:DFNativeAppCard.class forCellWithReuseIdentifier:@"DFNativeCard"];
     [self.sheet addSubview:self.cards];
     self.pageControl=[UIPageControl new];
-    self.pageControl.pageIndicatorTintColor=[UIColor colorWithWhite:.5 alpha:1];
-    self.pageControl.currentPageIndicatorTintColor=[UIColor colorWithRed:227./255
-                                                        green:2./255 blue:15./255 alpha:1];
+    self.pageControl.pageIndicatorTintColor=[UIColor colorWithWhite:1 alpha:.25]; // original @a42fc
+    self.pageControl.currentPageIndicatorTintColor=UIColor.whiteColor; // original @a4338
     [self.pageControl addTarget:self action:@selector(pageControlChanged:)
                 forControlEvents:UIControlEventValueChanged];
     self.pageControl.accessibilityLabel=@"Trang ứng dụng DuoFace";
     [self.sheet addSubview:self.pageControl];
     self.closeButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    [self.closeButton setTitle:@"×" forState:UIControlStateNormal];
+    [self.closeButton setImage:[UIImage systemImageNamed:@"xmark"]
+                   forState:UIControlStateNormal];
     self.closeButton.tintColor=UIColor.whiteColor;
-    self.closeButton.titleLabel.font=[UIFont systemFontOfSize:27];
+    self.closeButton.backgroundColor=[UIColor colorWithRed:.18 green:.18 blue:.22 alpha:.9];
     self.closeButton.accessibilityLabel=@"Đóng bảng chọn ứng dụng";
     [self.closeButton addTarget:self action:@selector(closeTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.sheet addSubview:self.closeButton];
+    // Byte-verified original zero-result artwork:
+    // Apps @a45ac, genuine running @a7b64. No fake app cards.
+    self.emptyImage=[UIImageView new];
+    self.emptyImage.contentMode=UIViewContentModeScaleAspectFit;
+    [self.sheet addSubview:self.emptyImage];
+    self.emptyTitle=[UILabel new];
+    self.emptyTitle.textColor=UIColor.whiteColor;
+    self.emptyTitle.font=[UIFont systemFontOfSize:13.5 weight:UIFontWeightSemibold];
+    self.emptyTitle.textAlignment=NSTextAlignmentCenter;
+    [self.sheet addSubview:self.emptyTitle];
     self.apps=@[];
     self.runningBundleIDs=@[];
     [self refreshInstalledApps];
 }
+- (void)updateNativeModeButtons {
+    for(UIButton *tab in self.modeButtons){
+        BOOL selected=(tab.tag==self.currentMode);
+        tab.backgroundColor=selected?
+             [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:UIColor.clearColor;
+        [tab setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    }
+    NSString *name=self.currentMode==0?@"square.grid.2x2.fill":
+                   self.currentMode==1?@"rectangle.split.2x1.fill":@"app.badge.fill";
+    self.headerIcon.image=[UIImage systemImageNamed:name];
+}
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    CGRect bounds=self.view.bounds;
-    self.sheet.frame=CGRectInset(bounds,2,2);
+    // Host window now uses Native12's original outer sheet geometry.
+    self.sheet.frame=self.view.bounds;
     CGFloat w=CGRectGetWidth(self.sheet.bounds),h=CGRectGetHeight(self.sheet.bounds);
-    UIView *logo=[self.sheet viewWithTag:927];
-    logo.frame=CGRectMake(10,7,MIN(w*.28,112),27);
-    self.titleLabel.frame=CGRectMake(CGRectGetMaxX(logo.frame)+5,6,
-                                    MAX(70,w-CGRectGetMaxX(logo.frame)-46),27);
-    self.closeButton.frame=CGRectMake(w-37,3,33,34);
-    self.modes.frame=CGRectMake(9,39,w-18,30);
-    self.modes.hidden=self.runningMode;
-    self.closeAllRunningButton.hidden=!self.runningMode || !self.runningBundleIDs.count;
-    self.closeAllRunningButton.frame=CGRectMake(MAX(116,w-134),40,MAX(65,MIN(120,w*.28)),28);
+    DFNative12CardHeader header=DFOriginalCardHeader(w,h);
+    self.headerIcon.frame=CGRectMake(header.icon.x,header.icon.y,
+                                      header.icon.width,header.icon.height);
+    self.titleLabel.frame=CGRectMake(header.title.x,header.title.y,
+                                      header.title.width,header.title.height);
+    self.titleLabel.font=[UIFont systemFontOfSize:w<440?11.5:13 weight:UIFontWeightBold];
+    self.modes.frame=CGRectMake(header.tabs.x,header.tabs.y,
+                                 header.tabs.width,header.tabs.height);
+    for(NSInteger i=0;i<3;i++){
+        DFNative12CardRect f=header.tabButtons[i];
+        self.modeButtons[(NSUInteger)i].frame=CGRectMake(f.x,f.y,f.width,f.height);
+        self.modeButtons[(NSUInteger)i].titleLabel.font=
+            [UIFont systemFontOfSize:w<440?10:11 weight:UIFontWeightMedium];
+    }
+    self.closeButton.frame=CGRectMake(header.dismiss.x,header.dismiss.y,
+                                       header.dismiss.width,header.dismiss.height);
+    self.closeButton.layer.cornerRadius=header.dismiss.width/2;
+    self.headerSeparator.frame=CGRectMake(0,header.headerHeight,w,.5);
+    [self updateNativeModeButtons];
+    // Keep running count/Close All in CONTENT, never over the three tabs.
+    CGFloat top=header.contentY;
+    self.closeAllRunningButton.hidden=!self.runningMode||!self.runningBundleIDs.count;
+    self.closeAllRunningButton.frame=CGRectMake(MAX(116,w-134),top+5,
+                                                  MAX(65,MIN(120,w*.28)),28);
     self.runningCountLabel.hidden=!self.runningMode;
-    self.runningCountLabel.frame=CGRectMake(10,39,MAX(80,w-153),30);
-    // One page has a single row of genuine installed-app cards. Each page
-    // fills the full viewport, including the padded final row.
-    self.cards.frame=CGRectMake(9,74,MAX(100,w-18),MAX(30,h-115));
-    self.pageControl.frame=CGRectMake(10,MAX(82,h-38),w-20,27);
-    // App original default 4x2; running mode reuses original
-    // CBMultitaskingOverlayView card/page UI with full-height action cells.
-    NSInteger columns=self.runningMode?4:4*2;
-    BOOL geometryChanged=(self.cardsPerPage!=columns);
-    self.cardsPerPage=columns;
+    self.runningCountLabel.frame=CGRectMake(10,top+5,MAX(80,w-153),28);
+    CGFloat gridTop=top+(self.runningMode?39:4);
+    CGFloat available=MAX(30,h-gridTop-34);
+    self.cards.frame=CGRectMake(9,gridTop,MAX(100,w-18),available);
+    self.pageControl.frame=CGRectMake(10,MAX(gridTop,h-32),w-20,26);
+    // Show actual Native12 no-app/no-running states only if the inventory
+    // is empty. The 4x2 inventory still contains ONLY installed real apps.
+    BOOL empty=self.visibleApps.count==0;
+    self.cards.hidden=empty;
+    self.emptyImage.hidden=!empty;
+    self.emptyTitle.hidden=!empty;
+    if(empty){
+        self.emptyImage.image=[UIImage systemImageNamed:self.runningMode?
+             @"checkmark.shield.fill":@"square.stack.3d.up.slash"];
+        self.emptyImage.tintColor=self.runningMode?
+             [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:
+             [UIColor colorWithWhite:1 alpha:.65];
+        CGFloat iconTop=gridTop+MAX(1,(available-80)/2);
+        self.emptyImage.frame=CGRectMake((w-28)/2,iconTop,28,28);
+        self.emptyTitle.frame=CGRectMake(10,iconTop+34,w-20,25);
+        self.emptyTitle.text=self.runningMode?
+             @"Không có ứng dụng đang chạy":@"Không có ứng dụng";
+    }
+    NSInteger capacity=self.runningMode?4:8;
+    BOOL geometryChanged=self.cardsPerPage!=capacity;
+    self.cardsPerPage=capacity;
     [self.cards.collectionViewLayout invalidateLayout];
     if(geometryChanged)[self reloadCards];
 }
@@ -213,17 +291,7 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
         }
         return active;
     }
-    if(self.modes.selectedSegmentIndex!=1)return self.apps;
-    NSArray *recent=[[NSUserDefaults standardUserDefaults] objectForKey:DFRecentKey];
-    if(![recent isKindOfClass:NSArray.class])return @[];
-    NSMutableArray<DFAppInfo *> *output=[NSMutableArray new];
-    for(id bundle in recent){
-        if(![bundle isKindOfClass:NSString.class])continue;
-        for(DFAppInfo *app in self.apps){
-            if([app.bundleID isEqualToString:bundle]){[output addObject:app];break;}
-        }
-    }
-    return output;
+    return self.apps;
 }
 - (NSInteger)pageCount {
     NSInteger count=(NSInteger)self.visibleApps.count;
@@ -239,19 +307,25 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     [self.cards reloadData];
     [self.cards setContentOffset:CGPointZero animated:NO];
 }
-- (void)modeChanged:(UISegmentedControl *)sender {
-    (void)sender;[self reloadCards];
+- (void)nativeModePressed:(UIButton *)sender {
+    switch(sender.tag){
+        case 0:[self presentInstalledApps];break;
+        case 1:[self.delegate appPickerDidRequestLayout:self];break;
+        case 2:[self.delegate appPickerDidRequestRunningApps:self];break;
+        default:break;
+    }
 }
 - (void)presentInstalledApps {
     self.runningMode=NO;
     self.runningBundleIDs=@[];
     self.titleLabel.text=@"ỨNG DỤNG";
-    self.modes.selectedSegmentIndex=0;
+    self.currentMode=0;
     [self.view setNeedsLayout];
     [self reloadCards];
 }
 - (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs {
     self.runningMode=YES;
+    self.currentMode=2;
     // No synthetic entries, no duplicates: only IDs actually observed in
     // the independent scene host by the menu owner.
     NSMutableOrderedSet<NSString *> *unique=[NSMutableOrderedSet new];
@@ -379,15 +453,6 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     if((NSUInteger)indexPath.item>=display.count)return;
     DFAppInfo *app=display[indexPath.item];
     if(app.bundleID.length){
-        NSArray *prior=[[NSUserDefaults standardUserDefaults] objectForKey:DFRecentKey];
-        NSMutableArray *recent=[NSMutableArray arrayWithObject:app.bundleID];
-        for(id other in [prior isKindOfClass:NSArray.class]?prior:@[]){
-            if([other isKindOfClass:NSString.class] && ![other isEqual:app.bundleID]){
-                [recent addObject:other];
-                if(recent.count>=12)break;
-            }
-        }
-        [[NSUserDefaults standardUserDefaults] setObject:recent forKey:DFRecentKey];
         [self.delegate appPicker:self didSelectBundleID:app.bundleID displayName:app.displayName];
     }
 }
