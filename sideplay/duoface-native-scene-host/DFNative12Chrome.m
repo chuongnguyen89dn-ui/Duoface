@@ -128,6 +128,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UIWindow *splashWindow;
 @property(nonatomic,assign) BOOL startupActive;
 @property(nonatomic,assign) NSTimeInterval borderUntil;
+@property(nonatomic,assign) NSTimeInterval controlsUntil;
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
@@ -246,10 +247,13 @@ static void DFCLog(NSString *text) {
 }
 - (BOOL)start {
     self.startupActive=YES;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneFailed:) name:DFSceneHostDidFailNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(realAppTouched:) name:DFSceneHostDidObserveTouchNotification object:nil];
     CGRect cr=self.contentRect;
     if(!isfinite(cr.origin.x)||!isfinite(cr.origin.y)||
        CGRectGetWidth(cr)<300||CGRectGetHeight(cr)<145)return NO;
@@ -271,19 +275,22 @@ static void DFCLog(NSString *text) {
                              action:@selector(zoomPressed:)];
         menu.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         zoom.titleLabel.font=[UIFont boldSystemFontOfSize:13];
-        // The approved picker PNG is a 256x70 COMPOSITE strip, not an
-        // icon. Stretching it into 48x22 made the enormous black/white
-        // blocks visible on the real CarPlay screenshot. Source-own the
-        // Native12 two-action pill and use proper alpha symbols instead.
+        // Original first-party PNG: fullscreen 88x88 RGBA; picker 256x70
+        // is the original face+line brand, not an ellipsis bitmap.
         [menu setTitle:@"" forState:UIControlStateNormal];
         [zoom setTitle:@"" forState:UIControlStateNormal];
         UIImageSymbolConfiguration *symbol=[UIImageSymbolConfiguration
-                      configurationWithPointSize:12 weight:UIImageSymbolWeightMedium];
+                       configurationWithPointSize:12 weight:UIImageSymbolWeightMedium];
         [menu setImage:[UIImage systemImageNamed:@"ellipsis" withConfiguration:symbol]
               forState:UIControlStateNormal];
-        [zoom setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"
-                                     withConfiguration:symbol]
-              forState:UIControlStateNormal];
+        UIImage *fullscreenArt=DFCArtwork(@"duoface-fullscreen");
+        if(fullscreenArt)
+            [zoom setImage:[fullscreenArt imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                  forState:UIControlStateNormal];
+        else
+            [zoom setImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"
+                                     withConfiguration:symbol] forState:UIControlStateNormal];
+        zoom.imageView.contentMode=UIViewContentModeScaleAspectFit;
         menu.frame=CGRectMake(0,0,38,22);
         zoom.frame=CGRectMake(38,0,38,22);
         [pill.contentView addSubview:menu];
@@ -318,9 +325,8 @@ static void DFCLog(NSString *text) {
     [logo addTarget:self action:@selector(swapPressed:)
               forControlEvents:UIControlEventTouchUpInside];
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
-    // The 120x120 reference swap bitmap includes an opaque dark square
-    // in this asset set. Use the original QA-native vector fallback instead:
-    // the divider logo must have no black disk/background on CarPlay.
+    // Verified 120x120 first-party duoface-swap.png is a circular face logo.
+    // Do not swap it for a counterfeit vector or a square placeholder.
     [logo setTitle:@"" forState:UIControlStateNormal];
     // Original-approved two-face swap artwork is 120x120 but has opaque
     // square corners. Circular-mask it at the Native12 28/30pt grip size
@@ -409,23 +415,17 @@ static void DFCLog(NSString *text) {
                          action:@selector(menuAction:)];
         b.frame=CGRectMake(bx,7,widths[i]*scale,30);
         bx+=widths[i]*scale;
-        UIImage *img=[UIImage systemImageNamed:symbols[(NSUInteger)i]];
-        [b setImage:img forState:UIControlStateNormal];
-        b.tintColor=UIColor.whiteColor;
+        // Original CBMultitaskingOverlayView uses a one-line titleLabel:
+        // stacked iOS15 image-over-title config clipped App/Zoom/Style/Close.
         b.titleLabel.font=[UIFont systemFontOfSize:10];
-        if(@available(iOS 15,*)){
-            UIButtonConfiguration *conf=[UIButtonConfiguration plainButtonConfiguration];
-            conf.title=names[(NSUInteger)i];
-            conf.image=img;
-            conf.imagePlacement=NSDirectionalRectEdgeTop;
-            conf.imagePadding=1;
-            b.configuration=conf;
-        }
+        b.titleLabel.adjustsFontSizeToFitWidth=YES;
+        b.titleLabel.minimumScaleFactor=.75;
+        b.titleLabel.lineBreakMode=NSLineBreakByClipping;
         [sheet addSubview:b];[actions addObject:b];
     }
     self.menuActions=actions;
     UILabel *hint=[UILabel new];
-    hint.text=@"Ô trái · App · Zoom · Style · Close";
+    hint.text=@"";hint.hidden=YES; // remove invented duplicate caption
     hint.font=[UIFont systemFontOfSize:9];
     hint.textColor=[UIColor colorWithWhite:.8 alpha:1];
     hint.textAlignment=NSTextAlignmentCenter;
@@ -475,17 +475,10 @@ static void DFCLog(NSString *text) {
                       action:@selector(menuAction:)];
         action.frame=CGRectMake(styleBX,7,styleTabWidths[tab]*styleScale,30);
         styleBX+=styleTabWidths[tab]*styleScale;
-        UIImage *icon=[UIImage systemImageNamed:symbols[(NSUInteger)tab]];
-        [action setImage:icon forState:UIControlStateNormal];
-        if(@available(iOS 15,*)){
-            UIButtonConfiguration *config=[UIButtonConfiguration plainButtonConfiguration];
-            config.title=names[(NSUInteger)tab];
-            config.image=icon;
-            config.imagePlacement=NSDirectionalRectEdgeTop;
-            config.imagePadding=1;
-            action.configuration=config;
-        }
         action.titleLabel.font=[UIFont systemFontOfSize:10];
+        action.titleLabel.adjustsFontSizeToFitWidth=YES;
+        action.titleLabel.minimumScaleFactor=.75;
+        action.titleLabel.lineBreakMode=NSLineBreakByClipping;
         [styleSheet addSubview:action];
         [styleTabs addObject:action];
     }
@@ -647,10 +640,11 @@ static void DFCLog(NSString *text) {
 }
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0;
     NSUInteger seq=++self.borderGeneration;
     [self layoutControls];
     __weak typeof(self) weakOwner=self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(2.1*NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.15*NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         DFNative12Chrome *owner=weakOwner;
         if(owner && owner.borderGeneration==seq){
@@ -658,6 +652,11 @@ static void DFCLog(NSString *text) {
             [owner layoutControls];
         }
     });
+}
+- (void)realAppTouched:(NSNotification *)note {
+    if(![note.object isKindOfClass:UIView.class] ||
+       self.startupActive || self.pickerVisible || self.styleVisible)return;
+    [self noteUserActivity];
 }
 - (NSDictionary<NSString *,id> *)stateSnapshot {
     // A post-action observation of REAL owned scenes and layout; never
@@ -754,8 +753,7 @@ static void DFCLog(NSString *text) {
         region=self.selectedSlot==0?@"trái":@"phải";
     else if(self.preset==2 && self.selectedSlot<2)
         region=self.selectedSlot==0?@"trên":@"dưới";
-    self.menuContext.text=[NSString stringWithFormat:
-        @"Ô %@ · App · Zoom · Style · Close",region];
+    self.menuContext.text=@"";self.menuContext.hidden=YES;
     self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
 - (void)layoutControls {
@@ -789,6 +787,16 @@ static void DFCLog(NSString *text) {
         BOOL ready=[self.sceneHandleReady[(NSUInteger)physicalSlot] boolValue];
         BOOL focused=(self.focus==i);
         BOOL show=(self.focus<0 || focused)&&!self.pickerVisible&&!self.styleVisible;
+        BOOL allReady=YES;
+        for(NSInteger k=0;k<activeSlots;k++){
+            NSInteger actual=(self.swapped && k<2)?1-k:k;
+            if(![self.sceneHandleReady[(NSUInteger)actual] boolValue]){
+                allReady=NO;break;
+            }
+        }
+        // A missing real app must keep its launch controls. When fully
+        // populated, pill controls auto-hide until actual pane touches.
+        show=show && (!allReady || NSDate.date.timeIntervalSince1970<=self.controlsUntil);
         CGFloat compact=(pane[i].size.width<320||pane[i].size.height<220);
         // Two split-pane controls must be usable before a scene is loaded.
         // Pressing Zoom on an empty pane opens the actual installed app picker.
@@ -810,7 +818,8 @@ static void DFCLog(NSString *text) {
         // Never silently hide the second button in an empty/pending pane.
         zoom.hidden=NO;
         zoom.accessibilityLabel=ready?@"Zoom ứng dụng":@"Chọn ứng dụng để dùng Zoom";
-        UIImage *icon=[UIImage systemImageNamed:self.focus==i?
+        UIImage *icon=DFCArtwork(@"duoface-fullscreen");
+        if(!icon)icon=[UIImage systemImageNamed:self.focus==i?
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
         [zoom setImage:icon forState:UIControlStateNormal];
@@ -833,6 +842,7 @@ static void DFCLog(NSString *text) {
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
+    self.dividerLogo.hidden=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
     if(!CGRectIsNull(second)){
@@ -1053,6 +1063,7 @@ static void DFCLog(NSString *text) {
           if([prior isKindOfClass:UIView.class] && prior!=host)
               [[DFSceneHost sharedHost] releaseHostedView:prior];
           NSInteger visual=(self.swapped && i<2)?1-i:i;
+          [self noteUserActivity];
           [self emit:@"App" ratio:@(visual)];
           DFCLog([NSString stringWithFormat:
               @"scene-replace-committed-render-unverified slot=%ld bundle=%@",
@@ -1084,6 +1095,7 @@ static void DFCLog(NSString *text) {
        }
     }
 }
+// Original Close ends selected app; X dismisses the menu only.
 - (void)closeHostedSlot:(NSInteger)slot {
     NSInteger physicalSlot=(self.swapped && slot<2)?1-slot:slot;
     if(physicalSlot<0||physicalSlot>=DFSlotCountForPreset(self.preset))return;
