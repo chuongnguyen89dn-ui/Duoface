@@ -31,3 +31,14 @@ Chú thích `objc message` trên lệnh `bl` dễ sai vì không theo lại x1; 
 - Trước khi thêm block mutation, phải kiểm trace của bản Native12 `dismiss` IMP `0xaf01c` và `DFSceneHost.stop` để hiểu cờ `setForeground`, `setOccluded`, `_frame` sẽ được phục hồi/hủy lúc Home/ExitSafeMode. Không tự bật foreground hay `setCanShowWhileLocked:` khi chưa giải teardown; đây là thay đổi trạng thái hệ thống.
 - Cần test thực sau khi có implementation theo ABI: hai video/apps, seek/play/audio, resize, Home/Close/respring, device iOS16. Đồng thời giữ `UIInterfaceOrientationPortrait=1` theo bản original. Không đồng nhất build/test tĩnh với kết quả thiết bị.
 - Original blocker `0xadc74` đã **giải mã được invoke body**; nội dung block bây giờ có bằng chứng thực. Chưa có mã mới thực thi các setters trên scene, chưa tuyên bố fix video hoặc ExitSafeMode.
+
+
+## Kiểm tra teardown thật trước khi can thiệp block
+
+Đọc lại **111 instructions nguyên văn** của `CBBridgedUIAppView.dismiss` IMP `0xaf01c` tại `gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json`, cùng source `DFSceneHost.stop`. Không lấy nhầm DuoNavi 1.0.4 dismiss `0xaedf8`.
+
+- `af03c`: trên **CBBridgedUIAppView x19**, setter `setInvalidated:YES`; `af054` setter `setHosting:NO`. Hai setter này trên bridge view **không phải** chắc chắn có trên `SBAppViewController` độc lập; không tự gửi selector sang sai receiver.
+- `af060` load controller con từ ivar `[x19,x23]`; `af088..af0ac` appearance NO nếu selector có; `af0c4..af0d8` yêu cầu mode=0 nếu có; `af118..af130` willMove parent nil; `af148..af158` remove parent nếu có; `af170..af180` invalidate controller nếu có; `af184..af18c` nil ivar và release.
+- **Cảnh báo sai chú thích thực tế:** `af0f8` và `af1a0` đều nạp **cùng selector ref** `[x22,#0xb28]`; `af0fc` gọi nó trên app view, `af1a4` gọi trên đối tượng thứ hai `[x19,x20]`. `llvm-objdump` annotate `af0fc` là `view`, `af1a4` là `invalidate` nhưng cả hai **cùng địa chỉ selector**; hai tên annotation không thể đồng thời chính xác. PHẢI resolve byte selref trước khi kết luận `af1a4` là `scene.invalidate`. Chưa vá `DFSceneHost.stop` theo chú thích này.
+- Độc lập `DFSceneHost.stop` đã idempotent `self.stopped` + invalidate timer + appearance NO + mode0 + detach + invalidate appController. Hiện không sở hữu instance `CBBridgedUIAppView`, nên không có đối tượng hợp lệ để gọi hai setter bridge-view gốc. Chưa có bằng chứng an toàn rollback cờ scene settings khi CarPlay Home/ExitSafeMode.
+- **Giới hạn:** việc original block đặt `setForeground:YES`, `setOccluded:NO`, `setCanShowWhileLocked:YES` đã có byte-proof, nhưng chưa được nối live vì phải map đúng scene/settings ownership và teardown. Đây là khác biệt đã định danh, **không phải kết quả đã sửa**. Tiêu chí bổ sung: resolve `[x22,#0xb28]` bằng Mach-O selector refs và tra owner ivar type, sau đó implement nhỏ nhất và device verify.
