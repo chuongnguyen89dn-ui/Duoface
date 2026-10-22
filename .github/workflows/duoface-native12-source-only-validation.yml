@@ -9,6 +9,9 @@ on:
       - 'sideplay/duoface-native-scene-host/DFNative12Chrome.m'
       - 'sideplay/duoface-native-scene-host/DFNative12MediaGeometry.h'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m'
+      - 'sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m'
+      - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - '.github/workflows/duoface-native12-source-only-validation.yml'
@@ -44,7 +47,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           test -d "$SDK"
           cd sideplay/duoface-native-scene-host
-          for FILE in DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m; do
+          for FILE in DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
             echo "COMPILING_SOURCE_ONLY $FILE"
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
               -target arm64-apple-ios16.0 -isysroot "$SDK" \
