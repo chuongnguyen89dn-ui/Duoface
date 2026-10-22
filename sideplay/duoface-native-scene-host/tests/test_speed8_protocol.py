@@ -26,4 +26,23 @@ class Speed8HistoricalFirstPartyProtocol(unittest.TestCase):
         package=(ROOT.parent/"jb-embedded-appbridge/package_integrated.py").read_text()
         self.assertIn('"native12_speed8_hud_independent_parity_proven":False',package)
         self.assertNotIn("DuoFaceSpeedHUD.dylib",package)
+    def test_portable_speed8_view_preserves_own_original_visual_contract(self):
+        view=(ROOT/"speed8/DFNative8SpeedHUDView.mm").read_text()
+        header=(ROOT/"speed8/DFNative8SpeedHUDView.h").read_text()
+        self.assertIn("CGSizeMake(104*self.visualScale,46*self.visualScale)",view)
+        self.assertIn("const CGFloat sign=34*sc;",view)
+        self.assertIn("minimumPressDuration=0.6",view)
+        self.assertIn("for(NSInteger i=1;i<=8;i++)",view)
+        self.assertIn("DFSpeedHUDReadBest(&sample)",view)
+        self.assertIn('@"—"',view)  # unknown data, not fake speed
+        self.assertIn("DFNative8SpeedHUDView",header)
+        self.assertIn("ownerWindow",header)
+        # This portable view never mounts itself; old CBWindow gate is gone.
+        self.assertNotIn("sharedInstanceIfExists",view)
+        self.assertNotIn("@interface CBWindow",view)
+        self.assertNotIn("__attribute__((constructor))",view)
+        self.assertNotIn("CBBridgedSplitApp",view)
+        build=(ROOT/"build.sh").read_text()
+        self.assertNotIn("speed8/DFNative8SpeedHUDView.mm",build) # owner not runtime-proven
+
 if __name__=="__main__":unittest.main(verbosity=2)
