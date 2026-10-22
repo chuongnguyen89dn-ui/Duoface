@@ -1,3 +1,6 @@
+> **2026-10-22 — ITEM 2 ANALYSIS SAVED BEFORE UI CHANGE.** Original setupCardContent register chain proves header height32 when cardH<260, otherwise38; separator .5; contentY32.5/38.5. Current Chrome fixed46 is wrong. Original dismiss square24/26 at W-size-8,y4/6 also differs. Exact PCs and source comparison saved `sideplay/audit/native12-continuation-96fa4ec/02_HEADER_CONTENTY_AUDIT.md`, full original annotated instructions `02_ORIGINAL_SETUP_CARD_CONTENT.txt`. Do not move gallery alone: current y7/height30 header controls would overlap small original y32.5; first trace original icon/title/tabs. Item1 source at1620e2c already saved. No source edit for item2 yet; next read a2c28..a2f94 and a3100..a3cf4, decode width thresholds and callback paths, then implement as one coherent header change.
+>
+
 > **2026-10-22 — ITEM 1 SOURCE FIX SAVED.** Following analysis checkpoint `e2d1efc`, set selected Style badge shadowOpacity=.45f in DFNative12Chrome.m, matching original SHA-verified VM0x310ce0 and a666c/a6670. Existing 45 source-contract tests PASS; source-only remote iOS syntax CI pending. Evidence and remaining scope: `sideplay/audit/native12-continuation-96fa4ec/01_STYLE_CARD_AUDIT.md`. Next item: original gallery contentY and header layout; no DEB/Sileo/device parity claim.
 >
 
