@@ -37,14 +37,14 @@ static NSDictionary *DFCRestoreLayout(void) {
        !isfinite(logo) || logo<.1 || logo>.9)return nil;
     NSNumber *preset=record[@"Preset"];
     if(preset && (![preset isKindOfClass:NSNumber.class] ||
-       preset.integerValue<0 || preset.integerValue>7))return nil;
+       preset.integerValue<0 || preset.integerValue>8))return nil;
     // Exact ORIGINAL CBMultitaskingOverlayView.presetSelected: @0xaa4f0
     // writes the SAME selected UIButton.tag into splitPreset and splitMode.
     // Preserve this dual-state selection contract in our independent prefs.
     for(NSString *key in @[@"splitPreset",@"splitMode"]){
         id value=record[key];
         if(value && (![value isKindOfClass:NSNumber.class] ||
-                     [value integerValue]<0 || [value integerValue]>7 ||
+                     [value integerValue]<0 || [value integerValue]>8 ||
                      (preset && [value integerValue]!=preset.integerValue)))
             return nil;
     }
@@ -402,11 +402,11 @@ static void DFCLog(NSString *text) {
     dismissStyle.frame=CGRectMake(styleW-37,1,34,30);
     [styleSheet addSubview:dismissStyle];
     NSArray<NSString *> *styleNames=@[@"2 dọc",@"2 ngang",@"1 trái + 2",
-       @"2 + 1 phải",@"1 trên + 2",@"2 + 1 dưới",@"4 ô",@"4 cột"];
+       @"2 + 1 phải",@"1 trên + 2",@"2 + 1 dưới",@"4 ô",@"4 cột",@"1 ô"];
     NSMutableArray<UIButton *> *choices=[NSMutableArray new];
     CGFloat styleCellWidth=(styleW-18)/2;
-    CGFloat styleCellHeight=(styleH-38)/4;
-    for(NSInteger idx=0;idx<8;idx++){
+    CGFloat styleCellHeight=(styleH-38)/5;
+    for(NSInteger idx=0;idx<9;idx++){
         UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
         button.frame=CGRectMake(6+(idx%2)*(styleCellWidth+6),
                31+(idx/2)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-3));
@@ -588,7 +588,7 @@ static void DFCLog(NSString *text) {
     if(!saved)return NO;
     NSInteger preset=saved[@"Preset"]?[saved[@"Preset"] integerValue]:
        ([saved[@"Vertical"] boolValue]?0:1);
-    if(preset<0 || preset>7)return NO;
+    if(preset<0 || preset>8)return NO;
     // This changes the actual scene geometry and survives a reconnect.
     // Never release the two previously running real apps when switching to
     // three/four slots; merely hide inactive containers and restore later.
@@ -716,7 +716,7 @@ static void DFCLog(NSString *text) {
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
-    self.dividerWindow.hidden=(self.startupActive||self.focus>=0||self.pickerVisible||self.styleVisible);
+    self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible);
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     for(NSInteger i=0;i<4;i++){
@@ -784,8 +784,13 @@ static void DFCLog(NSString *text) {
 }
 - (void)selectStylePreset:(UIButton *)sender {
     NSInteger selected=sender.tag;
-    if(!self.styleVisible || selected<0 || selected>7)return;
+    if(!self.styleVisible || selected<0 || selected>8)return;
     [self noteUserActivity];
+    // Entering Solo uses one real hosted scene. Preserve which two-pane
+    // app the user selected (including an existing left/right swap) rather
+    // than unexpectedly showing the other side on the single full pane.
+    if(selected==8 && self.preset<=1 && self.selectedSlot==1)
+        self.swapped=!self.swapped;
     self.preset=selected;
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
     self.focus=-1;
