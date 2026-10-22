@@ -1,0 +1,81 @@
+name: Original Native12 dismiss bridge ivar owner forensic (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-dismiss-ivar-owner.yml'
+      - 'sideplay/audit/native12-continuation-4888299/resolve_original_dismiss_ivar_owner.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-dismiss-ivar-owner-hash
+  cancel-in-progress: true
+jobs:
+  read-only-original-ivar-owner:
+    runs-on: macos-15
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact immutable Native12 binary, never execute
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          OUT="$RUNNER_TEMP/native12-ivar-owner"
+          mkdir -p "$OUT"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$OUT/native12.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$OUT/native12.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$OUT/native12.deb" "$OUT/root"
+          BIN="$OUT/root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$BIN" | shasum -a 256 -c -
+          python3 sideplay/audit/native12-continuation-4888299/resolve_original_dismiss_ivar_owner.py \
+            --binary "$BIN" --out sideplay/audit/native12-continuation-4888299/dismiss-ivar-owner
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/native12-continuation-4888299/dismiss-ivar-owner/ORIGINAL_DISMISS_IVAR_OWNER.json')
+          d=json.loads(p.read_text())
+          assert d['original_dashboard_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert d['secondary_receiver_selector']=='removeFromSuperview'
+          assert len(d['callsite_owner_mapping'])==2
+          assert d['vendor_binary_included'] is False and d['device_verified'] is False
+          print('ORIGINAL_NATIVE12_IVAR_OWNER_STATIC_REPORT_VERIFIED')
+          print(json.dumps(d['callsite_owner_mapping'],indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Dismiss-Ivar-Owner-Original-Only
+          path: sideplay/audit/native12-continuation-4888299/dismiss-ivar-owner/ORIGINAL_DISMISS_IVAR_OWNER.json
+          if-no-files-found: error
+      - name: Persist exact SHA-checked evidence in same DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          REL='sideplay/audit/native12-continuation-4888299/dismiss-ivar-owner/ORIGINAL_DISMISS_IVAR_OWNER.json'
+          SOURCE="$(pwd)/$REL"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -s "$TMP/$REL"; then
+              cmp "$SOURCE" "$TMP/$REL"
+              git worktree remove --force "$TMP"
+              echo EXACT_ORIGINAL_IVAR_OWNER_ALREADY_SAVED
+              exit 0
+            fi
+            mkdir -p "$TMP/$(dirname "$REL")"
+            cp "$SOURCE" "$TMP/$REL"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$REL"
+            git -C "$TMP" commit -m 'audit(native12): save original dismiss ivar ownership bytes [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo EXACT_ORIGINAL_IVAR_OWNER_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
