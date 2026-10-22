@@ -1,0 +1,62 @@
+{
+  "status": "ORIGINAL_MACHO_CONSTANTS_ONLY_NOT_DEVICE_VERIFIED",
+  "original_macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "class": "CBMultitaskingOverlayView",
+  "method": "layoutSubviews",
+  "imp": "0xa28e8",
+  "callsite_addresses": [
+    "a2980:",
+    "a2988:\tfmov\td0, #24.00000000",
+    "a298c:\tfmov\td1, #10.00000000",
+    "a2998:",
+    "a29a0:\tfmov\td1, #18.00000000",
+    "a29a4:\tfmov\td2, #8.00000000",
+    "a29b4:",
+    "a29c4:",
+    "a29d4:",
+    "a29ec:",
+    "a2a3c:"
+  ],
+  "literals": {
+    "outer_width_breakpoint": {
+      "address": "0x311740",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217216,
+      "raw_hex": "0000000000407f40",
+      "double": 500.0
+    },
+    "outer_height_breakpoint": {
+      "address": "0x311748",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217224,
+      "raw_hex": "0000000000c07240",
+      "double": 300.0
+    },
+    "outer_max_card_width": {
+      "address": "0x311758",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217240,
+      "raw_hex": "0000000000408540",
+      "double": 680.0
+    },
+    "outer_max_card_height": {
+      "address": "0x311760",
+      "segment": "__TEXT\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+      "file_offset": 3217248,
+      "raw_hex": "0000000000c07740",
+      "double": 380.0
+    }
+  },
+  "observed_arm64_math": {
+    "horizontal_subtract_when_width_lt_breakpoint": 10,
+    "horizontal_subtract_otherwise": 24,
+    "vertical_subtract_when_height_lt_breakpoint": 8,
+    "vertical_subtract_otherwise": 18,
+    "width": "fminnm(originalWidth - horizontalSubtract, maxCardWidth)",
+    "height": "fminnm(originalHeight - verticalSubtract, maxCardHeight)",
+    "origin": "frinta(float((originalDimension - chosenDimension)*0.5))"
+  },
+  "vendor_source_copied": false,
+  "runtime_modified": false,
+  "device_tested": false
+}
