@@ -128,13 +128,23 @@ static void DFReceiveAck(void) {
     NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:kAckFile];
     id session=ack[@"Session"],number=ack[@"Sequence"];
     if(!sChrome || ![ack[@"Version"] isEqual:@2] ||
-       ![ack[@"Accepted"] isEqual:@YES] ||
+       ![ack[@"Accepted"] isKindOfClass:NSNumber.class] ||
        ![session isKindOfClass:NSString.class] ||
        ![session isEqualToString:sSession] ||
        ![number isKindOfClass:NSNumber.class])return;
     NSUInteger sequence=[number unsignedIntegerValue];
     if(sequence<=sLastAckSequence || sequence>sSequence)return;
     sLastAckSequence=sequence;
+    // A negative ACK is a terminal result for this state observation.
+    // Consume its sequence so the 0.8-second retry never claims success.
+    if(![ack[@"Accepted"] boolValue]){
+        NSString *reason=[ack[@"Reason"] isKindOfClass:NSString.class]?
+            ack[@"Reason"]:@"rejected";
+        DFTOLog(@"carplay-action-not-applied",[NSString stringWithFormat:
+            @"session=%@ seq=%lu action=%@ reason=%@",
+            session,(unsigned long)sequence,ack[@"Action"],reason]);
+        return;
+    }
     DFTOLog(@"carplay-state-ack", [NSString stringWithFormat:
          @"session=%@ seq=%lu action=%@ owner=%@",
          session,(unsigned long)sequence,ack[@"Action"],ack[@"Owner"]]);

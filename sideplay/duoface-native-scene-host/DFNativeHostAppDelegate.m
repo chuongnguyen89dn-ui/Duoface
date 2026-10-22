@@ -318,9 +318,17 @@ void DFNativeHostLog(NSString *message) {
     if([action isEqualToString:@"FocusRight"] && focus!=1)return;
     if([action isEqualToString:@"FocusSlot2"] && focus!=2)return;
     if([action isEqualToString:@"FocusSlot3"] && focus!=3)return;
+    // This is an observation channel, not the original Native12 Dock owner.
+    // Its generic state ACK cannot prove whole-host Zoom, so explicitly
+    // refuse ONLY that action until a measured geometry+Dock receiver exists.
+    BOOL isWholeHostZoom=[action isEqualToString:@"Zoom"];
+    BOOL accepted=!isWholeHostZoom;
+    if(isWholeHostZoom)
+        DFNativeHostLog(@"native12-zoom-not-applied-missing-real-dock-owner");
     self.lastTouchSequence=[sequence unsignedIntegerValue];
     NSDictionary *ack=@{@"Version":@2,@"Session":session,
-                         @"Sequence":sequence,@"Accepted":@YES,
+                         @"Sequence":sequence,@"Accepted":@(accepted),
+                         @"Reason":isWholeHostZoom?@"native-dock-and-geometry-owner-not-wired":@"",
                          @"Action":action,@"Owner":@"SpringBoard",
                          @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
     if(![ack writeToFile:DFAckPath atomically:YES]){

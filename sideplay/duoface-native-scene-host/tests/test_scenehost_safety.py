@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.43~originalframe1",build)
+  self.assertIn("0.1.44~zoomack1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.43~originalframe1",c)
+  self.assertIn("Version: 0.1.44~zoomack1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -776,7 +776,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFReceiveAck();',probe)
   self.assertIn('sRetryCount=0;sRetryAt=0;',probe)
   self.assertIn('@"State":state',probe)
-  self.assertIn('@"Accepted":@YES',app)
+  self.assertIn('@"Accepted":@(accepted)',app)
   self.assertNotIn('self.basicController performCarPlayControl:',app)
 
  def test_native12_original_nine_1_to_4_scene_layout_contract(self):
@@ -896,5 +896,28 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("dataTaskWithRequest",collector)
   self.assertNotIn("http://",collector)
   self.assertNotIn("https://",collector)
+
+ def test_zoom_missing_real_native12_owner_must_reject_false_positive_ack(self):
+  """Legacy fullscreen used real SpringBoard geometry and Dashboard chrome.
+  Independent host must not report Zoom success from an inert state snapshot.
+  This is a truthful fail-closed intermediate step, not fullscreen parity.
+  """
+  chrome=file("DFNative12Chrome.m")
+  app=file("DFNativeHostAppDelegate.m")
+  probe=file("DFTouchOwnerProbe.m")
+  self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
+  self.assertIn('BOOL isWholeHostZoom=[action isEqualToString:@"Zoom"];',app)
+  self.assertIn('BOOL accepted=!isWholeHostZoom;',app)
+  self.assertIn('@"Accepted":@(accepted)',app)
+  self.assertIn('native-dock-and-geometry-owner-not-wired',app)
+  self.assertIn('native12-zoom-not-applied-missing-real-dock-owner',app)
+  self.assertIn('if(![ack[@"Accepted"] boolValue])',probe)
+  self.assertIn('carplay-action-not-applied',probe)
+  self.assertLess(probe.index('sLastAckSequence=sequence;',probe.index('static void DFReceiveAck')),
+                  probe.index('if(![ack[@"Accepted"] boolValue])'))
+  self.assertNotIn('DFHostSetExpanded(',app)
+  self.assertNotIn('DFDashboardSetChromeHidden(',app)
+  self.assertNotIn('DFRequestHostFullscreen(',app)
+  self.assertIn('@"Action":action',app)
 
 if __name__=="__main__":unittest.main(verbosity=2)
