@@ -93,7 +93,9 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     self.cards.alwaysBounceHorizontal=YES;
     self.cards.showsHorizontalScrollIndicator=NO;
     self.cards.showsVerticalScrollIndicator=NO;
-    self.cardsPerPage=4;
+    // Original Native12 setupAppPickerCards @0xa40c8 caps gridCols at 4;
+    // @0xa40e8 uses a 2-row default, not a single scrolling row.
+    self.cardsPerPage=8;
     [self.cards registerClass:DFNativeAppCard.class forCellWithReuseIdentifier:@"DFNativeCard"];
     [self.sheet addSubview:self.cards];
     self.pageControl=[UIPageControl new];
@@ -129,7 +131,8 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
     // fills the full viewport, including the padded final row.
     self.cards.frame=CGRectMake(9,74,MAX(100,w-18),MAX(30,h-115));
     self.pageControl.frame=CGRectMake(10,MAX(82,h-38),w-20,27);
-    NSInteger columns=MAX(2,MIN(5,(NSInteger)floor(self.cards.bounds.size.width/86.)));
+    // Original default 4 cols x 2 rows, from exact ARM64 IMP 0xa3e5c.
+    NSInteger columns=4*2;
     BOOL geometryChanged=(self.cardsPerPage!=columns);
     self.cardsPerPage=columns;
     [self.cards.collectionViewLayout invalidateLayout];
@@ -217,11 +220,12 @@ static NSString *const DFRecentKey=@"com.duoface.nativehost.recentApps.v1";
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     (void)layout;(void)indexPath;
     CGFloat width=collectionView.bounds.size.width;
-    // Make each N-card page exactly viewport-wide. A single row avoids
-    // layout wrapping and preserves true UIPageControl indices.
-    NSInteger columns=MAX(1,self.cardsPerPage);
-    CGFloat w=width/columns;
-    return CGSizeMake(w,MIN(77,collectionView.bounds.size.height-1));
+    // Native12 shows 4 columns × 2 rows; the default card grid is
+    // governed by original CBDashboardSettings.gridCols/gridRows selectors.
+    // Do not change user live-app hosting or per-pane SceneWindow ratios.
+    CGFloat w=width/4.0;
+    CGFloat h=collectionView.bounds.size.height/2.0;
+    return CGSizeMake(w,h);
 }
 - (UIImage *)installedIconForBundle:(NSString *)bundleID {
     // Private iOS launcher imagery is optional; never invent another app icon.
