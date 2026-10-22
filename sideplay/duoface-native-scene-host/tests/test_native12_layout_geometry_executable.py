@@ -56,13 +56,13 @@ int main(void) {
  };
  check(DFNative12DefaultPrimaryRatio(3)==1.0/3,"three columns 1/3 default");
  check(DFNative12DefaultSecondaryRatio(3)==0.5,"three columns remaining half");
- for(int screen=0;screen<3;screen++)for(int preset=0;preset<8;preset++)
+ for(int screen=0;screen<3;screen++)for(int preset=0;preset<9;preset++)
  for(int r=0;r<5;r++)for(int s=0;s<5;s++) {
    CGRect bounds=screens[screen],frames[4];
    CGFloat p=ratios[r],secondary=ratios[s];
    DFComputePresetFramesWithSecondary(bounds,preset,p,secondary,frames);
    int count=(int)DFSlotCountForPreset(preset);
-   check(count>=1&&count<=3,"only original 1/2/3 panes");
+   check(count>=1&&count<=4,"original 1/2/3/4 panes");
    double total=0;
    for(int i=0;i<4;i++) {
       if(i>=count){check(CGRectIsNull(frames[i]),"unused frame must be CGRectNull");continue;}
@@ -82,7 +82,7 @@ int main(void) {
    CGRect second=DFSecondaryDividerRect(bounds,preset,p,secondary);
    if(count<=2)check(CGRectIsNull(second),"solo/two panes cannot have second divider");
    else {
-      check(!CGRectIsNull(second),"three panes must have second divider");
+      check(!CGRectIsNull(second),"three/four panes must have second divider");
       if(DFSecondaryDividerIsVertical(preset))
          check(fabs(second.size.width)<1e-9&&second.size.height>0,"second vertical line wrong");
       else check(fabs(second.size.height)<1e-9&&second.size.width>0,"second horizontal line wrong");
@@ -98,7 +98,16 @@ int main(void) {
  check(fabs(separator.origin.x-464)<1e-9,
        "second divider not aligned with third-column boundary");
  check(DFSlotCountForPreset(0)==1,"one-pane mode lost");
- printf("NATIVE12_REAL_C_LAYOUT_8_PRESETS_600_GEOMETRY_CASES_PASS\n");
+ check(DFSlotCountForPreset(8)==4,"original ninth preview must have four scenes");
+ DFComputePresetFramesWithSecondary(screen,8,0.5,0.5,frames);
+ check(fabs(frames[0].size.width-300)<1e-9&&fabs(frames[0].size.height-120)<1e-9,
+       "first four-quadrant pane wrong");
+ check(fabs(frames[3].origin.x-364)<1e-9&&fabs(frames[3].origin.y-120)<1e-9,
+       "fourth four-quadrant pane wrong");
+ CGRect fourSecond=DFSecondaryDividerRect(screen,8,.5,.5);
+ check(fabs(fourSecond.origin.y-120)<1e-9&&fourSecond.size.width==600,
+       "four-quadrant horizontal second divider wrong");
+ printf("NATIVE12_REAL_C_LAYOUT_9_PRESETS_675_GEOMETRY_CASES_PASS\n");
  return 0;
 }
 """
@@ -123,7 +132,7 @@ class Native12ExecutableLayout(unittest.TestCase):
    self.assertEqual(build.returncode,0,build.stderr)
    run=subprocess.run([str(output)],capture_output=True,text=True)
    self.assertEqual(run.returncode,0,run.stdout+"\n"+run.stderr)
-   self.assertIn("NATIVE12_REAL_C_LAYOUT_8_PRESETS_600_GEOMETRY_CASES_PASS",run.stdout)
+   self.assertIn("NATIVE12_REAL_C_LAYOUT_9_PRESETS_675_GEOMETRY_CASES_PASS",run.stdout)
 
 if __name__=="__main__":
  unittest.main()
