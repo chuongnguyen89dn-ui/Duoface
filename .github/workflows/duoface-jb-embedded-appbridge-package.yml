@@ -1,23 +1,7 @@
 name: DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
-      - 'sideplay/jb-embedded-appbridge/package_integrated.py'
-      - 'sideplay/jb-embedded-appbridge/tests/**'
-      # NativeHost changes build the isolated package first. Only a subsequent
-      # SHA-pinned package_integrated.py update can trigger this aggregated build.
-      # This avoids testing a new NativeHost control Version against an old pin.
-      - 'sideplay/jb-embedded-appbridge/scripts/**'
-      - 'sideplay/mytweak-native-bridgeqa/**'
-      - '!sideplay/mytweak-native-bridgeqa/packages/**'
-      - 'sideplay/mytweak-independent-v1a/**'
-      - '!sideplay/mytweak-independent-v1a/packages/**'
-      - 'sideplay/firstparty-carplay-admission/**'
-      - '!sideplay/firstparty-carplay-admission/packages/**'
-      - 'sideplay/duoface-qa-app/**'
-      - '!sideplay/duoface-qa-app/packages/**'
+  # Intentional user release gate: no automatic partial DEBs on source pushes.
+  # Only explicitly requested final ONE-DEB verification builds are permitted.
   workflow_dispatch:
 permissions:
   contents: write
