@@ -7,7 +7,7 @@ automatic ObjC annotations must not be treated as separate verified selectors.
 """
 import argparse,hashlib,json,pathlib,runpy,re
 HERE=pathlib.Path(__file__).resolve().parent
-ROOT=HERE.parents[2]
+ROOT=HERE.parents[1]
 DASH_SHA="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
 ORIGINAL_DEB_SHA="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
 SELREF=0x37d000+0xb28
