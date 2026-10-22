@@ -1,7 +1,12 @@
 name: DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)
 on:
-  # Intentional user release gate: no automatic partial DEBs on source pushes.
-  # Only explicitly requested final ONE-DEB verification builds are permitted.
+  # User explicitly ordered one real test DEB on 2026-10-23.  Connector has
+  # no workflow_dispatch capability; a dedicated request file is the ONLY
+  # push path that can start packaging. Normal source pushes never do.
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/jb-embedded-appbridge/build-request/REQUEST.md'
   workflow_dispatch:
 permissions:
   contents: write
