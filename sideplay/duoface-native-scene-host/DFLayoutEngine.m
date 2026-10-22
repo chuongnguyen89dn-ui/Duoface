@@ -1,9 +1,9 @@
 #import "DFLayoutEngine.h"
 #import <math.h>
-// Native12 approved eight layouts, preserving original presentation order:
-// 1-pane, left/right, top/bottom, 3 columns, left+2 right,
-// 2 left+right, top+2 bottom, 2 top+bottom.
-// Unlike the prior prototype this NEVER invents a fourth live pane.
+// Nine independent geometry types identified by original Mach-O renderer:
+// 0 solo, 1 LR, 2 TB, 3 three columns, 4 left+2 right,
+// 5 two left+right, 6 top+2 bottom, 7 two top+bottom, 8 four squares.
+// Exact runtime touch behavior requires device verification.
 static CGFloat DFBoundRatio(CGFloat v) {
     return isfinite(v)?MAX(1.0/3.0,MIN(2.0/3.0,v)):.5;
 }
@@ -18,7 +18,7 @@ CGFloat DFNative12DefaultSecondaryRatio(NSInteger preset) {
     return 0.5;
 }
 NSInteger DFSlotCountForPreset(NSInteger preset) {
-    return preset==0?1:(preset==1||preset==2?2:3);
+    return preset==0?1:(preset==1||preset==2?2:(preset==8?4:3));
 }
 BOOL DFPrimaryDividerIsVertical(NSInteger preset) {
     return preset!=2 && preset!=6 && preset!=7;
@@ -36,7 +36,7 @@ void DFComputePresetFramesWithSecondary(CGRect b,NSInteger preset,
                                         CGFloat ratio,CGFloat secondary,CGRect *out) {
     for(int i=0;i<4;i++)out[i]=CGRectNull;
     if(CGRectIsNull(b)||CGRectIsEmpty(b))return;
-    if(preset<0||preset>7)preset=1;
+    if(preset<0||preset>8)preset=1;
     CGFloat x=b.origin.x,y=b.origin.y,w=b.size.width,h=b.size.height;
     CGFloat a=DFBoundRatio(ratio),c=DFBoundRatio(secondary);
     CGFloat xx=x+w*a,yy=y+h*a;
@@ -63,13 +63,17 @@ void DFComputePresetFramesWithSecondary(CGRect b,NSInteger preset,
       case 7:out[0]=CGRectMake(x,y,w*c,h*a);
              out[1]=CGRectMake(x+w*c,y,w*(1-c),h*a);
              out[2]=CGRectMake(x,yy,w,h*(1-a));break;
+      case 8:out[0]=CGRectMake(x,y,w*a,h*c);
+             out[1]=CGRectMake(xx,y,w*(1-a),h*c);
+             out[2]=CGRectMake(x,y+h*c,w*a,h*(1-c));
+             out[3]=CGRectMake(xx,y+h*c,w*(1-a),h*(1-c));break;
     }
 }
 void DFComputePresetFrames(CGRect b,NSInteger preset,CGFloat ratio,CGRect *out) {
     DFComputePresetFramesWithSecondary(b,preset,ratio,.5,out);
 }
 CGRect DFSecondaryDividerRect(CGRect b,NSInteger preset,CGFloat ratio,CGFloat secondary) {
-    if(preset<3||preset>7||CGRectIsNull(b)||CGRectIsEmpty(b))return CGRectNull;
+    if(preset<3||preset>8||CGRectIsNull(b)||CGRectIsEmpty(b))return CGRectNull;
     CGFloat x=CGRectGetMinX(b),y=CGRectGetMinY(b);
     CGFloat w=CGRectGetWidth(b),h=CGRectGetHeight(b);
     CGFloat a=DFBoundRatio(ratio),c=DFBoundRatio(secondary);
@@ -79,6 +83,7 @@ CGRect DFSecondaryDividerRect(CGRect b,NSInteger preset,CGFloat ratio,CGFloat se
       case 5:return CGRectMake(x,y+h*c,w*a,0);
       case 6:return CGRectMake(x+w*c,y+h*a,0,h*(1-a));
       case 7:return CGRectMake(x+w*c,y,0,h*a);
+      case 8:return CGRectMake(x,y+h*c,w,0);
     }
     return CGRectNull;
 }
