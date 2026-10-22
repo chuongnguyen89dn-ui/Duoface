@@ -3,6 +3,7 @@
 #import <UIKit/UIKit.h>
 #import "DFAppEligibility.h"
 #import "DFNativeDiagnostics.h"
+#import "DFLayoutEngine.h"
 #import <objc/message.h>
 #import <math.h>
 #import <notify.h>
@@ -161,7 +162,7 @@
  if(preset<0||preset>7)return NO;
  NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
  NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:path]?:@{};
- NSNumber *ratio=[old[@"Ratio"] isKindOfClass:NSNumber.class]?old[@"Ratio"]:@.5;
+ NSNumber *ratio=@(DFNative12DefaultPrimaryRatio(preset));
  NSNumber *logo=[old[@"LogoFraction"] isKindOfClass:NSNumber.class]?old[@"LogoFraction"]:@.5;
  double r=ratio.doubleValue,l=logo.doubleValue;
  if(!isfinite(r)||r<1.0/3.0||r>2.0/3.0)ratio=@.5;
@@ -173,7 +174,7 @@
  // Only recreate this observable state update in independent DuoFace.
  NSDictionary *state=@{@"Version":@2,@"Preset":@(preset),
                        @"splitPreset":@(preset),@"splitMode":@(preset),
-                       @"Ratio":ratio,@"Secondary":@.5,@"LogoFraction":logo,
+                       @"Ratio":ratio,@"Secondary":@(DFNative12DefaultSecondaryRatio(preset)),@"LogoFraction":logo,
                        @"Vertical":@(vertical),@"Swapped":swapped};
  if(![state writeToFile:path atomically:YES])return NO;
  self.currentPreset=preset;

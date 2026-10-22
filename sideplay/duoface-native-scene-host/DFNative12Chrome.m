@@ -896,6 +896,11 @@ static void DFCLog(NSString *text) {
     if(selected==0 && (self.preset==1 || self.preset==2) && self.selectedSlot==1)
         self.swapped=!self.swapped;
     self.preset=selected;
+    // As Native12's approved setLayout: does, reset the initial ratio on
+    // an explicit Style change. Dragged ratios remain persisted for reconnect
+    // and are NOT reset by layoutControls/Zoom/scene resize.
+    self.ratio=DFNative12DefaultPrimaryRatio(selected);
+    self.secondaryRatio=DFNative12DefaultSecondaryRatio(selected);
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
     self.focus=-1;
     self.selectedSlot=MIN(self.selectedSlot,DFSlotCountForPreset(self.preset)-1);

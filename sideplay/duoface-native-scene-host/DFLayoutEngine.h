@@ -4,6 +4,9 @@
 // Presets are an independent implementation pending Native12 device parity.
 NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXPORT NSInteger DFSlotCountForPreset(NSInteger preset);
+// Approved Native12 kind 4 is three EQUAL columns at selection time.
+FOUNDATION_EXPORT CGFloat DFNative12DefaultPrimaryRatio(NSInteger preset);
+FOUNDATION_EXPORT CGFloat DFNative12DefaultSecondaryRatio(NSInteger preset);
 FOUNDATION_EXPORT BOOL DFPrimaryDividerIsVertical(NSInteger preset);
 FOUNDATION_EXPORT BOOL DFSecondaryDividerIsVertical(NSInteger preset);
 FOUNDATION_EXPORT CGRect DFSecondaryDividerRect(CGRect usableBounds, NSInteger preset, CGFloat ratio, CGFloat secondary);

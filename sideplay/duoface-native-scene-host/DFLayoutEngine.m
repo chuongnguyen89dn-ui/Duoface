@@ -7,6 +7,16 @@
 static CGFloat DFBoundRatio(CGFloat v) {
     return isfinite(v)?MAX(1.0/3.0,MIN(2.0/3.0,v)):.5;
 }
+// DFIFramesMake(kind=4) in approved source uses a=1/3, b=2/3
+// (absolute right cutoff). Our second divider is stored relative to the
+// width remaining after the first divider: (2/3-1/3)/(1-1/3)=1/2.
+CGFloat DFNative12DefaultPrimaryRatio(NSInteger preset) {
+    return preset==3?1.0/3.0:0.5;
+}
+CGFloat DFNative12DefaultSecondaryRatio(NSInteger preset) {
+    (void)preset;
+    return 0.5;
+}
 NSInteger DFSlotCountForPreset(NSInteger preset) {
     return preset==0?1:(preset==1||preset==2?2:3);
 }
