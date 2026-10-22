@@ -418,6 +418,34 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("case 2:self.preset=(self.preset+1)%8;",chrome)
   self.assertIn("case 3:[self closeHostedSlot:self.selectedSlot];",chrome)
 
+ def test_context_menu_is_tied_to_touched_left_or_right_pane(self):
+  chrome=file("DFNative12Chrome.m")
+  # One real four-function sheet, repositioned in the actual selected pane:
+  # previously it was a fixed 470px center-screen toolbar across both apps.
+  self.assertIn("- (void)layoutContextMenuForPane:(CGRect)pane {",chrome)
+  self.assertIn("[self layoutContextMenuForPane:pane[menuSlot]];",chrome)
+  self.assertIn("self.selectedSlot=sender.tag;",chrome)
+  self.assertIn("self.pickerVisible=YES;",chrome)
+  self.assertIn("self.pickerWindow.frame=CGRectMake(x,y,width,height);",chrome)
+  self.assertIn("CGRectGetMidX(pane)-width/2",chrome)
+  self.assertIn("CGRectGetMidY(pane)-height/2",chrome)
+  self.assertIn('region=self.selectedSlot==0?@"trái":@"phải";',chrome)
+  self.assertIn('region=self.selectedSlot==0?@"trên":@"dưới";',chrome)
+  self.assertIn('@"Ô %@ · App · Zoom · Style · Close",region',chrome)
+  self.assertIn("self.menuActions=actions;",chrome)
+  self.assertIn("self.menuActions[i].frame=CGRectMake(9+(i%2)*cells,36+(i/2)*44,cells,43);",chrome)
+  self.assertIn("NSArray *names=@[@\"App\",@\"Zoom\",@\"Style\",@\"Close\"];",chrome)
+  self.assertIn("action:@selector(menuAction:)",chrome)
+  menu=chrome.split("- (void)menuAction:(UIButton *)sender {",1)[1].split("- (void)openAppPickerForSlot:",1)[0]
+  self.assertIn("case 0:[self openAppPickerForSlot:self.selectedSlot];break;",menu)
+  self.assertIn("[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];",menu)
+  self.assertIn("case 2:self.preset=(self.preset+1)%8;",menu)
+  self.assertIn("case 3:[self closeHostedSlot:self.selectedSlot];break;",menu)
+  self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
+  self.assertNotIn("CGFloat pw=MIN(470,cr.size.width-20)",chrome)
+  self.assertIn("self.appPickerController refreshInstalledApps",chrome)
+  self.assertNotIn("UIPanGestureRecognizer *fakeTouch",chrome)
+
  def test_split_panes_keep_both_buttons_and_real_zoom_dispatch(self):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("zoom.hidden=NO",chrome)
