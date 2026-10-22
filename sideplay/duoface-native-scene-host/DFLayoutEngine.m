@@ -1,79 +1,74 @@
 #import "DFLayoutEngine.h"
 #import <math.h>
+// Native12 approved eight layouts, preserving original presentation order:
+// 1-pane, left/right, top/bottom, 3 columns, left+2 right,
+// 2 left+right, top+2 bottom, 2 top+bottom.
+// Unlike the prior prototype this NEVER invents a fourth live pane.
+static CGFloat DFBoundRatio(CGFloat v) {
+    return isfinite(v)?MAX(1.0/3.0,MIN(2.0/3.0,v)):.5;
+}
 NSInteger DFSlotCountForPreset(NSInteger preset) {
-    // Preset 8 adds a genuine one-app full-content pane, without replacing
-    // or renumbering the eight existing installed-user presets (0..7).
-    if(preset==8)return 1;
-    if(preset<0 || preset>8)return 2;
-    if(preset<=1)return 2;
-    if(preset<=5)return 3;
-    return 4;
+    return preset==0?1:(preset==1||preset==2?2:3);
 }
 BOOL DFPrimaryDividerIsVertical(NSInteger preset) {
-    return preset==0 || preset==2 || preset==3 || preset==6 || preset==7;
+    return preset!=2 && preset!=6 && preset!=7;
 }
-CGFloat DFPrimaryDividerCoordinate(CGRect bounds, NSInteger preset, CGFloat ratio) {
-    // Exact internal invariant: divider follows the boundary controlled by
-    // ratio, including preset 7 where the first TWO strips share the left side.
-    // Full equivalence to Native12 original preset shapes is not yet proved.
-    if(!isfinite(ratio))ratio=.5;
-    ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
-    BOOL vertical=DFPrimaryDividerIsVertical(preset);
-    CGFloat extent=vertical?bounds.size.width:bounds.size.height;
-    CGFloat origin=vertical?bounds.origin.x:bounds.origin.y;
-    BOOL reverse=(preset==3 || preset==5);
-    return origin+extent*(reverse?1.0-ratio:ratio);
+BOOL DFSecondaryDividerIsVertical(NSInteger preset) {
+    return preset==3 || preset==6 || preset==7;
 }
-void DFComputePresetFrames(CGRect b, NSInteger preset, CGFloat ratio, CGRect *out) {
+CGFloat DFPrimaryDividerCoordinate(CGRect b,NSInteger preset,CGFloat ratio) {
+    CGFloat t=DFBoundRatio(ratio);
+    return DFPrimaryDividerIsVertical(preset)?
+      CGRectGetMinX(b)+CGRectGetWidth(b)*t:
+      CGRectGetMinY(b)+CGRectGetHeight(b)*t;
+}
+void DFComputePresetFramesWithSecondary(CGRect b,NSInteger preset,
+                                        CGFloat ratio,CGFloat secondary,CGRect *out) {
     for(int i=0;i<4;i++)out[i]=CGRectNull;
-    if(!isfinite(ratio))ratio=.5;
-    ratio=MAX(1.0/3.0,MIN(2.0/3.0,ratio));
+    if(CGRectIsNull(b)||CGRectIsEmpty(b))return;
+    if(preset<0||preset>7)preset=1;
     CGFloat x=b.origin.x,y=b.origin.y,w=b.size.width,h=b.size.height;
-    CGFloat a=w*ratio,c=h*ratio;
+    CGFloat a=DFBoundRatio(ratio),c=DFBoundRatio(secondary);
+    CGFloat xx=x+w*a,yy=y+h*a;
     switch(preset) {
-      case 8: // genuine SOLO: one existing hosted scene fills usable CarPlay area
-        out[0]=b;
-        break;
-      case 1: // two stacked live scenes
-        out[0]=CGRectMake(x,y,w,c);
-        out[1]=CGRectMake(x,y+c,w,h-c);
-        break;
-      case 2: // left primary; two genuine scenes stacked on right
-        out[0]=CGRectMake(x,y,a,h);
-        out[1]=CGRectMake(x+a,y,w-a,h/2);
-        out[2]=CGRectMake(x+a,y+h/2,w-a,h/2);
-        break;
-      case 3: // right primary
-        out[0]=CGRectMake(x,y,w-a,h/2);
-        out[1]=CGRectMake(x+w-a,y,a,h);
-        out[2]=CGRectMake(x,y+h/2,w-a,h/2);
-        break;
-      case 4: // top primary
-        out[0]=CGRectMake(x,y,w,c);
-        out[1]=CGRectMake(x,y+c,w/2,h-c);
-        out[2]=CGRectMake(x+w/2,y+c,w/2,h-c);
-        break;
-      case 5: // bottom primary
-        out[0]=CGRectMake(x,y,w/2,h-c);
-        out[1]=CGRectMake(x+w/2,y,w/2,h-c);
-        out[2]=CGRectMake(x,y+h-c,w,c);
-        break;
-      case 6: // four independent live quadrants
-        out[0]=CGRectMake(x,y,a,c);
-        out[1]=CGRectMake(x+a,y,w-a,c);
-        out[2]=CGRectMake(x,y+c,a,h-c);
-        out[3]=CGRectMake(x+a,y+c,w-a,h-c);
-        break;
-      case 7: // four strips, each holding an independent app scene
-        out[0]=CGRectMake(x,y,a/2,h);
-        out[1]=CGRectMake(x+a/2,y,a/2,h);
-        out[2]=CGRectMake(x+a,y,(w-a)/2,h);
-        out[3]=CGRectMake(x+a+(w-a)/2,y,(w-a)/2,h);
-        break;
-      case 0:
-      default: // established vertical Native12-style two-app split
-        out[0]=CGRectMake(x,y,a,h);
-        out[1]=CGRectMake(x+a,y,w-a,h);
-        break;
+      case 0:out[0]=b;break;
+      case 1:out[0]=CGRectMake(x,y,w*a,h);
+             out[1]=CGRectMake(xx,y,w*(1-a),h);break;
+      case 2:out[0]=CGRectMake(x,y,w,h*a);
+             out[1]=CGRectMake(x,yy,w,h*(1-a));break;
+      case 3:{
+        CGFloat end=xx+w*(1-a)*c;
+        out[0]=CGRectMake(x,y,w*a,h);
+        out[1]=CGRectMake(xx,y,end-xx,h);
+        out[2]=CGRectMake(end,y,x+w-end,h);break;}
+      case 4:out[0]=CGRectMake(x,y,w*a,h);
+             out[1]=CGRectMake(xx,y,w*(1-a),h*c);
+             out[2]=CGRectMake(xx,y+h*c,w*(1-a),h*(1-c));break;
+      case 5:out[0]=CGRectMake(x,y,w*a,h*c);
+             out[1]=CGRectMake(x,y+h*c,w*a,h*(1-c));
+             out[2]=CGRectMake(xx,y,w*(1-a),h);break;
+      case 6:out[0]=CGRectMake(x,y,w,h*a);
+             out[1]=CGRectMake(x,yy,w*c,h*(1-a));
+             out[2]=CGRectMake(x+w*c,yy,w*(1-c),h*(1-a));break;
+      case 7:out[0]=CGRectMake(x,y,w*c,h*a);
+             out[1]=CGRectMake(x+w*c,y,w*(1-c),h*a);
+             out[2]=CGRectMake(x,yy,w,h*(1-a));break;
     }
+}
+void DFComputePresetFrames(CGRect b,NSInteger preset,CGFloat ratio,CGRect *out) {
+    DFComputePresetFramesWithSecondary(b,preset,ratio,.5,out);
+}
+CGRect DFSecondaryDividerRect(CGRect b,NSInteger preset,CGFloat ratio,CGFloat secondary) {
+    if(preset<3||preset>7||CGRectIsNull(b)||CGRectIsEmpty(b))return CGRectNull;
+    CGFloat x=CGRectGetMinX(b),y=CGRectGetMinY(b);
+    CGFloat w=CGRectGetWidth(b),h=CGRectGetHeight(b);
+    CGFloat a=DFBoundRatio(ratio),c=DFBoundRatio(secondary);
+    switch(preset) {
+      case 3:return CGRectMake(x+w*(a+(1-a)*c),y,0,h);
+      case 4:return CGRectMake(x+w*a,y+h*c,w*(1-a),0);
+      case 5:return CGRectMake(x,y+h*c,w*a,0);
+      case 6:return CGRectMake(x+w*c,y+h*a,0,h*(1-a));
+      case 7:return CGRectMake(x+w*c,y,0,h*a);
+    }
+    return CGRectNull;
 }
