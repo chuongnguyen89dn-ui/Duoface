@@ -1,0 +1,31 @@
+# Native12 Speed8compact — historical DuoFace-owned source recovered; no guessed speed HUD
+
+2026-10-22. Original archive: `dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb` at commit `1286a3ef868cf7e29804bcddf7e20b2eae707ce1` SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`.
+
+## IMPORTANT correction to 08 and former handoff
+
+At the **historical commit 1286a3e**, the project **already authored first-party Speed8 HUD source**. It is not missing from repository history, just not ported into the currently independent `feature/duoface-jb-embedded-appbridge-20261020` source/runtime/package. NO reason to invent another speed HUD or copy the compiled Native12 dylib. Exact source paths and Git blobs:
+- `runtime/speedbubble/DFSpeedNativeSplit8SpringBoard.mm` blob `b68b819e57e0894da5249e7716a7c6bdf93bf3f5`, 597 lines. Implements 104×46 dark capsule, speed font22, 34px speed-limit circle, unit km/h, dragging and drop-to-X, 0.6s hold-to-open 8-option settings (size/opacity/limit/source/reset/close), one HUD, auto-hide when native split/session gone. The rendering/view code is DuoFace-authored, but **legacy owner gate hard-depends on third-party CBBridgeManager, CBWindow and CBBridgedSplitApp** plus `DuoFaceDashboard.dylib` provenance check @ S7DuoFaceClasses / S7Reconcile, hence cannot function in current independent `DFNative12Chrome` owner by raw copy. History also notes Speed8 on device never verified. Owner migration needed, must use own real scene host and preserve touch/Dock.
+- `runtime/speedbubble/DFSpeedTransport8.mm` blob `cf0027380170f71841c79d840a419570fb367d53` first-party publishing/reading 64-bit Darwin notify 4 source atomic speed/limit, TTL5s, no stale merge, read-only GMapHUD frame optional.
+- `runtime/speedbubble/DFSpeedGMapReader8.mm` blob `fc1a2db9e4e840f4600c34f352cc112d0d5b72c9`, reads **verified** `com.chou.gmaphud.output.v1.*` wire. Current `ActiveDuoFaceMapApp()` uses legacy `CBBridgeManager.sharedInstanceIfExists`; do not port unmodified or hook external provider windows.
+- `runtime/speedbubble/DFSpeedProtocol.hpp` blob `8e66a11fda92423d74965484b1ed4aebd74abda0`, `DFSpeedGMapWire.hpp` blob `f04daf4fec1f233ec50d79ed96a855e270da02c1`, test `test_speed_protocol.cpp` blob `1ef4fc3ecf1b02a8590b3f5ac8f049abb209af63`. All **DuoFace-owned license-free data protocol**, not vendor UI code or jailbreak third-party binaries.
+
+## Concrete user-code restoration this turn
+
+Restored original OWN archived C++17 data protocol with intact bytes/implementation to independent active branch:
+- `sideplay/duoface-native-scene-host/speed8/DFSpeedProtocol.hpp` commit `e345beb3ac3a1f8b5db399a4d27e3732170c71e9`.
+- `sideplay/duoface-native-scene-host/speed8/DFSpeedGMapWire.hpp` commit `37234ee8e2bded054095d8656c38b353e8dbe2fb`.
+- `sideplay/duoface-native-scene-host/speed8/test_speed_protocol.cpp` commit `2d5b34d3de02c99f3a126f645410c6764cdf62bd`.
+- `sideplay/duoface-native-scene-host/tests/test_speed8_protocol.py` commit `b17d16d294f17172be1c7951f9dfb665c47c78d`, compiles true C++17 and runs restored atomic 4-provider speed and speed limit/expiry/torn-frame tests. Does not invent simulated driving data or real displayed speed.
+- `.github/workflows/duoface-native12-source-only-validation.yml` commit `15cdba2c12f8e9287053a372a1fdc9ed8fecd0a5`. GitHub CI **[39780251195](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39780251195)** job **119829376413 SUCCESS**: 49 Python scene/UI source contracts, 9 compiled C Native12 geometry tests, 7 integrated package policy tests, **2 new Speed8 tests running real C++17**; seven ObjC arm64 iOS16 syntax checks pass. Exact marker `NATIVE12_SPEED8_HISTORICAL_OWN_DATA_PROTOCOL_COMPILED_NOT_HUD_ENABLED`. **No Speed8 view/owner source linked, no signed DEB, no Sileo or hardware playback QA.**
+- Separate original source bug found: `DFNative12Chrome.m` creation used verified 24/26px `xmark` but `layoutContextMenuForPane:` overwrote it on EVERY relayout with obsolete `width-42,9,32,26`. Fixed by recomputing `DFOriginalCardHeader(width,height).dismiss`, commit `4ff743a4e28e9739734f443447a601fe4e9b3aa0`, regression test `86e5e38f8a08b2fa0071d221e8ba80174b9f3479` (new test CI needed at final checkpoint).
+
+## Exact next owner migration, do not invent UI
+
+Need adapt 597-line first-party historical HUD view source without legacy `CBWindow`/vendor hooks:
+1. `DFNative12Chrome` must own a **small** speed HUD input surface, one session only, and only show after actual two *ready* source-hosted app panes, foreground CarPlay heartbeat, matched external screen. Do NOT make a fullscreen transparent overlay window that steals video and maps touch; do not mark ready just because 4 placeholder app windows exist.
+2. Original 104×46 frame, 34px ring, 8 option settings and 4 data choices should be restored from history, not guessed. Coordinate conversion and drag across screen require explicit UITouch ownership and small-window relayout. OS-level compiled third-party `DuoFaceSpeedHUD.dylib` is read-only reference, never used in independent final package.
+3. Reconnect first-party `DFSpeedTransport8` publisher and optional `DFSpeedGMapReader8` **only via verified existing source notifies**, with source app bundle IDs from own real ready scene IDs. If provider not installed, display unknown `—` and DO NOT synthesize speed/limits or force-launch Waze.
+4. Build **one** integrated independent .38 package only after Speed8 own renderer port with full QA, no premature Sileo; current code/protocol restoration does **not** meet the full Native12+Speed8 target. Also original Zoom Dock ACK, YouTube orientation, OS Close/Restart, accurate nine Style screenshots and no ExitSafeMode are device-UNVERIFIED.
+
+All status claims in this note separate historical byte verification, real C++ source unit tests, Swift/iOS16 clang syntax, and actual iPhone runtime (NOT performed).
