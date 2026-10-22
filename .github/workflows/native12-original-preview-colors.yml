@@ -1,0 +1,70 @@
+name: Native12 original Style preview helper 25 exact colors
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-preview-colors.yml'
+      - 'sideplay/audit/native12-continuation-4888299/decode_preview_helper_literals.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-immutable-preview-colors
+  cancel-in-progress: true
+jobs:
+  check-arm64-original-constants:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact old reference, never execute original payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          REF="$RUNNER_TEMP/native12-ref"
+          mkdir -p "$REF"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REF/native12.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REF/native12.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$REF/native12.deb" "$REF/root"
+          python3 sideplay/audit/native12-continuation-4888299/decode_preview_helper_literals.py \
+            --macho "$REF/root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --out sideplay/audit/native12-continuation-4888299/original-preview-helper
+          cat sideplay/audit/native12-continuation-4888299/original-preview-helper/PREVIEW_HELPER_LITERALS.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Original-Preview-Colors-From-Verified-MachO
+          path: sideplay/audit/native12-continuation-4888299/original-preview-helper/PREVIEW_HELPER_LITERALS.json
+          if-no-files-found: error
+      - name: Persist evidence in correct repo and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          FILE=sideplay/audit/native12-continuation-4888299/original-preview-helper/PREVIEW_HELPER_LITERALS.json
+          SOURCE="$(pwd)/$FILE"
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TARGET="$(mktemp -d)"
+            git worktree add --detach "$TARGET" FETCH_HEAD
+            if test -s "$TARGET/$FILE"; then
+              cmp "$SOURCE" "$TARGET/$FILE"
+              git worktree remove --force "$TARGET"
+              echo NATIVE12_PREVIEW_COLORS_ALREADY_SAVED_IDENTICAL
+              exit 0
+            fi
+            mkdir -p "$TARGET/$(dirname "$FILE")"
+            cp "$SOURCE" "$TARGET/$FILE"
+            git -C "$TARGET" config user.name 'github-actions[bot]'
+            git -C "$TARGET" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TARGET" add "$FILE"
+            git -C "$TARGET" commit -m 'audit(native12): source-verified 25 preview renderer literals from original SHA [skip ci]'
+            if git -C "$TARGET" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TARGET"
+              echo NATIVE12_PREVIEW_COLORS_PERSISTED
+              exit 0
+            fi
+            git worktree remove --force "$TARGET"
+          done
+          exit 1
