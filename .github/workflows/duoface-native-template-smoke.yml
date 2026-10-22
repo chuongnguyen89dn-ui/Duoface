@@ -1,12 +1,7 @@
 name: DuoFace independent CarPlay template scene candidate (isolated DEB)
 on:
-  push:
-    branches: [feature/duoface-jb-embedded-appbridge-20261020]
-    paths:
-      - '.github/workflows/duoface-native-template-smoke.yml'
-      - 'sideplay/duoface-native-scene-host/**'
-      # Persisted DEBs and audit JSON are OUTPUT, not fresh source changes.
-      - '!sideplay/duoface-native-scene-host/packages/**'
+  # Intentional user release gate: no automatic partial DEBs on source pushes.
+  # Only explicitly requested final ONE-DEB verification builds are permitted.
   workflow_dispatch:
 permissions:
   contents: write
