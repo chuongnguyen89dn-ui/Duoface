@@ -382,12 +382,15 @@ static void DFCLog(NSString *text) {
     // Keep the action menu inside the selected split pane rather than
     // covering the whole dual-app display as a centered 470pt sheet.
     CGFloat pw=MIN(470,MAX(180,cr.size.width-16));
-    CGFloat ph=MIN(280,MAX(140,cr.size.height-16));
+    // The external App/Zoom/Style/Close action ROW has no body view.
+    // Real Native12 setupCardContent uses 32pt short / 38pt tall header;
+    // DO NOT cover both live panes with the old blank 224pt gray sheet.
+    CGFloat ph=(CGFloat)DFOriginalCardHeader(cr.size.width,cr.size.height).headerHeight;
     CGRect picker=CGRectMake(CGRectGetMidX(cr)-pw/2,CGRectGetMidY(cr)-ph/2,pw,ph);
     UIViewController *pc=[self emptyRoot:picker];
     UIView *sheet=pc.view;
     sheet.backgroundColor=UIColor.clearColor;
-    sheet.layer.cornerRadius=20;
+    sheet.layer.cornerRadius=MIN(20,ph/2);
     sheet.layer.borderWidth=0;
     sheet.layer.masksToBounds=YES;
     UIVisualEffectView *nativeMaterial=[[UIVisualEffectView alloc] initWithEffect:
@@ -399,7 +402,7 @@ static void DFCLog(NSString *text) {
     UIImage *horizontal=DFCArtwork(@"duoface-logo-picker-alpha-v2");
     UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
     brandImage.contentMode=UIViewContentModeScaleAspectFit;
-    brandImage.frame=CGRectMake(8,7,MIN(120,pw*.25),30);
+    brandImage.frame=CGRectMake(8,(ph-30)/2,MIN(120,pw*.25),30);
     brandImage.userInteractionEnabled=NO;
     [sheet addSubview:brandImage];self.menuBrandImage=brandImage;
     UILabel *brand=[UILabel new];
@@ -419,7 +422,7 @@ static void DFCLog(NSString *text) {
     for(NSInteger i=0;i<4;i++){
         UIButton *b=[self button:names[(NSUInteger)i] tag:i
                          action:@selector(menuAction:)];
-        b.frame=CGRectMake(bx,7,widths[i]*scale,30);
+        b.frame=CGRectMake(bx,(ph-30)/2,widths[i]*scale,30);
         bx+=widths[i]*scale;
         // Original CBMultitaskingOverlayView uses a one-line titleLabel:
         // stacked iOS15 image-over-title config clipped App/Zoom/Style/Close.
@@ -781,10 +784,12 @@ static void DFCLog(NSString *text) {
     if(!self.pickerWindow || CGRectIsNull(pane) || CGRectIsEmpty(pane))return;
     CGRect cr=self.contentRect;
     CGFloat width=MIN(470,MAX(180,cr.size.width-16));
-    CGFloat height=MIN(280,MAX(140,cr.size.height-16));
+    CGFloat height=(CGFloat)DFOriginalCardHeader(cr.size.width,cr.size.height).headerHeight;
     CGFloat x=MAX(CGRectGetMinX(cr)+4,MIN(CGRectGetMidX(pane)-width/2,
                                           CGRectGetMaxX(cr)-width-4));
-    CGFloat y=MAX(CGRectGetMinY(cr)+4,MIN(CGRectGetMidY(pane)-height/2,
+    // Top-align the sole real action row to the selected pane; its
+    // content consists only of this header, never a fabricated empty body.
+    CGFloat y=MAX(CGRectGetMinY(cr)+4,MIN(CGRectGetMinY(pane)+4,
                                           CGRectGetMaxY(cr)-height-4));
     self.pickerWindow.frame=CGRectMake(x,y,width,height);
     UIView *sheet=self.pickerWindow.rootViewController.view;
@@ -794,10 +799,10 @@ static void DFCLog(NSString *text) {
     CGFloat scale=MIN(1.0,MAX(.58,(width-logoW-68)/192));
     CGFloat bx=8+logoW+5;
     for(NSUInteger i=0;i<self.menuActions.count;i++){
-        self.menuActions[i].frame=CGRectMake(bx,7,widths[i]*scale,30);
+        self.menuActions[i].frame=CGRectMake(bx,(height-30)/2,widths[i]*scale,30);
         bx+=widths[i]*scale;
     }
-    CGRect brandFrame=CGRectMake(8,7,logoW,30);
+    CGRect brandFrame=CGRectMake(8,(height-30)/2,logoW,30);
     self.menuBrandImage.frame=brandFrame;
     self.pickerBrand.frame=brandFrame;
     // The initial X was decoded from original setupCardContent. Re-layout
