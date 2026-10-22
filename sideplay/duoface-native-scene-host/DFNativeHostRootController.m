@@ -151,10 +151,10 @@
  NSInteger n=[record[@"Preset"] isKindOfClass:NSNumber.class]?
        [record[@"Preset"] integerValue]:
        (record?([record[@"Vertical"] boolValue]?0:1):0);
- self.currentPreset=MAX(0,MIN(7,n));
+ self.currentPreset=MAX(0,MIN(8,n));
 }
 - (BOOL)writeNativeLayoutPreset:(NSInteger)preset {
- if(preset<0||preset>7)return NO;
+ if(preset<0||preset>8)return NO;
  NSString *path=@"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
  NSDictionary *old=[NSDictionary dictionaryWithContentsOfFile:path]?:@{};
  NSNumber *ratio=[old[@"Ratio"] isKindOfClass:NSNumber.class]?old[@"Ratio"]:@.5;
@@ -223,7 +223,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  (void)tableView;(void)section;
- return self.tabs.selectedSegmentIndex==2?8:(NSInteger)self.installedApps.count;
+ return self.tabs.selectedSegmentIndex==2?9:(NSInteger)self.installedApps.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
@@ -233,7 +233,7 @@
     NSArray *titles=@[@"Chia trái / phải",@"Chia trên / dưới",
       @"Trái lớn · phải hai ô",@"Phải lớn · trái hai ô",
       @"Trên lớn · dưới hai ô",@"Dưới lớn · trên hai ô",
-      @"Bốn ô 2 × 2",@"Bốn ô dọc"];
+      @"Bốn ô 2 × 2",@"Bốn ô dọc",@"Một ô · toàn vùng CarPlay"];
     NSInteger preset=indexPath.row;
     cell.textLabel.text=titles[(NSUInteger)preset];
     cell.detailTextLabel.text=@"Bố cục scene thật trên CarPlay";
