@@ -110,6 +110,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) Class configurationClass;
 @property(nonatomic,assign) Class externalWindowClass;
 @property(nonatomic,assign) CGRect contentRect;
+@property(nonatomic,assign) CGRect normalContentRect;
+@property(nonatomic,assign) BOOL hostFullscreen;
 @property(nonatomic,copy) DFNative12ChromeCommand callback;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *windows;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *pillWindows;
@@ -167,6 +169,7 @@ static void DFCLog(NSString *text) {
     if((self=[super init])){
         _display=display;_configurationClass=configurationClass;
         _externalWindowClass=windowClass;_contentRect=content;
+        _normalContentRect=content;_hostFullscreen=NO;
         _callback=[command copy];_ratio=.5;_logoFraction=.5;
         _verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=1;_secondaryRatio=.5;
         NSDictionary *prior=DFCRestoreLayout();
@@ -679,6 +682,7 @@ static void DFCLog(NSString *text) {
         @"Preset":@(self.preset),
         @"SplitPreset":@(self.preset),
         @"SplitMode":@(self.preset),
+        @"HostFullscreenGeometry":@(self.hostFullscreen),
         @"Owner":@"SpringBoard",
     };
 }
@@ -1208,7 +1212,69 @@ static void DFCLog(NSString *text) {
         DFCLog(@"logo-reposition-long-hold");
     }
 }
+// Native12 CBWindow.carPlayUsableBounds is normal content; whole-host
+// fullscreen uses real screen bounds (WIRING_REPORT original CBWindow
+// @0xb0ef4 / @0xb1aac), NOT scaling one pane and NOT per-slot focus.
+//
+// This is ONLY the reversible SpringBoard source-window geometry half.
+// The real iOS16 CarPlay Dashboard Dock receiver/ACK is a separate owner;
+// no caller may trigger this method until that dock is verified hidden.
+- (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:(CGRect)screenBounds {
+    if(self.hostFullscreen)return YES;
+    if(self.startupActive || self.pickerVisible || self.styleVisible ||
+       !self.windows.count || self.appSceneWindows.count!=4)return NO;
+    UIWindow *anchor=self.windows.firstObject;
+    CGRect actual=anchor.screen.bounds;
+    CGRect saved=self.contentRect;
+    if(!anchor.screen || anchor.screen==UIScreen.mainScreen ||
+       !isfinite(screenBounds.origin.x) || !isfinite(screenBounds.origin.y) ||
+       !isfinite(screenBounds.size.width) || !isfinite(screenBounds.size.height) ||
+       screenBounds.size.width<300 || screenBounds.size.height<145 ||
+       fabs(actual.origin.x-screenBounds.origin.x)>1.0 ||
+       fabs(actual.origin.y-screenBounds.origin.y)>1.0 ||
+       fabs(actual.size.width-screenBounds.size.width)>1.0 ||
+       fabs(actual.size.height-screenBounds.size.height)>1.0 ||
+       !CGRectContainsRect(actual,saved))return NO;
+    for(UIWindow *window in self.windows)
+        if(window.screen!=anchor.screen)return NO;
+    self.normalContentRect=saved;
+    self.contentRect=actual;
+    self.hostFullscreen=YES;
+    @try {
+        [self layoutControls];
+        CGRect pane[4];
+        DFComputePresetFramesWithSecondary(self.contentRect,self.preset,
+                  DFCClamp(self.ratio),self.secondaryRatio,pane);
+        NSInteger count=DFSlotCountForPreset(self.preset);
+        for(NSInteger i=0;i<count;i++){
+            NSInteger visual=(self.swapped&&i<2)?1-i:i;
+            if(!CGRectContainsRect(actual,self.appSceneWindows[(NSUInteger)i].frame) ||
+               !CGRectContainsRect(actual,pane[visual])){
+                [self restoreHostFullscreenGeometry];
+                return NO;
+            }
+        }
+    } @catch(NSException *exception) {
+        DFCLog([NSString stringWithFormat:@"host-zoom-geometry-exception=%@",exception.name]);
+        [self restoreHostFullscreenGeometry];
+        return NO;
+    }
+    // Geometry applied does NOT mean actual native Dock is hidden.
+    DFCLog([NSString stringWithFormat:@"host-zoom-geometry-only screen=%@ normal=%@",
+            NSStringFromCGRect(actual),NSStringFromCGRect(saved)]);
+    return YES;
+}
+- (void)restoreHostFullscreenGeometry {
+    if(!self.hostFullscreen)return;
+    CGRect previous=self.normalContentRect;
+    self.hostFullscreen=NO;
+    self.contentRect=previous;
+    // Never change focus, splitPreset, dragged ratio or running scenes.
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
+}
 - (void)stop {
+    if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
     ++self.borderGeneration;
     self.borderUntil=0;

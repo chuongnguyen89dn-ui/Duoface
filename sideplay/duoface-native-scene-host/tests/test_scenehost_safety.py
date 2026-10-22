@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.45~originaldismiss1",build)
+  self.assertIn("0.1.46~zoomgeometry1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.45~originaldismiss1",c)
+  self.assertIn("Version: 0.1.46~zoomgeometry1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -946,5 +946,43 @@ class NativeCarPlayHost(unittest.TestCase):
                   owned.index('SEL invalidate=NSSelectorFromString(@"invalidate")'))
   self.assertNotIn('DFHostBool(self.appController,@"setInvalidated:"',owned)
   self.assertNotIn('DFHostBool(self.appController,@"setHosting:"',owned)
+
+ def test_native12_fullscreen_geometry_is_real_reversible_but_gated_by_dock_owner(self):
+  """Original @0xb0ef4/@0xb1aac screen/usable invariants; no invented Dock ack."""
+  chrome=file("DFNative12Chrome.m")
+  header=file("DFNative12Chrome.h")
+  owner=file("DFTouchOwnerProbe.m")
+  app=file("DFNativeHostAppDelegate.m")
+  assert 'applyHostFullscreenToScreenBoundsAfterDockAck:' in header
+  assert 'restoreHostFullscreenGeometry' in header
+  method=chrome[chrome.index('- (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:'):
+                chrome.index('- (void)restoreHostFullscreenGeometry {')]
+  assert 'anchor.screen.bounds' in method
+  assert 'anchor.screen==UIScreen.mainScreen' in method
+  assert 'CGRectContainsRect(actual,saved)' in method
+  assert 'self.normalContentRect=saved' in method
+  assert 'self.contentRect=actual' in method
+  assert 'DFComputePresetFramesWithSecondary(self.contentRect,self.preset' in method
+  assert '[self layoutControls]' in method
+  assert 'self.appSceneWindows[(NSUInteger)i].frame' in method
+  assert 'self.preset=' not in method
+  assert 'self.ratio=' not in method
+  assert 'self.focus=' not in method
+  restore=chrome[chrome.index('- (void)restoreHostFullscreenGeometry {'):
+                 chrome.index('- (void)stop {')]
+  assert 'self.contentRect=previous' in restore
+  assert 'self.hostFullscreen=NO' in restore
+  assert 'self.preset=' not in restore
+  assert 'self.ratio=' not in restore
+  assert 'self.focus=' not in restore
+  assert 'if(self.hostFullscreen)[self restoreHostFullscreenGeometry];' in chrome
+  assert '@"HostFullscreenGeometry":@(self.hostFullscreen)' in chrome
+  # There is no proven CarPlay-AppDock receiver in the new independent build
+  # yet; this method must not be connected to a speculative button handler.
+  assert '[self applyHostFullscreenToScreenBoundsAfterDockAck:' not in chrome
+  assert 'applyHostFullscreenToScreenBoundsAfterDockAck:' not in owner
+  assert 'applyHostFullscreenToScreenBoundsAfterDockAck:' not in app
+  assert 'BOOL accepted=!isWholeHostZoom;' in app
+  assert 'DBDockWindow' not in chrome
 
 if __name__=="__main__":unittest.main(verbosity=2)

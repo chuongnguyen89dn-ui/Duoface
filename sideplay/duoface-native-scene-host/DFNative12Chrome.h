@@ -14,5 +14,10 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
 // This is the proof of operation relayed to CarPlay; never a second renderer.
 - (NSDictionary<NSString *, id> *)stateSnapshot;
 - (BOOL)applyLayoutSettingsFromDisk;
+// Two-phase Native12 fullscreen: geometry changes ONLY after an actual,
+// same-session CarPlay Dashboard owner has confirmed hiding its native Dock.
+// The receiver/ack is NOT implemented here; never pass a guessed YES.
+- (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:(CGRect)screenBounds;
+- (void)restoreHostFullscreenGeometry;
 - (void)stop;
 @end
