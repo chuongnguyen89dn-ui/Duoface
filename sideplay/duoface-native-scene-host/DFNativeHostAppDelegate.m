@@ -318,17 +318,37 @@ void DFNativeHostLog(NSString *message) {
     if([action isEqualToString:@"FocusRight"] && focus!=1)return;
     if([action isEqualToString:@"FocusSlot2"] && focus!=2)return;
     if([action isEqualToString:@"FocusSlot3"] && focus!=3)return;
-    // This is an observation channel, not the original Native12 Dock owner.
-    // Its generic state ACK cannot prove whole-host Zoom, so explicitly
-    // refuse ONLY that action until a measured geometry+Dock receiver exists.
+    // Zoom is accepted ONLY when the CarPlay-process native AppDock owner
+    // actually returned its receipt AND the independent SpringBoard host
+    // applied its own geometry. UI tap alone is never a success signal.
     BOOL isWholeHostZoom=[action isEqualToString:@"Zoom"];
-    BOOL accepted=!isWholeHostZoom;
-    if(isWholeHostZoom)
-        DFNativeHostLog(@"native12-zoom-not-applied-missing-real-dock-owner");
+    NSDictionary *zr=record[@"ZoomReceipt"];
+    BOOL verified=NO;
+    NSString *zoomReason=@"missing-real-native-dock-and-host-receipt";
+    if(isWholeHostZoom && [zr isKindOfClass:NSDictionary.class]){
+        BOOL expanded=[zr[@"Expanded"] boolValue];
+        BOOL stateExpanded=[state[@"HostFullscreenGeometry"] boolValue];
+        BOOL matchingSession=[zr[@"Session"] isEqualToString:self.touchSession];
+        BOOL owner=[zr[@"DockOwnerVerified"] isEqual:@YES] &&
+                   [zr[@"Applied"] isEqual:@YES];
+        BOOL dock=[zr[@"DockHidden"] isEqual:@(expanded)];
+        BOOL geometry=[zr[@"HostFullscreenGeometry"] isEqual:@(expanded)] &&
+                      stateExpanded==expanded;
+        BOOL request=[zr[@"RequestID"] isKindOfClass:NSString.class] &&
+                     [[NSUUID alloc] initWithUUIDString:zr[@"RequestID"]]!=nil;
+        verified=matchingSession && owner && dock && geometry && request;
+        if(!verified && [zr[@"Reason"] isKindOfClass:NSString.class])
+            zoomReason=zr[@"Reason"];
+        DFNativeHostLog(verified?
+           (expanded?@"native12-zoom-enter-verified-two-owner":
+                      @"native12-zoom-exit-verified-two-owner"):
+                      @"native12-zoom-rejected-no-two-owner-proof");
+    }
+    BOOL accepted=!isWholeHostZoom || verified;
     self.lastTouchSequence=[sequence unsignedIntegerValue];
     NSDictionary *ack=@{@"Version":@2,@"Session":session,
                          @"Sequence":sequence,@"Accepted":@(accepted),
-                         @"Reason":isWholeHostZoom?@"native-dock-and-geometry-owner-not-wired":@"",
+                         @"Reason":(isWholeHostZoom && !verified)?zoomReason:@"",
                          @"Action":action,@"Owner":@"SpringBoard",
                          @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
     if(![ack writeToFile:DFAckPath atomically:YES]){
