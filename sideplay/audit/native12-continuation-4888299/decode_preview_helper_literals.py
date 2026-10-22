@@ -28,6 +28,7 @@ ADDRS={
     "preview_literal_311728":0x311728,
     "preview_literal_311730":0x311730,
     "preview_literal_311738":0x311738,
+}
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--macho",required=True)
