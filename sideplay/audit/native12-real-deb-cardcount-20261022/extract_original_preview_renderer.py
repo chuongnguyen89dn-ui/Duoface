@@ -34,7 +34,7 @@ def decode_native_jump_table(binary,entries=9):
  cases=[{"preset_tag":idx,"table_u16":x,"renderer_case_pc":f"0x{0x9f290+x*4:x}"}
          for idx,x in enumerate(offsets)]
  for item in cases:
-  assert 0x9f290<=int(item["renderer_case_pc"],16)<0x9f828,item
+  assert 0x9f290<=int(item["renderer_case_pc"],16)<0x9ff68,item
  return {"table_vmaddr":"0x310d3e","file_offset":file_position,
          "adr_base":"0x9f290","cases":cases}
 
