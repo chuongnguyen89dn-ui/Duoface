@@ -10,3 +10,5 @@ CONFIRMED matching source properties: 5/6 columns threshold560, margin14, gap10,
 CONFIRMED missing property: original badge.layer.shadowOpacity is float .45. ARM64 a6174 loads s0 from VM0x310ce0, saved at sp+0x3c; a6668 loads selector at sp+0x28 (setShadowOpacity:), a666c reloads s0, a6670 dispatches. Original black shadowColor and radius3 are already set in independent code but shadowOpacity is absent, leaving CALayer default0. Decoder of original SHA-verified file gives .44999998807907104. This is a narrow concrete visual mismatch, not a new UI idea.
 
 Implementation pending at first finding checkpoint: set only badge.layer.shadowOpacity=.45f beside existing shadowColor/radius. Further original gallery contentY/header geometry remains separate; do not mark full Style/device parity complete.
+
+IMPLEMENTED after analysis commit e2d1efc: added original shadowOpacity=.45f in DFNative12Chrome.m. No other card behavior changed. Existing source-contract suite run: 45 tests PASS. Source-only remote iOS syntax CI pending; no hardware visual check.

@@ -532,6 +532,7 @@ static void DFCLog(NSString *text) {
         badge.frame=CGRectMake(metrics.cardWidth-21,4,17,17);
         badge.layer.shadowColor=UIColor.blackColor.CGColor;
         badge.layer.shadowRadius=3;
+        badge.layer.shadowOpacity=.45f; // Original a6174/a666c/a6670.
         badge.userInteractionEnabled=NO;
         [button addSubview:badge];
         [badges addObject:badge];
