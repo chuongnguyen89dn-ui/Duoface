@@ -27,3 +27,14 @@
 1. Đọc raw focused callsites và source fullscreen của đúng Native12 để map caller → selector → owner → teardown.
 2. Đối chiếu app-slot selection/Solo và gallery branch 5/6 từ original instructions.
 3. Ghi bản đồ chức năng có evidence/unknown riêng; sửa từng chỗ đủ chứng cứ, dùng version mới nếu build; giữ nguyên .23–.31.
+
+## Lô 2: đọc instruction gốc, không dựa tên hàm (2026-10-22)
+- Fetch_blob c14525b4c0fa1dd13e93a7e754d892b160db1fc3 đọc đủ ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json; fetch_file đối tượng >1MB trả content rỗng, không phải file rỗng trong repo.
+- setupPresetCardsInCardW:cardH:contentY: 0xa5e78 có 581 instructions. Gallery thực tạo CBOverlayScrollView (a5ef0–a5f1c); hiện tại bản mới tạo UIView trực tiếp, chưa có scroll gallery.
+- Chính xác: inset ngang 14, khoảng cách cột 10, width=(cardW-28-(columns-1)*10)/columns; góc card 12; first row y=22; previewWidth=roundf(cellWidth-14), previewHeight=54, previewTop=6. Selected border 2 và unselected 1; selected card có checkmark.circle.fill 17x17.
+- Bản mới: inset6/gap4/corner7, previewHeight<=23, thêm UILabel tiếng Việt cạnh preview và chưa thấy checkmark selected. Đây là khác biệt thực, không được gọi 9 thẻ đồng nghĩa đúng giao diện gốc. Hằng ngưỡng 5/6, row stride, card height đang decode từ địa chỉ Mach-O 0x3117d8/e0/e8/f8, không tự chọn giá trị.
+- presetSelected: 0xaa4f0: ghi cùng tag vào splitPreset tại aa55c và splitMode tại aa570; lưu prefs tại aa6a4, post Darwin aa6f0, gọi block onMultiSplitSelected với (tag, copy apps, ratio) tại aa73c–aa76c; dismissOverlay cuối aa78c. Callback không chứng minh chọn Solo tự đảo selected slot, nên CHƯA sửa app order theo giả định.
+- CẢNH BÁO chất lượng chứng cứ: LLVM nhiều dòng gắn “Objc message: ...bringSubviewToFront:” dù x1 đã reload selector khác từ stack. Phải theo register/stack/selector ref, KHÔNG lấy annotation cuối dòng làm đích chắc chắn.
+- Đã đọc DFHostGeometry.xm, DFFullscreenTransport.mm, DFDashboardChrome.xm: transport có requestID/sequence/lease6s/timeout3s + restore; geometry adapter phụ thuộc CBBridgeManager/CBWindow/CBBridgedSplitApp và không thể nối thẳng sang independent DFNative12Chrome. Chrome hook DB/CARStatusBarWindow không tự chứng minh Apple AppDock. Giữ cơ chế owner validation + rollback, cần adapter riêng có receiver đúng process.
+- Đã lưu script decode_gallery_constants.py và workflow native12-original-gallery-constants.yml (commits ea1e0a9,31999f4); tái dùng decoder Mach-O SHA-checked sẵn có, không chạy binary gốc, không phát hành. Local python -m py_compile PASS chỉ kiểm syntax.
+- GitHub connector không trả byte DEB gốc: fetch API báo UTF-8 only; fetch_blob binary UnicodeDecodeError. Do đó workflow audit trên runner dùng git show immutable ref như pipeline có sẵn; không yêu cầu upload lại DEB.
