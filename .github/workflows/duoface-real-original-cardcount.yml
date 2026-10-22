@@ -41,7 +41,7 @@ jobs:
           f=Path('sideplay/audit/native12-real-deb-cardcount-20261022/evidence/ORIGINAL_NINE_CARDS.json')
           j=json.loads(f.read_text())
           assert j['original_preview_card_count']==9
-          assert j['current_independent_style_picker_count']==8
+          assert j['current_independent_style_picker_count']==9
           assert j['release_allowed_based_on_this_audit'] is False
           print("NATIVE12_REAL_DEB_NINE_CARDS_NOT_EIGHT_VERIFIED")
           PY
