@@ -25,10 +25,15 @@ static CGFloat DFCSnap(CGFloat x) {
 // or vendor-license state. App scenes are created fresh on each connection.
 static NSString *const kDFLayoutPath=
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
+static NSInteger DFCanonicalPreset(NSInteger old) {
+    const NSInteger map[9]={1,2,4,5,6,7,3,3,0};
+    return old>=0&&old<=8?map[old]:1;
+}
 static NSDictionary *DFCRestoreLayout(void) {
     NSDictionary *record=[NSDictionary dictionaryWithContentsOfFile:kDFLayoutPath];
     if(![record isKindOfClass:NSDictionary.class] ||
-       ![record[@"Version"] isEqual:@1])return nil;
+       !([record[@"Version"] isEqual:@1] || [record[@"Version"] isEqual:@2]))return nil;
+    BOOL legacy=[record[@"Version"] isEqual:@1];
     for(NSString *key in @[@"Ratio",@"LogoFraction",@"Vertical",@"Swapped"])
         if(![record[key] isKindOfClass:NSNumber.class])return nil;
     double ratio=[record[@"Ratio"] doubleValue];
@@ -37,23 +42,34 @@ static NSDictionary *DFCRestoreLayout(void) {
        !isfinite(logo) || logo<.1 || logo>.9)return nil;
     NSNumber *preset=record[@"Preset"];
     if(preset && (![preset isKindOfClass:NSNumber.class] ||
-       preset.integerValue<0 || preset.integerValue>8))return nil;
+       preset.integerValue<0 || preset.integerValue>(legacy?8:7)))return nil;
     // Exact ORIGINAL CBMultitaskingOverlayView.presetSelected: @0xaa4f0
     // writes the SAME selected UIButton.tag into splitPreset and splitMode.
     // Preserve this dual-state selection contract in our independent prefs.
     for(NSString *key in @[@"splitPreset",@"splitMode"]){
         id value=record[key];
         if(value && (![value isKindOfClass:NSNumber.class] ||
-                     [value integerValue]<0 || [value integerValue]>8 ||
+                     [value integerValue]<0 || [value integerValue]>(legacy?8:7) ||
                      (preset && [value integerValue]!=preset.integerValue)))
             return nil;
     }
-    return record;
+    if(!legacy)return record;
+    NSInteger originalID=preset?preset.integerValue:([record[@"Vertical"] boolValue]?0:1);
+    NSInteger canonical=DFCanonicalPreset(originalID);
+    NSMutableDictionary *normalized=[record mutableCopy];
+    normalized[@"Version"]=@2;normalized[@"Preset"]=@(canonical);
+    normalized[@"splitPreset"]=@(canonical);normalized[@"splitMode"]=@(canonical);
+    normalized[@"Secondary"]=@.5;
+    normalized[@"Vertical"]=@(DFPrimaryDividerIsVertical(canonical));
+    if(![normalized writeToFile:kDFLayoutPath atomically:YES])
+        NSLog(@"[DFNative12Chrome] layout migration deferred");
+    return normalized;
 }
-static BOOL DFCSaveLayout(CGFloat ratio, CGFloat logo, BOOL vertical, BOOL swapped, NSInteger preset) {
+static BOOL DFCSaveLayout(CGFloat ratio, CGFloat secondary, CGFloat logo, BOOL vertical, BOOL swapped, NSInteger preset) {
     if(!isfinite(ratio) || ratio<1.0/3.0 || ratio>2.0/3.0 ||
        !isfinite(logo) || logo<.1 || logo>.9)return NO;
-    NSDictionary *record=@{@"Version":@1,@"Ratio":@(ratio),
+    NSDictionary *record=@{@"Version":@2,@"Ratio":@(ratio),
+        @"Secondary":@(secondary),
         @"LogoFraction":@(logo),@"Vertical":@(vertical),@"Swapped":@(swapped),
         @"Preset":@(preset),@"splitPreset":@(preset),@"splitMode":@(preset)};
     return [record writeToFile:kDFLayoutPath atomically:YES];
@@ -96,6 +112,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *windows;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *pillWindows;
 @property(nonatomic,strong) UIWindow *dividerWindow;
+@property(nonatomic,strong) UIWindow *secondaryDividerWindow;
 @property(nonatomic,strong) UIWindow *pickerWindow;
 @property(nonatomic,strong) UIWindow *styleWindow;
 @property(nonatomic,strong) NSArray<UIButton *> *styleChoices;
@@ -111,6 +128,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *sceneHandleReady;
 @property(nonatomic,strong) UIView *dividerTrack;
+@property(nonatomic,strong) UIView *secondaryDividerTrack;
 @property(nonatomic,strong) UIButton *dividerLogo;
 @property(nonatomic,strong) NSArray<UIButton *> *pillZoom;
 @property(nonatomic,strong) NSArray<UIButton *> *pillMenu;
@@ -121,6 +139,9 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSArray<UIButton *> *menuActions;
 @property(nonatomic,assign) CGFloat ratio;
 @property(nonatomic,assign) CGFloat dragStartRatio;
+@property(nonatomic,assign) CGFloat secondaryRatio;
+@property(nonatomic,assign) CGFloat dragStartSecondary;
+@property(nonatomic,assign) CGPoint secondaryDragStartPoint;
 @property(nonatomic,assign) CGPoint dragStartScreenPoint;
 @property(nonatomic,assign) CGFloat logoFraction;
 @property(nonatomic,assign) BOOL verticalDivider;
@@ -142,14 +163,16 @@ static void DFCLog(NSString *text) {
         _display=display;_configurationClass=configurationClass;
         _externalWindowClass=windowClass;_contentRect=content;
         _callback=[command copy];_ratio=.5;_logoFraction=.5;
-        _verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=0;
+        _verticalDivider=YES;_focus=-1;_selectedSlot=0;_preset=1;_secondaryRatio=.5;
         NSDictionary *prior=DFCRestoreLayout();
         if(prior){
             _ratio=[prior[@"Ratio"] doubleValue];
+            _secondaryRatio=[prior[@"Secondary"] isKindOfClass:NSNumber.class]?
+                   DFCClamp([prior[@"Secondary"] doubleValue]):.5;
             _logoFraction=[prior[@"LogoFraction"] doubleValue];
             _verticalDivider=[prior[@"Vertical"] boolValue];
             _swapped=[prior[@"Swapped"] boolValue];
-            _preset=prior[@"Preset"]?[prior[@"Preset"] integerValue]:(_verticalDivider?0:1);
+            _preset=prior[@"Preset"]?[prior[@"Preset"] integerValue]:(_verticalDivider?1:2);
             _verticalDivider=DFPrimaryDividerIsVertical(_preset);
         }
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
@@ -322,9 +345,9 @@ static void DFCLog(NSString *text) {
     if(!self.dividerWindow){[self stop];return NO;}
     // Keep the action menu inside the selected split pane rather than
     // covering the whole dual-app display as a centered 470pt sheet.
-    CGFloat pw=MIN(cr.size.width-12,236);
-    CGFloat ph=MIN(cr.size.height-12,154);
-    CGRect picker=CGRectMake(cr.origin.x+8,CGRectGetMidY(cr)-ph/2,pw,ph);
+    CGFloat pw=MIN(470,MAX(180,cr.size.width-16));
+    CGFloat ph=MIN(280,MAX(140,cr.size.height-16));
+    CGRect picker=CGRectMake(CGRectGetMidX(cr)-pw/2,CGRectGetMidY(cr)-ph/2,pw,ph);
     UIViewController *pc=[self emptyRoot:picker];
     UIView *sheet=pc.view;
     sheet.backgroundColor=[UIColor colorWithWhite:.12 alpha:.97];
@@ -333,7 +356,7 @@ static void DFCLog(NSString *text) {
     UIImage *horizontal=DFCArtwork(@"duoface-logo-picker-alpha-v2");
     UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
     brandImage.contentMode=UIViewContentModeScaleAspectFit;
-    brandImage.frame=CGRectMake(8,4,MIN(110,pw*.51),28);
+    brandImage.frame=CGRectMake(8,7,MIN(120,pw*.25),30);
     brandImage.userInteractionEnabled=NO;
     [sheet addSubview:brandImage];self.menuBrandImage=brandImage;
     UILabel *brand=[UILabel new];
@@ -347,13 +370,16 @@ static void DFCLog(NSString *text) {
     NSArray *symbols=@[@"square.grid.2x2",@"arrow.up.left.and.arrow.down.right",
                         @"rectangle.3.group",@"xmark.circle"];
     NSMutableArray<UIButton *> *actions=[NSMutableArray new];
-    CGFloat bw=(pw-18)/2;
+    // Native12-approved 30pt ONE row; logo, App, Zoom, Style, Close.
+    const CGFloat widths[4]={43,51,47,51};
+    CGFloat logoW=MIN(120,MAX(65,pw*.25));
+    CGFloat scale=MIN(1.0,MAX(.58,(pw-logoW-68)/192));
+    CGFloat bx=8+logoW+5;
     for(NSInteger i=0;i<4;i++){
         UIButton *b=[self button:names[(NSUInteger)i] tag:i
                          action:@selector(menuAction:)];
-        // Two columns of actual UIKit actions: 44pt touch rows on narrow
-        // split CarPlay panes; never shrink to a decorative icon strip.
-        b.frame=CGRectMake(9+(i%2)*bw,36+(i/2)*44,bw,43);
+        b.frame=CGRectMake(bx,7,widths[i]*scale,30);
+        bx+=widths[i]*scale;
         UIImage *img=[UIImage systemImageNamed:symbols[(NSUInteger)i]];
         [b setImage:img forState:UIControlStateNormal];
         b.tintColor=UIColor.whiteColor;
@@ -361,12 +387,12 @@ static void DFCLog(NSString *text) {
         if(@available(iOS 15,*)){
             UIButtonConfiguration *conf=[UIButtonConfiguration plainButtonConfiguration];
             conf.title=names[(NSUInteger)i];
-            conf.image=img;conf.imagePlacement=NSDirectionalRectEdgeTop;
-            conf.imagePadding=3;
+            conf.image=img;
+            conf.imagePlacement=NSDirectionalRectEdgeTop;
+            conf.imagePadding=1;
             b.configuration=conf;
         }
-        [sheet addSubview:b];
-        [actions addObject:b];
+        [sheet addSubview:b];[actions addObject:b];
     }
     self.menuActions=actions;
     UILabel *hint=[UILabel new];
@@ -374,18 +400,18 @@ static void DFCLog(NSString *text) {
     hint.font=[UIFont systemFontOfSize:9];
     hint.textColor=[UIColor colorWithWhite:.8 alpha:1];
     hint.textAlignment=NSTextAlignmentCenter;
-    hint.frame=CGRectMake(6,ph-24,pw-12,19);
+    hint.frame=CGRectMake(8,MIN(ph-25,52),pw-16,19);
     [sheet addSubview:hint];self.menuContext=hint;
     UIButton *dismiss=[self button:@"×" tag:0 action:@selector(closeMenu:)];
-    dismiss.frame=CGRectMake(pw-32,8,30,32);
+    dismiss.frame=CGRectMake(pw-42,9,32,26);
     [sheet addSubview:dismiss];self.menuDismiss=dismiss;
     self.pickerWindow=[self makeWindow:picker root:pc level:3];
     if(!self.pickerWindow){[self stop];return NO;}
     // Native12-inspired Style gallery: explicit selectable split arrangements,
     // not the old invisible preset++ on each press. Miniatures are geometry
     // previews only (DFLayoutEngine), NOT simulated embedded applications.
-    CGFloat styleW=MIN(cr.size.width-12,280);
-    CGFloat styleH=MIN(cr.size.height-8,228);
+    CGFloat styleW=MIN(cr.size.width-12,470);
+    CGFloat styleH=MIN(cr.size.height-8,220);
     CGRect styleRect=CGRectMake(CGRectGetMidX(cr)-styleW/2,
                                   CGRectGetMidY(cr)-styleH/2,styleW,styleH);
     UIViewController *styleRoot=[self emptyRoot:styleRect];
@@ -401,15 +427,16 @@ static void DFCLog(NSString *text) {
     UIButton *dismissStyle=[self button:@"×" tag:0 action:@selector(closeStylePicker:)];
     dismissStyle.frame=CGRectMake(styleW-37,1,34,30);
     [styleSheet addSubview:dismissStyle];
-    NSArray<NSString *> *styleNames=@[@"2 dọc",@"2 ngang",@"1 trái + 2",
-       @"2 + 1 phải",@"1 trên + 2",@"2 + 1 dưới",@"4 ô",@"4 cột",@"1 ô"];
+    NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",
+         @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
+         @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới"];
     NSMutableArray<UIButton *> *choices=[NSMutableArray new];
-    CGFloat styleCellWidth=(styleW-18)/2;
-    CGFloat styleCellHeight=(styleH-38)/5;
-    for(NSInteger idx=0;idx<9;idx++){
+    CGFloat styleCellWidth=(styleW-24)/4;
+    CGFloat styleCellHeight=(styleH-38)/2;
+    for(NSInteger idx=0;idx<8;idx++){
         UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
-        button.frame=CGRectMake(6+(idx%2)*(styleCellWidth+6),
-               31+(idx/2)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-3));
+        button.frame=CGRectMake(6+(idx%4)*(styleCellWidth+4),
+               31+(idx/4)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
         button.layer.cornerRadius=7;
         button.layer.borderWidth=1;
         button.layer.borderColor=[UIColor colorWithWhite:1 alpha:.26].CGColor;
@@ -424,7 +451,7 @@ static void DFCLog(NSString *text) {
         thumb.layer.borderColor=[UIColor colorWithWhite:1 alpha:.5].CGColor;
         thumb.userInteractionEnabled=NO;
         CGRect regions[4];
-        DFComputePresetFrames(CGRectMake(0,0,thumbW,thumbH),idx,.5,regions);
+        DFComputePresetFramesWithSecondary(CGRectMake(0,0,thumbW,thumbH),idx,.5,.5,regions);
         for(NSInteger slot=0;slot<DFSlotCountForPreset(idx);slot++){
             CGRect region=CGRectInset(regions[slot],.7,.7);
             if(CGRectIsNull(region)||CGRectIsEmpty(region))continue;
@@ -588,12 +615,14 @@ static void DFCLog(NSString *text) {
     if(!saved)return NO;
     NSInteger preset=saved[@"Preset"]?[saved[@"Preset"] integerValue]:
        ([saved[@"Vertical"] boolValue]?0:1);
-    if(preset<0 || preset>8)return NO;
+    if(preset<0 || preset>7)return NO;
     // This changes the actual scene geometry and survives a reconnect.
     // Never release the two previously running real apps when switching to
     // three/four slots; merely hide inactive containers and restore later.
     self.preset=preset;
     self.ratio=[saved[@"Ratio"] doubleValue];
+    self.secondaryRatio=[saved[@"Secondary"] isKindOfClass:NSNumber.class]?
+           DFCClamp([saved[@"Secondary"] doubleValue]):.5;
     self.logoFraction=[saved[@"LogoFraction"] doubleValue];
     self.swapped=[saved[@"Swapped"] boolValue];
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
@@ -610,7 +639,7 @@ static void DFCLog(NSString *text) {
     return YES;
 }
 - (void)saveSplitState {
-    if(!DFCSaveLayout(self.ratio,self.logoFraction,
+    if(!DFCSaveLayout(self.ratio,self.secondaryRatio,self.logoFraction,
                       self.verticalDivider,self.swapped,self.preset))
         DFCLog(@"split-layout-persist-failed");
 }
@@ -619,8 +648,8 @@ static void DFCLog(NSString *text) {
 - (void)layoutContextMenuForPane:(CGRect)pane {
     if(!self.pickerWindow || CGRectIsNull(pane) || CGRectIsEmpty(pane))return;
     CGRect cr=self.contentRect;
-    CGFloat width=MIN(cr.size.width-12,MIN(236,MAX(206,pane.size.width-10)));
-    CGFloat height=MIN(cr.size.height-12,154);
+    CGFloat width=MIN(470,MAX(180,cr.size.width-16));
+    CGFloat height=MIN(280,MAX(140,cr.size.height-16));
     CGFloat x=MAX(CGRectGetMinX(cr)+4,MIN(CGRectGetMidX(pane)-width/2,
                                           CGRectGetMaxX(cr)-width-4));
     CGFloat y=MAX(CGRectGetMinY(cr)+4,MIN(CGRectGetMidY(pane)-height/2,
@@ -628,22 +657,26 @@ static void DFCLog(NSString *text) {
     self.pickerWindow.frame=CGRectMake(x,y,width,height);
     UIView *sheet=self.pickerWindow.rootViewController.view;
     sheet.frame=CGRectMake(0,0,width,height);
-    CGFloat cells=(width-18)/2;
+    const CGFloat widths[4]={43,51,47,51};
+    CGFloat logoW=MIN(120,MAX(65,width*.25));
+    CGFloat scale=MIN(1.0,MAX(.58,(width-logoW-68)/192));
+    CGFloat bx=8+logoW+5;
     for(NSUInteger i=0;i<self.menuActions.count;i++){
-        self.menuActions[i].frame=CGRectMake(9+(i%2)*cells,36+(i/2)*44,cells,43);
+        self.menuActions[i].frame=CGRectMake(bx,7,widths[i]*scale,30);
+        bx+=widths[i]*scale;
     }
-    CGRect brandFrame=CGRectMake(8,4,MIN(110,width*.51),28);
+    CGRect brandFrame=CGRectMake(8,7,logoW,30);
     self.menuBrandImage.frame=brandFrame;
     self.pickerBrand.frame=brandFrame;
-    self.menuDismiss.frame=CGRectMake(width-32,5,29,29);
+    self.menuDismiss.frame=CGRectMake(width-42,9,32,26);
     NSString *region=[NSString stringWithFormat:@"%ld",(long)self.selectedSlot+1];
-    if(self.preset==0 && self.selectedSlot<2)
+    if(self.preset==1 && self.selectedSlot<2)
         region=self.selectedSlot==0?@"trái":@"phải";
-    else if(self.preset==1 && self.selectedSlot<2)
+    else if(self.preset==2 && self.selectedSlot<2)
         region=self.selectedSlot==0?@"trên":@"dưới";
     self.menuContext.text=[NSString stringWithFormat:
         @"Ô %@ · App · Zoom · Style · Close",region];
-    self.menuContext.frame=CGRectMake(6,height-23,width-12,19);
+    self.menuContext.frame=CGRectMake(8,MIN(height-25,52),width-16,19);
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
@@ -657,7 +690,7 @@ static void DFCLog(NSString *text) {
     }
     CGFloat p=DFCClamp(self.ratio);
     CGRect pane[4];
-    DFComputePresetFrames(cr,self.preset,p,pane);
+    DFComputePresetFramesWithSecondary(cr,self.preset,p,self.secondaryRatio,pane);
     NSInteger activeSlots=DFSlotCountForPreset(self.preset);
     if(self.focus>=0 && self.focus<activeSlots)pane[self.focus]=cr;
     NSInteger menuSlot=MAX(0,MIN(activeSlots-1,self.selectedSlot));
@@ -784,12 +817,12 @@ static void DFCLog(NSString *text) {
 }
 - (void)selectStylePreset:(UIButton *)sender {
     NSInteger selected=sender.tag;
-    if(!self.styleVisible || selected<0 || selected>8)return;
+    if(!self.styleVisible || selected<0 || selected>7)return;
     [self noteUserActivity];
     // Entering Solo uses one real hosted scene. Preserve which two-pane
     // app the user selected (including an existing left/right swap) rather
     // than unexpectedly showing the other side on the single full pane.
-    if(selected==8 && self.preset<=1 && self.selectedSlot==1)
+    if(selected==0 && (self.preset==1 || self.preset==2) && self.selectedSlot==1)
         self.swapped=!self.swapped;
     self.preset=selected;
     self.verticalDivider=DFPrimaryDividerIsVertical(self.preset);
@@ -826,8 +859,10 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
-             // Keep main-menu Zoom and per-pane Zoom behavior identical.
-             [self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];
+             // Native12 global Zoom is not the same as per-pane focus.
+             // Forward through the existing session owner, never forge Dock.
+             [self emit:@"Zoom" ratio:nil];
+             DFCLog(@"native12-global-zoom-owner-ack-pending");
              break;
       }
       case 2:[self openStylePicker];break;
@@ -1006,8 +1041,7 @@ static void DFCLog(NSString *text) {
     CGFloat extent=self.verticalDivider?self.contentRect.size.width:
                                      self.contentRect.size.height;
     if(extent<=0||!isfinite(extent))return;
-    CGFloat proposed=self.dragStartRatio+
-        (self.preset==3 || self.preset==5?-1:1)*displacement/extent;
+    CGFloat proposed=self.dragStartRatio+displacement/extent;
     self.ratio=cancel?self.dragStartRatio:(end?DFCSnap(proposed):DFCClamp(proposed));
     [self layoutControls];
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
