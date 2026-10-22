@@ -32,10 +32,10 @@ jobs:
         run: |
           set -euo pipefail
           bash sideplay/duoface-native-scene-host/build.sh
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.31~stylepicker1_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.32~solo1_iphoneos-arm64.deb'
           test -s "$FILE"
           test "$(dpkg-deb -f "$FILE" Package)" = com.duoface.carplay.nativescenehost
-          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.31~stylepicker1'
+          test "$(dpkg-deb -f "$FILE" Version)" = '0.1.32~solo1'
           test "$(dpkg-deb -f "$FILE" Architecture)" = iphoneos-arm64
           ! dpkg-deb -f "$FILE" | grep -Eq '^(Conflicts|Replaces|Breaks|Provides):'
           OUT="$RUNNER_TEMP/nativehost-check"
@@ -83,7 +83,7 @@ jobs:
           git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/native12-reference.deb"
           git fetch --no-tags --depth=1 origin "$INDEX_REF"
           git show "$INDEX_REF:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json" > "$RUNNER_TEMP/native12-method-index.json"
-          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.31~stylepicker1_iphoneos-arm64.deb'
+          FILE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.32~solo1_iphoneos-arm64.deb'
           SHA="$(shasum -a 256 "$FILE" | awk '{print $1}')"
           python3 sideplay/duoface-native-scene-host/tests/compare_source_debs.py \
             --native12 "$RUNNER_TEMP/native12-reference.deb" \
