@@ -1,0 +1,63 @@
+2026-10-22T11:16:21.1901550Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v[0m
+2026-10-22T11:16:21.1904540Z [36;1mpython3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v[0m
+2026-10-22T11:16:21.1906090Z [36;1mecho NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS[0m
+2026-10-22T11:16:21.8656390Z test_0_1_0_native12_touch_owner_is_bounded_and_fail_closed (test_scenehost_safety.NativeCarPlayHost.test_0_1_0_native12_touch_owner_is_bounded_and_fail_closed) ... ok
+2026-10-22T11:16:21.8666090Z test_atomic_native12_replace_keeps_live_app_until_scene_ready (test_scenehost_safety.NativeCarPlayHost.test_atomic_native12_replace_keeps_live_app_until_scene_ready) ... ok
+2026-10-22T11:16:21.8673620Z test_first_party_independent_manifest (test_scenehost_safety.NativeCarPlayHost.test_first_party_independent_manifest) ... ok
+2026-10-22T11:16:21.8675440Z test_home_revocation_before_stop_and_no_ten_minute_kill (test_scenehost_safety.NativeCarPlayHost.test_home_revocation_before_stop_and_no_ten_minute_kill) ... ok
+2026-10-22T11:16:21.8685120Z test_independent_two_real_host_scene_opt_in_and_exit_cleanup (test_scenehost_safety.NativeCarPlayHost.test_independent_two_real_host_scene_opt_in_and_exit_cleanup) ... ok
+2026-10-22T11:16:21.8690970Z test_integrated_native12_cards_splash_activity_and_media_scene_safety (test_scenehost_safety.NativeCarPlayHost.test_integrated_native12_cards_splash_activity_and_media_scene_safety) ... ok
+2026-10-22T11:16:21.8694710Z test_media_scene_deduplicates_private_resize_in_pending_state (test_scenehost_safety.NativeCarPlayHost.test_media_scene_deduplicates_private_resize_in_pending_state) ... ok
+2026-10-22T11:16:21.8712870Z test_native12_approved_artwork_iphone_home_and_launch (test_scenehost_safety.NativeCarPlayHost.test_native12_approved_artwork_iphone_home_and_launch) ... ok
+2026-10-22T11:16:21.8716700Z test_native12_approved_one_row_four_actions_no_mock_zoom (test_scenehost_safety.NativeCarPlayHost.test_native12_approved_one_row_four_actions_no_mock_zoom) ... ok
+2026-10-22T11:16:21.8720300Z test_native12_divider_ratio_uses_static_screen_coordinates_not_moving_window (test_scenehost_safety.NativeCarPlayHost.test_native12_divider_ratio_uses_static_screen_coordinates_not_moving_window) ... ok
+2026-10-22T11:16:21.8725080Z test_native12_fullscreen_geometry_is_real_reversible_but_gated_by_dock_owner (test_scenehost_safety.NativeCarPlayHost.test_native12_fullscreen_geometry_is_real_reversible_but_gated_by_dock_owner)
+2026-10-22T11:16:21.8730710Z test_native12_home_teardown_hides_windows_before_scene_invalidate (test_scenehost_safety.NativeCarPlayHost.test_native12_home_teardown_hides_windows_before_scene_invalidate) ... ok
+2026-10-22T11:16:21.8731900Z test_native12_independent_geometry_and_complete_action_contract (test_scenehost_safety.NativeCarPlayHost.test_native12_independent_geometry_and_complete_action_contract) ... ok
+2026-10-22T11:16:21.8733120Z test_native12_input_is_routed_through_system_template (test_scenehost_safety.NativeCarPlayHost.test_native12_input_is_routed_through_system_template) ... ok
+2026-10-22T11:16:21.8734250Z test_native12_live_iphone_layout_settings_drive_real_springboard_owner (test_scenehost_safety.NativeCarPlayHost.test_native12_live_iphone_layout_settings_drive_real_springboard_owner) ... ok
+2026-10-22T11:16:21.8735410Z test_native12_only_no_duonavi_comparator (test_scenehost_safety.NativeCarPlayHost.test_native12_only_no_duonavi_comparator) ... ok
+2026-10-22T11:16:21.8772810Z test_native12_original_nine_1_to_4_scene_layout_contract (test_scenehost_safety.NativeCarPlayHost.test_native12_original_nine_1_to_4_scene_layout_contract) ... ok
+2026-10-22T11:16:21.8808370Z test_native12_picker_pages_real_apps_with_recent_and_no_fake_items (test_scenehost_safety.NativeCarPlayHost.test_native12_picker_pages_real_apps_with_recent_and_no_fake_items) ... ok
+2026-10-22T11:16:21.8841890Z test_native12_real_scene_survives_picker_and_launch_fails_closed (test_scenehost_safety.NativeCarPlayHost.test_native12_real_scene_survives_picker_and_launch_fails_closed) ... ok
+2026-10-22T11:16:21.8885540Z test_native12_secondary_boundary_not_four_strip_demo (test_scenehost_safety.NativeCarPlayHost.test_native12_secondary_boundary_not_four_strip_demo) ... ok
+2026-10-22T11:16:21.8887520Z test_native12_six_pill_states_bound_to_real_host (test_scenehost_safety.NativeCarPlayHost.test_native12_six_pill_states_bound_to_real_host) ... ok
+2026-10-22T11:16:21.8890170Z test_native12_source_owned_ratio_and_swap_persist (test_scenehost_safety.NativeCarPlayHost.test_native12_source_owned_ratio_and_swap_persist) ... ok
+2026-10-22T11:16:21.8892970Z test_native12_user_device_ui_and_media_regression_gates (test_scenehost_safety.NativeCarPlayHost.test_native12_user_device_ui_and_media_regression_gates)
+2026-10-22T11:16:21.8897500Z test_native_content_receiver_stays_in_system_scene_safe_area (test_scenehost_safety.NativeCarPlayHost.test_native_content_receiver_stays_in_system_scene_safe_area) ... ok
+2026-10-22T11:16:21.8900470Z test_navigation_template_is_system_owned_and_not_tweak_ui (test_scenehost_safety.NativeCarPlayHost.test_navigation_template_is_system_owned_and_not_tweak_ui) ... ok
+2026-10-22T11:16:21.8903570Z test_never_mutate_carplay_dock_or_forge_two_app_success (test_scenehost_safety.NativeCarPlayHost.test_never_mutate_carplay_dock_or_forge_two_app_success) ... ok
+2026-10-22T11:16:21.8906260Z test_no_demo_window_or_forged_native12_split (test_scenehost_safety.NativeCarPlayHost.test_no_demo_window_or_forged_native12_split) ... ok
+2026-10-22T11:16:21.8912020Z test_original_native12_app_card_pagination_four_by_two (test_scenehost_safety.NativeCarPlayHost.test_original_native12_app_card_pagination_four_by_two)
+2026-10-22T11:16:21.8919070Z test_original_native12_dismiss_child_view_teardown_order (test_scenehost_safety.NativeCarPlayHost.test_original_native12_dismiss_child_view_teardown_order)
+2026-10-22T11:16:21.8925480Z test_original_native12_kvc_to_ivar_exception_fallback (test_scenehost_safety.NativeCarPlayHost.test_original_native12_kvc_to_ivar_exception_fallback) ... ok
+2026-10-22T11:16:21.8928910Z test_original_native12_logo_hit_owner_is_separate_from_ratio_pan (test_scenehost_safety.NativeCarPlayHost.test_original_native12_logo_hit_owner_is_separate_from_ratio_pan) ... ok
+2026-10-22T11:16:21.8932170Z test_original_native12_scene_settings_frame_block_has_original_abi_guard (test_scenehost_safety.NativeCarPlayHost.test_original_native12_scene_settings_frame_block_has_original_abi_guard) ... ok
+2026-10-22T11:16:21.8935630Z test_original_native12_scene_size_three_separate_guards (test_scenehost_safety.NativeCarPlayHost.test_original_native12_scene_size_three_separate_guards) ... ok
+2026-10-22T11:16:21.8938800Z test_original_native12_split_ratio_numeric_constants_are_exact (test_scenehost_safety.NativeCarPlayHost.test_original_native12_split_ratio_numeric_constants_are_exact)
+2026-10-22T11:16:21.8943600Z test_original_preset_dual_write_from_imp_is_live_and_ack_checked (test_scenehost_safety.NativeCarPlayHost.test_original_preset_dual_write_from_imp_is_live_and_ack_checked)
+2026-10-22T11:16:21.8956030Z test_original_raster_preview_and_running_close_real_owners (test_scenehost_safety.NativeCarPlayHost.test_original_raster_preview_and_running_close_real_owners)
+2026-10-22T11:16:21.8965680Z test_owner_retries_only_latest_real_state_without_reapplying_ui (test_scenehost_safety.NativeCarPlayHost.test_owner_retries_only_latest_real_state_without_reapplying_ui) ... ok
+2026-10-22T11:16:21.8967210Z test_real_owner_command_ack_v2_and_single_splash (test_scenehost_safety.NativeCarPlayHost.test_real_owner_command_ack_v2_and_single_splash) ... ok
+2026-10-22T11:16:21.8968360Z test_scene_ready_needs_scene_handle_and_live_host_state (test_scenehost_safety.NativeCarPlayHost.test_scene_ready_needs_scene_handle_and_live_host_state) ... ok
+2026-10-22T11:16:21.8969720Z test_separate_package_and_no_boot_scripts (test_scenehost_safety.NativeCarPlayHost.test_separate_package_and_no_boot_scripts) ... ok
+2026-10-22T11:16:21.8977810Z test_springboard_safe_mode_has_manual_iphone_crash_report_export (test_scenehost_safety.NativeCarPlayHost.test_springboard_safe_mode_has_manual_iphone_crash_report_export) ... ok
+2026-10-22T11:16:21.8981360Z test_stage_one_two_panes_visible_with_real_controls_and_touch_safe_borders (test_scenehost_safety.NativeCarPlayHost.test_stage_one_two_panes_visible_with_real_controls_and_touch_safe_borders) ... ok
+2026-10-22T11:16:21.8987490Z test_style_buttons_follow_original_native12_nine_binary_preview_cases (test_scenehost_safety.NativeCarPlayHost.test_style_buttons_follow_original_native12_nine_binary_preview_cases) ... ok
+2026-10-22T11:16:21.8988680Z test_system_must_supply_scene_no_foreign_window (test_scenehost_safety.NativeCarPlayHost.test_system_must_supply_scene_no_foreign_window) ... ok
+2026-10-22T11:16:21.8990210Z test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success (test_scenehost_safety.NativeCarPlayHost.test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success)
+2026-10-22T11:16:21.8991900Z Ran 45 tests in 0.019s
+2026-10-22T11:16:21.8992090Z OK
+2026-10-22T11:16:25.0604220Z test_all_nine_original_cases_86x54 (test_preview_geometry.PreviewGeometry.test_all_nine_original_cases_86x54) ... ok
+2026-10-22T11:16:25.0608300Z test_invalid_input (test_preview_geometry.PreviewGeometry.test_invalid_input) ... ok
+2026-10-22T11:16:25.0610190Z test_large_canvas_and_rounding (test_preview_geometry.PreviewGeometry.test_large_canvas_and_rounding) ... ok
+2026-10-22T11:16:25.0615320Z Ran 3 tests in 3.068s
+2026-10-22T11:16:25.0615900Z OK
+2026-10-22T11:16:25.0717480Z NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
+2026-10-22T11:16:25.0905800Z [36;1m  echo "COMPILING_SOURCE_ONLY $FILE"[0m
+2026-10-22T11:16:25.0906210Z [36;1m  xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \[0m
+2026-10-22T11:16:25.0908790Z [36;1mecho NATIVE12_SOURCE_ONLY_ARM64_SDK_SYNTAX_PASS_NO_SIGNED_DEB[0m
+2026-10-22T11:16:26.6305830Z COMPILING_SOURCE_ONLY DFAppPickerVC.m
+2026-10-22T11:16:30.6988530Z COMPILING_SOURCE_ONLY DFNative12Chrome.m
+2026-10-22T11:16:31.0962340Z COMPILING_SOURCE_ONLY DFNative12PresetPreview.m
+2026-10-22T11:16:31.6208320Z NATIVE12_SOURCE_ONLY_ARM64_SDK_SYNTAX_PASS_NO_SIGNED_DEB
