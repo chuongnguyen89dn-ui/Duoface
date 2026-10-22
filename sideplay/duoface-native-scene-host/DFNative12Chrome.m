@@ -928,6 +928,7 @@ static void DFCLog(NSString *text) {
     [self noteUserActivity];
     [self closeMenu:nil];
     self.styleVisible=NO;
+    [self layoutControls];
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
