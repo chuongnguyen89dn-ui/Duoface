@@ -13,12 +13,14 @@ ORDER=[
  ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.49~native12cards1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-PINNED_NATIVEHOST_SHA256=None  # Mandatory per-run SHA256 from the current-source signed .49 host; no old .47 fallback.
 VERSION="0.0.38~native12sourcehost49"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
 def build(expected_nativehost_sha256,expected_source_sha):
+ actual_source_sha=execute(["git","rev-parse","HEAD"]).strip()
+ if actual_source_sha!=expected_source_sha:
+  raise RuntimeError("Git checkout differs from requested nativehost source commit: "+actual_source_sha)
  if not expected_nativehost_sha256 or len(expected_nativehost_sha256)!=64 or any(c not in "0123456789abcdef" for c in expected_nativehost_sha256):
   raise RuntimeError("Must pass exactly verified newly signed native host SHA256")
  if not expected_source_sha or len(expected_source_sha)!=40 or any(c not in "0123456789abcdef" for c in expected_source_sha):
@@ -35,7 +37,7 @@ def build(expected_nativehost_sha256,expected_source_sha):
    if pkg=="com.duoface.carplay.nativescenehost":
     observed=hashlib.sha256(archive.read_bytes()).hexdigest()
     if observed!=expected_nativehost_sha256:
-     raise RuntimeError("Native Host artifact differs from independently verified Native12-only A-Z DEB audit: "+observed)
+     raise RuntimeError("Native Host artifact differs from SHA-verified current-source signed build: "+observed)
    package=execute(["dpkg-deb","-f",str(archive),"Package"]).strip()
    if package!=pkg:raise RuntimeError("Wrong package "+package)
    if any(x in package for x in EXCLUDED):raise RuntimeError("Vendor module not allowed")
@@ -119,6 +121,6 @@ def main():
  p.add_argument("--build",action="store_true",required=True)
  p.add_argument("--expected-nativehost-sha256",required=True,help="SHA256 measured after building new current-source 0.1.49 signed native host")
  p.add_argument("--expected-source-sha",required=True,help="Immutable 40-char SHA of current Git checkout")
- p.parse_args()
- build(p.parse_args().expected_nativehost_sha256,p.parse_args().expected_source_sha)
+ args=p.parse_args()
+ build(args.expected_nativehost_sha256,args.expected_source_sha)
 if __name__=="__main__":main()
