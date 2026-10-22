@@ -38,4 +38,46 @@ class PreviewGeometry(unittest.TestCase):
     def test_invalid_input(self):
         for p,w,h in [(-1,86,54),(9,86,54),(1,float('nan'),54),(1,9,54),(1,86,0)]:
             self.assertEqual(self.fn(p,w,h,(Rect*4)()),0)
+
+class OriginalCardHeaderGeometry(unittest.TestCase):
+    """Execute independent original-SHA-decoded UI geometry; no UIKit/device claim."""
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp=tempfile.TemporaryDirectory()
+        p=pathlib.Path(cls.tmp.name)
+        (p/'header.c').write_text('''#include "DFNative12CardHeaderGeometry.h"
+void probe_header(double w,double h,double *o){
+ DFNative12CardHeader m=DFOriginalCardHeader(w,h);
+ o[0]=m.headerHeight;o[1]=m.contentY;o[2]=m.tabZoneWidth;
+ o[3]=m.tabs.x;o[4]=m.tabs.y;o[5]=m.tabs.height;
+ o[6]=m.tabChildWidth;o[7]=m.dismiss.x;o[8]=m.dismiss.y;
+ o[9]=m.dismiss.width;o[10]=m.icon.x;o[11]=m.icon.y;
+ o[12]=m.title.x;o[13]=m.title.width;
+ o[14]=m.tabButtons[2].x;o[15]=m.tabButtons[2].width;
+}
+''')
+        subprocess.run(['cc','-std=c99','-shared','-fPIC','-I',str(ROOT),
+                        str(p/'header.c'),'-lm','-o',str(p/'header.so')],check=True)
+        cls.fn=ctypes.CDLL(str(p/'header.so')).probe_header
+        cls.fn.argtypes=[ctypes.c_double,ctypes.c_double,ctypes.POINTER(ctypes.c_double)]
+    @classmethod
+    def tearDownClass(cls): cls.tmp.cleanup()
+    def measure(self,w,h):
+        buf=(ctypes.c_double*16)()
+        self.fn(w,h,buf)
+        return list(buf)
+    def test_short_original_width_210_and_content32point5(self):
+        actual=self.measure(500,232)
+        expected=[32,32.5,210,254,4,24,68,468,4,24,14,7,36,216,137,71]
+        for i,(a,b) in enumerate(zip(actual,expected)):
+            with self.subTest(field=i):self.assertAlmostEqual(a,b,places=6)
+    def test_tall_original_width_190_and_content38point5(self):
+        actual=self.measure(430,300)
+        expected=[38,38.5,190,204,5,28,62,396,6,26,14,10,36,166,125,63]
+        for i,(a,b) in enumerate(zip(actual,expected)):
+            with self.subTest(field=i):self.assertAlmostEqual(a,b,places=6)
+    def test_invalid_card_bounds_fail_closed(self):
+        self.assertEqual(self.measure(float('nan'),300),[0.0]*16)
+        self.assertEqual(self.measure(500,-1),[0.0]*16)
+
 if __name__=='__main__':unittest.main()
