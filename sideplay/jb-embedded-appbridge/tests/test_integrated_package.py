@@ -43,8 +43,9 @@ class EmbeddedPackagePolicy(unittest.TestCase):
     self.assertNotIn(forbidden,s)
   self.assertIn('for kind in ("postinst","postrm")',src)
   self.assertIn('"com.duoface.qa.controlapp"',src)
-  self.assertIn('PINNED_NATIVEHOST_SHA256',src)
-  self.assertIn('Native Host artifact differs from independently verified Native12-only A-Z DEB audit',src)
+  self.assertIn('if observed!=expected_nativehost_sha256:',src)
+  self.assertIn('Native Host artifact differs from SHA-verified current-source signed build:',src)
+  self.assertIn('if actual_source_sha!=expected_source_sha:',src)
   self.assertIn('target.chmod(0o755)',src)
  def test_nativehost_version_matches_real_build_output(self):
   import re
@@ -53,4 +54,26 @@ class EmbeddedPackagePolicy(unittest.TestCase):
   self.assertIsNotNone(expected,"NativeHost build script must declare a DEB output")
   self.assertIn(expected.group(1),SRC.read_text(),
                 "Integrated package must consume exact NativeHost version produced by build.sh")
+
+ def test_final_one_deb_does_not_archive_stale_native_host_47(self):
+  src=SRC.read_text()
+  workflow=(ROOT/".github/workflows/duoface-jb-embedded-appbridge-package.yml").read_text()
+  self.assertNotIn("0.1.47~realdock1",src+workflow)
+  self.assertNotIn("82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941",src+workflow)
+  self.assertIn("0.1.49~native12cards1",src+workflow)
+  self.assertIn('bash sideplay/duoface-native-scene-host/build.sh',workflow)
+  self.assertIn('--expected-nativehost-sha256 "$NATIVEHOST_SHA"',workflow)
+  self.assertIn('--expected-source-sha "$GITHUB_SHA"',workflow)
+  self.assertIn('VERSION="0.0.38~native12sourcehost49"',src)
+  self.assertIn('0.0.38~native12sourcehost49',workflow)
+ def test_original_immutable_speed8_reference_is_NOT_embedded_or_claimed_pass(self):
+  src=SRC.read_text()
+  self.assertIn('2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad',src)
+  self.assertIn('"native12_speed8_hud_independent_parity_proven":False',src)
+  self.assertNotIn("DuoFaceSpeedHUD.dylib",src)
+  workflow=(ROOT/".github/workflows/duoface-jb-embedded-appbridge-package.yml").read_text()
+  self.assertIn("workflow_dispatch:",workflow)
+  self.assertIn("NATIVE12_SPEED8_HUD_PARITY_VERIFIED=false",workflow)
+  self.assertIn("NO_DEVICE_PARITY",workflow)
+
 if __name__=="__main__":unittest.main(verbosity=2)
