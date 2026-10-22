@@ -116,6 +116,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) UIWindow *pickerWindow;
 @property(nonatomic,strong) UIWindow *styleWindow;
 @property(nonatomic,strong) NSArray<UIButton *> *styleChoices;
+@property(nonatomic,strong) NSArray<UIButton *> *styleHeaderActions;
+@property(nonatomic,strong) UIImageView *styleHeaderLogo;
 @property(nonatomic,assign) BOOL styleVisible;
 @property(nonatomic,strong) UIWindow *appPickerWindow;
 @property(nonatomic,strong) UIWindow *splashWindow;
@@ -364,9 +366,16 @@ static void DFCLog(NSString *text) {
     CGRect picker=CGRectMake(CGRectGetMidX(cr)-pw/2,CGRectGetMidY(cr)-ph/2,pw,ph);
     UIViewController *pc=[self emptyRoot:picker];
     UIView *sheet=pc.view;
-    sheet.backgroundColor=[UIColor colorWithWhite:.12 alpha:.97];
+    sheet.backgroundColor=UIColor.clearColor;
     sheet.layer.cornerRadius=20;
+    sheet.layer.borderWidth=0;
     sheet.layer.masksToBounds=YES;
+    UIVisualEffectView *nativeMaterial=[[UIVisualEffectView alloc] initWithEffect:
+        [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemMaterialDark]];
+    nativeMaterial.frame=sheet.bounds;
+    nativeMaterial.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    nativeMaterial.userInteractionEnabled=NO;
+    [sheet addSubview:nativeMaterial];
     UIImage *horizontal=DFCArtwork(@"duoface-logo-picker-alpha-v2");
     UIImageView *brandImage=[[UIImageView alloc]initWithImage:horizontal];
     brandImage.contentMode=UIViewContentModeScaleAspectFit;
@@ -430,27 +439,61 @@ static void DFCLog(NSString *text) {
                                   CGRectGetMidY(cr)-styleH/2,styleW,styleH);
     UIViewController *styleRoot=[self emptyRoot:styleRect];
     UIView *styleSheet=styleRoot.view;
-    styleSheet.backgroundColor=[UIColor colorWithWhite:.11 alpha:.98];
-    styleSheet.layer.cornerRadius=16;
+    styleSheet.backgroundColor=UIColor.clearColor;
+    styleSheet.layer.cornerRadius=20;
+    styleSheet.layer.borderWidth=0;
     styleSheet.layer.masksToBounds=YES;
-    UILabel *styleHeading=[[UILabel alloc] initWithFrame:CGRectMake(12,2,styleW-52,29)];
-    styleHeading.text=@"Style · Chọn kiểu chia màn hình";
-    styleHeading.textColor=UIColor.whiteColor;
-    styleHeading.font=[UIFont boldSystemFontOfSize:12];
-    [styleSheet addSubview:styleHeading];
+    UIVisualEffectView *styleMaterial=[[UIVisualEffectView alloc] initWithEffect:
+        [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemMaterialDark]];
+    styleMaterial.frame=styleSheet.bounds;
+    styleMaterial.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    styleMaterial.userInteractionEnabled=NO;
+    [styleSheet addSubview:styleMaterial];
+    // Style is the second page of the SAME Native12 30pt picker header,
+    // not an invented screen with unrelated stacked headings.
+    UIImageView *styleLogo=[[UIImageView alloc]initWithImage:horizontal];
+    styleLogo.contentMode=UIViewContentModeScaleAspectFit;
+    styleLogo.frame=CGRectMake(8,7,MIN(120,styleW*.25),30);
+    styleLogo.userInteractionEnabled=NO;
+    [styleSheet addSubview:styleLogo];
+    self.styleHeaderLogo=styleLogo;
+    NSMutableArray<UIButton *> *styleTabs=[NSMutableArray new];
+    const CGFloat styleTabWidths[4]={43,51,47,51};
+    CGFloat styleBX=8+MIN(120,MAX(65,styleW*.25))+5;
+    CGFloat styleScale=MIN(1.0,MAX(.58,(styleW-MIN(120,MAX(65,styleW*.25))-68)/192));
+    for(NSInteger tab=0;tab<4;tab++){
+        UIButton *action=[self button:names[(NSUInteger)tab] tag:tab
+                      action:@selector(menuAction:)];
+        action.frame=CGRectMake(styleBX,7,styleTabWidths[tab]*styleScale,30);
+        styleBX+=styleTabWidths[tab]*styleScale;
+        UIImage *icon=[UIImage systemImageNamed:symbols[(NSUInteger)tab]];
+        [action setImage:icon forState:UIControlStateNormal];
+        if(@available(iOS 15,*)){
+            UIButtonConfiguration *config=[UIButtonConfiguration plainButtonConfiguration];
+            config.title=names[(NSUInteger)tab];
+            config.image=icon;
+            config.imagePlacement=NSDirectionalRectEdgeTop;
+            config.imagePadding=1;
+            action.configuration=config;
+        }
+        action.titleLabel.font=[UIFont systemFontOfSize:10];
+        [styleSheet addSubview:action];
+        [styleTabs addObject:action];
+    }
+    self.styleHeaderActions=styleTabs;
     UIButton *dismissStyle=[self button:@"×" tag:0 action:@selector(closeStylePicker:)];
-    dismissStyle.frame=CGRectMake(styleW-37,1,34,30);
+    dismissStyle.frame=CGRectMake(styleW-42,9,32,26);
     [styleSheet addSubview:dismissStyle];
     NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",
          @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
          @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới"];
     NSMutableArray<UIButton *> *choices=[NSMutableArray new];
     CGFloat styleCellWidth=(styleW-24)/4;
-    CGFloat styleCellHeight=(styleH-38)/2;
+    CGFloat styleCellHeight=(styleH-54)/2;
     for(NSInteger idx=0;idx<8;idx++){
         UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
         button.frame=CGRectMake(6+(idx%4)*(styleCellWidth+4),
-               31+(idx/4)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
+               46+(idx/4)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
         button.layer.cornerRadius=7;
         button.layer.borderWidth=1;
         button.layer.borderColor=[UIColor colorWithWhite:1 alpha:.26].CGColor;
@@ -884,6 +927,7 @@ static void DFCLog(NSString *text) {
 - (void)menuAction:(UIButton *)sender {
     [self noteUserActivity];
     [self closeMenu:nil];
+    self.styleVisible=NO;
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
@@ -1153,7 +1197,7 @@ static void DFCLog(NSString *text) {
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
-    self.styleChoices=nil;self.styleVisible=NO;
+    self.styleChoices=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
