@@ -185,7 +185,20 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         size.width<=0 || size.height<=0) return;
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     @try {
-        id deviceController=[self.appController valueForKey:@"_deviceAppViewController"];
+        // Native12 original CBBridgedUIAppView.updateSceneSettingsFrame
+        // IMP 0xad5bc: KVC exception handler adb18..adb94 performs
+        // class_getInstanceVariable("_deviceAppViewController") + object_getIvar
+        // then branches back to ad668 for the same guarded 2/3/main setters.
+        // A KVC failure must not abort all viewport commits.
+        id deviceController=nil;
+        @try {
+            deviceController=[self.appController valueForKey:@"_deviceAppViewController"];
+        } @catch (NSException *kvcError) {
+            DFSceneLog(@"original-native12-kvc-ivar-fallback",self.bundleID,kvcError.name);
+            Ivar deviceIvar=class_getInstanceVariable([self.appController class],
+                                                      "_deviceAppViewController");
+            if (deviceIvar) deviceController=object_getIvar(self.appController,deviceIvar);
+        }
         // Readiness and stable-geometry gate. Do not guess orientation from
         // CarPlay aspect ratio; actual remote video orientation needs device
         // evidence before changing the portrait compatibility contract.

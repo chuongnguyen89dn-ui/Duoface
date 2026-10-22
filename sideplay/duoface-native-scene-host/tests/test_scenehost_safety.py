@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.41~originalsettings1",build)
+  self.assertIn("0.1.42~originalkvc1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -297,6 +297,34 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerLogo.layer.cornerRadius=size/2",spring)
   self.assertIn('DFCArtwork(@"duoface-logo-picker-alpha-v2")',spring)
   self.assertNotIn('DFCArtwork(@"duoface-picker")',spring)
+ def test_original_native12_kvc_to_ivar_exception_fallback(self):
+  # Verified SHA-bound native instruction evidence, not copied vendor runtime.
+  report=json.loads((R.parent/"audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
+  self.assertEqual(report["dashboard_macho_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+  imp=next(m for m in report["methods"] if m["class"]=="CBBridgedUIAppView" and m["selector"]=="updateSceneSettingsFrame")
+  self.assertEqual(imp["imp"],"0xad5bc")
+  ins=imp["instructions"]
+  for pc, fragment in (
+      ("adb40:", "KVC failed"),
+      ("adb60:", "_class_getInstanceVariable"),
+      ("adb70:", "ldr"),
+      ("adb70:", ""),
+      ("adb74:", "_object_getIvar"),
+      ("adb94:", "0xad668")):
+   self.assertTrue(any(x.startswith(pc) and fragment in x for x in ins), f"Native12 original missing {pc} {fragment}")
+  source=file("DFSceneHost.m")
+  start=source.index("id deviceController=nil;")
+  end=source.index("SEL sz=NSSelectorFromString",start)
+  fragment=source[start:end]
+  self.assertLess(fragment.index("valueForKey:"),fragment.index("@catch (NSException *kvcError)"))
+  self.assertIn("class_getInstanceVariable([self.appController class]",fragment)
+  self.assertIn("object_getIvar(self.appController,deviceIvar)",fragment)
+  self.assertIn("if (deviceIvar)",fragment)
+  self.assertIn("original-native12-kvc-ivar-fallback",fragment)
+  self.assertNotIn("setContentReferenceSize:",fragment)
+  self.assertIn("BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO",source)
+  self.assertNotIn("UIInterfaceOrientationLandscape",fragment)
+
  def test_original_native12_scene_size_three_separate_guards(self):
   # Original SHA-pinned updateSceneSettingsFrame IMP 0xad5bc:
   # child2 @ad6a4; child3 @ad6dc; main2 @ad708; all Portrait=1.
@@ -562,7 +590,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.41~originalsettings1",c)
+  self.assertIn("Version: 0.1.42~originalkvc1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
