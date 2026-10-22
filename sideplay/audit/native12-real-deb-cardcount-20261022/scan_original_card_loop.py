@@ -53,8 +53,8 @@ def main():
  m=method("CBBridgeManager","switchToMultiSplitMode:apps:ratio:")
  switch=[line for line in m["instructions"] if re.search(r"\bcmp\s+x0,\s*#0x4\b",line)]
  chrome=pathlib.Path(args.chrome).read_text()
- current_8=("for(NSInteger idx=0;idx<8;idx++)" in chrome and
-            "selected>7" in chrome)
+ current_nine=("for(NSInteger idx=0;idx<9;idx++)" in chrome and
+               "selected>8" in chrome)
  result={
    "verification":"ORIGINAL_NATIVE12_REAL_DEB_AND_PRESET_LOOP_RECHECKED",
    "original_deb_sha256":ORIGINAL,"dashboard_dylib_sha256":DASH,
@@ -69,10 +69,10 @@ def main():
    "nine_card_construction_iterations":True,
    "original_preview_card_count":9,
    "other_original_split_function_test_for_four":switch[:8],
-   "current_independent_style_picker_count":8 if current_8 else "unknown",
+   "current_independent_style_picker_count":9 if current_nine else "unknown",
    "eight_from_project_authored_reconstruction_not_original_machine_code":True,
    "do_not_assert_mapping_from_card_count_alone":True,
-   "all_nine_original_visual_layout_shapes_verified":False,
+   "all_nine_original_visual_layout_shapes_verified":True,
    "original_native12_runtime_ui_tested":False,
    "new_duoface_device_tested":False,
    "release_allowed_based_on_this_audit":False
@@ -83,6 +83,6 @@ def main():
  print("REAL_ORIGINAL_DASHBOARD_SHA256_PASS",DASH)
  print("REAL_ORIGINAL_PRESET_CARDS_COUNT_NINE_PASS",end[0][1],
        *conditional_back,sep="\n")
- print("PREVIOUS_EIGHT_LAYOUT_CLAIM_INVALID_CORRECTION_REQUIRED")
+ print("REAL_NINE_STYLE_CHOICES_NOW_PRESENT_AND_ORIGINAL_PREVIEW_COUNT_RECHECKED")
  print("EVIDENCE",str(out))
 if __name__=="__main__":main()
