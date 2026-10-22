@@ -26,7 +26,7 @@ static CGFloat DFCSnap(CGFloat x) {
 static NSString *const kDFLayoutPath=
     @"/var/mobile/Library/Preferences/com.duoface.nativehost.layout.v1.plist";
 static NSInteger DFCanonicalPreset(NSInteger old) {
-    const NSInteger map[9]={1,2,4,5,6,7,3,3,0};
+    const NSInteger map[9]={1,2,4,5,6,7,8,3,0};
     return old>=0&&old<=8?map[old]:1;
 }
 static NSDictionary *DFCRestoreLayout(void) {
@@ -42,14 +42,14 @@ static NSDictionary *DFCRestoreLayout(void) {
        !isfinite(logo) || logo<.1 || logo>.9)return nil;
     NSNumber *preset=record[@"Preset"];
     if(preset && (![preset isKindOfClass:NSNumber.class] ||
-       preset.integerValue<0 || preset.integerValue>(legacy?8:7)))return nil;
+       preset.integerValue<0 || preset.integerValue>8))return nil;
     // Exact ORIGINAL CBMultitaskingOverlayView.presetSelected: @0xaa4f0
     // writes the SAME selected UIButton.tag into splitPreset and splitMode.
     // Preserve this dual-state selection contract in our independent prefs.
     for(NSString *key in @[@"splitPreset",@"splitMode"]){
         id value=record[key];
         if(value && (![value isKindOfClass:NSNumber.class] ||
-                     [value integerValue]<0 || [value integerValue]>(legacy?8:7) ||
+                     [value integerValue]<0 || [value integerValue]>8 ||
                      (preset && [value integerValue]!=preset.integerValue)))
             return nil;
     }
@@ -486,14 +486,15 @@ static void DFCLog(NSString *text) {
     [styleSheet addSubview:dismissStyle];
     NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",
          @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
-         @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới"];
+         @"Hai trái, một phải",@"Một trên, hai dưới",@"Hai trên, một dưới",
+          @"Bốn ô"];
     NSMutableArray<UIButton *> *choices=[NSMutableArray new];
-    CGFloat styleCellWidth=(styleW-24)/4;
+    CGFloat styleCellWidth=(styleW-24)/5;
     CGFloat styleCellHeight=(styleH-54)/2;
-    for(NSInteger idx=0;idx<8;idx++){
+    for(NSInteger idx=0;idx<9;idx++){
         UIButton *button=[self button:@"" tag:idx action:@selector(selectStylePreset:)];
-        button.frame=CGRectMake(6+(idx%4)*(styleCellWidth+4),
-               46+(idx/4)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
+        button.frame=CGRectMake(6+(idx%5)*(styleCellWidth+4),
+               46+(idx/5)*styleCellHeight,styleCellWidth,MAX(26,styleCellHeight-4));
         button.layer.cornerRadius=7;
         button.layer.borderWidth=1;
         button.layer.borderColor=[UIColor colorWithWhite:1 alpha:.26].CGColor;
@@ -508,7 +509,8 @@ static void DFCLog(NSString *text) {
         thumb.layer.borderColor=[UIColor colorWithWhite:1 alpha:.5].CGColor;
         thumb.userInteractionEnabled=NO;
         CGRect regions[4];
-        DFComputePresetFramesWithSecondary(CGRectMake(0,0,thumbW,thumbH),idx,.5,.5,regions);
+        DFComputePresetFramesWithSecondary(CGRectMake(0,0,thumbW,thumbH),idx,
+                 DFNative12DefaultPrimaryRatio(idx),DFNative12DefaultSecondaryRatio(idx),regions);
         for(NSInteger slot=0;slot<DFSlotCountForPreset(idx);slot++){
             CGRect region=CGRectInset(regions[slot],.7,.7);
             if(CGRectIsNull(region)||CGRectIsEmpty(region))continue;
@@ -672,7 +674,7 @@ static void DFCLog(NSString *text) {
     if(!saved)return NO;
     NSInteger preset=saved[@"Preset"]?[saved[@"Preset"] integerValue]:
        ([saved[@"Vertical"] boolValue]?0:1);
-    if(preset<0 || preset>7)return NO;
+    if(preset<0 || preset>8)return NO;
     // This changes the actual scene geometry and survives a reconnect.
     // Never release the two previously running real apps when switching to
     // three/four slots; merely hide inactive containers and restore later.
@@ -888,7 +890,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)selectStylePreset:(UIButton *)sender {
     NSInteger selected=sender.tag;
-    if(!self.styleVisible || selected<0 || selected>7)return;
+    if(!self.styleVisible || selected<0 || selected>8)return;
     [self noteUserActivity];
     // Entering Solo uses one real hosted scene. Preserve which two-pane
     // app the user selected (including an existing left/right swap) rather
