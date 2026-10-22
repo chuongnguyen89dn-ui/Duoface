@@ -48,24 +48,27 @@ jobs:
           cd sideplay/firstparty-carplay-admission
           make clean package FINALPACKAGE=1
           test -s 'packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb'
-      - name: Assemble own iPhone app with audited native host
+      - name: Build OWN current-source NativeHost with UIKit Scene and real CarPlay Dock owner (no vendor payload)
         run: |
           set -euo pipefail
-          # NativeHost DEB has already passed iOS16 signing and exact original
-          # Native12-only original-vs-independent DEB audit; do NOT rebuild
-          # same immutable version: clang/ldid/dpkg timestamps change SHA.
-          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.47~realdock1_iphoneos-arm64.deb'
+          # .47 was archived before the current Native12 App/Recent/Style/video
+          # fixes; reusing .47 would silently discard those changes.
+          bash sideplay/duoface-native-scene-host/build.sh
+          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.49~native12cards1_iphoneos-arm64.deb'
           test -s "$NATIVE"
-          echo '82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941  '"$NATIVE" | shasum -a 256 -c -
-          test -s 'sideplay/duoface-native-scene-host/packages/NATIVE12_DEB_CROSSWALK.json'
+          test "$(dpkg-deb -f "$NATIVE" Package)" = 'com.duoface.carplay.nativescenehost'
+          test "$(dpkg-deb -f "$NATIVE" Version)" = '0.1.49~native12cards1'
+          NATIVEHOST_SHA="$(shasum -a 256 "$NATIVE" | awk '{print $1}')"
+          printf '%s\n' "NATIVEHOST_SHA=$NATIVEHOST_SHA" >> "$GITHUB_ENV"
+          echo "SIGNED_NATIVEHOST_CURRENT_SOURCE_SHA256=$NATIVEHOST_SHA"
       - name: Merge into ONE staged rootless package and validate
         run: |
           set -euo pipefail
-          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.37~native12dockzoom1_iphoneos-arm64.deb'
+          python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.38~native12sourcehost49_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.37~native12dockzoom1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.38~native12sourcehost49'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
@@ -90,6 +93,9 @@ jobs:
           assert d['native_content_receiver_compiled'] is True
           assert d['native_content_receiver_device_verified'] is False
           assert d['uicache_registration_scripts_included'] is True
+          assert d['source_git_commit']==__import__('os').environ['GITHUB_SHA']
+          assert d['nativehost_build_sha256']==__import__('os').environ['NATIVEHOST_SHA']
+          assert d['native12_speed8_hud_independent_parity_proven'] is False
           assert d['auto_respring_on_install'] is False
           print('JB_EMBEDDED_SINGLE_DEB_SOURCE_PACKAGE_PASS sha=',d['sha256'])
           PY
@@ -97,7 +103,7 @@ jobs:
           cp sideplay/jb-embedded-appbridge/packages/PACKAGING_PROVENANCE.json sideplay/jb-embedded-appbridge/evidence/PACKAGING_PROVENANCE.json
           (cd sideplay/jb-embedded-appbridge/packages && shasum -a 256 *.deb > SHA256SUMS.txt)
           {
-            echo 'SOURCE_BUNDLE_CANDIDATE=PASS'
+            echo 'SOURCE_BUNDLE_CANDIDATE=PASS_NO_DEVICE_PARITY'
             echo 'SILEO_PUBLISHED=false'
             echo 'UICACHE_POSTINST_INCLUDED=true'
             echo 'UICACHE_ON_DEVICE_CONFIRMED=false'
@@ -105,6 +111,7 @@ jobs:
             echo 'DEVICE_TWO_APP_BRIDGE_VERIFIED=false'
             echo 'NEEDS_PREVIOUS_QA_MIGRATION_REVIEW=true'
             echo 'NO_SEPARATE_CARBRIDGE_PACKAGE=true'
+            echo 'NATIVE12_SPEED8_HUD_PARITY_VERIFIED=false'
             echo 'NATIVE_CONTENT_RECEIVER_DEVICE_VERIFIED=false'
             echo 'SYSTEM_ISSUED_CARPLAY_SCENE_VERIFIED=false'
             echo "RUN_ID=$GITHUB_RUN_ID"
