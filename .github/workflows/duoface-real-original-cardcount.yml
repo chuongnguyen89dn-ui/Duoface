@@ -1,0 +1,52 @@
+name: Native12 REAL original DEB card count forensic (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-real-deb-cardcount-20261022/**'
+      - '.github/workflows/duoface-real-original-cardcount.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-native12-binary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact original Native12 DEB bytes and extract real payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          REF='1286a3ef868cf7e29804bcddf7e20b2eae707ce1'
+          git fetch --no-tags --depth=1 origin "$REF"
+          git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/native12.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/native12.deb" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/native12-payload"
+          dpkg-deb -x "$RUNNER_TEMP/native12.deb" "$RUNNER_TEMP/native12-payload"
+          test "$(dpkg-deb -f "$RUNNER_TEMP/native12.deb" Package)" = 'com.duoface.independent'
+      - name: Inspect ORIGINAL Mach-O instructions; explicitly invalidate guessed eight-card claim
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-real-deb-cardcount-20261022/scan_original_card_loop.py \
+            --deb "$RUNNER_TEMP/native12.deb" \
+            --extract "$RUNNER_TEMP/native12-payload" \
+            --imp-json sideplay/audit/native12-layout-forensic-20261021/evidence/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json \
+            --chrome sideplay/duoface-native-scene-host/DFNative12Chrome.m \
+            --out sideplay/audit/native12-real-deb-cardcount-20261022/evidence/ORIGINAL_NINE_CARDS.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          f=Path('sideplay/audit/native12-real-deb-cardcount-20261022/evidence/ORIGINAL_NINE_CARDS.json')
+          j=json.loads(f.read_text())
+          assert j['original_preview_card_count']==9
+          assert j['current_independent_style_picker_count']==8
+          assert j['release_allowed_based_on_this_audit'] is False
+          print("NATIVE12_REAL_DEB_NINE_CARDS_NOT_EIGHT_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Real-Original-DEB-Nine-Cards-No-Release
+          path: sideplay/audit/native12-real-deb-cardcount-20261022/evidence/ORIGINAL_NINE_CARDS.json
+          if-no-files-found: error
