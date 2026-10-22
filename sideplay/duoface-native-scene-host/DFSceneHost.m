@@ -235,6 +235,37 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             inner.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         }
         DFHostInt(deviceController,@"setHomeGrabberDisplayMode:",1);
+        // Original Native12 updateSceneSettingsFrame@ad5bc constructs the
+        // settings block at adaa8 (invoke 0xadc74), then calls the REAL hosted
+        // scene's updateSettingsWithBlock: at adacc. The invoke uses x1 as
+        // settings; adcb4..adcc8 sets CGRect origin (0,0) and logical size.
+        // Only wire the independently validated scene frame mutation here.
+        // DO NOT yet force original foreground/lock/occlusion flags: their
+        // teardown and rollback ownership is not device-verified.
+        if (self.ready && self.scene) {
+            id hostedScene=self.scene;
+            SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
+            if ([hostedScene respondsToSelector:update]) {
+                CGRect nativeFrame=CGRectMake(0,0,logical.width,logical.height);
+                void (^setVerifiedNative12Frame)(id)=^(id settings) {
+                    SEL frameSelector=NSSelectorFromString(@"setFrame:");
+                    if (settings && [settings respondsToSelector:frameSelector]) {
+                        ((void (*)(id,SEL,CGRect))objc_msgSend)(
+                            settings,frameSelector,nativeFrame);
+                    }
+                    // Original _frame ivar write and other private setters
+                    // are deliberately withheld until safe scene rollback is
+                    // proven. A successful IPC call is NOT a device media ACK.
+                };
+                ((void (*)(id,SEL,id))objc_msgSend)(
+                    hostedScene,update,setVerifiedNative12Frame);
+                DFSceneLog(@"native12-scene-settings-frame-requested",
+                           self.bundleID,NSStringFromCGRect(nativeFrame));
+            } else {
+                DFSceneLog(@"native12-scene-settings-selector-unavailable",
+                           self.bundleID,@"updateSettingsWithBlock: unavailable");
+            }
+        }
         if (applied) {
             self.committedReferenceSize=size;
             DFSceneLog(@"media-reference-committed-after-stable-viewport",

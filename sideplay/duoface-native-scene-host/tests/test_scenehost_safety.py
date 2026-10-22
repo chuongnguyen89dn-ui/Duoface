@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.42~originalkvc1",build)
+  self.assertIn("0.1.43~originalframe1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -297,6 +297,24 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerLogo.layer.cornerRadius=size/2",spring)
   self.assertIn('DFCArtwork(@"duoface-logo-picker-alpha-v2")',spring)
   self.assertNotIn('DFCArtwork(@"duoface-picker")',spring)
+ def test_original_native12_scene_settings_frame_block_has_original_abi_guard(self):
+  evidence=json.loads((R.parent/"audit/native12-continuation-4888299/scene-block-invoke/SCENE_SETTINGS_BLOCK_INVOKE_ARM64.json").read_text())
+  self.assertEqual(evidence["dashboard_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
+  self.assertEqual(evidence["block_invoke_pc"],"0xadc74")
+  ins=evidence["original_machine_instructions"]
+  for addr in ("adc84:","adcb4:","adcc8:","adce4:","add30:","add64:","add98:","addcc:","ade00:","ade34:"):
+   self.assertTrue(any(x.startswith(addr) for x in ins),addr)
+  scene=file("DFSceneHost.m")
+  commit=scene.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  self.assertIn("if (self.ready && self.scene)",commit)
+  self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',commit)
+  self.assertIn('NSSelectorFromString(@"setFrame:")',commit)
+  self.assertIn("CGRectMake(0,0,logical.width,logical.height)",commit)
+  self.assertIn("settings,frameSelector,nativeFrame",commit)
+  self.assertIn("native12-scene-settings-frame-requested",commit)
+  self.assertNotIn('NSSelectorFromString(@"setForeground:")',commit)
+  self.assertNotIn('NSSelectorFromString(@"setCanShowWhileLocked:")',commit)
+  self.assertIn("if (self.stopped) return;",scene)
  def test_original_native12_kvc_to_ivar_exception_fallback(self):
   # Verified SHA-bound native instruction evidence, not copied vendor runtime.
   report=json.loads((R.parent/"audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
@@ -588,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.42~originalkvc1",c)
+  self.assertIn("Version: 0.1.43~originalframe1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
