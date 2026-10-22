@@ -476,7 +476,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];",chrome)
   self.assertIn("self.focus<0",chrome)
   self.assertIn("self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;",chrome)
-  self.assertIn("self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible)",chrome)
+  self.assertIn("self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible)",chrome)
   # Both REAL per-pane button dispatches remain present at every empty slot.
   self.assertIn("zoom.hidden=NO",chrome)
   self.assertIn("action:@selector(pillPressed:)",chrome)
@@ -1103,5 +1103,20 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"]',src)
   self.assertIn('case 3:[self openRunningAppManager];break;',src)
   self.assertIn('case 1:{',src)
+
+
+ def test_real_app_close_overlay_separate_visibility_and_lifecycle(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("@property(nonatomic,assign) BOOL appPickerVisible;",chrome)
+  self.assertIn("self.appPickerWindow.hidden=(self.startupActive||!self.appPickerVisible);",chrome)
+  self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
+  op=chrome[chrome.index("- (void)openAppPickerForSlot:"):chrome.index("- (NSArray<NSString *> *)ownedRunningBundleIDs")]
+  self.assertIn("self.appPickerVisible=YES;",op)
+  close=chrome[chrome.index("- (void)openRunningAppManager {"):chrome.index("- (void)appPicker:(DFAppPickerVC *)picker closeRunningBundleID:",chrome.index("- (void)openRunningAppManager {"))]
+  self.assertIn("self.appPickerVisible=YES;",close)
+  done=chrome[chrome.index("- (void)appPickerDidCancel:"):chrome.index("- (void)sceneReady:")]
+  self.assertIn("self.appPickerVisible=NO;",done)
+  self.assertIn("self.appPickerVisible=YES;",done) # failed host retains genuine App chooser
+  self.assertIn("self.pendingScenes[(NSUInteger)physicalSlot]=host;",done)
 
 if __name__=="__main__":unittest.main(verbosity=2)
