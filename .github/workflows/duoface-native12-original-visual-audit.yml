@@ -1,0 +1,58 @@
+name: Native12 original DEB versus DuoFace exact UI audit (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-original-visual-20261022/**'
+      - '.github/workflows/duoface-native12-original-visual-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract and fingerprint the actual immutable Native12 DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          REF=1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          VIS=c11ff1181eeda01dfc5e81f5166c99ba0287cfed
+          git fetch --no-tags --depth=1 origin "$REF"
+          git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/original.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/original.deb" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/original-extracted"
+          dpkg-deb -x "$RUNNER_TEMP/original.deb" "$RUNNER_TEMP/original-extracted"
+          git fetch --no-tags --depth=1 origin "$VIS"
+          git show "$VIS:replacement/visual12/engine/DFILayouts.h" > "$RUNNER_TEMP/DFILayouts.h"
+          git show "$VIS:replacement/visual12/engine/runtime/DFIInterface.inc" > "$RUNNER_TEMP/DFIInterface.inc"
+          printf '%s\n' 'EXTRACTED_PINNED_NATIVE12_REAL_DEB_AND_APPROVED_INDEPENDENT_UI_REFERENCE'
+      - name: Compare source UI semantics without modifying old DEB or shipping a release
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-original-visual-20261022/check_baseline.py \
+            --deb "$RUNNER_TEMP/original.deb" \
+            --extracted "$RUNNER_TEMP/original-extracted" \
+            --layout "$RUNNER_TEMP/DFILayouts.h" \
+            --ui "$RUNNER_TEMP/DFIInterface.inc" \
+            --out sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json
+          test -s sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json").read_text())
+          assert x["status"]=="NO_GO_NATIVE12_EXACT_VISUAL_FUNCTION_PARITY"
+          assert x["sources"]["original_payload_files"]==43
+          assert x["comparison"]["pane_pill_position"]["current"]=="top-center"
+          assert x["comparison"]["menu_row"]["current"]=="2 by 2, 44pt"
+          assert x["comparison"]["pane_count_max"]["current"]==4
+          print("NATIVE12_ORIGINAL_VS_NEW_PROVEN_DIFFERENCES_REPRODUCED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Original-UI-Difference-Not-A-Release
+          path: sideplay/audit/native12-original-visual-20261022/evidence/UI_DIFF.json
+          if-no-files-found: error
