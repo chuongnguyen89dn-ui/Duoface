@@ -96,7 +96,7 @@ int main(void) {
  check(fabs(separator.origin.x-464)<1e-9,
        "second divider not aligned with third-column boundary");
  check(DFSlotCountForPreset(0)==1,"one-pane mode lost");
- printf("NATIVE12_REAL_C_LAYOUT_8_PRESETS_375_GEOMETRY_CASES_PASS\n");
+ printf("NATIVE12_REAL_C_LAYOUT_8_PRESETS_600_GEOMETRY_CASES_PASS\n");
  return 0;
 }
 """
@@ -121,7 +121,7 @@ class Native12ExecutableLayout(unittest.TestCase):
    self.assertEqual(build.returncode,0,build.stderr)
    run=subprocess.run([str(output)],capture_output=True,text=True)
    self.assertEqual(run.returncode,0,run.stdout+"\n"+run.stderr)
-   self.assertIn("NATIVE12_REAL_C_LAYOUT_8_PRESETS_375_GEOMETRY_CASES_PASS",run.stdout)
+   self.assertIn("NATIVE12_REAL_C_LAYOUT_8_PRESETS_600_GEOMETRY_CASES_PASS",run.stdout)
 
 if __name__=="__main__":
  unittest.main()
