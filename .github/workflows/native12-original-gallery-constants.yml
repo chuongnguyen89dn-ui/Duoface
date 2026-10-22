@@ -30,19 +30,19 @@ jobs:
           dpkg-deb -x "$REF/native12.deb" "$REF/root"
           python3 sideplay/audit/native12-continuation-4888299/decode_gallery_constants.py \
             --macho "$REF/root/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
-            --out sideplay/audit/native12-continuation-4888299/constants
-          cat sideplay/audit/native12-continuation-4888299/constants/GALLERY_CONSTANTS.json
+            --out sideplay/audit/native12-continuation-4888299/constants-v2
+          cat sideplay/audit/native12-continuation-4888299/constants-v2/GALLERY_CONSTANTS.json
       - uses: actions/upload-artifact@v4
         with:
           name: Native12-Original-Gallery-Constants
-          path: sideplay/audit/native12-continuation-4888299/constants/GALLERY_CONSTANTS.json
+          path: sideplay/audit/native12-continuation-4888299/constants-v2/GALLERY_CONSTANTS.json
           if-no-files-found: error
       - name: Persist evidence in correct repo and verify
         shell: bash
         run: |
           set -euo pipefail
           BRANCH=feature/duoface-jb-embedded-appbridge-20261020
-          FILE=sideplay/audit/native12-continuation-4888299/constants/GALLERY_CONSTANTS.json
+          FILE=sideplay/audit/native12-continuation-4888299/constants-v2/GALLERY_CONSTANTS.json
           SOURCE="$(pwd)/$FILE"
           for i in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"

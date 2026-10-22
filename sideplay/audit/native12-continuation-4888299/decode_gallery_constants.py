@@ -15,7 +15,12 @@ def main():
            "gallery_content_height":0x3117f8,
            "gallery_unselected_blue":0x3117f0,
            "gallery_check_red":0x311720,
-           "gallery_check_green":0x311728}
+           "gallery_check_green":0x311728,
+           "gallery_selected_red":0x3116c8,"gallery_selected_green":0x30f9c8,
+           "gallery_selected_blue":0x311718,"gallery_fill_alpha":0x30faf8,
+           "gallery_border_red":0x310cd0,"gallery_border_green":0x30faa8,
+           "gallery_unselected_red":0x311790,"gallery_unselected_green":0x30f9a8,
+           "gallery_border_alpha":0x30fac0}
     decoder["main"].__globals__["ADDRS"].update(extra)
     old=sys.argv
     try:
