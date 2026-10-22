@@ -30,11 +30,12 @@
   },
   "independent_candidate": {
     "package": "com.duoface.carplay.nativescenehost",
-    "version": "0.1.46~zoomgeometry1",
+    "version": "0.1.47~realdock1",
     "architecture": "iphoneos-arm64",
-    "sha256": "d5d605956ce9ef8dd14f419f66838295e8e00a8a535d811edee4c2273bb84a55",
+    "sha256": "82b296d4076458ce7259c5987450a48d2ab2b37cf4857fdac8c0eb9d0d989941",
     "binary_files": [
       "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
       "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
     ],
     "markers": [

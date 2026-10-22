@@ -6311,6 +6311,7 @@
       "category": "OTHER",
       "new_selector_string_only": [
         "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
@@ -9211,6 +9212,7 @@
       "category": "BRIDGE_SCENE",
       "new_selector_string_only": [
         "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
@@ -11655,7 +11657,9 @@
       "native_type_encoding": "@16@0:8",
       "native_imp": "0x1217d8",
       "category": "OTHER",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -11679,7 +11683,9 @@
       "native_type_encoding": "@16@0:8",
       "native_imp": "0x12149c",
       "category": "OTHER",
-      "new_selector_string_only": [],
+      "new_selector_string_only": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib"
+      ],
       "runtime_caller_receiver_and_lifecycle_verified": false,
       "verdict": "KHONG_DAT"
     },
@@ -15869,6 +15875,7 @@
       "category": "BRIDGE_SCENE",
       "new_selector_string_only": [
         "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
         "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
       ],
       "runtime_caller_receiver_and_lifecycle_verified": false,

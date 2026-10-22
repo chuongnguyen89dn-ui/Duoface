@@ -342,7 +342,7 @@
       "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
       "name": "DuoFaceNativeHost",
       "bytes": 175792,
-      "sha256": "0ae17235327ab37a765f602962596779bfdffaff5b5078fd9838bcf5bfef9634",
+      "sha256": "3467a20db855167be781b69bc6fbf3d4b0ee3c7be247cbd04aa56a81e8f13266",
       "mach_o": true
     },
     {
@@ -444,10 +444,24 @@
       "mach_o": false
     },
     {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "name": "DFCarPlayDockOwner.dylib",
+      "bytes": 74704,
+      "sha256": "fa5f4ff54b6f1287541f98e6f1ca28d30a4034c7a0487612020f99d85bdf4d86",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist",
+      "name": "DFCarPlayDockOwner.plist",
+      "bytes": 410,
+      "sha256": "2b94a0dc2b027f7935916db5828d2c11c730460c68b8e4910ccc88da26e57f7c",
+      "mach_o": false
+    },
+    {
       "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
       "name": "DFTouchOwnerProbe.dylib",
-      "bytes": 243168,
-      "sha256": "001b6418d59a3f9ed18538cf5c7b4b089dff7dcdc4593b40e84dda0b6d5da1fd",
+      "bytes": 244464,
+      "sha256": "8bb459ea610ef9ba5e4b4e55ae196dc5dca9f4016834911d2ec1f6ba76aecc93",
       "mach_o": true
     },
     {
@@ -646,6 +660,18 @@
         }
       },
       "UILaunchStoryboardName": "DuoFaceLaunchScreen"
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist": {
+      "Filter": {
+        "Bundles": [
+          "com.apple.CarPlay",
+          "com.apple.CarPlayApp"
+        ],
+        "Executables": [
+          "CarPlay",
+          "CarPlayApp"
+        ]
+      }
     },
     "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist": {
       "Filter": {
