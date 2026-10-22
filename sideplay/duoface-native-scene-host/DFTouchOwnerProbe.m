@@ -3,6 +3,7 @@
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
 #import "DFNative12Chrome.h"
+#import "DFDockZoomCoordinator.h"
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -25,6 +26,9 @@ static NSUInteger sRetryCount=0;
 static NSTimeInterval sRetryAt=0;
 static NSString *const kSessionFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 static NSString *const kCommandFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.command.plist";
+static NSDictionary<NSString *,id> *sZoomReceipt;
+static BOOL sZoomFinishing;
+static BOOL DFSessionStillActive(void);
 static NSString *const kAckFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
 static const char *const kAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 static const char *const kCommandNotify="com.duoface.nativehost.touchowner.command.v1";
@@ -101,6 +105,24 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
        (![ratio isKindOfClass:NSNumber.class] ||
         !isfinite(ratio.doubleValue) ||
         ratio.doubleValue<1.0/3.0 || ratio.doubleValue>2.0/3.0))return;
+    if([action isEqualToString:@"Zoom"] && !sZoomFinishing){
+        // The source window still has not changed. Ask the *actual* CarPlay
+        // Dock owner first, then use its real ACK to apply the pane geometry.
+        DFDockZoomToggle(sChrome,sSession,^(BOOL applied,BOOL expanded,
+                                            NSDictionary *receipt){
+            if(!sChrome || !DFSessionStillActive())return;
+            sZoomReceipt=[receipt copy];
+            DFTOLog(applied?@"native12-whole-host-zoom-applied":
+                              @"native12-whole-host-zoom-rejected",
+                    [NSString stringWithFormat:@"expanded=%d %@",expanded,
+                     receipt[@"Reason"]?:receipt[@"OwnerClass"]?:@"unknown"]);
+            sZoomFinishing=YES;
+            DFSendCommand(@"Zoom",nil);
+            sZoomFinishing=NO;
+            sZoomReceipt=nil;
+        });
+        return;
+    }
     // Source UI action already executed before this post-action message.
     // Send a snapshot of the REAL owner, never a command that a second
     // controller will "pretend" to execute or mutate independently.
@@ -116,6 +138,8 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
        @"Sequence":@(++sSequence),@"Action":action,
        @"State":state} mutableCopy];
     if(ratio)message[@"Ratio"]=ratio;
+    if([action isEqualToString:@"Zoom"] && sZoomReceipt)
+        message[@"ZoomReceipt"]=sZoomReceipt;
     if(![message writeToFile:kCommandFile atomically:YES]){
         DFTOLog(@"command-write-failed",action);return;
     }
@@ -153,6 +177,10 @@ static void DFStopProbe(NSString *reason) {
     // Revoke the current generation BEFORE any potentially slow media-scene
     // teardown. Queued start/ACK commands can never revive a closed session.
     sGeneration++;
+    // Exact old-session cleanup while its ID still exists. The CarPlay
+    // process also has an independent heartbeat watchdog restoring the Dock.
+    DFDockZoomDetach(sChrome,sSession);
+    sZoomReceipt=nil;sZoomFinishing=NO;
     sActivated=NO;
     sSession=nil;
     sLastAckSequence=0;
