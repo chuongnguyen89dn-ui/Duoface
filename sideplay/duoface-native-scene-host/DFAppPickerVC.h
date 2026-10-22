@@ -14,6 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
     didSelectBundleID:(NSString *)bundleID
           displayName:(NSString *)name;
 - (void)appPickerDidCancel:(DFAppPickerVC *)picker;
+// Original setupCardContent has THREE modes: Apps, Layout, Recent.
+// Each request is routed to the EXISTING independent real scene owner.
+- (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker;
+- (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker;
 // Original CBMultitaskingOverlayView.showRecentAppsInParentView:
 // native controls operate on verified live bundle identifiers, never
 // installed-app guesses, stored Recent history, or an invented demo list.
