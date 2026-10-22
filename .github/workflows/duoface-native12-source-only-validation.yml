@@ -58,4 +58,12 @@ jobs:
               -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
               -Wno-deprecated-declarations -I . "$FILE"
           done
+          # Historical OWN Speed8 HUD view has been recovered but is NOT
+          # mounted/linked to the live host until real non-intercepting owner QA.
+          xcrun --sdk iphoneos clang++ -x objective-c++ -std=c++17 -fsyntax-only \
+            -fobjc-arc -fblocks -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+            -Wno-deprecated-declarations -I . -I speed8 \
+            speed8/DFNative8SpeedHUDView.mm
+          echo SPEED8_FIRSTPARTY_NATIVE_HUD_SOURCE_SYNTAX_PASS_NOT_LINKED_NOT_DEVICE
           echo NATIVE12_SOURCE_ONLY_ARM64_SDK_SYNTAX_PASS_NO_SIGNED_DEB
