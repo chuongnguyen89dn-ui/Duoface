@@ -343,6 +343,20 @@ static void DFCLog(NSString *text) {
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
+    // Original three-pane kinds have a second independently movable boundary.
+    UIViewController *secondRoot=[self emptyRoot:divider];
+    self.secondaryDividerTrack=secondRoot.view;
+    UIView *secondLine=[UIView new];
+    secondLine.tag=719;
+    secondLine.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];
+    secondLine.userInteractionEnabled=NO;
+    [self.secondaryDividerTrack addSubview:secondLine];
+    UIPanGestureRecognizer *secondaryPan=[[UIPanGestureRecognizer alloc]
+             initWithTarget:self action:@selector(secondaryDividerPan:)];
+    secondaryPan.maximumNumberOfTouches=1;
+    [self.secondaryDividerTrack addGestureRecognizer:secondaryPan];
+    self.secondaryDividerWindow=[self makeWindow:divider root:secondRoot level:2];
+    if(!self.secondaryDividerWindow){[self stop];return NO;}
     // Keep the action menu inside the selected split pane rather than
     // covering the whole dual-app display as a centered 470pt sheet.
     CGFloat pw=MIN(470,MAX(180,cr.size.width-16));
@@ -750,6 +764,20 @@ static void DFCLog(NSString *text) {
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible);
+    CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
+    if(!CGRectIsNull(second)){
+        BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
+        CGRect sf=vertical?
+          CGRectMake(second.origin.x-16,second.origin.y+2,32,MAX(18,second.size.height-4)):
+          CGRectMake(second.origin.x+2,second.origin.y-16,MAX(18,second.size.width-4),32);
+        self.secondaryDividerWindow.frame=sf;
+        self.secondaryDividerTrack.frame=(CGRect){CGPointZero,sf.size};
+        UIView *stroke=[self.secondaryDividerTrack viewWithTag:719];
+        stroke.frame=vertical?CGRectMake(15,0,2,sf.size.height):
+                              CGRectMake(0,15,sf.size.width,2);
+    }
+    self.secondaryDividerWindow.hidden=(self.startupActive||activeSlots<3||
+        self.focus>=0||self.pickerVisible||self.styleVisible||CGRectIsNull(second));
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     for(NSInteger i=0;i<4;i++){
@@ -1053,6 +1081,45 @@ static void DFCLog(NSString *text) {
         self.panActive=NO;DFCLog(end?@"divider-pan-end":@"divider-pan-cancel");
     }
 }
+// Native12: second divider alters only the secondary split fraction.
+// Like the primary divider, measure in fixed UIScreen coordinate space.
+- (CGPoint)secondaryTouchOnScreen:(UIPanGestureRecognizer *)pan {
+    CGPoint local=[pan locationInView:self.secondaryDividerTrack];
+    id<UICoordinateSpace> screen=self.secondaryDividerWindow.screen.coordinateSpace;
+    return screen?[self.secondaryDividerTrack convertPoint:local toCoordinateSpace:screen]:
+                  CGPointMake(NAN,NAN);
+}
+- (void)secondaryDividerPan:(UIPanGestureRecognizer *)pan {
+    if(self.pickerVisible||self.styleVisible||self.focus>=0||self.preset<3)return;
+    UIGestureRecognizerState state=pan.state;
+    if(state==UIGestureRecognizerStateBegan){
+        CGPoint start=[self secondaryTouchOnScreen:pan];
+        if(!isfinite(start.x)||!isfinite(start.y))return;
+        self.secondaryDragStartPoint=start;
+        self.dragStartSecondary=self.secondaryRatio;
+        [self noteUserActivity];
+        DFCLog(@"secondary-divider-pan-begin");
+        return;
+    }
+    BOOL end=state==UIGestureRecognizerStateEnded;
+    BOOL cancel=state==UIGestureRecognizerStateCancelled ||
+                state==UIGestureRecognizerStateFailed;
+    if(state!=UIGestureRecognizerStateChanged&&!end&&!cancel)return;
+    CGPoint now=[self secondaryTouchOnScreen:pan];
+    if((!isfinite(now.x)||!isfinite(now.y))&&!cancel)return;
+    BOOL vertical=DFSecondaryDividerIsVertical(self.preset);
+    CGFloat delta=vertical?now.x-self.secondaryDragStartPoint.x:
+                           now.y-self.secondaryDragStartPoint.y;
+    CGFloat extent=vertical?self.contentRect.size.width:self.contentRect.size.height;
+    if(self.preset==3)extent*=1-self.ratio;
+    if(extent<=0||!isfinite(extent))return;
+    CGFloat proposed=self.dragStartSecondary+delta/extent;
+    self.secondaryRatio=cancel?self.dragStartSecondary:
+           (end?DFCSnap(proposed):DFCClamp(proposed));
+    [self layoutControls];
+    if(end){[self saveSplitState];[self noteUserActivity];}
+    if(end||cancel)DFCLog(end?@"secondary-divider-pan-end":@"secondary-divider-pan-cancel");
+}
 - (void)logoHold:(UILongPressGestureRecognizer *)hold {
     if(hold.state!=UIGestureRecognizerStateChanged &&
        hold.state!=UIGestureRecognizerStateEnded)return;
@@ -1085,7 +1152,7 @@ static void DFCLog(NSString *text) {
     for(UIWindow *w in self.windows)w.rootViewController=nil;
     [self.windows removeAllObjects];
     [self.pillWindows removeAllObjects];
-    self.dividerWindow=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
+    self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
     self.styleChoices=nil;self.styleVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
