@@ -42,11 +42,17 @@ def main():
     def u32(addr):
         return struct.unpack("<I",raw(addr,4))[0]
     def cstr(addr):
-        for length in (128,64,32,16,8):
-            v=read(addr,length)
-            if v and b"\0" in v:
-                return v.split(b"\0",1)[0].decode("utf-8")
-        raise ValueError("Original ivar/class string unavailable "+hex(addr))
+        # Strings at the tail of a Mach-O section can have <8 bytes
+        # remaining. Read bytewise instead of requiring 8..128 mapped bytes.
+        data=bytearray()
+        for index in range(256):
+            one=read(addr+index,1)
+            if one is None:
+                raise ValueError("Original ivar/class string unmapped "+hex(addr+index))
+            if one==b"\0":
+                return data.decode("utf-8")
+            data.extend(one)
+        raise ValueError("Original ivar/class string unterminated "+hex(addr))
     classlist,count_bytes,_=sections["__objc_classlist"]
     if count_bytes%8:raise ValueError("Bad original objc_classlist size")
     found=[]
