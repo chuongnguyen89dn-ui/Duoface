@@ -1,4 +1,5 @@
 #import "DFNative12GalleryGeometry.h"
+#import "DFNative12PresetPreview.h"
 #import "DFNative12OuterGeometry.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
@@ -509,21 +510,15 @@ static void DFCLog(NSString *text) {
         button.accessibilityLabel=styleNames[(NSUInteger)idx];
         CGFloat thumbW=metrics.previewWidth;
         CGFloat thumbH=54;
-        UIView *thumb=[[UIView alloc] initWithFrame:CGRectMake(
-                  roundf((float)((metrics.cardWidth-thumbW)/2)),6,thumbW,thumbH)];
+        // Exact original 0x9efe0 calls UIGraphics and returns a UIImage.
+        // Do not substitute white demo UIView blocks for the bitmap.
+        UIImage *preview=DFNative12PresetPreview(idx,CGSizeMake(thumbW,thumbH));
+        UIImageView *thumb=[[UIImageView alloc] initWithImage:preview];
+        thumb.frame=CGRectMake(roundf((float)((metrics.cardWidth-thumbW)/2)),
+                               6,thumbW,thumbH);
+        thumb.contentMode=UIViewContentModeScaleAspectFit;
         thumb.backgroundColor=UIColor.clearColor;
         thumb.userInteractionEnabled=NO;
-        CGRect regions[4];
-        DFComputePresetFramesWithSecondary(CGRectMake(0,0,thumbW,thumbH),idx,
-                 DFNative12DefaultPrimaryRatio(idx),DFNative12DefaultSecondaryRatio(idx),regions);
-        for(NSInteger slot=0;slot<DFSlotCountForPreset(idx);slot++){
-            CGRect region=CGRectInset(regions[slot],.7,.7);
-            if(CGRectIsNull(region)||CGRectIsEmpty(region))continue;
-            UIView *segment=[[UIView alloc]initWithFrame:region];
-            segment.backgroundColor=[UIColor colorWithWhite:1 alpha:.43];
-            segment.userInteractionEnabled=NO;
-            [thumb addSubview:segment];
-        }
         [button addSubview:thumb];
         // Native original uses image-only cards; retain localized text for
         // VoiceOver, not an invented visible caption beside the preview.
