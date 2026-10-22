@@ -1,7 +1,10 @@
 #import "DFLayoutEngine.h"
 #import <math.h>
 NSInteger DFSlotCountForPreset(NSInteger preset) {
-    if(preset<0 || preset>7)return 2;
+    // Preset 8 adds a genuine one-app full-content pane, without replacing
+    // or renumbering the eight existing installed-user presets (0..7).
+    if(preset==8)return 1;
+    if(preset<0 || preset>8)return 2;
     if(preset<=1)return 2;
     if(preset<=5)return 3;
     return 4;
@@ -28,6 +31,9 @@ void DFComputePresetFrames(CGRect b, NSInteger preset, CGFloat ratio, CGRect *ou
     CGFloat x=b.origin.x,y=b.origin.y,w=b.size.width,h=b.size.height;
     CGFloat a=w*ratio,c=h*ratio;
     switch(preset) {
+      case 8: // genuine SOLO: one existing hosted scene fills usable CarPlay area
+        out[0]=b;
+        break;
       case 1: // two stacked live scenes
         out[0]=CGRectMake(x,y,w,c);
         out[1]=CGRectMake(x,y+c,w,h-c);
