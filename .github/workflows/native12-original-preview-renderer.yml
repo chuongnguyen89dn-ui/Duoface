@@ -1,0 +1,69 @@
+name: Native12 Original Nine Preview Geometry Binary (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-preview-renderer.yml'
+      - 'sideplay/audit/native12-real-deb-cardcount-20261022/extract_original_preview_renderer.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-preview-renderer
+  cancel-in-progress: true
+jobs:
+  original-image-helper:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable original DEB and extract nine-card renderer from original Mach-O
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+          REF='1286a3ef868cf7e29804bcddf7e20b2eae707ce1'
+          git fetch --no-tags --depth=1 origin "$REF"
+          git show "$REF:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" > "$RUNNER_TEMP/native12-original.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/native12-original.deb" | shasum -a 256 -c -
+          dpkg-deb -x "$RUNNER_TEMP/native12-original.deb" "$RUNNER_TEMP/native12-original-extracted"
+          python3 sideplay/audit/native12-real-deb-cardcount-20261022/extract_original_preview_renderer.py \
+            --dashboard "$RUNNER_TEMP/native12-original-extracted/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --out sideplay/audit/native12-real-deb-cardcount-20261022/evidence/helper
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-Real-Nine-Preview-Renderer-ARM64-NO-RELEASE
+          path: sideplay/audit/native12-real-deb-cardcount-20261022/evidence/helper/
+          if-no-files-found: error
+      - name: Save actual extracted source evidence to same DuoFace repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE="$(pwd)/sideplay/audit/native12-real-deb-cardcount-20261022/evidence/helper"
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          DEST='sideplay/audit/native12-real-deb-cardcount-20261022/evidence/helper'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$DEST"
+            cp "$SOURCE"/* "$TEMP/$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo 'ORIGINAL_PREVIEW_EVIDENCE_ALREADY_IN_GITHUB'
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit(native12): persist genuine original nine-card preview function ARM64; mapping still not inferred [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'ORIGINAL_PREVIEW_EVIDENCE_GITHUB_PERSISTED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
