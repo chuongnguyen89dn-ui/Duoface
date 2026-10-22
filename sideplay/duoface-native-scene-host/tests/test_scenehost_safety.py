@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.47~realdock1",build)
+  self.assertIn("0.1.48~native12ui1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -606,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.47~realdock1",c)
+  self.assertIn("Version: 0.1.48~native12ui1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1000,5 +1000,37 @@ class NativeCarPlayHost(unittest.TestCase):
   assert 'BOOL accepted=!isWholeHostZoom || verified;' in app
   assert 'DBDockWindow' not in chrome
   assert 'DFDockZoomToggle(sChrome,sSession' in owner
+
+
+ def test_native12_user_device_ui_and_media_regression_gates(self):
+  """Protect original artwork+scene callback source path, not hardware parity."""
+  chrome=file("DFNative12Chrome.m")
+  host=file("DFSceneHost.m")
+  header=file("DFSceneHost.h")
+  self.assertIn('DFCArtwork(@"duoface-fullscreen")',chrome)
+  self.assertIn('DFCArtwork(@"duoface-swap")',chrome)
+  self.assertNotIn('DFCArtwork(@"duoface-picker")',chrome)
+  self.assertNotIn('UIButtonConfiguration *conf=',chrome)
+  self.assertNotIn('UIButtonConfiguration *config=',chrome)
+  self.assertIn('b.titleLabel.adjustsFontSizeToFitWidth=YES',chrome)
+  self.assertIn('action.titleLabel.adjustsFontSizeToFitWidth=YES',chrome)
+  self.assertIn('menuAction:',chrome)
+  self.assertIn('case 3:[self closeHostedSlot:self.selectedSlot]',chrome)
+  self.assertIn('action:@selector(closeMenu:)',chrome)
+  self.assertIn('hold.minimumPressDuration=3.0',chrome)
+  self.assertIn('self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0',chrome)
+  self.assertIn('BOOL allReady=YES',chrome)
+  self.assertIn('show=show && (!allReady',chrome)
+  self.assertIn('self.dividerLogo.hidden=',chrome)
+  self.assertIn('DFSceneHostDidObserveTouchNotification',chrome)
+  self.assertIn('DFSceneHostDidObserveTouchNotification',host)
+  self.assertIn('DFSceneHostDidObserveTouchNotification',header)
+  self.assertIn('original-native12-refresh-scene-layout-after-reference',host)
+  self.assertIn('[self.appController.view setNeedsLayout]',host)
+  self.assertIn('[self.appController.view layoutIfNeeded]',host)
+  self.assertIn('logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);',host)
+  self.assertIn('DFComputePresetFramesWithSecondary',chrome)
+  self.assertIn('for(NSInteger idx=0;idx<9;idx++)',chrome)
+  self.assertIn('self.ratio=DFNative12DefaultPrimaryRatio(selected)',chrome)
 
 if __name__=="__main__":unittest.main(verbosity=2)
