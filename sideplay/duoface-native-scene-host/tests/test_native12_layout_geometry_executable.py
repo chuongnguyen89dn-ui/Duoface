@@ -18,6 +18,8 @@ typedef long NSInteger;
 typedef int BOOL;
 #define YES 1
 #define NO 0
+#define MAX(a,b) ((a)>(b)?(a):(b))
+#define MIN(a,b) ((a)<(b)?(a):(b))
 typedef struct {CGFloat x,y;} CGPoint;
 typedef struct {CGFloat width,height;} CGSize;
 typedef struct {CGPoint origin;CGSize size;} CGRect;
