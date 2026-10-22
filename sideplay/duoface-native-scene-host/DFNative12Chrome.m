@@ -606,8 +606,9 @@ static void DFCLog(NSString *text) {
     }
     self.appPickerController=[DFAppPickerVC new];
     self.appPickerController.delegate=self;
-    CGRect chooserRect=CGRectInset(cr,MAX(8,(cr.size.width-480)/2),
-                MAX(8,(cr.size.height-330)/2));
+    // Original CBMultitaskingOverlayView.layoutSubviews owns ONE outer sheet
+    // geometry for Apps/Layout/Recent; do not use the old invented 480x330.
+    CGRect chooserRect=styleRect;
     if(chooserRect.size.width<220||chooserRect.size.height<110){
         [self stop];return NO;
     }
@@ -1030,6 +1031,14 @@ static void DFCLog(NSString *text) {
       case 3:[self openRunningAppManager];break;
       default:break;
     }
+}
+- (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker {
+    if(picker!=self.appPickerController)return;
+    [self openStylePicker]; // Existing independent real nine-preset selector.
+}
+- (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker {
+    if(picker!=self.appPickerController)return;
+    [self openRunningAppManager]; // Verified DFSceneHost bundleIDs only.
 }
 - (void)openAppPickerForSlot:(NSInteger)slot {
     if(slot<0 || slot>=DFSlotCountForPreset(self.preset))return;
