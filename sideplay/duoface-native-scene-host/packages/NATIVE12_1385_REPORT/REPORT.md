@@ -3,7 +3,7 @@
 **KẾT LUẬN: KHÔNG ĐẠT tương đồng Native12.**
 
 Bản gốc: 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad
-Bản mới: 98673093f4314c42527608a378639d63bc7658f7e800364abb5e3b97280a5610
+Bản mới: d939605bb02488aa05a7858ef0740995292e1a2d95f92e2a96016839689231e9
 
 ## Kiểm kê bytecode
 - Native12: 43 file, 8 Mach-O, 66 ObjC classes, 1385 ObjC methods.
