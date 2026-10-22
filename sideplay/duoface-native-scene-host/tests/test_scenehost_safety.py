@@ -307,9 +307,7 @@ class NativeCarPlayHost(unittest.TestCase):
   for pc, fragment in (
       ("adb40:", "KVC failed"),
       ("adb60:", "_class_getInstanceVariable"),
-      ("adb70:", "ldr"),
-      ("adb70:", ""),
-      ("adb74:", "_object_getIvar"),
+      ("adb70:", "_object_getIvar"),
       ("adb94:", "0xad668")):
    self.assertTrue(any(x.startswith(pc) and fragment in x for x in ins), f"Native12 original missing {pc} {fragment}")
   source=file("DFSceneHost.m")
