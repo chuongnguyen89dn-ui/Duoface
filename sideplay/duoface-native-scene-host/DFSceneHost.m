@@ -274,7 +274,17 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         if (self.ready && self.scene) {
             id hostedScene=self.scene;
             SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
-            if ([hostedScene respondsToSelector:update]) {
+            // Physical iOS 16.7.16 crash reports repeatedly terminate in
+            // SBAppViewController sceneHandle:didUpdateSettingsWithDiff:.
+            // Suppress unverified private scene FRAME writes by default
+            // while retaining the original content-reference-size pathway.
+            // This is containment, not proven restoration of video playback.
+            BOOL enablePrivateFrame=[[NSUserDefaults standardUserDefaults]
+                boolForKey:@"DFEnableExperimentalPrivateSceneFrame"];
+            if (!enablePrivateFrame)
+                DFSceneLog(@"private-scene-frame-write-disabled-device-safety",
+                           self.bundleID,NSStringFromCGSize(logical));
+            if (enablePrivateFrame && [hostedScene respondsToSelector:update]) {
                 CGRect nativeFrame=CGRectMake(0,0,logical.width,logical.height);
                 NSUInteger generation=self.sceneGeneration;
                 __weak typeof(self) weakSurface=self;
