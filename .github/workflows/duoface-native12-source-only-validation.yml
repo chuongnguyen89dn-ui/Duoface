@@ -15,6 +15,7 @@ on:
       - 'sideplay/duoface-native-scene-host/speed8/**'
       - 'sideplay/duoface-native-scene-host/tests/test_speed8_protocol.py'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
+      - 'sideplay/duoface-native-scene-host/tests/test_app_tile_original_palette.py'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - '.github/workflows/duoface-native12-source-only-validation.yml'
       - '.github/workflows/duoface-jb-embedded-appbridge-package.yml'
