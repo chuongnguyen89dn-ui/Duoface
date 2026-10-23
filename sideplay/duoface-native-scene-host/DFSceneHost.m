@@ -195,9 +195,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
         size.width<=0 || size.height<=0) return;
-    DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
-    if(native.scale<=0)return;
-    CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
+    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     @try {
         // Native12 original CBBridgedUIAppView.updateSceneSettingsFrame
