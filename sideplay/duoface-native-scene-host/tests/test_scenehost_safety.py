@@ -167,7 +167,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("CGFloat width=focused?(compact?72:80):(compact?64:76)",chrome)
   self.assertIn("CGFloat height=compact?19:22",chrome)
   self.assertIn("pill.layer.cornerRadius=11",chrome)
-  self.assertIn("sheet.layer.cornerRadius=20",chrome)
+  self.assertIn("sheet.layer.cornerRadius=MIN(20,ph/2)",chrome)
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
   self.assertIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("DFCSnap",chrome)
