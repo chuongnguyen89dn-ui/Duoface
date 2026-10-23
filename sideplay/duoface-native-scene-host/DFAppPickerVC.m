@@ -94,6 +94,7 @@
 
 @interface DFAppPickerVC () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property(nonatomic,strong) UIView *sheet;
+@property(nonatomic,strong) UIVisualEffectView *sheetMaterial;
 @property(nonatomic,strong) UIView *modes;
 @property(nonatomic,strong) NSArray<UIButton *> *modeButtons;
 @property(nonatomic,assign) NSInteger currentMode;
@@ -117,13 +118,28 @@
 @implementation DFAppPickerVC
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:.95];
+    // Original real two-DEB proof @a05e4/a0764/a0834/a089c/a0934:
+    // black underlay alpha .65, system material dark (UIBlurEffectStyle 18),
+    // 20pt continuous rounded sheet, 1pt white/.18 border, shadow .65/r26/y10.
+    self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:.65];
     self.sheet=[UIView new];
-    self.sheet.backgroundColor=[UIColor colorWithWhite:.10 alpha:1];
+    self.sheet.backgroundColor=UIColor.clearColor;
     self.sheet.layer.cornerRadius=20;
-    self.sheet.layer.borderWidth=.5;
-    self.sheet.layer.borderColor=[UIColor colorWithWhite:1 alpha:.25].CGColor;
+    self.sheet.layer.cornerCurve=kCACornerCurveContinuous;
+    self.sheet.layer.borderWidth=1;
+    self.sheet.layer.borderColor=[UIColor colorWithWhite:1 alpha:.18].CGColor;
+    self.sheet.layer.shadowColor=UIColor.blackColor.CGColor;
+    self.sheet.layer.shadowOpacity=.65;
+    self.sheet.layer.shadowRadius=26;
+    self.sheet.layer.shadowOffset=CGSizeMake(0,10);
     [self.view addSubview:self.sheet];
+    self.sheetMaterial=[[UIVisualEffectView alloc] initWithEffect:
+        [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemMaterialDark]];
+    self.sheetMaterial.layer.cornerRadius=20;
+    self.sheetMaterial.layer.cornerCurve=kCACornerCurveContinuous;
+    self.sheetMaterial.clipsToBounds=YES;
+    self.sheetMaterial.userInteractionEnabled=NO;
+    [self.sheet addSubview:self.sheetMaterial];
     // Original setupCardContent @0xa2a58 uses a mode-specific 18pt SF symbol.
     // Outer four actions retain their separate approved DuoFace PNG assets.
     self.headerIcon=[UIImageView new];
@@ -248,6 +264,7 @@
     [super viewDidLayoutSubviews];
     // Host window now uses Native12's original outer sheet geometry.
     self.sheet.frame=self.view.bounds;
+    self.sheetMaterial.frame=self.sheet.bounds;
     CGFloat w=CGRectGetWidth(self.sheet.bounds),h=CGRectGetHeight(self.sheet.bounds);
     DFNative12CardHeader header=DFOriginalCardHeader(w,h);
     self.headerIcon.frame=CGRectMake(header.icon.x,header.icon.y,
