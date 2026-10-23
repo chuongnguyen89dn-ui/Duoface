@@ -992,6 +992,32 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('[chrome applyHostFullscreenToScreenBoundsAfterDockAck:bounds]',coordinator)
   self.assertNotIn('DFHostSetExpanded(',coordinator)
 
+ def test_native12_ellipsis_really_opens_existing_four_action_zoom_row(self):
+  """Real .51/.52 root defect: popup was constructed but NEVER displayed."""
+  chrome=file("DFNative12Chrome.m")
+  start=chrome.index("- (void)pillPressed:(UIButton *)sender {")
+  end=chrome.index("- (void)closeMenu:(id)sender {",start)
+  pill=chrome[start:end]
+  self.assertIn("self.pickerVisible=!sameMenu;",pill)
+  self.assertIn("self.selectedSlot=sender.tag;",pill)
+  self.assertIn("self.appPickerVisible=NO;",pill)
+  self.assertIn("self.styleVisible=NO;",pill)
+  self.assertIn("[self layoutControls];",pill)
+  self.assertIn("native12-action-row-%@",pill)
+  self.assertNotIn("[self openAppPickerForSlot:sender.tag]",pill)
+  # Real App action now opens the installed app picker only AFTER tapping App.
+  start=chrome.index("- (void)menuAction:(UIButton *)sender {")
+  end=chrome.index("- (void)appPickerDidRequestLayout:",start)
+  handler=chrome[start:end]
+  self.assertIn("case 0:[self openAppPickerForSlot:self.selectedSlot];break;",handler)
+  self.assertIn('[self emit:@"Zoom" ratio:nil]',handler)
+  self.assertIn("case 2:[self openStylePicker];break;",handler)
+  self.assertIn("case 3:[self openRunningAppManager];break;",handler)
+  self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible)",chrome)
+  # Original version has same native parent, actual separate UIButton action.
+  old=(R.parents[1]/"runtime/fullscreen/DFPickerZoomMenu.xm").read_text()
+  self.assertIn('action:@selector(pressed:) forControlEvents:UIControlEventTouchUpInside',old)
+
  def test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success(self):
   """CarPlay process Dock owner must precede SpringBoard geometry.
   Static contract only; device proof is a separate gate.
