@@ -40,7 +40,13 @@ static void DFZLog(NSString *message) {
 
 static BOOL DFZCarPlayProcess(void) {
     NSString *name=NSProcessInfo.processInfo.processName;
-    return [name isEqualToString:@"CarPlay"] || [name isEqualToString:@"CarPlayApp"];
+    // Historical working v12 fullscreen adapter registered Dashboard alongside
+    // CarPlay and CarPlayApp. Keep the extra process strictly bundle-gated:
+    // only a REAL measured Apple Dock under its own UIKit owner may get an ACK.
+    NSString *bundle=NSBundle.mainBundle.bundleIdentifier.lowercaseString;
+    return [name isEqualToString:@"CarPlay"] || [name isEqualToString:@"CarPlayApp"] ||
+           ([bundle isEqualToString:@"com.apple.dashboard"] &&
+            [name.lowercaseString isEqualToString:@"dashboard"]);
 }
 static BOOL DFZFreshSession(NSString *session) {
     NSDictionary *pulse=[NSDictionary dictionaryWithContentsOfFile:DFZSession];
@@ -206,7 +212,7 @@ static void DFZHandleCommand(void) {
        ![stamp isKindOfClass:NSNumber.class] ||
        ![cmd[@"Expanded"] isKindOfClass:NSNumber.class])return;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
-    if(!isfinite(age) || age<0 || age>2.0)return;
+    if(!isfinite(age) || age<0 || age>3.0)return;
     BOOL expanded=[cmd[@"Expanded"] boolValue];
     // A restore belonging to the session that hid the Dock is always allowed:
     // Home may already have revoked the heartbeat before cleanup.
