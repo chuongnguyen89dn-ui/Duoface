@@ -1215,7 +1215,7 @@ class NativeCarPlayHost(unittest.TestCase):
   picker=file("DFAppPickerVC.m")
   delegates=file("DFAppPickerVC.h")
   chrome=file("DFNative12Chrome.m")
-  self.assertIn('NSArray<NSString *> *names=@[@"Apps",@"Layout",@"Recent"]',picker)
+  self.assertIn('NSArray<NSString *> *names=@[@"Ứng dụng",@"Bố cục",@"Đang mở"]',picker)
   self.assertIn('DFOriginalCardHeader(w,h)',picker)
   self.assertIn('self.currentMode=2;',picker)
   self.assertIn('case 1:[self.delegate appPickerDidRequestLayout:self];break;',picker)
