@@ -517,7 +517,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_native12_approved_one_row_four_actions_no_mock_zoom(self):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("const CGFloat widths[4]={43,51,47,51};",chrome)
-  self.assertIn("CGRectMake(bx,7,widths[i]*scale,30)",chrome)
+  self.assertIn("CGRectMake(bx,(ph-30)/2,widths[i]*scale,30)",chrome)
   self.assertIn('NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"];',chrome)
   self.assertIn("[self layoutContextMenuForPane:pane[menuSlot]];",chrome)
   self.assertIn("self.pickerWindow.frame=CGRectMake(x,y,width,height);",chrome)
@@ -528,6 +528,31 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];",chrome)
   self.assertIn("self.selectedSlot=sender.tag;",chrome)
   self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
+
+ def test_real_device_20261023_no_blank_two_pane_outer_menu_body(self):
+  # Two actual CarPlay phone-camera photos of .38 show 446x224 EMPTY gray
+  # overlay, built only from a one-row header in DFNative12Chrome.m.
+  # The original SHA-verified setupCardContent header is 32pt for H<260
+  # (38pt for H>=260): no invented 224pt unused sheet body.
+  chrome=file("DFNative12Chrome.m")
+  geo=file("DFNative12CardHeaderGeometry.h")
+  self.assertIn("const double headerH=compactH?32.0:38.0;",geo)
+  self.assertIn("CGFloat ph=(CGFloat)DFOriginalCardHeader(cr.size.width,cr.size.height).headerHeight;",chrome)
+  self.assertIn("CGFloat height=(CGFloat)DFOriginalCardHeader(cr.size.width,cr.size.height).headerHeight;",chrome)
+  self.assertNotIn("CGFloat ph=MIN(280,MAX(140,cr.size.height-16));",chrome)
+  self.assertNotIn("CGFloat height=MIN(280,MAX(140,cr.size.height-16));",chrome)
+  self.assertIn("CGRectMake(bx,(ph-30)/2,widths[i]*scale,30)",chrome)
+  self.assertIn("CGRectMake(bx,(height-30)/2,widths[i]*scale,30)",chrome)
+  self.assertIn("CGRect brandFrame=CGRectMake(8,(height-30)/2,logoW,30);",chrome)
+  self.assertIn("CGRectGetMinY(pane)+4",chrome)
+  self.assertIn("[self layoutContextMenuForPane:pane[menuSlot]];",chrome)
+  self.assertIn("case 0:[self openAppPickerForSlot:self.selectedSlot];break;",chrome)
+  self.assertIn("case 2:[self openStylePicker];break;",chrome)
+  self.assertIn("case 3:[self openRunningAppManager];break;",chrome)
+  self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
+  # Real panes remain owned by DFSceneHost; no black fake content.
+  self.assertIn("BOOL loaded=([self.sceneHandleReady[(NSUInteger)i] boolValue]",chrome)
+  self.assertNotIn("CHƯA NỐI SCENE",chrome)
 
  def test_media_scene_deduplicates_private_resize_in_pending_state(self):
   host=file("DFSceneHost.m")
