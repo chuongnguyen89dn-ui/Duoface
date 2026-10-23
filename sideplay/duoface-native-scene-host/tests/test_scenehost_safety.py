@@ -427,8 +427,8 @@ class NativeCarPlayHost(unittest.TestCase):
   host=file("DFSceneHost.m")
   # Real hosted app scene remains visible behind menu and app chooser:
   # native12 split controller overlays controls; modal cannot suspend apps.
-  self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
-  self.assertIn("appWindow.userInteractionEnabled=loaded;",chrome)
+  self.assertIn("v.hidden=(self.startupActive || focusedElsewhere);",chrome)
+  self.assertIn("v.userInteractionEnabled=loaded;",chrome)
   self.assertNotIn("appWindow.hidden=(!(loaded||negotiating)",chrome)
   self.assertIn("self.pendingScenes[(NSUInteger)i]!=NSNull.null",chrome)
   self.assertNotIn("appWindow.hidden=(!loaded || self.pickerVisible",chrome)
@@ -465,9 +465,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("return preset==0?1:(preset==1||preset==2?2:(preset==8?4:3));",layout)
   self.assertIn("for(NSInteger slot=0;slot<4;slot++)",chrome)
   self.assertIn("if(i>=activeSlots){w.hidden=YES;continue;}",chrome)
-  self.assertIn("if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}",chrome)
-  self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
-  self.assertIn("appWindow.userInteractionEnabled=loaded;",chrome)
+  self.assertIn("if(visualSlot>=activeSlots){v.hidden=YES;continue;}",chrome)
+  self.assertIn("v.hidden=(self.startupActive || focusedElsewhere);",chrome)
+  self.assertIn("v.userInteractionEnabled=loaded;",chrome)
   # Empty slots are visible, but never intercept app or system touches.
   self.assertIn("BOOL empty=(!loaded && !negotiating);",chrome)
   self.assertIn("v.layer.borderWidth=splitVisible?(touched?1.0:(empty?0.75:0.0)):0.0;",chrome)
@@ -1033,7 +1033,7 @@ class NativeCarPlayHost(unittest.TestCase):
   assert 'self.contentRect=actual' in method
   assert 'DFComputePresetFramesWithSecondary(self.contentRect,self.preset' in method
   assert '[self layoutControls]' in method
-  assert 'self.appSceneWindows[(NSUInteger)i].frame' in method
+  assert 'self.appSceneContainers[(NSUInteger)i].frame' in method
   assert 'self.preset=' not in method
   assert 'self.ratio=' not in method
   assert 'self.focus=' not in method
@@ -1355,5 +1355,20 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"media-pane-frame-readback"',source)
   self.assertIn('NSStringFromCGRect(self.window.frame)',source)
   self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
+
+ def test_shared_native12_source_window_geometry_not_four_uiroot_windows(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("native12-shared-source-app-window-created-four-child-panes",chrome)
+  # Original split app owns one external source window, each real app a
+  # stable child UIView receiving only its assigned rectangle.
+  self.assertIn("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];",chrome)
+  self.assertEqual(chrome.count("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];"),1)
+  self.assertIn("[sharedRoot.view addSubview:container];",chrome)
+  self.assertIn("self.appSceneContainers[(NSUInteger)i]",chrome)
+  self.assertIn("CGRectOffset(target,-cr.origin.x,-cr.origin.y)",chrome)
+  self.assertNotIn("appWindow.frame=target",chrome)
+  self.assertNotIn("UIWindow *slotWindow=[self makeWindow:rect",chrome)
+  self.assertIn("return hit==self?nil:hit;",chrome)
+  self.assertIn("self.sharedAppWindow=nil;",chrome)
 
 if __name__=="__main__":unittest.main(verbosity=2)
