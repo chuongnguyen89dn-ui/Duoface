@@ -70,10 +70,10 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.38~native12sourcehost49_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.39~native12menuheader1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.38~native12sourcehost49'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.39~native12menuheader1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
