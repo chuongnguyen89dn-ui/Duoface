@@ -10,6 +10,7 @@ import argparse
 import json
 import subprocess
 import sys
+import tempfile
 
 here=Path(__file__).resolve().parent
 sys.path.insert(0,str(here.parent/"native12-modal-recheck-20261023"))
@@ -28,9 +29,11 @@ def main():
     out=Path(a.out)
     out.mkdir(parents=True,exist_ok=True)
     result={}
-    for name in paths:
-        assert exact(paths[name])==hashes[name],name+" UNSIGNED OR WRONG BIN"
-        result[name]=scan(name,paths[name],hashes[name],out)
+    # Extract real third-party evidence to ephemeral space, NOT a GitHub repo.
+    with tempfile.TemporaryDirectory(prefix="duoface-deb-compare-") as temp:
+        for name in paths:
+            assert exact(paths[name])==hashes[name],name+" UNSIGNED OR WRONG BIN"
+            result[name]=scan(name,paths[name],hashes[name],Path(temp))
     assert result["original"]["version"]=="0.1.0~native12+speed8compact"
     assert result["previous54"]["version"]=="0.0.54~nativecard1"
     assert result["candidate55"]["version"]=="0.0.55~zoomgrip1"
