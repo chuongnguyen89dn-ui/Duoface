@@ -961,6 +961,34 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('DFDashboardSetChromeHidden(',app)
   self.assertNotIn('DFRequestHostFullscreen(',app)
 
+ def test_zoom_historic_dashboard_owner_and_ack_budget_reused_safely(self):
+  # 2026-10-14 device-observed fullscreen ENTER used the old v12 adapter.
+  # The independent host must not silently drop its Dashboard receiver path
+  # or halve its already-documented three-second cross-process ACK allowance.
+  historical=R.parents[1]/"runtime/fullscreen"
+  entry=(historical/"DFRuntimeEntry.mm").read_text()
+  transport=(historical/"DFFullscreenTransport.mm").read_text()
+  self.assertIn('@"com.apple.dashboard"',entry)
+  self.assertIn("3*NSEC_PER_SEC",transport)
+  current=file("DFDockZoomCoordinator.m")
+  owner=file("DFCarPlayDockOwner.m")
+  filt=plistlib.loads((R/"DFCarPlayDockOwner.plist").read_bytes())["Filter"]
+  self.assertIn("com.apple.dashboard",filt["Bundles"])
+  self.assertIn("dashboard",filt["Executables"])
+  self.assertIn("CarPlay",filt["Executables"])
+  self.assertIn("CarPlayApp",filt["Executables"])
+  self.assertNotIn("SpringBoard",filt["Executables"])
+  self.assertIn('[bundle isEqualToString:@"com.apple.dashboard"]',owner)
+  self.assertIn('[name.lowercaseString isEqualToString:@"dashboard"]',owner)
+  self.assertIn("if(matches!=1)",owner)
+  self.assertIn('@"DockOwnerVerified":@(applied)',owner)
+  self.assertIn("if(!isfinite(age) || age<0 || age>3.0)return;",owner)
+  self.assertIn("if(!isfinite(age) || age<0 || age>3.0)return;",current)
+  self.assertIn("(3.0*NSEC_PER_SEC)",current)
+  self.assertIn("DFZEmergencyRestore(sPendingSession)",current)
+  self.assertNotIn("DBStatusBarWindow",owner)
+  self.assertNotIn("CBDashboardShared",owner)
+
  def test_original_native12_dismiss_child_view_teardown_order(self):
   """Actual SHA-locked Native12 dismiss orders remove(view) before willMove(nil).
   Do not mistake wrapperView.removeFromSuperview for a second invalidate.
