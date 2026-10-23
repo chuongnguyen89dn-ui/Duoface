@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Only real DFSceneHost-owned, scene-ready bundle IDs may be supplied.
 // Only verified live SceneHost slot identity, never guessed installed-app state.
 @property (nonatomic, copy, nullable) NSString *currentSlotBundleID;
+// Scene-ready IDs in the OTHER visible slots, never an installed-app guess.
+@property (nonatomic, copy) NSArray<NSString *> *otherSlotBundleIDs;
 - (void)presentInstalledApps;
 - (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs;
 
