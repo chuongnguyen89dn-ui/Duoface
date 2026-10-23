@@ -33,6 +33,16 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertIn("self.sheet.layer.shadowRadius=26;",p)
         self.assertIn("self.sheet.layer.shadowOffset=CGSizeMake(0,10);",p)
         self.assertIn("self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:.65];",p)
+    def test_original_dark_material_sheet_and_shadow(self):
+        p=(ROOT/"DFAppPickerVC.m").read_text()
+        self.assertIn("UIBlurEffectStyleSystemMaterialDark",p)
+        self.assertIn("self.sheet.layer.cornerRadius=20;",p)
+        self.assertIn("self.sheet.layer.borderWidth=1;",p)
+        self.assertIn("[UIColor colorWithWhite:1 alpha:.18]",p)
+        self.assertIn("self.sheet.layer.shadowOpacity=.65;",p)
+        self.assertIn("self.sheet.layer.shadowRadius=26;",p)
+        self.assertIn("self.sheet.layer.shadowOffset=CGSizeMake(0,10);",p)
+        self.assertIn("self.view.backgroundColor=[UIColor colorWithWhite:0 alpha:.65];",p)
     def test_real_badge_states_and_geometry(self):
         p=(ROOT/"DFAppPickerVC.m").read_text()
         self.assertIn("card.appBadgeKind=selectedApp?1:(otherSlotApp?2:0);",p)
