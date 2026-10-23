@@ -254,6 +254,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) CGPoint logoTouchStartScreen;
 @property(nonatomic,assign) CGPoint logoTouchLastScreen;
 @property(nonatomic,assign) CGFloat logoDragInitialRatio;
+@property(nonatomic,assign) NSTimeInterval logoTouchStartedAt;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -453,6 +454,15 @@ static void DFCLog(NSString *text) {
     // Native8 device-verified layout: one real UIButton owns logo movement;
     // keep ratio input exclusively on the separate dividerTrack pan.
     __weak typeof(self) weakGripOwner=self;
+    // Native9's working route uses one UILongPress on the logo itself.
+    // Keep current requested 3s (historical native9 was 0.30s), not its old value.
+    UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(logoNativeHold:)];
+    hold.minimumPressDuration=3.0;
+    hold.cancelsTouchesInView=NO;
+    hold.delaysTouchesBegan=NO;
+    hold.delaysTouchesEnded=NO;
+    [logo addGestureRecognizer:hold];
     logo.touchBegan=^(UIButton *sender){[weakGripOwner logoTouchDown:sender];};
     logo.touchMoved=^(UIButton *sender){[weakGripOwner logoTouchChanged:sender];};
     logo.touchEnded=^(UIButton *sender,BOOL inside){
@@ -1562,30 +1572,33 @@ static void DFCLog(NSString *text) {
     self.logoTouchStartScreen=point;
     self.logoTouchLastScreen=point;
     self.logoDragInitialRatio=self.ratio;
-    NSUInteger serial=++self.logoHoldSerial;
+    ++self.logoHoldSerial;
+    self.logoTouchStartedAt=NSProcessInfo.processInfo.systemUptime;
     [self noteUserActivity];
-    DFCLog(@"logo-touch-down-control-tracking-3s-pending");
-    __weak typeof(self) weakOwner=self;
-    // Exact user requirement: a complete 3-second stationary grip hold.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC)),
-                   dispatch_get_main_queue(), ^{
-        DFNative12Chrome *owner=weakOwner;
-        DFNativeDividerGripButton *current=(DFNativeDividerGripButton *)owner.dividerLogo;
-        if(!owner || owner.logoHoldSerial!=serial)return;
-        // Report the real failed gate before altering recognizer architecture.
-        if(!owner.logoTouchPending){DFCLog(@"logo-3s-rejected-not-pending");return;}
-        if(owner.logoMovedBeforeHold){DFCLog(@"logo-3s-rejected-early-movement");return;}
-        if(!current.touchTracked){DFCLog(@"logo-3s-rejected-tracking-ended");return;}
-        if(current.window==nil || owner.dividerWindow.hidden){
-            DFCLog(@"logo-3s-rejected-window-hidden");return;
-        }
-        owner.logoHoldRecognized=YES;
-        owner.logoHoldInitialFraction=owner.logoFraction;
-        owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
-        owner.panActive=YES;
-        [owner noteUserActivity];
-        DFCLog(@"logo-3s-hold-began-control-tracking");
-    });
+    DFCLog(@"logo-native-longpress-3s-pending");
+}
+- (void)logoNativeHold:(UILongPressGestureRecognizer *)hold {
+    if(hold.view!=self.dividerLogo)return;
+    if(hold.state==UIGestureRecognizerStateBegan) {
+        if(!self.logoTouchPending || self.logoDraggingRatio || self.dividerWindow.hidden)return;
+        self.logoHoldRecognized=YES;
+        self.logoHoldInitialFraction=self.logoFraction;
+        self.logoHoldInitialTouch=self.logoTouchLastScreen;
+        self.panActive=YES;
+        [self noteUserActivity];
+        DFCLog(@"logo-3s-hold-began-native-recognizer");
+    } else if(hold.state==UIGestureRecognizerStateChanged && self.logoHoldRecognized) {
+        // Keep coordinates stable while layout moves the button beneath the finger.
+        UIWindow *window=self.dividerLogo.window;
+        CGPoint local=[hold locationInView:window];
+        ((DFNativeDividerGripButton *)self.dividerLogo).trackedScreenPoint=
+            [window convertPoint:local toCoordinateSpace:window.screen];
+        [self logoTouchChanged:self.dividerLogo];
+    } else if(hold.state==UIGestureRecognizerStateEnded ||
+              hold.state==UIGestureRecognizerStateCancelled) {
+        if(self.logoHoldRecognized)[self saveSplitState];
+        // Do not clear recognition here: late TouchUpInside must not swap.
+    }
 }
 - (void)logoTouchChanged:(id)sender {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
@@ -1640,8 +1653,10 @@ static void DFCLog(NSString *text) {
         }
     }else if(!self.logoMovedBeforeHold && hypot(perp,parallel)>7){
         self.logoMovedBeforeHold=YES;
-        ++self.logoHoldSerial;
-        DFCLog(@"logo-prehold-moved-cancelled-hold");
+        // Suppress accidental tap-to-swap, but let UIKit's long-press decide
+        // its own movement allowance. The old 7pt timer cancellation is gone.
+        DFCLog([NSString stringWithFormat:@"logo-prehold-motion elapsed=%.3f perp=%.2f parallel=%.2f",
+            NSProcessInfo.processInfo.systemUptime-self.logoTouchStartedAt,perp,parallel]);
     }
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
@@ -1667,7 +1682,7 @@ static void DFCLog(NSString *text) {
     self.logoTouchPending=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
-    self.logoHoldRecognized=NO;
+    // Hold latch is reset only by the next physical touch-down (Native9 route).
     self.logoWakeOnlyTap=NO;
     self.panActive=NO;
     [self noteUserActivity];

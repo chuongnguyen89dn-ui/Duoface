@@ -134,6 +134,19 @@ static UIView *DFZDockClassView(UIView *root, UIWindow *window, NSUInteger depth
     }
     return nil;
 }
+// Historical iOS16 adapter DFDashboardChrome.xm owns the native rail through
+// these dedicated system windows. AppDock-only discovery dropped this route.
+static BOOL DFZHistoricalChromeWindow(UIWindow *window) {
+    if(!window || window.hidden || window.alpha<.95 || !window.screen)return NO;
+    BOOL native=NO;
+    for(NSString *name in @[@"DBStatusBarWindow",@"CARStatusBarWindow"]) {
+        Class cls=NSClassFromString(name);
+        if(cls && [window isKindOfClass:cls]){native=YES;break;}
+    }
+    CGRect screen=window.screen.bounds;
+    return native && screen.size.width>=300 && screen.size.height>=145 &&
+           !CGRectIsEmpty(window.bounds);
+}
 static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
                                     NSString **outReason) {
     UIView *found=nil;UIWindow *owner=nil;NSUInteger matches=0;
@@ -192,6 +205,17 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
                     NSStringFromCGRect(candidate.frame),NSStringFromCGRect(window.screen.bounds)]);
                 found=candidate;owner=window;matches++;
             }
+    }
+    // Only use the documented iOS16 route if no AppDock view was found.
+    // A single owner is required; never hide unrelated generic windows.
+    if(matches==0) {
+        for(UIWindow *window in windows) {
+            if(!DFZHistoricalChromeWindow(window))continue;
+            found=window;owner=window;matches++;
+            DFZLog([NSString stringWithFormat:@"historic-ios16-chrome-candidate class=%@ frame=%@ screen=%@",
+                NSStringFromClass(window.class),NSStringFromCGRect(window.frame),
+                NSStringFromCGRect(window.screen.bounds)]);
+        }
     }
     if(matches!=1) {
         DFZLog([NSString stringWithFormat:@"native-dock-discovery-rejected matches=%lu windows=%lu",
@@ -288,7 +312,7 @@ static void DFZHandleCommand(void) {
             DFZReply(cmd,NO,YES,reason,nil,CGRectZero);return;
         }
         if(DFZDockView) {view=DFZDockView;window=DFZWindow;}
-        if(!view || !window || window.hidden || !window.screen) {
+        if(!view || !window || (window.hidden && view!=window) || !window.screen) {
             DFZReply(cmd,NO,YES,@"dock-owner-disconnected",nil,CGRectZero);return;
         }
         if(!DFZDockView) {
@@ -325,7 +349,7 @@ static void DFZWatch(NSUInteger generation) {
     DFZHandleCommand();
     if(DFZDockView) {
         if(!DFZOwnerSession || !DFZFreshSession(DFZOwnerSession) ||
-           !DFZWindow || DFZWindow.hidden || !DFZWindow.screen) {
+           !DFZWindow || (DFZWindow.hidden && DFZDockView!=DFZWindow) || !DFZWindow.screen) {
             DFZRestore();
         }
     }
