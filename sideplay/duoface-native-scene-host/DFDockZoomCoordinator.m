@@ -117,6 +117,21 @@ static void DFZConsumeAck(void) {
     NSLog(@"[DuoFaceDockZoom] verified-two-owner-zoom=%d",desired);
     DFZComplete(YES,desired,receipt);
 }
+// Darwin notifications are edge-triggered and can be coalesced while a real
+// Dashboard/Dock scene is transitioning. Do not confuse lost notify delivery
+// with a failed Dock operation: re-read ONLY the existing atomic signed-like
+// session/request/sequence ACK through DFZConsumeAck's strict verification.
+// The three-second timeout and emergency restore remain authoritative.
+static void DFZPollMatchingAck(NSUInteger generation) {
+    if(generation!=sGeneration || !sPendingRequest)return;
+    DFZConsumeAck();
+    if(generation!=sGeneration || !sPendingRequest)return;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(.25*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFZPollMatchingAck(generation);
+    });
+}
+
 static void DFZEnsureListener(void) {
     if(sSubscribed)return;
     int result=notify_register_dispatch(DFZAckNotify,&sToken,
@@ -149,6 +164,9 @@ void DFDockZoomToggle(DFNative12Chrome *chrome, NSString *session,
         DFZComplete(NO,sDesired,@{@"Reason":@"dock-command-not-delivered"});
         return;
     }
+    // A successful file ACK must not be discarded only because notify_post
+    // was delayed/coalesced; this polls, it never synthesizes any ACK.
+    DFZPollMatchingAck(generation);
     // Preserve the previous DuoFace 3-second host ACK budget (Oct 14).
     // The fresh foreground heartbeat and exact request ID still gate success.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC)),
