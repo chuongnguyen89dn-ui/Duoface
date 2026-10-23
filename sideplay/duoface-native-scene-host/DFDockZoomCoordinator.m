@@ -68,7 +68,7 @@ static void DFZConsumeAck(void) {
        ![ack[@"Expanded"] isEqual:@(sDesired)] ||
        ![stamp isKindOfClass:NSNumber.class])return;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
-    if(!isfinite(age) || age<0 || age>2.0)return;
+    if(!isfinite(age) || age<0 || age>3.0)return;
     BOOL owner=[ack[@"Applied"] isEqual:@YES] &&
                [ack[@"DockOwnerVerified"] isEqual:@YES] &&
                [ack[@"DockHidden"] isEqual:@(sDesired)] &&
@@ -149,7 +149,9 @@ void DFDockZoomToggle(DFNative12Chrome *chrome, NSString *session,
         DFZComplete(NO,sDesired,@{@"Reason":@"dock-command-not-delivered"});
         return;
     }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.5*NSEC_PER_SEC)),
+    // Preserve the previous DuoFace 3-second host ACK budget (Oct 14).
+    // The fresh foreground heartbeat and exact request ID still gate success.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC)),
                    dispatch_get_main_queue(),^{
         if(generation!=sGeneration || !sPendingRequest)return;
         // A native Dock receiver may have hidden its view but its ACK could
