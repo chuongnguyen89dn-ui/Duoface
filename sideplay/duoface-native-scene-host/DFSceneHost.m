@@ -282,24 +282,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             }
         }
         if (applied) {
-            // Native12 SHA-gated CBBridgedUIAppView.refreshSceneLayout
-            // IMP @ade58: updateSceneSettingsFrame -> setNeedsLayout on
-            // both hosted views -> layoutIfNeeded. The old independent path
-            // changed private frame but did NOT flush the visual layer tree,
-            // leaving players with a stale orientation/viewport on resize.
-            // Keep original Portrait=1 ABI, never guess Landscape.
-            [self.appController.view setNeedsLayout];
-            if([inner isKindOfClass:UIView.class] &&
-               inner!=self.appController.view)[inner setNeedsLayout];
-            DFSceneLog(@"geometry-before-layout-flush",self.bundleID,NSStringFromCGSize(logical));
-            // .38 regression isolation: original refresh owns its
-            // UIKit flush OUTSIDE the private FrontBoard settings mutation.
-            // A synchronous layoutIfNeeded here reenters SB scene settings
-            // while FBSceneMonitor may still deliver an update; .37 did not
-            // force this nested flush. Leave dirty views for UIKit's next
-            // scheduled layout pass. Do not change Portrait or the FBS ABI.
-            DFSceneLog(@"native12-layout-invalidated-deferred-no-sync-flush",
-                       self.bundleID,NSStringFromCGSize(logical));
+            // v0.0.37: no extra UIKit invalidation from the private scene update.
             self.committedReferenceSize=size;
             DFSceneLog(@"media-reference-committed-after-stable-viewport",
                        self.bundleID,NSStringFromCGSize(size));
