@@ -1341,4 +1341,16 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:wait",host)
   self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
 
+ def test_live_springboard_scene_must_not_mutate_private_reference_size_on_reflow(self):
+  source=file("DFSceneHost.m")
+  method=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1]
+  live_gate=method.index("if(self.ready){")
+  marker=method.index('@"live-scene-private-reference-update-suppressed"')
+  setter=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
+  self.assertLess(live_gate,marker)
+  self.assertLess(marker,setter)
+  self.assertIn("self.committedReferenceSize=size;",method[live_gate:setter])
+  self.assertIn("return;",method[live_gate:setter])
+  self.assertIn("if (!self.ready)",source)
+
 if __name__=="__main__":unittest.main(verbosity=2)
