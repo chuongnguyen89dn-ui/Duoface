@@ -1164,28 +1164,17 @@ static void DFCLog(NSString *text) {
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
     [self noteUserActivity];
-    BOOL sameMenu=self.pickerVisible && self.selectedSlot==sender.tag;
-    self.selectedSlot=sender.tag;
-    // SOURCE-VERIFIED missing link: all earlier independent builds created
-    // four real menuAction: UIButtons in pickerWindow, but NEVER assigned
-    // pickerVisible=YES anywhere. The per-pane ellipsis jumped straight to
-    // openAppPickerForSlot:, leaving the real Zoom target INVISIBLE and thus
-    // impossible to tap. The original v12 CBMultitaskingOverlayView presents
-    // its native App / Zoom / Style / Close parent before dispatching any
-    // of those separate actions. Mount OUR existing row, no invented UI.
-    self.appPickerVisible=NO;
-    self.styleVisible=NO;
-    self.appPickerWindow.hidden=YES;
-    self.pickerVisible=!sameMenu;
-    [self layoutControls];
+    // 2026-10-23 actual head-unit screenshot: .53 produced ONLY a thin,
+    // floating App/Zoom/Style/Close row, with NO installed-app contents.
+    // That is NOT the original Native12 card, which uses the existing
+    // overlay card's app-mode contents (Apps/Layout/Recent). Reuse our
+    // previously implemented DFAppPickerVC sheet, inventory and Zoom action.
+    // Do NOT show the separate hand-built popup toolbar from .53.
+    self.pickerVisible=NO;
+    [self openAppPickerForSlot:sender.tag];
     DFCLog([NSString stringWithFormat:
-        @"native12-action-row-%@ selectedSlot=%ld window=%@ zoomTarget=%d",
-        self.pickerVisible?@"shown":@"closed",(long)sender.tag,
-        self.pickerWindow && !self.pickerWindow.hidden?@"visible":@"hidden",
-        self.menuActions.count==4 &&
-        [[self.menuActions[1] actionsForTarget:self
-                 forControlEvent:UIControlEventTouchUpInside]
-           containsObject:NSStringFromSelector(@selector(menuAction:))]]);
+        @"native12-ellipsis-opened-real-app-card slot=%ld picker=%d row=%d",
+        (long)sender.tag,self.appPickerVisible,self.pickerVisible]);
 }
 - (void)closeMenu:(id)sender {
     (void)sender;
@@ -1303,6 +1292,17 @@ static void DFCLog(NSString *text) {
 - (void)appPickerDidRequestZoom:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController || !self.appPickerVisible)return;
     [self noteUserActivity];
+    // Global whole-interface Zoom, NEVER per-pane zoomPressed:/focus.
+    // Dismiss the original-style app card BEFORE the Dock ACK and geometry
+    // transaction; keeping a full-size modal in the foreground obscures
+    // both apps and can intercept the Restore/Zoom Out path.
+    self.appPickerVisible=NO;
+    self.pickerVisible=NO;
+    self.styleVisible=NO;
+    self.appPickerWindow.hidden=YES;
+    [self layoutControls];
+    DFCLog(self.hostFullscreen?@"native12-card-zoom-out-request-real-dock":
+                               @"native12-card-zoom-in-request-real-dock");
     [self emit:@"Zoom" ratio:nil];
 }
 - (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker {
