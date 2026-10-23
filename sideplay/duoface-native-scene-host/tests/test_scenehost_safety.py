@@ -169,7 +169,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("pill.layer.cornerRadius=11",chrome)
   self.assertIn("sheet.layer.cornerRadius=MIN(20,ph/2)",chrome)
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
-  self.assertNotIn("requireGestureRecognizerToFail:hold",chrome)
+  self.assertIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("DFCSnap",chrome)
   self.assertIn("UIVisualEffectView *pill",chrome)
   self.assertIn('systemImageNamed:@"ellipsis"',chrome)
@@ -244,7 +244,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("return !CGRectContainsPoint(logoHit,p);",chrome)
   self.assertIn("initWithTarget:self action:@selector(logoHold:)",chrome)
   self.assertIn("initWithTarget:self action:@selector(dividerPan:)",chrome)
-  self.assertNotIn("requireGestureRecognizerToFail:hold",chrome)
+  self.assertIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("forControlEvents:UIControlEventTouchUpInside",chrome)
   self.assertIn("action:@selector(swapPressed:)",chrome)
   hold=chrome[chrome.index("- (void)logoHold:"):chrome.index("- (void)stop {",chrome.index("- (void)logoHold:"))]
@@ -1143,7 +1143,7 @@ class NativeCarPlayHost(unittest.TestCase):
               chrome.index("// Native12 CBWindow.carPlayUsableBounds")]
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
   self.assertIn("self.logoHoldInitialFraction=self.logoFraction",hold)
-  self.assertIn("self.logoHoldInitialTouch=[hold locationInView:self.dividerTrack]",hold)
+  self.assertIn("self.logoHoldInitialTouch=screen?",hold)
   self.assertIn("self.logoHoldInitialFraction+delta/span",hold)
   self.assertIn("[self saveSplitState]",hold)
   self.assertIn("self.panActive=YES",hold)
@@ -1308,8 +1308,20 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   host=file("DFSceneHost.m")
   self.assertIn("hold.allowableMovement=28;",chrome)
-  self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
+  self.assertIn("UIPanGestureRecognizer *logoPan=",chrome)
   self.assertIn('boolForKey:@"DFEnableExperimentalPrivateSceneFrame"',host)
   self.assertIn("if (enablePrivateFrame && [hostedScene respondsToSelector:update])",host)
+
+ def test_20261023_device_photo_restores_ratio_and_hold(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("logoPan requireGestureRecognizerToFail:hold",chrome)
+  self.assertIn("self.dividerWindow.userInteractionEnabled=YES;",chrome)
+  self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=YES;",chrome)
+  self.assertIn("return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);",chrome)
+  self.assertIn("self.logoHoldInitialTouch=screen?",chrome)
+  self.assertIn("[self.dividerTrack convertPoint:local toCoordinateSpace:screen]",chrome)
+  self.assertIn("hold.minimumPressDuration=3.0",chrome)
+  self.assertIn("hold.allowableMovement=28;",chrome)
+
 
 if __name__=="__main__":unittest.main(verbosity=2)
