@@ -8,6 +8,8 @@
 #import <objc/message.h>
 #import <notify.h>
 #import <math.h>
+#import <fcntl.h>
+#import <unistd.h>
 
 static NSString *const DFZSession=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
 static NSString *const DFZCommand=@"/var/mobile/Library/Preferences/com.duoface.nativehost.dockzoom.command.plist";
@@ -21,6 +23,20 @@ static BOOL DFZSavedHidden;
 static NSUInteger DFZLastSequence;
 static int DFZToken=-1;
 static NSUInteger DFZGeneration;
+
+// One-shot ownership diagnostics when Zoom is pressed. Writes no app IDs or
+// user content. Failure to write must never affect Dock ownership/restore.
+static void DFZLog(NSString *message) {
+    NSString *line=[NSString stringWithFormat:@"[DuoFaceDockOwner] %@\n",message?:@""];
+    NSLog(@"%@",line);
+    int fd=open("/var/mobile/Library/Logs/DuoFaceDockOwner.log",
+                O_WRONLY|O_APPEND|O_CREAT,0644);
+    if(fd>=0) {
+        NSData *data=[line dataUsingEncoding:NSUTF8StringEncoding];
+        (void)write(fd,data.bytes,data.length);
+        close(fd);
+    }
+}
 
 static BOOL DFZCarPlayProcess(void) {
     NSString *name=NSProcessInfo.processInfo.processName;
@@ -129,10 +145,17 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
             if(!candidate && [NSStringFromClass(window.class) isEqualToString:@"DBDockWindow"] &&
                DFZVisibleDockGeometry(window.rootViewController.view,window))
                 candidate=window.rootViewController.view;
-            if(candidate) {found=candidate;owner=window;matches++;}
+            if(candidate) {
+                DFZLog([NSString stringWithFormat:
+                    @"dock-candidate view=%@ window=%@ frame=%@ screen=%@",
+                    NSStringFromClass(candidate.class),NSStringFromClass(window.class),
+                    NSStringFromCGRect(candidate.frame),NSStringFromCGRect(window.screen.bounds)]);
+                found=candidate;owner=window;matches++;
+            }
     }
     if(matches!=1) {
-        NSLog(@"[DuoFaceDockOwner] native-dock-discovery-rejected matches=%lu", (unsigned long)matches);
+        DFZLog([NSString stringWithFormat:@"native-dock-discovery-rejected matches=%lu windows=%lu",
+                (unsigned long)matches,(unsigned long)windows.count]);
         if(outReason)*outReason=matches?@"ambiguous-native-dock-owner":@"no-verified-live-native-appdock";
         return NO;
     }
@@ -164,8 +187,8 @@ static void DFZReply(NSDictionary *command, BOOL applied, BOOL expanded,
         @"Timestamp":@(NSDate.date.timeIntervalSince1970)
     };
     if([reply writeToFile:DFZAck atomically:YES])notify_post(DFZAckNotify);
-    NSLog(@"[DuoFaceDockOwner] request=%@ applied=%d expanded=%d reason=%@",
-          reply[@"RequestID"],applied,expanded,reason?:@"ok");
+    DFZLog([NSString stringWithFormat:@"dock-reply applied=%d expanded=%d owner=%@ reason=%@",
+          applied,expanded,owner?:@"-",reason?:@"ok"]);
 }
 static void DFZHandleCommand(void) {
     if(!DFZCarPlayProcess() || !NSThread.isMainThread)return;
@@ -256,8 +279,8 @@ static void DFZInstallDockReceiver(void) {
                        (void)token;DFZHandleCommand();
                    });
             if(result==0){
-                NSLog(@"[DuoFaceDockOwner] listener-ready process=%@",
-                      NSProcessInfo.processInfo.processName);
+                DFZLog([NSString stringWithFormat:@"listener-ready process=%@",
+                      NSProcessInfo.processInfo.processName]);
                 DFZWatch(++DFZGeneration);
             }
         });
