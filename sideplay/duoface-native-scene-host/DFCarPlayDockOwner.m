@@ -132,6 +132,7 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
             if(candidate) {found=candidate;owner=window;matches++;}
     }
     if(matches!=1) {
+        NSLog(@"[DuoFaceDockOwner] native-dock-discovery-rejected matches=%lu", (unsigned long)matches);
         if(outReason)*outReason=matches?@"ambiguous-native-dock-owner":@"no-verified-live-native-appdock";
         return NO;
     }
