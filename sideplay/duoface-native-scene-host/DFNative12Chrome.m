@@ -552,6 +552,12 @@ static void DFCLog(NSString *text) {
     // a visible Zoom button with an uncalled selector is never marked wired.
     if(actions.count==4){
         UIButton *zoomAction=actions[1];
+        // TouchUpInside is the original UIKit path; CarPlay's focused
+        // select key can instead dispatch PrimaryActionTriggered. Route
+        // BOTH to the SAME real menuAction: selector, never a second
+        // visual-only Zoom handler.
+        [zoomAction addTarget:self action:@selector(menuAction:)
+            forControlEvents:UIControlEventPrimaryActionTriggered];
         [zoomAction addTarget:self action:@selector(zoomButtonTouchDown:)
             forControlEvents:UIControlEventTouchDown];
         [zoomAction addTarget:self action:@selector(zoomButtonTouchCancelled:)
