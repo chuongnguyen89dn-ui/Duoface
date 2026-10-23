@@ -181,6 +181,17 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (now-self.lastViewportLogAt>0.5) {
         self.lastViewportLogAt=now;
         DFSceneLog(@"media-viewport-ui-only",self.bundleID,NSStringFromCGSize(size));
+        // On-device .47 screenshots show mobile portrait content occupying
+        // only a fraction of a landscape CarPlay pane. Record read-only UIKit
+        // dimensions so the next audit can distinguish wrong source-window
+        // geometry from an app intrinsically enforcing portrait. Never
+        // mutate FrontBoard/host scene settings to collect diagnostics.
+        DFSceneLog(@"media-pane-frame-readback",self.bundleID,
+            [NSString stringWithFormat:@"pane=%@ externalWindow=%@ hostFrame=%@ hostBounds=%@",
+                NSStringFromCGRect(self.bounds),
+                NSStringFromCGRect(self.window.frame),
+                NSStringFromCGRect(self.appController.view.frame),
+                NSStringFromCGRect(self.appController.view.bounds)]);
     }
     DFSceneLog(@"resize",self.bundleID,NSStringFromCGSize(size));
     if (!self.ready) return;
