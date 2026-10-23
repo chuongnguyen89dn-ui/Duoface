@@ -3,6 +3,44 @@
 #import <UIKit/UIKit.h>
 #import <math.h>
 
+// Grounded in this project's original v12 DFPickerZoomMenu.xm:
+// OUT = arrow.up.left.and.arrow.down.right, IN = arrow.down.right.and.arrow.up.left.
+// Icon is a visible subview, above the Zoom label; do NOT use an inert
+// one-state fullscreen PNG or pretend an arrow is a successful Dock ACK.
+static inline NSString *DFNative12ZoomArrowSymbol(BOOL expanded) {
+    return expanded?@"arrow.down.right.and.arrow.up.left":
+                    @"arrow.up.left.and.arrow.down.right";
+}
+static inline void DFNative12DecorateZoomButton(UIButton *button, BOOL expanded) {
+    if(!button)return;
+    [button setImage:nil forState:UIControlStateNormal];
+    [button setTitle:@"Zoom" forState:UIControlStateNormal];
+    button.accessibilityLabel=expanded?@"Zoom Out":@"Zoom In";
+    button.accessibilityHint=@"Mở rộng toàn giao diện và ẩn Dock, hoặc khôi phục Dock";
+    button.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
+    button.titleLabel.textAlignment=NSTextAlignmentCenter;
+    button.titleLabel.adjustsFontSizeToFitWidth=YES;
+    button.titleLabel.minimumScaleFactor=.8;
+    button.titleEdgeInsets=UIEdgeInsetsMake(19,0,0,0);
+    button.contentEdgeInsets=UIEdgeInsetsZero;
+    button.contentHorizontalAlignment=UIControlContentHorizontalAlignmentCenter;
+    button.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+    UIImageView *arrow=(UIImageView *)[button viewWithTag:197312];
+    if(!arrow) {
+        arrow=[[UIImageView alloc]initWithFrame:CGRectZero];
+        arrow.tag=197312;
+        arrow.userInteractionEnabled=NO;
+        arrow.contentMode=UIViewContentModeScaleAspectFit;
+        [button addSubview:arrow];
+    }
+    CGFloat width=CGRectGetWidth(button.bounds);
+    arrow.frame=CGRectMake((width-16.0)/2.0,1.0,16.0,16.0);
+    arrow.tintColor=button.tintColor?:UIColor.whiteColor;
+    arrow.image=[UIImage systemImageNamed:DFNative12ZoomArrowSymbol(expanded)
+        withConfiguration:[UIImageSymbolConfiguration
+            configurationWithPointSize:16 weight:UIImageSymbolWeightRegular]];
+}
+
 // First-party source reference: runtime/fullscreen/DFPickerZoomMenu.xm,
 // DFLayoutPicker / DFDecorate. These are the shipped DuoFace header changes
 // layered over Native12's original three modes, not a second outer modal.
@@ -58,7 +96,7 @@ static inline CGFloat DFLayoutNative12MenuHeader(UIView *sheet, UIView *bar,
         icon.image=[UIImage systemImageNamed:symbols[i] withConfiguration:
             [UIImageSymbolConfiguration configurationWithPointSize:16 weight:UIImageSymbolWeightRegular]];
     }
-    buttons[1].accessibilityLabel=expanded?@"Zoom Out":@"Zoom In";
+    DFNative12DecorateZoomButton(buttons[1],expanded);
     return MAX(CGRectGetMaxY(nativeFrame),nativeFrame.origin.y+32.0);
 }
 #endif
