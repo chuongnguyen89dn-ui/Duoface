@@ -14,10 +14,10 @@ static inline NSString *DFNative12ZoomArrowSymbol(BOOL expanded) {
 static inline void DFNative12DecorateZoomButton(UIButton *button, BOOL expanded) {
     if(!button)return;
     [button setImage:nil forState:UIControlStateNormal];
-    [button setTitle:@"Zoom" forState:UIControlStateNormal];
+    [button setTitle:expanded?@"Zoom Out":@"Zoom In" forState:UIControlStateNormal];
     button.accessibilityLabel=expanded?@"Zoom Out":@"Zoom In";
     button.accessibilityHint=@"Mở rộng toàn giao diện và ẩn Dock, hoặc khôi phục Dock";
-    button.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
+    button.titleLabel.font=[UIFont systemFontOfSize:9 weight:UIFontWeightMedium];
     button.titleLabel.textAlignment=NSTextAlignmentCenter;
     button.titleLabel.adjustsFontSizeToFitWidth=YES;
     button.titleLabel.minimumScaleFactor=.8;
@@ -77,7 +77,7 @@ static inline CGFloat DFLayoutNative12MenuHeader(UIView *sheet, UIView *bar,
         UIButton *button=buttons[i];
         CGFloat w=floor(desired[i]*scale);
         button.frame=CGRectMake(x,0,w,30);x+=w+gap;
-        [button setTitle:names[i] forState:UIControlStateNormal];
+        [button setTitle:i==1?(expanded?@"Zoom Out":@"Zoom In"):names[i] forState:UIControlStateNormal];
         button.titleLabel.font=[button.titleLabel.font fontWithSize:10];
         button.titleLabel.adjustsFontSizeToFitWidth=YES;
         button.titleLabel.minimumScaleFactor=.85;
