@@ -1356,7 +1356,6 @@ static void DFCLog(NSString *text) {
         [self layoutControls];
         return;
     }
-    UIWindow *slotWindow=self.appSceneWindows[(NSUInteger)physicalSlot];
     UIView *container=self.appSceneContainers[(NSUInteger)physicalSlot];
     host.frame=container.bounds;
     host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
