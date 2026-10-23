@@ -162,19 +162,16 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     // Original CBBridgedUIAppView.updateLayout @accf4, ad03c-ad0c8:
     // roundf(2*slot), uniform min(width/nativeW,height/nativeH),
     // original threshold .05 and corner policy <600. No guessed rotation.
-    DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
-    if(native.scale<=0)return;
-    CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
+    // Restore the exact source viewport ratio used by the playable .37 build.
+    CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+    if(logical.width<=0 || logical.height<=0)return;
     self.layingOutScene=YES;
     @try {
     UIView *host=self.appController.view;
     host.transform=CGAffineTransformIdentity;
     host.frame=(CGRect){CGPointZero,logical};
-    host.transform=CGAffineTransformMakeScale(native.scale,native.scale);
+    host.transform=CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height);
     host.center=CGPointMake(size.width/2,size.height/2);
-    host.layer.cornerRadius=native.cornerRadius;
-    // Keep player chrome untouched, as in playable v0.0.37.
-    host.clipsToBounds=YES;
     self.lastApplied=size;
     } @finally { self.layingOutScene=NO; }
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
