@@ -1304,4 +1304,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.pickerVisible=NO;",stopped)
   self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",stopped)
 
+ def test_audit3_safety_hold_and_scene_gate(self):
+  chrome=file("DFNative12Chrome.m")
+  host=file("DFSceneHost.m")
+  self.assertIn("hold.allowableMovement=28;",chrome)
+  self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
+  self.assertIn('boolForKey:@"DFEnableExperimentalPrivateSceneFrame"',host)
+  self.assertIn("if (enablePrivateFrame && [hostedScene respondsToSelector:update])",host)
+
 if __name__=="__main__":unittest.main(verbosity=2)
