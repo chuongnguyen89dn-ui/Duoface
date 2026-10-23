@@ -82,6 +82,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL ready;
 @property(nonatomic) BOOL layingOutScene;
 @property(nonatomic) BOOL committingSceneGeometry;
+@property(nonatomic) BOOL geometrySuspended;
+@property(nonatomic) NSUInteger sceneGeneration;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) CGSize lastApplied;
 // UIKit viewport moves immediately; remote media content-reference commits
@@ -153,7 +155,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     else if (self.started) [self layoutScene];
 }
 - (void)layoutScene {
-    if (!self.started || self.stopped || self.layingOutScene || self.committingSceneGeometry) return;
+    if (!self.started || self.stopped || self.geometrySuspended || self.layingOutScene || self.committingSceneGeometry) return;
     CGSize size=self.bounds.size;
     if (size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
     if (CGSizeEqualToSize(size,self.lastApplied)) return;
@@ -189,15 +191,28 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 - (void)commitSceneGeometry:(NSTimer *)timer {
     if (timer && self.geometryCommitTimer!=timer) return;
     self.geometryCommitTimer=nil;
-    if (self.stopped || self.committingSceneGeometry || !self.window || !self.appController ||
+    if (self.stopped || self.geometrySuspended || self.committingSceneGeometry || !self.window || !self.appController ||
         (!self.ready && !CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero))) return;
     CGSize size=self.pendingReferenceSize;
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
-        size.width<=0 || size.height<=0) return;
+        size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     @try {
+    // The scene captured at first readiness may have been replaced by the
+    // app. Re-resolve ownership before any private content-size mutation.
+    // An initial pre-mode reference seed has no scene yet and stays separate.
+    if(self.ready){
+        id handle=DFCall0(self.appController,@"sceneHandle");
+        id current=DFCall0(handle,@"sceneIfExists");
+        BOOL attached=self.appController.view.window==self.window;
+        if(!current || current!=self.scene || !attached ||
+           !DFHostingFlag(self.appController,@"isHostingAnApp",NO)){
+            DFSceneLog(@"geometry-deferred-owner-changed",self.bundleID,@"waiting for current hosted scene");
+            return;
+        }
+    }
         // Native12 original CBBridgedUIAppView.updateSceneSettingsFrame
         // IMP 0xad5bc: KVC exception handler adb18..adb94 performs
         // class_getInstanceVariable("_deviceAppViewController") + object_getIvar
@@ -261,7 +276,16 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
             if ([hostedScene respondsToSelector:update]) {
                 CGRect nativeFrame=CGRectMake(0,0,logical.width,logical.height);
+                NSUInteger generation=self.sceneGeneration;
+                __weak typeof(self) weakSurface=self;
                 void (^setVerifiedNative12Frame)(id)=^(id settings) {
+                    DFSceneSurface *surface=weakSurface;
+                    // A queued settings block must not revive a closed or
+                    // replaced scene after Close, app relaunch, or reconnect.
+                    if(!surface || surface.stopped || surface.geometrySuspended ||
+                       surface.sceneGeneration!=generation || surface.scene!=hostedScene)return;
+                    id currentHandle=DFCall0(surface.appController,@"sceneHandle");
+                    if(DFCall0(currentHandle,@"sceneIfExists")!=hostedScene)return;
                     SEL frameSelector=NSSelectorFromString(@"setFrame:");
                     if (settings && [settings respondsToSelector:frameSelector]) {
                         ((void (*)(id,SEL,CGRect))objc_msgSend)(
@@ -340,10 +364,23 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         BOOL viewAttached=(self.appController.view.window!=nil &&
                            self.appController.view.window==self.window);
         if(scene && supportsHosting && isHosting && viewAttached) {
-            if (!self.scene) {
+            self.tries=0; // Consecutive unavailable polls, never lifetime misses.
+            BOOL sceneChanged=(self.scene!=scene);
+            BOOL resumed=self.geometrySuspended;
+            self.geometrySuspended=NO;
+            if (sceneChanged) {
+                ++self.sceneGeneration;
+                [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
                 self.scene=scene;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
                 DFSceneLog(@"scene-attached",self.bundleID,NSStringFromClass([scene class]));
+            }
+            if(self.ready && (sceneChanged || resumed)){
+                self.lastApplied=CGSizeZero;
+                self.committedReferenceSize=CGSizeZero;
+                [self layoutScene];
+                DFSceneLog(@"scene-geometry-owner-resynchronized",self.bundleID,
+                    sceneChanged?@"scene replaced":@"hosting resumed");
             }
             if (!self.ready) {
                 self.ready=YES;
@@ -354,6 +391,12 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             return;
+        }
+        if(self.ready && !self.geometrySuspended){
+            self.geometrySuspended=YES;
+            ++self.sceneGeneration;
+            [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
+            DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting or attachment unavailable");
         }
         ++self.tries;
         if(self.tries==3 || self.tries==10 || self.tries==25){
@@ -384,6 +427,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 - (void)stop {
     if (self.stopped) return;
     self.stopped=YES;
+    self.geometrySuspended=YES;
+    ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
     [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
     @try {
@@ -520,3 +565,4 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     DFSceneLog(@"all-hosts-stopped",nil,@"");
 }
 @end
+

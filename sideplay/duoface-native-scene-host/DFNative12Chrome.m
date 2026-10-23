@@ -1030,10 +1030,12 @@ static void DFCLog(NSString *text) {
         if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
-        appWindow.frame=target;
+        if(!CGRectEqualToRect(appWindow.frame,target))appWindow.frame=target;
         UIView *v=appWindow.rootViewController.view;
-        v.frame=CGRectMake(0,0,target.size.width,target.size.height);
-        for(UIView *child in v.subviews)child.frame=v.bounds;
+        CGRect localFrame=CGRectMake(0,0,target.size.width,target.size.height);
+        if(!CGRectEqualToRect(v.frame,localFrame))v.frame=localFrame;
+        for(UIView *child in v.subviews)
+            if(!CGRectEqualToRect(child.frame,v.bounds))child.frame=v.bounds;
         // Native12 keeps genuine app scenes visible BEHIND the App/Style
         // sheet and picker. A modal must never detach/suspend both scenes.
         BOOL loaded=([self.sceneHandleReady[(NSUInteger)i] boolValue] &&
