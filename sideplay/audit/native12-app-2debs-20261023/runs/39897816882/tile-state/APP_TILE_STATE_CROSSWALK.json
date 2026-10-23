@@ -1,0 +1,69 @@
+{
+  "status": "ORIGINAL_ARM64_CALLSITE_AND_RAW_FLOAT_ASSERTIONS_PASS_STATIC_ONLY",
+  "source_macho_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "UIButton_card_background": "clearColor: a4b00→a4cfc→a4e68→a4e80→a4e88",
+  "selected_icon_outline": {
+    "width_pt": 2,
+    "rgba": [
+      0.15,
+      0.62,
+      1,
+      1
+    ]
+  },
+  "inactive_icon_outline_width_pt": 0,
+  "selected_name_rgba": [
+    0.55,
+    0.8,
+    1,
+    1
+  ],
+  "unselected_name_white": 0.95,
+  "selected_badge": {
+    "symbol": "checkmark.circle.fill",
+    "rgba": [
+      0.08,
+      0.52,
+      1,
+      1
+    ],
+    "other_palette_color": "white"
+  },
+  "other_slot_badge": {
+    "symbol": "arrow.left.arrow.right.circle.fill",
+    "rgba": [
+      1,
+      0.62,
+      0.04,
+      1
+    ],
+    "other_palette_color": "white"
+  },
+  "badge_shadow": {
+    "opacity": 0.5,
+    "radius_pt": 2.5,
+    "offset": [
+      0,
+      1
+    ]
+  },
+  "badge_size_candidates": {
+    "six_columns_pt": 16,
+    "other_pt": 18
+  },
+  "icon_corner_radius_multiplier": 0.225,
+  "label_hiding_branch": "a50dc",
+  "independent_current_gray_tile": [
+    0.19,
+    0.19,
+    0.19,
+    0.96
+  ],
+  "independent_current_icon_size_limits": [
+    24,
+    43
+  ],
+  "visual_parity": "FAIL_ON_STATIC_PROVEN_DIFFERENCES",
+  "device_checked": false,
+  "caution": "Conditional state ownership is inferred from nearby ARM64 branches and selector/object dataflow, not a screenshot; preserve raw evidence."
+}
