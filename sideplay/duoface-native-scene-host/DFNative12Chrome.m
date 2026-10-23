@@ -97,6 +97,14 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
+// Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
+@interface DFNativePanePassthroughView : UIView @end
+@implementation DFNativePanePassthroughView
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hit=[super hitTest:point withEvent:event];
+    return hit==self?nil:hit;
+}
+@end
 // Native12 CBDividerView.pointInside:withEvent: expands each move-button
 // target by 12pt. Do not resize the artwork or route logo holds to ratio pan.
 @interface DFNativeDividerGripButton : UIButton
@@ -163,6 +171,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
+@property(nonatomic,strong) UIWindow *sharedAppWindow;
+@property(nonatomic,strong) NSMutableArray<UIView *> *appSceneContainers;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
 @property(nonatomic,strong) NSMutableArray<NSNumber *> *sceneHandleReady;
@@ -222,6 +232,7 @@ static void DFCLog(NSString *text) {
         }
         _windows=[NSMutableArray new];_pillWindows=[NSMutableArray new];
         _appSceneWindows=[NSMutableArray new];
+        _appSceneContainers=[NSMutableArray new];
         _hostedScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
         _pendingScenes=[NSMutableArray arrayWithArray:@[[NSNull null],[NSNull null],[NSNull null],[NSNull null]]];
         _sceneHandleReady=[NSMutableArray arrayWithArray:@[@NO,@NO,@NO,@NO]];
@@ -687,18 +698,26 @@ static void DFCLog(NSString *text) {
     self.styleChoices=choices;
     self.styleWindow=[self makeWindow:styleRect root:styleRoot level:4];
     if(!self.styleWindow){[self stop];return NO;}
-    // Two REAL app-scene containers from SpringBoard, created but kept
-    // hidden until a user explicitly selects an installed application.
-    // Do not claim "APP scene ready" just because the external window exists.
+    // Native12 audit: one stable source window with child split panes,
+    // not four independently moving UIRootSceneWindows.
+    UIViewController *sharedRoot=[UIViewController new];
+    sharedRoot.view=[[DFNativePanePassthroughView alloc]
+         initWithFrame:CGRectMake(0,0,cr.size.width,cr.size.height)];
+    sharedRoot.view.backgroundColor=UIColor.clearColor;
+    sharedRoot.view.clipsToBounds=YES;
+    self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];
+    if(!self.sharedAppWindow){[self stop];return NO;}
     for(NSInteger i=0;i<4;i++){
-        CGRect rect=CGRectMake(cr.origin.x,cr.origin.y,MAX(30,cr.size.width/4),cr.size.height);
-        UIViewController *slotRoot=[self emptyRoot:rect];
-        slotRoot.view.clipsToBounds=YES;
-        UIWindow *slotWindow=[self makeWindow:rect root:slotRoot level:0.5];
-        if(!slotWindow){[self stop];return NO;}
-        [self.appSceneWindows addObject:slotWindow];
-        [self observeActivityInWindow:slotWindow];
+        UIView *container=[[UIView alloc]initWithFrame:CGRectZero];
+        container.backgroundColor=UIColor.clearColor;
+        container.clipsToBounds=YES;
+        container.userInteractionEnabled=NO;
+        [sharedRoot.view addSubview:container];
+        [self.appSceneContainers addObject:container];
+        [self.appSceneWindows addObject:self.sharedAppWindow];
     }
+    [self observeActivityInWindow:self.sharedAppWindow];
+    DFCLog(@"native12-shared-source-app-window-created-four-child-panes");
     self.appPickerController=[DFAppPickerVC new];
     self.appPickerController.delegate=self;
     // Original CBMultitaskingOverlayView.layoutSubviews owns ONE outer sheet
@@ -1041,15 +1060,20 @@ static void DFCLog(NSString *text) {
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     self.appPickerWindow.hidden=(self.startupActive||!self.appPickerVisible);
+    // One stable UIWindow; update child view geometry, never remote window.
+    if(!CGRectEqualToRect(self.sharedAppWindow.frame,cr))self.sharedAppWindow.frame=cr;
+    UIView *sharedView=self.sharedAppWindow.rootViewController.view;
+    CGRect sharedFrame=CGRectMake(0,0,cr.size.width,cr.size.height);
+    if(!CGRectEqualToRect(sharedView.frame,sharedFrame))sharedView.frame=sharedFrame;
+    self.sharedAppWindow.hidden=self.startupActive;
+    self.sharedAppWindow.userInteractionEnabled=YES;
     for(NSInteger i=0;i<4;i++){
-        UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
+        UIView *v=self.appSceneContainers[(NSUInteger)i];
         NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
-        if(visualSlot>=activeSlots){appWindow.hidden=YES;continue;}
+        if(visualSlot>=activeSlots){v.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
-        if(!CGRectEqualToRect(appWindow.frame,target))appWindow.frame=target;
-        UIView *v=appWindow.rootViewController.view;
-        CGRect localFrame=CGRectMake(0,0,target.size.width,target.size.height);
+        CGRect localFrame=CGRectOffset(target,-cr.origin.x,-cr.origin.y);
         if(!CGRectEqualToRect(v.frame,localFrame))v.frame=localFrame;
         for(UIView *child in v.subviews)
             if(!CGRectEqualToRect(child.frame,v.bounds))child.frame=v.bounds;
@@ -1064,10 +1088,9 @@ static void DFCLog(NSString *text) {
         // Preserve the same UIWindow/UIView for pending and loaded scenes:
         // no demo tiles, labels or invented app content.
         BOOL focusedElsewhere=(self.focus>=0 && self.focus!=visualSlot);
-        appWindow.hidden=(self.startupActive || focusedElsewhere);
-        // An empty/negotiating window must NEVER steal input from the native
-        // CarPlay UI. Only a proven ready app may receive gestures in a slot.
-        appWindow.userInteractionEnabled=loaded;
+        v.hidden=(self.startupActive || focusedElsewhere);
+        // Empty/negotiating child panes cannot steal gestures.
+        v.userInteractionEnabled=loaded;
         // Native12 policy: a faint neutral outline identifies EMPTY panes;
         // a RED outline appears only briefly after a real user action; a
         // loaded pane never retains a permanent border while playing media.
@@ -1334,7 +1357,7 @@ static void DFCLog(NSString *text) {
         return;
     }
     UIWindow *slotWindow=self.appSceneWindows[(NSUInteger)physicalSlot];
-    UIView *container=slotWindow.rootViewController.view;
+    UIView *container=self.appSceneContainers[(NSUInteger)physicalSlot];
     host.frame=container.bounds;
     host.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     // A transparent pending host must not steal touch input from the
@@ -1390,7 +1413,7 @@ static void DFCLog(NSString *text) {
           self.sceneHandleReady[(NSUInteger)i]=@NO;
           NSInteger visual=(self.swapped && i<2)?1-i:i;
           if(self.focus==visual)self.focus=-1;
-          self.appSceneWindows[(NSUInteger)i].hidden=YES;
+          self.appSceneContainers[(NSUInteger)i].hidden=YES;
           DFCLog([NSString stringWithFormat:@"real-scene-failed slot=%ld error=%@",
                 (long)i,note.userInfo[@"error"]?:@"unknown"]);
           [self layoutControls];return;
@@ -1410,8 +1433,8 @@ static void DFCLog(NSString *text) {
     self.hostedScenes[(NSUInteger)physicalSlot]=NSNull.null;
     self.sceneHandleReady[(NSUInteger)physicalSlot]=@NO;
     if(self.focus==slot)self.focus=-1;
-    UIWindow *window=self.appSceneWindows[(NSUInteger)physicalSlot];
-    window.hidden=YES;
+    UIView *container=self.appSceneContainers[(NSUInteger)physicalSlot];
+    container.hidden=YES;
     [self layoutControls];
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
@@ -1586,7 +1609,7 @@ static void DFCLog(NSString *text) {
 - (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:(CGRect)screenBounds {
     if(self.hostFullscreen)return YES;
     if(self.startupActive || self.pickerVisible || self.styleVisible ||
-       !self.windows.count || self.appSceneWindows.count!=4)return NO;
+       !self.windows.count || self.appSceneContainers.count!=4 || !self.sharedAppWindow)return NO;
     UIWindow *anchor=self.windows.firstObject;
     CGRect actual=anchor.screen.bounds;
     CGRect saved=self.contentRect;
@@ -1612,7 +1635,10 @@ static void DFCLog(NSString *text) {
         NSInteger count=DFSlotCountForPreset(self.preset);
         for(NSInteger i=0;i<count;i++){
             NSInteger visual=(self.swapped&&i<2)?1-i:i;
-            if(!CGRectContainsRect(actual,self.appSceneWindows[(NSUInteger)i].frame) ||
+            CGRect expectedLocal=CGRectOffset(pane[visual],-actual.origin.x,-actual.origin.y);
+            if(!CGRectContainsRect(self.sharedAppWindow.bounds,
+                         self.appSceneContainers[(NSUInteger)i].frame) ||
+               !CGRectEqualToRect(self.appSceneContainers[(NSUInteger)i].frame,expectedLocal) ||
                !CGRectContainsRect(actual,pane[visual])){
                 [self restoreHostFullscreenGeometry];
                 return NO;
@@ -1663,6 +1689,8 @@ static void DFCLog(NSString *text) {
     self.appPickerVisible=NO;
     self.pickerVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
+    self.sharedAppWindow=nil;
+    [self.appSceneContainers removeAllObjects];
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
     [self.sceneHandleReady removeAllObjects];
