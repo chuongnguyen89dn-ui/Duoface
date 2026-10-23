@@ -416,15 +416,14 @@ static void DFCLog(NSString *text) {
     hold.minimumPressDuration=3.0;
     // Current user override: hold the logo for three full seconds before moving.
     // Once recognized, drag along the divider only; short tap still swaps.
-    hold.allowableMovement=14;
-    hold.delaysTouchesBegan=NO; // Let short taps continue to use the original swap button.
+    // Device audit: 28 TouchDown events, zero hold recognized. A second
+    // pan on the grip competes with the 3s long-press, and incorrectly
+    // routes grip movement into split-ratio dragging. The parent divider
+    // pan already handles ratio changes outside the grip hit region.
+    hold.allowableMovement=28;
+    hold.delaysTouchesBegan=NO;
     hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];
-    UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
-                                     initWithTarget:self action:@selector(dividerPan:)];
-    logoPan.maximumNumberOfTouches=1;
-    [logoPan requireGestureRecognizerToFail:hold];
-    [logo addGestureRecognizer:logoPan];
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
