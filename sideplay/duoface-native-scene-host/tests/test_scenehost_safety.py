@@ -1117,8 +1117,8 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("line.hidden=!controlsVisible",chrome)
   self.assertIn("stroke.hidden=!controlsVisible",chrome)
-  self.assertIn("self.dividerWindow.userInteractionEnabled=controlsVisible",chrome)
-  self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=controlsVisible",chrome)
+  self.assertIn("self.dividerWindow.userInteractionEnabled=YES",chrome)
+  self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=YES",chrome)
   self.assertIn("[owner noteUserActivity]",chrome)
   self.assertIn("self.panActive ||",chrome)
  def test_media_scene_037_reference_no_extra_layout_reentry(self):
@@ -1158,7 +1158,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('action:@selector(logoTouchReleased:)',chrome)
   self.assertIn('self.logoTouchPending=YES;',chrome)
   self.assertIn('BOOL controlsVisible=self.panActive || self.logoTouchPending ||',chrome)
-  self.assertIn('self.dividerWindow.userInteractionEnabled=controlsVisible',chrome)
+  self.assertIn('self.dividerWindow.userInteractionEnabled=YES',chrome)
   self.assertIn('BOOL completedHold=self.logoHoldRecognized && sender==self.dividerLogo;',chrome)
   self.assertIn('if(completedHold){DFCLog(@"logo-hold-touchup-swap-suppressed");return;}',chrome)
   hold=chrome.split('- (void)logoHold:(UILongPressGestureRecognizer *)hold {',1)[1].split('- (BOOL)applyHostFullscreen',1)[0]
