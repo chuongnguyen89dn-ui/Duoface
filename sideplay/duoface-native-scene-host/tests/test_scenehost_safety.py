@@ -1162,7 +1162,7 @@ class NativeCarPlayHost(unittest.TestCase):
   hold=chrome.split('- (void)logoHold:(UILongPressGestureRecognizer *)hold {',1)[1].split('- (BOOL)applyHostFullscreen',1)[0]
   self.assertIn('self.logoHoldRecognized=YES;',hold)
   self.assertIn('self.panActive=YES;',hold)
-  self.assertIn('self.logoFraction=MAX(.1,MIN(.9,position/span));',hold)
+  self.assertIn('self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));',hold)
   self.assertNotIn('self.ratio=',hold)
   self.assertIn('[self saveSplitState]',hold)
   self.assertIn('self.logoTouchPending=NO;',hold)
