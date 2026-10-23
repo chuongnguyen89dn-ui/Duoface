@@ -149,16 +149,23 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
         [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
     }
     for(UIWindow *window in windows) {
-            if(window.hidden || window.alpha<.95 || !window.rootViewController)
-                continue;
-            UIView *candidate=DFZControllerDockView(window.rootViewController,window,0);
-            if(!candidate)
-                candidate=DFZDockClassView(window.rootViewController.view,window,0);
-            // Some iOS16 dashboards provide a dedicated *native* Dock UIWindow.
-            // A class-name match alone is not sufficient: geometry must match.
-            if(!candidate && [NSStringFromClass(window.class) isEqualToString:@"DBDockWindow"] &&
-               DFZVisibleDockGeometry(window.rootViewController.view,window))
-                candidate=window.rootViewController.view;
+            if(window.hidden || window.alpha<.95)continue;
+            UIViewController *root=window.rootViewController;
+            UIView *candidate=root?DFZControllerDockView(root,window,0):nil;
+            if(!candidate && root)
+                candidate=DFZDockClassView(root.viewIfLoaded,window,0);
+            // On iOS16 the real DB Dock may be hosted directly by its
+            // dedicated UIWindow without a rootViewController. Earlier
+            // code discarded such windows before looking for AppDock.
+            // Search only the known native Dock window class; a generic
+            // SpringBoard overlay is never an acceptable owner.
+            if(!candidate &&
+               [NSStringFromClass(window.class) isEqualToString:@"DBDockWindow"])
+                candidate=DFZDockClassView(window,window,0);
+            if(!candidate &&
+               [NSStringFromClass(window.class) isEqualToString:@"DBDockWindow"] &&
+               DFZVisibleDockGeometry(window,window))
+                candidate=window;
             if(candidate) {
                 DFZLog([NSString stringWithFormat:
                     @"dock-candidate view=%@ window=%@ frame=%@ screen=%@",
