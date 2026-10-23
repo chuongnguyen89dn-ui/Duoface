@@ -7,6 +7,7 @@
 #import "DFAppPickerVC.h"
 #import "DFLayoutEngine.h"
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIGestureRecognizerSubclass.h>
 #import <objc/message.h>
 #import <math.h>
 #import <fcntl.h>
@@ -104,6 +105,29 @@ static void DFCLog(NSString *text) {
     (void)event;
     if(self.hidden || self.alpha<=0.01)return NO;
     return CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
+}
+@end
+
+// Observe activity on our OWN external windows, above the hosted view's
+// hitTest implementation. Never recognize/cancel a competing app gesture.
+@interface DFNativeActivityObserver : UIGestureRecognizer
+@property(nonatomic,copy) void (^activity)(UIWindow *window);
+@end
+@implementation DFNativeActivityObserver
+- (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer *)other {
+    (void)other;return NO;
+}
+- (BOOL)canBePreventedByGestureRecognizer:(UIGestureRecognizer *)other {
+    (void)other;return NO;
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    for(UITouch *touch in touches){
+        if(touch.window==self.view && self.activity){self.activity(touch.window);break;}
+    }
+    // Failure releases other recognizers immediately; this is an observer,
+    // not a new tap action or a recognizer that delays YouTube input.
+    self.state=UIGestureRecognizerStateFailed;
 }
 @end
 
@@ -240,6 +264,25 @@ static void DFCLog(NSString *text) {
             CGRectMake(0,0,frame.size.width,frame.size.height)];
     v.view.backgroundColor=UIColor.clearColor;
     return v;
+}
+- (void)observeActivityInWindow:(UIWindow *)window {
+    DFNativeActivityObserver *observer=[DFNativeActivityObserver new];
+    observer.cancelsTouchesInView=NO;
+    observer.delaysTouchesBegan=NO;
+    observer.delaysTouchesEnded=NO;
+    __weak typeof(self) weakOwner=self;
+    observer.activity=^(UIWindow *touchedWindow){
+        // Never mutate scene/window layout during UIKit's touch dispatch.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DFNative12Chrome *owner=weakOwner;
+            if(!owner || ![owner.windows containsObject:touchedWindow] ||
+               touchedWindow.hidden || touchedWindow.screen==UIScreen.mainScreen ||
+               owner.startupActive || owner.pickerVisible || owner.styleVisible ||
+               owner.appPickerVisible)return;
+            [owner noteUserActivity];
+        });
+    };
+    [window addGestureRecognizer:observer];
 }
 - (UIButton *)button:(NSString *)text tag:(NSInteger)tag
               action:(SEL)action {
@@ -395,6 +438,8 @@ static void DFCLog(NSString *text) {
     [self.secondaryDividerTrack addGestureRecognizer:secondaryPan];
     self.secondaryDividerWindow=[self makeWindow:divider root:secondRoot level:2];
     if(!self.secondaryDividerWindow){[self stop];return NO;}
+    [self observeActivityInWindow:self.dividerWindow];
+    [self observeActivityInWindow:self.secondaryDividerWindow];
     // Keep the action menu inside the selected split pane rather than
     // covering the whole dual-app display as a centered 470pt sheet.
     CGFloat pw=MIN(470,MAX(180,cr.size.width-16));
@@ -628,6 +673,7 @@ static void DFCLog(NSString *text) {
         UIWindow *slotWindow=[self makeWindow:rect root:slotRoot level:0.5];
         if(!slotWindow){[self stop];return NO;}
         [self.appSceneWindows addObject:slotWindow];
+        [self observeActivityInWindow:slotWindow];
     }
     self.appPickerController=[DFAppPickerVC new];
     self.appPickerController.delegate=self;
@@ -727,7 +773,10 @@ static void DFCLog(NSString *text) {
 }
 - (void)realAppTouched:(NSNotification *)note {
     if(![note.object isKindOfClass:UIView.class] ||
-       self.startupActive || self.pickerVisible || self.styleVisible)return;
+       self.startupActive || self.pickerVisible || self.styleVisible ||
+       self.appPickerVisible)return;
+    UIView *surface=note.object;
+    if(![self.appSceneWindows containsObject:surface.window])return;
     [self noteUserActivity];
 }
 - (NSDictionary<NSString *,id> *)stateSnapshot {
@@ -988,11 +1037,10 @@ static void DFCLog(NSString *text) {
     }
 }
 - (void)pillPressed:(UIButton *)sender {
+    if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
     [self noteUserActivity];
     self.selectedSlot=sender.tag;
-    self.styleVisible=NO;
-    self.pickerVisible=YES;
-    [self layoutControls];
+    [self openAppPickerForSlot:sender.tag];
     DFCLog([NSString stringWithFormat:@"picker-open slot=%ld",(long)sender.tag]);
 }
 - (void)closeMenu:(id)sender {
@@ -1195,7 +1243,7 @@ static void DFCLog(NSString *text) {
     if(picker!=self.appPickerController)return;
     self.appPickerVisible=NO;
     self.appPickerWindow.hidden=YES;
-    [self layoutControls];
+    [self noteUserActivity];
 }
 - (void)appPicker:(DFAppPickerVC *)picker
  didSelectBundleID:(NSString *)bundleID displayName:(NSString *)name {
@@ -1560,3 +1608,4 @@ static void DFCLog(NSString *text) {
     DFCLog(@"native12-chrome-stop");
 }
 @end
+
