@@ -182,7 +182,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.ratio=cancel?self.dragStartRatio",chrome)
   self.assertIn("divider-pan-begin",chrome)
   self.assertIn("divider-pan-end",chrome)
-  self.assertIn("logo-reposition-long-hold",chrome)
+  self.assertIn("logo-reposition-3s-hold",chrome)
   self.assertIn("self.pillWindows",chrome)
   self.assertNotIn("safety-expiry-600s",file("DFTouchOwnerProbe.m"))
   self.assertNotIn("self.basicController setPresetRatio:",receiver)
