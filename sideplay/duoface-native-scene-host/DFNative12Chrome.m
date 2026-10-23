@@ -107,13 +107,47 @@ static void DFCLog(NSString *text) {
 @end
 // Native12 CBDividerView.pointInside:withEvent: expands each move-button
 // target by 12pt. Do not resize the artwork or route logo holds to ratio pan.
+// 28 real TouchDown events but zero UIKit long-press callbacks on the device:
+// do not arbitrate this grip between UILongPress and UIPan recognizers.
+// Track the actual UIButton touch stream; the parent track pan still owns
+// touches OUTSIDE the logo hit region. No private UIKit hooks needed.
 @interface DFNativeDividerGripButton : UIButton
+@property(nonatomic,assign) CGPoint trackedScreenPoint;
+@property(nonatomic,assign) BOOL touchTracked;
 @end
 @implementation DFNativeDividerGripButton
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     (void)event;
     if(self.hidden || self.alpha<=0.01)return NO;
     return CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
+}
+- (CGPoint)screenPointForTouch:(UITouch *)touch {
+    UIWindow *window=self.window;
+    if(!window||!window.screen)return CGPointMake(NAN,NAN);
+    CGPoint inWindow=[touch locationInView:window];
+    id<UICoordinateSpace> screen=window.screen.coordinateSpace;
+    return screen?[window convertPoint:inWindow toCoordinateSpace:screen]:inWindow;
+}
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    self.trackedScreenPoint=[self screenPointForTouch:touch];
+    BOOL accepted=[super beginTrackingWithTouch:touch withEvent:event];
+    self.touchTracked=accepted;
+    return accepted;
+}
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    self.trackedScreenPoint=[self screenPointForTouch:touch];
+    BOOL accepted=[super continueTrackingWithTouch:touch withEvent:event];
+    if(self.touchTracked)[self sendActionsForControlEvents:UIControlEventValueChanged];
+    return accepted;
+}
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    self.trackedScreenPoint=[self screenPointForTouch:touch];
+    [super endTrackingWithTouch:touch withEvent:event];
+    self.touchTracked=NO;
+}
+- (void)cancelTrackingWithEvent:(UIEvent *)event {
+    [super cancelTrackingWithEvent:event];
+    self.touchTracked=NO;
 }
 @end
 
@@ -205,6 +239,12 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoHoldRecognized;
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
+@property(nonatomic,assign) BOOL logoDraggingRatio;
+@property(nonatomic,assign) BOOL logoMovedBeforeHold;
+@property(nonatomic,assign) NSUInteger logoHoldSerial;
+@property(nonatomic,assign) CGPoint logoTouchStartScreen;
+@property(nonatomic,assign) CGPoint logoTouchLastScreen;
+@property(nonatomic,assign) CGFloat logoDragInitialRatio;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -321,6 +361,9 @@ static void DFCLog(NSString *text) {
     self.styleVisible=NO;
     self.logoTouchPending=NO;
     self.logoHoldRecognized=NO;
+    self.logoDraggingRatio=NO;
+    self.logoMovedBeforeHold=NO;
+    ++self.logoHoldSerial;
     self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
@@ -398,7 +441,7 @@ static void DFCLog(NSString *text) {
     [self.dividerTrack addGestureRecognizer:trackPan];
     UIButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
-    [logo addTarget:self action:@selector(swapPressed:)
+    [logo addTarget:self action:@selector(logoTouchUpInside:)
               forControlEvents:UIControlEventTouchUpInside];
     // A three-second hold must survive the four-second chrome auto-hide
     // while the finger is still down, not just after long press recognizes.
@@ -406,6 +449,8 @@ static void DFCLog(NSString *text) {
               forControlEvents:UIControlEventTouchDown];
     [logo addTarget:self action:@selector(logoTouchReleased:)
               forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
+    [logo addTarget:self action:@selector(logoTouchChanged:)
+              forControlEvents:UIControlEventValueChanged];
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
     // Verified 120x120 first-party duoface-swap.png is a circular face logo.
     // Do not swap it for a counterfeit vector or a square placeholder.
@@ -424,28 +469,11 @@ static void DFCLog(NSString *text) {
     logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
-    UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
-                                  initWithTarget:self action:@selector(logoHold:)];
-    hold.minimumPressDuration=3.0;
-    // Current user override: hold the logo for three full seconds before moving.
-    // Once recognized, drag along the divider only; short tap still swaps.
-    // Device audit: 28 TouchDown events, zero hold recognized. A second
-    // pan on the grip competes with the 3s long-press, and incorrectly
-    // routes grip movement into split-ratio dragging. The parent divider
-    // pan already handles ratio changes outside the grip hit region.
-    hold.allowableMovement=28;
-    hold.delaysTouchesBegan=NO;
-    hold.cancelsTouchesInView=YES;
-    [logo addGestureRecognizer:hold];
-    // Two exclusive Native12 behaviors on the SAME grip: stationary 3s
-    // hold owns logo positioning; ordinary drag that exceeds the hold's
-    // motion tolerance uses split-ratio pan. Removing the latter in .46
-    // regressed the previously working ratio drag from the circular handle.
-    UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
-                                      initWithTarget:self action:@selector(dividerPan:)];
-    logoPan.maximumNumberOfTouches=1;
-    [logoPan requireGestureRecognizerToFail:hold];
-    [logo addGestureRecognizer:logoPan];
+    // Dedicated 3.0s timer is armed only on a REAL UIButton TouchDown.
+    // The old UILongPressGestureRecognizer and logoPan competed for the same
+    // touch sequence; when it failed the user could not move this icon.
+    // A quick sideways movement still drags the split ratio; a stationary
+    // three-second hold enables along-the-divider logo reposition.
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
@@ -1438,18 +1466,121 @@ static void DFCLog(NSString *text) {
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
+// Do not rely on a UILongPressGestureRecognizer that has not fired in user QA.
+// UIKit has already delivered UIButton TouchDown on the real CarPlay display.
 - (void)logoTouchDown:(id)sender {
-    (void)sender;
+    if(sender!=self.dividerLogo)return;
+    DFNativeDividerGripButton *button=(DFNativeDividerGripButton *)sender;
+    CGPoint point=button.trackedScreenPoint;
+    if(!isfinite(point.x)||!isfinite(point.y))return;
     self.logoHoldRecognized=NO;
+    self.logoDraggingRatio=NO;
+    self.logoMovedBeforeHold=NO;
     self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.logoTouchPending=YES;
+    self.logoTouchStartScreen=point;
+    self.logoTouchLastScreen=point;
+    self.logoDragInitialRatio=self.ratio;
+    NSUInteger serial=++self.logoHoldSerial;
     [self noteUserActivity];
-    DFCLog(@"logo-touch-down-hold-pending");
+    DFCLog(@"logo-touch-down-control-tracking-3s-pending");
+    __weak typeof(self) weakOwner=self;
+    // Exact user requirement: a complete 3-second stationary grip hold.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFNative12Chrome *owner=weakOwner;
+        DFNativeDividerGripButton *current=(DFNativeDividerGripButton *)owner.dividerLogo;
+        if(!owner || owner.logoHoldSerial!=serial ||
+           !owner.logoTouchPending || owner.logoDraggingRatio ||
+           !current.touchTracked || current.window==nil ||
+           owner.dividerWindow.hidden)return;
+        owner.logoHoldRecognized=YES;
+        owner.logoHoldInitialFraction=owner.logoFraction;
+        owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
+        owner.panActive=YES;
+        [owner noteUserActivity];
+        DFCLog(@"logo-3s-hold-began-control-tracking");
+    });
+}
+- (void)logoTouchChanged:(id)sender {
+    if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    CGPoint p=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    if(!isfinite(p.x)||!isfinite(p.y))return;
+    self.logoTouchLastScreen=p;
+    CGFloat perp=self.verticalDivider?
+        p.x-self.logoTouchStartScreen.x:p.y-self.logoTouchStartScreen.y;
+    CGFloat parallel=self.verticalDivider?
+        p.y-self.logoTouchStartScreen.y:p.x-self.logoTouchStartScreen.x;
+    if(self.logoHoldRecognized) {
+        CGFloat span=self.verticalDivider?self.dividerTrack.bounds.size.height:
+                                           self.dividerTrack.bounds.size.width;
+        CGFloat delta=self.verticalDivider?p.y-self.logoHoldInitialTouch.y:
+                                           p.x-self.logoHoldInitialTouch.x;
+        if(span>=40 && isfinite(delta)) {
+            CGFloat previous=self.logoFraction;
+            self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));
+            if(fabs(previous-self.logoFraction)>.0001) {
+                [self layoutControls];
+                DFCLog([NSString stringWithFormat:@"logo-3s-moved-position=%0.3f",self.logoFraction]);
+            }
+        }
+        return;
+    }
+    // Before 3s, crossing the split line changes RATIO, not logo position.
+    // The divider track's original UIPan still handles dragging elsewhere.
+    if(!self.logoDraggingRatio && fabs(perp)>10) {
+        self.logoDraggingRatio=YES;
+        self.logoMovedBeforeHold=YES;
+        self.panActive=YES;
+        ++self.logoHoldSerial; // cancel the pending hold timer
+        DFCLog(@"logo-quick-ratio-drag-began");
+    }
+    if(self.logoDraggingRatio) {
+        CGFloat extent=self.verticalDivider?self.contentRect.size.width:
+                                           self.contentRect.size.height;
+        if(extent>0) {
+            self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);
+            [self layoutControls];
+            NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+            if(now-self.lastSent>.05) {
+                self.lastSent=now;
+                [self emit:@"Ratio" ratio:@(self.ratio)];
+            }
+        }
+    } else if(hypot(perp,parallel)>7) {
+        // Ignore wandering taps, but do not cancel a genuine stationary hold.
+        self.logoMovedBeforeHold=YES;
+    }
+}
+- (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
+    if(sender!=self.dividerLogo)return;
+    BOOL held=self.logoHoldRecognized;
+    BOOL ratioDragged=self.logoDraggingRatio;
+    BOOL moved=self.logoMovedBeforeHold;
+    ++self.logoHoldSerial; // no timer may fire after release / cancellation
+    if(ratioDragged) {
+        self.ratio=DFCSnap(self.ratio);
+        [self saveSplitState];
+        [self emit:@"Ratio" ratio:@(self.ratio)];
+        DFCLog(@"logo-quick-ratio-drag-ended");
+    } else if(held) {
+        [self saveSplitState];
+        DFCLog(@"logo-reposition-3s-hold");
+    }
+    if(inside && !held && !ratioDragged && !moved)[self swapPressed:sender];
+    self.logoTouchPending=NO;
+    self.logoDraggingRatio=NO;
+    self.logoMovedBeforeHold=NO;
+    self.logoHoldRecognized=NO;
+    self.logoWakeOnlyTap=NO;
+    self.panActive=NO;
+    [self noteUserActivity];
+}
+- (void)logoTouchUpInside:(id)sender {
+    [self logoTouchFinished:sender inside:YES];
 }
 - (void)logoTouchReleased:(id)sender {
-    (void)sender;
-    self.logoTouchPending=NO;
-    [self noteUserActivity];
+    [self logoTouchFinished:sender inside:NO];
 }
 - (void)swapPressed:(id)sender {
     // Native12 moveButtonTouchUp must not swap after long hold/drag.
@@ -1555,49 +1686,6 @@ static void DFCLog(NSString *text) {
     if(end){[self saveSplitState];[self noteUserActivity];}
     if(end||cancel)DFCLog(end?@"secondary-divider-pan-end":@"secondary-divider-pan-cancel");
 }
-- (void)logoHold:(UILongPressGestureRecognizer *)hold {
-    if(hold.state==UIGestureRecognizerStateBegan){
-        self.logoHoldRecognized=YES;
-        self.logoTouchPending=YES;
-        self.panActive=YES;
-        // Snapshot the original position after three seconds. Avoid snapping
-        // the logo's center to the finger or relying on its moving frame.
-        self.logoHoldInitialFraction=self.logoFraction;
-        CGPoint original=[hold locationInView:self.dividerTrack];
-    id<UICoordinateSpace> screen=self.dividerWindow.screen.coordinateSpace;
-    self.logoHoldInitialTouch=screen?
-        [self.dividerTrack convertPoint:original toCoordinateSpace:screen]:original;
-        [self noteUserActivity];
-        DFCLog(@"logo-3s-hold-began");
-        return;
-    }
-    if(hold.state==UIGestureRecognizerStateCancelled || hold.state==UIGestureRecognizerStateFailed){
-        self.logoTouchPending=NO;
-        self.panActive=NO;
-        [self noteUserActivity];
-        DFCLog(@"logo-hold-cancelled");
-        return;
-    }
-    if(hold.state!=UIGestureRecognizerStateChanged &&
-       hold.state!=UIGestureRecognizerStateEnded)return;
-    CGPoint local=[hold locationInView:self.dividerTrack];
-    id<UICoordinateSpace> screen=self.dividerWindow.screen.coordinateSpace;
-    CGPoint p=screen?[self.dividerTrack convertPoint:local toCoordinateSpace:screen]:local;
-    CGFloat span=self.verticalDivider?self.dividerTrack.bounds.size.height:
-                                       self.dividerTrack.bounds.size.width;
-    CGFloat delta=self.verticalDivider?p.y-self.logoHoldInitialTouch.y:
-                                       p.x-self.logoHoldInitialTouch.x;
-    if(span<40 || !isfinite(delta))return;
-    self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));
-    [self layoutControls];
-    if(hold.state==UIGestureRecognizerStateEnded){
-        self.logoTouchPending=NO;
-        self.panActive=NO;
-        [self noteUserActivity];
-        [self saveSplitState];
-        DFCLog(@"logo-reposition-3s-hold");
-    }
-}
 // Native12 CBWindow.carPlayUsableBounds is normal content; whole-host
 // fullscreen uses real screen bounds (WIRING_REPORT original CBWindow
 // @0xb0ef4 / @0xb1aac), NOT scaling one pane and NOT per-slot focus.
@@ -1663,7 +1751,10 @@ static void DFCLog(NSString *text) {
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    ++self.logoHoldSerial;
     self.logoTouchPending=NO;
+    self.logoDraggingRatio=NO;
+    self.logoMovedBeforeHold=NO;
     self.logoHoldRecognized=NO;
     if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
