@@ -1332,4 +1332,13 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(justWaking){DFCLog",chrome)
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
 
+ def test_photo_20261023_scene_waits_for_stable_owner(self):
+  host=file("DFSceneHost.m")
+  self.assertIn("lastSceneSettledAt",host)
+  self.assertIn("if (sceneChanged || resumed)self.lastSceneSettledAt=",host)
+  self.assertIn('@"private-geometry-delayed-scene-not-stable"',host)
+  self.assertIn("if(!isfinite(age)||age<1.25)",host)
+  self.assertIn("self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:wait",host)
+  self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
+
 if __name__=="__main__":unittest.main(verbosity=2)
