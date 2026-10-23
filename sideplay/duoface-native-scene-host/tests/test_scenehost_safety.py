@@ -1352,5 +1352,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.committedReferenceSize=size;",method[live_gate:setter])
   self.assertIn("return;",method[live_gate:setter])
   self.assertIn("if (!self.ready)",source)
+  self.assertIn('@"media-pane-frame-readback"',source)
+  self.assertIn('NSStringFromCGRect(self.window.frame)',source)
+  self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
 
 if __name__=="__main__":unittest.main(verbosity=2)
