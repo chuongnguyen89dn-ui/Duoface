@@ -1,0 +1,477 @@
+{
+  "sources": {
+    "original": {
+      "package": "com.duoface.independent",
+      "version": "0.1.0~native12+speed8compact",
+      "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "mach_o_count": 8,
+      "payload_file_count": 43
+    },
+    "previous54": {
+      "package": "com.duoface.jb.embedded",
+      "version": "0.0.54~nativecard1",
+      "sha256": "2c582c0227035c136c5f66fc4bb9268f459e68a5c777df7e2f787c11b90aa14d",
+      "mach_o_count": 6,
+      "payload_file_count": 30
+    },
+    "candidate55": {
+      "package": "com.duoface.jb.embedded",
+      "version": "0.0.55~zoomgrip1",
+      "sha256": "6084d2c56e9a4c5eba2bcf4b0b7ca445a37a5edeae34c0dfd72955321193923b",
+      "mach_o_count": 6,
+      "payload_file_count": 30
+    }
+  },
+  "macho_changed_54_to_55": [
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "54_sha256": "d147dd6178cd061c36966bedbccf0894f2bf29e51c8b1a9b80539162220f6c35",
+      "55_sha256": "2e6da03f4d27d07a777e09ac10931e5616da161d458a0c9793c3244af8addac6"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+      "54_sha256": "4e98eaebb76cc26d3c58829f71a35d1378008c8252af5c04c8921f9902ea7224",
+      "55_sha256": "2888555cdc67bd7e95ddf308280c3d9c1ddfa97aa5e5f5ee6803da5cd064157a"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "54_sha256": "40735763ee32164c1c1abf83568bbbfd2e889e7693d1ac7af670c83937afdf4f",
+      "55_sha256": "d243d1d5d5a1df5b402cd5d4850960a15e3a96a82d27d60b4047639bc0585483"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "54_sha256": "c17470a2cb0370bd3f766e15daec03b7833681df333c6aa107ee40cfc3e21dd5",
+      "55_sha256": "06cbb71fff8fa3efaa2f7a698378faa3328c1e99e97697bbbb095d6fff31d81f"
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+      "54_sha256": "eba12bad0d116756f70a63141b09332538436ae081e933ae778ae735097ac94e",
+      "55_sha256": "145c168e364f279c3d31d97aea591386c3ba027f919949e598201e7b2d0f71f6"
+    }
+  ],
+  "original_native_methods": [
+    "CBMultitaskingOverlayView",
+    "DuoFace",
+    "Zoom In",
+    "Zoom Out",
+    "_appSegmentBtn",
+    "_layoutSegmentBtn",
+    "_recentSegmentBtn",
+    "appSelected:",
+    "dismissOverlay",
+    "setupAppPickerCardsInCardW",
+    "setupCardContent",
+    "setupRecentAppsCardsInCardW",
+    "showAppPickerForSlot"
+  ],
+  "candidate_method_markers": [
+    "DFNative12Chrome",
+    "DuoFace",
+    "Zoom In",
+    "Zoom Out",
+    "native12-ellipsis",
+    "native12-zoom-button-touchdown"
+  ],
+  "original_only_macho": [
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+    "var/jb/usr/libexec/duoface_cboptimize_helper"
+  ],
+  "candidate_only_macho": [
+    "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+  ],
+  "native_original_picker_class_found": true,
+  "independent_picker_class_found": true,
+  "pixel_parity_proven": false,
+  "real_carplay_zoom_proven": false,
+  "real_3_second_logo_movement_proven": false,
+  "scope": "actual pinned DEB static binary, extracted metadata and hashes ONLY",
+  "binary_inventory": {
+    "original": {
+      "package": "com.duoface.independent",
+      "version": "0.1.0~native12+speed8compact",
+      "sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+      "files": 43,
+      "macho": [
+        {
+          "file": "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+          "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+          "size": 1220256,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+          "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+          "size": 3760032,
+          "markers": {
+            "CBMultitaskingOverlayView": {
+              "strings": true,
+              "objc": true
+            },
+            "setupCardContent": {
+              "strings": true,
+              "objc": true
+            },
+            "setupAppPickerCardsInCardW": {
+              "strings": true,
+              "objc": true
+            },
+            "setupRecentAppsCardsInCardW": {
+              "strings": true,
+              "objc": true
+            },
+            "showAppPickerForSlot": {
+              "strings": true,
+              "objc": true
+            },
+            "dismissOverlay": {
+              "strings": true,
+              "objc": true
+            },
+            "appSelected:": {
+              "strings": true,
+              "objc": true
+            },
+            "_appSegmentBtn": {
+              "strings": true,
+              "objc": true
+            },
+            "_layoutSegmentBtn": {
+              "strings": true,
+              "objc": true
+            },
+            "_recentSegmentBtn": {
+              "strings": true,
+              "objc": true
+            },
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+          "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+          "size": 124976,
+          "markers": {
+            "CBMultitaskingOverlayView": {
+              "strings": true,
+              "objc": false
+            },
+            "setupCardContent": {
+              "strings": true,
+              "objc": true
+            },
+            "setupAppPickerCardsInCardW": {
+              "strings": true,
+              "objc": true
+            },
+            "setupRecentAppsCardsInCardW": {
+              "strings": true,
+              "objc": true
+            },
+            "_appSegmentBtn": {
+              "strings": true,
+              "objc": false
+            },
+            "_layoutSegmentBtn": {
+              "strings": true,
+              "objc": false
+            },
+            "_recentSegmentBtn": {
+              "strings": true,
+              "objc": false
+            },
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            },
+            "Zoom In": {
+              "strings": true,
+              "objc": false
+            },
+            "Zoom Out": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+          "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+          "size": 72320,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+          "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+          "size": 106928,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+          "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+          "size": 70736,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib",
+          "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+          "size": 75536,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/usr/libexec/duoface_cboptimize_helper",
+          "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+          "size": 150528,
+          "markers": {}
+        }
+      ],
+      "present": [
+        "CBMultitaskingOverlayView",
+        "DuoFace",
+        "Zoom In",
+        "Zoom Out",
+        "_appSegmentBtn",
+        "_layoutSegmentBtn",
+        "_recentSegmentBtn",
+        "appSelected:",
+        "dismissOverlay",
+        "setupAppPickerCardsInCardW",
+        "setupCardContent",
+        "setupRecentAppsCardsInCardW",
+        "showAppPickerForSlot"
+      ]
+    },
+    "previous54": {
+      "package": "com.duoface.jb.embedded",
+      "version": "0.0.54~nativecard1",
+      "sha256": "2c582c0227035c136c5f66fc4bb9268f459e68a5c777df7e2f787c11b90aa14d",
+      "files": 30,
+      "macho": [
+        {
+          "file": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+          "sha256": "e07a0d6309d8c5e89620ca3ae4a765f4d7e19a271a24ddf8d6fea7c74e0eba11",
+          "size": 175792,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+          "sha256": "d147dd6178cd061c36966bedbccf0894f2bf29e51c8b1a9b80539162220f6c35",
+          "size": 75728,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+          "sha256": "4e98eaebb76cc26d3c58829f71a35d1378008c8252af5c04c8921f9902ea7224",
+          "size": 187024,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+          "sha256": "40735763ee32164c1c1abf83568bbbfd2e889e7693d1ac7af670c83937afdf4f",
+          "size": 275520,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+          "sha256": "c17470a2cb0370bd3f766e15daec03b7833681df333c6aa107ee40cfc3e21dd5",
+          "size": 330752,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            },
+            "native12-ellipsis": {
+              "strings": true,
+              "objc": false
+            },
+            "native12-zoom-button-touchdown": {
+              "strings": true,
+              "objc": false
+            },
+            "Zoom In": {
+              "strings": true,
+              "objc": false
+            },
+            "Zoom Out": {
+              "strings": true,
+              "objc": false
+            },
+            "DFNative12Chrome": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+          "sha256": "eba12bad0d116756f70a63141b09332538436ae081e933ae778ae735097ac94e",
+          "size": 292160,
+          "markers": {}
+        }
+      ],
+      "present": [
+        "DFNative12Chrome",
+        "DuoFace",
+        "Zoom In",
+        "Zoom Out",
+        "native12-ellipsis",
+        "native12-zoom-button-touchdown"
+      ]
+    },
+    "candidate55": {
+      "package": "com.duoface.jb.embedded",
+      "version": "0.0.55~zoomgrip1",
+      "sha256": "6084d2c56e9a4c5eba2bcf4b0b7ca445a37a5edeae34c0dfd72955321193923b",
+      "files": 30,
+      "macho": [
+        {
+          "file": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+          "sha256": "e07a0d6309d8c5e89620ca3ae4a765f4d7e19a271a24ddf8d6fea7c74e0eba11",
+          "size": 175792,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+          "sha256": "2e6da03f4d27d07a777e09ac10931e5616da161d458a0c9793c3244af8addac6",
+          "size": 75824,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+          "sha256": "2888555cdc67bd7e95ddf308280c3d9c1ddfa97aa5e5f5ee6803da5cd064157a",
+          "size": 187024,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+          "sha256": "d243d1d5d5a1df5b402cd5d4850960a15e3a96a82d27d60b4047639bc0585483",
+          "size": 275520,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+          "sha256": "06cbb71fff8fa3efaa2f7a698378faa3328c1e99e97697bbbb095d6fff31d81f",
+          "size": 331968,
+          "markers": {
+            "DuoFace": {
+              "strings": true,
+              "objc": false
+            },
+            "native12-ellipsis": {
+              "strings": true,
+              "objc": false
+            },
+            "native12-zoom-button-touchdown": {
+              "strings": true,
+              "objc": false
+            },
+            "Zoom In": {
+              "strings": true,
+              "objc": false
+            },
+            "Zoom Out": {
+              "strings": true,
+              "objc": false
+            },
+            "DFNative12Chrome": {
+              "strings": true,
+              "objc": true
+            }
+          }
+        },
+        {
+          "file": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+          "sha256": "145c168e364f279c3d31d97aea591386c3ba027f919949e598201e7b2d0f71f6",
+          "size": 292160,
+          "markers": {}
+        }
+      ],
+      "present": [
+        "DFNative12Chrome",
+        "DuoFace",
+        "Zoom In",
+        "Zoom Out",
+        "native12-ellipsis",
+        "native12-zoom-button-touchdown"
+      ]
+    }
+  }
+}
