@@ -1212,7 +1212,6 @@ static void DFCLog(NSString *text) {
     [self layoutControls];
 }
 - (void)menuAction:(UIButton *)sender {
-    BOOL keepStyle=self.styleVisible;
     [self noteUserActivity];
     [self closeMenu:nil];
     self.styleVisible=NO;
@@ -1220,7 +1219,17 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
-             self.styleVisible=keepStyle;
+             // On the STYLE sheet, keeping styleVisible=YES was a hard
+             // deterministic blocker: applyHostFullscreenToScreenBoundsAfterDockAck:
+             // explicitly refuses to expand while the style sheet is visible.
+             // Close ALL modal owners before handing Zoom to the real Dock
+             // coordinator, just as OmniCar closes its native ratio menu.
+             self.styleVisible=NO;
+             self.appPickerVisible=NO;
+             self.appPickerWindow.hidden=YES;
+             self.pickerVisible=NO;
+             [self layoutControls];
+             DFCLog(@"native12-global-zoom-modals-cleared");
              // Native12 global Zoom is not the same as per-pane focus.
              // Forward through the existing session owner, never forge Dock.
              DFCLog(self.hostFullscreen?@"native12-zoom-out-arrow-pressed-ack-pending":
