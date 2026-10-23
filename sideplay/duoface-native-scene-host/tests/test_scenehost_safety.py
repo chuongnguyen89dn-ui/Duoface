@@ -1380,7 +1380,11 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(accepted && self.touchBegan)self.touchBegan(self);",grip)
   self.assertIn("if(self.touchTracked && self.touchMoved)self.touchMoved(self);",grip)
   self.assertIn("if(active && self.touchEnded)self.touchEnded(self,inside);",grip)
-  self.assertNotIn("self.ratio=",logo)
+  # The first 3s logo-hold branch never changes ratio. Before that
+  # threshold, a quick perpendicular move on the circular grip MUST resize.
+  holdOnly=logo[:logo.index("// Restored after the .55 device regression:")]
+  self.assertNotIn("self.ratio=",holdOnly)
+  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",logo)
   self.assertIn("self.logoFraction=MAX(",logo)
   self.assertLess(menu.index('[self emit:@"Zoom" ratio:nil]'),menu.index("[self closeMenu:nil]"))
   self.assertNotIn("self.pickerVisible || self.styleVisible",geometry)
@@ -1472,7 +1476,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))",chrome)
   self.assertIn("self.logoDraggingRatio=YES;",chrome)
   self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
-  self.assertIn("if(inside && !held && !moved)[self swapPressed:sender]",chrome)
+  self.assertIn("if(inside && !held && !moved && !ratioDragged)[self swapPressed:sender]",chrome)
   self.assertNotIn("UILongPressGestureRecognizer *hold=",chrome)
   self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
 
