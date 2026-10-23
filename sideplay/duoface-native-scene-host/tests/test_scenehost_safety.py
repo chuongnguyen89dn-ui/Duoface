@@ -526,7 +526,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('case 3:[self openRunningAppManager];break;',chrome)
   self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
   self.assertNotIn("[self zoomPressed:self.pillZoom[(NSUInteger)self.selectedSlot]];",chrome)
-  self.assertIn("self.selectedSlot=sender.tag;",chrome)
+  # Button selection is recorded by the real app-card opener, not the invented popup.
+  self.assertIn("self.selectedSlot=slot;",chrome)
+  self.assertIn("[self openAppPickerForSlot:sender.tag]",chrome)
   self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
 
  def test_real_device_20261023_no_blank_two_pane_outer_menu_body(self):
@@ -1021,7 +1023,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.appPickerWindow.hidden=YES;",zoom)
   self.assertIn('[self emit:@"Zoom" ratio:nil];',zoom)
   self.assertIn("native12-card-zoom-in-request-real-dock",zoom)
-  self.assertNotIn("zoomPressed:",zoom)
+  self.assertNotIn("[self zoomPressed:",zoom)
+  self.assertNotIn("FocusLeft",zoom)
+  self.assertNotIn("FocusRight",zoom)
   self.assertLess(zoom.index("self.appPickerVisible=NO;"),zoom.index('[self emit:@"Zoom" ratio:nil]'))
   # Do not make a separate 30pt sheet the entry point.
   self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
