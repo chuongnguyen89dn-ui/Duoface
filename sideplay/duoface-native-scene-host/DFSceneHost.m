@@ -215,6 +215,21 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             return;
         }
     }
+    // On-device owner evidence 2026-10-23: SpringBoard SIGABRT repeatedly
+    // enters SBAppViewController sceneHandle:didUpdateSettingsWithDiff:.
+    // Disabling only updateSettingsWithBlock: in .46/.47 did NOT stop crashes.
+    // This code still wrote three PRIVATE content-reference-size setters each
+    // time a live YouTube/app pane was resized. For safety, live scenes now
+    // use ONLY the UIKit host transform in layoutScene; the original
+    // pre-requestedMode seed remains in the !ready path. Never mutate a
+    // FrontBoard scene through another undocumented setter during playback.
+    // This does NOT prove crash freedom or media/orientation parity on device.
+    if(self.ready){
+        self.committedReferenceSize=size;
+        DFSceneLog(@"live-scene-private-reference-update-suppressed",
+                   self.bundleID,NSStringFromCGSize(size));
+        return;
+    }
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     @try {
