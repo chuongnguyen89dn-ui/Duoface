@@ -1,0 +1,82 @@
+name: DuoFace Native12 vs .54 vs .55 ACTUAL DEB forensic audit (NO DEPLOY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-v055-recheck-20261023/REQUEST.md'
+      - '.github/workflows/native12-v055-actual-deb-audit.yml'
+      - 'sideplay/audit/native12-v055-recheck-20261023/compare_signed_debs.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duo-native12-v055-actual-deb-forensic
+  cancel-in-progress: false
+jobs:
+  compare-three-sha-pinned-debs:
+    runs-on: macos-15
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Verify referenced IOS/CarPlay global skill ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -Z1 "$RUNNER_TEMP/carplay-skill.zip" | head -n 30
+      - name: Install read-only DEB metadata tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          command -v dpkg-deb
+          command -v otool
+      - name: Download exact immutable original, .54, .55 and compare real Mach-O
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/duoface-three-debs"
+          ROOT='https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface'
+          curl -fLsS --retry 4 "$ROOT/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-three-debs/original.deb"
+          curl -fLsS --retry 4 "$ROOT/89d488e4757776368849ddfe59644bc5c8572137/sideplay/jb-embedded-appbridge/evidence/runs/39955806037/com.duoface.jb.embedded_0.0.54~nativecard1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-three-debs/previous54.deb"
+          curl -fLsS --retry 4 "$ROOT/00940cdb20a74231e3ffe6f52a3900973212736e/sideplay/jb-embedded-appbridge/evidence/runs/39966715114/com.duoface.jb.embedded_0.0.55~zoomgrip1_iphoneos-arm64.deb" -o "$RUNNER_TEMP/duoface-three-debs/candidate55.deb"
+          python3 sideplay/audit/native12-v055-recheck-20261023/compare_signed_debs.py \
+            --original "$RUNNER_TEMP/duoface-three-debs/original.deb" \
+            --previous "$RUNNER_TEMP/duoface-three-debs/previous54.deb" \
+            --candidate "$RUNNER_TEMP/duoface-three-debs/candidate55.deb" \
+            --original-sha 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad \
+            --previous-sha 2c582c0227035c136c5f66fc4bb9268f459e68a5c777df7e2f787c11b90aa14d \
+            --candidate-sha 6084d2c56e9a4c5eba2bcf4b0b7ca445a37a5edeae34c0dfd72955321193923b \
+            --out sideplay/audit/native12-v055-recheck-20261023/verified
+          test -s sideplay/audit/native12-v055-recheck-20261023/verified/REPORT.md
+          test -s sideplay/audit/native12-v055-recheck-20261023/verified/ACTUAL_DEB_CROSSWALK.json
+          echo DUOFACE_ORIGINAL_54_55_TRUE_BINARY_COMPARISON_NOT_DEVICE_PASS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Native12-54-55-Real-DEB-Forensic-Not-Device-Test
+          path: sideplay/audit/native12-v055-recheck-20261023/verified/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Persist machine-generated report to current DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/audit/native12-v055-recheck-20261023/verified/
+          if git diff --cached --quiet; then echo AUDIT_ALREADY_CURRENT; exit 0; fi
+          git commit -m 'audit(native12): SHA-pinned original/.54/.55 real DEB Mach-O crosswalk [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin feature/duoface-jb-embedded-appbridge-20261020
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020; then
+              echo REAL_THREE_DEB_AUDIT_COMMITTED_TO_DUOFACE_GITHUB
+              exit 0
+            fi
+          done
+          exit 1
