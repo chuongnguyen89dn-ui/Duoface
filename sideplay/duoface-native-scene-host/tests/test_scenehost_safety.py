@@ -212,7 +212,7 @@ class NativeCarPlayHost(unittest.TestCase):
   # translationInView: that same view feeds window motion back into the input.
   chrome=file("DFNative12Chrome.m")
   start=chrome.index("- (CGPoint)dividerTouchOnScreen:")
-  end=chrome.index("- (void)logoTouchChanged:",start)
+  end=chrome.index("// Native12: second divider alters",start)
   pan=chrome[start:end]
   self.assertIn("self.dividerWindow.screen.coordinateSpace",pan)
   self.assertIn("convertPoint:local toCoordinateSpace:screen",pan)
@@ -250,7 +250,7 @@ class NativeCarPlayHost(unittest.TestCase):
   hold=chrome[chrome.index("- (void)logoTouchChanged:"):chrome.index("- (void)logoTouchFinished:",chrome.index("- (void)logoTouchChanged:"))]
   self.assertIn("self.logoFraction=",hold)
   self.assertNotIn("swapPressed",hold)
-  pan=chrome[chrome.index("- (void)dividerPan:"):chrome.index("- (void)logoTouchChanged:")]
+  pan=chrome[chrome.index("- (void)dividerPan:"):chrome.index("// Native12: second divider alters")]
   self.assertIn("self.ratio=cancel?self.dragStartRatio",pan)
   self.assertNotIn("self.logoFraction=",pan)
 
