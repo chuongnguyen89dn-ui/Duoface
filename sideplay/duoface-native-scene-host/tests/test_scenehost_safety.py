@@ -1121,19 +1121,21 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=controlsVisible",chrome)
   self.assertIn("[owner noteUserActivity]",chrome)
   self.assertIn("self.panActive ||",chrome)
- def test_041_scene_no_reentrant_sync_flush_during_frontboard_commit(self):
-  """A/B isolate the post-.37 synchronous layout, preserve FBS size and ABI."""
+ def test_media_scene_037_reference_no_extra_layout_reentry(self):
+  """Keep the user's prior playable v0.0.37 scene sizing path."""
   host=file("DFSceneHost.m")
   block=host.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  layout=host.split("- (void)layoutScene {",1)[1].split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[0]
+  self.assertIn('CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));',layout)
+  self.assertIn('CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));',block)
+  self.assertIn('CGAffineTransformMakeScale(size.width/logical.width,size.height/logical.height)',layout)
+  self.assertNotIn('host.layer.cornerRadius=native.cornerRadius',layout)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',block)
   self.assertIn('NSSelectorFromString(@"setFrame:")',block)
   self.assertIn('UIInterfaceOrientationPortrait',block)
-  self.assertIn('[self.appController.view setNeedsLayout]',block)
-  self.assertIn('native12-layout-invalidated-deferred-no-sync-flush',block)
+  self.assertNotIn('[self.appController.view setNeedsLayout]',block)
   self.assertNotIn('[self.appController.view layoutIfNeeded]',block)
   self.assertNotIn('[inner layoutIfNeeded]',block)
-  self.assertLess(block.index('native12-scene-settings-frame-requested'),
-                  block.index('native12-layout-invalidated-deferred-no-sync-flush'))
 
  def test_logo_3s_drag_tracks_touch_delta_without_center_jump(self):
   chrome=file("DFNative12Chrome.m")
