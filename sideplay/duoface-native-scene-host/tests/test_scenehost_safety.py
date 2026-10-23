@@ -169,7 +169,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("pill.layer.cornerRadius=11",chrome)
   self.assertIn("sheet.layer.cornerRadius=MIN(20,ph/2)",chrome)
   self.assertIn("hold.minimumPressDuration=3.0",chrome)
-  self.assertIn("requireGestureRecognizerToFail:hold",chrome)
+  self.assertNotIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("DFCSnap",chrome)
   self.assertIn("UIVisualEffectView *pill",chrome)
   self.assertIn('systemImageNamed:@"ellipsis"',chrome)
@@ -244,7 +244,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("return !CGRectContainsPoint(logoHit,p);",chrome)
   self.assertIn("initWithTarget:self action:@selector(logoHold:)",chrome)
   self.assertIn("initWithTarget:self action:@selector(dividerPan:)",chrome)
-  self.assertIn("requireGestureRecognizerToFail:hold",chrome)
+  self.assertNotIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("forControlEvents:UIControlEventTouchUpInside",chrome)
   self.assertIn("action:@selector(swapPressed:)",chrome)
   hold=chrome[chrome.index("- (void)logoHold:"):chrome.index("- (void)stop {",chrome.index("- (void)logoHold:"))]
