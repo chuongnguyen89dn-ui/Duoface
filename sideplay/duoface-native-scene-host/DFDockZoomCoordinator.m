@@ -18,6 +18,7 @@ static __weak DFNative12Chrome *sPendingChrome;
 static DFDockZoomCompletion sCompletion;
 static NSUInteger sSequence,sPendingSequence,sGeneration;
 static BOOL sDesired;
+static NSString *sLastDockRejection;
 static int sToken=-1;
 static BOOL sSubscribed;
 
@@ -43,7 +44,7 @@ static BOOL DFZSend(NSString *session,BOOL expanded,NSString *req,
 static void DFZCancelPending(void) {
     ++sGeneration;
     sPendingRequest=nil;sPendingSession=nil;sPendingChrome=nil;
-    sCompletion=nil;sPendingSequence=0;
+    sCompletion=nil;sPendingSequence=0;sLastDockRejection=nil;
 }
 static void DFZComplete(BOOL success,BOOL expanded,
                         NSDictionary<NSString *,id> *receipt) {
@@ -83,9 +84,15 @@ static void DFZConsumeAck(void) {
         return;
     }
     if(!owner) {
-        NSLog(@"[DuoFaceDockZoom] refused owner=%@ reason=%@",
-              ack[@"OwnerClass"],ack[@"Reason"]);
-        DFZComplete(NO,desired,@{@"Reason":ack[@"Reason"]?:@"dock-rejected"});
+        // CarPlay, CarPlayApp, Dashboard all receive native Dock commands.
+        // One non-Dock process must not reject BEFORE a real Dock-owner ACK.
+        NSString *reason=ack[@"Reason"];
+        if(![reason isKindOfClass:NSString.class] || !reason.length)
+            reason=@"dock-rejected";
+        if(![sLastDockRejection isEqualToString:reason]){
+            sLastDockRejection=[reason copy];
+            NSLog(@"[DuoFaceDockZoom] nonowner-awaiting-real-ack=%@",reason);
+        }
         return;
     }
     CGRect bounds=CGRectFromString(ack[@"ScreenBounds"]);
@@ -175,7 +182,10 @@ void DFDockZoomToggle(DFNative12Chrome *chrome, NSString *session,
         // A native Dock receiver may have hidden its view but its ACK could
         // have been lost: ALWAYS request restore, never mark success.
         if(sDesired)DFZEmergencyRestore(sPendingSession);
-        DFZComplete(NO,sDesired,@{@"Reason":@"real-dock-ack-timeout"});
+        NSString *reason=sLastDockRejection.length?
+            [@"real-dock-ack-timeout: " stringByAppendingString:sLastDockRejection]:
+            @"real-dock-ack-timeout";
+        DFZComplete(NO,sDesired,@{@"Reason":reason});
     });
 }
 void DFDockZoomDetach(DFNative12Chrome *chrome, NSString *session) {

@@ -226,6 +226,20 @@ static void DFZReply(NSDictionary *command, BOOL applied, BOOL expanded,
         @"Reason":reason?:@"",
         @"Timestamp":@(NSDate.date.timeIntervalSince1970)
     };
+    if(!applied) {
+        // Preserve the same-request positive ACK from the genuine system
+        // AppDock owner, even when another CarPlay process lacks a Dock.
+        NSDictionary *prior=[NSDictionary dictionaryWithContentsOfFile:DFZAck];
+        if([prior[@"Version"] isEqual:@1] &&
+           [prior[@"Session"] isEqualToString:command[@"Session"]] &&
+           [prior[@"RequestID"] isEqualToString:command[@"RequestID"]] &&
+           [prior[@"Sequence"] isEqual:command[@"Sequence"]] &&
+           [prior[@"Applied"] isEqual:@YES] &&
+           [prior[@"DockOwnerVerified"] isEqual:@YES]) {
+            DFZLog(@"nonowner-reply-preserved-verified-positive");
+            return;
+        }
+    }
     if([reply writeToFile:DFZAck atomically:YES])notify_post(DFZAckNotify);
     DFZLog([NSString stringWithFormat:@"dock-reply applied=%d expanded=%d owner=%@ reason=%@",
           applied,expanded,owner?:@"-",reason?:@"ok"]);

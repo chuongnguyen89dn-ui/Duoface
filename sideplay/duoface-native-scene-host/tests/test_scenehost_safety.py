@@ -1533,3 +1533,14 @@ class DuoFace056DeviceRegression(unittest.TestCase):
   assert "self.ratio=DFCSnap(self.ratio)" in src
   assert "self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))" in src
   assert "if(inside && !held && !moved && !ratioDragged)" in src
+
+class DuoFaceDeviceZoomAck056(unittest.TestCase):
+ def test_one_nonowner_cannot_preempt_real_apple_dock_ack(self):
+  z=file("DFDockZoomCoordinator.m")
+  o=file("DFCarPlayDockOwner.m")
+  failbranch=z[z.index("if(!owner) {"):z.index("CGRect bounds=CGRectFromString")]
+  assert "DFZComplete(NO" not in failbranch
+  assert "nonowner-awaiting-real-ack" in failbranch
+  assert "real-dock-ack-timeout" in z
+  assert "nonowner-reply-preserved-verified-positive" in o
+  assert '[prior[@"RequestID"] isEqualToString:command[@"RequestID"]]' in o
