@@ -194,6 +194,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL panActive;
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoHoldRecognized;
+@property(nonatomic,assign) BOOL logoWakeOnlyTap;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -309,6 +310,7 @@ static void DFCLog(NSString *text) {
     self.styleVisible=NO;
     self.logoTouchPending=NO;
     self.logoHoldRecognized=NO;
+    self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -1009,7 +1011,11 @@ static void DFCLog(NSString *text) {
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
-    self.dividerLogo.hidden=!controlsVisible;
+    // Keep the actual 3s hold hit target alive after the 4s hide timer.
+    // At 0.02 alpha it remains hit-testable but not visibly painted;
+    // a short tap ONLY wakes controls, not an unwanted Swap.
+    self.dividerLogo.hidden=NO;
+    self.dividerLogo.alpha=controlsVisible?1.0:0.02;
     line.hidden=!controlsVisible;
     // The 32pt ratio grab lane stays responsive when the 4s artwork timer
     // hides the line/logo. A new pan wakes chrome rather than disabling
@@ -1413,6 +1419,7 @@ static void DFCLog(NSString *text) {
 - (void)logoTouchDown:(id)sender {
     (void)sender;
     self.logoHoldRecognized=NO;
+    self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.logoTouchPending=YES;
     [self noteUserActivity];
     DFCLog(@"logo-touch-down-hold-pending");
@@ -1425,10 +1432,13 @@ static void DFCLog(NSString *text) {
 - (void)swapPressed:(id)sender {
     // Native12 moveButtonTouchUp must not swap after long hold/drag.
     BOOL completedHold=self.logoHoldRecognized && sender==self.dividerLogo;
+    BOOL justWaking=self.logoWakeOnlyTap && sender==self.dividerLogo;
     self.logoTouchPending=NO;
     self.logoHoldRecognized=NO;
+    self.logoWakeOnlyTap=NO;
     [self noteUserActivity];
     if(completedHold){DFCLog(@"logo-hold-touchup-swap-suppressed");return;}
+    if(justWaking){DFCLog(@"logo-invisible-first-tap-wake-only");return;}
     self.swapped=!self.swapped;
     [self saveSplitState];
     [self layoutControls];
