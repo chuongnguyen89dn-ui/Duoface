@@ -547,6 +547,17 @@ static void DFCLog(NSString *text) {
         [sheet addSubview:b];[actions addObject:b];
     }
     self.menuActions=actions;
+    // The Native12 native parent owns button touch-up, not a floating
+    // overlay label. Capture actual CarPlay UIControl touch delivery so that
+    // a visible Zoom button with an uncalled selector is never marked wired.
+    if(actions.count==4){
+        UIButton *zoomAction=actions[1];
+        [zoomAction addTarget:self action:@selector(zoomButtonTouchDown:)
+            forControlEvents:UIControlEventTouchDown];
+        [zoomAction addTarget:self action:@selector(zoomButtonTouchCancelled:)
+            forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
+        zoomAction.accessibilityIdentifier=@"DuoFace.Native12.globalZoom";
+    }
     UILabel *hint=[UILabel new];
     hint.text=@"";hint.hidden=YES; // remove invented duplicate caption
     hint.font=[UIFont systemFontOfSize:9];
@@ -1211,7 +1222,23 @@ static void DFCLog(NSString *text) {
          ratio:nil];
     [self layoutControls];
 }
+- (void)zoomButtonTouchDown:(UIButton *)sender {
+    DFCLog([NSString stringWithFormat:
+       @"native12-zoom-button-touchdown hit=%@ window=%@ enabled=%d target=%d",
+       NSStringFromCGRect(sender.frame),
+       sender.window?NSStringFromClass(sender.window.class):@"none",
+       sender.enabled,
+       [[sender actionsForTarget:self forControlEvent:UIControlEventTouchUpInside]
+          containsObject:NSStringFromSelector(@selector(menuAction:))]]);
+}
+- (void)zoomButtonTouchCancelled:(UIButton *)sender {
+    DFCLog([NSString stringWithFormat:
+       @"native12-zoom-button-touch-cancelled window=%@",
+       sender.window?NSStringFromClass(sender.window.class):@"none"]);
+}
 - (void)menuAction:(UIButton *)sender {
+    // UIControlEventTouchUpInside must reach this live selector on CarPlay.
+    DFCLog([NSString stringWithFormat:@"native12-menu-action-invoked tag=%ld", (long)sender.tag]);
     [self noteUserActivity];
     [self closeMenu:nil];
     self.styleVisible=NO;
