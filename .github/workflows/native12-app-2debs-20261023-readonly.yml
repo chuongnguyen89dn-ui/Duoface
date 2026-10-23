@@ -1,0 +1,146 @@
+name: Native12 vs signed DuoFace 0.0.41 APP actual two DEBs NO RELEASE
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-app-2debs-20261023-readonly.yml'
+      - 'sideplay/audit/native12-app-2debs-20261023/scan_app_two_debs.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-app-actual-two-debs-static
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify iOS skill ZIP, inspect its text instructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/ios-skill.zip"
+          python3 - <<'PY'
+          import os,zipfile
+          with zipfile.ZipFile(os.environ['RUNNER_TEMP']+'/ios-skill.zip') as f:
+            assert f.testzip() is None
+            for name in f.namelist():
+              if name.lower().endswith(('.md','.txt')):
+                print('CENTRAL_SKILL_ZIP_READ',name,f.read(name).decode('utf-8','replace')[:1000])
+          PY
+      - name: Prepare read-only Mac tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo '/opt/homebrew/opt/llvm/bin' >> "$GITHUB_PATH"
+          echo '/usr/local/opt/llvm/bin' >> "$GITHUB_PATH"
+      - name: Fetch SHA-immutable reference and current signed DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/app2"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show 1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb > "$RUNNER_TEMP/app2/original.deb"
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json > "$RUNNER_TEMP/app2/index.json"
+          cp sideplay/jb-embedded-appbridge/evidence/runs/39891781171/com.duoface.jb.embedded_0.0.41~medialogo3s1_iphoneos-arm64.deb "$RUNNER_TEMP/app2/new.deb"
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/app2/original.deb" | shasum -a 256 -c -
+          echo "da2275c2a9ef7efe8879a7121677d2771c809b78066b4552a2294d4b8a1715c2  $RUNNER_TEMP/app2/new.deb" | shasum -a 256 -c -
+          test "$(git hash-object "$RUNNER_TEMP/app2/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -I "$RUNNER_TEMP/app2/original.deb" | head -32
+          dpkg-deb -I "$RUNNER_TEMP/app2/new.deb" | head -32
+          echo REAL_TWO_DEBS_BYTE_SHA_VERIFIED
+      - name: Compare all file bytes and all original 1385 Objective-C methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="sideplay/audit/native12-app-2debs-20261023/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/app2/original.deb" --new "$RUNNER_TEMP/app2/new.deb" \
+            --index "$RUNNER_TEMP/app2/index.json" \
+            --new-sha256 da2275c2a9ef7efe8879a7121677d2771c809b78066b4552a2294d4b8a1715c2 \
+            --expected-new-files 30 --out "$BASE/all-methods-and-files"
+          python3 - "$BASE" <<'PY'
+          import json,sys,pathlib
+          p=pathlib.Path(sys.argv[1])/'all-methods-and-files/SUMMARY.json'
+          a=json.loads(p.read_text())
+          assert (a['original_files'],a['new_files'],a['original_objc_methods'])==(43,30,1385)
+          print('ALL_PAYLOAD_FILES_AND_1385_METHOD_INDEX_OK',a)
+          PY
+      - name: Disassemble original App owner init frame, installed list and app controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/app2/origroot"
+          dpkg-deb -x "$RUNNER_TEMP/app2/original.deb" "$RUNNER_TEMP/app2/origroot"
+          python3 - <<'PY'
+          import runpy,os,sys,pathlib
+          script='sideplay/audit/native12-layout-forensic-20261021/extract_layout_imp.py'
+          mod=runpy.run_path(script)
+          mod['main'].__globals__['METHODS']=[
+            ('CBMultitaskingOverlayView','initWithFrame:'),
+            ('CBMultitaskingOverlayView','loadInstalledApps'),
+            ('CBMultitaskingOverlayView','addMoreAppsTapped:'),
+            ('CBMultitaskingOverlayView','setupAppPickerCardsInCardW:cardH:contentY:'),
+            ('CBMultitaskingOverlayView','appSelected:'),
+            ('CBMultitaskingOverlayView','pageControlChanged:')]
+          orig=pathlib.Path(os.environ['RUNNER_TEMP'])/'app2'
+          out=pathlib.Path('sideplay/audit/native12-app-2debs-20261023/runs')/os.environ['GITHUB_RUN_ID']/'extra-original-app-imp'
+          sys.argv=['extract_layout_imp.py','--binary',str(orig/'origroot/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'),'--method-index',str(orig/'index.json'),'--out',str(out)]
+          mod['main']()
+          PY
+      - name: Inspect App interactions using both direct DEB payloads and original ARM64
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="sideplay/audit/native12-app-2debs-20261023/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/native12-app-2debs-20261023/scan_app_two_debs.py \
+            --native12 "$RUNNER_TEMP/app2/original.deb" --new "$RUNNER_TEMP/app2/new.deb" \
+            --original-imp sideplay/audit/native12-continuation-4888299/original-picker-close-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json \
+            --new-imp "$BASE/extra-original-app-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" \
+            --repo-root . --out "$BASE/app-exact"
+          test -s "$BASE/app-exact/APP_SUMMARY.json"
+          test -s "$BASE/app-exact/FULL_DEB_PAYLOAD_INVENTORIES.json"
+          cat "$BASE/app-exact/APP_SUMMARY.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Native12-vs-0.0.41-two-actual-DEBs-App-audit
+          path: sideplay/audit/native12-app-2debs-20261023/runs/
+          if-no-files-found: error
+      - name: Preserve audit only in same GitHub branch, never release binary
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          SUB="sideplay/audit/native12-app-2debs-20261023/runs/$GITHUB_RUN_ID"
+          SOURCE="$(pwd)/$SUB"
+          test -s "$SOURCE/app-exact/APP_SUMMARY.json"
+          test -s "$SOURCE/all-methods-and-files/ALL_NATIVE12_1385_METHODS.json"
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$SUB/app-exact/APP_SUMMARY.json"; then
+              echo EVIDENCE_ALREADY_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            mkdir -p "$TEMP/$SUB"
+            cp -R "$SOURCE"/. "$TEMP/$SUB"/
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$SUB"
+            git -C "$TEMP" commit -m "audit(app): preserve two actual DEB byte and native App IMP evidence [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo TWO_DEB_AUDIT_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo EVIDENCE_NOT_PERSISTED >&2
+          exit 1
