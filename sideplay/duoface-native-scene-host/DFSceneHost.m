@@ -173,7 +173,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     host.transform=CGAffineTransformMakeScale(native.scale,native.scale);
     host.center=CGPointMake(size.width/2,size.height/2);
     host.layer.cornerRadius=native.cornerRadius;
-    host.layer.cornerCurve=kCACornerCurveContinuous;
+    // Keep player chrome untouched, as in playable v0.0.37.
     host.clipsToBounds=YES;
     self.lastApplied=size;
     } @finally { self.layingOutScene=NO; }
