@@ -1069,6 +1069,22 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("NSMutableOrderedSet<UIWindow *>",dock)
   self.assertIn("UIApplication.sharedApplication.windows",dock)
   self.assertIn("if(matches!=1)",dock)
+ def test_zoom_native_dock_discovery_diagnostics_do_not_fake_ack(self):
+  # This logs actual CarPlay runtime ownership evidence for a failed Zoom.
+  # A source test cannot prove the Dock was hidden on the physical display.
+  source=file("DFCarPlayDockOwner.m")
+  coordinator=file("DFDockZoomCoordinator.m")
+  self.assertIn("DuoFaceDockOwner.log",source)
+  self.assertIn("native-dock-discovery-rejected matches=%lu windows=%lu",source)
+  self.assertIn("dock-candidate view=%@ window=%@ frame=%@ screen=%@",source)
+  self.assertIn("dock-reply applied=%d expanded=%d owner=%@ reason=%@",source)
+  self.assertIn("listener-ready process=%@",source)
+  self.assertIn('@"DockOwnerVerified":@(applied)',source)
+  self.assertIn("if(matches!=1)",source)
+  self.assertIn("no-verified-live-native-appdock",source)
+  self.assertIn("DFZConsumeAck",coordinator)
+  self.assertIn("DFZEmergencyRestore",coordinator)
+  self.assertNotIn("DockOwnerVerified\":@YES",source)
  def test_039_hidden_divider_does_not_intercept_app_touches(self):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("line.hidden=!controlsVisible",chrome)
