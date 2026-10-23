@@ -368,6 +368,7 @@ static void DFCLog(NSString *text) {
     // Current user override: hold the logo for three full seconds before moving.
     // Once recognized, drag along the divider only; short tap still swaps.
     hold.allowableMovement=14;
+    hold.delaysTouchesBegan=NO; // Let short taps continue to use the original swap button.
     hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];
     UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
