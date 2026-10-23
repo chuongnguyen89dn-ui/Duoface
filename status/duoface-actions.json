@@ -1,34 +1,28 @@
 {
-  "checked_at_utc": "2026-10-23T07:40:11.721927+00:00",
+  "checked_at_utc": "2026-10-23T13:33:45.231539+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2503,
+  "total_actions_runs": 2592,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 2,
+      "success": 1,
       "failure": 0,
       "other": 1
     },
-    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 9,
-      "success": 8,
-      "failure": 1,
-      "other": 0
-    },
     "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 82,
-      "success": 40,
-      "failure": 14,
-      "other": 28
+      "recent_runs": 86,
+      "success": 32,
+      "failure": 16,
+      "other": 38
     },
-    "Native12 vs signed DuoFace 0.0.41 APP actual two DEBs NO RELEASE": {
-      "recent_runs": 3,
-      "success": 3,
+    "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
+      "recent_runs": 11,
+      "success": 11,
       "failure": 0,
       "other": 0
     },
-    "Native12 original media viewport transform exact thresholds": {
+    "DuoFace Native12 original vs .53 actual DEB modal forensic scan": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
@@ -37,304 +31,304 @@
   },
   "latest_runs": [
     {
-      "id": 39919285304,
+      "id": 39962213090,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 57,
+      "run_number": 58,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39919285304",
-      "created_at": "2026-10-23T07:40:00Z",
-      "head_sha": "abc189e6220fafb0db80cd5b2476fc50b129a83d"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39962213090",
+      "created_at": "2026-10-23T13:33:34Z",
+      "head_sha": "6193b9e77337fd1e9d586da5e5bf39742d041d2d"
     },
     {
-      "id": 39917798823,
+      "id": 39961129456,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 168,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39961129456",
+      "created_at": "2026-10-23T13:25:51Z",
+      "head_sha": "7470bce008b7075f4050489dad870ccf5f8266d3"
+    },
+    {
+      "id": 39960788878,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 167,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39960788878",
+      "created_at": "2026-10-23T13:23:25Z",
+      "head_sha": "8ec4bd81c686e239f6f8bd470a2c20bc5d6f9054"
+    },
+    {
+      "id": 39955806037,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 264,
+      "run_number": 273,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39917798823",
-      "created_at": "2026-10-23T07:26:54Z",
-      "head_sha": "a7b6a1d817df3192bd65e30b05c3aa3346fb0fc8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955806037",
+      "created_at": "2026-10-23T12:46:00Z",
+      "head_sha": "f79ceae21def7374e6853aef47bf7773b796e18c"
     },
     {
-      "id": 39917798821,
+      "id": 39955676653,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 90,
+      "run_number": 166,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39917798821",
-      "created_at": "2026-10-23T07:26:54Z",
-      "head_sha": "a7b6a1d817df3192bd65e30b05c3aa3346fb0fc8"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955676653",
+      "created_at": "2026-10-23T12:45:02Z",
+      "head_sha": "f54cfa24e90d1c1c787a71ac0d69f6d169c215f1"
     },
     {
-      "id": 39916178625,
+      "id": 39955664978,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 89,
+      "run_number": 165,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39916178625",
-      "created_at": "2026-10-23T07:11:30Z",
-      "head_sha": "1c78271013f738bd270a19ca5e5ce5c478ddba57"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955664978",
+      "created_at": "2026-10-23T12:44:56Z",
+      "head_sha": "ff74524b6e1b8b84f98ec943e3b6d9614793b8df"
     },
     {
-      "id": 39915470225,
+      "id": 39955654671,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 88,
+      "run_number": 164,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39915470225",
-      "created_at": "2026-10-23T07:04:42Z",
-      "head_sha": "31932e106b8a8961239d582ed90def7cb7d1239a"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955654671",
+      "created_at": "2026-10-23T12:44:51Z",
+      "head_sha": "ad9aa716662b913853d82b5586286edf53975358"
     },
     {
-      "id": 39915023080,
+      "id": 39955645007,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 87,
+      "run_number": 163,
       "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39915023080",
-      "created_at": "2026-10-23T07:00:35Z",
-      "head_sha": "a08923dae504044d296942b99ea85d5cea773e15"
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955645007",
+      "created_at": "2026-10-23T12:44:47Z",
+      "head_sha": "06104688b774175814aaae06194a36e59b54c2e4"
     },
     {
-      "id": 39911787582,
+      "id": 39955375412,
+      "name": "DuoFace Native12 original vs .53 actual DEB modal forensic scan",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955375412",
+      "created_at": "2026-10-23T12:42:40Z",
+      "head_sha": "46938020c7a376efdae901d4a52fb70b294fac6d"
+    },
+    {
+      "id": 39955071534,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 162,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39955071534",
+      "created_at": "2026-10-23T12:40:16Z",
+      "head_sha": "26a990a874b11a55ee005942076e32f4d6162550"
+    },
+    {
+      "id": 39954478654,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 161,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39954478654",
+      "created_at": "2026-10-23T12:35:32Z",
+      "head_sha": "3948cfcee05dfa621ceccb737c5a6218dce8c764"
+    },
+    {
+      "id": 39954377169,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 160,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39954377169",
+      "created_at": "2026-10-23T12:34:45Z",
+      "head_sha": "ec7c7bf01dbbf53482f8640363cee6664edaaec9"
+    },
+    {
+      "id": 39950907942,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 263,
+      "run_number": 272,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911787582",
-      "created_at": "2026-10-23T06:29:24Z",
-      "head_sha": "be20870573db1a9b5ca9f17fe3ad31ce548c323b"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950907942",
+      "created_at": "2026-10-23T12:06:52Z",
+      "head_sha": "79741d41e90ceef461bf8dc594513a9c6e98c928"
     },
     {
-      "id": 39911733952,
+      "id": 39950823379,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 86,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911733952",
-      "created_at": "2026-10-23T06:28:53Z",
-      "head_sha": "9e75767d7a6fc1549fd5681bf15bd45635a9cdad"
-    },
-    {
-      "id": 39911726889,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 85,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911726889",
-      "created_at": "2026-10-23T06:28:49Z",
-      "head_sha": "d8f94fea3608e72494ef123f02aa084ba7115274"
-    },
-    {
-      "id": 39911718530,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 84,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911718530",
-      "created_at": "2026-10-23T06:28:44Z",
-      "head_sha": "7d90cd76f7307079db5860cd3714a916a71fb6cb"
-    },
-    {
-      "id": 39911711379,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 83,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911711379",
-      "created_at": "2026-10-23T06:28:40Z",
-      "head_sha": "6623fa0474759219a373e704b959f5f7b1771e48"
-    },
-    {
-      "id": 39911525744,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 82,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911525744",
-      "created_at": "2026-10-23T06:26:50Z",
-      "head_sha": "e837ef00fa1a40177e34279bb21c9f0aa7249083"
-    },
-    {
-      "id": 39911414140,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 81,
+      "run_number": 159,
       "status": "completed",
       "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911414140",
-      "created_at": "2026-10-23T06:25:44Z",
-      "head_sha": "0ae62a5043aa500abd2585efd4e7601037d857c6"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950823379",
+      "created_at": "2026-10-23T12:06:10Z",
+      "head_sha": "10949d93546dba7ac1d76df4cc5aa777aba5ab28"
     },
     {
-      "id": 39911290958,
+      "id": 39950794767,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 80,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911290958",
-      "created_at": "2026-10-23T06:24:31Z",
-      "head_sha": "cd410a37ef4c96b526d5ce526de76d3de5ccbded"
-    },
-    {
-      "id": 39911252826,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 79,
+      "run_number": 158,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911252826",
-      "created_at": "2026-10-23T06:24:08Z",
-      "head_sha": "df0413872aed53d0b358251022f592703c5b7e07"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950794767",
+      "created_at": "2026-10-23T12:05:56Z",
+      "head_sha": "db3c60be36e8075784aa0527ba1e3b528ba7739b"
     },
     {
-      "id": 39911230128,
+      "id": 39950785397,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 78,
+      "run_number": 157,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911230128",
-      "created_at": "2026-10-23T06:23:55Z",
-      "head_sha": "f374828a1821c59debfd624f7c3580b1ac727b06"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950785397",
+      "created_at": "2026-10-23T12:05:52Z",
+      "head_sha": "d26906f2c53f56027c55a8335891f610e390ec3e"
     },
     {
-      "id": 39911190044,
+      "id": 39950774723,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 77,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39911190044",
-      "created_at": "2026-10-23T06:23:30Z",
-      "head_sha": "bb30a4bcea5aeeb4950234120f92e371b165330d"
-    },
-    {
-      "id": 39910838507,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 76,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39910838507",
-      "created_at": "2026-10-23T06:20:00Z",
-      "head_sha": "5b7258043c1c9ad466d2d432a97a63fc1304012e"
-    },
-    {
-      "id": 39910755868,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 75,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39910755868",
-      "created_at": "2026-10-23T06:19:08Z",
-      "head_sha": "35b361e2a84dbcd3514aa8da8fc528c2b2262aef"
-    },
-    {
-      "id": 39910691435,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 74,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39910691435",
-      "created_at": "2026-10-23T06:18:29Z",
-      "head_sha": "1fcd312272372022e9e9f4c7482c1ef95304db28"
-    },
-    {
-      "id": 39910554961,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 73,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39910554961",
-      "created_at": "2026-10-23T06:17:05Z",
-      "head_sha": "6bf6bca473067e8a996977cbd6e4dad2e9dd2cee"
-    },
-    {
-      "id": 39906373214,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 72,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39906373214",
-      "created_at": "2026-10-23T05:33:01Z",
-      "head_sha": "19e7d15752e1a74624df421602c846a4825d874a"
-    },
-    {
-      "id": 39906329246,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 71,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39906329246",
-      "created_at": "2026-10-23T05:32:31Z",
-      "head_sha": "bcd17ed60e24c6006470e8236487c3c30ea9562e"
-    },
-    {
-      "id": 39906276963,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 70,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39906276963",
-      "created_at": "2026-10-23T05:31:58Z",
-      "head_sha": "beb30fc17da44efd4783063bf9ebb6078ae9a901"
-    },
-    {
-      "id": 39906234110,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 69,
+      "run_number": 156,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39906234110",
-      "created_at": "2026-10-23T05:31:30Z",
-      "head_sha": "49dec312a615afad4fa5b46cf1a41f715853ead7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950774723",
+      "created_at": "2026-10-23T12:05:46Z",
+      "head_sha": "3ef39f59a5d91094ab7e5be8f77e9cfac755fe39"
     },
     {
-      "id": 39904821626,
+      "id": 39950765055,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 155,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950765055",
+      "created_at": "2026-10-23T12:05:41Z",
+      "head_sha": "10949d93546dba7ac1d76df4cc5aa777aba5ab28"
+    },
+    {
+      "id": 39950711318,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 154,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950711318",
+      "created_at": "2026-10-23T12:05:15Z",
+      "head_sha": "25e6c05821a5ec1d841994ac9b63659800a38817"
+    },
+    {
+      "id": 39950644812,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 153,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39950644812",
+      "created_at": "2026-10-23T12:04:43Z",
+      "head_sha": "59bba77f037417e6eabeed615e16a022e7b4bd23"
+    },
+    {
+      "id": 39949613540,
       "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 262,
+      "run_number": 271,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39904821626",
-      "created_at": "2026-10-23T05:16:13Z",
-      "head_sha": "d48c20f761aa56994d7af40d60b31907c24c39ec"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949613540",
+      "created_at": "2026-10-23T11:56:13Z",
+      "head_sha": "019a4b320493c2e2bca481be4cd93ce1bfab12b3"
     },
     {
-      "id": 39904678769,
+      "id": 39949510366,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 68,
+      "run_number": 152,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39904678769",
-      "created_at": "2026-10-23T05:14:43Z",
-      "head_sha": "96d7434e5126596e2e3455d1a6c6ea0618842476"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949510366",
+      "created_at": "2026-10-23T11:55:21Z",
+      "head_sha": "1fc9ce84a8947a5b3233f68ec3486d30b5456f2e"
     },
     {
-      "id": 39904671745,
+      "id": 39949501859,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 67,
+      "run_number": 151,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39904671745",
-      "created_at": "2026-10-23T05:14:38Z",
-      "head_sha": "d72ade8de97327b5dba3fbbade69097bc245cab4"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949501859",
+      "created_at": "2026-10-23T11:55:17Z",
+      "head_sha": "c0764e370c0f687b9c2b73e196e1e3087dbb45c4"
     },
     {
-      "id": 39904663118,
+      "id": 39949493802,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 66,
+      "run_number": 150,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39904663118",
-      "created_at": "2026-10-23T05:14:32Z",
-      "head_sha": "339b0c2bfbb5377ffe5fc070a1218d53d28affa7"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949493802",
+      "created_at": "2026-10-23T11:55:13Z",
+      "head_sha": "cdc34f60c8649e83c6b01ec5aba40a6a3e8206a9"
     },
     {
-      "id": 39904655443,
+      "id": 39949485057,
       "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 65,
+      "run_number": 149,
       "status": "completed",
       "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39904655443",
-      "created_at": "2026-10-23T05:14:27Z",
-      "head_sha": "7950d59b98e3fe2e654f6ecad1e42891b0eb0c01"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949485057",
+      "created_at": "2026-10-23T11:55:08Z",
+      "head_sha": "2485a1013947672b888fe08983703252545af365"
+    },
+    {
+      "id": 39949440743,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 148,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949440743",
+      "created_at": "2026-10-23T11:54:46Z",
+      "head_sha": "96b196391f3bb02ba6e7281929554653384121a1"
+    },
+    {
+      "id": 39949408276,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 147,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949408276",
+      "created_at": "2026-10-23T11:54:30Z",
+      "head_sha": "e05ee0cfb6c5bc8107557e5152e2119f6102a3e9"
+    },
+    {
+      "id": 39949350849,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 146,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39949350849",
+      "created_at": "2026-10-23T11:54:02Z",
+      "head_sha": "276d8b659fb5f4aa9802fa118c531418e8bc6592"
+    },
+    {
+      "id": 39944231646,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 270,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39944231646",
+      "created_at": "2026-10-23T11:10:30Z",
+      "head_sha": "3d6e3a3a4b4478c6527316032d0b6aa0f41e2348"
+    },
+    {
+      "id": 39944142621,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 145,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/39944142621",
+      "created_at": "2026-10-23T11:09:47Z",
+      "head_sha": "5326bfb9d191055d69df892cfa29f819b4024fc0"
     }
   ]
 }
