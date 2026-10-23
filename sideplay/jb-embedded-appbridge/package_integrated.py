@@ -13,7 +13,7 @@ ORDER=[
  ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.49~native12cards1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.38~native12sourcehost49"
+VERSION="0.0.39~native12menuheader1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
