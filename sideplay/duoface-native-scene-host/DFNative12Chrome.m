@@ -2,6 +2,7 @@
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
 #import "DFNative12OuterGeometry.h"
+#import "DFNative12MenuHeader.h"
 #import "DFNative12Chrome.h"
 #import "DFSceneHost.h"
 #import "DFAppPickerVC.h"
@@ -149,6 +150,9 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,strong) NSArray<UIImageView *> *styleSelectionBadges;
 @property(nonatomic,strong) NSArray<UIButton *> *styleHeaderActions;
 @property(nonatomic,strong) UIImageView *styleHeaderLogo;
+@property(nonatomic,strong) UILabel *styleHeaderTitle;
+@property(nonatomic,strong) UIButton *styleZoom;
+@property(nonatomic,strong) UIView *styleModeBar;
 @property(nonatomic,assign) BOOL styleVisible;
 @property(nonatomic,strong) UIWindow *appPickerWindow;
 @property(nonatomic,assign) BOOL appPickerVisible;
@@ -562,6 +566,7 @@ static void DFCLog(NSString *text) {
     styleTitle.frame=CGRectMake(native.title.x,native.title.y,
                                  native.title.width,native.title.height);
     [styleSheet addSubview:styleTitle];
+    self.styleHeaderTitle=styleTitle;
     UIView *modeBar=[[UIView alloc] initWithFrame:CGRectMake(native.tabs.x,
         native.tabs.y,native.tabs.width,native.tabs.height)];
     modeBar.layer.cornerRadius=8;
@@ -590,6 +595,12 @@ static void DFCLog(NSString *text) {
         [styleTabs addObject:action];
     }
     self.styleHeaderActions=styleTabs;
+    self.styleModeBar=modeBar;
+    self.styleZoom=[self button:@"Zoom" tag:1 action:@selector(menuAction:)];
+    [modeBar addSubview:self.styleZoom];
+    CGFloat styledContentY=DFLayoutNative12MenuHeader(styleSheet,modeBar,styleLogo,styleTitle,
+        @[styleTabs[0],self.styleZoom,styleTabs[1],styleTabs[2]],modeBar.frame,2,self.hostFullscreen);
+    self.styleZoom.hidden=styledContentY==0;
     // The original X image dismisses its sheet; Recent/Close is a
     // different action that works only on real owned app scenes.
     UIButton *dismissStyle=[self button:@"" tag:0 action:@selector(closeStylePicker:)];
@@ -605,6 +616,7 @@ static void DFCLog(NSString *text) {
     UIView *headerSeparator=[[UIView alloc] initWithFrame:
         CGRectMake(0,native.headerHeight,styleW,.5)];
     headerSeparator.backgroundColor=[UIColor colorWithWhite:1 alpha:.12];
+    headerSeparator.hidden=styledContentY>0;
     [styleSheet addSubview:headerSeparator];
     NSArray<NSString *> *styleNames=@[@"Một khung",@"Trái / phải",
          @"Trên / dưới",@"Ba cột",@"Một trái, hai phải",
@@ -613,6 +625,8 @@ static void DFCLog(NSString *text) {
     // Original @0xa3dd8 passes headerHeight+.5 to the nine-preset page.
     UIScrollView *gallery=[[UIScrollView alloc] initWithFrame:
         CGRectMake(0,native.contentY,styleW,MAX(1,styleH-native.contentY-4))];
+    if(styledContentY>native.contentY)
+        gallery.frame=CGRectMake(0,styledContentY,styleW,MAX(1,styleH-styledContentY-4));
     gallery.contentSize=CGSizeMake(styleW,194);
     gallery.delaysContentTouches=YES;
     [styleSheet addSubview:gallery];
@@ -882,6 +896,19 @@ static void DFCLog(NSString *text) {
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
+    if(self.appPickerController.hostExpanded!=self.hostFullscreen){
+        self.appPickerController.hostExpanded=self.hostFullscreen;
+        [self.appPickerController.view setNeedsLayout];
+    }
+    if(self.styleHeaderActions.count==3){
+        UIView *sheet=self.styleWindow.rootViewController.view;
+        DFNative12CardHeader header=DFOriginalCardHeader(sheet.bounds.size.width,sheet.bounds.size.height);
+        CGFloat contentY=DFLayoutNative12MenuHeader(sheet,self.styleModeBar,self.styleHeaderLogo,
+            self.styleHeaderTitle,@[self.styleHeaderActions[0],self.styleZoom,
+            self.styleHeaderActions[1],self.styleHeaderActions[2]],
+            CGRectMake(header.tabs.x,header.tabs.y,header.tabs.width,header.tabs.height),2,self.hostFullscreen);
+        self.styleZoom.hidden=contentY==0;
+    }
     BOOL controlsVisible=self.panActive || self.logoTouchPending ||
                          NSDate.date.timeIntervalSince1970<=self.controlsUntil;
     for(UIButton *choice in self.styleChoices){
@@ -1050,7 +1077,7 @@ static void DFCLog(NSString *text) {
 - (void)closeStylePicker:(id)sender {
     (void)sender;
     self.styleVisible=NO;
-    [self layoutControls];
+    [self noteUserActivity];
 }
 - (void)openStylePicker {
     self.pickerVisible=NO;
@@ -1104,6 +1131,7 @@ static void DFCLog(NSString *text) {
     [self layoutControls];
 }
 - (void)menuAction:(UIButton *)sender {
+    BOOL keepStyle=self.styleVisible;
     [self noteUserActivity];
     [self closeMenu:nil];
     self.styleVisible=NO;
@@ -1111,9 +1139,11 @@ static void DFCLog(NSString *text) {
     switch(sender.tag){
       case 0:[self openAppPickerForSlot:self.selectedSlot];break;
       case 1:{
+             self.styleVisible=keepStyle;
              // Native12 global Zoom is not the same as per-pane focus.
              // Forward through the existing session owner, never forge Dock.
              [self emit:@"Zoom" ratio:nil];
+             [self layoutControls];
              DFCLog(@"native12-global-zoom-owner-ack-pending");
              break;
       }
@@ -1125,6 +1155,11 @@ static void DFCLog(NSString *text) {
 - (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
     [self openStylePicker]; // Existing independent real nine-preset selector.
+}
+- (void)appPickerDidRequestZoom:(DFAppPickerVC *)picker {
+    if(picker!=self.appPickerController || !self.appPickerVisible)return;
+    [self noteUserActivity];
+    [self emit:@"Zoom" ratio:nil];
 }
 - (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
@@ -1596,6 +1631,7 @@ static void DFCLog(NSString *text) {
     [self.pillWindows removeAllObjects];
     self.dividerWindow=nil;self.secondaryDividerWindow=nil;self.secondaryDividerTrack=nil;self.pickerWindow=nil;self.styleWindow=nil;self.splashWindow=nil;
     self.styleChoices=nil;self.styleSelectionBadges=nil;self.styleHeaderActions=nil;self.styleHeaderLogo=nil;self.styleVisible=NO;
+    self.styleHeaderTitle=nil;self.styleZoom=nil;self.styleModeBar=nil;
     self.appPickerVisible=NO;
     self.pickerVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;

@@ -3,6 +3,7 @@
 // Real installed bundles from DFAppLibrary; no private vendor runtime.
 #import "DFAppPickerVC.h"
 #import "DFNative12CardHeaderGeometry.h"
+#import "DFNative12MenuHeader.h"
 #import "DFAppLibrary.h"
 #import <objc/message.h>
 #import <math.h>
@@ -97,6 +98,7 @@
 @property(nonatomic,strong) UIVisualEffectView *sheetMaterial;
 @property(nonatomic,strong) UIView *modes;
 @property(nonatomic,strong) NSArray<UIButton *> *modeButtons;
+@property(nonatomic,strong) UIButton *zoomButton;
 @property(nonatomic,assign) NSInteger currentMode;
 @property(nonatomic,strong) UIImageView *headerIcon;
 @property(nonatomic,strong) UIView *headerSeparator;
@@ -174,6 +176,10 @@
         [actions addObject:tab];
     }
     self.modeButtons=actions;
+    self.zoomButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    self.zoomButton.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
+    [self.zoomButton addTarget:self action:@selector(zoomTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.modes addSubview:self.zoomButton];
     self.currentMode=0;
     self.headerSeparator=[UIView new];
     self.headerSeparator.backgroundColor=[UIColor colorWithWhite:1 alpha:.12];
@@ -287,6 +293,14 @@
     [self updateNativeModeButtons];
     // Keep running count/Close All in CONTENT, never over the three tabs.
     CGFloat top=header.contentY;
+    self.titleLabel.hidden=NO;
+    CGRect nativeFrame=CGRectMake(header.tabs.x,header.tabs.y,header.tabs.width,header.tabs.height);
+    CGFloat bodyTop=DFLayoutNative12MenuHeader(self.sheet,self.modes,self.headerIcon,
+        self.titleLabel,@[self.modeButtons[0],self.zoomButton,self.modeButtons[1],self.modeButtons[2]],
+        nativeFrame,self.currentMode==0?0:self.currentMode==1?2:3,self.hostExpanded);
+    self.zoomButton.hidden=(bodyTop==0);
+    self.headerSeparator.hidden=(bodyTop>0);
+    if(bodyTop>0)top=MAX(top,bodyTop);
     self.closeAllRunningButton.hidden=!self.runningMode||!self.runningBundleIDs.count;
     self.closeAllRunningButton.frame=CGRectMake(MAX(116,w-134),top+5,
                                                   MAX(65,MIN(120,w*.28)),28);
@@ -362,6 +376,7 @@
         default:break;
     }
 }
+- (void)zoomTapped {[self.delegate appPickerDidRequestZoom:self];}
 - (void)presentInstalledApps {
     self.runningMode=NO;
     self.runningBundleIDs=@[];
@@ -551,3 +566,4 @@
 }
 - (void)closeTapped {[self.delegate appPickerDidCancel:self];}
 @end
+

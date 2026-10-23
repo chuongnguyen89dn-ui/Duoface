@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Each request is routed to the EXISTING independent real scene owner.
 - (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker;
 - (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker;
+- (void)appPickerDidRequestZoom:(DFAppPickerVC *)picker;
 // Original CBMultitaskingOverlayView.showRecentAppsInParentView:
 // native controls operate on verified live bundle identifiers, never
 // installed-app guesses, stored Recent history, or an invented demo list.
@@ -37,9 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *currentSlotBundleID;
 // Scene-ready IDs in the OTHER visible slots, never an installed-app guess.
 @property (nonatomic, copy) NSArray<NSString *> *otherSlotBundleIDs;
+@property (nonatomic, assign) BOOL hostExpanded;
 - (void)presentInstalledApps;
 - (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
