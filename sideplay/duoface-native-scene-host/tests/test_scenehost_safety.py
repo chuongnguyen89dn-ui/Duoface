@@ -1279,7 +1279,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('owner.logoHoldRecognized=YES;',hold)
   self.assertIn('owner.panActive=YES;',hold)
   self.assertIn('self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));',hold)
-  self.assertNotIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',hold)
+  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',hold)
   self.assertIn('[self saveSplitState]',hold)
   self.assertIn('self.logoTouchPending=NO;',hold)
 
@@ -1470,8 +1470,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("owner.logoHoldRecognized=YES",chrome)
   self.assertIn("owner.logoHoldInitialTouch=owner.logoTouchLastScreen",chrome)
   self.assertIn("self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))",chrome)
-  self.assertNotIn("self.logoDraggingRatio=YES;",chrome)
-  self.assertNotIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
+  self.assertIn("self.logoDraggingRatio=YES;",chrome)
+  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
   self.assertIn("if(inside && !held && !moved)[self swapPressed:sender]",chrome)
   self.assertNotIn("UILongPressGestureRecognizer *hold=",chrome)
   self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
@@ -1524,3 +1524,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.sharedAppWindow=nil;",chrome)
 
 if __name__=="__main__":unittest.main(verbosity=2)
+
+class DuoFace056DeviceRegression(unittest.TestCase):
+ def test_quick_cross_axis_logo_drag_restored_without_changing_three_second_hold(self):
+  src=file("DFNative12Chrome.m")
+  assert "logo-quick-ratio-drag-began-restored-v056" in src
+  assert "self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)" in src
+  assert "self.ratio=DFCSnap(self.ratio)" in src
+  assert "self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))" in src
+  assert "if(inside && !held && !moved && !ratioDragged)" in src

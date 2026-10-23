@@ -1556,6 +1556,9 @@ static void DFCLog(NSString *text) {
     self.logoMovedBeforeHold=NO;
     self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.logoTouchPending=YES;
+    DFCLog([NSString stringWithFormat:@"logo-actual-touch-begin point=%@ window=%@",
+        NSStringFromCGPoint(point),
+        button.window?NSStringFromClass(button.window.class):@"none"]);
     self.logoTouchStartScreen=point;
     self.logoTouchLastScreen=point;
     self.logoDragInitialRatio=self.ratio;
@@ -1608,20 +1611,59 @@ static void DFCLog(NSString *text) {
         }
         return;
     }
-    // A gesture beginning on the round logo never changes the split ratio.
-    if(!self.logoMovedBeforeHold && hypot(perp,parallel)>7){
+    // Restored after the .55 device regression: the parent divider pan
+    // deliberately excludes the circular logo's touch, so a quick cross-axis
+    // drag started ON the logo must resize the panes here, without stealing
+    // the 3-second stationary hold used to relocate the logo ALONG the bar.
+    if(!self.logoDraggingRatio && fabs(perp)>10 &&
+       fabs(perp)>fabs(parallel)*1.25){
+        self.logoDraggingRatio=YES;
+        self.logoMovedBeforeHold=YES;
+        self.panActive=YES;
+        ++self.logoHoldSerial;
+        DFCLog(@"logo-quick-ratio-drag-began-restored-v056");
+    }
+    if(self.logoDraggingRatio){
+        CGFloat extent=self.verticalDivider?self.contentRect.size.width:
+                                            self.contentRect.size.height;
+        if(extent>0 && isfinite(extent)){
+            CGFloat last=self.ratio;
+            self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);
+            if(fabs(last-self.ratio)>.0001){
+                [self layoutControls];
+                NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+                if(now-self.lastSent>.05){
+                    self.lastSent=now;
+                    [self emit:@"Ratio" ratio:@(self.ratio)];
+                }
+            }
+        }
+    }else if(!self.logoMovedBeforeHold && hypot(perp,parallel)>7){
         self.logoMovedBeforeHold=YES;
         ++self.logoHoldSerial;
-        DFCLog(@"logo-prehold-drag-ignored-ratio-track-separate");
+        DFCLog(@"logo-prehold-moved-cancelled-hold");
     }
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
     if(sender!=self.dividerLogo)return;
     BOOL held=self.logoHoldRecognized;
     BOOL moved=self.logoMovedBeforeHold;
+    BOOL ratioDragged=self.logoDraggingRatio;
     ++self.logoHoldSerial;
-    if(held){[self saveSplitState];DFCLog(@"logo-reposition-3s-hold");}
-    if(inside && !held && !moved)[self swapPressed:sender];
+    DFCLog([NSString stringWithFormat:
+        @"logo-tracking-ended held=%d moved=%d ratio=%d inside=%d",
+        held,moved,ratioDragged,inside]);
+    if(ratioDragged){
+        self.ratio=DFCSnap(self.ratio);
+        [self saveSplitState];
+        [self layoutControls];
+        [self emit:@"Ratio" ratio:@(self.ratio)];
+        DFCLog(@"logo-quick-ratio-drag-ended-restored-v056");
+    }else if(held){
+        [self saveSplitState];
+        DFCLog(@"logo-reposition-3s-hold");
+    }
+    if(inside && !held && !moved && !ratioDragged)[self swapPressed:sender];
     self.logoTouchPending=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
