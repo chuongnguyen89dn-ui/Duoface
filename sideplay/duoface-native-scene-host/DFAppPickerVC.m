@@ -31,7 +31,7 @@
         [self.contentView addSubview:self.title];
         // Native12 setupRecentAppsCards @0xa678c creates independent
         // OVERLAY_RESTART_SINGLE and OVERLAY_CLOSE_SINGLE controls.
-        self.closeRunning=[UIButton buttonWithType:UIButtonTypeSystem];
+        self.closeRunning=[UIButton buttonWithType:UIButtonTypeCustom];
         [self.closeRunning setTitle:@"Đóng" forState:UIControlStateNormal];
         self.closeRunning.titleLabel.font=[UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
         self.closeRunning.tintColor=UIColor.whiteColor;
@@ -40,7 +40,7 @@
             [UIColor colorWithRed:.88 green:.18 blue:.22 alpha:.95];
         self.closeRunning.layer.cornerRadius=6;
         [self.contentView addSubview:self.closeRunning];
-        self.restartRunning=[UIButton buttonWithType:UIButtonTypeSystem];
+        self.restartRunning=[UIButton buttonWithType:UIButtonTypeCustom];
         [self.restartRunning setTitle:@"Khởi động lại" forState:UIControlStateNormal];
         self.restartRunning.titleLabel.font=[UIFont systemFontOfSize:9 weight:UIFontWeightMedium];
         self.restartRunning.tintColor=UIColor.whiteColor;
@@ -120,7 +120,7 @@
     NSArray<NSString *> *names=@[@"Apps",@"Layout",@"Recent"];
     NSMutableArray<UIButton *> *actions=[NSMutableArray new];
     for(NSInteger i=0;i<3;i++){
-        UIButton *tab=[UIButton buttonWithType:UIButtonTypeSystem];
+        UIButton *tab=[UIButton buttonWithType:UIButtonTypeCustom];
         tab.tag=i;
         [tab setTitle:names[(NSUInteger)i] forState:UIControlStateNormal];
         tab.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
@@ -139,7 +139,7 @@
     [self.sheet addSubview:self.headerSeparator];
     // The original RECENT mode is a list of REAL running apps and provides
     // a separate CLOSE ALL button (original @0xa6c74 / @0xa6d70).
-    self.closeAllRunningButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    self.closeAllRunningButton=[UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeAllRunningButton setTitle:@"Đóng tất cả" forState:UIControlStateNormal];
     self.closeAllRunningButton.titleLabel.font=[UIFont systemFontOfSize:11 weight:UIFontWeightMedium];
     self.closeAllRunningButton.tintColor=UIColor.whiteColor;
@@ -184,7 +184,7 @@
                 forControlEvents:UIControlEventValueChanged];
     self.pageControl.accessibilityLabel=@"Trang ứng dụng DuoFace";
     [self.sheet addSubview:self.pageControl];
-    self.closeButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    self.closeButton=[UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeButton setImage:[UIImage systemImageNamed:@"xmark"]
                    forState:UIControlStateNormal];
     self.closeButton.tintColor=UIColor.whiteColor;

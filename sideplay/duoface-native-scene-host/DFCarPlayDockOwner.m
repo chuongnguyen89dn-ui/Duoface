@@ -41,23 +41,32 @@ static BOOL DFZVisibleDockGeometry(UIView *view, UIWindow *window) {
        view.hidden || view.alpha<0.9 || CGRectIsEmpty(view.bounds) ||
        ![view isDescendantOfView:window])return NO;
     CGRect screen=window.screen.bounds;
-    CGRect r=[view convertRect:view.bounds toView:window];
+    // Dock windows may have a non-zero origin; measure in SCREEN coordinates.
+    CGRect r=[view convertRect:view.bounds toCoordinateSpace:window.screen.coordinateSpace];
     CGFloat width=screen.size.width,height=screen.size.height;
     // A real left/right CarPlay launcher rail, not video pane, overlay or bar.
     return width>=300 && height>=145 &&
         r.size.width>=24 && r.size.width<=fmax(105,width*.30) &&
         r.size.height>=height*.48 &&
-        (fabs(CGRectGetMinX(r))<25 ||
-         fabs(CGRectGetMaxX(r)-width)<25);
+        (fabs(CGRectGetMinX(r)-CGRectGetMinX(screen))<25 ||
+         fabs(CGRectGetMaxX(r)-CGRectGetMaxX(screen))<25);
 }
 static UIView *DFZControllerDockView(UIViewController *root, UIWindow *window,
                                      NSUInteger depth) {
     if(!root || depth>6)return nil;
+    // Historical project evidence names DBDockRootViewController as a native
+    // Dock owner. Accept only its loaded view and measured rail, never statusbar.
+    Class dockRoot=NSClassFromString(@"DBDockRootViewController");
+    if(dockRoot && [root isKindOfClass:dockRoot] &&
+       DFZVisibleDockGeometry(root.viewIfLoaded,window))return root.viewIfLoaded;
     // The original Native12 'CBDashboardShared.appDockVC' returned the real
     // Dashboard root's AppDock controller. Here use ONLY a live UIKit owner
-    // actually responding to the same guarded getter, not that vendor class.
-    if([NSStringFromClass(root.class) isEqualToString:@"DBDashboardRootViewController"]) {
-        for(NSString *key in @[@"appDockVC",@"currentAppDockVC"]) {
+    // actually responding to appDockViewController (original selref 0x37eaf8),
+    // not the vendor wrapper names appDockVC/currentAppDockVC.
+    Class dashboardRoot=NSClassFromString(@"DBDashboardRootViewController");
+    if([root respondsToSelector:NSSelectorFromString(@"appDockViewController")] ||
+       (dashboardRoot && [root isKindOfClass:dashboardRoot])) {
+        for(NSString *key in @[@"appDockViewController",@"appDockVC",@"currentAppDockVC"]) {
             SEL getter=NSSelectorFromString(key);
             if(![root respondsToSelector:getter])continue;
             Method method=class_getInstanceMethod(root.class,getter);
@@ -96,10 +105,20 @@ static UIView *DFZDockClassView(UIView *root, UIWindow *window, NSUInteger depth
 static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
                                     NSString **outReason) {
     UIView *found=nil;UIWindow *owner=nil;NSUInteger matches=0;
+    // iOS16 system UI can retain legacy native windows outside connectedScenes.
+    // Deduplicate windows before the one-owner check, or one Dock is counted twice.
+    NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSet];
+    for(UIWindow *window in UIApplication.sharedApplication.windows) {
+        UIWindowScene *scene=window.windowScene;
+        if(!scene || scene.activationState==UISceneActivationStateForegroundActive)
+            [windows addObject:window];
+    }
     for(UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
         if(![scene isKindOfClass:UIWindowScene.class] ||
            scene.activationState!=UISceneActivationStateForegroundActive)continue;
-        for(UIWindow *window in ((UIWindowScene *)scene).windows) {
+        [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
+    }
+    for(UIWindow *window in windows) {
             if(window.hidden || window.alpha<.95 || !window.rootViewController)
                 continue;
             UIView *candidate=DFZControllerDockView(window.rootViewController,window,0);
@@ -111,7 +130,6 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
                DFZVisibleDockGeometry(window.rootViewController.view,window))
                 candidate=window.rootViewController.view;
             if(candidate) {found=candidate;owner=window;matches++;}
-        }
     }
     if(matches!=1) {
         if(outReason)*outReason=matches?@"ambiguous-native-dock-owner":@"no-verified-live-native-appdock";

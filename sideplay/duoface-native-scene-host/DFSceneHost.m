@@ -80,6 +80,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL started;
 @property(nonatomic) BOOL stopped;
 @property(nonatomic) BOOL ready;
+@property(nonatomic) BOOL layingOutScene;
+@property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) CGSize lastApplied;
 // UIKit viewport moves immediately; remote media content-reference commits
@@ -151,7 +153,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     else if (self.started) [self layoutScene];
 }
 - (void)layoutScene {
-    if (!self.started || self.stopped) return;
+    if (!self.started || self.stopped || self.layingOutScene || self.committingSceneGeometry) return;
     CGSize size=self.bounds.size;
     if (size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
     if (CGSizeEqualToSize(size,self.lastApplied)) return;
@@ -163,6 +165,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
     if(native.scale<=0)return;
     CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
+    self.layingOutScene=YES;
+    @try {
     UIView *host=self.appController.view;
     host.transform=CGAffineTransformIdentity;
     host.frame=(CGRect){CGPointZero,logical};
@@ -172,6 +176,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     host.layer.cornerCurve=kCACornerCurveContinuous;
     host.clipsToBounds=YES;
     self.lastApplied=size;
+    } @finally { self.layingOutScene=NO; }
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if (now-self.lastViewportLogAt>0.5) {
         self.lastViewportLogAt=now;
@@ -187,7 +192,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 - (void)commitSceneGeometry:(NSTimer *)timer {
     if (timer && self.geometryCommitTimer!=timer) return;
     self.geometryCommitTimer=nil;
-    if (self.stopped || !self.window || !self.appController ||
+    if (self.stopped || self.committingSceneGeometry || !self.window || !self.appController ||
         (!self.ready && !CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero))) return;
     CGSize size=self.pendingReferenceSize;
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
@@ -196,6 +201,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     DFOriginalMediaGeometry native=DFNative12MediaGeometry(size.width,size.height);
     if(native.scale<=0)return;
     CGSize logical=CGSizeMake(native.nativeWidth,native.nativeHeight);
+    self.committingSceneGeometry=YES;
     @try {
         // Native12 original CBBridgedUIAppView.updateSceneSettingsFrame
         // IMP 0xad5bc: KVC exception handler adb18..adb94 performs
@@ -222,6 +228,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         // orientations are 1 (Portrait). This changes only the verified
         // sizing selector dispatch; NO speculative scene settings block.
         BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO;
+        DFSceneLog(@"geometry-before-reference-setters",self.bundleID,NSStringFromCGSize(logical));
         if (deviceController && [deviceController respondsToSelector:sz]) {
             ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(deviceController,sz,
                              logical,UIInterfaceOrientationPortrait);
@@ -269,6 +276,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                     // are deliberately withheld until safe scene rollback is
                     // proven. A successful IPC call is NOT a device media ACK.
                 };
+                DFSceneLog(@"geometry-before-scene-frame",self.bundleID,NSStringFromCGRect(nativeFrame));
                 ((void (*)(id,SEL,id))objc_msgSend)(
                     hostedScene,update,setVerifiedNative12Frame);
                 DFSceneLog(@"native12-scene-settings-frame-requested",
@@ -288,6 +296,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             [self.appController.view setNeedsLayout];
             if([inner isKindOfClass:UIView.class] &&
                inner!=self.appController.view)[inner setNeedsLayout];
+            DFSceneLog(@"geometry-before-layout-flush",self.bundleID,NSStringFromCGSize(logical));
             [self.appController.view layoutIfNeeded];
             if([inner isKindOfClass:UIView.class] &&
                inner!=self.appController.view)[inner layoutIfNeeded];
@@ -301,7 +310,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         }
     } @catch (NSException *e) {
         DFSceneLog(@"media-geometry-commit-warning",self.bundleID,e.reason);
-    }
+    } @finally { self.committingSceneGeometry=NO; }
     // Never fake a nil FrontBoard transition or invalidate a playing scene
     // as a stand-in for a valid media rotation state change.
     DFSceneLog(@"native-app-geometry-reference-only-no-nil-frontboard-transition",
@@ -310,7 +319,11 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     UIView *target=[super hitTest:point withEvent:event];
     // Passive routing observation only; do not steal gestures from the player.
-    if (self.ready && target && event && event.type==UIEventTypeTouches) {
+    BOOL began=NO;
+    if(event.type==UIEventTypeTouches)
+        for(UITouch *touch in event.allTouches)
+            if(touch.phase==UITouchPhaseBegan){began=YES;break;}
+    if (self.ready && target && began) {
         NSTimeInterval now=NSDate.date.timeIntervalSince1970;
         if (now-self.lastHitLogAt>0.8) {
             self.lastHitLogAt=now;

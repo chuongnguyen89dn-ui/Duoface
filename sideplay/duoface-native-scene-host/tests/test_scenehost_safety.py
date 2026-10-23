@@ -1044,7 +1044,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('case 3:[self openRunningAppManager]',chrome)
   self.assertIn('action:@selector(closeMenu:)',chrome)
   self.assertIn('hold.minimumPressDuration=3.0',chrome)
-  self.assertIn('self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0',chrome)
+  self.assertIn('self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0',chrome)
   self.assertIn('BOOL allReady=YES',chrome)
   self.assertIn('show=show && (!allReady',chrome)
   self.assertIn('self.dividerLogo.hidden=',chrome)
@@ -1058,6 +1058,33 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFComputePresetFramesWithSecondary',chrome)
   self.assertIn('for(NSInteger idx=0;idx<9;idx++)',chrome)
   self.assertIn('self.ratio=DFNative12DefaultPrimaryRatio(selected)',chrome)
+
+ def test_039_regression_original_button_and_dock_selector(self):
+  chrome=file("DFNative12Chrome.m")
+  dock=file("DFCarPlayDockOwner.m")
+  self.assertNotIn("buttonWithType:UIButtonTypeSystem",chrome)
+  self.assertIn("buttonWithType:UIButtonTypeCustom",chrome)
+  self.assertIn('@"appDockViewController"',dock)
+  self.assertIn("toCoordinateSpace:window.screen.coordinateSpace",dock)
+  self.assertIn("NSMutableOrderedSet<UIWindow *>",dock)
+  self.assertIn("UIApplication.sharedApplication.windows",dock)
+  self.assertIn("if(matches!=1)",dock)
+ def test_039_hidden_divider_does_not_intercept_app_touches(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("line.hidden=!controlsVisible",chrome)
+  self.assertIn("stroke.hidden=!controlsVisible",chrome)
+  self.assertIn("self.dividerWindow.userInteractionEnabled=controlsVisible",chrome)
+  self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=controlsVisible",chrome)
+  self.assertIn("[owner noteUserActivity]",chrome)
+  self.assertIn("self.panActive ||",chrome)
+ def test_039_layout_reentry_and_real_touch_phase(self):
+  host=file("DFSceneHost.m")
+  self.assertIn("self.layingOutScene || self.committingSceneGeometry",host)
+  self.assertLess(host.index("self.layingOutScene=YES"),host.index("host.transform="))
+  self.assertIn("@finally { self.layingOutScene=NO; }",host)
+  self.assertIn("@finally { self.committingSceneGeometry=NO; }",host)
+  self.assertIn("touch.phase==UITouchPhaseBegan",host)
+  self.assertIn('DFSceneLog(@"geometry-before-reference-setters"',host)
 
  def test_original_native12_app_card_pagination_four_by_two(self):
   """Original immutable Native12 card grid uses at most four columns,

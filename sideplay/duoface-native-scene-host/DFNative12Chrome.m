@@ -239,9 +239,11 @@ static void DFCLog(NSString *text) {
 }
 - (UIButton *)button:(NSString *)text tag:(NSInteger)tag
               action:(SEL)action {
-    UIButton *b=[UIButton buttonWithType:UIButtonTypeSystem];
+    UIButton *b=[UIButton buttonWithType:UIButtonTypeCustom];
     b.tag=tag;
     b.tintColor=UIColor.whiteColor;
+    b.backgroundColor=UIColor.clearColor;
+    b.imageView.contentMode=UIViewContentModeScaleAspectFit;
     b.titleLabel.font=[UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     [b setTitle:text forState:UIControlStateNormal];
     [b setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
@@ -255,7 +257,7 @@ static void DFCLog(NSString *text) {
     self.appPickerVisible=NO;
     self.styleVisible=NO;
     self.startupActive=YES;
-    self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(sceneReady:) name:DFSceneHostDidBecomeReadyNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -675,7 +677,7 @@ static void DFCLog(NSString *text) {
                if(!owner || !owner.startupActive || owner.splashWindow!=initial)return;
                owner.startupActive=NO;
                initial.hidden=YES;
-               [owner layoutControls];
+               [owner noteUserActivity];
                DFCLog(@"native12-logo-and-loading-line-completed");
            }];
     });
@@ -696,11 +698,11 @@ static void DFCLog(NSString *text) {
 }
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
-    self.controlsUntil=NSDate.date.timeIntervalSince1970+3.0;
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     NSUInteger seq=++self.borderGeneration;
     [self layoutControls];
     __weak typeof(self) weakOwner=self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.15*NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(4.05*NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         DFNative12Chrome *owner=weakOwner;
         if(owner && owner.borderGeneration==seq){
@@ -817,6 +819,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
+    BOOL controlsVisible=self.panActive || NSDate.date.timeIntervalSince1970<=self.controlsUntil;
     for(UIButton *choice in self.styleChoices){
         BOOL selected=(choice.tag==self.preset);
         UIImageView *thumb=(UIImageView *)[choice viewWithTag:12001];
@@ -860,7 +863,7 @@ static void DFCLog(NSString *text) {
         }
         // A missing real app must keep its launch controls. When fully
         // populated, pill controls auto-hide until actual pane touches.
-        show=show && (!allReady || NSDate.date.timeIntervalSince1970<=self.controlsUntil);
+        show=show && (!allReady || controlsVisible);
         CGFloat compact=(pane[i].size.width<320||pane[i].size.height<220);
         // Two split-pane controls must be usable before a scene is loaded.
         // Pressing Zoom on an empty pane opens the actual installed app picker.
@@ -886,7 +889,8 @@ static void DFCLog(NSString *text) {
         if(!icon)icon=[UIImage systemImageNamed:self.focus==i?
              @"arrow.down.right.and.arrow.up.left":
              @"arrow.up.left.and.arrow.down.right"];
-        [zoom setImage:icon forState:UIControlStateNormal];
+        [zoom setImage:[icon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+              forState:UIControlStateNormal];
         w.hidden=(!show||self.startupActive);
     }
     // Source-owned ratio boundary, not maxX/Y of the first app. In preset 7
@@ -906,7 +910,9 @@ static void DFCLog(NSString *text) {
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
         CGRectMake(tr.size.width*self.logoFraction-size/2,(tr.size.height-size)/2,size,size);
     self.dividerLogo.layer.cornerRadius=size/2;
-    self.dividerLogo.hidden=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
+    self.dividerLogo.hidden=!controlsVisible;
+    line.hidden=!controlsVisible;
+    self.dividerWindow.userInteractionEnabled=controlsVisible;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
     if(!CGRectIsNull(second)){
@@ -917,6 +923,8 @@ static void DFCLog(NSString *text) {
         self.secondaryDividerWindow.frame=sf;
         self.secondaryDividerTrack.frame=(CGRect){CGPointZero,sf.size};
         UIView *stroke=[self.secondaryDividerTrack viewWithTag:719];
+        stroke.hidden=!controlsVisible;
+        self.secondaryDividerWindow.userInteractionEnabled=controlsVisible;
         stroke.frame=vertical?CGRectMake(15,0,2,sf.size.height):
                               CGRectMake(0,15,sf.size.width,2);
     }
@@ -1319,8 +1327,8 @@ static void DFCLog(NSString *text) {
         self.lastSent=now;[self emit:@"Ratio" ratio:@(self.ratio)];
     }
     if(end||cancel){
-        if(end){[self saveSplitState];[self noteUserActivity];}
-        self.panActive=NO;DFCLog(end?@"divider-pan-end":@"divider-pan-cancel");
+        self.panActive=NO;
+        if(end){[self saveSplitState];[self noteUserActivity];}DFCLog(end?@"divider-pan-end":@"divider-pan-cancel");
     }
 }
 // Native12: second divider alters only the secondary split fraction.
@@ -1339,6 +1347,7 @@ static void DFCLog(NSString *text) {
         if(!isfinite(start.x)||!isfinite(start.y))return;
         self.secondaryDragStartPoint=start;
         self.dragStartSecondary=self.secondaryRatio;
+        self.panActive=YES;
         [self noteUserActivity];
         DFCLog(@"secondary-divider-pan-begin");
         return;
@@ -1359,10 +1368,17 @@ static void DFCLog(NSString *text) {
     self.secondaryRatio=cancel?self.dragStartSecondary:
            (end?DFCSnap(proposed):DFCClamp(proposed));
     [self layoutControls];
+    if(end||cancel)self.panActive=NO;
     if(end){[self saveSplitState];[self noteUserActivity];}
     if(end||cancel)DFCLog(end?@"secondary-divider-pan-end":@"secondary-divider-pan-cancel");
 }
 - (void)logoHold:(UILongPressGestureRecognizer *)hold {
+    if(hold.state==UIGestureRecognizerStateBegan){
+        self.panActive=YES;[self noteUserActivity];return;
+    }
+    if(hold.state==UIGestureRecognizerStateCancelled || hold.state==UIGestureRecognizerStateFailed){
+        self.panActive=NO;[self noteUserActivity];return;
+    }
     if(hold.state!=UIGestureRecognizerStateChanged &&
        hold.state!=UIGestureRecognizerStateEnded)return;
     CGPoint p=[hold locationInView:self.dividerTrack];
@@ -1373,6 +1389,7 @@ static void DFCLog(NSString *text) {
     self.logoFraction=MAX(.1,MIN(.9,position/span));
     [self layoutControls];
     if(hold.state==UIGestureRecognizerStateEnded){
+        self.panActive=NO;[self noteUserActivity];
         [self saveSplitState];
         DFCLog(@"logo-reposition-long-hold");
     }
