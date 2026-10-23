@@ -162,6 +162,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSInteger focus;
 @property(nonatomic,assign) NSInteger selectedSlot;
 @property(nonatomic,assign) BOOL panActive;
+@property(nonatomic,assign) BOOL logoTouchPending;
+@property(nonatomic,assign) BOOL logoHoldRecognized;
 @property(nonatomic,assign) NSTimeInterval lastSent;
 @end
 @implementation DFNative12Chrome
@@ -256,6 +258,8 @@ static void DFCLog(NSString *text) {
     self.pickerVisible=NO;
     self.appPickerVisible=NO;
     self.styleVisible=NO;
+    self.logoTouchPending=NO;
+    self.logoHoldRecognized=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -334,6 +338,12 @@ static void DFCLog(NSString *text) {
     logo.backgroundColor=UIColor.clearColor;
     [logo addTarget:self action:@selector(swapPressed:)
               forControlEvents:UIControlEventTouchUpInside];
+    // A three-second hold must survive the four-second chrome auto-hide
+    // while the finger is still down, not just after long press recognizes.
+    [logo addTarget:self action:@selector(logoTouchDown:)
+              forControlEvents:UIControlEventTouchDown];
+    [logo addTarget:self action:@selector(logoTouchReleased:)
+              forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
     // Verified 120x120 first-party duoface-swap.png is a circular face logo.
     // Do not swap it for a counterfeit vector or a square placeholder.
@@ -358,6 +368,7 @@ static void DFCLog(NSString *text) {
     // Current user override: hold the logo for three full seconds before moving.
     // Once recognized, drag along the divider only; short tap still swaps.
     hold.allowableMovement=14;
+    hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];
     UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
                                      initWithTarget:self action:@selector(dividerPan:)];
@@ -819,7 +830,8 @@ static void DFCLog(NSString *text) {
 }
 - (void)layoutControls {
     CGRect cr=self.contentRect;
-    BOOL controlsVisible=self.panActive || NSDate.date.timeIntervalSince1970<=self.controlsUntil;
+    BOOL controlsVisible=self.panActive || self.logoTouchPending ||
+                         NSDate.date.timeIntervalSince1970<=self.controlsUntil;
     for(UIButton *choice in self.styleChoices){
         BOOL selected=(choice.tag==self.preset);
         UIImageView *thumb=(UIImageView *)[choice viewWithTag:12001];
@@ -1275,9 +1287,25 @@ static void DFCLog(NSString *text) {
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
-- (void)swapPressed:(id)sender {
+- (void)logoTouchDown:(id)sender {
     (void)sender;
+    self.logoHoldRecognized=NO;
+    self.logoTouchPending=YES;
     [self noteUserActivity];
+    DFCLog(@"logo-touch-down-hold-pending");
+}
+- (void)logoTouchReleased:(id)sender {
+    (void)sender;
+    self.logoTouchPending=NO;
+    [self noteUserActivity];
+}
+- (void)swapPressed:(id)sender {
+    // Native12 moveButtonTouchUp must not swap after long hold/drag.
+    BOOL completedHold=self.logoHoldRecognized && sender==self.dividerLogo;
+    self.logoTouchPending=NO;
+    self.logoHoldRecognized=NO;
+    [self noteUserActivity];
+    if(completedHold){DFCLog(@"logo-hold-touchup-swap-suppressed");return;}
     self.swapped=!self.swapped;
     [self saveSplitState];
     [self layoutControls];
@@ -1374,10 +1402,19 @@ static void DFCLog(NSString *text) {
 }
 - (void)logoHold:(UILongPressGestureRecognizer *)hold {
     if(hold.state==UIGestureRecognizerStateBegan){
-        self.panActive=YES;[self noteUserActivity];return;
+        self.logoHoldRecognized=YES;
+        self.logoTouchPending=YES;
+        self.panActive=YES;
+        [self noteUserActivity];
+        DFCLog(@"logo-3s-hold-began");
+        return;
     }
     if(hold.state==UIGestureRecognizerStateCancelled || hold.state==UIGestureRecognizerStateFailed){
-        self.panActive=NO;[self noteUserActivity];return;
+        self.logoTouchPending=NO;
+        self.panActive=NO;
+        [self noteUserActivity];
+        DFCLog(@"logo-hold-cancelled");
+        return;
     }
     if(hold.state!=UIGestureRecognizerStateChanged &&
        hold.state!=UIGestureRecognizerStateEnded)return;
@@ -1389,9 +1426,11 @@ static void DFCLog(NSString *text) {
     self.logoFraction=MAX(.1,MIN(.9,position/span));
     [self layoutControls];
     if(hold.state==UIGestureRecognizerStateEnded){
-        self.panActive=NO;[self noteUserActivity];
+        self.logoTouchPending=NO;
+        self.panActive=NO;
+        [self noteUserActivity];
         [self saveSplitState];
-        DFCLog(@"logo-reposition-long-hold");
+        DFCLog(@"logo-reposition-3s-hold");
     }
 }
 // Native12 CBWindow.carPlayUsableBounds is normal content; whole-host
@@ -1456,6 +1495,8 @@ static void DFCLog(NSString *text) {
     DFCLog([NSString stringWithFormat:@"host-zoom-geometry-restored %@",NSStringFromCGRect(previous)]);
 }
 - (void)stop {
+    self.logoTouchPending=NO;
+    self.logoHoldRecognized=NO;
     if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
     ++self.borderGeneration;
