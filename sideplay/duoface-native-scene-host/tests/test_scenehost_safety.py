@@ -1017,7 +1017,7 @@ class NativeCarPlayHost(unittest.TestCase):
   # The card's Zoom must issue the *whole-host* Dock command with the
   # card dismissed ONLY AFTER ACK, NOT resize one FocusLeft/FocusRight app slot.
   a=chrome.index("- (void)appPickerDidRequestZoom:")
-  b=chrome.index("- (void)appPickerDidRequestRunningApps:",a)
+  b=chrome.index("- (void)completeWholeHostZoomRequest:",a)
   zoom=chrome[a:b]
   self.assertNotIn("self.appPickerVisible=NO;",zoom)
   self.assertNotIn("self.appPickerWindow.hidden=YES;",zoom)
