@@ -424,6 +424,15 @@ static void DFCLog(NSString *text) {
     hold.delaysTouchesBegan=NO;
     hold.cancelsTouchesInView=YES;
     [logo addGestureRecognizer:hold];
+    // Two exclusive Native12 behaviors on the SAME grip: stationary 3s
+    // hold owns logo positioning; ordinary drag that exceeds the hold's
+    // motion tolerance uses split-ratio pan. Removing the latter in .46
+    // regressed the previously working ratio drag from the circular handle.
+    UIPanGestureRecognizer *logoPan=[[UIPanGestureRecognizer alloc]
+                                      initWithTarget:self action:@selector(dividerPan:)];
+    logoPan.maximumNumberOfTouches=1;
+    [logoPan requireGestureRecognizerToFail:hold];
+    [logo addGestureRecognizer:logoPan];
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
@@ -767,7 +776,7 @@ static void DFCLog(NSString *text) {
     if(gestureRecognizer.view!=self.dividerTrack || !self.dividerLogo)return YES;
     CGPoint p=[touch locationInView:self.dividerTrack];
     CGRect logoHit=CGRectInset(self.dividerLogo.frame,-12.0,-12.0);
-    return !CGRectContainsPoint(logoHit,p);
+    return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);
 }
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
@@ -1002,7 +1011,10 @@ static void DFCLog(NSString *text) {
     self.dividerLogo.layer.cornerRadius=size/2;
     self.dividerLogo.hidden=!controlsVisible;
     line.hidden=!controlsVisible;
-    self.dividerWindow.userInteractionEnabled=controlsVisible;
+    // The 32pt ratio grab lane stays responsive when the 4s artwork timer
+    // hides the line/logo. A new pan wakes chrome rather than disabling
+    // the only split-ratio input path after the timeout.
+    self.dividerWindow.userInteractionEnabled=YES;
     self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible);
     CGRect second=DFSecondaryDividerRect(cr,self.preset,p,self.secondaryRatio);
     if(!CGRectIsNull(second)){
@@ -1014,7 +1026,7 @@ static void DFCLog(NSString *text) {
         self.secondaryDividerTrack.frame=(CGRect){CGPointZero,sf.size};
         UIView *stroke=[self.secondaryDividerTrack viewWithTag:719];
         stroke.hidden=!controlsVisible;
-        self.secondaryDividerWindow.userInteractionEnabled=controlsVisible;
+        self.secondaryDividerWindow.userInteractionEnabled=YES;
         stroke.frame=vertical?CGRectMake(15,0,2,sf.size.height):
                               CGRectMake(0,15,sf.size.width,2);
     }
@@ -1519,7 +1531,10 @@ static void DFCLog(NSString *text) {
         // Snapshot the original position after three seconds. Avoid snapping
         // the logo's center to the finger or relying on its moving frame.
         self.logoHoldInitialFraction=self.logoFraction;
-        self.logoHoldInitialTouch=[hold locationInView:self.dividerTrack];
+        CGPoint original=[hold locationInView:self.dividerTrack];
+    id<UICoordinateSpace> screen=self.dividerWindow.screen.coordinateSpace;
+    self.logoHoldInitialTouch=screen?
+        [self.dividerTrack convertPoint:original toCoordinateSpace:screen]:original;
         [self noteUserActivity];
         DFCLog(@"logo-3s-hold-began");
         return;
@@ -1533,7 +1548,9 @@ static void DFCLog(NSString *text) {
     }
     if(hold.state!=UIGestureRecognizerStateChanged &&
        hold.state!=UIGestureRecognizerStateEnded)return;
-    CGPoint p=[hold locationInView:self.dividerTrack];
+    CGPoint local=[hold locationInView:self.dividerTrack];
+    id<UICoordinateSpace> screen=self.dividerWindow.screen.coordinateSpace;
+    CGPoint p=screen?[self.dividerTrack convertPoint:local toCoordinateSpace:screen]:local;
     CGFloat span=self.verticalDivider?self.dividerTrack.bounds.size.height:
                                        self.dividerTrack.bounds.size.width;
     CGFloat delta=self.verticalDivider?p.y-self.logoHoldInitialTouch.y:
