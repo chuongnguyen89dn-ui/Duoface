@@ -37,6 +37,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_tile_original_palette.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_speed8_protocol.py' -v

@@ -1087,6 +1087,16 @@ static void DFCLog(NSString *text) {
     self.styleVisible=NO;
     // Picker contents are read fresh every time. Do not reuse a stale
     // LSApplicationWorkspace snapshot across install/remove operations.
+    // Read the *actually scene-ready* bundle in this physical slot before
+    // showing active App colors. Nothing in the installed list proves selection.
+    NSInteger physical=(self.swapped && slot<2)?1-slot:slot;
+    NSString *current=nil;
+    if([self.sceneHandleReady[(NSUInteger)physical] boolValue]){
+        UIView *surface=self.hostedScenes[(NSUInteger)physical];
+        if([surface isKindOfClass:UIView.class])
+            current=[[DFSceneHost sharedHost] bundleIDForHostedView:surface];
+    }
+    self.appPickerController.currentSlotBundleID=current;
     [self.appPickerController presentInstalledApps];
     [self.appPickerController refreshInstalledApps];
     self.appPickerWindow.hidden=NO;

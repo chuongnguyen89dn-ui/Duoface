@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)refreshInstalledApps;
 // Switch existing App picker between original App and live-running Close mode.
 // Only real DFSceneHost-owned, scene-ready bundle IDs may be supplied.
+// Only verified live SceneHost slot identity, never guessed installed-app state.
+@property (nonatomic, copy, nullable) NSString *currentSlotBundleID;
 - (void)presentInstalledApps;
 - (void)presentRunningApps:(NSArray<NSString *> *)verifiedBundleIDs;
 

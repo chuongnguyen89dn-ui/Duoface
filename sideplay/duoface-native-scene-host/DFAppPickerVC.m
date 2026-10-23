@@ -56,6 +56,10 @@
     CGFloat w=self.bounds.size.width,h=self.bounds.size.height;
     CGFloat iconSide=MIN(43,MAX(24,h-(self.runningControls?68:29)));
     self.icon.frame=CGRectMake((w-iconSide)/2,5,iconSide,iconSide);
+    // Original Native12 App icon only: corner multiplier at 0xa493c-0xa4940.
+    // Preserve running-card styling; its icon treatment is a separate surface.
+    self.icon.layer.cornerRadius=self.runningControls?0:(.225*iconSide);
+    self.icon.layer.masksToBounds=!self.runningControls;
     self.title.frame=CGRectMake(3,CGRectGetMaxY(self.icon.frame)+3,w-6,17);
     self.closeRunning.hidden=!self.runningControls;
     self.restartRunning.hidden=!self.runningControls;
@@ -117,7 +121,7 @@
     self.modes.layer.cornerCurve=kCACornerCurveContinuous;
     self.modes.clipsToBounds=YES;
     [self.sheet addSubview:self.modes];
-    NSArray<NSString *> *names=@[@"Apps",@"Layout",@"Recent"];
+    NSArray<NSString *> *names=@[@"Ứng dụng",@"Bố cục",@"Đang mở"];
     NSMutableArray<UIButton *> *actions=[NSMutableArray new];
     for(NSInteger i=0;i<3;i++){
         UIButton *tab=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -172,8 +176,8 @@
     self.cards.alwaysBounceHorizontal=YES;
     self.cards.showsHorizontalScrollIndicator=NO;
     self.cards.showsVerticalScrollIndicator=NO;
-    // Original Native12 setupAppPickerCards @0xa40c8 caps gridCols at 4;
-    // @0xa40e8 uses a 2-row default, not a single scrolling row.
+    // Original a40c0-a40ec accepts gridCols 4/5/6 and gridRows 2/3;
+    // first-party picker still defaults 4x2, custom sizing remains pending.
     self.cardsPerPage=8;
     [self.cards registerClass:DFNativeAppCard.class forCellWithReuseIdentifier:@"DFNativeCard"];
     [self.sheet addSubview:self.cards];
@@ -211,7 +215,9 @@
         BOOL selected=(tab.tag==self.currentMode);
         tab.backgroundColor=selected?
              [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:UIColor.clearColor;
-        [tab setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+        // Original inactive inner mode is white=.68; active stays white.
+        [tab setTitleColor:selected?UIColor.whiteColor:
+            [UIColor colorWithWhite:.68 alpha:1] forState:UIControlStateNormal];
     }
     NSString *name=self.currentMode==0?@"square.grid.2x2.fill":
                    self.currentMode==1?@"rectangle.split.2x1.fill":@"app.badge.fill";
@@ -430,6 +436,9 @@
     }
     card.hidden=NO;
     card.runningControls=self.runningMode;
+    // APP tiles are clear; RUNNING tiles retain their distinct gray cards.
+    card.contentView.backgroundColor=self.runningMode?
+        [UIColor colorWithWhite:.19 alpha:.96]:UIColor.clearColor;
     card.closeRunning.tag=indexPath.item;
     card.restartRunning.tag=indexPath.item;
     [card.closeRunning removeTarget:self action:@selector(closeRunningTapped:)
@@ -443,6 +452,15 @@
     [card setNeedsLayout];
     DFAppInfo *app=display[indexPath.item];
     card.title.text=app.displayName;
+    BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
+        [self.currentSlotBundleID isEqualToString:app.bundleID];
+    // SHA-pinned original selected App title and icon outline, NOT a generic
+    // blue/orange tile background; other-slot badge geometry is still pending.
+    card.title.textColor=self.runningMode?UIColor.whiteColor:(selectedApp?
+        [UIColor colorWithRed:.55 green:.80 blue:1 alpha:1]:
+        [UIColor colorWithWhite:.95 alpha:1]);
+    card.icon.layer.borderWidth=selectedApp?2:0;
+    card.icon.layer.borderColor=[UIColor colorWithRed:.15 green:.62 blue:1 alpha:1].CGColor;
     card.icon.image=[self installedIconForBundle:app.bundleID];
     card.icon.tintColor=UIColor.whiteColor;
     card.accessibilityLabel=app.displayName;
