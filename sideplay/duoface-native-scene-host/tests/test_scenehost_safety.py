@@ -227,7 +227,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.panActive=NO;",pan)
   # Three original actions are still discrete after the pointer correction.
   self.assertIn("[self swapPressed:sender]",chrome)
-  self.assertIn("action:@selector(logoTouchChanged:)",chrome)
+  self.assertIn("if(self.touchTracked && self.touchMoved)self.touchMoved(self);",chrome)
 
  def test_original_native12_logo_hit_owner_is_separate_from_ratio_pan(self):
   # Original Native12 method index (CBDividerView): pointInside,
@@ -242,7 +242,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("gestureRecognizer.view!=self.dividerTrack",chrome)
   self.assertIn("CGRectInset(self.dividerLogo.frame,-12.0,-12.0)",chrome)
   self.assertIn("return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);",chrome)
-  self.assertIn("[logo addTarget:self action:@selector(logoTouchChanged:)",chrome)
+  self.assertIn("logo.touchMoved=^(UIButton *sender)",chrome)
   self.assertIn("initWithTarget:self action:@selector(dividerPan:)",chrome)
   self.assertNotIn("requireGestureRecognizerToFail:hold",chrome)
   self.assertIn("forControlEvents:UIControlEventTouchUpInside",chrome)
@@ -969,10 +969,10 @@ class NativeCarPlayHost(unittest.TestCase):
   # The old Style-menu Zoom reintroduced the modal, causing the geometry
   # owner to reject every button press. Close it before the real host request.
   self.assertNotIn("self.styleVisible=keepStyle;",menu)
-  self.assertIn("native12-global-zoom-modals-cleared",menu)
-  self.assertIn("self.appPickerWindow.hidden=YES;",menu)
-  self.assertLess(menu.index("self.styleVisible=NO;"),menu.index('[self emit:@"Zoom" ratio:nil]'))
-  self.assertIn("self.startupActive || self.pickerVisible || self.styleVisible",chrome)
+  self.assertNotIn("native12-global-zoom-modals-cleared",menu)
+  self.assertIn('if(sender.tag==1)',menu)
+  self.assertLess(menu.index('[self emit:@"Zoom" ratio:nil]'),menu.index("[self closeMenu:nil]"))
+  self.assertIn("self.startupActive || !self.windows.count",chrome)
   # A measured native Dock may live under a visible foreground-inactive
   # CarPlay scene; background scenes remain forbidden.
   self.assertIn("UISceneActivationStateForegroundInactive",receiver)
@@ -1267,9 +1267,9 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   self.assertIn('dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC))',chrome)
   self.assertNotIn('hold.cancelsTouchesInView=YES',chrome)
-  self.assertIn('action:@selector(logoTouchDown:)',chrome)
-  self.assertIn('forControlEvents:UIControlEventTouchDown',chrome)
-  self.assertIn('action:@selector(logoTouchReleased:)',chrome)
+  self.assertIn('if(accepted && self.touchBegan)self.touchBegan(self);',chrome)
+  self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
+  self.assertIn('if(active && self.touchEnded)self.touchEnded(self,inside);',chrome)
   self.assertIn('self.logoTouchPending=YES;',chrome)
   self.assertIn('BOOL controlsVisible=self.panActive || self.logoTouchPending ||',chrome)
   self.assertIn('self.dividerWindow.userInteractionEnabled=YES',chrome)
@@ -1279,7 +1279,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('owner.logoHoldRecognized=YES;',hold)
   self.assertIn('owner.panActive=YES;',hold)
   self.assertIn('self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));',hold)
-  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',hold)
+  self.assertNotIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',hold)
   self.assertIn('[self saveSplitState]',hold)
   self.assertIn('self.logoTouchPending=NO;',hold)
 
@@ -1442,16 +1442,16 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("- (BOOL)beginTrackingWithTouch:(UITouch *)touch",chrome)
   self.assertIn("- (BOOL)continueTrackingWithTouch:(UITouch *)touch",chrome)
-  self.assertIn("UIControlEventValueChanged",chrome)
+  self.assertIn("logo.touchEnded=^(UIButton *sender,BOOL inside)",chrome)
   self.assertIn("current.touchTracked",chrome)
   self.assertIn("owner.logoHoldSerial!=serial",chrome)
   self.assertIn("dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC))",chrome)
   self.assertIn("owner.logoHoldRecognized=YES",chrome)
   self.assertIn("owner.logoHoldInitialTouch=owner.logoTouchLastScreen",chrome)
   self.assertIn("self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))",chrome)
-  self.assertIn("self.logoDraggingRatio=YES;",chrome)
-  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
-  self.assertIn("if(inside && !held && !ratioDragged && !moved)[self swapPressed:sender]",chrome)
+  self.assertNotIn("self.logoDraggingRatio=YES;",chrome)
+  self.assertNotIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
+  self.assertIn("if(inside && !held && !moved)[self swapPressed:sender]",chrome)
   self.assertNotIn("UILongPressGestureRecognizer *hold=",chrome)
   self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
 

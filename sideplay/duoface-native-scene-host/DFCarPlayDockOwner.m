@@ -23,6 +23,8 @@ static BOOL DFZSavedHidden;
 static NSUInteger DFZLastSequence;
 static int DFZToken=-1;
 static NSUInteger DFZGeneration;
+static NSString *DFZHandledSession;
+static NSUInteger DFZHandledSequence;
 
 // One-shot ownership diagnostics when Zoom is pressed. Writes no app IDs or
 // user content. Failure to write must never affect Dock ownership/restore.
@@ -245,6 +247,12 @@ static void DFZHandleCommand(void) {
        ![cmd[@"Expanded"] isKindOfClass:NSNumber.class])return;
     NSTimeInterval age=NSDate.date.timeIntervalSince1970-[stamp doubleValue];
     if(!isfinite(age) || age<0 || age>3.0)return;
+    // Deduplicate notification and poll of the same real request.
+    NSUInteger sequence=[seq unsignedIntegerValue];
+    if([session isEqualToString:DFZHandledSession] &&
+       sequence<=DFZHandledSequence)return;
+    DFZHandledSession=[session copy];
+    DFZHandledSequence=sequence;
     BOOL expanded=[cmd[@"Expanded"] boolValue];
     // A restore belonging to the session that hid the Dock is always allowed:
     // Home may already have revoked the heartbeat before cleanup.
@@ -298,6 +306,9 @@ static void DFZHandleCommand(void) {
 }
 static void DFZWatch(NSUInteger generation) {
     if(generation!=DFZGeneration || !DFZCarPlayProcess())return;
+    // Unlike before, recover a missed Darwin command edge by re-reading only
+    // the validated, fresh Session/RequestID/Sequence request record.
+    DFZHandleCommand();
     if(DFZDockView) {
         if(!DFZOwnerSession || !DFZFreshSession(DFZOwnerSession) ||
            !DFZWindow || DFZWindow.hidden || !DFZWindow.screen) {

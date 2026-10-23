@@ -114,6 +114,9 @@ static void DFCLog(NSString *text) {
 @interface DFNativeDividerGripButton : UIButton
 @property(nonatomic,assign) CGPoint trackedScreenPoint;
 @property(nonatomic,assign) BOOL touchTracked;
+@property(nonatomic,copy) void (^touchBegan)(UIButton *);
+@property(nonatomic,copy) void (^touchMoved)(UIButton *);
+@property(nonatomic,copy) void (^touchEnded)(UIButton *,BOOL);
 @end
 @implementation DFNativeDividerGripButton
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -132,20 +135,26 @@ static void DFCLog(NSString *text) {
     self.trackedScreenPoint=[self screenPointForTouch:touch];
     BOOL accepted=[super beginTrackingWithTouch:touch withEvent:event];
     self.touchTracked=accepted;
+    if(accepted && self.touchBegan)self.touchBegan(self);
     return accepted;
 }
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     self.trackedScreenPoint=[self screenPointForTouch:touch];
     BOOL accepted=[super continueTrackingWithTouch:touch withEvent:event];
-    if(self.touchTracked)[self sendActionsForControlEvents:UIControlEventValueChanged];
-    return accepted;
+    if(self.touchTracked && self.touchMoved)self.touchMoved(self);
+    // Moving the artwork after 3s must not lose the original grip touch.
+    return self.touchTracked?YES:accepted;
 }
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     self.trackedScreenPoint=[self screenPointForTouch:touch];
+    BOOL active=self.touchTracked;
+    BOOL inside=[self pointInside:[touch locationInView:self] withEvent:event];
+    if(active && self.touchEnded)self.touchEnded(self,inside);
     [super endTrackingWithTouch:touch withEvent:event];
     self.touchTracked=NO;
 }
 - (void)cancelTrackingWithEvent:(UIEvent *)event {
+    if(self.touchTracked && self.touchEnded)self.touchEnded(self,NO);
     [super cancelTrackingWithEvent:event];
     self.touchTracked=NO;
 }
@@ -441,16 +450,14 @@ static void DFCLog(NSString *text) {
     [self.dividerTrack addGestureRecognizer:trackPan];
     UIButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
-    [logo addTarget:self action:@selector(logoTouchUpInside:)
-              forControlEvents:UIControlEventTouchUpInside];
-    // A three-second hold must survive the four-second chrome auto-hide
-    // while the finger is still down, not just after long press recognizes.
-    [logo addTarget:self action:@selector(logoTouchDown:)
-              forControlEvents:UIControlEventTouchDown];
-    [logo addTarget:self action:@selector(logoTouchReleased:)
-              forControlEvents:UIControlEventTouchUpOutside|UIControlEventTouchCancel];
-    [logo addTarget:self action:@selector(logoTouchChanged:)
-              forControlEvents:UIControlEventValueChanged];
+    // Native8 device-verified layout: one real UIButton owns logo movement;
+    // keep ratio input exclusively on the separate dividerTrack pan.
+    __weak typeof(self) weakGripOwner=self;
+    logo.touchBegan=^(UIButton *sender){[weakGripOwner logoTouchDown:sender];};
+    logo.touchMoved=^(UIButton *sender){[weakGripOwner logoTouchChanged:sender];};
+    logo.touchEnded=^(UIButton *sender,BOOL inside){
+        [weakGripOwner logoTouchFinished:sender inside:inside];
+    };
     logo.titleLabel.font=[UIFont boldSystemFontOfSize:23];
     // Verified 120x120 first-party duoface-swap.png is a circular face logo.
     // Do not swap it for a counterfeit vector or a square placeholder.
@@ -1251,38 +1258,23 @@ static void DFCLog(NSString *text) {
        sender.window?NSStringFromClass(sender.window.class):@"none"]);
 }
 - (void)menuAction:(UIButton *)sender {
-    // UIControlEventTouchUpInside must reach this live selector on CarPlay.
-    DFCLog([NSString stringWithFormat:@"native12-menu-action-invoked tag=%ld", (long)sender.tag]);
+    DFCLog([NSString stringWithFormat:@"native12-menu-action-invoked tag=%ld",(long)sender.tag]);
     [self noteUserActivity];
+    if(sender.tag==1){
+        // Native12: retain App/Zoom/Style/Close until real Dock+host ACK.
+        DFCLog(self.hostFullscreen?@"native12-zoom-out-arrow-pressed-ack-pending":
+                                 @"native12-zoom-in-arrow-pressed-ack-pending");
+        [self emit:@"Zoom" ratio:nil];
+        return;
+    }
     [self closeMenu:nil];
     self.styleVisible=NO;
     [self layoutControls];
     switch(sender.tag){
-      case 0:[self openAppPickerForSlot:self.selectedSlot];break;
-      case 1:{
-             // On the STYLE sheet, keeping styleVisible=YES was a hard
-             // deterministic blocker: applyHostFullscreenToScreenBoundsAfterDockAck:
-             // explicitly refuses to expand while the style sheet is visible.
-             // Close ALL modal owners before handing Zoom to the real Dock
-             // coordinator, just as OmniCar closes its native ratio menu.
-             self.styleVisible=NO;
-             self.appPickerVisible=NO;
-             self.appPickerWindow.hidden=YES;
-             self.pickerVisible=NO;
-             [self layoutControls];
-             DFCLog(@"native12-global-zoom-modals-cleared");
-             // Native12 global Zoom is not the same as per-pane focus.
-             // Forward through the existing session owner, never forge Dock.
-             DFCLog(self.hostFullscreen?@"native12-zoom-out-arrow-pressed-ack-pending":
-                                        @"native12-zoom-in-arrow-pressed-ack-pending");
-             [self emit:@"Zoom" ratio:nil];
-             [self layoutControls];
-             DFCLog(@"native12-global-zoom-owner-ack-pending");
-             break;
-      }
-      case 2:[self openStylePicker];break;
-      case 3:[self openRunningAppManager];break;
-      default:break;
+        case 0:[self openAppPickerForSlot:self.selectedSlot];break;
+        case 2:[self openStylePicker];break;
+        case 3:[self openRunningAppManager];break;
+        default:break;
     }
 }
 - (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker {
@@ -1313,6 +1305,7 @@ static void DFCLog(NSString *text) {
             self.appPickerWindow.hidden=NO;
             [self layoutControls];
         }
+        [self layoutControls];
         DFCLog(@"native12-card-zoom-rejected-ui-retained");
     }
 }
@@ -1578,7 +1571,7 @@ static void DFCLog(NSString *text) {
         if(!owner || owner.logoHoldSerial!=serial)return;
         // Report the real failed gate before altering recognizer architecture.
         if(!owner.logoTouchPending){DFCLog(@"logo-3s-rejected-not-pending");return;}
-        if(owner.logoDraggingRatio){DFCLog(@"logo-3s-rejected-ratio-pan");return;}
+        if(owner.logoMovedBeforeHold){DFCLog(@"logo-3s-rejected-early-movement");return;}
         if(!current.touchTracked){DFCLog(@"logo-3s-rejected-tracking-ended");return;}
         if(current.window==nil || owner.dividerWindow.hidden){
             DFCLog(@"logo-3s-rejected-window-hidden");return;
@@ -1615,48 +1608,20 @@ static void DFCLog(NSString *text) {
         }
         return;
     }
-    // Before 3s, crossing the split line changes RATIO, not logo position.
-    // The divider track's original UIPan still handles dragging elsewhere.
-    if(!self.logoDraggingRatio && fabs(perp)>10) {
-        self.logoDraggingRatio=YES;
+    // A gesture beginning on the round logo never changes the split ratio.
+    if(!self.logoMovedBeforeHold && hypot(perp,parallel)>7){
         self.logoMovedBeforeHold=YES;
-        self.panActive=YES;
-        ++self.logoHoldSerial; // cancel the pending hold timer
-        DFCLog(@"logo-quick-ratio-drag-began");
-    }
-    if(self.logoDraggingRatio) {
-        CGFloat extent=self.verticalDivider?self.contentRect.size.width:
-                                           self.contentRect.size.height;
-        if(extent>0) {
-            self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);
-            [self layoutControls];
-            NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-            if(now-self.lastSent>.05) {
-                self.lastSent=now;
-                [self emit:@"Ratio" ratio:@(self.ratio)];
-            }
-        }
-    } else if(hypot(perp,parallel)>7) {
-        // Ignore wandering taps, but do not cancel a genuine stationary hold.
-        self.logoMovedBeforeHold=YES;
+        ++self.logoHoldSerial;
+        DFCLog(@"logo-prehold-drag-ignored-ratio-track-separate");
     }
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
     if(sender!=self.dividerLogo)return;
     BOOL held=self.logoHoldRecognized;
-    BOOL ratioDragged=self.logoDraggingRatio;
     BOOL moved=self.logoMovedBeforeHold;
-    ++self.logoHoldSerial; // no timer may fire after release / cancellation
-    if(ratioDragged) {
-        self.ratio=DFCSnap(self.ratio);
-        [self saveSplitState];
-        [self emit:@"Ratio" ratio:@(self.ratio)];
-        DFCLog(@"logo-quick-ratio-drag-ended");
-    } else if(held) {
-        [self saveSplitState];
-        DFCLog(@"logo-reposition-3s-hold");
-    }
-    if(inside && !held && !ratioDragged && !moved)[self swapPressed:sender];
+    ++self.logoHoldSerial;
+    if(held){[self saveSplitState];DFCLog(@"logo-reposition-3s-hold");}
+    if(inside && !held && !moved)[self swapPressed:sender];
     self.logoTouchPending=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
@@ -1664,13 +1629,6 @@ static void DFCLog(NSString *text) {
     self.logoWakeOnlyTap=NO;
     self.panActive=NO;
     [self noteUserActivity];
-}
-- (void)logoTouchUpInside:(id)sender {
-    [self logoTouchFinished:sender inside:YES];
-}
-- (void)logoTouchReleased:(id)sender {
-    if(sender==self.dividerLogo)DFCLog(@"logo-touch-cancel-or-outside");
-    [self logoTouchFinished:sender inside:NO];
 }
 - (void)swapPressed:(id)sender {
     // Native12 moveButtonTouchUp must not swap after long hold/drag.
@@ -1785,8 +1743,10 @@ static void DFCLog(NSString *text) {
 // no caller may trigger this method until that dock is verified hidden.
 - (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:(CGRect)screenBounds {
     if(self.hostFullscreen)return YES;
-    if(self.startupActive || self.pickerVisible || self.styleVisible ||
-       !self.windows.count || self.appSceneContainers.count!=4 || !self.sharedAppWindow)return NO;
+    // A native App card may remain shown while a real Dock ACK is pending.
+    // Only the existing verified completion dismisses it, not the button.
+    if(self.startupActive || !self.windows.count ||
+       self.appSceneContainers.count!=4 || !self.sharedAppWindow)return NO;
     UIWindow *anchor=self.windows.firstObject;
     CGRect actual=anchor.screen.bounds;
     CGRect saved=self.contentRect;
