@@ -1051,9 +1051,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFSceneHostDidObserveTouchNotification',chrome)
   self.assertIn('DFSceneHostDidObserveTouchNotification',host)
   self.assertIn('DFSceneHostDidObserveTouchNotification',header)
-  self.assertIn('original-native12-refresh-scene-layout-after-reference',host)
+  self.assertIn('native12-layout-invalidated-deferred-no-sync-flush',host)
   self.assertIn('[self.appController.view setNeedsLayout]',host)
-  self.assertIn('[self.appController.view layoutIfNeeded]',host)
+  self.assertNotIn('[self.appController.view layoutIfNeeded]',host)
   self.assertIn('logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);',host)
   self.assertIn('DFComputePresetFramesWithSecondary',chrome)
   self.assertIn('for(NSInteger idx=0;idx<9;idx++)',chrome)
@@ -1077,6 +1077,41 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=controlsVisible",chrome)
   self.assertIn("[owner noteUserActivity]",chrome)
   self.assertIn("self.panActive ||",chrome)
+ def test_041_scene_no_reentrant_sync_flush_during_frontboard_commit(self):
+  """A/B isolate the post-.37 synchronous layout, preserve FBS size and ABI."""
+  host=file("DFSceneHost.m")
+  block=host.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',block)
+  self.assertIn('NSSelectorFromString(@"setFrame:")',block)
+  self.assertIn('UIInterfaceOrientationPortrait',block)
+  self.assertIn('[self.appController.view setNeedsLayout]',block)
+  self.assertIn('native12-layout-invalidated-deferred-no-sync-flush',block)
+  self.assertNotIn('[self.appController.view layoutIfNeeded]',block)
+  self.assertNotIn('[inner layoutIfNeeded]',block)
+  self.assertLess(block.index('native12-scene-settings-frame-requested'),
+                  block.index('native12-layout-invalidated-deferred-no-sync-flush'))
+
+ def test_041_three_second_logo_hold_survives_four_second_timeout(self):
+  """Finger down is observable before 3 seconds, suppressing 4s hide race."""
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn('hold.minimumPressDuration=3.0',chrome)
+  self.assertIn('hold.cancelsTouchesInView=YES',chrome)
+  self.assertIn('action:@selector(logoTouchDown:)',chrome)
+  self.assertIn('forControlEvents:UIControlEventTouchDown',chrome)
+  self.assertIn('action:@selector(logoTouchReleased:)',chrome)
+  self.assertIn('self.logoTouchPending=YES;',chrome)
+  self.assertIn('BOOL controlsVisible=self.panActive || self.logoTouchPending ||',chrome)
+  self.assertIn('self.dividerWindow.userInteractionEnabled=controlsVisible',chrome)
+  self.assertIn('BOOL completedHold=self.logoHoldRecognized && sender==self.dividerLogo;',chrome)
+  self.assertIn('if(completedHold){DFCLog(@"logo-hold-touchup-swap-suppressed");return;}',chrome)
+  hold=chrome.split('- (void)logoHold:(UILongPressGestureRecognizer *)hold {',1)[1].split('- (BOOL)applyHostFullscreen',1)[0]
+  self.assertIn('self.logoHoldRecognized=YES;',hold)
+  self.assertIn('self.panActive=YES;',hold)
+  self.assertIn('self.logoFraction=MAX(.1,MIN(.9,position/span));',hold)
+  self.assertNotIn('self.ratio=',hold)
+  self.assertIn('[self saveSplitState]',hold)
+  self.assertIn('self.logoTouchPending=NO;',hold)
+
  def test_039_layout_reentry_and_real_touch_phase(self):
   host=file("DFSceneHost.m")
   self.assertIn("self.layingOutScene || self.committingSceneGeometry",host)
