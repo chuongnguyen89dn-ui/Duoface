@@ -1324,4 +1324,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("hold.allowableMovement=28;",chrome)
 
 
+ def test_device_photo_hidden_logo_still_wakes_and_holds(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("self.dividerLogo.hidden=NO;",chrome)
+  self.assertIn("self.dividerLogo.alpha=controlsVisible?1.0:0.02;",chrome)
+  self.assertIn("self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);",chrome)
+  self.assertIn("if(justWaking){DFCLog",chrome)
+  self.assertIn("hold.minimumPressDuration=3.0",chrome)
+
 if __name__=="__main__":unittest.main(verbosity=2)
