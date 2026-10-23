@@ -950,6 +950,42 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('[chrome restoreHostFullscreenGeometry]',dock)
   self.assertIn('@"real-dock-ack-timeout"',dock)
 
+ def test_zoom_owner_real_native_layout_and_ack_reliability_20261023(self):
+  """Prevent three hard source-side Zoom blockers from the last .50 build."""
+  chrome=file("DFNative12Chrome.m")
+  receiver=file("DFCarPlayDockOwner.m")
+  coordinator=file("DFDockZoomCoordinator.m")
+  start=chrome.index("- (void)menuAction:(UIButton *)sender {")
+  end=chrome.index("- (void)appPickerDidRequestLayout:",start)
+  menu=chrome[start:end]
+  # The old Style-menu Zoom reintroduced the modal, causing the geometry
+  # owner to reject every button press. Close it before the real host request.
+  self.assertNotIn("self.styleVisible=keepStyle;",menu)
+  self.assertIn("native12-global-zoom-modals-cleared",menu)
+  self.assertIn("self.appPickerWindow.hidden=YES;",menu)
+  self.assertLess(menu.index("self.styleVisible=NO;"),menu.index('[self emit:@"Zoom" ratio:nil]'))
+  self.assertIn("self.startupActive || self.pickerVisible || self.styleVisible",chrome)
+  # A measured native Dock may live under a visible foreground-inactive
+  # CarPlay scene; background scenes remain forbidden.
+  self.assertIn("UISceneActivationStateForegroundInactive",receiver)
+  self.assertIn("UISceneActivationStateForegroundActive",receiver)
+  self.assertIn("dock-scene-inventory active=",receiver)
+  self.assertIn("else continue;",receiver)
+  self.assertIn("if(matches!=1)",receiver)
+  self.assertIn("DFZVisibleDockGeometry",receiver)
+  # Repeat READ-ONLY ACK lookup when Darwin notify is coalesced.
+  self.assertIn("static void DFZPollMatchingAck(NSUInteger generation)",coordinator)
+  self.assertIn("DFZPollMatchingAck(generation);",coordinator)
+  self.assertIn("DFZConsumeAck();",coordinator)
+  self.assertIn("generation!=sGeneration || !sPendingRequest",coordinator)
+  self.assertIn('@"real-dock-ack-timeout"',coordinator)
+  self.assertIn("DFZEmergencyRestore(sPendingSession)",coordinator)
+  self.assertIn('[ack[@"RequestID"] isEqualToString:sPendingRequest]',coordinator)
+  self.assertIn('[ack[@"Session"] isEqualToString:sPendingSession]',coordinator)
+  self.assertIn('ack[@"DockOwnerVerified"]',coordinator)
+  self.assertIn('[chrome applyHostFullscreenToScreenBoundsAfterDockAck:bounds]',coordinator)
+  self.assertNotIn('DFHostSetExpanded(',coordinator)
+
  def test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success(self):
   """CarPlay process Dock owner must precede SpringBoard geometry.
   Static contract only; device proof is a separate gate.
