@@ -1103,7 +1103,7 @@ static void DFCLog(NSString *text) {
     for(NSInteger visual=0;visual<DFSlotCountForPreset(self.preset);visual++){
         if(visual==slot)continue;
         NSInteger otherPhysical=(self.swapped && visual<2)?1-visual:visual;
-        if(otherPhysical<0 || otherPhysical>=self.hostedScenes.count)continue;
+        if(otherPhysical<0 || (NSUInteger)otherPhysical>=self.hostedScenes.count)continue;
         if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;
         UIView *otherScene=self.hostedScenes[(NSUInteger)otherPhysical];
         if(![otherScene isKindOfClass:UIView.class])continue;
