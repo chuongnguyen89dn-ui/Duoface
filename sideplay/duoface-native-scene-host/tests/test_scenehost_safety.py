@@ -1015,18 +1015,23 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('[self.zoomButton addTarget:self action:@selector(zoomTapped)',picker)
   self.assertIn('- (void)zoomTapped {[self.delegate appPickerDidRequestZoom:self];}',picker)
   # The card's Zoom must issue the *whole-host* Dock command with the
-  # card dismissed first, NOT resize one FocusLeft/FocusRight app slot.
+  # card dismissed ONLY AFTER ACK, NOT resize one FocusLeft/FocusRight app slot.
   a=chrome.index("- (void)appPickerDidRequestZoom:")
   b=chrome.index("- (void)appPickerDidRequestRunningApps:",a)
   zoom=chrome[a:b]
-  self.assertIn("self.appPickerVisible=NO;",zoom)
-  self.assertIn("self.appPickerWindow.hidden=YES;",zoom)
+  self.assertNotIn("self.appPickerVisible=NO;",zoom)
+  self.assertNotIn("self.appPickerWindow.hidden=YES;",zoom)
   self.assertIn('[self emit:@"Zoom" ratio:nil];',zoom)
   self.assertIn("native12-card-zoom-in-request-real-dock",zoom)
   self.assertNotIn("[self zoomPressed:",zoom)
   self.assertNotIn("FocusLeft",zoom)
   self.assertNotIn("FocusRight",zoom)
-  self.assertLess(zoom.index("self.appPickerVisible=NO;"),zoom.index('[self emit:@"Zoom" ratio:nil]'))
+  completion=chrome[chrome.index("- (void)completeWholeHostZoomRequest:"):chrome.index("- (void)appPickerDidRequestRunningApps:")]
+  self.assertIn("self.appPickerVisible=NO;",completion)
+  self.assertIn("self.appPickerWindow.hidden=YES;",completion)
+  self.assertIn("self.appPickerWindow.hidden=NO;",completion)
+  self.assertIn("native12-card-zoom-rejected-ui-retained",completion)
+  self.assertIn("[sChrome completeWholeHostZoomRequest:applied];",file("DFTouchOwnerProbe.m"))
   # Do not make a separate 30pt sheet the entry point.
   self.assertIn("self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);",chrome)
   old=(R.parents[1]/"runtime/fullscreen/DFPickerZoomMenu.xm").read_text()

@@ -1292,18 +1292,29 @@ static void DFCLog(NSString *text) {
 - (void)appPickerDidRequestZoom:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController || !self.appPickerVisible)return;
     [self noteUserActivity];
-    // Global whole-interface Zoom, NEVER per-pane zoomPressed:/focus.
-    // Dismiss the original-style app card BEFORE the Dock ACK and geometry
-    // transaction; keeping a full-size modal in the foreground obscures
-    // both apps and can intercept the Restore/Zoom Out path.
-    self.appPickerVisible=NO;
-    self.pickerVisible=NO;
-    self.styleVisible=NO;
-    self.appPickerWindow.hidden=YES;
-    [self layoutControls];
+    // Root DuoFace October 14 history: never lose the only Zoom/Restore
+    // control before an actual native Dock and host geometry response.
     DFCLog(self.hostFullscreen?@"native12-card-zoom-out-request-real-dock":
                                @"native12-card-zoom-in-request-real-dock");
     [self emit:@"Zoom" ratio:nil];
+}
+- (void)completeWholeHostZoomRequest:(BOOL)applied {
+    if(!NSThread.isMainThread)return;
+    if(applied) {
+        self.appPickerVisible=NO;
+        self.pickerVisible=NO;
+        self.styleVisible=NO;
+        self.appPickerWindow.hidden=YES;
+        [self layoutControls];
+        DFCLog(@"native12-card-zoom-verified-ui-dismissed");
+    } else {
+        // A rejected Zoom must not visibly look like the user clicked Close.
+        if(self.appPickerVisible) {
+            self.appPickerWindow.hidden=NO;
+            [self layoutControls];
+        }
+        DFCLog(@"native12-card-zoom-rejected-ui-retained");
+    }
 }
 - (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker {
     if(picker!=self.appPickerController)return;
@@ -1564,10 +1575,14 @@ static void DFCLog(NSString *text) {
                    dispatch_get_main_queue(), ^{
         DFNative12Chrome *owner=weakOwner;
         DFNativeDividerGripButton *current=(DFNativeDividerGripButton *)owner.dividerLogo;
-        if(!owner || owner.logoHoldSerial!=serial ||
-           !owner.logoTouchPending || owner.logoDraggingRatio ||
-           !current.touchTracked || current.window==nil ||
-           owner.dividerWindow.hidden)return;
+        if(!owner || owner.logoHoldSerial!=serial)return;
+        // Report the real failed gate before altering recognizer architecture.
+        if(!owner.logoTouchPending){DFCLog(@"logo-3s-rejected-not-pending");return;}
+        if(owner.logoDraggingRatio){DFCLog(@"logo-3s-rejected-ratio-pan");return;}
+        if(!current.touchTracked){DFCLog(@"logo-3s-rejected-tracking-ended");return;}
+        if(current.window==nil || owner.dividerWindow.hidden){
+            DFCLog(@"logo-3s-rejected-window-hidden");return;
+        }
         owner.logoHoldRecognized=YES;
         owner.logoHoldInitialFraction=owner.logoFraction;
         owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
@@ -1654,6 +1669,7 @@ static void DFCLog(NSString *text) {
     [self logoTouchFinished:sender inside:YES];
 }
 - (void)logoTouchReleased:(id)sender {
+    if(sender==self.dividerLogo)DFCLog(@"logo-touch-cancel-or-outside");
     [self logoTouchFinished:sender inside:NO];
 }
 - (void)swapPressed:(id)sender {

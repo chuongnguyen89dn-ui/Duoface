@@ -112,6 +112,7 @@ static void DFSendCommand(NSString *action,NSNumber *ratio) {
                                             NSDictionary *receipt){
             if(!sChrome || !DFSessionStillActive())return;
             sZoomReceipt=[receipt copy];
+            [sChrome completeWholeHostZoomRequest:applied];
             DFTOLog(applied?@"native12-whole-host-zoom-applied":
                               @"native12-whole-host-zoom-rejected",
                     [NSString stringWithFormat:@"expanded=%d %@",expanded,

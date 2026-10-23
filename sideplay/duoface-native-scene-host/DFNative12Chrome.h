@@ -19,5 +19,7 @@ typedef void (^DFNative12ChromeCommand)(NSString *action, NSNumber *ratio);
 // The receiver/ack is NOT implemented here; never pass a guessed YES.
 - (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:(CGRect)screenBounds;
 - (void)restoreHostFullscreenGeometry;
+// Do not hide an active App card until actual Dock+geometry completion.
+- (void)completeWholeHostZoomRequest:(BOOL)applied;
 - (void)stop;
 @end
