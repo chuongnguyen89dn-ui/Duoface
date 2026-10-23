@@ -1364,8 +1364,29 @@ class NativeCarPlayHost(unittest.TestCase):
   # Preserve user-facing outer four actions, real Close and Zoom callback.
   self.assertIn('NSArray *names=@[@"App",@"Zoom",@"Style",@"Close"]',src)
   self.assertIn('case 3:[self openRunningAppManager];break;',src)
-  self.assertIn('case 1:{',src)
+  self.assertIn('if(sender.tag==1){',src)
+  self.assertIn('[self emit:@"Zoom" ratio:nil]',src)
 
+
+ def test_20261023_actual_grip_owner_and_full_host_ack(self):
+  src=file("DFNative12Chrome.m")
+  dock=file("DFCarPlayDockOwner.m")
+  grip=src[src.index("@interface DFNativeDividerGripButton"):src.index("// Observe activity")]
+  logo=src[src.index("- (void)logoTouchChanged:"):src.index("- (void)logoTouchFinished:")]
+  menu=src[src.index("- (void)menuAction:"):src.index("- (void)appPickerDidRequestLayout:")]
+  geometry=src[src.index("- (BOOL)applyHostFullscreenToScreenBoundsAfterDockAck:"):src.index("- (void)restoreHostFullscreenGeometry")]
+  self.assertIn("DFNativeDividerGripButton *logo=[[DFNativeDividerGripButton alloc]",src)
+  self.assertIn("logo.touchBegan=^(UIButton *sender)",src)
+  self.assertIn("if(accepted && self.touchBegan)self.touchBegan(self);",grip)
+  self.assertIn("if(self.touchTracked && self.touchMoved)self.touchMoved(self);",grip)
+  self.assertIn("if(active && self.touchEnded)self.touchEnded(self,inside);",grip)
+  self.assertNotIn("self.ratio=",logo)
+  self.assertIn("self.logoFraction=MAX(",logo)
+  self.assertLess(menu.index('[self emit:@"Zoom" ratio:nil]'),menu.index("[self closeMenu:nil]"))
+  self.assertNotIn("self.pickerVisible || self.styleVisible",geometry)
+  self.assertIn("DFZHandledSession",dock)
+  self.assertIn("sequence<=DFZHandledSequence",dock)
+  self.assertIn("DFZHandleCommand();\n    if(DFZDockView)",dock)
 
  def test_real_app_close_overlay_separate_visibility_and_lifecycle(self):
   chrome=file("DFNative12Chrome.m")

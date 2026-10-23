@@ -448,7 +448,7 @@ static void DFCLog(NSString *text) {
     // recognizers. The parent divider pan must not consume that touch.
     trackPan.delegate=self;
     [self.dividerTrack addGestureRecognizer:trackPan];
-    UIButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
+    DFNativeDividerGripButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
     // Native8 device-verified layout: one real UIButton owns logo movement;
     // keep ratio input exclusively on the separate dividerTrack pan.
