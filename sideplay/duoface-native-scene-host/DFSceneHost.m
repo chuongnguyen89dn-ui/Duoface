@@ -80,6 +80,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL started;
 @property(nonatomic) BOOL stopped;
 @property(nonatomic) BOOL ready;
+@property(nonatomic) NSTimeInterval lastSceneSettledAt;
 @property(nonatomic) BOOL layingOutScene;
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) BOOL geometrySuspended;
@@ -197,6 +198,23 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
         size.width<=0 || size.height<=0 || !isfinite(size.width) || !isfinite(size.height)) return;
+    // A live scene is still changing ownership for several FrontBoard
+    // callbacks after attach/resume. The owner check alone is insufficient:
+    // on-device SpringBoard aborts occurred inside didUpdateSettingsWithDiff.
+    // Defer private reference-size writes until the SAME scene has been
+    // continuously hosted for at least 1.25 seconds. Preserve the UIKit
+    // layout immediately and coalesce resizes, rather than disabling media.
+    if(self.ready){
+        NSTimeInterval age=NSDate.date.timeIntervalSince1970-self.lastSceneSettledAt;
+        if(!isfinite(age)||age<1.25){
+            NSTimeInterval wait=isfinite(age)?MAX(.1,1.25-age):1.25;
+            self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:wait
+                target:self selector:@selector(commitSceneGeometry:) userInfo:nil repeats:NO];
+            DFSceneLog(@"private-geometry-delayed-scene-not-stable",self.bundleID,
+                       [NSString stringWithFormat:@"settledAge=%.2f wait=%.2f",age,wait]);
+            return;
+        }
+    }
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     @try {
@@ -378,6 +396,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             BOOL sceneChanged=(self.scene!=scene);
             BOOL resumed=self.geometrySuspended;
             self.geometrySuspended=NO;
+            if (sceneChanged || resumed)self.lastSceneSettledAt=NSDate.date.timeIntervalSince1970;
             if (sceneChanged) {
                 ++self.sceneGeneration;
                 [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
