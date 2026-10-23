@@ -1,4 +1,5 @@
 """Static regression against SHA-pinned Native12 APP state audit, not pixel/device parity."""
+import json
 import pathlib
 import unittest
 
@@ -47,6 +48,42 @@ class AppTileOriginalPalette(unittest.TestCase):
         self.assertIn("if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;",c)
         self.assertIn("bundleIDForHostedView:otherScene",c)
         self.assertIn("self.appPickerController.otherSlotBundleIDs=others.array;",c)
+    def test_exact_original_arm64_badge_anchor(self):
+        # Actual SHA-pinned Native12 disassembly and VM float evidence,
+        # not an assertion based on current first-party source comments.
+        audit=ROOT.parent/"audit/native12-app-2debs-20261023/runs/39896596511"
+        imp=json.loads((audit/"extra-original-app-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
+        self.assertEqual(imp["original_native12_deb_sha256"],
+            "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad")
+        m=next(v for v in imp["methods"]
+            if v["selector"]=="setupAppPickerCardsInCardW:cardH:contentY:")
+        self.assertEqual(m["imp"],"0xa3e5c")
+        code="\\n".join(m["instructions"])
+        for pc,needle in [
+            ("a4a70","mov.16b"),
+            ("a4a80","cmp"),
+            ("a4c24","fcmp"),
+            ("a4c28","fmov"),
+            ("a4c2c","fcsel"),
+            ("a4c38","fmul"),
+            ("a4c40","fmul"),
+            ("a4c44","fadd"),
+            ("a4c48","stp"),
+            ("a522c","cbz"),
+            ("a5374","ldr"),
+            ("a52e0","checkmark.circle.fill"),
+            ("a542c","arrow.left.arrow.right.circle.fill"),
+            ("a54fc","fmov"),
+            ("a5528","fmov"),
+        ]:
+            self.assertTrue(any(line.startswith(pc+":") and needle in line
+                for line in m["instructions"]),pc)
+        numeric=json.loads((audit/"actual-original-numerics/RAW_APP_LITERALS_AND_CALLSITES.json").read_text())
+        floats={v["pc"]:v["value"] for v in
+            numeric["methods"]["setupAppPickerCardsInCardW:cardH:contentY:"]["literal_floats"]}
+        self.assertAlmostEqual(floats["0xa4c08"],-.65)
+        self.assertAlmostEqual(floats["0xa4c10"],-.20)
+        self.assertAlmostEqual(floats["0xa493c"],.225)
     def test_original_localized_modes_and_inactive_palette(self):
         p=(ROOT/"DFAppPickerVC.m").read_text()
         self.assertIn('names=@[@"Ứng dụng",@"Bố cục",@"Đang mở"]',p)
