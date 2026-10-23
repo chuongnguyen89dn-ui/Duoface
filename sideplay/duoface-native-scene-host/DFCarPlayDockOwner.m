@@ -81,6 +81,14 @@ static UIView *DFZControllerDockView(UIViewController *root, UIWindow *window,
     Class dockRoot=NSClassFromString(@"DBDockRootViewController");
     if(dockRoot && [root isKindOfClass:dockRoot] &&
        DFZVisibleDockGeometry(root.viewIfLoaded,window))return root.viewIfLoaded;
+    // The source audit recorded real DBAppDockViewController and
+    // CARAppDockViewController candidates. Their root UIKit view may be
+    // an ordinary UIView; do not require a vendor/custom view class.
+    // Still require the measured live native rail and one unique owner.
+    NSString *dockControllerClass=NSStringFromClass(root.class);
+    if(( [dockControllerClass isEqualToString:@"DBAppDockViewController"] ||
+         [dockControllerClass isEqualToString:@"CARAppDockViewController"]) &&
+       DFZVisibleDockGeometry(root.viewIfLoaded,window))return root.viewIfLoaded;
     // The original Native12 'CBDashboardShared.appDockVC' returned the real
     // Dashboard root's AppDock controller. Here use ONLY a live UIKit owner
     // actually responding to appDockViewController (original selref 0x37eaf8),
