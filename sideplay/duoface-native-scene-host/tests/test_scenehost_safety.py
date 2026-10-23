@@ -1135,6 +1135,17 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertLess(block.index('native12-scene-settings-frame-requested'),
                   block.index('native12-layout-invalidated-deferred-no-sync-flush'))
 
+ def test_logo_3s_drag_tracks_touch_delta_without_center_jump(self):
+  chrome=file("DFNative12Chrome.m")
+  hold=chrome[chrome.index("- (void)logoHold:(UILongPressGestureRecognizer *)hold {"):
+              chrome.index("// Native12 CBWindow.carPlayUsableBounds")]
+  self.assertIn("hold.minimumPressDuration=3.0",chrome)
+  self.assertIn("self.logoHoldInitialFraction=self.logoFraction",hold)
+  self.assertIn("self.logoHoldInitialTouch=[hold locationInView:self.dividerTrack]",hold)
+  self.assertIn("self.logoHoldInitialFraction+delta/span",hold)
+  self.assertIn("[self saveSplitState]",hold)
+  self.assertIn("self.panActive=YES",hold)
+  self.assertIn("self.logoTouchPending=YES",hold)
  def test_041_three_second_logo_hold_survives_four_second_timeout(self):
   """Finger down is observable before 3 seconds, suppressing 4s hide race."""
   chrome=file("DFNative12Chrome.m")
