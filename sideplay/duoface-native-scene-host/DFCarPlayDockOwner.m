@@ -138,16 +138,33 @@ static BOOL DFZLocateLiveNativeDock(UIView **outView, UIWindow **outWindow,
     // iOS16 system UI can retain legacy native windows outside connectedScenes.
     // Deduplicate windows before the one-owner check, or one Dock is counted twice.
     NSMutableOrderedSet<UIWindow *> *windows=[NSMutableOrderedSet orderedSet];
+    // A native CarPlay Dock can remain VISIBLE when its UIWindowScene is
+    // foreground-inactive: e.g. DuoFace's separate CPTemplate scene owns input.
+    // The old active-only enumeration rejected that actual dock before it
+    // could pass the stricter dock-class, measured-rail and unique-owner gate.
+    // Background scenes must still be excluded (no global window hiding).
+    NSUInteger activeScenes=0,inactiveScenes=0;
     for(UIWindow *window in UIApplication.sharedApplication.windows) {
         UIWindowScene *scene=window.windowScene;
-        if(!scene || scene.activationState==UISceneActivationStateForegroundActive)
+        UISceneActivationState state=scene?scene.activationState:
+                                                UISceneActivationStateUnattached;
+        if(!scene || state==UISceneActivationStateForegroundActive ||
+           state==UISceneActivationStateForegroundInactive)
             [windows addObject:window];
     }
     for(UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
-        if(![scene isKindOfClass:UIWindowScene.class] ||
-           scene.activationState!=UISceneActivationStateForegroundActive)continue;
+        if(![scene isKindOfClass:UIWindowScene.class])continue;
+        if(scene.activationState==UISceneActivationStateForegroundActive)
+            activeScenes++;
+        else if(scene.activationState==UISceneActivationStateForegroundInactive)
+            inactiveScenes++;
+        else continue;
         [windows addObjectsFromArray:((UIWindowScene *)scene).windows];
     }
+    DFZLog([NSString stringWithFormat:
+        @"dock-scene-inventory active=%lu foreground-inactive=%lu candidate-windows=%lu",
+        (unsigned long)activeScenes,(unsigned long)inactiveScenes,
+        (unsigned long)windows.count]);
     for(UIWindow *window in windows) {
             if(window.hidden || window.alpha<.95)continue;
             UIViewController *root=window.rootViewController;
