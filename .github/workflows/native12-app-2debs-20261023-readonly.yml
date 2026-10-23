@@ -6,6 +6,7 @@ on:
       - '.github/workflows/native12-app-2debs-20261023-readonly.yml'
       - 'sideplay/audit/native12-app-2debs-20261023/scan_app_two_debs.py'
       - 'sideplay/audit/native12-app-2debs-20261023/decode_original_app_literals.py'
+      - 'sideplay/audit/native12-app-2debs-20261023/check_app_tile_palette_20261023.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -118,6 +119,17 @@ jobs:
           test -s "$BASE/app-exact/APP_SUMMARY.json"
           test -s "$BASE/app-exact/FULL_DEB_PAYLOAD_INVENTORIES.json"
           cat "$BASE/app-exact/APP_SUMMARY.json"
+      - name: Prove original Native12 tile color/badge/label states from ARM64 and compare .41 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="sideplay/audit/native12-app-2debs-20261023/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/native12-app-2debs-20261023/check_app_tile_palette_20261023.py \
+            --original-arm64 sideplay/audit/native12-continuation-4888299/original-picker-close-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json \
+            --literal-values "$BASE/actual-original-numerics/RAW_APP_LITERALS_AND_CALLSITES.json" \
+            --independent-source sideplay/duoface-native-scene-host/DFAppPickerVC.m \
+            --out "$BASE/tile-state"
+          test -s "$BASE/tile-state/APP_TILE_STATE_CROSSWALK.json"
       - uses: actions/upload-artifact@v4
         with:
           name: Native12-vs-0.0.41-two-actual-DEBs-App-audit
