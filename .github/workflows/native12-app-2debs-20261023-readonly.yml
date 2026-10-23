@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/native12-app-2debs-20261023-readonly.yml'
       - 'sideplay/audit/native12-app-2debs-20261023/scan_app_two_debs.py'
+      - 'sideplay/audit/native12-app-2debs-20261023/decode_original_app_literals.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -93,6 +94,17 @@ jobs:
           sys.argv=['extract_layout_imp.py','--binary',str(orig/'origroot/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib'),'--method-index',str(orig/'index.json'),'--out',str(out)]
           mod['main']()
           PY
+      - name: Read actual original floating-point UI/color values from Mach-O VM literals
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="sideplay/audit/native12-app-2debs-20261023/runs/$GITHUB_RUN_ID"
+          python3 sideplay/audit/native12-app-2debs-20261023/decode_original_app_literals.py \
+            --binary "$RUNNER_TEMP/app2/origroot/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --existing-imp sideplay/audit/native12-continuation-4888299/original-picker-close-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json \
+            --extra-imp "$BASE/extra-original-app-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" \
+            --out "$BASE/actual-original-numerics"
+          test -s "$BASE/actual-original-numerics/RAW_APP_LITERALS_AND_CALLSITES.json"
       - name: Inspect App interactions using both direct DEB payloads and original ARM64
         shell: bash
         run: |
