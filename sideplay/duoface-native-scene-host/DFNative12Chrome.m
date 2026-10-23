@@ -1164,9 +1164,28 @@ static void DFCLog(NSString *text) {
 - (void)pillPressed:(UIButton *)sender {
     if(sender.tag<0 || sender.tag>=DFSlotCountForPreset(self.preset))return;
     [self noteUserActivity];
+    BOOL sameMenu=self.pickerVisible && self.selectedSlot==sender.tag;
     self.selectedSlot=sender.tag;
-    [self openAppPickerForSlot:sender.tag];
-    DFCLog([NSString stringWithFormat:@"picker-open slot=%ld",(long)sender.tag]);
+    // SOURCE-VERIFIED missing link: all earlier independent builds created
+    // four real menuAction: UIButtons in pickerWindow, but NEVER assigned
+    // pickerVisible=YES anywhere. The per-pane ellipsis jumped straight to
+    // openAppPickerForSlot:, leaving the real Zoom target INVISIBLE and thus
+    // impossible to tap. The original v12 CBMultitaskingOverlayView presents
+    // its native App / Zoom / Style / Close parent before dispatching any
+    // of those separate actions. Mount OUR existing row, no invented UI.
+    self.appPickerVisible=NO;
+    self.styleVisible=NO;
+    self.appPickerWindow.hidden=YES;
+    self.pickerVisible=!sameMenu;
+    [self layoutControls];
+    DFCLog([NSString stringWithFormat:
+        @"native12-action-row-%@ selectedSlot=%ld window=%@ zoomTarget=%d",
+        self.pickerVisible?@"shown":@"closed",(long)sender.tag,
+        self.pickerWindow && !self.pickerWindow.hidden?@"visible":@"hidden",
+        self.menuActions.count==4 &&
+        [[self.menuActions[1] actionsForTarget:self
+                 forControlEvent:UIControlEventTouchUpInside]
+           containsObject:NSStringFromSelector(@selector(menuAction:))]]);
 }
 - (void)closeMenu:(id)sender {
     (void)sender;
