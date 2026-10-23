@@ -1,0 +1,259 @@
+{
+  "sideplay/duoface-native-scene-host/DFAppPickerVC.m": {
+    "present": true,
+    "git_source_sha256": "e382f1b5ba6fd60efacfa021e5f194a4fdd3fc70ef55d06fc41475a627742451",
+    "matched_lines": [
+      {
+        "line": 4,
+        "text": "#import \"DFAppPickerVC.h\""
+      },
+      {
+        "line": 20,
+        "text": "self.contentView.backgroundColor=[UIColor colorWithWhite:.19 alpha:.96];"
+      },
+      {
+        "line": 21,
+        "text": "self.contentView.layer.cornerRadius=14; // Native12 original running-card radius @0xa6b30"
+      },
+      {
+        "line": 47,
+        "text": "self.restartRunning.backgroundColor=[UIColor colorWithWhite:.28 alpha:.96];"
+      },
+      {
+        "line": 70,
+        "text": "@interface DFAppPickerVC () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>"
+      },
+      {
+        "line": 73,
+        "text": "@property(nonatomic,strong) NSArray<UIButton *> *modeButtons;"
+      },
+      {
+        "line": 81,
+        "text": "@property(nonatomic,assign) NSInteger cardsPerPage;"
+      },
+      {
+        "line": 92,
+        "text": "@implementation DFAppPickerVC"
+      },
+      {
+        "line": 130,
+        "text": "[tab addTarget:self action:@selector(nativeModePressed:)"
+      },
+      {
+        "line": 135,
+        "text": "self.modeButtons=actions;"
+      },
+      {
+        "line": 151,
+        "text": "self.closeAllRunningButton.layer.cornerRadius=14;"
+      },
+      {
+        "line": 175,
+        "text": "// Original Native12 setupAppPickerCards @0xa40c8 caps gridCols at 4;"
+      },
+      {
+        "line": 177,
+        "text": "self.cardsPerPage=8;"
+      },
+      {
+        "line": 209,
+        "text": "- (void)updateNativeModeButtons {"
+      },
+      {
+        "line": 210,
+        "text": "for(UIButton *tab in self.modeButtons){"
+      },
+      {
+        "line": 214,
+        "text": "[tab setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];"
+      },
+      {
+        "line": 235,
+        "text": "self.modeButtons[(NSUInteger)i].frame=CGRectMake(f.x,f.y,f.width,f.height);"
+      },
+      {
+        "line": 236,
+        "text": "self.modeButtons[(NSUInteger)i].titleLabel.font="
+      },
+      {
+        "line": 243,
+        "text": "[self updateNativeModeButtons];"
+      },
+      {
+        "line": 274,
+        "text": "BOOL geometryChanged=self.cardsPerPage!=capacity;"
+      },
+      {
+        "line": 275,
+        "text": "self.cardsPerPage=capacity;"
+      },
+      {
+        "line": 298,
+        "text": "NSInteger capacity=MAX(1,self.cardsPerPage);"
+      },
+      {
+        "line": 313,
+        "text": "- (void)nativeModePressed:(UIButton *)sender {"
+      },
+      {
+        "line": 315,
+        "text": "case 0:[self presentInstalledApps];break;"
+      },
+      {
+        "line": 321,
+        "text": "- (void)presentInstalledApps {"
+      },
+      {
+        "line": 377,
+        "text": "NSArray<DFAppInfo *> *results=[DFAppLibrary installedUserApps];"
+      },
+      {
+        "line": 379,
+        "text": "DFAppPickerVC *owner=weakSelf;"
+      },
+      {
+        "line": 391,
+        "text": "return [self pageCount]*MAX(1,self.cardsPerPage);"
+      },
+      {
+        "line": 399,
+        "text": "// governed by original CBDashboardSettings.gridCols/gridRows selectors."
+      },
+      {
+        "line": 405,
+        "text": "- (UIImage *)installedIconForBundle:(NSString *)bundleID {"
+      },
+      {
+        "line": 418,
+        "text": "cellForItemAtIndexPath:(NSIndexPath *)indexPath {"
+      },
+      {
+        "line": 427,
+        "text": "card.icon.image=nil;"
+      },
+      {
+        "line": 446,
+        "text": "card.icon.image=[self installedIconForBundle:app.bundleID];"
+      },
+      {
+        "line": 447,
+        "text": "card.icon.tintColor=UIColor.whiteColor;"
+      },
+      {
+        "line": 452,
+        "text": "didSelectItemAtIndexPath:(NSIndexPath *)indexPath {"
+      }
+    ]
+  },
+  "sideplay/duoface-native-scene-host/DFAppLibrary.m": {
+    "present": true,
+    "git_source_sha256": "564b60b58a8cf3bd9ac884c888d819af590805ff74d57893a1c84bdfa2ef896f",
+    "matched_lines": [
+      {
+        "line": 11,
+        "text": "+ (NSArray<DFAppInfo *> *)installedUserApps {"
+      }
+    ]
+  },
+  "sideplay/duoface-native-scene-host/DFAppEligibility.m": {
+    "present": false
+  },
+  "sideplay/duoface-native-scene-host/DFNative12Chrome.m": {
+    "present": true,
+    "git_source_sha256": "1d3415d39babf1561976199ff9ca47c133528d6b334a00aba55074c380eeec55",
+    "matched_lines": [
+      {
+        "line": 7,
+        "text": "#import \"DFAppPickerVC.h\""
+      },
+      {
+        "line": 28,
+        "text": "// Persist only fully source-owned layout settings, never private scene handles"
+      },
+      {
+        "line": 110,
+        "text": "@interface DFNative12Chrome () <DFAppPickerDelegate, UIGestureRecognizerDelegate>"
+      },
+      {
+        "line": 136,
+        "text": "@property(nonatomic,strong) DFAppPickerVC *appPickerController;"
+      },
+      {
+        "line": 251,
+        "text": "[b setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];"
+      },
+      {
+        "line": 437,
+        "text": "action:@selector(menuAction:)];"
+      },
+      {
+        "line": 457,
+        "text": "// source-owned X imagery/geometry. X dismisses, Close manages apps."
+      },
+      {
+        "line": 529,
+        "text": "action:@selector(menuAction:)];"
+      },
+      {
+        "line": 629,
+        "text": "self.appPickerController=[DFAppPickerVC new];"
+      },
+      {
+        "line": 641,
+        "text": "// One source-owned SpringBoard presentation; controls cannot pre-empt launch."
+      },
+      {
+        "line": 1046,
+        "text": "[self openAppPickerForSlot:slot];"
+      },
+      {
+        "line": 1055,
+        "text": "- (void)menuAction:(UIButton *)sender {"
+      },
+      {
+        "line": 1061,
+        "text": "case 0:[self openAppPickerForSlot:self.selectedSlot];break;"
+      },
+      {
+        "line": 1074,
+        "text": "- (void)appPickerDidRequestLayout:(DFAppPickerVC *)picker {"
+      },
+      {
+        "line": 1078,
+        "text": "- (void)appPickerDidRequestRunningApps:(DFAppPickerVC *)picker {"
+      },
+      {
+        "line": 1082,
+        "text": "- (void)openAppPickerForSlot:(NSInteger)slot {"
+      },
+      {
+        "line": 1090,
+        "text": "[self.appPickerController presentInstalledApps];"
+      },
+      {
+        "line": 1138,
+        "text": "- (void)appPicker:(DFAppPickerVC *)picker closeRunningBundleID:(NSString *)bundleID {"
+      },
+      {
+        "line": 1145,
+        "text": "- (void)appPicker:(DFAppPickerVC *)picker restartRunningBundleID:(NSString *)bundleID {"
+      },
+      {
+        "line": 1156,
+        "text": "- (void)appPickerCloseAllRunning:(DFAppPickerVC *)picker {"
+      },
+      {
+        "line": 1167,
+        "text": "- (void)appPickerDidCancel:(DFAppPickerVC *)picker {"
+      },
+      {
+        "line": 1173,
+        "text": "- (void)appPicker:(DFAppPickerVC *)picker"
+      },
+      {
+        "line": 1440,
+        "text": "// This is ONLY the reversible SpringBoard source-window geometry half."
+      }
+    ]
+  }
+}

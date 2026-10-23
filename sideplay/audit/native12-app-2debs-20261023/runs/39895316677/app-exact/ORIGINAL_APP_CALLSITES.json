@@ -1,0 +1,142 @@
+[
+  {
+    "selector": "initWithFrame:",
+    "imp": "0xa0420",
+    "end": "0xa0aec",
+    "objc_type": "@48@0:8{CGRect={CGPoint=dd}{CGSize=dd}}16",
+    "arm64_insns": 435,
+    "control_flow_branches": 105,
+    "app_relevant_callsites": [
+      "a04a8:\tldr\tx1, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:",
+      "a0898:\tldr\tx1, [x8, #0xa20] ; Objc selector ref: setCornerRadius:",
+      "a099c:\tldr\tx1, [x8, #0xa48] ; Objc selector ref: setBorderColor:"
+    ]
+  },
+  {
+    "selector": "loadInstalledApps",
+    "imp": "0xa0c48",
+    "end": "0xa1594",
+    "objc_type": "v16@0:8",
+    "arm64_insns": 595,
+    "control_flow_branches": 143,
+    "app_relevant_callsites": [
+      "a0e74:\tldr\tx8, [x8, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a1048:\tadd\tx8, x8, #0xd28 ; Objc cfstring ref: @\"bundleIdentifier\"",
+      "a1054:\tadd\tx8, x8, #0xda8 ; Objc cfstring ref: @\"displayName\"",
+      "a1068:\tadd\tx8, x8, #0xdc8 ; Objc cfstring ref: @\"icon\"",
+      "a1238:\tldr\tx8, [x8, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a1388:\tadd\tx9, x8, #0xd28 ; Objc cfstring ref: @\"bundleIdentifier\"",
+      "a1390:\tadd\tx8, x8, #0xda8 ; Objc cfstring ref: @\"displayName\"",
+      "a13a0:\tadd\tx8, x8, #0xdc8 ; Objc cfstring ref: @\"icon\""
+    ]
+  },
+  {
+    "selector": "setupCardContent",
+    "imp": "0xa2a58",
+    "end": "0xa3e5c",
+    "objc_type": "v16@0:8",
+    "arm64_insns": 1281,
+    "control_flow_branches": 281,
+    "app_relevant_callsites": [
+      "a2d18:\tldr\tx1, [x9, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a2d3c:\tldr\tx1, [x8, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a2d6c:\tldr\tx1, [x8, #0xa58] ; Objc selector ref: setImage:",
+      "a3050:\tldr\tx26, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:",
+      "a3098:\tldr\tx1, [x8, #0xa20] ; Objc selector ref: setCornerRadius:",
+      "a31d0:\tldr\tx1, [x8, #0xed8] ; Objc selector ref: setImage:forState:"
+    ]
+  },
+  {
+    "selector": "setupAppPickerCardsInCardW:cardH:contentY:",
+    "imp": "0xa3e5c",
+    "end": "0xa5d18",
+    "objc_type": "v40@0:8d16d24d32",
+    "arm64_insns": 1967,
+    "control_flow_branches": 389,
+    "app_relevant_callsites": [
+      "a40b4:\tldr\tx1, [x8, #0xa0] ; Objc selector ref: gridCols",
+      "a40d4:\tldr\tx1, [x8, #0xa8] ; Objc selector ref: gridRows",
+      "a40f4:\tldr\tx1, [x8, #0xb0] ; Objc selector ref: hideIconLabels",
+      "a43b0:\tldr\tx3, [x8, #0xf8] ; Objc selector ref: pageControlChanged:",
+      "a4540:\tldr\tx1, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:",
+      "a45a4:\tldr\tx1, [x8, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a45c4:\tldr\tx1, [x8, #0xa58] ; Objc selector ref: setImage:",
+      "a4b34:\tldr\tx8, [x8, #0x108] ; Objc selector ref: appSelected:",
+      "a4b48:\tldr\tx8, [x8, #0xa20] ; Objc selector ref: setCornerRadius:",
+      "a4c6c:\tldr\tx9, [x9, #0xa50] ; Objc selector ref: systemImageNamed:",
+      "a4d24:\tadd\tx2, x2, #0xd28 ; Objc cfstring ref: @\"bundleIdentifier\"",
+      "a4f28:\tadd\tx2, x2, #0xdc8 ; Objc cfstring ref: @\"icon\"",
+      "a5110:\tadd\tx2, x2, #0xda8 ; Objc cfstring ref: @\"displayName\"",
+      "a52e0:\tadd\tx2, x2, #0xec8 ; Objc cfstring ref: @\"checkmark.circle.fill\"",
+      "a542c:\tadd\tx2, x2, #0xee8 ; Objc cfstring ref: @\"arrow.left.arrow.right.circle.fill\"",
+      "a57ac:\tldr\tx3, [x8, #0x128] ; Objc selector ref: addMoreAppsTapped:",
+      "a5948:\tldr\tx1, [x8, #0xa48] ; Objc selector ref: setBorderColor:",
+      "a5a04:\tldr\tx1, [x8, #0xed0] ; Objc selector ref: systemImageNamed:withConfiguration:",
+      "a5a28:\tldr\tx1, [x8, #0xa58] ; Objc selector ref: setImage:"
+    ]
+  },
+  {
+    "selector": "appSelected:",
+    "imp": "0xa9ea8",
+    "end": "0xaa4f0",
+    "objc_type": "v24@0:8@16",
+    "arm64_insns": 402,
+    "control_flow_branches": 106,
+    "app_relevant_callsites": [
+      "a9f38:\tadd\tx2, x2, #0xd28 ; Objc cfstring ref: @\"bundleIdentifier\""
+    ]
+  },
+  {
+    "selector": "pageControlChanged:",
+    "imp": "0xa5de4",
+    "end": "0xa5e78",
+    "objc_type": "v24@0:8@16",
+    "arm64_insns": 37,
+    "control_flow_branches": 7,
+    "app_relevant_callsites": [
+      "a5e50:\tldr\tx1, [x8, #0x148] ; Objc selector ref: setContentOffset:animated:"
+    ]
+  },
+  {
+    "selector": "addMoreAppsTapped:",
+    "imp": "0xa7f20",
+    "end": "0xa8e9c",
+    "objc_type": "v24@0:8@16",
+    "arm64_insns": 991,
+    "control_flow_branches": 219,
+    "app_relevant_callsites": [
+      "a80dc:\tldr\tx28, [x8, #0x9d8] ; Objc selector ref: setBackgroundColor:",
+      "a8454:\tldr\tx1, [x8, #0xa20] ; Objc selector ref: setCornerRadius:",
+      "a8568:\tldr\tx1, [x8, #0xa48] ; Objc selector ref: setBorderColor:",
+      "a87a4:\tldr\tx1, [x8, #0xed0] ; Objc selector ref: systemImageNamed:withConfiguration:",
+      "a87c8:\tldr\tx1, [x8, #0xa58] ; Objc selector ref: setImage:"
+    ]
+  },
+  {
+    "selector": "switchToAppPickerMode",
+    "imp": "0xa9a88",
+    "end": "0xa9b1c",
+    "objc_type": "v16@0:8",
+    "arm64_insns": 37,
+    "control_flow_branches": 2,
+    "app_relevant_callsites": []
+  },
+  {
+    "selector": "showAppPickerForSlot:parentView:",
+    "imp": "0xaa800",
+    "end": "0xaac80",
+    "objc_type": "v32@0:8q16@24",
+    "arm64_insns": 288,
+    "control_flow_branches": 62,
+    "app_relevant_callsites": []
+  },
+  {
+    "selector": "dismissOverlay",
+    "imp": "0xab70c",
+    "end": "0xab7a0",
+    "objc_type": "v16@0:8",
+    "arm64_insns": 37,
+    "control_flow_branches": 1,
+    "app_relevant_callsites": []
+  }
+]
