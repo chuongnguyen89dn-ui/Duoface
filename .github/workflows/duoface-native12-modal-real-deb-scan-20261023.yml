@@ -1,0 +1,87 @@
+name: DuoFace Native12 original vs .53 actual DEB modal forensic scan
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-modal-real-deb-scan-20261023.yml'
+      - 'sideplay/audit/native12-modal-recheck-20261023/scan_two_debs.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-modal-real-deb-20261023
+  cancel-in-progress: false
+jobs:
+  verify-real-original-and-candidate:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: true
+      - name: Read actual global CarPlay ZIP skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/skill.zip"
+          unzip -t "$RUNNER_TEMP/skill.zip"
+          unzip -Z1 "$RUNNER_TEMP/skill.zip"
+          unzip -p "$RUNNER_TEMP/skill.zip" '*/SKILL.md' | head -c 16000 || true
+          echo
+      - name: Install read-only DEB tooling
+        run: |
+          set -euo pipefail
+          brew install dpkg
+          command -v dpkg-deb
+          command -v otool
+          command -v file
+      - name: Fetch BOTH immutable DEBs and verify exact SHA256
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/debs"
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/1286a3ef868cf7e29804bcddf7e20b2eae707ce1/dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' -o "$RUNNER_TEMP/debs/original.deb"
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Duoface/99200b886ad7feabd660679652ebe5c8f40aa1aa/sideplay/jb-embedded-appbridge/evidence/runs/39950907942/com.duoface.jb.embedded_0.0.53~zoommenulive1_iphoneos-arm64.deb' -o "$RUNNER_TEMP/debs/current.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/debs/original.deb" | shasum -a 256 -c -
+          printf '%s  %s\n' '86dbb29a71c50712ada1a1d4d6efb8efdffa0535f91454026e11494323be960c' "$RUNNER_TEMP/debs/current.deb" | shasum -a 256 -c -
+          echo NATIVE12_EXACT_REAL_DEB_PAIRS_SHA_VERIFIED
+      - name: Unpack and inspect Objective-C classes and actual UI methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-modal-recheck-20261023/scan_two_debs.py \
+            --original "$RUNNER_TEMP/debs/original.deb" \
+            --current "$RUNNER_TEMP/debs/current.deb" \
+            --original-sha 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad \
+            --current-sha 86dbb29a71c50712ada1a1d4d6efb8efdffa0535f91454026e11494323be960c \
+            --out "$RUNNER_TEMP/native12-modal-scan"
+          mkdir -p sideplay/audit/native12-modal-recheck-20261023/verified
+          cp "$RUNNER_TEMP/native12-modal-scan/REPORT.md" "$RUNNER_TEMP/native12-modal-scan/DEB_BINARY_CROSSWALK.json" sideplay/audit/native12-modal-recheck-20261023/verified/
+          test -s sideplay/audit/native12-modal-recheck-20261023/verified/REPORT.md
+          echo NATIVE12_ACTUAL_MODAL_MACHO_SCAN_VERIFIED_NOT_DEVICE_TEST
+      - name: Upload forensic report even if push fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Native12-53-Actual-DEB-Menu-Inspection
+          path: sideplay/audit/native12-modal-recheck-20261023/verified/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Persist audit under EXISTING DuoFace repo branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- sideplay/audit/native12-modal-recheck-20261023/verified/
+          if git diff --cached --quiet; then echo AUDIT_UNCHANGED; exit 0; fi
+          git commit -m 'audit(native12): actual SHA-verified original and .53 menu Mach-O proof [skip ci]'
+          for attempt in 1 2 3; do
+            git fetch origin feature/duoface-jb-embedded-appbridge-20261020
+            git rebase FETCH_HEAD
+            if git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020; then
+              echo NATIVE12_ACTUAL_DEB_MODAL_AUDIT_SAVED_IN_GITHUB
+              exit 0
+            fi
+          done
+          exit 1
