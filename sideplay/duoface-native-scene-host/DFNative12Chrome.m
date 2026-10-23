@@ -155,6 +155,8 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) CGPoint secondaryDragStartPoint;
 @property(nonatomic,assign) CGPoint dragStartScreenPoint;
 @property(nonatomic,assign) CGFloat logoFraction;
+@property(nonatomic,assign) CGFloat logoHoldInitialFraction;
+@property(nonatomic,assign) CGPoint logoHoldInitialTouch;
 @property(nonatomic,assign) BOOL verticalDivider;
 @property(nonatomic,assign) NSInteger preset;
 @property(nonatomic,assign) BOOL swapped;
@@ -1430,6 +1432,10 @@ static void DFCLog(NSString *text) {
         self.logoHoldRecognized=YES;
         self.logoTouchPending=YES;
         self.panActive=YES;
+        // Snapshot the original position after three seconds. Avoid snapping
+        // the logo's center to the finger or relying on its moving frame.
+        self.logoHoldInitialFraction=self.logoFraction;
+        self.logoHoldInitialTouch=[hold locationInView:self.dividerTrack];
         [self noteUserActivity];
         DFCLog(@"logo-3s-hold-began");
         return;
@@ -1446,9 +1452,10 @@ static void DFCLog(NSString *text) {
     CGPoint p=[hold locationInView:self.dividerTrack];
     CGFloat span=self.verticalDivider?self.dividerTrack.bounds.size.height:
                                        self.dividerTrack.bounds.size.width;
-    CGFloat position=self.verticalDivider?p.y:p.x;
-    if(span<40)return;
-    self.logoFraction=MAX(.1,MIN(.9,position/span));
+    CGFloat delta=self.verticalDivider?p.y-self.logoHoldInitialTouch.y:
+                                       p.x-self.logoHoldInitialTouch.x;
+    if(span<40 || !isfinite(delta))return;
+    self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));
     [self layoutControls];
     if(hold.state==UIGestureRecognizerStateEnded){
         self.logoTouchPending=NO;
