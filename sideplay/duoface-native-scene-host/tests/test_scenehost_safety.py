@@ -923,6 +923,33 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("http://",collector)
   self.assertNotIn("https://",collector)
 
+ def test_native12_original_zoom_in_out_arrows_visible_and_connected(self):
+  """Prevent a visible text-only Zoom no-op across both host states."""
+  chrome=file("DFNative12Chrome.m")
+  header=file("DFNative12MenuHeader.h")
+  probe=file("DFTouchOwnerProbe.m")
+  dock=file("DFDockZoomCoordinator.m")
+  historical=(R.parents[1]/"runtime/fullscreen/DFPickerZoomMenu.xm").read_text()
+  # The original v12 fullscreen UI uses two SF arrow directions.
+  self.assertIn('expanded?@"arrow.down.right.and.arrow.up.left":',historical)
+  self.assertIn('@"arrow.up.left.and.arrow.down.right"',historical)
+  self.assertIn('DFNative12ZoomArrowSymbol(BOOL expanded)',header)
+  self.assertIn('@"arrow.down.right.and.arrow.up.left"',header)
+  self.assertIn('@"arrow.up.left.and.arrow.down.right"',header)
+  self.assertIn('DFNative12DecorateZoomButton(buttons[1],expanded)',header)
+  self.assertIn('DFNative12DecorateZoomButton(self.menuActions[1],self.hostFullscreen)',chrome)
+  self.assertIn('arrow.frame=CGRectMake((width-16.0)/2.0,1.0,16.0,16.0);',header)
+  self.assertIn('button.accessibilityLabel=expanded?@"Zoom Out":@"Zoom In"',header)
+  self.assertIn('DFNative12ZoomArrowSymbol(focused)',chrome)
+  self.assertIn('@"native12-zoom-in-arrow-pressed-ack-pending"',chrome)
+  self.assertIn('@"native12-zoom-out-arrow-pressed-ack-pending"',chrome)
+  # Never forge Dock success at a button tap: same real Dock-owner toggle.
+  self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
+  self.assertIn('DFDockZoomToggle(sChrome,sSession',probe)
+  self.assertIn('[chrome applyHostFullscreenToScreenBoundsAfterDockAck:bounds]',dock)
+  self.assertIn('[chrome restoreHostFullscreenGeometry]',dock)
+  self.assertIn('@"real-dock-ack-timeout"',dock)
+
  def test_zoom_real_dock_owner_and_host_geometry_ack_no_older_false_success(self):
   """CarPlay process Dock owner must precede SpringBoard geometry.
   Static contract only; device proof is a separate gate.
