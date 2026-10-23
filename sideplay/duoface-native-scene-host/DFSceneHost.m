@@ -297,10 +297,13 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             if([inner isKindOfClass:UIView.class] &&
                inner!=self.appController.view)[inner setNeedsLayout];
             DFSceneLog(@"geometry-before-layout-flush",self.bundleID,NSStringFromCGSize(logical));
-            [self.appController.view layoutIfNeeded];
-            if([inner isKindOfClass:UIView.class] &&
-               inner!=self.appController.view)[inner layoutIfNeeded];
-            DFSceneLog(@"original-native12-refresh-scene-layout-after-reference",
+            // .38 regression isolation: original refresh owns its
+            // UIKit flush OUTSIDE the private FrontBoard settings mutation.
+            // A synchronous layoutIfNeeded here reenters SB scene settings
+            // while FBSceneMonitor may still deliver an update; .37 did not
+            // force this nested flush. Leave dirty views for UIKit's next
+            // scheduled layout pass. Do not change Portrait or the FBS ABI.
+            DFSceneLog(@"native12-layout-invalidated-deferred-no-sync-flush",
                        self.bundleID,NSStringFromCGSize(logical));
             self.committedReferenceSize=size;
             DFSceneLog(@"media-reference-committed-after-stable-viewport",
