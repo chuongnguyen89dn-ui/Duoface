@@ -1097,6 +1097,20 @@ static void DFCLog(NSString *text) {
             current=[[DFSceneHost sharedHost] bundleIDForHostedView:surface];
     }
     self.appPickerController.currentSlotBundleID=current;
+    // Original two-branch App badge semantics, but identity comes ONLY from
+    // our scene-ready independent host. Respect swapped logical/physical slots.
+    NSMutableOrderedSet<NSString *> *others=[NSMutableOrderedSet new];
+    for(NSInteger visual=0;visual<DFSlotCountForPreset(self.preset);visual++){
+        if(visual==slot)continue;
+        NSInteger otherPhysical=(self.swapped && visual<2)?1-visual:visual;
+        if(otherPhysical<0 || otherPhysical>=self.hostedScenes.count)continue;
+        if(![self.sceneHandleReady[(NSUInteger)otherPhysical] boolValue])continue;
+        UIView *otherScene=self.hostedScenes[(NSUInteger)otherPhysical];
+        if(![otherScene isKindOfClass:UIView.class])continue;
+        NSString *otherID=[[DFSceneHost sharedHost] bundleIDForHostedView:otherScene];
+        if(otherID.length)[others addObject:otherID];
+    }
+    self.appPickerController.otherSlotBundleIDs=others.array;
     [self.appPickerController presentInstalledApps];
     [self.appPickerController refreshInstalledApps];
     self.appPickerWindow.hidden=NO;
