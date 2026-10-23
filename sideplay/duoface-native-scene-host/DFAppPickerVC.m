@@ -13,6 +13,10 @@
 @property(nonatomic,strong) UIButton *closeRunning;
 @property(nonatomic,strong) UIButton *restartRunning;
 @property(nonatomic,assign) BOOL runningControls;
+// 0: not hosted, 1: verified current slot, 2: verified other slot.
+@property(nonatomic,assign) NSInteger appBadgeKind;
+@property(nonatomic,assign) NSInteger appGridColumns;
+@property(nonatomic,strong) UIImageView *appStateBadge;
 @end
 @implementation DFNativeAppCard
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -29,6 +33,15 @@
         self.title.textAlignment=NSTextAlignmentCenter;
         self.title.lineBreakMode=NSLineBreakByTruncatingTail;
         [self.contentView addSubview:self.title];
+        // Original @a522c/@a5374 uses real badge UIImageViews, not color fills.
+        self.appStateBadge=[UIImageView new];
+        self.appStateBadge.contentMode=UIViewContentModeScaleAspectFit;
+        self.appStateBadge.userInteractionEnabled=NO;
+        self.appStateBadge.layer.shadowColor=UIColor.blackColor.CGColor;
+        self.appStateBadge.layer.shadowOpacity=.5;
+        self.appStateBadge.layer.shadowRadius=2.5;
+        self.appStateBadge.layer.shadowOffset=CGSizeMake(0,1);
+        [self.contentView addSubview:self.appStateBadge];
         // Native12 setupRecentAppsCards @0xa678c creates independent
         // OVERLAY_RESTART_SINGLE and OVERLAY_CLOSE_SINGLE controls.
         self.closeRunning=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -60,6 +73,14 @@
     // Preserve running-card styling; its icon treatment is a separate surface.
     self.icon.layer.cornerRadius=self.runningControls?0:(.225*iconSide);
     self.icon.layer.masksToBounds=!self.runningControls;
+    // Original ARM64 @a4c24-a4c48, VM coefficients -.65, -.20,
+    // a523c/a538c badge CGRect from icon bounds. This badge overlaps
+    // icon's upper-right, and never replaces the icon or the App cell.
+    CGFloat badgeSide=iconSide<40?14:(self.appGridColumns==6?16:18);
+    self.appStateBadge.frame=CGRectMake(CGRectGetMaxX(self.icon.frame)-.65*badgeSide,
+                       CGRectGetMinY(self.icon.frame)-.20*badgeSide,badgeSide,badgeSide);
+    self.appStateBadge.hidden=self.runningControls || self.appBadgeKind==0;
+    if(!self.appStateBadge.hidden)[self.contentView bringSubviewToFront:self.appStateBadge];
     self.title.frame=CGRectMake(3,CGRectGetMaxY(self.icon.frame)+3,w-6,17);
     self.closeRunning.hidden=!self.runningControls;
     self.restartRunning.hidden=!self.runningControls;
@@ -431,6 +452,8 @@
         card.hidden=YES;
         card.title.text=nil;
         card.icon.image=nil;
+        card.appBadgeKind=0;
+        card.appStateBadge.image=nil;
         card.accessibilityLabel=nil;
         return card;
     }
@@ -454,13 +477,25 @@
     card.title.text=app.displayName;
     BOOL selectedApp=!self.runningMode && self.currentSlotBundleID.length &&
         [self.currentSlotBundleID isEqualToString:app.bundleID];
-    // SHA-pinned original selected App title and icon outline, NOT a generic
-    // blue/orange tile background; other-slot badge geometry is still pending.
+    // Original per-App border/text state, independent of the badge palette.
     card.title.textColor=self.runningMode?UIColor.whiteColor:(selectedApp?
         [UIColor colorWithRed:.55 green:.80 blue:1 alpha:1]:
         [UIColor colorWithWhite:.95 alpha:1]);
     card.icon.layer.borderWidth=selectedApp?2:0;
     card.icon.layer.borderColor=[UIColor colorWithRed:.15 green:.62 blue:1 alpha:1].CGColor;
+    BOOL otherSlotApp=!self.runningMode && !selectedApp &&
+        [self.otherSlotBundleIDs containsObject:app.bundleID];
+    card.appBadgeKind=selectedApp?1:(otherSlotApp?2:0);
+    card.appGridColumns=4; // Current picker remains 4 columns until proven adaptive layout.
+    NSString *badgeSymbol=selectedApp?@"checkmark.circle.fill":
+                          (otherSlotApp?@"arrow.left.arrow.right.circle.fill":nil);
+    UIColor *badgeAccent=selectedApp?
+        [UIColor colorWithRed:.08 green:.52 blue:1 alpha:1]:
+        [UIColor colorWithRed:1 green:.62 blue:.04 alpha:1];
+    UIImageSymbolConfiguration *palette=[UIImageSymbolConfiguration
+        configurationWithPaletteColors:@[UIColor.whiteColor,badgeAccent]];
+    UIImage *badgeImage=badgeSymbol?[UIImage systemImageNamed:badgeSymbol]:nil;
+    card.appStateBadge.image=badgeImage?[badgeImage imageWithConfiguration:palette]:nil;
     card.icon.image=[self installedIconForBundle:app.bundleID];
     card.icon.tintColor=UIColor.whiteColor;
     card.accessibilityLabel=app.displayName;
