@@ -938,6 +938,12 @@ static void DFCLog(NSString *text) {
         self.menuActions[i].frame=CGRectMake(bx,(height-30)/2,widths[i]*scale,30);
         bx+=widths[i]*scale;
     }
+    // This was the broken visible "Zoom" text-only slot: the original
+    // DFPickerZoomMenu.v12 draws a 16pt OUT/IN arrow above the 10pt label.
+    // Reuse its verified visual contract; the *physical* Dock still changes
+    // only after DFDockZoomCoordinator receives real two-owner ACK.
+    if(self.menuActions.count==4)
+        DFNative12DecorateZoomButton(self.menuActions[1],self.hostFullscreen);
     CGRect brandFrame=CGRectMake(8,(height-30)/2,logoW,30);
     self.menuBrandImage.frame=brandFrame;
     self.pickerBrand.frame=brandFrame;
@@ -1032,12 +1038,17 @@ static void DFCLog(NSString *text) {
         menu.hidden=focused;
         // Never silently hide the second button in an empty/pending pane.
         zoom.hidden=NO;
-        zoom.accessibilityLabel=ready?@"Zoom ứng dụng":@"Chọn ứng dụng để dùng Zoom";
-        UIImage *icon=DFCArtwork(@"duoface-fullscreen");
-        if(!icon)icon=[UIImage systemImageNamed:self.focus==i?
-             @"arrow.down.right.and.arrow.up.left":
-             @"arrow.up.left.and.arrow.down.right"];
-        [zoom setImage:[icon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+        // Per-pane Focus/Restore is distinct from the outer whole-host Zoom.
+        // The arrow must visibly REVERSE after a successful focus transition;
+        // the approved static duoface-fullscreen.png cannot convey Zoom Out.
+        zoom.accessibilityLabel=ready?(focused?@"Zoom Out ô":@"Zoom In ô"):
+                                         @"Chọn ứng dụng để dùng Zoom";
+        UIImage *direction=[UIImage systemImageNamed:DFNative12ZoomArrowSymbol(focused)
+                            withConfiguration:[UIImageSymbolConfiguration
+                               configurationWithPointSize:13 weight:UIImageSymbolWeightRegular]];
+        UIImage *fallback=direction?:DFCArtwork(@"duoface-fullscreen");
+        [zoom setImage:[fallback imageWithRenderingMode:direction?
+                         UIImageRenderingModeAlwaysTemplate:UIImageRenderingModeAlwaysOriginal]
               forState:UIControlStateNormal];
         w.hidden=(!show||self.startupActive);
     }
@@ -1212,6 +1223,8 @@ static void DFCLog(NSString *text) {
              self.styleVisible=keepStyle;
              // Native12 global Zoom is not the same as per-pane focus.
              // Forward through the existing session owner, never forge Dock.
+             DFCLog(self.hostFullscreen?@"native12-zoom-out-arrow-pressed-ack-pending":
+                                        @"native12-zoom-in-arrow-pressed-ack-pending");
              [self emit:@"Zoom" ratio:nil];
              [self layoutControls];
              DFCLog(@"native12-global-zoom-owner-ack-pending");
