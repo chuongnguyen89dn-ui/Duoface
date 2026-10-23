@@ -39,6 +39,7 @@
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",
       @"/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
+      @"/var/mobile/Library/Logs/DuoFaceDockOwner.log",
       @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log"];
     for(NSString *p in ownLogs){
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
