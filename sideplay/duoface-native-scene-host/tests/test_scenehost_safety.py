@@ -987,7 +987,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("(3.0*NSEC_PER_SEC)",current)
   self.assertIn("DFZEmergencyRestore(sPendingSession)",current)
   self.assertNotIn("DBStatusBarWindow",owner)
-  self.assertNotIn("CBDashboardShared",owner)
+  self.assertIn("DFZCarPlayProcess",owner)
 
  def test_original_native12_dismiss_child_view_teardown_order(self):
   """Actual SHA-locked Native12 dismiss orders remove(view) before willMove(nil).
