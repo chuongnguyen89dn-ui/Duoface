@@ -1,0 +1,395 @@
+{
+  "original_macho": {
+    "var/jb/Applications/DuoFaceUI.app/DuoFaceUI": {
+      "bytes": 1220256,
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "string_count": 4973
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib": {
+      "bytes": 3760032,
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "string_count": 17272
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib": {
+      "bytes": 124976,
+      "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+      "string_count": 409
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib": {
+      "bytes": 72320,
+      "sha256": "2091b8aae40bf06a3151f7cd88889d5c23273022e933ab11aee3f23dbc2f8ba1",
+      "string_count": 46
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib": {
+      "bytes": 106928,
+      "sha256": "8968e1724afda7087c258cd1146eac014e29daf2bf823e734bca91a81881a364",
+      "string_count": 280
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib": {
+      "bytes": 70736,
+      "sha256": "d3725aca26dbee03cc1ad8697612004f405b2f3759c94656eb3451f39422fee3",
+      "string_count": 93
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib": {
+      "bytes": 75536,
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+      "string_count": 109
+    },
+    "var/jb/usr/libexec/duoface_cboptimize_helper": {
+      "bytes": 150528,
+      "sha256": "bd77f7594b649b722d71094f5a1d650d2bb9541a0827e12e21254d82f4a93906",
+      "string_count": 61
+    }
+  },
+  "independent_macho": {
+    "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost": {
+      "bytes": 175792,
+      "sha256": "3467a20db855167be781b69bc6fbf3d4b0ee3c7be247cbd04aa56a81e8f13266",
+      "string_count": 884
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib": {
+      "bytes": 75248,
+      "sha256": "4be9d2c019ad685773818e93294c93c21d4d8973623d4fa668387d19d9292783",
+      "string_count": 89
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib": {
+      "bytes": 187024,
+      "sha256": "70cfc1bb2d0f9519948a3556446dcfd0a4acade00881eef6f7a51ccd2e70b0ba",
+      "string_count": 135
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib": {
+      "bytes": 275520,
+      "sha256": "8390c56a6c14449074728ccc2a5b830b52d4610e39f401b4f49af6dc1d5e6d6f",
+      "string_count": 569
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib": {
+      "bytes": 268928,
+      "sha256": "67698fd80366919753f5d29253e5f5da4a20f30b9a71bffb62b51677167b0247",
+      "string_count": 1298
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib": {
+      "bytes": 292160,
+      "sha256": "4907576dcafb9599d266d35a69d57f00d566ff8d582a1171fb358919c93c52bb",
+      "string_count": 800
+    }
+  },
+  "string_presence_only": {
+    "CBMultitaskingOverlayView": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "CBOverlayScrollView": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "CBDashboardSettings": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "CBBridgeManager": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "loadInstalledApps": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "gridCols": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "gridRows": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "hideIconLabels": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "bundleIdentifier": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "displayName": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "icon": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "appSelected:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "pageControlChanged:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "addMoreAppsTapped:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "switchToAppPickerMode": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "showAppPickerForSlot:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "replaceAppInSlot:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "swapSlot:withSlot:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "setPagingEnabled:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "setContentOffset:animated:": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "checkmark.circle.fill": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "arrow.left.arrow.right.circle.fill": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "square.stack.3d.up.slash": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "OVERLAY_ADD_APP": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "DFAppPickerVC": {
+      "original_macho": [],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "DFAppLibrary": {
+      "original_macho": [],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "LSApplicationWorkspace": {
+      "original_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "allInstalledApplications": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "DFIsEligibleAppID": {
+      "original_macho": [],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "App": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedOwner.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Apps": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Layout": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceSpeedHUD.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Recent": {
+      "original_macho": [
+        "var/jb/Applications/DuoFaceUI.app/DuoFaceUI",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.dylib"
+      ],
+      "independent_macho": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib"
+      ],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Ứng dụng": {
+      "original_macho": [],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Bố cục": {
+      "original_macho": [],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    },
+    "Đang mở": {
+      "original_macho": [],
+      "independent_macho": [],
+      "same_string_not_proof_of_equivalent_behavior": true
+    }
+  }
+}

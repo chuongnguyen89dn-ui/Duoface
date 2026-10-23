@@ -1,0 +1,23 @@
+{
+  "classification": "READ_ONLY_TWO_ACTUAL_SIGNED_DEB_BINARY_SCAN_NOT_DEVICE_UI",
+  "native12_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "independent_deb_sha256": "da2275c2a9ef7efe8879a7121677d2771c809b78066b4552a2294d4b8a1715c2",
+  "original_dashboard_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "original_payload_file_count": 43,
+  "independent_payload_file_count": 30,
+  "original_macho_count": 8,
+  "independent_macho_count": 6,
+  "app_original_methods_extracted": 10,
+  "original_4_5_6_grid_columns": "a40c0-a40cc preserves 4/5/6; others fallback4",
+  "original_real_app_icon_name_bundle": true,
+  "current_app_collections_read_from_LSApplicationWorkspace": true,
+  "current_app_icon_from_optional_private_UIImage_API": true,
+  "missing_current_original_badges": true,
+  "current_tab_selected_background_blue_sourced": true,
+  "current_tab_inactive_wrong_white_sourced": true,
+  "original_card_RGB_and_icon_point_size_fully_proven": false,
+  "original_menu_pixel_parity_proven": false,
+  "original_app_functional_parity_proven": false,
+  "real_device_test_done": false,
+  "verdict": "NOT_100_PERCENT_PARITY"
+}
