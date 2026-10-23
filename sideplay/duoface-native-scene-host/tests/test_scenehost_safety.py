@@ -241,7 +241,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("shouldReceiveTouch:(UITouch *)touch",chrome)
   self.assertIn("gestureRecognizer.view!=self.dividerTrack",chrome)
   self.assertIn("CGRectInset(self.dividerLogo.frame,-12.0,-12.0)",chrome)
-  self.assertIn("return !CGRectContainsPoint(logoHit,p);",chrome)
+  self.assertIn("return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);",chrome)
   self.assertIn("initWithTarget:self action:@selector(logoHold:)",chrome)
   self.assertIn("initWithTarget:self action:@selector(dividerPan:)",chrome)
   self.assertIn("requireGestureRecognizerToFail:hold",chrome)
