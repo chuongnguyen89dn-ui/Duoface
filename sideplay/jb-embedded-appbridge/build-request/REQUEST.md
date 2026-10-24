@@ -1,3 +1,7 @@
+## 2026-10-24 — RETRY .62 only after actual source contracts + ARM64 clang SUCCESS
+
+The first .62 staging packaging run 40052757619 FAILED in old Python assertions that still required the iOS16-unreliable UIButton tracking/UILongPress path. Corrected unit tests and retained the independent direct UIResponder touch owner, without changing media/Dock. The dedicated real macOS iOS16 SDK source-only run [40052911244](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40052911244) at source commit de78828e102db65853b87bdc8758c4bdfd74f23b completed SUCCESS, both real Python contract suite and arm64 Objective-C clang syntax. This REQUEST file is the sole deliberate packaging trigger: produce 0.0.62~rawgrip1, NativeHost 0.1.71~rawgrip1 from this exact source and save SHA to Duoface. This is NOT Sileo publication nor phone acceptance; retain .61. Original .58 device 3.72s hold failure still stands as the only touch trace.
+
 ## 2026-10-24 — physical logo STILL FAILS; isolated raw-touch-owner .62 candidate requested
 
 Device owner explicitly reports circular divider logo still completely inoperative after .61; do NOT claim repaired merely because the old .61 package was Sileo-published. .58 device evidence: 3.72-second actual UIButton contact, UILongPress failed at 2.09 seconds after 12.33pt along-bar drift. The current .61 source still attached that failed recognizer AND depended on UIControl begin/continue/end tracking; this is a verified source-owner inconsistency, not proof of the ultimate device failure.
