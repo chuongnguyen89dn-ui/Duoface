@@ -45,6 +45,10 @@
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
            p.lastPathComponent,[self tailAtPath:p maxBytes:256*1024]];
     }
+    for(NSString *name in @[@"DuoFaceDeepTrace.log.previous",@"DuoFaceDeepTrace.log"]){
+        NSString *trace=[@"/var/mobile/Library/Logs" stringByAppendingPathComponent:name];
+        [summary appendFormat:@"\n=== %@ (last 2 MiB; timestamped diagnostic build) ===\n%@\n",name,[self tailAtPath:trace maxBytes:2*1024*1024]];
+    }
     NSString *session=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.session.plist";
     NSDictionary *sessionValue=[NSDictionary dictionaryWithContentsOfFile:session];
     [summary appendFormat:@"\nSession active: %@; heartbeat age seconds: ",

@@ -1,3 +1,4 @@
+#import "DFDeepTrace.h"
 // Independently maintained first-party DuoFace module, ported from the
 // project's own prior scene-host experiments; no vendor binary or license.
 // DuoFace independent scene host for jailbroken iOS 16 SpringBoard.
@@ -19,6 +20,11 @@ static NSString *const DFSceneErrorDomain = @"com.duoface.scene";
 static void DFSceneLog(NSString *event, NSString *bundleID, NSString *detail) {
     NSString *line = [NSString stringWithFormat:@"[DuoFaceScene] event=%@ bundle=%@ %@",
                       event ?: @"unknown", bundleID ?: @"-", detail ?: @""];
+    // Sample repetitive frame churn; all lifecycle/error events remain lossless.
+    static NSTimeInterval lastResizeTrace;
+    BOOL repetitive=[event isEqualToString:@"resize"] || [event isEqualToString:@"media-viewport-ui-only"];
+    NSTimeInterval now=NSProcessInfo.processInfo.systemUptime;
+    if(!repetitive || now-lastResizeTrace>=.25){DFDeepTrace(@"scene",line);if(repetitive)lastResizeTrace=now;}
     NSLog(@"%@", line);
     // One short app-scoped diagnostic file for iPhone X testing; no secrets.
     int fd = open("/var/mobile/Library/Logs/DuoFaceSceneHost.log",
@@ -103,6 +109,11 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @end
 
 @implementation DFSceneSurface
+- (void)tracePhase:(NSString *)phase {
+    DFDeepTrace(@"scene-phase",[NSString stringWithFormat:@"surface=%p bundle=%@ phase=%@ started=%d ready=%d stopped=%d generation=%lu controller=%@ bounds=%@ scene=%p",
+        self,self.bundleID,phase,self.started,self.ready,self.stopped,(unsigned long)self.sceneGeneration,
+        NSStringFromClass(self.appController.class),NSStringFromCGRect(self.bounds),self.scene]);
+}
 - (UIViewController *)findParentController {
     UIResponder *next = self.nextResponder;
     while (next) {
@@ -126,26 +137,41 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     self.parentController = parent;
     @try {
         self.started = YES;
+        [self tracePhase:@"before-add-child"];
         [parent addChildViewController:self.appController];
+        [self tracePhase:@"after-add-child"];
+        [self tracePhase:@"before-load-controller-view"];
         UIView *appView = self.appController.view;
+        [self tracePhase:@"after-load-controller-view"];
         appView.clipsToBounds = YES;
         [self addSubview:appView];
+        [self tracePhase:@"before-did-move-parent"];
         [self.appController didMoveToParentViewController:parent];
+        [self tracePhase:@"after-did-move-parent"];
         DFHostBool(self.appController, @"setIgnoresOcclusions:", NO);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
         [self layoutScene];
         // Seed one initial remote content frame before mode=2. This is
         // required by some scene owners; later resizes are debounced.
         self.pendingReferenceSize=self.bounds.size;
+        [self tracePhase:@"before-initial-reference-seed"];
         [self commitSceneGeometry:nil];
+        [self tracePhase:@"after-initial-reference-seed"];
+        [self tracePhase:@"before-begin-appearance"];
         [self.appController beginAppearanceTransition:YES animated:NO];
+        [self tracePhase:@"after-begin-appearance"];
+        [self tracePhase:@"before-requested-mode-2"];
         DFHostInt(self.appController, @"setRequestedMode:", 2);
+        [self tracePhase:@"after-requested-mode-2"];
+        [self tracePhase:@"before-end-appearance"];
         [self.appController endAppearanceTransition];
+        [self tracePhase:@"after-end-appearance"];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self
                   selector:@selector(pollScene:) userInfo:nil repeats:YES];
         [self pollScene:self.timer];
     } @catch (NSException *e) {
+        DFDeepTrace(@"scene-exception",[NSString stringWithFormat:@"surface=%p bundle=%@ name=%@ reason=%@ stack=%@",self,self.bundleID,e.name,e.reason,e.callStackSymbols]);
         [self failed:DFSceneError(111, [@"Scene attach exception: " stringByAppendingString:e.reason ?: @"unknown"])];
     }
 }

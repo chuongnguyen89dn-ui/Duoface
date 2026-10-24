@@ -1,3 +1,7 @@
+## 2026-10-24 — .58 requested deep diagnostics
+
+User explicitly requests strong logs, no guessing. Build 0.0.58~deeptrace1 / NativeHost 0.1.67~deeptrace1 with bounded timestamped diagnostics, native gesture transitions, separate physical release/cancel, scene attach phases and caught exception stack. Preserve .57 Zoom and all gesture thresholds. Diagnostic build, NOT claimed crash/logo fix. Verify signed artifact/SHA then Sileo as authorized.
+
 ## 2026-10-24 — .57 compiler correction / retry
 
 Run 40043616745 failed at DFNative12Chrome.m:1595: UIScreen* is not id<UICoordinateSpace> under packaging compiler -Werror. Pass window.screen.coordinateSpace explicitly. No artifact was published by failed build. Rebuild same unused .57 version from this source.

@@ -1,3 +1,4 @@
+#import "DFDeepTrace.h"
 // DuoFace independent native CarPlay UI Dock owner (iOS16, rootless).
 // Separate CarPlay/CarPlayApp process. No Native12 vendor class, binary or license.
 // Only acts upon a fresh, foreground DuoFace session + exact request ID.
@@ -29,6 +30,7 @@ static NSUInteger DFZHandledSequence;
 // One-shot ownership diagnostics when Zoom is pressed. Writes no app IDs or
 // user content. Failure to write must never affect Dock ownership/restore.
 static void DFZLog(NSString *message) {
+    DFDeepTrace(@"dock",message);
     NSString *line=[NSString stringWithFormat:@"[DuoFaceDockOwner] %@\n",message?:@""];
     NSLog(@"%@",line);
     int fd=open("/var/mobile/Library/Logs/DuoFaceDockOwner.log",

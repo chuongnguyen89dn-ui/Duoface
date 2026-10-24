@@ -1,3 +1,4 @@
+#import "DFDeepTrace.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
 #import "DFNative12PresetPreview.h"
@@ -88,6 +89,7 @@ static UIImage *DFCArtwork(NSString *name) {
           [dir stringByAppendingString:[name stringByAppendingString:@".png"]]];
 }
 static void DFCLog(NSString *text) {
+    DFDeepTrace(@"chrome",text);
     NSString *s=[NSString stringWithFormat:@"[DFNative12Chrome] %@\n",text];
     NSLog(@"%@",s);
     int fd=open("/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
@@ -97,6 +99,20 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
+// Observe native recognition transitions, including Failed (no target callback).
+@interface DFDiagnosticLongPress : UILongPressGestureRecognizer @end
+@implementation DFDiagnosticLongPress
+- (void)setState:(UIGestureRecognizerState)state {
+    DFDeepTrace(@"logo-recognizer",[NSString stringWithFormat:@"state=%ld->%ld duration=%.3f allowance=%.2f view=%@ window=%@",
+        (long)self.state,(long)state,self.minimumPressDuration,self.allowableMovement,
+        NSStringFromClass(self.view.class),NSStringFromClass(self.view.window.class)]);
+    [super setState:state];
+}
+- (void)reset {
+    DFDeepTrace(@"logo-recognizer",@"reset");
+    [super reset];
+}
+@end
 // Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
 @interface DFNativePanePassthroughView : UIView @end
 @implementation DFNativePanePassthroughView
@@ -114,6 +130,8 @@ static void DFCLog(NSString *text) {
 @interface DFNativeDividerGripButton : UIButton
 @property(nonatomic,assign) CGPoint trackedScreenPoint;
 @property(nonatomic,assign) BOOL touchTracked;
+@property(nonatomic,assign) NSTimeInterval traceStarted;
+@property(nonatomic,assign) NSUInteger traceID;
 @property(nonatomic,copy) void (^touchBegan)(UIButton *);
 @property(nonatomic,copy) void (^touchMoved)(UIButton *);
 @property(nonatomic,copy) void (^touchEnded)(UIButton *,BOOL);
@@ -132,6 +150,9 @@ static void DFCLog(NSString *text) {
     return screen?[window convertPoint:inWindow toCoordinateSpace:screen]:inWindow;
 }
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    self.traceStarted=NSProcessInfo.processInfo.systemUptime;
+    ++self.traceID;
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"begin id=%lu touchTimestamp=%.6f",(unsigned long)self.traceID,touch.timestamp]);
     self.trackedScreenPoint=[self screenPointForTouch:touch];
     BOOL accepted=[super beginTrackingWithTouch:touch withEvent:event];
     self.touchTracked=accepted;
@@ -149,11 +170,13 @@ static void DFCLog(NSString *text) {
     self.trackedScreenPoint=[self screenPointForTouch:touch];
     BOOL active=self.touchTracked;
     BOOL inside=[self pointInside:[touch locationInView:self] withEvent:event];
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"release id=%lu elapsed=%.6f inside=%d tracked=%d point=%@",(unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted,inside,active,NSStringFromCGPoint(self.trackedScreenPoint)]);
     if(active && self.touchEnded)self.touchEnded(self,inside);
     [super endTrackingWithTouch:touch withEvent:event];
     self.touchTracked=NO;
 }
 - (void)cancelTrackingWithEvent:(UIEvent *)event {
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"CANCEL id=%lu elapsed=%.6f tracked=%d hidden=%d windowHidden=%d",(unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted,self.touchTracked,self.hidden,self.window.hidden]);
     if(self.touchTracked && self.touchEnded)self.touchEnded(self,NO);
     [super cancelTrackingWithEvent:event];
     self.touchTracked=NO;
@@ -456,7 +479,7 @@ static void DFCLog(NSString *text) {
     __weak typeof(self) weakGripOwner=self;
     // Native9's working route uses one UILongPress on the logo itself.
     // Keep current requested 3s (historical native9 was 0.30s), not its old value.
-    UILongPressGestureRecognizer *hold=[[UILongPressGestureRecognizer alloc]
+    UILongPressGestureRecognizer *hold=[[DFDiagnosticLongPress alloc]
         initWithTarget:self action:@selector(logoNativeHold:)];
     hold.minimumPressDuration=3.0;
     hold.cancelsTouchesInView=NO;
@@ -1580,7 +1603,9 @@ static void DFCLog(NSString *text) {
 - (void)logoNativeHold:(UILongPressGestureRecognizer *)hold {
     if(hold.view!=self.dividerLogo)return;
     if(hold.state==UIGestureRecognizerStateBegan) {
-        if(!self.logoTouchPending || self.logoDraggingRatio || self.dividerWindow.hidden)return;
+        if(!self.logoTouchPending || self.logoDraggingRatio || self.dividerWindow.hidden){
+            DFDeepTrace(@"logo-recognizer",[NSString stringWithFormat:@"began-rejected pending=%d ratio=%d hidden=%d",self.logoTouchPending,self.logoDraggingRatio,self.dividerWindow.hidden]);return;
+        }
         self.logoHoldRecognized=YES;
         self.logoHoldInitialFraction=self.logoFraction;
         self.logoHoldInitialTouch=self.logoTouchLastScreen;
