@@ -1568,3 +1568,16 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertNotIn('logo-prehold-moved-cancelled-hold',chrome)
   self.assertIn('self.logoDraggingRatio',down)
   self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)',chrome)
+
+class WholeHostZoomGeometry059(unittest.TestCase):
+ def test_guard_matches_focused_pane_and_accepts_subpixel_rounding(self):
+  c=file("DFNative12Chrome.m")
+  assert "self.focus>=0 && visual==self.focus" in c
+  assert "CGRect rendered=(self.focus>=0 && visual==self.focus)?actual:pane[visual];" in c
+  assert "const CGFloat eps=0.5;" in c
+  assert "host-zoom-validation-rejected slot=" in c
+  assert "if(!contained || !matched || !onScreen)" in c
+  z=file("DFDockZoomCoordinator.m")
+  assert "source-host-geometry-rejected" in z
+  assert "if(!owner)" in z
+  assert "DFZEmergencyRestore(session)" in z
