@@ -1559,15 +1559,21 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertIn('if(matches!=1)',owner)
   self.assertIn('DFZFreshSession(session)',owner)
   self.assertIn('DFZDockView.hidden=DFZSavedHidden',owner)
- def test_hold_uses_original_recognizer_route_not_competing_timer(self):
+ def test_three_second_hold_tracks_real_button_without_stealing_ratio(self):
   chrome=file("DFNative12Chrome.m")
-  down=chrome.split('- (void)logoTouchDown:',1)[1].split('- (void)logoTouchChanged:',1)[0]
-  self.assertNotIn('dispatch_after',down)
+  down=chrome.split('- (void)logoTouchDown:',1)[1].split('- (void)logoNativeHold:',1)[0]
+  self.assertIn('NSUInteger touchSerial=++self.logoHoldSerial;',down)
+  self.assertIn('dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC))',down)
+  self.assertIn('owner.logoHoldSerial!=touchSerial || !owner.logoTouchPending',down)
+  self.assertIn('owner.logoDraggingRatio || !owner.dividerLogo.window',down)
+  self.assertIn('owner.logoHoldRecognized=YES;',down)
+  self.assertIn('owner.logoHoldInitialTouch=owner.logoTouchLastScreen;',down)
+  self.assertIn('logo-3s-hold-began-real-touch-timer',down)
   self.assertIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertIn('hold.cancelsTouchesInView=NO;',chrome)
-  self.assertNotIn('logo-prehold-moved-cancelled-hold',chrome)
-  self.assertIn('self.logoDraggingRatio',down)
+  self.assertIn('if(!self.logoDraggingRatio && fabs(perp)>10',chrome)
   self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)',chrome)
+  self.assertIn('if(inside && !held && !moved && !ratioDragged)',chrome)
 
 class WholeHostZoomGeometry059(unittest.TestCase):
  def test_guard_matches_focused_pane_and_accepts_subpixel_rounding(self):
