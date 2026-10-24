@@ -1592,7 +1592,7 @@ static void DFCLog(NSString *text) {
         UIWindow *window=self.dividerLogo.window;
         CGPoint local=[hold locationInView:window];
         ((DFNativeDividerGripButton *)self.dividerLogo).trackedScreenPoint=
-            [window convertPoint:local toCoordinateSpace:window.screen];
+            [window convertPoint:local toCoordinateSpace:window.screen.coordinateSpace];
         [self logoTouchChanged:self.dividerLogo];
     } else if(hold.state==UIGestureRecognizerStateEnded ||
               hold.state==UIGestureRecognizerStateCancelled) {

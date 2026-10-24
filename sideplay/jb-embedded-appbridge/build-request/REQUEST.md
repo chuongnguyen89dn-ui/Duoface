@@ -1,3 +1,7 @@
+## 2026-10-24 — .57 compiler correction / retry
+
+Run 40043616745 failed at DFNative12Chrome.m:1595: UIScreen* is not id<UICoordinateSpace> under packaging compiler -Werror. Pass window.screen.coordinateSpace explicitly. No artifact was published by failed build. Rebuild same unused .57 version from this source.
+
 ## 2026-10-24 — .57 historical route repair QA
 
 Build NativeHost 0.1.66~historicroutes1 and integrated 0.0.57~historicroutes1 from this exact commit. Runtime repair f63a771 restores exact historical iOS16 DBStatusBarWindow/CARStatusBarWindow discovery and Native9-style UILongPressGestureRecognizer with current 3-second requirement. Preserve quick ratio drag, session ACK and restore checks. See HISTORICAL_ROUTE_REPAIR.md and supplied .56 device logs. Require all tests, signed ARM64 build, immutable source/artifact SHA evidence before separate Sileo publishing. Physical Zoom and logo remain UNVERIFIED. Preserve all older packages.
