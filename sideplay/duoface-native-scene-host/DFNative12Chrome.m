@@ -1655,6 +1655,21 @@ static void DFCLog(NSString *text) {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
     CGPoint p=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
     if(!isfinite(p.x)||!isfinite(p.y))return;
+    // Real .58 UIButton tracking survived 3.72s while UIKit long-press
+    // Failed, so the touch stream itself is the only reliable clock.
+    // Re-check elapsed time on EVERY actual movement: even when the main
+    // queue timer was delayed, a held touch can start moving the grip.
+    // Do not steal a fast perpendicular drag used for pane-ratio changes.
+    NSTimeInterval heldFor=NSProcessInfo.processInfo.systemUptime-self.logoTouchStartedAt;
+    if(!self.logoHoldRecognized && !self.logoDraggingRatio &&
+       isfinite(heldFor) && heldFor>=3.0 && !self.dividerWindow.hidden){
+        self.logoHoldRecognized=YES;
+        self.logoHoldInitialFraction=self.logoFraction;
+        self.logoHoldInitialTouch=p;
+        self.panActive=YES;
+        DFCLog([NSString stringWithFormat:
+            @"logo-3s-hold-began-real-touch-movement-backstop elapsed=%.3f",heldFor]);
+    }
     self.logoTouchLastScreen=p;
     CGFloat perp=self.verticalDivider?
         p.x-self.logoTouchStartScreen.x:p.y-self.logoTouchStartScreen.y;
@@ -1712,6 +1727,19 @@ static void DFCLog(NSString *text) {
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
     if(sender!=self.dividerLogo)return;
+    // Last resort: release is delivered on real hardware even after
+    // UILongPress.state=Failed. If 3 seconds passed, this was a HOLD,
+    // never a short-tap Swap. Release-only detection cannot move the
+    // icon, but it makes failure observable and preserves tap safety.
+    NSTimeInterval heldFor=NSProcessInfo.processInfo.systemUptime-self.logoTouchStartedAt;
+    if(self.logoTouchPending && !self.logoHoldRecognized && !self.logoDraggingRatio &&
+       isfinite(heldFor) && heldFor>=3.0) {
+        self.logoHoldRecognized=YES;
+        self.logoHoldInitialFraction=self.logoFraction;
+        self.logoHoldInitialTouch=self.logoTouchLastScreen;
+        DFCLog([NSString stringWithFormat:
+            @"logo-3s-hold-detected-at-real-touch-release elapsed=%.3f",heldFor]);
+    }
     BOOL held=self.logoHoldRecognized;
     BOOL moved=self.logoMovedBeforeHold;
     BOOL ratioDragged=self.logoDraggingRatio;
