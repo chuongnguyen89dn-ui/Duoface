@@ -1271,7 +1271,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('hold.cancelsTouchesInView=YES',chrome)
   self.assertIn('if(self.touchBegan)self.touchBegan(self);',chrome)
   self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
-  self.assertIn('if(active && self.touchEnded)self.touchEnded(self,inside);',chrome)
+  self.assertIn('if(self.touchEnded)self.touchEnded(self,inside);',chrome)
   self.assertIn('self.logoTouchPending=YES;',chrome)
   self.assertIn('BOOL controlsVisible=self.panActive || self.logoTouchPending ||',chrome)
   self.assertIn('self.dividerWindow.userInteractionEnabled=YES',chrome)
