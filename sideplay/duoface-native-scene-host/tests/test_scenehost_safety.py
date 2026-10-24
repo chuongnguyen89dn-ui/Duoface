@@ -1569,6 +1569,8 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertIn('owner.logoHoldRecognized=YES;',down)
   self.assertIn('owner.logoHoldInitialTouch=owner.logoTouchLastScreen;',down)
   self.assertIn('logo-3s-hold-began-real-touch-timer',down)
+  self.assertIn('logo-3s-hold-began-real-touch-movement-backstop',chrome)
+  self.assertIn('logo-3s-hold-detected-at-real-touch-release',chrome)
   self.assertIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertIn('hold.cancelsTouchesInView=NO;',chrome)
   self.assertIn('if(!self.logoDraggingRatio && fabs(perp)>10',chrome)
