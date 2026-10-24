@@ -29,3 +29,16 @@ Original checkpoint: 0ae447782e8779248cf1b811b870da19d4930ae9
 3. On parked iOS16 rootless CarPlay, verify actual grip source output: raw-began -> logo-3s-hold-began-real-touch-timer -> logo-3s-moved-position -> raw-ended, persisted LogoFraction and quick ratio+Swap. No device test has been performed; any claim real logo fixed is prohibited.
 4. Video player size, whole-host Dock Zoom and SpringBoard SIGABRT remain independently unresolved. No vendor binaries or licensing included.
 
+
+## 2026-10-24 — corrected artifact and second Sileo attempt
+
+- Rebuilt QA run [40053489952](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40053489952) COMPLETED SUCCESS all macOS build, Python tests, signing and save to git branch.
+- Source SHA: 58f039ddbe4b4979b14d53c84efe6019d91f3ff1.
+- Archive saver feature HEAD observed: 9404eabe0506f70855677a39f274c08c88a8cf59.
+- **Correct second SHA256**: 2a2589e2fa39fcf272890b55d0cdf02c9a91ff5df5f8ea6c47acd85b4eef9627.
+- Correct immutable file: sideplay/jb-embedded-appbridge/evidence/runs/40053489952/com.duoface.jb.embedded_0.0.62~rawgrip1_iphoneos-arm64.deb. Exact SHA256SUMS.txt and BUILD_SOURCE.txt read back from GitHub.
+- carplaydsp .github/workflows/build.yml retargeted by commit 854f1929a6b066231dd231d32249e27a0dc1fb99 to this *second* archived artifact and SHA; verifies actual in-binary build=0.0.62~rawgrip1 (fixed in DFDeepTrace.h).
+- Triggered second publisher [40053794389](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40053794389), YAML validator [40053794399](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40053794399), both QUEUED when last checked. DO NOT claim live public Sileo before successful build+deploy+verifier.
+- Original rejected QA binary under run40052974461 kept in git, was never published; immutable older .61 Sileo source remains and remains eligible rollback.
+- Phone interaction remains unverified even if public publication succeeds; no confirmation of successful 3-second circular reposition or no crash.
+
