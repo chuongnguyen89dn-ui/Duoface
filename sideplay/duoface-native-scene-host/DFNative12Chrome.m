@@ -1665,7 +1665,9 @@ static void DFCLog(NSString *text) {
        isfinite(heldFor) && heldFor>=3.0 && !self.dividerWindow.hidden){
         self.logoHoldRecognized=YES;
         self.logoHoldInitialFraction=self.logoFraction;
-        self.logoHoldInitialTouch=p;
+        // Previous tracked point is the real pre-movement anchor. Using p
+        // would discard the user's first displacement after three seconds.
+        self.logoHoldInitialTouch=self.logoTouchLastScreen;
         self.panActive=YES;
         DFCLog([NSString stringWithFormat:
             @"logo-3s-hold-began-real-touch-movement-backstop elapsed=%.3f",heldFor]);
