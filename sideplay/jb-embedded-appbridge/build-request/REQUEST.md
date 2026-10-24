@@ -1,3 +1,7 @@
+## 2026-10-24 — .59 whole-host Zoom geometry regression candidate: signed CI requested
+
+Physical 0.0.58 DeepTrace from 2026-10-24 01:00:41Z: Zoom button and real CarPlay DBStatusBarWindow owner ACK succeed, but SpringBoard source-pane geometry validation rolls back. Compare current .59 source to layoutControls, permit 0.5pt external-screen subpixel rounding and focused solo geometry, and log precise failing bools; do NOT skip verified Dock ACK or simulated success. Compile/sign integrated 0.0.59~zoomgeofix1 with NativeHost 0.1.68~zoomgeofix1, run all static safety regressions, package and archive exact SHA. Preserve .57/.58 for downgrade and diagnostics. This is a test candidate, no unverified physical Zoom-pass claim. User's latest issue supersedes .58 diagnostic-only delivery priority.
+
 ## 2026-10-24 — .58 requested deep diagnostics
 
 User explicitly requests strong logs, no guessing. Build 0.0.58~deeptrace1 / NativeHost 0.1.67~deeptrace1 with bounded timestamped diagnostics, native gesture transitions, separate physical release/cancel, scene attach phases and caught exception stack. Preserve .57 Zoom and all gesture thresholds. Diagnostic build, NOT claimed crash/logo fix. Verify signed artifact/SHA then Sileo as authorized.
