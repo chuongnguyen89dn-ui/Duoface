@@ -1,0 +1,97 @@
+name: Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-direct-20261024.yml'
+      - 'sideplay/audit/native12-continuation-4888299/extract_original_logo_media_20261024.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-17-imp-direct-20261024
+  cancel-in-progress: false
+jobs:
+  original-deb-exact-arm64:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm global CarPlay skill archive
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skills.zip"
+          unzip -t "$RUNNER_TEMP/carplay-skills.zip"
+      - name: Fetch exact original Native12 DEB and validate original method index
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo "/opt/homebrew/opt/llvm/bin" >> "$GITHUB_PATH"
+          REF="$RUNNER_TEMP/native12-reference-20261024"
+          mkdir -p "$REF"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REF/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REF/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$REF/index.json"
+          test "$(git hash-object "$REF/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$REF/original.deb" "$REF/payload"
+          test -s "$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | shasum -a 256 -c -
+          echo ORIGINAL_NATIVE12_DEB_AND_MACHO_SHA256_VERIFIED
+      - name: Extract exact original 17 ARM64 method bodies and verify provenance
+        run: |
+          set -euo pipefail
+          export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+          REF="$RUNNER_TEMP/native12-reference-20261024"
+          DEST=sideplay/audit/native12-continuation-4888299/direct-original-logo-media-20261024
+          python3 sideplay/audit/native12-continuation-4888299/extract_original_logo_media_20261024.py --binary "$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" --method-index "$REF/index.json" --out "$DEST"
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path("sideplay/audit/native12-continuation-4888299/direct-original-logo-media-20261024/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json")
+          d=json.loads(p.read_text())
+          assert d["original_native12_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          assert d["dashboard_macho_sha256"]=="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
+          assert d["method_index_git_blob"]=="efa45df59bc3c16887cc979bf3aedc0c93c92111"
+          assert d["target_count"]==17 and all(x["instructions"] for x in d["methods"])
+          needed={("CBDividerView","handleMoveButtonLongPress:"),("CBDividerView","handlePan:"),("CBDividerView","updateGripLayout"),("CBBridgedUIAppView","updateLayout"),("CBBridgedUIAppView","updateSceneSettingsFrame"),("CBBridgedUIAppView","dismiss"),("CBBridgeManager","renderSizeForBundleID:")}
+          assert needed <= {(x["class"],x["selector"]) for x in d["methods"]}
+          assert d["runtime_original_preset_frames_verified"] is False
+          print("DUOFACE_ORIGINAL_NATIVE12_17_IMP_REAL_BINARY_SHA_CHECK_PASS",d["instructions_collected"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native12-original-logo-media-17imp-readonly
+          path: sideplay/audit/native12-continuation-4888299/direct-original-logo-media-20261024/
+          if-no-files-found: error
+      - name: Persist immutable original ARM64 instructions in project branch (NO DEB RELEASE)
+        run: |
+          set -euo pipefail
+          DEST=sideplay/audit/native12-continuation-4888299/direct-original-logo-media-20261024
+          SRC="$(pwd)/$DEST"
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"; then
+              echo ORIGINAL_17_IMP_EVIDENCE_ALREADY_SAVED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            mkdir -p "$TEMP/$DEST"
+            cp "$SRC"/* "$TEMP/$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(native12): persist 17 SHA-pinned original grip, media and scene teardown IMPs [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo ORIGINAL_17_IMP_EVIDENCE_SAVED_ON_GITHUB
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo PERSISTENCE_FAILED
+          exit 1
