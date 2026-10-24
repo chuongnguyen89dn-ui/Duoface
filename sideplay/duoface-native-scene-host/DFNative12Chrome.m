@@ -1595,10 +1595,36 @@ static void DFCLog(NSString *text) {
     self.logoTouchStartScreen=point;
     self.logoTouchLastScreen=point;
     self.logoDragInitialRatio=self.ratio;
-    ++self.logoHoldSerial;
+    NSUInteger touchSerial=++self.logoHoldSerial;
     self.logoTouchStartedAt=NSProcessInfo.processInfo.systemUptime;
     [self noteUserActivity];
     DFCLog(@"logo-native-longpress-3s-pending");
+    // Device DeepTrace .58: UIKit long-press recognizer Failed after a
+    // harmless 12pt along-divider movement, even though the UIButton
+    // stayed physically held for 3.72s (touch id=4). The real UIButton
+    // tracking stream MUST own this timer; keep sideways ratio drag intact.
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFNative12Chrome *owner=weakOwner;
+        if(!owner)return;
+        if(owner.logoHoldSerial!=touchSerial || !owner.logoTouchPending ||
+           owner.logoDraggingRatio || !owner.dividerLogo.window ||
+           owner.dividerWindow.hidden) {
+            DFCLog([NSString stringWithFormat:
+                @"logo-3s-timer-suppressed serial=%lu actual=%lu pending=%d ratio=%d hidden=%d",
+                (unsigned long)touchSerial,(unsigned long)owner.logoHoldSerial,
+                owner.logoTouchPending,owner.logoDraggingRatio,owner.dividerWindow.hidden]);
+            return;
+        }
+        if(owner.logoHoldRecognized)return; // UIKit succeeded on some devices.
+        owner.logoHoldRecognized=YES;
+        owner.logoHoldInitialFraction=owner.logoFraction;
+        owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
+        owner.panActive=YES;
+        [owner noteUserActivity];
+        DFCLog(@"logo-3s-hold-began-real-touch-timer");
+    });
 }
 - (void)logoNativeHold:(UILongPressGestureRecognizer *)hold {
     if(hold.view!=self.dividerLogo)return;
