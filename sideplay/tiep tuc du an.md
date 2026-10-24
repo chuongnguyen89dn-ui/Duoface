@@ -1,3 +1,6 @@
+> **2026-10-24 — .59 STATIC CI PASS, SIGNED PACKAGE STILL BUILDING.** Verified actual source-only workflow [40048282922](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40048282922) completed SUCCESS against ba8e8108. Integrated build run 40048320877 job120735023395 reached completed PASS of self-contained unit tests, in-progress Theos/iOS toolchain installation when last checked. Neither physical Zoom PASS nor final Sileo package yet. Do not publish unverified .59 SHA or claim user installable until signing + artifact + Pages checks. 
+>
+
 > **2026-10-24 — .59 SIGNED CI REQUEST LAUNCHED, DEVICE RESULT PENDING.** Triggered commit 8ae8f1c613d72277e8b317a66c491767b5ed9257 touching ONLY existing build-request/REQUEST.md after source/metadata/test updates. Source-only UIKit contract run [40048282922](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40048282922) in_progress, integrated macOS signing run [40048320877](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40048320877) in_progress when checked. Version labels NativeHost 0.1.68~zoomgeofix1 and integrated 0.0.59~zoomgeofix1. No signed artifact, checksum or Sileo publication can be claimed until runs complete. Never rerun work concurrently with ongoing job. 
 >
 
