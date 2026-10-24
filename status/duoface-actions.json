@@ -1,12 +1,12 @@
 {
-  "checked_at_utc": "2026-10-24T16:40:55.883653+00:00",
+  "checked_at_utc": "2026-10-24T19:32:48.783680+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2651,
+  "total_actions_runs": 2652,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 7,
-      "success": 6,
+      "recent_runs": 8,
+      "success": 7,
       "failure": 0,
       "other": 1
     },
@@ -17,10 +17,10 @@
       "other": 0
     },
     "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 73,
+      "recent_runs": 72,
       "success": 25,
       "failure": 13,
-      "other": 35
+      "other": 34
     },
     "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)": {
       "recent_runs": 1,
@@ -43,11 +43,21 @@
   },
   "latest_runs": [
     {
+      "id": 40125776777,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 65,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40125776777",
+      "created_at": "2026-10-24T19:32:40Z",
+      "head_sha": "af32f3502af295e1329c96bf68ee335dadd8f8b1"
+    },
+    {
       "id": 40112670764,
       "name": "DuoFace Actions status snapshot",
       "run_number": 64,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40112670764",
       "created_at": "2026-10-24T16:40:45Z",
       "head_sha": "ea383c826e85cdb71cc21f64131968d58d5d28fb"
@@ -331,16 +341,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40049127728",
       "created_at": "2026-10-24T01:17:42Z",
       "head_sha": "d7f01ef511f15b3badd3ae6409140993f184530e"
-    },
-    {
-      "id": 40049120434,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 188,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40049120434",
-      "created_at": "2026-10-24T01:17:36Z",
-      "head_sha": "e33cb5282d7ff51ff21a4642656ce810488a9942"
     }
   ]
 }
