@@ -1187,7 +1187,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('menuAction:',chrome)
   self.assertIn('case 3:[self openRunningAppManager]',chrome)
   self.assertIn('action:@selector(closeMenu:)',chrome)
-  self.assertIn('hold.minimumPressDuration=3.0;',chrome)
+  self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertIn('self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0',chrome)
   self.assertIn('BOOL allReady=YES',chrome)
   self.assertIn('show=show && (!allReady',chrome)
@@ -1267,7 +1267,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_041_three_second_logo_hold_survives_four_second_timeout(self):
   """Finger down is observable before 3 seconds, suppressing 4s hide race."""
   chrome=file("DFNative12Chrome.m")
-  self.assertIn('hold.minimumPressDuration=3.0;',chrome)
+  self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertNotIn('hold.cancelsTouchesInView=YES',chrome)
   self.assertIn('if(accepted && self.touchBegan)self.touchBegan(self);',chrome)
   self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
@@ -1573,7 +1573,7 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertIn('logo-3s-hold-began-real-touch-timer',down)
   self.assertIn('logo-3s-hold-began-real-touch-movement-backstop',chrome)
   self.assertIn('logo-3s-hold-detected-at-real-touch-release',chrome)
-  self.assertIn('hold.minimumPressDuration=3.0;',chrome)
+  self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertNotIn('hold.cancelsTouchesInView=NO;',chrome)
   self.assertIn('if(!self.logoDraggingRatio && fabs(perp)>10',chrome)
   self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)',chrome)
