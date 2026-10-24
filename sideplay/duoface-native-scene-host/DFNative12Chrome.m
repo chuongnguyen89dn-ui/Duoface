@@ -1854,11 +1854,27 @@ static void DFCLog(NSString *text) {
         NSInteger count=DFSlotCountForPreset(self.preset);
         for(NSInteger i=0;i<count;i++){
             NSInteger visual=(self.swapped&&i<2)?1-i:i;
-            CGRect expectedLocal=CGRectOffset(pane[visual],-actual.origin.x,-actual.origin.y);
-            if(!CGRectContainsRect(self.sharedAppWindow.bounds,
-                         self.appSceneContainers[(NSUInteger)i].frame) ||
-               !CGRectEqualToRect(self.appSceneContainers[(NSUInteger)i].frame,expectedLocal) ||
-               !CGRectContainsRect(actual,pane[visual])){
+            // Verification must match layoutControls: a focused/solo pane
+            // occupies the whole host, not the preset's split-cell frame.
+            CGRect rendered=(self.focus>=0 && visual==self.focus)?actual:pane[visual];
+            CGRect expectedLocal=CGRectOffset(rendered,-actual.origin.x,-actual.origin.y);
+            CGRect observed=self.appSceneContainers[(NSUInteger)i].frame;
+            CGRect hostBounds=self.sharedAppWindow.bounds;
+            // UIKit UIWindow coordinates may differ by subpixel rounding on
+            // an external iOS16 screen. Still reject real overflows.
+            const CGFloat eps=0.5;
+            BOOL contained=CGRectContainsRect(CGRectInset(hostBounds,-eps,-eps),observed);
+            BOOL onScreen=CGRectContainsRect(CGRectInset(actual,-eps,-eps),rendered);
+            BOOL matched=fabs(observed.origin.x-expectedLocal.origin.x)<=eps &&
+                fabs(observed.origin.y-expectedLocal.origin.y)<=eps &&
+                fabs(observed.size.width-expectedLocal.size.width)<=eps &&
+                fabs(observed.size.height-expectedLocal.size.height)<=eps;
+            if(!contained || !matched || !onScreen){
+                DFCLog([NSString stringWithFormat:
+                    @"host-zoom-validation-rejected slot=%ld visual=%ld focus=%ld contained=%d matched=%d onScreen=%d host=%@ observed=%@ expected=%@ screen=%@",
+                    (long)i,(long)visual,(long)self.focus,contained,matched,onScreen,
+                    NSStringFromCGRect(hostBounds),NSStringFromCGRect(observed),
+                    NSStringFromCGRect(expectedLocal),NSStringFromCGRect(actual)]);
                 [self restoreHostFullscreenGeometry];
                 return NO;
             }
