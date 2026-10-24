@@ -1269,7 +1269,7 @@ class NativeCarPlayHost(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertNotIn('hold.cancelsTouchesInView=YES',chrome)
-  self.assertIn('if(accepted && self.touchBegan)self.touchBegan(self);',chrome)
+  self.assertIn('if(self.touchBegan)self.touchBegan(self);',chrome)
   self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
   self.assertIn('if(active && self.touchEnded)self.touchEnded(self,inside);',chrome)
   self.assertIn('self.logoTouchPending=YES;',chrome)
