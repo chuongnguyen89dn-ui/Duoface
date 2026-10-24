@@ -99,20 +99,7 @@ static void DFCLog(NSString *text) {
         (void)write(fd,d.bytes,d.length);close(fd);
     }
 }
-// Observe native recognition transitions, including Failed (no target callback).
-@interface DFDiagnosticLongPress : UILongPressGestureRecognizer @end
-@implementation DFDiagnosticLongPress
-- (void)setState:(UIGestureRecognizerState)state {
-    DFDeepTrace(@"logo-recognizer",[NSString stringWithFormat:@"state=%ld->%ld duration=%.3f allowance=%.2f view=%@ window=%@",
-        (long)self.state,(long)state,self.minimumPressDuration,self.allowableMovement,
-        NSStringFromClass(self.view.class),NSStringFromClass(self.view.window.class)]);
-    [super setState:state];
-}
-- (void)reset {
-    DFDeepTrace(@"logo-recognizer",@"reset");
-    [super reset];
-}
-@end
+// Grip gestures are no longer owned by UILongPress on this screen.
 // Empty panes in a shared CarPlay UIWindow must pass through unclaimed taps.
 @interface DFNativePanePassthroughView : UIView @end
 @implementation DFNativePanePassthroughView
@@ -121,15 +108,12 @@ static void DFCLog(NSString *text) {
     return hit==self?nil:hit;
 }
 @end
-// Native12 CBDividerView.pointInside:withEvent: expands each move-button
-// target by 12pt. Do not resize the artwork or route logo holds to ratio pan.
-// 28 real TouchDown events but zero UIKit long-press callbacks on the device:
-// do not arbitrate this grip between UILongPress and UIPan recognizers.
-// Track the actual UIButton touch stream; the parent track pan still owns
-// touches OUTSIDE the logo hit region. No private UIKit hooks needed.
+// Native12 expands the real logo target by 12pt. Its raw touch is separate
+// from the track's independent split ratio pan; no vendor code is reused.
 @interface DFNativeDividerGripButton : UIButton
 @property(nonatomic,assign) CGPoint trackedScreenPoint;
 @property(nonatomic,assign) BOOL touchTracked;
+@property(nonatomic,weak) UITouch *activeTouch;
 @property(nonatomic,assign) NSTimeInterval traceStarted;
 @property(nonatomic,assign) NSUInteger traceID;
 @property(nonatomic,copy) void (^touchBegan)(UIButton *);
@@ -139,8 +123,8 @@ static void DFCLog(NSString *text) {
 @implementation DFNativeDividerGripButton
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     (void)event;
-    if(self.hidden || self.alpha<=0.01)return NO;
-    return CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
+    return !self.hidden && self.alpha>0.01 &&
+        CGRectContainsPoint(CGRectInset(self.bounds,-12.0,-12.0),point);
 }
 - (CGPoint)screenPointForTouch:(UITouch *)touch {
     UIWindow *window=self.window;
@@ -149,37 +133,53 @@ static void DFCLog(NSString *text) {
     id<UICoordinateSpace> screen=window.screen.coordinateSpace;
     return screen?[window convertPoint:inWindow toCoordinateSpace:screen]:inWindow;
 }
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+// The iOS16 CarPlay device delivered a 3.72-second contact but the
+// UIButton/UILongPress arbitration lost it. Use ONE UIResponder touch
+// owner throughout movement; no super UIControl tracking / recognizers.
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    if(self.touchTracked)return;
+    UITouch *touch=touches.anyObject;
+    if(!touch)return;
+    self.touchTracked=YES;
+    self.activeTouch=touch;
     self.traceStarted=NSProcessInfo.processInfo.systemUptime;
     ++self.traceID;
-    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"begin id=%lu touchTimestamp=%.6f",(unsigned long)self.traceID,touch.timestamp]);
     self.trackedScreenPoint=[self screenPointForTouch:touch];
-    BOOL accepted=[super beginTrackingWithTouch:touch withEvent:event];
-    self.touchTracked=accepted;
-    if(accepted && self.touchBegan)self.touchBegan(self);
-    return accepted;
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:
+        @"raw-began id=%lu at=%@",(unsigned long)self.traceID,
+        NSStringFromCGPoint(self.trackedScreenPoint)]);
+    if(self.touchBegan)self.touchBegan(self);
 }
-- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    UITouch *touch=self.activeTouch;
+    if(!self.touchTracked||!touch||![touches containsObject:touch])return;
     self.trackedScreenPoint=[self screenPointForTouch:touch];
-    BOOL accepted=[super continueTrackingWithTouch:touch withEvent:event];
     if(self.touchTracked && self.touchMoved)self.touchMoved(self);
-    // Moving the artwork after 3s must not lose the original grip touch.
-    return self.touchTracked?YES:accepted;
 }
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UITouch *touch=self.activeTouch;
+    if(!self.touchTracked||!touch||![touches containsObject:touch])return;
     self.trackedScreenPoint=[self screenPointForTouch:touch];
-    BOOL active=self.touchTracked;
     BOOL inside=[self pointInside:[touch locationInView:self] withEvent:event];
-    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"release id=%lu elapsed=%.6f inside=%d tracked=%d point=%@",(unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted,inside,active,NSStringFromCGPoint(self.trackedScreenPoint)]);
-    if(active && self.touchEnded)self.touchEnded(self,inside);
-    [super endTrackingWithTouch:touch withEvent:event];
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:
+        @"raw-ended id=%lu elapsed=%.6f inside=%d",
+        (unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted,inside]);
+    if(self.touchEnded)self.touchEnded(self,inside);
     self.touchTracked=NO;
+    self.activeTouch=nil;
 }
-- (void)cancelTrackingWithEvent:(UIEvent *)event {
-    DFDeepTrace(@"logo-control",[NSString stringWithFormat:@"CANCEL id=%lu elapsed=%.6f tracked=%d hidden=%d windowHidden=%d",(unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted,self.touchTracked,self.hidden,self.window.hidden]);
-    if(self.touchTracked && self.touchEnded)self.touchEnded(self,NO);
-    [super cancelTrackingWithEvent:event];
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    (void)event;
+    UITouch *touch=self.activeTouch;
+    if(!self.touchTracked||!touch||![touches containsObject:touch])return;
+    DFDeepTrace(@"logo-control",[NSString stringWithFormat:
+        @"raw-cancelled id=%lu elapsed=%.6f",
+        (unsigned long)self.traceID,NSProcessInfo.processInfo.systemUptime-self.traceStarted]);
+    if(self.touchEnded)self.touchEnded(self,NO);
     self.touchTracked=NO;
+    self.activeTouch=nil;
 }
 @end
 
@@ -477,15 +477,7 @@ static void DFCLog(NSString *text) {
     // Native8 device-verified layout: one real UIButton owns logo movement;
     // keep ratio input exclusively on the separate dividerTrack pan.
     __weak typeof(self) weakGripOwner=self;
-    // Native9's working route uses one UILongPress on the logo itself.
-    // Keep current requested 3s (historical native9 was 0.30s), not its old value.
-    UILongPressGestureRecognizer *hold=[[DFDiagnosticLongPress alloc]
-        initWithTarget:self action:@selector(logoNativeHold:)];
-    hold.minimumPressDuration=3.0;
-    hold.cancelsTouchesInView=NO;
-    hold.delaysTouchesBegan=NO;
-    hold.delaysTouchesEnded=NO;
-    [logo addGestureRecognizer:hold];
+    // The same raw touch owner arms the existing three-second timer.
     logo.touchBegan=^(UIButton *sender){[weakGripOwner logoTouchDown:sender];};
     logo.touchMoved=^(UIButton *sender){[weakGripOwner logoTouchChanged:sender];};
     logo.touchEnded=^(UIButton *sender,BOOL inside){
@@ -509,9 +501,7 @@ static void DFCLog(NSString *text) {
     logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
-    // Dedicated 3.0s timer is armed only on a REAL UIButton TouchDown.
-    // The old UILongPressGestureRecognizer and logoPan competed for the same
-    // touch sequence; when it failed the user could not move this icon.
+    // Dedicated 3s timer is armed only on a real raw touchesBegan.
     // A quick sideways movement still drags the split ratio; a stationary
     // three-second hold enables along-the-divider logo reposition.
     self.dividerLogo=logo;
@@ -1617,7 +1607,7 @@ static void DFCLog(NSString *text) {
                 owner.logoTouchPending,owner.logoDraggingRatio,owner.dividerWindow.hidden]);
             return;
         }
-        if(owner.logoHoldRecognized)return; // UIKit succeeded on some devices.
+        if(owner.logoHoldRecognized)return; // Already latched by raw touch movement.
         owner.logoHoldRecognized=YES;
         owner.logoHoldInitialFraction=owner.logoFraction;
         owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
@@ -1625,31 +1615,6 @@ static void DFCLog(NSString *text) {
         [owner noteUserActivity];
         DFCLog(@"logo-3s-hold-began-real-touch-timer");
     });
-}
-- (void)logoNativeHold:(UILongPressGestureRecognizer *)hold {
-    if(hold.view!=self.dividerLogo)return;
-    if(hold.state==UIGestureRecognizerStateBegan) {
-        if(!self.logoTouchPending || self.logoDraggingRatio || self.dividerWindow.hidden){
-            DFDeepTrace(@"logo-recognizer",[NSString stringWithFormat:@"began-rejected pending=%d ratio=%d hidden=%d",self.logoTouchPending,self.logoDraggingRatio,self.dividerWindow.hidden]);return;
-        }
-        self.logoHoldRecognized=YES;
-        self.logoHoldInitialFraction=self.logoFraction;
-        self.logoHoldInitialTouch=self.logoTouchLastScreen;
-        self.panActive=YES;
-        [self noteUserActivity];
-        DFCLog(@"logo-3s-hold-began-native-recognizer");
-    } else if(hold.state==UIGestureRecognizerStateChanged && self.logoHoldRecognized) {
-        // Keep coordinates stable while layout moves the button beneath the finger.
-        UIWindow *window=self.dividerLogo.window;
-        CGPoint local=[hold locationInView:window];
-        ((DFNativeDividerGripButton *)self.dividerLogo).trackedScreenPoint=
-            [window convertPoint:local toCoordinateSpace:window.screen.coordinateSpace];
-        [self logoTouchChanged:self.dividerLogo];
-    } else if(hold.state==UIGestureRecognizerStateEnded ||
-              hold.state==UIGestureRecognizerStateCancelled) {
-        if(self.logoHoldRecognized)[self saveSplitState];
-        // Do not clear recognition here: late TouchUpInside must not swap.
-    }
 }
 - (void)logoTouchChanged:(id)sender {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
