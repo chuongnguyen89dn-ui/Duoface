@@ -84,7 +84,11 @@ def build(expected_nativehost_sha256,expected_source_sha):
     # The old first-party QA icon must not be shipped as a second visible
     # app in a final integrated DuoFace. Conflict with the old QA package
     # without blindly deleting its files or user data in maintainer scripts.
-    "Conflicts: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
+    # Prevent a former first-party DuoFace scene/chrome package from drawing
+    # the OLD divider below our new transparent grip. Sileo must resolve
+    # conflicts explicitly; do not silently delete other packages/files.
+    "Conflicts: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp",
+               "com.duoface.independent","com.duoface.sideplaydisplay"]),
     "Replaces: "+", ".join([x[0] for x in ORDER]+["com.duoface.qa.controlapp"]),
     "Description: Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation.",
   ]
