@@ -40,7 +40,7 @@ jobs:
           test -s "$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
           echo '9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  '"$REF/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | shasum -a 256 -c -
           echo ORIGINAL_NATIVE12_DEB_AND_MACHO_SHA256_VERIFIED
-      - name: Extract exact original 17 ARM64 method bodies and verify provenance
+      - name: Extract exact original 25 ARM64 method bodies and verify provenance
         run: |
           set -euo pipefail
           export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -54,15 +54,16 @@ jobs:
           assert d["original_native12_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
           assert d["dashboard_macho_sha256"]=="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea"
           assert d["method_index_git_blob"]=="efa45df59bc3c16887cc979bf3aedc0c93c92111"
-          assert d["target_count"]==17 and all(x["instructions"] for x in d["methods"])
+          assert d["target_count"]==25 and all(x["instructions"] for x in d["methods"])
           needed={("CBDividerView","handleMoveButtonLongPress:"),("CBDividerView","handlePan:"),("CBDividerView","updateGripLayout"),("CBBridgedUIAppView","updateLayout"),("CBBridgedUIAppView","updateSceneSettingsFrame"),("CBBridgedUIAppView","dismiss"),("CBBridgeManager","renderSizeForBundleID:")}
+          needed |= {("CBDividerView","startBlinking"),("CBDividerView","stopBlinking"),("CBBridgedSplitApp","noteUserActivity"),("CBBridgedSplitApp","startBlinkingSession"),("CBBridgedSplitApp","stopBlinkingSession"),("CBBridgedSplitApp","startContainerBorderBlinking:"),("CBBridgedSplitApp","stopContainerBorderBlinking:"),("CBBridgedSplitApp","configureDividerButtons")}
           assert needed <= {(x["class"],x["selector"]) for x in d["methods"]}
           assert d["runtime_original_preset_frames_verified"] is False
-          print("DUOFACE_ORIGINAL_NATIVE12_17_IMP_REAL_BINARY_SHA_CHECK_PASS",d["instructions_collected"])
+          print("DUOFACE_ORIGINAL_NATIVE12_25_IMP_REAL_BINARY_SHA_CHECK_PASS",d["instructions_collected"])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: native12-original-logo-media-17imp-readonly
+          name: native12-original-logo-media-25imp-readonly
           path: sideplay/audit/native12-continuation-4888299/direct-original-logo-media-20261024/
           if-no-files-found: error
       - name: Persist immutable original ARM64 instructions in project branch (NO DEB RELEASE)
@@ -75,8 +76,10 @@ jobs:
             git fetch --no-tags origin "$BRANCH"
             TEMP="$(mktemp -d)"
             git worktree add --detach "$TEMP" FETCH_HEAD
-            if test -e "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"; then
-              echo ORIGINAL_17_IMP_EVIDENCE_ALREADY_SAVED
+            if test -e "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" &&
+               cmp -s "$SRC/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json" &&
+               cmp -s "$SRC/REPORT.md" "$TEMP/$DEST/REPORT.md"; then
+              echo ORIGINAL_25_IMP_EVIDENCE_ALREADY_SAVED_IDENTICAL
               git worktree remove --force "$TEMP"
               exit 0
             fi
@@ -85,9 +88,9 @@ jobs:
             git -C "$TEMP" config user.name 'github-actions[bot]'
             git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git -C "$TEMP" add "$DEST"
-            git -C "$TEMP" commit -m 'audit(native12): persist 17 SHA-pinned original grip, media and scene teardown IMPs [skip ci]'
+            git -C "$TEMP" commit -m 'audit(native12): refresh SHA-pinned original logo blink, grip, media and scene teardown IMPs [skip ci]'
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
-              echo ORIGINAL_17_IMP_EVIDENCE_SAVED_ON_GITHUB
+              echo ORIGINAL_25_IMP_EVIDENCE_SAVED_ON_GITHUB
               git worktree remove --force "$TEMP"
               exit 0
             fi
