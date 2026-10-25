@@ -509,7 +509,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("v.layer.borderWidth=splitVisible?(touched?1.0:(empty?0.75:0.0)):0.0;",chrome)
   self.assertIn("[UIColor colorWithWhite:1 alpha:.25]",chrome)
   self.assertIn("227./255 green:2./255 blue:15./255",chrome)
-  self.assertIn("line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];",chrome)
+  self.assertNotIn("line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];",chrome)
   self.assertIn("self.focus<0",chrome)
   self.assertIn("self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;",chrome)
   self.assertIn("self.dividerWindow.hidden=(self.startupActive||activeSlots==1||self.focus>=0||self.pickerVisible||self.styleVisible||self.appPickerVisible)",chrome)
