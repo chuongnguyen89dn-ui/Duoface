@@ -465,13 +465,11 @@ static void DFCLog(NSString *text) {
     UIViewController *root=[self emptyRoot:divider];
     self.dividerTrack=root.view;
     self.dividerTrack.backgroundColor=UIColor.clearColor;
-    UIView *line=[UIView new];
-    line.tag=718;
-    // The real split boundary must remain perceptible without painting
-    // a permanent red/green status outline around playing apps.
-    line.backgroundColor=[UIColor colorWithWhite:1 alpha:.24];
-    line.userInteractionEnabled=NO;
-    [root.view addSubview:line];
+    // Own exactly ONE primary divider interaction owner. A second white
+    // 2pt decorative line previously painted directly over the real split
+    // edge and under the round logo. The hosted pane boundaries already
+    // define the divider, so do not create tag 718 at all. The transparent
+    // 32pt track remains the independently owned Ratio touch target.
     UIPanGestureRecognizer *trackPan=[[UIPanGestureRecognizer alloc]
                              initWithTarget:self action:@selector(dividerPan:)];
     trackPan.maximumNumberOfTouches=1;
@@ -494,6 +492,11 @@ static void DFCLog(NSString *text) {
     // Verified 120x120 first-party duoface-swap.png is a circular face logo.
     // Do not swap it for a counterfeit vector or a square placeholder.
     [logo setTitle:@"" forState:UIControlStateNormal];
+    // Original Native12 grip pulse animates the TRUE logo visual at 1.18x.
+    // Keep background/border clear: old vendor badge blue/glow must not sit
+    // underneath this independently authored PNG (visual-only layer).
+    logo.layer.borderWidth=0;
+    logo.layer.shadowOpacity=0;
     // Original-approved two-face swap artwork is 120x120 but has opaque
     // square corners. Circular-mask it at the Native12 28/30pt grip size
     // rather than shipping a dark square over live app content.
@@ -881,6 +884,36 @@ static void DFCLog(NSString *text) {
     CGRect logoHit=CGRectInset(self.dividerLogo.frame,-12.0,-12.0);
     return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);
 }
+// SHA-pinned ORIGINAL CBDividerView.startBlinking/stopBlinking (0x1009d4 /
+// 0x1010bc) applies a visual 1.18x transform to the move button. Keep the
+// independently authored PNG and raw UIKit event/hit target untouched:
+// CoreAnimation affects presentation only, not UIView.frame or touch routing.
+// The original exact pulse cadence is NOT decoded; this conservative blink
+// is bounded by the EXISTING Chrome activity/idle visibility session rather
+// than an invented second lifecycle timer.
+- (void)updateGripBlinkForVisibleSession:(BOOL)visible {
+    UIButton *grip=self.dividerLogo;
+    if(!grip)return;
+    NSString *key=@"dfNative12GripPulse";
+    CAAnimation *existing=[grip.layer animationForKey:key];
+    BOOL running=visible && !self.startupActive && self.focus<0 &&
+        !self.pickerVisible && !self.styleVisible && !self.appPickerVisible &&
+        DFSlotCountForPreset(self.preset)>1;
+    if(!running){
+        if(existing)[grip.layer removeAnimationForKey:key];
+        return;
+    }
+    if(existing)return; // relayout, Ratio and touch changes MUST NOT restart blink
+    CABasicAnimation *blink=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    blink.fromValue=@1.0;
+    blink.toValue=@1.18; // original Native12 Mach-O at 0x312498
+    blink.duration=0.35; // first-party cadence; original cadence is not verified
+    blink.autoreverses=YES;
+    blink.repeatCount=HUGE_VALF;
+    blink.removedOnCompletion=YES;
+    [grip.layer addAnimation:blink forKey:key];
+    DFCLog(@"grip-native12-scale-pulse-start-visual-1.18");
+}
 - (void)noteUserActivity {
     self.borderUntil=NSDate.date.timeIntervalSince1970+2.0;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
@@ -1114,10 +1147,8 @@ static void DFCLog(NSString *text) {
         CGRectMake(cr.origin.x+2,boundary-16,cr.size.width-4,32);
     self.dividerWindow.frame=tr;
     self.dividerTrack.frame=CGRectMake(0,0,tr.size.width,tr.size.height);
-    UIView *line=[self.dividerTrack viewWithTag:718];
-    line.frame=self.verticalDivider?
-         CGRectMake(15,0,2,tr.size.height):
-         CGRectMake(0,15,tr.size.width,2);
+    // No additional primary divider stroke: the existing split edge and
+    // single movable grip are the visible boundary (no layered old white line).
     CGFloat size=MIN(tr.size.height>250?30:28,30);
     self.dividerLogo.frame=self.verticalDivider?
         CGRectMake((tr.size.width-size)/2,tr.size.height*self.logoFraction-size/2,size,size):
@@ -1128,7 +1159,7 @@ static void DFCLog(NSString *text) {
     // a short tap ONLY wakes controls, not an unwanted Swap.
     self.dividerLogo.hidden=NO;
     self.dividerLogo.alpha=controlsVisible?1.0:0.02;
-    line.hidden=!controlsVisible;
+    [self updateGripBlinkForVisibleSession:controlsVisible];
     // The 32pt ratio grab lane stays responsive when the 4s artwork timer
     // hides the line/logo. A new pan wakes chrome rather than disabling
     // the only split-ratio input path after the timeout.
@@ -2027,6 +2058,7 @@ static void DFCLog(NSString *text) {
     // Hide EVERY SpringBoard window before unloading SBAppViewControllers:
     // scene invalidation can be slow for media apps, and must never leave
     // divider/menu controls drawn over CarPlay Home during that delay.
+    [self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"];
     for(UIWindow *w in self.windows)w.hidden=YES;
     DFCLog(@"home-teardown-all-external-windows-hidden-before-scene-invalidate");
     [[DFSceneHost sharedHost] stopAllHosts];
