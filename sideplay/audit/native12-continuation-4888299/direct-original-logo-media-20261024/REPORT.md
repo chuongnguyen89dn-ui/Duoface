@@ -3,7 +3,7 @@
 - Verified original DEB SHA256: \`2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad\`
 - Verified Dashboard SHA256: \`9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea\`
 - Original method index blob: \`efa45df59bc3c16887cc979bf3aedc0c93c92111\`
-- Exact extracted IMPs: **17**, ARM64 instructions: **4378**
+- Exact extracted IMPs: **25**, ARM64 instructions: **26762**
 - IMPORTANT: machine disassembly is NOT a runtime preset-frame test.
 - A selector in an Objective-C call site does NOT prove a receiver.
 - Preset 0..7 formulas in independent DFLayoutEngine remain UNVERIFIED until
@@ -786,6 +786,455 @@ Branch samples:
     24cb40:	bl	0x2ecd30 ; symbol stub for: _objc_release
     24cb44:	tbz	w22, #0x0, 0x24cb88
     24cb54:	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+
+## CBDividerView.startBlinking @ 0x1009d4
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x1009d4..0x100e30\`
+Instruction count: **279**; branches **48**;
+Potential numerical operations (not yet semantic proof):
+
+    1009fc:	add	x29, sp, #0x90
+    100a00:	sub	sp, sp, #0x1d0
+    100a1c:	mov	w9, #0x1
+    100a4c:	add	x2, sp, #0x100
+    100a50:	add	x3, sp, #0x140
+    100a58:	mov	w4, #0x10
+    100a7c:	fmov	d8, #1.00000000
+    100ad0:	mov	x24, #0x0
+    100ba4:	mov	w2, #0x0
+    100bd0:	add	x2, sp, #0xd0
+    100ca8:	fmov	d0, #1.50000000
+    100d40:	fmov	d0, #2.50000000
+    100d50:	add	x24, x24, #0x1
+    100d60:	add	x2, sp, #0x100
+    100d64:	add	x3, sp, #0x140
+    100d6c:	mov	w4, #0x10
+    100dac:	add	x9, x9, #0x658
+    100dd4:	add	x3, sp, #0xa8
+    100dd8:	mov	w2, #0x1e
+    100ddc:	mov	x4, #0x0
+    100dfc:	add	sp, sp, #0x1d0
+
+Branch samples:
+    100a40:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    100a5c:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    100a64:	cbz	x0, 0x100d7c
+    100b60:	b.eq	0x100b6c
+    100b68:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    100b7c:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100b84:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100b90:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100b98:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100ba8:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100bb8:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100bdc:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100bf8:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c00:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100c14:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c1c:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100c38:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c40:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100c44:	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+    100c50:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c60:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c68:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100c78:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c80:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100c88:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100c94:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100c9c:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100cac:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100cb4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100cd0:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100cd8:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100cec:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100cf4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100d00:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100d08:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100d18:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100d20:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    100d2c:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+    100d34:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    100d44:	bl	0x2ecd00 ; Objc message: -[x0 setShadowOpacity:]
+
+## CBDividerView.stopBlinking @ 0x1010bc
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x1010bc..0x101288\`
+Instruction count: **115**; branches **16**;
+Potential numerical operations (not yet semantic proof):
+
+    1010bc:	sub	sp, sp, #0x190
+    1010d8:	add	x29, sp, #0x180
+    101124:	add	x2, sp, #0x60
+    101128:	add	x3, sp, #0xa0
+    101130:	mov	w4, #0x10
+    101150:	mov	x19, #0x0
+    1011a0:	add	x19, x19, #0x1
+    1011ac:	add	x2, sp, #0x60
+    1011b0:	add	x3, sp, #0xa0
+    1011bc:	mov	w4, #0x10
+    101200:	add	x10, x10, #0x658
+    101220:	add	x9, x9, #0x818
+    101240:	add	x2, sp, #0x38
+    101244:	add	x3, sp, #0x10
+    10127c:	add	sp, sp, #0x190
+
+Branch samples:
+    101114:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    101134:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    101138:	cbz	x0, 0x1011cc
+    101168:	b.eq	0x101174
+    101170:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    101180:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    101188:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    101194:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10119c:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    1011a8:	b.lo	0x10115c
+    1011c0:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    1011c8:	cbnz	x0, 0x101150
+    1011d0:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    101248:	bl	0x2ecd00 ; Objc message: +[UIView animateWithDuration:animations:completion:]
+    101260:	b.ne	0x101284
+    101284:	bl	0x2eca9c ; symbol stub for: ___stack_chk_fail
+
+## CBBridgedSplitApp.noteUserActivity @ 0x10c378
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x10c378..0x10c454\`
+Instruction count: **55**; branches **9**;
+Potential numerical operations (not yet semantic proof):
+
+    10c378:	sub	sp, sp, #0x50
+    10c384:	add	x29, sp, #0x40
+    10c3d8:	fmov	d2, #0.25000000
+    10c3fc:	add	sp, sp, #0x50
+    10c428:	add	x9, x9, #0x658
+    10c43c:	add	x1, sp, #0x8
+    10c44c:	add	sp, sp, #0x50
+
+Branch samples:
+    10c39c:	bl	0x2ecd00 ; Objc message: +[NSThread isMainThread]
+    10c3a0:	tbz	w0, #0x0, 0x10c404
+    10c3b0:	cbz	x0, 0x10c3c4
+    10c3bc:	bl	0x2ecd00 ; Objc message: -[x0 isDismissing]
+    10c3c0:	cbz	w0, 0x10c444
+    10c3c4:	bl	0x2ec778 ; symbol stub for: _CACurrentMediaTime
+    10c3e0:	b.mi	0x10c444
+    10c400:	b	0x2ecd00 ; Objc message: -[x0 startBlinkingSession]
+    10c440:	bl	0x2ecb2c ; symbol stub for: _dispatch_async
+
+## CBBridgedSplitApp.startBlinkingSession @ 0x10c464
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x10c464..0x11f3e8\`
+Instruction count: **19425**; branches **1338**;
+Potential numerical operations (not yet semantic proof):
+
+    10c480:	add	x29, sp, #0x60
+    10c484:	sub	sp, sp, #0x1, lsl #12
+    10c488:	sub	sp, sp, #0xa70
+    10c4d8:	add	x28, sp, #0x120
+    10c508:	mov	w9, #0x1
+    10c538:	add	x2, sp, #0x1a0
+    10c53c:	add	x3, sp, #0x340
+    10c544:	mov	w4, #0x10
+    10c560:	mov	x25, #0x0
+    10c590:	add	x25, x25, #0x1
+    10c59c:	add	x2, sp, #0x1a0
+    10c5a0:	add	x3, sp, #0x340
+    10c5ac:	mov	w4, #0x10
+    10c5e4:	add	x2, sp, #0x160
+    10c5e8:	add	x3, sp, #0x2c0
+    10c5f0:	mov	w4, #0x10
+    10c60c:	mov	x25, #0x0
+    10c640:	add	x25, x25, #0x1
+    10c64c:	add	x2, sp, #0x160
+    10c650:	add	x3, sp, #0x2c0
+    10c65c:	mov	w4, #0x10
+    10c6a0:	add	x2, sp, #0x120
+    10c6a4:	add	x3, sp, #0x240
+    10c6ac:	mov	w4, #0x10
+    10c6c4:	mov	x19, #0x0
+    10c730:	mov	w2, #0x0
+    10c738:	add	x19, x19, #0x1
+    10c744:	add	x2, sp, #0x120
+    10c748:	add	x3, sp, #0x240
+    10c754:	mov	w4, #0x10
+    10c794:	add	x9, x9, #0x658
+    10c7b0:	fmov	d0, #0.25000000
+    10c7b4:	add	x2, sp, #0xf8
+    10c7bc:	add	x0, sp, #0xf0
+    10c7d4:	cmp	w8, #0x1
+    10c7e0:	mov	x0, #0x0
+    10c7f8:	mov	w9, #0x1
+    10c7fc:	movk	w9, #0xcbdb, lsl #16
+    10c804:	cmp	w8, #0x0
+    10c808:	mov	w9, #0x1337
+
+Branch samples:
+    10c4b0:	bl	0x2ecd00 ; Objc message: +[NSThread isMainThread]
+    10c4b4:	tbz	w0, #0x0, 0x10c920
+    10c4c4:	cbz	x0, 0x10c4d8
+    10c4d0:	bl	0x2ecd00 ; Objc message: -[x0 isDismissing]
+    10c4d4:	cbz	w0, 0x10c960
+    10c4f0:	bl	0x2ecd00 ; Objc message: -[x0 invalidate]
+    10c4fc:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    10c528:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    10c548:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c54c:	cbz	x0, 0x10c5bc
+    10c574:	b.eq	0x10c580
+    10c57c:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    10c58c:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c598:	b.lo	0x10c568
+    10c5b0:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c5b8:	cbnz	x0, 0x10c560
+    10c5c0:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    10c5dc:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    10c5f4:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c5f8:	cbz	x0, 0x10c66c
+    10c620:	b.eq	0x10c62c
+    10c628:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    10c63c:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c648:	b.lo	0x10c614
+    10c660:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c668:	cbnz	x0, 0x10c60c
+    10c674:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    10c698:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    10c6b0:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    10c6b4:	cbz	x0, 0x10c764
+    10c6ec:	b.eq	0x10c6f8
+    10c6f4:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    10c708:	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+    10c710:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    10c71c:	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+    10c724:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    10c734:	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+    10c740:	b.lo	0x10c6e0
+    10c758:	bl	0x2ecd00 ; Objc message: -[x0 setHidden:]
+    10c760:	cbnz	x0, 0x10c6c4
+
+## CBBridgedSplitApp.stopBlinkingSession @ 0x11f558
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x11f558..0x11f828\`
+Instruction count: **180**; branches **29**;
+Potential numerical operations (not yet semantic proof):
+
+    11f570:	add	x29, sp, #0x50
+    11f574:	sub	sp, sp, #0x200
+    11f5fc:	add	x2, sp, #0x90
+    11f600:	sub	x3, x29, #0xd8
+    11f608:	mov	w4, #0x10
+    11f624:	mov	x26, #0x0
+    11f654:	add	x26, x26, #0x1
+    11f660:	add	x2, sp, #0x90
+    11f664:	sub	x3, x29, #0xd8
+    11f670:	mov	w4, #0x10
+    11f6a8:	add	x2, sp, #0x50
+    11f6ac:	add	x3, sp, #0xf8
+    11f6b4:	mov	w4, #0x10
+    11f6d0:	mov	x26, #0x0
+    11f704:	add	x26, x26, #0x1
+    11f710:	add	x2, sp, #0x50
+    11f714:	add	x3, sp, #0xf8
+    11f720:	mov	w4, #0x10
+    11f764:	add	x10, x10, #0x658
+    11f780:	add	x9, x9, #0x818
+    11f79c:	add	x2, sp, #0x28
+    11f7d0:	add	x9, x9, #0x658
+    11f7e4:	add	x1, sp, #0xd0
+    11f804:	add	sp, sp, #0x200
+
+Branch samples:
+    11f59c:	bl	0x2ecd00 ; Objc message: +[NSThread isMainThread]
+    11f5a0:	tbz	w0, #0x0, 0x11f7ac
+    11f5b8:	bl	0x2ecd00 ; Objc message: -[x0 invalidate]
+    11f5c4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11f5ec:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    11f60c:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f610:	cbz	x0, 0x11f680
+    11f638:	b.eq	0x11f644
+    11f640:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    11f650:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f65c:	b.lo	0x11f62c
+    11f674:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f67c:	cbnz	x0, 0x11f624
+    11f684:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11f6a0:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    11f6b8:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f6bc:	cbz	x0, 0x11f730
+    11f6e4:	b.eq	0x11f6f0
+    11f6ec:	bl	0x2eccb8 ; symbol stub for: _objc_enumerationMutation
+    11f700:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f70c:	b.lo	0x11f6d8
+    11f724:	bl	0x2ecd00 ; Objc message: -[x0 countByEnumeratingWithState:objects:count:]
+    11f72c:	cbnz	x0, 0x11f6d0
+    11f734:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11f7a4:	bl	0x2ecd00 ; Objc message: +[UIView animateWithDuration:animations:completion:]
+    11f7a8:	b	0x11f7ec
+    11f7e8:	bl	0x2ecb2c ; symbol stub for: _dispatch_async
+    11f800:	b.ne	0x11f824
+    11f824:	bl	0x2eca9c ; symbol stub for: ___stack_chk_fail
+
+## CBBridgedSplitApp.startContainerBorderBlinking: @ 0x11fa88
+Original ABI: \`v24@0:8@16\`
+Function boundary: \`0x11fa88..0x11fcd4\`
+Instruction count: **147**; branches **32**;
+Potential numerical operations (not yet semantic proof):
+
+    11faa4:	add	x29, sp, #0x60
+    11fae4:	add	x22, x22, #0x268 ; Objc cfstring ref: @"borderPulse"
+    11fb0c:	add	x2, x2, #0x288 ; Objc cfstring ref: @"borderColor"
+    11fba0:	fmov	d2, #1.00000000
+    11fbf0:	fmov	d0, #0.50000000
+    11fc08:	mov	w2, #0x1
+    11fc18:	mov	w8, #0x7f800000
+
+Branch samples:
+    11fab8:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    11fac8:	bl	0x2ecd00 ; Objc message: -[x0 layer]
+    11fad0:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11faec:	bl	0x2ecd00 ; Objc message: -[x0 removeAnimationForKey:]
+    11faf4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fb10:	bl	0x2ecd00 ; Objc message: +[CABasicAnimation animationWithKeyPath:]
+    11fb18:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fb54:	bl	0x2ecd00 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+    11fb5c:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fb60:	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+    11fb74:	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+    11fb88:	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+    11fb90:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fbb0:	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+    11fbb8:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fbbc:	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+    11fbc8:	bl	0x2ecd00 ; Objc message: -[x0 setFromValue:]
+    11fbdc:	bl	0x2ecd00 ; Objc message: -[x0 setToValue:]
+    11fbe4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fbf8:	bl	0x2ecd00 ; Objc message: -[x0 setDuration:]
+    11fc0c:	bl	0x2ecd00 ; Objc message: -[x0 setAutoreverses:]
+    11fc24:	bl	0x2ecd00 ; Objc message: -[x0 setRepeatCount:]
+    11fc44:	bl	0x2ecd00 ; Objc message: +[CAMediaTimingFunction functionWithName:]
+    11fc4c:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fc64:	bl	0x2ecd00 ; Objc message: -[x0 setTimingFunction:]
+    11fc6c:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fc78:	bl	0x2ecd00 ; Objc message: -[x0 setTimingFunction:]
+    11fc80:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fc8c:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fca4:	bl	0x2ecd00 ; Objc message: -[x0 addAnimation:forKey:]
+    11fcac:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fcd0:	b	0x2ecd30 ; symbol stub for: _objc_release
+
+## CBBridgedSplitApp.stopContainerBorderBlinking: @ 0x11fcd4
+Original ABI: \`v24@0:8@16\`
+Function boundary: \`0x11fcd4..0x11fddc\`
+Instruction count: **66**; branches **15**;
+Potential numerical operations (not yet semantic proof):
+
+    11fce4:	add	x29, sp, #0x30
+    11fd24:	add	x2, x2, #0x268 ; Objc cfstring ref: @"borderPulse"
+
+Branch samples:
+    11fcf8:	bl	0x2ecd3c ; symbol stub for: _objc_retain
+    11fd08:	bl	0x2ecd00 ; Objc message: -[x0 layer]
+    11fd10:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fd28:	bl	0x2ecd00 ; Objc message: -[x0 removeAnimationForKey:]
+    11fd30:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fd64:	bl	0x2ecd00 ; Objc message: +[UIColor colorWithRed:green:blue:alpha:]
+    11fd6c:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fd70:	bl	0x2ecd48 ; symbol stub for: _objc_retainAutorelease
+    11fd80:	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+    11fd90:	bl	0x2ecd00 ; Objc message: -[x0 CGColor]
+    11fd98:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    11fda4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fdb8:	bl	0x2ecd00 ; Objc message: -[x0 setBorderColor:]
+    11fdc0:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    11fdd8:	b	0x2ecd30 ; symbol stub for: _objc_release
+
+## CBBridgedSplitApp.configureDividerButtons @ 0x1067a4
+Original ABI: \`v16@0:8\`
+Function boundary: \`0x1067a4..0x1088b8\`
+Instruction count: **2117**; branches **506**;
+Potential numerical operations (not yet semantic proof):
+
+    1067cc:	add	x29, sp, #0x90
+    1067d0:	sub	sp, sp, #0x550
+    106858:	fcmp	d2, #0.0
+    1068b4:	fcmp	d3, #0.0
+    1068fc:	add	x0, sp, #0x410
+    10692c:	add	x9, x9, #0xf98
+    106938:	add	x8, sp, #0x3e8
+    10693c:	add	x24, x8, #0x20
+    106940:	add	x1, sp, #0x410
+    106958:	sub	x8, x8, #0x1
+    10695c:	cmp	x8, #0x7
+    106964:	fmov	d0, #-2.00000000
+    10699c:	add	x9, x9, #0x4d8
+    1069a8:	add	x10, x10, x11, lsl #2
+    1069d0:	mov	x2, #0x0
+    106a40:	add	x2, x2, #0x1c8 ; Objc cfstring ref: @"arrow.left.arrow.right"
+    106a50:	fmov	d0, #0.50000000
+    106a7c:	add	x8, x8, #0xf98
+    106a84:	add	x8, sp, #0x3c0
+    106a88:	add	x21, x8, #0x20
+    106a8c:	add	x1, sp, #0x410
+    106aa0:	add	x2, sp, #0x3c0
+    106ab4:	add	x2, sp, #0x3e8
+    106ac8:	mov	x2, #0x0
+    106af0:	sub	x2, x29, #0xa8
+    106af4:	mov	w3, #0x1
+    106b40:	mov	x2, #0x0
+    106bb0:	add	x2, x2, #0x1e8 ; Objc cfstring ref: @"arrow.up.arrow.down"
+    106bf0:	add	x8, x8, #0xf98
+    106bf8:	add	x8, sp, #0x398
+    106bfc:	add	x21, x8, #0x20
+    106c00:	add	x1, sp, #0x410
+    106c14:	add	x2, sp, #0x398
+    106c28:	add	x2, sp, #0x3e8
+    106c3c:	mov	x2, #0x0
+    106c64:	sub	x2, x29, #0xb0
+    106c68:	mov	w3, #0x1
+    106cb4:	mov	x2, #0x0
+    106d24:	add	x2, x2, #0x1c8 ; Objc cfstring ref: @"arrow.left.arrow.right"
+    106d34:	fmov	d0, #0.50000000
+
+Branch samples:
+    106804:	bl	0x2ecd00 ; Objc message: -[x0 count]
+    106808:	cbz	x0, 0x1086fc
+    10681c:	bl	0x2ecd00 ; Objc message: +[CBWindow carPlayUsableBounds]
+    106838:	bl	0x2ecd00 ; Objc message: -[x0 view]
+    106840:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    106854:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    10685c:	b.le	0x10688c
+    106868:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    106870:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    10687c:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    106888:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    106890:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    10689c:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    1068a4:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    1068b0:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    1068b8:	b.le	0x1068e8
+    1068c4:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    1068cc:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    1068d8:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    1068e4:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    1068ec:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    106904:	bl	0x2ecce8 ; symbol stub for: _objc_initWeak
+    106948:	bl	0x2ecc94 ; symbol stub for: _objc_copyWeak
+    106960:	b.hi	0x1071c8
+    1069b8:	bl	0x2ecd00 ; Objc message: -[x0 bounds]
+    1069bc:	cbz	x0, 0x1086e4
+    1069d4:	bl	0x2ecd00 ; Objc message: -[x0 objectAtIndexedSubscript:]
+    1069dc:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
+    1069f4:	bl	0x2ecd00 ; Objc message: +[CBDividerView class]
+    106a08:	bl	0x2ecd00 ; Objc message: -[x0 isKindOfClass:]
+    106a14:	bl	0x2ecd30 ; symbol stub for: _objc_release
+    106a18:	cbz	w21, 0x1086e4
+    106a2c:	bl	0x2ecd00 ; Objc message: +[CBDividerButtonInfo new]
+    106a44:	bl	0x2ecd00 ; Objc message: -[x0 setIconName:]
+    106a58:	bl	0x2ecd00 ; Objc message: -[x0 setRelativePos:]
+    106a94:	bl	0x2ecc94 ; symbol stub for: _objc_copyWeak
+    106aa8:	bl	0x2ecd00 ; Objc message: -[x0 setOnSwap:]
+    106abc:	bl	0x2ecd00 ; Objc message: -[x0 setOnRotate:]
+    106acc:	bl	0x2ecd00 ; Objc message: -[x0 setOnRotate:]
+    106ad4:	bl	0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue
 
 ## CBBridgedSplitApp.layoutSplitViews @ 0x1044f8
 Original ABI: \`v16@0:8\`
