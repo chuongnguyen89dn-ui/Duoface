@@ -1315,7 +1315,9 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('self.logoHoldRecognized=YES;',hold)
   self.assertIn('self.panActive=YES;',hold)
   self.assertIn('self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));',hold)
-  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',hold)
+  ratio=chrome.split('- (void)applyCommittedLogoRatioPerp:',1)[1].split('- (void)armLogoRatioDwell',1)[0]
+  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',ratio)
+  self.assertIn('[self applyCommittedLogoRatioPerp:perp];',hold)
   self.assertIn('[self saveSplitState]',hold)
   self.assertIn('self.logoTouchPending=NO;',hold)
 
@@ -1418,9 +1420,11 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(self.touchEnded)self.touchEnded(self,inside);",grip)
   # The first 3s logo-hold branch never changes ratio. Before that
   # threshold, a quick perpendicular move on the circular grip MUST resize.
-  holdOnly=logo[:logo.index("// Restored after the .55 device regression:")]
+  holdOnly=logo[:logo.index("// reversible Candidate")]
   self.assertNotIn("self.ratio=",holdOnly)
-  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",logo)
+  ratio=src[src.index("- (void)applyCommittedLogoRatioPerp:"):src.index("- (void)armLogoRatioDwell")]
+  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",ratio)
+  self.assertIn("[self applyCommittedLogoRatioPerp:perp];",logo)
   self.assertIn("self.logoFraction=MAX(",logo)
   self.assertLess(menu.index('[self emit:@"Zoom" ratio:nil]'),menu.index("[self closeMenu:nil]"))
   self.assertNotIn("self.pickerVisible || self.styleVisible",geometry)
@@ -1510,9 +1514,10 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.logoHoldRecognized=YES",chrome)
   self.assertIn("self.logoHoldInitialTouch=self.logoTouchLastScreen",chrome)
   self.assertIn("self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))",chrome)
-  self.assertIn("self.logoDraggingRatio=YES;",chrome)
+  self.assertIn("owner.logoDraggingRatio=YES;",chrome)
+  self.assertIn("logoRatioDwellArmed",chrome)
   self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
-  self.assertIn("if(inside && !held && !moved && !ratioDragged)[self swapPressed:sender]",chrome)
+  self.assertIn("if(allowSwap)[self swapPressed:sender]",chrome)
   self.assertNotIn("UILongPressGestureRecognizer *hold=",chrome)
   self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
 
@@ -1572,7 +1577,7 @@ class DuoFace056DeviceRegression(unittest.TestCase):
   assert "self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)" in src
   assert "self.ratio=DFCSnap(self.ratio)" in src
   assert "self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))" in src
-  assert "if(inside && !held && !moved && !ratioDragged)" in src
+  assert "if(allowSwap)[self swapPressed:sender]" in src
 
 class DuoFaceDeviceZoomAck056(unittest.TestCase):
  def test_one_nonowner_cannot_preempt_real_apple_dock_ack(self):
@@ -1609,9 +1614,10 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertIn('logo-3s-hold-detected-at-real-touch-release',chrome)
   self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
   self.assertNotIn('hold.cancelsTouchesInView=NO;',chrome)
-  self.assertIn('if(!self.logoDraggingRatio && fabs(perp)>10',chrome)
+  self.assertIn('!self.logoRatioCandidate && fabs(perp)>10.0 && dominant',chrome)
+  self.assertIn('fabs(perp)>=14.0 && dominant',chrome)
   self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)',chrome)
-  self.assertIn('if(inside && !held && !moved && !ratioDragged)',chrome)
+  self.assertIn('if(allowSwap)[self swapPressed:sender]',chrome)
 
 class WholeHostZoomGeometry059(unittest.TestCase):
  def test_guard_matches_focused_pane_and_accepts_subpixel_rounding(self):
