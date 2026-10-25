@@ -273,6 +273,13 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
 @property(nonatomic,assign) BOOL logoDraggingRatio;
 @property(nonatomic,assign) BOOL logoMovedBeforeHold;
+@property(nonatomic,assign) BOOL logoRatioCandidate;
+@property(nonatomic,assign) BOOL logoRatioDwellArmed;
+@property(nonatomic,assign) NSUInteger logoRatioDwellToken;
+@property(nonatomic,assign) NSTimeInterval logoRatioQualifiedAt;
+@property(nonatomic,assign) NSInteger logoRatioDirection;
+@property(nonatomic,assign) CGFloat logoMaxExcursion;
+@property(nonatomic,assign) NSTimeInterval logoQuietRadiusEntryAt;
 @property(nonatomic,assign) NSUInteger logoHoldSerial;
 @property(nonatomic,assign) CGPoint logoTouchStartScreen;
 @property(nonatomic,assign) CGPoint logoTouchLastScreen;
@@ -1567,6 +1574,61 @@ static void DFCLog(NSString *text) {
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
+// Commit cross-axis Ratio only after one contact's sustained intention.
+- (void)applyCommittedLogoRatioPerp:(CGFloat)perp {
+    CGFloat extent=self.verticalDivider?self.contentRect.size.width:
+                                         self.contentRect.size.height;
+    if(extent>0 && isfinite(extent) && isfinite(perp)) {
+        CGFloat last=self.ratio;
+        self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);
+        if(fabs(last-self.ratio)>.0001) {
+            [self layoutControls];
+            NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+            if(now-self.lastSent>.05) {
+                self.lastSent=now;
+                [self emit:@"Ratio" ratio:@(self.ratio)];
+            }
+        }
+    }
+}
+// The finger can stop moving: dispatch_after owns the dwell deadline.
+- (void)armLogoRatioDwell {
+    NSUInteger serial=self.logoHoldSerial;
+    NSUInteger token=++self.logoRatioDwellToken;
+    self.logoRatioDwellArmed=YES;
+    self.logoRatioQualifiedAt=NSProcessInfo.processInfo.systemUptime;
+    __weak typeof(self) weakOwner=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(0.15*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+        DFNative12Chrome *owner=weakOwner;
+        if(!owner || owner.logoHoldSerial!=serial || !owner.logoTouchPending ||
+           owner.logoRatioDwellToken!=token || !owner.logoRatioCandidate ||
+           !owner.logoRatioDwellArmed || owner.logoHoldRecognized ||
+           owner.logoDraggingRatio || owner.dividerWindow.hidden)return;
+        DFNativeDividerGripButton *grip=(DFNativeDividerGripButton *)owner.dividerLogo;
+        if(!grip.touchTracked || !grip.activeTouch)return;
+        NSTimeInterval elapsed=NSProcessInfo.processInfo.systemUptime-owner.logoRatioQualifiedAt;
+        if(elapsed<0.145)return;
+        CGPoint p=grip.trackedScreenPoint;
+        CGFloat perp=owner.verticalDivider?p.x-owner.logoTouchStartScreen.x:
+                                           p.y-owner.logoTouchStartScreen.y;
+        CGFloat parallel=owner.verticalDivider?p.y-owner.logoTouchStartScreen.y:
+                                               p.x-owner.logoTouchStartScreen.x;
+        if(!isfinite(perp) || !isfinite(parallel) || fabs(perp)<14.0 ||
+           fabs(perp)<=fabs(parallel)*1.25 ||
+           (perp>0?1:-1)!=owner.logoRatioDirection)return;
+        owner.logoDraggingRatio=YES;
+        owner.logoMovedBeforeHold=YES;
+        owner.logoRatioCandidate=NO;
+        owner.logoRatioDwellArmed=NO;
+        owner.panActive=YES;
+        ++owner.logoHoldSerial; // Only COMMITTED Ratio cancels 3s Hold.
+        DFCLog([NSString stringWithFormat:
+            @"logo-quick-ratio-drag-began-restored-v056 dwell=%.3f perp=%.2f parallel=%.2f",
+            elapsed,perp,parallel]);
+        [owner applyCommittedLogoRatioPerp:perp];
+    });
+}
 // Do not rely on a UILongPressGestureRecognizer that has not fired in user QA.
 // UIKit has already delivered UIButton TouchDown on the real CarPlay display.
 - (void)logoTouchDown:(id)sender {
@@ -1577,6 +1639,11 @@ static void DFCLog(NSString *text) {
     self.logoHoldRecognized=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
+    self.logoRatioCandidate=NO;
+    self.logoRatioDwellArmed=NO;
+    ++self.logoRatioDwellToken;
+    self.logoMaxExcursion=0;
+    self.logoQuietRadiusEntryAt=NSProcessInfo.processInfo.systemUptime;
     self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
     self.logoTouchPending=YES;
     DFCLog([NSString stringWithFormat:@"logo-actual-touch-begin point=%@ window=%@",
@@ -1609,6 +1676,9 @@ static void DFCLog(NSString *text) {
         }
         if(owner.logoHoldRecognized)return; // Already latched by raw touch movement.
         owner.logoHoldRecognized=YES;
+        owner.logoRatioCandidate=NO;
+        owner.logoRatioDwellArmed=NO;
+        ++owner.logoRatioDwellToken;
         owner.logoHoldInitialFraction=owner.logoFraction;
         owner.logoHoldInitialTouch=owner.logoTouchLastScreen;
         owner.panActive=YES;
@@ -1629,6 +1699,9 @@ static void DFCLog(NSString *text) {
     if(!self.logoHoldRecognized && !self.logoDraggingRatio &&
        isfinite(heldFor) && heldFor>=3.0 && !self.dividerWindow.hidden){
         self.logoHoldRecognized=YES;
+        self.logoRatioCandidate=NO;
+        self.logoRatioDwellArmed=NO;
+        ++self.logoRatioDwellToken;
         self.logoHoldInitialFraction=self.logoFraction;
         // Previous tracked point is the real pre-movement anchor. Using p
         // would discard the user's first displacement after three seconds.
@@ -1642,6 +1715,11 @@ static void DFCLog(NSString *text) {
         p.x-self.logoTouchStartScreen.x:p.y-self.logoTouchStartScreen.y;
     CGFloat parallel=self.verticalDivider?
         p.y-self.logoTouchStartScreen.y:p.x-self.logoTouchStartScreen.x;
+    CGFloat excursion=hypot(perp,parallel);
+    self.logoMaxExcursion=MAX(self.logoMaxExcursion,excursion);
+    if(excursion>7.0)self.logoQuietRadiusEntryAt=0;
+    else if(self.logoQuietRadiusEntryAt<=0)
+        self.logoQuietRadiusEntryAt=NSProcessInfo.processInfo.systemUptime;
     if(self.logoHoldRecognized) {
         CGFloat span=self.verticalDivider?self.dividerTrack.bounds.size.height:
                                            self.dividerTrack.bounds.size.width;
@@ -1657,38 +1735,37 @@ static void DFCLog(NSString *text) {
         }
         return;
     }
-    // Restored after the .55 device regression: the parent divider pan
-    // deliberately excludes the circular logo's touch, so a quick cross-axis
-    // drag started ON the logo must resize the panes here, without stealing
-    // the 3-second stationary hold used to relocate the logo ALONG the bar.
-    if(!self.logoDraggingRatio && fabs(perp)>10 &&
-       fabs(perp)>fabs(parallel)*1.25){
-        self.logoDraggingRatio=YES;
-        self.logoMovedBeforeHold=YES;
-        self.panActive=YES;
-        ++self.logoHoldSerial;
-        DFCLog(@"logo-quick-ratio-drag-began-restored-v056");
+    // reversible Candidate >10pt; 14pt for 150ms commits actual Ratio.
+    // Movement measured from original touch-down in screen coordinates.
+    BOOL dominant=fabs(perp)>fabs(parallel)*1.25;
+    if(!self.logoDraggingRatio){
+        if(self.logoRatioCandidate && (fabs(perp)<6.0 || !dominant)){
+            self.logoRatioCandidate=NO;
+            self.logoRatioDwellArmed=NO;
+            ++self.logoRatioDwellToken;
+            DFCLog(@"logo-ratio-candidate-reverted");
+        }
+        if(!self.logoRatioCandidate && fabs(perp)>10.0 && dominant){
+            self.logoRatioCandidate=YES;
+            DFCLog(@"logo-ratio-candidate-entered");
+        }
+        BOOL eligible=self.logoRatioCandidate && fabs(perp)>=14.0 && dominant;
+        NSInteger direction=perp>0?1:-1;
+        if(eligible && (!self.logoRatioDwellArmed ||
+                        self.logoRatioDirection!=direction)){
+            self.logoRatioDirection=direction;
+            [self armLogoRatioDwell];
+        }else if(!eligible && self.logoRatioDwellArmed){
+            self.logoRatioDwellArmed=NO;
+            ++self.logoRatioDwellToken;
+        }
     }
     if(self.logoDraggingRatio){
-        CGFloat extent=self.verticalDivider?self.contentRect.size.width:
-                                            self.contentRect.size.height;
-        if(extent>0 && isfinite(extent)){
-            CGFloat last=self.ratio;
-            self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);
-            if(fabs(last-self.ratio)>.0001){
-                [self layoutControls];
-                NSTimeInterval now=NSDate.date.timeIntervalSince1970;
-                if(now-self.lastSent>.05){
-                    self.lastSent=now;
-                    [self emit:@"Ratio" ratio:@(self.ratio)];
-                }
-            }
-        }
-    }else if(!self.logoMovedBeforeHold && hypot(perp,parallel)>7){
-        self.logoMovedBeforeHold=YES;
-        // Suppress accidental tap-to-swap, but let UIKit's long-press decide
-        // its own movement allowance. The old 7pt timer cancellation is gone.
-        DFCLog([NSString stringWithFormat:@"logo-prehold-motion elapsed=%.3f perp=%.2f parallel=%.2f",
+        [self applyCommittedLogoRatioPerp:perp];
+    }else if(!self.logoMovedBeforeHold && excursion>7.0){
+        self.logoMovedBeforeHold=YES; // diagnostic marker, NOT Swap latch.
+        DFCLog([NSString stringWithFormat:
+            @"logo-prehold-motion elapsed=%.3f perp=%.2f parallel=%.2f",
             NSProcessInfo.processInfo.systemUptime-self.logoTouchStartedAt,perp,parallel]);
     }
 }
@@ -1710,7 +1787,21 @@ static void DFCLog(NSString *text) {
     BOOL held=self.logoHoldRecognized;
     BOOL moved=self.logoMovedBeforeHold;
     BOOL ratioDragged=self.logoDraggingRatio;
+    CGPoint endPoint=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    CGFloat finalNet=hypot(endPoint.x-self.logoTouchStartScreen.x,
+                           endPoint.y-self.logoTouchStartScreen.y);
+    self.logoMaxExcursion=MAX(self.logoMaxExcursion,finalNet);
+    if(finalNet>7.0)self.logoQuietRadiusEntryAt=0;
+    else if(self.logoQuietRadiusEntryAt<=0)
+        self.logoQuietRadiusEntryAt=NSProcessInfo.processInfo.systemUptime;
+    BOOL settled=self.logoQuietRadiusEntryAt>0 &&
+        NSProcessInfo.processInfo.systemUptime-self.logoQuietRadiusEntryAt>=0.25;
+    BOOL allowSwap=inside && !held && !ratioDragged && finalNet<=7.0 &&
+        (self.logoMaxExcursion<=10.0 || settled);
     ++self.logoHoldSerial;
+    ++self.logoRatioDwellToken;
+    self.logoRatioCandidate=NO;
+    self.logoRatioDwellArmed=NO;
     DFCLog([NSString stringWithFormat:
         @"logo-tracking-ended held=%d moved=%d ratio=%d inside=%d",
         held,moved,ratioDragged,inside]);
@@ -1724,7 +1815,7 @@ static void DFCLog(NSString *text) {
         [self saveSplitState];
         DFCLog(@"logo-reposition-3s-hold");
     }
-    if(inside && !held && !moved && !ratioDragged)[self swapPressed:sender];
+    if(allowSwap)[self swapPressed:sender];
     self.logoTouchPending=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
