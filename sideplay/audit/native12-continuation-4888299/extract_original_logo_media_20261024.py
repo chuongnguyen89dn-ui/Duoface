@@ -75,7 +75,7 @@ def append_verifiable_blink_literals():
                     f"double `{value:.12g}`, raw hex `{data[index:index+8].hex()}`")
         print("NATIVE12_VERIFIED_BLINK_LITERAL",name,hex(addr),value)
     with (dest/"REPORT.md").open("a",encoding="utf8") as report:
-        report.write("\\n".join(rows)+"\\n")
+        report.write("\n".join(rows)+"\n")
 
 if __name__ == "__main__":
     module["main"]()
