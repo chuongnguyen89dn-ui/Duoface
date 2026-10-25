@@ -270,6 +270,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) BOOL panActive;
 @property(nonatomic,assign) BOOL logoTouchPending;
 @property(nonatomic,assign) BOOL logoHoldRecognized;
+@property(nonatomic,assign) BOOL logoRecognizerTracking;
 @property(nonatomic,assign) BOOL logoWakeOnlyTap;
 @property(nonatomic,assign) BOOL logoDraggingRatio;
 @property(nonatomic,assign) BOOL logoMovedBeforeHold;
@@ -515,6 +516,17 @@ static void DFCLog(NSString *text) {
     // A quick sideways movement still drags the split ratio; a stationary
     // three-second hold enables along-the-divider logo reposition.
     self.dividerLogo=logo;
+    // Real Native12 has an independently owned long-press callback. The
+    // visible 1.18x blink alone cannot guarantee dragging movement events.
+    // The single existing UIButton remains the ONLY touch/visual owner.
+    UILongPressGestureRecognizer *gripHold=[[UILongPressGestureRecognizer alloc]
+        initWithTarget:self action:@selector(logoLongPressGesture:)];
+    gripHold.minimumPressDuration=3.0;
+    gripHold.allowableMovement=48.0; // The observed 12pt jitter must not cancel.
+    gripHold.cancelsTouchesInView=NO;
+    gripHold.delaysTouchesBegan=NO;
+    gripHold.delaysTouchesEnded=NO;
+    [logo addGestureRecognizer:gripHold];
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
     // Original three-pane kinds have a second independently movable boundary.
@@ -1605,6 +1617,68 @@ static void DFCLog(NSString *text) {
     [self emit:@"Close" ratio:@(slot)];
     DFCLog([NSString stringWithFormat:@"app-host-close slot=%ld",(long)slot]);
 }
+// A non-cancelling recognizer on the SAME grip is an independent
+// movement source when UIKit stops forwarding UIControl raw touchesMoved.
+// It uses the fixed screen coordinate space, never local moving logo bounds.
+- (CGPoint)logoRecognizerScreenPoint:(UILongPressGestureRecognizer *)gesture {
+    UIWindow *window=self.dividerLogo.window;
+    if(!window || !window.screen)return CGPointMake(NAN,NAN);
+    CGPoint local=[gesture locationInView:window];
+    id<UICoordinateSpace> screen=window.screen.coordinateSpace;
+    return screen?[window convertPoint:local toCoordinateSpace:screen]:
+                  CGPointMake(NAN,NAN);
+}
+- (void)logoLongPressGesture:(UILongPressGestureRecognizer *)gesture {
+    if(gesture.view!=self.dividerLogo)return;
+    UIGestureRecognizerState state=gesture.state;
+    if(state==UIGestureRecognizerStateBegan){
+        if(self.dividerWindow.hidden || self.startupActive || self.focus>=0 ||
+           self.pickerVisible || self.styleVisible || self.appPickerVisible ||
+           self.logoDraggingRatio)return;
+        CGPoint p=[self logoRecognizerScreenPoint:gesture];
+        if(!isfinite(p.x)||!isfinite(p.y))return;
+        if(!self.logoTouchPending){
+            ++self.logoHoldSerial;
+            self.logoTouchPending=YES;
+            self.logoTouchStartScreen=p;
+            self.logoTouchStartedAt=NSProcessInfo.processInfo.systemUptime-3.0;
+            self.logoDragInitialRatio=self.ratio;
+            self.logoMovedBeforeHold=NO;
+        }
+        self.logoRecognizerTracking=YES;
+        self.logoHoldRecognized=YES;
+        self.logoRatioCandidate=NO;
+        self.logoRatioDwellArmed=NO;
+        ++self.logoRatioDwellToken;
+        self.logoHoldInitialFraction=self.logoFraction;
+        self.logoHoldInitialTouch=p;
+        self.logoTouchLastScreen=p;
+        self.panActive=YES;
+        [self noteUserActivity];
+        DFCLog([NSString stringWithFormat:
+            @"logo-3s-hold-began-dedicated-recognizer rawActive=%d point=%@",
+            ((DFNativeDividerGripButton *)self.dividerLogo).touchTracked,
+            NSStringFromCGPoint(p)]);
+        return;
+    }
+    if(state==UIGestureRecognizerStateChanged){
+        if(!self.logoRecognizerTracking || !self.logoHoldRecognized)return;
+        CGPoint p=[self logoRecognizerScreenPoint:gesture];
+        if(!isfinite(p.x)||!isfinite(p.y))return;
+        ((DFNativeDividerGripButton *)self.dividerLogo).trackedScreenPoint=p;
+        [self logoTouchChanged:self.dividerLogo];
+        return;
+    }
+    if(state==UIGestureRecognizerStateEnded ||
+       state==UIGestureRecognizerStateCancelled ||
+       state==UIGestureRecognizerStateFailed){
+        if(!self.logoRecognizerTracking)return;
+        self.logoRecognizerTracking=NO;
+        if(self.logoTouchPending)
+            [self logoTouchFinished:self.dividerLogo inside:NO];
+        DFCLog(@"logo-3s-dedicated-recognizer-ended");
+    }
+}
 // Commit cross-axis Ratio only after one contact's sustained intention.
 - (void)applyCommittedLogoRatioPerp:(CGFloat)perp {
     CGFloat extent=self.verticalDivider?self.contentRect.size.width:
@@ -1664,6 +1738,7 @@ static void DFCLog(NSString *text) {
 // UIKit has already delivered UIButton TouchDown on the real CarPlay display.
 - (void)logoTouchDown:(id)sender {
     if(sender!=self.dividerLogo)return;
+    self.logoRecognizerTracking=NO;
     DFNativeDividerGripButton *button=(DFNativeDividerGripButton *)sender;
     CGPoint point=button.trackedScreenPoint;
     if(!isfinite(point.x)||!isfinite(point.y))return;
@@ -1801,7 +1876,10 @@ static void DFCLog(NSString *text) {
     }
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside {
-    if(sender!=self.dividerLogo)return;
+    if(sender!=self.dividerLogo || !self.logoTouchPending)return;
+    // Raw UIButton tracking can cancel while the same physical UILongPress
+    // recognizer continues to deliver its movement/ended stream.
+    if(self.logoRecognizerTracking)return;
     // Last resort: release is delivered on real hardware even after
     // UILongPress.state=Failed. If 3 seconds passed, this was a HOLD,
     // never a short-tap Swap. Release-only detection cannot move the
@@ -2043,6 +2121,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)stop {
     ++self.logoHoldSerial;
+    self.logoRecognizerTracking=NO;
     self.logoTouchPending=NO;
     self.logoDraggingRatio=NO;
     self.logoMovedBeforeHold=NO;
