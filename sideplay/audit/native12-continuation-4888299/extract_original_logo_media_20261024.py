@@ -24,6 +24,14 @@ module["main"].__globals__["METHODS"] = [
     ("CBBridgedUIAppView", "setAudioOnlyBackgroundMode:"),
     ("CBBridgedUIAppView", "dismiss"),
     ("CBBridgeManager", "renderSizeForBundleID:"),
+    ("CBDividerView", "startBlinking"),
+    ("CBDividerView", "stopBlinking"),
+    ("CBBridgedSplitApp", "noteUserActivity"),
+    ("CBBridgedSplitApp", "startBlinkingSession"),
+    ("CBBridgedSplitApp", "stopBlinkingSession"),
+    ("CBBridgedSplitApp", "startContainerBorderBlinking:"),
+    ("CBBridgedSplitApp", "stopContainerBorderBlinking:"),
+    ("CBBridgedSplitApp", "configureDividerButtons"),
     ("CBBridgedSplitApp", "layoutSplitViews"),
 ]
 if __name__ == "__main__":
