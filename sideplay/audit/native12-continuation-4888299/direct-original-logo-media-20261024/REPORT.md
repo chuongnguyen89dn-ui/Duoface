@@ -1330,7 +1330,7 @@ Branch samples:
 
 Each double is mapped from the exact original Dashboard SHA; selector execution or final idle duration still requires CFG/runtime interpretation.
 
-- `blink_start_animation_duration_100d9c` VM `0x30f968`, file off `0x30f968`: double `1.60807493534e-314`, raw hex `000000c200000000`
-- `blink_stop_animation_duration_1011ec` VM `0x30f968`, file off `0x30f968`: double `1.60807493534e-314`, raw hex `000000c200000000`
-- `blink_session_NSTimer_interval_10c848` VM `0x311b20`, file off `0x311b20`: double `1000`, raw hex `0000000000408f40`
-- `blink_grip_scale_100eb8` VM `0x312498`, file off `0x312498`: double `1.18`, raw hex `e17a14ae47e1f23f`
+- `blink_start_animation_duration_100d9c` VM `0x30f968`, file off `0x30f968`: raw double `1.60807493534e-314`, bytes `000000c200000000`; interpretation **AMBIGUOUS_NOT_A_PLAUSIBLE_DURATION**
+- `blink_stop_animation_duration_1011ec` VM `0x30f968`, file off `0x30f968`: raw double `1.60807493534e-314`, bytes `000000c200000000`; interpretation **AMBIGUOUS_NOT_A_PLAUSIBLE_DURATION**
+- `blink_session_NSTimer_interval_10c848` VM `0x311b20`, file off `0x311b20`: raw double `1000`, bytes `0000000000408f40`; interpretation **RAW_TIMER_LITERAL_NOT_VERIFIED_VISIBLE_IDLE_TIME**
+- `blink_grip_scale_100eb8` VM `0x312498`, file off `0x312498`: raw double `1.18`, bytes `e17a14ae47e1f23f`; interpretation **BUTTON_TRANSFORM_SCALE_LITERAL**
