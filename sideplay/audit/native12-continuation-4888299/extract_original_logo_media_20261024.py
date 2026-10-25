@@ -43,7 +43,7 @@ def append_verifiable_blink_literals():
     binary=pathlib.Path(argv[argv.index("--binary")+1])
     dest=pathlib.Path(argv[argv.index("--out")+1])
     data=binary.read_bytes()
-    if hashlib.sha256(data).hexdigest()!="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280a695ea":
+    if hashlib.sha256(data).hexdigest()!="9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea":
         raise ValueError("Wrong original Native12 dashboard")
     if struct.unpack_from("<I",data,0)[0]!=0xfeedfacf:
         raise ValueError("Not a 64-bit Mach-O")
