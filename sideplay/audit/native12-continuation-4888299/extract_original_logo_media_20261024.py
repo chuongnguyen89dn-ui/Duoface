@@ -71,9 +71,17 @@ def append_verifiable_blink_literals():
         if len(matched)!=1:raise ValueError(f"Blink literal mapping ambiguous {name}")
         index=matched[0]
         value=struct.unpack_from("<d",data,index)[0]
+        # The adrp/ldr site can fetch a non-duration constant; a mapped
+        # double alone is not enough to prove the UIView animation timing.
+        verdict=("AMBIGUOUS_NOT_A_PLAUSIBLE_DURATION" if
+                 ("animation_duration" in name and not (.01<=value<=60)) else
+                 "RAW_TIMER_LITERAL_NOT_VERIFIED_VISIBLE_IDLE_TIME" if
+                 "NSTimer_interval" in name else
+                 "BUTTON_TRANSFORM_SCALE_LITERAL")
         rows.append(f"- `{name}` VM `0x{addr:x}`, file off `0x{index:x}`: "
-                    f"double `{value:.12g}`, raw hex `{data[index:index+8].hex()}`")
-        print("NATIVE12_VERIFIED_BLINK_LITERAL",name,hex(addr),value)
+                    f"raw double `{value:.12g}`, bytes `{data[index:index+8].hex()}`; "
+                    f"interpretation **{verdict}**")
+        print("NATIVE12_VERIFIED_BLINK_LITERAL",name,hex(addr),value,verdict)
     with (dest/"REPORT.md").open("a",encoding="utf8") as report:
         report.write("\n".join(rows)+"\n")
 
