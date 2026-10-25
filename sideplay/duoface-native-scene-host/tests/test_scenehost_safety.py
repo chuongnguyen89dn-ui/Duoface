@@ -1265,12 +1265,25 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("DockOwnerVerified\":@YES",source)
  def test_039_hidden_divider_does_not_intercept_app_touches(self):
   chrome=file("DFNative12Chrome.m")
-  self.assertIn("line.hidden=!controlsVisible",chrome)
+  self.assertNotIn("line.tag=718;",chrome)
+  self.assertNotIn("viewWithTag:718",chrome)
   self.assertIn("stroke.hidden=!controlsVisible",chrome)
   self.assertIn("self.dividerWindow.userInteractionEnabled=YES",chrome)
   self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=YES",chrome)
   self.assertIn("[owner noteUserActivity]",chrome)
   self.assertIn("self.panActive ||",chrome)
+ def test_native12_grip_pulses_only_on_existing_activity_session(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn('- (void)updateGripBlinkForVisibleSession:(BOOL)visible',chrome)
+  self.assertIn('@"dfNative12GripPulse"',chrome)
+  self.assertIn('blink.toValue=@1.18;',chrome)
+  self.assertIn('blink.autoreverses=YES;',chrome)
+  self.assertIn('[self updateGripBlinkForVisibleSession:controlsVisible];',chrome)
+  self.assertIn('[self.dividerLogo.layer removeAnimationForKey:@"dfNative12GripPulse"]',chrome)
+  self.assertIn('if(existing)return;',chrome)
+  self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
+  self.assertIn('initWithTarget:self action:@selector(dividerPan:)',chrome)
+  self.assertNotIn('self.dividerLogo.transform=',chrome)
  def test_media_scene_037_reference_no_extra_layout_reentry(self):
   """Keep the user's prior playable v0.0.37 scene sizing path."""
   host=file("DFSceneHost.m")
