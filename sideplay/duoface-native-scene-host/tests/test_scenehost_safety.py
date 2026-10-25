@@ -290,6 +290,19 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
   self.assertIn('self.swapped=!self.swapped;',chrome)
 
+ def test_065_logo_hold_drag_device_regression_contract(self):
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("gripHold.minimumPressDuration=3.0;",chrome)
+  self.assertIn("gripHold.allowableMovement=48.0;",chrome)
+  self.assertIn("gripHold.cancelsTouchesInView=NO;",chrome)
+  self.assertIn("[logo addGestureRecognizer:gripHold];",chrome)
+  self.assertIn("logo-3s-hold-began-dedicated-recognizer",chrome)
+  self.assertIn("[self logoTouchChanged:self.dividerLogo];",chrome)
+  self.assertIn("if(self.logoRecognizerTracking)return;",chrome)
+  self.assertIn("logo-3s-moved-position",chrome)
+  self.assertIn("blink.toValue=@1.18;",chrome)
+  self.assertNotIn("line.tag=718;",chrome)
+
  def test_native12_approved_artwork_iphone_home_and_launch(self):
   info=plistlib.loads((R/"Info.plist").read_bytes())
   self.assertEqual(info["CFBundleDisplayName"],"DuoFace")
