@@ -77,8 +77,9 @@ jobs:
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           # Verify the new allowlisted app-process dylib actually ships; earlier .71
           # had only SpringBoard/CarPlay filters and could not bridge app UIKit.
-          dpkg-deb -c "$PACKAGE" | grep -q 'DFAppViewportRelay.dylib'
-          dpkg-deb -c "$PACKAGE" | grep -q 'DFAppViewportRelay.plist'
+          dpkg-deb -c "$PACKAGE" > "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
+          grep -F 'DFAppViewportRelay.dylib' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
+          grep -F 'DFAppViewportRelay.plist' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
           test -x "$RUNNER_TEMP/duoface-package-control/postinst"
