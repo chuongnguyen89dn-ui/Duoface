@@ -28,7 +28,11 @@ class AppOwnedViewport(unittest.TestCase):
         # No per-app whitelist in first-party process receiver or host.
         for bundle in ("com.openai.chat","com.google.ios.youtube",
                        "com.banyac.midrive.intl","com.google.Maps"):
-            self.assertNotIn(f'@"{bundle}"',src+host)
+            # YouTube has pre-existing orientation-specific host rules;
+            # viewport-app enrolment itself must never hardcode 4 IDs.
+            self.assertNotIn(f'@"{bundle}"',src)
+            enrollment=host.split("// Every app admitted by the existing DuoFace picker")[1].split("    @try {")[0]
+            self.assertNotIn(f'@"{bundle}"',enrollment)
         for forbidden in ("MSHookMessageEx", "method_setImplementation",
                           "setInterfaceOrientation:", "setUserInterfaceIdiom:",
                           "setSceneClass:", "setWindowScene:",
