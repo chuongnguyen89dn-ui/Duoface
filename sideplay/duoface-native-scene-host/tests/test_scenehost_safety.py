@@ -1461,19 +1461,38 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:wait",host)
   self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
 
- def test_live_springboard_scene_must_not_mutate_private_reference_size_on_reflow(self):
+ def test_live_springboard_scene_requires_stable_owner_one_remote_dispatch(self):
+  """Source gate only: not a physical CarPlay crash or video acceptance test."""
   source=file("DFSceneHost.m")
   method=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1]
-  live_gate=method.index("if(self.ready){")
-  marker=method.index('@"live-scene-private-reference-update-suppressed"')
-  setter=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
-  self.assertLess(live_gate,marker)
-  self.assertLess(marker,setter)
-  self.assertIn("self.committedReferenceSize=size;",method[live_gate:setter])
-  self.assertIn("return;",method[live_gate:setter])
-  self.assertIn("if (!self.ready)",source)
+  # Both guards matter: quiet window and 1.25s SAME scene settling.
+  self.assertIn("if (timer && self.geometryCommitTimer!=timer) return;",method)
+  self.assertIn("if(!isfinite(age)||age<1.25)",method)
+  self.assertIn("currentScene!=self.scene",method)
+  self.assertIn("self.appController.view.window==self.window",method)
+  self.assertIn('DFHostingFlag(self.appController,@"isHostingAnApp",NO)',method)
+  self.assertIn("self.sceneGeneration!=generation",method)
+  self.assertIn("!CGSizeEqualToSize(size,self.pendingReferenceSize)",method)
+  self.assertIn('methodSignatureForSelector:sz3',method)
+  self.assertIn("sig.numberOfArguments==5",method)
+  self.assertIn("strcmp(sizeType,@encode(CGSize))==0",method)
+  self.assertIn("strcmp(contentType,@encode(NSInteger))==0",method)
+  self.assertIn("strcmp(containerType,@encode(NSInteger))==0",method)
+  # The live branch returns BEFORE the original pre-mode2 three-setter and
+  # unverified FBScene.updateSettingsWithBlock path.
+  live=method.index('DFSceneLog(@"live-viewport-reference-before"')
+  sent=method.index('@"live-scene-reference-size-dispatched"')
+  seed=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
+  private=method.index('NSSelectorFromString(@"updateSettingsWithBlock:")')
+  self.assertLess(live,sent)
+  self.assertLess(sent,seed)
+  self.assertLess(seed,private)
+  self.assertIn("self.committedReferenceSize=size;",method[live:seed])
+  self.assertIn("} @finally { self.committingSceneGeometry=NO; }",method[live:seed])
+  self.assertIn("return;",method[sent:seed])
+  self.assertNotIn('updateSettingsWithBlock:',method[live:seed])
+  self.assertNotIn("live-scene-private-reference-update-suppressed",method)
   self.assertIn('@"media-pane-frame-readback"',source)
-  self.assertIn('NSStringFromCGRect(self.window.frame)',source)
   self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
 
  def test_shared_native12_source_window_geometry_not_four_uiroot_windows(self):

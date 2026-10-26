@@ -252,21 +252,105 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             return;
         }
     }
-    // On-device owner evidence 2026-10-23: SpringBoard SIGABRT repeatedly
-    // enters SBAppViewController sceneHandle:didUpdateSettingsWithDiff:.
-    // Disabling only updateSettingsWithBlock: in .46/.47 did NOT stop crashes.
-    // This code still wrote three PRIVATE content-reference-size setters each
-    // time a live YouTube/app pane was resized. For safety, live scenes now
-    // use ONLY the UIKit host transform in layoutScene; the original
-    // pre-requestedMode seed remains in the !ready path. Never mutate a
-    // FrontBoard scene through another undocumented setter during playback.
-    // This does NOT prove crash freedom or media/orientation parity on device.
+    // Original Native12 refreshSceneLayout @ade58 negotiates the REAL app
+    // reference size after the UIView layout. Prior .66 exited here as soon
+    // as hosting was ready, so a large split pane retained a phone viewport.
+    // A live scene is more dangerous than the initial pre-mode2 seed:
+    // perform exactly ONE coalesced child-reference dispatch only after the
+    // present scene is stably hosted, not one write per divider movement.
+    // NEVER mutate FBScene.settings here. The old +440 SpringBoard SIGABRT
+    // means a successful objc_msgSend is NOT an approval of video or safety.
     if(self.ready){
-        self.committedReferenceSize=size;
-        DFSceneLog(@"live-scene-private-reference-update-suppressed",
-                   self.bundleID,NSStringFromCGSize(size));
+        NSUInteger generation=self.sceneGeneration;
+        id handle=DFCall0(self.appController,@"sceneHandle");
+        id currentScene=DFCall0(handle,@"sceneIfExists");
+        BOOL viewAttached=(self.appController.view.window==self.window);
+        if(self.stopped || self.geometrySuspended || !currentScene ||
+           currentScene!=self.scene || !viewAttached ||
+           !DFHostingFlag(self.appController,@"isHostingAnApp",NO) ||
+           self.sceneGeneration!=generation){
+            DFSceneLog(@"live-viewport-owner-mismatch",self.bundleID,
+                       @"defer; current generation/hosting/window not stable");
+            return;
+        }
+        id deviceController=nil;
+        @try {
+            deviceController=[self.appController valueForKey:@"_deviceAppViewController"];
+        } @catch(NSException *kvcError) {
+            DFSceneLog(@"live-viewport-kvc-fallback",self.bundleID,kvcError.name);
+            Ivar ivar=class_getInstanceVariable([self.appController class],
+                                               "_deviceAppViewController");
+            if(ivar) deviceController=object_getIvar(self.appController,ivar);
+        }
+        SEL sz3=NSSelectorFromString(
+            @"setContentReferenceSize:withContentOrientation:andContainerOrientation:");
+        NSMethodSignature *sig=(deviceController &&
+                                [deviceController respondsToSelector:sz3]) ?
+             [deviceController methodSignatureForSelector:sz3] : nil;
+        const char *sizeType=(sig && sig.numberOfArguments==5) ?
+             [sig getArgumentTypeAtIndex:2] : NULL;
+        const char *contentType=(sig && sig.numberOfArguments==5) ?
+             [sig getArgumentTypeAtIndex:3] : NULL;
+        const char *containerType=(sig && sig.numberOfArguments==5) ?
+             [sig getArgumentTypeAtIndex:4] : NULL;
+        // The original 3-argument UIKit ABI is CGSize + NSInteger +
+        // NSInteger on arm64. Reject unknown ABI instead of messaging an
+        // inappropriate receiver and crashing SpringBoard on the device.
+        BOOL sizeABI=(sizeType &&
+                     (strcmp(sizeType,@encode(CGSize))==0 ||
+                      strncmp(sizeType,"{CGSize=",8)==0));
+        BOOL abiValid=sig && sig.numberOfArguments==5 && sizeABI &&
+             strcmp(sig.methodReturnType,@encode(void))==0 &&
+             contentType && strcmp(contentType,@encode(NSInteger))==0 &&
+             containerType && strcmp(containerType,@encode(NSInteger))==0;
+        if(!abiValid){
+            DFSceneLog(@"live-viewport-abi-rejected",self.bundleID,
+                [NSString stringWithFormat:@"child=%@ selector=%d argc=%lu",
+                   NSStringFromClass([deviceController class]),
+                   deviceController!=nil,
+                   (unsigned long)(sig?sig.numberOfArguments:0)]);
+            return;
+        }
+        // The 0.30s quiet period + 1.25s stable owner check above are part
+        // of the contract. A newer pan, replacement or Close revokes it.
+        if(self.stopped || self.geometrySuspended ||
+           self.sceneGeneration!=generation ||
+           !CGSizeEqualToSize(size,self.pendingReferenceSize) ||
+           !CGSizeEqualToSize(size,self.bounds.size) ||
+           DFCall0(DFCall0(self.appController,@"sceneHandle"),
+                   @"sceneIfExists")!=currentScene)return;
+        CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
+        self.committingSceneGeometry=YES;
+        @try {
+            DFSceneLog(@"live-viewport-reference-before",self.bundleID,
+              [NSString stringWithFormat:@"generation=%lu scene=%p size=%@",
+                  (unsigned long)generation,currentScene,
+                  NSStringFromCGSize(logical)]);
+            ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(
+                deviceController,sz3,logical,
+                UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
+            // This means the message returned, NOT that pixels/playback or
+            // Apple's scene diff callback accepted a new stable viewport.
+            if(!self.stopped && !self.geometrySuspended &&
+               self.sceneGeneration==generation &&
+               DFCall0(DFCall0(self.appController,@"sceneHandle"),
+                       @"sceneIfExists")==currentScene){
+                self.committedReferenceSize=size;
+                DFSceneLog(@"live-scene-reference-size-dispatched",self.bundleID,
+                    [NSString stringWithFormat:@"generation=%lu size=%@",
+                        (unsigned long)generation,NSStringFromCGSize(logical)]);
+            } else {
+                DFSceneLog(@"live-viewport-owner-changed-after-send",
+                           self.bundleID,@"not committed");
+            }
+        } @catch(NSException *e) {
+            DFSceneLog(@"live-viewport-reference-exception",
+                       self.bundleID,e.reason?:@"unknown");
+        } @finally { self.committingSceneGeometry=NO; }
         return;
     }
+    // The following private selector path is pre-requestedMode only.
+    // Never enter FBScene.settings mutation for an already hosted app.
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     @try {
