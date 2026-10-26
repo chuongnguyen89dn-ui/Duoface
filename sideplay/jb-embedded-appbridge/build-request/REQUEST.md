@@ -1,3 +1,14 @@
+## 2026-10-26 — ONE signed v0.0.72 app-owned viewport bridge after device .71 boxed FAIL
+
+New actual device photo: ChatGPT and 70mai remain narrow portrait-window content inside CarPlay panes. The previous .37 FOUR physical UIWindow recovery in .71 is not sufficient. Do not change working logo, ratio, Swap, Zoom, Dock or Style.
+
+Own first-party .72 source: DFAppViewportProtocol.h; DFAppViewportRelay.m; DFAppViewportRelay.plist; modified DFSceneHost.m; existing single-DEB build/version/test workflow. Host sends short-lived Darwin viewport ONLY on actual owned FBScene frame readback. App process guarded to bundle IDs com.openai.chat, com.google.ios.youtube, com.banyac.midrive.intl, com.google.Maps. Receiver ONLY reflows own UIWindow if actual UIWindowScene.coordinateSpace.bounds matches verified request. No private system hooks, no global idiom spoof, no vendor binary/license. Close revokes viewport session. This new renderer-side layer remains device UNVERIFIED.
+
+Source-only run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40317124394 job 121552410646 COMPLETED SUCCESS including own regression tests and actual iOS16 ARM64 UIKit clang source syntax. Exact source HEAD before build-request commit: b59b559f072f47949d09a3b6a42b63fff64a81d3.
+
+Request exactly ONE existing integrated signed rootless DEB com.duoface.jb.embedded_0.0.72~appscene1_iphoneos-arm64.deb, internal nativehost com.duoface.carplay.nativescenehost_0.1.81~appscene1. Run all source/unit, actual clang, dpkg/sign and SHA256 provenance; archive immutable artifacts on Duoface branch. Fail closed if build fails, preserve .71 and older immutable rollback. Only after verifiable signed artifact/publisher checksum should public Sileo index point at .72 beta. This is not on-device proof of unboxed Apps or upright YouTube. Required on-device checks: ChatGPT/70mai fill pane; YouTube play seek and rotate correctly; 1/3 1/2 2/3 ratios, focus, logo, Dock/Zoom/Close, no SpringBoard SafeMode.
+
+---
 ## 2026-10-26 — RETRY .71 ON CORRECTED EXACT SOURCE (not another variant)
 
 The first .71 signed staging run `40306019134` **FAILED before build** in nativehost test import: `IndentationError: unexpected indent` at `tests/test_scenehost_safety.py:469`, generated when converting obsolete shared-window assertions; NOT an original runtime code/ABI failure. Precisely corrected both lines 469/509 (`v.hidden=appWindow.hidden` assertion alignment) in source commit `9410916769d7228535161e67e20067ff49a3c515`. Source-only test run `40306140088` has source contracts SUCCESS and actual iOS16 SDK clang source syntax IN_PROGRESS at time of this retry. Run EXACT SAME packaging workflow and version `0.0.71~v37windows1` on current branch, source after `94109167`; NO new candidate number, NO extra tweak. Fail closed if any tests, signing or ABI fails. Preserve all .70/69 rollback artifacts and public index until signed .71 provenance and public Pages check genuinely pass.
