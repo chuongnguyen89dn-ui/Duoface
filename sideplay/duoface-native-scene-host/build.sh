@@ -32,10 +32,7 @@ ldid -S "$DOCK_DYLIB"
 # Real iPhone app renderer-side relayout, independent of SpringBoard/Dock.
 # Inject ONLY into the four expressly named target applications.
 APP_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.dylib"
-xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \\
-  -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \\
-  -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics \\
-  -o "$APP_DYLIB" DFAppViewportRelay.m
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations -framework UIKit -framework Foundation -framework QuartzCore -framework CoreGraphics -o "$APP_DYLIB" DFAppViewportRelay.m
 cp DFAppViewportRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.plist"
 ldid -S "$APP_DYLIB"
 
