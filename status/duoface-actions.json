@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-10-26T01:17:30.454837+00:00",
+  "checked_at_utc": "2026-10-26T07:53:42.298037+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2691,
+  "total_actions_runs": 2700,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
@@ -11,15 +11,15 @@
       "other": 1
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 14,
-      "success": 12,
-      "failure": 2,
+      "recent_runs": 16,
+      "success": 13,
+      "failure": 3,
       "other": 0
     },
     "DuoFace Native12 source-only UIKit and original behavior regression": {
       "recent_runs": 61,
-      "success": 22,
-      "failure": 16,
+      "success": 24,
+      "failure": 14,
       "other": 23
     },
     "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)": {
@@ -27,21 +27,105 @@
       "success": 4,
       "failure": 3,
       "other": 0
-    },
-    "DuoFace Native12 vs .54 vs .55 ACTUAL DEB forensic audit (NO DEPLOY)": {
-      "recent_runs": 2,
-      "success": 2,
-      "failure": 0,
-      "other": 0
     }
   },
   "latest_runs": [
     {
+      "id": 40288584210,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 74,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40288584210",
+      "created_at": "2026-10-26T07:53:32Z",
+      "head_sha": "5854d7a3a044937045fe14077a65f832e8e7bf79"
+    },
+    {
+      "id": 40275876374,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 290,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40275876374",
+      "created_at": "2026-10-26T05:44:44Z",
+      "head_sha": "29ad48d5e1667f30c73eba1562c5bcefe8cd4a85"
+    },
+    {
+      "id": 40275716458,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 234,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40275716458",
+      "created_at": "2026-10-26T05:42:56Z",
+      "head_sha": "aea6f9aeb817a13cdd04dfa9a254fcd187dd4de0"
+    },
+    {
+      "id": 40275458604,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 289,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40275458604",
+      "created_at": "2026-10-26T05:40:09Z",
+      "head_sha": "4e74adbf23483bd78615ff8a2fcfaadd811c7e5b"
+    },
+    {
+      "id": 40275251574,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 233,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40275251574",
+      "created_at": "2026-10-26T05:37:51Z",
+      "head_sha": "b4a1fdc412d2ac455838bcb33ba34df1f28ad9fc"
+    },
+    {
+      "id": 40274519055,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 232,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40274519055",
+      "created_at": "2026-10-26T05:29:48Z",
+      "head_sha": "5a6dbd65bdfafe6d8e92962bfb94780f471ac8dd"
+    },
+    {
+      "id": 40274422809,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 231,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40274422809",
+      "created_at": "2026-10-26T05:28:42Z",
+      "head_sha": "46a683ccad5e5f87a042d7c211962e7ce41378ed"
+    },
+    {
+      "id": 40271820331,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 288,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40271820331",
+      "created_at": "2026-10-26T04:58:56Z",
+      "head_sha": "344095a0f12e07f19f355255db981826c0f2017c"
+    },
+    {
+      "id": 40271759745,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 230,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40271759745",
+      "created_at": "2026-10-26T04:58:11Z",
+      "head_sha": "c6220df335607eb4fe79492ca5c051e944f0b741"
+    },
+    {
       "id": 40253488781,
       "name": "DuoFace Actions status snapshot",
       "run_number": 73,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40253488781",
       "created_at": "2026-10-26T01:17:21Z",
       "head_sha": "7da83e4add03f0f116c416491c32adfc793433be"
@@ -245,96 +329,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40163260153",
       "created_at": "2026-10-25T04:49:05Z",
       "head_sha": "daac3d4e54fb026a54197f4c1ccad1dab6905ff4"
-    },
-    {
-      "id": 40163207920,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 216,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40163207920",
-      "created_at": "2026-10-25T04:48:12Z",
-      "head_sha": "f608c46531f3fa8f43b5e8f76dff052771f69c1a"
-    },
-    {
-      "id": 40163150467,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 215,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40163150467",
-      "created_at": "2026-10-25T04:47:14Z",
-      "head_sha": "a2d3c1db00ad412aaaf2b82f090ada2914af9c8a"
-    },
-    {
-      "id": 40162309894,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40162309894",
-      "created_at": "2026-10-25T04:33:20Z",
-      "head_sha": "3d11c37055c78a0f46e12c00bd50873f5f890aea"
-    },
-    {
-      "id": 40162173698,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40162173698",
-      "created_at": "2026-10-25T04:31:08Z",
-      "head_sha": "4f29a8f6810023dc04142bf8b624834eed37775e"
-    },
-    {
-      "id": 40162134815,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40162134815",
-      "created_at": "2026-10-25T04:30:33Z",
-      "head_sha": "69678b4407aeb9da9b7080919a44ad0ab6992b10"
-    },
-    {
-      "id": 40162012082,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 4,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40162012082",
-      "created_at": "2026-10-25T04:28:38Z",
-      "head_sha": "54e58e5eb2df95afc696902348b7796272239016"
-    },
-    {
-      "id": 40161782344,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40161782344",
-      "created_at": "2026-10-25T04:24:45Z",
-      "head_sha": "bfd1b0e5139be0524659ef321540c055fd244607"
-    },
-    {
-      "id": 40161770668,
-      "name": "Native12 ORIGINAL SHA-pinned logo media crash crosswalk 20261024 (READ ONLY)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40161770668",
-      "created_at": "2026-10-25T04:24:33Z",
-      "head_sha": "dba4057ecd5dbb92cc17395e923acdd55e886852"
-    },
-    {
-      "id": 40160199015,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 285,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40160199015",
-      "created_at": "2026-10-25T03:58:59Z",
-      "head_sha": "0fed7f1b1ce806bc57b7e04aeef2ad2335fa520d"
     }
   ]
 }
