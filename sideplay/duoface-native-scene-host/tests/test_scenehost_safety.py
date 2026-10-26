@@ -14,7 +14,7 @@ class NativeCarPlayHost(unittest.TestCase):
   probe=file("DFTouchOwnerProbe.m")
   dock=file("DFCarPlayDockOwner.m")
   export=file("DFNativeDiagnostics.m")
-  self.assertIn("build=0.0.71~v37windows1",deep)
+  self.assertIn("build=0.0.72~appscene1",deep)
   self.assertIn("DFDiagnosticSnapshot(NSString *area, NSString *phase",deep)
   self.assertIn("approved containsObject:key",deep)
   self.assertIn("if(clean.length>160)",deep)
@@ -182,7 +182,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.80~v37windows1",build)
+  self.assertIn("0.1.81~appscene1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -673,7 +673,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.80~v37windows1",c)
+  self.assertIn("Version: 0.1.81~appscene1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
