@@ -9,6 +9,8 @@ import json
 import os
 import re
 import subprocess
+import struct
+import tempfile
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -24,9 +26,28 @@ EXPECTED_IMP={"layoutInFrame:scaleMode:":0x2f6e0,
 LINE=re.compile(r"^\s*([0-9a-fA-F]+):\s+(.+)$")
 
 def main():
-    data=BINARY.read_bytes()
-    sha=hashlib.sha256(data).hexdigest()
+    original=BINARY.read_bytes()
+    sha=hashlib.sha256(original).hexdigest()
     assert sha==EXPECTED,(sha,"unexpected SidePlay binary")
+    # Existing QA MachO.select_arm64 uses precisely this CPU/subtype and
+    # slice window. `llvm-objdump` without selecting the slice disassembles
+    # an unrelated FAT member at numerically similar VM addresses!
+    data=original
+    if data[:4] in (bytes.fromhex("cafebabe"), bytes.fromhex("cafebabf")):
+        wide=data[:4]==bytes.fromhex("cafebabf")
+        count=struct.unpack_from(">I",data,4)[0]
+        selected_slice=None
+        for i in range(count):
+            pos=8+i*(32 if wide else 20)
+            cpu,subtype=struct.unpack_from(">II",data,pos)
+            off,size=struct.unpack_from(">QQ" if wide else ">II",data,pos+8)
+            if cpu==0x0100000c and (subtype & 0xffffff)==0 and 0<size and off+size<=len(data):
+                selected_slice=data[off:off+size]
+                break
+        if selected_slice is None:raise RuntimeError("pinned original has no plain arm64 slice")
+        data=selected_slice
+    if data[:4]!=bytes.fromhex("cffaedfe"):
+        raise RuntimeError("not thin arm64 Mach-O after selection")
     index=json.loads(INDEX.read_text())
     assert index["sha256"]==sha
     pane=next(x for x in index["matches"] if x["class"]=="SPPane")
@@ -39,9 +60,14 @@ def main():
     selected={n:found(n) for n in NAMES}
     for n,rec in selected.items():
         assert int(rec["imp"],16)==EXPECTED_IMP[n],(n,rec)
-    cmd=[os.environ.get("OBJDUMP","llvm-objdump-18"),"--macho","--disassemble",
-         "--no-show-raw-insn",str(BINARY)]
-    out=subprocess.run(cmd,capture_output=True,text=True,errors="replace")
+    # Force the exact same thin arm64 Mach-O slice as the selector metadata,
+    # rather than objdump's default FAT-architecture selection.
+    with tempfile.TemporaryDirectory() as directory:
+        thin=Path(directory)/"sideplay-arm64.dylib"
+        thin.write_bytes(data)
+        cmd=[os.environ.get("OBJDUMP","llvm-objdump-18"),"--macho","--disassemble",
+             "--no-show-raw-insn",str(thin)]
+        out=subprocess.run(cmd,capture_output=True,text=True,errors="replace")
     if out.returncode:raise RuntimeError("llvm objdump failed "+out.stderr[-2500:])
     asm={}
     for line in out.stdout.splitlines():
@@ -57,7 +83,6 @@ def main():
     # The `llvm-objdump --macho` listing alone is not enough to label an
     # indexed Objective-C IMP as a function entry. Confirm byte-for-byte VM
     # mapping via the original Mach-O LC_SEGMENT_64 and Capstone.
-    import struct
     from capstone import Cs, CS_ARCH_ARM64, CS_MODE_ARM
     segments=[]
     if data[:4]!=bytes.fromhex("cffaedfe"):
@@ -112,6 +137,7 @@ def main():
     OUT.write_text(json.dumps({
         "status":"ORIGINAL_SIDEPLAY_1041_PINNED_ARM64_INSTRUCTIONS_NOT_DEVICE_EXECUTION",
         "original_sideplay_dylib_sha256":sha,
+        "selected_plain_arm64_slice_sha256":hashlib.sha256(data).hexdigest(),
         "known_method_index_sha256":hashlib.sha256(INDEX.read_bytes()).hexdigest(),
         "llvm_command":cmd,
         "selection":"four precisely identified SPPane method bodies",
