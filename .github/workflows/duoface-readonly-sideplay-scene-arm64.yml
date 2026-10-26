@@ -1,0 +1,54 @@
+name: DuoFace exact SidePlay original scene ARM64 proof (READ ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-readonly-sideplay-scene-arm64.yml'
+      - 'sideplay/native12-display/tools/audit_verified_sideplay_scene_methods.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-exact-sideplay-scene-arm64
+  cancel-in-progress: false
+jobs:
+  original-binary-method-lookup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Verify original binary and extract four bounded ARM64 methods
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v llvm-objdump-18 >/dev/null; then
+            export OBJDUMP=llvm-objdump-18
+          elif command -v llvm-objdump >/dev/null; then
+            export OBJDUMP=llvm-objdump
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm-18
+            export OBJDUMP=llvm-objdump-18
+          fi
+          python3 sideplay/native12-display/tools/audit_verified_sideplay_scene_methods.py
+          test -s sideplay/native12-display/audit/SIDEPLAY_SCENE_FRAME_ARM64_CALLS_20261026.json
+      - name: Save extracted evidence in the SAME DuoFace repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sideplay/native12-display/audit/SIDEPLAY_SCENE_FRAME_ARM64_CALLS_20261026.json
+          if ! git diff --cached --quiet; then
+            git commit -m "audit(duoface): archive original SidePlay frame/orientation ARM64 callsites [skip ci]"
+            git pull --rebase origin feature/duoface-jb-embedded-appbridge-20261020
+            git push origin HEAD:feature/duoface-jb-embedded-appbridge-20261020
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-exact-sideplay-original-arm64
+          path: sideplay/native12-display/audit/SIDEPLAY_SCENE_FRAME_ARM64_CALLS_20261026.json
+          if-no-files-found: warn
