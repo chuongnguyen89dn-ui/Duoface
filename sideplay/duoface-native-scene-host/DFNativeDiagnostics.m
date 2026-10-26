@@ -33,7 +33,6 @@
     // Logo/Ratio/Swap/Zoom, Dock ACK, Close, Home and disconnect.
     // No background upload: manual iPhone export only. A successful trace
     // checkpoint NEVER means the video rendered or SpringBoard cannot crash.
-    [summary appendString:@"Audit schema: 2; build 0.0.67~scenediag1; device validation pending.\n"];
     // Capture only DuoFace-owned logs plus at most three recent system-host
     // crashes. Do not collect arbitrary apps' reports or device identifiers.
     NSMutableString *summary=[NSMutableString stringWithFormat:
@@ -42,6 +41,7 @@
           @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
+    [summary appendString:@"Audit schema: 2; build 0.0.67~scenediag1; device validation pending.\n"];
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",
       @"/var/mobile/Library/Logs/DuoFaceTouchOwner.log",

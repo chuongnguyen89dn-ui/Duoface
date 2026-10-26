@@ -33,6 +33,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("DFDeepTrace(@\"chrome\"",file("DFNative12Chrome.m"))
   self.assertIn("DuoFaceDeepTrace.log",export)
   self.assertIn("Audit schema: 2",export)
+  self.assertLess(export.index("NSMutableString *summary="),export.index("[summary appendString:@\"Audit schema: 2"))
   self.assertNotIn("updateSettingsWithBlock:",deep)
   self.assertNotIn("checkAndSyncLicense",deep)
  def test_first_party_independent_manifest(self):
