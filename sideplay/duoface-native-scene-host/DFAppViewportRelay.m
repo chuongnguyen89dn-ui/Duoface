@@ -6,6 +6,7 @@
 #import <notify.h>
 #import <math.h>
 #import "DFAppViewportProtocol.h"
+#import "DFAppEligibility.h"
 
 static int sDuoViewportToken=-1;
 static NSString *sDuoBundle;
@@ -71,10 +72,13 @@ static void DFVPReconcile(void) {
 __attribute__((constructor)) static void DFVPStart(void) {
     @autoreleasepool {
         NSString *bundle=NSBundle.mainBundle.bundleIdentifier;
-        NSSet *allowed=[NSSet setWithArray:@[
-          @"com.openai.chat",@"com.google.ios.youtube",
-          @"com.banyac.midrive.intl",@"com.google.Maps"]];
-        if(![allowed containsObject:bundle])return;
+        // Only installed, user-facing .app bundles admitted by the very
+        // same policy as DuoFace's existing on-screen app picker.
+        // All other UIKit processes, extensions, daemons and DuoFace
+        // internals exit without registering callbacks or modifying UIKit.
+        NSString *bundlePath=NSBundle.mainBundle.bundlePath;
+        if(!DFIsEligibleAppID(bundle) || ![bundlePath hasSuffix:@".app"] ||
+           NSBundle.mainBundle.infoDictionary[@"NSExtension"])return;
         if(NSProcessInfo.processInfo.operatingSystemVersion.majorVersion!=16)return;
         sDuoBundle=[bundle copy];
         NSString *name=[@"com.duoface.viewport.v1." stringByAppendingString:bundle];
