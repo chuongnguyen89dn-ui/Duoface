@@ -14,7 +14,7 @@ class NativeCarPlayHost(unittest.TestCase):
   probe=file("DFTouchOwnerProbe.m")
   dock=file("DFCarPlayDockOwner.m")
   export=file("DFNativeDiagnostics.m")
-  self.assertIn("build=0.0.67~scenediag1",deep)
+  self.assertIn("build=0.0.68~viewport1",deep)
   self.assertIn("DFDiagnosticSnapshot(NSString *area, NSString *phase",deep)
   self.assertIn("approved containsObject:key",deep)
   self.assertIn("if(clean.length>160)",deep)
