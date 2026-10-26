@@ -238,7 +238,6 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) NSUInteger borderGeneration;
 @property(nonatomic,strong) DFAppPickerVC *appPickerController;
 @property(nonatomic,strong) NSMutableArray<UIWindow *> *appSceneWindows;
-@property(nonatomic,strong) UIWindow *sharedAppWindow;
 @property(nonatomic,strong) NSMutableArray<UIView *> *appSceneContainers;
 @property(nonatomic,strong) NSMutableArray *hostedScenes;
 @property(nonatomic,strong) NSMutableArray *pendingScenes;
@@ -760,26 +759,34 @@ static void DFCLog(NSString *text) {
     self.styleChoices=choices;
     self.styleWindow=[self makeWindow:styleRect root:styleRoot level:4];
     if(!self.styleWindow){[self stop];return NO;}
-    // Native12 audit: one stable source window with child split panes,
-    // not four independently moving UIRootSceneWindows.
-    UIViewController *sharedRoot=[UIViewController new];
-    sharedRoot.view=[[DFNativePanePassthroughView alloc]
-         initWithFrame:CGRectMake(0,0,cr.size.width,cr.size.height)];
-    sharedRoot.view.backgroundColor=UIColor.clearColor;
-    sharedRoot.view.clipsToBounds=YES;
-    self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];
-    if(!self.sharedAppWindow){[self stop];return NO;}
+    // RESTORE .37's real scene owner: one external UIWindow per physical
+    // slot. Shared .48+ window silently changed remote UIWindowScene geometry
+    // ownership even while the inner app viewport was set to Native12 size.
+    // Keep the CURRENT gesture/menu/Dock/Zoom overlays (separate windows).
+    // Never recreate a window in layoutControls, including on ratio drag.
     for(NSInteger i=0;i<4;i++){
-        UIView *container=[[UIView alloc]initWithFrame:CGRectZero];
+        CGRect slotRect=CGRectMake(cr.origin.x,cr.origin.y,
+                                 MAX(30,cr.size.width/4),cr.size.height);
+        UIViewController *slotRoot=[UIViewController new];
+        slotRoot.view=[[DFNativePanePassthroughView alloc]
+             initWithFrame:CGRectMake(0,0,slotRect.size.width,
+                                           slotRect.size.height)];
+        slotRoot.view.backgroundColor=UIColor.clearColor;
+        slotRoot.view.clipsToBounds=YES;
+        UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];
+        if(!slotWindow){[self stop];return NO;}
+        UIView *container=[[UIView alloc]initWithFrame:slotRoot.view.bounds];
         container.backgroundColor=UIColor.clearColor;
         container.clipsToBounds=YES;
         container.userInteractionEnabled=NO;
-        [sharedRoot.view addSubview:container];
+        container.autoresizingMask=UIViewAutoresizingFlexibleWidth|
+                                   UIViewAutoresizingFlexibleHeight;
+        [slotRoot.view addSubview:container];
         [self.appSceneContainers addObject:container];
-        [self.appSceneWindows addObject:self.sharedAppWindow];
+        [self.appSceneWindows addObject:slotWindow];
+        [self observeActivityInWindow:slotWindow];
     }
-    [self observeActivityInWindow:self.sharedAppWindow];
-    DFCLog(@"native12-shared-source-app-window-created-four-child-panes");
+    DFCLog(@"media37-four-physical-scene-windows-restored");
     self.appPickerController=[DFAppPickerVC new];
     self.appPickerController.delegate=self;
     // Original CBMultitaskingOverlayView.layoutSubviews owns ONE outer sheet
@@ -1161,20 +1168,20 @@ static void DFCLog(NSString *text) {
     self.pickerWindow.hidden=(self.startupActive||!self.pickerVisible);
     self.styleWindow.hidden=(self.startupActive||!self.styleVisible);
     self.appPickerWindow.hidden=(self.startupActive||!self.appPickerVisible);
-    // One stable UIWindow; update child view geometry, never remote window.
-    if(!CGRectEqualToRect(self.sharedAppWindow.frame,cr))self.sharedAppWindow.frame=cr;
-    UIView *sharedView=self.sharedAppWindow.rootViewController.view;
-    CGRect sharedFrame=CGRectMake(0,0,cr.size.width,cr.size.height);
-    if(!CGRectEqualToRect(sharedView.frame,sharedFrame))sharedView.frame=sharedFrame;
-    self.sharedAppWindow.hidden=self.startupActive;
-    self.sharedAppWindow.userInteractionEnabled=YES;
+    // .37 remote owner layout: physical-slot UIWindow changes frame together
+    // with its root/scene pane; the video source is NOT a child rect of an
+    // unrelated full-car shared UIWindow. Physical slot persists on swap.
     for(NSInteger i=0;i<4;i++){
+        UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
         UIView *v=self.appSceneContainers[(NSUInteger)i];
         NSInteger visualSlot=(self.swapped && i<2)?1-i:i;
-        if(visualSlot>=activeSlots){v.hidden=YES;continue;}
+        if(visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}
         CGRect target=pane[visualSlot];
         if(self.focus>=0 && visualSlot==self.focus)target=cr;
-        CGRect localFrame=CGRectOffset(target,-cr.origin.x,-cr.origin.y);
+        if(!CGRectEqualToRect(appWindow.frame,target))appWindow.frame=target;
+        UIView *root=appWindow.rootViewController.view;
+        CGRect localFrame=(CGRect){CGPointZero,target.size};
+        if(!CGRectEqualToRect(root.frame,localFrame))root.frame=localFrame;
         if(!CGRectEqualToRect(v.frame,localFrame))v.frame=localFrame;
         for(UIView *child in v.subviews)
             if(!CGRectEqualToRect(child.frame,v.bounds))child.frame=v.bounds;
@@ -1189,8 +1196,9 @@ static void DFCLog(NSString *text) {
         // Preserve the same UIWindow/UIView for pending and loaded scenes:
         // no demo tiles, labels or invented app content.
         BOOL focusedElsewhere=(self.focus>=0 && self.focus!=visualSlot);
-        v.hidden=(self.startupActive || focusedElsewhere);
-        // Empty/negotiating child panes cannot steal gestures.
+        appWindow.hidden=(self.startupActive || focusedElsewhere);
+        v.hidden=appWindow.hidden;
+        // Empty/negotiating panes cannot steal gestures.
         v.userInteractionEnabled=loaded;
         // Native12 policy: a faint neutral outline identifies EMPTY panes;
         // a RED outline appears only briefly after a real user action; a
@@ -1740,7 +1748,7 @@ static void DFCLog(NSString *text) {
     // A native App card may remain shown while a real Dock ACK is pending.
     // Only the existing verified completion dismisses it, not the button.
     if(self.startupActive || !self.windows.count ||
-       self.appSceneContainers.count!=4 || !self.sharedAppWindow)return NO;
+       self.appSceneWindows.count!=4 || self.appSceneContainers.count!=4)return NO;
     UIWindow *anchor=self.windows.firstObject;
     CGRect actual=anchor.screen.bounds;
     CGRect saved=self.contentRect;
@@ -1769,24 +1777,26 @@ static void DFCLog(NSString *text) {
             // Verification must match layoutControls: a focused/solo pane
             // occupies the whole host, not the preset's split-cell frame.
             CGRect rendered=(self.focus>=0 && visual==self.focus)?actual:pane[visual];
-            CGRect expectedLocal=CGRectOffset(rendered,-actual.origin.x,-actual.origin.y);
-            CGRect observed=self.appSceneContainers[(NSUInteger)i].frame;
-            CGRect hostBounds=self.sharedAppWindow.bounds;
-            // UIKit UIWindow coordinates may differ by subpixel rounding on
-            // an external iOS16 screen. Still reject real overflows.
+            UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];
+            CGRect observed=appWindow.frame;
+            CGRect local=self.appSceneContainers[(NSUInteger)i].frame;
             const CGFloat eps=0.5;
-            BOOL contained=CGRectContainsRect(CGRectInset(hostBounds,-eps,-eps),observed);
-            BOOL onScreen=CGRectContainsRect(CGRectInset(actual,-eps,-eps),rendered);
-            BOOL matched=fabs(observed.origin.x-expectedLocal.origin.x)<=eps &&
-                fabs(observed.origin.y-expectedLocal.origin.y)<=eps &&
-                fabs(observed.size.width-expectedLocal.size.width)<=eps &&
-                fabs(observed.size.height-expectedLocal.size.height)<=eps;
-            if(!contained || !matched || !onScreen){
+            BOOL contained=CGRectContainsRect(
+                CGRectInset(actual,-eps,-eps),observed);
+            BOOL matched=fabs(observed.origin.x-rendered.origin.x)<=eps &&
+                fabs(observed.origin.y-rendered.origin.y)<=eps &&
+                fabs(observed.size.width-rendered.size.width)<=eps &&
+                fabs(observed.size.height-rendered.size.height)<=eps;
+            BOOL innerMatched=fabs(local.origin.x)<=eps &&
+                fabs(local.origin.y)<=eps &&
+                fabs(local.size.width-rendered.size.width)<=eps &&
+                fabs(local.size.height-rendered.size.height)<=eps;
+            if(!contained || !matched || !innerMatched){
                 DFCLog([NSString stringWithFormat:
-                    @"host-zoom-validation-rejected slot=%ld visual=%ld focus=%ld contained=%d matched=%d onScreen=%d host=%@ observed=%@ expected=%@ screen=%@",
-                    (long)i,(long)visual,(long)self.focus,contained,matched,onScreen,
-                    NSStringFromCGRect(hostBounds),NSStringFromCGRect(observed),
-                    NSStringFromCGRect(expectedLocal),NSStringFromCGRect(actual)]);
+                    @"host-zoom-validation-rejected slot=%ld visual=%ld focus=%ld contained=%d matched=%d inner=%d window=%@ local=%@ expected=%@ screen=%@",
+                    (long)i,(long)visual,(long)self.focus,contained,matched,innerMatched,
+                    NSStringFromCGRect(observed),NSStringFromCGRect(local),
+                    NSStringFromCGRect(rendered),NSStringFromCGRect(actual)]);
                 [self restoreHostFullscreenGeometry];
                 return NO;
             }
@@ -1837,7 +1847,6 @@ static void DFCLog(NSString *text) {
     self.appPickerVisible=NO;
     self.pickerVisible=NO;
     self.appPickerWindow=nil;self.appPickerController=nil;
-    self.sharedAppWindow=nil;
     [self.appSceneContainers removeAllObjects];
     [self.appSceneWindows removeAllObjects];[self.hostedScenes removeAllObjects];
     [self.pendingScenes removeAllObjects];
