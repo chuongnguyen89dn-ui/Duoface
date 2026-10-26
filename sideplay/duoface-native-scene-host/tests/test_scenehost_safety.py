@@ -1185,7 +1185,9 @@ class NativeCarPlayHost(unittest.TestCase):
   assert 'self.contentRect=actual' in method
   assert 'DFComputePresetFramesWithSecondary(self.contentRect,self.preset' in method
   assert '[self layoutControls]' in method
-  assert 'self.appSceneContainers[(NSUInteger)i].frame' in method
+  assert 'self.appSceneWindows[(NSUInteger)i]' in method
+  assert 'CGRect observed=appWindow.frame;' in method
+  assert 'BOOL innerMatched=' in method
   assert 'self.preset=' not in method
   assert 'self.ratio=' not in method
   assert 'self.focus=' not in method
@@ -1593,7 +1595,7 @@ class NativeCarPlayHost(unittest.TestCase):
   # CarPlay physical orientation must be observed before changing ABI args.
   chrome=file("DFNative12Chrome.m")
   self.assertIn("self.dividerLogo.hidden=NO;",chrome)
-  self.assertIn("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];",chrome)
+  self.assertIn("media37-four-physical-scene-windows-restored",chrome)
 
  def test_youtube_scene_orientation_is_observed_not_guessed_and_scoped(self):
   """Four-product contract: separate CarPlay display orientation from
@@ -1653,20 +1655,31 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("DFSceneHasCGRectABI(settings,setter,YES)",block)
   self.assertNotIn("setCanShowWhileLocked:",block.split("DFSceneLog(@\"live-viewport-scene-frame-requested\"",1)[0])
 
- def test_shared_native12_source_window_geometry_not_four_uiroot_windows(self):
+ def test_native12_v37_per_slot_real_window_ownership_instead_of_boxed_shared_window(self):
+  """Signed playable v37 source 9601fdc865: each physical slot owns
+  external UIWindow with split, swap, solo and host zoom geometry.
+  Preserve independent current draggable logo, menu, system Dock.
+  """
   chrome=file("DFNative12Chrome.m")
-  self.assertIn("native12-shared-source-app-window-created-four-child-panes",chrome)
-  # Original split app owns one external source window, each real app a
-  # stable child UIView receiving only its assigned rectangle.
-  self.assertIn("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];",chrome)
-  self.assertEqual(chrome.count("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];"),1)
-  self.assertIn("[sharedRoot.view addSubview:container];",chrome)
+  self.assertIn("media37-four-physical-scene-windows-restored",chrome)
+  self.assertIn("UIWindow *slotWindow=[self makeWindow:slotRect root:slotRoot level:0.5];",chrome)
+  self.assertIn("[self.appSceneWindows addObject:slotWindow];",chrome)
+  self.assertIn("[self observeActivityInWindow:slotWindow];",chrome)
+  self.assertIn("[slotRoot.view addSubview:container];",chrome)
+  self.assertIn("UIWindow *appWindow=self.appSceneWindows[(NSUInteger)i];",chrome)
+  self.assertIn("if(!CGRectEqualToRect(appWindow.frame,target))appWindow.frame=target;",chrome)
+  self.assertIn("CGRect localFrame=(CGRect){CGPointZero,target.size};",chrome)
+  self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
   self.assertIn("self.appSceneContainers[(NSUInteger)i]",chrome)
-  self.assertIn("CGRectOffset(target,-cr.origin.x,-cr.origin.y)",chrome)
-  self.assertNotIn("appWindow.frame=target",chrome)
-  self.assertNotIn("UIWindow *slotWindow=[self makeWindow:rect",chrome)
   self.assertIn("return hit==self?nil:hit;",chrome)
-  self.assertIn("self.sharedAppWindow=nil;",chrome)
+  self.assertNotIn("sharedAppWindow",chrome)
+  self.assertIn("grip-native12-scale-pulse-start-visual-1.18",chrome)
+  self.assertIn("self.dividerLogo.hidden=NO;",chrome)
+  self.assertIn("DFComputePresetFramesWithSecondary(cr,self.preset",chrome)
+  self.assertIn("CGRect observed=appWindow.frame;",chrome)
+  self.assertIn("BOOL innerMatched=",chrome)
+  self.assertIn("self.hostedScenes[(NSUInteger)i]!=NSNull.null",chrome)
+  self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",chrome)
 
 if __name__=="__main__":unittest.main(verbosity=2)
 
