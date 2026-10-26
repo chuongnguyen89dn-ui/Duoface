@@ -1713,7 +1713,7 @@ class WholeHostZoomGeometry059(unittest.TestCase):
   assert "CGRect rendered=(self.focus>=0 && visual==self.focus)?actual:pane[visual];" in c
   assert "const CGFloat eps=0.5;" in c
   assert "host-zoom-validation-rejected slot=" in c
-  assert "if(!contained || !matched || !onScreen)" in c
+  assert "if(!contained || !matched || !innerMatched)" in c
   z=file("DFDockZoomCoordinator.m")
   assert "source-host-geometry-rejected" in z
   assert "if(!owner)" in z
