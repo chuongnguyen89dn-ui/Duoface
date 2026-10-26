@@ -6,6 +6,8 @@
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
 #import "DFNative12MediaGeometry.h"
+#import "DFAppViewportProtocol.h"
+#import <notify.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -168,6 +170,9 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) BOOL geometrySuspended;
 @property(nonatomic) NSUInteger sceneGeneration;
+@property(nonatomic) int viewportNotifyToken;
+@property(nonatomic) BOOL viewportNotifyRegistered;
+@property(nonatomic) NSTimeInterval lastViewportPulseAt;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) CGSize lastApplied;
 // UIKit viewport moves immediately; remote media content-reference commits
@@ -187,6 +192,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
 - (void)layoutScene;
 - (void)commitSceneGeometry:(NSTimer *)timer;
 - (void)pollScene:(NSTimer *)timer;
+- (void)publishAppViewportForScene:(id)scene;
 - (void)stop;
 - (void)failed:(NSError *)error;
 @end
@@ -248,6 +254,19 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
     UIViewController *parent = [self findParentController];
     if (!parent) { [self failed:DFSceneError(110, @"Không tìm thấy UIViewController chủ ô ứng dụng")]; return; }
     self.parentController = parent;
+    // The production build has no app-process view negotiation. Only an
+    // allowlisted, short-lived, readback-gated per-bundle notification may
+    // address the receiver; a mode2 request is not considered acceptance.
+    if([[@[@"com.openai.chat",@"com.google.ios.youtube",
+           @"com.banyac.midrive.intl",@"com.google.Maps"] copy]
+           containsObject:self.bundleID]){
+        NSString *name=[@"com.duoface.viewport.v1." stringByAppendingString:self.bundleID];
+        int token=-1;
+        if(notify_register_check(name.UTF8String,&token)==NOTIFY_STATUS_OK){
+            self.viewportNotifyToken=token;
+            self.viewportNotifyRegistered=YES;
+        }
+    }
     @try {
         self.started = YES;
         [self tracePhase:@"before-add-child"];
@@ -791,6 +810,37 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
     }
     return target;
 }
+- (void)publishAppViewportForScene:(id)scene {
+    if(!self.viewportNotifyRegistered || self.stopped || !self.ready ||
+       self.geometrySuspended || scene!=self.scene || !self.window)return;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(now-self.lastViewportPulseAt<0.85)return;
+    self.lastViewportPulseAt=now;
+    CGSize expected=CGSizeMake(round(self.bounds.size.width*2),
+                                round(self.bounds.size.height*2));
+    CGRect actual=CGRectNull;
+    BOOL accepted=DFReadOwnedSceneFrame(scene,&actual) &&
+         DFSceneFrameMatches(actual,expected) &&
+         expected.width>=100 && expected.height>=100 &&
+         expected.width<=4095 && expected.height<=4095 &&
+         DFHostingFlag(self.appController,@"isHostingAnApp",NO) &&
+         self.appController.view.window==self.window;
+    uint64_t payload=DFVPPack((unsigned)round(expected.width),
+                              (unsigned)round(expected.height),
+                              (uint32_t)now,accepted);
+    if(notify_set_state(self.viewportNotifyToken,payload)!=NOTIFY_STATUS_OK){
+        DFSceneLog(@"app-process-viewport-notify-denied",self.bundleID,@"notify_set_state");
+        return;
+    }
+    NSString *name=[@"com.duoface.viewport.v1." stringByAppendingString:self.bundleID];
+    notify_post(name.UTF8String);
+    // Host side logs the exact remote scene readback, not an invented
+    // application-side UIWindowScene ACK or an actual playable-video result.
+    DFSceneLog(accepted?@"app-viewport-host-readback-matched":
+                         @"app-viewport-host-readback-rejected",self.bundleID,
+       [NSString stringWithFormat:@"expected=%@ remote=%@",
+         NSStringFromCGSize(expected),NSStringFromCGRect(actual)]);
+}
 - (void)pollScene:(NSTimer *)timer {
     (void)timer;
     if (self.stopped) return;
@@ -898,6 +948,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                 [self diagnoseScene:@"ready-render-unverified"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
+            [self publishAppViewportForScene:scene];
             return;
         }
         if(self.ready && !self.geometrySuspended){
@@ -939,6 +990,14 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
 }
 - (void)stop {
     if (self.stopped) return;
+    if(self.viewportNotifyRegistered){
+        uint64_t inactive=DFVPPack(0,0,(uint32_t)NSDate.date.timeIntervalSince1970,0);
+        (void)notify_set_state(self.viewportNotifyToken,inactive);
+        NSString *name=[@"com.duoface.viewport.v1." stringByAppendingString:self.bundleID];
+        notify_post(name.UTF8String);
+        notify_cancel(self.viewportNotifyToken);
+        self.viewportNotifyRegistered=NO;
+    }
     [self diagnoseScene:@"before-close-invalidate"];
     self.stopped=YES;
     self.geometrySuspended=YES;
