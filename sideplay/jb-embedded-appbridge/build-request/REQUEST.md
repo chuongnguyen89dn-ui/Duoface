@@ -1,3 +1,8 @@
+## 2026-10-26 — Retry SAME .72 after precise build.sh shell continuation failure
+
+Workflow 40317310958 FAILED at nativehost build (NOT at scene/ABI or device): `clang: error: no such file or directory: '\\'`, `clang: error: no input files`. Root cause: new DFAppViewportRelay clang command mistakenly emitted DOUBLE shell backslash before newline when inserted into build.sh; shell treated literal slash as input file. Exact source fix commit f172132c1ecd350125a7ba9dfb3121fedcc0a67d replaces those faulty continued lines with ONE unambiguous xcrun clang command line, no behavioral changes. Retry exact nativehost 0.1.81~appscene1, one integrated 0.0.72~appscene1, preserve older run failure and immutable assets. Need actual compile and sign run to pass before Sileo; no device success claimed.
+
+---
 ## 2026-10-26 — ONE signed v0.0.72 app-owned viewport bridge after device .71 boxed FAIL
 
 New actual device photo: ChatGPT and 70mai remain narrow portrait-window content inside CarPlay panes. The previous .37 FOUR physical UIWindow recovery in .71 is not sufficient. Do not change working logo, ratio, Swap, Zoom, Dock or Style.
