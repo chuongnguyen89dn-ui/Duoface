@@ -1599,7 +1599,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerLogo.hidden=NO;",chrome)
   self.assertIn("media37-four-physical-scene-windows-restored",chrome)
 
- def test_youtube_scene_orientation_is_observed_not_guessed_and_scoped(self):
+ def test_all_hosted_app_scene_orientation_matches_pinned_sideplay_omnicar_contract(self):
   """Four-product contract: separate CarPlay display orientation from
   original Native12 Portrait=1 reference-size selectors. Never rotate GUI.
   """
@@ -1613,8 +1613,25 @@ class NativeCarPlayHost(unittest.TestCase):
   host=file("DFSceneHost.m")
   self.assertIn("static BOOL DFSceneHasOrientationABI",host)
   self.assertIn("static BOOL DFReadOwnedSceneOrientation",host)
-  self.assertIn("DFDesiredYouTubeCarPlayOrientation",host)
-  self.assertIn('[bundleID isEqualToString:@"com.google.ios.youtube"]',host)
+  # Pin behavioral scope to actual original DEB ARM64, not guessed UI.
+  original=json.loads((R.parent/"native12-display/audit/SIDEPLAY_SCENE_FRAME_ARM64_CALLS_20261026.json").read_text())
+  self.assertEqual(original["original_sideplay_dylib_sha256"],
+                   "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971")
+  self.assertTrue(all(x["entry_disassembly_agrees"] and x["plausible_abi_entry"]
+                      for x in original["methods"]))
+  funcs={m["selector"]:m for m in original["methods"]}
+  forwarded="\\n".join(v["asm"] for v in funcs["applySceneFrame:"]["instructions"])
+  self.assertIn("selector ref: orientation",forwarded)
+  self.assertIn("selector ref: setSceneFrame:orientation:",forwarded)
+  scene="\\n".join(v["asm"] for v in funcs["setSceneFrame:orientation:"]["instructions"])
+  for required in ("selector ref: sceneHandle", "selector ref: respondsToSelector:",
+                   "updateSettingsWithBlock:", "selector ref: setFrame:",
+                   "setInterfaceOrientation:"):
+    self.assertIn(required,scene)
+  self.assertIn("DFDesiredHostedCarPlayOrientation",host)
+  self.assertIn("DFIsEligibleAppID(bundleID)",host)
+  self.assertIn("window.screen==UIScreen.mainScreen",host)
+  self.assertNotIn('[bundleID isEqualToString:@"com.google.ios.youtube"]',host.split("static UIInterfaceOrientation DFDesiredHostedCarPlayOrientation",1)[1].split("@class DFSceneSurface;",1)[0])
   self.assertIn("windowScene.interfaceOrientation",host)
   self.assertIn("UIInterfaceOrientationIsLandscape(observed)",host)
   self.assertIn("BOOL orientationABI=DFSceneHasOrientationABI(",host)
@@ -1623,8 +1640,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("surface.requestedSceneOrientation==desiredOrientation",host)
   self.assertIn("orientationNeeded &&",host)
   self.assertIn("if(!frameMatched &&",host)
-  self.assertIn("youtube-carplay-scene-orientation-requested",host)
-  self.assertIn("youtube-carplay-scene-orientation-readback-accepted",host)
+  self.assertIn("hosted-carplay-scene-orientation-requested",host)
+  self.assertIn("hosted-carplay-scene-orientation-readback-accepted",host)
   self.assertIn("DFReadOwnedSceneOrientation(scene,&acceptedOrientation)",host)
   self.assertIn("acceptedOrientation==self.requestedSceneOrientation",host)
   # Prohibit global orientation mutation and silent rotation fallbacks.
@@ -1637,13 +1654,13 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("deviceController,sz2,logical,UIInterfaceOrientationPortrait",host)
   self.assertIn("UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait",host)
 
- def test_youtube_rotates_in_place_without_requiring_divider_resize(self):
+ def test_hosted_app_orientation_reconciles_without_divider_resize(self):
   """Observed hosted orientation drift on playback is one generation-scoped
   request only, not a global orientation forcing or a private FBScene loop.
   """
   host=file("DFSceneHost.m")
   live=host.split("- (void)pollScene:(NSTimer *)timer {",1)[1].split("- (void)failed:",1)[0]
-  self.assertIn("youtube-carplay-inplace-rotation-negotiation-queued",live)
+  self.assertIn("hosted-carplay-inplace-orientation-negotiation-queued",live)
   self.assertIn("self.requestedSceneOrientation==UIInterfaceOrientationUnknown",live)
   self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)",live)
   self.assertIn("!self.geometryCommitTimer",live)
