@@ -1625,14 +1625,20 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("selector ref: setSceneFrame:orientation:",forwarded)
   scene="\\n".join(v["asm"] for v in funcs["setSceneFrame:orientation:"]["instructions"])
   for required in ("selector ref: sceneHandle", "selector ref: respondsToSelector:",
-                   "updateSettingsWithBlock:", "selector ref: setFrame:",
+                   "selector ref: setFrame:",
                    "setInterfaceOrientation:"):
     self.assertIn(required,scene)
+  # Exact original SidePlay PC 0x31668 invokes a separate transaction helper
+  # at 0x31260; only that helper dispatches updateSettingsWithBlock:.
+  self.assertIn("bl\\t0x31260",scene)
+  helper="\\n".join(v["asm"] for v in funcs["layoutInFrame:scaleMode:"]["instructions"]
+                   if 0x31260<=int(v["pc"],16)<0x31388)
+  self.assertIn("updateSettingsWithBlock:",helper)
   self.assertIn("DFDesiredHostedCarPlayOrientation",host)
   self.assertIn("DFIsEligibleAppID(bundleID)",host)
   self.assertIn("window.screen==UIScreen.mainScreen",host)
   self.assertNotIn('[bundleID isEqualToString:@"com.google.ios.youtube"]',host.split("static UIInterfaceOrientation DFDesiredHostedCarPlayOrientation",1)[1].split("@class DFSceneSurface;",1)[0])
-  self.assertIn("windowScene.interfaceOrientation",host)
+  self.assertIn("window.windowScene.interfaceOrientation",host)
   self.assertIn("UIInterfaceOrientationIsLandscape(observed)",host)
   self.assertIn("BOOL orientationABI=DFSceneHasOrientationABI(",host)
   self.assertIn("mutableSettings,setOrientation,YES)",host)
