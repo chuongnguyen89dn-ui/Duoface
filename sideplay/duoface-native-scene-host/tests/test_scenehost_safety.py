@@ -1511,8 +1511,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("strcmp(sizeType,@encode(CGSize))==0",method)
   self.assertIn("strcmp(contentType,@encode(NSInteger))==0",method)
   self.assertIn("strcmp(containerType,@encode(NSInteger))==0",method)
-  # The live branch returns BEFORE the original pre-mode2 three-setter and
-  # unverified FBScene.updateSettingsWithBlock path.
+  # Exactly one owned FBScene.frame transaction is permitted after stable
+  # child reference-size dispatch; the old pre-mode2 path stays unreachable.
   live=method.index('DFSceneLog(@"live-viewport-reference-before"')
   sent=method.index('@"live-scene-reference-size-dispatched"')
   seed=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
@@ -1523,10 +1523,41 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.committedReferenceSize=size;",method[live:seed])
   self.assertIn("} @finally { self.committingSceneGeometry=NO; }",method[live:seed])
   self.assertIn("return;",method[sent:seed])
-  self.assertNotIn('updateSettingsWithBlock:',method[live:seed])
+  self.assertIn('updateSettingsWithBlock:',method[live:seed])
+  self.assertIn("DFReadOwnedSceneFrame(currentScene,&actual)",method[live:seed])
+  self.assertIn("DFSceneFrameMatches(actual,logical)",method[live:seed])
+  self.assertIn("self.requestedSceneFrameGeneration!=generation",method[live:seed])
+  self.assertIn("surface.sceneGeneration!=generation",method[live:seed])
+  self.assertIn("!CGSizeEqualToSize(surface.bounds.size,size)",method[live:seed])
+  self.assertIn("os.majorVersion!=16",method[live:seed])
+  self.assertIn("DFSceneHasCGRectABI(mutableSettings,setter,YES)",method[live:seed])
+  self.assertIn('@"live-viewport-scene-frame-requested"',method[live:seed])
+  self.assertIn("live-viewport-scene-frame-abi-unavailable",method[live:seed])
+  self.assertNotIn('NSSelectorFromString(@"setForeground:")',method[live:seed])
+  self.assertNotIn('NSSelectorFromString(@"setUnderLock:")',method[live:seed])
   self.assertNotIn("live-scene-private-reference-update-suppressed",method)
   self.assertIn('@"media-pane-frame-readback"',source)
   self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
+
+ def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
+  """Regression: a method returning is not a player's rendered frame ACK."""
+  host=file("DFSceneHost.m")
+  self.assertIn("static BOOL DFSceneHasCGRectABI",host)
+  self.assertIn("static BOOL DFReadOwnedSceneFrame",host)
+  self.assertIn("strcmp(rectABI,@encode(CGRect))==0",host)
+  self.assertIn("self.committedReferenceSize=self.bounds.size;",host)
+  self.assertIn('DFSceneLog(@"live-viewport-scene-frame-readback-accepted"',host)
+  self.assertIn('self.requestedSceneFrameSize=CGSizeZero;',host)
+  self.assertIn('self.requestedSceneFrameGeneration=0;',host)
+  self.assertIn("[self.geometryCommitTimer invalidate]",host)
+  self.assertIn("CGRectIsInfinite(frame)",host)
+  self.assertIn("DFSceneFrameMatches(observed,requested)",host)
+  block=host.split("DFSceneLog(@\"live-viewport-scene-frame-before\"",1)[1]
+  self.assertIn('currentScene,update,',block)
+  self.assertIn("surface.stopped",block)
+  self.assertIn("surface.scene!=currentScene",block)
+  self.assertIn("DFSceneHasCGRectABI(settings,setter,YES)",block)
+  self.assertNotIn("setCanShowWhileLocked:",block.split("DFSceneLog(@\"live-viewport-scene-frame-requested\"",1)[0])
 
  def test_shared_native12_source_window_geometry_not_four_uiroot_windows(self):
   chrome=file("DFNative12Chrome.m")
