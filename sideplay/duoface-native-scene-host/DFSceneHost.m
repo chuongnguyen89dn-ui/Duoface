@@ -98,6 +98,53 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
         fabs(observed.size.height-native.height)<.6;
 }
 
+/* Four source comparators, with verified ownership only:
+ * OmniCar 1.0.3 AppBridge block @f210/@f280 owns setInterfaceOrientation:;
+ * SidePlay SPPane.setSceneFrame:orientation: has CGRect+NSInteger ABI;
+ * DuoDash CNABUIApp.setBridgeState:width:height:orientation: is an
+ * app-side state contract (NOT proof of how it mutates UIKit);
+ * DuoNavi 1.0.4 CBBridgeManager.receivedMetricsUpdatedNotification:
+ * @1f3898..1f38e4 updates carPlayUsableBounds/appFrame/renderSize.
+ * Original Native12 child-reference setters still pass Portrait=1,
+ * which is a DIFFERENT contract from the hosted scene's orientation.
+ *
+ * Fail closed unless the real CarPlay windowScene gives LANDSCAPE.
+ * Do not infer orientation from split-pane width/height: a portrait
+ * 1/2 pane is hosted on an overall landscape display.
+ */
+static BOOL DFSceneHasOrientationABI(id obj, SEL sel, BOOL setter) {
+    if(!obj || ![obj respondsToSelector:sel])return NO;
+    NSMethodSignature *sig=[obj methodSignatureForSelector:sel];
+    if(!sig || sig.numberOfArguments!=(setter?3:2))return NO;
+    const char *type=setter?[sig getArgumentTypeAtIndex:2]:sig.methodReturnType;
+    return type && strcmp(type,@encode(NSInteger))==0 &&
+        (!setter || strcmp(sig.methodReturnType,@encode(void))==0);
+}
+static BOOL DFReadOwnedSceneOrientation(id scene,UIInterfaceOrientation *out) {
+    if(!scene || !out)return NO;
+    id settings=DFCall0(scene,@"settings");
+    if(!settings)settings=DFCall0(scene,@"mutableSettings");
+    SEL getter=NSSelectorFromString(@"interfaceOrientation");
+    if(!DFSceneHasOrientationABI(settings,getter,NO))return NO;
+    NSInteger raw=((NSInteger(*)(id,SEL))objc_msgSend)(settings,getter);
+    if(raw<UIInterfaceOrientationPortrait ||
+       raw>UIInterfaceOrientationLandscapeRight)return NO;
+    *out=(UIInterfaceOrientation)raw;
+    return YES;
+}
+static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
+        NSString *bundleID,UIWindow *window) {
+    // YouTube requested by user. Other apps retain the known .37 behavior:
+    // no global orientation override (Maps/70mai may have portrait-only UI).
+    if(![bundleID isEqualToString:@"com.google.ios.youtube"] || !window)
+        return UIInterfaceOrientationUnknown;
+    UIWindowScene *windowScene=window.windowScene;
+    UIInterfaceOrientation observed=windowScene?
+        windowScene.interfaceOrientation:UIInterfaceOrientationUnknown;
+    return UIInterfaceOrientationIsLandscape(observed)?
+        observed:UIInterfaceOrientationUnknown;
+}
+
 @class DFSceneSurface;
 @interface DFSceneHost ()
 @property(nonatomic,strong) NSMutableDictionary<NSString *,DFSceneSurface *> *live;
@@ -131,6 +178,8 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
 // Requested is not accepted: only an observed scene frame can commit.
 @property(nonatomic) CGSize requestedSceneFrameSize;
 @property(nonatomic) NSUInteger requestedSceneFrameGeneration;
+// A second, observed-only part of the SAME scene transaction; 0=disabled.
+@property(nonatomic) UIInterfaceOrientation requestedSceneOrientation;
 @property(nonatomic,strong) NSTimer *geometryCommitTimer;
 @property(nonatomic) NSTimeInterval lastViewportLogAt;
 @property(nonatomic) NSTimeInterval lastHitLogAt;
@@ -463,24 +512,42 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
                 DFSceneLog(@"live-scene-reference-size-dispatched",self.bundleID,
                     [NSString stringWithFormat:@"generation=%lu size=%@",
                         (unsigned long)generation,NSStringFromCGSize(logical)]);
+                // One SCENE transaction couples verified frame + optional
+                // interface orientation, as OmniCar 1.0.3 does. Do not rotate
+                // UIView or assume a portrait-width split pane is a portrait
+                // CarPlay display. Original child setters remain Portrait=1.
                 CGRect actual=CGRectNull;
-                if(!DFReadOwnedSceneFrame(currentScene,&actual)) {
+                UIInterfaceOrientation observedOrientation=UIInterfaceOrientationUnknown;
+                UIInterfaceOrientation desiredOrientation=
+                    DFDesiredYouTubeCarPlayOrientation(self.bundleID,self.window);
+                BOOL frameReadable=DFReadOwnedSceneFrame(currentScene,&actual);
+                BOOL orientationReadable=
+                    DFReadOwnedSceneOrientation(currentScene,&observedOrientation);
+                BOOL orientationNeeded=
+                    desiredOrientation!=UIInterfaceOrientationUnknown &&
+                    orientationReadable && observedOrientation!=desiredOrientation;
+                BOOL frameMatched=frameReadable &&
+                    DFSceneFrameMatches(actual,logical);
+                if(!frameReadable) {
                     // Unknown getter ABI: never make a blind FBScene write.
                     self.requestedSceneFrameSize=logical;
                     self.requestedSceneFrameGeneration=generation;
                     DFSceneLog(@"live-viewport-scene-frame-abi-unavailable",
                         self.bundleID,@"no trusted CGRect getter");
-                } else if(DFSceneFrameMatches(actual,logical)) {
+                } else if(frameMatched && !orientationNeeded) {
                     self.committedReferenceSize=size;
                     self.requestedSceneFrameSize=logical;
                     self.requestedSceneFrameGeneration=generation;
+                    self.requestedSceneOrientation=UIInterfaceOrientationUnknown;
                     DFSceneLog(@"live-viewport-scene-frame-already-matches",
                         self.bundleID,NSStringFromCGRect(actual));
                 } else if(self.requestedSceneFrameGeneration!=generation ||
-                          !CGSizeEqualToSize(self.requestedSceneFrameSize,logical)) {
-                    // No wholesale vendor private flags or ivar pokes.
+                          !CGSizeEqualToSize(self.requestedSceneFrameSize,logical) ||
+                          self.requestedSceneOrientation!=
+                              (orientationNeeded?desiredOrientation:UIInterfaceOrientationUnknown)) {
                     id mutableSettings=DFCall0(currentScene,@"mutableSettings");
                     SEL setter=NSSelectorFromString(@"setFrame:");
+                    SEL setOrientation=NSSelectorFromString(@"setInterfaceOrientation:");
                     SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
                     NSMethodSignature *updateABI=
                         [currentScene respondsToSelector:update]?
@@ -492,27 +559,35 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
                         [updateABI getArgumentTypeAtIndex:2]:NULL;
                     verifiedUpdateABI=verifiedUpdateABI && blockABI &&
                         (strcmp(blockABI,"@?")==0 || strcmp(blockABI,"@")==0);
-                    // iOS 16.7.x target: fail closed on other OS/ABIs.
                     NSOperatingSystemVersion os=NSProcessInfo.processInfo.operatingSystemVersion;
+                    BOOL orientationABI=DFSceneHasOrientationABI(
+                        mutableSettings,setOrientation,YES);
+                    // No guessed fallback from CarPlay aspect or app name:
+                    // must observe a valid external windowScene orientation,
+                    // app's present scene orientation, and exact setter ABI.
                     if(os.majorVersion!=16 || !verifiedUpdateABI ||
-                       !DFSceneHasCGRectABI(mutableSettings,setter,YES)) {
+                       !DFSceneHasCGRectABI(mutableSettings,setter,YES) ||
+                       (orientationNeeded && !orientationABI)) {
                         self.requestedSceneFrameSize=logical;
                         self.requestedSceneFrameGeneration=generation;
                         DFSceneLog(@"live-viewport-scene-transaction-abi-rejected",
-                            self.bundleID,@"no compatible FBScene writer");
+                            self.bundleID,@"no compatible FBScene frame/orientation writer");
                     } else {
                         self.requestedSceneFrameSize=logical;
                         self.requestedSceneFrameGeneration=generation;
+                        self.requestedSceneOrientation=orientationNeeded?
+                            desiredOrientation:UIInterfaceOrientationUnknown;
                         CGRect desired=CGRectMake(0,0,logical.width,logical.height);
                         __weak typeof(self) weakSurface=self;
                         DFSceneLog(@"live-viewport-scene-frame-before",self.bundleID,
-                            [NSString stringWithFormat:@"old=%@ target=%@ generation=%lu",
+                            [NSString stringWithFormat:
+                                @"old=%@ target=%@ orientationNow=%ld carPlayOrientation=%ld generation=%lu",
                               NSStringFromCGRect(actual),NSStringFromCGRect(desired),
+                              (long)observedOrientation,(long)desiredOrientation,
                               (unsigned long)generation]);
                         ((void (*)(id,SEL,id))objc_msgSend)(currentScene,update,
                             ^(id settings) {
                                 DFSceneSurface *surface=weakSurface;
-                                // The block may run after a Close/Swap/reconnect.
                                 if(!surface || surface.stopped ||
                                    surface.geometrySuspended ||
                                    surface.sceneGeneration!=generation ||
@@ -520,14 +595,26 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
                                    !CGSizeEqualToSize(surface.requestedSceneFrameSize,logical) ||
                                    !CGSizeEqualToSize(surface.bounds.size,size) ||
                                    DFCall0(DFCall0(surface.appController,@"sceneHandle"),
-                                           @"sceneIfExists")!=currentScene ||
-                                   !DFSceneHasCGRectABI(settings,setter,YES))return;
-                                ((void (*)(id,SEL,CGRect))objc_msgSend)(
-                                    settings,setter,desired);
+                                           @"sceneIfExists")!=currentScene)return;
+                                if(!frameMatched &&
+                                   DFSceneHasCGRectABI(settings,setter,YES))
+                                    ((void (*)(id,SEL,CGRect))objc_msgSend)(
+                                        settings,setter,desired);
+                                if(orientationNeeded &&
+                                   surface.requestedSceneOrientation==desiredOrientation &&
+                                   DFDesiredYouTubeCarPlayOrientation(surface.bundleID,
+                                      surface.window)==desiredOrientation &&
+                                   DFSceneHasOrientationABI(settings,setOrientation,YES))
+                                    ((void (*)(id,SEL,NSInteger))objc_msgSend)(
+                                        settings,setOrientation,(NSInteger)desiredOrientation);
                             });
-                        // A completed call is a request, NOT a video ACK.
                         DFSceneLog(@"live-viewport-scene-frame-requested",
                             self.bundleID,NSStringFromCGRect(desired));
+                        if(orientationNeeded)
+                            DFSceneLog(@"youtube-carplay-scene-orientation-requested",
+                                self.bundleID,[NSString stringWithFormat:
+                                    @"from=%ld to=%ld",(long)observedOrientation,
+                                    (long)desiredOrientation]);
                     }
                 } else {
                     DFSceneLog(@"live-viewport-scene-frame-request-pending",
