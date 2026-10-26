@@ -431,6 +431,29 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
             DFSceneLog(@"live-reference-native12-selector-coverage",self.bundleID,
                 [NSString stringWithFormat:@"child2=%d child3=%d main2=%d size=%@",
                  child2Valid,abiValid,main2Valid,NSStringFromCGSize(logical)]);
+            // Recover the user's actually playable .37 media host ordering:
+            // after the three original Native12 reference setters, resize
+            // the INNER app controller view too and restore the HomeGrabber
+            // display mode. .68 resized the outer UIKit host only.
+            //
+            // Signed .37 source a8cdec6252 / DFSceneHost.m d394e19:
+            // original lines 231-237. Preserve later owner/generation gates
+            // and don't call synchronous layoutIfNeeded (post-.37 crash risk).
+            if(!self.stopped && !self.geometrySuspended &&
+               self.sceneGeneration==generation && self.scene==currentScene &&
+               CGSizeEqualToSize(self.bounds.size,size)){
+                UIView *inner=DFCall0(deviceController,@"view");
+                if([inner isKindOfClass:UIView.class] &&
+                   inner!=self.appController.view) {
+                    inner.transform=CGAffineTransformIdentity;
+                    inner.frame=(CGRect){CGPointZero,logical};
+                    inner.autoresizingMask=UIViewAutoresizingFlexibleWidth|
+                                           UIViewAutoresizingFlexibleHeight;
+                    DFSceneLog(@"media37-inner-reference-restored",
+                               self.bundleID,NSStringFromCGRect(inner.frame));
+                }
+                DFHostInt(deviceController,@"setHomeGrabberDisplayMode:",1);
+            }
             // Dispatch is not a renderer ACK.
             if(!self.stopped && !self.geometrySuspended &&
                self.sceneGeneration==generation &&
