@@ -1,0 +1,95 @@
+{
+  "kind": "code-packaging-only-not-carplay-validation",
+  "output": "sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.71~v37windows1_iphoneos-arm64.deb",
+  "sha256": "9407c9a971c4e7a873531c62f9c75cf1ab7cbf1bfc377f82bf49892b4ec3c4ab",
+  "source_packages": [
+    {
+      "package": "com.duoface.mytweak.v1a.preflight",
+      "input": "sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb",
+      "version": "0.2.1~divider1",
+      "sha256": "c5f398ebdff46cd11d1ae659767cba185d621c3c0a6dcb862376f315bdd64864",
+      "payload_count": 2,
+      "paths": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.plist"
+      ]
+    },
+    {
+      "package": "com.duoface.carplay.nativebridgeqa",
+      "input": "sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb",
+      "version": "0.0.8~divider1",
+      "sha256": "2a6ff5ecde1f2ec4a9e0d80655d3137cc3535ce5a1f81380fcde5b7a9f106d00",
+      "payload_count": 2,
+      "paths": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.plist"
+      ]
+    },
+    {
+      "package": "com.duoface.carplay.firstpartyadmission",
+      "input": "sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb",
+      "version": "0.0.6~sbpair1",
+      "sha256": "fc8a418509852d74118a4990dd81ccfb8186b84b799d5a22fd9208f6f5d827f5",
+      "payload_count": 2,
+      "paths": [
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.plist"
+      ]
+    },
+    {
+      "package": "com.duoface.carplay.nativescenehost",
+      "input": "sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.80~v37windows1_iphoneos-arm64.deb",
+      "version": "0.1.80~v37windows1",
+      "sha256": "5302ca7f1e1a64cf1d56e6b65623ff49a1b0a71cc18ec46f85552c5d48f59bdf",
+      "payload_count": 24,
+      "paths": [
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceIcon60@2x.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceIcon60@3x.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/DF-Launch-view-DF-Root.nib",
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/Info.plist",
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceLaunchScreen.storyboardc/UIViewController-DF-Launch.nib",
+        "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+        "var/jb/Applications/DuoFaceNativeHost.app/Info.plist",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-fullscreen.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo-picker-alpha-v2.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo-vert.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-logo.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-picker.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/VisualAssets/duoface-swap.png",
+        "var/jb/Applications/DuoFaceNativeHost.app/duoface-logo.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-fullscreen.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo-picker-alpha-v2.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo-vert.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-logo.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-picker.png",
+        "var/jb/Library/Application Support/DuoFaceNativeHost/VisualAssets/duoface-swap.png",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+        "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.plist"
+      ]
+    }
+  ],
+  "files": 30,
+  "nativehost_build_sha256": "5302ca7f1e1a64cf1d56e6b65623ff49a1b0a71cc18ec46f85552c5d48f59bdf",
+  "source_git_commit": "b64862700d0bd169023890e892ca14d9ee8ef850",
+  "original_reference_native12_speed8compact_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "native12_speed8_hud_independent_parity_proven": false,
+  "contains_third_party_carbridge": false,
+  "only_original_duoface_code": true,
+  "separate_carbridge_dependency": false,
+  "requires_replacing_old_qa_packages": true,
+  "sileo_published": false,
+  "device_carplay_icon_tested": false,
+  "real_two_app_scene_tested": false,
+  "native_content_receiver_compiled": true,
+  "native_content_receiver_device_verified": false,
+  "uicache_registration_scripts_included": true,
+  "auto_respring_on_install": false,
+  "risks": [
+    "SpringBoard injection present in own V1BC module; baseline not validated on this exact phone",
+    "old QA packages conflict; do NOT install this staged package in place",
+    "Home app roster/CarPlay scene admission still needs actual device proof",
+    "System-issued scene CAContext receiver exists but touch and device overlay are unverified"
+  ]
+}
