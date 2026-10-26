@@ -1539,6 +1539,36 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('@"media-pane-frame-readback"',source)
   self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
 
+ def test_native12_verified_two_reference_setters_not_child3_only(self):
+  """The original native IMP @acfcc/@ad004/@ad708 has 3 sender slots.
+  A missing child3 must not suppress a supported child2/main2 fallback.
+  Device pixels still need validation.
+  """
+  evidence=json.loads((R.parent/"audit/native12-continuation-4888299/original-video-layout-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
+  layout=next(x for x in evidence["methods"] if x["class"]=="CBBridgedUIAppView" and x["selector"]=="updateLayout")
+  calls="\\n".join(layout["instructions"])
+  for addr in ("acfb0:", "acfcc:", "acfe4:", "ad004:"):
+   self.assertIn(addr,calls)
+  settings=next(x for x in evidence["methods"] if x["selector"]=="updateSceneSettingsFrame")
+  calls="\\n".join(settings["instructions"])
+  for addr in ("ad6a4:", "ad6dc:", "ad708:"):
+   self.assertIn(addr,calls)
+  host=file("DFSceneHost.m")
+  live=host.split('DFSceneLog(@"live-viewport-reference-before"',1)[1].split('DFSceneLog(@"live-scene-reference-size-dispatched"',1)[0]
+  self.assertIn('SEL sz2=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")',host)
+  self.assertIn("BOOL child2Valid=sig2",host)
+  self.assertIn("BOOL main2Valid=mainSig",host)
+  self.assertIn("if(!abiValid && !child2Valid && !main2Valid)",host)
+  self.assertIn("if(child2Valid)",live)
+  self.assertIn("if(abiValid)",live)
+  self.assertIn("if(main2Valid)",live)
+  self.assertLess(live.index("if(child2Valid)"),live.index("if(abiValid)"))
+  self.assertLess(live.index("if(abiValid)"),live.index("if(main2Valid)"))
+  self.assertIn("live-reference-native12-selector-coverage",live)
+  self.assertIn("UIInterfaceOrientationPortrait",live)
+  self.assertNotIn("setForeground:",live)
+  self.assertNotIn("setUnderLock:",live)
+
  def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
   """Regression: a method returning is not a player's rendered frame ACK."""
   host=file("DFSceneHost.m")
