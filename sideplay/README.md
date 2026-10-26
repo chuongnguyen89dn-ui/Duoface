@@ -2,7 +2,7 @@
 
 - Người dùng báo giao diện ứng dụng vẫn bó và SpringBoard crash ngay sau mốc `9f830a97`. Đây là FAIL thiết bị; chưa có IPS tương ứng để chỉ ra riêng lệnh gây crash.
 - Đã khôi phục provenance thật của **DEB 0.0.37** (run `39748923126`, SHA256 `2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb`) và đối chiếu 0.0.73; **chưa phát hành lại hoặc sửa runtime**.
-- Đọc báo cáo đã bổ sung: [V37_NOT_FULLY_RESTORED_ROOT_DIFF_20261026.md](audit/native12-039-regressions-20261023/V37_NOT_FULLY_RESTORED_ROOT_DIFF_20261026.md), checkpoint commit [4ceb963](https://github.com/chuongnguyen89dn-ui/Duoface/commit/4ceb96396718a88141c09153392dbb4d6624bd8b). Tất cả bước tiếp theo và giới hạn kiểm chứng nằm trong báo cáo này; `sideplay/tiep tuc du an.md` 1.15 MB vượt khả năng sửa qua Contents connector hiện tại nên không được coi là đã cập nhật.
+- Đọc báo cáo đã bổ sung: [V37_NOT_FULLY_RESTORED_ROOT_DIFF_20261026.md](audit/native12-039-regressions-20261023/V37_NOT_FULLY_RESTORED_ROOT_DIFF_20261026.md), checkpoint commit [e170649](https://github.com/chuongnguyen89dn-ui/Duoface/commit/e17064946a78f8288adb0ff627132139551fdf7f). Tất cả bước tiếp theo và giới hạn kiểm chứng nằm trong báo cáo này; `sideplay/tiep tuc du an.md` 1.15 MB vượt khả năng sửa qua Contents connector hiện tại nên không được coi là đã cập nhật.
 
 # SidePlay 1.0.4-1 — nơi kiểm kê, giải nén và phát triển DuoFace mới
 
