@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict><key>Filter</key><dict><key>Bundles</key><array>
-<string>com.openai.chat</string>
-<string>com.google.ios.youtube</string>
-<string>com.banyac.midrive.intl</string>
-<string>com.google.Maps</string>
+<!-- UIKit process filter. Runtime must reject all processes except
+     independently eligible user-facing apps currently hosted by DuoFace. -->
+<string>com.apple.UIKit</string>
+<string>com.apple.UIKitCore</string>
 </array></dict></dict></plist>
