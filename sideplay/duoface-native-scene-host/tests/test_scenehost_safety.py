@@ -1625,7 +1625,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("selector ref: setSceneFrame:orientation:",forwarded)
   scene="\\n".join(v["asm"] for v in funcs["setSceneFrame:orientation:"]["instructions"])
   for required in ("selector ref: sceneHandle", "selector ref: respondsToSelector:",
-                   "selector ref: setFrame:",
+                   'Objc cfstring ref: @"setFrame:"',
                    "setInterfaceOrientation:"):
     self.assertIn(required,scene)
   # Exact original SidePlay PC 0x31668 invokes a separate transaction helper
