@@ -392,7 +392,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if (self.appController && [self.appController respondsToSelector:sz])",section)
   self.assertIn("BOOL applied=child2Applied||child3Applied||main2Applied;",section)
   self.assertNotIn("else if ([deviceController respondsToSelector:sz3])",section)
-  self.assertEqual(section.count("logical,UIInterfaceOrientationPortrait);"),2)
+  # The original pre-mode2 seed still has 2 selectors, and the new live
+  # generation-scoped .37 recovery has 2 more; inspect each path separately.
+  live=section.split("if(self.ready){",1)[1].split("// The following private selector path is pre-requestedMode only.",1)[0]
+  legacy=section.split("// The following private selector path is pre-requestedMode only.",1)[1]
+  self.assertEqual(live.count("logical,UIInterfaceOrientationPortrait);"),2)
+  self.assertEqual(legacy.count("logical,UIInterfaceOrientationPortrait);"),2)
   self.assertIn("logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);",section)
   self.assertNotIn("UIInterfaceOrientationLandscape",section)
   self.assertIn("original-native12-scene-size-dispatch",section)
@@ -1568,6 +1573,27 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("UIInterfaceOrientationPortrait",live)
   self.assertNotIn("setForeground:",live)
   self.assertNotIn("setUnderLock:",live)
+
+ def test_restore_verified_v37_real_media_view_contract(self):
+  """Restore ONLY v37 hosted media, keeping .68 shared chrome/drag intact."""
+  c=file("DFSceneHost.m")
+  live=c.split('DFSceneLog(@"live-viewport-reference-before"',1)[1].split('DFSceneLog(@"live-scene-reference-size-dispatched"',1)[0]
+  # Real v37 immutable source: a8cdec6252b0e772faa726e92b84ee66246590ed
+  # DFSceneHost.m d394e19a58 lines 231-237, AFTER both child selectors.
+  self.assertIn('UIView *inner=DFCall0(deviceController,@"view");',live)
+  self.assertIn('inner.transform=CGAffineTransformIdentity;',live)
+  self.assertIn('inner.frame=(CGRect){CGPointZero,logical};',live)
+  self.assertIn('UIViewAutoresizingFlexibleWidth|',live)
+  self.assertIn('UIViewAutoresizingFlexibleHeight;',live)
+  self.assertIn('DFHostInt(deviceController,@"setHomeGrabberDisplayMode:",1);',live)
+  self.assertIn('DFSceneLog(@"media37-inner-reference-restored"',live)
+  self.assertLess(live.index("if(main2Valid)"),live.index("UIView *inner=DFCall0(deviceController"))
+  self.assertNotIn("[inner layoutIfNeeded]",live)
+  self.assertNotIn("UIInterfaceOrientationLandscape",live)
+  # CarPlay physical orientation must be observed before changing ABI args.
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("self.dividerLogo.hidden=NO;",chrome)
+  self.assertIn("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];",chrome)
 
  def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
   """Regression: a method returning is not a player's rendered frame ACK."""
