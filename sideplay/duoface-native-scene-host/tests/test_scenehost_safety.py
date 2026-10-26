@@ -466,7 +466,7 @@ class NativeCarPlayHost(unittest.TestCase):
   # Real hosted app scene remains visible behind menu and app chooser:
   # native12 split controller overlays controls; modal cannot suspend apps.
   self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
-   self.assertIn("v.hidden=appWindow.hidden;",chrome)
+  self.assertIn("v.hidden=appWindow.hidden;",chrome)
   self.assertIn("v.userInteractionEnabled=loaded;",chrome)
   self.assertNotIn("appWindow.hidden=(!(loaded||negotiating)",chrome)
   self.assertIn("self.pendingScenes[(NSUInteger)i]!=NSNull.null",chrome)
@@ -506,7 +506,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(i>=activeSlots){w.hidden=YES;continue;}",chrome)
   self.assertIn("if(visualSlot>=activeSlots){appWindow.hidden=YES;v.hidden=YES;continue;}",chrome)
   self.assertIn("appWindow.hidden=(self.startupActive || focusedElsewhere);",chrome)
-   self.assertIn("v.hidden=appWindow.hidden;",chrome)
+  self.assertIn("v.hidden=appWindow.hidden;",chrome)
   self.assertIn("v.userInteractionEnabled=loaded;",chrome)
   # Empty slots are visible, but never intercept app or system touches.
   self.assertIn("BOOL empty=(!loaded && !negotiating);",chrome)
