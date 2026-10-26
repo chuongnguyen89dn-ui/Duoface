@@ -833,10 +833,21 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                     CGRect observed=CGRectNull;
                     if(DFReadOwnedSceneFrame(scene,&observed) &&
                        DFSceneFrameMatches(observed,requested)) {
-                        self.committedReferenceSize=self.bounds.size;
-                        DFSceneLog(@"live-viewport-scene-frame-readback-accepted",
-                            self.bundleID,NSStringFromCGRect(observed));
-                        [self diagnoseScene:@"scene-frame-readback-accepted"];
+                        UIInterfaceOrientation acceptedOrientation=UIInterfaceOrientationUnknown;
+                        BOOL orientationAccepted=
+                            self.requestedSceneOrientation==UIInterfaceOrientationUnknown ||
+                            (DFReadOwnedSceneOrientation(scene,&acceptedOrientation) &&
+                             acceptedOrientation==self.requestedSceneOrientation);
+                        if(orientationAccepted){
+                            self.committedReferenceSize=self.bounds.size;
+                            DFSceneLog(@"live-viewport-scene-frame-readback-accepted",
+                                self.bundleID,NSStringFromCGRect(observed));
+                            if(self.requestedSceneOrientation!=UIInterfaceOrientationUnknown)
+                                DFSceneLog(@"youtube-carplay-scene-orientation-readback-accepted",
+                                    self.bundleID,[NSString stringWithFormat:@"%ld",
+                                         (long)acceptedOrientation]);
+                            [self diagnoseScene:@"scene-frame-readback-accepted"];
+                        }
                     }
                 }
             }
@@ -845,6 +856,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                 self.committedReferenceSize=CGSizeZero;
                 self.requestedSceneFrameSize=CGSizeZero;
                 self.requestedSceneFrameGeneration=0;
+                self.requestedSceneOrientation=UIInterfaceOrientationUnknown;
                 [self layoutScene];
                 DFSceneLog(@"scene-geometry-owner-resynchronized",self.bundleID,
                     sceneChanged?@"scene replaced":@"hosting resumed");
@@ -855,6 +867,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                 self.committedReferenceSize=CGSizeZero;
                 self.requestedSceneFrameSize=CGSizeZero;
                 self.requestedSceneFrameGeneration=0;
+                self.requestedSceneOrientation=UIInterfaceOrientationUnknown;
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [self diagnoseScene:@"ready-render-unverified"];
@@ -866,6 +879,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
             self.geometrySuspended=YES;
             self.requestedSceneFrameSize=CGSizeZero;
             self.requestedSceneFrameGeneration=0;
+            self.requestedSceneOrientation=UIInterfaceOrientationUnknown;
             ++self.sceneGeneration;
             [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
             DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting or attachment unavailable");
@@ -905,6 +919,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
     self.geometrySuspended=YES;
     self.requestedSceneFrameSize=CGSizeZero;
     self.requestedSceneFrameGeneration=0;
+    self.requestedSceneOrientation=UIInterfaceOrientationUnknown;
     ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
     [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
