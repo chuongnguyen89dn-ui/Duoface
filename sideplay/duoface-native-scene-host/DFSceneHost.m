@@ -851,6 +851,31 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                     }
                 }
             }
+            // A YouTube player may rotate in-place at the SAME pane size.
+            // .70 only negotiated on resize; this event had no commit trigger.
+            // One source-owned correction per scene generation, never a
+            // repeating private FrontBoard settings update on every poll.
+            if(self.ready && !sceneChanged && !resumed &&
+               !self.committingSceneGeometry && !self.geometryCommitTimer &&
+               self.requestedSceneOrientation==UIInterfaceOrientationUnknown &&
+               CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)){
+                UIInterfaceOrientation external=
+                    DFDesiredYouTubeCarPlayOrientation(self.bundleID,self.window);
+                UIInterfaceOrientation hosted=UIInterfaceOrientationUnknown;
+                if(external!=UIInterfaceOrientationUnknown &&
+                   DFReadOwnedSceneOrientation(scene,&hosted) &&
+                   hosted!=external) {
+                    self.committedReferenceSize=CGSizeZero;
+                    self.pendingReferenceSize=self.bounds.size;
+                    self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:0.30
+                        target:self selector:@selector(commitSceneGeometry:)
+                        userInfo:nil repeats:NO];
+                    DFSceneLog(@"youtube-carplay-inplace-rotation-negotiation-queued",
+                        self.bundleID,[NSString stringWithFormat:
+                            @"scene=%p hosted=%ld external=%ld",
+                            scene,(long)hosted,(long)external]);
+                }
+            }
             if(self.ready && (sceneChanged || resumed)){
                 self.lastApplied=CGSizeZero;
                 self.committedReferenceSize=CGSizeZero;
