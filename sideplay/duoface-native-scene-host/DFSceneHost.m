@@ -103,7 +103,7 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
  * SidePlay SPPane.setSceneFrame:orientation: has CGRect+NSInteger ABI;
  * DuoDash CNABUIApp.setBridgeState:width:height:orientation: is an
  * app-side state contract (NOT proof of how it mutates UIKit);
- * DuoNavi 1.0.4 CBBridgeManager.receivedMetricsUpdatedNotification:
+ * DuoNavi 1.0.4 bridge receivedMetricsUpdatedNotification:
  * @1f3898..1f38e4 updates carPlayUsableBounds/appFrame/renderSize.
  * Original Native12 child-reference setters still pass Portrait=1,
  * which is a DIFFERENT contract from the hosted scene's orientation.
