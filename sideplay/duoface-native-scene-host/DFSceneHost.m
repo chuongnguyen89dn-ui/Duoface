@@ -135,15 +135,19 @@ static BOOL DFReadOwnedSceneOrientation(id scene,UIInterfaceOrientation *out) {
     *out=(UIInterfaceOrientation)raw;
     return YES;
 }
-static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
+static UIInterfaceOrientation DFDesiredHostedCarPlayOrientation(
         NSString *bundleID,UIWindow *window) {
-    // YouTube requested by user. Other apps retain the known .37 behavior:
-    // no global orientation override (Maps/70mai may have portrait-only UI).
-    if(![bundleID isEqualToString:@"com.google.ios.youtube"] || !window)
+    // Pinned original DEB behavior, not a synthetic player or global hook:
+    // SidePlay SPPane.applySceneFrame @3141c reads orientation and @31444
+    // passes it into setSceneFrame:orientation:; its settings block writes
+    // frame @317d0, orientation @31818. OmniCar 1.0.3 uses @f248/@f280.
+    // Native12 supportsInterfaceOrientation:forBundleID: @24d118 returns YES.
+    // Scope ONLY to a real hosted App Picker app and external windowScene.
+    // Never assume landscape from the width of an individual split pane.
+    if(!DFIsEligibleAppID(bundleID) || !window || !window.windowScene ||
+       !window.screen || window.screen==UIScreen.mainScreen)
         return UIInterfaceOrientationUnknown;
-    UIWindowScene *windowScene=window.windowScene;
-    UIInterfaceOrientation observed=windowScene?
-        windowScene.interfaceOrientation:UIInterfaceOrientationUnknown;
+    UIInterfaceOrientation observed=window.windowScene.interfaceOrientation;
     return UIInterfaceOrientationIsLandscape(observed)?
         observed:UIInterfaceOrientationUnknown;
 }
@@ -537,7 +541,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                 CGRect actual=CGRectNull;
                 UIInterfaceOrientation observedOrientation=UIInterfaceOrientationUnknown;
                 UIInterfaceOrientation desiredOrientation=
-                    DFDesiredYouTubeCarPlayOrientation(self.bundleID,self.window);
+                    DFDesiredHostedCarPlayOrientation(self.bundleID,self.window);
                 BOOL frameReadable=DFReadOwnedSceneFrame(currentScene,&actual);
                 BOOL orientationReadable=
                     DFReadOwnedSceneOrientation(currentScene,&observedOrientation);
@@ -620,7 +624,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                                         settings,setter,desired);
                                 if(orientationNeeded &&
                                    surface.requestedSceneOrientation==desiredOrientation &&
-                                   DFDesiredYouTubeCarPlayOrientation(surface.bundleID,
+                                   DFDesiredHostedCarPlayOrientation(surface.bundleID,
                                       surface.window)==desiredOrientation &&
                                    DFSceneHasOrientationABI(settings,setOrientation,YES))
                                     ((void (*)(id,SEL,NSInteger))objc_msgSend)(
@@ -629,7 +633,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                         DFSceneLog(@"live-viewport-scene-frame-requested",
                             self.bundleID,NSStringFromCGRect(desired));
                         if(orientationNeeded)
-                            DFSceneLog(@"youtube-carplay-scene-orientation-requested",
+                            DFSceneLog(@"hosted-carplay-scene-orientation-requested",
                                 self.bundleID,[NSString stringWithFormat:
                                     @"from=%ld to=%ld",(long)observedOrientation,
                                     (long)desiredOrientation]);
@@ -892,7 +896,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                             DFSceneLog(@"live-viewport-scene-frame-readback-accepted",
                                 self.bundleID,NSStringFromCGRect(observed));
                             if(self.requestedSceneOrientation!=UIInterfaceOrientationUnknown)
-                                DFSceneLog(@"youtube-carplay-scene-orientation-readback-accepted",
+                                DFSceneLog(@"hosted-carplay-scene-orientation-readback-accepted",
                                     self.bundleID,[NSString stringWithFormat:@"%ld",
                                          (long)acceptedOrientation]);
                             [self diagnoseScene:@"scene-frame-readback-accepted"];
@@ -909,7 +913,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                self.requestedSceneOrientation==UIInterfaceOrientationUnknown &&
                CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)){
                 UIInterfaceOrientation external=
-                    DFDesiredYouTubeCarPlayOrientation(self.bundleID,self.window);
+                    DFDesiredHostedCarPlayOrientation(self.bundleID,self.window);
                 UIInterfaceOrientation hosted=UIInterfaceOrientationUnknown;
                 if(external!=UIInterfaceOrientationUnknown &&
                    DFReadOwnedSceneOrientation(scene,&hosted) &&
@@ -919,7 +923,7 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
                     self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:0.30
                         target:self selector:@selector(commitSceneGeometry:)
                         userInfo:nil repeats:NO];
-                    DFSceneLog(@"youtube-carplay-inplace-rotation-negotiation-queued",
+                    DFSceneLog(@"hosted-carplay-inplace-orientation-negotiation-queued",
                         self.bundleID,[NSString stringWithFormat:
                             @"scene=%p hosted=%ld external=%ld",
                             scene,(long)hosted,(long)external]);
