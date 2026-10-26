@@ -1,5 +1,6 @@
 // Independent DuoFace native CarPlay scene-entry proof. NO vendor bridge code.
 #import <UIKit/UIKit.h>
+#import "DFDeepTrace.h"
 #import <CarPlay/CarPlay.h>
 #import "DFNative12BasicController.h"
 #import <Foundation/Foundation.h>
@@ -13,6 +14,7 @@ static NSString *const DFTemplateRole=@"CPTemplateApplicationSceneSessionRoleApp
 static NSString *const DFAckPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
 static const char *const DFAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 void DFNativeHostLog(NSString *message) {
+    DFDeepTrace(@"native-cpwindow",message?:@"-");
     NSString *line=[NSString stringWithFormat:@"[DuoFaceNativeHost] %@\n",message];
     NSLog(@"%@",line);
     int fd=open("/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",

@@ -2,6 +2,7 @@
 // The system CPWindow stays untouched. No vendor binary, app hosting,
 // system Dock manipulation, fabricated UIKit touches, or autorun overlay.
 #import <UIKit/UIKit.h>
+#import "DFDeepTrace.h"
 #import "DFNative12Chrome.h"
 #import "DFDockZoomCoordinator.h"
 #import <Foundation/Foundation.h>
@@ -34,6 +35,10 @@ static const char *const kAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 static const char *const kCommandNotify="com.duoface.nativehost.touchowner.command.v1";
 
 static void DFTOLog(NSString *event, NSString *detail) {
+    // Exact command sequence/ACK and touch owner events share the same
+    // timestamped 2 MiB log as real player, system Dock and native CPWindow.
+    DFDeepTrace(@"touch-owner",[NSString stringWithFormat:
+        @"event=%@ %@",event?:@"-",detail?:@""]);
     NSString *line=[NSString stringWithFormat:@"[DFTouchOwner] %@ %@\n",
         event?:@"-", detail?:@""];
     NSLog(@"%@",line);

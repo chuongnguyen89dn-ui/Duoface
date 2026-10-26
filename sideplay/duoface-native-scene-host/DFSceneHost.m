@@ -109,6 +109,35 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @end
 
 @implementation DFSceneSurface
+- (void)diagnoseScene:(NSString *)phase {
+    // Probe current ownership without asking FrontBoard to mutate settings.
+    // A nonnil handle never proves a rendered player or a safe scene diff.
+    @try {
+        id handle=DFCall0(self.appController,@"sceneHandle");
+        id observed=DFCall0(handle,@"sceneIfExists");
+        UIView *child=self.appController.isViewLoaded?self.appController.view:nil;
+        DFDiagnosticSnapshot(@"scene-audit",phase,@{
+            @"bundle":self.bundleID?:@"-",
+            @"started":@(self.started),@"ready":@(self.ready),
+            @"stopped":@(self.stopped),
+            @"generation":@(self.sceneGeneration),
+            @"hosting":@(DFHostingFlag(self.appController,@"isHostingAnApp",NO)),
+            @"sceneMatches":@(observed && observed==self.scene),
+            @"attached":@(child && child.window && child.window==self.window),
+            @"controller":NSStringFromClass(self.appController.class)?:@"-",
+            @"sceneType":NSStringFromClass([observed class])?:@"-",
+            @"pane":NSStringFromCGRect(self.bounds),
+            @"window":self.window?NSStringFromCGRect(self.window.bounds):@"none",
+            @"childFrame":child?NSStringFromCGRect(child.frame):@"none",
+            @"childBounds":child?NSStringFromCGRect(child.bounds):@"none",
+            @"pending":NSStringFromCGSize(self.pendingReferenceSize),
+            @"committed":NSStringFromCGSize(self.committedReferenceSize)
+        });
+    } @catch(NSException *e) {
+        DFDeepTrace(@"scene-audit",[NSString stringWithFormat:
+            @"checkpoint=%@ read-failed=%@",phase,e.name]);
+    }
+}
 - (void)tracePhase:(NSString *)phase {
     DFDeepTrace(@"scene-phase",[NSString stringWithFormat:@"surface=%p bundle=%@ phase=%@ started=%d ready=%d stopped=%d generation=%lu controller=%@ bounds=%@ scene=%p",
         self,self.bundleID,phase,self.started,self.ready,self.stopped,(unsigned long)self.sceneGeneration,
@@ -167,6 +196,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         [self.appController endAppearanceTransition];
         [self tracePhase:@"after-end-appearance"];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
+        [self diagnoseScene:@"mode2-requested"];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self
                   selector:@selector(pollScene:) userInfo:nil repeats:YES];
         [self pollScene:self.timer];
@@ -304,6 +334,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
              contentType && strcmp(contentType,@encode(NSInteger))==0 &&
              containerType && strcmp(containerType,@encode(NSInteger))==0;
         if(!abiValid){
+            [self diagnoseScene:@"live-reference-abi-rejected"];
             DFSceneLog(@"live-viewport-abi-rejected",self.bundleID,
                 [NSString stringWithFormat:@"child=%@ selector=%d argc=%lu",
                    NSStringFromClass([deviceController class]),
@@ -322,6 +353,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
         self.committingSceneGeometry=YES;
         @try {
+            [self diagnoseScene:@"before-live-reference-send"];
             DFSceneLog(@"live-viewport-reference-before",self.bundleID,
               [NSString stringWithFormat:@"generation=%lu scene=%p size=%@",
                   (unsigned long)generation,currentScene,
@@ -336,6 +368,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                DFCall0(DFCall0(self.appController,@"sceneHandle"),
                        @"sceneIfExists")==currentScene){
                 self.committedReferenceSize=size;
+                [self diagnoseScene:@"after-live-reference-dispatch-not-video-ack"];
                 DFSceneLog(@"live-scene-reference-size-dispatched",self.bundleID,
                     [NSString stringWithFormat:@"generation=%lu size=%@",
                         (unsigned long)generation,NSStringFromCGSize(logical)]);
@@ -539,6 +572,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 self.scene=scene;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
                 DFSceneLog(@"scene-attached",self.bundleID,NSStringFromClass([scene class]));
+                [self diagnoseScene:@"scene-attached"];
             }
             if(self.ready && (sceneChanged || resumed)){
                 self.lastApplied=CGSizeZero;
@@ -553,6 +587,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 self.committedReferenceSize=CGSizeZero;
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
+                [self diagnoseScene:@"ready-render-unverified"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             return;
@@ -562,6 +597,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             ++self.sceneGeneration;
             [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
             DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting or attachment unavailable");
+            [self diagnoseScene:@"hosting-suspended"];
         }
         ++self.tries;
         if(self.tries==3 || self.tries==10 || self.tries==25){
@@ -583,6 +619,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     }
 }
 - (void)failed:(NSError *)error {
+    [self diagnoseScene:@"scene-failed-before-stop"];
     DFSceneLog(@"scene-failed",self.bundleID,error.localizedDescription);
     UIView *target=self;
     [self stop];
@@ -591,6 +628,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 }
 - (void)stop {
     if (self.stopped) return;
+    [self diagnoseScene:@"before-close-invalidate"];
     self.stopped=YES;
     self.geometrySuspended=YES;
     ++self.sceneGeneration;
@@ -615,10 +653,12 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         if ([self.appController respondsToSelector:invalidate])
             ((void (*)(id,SEL))objc_msgSend)(self.appController,invalidate);
         DFSceneLog(@"invalidate-done",self.bundleID,@"");
+        [self diagnoseScene:@"controller-invalidated"];
     } @catch (NSException *e) { DFSceneLog(@"invalidate-warning",self.bundleID,e.reason); }
     // Do not send a fabricated/nil FrontBoard transition context during close.
     // Request mode 0 + invalidate above; iPhone exitmode crash risk is monitored.
     DFSceneLog(@"close-no-private-settings-restore",self.bundleID,@"");
+    [self diagnoseScene:@"before-wrapper-removal"];
 
     [self removeFromSuperview];
     [self.owner didFinishSurface:self];

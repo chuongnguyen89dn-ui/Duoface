@@ -6,6 +6,35 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def file(n):return (R/n).read_text()
 class NativeCarPlayHost(unittest.TestCase):
+ def test_integrated_full_diagnostic_trace_contract(self):
+  """Build includes owned logs for all host components, no separate QA tweak."""
+  deep=file("DFDeepTrace.h")
+  scene=file("DFSceneHost.m")
+  phone=file("DFNativeHostAppDelegate.m")
+  probe=file("DFTouchOwnerProbe.m")
+  dock=file("DFCarPlayDockOwner.m")
+  export=file("DFNativeDiagnostics.m")
+  self.assertIn("build=0.0.67~scenediag1",deep)
+  self.assertIn("DFDiagnosticSnapshot(NSString *area, NSString *phase",deep)
+  self.assertIn("approved containsObject:key",deep)
+  self.assertIn("if(clean.length>160)",deep)
+  self.assertIn("st.st_size>2*1024*1024",deep)
+  self.assertIn("DuoFaceDeepTrace.log",deep)
+  for marker in ("mode2-requested","scene-attached","ready-render-unverified",
+                 "before-live-reference-send","after-live-reference-dispatch-not-video-ack",
+                 "before-close-invalidate","controller-invalidated",
+                 "before-wrapper-removal","hosting-suspended","live-reference-abi-rejected"):
+   self.assertIn('[self diagnoseScene:@"'+marker+'"]',scene)
+  self.assertIn('@"sceneMatches":@(observed && observed==self.scene)',scene)
+  self.assertIn('@"hosting":@(DFHostingFlag',scene)
+  self.assertIn("DFDeepTrace(@\"native-cpwindow\"",phone)
+  self.assertIn("DFDeepTrace(@\"touch-owner\"",probe)
+  self.assertIn("DFDeepTrace(@\"dock\"",dock)
+  self.assertIn("DFDeepTrace(@\"chrome\"",file("DFNative12Chrome.m"))
+  self.assertIn("DuoFaceDeepTrace.log",export)
+  self.assertIn("Audit schema: 2",export)
+  self.assertNotIn("updateSettingsWithBlock:",deep)
+  self.assertNotIn("checkAndSyncLicense",deep)
  def test_first_party_independent_manifest(self):
   m=plistlib.loads((R/"Info.plist").read_bytes())
   self.assertEqual(m["CFBundleIdentifier"],"com.duoface.native.scenehost")
@@ -152,7 +181,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.75~axisdrag1",build)
+  self.assertIn("0.1.76~scenediag1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -636,7 +665,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.75~axisdrag1",c)
+  self.assertIn("Version: 0.1.76~scenediag1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
