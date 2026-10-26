@@ -1640,7 +1640,7 @@ class NativeCarPlayHost(unittest.TestCase):
   request only, not a global orientation forcing or a private FBScene loop.
   """
   host=file("DFSceneHost.m")
-  live=host.split("- (void)pollScene:",1)[-1].split("- (void)failed:",1)[0]
+  live=host.split("- (void)pollScene:(NSTimer *)timer {",1)[1].split("- (void)failed:",1)[0]
   self.assertIn("youtube-carplay-inplace-rotation-negotiation-queued",live)
   self.assertIn("self.requestedSceneOrientation==UIInterfaceOrientationUnknown",live)
   self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)",live)
