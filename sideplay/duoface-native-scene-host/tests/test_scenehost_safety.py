@@ -329,7 +329,10 @@ class NativeCarPlayHost(unittest.TestCase):
       ("adb94:", "0xad668")):
    self.assertTrue(any(x.startswith(pc) and fragment in x for x in ins), f"Native12 original missing {pc} {fragment}")
   source=file("DFSceneHost.m")
-  start=source.index("id deviceController=nil;")
+  # Scope the original pre-mode2 KVC fallback: the new stable live
+  # reference path has its own receiver guarded by a three-argument ABI.
+  seed=source.index("// The following private selector path is pre-requestedMode only.")
+  start=source.index("id deviceController=nil;",seed)
   end=source.index("SEL sz=NSSelectorFromString",start)
   fragment=source[start:end]
   self.assertLess(fragment.index("valueForKey:"),fragment.index("@catch (NSException *kvcError)"))
