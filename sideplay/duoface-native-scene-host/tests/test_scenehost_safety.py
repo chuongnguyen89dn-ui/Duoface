@@ -1595,6 +1595,43 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerLogo.hidden=NO;",chrome)
   self.assertIn("self.sharedAppWindow=[self makeWindow:cr root:sharedRoot level:0.5];",chrome)
 
+ def test_youtube_scene_orientation_is_observed_not_guessed_and_scoped(self):
+  """Four-product contract: separate CarPlay display orientation from
+  original Native12 Portrait=1 reference-size selectors. Never rotate GUI.
+  """
+  sideplay=json.loads((R.parent/"native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json").read_text())
+  matches=[m for m in sideplay["matches"] if m["class"]=="SPPane"][0]["selectors"]
+  self.assertTrue(any(m["selector"]=="-setSceneFrame:orientation:" for m in matches))
+  navi=json.loads((R.parent/"native104-geometry/audit/native104-class-layout.json").read_text())
+  metric="\\n".join(navi["methods"]["CBBridgeManager"]["receivedMetricsUpdatedNotification:"]["instructions"])
+  self.assertIn("setRenderSize:",metric)
+  self.assertIn("carPlayUsableBounds",metric)
+  host=file("DFSceneHost.m")
+  self.assertIn("static BOOL DFSceneHasOrientationABI",host)
+  self.assertIn("static BOOL DFReadOwnedSceneOrientation",host)
+  self.assertIn("DFDesiredYouTubeCarPlayOrientation",host)
+  self.assertIn('[bundleID isEqualToString:@"com.google.ios.youtube"]',host)
+  self.assertIn("windowScene.interfaceOrientation",host)
+  self.assertIn("UIInterfaceOrientationIsLandscape(observed)",host)
+  self.assertIn("DFSceneHasOrientationABI(mutableSettings,setOrientation,YES)",host)
+  self.assertIn('SEL setOrientation=NSSelectorFromString(@"setInterfaceOrientation:")',host)
+  self.assertIn("surface.requestedSceneOrientation==desiredOrientation",host)
+  self.assertIn("orientationNeeded &&",host)
+  self.assertIn("if(!frameMatched &&",host)
+  self.assertIn("youtube-carplay-scene-orientation-requested",host)
+  self.assertIn("youtube-carplay-scene-orientation-readback-accepted",host)
+  self.assertIn("DFReadOwnedSceneOrientation(scene,&acceptedOrientation)",host)
+  self.assertIn("acceptedOrientation==self.requestedSceneOrientation",host)
+  # Prohibit global orientation mutation and silent rotation fallbacks.
+  self.assertNotIn("CGAffineTransformMakeRotation",host)
+  self.assertNotIn("UIInterfaceOrientationLandscapeLeft,UIInterfaceOrientationLandscapeRight",host)
+  self.assertNotIn("setSupportedInterfaceOrientations:",host)
+  self.assertNotIn("setForeground:",host.split("// One SCENE transaction",1)[1].split("// The following private selector path",1)[0])
+  # The .37 Native12 three reference setters always stay Portrait=1
+  # independent of the scene's external landscape orientation.
+  self.assertIn("deviceController,sz2,logical,UIInterfaceOrientationPortrait",host)
+  self.assertIn("UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait",host)
+
  def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
   """Regression: a method returning is not a player's rendered frame ACK."""
   host=file("DFSceneHost.m")
