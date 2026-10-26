@@ -1516,7 +1516,7 @@ class NativeCarPlayHost(unittest.TestCase):
   live=method.index('DFSceneLog(@"live-viewport-reference-before"')
   sent=method.index('@"live-scene-reference-size-dispatched"')
   seed=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
-  private=method.index('NSSelectorFromString(@"updateSettingsWithBlock:")')
+  private=method.index('NSSelectorFromString(@"updateSettingsWithBlock:")',seed)
   self.assertLess(live,sent)
   self.assertLess(sent,seed)
   self.assertLess(seed,private)
