@@ -76,7 +76,7 @@ class AppOwnedViewport(unittest.TestCase):
         self.assertIn('ldid -S "$APP_DYLIB"',build)
         self.assertIn('DFAppViewportRelay.dylib" not in seen',package)
         self.assertIn("DFAppViewportRelay.dylib",workflow)
-        self.assertIn('VERSION="0.0.72~appscene1"',package)
+        self.assertIn('VERSION="0.0.73~scenecontract1"',package)
 
 
 if __name__=="__main__":
