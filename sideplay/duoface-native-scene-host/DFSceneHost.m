@@ -68,6 +68,36 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         ((void (*)(id, SEL, NSInteger))objc_msgSend)(obj, sel, value);
 }
 
+// A remote FBS scene frame is separate from its enclosing UIKit viewport.
+// Both original Native12 0xadc74 and OmniCar 0xf210 write this scene size.
+static BOOL DFSceneHasCGRectABI(id object, SEL selector, BOOL setter) {
+    if (!object || ![object respondsToSelector:selector]) return NO;
+    NSMethodSignature *sig=[object methodSignatureForSelector:selector];
+    if (!sig || sig.numberOfArguments!=(setter?3:2)) return NO;
+    const char *rectABI=setter?[sig getArgumentTypeAtIndex:2]:sig.methodReturnType;
+    return rectABI && strcmp(rectABI,@encode(CGRect))==0 &&
+        (!setter || strcmp(sig.methodReturnType,@encode(void))==0);
+}
+static BOOL DFReadOwnedSceneFrame(id scene, CGRect *output) {
+    if (!scene || !output) return NO;
+    id settings=DFCall0(scene,@"settings");
+    if (!settings) settings=DFCall0(scene,@"mutableSettings");
+    SEL getter=NSSelectorFromString(@"frame");
+    if (!DFSceneHasCGRectABI(settings,getter,NO)) return NO;
+    CGRect frame=((CGRect (*)(id,SEL))objc_msgSend)(settings,getter);
+    if (CGRectIsNull(frame) || CGRectIsInfinite(frame) ||
+        !isfinite(frame.origin.x) || !isfinite(frame.origin.y) ||
+        !isfinite(frame.size.width) || !isfinite(frame.size.height) ||
+        frame.size.width<=0 || frame.size.height<=0) return NO;
+    *output=frame;
+    return YES;
+}
+static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
+    return fabs(observed.origin.x)<.6 && fabs(observed.origin.y)<.6 &&
+        fabs(observed.size.width-native.width)<.6 &&
+        fabs(observed.size.height-native.height)<.6;
+}
+
 @class DFSceneSurface;
 @interface DFSceneHost ()
 @property(nonatomic,strong) NSMutableDictionary<NSString *,DFSceneSurface *> *live;
@@ -97,6 +127,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 // only after split/zoom stops changing, to avoid FrontBoard churn.
 @property(nonatomic) CGSize pendingReferenceSize;
 @property(nonatomic) CGSize committedReferenceSize;
+// One attempted FBScene transaction per native size and scene generation.
+// Requested is not accepted: only an observed scene frame can commit.
+@property(nonatomic) CGSize requestedSceneFrameSize;
+@property(nonatomic) NSUInteger requestedSceneFrameGeneration;
 @property(nonatomic,strong) NSTimer *geometryCommitTimer;
 @property(nonatomic) NSTimeInterval lastViewportLogAt;
 @property(nonatomic) NSTimeInterval lastHitLogAt;
@@ -131,7 +165,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             @"childFrame":child?NSStringFromCGRect(child.frame):@"none",
             @"childBounds":child?NSStringFromCGRect(child.bounds):@"none",
             @"pending":NSStringFromCGSize(self.pendingReferenceSize),
-            @"committed":NSStringFromCGSize(self.committedReferenceSize)
+            @"committed":NSStringFromCGSize(self.committedReferenceSize),
+            @"requested":NSStringFromCGSize(self.requestedSceneFrameSize)
         });
     } @catch(NSException *e) {
         DFDeepTrace(@"scene-audit",[NSString stringWithFormat:
@@ -361,17 +396,85 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(
                 deviceController,sz3,logical,
                 UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
-            // This means the message returned, NOT that pixels/playback or
-            // Apple's scene diff callback accepted a new stable viewport.
+            // Child reference-size dispatch is not a renderer ACK.
             if(!self.stopped && !self.geometrySuspended &&
                self.sceneGeneration==generation &&
                DFCall0(DFCall0(self.appController,@"sceneHandle"),
-                       @"sceneIfExists")==currentScene){
-                self.committedReferenceSize=size;
+                       @"sceneIfExists")==currentScene) {
                 [self diagnoseScene:@"after-live-reference-dispatch-not-video-ack"];
                 DFSceneLog(@"live-scene-reference-size-dispatched",self.bundleID,
                     [NSString stringWithFormat:@"generation=%lu size=%@",
                         (unsigned long)generation,NSStringFromCGSize(logical)]);
+                CGRect actual=CGRectNull;
+                if(!DFReadOwnedSceneFrame(currentScene,&actual)) {
+                    // Unknown getter ABI: never make a blind FBScene write.
+                    self.requestedSceneFrameSize=logical;
+                    self.requestedSceneFrameGeneration=generation;
+                    DFSceneLog(@"live-viewport-scene-frame-abi-unavailable",
+                        self.bundleID,@"no trusted CGRect getter");
+                } else if(DFSceneFrameMatches(actual,logical)) {
+                    self.committedReferenceSize=size;
+                    self.requestedSceneFrameSize=logical;
+                    self.requestedSceneFrameGeneration=generation;
+                    DFSceneLog(@"live-viewport-scene-frame-already-matches",
+                        self.bundleID,NSStringFromCGRect(actual));
+                } else if(self.requestedSceneFrameGeneration!=generation ||
+                          !CGSizeEqualToSize(self.requestedSceneFrameSize,logical)) {
+                    // No wholesale vendor private flags or ivar pokes.
+                    id mutableSettings=DFCall0(currentScene,@"mutableSettings");
+                    SEL setter=NSSelectorFromString(@"setFrame:");
+                    SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
+                    NSMethodSignature *updateABI=
+                        [currentScene respondsToSelector:update]?
+                        [currentScene methodSignatureForSelector:update]:nil;
+                    BOOL verifiedUpdateABI=updateABI &&
+                        updateABI.numberOfArguments==3 &&
+                        strcmp(updateABI.methodReturnType,@encode(void))==0;
+                    const char *blockABI=verifiedUpdateABI?
+                        [updateABI getArgumentTypeAtIndex:2]:NULL;
+                    verifiedUpdateABI=verifiedUpdateABI && blockABI &&
+                        (strcmp(blockABI,"@?")==0 || strcmp(blockABI,"@")==0);
+                    // iOS 16.7.x target: fail closed on other OS/ABIs.
+                    NSOperatingSystemVersion os=NSProcessInfo.processInfo.operatingSystemVersion;
+                    if(os.majorVersion!=16 || !verifiedUpdateABI ||
+                       !DFSceneHasCGRectABI(mutableSettings,setter,YES)) {
+                        self.requestedSceneFrameSize=logical;
+                        self.requestedSceneFrameGeneration=generation;
+                        DFSceneLog(@"live-viewport-scene-transaction-abi-rejected",
+                            self.bundleID,@"no compatible FBScene writer");
+                    } else {
+                        self.requestedSceneFrameSize=logical;
+                        self.requestedSceneFrameGeneration=generation;
+                        CGRect desired=CGRectMake(0,0,logical.width,logical.height);
+                        __weak typeof(self) weakSurface=self;
+                        DFSceneLog(@"live-viewport-scene-frame-before",self.bundleID,
+                            [NSString stringWithFormat:@"old=%@ target=%@ generation=%lu",
+                              NSStringFromCGRect(actual),NSStringFromCGRect(desired),
+                              (unsigned long)generation]);
+                        ((void (*)(id,SEL,id))objc_msgSend)(currentScene,update,
+                            ^(id settings) {
+                                DFSceneSurface *surface=weakSurface;
+                                // The block may run after a Close/Swap/reconnect.
+                                if(!surface || surface.stopped ||
+                                   surface.geometrySuspended ||
+                                   surface.sceneGeneration!=generation ||
+                                   surface.scene!=currentScene ||
+                                   !CGSizeEqualToSize(surface.requestedSceneFrameSize,logical) ||
+                                   !CGSizeEqualToSize(surface.bounds.size,size) ||
+                                   DFCall0(DFCall0(surface.appController,@"sceneHandle"),
+                                           @"sceneIfExists")!=currentScene ||
+                                   !DFSceneHasCGRectABI(settings,setter,YES))return;
+                                ((void (*)(id,SEL,CGRect))objc_msgSend)(
+                                    settings,setter,desired);
+                            });
+                        // A completed call is a request, NOT a video ACK.
+                        DFSceneLog(@"live-viewport-scene-frame-requested",
+                            self.bundleID,NSStringFromCGRect(desired));
+                    }
+                } else {
+                    DFSceneLog(@"live-viewport-scene-frame-request-pending",
+                        self.bundleID,NSStringFromCGRect(actual));
+                }
             } else {
                 DFSceneLog(@"live-viewport-owner-changed-after-send",
                            self.bundleID,@"not committed");
@@ -574,9 +677,29 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 DFSceneLog(@"scene-attached",self.bundleID,NSStringFromClass([scene class]));
                 [self diagnoseScene:@"scene-attached"];
             }
+            if(self.ready && !sceneChanged && !resumed &&
+               self.requestedSceneFrameGeneration==self.sceneGeneration &&
+               self.requestedSceneFrameSize.width>0) {
+                CGSize requested=self.requestedSceneFrameSize;
+                CGSize expected=CGSizeMake(round(self.bounds.size.width*2),
+                                           round(self.bounds.size.height*2));
+                if(CGSizeEqualToSize(requested,expected) &&
+                   CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero)) {
+                    CGRect observed=CGRectNull;
+                    if(DFReadOwnedSceneFrame(scene,&observed) &&
+                       DFSceneFrameMatches(observed,requested)) {
+                        self.committedReferenceSize=self.bounds.size;
+                        DFSceneLog(@"live-viewport-scene-frame-readback-accepted",
+                            self.bundleID,NSStringFromCGRect(observed));
+                        [self diagnoseScene:@"scene-frame-readback-accepted"];
+                    }
+                }
+            }
             if(self.ready && (sceneChanged || resumed)){
                 self.lastApplied=CGSizeZero;
                 self.committedReferenceSize=CGSizeZero;
+                self.requestedSceneFrameSize=CGSizeZero;
+                self.requestedSceneFrameGeneration=0;
                 [self layoutScene];
                 DFSceneLog(@"scene-geometry-owner-resynchronized",self.bundleID,
                     sceneChanged?@"scene replaced":@"hosting resumed");
@@ -585,6 +708,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 self.ready=YES;
                 self.lastApplied=CGSizeZero;
                 self.committedReferenceSize=CGSizeZero;
+                self.requestedSceneFrameSize=CGSizeZero;
+                self.requestedSceneFrameGeneration=0;
                 [self layoutScene];
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [self diagnoseScene:@"ready-render-unverified"];
@@ -594,6 +719,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         }
         if(self.ready && !self.geometrySuspended){
             self.geometrySuspended=YES;
+            self.requestedSceneFrameSize=CGSizeZero;
+            self.requestedSceneFrameGeneration=0;
             ++self.sceneGeneration;
             [self.geometryCommitTimer invalidate];self.geometryCommitTimer=nil;
             DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting or attachment unavailable");
@@ -631,6 +758,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     [self diagnoseScene:@"before-close-invalidate"];
     self.stopped=YES;
     self.geometrySuspended=YES;
+    self.requestedSceneFrameSize=CGSizeZero;
+    self.requestedSceneFrameGeneration=0;
     ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
     [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
