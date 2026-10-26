@@ -14,6 +14,7 @@ on:
       - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.m'
       - 'sideplay/duoface-native-scene-host/DFAppViewportProtocol.h'
       - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.plist'
+      - 'sideplay/duoface-native-scene-host/tests/test_app_viewport_bridge.py'
       - 'sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m'
       - 'sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m'
       - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
@@ -43,6 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_viewport_bridge.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_tile_original_palette.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
