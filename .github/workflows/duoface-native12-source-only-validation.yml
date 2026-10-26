@@ -11,6 +11,9 @@ on:
       - 'sideplay/duoface-native-scene-host/tests/test_divider_drag.py'
       - 'sideplay/duoface-native-scene-host/DFNative12MediaGeometry.h'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.m'
+      - 'sideplay/duoface-native-scene-host/DFAppViewportProtocol.h'
+      - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.plist'
       - 'sideplay/duoface-native-scene-host/DFDockZoomCoordinator.m'
       - 'sideplay/duoface-native-scene-host/DFCarPlayDockOwner.m'
       - 'sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m'
@@ -56,7 +59,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           test -d "$SDK"
           cd sideplay/duoface-native-scene-host
-          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
+          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
             echo "COMPILING_SOURCE_ONLY $FILE"
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
               -target arm64-apple-ios16.0 -isysroot "$SDK" \
