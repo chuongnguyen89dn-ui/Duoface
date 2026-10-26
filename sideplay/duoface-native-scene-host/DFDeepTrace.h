@@ -39,7 +39,7 @@ static inline void DFDiagnosticSnapshot(NSString *area, NSString *phase,
             approved=[NSSet setWithArray:@[@"bundle",@"phase",@"ready",@"started",
               @"stopped",@"generation",@"hosting",@"sceneMatches",@"attached",
               @"controller",@"sceneType",@"pane",@"window",@"childFrame",
-              @"childBounds",@"pending",@"committed",@"native",@"result",
+              @"childBounds",@"pending",@"committed",@"requested",@"native",@"result",
               @"reason",@"zoom",@"dock",@"focus",@"ratio",@"slot",@"count",
               @"event",@"owner",@"status",@"action",@"sequence",@"screen",
               @"timer",@"source"]];
