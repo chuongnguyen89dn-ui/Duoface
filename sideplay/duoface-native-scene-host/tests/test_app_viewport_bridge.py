@@ -12,13 +12,23 @@ P=R.parent/"jb-embedded-appbridge"
 
 
 class AppOwnedViewport(unittest.TestCase):
-    def test_exact_app_allowlist_not_global_injection(self):
+    def test_all_picker_eligible_apps_only_with_process_fail_closed(self):
         d=plistlib.loads((R/"DFAppViewportRelay.plist").read_bytes())
         self.assertEqual(set(d["Filter"]["Bundles"]),{
-            "com.openai.chat","com.google.ios.youtube",
-            "com.banyac.midrive.intl","com.google.Maps"})
+            "com.apple.UIKit","com.apple.UIKitCore"})
         self.assertNotIn("Executables",d["Filter"])
         src=(R/"DFAppViewportRelay.m").read_text()
+        host=(R/"DFSceneHost.m").read_text()
+        self.assertIn('#import "DFAppEligibility.h"',src)
+        self.assertIn('#import "DFAppEligibility.h"',host)
+        self.assertIn("DFIsEligibleAppID(bundle)",src)
+        self.assertIn("DFIsEligibleAppID(self.bundleID)",host)
+        self.assertIn('[bundlePath hasSuffix:@".app"]',src)
+        self.assertIn('NSBundle.mainBundle.infoDictionary[@"NSExtension"]',src)
+        # No per-app whitelist in first-party process receiver or host.
+        for bundle in ("com.openai.chat","com.google.ios.youtube",
+                       "com.banyac.midrive.intl","com.google.Maps"):
+            self.assertNotIn(f'@"{bundle}"',src+host)
         for forbidden in ("MSHookMessageEx", "method_setImplementation",
                           "setInterfaceOrientation:", "setUserInterfaceIdiom:",
                           "setSceneClass:", "setWindowScene:",
