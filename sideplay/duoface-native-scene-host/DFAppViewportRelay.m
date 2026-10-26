@@ -50,6 +50,13 @@ static void DFVPReconcile(void) {
     for(UIScene *candidate in UIApplication.sharedApplication.connectedScenes) {
         if(![candidate isKindOfClass:UIWindowScene.class])continue;
         UIWindowScene *scene=(UIWindowScene *)candidate;
+        // UIKit may have kept the app's PHONE-main-display scene active.
+        // Never reframe it while a remote CarPlay pane happens to have
+        // identical numeric dimensions; need an actual external scene.
+        if(!scene.screen || scene.screen==UIScreen.mainScreen){
+            DFVPLog(@"main-display-scene-rejected",scene,requested);
+            continue;
+        }
         if(!DFVPMatches(scene.coordinateSpace.bounds.size,requested)){
             DFVPLog(@"app-scene-rejected-host-frame",scene,requested);
             continue;
