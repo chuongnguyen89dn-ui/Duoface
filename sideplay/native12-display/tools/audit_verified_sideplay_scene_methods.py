@@ -54,6 +54,27 @@ def main():
     # not an invented function size nor a guessed return instruction.
     starts=sorted(int(x["imp"],16) for x in pane["selectors"])
     report=[]
+    # The `llvm-objdump --macho` listing alone is not enough to label an
+    # indexed Objective-C IMP as a function entry. Confirm byte-for-byte VM
+    # mapping via the original Mach-O LC_SEGMENT_64 and Capstone.
+    import struct
+    from capstone import Cs, CS_ARCH_ARM64, CS_MODE_ARM
+    segments=[]
+    if data[:4]!=bytes.fromhex("cffaedfe"):
+        raise RuntimeError("Original SidePlay must be the SHA-pinned thin arm64 slice")
+    pos=32
+    for _ in range(struct.unpack_from("<I",data,16)[0]):
+        cmd,size=struct.unpack_from("<II",data,pos)
+        if cmd==0x19:
+            vm,vm_size,off,fsz=struct.unpack_from("<QQQQ",data,pos+24)
+            segments.append((vm,vm_size,off,fsz))
+        pos+=size
+    def mapped(vm):
+        for base,total,off,fsz in segments:
+            if base<=vm<base+fsz:
+                return off+vm-base
+        raise ValueError("IMP VM unmappable "+hex(vm))
+    cap=Cs(CS_ARCH_ARM64,CS_MODE_ARM)
     for name,rec in selected.items():
         start=EXPECTED_IMP[name]
         higher=[x for x in starts if x>start]
@@ -66,7 +87,24 @@ def main():
                if any(t in x["asm"] for t in
                   ("bl\t","objc","scene","setting","frame","layout",
                    "orientation","reference","transform","scale","ret"))]
+        rawentry=data[mapped(start):mapped(start)+24]
+        entry=list(cap.disasm(rawentry,start))
+        first=entry[0].mnemonic+" "+entry[0].op_str if entry else "MISSING"
+        obj_first=ins[0]["asm"] if ins else "MISSING"
+        identical=bool(entry) and entry[0].mnemonic==obj_first.split()[0]
+        # An ObjC IMP that immediately clobbers callee-saved registers
+        # (x19-x28) before a prologue is not accepted as an entry, so the
+        # static selector map must not be misused as proof of call order.
+        probable_entry=entry and entry[0].mnemonic in (
+          "pacibsp","paciasp","stp","sub","b","adrp","mov")
+        if entry and entry[0].mnemonic=="mov" and any(
+           token in entry[0].op_str for token in ("x19,","x20,","x21,","x22,","x23,","x24,")):
+            probable_entry=False
         report.append({"class":"SPPane","selector":name,"type":rec["type"],
+                       "capstone_macho_vm_entry":first,
+                       "llvm_listing_first_instruction":obj_first,
+                       "entry_disassembly_agrees":identical,
+                       "plausible_abi_entry":bool(probable_entry),
                        "imp":hex(start),"bounded_next_imp":hex(stop),
                        "instruction_count":len(ins),
                        "instructions":ins,"calls_and_indicators":calls})
