@@ -1635,6 +1635,23 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("deviceController,sz2,logical,UIInterfaceOrientationPortrait",host)
   self.assertIn("UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait",host)
 
+ def test_youtube_rotates_in_place_without_requiring_divider_resize(self):
+  """Observed hosted orientation drift on playback is one generation-scoped
+  request only, not a global orientation forcing or a private FBScene loop.
+  """
+  host=file("DFSceneHost.m")
+  live=host.split("- (void)pollScene:",1)[-1].split("- (void)failed:",1)[0]
+  self.assertIn("youtube-carplay-inplace-rotation-negotiation-queued",live)
+  self.assertIn("self.requestedSceneOrientation==UIInterfaceOrientationUnknown",live)
+  self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)",live)
+  self.assertIn("!self.geometryCommitTimer",live)
+  self.assertIn("DFReadOwnedSceneOrientation(scene,&hosted)",live)
+  self.assertIn("hosted!=external",live)
+  self.assertIn("self.committedReferenceSize=CGSizeZero;",live)
+  self.assertIn("self.pendingReferenceSize=self.bounds.size;",live)
+  self.assertIn("scheduledTimerWithTimeInterval:0.30",live)
+  self.assertNotIn("CGAffineTransformMakeRotation",live)
+
  def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
   """Regression: a method returning is not a player's rendered frame ACK."""
   host=file("DFSceneHost.m")
