@@ -92,7 +92,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("performCarPlayControl:",header)
   self.assertNotIn("setPresetRatio:",header)
   self.assertIn("touchowner-state-ack",app)
-  self.assertIn("self.ratio=cancel?self.dragStartRatio",chrome)
+  self.assertIn("DFDragFinish(&_dividerDrag",chrome)
   self.assertIn('openAppPickerForSlot:',chrome)
   self.assertIn('closeHostedSlot:',chrome)
   self.assertNotIn("sendEvent:",app)
@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.74~holdgrip1",build)
+  self.assertIn("0.1.75~axisdrag1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -179,10 +179,10 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("fabs(x-stop.doubleValue)<.04",chrome)
   self.assertIn("self.preset=selected",chrome)
   self.assertIn("self.focus=(self.focus==slot)?-1:slot",chrome)
-  self.assertIn("self.ratio=cancel?self.dragStartRatio",chrome)
+  self.assertIn("DFDragFinish(&_dividerDrag",chrome)
   self.assertIn("divider-pan-begin",chrome)
   self.assertIn("divider-pan-end",chrome)
-  self.assertIn("logo-reposition-3s-hold",chrome)
+  self.assertIn("divider-axis-locked-logo-no-hold",chrome)
   self.assertIn("self.pillWindows",chrome)
   self.assertNotIn("safety-expiry-600s",file("DFTouchOwnerProbe.m"))
   self.assertNotIn("self.basicController setPresetRatio:",receiver)
@@ -216,15 +216,11 @@ class NativeCarPlayHost(unittest.TestCase):
   pan=chrome[start:end]
   self.assertIn("self.dividerWindow.screen.coordinateSpace",pan)
   self.assertIn("convertPoint:local toCoordinateSpace:screen",pan)
-  self.assertIn("self.dragStartScreenPoint=start;",pan)
-  self.assertIn("current.x-self.dragStartScreenPoint.x",pan)
-  self.assertIn("current.y-self.dragStartScreenPoint.y",pan)
-  self.assertIn("self.ratio=cancel?self.dragStartRatio",pan)
-  self.assertIn("DFCSnap(proposed):DFCClamp(proposed)",pan)
-  self.assertIn("CGFloat proposed=self.dragStartRatio+displacement/extent;",pan)
-  self.assertNotIn("translationInView:self.dividerTrack",pan)
-  self.assertNotIn("self.logoFraction=",pan)
-  self.assertIn("self.panActive=NO;",pan)
+  self.assertIn("[self beginDividerDragAt:screen];",pan)
+  self.assertIn("[self updateDividerDragAt:current];",pan)
+  self.assertIn("[self finishDividerDragAt:current cancelled:",pan)
+  # Translation is used ONLY at Began, before the track starts moving.
+  self.assertIn("CGPoint initial=CGPointMake(local.x-translation.x,local.y-translation.y);",pan)
   # Three original actions are still discrete after the pointer correction.
   self.assertIn("[self swapPressed:sender]",chrome)
   self.assertIn("if(self.touchTracked && self.touchMoved)self.touchMoved(self);",chrome)
@@ -250,58 +246,13 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("forControlEvents:UIControlEventTouchUpInside",chrome)
   self.assertIn("[self swapPressed:sender]",chrome)
   hold=chrome[chrome.index("- (void)logoTouchChanged:"):chrome.index("- (void)logoTouchFinished:",chrome.index("- (void)logoTouchChanged:"))]
-  self.assertIn("self.logoFraction=",hold)
+  self.assertIn("[self updateDividerDragAt:",hold)
   self.assertNotIn("swapPressed",hold)
   pan=chrome[chrome.index("- (void)dividerPan:"):chrome.index("// Native12: second divider alters")]
-  self.assertIn("self.ratio=cancel?self.dragStartRatio",pan)
+  self.assertIn("[self finishDividerDragAt:current",pan)
   self.assertNotIn("self.logoFraction=",pan)
 
- def test_063_grip_state_machine_preserves_hold_ratio_and_swap(self):
-  chrome=file("DFNative12Chrome.m")
-  deep=file("DFDeepTrace.h")
-  self.assertIn("build=0.0.65~holdgrip1",deep)
-  self.assertIn("BOOL logoRatioCandidate;",chrome)
-  self.assertIn("BOOL logoRatioDwellArmed;",chrome)
-  self.assertIn("- (void)armLogoRatioDwell",chrome)
-  self.assertIn("0.15*NSEC_PER_SEC",chrome)
-  self.assertIn("grip.touchTracked",chrome)
-  self.assertIn("owner.logoRatioDwellToken!=token",chrome)
-  self.assertIn("owner.logoHoldSerial!=serial",chrome)
-  self.assertIn("fabs(perp)<14.0",chrome)
-  self.assertIn("fabs(perp)<6.0",chrome)
-  self.assertIn("fabs(perp)>10.0",chrome)
-  self.assertIn("++owner.logoHoldSerial; // Only COMMITTED Ratio cancels 3s Hold.",chrome)
-  self.assertIn("logo-ratio-candidate-entered",chrome)
-  self.assertIn("logo-ratio-candidate-reverted",chrome)
-  self.assertIn("logo-3s-hold-began-real-touch-timer",chrome)
-  self.assertIn("logo-3s-hold-began-real-touch-movement-backstop",chrome)
-  self.assertIn("logo-3s-moved-position",chrome)
-  self.assertIn("self.logoQuietRadiusEntryAt",chrome)
-  self.assertIn("self.logoMaxExcursion<=10.0 || settled",chrome)
-  self.assertIn("if(allowSwap)[self swapPressed:sender];",chrome)
-  self.assertNotIn("if(inside && !held && !moved && !ratioDragged)",chrome)
-  candidate=chrome[chrome.index("- (void)logoTouchChanged:"):chrome.index("- (void)logoTouchFinished:")]
-  self.assertNotIn("++self.logoHoldSerial",candidate)
-  self.assertIn("logoRatioCandidate",candidate)
-  ratio=chrome[chrome.index("- (void)applyCommittedLogoRatioPerp:"):chrome.index("- (void)armLogoRatioDwell")]
-  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',ratio)
-  self.assertIn('[self emit:@"Ratio" ratio:@(self.ratio)];',ratio)
-  self.assertIn('self.ratio=cancel?self.dragStartRatio',chrome)
-  self.assertIn('[self emit:@"Zoom" ratio:nil]',chrome)
-  self.assertIn('self.swapped=!self.swapped;',chrome)
 
- def test_065_logo_hold_drag_device_regression_contract(self):
-  chrome=file("DFNative12Chrome.m")
-  self.assertIn("gripHold.minimumPressDuration=3.0;",chrome)
-  self.assertIn("gripHold.allowableMovement=48.0;",chrome)
-  self.assertIn("gripHold.cancelsTouchesInView=NO;",chrome)
-  self.assertIn("[logo addGestureRecognizer:gripHold];",chrome)
-  self.assertIn("logo-3s-hold-began-dedicated-recognizer",chrome)
-  self.assertIn("[self logoTouchChanged:self.dividerLogo];",chrome)
-  self.assertIn("if(self.logoRecognizerTracking)return;",chrome)
-  self.assertIn("logo-3s-moved-position",chrome)
-  self.assertIn("blink.toValue=@1.18;",chrome)
-  self.assertNotIn("line.tag=718;",chrome)
 
  def test_native12_approved_artwork_iphone_home_and_launch(self):
   info=plistlib.loads((R/"Info.plist").read_bytes())
@@ -682,7 +633,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.74~holdgrip1",c)
+  self.assertIn("Version: 0.1.75~axisdrag1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -757,7 +708,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn("scene,update,settings,nil,nil",host)
   self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
   self.assertIn("host.transform=CGAffineTransformMakeScale",host)
-  for preserved in ("self.swapped=!self.swapped","self.ratio=cancel?self.dragStartRatio",
+  for preserved in ("self.swapped=!self.swapped","DFDragFinish(&_dividerDrag",
                     "self.focus=(self.focus==slot)?-1:slot",
                     "app-replace-pending-existing-retained"):
    self.assertIn(preserved,chrome)
@@ -1313,39 +1264,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('[self.appController.view layoutIfNeeded]',block)
   self.assertNotIn('[inner layoutIfNeeded]',block)
 
- def test_logo_3s_drag_tracks_touch_delta_without_center_jump(self):
-  chrome=file("DFNative12Chrome.m")
-  hold=chrome[chrome.index("- (void)logoTouchDown:(id)sender {"):
-              chrome.index("// Native12 CBWindow.carPlayUsableBounds")]
-  self.assertNotIn("hold.minimumPressDuration=3.0;",chrome)
-  self.assertIn("self.logoHoldInitialFraction=self.logoFraction",hold)
-  self.assertIn("self.logoHoldInitialTouch=self.logoTouchLastScreen;",hold)
-  self.assertIn("self.logoHoldInitialFraction+delta/span",hold)
-  self.assertIn("[self saveSplitState]",hold)
-  self.assertIn("self.panActive=YES",hold)
-  self.assertIn("self.logoTouchPending=YES",hold)
- def test_041_three_second_logo_hold_survives_four_second_timeout(self):
-  """Finger down is observable before 3 seconds, suppressing 4s hide race."""
-  chrome=file("DFNative12Chrome.m")
-  self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
-  self.assertNotIn('hold.cancelsTouchesInView=YES',chrome)
-  self.assertIn('if(self.touchBegan)self.touchBegan(self);',chrome)
-  self.assertIn('logo.touchBegan=^(UIButton *sender)',chrome)
-  self.assertIn('if(self.touchEnded)self.touchEnded(self,inside);',chrome)
-  self.assertIn('self.logoTouchPending=YES;',chrome)
-  self.assertIn('BOOL controlsVisible=self.panActive || self.logoTouchPending ||',chrome)
-  self.assertIn('self.dividerWindow.userInteractionEnabled=YES',chrome)
-  self.assertIn('BOOL completedHold=self.logoHoldRecognized && sender==self.dividerLogo;',chrome)
-  self.assertIn('if(completedHold){DFCLog(@"logo-hold-touchup-swap-suppressed");return;}',chrome)
-  hold=chrome.split('- (void)logoTouchDown:(id)sender {',1)[1].split('- (BOOL)applyHostFullscreen',1)[0]
-  self.assertIn('self.logoHoldRecognized=YES;',hold)
-  self.assertIn('self.panActive=YES;',hold)
-  self.assertIn('self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span));',hold)
-  ratio=chrome.split('- (void)applyCommittedLogoRatioPerp:',1)[1].split('- (void)armLogoRatioDwell',1)[0]
-  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent);',ratio)
-  self.assertIn('[self applyCommittedLogoRatioPerp:perp];',hold)
-  self.assertIn('[self saveSplitState]',hold)
-  self.assertIn('self.logoTouchPending=NO;',hold)
+
 
  def test_039_layout_reentry_and_real_touch_phase(self):
   host=file("DFSceneHost.m")
@@ -1443,15 +1362,10 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("logo.touchBegan=^(UIButton *sender)",src)
   self.assertIn("if(self.touchBegan)self.touchBegan(self);",grip)
   self.assertIn("if(self.touchTracked && self.touchMoved)self.touchMoved(self);",grip)
-  self.assertIn("if(self.touchEnded)self.touchEnded(self,inside);",grip)
-  # The first 3s logo-hold branch never changes ratio. Before that
-  # threshold, a quick perpendicular move on the circular grip MUST resize.
-  holdOnly=logo[:logo.index("// reversible Candidate")]
-  self.assertNotIn("self.ratio=",holdOnly)
-  ratio=src[src.index("- (void)applyCommittedLogoRatioPerp:"):src.index("- (void)armLogoRatioDwell")]
-  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",ratio)
-  self.assertIn("[self applyCommittedLogoRatioPerp:perp];",logo)
-  self.assertIn("self.logoFraction=MAX(",logo)
+  self.assertIn("if(self.touchEnded)self.touchEnded(self,inside,NO);",grip)
+  self.assertIn("[self updateDividerDragAt:",logo)
+  self.assertIn("self.ratio=_dividerDrag.ratio;",src)
+  self.assertIn("self.logoFraction=_dividerDrag.logo;",src)
   self.assertLess(menu.index('[self emit:@"Zoom" ratio:nil]'),menu.index("[self closeMenu:nil]"))
   self.assertNotIn("self.pickerVisible || self.styleVisible",geometry)
   self.assertIn("DFZHandledSession",dock)
@@ -1523,29 +1437,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.dividerWindow.userInteractionEnabled=YES;",chrome)
   self.assertIn("self.secondaryDividerWindow.userInteractionEnabled=YES;",chrome)
   self.assertIn("return self.dividerLogo.hidden || !CGRectContainsPoint(logoHit,p);",chrome)
-  self.assertIn("self.logoHoldInitialTouch=self.logoTouchLastScreen;",chrome)
+  self.assertIn("DFDragBegin(p.x,p.y,self.verticalDivider,self.ratio,self.logoFraction,extent,span)",chrome)
   self.assertIn("[self.dividerTrack convertPoint:local toCoordinateSpace:screen]",chrome)
   self.assertNotIn("hold.minimumPressDuration=3.0;",chrome)
   self.assertNotIn("hold.allowableMovement=28;",chrome)
 
 
- def test_20261023_logo_3s_touch_stream_regression(self):
-  chrome=file("DFNative12Chrome.m")
-  self.assertIn("- (void)touchesBegan:(NSSet<UITouch *> *)touches",chrome)
-  self.assertIn("- (void)touchesMoved:(NSSet<UITouch *> *)touches",chrome)
-  self.assertIn("logo.touchEnded=^(UIButton *sender,BOOL inside)",chrome)
-  self.assertNotIn("[logo addGestureRecognizer:hold];",chrome)
-  self.assertNotIn("hold.state==UIGestureRecognizerStateBegan",chrome)
-  self.assertNotIn("hold.minimumPressDuration=3.0;",chrome)
-  self.assertIn("self.logoHoldRecognized=YES",chrome)
-  self.assertIn("self.logoHoldInitialTouch=self.logoTouchLastScreen",chrome)
-  self.assertIn("self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))",chrome)
-  self.assertIn("owner.logoDraggingRatio=YES;",chrome)
-  self.assertIn("logoRatioDwellArmed",chrome)
-  self.assertIn("self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)",chrome)
-  self.assertIn("if(allowSwap)[self swapPressed:sender]",chrome)
-  self.assertNotIn("UILongPressGestureRecognizer *hold=",chrome)
-  self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
 
  def test_device_photo_hidden_logo_still_wakes_and_holds(self):
   chrome=file("DFNative12Chrome.m")
@@ -1596,14 +1493,6 @@ class NativeCarPlayHost(unittest.TestCase):
 
 if __name__=="__main__":unittest.main(verbosity=2)
 
-class DuoFace056DeviceRegression(unittest.TestCase):
- def test_quick_cross_axis_logo_drag_restored_without_changing_three_second_hold(self):
-  src=file("DFNative12Chrome.m")
-  assert "logo-quick-ratio-drag-began-restored-v056" in src
-  assert "self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)" in src
-  assert "self.ratio=DFCSnap(self.ratio)" in src
-  assert "self.logoFraction=MAX(.1,MIN(.9,self.logoHoldInitialFraction+delta/span))" in src
-  assert "if(allowSwap)[self swapPressed:sender]" in src
 
 class DuoFaceDeviceZoomAck056(unittest.TestCase):
  def test_one_nonowner_cannot_preempt_real_apple_dock_ack(self):
@@ -1626,24 +1515,6 @@ class HistoricalOwnerRegression(unittest.TestCase):
   self.assertIn('if(matches!=1)',owner)
   self.assertIn('DFZFreshSession(session)',owner)
   self.assertIn('DFZDockView.hidden=DFZSavedHidden',owner)
- def test_three_second_hold_tracks_real_button_without_stealing_ratio(self):
-  chrome=file("DFNative12Chrome.m")
-  down=chrome.split('- (void)logoTouchDown:',1)[1].split('- (void)logoTouchChanged:',1)[0]
-  self.assertIn('NSUInteger touchSerial=++self.logoHoldSerial;',down)
-  self.assertIn('dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(3.0*NSEC_PER_SEC))',down)
-  self.assertIn('owner.logoHoldSerial!=touchSerial || !owner.logoTouchPending',down)
-  self.assertIn('owner.logoDraggingRatio || !owner.dividerLogo.window',down)
-  self.assertIn('owner.logoHoldRecognized=YES;',down)
-  self.assertIn('owner.logoHoldInitialTouch=owner.logoTouchLastScreen;',down)
-  self.assertIn('logo-3s-hold-began-real-touch-timer',down)
-  self.assertIn('logo-3s-hold-began-real-touch-movement-backstop',chrome)
-  self.assertIn('logo-3s-hold-detected-at-real-touch-release',chrome)
-  self.assertNotIn('hold.minimumPressDuration=3.0;',chrome)
-  self.assertNotIn('hold.cancelsTouchesInView=NO;',chrome)
-  self.assertIn('!self.logoRatioCandidate && fabs(perp)>10.0 && dominant',chrome)
-  self.assertIn('fabs(perp)>=14.0 && dominant',chrome)
-  self.assertIn('self.ratio=DFCClamp(self.logoDragInitialRatio+perp/extent)',chrome)
-  self.assertIn('if(allowSwap)[self swapPressed:sender]',chrome)
 
 class WholeHostZoomGeometry059(unittest.TestCase):
  def test_guard_matches_focused_pane_and_accepts_subpixel_rounding(self):
@@ -1657,3 +1528,20 @@ class WholeHostZoomGeometry059(unittest.TestCase):
   assert "source-host-geometry-rejected" in z
   assert "if(!owner)" in z
   assert "DFZEmergencyRestore(session)" in z
+
+class ImmediateDividerDragContract(unittest.TestCase):
+ def test_both_routes_share_state_and_no_old_hold_survives(self):
+  c=file("DFNative12Chrome.m")
+  for old in ("logoHold", "logoRatioDwell", "gripHold", "logoLongPressGesture:"):
+   self.assertNotIn(old,c)
+  self.assertIn("DFDragMove(&_dividerDrag,p.x,p.y)",c)
+  self.assertIn("DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)",c)
+  self.assertIn("BOOL allowSwap=tap && inside && !self.logoWakeOnlyTap && duration<=0.5;",c)
+  self.assertIn("self.touchEnded(self,NO,YES);",c)
+  self.assertIn("self.logoTouchPending=_dividerDrag.active;",c)
+  self.assertIn("BOOL controlsVisible=self.panActive || self.logoTouchPending ||",c)
+  self.assertIn("blink.toValue=@1.18;",c)
+  self.assertNotIn("line.tag=718;",c)
+  finish=c[c.index("- (BOOL)finishDividerDragAt:"):c.index("- (void)logoTouchDown:")]
+  self.assertLess(finish.index("DFDragFinish"),finish.index("[self saveSplitState]"))
+  self.assertIn("if(!cancelled && _dividerDrag.axis!=DFDragUndecided)",finish)
