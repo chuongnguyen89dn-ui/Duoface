@@ -323,8 +323,8 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
     // A live scene is more dangerous than the initial pre-mode2 seed:
     // perform exactly ONE coalesced child-reference dispatch only after the
     // present scene is stably hosted, not one write per divider movement.
-    // NEVER mutate FBScene.settings here. The old +440 SpringBoard SIGABRT
-    // means a successful objc_msgSend is NOT an approval of video or safety.
+    // Only the owned scene-frame transaction below may modify settings,
+    // gated by ABI/generation. Old +440 SpringBoard SIGABRT remains a risk.
     if(self.ready){
         NSUInteger generation=self.sceneGeneration;
         id handle=DFCall0(self.appController,@"sceneHandle");
@@ -368,13 +368,34 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
              strcmp(sig.methodReturnType,@encode(void))==0 &&
              contentType && strcmp(contentType,@encode(NSInteger))==0 &&
              containerType && strcmp(containerType,@encode(NSInteger))==0;
-        if(!abiValid){
+        // Native12 HUD8 original updateLayout @acf98-ad004 and
+        // updateSceneSettingsFrame @ad66c-ad708 SEND BOTH optional child
+        // signatures and then the controller two-argument fallback.
+        // .68 mistakenly requires child3 as a gate for ALL scene writes:
+        // when the actual child implements only child2, the player never
+        // receives any reference size, and this entire method returns.
+        SEL sz2=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:");
+        NSMethodSignature *sig2=(deviceController &&
+                                [deviceController respondsToSelector:sz2]) ?
+                                [deviceController methodSignatureForSelector:sz2]:nil;
+        NSMethodSignature *mainSig=([self.appController respondsToSelector:sz2]) ?
+                                [self.appController methodSignatureForSelector:sz2]:nil;
+        BOOL child2Valid=sig2 && sig2.numberOfArguments==4 &&
+              strcmp(sig2.methodReturnType,@encode(void))==0 &&
+              (strcmp([sig2 getArgumentTypeAtIndex:2],@encode(CGSize))==0 ||
+               strncmp([sig2 getArgumentTypeAtIndex:2],"{CGSize=",8)==0) &&
+              strcmp([sig2 getArgumentTypeAtIndex:3],@encode(NSInteger))==0;
+        BOOL main2Valid=mainSig && mainSig.numberOfArguments==4 &&
+              strcmp(mainSig.methodReturnType,@encode(void))==0 &&
+              (strcmp([mainSig getArgumentTypeAtIndex:2],@encode(CGSize))==0 ||
+               strncmp([mainSig getArgumentTypeAtIndex:2],"{CGSize=",8)==0) &&
+              strcmp([mainSig getArgumentTypeAtIndex:3],@encode(NSInteger))==0;
+        if(!abiValid && !child2Valid && !main2Valid){
             [self diagnoseScene:@"live-reference-abi-rejected"];
             DFSceneLog(@"live-viewport-abi-rejected",self.bundleID,
-                [NSString stringWithFormat:@"child=%@ selector=%d argc=%lu",
+                [NSString stringWithFormat:@"child=%@ child2=%d child3=%d main2=%d",
                    NSStringFromClass([deviceController class]),
-                   deviceController!=nil,
-                   (unsigned long)(sig?sig.numberOfArguments:0)]);
+                   child2Valid,abiValid,main2Valid]);
             return;
         }
         // The 0.30s quiet period + 1.25s stable owner check above are part
@@ -393,10 +414,24 @@ static BOOL DFSceneFrameMatches(CGRect observed,CGSize native) {
               [NSString stringWithFormat:@"generation=%lu scene=%p size=%@",
                   (unsigned long)generation,currentScene,
                   NSStringFromCGSize(logical)]);
-            ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(
-                deviceController,sz3,logical,
-                UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
-            // Child reference-size dispatch is not a renderer ACK.
+            // Preserve original Native12 call order. No orientation
+            // guessing: the verified ARM64 uses 1 (Portrait) for both.
+            // This is a single coalesced resize after ownership settles,
+            // not a new process-wide hook or a new scene owner.
+            if(child2Valid)
+                ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(
+                    deviceController,sz2,logical,UIInterfaceOrientationPortrait);
+            if(abiValid)
+                ((void (*)(id,SEL,CGSize,NSInteger,NSInteger))objc_msgSend)(
+                    deviceController,sz3,logical,
+                    UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);
+            if(main2Valid)
+                ((void (*)(id,SEL,CGSize,NSInteger))objc_msgSend)(
+                    self.appController,sz2,logical,UIInterfaceOrientationPortrait);
+            DFSceneLog(@"live-reference-native12-selector-coverage",self.bundleID,
+                [NSString stringWithFormat:@"child2=%d child3=%d main2=%d size=%@",
+                 child2Valid,abiValid,main2Valid,NSStringFromCGSize(logical)]);
+            // Dispatch is not a renderer ACK.
             if(!self.stopped && !self.geometrySuspended &&
                self.sceneGeneration==generation &&
                DFCall0(DFCall0(self.appController,@"sceneHandle"),
