@@ -45,6 +45,9 @@ class AppOwnedViewport(unittest.TestCase):
         self.assertIn("notify_set_state(self.viewportNotifyToken,payload)",host)
         self.assertIn("notify_cancel(self.viewportNotifyToken)",host)
         self.assertIn("DFVPUnpack(raw,now,&width,&height,&active)",app)
+        # UIKit phone scene must not be modified by a matching numeric pane.
+        self.assertIn("scene.screen==UIScreen.mainScreen",app)
+        self.assertIn('DFVPLog(@"main-display-scene-rejected"',app)
         self.assertLess(app.index("DFVPMatches(scene.coordinateSpace.bounds.size,requested)"),
                         app.index("window.frame=target"))
         self.assertIn("if(window.hidden || window.windowScene!=scene)continue;",app)
