@@ -7,6 +7,7 @@
 #import "DFSceneHost.h"
 #import "DFNative12MediaGeometry.h"
 #import "DFAppViewportProtocol.h"
+#import "DFAppEligibility.h"
 #import <notify.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
@@ -254,12 +255,10 @@ static UIInterfaceOrientation DFDesiredYouTubeCarPlayOrientation(
     UIViewController *parent = [self findParentController];
     if (!parent) { [self failed:DFSceneError(110, @"Không tìm thấy UIViewController chủ ô ứng dụng")]; return; }
     self.parentController = parent;
-    // The production build has no app-process view negotiation. Only an
-    // allowlisted, short-lived, readback-gated per-bundle notification may
-    // address the receiver; a mode2 request is not considered acceptance.
-    if([[@[@"com.openai.chat",@"com.google.ios.youtube",
-           @"com.banyac.midrive.intl",@"com.google.Maps"] copy]
-           containsObject:self.bundleID]){
+    // Every app admitted by the existing DuoFace picker gets the same
+    // short-lived renderer contract. This is not an app-specific renderer:
+    // FBScene readback must still match the real app's UIWindowScene.
+    if(DFIsEligibleAppID(self.bundleID)){
         NSString *name=[@"com.duoface.viewport.v1." stringByAppendingString:self.bundleID];
         int token=-1;
         if(notify_register_check(name.UTF8String,&token)==NOTIFY_STATUS_OK){
