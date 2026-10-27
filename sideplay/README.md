@@ -1,3 +1,11 @@
+## Khôi phục toàn bộ .37 — 2026-10-27
+- USER_DECISION: yêu cầu phục hồi cơ chế đúng bản 37, DEB và xuất Sileo. Cho phép phát hành rollback toàn gói.
+- Đã tải nguyên DEB từ checkpoint d70d6b4, chạy sha256sum, dpkg-deb -I/-c/-e; SHA256 2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb; 953968 bytes; package com.duoface.jb.embedded version 0.0.37~native12dockzoom1, iphoneos-arm64. Script cài chỉ uicache, không tự respring. Không chạy script trên host.
+- Phục hồi bằng đúng binary lưu trữ từ run 39748923126, không rebuild từ .73 hoặc ghép riêng hàm. Các sửa UI sau .37 cũng trở về trạng thái .37. Không xác nhận hết lỗi xoay/crash trên thiết bị.
+- Publisher carplaydsp/main commit 0417e7130b37e5d8037bcddd1f9417a56c0fd9d8: thêm nguyên .37 vào kho, giữ các DEB cũ, chỉ quảng bá .37 cho package này và kiểm tra SHA public. Run 40434804592 đang chạy lúc ghi; chưa tuyên bố deploy PASS.
+- Bước tiếp: kiểm tra run https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40434804592 và job verify-duoface-integrated-pages; sau PASS hướng dẫn chọn Downgrade .37 trong Sileo vì phiên bản thấp hơn .73. Xác minh phiên bản đã cài rồi respring thủ công và thử phát/tua/xoay khi đỗ xe.
+- Nguồn dự án hiện tại chưa bị ghi đè về .37; bản phát hành phục hồi là artifact bất biến, nguồn nativehost gốc 7cd4004d422a79d9df85f23f16ff8f6f38af1125. Không có build compile mới hay test thiết bị trong lượt này.
+
 ## Checkpoint hiện hành — 2026-10-27 (.73 crash, tra cứu .37)
 
 - Người dùng báo giao diện ứng dụng vẫn bó và SpringBoard crash ngay sau mốc `9f830a97`. Đây là FAIL thiết bị; chưa có IPS tương ứng để chỉ ra riêng lệnh gây crash.
