@@ -193,6 +193,21 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
         size.width<=0 || size.height<=0) return;
+    // Guard actual SpringBoard scene ownership before private geometry writes.
+    // A reused SBAppViewController can swap sceneHandle after an app restart;
+    // the old FBScene must never receive an updateSettingsWithBlock: request.
+    if (self.ready) {
+        id handle=DFCall0(self.appController,@"sceneHandle");
+        id observedScene=DFCall0(handle,@"sceneIfExists");
+        BOOL hosting=DFHostingFlag(self.appController,@"isHostingAnApp",NO);
+        BOOL attached=(self.appController.view.window==self.window);
+        if (!self.scene || observedScene!=self.scene || !hosting || !attached) {
+            DFSceneLog(@"scene-geometry-stale-owner-skip",self.bundleID,
+                [NSString stringWithFormat:@"sceneSame=%d hosting=%d attached=%d",
+                    observedScene!=nil && observedScene==self.scene,hosting,attached]);
+            return;
+        }
+    }
     CGSize logical=CGSizeMake(round(size.width*2),round(size.height*2));
     self.committingSceneGeometry=YES;
     DFSceneLog(@"geometry-before-reference-setters",self.bundleID,NSStringFromCGSize(size));
@@ -337,6 +352,18 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         BOOL viewAttached=(self.appController.view.window!=nil &&
                            self.appController.view.window==self.window);
         if(scene && supportsHosting && isHosting && viewAttached) {
+            // SceneHandle may be replaced across app restarts, even while the
+            // containing pane and SBAppViewController remain unchanged.
+            if (self.scene && self.scene!=scene) {
+                DFSceneLog(@"scene-instance-changed",self.bundleID,
+                           @"invalidate-old-reference-without-writing-old-scene");
+                [self.geometryCommitTimer invalidate];
+                self.geometryCommitTimer=nil;
+                self.ready=NO;
+                self.scene=nil;
+                self.committedReferenceSize=CGSizeZero;
+            }
+            self.tries=0;
             if (!self.scene) {
                 self.scene=scene;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
