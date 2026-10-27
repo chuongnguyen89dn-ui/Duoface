@@ -133,8 +133,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         DFHostBool(self.appController, @"setIgnoresOcclusions:", NO);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
         [self layoutScene];
-        // Seed one initial remote content frame before mode=2. This is
-        // required by some scene owners; later resizes are debounced.
+        // Defer initial remote scene frame until the real mode-2 owner
+        // attaches; video layout still uses the original logical scale.
         self.pendingReferenceSize=self.bounds.size;
         // Perform initial media sizing only after the hosted scene is ready.
         [self.appController beginAppearanceTransition:YES animated:NO];
