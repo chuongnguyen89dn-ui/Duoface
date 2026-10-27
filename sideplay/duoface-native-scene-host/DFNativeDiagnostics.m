@@ -41,12 +41,13 @@
           @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
-    [summary appendString:@"Audit schema: 2; build 0.0.67~scenediag1; device validation pending.\n"];
+    [summary appendString:@"Audit schema: 3; exporter build 0.0.76~reason1; runtime process build is in timestamped traces.\n"];
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",
       @"/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
       @"/var/mobile/Library/Logs/DuoFaceDockOwner.log",
-      @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log"];
+      @"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log",
+      @"/var/mobile/Library/Logs/DuoFaceFatalException.log"];
     for(NSString *p in ownLogs){
         [summary appendFormat:@"\n=== %@ (last 256 KiB) ===\n%@\n",
            p.lastPathComponent,[self tailAtPath:p maxBytes:256*1024]];
