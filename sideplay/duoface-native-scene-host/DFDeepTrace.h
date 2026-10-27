@@ -16,7 +16,7 @@ static inline void DFDeepTrace(NSString *area, NSString *event) {
                 NSString *previous=[path stringByAppendingString:@".previous"];
                 (void)rename(path.fileSystemRepresentation,previous.fileSystemRepresentation);
             }
-            NSString *line=[NSString stringWithFormat:@"utc=%.6f uptime=%.6f build=0.0.74~media37host1 pid=%d process=%@ run=%@ main=%d area=%@ %@\n",
+            NSString *line=[NSString stringWithFormat:@"utc=%.6f uptime=%.6f build=0.0.75~framegate1 pid=%d process=%@ run=%@ main=%d area=%@ %@\n",
                 NSDate.date.timeIntervalSince1970,NSProcessInfo.processInfo.systemUptime,
                 getpid(),NSProcessInfo.processInfo.processName,run,NSThread.isMainThread,area,event];
             NSData *data=[line dataUsingEncoding:NSUTF8StringEncoding];
