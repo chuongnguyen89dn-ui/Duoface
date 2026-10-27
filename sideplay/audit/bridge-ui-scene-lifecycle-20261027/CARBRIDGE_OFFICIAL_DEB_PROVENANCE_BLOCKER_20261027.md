@@ -1,4 +1,11 @@
-# CarBridge chính hãng: xác minh nguồn DEB, blocker phân tích máy — 2026-10-27
+# CarBridge chính hãng: hồ sơ tham khảo DEB — 2026-10-27
+
+## ĐÍNH CHÍNH YÊU CẦU 2026-10-27 — CarBridge chỉ là tài liệu tham khảo
+- Người dùng làm rõ: **DuoFace đã có AppBridge tích hợp sẵn; CarBridge chính hãng chỉ là mẫu để tham khảo kỹ thuật**, **không phải dependency cần thêm, không phải điều kiện tiên quyết để tiếp tục phát triển DuoFace**. Yêu cầu tìm DEB chính hãng ở phần dưới là **một yêu cầu nghiên cứu tham khảo chưa có artifact**, không còn là blocker kỹ thuật của DuoFace.
+- Source đã xác minh trên chính nhánh: `sideplay/jb-embedded-appbridge/README.md` ghi "CarBridge-EQUIVALENT ... inside independent DuoFace, without installing a separate CarBridge package"; `sideplay/jb-embedded-appbridge/package_integrated.py` định danh `com.duoface.jb.embedded`, `EXCLUDED` gồm CarBridge vendor, `Depends` chỉ firmware/mobilesubstrate, `contains_third_party_carbridge=False`, `separate_carbridge_dependency=False`; `sideplay/duoface-native-scene-host/DFSceneHost.m` là bộ host scene tự phát triển với SBAppViewController/mode2. Đây là **cơ chế bridge tương đương của dự án**, không có bằng chứng nó chứa binary/license CarBridge official.
+- **Không yêu cầu người dùng tải/mua/gửi CarBridge DEB để làm tiếp**. Tiếp tục kiểm lỗi Live/foreground của code hiện có theo Native12/DuoNavi/OmniCar và tài liệu công khai; khi nào có DEB CarBridge original rõ provenance thì audit **chỉ để tham khảo kiến trúc**, không trộn mã máy vào gói.
+- Thông tin lịch sử về CarBridge v2.0.14/v2.0.15 và việc chưa có official DEB vẫn được giữ ở dưới nhưng **không quyết định tiến độ DuoFace**.
+
 
 ## Yêu cầu người dùng
 Phân tích **DEB CarBridge gốc của leftyfl1p** để học đường tạo host, Bridge UI, scene lifecycle, foreground/Live, thay app, focus, close và restore cho DuoFace độc lập. **Không nhầm** DuoNavi có tên/selector CarBridge hoặc CarPlayEnable mã nguồn mở với CarBridge chính hãng. Không thay license/vendor code. Không vá foreground đoán mò, không cài thử file không được xác thực.
