@@ -1,3 +1,10 @@
+## Kết quả phục hồi .37 — Sileo PASS 2026-10-27
+- Run 40434804592: build SUCCESS, deploy SUCCESS, verify-duoface-integrated-pages SUCCESS, verify-qa11-pages SUCCESS. Public Packages và DEB được job kiểm tra đúng version 0.0.37~native12dockzoom1, SHA256 2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb.
+- Sileo source: https://chuongnguyen89dn-ui.github.io/carplaydsp/
+- Đây là tái phát hành nguyên DEB .37 đã có, không phải compile mới. Khôi phục đầy đủ payload .37, không ghép .73; chưa xác minh cài đặt, playback hoặc hết crash trên iPhone.
+- Bước tiếp trên máy: refresh source, chọn DuoFace Independent → hạ phiên bản 0.0.37~native12dockzoom1; kiểm tra version và respring thủ công, thử split/phát/tua/xoay. Không gọi bản .37 là đã sửa lỗi xoay.
+- CI: https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40434804592
+
 ## Khôi phục toàn bộ .37 — 2026-10-27
 - USER_DECISION: yêu cầu phục hồi cơ chế đúng bản 37, DEB và xuất Sileo. Cho phép phát hành rollback toàn gói.
 - Đã tải nguyên DEB từ checkpoint d70d6b4, chạy sha256sum, dpkg-deb -I/-c/-e; SHA256 2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb; 953968 bytes; package com.duoface.jb.embedded version 0.0.37~native12dockzoom1, iphoneos-arm64. Script cài chỉ uicache, không tự respring. Không chạy script trên host.
