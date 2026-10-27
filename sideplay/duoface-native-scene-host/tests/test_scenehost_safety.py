@@ -306,7 +306,7 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertTrue(any(x.startswith(addr) for x in ins),addr)
   scene=file("DFSceneHost.m")
   commit=scene.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
-  self.assertIn("if (self.ready && self.scene && DFEnableUnverifiedFBSceneFrameMutation())",commit)
+  self.assertIn("if (self.ready && self.scene)",commit)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',commit)
   self.assertIn('NSSelectorFromString(@"setFrame:")',commit)
   self.assertIn("CGRectMake(0,0,logical.width,logical.height)",commit)
@@ -1516,15 +1516,16 @@ class SceneGenerationSafety074(unittest.TestCase):
   self.assertIn('scene-handle-observed-render-unverified',poll)
 
 
-class PhysicalCrash074FrameWriteGate(unittest.TestCase):
- def test_three_springboard_crashes_disable_only_fbscene_frame_mutation(self):
+class PhysicalCrash074FrameWriteRegression(unittest.TestCase):
+ def test_user_proven_unboxed_frame_mutation_must_not_be_disabled_without_device_media_pass(self):
   source=file("DFSceneHost.m")
-  self.assertIn("static BOOL DFEnableUnverifiedFBSceneFrameMutation(void) { return NO; }",source)
   commit=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
-  self.assertIn("if (self.ready && self.scene && DFEnableUnverifiedFBSceneFrameMutation())",commit)
-  self.assertIn("fbscene-frame-write-disabled-crash074",commit)
+  self.assertIn("if (self.ready && self.scene) {",commit)
+  self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',commit)
   self.assertIn('NSSelectorFromString(@"setContentReferenceSize:withContentOrientation:andContainerOrientation:")',commit)
   self.assertIn('NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")',commit)
+  self.assertNotIn("DFEnableUnverifiedFBSceneFrameMutation",source)
+  self.assertNotIn("fbscene-frame-write-disabled-crash074",commit)
   chrome=file("DFNative12Chrome.m")
   self.assertIn("media37-four-physical-scene-windows-restored",chrome)
   self.assertIn("self.appSceneWindows[(NSUInteger)i]",chrome)
