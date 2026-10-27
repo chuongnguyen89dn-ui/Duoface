@@ -1,3 +1,11 @@
+> **ĐÍNH CHÍNH PHẠM VI — 2026-10-27, yêu cầu trực tiếp của người dùng:** Câu hỏi "Bản nào từng thành công? Ko crash?" là về **chỉ các phiên bản DuoFace độc lập đang phát triển**. Trả lời trước đã chuyển trọng tâm sang QA OmniCar và gọi đó là baseline DuoFace; **SAI PHẠM VI**. Không được lấy QA5/QA7/QA16/QA19/QA20 của OmniCar làm kết quả QA, bản chạy được hoặc rollback của DuoFace. Các ghi chép OmniCar bên dưới chỉ là lịch sử đối chiếu, không tham gia quyết định chọn phiên bản DuoFace. Không tự ý chuyển repo, phát hành gói OmniCar hay dùng OmniCar để thay DuoFace.
+>
+> **TRẢ LỜI ĐÚNG — CHỈ DUOFACE:** `0.0.37~native12dockzoom1` là bản DuoFace độc lập duy nhất trong dữ liệu QA vừa kiểm tra mà **người dùng đã báo YouTube từng phát được video**, nhưng **xoay sai**; chưa được xác nhận **không crash ổn định** trên nhiều phiên, bản nominal rollback từng vẫn bị bó. DEB SHA256 `2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb`, nguồn nativehost đúng `7cd4004d422a79d9df85f23f16ff8f6f38af1125`, gồm bốn UIWindow độc lập. `0.0.9~gesturerelay1` chỉ từng xác nhận cảm ứng/UI CarPlay, **không xác nhận media**. Các bản .74/.77/.80 có sự cố SpringBoard, .81 user báo crash ngay khi mở YouTube. **Chưa có bản DuoFace nào được xác nhận đầy đủ không crash + đúng orientation + phát video + split.** Báo cáo chính `V37_NOT_FULLY_RESTORED_ROOT_DIFF_20261026.md`; việc phục hồi v37 ở .69/.70 chưa đúng kiến trúc cửa sổ. Những DEB gốc của OmniCar/DuoDash chỉ là nghiên cứu đối chiếu **nếu người dùng yêu cầu**, không phải kết quả QA DuoFace.
+>
+> **NEXT:** Trong `chuongnguyen89dn-ui/Duoface`, đọc đúng nativehost source/deb 0.1.47 đã ghim và so byte/source theo phiên với .81, khôi phục đủ owner/attach/pane-window/layout/close contract nếu chứng minh được; không phát hành .82 bằng suy đoán. Không có thay đổi runtime, build, Sileo hoặc test thiết bị ở checkpoint đính chính.
+
+---
+
 # 2026-10-27 — Kết quả truy tìm QA từng chạy được, và giới hạn “không crash”
 
 **Phân biệt nguồn:** (a) lời người dùng xác nhận thiết bị thật trong lịch sử GitHub, (b) source/DEB/CI checksum, (c) kết luận **không có bằng chứng**. **Không** suy luận “không crash” lâu dài từ một lần mở app hay một workflow CI thành công.
