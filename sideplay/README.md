@@ -1,3 +1,7 @@
+## CHECKPOINT 2026-10-27 — quy ước gọi phiên bản: chỉ nói bản .80
+- NGƯỜI DÙNG CHỈNH YÊU CẦU GIAO TIẾP: gọi phiên bản bằng số **bản .80**, **không dùng cụm "Sileo QA", "QA", "candidate QA"** trong báo cáo bình thường. Nói "đã lên Sileo" hoặc "chưa lên Sileo" đúng trạng thái. Nội dung các checkpoint cũ có chữ QA chỉ là lịch sử, không áp dụng làm cách gọi tiếp theo.
+- GIỮ NGUYÊN TIẾN ĐỘ KỸ THUẬT: bản .80 build thành công nhưng chưa lên Sileo, chưa xác minh hết crash SpringBoard khi phát video; chỉ sửa crash, giữ nguyên giao diện. Đây là chỉnh cách gọi, KHÔNG thay đổi source, DEB hay phát hành.
+
 ## CHECKPOINT 2026-10-27 — quyết định tiếp theo sau khi đối chiếu .80 với gốc và kiểm lối phát hành
 - NGỮ CẢNH: user hỏi "Vậy h làm j?" sau khi đã làm rõ .80 mới đổi call order, chưa giải quyết quyền sở hữu foreground. Phạm vi không đổi: **chỉ crash SpringBoard khi video; không sửa UI/viewport/Zoom/Dock/split/orientation**.
 - ĐÃ KIỂM: signed candidate `com.duoface.jb.embedded_0.0.80~lifecycleorder1_iphoneos-arm64.deb` SHA256 `17b8feda02e5a9f21d004fa16d07d61c2666dedf1c06935ad82087010d7551c7` lưu run `40497436374`; source/test CI PASS, không có device PASS, provenance `SILEO_PUBLISHED=false` + `requires_replacing_old_qa_packages=true`. **Không phát hành .80 tự động vì chưa có xác nhận migration package có xung đột QA**.
