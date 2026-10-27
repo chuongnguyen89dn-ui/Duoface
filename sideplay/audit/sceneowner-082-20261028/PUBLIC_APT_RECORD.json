@@ -1,0 +1,18 @@
+{
+  "Package": "com.duoface.jb.embedded",
+  "Version": "0.0.82~sceneowner1",
+  "Architecture": "iphoneos-arm64",
+  "Maintainer": "DuoFace Independent",
+  "Depends": "firmware (>= 16.0), mobilesubstrate",
+  "Conflicts": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp, com.duoface.independent, com.duoface.sideplaydisplay, com.duonavi.app, com.duoface.app",
+  "Replaces": "com.duoface.mytweak.v1a.preflight, com.duoface.carplay.nativebridgeqa, com.duoface.carplay.firstpartyadmission, com.duoface.carplay.nativescenehost, com.duoface.qa.controlapp",
+  "Filename": "debs/com.duoface.jb.embedded_0.0.82~sceneowner1_iphoneos-arm64.deb",
+  "Size": "982492",
+  "MD5sum": "ff22b7b4725ce202e22eaf9a723f0dad",
+  "SHA1": "f2c5916b6e969ed1a1c403917bf44437f84b1667",
+  "SHA256": "8e3c7e0c5b5feff002c54aa726f2aa462b22f24e8f87063e2cb93e3bed151331",
+  "Section": "Applications",
+  "Priority": "optional",
+  "Description": "Independent rootless iOS16 CarPlay DuoFace beta in one DEB with integrated app bridge, scene host and DuoFace UI; no separate CarBridge required. Native12-inspired controls include app picker, split, logo move, swap and zoom. CarPlay hardware behavior and media playback are not yet verified. Replaces conflicting older first-party DuoFace QA modules; review changes before installation.",
+  "Name": "DuoFace Independent (Integrated CarPlay Beta)"
+}
