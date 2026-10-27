@@ -306,7 +306,7 @@ class NativeCarPlayHost(unittest.TestCase):
    self.assertTrue(any(x.startswith(addr) for x in ins),addr)
   scene=file("DFSceneHost.m")
   commit=scene.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
-  self.assertIn("if (self.ready && self.scene)",commit)
+  self.assertIn("if (self.ready && self.scene && DFEnableUnverifiedFBSceneFrameMutation())",commit)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',commit)
   self.assertIn('NSSelectorFromString(@"setFrame:")',commit)
   self.assertIn("CGRectMake(0,0,logical.width,logical.height)",commit)
