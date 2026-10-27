@@ -1434,6 +1434,24 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.hostedScenes[(NSUInteger)i]!=NSNull.null",chrome)
   self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",chrome)
 
+class MediaSceneRevision077(unittest.TestCase):
+ def test_mode2_precedes_reference_size_changes(self):
+  src=file("DFSceneHost.m")
+  start=src.split("- (void)start {",1)[1].split("- (void)layoutSubviews {",1)[0]
+  self.assertIn('DFHostInt(self.appController, @"setRequestedMode:", 2)',start)
+  self.assertNotIn("[self commitSceneGeometry:nil]",start)
+  geom=src.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  self.assertIn("!self.ready",geom)
+  self.assertIn("self.appController.view.window==self.window",geom)
+ def test_remote_frame_dedup_does_not_box_video(self):
+  s=file("DFSceneHost.m")
+  self.assertIn('remoteSettings=DFCall0(hostedScene,@"settings")',s)
+  self.assertIn("CGRectEqualToRect(observed,nativeFrame)",s)
+  self.assertIn("if (!unchanged)",s)
+  self.assertIn("hostedScene,update,setVerifiedNative12Frame",s)
+  self.assertIn("native12-scene-settings-frame-requested",s)
+  self.assertNotIn("DFEnableUnverifiedFBSceneFrameMutation",s)
+
 if __name__=="__main__":unittest.main(verbosity=2)
 
 
