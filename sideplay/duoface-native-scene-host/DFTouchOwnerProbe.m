@@ -30,6 +30,48 @@ static NSString *const kCommandFile=@"/var/mobile/Library/Preferences/com.duofac
 static NSDictionary<NSString *,id> *sZoomReceipt;
 static BOOL sZoomFinishing;
 static BOOL DFSessionStillActive(void);
+// CrashReporter .ips names the exact SpringBoard assertion receiver at
+// SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440, but omits
+// NSException.name/reason. Do not hook private SpringBoard methods or swallow
+// its exceptions. Record ONLY the uncaught reason during a live DuoFace
+// CarPlay session and chain the pre-existing process-wide handler.
+static NSUncaughtExceptionHandler *sPreviousFatalHandler;
+static BOOL sFatalHandlerInstalled;
+static void DFCaptureFatalException(NSException *exception) {
+    if (sActivated && sChrome) {
+        @try {
+            NSString *name=exception.name?:@"(nil)";
+            NSString *reason=exception.reason?:@"(nil)";
+            if(reason.length>1024)reason=[reason substringToIndex:1024];
+            NSArray<NSString *> *stack=exception.callStackSymbols;
+            NSString *callers=stack.count?[[stack subarrayWithRange:
+                 NSMakeRange(0,MIN((NSUInteger)12,stack.count))]
+                 componentsJoinedByString:@" | "]:@"(unavailable)";
+            NSString *line=[NSString stringWithFormat:
+               @"pid=%d build=0.0.76~reason1 name=%@ reason=%@ stack=%@\\n",
+                getpid(),name,reason,callers];
+            NSData *data=[line dataUsingEncoding:NSUTF8StringEncoding];
+            int fd=open("/var/mobile/Library/Logs/DuoFaceFatalException.log",
+                        O_WRONLY|O_APPEND|O_CREAT,0644);
+            if(fd>=0) {
+                if(data.length)(void)write(fd,data.bytes,data.length);
+                (void)fsync(fd);
+                (void)close(fd);
+            }
+        } @catch (NSException *ignored) { (void)ignored; }
+    }
+    // An existing exception handler must retain control of exception policy.
+    // This handler neither returns success nor attempts to keep SpringBoard
+    // running after an NSAssertionHandler/ObjC uncaught exception.
+    if(sPreviousFatalHandler && sPreviousFatalHandler!=DFCaptureFatalException)
+        sPreviousFatalHandler(exception);
+}
+static void DFArmFatalReasonRecorder(void) {
+    if(sFatalHandlerInstalled)return;
+    sPreviousFatalHandler=NSGetUncaughtExceptionHandler();
+    NSSetUncaughtExceptionHandler(DFCaptureFatalException);
+    sFatalHandlerInstalled=YES;
+}
 static NSString *const kAckFile=@"/var/mobile/Library/Preferences/com.duoface.nativehost.touchowner.ack.plist";
 static const char *const kAckNotify="com.duoface.nativehost.touchowner.ack.v1";
 static const char *const kCommandNotify="com.duoface.nativehost.touchowner.command.v1";
@@ -325,6 +367,11 @@ static void DFStartProbe(void) {
         DFTOLog(@"native12-ui-owner-visible",
           [NSString stringWithFormat:@"windowCount=4 content=%@",
            NSStringFromCGRect(region)]);
+        // Arm only after the real external CarPlay scene + chrome exist.
+        // No system-method swizzles; leave app/video geometry unchanged.
+        DFArmFatalReasonRecorder();
+        DFTOLog(@"fatal-exception-reason-recorder-armed",
+                @"uncaught-only chain-previous no-exception-swallow");
         NSUInteger generation=++sGeneration;
         // Native12 parity: remain active as long as CarPlay's foreground
         // owner sends fresh heartbeats; Home disconnect/revoke tears down.
