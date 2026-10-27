@@ -1,3 +1,9 @@
+## 2026-10-27 — .78 SIGNED DEB PASS, Sileo đang triển khai
+- Source CI 40466144289 và signed macOS integrated build 40466144309 đều COMPLETED SUCCESS, source 136cc867ecbc60f842046c0e9e7d5baed98f15b7. Artifact archive e73de316273baff192cdc441811b31a82cfbdc22, evidence/runs/40466144309/com.duoface.jb.embedded_0.0.78~scenegeneration1_iphoneos-arm64.deb; SHA256 ed4b63babc8644c3c69e88a32bda3a46ad0511557b122aba3d5db1810b7a2088. BUILD_SOURCE, SHA256SUMS và PACKAGING_PROVENANCE đã đọc đối chiếu; 30 payload files, nativehost 0.1.87 SHA 9b06d730a973c61871c1f6b15b6e6c29ef2c929d07d87ee9c42f86977cc869f7.
+- carplaydsp/main publisher commit 7708f55f70ce20a6c9133029ec91cb41cee85398 giữ nguyên .77 download và thêm .78 SHA-pinned, APT chỉ hiển thị .78, count tổng 48. Không thay phần OmniCar. YAML run 40466606849 SUCCESS; Pages build/deploy/public verifier 40466606820 đang in_progress. Chưa tuyên bố Sileo PASS.
+- NEXT: chờ và kiểm tất cả job run 40466606820, đặc biệt verify-duoface-integrated-pages phải tải lại .78 đúng SHA. Nếu fail đọc step/log. Sau pass cập nhật README và hướng dẫn refresh Sileo source https://chuongnguyen89dn-ui.github.io/carplaydsp/.
+- Device vẫn chưa kiểm chứng. Bản này sửa callback stale; không tuyên bố đã giải quyết tác nhân foreground NO/Live. Không tự cài/respring thiết bị.
+
 ## 2026-10-27 — .78 DEB/Sileo theo yêu cầu, build đang chạy
 - Người dùng yêu cầu bản DEB và xuất Sileo, không chỉ trả lời phân tích. Đã kiểm source fix b96e079a: CI 40465674407 COMPLETED SUCCESS.
 - Commit 136cc867ecbc60f842046c0e9e7d5baed98f15b7 đồng bộ nativehost 0.1.87~scenegeneration1 / integrated 0.0.78~scenegeneration1, version assertions và REQUEST.md; không thay đổi UI hay media frame contract. Thay đổi runtime đúng b96e079a (callback stale ownership fix).
