@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.83~media37host1",build)
+  self.assertIn("0.1.84~framegate1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -587,7 +587,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.83~media37host1",c)
+  self.assertIn("Version: 0.1.84~framegate1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1515,3 +1515,16 @@ class SceneGenerationSafety074(unittest.TestCase):
   self.assertIn('self.tries=0;',poll)
   self.assertIn('scene-handle-observed-render-unverified',poll)
 
+
+class PhysicalCrash074FrameWriteGate(unittest.TestCase):
+ def test_three_springboard_crashes_disable_only_fbscene_frame_mutation(self):
+  source=file("DFSceneHost.m")
+  self.assertIn("static BOOL DFEnableUnverifiedFBSceneFrameMutation(void) { return NO; }",source)
+  commit=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  self.assertIn("if (self.ready && self.scene && DFEnableUnverifiedFBSceneFrameMutation())",commit)
+  self.assertIn("fbscene-frame-write-disabled-crash074",commit)
+  self.assertIn('NSSelectorFromString(@"setContentReferenceSize:withContentOrientation:andContainerOrientation:")',commit)
+  self.assertIn('NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")',commit)
+  chrome=file("DFNative12Chrome.m")
+  self.assertIn("media37-four-physical-scene-windows-restored",chrome)
+  self.assertIn("self.appSceneWindows[(NSUInteger)i]",chrome)
