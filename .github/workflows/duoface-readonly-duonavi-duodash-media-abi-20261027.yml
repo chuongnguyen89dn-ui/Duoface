@@ -1,0 +1,96 @@
+name: DuoFace original DuoNavi and repacked DuoDash exact app-scene IMP audit (READ ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - ".github/workflows/duoface-readonly-duonavi-duodash-media-abi-20261027.yml"
+      - "sideplay/tools/audit_original_duonavi_duodash_media_20261027.py"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-duonavi-duodash-readonly-original-abi-20261027
+  cancel-in-progress: false
+jobs:
+  sha-pinned-two-deb-abi:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Obtain exact first-party existing MachO/ObjC ARM64 parser (no vendor code)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet --break-system-packages capstone==5.0.7
+          mkdir -p "$RUNNER_TEMP/first-party-parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_carplay_add_app_chain.py > "$RUNNER_TEMP/first-party-parser/audit_native12_carplay_add_app_chain.py"
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/first-party-parser/audit_native12_license_class_xrefs.py"
+          python3 -m py_compile "$RUNNER_TEMP/first-party-parser"/*.py sideplay/tools/audit_original_duonavi_duodash_media_20261027.py
+      - name: SHA-pin original DuoNavi 1.0.4 and distinct REPACKED DuoDash 1.1.3
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb
+          echo 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd  dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' | sha256sum -c -
+          curl --fail --location --silent --show-error --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/DauDat-CarPlay/main/DuoDash_1.1.3_Fullscreen427_iphoneos-arm64.deb' -o "$RUNNER_TEMP/DuoDash_repacked_not_original.deb"
+          echo 'ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465  '"$RUNNER_TEMP/DuoDash_repacked_not_original.deb" | sha256sum -c -
+          test "$(dpkg-deb -f dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb Package)" = 'com.duonavi.app'
+          echo TWO_DEB_PINNED_CHECKSUMS_VERIFIED
+      - name: Inspect ORIGINAL DuoNavi and REPACKED DuoDash app-host method dataflow
+        shell: bash
+        env:
+          NATIVE_PARSER_DIR: ${{ runner.temp }}/first-party-parser
+        run: |
+          set -euo pipefail
+          python3 sideplay/tools/audit_original_duonavi_duodash_media_20261027.py \
+            --duonavi dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb \
+            --duodash-repack "$RUNNER_TEMP/DuoDash_repacked_not_original.deb" \
+            --out sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json').read_text())
+          assert p["bins"]["duonavi104"]["package_sha256"]=="f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd"
+          assert p["bins"]["duodash113_repack"]["package_sha256"]=="ea0d3bb8c8b9da2b45c3f158f390a7966419e84899f820d06f45cd51401fa465"
+          assert p["bins"]["duonavi104"]["methods"],"No DuoNavi method data!"
+          assert p["bins"]["duodash113_repack"]["methods"],"No DuoDash method data!"
+          print("DUONAVI_DUODASH_ORIGINAL_VS_REPACK_MEDIA_ARM64_PROOF_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-two-deb-media-scene-method-evidence
+          path: sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json
+          if-no-files-found: warn
+      - name: Persist ONLY sanitized JSON evidence in correct DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST='sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json'
+          SRC="$(pwd)/$DEST"
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$(dirname "$DEST")"
+            cp "$SRC" "$TEMP/$DEST"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              echo MEDIA_EVIDENCE_IDENTICAL_ALREADY_PERSISTED
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit(duoface): original DuoNavi vs repacked DuoDash media ABI SHA pinned [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo MEDIA_EVIDENCE_COMMITTED_GITHUB
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo MEDIA_EVIDENCE_PERSISTENCE_FAILED
+          exit 1
