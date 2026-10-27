@@ -1488,3 +1488,30 @@ class ImmediateDividerDragContract(unittest.TestCase):
   finish=c[c.index("- (BOOL)finishDividerDragAt:"):c.index("- (void)logoTouchDown:")]
   self.assertLess(finish.index("DFDragFinish"),finish.index("[self saveSplitState]"))
   self.assertIn("if(!cancelled && _dividerDrag.axis!=DFDragUndecided)",finish)
+
+class SceneGenerationSafety074(unittest.TestCase):
+ def test_scene_frame_private_write_requires_current_scene_owner(self):
+  host=file("DFSceneHost.m")
+  geometry=host.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
+  check=geometry.index('observedScene!=self.scene || !hosting || !attached')
+  write=geometry.index('NSSelectorFromString(@"updateSettingsWithBlock:")')
+  self.assertLess(check,write)
+  self.assertIn('DFSceneLog(@"scene-geometry-stale-owner-skip"',geometry)
+  self.assertIn('if (self.ready) {',geometry)
+  self.assertIn('[self commitSceneGeometry:nil];',host)
+  # Exact .37 media geometry/frame call path remains available for LIVE scenes.
+  self.assertIn('NSSelectorFromString(@"setContentReferenceSize:withContentOrientation:andContainerOrientation:")',geometry)
+  self.assertIn('hostedScene,update,setVerifiedNative12Frame',geometry)
+ def test_hosting_rebind_cancels_stale_pending_geometry_before_ready_event(self):
+  host=file("DFSceneHost.m")
+  poll=host.split("- (void)pollScene:(NSTimer *)timer {",1)[1].split("- (void)failed:",1)[0]
+  change=poll.index('if (self.scene && self.scene!=scene)')
+  cancel=poll.index('[self.geometryCommitTimer invalidate]',change)
+  store=poll.index('self.scene=scene;',change)
+  self.assertLess(change,cancel)
+  self.assertLess(cancel,store)
+  self.assertIn('DFSceneLog(@"scene-instance-changed"',poll)
+  self.assertIn('self.ready=NO;',poll)
+  self.assertIn('self.tries=0;',poll)
+  self.assertIn('scene-handle-observed-render-unverified',poll)
+
