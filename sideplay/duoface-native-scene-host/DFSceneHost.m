@@ -288,9 +288,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
         // settings block at adaa8 (invoke 0xadc74), then calls the REAL hosted
         // scene's updateSettingsWithBlock: at adacc. The invoke uses x1 as
         // settings; adcb4..adcc8 sets CGRect origin (0,0) and logical size.
-        // Only wire the independently validated scene frame mutation here.
-        // DO NOT yet force original foreground/lock/occlusion flags: their
-        // teardown and rollback ownership is not device-verified.
+        // .77 device fatal evidence: Live host got foreground=NO.
+        // Original independent bridges set foreground/background with frame.
+        // .81 tests guarded foreground contract in this SAME transaction;
+        // never force lock, idle, occlusion, orientation or app viewport.
         if (self.ready && self.scene) {
             id hostedScene=self.scene;
             SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
@@ -322,14 +323,25 @@ static NSInteger DFObservedSceneForeground(id scene) {
                         ((void (*)(id,SEL,CGRect))objc_msgSend)(
                             settings,frameSelector,nativeFrame);
                     }
-                    // Original _frame ivar write and other private setters
-                    // are deliberately withheld until safe scene rollback is
-                    // proven. A successful IPC call is NOT a device media ACK.
+                    // Original independent DuoNavi/OmniCar ARM64 sources guard
+                    // foreground/background setters in a Live scene transaction.
+                    // Dispatch only for our CURRENT owned scene and only if
+                    // the runtime settings type exposes each selector.
+                    SEL fgSelector=NSSelectorFromString(@"setForeground:");
+                    if (settings && [settings respondsToSelector:fgSelector]) {
+                        ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,fgSelector,YES);
+                    }
+                    SEL bgSelector=NSSelectorFromString(@"setBackgrounded:");
+                    if (settings && [settings respondsToSelector:bgSelector]) {
+                        ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,bgSelector,NO);
+                    }
+                    // No lock/idle/occlusion, frame ivar writes or global hooks.
+                    // A successful IPC call is NOT a device media ACK.
                 };
                 if (!unchanged) {
                     ((void (*)(id,SEL,id))objc_msgSend)(
                         hostedScene,update,setVerifiedNative12Frame);
-                    DFSceneLog(@"native12-scene-settings-frame-requested",
+                    DFSceneLog(@"native12-scene-settings-live-contract-requested",
                                self.bundleID,NSStringFromCGRect(nativeFrame));
                 } else {
                     DFSceneLog(@"scene-frame-unchanged-no-duplicate-diff",
