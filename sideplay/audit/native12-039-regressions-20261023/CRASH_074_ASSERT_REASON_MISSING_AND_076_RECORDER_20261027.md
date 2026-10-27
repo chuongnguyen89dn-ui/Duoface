@@ -1,0 +1,27 @@
+# DuoFace .74 / .75 SpringBoard crash triage → .76 fatal-reason capture
+
+## Verified real raw evidence / no private uploads
+Source files in the conversation's locally mounted `/mnt/data`: `DuoFaceAudit 2.txt` (1,984,377 text bytes) and `Crash-{0,1,2}-SpringBoard-2026-10-27-*.ips`; raw IPS contain device identifiers and are NOT copied into the public repository. Parsed with Python stdlib `json.loads('\n'.join(lines[1:]))` and `datetime.strptime(payload['captureTime'],'%Y-%m-%d %H:%M:%S.%f %z')`. Source log has 4,118 timestamped DeepTrace entries. **Use .ips payload captureTime, which is ~4 seconds earlier than filename timestamp.**
+
+| IPS source | SpringBoard pid (ephemeral) | captureTime +07 | NSException stack | Previous scene event |
+| --- | --- | --- | --- | --- |
+| `Crash-2-*-091319.ips` | ephemeral | 09:13:14.9054 | `SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings:` +440 | `mode-2-requested` and `scene-attached` for YouTube ~0.36s before capture; **NO** `native12-scene-settings-frame-requested` before capture |
+| `Crash-1-*-091355.ips` | ephemeral | 09:13:50.6978 | same +440 | YouTube scene-attached ~4.65s earlier; `child3=1` and `native12-scene-settings-frame-requested` ~4.35s earlier |
+| `Crash-0-*-092032.ips` | ephemeral | 09:20:28.1950 | same +440 | YouTube scene-attached ~12.01s earlier; `child3=1`, `native12-scene-settings-frame-requested` ~11.70s earlier |
+
+For all three, `exception.type=EXC_CRASH`, `signal=SIGABRT`, `asi.libsystem_c.dylib=abort() called`; exception backtrace starts `__exceptionPreprocess → objc_exception_throw → Foundation _userInfoForFileAndLine → SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440 → SBSceneHandle _didUpdateSettingsWithDiff → FBSceneMonitor _updateSceneSettings`. `_userInfoForFileAndLine` strongly suggests an Objective-C assertion, but the exact `NSException.name`, `reason` / violated condition **are not present in the 3 uploaded IPS**. Claiming a particular invalid frame geometry or scene setting caused them would be speculation. Three 74 reports are independent consecutive crash counts 11–13; process SpringBoard, not YouTube. Runtime DeepTrace identifies build `0.0.74~media37host1`; collector headline incorrectly says .67.
+
+The .75 user confirms **still crashes and player is now boxed**, so the .75 frame-write OFF experiment failed; public Sileo .75 already recalled to .74 in publisher commit `51469c2f`, full release run `40441233181` success. This A/B narrows the suspect beyond one explicit frame write, not uniquely to any other method. Since .74 and .37 use the same two private content-reference selectors, `setRequestedMode:2` and `SBAppViewController`, do not simply turn off these video-critical operations to suppress crash (it breaks playback).
+
+## Source change to fill the **actual missing crash evidence**, without another blind geometry fix
+- `sideplay/duoface-native-scene-host/DFTouchOwnerProbe.m` commit `71fa6b80451e084cb46e5662a51e57939b8f9698`: during an active, real CarPlay SpringBoard pane session only, install Foundation `NSSetUncaughtExceptionHandler`, save `NSGetUncaughtExceptionHandler` and chain to any previously installed handler. On an uncaught NSException, write `NSException.name`, first 1,024 chars of `reason` and first 12 stack symbols to `/var/mobile/Library/Logs/DuoFaceFatalException.log`. **Do not intercept an OS scene method, don't swallow an exception, don't restart SpringBoard or alter FBScene/app reference size**. No upload/transmission of logs. Any global handler may have side effects; although chaining previous minimizes them, only physical test can verify.
+- `DFNativeDiagnostics.m` commit `5a8ea47c44582b4531112ca8c264b2c541f03d02`: built-in iPhone Audit exporter now includes this log and accurately labels collector build; no manual SSH needed. The uncaught handler could be bypassed by a system terminate handler or a tweak overwriting the handler; no reason captured in that case is **not** proof the exception was not thrown.
+- Bump new frozen version NativeHost `0.1.85~reason1` and integrated `0.0.76~reason1`, matching `DFDeepTrace.h`, build.sh/control/package workflow/integrated tests; lock original .37/.74 live ready-scene frame path with static source test. **Source code, compile and publishing are separate checkpoints**.
+- Sileo original `.74` is known to crash, so user should be parked, prepared for SpringBoard safe mode; do not claim .76 is fix. If handler captures `NSException.reason`, resolve exact assertion condition next. If not, compare dynamic hook method-side logging as a separate reviewed change, not speculative code edits.
+
+## Minimal local repeatable evidence extraction
+From the task container, diagnostic command already executed (not a network operation): `python /mnt/data/inspect_crashes_local.py`. This temporary local script is **not** a durable repo script; it parses 3 supplied IPS and 4,118 DeepTrace records by real PID, displays timestamps relative to crash reporter's `captureTime`, and the actual assertion backtrace. Absolute path is local evidence only; no device tokens or personal identifiers persisted. The note above is the durable sanitized analysis.
+
+## New build test acceptance
+CI native UIKit iOS16 source check, QA artifact checksum and full signed DEB, Sileo public verification are not device crash PASS. Future device validation requires both no-boxed video (critical .37 player geometry) and SpringBoard stability; exact reason log is the prerequisite for non-speculative fix.
+
