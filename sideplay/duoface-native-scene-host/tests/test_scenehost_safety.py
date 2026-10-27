@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.87~scenegeneration1",build)
+  self.assertIn("0.1.88~nativeocclusion1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -587,7 +587,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.87~scenegeneration1",c)
+  self.assertIn("Version: 0.1.88~nativeocclusion1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1560,7 +1560,7 @@ class CrashReasonCapture076(unittest.TestCase):
   self.assertIn("DFArmFatalReasonRecorder();",probe)
   self.assertIn("DuoFaceFatalException.log",probe)
   self.assertIn("DuoFaceFatalException.log",exporter)
-  self.assertIn("0.0.78~scenegeneration1",exporter)
+  self.assertIn("0.0.79~nativeocclusion1",exporter)
   self.assertIn("if (self.ready && self.scene) {",host)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',host)
   self.assertIn("setContentReferenceSize:withContentOrientation:andContainerOrientation:",host)

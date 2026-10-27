@@ -131,7 +131,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         appView.clipsToBounds = YES;
         [self addSubview:appView];
         [self.appController didMoveToParentViewController:parent];
-        DFHostBool(self.appController, @"setIgnoresOcclusions:", NO);
+        // Native12 original start IMP 0xadf30, guarded call at 0xae450.
+        DFHostBool(self.appController, @"setIgnoresOcclusions:", YES);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
         [self layoutScene];
         // Defer initial remote scene frame until the real mode-2 owner
