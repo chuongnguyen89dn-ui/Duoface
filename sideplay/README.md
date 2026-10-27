@@ -1,3 +1,8 @@
+## 2026-10-27 — .79 build PASS, xuất Sileo đang chạy
+- Source CI 40483766135 SUCCESS; signed integrated package 40483765792 SUCCESS, source 2c667854317cef87948aad976a9b476ec97050b3, artifact commit 4cbe7d2a2f44f72eb88e908dd1ab85ed9325177c, sideplay/jb-embedded-appbridge/evidence/runs/40483765792/com.duoface.jb.embedded_0.0.79~nativeocclusion1_iphoneos-arm64.deb SHA256 a6887ebeaee7659cab353c3b9fa53678da4b2671d13e091d42f25a5fd38f0d40. Provenance/SHA256SUMS/BUILD_SOURCE đã đối chiếu.
+- Publisher carplaydsp/main 76fa2b3c4bce4f2755d503e2fbd72669ab42338c thêm SHA-pinned .79, giữ .78, APT một mục; build/deploy/public verifier chưa xác nhận. Không tuyên bố Sileo PASS.
+- Phạm vi: setIgnoresOcclusions YES theo Native12 gốc. Đây là một khác biệt có chứng cứ, chưa chứng minh .79 hết crash hay frontend đủ; cần kiểm máy thực. Next tìm publisher runs theo commit, verify tất cả job và SHA public, cập nhật checkpoint; sau đó user test khi xe đỗ.
+
 ## 2026-10-27 — .79 Native12 occlusion candidate theo yêu cầu
 - User yêu cầu DEB test theo gốc. Commit 2c667854317cef87948aad976a9b476ec97050b3 thay DUY NHẤT setIgnoresOcclusions:NO thành YES trong DFSceneHost.start, giống Native12 gốc IMP 0xadf30 lệnh ae444..ae450 tại audit/native12-continuation-4888299/original-host-lifecycle-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json; giữ automatesLifecycle:NO, mode2, media/UI. Không thêm foreground/lock setters hoặc can thiệp project khác.
 - Version nativehost 0.1.88~nativeocclusion1, integrated 0.0.79~nativeocclusion1. Source CI 40483766135, macOS one-DEB 40483765792 đang chạy. Chưa có DEB/Sileo PASS. Kiểm tra output/provenance SHA và publish artifact exact sau build, giữ old packages và publisher changes khác.
