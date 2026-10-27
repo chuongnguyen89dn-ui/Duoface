@@ -53,15 +53,6 @@ static void DFHostBool(id obj, NSString *method, BOOL value) {
 // SBAppViewController exposes both canHostAnApp and isHostingAnApp on the
 // public Theos headers. Guard the optional private selectors and do not
 // infer live app hosting solely from a nonnil sceneHandle.
-// All three physical-device .74 SpringBoard SIGABRT events (2026-10-27)
-// share SBAppViewController sceneHandle:didUpdateSettingsWithDiff:+440.
-// The .74 FBScene.updateSettingsWithBlock:/setFrame: writes are observed
-// immediately before the earlier crash sequences. This is a fixed OFF gate
-// for the unsafe *frame mutation only*; preserve .37 app content-reference
-// selectors and the four per-pane UIWindow owners. No user preference can
-// silently re-enable it while testing this controlled .75 candidate.
-static BOOL DFEnableUnverifiedFBSceneFrameMutation(void) { return NO; }
-
 static BOOL DFHostingFlag(id target, NSString *method, BOOL fallback) {
     SEL sel=NSSelectorFromString(method);
     if(!target || ![target respondsToSelector:sel])return fallback;
@@ -278,7 +269,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         // Only wire the independently validated scene frame mutation here.
         // DO NOT yet force original foreground/lock/occlusion flags: their
         // teardown and rollback ownership is not device-verified.
-        if (self.ready && self.scene && DFEnableUnverifiedFBSceneFrameMutation()) {
+        if (self.ready && self.scene) {
             id hostedScene=self.scene;
             SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
             if ([hostedScene respondsToSelector:update]) {
@@ -301,10 +292,6 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 DFSceneLog(@"native12-scene-settings-selector-unavailable",
                            self.bundleID,@"updateSettingsWithBlock: unavailable");
             }
-        }
-        if (self.ready && self.scene && !DFEnableUnverifiedFBSceneFrameMutation()) {
-            DFSceneLog(@"fbscene-frame-write-disabled-crash074",self.bundleID,
-                       @"retaining-037-content-reference-and-four-pane-owner");
         }
         if (applied) {
             self.committedReferenceSize=size;
