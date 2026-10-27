@@ -11,6 +11,7 @@ Yêu cầu mới nhất của người dùng: "Kiểm tra lại lịch sử các
 | Phiên bản/bản chất | Thiết bị/người dùng đã xác nhận | Kết luận riêng về SpringBoard crash |
 | --- | --- | --- |
 | SidePlay-dependent QA6 `com.duoface.sideplaydisplay 0.1.4~native12root6` | 18/10: ảnh thật có UI SidePlay cũ/thiếu thanh CarPlay, **FAIL giao diện**; không có bài phát YouTube được xác minh | **Không có chứng cứ chống crash** |
+| CarPlay native bridge QA6 `com.duoface.carplay.nativebridgeqa 0.0.6~dockcrop1` (KHÁC SidePlay QA6) | 20/10: user xác nhận Dock có xuất hiện nhưng đôi lúc chuyển fullscreen và mất Dock; quan sát về Dock, không phải nghiệm thu video. | **Không có phép đo YouTube no-crash** |
 | SidePlay-dependent QA7 `0.1.5~native12visual7` | 18/10: người dùng đánh giá đồng bộ *khá ổn*, đang sử dụng thực; thanh CarPlay không xuất hiện, chưa đạt Native12. Các lần SidePlay 2 ô không tương đương embedded AppBridge. | **Chỉ khá ổn về UI/split**, không có phép thử YouTube/Facebook no-crash |
 | SidePlay-dependent QA8 `0.1.6~native12bootstrap8` | Source, Theos, artifact SHA/CI PASS; tại mốc 18/10 **chưa lên Sileo và chưa test thiết bị** | **Chưa xác minh**. Không gán QA8 OmniCar của repo khác thành QA8 DuoFace |
 | Integrated .23–.36 | Nhiều package từng build/publish, có lịch sử UI, logo, picker, Dock chưa đạt các mục chức năng; chưa thấy proof user stress test video no-crash | **Không được tự nâng thành crash-free** |
