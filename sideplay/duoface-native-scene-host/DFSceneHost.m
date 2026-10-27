@@ -274,6 +274,18 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             SEL update=NSSelectorFromString(@"updateSettingsWithBlock:");
             if ([hostedScene respondsToSelector:update]) {
                 CGRect nativeFrame=CGRectMake(0,0,logical.width,logical.height);
+                // Compare the current remote frame before submitting a duplicate
+                // scene settings update. A differing frame remains writable.
+                BOOL unchanged=NO;
+                id remoteSettings=DFCall0(hostedScene,@"settings");
+                SEL readFrame=NSSelectorFromString(@"frame");
+                if (remoteSettings && [remoteSettings respondsToSelector:readFrame]) {
+                    CGRect observed=((CGRect (*)(id,SEL))objc_msgSend)(remoteSettings,readFrame);
+                    unchanged=CGRectEqualToRect(observed,nativeFrame);
+                    DFSceneLog(@"scene-frame-readback",self.bundleID,
+                        [NSString stringWithFormat:@"actual=%@ target=%@ same=%d",
+                         NSStringFromCGRect(observed),NSStringFromCGRect(nativeFrame),unchanged]);
+                }
                 void (^setVerifiedNative12Frame)(id)=^(id settings) {
                     SEL frameSelector=NSSelectorFromString(@"setFrame:");
                     if (settings && [settings respondsToSelector:frameSelector]) {
@@ -284,10 +296,15 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                     // are deliberately withheld until safe scene rollback is
                     // proven. A successful IPC call is NOT a device media ACK.
                 };
-                ((void (*)(id,SEL,id))objc_msgSend)(
-                    hostedScene,update,setVerifiedNative12Frame);
-                DFSceneLog(@"native12-scene-settings-frame-requested",
-                           self.bundleID,NSStringFromCGRect(nativeFrame));
+                if (!unchanged) {
+                    ((void (*)(id,SEL,id))objc_msgSend)(
+                        hostedScene,update,setVerifiedNative12Frame);
+                    DFSceneLog(@"native12-scene-settings-frame-requested",
+                               self.bundleID,NSStringFromCGRect(nativeFrame));
+                } else {
+                    DFSceneLog(@"scene-frame-unchanged-no-duplicate-diff",
+                               self.bundleID,NSStringFromCGRect(nativeFrame));
+                }
             } else {
                 DFSceneLog(@"native12-scene-settings-selector-unavailable",
                            self.bundleID,@"updateSettingsWithBlock: unavailable");
