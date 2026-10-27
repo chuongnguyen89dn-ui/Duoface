@@ -1,3 +1,9 @@
+## CHECKPOINT 2026-10-28 — .82 SCENE OWNERSHIP CANDIDATE, BUILD REQUESTED
+
+- Continuing crash repair from c0da32fa. Implemented exact owned-scene foreground policy at FBScene updateSettings:withTransitionContext:completion:, weak registration before Live and revoke before close. System observer/original IMP remains active; no assertion suppression, no UI/Dock/Zoom/logo changes.
+- Versions: integrated `0.0.82~sceneowner1`, nativehost `0.1.91~sceneowner1`. 159 local Python tests PASS. Added executable macOS harness; CI/build pending at this checkpoint. No device result or crash cure claimed.
+- Full scope, evidence and limits: `sideplay/audit/sceneowner-082-20261028/REPORT.md`. Existing packaging workflow triggered via build-request/REQUEST.md. Next: inspect CI and actual signed artifact, then device acceptance; do not confuse build success with runtime success.
+
 ## CHECKPOINT 2026-10-27 — EXACT NATIVE12 C HOOKS AT THE CRASH OBSERVER VERIFIED
 
 - USER REQUIREMENT: investigate and remedy current DuoFace crash from checkpoint `3e695f4c`; do not repeat .37 rollback. Independent DuoFace only; preserve UI/Dock/Zoom/logo.

@@ -6,6 +6,7 @@
 // Experimental: SB/FrontBoard selectors are private and verified only at runtime.
 // No vendor-licensed application bridge or entitlement overrides.
 #import "DFSceneHost.h"
+#import "DFSceneLifecycle.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -158,6 +159,16 @@ static NSInteger DFObservedSceneForeground(id scene) {
         // attaches; video layout still uses the original logical scale.
         self.pendingReferenceSize=self.bounds.size;
         // Perform initial media sizing only after the hosted scene is ready.
+        __weak typeof(self) weakOwner=self;
+        DFSceneLifecycleRegister(self.appController,^id{
+            DFSceneSurface *surface=weakOwner;
+            if(!surface || surface.stopped || !surface.started || !surface.window || surface.window.hidden ||
+               surface.appController.viewIfLoaded.window!=surface.window)return nil;
+            id current=DFCall0(DFCall0(surface.appController,@"sceneHandle"),@"sceneIfExists");
+            // Reject a replaced scene until pollScene accepts its generation.
+            if(surface.scene && surface.scene!=current)return nil;
+            return current;
+        });
         [self.appController beginAppearanceTransition:YES animated:NO];
         DFHostInt(self.appController, @"setRequestedMode:", 2);
         [self.appController didMoveToParentViewController:parent];
@@ -496,6 +507,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)stop {
     if (self.stopped) return;
     self.stopped=YES;
+    DFSceneLifecycleUnregister(self.appController);
     ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
     [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
@@ -551,6 +563,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
     }
     if (self.live[bundleID]) {
         if (error) *error=DFSceneError(103,@"Ứng dụng đã có ở một ô khác");
+        return nil;
+    }
+    if(!DFSceneLifecycleInstall()) {
+        if(error)*error=DFSceneError(114,@"Scene lifecycle boundary ABI/hook unavailable");
         return nil;
     }
     Class controllerClass=NSClassFromString(@"SBAppViewController");
