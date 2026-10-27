@@ -85,6 +85,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL layingOutScene;
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) NSUInteger tries;
+@property(nonatomic) NSUInteger sceneGeneration;
 @property(nonatomic) CGSize lastApplied;
 // UIKit viewport moves immediately; remote media content-reference commits
 // only after split/zoom stops changing, to avoid FrontBoard churn.
@@ -286,7 +287,15 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                         [NSString stringWithFormat:@"actual=%@ target=%@ same=%d",
                          NSStringFromCGRect(observed),NSStringFromCGRect(nativeFrame),unchanged]);
                 }
+                NSUInteger generation=self.sceneGeneration;
+                __weak typeof(self) weakSurface=self;
                 void (^setVerifiedNative12Frame)(id)=^(id settings) {
+                    DFSceneSurface *surface=weakSurface;
+                    if (!surface || surface.stopped || !surface.ready ||
+                        surface.sceneGeneration!=generation || surface.scene!=hostedScene ||
+                        DFCall0(DFCall0(surface.appController,@"sceneHandle"),@"sceneIfExists")!=hostedScene ||
+                        !DFHostingFlag(surface.appController,@"isHostingAnApp",NO) ||
+                        !surface.window || surface.appController.view.window!=surface.window) return;
                     SEL frameSelector=NSSelectorFromString(@"setFrame:");
                     if (settings && [settings respondsToSelector:frameSelector]) {
                         ((void (*)(id,SEL,CGRect))objc_msgSend)(
@@ -372,6 +381,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             // SceneHandle may be replaced across app restarts, even while the
             // containing pane and SBAppViewController remain unchanged.
             if (self.scene && self.scene!=scene) {
+                ++self.sceneGeneration;
                 DFSceneLog(@"scene-instance-changed",self.bundleID,
                            @"invalidate-old-reference-without-writing-old-scene");
                 [self.geometryCommitTimer invalidate];
@@ -395,6 +405,14 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
             return;
+        }
+        if (self.ready || self.scene) {
+            ++self.sceneGeneration;
+            [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
+            self.ready=NO; self.scene=nil; self.sceneSettingsBefore=nil;
+            self.committedReferenceSize=CGSizeZero;
+            self.lastApplied=CGSizeZero;
+            DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting-or-window-ownership-lost");
         }
         ++self.tries;
         if(self.tries==3 || self.tries==10 || self.tries==25){
@@ -425,6 +443,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 - (void)stop {
     if (self.stopped) return;
     self.stopped=YES;
+    ++self.sceneGeneration;
     [self.timer invalidate]; self.timer=nil;
     [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
     @try {
