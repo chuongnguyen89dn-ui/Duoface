@@ -1,3 +1,11 @@
+## .74 build PASS, Sileo đang triển khai — 2026-10-27
+- Source commit 6fa66d47ad0e2362448d49cc187c87d1ef9b187d; source-contract run 40435764361 SUCCESS; integrated macOS compile/package run 40435764417 SUCCESS.
+- Artifact bất biến commit cc11faf495c3d485f3b80f963e9cacff78a11304: sideplay/jb-embedded-appbridge/evidence/runs/40435764417/com.duoface.jb.embedded_0.0.74~media37host1_iphoneos-arm64.deb; SHA256 5db93e7f4cfafb318dffd29b4e407122cb0235938353663a61c8e70c86e96034. Đã tải lại, sha256sum và dpkg-deb -f khớp.
+- Nativehost .83 SHA256 0dd8e4358d45c4e6c13a25462189c5983729139c7caaf07d6d4fcce877103b68; 4 module, 30 file, không có DFAppViewportRelay. Chrome nguyên mã .73; .37 chỉ là nguồn cơ chế media host.
+- Publisher carplaydsp commit 02004c7735a5a8a93f777b424df011f7e3ca5393; run 40436112173 đang chạy. Sau verify-duoface-integrated-pages SUCCESS mới báo .74 đã lên Sileo.
+- Shell git push không có credential (fatal: could not read Username); đã dùng GitHub connector tạo tree/commit và update ref với expected SHA, không force. Auto-review chặn dry-run ban đầu được xử lý bằng xác minh đúng repo/branch và tất cả suite pass trước thao tác gửi lại.
+- Device playback/orientation/crash và nghiệm thu UI chưa thử. Bước tiếp: xác minh Sileo, cài .74 và thử khi đỗ xe.
+
 ## Yêu cầu sửa lại: .74 media37host1 — 2026-10-27
 - SUPERSEDED: tái phát hành nguyên .37 là hiểu sai yêu cầu. Người dùng yêu cầu giữ UI/chức năng hiện tại và sửa giao diện phát theo .37, đóng DEB mới và xuất Sileo.
 - Đã sửa local DFSceneHost.m theo nativehost .47 source 7cd4004d; giữ touch wake, deep trace và guard chống tái nhập. Chrome nguyên blob 9e5772b9d6fef1e2c6f7c0baca23367bda03113a; .73 thực tế đã có 4 UIWindow riêng, nhận định một-window trước đây sai.
