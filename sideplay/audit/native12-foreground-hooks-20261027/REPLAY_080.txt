@@ -1,0 +1,14 @@
+audit_sha256 bdd144c0881cbb1a9ae142a28245a8633ef2d28445433ab8d55b0022b98f5ae2 deeptrace_records 5651
+incident df-194420.ips pid 65025 capture_local 2026-10-27T19:44:15.877600+07:00 sig SIGABRT scene_observer True omni_loaded [] duoface_loaded ['DFCarPlayDockOwner.dylib', 'DFFirstPartyAdmission.dylib', 'DFNativeDashboardBridgeQA.dylib', 'DFTouchOwnerProbe.dylib', 'DFV1APreflight.dylib']
+  T-10.520s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=mode-2-requested bundle=com.google.ios.youtube {{0, 0}, {355.50666666666666, 331.33333333333331}}
+  T-10.163s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=scene-attached bundle=com.google.ios.youtube FBScene
+  T-9.854s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=original-native12-scene-size-dispatch bundle=com.google.ios.youtube child2=0 child3=1 main2=0
+  T-9.852s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=scene-frame-readback bundle=com.google.ios.youtube actual={{0, 0}, {375, 812}} target={{0, 0}, {711, 663}} same=0
+  T-9.851s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=native12-scene-settings-frame-requested bundle=com.google.ios.youtube {{0, 0}, {711, 663}}
+incident df-194502.ips pid 65079 capture_local 2026-10-27T19:44:56.542900+07:00 sig SIGABRT scene_observer True omni_loaded [] duoface_loaded ['DFCarPlayDockOwner.dylib', 'DFFirstPartyAdmission.dylib', 'DFNativeDashboardBridgeQA.dylib', 'DFTouchOwnerProbe.dylib', 'DFV1APreflight.dylib']
+  T-7.959s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=mode-2-requested bundle=com.ss.iphone.ugc.Ame {{0, 0}, {355.50666666666666, 331.33333333333331}}
+  T-7.595s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=scene-attached bundle=com.ss.iphone.ugc.Ame FBScene
+  T-7.286s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=original-native12-scene-size-dispatch bundle=com.ss.iphone.ugc.Ame child2=0 child3=1 main2=0
+  T-7.282s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=scene-frame-readback bundle=com.ss.iphone.ugc.Ame actual={{0, 0}, {375, 812}} target={{0, 0}, {711, 663}} same=0
+  T-7.279s build 0.0.80~lifecycleorder1 scene [DuoFaceScene] event=native12-scene-settings-frame-requested bundle=com.ss.iphone.ugc.Ame {{0, 0}, {711, 663}}
+unique_incidents 2
