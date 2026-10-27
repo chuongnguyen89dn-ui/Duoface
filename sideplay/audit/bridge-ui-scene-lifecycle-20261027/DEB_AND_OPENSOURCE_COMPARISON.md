@@ -1,3 +1,11 @@
+## ĐÍNH CHÍNH PHẠM VI 2026-10-27 — KHÔNG SỬA VIEWPORT
+
+**YÊU CẦU MỚI NHẤT, THAY THẾ ĐỀ XUẤT CŨ:** Người dùng xác nhận giao diện trình phát hiện tại **không bị bó**, không yêu cầu sửa giao diện/kích thước/viewport. GPT đã tự ý đề xuất sửa lỗi không còn tồn tại; rút lại hoàn toàn kế hoạch (A) viewport và mọi ý định kích hoạt `DFAppViewportRelay`/thay đổi app-side sizing. Giữ nguyên toàn bộ UI player, zoom, split, touch, menu, swap và Dock đang hoạt động.
+
+**CHỈ CÒN MỤC TIÊU ĐƯỢC GIAO:** khắc phục SpringBoard crash/safe mode khi mở hoặc đặc biệt phát video trong YouTube/Facebook/TikTok, bằng cách đối chiếu cơ chế quản trị vòng đời scene/Live/foreground trong **AppBridge hiện có** với Native12, DuoNavi, DuoDash, OmniCar, CarBridge chỉ làm reference. Ưu tiên tìm chính xác actor/call order của `sceneHandle:didUpdateSettingsWithDiff:previousSettings:` nhận diff foreground=NO; không đụng UIView geometry vì đó là vấn đề khác.
+
+**TRẠNG THÁI:** đây là sửa phạm vi hồ sơ, chưa có thay đổi runtime, DEB, CI hoặc Sileo. Các đoạn nghiên cứu viewport phía dưới là **lịch sử phân tích, KHÔNG còn là yêu cầu triển khai**. Nếu cần đọc size/frame như telemetry để xác định nguồn crash, chỉ đọc, không viết đổi hình học.
+
 # DuoFace Bridge UI / scene lifecycle: đối chiếu 5 DEB và tài liệu mã nguồn mở — 2026-10-27
 
 ## Giới hạn và mục tiêu
