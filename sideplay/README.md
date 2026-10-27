@@ -1,3 +1,7 @@
+## 2026-10-27 — .79 SILEO PUBLIC VERIFIED
+- .79~nativeocclusion1 DEB theo yêu cầu đã xuất: publisher 76fa2b3c4bce4f2755d503e2fbd72669ab42338c; YAML run 40484223915 SUCCESS, Sileo run https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40484223893 build/deploy/verify-duoface-integrated-pages/verify-qa11-pages tất cả SUCCESS. Public verifier kiểm version 0.0.79~nativeocclusion1 và SHA256 a6887ebeaee7659cab353c3b9fa53678da4b2671d13e091d42f25a5fd38f0d40 tải lại. Sileo https://chuongnguyen89dn-ui.github.io/carplaydsp/.
+- Source 2c667854; source CI 40483766135 SUCCESS, package 40483765792 SUCCESS. Chỉ đổi setIgnoresOcclusions YES theo Native12 nguyên bản start IMP ae450; chưa chứng minh chữa NSInternalInconsistencyException hay device hoạt động. Chưa có test iPhone; user cập nhật Sileo và respring thủ công thử khi xe đỗ. Nếu crash lấy audit + IPS đúng .79. Giữ chức năng/UI còn lại.
+
 ## 2026-10-27 — .79 build PASS, xuất Sileo đang chạy
 - Source CI 40483766135 SUCCESS; signed integrated package 40483765792 SUCCESS, source 2c667854317cef87948aad976a9b476ec97050b3, artifact commit 4cbe7d2a2f44f72eb88e908dd1ab85ed9325177c, sideplay/jb-embedded-appbridge/evidence/runs/40483765792/com.duoface.jb.embedded_0.0.79~nativeocclusion1_iphoneos-arm64.deb SHA256 a6887ebeaee7659cab353c3b9fa53678da4b2671d13e091d42f25a5fd38f0d40. Provenance/SHA256SUMS/BUILD_SOURCE đã đối chiếu.
 - Publisher carplaydsp/main 76fa2b3c4bce4f2755d503e2fbd72669ab42338c thêm SHA-pinned .79, giữ .78, APT một mục; build/deploy/public verifier chưa xác nhận. Không tuyên bố Sileo PASS.
