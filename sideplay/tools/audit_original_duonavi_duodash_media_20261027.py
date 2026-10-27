@@ -99,7 +99,7 @@ def main():
             try:
                 found=methods(m,cl)
                 perclass[cl]=found
-                allstarts.update(v["vm"] for v in found.values() if v.get("vm"))
+                allstarts.update((v["vm"] & 0x0000FFFFFFFFFFFF if name=="duodash113_repack" else v["vm"]) for v in found.values() if v.get("vm"))
             except (ValueError,KeyError,IndexError,AssertionError):
                 continue
         starts=sorted(allstarts)
@@ -129,7 +129,10 @@ def main():
                 if not match:
                     result["missing"].append(cl+"."+target)
                     continue
-                vm=match["vm"]
+                # FAT repack ObjC metadata uses 0x20/0x80 high-tagged
+                # IMP pointers, not actual 64-bit disassembly addresses.
+                rawvm=match["vm"]
+                vm=(rawvm & 0x0000FFFFFFFFFFFF) if name=="duodash113_repack" else rawvm
                 hi=bisect.bisect_right(starts,vm)
                 nextvm=starts[hi] if hi<len(starts) else vm+4096
                 # Method entry is verified by ObjC relative/absolute metadata;
@@ -144,8 +147,17 @@ def main():
                 # instruction entry/call PC, not by a loose string occurrence.
                 callsites=[x[:165] for x in ins if
                            re.search(r"\bbl\s+[#0-9a-fx]+",x)][:35]
+                focus=(name=="duodash113_repack" and (cl,target) in {
+                    ("CNABUIApp","setBridgeState:width:height:orientation:"),
+                    ("CNABSpringBoardObserver","onHostRequest:"),
+                    ("CNABSpringBoardObserver","onHostRequestSplit:"),
+                    ("DDz2","cnabBuildSceneHostForBid:displaySize:"),
+                    ("DDz1","showLayoutPanes:natives:bids:"),
+                })
                 result["methods"].append({
                     "class":cl,"selector":target,"imp":hex(vm),
+                    "raw_tagged_method_pointer":hex(rawvm) if rawvm!=vm else None,
+                    "full_bounded_ARM64":ins if focus else None,
                     "objc_type":match.get("type"),
                     "bounded_next_imp":hex(nextvm),"extracted_instructions":len(ins),
                     "truncated":nextvm>limit or len(ins)>=1400,
