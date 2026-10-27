@@ -1,3 +1,8 @@
-# Build .74 media37host1
+# Build .75 framegate1 — forensic SpringBoard SIGABRT +440 source isolation
 
-User correction: restore ONLY .37 media hosting; preserve current chrome, picker, dock, logo, zoom and touch wake. Remove obsolete app relay from payload. Run existing integrated macOS workflow and retain immutable artifact; device validation remains pending.
+Authorized debugging continuation from user-supplied 2026-10-27 real crash logs.
+SOURCE CI https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40439048511 SUCCESS.
+Nativehost 0.1.84~framegate1: hard-disable only unverified FBScene updateSettingsWithBlock:/setFrame: on stable scene.
+Keep .37 content reference, four external per-pane scene UIWindows, whole current UI/Zoom/Dock.
+Create immutable signed one-package 0.0.75~framegate1 in standard macOS CI; no auto install/respring.
+Do not claim crash fixed without physical iPhone validation. Distinct old .74 remains immutable rollback.
