@@ -341,8 +341,11 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('NSSelectorFromString(@"setFrame:")',commit)
   self.assertIn("CGRectMake(0,0,logical.width,logical.height)",commit)
   self.assertIn("settings,frameSelector,nativeFrame",commit)
-  self.assertIn("native12-scene-settings-frame-requested",commit)
-  self.assertNotIn('NSSelectorFromString(@"setForeground:")',commit)
+  self.assertIn("native12-scene-settings-live-contract-requested",commit)
+  self.assertIn('NSSelectorFromString(@"setForeground:")',commit)
+  self.assertIn('NSSelectorFromString(@"setBackgrounded:")',commit)
+  self.assertIn('settings,fgSelector,YES',commit)
+  self.assertIn('settings,bgSelector,NO',commit)
   self.assertNotIn('NSSelectorFromString(@"setCanShowWhileLocked:")',commit)
   self.assertIn("if (self.stopped) return;",scene)
 
@@ -1479,7 +1482,7 @@ class MediaSceneRevision077(unittest.TestCase):
   self.assertIn("CGRectEqualToRect(observed,nativeFrame)",s)
   self.assertIn("if (!unchanged)",s)
   self.assertIn("hostedScene,update,setVerifiedNative12Frame",s)
-  self.assertIn("native12-scene-settings-frame-requested",s)
+  self.assertIn("native12-scene-settings-live-contract-requested",s)
   self.assertNotIn("DFEnableUnverifiedFBSceneFrameMutation",s)
 
 if __name__=="__main__":unittest.main(verbosity=2)
