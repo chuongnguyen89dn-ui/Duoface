@@ -1,0 +1,32 @@
+{
+  "scope": "ONLY_NATIVE12_VS_NEW_DUOFACE_NO_DUONAVI",
+  "native12_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "new_duoface_sha256": "e03d5b268c6f91ffc40192f45541f8c3e236d98cd731c1e5ed633b8d663604b1",
+  "original_method_index_blob": "efa45df59bc3c16887cc979bf3aedc0c93c92111",
+  "time_utc": "2026-10-27T13:58:38.911463+00:00",
+  "original_files": 43,
+  "new_files": 30,
+  "original_macho": 8,
+  "new_macho": 6,
+  "original_objc_methods": 1385,
+  "original_classes": 66,
+  "original_selectors": 1003,
+  "original_method_selector_text_seen_in_new": 306,
+  "byte_identical_basenames": 13,
+  "feature_gates": 25,
+  "feature_gates_pass": 0,
+  "feature_gates_fail": 25,
+  "groups": {
+    "PICKER_SETTINGS": 248,
+    "OTHER": 198,
+    "VOICE_AUDIO": 114,
+    "LICENSE_EXCLUDED": 309,
+    "SPLIT_UI": 129,
+    "BRIDGE_SCENE": 281,
+    "FULLSCREEN_ZOOM": 61,
+    "HUD_SPEED": 45
+  },
+  "verdict": "KHONG_DAT",
+  "no_false_positive_rule": "Same selector, bytes or UI art are NOT ABI or runtime equivalence",
+  "limitation": "Complete original ObjC method inventory, not all C/static/helper indirect call sites; native12 1087 uncertain stubs. Original-to-new runtime edges and video playback unverified."
+}

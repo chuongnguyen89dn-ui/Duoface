@@ -1,0 +1,510 @@
+{
+  "original_classes": [
+    {
+      "class": "CBAppManager",
+      "methods": 21,
+      "selector_string_matches": 3,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppMetadataItem",
+      "methods": 7,
+      "selector_string_matches": 5,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppModel",
+      "methods": 15,
+      "selector_string_matches": 7,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppPickerViewController",
+      "methods": 16,
+      "selector_string_matches": 7,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppSection",
+      "methods": 9,
+      "selector_string_matches": 5,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppStateListener",
+      "methods": 6,
+      "selector_string_matches": 2,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppSwitch",
+      "methods": 3,
+      "selector_string_matches": 2,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAppsManagerViewController",
+      "methods": 38,
+      "selector_string_matches": 12,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAssistantAboutViewController",
+      "methods": 24,
+      "selector_string_matches": 9,
+      "category": "VOICE_AUDIO",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBAssistantManager",
+      "methods": 69,
+      "selector_string_matches": 4,
+      "category": "VOICE_AUDIO",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgeManager",
+      "methods": 75,
+      "selector_string_matches": 6,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgeManagerDashboard",
+      "methods": 39,
+      "selector_string_matches": 3,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgeRequest",
+      "methods": 6,
+      "selector_string_matches": 2,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedApp",
+      "methods": 12,
+      "selector_string_matches": 9,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedAssistantApp",
+      "methods": 6,
+      "selector_string_matches": 3,
+      "category": "VOICE_AUDIO",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedAssistantView",
+      "methods": 15,
+      "selector_string_matches": 4,
+      "category": "VOICE_AUDIO",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedPortalApp",
+      "methods": 6,
+      "selector_string_matches": 3,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedPortalAppView",
+      "methods": 12,
+      "selector_string_matches": 6,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedSplitApp",
+      "methods": 49,
+      "selector_string_matches": 5,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedUIApp",
+      "methods": 16,
+      "selector_string_matches": 5,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBBridgedUIAppView",
+      "methods": 29,
+      "selector_string_matches": 7,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDashboardSettings",
+      "methods": 61,
+      "selector_string_matches": 5,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDashboardShared",
+      "methods": 12,
+      "selector_string_matches": 3,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDividerButtonInfo",
+      "methods": 9,
+      "selector_string_matches": 1,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDividerView",
+      "methods": 27,
+      "selector_string_matches": 5,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDockMetricItemView",
+      "methods": 11,
+      "selector_string_matches": 3,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBDockSystemMonitorView",
+      "methods": 19,
+      "selector_string_matches": 4,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBGeneralSettingsViewController",
+      "methods": 30,
+      "selector_string_matches": 9,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBHttpClient",
+      "methods": 14,
+      "selector_string_matches": 4,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBLicenseExpiredModalViewController",
+      "methods": 30,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBLicenseShieldIconView",
+      "methods": 2,
+      "selector_string_matches": 1,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBLicenseSyncManager",
+      "methods": 60,
+      "selector_string_matches": 6,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBLicenseWarningModalView",
+      "methods": 12,
+      "selector_string_matches": 2,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBLocalization",
+      "methods": 26,
+      "selector_string_matches": 6,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBMultitaskingOverlayView",
+      "methods": 66,
+      "selector_string_matches": 12,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBMultitaskingPillView",
+      "methods": 12,
+      "selector_string_matches": 4,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBOverlayScrollView",
+      "methods": 4,
+      "selector_string_matches": 3,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSlotPillHitButton",
+      "methods": 3,
+      "selector_string_matches": 1,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSlotPillView",
+      "methods": 36,
+      "selector_string_matches": 5,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSlotPlaceholderView",
+      "methods": 16,
+      "selector_string_matches": 7,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSplitContainerView",
+      "methods": 6,
+      "selector_string_matches": 4,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSplitSplashScreenView",
+      "methods": 32,
+      "selector_string_matches": 8,
+      "category": "SPLIT_UI",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSplitViewController",
+      "methods": 42,
+      "selector_string_matches": 11,
+      "category": "PICKER_SETTINGS",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionCheckoutCell",
+      "methods": 10,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionGiftcodeInputCell",
+      "methods": 9,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionGiftcodeRedeemCell",
+      "methods": 10,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionHardwareIDCell",
+      "methods": 10,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionOrderCoordinator",
+      "methods": 36,
+      "selector_string_matches": 6,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionPendingOrderCell",
+      "methods": 18,
+      "selector_string_matches": 6,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionPlanCardCell",
+      "methods": 13,
+      "selector_string_matches": 2,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionStatusCell",
+      "methods": 2,
+      "selector_string_matches": 1,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionVIPCardCell",
+      "methods": 24,
+      "selector_string_matches": 4,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionVIPStatusCell",
+      "methods": 2,
+      "selector_string_matches": 1,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBSubscriptionViewController",
+      "methods": 71,
+      "selector_string_matches": 14,
+      "category": "LICENSE_EXCLUDED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBTouchCloneView",
+      "methods": 5,
+      "selector_string_matches": 4,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBUIAppContainerView",
+      "methods": 6,
+      "selector_string_matches": 4,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "CBWindow",
+      "methods": 37,
+      "selector_string_matches": 6,
+      "category": "BRIDGE_SCENE",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFFullscreenTransport",
+      "methods": 36,
+      "selector_string_matches": 5,
+      "category": "FULLSCREEN_ZOOM",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFHostSnapshot",
+      "methods": 23,
+      "selector_string_matches": 3,
+      "category": "FULLSCREEN_ZOOM",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFOwnerPollingDriver",
+      "methods": 1,
+      "selector_string_matches": 0,
+      "category": "HUD_SPEED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFSpeedNativeHUD",
+      "methods": 43,
+      "selector_string_matches": 7,
+      "category": "HUD_SPEED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFSpeedSplit7Driver",
+      "methods": 1,
+      "selector_string_matches": 0,
+      "category": "HUD_SPEED",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFZoomAction",
+      "methods": 1,
+      "selector_string_matches": 0,
+      "category": "FULLSCREEN_ZOOM",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "DFZoomReceiver",
+      "methods": 1,
+      "selector_string_matches": 0,
+      "category": "FULLSCREEN_ZOOM",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "XXAppDelegate",
+      "methods": 6,
+      "selector_string_matches": 6,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    },
+    {
+      "class": "XXRootViewController",
+      "methods": 17,
+      "selector_string_matches": 4,
+      "category": "OTHER",
+      "functional_parity_proven": false
+    }
+  ],
+  "new_macho": [
+    {
+      "path": "var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost",
+      "name": "DuoFaceNativeHost",
+      "bytes": 176576,
+      "sha256": "f03e19fea6fb1b840697bceb436ad99965c91ada806c0c23638e49091432961b",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.dylib",
+      "name": "DFCarPlayDockOwner.dylib",
+      "bytes": 76576,
+      "sha256": "b84cf937107e6737a21dca368a1f9fd905418a71961dbafa79204a40abd86e8a",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFFirstPartyAdmission.dylib",
+      "name": "DFFirstPartyAdmission.dylib",
+      "bytes": 187024,
+      "sha256": "5230e1576f4c9e18df82573ea97d171ebd92cbf70eae1ff1b6d18fcc9adbe408",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFNativeDashboardBridgeQA.dylib",
+      "name": "DFNativeDashboardBridgeQA.dylib",
+      "bytes": 275520,
+      "sha256": "76cbafde8d3d18908548417da663ae82400c96aae23dde6cf30c8595aaa59eb2",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFTouchOwnerProbe.dylib",
+      "name": "DFTouchOwnerProbe.dylib",
+      "bytes": 331648,
+      "sha256": "33a085e1f6e851e3fbc054c56d378ac0d01427808a3125d248568ba4a38c4e18",
+      "mach_o": true
+    },
+    {
+      "path": "var/jb/Library/MobileSubstrate/DynamicLibraries/DFV1APreflight.dylib",
+      "name": "DFV1APreflight.dylib",
+      "bytes": 292160,
+      "sha256": "85d12963cd94221ceae968ee2b97e5fefaae45722d0269622f1441ce63839f4a",
+      "mach_o": true
+    }
+  ]
+}
