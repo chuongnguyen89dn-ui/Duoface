@@ -1,0 +1,99 @@
+name: Native12 ORIGINAL host lifecycle IMP
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/native12-original-host-lifecycle-imp.yml'
+      - 'sideplay/audit/native12-continuation-4888299/extract_original_host_lifecycle_imp.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: native12-original-host-lifecycle-imp-hash-pinned
+  cancel-in-progress: true
+jobs:
+  disassemble-original-app-close-methods:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate existing iOS/CarPlay skill ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip -o "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -t "$RUNNER_TEMP/carplay-skill.zip"
+          unzip -Z1 "$RUNNER_TEMP/carplay-skill.zip" | head -40
+      - name: Verify SHA-pinned ORIGINAL Native12 DEB and extract Dashboard Mach-O
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb || brew install dpkg
+          command -v llvm-objdump || brew install llvm
+          echo "/opt/homebrew/opt/llvm/bin" >> "$GITHUB_PATH"
+          REFDIR="$RUNNER_TEMP/native12-original-layout"
+          mkdir -p "$REFDIR"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$REFDIR/original.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$REFDIR/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$REFDIR/index.json"
+          test "$(git hash-object "$REFDIR/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$REFDIR/original.deb" "$REFDIR/payload"
+          test -s "$REFDIR/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo ORIGINAL_IMMUTABLE_INPUTS_CONFIRMED
+      - name: Extract exact IMP disassembly and branch/constant samples
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-continuation-4888299/extract_original_host_lifecycle_imp.py \
+            --binary "$RUNNER_TEMP/native12-original-layout/payload/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" \
+            --method-index "$RUNNER_TEMP/native12-original-layout/index.json" \
+            --out sideplay/audit/native12-continuation-4888299/original-host-lifecycle-imp
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('sideplay/audit/native12-continuation-4888299/original-host-lifecycle-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json')
+          d=json.loads(p.read_text())
+          assert d['dashboard_macho_sha256']=='9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea'
+          assert d['target_count']==9
+          assert all(m['instructions'] and m['end'] for m in d['methods'])
+          assert d['runtime_original_preset_frames_verified'] is False
+          print('ORIGINAL_NATIVE12_IMP_STATIC_EVIDENCE_VERIFIED',
+                d['target_count'],d['instructions_collected'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Original-Native12-Host-Lifecycle-IMP-Evidence
+          path: sideplay/audit/native12-continuation-4888299/original-host-lifecycle-imp/
+          if-no-files-found: error
+      - name: Persist original-layout evidence without touching app or Sileo
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="$(pwd)/sideplay/audit/native12-continuation-4888299/original-host-lifecycle-imp"
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST=sideplay/audit/native12-continuation-4888299/original-host-lifecycle-imp
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$DEST/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json"; then
+              echo ORIGINAL_PICKER_CLOSE_IMP_EVIDENCE_ALREADY_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            mkdir -p "$TEMP/$DEST"
+            cp "$SRC"/* "$TEMP/$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(native12): save exact layout IMP disassembly; preset formula parity still unverified [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo NATIVE12_PICKER_CLOSE_IMP_EVIDENCE_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo Unable to persist evidence
+          exit 1
