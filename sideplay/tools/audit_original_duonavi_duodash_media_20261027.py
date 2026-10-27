@@ -78,7 +78,20 @@ def main():
         if sha(data)!=PINS[name]: raise AssertionError(name+" wrong DEB SHA256 "+sha(data))
         raw=extract(deb,MEMBERS[name])
         thin=select_arm64(raw)
-        m=MachO(thin)
+        class _TaggedMachO(MachO):
+            # Some REPACKED DuoDash arm64 metadata classlist pointers carry
+            # high-bit rebasing tags. Require the stripped VM to map into the
+            # MachO's OWN segment; never invent/scan an unrelated address.
+            normalized=0
+            def map(self,vm):
+                try: return super().map(vm)
+                except ValueError:
+                    clean=vm & 0x0000FFFFFFFFFFFF
+                    if clean==vm: raise
+                    mapped=super().map(clean)
+                    self.normalized+=1
+                    return mapped
+        m=_TaggedMachO(thin) if name=="duodash113_repack" else MachO(thin)
         classes=m.classes()
         perclass={}
         allstarts=set()
@@ -101,6 +114,7 @@ def main():
           "package_sha256":sha(data),"dylib_member":MEMBERS[name],
           "dylib_sha256":sha(raw),"plain_arm64_sha256":sha(thin),
           "objc_class_count":len(classes),"objc_parsed_class_count":len(perclass),
+          "repacked_classlist_tagged_vm_normalizations":getattr(m,"normalized",0),
           "class_candidates":[cl for cl in sorted(perclass) if
                               ("CNAB" in cl or "DDz" in cl or "CBBridge" in cl or "CBBridgedUIApp" in cl)][:85],
           "methods":[],"missing":[]
