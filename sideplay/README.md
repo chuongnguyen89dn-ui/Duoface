@@ -1,3 +1,10 @@
+## .74 ĐÃ XUẤT SILEO — 2026-10-27
+- Run https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40436112173: build, deploy, verify-duoface-integrated-pages và verify-qa11-pages đều SUCCESS.
+- Public Sileo duy nhất cho com.duoface.jb.embedded là 0.0.74~media37host1; public SHA256 5db93e7f4cfafb318dffd29b4e407122cb0235938353663a61c8e70c86e96034 được job tải lại kiểm chứng.
+- .74 là build mới giữ chrome/menu/logo/Zoom hiện tại, media host theo .37; thay thế mục rollback nguyên .37 đã xuất nhầm. DEB các phiên bản trước giữ bất biến.
+- Hướng dẫn: refresh https://chuongnguyen89dn-ui.github.io/carplaydsp/ rồi cập nhật DuoFace Independent lên .74, respring thủ công. Cả máy đã cài .37 hoặc .73 đều có thể cập nhật .74.
+- CHƯA KIỂM CHỨNG: cài trên iPhone, phát/tua/xoay YouTube và các app khác, giao diện hết bó, không crash. .37 có lịch sử lỗi xoay nên không tuyên bố đã chữa xoay; cần kết quả .74 thực tế.
+
 ## .74 build PASS, Sileo đang triển khai — 2026-10-27
 - Source commit 6fa66d47ad0e2362448d49cc187c87d1ef9b187d; source-contract run 40435764361 SUCCESS; integrated macOS compile/package run 40435764417 SUCCESS.
 - Artifact bất biến commit cc11faf495c3d485f3b80f963e9cacff78a11304: sideplay/jb-embedded-appbridge/evidence/runs/40435764417/com.duoface.jb.embedded_0.0.74~media37host1_iphoneos-arm64.deb; SHA256 5db93e7f4cfafb318dffd29b4e407122cb0235938353663a61c8e70c86e96034. Đã tải lại, sha256sum và dpkg-deb -f khớp.
