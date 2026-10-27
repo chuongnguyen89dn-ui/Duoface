@@ -136,7 +136,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         // Seed one initial remote content frame before mode=2. This is
         // required by some scene owners; later resizes are debounced.
         self.pendingReferenceSize=self.bounds.size;
-        [self commitSceneGeometry:nil];
+        // Perform initial media sizing only after the hosted scene is ready.
         [self.appController beginAppearanceTransition:YES animated:NO];
         DFHostInt(self.appController, @"setRequestedMode:", 2);
         [self.appController endAppearanceTransition];
@@ -188,7 +188,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
     if (timer && self.geometryCommitTimer!=timer) return;
     self.geometryCommitTimer=nil;
     if (self.stopped || self.committingSceneGeometry || !self.window || !self.appController ||
-        (!self.ready && !CGSizeEqualToSize(self.committedReferenceSize,CGSizeZero))) return;
+        !self.ready) return;
     CGSize size=self.pendingReferenceSize;
     if (CGSizeEqualToSize(size,self.committedReferenceSize) ||
         !CGSizeEqualToSize(size,self.bounds.size) ||
