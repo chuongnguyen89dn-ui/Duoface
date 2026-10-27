@@ -64,6 +64,20 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         ((void (*)(id, SEL, NSInteger))objc_msgSend)(obj, sel, value);
 }
 
+// Observation only. A scene's server-side foreground flag is not the same
+// thing as UIWindow.hidden or the host controller's requested Live mode.
+// Never write foreground, mutate private transition context or override
+// SpringBoard's observer to silence a framework assertion.
+static NSInteger DFObservedSceneForeground(id scene) {
+    id settings=DFCall0(scene,@"settings");
+    if(!settings)return -1;
+    SEL flag=NSSelectorFromString(@"isForeground");
+    if(![settings respondsToSelector:flag])
+        flag=NSSelectorFromString(@"foreground");
+    if(![settings respondsToSelector:flag])return -1;
+    return ((BOOL(*)(id,SEL))objc_msgSend)(settings,flag)?1:0;
+}
+
 @class DFSceneSurface;
 @interface DFSceneHost ()
 @property(nonatomic,strong) NSMutableDictionary<NSString *,DFSceneSurface *> *live;
@@ -86,6 +100,8 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
 @property(nonatomic) BOOL committingSceneGeometry;
 @property(nonatomic) NSUInteger tries;
 @property(nonatomic) NSUInteger sceneGeneration;
+// -2 = new scene (no sample); -1 = selector not available; 0/1 = observed.
+@property(nonatomic) NSInteger lastObservedForeground;
 @property(nonatomic) CGSize lastApplied;
 // UIKit viewport moves immediately; remote media content-reference commits
 // only after split/zoom stops changing, to avoid FrontBoard churn.
@@ -130,7 +146,10 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         UIView *appView = self.appController.view;
         appView.clipsToBounds = YES;
         [self addSubview:appView];
-        [self.appController didMoveToParentViewController:parent];
+        // UIKit containment is committed only after the native scene host has
+        // selected Live. Native12 original start @0xae538 requests mode 2 and
+        // only later completes didMoveToParentViewController: @0xaebf0.
+        // This changes no geometry, UI, focus, dock or media orientation.
         // Native12 original start IMP 0xadf30, guarded call at 0xae450.
         DFHostBool(self.appController, @"setIgnoresOcclusions:", YES);
         DFHostBool(self.appController, @"setAutomatesLifecycle:", NO);
@@ -141,6 +160,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
         // Perform initial media sizing only after the hosted scene is ready.
         [self.appController beginAppearanceTransition:YES animated:NO];
         DFHostInt(self.appController, @"setRequestedMode:", 2);
+        [self.appController didMoveToParentViewController:parent];
         [self.appController endAppearanceTransition];
         DFSceneLog(@"mode-2-requested",self.bundleID,NSStringFromCGRect(self.bounds));
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35 target:self
@@ -394,8 +414,27 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             self.tries=0;
             if (!self.scene) {
                 self.scene=scene;
+                self.lastObservedForeground=-2;
                 self.sceneSettingsBefore=[DFCall0(scene,@"mutableSettings") copy];
                 DFSceneLog(@"scene-attached",self.bundleID,NSStringFromClass([scene class]));
+            }
+            // Read-only lifecycle telemetry. The crash IPS proves that
+            // SpringBoard receives foreground=NO while the host is Live,
+            // but it does not identify the writer of that setting.
+            // Never treat a sampled flag as an authorization to write it.
+            @try {
+                NSInteger fg=DFObservedSceneForeground(scene);
+                if(fg!=self.lastObservedForeground) {
+                    self.lastObservedForeground=fg;
+                    DFSceneLog(@"scene-foreground-observed-only",self.bundleID,
+                        [NSString stringWithFormat:
+                           @"generation=%lu scene=%p foreground=%ld hosting=%d",
+                           (unsigned long)self.sceneGeneration,scene,(long)fg,isHosting]);
+                }
+            } @catch (NSException *readError) {
+                // Diagnostics must never kill or invalidate a playing app.
+                DFSceneLog(@"scene-foreground-readback-unavailable",self.bundleID,
+                           readError.name);
             }
             if (!self.ready) {
                 self.ready=YES;
@@ -411,6 +450,7 @@ static void DFHostInt(id obj, NSString *method, NSInteger value) {
             ++self.sceneGeneration;
             [self.geometryCommitTimer invalidate]; self.geometryCommitTimer=nil;
             self.ready=NO; self.scene=nil; self.sceneSettingsBefore=nil;
+            self.lastObservedForeground=-2;
             self.committedReferenceSize=CGSizeZero;
             self.lastApplied=CGSizeZero;
             DFSceneLog(@"scene-geometry-suspended",self.bundleID,@"hosting-or-window-ownership-lost");
