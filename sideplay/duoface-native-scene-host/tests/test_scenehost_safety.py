@@ -152,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.84~framegate1",build)
+  self.assertIn("0.1.85~reason1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -587,7 +587,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.84~framegate1",c)
+  self.assertIn("Version: 0.1.85~reason1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1529,3 +1529,21 @@ class PhysicalCrash074FrameWriteRegression(unittest.TestCase):
   chrome=file("DFNative12Chrome.m")
   self.assertIn("media37-four-physical-scene-windows-restored",chrome)
   self.assertIn("self.appSceneWindows[(NSUInteger)i]",chrome)
+
+class CrashReasonCapture076(unittest.TestCase):
+ def test_device_fatal_reason_missing_from_ips_captured_without_scene_mutation(self):
+  probe=file("DFTouchOwnerProbe.m")
+  host=file("DFSceneHost.m")
+  exporter=file("DFNativeDiagnostics.m")
+  self.assertIn("NSSetUncaughtExceptionHandler(DFCaptureFatalException)",probe)
+  self.assertIn("sPreviousFatalHandler=NSGetUncaughtExceptionHandler()",probe)
+  self.assertIn("sPreviousFatalHandler(exception)",probe)
+  self.assertIn("if (sActivated && sChrome)",probe)
+  self.assertIn("DFArmFatalReasonRecorder();",probe)
+  self.assertIn("DuoFaceFatalException.log",probe)
+  self.assertIn("DuoFaceFatalException.log",exporter)
+  self.assertIn("0.0.76~reason1",exporter)
+  self.assertIn("if (self.ready && self.scene) {",host)
+  self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',host)
+  self.assertIn("setContentReferenceSize:withContentOrientation:andContainerOrientation:",host)
+  self.assertNotIn("DFEnableUnverifiedFBSceneFrameMutation",host)
