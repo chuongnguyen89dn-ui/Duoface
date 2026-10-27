@@ -1,6 +1,6 @@
 # Build request .81 foregroundcontract1 — guarded Live scene policy (not device-proven)
 
-Source commit a36140be518723abf103e2cf87b5802d7b4b5661 is a source-level comparison-based test candidate after the confirmed .80 YouTube/TikTok SpringBoard SIGABRT. The user requested continuation from f6120366 and investigation of whether .37 was truly successful. .37 CI build was successful but its CI_RESULT explicitly says DEVICE_TWO_APP_BRIDGE_VERIFIED=false; a user reported one YouTube play session with wrong rotation, not a stable pass.
+Source runtime commit a36140be518723abf103e2cf87b5802d7b4b5661 and regression test fix a316e9320e8a3688cab4beec3817ddf0110392d8 are a source-level comparison-based test candidate after the confirmed .80 YouTube/TikTok SpringBoard SIGABRT. The user requested continuation from f6120366 and investigation of whether .37 was truly successful. .37 CI build was successful but its CI_RESULT explicitly says DEVICE_TWO_APP_BRIDGE_VERIFIED=false; a user reported one YouTube play session with wrong rotation, not a stable pass.
 
 The .77 fatal reason proves the Live scene observer received a foreground=BSSettingFlagNo diff; .80 has the same SpringBoard method +440 crash but its reason/writer is not directly recorded. Original DuoNavi/OmniCar ARM64 evidence shows guarded foreground/background policy in the existing frame settings transaction. Candidate .81 only adds selector-checked setForeground:YES and setBackgrounded:NO to the existing owner+generation+hosting-verified updateSettingsWithBlock while a new frame diff is requested. It does NOT prove preventing a later competing actor from backgrounding the scene.
 
@@ -13,3 +13,5 @@ Build on this exact request HEAD using existing macOS rootless workflow:
 - Run Python source tests and iOS SDK syntax, package one immutable DEB, check dpkg control+SHA256+4 independent inputs+30 file allowlist; save run evidence.
 - No auto-install or respring. This build is NOT a device PASS.
 - Then publish only verified artifact to the existing Sileo repository as a new version, keeping previous archives unchanged. On a parked vehicle test YouTube/Facebook/TikTok open, playback, seek, both panes, focus, close/reopen. Export DuoFaceFatalException.log and matched IPS on crash.
+
+Build trigger correction (2026-10-27): .81 source tests still contained two older frame-only expectations; commit a316e932 updates these to the .81 guarded transaction before candidate packaging. Supersede the first queued .81 request run 40512757571 if concurrency cancels it; only the LAST run on the current request SHA is authoritative. Do not call the cancelled earlier run a pass or failure of runtime.
