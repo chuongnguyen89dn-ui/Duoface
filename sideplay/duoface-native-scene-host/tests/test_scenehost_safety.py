@@ -6,6 +6,25 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def file(n):return (R/n).read_text()
 class NativeCarPlayHost(unittest.TestCase):
+ def test_native12_host_mode_before_containment_commit_and_passive_scene_foreground(self):
+  """Native12 original requests Live before didMove; no UI or FBScene override."""
+  src=file("DFSceneHost.m")
+  start=src.split("- (void)start {",1)[1].split("- (void)layoutSubviews",1)[0]
+  self.assertLess(start.index("[parent addChildViewController:self.appController]"),
+                  start.index("setRequestedMode:"))
+  self.assertLess(start.index("setRequestedMode:"),
+                  start.index("[self.appController didMoveToParentViewController:parent]"))
+  self.assertLess(start.index("[self.appController didMoveToParentViewController:parent]"),
+                  start.index("[self.appController endAppearanceTransition]"))
+  self.assertIn('DFObservedSceneForeground(scene)',src)
+  self.assertIn('scene-foreground-observed-only',src)
+  self.assertIn('scene-foreground-readback-unavailable',src)
+  self.assertIn('self.lastObservedForeground=-2;',src)
+  self.assertIn('if(fg!=self.lastObservedForeground)',src)
+  self.assertNotIn('NSSelectorFromString(@"setForeground:")',src)
+  self.assertNotIn('NSSelectorFromString(@"setBackgrounded:")',src)
+  self.assertNotIn('sceneHandle:didUpdateSettingsWithDiff:previousSettings:',src)
+
  def test_first_party_independent_manifest(self):
   m=plistlib.loads((R/"Info.plist").read_bytes())
   self.assertEqual(m["CFBundleIdentifier"],"com.duoface.native.scenehost")
@@ -152,7 +171,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.88~nativeocclusion1",build)
+  self.assertIn("0.1.89~lifecycleorder1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -587,7 +606,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.88~nativeocclusion1",c)
+  self.assertIn("Version: 0.1.89~lifecycleorder1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1560,7 +1579,7 @@ class CrashReasonCapture076(unittest.TestCase):
   self.assertIn("DFArmFatalReasonRecorder();",probe)
   self.assertIn("DuoFaceFatalException.log",probe)
   self.assertIn("DuoFaceFatalException.log",exporter)
-  self.assertIn("0.0.79~nativeocclusion1",exporter)
+  self.assertIn("0.0.80~lifecycleorder1",exporter)
   self.assertIn("if (self.ready && self.scene) {",host)
   self.assertIn('NSSelectorFromString(@"updateSettingsWithBlock:")',host)
   self.assertIn("setContentReferenceSize:withContentOrientation:andContainerOrientation:",host)
