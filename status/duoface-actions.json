@@ -1,26 +1,32 @@
 {
-  "checked_at_utc": "2026-10-27T13:20:24.524040+00:00",
+  "checked_at_utc": "2026-10-27T19:28:25.098010+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2826,
+  "total_actions_runs": 2832,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 6,
+      "success": 5,
       "failure": 0,
       "other": 1
     },
+    "DuoFace .81 vs original Native12 complete 1385-method static parity (FORENSIC ONLY)": {
+      "recent_runs": 1,
+      "success": 1,
+      "failure": 0,
+      "other": 0
+    },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 14,
+      "recent_runs": 15,
       "success": 11,
-      "failure": 3,
+      "failure": 4,
       "other": 0
     },
     "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 73,
+      "recent_runs": 70,
       "success": 23,
-      "failure": 16,
-      "other": 34
+      "failure": 12,
+      "other": 35
     },
     "Native12 ORIGINAL host lifecycle IMP": {
       "recent_runs": 1,
@@ -43,11 +49,71 @@
   },
   "latest_runs": [
     {
+      "id": 40569393224,
+      "name": "DuoFace Actions status snapshot",
+      "run_number": 80,
+      "status": "in_progress",
+      "conclusion": null,
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40569393224",
+      "created_at": "2026-10-27T19:28:13Z",
+      "head_sha": "de112b8831d4b9de3f8b2a12ce2f3d9504db3b74"
+    },
+    {
+      "id": 40516795700,
+      "name": "DuoFace .81 vs original Native12 complete 1385-method static parity (FORENSIC ONLY)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40516795700",
+      "created_at": "2026-10-27T13:58:27Z",
+      "head_sha": "5e3568c3f1973183fd741a29e17ba55707e74a5e"
+    },
+    {
+      "id": 40512981348,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 308,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40512981348",
+      "created_at": "2026-10-27T13:32:58Z",
+      "head_sha": "857b0c66842a7f16ae53eef2fa1d1d2637762c40"
+    },
+    {
+      "id": 40512940876,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 333,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40512940876",
+      "created_at": "2026-10-27T13:32:41Z",
+      "head_sha": "a316e9320e8a3688cab4beec3817ddf0110392d8"
+    },
+    {
+      "id": 40512757571,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 307,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40512757571",
+      "created_at": "2026-10-27T13:31:23Z",
+      "head_sha": "bb93b59e2704a6ea207ed1c8b0a8dd230f06dd5b"
+    },
+    {
+      "id": 40512581074,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 332,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40512581074",
+      "created_at": "2026-10-27T13:30:12Z",
+      "head_sha": "a36140be518723abf103e2cf87b5802d7b4b5661"
+    },
+    {
       "id": 40511137439,
       "name": "DuoFace Actions status snapshot",
       "run_number": 79,
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40511137439",
       "created_at": "2026-10-27T13:20:15Z",
       "head_sha": "05739ff4c85ef95f9de2a07f41dc8b1bd18aeba9"
@@ -281,66 +347,6 @@
       "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40446827621",
       "created_at": "2026-10-27T03:55:08Z",
       "head_sha": "e66f2f2c5b9591ff1f4e32216fe760604340becf"
-    },
-    {
-      "id": 40446774120,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 314,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40446774120",
-      "created_at": "2026-10-27T03:54:35Z",
-      "head_sha": "ec8779183364e4b7d14b7a7e9ee75ebd27de6f7c"
-    },
-    {
-      "id": 40446745899,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 313,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40446745899",
-      "created_at": "2026-10-27T03:54:17Z",
-      "head_sha": "6decf73199ac4f2405d16a977803d4e10c833d73"
-    },
-    {
-      "id": 40445716116,
-      "name": "DuoFace original DuoNavi and repacked DuoDash exact app-scene IMP audit (READ ONLY)",
-      "run_number": 3,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40445716116",
-      "created_at": "2026-10-27T03:43:04Z",
-      "head_sha": "104bd8a3023e445f9954bb05cbc565ee755a59c8"
-    },
-    {
-      "id": 40445580060,
-      "name": "DuoFace original DuoNavi and repacked DuoDash exact app-scene IMP audit (READ ONLY)",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40445580060",
-      "created_at": "2026-10-27T03:41:36Z",
-      "head_sha": "ad766f20dbfdd2792c11dc1fac5930f731ca7c95"
-    },
-    {
-      "id": 40445456513,
-      "name": "DuoFace original DuoNavi and repacked DuoDash exact app-scene IMP audit (READ ONLY)",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40445456513",
-      "created_at": "2026-10-27T03:40:16Z",
-      "head_sha": "50d96ab66635210c2ee350a09a2d6a8f90d9ac01"
-    },
-    {
-      "id": 40442355588,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 302,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40442355588",
-      "created_at": "2026-10-27T03:07:04Z",
-      "head_sha": "cc331281f96d1a1be4f273f5166f99012e110220"
     }
   ]
 }
