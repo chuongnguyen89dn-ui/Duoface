@@ -1,0 +1,111 @@
+name: DuoFace .81 vs original Native12 complete 1385-method static parity (FORENSIC ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-readonly-native12-vs-081-all-methods-20261027.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-readonly-native12-vs-081-all-methods
+  cancel-in-progress: false
+jobs:
+  immutable-original-to-081:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Obtain original SHA-pinned Native12 and exact historic ObjC 1385-method index
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/original-native12-081"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/original-native12-081/native12.deb"
+          echo '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  '"$RUNNER_TEMP/original-native12-081/native12.deb" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/original-native12-081/method-index.json"
+          test "$(git hash-object "$RUNNER_TEMP/original-native12-081/method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          test "$(dpkg-deb -f "$RUNNER_TEMP/original-native12-081/native12.deb" Package)" = 'com.duoface.independent'
+          echo NATIVE12_REFERENCE_1385_METHOD_SHA_VERIFIED
+      - name: Check immutable signed DuoFace .81 rootless DEB SHA256
+        shell: bash
+        run: |
+          set -euo pipefail
+          CAND='sideplay/jb-embedded-appbridge/evidence/runs/40512981348/com.duoface.jb.embedded_0.0.81~foregroundcontract1_iphoneos-arm64.deb'
+          test -s "$CAND"
+          echo 'e03d5b268c6f91ffc40192f45541f8c3e236d98cd731c1e5ed633b8d663604b1  '"$CAND" | sha256sum -c -
+          test "$(dpkg-deb -f "$CAND" Package)" = 'com.duoface.jb.embedded'
+          test "$(dpkg-deb -f "$CAND" Version)" = '0.0.81~foregroundcontract1'
+          echo DUOFACE_081_IMMUTABLE_SHA_VERIFIED
+      - name: Run exact full file and method inventory against the actual .81 DEB
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 sideplay/audit/native12-vs-new-20261021/compare_native12_new_full.py \
+            --native12 "$RUNNER_TEMP/original-native12-081/native12.deb" \
+            --new 'sideplay/jb-embedded-appbridge/evidence/runs/40512981348/com.duoface.jb.embedded_0.0.81~foregroundcontract1_iphoneos-arm64.deb' \
+            --index "$RUNNER_TEMP/original-native12-081/method-index.json" \
+            --new-sha256 e03d5b268c6f91ffc40192f45541f8c3e236d98cd731c1e5ed633b8d663604b1 \
+            --expected-new-files 30 \
+            --out sideplay/audit/native12-vs-new-20261021/results-0.0.81
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('sideplay/audit/native12-vs-new-20261021/results-0.0.81')
+          summary=json.loads((root/'SUMMARY.json').read_text())
+          methods=json.loads((root/'ALL_NATIVE12_1385_METHODS.json').read_text())['methods']
+          assert summary['native12_sha256']=='2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad'
+          assert summary['new_duoface_sha256']=='e03d5b268c6f91ffc40192f45541f8c3e236d98cd731c1e5ed633b8d663604b1'
+          assert len(methods)==1385 and summary['original_objc_methods']==1385
+          assert summary['original_macho']==8 and summary['feature_gates']==25
+          assert summary['new_files']==30
+          assert summary['feature_gates_pass']==0
+          print('NATIVE12_TO_DUOFACE_081_STATIC_METHOD_INDEX_1385_VERIFIED')
+          print('IMPORTANT_STATIC_SELECTOR_MATCH_DOES_NOT_PROVE_RUNTIME_CALLER_OR_SCENE_PARITY')
+          print('NO_REAL_DEVICE_YOUTUBE_PLAYBACK_ASSERTIONS_RUN')
+          print(summary)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-Native12-vs-DuoFace-081-exact-1385-ObjC-method-forensic
+          path: sideplay/audit/native12-vs-new-20261021/results-0.0.81/
+          if-no-files-found: warn
+      - name: Persist forensics only; never edit or publish DEB or hook code
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEST=sideplay/audit/native12-vs-new-20261021/results-0.0.81
+          test -s "$DEST/SUMMARY.json"
+          SOURCE="$(pwd)/$DEST"
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            if test -e "$TEMP/$DEST/SUMMARY.json"; then
+              if cmp -s "$SOURCE/SUMMARY.json" "$TEMP/$DEST/SUMMARY.json"; then
+                git worktree remove --force "$TEMP"
+                echo FORENSIC_081_EVIDENCE_ALREADY_IDENTICAL
+                exit 0
+              fi
+              git worktree remove --force "$TEMP"
+              echo 'An independent audit result exists. Refuse to overwrite.'
+              exit 1
+            fi
+            mkdir -p "$TEMP/$DEST"
+            cp "$SOURCE"/* "$TEMP/$DEST/"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            git -C "$TEMP" commit -m 'audit(duoface): preserve exact .81 vs Native12 1385-method static coverage [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo FORENSIC_081_EVIDENCE_PERSISTED_ON_GITHUB
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
