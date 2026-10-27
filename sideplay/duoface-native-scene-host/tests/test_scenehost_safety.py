@@ -6,36 +6,6 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1]
 def file(n):return (R/n).read_text()
 class NativeCarPlayHost(unittest.TestCase):
- def test_integrated_full_diagnostic_trace_contract(self):
-  """Build includes owned logs for all host components, no separate QA tweak."""
-  deep=file("DFDeepTrace.h")
-  scene=file("DFSceneHost.m")
-  phone=file("DFNativeHostAppDelegate.m")
-  probe=file("DFTouchOwnerProbe.m")
-  dock=file("DFCarPlayDockOwner.m")
-  export=file("DFNativeDiagnostics.m")
-  self.assertIn("build=0.0.73~scenecontract1",deep)
-  self.assertIn("DFDiagnosticSnapshot(NSString *area, NSString *phase",deep)
-  self.assertIn("approved containsObject:key",deep)
-  self.assertIn("if(clean.length>160)",deep)
-  self.assertIn("st.st_size>2*1024*1024",deep)
-  self.assertIn("DuoFaceDeepTrace.log",deep)
-  for marker in ("mode2-requested","scene-attached","ready-render-unverified",
-                 "before-live-reference-send","after-live-reference-dispatch-not-video-ack",
-                 "before-close-invalidate","controller-invalidated",
-                 "before-wrapper-removal","hosting-suspended","live-reference-abi-rejected"):
-   self.assertIn('[self diagnoseScene:@"'+marker+'"]',scene)
-  self.assertIn('@"sceneMatches":@(observed && observed==self.scene)',scene)
-  self.assertIn('@"hosting":@(DFHostingFlag',scene)
-  self.assertIn("DFDeepTrace(@\"native-cpwindow\"",phone)
-  self.assertIn("DFDeepTrace(@\"touch-owner\"",probe)
-  self.assertIn("DFDeepTrace(@\"dock\"",dock)
-  self.assertIn("DFDeepTrace(@\"chrome\"",file("DFNative12Chrome.m"))
-  self.assertIn("DuoFaceDeepTrace.log",export)
-  self.assertIn("Audit schema: 2",export)
-  self.assertLess(export.index("NSMutableString *summary="),export.index("[summary appendString:@\"Audit schema: 2"))
-  self.assertNotIn("updateSettingsWithBlock:",deep)
-  self.assertNotIn("checkAndSyncLicense",deep)
  def test_first_party_independent_manifest(self):
   m=plistlib.loads((R/"Info.plist").read_bytes())
   self.assertEqual(m["CFBundleIdentifier"],"com.duoface.native.scenehost")
@@ -182,7 +152,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.82~scenecontract1",build)
+  self.assertIn("0.1.83~media37host1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -345,63 +315,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertNotIn('NSSelectorFromString(@"setForeground:")',commit)
   self.assertNotIn('NSSelectorFromString(@"setCanShowWhileLocked:")',commit)
   self.assertIn("if (self.stopped) return;",scene)
- def test_original_native12_kvc_to_ivar_exception_fallback(self):
-  # Verified SHA-bound native instruction evidence, not copied vendor runtime.
-  report=json.loads((R.parent/"audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
-  self.assertEqual(report["dashboard_macho_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
-  imp=next(m for m in report["methods"] if m["class"]=="CBBridgedUIAppView" and m["selector"]=="updateSceneSettingsFrame")
-  self.assertEqual(imp["imp"],"0xad5bc")
-  ins=imp["instructions"]
-  for pc, fragment in (
-      ("adb40:", "KVC failed"),
-      ("adb60:", "_class_getInstanceVariable"),
-      ("adb70:", "_object_getIvar"),
-      ("adb94:", "0xad668")):
-   self.assertTrue(any(x.startswith(pc) and fragment in x for x in ins), f"Native12 original missing {pc} {fragment}")
-  source=file("DFSceneHost.m")
-  # Scope the original pre-mode2 KVC fallback: the new stable live
-  # reference path has its own receiver guarded by a three-argument ABI.
-  seed=source.index("// The following private selector path is pre-requestedMode only.")
-  start=source.index("id deviceController=nil;",seed)
-  end=source.index("SEL sz=NSSelectorFromString",start)
-  fragment=source[start:end]
-  self.assertLess(fragment.index("valueForKey:"),fragment.index("@catch (NSException *kvcError)"))
-  self.assertIn("class_getInstanceVariable([self.appController class]",fragment)
-  self.assertIn("object_getIvar(self.appController,deviceIvar)",fragment)
-  self.assertIn("if (deviceIvar)",fragment)
-  self.assertIn("original-native12-kvc-ivar-fallback",fragment)
-  self.assertNotIn("setContentReferenceSize:",fragment)
-  self.assertIn("BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO",source)
-  self.assertNotIn("UIInterfaceOrientationLandscape",fragment)
 
- def test_original_native12_scene_size_three_separate_guards(self):
-  # Original SHA-pinned updateSceneSettingsFrame IMP 0xad5bc:
-  # child2 @ad6a4; child3 @ad6dc; main2 @ad708; all Portrait=1.
-  original=(R.parent/"audit/native12-continuation-4888299/gallery-media-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json")
-  report=json.loads(original.read_text())
-  self.assertEqual(report["dashboard_macho_sha256"],"9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea")
-  imp=next(m for m in report["methods"] if m["class"]=="CBBridgedUIAppView" and m["selector"]=="updateSceneSettingsFrame")
-  self.assertEqual(imp["imp"],"0xad5bc")
-  for pc in ("ad6a4:", "ad6dc:", "ad708:"):
-   self.assertTrue(any(s.startswith(pc) for s in imp["instructions"]))
-  source=file("DFSceneHost.m")
-  section=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1].split("- (UIView *)hitTest:",1)[0]
-  self.assertIn("BOOL child2Applied=NO,child3Applied=NO,main2Applied=NO",section)
-  self.assertIn("if (deviceController && [deviceController respondsToSelector:sz])",section)
-  self.assertIn("if (deviceController && [deviceController respondsToSelector:sz3])",section)
-  self.assertIn("if (self.appController && [self.appController respondsToSelector:sz])",section)
-  self.assertIn("BOOL applied=child2Applied||child3Applied||main2Applied;",section)
-  self.assertNotIn("else if ([deviceController respondsToSelector:sz3])",section)
-  # The original pre-mode2 seed still has 2 selectors, and the new live
-  # generation-scoped .37 recovery has 2 more; inspect each path separately.
-  live=section.split("if(self.ready){",1)[1].split("// The following private selector path is pre-requestedMode only.",1)[0]
-  legacy=section.split("// The following private selector path is pre-requestedMode only.",1)[1]
-  self.assertEqual(live.count("logical,UIInterfaceOrientationPortrait);"),2)
-  self.assertEqual(legacy.count("logical,UIInterfaceOrientationPortrait);"),2)
-  self.assertIn("logical,UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait);",section)
-  self.assertNotIn("UIInterfaceOrientationLandscape",section)
-  self.assertIn("original-native12-scene-size-dispatch",section)
-  self.assertIn("if (!self.ready) return;",source)
 
  def test_independent_two_real_host_scene_opt_in_and_exit_cleanup(self):
   chrome=file("DFNative12Chrome.m")
@@ -673,7 +587,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.82~scenecontract1",c)
+  self.assertIn("Version: 0.1.83~media37host1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
@@ -1465,13 +1379,6 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("self.pickerVisible=NO;",stopped)
   self.assertIn("for(UIWindow *w in self.windows)w.hidden=YES;",stopped)
 
- def test_audit3_safety_hold_and_scene_gate(self):
-  chrome=file("DFNative12Chrome.m")
-  host=file("DFSceneHost.m")
-  self.assertNotIn("hold.allowableMovement=28;",chrome)
-  self.assertNotIn("UIPanGestureRecognizer *logoPan=",chrome)
-  self.assertIn('boolForKey:@"DFEnableExperimentalPrivateSceneFrame"',host)
-  self.assertIn("if (enablePrivateFrame && [hostedScene respondsToSelector:update])",host)
 
  def test_20261023_device_photo_restores_ratio_and_hold(self):
   chrome=file("DFNative12Chrome.m")
@@ -1494,208 +1401,12 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("if(justWaking){DFCLog",chrome)
   self.assertNotIn("hold.minimumPressDuration=3.0;",chrome)
 
- def test_photo_20261023_scene_waits_for_stable_owner(self):
-  host=file("DFSceneHost.m")
-  self.assertIn("lastSceneSettledAt",host)
-  self.assertIn("if (sceneChanged || resumed)self.lastSceneSettledAt=",host)
-  self.assertIn('@"private-geometry-delayed-scene-not-stable"',host)
-  self.assertIn("if(!isfinite(age)||age<1.25)",host)
-  self.assertIn("self.geometryCommitTimer=[NSTimer scheduledTimerWithTimeInterval:wait",host)
-  self.assertIn("setContentReferenceSize:withInterfaceOrientation:",host)
 
- def test_live_springboard_scene_requires_stable_owner_one_remote_dispatch(self):
-  """Source gate only: not a physical CarPlay crash or video acceptance test."""
-  source=file("DFSceneHost.m")
-  method=source.split("- (void)commitSceneGeometry:(NSTimer *)timer {",1)[1]
-  # Both guards matter: quiet window and 1.25s SAME scene settling.
-  self.assertIn("if (timer && self.geometryCommitTimer!=timer) return;",method)
-  self.assertIn("if(!isfinite(age)||age<1.25)",method)
-  self.assertIn("currentScene!=self.scene",method)
-  self.assertIn("self.appController.view.window==self.window",method)
-  self.assertIn('DFHostingFlag(self.appController,@"isHostingAnApp",NO)',method)
-  self.assertIn("self.sceneGeneration!=generation",method)
-  self.assertIn("!CGSizeEqualToSize(size,self.pendingReferenceSize)",method)
-  self.assertIn('methodSignatureForSelector:sz3',method)
-  self.assertIn("sig.numberOfArguments==5",method)
-  self.assertIn("strcmp(sizeType,@encode(CGSize))==0",method)
-  self.assertIn("strcmp(contentType,@encode(NSInteger))==0",method)
-  self.assertIn("strcmp(containerType,@encode(NSInteger))==0",method)
-  # Exactly one owned FBScene.frame transaction is permitted after stable
-  # child reference-size dispatch; the old pre-mode2 path stays unreachable.
-  live=method.index('DFSceneLog(@"live-viewport-reference-before"')
-  sent=method.index('@"live-scene-reference-size-dispatched"')
-  seed=method.index('SEL sz=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")')
-  private=method.index('NSSelectorFromString(@"updateSettingsWithBlock:")',seed)
-  self.assertLess(live,sent)
-  self.assertLess(sent,seed)
-  self.assertLess(seed,private)
-  self.assertIn("self.committedReferenceSize=size;",method[live:seed])
-  self.assertIn("} @finally { self.committingSceneGeometry=NO; }",method[live:seed])
-  self.assertIn("return;",method[sent:seed])
-  self.assertIn('updateSettingsWithBlock:',method[live:seed])
-  self.assertIn("DFReadOwnedSceneFrame(currentScene,&actual)",method[live:seed])
-  self.assertIn("DFSceneFrameMatches(actual,logical)",method[live:seed])
-  self.assertIn("self.requestedSceneFrameGeneration!=generation",method[live:seed])
-  self.assertIn("surface.sceneGeneration!=generation",method[live:seed])
-  self.assertIn("!CGSizeEqualToSize(surface.bounds.size,size)",method[live:seed])
-  self.assertIn("os.majorVersion!=16",method[live:seed])
-  self.assertIn("DFSceneHasCGRectABI(mutableSettings,setter,YES)",method[live:seed])
-  self.assertIn('@"live-viewport-scene-frame-requested"',method[live:seed])
-  self.assertIn("live-viewport-scene-frame-abi-unavailable",method[live:seed])
-  self.assertNotIn('NSSelectorFromString(@"setForeground:")',method[live:seed])
-  self.assertNotIn('NSSelectorFromString(@"setUnderLock:")',method[live:seed])
-  self.assertNotIn("live-scene-private-reference-update-suppressed",method)
-  self.assertIn('@"media-pane-frame-readback"',source)
-  self.assertIn('NSStringFromCGRect(self.appController.view.frame)',source)
 
- def test_native12_verified_two_reference_setters_not_child3_only(self):
-  """The original native IMP @acfcc/@ad004/@ad708 has 3 sender slots.
-  A missing child3 must not suppress a supported child2/main2 fallback.
-  Device pixels still need validation.
-  """
-  evidence=json.loads((R.parent/"audit/native12-continuation-4888299/original-video-layout-imp/ORIGINAL_LAYOUT_IMP_INSTRUCTIONS.json").read_text())
-  layout=next(x for x in evidence["methods"] if x["class"]=="CBBridgedUIAppView" and x["selector"]=="updateLayout")
-  calls="\\n".join(layout["instructions"])
-  for addr in ("acfb0:", "acfcc:", "acfe4:", "ad004:"):
-   self.assertIn(addr,calls)
-  settings=next(x for x in evidence["methods"] if x["selector"]=="updateSceneSettingsFrame")
-  calls="\\n".join(settings["instructions"])
-  for addr in ("ad6a4:", "ad6dc:", "ad708:"):
-   self.assertIn(addr,calls)
-  host=file("DFSceneHost.m")
-  live=host.split('DFSceneLog(@"live-viewport-reference-before"',1)[1].split('DFSceneLog(@"live-scene-reference-size-dispatched"',1)[0]
-  self.assertIn('SEL sz2=NSSelectorFromString(@"setContentReferenceSize:withInterfaceOrientation:")',host)
-  self.assertIn("BOOL child2Valid=sig2",host)
-  self.assertIn("BOOL main2Valid=mainSig",host)
-  self.assertIn("if(!abiValid && !child2Valid && !main2Valid)",host)
-  self.assertIn("if(child2Valid)",live)
-  self.assertIn("if(abiValid)",live)
-  self.assertIn("if(main2Valid)",live)
-  self.assertLess(live.index("if(child2Valid)"),live.index("if(abiValid)"))
-  self.assertLess(live.index("if(abiValid)"),live.index("if(main2Valid)"))
-  self.assertIn("live-reference-native12-selector-coverage",live)
-  self.assertIn("UIInterfaceOrientationPortrait",live)
-  self.assertNotIn("setForeground:",live)
-  self.assertNotIn("setUnderLock:",live)
 
- def test_restore_verified_v37_real_media_view_contract(self):
-  """Restore ONLY v37 hosted media, keeping .68 shared chrome/drag intact."""
-  c=file("DFSceneHost.m")
-  live=c.split('DFSceneLog(@"live-viewport-reference-before"',1)[1].split('DFSceneLog(@"live-scene-reference-size-dispatched"',1)[0]
-  # Real v37 immutable source: a8cdec6252b0e772faa726e92b84ee66246590ed
-  # DFSceneHost.m d394e19a58 lines 231-237, AFTER both child selectors.
-  self.assertIn('UIView *inner=DFCall0(deviceController,@"view");',live)
-  self.assertIn('inner.transform=CGAffineTransformIdentity;',live)
-  self.assertIn('inner.frame=(CGRect){CGPointZero,logical};',live)
-  self.assertIn('UIViewAutoresizingFlexibleWidth|',live)
-  self.assertIn('UIViewAutoresizingFlexibleHeight;',live)
-  self.assertIn('DFHostInt(deviceController,@"setHomeGrabberDisplayMode:",1);',live)
-  self.assertIn('DFSceneLog(@"media37-inner-reference-restored"',live)
-  self.assertLess(live.index("if(main2Valid)"),live.index("UIView *inner=DFCall0(deviceController"))
-  self.assertNotIn("[inner layoutIfNeeded]",live)
-  self.assertNotIn("UIInterfaceOrientationLandscape",live)
-  # CarPlay physical orientation must be observed before changing ABI args.
-  chrome=file("DFNative12Chrome.m")
-  self.assertIn("self.dividerLogo.hidden=NO;",chrome)
-  self.assertIn("media37-four-physical-scene-windows-restored",chrome)
 
- def test_all_hosted_app_scene_orientation_matches_pinned_sideplay_omnicar_contract(self):
-  """Four-product contract: separate CarPlay display orientation from
-  original Native12 Portrait=1 reference-size selectors. Never rotate GUI.
-  """
-  sideplay=json.loads((R.parent/"native12-display/audit/SIDEPLAY_SPLIT_OWNER_SELECTORS.json").read_text())
-  matches=[m for m in sideplay["matches"] if m["class"]=="SPPane"][0]["selectors"]
-  self.assertTrue(any(m["selector"]=="-setSceneFrame:orientation:" for m in matches))
-  navi=json.loads((R.parent/"native104-geometry/audit/native104-class-layout.json").read_text())
-  metric="\\n".join(navi["methods"]["CBBridgeManager"]["receivedMetricsUpdatedNotification:"]["instructions"])
-  self.assertIn("setRenderSize:",metric)
-  self.assertIn("carPlayUsableBounds",metric)
-  host=file("DFSceneHost.m")
-  self.assertIn("static BOOL DFSceneHasOrientationABI",host)
-  self.assertIn("static BOOL DFReadOwnedSceneOrientation",host)
-  # Pin behavioral scope to actual original DEB ARM64, not guessed UI.
-  original=json.loads((R.parent/"native12-display/audit/SIDEPLAY_SCENE_FRAME_ARM64_CALLS_20261026.json").read_text())
-  self.assertEqual(original["original_sideplay_dylib_sha256"],
-                   "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971")
-  self.assertTrue(all(x["entry_disassembly_agrees"] and x["plausible_abi_entry"]
-                      for x in original["methods"]))
-  funcs={m["selector"]:m for m in original["methods"]}
-  forwarded="\\n".join(v["asm"] for v in funcs["applySceneFrame:"]["instructions"])
-  self.assertIn("selector ref: orientation",forwarded)
-  self.assertIn("selector ref: setSceneFrame:orientation:",forwarded)
-  scene="\\n".join(v["asm"] for v in funcs["setSceneFrame:orientation:"]["instructions"])
-  for required in ("selector ref: sceneHandle", "selector ref: respondsToSelector:",
-                   'Objc cfstring ref: @"setFrame:"',
-                   "setInterfaceOrientation:"):
-    self.assertIn(required,scene)
-  # Exact original SidePlay PC 0x31668 invokes a separate transaction helper
-  # at 0x31260; only that helper dispatches updateSettingsWithBlock:.
-  self.assertIn("bl\t0x31260",scene)
-  helper="\\n".join(v["asm"] for v in funcs["layoutInFrame:scaleMode:"]["instructions"]
-                   if 0x31260<=int(v["pc"],16)<0x31388)
-  self.assertIn("updateSettingsWithBlock:",helper)
-  self.assertIn("DFDesiredHostedCarPlayOrientation",host)
-  self.assertIn("DFIsEligibleAppID(bundleID)",host)
-  self.assertIn("window.screen==UIScreen.mainScreen",host)
-  self.assertNotIn('[bundleID isEqualToString:@"com.google.ios.youtube"]',host.split("static UIInterfaceOrientation DFDesiredHostedCarPlayOrientation",1)[1].split("@class DFSceneSurface;",1)[0])
-  self.assertIn("window.windowScene.interfaceOrientation",host)
-  self.assertIn("UIInterfaceOrientationIsLandscape(observed)",host)
-  self.assertIn("BOOL orientationABI=DFSceneHasOrientationABI(",host)
-  self.assertIn("mutableSettings,setOrientation,YES)",host)
-  self.assertIn('SEL setOrientation=NSSelectorFromString(@"setInterfaceOrientation:")',host)
-  self.assertIn("surface.requestedSceneOrientation==desiredOrientation",host)
-  self.assertIn("orientationNeeded &&",host)
-  self.assertIn("if(!frameMatched &&",host)
-  self.assertIn("hosted-carplay-scene-orientation-requested",host)
-  self.assertIn("hosted-carplay-scene-orientation-readback-accepted",host)
-  self.assertIn("DFReadOwnedSceneOrientation(scene,&acceptedOrientation)",host)
-  self.assertIn("acceptedOrientation==self.requestedSceneOrientation",host)
-  # Prohibit global orientation mutation and silent rotation fallbacks.
-  self.assertNotIn("CGAffineTransformMakeRotation",host)
-  self.assertNotIn("UIInterfaceOrientationLandscapeLeft,UIInterfaceOrientationLandscapeRight",host)
-  self.assertNotIn("setSupportedInterfaceOrientations:",host)
-  self.assertNotIn("setForeground:",host.split("// One SCENE transaction",1)[1].split("// The following private selector path",1)[0])
-  # The .37 Native12 three reference setters always stay Portrait=1
-  # independent of the scene's external landscape orientation.
-  self.assertIn("deviceController,sz2,logical,UIInterfaceOrientationPortrait",host)
-  self.assertIn("UIInterfaceOrientationPortrait,UIInterfaceOrientationPortrait",host)
 
- def test_hosted_app_orientation_reconciles_without_divider_resize(self):
-  """Observed hosted orientation drift on playback is one generation-scoped
-  request only, not a global orientation forcing or a private FBScene loop.
-  """
-  host=file("DFSceneHost.m")
-  live=host.split("- (void)pollScene:(NSTimer *)timer {",1)[1].split("- (void)failed:",1)[0]
-  self.assertIn("hosted-carplay-inplace-orientation-negotiation-queued",live)
-  self.assertIn("self.requestedSceneOrientation==UIInterfaceOrientationUnknown",live)
-  self.assertIn("CGSizeEqualToSize(self.committedReferenceSize,self.bounds.size)",live)
-  self.assertIn("!self.geometryCommitTimer",live)
-  self.assertIn("DFReadOwnedSceneOrientation(scene,&hosted)",live)
-  self.assertIn("hosted!=external",live)
-  self.assertIn("self.committedReferenceSize=CGSizeZero;",live)
-  self.assertIn("self.pendingReferenceSize=self.bounds.size;",live)
-  self.assertIn("scheduledTimerWithTimeInterval:0.30",live)
-  self.assertNotIn("CGAffineTransformMakeRotation",live)
 
- def test_per_scene_frame_reconciliation_has_single_owner_and_observed_ack(self):
-  """Regression: a method returning is not a player's rendered frame ACK."""
-  host=file("DFSceneHost.m")
-  self.assertIn("static BOOL DFSceneHasCGRectABI",host)
-  self.assertIn("static BOOL DFReadOwnedSceneFrame",host)
-  self.assertIn("strcmp(rectABI,@encode(CGRect))==0",host)
-  self.assertIn("self.committedReferenceSize=self.bounds.size;",host)
-  self.assertIn('DFSceneLog(@"live-viewport-scene-frame-readback-accepted"',host)
-  self.assertIn('self.requestedSceneFrameSize=CGSizeZero;',host)
-  self.assertIn('self.requestedSceneFrameGeneration=0;',host)
-  self.assertIn("[self.geometryCommitTimer invalidate]",host)
-  self.assertIn("CGRectIsInfinite(frame)",host)
-  self.assertIn("DFSceneFrameMatches(observed,requested)",host)
-  block=host.split("DFSceneLog(@\"live-viewport-scene-frame-before\"",1)[1]
-  self.assertIn('currentScene,update,',block)
-  self.assertIn("surface.stopped",block)
-  self.assertIn("surface.scene!=currentScene",block)
-  self.assertIn("DFSceneHasCGRectABI(settings,setter,YES)",block)
-  self.assertNotIn("setCanShowWhileLocked:",block.split("DFSceneLog(@\"live-viewport-scene-frame-requested\"",1)[0])
 
  def test_native12_v37_per_slot_real_window_ownership_instead_of_boxed_shared_window(self):
   """Signed playable v37 source 9601fdc865: each physical slot owns

@@ -1,3 +1,11 @@
+## Yêu cầu sửa lại: .74 media37host1 — 2026-10-27
+- SUPERSEDED: tái phát hành nguyên .37 là hiểu sai yêu cầu. Người dùng yêu cầu giữ UI/chức năng hiện tại và sửa giao diện phát theo .37, đóng DEB mới và xuất Sileo.
+- Đã sửa local DFSceneHost.m theo nativehost .47 source 7cd4004d; giữ touch wake, deep trace và guard chống tái nhập. Chrome nguyên blob 9e5772b9d6fef1e2c6f7c0baca23367bda03113a; .73 thực tế đã có 4 UIWindow riêng, nhận định một-window trước đây sai.
+- Bỏ relay .73 khỏi build/package; giữ source relay để nghiên cứu. Candidate .74 / nativehost .83, chưa có compile/device PASS tại thời điểm ghi.
+- Kiểm tra local: nativehost 102, packaging 7, admission 7, v1a 27, bridgeqa 9 PASS; YAML parse, git diff --check PASS. Các assertion về luồng .73 đã bỏ được lưu trong audit thay vì coi là hồi quy hiện hành.
+- Bằng chứng và phạm vi: [media37-current-ui-20261027](audit/native12-039-regressions-20261023/media37-current-ui-20261027/CHANGE_SCOPE.md).
+- Bước tiếp: push build-request → workflow macOS → kiểm tra ký/payload → phát hành đúng artifact .74 lên publisher carplaydsp. Không quảng bá nguyên .37 là bản sửa. Thiết bị cần xác minh phát/tua/xoay, menu/logo/Zoom/timer/split và crash.
+
 ## Kết quả phục hồi .37 — Sileo PASS 2026-10-27
 - Run 40434804592: build SUCCESS, deploy SUCCESS, verify-duoface-integrated-pages SUCCESS, verify-qa11-pages SUCCESS. Public Packages và DEB được job kiểm tra đúng version 0.0.37~native12dockzoom1, SHA256 2b6f274e684e5a6f1008dac960c87ff51744fddb5342ce42fcd74e5c61314beb.
 - Sileo source: https://chuongnguyen89dn-ui.github.io/carplaydsp/

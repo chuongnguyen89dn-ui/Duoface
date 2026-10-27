@@ -10,10 +10,10 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.82~scenecontract1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.83~media37host1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.73~scenecontract1"
+VERSION="0.0.74~media37host1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -63,12 +63,9 @@ def build(expected_nativehost_sha256,expected_source_sha):
     "sha256":hashlib.sha256(archive.read_bytes()).hexdigest(),
     "payload_count":len(paths),
     "paths":paths})
-  # An app-owned UIKit reconciler must be present in the ONE integrated rootless
-  # package. An external host-only UI window cannot make apps reflow.
-  if "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.dylib" not in seen:
-   raise RuntimeError("Missing independently compiled per-app viewport receiver")
-  if "var/jb/Library/MobileSubstrate/DynamicLibraries/DFAppViewportRelay.plist" not in seen:
-   raise RuntimeError("Missing exact bundle allowlist for app renderer")
+  # .74 restores the .37 host contract; app-process relay is not shipped.
+  if any("DFAppViewportRelay" in path for path in seen):
+   raise RuntimeError("Unexpected obsolete app viewport relay in recovery package")
   # Merged DEBs lose their source maintainer scripts during dpkg-deb -x.
   # Explicitly supply minimal uicache scripts for the ONE DuoFace app.
   scripts=ROOT/"sideplay/jb-embedded-appbridge/scripts"
