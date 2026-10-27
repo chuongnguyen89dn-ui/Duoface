@@ -19,6 +19,8 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn('DFObservedSceneForeground(scene)',src)
   self.assertIn('scene-foreground-observed-only',src)
   self.assertIn('scene-foreground-readback-unavailable',src)
+  self.assertIn('0.0.80~lifecycleorder1',file("DFDeepTrace.h"))
+  self.assertIn('0.0.80~lifecycleorder1',file("DFNativeDiagnostics.m"))
   self.assertIn('self.lastObservedForeground=-2;',src)
   self.assertIn('if(fg!=self.lastObservedForeground)',src)
   self.assertNotIn('NSSelectorFromString(@"setForeground:")',src)
