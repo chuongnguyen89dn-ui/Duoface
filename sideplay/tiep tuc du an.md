@@ -2,6 +2,15 @@
 
 - User device observation: OmniCar iPhone Settings selects apps and the CarPlay picker only lists those selected. Earlier scene/zoom-only scan did not cover this feature.
 - Verified original DEB SHA256 d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd. Read-only original plist and all Mach-O selector/strings inventory; no runtime edits, builds, Sileo.
+- Audit run 40788857405 archived under sideplay/audit/omnicar-iphone-picker-20261029/runs/40788857405/REPORT.md and ORIGINAL_OMNICAR_IPHONE_PICKER.json.
+- Next: trace exact original iPhone selection prefs and in-car picker membership branch; distinguish user runtime from static selector evidence.
+
+---
+
+## 2026-10-29 — original OmniCar iPhone Settings app selection audit
+
+- User device observation: OmniCar iPhone Settings selects apps and the CarPlay picker only lists those selected. Earlier scene/zoom-only scan did not cover this feature.
+- Verified original DEB SHA256 d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd. Read-only original plist and all Mach-O selector/strings inventory; no runtime edits, builds, Sileo.
 - Audit run 40788576486 archived under sideplay/audit/omnicar-iphone-picker-20261029/runs/40788576486/REPORT.md and ORIGINAL_OMNICAR_IPHONE_PICKER.json.
 - Next: trace exact original iPhone selection prefs and in-car picker membership branch; distinguish user runtime from static selector evidence.
 

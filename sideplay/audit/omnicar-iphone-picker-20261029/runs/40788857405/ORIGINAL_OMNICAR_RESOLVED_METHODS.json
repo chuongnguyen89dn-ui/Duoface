@@ -1,0 +1,2659 @@
+{
+  "kind": "PINNED_ORIGINAL_OMNICAR_APP_MANAGER_RESOLVED_METHODS",
+  "original_deb_sha256": "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd",
+  "original_iPhone_owners": {
+    "OMCAppBridgeAppsController": {
+      "method_table": "0x5e308",
+      "method_count": 105,
+      "decoded_names": 104,
+      "methods": [
+        {
+          "name": "layoutPage",
+          "imp": "0x1c910",
+          "entry": "0x5e310"
+        },
+        {
+          "name": "shows:",
+          "imp": "0x1c918",
+          "entry": "0x5e31c"
+        },
+        {
+          "name": "loadView",
+          "imp": "0x1c944",
+          "entry": "0x5e328"
+        },
+        {
+          "name": "viewDidLoad",
+          "imp": "0x1c9c8",
+          "entry": "0x5e334"
+        },
+        {
+          "name": "viewWillAppear:",
+          "imp": "0x1cbf4",
+          "entry": "0x5e340"
+        },
+        {
+          "name": "resetAdvancedOnce",
+          "imp": "0x1cc4c",
+          "entry": "0x5e34c"
+        },
+        {
+          "name": "loadState",
+          "imp": "0x1cdd8",
+          "entry": "0x5e358"
+        },
+        {
+          "name": "carplayGuessed",
+          "imp": "0x1dd2c",
+          "entry": "0x5e364"
+        },
+        {
+          "name": "carplayIDs",
+          "imp": "0x1dd54",
+          "entry": "0x5e370"
+        },
+        {
+          "name": "locked:",
+          "imp": "0x1dfb4",
+          "entry": "0x5e37c"
+        },
+        {
+          "name": "hides:",
+          "imp": "0x1e268",
+          "entry": "0x5e388"
+        },
+        {
+          "name": "removable:",
+          "imp": "0x1e304",
+          "entry": "0x5e394"
+        },
+        {
+          "name": "rebuildRows",
+          "imp": "0x1e3a8",
+          "entry": "0x5e3a0"
+        },
+        {
+          "name": "iconFor:",
+          "imp": "0x1e7f4",
+          "entry": "0x5e3ac"
+        },
+        {
+          "name": "alert:",
+          "imp": "0x1e884",
+          "entry": "0x5e3b8"
+        },
+        {
+          "name": "storeChoices",
+          "imp": "0x1e920",
+          "entry": "0x5e3c4"
+        },
+        {
+          "name": "reloadLists",
+          "imp": "0x1eb78",
+          "entry": "0x5e3d0"
+        },
+        {
+          "name": "searchBar:textDidChange:",
+          "imp": "0x1ee74",
+          "entry": "0x5e3dc"
+        },
+        {
+          "name": "searchBarSearchButtonClicked:",
+          "imp": "0x1eeb4",
+          "entry": "0x5e3e8"
+        },
+        {
+          "name": "resetTapped",
+          "imp": "0x1eebc",
+          "entry": "0x5e3f4"
+        },
+        {
+          "name": "resetLayout",
+          "imp": "0x1f150",
+          "entry": "0x5e400"
+        },
+        {
+          "name": "updatePreview",
+          "imp": "0x1f30c",
+          "entry": "0x5e40c"
+        },
+        {
+          "name": "isOpen:",
+          "imp": "0x1f714",
+          "entry": "0x5e418"
+        },
+        {
+          "name": "reloadCard:",
+          "imp": "0x1f76c",
+          "entry": "0x5e424"
+        },
+        {
+          "name": "wallName:",
+          "imp": "0x1f7e8",
+          "entry": "0x5e430"
+        },
+        {
+          "name": "summaryFor:",
+          "imp": "0x1f858",
+          "entry": "0x5e43c"
+        },
+        {
+          "name": "updateHeaders",
+          "imp": "0x1f890",
+          "entry": "0x5e448"
+        },
+        {
+          "name": "headerCellFor:inTable:",
+          "imp": "0x1fa34",
+          "entry": "0x5e454"
+        },
+        {
+          "name": "numberOfSectionsInTableView:",
+          "imp": "0x1fd80",
+          "entry": "0x5e460"
+        },
+        {
+          "name": "tableView:numberOfRowsInSection:",
+          "imp": "0x1fd88",
+          "entry": "0x5e46c"
+        },
+        {
+          "name": "tableView:titleForFooterInSection:",
+          "imp": "0x1fe48",
+          "entry": "0x5e478"
+        },
+        {
+          "name": "tableView:titleForHeaderInSection:",
+          "imp": "0x1ffa4",
+          "entry": "0x5e484"
+        },
+        {
+          "name": "tableView:willDisplayHeaderView:forSection:",
+          "imp": "0x20084",
+          "entry": "0x5e490"
+        },
+        {
+          "name": "tableView:heightForHeaderInSection:",
+          "imp": "0x20090",
+          "entry": "0x5e49c"
+        },
+        {
+          "name": "tableView:heightForFooterInSection:",
+          "imp": "0x200c4",
+          "entry": "0x5e4a8"
+        },
+        {
+          "name": "tableView:willDisplayFooterView:forSection:",
+          "imp": "0x200f8",
+          "entry": "0x5e4b4"
+        },
+        {
+          "name": "tableView:heightForRowAtIndexPath:",
+          "imp": "0x20104",
+          "entry": "0x5e4c0"
+        },
+        {
+          "name": "appAt:",
+          "imp": "0x20244",
+          "entry": "0x5e4cc"
+        },
+        {
+          "name": "tableView:canEditRowAtIndexPath:",
+          "imp": "0x20338",
+          "entry": "0x5e4d8"
+        },
+        {
+          "name": "tableView:canMoveRowAtIndexPath:",
+          "imp": "0x20370",
+          "entry": "0x5e4e4"
+        },
+        {
+          "name": "tableView:shouldIndentWhileEditingRowAtIndexPath:",
+          "imp": "0x20378",
+          "entry": "0x5e4f0"
+        },
+        {
+          "name": "tableView:editingStyleForRowAtIndexPath:",
+          "imp": "0x203b0",
+          "entry": "0x5e4fc"
+        },
+        {
+          "name": "tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:",
+          "imp": "0x20440",
+          "entry": "0x5e508"
+        },
+        {
+          "name": "tableView:commitEditingStyle:forRowAtIndexPath:",
+          "imp": "0x2044c",
+          "entry": "0x5e514"
+        },
+        {
+          "name": "cellWithId:inTable:",
+          "imp": "0x205ac",
+          "entry": "0x5e520"
+        },
+        {
+          "name": "tableView:cellForRowAtIndexPath:",
+          "imp": "0x206e4",
+          "entry": "0x5e52c"
+        },
+        {
+          "name": "appCell:inTable:",
+          "imp": "0x21214",
+          "entry": "0x5e538"
+        },
+        {
+          "name": "tableView:didSelectRowAtIndexPath:",
+          "imp": "0x214b0",
+          "entry": "0x5e544"
+        },
+        {
+          "name": "num:def:",
+          "imp": "0x215e4",
+          "entry": "0x5e550"
+        },
+        {
+          "name": "setAccessory:onCell:",
+          "imp": "0x21640",
+          "entry": "0x5e55c"
+        },
+        {
+          "name": "sliderFor:min:max:def:unit:",
+          "imp": "0x21694",
+          "entry": "0x5e568"
+        },
+        {
+          "name": "stepperFor:values:",
+          "imp": "0x21970",
+          "entry": "0x5e574"
+        },
+        {
+          "name": "showStep:",
+          "imp": "0x21c68",
+          "entry": "0x5e580"
+        },
+        {
+          "name": "stepped:",
+          "imp": "0x21da8",
+          "entry": "0x5e58c"
+        },
+        {
+          "name": "namesSwitched:",
+          "imp": "0x21ef0",
+          "entry": "0x5e598"
+        },
+        {
+          "name": "sliderMoved:",
+          "imp": "0x21f50",
+          "entry": "0x5e5a4"
+        },
+        {
+          "name": "sliderDone:",
+          "imp": "0x220a8",
+          "entry": "0x5e5b0"
+        },
+        {
+          "name": "smallButton:tint:action:bundle:",
+          "imp": "0x22164",
+          "entry": "0x5e5bc"
+        },
+        {
+          "name": "boxInCell:",
+          "imp": "0x22284",
+          "entry": "0x5e5c8"
+        },
+        {
+          "name": "layoutTilesIn:width:",
+          "imp": "0x22368",
+          "entry": "0x5e5d4"
+        },
+        {
+          "name": "tileTapped:",
+          "imp": "0x22ee0",
+          "entry": "0x5e5e0"
+        },
+        {
+          "name": "useStyle:",
+          "imp": "0x22f0c",
+          "entry": "0x5e5ec"
+        },
+        {
+          "name": "pickPhoto",
+          "imp": "0x231e0",
+          "entry": "0x5e5f8"
+        },
+        {
+          "name": "writeJPEG:to:",
+          "imp": "0x23328",
+          "entry": "0x5e604"
+        },
+        {
+          "name": "useWallpaper:",
+          "imp": "0x23504",
+          "entry": "0x5e610"
+        },
+        {
+          "name": "useVideo:",
+          "imp": "0x237a4",
+          "entry": "0x5e61c"
+        },
+        {
+          "name": "imagePickerController:didFinishPickingMediaWithInfo:",
+          "imp": "0x2435c",
+          "entry": "0x5e628"
+        },
+        {
+          "name": "imagePickerControllerDidCancel:",
+          "imp": "0x24488",
+          "entry": "0x5e634"
+        },
+        {
+          "name": "table",
+          "imp": "0x24498",
+          "entry": "0x5e640"
+        },
+        {
+          "name": "setTable:",
+          "imp": "0x244a8",
+          "entry": "0x5e64c"
+        },
+        {
+          "name": "preview",
+          "imp": "0x244e8",
+          "entry": "0x5e658"
+        },
+        {
+          "name": "setPreview:",
+          "imp": "0x244f8",
+          "entry": "0x5e664"
+        },
+        {
+          "name": "phoneApps",
+          "imp": "0x24538",
+          "entry": "0x5e670"
+        },
+        {
+          "name": "setPhoneApps:",
+          "imp": "0x24548",
+          "entry": "0x5e67c"
+        },
+        {
+          "name": "carplayApps",
+          "imp": "0x24588",
+          "entry": "0x5e688"
+        },
+        {
+          "name": "setCarplayApps:",
+          "imp": "0x24598",
+          "entry": "0x5e694"
+        },
+        {
+          "name": "guessApps",
+          "imp": "0x245d8",
+          "entry": "0x5e6a0"
+        },
+        {
+          "name": "setGuessApps:",
+          "imp": "0x245e8",
+          "entry": "0x5e6ac"
+        },
+        {
+          "name": "included",
+          "imp": "0x24628",
+          "entry": "0x5e6b8"
+        },
+        {
+          "name": "setIncluded:",
+          "imp": "0x24638",
+          "entry": "0x5e6c4"
+        },
+        {
+          "name": "other",
+          "imp": "0x24678",
+          "entry": "0x5e6d0"
+        },
+        {
+          "name": "setOther:",
+          "imp": "0x24688",
+          "entry": "0x5e6dc"
+        },
+        {
+          "name": "shown",
+          "imp": "0x246c8",
+          "entry": "0x5e6e8"
+        },
+        {
+          "name": "setShown:",
+          "imp": "0x246d8",
+          "entry": "0x5e6f4"
+        },
+        {
+          "name": "iosOff",
+          "imp": "0x24718",
+          "entry": "0x5e700"
+        },
+        {
+          "name": "setIosOff:",
+          "imp": "0x24728",
+          "entry": "0x5e70c"
+        },
+        {
+          "name": "chosen",
+          "imp": "0x24768",
+          "entry": "0x5e718"
+        },
+        {
+          "name": "setChosen:",
+          "imp": "0x24778",
+          "entry": "0x5e724"
+        },
+        {
+          "name": "hidden",
+          "imp": "0x247b8",
+          "entry": "0x5e730"
+        },
+        {
+          "name": "setHidden:",
+          "imp": "0x247c8",
+          "entry": "0x5e73c"
+        },
+        {
+          "name": "open",
+          "imp": "0x24808",
+          "entry": "0x5e748"
+        },
+        {
+          "name": "setOpen:",
+          "imp": "0x24818",
+          "entry": "0x5e754"
+        },
+        {
+          "name": "query",
+          "imp": "0x24858",
+          "entry": "0x5e760"
+        },
+        {
+          "name": "setQuery:",
+          "imp": "0x24868",
+          "entry": "0x5e76c"
+        },
+        {
+          "name": "wallpaper",
+          "imp": "0x24874",
+          "entry": "0x5e778"
+        },
+        {
+          "name": "setWallpaper:",
+          "imp": "0x24884",
+          "entry": "0x5e784"
+        },
+        {
+          "name": "photo",
+          "imp": "0x248c4",
+          "entry": "0x5e790"
+        },
+        {
+          "name": "setPhoto:",
+          "imp": "0x248d4",
+          "entry": "0x5e79c"
+        },
+        {
+          "name": "videoThumb",
+          "imp": "0x24914",
+          "entry": "0x5e7a8"
+        },
+        {
+          "name": "setVideoThumb:",
+          "imp": "0x24924",
+          "entry": "0x5e7b4"
+        },
+        {
+          "name": "wallStyle",
+          "imp": "0x24964",
+          "entry": "0x5e7c0"
+        },
+        {
+          "name": "setWallStyle:",
+          "imp": "0x24974",
+          "entry": "0x5e7cc"
+        },
+        {
+          "name": "icons",
+          "imp": "0x24984",
+          "entry": "0x5e7d8"
+        },
+        {
+          "name": "setIcons:",
+          "imp": "0x24994",
+          "entry": "0x5e7e4"
+        },
+        {
+          "name": null,
+          "imp": "0x249d4",
+          "entry": "0x5e7f0"
+        }
+      ]
+    },
+    "OMCRootListController": {
+      "method_table": "0x5ef80",
+      "method_count": 30,
+      "decoded_names": 29,
+      "methods": [
+        {
+          "name": "specifiers",
+          "imp": "0x155d0",
+          "entry": "0x5ef88"
+        },
+        {
+          "name": "currentSupportState",
+          "imp": "0x15660",
+          "entry": "0x5ef94"
+        },
+        {
+          "name": "applySupportState",
+          "imp": "0x1586c",
+          "entry": "0x5efa0"
+        },
+        {
+          "name": "insertFeatureSpecifiers",
+          "imp": "0x15d38",
+          "entry": "0x5efac"
+        },
+        {
+          "name": "viewDidLoad",
+          "imp": "0x165cc",
+          "entry": "0x5efb8"
+        },
+        {
+          "name": "viewWillAppear:",
+          "imp": "0x16744",
+          "entry": "0x5efc4"
+        },
+        {
+          "name": "traitCollectionDidChange:",
+          "imp": "0x16838",
+          "entry": "0x5efd0"
+        },
+        {
+          "name": "viewDidAppear:",
+          "imp": "0x168fc",
+          "entry": "0x5efdc"
+        },
+        {
+          "name": "applyLanguage",
+          "imp": "0x169bc",
+          "entry": "0x5efe8"
+        },
+        {
+          "name": "languageButton",
+          "imp": "0x16b90",
+          "entry": "0x5eff4"
+        },
+        {
+          "name": "setLanguage:",
+          "imp": "0x16f54",
+          "entry": "0x5f000"
+        },
+        {
+          "name": "headerView",
+          "imp": "0x16fb8",
+          "entry": "0x5f00c"
+        },
+        {
+          "name": "updateHeaderStatus",
+          "imp": "0x170cc",
+          "entry": "0x5f018"
+        },
+        {
+          "name": "updateHeaderStatusEnabled:",
+          "imp": "0x170f4",
+          "entry": "0x5f024"
+        },
+        {
+          "name": "masterToggled:",
+          "imp": "0x171f8",
+          "entry": "0x5f030"
+        },
+        {
+          "name": "tableView:cellForRowAtIndexPath:",
+          "imp": "0x17290",
+          "entry": "0x5f03c"
+        },
+        {
+          "name": "tableView:willDisplayHeaderView:forSection:",
+          "imp": "0x172e0",
+          "entry": "0x5f048"
+        },
+        {
+          "name": "tableView:willDisplayFooterView:forSection:",
+          "imp": "0x1738c",
+          "entry": "0x5f054"
+        },
+        {
+          "name": "showMessage:",
+          "imp": "0x17438",
+          "entry": "0x5f060"
+        },
+        {
+          "name": "sendLog",
+          "imp": "0x174f8",
+          "entry": "0x5f06c"
+        },
+        {
+          "name": "showGuide",
+          "imp": "0x17500",
+          "entry": "0x5f078"
+        },
+        {
+          "name": "showWhatsNew",
+          "imp": "0x17654",
+          "entry": "0x5f084"
+        },
+        {
+          "name": "rescueRestore",
+          "imp": "0x176c4",
+          "entry": "0x5f090"
+        },
+        {
+          "name": "respring",
+          "imp": "0x1772c",
+          "entry": "0x5f09c"
+        },
+        {
+          "name": "performRespring",
+          "imp": "0x17924",
+          "entry": "0x5f0a8"
+        },
+        {
+          "name": "headerCard",
+          "imp": "0x17928",
+          "entry": "0x5f0b4"
+        },
+        {
+          "name": "setHeaderCard:",
+          "imp": "0x17938",
+          "entry": "0x5f0c0"
+        },
+        {
+          "name": "supportState",
+          "imp": "0x17978",
+          "entry": "0x5f0cc"
+        },
+        {
+          "name": "setSupportState:",
+          "imp": "0x17988",
+          "entry": "0x5f0d8"
+        },
+        {
+          "name": null,
+          "imp": "0x17994",
+          "entry": "0x5f0e4"
+        }
+      ]
+    },
+    "OMCHomeScreenController": {
+      "method_table": "0x5ed70",
+      "method_count": 1,
+      "decoded_names": 1,
+      "methods": [
+        {
+          "name": "layoutPage",
+          "imp": "0x24b40",
+          "entry": "0x5ed78"
+        }
+      ]
+    },
+    "OMCSplitScreenAppPickerController": {
+      "method_table": "0x5f580",
+      "method_count": 19,
+      "decoded_names": 18,
+      "methods": [
+        {
+          "name": "loadView",
+          "imp": "0x363b0",
+          "entry": "0x5f588"
+        },
+        {
+          "name": "viewDidLoad",
+          "imp": "0x36438",
+          "entry": "0x5f594"
+        },
+        {
+          "name": "currentValue",
+          "imp": "0x36cc8",
+          "entry": "0x5f5a0"
+        },
+        {
+          "name": "rowsInSection:",
+          "imp": "0x36d64",
+          "entry": "0x5f5ac"
+        },
+        {
+          "name": "numberOfSectionsInTableView:",
+          "imp": "0x36da8",
+          "entry": "0x5f5b8"
+        },
+        {
+          "name": "tableView:numberOfRowsInSection:",
+          "imp": "0x36db0",
+          "entry": "0x5f5c4"
+        },
+        {
+          "name": "tableView:titleForHeaderInSection:",
+          "imp": "0x36dfc",
+          "entry": "0x5f5d0"
+        },
+        {
+          "name": "tableView:titleForFooterInSection:",
+          "imp": "0x36e6c",
+          "entry": "0x5f5dc"
+        },
+        {
+          "name": "tableView:cellForRowAtIndexPath:",
+          "imp": "0x36f18",
+          "entry": "0x5f5e8"
+        },
+        {
+          "name": "tableView:didSelectRowAtIndexPath:",
+          "imp": "0x37444",
+          "entry": "0x5f5f4"
+        },
+        {
+          "name": "table",
+          "imp": "0x37754",
+          "entry": "0x5f600"
+        },
+        {
+          "name": "setTable:",
+          "imp": "0x37764",
+          "entry": "0x5f60c"
+        },
+        {
+          "name": "carPlayApps",
+          "imp": "0x377a4",
+          "entry": "0x5f618"
+        },
+        {
+          "name": "setCarPlayApps:",
+          "imp": "0x377b4",
+          "entry": "0x5f624"
+        },
+        {
+          "name": "phoneApps",
+          "imp": "0x377f4",
+          "entry": "0x5f630"
+        },
+        {
+          "name": "setPhoneApps:",
+          "imp": "0x37804",
+          "entry": "0x5f63c"
+        },
+        {
+          "name": "fromCar",
+          "imp": "0x37844",
+          "entry": "0x5f648"
+        },
+        {
+          "name": "setFromCar:",
+          "imp": "0x37854",
+          "entry": "0x5f654"
+        },
+        {
+          "name": null,
+          "imp": "0x37864",
+          "entry": "0x5f660"
+        }
+      ]
+    }
+  },
+  "original_CarPlay_owners": {
+    "SCPCarSplit": {
+      "method_table": "0x5d0b0",
+      "method_count": 368,
+      "decoded_names": 367,
+      "methods": [
+        {
+          "name": "init",
+          "imp": "0xfe64",
+          "entry": "0x5d0b8"
+        },
+        {
+          "name": "isCarPlayApp:",
+          "imp": "0xff20",
+          "entry": "0x5d0c4"
+        },
+        {
+          "name": "displayNameFor:",
+          "imp": "0x1029c",
+          "entry": "0x5d0d0"
+        },
+        {
+          "name": "vertical",
+          "imp": "0x10504",
+          "entry": "0x5d0dc"
+        },
+        {
+          "name": "allPanes",
+          "imp": "0x10604",
+          "entry": "0x5d0e8"
+        },
+        {
+          "name": "paneAtSlot:",
+          "imp": "0x106f0",
+          "entry": "0x5d0f4"
+        },
+        {
+          "name": "validSlot:",
+          "imp": "0x107cc",
+          "entry": "0x5d100"
+        },
+        {
+          "name": "paneForBundle:",
+          "imp": "0x10800",
+          "entry": "0x5d10c"
+        },
+        {
+          "name": "purgePending",
+          "imp": "0x109d8",
+          "entry": "0x5d118"
+        },
+        {
+          "name": "pendingSlotForBundle:",
+          "imp": "0x10c88",
+          "entry": "0x5d124"
+        },
+        {
+          "name": "slotOccupied:",
+          "imp": "0x10df4",
+          "entry": "0x5d130"
+        },
+        {
+          "name": "paneCount",
+          "imp": "0x10fac",
+          "entry": "0x5d13c"
+        },
+        {
+          "name": "mainStack",
+          "imp": "0x10ffc",
+          "entry": "0x5d148"
+        },
+        {
+          "name": "mainRight",
+          "imp": "0x1104c",
+          "entry": "0x5d154"
+        },
+        {
+          "name": "layoutID",
+          "imp": "0x11080",
+          "entry": "0x5d160"
+        },
+        {
+          "name": "dividerRunsHorizontally:",
+          "imp": "0x110cc",
+          "entry": "0x5d16c"
+        },
+        {
+          "name": "mainStackFrameForSlot:inArea:",
+          "imp": "0x11110",
+          "entry": "0x5d178"
+        },
+        {
+          "name": "leftMainStackFrameForSlot:inArea:",
+          "imp": "0x1122c",
+          "entry": "0x5d184"
+        },
+        {
+          "name": "fractionAt:",
+          "imp": "0x11374",
+          "entry": "0x5d190"
+        },
+        {
+          "name": "slotIsPinned:",
+          "imp": "0x11478",
+          "entry": "0x5d19c"
+        },
+        {
+          "name": "autoSlot",
+          "imp": "0x115a0",
+          "entry": "0x5d1a8"
+        },
+        {
+          "name": "frameForSlot:",
+          "imp": "0x11674",
+          "entry": "0x5d1b4"
+        },
+        {
+          "name": "innerCornersForSlot:",
+          "imp": "0x118d8",
+          "entry": "0x5d1c0"
+        },
+        {
+          "name": "neighbourCornersForSlot:",
+          "imp": "0x11a04",
+          "entry": "0x5d1cc"
+        },
+        {
+          "name": "dividersVisible",
+          "imp": "0x11b50",
+          "entry": "0x5d1d8"
+        },
+        {
+          "name": "dividerFrameAt:",
+          "imp": "0x11ba0",
+          "entry": "0x5d1e4"
+        },
+        {
+          "name": "appAreaInParent:",
+          "imp": "0x11dfc",
+          "entry": "0x5d1f0"
+        },
+        {
+          "name": "ensureContainer",
+          "imp": "0x12718",
+          "entry": "0x5d1fc"
+        },
+        {
+          "name": "newPane",
+          "imp": "0x13040",
+          "entry": "0x5d208"
+        },
+        {
+          "name": "flashFocusOnPane:",
+          "imp": "0x13314",
+          "entry": "0x5d214"
+        },
+        {
+          "name": "insertPaneAt:",
+          "imp": "0x135e4",
+          "entry": "0x5d220"
+        },
+        {
+          "name": "floatDockBack",
+          "imp": "0x139dc",
+          "entry": "0x5d22c"
+        },
+        {
+          "name": "reindexPanes",
+          "imp": "0x14154",
+          "entry": "0x5d238"
+        },
+        {
+          "name": "resetFractions",
+          "imp": "0x14200",
+          "entry": "0x5d244"
+        },
+        {
+          "name": "normalizeFractions",
+          "imp": "0x1437c",
+          "entry": "0x5d250"
+        },
+        {
+          "name": "rebuildDividers",
+          "imp": "0x14600",
+          "entry": "0x5d25c"
+        },
+        {
+          "name": "setPaneCount:",
+          "imp": "0x147e0",
+          "entry": "0x5d268"
+        },
+        {
+          "name": "removePaneAt:background:",
+          "imp": "0x149a8",
+          "entry": "0x5d274"
+        },
+        {
+          "name": "switchToLayout:",
+          "imp": "0x15000",
+          "entry": "0x5d280"
+        },
+        {
+          "name": "showPickersForEmptySlots",
+          "imp": "0x15648",
+          "entry": "0x5d28c"
+        },
+        {
+          "name": "raise",
+          "imp": "0x156a4",
+          "entry": "0x5d298"
+        },
+        {
+          "name": "publishBusy",
+          "imp": "0x15834",
+          "entry": "0x5d2a4"
+        },
+        {
+          "name": "rootDidLayout",
+          "imp": "0x15984",
+          "entry": "0x5d2b0"
+        },
+        {
+          "name": "activate",
+          "imp": "0x15c24",
+          "entry": "0x5d2bc"
+        },
+        {
+          "name": "activateWithLayout:",
+          "imp": "0x15c2c",
+          "entry": "0x5d2c8"
+        },
+        {
+          "name": "activateWithCount:",
+          "imp": "0x15cdc",
+          "entry": "0x5d2d4"
+        },
+        {
+          "name": "openApp:slot:",
+          "imp": "0x164d4",
+          "entry": "0x5d2e0"
+        },
+        {
+          "name": "sendLaunch:bundle:tries:",
+          "imp": "0x16e04",
+          "entry": "0x5d2ec"
+        },
+        {
+          "name": "recoverPending:attempt:",
+          "imp": "0x1734c",
+          "entry": "0x5d2f8"
+        },
+        {
+          "name": "launchFailed:slot:",
+          "imp": "0x17e70",
+          "entry": "0x5d304"
+        },
+        {
+          "name": "killAppSoon:",
+          "imp": "0x180dc",
+          "entry": "0x5d310"
+        },
+        {
+          "name": "openPairLeft:right:",
+          "imp": "0x183a8",
+          "entry": "0x5d31c"
+        },
+        {
+          "name": "openAppsInOrder:",
+          "imp": "0x1869c",
+          "entry": "0x5d328"
+        },
+        {
+          "name": "wantsViewController:",
+          "imp": "0x18af0",
+          "entry": "0x5d334"
+        },
+        {
+          "name": "isAdoptableViewController:",
+          "imp": "0x18b5c",
+          "entry": "0x5d340"
+        },
+        {
+          "name": "adoptViewController:",
+          "imp": "0x18d20",
+          "entry": "0x5d34c"
+        },
+        {
+          "name": "adopt:slot:",
+          "imp": "0x1942c",
+          "entry": "0x5d358"
+        },
+        {
+          "name": "repairPresentedViewController:",
+          "imp": "0x19e04",
+          "entry": "0x5d364"
+        },
+        {
+          "name": "rememberRecent",
+          "imp": "0x1a3d0",
+          "entry": "0x5d370"
+        },
+        {
+          "name": "rememberPair",
+          "imp": "0x1a624",
+          "entry": "0x5d37c"
+        },
+        {
+          "name": "detachVC:background:",
+          "imp": "0x1a77c",
+          "entry": "0x5d388"
+        },
+        {
+          "name": "protectsViewController:",
+          "imp": "0x1a960",
+          "entry": "0x5d394"
+        },
+        {
+          "name": "sceneOfViewController:",
+          "imp": "0x1aaf4",
+          "entry": "0x5d3a0"
+        },
+        {
+          "name": "scene:destroyedForViewController:ownScene:",
+          "imp": "0x1ad58",
+          "entry": "0x5d3ac"
+        },
+        {
+          "name": "paneSize:forBundle:",
+          "imp": "0x1b328",
+          "entry": "0x5d3b8"
+        },
+        {
+          "name": "relayoutAnimated:",
+          "imp": "0x1b444",
+          "entry": "0x5d3c4"
+        },
+        {
+          "name": "relayoutAnimated:pushScenes:",
+          "imp": "0x1b44c",
+          "entry": "0x5d3d0"
+        },
+        {
+          "name": "pushSceneSizes",
+          "imp": "0x1c550",
+          "entry": "0x5d3dc"
+        },
+        {
+          "name": "verifySceneOfPane:expected:retry:",
+          "imp": "0x1cce0",
+          "entry": "0x5d3e8"
+        },
+        {
+          "name": "swapSlot:with:",
+          "imp": "0x1d494",
+          "entry": "0x5d3f4"
+        },
+        {
+          "name": "closeSlot:background:",
+          "imp": "0x1d9b8",
+          "entry": "0x5d400"
+        },
+        {
+          "name": "afterPaneRemoved:",
+          "imp": "0x1db48",
+          "entry": "0x5d40c"
+        },
+        {
+          "name": "soloBundle:",
+          "imp": "0x1e33c",
+          "entry": "0x5d418"
+        },
+        {
+          "name": "ensureFloatPane",
+          "imp": "0x1f040",
+          "entry": "0x5d424"
+        },
+        {
+          "name": "floatSizeLarge:",
+          "imp": "0x1f5a4",
+          "entry": "0x5d430"
+        },
+        {
+          "name": "floatHandleDoubleTapped:",
+          "imp": "0x1f678",
+          "entry": "0x5d43c"
+        },
+        {
+          "name": "toggleFloatSize",
+          "imp": "0x1f67c",
+          "entry": "0x5d448"
+        },
+        {
+          "name": "fitFloatFrame",
+          "imp": "0x1f9d8",
+          "entry": "0x5d454"
+        },
+        {
+          "name": "closeFloat:",
+          "imp": "0x1fb1c",
+          "entry": "0x5d460"
+        },
+        {
+          "name": "popOutBlockReason:",
+          "imp": "0x20054",
+          "entry": "0x5d46c"
+        },
+        {
+          "name": "canPopOutPane:",
+          "imp": "0x201bc",
+          "entry": "0x5d478"
+        },
+        {
+          "name": "panePopOut:",
+          "imp": "0x201f0",
+          "entry": "0x5d484"
+        },
+        {
+          "name": "popOutPane:",
+          "imp": "0x20244",
+          "entry": "0x5d490"
+        },
+        {
+          "name": "floatPanned:",
+          "imp": "0x20a30",
+          "entry": "0x5d49c"
+        },
+        {
+          "name": "showSoloCoverForBundle:",
+          "imp": "0x20d8c",
+          "entry": "0x5d4a8"
+        },
+        {
+          "name": "hideSoloCover",
+          "imp": "0x21390",
+          "entry": "0x5d4b4"
+        },
+        {
+          "name": "baseViewControllerPresented",
+          "imp": "0x214b8",
+          "entry": "0x5d4c0"
+        },
+        {
+          "name": "closeApp:",
+          "imp": "0x215a4",
+          "entry": "0x5d4cc"
+        },
+        {
+          "name": "closeGoingHome:",
+          "imp": "0x21618",
+          "entry": "0x5d4d8"
+        },
+        {
+          "name": "publishCarPlayApps",
+          "imp": "0x21b1c",
+          "entry": "0x5d4e4"
+        },
+        {
+          "name": "dashboardInvalidated",
+          "imp": "0x22724",
+          "entry": "0x5d4f0"
+        },
+        {
+          "name": "setupBarForPane:",
+          "imp": "0x22adc",
+          "entry": "0x5d4fc"
+        },
+        {
+          "name": "paneForView:",
+          "imp": "0x23914",
+          "entry": "0x5d508"
+        },
+        {
+          "name": "handleShiftForPane:",
+          "imp": "0x23ab4",
+          "entry": "0x5d514"
+        },
+        {
+          "name": "layoutBarForPane:",
+          "imp": "0x23b9c",
+          "entry": "0x5d520"
+        },
+        {
+          "name": "setBarVisible:forPane:",
+          "imp": "0x241fc",
+          "entry": "0x5d52c"
+        },
+        {
+          "name": "urlLayout:",
+          "imp": "0x24dc8",
+          "entry": "0x5d538"
+        },
+        {
+          "name": "urlRatio:",
+          "imp": "0x24e44",
+          "entry": "0x5d544"
+        },
+        {
+          "name": "urlSwap",
+          "imp": "0x24f98",
+          "entry": "0x5d550"
+        },
+        {
+          "name": "urlZoomPane:",
+          "imp": "0x24ff0",
+          "entry": "0x5d55c"
+        },
+        {
+          "name": "handleDoubleTapped:",
+          "imp": "0x25048",
+          "entry": "0x5d568"
+        },
+        {
+          "name": "toggleZoomForPane:",
+          "imp": "0x251b0",
+          "entry": "0x5d574"
+        },
+        {
+          "name": "handleTapped:",
+          "imp": "0x253e4",
+          "entry": "0x5d580"
+        },
+        {
+          "name": "hideBarsForTouchOn:",
+          "imp": "0x25558",
+          "entry": "0x5d58c"
+        },
+        {
+          "name": "bridgeOutsideTouched",
+          "imp": "0x257e8",
+          "entry": "0x5d598"
+        },
+        {
+          "name": "popupOpen",
+          "imp": "0x257ec",
+          "entry": "0x5d5a4"
+        },
+        {
+          "name": "closePopups",
+          "imp": "0x25894",
+          "entry": "0x5d5b0"
+        },
+        {
+          "name": "shieldExemptRects",
+          "imp": "0x25a4c",
+          "entry": "0x5d5bc"
+        },
+        {
+          "name": "shieldExemptPoint:",
+          "imp": "0x26070",
+          "entry": "0x5d5c8"
+        },
+        {
+          "name": "refreshShieldHoles",
+          "imp": "0x261b0",
+          "entry": "0x5d5d4"
+        },
+        {
+          "name": "panelOpen",
+          "imp": "0x26394",
+          "entry": "0x5d5e0"
+        },
+        {
+          "name": "updatePopupShield",
+          "imp": "0x26424",
+          "entry": "0x5d5ec"
+        },
+        {
+          "name": "handlePanned:",
+          "imp": "0x26834",
+          "entry": "0x5d5f8"
+        },
+        {
+          "name": "beginPaneDrag:at:",
+          "imp": "0x26a98",
+          "entry": "0x5d604"
+        },
+        {
+          "name": "movePaneDragTo:from:",
+          "imp": "0x27494",
+          "entry": "0x5d610"
+        },
+        {
+          "name": "endPaneDrag:",
+          "imp": "0x27a18",
+          "entry": "0x5d61c"
+        },
+        {
+          "name": "clearPaneDragMarks",
+          "imp": "0x27e34",
+          "entry": "0x5d628"
+        },
+        {
+          "name": "cancelPaneDrag",
+          "imp": "0x27fcc",
+          "entry": "0x5d634"
+        },
+        {
+          "name": "hideTrayWindowIfIdle",
+          "imp": "0x28180",
+          "entry": "0x5d640"
+        },
+        {
+          "name": "bridgeHandleDrag:",
+          "imp": "0x28260",
+          "entry": "0x5d64c"
+        },
+        {
+          "name": "floatDragPhase:at:",
+          "imp": "0x284e8",
+          "entry": "0x5d658"
+        },
+        {
+          "name": "paneSolo:",
+          "imp": "0x287b8",
+          "entry": "0x5d664"
+        },
+        {
+          "name": "runSoloForPane:",
+          "imp": "0x288c0",
+          "entry": "0x5d670"
+        },
+        {
+          "name": "paneBackground:",
+          "imp": "0x28a30",
+          "entry": "0x5d67c"
+        },
+        {
+          "name": "runBackgroundForPane:",
+          "imp": "0x28b38",
+          "entry": "0x5d688"
+        },
+        {
+          "name": "showBackgroundToastFor:slot:",
+          "imp": "0x28c48",
+          "entry": "0x5d694"
+        },
+        {
+          "name": "paneChoose:",
+          "imp": "0x29f28",
+          "entry": "0x5d6a0"
+        },
+        {
+          "name": "paneClose:",
+          "imp": "0x2a0e0",
+          "entry": "0x5d6ac"
+        },
+        {
+          "name": "runCloseForPane:",
+          "imp": "0x2a1e8",
+          "entry": "0x5d6b8"
+        },
+        {
+          "name": "addCoverToPane:",
+          "imp": "0x2a2e8",
+          "entry": "0x5d6c4"
+        },
+        {
+          "name": "removeCoverFromPane:",
+          "imp": "0x2a668",
+          "entry": "0x5d6d0"
+        },
+        {
+          "name": "showLoaderInPane:bundle:",
+          "imp": "0x2a7b8",
+          "entry": "0x5d6dc"
+        },
+        {
+          "name": "loaderCancelTapped:",
+          "imp": "0x2b980",
+          "entry": "0x5d6e8"
+        },
+        {
+          "name": "removeLoaderFromPane:animated:",
+          "imp": "0x2bbb4",
+          "entry": "0x5d6f4"
+        },
+        {
+          "name": "markDismissSlot:",
+          "imp": "0x2be00",
+          "entry": "0x5d700"
+        },
+        {
+          "name": "beginResize",
+          "imp": "0x2c128",
+          "entry": "0x5d70c"
+        },
+        {
+          "name": "endResize",
+          "imp": "0x2c25c",
+          "entry": "0x5d718"
+        },
+        {
+          "name": "newDividerAt:",
+          "imp": "0x2c4c0",
+          "entry": "0x5d724"
+        },
+        {
+          "name": "layoutKnobOf:",
+          "imp": "0x2c848",
+          "entry": "0x5d730"
+        },
+        {
+          "name": "dividerPanned:",
+          "imp": "0x2d05c",
+          "entry": "0x5d73c"
+        },
+        {
+          "name": "dividerPan:state:location:translation:",
+          "imp": "0x2d210",
+          "entry": "0x5d748"
+        },
+        {
+          "name": "mainStackDividerPan:state:location:translation:ended:",
+          "imp": "0x2db68",
+          "entry": "0x5d754"
+        },
+        {
+          "name": "saveRatio",
+          "imp": "0x2e360",
+          "entry": "0x5d760"
+        },
+        {
+          "name": "dividerDoubleTapped:",
+          "imp": "0x2e6e8",
+          "entry": "0x5d76c"
+        },
+        {
+          "name": "dividerDoubleTapOn:",
+          "imp": "0x2e73c",
+          "entry": "0x5d778"
+        },
+        {
+          "name": "ratioPresets",
+          "imp": "0x2e9a0",
+          "entry": "0x5d784"
+        },
+        {
+          "name": "fractionsMatch:",
+          "imp": "0x2e9f0",
+          "entry": "0x5d790"
+        },
+        {
+          "name": "dividerTapped:",
+          "imp": "0x2eb64",
+          "entry": "0x5d79c"
+        },
+        {
+          "name": "dividerTapOn:at:",
+          "imp": "0x2ebf0",
+          "entry": "0x5d7a8"
+        },
+        {
+          "name": "remoteKnobTouch:",
+          "imp": "0x2edfc",
+          "entry": "0x5d7b4"
+        },
+        {
+          "name": "showRatioMenuForDivider:",
+          "imp": "0x2f614",
+          "entry": "0x5d7c0"
+        },
+        {
+          "name": "hideRatioMenu",
+          "imp": "0x30ce0",
+          "entry": "0x5d7cc"
+        },
+        {
+          "name": "ratioPresetTapped:",
+          "imp": "0x31194",
+          "entry": "0x5d7d8"
+        },
+        {
+          "name": "removePickerFromPane:",
+          "imp": "0x313ac",
+          "entry": "0x5d7e4"
+        },
+        {
+          "name": "showPickerForSlot:",
+          "imp": "0x31530",
+          "entry": "0x5d7f0"
+        },
+        {
+          "name": "pickerPaneTapped:",
+          "imp": "0x31960",
+          "entry": "0x5d7fc"
+        },
+        {
+          "name": "refreshPickerSheetSoon",
+          "imp": "0x31a0c",
+          "entry": "0x5d808"
+        },
+        {
+          "name": "panesInReadingOrder",
+          "imp": "0x31ba0",
+          "entry": "0x5d814"
+        },
+        {
+          "name": "refreshPickerSheet",
+          "imp": "0x31eac",
+          "entry": "0x5d820"
+        },
+        {
+          "name": "markPickerPanes",
+          "imp": "0x322cc",
+          "entry": "0x5d82c"
+        },
+        {
+          "name": "removePickerSheet",
+          "imp": "0x32498",
+          "entry": "0x5d838"
+        },
+        {
+          "name": "pickerMapForPane:height:",
+          "imp": "0x329a0",
+          "entry": "0x5d844"
+        },
+        {
+          "name": "pickerMapTapped:",
+          "imp": "0x33420",
+          "entry": "0x5d850"
+        },
+        {
+          "name": "buildPickerSheetForPane:",
+          "imp": "0x334cc",
+          "entry": "0x5d85c"
+        },
+        {
+          "name": "pickerAppTapped:",
+          "imp": "0x362a0",
+          "entry": "0x5d868"
+        },
+        {
+          "name": "pickerCancel:",
+          "imp": "0x364d0",
+          "entry": "0x5d874"
+        },
+        {
+          "name": "tabParent",
+          "imp": "0x366dc",
+          "entry": "0x5d880"
+        },
+        {
+          "name": "fullscreenAppBundle",
+          "imp": "0x367f0",
+          "entry": "0x5d88c"
+        },
+        {
+          "name": "viewIsRaised:",
+          "imp": "0x36a18",
+          "entry": "0x5d898"
+        },
+        {
+          "name": "raiseView:",
+          "imp": "0x36bd8",
+          "entry": "0x5d8a4"
+        },
+        {
+          "name": "refreshAppTabSoon",
+          "imp": "0x36d3c",
+          "entry": "0x5d8b0"
+        },
+        {
+          "name": "refreshAppTab",
+          "imp": "0x36e04",
+          "entry": "0x5d8bc"
+        },
+        {
+          "name": "removeAppTab",
+          "imp": "0x36f04",
+          "entry": "0x5d8c8"
+        },
+        {
+          "name": "panelSections:",
+          "imp": "0x36f08",
+          "entry": "0x5d8d4"
+        },
+        {
+          "name": "trayWindowForParent:",
+          "imp": "0x3782c",
+          "entry": "0x5d8e0"
+        },
+        {
+          "name": "showLayoutPanelForApp:",
+          "imp": "0x37e8c",
+          "entry": "0x5d8ec"
+        },
+        {
+          "name": "panelChoiceTapped:",
+          "imp": "0x3a4d0",
+          "entry": "0x5d8f8"
+        },
+        {
+          "name": "panelChoiceTappedUnsafe:",
+          "imp": "0x3a5e8",
+          "entry": "0x5d904"
+        },
+        {
+          "name": "favoriteApps:",
+          "imp": "0x3a86c",
+          "entry": "0x5d910"
+        },
+        {
+          "name": "openFavorite:",
+          "imp": "0x3aa60",
+          "entry": "0x5d91c"
+        },
+        {
+          "name": "openSetupLayout:apps:",
+          "imp": "0x3ab7c",
+          "entry": "0x5d928"
+        },
+        {
+          "name": "exitKeepBundle",
+          "imp": "0x3ae10",
+          "entry": "0x5d934"
+        },
+        {
+          "name": "showPickerForFocusedPane",
+          "imp": "0x3b04c",
+          "entry": "0x5d940"
+        },
+        {
+          "name": "exitTapped",
+          "imp": "0x3b138",
+          "entry": "0x5d94c"
+        },
+        {
+          "name": "showTipSoon",
+          "imp": "0x3b374",
+          "entry": "0x5d958"
+        },
+        {
+          "name": "layoutPickerDotsForPage:",
+          "imp": "0x3b630",
+          "entry": "0x5d964"
+        },
+        {
+          "name": "scrollViewDidScroll:",
+          "imp": "0x3b920",
+          "entry": "0x5d970"
+        },
+        {
+          "name": "scrollViewWillBeginDragging:",
+          "imp": "0x3bb58",
+          "entry": "0x5d97c"
+        },
+        {
+          "name": "restartTrayTimer",
+          "imp": "0x3bc20",
+          "entry": "0x5d988"
+        },
+        {
+          "name": "collapseAppTray",
+          "imp": "0x3bd78",
+          "entry": "0x5d994"
+        },
+        {
+          "name": "setFullscreenBridgeHidden:bundle:",
+          "imp": "0x3c33c",
+          "entry": "0x5d9a0"
+        },
+        {
+          "name": "layoutChosenID:",
+          "imp": "0x3c61c",
+          "entry": "0x5d9ac"
+        },
+        {
+          "name": "hostedPanes",
+          "imp": "0x3c778",
+          "entry": "0x5d9b8"
+        },
+        {
+          "name": "bridgedPane",
+          "imp": "0x3c910",
+          "entry": "0x5d9c4"
+        },
+        {
+          "name": "hostPost:info:",
+          "imp": "0x3c968",
+          "entry": "0x5d9d0"
+        },
+        {
+          "name": "hostFrameForPane:",
+          "imp": "0x3ca0c",
+          "entry": "0x5d9dc"
+        },
+        {
+          "name": "hostBarInfoForPane:",
+          "imp": "0x3cd60",
+          "entry": "0x5d9e8"
+        },
+        {
+          "name": "anyBarVisible",
+          "imp": "0x3d058",
+          "entry": "0x5d9f4"
+        },
+        {
+          "name": "hostPassInsetsForPane:",
+          "imp": "0x3d1e4",
+          "entry": "0x5da00"
+        },
+        {
+          "name": "hostFrameInfo:pane:live:handle:",
+          "imp": "0x3d39c",
+          "entry": "0x5da0c"
+        },
+        {
+          "name": "holeForPane:",
+          "imp": "0x3dca8",
+          "entry": "0x5da18"
+        },
+        {
+          "name": "sendHostFrameForPane:live:",
+          "imp": "0x3dfac",
+          "entry": "0x5da24"
+        },
+        {
+          "name": "pushHostFramesLive:",
+          "imp": "0x3e238",
+          "entry": "0x5da30"
+        },
+        {
+          "name": "publishShield",
+          "imp": "0x3e374",
+          "entry": "0x5da3c"
+        },
+        {
+          "name": "hostApp:inPane:",
+          "imp": "0x3e490",
+          "entry": "0x5da48"
+        },
+        {
+          "name": "hostClose:terminate:",
+          "imp": "0x3ebd0",
+          "entry": "0x5da54"
+        },
+        {
+          "name": "publishKnobsSoon",
+          "imp": "0x3ed08",
+          "entry": "0x5da60"
+        },
+        {
+          "name": "publishKnobsNow",
+          "imp": "0x3ed84",
+          "entry": "0x5da6c"
+        },
+        {
+          "name": "hostCloseAll",
+          "imp": "0x3f25c",
+          "entry": "0x5da78"
+        },
+        {
+          "name": "hostedApp:state:",
+          "imp": "0x3f35c",
+          "entry": "0x5da84"
+        },
+        {
+          "name": "bridgeHandleTapped:",
+          "imp": "0x3f65c",
+          "entry": "0x5da90"
+        },
+        {
+          "name": "bridgeBarAction:forBundle:",
+          "imp": "0x3f7f4",
+          "entry": "0x5da9c"
+        },
+        {
+          "name": "hostSolo:",
+          "imp": "0x3f9c0",
+          "entry": "0x5daa8"
+        },
+        {
+          "name": "endHostedSolo",
+          "imp": "0x3fe5c",
+          "entry": "0x5dab4"
+        },
+        {
+          "name": "dismissStuckBaseSoon",
+          "imp": "0x3ff28",
+          "entry": "0x5dac0"
+        },
+        {
+          "name": "homePressedDuringSplit:",
+          "imp": "0x40298",
+          "entry": "0x5dacc"
+        },
+        {
+          "name": "launchPhoneAppIfNeeded:",
+          "imp": "0x403d0",
+          "entry": "0x5dad8"
+        },
+        {
+          "name": "atHomeScreen",
+          "imp": "0x404fc",
+          "entry": "0x5dae4"
+        },
+        {
+          "name": "dockClusterInParent:",
+          "imp": "0x405fc",
+          "entry": "0x5daf0"
+        },
+        {
+          "name": "launcherCenterInParent:size:shift:",
+          "imp": "0x409b0",
+          "entry": "0x5dafc"
+        },
+        {
+          "name": "refreshHomeButton",
+          "imp": "0x41be4",
+          "entry": "0x5db08"
+        },
+        {
+          "name": "setDockShift:",
+          "imp": "0x426f8",
+          "entry": "0x5db14"
+        },
+        {
+          "name": "raiseLauncher",
+          "imp": "0x42900",
+          "entry": "0x5db20"
+        },
+        {
+          "name": "dockHostForRect:inParent:",
+          "imp": "0x42a64",
+          "entry": "0x5db2c"
+        },
+        {
+          "name": "removeHomeButton",
+          "imp": "0x434a8",
+          "entry": "0x5db38"
+        },
+        {
+          "name": "homeButtonTapped",
+          "imp": "0x43514",
+          "entry": "0x5db44"
+        },
+        {
+          "name": "homeButtonTappedUnsafe",
+          "imp": "0x4360c",
+          "entry": "0x5db50"
+        },
+        {
+          "name": "openRememberedPairForConnect",
+          "imp": "0x43720",
+          "entry": "0x5db5c"
+        },
+        {
+          "name": "openRememberedPair",
+          "imp": "0x43cdc",
+          "entry": "0x5db68"
+        },
+        {
+          "name": "installIconLongPress",
+          "imp": "0x440e0",
+          "entry": "0x5db74"
+        },
+        {
+          "name": "installLongPressIn:depth:",
+          "imp": "0x44344",
+          "entry": "0x5db80"
+        },
+        {
+          "name": "iconLongPressed:",
+          "imp": "0x44620",
+          "entry": "0x5db8c"
+        },
+        {
+          "name": "iconLongPressedUnsafe:",
+          "imp": "0x44738",
+          "entry": "0x5db98"
+        },
+        {
+          "name": "carScreenAppeared",
+          "imp": "0x44cdc",
+          "entry": "0x5dba4"
+        },
+        {
+          "name": "autoLaunchAttempt:",
+          "imp": "0x44dc4",
+          "entry": "0x5dbb0"
+        },
+        {
+          "name": "toast:",
+          "imp": "0x44fd4",
+          "entry": "0x5dbbc"
+        },
+        {
+          "name": "toast:duration:",
+          "imp": "0x44fe0",
+          "entry": "0x5dbc8"
+        },
+        {
+          "name": "active",
+          "imp": "0x4580c",
+          "entry": "0x5dbd4"
+        },
+        {
+          "name": "setActive:",
+          "imp": "0x45814",
+          "entry": "0x5dbe0"
+        },
+        {
+          "name": "cancelledLaunches",
+          "imp": "0x4581c",
+          "entry": "0x5dbec"
+        },
+        {
+          "name": "setCancelledLaunches:",
+          "imp": "0x45824",
+          "entry": "0x5dbf8"
+        },
+        {
+          "name": "soloCover",
+          "imp": "0x45854",
+          "entry": "0x5dc04"
+        },
+        {
+          "name": "setSoloCover:",
+          "imp": "0x4585c",
+          "entry": "0x5dc10"
+        },
+        {
+          "name": "trayCover",
+          "imp": "0x4588c",
+          "entry": "0x5dc1c"
+        },
+        {
+          "name": "setTrayCover:",
+          "imp": "0x45894",
+          "entry": "0x5dc28"
+        },
+        {
+          "name": "trayWindow",
+          "imp": "0x458c4",
+          "entry": "0x5dc34"
+        },
+        {
+          "name": "setTrayWindow:",
+          "imp": "0x458cc",
+          "entry": "0x5dc40"
+        },
+        {
+          "name": "trayOverlay",
+          "imp": "0x458fc",
+          "entry": "0x5dc4c"
+        },
+        {
+          "name": "setTrayOverlay:",
+          "imp": "0x45904",
+          "entry": "0x5dc58"
+        },
+        {
+          "name": "zoomedSlot",
+          "imp": "0x4590c",
+          "entry": "0x5dc64"
+        },
+        {
+          "name": "setZoomedSlot:",
+          "imp": "0x45914",
+          "entry": "0x5dc70"
+        },
+        {
+          "name": "lastBridgeTapBundle",
+          "imp": "0x45944",
+          "entry": "0x5dc7c"
+        },
+        {
+          "name": "setLastBridgeTapBundle:",
+          "imp": "0x4594c",
+          "entry": "0x5dc88"
+        },
+        {
+          "name": "lastBridgeTapAt",
+          "imp": "0x45954",
+          "entry": "0x5dc94"
+        },
+        {
+          "name": "setLastBridgeTapAt:",
+          "imp": "0x4595c",
+          "entry": "0x5dca0"
+        },
+        {
+          "name": "pickerSheet",
+          "imp": "0x45964",
+          "entry": "0x5dcac"
+        },
+        {
+          "name": "setPickerSheet:",
+          "imp": "0x4596c",
+          "entry": "0x5dcb8"
+        },
+        {
+          "name": "pickerShield",
+          "imp": "0x4599c",
+          "entry": "0x5dcc4"
+        },
+        {
+          "name": "setPickerShield:",
+          "imp": "0x459a4",
+          "entry": "0x5dcd0"
+        },
+        {
+          "name": "pickerSheetPane",
+          "imp": "0x459d4",
+          "entry": "0x5dcdc"
+        },
+        {
+          "name": "setPickerSheetPane:",
+          "imp": "0x459ec",
+          "entry": "0x5dce8"
+        },
+        {
+          "name": "pickerSheetKey",
+          "imp": "0x459f8",
+          "entry": "0x5dcf4"
+        },
+        {
+          "name": "setPickerSheetKey:",
+          "imp": "0x45a00",
+          "entry": "0x5dd00"
+        },
+        {
+          "name": "pickerSheetOverlay",
+          "imp": "0x45a08",
+          "entry": "0x5dd0c"
+        },
+        {
+          "name": "setPickerSheetOverlay:",
+          "imp": "0x45a10",
+          "entry": "0x5dd18"
+        },
+        {
+          "name": "pickerSheetQueued",
+          "imp": "0x45a18",
+          "entry": "0x5dd24"
+        },
+        {
+          "name": "setPickerSheetQueued:",
+          "imp": "0x45a20",
+          "entry": "0x5dd30"
+        },
+        {
+          "name": "pickerDots",
+          "imp": "0x45a28",
+          "entry": "0x5dd3c"
+        },
+        {
+          "name": "setPickerDots:",
+          "imp": "0x45a40",
+          "entry": "0x5dd48"
+        },
+        {
+          "name": "container",
+          "imp": "0x45a4c",
+          "entry": "0x5dd54"
+        },
+        {
+          "name": "setContainer:",
+          "imp": "0x45a54",
+          "entry": "0x5dd60"
+        },
+        {
+          "name": "slots",
+          "imp": "0x45a84",
+          "entry": "0x5dd6c"
+        },
+        {
+          "name": "setSlots:",
+          "imp": "0x45a8c",
+          "entry": "0x5dd78"
+        },
+        {
+          "name": "fractions",
+          "imp": "0x45abc",
+          "entry": "0x5dd84"
+        },
+        {
+          "name": "setFractions:",
+          "imp": "0x45ac4",
+          "entry": "0x5dd90"
+        },
+        {
+          "name": "layoutKind",
+          "imp": "0x45af4",
+          "entry": "0x5dd9c"
+        },
+        {
+          "name": "setLayoutKind:",
+          "imp": "0x45afc",
+          "entry": "0x5dda8"
+        },
+        {
+          "name": "pending",
+          "imp": "0x45b04",
+          "entry": "0x5ddb4"
+        },
+        {
+          "name": "setPending:",
+          "imp": "0x45b0c",
+          "entry": "0x5ddc0"
+        },
+        {
+          "name": "focusedSlot",
+          "imp": "0x45b3c",
+          "entry": "0x5ddcc"
+        },
+        {
+          "name": "setFocusedSlot:",
+          "imp": "0x45b44",
+          "entry": "0x5ddd8"
+        },
+        {
+          "name": "allowBackground",
+          "imp": "0x45b4c",
+          "entry": "0x5dde4"
+        },
+        {
+          "name": "setAllowBackground:",
+          "imp": "0x45b54",
+          "entry": "0x5ddf0"
+        },
+        {
+          "name": "dividers",
+          "imp": "0x45b5c",
+          "entry": "0x5ddfc"
+        },
+        {
+          "name": "setDividers:",
+          "imp": "0x45b64",
+          "entry": "0x5de08"
+        },
+        {
+          "name": "loggedArea",
+          "imp": "0x45b94",
+          "entry": "0x5de14"
+        },
+        {
+          "name": "setLoggedArea:",
+          "imp": "0x45b9c",
+          "entry": "0x5de20"
+        },
+        {
+          "name": "nextLaunchAt",
+          "imp": "0x45ba4",
+          "entry": "0x5de2c"
+        },
+        {
+          "name": "setNextLaunchAt:",
+          "imp": "0x45bac",
+          "entry": "0x5de38"
+        },
+        {
+          "name": "soloHostedBundle",
+          "imp": "0x45bb4",
+          "entry": "0x5de44"
+        },
+        {
+          "name": "setSoloHostedBundle:",
+          "imp": "0x45bbc",
+          "entry": "0x5de50"
+        },
+        {
+          "name": "soloHostedFrame",
+          "imp": "0x45bc4",
+          "entry": "0x5de5c"
+        },
+        {
+          "name": "setSoloHostedFrame:",
+          "imp": "0x45bd0",
+          "entry": "0x5de68"
+        },
+        {
+          "name": "ignoreHomeOnce",
+          "imp": "0x45bdc",
+          "entry": "0x5de74"
+        },
+        {
+          "name": "setIgnoreHomeOnce:",
+          "imp": "0x45be4",
+          "entry": "0x5de80"
+        },
+        {
+          "name": "soloReturnedVC",
+          "imp": "0x45bec",
+          "entry": "0x5de8c"
+        },
+        {
+          "name": "setSoloReturnedVC:",
+          "imp": "0x45c04",
+          "entry": "0x5de98"
+        },
+        {
+          "name": "dismissStuckPending",
+          "imp": "0x45c10",
+          "entry": "0x5dea4"
+        },
+        {
+          "name": "setDismissStuckPending:",
+          "imp": "0x45c18",
+          "entry": "0x5deb0"
+        },
+        {
+          "name": "resizing",
+          "imp": "0x45c20",
+          "entry": "0x5debc"
+        },
+        {
+          "name": "setResizing:",
+          "imp": "0x45c28",
+          "entry": "0x5dec8"
+        },
+        {
+          "name": "dragGhost",
+          "imp": "0x45c30",
+          "entry": "0x5ded4"
+        },
+        {
+          "name": "setDragGhost:",
+          "imp": "0x45c38",
+          "entry": "0x5dee0"
+        },
+        {
+          "name": "dragTarget",
+          "imp": "0x45c68",
+          "entry": "0x5deec"
+        },
+        {
+          "name": "setDragTarget:",
+          "imp": "0x45c70",
+          "entry": "0x5def8"
+        },
+        {
+          "name": "ratioMenu",
+          "imp": "0x45c78",
+          "entry": "0x5df04"
+        },
+        {
+          "name": "setRatioMenu:",
+          "imp": "0x45c80",
+          "entry": "0x5df10"
+        },
+        {
+          "name": "ratioKnob",
+          "imp": "0x45cb0",
+          "entry": "0x5df1c"
+        },
+        {
+          "name": "setRatioKnob:",
+          "imp": "0x45cc8",
+          "entry": "0x5df28"
+        },
+        {
+          "name": "ratioTimer",
+          "imp": "0x45cd4",
+          "entry": "0x5df34"
+        },
+        {
+          "name": "setRatioTimer:",
+          "imp": "0x45cdc",
+          "entry": "0x5df40"
+        },
+        {
+          "name": "ratioOverlay",
+          "imp": "0x45d0c",
+          "entry": "0x5df4c"
+        },
+        {
+          "name": "setRatioOverlay:",
+          "imp": "0x45d14",
+          "entry": "0x5df58"
+        },
+        {
+          "name": "ratioHidesBridge",
+          "imp": "0x45d1c",
+          "entry": "0x5df64"
+        },
+        {
+          "name": "setRatioHidesBridge:",
+          "imp": "0x45d24",
+          "entry": "0x5df70"
+        },
+        {
+          "name": "floatPane",
+          "imp": "0x45d2c",
+          "entry": "0x5df7c"
+        },
+        {
+          "name": "setFloatPane:",
+          "imp": "0x45d34",
+          "entry": "0x5df88"
+        },
+        {
+          "name": "floatFrame",
+          "imp": "0x45d64",
+          "entry": "0x5df94"
+        },
+        {
+          "name": "setFloatFrame:",
+          "imp": "0x45d70",
+          "entry": "0x5dfa0"
+        },
+        {
+          "name": "floatClosing",
+          "imp": "0x45d7c",
+          "entry": "0x5dfac"
+        },
+        {
+          "name": "setFloatClosing:",
+          "imp": "0x45d84",
+          "entry": "0x5dfb8"
+        },
+        {
+          "name": "floatLarge",
+          "imp": "0x45d8c",
+          "entry": "0x5dfc4"
+        },
+        {
+          "name": "setFloatLarge:",
+          "imp": "0x45d94",
+          "entry": "0x5dfd0"
+        },
+        {
+          "name": "floatReturnLayout",
+          "imp": "0x45d9c",
+          "entry": "0x5dfdc"
+        },
+        {
+          "name": "setFloatReturnLayout:",
+          "imp": "0x45da4",
+          "entry": "0x5dfe8"
+        },
+        {
+          "name": "floatReturnSlot",
+          "imp": "0x45dac",
+          "entry": "0x5dff4"
+        },
+        {
+          "name": "setFloatReturnSlot:",
+          "imp": "0x45db4",
+          "entry": "0x5e000"
+        },
+        {
+          "name": "floatReturnFractions",
+          "imp": "0x45dbc",
+          "entry": "0x5e00c"
+        },
+        {
+          "name": "setFloatReturnFractions:",
+          "imp": "0x45dc4",
+          "entry": "0x5e018"
+        },
+        {
+          "name": "tray",
+          "imp": "0x45dcc",
+          "entry": "0x5e024"
+        },
+        {
+          "name": "setTray:",
+          "imp": "0x45dd4",
+          "entry": "0x5e030"
+        },
+        {
+          "name": "popupShield",
+          "imp": "0x45e04",
+          "entry": "0x5e03c"
+        },
+        {
+          "name": "setPopupShield:",
+          "imp": "0x45e0c",
+          "entry": "0x5e048"
+        },
+        {
+          "name": "shieldPosted",
+          "imp": "0x45e3c",
+          "entry": "0x5e054"
+        },
+        {
+          "name": "setShieldPosted:",
+          "imp": "0x45e44",
+          "entry": "0x5e060"
+        },
+        {
+          "name": "popupsClosedAt",
+          "imp": "0x45e4c",
+          "entry": "0x5e06c"
+        },
+        {
+          "name": "setPopupsClosedAt:",
+          "imp": "0x45e54",
+          "entry": "0x5e078"
+        },
+        {
+          "name": "trayHidesBridge",
+          "imp": "0x45e5c",
+          "entry": "0x5e084"
+        },
+        {
+          "name": "setTrayHidesBridge:",
+          "imp": "0x45e64",
+          "entry": "0x5e090"
+        },
+        {
+          "name": "trayTimer",
+          "imp": "0x45e6c",
+          "entry": "0x5e09c"
+        },
+        {
+          "name": "setTrayTimer:",
+          "imp": "0x45e74",
+          "entry": "0x5e0a8"
+        },
+        {
+          "name": "layoutApp",
+          "imp": "0x45ea4",
+          "entry": "0x5e0b4"
+        },
+        {
+          "name": "setLayoutApp:",
+          "imp": "0x45eac",
+          "entry": "0x5e0c0"
+        },
+        {
+          "name": "panelChoices",
+          "imp": "0x45eb4",
+          "entry": "0x5e0cc"
+        },
+        {
+          "name": "setPanelChoices:",
+          "imp": "0x45ebc",
+          "entry": "0x5e0d8"
+        },
+        {
+          "name": "suppressReopen",
+          "imp": "0x45eec",
+          "entry": "0x5e0e4"
+        },
+        {
+          "name": "setSuppressReopen:",
+          "imp": "0x45ef4",
+          "entry": "0x5e0f0"
+        },
+        {
+          "name": "homeButton",
+          "imp": "0x45efc",
+          "entry": "0x5e0fc"
+        },
+        {
+          "name": "setHomeButton:",
+          "imp": "0x45f04",
+          "entry": "0x5e108"
+        },
+        {
+          "name": "launcherHost",
+          "imp": "0x45f34",
+          "entry": "0x5e114"
+        },
+        {
+          "name": "setLauncherHost:",
+          "imp": "0x45f4c",
+          "entry": "0x5e120"
+        },
+        {
+          "name": "dockTreeLogged",
+          "imp": "0x45f58",
+          "entry": "0x5e12c"
+        },
+        {
+          "name": "setDockTreeLogged:",
+          "imp": "0x45f60",
+          "entry": "0x5e138"
+        },
+        {
+          "name": "launcherWhere",
+          "imp": "0x45f68",
+          "entry": "0x5e144"
+        },
+        {
+          "name": "setLauncherWhere:",
+          "imp": "0x45f70",
+          "entry": "0x5e150"
+        },
+        {
+          "name": "homeInk",
+          "imp": "0x45f78",
+          "entry": "0x5e15c"
+        },
+        {
+          "name": "setHomeInk:",
+          "imp": "0x45f80",
+          "entry": "0x5e168"
+        },
+        {
+          "name": "homeGlyph",
+          "imp": "0x45fb0",
+          "entry": "0x5e174"
+        },
+        {
+          "name": "setHomeGlyph:",
+          "imp": "0x45fbc",
+          "entry": "0x5e180"
+        },
+        {
+          "name": "launcherBare",
+          "imp": "0x45fc8",
+          "entry": "0x5e18c"
+        },
+        {
+          "name": "setLauncherBare:",
+          "imp": "0x45fd0",
+          "entry": "0x5e198"
+        },
+        {
+          "name": "lastLauncherCalc",
+          "imp": "0x45fd8",
+          "entry": "0x5e1a4"
+        },
+        {
+          "name": "setLastLauncherCalc:",
+          "imp": "0x45fe0",
+          "entry": "0x5e1b0"
+        },
+        {
+          "name": "lastIconScan",
+          "imp": "0x45fe8",
+          "entry": "0x5e1bc"
+        },
+        {
+          "name": "setLastIconScan:",
+          "imp": "0x45ff0",
+          "entry": "0x5e1c8"
+        },
+        {
+          "name": "autoLaunchDone",
+          "imp": "0x45ff8",
+          "entry": "0x5e1d4"
+        },
+        {
+          "name": "setAutoLaunchDone:",
+          "imp": "0x46000",
+          "entry": "0x5e1e0"
+        },
+        {
+          "name": null,
+          "imp": "0x46008",
+          "entry": "0x5e1ec"
+        }
+      ]
+    }
+  },
+  "selector_only_not_execution": true
+}
