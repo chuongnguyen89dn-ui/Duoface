@@ -49,6 +49,25 @@ def load_selector(binary,instructions,idx):
             break
     return None
 
+def stub_target_selector(binary,target,dis):
+    # Modern iOS optimized ObjC calls use BL to a method-specific
+    # __objc_stubs thunk, not ADRP/LDR(x1) inside the caller itself.
+    if target<0 or target+16>len(binary):return None
+    ops=list(dis.disasm(binary[target:target+32],target))
+    pages={}
+    for ins in ops[:8]:
+        if ins.mnemonic=="adrp":
+            m=re.fullmatch(r"(x\\d+), #(0x[0-9a-f]+)",ins.op_str)
+            if m:pages[m.group(1)]=int(m.group(2),16)
+        if ins.mnemonic=="ldr":
+            m=re.fullmatch(r"(x\\d+), \\[(x\\d+)(?:, #(0x[0-9a-f]+))?\\]",ins.op_str)
+            if m and m.group(1)=="x1" and m.group(2) in pages:
+                addr=pages[m.group(2)]+(int(m.group(3),16) if m.group(3) else 0)
+                val=selref(binary,addr)
+                if val:return {"selector":val,"stub":hex(target),
+                                "selref_address":hex(addr)}
+    return None
+
 def analyze(original):
  if hashlib.sha256(original.read_bytes()).hexdigest()!=SHA:
     raise RuntimeError("original OmniCar DEB sha mismatch")
@@ -78,8 +97,16 @@ def analyze(original):
             # branch/indirect call may follow; runtime dispatch unproven.
             if not any(z["load_pc"]==candidate["load_pc"] for z in seen):
                seen.append(candidate)
+        calls=[]
+        for insn in ins:
+            if insn.mnemonic!="bl":continue
+            x=re.fullmatch(r"#(0x[0-9a-f]+)",insn.op_str)
+            if not x:continue
+            item=stub_target_selector(binary,int(x.group(1),16),dis)
+            if item:calls.append({"call_pc":hex(insn.address),**item})
         output[name]={"imp":hex(st),"instruction_count":len(ins),
              "selector_loads":seen,"selector_count":len(seen),
+             "resolved_objc_stub_calls":calls,"resolved_stub_count":len(calls),
              "matches_ui_host_controls":[x for x in seen if re.search(
                "addChild|willMove|didMove|removeFromParent|addSubview|"
                "insertSubview|sceneHostView|foregroundScene|backgroundScene|"
@@ -103,6 +130,7 @@ def main():
  args.out.write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
  for method,value in result["methods"].items():
     print("OMNICAR_SELREF",method,value["imp"],value["selector_count"],
-          ",".join(x["selector"] for x in value["matches_ui_host_controls"][:18]))
+          "objc_stub_calls",value["resolved_stub_count"],
+          ",".join(x["selector"] for x in value["resolved_objc_stub_calls"][:24]))
  print("OMNICAR_ORIGINAL_NATIVE_ADOPT_SELREF_AUDIT_PASS",result["target_count"])
 if __name__=="__main__":main()
