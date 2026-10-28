@@ -1,0 +1,93 @@
+name: Read-only SHA-pinned original vs DuoFace .83 orientation binary audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-083-original-orientation-binary-audit.yml'
+      - 'sideplay/tools/audit_original_current_orientation_083.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-083-orientation-readonly-audit
+  cancel-in-progress: false
+jobs:
+  compare-exact-deb-bytes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exact published .83 binary and pinned Native12 reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/orientation" 
+          cp 'sideplay/jb-embedded-appbridge/evidence/runs/40616750730/com.duoface.jb.embedded_0.0.83~manualobserver1_iphoneos-arm64.deb' "$RUNNER_TEMP/orientation/083.deb"
+          printf '%s  %s\n' 'ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b' "$RUNNER_TEMP/orientation/083.deb" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/orientation/native12.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/orientation/native12.deb" | sha256sum -c -
+      - name: Verify SidePlay/DuoNavi original and download hashed OmniCar original
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp 'com.sideplay_1.0.4-1_iphoneos-arm64.deb' "$RUNNER_TEMP/orientation/sideplay.deb"
+          cp 'dist/com.duonavi.app_1.0.4_iphoneos-arm64.deb' "$RUNNER_TEMP/orientation/duonavi.deb"
+          printf '%s  %s\n' '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c' "$RUNNER_TEMP/orientation/sideplay.deb" | sha256sum -c -
+          printf '%s  %s\n' 'f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd' "$RUNNER_TEMP/orientation/duonavi.deb" | sha256sum -c -
+          curl -fL --retry 4 --retry-delay 2 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/orientation/omnicar.deb"
+          printf '%s  %s\n' 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' "$RUNNER_TEMP/orientation/omnicar.deb" | sha256sum -c -
+      - name: Compare exactly extracted ARM64 binaries and current source orientation contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          # GitHub archive v83 is immutable; verify that today's source still
+          # matches the exact source commit used to sign the package.
+          for f in DFSceneHost.m DFSceneLifecycle.m DFNative12Chrome.m; do
+            git show "2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b:sideplay/duoface-native-scene-host/$f" | cmp - "sideplay/duoface-native-scene-host/$f"
+          done
+          python3 sideplay/tools/audit_original_current_orientation_083.py \
+            --repo . --duoface083 "$RUNNER_TEMP/orientation/083.deb" \
+            --native12 "$RUNNER_TEMP/orientation/native12.deb" \
+            --sideplay104 "$RUNNER_TEMP/orientation/sideplay.deb" \
+            --duonavi104 "$RUNNER_TEMP/orientation/duonavi.deb" \
+            --omnicar103 "$RUNNER_TEMP/orientation/omnicar.deb" \
+            --out "$RUNNER_TEMP/scan"
+          mkdir -p sideplay/audit/native12-083-rotation-20261028
+          cp "$RUNNER_TEMP/scan/BINARY_DIRECT_083_VS_ORIGINAL.json" sideplay/audit/native12-083-rotation-20261028/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DuoFace083-original-binary-orientation-readonly
+          path: sideplay/audit/native12-083-rotation-20261028/BINARY_DIRECT_083_VS_ORIGINAL.json
+          if-no-files-found: error
+      - name: Commit results to existing DuoFace audit folder only; no build or Sileo
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST=sideplay/audit/native12-083-rotation-20261028/BINARY_DIRECT_083_VS_ORIGINAL.json
+          SRC="$(pwd)/$DEST"
+          for retry in 1 2 3; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            mkdir -p "$TEMP/$(dirname "$DEST")"
+            cp "$SRC" "$TEMP/$DEST"
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TEMP" add "$DEST"
+            if git -C "$TEMP" diff --cached --quiet; then
+              echo EXACT_ORIENTATION_REPORT_ALREADY_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'audit: exact 083 and four originals binary orientation selector evidence [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo EXACT_ORIENTATION_REPORT_PERSISTED
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo ORIENTATION_AUDIT_PERSIST_FAILED
+          exit 1
