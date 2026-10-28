@@ -86,8 +86,8 @@ static BOOL DFMapExactFBScene(UIViewController *owner) {
     if(!parent.isViewLoaded || ![container isDescendantOfView:parent.view] ||
        parent.view.window!=window || container.window!=window)
         return @"target-parent-different-carplay-window";
-    if([parent isDescendantOfViewController:vc])
-        return @"cyclic-controller-containment";
+    for(UIViewController *walker=parent;walker;walker=walker.parentViewController)
+        if(walker==vc)return @"cyclic-controller-containment";
     UIWindowScene *ws=window.windowScene;
     if(!ws || ![ws.session.role isEqual:@"UIWindowSceneSessionRoleCarPlay"] ||
        ws.screen==UIScreen.mainScreen)
