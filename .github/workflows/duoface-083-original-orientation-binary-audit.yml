@@ -43,6 +43,7 @@ jobs:
           set -euo pipefail
           # GitHub archive v83 is immutable; verify that today's source still
           # matches the exact source commit used to sign the package.
+          git fetch --no-tags --depth=1 origin 2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b
           for f in DFSceneHost.m DFSceneLifecycle.m DFNative12Chrome.m; do
             git show "2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b:sideplay/duoface-native-scene-host/$f" | cmp - "sideplay/duoface-native-scene-host/$f"
           done
