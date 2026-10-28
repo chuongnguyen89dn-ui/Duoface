@@ -1,3 +1,11 @@
+## CHECKPOINT 2026-10-28: USER ROLLBACK .93 TO .92
+
+- USER LATEST: “Quay về bản trc đây cho tai”. STOP .93 (phone Apps Manager / CarPlay filtering) and return exact .92 runtime/deb source, version pins and packaging. Prior 3-second logo task already completed; do not resume it. Previous published Sileo .92 is preserved unchanged, source build 40707934981, Sileo remote QA 40708684634; .90 immutable playback rollback retained. No physical device installation claimed.
+- VERIFIED GitHub rollback evidence and file checklist: `sideplay/audit/native12-091-fullscan-20261028/ROLLBACK_093_TO_092_20261028.md`. New rollback commit has baseline file SHA from b29c5c63a75a71510eed9435950ca3fa90cc4f7e, removes new .93-only source/test, uses a rollback-only skip to avoid a duplicate DEB build. .93 commit/history/audit retained but not shipped. Last released public binary remains SHA256 1f4a495f8b9ba91f71bac4c7abc4e064878fb8f2edd5272df3d48fef3a95e1f0.
+- Next: only if user explicitly requests, continue missing Native12 functional audit/implementation from current .92 baseline; never speculate that .93 is installed or shipped. Physical CarPlay validation still pending.
+
+---
+
 ## CHECKPOINT 2026-10-28: Native12 app & iPhone UI audit supersedes logo task
 
 - USER CORRECTION: 3s logo already completed in .92, do NOT use it as next work goal. Need compare 25 functional UI groups from actual Native12 original; especially CarPlay per-slot app selection (single), enabled catalog, iPhone Apps Manager and Split settings, Add More modal, 4/5/6 grid, preferences, 3/4 rotate, Maps native scene owner, HUD8. Exclude proprietary vendor license.
