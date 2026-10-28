@@ -633,5 +633,19 @@
     "Without iPhone video/scene logs cannot distinguish 90 vs 180, app-own player fullscreen vs pane/host Zoom.",
     "Do not alter .83 scoped SpringBoard crash fix, Dock, or content reference policy based only on string diff.",
     "DuoDash repack has preserved ARM64 selector evidence but is not falsely labeled stock or used as input here."
-  ]
+  ],
+  "orientation_hook_arm64": {
+    "native12_content_reference_2arg": {
+      "status": "LLVM_OBJDUMP_UNAVAILABLE",
+      "instructions": []
+    },
+    "native12_content_reference_3arg": {
+      "status": "LLVM_OBJDUMP_UNAVAILABLE",
+      "instructions": []
+    },
+    "native12_mainSceneSupportsInterfaceOrientation": {
+      "status": "LLVM_OBJDUMP_UNAVAILABLE",
+      "instructions": []
+    }
+  }
 }
