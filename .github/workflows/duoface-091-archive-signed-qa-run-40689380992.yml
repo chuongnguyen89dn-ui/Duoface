@@ -1,0 +1,116 @@
+name: DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths: ['.github/workflows/duoface-091-archive-signed-qa-run-40689380992.yml']
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: duoface-091-artifact-archive-only
+  cancel-in-progress: false
+jobs:
+  recover-already-signed-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download EXACT previously compiled .91 artifact — no source rebuild
+        uses: actions/download-artifact@v4
+        with:
+          name: duoface-jb-embedded-carbridge-candidate-40689380992
+          run-id: 40689380992
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ runner.temp }}/already-signed
+      - name: Verify signed .91 DEB, original source SHA, exact filter and all provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="$RUNNER_TEMP/already-signed"
+          DEB="$(find "$ROOT" -type f -name 'com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb' -print -quit)"
+          test -s "$DEB"
+          test "$(find "$ROOT" -type f -name 'com.duoface.jb.embedded_*.deb' | wc -l | tr -d ' ')" = 1
+          EXPECT='e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741'
+          printf '%s  %s\n' "$EXPECT" "$DEB" | sha256sum -c -
+          test "$(dpkg-deb -f "$DEB" Package)" = com.duoface.jb.embedded
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.0.91~nativemapqa1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$DEB" Depends | grep -Eiq 'carbridge|sideplay|duodash|duonavi'
+          mkdir -p "$RUNNER_TEMP/duoface-091-extracted"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/duoface-091-extracted"
+          ROOT="$RUNNER_TEMP/duoface-091-extracted" python3 - <<'PY'
+          import os,plistlib
+          from pathlib import Path
+          root=Path(os.environ['ROOT'])
+          base=root/'var/jb/Library/MobileSubstrate/DynamicLibraries'
+          p=plistlib.loads((base/'DFNativeMapPaneCoordinator.plist').read_bytes())
+          assert p=={'Filter':{'Executables':['CarPlay','CarPlayApp']}},p
+          assert (base/'DFNativeMapPaneCoordinator.dylib').stat().st_size>10000
+          yt=plistlib.loads((base/'DFYouTubeOrientationRelay.plist').read_bytes())
+          assert yt=={'Filter':{'Bundles':['com.google.ios.youtube']}},yt
+          assert (base/'DFYouTubeOrientationRelay.dylib').stat().st_size>10000
+          assert (root/'var/jb/Applications/DuoFaceNativeHost.app/DuoFaceNativeHost').stat().st_size>10000
+          print('DUOFACE_091_REAL_CARPLAY_ONLY_MAP_UIKIT_COORDINATOR_SIGNED_PAYLOAD_PASS')
+          PY
+          EVID="$(find "$RUNNER_TEMP/already-signed" -type f -name PACKAGING_PROVENANCE.json -print -quit)"
+          test -s "$EVID"
+          EVID="$EVID" python3 - <<'PY'
+          import json,os
+          p=json.load(open(os.environ['EVID']))
+          assert p['source_git_commit']=='4dba11e1a95e237f966b44292b9b486a837a8f90'
+          assert p['sha256']=='e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741'
+          assert p['native_map_optin_controller_coordinator_compiled']
+          assert not p['native_map_tiles_device_verified']
+          assert not p['native_map_navigation_continuity_verified']
+          assert not p['sileo_published']
+          assert len(p['source_packages'])==4
+          print('DUOFACE_091_SIGNED_SOURCE_PROVENANCE_MATCH_PASS')
+          PY
+          test -s "$(find "$RUNNER_TEMP/already-signed" -type f -name CI_RESULT.txt -print -quit)"
+          echo DUOFACE_091_ALREADY_SIGNED_ARCHIVE_READY_NO_REBUILD
+      - name: Persist original source SHA pinned DEB, provenance and checkpoint to DuoFace branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          ID='40689380992'
+          SHA='4dba11e1a95e237f966b44292b9b486a837a8f90'
+          SRC_DEB="$(find "$RUNNER_TEMP/already-signed" -type f -name 'com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb' -print -quit)"
+          SRC_PROV="$(find "$RUNNER_TEMP/already-signed" -type f -name PACKAGING_PROVENANCE.json -print -quit)"
+          SRC_CI="$(find "$RUNNER_TEMP/already-signed" -type f -name CI_RESULT.txt -print -quit)"
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BR"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            TARGET="$DIR/sideplay/jb-embedded-appbridge/evidence/runs/$ID"
+            if test -e "$TARGET"; then
+              echo 'Original immutable run already archived; checking SHA'
+              printf '%s  %s\n' 'e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741' "$TARGET/com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb" | sha256sum -c -
+              git worktree remove --force "$DIR"
+              exit 0
+            fi
+            mkdir -p "$TARGET"
+            cp "$SRC_DEB" "$TARGET/"
+            cp "$SRC_PROV" "$TARGET/PACKAGING_PROVENANCE.json"
+            cp "$SRC_CI" "$TARGET/CI_RESULT.txt"
+            (cd "$TARGET" && sha256sum *.deb > SHA256SUMS.txt)
+            printf 'SOURCE_SHA=%s\nRUN_ID=%s\n' "$SHA" "$ID" > "$TARGET/BUILD_SOURCE.txt"
+            python3 sideplay/tools/append_086_ci_handoff.py "$DIR/sideplay/tiep tuc du an.md" "$ID" "$SHA" "$TARGET"
+            git -C "$DIR" add -f "sideplay/jb-embedded-appbridge/evidence/runs/$ID" sideplay/tiep tuc\ du\ an.md
+            git -C "$DIR" commit -m "artifacts: archive verified .91 native Maps opt-in signed DEB from run $ID [skip ci]"
+            if git -C "$DIR" push origin HEAD:"$BR"; then
+              git worktree remove --force "$DIR"
+              git fetch origin "$BR"
+              git show "FETCH_HEAD:sideplay/jb-embedded-appbridge/evidence/runs/$ID/SHA256SUMS.txt" | grep -F 'e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741'
+              echo 'DUOFACE_091_GITHUB_ARCHIVE_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+            echo "Feature branch changed, retrying from newest HEAD attempt=$attempt"
+          done
+          echo 'FAILED: could not safely archive signed .91 to GitHub' >&2
+          exit 1
