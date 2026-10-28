@@ -34,7 +34,7 @@ ldid -S "$DOCK_DYLIB"
 YT_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
-  -framework UIKit -framework Foundation \
+  -framework UIKit -framework Foundation -framework CoreGraphics \
   -o "$YT_DYLIB" DFYouTubeOrientationRelay.m
 cp DFYouTubeOrientationRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist"
 ldid -S "$YT_DYLIB"

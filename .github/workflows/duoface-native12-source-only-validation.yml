@@ -76,6 +76,12 @@ jobs:
               -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
               -Wno-deprecated-declarations -I . "$FILE"
           done
+          # Link the app receiver too: syntax alone cannot catch missing frameworks.
+          xcrun --sdk iphoneos clang -dynamiclib -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" -Wall -Wextra -Werror \
+            -Wno-deprecated-declarations -framework UIKit -framework Foundation \
+            -framework CoreGraphics -o "$RUNNER_TEMP/DFYouTubeOrientationRelay.dylib" DFYouTubeOrientationRelay.m
+          xcrun lipo "$RUNNER_TEMP/DFYouTubeOrientationRelay.dylib" -verify_arch arm64
           # Historical OWN Speed8 HUD view has been recovered but is NOT
           # mounted/linked to the live host until real non-intercepting owner QA.
           xcrun --sdk iphoneos clang++ -x objective-c++ -std=c++17 -fsyntax-only \
