@@ -1,10 +1,16 @@
-# Build request — owner-scoped manual scene observer .83 — 2026-10-28
+# .84 integrated rootless Sileo test build — 2026-10-28
 
-User explicitly requests a Sileo-installable test release because local/car CI-only changes cannot be evaluated on their CarPlay device.
+User: “Bắt đầu làm đi. Lưu lại những thành công để sau này còn tìm ra.” Continue known-good .83 video/no-crash result by isolating orientation repair as **0.0.84~portraitpolicy1**; NEVER change, delete or relabel immutable .83.
 
-- Build integrated **0.0.83~manualobserver1** from current branch checkout using NativeHost **0.1.92~manualobserver1**; preserve package identity `com.duoface.jb.embedded` and versioned immutable artifact.
-- Evidence basis: Native12 exact SBAppViewController observer replacement at 0x2c8ca8 / manual lifecycle NO branch 0x2c8e7c; DuoFace .82 three SpringBoard SIGTRAP +720 after YouTube playback, and user-confirmed Choicy AppData Deny+respring **still crashed**. The post-Choicy IPS is not yet uploaded.
-- Change scope: first-party `DFSceneLifecycle.m` owner-scoped manual observer; only consume for registered current live controller/handle/scene with `automatesLifecycle==NO`. All foreign, stale, automatically-managed and revoked callbacks must go to Apple original IMP. Do not touch UI, Dock, Zoom, logo, menus, frame or app viewport; no vendor binary/license.
-- Require all five Python test suites, executable Foundation runtime observer harness, syntax check, four current-source signed component builds, exact single rootless .83 DEB, source SHA and SHA256, unique GitHub Actions run archive. Do not reuse signed .82 binary or label an .82 file as .83.
-- Staging build is NOT a device pass. After CI/artifact verification, publish version **0.0.83~manualobserver1** to the existing Sileo repository only after validating public Packages and binary checksum. Preserve all older packages.
-- On user device, parked-car test YouTube playback, other media apps, split/solo, close/reopen, Dock/Zoom/logo, and export newest SpringBoard IPS plus DuoFaceAudit if crash persists.
+Source branch: `feature/duoface-jb-embedded-appbridge-20261020`. Build nativehost **0.1.93~portraitpolicy1** from EXACT current checkout; 4 self-owned signed modules; combined package **com.duoface.jb.embedded_0.0.84~portraitpolicy1_iphoneos-arm64.deb**. Require source SHA, SHA256 and unique GitHub artifacts.
+
+Evidence:
+- .83 playback/no-crash confirmed by user; wrong orientation after zoom persists.
+- Read-only five-DEB audit run 40621241302 verified Native12 portrait-only eligible main-scene hook and two native size setters absent in .83.
+- .84 first-party code `DFSceneOrientationPolicy.m` + strict owner registration in `DFSceneHost.m`; **do not modify the .83 manual observer crash fix**.
+- Separate source/runtime gate **40623550032 SUCCESS**; executable fake-SpringBoard, Python and original lifecycle boundary tests passed. Not a device test.
+- Explicit known-good snapshot: `sideplay/audit/native12-083-rotation-20261028/KNOWN_GOOD_083_AND_084.md`.
+
+Packaging safety: use existing `.github/workflows/duoface-jb-embedded-appbridge-package.yml`, macos-15, Theos, ldid, four component builds, integrated provenance, signed binary, one immutable archive by run ID. No vendor source/DEB/licensing, no alternate project repo. Keep all older Sileo binaries.
+
+Acceptance of CI is only SIGNED PACKAGE and checksum; not a real-world fix. Public Sileo publisher in `chuongnguyen89dn-ui/carplaydsp` must be updated ONLY for this new version AFTER package SHA checks. Test on iPhone X/CarPlay: YouTube fullscreen/split/solo, no crash, correct orientation, Dock/Zoom/logo unaffected. If device fail, revert to immutable .83 and collect new scene-orientation traces.
