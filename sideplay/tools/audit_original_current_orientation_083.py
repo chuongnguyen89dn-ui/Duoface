@@ -107,7 +107,15 @@ def audit(repo,inputs,out):
         str(select(out/"native12","DuoFaceDashboard.dylib"))]
    done=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
    lines=done.stdout.decode("utf8","replace").splitlines()
-   code=[line.strip() for line in lines if re.match(r"^\s*(?:0x)?[0-9a-f]{5,}:\s",line)]
+   # LLVM Mach-O ignores --start-address in some versions and begins
+   # at 0x10000. Filter again by parsed address to prevent unrelated
+   # original code/assets from entering the audit report.
+   low,high=int(start,16),int(stop,16)
+   code=[]
+   for line in lines:
+    match=re.match(r"^\s*(?:0x)?([0-9a-fA-F]+):\s",line)
+    if match and low<=int(match.group(1),16)<high:
+     code.append(line.strip())
    hook_disassembly[label]={"status":"PASS" if done.returncode==0 and code else "EMPTY",
                             "start":start,"stop":stop,"instructions":code[:180],
                             "error":done.stderr.decode("utf8","replace")[:300]}
