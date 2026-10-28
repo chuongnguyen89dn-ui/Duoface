@@ -228,13 +228,17 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  (void)tableView;(void)section;
- return self.tabs.selectedSegmentIndex==2?9:(NSInteger)self.installedApps.count;
+ return self.tabs.selectedSegmentIndex==2?10:(NSInteger)self.installedApps.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
  if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                      reuseIdentifier:@"DuoFaceInstalled"];
- if(self.tabs.selectedSegmentIndex==2){
+ if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
+    cell.textLabel.text=@"Thử nghiệm bản đồ CarPlay native";
+    cell.detailTextLabel.text=@"Gắn / khôi phục Maps trên CarPlay, chỉ khi xe đang đỗ";
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+ } else if(self.tabs.selectedSegmentIndex==2){
     NSArray *titles=@[@"Một khung",@"Trái / phải",@"Trên / dưới",
         @"Ba cột",@"Một trái, hai phải",@"Hai trái, một phải",
         @"Một trên, hai dưới",@"Hai trên, một dưới",@"Bốn ô"];
@@ -253,9 +257,73 @@
  cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];
  return cell;
 }
+- (void)nativeMapPaneCommand:(NSString *)operation slot:(NSInteger)slot {
+    // An actual opt-in action from the iPhone app, never an automatic hook
+    // on Maps navigation. CarPlay-only coordinator verifies one genuine
+    // DBApplicationSceneViewController, real system Dock and same UIWindow.
+    NSString *request=NSUUID.UUID.UUIDString;
+    NSString *commandPath=@"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.command.v1.plist";
+    NSDictionary *record=@{@"Version":@1,@"Operation":operation,
+        @"MapSlot":@(slot),@"RequestID":request,
+        @"Timestamp":@(NSDate.date.timeIntervalSince1970)};
+    if(![record writeToFile:commandPath atomically:YES]){
+        [self nativeMapPaneAlert:@"Không gửi được lệnh" detail:@"Không thể ghi yêu cầu vào iPhone. Bản đồ trên xe không bị thay đổi."];
+        return;
+    }
+    notify_post("com.duoface.nativehost.map-pane.command.v1");
+    __weak typeof(self) weakSelf=self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(1.5*NSEC_PER_SEC)),
+                   dispatch_get_main_queue(),^{
+        typeof(self) strongSelf=weakSelf;
+        if(!strongSelf || !strongSelf.isViewLoaded || !strongSelf.view.window)return;
+        NSDictionary *ack=[NSDictionary dictionaryWithContentsOfFile:
+          @"/var/mobile/Library/Preferences/com.duoface.nativehost.map-pane.ack.v1.plist"];
+        if(![ack[@"RequestID"] isEqualToString:request]){
+            [strongSelf nativeMapPaneAlert:@"Chưa có phản hồi CarPlay"
+                detail:@"Chưa nhận được ACK. Có thể chưa có CarPlay hoặc bộ thử nghiệm chưa được cài. Không coi là bản đồ đã ghép thành công."];
+            return;
+        }
+        BOOL applied=[ack[@"Applied"] isEqual:@YES];
+        NSString *detail=[NSString stringWithFormat:
+            @"%@: %@. ACK chỉ xác nhận thao tác controller, KHÔNG xác nhận Maps vẽ đúng hoặc dẫn đường liên tục.",
+            ack[@"OwnerProcess"]?:@"CarPlay",ack[@"Reason"]?:@"unknown"];
+        [strongSelf nativeMapPaneAlert:applied?@"Đã nhận thao tác":@"CarPlay từ chối ghép" detail:detail];
+    });
+}
+- (void)nativeMapPaneAlert:(NSString *)title detail:(NSString *)detail {
+    if(self.presentedViewController)return;
+    UIAlertController *alert=[UIAlertController alertControllerWithTitle:title message:detail
+       preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Đóng" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+- (void)showNativeMapPaneChoices {
+    UIAlertController *menu=[UIAlertController alertControllerWithTitle:@"Maps native — thử nghiệm"
+        message:@"Chỉ dùng khi xe đang đỗ. Mở Google Maps trực tiếp trên CarPlay và giữ bản đồ hiện trên xe. DuoFace thử chuyển controller native sang một ô, có thể bị hệ thống từ chối. Không đổi giấy phép/CarPlay Customize, không phóng to Maps iPhone."
+        preferredStyle:UIAlertControllerStyleAlert];
+    __weak typeof(self) weakSelf=self;
+    [menu addAction:[UIAlertAction actionWithTitle:@"Bản đồ bên trái"
+        style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
+            [weakSelf nativeMapPaneCommand:@"Attach" slot:0];
+        }]];
+    [menu addAction:[UIAlertAction actionWithTitle:@"Bản đồ bên phải"
+        style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){
+            [weakSelf nativeMapPaneCommand:@"Attach" slot:1];
+        }]];
+    [menu addAction:[UIAlertAction actionWithTitle:@"Khôi phục giao diện Maps"
+        style:UIAlertActionStyleDestructive handler:^(__unused UIAlertAction *a){
+            [weakSelf nativeMapPaneCommand:@"Restore" slot:0];
+        }]];
+    [menu addAction:[UIAlertAction actionWithTitle:@"Hủy" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:menu animated:YES completion:nil];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
  [tableView deselectRowAtIndexPath:indexPath animated:YES];
  if(self.tabs.selectedSegmentIndex!=2)return;
+ if(indexPath.row==9) {
+    [self showNativeMapPaneChoices];
+    return;
+ }
  BOOL success=[self writeNativeLayoutPreset:indexPath.row];
  if(success){[self.appsTable reloadData];return;}
  UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"Không lưu được bố cục"
