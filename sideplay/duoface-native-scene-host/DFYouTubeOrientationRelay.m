@@ -84,17 +84,39 @@
     if(!self.snapshots)self.snapshots=[NSMapTable weakToStrongObjectsMapTable];
     self.applying=YES;
     CGSize size=CGSizeMake([self.state[@"width"] doubleValue],[self.state[@"height"] doubleValue]);
-    NSUInteger applied=0;
+    NSUInteger applied=0, windowsFromScene=0, windowsFromInternal=0, layoutRefreshes=0;
     NSMutableArray *measurements=[NSMutableArray array];
     @try {
+        // .87 only searched UIWindowScene.windows and could leave YouTube's
+        // internal video presentation window untouched. Native12 original
+        // UIKit reconciler checks both normal and internal window enumerators.
+        // Keep the exact owned UIWindowScene and normal-level guard below.
+        NSMutableOrderedSet<UIWindow *> *candidates=[NSMutableOrderedSet orderedSet];
         for(UIWindow *window in owned.windows) {
+            if([window isKindOfClass:UIWindow.class]) {
+                [candidates addObject:window]; ++windowsFromScene;
+            }
+        }
+        NSArray *internal=DFYTVisibleInternalWindows(UIApplication.sharedApplication);
+        for(id object in internal) {
+            if([object isKindOfClass:UIWindow.class] && ((UIWindow *)object).windowScene==owned) {
+                [candidates addObject:(UIWindow *)object]; ++windowsFromInternal;
+            }
+        }
+        for(UIWindow *window in candidates) {
             if(window.windowScene!=owned || window.hidden || window.windowLevel!=UIWindowLevelNormal ||
                !window.rootViewController || [NSStringFromClass(window.class) containsString:@"Keyboard"] ||
                [NSStringFromClass(window.class) containsString:@"TextEffects"])continue;
             if(!DFYTRotationABI(window))continue;
             DFYTWindowSnapshot *saved=[self.snapshots objectForKey:window];
             if(saved && CGSizeEqualToSize(window.bounds.size,size) &&
-               window.rootViewController.interfaceOrientation==UIInterfaceOrientationPortrait)continue;
+               window.rootViewController.interfaceOrientation==UIInterfaceOrientationPortrait) {
+                // Focus/Control-Center gestures can force a later UIKit reflow
+                // without changing frame or reported orientation. Native12
+                // uses the distinct layout invalidation selector after rotate.
+                if(DFYTUpdateWindowLayout(window.rootViewController))++layoutRefreshes;
+                continue;
+            }
             if(!saved) {
                 saved=[DFYTWindowSnapshot new]; saved.frame=window.frame; saved.bounds=window.bounds;
                 saved.orientation=window.rootViewController.interfaceOrientation;
@@ -106,6 +128,7 @@
             window.frame=(CGRect){CGPointZero,size}; window.bounds=(CGRect){CGPointZero,size};
             [window setNeedsLayout]; [window layoutIfNeeded];
             [window.rootViewController.view setNeedsLayout]; [window.rootViewController.view layoutIfNeeded];
+            if(DFYTUpdateWindowLayout(window.rootViewController))++layoutRefreshes;
             ++applied;
             if(measurements.count<8)[measurements addObject:@{
                 @"width":@(window.bounds.size.width),@"height":@(window.bounds.size.height),
@@ -113,7 +136,10 @@
         }
         DFYTPost(DFYTAckName,@{@"bundleIdentifier":DFYTBundle,@"owner":self.state[@"owner"],
             @"sceneIdentifier":self.state[@"sceneIdentifier"],@"phase":@"app-reflow-measured",
-            @"windowsApplied":@(applied),@"windows":measurements,@"sceneOrientation":@(owned.interfaceOrientation),
+            @"windowsApplied":@(applied),@"windows":measurements,
+            @"sceneWindowCount":@(windowsFromScene),@"internalWindowCount":@(windowsFromInternal),
+            @"layoutRefreshes":@(layoutRefreshes),
+            @"sceneOrientation":@(owned.interfaceOrientation),
             @"sceneWidth":@(owned.coordinateSpace.bounds.size.width),
             @"sceneHeight":@(owned.coordinateSpace.bounds.size.height)});
     } @catch(NSException *error) {
