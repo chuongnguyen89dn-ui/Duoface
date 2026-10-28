@@ -2,18 +2,16 @@ import pathlib,unittest
 R=pathlib.Path(__file__).resolve().parents[1]
 def src(s):return (R/s).read_text()
 class OriginalOmniMap85(unittest.TestCase):
- def test_original_omnicar_shared_zoom_range_and_explicit_map_only_profile(self):
+ def test_map_zoom_guess_removed_until_native_carplay_owner_is_proven(self):
   p=src("DFHostedMapRenderSize.h")
-  self.assertIn('@"com.apple.Maps"',p)
-  self.assertIn('@"com.google.Maps"',p)
-  self.assertIn('@"com.waze.iphone"',p)
-  self.assertIn('@"vn.vietmap.live"',p)
-  self.assertIn('DFIsMapNavigationBundle(bundleID)?0.80:0.50',p)
-  self.assertIn('round(pane.width/z),round(pane.height/z)',p)
-  self.assertIn('z<0.50||z>1.0',p)
+  for key in ('@"com.apple.Maps"','@"com.google.Maps"','@"com.waze.iphone"','@"vn.vietmap.live"'):
+   self.assertIn(key,p)
+  self.assertNotIn('DFIsMapNavigationBundle(bundleID)?0.80:0.50',p)
+  self.assertIn('return (CGFloat)0.50;',p)
+  self.assertIn('round(pane.width*2.0),round(pane.height*2.0)',p)
+  self.assertIn('native CarPlay map compositor',p)
  def test_host_lifecycle_and_active_owned_scene_only(self):
   h=src("DFSceneHost.m")
-  self.assertIn('DFHostedLogicalSizeForBundle(size,self.bundleID);',h)
   self.assertEqual(h.count('CGSize logical=DFHostedLogicalSizeForBundle(size,self.bundleID);'),2)
   self.assertIn('DFHostedLogicalSizeForBundle(surface.bounds.size,surface.bundleID)',h)
   self.assertLess(h.index('(void)DFSceneOrientationPolicyInstall();'),h.index('DFHostInt(self.appController, @"setRequestedMode:", 2);'))
@@ -24,14 +22,14 @@ class OriginalOmniMap85(unittest.TestCase):
   self.assertIn('surface.owner.live[surface.bundleID]!=surface',h)
   self.assertIn('[self revokeOrientationPolicy];',h)
   self.assertIn('DFSceneLifecycleUnregister(self.appController);',h)
- def test_native_carplay_app_scene_is_not_faked_by_map_zoom(self):
-  h=src("DFHostedMapRenderSize.h")
-  srcHost=src("DFSceneHost.m")
-  self.assertNotIn('CPMapTemplate',h)
-  self.assertNotIn('CPWindow',h)
-  self.assertNotIn('setInterfaceOrientation:',srcHost)
-  self.assertNotIn('requestGeometryUpdate',srcHost)
- def test_known_good_083_scoped_manual_scene_observer_kept(self):
+ def test_no_entitlement_spoof_or_fabricated_native_map(self):
+  p=src("DFHostedMapRenderSize.h")
+  host=src("DFSceneHost.m")
+  self.assertNotIn('CPMapTemplate',p)
+  self.assertNotIn('CPWindow',p)
+  self.assertNotIn('setInterfaceOrientation:',host)
+  self.assertNotIn('requestGeometryUpdate',host)
+ def test_known_good_083_lifecycle_unchanged(self):
   a=src("DFSceneLifecycle.m")
   self.assertIn('DFIsOwnedManualSceneObserver',a)
   self.assertIn('sPreviousSceneObserver(controller,selector,handle,diff,previousSettings)',a)
