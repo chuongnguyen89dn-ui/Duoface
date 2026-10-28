@@ -1,0 +1,4060 @@
+{
+  "source": "actual verified Native12 original DEB HUD8 only",
+  "source_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "source_dashboard_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "source_git_blob": "b894fb893c3da3a38ad035c7115fc981e10fcc00",
+  "source_sha256": "7d264b12813a999c3d6cfd41196ba9134997019d7a5c426be849fc0d78af73f1",
+  "injection_filters": {
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.plist": {
+      "Bundles": [
+        "com.apple.CarPlayApp",
+        "com.apple.CarPlay",
+        "com.apple.dashboard",
+        "com.apple.springboard",
+        "com.apple.SpringBoard",
+        "com.google.ios.youtube",
+        "com.google.ios.youtubemusic",
+        "com.netflix.Netflix",
+        "org.videolan.vlc-ios",
+        "com.apple.mobilesafari",
+        "tv.twitch",
+        "com.zhiliaoapp.musically",
+        "com.google.Maps",
+        "com.waze.iphone",
+        "com.spotify.client",
+        "com.apple.Preferences",
+        "com.apple.mobilenotes",
+        "com.apple.mobilephone",
+        "com.apple.Music",
+        "com.google.chrome.ios",
+        "com.apple.BarcodeScanner",
+        "com.apple.PrintKit.Print-Center",
+        "com.duoface.duofaceui"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceFullscreenBridge.plist": {
+      "Bundles": [
+        "com.apple.CarPlayApp",
+        "com.apple.CarPlay",
+        "com.apple.dashboard",
+        "com.apple.springboard"
+      ],
+      "Executables": [
+        "CarPlay",
+        "CarPlayApp",
+        "Dashboard",
+        "SpringBoard"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceLogoGripOnly.plist": {
+      "Bundles": [
+        "com.apple.CarPlayApp",
+        "com.apple.CarPlay",
+        "com.apple.dashboard",
+        "com.apple.springboard",
+        "com.apple.SpringBoard",
+        "com.duoface.duofaceui"
+      ]
+    },
+    "var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceVisualHook.plist": {
+      "Bundles": [
+        "com.apple.CarPlayApp",
+        "com.apple.CarPlay",
+        "com.apple.dashboard",
+        "com.apple.springboard",
+        "com.apple.SpringBoard",
+        "com.duoface.duofaceui"
+      ]
+    }
+  },
+  "images": {
+    "DuoFaceDashboard.dylib": {
+      "sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+      "objc_methods": 757,
+      "arm64_instructions": 760136,
+      "xrefs": {
+        "main_scene_hook": {
+          "count": 1,
+          "first8": [
+            {
+              "pc": "0x2c7d9c",
+              "asm": "ldr\tx1, #0xb75b4 ; Objc selector ref: _mainSceneSupportsInterfaceOrientation:",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            }
+          ]
+        },
+        "interface_rotation": {
+          "count": 20,
+          "first8": [
+            {
+              "pc": "0xacf9c",
+              "asm": "ldr\tx24, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x330",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfb0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x344",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfcc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x360",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad66c",
+              "asm": "ldr\tx21, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0xb0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2aa5b0",
+              "asm": "ldr\tx23, #0xd4a58 ; Objc selector ref: updateLayoutToCurrentInterfaceOrientation",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2aa5c0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateLayoutToCurrentInterfaceOrientation]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2aa5d4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateLayoutToCurrentInterfaceOrientation]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2aad04",
+              "asm": "ldr\tx23, #0xd4304 ; Objc selector ref: updateLayoutToCurrentInterfaceOrientation",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            }
+          ]
+        },
+        "orientation_write": {
+          "count": 0,
+          "first8": []
+        },
+        "app_orientation_feedback": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_geometry": {
+          "count": 1,
+          "first8": [
+            {
+              "pc": "0x2acbb0",
+              "asm": "adr\tx0, #393800 ; literal pool for: \"requestGeometryUpdateWithPreferences:errorHandler:\"",
+              "nearest": {
+                "class": "CBAppStateListener",
+                "selector": "handleAppStateNotification:",
+                "imp": "0x2ab98c",
+                "distance_from_imp": "0x1224",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "ui_scene": {
+          "count": 7,
+          "first8": [
+            {
+              "pc": "0xaf738",
+              "asm": "ldr\tx1, [x8, #0x458] ; Objc selector ref: connectedScenes",
+              "nearest": {
+                "class": "CBWindow",
+                "selector": "carPlayWindowScene",
+                "imp": "0xaf690",
+                "distance_from_imp": "0xa8",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xaf73c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 connectedScenes]",
+              "nearest": {
+                "class": "CBWindow",
+                "selector": "carPlayWindowScene",
+                "imp": "0xaf690",
+                "distance_from_imp": "0xac",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2a8918",
+              "asm": "ldr\tx1, #0xd5b40 ; Objc selector ref: connectedScenes",
+              "nearest": {
+                "class": "CBBridgeManagerDashboard",
+                "selector": ".cxx_destruct",
+                "imp": "0x2a64fc",
+                "distance_from_imp": "0x241c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2a8920",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 connectedScenes]",
+              "nearest": {
+                "class": "CBBridgeManagerDashboard",
+                "selector": ".cxx_destruct",
+                "imp": "0x2a64fc",
+                "distance_from_imp": "0x2424",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2a8940",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 connectedScenes]",
+              "nearest": {
+                "class": "CBBridgeManagerDashboard",
+                "selector": ".cxx_destruct",
+                "imp": "0x2a64fc",
+                "distance_from_imp": "0x2444",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2aaed4",
+              "asm": "ldr\tx1, #0xd3584 ; Objc selector ref: connectedScenes",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2aaee0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 connectedScenes]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            }
+          ]
+        },
+        "fullscreen": {
+          "count": 23,
+          "first8": [
+            {
+              "pc": "0x901c",
+              "asm": "add\tx8, x8, #0xe88 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "class": "CBLocalization",
+                "selector": ".cxx_destruct",
+                "imp": "0x8b0c",
+                "distance_from_imp": "0x510",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad3c",
+              "asm": "add\tx10, x10, #0xe88 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "class": "CBLocalization",
+                "selector": ".cxx_destruct",
+                "imp": "0x8b0c",
+                "distance_from_imp": "0x2230",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xca64",
+              "asm": "add\tx10, x10, #0xe88 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            },
+            {
+              "pc": "0xca78",
+              "asm": "add\tx10, x10, #0x268 ; Objc cfstring ref: @\"Focus Fullscreen\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            },
+            {
+              "pc": "0xd2c0",
+              "asm": "add\tx13, x13, #0xd08 ; Objc cfstring ref: @\"1 App (Fullscreen)\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            },
+            {
+              "pc": "0xd3b0",
+              "asm": "add\tx13, x13, #0xe48 ; Objc cfstring ref: @\"1 fullscreen app\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            },
+            {
+              "pc": "0xe784",
+              "asm": "add\tx10, x10, #0xe88 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            },
+            {
+              "pc": "0x104ac",
+              "asm": "add\tx10, x10, #0xe88 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x8b0c"
+              }
+            }
+          ]
+        },
+        "video": {
+          "count": 4,
+          "first8": [
+            {
+              "pc": "0x2a914c",
+              "asm": "adr\tx0, #407532 ; literal pool for: \"AVPlayerLayer\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2a9a88",
+              "asm": "adr\tx0, #405168 ; literal pool for: \"AVPlayerLayer\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2a64fc"
+              }
+            },
+            {
+              "pc": "0x2b28b4",
+              "asm": "adr\tx0, #373368 ; literal pool for: \"AVPlayer\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            },
+            {
+              "pc": "0x2b29d0",
+              "asm": "adr\tx0, #373101 ; literal pool for: \"AVPlayerItem\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            }
+          ]
+        },
+        "scene_handle": {
+          "count": 11,
+          "first8": [
+            {
+              "pc": "0xad714",
+              "asm": "ldr\tx23, [x8, #0x328] ; Objc selector ref: sceneHandle",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x158",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad720",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 sceneHandle]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x164",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xadc48",
+              "asm": "add\tx0, x0, #0xc88 ; Objc cfstring ref: @\"[CBBridgedUIAppView] Warning: Exception resolving sceneHandle: %@\"",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x68c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xae8c4",
+              "asm": "ldr\tx21, [x8, #0x328] ; Objc selector ref: sceneHandle",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "startInParentViewController:",
+                "imp": "0xadf30",
+                "distance_from_imp": "0x994",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xae8d0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 sceneHandle]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "startInParentViewController:",
+                "imp": "0xadf30",
+                "distance_from_imp": "0x9a0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x2c7d8c",
+              "asm": "adr\tx0, #286661 ; literal pool for: \"SBDeviceApplicationSceneHandle\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            },
+            {
+              "pc": "0x2c7dc8",
+              "asm": "ldr\tx1, #0xb7590 ; Objc selector ref: sceneHandle:didUpdateSettingsWithDiff:previousSettings:",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            },
+            {
+              "pc": "0x2c7de4",
+              "asm": "ldr\tx1, #0xb757c ; Objc selector ref: sceneHandle:didDestroyScene:",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x2ab98c"
+              }
+            }
+          ]
+        },
+        "update_settings": {
+          "count": 8,
+          "first8": [
+            {
+              "pc": "0xad970",
+              "asm": "ldr\tx26, [x8, #0x340] ; Objc selector ref: updateSettingsWithBlock:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x3b4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad980",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x3c4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad990",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x3d4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad9b4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x3f8",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad9f0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x434",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xada28",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x46c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xada60",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x4a4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xadacc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSettingsWithBlock:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0x510",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "scene_reference": {
+          "count": 19,
+          "first8": [
+            {
+              "pc": "0xacf9c",
+              "asm": "ldr\tx24, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x330",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfb0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x344",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfcc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x360",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfd4",
+              "asm": "ldr\tx24, [x8, #0x310] ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x368",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfe4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x378",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad004",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x398",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad66c",
+              "asm": "ldr\tx21, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0xb0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad6ac",
+              "asm": "ldr\tx23, [x8, #0x310] ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0xf0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "scene_owner": {
+          "count": 40,
+          "first8": [
+            {
+              "pc": "0xaa28c",
+              "asm": "ldr\tx1, [x8, #0x218] ; Objc selector ref: isUIAppBridging",
+              "nearest": {
+                "class": "CBMultitaskingOverlayView",
+                "selector": "appSelected:",
+                "imp": "0xa9ea8",
+                "distance_from_imp": "0x3e4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xaa290",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]",
+              "nearest": {
+                "class": "CBMultitaskingOverlayView",
+                "selector": "appSelected:",
+                "imp": "0xa9ea8",
+                "distance_from_imp": "0x3e8",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x185044",
+              "asm": "ldr\tx1, [x8, #0x218] ; Objc selector ref: isUIAppBridging",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            },
+            {
+              "pc": "0x185048",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            },
+            {
+              "pc": "0x185080",
+              "asm": "ldr\tx1, [x8, #0x218] ; Objc selector ref: isUIAppBridging",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            },
+            {
+              "pc": "0x185084",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            },
+            {
+              "pc": "0x1850d0",
+              "asm": "ldr\tx1, [x8, #0x218] ; Objc selector ref: isUIAppBridging",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            },
+            {
+              "pc": "0x1850d4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x153544"
+              }
+            }
+          ]
+        },
+        "notification": {
+          "count": 24,
+          "first8": [
+            {
+              "pc": "0x33714",
+              "asm": "add\tx0, x0, #0x5f2 ; literal pool for: \"NSDistributedNotificationCenter\"",
+              "nearest": {
+                "class": "CBAssistantManager",
+                "selector": "triggerBridgeApp:",
+                "imp": "0x33550",
+                "distance_from_imp": "0x1c4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x33908",
+              "asm": "add\tx0, x0, #0x5f2 ; literal pool for: \"NSDistributedNotificationCenter\"",
+              "nearest": {
+                "class": "CBAssistantManager",
+                "selector": "dismissCarBridgeApp",
+                "imp": "0x337c8",
+                "distance_from_imp": "0x140",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x1d0834",
+              "asm": "ldr\tx0, [x24, #0xa10] ; Objc class ref: _OBJC_CLASS_$_NSDistributedNotificationCenter",
+              "nearest": {
+                "class": "CBBridgeManager",
+                "selector": "registerForNotifications",
+                "imp": "0x1d07fc",
+                "distance_from_imp": "0x38",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x1d0844",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[NSDistributedNotificationCenter defaultCenter]",
+              "nearest": {
+                "class": "CBBridgeManager",
+                "selector": "registerForNotifications",
+                "imp": "0x1d07fc",
+                "distance_from_imp": "0x48",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x1d8dec",
+              "asm": "ldr\tx0, [x8, #0xa10] ; Objc class ref: _OBJC_CLASS_$_NSDistributedNotificationCenter",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1d1624"
+              }
+            },
+            {
+              "pc": "0x1d8df8",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[NSDistributedNotificationCenter defaultCenter]",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1d1624"
+              }
+            },
+            {
+              "pc": "0x249b48",
+              "asm": "ldr\tx0, [x8, #0xa10] ; Objc class ref: _OBJC_CLASS_$_NSDistributedNotificationCenter",
+              "nearest": {
+                "class": "CBBridgeManager",
+                "selector": "notifyStateUpdated",
+                "imp": "0x249a54",
+                "distance_from_imp": "0xf4",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x249b54",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[NSDistributedNotificationCenter defaultCenter]",
+              "nearest": {
+                "class": "CBBridgeManager",
+                "selector": "notifyStateUpdated",
+                "imp": "0x249a54",
+                "distance_from_imp": "0x100",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "orientation_notification": {
+          "count": 62,
+          "first8": [
+            {
+              "pc": "0xacf9c",
+              "asm": "ldr\tx24, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x330",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfb0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x344",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfcc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withInterfaceOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x360",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfd4",
+              "asm": "ldr\tx24, [x8, #0x310] ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x368",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xacfe4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x378",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad004",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateLayout",
+                "imp": "0xacc6c",
+                "distance_from_imp": "0x398",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad66c",
+              "asm": "ldr\tx21, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0xb0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xad6ac",
+              "asm": "ldr\tx23, [x8, #0x310] ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:",
+              "nearest": {
+                "class": "CBBridgedUIAppView",
+                "selector": "updateSceneSettingsFrame",
+                "imp": "0xad5bc",
+                "distance_from_imp": "0xf0",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "youtube": {
+          "count": 2,
+          "first8": [
+            {
+              "pc": "0x33460",
+              "asm": "add\tx2, x2, #0xcc8 ; Objc cfstring ref: @\"com.google.ios.youtube\"",
+              "nearest": {
+                "class": "CBAssistantManager",
+                "selector": "handleMusicCommand:",
+                "imp": "0x33088",
+                "distance_from_imp": "0x3d8",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xa214c",
+              "asm": "add\tx2, x2, #0xcc8 ; Objc cfstring ref: @\"com.google.ios.youtube\"",
+              "nearest": {
+                "class": "CBMultitaskingOverlayView",
+                "selector": "loadInstalledApps",
+                "imp": "0xa0c48",
+                "distance_from_imp": "0x1504",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        }
+      },
+      "focused_methods": [
+        {
+          "class": "CBBridgeManager",
+          "selector": "renderSizeForBundleID:",
+          "imp": "0x24c920",
+          "instructions": 510,
+          "bl": [
+            {
+              "callsite": "0x24c950",
+              "branch_to": "0x2ecd3c"
+            },
+            {
+              "callsite": "0x24c968",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24c97c",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24c998",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24c9a0",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x24c9d0",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24c9dc",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0x24c9f4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24c9fc",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x24ca14",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca28",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca34",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0x24ca44",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca4c",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x24ca60",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca74",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca8c",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x24ca94",
+              "branch_to": "0x2ecd60"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0x24c950",
+              "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+            },
+            {
+              "pc": "0x24c960",
+              "asm": "ldr\tx1, [x8, #0x568] ; Objc selector ref: length"
+            },
+            {
+              "pc": "0x24c968",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 length]"
+            },
+            {
+              "pc": "0x24c974",
+              "asm": "ldr\tx1, [x8, #0xc78] ; Objc selector ref: activated"
+            },
+            {
+              "pc": "0x24c97c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 activated]"
+            },
+            {
+              "pc": "0x24c98c",
+              "asm": "ldr\tx22, [x27, #0x420] ; Objc selector ref: bundleIdentifier"
+            },
+            {
+              "pc": "0x24c998",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+            },
+            {
+              "pc": "0x24c9a0",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x24c9b4",
+              "asm": "b.ne\t0x24d100"
+            },
+            {
+              "pc": "0x24c9c4",
+              "asm": "ldr\tx23, [x8, #0x448] ; Objc selector ref: isEqualToString:"
+            },
+            {
+              "pc": "0x24c9d0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+            },
+            {
+              "pc": "0x24c9dc",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0x24c9e8",
+              "asm": "ldr\tx20, [x8, #0xf20] ; Objc selector ref: currentApp"
+            },
+            {
+              "pc": "0x24c9f4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 currentApp]"
+            },
+            {
+              "pc": "0x24c9fc",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x24ca10",
+              "asm": "ldr\tx1, [x8, #0x610] ; Objc selector ref: class"
+            },
+            {
+              "pc": "0x24ca14",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgedSplitApp class]"
+            },
+            {
+              "pc": "0x24ca20",
+              "asm": "ldr\tx1, [x8, #0x618] ; Objc selector ref: isKindOfClass:"
+            },
+            {
+              "pc": "0x24ca28",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isKindOfClass:]"
+            },
+            {
+              "pc": "0x24ca34",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0x24ca44",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isKindOfClass:]"
+            },
+            {
+              "pc": "0x24ca4c",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x24ca58",
+              "asm": "ldr\tx20, [x8, #0xd68] ; Objc selector ref: focusedSlotIndex"
+            },
+            {
+              "pc": "0x24ca60",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 focusedSlotIndex]"
+            },
+            {
+              "pc": "0x24ca74",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 focusedSlotIndex]"
+            },
+            {
+              "pc": "0x24ca80",
+              "asm": "ldr\tx24, [x8, #0xa18] ; Objc selector ref: appViews"
+            },
+            {
+              "pc": "0x24ca8c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 appViews]"
+            },
+            {
+              "pc": "0x24ca94",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "sendStateToApp:shouldBridge:",
+          "imp": "0x1d1624",
+          "instructions": 1280,
+          "bl": [
+            {
+              "callsite": "0x1d166c",
+              "branch_to": "0x2ecd3c"
+            },
+            {
+              "callsite": "0x1d1688",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x1d16a8",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x1d16b8",
+              "branch_to": "0x2ece98"
+            },
+            {
+              "callsite": "0x1d16e4",
+              "branch_to": "0x2ece80"
+            },
+            {
+              "callsite": "0x1d17b0",
+              "branch_to": "0x2ecb80"
+            },
+            {
+              "callsite": "0x1d17e8",
+              "branch_to": "0x2ecb8c"
+            },
+            {
+              "callsite": "0x1d1b9c",
+              "branch_to": "0x2ecb74"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0x1d166c",
+              "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+            },
+            {
+              "pc": "0x1d167c",
+              "asm": "ldr\tx20, [x8, #0x568] ; Objc selector ref: length"
+            },
+            {
+              "pc": "0x1d1688",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 length]"
+            },
+            {
+              "pc": "0x1d169c",
+              "asm": "ldr\tx1, [x8, #0xbb8] ; Objc selector ref: trackBridgedBundleID:"
+            },
+            {
+              "pc": "0x1d16a8",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 trackBridgedBundleID:]"
+            },
+            {
+              "pc": "0x1d16b8",
+              "asm": "bl\t0x2ece98 ; symbol stub for: _time"
+            },
+            {
+              "pc": "0x1d16e4",
+              "asm": "bl\t0x2ece80 ; symbol stub for: _sysctl"
+            },
+            {
+              "pc": "0x1d16ec",
+              "asm": "cmp\tx8, #0x0"
+            },
+            {
+              "pc": "0x1d16f0",
+              "asm": "ccmp\tw0, #0x0, #0x0, gt"
+            },
+            {
+              "pc": "0x1d1790",
+              "asm": "cmp\tx8, #0x35"
+            },
+            {
+              "pc": "0x1d1794",
+              "asm": "b.ne\t0x1d1758"
+            },
+            {
+              "pc": "0x1d17b0",
+              "asm": "bl\t0x2ecb80 ; symbol stub for: _fopen"
+            },
+            {
+              "pc": "0x1d17e8",
+              "asm": "bl\t0x2ecb8c ; symbol stub for: _fread"
+            },
+            {
+              "pc": "0x1d17ec",
+              "asm": "cmp\tx0, #0x1"
+            },
+            {
+              "pc": "0x1d17f0",
+              "asm": "b.ne\t0x1d1b94"
+            },
+            {
+              "pc": "0x1d18fc",
+              "asm": "cmp\tx9, #0x40"
+            },
+            {
+              "pc": "0x1d1900",
+              "asm": "b.ne\t0x1d18ec"
+            },
+            {
+              "pc": "0x1d1954",
+              "asm": "cmp\tx9, #0xc0"
+            },
+            {
+              "pc": "0x1d1958",
+              "asm": "b.ne\t0x1d1914"
+            },
+            {
+              "pc": "0x1d1a30",
+              "asm": "cmp\tx9, #0x100"
+            },
+            {
+              "pc": "0x1d1a34",
+              "asm": "b.ne\t0x1d19ac"
+            },
+            {
+              "pc": "0x1d1b1c",
+              "asm": "cmp\tx9, #0x10"
+            },
+            {
+              "pc": "0x1d1b20",
+              "asm": "b.ne\t0x1d1b0c"
+            },
+            {
+              "pc": "0x1d1b54",
+              "asm": "cmp\tx9, #0x20"
+            },
+            {
+              "pc": "0x1d1b58",
+              "asm": "b.ne\t0x1d1b40"
+            },
+            {
+              "pc": "0x1d1b9c",
+              "asm": "bl\t0x2ecb74 ; symbol stub for: _fclose"
+            },
+            {
+              "pc": "0x1d1bec",
+              "asm": "cmp\tx8, #0xe"
+            },
+            {
+              "pc": "0x1d1bf0",
+              "asm": "b.ne\t0x1d1bb4"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "shouldBridge:",
+          "imp": "0x2491b0",
+          "instructions": 279,
+          "bl": [
+            {
+              "callsite": "0x2491e8",
+              "branch_to": "0x2ecd3c"
+            },
+            {
+              "callsite": "0x249200",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249218",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249220",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x249238",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249244",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0x24925c",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249264",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x24928c",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249298",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0x2492b0",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x2492b8",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x2492d0",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x2492e4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x2492f0",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0x249300",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0x249308",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0x249324",
+              "branch_to": "0x2ecd00"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0x2491e8",
+              "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+            },
+            {
+              "pc": "0x2491f8",
+              "asm": "ldr\tx1, [x8, #0x568] ; Objc selector ref: length"
+            },
+            {
+              "pc": "0x249200",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 length]"
+            },
+            {
+              "pc": "0x24920c",
+              "asm": "ldr\tx21, [x8, #0x420] ; Objc selector ref: bundleIdentifier"
+            },
+            {
+              "pc": "0x249218",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+            },
+            {
+              "pc": "0x249220",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x24922c",
+              "asm": "ldr\tx20, [x8, #0x448] ; Objc selector ref: isEqualToString:"
+            },
+            {
+              "pc": "0x249238",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+            },
+            {
+              "pc": "0x249244",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0x24925c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+            },
+            {
+              "pc": "0x249264",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x249278",
+              "asm": "b.ne\t0x2495f0"
+            },
+            {
+              "pc": "0x24928c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+            },
+            {
+              "pc": "0x249298",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0x2492a4",
+              "asm": "ldr\tx23, [x8, #0xf20] ; Objc selector ref: currentApp"
+            },
+            {
+              "pc": "0x2492b0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 currentApp]"
+            },
+            {
+              "pc": "0x2492b8",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x2492cc",
+              "asm": "ldr\tx1, [x8, #0x610] ; Objc selector ref: class"
+            },
+            {
+              "pc": "0x2492d0",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgedSplitApp class]"
+            },
+            {
+              "pc": "0x2492dc",
+              "asm": "ldr\tx1, [x8, #0x618] ; Objc selector ref: isKindOfClass:"
+            },
+            {
+              "pc": "0x2492e4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isKindOfClass:]"
+            },
+            {
+              "pc": "0x2492f0",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0x249300",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isKindOfClass:]"
+            },
+            {
+              "pc": "0x249308",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x24931c",
+              "asm": "ldr\tx1, [x8, #0xa18] ; Objc selector ref: appViews"
+            },
+            {
+              "pc": "0x249324",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 appViews]"
+            },
+            {
+              "pc": "0x24932c",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0x249338",
+              "asm": "ldr\tx24, [x8, #0x898] ; Objc selector ref: countByEnumeratingWithState:objects:count:"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgeManager",
+          "selector": "supportsInterfaceOrientation:forBundleID:",
+          "imp": "0x24d118",
+          "instructions": 2,
+          "bl": [],
+          "selected": []
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "selector": "layoutSubviews",
+          "imp": "0xac8f0",
+          "instructions": 20,
+          "bl": [
+            {
+              "callsite": "0xac91c",
+              "branch_to": "0x2ecd18"
+            },
+            {
+              "callsite": "0xac92c",
+              "branch_to": "0x2ecd00"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0xac914",
+              "asm": "ldr\tx1, [x8, #0xef0] ; Objc selector ref: layoutSubviews"
+            },
+            {
+              "pc": "0xac91c",
+              "asm": "bl\t0x2ecd18 ; Objc message: -[[x0 super] layoutSubviews]"
+            },
+            {
+              "pc": "0xac924",
+              "asm": "ldr\tx1, [x8, #0x2b8] ; Objc selector ref: updateLayout"
+            },
+            {
+              "pc": "0xac92c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateLayout]"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "selector": "refreshSceneLayout",
+          "imp": "0xade58",
+          "instructions": 54,
+          "bl": [
+            {
+              "callsite": "0xade74",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xade84",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xadea4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xadeac",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xadeb4",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0xadec4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xadecc",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xadedc",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xadee4",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0xadef0",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xadef8",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xadf08",
+              "branch_to": "0x2ecd00"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0xade70",
+              "asm": "ldr\tx1, [x8, #0x2b8] ; Objc selector ref: updateLayout"
+            },
+            {
+              "pc": "0xade74",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateLayout]"
+            },
+            {
+              "pc": "0xade7c",
+              "asm": "ldr\tx1, [x8, #0x378] ; Objc selector ref: updateSceneSettingsFrame"
+            },
+            {
+              "pc": "0xade84",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 updateSceneSettingsFrame]"
+            },
+            {
+              "pc": "0xade9c",
+              "asm": "ldr\tx20, [x8, #0x2f0] ; Objc selector ref: view"
+            },
+            {
+              "pc": "0xadea4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xadeac",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xadeb4",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0xadec4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xadecc",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xaded8",
+              "asm": "ldr\tx1, [x8, #0xf00] ; Objc selector ref: setNeedsLayout"
+            },
+            {
+              "pc": "0xadedc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setNeedsLayout]"
+            },
+            {
+              "pc": "0xadee4",
+              "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+            },
+            {
+              "pc": "0xadef0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setNeedsLayout]"
+            },
+            {
+              "pc": "0xadef8",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xadf04",
+              "asm": "ldr\tx1, [x8, #0xf08] ; Objc selector ref: layoutIfNeeded"
+            },
+            {
+              "pc": "0xadf08",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 layoutIfNeeded]"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "selector": "updateLayout",
+          "imp": "0xacc6c",
+          "instructions": 596,
+          "bl": [
+            {
+              "callsite": "0xacccc",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacd00",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacd50",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacd74",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacd84",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacd8c",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xacdb8",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacdc4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacdd0",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacde4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xace04",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xace10",
+              "branch_to": "0x2ecafc"
+            },
+            {
+              "callsite": "0xace5c",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xace70",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xace78",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xace80",
+              "branch_to": "0x2ecd30"
+            },
+            {
+              "callsite": "0xace90",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xacecc",
+              "branch_to": "0x2ecd00"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0xaccc0",
+              "asm": "ldr\tx22, [x8, #0x9b0] ; Objc selector ref: bounds"
+            },
+            {
+              "pc": "0xacccc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bounds]"
+            },
+            {
+              "pc": "0xaccd0",
+              "asm": "fcmp\td2, #0.0"
+            },
+            {
+              "pc": "0xaccdc",
+              "asm": "fcmp\td3, #0.0"
+            },
+            {
+              "pc": "0xaccf4",
+              "asm": "ldr\tx1, [x8, #0x2f8] ; Objc selector ref: calculateNativeSizeForSlotRect:"
+            },
+            {
+              "pc": "0xacd00",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 calculateNativeSizeForSlotRect:]"
+            },
+            {
+              "pc": "0xacd04",
+              "asm": "fcmp\td0, #0.0"
+            },
+            {
+              "pc": "0xacd10",
+              "asm": "fcmp\td1, #0.0"
+            },
+            {
+              "pc": "0xacd44",
+              "asm": "ldr\tx21, [x8, #0xe30] ; Objc selector ref: setTransform:"
+            },
+            {
+              "pc": "0xacd50",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setTransform:]"
+            },
+            {
+              "pc": "0xacd5c",
+              "asm": "ldr\tx23, [x8, #0xa10] ; Objc selector ref: setFrame:"
+            },
+            {
+              "pc": "0xacd74",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setFrame:]"
+            },
+            {
+              "pc": "0xacd80",
+              "asm": "ldr\tx1, [x8, #0x2f0] ; Objc selector ref: view"
+            },
+            {
+              "pc": "0xacd84",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xacd8c",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xacdb8",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xacdc4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xacdd0",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xacdd8",
+              "asm": "ldr\tx1, [x8, #0xdc0] ; Objc selector ref: setAutoresizingMask:"
+            },
+            {
+              "pc": "0xacde4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setAutoresizingMask:]"
+            },
+            {
+              "pc": "0xace00",
+              "asm": "ldr\tx1, [x8, #0x610] ; Objc selector ref: class"
+            },
+            {
+              "pc": "0xace04",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 class]"
+            },
+            {
+              "pc": "0xace10",
+              "asm": "bl\t0x2ecafc ; symbol stub for: _class_getInstanceVariable"
+            },
+            {
+              "pc": "0xace44",
+              "asm": "ldr\tx20, [x8, #0xa10] ; Objc selector ref: setFrame:"
+            },
+            {
+              "pc": "0xace5c",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setFrame:]"
+            },
+            {
+              "pc": "0xace68",
+              "asm": "ldr\tx21, [x8, #0x2f0] ; Objc selector ref: view"
+            },
+            {
+              "pc": "0xace70",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 view]"
+            },
+            {
+              "pc": "0xace78",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "selector": "updateSceneFrame",
+          "imp": "0xade4c",
+          "instructions": 3,
+          "bl": [],
+          "selected": [
+            {
+              "pc": "0xade50",
+              "asm": "ldr\tx1, [x8, #0x2c0] ; Objc selector ref: refreshSceneLayout"
+            }
+          ]
+        },
+        {
+          "class": "CBBridgedUIAppView",
+          "selector": "updateSceneSettingsFrame",
+          "imp": "0xad5bc",
+          "instructions": 548,
+          "bl": [
+            {
+              "callsite": "0xad5fc",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad620",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad638",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad658",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad660",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xad688",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad6a4",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad6bc",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad6dc",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad6ec",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad708",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad720",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad738",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad740",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xad768",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad780",
+              "branch_to": "0x2ecd00"
+            },
+            {
+              "callsite": "0xad788",
+              "branch_to": "0x2ecd60"
+            },
+            {
+              "callsite": "0xad7ac",
+              "branch_to": "0x2ecd00"
+            }
+          ],
+          "selected": [
+            {
+              "pc": "0xad5f8",
+              "asm": "ldr\tx1, [x8, #0x9b0] ; Objc selector ref: bounds"
+            },
+            {
+              "pc": "0xad5fc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bounds]"
+            },
+            {
+              "pc": "0xad600",
+              "asm": "fcmp\td2, #0.0"
+            },
+            {
+              "pc": "0xad608",
+              "asm": "fcmp\td3, #0.0"
+            },
+            {
+              "pc": "0xad61c",
+              "asm": "ldr\tx1, [x8, #0x320] ; Objc selector ref: carPlayUsableBounds"
+            },
+            {
+              "pc": "0xad620",
+              "asm": "bl\t0x2ecd00 ; Objc message: +[CBWindow carPlayUsableBounds]"
+            },
+            {
+              "pc": "0xad630",
+              "asm": "ldr\tx1, [x8, #0x2f8] ; Objc selector ref: calculateNativeSizeForSlotRect:"
+            },
+            {
+              "pc": "0xad638",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 calculateNativeSizeForSlotRect:]"
+            },
+            {
+              "pc": "0xad64c",
+              "asm": "ldr\tx1, [x8, #0x300] ; Objc selector ref: valueForKey:"
+            },
+            {
+              "pc": "0xad654",
+              "asm": "add\tx2, x2, #0xc28 ; Objc cfstring ref: @\"_deviceAppViewController\""
+            },
+            {
+              "pc": "0xad658",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 valueForKey:]"
+            },
+            {
+              "pc": "0xad660",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xad66c",
+              "asm": "ldr\tx21, [x8, #0x308] ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:"
+            },
+            {
+              "pc": "0xad674",
+              "asm": "ldr\tx22, [x8, #0x5d8] ; Objc selector ref: respondsToSelector:"
+            },
+            {
+              "pc": "0xad688",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+            },
+            {
+              "pc": "0xad6a4",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+            },
+            {
+              "pc": "0xad6ac",
+              "asm": "ldr\tx23, [x8, #0x310] ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:"
+            },
+            {
+              "pc": "0xad6bc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]"
+            },
+            {
+              "pc": "0xad6dc",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]"
+            },
+            {
+              "pc": "0xad6ec",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]"
+            },
+            {
+              "pc": "0xad708",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setContentReferenceSize:withContentOrientation:andContainerOrientation:]"
+            },
+            {
+              "pc": "0xad714",
+              "asm": "ldr\tx23, [x8, #0x328] ; Objc selector ref: sceneHandle"
+            },
+            {
+              "pc": "0xad720",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 sceneHandle]"
+            },
+            {
+              "pc": "0xad730",
+              "asm": "ldr\tx1, [x8, #0xfc8] ; Objc selector ref: performSelector:"
+            },
+            {
+              "pc": "0xad738",
+              "asm": "bl\t0x2ecd00 ; Objc message: -[x0 performSelector:]"
+            },
+            {
+              "pc": "0xad740",
+              "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+            },
+            {
+              "pc": "0xad750",
+              "asm": "cmp\tx19, #0x0"
+            },
+            {
+              "pc": "0xad754",
+              "asm": "ccmp\tx21, #0x0, #0x0, ne"
+            }
+          ]
+        }
+      ]
+    },
+    "DuoFaceFullscreenBridge.dylib": {
+      "sha256": "0bcd172dedbbffe7ad5d549770c1c1769323e21b0127528a661bbe144c10f3fe",
+      "objc_methods": 61,
+      "arm64_instructions": 8750,
+      "xrefs": {
+        "main_scene_hook": {
+          "count": 0,
+          "first8": []
+        },
+        "interface_rotation": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_write": {
+          "count": 0,
+          "first8": []
+        },
+        "app_orientation_feedback": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_geometry": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_scene": {
+          "count": 0,
+          "first8": []
+        },
+        "fullscreen": {
+          "count": 4,
+          "first8": [
+            {
+              "pc": "0x72b0",
+              "asm": "add\tx2, x2, #0xd11 ; literal pool for: \"BOOL DFStartFullscreenTransport(BOOL, void (^__strong)(NSDictionary *__strong))\"",
+              "nearest": {
+                "class": "DFFullscreenTransport",
+                "selector": ".cxx_destruct",
+                "imp": "0x6f84",
+                "distance_from_imp": "0x32c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x745c",
+              "asm": "add\tx2, x2, #0xdba ; literal pool for: \"void DFQueryFullscreenHost()\"",
+              "nearest": {
+                "class": "DFFullscreenTransport",
+                "selector": ".cxx_destruct",
+                "imp": "0x6f84",
+                "distance_from_imp": "0x4d8",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x76a4",
+              "asm": "add\tx2, x2, #0xdfa ; literal pool for: \"void DFRequestHostFullscreen(BOOL, void (^__strong)(BOOL, NSString *__strong))\"",
+              "nearest": {
+                "class": "DFFullscreenTransport",
+                "selector": ".cxx_destruct",
+                "imp": "0x6f84",
+                "distance_from_imp": "0x720",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0xc4f0",
+              "asm": "add\tx2, x2, #0x332 ; literal pool for: \"BOOL DFStartFullscreenAdapter()\"",
+              "nearest": {
+                "class": "DFZoomReceiver",
+                "selector": "received:",
+                "imp": "0xbfc0",
+                "distance_from_imp": "0x530",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        },
+        "video": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_handle": {
+          "count": 0,
+          "first8": []
+        },
+        "update_settings": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_reference": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_owner": {
+          "count": 0,
+          "first8": []
+        },
+        "notification": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_notification": {
+          "count": 0,
+          "first8": []
+        },
+        "youtube": {
+          "count": 0,
+          "first8": []
+        }
+      },
+      "focused_methods": []
+    },
+    "DuoFaceUI": {
+      "sha256": "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9",
+      "objc_methods": 522,
+      "arm64_instructions": 159015,
+      "xrefs": {
+        "main_scene_hook": {
+          "count": 0,
+          "first8": []
+        },
+        "interface_rotation": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_write": {
+          "count": 0,
+          "first8": []
+        },
+        "app_orientation_feedback": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_geometry": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_scene": {
+          "count": 0,
+          "first8": []
+        },
+        "fullscreen": {
+          "count": 23,
+          "first8": [
+            {
+              "pc": "0x100031a00",
+              "asm": "adr\tx8, #768712 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "class": "CBLocalization",
+                "selector": ".cxx_destruct",
+                "imp": "0x1000314f4",
+                "distance_from_imp": "0x50c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x100033720",
+              "asm": "adr\tx10, #761256 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "class": "CBLocalization",
+                "selector": ".cxx_destruct",
+                "imp": "0x1000314f4",
+                "distance_from_imp": "0x222c",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            },
+            {
+              "pc": "0x100035448",
+              "asm": "adr\tx10, #753792 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            },
+            {
+              "pc": "0x10003545c",
+              "asm": "adr\tx10, #773772 ; Objc cfstring ref: @\"Focus Fullscreen\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            },
+            {
+              "pc": "0x100035ca4",
+              "asm": "adr\tx13, #774340 ; Objc cfstring ref: @\"1 App (Fullscreen)\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            },
+            {
+              "pc": "0x100035d94",
+              "asm": "adr\tx13, #774420 ; Objc cfstring ref: @\"1 fullscreen app\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            },
+            {
+              "pc": "0x100037168",
+              "asm": "adr\tx10, #746336 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            },
+            {
+              "pc": "0x100038e90",
+              "asm": "adr\tx10, #738872 ; Objc cfstring ref: @\"FOCUS_FULLSCREEN\"",
+              "nearest": {
+                "status": "NEAREST_OBJC_TOO_FAR",
+                "nearest": "0x1000314f4"
+              }
+            }
+          ]
+        },
+        "video": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_handle": {
+          "count": 0,
+          "first8": []
+        },
+        "update_settings": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_reference": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_owner": {
+          "count": 0,
+          "first8": []
+        },
+        "notification": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_notification": {
+          "count": 0,
+          "first8": []
+        },
+        "youtube": {
+          "count": 1,
+          "first8": [
+            {
+              "pc": "0x10000b4a0",
+              "asm": "adr\tx2, #911752 ; Objc cfstring ref: @\"com.google.ios.youtube\"",
+              "nearest": {
+                "class": "CBAppManager",
+                "selector": "loadInstalledAppsWithCompletion:",
+                "imp": "0x10000a05c",
+                "distance_from_imp": "0x1444",
+                "attribution": "NEAREST_IMP_ONLY_NOT_PROVEN_EXTENT"
+              }
+            }
+          ]
+        }
+      },
+      "focused_methods": []
+    },
+    "DuoFaceVisualHook.dylib": {
+      "sha256": "4ebf68b630c102dee1bbaac87dcadddd3e13f618331cacd9c47ae1a27437959d",
+      "objc_methods": 0,
+      "arm64_instructions": 2486,
+      "xrefs": {
+        "main_scene_hook": {
+          "count": 0,
+          "first8": []
+        },
+        "interface_rotation": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_write": {
+          "count": 0,
+          "first8": []
+        },
+        "app_orientation_feedback": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_geometry": {
+          "count": 0,
+          "first8": []
+        },
+        "ui_scene": {
+          "count": 0,
+          "first8": []
+        },
+        "fullscreen": {
+          "count": 0,
+          "first8": []
+        },
+        "video": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_handle": {
+          "count": 0,
+          "first8": []
+        },
+        "update_settings": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_reference": {
+          "count": 0,
+          "first8": []
+        },
+        "scene_owner": {
+          "count": 0,
+          "first8": []
+        },
+        "notification": {
+          "count": 0,
+          "first8": []
+        },
+        "orientation_notification": {
+          "count": 0,
+          "first8": []
+        },
+        "youtube": {
+          "count": 0,
+          "first8": []
+        }
+      },
+      "focused_methods": []
+    }
+  },
+  "dashboard_hook_arm64": {
+    "main_scene_orientation_policy": {
+      "lo": "0x2c8b4c",
+      "end": "0x2c8ca4",
+      "count": 86,
+      "arm64": [
+        {
+          "pc": "0x2c8b4c",
+          "asm": "stp\tx26, x25, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8b50",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8b54",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8b58",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8b5c",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8b60",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8b64",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2c8b68",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2c8b6c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c8b70",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b74",
+          "asm": "ldr\tx0, #0xb6d64 ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8b78",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b7c",
+          "asm": "ldr\tx1, #0xb581c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8b80",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c8b84",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8b88",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8b8c",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2c8b90",
+          "asm": "cbz\tx0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8b94",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b98",
+          "asm": "ldr\tx1, #0xb5680 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8b9c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8ba0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c8ba4",
+          "asm": "cbz\tw0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8ba8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bac",
+          "asm": "ldr\tx23, #0xb674c ; Objc selector ref: application"
+        },
+        {
+          "pc": "0x2c8bb0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bb4",
+          "asm": "ldr\tx24, #0xb4a24 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2c8bb8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8bbc",
+          "asm": "mov\tx1, x24"
+        },
+        {
+          "pc": "0x2c8bc0",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c8bc4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c8bc8",
+          "asm": "cbz\tw0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8bcc",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8bd0",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2c8bd4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c8bd8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8bdc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8be0",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c8be4",
+          "asm": "cbz\tx0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8be8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bec",
+          "asm": "ldr\tx25, #0xb4834 ; Objc selector ref: bundleIdentifier"
+        },
+        {
+          "pc": "0x2c8bf0",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8bf4",
+          "asm": "mov\tx1, x24"
+        },
+        {
+          "pc": "0x2c8bf8",
+          "asm": "mov\tx2, x25"
+        },
+        {
+          "pc": "0x2c8bfc",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+        },
+        {
+          "pc": "0x2c8c00",
+          "asm": "cbz\tw0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8c04",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c08",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2c8c0c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+        },
+        {
+          "pc": "0x2c8c10",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8c14",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8c18",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2c8c1c",
+          "asm": "cbz\tx0, 0x2c8c58"
+        },
+        {
+          "pc": "0x2c8c20",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8c24",
+          "asm": "ldr\tx1, #0xb60f4 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c8c28",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8c2c",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8c30",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c8c34",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2c8c38",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8c3c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c40",
+          "asm": "tbz\tw25, #0x0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8c44",
+          "asm": "cmp\tx19, #0x1"
+        },
+        {
+          "pc": "0x2c8c48",
+          "asm": "cset\tw19, eq"
+        },
+        {
+          "pc": "0x2c8c4c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c50",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c54",
+          "asm": "b\t0x2c8c84"
+        },
+        {
+          "pc": "0x2c8c58",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8c5c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c60",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c64",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8c6c",
+          "asm": "ldr\tx8, #0xb94dc"
+        },
+        {
+          "pc": "0x2c8c70",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8c74",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2c8c78",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2c8c7c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8c80",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c8c84",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8c88",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c8c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c8c90",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8c94",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8c98",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8c9c",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8ca0",
+          "asm": "ldp\tx26, x25, [sp], #0x50"
+        }
+      ]
+    },
+    "two_arg_reference_policy": {
+      "lo": "0x2c895c",
+      "end": "0x2c8a50",
+      "count": 61,
+      "arm64": [
+        {
+          "pc": "0x2c895c",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8960",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8964",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8968",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c896c",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8970",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8974",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2c8978",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c897c",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8980",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2c8984",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2c8988",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c898c",
+          "asm": "ldr\tx0, #0xb6f4c ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8990",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8994",
+          "asm": "ldr\tx1, #0xb5a04 ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8998",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c899c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c89a0",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c89a4",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c89a8",
+          "asm": "cbz\tx0, 0x2c8a14"
+        },
+        {
+          "pc": "0x2c89ac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89b0",
+          "asm": "ldr\tx1, #0xb5868 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c89b4",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89b8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c89bc",
+          "asm": "cbz\tw0, 0x2c8a14"
+        },
+        {
+          "pc": "0x2c89c0",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2c89c4",
+          "asm": "bl\t0x2c93c4"
+        },
+        {
+          "pc": "0x2c89c8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c89cc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c89d0",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c89d4",
+          "asm": "cbz\tx0, 0x2c8a0c"
+        },
+        {
+          "pc": "0x2c89d8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89dc",
+          "asm": "ldr\tx1, #0xb633c ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c89e0",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89e4",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c89e8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c89ec",
+          "asm": "cbz\tw0, 0x2c8a0c"
+        },
+        {
+          "pc": "0x2c89f0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89f4",
+          "asm": "ldr\tx1, #0xb62fc ; Objc selector ref: renderSizeForBundleID:"
+        },
+        {
+          "pc": "0x2c89f8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89fc",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c8a00",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 renderSizeForBundleID:]"
+        },
+        {
+          "pc": "0x2c8a04",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8a08",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8a0c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8a10",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8a14",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a18",
+          "asm": "ldr\tx8, #0xb9720"
+        },
+        {
+          "pc": "0x2c8a1c",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2c8a20",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2c8a24",
+          "asm": "mov.16b\tv0, v9"
+        },
+        {
+          "pc": "0x2c8a28",
+          "asm": "mov.16b\tv1, v8"
+        },
+        {
+          "pc": "0x2c8a2c",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2c8a30",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8a34",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8a38",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8a3c",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8a40",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8a44",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8a48",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x2c8a4c",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ]
+    },
+    "three_arg_reference_policy": {
+      "lo": "0x2c8a50",
+      "end": "0x2c8b4c",
+      "count": 63,
+      "arm64": [
+        {
+          "pc": "0x2c8a50",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8a54",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8a58",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8a5c",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8a60",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8a64",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8a68",
+          "asm": "mov\tx19, x3"
+        },
+        {
+          "pc": "0x2c8a6c",
+          "asm": "mov\tx20, x2"
+        },
+        {
+          "pc": "0x2c8a70",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8a74",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8a78",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2c8a7c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c8a80",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a84",
+          "asm": "ldr\tx0, #0xb6e54 ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8a88",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a8c",
+          "asm": "ldr\tx1, #0xb590c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8a90",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c8a94",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8a98",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8a9c",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c8aa0",
+          "asm": "cbz\tx0, 0x2c8b0c"
+        },
+        {
+          "pc": "0x2c8aa4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8aa8",
+          "asm": "ldr\tx1, #0xb5770 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8aac",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8ab0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c8ab4",
+          "asm": "cbz\tw0, 0x2c8b0c"
+        },
+        {
+          "pc": "0x2c8ab8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8abc",
+          "asm": "bl\t0x2c93c4"
+        },
+        {
+          "pc": "0x2c8ac0",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8ac4",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8ac8",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2c8acc",
+          "asm": "cbz\tx0, 0x2c8b04"
+        },
+        {
+          "pc": "0x2c8ad0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8ad4",
+          "asm": "ldr\tx1, #0xb6244 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c8ad8",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8adc",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8ae0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c8ae4",
+          "asm": "cbz\tw0, 0x2c8b04"
+        },
+        {
+          "pc": "0x2c8ae8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8aec",
+          "asm": "ldr\tx1, #0xb6204 ; Objc selector ref: renderSizeForBundleID:"
+        },
+        {
+          "pc": "0x2c8af0",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8af4",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8af8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 renderSizeForBundleID:]"
+        },
+        {
+          "pc": "0x2c8afc",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8b00",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8b04",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8b08",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8b0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b10",
+          "asm": "ldr\tx8, #0xb9630"
+        },
+        {
+          "pc": "0x2c8b14",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8b18",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2c8b1c",
+          "asm": "mov.16b\tv0, v9"
+        },
+        {
+          "pc": "0x2c8b20",
+          "asm": "mov.16b\tv1, v8"
+        },
+        {
+          "pc": "0x2c8b24",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x2c8b28",
+          "asm": "mov\tx3, x19"
+        },
+        {
+          "pc": "0x2c8b2c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8b30",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8b34",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8b38",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8b3c",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8b40",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8b44",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x2c8b48",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ]
+    },
+    "host_hook_registration": {
+      "lo": "0x2c7c40",
+      "end": "0x2c7f00",
+      "count": 176,
+      "arm64": [
+        {
+          "pc": "0x2c7c40",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c7c44",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c7c48",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c7c4c",
+          "asm": "ldp\td9, d8, [sp], #0x40"
+        },
+        {
+          "pc": "0x2c7c50",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c7c54",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2c7c58",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c7c5c",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2c7c60",
+          "asm": "adr\tx0, #286861 ; literal pool for: \"FBScene\""
+        },
+        {
+          "pc": "0x2c7c64",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c68",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7c6c",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c7c70",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c74",
+          "asm": "ldr\tx1, #0xb76ac ; Objc selector ref: updateSettings:withTransitionContext:completion:"
+        },
+        {
+          "pc": "0x2c7c78",
+          "asm": "adr\tx2, #400"
+        },
+        {
+          "pc": "0x2c7c7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c80",
+          "asm": "adr\tx3, #763016"
+        },
+        {
+          "pc": "0x2c7c84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c88",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7c8c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c90",
+          "asm": "ldr\tx1, #0xb7698 ; Objc selector ref: _applyUpdateWithContext:completion:"
+        },
+        {
+          "pc": "0x2c7c94",
+          "asm": "adr\tx2, #1916"
+        },
+        {
+          "pc": "0x2c7c98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7c9c",
+          "asm": "adr\tx3, #762996"
+        },
+        {
+          "pc": "0x2c7ca0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7ca4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c7ca8",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7cac",
+          "asm": "adr\tx0, #286793 ; literal pool for: \"_UIScenePresentationView\""
+        },
+        {
+          "pc": "0x2c7cb0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cb4",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7cb8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cbc",
+          "asm": "ldr\tx1, #0xb7674 ; Objc selector ref: scene:didPrepareUpdateWithContext:"
+        },
+        {
+          "pc": "0x2c7cc0",
+          "asm": "adr\tx2, #2320"
+        },
+        {
+          "pc": "0x2c7cc4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cc8",
+          "asm": "adr\tx3, #762960"
+        },
+        {
+          "pc": "0x2c7ccc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cd0",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7cd4",
+          "asm": "adr\tx0, #286778 ; literal pool for: \"SBSuspendedUnderLockManager\""
+        },
+        {
+          "pc": "0x2c7cd8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cdc",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7ce0",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c7ce4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7ce8",
+          "asm": "ldr\tx1, #0xb7650 ; Objc selector ref: interceptUpdateForScene:withNewSettings:"
+        },
+        {
+          "pc": "0x2c7cec",
+          "asm": "adr\tx2, #2428"
+        },
+        {
+          "pc": "0x2c7cf0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cf4",
+          "asm": "adr\tx3, #762924"
+        },
+        {
+          "pc": "0x2c7cf8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7cfc",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7d00",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d04",
+          "asm": "ldr\tx1, #0xb763c ; Objc selector ref: _shouldBeBackgroundUnderLockForScene:withSettings:"
+        },
+        {
+          "pc": "0x2c7d08",
+          "asm": "adr\tx2, #2656"
+        },
+        {
+          "pc": "0x2c7d0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d10",
+          "asm": "adr\tx3, #762904"
+        },
+        {
+          "pc": "0x2c7d14",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d18",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c7d1c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7d20",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d24",
+          "asm": "ldr\tx1, #0xb7624 ; Objc selector ref: shouldBeUnderLockForScene:"
+        },
+        {
+          "pc": "0x2c7d28",
+          "asm": "adr\tx2, #2888"
+        },
+        {
+          "pc": "0x2c7d2c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d30",
+          "asm": "adr\tx3, #762880"
+        },
+        {
+          "pc": "0x2c7d34",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d38",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c7d3c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7d40",
+          "asm": "adr\tx0, #286698 ; literal pool for: \"SBDeviceApplicationSceneViewController\""
+        },
+        {
+          "pc": "0x2c7d44",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d48",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7d4c",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c7d50",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d54",
+          "asm": "ldr\tx1, #0xb65b4 ; Objc selector ref: setContentReferenceSize:withInterfaceOrientation:"
+        },
+        {
+          "pc": "0x2c7d58",
+          "asm": "adr\tx2, #3076"
+        },
+        {
+          "pc": "0x2c7d5c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d60",
+          "asm": "adr\tx3, #762840"
+        },
+        {
+          "pc": "0x2c7d64",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d68",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7d6c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d70",
+          "asm": "ldr\tx1, #0xb65a0 ; Objc selector ref: setContentReferenceSize:withContentOrientation:andContainerOrientation:"
+        },
+        {
+          "pc": "0x2c7d74",
+          "asm": "adr\tx2, #3292"
+        },
+        {
+          "pc": "0x2c7d78",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d7c",
+          "asm": "adr\tx3, #762820"
+        },
+        {
+          "pc": "0x2c7d80",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d84",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c7d88",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7d8c",
+          "asm": "adr\tx0, #286661 ; literal pool for: \"SBDeviceApplicationSceneHandle\""
+        },
+        {
+          "pc": "0x2c7d90",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d94",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7d98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7d9c",
+          "asm": "ldr\tx1, #0xb75b4 ; Objc selector ref: _mainSceneSupportsInterfaceOrientation:"
+        },
+        {
+          "pc": "0x2c7da0",
+          "asm": "adr\tx2, #3500"
+        },
+        {
+          "pc": "0x2c7da4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7da8",
+          "asm": "adr\tx3, #762784"
+        },
+        {
+          "pc": "0x2c7dac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7db0",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2c7db4",
+          "asm": "adr\tx0, #266818 ; literal pool for: \"SBAppViewController\""
+        },
+        {
+          "pc": "0x2c7db8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7dbc",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2c7dc0",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c7dc4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7dc8",
+          "asm": "ldr\tx1, #0xb7590 ; Objc selector ref: sceneHandle:didUpdateSettingsWithDiff:previousSettings:"
+        },
+        {
+          "pc": "0x2c7dcc",
+          "asm": "adr\tx2, #3804"
+        }
+      ]
+    },
+    "scene_update_handler": {
+      "lo": "0x2c7e08",
+      "end": "0x2c8410",
+      "count": 386,
+      "arm64": [
+        {
+          "pc": "0x2c7e08",
+          "asm": "sub\tsp, sp, #0x80"
+        },
+        {
+          "pc": "0x2c7e0c",
+          "asm": "stp\td9, d8, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c7e10",
+          "asm": "stp\tx28, x27, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c7e14",
+          "asm": "stp\tx26, x25, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c7e18",
+          "asm": "stp\tx24, x23, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c7e1c",
+          "asm": "stp\tx22, x21, [sp, #0x50]"
+        },
+        {
+          "pc": "0x2c7e20",
+          "asm": "stp\tx20, x19, [sp, #0x60]"
+        },
+        {
+          "pc": "0x2c7e24",
+          "asm": "stp\tx29, x30, [sp, #0x70]"
+        },
+        {
+          "pc": "0x2c7e28",
+          "asm": "add\tx29, sp, #0x70"
+        },
+        {
+          "pc": "0x2c7e2c",
+          "asm": "mov\tx23, x4"
+        },
+        {
+          "pc": "0x2c7e30",
+          "asm": "mov\tx20, x3"
+        },
+        {
+          "pc": "0x2c7e34",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2c7e38",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c7e3c",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x2c7e40",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2c7e44",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c7e48",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c7e4c",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2c7e50",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2c7e54",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c7e58",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2c7e5c",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c7e60",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7e64",
+          "asm": "ldr\tx0, #0xb7a74 ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c7e68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7e6c",
+          "asm": "ldr\tx1, #0xb652c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c7e70",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c7e74",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c7e78",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c7e7c",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2c7e80",
+          "asm": "cbz\tx0, 0x2c8358"
+        },
+        {
+          "pc": "0x2c7e84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7e88",
+          "asm": "ldr\tx1, #0xb6390 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c7e8c",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c7e90",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c7e94",
+          "asm": "cbz\tw0, 0x2c8358"
+        },
+        {
+          "pc": "0x2c7e98",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c7e9c",
+          "asm": "bl\t0x2c6958"
+        },
+        {
+          "pc": "0x2c7ea0",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c7ea4",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c7ea8",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2c7eac",
+          "asm": "cbz\tx0, 0x2c8350"
+        },
+        {
+          "pc": "0x2c7eb0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7eb4",
+          "asm": "ldr\tx1, #0xb6e64 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c7eb8",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c7ebc",
+          "asm": "mov\tx2, x25"
+        },
+        {
+          "pc": "0x2c7ec0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c7ec4",
+          "asm": "cbz\tw0, 0x2c8350"
+        },
+        {
+          "pc": "0x2c7ec8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7ecc",
+          "asm": "ldr\tx1, #0xb6e24 ; Objc selector ref: renderSizeForBundleID:"
+        },
+        {
+          "pc": "0x2c7ed0",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c7ed4",
+          "asm": "mov\tx2, x25"
+        },
+        {
+          "pc": "0x2c7ed8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 renderSizeForBundleID:]"
+        },
+        {
+          "pc": "0x2c7edc",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2c7ee0",
+          "asm": "mov.16b\tv9, v1"
+        },
+        {
+          "pc": "0x2c7ee4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c7ee8",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2c7eec",
+          "asm": "mov\tx26, x0"
+        },
+        {
+          "pc": "0x2c7ef0",
+          "asm": "cbz\tx0, 0x2c8348"
+        },
+        {
+          "pc": "0x2c7ef4",
+          "asm": "fcmp\td8, #0.0"
+        },
+        {
+          "pc": "0x2c7ef8",
+          "asm": "b.le\t0x2c7fb8"
+        },
+        {
+          "pc": "0x2c7efc",
+          "asm": "fcmp\td9, #0.0"
+        },
+        {
+          "pc": "0x2c7f00",
+          "asm": "b.le\t0x2c7fb8"
+        },
+        {
+          "pc": "0x2c7f04",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7f08",
+          "asm": "ldr\tx2, #0xb6658 ; Objc selector ref: frame"
+        },
+        {
+          "pc": "0x2c7f0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7f10",
+          "asm": "ldr\tx27, #0xb56c8 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2c7f14",
+          "asm": "mov\tx0, x26"
+        },
+        {
+          "pc": "0x2c7f18",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x2c7f1c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c7f20",
+          "asm": "cbz\tw0, 0x2c7f4c"
+        },
+        {
+          "pc": "0x2c7f24",
+          "asm": "adr\tx0, #286284 ; literal pool for: \"frame\""
+        },
+        {
+          "pc": "0x2c7f28",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7f2c",
+          "asm": "bl\t0x2ecdfc ; symbol stub for: _sel_registerName"
+        },
+        {
+          "pc": "0x2c7f30",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x2c7f34",
+          "asm": "mov\tx0, x26"
+        },
+        {
+          "pc": "0x2c7f38",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c7f3c",
+          "asm": "fcmp\td2, d8"
+        },
+        {
+          "pc": "0x2c7f40",
+          "asm": "b.ne\t0x2c7f4c"
+        },
+        {
+          "pc": "0x2c7f44",
+          "asm": "fcmp\td3, d9"
+        },
+        {
+          "pc": "0x2c7f48",
+          "asm": "b.eq\t0x2c7fc0"
+        },
+        {
+          "pc": "0x2c7f4c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7f50",
+          "asm": "ldr\tx28, #0xb5ac0 ; Objc selector ref: setFrame:"
+        },
+        {
+          "pc": "0x2c7f54",
+          "asm": "mov\tx0, x26"
+        },
+        {
+          "pc": "0x2c7f58",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x2c7f5c",
+          "asm": "mov\tx2, x28"
+        },
+        {
+          "pc": "0x2c7f60",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setFrame:]"
+        },
+        {
+          "pc": "0x2c7f64",
+          "asm": "cbz\tw0, 0x2c7f84"
+        },
+        {
+          "pc": "0x2c7f68",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x2c7f6c",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2c7f70",
+          "asm": "mov\tx0, x26"
+        },
+        {
+          "pc": "0x2c7f74",
+          "asm": "mov\tx1, x28"
+        },
+        {
+          "pc": "0x2c7f78",
+          "asm": "mov.16b\tv2, v8"
+        },
+        {
+          "pc": "0x2c7f7c",
+          "asm": "mov.16b\tv3, v9"
+        },
+        {
+          "pc": "0x2c7f80",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 setFrame:]"
+        },
+        {
+          "pc": "0x2c7f84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c7f88",
+          "asm": "ldr\tx1, #0xb5688 ; Objc selector ref: class"
+        },
+        {
+          "pc": "0x2c7f8c",
+          "asm": "mov\tx0, x26"
+        },
+        {
+          "pc": "0x2c7f90",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 class]"
+        },
+        {
+          "pc": "0x2c7f94",
+          "asm": "adr\tx1, #266114 ; literal pool for: \"_frame\""
+        }
+      ]
+    }
+  },
+  "limits": "Static original Mach-O. ObjC annotations may misattribute dynamic receiver. No iPhone video test or DuoFace app fix."
+}
