@@ -64,6 +64,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -I . tests/map_render_profile_runtime.m -o "$RUNNER_TEMP/map-render-runtime"
           "$RUNNER_TEMP/map-render-runtime"
+      - name: Execute YouTube host/app lease and private rotation ABI regression
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/youtube_handshake_runtime.m -o "$RUNNER_TEMP/youtube-handshake"
+          "$RUNNER_TEMP/youtube-handshake"
       - name: Prepare rootless Theos and toolchain
         run: |
           set -euo pipefail
@@ -96,10 +102,10 @@ jobs:
           # .47 was archived before the current Native12 App/Recent/Style/video
           # fixes; reusing .47 would silently discard those changes.
           bash sideplay/duoface-native-scene-host/build.sh
-          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.95~nativeowner1_iphoneos-arm64.deb'
+          NATIVE='sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.96~ythandshake1_iphoneos-arm64.deb'
           test -s "$NATIVE"
           test "$(dpkg-deb -f "$NATIVE" Package)" = 'com.duoface.carplay.nativescenehost'
-          test "$(dpkg-deb -f "$NATIVE" Version)" = '0.1.95~nativeowner1'
+          test "$(dpkg-deb -f "$NATIVE" Version)" = '0.1.96~ythandshake1'
           NATIVEHOST_SHA="$(shasum -a 256 "$NATIVE" | awk '{print $1}')"
           printf '%s\n' "NATIVEHOST_SHA=$NATIVEHOST_SHA" >> "$GITHUB_ENV"
           echo "SIGNED_NATIVEHOST_CURRENT_SOURCE_SHA256=$NATIVEHOST_SHA"
@@ -107,16 +113,18 @@ jobs:
         run: |
           set -euo pipefail
           python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 "$NATIVEHOST_SHA" --expected-source-sha "$GITHUB_SHA"
-          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.86~nativeowner1_iphoneos-arm64.deb'
+          PACKAGE='sideplay/jb-embedded-appbridge/packages/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb'
           test -s "$PACKAGE"
           test "$(dpkg-deb -f "$PACKAGE" Package)" = 'com.duoface.jb.embedded'
-          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.86~nativeowner1'
+          test "$(dpkg-deb -f "$PACKAGE" Version)" = '0.0.87~ythandshake1'
           test "$(dpkg-deb -f "$PACKAGE" Architecture)" = iphoneos-arm64
           # Verify the new allowlisted app-process dylib actually ships; earlier .71
           # had only SpringBoard/CarPlay filters and could not bridge app UIKit.
           dpkg-deb -c "$PACKAGE" > "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
           ! grep -F 'DFAppViewportRelay.dylib' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
           ! grep -F 'DFAppViewportRelay.plist' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
+          grep -F 'DFYouTubeOrientationRelay.dylib' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
+          grep -F 'DFYouTubeOrientationRelay.plist' "$RUNNER_TEMP/duoface-app-scene-package-list.txt"
           mkdir -p "$RUNNER_TEMP/duoface-package-control"
           dpkg-deb -e "$PACKAGE" "$RUNNER_TEMP/duoface-package-control"
           test -x "$RUNNER_TEMP/duoface-package-control/postinst"

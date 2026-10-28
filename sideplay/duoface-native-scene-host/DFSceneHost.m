@@ -9,6 +9,7 @@
 #import "DFSceneLifecycle.h"
 #import "DFSceneOrientationPolicy.h"
 #import "DFHostedMapRenderSize.h"
+#import "DFYouTubeHostState.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #import <math.h>
@@ -140,6 +141,13 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @property(nonatomic,strong) NSTimer *geometryCommitTimer;
 @property(nonatomic) NSTimeInterval lastViewportLogAt;
 @property(nonatomic) NSTimeInterval lastHitLogAt;
+@property(nonatomic,copy) NSString *youtubeOwner;
+@property(nonatomic,copy) NSDictionary *youtubeState;
+@property(nonatomic) NSTimeInterval youtubeLastPublish;
+- (void)publishYouTubeState;
+- (void)revokeYouTubeState;
+- (void)youtubeStateRequested:(NSNotification *)note;
+- (void)youtubeStateAcknowledged:(NSNotification *)note;
 - (void)start;
 - (void)layoutScene;
 - (void)commitSceneGeometry:(NSTimer *)timer;
@@ -151,7 +159,65 @@ static NSInteger DFObservedSceneForeground(id scene) {
 @end
 
 @implementation DFSceneSurface
+- (void)revokeYouTubeState {
+    if(self.youtubeState) {
+        NSMutableDictionary *state=[self.youtubeState mutableCopy];
+        state[@"active"]=@NO; state[@"issuedAt"]=@(NSDate.date.timeIntervalSince1970);
+        DFYTPost(DFYTStateName,state);
+    }
+    self.youtubeState=nil; self.youtubeOwner=nil; self.youtubeLastPublish=0;
+}
+- (void)publishYouTubeState {
+    if(![self.bundleID isEqual:DFYTBundle])return;
+    id handle=DFCall0(self.appController,@"sceneHandle");
+    if(!NSThread.isMainThread || self.stopped || !self.ready || !self.scene ||
+       self.owner.live[self.bundleID]!=self || !self.window || self.window.hidden ||
+       self.hidden || self.alpha<=0 || self.appController.viewIfLoaded.window!=self.window ||
+       !DFHostingFlag(self.appController,@"isHostingAnApp",NO) ||
+       DFCall0(handle,@"sceneIfExists")!=self.scene) {
+        [self revokeYouTubeState]; return;
+    }
+    for(UIView *view=self;view;view=view.superview) {
+        if(view.hidden || view.alpha<=0){[self revokeYouTubeState];return;}
+    }
+    // A drag is UI-only until the existing .83 stable-geometry commit completes.
+    // Renew the previous size during a drag; never publish uncommitted geometry.
+    CGSize committed=self.committedReferenceSize;
+    if(committed.width<=0 || committed.height<=0)return;
+    NSString *identifier=DFYTObject(self.scene,@"identifier");
+    if(!DFYTString(identifier)){[self revokeYouTubeState];return;}
+    if(self.youtubeState && ![identifier isEqual:self.youtubeState[@"sceneIdentifier"]])
+        [self revokeYouTubeState];
+    if(!self.youtubeOwner)self.youtubeOwner=NSUUID.UUID.UUIDString;
+    NSTimeInterval now=NSDate.date.timeIntervalSince1970;
+    if(now-self.youtubeLastPublish<0.75)return;
+    CGSize logical=DFHostedLogicalSizeForBundle(committed,self.bundleID);
+    NSDictionary *state=@{@"version":@1,@"bundleIdentifier":DFYTBundle,
+        @"owner":self.youtubeOwner,@"sceneIdentifier":identifier,
+        @"generation":@(self.sceneGeneration),@"issuedAt":@(now),@"active":@YES,
+        @"width":@(logical.width),@"height":@(logical.height),@"orientation":@1};
+    if(!DFYTValidState(state,now)){[self revokeYouTubeState];return;}
+    self.youtubeState=state; self.youtubeLastPublish=now;
+    DFYTPost(DFYTStateName,state);
+}
+- (void)youtubeStateRequested:(NSNotification *)note {
+    if(![note.userInfo[@"bundleIdentifier"] isEqual:DFYTBundle])return;
+    dispatch_async(dispatch_get_main_queue(),^{self.youtubeLastPublish=0;[self publishYouTubeState];});
+}
+- (void)youtubeStateAcknowledged:(NSNotification *)note {
+    NSDictionary *ack=[note.userInfo copy];
+    dispatch_async(dispatch_get_main_queue(),^{
+        if(!self.youtubeState || ![ack[@"bundleIdentifier"] isEqual:DFYTBundle] ||
+           ![ack[@"owner"] isEqual:self.youtubeOwner] ||
+           ![ack[@"sceneIdentifier"] isEqual:self.youtubeState[@"sceneIdentifier"]])return;
+        DFSceneLog(@"youtube-app-handshake-ack",self.bundleID,
+            [NSString stringWithFormat:@"phase=%@ windows=%@ sceneOrientation=%@ size=%@x%@ generation=%lu windows=%@",
+                ack[@"phase"],ack[@"windowsApplied"],ack[@"sceneOrientation"],
+                ack[@"sceneWidth"],ack[@"sceneHeight"],(unsigned long)self.sceneGeneration,ack[@"windows"]]);
+    });
+}
 - (void)revokeOrientationPolicy {
+    [self revokeYouTubeState];
     DFSceneOrientationPolicyUnregister(self.policySceneHandle,self.policyDeviceController);
     self.policySceneHandle=nil;
     self.policyDeviceController=nil;
@@ -213,6 +279,10 @@ static NSInteger DFObservedSceneForeground(id scene) {
 }
 - (void)start {
     if (self.started || self.stopped) return;
+    if([self.bundleID isEqual:DFYTBundle]) {
+        [DFYTCenter() addObserver:self selector:@selector(youtubeStateRequested:) name:DFYTRequestName object:nil];
+        [DFYTCenter() addObserver:self selector:@selector(youtubeStateAcknowledged:) name:DFYTAckName object:nil];
+    }
     if (!self.window || CGRectIsEmpty(self.bounds)) {
         [self setNeedsLayout];
         return;
@@ -479,6 +549,8 @@ static NSInteger DFObservedSceneForeground(id scene) {
         }
         if (applied) {
             self.committedReferenceSize=size;
+            self.youtubeLastPublish=0;
+            [self publishYouTubeState];
             DFSceneLog(@"media-reference-committed-after-stable-viewport",
                        self.bundleID,NSStringFromCGSize(size));
         } else {
@@ -583,6 +655,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
                 DFSceneLog(@"scene-handle-observed-render-unverified",self.bundleID,NSStringFromCGRect(self.bounds));
                 [[NSNotificationCenter defaultCenter] postNotificationName:DFSceneHostDidBecomeReadyNotification object:self userInfo:@{@"bundleID":self.bundleID?:@""}];
             }
+            [self publishYouTubeState];
             return;
         }
         if (self.ready || self.scene) {
@@ -624,6 +697,7 @@ static NSInteger DFObservedSceneForeground(id scene) {
 - (void)stop {
     if (self.stopped) return;
     self.stopped=YES;
+    [DFYTCenter() removeObserver:self];
     [self revokeOrientationPolicy];
     DFSceneLifecycleUnregister(self.appController);
     ++self.sceneGeneration;

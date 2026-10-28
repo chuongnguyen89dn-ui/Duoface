@@ -30,6 +30,14 @@ xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$S
   -o "$DOCK_DYLIB" DFCarPlayDockOwner.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
+# YouTube-only first-party receiver; same integrated DEB, no additional app.
+YT_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.dylib"
+xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
+  -fobjc-arc -fblocks -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
+  -framework UIKit -framework Foundation \
+  -o "$YT_DYLIB" DFYouTubeOrientationRelay.m
+cp DFYouTubeOrientationRelay.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay.plist"
+ldid -S "$YT_DYLIB"
 # Assets are our previously approved DuoFace artwork from the project's source.
 ART="$ROOT/../../dist/visual-1.0.3-12/assets"
 APP_ART="$APP/VisualAssets"
@@ -60,6 +68,6 @@ cp control "$TMP/DEBIAN/control"
 cp postinst postrm "$TMP/DEBIAN/"
 chmod 0755 "$TMP/DEBIAN/postinst" "$TMP/DEBIAN/postrm"
 # Only uicache app registration; no respring or CarPlay runtime state changes.
-OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.95~nativeowner1_iphoneos-arm64.deb"
+OUT="$ROOT/packages/com.duoface.carplay.nativescenehost_0.1.96~ythandshake1_iphoneos-arm64.deb"
 dpkg-deb --build "$TMP" "$OUT"
 echo "BUILT=$OUT"

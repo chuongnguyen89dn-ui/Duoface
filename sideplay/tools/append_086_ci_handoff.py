@@ -18,21 +18,21 @@ def main(args):
     handoff = pathlib.Path(filename)
     if not handoff.is_file():
         raise FileNotFoundError("existing handoff missing; do not create duplicate")
-    archives = list(pathlib.Path(folder).glob("com.duoface.jb.embedded_0.0.86~nativeowner1_*.deb"))
+    archives = list(pathlib.Path(folder).glob("com.duoface.jb.embedded_0.0.87~ythandshake1_*.deb"))
     if len(archives) != 1:
-        raise ValueError("expected exactly one staged .86 DEB")
+        raise ValueError("expected exactly one staged .87 DEB")
     deb = archives[0]
     digest = hashlib.sha256(deb.read_bytes()).hexdigest()
     marker = f"CI run `{run_id}` source `{source}`"
-    checkpoint = f"""## CHECKPOINT 2026-10-28 DuoFace .86 — signed build archived (not hardware-verified)
+    checkpoint = f"""## CHECKPOINT 2026-10-28 DuoFace .87 — signed build archived (not hardware-verified)
 
 {marker}; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/{run_id}/{deb.name}`; SHA256 `{digest}`.
 Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run_id}`.
-Changes: first-party owner-scoped YouTube main-scene remote orientation candidate from Native12 gold portrait=1 and OmniCar original interfaceOrientation transaction, plus V7 read-only CarPlayApp native FBScene Google Maps identity monitor. `DFSceneLifecycle.m` .83 crash mitigation and 0.50 iPhone-app scale unchanged; rejected .85 map zoom must not return.
+Changes: Native12-inspired first-party YouTube-only host/app state relay, exact FBScene/UIScene identity matching, portrait=1 local window reflow, 3-second lease, generation owner revocation and window restoration. Receiver is compiled, signed and included in the same integrated DEB. Maps/Dock/chrome, .83 scene lifecycle and the existing render scale unchanged.
 
 **IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
 
-Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_086_NATIVE_MAP_YOUTUBE_STAGE_20261028.md`.
+Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_087_YOUTUBE_HANDSHAKE_20261028.md`.
 
 ---
 """

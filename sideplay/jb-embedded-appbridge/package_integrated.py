@@ -10,10 +10,10 @@ ORDER=[
  ("com.duoface.mytweak.v1a.preflight","sideplay/mytweak-independent-v1a/packages/com.duoface.mytweak.v1a.preflight_0.2.1~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.nativebridgeqa","sideplay/mytweak-native-bridgeqa/packages/com.duoface.carplay.nativebridgeqa_0.0.8~divider1_iphoneos-arm64.deb"),
  ("com.duoface.carplay.firstpartyadmission","sideplay/firstparty-carplay-admission/packages/com.duoface.carplay.firstpartyadmission_0.0.6~sbpair1_iphoneos-arm64.deb"),
- ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.95~nativeowner1_iphoneos-arm64.deb"),
+ ("com.duoface.carplay.nativescenehost","sideplay/duoface-native-scene-host/packages/com.duoface.carplay.nativescenehost_0.1.96~ythandshake1_iphoneos-arm64.deb"),
 ]
 NAME="com.duoface.jb.embedded"
-VERSION="0.0.86~nativeowner1"
+VERSION="0.0.87~ythandshake1"
 EXCLUDED=("com.sideplay","com.duonavi","com.bvn.carbridge","com.leftyfl1p.carbridge","com.cortex.carplayenable","com.sensetechlab.duodash")
 def execute(args):
  return subprocess.run(args,capture_output=True,text=True,check=True).stdout
@@ -66,6 +66,12 @@ def build(expected_nativehost_sha256,expected_source_sha):
   # .74 restores the .37 host contract; app-process relay is not shipped.
   if any("DFAppViewportRelay" in path for path in seen):
    raise RuntimeError("Unexpected obsolete app viewport relay in recovery package")
+  # Require the new receiver and its exact YouTube-only filter in the merged payload.
+  relay=stage/"var/jb/Library/MobileSubstrate/DynamicLibraries/DFYouTubeOrientationRelay"
+  if not relay.with_suffix(".dylib").is_file():raise RuntimeError("YouTube relay missing")
+  with relay.with_suffix(".plist").open("rb") as file:
+   if plistlib.load(file)!={"Filter":{"Bundles":["com.google.ios.youtube"]}}:
+    raise RuntimeError("YouTube relay filter broadened")
   # Merged DEBs lose their source maintainer scripts during dpkg-deb -x.
   # Explicitly supply minimal uicache scripts for the ONE DuoFace app.
   scripts=ROOT/"sideplay/jb-embedded-appbridge/scripts"

@@ -11,6 +11,8 @@ on:
       - 'sideplay/duoface-native-scene-host/tests/test_divider_drag.py'
       - 'sideplay/duoface-native-scene-host/DFNative12MediaGeometry.h'
       - 'sideplay/duoface-native-scene-host/DFSceneHost.m'
+      - 'sideplay/duoface-native-scene-host/DFYouTube*'
+      - 'sideplay/duoface-native-scene-host/tests/*youtube*'
       - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.m'
       - 'sideplay/duoface-native-scene-host/DFAppViewportProtocol.h'
       - 'sideplay/duoface-native-scene-host/DFAppViewportRelay.plist'
@@ -54,6 +56,12 @@ jobs:
           python3 -m py_compile sideplay/jb-embedded-appbridge/package_integrated.py
           echo NATIVE12_ONE_DEB_CURRENT_SOURCE_PIN_POLICY_PASS_NO_PACKAGE_BUILD
           echo NATIVE12_UI_REAL_SCENE_AND_RASTER_SOURCE_CONTRACTS_PASS
+      - name: YouTube host/app state and ABI executable tests
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/youtube_handshake_runtime.m -o "$RUNNER_TEMP/youtube-handshake"
+          "$RUNNER_TEMP/youtube-handshake"
       - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
         shell: bash
         run: |
@@ -61,7 +69,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           test -d "$SDK"
           cd sideplay/duoface-native-scene-host
-          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
+          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFYouTubeOrientationRelay.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
             echo "COMPILING_SOURCE_ONLY $FILE"
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
               -target arm64-apple-ios16.0 -isysroot "$SDK" \
