@@ -1,118 +1,106 @@
 {
-  "checked_at_utc": "2026-10-28T05:53:16.368118+00:00",
+  "checked_at_utc": "2026-10-28T13:09:40.022625+00:00",
   "repository": "chuongnguyen89dn-ui/Duoface",
-  "total_actions_runs": 2911,
+  "total_actions_runs": 3068,
   "counts_scope": "by_workflow counts are for latest 100 runs only",
   "by_workflow_recent": {
     "DuoFace Actions status snapshot": {
-      "recent_runs": 5,
-      "success": 4,
+      "recent_runs": 1,
+      "success": 0,
       "failure": 0,
       "other": 1
     },
-    "DuoFace .86 verified public Sileo status to existing handoff": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
+    "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)": {
+      "recent_runs": 4,
+      "success": 2,
+      "failure": 2,
       "other": 0
     },
     "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)": {
-      "recent_runs": 12,
-      "success": 9,
-      "failure": 3,
-      "other": 0
-    },
-    "DuoFace Native12 source-only UIKit and original behavior regression": {
-      "recent_runs": 47,
-      "success": 16,
-      "failure": 5,
-      "other": 26
-    },
-    "DuoFace .84 owner-scoped orientation source/runtime gate": {
       "recent_runs": 7,
       "success": 2,
       "failure": 5,
       "other": 0
     },
-    "DuoFace native map owner correction — no synthetic zoom gate": {
-      "recent_runs": 2,
+    "DuoFace Native12 source-only UIKit and original behavior regression": {
+      "recent_runs": 31,
+      "success": 9,
+      "failure": 6,
+      "other": 16
+    },
+    "DuoFace .84 owner-scoped orientation source/runtime gate": {
+      "recent_runs": 4,
       "success": 1,
-      "failure": 1,
+      "failure": 3,
       "other": 0
     },
     "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe": {
-      "recent_runs": 5,
-      "success": 1,
-      "failure": 0,
-      "other": 4
+      "recent_runs": 21,
+      "success": 13,
+      "failure": 1,
+      "other": 7
     },
-    "DuoFace V6 read-only live CarPlayApp Maps controller/scene owner probe": {
-      "recent_runs": 5,
-      "success": 2,
-      "failure": 2,
-      "other": 1
+    "DuoFace original-verified native CarPlay Maps scene identity only": {
+      "recent_runs": 12,
+      "success": 9,
+      "failure": 3,
+      "other": 0
     },
-    "DuoFace V6 independent native Maps owner log exporter iPhone app": {
+    "DuoFace original OmniCar native scene adoption selector chain audit": {
+      "recent_runs": 4,
+      "success": 3,
+      "failure": 1,
+      "other": 0
+    },
+    "DuoFace original OmniCar 458 full UI method and real Maps owner handoff": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace V6 standalone QA app native Maps owner JSONL exporter": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace original OmniCar V5 CarPlay hosted view-controller and pane class audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "DuoFace OmniCar V4 original process filter and native scene class proof": {
+    "DuoFace OmniCar original full UI vs native Maps owner": {
       "recent_runs": 2,
       "success": 1,
       "failure": 1,
       "other": 0
     },
-    "DuoFace original OmniCar V3 native CarPlay scene ownership audit": {
+    "DuoFace .90 Sileo confirmed persistent project handoff": {
+      "recent_runs": 2,
+      "success": 2,
+      "failure": 0,
+      "other": 0
+    },
+    "DuoFace .90 independent orientation QA checkpoint": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace exact original OmniCar native map CFString and branch audit V2": {
+    "DuoFace correct exact original-audit run link in handoff": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace pinned original OmniCar native map app routing ARM64 audit": {
+    "DuoFace original Native12 callback semantic evidence handoff": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
       "other": 0
     },
-    "DuoFace original OmniCar map + rotation read-only audit": {
-      "recent_runs": 1,
-      "success": 1,
-      "failure": 0,
-      "other": 0
-    },
-    "Read-only SHA-pinned original vs DuoFace .83 orientation binary audit": {
+    "DuoFace original Native12 complete 36 orientation callback ARM64 analysis": {
       "recent_runs": 5,
-      "success": 4,
-      "failure": 1,
+      "success": 3,
+      "failure": 2,
       "other": 0
     },
-    "DuoFace .81 vs original Native12 complete 1385-method static parity (FORENSIC ONLY)": {
-      "recent_runs": 1,
-      "success": 1,
+    "DuoFace .89 physical FAIL — verify ORIGINAL Native12 DEB UIKit hook ABI": {
+      "recent_runs": 2,
+      "success": 2,
       "failure": 0,
       "other": 0
     },
-    "Native12 ORIGINAL host lifecycle IMP": {
+    "DuoFace .89 public Sileo live binary verification and existing handoff": {
       "recent_runs": 1,
       "success": 1,
       "failure": 0,
@@ -121,304 +109,304 @@
   },
   "latest_runs": [
     {
-      "id": 40640557387,
+      "id": 40693881516,
       "name": "DuoFace Actions status snapshot",
-      "run_number": 82,
+      "run_number": 83,
       "status": "in_progress",
       "conclusion": null,
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40640557387",
-      "created_at": "2026-10-28T05:53:05Z",
-      "head_sha": "e908517e60b69d8c3f7f2be73b31aa2abad803ab"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40693881516",
+      "created_at": "2026-10-28T13:09:29Z",
+      "head_sha": "fbf9bdbc8afdaf00ce40e6713d0e9c24d7f8e3c7"
     },
     {
-      "id": 40639024607,
-      "name": "DuoFace .86 verified public Sileo status to existing handoff",
-      "run_number": 1,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40639024607",
-      "created_at": "2026-10-28T05:36:58Z",
-      "head_sha": "89aa5439ff3deb62da51c4deda25551e10e0d497"
-    },
-    {
-      "id": 40638250670,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 315,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40638250670",
-      "created_at": "2026-10-28T05:29:00Z",
-      "head_sha": "205ab7121fe04bf37f449c07d53da42489f70e47"
-    },
-    {
-      "id": 40638229565,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 369,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40638229565",
-      "created_at": "2026-10-28T05:28:46Z",
-      "head_sha": "74b8b8d9d08758f23bc6b8b0d3167bc69f202b78"
-    },
-    {
-      "id": 40637814974,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 314,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637814974",
-      "created_at": "2026-10-28T05:24:29Z",
-      "head_sha": "531f89912665bc17faa7244810c6ced32887edf3"
-    },
-    {
-      "id": 40637799080,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 368,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637799080",
-      "created_at": "2026-10-28T05:24:18Z",
-      "head_sha": "2dc85c3788713149e9cc248211681aba1097f42a"
-    },
-    {
-      "id": 40637775273,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 367,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637775273",
-      "created_at": "2026-10-28T05:24:04Z",
-      "head_sha": "b38c6262c9ca8751a0f29dbc7c50e965bfdeb80d"
-    },
-    {
-      "id": 40637663197,
-      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
-      "run_number": 313,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637663197",
-      "created_at": "2026-10-28T05:22:56Z",
-      "head_sha": "dfbce96bc3351fe6a42a42eaea74d93032a269e5"
-    },
-    {
-      "id": 40637573626,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 366,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637573626",
-      "created_at": "2026-10-28T05:22:01Z",
-      "head_sha": "f06f32b1115cac590e04504d2ebe5bd316f6284d"
-    },
-    {
-      "id": 40637546815,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 365,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637546815",
-      "created_at": "2026-10-28T05:21:45Z",
-      "head_sha": "372abe0f01d9c489fcacc642c962ef41a69a7e32"
-    },
-    {
-      "id": 40637437865,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637437865",
-      "created_at": "2026-10-28T05:20:39Z",
-      "head_sha": "d15546df04a427ce802b7ecfa6b9336c12f6e68f"
-    },
-    {
-      "id": 40637431686,
-      "name": "DuoFace native map owner correction — no synthetic zoom gate",
-      "run_number": 2,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637431686",
-      "created_at": "2026-10-28T05:20:35Z",
-      "head_sha": "1859fe97070795dffd79bf59c723d9234e8e376e"
-    },
-    {
-      "id": 40637413711,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 364,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637413711",
-      "created_at": "2026-10-28T05:20:25Z",
-      "head_sha": "b1b59f7f0c18e42d6c1ab7b4f0cb67db53db184a"
-    },
-    {
-      "id": 40637403825,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 363,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637403825",
-      "created_at": "2026-10-28T05:20:19Z",
-      "head_sha": "4d41e3480a45fcad81802a6446d98b7643641c99"
-    },
-    {
-      "id": 40637397528,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 362,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637397528",
-      "created_at": "2026-10-28T05:20:16Z",
-      "head_sha": "b352bbbbe7213729989b5b8014747d87f18b819b"
-    },
-    {
-      "id": 40637391548,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 361,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637391548",
-      "created_at": "2026-10-28T05:20:12Z",
-      "head_sha": "886b86fa5956a8e011b828cc96ecc3ed41614230"
-    },
-    {
-      "id": 40637386105,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 360,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637386105",
-      "created_at": "2026-10-28T05:20:09Z",
-      "head_sha": "472c34b6108f21bfb1a6a8b11d5816e368fdcb0d"
-    },
-    {
-      "id": 40637319281,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 359,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637319281",
-      "created_at": "2026-10-28T05:19:28Z",
-      "head_sha": "13328dc0e7b9e2b9499e0ba796c27cbda141df93"
-    },
-    {
-      "id": 40637314012,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637314012",
-      "created_at": "2026-10-28T05:19:25Z",
-      "head_sha": "a57c3c69d371446fbebf9a299bffeb1b02d52f35"
-    },
-    {
-      "id": 40637313897,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 358,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637313897",
-      "created_at": "2026-10-28T05:19:25Z",
-      "head_sha": "a57c3c69d371446fbebf9a299bffeb1b02d52f35"
-    },
-    {
-      "id": 40637287130,
-      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "failure",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637287130",
-      "created_at": "2026-10-28T05:19:07Z",
-      "head_sha": "b13474ee7b1ae5d5f9bb1f18b9d3dc0de6ab7d06"
-    },
-    {
-      "id": 40637287126,
-      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
-      "run_number": 357,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40637287126",
-      "created_at": "2026-10-28T05:19:07Z",
-      "head_sha": "b13474ee7b1ae5d5f9bb1f18b9d3dc0de6ab7d06"
-    },
-    {
-      "id": 40634791067,
-      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 10,
-      "status": "completed",
-      "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634791067",
-      "created_at": "2026-10-28T04:52:55Z",
-      "head_sha": "c135537ea91cf7cd216857a17d8b9f0185bd704f"
-    },
-    {
-      "id": 40634761790,
-      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 9,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634761790",
-      "created_at": "2026-10-28T04:52:35Z",
-      "head_sha": "a541c1617da4e31f96c2f5114390b5c635a31abd"
-    },
-    {
-      "id": 40634738508,
-      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 8,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634738508",
-      "created_at": "2026-10-28T04:52:19Z",
-      "head_sha": "a0bfce6ac389014b4f829a502d318eccf18fb126"
-    },
-    {
-      "id": 40634714543,
-      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 7,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634714543",
-      "created_at": "2026-10-28T04:52:04Z",
-      "head_sha": "e9d05696f2e843c3a8a4f46b2b4854dc1c7a5976"
-    },
-    {
-      "id": 40634703785,
-      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 6,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634703785",
-      "created_at": "2026-10-28T04:51:56Z",
-      "head_sha": "151a53c3ee3d7cbd764da81e1b7f1bef864533b7"
-    },
-    {
-      "id": 40634691284,
-      "name": "DuoFace V6 read-only live CarPlayApp Maps controller/scene owner probe",
-      "run_number": 5,
-      "status": "completed",
-      "conclusion": "cancelled",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634691284",
-      "created_at": "2026-10-28T04:51:48Z",
-      "head_sha": "77aeb3f80348838064d565321e489e40bf1488f7"
-    },
-    {
-      "id": 40634677104,
-      "name": "DuoFace V6 read-only live CarPlayApp Maps controller/scene owner probe",
+      "id": 40690411666,
+      "name": "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)",
       "run_number": 4,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40634677104",
-      "created_at": "2026-10-28T04:51:38Z",
-      "head_sha": "b4b8f0191ab31a7731d0b6161a6ccc7335a64a17"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40690411666",
+      "created_at": "2026-10-28T12:45:10Z",
+      "head_sha": "02f06d6238aaa26275afc9e363824e4a6256a926"
     },
     {
-      "id": 40631915434,
-      "name": "DuoFace V6 independent native Maps owner log exporter iPhone app",
+      "id": 40690294670,
+      "name": "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40690294670",
+      "created_at": "2026-10-28T12:44:22Z",
+      "head_sha": "3e71dd90ca8d3f0c9976cf4469b657a6dde4f4a1"
+    },
+    {
+      "id": 40690187156,
+      "name": "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40690187156",
+      "created_at": "2026-10-28T12:43:35Z",
+      "head_sha": "d5a65f731bfc35bdf973119e3094c7ed449dba8e"
+    },
+    {
+      "id": 40689984305,
+      "name": "DuoFace .91 archive already signed QA artifact from verified CI (NO REBUILD)",
+      "run_number": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40689984305",
+      "created_at": "2026-10-28T12:42:08Z",
+      "head_sha": "b23284ccda65e932caf646752675cf85a223d653"
+    },
+    {
+      "id": 40689380992,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 328,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40689380992",
+      "created_at": "2026-10-28T12:37:46Z",
+      "head_sha": "4dba11e1a95e237f966b44292b9b486a837a8f90"
+    },
+    {
+      "id": 40689316880,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 421,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40689316880",
+      "created_at": "2026-10-28T12:37:18Z",
+      "head_sha": "119834549de6f82c442cbeacab0db68a7c50c6ef"
+    },
+    {
+      "id": 40689188238,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 327,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40689188238",
+      "created_at": "2026-10-28T12:36:22Z",
+      "head_sha": "ac6fde8e172b90a4561ddb051a10df770561663e"
+    },
+    {
+      "id": 40688990879,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 326,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688990879",
+      "created_at": "2026-10-28T12:34:58Z",
+      "head_sha": "eb3d0f06987e2c0d011b4f92ca81ca96e3571cff"
+    },
+    {
+      "id": 40688929892,
+      "name": "DuoFace .84 owner-scoped orientation source/runtime gate",
+      "run_number": 16,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688929892",
+      "created_at": "2026-10-28T12:34:31Z",
+      "head_sha": "1a28c5fddda0fd9e3a7a16e84dd76ce1ff3135ef"
+    },
+    {
+      "id": 40688765319,
+      "name": "DuoFace independent embedded JB AppBridge — one DEB staging (NO RELEASE)",
+      "run_number": 325,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688765319",
+      "created_at": "2026-10-28T12:33:21Z",
+      "head_sha": "62f609f3ce3dfc87a0d596d3eef524c8397e3fc2"
+    },
+    {
+      "id": 40688566970,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 420,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688566970",
+      "created_at": "2026-10-28T12:31:57Z",
+      "head_sha": "5374bdb3202e42780b21f3cf69abc008d33cb0a8"
+    },
+    {
+      "id": 40688430343,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 419,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688430343",
+      "created_at": "2026-10-28T12:30:56Z",
+      "head_sha": "267f98ae83cea8da9b741ff26c666c51b9da8353"
+    },
+    {
+      "id": 40688308540,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 31,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688308540",
+      "created_at": "2026-10-28T12:30:07Z",
+      "head_sha": "dbe9923471eaf6c9b45f53926ba4f60efb643905"
+    },
+    {
+      "id": 40688308535,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 12,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688308535",
+      "created_at": "2026-10-28T12:30:07Z",
+      "head_sha": "dbe9923471eaf6c9b45f53926ba4f60efb643905"
+    },
+    {
+      "id": 40688194312,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 418,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688194312",
+      "created_at": "2026-10-28T12:29:15Z",
+      "head_sha": "b47096bfeea1517c2bd7cc87dab2f45e6aa2b91f"
+    },
+    {
+      "id": 40688156590,
+      "name": "DuoFace Native12 source-only UIKit and original behavior regression",
+      "run_number": 417,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688156590",
+      "created_at": "2026-10-28T12:28:59Z",
+      "head_sha": "5012db3eecc050308bb3a3b6409e3a90c9be4e26"
+    },
+    {
+      "id": 40688092311,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 11,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40688092311",
+      "created_at": "2026-10-28T12:28:31Z",
+      "head_sha": "79c8e3706a533724395dc2d27ec56437671ae9f6"
+    },
+    {
+      "id": 40687939666,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 30,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40687939666",
+      "created_at": "2026-10-28T12:27:22Z",
+      "head_sha": "da8e50017a3d5c653361cb78af83e0c4ac08b6f2"
+    },
+    {
+      "id": 40687803147,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 29,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40687803147",
+      "created_at": "2026-10-28T12:26:22Z",
+      "head_sha": "e5e8380b5fa67532859cd09a9a9b964ae90f27ea"
+    },
+    {
+      "id": 40686779951,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 28,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686779951",
+      "created_at": "2026-10-28T12:18:53Z",
+      "head_sha": "15672472450e44cc330e3da0a7db374e9bd01f5b"
+    },
+    {
+      "id": 40686779946,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 10,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686779946",
+      "created_at": "2026-10-28T12:18:53Z",
+      "head_sha": "15672472450e44cc330e3da0a7db374e9bd01f5b"
+    },
+    {
+      "id": 40686560321,
+      "name": "DuoFace original-verified native CarPlay Maps scene identity only",
+      "run_number": 9,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686560321",
+      "created_at": "2026-10-28T12:17:13Z",
+      "head_sha": "b4e7f7428f6925f1fd209264302dd1126141fcde"
+    },
+    {
+      "id": 40686486426,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 27,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686486426",
+      "created_at": "2026-10-28T12:16:39Z",
+      "head_sha": "f584dea81840730c34c3f87508d19ddaf3948959"
+    },
+    {
+      "id": 40686448306,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 26,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686448306",
+      "created_at": "2026-10-28T12:16:22Z",
+      "head_sha": "a339d7cccc6f001a319838bd0c5398fdd90da131"
+    },
+    {
+      "id": 40686366507,
+      "name": "DuoFace V7 read-only live CarPlayApp Maps controller/scene owner probe",
+      "run_number": 25,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686366507",
+      "created_at": "2026-10-28T12:15:46Z",
+      "head_sha": "b617cf1c476a85feb7296cba5134c3ef9d0cf59d"
+    },
+    {
+      "id": 40686166556,
+      "name": "DuoFace original OmniCar native scene adoption selector chain audit",
+      "run_number": 4,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686166556",
+      "created_at": "2026-10-28T12:14:19Z",
+      "head_sha": "67347b49ad39d8b0f30a4d0d2bdad28aebc8ee6f"
+    },
+    {
+      "id": 40686003697,
+      "name": "DuoFace original OmniCar native scene adoption selector chain audit",
+      "run_number": 3,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40686003697",
+      "created_at": "2026-10-28T12:13:04Z",
+      "head_sha": "5e1de3e2fc0c4e29baec78b8e6782bab7cad245d"
+    },
+    {
+      "id": 40685781979,
+      "name": "DuoFace original OmniCar native scene adoption selector chain audit",
+      "run_number": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40685781979",
+      "created_at": "2026-10-28T12:11:24Z",
+      "head_sha": "be775148ce2b2262a2b35ba69e7ded10f2dfa3ca"
+    },
+    {
+      "id": 40685643542,
+      "name": "DuoFace original OmniCar native scene adoption selector chain audit",
       "run_number": 1,
       "status": "completed",
       "conclusion": "success",
-      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40631915434",
-      "created_at": "2026-10-28T04:22:01Z",
-      "head_sha": "c0abb081e78a002855bf0110a10f9ac4c8fc2129"
+      "url": "https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40685643542",
+      "created_at": "2026-10-28T12:10:22Z",
+      "head_sha": "6df36bd52cf8693248d9d399e7f670ac1b2e9567"
     }
   ]
 }
