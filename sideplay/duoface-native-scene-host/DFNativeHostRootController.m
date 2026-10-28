@@ -13,7 +13,7 @@
 - (void)start;
 - (void)stop;
 @end
-@interface DFNativeHostRootController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface DFNativeHostRootController : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 @property(nonatomic,assign) BOOL carPlay;
 @property(nonatomic,strong) DFNativeHostSurfaceView *nativeSurface;
 @property(nonatomic,strong) UIImageView *mainLogo;
@@ -22,6 +22,7 @@
 @property(nonatomic,strong) UISegmentedControl *tabs;
 @property(nonatomic,strong) UITableView *appsTable;
 @property(nonatomic,strong) NSArray<NSDictionary *> *installedApps;
+@property(nonatomic,copy) NSString *appSearch;
 @property(nonatomic,assign) NSInteger currentPreset;
 - (instancetype)initWithCarPlay:(BOOL)carPlay;
 @end
@@ -96,6 +97,13 @@
  list.translatesAutoresizingMaskIntoConstraints=NO;list.backgroundColor=UIColor.blackColor;
  list.dataSource=self;list.delegate=self;list.hidden=YES;list.allowsSelection=YES;
  [self.view addSubview:list];self.appsTable=list;
+ UISearchBar *appSearchBar=[UISearchBar new];
+ appSearchBar.placeholder=@"Tìm ứng dụng đã cài";
+ appSearchBar.searchBarStyle=UISearchBarStyleMinimal;
+ appSearchBar.delegate=self;
+ list.tableHeaderView=appSearchBar;
+ self.appSearch=@"";
+
  [NSLayoutConstraint activateConstraints:@[
    [logo.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor constant:28],
    [logo.centerXAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.centerXAnchor],
@@ -215,20 +223,49 @@
  }
  else [self reloadLiveStatus];
 }
+- (void)searchBar:(UISearchBar *)bar textDidChange:(NSString *)text {
+ (void)bar;self.appSearch=text?:@"";[self.appsTable reloadData];
+}
+- (NSArray<NSDictionary *> *)appsInGroup:(NSInteger)section {
+ if(section<1||section>3)return @[];
+ NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs();
+ NSMutableArray *items=[NSMutableArray new];
+ for(NSDictionary *app in self.installedApps){
+  NSString *bid=app[@"bundle"],*name=app[@"name"];
+  BOOL selected=!enabled||[enabled containsObject:bid];
+  BOOL system=[app[@"kind"] isEqual:@"system"];
+  BOOL matches=!self.appSearch.length||
+    [name localizedCaseInsensitiveContainsString:self.appSearch]||
+    [bid localizedCaseInsensitiveContainsString:self.appSearch];
+  if(!matches)continue;
+  if((section==1&&selected)||(section==2&&!selected&&!system)||
+     (section==3&&!selected&&system))[items addObject:app];
+ }
+ return items;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+ (void)tableView;return self.tabs.selectedSegmentIndex==1?4:1;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+ (void)tableView;
+ if(self.tabs.selectedSegmentIndex!=1)return nil;
+ return @[@"Quản lý",@"My Apps — Đã chọn",@"Ứng dụng khác",@"Ứng dụng hệ thống"][(NSUInteger)section];
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
- (void)tableView;(void)section;
- // Original phone Apps Manager includes one separate actions menu;
- // the CarPlay picker remains a one-bundle, one-slot chooser.
- return self.tabs.selectedSegmentIndex==2?10:(NSInteger)self.installedApps.count+1;
+ (void)tableView;
+ if(self.tabs.selectedSegmentIndex==2)return 10;
+ if(self.tabs.selectedSegmentIndex!=1)return 0;
+ return section==0?2:(NSInteger)[self appsInGroup:section].count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"DuoFaceInstalled"];
  if(!cell)cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                      reuseIdentifier:@"DuoFaceInstalled"];
  cell.accessoryView=nil;
- if(self.tabs.selectedSegmentIndex==1 && indexPath.row==0){
-    cell.textLabel.text=@"⋯ Tùy chọn ứng dụng";
-    cell.detailTextLabel.text=@"Bật đề xuất / Bật tất cả / Tắt tất cả";
+ if(self.tabs.selectedSegmentIndex==1 && indexPath.section==0){
+    cell.textLabel.text=indexPath.row==0?@"⋯ Tùy chọn ứng dụng":@"Bản đồ CarPlay native";
+    cell.detailTextLabel.text=indexPath.row==0?@"Bật đề xuất / Bật tất cả / Tắt tất cả":
+       @"Maps native: ghép/khôi phục, chỉ khi xe đang đỗ";
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
  } else if(self.tabs.selectedSegmentIndex==2 && indexPath.row==9){
     cell.textLabel.text=@"Thử nghiệm bản đồ CarPlay native";
@@ -244,10 +281,10 @@
     cell.accessoryType=preset==self.currentPreset?
        UITableViewCellAccessoryCheckmark:UITableViewCellAccessoryNone;
  } else {
-    NSDictionary *item=self.installedApps[(NSUInteger)indexPath.row-1];
+    NSDictionary *item=[self appsInGroup:indexPath.section][(NSUInteger)indexPath.row];
     cell.textLabel.text=item[@"name"];cell.detailTextLabel.text=item[@"bundle"];
     UISwitch *toggle=[UISwitch new];
-    toggle.tag=indexPath.row-1;
+    toggle.tag=[self.installedApps indexOfObjectIdenticalTo:item];
      toggle.accessibilityLabel=[NSString stringWithFormat:@"Cho phép %@",item[@"name"]];
     NSArray *enabled=DFConfiguredEnabledAppIDs();
     [toggle setOn:(!enabled || [enabled containsObject:item[@"bundle"]]) animated:NO];
@@ -384,14 +421,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
  [tableView deselectRowAtIndexPath:indexPath animated:YES];
  if(self.tabs.selectedSegmentIndex==1){
-   if(indexPath.row==0)[self showAppSettingsActions];
-    else {
-      UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-      UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
-          (UISwitch *)cell.accessoryView:nil;
-      if(toggle){[toggle setOn:!toggle.on animated:YES];[self appSwitchToggled:toggle];}
-    }
-   return;
+  if(indexPath.section==0){
+    if(indexPath.row==0)[self showAppSettingsActions];
+    else [self showNativeMapPaneChoices];
+  } else {
+    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    UISwitch *toggle=[cell.accessoryView isKindOfClass:UISwitch.class]?
+      (UISwitch *)cell.accessoryView:nil;
+    if(toggle){[toggle setOn:!toggle.on animated:YES];[self appSwitchToggled:toggle];}
+  }
+  return;
  }
  if(self.tabs.selectedSegmentIndex!=2)return;
  if(indexPath.row==9) {
