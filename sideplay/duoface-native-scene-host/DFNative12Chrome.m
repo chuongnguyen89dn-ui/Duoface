@@ -1,4 +1,5 @@
 #import "DFDividerDrag.h"
+#import "DFLogoHoldGate.h"
 #import "DFDeepTrace.h"
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12GalleryGeometry.h"
@@ -258,6 +259,7 @@ static void DFCLog(NSString *text) {
 @property(nonatomic,assign) CGPoint secondaryDragStartPoint;
 @property(nonatomic,assign) CGFloat logoFraction;
 @property(nonatomic,assign) DFDividerDrag dividerDrag;
+@property(nonatomic,assign) DFLogoHoldGate logoHoldGate;
 @property(nonatomic,assign) BOOL verticalDivider;
 @property(nonatomic,assign) NSInteger preset;
 @property(nonatomic,assign) BOOL swapped;
@@ -383,6 +385,7 @@ static void DFCLog(NSString *text) {
     self.styleVisible=NO;
     self.logoTouchPending=NO;
     _dividerDrag.active=false;
+    self.logoHoldGate=(DFLogoHoldGate){0};
     self.logoWakeOnlyTap=NO;
     self.startupActive=YES;
     self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
@@ -458,9 +461,9 @@ static void DFCLog(NSString *text) {
     DFNativeDividerGripButton *logo=[[DFNativeDividerGripButton alloc]initWithFrame:CGRectZero];
     logo.backgroundColor=UIColor.clearColor;
     // Native8 device-verified layout: one real UIButton owns logo movement;
-    // both logo and track feed the shared immediate axis-drag state.
+    // logo has a 3s hold gate; the surrounding track keeps immediate ratio pan.
     __weak typeof(self) weakGripOwner=self;
-    // Raw contact updates the same immediate direction state as the track.
+    // Raw contact is gated: brief tap swaps, hold then parallel drag moves logo.
     logo.touchBegan=^(UIButton *sender){[weakGripOwner logoTouchDown:sender];};
     logo.touchMoved=^(UIButton *sender){[weakGripOwner logoTouchChanged:sender];};
     logo.touchEnded=^(UIButton *sender,BOOL inside,BOOL cancelled){
@@ -489,7 +492,7 @@ static void DFCLog(NSString *text) {
     logo.imageView.contentMode=UIViewContentModeScaleAspectFit;
     logo.accessibilityLabel=@"Thanh chia DuoFace";
     [root.view addSubview:logo];
-    // One axis-locked contact, no hold timer or second grip recognizer.
+    // One raw touch owner and uptime gate; no competing grip recognizer.
     self.dividerLogo=logo;
     self.dividerWindow=[self makeWindow:divider root:root level:2];
     if(!self.dividerWindow){[self stop];return NO;}
@@ -1639,28 +1642,59 @@ static void DFCLog(NSString *text) {
     [self noteUserActivity];
     return tap;
 }
+// User-approved 3s logo hold is deliberately distinct from the original
+// machine-code divider's rotate/swap menu actions. Ratio drag remains available
+// on the surrounding track immediately, not through this circular grip.
 - (void)logoTouchDown:(id)sender {
-    if(sender!=self.dividerLogo || _dividerDrag.active)return;
+    if(sender!=self.dividerLogo || _dividerDrag.active || self.logoTouchPending)return;
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    self->_logoHoldGate=DFLogoHoldBegin(NSProcessInfo.processInfo.systemUptime,
+                                       point.x,point.y);
+    if(!self->_logoHoldGate.tracking)return;
     self.logoWakeOnlyTap=(NSDate.date.timeIntervalSince1970>self.controlsUntil);
-    [self beginDividerDragAt:((DFNativeDividerGripButton *)sender).trackedScreenPoint];
-    self.logoTouchPending=_dividerDrag.active;
+    self.logoTouchPending=YES;
+    [self noteUserActivity]; // Keep the grip visible during the physical hold.
+    DFCLog(@"logo-3s-hold-armed-no-ratio-drag");
 }
 - (void)logoTouchChanged:(id)sender {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
-    [self updateDividerDragAt:((DFNativeDividerGripButton *)sender).trackedScreenPoint];
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    if(self->_logoHoldGate.unlocked){
+        [self updateDividerDragAt:point];
+    }else if(DFLogoHoldAdvance(&self->_logoHoldGate,
+                 NSProcessInfo.processInfo.systemUptime,point.x,point.y,
+                 self.verticalDivider)){
+        // Original 0.0.90 video orientation and live scene geometry are NOT
+        // modified; this drag is restricted to the normalized logo position.
+        [self beginDividerDragAt:CGPointMake(self->_logoHoldGate.x,
+                                             self->_logoHoldGate.y)];
+        if(_dividerDrag.active){
+            self->_dividerDrag.axis=DFDragLogo;
+            [self updateDividerDragAt:point];
+            DFCLog(@"logo-hold-3s-unlocked-parallel-only");
+        }
+    }
+    // Do not hide controls on an active, stationary or moving raw contact.
+    self.controlsUntil=NSDate.date.timeIntervalSince1970+4.0;
 }
 - (void)logoTouchFinished:(id)sender inside:(BOOL)inside cancelled:(BOOL)cancelled {
     if(sender!=self.dividerLogo || !self.logoTouchPending)return;
-    BOOL tap=[self finishDividerDragAt:((DFNativeDividerGripButton *)sender).trackedScreenPoint cancelled:cancelled];
-    NSTimeInterval duration=NSProcessInfo.processInfo.systemUptime-((DFNativeDividerGripButton *)sender).traceStarted;
-    BOOL allowSwap=tap && inside && !self.logoWakeOnlyTap && duration<=0.5;
+    CGPoint point=((DFNativeDividerGripButton *)sender).trackedScreenPoint;
+    BOOL allowSwap=DFLogoHoldIsQuickTap(&self->_logoHoldGate,
+                       NSProcessInfo.processInfo.systemUptime,
+                       point.x,point.y,inside,cancelled,self.logoWakeOnlyTap);
+    BOOL moved=self->_logoHoldGate.unlocked && _dividerDrag.active;
+    if(moved)[self finishDividerDragAt:point cancelled:cancelled];
+    self->_logoHoldGate=(DFLogoHoldGate){0};
     self.logoTouchPending=NO;
     self.logoWakeOnlyTap=NO;
+    if(!moved)[self noteUserActivity];
     if(allowSwap)[self swapPressed:sender];
 }
 - (void)swapPressed:(id)sender {
     // A drag never dispatches this tap action.
     BOOL justWaking=self.logoWakeOnlyTap && sender==self.dividerLogo;
+    self->_logoHoldGate=(DFLogoHoldGate){0};
     self.logoTouchPending=NO;
     _dividerDrag.active=false;
     self.logoWakeOnlyTap=NO;
@@ -1831,6 +1865,7 @@ static void DFCLog(NSString *text) {
 }
 - (void)stop {
     self.logoTouchPending=NO;
+    self->_logoHoldGate=(DFLogoHoldGate){0};
     _dividerDrag.active=false;
     if(self.hostFullscreen)[self restoreHostFullscreenGeometry];
     self.startupActive=NO;
