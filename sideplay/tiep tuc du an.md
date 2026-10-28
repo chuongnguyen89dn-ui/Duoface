@@ -1,3 +1,14 @@
+## SILEO PUBLIC .86 VERIFIED — RUN 40638640307 (2026-10-28)
+
+Actual public Sileo APT: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Exactly one advertised `com.duoface.jb.embedded` version `0.0.86~nativeowner1`. Actual public `com.duoface.jb.embedded_0.0.86~nativeowner1_iphoneos-arm64.deb` downloaded and SHA256 matched `a4871bf76b07844bee9be181340101e779372b7e8bdf065ff658fe99724fa409` independently in CI. Sileo publisher commit `ed83d8554682575529eeb604011a3dfa0e666422`, success GHA run `https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40638640307`, public binary verifier job `122652134508`; YAML verifier `40638640366` success. Original .83 and .84 remain frozen for rollback. Repo source SHA `205ab7121fe04bf37f449c07d53da42489f70e47`; signed DEB archived as DuoFace commit `bcf649118091fb9998dc239b45a8c07bf3742985` under `sideplay/jb-embedded-appbridge/evidence/runs/40638250670/` (GHA 40638250670 SUCCESS).
+
+What shipped: first-party .86 native CarPlayApp read-only Google Maps FBScene owner snapshot and a guarded, original-referenced YouTube hosted-main-scene orientation correction candidate. `DFSceneLifecycle.m` known-good .83 fix unchanged; no user-rejected 0.80 scale or foreign binary/license. **NOT YET VERIFIED ON DEVICE**: YouTube initial Zoom rotation correction or native Google Maps displayed *inside DuoFace split pane*. The native Maps split compositor has **NOT BEEN IMPLEMENTED** because V7 shows active Dashboard host scene switches from Google Maps to DuoFace, and no evidence a live Maps scene survives behind DuoFace. No arbitrary scene cloning, CPWindow reparent or percentage zoom was done. Sileo publication is not device success.
+
+Next: install .86 via Sileo while car is parked, test YouTube split -> Zoom -> video fullscreen -> restore, record `/var/mobile/Library/Logs/DuoFaceSceneHost.log` and CarPlay owner log, compare real scene generation/owner, Dock, map tiles vs instructions-only, crash/IPS. If map still instructions-only, investigate native CarPlay scene continuity and actual original OmniCar `adopt:slot:` before implementing guarded independent native scene compositor. If Youtube still rotates, use captured scene orientation readback and avoid forcing arbitrary landscape. The .83 physical playback baseline must remain recoverable.
+
+Source details: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_086_NATIVE_MAP_YOUTUBE_STAGE_20261028.md`.
+
+---
 ## CHECKPOINT 2026-10-28 DuoFace .86 — signed build archived (not hardware-verified)
 
 CI run `40638250670` source `205ab7121fe04bf37f449c07d53da42489f70e47`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40638250670/com.duoface.jb.embedded_0.0.86~nativeowner1_iphoneos-arm64.deb`; SHA256 `a4871bf76b07844bee9be181340101e779372b7e8bdf065ff658fe99724fa409`.
