@@ -98,7 +98,8 @@ def main():
         if registration:
             m=re.search(r"\badr\s+x5,\s*#(0x[0-9a-fA-F]+|\d+)",registration["asm"])
             if m:
-                block_addr=int(m.group(1),0)
+                # LLVM prints ADR displacement, NOT the absolute VM target.
+                block_addr=registration["pc"]+int(m.group(1),0)
                 callback["block_literal_vm"]=hex(block_addr)
                 try:
                     base=macho.map(block_addr)
