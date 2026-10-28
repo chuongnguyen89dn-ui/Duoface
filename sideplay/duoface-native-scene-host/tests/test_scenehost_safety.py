@@ -194,7 +194,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("-dynamiclib",build)
   self.assertIn("DFTouchOwnerProbe.m",build)
   self.assertIn("DFTouchOwnerProbe.plist",build)
-  self.assertIn("0.1.99~nativegetters1",build)
+  self.assertIn("0.1.100~nativemapqa1",build)
   self.assertIn("mobilesubstrate",file("control"))
  def test_native12_independent_geometry_and_complete_action_contract(self):
   chrome=file("DFNative12Chrome.m")
@@ -502,7 +502,7 @@ class NativeCarPlayHost(unittest.TestCase):
   self.assertIn("for(int i=0;i<4;i++)out[i]=CGRectNull;",engine)
   self.assertIn('normalized[@"Version"]=@2',chrome)
   self.assertIn("DFCanonicalPreset",chrome)
-  self.assertIn('return self.tabs.selectedSegmentIndex==2?9:',phone)
+  self.assertIn('return self.tabs.selectedSegmentIndex==2?10:',phone)
   self.assertIn("active<1 || active>4",bridge)
   self.assertIn('self.preset=selected;',chrome)
   self.assertIn("self.styleWindow.hidden=(self.startupActive||!self.styleVisible);",chrome)
@@ -632,7 +632,7 @@ class NativeCarPlayHost(unittest.TestCase):
  def test_separate_package_and_no_boot_scripts(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativescenehost",c)
-  self.assertIn("Version: 0.1.99~nativegetters1",c)
+  self.assertIn("Version: 0.1.100~nativemapqa1",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   self.assertTrue((R/"postinst").exists())
