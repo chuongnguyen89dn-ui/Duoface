@@ -80,7 +80,7 @@ jobs:
           xcrun --sdk iphoneos clang -dynamiclib -fobjc-arc -fblocks \
             -target arm64-apple-ios16.0 -isysroot "$SDK" -Wall -Wextra -Werror \
             -Wno-deprecated-declarations -framework UIKit -framework Foundation \
-            -framework CoreGraphics -o "$RUNNER_TEMP/DFYouTubeOrientationRelay.dylib" DFYouTubeOrientationRelay.m
+            -framework CoreGraphics -o "$RUNNER_TEMP/DFYouTubeOrientationRelay.dylib" DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m
           xcrun lipo "$RUNNER_TEMP/DFYouTubeOrientationRelay.dylib" -verify_arch arm64
           # Historical OWN Speed8 HUD view has been recovered but is NOT
           # mounted/linked to the live host until real non-intercepting owner QA.
