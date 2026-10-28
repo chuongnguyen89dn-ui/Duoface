@@ -428,8 +428,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
                         DFCall0(DFCall0(surface.appController,@"sceneHandle"),@"sceneIfExists")!=hostedScene ||
                         !DFHostingFlag(surface.appController,@"isHostingAnApp",NO) ||
                         !surface.window || surface.appController.view.window!=surface.window) return;
+                    // For an orientation-only reconcile, do not reassert
+                    // foreground/background or issue duplicate frame diff:
+                    // the .83 working video lifecycle must stay untouched.
                     SEL frameSelector=NSSelectorFromString(@"setFrame:");
-                    if (settings && [settings respondsToSelector:frameSelector]) {
+                    if (!unchanged && settings && [settings respondsToSelector:frameSelector]) {
                         ((void (*)(id,SEL,CGRect))objc_msgSend)(
                             settings,frameSelector,nativeFrame);
                     }
@@ -438,11 +441,11 @@ static NSInteger DFObservedSceneForeground(id scene) {
                     // Dispatch only for our CURRENT owned scene and only if
                     // the runtime settings type exposes each selector.
                     SEL fgSelector=NSSelectorFromString(@"setForeground:");
-                    if (settings && [settings respondsToSelector:fgSelector]) {
+                    if (!unchanged && settings && [settings respondsToSelector:fgSelector]) {
                         ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,fgSelector,YES);
                     }
                     SEL bgSelector=NSSelectorFromString(@"setBackgrounded:");
-                    if (settings && [settings respondsToSelector:bgSelector]) {
+                    if (!unchanged && settings && [settings respondsToSelector:bgSelector]) {
                         ((void (*)(id,SEL,BOOL))objc_msgSend)(settings,bgSelector,NO);
                     }
                     // Never force external CarPlay landscape. Correct only
