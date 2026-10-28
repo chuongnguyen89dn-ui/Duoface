@@ -1,8 +1,8 @@
 Package: com.duoface.carplay.nativejoinprobe
 Name: DuoFace Native Scene Join Probe
-Version: 0.0.4~mapowner1
+Version: 0.0.5~mapowner2
 Architecture: iphoneos-arm64
 Maintainer: DuoFace Independent
 Depends: mobilesubstrate, firmware (>= 16.0)
 Section: Tweaks
-Description: Isolated read-only native CarPlay controller/sceneHostView, Dashboard Dock geometry and iOS16 CARApplication ABI diagnostic; does NOT register a DuoFace app, join iPhone app scenes or change UI. Logs scene state and validates session-bound native viewport. No SpringBoard injection; no Sileo release without further verification.
+Description: Isolated read-only native CarPlay controller/sceneHostView and guarded app/scene owner identity, Dashboard Dock geometry and iOS16 CARApplication ABI diagnostic; does NOT register a DuoFace app, join iPhone app scenes or change UI. Logs scene state and validates session-bound native viewport. No SpringBoard injection; no Sileo release without further verification.
