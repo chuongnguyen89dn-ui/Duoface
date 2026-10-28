@@ -53,6 +53,50 @@ static NSString *DFReadHostView(id vc, NSMutableDictionary *record) {
     }
     return @"present-non-UIView";
 }
+// Identity-only observation for the live Dashboard app-scene controller.
+// Only invoke verified zero-argument OBJECT getters; no scene lifecycle calls.
+static id DFGetOwnerObject(id receiver, NSString *name, NSMutableDictionary *log, NSString *key) {
+    SEL sel=NSSelectorFromString(name);
+    Method m=class_getInstanceMethod(object_getClass(receiver),sel);
+    if(!m){log[[key stringByAppendingString:@"Status"]]=@"absent";return nil;}
+    if(method_getNumberOfArguments(m)!=2){
+        log[[key stringByAppendingString:@"Status"]]=@"unsupported-abi";return nil;
+    }
+    char *type=method_copyReturnType(m);
+    BOOL isObject=(type && type[0]=='@');
+    if(type)free(type);
+    if(!isObject){log[[key stringByAppendingString:@"Status"]]=@"unsupported-abi";return nil;}
+    @try{
+        id value=((id (*)(id,SEL))objc_msgSend)(receiver,sel);
+        log[[key stringByAppendingString:@"Status"]]=value?@"present":@"nil";
+        if(value){
+            log[[key stringByAppendingString:@"Class"]]=DFClassName(value);
+            log[[key stringByAppendingString:@"Pointer"]]=DFPtr(value);
+        }
+        return value;
+    } @catch(NSException *e){
+        log[[key stringByAppendingString:@"Status"]]=@"exception";
+        return nil;
+    }
+}
+static void DFInspectOwner(UIViewController *vc, NSMutableDictionary *log) {
+    if(![DFClassName(vc) isEqualToString:@"DBApplicationSceneViewController"])return;
+    id scene=DFGetOwnerObject(vc,@"scene",log,@"nativeScene");
+    id info=DFGetOwnerObject(vc,@"applicationInfo",log,@"nativeApplicationInfo");
+    if(info){
+        NSMutableDictionary *metadata=[NSMutableDictionary new];
+        id bundle=DFGetOwnerObject(info,@"bundleIdentifier",metadata,@"bundle");
+        if([bundle isKindOfClass:NSString.class] && [bundle length]<=160)
+            log[@"hostedBundleIdentifier"]=bundle;
+    }
+    if(scene){
+        NSMutableDictionary *metadata=[NSMutableDictionary new];
+        id identifier=DFGetOwnerObject(scene,@"identifier",metadata,@"identifier");
+        if([identifier isKindOfClass:NSString.class] && [identifier length]<=160)
+            log[@"hostedSceneIdentifier"]=identifier;
+    }
+}
+
 static void DFVisitController(UIViewController *vc,
                              NSMutableArray *records,
                              NSMutableSet<NSValue *> *seen,
@@ -76,6 +120,7 @@ static void DFVisitController(UIViewController *vc,
         @"hasApplicationInfoSelector":@(class_getInstanceMethod(object_getClass(vc),NSSelectorFromString(@"applicationInfo"))!=NULL)
     } mutableCopy];
     entry[@"sceneHostViewStatus"]=DFReadHostView(vc,entry);
+    DFInspectOwner(vc,entry);
     [records addObject:entry];
     if(records.count>=72)return;
     for(UIViewController *child in vc.childViewControllers){
@@ -142,7 +187,7 @@ void DFCarPlayCaptureLiveOwnerSnapshot(NSString *probeSession) {
             [scenes addObject:s];
         }
         DFWriteSnapshotLine(@{
-            @"schema":@1,@"kind":@"carplay-live-owner-readonly",
+            @"schema":@2,@"kind":@"carplay-live-owner-readonly",
             @"probeSession":probeSession?:@"unset",
             @"utc":@((long long)NSDate.date.timeIntervalSince1970),
             @"process":process,
