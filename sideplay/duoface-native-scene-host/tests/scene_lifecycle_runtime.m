@@ -38,6 +38,29 @@ void MSHookMessageEx(Class cls, SEL sel, IMP replacement, IMP *original) {
     if(completion)((void(^)(void))completion)();
 }
 @end
+// iOS16 SpringBoard observer model. The original method must be called
+// exactly once for foreign, stale, closing and automatic-lifecycle controllers.
+@interface TestSceneHandle : NSObject
+@property(nonatomic,strong) id currentScene;
+- (id)sceneIfExists;
+@end
+@implementation TestSceneHandle
+- (id)sceneIfExists { return self.currentScene; }
+@end
+@interface SBAppViewController : NSObject
+@property(nonatomic,strong) TestSceneHandle *sceneHandle;
+@property(nonatomic) BOOL automatesLifecycle;
+@property(nonatomic) NSUInteger originalObserverCalls;
+@property(nonatomic) BOOL observerThrows;
+- (void)sceneHandle:(id)handle didUpdateSettingsWithDiff:(id)diff previousSettings:(id)settings;
+@end
+@implementation SBAppViewController
+- (void)sceneHandle:(id)handle didUpdateSettingsWithDiff:(id)diff previousSettings:(id)settings {
+    (void)handle;(void)diff;(void)settings;
+    self.originalObserverCalls++;
+    if(self.observerThrows)[NSException raise:@"AppleObserverFailure" format:@"must escape"];
+}
+@end
 int main(void) {
  @autoreleasepool {
     NSCAssert(DFSceneLifecycleInstall(),@"install");
@@ -91,6 +114,40 @@ int main(void) {
     }
     [scene updateSettings:input withTransitionContext:context completion:nil];
     NSCAssert(scene.received==input,@"weak owner expiry");
+    // Exact ABI/ownership contract of the 0.83 manual-lifecycle observer:
+    // only a registered, currently attached manual controller can consume it.
+    SBAppViewController *ctl=[SBAppViewController new];
+    ctl.automatesLifecycle=NO;
+    TestSceneHandle *handle=[TestSceneHandle new];
+    handle.currentScene=scene;ctl.sceneHandle=handle;
+    DFSceneLifecycleRegister(ctl,^id{return scene;});
+    [ctl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(ctl.originalObserverCalls==0,@"owned manual observer consumed");
+    // Nonowned (and unknown controller) MUST follow original SpringBoard.
+    SBAppViewController *foreignCtl=[SBAppViewController new];
+    foreignCtl.automatesLifecycle=NO;foreignCtl.sceneHandle=handle;
+    [foreignCtl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(foreignCtl.originalObserverCalls==1,@"foreign manual controller forwards");
+    // Automatic lifecycle is never suppressed even for a registered owner.
+    ctl.automatesLifecycle=YES;
+    [ctl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(ctl.originalObserverCalls==1,@"automatic lifecycle forwards");
+    ctl.automatesLifecycle=NO;
+    TestSceneHandle *replacement=[TestSceneHandle new];
+    replacement.currentScene=foreign;ctl.sceneHandle=replacement;
+    [ctl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(ctl.originalObserverCalls==2,@"stale handle forwards");
+    [ctl sceneHandle:replacement didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(ctl.originalObserverCalls==3,@"replacement scene forwards");
+    ctl.sceneHandle=handle;
+    DFSceneLifecycleUnregister(ctl);
+    [ctl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];
+    NSCAssert(ctl.originalObserverCalls==4,@"close unregister forwards");
+    ctl.observerThrows=YES;BOOL threw=NO;
+    @try {[ctl sceneHandle:handle didUpdateSettingsWithDiff:input previousSettings:nil];}
+    @catch(NSException *e){threw=[e.name isEqualToString:@"AppleObserverFailure"];}
+    NSCAssert(threw,@"original observer exception must escape");ctl.observerThrows=NO;
+    NSLog(@"PASS lifecycle runtime: owned manual observer isolated, foreign/stale/replaced/automatic/revoked forwarded and original failure preserved");
     NSLog(@"PASS lifecycle runtime: copy, nonowner, stale, revoke, context, once, unknown, errors");
  }
  return 0;
