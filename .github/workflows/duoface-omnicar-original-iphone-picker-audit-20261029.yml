@@ -172,6 +172,99 @@ jobs:
            for sel in targeted["OMCAppBridgeAppsController"]:print("OMNI_PHONE_METHOD",sel)
           PY
 
+      - name: Resolve original OmniCar 105 iPhone app manager methods from ARM64 pointers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/original-omnicar.deb" "$RUNNER_TEMP/omni-audit" <<'PY'
+          import hashlib,json,pathlib,re,struct,subprocess,sys,tempfile
+          deb=pathlib.Path(sys.argv[1]);out=pathlib.Path(sys.argv[2])
+          assert hashlib.sha256(deb.read_bytes()).hexdigest()=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          def thin(raw):
+           if struct.unpack_from(">I",raw)[0]==0xcafebabe:
+            n=struct.unpack_from(">I",raw,4)[0]
+            for j in range(n):
+             cpu,sub,off,size,align=struct.unpack_from(">IIIII",raw,8+20*j)
+             if cpu==0x0100000c and sub==0:return raw[off:off+size]
+            raise RuntimeError("ARM64 fat slice unavailable")
+           assert struct.unpack_from("<I",raw)[0]==0xfeedfacf
+           return raw
+          def cstring(b,off):
+           if not 0<=off<len(b):return None
+           end=b.find(b"\0",off,min(len(b),off+230))
+           if end<=off:return None
+           try:s=b[off:end].decode("utf8")
+           except UnicodeDecodeError:return None
+           return s if re.fullmatch(r"[A-Za-z_$][A-Za-z0-9_:$]*",s) else None
+          def read_methods(binary,meta,cls):
+           hits=[i for i,x in enumerate(meta) if re.match(r"^\s*name\s+0x[0-9a-fA-F]+\s+"+re.escape(cls)+r"\s*$",x)]
+           if not hits:return {"error":"Class not found"}
+           i=hits[0]
+           m=next((re.search(r"baseMethods\s+0x([a-fA-F0-9]+)",x) for x in meta[i+1:i+65] if "baseMethods" in x),None)
+           if m is None:return {"error":"class has no base method table"}
+           tab=int(m.group(1),16)
+           if tab+8>len(binary):return {"error":"baseMethods out of bounds","table":hex(tab)}
+           size=struct.unpack_from("<I",binary,tab)[0]&0xffff
+           count=struct.unpack_from("<I",binary,tab+4)[0]
+           if count>300 or size not in (12,24):raise RuntimeError("INVALID ORIGINAL METHOD TABLE "+cls+" "+str((size,count)))
+           selectors=[]
+           for j in range(count):
+            entry=tab+8+size*j
+            if size==12:
+             rel=struct.unpack_from("<i",binary,entry)[0]
+             pointer_to_string=entry+rel
+             if 0<=pointer_to_string<len(binary)-8:
+              ptr=struct.unpack_from("<Q",binary,pointer_to_string)[0]&((1<<48)-1)
+             else:ptr=-1
+             name=cstring(binary,ptr) or cstring(binary,pointer_to_string)
+             imp=entry+8+struct.unpack_from("<i",binary,entry+8)[0]
+            else:
+             name=cstring(binary,struct.unpack_from("<Q",binary,entry)[0]&((1<<48)-1))
+             imp=struct.unpack_from("<Q",binary,entry+16)[0]&((1<<48)-1)
+            selectors.append({"name":name,"imp":hex(imp),"entry":hex(entry)})
+           return {"method_table":hex(tab),"method_count":count,
+            "decoded_names":sum(bool(x["name"]) for x in selectors),"methods":selectors}
+          with tempfile.TemporaryDirectory() as td:
+           root=pathlib.Path(td);p=subprocess.run(["dpkg-deb","-x",str(deb),str(root)],capture_output=True,text=True)
+           assert p.returncode==0,p.stderr
+           a=root/"var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs"
+           b=root/"var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"
+           def metadata(path):
+            p=subprocess.run(["xcrun","llvm-objdump","--macho","--objc-meta-data","--arch=arm64",str(path)],capture_output=True,text=True,errors="replace")
+            assert p.returncode==0,p.stderr[-500:]
+            return p.stdout.splitlines()
+           A=thin(a.read_bytes());B=thin(b.read_bytes())
+           ma=metadata(a);mb=metadata(b)
+           original_phone={n:read_methods(A,ma,n) for n in ["OMCAppBridgeAppsController","OMCRootListController","OMCHomeScreenController","OMCSplitScreenAppPickerController"]}
+           original_car={n:read_methods(B,mb,n) for n in ["SCPCarSplit"]}
+           manager=original_phone["OMCAppBridgeAppsController"]
+           assert manager["method_count"]==105,manager
+           if manager["decoded_names"]<100:raise RuntimeError("Cannot decode original phone selectors: "+str(manager["decoded_names"]))
+           phonefilter=re.compile(r"app|bridge|select|save|toggle|persist|enabled|pref|refresh|reload|table|filter|search|add|remove|switch|installed|all|notification|write",re.I)
+           carfilter=re.compile(r"app|bridge|publish|picker|load|filter|slot|installed|select|settings",re.I)
+           report={"kind":"PINNED_ORIGINAL_OMNICAR_APP_MANAGER_RESOLVED_METHODS",
+             "original_deb_sha256":hashlib.sha256(deb.read_bytes()).hexdigest(),
+             "original_iPhone_owners":original_phone,"original_CarPlay_owners":original_car,
+             "selector_only_not_execution":True}
+           (out/"ORIGINAL_OMNICAR_RESOLVED_METHODS.json").write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n")
+           rows=["# Original OmniCar: decoded ARM64 iPhone AppBridge settings manager method names",
+            "","105 actual Objective-C methods decoded from relative ObjC method-table entries, not pointer placeholders.",
+            "Original Root.plist uses OMCAppBridgeAppsController; preferences key appBridgeApps and Darwin notification com.anlai.omnicar/prefschanged.",
+            ""]
+           for n,val in original_phone.items():
+            rows+=["## Phone "+n+" ("+str(val.get("method_count",0))+" methods, "+str(val.get("decoded_names",0))+" decoded)"]
+            rows+=["- "+v["name"]+" @ "+v["imp"] for v in val.get("methods",[]) if v["name"] and phonefilter.search(v["name"])]
+           for n,val in original_car.items():
+            rows+=["## CarPlay "+n+" ("+str(val.get("method_count",0))+" methods)"]
+            rows+=["- "+v["name"]+" @ "+v["imp"] for v in val.get("methods",[]) if v["name"] and carfilter.search(v["name"])]
+           rows+=["","Selector and method implementation addresses are static evidence; exact read/write/filter membership call flow and physical UI remain separate proof gates.",
+                  "No DuoFace runtime edit; no DEB build; no publisher change."]
+           (out/"RESOLVED_105_APP_MANAGER.md").write_text("\n".join(rows)+"\n")
+           print("ORIGINAL_OMNICAR_APPBRIDGE_105_METHODS_RESOLVED",manager["decoded_names"])
+           for v in manager["methods"]:
+            if v["name"] and phonefilter.search(v["name"]):print("OMNI_PHONE_APP_SELECTOR",v["name"],v["imp"])
+          PY
+
       - name: Persist original-only evidence and append existing DuoFace handoff
         shell: bash
         run: |
