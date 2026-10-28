@@ -1,3 +1,10 @@
+## 2026-10-28 — BỔ SUNG GHI CHÚ 25 NHÓM TỪ FULL SCAN .91
+
+- **Mục đích:** Lượt kiểm tra trạng thái sau user hỏi "Làm sao rồi". Đọc lại GitHub Actions full original Native12 HUD8 ↔ signed DuoFace .91 run **40696267785**: job **122843732296 SUCCESS**; các bước SHA/dpkg, 1385 ObjC methods, 18 current source files, upload và commit artifact đều SUCCESS; lưu artifact 7 files commit **33a3c3f9**. Không build/install hay test xe.
+- **Tệp bổ sung có xác minh:** sideplay/audit/native12-091-fullscan-20261028/NATIVE12_FULL_UI_FUNCTION_TO_DUOFACE_091_VERDICT_20261028.md — commit **1afe9576354f6cb498894ac3dff3f77e790b47f2**, kiểm tra đọc lại thành công. Báo cáo phân loại 25 nhóm, bổ sung class/method anchors, các P0 native Maps renderer ownership, P1 app slot persistence/logo 3s, P2 HUD8/assistant/settings. **Báo cáo chính hiện có vẫn là COMPREHENSIVE_UI_FUNCTION_PARITY_VERDICT_20261028.md** commit 20f46c4e; tệp mới là tài liệu bổ sung cùng một run, không phải chạy quét DEB thứ hai. Không có sửa mã hoạt động.
+- **Điểm tiếp:** verify parked-car `.91` native Maps VC/FBScene/Window/ACK/tile vs YouTube, avoid changes to confirmed `.90` YouTube orientation; build only after causal correction. 25 strict gate "KHONG_DAT" = no proof of 100% runtime parity, **not** 25 missing features.
+
+---
 ## 2026-10-28 — ĐÃ QUÉT LẠI 2 DEB THẬT / 1385 ORIGINAL METHODS / 25 UI-FUNCTION GATES — KHÔNG SỬA MÃ CHẠY
 
 - **USER REQUEST (NEW):** 'Sao nối mà để thiếu nhiều như vậy? Quét toàn diện về giao diện và chức năng lại'. Scope replaces previous broad report-only spot-check: this turn **actually triggered a new static comparison on two real DEBs** and reclassified 25 UI/function groups according to newest .91 source instead of repeating old .41/.81 gaps.
