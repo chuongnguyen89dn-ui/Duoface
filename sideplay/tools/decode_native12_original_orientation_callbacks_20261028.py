@@ -192,7 +192,8 @@ def decode(deb: Path, index: Path, original_report: Path):
             "desired_orientation": 0x2a8080,
             "logical_size": 0x2a8098,
             "display_width_policy": 0x2a84a0,
-            "set_logical_size": 0x2a80ac,\n            "set_split_state": 0x2a80c0,
+            "set_logical_size": 0x2a80ac,
+            "set_split_state": 0x2a80c0,
         }.items():
             pos = bisect.bisect_right(starts, pc) - 1
             if pos < 0 or pos + 1 >= len(starts):
