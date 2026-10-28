@@ -1,3 +1,10 @@
+## CHECKPOINT 2026-10-28 DuoFace .91 native Maps QA — signed source/package only, NOT CarPlay PASS
+
+CI run `40689380992` source `4dba11e1a95e237f966b44292b9b486a837a8f90`; archived first-party **one** rootless QA package: `sideplay/jb-embedded-appbridge/evidence/runs/40689380992/com.duoface.jb.embedded_0.0.91~nativemapqa1_iphoneos-arm64.deb`; SHA256 `e15b9b2c2da351a64a125f5057c6c6e0f6d44aefbcc73de8fe023b6c4d5ab741`.
+Full compile/test/provenance: `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40689380992`. User-triggered, CarPlay-only `DFNativeMapPaneCoordinator` and iPhone `Bố cục > Thử nghiệm bản đồ CarPlay native` left/right/restore actions are **compiled and packaged**.
+Native Maps tile rendering, seamless Google Maps navigation alongside YouTube, correct touchscreen map position, continuous routing, CarPlay enabled status and SpringBoard crash-safety remain **NOT device tested**. This is an experimental, explicitly user-armed controller containment path; no automatically activated native Maps take-over or private scene lifecycle calls. Preserve immutable public .90 YouTube rotation PASS and DO NOT automatically mark .91 published to Sileo.
+
+---
 ## DUOFACE .91 TRUE NATIVE MAP PANE — EXPLICIT USER-ARMED IN-PROCESS ADOPTION CODE + MACOS QA IN PROGRESS, 2026-10-28
 
 - **LATEST USER REQUEST:** "Vậy làm đi" after compiled but inert `DFNativeMapPaneAdapter`: implement actual call route, build one .91 DEB, verify, Sileo QA if safe; do not merely repeat source audit. **USER REQUIRES:** native Google Maps/Apple Maps visible beside phone YouTube, Maps still enabled in CarPlay Customize, route uninterrupted, system Dock untouched, no arbitrary zoom, preserve confirmed .90 YouTube landscape.
