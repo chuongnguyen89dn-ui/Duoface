@@ -1,0 +1,18 @@
+# Native12 transaction/observer follow-up — 2026-10-28
+
+Device .82 FAILED: main log upload 06dee0402cc4bdebcec41992f10797c0d04fc7bf. Audit 6 and three IPS: PIDs 66091,66107,66125, SIGTRAP at SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings: +720. Owned foreground correction was logged for each PID. Do not claim +720 means the older foreground-NO assertion; its exact condition is not decoded. IPS lacks instructionByteStream and assertion text.
+
+Original Dashboard SHA256 reverified by audit script: 9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea. This turn extended direct ARM64 decoding; evidence in TRANSACTION_ARM64.json. Destroy range corrected to end 0x2c90cc, excluding following function.
+
+## Additional findings
+1. Update replacement retains incoming settings (x2 -> x19 via objc_retain at 0x2c7e40), retains it again into x26 at 0x2c7ee8, mutates it and passes x19 to previous IMP at 0x2c8368. It does not create the mutable copy used by .82. Object identity is another proven implementation difference, NOT proof copying caused the trap.
+2. _applyUpdateWithContext:completion: replacement 0x2c8410 requires existing active bridge manager, nonnil context, bundle and shouldBridge. Fetches context.settings at 0x2c84ec, obtains render size, calls helper 0x2c77cc at 0x2c8514 BEFORE previous IMP at 0x2c8540. Original context and completion are forwarded.
+3. Helper retains the passed settings and modifies frame/foreground/occluded/underLock/canShowWhileLocked/deactivationReasons/idleModeEnabled with guarded setters and ivar fallbacks. The duplicated policy exists at BOTH public update and internal apply boundaries. This proves multiple enforcement points, not that every policy is necessary or safe to transplant.
+4. Presentation hook 0x2c85d0 calls original FIRST at 0x2c85ec, then conditionally calls _updateFrameAndTransform at 0x2c8650 when bridge manager is active and receiver supports selector. No per-bundle check is visible in this function.
+5. Destroy hook 0x2c8ef8 does not simply suppress every destruction. Active bridge + nonnil destroyed scene -> bundle comparisons; selected matching branch calls manager terminate at 0x2c9050 and skips original; other branches call original at 0x2c9080. Cached comparison string at 0x382160 is not decoded here: do not invent its identity.
+6. Existing original start disassembly shows hosted markers installed before setAutomatesLifecycle:NO and request Live. Exact marker writes 0xae2f8 / 0xae338. Observer reads these same keys and returns without original; fallback automatesLifecycle==NO also returns. .82 installs only FBScene update hook and weak scene ownership; the observer and internal-apply counterparts are absent.
+
+## Causal ranking
+Confirmed: .82 correction executes yet crashes at observer; original treats that observer differently for hosted controllers. Highest-priority mismatch is that .82 mixes manual lifecycle with unchanged OS observer. Separate plausible issue: internal transaction settings may differ from substituted input settings, but no current device readback establishes this. Additional helper fields, presentation and destruction differences must not be labeled proven causes of these three crashes.
+Required next evidence: exact iOS SpringBoard method bytes around +720 or diagnostic crash message; capture incoming/committed context settings and exact controller/handle/scene identity. A scoped owner observer implementation must account for update/destroy/replacement/teardown, not indiscriminate callback suppression.
+No runtime edits, new DEB, or device-success claim in this analysis.
