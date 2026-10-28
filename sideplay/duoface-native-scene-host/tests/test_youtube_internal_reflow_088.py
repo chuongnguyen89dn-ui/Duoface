@@ -16,7 +16,7 @@ class YoutubeInternalWindowReflow088(unittest.TestCase):
     def test_original_class_method_not_wrong_application_instance(self):
         helper=source("DFYouTubeHostState.h")
         self.assertIn("class_getClassMethod(cls,sel)",helper)
-        self.assertIn("Class cls=UIWindow.class",helper)
+        self.assertIn('Class cls=NSClassFromString(@"UIWindow")',helper)
         self.assertIn("allWindowsIncludingInternalWindows:onlyVisibleWindows:",helper)
         self.assertIn("_allWindowsIncludingInternalWindows:onlyVisibleWindows:",helper)
         self.assertIn("(cls,sel,YES,NO)",helper)
