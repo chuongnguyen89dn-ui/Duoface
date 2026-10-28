@@ -9,7 +9,7 @@ static NSUInteger calls;
 @end
 @implementation YTLongWindow
 - (void)_rotateWindowToOrientation:(NSInteger)value updateStatusBar:(BOOL)status duration:(double)duration skipCallbacks:(BOOL)skip {
-    assert(!status && duration==0.0 && !skip); received=value; ++calls;
+    assert(!status && duration==0.0 && skip); received=value; ++calls;
 }
 @end
 @interface YTIntWindow : NSObject
@@ -17,7 +17,7 @@ static NSUInteger calls;
 @end
 @implementation YTIntWindow
 - (void)_rotateWindowToOrientation:(int)value updateStatusBar:(BOOL)status duration:(double)duration skipCallbacks:(BOOL)skip {
-    assert(!status && duration==0.0 && !skip); received=value; ++calls;
+    assert(!status && duration==0.0 && skip); received=value; ++calls;
 }
 @end
 @interface YTBadWindow : NSObject

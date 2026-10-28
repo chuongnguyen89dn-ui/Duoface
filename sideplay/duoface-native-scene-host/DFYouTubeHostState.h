@@ -58,10 +58,12 @@ static inline char DFYTRotationABI(id window) {
     return o[0];
 }
 static inline BOOL DFYTRotate(id window, NSInteger orientation) {
+    // Original Native12 0x2aa108/0x2aa10c: updateStatusBar=0, skipCallbacks=1.
+    // Suppress a second app rotation lifecycle while host geometry is applied.
     char abi=DFYTRotationABI(window); if(!abi)return NO;
     SEL sel=NSSelectorFromString(@"_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:");
-    if(abi=='i')((void(*)(id,SEL,int,BOOL,double,BOOL))objc_msgSend)(window,sel,(int)orientation,NO,0.0,NO);
-    else ((void(*)(id,SEL,NSInteger,BOOL,double,BOOL))objc_msgSend)(window,sel,orientation,NO,0.0,NO);
+    if(abi=='i')((void(*)(id,SEL,int,BOOL,double,BOOL))objc_msgSend)(window,sel,(int)orientation,NO,0.0,YES);
+    else ((void(*)(id,SEL,NSInteger,BOOL,double,BOOL))objc_msgSend)(window,sel,orientation,NO,0.0,YES);
     return YES;
 }
 // Native12 uses NSDistributedNotificationCenter. No sandbox file reads,

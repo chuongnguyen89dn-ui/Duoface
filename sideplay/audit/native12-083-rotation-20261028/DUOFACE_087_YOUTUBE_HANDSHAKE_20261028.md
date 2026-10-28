@@ -47,3 +47,16 @@ mode. Playback must remain stable. Look for youtube-app-handshake-ack in
 DuoFaceSceneHost.log; windowsApplied and measured orientation/size distinguish
 app delivery from host-only geometry. A successful build is not device proof.
 No Sileo publication in this change. Preserve .83/.84 recovery artifacts.
+
+## Final original ARM64 argument cross-check
+Raw original run 40648313067, app_state_UIKit_reflow_dispatch:
+0x2aa104 loads orientation; 0x2aa108 w3=0 (updateStatusBar),
+0x2aa10c w4=1 (skipCallbacks), d0=0 duration; same values at
+0x2aa504..0x2aa510. Independent helper uses exactly these values and
+runtime mock asserts them. Callback suppression avoids a redundant app
+rotation callback during host-driven resizing. Reset restores saved app
+orientation without changing the global status bar (intentional narrower scope).
+
+Source/SDK run 40650190891 and .83 lifecycle/orientation run 40650190759
+PASS for first source revision 8fbea227. Final callback-argument change
+requires a fresh executable gate and integrated build.
