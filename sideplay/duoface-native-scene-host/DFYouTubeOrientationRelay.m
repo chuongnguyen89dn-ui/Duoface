@@ -214,6 +214,7 @@
             @"layoutRefreshes":@(layoutRefreshes),
             @"controllerMismatch":@(mismatched.count),
             @"geometryRequest":geometryRequest,
+            @"virtualization":DFYTVirtualSnapshot(),
             @"sceneOrientation":@(owned.interfaceOrientation),
             @"sceneWidth":@(owned.coordinateSpace.bounds.size.width),
             @"sceneHeight":@(owned.coordinateSpace.bounds.size.height)});
