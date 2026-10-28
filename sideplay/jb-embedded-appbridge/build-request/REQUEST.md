@@ -1,3 +1,10 @@
+## .91 signed one-DEB retry 2 — preserve nine preset layouts, 2026-10-28
+
+- Run `40688990879` failed before building because stale independent original-nine-presets source test still required exactly 9 table rows; now the iPhone Bố cục screen intentionally shows nine original layouts plus one separately labeled native Maps QA button (10 total). Test updated at `sideplay/duoface-native-scene-host/tests/test_original_nine_preset_binary_reference.py`, no original 9 preset logic changed.
+- Rebuild from this exact checkout; no Sileo release until CI SUCCESS and SHA verified. Trigger `091-native-carplay-maps-optin-layout-test-updated-20261028`.
+
+---
+
 ## .91 CI retry 1 — only stale NativeHost .90 version assertions corrected, 2026-10-28
 
 - First GHA run `40688765319` **FAILED before build**, `Self-contained payload / no vendor code unit tests`: legacy tests `test_nativeowner_086` and `test_orientation_policy_084` still asserted old `0.1.99~nativegetters1`; actual bumped module is `0.1.100~nativemapqa1`. Updated those assertions only; all .90 runtime video source remains byte-for-byte unchanged.
