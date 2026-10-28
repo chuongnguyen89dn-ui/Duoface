@@ -1,0 +1,90 @@
+name: DuoFace Native12 original host-YouTube orientation handshake evidence (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-host-youtube-handshake-summary-20261028.yml'
+      - 'sideplay/tools/summarize_native12_host_to_app_rotation_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-original-host-youtube-handshake
+  cancel-in-progress: false
+jobs:
+  original-contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: SHA-verify and condense real original Native12 host/app orientation ARM64
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile sideplay/tools/summarize_native12_host_to_app_rotation_20261028.py
+          python3 sideplay/tools/summarize_native12_host_to_app_rotation_20261028.py
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          base=Path("sideplay/audit/native12-083-rotation-20261028")
+          result=json.loads((base/"NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.json").read_text())
+          assert result["original_deb_sha256"]=="2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad"
+          assert result["source_immutable_git_blob"]=="2b80f8ff77247807f7eeba2fe24cae59c3e470b5"
+          assert "com.google.ios.youtube" in result["original_filter"]["Bundles"]
+          assert "original_host_send_state_to_app" in result["methods"]
+          assert "app_state_received_notification" in result["methods"]
+          assert "app_state_UIKit_reflow_dispatch" in result["methods"]
+          assert result["methods"]["app_state_received_notification"]["instructions_total"]>100
+          print("NATIVE12_ORIGINAL_HOST_TO_YOUTUBE_IPC_EVIDENCE_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native12-original-host-youtube-orientation-evidence
+          path: |
+            sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.json
+            sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.md
+          if-no-files-found: warn
+      - name: Save original dataflow + existing handoff without overwriting concurrent changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          JSON='sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.json'
+          MD='sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.md'
+          SRC="$(pwd)"
+          for retry in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$(dirname "$JSON")"
+            cp "$SRC/$JSON" "$TMP/$JSON"
+            cp "$SRC/$MD" "$TMP/$MD"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$JSON" "$MD" <<'PY'
+          import sys
+          from pathlib import Path
+          p=Path(sys.argv[1]); run=sys.argv[2]; raw=sys.argv[3]; summary=sys.argv[4]
+          assert p.exists()
+          with p.open("a",encoding="utf8") as fp:
+              fp.write("\n\n## 2026-10-28 — Native12-only original host/app YouTube orientation evidence "+run+"\n"
+                  "User explicitly requested Native12 ORIGINAL reference as sole basis for YouTube rotation fix. "
+                  "Exact source original DEB sha256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; "
+                  "raw ARM64 original audit run 40648313067 and immutable blob 2b80f8ff77247807f7eeba2fe24cae59c3e470b5. "
+                  "Original CBBridgeManager.sendStateToApp host sender, original CBAppStateListener app notification receiver and local UIKit orientation reflow summarized in "+summary+" with JSON "+raw+". "
+                  "This is read-only original Native12; no SidePlay mechanism assumed, no source runtime modification, no DEB, no Sileo or iPhone confirmation. "
+                  "Keep .83 video/correct crash lifecycle, Maps, Dock and split controls. "
+                  "Next: compare original per-app bridgeToken/size/orientation/app-window ownership with .86 and implement only independent YouTube-specific call chain after ABI and scene ownership proof. "
+                  "SUCCESS criteria on device: pane zoom rotates correctly without YouTube fullscreen and stays correct after split restore, video stable without crash.\n")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$JSON" "$MD" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit(native12): preserve exact original host-to-app YouTube orientation dataflow $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo "NATIVE12_ORIGINAL_HOST_APP_SCAN_SAVED=$GITHUB_RUN_ID"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
