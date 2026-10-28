@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 DuoFace .90 — signed build archived (not hardware-verified)
+
+CI run `40674445027` source `53781cca1ca9285975394754ac9080ca35b57cda`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40674445027/com.duoface.jb.embedded_0.0.90~nativegetters1_iphoneos-arm64.deb`; SHA256 `c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27`.
+Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40674445027`.
+Changes (independent YouTube-only .90): based on full SHA-pinned original Native12 36 ARM64 callback audit, install strictly process-scoped UIKit orientation getter/window rotation wrappers if supported, with exact leased YouTube-scene check, original UIKit IMP outside lease, 3-second heartbeat expiry and ACK virtualization telemetry. The .89 real device test FAILED; this is an unverified hardware candidate, not a proven video rotation fix. Maps, Dock and .83 video lifecycle unchanged.
+
+**IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
+
+Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_088_SCENEHOST_REAL_DEVICE_ACK_20261028.md`. This .90 does not claim video rotation pass until tested.
+
+---
 ## DUOFACE .90 NATIVE12 ORIGINAL HOOKS — DISTINCT SIGNED BUILD REQUESTED (2026-10-28)
 
 - User instruction: retry the blocked .90 packaging and Sileo workflow. Exact repository `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-jb-embedded-appbridge-20261020`.
