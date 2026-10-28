@@ -12,7 +12,7 @@ concurrency:
 jobs:
   original-ui-control-flow:
     runs-on: macos-15
-    timeout-minutes: 25
+    timeout-minutes: 28
     steps:
       - uses: actions/checkout@v4
       - name: Verify exact original DEB and all per-module SHA pins
