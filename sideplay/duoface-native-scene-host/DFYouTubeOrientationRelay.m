@@ -250,6 +250,7 @@ __attribute__((constructor)) static void DFYTStart(void) {
             static DFYouTubeOrientationRelay *relay;
             id center=DFYTCenter(); if(!center)return;
             relay=[DFYouTubeOrientationRelay new];
+            DFYTVirtualInstall();
             [center addObserver:relay selector:@selector(receive:) name:DFYTStateName object:nil];
             [NSNotificationCenter.defaultCenter addObserver:relay selector:@selector(request:)
                 name:UIApplicationDidBecomeActiveNotification object:nil];
