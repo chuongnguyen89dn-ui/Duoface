@@ -7,7 +7,7 @@ class NativeOwnerSafety(unittest.TestCase):
  def test_independent_package_and_exact_carplay_filter(self):
   c=file("control")
   self.assertIn("Package: com.duoface.carplay.nativejoinprobe",c)
-  self.assertIn("Version: 0.0.4~mapowner1",c)
+  self.assertIn("Version: 0.0.5~mapowner2",c)
   self.assertNotIn("Conflicts:",c)
   self.assertNotIn("Replaces:",c)
   filter=plistlib.loads((R/"DFNativeSceneJoinProbe.plist").read_bytes())
@@ -52,7 +52,9 @@ class NativeOwnerSafety(unittest.TestCase):
   self.assertIn("DFCarPlayLiveOwnerSnapshot.m",m)
   self.assertIn("DFCarPlayCaptureLiveOwnerSnapshot(self.session)",file("DFNativeSceneProbe.m"))
   live=file("DFCarPlayLiveOwnerSnapshot.m")
-  for required in ("processPID", "CarPlayApp", "session.persistentIdentifier", "sceneHostView",
+  for required in ("DFInspectOwner", "nativeScene", "nativeApplicationInfo",
+                   "method_getNumberOfArguments", "hostedBundleIdentifier",
+                   "processPID", "CarPlayApp", "session.persistentIdentifier", "sceneHostView",
                    "sceneHostViewStatus", "viewIfLoaded", "childViewControllers",
                    "class_getInstanceMethod", "method_copyReturnType", "connectedScenes",
                    "mapsNativeOwnerProven", "limitedControllers"):
