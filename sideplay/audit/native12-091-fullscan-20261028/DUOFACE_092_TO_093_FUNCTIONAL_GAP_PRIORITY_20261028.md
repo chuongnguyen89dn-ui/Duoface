@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-28: Native12 app & iPhone UI audit supersedes logo task
+
+- USER CORRECTION: 3s logo already completed in .92, do NOT use it as next work goal. Need compare 25 functional UI groups from actual Native12 original; especially CarPlay per-slot app selection (single), enabled catalog, iPhone Apps Manager and Split settings, Add More modal, 4/5/6 grid, preferences, 3/4 rotate, Maps native scene owner, HUD8. Exclude proprietary vendor license.
+- ORIGINAL EVIDENCE: SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; original 1385 ObjC methods 66 classes; runs 40696267785, 40699487806 and 40700551205; actual original App selects ONE app per slot, iPhone settings has separate per-app and enable all controls.
+- IMPLEMENTED SOURCE: commits 30a953bd and f7be368; shared first-party enabled app policy, iPhone per-app toggles and action sheet, CarPlay gallery filtering without bulk picker, source syntax + unit SUCCESS https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711301704. Full source/audit record: `sideplay/audit/native12-091-fullscan-20261028/DUOFACE_092_TO_093_FUNCTIONAL_GAP_PRIORITY_20261028.md`.
+- NEW DEB REQUEST: commit c868a785 build pin integrated 0.0.93~appmanager1, NativeHost 0.1.102~appmanager1; workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711856334 pending packaging. **NO .93 BUILT OR SILEO CLAIM UNTIL RUN PASSES AND HASH VERIFIED**. Public .92 remains last verified Sileo version. Do NOT edit working .90 YouTube relay, native system Dock or Maps for unrelated work.
+- STILL MISSING: actual per-slot app picker on iPhone with safe scene host selection/persistence, category fallback and original recommended semantics, phone general settings toggles, native Add More modal, 4/5/6-col+row/label config, 3-4 scene reorder, native Maps actual physical-window compositing, HUD8 and voice. Device test .93 absent. Continue from actual CI then implement missing handlers, not another logo patch.
+
+---
+
 # DuoFace .92 -> .93: Native12 original UI/function missing matrix, 2026-10-28
 
 ## Decision and correction of scope

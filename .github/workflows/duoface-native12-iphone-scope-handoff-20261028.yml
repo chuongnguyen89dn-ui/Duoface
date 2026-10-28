@@ -1,0 +1,60 @@
+name: DuoFace Native12 UI scope correction – save existing project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-091-fullscan-20261028/DUOFACE_092_TO_093_FUNCTIONAL_GAP_PRIORITY_20261028.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-phone-ui-scope-handoff
+  cancel-in-progress: false
+jobs:
+  handoff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Atomic existing-handoff prepend with readback (no duplicate)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          file=Path(sys.argv[1])
+          if not file.is_file():
+              raise RuntimeError('existing handoff missing')
+          before=file.read_text(encoding='utf-8')
+          block="## CHECKPOINT 2026-10-28: Native12 app & iPhone UI audit supersedes logo task\n\n- USER CORRECTION: 3s logo already completed in .92, do NOT use it as next work goal. Need compare 25 functional UI groups from actual Native12 original; especially CarPlay per-slot app selection (single), enabled catalog, iPhone Apps Manager and Split settings, Add More modal, 4/5/6 grid, preferences, 3/4 rotate, Maps native scene owner, HUD8. Exclude proprietary vendor license.\n- ORIGINAL EVIDENCE: SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; original 1385 ObjC methods 66 classes; runs 40696267785, 40699487806 and 40700551205; actual original App selects ONE app per slot, iPhone settings has separate per-app and enable all controls.\n- IMPLEMENTED SOURCE: commits 30a953bd and f7be368; shared first-party enabled app policy, iPhone per-app toggles and action sheet, CarPlay gallery filtering without bulk picker, source syntax + unit SUCCESS https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711301704. Full source/audit record: `sideplay/audit/native12-091-fullscan-20261028/DUOFACE_092_TO_093_FUNCTIONAL_GAP_PRIORITY_20261028.md`.\n- NEW DEB REQUEST: commit c868a785 build pin integrated 0.0.93~appmanager1, NativeHost 0.1.102~appmanager1; workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40711856334 pending packaging. **NO .93 BUILT OR SILEO CLAIM UNTIL RUN PASSES AND HASH VERIFIED**. Public .92 remains last verified Sileo version. Do NOT edit working .90 YouTube relay, native system Dock or Maps for unrelated work.\n- STILL MISSING: actual per-slot app picker on iPhone with safe scene host selection/persistence, category fallback and original recommended semantics, phone general settings toggles, native Add More modal, 4/5/6-col+row/label config, 3-4 scene reorder, native Maps actual physical-window compositing, HUD8 and voice. Device test .93 absent. Continue from actual CI then implement missing handlers, not another logo patch.\n\n---\n\n"
+          marker="## CHECKPOINT 2026-10-28: Native12 app & iPhone UI audit supersedes logo task"
+          if marker not in before:
+              file.write_text(block+before,encoding='utf-8')
+              after=file.read_text(encoding='utf-8')
+              assert after.startswith(block) and after.endswith(before)
+              print('NATIVE12_IPHONE_SCOPE_CHECKPOINT_READBACK_PASS')
+          else:
+              print('NATIVE12_IPHONE_SCOPE_ALREADY_SAVED')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: correct Native12 iPhone picker and app manager scope [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo 'EXISTING_DUOFACE_HANDOFF_PERSISTED_AND_VERIFIED'
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          echo 'Handoff push race after 5 safe retries' >&2
+          exit 1
