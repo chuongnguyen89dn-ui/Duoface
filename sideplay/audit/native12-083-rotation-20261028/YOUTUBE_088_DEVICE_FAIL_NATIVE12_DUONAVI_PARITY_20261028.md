@@ -1,0 +1,38 @@
+# 2026-10-28 — .88 DEVICE FAIL; Native12 HUD8 / DuoNavi 1.0.4 split + app-orientation parity
+
+## Latest user requirement (supersedes .88 CI/PUBLIC-SILEO as acceptance)
+User tested DuoFace .88 on actual CarPlay/iPhone X rootless iOS16.7.16: **video orientation still fails in TWO panes**; when opening one pane or invoking a YouTube fullscreen/gesture transition orientation can be corrected. User explicitly asks to behave like original Native12 or original DuoNavi, NOT merely increment patch versions. .88 **DEVICE FAIL (YouTube rotation)**; public .88 release/build/SHA success does not imply device pass.
+
+Freeze Maps, native system Dock, split UI, logo, known-good .83 video lifecycle `DFSceneLifecycle.m`. Do not claim Native12-equivalent behavior, hardware fix, or working .89. Retain immutable .83/.87/.88 rollback binaries. Do not use license/vendor code.
+
+## Verified evidence from ORIGINAL binaries (not guessed design)
+- Original Native12 HUD8 DEB SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`, ARM64 disassembly run 40648313067, original report `NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.md` and `NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40648090838.json`.
+  - `CBBridgeManager.sendStateToApp:shouldBridge:` builds **coherent app state**: `displayWidth`, `displayHeight`, `orientation` (main scene Portrait=1), `isSplit`, `bridgeToken` and `shouldBridge`; app receives via `CBAppStateListener`, owns its own process-local state, does UIKit window orientation and reflow, and restores its phone window state when deactivated. This is more than enumerating or rotating individual windows. App state also loads on cold start. Original selectors and control flow proven statically; no device trace of this iPhone.
+  - `CBBridgedUIAppView.updateLayout` / `refreshSceneLayout` connect pane layout to rendered size, app-state delivery and `FBScene` updates. The original app-side window reflow uses `UIApplication.windows` and internal UIWindow list; existence is proven, whether our current app hook receives messages on this device remains unknown.
+- Original DuoNavi 1.0.4 DEB SHA256 `f3f911de5db461d487ce91249aed1bb25d44f076e7ff5fb89e54b658569328dd`; raw report `sideplay/audit/duodash-duonavi-media-20261027/ORIGINAL_DUONAVI_VS_DUODASH_REPACK_IMP.json`; Actions 40445716116 SUCCESS.
+  - `CBBridgeManager.renderSizeForBundleID:` @0x26fad0 reads actual app `appFrame`, split `splitPreset` and `splitRatio` (not a universal 2× multiplier).
+  - `CBBridgedSplitApp.layoutSplitViews` @0x10bad8 invokes `refreshSceneLayout` @0x10bd54; `CBBridgedUIAppView.refreshSceneLayout` @0xadc30 performs `updateLayout` → `updateSceneSettingsFrame` → UIKit layout invalidation. This is evidence of linked split/scene transitions; do not claim the original's private render-size formula has been fully reconstructed or publicly licensed.
+- SidePlay original static confirmation is secondary independent corroboration: `SPPane.appReportedOrientation` @0x34e38 reads **`scene.clientSettings.interfaceOrientation`**, distinct from host `scene.settings.interfaceOrientation`; its watcher compares expected with client readback, uses an app-process orientation message and UIKit scene geometry refresh. Details `SIDEPLAY_YOUTUBE_ORIENTATION_DIFFERENCE_20261028.md`; no vendor code copied.
+
+## DuoFace .88 — concrete source gaps
+| Dimension | Native12 / DuoNavi original | Current DuoFace .88 |
+| --- | --- | --- |
+| App state for split | `isSplit`, original split preset/ratio tied to app layout | `DFYouTubeHostState.h` state has **no `isSplit`**, no focus/split mode; owner+scene+orientation+width+height only |
+| App logical size | `renderSizeForBundleID:` uses app frame and active split geometry | `DFHostedMapRenderSize.h` **returns `round(pane.width*2),round(pane.height*2)` for ALL app IDs**; no split-aware policy |
+| Reflow trigger | `layoutSplitViews` → `refreshSceneLayout` and app state updates | `DFSceneHost.m` skips `layoutScene` when `size==lastApplied`, skips `commitSceneGeometry` when `size==committedReferenceSize`; `DFYouTubeOrientationRelay.receive:` calls apply only if owner/width/height changed, or scene not yet located |
+| App-reported orientation | Original feedback and process-local state | `DFSceneHost.m` reads host `settings.interfaceOrientation`, **does not read `clientSettings.interfaceOrientation`**; .88 ACK logs window counts and one app `sceneOrientation`, but there is no host-vs-client comparison/reconcile loop |
+| Re-evaluation after gesture | Original app-side listener/reflow and split state events | .88 does window/frame/layout refresh only on scoped receiver events; it does **not** implement scene `requestGeometryUpdateWithPreferences:errorHandler:` or `setNeedsUpdateOfSupportedInterfaceOrientations`; no demonstrated player orientation re-evaluation after swipe/one-pane transition |
+| Device proof | Original binary methods verified statically, not installed on user device for controlled comparison | .88 device orientation **FAIL** according to user, despite CI/Sileo PASS |
+
+**This proves missing behavior/parity, NOT the specific runtime causal condition.** Current source can compile and install yet fail if no app injected, if server scene identifier mismatches UIKit `_sceneIdentifier`, if client orientation diverges from host, if only video presentation needs geometry reevaluation, or if split policy gives wrong logical size. We cannot responsibly choose one by appearance.
+
+## Latest physical evidence availability
+The project's default-branch `sideplay/log` files were inspected from GitHub. Latest found upload commit `e908517e60b69d8c3f7f2be73b31aa2abad803ab` at 2026-10-28 05:05:51Z, **before** the .88 Sileo release run 40656863552 (~08:28Z). Those old crash files cannot validate .88 and are NOT post-.88 `youtube-app-handshake-ack` logs. There is no verified .88 on-device log yet in accessible project data. The user supplied photos and device FAIL report, not a run-time scene snapshot.
+
+## Next safe technical decision — do not repeat .84–.88 patch roulette
+1. Existing .88 on-device diagnostic (already built in; **no new tweak required**): export `/var/mobile/Library/Logs/DuoFaceSceneHost.log` (or DuoFaceAudit exported text) **after reproducing wrong initial two-pane rotation, then swipe-to-right-orientation and one-pane case**; save under existing main-branch `sideplay/log`, *not* the skill repo. Inspect `youtube-app-handshake-ack` phases (`scene-id-unmatched` vs `app-reflow-measured`), `windowsApplied,normalSeen,internalSeen,layoutRefreshed,sceneOrientation,size`, plus host `youtube-remote-orientation-observed`, `scene-frame-readback`. If app ACK missing entirely, first verify app process injection and state delivery: do not modify render size.
+2. Decode original DuoNavi `renderSizeForBundleID:` fully using current pinned ARM64 method index, with **branch-level inputs for split preset, ratio, appFrame** before writing any independent equivalent. Do not simply substitute another zoom percentage.
+3. Compare host scene `settings.interfaceOrientation` to `clientSettings.interfaceOrientation` with ABI-checked read-only snapshots, actual UIWindowScene orientation and pane mode during **same** physical steps. Only then implement the corresponding **independent** state machine (`split/focus/owner/generation`, UIKit update and feedback/retry) with no broad vendor injection or faked foreground.
+4. Run existing macOS source/ABI tests, signed rootless DEB, QA Sileo publication only on an evidence-based repair. Accept only split rotation without gesture/fullscreen, stable video, correct Dock/Maps and no Safe Mode.
+
+Do NOT call .88 a fix, do NOT advertise another signed DEB yet. No runtime changes in this report.
