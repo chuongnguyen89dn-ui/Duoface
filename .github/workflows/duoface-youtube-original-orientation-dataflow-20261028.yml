@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/duoface-youtube-original-orientation-dataflow-20261028.yml'
       - 'sideplay/tools/audit_youtube_original_orientation_dataflow_20261028.py'
+      - 'sideplay/tools/audit_sideplay_youtube_orientation_callback_20261028.py'
   workflow_dispatch:
 permissions:
   contents: write
@@ -69,11 +70,29 @@ jobs:
           assert any(x["selector"]=="applySceneFrame:" and x["class"]=="SPPane" for x in s)
           print("ORIGINAL_SIDEPANE_FRAME_ORIENTATION_PROOF_PASS")
           PY
+      - name: Resolve original SidePlay orientation callback and app/pane event selectors
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v llvm-objdump-18 >/dev/null; then
+            export OBJDUMP=llvm-objdump-18
+          elif command -v llvm-objdump >/dev/null; then
+            export OBJDUMP=llvm-objdump
+          else
+            sudo apt-get update -qq && sudo apt-get install -y -qq llvm-18
+            export OBJDUMP=llvm-objdump-18
+          fi
+          export NATIVE_PARSER_DIR="$RUNNER_TEMP/parser"
+          python3 sideplay/tools/audit_sideplay_youtube_orientation_callback_20261028.py \
+            --sideplay "$RUNNER_TEMP/inputs/sideplay104.deb" \
+            --out "sideplay/audit/native12-083-rotation-20261028/YOUTUBE_SIDEPLAY_CALLBACK_RUN_$GITHUB_RUN_ID.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: youtube-orientation-original-arm64-forensic
-          path: sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_*.json
+          path: |
+            sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_*.json
+            sideplay/audit/native12-083-rotation-20261028/YOUTUBE_SIDEPLAY_CALLBACK_RUN_*.json
           if-no-files-found: warn
       - name: Commit audit and append to existing project handoff
         shell: bash
@@ -82,12 +101,15 @@ jobs:
           BRANCH=feature/duoface-jb-embedded-appbridge-20261020
           DEST="sideplay/audit/native12-083-rotation-20261028/YOUTUBE_ORIGINAL_DATAFLOW_RUN_$GITHUB_RUN_ID.json"
           SRC="$(pwd)/$DEST"
+          EXTRA="sideplay/audit/native12-083-rotation-20261028/YOUTUBE_SIDEPLAY_CALLBACK_RUN_$GITHUB_RUN_ID.json"
+          EXTRA_SRC="$(pwd)/$EXTRA"
           for attempt in 1 2 3 4; do
             git fetch --no-tags origin "$BRANCH"
             TMP="$(mktemp -d)"
             git worktree add --detach "$TMP" FETCH_HEAD
             mkdir -p "$TMP/$(dirname "$DEST")"
             cp "$SRC" "$TMP/$DEST"
+            cp "$EXTRA_SRC" "$TMP/$EXTRA"
             python3 - "$TMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
           from pathlib import Path
           import sys
@@ -109,7 +131,7 @@ jobs:
           PY
             git -C "$TMP" config user.name 'github-actions[bot]'
             git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git -C "$TMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" add "$DEST" "$EXTRA" 'sideplay/tiep tuc du an.md'
             git -C "$TMP" commit -m "audit: archive original YouTube ARM64 proof run $GITHUB_RUN_ID [skip ci]"
             if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
               echo "ORIGINAL_YOUTUBE_AUDIT_AND_HANDOFF_GITHUB_SAVED_RUN_ID=$GITHUB_RUN_ID"
