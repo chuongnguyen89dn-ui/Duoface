@@ -97,7 +97,7 @@
                 [candidates addObject:window]; ++windowsFromScene;
             }
         }
-        NSArray *internal=DFYTVisibleInternalWindows(UIApplication.sharedApplication);
+        NSArray *internal=DFYTVisibleInternalWindows();
         for(id object in internal) {
             if([object isKindOfClass:UIWindow.class] && ((UIWindow *)object).windowScene==owned) {
                 [candidates addObject:(UIWindow *)object]; ++windowsFromInternal;
@@ -114,7 +114,10 @@
                 // Focus/Control-Center gestures can force a later UIKit reflow
                 // without changing frame or reported orientation. Native12
                 // uses the distinct layout invalidation selector after rotate.
-                if(DFYTUpdateWindowLayout(window.rootViewController))++layoutRefreshes;
+                [window setNeedsLayout]; [window layoutIfNeeded];
+                [window.rootViewController.view setNeedsLayout];
+                [window.rootViewController.view layoutIfNeeded];
+                ++layoutRefreshes;
                 continue;
             }
             if(!saved) {
@@ -128,7 +131,7 @@
             window.frame=(CGRect){CGPointZero,size}; window.bounds=(CGRect){CGPointZero,size};
             [window setNeedsLayout]; [window layoutIfNeeded];
             [window.rootViewController.view setNeedsLayout]; [window.rootViewController.view layoutIfNeeded];
-            if(DFYTUpdateWindowLayout(window.rootViewController))++layoutRefreshes;
+            ++layoutRefreshes;
             ++applied;
             if(measurements.count<8)[measurements addObject:@{
                 @"width":@(window.bounds.size.width),@"height":@(window.bounds.size.height),
