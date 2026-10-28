@@ -104,7 +104,7 @@ jobs:
             (cd "$TARGET" && sha256sum *.deb > SHA256SUMS.txt)
             printf 'SOURCE_SHA=%s\nRUN_ID=%s\n' "$SHA" "$ID" > "$TARGET/BUILD_SOURCE.txt"
             python3 sideplay/tools/append_086_ci_handoff.py "$DIR/sideplay/tiep tuc du an.md" "$ID" "$SHA" "$TARGET"
-            git -C "$DIR" add -f "sideplay/jb-embedded-appbridge/evidence/runs/$ID" "sideplay/tiep tuc du an.md"
+            git -C "$DIR" add -f -- "sideplay/jb-embedded-appbridge/evidence/runs/$ID" "sideplay/tiep tuc du an.md"
             git -C "$DIR" commit -m "artifacts: archive verified .91 native Maps opt-in signed DEB from run $ID [skip ci]"
             if git -C "$DIR" push origin HEAD:"$BR"; then
               git worktree remove --force "$DIR"
