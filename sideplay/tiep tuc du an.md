@@ -1,3 +1,18 @@
+## CHECKPOINT 2026-10-28 — CHỐT PHÉP THỬ PHÂN BIỆT ROOT CAUSE +720 (CHƯA THỬ)
+
+**Câu hỏi:** “Vậy giờ làm sao?” Sau audit năm họ DEB và 11 Native12 hooks trong sideplay/audit/native12-082-transaction-20261028/FULL_DEB_CROSSWALK_20261028.md, quyết định một phép thử có thể bác bỏ trước khi thêm hook/sửa foreground/ra bản mới. Không quay .37, không sửa UI/zoom/Dock.
+
+**Dữ kiện:** 3 crash .82 trên iOS16.7.16 tại SBAppViewController sceneHandle:didUpdateSettingsWithDiff:previousSettings: +720. Stack focus Apple → DuoFace DFUpdateScene → AppData.dylib ImmortalizerHooks → Apple observer. AppData có mặt trong stack chưa chứng minh AppData gây lỗi. Native12 có callback manual lifecycle và internal apply policy vắng trong DuoFace .82.
+
+**Thử nghiệm duy nhất có ích nhất:** giữ NGUYÊN DuoFace .82, tạm thời deny CHỈ AppData.dylib trong tiến trình SpringBoard bằng Choicy (Custom Tweak Configuration, nếu installed và cho phép cấu hình tiến trình này); lưu cấu hình cũ, respring, thử mở/phát video YouTube, split/solo, đóng/mở lại khi xe đỗ. A baseline AppData ON đã có 3 IPS; không cần làm lại A. B AppData OFF cần thu DuoFaceAudit + IPS và kiểm chứng dylib thực sự không load; hoàn nguyên rule và respring sau test. Không gỡ tweak hay tắt injection toàn SpringBoard; có rủi ro respring nên phải có khả năng phục hồi. Official Choicy: https://github.com/opa334/Choicy.
+
+**Diễn giải:** B PASS lặp lại → có tương tác AppData/chuỗi hook; không đủ chứng minh một mình AppData lỗi. B FAIL cùng +720 và AppData vắng → ưu tiên sửa first-party manual scene lifecycle/observer + context.settings, chưa được vội suppression Apple observer. Crash khác → phân loại riêng. Không lấy disable AppData làm giải pháp cuối.
+
+**Nghiên cứu tiếp từ repo:** cần giải mã byte quanh observer +720 đúng SpringBoard iOS16.7.16 UUID 22034ABA-9A9A-3B94-93A5-A0DE02BEFD2E (imageOffset 625280), hoặc log read-only của pre-apply/observer/controller/sceneHandle/generation/tuple state. Sau đó mới quyết định một patch first-party có tests, build/Sileo, rồi thiết bị xác nhận; không thay 11 hooks mù.
+
+**Trạng thái:** Đã đọc lại code DFSceneLifecycle.m, DFSceneHost.m, workflow build, HEAD eccd7d0, GitHub Actions active=0. Không có quyền kết nối iPhone để chạy A/B; không có kết quả test B. Chưa sửa runtime, chưa build/đăng Sileo mới. Lưu quyết định này để tránh tiếp tục quét vòng tròn.
+
+---
 ## CHECKPOINT 2026-10-28 — KIỂM TOÁN CHÉO CÁC DEB / 11 HOOK VÒNG ĐỜI (READ-ONLY)
 
 **Yêu cầu đang thực hiện:** “Tiếp tục phân tích toàn bộ deb và đối chiếu.” Chỉ DuoFace crash là đích sửa; Native12 HUD8 (gold reference), OmniCar original, DuoDash repack, SidePlay original, DuoNavi original chỉ là nguồn so kiến trúc; CarBridge official chưa có bytes. Giữ nguyên UI/Zoom/logo/Dock, không quay .37, không thay license/binary vendor.
