@@ -1,0 +1,162 @@
+name: Original Native12 UI controller 22 method ARM64 callsite scan (NO RELEASE)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths: ['.github/workflows/duoface-native12-ui-controllers-22methods-original-20261028.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-native12-ui-controller-22-forensic
+  cancel-in-progress: false
+jobs:
+  original-ui-control-flow:
+    runs-on: macos-15
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact original DEB and all per-module SHA pins
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          command -v llvm-objdump >/dev/null || brew install llvm
+          mkdir -p "$RUNNER_TEMP/native12picker/raw" "$RUNNER_TEMP/native12picker/unpacked"
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/native12picker/original.deb"
+          echo "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad  $RUNNER_TEMP/native12picker/original.deb" | shasum -a 256 -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/native12picker/index.json"
+          test "$(git hash-object "$RUNNER_TEMP/native12picker/index.json")" = efa45df59bc3c16887cc979bf3aedc0c93c92111
+          dpkg-deb -x "$RUNNER_TEMP/native12picker/original.deb" "$RUNNER_TEMP/native12picker/unpacked"
+          test -s "$RUNNER_TEMP/native12picker/unpacked/var/jb/Applications/DuoFaceUI.app/DuoFaceUI"
+          test -s "$RUNNER_TEMP/native12picker/unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib"
+          echo "cb40346d8ca504cb399abe31367847b4f980a01ba93810986ce1acf1fbe9eef9  $RUNNER_TEMP/native12picker/unpacked/var/jb/Applications/DuoFaceUI.app/DuoFaceUI" | shasum -a 256 -c -
+          echo "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea  $RUNNER_TEMP/native12picker/unpacked/var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib" | shasum -a 256 -c -
+      - name: Extract all decisive original app picker and separate iPhone settings method IMP instructions
+        env:
+          APP_OUT: sideplay/audit/native12-091-fullscan-20261028/original-ui-controller-22-imp
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$APP_OUT"
+          python3 - <<'PY'
+          import bisect,hashlib,json,os,pathlib,re,subprocess
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'native12picker'
+          idx=json.loads((p/'index.json').read_text())['native12']
+          targets={
+            'DuoFaceUI':[
+              ('CBAppPickerViewController','tableView:didSelectRowAtIndexPath:'),
+              ('CBAppPickerViewController','tableView:cellForRowAtIndexPath:'),
+              ('CBAppPickerViewController','viewDidLoad'),
+              ('CBAppsManagerViewController','tableView:cellForRowAtIndexPath:'),
+              ('CBAppsManagerViewController','tableView:didSelectRowAtIndexPath:'),
+              ('CBAppsManagerViewController','setupNavigationItems'),
+              ('CBGeneralSettingsViewController','tableView:cellForRowAtIndexPath:'),
+              ('CBGeneralSettingsViewController','tableView:didSelectRowAtIndexPath:'),
+              ('CBSplitViewController','tableView:cellForRowAtIndexPath:'),
+              ('CBSplitViewController','tableView:didSelectRowAtIndexPath:'),
+            ],
+            'DuoFaceDashboard.dylib':[
+              ('CBSlotPillView','dotsTapped:'),
+              ('CBSlotPillView','expandTapped:'),
+              ('CBSlotPillView','restoreTapped:'),
+              ('CBDividerView','handleMoveButtonLongPress:'),
+              ('CBDividerView','moveButtonTouchDown:'),
+              ('CBDividerView','moveButtonTouchUp:'),
+              ('CBBridgedSplitApp','moveSlot:direction:'),
+              ('CBBridgedSplitApp','rotateAllSlotsClockwise'),
+              ('CBBridgedSplitApp','focusSlot:animated:'),
+              ('CBBridgedSplitApp','restoreSplitAnimated:'),
+              ('CBMultitaskingOverlayView','showLayoutChooserInParentView:'),
+              ('CBMultitaskingOverlayView','showRecentAppsInParentView:'),
+            ],
+          }
+          entries=[]
+          for name,sel in targets.items():
+            meta=next(x for x in idx if x['filename']==name)
+            methods=meta['objc_methods']; look={(x['class'],x['selector']):x for x in methods}
+            for item in sel: assert item in look, ('original method missing',name,item)
+            starts=sorted(set(int(x,16) for x in meta['lc_function_starts'])|set(int(m['imp'],16) for m in methods))
+            binary=p/'unpacked' / ('var/jb/Applications/DuoFaceUI.app/DuoFaceUI' if name=='DuoFaceUI' else 'var/jb/Library/MobileSubstrate/DynamicLibraries/DuoFaceDashboard.dylib')
+            objdump='/opt/homebrew/opt/llvm/bin/llvm-objdump'
+            if not pathlib.Path(objdump).exists(): objdump='/usr/local/opt/llvm/bin/llvm-objdump'
+            if not pathlib.Path(objdump).exists():objdump='llvm-objdump'
+            out=subprocess.run([objdump,'--macho','--disassemble','--no-show-raw-insn',str(binary)],
+                            capture_output=True,text=True,errors='replace')
+            if out.returncode:raise RuntimeError(out.stderr[-1000:])
+            ranges=[]
+            for cls,selector in sel:
+              m=look[(cls,selector)]; start=int(m['imp'],16)
+              end=starts[bisect.bisect_right(starts,start)]
+              ranges.append({'class':cls,'selector':selector,'file':name,
+                        'imp':m['imp'],'end':hex(end),'type_encoding':m.get('type'),
+                        'instructions':[],'selector_references':[]})
+            rx=re.compile(r'^\s*([0-9a-fA-F]+):\s+')
+            for line in out.stdout.splitlines():
+              m=rx.match(line)
+              if not m:continue
+              pc=int(m.group(1),16)
+              for row in ranges:
+                if int(row['imp'],16)<=pc<int(row['end'],16):
+                  row['instructions'].append(line.strip())
+                  if 'Objc selector ref:' in line or 'Objc cfstring ref:' in line:
+                    row['selector_references'].append(line.strip())
+                  break
+            assert all(len(x['instructions'])>=5 for x in ranges),'IMP extraction missing'
+            entries.extend(ranges)
+          assert len(entries)==22, len(entries)
+          outroot=pathlib.Path(os.environ['APP_OUT'])
+          result={'kind':'original-22-ui-controller-imp-static-no-device','immutable_native12_sha256':'2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad',
+                'assumptions_not_proven':['runtime UI touch and screenshots','correct ABI receiver for dynamic selector dispatch','original localized text exactness'],
+                'methods':entries}
+          (outroot/'ORIGINAL_UI_CONTROLLER_IMP.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
+          rows=['# Original Native12 22 UI controller methods source-verified ARM64',
+                '', 'Original DEB SHA verified. Original machine IMPs/selector references, no runtime execution.',
+                '', '**Only IMP body and direct selector/CFString refs are proved, not on-device UI behavior.**',
+                '**iPhone UI controller and CarPlay split/menu owner are separated by binary and process.**',
+                '**Follow per-controller actions and screen ownership; never infer vendor license/UI from names.**',
+                '**Do NOT assert pixel or device parity from a disassembly output.**','']
+          for x in entries:
+             rows.extend(['## '+x['file']+' / '+x['class']+'.'+x['selector']+' @ '+x['imp'],
+                 'Instructions: '+str(len(x['instructions'])),'Selector/CFString references:']+
+                 ['    '+y for y in x['selector_references'][:100]]+[''])
+          (outroot/'REPORT.md').write_text('\n'.join(rows)+'\n')
+          print('ORIGINAL_UI_CONTROLLER_22_IMP_EXTRACTED',len(entries))
+          for row in entries: print(row['file'],row['class'],row['selector'],len(row['instructions']),len(row['selector_references']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OriginalNative12-22-ui-controller-methods-IMP
+          path: sideplay/audit/native12-091-fullscan-20261028/original-app-picker-single-vs-bulk-imp/
+          if-no-files-found: error
+      - name: Archive original-only static evidence to same feature branch
+        run: |
+          set -euo pipefail
+          BR=feature/duoface-jb-embedded-appbridge-20261020
+          SUB=sideplay/audit/native12-091-fullscan-20261028/original-app-picker-single-vs-bulk-imp
+          SOURCE="$(pwd)/$SUB"
+          test -s "$SOURCE/ORIGINAL_PICKER_VS_SETTINGS_IMP.json"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BR"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$SUB"
+            cp "$SOURCE"/*.json "$SOURCE"/*.md "$TMP/$SUB"
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$SUB"
+            if git -C "$TMP" diff --cached --quiet; then
+              git worktree remove --force "$TMP"
+              echo ORIGINAL_UI_22_IMP_ALREADY_ARCHIVED
+              exit 0
+            fi
+            git -C "$TMP" commit -m 'audit(native12): archive 22 original iPhone/CarPlay UI controller IMPs [skip ci]'
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BR"; then
+              git worktree remove --force "$TMP"
+              echo ORIGINAL_UI_CONTROLLER_22_IMP_ARCHIVED
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          echo FAILED_TO_SAVE_ORIGINAL_UI_IMP >&2
+          exit 1
