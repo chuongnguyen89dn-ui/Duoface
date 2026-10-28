@@ -26,7 +26,8 @@ DOCK_DYLIB="$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOw
 xcrun --sdk iphoneos clang -dynamiclib -target arm64-apple-ios16.0 -isysroot "$SDK" \
   -fobjc-arc -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations \
   -framework UIKit -framework Foundation -framework CoreGraphics \
-  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m
+  -DDFCarPlayCaptureLiveOwnerSnapshot=DFIntegratedCarPlayCaptureLiveOwnerSnapshot \
+  -o "$DOCK_DYLIB" DFCarPlayDockOwner.m ../native-carplay-scene-v1/DFCarPlayLiveOwnerSnapshot.m
 cp DFCarPlayDockOwner.plist "$TMP/var/jb/Library/MobileSubstrate/DynamicLibraries/DFCarPlayDockOwner.plist"
 ldid -S "$DOCK_DYLIB"
 # Assets are our previously approved DuoFace artwork from the project's source.
