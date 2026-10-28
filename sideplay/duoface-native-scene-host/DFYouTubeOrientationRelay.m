@@ -226,6 +226,7 @@
 - (void)reset {
     [self.expiryTimer invalidate]; self.expiryTimer=nil;
     UIWindowScene *scene=self.scene;
+    DFYTVirtualClearLease();
     self.state=nil; self.scene=nil; self.lastGeometryCheckKey=nil;
     // Restore ONLY windows we changed and which still belong to that scene.
     for(UIWindow *window in self.snapshots.keyEnumerator) {
