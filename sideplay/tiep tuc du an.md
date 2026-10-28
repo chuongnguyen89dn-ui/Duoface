@@ -1,3 +1,15 @@
+## DUOFACE .90 NATIVE12 ORIGINAL HOOKS — DISTINCT SIGNED BUILD REQUESTED (2026-10-28)
+
+- User instruction: retry the blocked .90 packaging and Sileo workflow. Exact repository `chuongnguyen89dn-ui/Duoface`, branch `feature/duoface-jb-embedded-appbridge-20261020`.
+- Original .89 **DEVICE FAIL** for YouTube split orientation; do not call any new version hardware PASS.
+- Based on SHA-pinned ORIGINAL Native12 DEB and 36 real ARM64 hook callbacks from `sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json`, source implements first-party YouTube-only runtime orientation getter/rotation interception. New files: `DFYouTubeOrientationVirtualization.h/.m` in `sideplay/duoface-native-scene-host`; wiring in `DFYouTubeOrientationRelay.m`, `DFSceneHost.m`, and `build.sh`; only YouTube process can inject. Existing .83 player lifecycle, Chrome, Maps, Dock not touched.
+- Source-only macOS arm64 iOS16 compile/link, unit regressions GitHub Actions **40674327583 SUCCESS**.
+- **RESOLVED PRIOR BLOCKER:** GitHub version bump succeeded: native `0.1.99~nativegetters1` in `control` and `build.sh`; integrated `0.0.90~nativegetters1` in `sideplay/jb-embedded-appbridge/package_integrated.py` and `.github/workflows/duoface-jb-embedded-appbridge-package.yml`; tests, trace/exporter and archive handoff updated. Current version-specific build request `sideplay/jb-embedded-appbridge/build-request/REQUEST.md` commit `53781cca1ca9285975394754ac9080ca35b57cda`.
+- **Build actually triggered** GitHub Actions run `40674445027` (macOS-15 rootless Theos, signed one DEB QA). The workflow is in progress at this checkpoint. Source commit is exactly `53781cca1ca9285975394754ac9080ca35b57cda`. The latest SHA, build success, archive and Sileo publication MUST be checked after completion; not yet claimed.
+- Workflow exact path `.github/workflows/duoface-jb-embedded-appbridge-package.yml`; unit discovery, Foundation ABI runtime, build `bash sideplay/duoface-native-scene-host/build.sh` then `python3 sideplay/jb-embedded-appbridge/package_integrated.py --build --expected-nativehost-sha256 ... --expected-source-sha ...`; GitHub run evidence `sideplay/jb-embedded-appbridge/evidence/runs/40674445027` IF the workflow succeeds. Do not invent SHA/artifact until archived.
+- **Next:** finish build, verify SHA256 and provenance/README handoff; pin immutable .90 archive with actual SHA into `chuongnguyen89dn-ui/carplaydsp` existing Sileo publisher, preserve .89 rollback and only show .90 in Packages index, verify public HTTPS checksum, then device test two-pane YouTube immediately without SOLO/swipe and collect `DuoFaceSceneHost.log` virtualization ACK. Failure means investigate actual runtime hooks rather than arbitrary zoom changes. No known physical QA for .90.
+
+---
 ## DUOFACE .89 DEVICE FAIL — ORIGINAL 36 CALLBACK SEMANTICS DECODED (2026-10-28)
 
 - **Người dùng xác nhận .89 DEVICE FAIL**: YouTube sai chiều khi chia hai ô; không được dùng PASS build/Sileo để tuyên bố video đã sửa.
