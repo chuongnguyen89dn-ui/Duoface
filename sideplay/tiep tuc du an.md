@@ -1,3 +1,18 @@
+## CHECKPOINT 2026-10-28 — USER YÊU CẦU SILEO TEST .83; STAGING BUILD ĐÃ KÍCH HOẠT (ĐANG CHẠY, CHƯA PUBLISH)
+
+**Yêu cầu mới:** “Ko đưa lên sileo thử kiểu j” — yêu cầu có một DEB .83 thật trên nguồn Sileo để kiểm tra CarPlay. Không coi source-test là device test. Chỉ thay đổi DuoFace, không xóa/can thiệp code dự án khác, không copy vendor/license.
+
+**Đã giải quyết blocker:** cập nhật **đúng workflow gốc** `.github/workflows/duoface-jb-embedded-appbridge-package.yml` đổi phiên bản NativeHost `0.1.91~sceneowner1` → `0.1.92~manualobserver1` và integrated `0.0.82~sceneowner1` → `0.0.83~manualobserver1`, commit `0a5bf66d9f3be86a220b380fb878044fb3e74a3b` (GitHub tool confirmed). Đồng bộ assert `tests/test_integrated_package.py` commit `0a7e082fa4ada881215b5afb9390f5981a02250d`. Không sửa unrelated workflow.
+
+**Đã phát lệnh build** qua **existing authorized push trigger** bằng cách cập nhật `sideplay/jb-embedded-appbridge/build-request/REQUEST.md` commit `2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b`. Thực tế GitHub Actions [40616750730](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40616750730) đã vào job `package-candidate` macos-15, đang chạy qua bước xây 4 component; `Self-contained payload ... unit tests` PASS, Foundation lifecycle executable harness PASS, tại checkpoint build native Dashboard receiver in_progress. **Chưa biết kết luận job**, chưa archive binary và chưa release Sileo.
+
+**Publisher đã xác định:** `chuongnguyen89dn-ui/carplaydsp` nhánh `main`, `.github/workflows/build.yml` là nguồn thực `https://chuongnguyen89dn-ui.github.io/carplaydsp/`, không phải staging `.github/workflows/duoface-sileo.yml` (staging đó chỉ kiểm `com.duoface.app`, không publish và không đúng package). Đúng đoạn publisher cũ tải `.82` tại dòng ~1669, index 52 bản history và lọc 1 stanza current ở ~1717, verifier public ~1953. **KHÔNG cập nhật publisher khi chưa có .83 SHA và immutable run artifact**. Khi run 40616750730 SUCCESS, lấy artifact commit/SHA từ DuoFace evidence/runs/<run_id>, bổ sung đúng `.83` bằng URL pinned commit + SHA256 + metadata, thay latest apt record .82→.83, nâng count lên 53, giữ nguyên `.82` rollback bytes và mọi package khác, xác nhận Actions Pages Deploy + verify public Packages & deb checksum.
+
+**Source .83:** `DFSceneLifecycle.m` scoped manual observer commit `560da4d9332e9b5d58cf26c98584602a30fda75f`, runtime harness cases commit `44b46d0...`, source-only CI 40616156303 PASS (not device test). Choicy AppData Deny + respring user báo vẫn crash .82. Khi .83 release, yêu cầu một vòng parked-car YouTube play/solo/split và xuất log thật; chưa khẳng định crash fix.
+
+**Điểm tiếp tục:** kiểm tra exact run 40616750730, jobs/log; nếu failed sửa nguyên nhân thật và trigger lại đúng request; nếu success lấy SHA256 archive rồi phát hành trong carplaydsp DUOFACE-only pin, xác minh public Sileo. Không báo “đã lên” trước Pages verifier PASS.
+
+---
 ## CHECKPOINT 2026-10-28 — CHOICY APPDATA DENY + RESPRING VẪN CRASH; CODE CANDIDATE .83 SOURCE-CI PASS, BUILD BỊ CHẶN
 
 **Thông tin mới từ user (đã xác nhận ở mức báo cáo người dùng):** Đã cài Choicy và thực hiện đầy đủ SpringBoard > Custom Tweak Configuration > Deny AppData + respring, DuoFace **vẫn crash**. Không hỏi lại các bước. Không có log IPS mới sau A/B trên main; chưa có chứng cứ loaded images xác nhận AppData thực sự vắng mặt. Hướng AppData một mình không thể được coi là giải pháp; ưu tiên hợp đồng lifecycle manual host.
