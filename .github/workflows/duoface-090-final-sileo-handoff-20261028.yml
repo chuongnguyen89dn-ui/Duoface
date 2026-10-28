@@ -1,0 +1,71 @@
+name: DuoFace .90 Sileo confirmed persistent project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths: [.github/workflows/duoface-090-final-sileo-handoff-20261028.yml]
+permissions:
+  contents: write
+jobs:
+  save-verified-result:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm package SHA matches archived source
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('sideplay/jb-embedded-appbridge/evidence/runs/40674445027/SHA256SUMS.txt').read_text()
+          assert 'c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27  com.duoface.jb.embedded_0.0.90~nativegetters1_iphoneos-arm64.deb' in p
+          q=Path('sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md').read_text()
+          assert '40674909879' in q and 'NOT TESTED' in q
+          print('DUOFACE_090_SIGNED_AND_RELEASE_REPORT_VALIDATED')
+          PY
+      - name: Prepend Sileo result to existing handoff with safe retry and readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          MARK='DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BR"
+            DIR="$(mktemp -d)"
+            git worktree add --detach "$DIR" FETCH_HEAD
+            MARK="$MARK" python3 - "$DIR/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import os,sys
+          p=Path(sys.argv[1]);old=p.read_text(encoding='utf8')
+          mark=os.environ['MARK']
+          if mark not in old:
+              note="""## DUOFACE .90 PUBLIC SILEO PASS — DEVICE VIDEO NOT YET VERIFIED (2026-10-28)
+
+          - User requested retry. Source identity 53781cca1ca9285975394754ac9080ca35b57cda; real independent YouTube orientation code derived from ORIGINAL SHA-pinned Native12 ARM64 callback analysis, never vendor license/source. Version bump BLOCKER RESOLVED.
+          - Signed integrated rootless DEB 0.0.90~nativegetters1, SHA256 c9a6c8f624ce3224ec5cdc7aee9c3280306068c99c9842d4b4f802914c560f27, size 1007564; NativeHost 0.1.99~nativegetters1.
+          - Package build run 40674445027 COMPLETED SUCCESS, source archive commit 352374cf9cd8671d445b2b702f14abe72b404cca, exact archive sideplay/jb-embedded-appbridge/evidence/runs/40674445027/, SHA256SUMS and PACKAGING_PROVENANCE verified on GitHub.
+          - Publisher repo chuongnguyen89dn-ui/carplaydsp main commit 9832ce4d603d0c2cb432228608bdec5ed52101fe; Sileo Pages run 40674909879 SUCCESS including build, deploy, public verify-duoface-integrated-pages job 122772308857. Source https://chuongnguyen89dn-ui.github.io/carplaydsp/ advertises 0.0.90~nativegetters1 with single com.duoface.jb.embedded APT entry and SHA verification; old .89 and .83 immutable rollback files preserved.
+          - Full release report sideplay/audit/native12-083-rotation-20261028/DUOFACE_090_SILEO_PUBLIC_VERIFIED_20261028.md at audit commit 20a21d9dc913122e2feeb03cc5a370de37325612.
+          - .89 DEVICE FAIL for YouTube video orientation split; .90 has not been physically tested. Do NOT claim video fixed, SpringBoard stable, or Maps fully native. Maps, Dock and .83 media lifecycle code unchanged.
+          - Next: test .90 via Sileo iPhone X rootless iOS16.7.16 in parked CarPlay, YouTube split on initial launch, solo->split, swipe, playback/seek. Export DuoFaceSceneHost.log with youtube-app-handshake-ack virtualization hook count/leaseActive and client/server/controller orientation. If fails, root-cause original viewport metrics vs actual video scene; no random zoom or new unverified DEB.
+
+          ---
+          """
+              p.write_text(note+old,encoding='utf8')
+              assert p.read_text(encoding='utf8')==note+old
+          PY
+            git -C "$DIR" config user.name 'github-actions[bot]'
+            git -C "$DIR" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$DIR" add 'sideplay/tiep tuc du an.md'
+            if git -C "$DIR" diff --cached --quiet; then
+              git worktree remove --force "$DIR"
+              exit 0
+            fi
+            git -C "$DIR" commit -m 'handoff: .90 signed Sileo public SHA PASS, physical video QA still pending [skip ci]'
+            if git -C "$DIR" push origin "HEAD:refs/heads/$BR"; then
+              git worktree remove --force "$DIR"
+              git fetch --no-tags origin "$BR"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARK"
+              echo 'DUOFACE_090_SILEO_PUBLIC_HANDOFF_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$DIR"
+          done
+          exit 1
