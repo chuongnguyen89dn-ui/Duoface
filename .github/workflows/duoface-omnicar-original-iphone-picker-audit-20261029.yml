@@ -1,0 +1,140 @@
+name: Original OmniCar iPhone selected-app picker forensic (READ ONLY)
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-omnicar-original-iphone-picker-audit-20261029.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-omni-original-iphone-apps-forensic
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: SHA-pin original OmniCar 1.0.3 and inspect every iPhone preference and Mach-O
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v dpkg-deb >/dev/null || brew install dpkg
+          curl -fLsS --retry 3 \
+            'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' \
+            -o "$RUNNER_TEMP/original-omnicar.deb"
+          echo "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd  $RUNNER_TEMP/original-omnicar.deb" | shasum -a 256 -c -
+          python3 - "$RUNNER_TEMP/original-omnicar.deb" "$RUNNER_TEMP/omni-audit" <<'PY'
+          import hashlib,json,pathlib,plistlib,re,subprocess,sys,tempfile
+          deb=pathlib.Path(sys.argv[1]);target=pathlib.Path(sys.argv[2]);target.mkdir()
+          sha=hashlib.sha256(deb.read_bytes()).hexdigest()
+          assert sha=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          rx=re.compile(r"app.?bridge|app.?picker|app.?manager|app.?list|selected.?apps|enabled.?apps|allowed.?apps|choose.?apps|app.?filter|installed.?apps|app.?catalog|preferences|settings|bundle.?id|LSApplicationWorkspace|allInstalledApplications|publishCarPlayApps|showPickerForSlot|isCarPlayApp|com\.anlai|notify|CFPreferences|whitelist|blacklist",re.I)
+          def run(*cmd):
+           return subprocess.run(cmd,capture_output=True,text=True,errors="replace")
+          def lines(s,n):
+           out=[];seen=set()
+           for line in s.splitlines():
+            x=line.strip()
+            if len(x)>3 and len(x)<300 and rx.search(x) and x not in seen:
+             seen.add(x);out.append(x)
+            if len(out)>=n:break
+           return out
+          with tempfile.TemporaryDirectory() as temp:
+           root=pathlib.Path(temp)/"root";root.mkdir()
+           p=run("dpkg-deb","-x",str(deb),str(root));assert p.returncode==0,p.stderr
+           files=sorted(x for x in root.rglob("*") if x.is_file())
+           data={"original_deb_sha256":sha,"original_control":run("dpkg-deb","-f",str(deb),"Package","Version","Architecture").stdout,
+            "user_device_report":"OmniCar iPhone Settings selects apps; only selected apps appear on CarPlay",
+            "payload_inventory":[{"path":str(x.relative_to(root)),"size":x.stat().st_size} for x in files],
+            "plists":[],"macho":[],"method":"Static SHA-pinned original plist/ObjC/literal audit; not live iPhone QA"}
+           magic={bytes.fromhex(s) for s in ["cafebabe","bebafeca","cffaedfe","feedfacf","cefaedfe","feedface"]}
+           for f in files:
+            loc=str(f.relative_to(root))
+            if f.suffix==".plist":
+             item={"path":loc}
+             try:item["content"]=repr(plistlib.loads(f.read_bytes()))[:25000]
+             except Exception as e:item["error"]=str(e)
+             data["plists"].append(item)
+            if f.stat().st_size<24:continue
+            with f.open("rb") as stream:head=stream.read(4)
+            if head not in magic:continue
+            item={"path":loc,"sha256":hashlib.sha256(f.read_bytes()).hexdigest(),
+                  "strings":lines(run("strings","-a",str(f)).stdout,170)}
+            obj=run("xcrun","llvm-objdump","--macho","--objc-meta-data","--arch=arm64",str(f))
+            if obj.returncode:obj=run("xcrun","llvm-objdump","--macho","--objc-meta-data",str(f))
+            item["objc_meta_ok"]=obj.returncode==0
+            item["objc_meta_error"]=obj.stderr[-350:] if obj.returncode else ""
+            ls=obj.stdout.splitlines();match=[]
+            for n,l in enumerate(ls):
+             if rx.search(l):
+              match.append({"line":n+1,"context":" | ".join(ls[max(0,n-2):n+4])[:750]})
+             if len(match)>=150:break
+            item["objc_selectors_context"]=match
+            data["macho"].append(item)
+           (target/"ORIGINAL_OMNICAR_IPHONE_PICKER.json").write_text(json.dumps(data,indent=2,ensure_ascii=False)+"\n")
+           out=["# OmniCar original 1.0.3 — iPhone selected-app prefs → CarPlay picker",
+            "","User confirms only iPhone-selected apps show on CarPlay; do not dismiss this device observation.",
+            "SHA-pinned original DEB: "+sha,
+            "Package: "+data["original_control"].replace("\n"," | "),
+            "Total files: "+str(len(files))+"; plists: "+str(len(data["plists"]))+"; Mach-O: "+str(len(data["macho"])),
+            "","## Original full payload"]
+           out+=["- "+x["path"]+" ("+str(x["size"])+")" for x in data["payload_inventory"]]
+           out+=["","## Original iPhone settings and plist entries"]
+           for x in data["plists"]:out+=["### "+x["path"],x.get("content",x.get("error",""))[:6500],""]
+           out+=["","## Objective-C/strings app roster evidence"]
+           for x in data["macho"]:
+            out+=["### "+x["path"],"SHA256: "+x["sha256"],
+              "ObjC metadata OK: "+str(x["objc_meta_ok"]),"Literal matches:"]
+            out+=["- "+s for s in x["strings"][:100]]
+            out+=["Objective-C class/method excerpts:"]
+            out+=["- "+str(i["line"])+": "+i["context"][:360] for i in x["objc_selectors_context"][:60]]
+            out+=[""]
+           out+=["## Remaining proof boundary","Original method strings do not by themselves prove prefs save and CarPlay filtering callback branches.",
+            "Next inspect the original app manager save/filter methods and their ARM64 callsites.",
+            "No DuoFace runtime changes; no DEB build or Sileo release.",""]
+           (target/"REPORT.md").write_text("\n".join(out))
+           print("OMNICAR_ORIGINAL_IPHONE_APP_AUDIT_PASS",len(files),len(data["plists"]),len(data["macho"]))
+           for x in data["plists"]:print("PREF_PLIST",x["path"],x.get("content","")[:200])
+           for x in data["macho"]:print("MACHO",x["path"],"strings",len(x["strings"]),"objcmatches",len(x["objc_selectors_context"]),"objc_ok",x["objc_meta_ok"])
+          PY
+      - name: Persist original-only evidence and append existing DuoFace handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BR='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET="sideplay/audit/omnicar-iphone-picker-20261029/runs/$GITHUB_RUN_ID"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin "$BR"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            test -s "$TEMP/sideplay/tiep tuc du an.md"
+            test ! -e "$TEMP/$TARGET"
+            mkdir -p "$TEMP/$TARGET"
+            cp "$RUNNER_TEMP/omni-audit/"* "$TEMP/$TARGET/"
+            export TARGET
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          import os,pathlib,sys
+          p=pathlib.Path(sys.argv[1]);old=p.read_text(encoding="utf-8")
+          note=("## 2026-10-29 — original OmniCar iPhone Settings app selection audit\n\n"
+            "- User device observation: OmniCar iPhone Settings selects apps and the CarPlay picker only lists those selected. Earlier scene/zoom-only scan did not cover this feature.\n"
+            "- Verified original DEB SHA256 d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd. Read-only original plist and all Mach-O selector/strings inventory; no runtime edits, builds, Sileo.\n"
+            "- Audit run "+os.environ["GITHUB_RUN_ID"]+" archived under "+os.environ["TARGET"]+"/REPORT.md and ORIGINAL_OMNICAR_IPHONE_PICKER.json.\n"
+            "- Next: trace exact original iPhone selection prefs and in-car picker membership branch; distinguish user runtime from static selector evidence.\n\n---\n\n")
+          p.write_text(note+old,encoding="utf-8")
+          PY
+            git -C "$TEMP" add "$TARGET" 'sideplay/tiep tuc du an.md'
+            git -C "$TEMP" commit -m "audit(omnicar): original iPhone selected-app controls $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BR"; then
+              git fetch origin "$BR"
+              git cat-file -e "FETCH_HEAD:$TARGET/ORIGINAL_OMNICAR_IPHONE_PICKER.json"
+              git worktree remove --force "$TEMP"
+              echo ORIGINAL_OMNICAR_IPHONE_PREFS_GITHUB_SAVED_VERIFIED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
