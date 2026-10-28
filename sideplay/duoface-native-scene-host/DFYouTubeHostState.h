@@ -66,18 +66,17 @@ static inline BOOL DFYTRotate(id window, NSInteger orientation) {
     else ((void(*)(id,SEL,NSInteger,BOOL,double,BOOL))objc_msgSend)(window,sel,orientation,NO,0.0,YES);
     return YES;
 }
-// Original Native12 UIKit app reconciler enumerates regular UIWindow objects AND
-// internal visible windows (including video presentation surfaces), then
-// invokes updateLayoutToCurrentInterfaceOrientation where ABI permits.
-// The .87 receiver only read UIWindowScene.windows; thus an internal video
-// UIWindow could be omitted even when the exact scene matched.
-// Query read-only, feature-detected private selectors; no window lookup by
-// bundle ID, global swizzle, or unverified selector signature.
-static inline NSArray *DFYTVisibleInternalWindows(id application) {
+// Native12 original ARM64 @0x2aa2e4..0x2aa3cc invokes the
+// UIWindow CLASS selector +allWindowsIncludingInternalWindows:onlyVisibleWindows:
+// and falls back to +_allWindowsIncludingInternalWindows:onlyVisibleWindows:.
+// The previous .87 implementation only examined UIWindowScene.windows.
+// Read-only enumeration; mutation still requires exact UIWindowScene owner.
+static inline NSArray *DFYTVisibleInternalWindows(void) {
+    Class cls=UIWindow.class;
     for(NSString *name in @[@"allWindowsIncludingInternalWindows:onlyVisibleWindows:",
                              @"_allWindowsIncludingInternalWindows:onlyVisibleWindows:"]) {
         SEL sel=NSSelectorFromString(name);
-        Method method=application?class_getInstanceMethod(object_getClass(application),sel):NULL;
+        Method method=class_getClassMethod(cls,sel);
         if(!method || method_getNumberOfArguments(method)!=4)continue;
         char result[32]={0},arg1[32]={0},arg2[32]={0};
         method_getReturnType(method,result,sizeof(result));
@@ -85,20 +84,11 @@ static inline NSArray *DFYTVisibleInternalWindows(id application) {
         method_getArgumentType(method,3,arg2,sizeof(arg2));
         if(result[0]!='@' || (arg1[0]!='B' && arg1[0]!='c') ||
            (arg2[0]!='B' && arg2[0]!='c'))continue;
-        id value=((id (*)(id,SEL,BOOL,BOOL))objc_msgSend)(application,sel,YES,YES);
+        // Native12 passes flags true/false, then filters each window.
+        id value=((id (*)(id,SEL,BOOL,BOOL))objc_msgSend)(cls,sel,YES,NO);
         if([value isKindOfClass:NSArray.class])return value;
     }
     return nil;
-}
-static inline BOOL DFYTUpdateWindowLayout(id controller) {
-    SEL sel=NSSelectorFromString(@"updateLayoutToCurrentInterfaceOrientation");
-    Method method=controller?class_getInstanceMethod(object_getClass(controller),sel):NULL;
-    if(!method || method_getNumberOfArguments(method)!=2)return NO;
-    char result[32]={0};
-    method_getReturnType(method,result,sizeof(result));
-    if(result[0]!='v')return NO;
-    ((void (*)(id,SEL))objc_msgSend)(controller,sel);
-    return YES;
 }
 
 // Native12 uses NSDistributedNotificationCenter. No sandbox file reads,
