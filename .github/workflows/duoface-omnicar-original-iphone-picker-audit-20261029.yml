@@ -265,6 +265,79 @@ jobs:
             if v["name"] and phonefilter.search(v["name"]):print("OMNI_PHONE_APP_SELECTOR",v["name"],v["imp"])
           PY
 
+      - name: Decode exact original phone choices-save and CarPlay filtering ARM64 function bodies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - "$RUNNER_TEMP/original-omnicar.deb" "$RUNNER_TEMP/omni-audit" <<'PY'
+          import json,pathlib,re,subprocess,sys,tempfile
+          deb=pathlib.Path(sys.argv[1]);root_out=pathlib.Path(sys.argv[2])
+          owners=json.loads((root_out/"ORIGINAL_OMNICAR_RESOLVED_METHODS.json").read_text())
+          targets={
+            "OMCAppBridgeAppsController":["loadState","carplayIDs","rebuildRows","storeChoices","reloadLists","tableView:commitEditingStyle:forRowAtIndexPath:","tableView:didSelectRowAtIndexPath:"],
+            "OMCSplitScreenAppPickerController":["viewDidLoad","currentValue","tableView:didSelectRowAtIndexPath:"],
+            "SCPCarSplit":["publishCarPlayApps","showPickerForSlot:","refreshPickerSheet","buildPickerSheetForPane:","pickerAppTapped:","isCarPlayApp:"]
+          }
+          with tempfile.TemporaryDirectory() as temp:
+           root=pathlib.Path(temp)
+           p=subprocess.run(["dpkg-deb","-x",str(deb),str(root)],capture_output=True,text=True)
+           assert p.returncode==0,p.stderr
+           paths={
+            "phone":root/"var/jb/Library/PreferenceBundles/OmniCarPrefs.bundle/OmniCarPrefs",
+            "car":root/"var/jb/Library/MobileSubstrate/DynamicLibraries/OmniCarSplitScreen.dylib"}
+           symbols={}
+           for name,binfile in paths.items():
+            p=subprocess.run(["xcrun","llvm-objdump","--macho","--disassemble","--no-show-raw-insn",str(binfile)],capture_output=True,text=True,errors="replace")
+            assert p.returncode==0,p.stderr[-700:]
+            lines={}
+            for line in p.stdout.splitlines():
+             m=re.match(r"^\s*([0-9a-fA-F]+):\s+",line)
+             if m:lines.setdefault(int(m.group(1),16),[]).append(line.strip())
+            assert len(lines)>100,("objdump empty",name,len(lines))
+            symbols[name]=lines
+           result={"kind":"READONLY_ORIGINAL_OMNICAR_APP_SELECTION_DIRECT_ARM64",
+            "source_sha256":owners["original_deb_sha256"],"methods":{},"warnings":[
+            "Original ARM64 static instructions are not proof of control-flow branch taken on actual device",
+            "objc_msgSend and indirect CFPreferences callsites may need separate selector/stub resolution",
+            "No executable vendor code was invoked or copied"]}
+           for cls,methods in targets.items():
+            selection=owners["original_iPhone_owners"][cls]["methods"] if cls!="SCPCarSplit" else owners["original_CarPlay_owners"][cls]["methods"]
+            all_starts=sorted(set(int(x["imp"],16) for x in selection if x["name"]))
+            lookup={x["name"]:int(x["imp"],16) for x in selection if x["name"]}
+            for method in methods:
+             assert method in lookup,(cls,method)
+             start=lookup[method]
+             end=next((x for x in all_starts if x>start),start+0x1800)
+             end=min(end,start+0x3000)
+             source=symbols["car" if cls=="SCPCarSplit" else "phone"]
+             instructions=[]
+             for pc in sorted(k for k in source if start<=k<end):
+              instructions.extend(source[pc])
+             assert len(instructions)>4,(cls,method,start,end)
+             highlights=[s for s in instructions if
+               re.search(r"\bbl\b|objc|CFPreferences|NSUserDefaults|appBridge|notify|pref|plist|array|setObject|containsObject",s,re.I)]
+             result["methods"][cls+"."+method]={
+              "imp":hex(start),"boundary":hex(end),
+              "instruction_count":len(instructions),
+              "instructions":instructions,"highlighted_branches_and_refs":highlights[:180]}
+             print("OMNICAR_ORIGINAL_REAL_ARM64_FUNCTION",cls+"."+method,
+               "pc",hex(start),"instructions",len(instructions),"highlights",len(highlights))
+           (root_out/"ORIGINAL_OMNICAR_APP_FILTER_ARM64.json").write_text(json.dumps(result,indent=2,ensure_ascii=False)+"\n")
+           report=["# Original OmniCar iPhone selected-app persistence and CarPlay catalog assembly — ARM64 callsite scan",
+             "","Original binary SHA: "+result["source_sha256"],
+             "Only actual instructions in each original method IMP range; these are read-only proofs, not an iPhone test.",
+             ""]
+           for method,v in result["methods"].items():
+            report+=["## "+method+" @ "+v["imp"],"Instructions "+str(v["instruction_count"]),"Relevant direct branch / selector lines:"]
+            report+=["  "+s for s in v["highlighted_branches_and_refs"][:110]]
+            report+=[""]
+           report+=["## Next",
+            "Trace Objective-C stub target selectors for the verified branch callsites before claiming a specific persistence API.",
+            "Keep separate iPhone allowlist, CarPlay native system apps, in-car slot selection and CarPlay Home app publication.",
+            "No DuoFace runtime changes or Sileo release."]
+           (root_out/"ORIGINAL_OMNICAR_APP_FILTER_ARM64.md").write_text("\n".join(report)+"\n")
+          PY
+
       - name: Persist original-only evidence and append existing DuoFace handoff
         shell: bash
         run: |
