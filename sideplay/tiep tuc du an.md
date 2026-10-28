@@ -1,3 +1,13 @@
+## CHECKPOINT 2026-10-28 — DUOFACE .83 ĐÃ ĐƯỢC CÔNG BỐ VÀ XÁC MINH TRÊN SILEO (CHƯA KIỂM THỬ THIẾT BỊ)
+
+**Yêu cầu user:** cần DEB thực tế lên Sileo để thử crash. **Đã thực hiện và chứng thực:** MacOS signed package run `40616750730` completed success, including five Python test suites, Foundation observer harness, 4 component DEB builds, signed merged rootless package.
+
+- Repo dự án: `chuongnguyen89dn-ui/Duoface` branch `feature/duoface-jb-embedded-appbridge-20261020`. Code owner-specific SpringBoard observer `sideplay/duoface-native-scene-host/DFSceneLifecycle.m` commit `560da4d9332e9b5d58cf26c98584602a30fda75f`. Build source commit `2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b`; immutable artifact commit `c3ea15eb51cf554f1425697a2c6ae07a8532849b`.
+- DEB `sideplay/jb-embedded-appbridge/evidence/runs/40616750730/com.duoface.jb.embedded_0.0.83~manualobserver1_iphoneos-arm64.deb`; SHA256 `ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b`, package `com.duoface.jb.embedded`, rootless arm64, 30 files. `PACKAGING_PROVENANCE.json` và `SHA256SUMS.txt` đã đối chiếu trên GitHub.
+- Publisher chuyên dụng (chỉ pin DuoFace, không sửa sản phẩm DuoDash): `chuongnguyen89dn-ui/carplaydsp` main workflow commit `6afd10adf5873d427fba141931e6dc71255c8568`. YAML validator run `40617170697` SUCCESS; GitHub Pages Sileo publisher run `40617170720` SUCCESS, gồm build, deploy, `verify-qa11-pages` và `verify-duoface-integrated-pages`. Public verifier job `122583098950`: `DUOFACE_ONE_PACKAGE_PUBLIC_SILEO_INDEX_VERIFIED`, `duoface-public.deb: OK`, `DUOFACE_PUBLIC_SILEO_DEB_DOWNLOAD_AND_CHECKSUM_VERIFIED`. Địa chỉ repo Sileo `https://chuongnguyen89dn-ui.github.io/carplaydsp/`; một apt entry DuoFace hiện hành version `0.0.83~manualobserver1`; tất cả binary cũ giữ nguyên làm archival rollback.
+- **KHÔNG coi đây là hết crash:** user chưa cài/test .83 trên iPhone/CarPlay thật; chứng cứ Choicy deny AppData + respring vẫn crash thuộc .82. Chưa có IPS/trace mới sau .83, chưa decode điều kiện BRK +720. Kiểm nghiệm tiếp: refresh source trong Sileo, cài .83 khi xe đỗ, mở và phát YouTube, split/solo, đóng/mở lại và Maps, kiểm Dock/Zoom/logo; nếu crash, xuất DuoFaceAudit và 3 IPS mới trong Sileo app để bổ sung lên main `sideplay/log` và so với PIDs 66091/66107/66125.
+
+---
 ## CHECKPOINT 2026-10-28 — ĐÃ BUILD .83 DEB VÀ GỬI PIPELINE SILEO (CHỜ XÁC MINH DEPLOY)
 
 **User yêu cầu:** “Ko đưa lên sileo thử kiểu j”. Bản sửa độc lập .83 phải cài được từ Sileo để kiểm thử crash thật; không nhầm build/PACKAGES PASS với thiết bị PASS.
