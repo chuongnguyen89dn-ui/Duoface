@@ -1,0 +1,95 @@
+name: DuoFace original SidePlay YouTube orientation callback LLVM ARM64 audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-sideplay-youtube-orientation-callback-audit-20261028.yml'
+      - 'sideplay/tools/audit_sideplay_youtube_orientation_callback_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-sideplay-youtube-orientation-callback-forensic
+  cancel-in-progress: false
+jobs:
+  original-sideplay-callback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Acquire verified original ARM64 metadata parser and LLVM
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/sideplay-parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py > "$RUNNER_TEMP/sideplay-parser/audit_native12_license_class_xrefs.py"
+          if command -v llvm-objdump-18 >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          elif command -v llvm-objdump >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump' >> "$GITHUB_ENV"
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm-18
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          fi
+          echo "NATIVE_PARSER_DIR=$RUNNER_TEMP/sideplay-parser" >> "$GITHUB_ENV"
+          python3 -m py_compile sideplay/tools/audit_sideplay_youtube_orientation_callback_20261028.py
+      - name: Verify SHA-pinned original DEB, disassemble actual orientation/watch/scene block
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c  com.sideplay_1.0.4-1_iphoneos-arm64.deb' | sha256sum -c -
+          REPORT="sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_YOUTUBE_ORIENTATION_CALLBACK_RUN_${GITHUB_RUN_ID}.json"
+          python3 sideplay/tools/audit_sideplay_youtube_orientation_callback_20261028.py --sideplay com.sideplay_1.0.4-1_iphoneos-arm64.deb --out "$REPORT"
+          python3 - "$REPORT" <<'PY'
+          import json,sys
+          j=json.load(open(sys.argv[1]))
+          assert j["original_deb_sha256"]=="7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c"
+          for name in ["SPPane.orientationForBundleID_idiom","SPPane.setSceneFrame_orientation","SPPane.sceneSettingsBlockInvoke","SPPane.watchOrientationDispatchBlock","SPPane.sceneViewOrientation"]:
+              assert j["methods"][name]["instructions"],name
+              print("SHA_PINNED_METHOD_PASS",name,len(j["methods"][name]["instructions"]))
+          print("SIDEPANE_ORIGINAL_CALLBACK_ARM64_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sideplay-youtube-orientation-callback-arm64
+          path: sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_YOUTUBE_ORIENTATION_CALLBACK_RUN_*.json
+          if-no-files-found: warn
+      - name: Archive verified report and append existing handoff (no app modifications)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          DEST="sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_YOUTUBE_ORIENTATION_CALLBACK_RUN_${GITHUB_RUN_ID}.json"
+          SRC="$(pwd)/$DEST"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            mkdir -p "$TMP/$(dirname "$DEST")"
+            cp "$SRC" "$TMP/$DEST"
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$DEST" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1]);name=sys.argv[2];run=sys.argv[3]
+          assert p.exists(), "missing real project handoff"
+          with p.open("a",encoding="utf-8") as f:
+              f.write("\n\n## 2026-10-28 — Original SidePlay per-app orientation callback ARM64 run "+run+"\n"
+                      "User: fix YouTube wrong rotation without modifying Maps. Original SidePlay 1.0.4-1 DEB and dylib SHA verified; LLVM selector-resolved scene frame/orientation transaction, request/watch callback, and app-owned scene orientation reader in "+name+". "
+                      "GitHub Actions run https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/"+run+". "
+                      "No video/device PASS or DuoFace runtime patch. Next: inspect annotated x2/x3 orientation source in request/watch and compare DuoFace .86 owner, then implement only proven compatible scoped path; do not touch Maps/Dock/.83 lifecycle.\n")
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$DEST" 'sideplay/tiep tuc du an.md'
+            git -C "$TMP" commit -m "audit: original SidePlay YouTube orientation callback ARM64 run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              echo "ORIGINAL_SIDEPANE_CALLBACK_SAVED_RUN_ID=$GITHUB_RUN_ID"
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          exit 1
