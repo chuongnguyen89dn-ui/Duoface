@@ -211,8 +211,9 @@ static NSInteger DFObservedSceneForeground(id scene) {
            ![ack[@"owner"] isEqual:self.youtubeOwner] ||
            ![ack[@"sceneIdentifier"] isEqual:self.youtubeState[@"sceneIdentifier"]])return;
         DFSceneLog(@"youtube-app-handshake-ack",self.bundleID,
-            [NSString stringWithFormat:@"phase=%@ windows=%@ sceneOrientation=%@ size=%@x%@ generation=%lu windows=%@",
-                ack[@"phase"],ack[@"windowsApplied"],ack[@"sceneOrientation"],
+            [NSString stringWithFormat:@"phase=%@ windows=%@ normalSeen=%@ internalSeen=%@ layoutRefreshed=%@ sceneOrientation=%@ size=%@x%@ generation=%lu windows=%@",
+                ack[@"phase"],ack[@"windowsApplied"],ack[@"sceneWindowCount"],
+                ack[@"internalWindowCount"],ack[@"layoutRefreshes"],ack[@"sceneOrientation"],
                 ack[@"sceneWidth"],ack[@"sceneHeight"],(unsigned long)self.sceneGeneration,ack[@"windows"]]);
     });
 }
