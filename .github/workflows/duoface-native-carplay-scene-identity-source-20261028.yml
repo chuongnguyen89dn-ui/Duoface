@@ -9,6 +9,10 @@ on:
       - 'sideplay/native-carplay-scene-v1/DFCarPlayNativeMapViewportPlan.h'
       - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.h'
       - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.m'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m'
+      - 'sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.plist'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/build.sh'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_viewport_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_map_pane_assessment_runtime.m'
       - 'sideplay/native-carplay-scene-v1/tests/native_carplay_scene_timeline_runtime.m'
@@ -67,6 +71,19 @@ jobs:
             -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
             -Wno-deprecated-declarations \
             sideplay/native-carplay-scene-v1/DFNativeMapPaneAdapter.m
+          # New explicit user-action wiring: CarPlay-only process coordinator
+          # and iPhone QA control are separately syntax checked for iOS16.
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+            -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            sideplay/native-carplay-scene-v1/DFNativeMapPaneCoordinator.m
+          xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
+            -target arm64-apple-ios16.0 -isysroot "$SDK" \
+            -Werror=implicit-function-declaration -Werror=incompatible-pointer-types \
+            -Wall -Wextra -Werror -Wno-deprecated-declarations \
+            sideplay/duoface-native-scene-host/DFNativeHostRootController.m
+          echo DUOFACE_NATIVE_MAPS_OPTIN_APP_CARPLAY_COORDINATOR_IOS16_SYNTAX_PASS_NO_DEVICE_TEST
           echo DUOFACE_NATIVE_MAPS_STAGED_SAME_PROCESS_CONTAINMENT_SYNTAX_PASS_NO_DEVICE_TEST
           SOURCE='53781cca1ca9285975394754ac9080ca35b57cda'
           git diff --exit-code "$SOURCE" HEAD -- \
