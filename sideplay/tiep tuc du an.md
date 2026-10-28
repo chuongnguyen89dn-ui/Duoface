@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 DuoFace .87 — signed build archived (not hardware-verified)
+
+CI run `40651065971` source `6aa383e6fdb20e9dddbf5cf271050ef2b1d831b1`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40651065971/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb`; SHA256 `7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7`.
+Build provenance, tests and ldid/dpkg verify under GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40651065971`.
+Changes: Native12-inspired first-party YouTube-only host/app state relay, exact FBScene/UIScene identity matching, portrait=1 local window reflow, 3-second lease, generation owner revocation and window restoration. Receiver is compiled, signed and included in the same integrated DEB. Maps/Dock/chrome, .83 scene lifecycle and the existing render scale unchanged.
+
+**IMPORTANT:** Build and SHA verification are NOT proof YouTube rotation is corrected on iPhone or that native Google Maps is displayed simultaneously in a DuoFace split pane. Native Maps actual scene still unproven after the CarPlay Dashboard switches to DuoFace, so **native Maps split is NOT IMPLEMENTED**. Do not pretend scene reparent or clone is safe. Device QA and separate native scene lifecycle evidence remain required. Do not auto-deploy or mark Sileo published solely from build. Keep .83/.84 immutable rollback.
+
+Source audit: `sideplay/audit/native12-083-rotation-20261028/DUOFACE_087_YOUTUBE_HANDSHAKE_20261028.md`.
+
+---
 ## SILEO PUBLIC .86 VERIFIED — RUN 40638640307 (2026-10-28)
 
 Actual public Sileo APT: `https://chuongnguyen89dn-ui.github.io/carplaydsp/`. Exactly one advertised `com.duoface.jb.embedded` version `0.0.86~nativeowner1`. Actual public `com.duoface.jb.embedded_0.0.86~nativeowner1_iphoneos-arm64.deb` downloaded and SHA256 matched `a4871bf76b07844bee9be181340101e779372b7e8bdf065ff658fe99724fa409` independently in CI. Sileo publisher commit `ed83d8554682575529eeb604011a3dfa0e666422`, success GHA run `https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40638640307`, public binary verifier job `122652134508`; YAML verifier `40638640366` success. Original .83 and .84 remain frozen for rollback. Repo source SHA `205ab7121fe04bf37f449c07d53da42489f70e47`; signed DEB archived as DuoFace commit `bcf649118091fb9998dc239b45a8c07bf3742985` under `sideplay/jb-embedded-appbridge/evidence/runs/40638250670/` (GHA 40638250670 SUCCESS).
