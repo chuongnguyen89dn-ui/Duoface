@@ -1,0 +1,87 @@
+name: DuoFace .88 uploaded SceneHost evidence checkpoint
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - .github/workflows/duoface-088-scenehost-checkpoint-20261028.yml
+permissions:
+  contents: write
+jobs:
+  verify-and-record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify latest real uploaded main-branch SceneHost events
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          git show origin/main:sideplay/log/DuoFaceSceneHost.log > "$RUNNER_TEMP/DuoFaceSceneHost.log"
+          python3 - "$RUNNER_TEMP/DuoFaceSceneHost.log" <<'PY'
+          import re,sys
+          from pathlib import Path
+          text=Path(sys.argv[1]).read_text()
+          lines=text.splitlines()
+          a=[(i+1,l) for i,l in enumerate(lines) if 'event=youtube-app-handshake-ack' in l]
+          n=[(i,l) for i,l in a if 'normalSeen=' in l]
+          assert len(a)==105,(len(a),'all ACKs changed, inspect new upload')
+          assert len(n)==17,(len(n),'instrumented ACKs changed')
+          assert sum('windows=0 ' in l for _,l in n)==9
+          assert sum('windows=1 ' in l for _,l in n)==8
+          assert all('sceneOrientation=1 ' in l and 'layoutRefreshed=1 ' in l for _,l in n)
+          assert any(i==7238 and 'size=1175x663' in l for i,l in n)
+          assert 'orientation = 3;' in '\n'.join(lines[7238:7245])
+          assert len([l for l in lines if 'event=youtube-remote-orientation-observed' in l])==57
+          assert len([l for l in lines if 'event=scene-failed' in l])==9
+          print('DUOFACE_088_UPLOADED_SCENEHOST_IPC_AND_CONTROLLER_SCENE_MISMATCH_VERIFIED')
+          PY
+      - name: Update and read back existing project handoff safely
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH=feature/duoface-jb-embedded-appbridge-20261020
+          MARK='DUOFACE .88 REAL SCENEHOST UPLOAD — APP IPC WORKS / WINDOW-CONTROLLER MISMATCH'
+          for n in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            WORK="$(mktemp -d)"
+            git worktree add --detach "$WORK" FETCH_HEAD
+            MARK="$MARK" python3 - "$WORK/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import os,sys
+          p=Path(sys.argv[1]);old=p.read_text(encoding='utf-8'); mark=os.environ['MARK']
+          if mark not in old:
+              body=f"""## {mark} (2026-10-28)
+
+          - **NEW USER-UPLOADED LOG VERIFIED:** `Duoface/main:sideplay/log/DuoFaceSceneHost.log`, upload commit `fbf9bdbc8afdaf00ce40e6713d0e9c24d7f8e3c7` (2026-10-28T09:03:38Z), blob `cc4f507548c57c15fe37e6ddba95f8e5e52842d6`, 812644 bytes, 7395 lines. Supersedes older assertion that app-scene ACK is unavailable.
+          - **Device YouTube still orientation FAIL per user despite .88 Sileo PASS.** Measured 105 `youtube-app-handshake-ack`, 17 with new `normalSeen/internalSeen/layoutRefreshed` counters. All 17 `phase=app-reflow-measured`, `sceneOrientation=1`, `normalSeen=2`, `layoutRefreshed=1`. `internalSeen=2` ten times, `3` seven times; `windowsApplied=0` nine times, `1` eight times. Thus .88 host-to-app state/IPC, scene match and window discovery **work for the recorded sessions**; no observed `scene-id-unmatched`.
+          - **Critical verified transient disagreement:** SceneHost lines **7238–7244** show `sceneOrientation=1` but post-mutation `window.rootViewController.interfaceOrientation=3` at size 1175x663. Next ACK lines 7245–7251 reports controller orientation=1. ACK `windowsApplied=1` is a mutation attempt, not proof of video orientation. Host `youtube-remote-orientation-observed` 57/57 `value=1 repairEligible=0` reads host settings, not remote client settings. App `isSplit` and client orientation readback absent from current protocol; no exact timestamp for swipe gesture.
+          - **Other evidence:** nine `scene-failed: bogus reference size` reports across apps, including YouTube and Google Maps; separate attach risk. No changes made to Maps, Dock, known-good .83 video lifecycle or original DEBs.
+          - Audit details `sideplay/audit/native12-083-rotation-20261028/DUOFACE_088_SCENEHOST_REAL_DEVICE_ACK_20261028.md` commit `7d2d1df72dfa144b997e31a3acef80ec67895f0a`. The prior pre-.88 13:18 SpringBoard IPS remains historical, unrelated to .88 device orientation ACK.
+          - **Next:** stop debugging missing injection. Inspect exact UIWindow/video presentation ownership, `FBScene.clientSettings.interfaceOrientation` vs host settings, and split/focus state with read-only ABI-safe telemetry; only then implement independent Native12/DuoNavi style correction. No .89 DEB/build/Sileo claimed. No arbitrary fixed rotation or zoom. Commands in this workflow: `git fetch` + `git show` + inline Python assertions, worktree `git commit`/`push` then `git show FETCH_HEAD` check. Do not claim device-level repair.
+          
+          ---
+          """
+              p.write_text(body+old,encoding='utf-8')
+              assert p.read_text(encoding='utf-8')==body+old
+              print('DUOFACE_088_SCENEHOST_HANDOFF_LOCAL_READBACK_PASS')
+          PY
+            git -C "$WORK" config user.name 'github-actions[bot]'
+            git -C "$WORK" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if git -C "$WORK" diff --quiet -- 'sideplay/tiep tuc du an.md'; then
+              git worktree remove --force "$WORK"
+              echo 'DUOFACE_088_SCENEHOST_ALREADY_PERSISTED'
+              exit 0
+            fi
+            git -C "$WORK" add 'sideplay/tiep tuc du an.md'
+            git -C "$WORK" commit -m 'handoff: verify .88 real-device SceneHost ACK and transient UIKit orientation mismatch [skip ci]'
+            if git -C "$WORK" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$WORK"
+              git fetch --no-tags origin "$BRANCH"
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$MARK"
+              echo 'DUOFACE_088_SCENEHOST_HANDOFF_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$WORK"
+          done
+          echo 'HANDOFF_PUSH_FAILED' >&2
+          exit 1
