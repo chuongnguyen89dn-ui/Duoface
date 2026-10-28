@@ -203,38 +203,9 @@ jobs:
             cp "$SRC/evidence/PACKAGING_PROVENANCE.json" "$DEST/"
             (cd "$DEST" && shasum -a 256 *.deb > SHA256SUMS.txt)
             printf '%s\n' "SOURCE_SHA=$GITHUB_SHA" "RUN_ID=$GITHUB_RUN_ID" > "$DEST/BUILD_SOURCE.txt"
-            # Smart-handoff: update the existing large source-of-truth file
-            # inside the checked-out target repo (not through a truncated API
-            # response). Append only after all build checks and artifacts pass.
-            python3 - "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$DEST" <<'PY'
-            import pathlib,sys,hashlib
-            note=pathlib.Path(sys.argv[1])
-            run,source,destination=sys.argv[2:]
-            deb=next(pathlib.Path(destination).glob("com.duoface.jb.embedded_0.0.86~nativeowner1_*.deb"))
-            sha=hashlib.sha256(deb.read_bytes()).hexdigest()
-            checkpoint=(
-                "\n---\n## CHECKPOINT .86 INTEGRATED STAGING — VERIFIED CI ARTIFACT ONLY\n\n"
-                f"Source commit: `{source}`; actual GitHub Actions run: `{run}`. "
-                f"Archive: `sideplay/jb-embedded-appbridge/evidence/runs/{run}/` "
-                f"file `{deb.name}`, SHA256 `{sha}`. "
-                "This is a signed test DEB compiled by CI; NOT a device map/rotation PASS, "
-                "NOT proof of native Google Maps in DuoFace split, and NOT a Sileo release. "
-                "Reference actual OmniCar native map controller/scene ARM64 audits in "
-                "`sideplay/audit/native12-083-rotation-20261028/`. "
-                "Changes: .83 media crash logic preserved; guarded YouTube hosted-scene "
-                "orientation mismatch reconciliation using Native12 portrait=1 and original "
-                "OmniCar remote scene settings ABI; integrated read-only CarPlayApp native FBScene "
-                "monitor. Independent native Maps split pane still UNPROVEN/NOT IMPLEMENTED: "
-                "latest V7 demonstrates the Dashboard host switches from Google Maps to DuoFace "
-                "while controller pointer remains identical. On-device physical iPhone X tests "
-                "and new native scene lifecycle/continued-Mapping evidence are required. "
-                "Never claim full map feature complete or blindly reparent/swap FBScene. "
-                "No vendor code/terms or arbitrary 0.80 map zoom. Preserve .83 and .84 rollback.\n"
-            )
-            previous=note.read_text()
-            if f"Source commit: `{source}`; actual GitHub Actions run: `{run}`." not in previous:
-                note.write_text(checkpoint+"\n"+previous)
-            PY
+            # Existing handoff is >1 MiB, so append within GitHub CI checkout.
+            # External Python script avoids in-loop Bash heredoc parsing errors.
+            python3 "$SOURCE_ROOT/sideplay/tools/append_086_ci_handoff.py" "$TEMP/sideplay/tiep tuc du an.md" "$GITHUB_RUN_ID" "$GITHUB_SHA" "$DEST"
             git -C "$TEMP" add -f "$RUN_DIR" "sideplay/tiep tuc du an.md"
             git -C "$TEMP" commit -m "artifacts: preserve isolated AppBridge QA run $GITHUB_RUN_ID [skip ci]"
             if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
