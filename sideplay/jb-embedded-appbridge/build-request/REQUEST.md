@@ -1,3 +1,13 @@
+## NEW .94 iPhone Apps Manager first-party signed DEB staging — 2026-10-29
+
+- LATEST USER request: implement iPhone per-app switch and **Bật đề xuất / Bật tất cả / Tắt tất cả** first after inspecting original OmniCar and DuoDash. This supersedes the previous .93 rollback FOR THIS FEATURE ONLY. Do not restore any other .93 runtime changes.
+- Evidence: Native12 12+22 ARM64 IMP runs 40699487806/40700551205; DuoDash 1.1.3 real iPhone preferences controller _readBridged/_enumerateApps/_persistAndNotify. OmniCar original audit did not establish iPhone App Manager. Source report sideplay/audit/native12-phone-apps-094/REPORT.md.
+- First-party source commits d0477263fbe19ad287d8ee84ad74c0d86fd6fce3 and e70495a60effcb5d9043c285822c002a97a5dff2. Source-only macOS tests, live policy executable and iOS16 ARM64 syntax SUCCESS https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40786223749. Existing .92 and .90 player/scene/Dock/Maps/logo bytes unchanged.
+- Stage NEW rootless integrated `com.duoface.jb.embedded_0.0.94~phoneapps1_iphoneos-arm64.deb` with nativehost `0.1.103~phoneapps1`. Run complete multi-module build/test/ldid/dpkg SHA and immutable archive. **Not published to Sileo before a successful signed DEB and remote SHA audit.** Existing .92 remains verified public, .90 rollback preserved.
+- Required on-device test after Sileo: iPhone Apps switches/bulk Recommended vs All vs None, CarPlay app picker refresh without restart, never terminate live scene on disable, verify YouTube .90 orientation, Maps experimental unchanged, no SpringBoard crash. Trigger `094-iphone-app-manager-duodash-inspired-firstparty-20261029`.
+
+---
+
 ## ROLLBACK REQUEST — revert experimental .93 to last published .92 (2026-10-28)
 
 - USER: "Quay về bản trc đây cho tai". Immediately cancel/supersede .93 phone app-manager and CarPlay filtered-picker candidate, return runtime code, nativehost/control, packaging and source tests to exact verified .92 commit b29c5c63a75a71510eed9435950ca3fa90cc4f7e. Do not touch already public Sileo .92 or rollback .90 files. Do not publish .93.
