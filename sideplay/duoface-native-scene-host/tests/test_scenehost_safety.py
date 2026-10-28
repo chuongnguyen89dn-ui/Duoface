@@ -1539,18 +1539,26 @@ class WholeHostZoomGeometry059(unittest.TestCase):
   assert "DFZEmergencyRestore(session)" in z
 
 class ImmediateDividerDragContract(unittest.TestCase):
- def test_both_routes_share_state_and_no_old_hold_survives(self):
+ def test_ratio_track_remains_immediate_but_logo_is_3_second_hold_only(self):
   c=file("DFNative12Chrome.m")
-  for old in ("logoHold", "logoRatioDwell", "gripHold", "logoLongPressGesture:"):
+  # Previous no-hold policy was intentionally superseded by the owner's
+  # explicit requirement: hold the circular grip 3 seconds before movement.
+  for old in ("logoRatioDwell", "gripHold", "logoLongPressGesture:"):
    self.assertNotIn(old,c)
   self.assertIn("DFDragMove(&_dividerDrag,p.x,p.y)",c)
   self.assertIn("DFDragFinish(&_dividerDrag,p.x,p.y,cancelled)",c)
-  self.assertIn("BOOL allowSwap=tap && inside && !self.logoWakeOnlyTap && duration<=0.5;",c)
   self.assertIn("self.touchEnded(self,NO,YES);",c)
-  self.assertIn("self.logoTouchPending=_dividerDrag.active;",c)
   self.assertIn("BOOL controlsVisible=self.panActive || self.logoTouchPending ||",c)
   self.assertIn("blink.toValue=@1.18;",c)
   self.assertNotIn("line.tag=718;",c)
+  self.assertIn("self->_dividerDrag.axis=DFDragLogo;",c)
+  self.assertIn("DFLogoHoldAdvance(&self->_logoHoldGate",c)
+  self.assertIn("DFLogoHoldIsQuickTap(&self->_logoHoldGate",c)
+  begin=c[c.index("- (void)logoTouchDown:"):c.index("- (void)logoTouchChanged:")]
+  self.assertIn("DFLogoHoldBegin(",begin)
+  self.assertNotIn("[self beginDividerDragAt:",begin)
+  track=c[c.index("- (void)dividerPan:"):c.index("- (CGPoint)secondaryTouchOnScreen:")]
+  self.assertIn("[self beginDividerDragAt:screen]",track)
   finish=c[c.index("- (BOOL)finishDividerDragAt:"):c.index("- (void)logoTouchDown:")]
   self.assertLess(finish.index("DFDragFinish"),finish.index("[self saveSplitState]"))
   self.assertIn("if(!cancelled && _dividerDrag.axis!=DFDragUndecided)",finish)
