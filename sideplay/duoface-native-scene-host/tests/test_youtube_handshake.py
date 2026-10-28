@@ -17,8 +17,11 @@ class YouTubeHandshake(unittest.TestCase):
                  'saved.frame','saved.bounds','saved.orientation','if(changed || !self.scene)']:
    self.assertIn(needed,src)
   for forbidden in ['MSHookMessageEx','setRequestedMode:','setForeground:',
-                    'requestGeometryUpdate','setOrientation:', 'UIScreen.mainScreen']:
+                    'setOrientation:', 'UIScreen.mainScreen']:
    self.assertNotIn(forbidden,src)
+  self.assertIn('requestGeometryUpdateWithPreferences:preferences',src)
+  self.assertIn('[self.state[@"isSplit"] boolValue]',src)
+  self.assertIn('relay.scene!=expectedScene',src)
  def test_host_leases_only_committed_owned_scene(self):
   src=(R/'DFSceneHost.m').read_text()
   for needed in ['DFYTObject(self.scene,@"identifier")','self.owner.live[self.bundleID]!=self',
