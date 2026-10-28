@@ -1,0 +1,85 @@
+name: DuoFace V6 standalone QA app native Maps owner JSONL exporter
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/duoface-qa-app/**'
+      - '.github/workflows/duoface-qa-map-owner-export-v6.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-qa-map-owner-export-v6
+  cancel-in-progress: false
+jobs:
+  qa:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify QA source controls and lossless Maps JSONL exporter
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s sideplay/duoface-qa-app/tests -p 'test_*.py' -v
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('sideplay/duoface-qa-app/DFQARootController.m').read_text()
+          assert 'DuoFaceCarPlayOwnerSnapshot.log' in s
+          assert 'copyItemAtPath:DFMapsOwnerLog toPath:tmp' in s
+          assert 'fileURLWithPath:tmp' in s
+          for banned in ('foregroundSceneWithSettings:', 'backgroundSceneWithCompletion:', 'setFrame:', 'MSHookMessageEx'):
+              assert banned not in s,banned
+          print('QA_MAP_OWNER_LOSSLESS_EXPORT_SOURCE_PASS')
+          PY
+      - name: Install only required signing and DEB tools
+        run: |
+          set -euo pipefail
+          brew install ldid dpkg
+      - name: Compile signed rootless iPhone QA app
+        run: |
+          set -euo pipefail
+          bash sideplay/duoface-qa-app/build.sh 2>&1 | tee "$RUNNER_TEMP/qa-map-owner-build.log"
+          FILE="com.duoface.qa.controlapp_0.1.9~mapowner1_iphoneos-arm64.deb"
+          DEB="sideplay/duoface-qa-app/packages/$FILE"
+          test -s "$DEB"
+          test "$(dpkg-deb -f "$DEB" Package)" = 'com.duoface.qa.controlapp'
+          test "$(dpkg-deb -f "$DEB" Version)" = '0.1.9~mapowner1'
+          test "$(dpkg-deb -f "$DEB" Architecture)" = iphoneos-arm64
+          ! dpkg-deb -f "$DEB" | grep -E '^(Conflicts|Replaces|Breaks):'
+          mkdir -p "$RUNNER_TEMP/qa-map-export-extract"
+          dpkg-deb -x "$DEB" "$RUNNER_TEMP/qa-map-export-extract"
+          test -s "$RUNNER_TEMP/qa-map-export-extract/var/jb/Applications/DuoFaceQA.app/DuoFaceQA"
+          ldid -e "$RUNNER_TEMP/qa-map-export-extract/var/jb/Applications/DuoFaceQA.app/DuoFaceQA" | grep -F 'com.apple.private.security.no-container'
+          OUT="$GITHUB_WORKSPACE/sideplay/test-artifacts/native-map-owner-qa-export-v6"
+          mkdir -p "$OUT"
+          cp "$DEB" "$OUT/"
+          dpkg-deb -c "$DEB" > "$OUT/DEB_FILE_LIST.txt"
+          cp "$RUNNER_TEMP/qa-map-owner-build.log" "$OUT/APP_BUILD.log"
+          (cd "$OUT" && shasum -a 256 "$FILE" > SHA256SUMS.txt)
+          {
+            echo "RUN_ID=$GITHUB_RUN_ID"
+            echo "SOURCE_SHA=$GITHUB_SHA"
+            echo "VERSION=0.1.9~mapowner1"
+            echo "PACKAGE=com.duoface.qa.controlapp"
+            echo "STATUS=CI_COMPILED_ONLY"
+            echo "SILEO_PUBLISHED=false"
+            echo "INSTALLED_ON_IPHONE=false"
+            echo "LIVE_MAPS_OWNER_CAPTURED=false"
+          } > "$OUT/BUILD_EVIDENCE.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: duoface-native-map-qa-export-v6
+          path: sideplay/test-artifacts/native-map-owner-qa-export-v6/
+          if-no-files-found: warn
+      - name: Persist only independent QA app and evidence in DuoFace repository
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f sideplay/test-artifacts/native-map-owner-qa-export-v6/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "artifacts: QA native Maps owner V6 lossless JSONL exporter"
+          git fetch origin "refs/heads/${GITHUB_REF_NAME}:refs/remotes/origin/${GITHUB_REF_NAME}"
+          git rebase "origin/${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
