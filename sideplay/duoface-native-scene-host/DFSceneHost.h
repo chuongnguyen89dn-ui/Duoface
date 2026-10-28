@@ -15,6 +15,8 @@ FOUNDATION_EXPORT NSString *const DFSceneHostDidObserveTouchNotification;
 // Creates a pending host surface; scene readiness is asynchronous.
 - (nullable UIView *)hostViewForBundleID:(NSString *)bundleID error:(NSError * _Nullable * _Nullable)error;
 - (nullable NSString *)bundleIDForHostedView:(UIView *)view;
+// Explicit Chrome split/focus mode; a second pane may be empty.
+- (void)setSplitMode:(BOOL)isSplit forHostedView:(UIView *)view;
 - (void)releaseHostedView:(UIView *)view;
 - (void)stopAllHosts;
 @end
