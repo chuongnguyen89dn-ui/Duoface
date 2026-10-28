@@ -5,6 +5,7 @@
 #import "DFNative12CardHeaderGeometry.h"
 #import "DFNative12MenuHeader.h"
 #import "DFAppLibrary.h"
+#import "DFEnabledAppsPolicy.h"
 #import <objc/message.h>
 #import <math.h>
 
@@ -437,7 +438,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             DFAppPickerVC *owner=weakSelf;
             if(!owner || owner.inventoryGeneration!=generation)return;
-            owner.apps=results?:@[];
+            // Re-read config only when an actual user opens/refreshed picker.
+            // No background process restarts, no scene unload on toggles.
+            NSArray<NSString *> *enabled=DFConfiguredEnabledAppIDs();
+            NSMutableArray<DFAppInfo *> *visible=[NSMutableArray new];
+            for(DFAppInfo *app in results)
+                if(DFPickerAllowsApp(app.bundleID,enabled))[visible addObject:app];
+            owner.apps=visible;
             [owner reloadCards];
             NSLog(@"[DuoFace] native-card-picker real-installed-apps=%lu",
                   (unsigned long)owner.apps.count);
