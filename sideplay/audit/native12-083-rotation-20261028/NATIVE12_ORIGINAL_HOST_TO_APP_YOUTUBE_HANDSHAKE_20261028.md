@@ -270,3 +270,21 @@ Original ObjC owner: {"class": "CBAppStateListener", "selector": "sendStateReque
 Original Native12 appStateListener handles its own per-app bridge state and orientation; any fix must maintain verified owner/timeout and leave .83 video lifecycle alone.
 Original had private UIKit rotations and app-process injection; do not copy unsafe vendor hooks, licensing, global device rotation, or arbitrary zoom.
 Unverified actual user iOS16 YouTube scene/client geometry: DO NOT assert fixed or package to Sileo from this report alone.
+
+
+## 2026-10-28 — Hướng khắc phục CHỈ từ Native12 gốc (không dùng SidePlay làm mẫu)
+
+**Đã giải mã chuỗi Native12 Host → app process → UIKit:**
+
+1. Native12 nguyên bản có DuoFaceDashboard.plist lọc com.google.ios.youtube. CBAppStateListener.init @0x2ab0a0 lấy NSDistributedNotificationCenter @0x2ab100, đăng ký handleAppStateNotification: @0x2ab134..0x2ab14c, và đăng ký callback app active @0x2ab178..0x2ab194. Ứng dụng tự gửi yêu cầu state lúc khởi động @0x2ab1a4..0x2ab1ac.
+2. CBBridgeManager.sendStateToApp:shouldBridge: @0x1d1624 tạo payload với các khóa shouldBridge, bridgeToken, fixedKeyboardWidth, displayWidth, displayHeight, orientation, isSplit, bundleIdentifier @0x1d8bb4..0x1d8d54. **Tại @0x1d8cb4..0x1d8cbc có mov w2,#1 → NSNumber numberWithInt: cho orientation**: Portrait=1 là đầu vào đã chứng minh của Native12, không suy ra landscape 3/4 hay tỷ lệ zoom. Post thông báo @0x1d8e0c/@0x1d8e9c. CBBridgeManager.receivedAppRequestNotification: @0x248e70 phản hồi bằng sendStateToApp:shouldBridge: @0x248f24..0x248f38.
+3. CBAppStateListener.handleAppStateNotification: @0x2ab98c kiểm bundle, đọc các khóa trên @0x2aba28..0x2abcb0. Main-thread async block @0x2abd98 cập nhật local bridging/size/orientation/split @0x2abdb8..0x2abdec, gọi attach @0x2abe20 và **UIWindow UIKit reflow @0x2abe24→0x2a9e38**. Hàm @0x2a9e38 sử dụng UIApplication.windows, setFrame/setBounds/setNeedsLayout, kiểm selector _rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks: @0x2a9ff4/@0x2aa45c và refresh updateLayoutToCurrentInterfaceOrientation @0x2aa5b0. Đây là khác biệt ở bên trong ứng dụng, không phải chỉ remote FBScene.
+4. Cold start cũng đọc trạng thái từ CBAppStateListener.checkStateFile @0x2ab1e4, gọi attach + reflow @0x2ab670..0x2ab674. Khi tắt bridge dùng nhánh reset phone-mode @0x2aa684..0x2aadec; không được bỏ qua phục hồi.
+
+**Thiếu sót DuoFace .86 đã chứng minh bằng source/build:** DFSceneOrientationPolicy có hook Portrait và native reference, DFSceneHost commit scene từ SpringBoard; nhưng build.sh chỉ tạo host/Dock dylibs và package_integrated.py loại bỏ DFAppViewportRelay. DFAppViewportRelay.m đang ở source nhưng không có orientation payload hoặc UIKit rotation handshake, và loại phone-main UIWindowScene. Vì thế .86 thiếu đúng một chặng app-process presenter/reflow mà Native12 gốc đang có. Đây là **khoảng trống kiến trúc có chứng cứ**, chưa chứng minh nguyên nhân duy nhất trên thiết bị.
+
+**Hướng sửa tối thiểu và riêng cho YouTube:** tạo giao thức độc lập host→app với bundleID + host scene owner/generation + timestamp expiry + display native width/height + orientation Portrait=1 + active flag. Chỉ gửi khi pane thực sự host YouTube và khi focus/zoom/restore; nhận trong app process theo filter chỉ com.google.ios.youtube, main thread, đo UIWindow/scene thực, cập nhật bố cục đúng ABI, đo ACK; hủy khi owner đổi và phục hồi trạng thái điện thoại khi ngắt. Học luồng Native12 nhưng KHÔNG chép vendor code, license, hoặc hook private UIKit toàn cục. Bảo toàn .83 video lifecycle, Maps/Dock/Logo. Không lặp ép zoom %, không force landscape và không gắn cờ foreground sai gây crash.
+
+**Tiêu chí thiết bị:** video YouTube đúng chiều ngay ở lần phóng ô đầu, không cần tự bật fullscreen trong YouTube; thu về split vẫn đúng; playback không crash. Báo cáo này không build, chưa phát hành Sileo và chưa thử thiết bị.
+
+Chứng cứ: original Native12 DEB SHA256 2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad; raw ARM64 GitHub Actions 40648313067 SUCCESS; summary GitHub Actions 40648501475 SUCCESS. Chi tiết machine code ở NATIVE12_ORIGINAL_HOST_TO_APP_YOUTUBE_HANDSHAKE_20261028.json.
