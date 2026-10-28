@@ -1492,7 +1492,10 @@ class MediaSceneRevision077(unittest.TestCase):
   s=file("DFSceneHost.m")
   self.assertIn('remoteSettings=DFCall0(hostedScene,@"settings")',s)
   self.assertIn("CGRectEqualToRect(observed,nativeFrame)",s)
-  self.assertIn("if (!unchanged)",s)
+  self.assertIn("if (!unchanged || youtubePortraitRepair)",s)
+  # Orientation-only must not resend foreground or change a playing frame.
+  self.assertIn("if (!unchanged && settings && [settings respondsToSelector:fgSelector])",s)
+  self.assertIn("if (!unchanged && settings && [settings respondsToSelector:bgSelector])",s)
   self.assertIn("hostedScene,update,setVerifiedNative12Frame",s)
   self.assertIn("native12-scene-settings-live-contract-requested",s)
   self.assertNotIn("DFEnableUnverifiedFBSceneFrameMutation",s)
