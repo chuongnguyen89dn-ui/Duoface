@@ -127,15 +127,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: OriginalNative12-22-ui-controller-methods-IMP
-          path: sideplay/audit/native12-091-fullscan-20261028/original-app-picker-single-vs-bulk-imp/
+          path: sideplay/audit/native12-091-fullscan-20261028/original-ui-controller-22-imp/
           if-no-files-found: error
       - name: Archive original-only static evidence to same feature branch
         run: |
           set -euo pipefail
           BR=feature/duoface-jb-embedded-appbridge-20261020
-          SUB=sideplay/audit/native12-091-fullscan-20261028/original-app-picker-single-vs-bulk-imp
+          SUB=sideplay/audit/native12-091-fullscan-20261028/original-ui-controller-22-imp
           SOURCE="$(pwd)/$SUB"
-          test -s "$SOURCE/ORIGINAL_PICKER_VS_SETTINGS_IMP.json"
+          test -s "$SOURCE/ORIGINAL_UI_CONTROLLER_IMP.json"
           for attempt in 1 2 3 4 5; do
             git fetch origin "$BR"
             TMP="$(mktemp -d)"
