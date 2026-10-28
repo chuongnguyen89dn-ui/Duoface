@@ -11,6 +11,7 @@ static NSString *const DFSource=@"/var/mobile/Library/Preferences/com.duoface.my
 static NSString *const DFAck=@"/var/mobile/Library/Preferences/com.duoface.mytweak.cp-receiver-ack.plist";
 static NSString *const DFNativeLog=@"/var/mobile/Library/Logs/DuoFaceNativeBridgeQA.log";
 static NSString *const DFSceneProbeLog=@"/var/mobile/Library/Logs/DuoFaceNativeSceneJoin.log";
+static NSString *const DFMapsOwnerLog=@"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log";
 static NSString *const DFSceneProbeRecord=@"/var/mobile/Library/Preferences/com.duoface.native-scene-owner.v1.plist";
 static NSString *const DFSBRequest=@"/var/mobile/Library/Preferences/com.duoface.sb-admission-probe.request.plist";
 static NSString *const DFSBStatus=@"/var/mobile/Library/Preferences/com.duoface.sb-admission-probe.status.plist";
@@ -239,6 +240,8 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
     [self.stack addArrangedSubview:self.logView];
     [self.stack addArrangedSubview:[self button:@"Chia sẻ log"
                       selector:@selector(shareLog:) danger:NO]];
+    [self.stack addArrangedSubview:[self button:@"Chia sẻ snapshot CarPlay Maps (JSONL)"
+                      selector:@selector(shareMapsOwnerLog:) danger:NO]];
     [self refresh];
 }
 - (void)viewWillAppear:(BOOL)animated {
@@ -545,6 +548,31 @@ static NSString *DFLastLines(NSString *path, NSUInteger limit) {
            [NSString stringWithFormat:@"--- Live original getter trace ---\n%@\n\n--- Earlier admission log ---\n%@",
               DFLastLines(DFTraceLog,35),DFLastLines(DFAdmissionLog,30)]:DFLastLines(path,65);
     }
+}
+// Share the exact bounded JSONL file instead of truncating it to display lines.
+// This preserves both the native Maps and DuoFace split timeline without Filza.
+- (void)shareMapsOwnerLog:(id)sender {
+    NSFileManager *fm=NSFileManager.defaultManager;
+    NSDictionary *attrs=[fm attributesOfItemAtPath:DFMapsOwnerLog error:nil];
+    unsigned long long size=[attrs[NSFileSize] unsignedLongLongValue];
+    if(![attrs[NSFileType] isEqual:NSFileTypeRegular] || size==0 || size>5*1024*1024) {
+        [self alert:@"Chưa có snapshot Native Maps"
+              message:@"Kết nối CarPlay, mở Maps dẫn đường 35 giây rồi mở DuoFace split 35 giây. Log chưa có hoặc vượt giới hạn; không tự bật/tắt Maps."];
+        return;
+    }
+    NSString *name=[NSString stringWithFormat:@"DuoFaceCarPlayOwnerSnapshot-%@.jsonl",NSUUID.UUID.UUIDString];
+    NSString *tmp=[NSTemporaryDirectory() stringByAppendingPathComponent:name];
+    NSError *error=nil;
+    if(![fm copyItemAtPath:DFMapsOwnerLog toPath:tmp error:&error]){
+        [self alert:@"Không thể chia sẻ snapshot"
+              message:error.localizedDescription?:@"Không có quyền đọc log CarPlay."];
+        return;
+    }
+    UIActivityViewController *v=[[UIActivityViewController alloc]
+      initWithActivityItems:@[[NSURL fileURLWithPath:tmp]]
+      applicationActivities:nil];
+    v.popoverPresentationController.sourceView=(UIView *)sender;
+    [self presentViewController:v animated:YES completion:nil];
 }
 - (void)shareLog:(id)sender {
     NSString *s=[NSString stringWithFormat:
