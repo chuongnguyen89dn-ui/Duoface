@@ -33,6 +33,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -Wl,-export_dynamic -I . tests/scene_lifecycle_runtime.m DFSceneLifecycle.m -o "$RUNNER_TEMP/scene-lifecycle-test"
           "$RUNNER_TEMP/scene-lifecycle-test"
+      - name: Execute .84 owner-scoped portrait/size hook ABI regression harness
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -framework CoreGraphics -Wl,-export_dynamic -I . tests/scene_orientation_policy_runtime.m DFSceneOrientationPolicy.m -o "$RUNNER_TEMP/orientation-policy-runtime"
+          "$RUNNER_TEMP/orientation-policy-runtime"
       - name: Prepare rootless Theos and toolchain
         run: |
           set -euo pipefail
