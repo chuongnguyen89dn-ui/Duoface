@@ -1,3 +1,13 @@
+## DUOFACE .87 SILEO PUBLIC VERIFIED — RUN 40652547608 (2026-10-28)
+
+- **ĐÃ XÁC MINH PHÁT HÀNH SILEO**: https://chuongnguyen89dn-ui.github.io/carplaydsp/ có đúng một APT entry `com.duoface.jb.embedded` phiên bản `0.0.87~ythandshake1`, tên file `debs/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb`, SHA256 `7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7`; đã tải lại DEB công khai và đối chiếu SHA.
+- Publisher repo `chuongnguyen89dn-ui/carplaydsp`: commit `76ea6a307c84a99b88e96236c6532c5884724dbf`, workflow `https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40652547608`.
+- Repo thực thi `chuongnguyen89dn-ui/Duoface`; branch `feature/duoface-jb-embedded-appbridge-20261020`; source commit `6aa383e6fdb20e9dddbf5cf271050ef2b1d831b1`, integrated CI `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40651065971`, binary archive commit `4f3c90d6006e8fc311e468eea09befdefc7ceeb7`, path `sideplay/jb-embedded-appbridge/evidence/runs/40651065971/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb`.
+- Thay đổi duy nhất so với bản .86: áp dụng first-party YouTube host-to-app scene orientation handshake trong bản .87; Maps và Dock không sửa; baseline .83 lifecycle/video giữ nguyên. Bản cũ .86/.83/.84 vẫn có URL DEB cũ phục vụ rollback.
+- **CHƯA KIỂM THỬ TRÊN THIẾT BỊ**: xem YouTube chia 2 ô, Zoom từng ô không bấm fullscreen app, thu nhỏ/phóng to, rồi fullscreen/restore; xác nhận không crash/Exit Safe Mode, Dock vẫn chuẩn, không thay đổi Maps. Trên iPhone X jailbreak iOS16 rootless dùng Sileo refresh repo, nâng cấp `DuoFace Independent (Integrated CarPlay Beta)` lên .87. Chỉ thao tác khi xe đỗ, giữ bản .83 để phục hồi. Lấy log `/var/mobile/Library/Logs/DuoFaceSceneHost.log` với `youtube-app-handshake-ack` (scene ID, windowsApplied, orientation và kích thước thực), crash IPS nếu phát sinh. Nếu sai xoay, không chỉnh zoom tuỳ ý mà phân tích ACK trước.
+- Không kết luận bug xoay đã được sửa trên xe từ CI/đăng Sileo. Không thay đổi bản đồ trước khi có bằng chứng thực tế.
+
+---
 ## CHECKPOINT 2026-10-28 DuoFace .87 — signed build archived (not hardware-verified)
 
 CI run `40651065971` source `6aa383e6fdb20e9dddbf5cf271050ef2b1d831b1`; signed staged DEB: `sideplay/jb-embedded-appbridge/evidence/runs/40651065971/com.duoface.jb.embedded_0.0.87~ythandshake1_iphoneos-arm64.deb`; SHA256 `7b22d34f4bc2cf78d450dacde1c98369a0e33fdd2e248d3a8a630bec50f5f9e7`.
