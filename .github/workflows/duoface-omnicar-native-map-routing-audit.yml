@@ -1,0 +1,68 @@
+name: DuoFace pinned original OmniCar native map app routing ARM64 audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_omnicar_native_maps_dispatch_20261028.py'
+      - '.github/workflows/duoface-omnicar-native-map-routing-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-original-omni-native-map-audit
+  cancel-in-progress: false
+jobs:
+  native-map:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned ARM64 metadata decoder
+        run: python3 -m pip install --break-system-packages capstone==5.0.7
+      - name: Download original DEB, authenticate SHA, decode exact method call chains
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/main/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/original-omnicar.deb"
+          echo 'd9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd' " $RUNNER_TEMP/original-omnicar.deb" | sha256sum -c -
+          python3 sideplay/tools/audit_omnicar_native_maps_dispatch_20261028.py --deb "$RUNNER_TEMP/original-omnicar.deb" --out "$RUNNER_TEMP/OMNICAR_NATIVE_MAP_ROUTING_ARM64.json"
+          python3 - "$RUNNER_TEMP/OMNICAR_NATIVE_MAP_ROUTING_ARM64.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d["original_deb_sha256"]=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          assert len(d["split_arm64_methods"])==7
+          assert d["split_arm64_methods"]["SCPCarSplit.isCarPlayApp:"]["verified_imp"]=="0xff20"
+          print("OMNICAR_NATIVE_CARPLAY_APP_ROUTING_ARM64_ORIGINAL_VERIFIED_PASS")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: duoface-omnicar-native-map-original-arm64-${{ github.run_id }}
+          path: ${{ runner.temp }}/OMNICAR_NATIVE_MAP_ROUTING_ARM64.json
+          if-no-files-found: error
+      - name: Preserve original-only findings in DuoFace branch
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          TARGET='sideplay/audit/native12-083-rotation-20261028/OMNICAR_NATIVE_MAP_ROUTING_ARM64.json'
+          for i in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            tmp="$(mktemp -d)"
+            git worktree add --detach "$tmp" FETCH_HEAD
+            git -C "$tmp" config user.name 'github-actions[bot]'
+            git -C "$tmp" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            if test -e "$tmp/$TARGET"; then
+              echo 'Original audit path exists; refuse overwrite' >&2
+              git worktree remove --force "$tmp"
+              exit 1
+            fi
+            mkdir -p "$(dirname "$tmp/$TARGET")"
+            cp "$RUNNER_TEMP/OMNICAR_NATIVE_MAP_ROUTING_ARM64.json" "$tmp/$TARGET"
+            git -C "$tmp" add "$TARGET"
+            git -C "$tmp" commit -m "audit: archive SHA-pinned OmniCar native map ARM64 routing run $GITHUB_RUN_ID [skip ci]"
+            if git -C "$tmp" push origin "HEAD:refs/heads/$BRANCH"; then
+              echo "OMNICAR_MAP_ORIGINAL_DISASM_GITHUB_ARCHIVED_RUN_ID=$GITHUB_RUN_ID"
+              git worktree remove --force "$tmp"
+              exit 0
+            fi
+            git worktree remove --force "$tmp"
+          done
+          exit 1
