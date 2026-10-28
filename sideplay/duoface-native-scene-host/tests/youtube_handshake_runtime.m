@@ -30,9 +30,9 @@ static NSUInteger calls;
 @end
 int main(void) {
  @autoreleasepool {
-    NSDictionary *current=@{@"version":@1,@"bundleIdentifier":DFYTBundle,@"owner":@"generation-A",
+    NSDictionary *current=@{@"version":@2,@"bundleIdentifier":DFYTBundle,@"owner":@"generation-A",
        @"sceneIdentifier":@"scene-youtube",@"issuedAt":@1000,@"active":@YES,
-       @"width":@854,@"height":@480,@"orientation":@1};
+       @"width":@854,@"height":@480,@"orientation":@1,@"isSplit":@YES};
     assert(DFYTValidState(current,1000)); assert(DFYTValidState(current,1003));
     assert(!DFYTValidState(current,1003.001)); assert(!DFYTValidState(current,999));
     assert(!DFYTValidState(current,NAN));
@@ -40,7 +40,7 @@ int main(void) {
         NSMutableDictionary *bad=[current mutableCopy];[bad removeObjectForKey:key];
         assert(!DFYTValidState(bad,1000));
     }
-    for(NSString *key in @[@"width",@"height",@"orientation",@"issuedAt",@"active"]) {
+    for(NSString *key in @[@"width",@"height",@"orientation",@"isSplit",@"issuedAt",@"active"]) {
         NSMutableDictionary *bad=[current mutableCopy];bad[key]=@"1";
         assert(!DFYTValidState(bad,1000)); bad[key]=@(NAN);assert(!DFYTValidState(bad,1000));
     }
@@ -50,6 +50,10 @@ int main(void) {
     }
     for(NSNumber *value in @[@0,@2,@3,@4]) {
         NSMutableDictionary *bad=[current mutableCopy];bad[@"orientation"]=value;
+        assert(!DFYTValidState(bad,1000));
+    }
+    for(NSNumber *value in @[@2,@(-1),@1.5]) {
+        NSMutableDictionary *bad=[current mutableCopy];bad[@"isSplit"]=value;
         assert(!DFYTValidState(bad,1000));
     }
     NSMutableDictionary *next=[current mutableCopy]; next[@"bundleIdentifier"]=@"com.google.Maps";
