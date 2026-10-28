@@ -98,6 +98,18 @@ static void DFInspectOwner(UIViewController *vc, NSMutableDictionary *log) {
         id identifier=DFGetOwnerObject(scene,@"identifier",metadata,@"identifier");
         if([identifier isKindOfClass:NSString.class] && [identifier length]<=160)
             log[@"hostedSceneIdentifier"]=identifier;
+        // The public carplay-cast code documents this exact read-only
+        // scene -> client -> process -> bundleIdentifier chain in SpringBoard.
+        // Here it is guarded independently on CarPlayApp; missing selectors
+        // must remain unresolved, never substituted by an assumed bundle.
+        id client=DFGetOwnerObject(scene,@"client",log,@"nativeSceneClient");
+        id process=client?DFGetOwnerObject(client,@"process",log,@"nativeSceneProcess"):nil;
+        if(process){
+            NSMutableDictionary *source=[NSMutableDictionary new];
+            id bundle=DFGetOwnerObject(process,@"bundleIdentifier",source,@"bundle");
+            if([bundle isKindOfClass:NSString.class] && [bundle length]<=160)
+                log[@"nativeSceneProcessBundleIdentifier"]=bundle;
+        }
     }
 }
 
