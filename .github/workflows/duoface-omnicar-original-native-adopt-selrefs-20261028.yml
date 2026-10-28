@@ -1,0 +1,40 @@
+name: DuoFace original OmniCar native scene adoption selector chain audit
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/tools/audit_original_omnicar_native_adopt_selrefs_20261028.py'
+      - '.github/workflows/duoface-omnicar-original-native-adopt-selrefs-20261028.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-native-adopt-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Disassemble pinned ORIGINAL native scene/adopt selectors (read-only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --break-system-packages capstone==5.0.7
+          python3 -m py_compile sideplay/tools/audit_original_omnicar_native_adopt_selrefs_20261028.py
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Omnicar/bafc2441d280707ac1fbfd210780a51bdf69da95/com.anlai.omnicar_1.0.3_iphoneos-arm64.deb' -o "$RUNNER_TEMP/omnicar-original.deb"
+          echo "d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd  $RUNNER_TEMP/omnicar-original.deb" | sha256sum -c -
+          python3 sideplay/tools/audit_original_omnicar_native_adopt_selrefs_20261028.py --deb "$RUNNER_TEMP/omnicar-original.deb" --out "$RUNNER_TEMP/original-adopt-selrefs.json"
+          python3 - "$RUNNER_TEMP/original-adopt-selrefs.json" <<'PY'
+          import json,sys
+          o=json.load(open(sys.argv[1]))
+          assert o["original_sha256"]=="d9297b010cdc08e401439b7332413f79cb1a056a05159a5deb673e218d76d9fd"
+          assert o["target_count"]==13
+          assert o["methods"]["adopt:slot:"]["imp"]=="0x1942c"
+          assert o["methods"]["sceneOfViewController:"]["imp"]=="0x1aaf4"
+          print("ORIGINAL_OMNICAR_NATIVE_SCENE_SELECTOR_METHOD_BOUNDS_PASS")
+          PY
+      - name: Save detailed original-only JSON for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-omnicar-native-adopt-selrefs-${{ github.run_id }}
+          path: ${{ runner.temp }}/original-adopt-selrefs.json
+          if-no-files-found: error
