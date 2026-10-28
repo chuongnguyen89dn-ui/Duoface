@@ -1,3 +1,14 @@
+## 2026-10-29 — Verified original OmniCar iPhone app selection → CarPlay allowlist
+
+- User correction CONFIRMED: OmniCar has Settings on iPhone selecting apps, and only selected apps appear on CarPlay. Earlier "OmniCar manager not verified" came from an irrelevant scene-only audit; it was not adequate.
+- Real SHA-pinned original 1.0.3 DEB audit 40788354747 SUCCESS and original ObjC method decode 40788857405 SUCCESS. Original Preferences Root.plist APPS opens OMCAppBridgeAppsController (105 original methods), with loadState @1cdd8, storeChoices @1e920, rebuildRows @1e3a8, reloadLists @1eb78 and iPhone tableView:didSelectRowAtIndexPath: @214b0. Shared preference key appBridgeApps appears in original Preferences + Core + SplitScreen modules.
+- Original SCPCarSplit.publishCarPlayApps @21b1c, showPickerForSlot: @31530, pickerAppTapped: @362a0; split binary string differentiates system CarPlay apps and explicitly "app iPhone da chon (App Bridge)".
+- All source/PC/hash references and evidence: sideplay/audit/omnicar-iphone-picker-20261029/VERIFIED_ORIGINAL_IPHONE_ALLOWLIST_TO_CARPLAY_20261029.md and runs/40788857405/ORIGINAL_OMNICAR_RESOLVED_METHODS.json. Raw original payload inventory 176 files, 14 plists, 8 Mach-O. 40788767727 analysis-only failed on method-count upper bound, corrected in successful run 40788857405.
+- Current user's instruction remains RESEARCH ONLY; no new DuoFace runtime/DEB/Sileo changes. Pending original ARM64 function-body graph for exact read/write/notify/filter semantics; never claim direct callsite without evidence.
+- Repo chuongnguyen89dn-ui/Duoface branch feature/duoface-jb-embedded-appbridge-20261020. Protected .90 YouTube device PASS, .92 logo, .94 previously published without authorization; no device confirmation for .94.
+ 
+---
+
 ## 2026-10-29 — original OmniCar iPhone Settings app selection audit
 
 - User device observation: OmniCar iPhone Settings selects apps and the CarPlay picker only lists those selected. Earlier scene/zoom-only scan did not cover this feature.
