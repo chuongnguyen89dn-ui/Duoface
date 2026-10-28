@@ -1,0 +1,3 @@
+#!/var/jb/bin/sh
+command -v uicache >/dev/null 2>&1 && uicache -p /var/jb/Applications/DuoFaceMapLog.app >/dev/null 2>&1 || true
+exit 0
