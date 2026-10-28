@@ -82,7 +82,11 @@ static id DFGetOwnerObject(id receiver, NSString *name, NSMutableDictionary *log
 static void DFInspectOwner(UIViewController *vc, NSMutableDictionary *log) {
     if(![DFClassName(vc) isEqualToString:@"DBApplicationSceneViewController"])return;
     id scene=DFGetOwnerObject(vc,@"scene",log,@"nativeScene");
+    id handle=DFGetOwnerObject(vc,@"sceneHandle",log,@"nativeSceneHandle");
     id info=DFGetOwnerObject(vc,@"applicationInfo",log,@"nativeApplicationInfo");
+    id proxy=DFGetOwnerObject(vc,@"proxyApplicationInfo",log,@"nativeProxyApplicationInfo");
+    if(!scene && handle)scene=DFGetOwnerObject(handle,@"sceneIfExists",log,@"nativeHandleScene");
+    if(!info)info=proxy;
     if(info){
         NSMutableDictionary *metadata=[NSMutableDictionary new];
         id bundle=DFGetOwnerObject(info,@"bundleIdentifier",metadata,@"bundle");
