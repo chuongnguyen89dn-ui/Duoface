@@ -192,10 +192,22 @@ static NSInteger DFObservedSceneForeground(id scene) {
     NSTimeInterval now=NSDate.date.timeIntervalSince1970;
     if(now-self.youtubeLastPublish<0.75)return;
     CGSize logical=DFHostedLogicalSizeForBundle(committed,self.bundleID);
-    NSDictionary *state=@{@"version":@1,@"bundleIdentifier":DFYTBundle,
+    // Native12 original sends a real layout mode alongside the size.
+    // A second actual *visible* hosted pane is evidence of split mode;
+    // do not infer a mode from an arbitrary zoom percentage.
+    BOOL twoPanes=NO;
+    for (DFSceneSurface *other in self.owner.live.allValues) {
+        if(other!=self && !other.stopped && other.ready && other.window==self.window &&
+           !other.hidden && other.alpha>0 && other.bounds.size.width>1 &&
+           other.appController.viewIfLoaded.window==self.window) {
+            twoPanes=YES; break;
+        }
+    }
+    NSDictionary *state=@{@"version":@2,@"bundleIdentifier":DFYTBundle,
         @"owner":self.youtubeOwner,@"sceneIdentifier":identifier,
         @"generation":@(self.sceneGeneration),@"issuedAt":@(now),@"active":@YES,
-        @"width":@(logical.width),@"height":@(logical.height),@"orientation":@1};
+        @"width":@(logical.width),@"height":@(logical.height),@"orientation":@1,
+        @"isSplit":@(twoPanes)};
     if(!DFYTValidState(state,now)){[self revokeYouTubeState];return;}
     self.youtubeState=state; self.youtubeLastPublish=now;
     DFYTPost(DFYTStateName,state);
@@ -210,10 +222,16 @@ static NSInteger DFObservedSceneForeground(id scene) {
         if(!self.youtubeState || ![ack[@"bundleIdentifier"] isEqual:DFYTBundle] ||
            ![ack[@"owner"] isEqual:self.youtubeOwner] ||
            ![ack[@"sceneIdentifier"] isEqual:self.youtubeState[@"sceneIdentifier"]])return;
+        id client=DFCall0(self.scene,@"clientSettings");
+        id server=DFCall0(self.scene,@"settings");
+        NSInteger clientOrientation=DFObservedRemoteInterfaceOrientation(client);
+        NSInteger serverOrientation=DFObservedRemoteInterfaceOrientation(server);
         DFSceneLog(@"youtube-app-handshake-ack",self.bundleID,
-            [NSString stringWithFormat:@"phase=%@ windows=%@ normalSeen=%@ internalSeen=%@ layoutRefreshed=%@ sceneOrientation=%@ size=%@x%@ generation=%lu windows=%@",
+            [NSString stringWithFormat:@"phase=%@ windows=%@ normalSeen=%@ internalSeen=%@ layoutRefreshed=%@ sceneOrientation=%@ clientOrientation=%ld serverOrientation=%ld split=%@ mismatch=%@ geometry=%@ size=%@x%@ generation=%lu windows=%@",
                 ack[@"phase"],ack[@"windowsApplied"],ack[@"sceneWindowCount"],
                 ack[@"internalWindowCount"],ack[@"layoutRefreshes"],ack[@"sceneOrientation"],
+                (long)clientOrientation,(long)serverOrientation,self.youtubeState[@"isSplit"],
+                ack[@"controllerMismatch"],ack[@"geometryRequest"],
                 ack[@"sceneWidth"],ack[@"sceneHeight"],(unsigned long)self.sceneGeneration,ack[@"windows"]]);
     });
 }
