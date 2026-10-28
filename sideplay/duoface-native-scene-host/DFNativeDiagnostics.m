@@ -41,7 +41,7 @@
           @"This file contains technical diagnostics; share only with a trusted recipient.\n",
          NSDate.date.description,UIDevice.currentDevice.systemVersion,
          NSBundle.mainBundle.bundleIdentifier?:@"unknown"];
-    [summary appendString:@"Audit schema: 3; exporter build 0.0.89~splitscene1; runtime process build is in timestamped traces.\n"];
+    [summary appendString:@"Audit schema: 3; exporter build 0.0.90~nativegetters1; runtime process build is in timestamped traces.\n"];
     NSArray<NSString *> *ownLogs=@[
       @"/var/mobile/Library/Logs/DuoFaceSceneHost.log",
       @"/var/mobile/Library/Logs/DuoFaceTouchOwner.log",
