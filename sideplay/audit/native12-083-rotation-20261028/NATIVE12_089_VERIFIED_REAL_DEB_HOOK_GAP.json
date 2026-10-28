@@ -1,0 +1,219 @@
+{
+  "status": "NATIVE12_ORIGINAL_ACTUAL_DEB_VERIFIED_NOT_YOUTUBE_DEVICE_FIX",
+  "original_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "original_dashboard_dylib_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "original_hook_installer_arm64": "0x2ac688..0x2acc04",
+  "original_hook_install_sites": 36,
+  "verified_class_selector_sites": [
+    {
+      "class": "UIViewController",
+      "selector": "supportedInterfaceOrientations",
+      "pc": "0x2ac6bc"
+    },
+    {
+      "class": "UIViewController",
+      "selector": "__supportedInterfaceOrientations",
+      "pc": "0x2ac6dc"
+    },
+    {
+      "class": "UIWindow",
+      "selector": "setFrame:",
+      "pc": "0x2ac708"
+    },
+    {
+      "class": "UIWindow",
+      "selector": "setBounds:",
+      "pc": "0x2ac728"
+    },
+    {
+      "class": "UIWindow",
+      "selector": "_setRotatableViewOrientation:duration:force:",
+      "pc": "0x2ac748"
+    },
+    {
+      "class": "UIWindow",
+      "selector": "sendEvent:",
+      "pc": "0x2ac768"
+    },
+    {
+      "class": "UIWindow",
+      "selector": "_rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:",
+      "pc": "0x2ac788"
+    },
+    {
+      "class": "UIApplication",
+      "selector": "applicationState",
+      "pc": "0x2ac7b4"
+    },
+    {
+      "class": "UIApplication",
+      "selector": "statusBarOrientation",
+      "pc": "0x2ac7d4"
+    },
+    {
+      "class": "UIApplication",
+      "selector": "isIdleTimerDisabled",
+      "pc": "0x2ac7f4"
+    },
+    {
+      "class": "UIApplication",
+      "selector": "setIdleTimerDisabled:",
+      "pc": "0x2ac814"
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "interfaceOrientation",
+      "pc": "0x2aca00"
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "_isSuspended",
+      "pc": "0x2aca20"
+    },
+    {
+      "class": "UIWindowScene",
+      "selector": "_isDeactivated",
+      "pc": "0x2aca40"
+    },
+    {
+      "class": "UIDevice",
+      "selector": "orientation",
+      "pc": "0x2aca6c"
+    },
+    {
+      "class": "UIDevice",
+      "selector": "setOrientation:animated:",
+      "pc": "0x2aca8c"
+    },
+    {
+      "class": "UIDevice",
+      "selector": "setOrientation:",
+      "pc": "0x2acaac"
+    },
+    {
+      "class": "UIScreen",
+      "selector": "_userInterfaceIdiom",
+      "pc": "0x2acad8"
+    },
+    {
+      "class": "UIScreen",
+      "selector": "bounds",
+      "pc": "0x2acaf8"
+    },
+    {
+      "class": "UIScreen",
+      "selector": "nativeBounds",
+      "pc": "0x2acb18"
+    },
+    {
+      "class": "UIScreen",
+      "selector": "_referenceBounds",
+      "pc": "0x2acb38"
+    },
+    {
+      "class": "UIScreenMode",
+      "selector": "size",
+      "pc": "0x2acb9c"
+    }
+  ],
+  "additional_install_sites_not_classified": [
+    {
+      "pc": "0x2ac83c",
+      "class": "UIApplication",
+      "selector": "activationState",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac868",
+      "class": "UIApplication",
+      "selector": "setPaused:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac888",
+      "class": "UIApplication",
+      "selector": "isPaused",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac8ac",
+      "class": "UIApplication",
+      "selector": "setPreferredFramesPerSecond:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac8cc",
+      "class": "UIApplication",
+      "selector": "setPreferredFrameRateRange:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac8f0",
+      "class": "UIApplication",
+      "selector": "setPreferredFrameRateRange:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac91c",
+      "class": "UIApplication",
+      "selector": "postNotificationName:object:userInfo:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac93c",
+      "class": "UIApplication",
+      "selector": "postNotification:",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac968",
+      "class": "UIApplication",
+      "selector": "isOccluded",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac988",
+      "class": "UIApplication",
+      "selector": "deactivationReasons",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac9b4",
+      "class": "UIApplication",
+      "selector": "isUnderLock",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2ac9d4",
+      "class": "UIApplication",
+      "selector": "canShowWhileLocked",
+      "installer": "MSHookMessageEx"
+    },
+    {
+      "pc": "0x2acbf4",
+      "class": "UIWindowScene",
+      "selector": "size",
+      "installer": "MSHookMessageEx"
+    }
+  ],
+  "app_state_delivered_then_reflows": {
+    "callback": "0x2abd98",
+    "direct_reflow_call": "0x2abe24",
+    "reflow": "0x2a9e38..0x2aa684"
+  },
+  "duoface_089_gap_verified": [
+    "v2 isSplit and 120-ms one-shot portrait geometry request do not reproduce original process-local UIKit/UIScreen/UIDevice orientation virtualization",
+    "original has distinct UIViewController.supportedInterfaceOrientations and UIWindowScene.interfaceOrientation hook installation sites",
+    "original has UIDevice.orientation and UIScreen.bounds/nativeBounds/_referenceBounds hook sites; .89 has none in YouTube receiver",
+    "original also intercepts applicationState, window geometry, statusBarOrientation and scene lifecycle; these have not been mapped to individual callback return values",
+    "original 36 installation callsites do not prove all hooks execute inside this YouTube version; do not implement blindly"
+  ],
+  "device_089_result": "FAIL per user; wrong YouTube video orientation in split",
+  "not_proven": [
+    "which original callback transforms the YouTube player's orientation",
+    "that copying all original hooks is safe or permitted",
+    "that original runtime values for every hook have been reverse engineered",
+    "that a future .90 is working on device"
+  ],
+  "next": "resolve actual original callback targets and bridge-enabled/split predicates per relevant selector, compare against observed video vs controller orientation; design independent gated equivalent and run on-device logs"
+}
