@@ -1,0 +1,7058 @@
+{
+  "status": "NATIVE12_ORIGINAL_APP_SIDE_ORIENTATION_HELPER_EXACT_FUNCTION_BOUNDARIES",
+  "original_deb_sha256": "2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad",
+  "dashboard_image_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "thin_arm64_sha256": "9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea",
+  "method_index_git_blob": "efa45df59bc3c16887cc979bf3aedc0c93c92111",
+  "original_dashboard_filter": {
+    "Bundles": [
+      "com.apple.CarPlayApp",
+      "com.apple.CarPlay",
+      "com.apple.dashboard",
+      "com.apple.springboard",
+      "com.apple.SpringBoard",
+      "com.google.ios.youtube",
+      "com.google.ios.youtubemusic",
+      "com.netflix.Netflix",
+      "org.videolan.vlc-ios",
+      "com.apple.mobilesafari",
+      "tv.twitch",
+      "com.zhiliaoapp.musically",
+      "com.google.Maps",
+      "com.waze.iphone",
+      "com.spotify.client",
+      "com.apple.Preferences",
+      "com.apple.mobilenotes",
+      "com.apple.mobilephone",
+      "com.apple.Music",
+      "com.google.chrome.ios",
+      "com.apple.BarcodeScanner",
+      "com.apple.PrintKit.Print-Center",
+      "com.duoface.duofaceui"
+    ]
+  },
+  "total_machine_instructions": 760136,
+  "actual_function_starts": 1526,
+  "functions": {
+    "app_scene_UIKit_orientation_reconciler": {
+      "source_pc": "0x2ac688",
+      "actual_function_start": "0x2ac688",
+      "actual_function_end": "0x2acc04",
+      "method": {
+        "function_start": "0x2ac688",
+        "function_end": "0x2acc04",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ac688",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ac68c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ac690",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ac694",
+          "asm": "adr\tx0, #394908 ; literal pool for: \"UIViewController\""
+        },
+        {
+          "pc": "0x2ac698",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac69c",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac6a0",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac6a4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6a8",
+          "asm": "ldr\tx1, #0xd2988 ; Objc selector ref: supportedInterfaceOrientations"
+        },
+        {
+          "pc": "0x2ac6ac",
+          "asm": "adr\tx2, #1368"
+        },
+        {
+          "pc": "0x2ac6b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6b4",
+          "asm": "adr\tx3, #874060"
+        },
+        {
+          "pc": "0x2ac6b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6bc",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac6c0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6c4",
+          "asm": "ldr\tx1, #0xd2974 ; Objc selector ref: __supportedInterfaceOrientations"
+        },
+        {
+          "pc": "0x2ac6c8",
+          "asm": "adr\tx2, #1432"
+        },
+        {
+          "pc": "0x2ac6cc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6d0",
+          "asm": "adr\tx3, #874040"
+        },
+        {
+          "pc": "0x2ac6d4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6d8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac6dc",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac6e0",
+          "asm": "adr\tx0, #379970 ; literal pool for: \"UIWindow\""
+        },
+        {
+          "pc": "0x2ac6e4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6e8",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac6ec",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac6f0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac6f4",
+          "asm": "ldr\tx1, #0xd131c ; Objc selector ref: setFrame:"
+        },
+        {
+          "pc": "0x2ac6f8",
+          "asm": "adr\tx2, #1476"
+        },
+        {
+          "pc": "0x2ac6fc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac700",
+          "asm": "adr\tx3, #874000"
+        },
+        {
+          "pc": "0x2ac704",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac708",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac70c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac710",
+          "asm": "ldr\tx1, #0xd17e8 ; Objc selector ref: setBounds:"
+        },
+        {
+          "pc": "0x2ac714",
+          "asm": "adr\tx2, #1732"
+        },
+        {
+          "pc": "0x2ac718",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac71c",
+          "asm": "adr\tx3, #873980"
+        },
+        {
+          "pc": "0x2ac720",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac724",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac728",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac72c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac730",
+          "asm": "ldr\tx1, #0xd2910 ; Objc selector ref: _setRotatableViewOrientation:duration:force:"
+        },
+        {
+          "pc": "0x2ac734",
+          "asm": "adr\tx2, #1984"
+        },
+        {
+          "pc": "0x2ac738",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac73c",
+          "asm": "adr\tx3, #873956"
+        },
+        {
+          "pc": "0x2ac740",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac744",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac748",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac74c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac750",
+          "asm": "ldr\tx1, #0xd1e60 ; Objc selector ref: sendEvent:"
+        },
+        {
+          "pc": "0x2ac754",
+          "asm": "adr\tx2, #2064"
+        },
+        {
+          "pc": "0x2ac758",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac75c",
+          "asm": "adr\tx3, #873932"
+        },
+        {
+          "pc": "0x2ac760",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac764",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac768",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac76c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac770",
+          "asm": "ldr\tx1, #0xd2880 ; Objc selector ref: _rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:"
+        },
+        {
+          "pc": "0x2ac774",
+          "asm": "adr\tx2, #2148"
+        },
+        {
+          "pc": "0x2ac778",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac77c",
+          "asm": "adr\tx3, #873908"
+        },
+        {
+          "pc": "0x2ac780",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac784",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac788",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac78c",
+          "asm": "adr\tx0, #381101 ; literal pool for: \"UIApplication\""
+        },
+        {
+          "pc": "0x2ac790",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac794",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac798",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac79c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7a0",
+          "asm": "ldr\tx1, #0xd28a8 ; Objc selector ref: applicationState"
+        },
+        {
+          "pc": "0x2ac7a4",
+          "asm": "adr\tx2, #2224"
+        },
+        {
+          "pc": "0x2ac7a8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7ac",
+          "asm": "adr\tx3, #873868"
+        },
+        {
+          "pc": "0x2ac7b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7b4",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac7b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7bc",
+          "asm": "ldr\tx1, #0xd2894 ; Objc selector ref: statusBarOrientation"
+        },
+        {
+          "pc": "0x2ac7c0",
+          "asm": "adr\tx2, #2268"
+        },
+        {
+          "pc": "0x2ac7c4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7c8",
+          "asm": "adr\tx3, #873848"
+        },
+        {
+          "pc": "0x2ac7cc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7d0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac7d4",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac7d8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7dc",
+          "asm": "ldr\tx1, #0xd287c ; Objc selector ref: isIdleTimerDisabled"
+        },
+        {
+          "pc": "0x2ac7e0",
+          "asm": "adr\tx2, #2316"
+        },
+        {
+          "pc": "0x2ac7e4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7e8",
+          "asm": "adr\tx3, #873824"
+        },
+        {
+          "pc": "0x2ac7ec",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7f0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac7f4",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac7f8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac7fc",
+          "asm": "ldr\tx1, #0xd2864 ; Objc selector ref: setIdleTimerDisabled:"
+        },
+        {
+          "pc": "0x2ac800",
+          "asm": "adr\tx2, #2356"
+        },
+        {
+          "pc": "0x2ac804",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac808",
+          "asm": "adr\tx3, #873800"
+        },
+        {
+          "pc": "0x2ac80c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac810",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac814",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac818",
+          "asm": "adr\tx0, #394537 ; literal pool for: \"UIScene\""
+        },
+        {
+          "pc": "0x2ac81c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac820",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac824",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac828",
+          "asm": "ldr\tx1, #0xd2840 ; Objc selector ref: activationState"
+        },
+        {
+          "pc": "0x2ac82c",
+          "asm": "adr\tx2, #2380"
+        },
+        {
+          "pc": "0x2ac830",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac834",
+          "asm": "adr\tx3, #873764"
+        },
+        {
+          "pc": "0x2ac838",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac83c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac840",
+          "asm": "adr\tx0, #394505 ; literal pool for: \"CADisplayLink\""
+        },
+        {
+          "pc": "0x2ac844",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac848",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac84c",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac850",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac854",
+          "asm": "ldr\tx1, #0xd281c ; Objc selector ref: setPaused:"
+        },
+        {
+          "pc": "0x2ac858",
+          "asm": "adr\tx2, #2408"
+        },
+        {
+          "pc": "0x2ac85c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac860",
+          "asm": "adr\tx3, #873728"
+        },
+        {
+          "pc": "0x2ac864",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac868",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac86c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac870",
+          "asm": "ldr\tx1, #0xd2808 ; Objc selector ref: isPaused"
+        },
+        {
+          "pc": "0x2ac874",
+          "asm": "adr\tx2, #2448"
+        },
+        {
+          "pc": "0x2ac878",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac87c",
+          "asm": "adr\tx3, #873708"
+        },
+        {
+          "pc": "0x2ac880",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac884",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac888",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac88c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac890",
+          "asm": "ldr\tx20, #0xd1548 ; Objc selector ref: setPreferredFramesPerSecond:"
+        },
+        {
+          "pc": "0x2ac894",
+          "asm": "adr\tx2, #2488"
+        },
+        {
+          "pc": "0x2ac898",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac89c",
+          "asm": "adr\tx3, #873684"
+        },
+        {
+          "pc": "0x2ac8a0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8a4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac8a8",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ac8ac",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac8b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8b4",
+          "asm": "ldr\tx1, #0xd27cc ; Objc selector ref: setPreferredFrameRateRange:"
+        },
+        {
+          "pc": "0x2ac8b8",
+          "asm": "adr\tx2, #2600"
+        },
+        {
+          "pc": "0x2ac8bc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8c0",
+          "asm": "adr\tx3, #873656"
+        },
+        {
+          "pc": "0x2ac8c4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8c8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac8cc",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac8d0",
+          "asm": "adr\tx0, #394375 ; literal pool for: \"MTKView\""
+        },
+        {
+          "pc": "0x2ac8d4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8d8",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac8dc",
+          "asm": "adr\tx2, #2768"
+        },
+        {
+          "pc": "0x2ac8e0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8e4",
+          "asm": "adr\tx3, #873628"
+        },
+        {
+          "pc": "0x2ac8e8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8ec",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ac8f0",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac8f4",
+          "asm": "adr\tx0, #394347 ; literal pool for: \"NSNotificationCenter\""
+        },
+        {
+          "pc": "0x2ac8f8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac8fc",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac900",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac904",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac908",
+          "asm": "ldr\tx1, #0xd1068 ; Objc selector ref: postNotificationName:object:userInfo:"
+        },
+        {
+          "pc": "0x2ac90c",
+          "asm": "adr\tx2, #2868"
+        },
+        {
+          "pc": "0x2ac910",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac914",
+          "asm": "adr\tx3, #873588"
+        },
+        {
+          "pc": "0x2ac918",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac91c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac920",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac924",
+          "asm": "ldr\tx1, #0xd2764 ; Objc selector ref: postNotification:"
+        },
+        {
+          "pc": "0x2ac928",
+          "asm": "adr\tx2, #3180"
+        },
+        {
+          "pc": "0x2ac92c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac930",
+          "asm": "adr\tx3, #873568"
+        },
+        {
+          "pc": "0x2ac934",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac938",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac93c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac940",
+          "asm": "adr\tx0, #394292 ; literal pool for: \"FBSSceneSettings\""
+        },
+        {
+          "pc": "0x2ac944",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac948",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac94c",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac950",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac954",
+          "asm": "ldr\tx1, #0xd273c ; Objc selector ref: isOccluded"
+        },
+        {
+          "pc": "0x2ac958",
+          "asm": "adr\tx2, #3448"
+        },
+        {
+          "pc": "0x2ac95c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac960",
+          "asm": "adr\tx3, #873528"
+        },
+        {
+          "pc": "0x2ac964",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac968",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac96c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac970",
+          "asm": "ldr\tx1, #0xd2728 ; Objc selector ref: deactivationReasons"
+        },
+        {
+          "pc": "0x2ac974",
+          "asm": "adr\tx2, #3492"
+        },
+        {
+          "pc": "0x2ac978",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac97c",
+          "asm": "adr\tx3, #873508"
+        },
+        {
+          "pc": "0x2ac980",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac984",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac988",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac98c",
+          "asm": "adr\tx0, #394233 ; literal pool for: \"UIApplicationSceneSettings\""
+        },
+        {
+          "pc": "0x2ac990",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac994",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac998",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac99c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9a0",
+          "asm": "ldr\tx1, #0xd2700 ; Objc selector ref: isUnderLock"
+        },
+        {
+          "pc": "0x2ac9a4",
+          "asm": "adr\tx2, #3516"
+        },
+        {
+          "pc": "0x2ac9a8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9ac",
+          "asm": "adr\tx3, #873468"
+        },
+        {
+          "pc": "0x2ac9b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9b4",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac9b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9bc",
+          "asm": "ldr\tx1, #0xd26ec ; Objc selector ref: canShowWhileLocked"
+        },
+        {
+          "pc": "0x2ac9c0",
+          "asm": "adr\tx2, #3560"
+        },
+        {
+          "pc": "0x2ac9c4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9c8",
+          "asm": "adr\tx3, #873448"
+        },
+        {
+          "pc": "0x2ac9cc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9d0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac9d4",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2ac9d8",
+          "asm": "adr\tx0, #394184 ; literal pool for: \"UIWindowScene\""
+        },
+        {
+          "pc": "0x2ac9dc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9e0",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2ac9e4",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac9e8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9ec",
+          "asm": "ldr\tx1, #0xd26c4 ; Objc selector ref: interfaceOrientation"
+        },
+        {
+          "pc": "0x2ac9f0",
+          "asm": "adr\tx2, #3584"
+        },
+        {
+          "pc": "0x2ac9f4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac9f8",
+          "asm": "adr\tx3, #873408"
+        },
+        {
+          "pc": "0x2ac9fc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca00",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2aca04",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca08",
+          "asm": "ldr\tx1, #0xd26b0 ; Objc selector ref: _isSuspended"
+        },
+        {
+          "pc": "0x2aca0c",
+          "asm": "adr\tx2, #3636"
+        },
+        {
+          "pc": "0x2aca10",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca14",
+          "asm": "adr\tx3, #873388"
+        },
+        {
+          "pc": "0x2aca18",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca1c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aca20",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2aca24",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca28",
+          "asm": "ldr\tx1, #0xd2698 ; Objc selector ref: _isDeactivated"
+        },
+        {
+          "pc": "0x2aca2c",
+          "asm": "adr\tx2, #3676"
+        },
+        {
+          "pc": "0x2aca30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca34",
+          "asm": "adr\tx3, #873364"
+        },
+        {
+          "pc": "0x2aca38",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca3c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aca40",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2aca44",
+          "asm": "adr\tx0, #394090 ; literal pool for: \"UIDevice\""
+        },
+        {
+          "pc": "0x2aca48",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca4c",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2aca50",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2aca54",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca58",
+          "asm": "ldr\tx1, #0xd2670 ; Objc selector ref: orientation"
+        },
+        {
+          "pc": "0x2aca5c",
+          "asm": "adr\tx2, #3700"
+        },
+        {
+          "pc": "0x2aca60",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca64",
+          "asm": "adr\tx3, #873324"
+        },
+        {
+          "pc": "0x2aca68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca6c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2aca70",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca74",
+          "asm": "ldr\tx1, #0xd265c ; Objc selector ref: setOrientation:animated:"
+        },
+        {
+          "pc": "0x2aca78",
+          "asm": "adr\tx2, #3752"
+        },
+        {
+          "pc": "0x2aca7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca80",
+          "asm": "adr\tx3, #873304"
+        },
+        {
+          "pc": "0x2aca84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca88",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aca8c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2aca90",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aca94",
+          "asm": "ldr\tx1, #0xd2644 ; Objc selector ref: setOrientation:"
+        },
+        {
+          "pc": "0x2aca98",
+          "asm": "adr\tx2, #3816"
+        },
+        {
+          "pc": "0x2aca9c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acaa0",
+          "asm": "adr\tx3, #873280"
+        },
+        {
+          "pc": "0x2acaa4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acaa8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acaac",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acab0",
+          "asm": "adr\tx0, #393991 ; literal pool for: \"UIScreen\""
+        },
+        {
+          "pc": "0x2acab4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acab8",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2acabc",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2acac0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acac4",
+          "asm": "ldr\tx1, #0xd261c ; Objc selector ref: _userInterfaceIdiom"
+        },
+        {
+          "pc": "0x2acac8",
+          "asm": "adr\tx2, #3856"
+        },
+        {
+          "pc": "0x2acacc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acad0",
+          "asm": "adr\tx3, #873240"
+        },
+        {
+          "pc": "0x2acad4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acad8",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acadc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acae0",
+          "asm": "ldr\tx1, #0xd0ed0 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x2acae4",
+          "asm": "adr\tx2, #3900"
+        },
+        {
+          "pc": "0x2acae8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acaec",
+          "asm": "adr\tx3, #873220"
+        },
+        {
+          "pc": "0x2acaf0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acaf4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acaf8",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acafc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb00",
+          "asm": "ldr\tx1, #0xd2498 ; Objc selector ref: nativeBounds"
+        },
+        {
+          "pc": "0x2acb04",
+          "asm": "adr\tx2, #4072"
+        },
+        {
+          "pc": "0x2acb08",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb0c",
+          "asm": "adr\tx3, #873196"
+        },
+        {
+          "pc": "0x2acb10",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb14",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acb18",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acb1c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb20",
+          "asm": "ldr\tx1, #0xd25c8 ; Objc selector ref: _referenceBounds"
+        },
+        {
+          "pc": "0x2acb24",
+          "asm": "adr\tx2, #4312"
+        },
+        {
+          "pc": "0x2acb28",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb2c",
+          "asm": "adr\tx3, #873172"
+        },
+        {
+          "pc": "0x2acb30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb34",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acb38",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acb3c",
+          "asm": "adr\tx0, #393860 ; literal pool for: \"UIScreenMode\""
+        },
+        {
+          "pc": "0x2acb40",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb44",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2acb48",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb4c",
+          "asm": "ldr\tx1, #0xd25a4 ; Objc selector ref: size"
+        },
+        {
+          "pc": "0x2acb50",
+          "asm": "adr\tx2, #4472"
+        },
+        {
+          "pc": "0x2acb54",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb58",
+          "asm": "adr\tx3, #873136"
+        },
+        {
+          "pc": "0x2acb5c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb60",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acb64",
+          "asm": "adr\tx0, #393833 ; literal pool for: \"UIWindowSceneGeometry\""
+        },
+        {
+          "pc": "0x2acb68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb6c",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2acb70",
+          "asm": "cbz\tx0, 0x2acba0"
+        },
+        {
+          "pc": "0x2acb74",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2acb78",
+          "asm": "adr\tx0, #393835 ; literal pool for: \"interfaceOrientation\""
+        },
+        {
+          "pc": "0x2acb7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb80",
+          "asm": "bl\t0x2ecdfc ; symbol stub for: _sel_registerName"
+        },
+        {
+          "pc": "0x2acb84",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x2acb88",
+          "asm": "adr\tx2, #4496"
+        },
+        {
+          "pc": "0x2acb8c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb90",
+          "asm": "adr\tx3, #873088"
+        },
+        {
+          "pc": "0x2acb94",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acb98",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acb9c",
+          "asm": "bl\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acba0",
+          "asm": "adr\tx0, #393728 ; literal pool for: \"UIWindowScene\""
+        },
+        {
+          "pc": "0x2acba4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acba8",
+          "asm": "bl\t0x2eccd0 ; symbol stub for: _objc_getClass"
+        },
+        {
+          "pc": "0x2acbac",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2acbb0",
+          "asm": "adr\tx0, #393800 ; literal pool for: \"requestGeometryUpdateWithPreferences:errorHandler:\""
+        },
+        {
+          "pc": "0x2acbb4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acbb8",
+          "asm": "bl\t0x2ecdfc ; symbol stub for: _sel_registerName"
+        },
+        {
+          "pc": "0x2acbbc",
+          "asm": "cbz\tx19, 0x2acbf8"
+        },
+        {
+          "pc": "0x2acbc0",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2acbc4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acbc8",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2acbcc",
+          "asm": "bl\t0x2ecaf0 ; symbol stub for: _class_getInstanceMethod"
+        },
+        {
+          "pc": "0x2acbd0",
+          "asm": "cbz\tx0, 0x2acbf8"
+        },
+        {
+          "pc": "0x2acbd4",
+          "asm": "adr\tx2, #4528"
+        },
+        {
+          "pc": "0x2acbd8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acbdc",
+          "asm": "adr\tx3, #873020"
+        },
+        {
+          "pc": "0x2acbe0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acbe4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2acbe8",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2acbec",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acbf0",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acbf4",
+          "asm": "b\t0x2ec9a0 ; symbol stub for: _MSHookMessageEx"
+        },
+        {
+          "pc": "0x2acbf8",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acbfc",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc00",
+          "asm": "ret"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ac694",
+          "asm": "adr\tx0, #394908 ; literal pool for: \"UIViewController\""
+        },
+        {
+          "pc": "0x2ac6a8",
+          "asm": "ldr\tx1, #0xd2988 ; Objc selector ref: supportedInterfaceOrientations"
+        },
+        {
+          "pc": "0x2ac6c4",
+          "asm": "ldr\tx1, #0xd2974 ; Objc selector ref: __supportedInterfaceOrientations"
+        },
+        {
+          "pc": "0x2ac6e0",
+          "asm": "adr\tx0, #379970 ; literal pool for: \"UIWindow\""
+        },
+        {
+          "pc": "0x2ac6f4",
+          "asm": "ldr\tx1, #0xd131c ; Objc selector ref: setFrame:"
+        },
+        {
+          "pc": "0x2ac710",
+          "asm": "ldr\tx1, #0xd17e8 ; Objc selector ref: setBounds:"
+        },
+        {
+          "pc": "0x2ac730",
+          "asm": "ldr\tx1, #0xd2910 ; Objc selector ref: _setRotatableViewOrientation:duration:force:"
+        },
+        {
+          "pc": "0x2ac750",
+          "asm": "ldr\tx1, #0xd1e60 ; Objc selector ref: sendEvent:"
+        },
+        {
+          "pc": "0x2ac770",
+          "asm": "ldr\tx1, #0xd2880 ; Objc selector ref: _rotateWindowToOrientation:updateStatusBar:duration:skipCallbacks:"
+        },
+        {
+          "pc": "0x2ac78c",
+          "asm": "adr\tx0, #381101 ; literal pool for: \"UIApplication\""
+        },
+        {
+          "pc": "0x2ac7a0",
+          "asm": "ldr\tx1, #0xd28a8 ; Objc selector ref: applicationState"
+        },
+        {
+          "pc": "0x2ac7bc",
+          "asm": "ldr\tx1, #0xd2894 ; Objc selector ref: statusBarOrientation"
+        },
+        {
+          "pc": "0x2ac7dc",
+          "asm": "ldr\tx1, #0xd287c ; Objc selector ref: isIdleTimerDisabled"
+        },
+        {
+          "pc": "0x2ac7fc",
+          "asm": "ldr\tx1, #0xd2864 ; Objc selector ref: setIdleTimerDisabled:"
+        },
+        {
+          "pc": "0x2ac818",
+          "asm": "adr\tx0, #394537 ; literal pool for: \"UIScene\""
+        },
+        {
+          "pc": "0x2ac828",
+          "asm": "ldr\tx1, #0xd2840 ; Objc selector ref: activationState"
+        },
+        {
+          "pc": "0x2ac840",
+          "asm": "adr\tx0, #394505 ; literal pool for: \"CADisplayLink\""
+        },
+        {
+          "pc": "0x2ac854",
+          "asm": "ldr\tx1, #0xd281c ; Objc selector ref: setPaused:"
+        },
+        {
+          "pc": "0x2ac870",
+          "asm": "ldr\tx1, #0xd2808 ; Objc selector ref: isPaused"
+        },
+        {
+          "pc": "0x2ac890",
+          "asm": "ldr\tx20, #0xd1548 ; Objc selector ref: setPreferredFramesPerSecond:"
+        },
+        {
+          "pc": "0x2ac8b4",
+          "asm": "ldr\tx1, #0xd27cc ; Objc selector ref: setPreferredFrameRateRange:"
+        },
+        {
+          "pc": "0x2ac8d0",
+          "asm": "adr\tx0, #394375 ; literal pool for: \"MTKView\""
+        },
+        {
+          "pc": "0x2ac8f4",
+          "asm": "adr\tx0, #394347 ; literal pool for: \"NSNotificationCenter\""
+        },
+        {
+          "pc": "0x2ac908",
+          "asm": "ldr\tx1, #0xd1068 ; Objc selector ref: postNotificationName:object:userInfo:"
+        },
+        {
+          "pc": "0x2ac924",
+          "asm": "ldr\tx1, #0xd2764 ; Objc selector ref: postNotification:"
+        },
+        {
+          "pc": "0x2ac940",
+          "asm": "adr\tx0, #394292 ; literal pool for: \"FBSSceneSettings\""
+        },
+        {
+          "pc": "0x2ac954",
+          "asm": "ldr\tx1, #0xd273c ; Objc selector ref: isOccluded"
+        },
+        {
+          "pc": "0x2ac970",
+          "asm": "ldr\tx1, #0xd2728 ; Objc selector ref: deactivationReasons"
+        },
+        {
+          "pc": "0x2ac98c",
+          "asm": "adr\tx0, #394233 ; literal pool for: \"UIApplicationSceneSettings\""
+        },
+        {
+          "pc": "0x2ac9a0",
+          "asm": "ldr\tx1, #0xd2700 ; Objc selector ref: isUnderLock"
+        },
+        {
+          "pc": "0x2ac9bc",
+          "asm": "ldr\tx1, #0xd26ec ; Objc selector ref: canShowWhileLocked"
+        },
+        {
+          "pc": "0x2ac9d8",
+          "asm": "adr\tx0, #394184 ; literal pool for: \"UIWindowScene\""
+        },
+        {
+          "pc": "0x2ac9ec",
+          "asm": "ldr\tx1, #0xd26c4 ; Objc selector ref: interfaceOrientation"
+        },
+        {
+          "pc": "0x2aca08",
+          "asm": "ldr\tx1, #0xd26b0 ; Objc selector ref: _isSuspended"
+        },
+        {
+          "pc": "0x2aca28",
+          "asm": "ldr\tx1, #0xd2698 ; Objc selector ref: _isDeactivated"
+        },
+        {
+          "pc": "0x2aca44",
+          "asm": "adr\tx0, #394090 ; literal pool for: \"UIDevice\""
+        },
+        {
+          "pc": "0x2aca58",
+          "asm": "ldr\tx1, #0xd2670 ; Objc selector ref: orientation"
+        },
+        {
+          "pc": "0x2aca74",
+          "asm": "ldr\tx1, #0xd265c ; Objc selector ref: setOrientation:animated:"
+        },
+        {
+          "pc": "0x2aca94",
+          "asm": "ldr\tx1, #0xd2644 ; Objc selector ref: setOrientation:"
+        },
+        {
+          "pc": "0x2acab0",
+          "asm": "adr\tx0, #393991 ; literal pool for: \"UIScreen\""
+        },
+        {
+          "pc": "0x2acac4",
+          "asm": "ldr\tx1, #0xd261c ; Objc selector ref: _userInterfaceIdiom"
+        },
+        {
+          "pc": "0x2acae0",
+          "asm": "ldr\tx1, #0xd0ed0 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x2acb00",
+          "asm": "ldr\tx1, #0xd2498 ; Objc selector ref: nativeBounds"
+        },
+        {
+          "pc": "0x2acb20",
+          "asm": "ldr\tx1, #0xd25c8 ; Objc selector ref: _referenceBounds"
+        },
+        {
+          "pc": "0x2acb3c",
+          "asm": "adr\tx0, #393860 ; literal pool for: \"UIScreenMode\""
+        },
+        {
+          "pc": "0x2acb4c",
+          "asm": "ldr\tx1, #0xd25a4 ; Objc selector ref: size"
+        },
+        {
+          "pc": "0x2acb64",
+          "asm": "adr\tx0, #393833 ; literal pool for: \"UIWindowSceneGeometry\""
+        },
+        {
+          "pc": "0x2acb78",
+          "asm": "adr\tx0, #393835 ; literal pool for: \"interfaceOrientation\""
+        },
+        {
+          "pc": "0x2acba0",
+          "asm": "adr\tx0, #393728 ; literal pool for: \"UIWindowScene\""
+        },
+        {
+          "pc": "0x2acbb0",
+          "asm": "adr\tx0, #393800 ; literal pool for: \"requestGeometryUpdateWithPreferences:errorHandler:\""
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ac69c",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac6bc",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac6dc",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac6e8",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac708",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac728",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac748",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac768",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac788",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac794",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac7b4",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac7d4",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac7f4",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac814",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac820",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac83c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac848",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac868",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac888",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac8ac",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac8cc",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac8d8",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac8f0",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac8fc",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac91c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac93c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac948",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac968",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac988",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac994",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac9b4",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac9d4",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac9e0",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca00",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca20",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca40",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca4c",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca6c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aca8c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acaac",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acab8",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acad8",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acaf8",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb18",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb38",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb44",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb60",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb6c",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb80",
+          "target": "0x2ecdfc",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acb9c",
+          "target": "0x2ec9a0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acba8",
+          "target": "0x2eccd0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acbb8",
+          "target": "0x2ecdfc",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acbcc",
+          "target": "0x2ecaf0",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_scene_orientation_predecessor": {
+      "source_pc": "0x2ac50c",
+      "actual_function_start": "0x2ac50c",
+      "actual_function_end": "0x2ac688",
+      "method": {
+        "function_start": "0x2ac50c",
+        "function_end": "0x2ac688",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ac50c",
+          "asm": "sub\tsp, sp, #0x140"
+        },
+        {
+          "pc": "0x2ac510",
+          "asm": "stp\tx28, x27, [sp, #0x110]"
+        },
+        {
+          "pc": "0x2ac514",
+          "asm": "stp\tx20, x19, [sp, #0x120]"
+        },
+        {
+          "pc": "0x2ac518",
+          "asm": "stp\tx29, x30, [sp, #0x130]"
+        },
+        {
+          "pc": "0x2ac51c",
+          "asm": "add\tx29, sp, #0x130"
+        },
+        {
+          "pc": "0x2ac520",
+          "asm": "mov\tx9, #0x0"
+        },
+        {
+          "pc": "0x2ac524",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac528",
+          "asm": "ldr\tx8, #0x97c18 ; literal pool symbol address: ___stack_chk_guard"
+        },
+        {
+          "pc": "0x2ac52c",
+          "asm": "ldr\tx8, [x8]"
+        },
+        {
+          "pc": "0x2ac530",
+          "asm": "stur\tx8, [x29, #-0x28]"
+        },
+        {
+          "pc": "0x2ac534",
+          "asm": "adr\tx8, #436571"
+        },
+        {
+          "pc": "0x2ac538",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac53c",
+          "asm": "mov\tw10, #0x6c"
+        },
+        {
+          "pc": "0x2ac540",
+          "asm": "add\tw10, w10, #0x17"
+        },
+        {
+          "pc": "0x2ac544",
+          "asm": "mov\tx11, #-0x3333333333333334"
+        },
+        {
+          "pc": "0x2ac548",
+          "asm": "movk\tx11, #0xcccd"
+        },
+        {
+          "pc": "0x2ac54c",
+          "asm": "mov\tw12, #0x2b"
+        },
+        {
+          "pc": "0x2ac550",
+          "asm": "mov\tw13, #-0x5b"
+        },
+        {
+          "pc": "0x2ac554",
+          "asm": "mov\tw14, #0xaa"
+        },
+        {
+          "pc": "0x2ac558",
+          "asm": "mov\tx15, sp"
+        },
+        {
+          "pc": "0x2ac55c",
+          "asm": "umulh\tx16, x9, x11"
+        },
+        {
+          "pc": "0x2ac560",
+          "asm": "lsr\tx16, x16, #2"
+        },
+        {
+          "pc": "0x2ac564",
+          "asm": "add\tw16, w16, w16, lsl #2"
+        },
+        {
+          "pc": "0x2ac568",
+          "asm": "madd\tw17, w9, w12, w10"
+        },
+        {
+          "pc": "0x2ac56c",
+          "asm": "ldrb\tw0, [x8, x9]"
+        },
+        {
+          "pc": "0x2ac570",
+          "asm": "eor\tw1, w9, w13"
+        },
+        {
+          "pc": "0x2ac574",
+          "asm": "orr\tw2, w1, w0"
+        },
+        {
+          "pc": "0x2ac578",
+          "asm": "lsl\tw2, w2, #1"
+        },
+        {
+          "pc": "0x2ac57c",
+          "asm": "add\tw0, w1, w0"
+        },
+        {
+          "pc": "0x2ac580",
+          "asm": "sub\tw0, w2, w0"
+        },
+        {
+          "pc": "0x2ac584",
+          "asm": "sub\tw16, w9, w16"
+        },
+        {
+          "pc": "0x2ac588",
+          "asm": "add\tw1, w16, #0x1"
+        },
+        {
+          "pc": "0x2ac58c",
+          "asm": "and\tw0, w0, #0xff"
+        },
+        {
+          "pc": "0x2ac590",
+          "asm": "lsr\tw1, w0, w1"
+        },
+        {
+          "pc": "0x2ac594",
+          "asm": "eor\tw16, w16, #0x7"
+        },
+        {
+          "pc": "0x2ac598",
+          "asm": "lsl\tw16, w0, w16"
+        },
+        {
+          "pc": "0x2ac59c",
+          "asm": "orr\tw16, w1, w16"
+        },
+        {
+          "pc": "0x2ac5a0",
+          "asm": "orr\tw0, w17, w16"
+        },
+        {
+          "pc": "0x2ac5a4",
+          "asm": "lsl\tw0, w0, #1"
+        },
+        {
+          "pc": "0x2ac5a8",
+          "asm": "add\tw16, w17, w16"
+        },
+        {
+          "pc": "0x2ac5ac",
+          "asm": "sub\tw16, w0, w16"
+        },
+        {
+          "pc": "0x2ac5b0",
+          "asm": "sub\tw16, w16, #0x5d"
+        },
+        {
+          "pc": "0x2ac5b4",
+          "asm": "add\tx17, x9, #0x1"
+        },
+        {
+          "pc": "0x2ac5b8",
+          "asm": "mul\tw0, w17, w9"
+        },
+        {
+          "pc": "0x2ac5bc",
+          "asm": "eor\tw1, w16, w14"
+        },
+        {
+          "pc": "0x2ac5c0",
+          "asm": "tst\tw0, #0x1"
+        },
+        {
+          "pc": "0x2ac5c4",
+          "asm": "csel\tw16, w16, w1, eq"
+        },
+        {
+          "pc": "0x2ac5c8",
+          "asm": "strb\tw16, [x15, x9]"
+        },
+        {
+          "pc": "0x2ac5cc",
+          "asm": "mov\tx9, x17"
+        },
+        {
+          "pc": "0x2ac5d0",
+          "asm": "cmp\tx17, #0x19"
+        },
+        {
+          "pc": "0x2ac5d4",
+          "asm": "b.ne\t0x2ac55c"
+        },
+        {
+          "pc": "0x2ac5d8",
+          "asm": "strb\twzr, [sp, #0x19]"
+        },
+        {
+          "pc": "0x2ac5dc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac5e0",
+          "asm": "ldr\tx0, #0xd3128 ; Objc class ref: _OBJC_CLASS_$_NSString"
+        },
+        {
+          "pc": "0x2ac5e4",
+          "asm": "bl\t0x2ecc34 ; symbol stub for: _objc_alloc"
+        },
+        {
+          "pc": "0x2ac5e8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac5ec",
+          "asm": "ldr\tx1, #0xd0f14 ; Objc selector ref: initWithBytes:length:encoding:"
+        },
+        {
+          "pc": "0x2ac5f0",
+          "asm": "mov\tx2, sp"
+        },
+        {
+          "pc": "0x2ac5f4",
+          "asm": "mov\tw3, #0x19"
+        },
+        {
+          "pc": "0x2ac5f8",
+          "asm": "mov\tw4, #0x4"
+        },
+        {
+          "pc": "0x2ac5fc",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSString initWithBytes:length:encoding:]"
+        },
+        {
+          "pc": "0x2ac600",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ac604",
+          "asm": "movi.16b\tv0, #0x0"
+        },
+        {
+          "pc": "0x2ac608",
+          "asm": "stp\tq0, q0, [sp]"
+        },
+        {
+          "pc": "0x2ac60c",
+          "asm": "stp\tq0, q0, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ac610",
+          "asm": "stp\tq0, q0, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ac614",
+          "asm": "stp\tq0, q0, [sp, #0x60]"
+        },
+        {
+          "pc": "0x2ac618",
+          "asm": "stp\tq0, q0, [sp, #0x80]"
+        },
+        {
+          "pc": "0x2ac61c",
+          "asm": "stp\tq0, q0, [sp, #0xa0]"
+        },
+        {
+          "pc": "0x2ac620",
+          "asm": "stp\tq0, q0, [sp, #0xc0]"
+        },
+        {
+          "pc": "0x2ac624",
+          "asm": "adr\tx8, #629860 ; Objc cfstring ref: @\"\""
+        },
+        {
+          "pc": "0x2ac628",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac62c",
+          "asm": "cmp\tx0, #0x0"
+        },
+        {
+          "pc": "0x2ac630",
+          "asm": "csel\tx0, x8, x0, eq"
+        },
+        {
+          "pc": "0x2ac634",
+          "asm": "stp\tq0, q0, [sp, #0xe0]"
+        },
+        {
+          "pc": "0x2ac638",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2ac63c",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ac640",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ac644",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ac648",
+          "asm": "adrp\tx8, 213 ; 0x381000"
+        },
+        {
+          "pc": "0x2ac64c",
+          "asm": "ldr\tx0, [x8, #0xcf0]"
+        },
+        {
+          "pc": "0x2ac650",
+          "asm": "str\tx20, [x8, #0xcf0]"
+        },
+        {
+          "pc": "0x2ac654",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ac658",
+          "asm": "ldur\tx8, [x29, #-0x28]"
+        },
+        {
+          "pc": "0x2ac65c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ac660",
+          "asm": "ldr\tx9, #0x97ae0 ; literal pool symbol address: ___stack_chk_guard"
+        },
+        {
+          "pc": "0x2ac664",
+          "asm": "ldr\tx9, [x9]"
+        },
+        {
+          "pc": "0x2ac668",
+          "asm": "cmp\tx9, x8"
+        },
+        {
+          "pc": "0x2ac66c",
+          "asm": "b.ne\t0x2ac684"
+        },
+        {
+          "pc": "0x2ac670",
+          "asm": "ldp\tx29, x30, [sp, #0x130]"
+        },
+        {
+          "pc": "0x2ac674",
+          "asm": "ldp\tx20, x19, [sp, #0x120]"
+        },
+        {
+          "pc": "0x2ac678",
+          "asm": "ldp\tx28, x27, [sp, #0x110]"
+        },
+        {
+          "pc": "0x2ac67c",
+          "asm": "add\tsp, sp, #0x140"
+        },
+        {
+          "pc": "0x2ac680",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ac684",
+          "asm": "bl\t0x2eca9c ; symbol stub for: ___stack_chk_fail"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ac5ec",
+          "asm": "ldr\tx1, #0xd0f14 ; Objc selector ref: initWithBytes:length:encoding:"
+        },
+        {
+          "pc": "0x2ac624",
+          "asm": "adr\tx8, #629860 ; Objc cfstring ref: @\"\""
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ac5e4",
+          "target": "0x2ecc34",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac5fc",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac638",
+          "target": "0x2ecd3c",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac644",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac654",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ac684",
+          "target": "0x2eca9c",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_scene_orientation_tail": {
+      "source_pc": "0x2acc04",
+      "actual_function_start": "0x2acc04",
+      "actual_function_end": "0x2acc60",
+      "method": {
+        "function_start": "0x2acc04",
+        "function_end": "0x2acc60",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2acc04",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2acc08",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc0c",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2acc10",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acc14",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2acc18",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2acc1c",
+          "asm": "cbz\tw0, 0x2acc44"
+        },
+        {
+          "pc": "0x2acc20",
+          "asm": "bl\t0x2a8080"
+        },
+        {
+          "pc": "0x2acc24",
+          "asm": "cmp\tx0, #0x1"
+        },
+        {
+          "pc": "0x2acc28",
+          "asm": "csinc\tx8, x0, xzr, gt"
+        },
+        {
+          "pc": "0x2acc2c",
+          "asm": "mov\tw9, #0x1"
+        },
+        {
+          "pc": "0x2acc30",
+          "asm": "lsl\tw8, w9, w8"
+        },
+        {
+          "pc": "0x2acc34",
+          "asm": "sxtw\tx0, w8"
+        },
+        {
+          "pc": "0x2acc38",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc3c",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc40",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2acc44",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acc48",
+          "asm": "ldr\tx2, #0xd50b8"
+        },
+        {
+          "pc": "0x2acc4c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acc50",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acc54",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acc58",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2acc5c",
+          "asm": "br\tx2"
+        }
+      ],
+      "annotated_selector_and_string_refs": [],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2acc18",
+          "target": "0x2a8068",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acc20",
+          "target": "0x2a8080",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_scene_orientation_callback": {
+      "source_pc": "0x2accbc",
+      "actual_function_start": "0x2accbc",
+      "actual_function_end": "0x2acdd8",
+      "method": {
+        "function_start": "0x2accbc",
+        "function_end": "0x2acdd8",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2accbc",
+          "asm": "stp\td13, d12, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2accc0",
+          "asm": "stp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2accc4",
+          "asm": "stp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2accc8",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acccc",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2accd0",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2accd4",
+          "asm": "mov.16b\tv8, v3"
+        },
+        {
+          "pc": "0x2accd8",
+          "asm": "mov.16b\tv9, v2"
+        },
+        {
+          "pc": "0x2accdc",
+          "asm": "mov.16b\tv10, v1"
+        },
+        {
+          "pc": "0x2acce0",
+          "asm": "mov.16b\tv11, v0"
+        },
+        {
+          "pc": "0x2acce4",
+          "asm": "mov\tx19, x1"
+        },
+        {
+          "pc": "0x2acce8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2accec",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2accf0",
+          "asm": "cbz\tw0, 0x2acda0"
+        },
+        {
+          "pc": "0x2accf4",
+          "asm": "bl\t0x2a8098"
+        },
+        {
+          "pc": "0x2accf8",
+          "asm": "mov.16b\tv12, v1"
+        },
+        {
+          "pc": "0x2accfc",
+          "asm": "fmov\td1, #1.00000000"
+        },
+        {
+          "pc": "0x2acd00",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd04",
+          "asm": "fccmp\td12, d1, #0x4, gt"
+        },
+        {
+          "pc": "0x2acd08",
+          "asm": "b.le\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd0c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acd10",
+          "asm": "bl\t0x2a8390"
+        },
+        {
+          "pc": "0x2acd14",
+          "asm": "cbz\tw0, 0x2acd30"
+        },
+        {
+          "pc": "0x2acd18",
+          "asm": "bl\t0x2a9024"
+        },
+        {
+          "pc": "0x2acd1c",
+          "asm": "fcmp\td0, #0.0"
+        },
+        {
+          "pc": "0x2acd20",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x2acd24",
+          "asm": "fcsel\td11, d1, d11, gt"
+        },
+        {
+          "pc": "0x2acd28",
+          "asm": "fcsel\td9, d0, d9, gt"
+        },
+        {
+          "pc": "0x2acd2c",
+          "asm": "b\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acd34",
+          "asm": "ldr\tx1, #0xd1834 ; Objc selector ref: windowLevel"
+        },
+        {
+          "pc": "0x2acd38",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acd3c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 windowLevel]"
+        },
+        {
+          "pc": "0x2acd40",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acd44",
+          "asm": "ldr\tx8, #0x973cc ; literal pool symbol address: _UIWindowLevelNormal"
+        },
+        {
+          "pc": "0x2acd48",
+          "asm": "ldr\td1, [x8]"
+        },
+        {
+          "pc": "0x2acd4c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd50",
+          "asm": "b.hi\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd54",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd58",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2acd5c",
+          "asm": "fcmp\td9, d0"
+        },
+        {
+          "pc": "0x2acd60",
+          "asm": "b.ls\t0x2acd74"
+        },
+        {
+          "pc": "0x2acd64",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd68",
+          "asm": "fmov\td0, x8"
+        },
+        {
+          "pc": "0x2acd6c",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2acd70",
+          "asm": "b.hi\t0x2acda0"
+        },
+        {
+          "pc": "0x2acd74",
+          "asm": "bl\t0x2a84a0"
+        },
+        {
+          "pc": "0x2acd78",
+          "asm": "mov\tx8, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2acd7c",
+          "asm": "fmov\td1, x8"
+        },
+        {
+          "pc": "0x2acd80",
+          "asm": "fcmp\td8, #0.0"
+        },
+        {
+          "pc": "0x2acd84",
+          "asm": "fcsel\td2, d8, d12, gt"
+        },
+        {
+          "pc": "0x2acd88",
+          "asm": "fmov\td3, xzr"
+        },
+        {
+          "pc": "0x2acd8c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x2acd90",
+          "asm": "fcsel\td11, d11, d3, le"
+        },
+        {
+          "pc": "0x2acd94",
+          "asm": "fcsel\td10, d10, d3, le"
+        },
+        {
+          "pc": "0x2acd98",
+          "asm": "fcsel\td9, d9, d0, le"
+        },
+        {
+          "pc": "0x2acd9c",
+          "asm": "fcsel\td8, d8, d2, le"
+        },
+        {
+          "pc": "0x2acda0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2acda4",
+          "asm": "ldr\tx2, #0xd4f6c"
+        },
+        {
+          "pc": "0x2acda8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2acdac",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2acdb0",
+          "asm": "mov.16b\tv0, v11"
+        },
+        {
+          "pc": "0x2acdb4",
+          "asm": "mov.16b\tv1, v10"
+        },
+        {
+          "pc": "0x2acdb8",
+          "asm": "mov.16b\tv2, v9"
+        },
+        {
+          "pc": "0x2acdbc",
+          "asm": "mov.16b\tv3, v8"
+        },
+        {
+          "pc": "0x2acdc0",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2acdc4",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2acdc8",
+          "asm": "ldp\td9, d8, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2acdcc",
+          "asm": "ldp\td11, d10, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2acdd0",
+          "asm": "ldp\td13, d12, [sp], #0x50"
+        },
+        {
+          "pc": "0x2acdd4",
+          "asm": "br\tx2"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2acd34",
+          "asm": "ldr\tx1, #0xd1834 ; Objc selector ref: windowLevel"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2accec",
+          "target": "0x2a8068",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2accf4",
+          "target": "0x2a8098",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acd10",
+          "target": "0x2a8390",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acd18",
+          "target": "0x2a9024",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acd3c",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2acd74",
+          "target": "0x2a84a0",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_state_received_notification": {
+      "source_pc": "0x2ab98c",
+      "actual_function_start": "0x2ab98c",
+      "actual_function_end": "0x2abd98",
+      "method": {
+        "function_start": "0x2ab98c",
+        "function_end": "0x2abd98",
+        "objc_method": {
+          "class": "CBAppStateListener",
+          "selector": "handleAppStateNotification:",
+          "type": "v24@0:8@16"
+        }
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ab98c",
+          "asm": "sub\tsp, sp, #0xd0"
+        },
+        {
+          "pc": "0x2ab990",
+          "asm": "stp\td11, d10, [sp, #0x50]"
+        },
+        {
+          "pc": "0x2ab994",
+          "asm": "stp\td9, d8, [sp, #0x60]"
+        },
+        {
+          "pc": "0x2ab998",
+          "asm": "stp\tx28, x27, [sp, #0x70]"
+        },
+        {
+          "pc": "0x2ab99c",
+          "asm": "stp\tx26, x25, [sp, #0x80]"
+        },
+        {
+          "pc": "0x2ab9a0",
+          "asm": "stp\tx24, x23, [sp, #0x90]"
+        },
+        {
+          "pc": "0x2ab9a4",
+          "asm": "stp\tx22, x21, [sp, #0xa0]"
+        },
+        {
+          "pc": "0x2ab9a8",
+          "asm": "stp\tx20, x19, [sp, #0xb0]"
+        },
+        {
+          "pc": "0x2ab9ac",
+          "asm": "stp\tx29, x30, [sp, #0xc0]"
+        },
+        {
+          "pc": "0x2ab9b0",
+          "asm": "add\tx29, sp, #0xc0"
+        },
+        {
+          "pc": "0x2ab9b4",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x2ab9b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab9bc",
+          "asm": "ldr\tx1, #0xd1ab4 ; Objc selector ref: userInfo"
+        },
+        {
+          "pc": "0x2ab9c0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 userInfo]"
+        },
+        {
+          "pc": "0x2ab9c4",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab9c8",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab9cc",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ab9d0",
+          "asm": "str\tx0, [sp]"
+        },
+        {
+          "pc": "0x2ab9d4",
+          "asm": "adr\tx0, #816148 ; Objc cfstring ref: @\"[DuoFaceApp] Received handleAppStateNotification: %@\""
+        },
+        {
+          "pc": "0x2ab9d8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab9dc",
+          "asm": "bl\t0x2a96b4"
+        },
+        {
+          "pc": "0x2ab9e0",
+          "asm": "cbz\tx19, 0x2abd68"
+        },
+        {
+          "pc": "0x2ab9e4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab9e8",
+          "asm": "ldr\tx0, #0xd3d68 ; Objc class ref: _OBJC_CLASS_$_NSDictionary"
+        },
+        {
+          "pc": "0x2ab9ec",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab9f0",
+          "asm": "ldr\tx1, #0xd1c20 ; Objc selector ref: class"
+        },
+        {
+          "pc": "0x2ab9f4",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSDictionary class]"
+        },
+        {
+          "pc": "0x2ab9f8",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x2ab9fc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba00",
+          "asm": "ldr\tx1, #0xd1c18 ; Objc selector ref: isKindOfClass:"
+        },
+        {
+          "pc": "0x2aba04",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aba08",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isKindOfClass:]"
+        },
+        {
+          "pc": "0x2aba0c",
+          "asm": "cbz\tw0, 0x2abd68"
+        },
+        {
+          "pc": "0x2aba10",
+          "asm": "bl\t0x2a80cc"
+        },
+        {
+          "pc": "0x2aba14",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2aba18",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2aba1c",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2aba20",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba24",
+          "asm": "ldr\tx22, #0xd1b3c ; Objc selector ref: objectForKeyedSubscript:"
+        },
+        {
+          "pc": "0x2aba28",
+          "asm": "adr\tx2, #799488 ; Objc cfstring ref: @\"bundleIdentifier\""
+        },
+        {
+          "pc": "0x2aba2c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba30",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aba34",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2aba38",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 objectForKeyedSubscript:]"
+        },
+        {
+          "pc": "0x2aba3c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2aba40",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2aba44",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2aba48",
+          "asm": "cbz\tx0, 0x2abd58"
+        },
+        {
+          "pc": "0x2aba4c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba50",
+          "asm": "ldr\tx1, #0xd19f8 ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x2aba54",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2aba58",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x2aba5c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2aba60",
+          "asm": "cbz\tw0, 0x2abd58"
+        },
+        {
+          "pc": "0x2aba64",
+          "asm": "adr\tx2, #813060 ; Objc cfstring ref: @\"shouldBridge\""
+        },
+        {
+          "pc": "0x2aba68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba6c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2aba70",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2aba74",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x2aba78",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2aba7c",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2aba80",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2aba84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2aba88",
+          "asm": "ldr\tx23, #0xd1b60 ; Objc selector ref: boolValue"
+        },
+        {
+          "pc": "0x2aba8c",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2aba90",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 boolValue]"
+        },
+        {
+          "pc": "0x2aba94",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2aba98",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2aba9c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abaa0",
+          "asm": "adr\tx2, #813032 ; Objc cfstring ref: @\"bridgeToken\""
+        },
+        {
+          "pc": "0x2abaa4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abaa8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abaac",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abab0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 boolValue]"
+        },
+        {
+          "pc": "0x2abab4",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abab8",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ababc",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2abac0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abac4",
+          "asm": "ldr\tx1, #0xd3384 ; Objc selector ref: unsignedIntValue"
+        },
+        {
+          "pc": "0x2abac8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 unsignedIntValue]"
+        },
+        {
+          "pc": "0x2abacc",
+          "asm": "mov\tx26, x0"
+        },
+        {
+          "pc": "0x2abad0",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abad4",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abad8",
+          "asm": "adr\tx2, #813040 ; Objc cfstring ref: @\"displayWidth\""
+        },
+        {
+          "pc": "0x2abadc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abae0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abae4",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abae8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 unsignedIntValue]"
+        },
+        {
+          "pc": "0x2abaec",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abaf0",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abaf4",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2abaf8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abafc",
+          "asm": "ldr\tx27, #0xd20dc ; Objc selector ref: doubleValue"
+        },
+        {
+          "pc": "0x2abb00",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x2abb04",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 doubleValue]"
+        },
+        {
+          "pc": "0x2abb08",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x2abb0c",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abb10",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abb14",
+          "asm": "adr\tx2, #813012 ; Objc cfstring ref: @\"displayHeight\""
+        },
+        {
+          "pc": "0x2abb18",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abb1c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abb20",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abb24",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 doubleValue]"
+        },
+        {
+          "pc": "0x2abb28",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abb2c",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abb30",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2abb34",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x2abb38",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 doubleValue]"
+        },
+        {
+          "pc": "0x2abb3c",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2abb40",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abb44",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abb48",
+          "asm": "adr\tx2, #812896 ; Objc cfstring ref: @\"fixedKeyboardWidth\""
+        },
+        {
+          "pc": "0x2abb4c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abb50",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abb54",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abb58",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 doubleValue]"
+        },
+        {
+          "pc": "0x2abb5c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abb60",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abb64",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2abb68",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x2abb6c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 doubleValue]"
+        },
+        {
+          "pc": "0x2abb70",
+          "asm": "mov.16b\tv10, v0"
+        },
+        {
+          "pc": "0x2abb74",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abb78",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abb7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abb80",
+          "asm": "ldr\tx0, #0xd3b88 ; Objc class ref: _OBJC_CLASS_$_NSString"
+        },
+        {
+          "pc": "0x2abb84",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abb88",
+          "asm": "ldr\tx1, #0xd1910 ; Objc selector ref: stringWithFormat:"
+        },
+        {
+          "pc": "0x2abb8c",
+          "asm": "str\tx20, [sp]"
+        },
+        {
+          "pc": "0x2abb90",
+          "asm": "adr\tx2, #813048 ; Objc cfstring ref: @\"size_%@\""
+        },
+        {
+          "pc": "0x2abb94",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abb98",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSString stringWithFormat:]"
+        },
+        {
+          "pc": "0x2abb9c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abba0",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abba4",
+          "asm": "mov\tx27, x0"
+        },
+        {
+          "pc": "0x2abba8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abbac",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abbb0",
+          "asm": "mov\tx2, x27"
+        },
+        {
+          "pc": "0x2abbb4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 stringWithFormat:]"
+        },
+        {
+          "pc": "0x2abbb8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abbbc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abbc0",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2abbc4",
+          "asm": "mov\tx0, x27"
+        },
+        {
+          "pc": "0x2abbc8",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abbcc",
+          "asm": "cbz\tx25, 0x2abbf4"
+        },
+        {
+          "pc": "0x2abbd0",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abbd4",
+          "asm": "bl\t0x2ec910 ; symbol stub for: _CGSizeFromString"
+        },
+        {
+          "pc": "0x2abbd8",
+          "asm": "fcmp\td0, #0.0"
+        },
+        {
+          "pc": "0x2abbdc",
+          "asm": "cset\tw8, gt"
+        },
+        {
+          "pc": "0x2abbe0",
+          "asm": "fcmp\td1, #0.0"
+        },
+        {
+          "pc": "0x2abbe4",
+          "asm": "cset\tw9, gt"
+        },
+        {
+          "pc": "0x2abbe8",
+          "asm": "tst\tw8, w9"
+        },
+        {
+          "pc": "0x2abbec",
+          "asm": "fcsel\td9, d1, d9, ne"
+        },
+        {
+          "pc": "0x2abbf0",
+          "asm": "fcsel\td8, d0, d8, ne"
+        },
+        {
+          "pc": "0x2abbf4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abbf8",
+          "asm": "ldr\td0, 0x312488"
+        },
+        {
+          "pc": "0x2abbfc",
+          "asm": "fcmp\td10, d0"
+        },
+        {
+          "pc": "0x2abc00",
+          "asm": "b.lt\t0x2abc1c"
+        },
+        {
+          "pc": "0x2abc04",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abc08",
+          "asm": "ldr\td0, 0x311740"
+        },
+        {
+          "pc": "0x2abc0c",
+          "asm": "fcmp\td10, d0"
+        },
+        {
+          "pc": "0x2abc10",
+          "asm": "b.hi\t0x2abc1c"
+        },
+        {
+          "pc": "0x2abc14",
+          "asm": "adrp\tx8, 214 ; 0x381000"
+        },
+        {
+          "pc": "0x2abc18",
+          "asm": "str\td10, [x8, #0xc90]"
+        },
+        {
+          "pc": "0x2abc1c",
+          "asm": "mov\tw9, #0x0"
+        },
+        {
+          "pc": "0x2abc20",
+          "asm": "tst\tw26, #0xfffffff"
+        },
+        {
+          "pc": "0x2abc24",
+          "asm": "cset\tw8, ne"
+        },
+        {
+          "pc": "0x2abc28",
+          "asm": "and\tw8, w8, w26, lsr #28"
+        },
+        {
+          "pc": "0x2abc2c",
+          "asm": "mov\tx10, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2abc30",
+          "asm": "fmov\td0, x10"
+        },
+        {
+          "pc": "0x2abc34",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2abc38",
+          "asm": "b.lt\t0x2abc70"
+        },
+        {
+          "pc": "0x2abc3c",
+          "asm": "mov\tx10, #0x40b0000000000000"
+        },
+        {
+          "pc": "0x2abc40",
+          "asm": "fmov\td0, x10"
+        },
+        {
+          "pc": "0x2abc44",
+          "asm": "fcmp\td8, d0"
+        },
+        {
+          "pc": "0x2abc48",
+          "asm": "b.hi\t0x2abc70"
+        },
+        {
+          "pc": "0x2abc4c",
+          "asm": "mov\tx9, #0x4049000000000000"
+        },
+        {
+          "pc": "0x2abc50",
+          "asm": "fmov\td0, x9"
+        },
+        {
+          "pc": "0x2abc54",
+          "asm": "fcmp\td9, d0"
+        },
+        {
+          "pc": "0x2abc58",
+          "asm": "cset\tw9, ge"
+        },
+        {
+          "pc": "0x2abc5c",
+          "asm": "mov\tx10, #0x40b0000000000000"
+        },
+        {
+          "pc": "0x2abc60",
+          "asm": "fmov\td0, x10"
+        },
+        {
+          "pc": "0x2abc64",
+          "asm": "fcmp\td9, d0"
+        },
+        {
+          "pc": "0x2abc68",
+          "asm": "cset\tw10, ls"
+        },
+        {
+          "pc": "0x2abc6c",
+          "asm": "and\tw9, w9, w10"
+        },
+        {
+          "pc": "0x2abc70",
+          "asm": "and\tw8, w8, w9"
+        },
+        {
+          "pc": "0x2abc74",
+          "asm": "and\tw27, w24, w8"
+        },
+        {
+          "pc": "0x2abc78",
+          "asm": "adr\tx2, #812688 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x2abc7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abc80",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abc84",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abc88",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 stringWithFormat:]"
+        },
+        {
+          "pc": "0x2abc8c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abc90",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abc94",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2abc98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abc9c",
+          "asm": "ldr\tx1, #0xd19c4 ; Objc selector ref: integerValue"
+        },
+        {
+          "pc": "0x2abca0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 integerValue]"
+        },
+        {
+          "pc": "0x2abca4",
+          "asm": "mov\tx26, x0"
+        },
+        {
+          "pc": "0x2abca8",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2abcac",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abcb0",
+          "asm": "adr\tx2, #812664 ; Objc cfstring ref: @\"isSplit\""
+        },
+        {
+          "pc": "0x2abcb4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abcb8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abcbc",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2abcc0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 integerValue]"
+        },
+        {
+          "pc": "0x2abcc4",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2abcc8",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2abccc",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2abcd0",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2abcd4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 integerValue]"
+        },
+        {
+          "pc": "0x2abcd8",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2abcdc",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2abce0",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abce4",
+          "asm": "sub\tx8, x26, #0x1"
+        },
+        {
+          "pc": "0x2abce8",
+          "asm": "cmp\tx8, #0x3"
+        },
+        {
+          "pc": "0x2abcec",
+          "asm": "csinc\tx8, x26, xzr, ls"
+        },
+        {
+          "pc": "0x2abcf0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abcf4",
+          "asm": "ldr\tx9, #0x9842c ; literal pool symbol address: __NSConcreteStackBlock"
+        },
+        {
+          "pc": "0x2abcf8",
+          "asm": "str\tx9, [sp, #0x8]"
+        },
+        {
+          "pc": "0x2abcfc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abd00",
+          "asm": "ldr\td0, 0x30f968"
+        },
+        {
+          "pc": "0x2abd04",
+          "asm": "str\td0, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2abd08",
+          "asm": "adr\tx9, #144"
+        },
+        {
+          "pc": "0x2abd0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abd10",
+          "asm": "adr\tx10, #630360"
+        },
+        {
+          "pc": "0x2abd14",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abd18",
+          "asm": "stp\tx9, x10, [sp, #0x18]"
+        },
+        {
+          "pc": "0x2abd1c",
+          "asm": "strb\tw27, [sp, #0x48]"
+        },
+        {
+          "pc": "0x2abd20",
+          "asm": "stp\td8, d9, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2abd24",
+          "asm": "str\tx8, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2abd28",
+          "asm": "strb\tw23, [sp, #0x49]"
+        },
+        {
+          "pc": "0x2abd2c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2abd30",
+          "asm": "bl\t0x2ecd3c ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x2abd34",
+          "asm": "str\tx0, [sp, #0x28]"
+        },
+        {
+          "pc": "0x2abd38",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abd3c",
+          "asm": "ldr\tx0, #0x9840c ; literal pool symbol address: __dispatch_main_q"
+        },
+        {
+          "pc": "0x2abd40",
+          "asm": "add\tx1, sp, #0x8"
+        },
+        {
+          "pc": "0x2abd44",
+          "asm": "bl\t0x2ecb2c ; symbol stub for: _dispatch_async"
+        },
+        {
+          "pc": "0x2abd48",
+          "asm": "ldr\tx0, [sp, #0x28]"
+        },
+        {
+          "pc": "0x2abd4c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abd50",
+          "asm": "mov\tx0, x25"
+        },
+        {
+          "pc": "0x2abd54",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abd58",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2abd5c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abd60",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2abd64",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abd68",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2abd6c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2abd70",
+          "asm": "ldp\tx29, x30, [sp, #0xc0]"
+        },
+        {
+          "pc": "0x2abd74",
+          "asm": "ldp\tx20, x19, [sp, #0xb0]"
+        },
+        {
+          "pc": "0x2abd78",
+          "asm": "ldp\tx22, x21, [sp, #0xa0]"
+        },
+        {
+          "pc": "0x2abd7c",
+          "asm": "ldp\tx24, x23, [sp, #0x90]"
+        },
+        {
+          "pc": "0x2abd80",
+          "asm": "ldp\tx26, x25, [sp, #0x80]"
+        },
+        {
+          "pc": "0x2abd84",
+          "asm": "ldp\tx28, x27, [sp, #0x70]"
+        },
+        {
+          "pc": "0x2abd88",
+          "asm": "ldp\td9, d8, [sp, #0x60]"
+        },
+        {
+          "pc": "0x2abd8c",
+          "asm": "ldp\td11, d10, [sp, #0x50]"
+        },
+        {
+          "pc": "0x2abd90",
+          "asm": "add\tsp, sp, #0xd0"
+        },
+        {
+          "pc": "0x2abd94",
+          "asm": "ret"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ab9bc",
+          "asm": "ldr\tx1, #0xd1ab4 ; Objc selector ref: userInfo"
+        },
+        {
+          "pc": "0x2ab9d4",
+          "asm": "adr\tx0, #816148 ; Objc cfstring ref: @\"[DuoFaceApp] Received handleAppStateNotification: %@\""
+        },
+        {
+          "pc": "0x2ab9f0",
+          "asm": "ldr\tx1, #0xd1c20 ; Objc selector ref: class"
+        },
+        {
+          "pc": "0x2aba00",
+          "asm": "ldr\tx1, #0xd1c18 ; Objc selector ref: isKindOfClass:"
+        },
+        {
+          "pc": "0x2aba24",
+          "asm": "ldr\tx22, #0xd1b3c ; Objc selector ref: objectForKeyedSubscript:"
+        },
+        {
+          "pc": "0x2aba28",
+          "asm": "adr\tx2, #799488 ; Objc cfstring ref: @\"bundleIdentifier\""
+        },
+        {
+          "pc": "0x2aba50",
+          "asm": "ldr\tx1, #0xd19f8 ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x2aba64",
+          "asm": "adr\tx2, #813060 ; Objc cfstring ref: @\"shouldBridge\""
+        },
+        {
+          "pc": "0x2aba88",
+          "asm": "ldr\tx23, #0xd1b60 ; Objc selector ref: boolValue"
+        },
+        {
+          "pc": "0x2abaa0",
+          "asm": "adr\tx2, #813032 ; Objc cfstring ref: @\"bridgeToken\""
+        },
+        {
+          "pc": "0x2abac4",
+          "asm": "ldr\tx1, #0xd3384 ; Objc selector ref: unsignedIntValue"
+        },
+        {
+          "pc": "0x2abad8",
+          "asm": "adr\tx2, #813040 ; Objc cfstring ref: @\"displayWidth\""
+        },
+        {
+          "pc": "0x2abafc",
+          "asm": "ldr\tx27, #0xd20dc ; Objc selector ref: doubleValue"
+        },
+        {
+          "pc": "0x2abb14",
+          "asm": "adr\tx2, #813012 ; Objc cfstring ref: @\"displayHeight\""
+        },
+        {
+          "pc": "0x2abb48",
+          "asm": "adr\tx2, #812896 ; Objc cfstring ref: @\"fixedKeyboardWidth\""
+        },
+        {
+          "pc": "0x2abb88",
+          "asm": "ldr\tx1, #0xd1910 ; Objc selector ref: stringWithFormat:"
+        },
+        {
+          "pc": "0x2abb90",
+          "asm": "adr\tx2, #813048 ; Objc cfstring ref: @\"size_%@\""
+        },
+        {
+          "pc": "0x2abc78",
+          "asm": "adr\tx2, #812688 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x2abc9c",
+          "asm": "ldr\tx1, #0xd19c4 ; Objc selector ref: integerValue"
+        },
+        {
+          "pc": "0x2abcb0",
+          "asm": "adr\tx2, #812664 ; Objc cfstring ref: @\"isSplit\""
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ab9c0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab9c8",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab9dc",
+          "target": "0x2a96b4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab9f4",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba08",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba10",
+          "target": "0x2a80cc",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba18",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba38",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba40",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba5c",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba74",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba7c",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba90",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2aba9c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abab0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abab8",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abac8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abad4",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abae8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abaf0",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb04",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb10",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb24",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb2c",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb38",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb44",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb58",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb60",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb6c",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb78",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abb98",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abba0",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abbb4",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abbbc",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abbc8",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abbd4",
+          "target": "0x2ec910",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abc88",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abc90",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abca0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abcac",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abcc0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abcc8",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abcd4",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abce0",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd30",
+          "target": "0x2ecd3c",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd44",
+          "target": "0x2ecb2c",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd4c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd54",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd5c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd64",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abd6c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_state_async_state_apply_block": {
+      "source_pc": "0x2abd98",
+      "actual_function_start": "0x2abd98",
+      "actual_function_end": "0x2abeb4",
+      "method": {
+        "function_start": "0x2abd98",
+        "function_end": "0x2abeb4",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2abd98",
+          "asm": "sub\tsp, sp, #0x40"
+        },
+        {
+          "pc": "0x2abd9c",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2abda0",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2abda4",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x2abda8",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2abdac",
+          "asm": "bl\t0x2a8068"
+        },
+        {
+          "pc": "0x2abdb0",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2abdb4",
+          "asm": "ldrb\tw0, [x19, #0x40]"
+        },
+        {
+          "pc": "0x2abdb8",
+          "asm": "bl\t0x2a8074"
+        },
+        {
+          "pc": "0x2abdbc",
+          "asm": "ldrb\tw8, [x19, #0x40]"
+        },
+        {
+          "pc": "0x2abdc0",
+          "asm": "cmp\tw8, #0x0"
+        },
+        {
+          "pc": "0x2abdc4",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x2abdc8",
+          "asm": "fmov\td1, #1.00000000"
+        },
+        {
+          "pc": "0x2abdcc",
+          "asm": "fcsel\td1, d1, d0, ne"
+        },
+        {
+          "pc": "0x2abdd0",
+          "asm": "ldp\td0, d2, [x19, #0x28]"
+        },
+        {
+          "pc": "0x2abdd4",
+          "asm": "fmul\td0, d0, d1"
+        },
+        {
+          "pc": "0x2abdd8",
+          "asm": "fmul\td1, d2, d1"
+        },
+        {
+          "pc": "0x2abddc",
+          "asm": "bl\t0x2a80ac"
+        },
+        {
+          "pc": "0x2abde0",
+          "asm": "ldr\tx0, [x19, #0x38]"
+        },
+        {
+          "pc": "0x2abde4",
+          "asm": "bl\t0x2a808c"
+        },
+        {
+          "pc": "0x2abde8",
+          "asm": "ldrb\tw0, [x19, #0x41]"
+        },
+        {
+          "pc": "0x2abdec",
+          "asm": "bl\t0x2a80c0"
+        },
+        {
+          "pc": "0x2abdf0",
+          "asm": "ldrb\tw8, [x19, #0x40]"
+        },
+        {
+          "pc": "0x2abdf4",
+          "asm": "ldp\td0, d1, [x19, #0x28]"
+        },
+        {
+          "pc": "0x2abdf8",
+          "asm": "ldr\tx9, [x19, #0x38]"
+        },
+        {
+          "pc": "0x2abdfc",
+          "asm": "str\tx9, [sp, #0x18]"
+        },
+        {
+          "pc": "0x2abe00",
+          "asm": "stp\td0, d1, [sp, #0x8]"
+        },
+        {
+          "pc": "0x2abe04",
+          "asm": "str\tx8, [sp]"
+        },
+        {
+          "pc": "0x2abe08",
+          "asm": "adr\tx0, #815104 ; Objc cfstring ref: @\"[DuoFaceApp] State updated via notification: bridging=%d, size={%.1f, %.1f}, o=%ld\""
+        },
+        {
+          "pc": "0x2abe0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abe10",
+          "asm": "bl\t0x2a96b4"
+        },
+        {
+          "pc": "0x2abe14",
+          "asm": "ldrb\tw8, [x19, #0x40]"
+        },
+        {
+          "pc": "0x2abe18",
+          "asm": "cbz\tw8, 0x2abe7c"
+        },
+        {
+          "pc": "0x2abe1c",
+          "asm": "tbnz\tw20, #0x0, 0x2abe24"
+        },
+        {
+          "pc": "0x2abe20",
+          "asm": "bl\t0x2aadec"
+        },
+        {
+          "pc": "0x2abe24",
+          "asm": "bl\t0x2a9e38"
+        },
+        {
+          "pc": "0x2abe28",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2abe2c",
+          "asm": "mov\tw1, #0xd180"
+        },
+        {
+          "pc": "0x2abe30",
+          "asm": "movk\tw1, #0x8f0, lsl #16"
+        },
+        {
+          "pc": "0x2abe34",
+          "asm": "bl\t0x2ecb50 ; symbol stub for: _dispatch_time"
+        },
+        {
+          "pc": "0x2abe38",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abe3c",
+          "asm": "ldr\tx19, #0x9830c ; literal pool symbol address: __dispatch_main_q"
+        },
+        {
+          "pc": "0x2abe40",
+          "asm": "adr\tx2, #629992"
+        },
+        {
+          "pc": "0x2abe44",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abe48",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2abe4c",
+          "asm": "bl\t0x2ecb20 ; symbol stub for: _dispatch_after"
+        },
+        {
+          "pc": "0x2abe50",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x2abe54",
+          "asm": "mov\tw1, #0x6500"
+        },
+        {
+          "pc": "0x2abe58",
+          "asm": "movk\tw1, #0x1dcd, lsl #16"
+        },
+        {
+          "pc": "0x2abe5c",
+          "asm": "bl\t0x2ecb50 ; symbol stub for: _dispatch_time"
+        },
+        {
+          "pc": "0x2abe60",
+          "asm": "adr\tx2, #629992"
+        },
+        {
+          "pc": "0x2abe64",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abe68",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x2abe6c",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2abe70",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2abe74",
+          "asm": "add\tsp, sp, #0x40"
+        },
+        {
+          "pc": "0x2abe78",
+          "asm": "b\t0x2ecb20 ; symbol stub for: _dispatch_after"
+        },
+        {
+          "pc": "0x2abe7c",
+          "asm": "cbz\tw20, 0x2abea4"
+        },
+        {
+          "pc": "0x2abe80",
+          "asm": "ldr\tx8, [x19, #0x20]"
+        },
+        {
+          "pc": "0x2abe84",
+          "asm": "str\tx8, [sp]"
+        },
+        {
+          "pc": "0x2abe88",
+          "asm": "adr\tx0, #815008 ; Objc cfstring ref: @\"[DuoFaceApp] Notification indicated not bridged for %@. Resetting to phone mode.\""
+        },
+        {
+          "pc": "0x2abe8c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2abe90",
+          "asm": "bl\t0x2a96b4"
+        },
+        {
+          "pc": "0x2abe94",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2abe98",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2abe9c",
+          "asm": "add\tsp, sp, #0x40"
+        },
+        {
+          "pc": "0x2abea0",
+          "asm": "b\t0x2aa684"
+        },
+        {
+          "pc": "0x2abea4",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2abea8",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2abeac",
+          "asm": "add\tsp, sp, #0x40"
+        },
+        {
+          "pc": "0x2abeb0",
+          "asm": "ret"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2abe08",
+          "asm": "adr\tx0, #815104 ; Objc cfstring ref: @\"[DuoFaceApp] State updated via notification: bridging=%d, size={%.1f, %.1f}, o=%ld\""
+        },
+        {
+          "pc": "0x2abe88",
+          "asm": "adr\tx0, #815008 ; Objc cfstring ref: @\"[DuoFaceApp] Notification indicated not bridged for %@. Resetting to phone mode.\""
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2abdac",
+          "target": "0x2a8068",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abdb8",
+          "target": "0x2a8074",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abddc",
+          "target": "0x2a80ac",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abde4",
+          "target": "0x2a808c",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abdec",
+          "target": "0x2a80c0",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe10",
+          "target": "0x2a96b4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe20",
+          "target": "0x2aadec",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe24",
+          "target": "0x2a9e38",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe34",
+          "target": "0x2ecb50",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe4c",
+          "target": "0x2ecb20",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe5c",
+          "target": "0x2ecb50",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2abe90",
+          "target": "0x2a96b4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_state_initialization": {
+      "source_pc": "0x2ab0a0",
+      "actual_function_start": "0x2ab0a0",
+      "actual_function_end": "0x2ab1e4",
+      "method": {
+        "function_start": "0x2ab0a0",
+        "function_end": "0x2ab1e4",
+        "objc_method": {
+          "class": "CBAppStateListener",
+          "selector": "init",
+          "type": "@16@0:8"
+        }
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ab0a0",
+          "asm": "sub\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ab0a4",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ab0a8",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ab0ac",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ab0b0",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ab0b4",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2ab0b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab0bc",
+          "asm": "ldr\tx8, #0xd4a9c ; Objc class ref: CBAppStateListener"
+        },
+        {
+          "pc": "0x2ab0c0",
+          "asm": "stp\tx0, x8, [sp]"
+        },
+        {
+          "pc": "0x2ab0c4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab0c8",
+          "asm": "ldr\tx1, #0xd2468 ; Objc selector ref: init"
+        },
+        {
+          "pc": "0x2ab0cc",
+          "asm": "mov\tx0, sp"
+        },
+        {
+          "pc": "0x2ab0d0",
+          "asm": "bl\t0x2ecd18 ; Objc message: -[[x0 super] init]"
+        },
+        {
+          "pc": "0x2ab0d4",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ab0d8",
+          "asm": "cbz\tx0, 0x2ab1b0"
+        },
+        {
+          "pc": "0x2ab0dc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab0e0",
+          "asm": "ldr\tx1, #0xd3f30 ; Objc selector ref: checkStateFile"
+        },
+        {
+          "pc": "0x2ab0e4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab0e8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 checkStateFile]"
+        },
+        {
+          "pc": "0x2ab0ec",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab0f0",
+          "asm": "ldr\tx0, #0xd4920 ; Objc class ref: _OBJC_CLASS_$_NSDistributedNotificationCenter"
+        },
+        {
+          "pc": "0x2ab0f4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab0f8",
+          "asm": "ldr\tx20, #0xd24b8 ; Objc selector ref: defaultCenter"
+        },
+        {
+          "pc": "0x2ab0fc",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ab100",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSDistributedNotificationCenter defaultCenter]"
+        },
+        {
+          "pc": "0x2ab104",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab108",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab10c",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ab110",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab114",
+          "asm": "ldr\tx22, #0xd3f04 ; Objc selector ref: handleAppStateNotification:"
+        },
+        {
+          "pc": "0x2ab118",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab11c",
+          "asm": "ldr\tx8, #0xd6bac"
+        },
+        {
+          "pc": "0x2ab120",
+          "asm": "cmn\tx8, #0x1"
+        },
+        {
+          "pc": "0x2ab124",
+          "asm": "b.ne\t0x2ab1cc"
+        },
+        {
+          "pc": "0x2ab128",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab12c",
+          "asm": "ldr\tx4, #0xd6b94"
+        },
+        {
+          "pc": "0x2ab130",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab134",
+          "asm": "ldr\tx23, #0xd2514 ; Objc selector ref: addObserver:selector:name:object:"
+        },
+        {
+          "pc": "0x2ab138",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ab13c",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ab140",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2ab144",
+          "asm": "mov\tx3, x22"
+        },
+        {
+          "pc": "0x2ab148",
+          "asm": "mov\tx5, #0x0"
+        },
+        {
+          "pc": "0x2ab14c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 addObserver:selector:name:object:]"
+        },
+        {
+          "pc": "0x2ab150",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ab154",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ab158",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab15c",
+          "asm": "ldr\tx0, #0xd460c ; Objc class ref: _OBJC_CLASS_$_NSNotificationCenter"
+        },
+        {
+          "pc": "0x2ab160",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2ab164",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSNotificationCenter addObserver:selector:name:object:]"
+        },
+        {
+          "pc": "0x2ab168",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab16c",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab170",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ab174",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab178",
+          "asm": "ldr\tx3, #0xd3ea8 ; Objc selector ref: handleAppDidBecomeActive:"
+        },
+        {
+          "pc": "0x2ab17c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab180",
+          "asm": "ldr\tx8, #0x98f00 ; literal pool symbol address: _UIApplicationDidBecomeActiveNotification"
+        },
+        {
+          "pc": "0x2ab184",
+          "asm": "ldr\tx4, [x8]"
+        },
+        {
+          "pc": "0x2ab188",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2ab18c",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2ab190",
+          "asm": "mov\tx5, #0x0"
+        },
+        {
+          "pc": "0x2ab194",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 handleAppDidBecomeActive:]"
+        },
+        {
+          "pc": "0x2ab198",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ab19c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ab1a0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab1a4",
+          "asm": "ldr\tx1, #0xd3e84 ; Objc selector ref: sendStateRequest"
+        },
+        {
+          "pc": "0x2ab1a8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab1ac",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 sendStateRequest]"
+        },
+        {
+          "pc": "0x2ab1b0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab1b4",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ab1b8",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ab1bc",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ab1c0",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ab1c4",
+          "asm": "add\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ab1c8",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ab1cc",
+          "asm": "adr\tx0, #879356"
+        },
+        {
+          "pc": "0x2ab1d0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab1d4",
+          "asm": "adr\tx1, #633316"
+        },
+        {
+          "pc": "0x2ab1d8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab1dc",
+          "asm": "bl\t0x2ecb38 ; symbol stub for: _dispatch_once"
+        },
+        {
+          "pc": "0x2ab1e0",
+          "asm": "b\t0x2ab128"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ab0c8",
+          "asm": "ldr\tx1, #0xd2468 ; Objc selector ref: init"
+        },
+        {
+          "pc": "0x2ab0e0",
+          "asm": "ldr\tx1, #0xd3f30 ; Objc selector ref: checkStateFile"
+        },
+        {
+          "pc": "0x2ab0f8",
+          "asm": "ldr\tx20, #0xd24b8 ; Objc selector ref: defaultCenter"
+        },
+        {
+          "pc": "0x2ab114",
+          "asm": "ldr\tx22, #0xd3f04 ; Objc selector ref: handleAppStateNotification:"
+        },
+        {
+          "pc": "0x2ab134",
+          "asm": "ldr\tx23, #0xd2514 ; Objc selector ref: addObserver:selector:name:object:"
+        },
+        {
+          "pc": "0x2ab178",
+          "asm": "ldr\tx3, #0xd3ea8 ; Objc selector ref: handleAppDidBecomeActive:"
+        },
+        {
+          "pc": "0x2ab1a4",
+          "asm": "ldr\tx1, #0xd3e84 ; Objc selector ref: sendStateRequest"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ab0d0",
+          "target": "0x2ecd18",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab0e8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab100",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab108",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab14c",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab154",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab164",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab16c",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab194",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab19c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab1ac",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab1dc",
+          "target": "0x2ecb38",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_state_send_request": {
+      "source_pc": "0x2ab7a4",
+      "actual_function_start": "0x2ab7a4",
+      "actual_function_end": "0x2ab948",
+      "method": {
+        "function_start": "0x2ab7a4",
+        "function_end": "0x2ab948",
+        "objc_method": {
+          "class": "CBAppStateListener",
+          "selector": "sendStateRequest",
+          "type": "v16@0:8"
+        }
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ab7a4",
+          "asm": "sub\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ab7a8",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ab7ac",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ab7b0",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ab7b4",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2ab7b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab7bc",
+          "asm": "ldr\tx8, #0x98984 ; literal pool symbol address: ___stack_chk_guard"
+        },
+        {
+          "pc": "0x2ab7c0",
+          "asm": "ldr\tx8, [x8]"
+        },
+        {
+          "pc": "0x2ab7c4",
+          "asm": "str\tx8, [sp, #0x18]"
+        },
+        {
+          "pc": "0x2ab7c8",
+          "asm": "bl\t0x2a80cc"
+        },
+        {
+          "pc": "0x2ab7cc",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab7d0",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab7d4",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ab7d8",
+          "asm": "cbz\tx0, 0x2ab8e0"
+        },
+        {
+          "pc": "0x2ab7dc",
+          "asm": "str\tx19, [sp]"
+        },
+        {
+          "pc": "0x2ab7e0",
+          "asm": "adr\tx0, #816584 ; Objc cfstring ref: @\"[DuoFaceApp] Sending NOTIFY_APP_REQUEST for %@\""
+        },
+        {
+          "pc": "0x2ab7e4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab7e8",
+          "asm": "bl\t0x2a96b4"
+        },
+        {
+          "pc": "0x2ab7ec",
+          "asm": "adr\tx8, #800060 ; Objc cfstring ref: @\"bundleIdentifier\""
+        },
+        {
+          "pc": "0x2ab7f0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab7f4",
+          "asm": "stp\tx8, x19, [sp, #0x8]"
+        },
+        {
+          "pc": "0x2ab7f8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab7fc",
+          "asm": "ldr\tx0, #0xd3f54 ; Objc class ref: _OBJC_CLASS_$_NSDictionary"
+        },
+        {
+          "pc": "0x2ab800",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab804",
+          "asm": "ldr\tx1, #0xd1d44 ; Objc selector ref: dictionaryWithObjects:forKeys:count:"
+        },
+        {
+          "pc": "0x2ab808",
+          "asm": "add\tx2, sp, #0x10"
+        },
+        {
+          "pc": "0x2ab80c",
+          "asm": "add\tx3, sp, #0x8"
+        },
+        {
+          "pc": "0x2ab810",
+          "asm": "mov\tw4, #0x1"
+        },
+        {
+          "pc": "0x2ab814",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSDictionary dictionaryWithObjects:forKeys:count:]"
+        },
+        {
+          "pc": "0x2ab818",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab81c",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab820",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2ab824",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab828",
+          "asm": "ldr\tx0, #0xd41e8 ; Objc class ref: _OBJC_CLASS_$_NSDistributedNotificationCenter"
+        },
+        {
+          "pc": "0x2ab82c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab830",
+          "asm": "ldr\tx1, #0xd1d80 ; Objc selector ref: defaultCenter"
+        },
+        {
+          "pc": "0x2ab834",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[NSDistributedNotificationCenter defaultCenter]"
+        },
+        {
+          "pc": "0x2ab838",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2ab83c",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2ab840",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2ab844",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab848",
+          "asm": "ldr\tx2, #0xd34b0 ; Objc selector ref: postNotificationName:object:userInfo:deliverImmediately:"
+        },
+        {
+          "pc": "0x2ab84c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab850",
+          "asm": "ldr\tx1, #0xd1d88 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2ab854",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2ab858",
+          "asm": "cbz\tw0, 0x2ab8a0"
+        },
+        {
+          "pc": "0x2ab85c",
+          "asm": "adr\tx0, #394037 ; literal pool for: \"postNotificationName:object:userInfo:deliverImmediately:\""
+        },
+        {
+          "pc": "0x2ab860",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab864",
+          "asm": "bl\t0x2ecdfc ; symbol stub for: _sel_registerName"
+        },
+        {
+          "pc": "0x2ab868",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2ab86c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab870",
+          "asm": "ldr\tx8, #0xd6488"
+        },
+        {
+          "pc": "0x2ab874",
+          "asm": "cmn\tx8, #0x1"
+        },
+        {
+          "pc": "0x2ab878",
+          "asm": "b.ne\t0x2ab914"
+        },
+        {
+          "pc": "0x2ab87c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab880",
+          "asm": "ldr\tx2, #0xd6470"
+        },
+        {
+          "pc": "0x2ab884",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ab888",
+          "asm": "mov\tx1, x22"
+        },
+        {
+          "pc": "0x2ab88c",
+          "asm": "mov\tx3, #0x0"
+        },
+        {
+          "pc": "0x2ab890",
+          "asm": "mov\tx4, x20"
+        },
+        {
+          "pc": "0x2ab894",
+          "asm": "mov\tw5, #0x1"
+        },
+        {
+          "pc": "0x2ab898",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2ab89c",
+          "asm": "b\t0x2ab8d0"
+        },
+        {
+          "pc": "0x2ab8a0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab8a4",
+          "asm": "ldr\tx8, #0xd6454"
+        },
+        {
+          "pc": "0x2ab8a8",
+          "asm": "cmn\tx8, #0x1"
+        },
+        {
+          "pc": "0x2ab8ac",
+          "asm": "b.ne\t0x2ab92c"
+        },
+        {
+          "pc": "0x2ab8b0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab8b4",
+          "asm": "ldr\tx2, #0xd643c"
+        },
+        {
+          "pc": "0x2ab8b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab8bc",
+          "asm": "ldr\tx1, #0xd20b4 ; Objc selector ref: postNotificationName:object:userInfo:"
+        },
+        {
+          "pc": "0x2ab8c0",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ab8c4",
+          "asm": "mov\tx3, #0x0"
+        },
+        {
+          "pc": "0x2ab8c8",
+          "asm": "mov\tx4, x20"
+        },
+        {
+          "pc": "0x2ab8cc",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 postNotificationName:object:userInfo:]"
+        },
+        {
+          "pc": "0x2ab8d0",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2ab8d4",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ab8d8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2ab8dc",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ab8e0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab8e4",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2ab8e8",
+          "asm": "ldr\tx8, [sp, #0x18]"
+        },
+        {
+          "pc": "0x2ab8ec",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab8f0",
+          "asm": "ldr\tx9, #0x98850 ; literal pool symbol address: ___stack_chk_guard"
+        },
+        {
+          "pc": "0x2ab8f4",
+          "asm": "ldr\tx9, [x9]"
+        },
+        {
+          "pc": "0x2ab8f8",
+          "asm": "cmp\tx9, x8"
+        },
+        {
+          "pc": "0x2ab8fc",
+          "asm": "b.ne\t0x2ab944"
+        },
+        {
+          "pc": "0x2ab900",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2ab904",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2ab908",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2ab90c",
+          "asm": "add\tsp, sp, #0x50"
+        },
+        {
+          "pc": "0x2ab910",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x2ab914",
+          "asm": "adr\tx0, #877540"
+        },
+        {
+          "pc": "0x2ab918",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab91c",
+          "asm": "adr\tx1, #631548"
+        },
+        {
+          "pc": "0x2ab920",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab924",
+          "asm": "bl\t0x2ecb38 ; symbol stub for: _dispatch_once"
+        },
+        {
+          "pc": "0x2ab928",
+          "asm": "b\t0x2ab87c"
+        },
+        {
+          "pc": "0x2ab92c",
+          "asm": "adr\tx0, #877516"
+        },
+        {
+          "pc": "0x2ab930",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab934",
+          "asm": "adr\tx1, #631524"
+        },
+        {
+          "pc": "0x2ab938",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab93c",
+          "asm": "bl\t0x2ecb38 ; symbol stub for: _dispatch_once"
+        },
+        {
+          "pc": "0x2ab940",
+          "asm": "b\t0x2ab8b0"
+        },
+        {
+          "pc": "0x2ab944",
+          "asm": "bl\t0x2eca9c ; symbol stub for: ___stack_chk_fail"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ab7e0",
+          "asm": "adr\tx0, #816584 ; Objc cfstring ref: @\"[DuoFaceApp] Sending NOTIFY_APP_REQUEST for %@\""
+        },
+        {
+          "pc": "0x2ab7ec",
+          "asm": "adr\tx8, #800060 ; Objc cfstring ref: @\"bundleIdentifier\""
+        },
+        {
+          "pc": "0x2ab804",
+          "asm": "ldr\tx1, #0xd1d44 ; Objc selector ref: dictionaryWithObjects:forKeys:count:"
+        },
+        {
+          "pc": "0x2ab830",
+          "asm": "ldr\tx1, #0xd1d80 ; Objc selector ref: defaultCenter"
+        },
+        {
+          "pc": "0x2ab848",
+          "asm": "ldr\tx2, #0xd34b0 ; Objc selector ref: postNotificationName:object:userInfo:deliverImmediately:"
+        },
+        {
+          "pc": "0x2ab850",
+          "asm": "ldr\tx1, #0xd1d88 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2ab85c",
+          "asm": "adr\tx0, #394037 ; literal pool for: \"postNotificationName:object:userInfo:deliverImmediately:\""
+        },
+        {
+          "pc": "0x2ab8bc",
+          "asm": "ldr\tx1, #0xd20b4 ; Objc selector ref: postNotificationName:object:userInfo:"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ab7c8",
+          "target": "0x2a80cc",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab7d0",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab7e8",
+          "target": "0x2a96b4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab814",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab81c",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab834",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab83c",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab854",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab864",
+          "target": "0x2ecdfc",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab898",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab8cc",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab8d4",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab8dc",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab8e4",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab924",
+          "target": "0x2ecb38",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab93c",
+          "target": "0x2ecb38",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab944",
+          "target": "0x2eca9c",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "app_state_active_notification": {
+      "source_pc": "0x2ab948",
+      "actual_function_start": "0x2ab948",
+      "actual_function_end": "0x2ab98c",
+      "method": {
+        "function_start": "0x2ab948",
+        "function_end": "0x2ab98c",
+        "objc_method": {
+          "class": "CBAppStateListener",
+          "selector": "handleAppDidBecomeActive:",
+          "type": "v24@0:8@16"
+        }
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2ab948",
+          "asm": "stp\tx20, x19, [sp, #-0x20]!"
+        },
+        {
+          "pc": "0x2ab94c",
+          "asm": "stp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ab950",
+          "asm": "add\tx29, sp, #0x10"
+        },
+        {
+          "pc": "0x2ab954",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2ab958",
+          "asm": "adr\tx0, #816240 ; Objc cfstring ref: @\"[DuoFaceApp] App did become active, re-checking state...\""
+        },
+        {
+          "pc": "0x2ab95c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab960",
+          "asm": "bl\t0x2a96b4"
+        },
+        {
+          "pc": "0x2ab964",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab968",
+          "asm": "ldr\tx1, #0xd36a8 ; Objc selector ref: checkStateFile"
+        },
+        {
+          "pc": "0x2ab96c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab970",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 checkStateFile]"
+        },
+        {
+          "pc": "0x2ab974",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2ab978",
+          "asm": "ldr\tx1, #0xd36b0 ; Objc selector ref: sendStateRequest"
+        },
+        {
+          "pc": "0x2ab97c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2ab980",
+          "asm": "ldp\tx29, x30, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2ab984",
+          "asm": "ldp\tx20, x19, [sp], #0x20"
+        },
+        {
+          "pc": "0x2ab988",
+          "asm": "b\t0x2ecd00 ; Objc message: -[x0 sendStateRequest]"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2ab958",
+          "asm": "adr\tx0, #816240 ; Objc cfstring ref: @\"[DuoFaceApp] App did become active, re-checking state...\""
+        },
+        {
+          "pc": "0x2ab968",
+          "asm": "ldr\tx1, #0xd36a8 ; Objc selector ref: checkStateFile"
+        },
+        {
+          "pc": "0x2ab978",
+          "asm": "ldr\tx1, #0xd36b0 ; Objc selector ref: sendStateRequest"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2ab960",
+          "target": "0x2a96b4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2ab970",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "host_original_allowed_orientation_hook": {
+      "source_pc": "0x2c8b4c",
+      "actual_function_start": "0x2c8b4c",
+      "actual_function_end": "0x2c8ca8",
+      "method": {
+        "function_start": "0x2c8b4c",
+        "function_end": "0x2c8ca8",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2c8b4c",
+          "asm": "stp\tx26, x25, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8b50",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8b54",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8b58",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8b5c",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8b60",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8b64",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2c8b68",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2c8b6c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c8b70",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b74",
+          "asm": "ldr\tx0, #0xb6d64 ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8b78",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b7c",
+          "asm": "ldr\tx1, #0xb581c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8b80",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c8b84",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8b88",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8b8c",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x2c8b90",
+          "asm": "cbz\tx0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8b94",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b98",
+          "asm": "ldr\tx1, #0xb5680 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8b9c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8ba0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c8ba4",
+          "asm": "cbz\tw0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8ba8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bac",
+          "asm": "ldr\tx23, #0xb674c ; Objc selector ref: application"
+        },
+        {
+          "pc": "0x2c8bb0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bb4",
+          "asm": "ldr\tx24, #0xb4a24 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2c8bb8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8bbc",
+          "asm": "mov\tx1, x24"
+        },
+        {
+          "pc": "0x2c8bc0",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c8bc4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c8bc8",
+          "asm": "cbz\tw0, 0x2c8c68"
+        },
+        {
+          "pc": "0x2c8bcc",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8bd0",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x2c8bd4",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x2c8bd8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8bdc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8be0",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c8be4",
+          "asm": "cbz\tx0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8be8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8bec",
+          "asm": "ldr\tx25, #0xb4834 ; Objc selector ref: bundleIdentifier"
+        },
+        {
+          "pc": "0x2c8bf0",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8bf4",
+          "asm": "mov\tx1, x24"
+        },
+        {
+          "pc": "0x2c8bf8",
+          "asm": "mov\tx2, x25"
+        },
+        {
+          "pc": "0x2c8bfc",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+        },
+        {
+          "pc": "0x2c8c00",
+          "asm": "cbz\tw0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8c04",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c08",
+          "asm": "mov\tx1, x25"
+        },
+        {
+          "pc": "0x2c8c0c",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 bundleIdentifier]"
+        },
+        {
+          "pc": "0x2c8c10",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8c14",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8c18",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2c8c1c",
+          "asm": "cbz\tx0, 0x2c8c58"
+        },
+        {
+          "pc": "0x2c8c20",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8c24",
+          "asm": "ldr\tx1, #0xb60f4 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c8c28",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8c2c",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8c30",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c8c34",
+          "asm": "mov\tx25, x0"
+        },
+        {
+          "pc": "0x2c8c38",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8c3c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c40",
+          "asm": "tbz\tw25, #0x0, 0x2c8c60"
+        },
+        {
+          "pc": "0x2c8c44",
+          "asm": "cmp\tx19, #0x1"
+        },
+        {
+          "pc": "0x2c8c48",
+          "asm": "cset\tw19, eq"
+        },
+        {
+          "pc": "0x2c8c4c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c50",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c54",
+          "asm": "b\t0x2c8c84"
+        },
+        {
+          "pc": "0x2c8c58",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8c5c",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c60",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8c64",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8c6c",
+          "asm": "ldr\tx8, #0xb94dc"
+        },
+        {
+          "pc": "0x2c8c70",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8c74",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2c8c78",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2c8c7c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8c80",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x2c8c84",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x2c8c88",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8c8c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x2c8c90",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8c94",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8c98",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8c9c",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8ca0",
+          "asm": "ldp\tx26, x25, [sp], #0x50"
+        },
+        {
+          "pc": "0x2c8ca4",
+          "asm": "ret"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2c8b7c",
+          "asm": "ldr\tx1, #0xb581c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8b98",
+          "asm": "ldr\tx1, #0xb5680 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8bac",
+          "asm": "ldr\tx23, #0xb674c ; Objc selector ref: application"
+        },
+        {
+          "pc": "0x2c8bb4",
+          "asm": "ldr\tx24, #0xb4a24 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x2c8bec",
+          "asm": "ldr\tx25, #0xb4834 ; Objc selector ref: bundleIdentifier"
+        },
+        {
+          "pc": "0x2c8c24",
+          "asm": "ldr\tx1, #0xb60f4 ; Objc selector ref: shouldBridge:"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2c8b80",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8b88",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8ba0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8bc4",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8bd4",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8bdc",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8bfc",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c0c",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c14",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c30",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c3c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c50",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c5c",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c64",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8c88",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "host_original_reference_twoarg_hook": {
+      "source_pc": "0x2c895c",
+      "actual_function_start": "0x2c895c",
+      "actual_function_end": "0x2c8a50",
+      "method": {
+        "function_start": "0x2c895c",
+        "function_end": "0x2c8a50",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2c895c",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8960",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8964",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8968",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c896c",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8970",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8974",
+          "asm": "mov\tx19, x2"
+        },
+        {
+          "pc": "0x2c8978",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c897c",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8980",
+          "asm": "mov\tx20, x1"
+        },
+        {
+          "pc": "0x2c8984",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x2c8988",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c898c",
+          "asm": "ldr\tx0, #0xb6f4c ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8990",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8994",
+          "asm": "ldr\tx1, #0xb5a04 ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8998",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c899c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c89a0",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c89a4",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c89a8",
+          "asm": "cbz\tx0, 0x2c8a14"
+        },
+        {
+          "pc": "0x2c89ac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89b0",
+          "asm": "ldr\tx1, #0xb5868 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c89b4",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89b8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c89bc",
+          "asm": "cbz\tw0, 0x2c8a14"
+        },
+        {
+          "pc": "0x2c89c0",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2c89c4",
+          "asm": "bl\t0x2c93c4"
+        },
+        {
+          "pc": "0x2c89c8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c89cc",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c89d0",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c89d4",
+          "asm": "cbz\tx0, 0x2c8a0c"
+        },
+        {
+          "pc": "0x2c89d8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89dc",
+          "asm": "ldr\tx1, #0xb633c ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c89e0",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89e4",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c89e8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c89ec",
+          "asm": "cbz\tw0, 0x2c8a0c"
+        },
+        {
+          "pc": "0x2c89f0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c89f4",
+          "asm": "ldr\tx1, #0xb62fc ; Objc selector ref: renderSizeForBundleID:"
+        },
+        {
+          "pc": "0x2c89f8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c89fc",
+          "asm": "mov\tx2, x23"
+        },
+        {
+          "pc": "0x2c8a00",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 renderSizeForBundleID:]"
+        },
+        {
+          "pc": "0x2c8a04",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8a08",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8a0c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8a10",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8a14",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a18",
+          "asm": "ldr\tx8, #0xb9720"
+        },
+        {
+          "pc": "0x2c8a1c",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x2c8a20",
+          "asm": "mov\tx1, x20"
+        },
+        {
+          "pc": "0x2c8a24",
+          "asm": "mov.16b\tv0, v9"
+        },
+        {
+          "pc": "0x2c8a28",
+          "asm": "mov.16b\tv1, v8"
+        },
+        {
+          "pc": "0x2c8a2c",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x2c8a30",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8a34",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8a38",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8a3c",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8a40",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8a44",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8a48",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x2c8a4c",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2c8994",
+          "asm": "ldr\tx1, #0xb5a04 ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c89b0",
+          "asm": "ldr\tx1, #0xb5868 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c89dc",
+          "asm": "ldr\tx1, #0xb633c ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c89f4",
+          "asm": "ldr\tx1, #0xb62fc ; Objc selector ref: renderSizeForBundleID:"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2c8998",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c89a0",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c89b8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c89c4",
+          "target": "0x2c93c4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c89cc",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c89e8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8a00",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8a10",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    },
+    "host_original_reference_threearg_hook": {
+      "source_pc": "0x2c8a50",
+      "actual_function_start": "0x2c8a50",
+      "actual_function_end": "0x2c8b4c",
+      "method": {
+        "function_start": "0x2c8a50",
+        "function_end": "0x2c8b4c",
+        "objc_method": null
+      },
+      "original_arm64": [
+        {
+          "pc": "0x2c8a50",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x2c8a54",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8a58",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8a5c",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8a60",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8a64",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x2c8a68",
+          "asm": "mov\tx19, x3"
+        },
+        {
+          "pc": "0x2c8a6c",
+          "asm": "mov\tx20, x2"
+        },
+        {
+          "pc": "0x2c8a70",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8a74",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8a78",
+          "asm": "mov\tx21, x1"
+        },
+        {
+          "pc": "0x2c8a7c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x2c8a80",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a84",
+          "asm": "ldr\tx0, #0xb6e54 ; Objc class ref: CBBridgeManager"
+        },
+        {
+          "pc": "0x2c8a88",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8a8c",
+          "asm": "ldr\tx1, #0xb590c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8a90",
+          "asm": "bl\t0x2ecd00 ; Objc message: +[CBBridgeManager sharedInstanceIfExists]"
+        },
+        {
+          "pc": "0x2c8a94",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8a98",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8a9c",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x2c8aa0",
+          "asm": "cbz\tx0, 0x2c8b0c"
+        },
+        {
+          "pc": "0x2c8aa4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8aa8",
+          "asm": "ldr\tx1, #0xb5770 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8aac",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8ab0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 isUIAppBridging]"
+        },
+        {
+          "pc": "0x2c8ab4",
+          "asm": "cbz\tw0, 0x2c8b0c"
+        },
+        {
+          "pc": "0x2c8ab8",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8abc",
+          "asm": "bl\t0x2c93c4"
+        },
+        {
+          "pc": "0x2c8ac0",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x2c8ac4",
+          "asm": "bl\t0x2ecd60 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x2c8ac8",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x2c8acc",
+          "asm": "cbz\tx0, 0x2c8b04"
+        },
+        {
+          "pc": "0x2c8ad0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8ad4",
+          "asm": "ldr\tx1, #0xb6244 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c8ad8",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8adc",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8ae0",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 shouldBridge:]"
+        },
+        {
+          "pc": "0x2c8ae4",
+          "asm": "cbz\tw0, 0x2c8b04"
+        },
+        {
+          "pc": "0x2c8ae8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8aec",
+          "asm": "ldr\tx1, #0xb6204 ; Objc selector ref: renderSizeForBundleID:"
+        },
+        {
+          "pc": "0x2c8af0",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8af4",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x2c8af8",
+          "asm": "bl\t0x2ecd00 ; Objc message: -[x0 renderSizeForBundleID:]"
+        },
+        {
+          "pc": "0x2c8afc",
+          "asm": "mov.16b\tv9, v0"
+        },
+        {
+          "pc": "0x2c8b00",
+          "asm": "mov.16b\tv8, v1"
+        },
+        {
+          "pc": "0x2c8b04",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x2c8b08",
+          "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x2c8b0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x2c8b10",
+          "asm": "ldr\tx8, #0xb9630"
+        },
+        {
+          "pc": "0x2c8b14",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x2c8b18",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x2c8b1c",
+          "asm": "mov.16b\tv0, v9"
+        },
+        {
+          "pc": "0x2c8b20",
+          "asm": "mov.16b\tv1, v8"
+        },
+        {
+          "pc": "0x2c8b24",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x2c8b28",
+          "asm": "mov\tx3, x19"
+        },
+        {
+          "pc": "0x2c8b2c",
+          "asm": "blr\tx8"
+        },
+        {
+          "pc": "0x2c8b30",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x2c8b34",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x2c8b38",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x2c8b3c",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x2c8b40",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x2c8b44",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x2c8b48",
+          "asm": "b\t0x2ecd30 ; symbol stub for: _objc_release"
+        }
+      ],
+      "annotated_selector_and_string_refs": [
+        {
+          "pc": "0x2c8a8c",
+          "asm": "ldr\tx1, #0xb590c ; Objc selector ref: sharedInstanceIfExists"
+        },
+        {
+          "pc": "0x2c8aa8",
+          "asm": "ldr\tx1, #0xb5770 ; Objc selector ref: isUIAppBridging"
+        },
+        {
+          "pc": "0x2c8ad4",
+          "asm": "ldr\tx1, #0xb6244 ; Objc selector ref: shouldBridge:"
+        },
+        {
+          "pc": "0x2c8aec",
+          "asm": "ldr\tx1, #0xb6204 ; Objc selector ref: renderSizeForBundleID:"
+        }
+      ],
+      "direct_bl_edges": [
+        {
+          "pc": "0x2c8a90",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8a98",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8ab0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8abc",
+          "target": "0x2c93c4",
+          "direct_target_is_known_function_start": true,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8ac4",
+          "target": "0x2ecd60",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8ae0",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8af8",
+          "target": "0x2ecd00",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        },
+        {
+          "pc": "0x2c8b08",
+          "target": "0x2ecd30",
+          "direct_target_is_known_function_start": false,
+          "direct_objc_callee": null
+        }
+      ]
+    }
+  },
+  "incoming_direct_callers": {
+    "app_scene_UIKit_orientation_reconciler": [
+      {
+        "callsite": "0x2ec740",
+        "caller": {
+          "function_start": null,
+          "function_end": null,
+          "objc_method": null,
+          "status": "OUTSIDE_LC_FUNCTION_STARTS_OR_STUB_NOT_ASSIGNED"
+        },
+        "arm64_window": [
+          {
+            "pc": "0x2ec718",
+            "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+          },
+          {
+            "pc": "0x2ec71c",
+            "asm": "mov\tx0, x19"
+          },
+          {
+            "pc": "0x2ec720",
+            "asm": "bl\t0x2ecd30 ; symbol stub for: _objc_release"
+          },
+          {
+            "pc": "0x2ec724",
+            "asm": "mov\tx0, x21"
+          },
+          {
+            "pc": "0x2ec728",
+            "asm": "bl\t0x2a80d8"
+          },
+          {
+            "pc": "0x2ec72c",
+            "asm": "str\tx21, [sp]"
+          },
+          {
+            "pc": "0x2ec730",
+            "asm": "adr\tx0, #555736 ; Objc cfstring ref: @\"[DuoFace] Initializing Client App Modular Hooks for: %@...\""
+          },
+          {
+            "pc": "0x2ec734",
+            "asm": "nop"
+          },
+          {
+            "pc": "0x2ec738",
+            "asm": "bl\t0x2ec9ac ; symbol stub for: _NSLog"
+          },
+          {
+            "pc": "0x2ec73c",
+            "asm": "bl\t0x2abef4"
+          },
+          {
+            "pc": "0x2ec740",
+            "asm": "bl\t0x2ac688"
+          },
+          {
+            "pc": "0x2ec744",
+            "asm": "bl\t0x2ade0c"
+          },
+          {
+            "pc": "0x2ec748",
+            "asm": "bl\t0x2b2834"
+          },
+          {
+            "pc": "0x2ec74c",
+            "asm": "bl\t0x2b3090"
+          },
+          {
+            "pc": "0x2ec750",
+            "asm": "str\tx21, [sp]"
+          },
+          {
+            "pc": "0x2ec754",
+            "asm": "adr\tx0, #555732 ; Objc cfstring ref: @\"[DuoFace] Client App Modular Hooks initialized successfully for: %@\""
+          }
+        ]
+      }
+    ],
+    "app_scene_orientation_predecessor": [],
+    "app_scene_orientation_tail": [],
+    "app_scene_orientation_callback": [],
+    "app_state_received_notification": [],
+    "app_state_async_state_apply_block": [],
+    "app_state_initialization": [],
+    "app_state_send_request": [],
+    "app_state_active_notification": [],
+    "host_original_allowed_orientation_hook": [],
+    "host_original_reference_twoarg_hook": [],
+    "host_original_reference_threearg_hook": []
+  },
+  "device_tested": false,
+  "limits": [
+    "Exact function boundaries are original LC_FUNCTION_STARTS, not approximate ObjC nearest IMP",
+    "Static direct BL proven; dynamic ObjC messages and branch-to-runtime stubs are not exact receiver proofs",
+    "App UIKit process filter presence is not proof that YouTube rendered upright",
+    "No license code or vendor binary copied into independent DuoFace"
+  ]
+}
