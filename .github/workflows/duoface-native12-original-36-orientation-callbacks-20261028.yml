@@ -1,0 +1,161 @@
+name: DuoFace original Native12 complete 36 orientation callback ARM64 analysis
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - '.github/workflows/duoface-native12-original-36-orientation-callbacks-20261028.yml'
+      - 'sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: duoface-verified-original-36-callbacks
+  cancel-in-progress: false
+jobs:
+  original-callback-decode:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read central iOS skill ZIP and original-only analysis tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 'https://raw.githubusercontent.com/chuongnguyen89dn-ui/Gpt-training-/main/skills/02-ios-deb-ipa-carplay.zip' -o "$RUNNER_TEMP/ios-carplay-skill.zip"
+          unzip -t "$RUNNER_TEMP/ios-carplay-skill.zip"
+          while IFS= read -r name; do
+            case "$name" in
+              *SKILL.md|*README.md)
+                echo "CENTRAL_SKILL_ENTRY=$name"
+                unzip -p "$RUNNER_TEMP/ios-carplay-skill.zip" "$name" | head -c 15000
+                echo
+                ;;
+            esac
+          done < <(unzip -Z1 "$RUNNER_TEMP/ios-carplay-skill.zip")
+          python3 -m py_compile sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py
+      - name: SHA-verify the original DEB, LC_FUNCTION_STARTS index and extraction parser
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin 1286a3ef868cf7e29804bcddf7e20b2eae707ce1
+          git show '1286a3ef868cf7e29804bcddf7e20b2eae707ce1:dist/payload-migration/native12-speed8compact/com.duoface.independent_0.1.0~native12+speed8compact_iphoneos-arm64.deb' > "$RUNNER_TEMP/original-native12.deb"
+          printf '%s  %s\n' '2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad' "$RUNNER_TEMP/original-native12.deb" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin a57815b2430092a9c27811a88b53f9bbbb70312d
+          git show 'a57815b2430092a9c27811a88b53f9bbbb70312d:sideplay/audit/qa7-vs-native12-methods-20261018/method-index.json' > "$RUNNER_TEMP/original-method-index.json"
+          test "$(git hash-object "$RUNNER_TEMP/original-method-index.json")" = 'efa45df59bc3c16887cc979bf3aedc0c93c92111'
+          mkdir -p "$RUNNER_TEMP/original-parser"
+          git fetch --no-tags --depth=1 origin feature/visual12-duodash-recovery
+          git show 'FETCH_HEAD:migration/full_payload/native_test/audit_native12_license_class_xrefs.py' > "$RUNNER_TEMP/original-parser/audit_native12_license_class_xrefs.py"
+          echo "NATIVE_PARSER_DIR=$RUNNER_TEMP/original-parser" >> "$GITHUB_ENV"
+          if command -v llvm-objdump-18 >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          elif command -v llvm-objdump >/dev/null; then
+            echo 'OBJDUMP=llvm-objdump' >> "$GITHUB_ENV"
+          else
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm-18
+            echo 'OBJDUMP=llvm-objdump-18' >> "$GITHUB_ENV"
+          fi
+      - name: Decode real hook callbacks, original BL branches and exact source code
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_$GITHUB_RUN_ID.json"
+          python3 sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py \
+            --deb "$RUNNER_TEMP/original-native12.deb" \
+            --index "$RUNNER_TEMP/original-method-index.json" \
+            --original-report sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_APP_ORIENTATION_HELPER_RUN_40648090838.json \
+            --output "$OUT"
+          python3 - "$OUT" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['status']=='NATIVE12_ORIGINAL_36_HOOK_CALLBACK_BODY_EXACT'
+          assert d['original_hooks_count']==36
+          cb=d['callbacks']
+          assert all(c['raw_arm64'] and c['arm64_instruction_count']==len(c['raw_arm64']) for c in cb)
+          expected={
+             'UIViewController.supportedInterfaceOrientations':'0x2acc04',
+             'UIViewController.__supportedInterfaceOrientations':'0x2acc60',
+             'UIWindow.setFrame:':'0x2accbc',
+             'UIWindow.setBounds:':'0x2acdd8',
+             'UIWindowScene.interfaceOrientation':'0x2ad7f0',
+             'UIDevice.orientation':'0x2ad8d0',
+             'UIScreen.bounds':'0x2ada20',
+             'UIScreen.nativeBounds':'0x2adaec',
+             'UIScreen._referenceBounds':'0x2adbfc',
+          }
+          for selector,at in expected.items():
+              rows=[x for x in cb if x['class']+'.'+x['selector']==selector]
+              assert len(rows)==1 and rows[0]['replacement_callback_pc']==at,(selector,rows)
+              assert rows[0]['starts_at_callback'],(selector,rows[0]['exact_start'])
+          for item in cb:
+              print('EXACT_ORIGINAL_CALLBACK',item['class'],item['selector'],
+                    item['replacement_callback_pc'],
+                    'MACHINE_INSNS',item['arm64_instruction_count'])
+          print('ORIGINAL_NINE_CRITICAL_CALLBACKS_AND_36_MACHINE_BODIES_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Native12-actual-36-hook-callback-disassembly
+          path: sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_*.json
+          if-no-files-found: warn
+      - name: Append discovery and preserve full raw assembly in existing project handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          OUT="sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_$GITHUB_RUN_ID.json"
+          SOURCE="$(pwd)/$OUT"
+          for attempt in 1 2 3 4; do
+            git fetch --no-tags origin "$BRANCH"
+            TMP="$(mktemp -d)"
+            git worktree add --detach "$TMP" FETCH_HEAD
+            if test -e "$TMP/$OUT"; then
+              cmp -s "$SOURCE" "$TMP/$OUT" || { echo "EXISTING_ORIGINAL_REPORT_CONFLICT"; exit 1; }
+            else
+              mkdir -p "$TMP/$(dirname "$OUT")"
+              cp "$SOURCE" "$TMP/$OUT"
+            fi
+            python3 - "$TMP/sideplay/tiep tuc du an.md" "$OUT" "$GITHUB_RUN_ID" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1]);dest=sys.argv[2];run=sys.argv[3]
+          old=p.read_text(encoding='utf8')
+          marker='DUOFACE .89 — NATIVE12 ORIGINAL 36 HOOK CALLBACK BODIES VERIFIED'
+          if marker not in old:
+              note=f"""## {marker} (2026-10-28)
+
+          - User reported **.89 still wrong YouTube rotation in split**. Stop claiming .89 fixed or publishing guess-based .90. No device runtime log for .89 uploaded yet; newest SceneHost log is .88.
+          - **Real original Native12 HUD8 DEB** SHA256 `2fe8892c5ef8762e1e83b0fd6c4a029e25fc11758cc98fdbbb851bf6637e68ad`; real original injected DuoFaceDashboard SHA256 `9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea`. Original ObjC/LC_FUNCTION_STARTS index blob `efa45df59bc3c16887cc979bf3aedc0c93c92111`, restored and validated.
+          - **36 original MSHookMessageEx installer sites to exact replacement callback PC, exact ARM64 function boundaries, raw body instructions and direct calls** archived in `{dest}`. Build-only original scanner at `sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py`; GitHub Actions `https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/{run}`. Both full original binary and original method index verified; not relying on grep-only selectors.
+          - Verified anchors: `UIViewController.supportedInterfaceOrientations` callback `0x2acc04`; `__supportedInterfaceOrientations` `0x2acc60`; `UIWindow.setFrame:` `0x2accbc`; `setBounds:` `0x2acdd8`; `UIWindowScene.interfaceOrientation` `0x2ad7f0`; `UIDevice.orientation` `0x2ad8d0`; `UIScreen.bounds` `0x2ada20`, nativeBounds `0x2adaec`, _referenceBounds `0x2adbfc`. Need interpret their exact enabled/disabled branch behavior **before implementing**. Installer presence alone != actual device execution.
+          - Exact CI commands in repository checkout: `git show` historical original DEB and method index; `sha256sum -c`; `git hash-object`; SHA-pinned `dpkg-deb -x` inside scanner; thin original arm64 via select_arm64; `llvm-objdump --macho --disassemble --no-show-raw-insn`; `python3 sideplay/tools/decode_native12_original_orientation_callbacks_20261028.py --deb ... --index ... --original-report ... --output {dest}`; assert hook count+target PC, git worktree/commit/push/readback.
+          - No runtime source changes, no Sileo build or deploy, no Maps/Dock changes. Preserve .83 player lifecycle, rollback DEBs, avoid original license or code copy. **Next** inspect and document original callback state predicates and exact orientation/size return values, then independently implement smallest necessary hook with teardown and device validation. Success means working split-mode video on iPhone X without fullscreen/gesture (not an Actions PASS).
+
+          ---
+          """
+              p.write_text(note+old,encoding='utf8')
+              assert p.read_text(encoding='utf8')==note+old
+          PY
+            git -C "$TMP" config user.name 'github-actions[bot]'
+            git -C "$TMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C "$TMP" add "$OUT" 'sideplay/tiep tuc du an.md'
+            if git -C "$TMP" diff --cached --quiet; then
+              git worktree remove --force "$TMP"
+              echo 'ORIGINAL_EXACT_CALLBACK_HANDOFF_ALREADY_PRESENT'
+              exit 0
+            fi
+            git -C "$TMP" commit -m "audit: preserve complete Native12 original UIKit callback ARM64 disassembly $GITHUB_RUN_ID [skip ci]"
+            if git -C "$TMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TMP"
+              git fetch --no-tags origin "$BRANCH"
+              git show "FETCH_HEAD:$OUT" | grep -F 'original_hooks_count'
+              git show 'FETCH_HEAD:sideplay/tiep tuc du an.md' | grep -F "$marker" || true
+              echo 'ORIGINAL_NATIVE12_36_CALLBACK_GITHUB_READBACK_PASS'
+              exit 0
+            fi
+            git worktree remove --force "$TMP"
+          done
+          echo 'ORIGINAL_ANALYSIS_PERSISTENCE_FAILED' >&2
+          exit 1
