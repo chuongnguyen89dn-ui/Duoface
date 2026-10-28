@@ -1,3 +1,13 @@
+## 3 ảnh thực tế — phát đúng sau fullscreen, giữ đúng khi trở về split (2026-10-28)
+
+**Chứng cứ mới từ người dùng:** sau DuoFace Zoom một ô, YouTube video/controls hiển thị xoay lệch so với thanh Dock CarPlay; sau phóng video riêng toàn màn hình, video ngay lập tức đúng hướng; thoát về chia 2 ô vẫn đúng. **Cần bảo tồn cả thành công “fullscreen làm đúng và restore vẫn đúng”**, đây là đầu mối tìm lỗi khởi tạo orientation, không phải lỗi video mã hóa hoặc cố định bởi aspect ratio. Chưa kiểm chứng version cài trong ảnh; chưa đo được FBScene/UIWindowScene/AVPlayer orientation để khẳng định tầng nào sai.
+
+**Nguồn xác minh trong mã:** `DFNative12Chrome.m zoomPressed:` thay focus/layout, `DFSceneHost.m layoutScene/commitSceneGeometry` chỉ xử lý size/frame khi khác, không có orientation-only handshake; policy .84 `DFSceneOrientationPolicyInstall/Register` chạy muộn trong commit sau scene ready + debounce 0.30s. Cơ chế đúng có thể do fullscreen player kích hoạt lại trình điều phối hướng; đây là **giả thuyết mạnh, chưa có live trace**. [Chi tiết 3 hình, mapping mã, hướng test có tiêu chí](PHOTO_3_STEP_SCENE_ORIENTATION_20261028.md).
+
+Không đổi `DFSceneLifecycle.m`, không ghi đè .83/.84 Sileo, không ép landscape 3/4. Sau khi có trace owner/scene/gen và orientation trước-sau mới quyết định bổ sung đồng bộ tầng thích hợp. **Chưa xây .85; không được nói đã hết lỗi.**
+
+---
+
 ## .84 SILEO PUBLISHED + .83 ROLLBACK VERIFIED — 2026-10-28 10:02 ICT
 
 - The official Sileo shared distributor `chuongnguyen89dn-ui/carplaydsp` `main` publisher commit `ba3a182c2a81c176428b002a060d8b9c025d7fd2`, [workflow run 40624072633](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40624072633) **completed SUCCESS**, with jobs: build `122604712275`, deploy `122605475611`, **public integrated DuoFace verifier `122605680196`**, QA shared Pages verifier `122605680365`; YAML verifier [40624072614](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40624072614) SUCCESS.
