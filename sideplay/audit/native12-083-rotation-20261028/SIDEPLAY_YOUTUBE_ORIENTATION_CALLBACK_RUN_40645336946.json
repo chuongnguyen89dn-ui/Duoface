@@ -1,0 +1,3507 @@
+{
+  "source": "original SidePlay 1.0.4-1, not DuoFace",
+  "original_deb_sha256": "7f8520b9a29013988f0430414c3c90308206a46ec689190ba4e1e2d9a0703a9c",
+  "original_dylib_sha256": "0fc34c6c8e47283d2223d70facfe3e86ed76bd568958786b67a9430127242971",
+  "thin_arm64_sha256": "e4e324a2a03dad89aeb492ba188555faf4bb3bcd34e9b9119f713ff6fc99a611",
+  "evidence": "LLVM_MACHO_RESOLVED_SELECTOR_CALLS_STATIC_ONLY",
+  "runtime_orientation_proven": false,
+  "methods": {
+    "SPPane.orientationForBundleID_idiom": {
+      "first_pc": "0x307a0",
+      "last_exclusive": "0x308bc",
+      "instructions": [
+        {
+          "pc": "0x307a0",
+          "asm": "stp\td9, d8, [sp, #-0x50]!"
+        },
+        {
+          "pc": "0x307a4",
+          "asm": "stp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x307a8",
+          "asm": "stp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x307ac",
+          "asm": "stp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x307b0",
+          "asm": "stp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x307b4",
+          "asm": "add\tx29, sp, #0x40"
+        },
+        {
+          "pc": "0x307b8",
+          "asm": "mov\tx20, x2"
+        },
+        {
+          "pc": "0x307bc",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x307c0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x307c4",
+          "asm": "ldr\tx8, #0x23924 ; literal pool symbol address: ___NSDictionary0__"
+        },
+        {
+          "pc": "0x307c8",
+          "asm": "ldr\tx19, [x8]"
+        },
+        {
+          "pc": "0x307cc",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x307d0",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x307d4",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x307d8",
+          "asm": "adr\tx0, #162872 ; Objc cfstring ref: @\"appOrientations\""
+        },
+        {
+          "pc": "0x307dc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x307e0",
+          "asm": "mov\tx1, x19"
+        },
+        {
+          "pc": "0x307e4",
+          "asm": "bl\t_SPPref"
+        },
+        {
+          "pc": "0x307e8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x307ec",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x307f0",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x307f4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x307f8",
+          "asm": "ldr\tx1, #0x2e3a8 ; Objc selector ref: objectForKeyedSubscript:"
+        },
+        {
+          "pc": "0x307fc",
+          "asm": "mov\tx2, x20"
+        },
+        {
+          "pc": "0x30800",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 objectForKeyedSubscript:]"
+        },
+        {
+          "pc": "0x30804",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x30808",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x3080c",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x30810",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x30814",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x30818",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3081c",
+          "asm": "ldr\tx1, #0x2e3ec ; Objc selector ref: integerValue"
+        },
+        {
+          "pc": "0x30820",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x30824",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 integerValue]"
+        },
+        {
+          "pc": "0x30828",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x3082c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x30830",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x30834",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x30838",
+          "asm": "ldr\tx1, #0x2f348 ; Objc selector ref: contentView"
+        },
+        {
+          "pc": "0x3083c",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x30840",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 contentView]"
+        },
+        {
+          "pc": "0x30844",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x30848",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x3084c",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x30850",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x30854",
+          "asm": "ldr\tx1, #0x2e544 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x30858",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bounds]"
+        },
+        {
+          "pc": "0x3085c",
+          "asm": "mov.16b\tv8, v2"
+        },
+        {
+          "pc": "0x30860",
+          "asm": "mov.16b\tv9, v3"
+        },
+        {
+          "pc": "0x30864",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x30868",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x3086c",
+          "asm": "cmp\tx20, #0x1"
+        },
+        {
+          "pc": "0x30870",
+          "asm": "b.eq\t0x30884"
+        },
+        {
+          "pc": "0x30874",
+          "asm": "cmp\tx20, #0x2"
+        },
+        {
+          "pc": "0x30878",
+          "asm": "b.ne\t0x3088c"
+        },
+        {
+          "pc": "0x3087c",
+          "asm": "mov\tw20, #0x1"
+        },
+        {
+          "pc": "0x30880",
+          "asm": "b\t0x30898"
+        },
+        {
+          "pc": "0x30884",
+          "asm": "mov\tw20, #0x3"
+        },
+        {
+          "pc": "0x30888",
+          "asm": "b\t0x30898"
+        },
+        {
+          "pc": "0x3088c",
+          "asm": "fcmp\td8, d9"
+        },
+        {
+          "pc": "0x30890",
+          "asm": "mov\tw8, #0x3"
+        },
+        {
+          "pc": "0x30894",
+          "asm": "csinc\tx20, x8, xzr, ge"
+        },
+        {
+          "pc": "0x30898",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x3089c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x308a0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x308a4",
+          "asm": "ldp\tx29, x30, [sp, #0x40]"
+        },
+        {
+          "pc": "0x308a8",
+          "asm": "ldp\tx20, x19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x308ac",
+          "asm": "ldp\tx22, x21, [sp, #0x20]"
+        },
+        {
+          "pc": "0x308b0",
+          "asm": "ldp\tx24, x23, [sp, #0x10]"
+        },
+        {
+          "pc": "0x308b4",
+          "asm": "ldp\td9, d8, [sp], #0x50"
+        },
+        {
+          "pc": "0x308b8",
+          "asm": "ret"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x307c4",
+          "asm": "ldr\tx8, #0x23924 ; literal pool symbol address: ___NSDictionary0__"
+        },
+        {
+          "pc": "0x307d0",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x307d8",
+          "asm": "adr\tx0, #162872 ; Objc cfstring ref: @\"appOrientations\""
+        },
+        {
+          "pc": "0x307ec",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x307f8",
+          "asm": "ldr\tx1, #0x2e3a8 ; Objc selector ref: objectForKeyedSubscript:"
+        },
+        {
+          "pc": "0x30800",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 objectForKeyedSubscript:]"
+        },
+        {
+          "pc": "0x30808",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x30814",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x3081c",
+          "asm": "ldr\tx1, #0x2e3ec ; Objc selector ref: integerValue"
+        },
+        {
+          "pc": "0x30824",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 integerValue]"
+        },
+        {
+          "pc": "0x30830",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x30838",
+          "asm": "ldr\tx1, #0x2f348 ; Objc selector ref: contentView"
+        },
+        {
+          "pc": "0x30840",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 contentView]"
+        },
+        {
+          "pc": "0x30848",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x30854",
+          "asm": "ldr\tx1, #0x2e544 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x30858",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bounds]"
+        },
+        {
+          "pc": "0x30868",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x3089c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.applySceneFrame": {
+      "first_pc": "0x313f8",
+      "last_exclusive": "0x31468",
+      "instructions": [
+        {
+          "pc": "0x313f8",
+          "asm": "stp\td9, d8, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x313fc",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x31400",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x31404",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x31408",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x3140c",
+          "asm": "fcmp\td0, d1"
+        },
+        {
+          "pc": "0x31410",
+          "asm": "fcsel\td8, d0, d1, mi"
+        },
+        {
+          "pc": "0x31414",
+          "asm": "fcsel\td9, d1, d0, mi"
+        },
+        {
+          "pc": "0x31418",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3141c",
+          "asm": "ldr\tx1, #0x2d73c ; Objc selector ref: orientation"
+        },
+        {
+          "pc": "0x31420",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 orientation]"
+        },
+        {
+          "pc": "0x31424",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x31428",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3142c",
+          "asm": "ldr\tx1, #0x2e884 ; Objc selector ref: setSceneFrame:orientation:"
+        },
+        {
+          "pc": "0x31430",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x31434",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x31438",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x3143c",
+          "asm": "mov.16b\tv2, v8"
+        },
+        {
+          "pc": "0x31440",
+          "asm": "mov.16b\tv3, v9"
+        },
+        {
+          "pc": "0x31444",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setSceneFrame:orientation:]"
+        },
+        {
+          "pc": "0x31448",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3144c",
+          "asm": "ldr\tx1, #0x2e86c ; Objc selector ref: setSceneFrameChanged:"
+        },
+        {
+          "pc": "0x31450",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x31454",
+          "asm": "mov\tw2, #0x1"
+        },
+        {
+          "pc": "0x31458",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x3145c",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x31460",
+          "asm": "ldp\td9, d8, [sp], #0x30"
+        },
+        {
+          "pc": "0x31464",
+          "asm": "b\t0x458bc ; Objc message: -[x0 setSceneFrameChanged:]"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x3141c",
+          "asm": "ldr\tx1, #0x2d73c ; Objc selector ref: orientation"
+        },
+        {
+          "pc": "0x31420",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 orientation]"
+        },
+        {
+          "pc": "0x3142c",
+          "asm": "ldr\tx1, #0x2e884 ; Objc selector ref: setSceneFrame:orientation:"
+        },
+        {
+          "pc": "0x31444",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setSceneFrame:orientation:]"
+        },
+        {
+          "pc": "0x3144c",
+          "asm": "ldr\tx1, #0x2e86c ; Objc selector ref: setSceneFrameChanged:"
+        },
+        {
+          "pc": "0x31464",
+          "asm": "b\t0x458bc ; Objc message: -[x0 setSceneFrameChanged:]"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.restoreSceneFrame": {
+      "first_pc": "0x31468",
+      "last_exclusive": "0x31500",
+      "instructions": [
+        {
+          "pc": "0x31468",
+          "asm": "stp\td9, d8, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x3146c",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x31470",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x31474",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x31478",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x3147c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31480",
+          "asm": "ldr\tx0, #0x2ee48 ; Objc class ref: _OBJC_CLASS_$_UIScreen"
+        },
+        {
+          "pc": "0x31484",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31488",
+          "asm": "ldr\tx1, #0x2dc90 ; Objc selector ref: mainScreen"
+        },
+        {
+          "pc": "0x3148c",
+          "asm": "bl\t0x458bc ; Objc message: +[UIScreen mainScreen]"
+        },
+        {
+          "pc": "0x31490",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x31494",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x31498",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x3149c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x314a0",
+          "asm": "ldr\tx1, #0x2d8f8 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x314a4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bounds]"
+        },
+        {
+          "pc": "0x314a8",
+          "asm": "mov.16b\tv8, v2"
+        },
+        {
+          "pc": "0x314ac",
+          "asm": "mov.16b\tv9, v3"
+        },
+        {
+          "pc": "0x314b0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x314b4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x314b8",
+          "asm": "fcmp\td8, d9"
+        },
+        {
+          "pc": "0x314bc",
+          "asm": "fcsel\td2, d8, d9, mi"
+        },
+        {
+          "pc": "0x314c0",
+          "asm": "fcsel\td3, d9, d8, mi"
+        },
+        {
+          "pc": "0x314c4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x314c8",
+          "asm": "ldr\tx1, #0x2e7e8 ; Objc selector ref: setSceneFrame:orientation:"
+        },
+        {
+          "pc": "0x314cc",
+          "asm": "fmov\td0, xzr"
+        },
+        {
+          "pc": "0x314d0",
+          "asm": "fmov\td1, xzr"
+        },
+        {
+          "pc": "0x314d4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x314d8",
+          "asm": "mov\tx2, #0x0"
+        },
+        {
+          "pc": "0x314dc",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setSceneFrame:orientation:]"
+        },
+        {
+          "pc": "0x314e0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x314e4",
+          "asm": "ldr\tx1, #0x2e7d4 ; Objc selector ref: setSceneFrameChanged:"
+        },
+        {
+          "pc": "0x314e8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x314ec",
+          "asm": "mov\tw2, #0x0"
+        },
+        {
+          "pc": "0x314f0",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x314f4",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x314f8",
+          "asm": "ldp\td9, d8, [sp], #0x30"
+        },
+        {
+          "pc": "0x314fc",
+          "asm": "b\t0x458bc ; Objc message: -[x0 setSceneFrameChanged:]"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x31488",
+          "asm": "ldr\tx1, #0x2dc90 ; Objc selector ref: mainScreen"
+        },
+        {
+          "pc": "0x3148c",
+          "asm": "bl\t0x458bc ; Objc message: +[UIScreen mainScreen]"
+        },
+        {
+          "pc": "0x31494",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x314a0",
+          "asm": "ldr\tx1, #0x2d8f8 ; Objc selector ref: bounds"
+        },
+        {
+          "pc": "0x314a4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bounds]"
+        },
+        {
+          "pc": "0x314b4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x314c8",
+          "asm": "ldr\tx1, #0x2e7e8 ; Objc selector ref: setSceneFrame:orientation:"
+        },
+        {
+          "pc": "0x314dc",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setSceneFrame:orientation:]"
+        },
+        {
+          "pc": "0x314e4",
+          "asm": "ldr\tx1, #0x2e7d4 ; Objc selector ref: setSceneFrameChanged:"
+        },
+        {
+          "pc": "0x314fc",
+          "asm": "b\t0x458bc ; Objc message: -[x0 setSceneFrameChanged:]"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.setSceneFrame_orientation": {
+      "first_pc": "0x31500",
+      "last_exclusive": "0x31710",
+      "instructions": [
+        {
+          "pc": "0x31500",
+          "asm": "sub\tsp, sp, #0xc0"
+        },
+        {
+          "pc": "0x31504",
+          "asm": "stp\td11, d10, [sp, #0x60]"
+        },
+        {
+          "pc": "0x31508",
+          "asm": "stp\td9, d8, [sp, #0x70]"
+        },
+        {
+          "pc": "0x3150c",
+          "asm": "stp\tx24, x23, [sp, #0x80]"
+        },
+        {
+          "pc": "0x31510",
+          "asm": "stp\tx22, x21, [sp, #0x90]"
+        },
+        {
+          "pc": "0x31514",
+          "asm": "stp\tx20, x19, [sp, #0xa0]"
+        },
+        {
+          "pc": "0x31518",
+          "asm": "stp\tx29, x30, [sp, #0xb0]"
+        },
+        {
+          "pc": "0x3151c",
+          "asm": "add\tx29, sp, #0xb0"
+        },
+        {
+          "pc": "0x31520",
+          "asm": "mov\tx21, x2"
+        },
+        {
+          "pc": "0x31524",
+          "asm": "mov.16b\tv8, v3"
+        },
+        {
+          "pc": "0x31528",
+          "asm": "mov.16b\tv9, v2"
+        },
+        {
+          "pc": "0x3152c",
+          "asm": "mov.16b\tv10, v1"
+        },
+        {
+          "pc": "0x31530",
+          "asm": "mov.16b\tv11, v0"
+        },
+        {
+          "pc": "0x31534",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x31538",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3153c",
+          "asm": "ldr\tx1, #0x2e37c ; Objc selector ref: sceneHandle"
+        },
+        {
+          "pc": "0x31540",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 sceneHandle]"
+        },
+        {
+          "pc": "0x31544",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x31548",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x3154c",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x31550",
+          "asm": "adr\tx0, #159456 ; Objc cfstring ref: @\"sceneIfExists\""
+        },
+        {
+          "pc": "0x31554",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31558",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x3155c",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x31560",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x31564",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 sceneHandle]"
+        },
+        {
+          "pc": "0x31568",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x3156c",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x31570",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x31574",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x31578",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x3157c",
+          "asm": "cbz\tx19, 0x316e8"
+        },
+        {
+          "pc": "0x31580",
+          "asm": "adr\tx0, #149232 ; Objc cfstring ref: @\"settings\""
+        },
+        {
+          "pc": "0x31584",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31588",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x3158c",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x31590",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31594",
+          "asm": "ldr\tx23, #0x2d6a4 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x31598",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x3159c",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x315a0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315a4",
+          "asm": "cbz\tw0, 0x31624"
+        },
+        {
+          "pc": "0x315a8",
+          "asm": "adr\tx0, #149192 ; Objc cfstring ref: @\"settings\""
+        },
+        {
+          "pc": "0x315ac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x315b0",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x315b4",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x315b8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x315bc",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315c0",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x315c4",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x315c8",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x315cc",
+          "asm": "cbz\tx0, 0x31628"
+        },
+        {
+          "pc": "0x315d0",
+          "asm": "adr\tx0, #159424 ; Objc cfstring ref: @\"frame\""
+        },
+        {
+          "pc": "0x315d4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x315d8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x315dc",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x315e0",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x315e4",
+          "asm": "mov\tx1, x23"
+        },
+        {
+          "pc": "0x315e8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315ec",
+          "asm": "cbz\tw0, 0x31628"
+        },
+        {
+          "pc": "0x315f0",
+          "asm": "adr\tx0, #159392 ; Objc cfstring ref: @\"frame\""
+        },
+        {
+          "pc": "0x315f4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x315f8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x315fc",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x31600",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x31604",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x31608",
+          "asm": "mov.16b\tv4, v11"
+        },
+        {
+          "pc": "0x3160c",
+          "asm": "mov.16b\tv5, v10"
+        },
+        {
+          "pc": "0x31610",
+          "asm": "mov.16b\tv6, v9"
+        },
+        {
+          "pc": "0x31614",
+          "asm": "mov.16b\tv7, v8"
+        },
+        {
+          "pc": "0x31618",
+          "asm": "bl\t0x454cc ; symbol stub for: _CGRectEqualToRect"
+        },
+        {
+          "pc": "0x3161c",
+          "asm": "tbz\tw0, #0x0, 0x31628"
+        },
+        {
+          "pc": "0x31620",
+          "asm": "b\t0x316e0"
+        },
+        {
+          "pc": "0x31624",
+          "asm": "mov\tx22, #0x0"
+        },
+        {
+          "pc": "0x31628",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3162c",
+          "asm": "ldr\tx8, #0x22aac ; literal pool symbol address: __NSConcreteStackBlock"
+        },
+        {
+          "pc": "0x31630",
+          "asm": "str\tx8, [sp, #0x18]"
+        },
+        {
+          "pc": "0x31634",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31638",
+          "asm": "ldr\td0, 0x473b0"
+        },
+        {
+          "pc": "0x3163c",
+          "asm": "str\td0, [sp, #0x20]"
+        },
+        {
+          "pc": "0x31640",
+          "asm": "adr\tx8, #296"
+        },
+        {
+          "pc": "0x31644",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31648",
+          "asm": "adr\tx9, #144752"
+        },
+        {
+          "pc": "0x3164c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31650",
+          "asm": "stp\tx8, x9, [sp, #0x28]"
+        },
+        {
+          "pc": "0x31654",
+          "asm": "stp\td11, d10, [sp, #0x38]"
+        },
+        {
+          "pc": "0x31658",
+          "asm": "stp\td9, d8, [sp, #0x48]"
+        },
+        {
+          "pc": "0x3165c",
+          "asm": "str\tx21, [sp, #0x58]"
+        },
+        {
+          "pc": "0x31660",
+          "asm": "add\tx1, sp, #0x18"
+        },
+        {
+          "pc": "0x31664",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x31668",
+          "asm": "bl\t0x31260"
+        },
+        {
+          "pc": "0x3166c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31670",
+          "asm": "ldr\tx1, #0x2e1a8 ; Objc selector ref: index"
+        },
+        {
+          "pc": "0x31674",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x31678",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 index]"
+        },
+        {
+          "pc": "0x3167c",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x31680",
+          "asm": "mov.16b\tv0, v11"
+        },
+        {
+          "pc": "0x31684",
+          "asm": "mov.16b\tv1, v10"
+        },
+        {
+          "pc": "0x31688",
+          "asm": "mov.16b\tv2, v9"
+        },
+        {
+          "pc": "0x3168c",
+          "asm": "mov.16b\tv3, v8"
+        },
+        {
+          "pc": "0x31690",
+          "asm": "bl\t0x455d4 ; symbol stub for: _NSStringFromCGRect"
+        },
+        {
+          "pc": "0x31694",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x31698",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x3169c",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x316a0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x316a4",
+          "asm": "ldr\tx1, #0x2e0f4 ; Objc selector ref: bundleID"
+        },
+        {
+          "pc": "0x316a8",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x316ac",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bundleID]"
+        },
+        {
+          "pc": "0x316b0",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x316b4",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x316b8",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x316bc",
+          "asm": "stp\tx23, x0, [sp, #0x8]"
+        },
+        {
+          "pc": "0x316c0",
+          "asm": "str\tx21, [sp]"
+        },
+        {
+          "pc": "0x316c4",
+          "asm": "adr\tx0, #159244 ; Objc cfstring ref: @\"pane %ld: scene frame -> %@ for %@\""
+        },
+        {
+          "pc": "0x316c8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x316cc",
+          "asm": "bl\t_SPLog"
+        },
+        {
+          "pc": "0x316d0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x316d4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316d8",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x316dc",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316e0",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x316e4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316e8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x316ec",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316f0",
+          "asm": "ldp\tx29, x30, [sp, #0xb0]"
+        },
+        {
+          "pc": "0x316f4",
+          "asm": "ldp\tx20, x19, [sp, #0xa0]"
+        },
+        {
+          "pc": "0x316f8",
+          "asm": "ldp\tx22, x21, [sp, #0x90]"
+        },
+        {
+          "pc": "0x316fc",
+          "asm": "ldp\tx24, x23, [sp, #0x80]"
+        },
+        {
+          "pc": "0x31700",
+          "asm": "ldp\td9, d8, [sp, #0x70]"
+        },
+        {
+          "pc": "0x31704",
+          "asm": "ldp\td11, d10, [sp, #0x60]"
+        },
+        {
+          "pc": "0x31708",
+          "asm": "add\tsp, sp, #0xc0"
+        },
+        {
+          "pc": "0x3170c",
+          "asm": "ret"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x3153c",
+          "asm": "ldr\tx1, #0x2e37c ; Objc selector ref: sceneHandle"
+        },
+        {
+          "pc": "0x31540",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 sceneHandle]"
+        },
+        {
+          "pc": "0x31548",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x31550",
+          "asm": "adr\tx0, #159456 ; Objc cfstring ref: @\"sceneIfExists\""
+        },
+        {
+          "pc": "0x31558",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x31564",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 sceneHandle]"
+        },
+        {
+          "pc": "0x3156c",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x31578",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x31580",
+          "asm": "adr\tx0, #149232 ; Objc cfstring ref: @\"settings\""
+        },
+        {
+          "pc": "0x31588",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x31594",
+          "asm": "ldr\tx23, #0x2d6a4 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x315a0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315a8",
+          "asm": "adr\tx0, #149192 ; Objc cfstring ref: @\"settings\""
+        },
+        {
+          "pc": "0x315b0",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x315bc",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315c4",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x315d0",
+          "asm": "adr\tx0, #159424 ; Objc cfstring ref: @\"frame\""
+        },
+        {
+          "pc": "0x315d8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x315e8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x315f0",
+          "asm": "adr\tx0, #159392 ; Objc cfstring ref: @\"frame\""
+        },
+        {
+          "pc": "0x315f8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x31604",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x31618",
+          "asm": "bl\t0x454cc ; symbol stub for: _CGRectEqualToRect"
+        },
+        {
+          "pc": "0x3162c",
+          "asm": "ldr\tx8, #0x22aac ; literal pool symbol address: __NSConcreteStackBlock"
+        },
+        {
+          "pc": "0x31670",
+          "asm": "ldr\tx1, #0x2e1a8 ; Objc selector ref: index"
+        },
+        {
+          "pc": "0x31678",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 index]"
+        },
+        {
+          "pc": "0x31690",
+          "asm": "bl\t0x455d4 ; symbol stub for: _NSStringFromCGRect"
+        },
+        {
+          "pc": "0x31698",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x316a4",
+          "asm": "ldr\tx1, #0x2e0f4 ; Objc selector ref: bundleID"
+        },
+        {
+          "pc": "0x316ac",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bundleID]"
+        },
+        {
+          "pc": "0x316b4",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x316c4",
+          "asm": "adr\tx0, #159244 ; Objc cfstring ref: @\"pane %ld: scene frame -> %@ for %@\""
+        },
+        {
+          "pc": "0x316d4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316dc",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316e4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x316ec",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.sceneSettingsBlockInvoke": {
+      "first_pc": "0x31768",
+      "last_exclusive": "0x31830",
+      "instructions": [
+        {
+          "pc": "0x31768",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x3176c",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x31770",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x31774",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x31778",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x3177c",
+          "asm": "mov\tx0, x1"
+        },
+        {
+          "pc": "0x31780",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x31784",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x31788",
+          "asm": "cbz\tx0, 0x3181c"
+        },
+        {
+          "pc": "0x3178c",
+          "asm": "adr\tx0, #159012 ; Objc cfstring ref: @\"setFrame:\""
+        },
+        {
+          "pc": "0x31790",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31794",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x31798",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x3179c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x317a0",
+          "asm": "ldr\tx21, #0x2d498 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x317a4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x317a8",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x317ac",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x317b0",
+          "asm": "cbz\tw0, 0x317d4"
+        },
+        {
+          "pc": "0x317b4",
+          "asm": "adr\tx0, #158972 ; Objc cfstring ref: @\"setFrame:\""
+        },
+        {
+          "pc": "0x317b8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x317bc",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x317c0",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x317c4",
+          "asm": "ldp\td0, d1, [x20, #0x20]"
+        },
+        {
+          "pc": "0x317c8",
+          "asm": "ldp\td2, d3, [x20, #0x30]"
+        },
+        {
+          "pc": "0x317cc",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x317d0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x317d4",
+          "asm": "ldr\tx8, [x20, #0x40]"
+        },
+        {
+          "pc": "0x317d8",
+          "asm": "cmp\tx8, #0x1"
+        },
+        {
+          "pc": "0x317dc",
+          "asm": "b.lt\t0x3181c"
+        },
+        {
+          "pc": "0x317e0",
+          "asm": "adr\tx0, #147408 ; Objc cfstring ref: @\"setInterfaceOrientation:\""
+        },
+        {
+          "pc": "0x317e4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x317e8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x317ec",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x317f0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x317f4",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x317f8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x317fc",
+          "asm": "cbz\tw0, 0x3181c"
+        },
+        {
+          "pc": "0x31800",
+          "asm": "adr\tx0, #147376 ; Objc cfstring ref: @\"setInterfaceOrientation:\""
+        },
+        {
+          "pc": "0x31804",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x31808",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x3180c",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x31810",
+          "asm": "ldr\tx2, [x20, #0x40]"
+        },
+        {
+          "pc": "0x31814",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x31818",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x3181c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x31820",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x31824",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x31828",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x3182c",
+          "asm": "b\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x31780",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x3178c",
+          "asm": "adr\tx0, #159012 ; Objc cfstring ref: @\"setFrame:\""
+        },
+        {
+          "pc": "0x31794",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x317a0",
+          "asm": "ldr\tx21, #0x2d498 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x317ac",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x317b4",
+          "asm": "adr\tx0, #158972 ; Objc cfstring ref: @\"setFrame:\""
+        },
+        {
+          "pc": "0x317bc",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x317d0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x317e0",
+          "asm": "adr\tx0, #147408 ; Objc cfstring ref: @\"setInterfaceOrientation:\""
+        },
+        {
+          "pc": "0x317e8",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x317f8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x31800",
+          "asm": "adr\tx0, #147376 ; Objc cfstring ref: @\"setInterfaceOrientation:\""
+        },
+        {
+          "pc": "0x31808",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x31818",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x3182c",
+          "asm": "b\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.loadedOrientationAndWatch": {
+      "first_pc": "0x32b68",
+      "last_exclusive": "0x32cb0",
+      "instructions": [
+        {
+          "pc": "0x32b68",
+          "asm": "mov\tx26, #0x0"
+        },
+        {
+          "pc": "0x32b6c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32b70",
+          "asm": "ldr\tx1, #0x2d0f0 ; Objc selector ref: setOrientation:"
+        },
+        {
+          "pc": "0x32b74",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32b78",
+          "asm": "mov\tx2, #0x0"
+        },
+        {
+          "pc": "0x32b7c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setOrientation:]"
+        },
+        {
+          "pc": "0x32b80",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32b84",
+          "asm": "mov\tx1, x27"
+        },
+        {
+          "pc": "0x32b88",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setOrientation:]"
+        },
+        {
+          "pc": "0x32b8c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x32b90",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x32b94",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x32b98",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32b9c",
+          "asm": "ldr\tx1, #0x2c5cc ; Objc selector ref: frame"
+        },
+        {
+          "pc": "0x32ba0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 frame]"
+        },
+        {
+          "pc": "0x32ba4",
+          "asm": "mov.16b\tv8, v0"
+        },
+        {
+          "pc": "0x32ba8",
+          "asm": "mov.16b\tv9, v1"
+        },
+        {
+          "pc": "0x32bac",
+          "asm": "mov.16b\tv10, v2"
+        },
+        {
+          "pc": "0x32bb0",
+          "asm": "mov.16b\tv11, v3"
+        },
+        {
+          "pc": "0x32bb4",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32bb8",
+          "asm": "ldr\tx1, #0x2cc50 ; Objc selector ref: scaleMode"
+        },
+        {
+          "pc": "0x32bbc",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32bc0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 scaleMode]"
+        },
+        {
+          "pc": "0x32bc4",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x32bc8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32bcc",
+          "asm": "ldr\tx1, #0x2cc44 ; Objc selector ref: layoutInFrame:scaleMode:"
+        },
+        {
+          "pc": "0x32bd0",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32bd4",
+          "asm": "mov.16b\tv0, v8"
+        },
+        {
+          "pc": "0x32bd8",
+          "asm": "mov.16b\tv1, v9"
+        },
+        {
+          "pc": "0x32bdc",
+          "asm": "mov.16b\tv2, v10"
+        },
+        {
+          "pc": "0x32be0",
+          "asm": "mov.16b\tv3, v11"
+        },
+        {
+          "pc": "0x32be4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 layoutInFrame:scaleMode:]"
+        },
+        {
+          "pc": "0x32be8",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x32bec",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x32bf0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32bf4",
+          "asm": "ldr\tx0, #0x2d634 ; Objc class ref: SPDash"
+        },
+        {
+          "pc": "0x32bf8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32bfc",
+          "asm": "ldr\tx1, #0x2c024 ; Objc selector ref: shared"
+        },
+        {
+          "pc": "0x32c00",
+          "asm": "bl\t0x458bc ; Objc message: +[SPDash shared]"
+        },
+        {
+          "pc": "0x32c04",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x32c08",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x32c0c",
+          "asm": "mov\tx24, x0"
+        },
+        {
+          "pc": "0x32c10",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c14",
+          "asm": "ldr\tx1, #0x2d13c ; Objc selector ref: refreshMainScreenPlaceholders"
+        },
+        {
+          "pc": "0x32c18",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 refreshMainScreenPlaceholders]"
+        },
+        {
+          "pc": "0x32c1c",
+          "asm": "mov\tx0, x24"
+        },
+        {
+          "pc": "0x32c20",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x32c24",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32c28",
+          "asm": "ldr\tx1, [sp, #0x50]"
+        },
+        {
+          "pc": "0x32c2c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 refreshMainScreenPlaceholders]"
+        },
+        {
+          "pc": "0x32c30",
+          "asm": "stp\tx0, x19, [sp]"
+        },
+        {
+          "pc": "0x32c34",
+          "asm": "adr\tx0, #154812 ; Objc cfstring ref: @\"pane %ld loaded %@\""
+        },
+        {
+          "pc": "0x32c38",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c3c",
+          "asm": "bl\t_SPLog"
+        },
+        {
+          "pc": "0x32c40",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c44",
+          "asm": "ldr\tx1, #0x2d114 ; Objc selector ref: scheduleGeometryChecksFor:"
+        },
+        {
+          "pc": "0x32c48",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32c4c",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x32c50",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 scheduleGeometryChecksFor:]"
+        },
+        {
+          "pc": "0x32c54",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c58",
+          "asm": "ldr\tx1, #0x2d108 ; Objc selector ref: watchToken"
+        },
+        {
+          "pc": "0x32c5c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32c60",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchToken]"
+        },
+        {
+          "pc": "0x32c64",
+          "asm": "add\tx24, x0, #0x1"
+        },
+        {
+          "pc": "0x32c68",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c6c",
+          "asm": "ldr\tx1, #0x2d0fc ; Objc selector ref: setWatchToken:"
+        },
+        {
+          "pc": "0x32c70",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32c74",
+          "asm": "mov\tx2, x24"
+        },
+        {
+          "pc": "0x32c78",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setWatchToken:]"
+        },
+        {
+          "pc": "0x32c7c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c80",
+          "asm": "ldr\tx1, #0x2d0f0 ; Objc selector ref: watchOrientationFor:token:"
+        },
+        {
+          "pc": "0x32c84",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32c88",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x32c8c",
+          "asm": "mov\tx3, x24"
+        },
+        {
+          "pc": "0x32c90",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchOrientationFor:token:]"
+        },
+        {
+          "pc": "0x32c94",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32c98",
+          "asm": "ldr\tx1, #0x2d0e0 ; Objc selector ref: listenForTouchesIn:"
+        },
+        {
+          "pc": "0x32c9c",
+          "asm": "mov\tx0, x23"
+        },
+        {
+          "pc": "0x32ca0",
+          "asm": "mov\tx2, x19"
+        },
+        {
+          "pc": "0x32ca4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 listenForTouchesIn:]"
+        },
+        {
+          "pc": "0x32ca8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x32cac",
+          "asm": "ldr\tx1, #0x2cf44 ; Objc selector ref: scheduleBarHide"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x32b70",
+          "asm": "ldr\tx1, #0x2d0f0 ; Objc selector ref: setOrientation:"
+        },
+        {
+          "pc": "0x32b7c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setOrientation:]"
+        },
+        {
+          "pc": "0x32b88",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setOrientation:]"
+        },
+        {
+          "pc": "0x32b90",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x32b9c",
+          "asm": "ldr\tx1, #0x2c5cc ; Objc selector ref: frame"
+        },
+        {
+          "pc": "0x32ba0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 frame]"
+        },
+        {
+          "pc": "0x32bb8",
+          "asm": "ldr\tx1, #0x2cc50 ; Objc selector ref: scaleMode"
+        },
+        {
+          "pc": "0x32bc0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 scaleMode]"
+        },
+        {
+          "pc": "0x32bcc",
+          "asm": "ldr\tx1, #0x2cc44 ; Objc selector ref: layoutInFrame:scaleMode:"
+        },
+        {
+          "pc": "0x32be4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 layoutInFrame:scaleMode:]"
+        },
+        {
+          "pc": "0x32bec",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x32bfc",
+          "asm": "ldr\tx1, #0x2c024 ; Objc selector ref: shared"
+        },
+        {
+          "pc": "0x32c00",
+          "asm": "bl\t0x458bc ; Objc message: +[SPDash shared]"
+        },
+        {
+          "pc": "0x32c08",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x32c14",
+          "asm": "ldr\tx1, #0x2d13c ; Objc selector ref: refreshMainScreenPlaceholders"
+        },
+        {
+          "pc": "0x32c18",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 refreshMainScreenPlaceholders]"
+        },
+        {
+          "pc": "0x32c20",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x32c2c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 refreshMainScreenPlaceholders]"
+        },
+        {
+          "pc": "0x32c34",
+          "asm": "adr\tx0, #154812 ; Objc cfstring ref: @\"pane %ld loaded %@\""
+        },
+        {
+          "pc": "0x32c44",
+          "asm": "ldr\tx1, #0x2d114 ; Objc selector ref: scheduleGeometryChecksFor:"
+        },
+        {
+          "pc": "0x32c50",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 scheduleGeometryChecksFor:]"
+        },
+        {
+          "pc": "0x32c58",
+          "asm": "ldr\tx1, #0x2d108 ; Objc selector ref: watchToken"
+        },
+        {
+          "pc": "0x32c60",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchToken]"
+        },
+        {
+          "pc": "0x32c6c",
+          "asm": "ldr\tx1, #0x2d0fc ; Objc selector ref: setWatchToken:"
+        },
+        {
+          "pc": "0x32c78",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setWatchToken:]"
+        },
+        {
+          "pc": "0x32c80",
+          "asm": "ldr\tx1, #0x2d0f0 ; Objc selector ref: watchOrientationFor:token:"
+        },
+        {
+          "pc": "0x32c90",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchOrientationFor:token:]"
+        },
+        {
+          "pc": "0x32c98",
+          "asm": "ldr\tx1, #0x2d0e0 ; Objc selector ref: listenForTouchesIn:"
+        },
+        {
+          "pc": "0x32ca4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 listenForTouchesIn:]"
+        },
+        {
+          "pc": "0x32cac",
+          "asm": "ldr\tx1, #0x2cf44 ; Objc selector ref: scheduleBarHide"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.watchOrientationFor_token": {
+      "first_pc": "0x33ac8",
+      "last_exclusive": "0x33bd8",
+      "instructions": [
+        {
+          "pc": "0x33ac8",
+          "asm": "sub\tsp, sp, #0x70"
+        },
+        {
+          "pc": "0x33acc",
+          "asm": "stp\tx22, x21, [sp, #0x40]"
+        },
+        {
+          "pc": "0x33ad0",
+          "asm": "stp\tx20, x19, [sp, #0x50]"
+        },
+        {
+          "pc": "0x33ad4",
+          "asm": "stp\tx29, x30, [sp, #0x60]"
+        },
+        {
+          "pc": "0x33ad8",
+          "asm": "add\tx29, sp, #0x60"
+        },
+        {
+          "pc": "0x33adc",
+          "asm": "mov\tx19, x3"
+        },
+        {
+          "pc": "0x33ae0",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x33ae4",
+          "asm": "mov\tx0, x2"
+        },
+        {
+          "pc": "0x33ae8",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x33aec",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x33af0",
+          "asm": "sub\tx0, x29, #0x28"
+        },
+        {
+          "pc": "0x33af4",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x33af8",
+          "asm": "bl\t0x458a4 ; symbol stub for: _objc_initWeak"
+        },
+        {
+          "pc": "0x33afc",
+          "asm": "bl\t_SPWeakDevice"
+        },
+        {
+          "pc": "0x33b00",
+          "asm": "cmp\tw0, #0x0"
+        },
+        {
+          "pc": "0x33b04",
+          "asm": "mov\tw8, #0x6500"
+        },
+        {
+          "pc": "0x33b08",
+          "asm": "movk\tw8, #0x1dcd, lsl #16"
+        },
+        {
+          "pc": "0x33b0c",
+          "asm": "mov\tw9, #0xca00"
+        },
+        {
+          "pc": "0x33b10",
+          "asm": "movk\tw9, #0x3b9a, lsl #16"
+        },
+        {
+          "pc": "0x33b14",
+          "asm": "csel\tx1, x9, x8, ne"
+        },
+        {
+          "pc": "0x33b18",
+          "asm": "mov\tx0, #0x0"
+        },
+        {
+          "pc": "0x33b1c",
+          "asm": "bl\t0x456f4 ; symbol stub for: _dispatch_time"
+        },
+        {
+          "pc": "0x33b20",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x33b24",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33b28",
+          "asm": "ldr\tx8, #0x205b0 ; literal pool symbol address: __NSConcreteStackBlock"
+        },
+        {
+          "pc": "0x33b2c",
+          "asm": "str\tx8, [sp]"
+        },
+        {
+          "pc": "0x33b30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33b34",
+          "asm": "ldr\td0, 0x473b8"
+        },
+        {
+          "pc": "0x33b38",
+          "asm": "str\td0, [sp, #0x8]"
+        },
+        {
+          "pc": "0x33b3c",
+          "asm": "adr\tx8, #156"
+        },
+        {
+          "pc": "0x33b40",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33b44",
+          "asm": "adr\tx9, #135364"
+        },
+        {
+          "pc": "0x33b48",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33b4c",
+          "asm": "stp\tx8, x9, [sp, #0x10]"
+        },
+        {
+          "pc": "0x33b50",
+          "asm": "mov\tx8, sp"
+        },
+        {
+          "pc": "0x33b54",
+          "asm": "add\tx22, x8, #0x28"
+        },
+        {
+          "pc": "0x33b58",
+          "asm": "sub\tx1, x29, #0x28"
+        },
+        {
+          "pc": "0x33b5c",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x33b60",
+          "asm": "bl\t0x4585c ; symbol stub for: _objc_copyWeak"
+        },
+        {
+          "pc": "0x33b64",
+          "asm": "str\tx19, [sp, #0x30]"
+        },
+        {
+          "pc": "0x33b68",
+          "asm": "str\tx20, [sp, #0x20]"
+        },
+        {
+          "pc": "0x33b6c",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x33b70",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x33b74",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x33b78",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33b7c",
+          "asm": "ldr\tx1, #0x20584 ; literal pool symbol address: __dispatch_main_q"
+        },
+        {
+          "pc": "0x33b80",
+          "asm": "mov\tx2, sp"
+        },
+        {
+          "pc": "0x33b84",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x33b88",
+          "asm": "bl\t0x45688 ; symbol stub for: _dispatch_after"
+        },
+        {
+          "pc": "0x33b8c",
+          "asm": "ldr\tx0, [sp, #0x20]"
+        },
+        {
+          "pc": "0x33b90",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33b94",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33b98",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33b9c",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x33ba0",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33ba4",
+          "asm": "sub\tx0, x29, #0x28"
+        },
+        {
+          "pc": "0x33ba8",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33bac",
+          "asm": "ldp\tx29, x30, [sp, #0x60]"
+        },
+        {
+          "pc": "0x33bb0",
+          "asm": "ldp\tx20, x19, [sp, #0x50]"
+        },
+        {
+          "pc": "0x33bb4",
+          "asm": "ldp\tx22, x21, [sp, #0x40]"
+        },
+        {
+          "pc": "0x33bb8",
+          "asm": "add\tsp, sp, #0x70"
+        },
+        {
+          "pc": "0x33bbc",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x33bc0",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x33bc4",
+          "asm": "sub\tx0, x29, #0x28"
+        },
+        {
+          "pc": "0x33bc8",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33bcc",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33bd0",
+          "asm": "bl\t0x4561c ; symbol stub for: __Unwind_Resume"
+        },
+        {
+          "pc": "0x33bd4",
+          "asm": "brk\t#0x1"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x33ae8",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x33af8",
+          "asm": "bl\t0x458a4 ; symbol stub for: _objc_initWeak"
+        },
+        {
+          "pc": "0x33b1c",
+          "asm": "bl\t0x456f4 ; symbol stub for: _dispatch_time"
+        },
+        {
+          "pc": "0x33b28",
+          "asm": "ldr\tx8, #0x205b0 ; literal pool symbol address: __NSConcreteStackBlock"
+        },
+        {
+          "pc": "0x33b60",
+          "asm": "bl\t0x4585c ; symbol stub for: _objc_copyWeak"
+        },
+        {
+          "pc": "0x33b70",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x33b7c",
+          "asm": "ldr\tx1, #0x20584 ; literal pool symbol address: __dispatch_main_q"
+        },
+        {
+          "pc": "0x33b88",
+          "asm": "bl\t0x45688 ; symbol stub for: _dispatch_after"
+        },
+        {
+          "pc": "0x33b90",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33b98",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33ba0",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33ba8",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33bc8",
+          "asm": "bl\t0x45868 ; symbol stub for: _objc_destroyWeak"
+        },
+        {
+          "pc": "0x33bd0",
+          "asm": "bl\t0x4561c ; symbol stub for: __Unwind_Resume"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.watchOrientationDispatchBlock": {
+      "first_pc": "0x33bd8",
+      "last_exclusive": "0x33d40",
+      "instructions": [
+        {
+          "pc": "0x33bd8",
+          "asm": "stp\tx24, x23, [sp, #-0x40]!"
+        },
+        {
+          "pc": "0x33bdc",
+          "asm": "stp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x33be0",
+          "asm": "stp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x33be4",
+          "asm": "stp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x33be8",
+          "asm": "add\tx29, sp, #0x30"
+        },
+        {
+          "pc": "0x33bec",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x33bf0",
+          "asm": "add\tx0, x0, #0x28"
+        },
+        {
+          "pc": "0x33bf4",
+          "asm": "bl\t0x458b0 ; symbol stub for: _objc_loadWeakRetained"
+        },
+        {
+          "pc": "0x33bf8",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x33bfc",
+          "asm": "cbz\tx0, 0x33d28"
+        },
+        {
+          "pc": "0x33c00",
+          "asm": "ldr\tx22, [x20, #0x30]"
+        },
+        {
+          "pc": "0x33c04",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c08",
+          "asm": "ldr\tx21, #0x2c158 ; Objc selector ref: watchToken"
+        },
+        {
+          "pc": "0x33c0c",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33c10",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x33c14",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchToken]"
+        },
+        {
+          "pc": "0x33c18",
+          "asm": "cmp\tx22, x0"
+        },
+        {
+          "pc": "0x33c1c",
+          "asm": "b.ne\t0x33d28"
+        },
+        {
+          "pc": "0x33c20",
+          "asm": "adr\tx8, #184312"
+        },
+        {
+          "pc": "0x33c24",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c28",
+          "asm": "ldrb\tw8, [x8]"
+        },
+        {
+          "pc": "0x33c2c",
+          "asm": "cbz\tw8, 0x33d28"
+        },
+        {
+          "pc": "0x33c30",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c34",
+          "asm": "ldr\tx1, #0x2bb64 ; Objc selector ref: bundleID"
+        },
+        {
+          "pc": "0x33c38",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33c3c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bundleID]"
+        },
+        {
+          "pc": "0x33c40",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x33c44",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x33c48",
+          "asm": "mov\tx22, x0"
+        },
+        {
+          "pc": "0x33c4c",
+          "asm": "ldr\tx2, [x20, #0x20]"
+        },
+        {
+          "pc": "0x33c50",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c54",
+          "asm": "ldr\tx1, #0x2ae84 ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x33c58",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x33c5c",
+          "asm": "tbz\tw0, #0x0, 0x33d20"
+        },
+        {
+          "pc": "0x33c60",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c64",
+          "asm": "ldr\tx1, #0x2bc4c ; Objc selector ref: appViewController"
+        },
+        {
+          "pc": "0x33c68",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33c6c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 appViewController]"
+        },
+        {
+          "pc": "0x33c70",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x33c74",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x33c78",
+          "asm": "mov\tx23, x0"
+        },
+        {
+          "pc": "0x33c7c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33c80",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x33c84",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33c88",
+          "asm": "cbz\tx23, 0x33d28"
+        },
+        {
+          "pc": "0x33c8c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33c90",
+          "asm": "ldr\tx1, #0x2c140 ; Objc selector ref: watchTicks"
+        },
+        {
+          "pc": "0x33c94",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33c98",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchTicks]"
+        },
+        {
+          "pc": "0x33c9c",
+          "asm": "add\tx22, x0, #0x1"
+        },
+        {
+          "pc": "0x33ca0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33ca4",
+          "asm": "ldr\tx1, #0x2c05c ; Objc selector ref: setWatchTicks:"
+        },
+        {
+          "pc": "0x33ca8",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33cac",
+          "asm": "mov\tx2, x22"
+        },
+        {
+          "pc": "0x33cb0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setWatchTicks:]"
+        },
+        {
+          "pc": "0x33cb4",
+          "asm": "bl\t_SPWeakDevice"
+        },
+        {
+          "pc": "0x33cb8",
+          "asm": "cmp\tw0, #0x0"
+        },
+        {
+          "pc": "0x33cbc",
+          "asm": "mov\tw8, #0x3"
+        },
+        {
+          "pc": "0x33cc0",
+          "asm": "csinc\tx8, x8, xzr, eq"
+        },
+        {
+          "pc": "0x33cc4",
+          "asm": "tst\tx8, x22"
+        },
+        {
+          "pc": "0x33cc8",
+          "asm": "b.ne\t0x33cdc"
+        },
+        {
+          "pc": "0x33ccc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33cd0",
+          "asm": "ldr\tx1, #0x2c0d8 ; Objc selector ref: enforceSceneGeometry"
+        },
+        {
+          "pc": "0x33cd4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33cd8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 enforceSceneGeometry]"
+        },
+        {
+          "pc": "0x33cdc",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33ce0",
+          "asm": "ldr\tx1, #0x2c0f8 ; Objc selector ref: fixIfSideways"
+        },
+        {
+          "pc": "0x33ce4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33ce8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 fixIfSideways]"
+        },
+        {
+          "pc": "0x33cec",
+          "asm": "ldr\tx22, [x20, #0x30]"
+        },
+        {
+          "pc": "0x33cf0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33cf4",
+          "asm": "mov\tx1, x21"
+        },
+        {
+          "pc": "0x33cf8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 fixIfSideways]"
+        },
+        {
+          "pc": "0x33cfc",
+          "asm": "cmp\tx22, x0"
+        },
+        {
+          "pc": "0x33d00",
+          "asm": "b.ne\t0x33d28"
+        },
+        {
+          "pc": "0x33d04",
+          "asm": "ldr\tx2, [x20, #0x20]"
+        },
+        {
+          "pc": "0x33d08",
+          "asm": "ldr\tx3, [x20, #0x30]"
+        },
+        {
+          "pc": "0x33d0c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x33d10",
+          "asm": "ldr\tx1, #0x2c060 ; Objc selector ref: watchOrientationFor:token:"
+        },
+        {
+          "pc": "0x33d14",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33d18",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchOrientationFor:token:]"
+        },
+        {
+          "pc": "0x33d1c",
+          "asm": "b\t0x33d28"
+        },
+        {
+          "pc": "0x33d20",
+          "asm": "mov\tx0, x22"
+        },
+        {
+          "pc": "0x33d24",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33d28",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x33d2c",
+          "asm": "ldp\tx29, x30, [sp, #0x30]"
+        },
+        {
+          "pc": "0x33d30",
+          "asm": "ldp\tx20, x19, [sp, #0x20]"
+        },
+        {
+          "pc": "0x33d34",
+          "asm": "ldp\tx22, x21, [sp, #0x10]"
+        },
+        {
+          "pc": "0x33d38",
+          "asm": "ldp\tx24, x23, [sp], #0x40"
+        },
+        {
+          "pc": "0x33d3c",
+          "asm": "b\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x33bf4",
+          "asm": "bl\t0x458b0 ; symbol stub for: _objc_loadWeakRetained"
+        },
+        {
+          "pc": "0x33c08",
+          "asm": "ldr\tx21, #0x2c158 ; Objc selector ref: watchToken"
+        },
+        {
+          "pc": "0x33c14",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchToken]"
+        },
+        {
+          "pc": "0x33c34",
+          "asm": "ldr\tx1, #0x2bb64 ; Objc selector ref: bundleID"
+        },
+        {
+          "pc": "0x33c3c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 bundleID]"
+        },
+        {
+          "pc": "0x33c44",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x33c54",
+          "asm": "ldr\tx1, #0x2ae84 ; Objc selector ref: isEqualToString:"
+        },
+        {
+          "pc": "0x33c58",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 isEqualToString:]"
+        },
+        {
+          "pc": "0x33c64",
+          "asm": "ldr\tx1, #0x2bc4c ; Objc selector ref: appViewController"
+        },
+        {
+          "pc": "0x33c6c",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 appViewController]"
+        },
+        {
+          "pc": "0x33c74",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x33c7c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33c84",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33c90",
+          "asm": "ldr\tx1, #0x2c140 ; Objc selector ref: watchTicks"
+        },
+        {
+          "pc": "0x33c98",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchTicks]"
+        },
+        {
+          "pc": "0x33ca4",
+          "asm": "ldr\tx1, #0x2c05c ; Objc selector ref: setWatchTicks:"
+        },
+        {
+          "pc": "0x33cb0",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 setWatchTicks:]"
+        },
+        {
+          "pc": "0x33cd0",
+          "asm": "ldr\tx1, #0x2c0d8 ; Objc selector ref: enforceSceneGeometry"
+        },
+        {
+          "pc": "0x33cd8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 enforceSceneGeometry]"
+        },
+        {
+          "pc": "0x33ce0",
+          "asm": "ldr\tx1, #0x2c0f8 ; Objc selector ref: fixIfSideways"
+        },
+        {
+          "pc": "0x33ce8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 fixIfSideways]"
+        },
+        {
+          "pc": "0x33cf8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 fixIfSideways]"
+        },
+        {
+          "pc": "0x33d10",
+          "asm": "ldr\tx1, #0x2c060 ; Objc selector ref: watchOrientationFor:token:"
+        },
+        {
+          "pc": "0x33d18",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 watchOrientationFor:token:]"
+        },
+        {
+          "pc": "0x33d24",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x33d3c",
+          "asm": "b\t0x458d4 ; symbol stub for: _objc_release"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    },
+    "SPPane.sceneViewOrientation": {
+      "first_pc": "0x34f70",
+      "last_exclusive": "0x35104",
+      "instructions": [
+        {
+          "pc": "0x34f70",
+          "asm": "stp\tx22, x21, [sp, #-0x30]!"
+        },
+        {
+          "pc": "0x34f74",
+          "asm": "stp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x34f78",
+          "asm": "stp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x34f7c",
+          "asm": "add\tx29, sp, #0x20"
+        },
+        {
+          "pc": "0x34f80",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x34f84",
+          "asm": "ldr\tx1, #0x2a92c ; Objc selector ref: appViewController"
+        },
+        {
+          "pc": "0x34f88",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 appViewController]"
+        },
+        {
+          "pc": "0x34f8c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x34f90",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x34f94",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x34f98",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x34f9c",
+          "asm": "cbz\tx0, 0x34fd8"
+        },
+        {
+          "pc": "0x34fa0",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x34fa4",
+          "asm": "ldr\tx1, #0x29cfc ; Objc selector ref: valueForKey:"
+        },
+        {
+          "pc": "0x34fa8",
+          "asm": "adr\tx2, #133448 ; Objc cfstring ref: @\"_deviceAppViewController\""
+        },
+        {
+          "pc": "0x34fac",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x34fb0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x34fb4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x34fb8",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x34fbc",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x34fc0",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x34fc4",
+          "asm": "b\t0x34fdc"
+        },
+        {
+          "pc": "0x34fc8",
+          "asm": "cmp\tw1, #0x1"
+        },
+        {
+          "pc": "0x34fcc",
+          "asm": "b.ne\t0x350e0"
+        },
+        {
+          "pc": "0x34fd0",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x34fd4",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x34fd8",
+          "asm": "mov\tx21, #0x0"
+        },
+        {
+          "pc": "0x34fdc",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x34fe0",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x34fe4",
+          "asm": "adr\tx0, #133420 ; Objc cfstring ref: @\"_sceneView\""
+        },
+        {
+          "pc": "0x34fe8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x34fec",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x34ff0",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x34ff4",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x34ff8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x34ffc",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x35000",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x35004",
+          "asm": "mov\tx19, x0"
+        },
+        {
+          "pc": "0x35008",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x3500c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x35010",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x35014",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x35018",
+          "asm": "cbz\tx19, 0x3509c"
+        },
+        {
+          "pc": "0x3501c",
+          "asm": "adr\tx0, #132276 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x35020",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x35024",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x35028",
+          "asm": "mov\tx2, x0"
+        },
+        {
+          "pc": "0x3502c",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x35030",
+          "asm": "ldr\tx1, #0x29c08 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x35034",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x35038",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x3503c",
+          "asm": "cbz\tw0, 0x35060"
+        },
+        {
+          "pc": "0x35040",
+          "asm": "adr\tx0, #132240 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x35044",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x35048",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x3504c",
+          "asm": "mov\tx1, x0"
+        },
+        {
+          "pc": "0x35050",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x35054",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x35058",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x3505c",
+          "asm": "b\t0x350c4"
+        },
+        {
+          "pc": "0x35060",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x35064",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x35068",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x3506c",
+          "asm": "ldr\tx1, #0x29c34 ; Objc selector ref: valueForKey:"
+        },
+        {
+          "pc": "0x35070",
+          "asm": "adr\tx2, #133344 ; Objc cfstring ref: @\"_orientation\""
+        },
+        {
+          "pc": "0x35074",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x35078",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x3507c",
+          "asm": "mov\tx29, x29"
+        },
+        {
+          "pc": "0x35080",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x35084",
+          "asm": "mov\tx20, x0"
+        },
+        {
+          "pc": "0x35088",
+          "asm": "b\t0x350a0"
+        },
+        {
+          "pc": "0x3508c",
+          "asm": "cmp\tw1, #0x1"
+        },
+        {
+          "pc": "0x35090",
+          "asm": "b.ne\t0x350e0"
+        },
+        {
+          "pc": "0x35094",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x35098",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x3509c",
+          "asm": "mov\tx20, #0x0"
+        },
+        {
+          "pc": "0x350a0",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x350a4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350a8",
+          "asm": "nop"
+        },
+        {
+          "pc": "0x350ac",
+          "asm": "ldr\tx1, #0x29b04 ; Objc selector ref: longLongValue"
+        },
+        {
+          "pc": "0x350b0",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x350b4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 longLongValue]"
+        },
+        {
+          "pc": "0x350b8",
+          "asm": "mov\tx21, x0"
+        },
+        {
+          "pc": "0x350bc",
+          "asm": "mov\tx0, x20"
+        },
+        {
+          "pc": "0x350c0",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350c4",
+          "asm": "mov\tx0, x19"
+        },
+        {
+          "pc": "0x350c8",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350cc",
+          "asm": "mov\tx0, x21"
+        },
+        {
+          "pc": "0x350d0",
+          "asm": "ldp\tx29, x30, [sp, #0x20]"
+        },
+        {
+          "pc": "0x350d4",
+          "asm": "ldp\tx20, x19, [sp, #0x10]"
+        },
+        {
+          "pc": "0x350d8",
+          "asm": "ldp\tx22, x21, [sp], #0x30"
+        },
+        {
+          "pc": "0x350dc",
+          "asm": "ret"
+        },
+        {
+          "pc": "0x350e0",
+          "asm": "mov\tw8, #0x1"
+        },
+        {
+          "pc": "0x350e4",
+          "asm": "cmp\tw1, w8"
+        },
+        {
+          "pc": "0x350e8",
+          "asm": "b.ne\t0x350fc"
+        },
+        {
+          "pc": "0x350ec",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x350f0",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x350f4",
+          "asm": "mov\tx21, #0x0"
+        },
+        {
+          "pc": "0x350f8",
+          "asm": "b\t0x350cc"
+        },
+        {
+          "pc": "0x350fc",
+          "asm": "bl\t0x4561c ; symbol stub for: __Unwind_Resume"
+        },
+        {
+          "pc": "0x35100",
+          "asm": "brk\t#0x1"
+        }
+      ],
+      "annotated_callsites": [
+        {
+          "pc": "0x34f84",
+          "asm": "ldr\tx1, #0x2a92c ; Objc selector ref: appViewController"
+        },
+        {
+          "pc": "0x34f88",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 appViewController]"
+        },
+        {
+          "pc": "0x34f90",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x34f94",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x34fa4",
+          "asm": "ldr\tx1, #0x29cfc ; Objc selector ref: valueForKey:"
+        },
+        {
+          "pc": "0x34fa8",
+          "asm": "adr\tx2, #133448 ; Objc cfstring ref: @\"_deviceAppViewController\""
+        },
+        {
+          "pc": "0x34fb4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x34fbc",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x34fd0",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x34fd4",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x34fe0",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x34fe4",
+          "asm": "adr\tx0, #133420 ; Objc cfstring ref: @\"_sceneView\""
+        },
+        {
+          "pc": "0x34fec",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x34ff8",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x35000",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x3500c",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x35014",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x3501c",
+          "asm": "adr\tx0, #132276 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x35024",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x35030",
+          "asm": "ldr\tx1, #0x29c08 ; Objc selector ref: respondsToSelector:"
+        },
+        {
+          "pc": "0x35038",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x35040",
+          "asm": "adr\tx0, #132240 ; Objc cfstring ref: @\"orientation\""
+        },
+        {
+          "pc": "0x35048",
+          "asm": "bl\t0x455c8 ; symbol stub for: _NSSelectorFromString"
+        },
+        {
+          "pc": "0x35054",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 respondsToSelector:]"
+        },
+        {
+          "pc": "0x35064",
+          "asm": "bl\t0x458e0 ; symbol stub for: _objc_retain"
+        },
+        {
+          "pc": "0x3506c",
+          "asm": "ldr\tx1, #0x29c34 ; Objc selector ref: valueForKey:"
+        },
+        {
+          "pc": "0x35070",
+          "asm": "adr\tx2, #133344 ; Objc cfstring ref: @\"_orientation\""
+        },
+        {
+          "pc": "0x35078",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 valueForKey:]"
+        },
+        {
+          "pc": "0x35080",
+          "asm": "bl\t0x45904 ; symbol stub for: _objc_retainAutoreleasedReturnValue"
+        },
+        {
+          "pc": "0x35094",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x35098",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x350a4",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350ac",
+          "asm": "ldr\tx1, #0x29b04 ; Objc selector ref: longLongValue"
+        },
+        {
+          "pc": "0x350b4",
+          "asm": "bl\t0x458bc ; Objc message: -[x0 longLongValue]"
+        },
+        {
+          "pc": "0x350c0",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350c8",
+          "asm": "bl\t0x458d4 ; symbol stub for: _objc_release"
+        },
+        {
+          "pc": "0x350ec",
+          "asm": "bl\t0x45844 ; symbol stub for: _objc_begin_catch"
+        },
+        {
+          "pc": "0x350f0",
+          "asm": "bl\t0x45874 ; symbol stub for: _objc_end_catch"
+        },
+        {
+          "pc": "0x350fc",
+          "asm": "bl\t0x4561c ; symbol stub for: __Unwind_Resume"
+        }
+      ],
+      "precise_method_or_block_body_only": true
+    }
+  }
+}
