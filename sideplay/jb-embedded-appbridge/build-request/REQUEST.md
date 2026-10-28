@@ -1,3 +1,13 @@
+# DuoFace .90 original Native12 process-local orientation candidate — QA signed DEB request, 2026-10-28
+
+- PRIOR .89 SILEO VERSION IS DEVICE FAIL; do not overwrite or reuse .89 artifacts.
+- First-party rootless integrated package 0.0.90~nativegetters1, native host 0.1.99~nativegetters1.
+- Original REAL Native12 app injected Dashboard SHA256 9e02a4bcee98fb703777122c67286158d9ca9cfa3088887b5ca280c580a695ea; actual original 36 callback ARM64 analysis at sideplay/audit/native12-083-rotation-20261028/NATIVE12_ORIGINAL_36_HOOK_CALLBACKS_RUN_40667230467.json, run 40667230467 PASS.
+- YouTube-only ABI-checked first-party UIKit supportedInterfaceOrientations, UIWindowScene.interfaceOrientation, UIDevice.orientation and future UIWindow rotation wrappers. Lease is scoped by exact owner app scene, 3 seconds renewed by live host. Saved original IMP outside lease. Existing .83 media lifecycle, Maps, Dock and Chrome unchanged; no vendor code/license included.
+- Source-only iOS16 arm64 compile and dynamiclink PASS run 40672304371, latest full .90 source checks must PASS. User still needs real-device split, solo, swipe, fullscreen and playback validation. Do NOT call this a fix until device confirms.
+- Only use the existing one-DEB staging workflow, archive SHA256SUMS and provenance, append existing handoff atomically, then publish to Sileo as separate version only after successful package CI. Do not deploy old .89 under the new filename.
+- Build trigger: 090-native12-original-state-hooks-sha-pinned-20261028.
+
 # DuoFace .89 first-party YouTube v2 split/scene UIKit parity QA — 2026-10-28
 
 ## Reproducible bug (latest physical)
