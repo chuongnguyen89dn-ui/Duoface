@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 — ĐÃ BUILD .83 DEB VÀ GỬI PIPELINE SILEO (CHỜ XÁC MINH DEPLOY)
+
+**User yêu cầu:** “Ko đưa lên sileo thử kiểu j”. Bản sửa độc lập .83 phải cài được từ Sileo để kiểm thử crash thật; không nhầm build/PACKAGES PASS với thiết bị PASS.
+
+**BUILD ĐÃ ĐƯỢC XÁC MINH:** GitHub Actions `Duoface` [40616750730](https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40616750730) `completed/success` và job 122580915376 tất cả steps PASS: 5 Python suites, Foundation executable scene lifecycle harness, Theos/rootless NativeHost 0.1.92, integrated 0.0.83, hashed archive. Artifact commit `c3ea15eb51cf554f1425697a2c6ae07a8532849b`, source commit `2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b`. Exact DEB `sideplay/jb-embedded-appbridge/evidence/runs/40616750730/com.duoface.jb.embedded_0.0.83~manualobserver1_iphoneos-arm64.deb`, SHA256 `ced5f42db8b9a3285ccf159386f25e8e5ea0fa976e14c3b35ea24dd625534c9b` (SHA256SUMS and PACKAGING_PROVENANCE.json read back), nativehost SHA256 `a70d8a040ea874c08ba8f3c0312b34f44ebbf0b78a9382c6f2d7bc4a3d72343f`. Metadata: one own package `com.duoface.jb.embedded`, 30 files, rootless iOS16, no third-party CarBridge.
+
+**SILEO PUBLISH PIPELINE:** Correct publisher is `chuongnguyen89dn-ui/carplaydsp` main `.github/workflows/build.yml` (not staging `.github/workflows/duoface-sileo.yml`). Updated ONLY integrated DuoFace pin to append immutable .83 DEB URL with commit+SHA, archive all old .82 binaries, expected historical 52→53, filter Sileo APT to exactly one `.83` record, and update public Pages verifier for version/SHA. Main commit `6afd10adf5873d427fba141931e6dc71255c8568`. GitHub Actions [40617170720](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40617170720) publisher and [40617170697](https://github.com/chuongnguyen89dn-ui/carplaydsp/actions/runs/40617170697) YAML validator **QUEUED tại checkpoint**. Không tuyên bố Sileo LIVE trước khi build + deploy + public verifier PASS.
+
+**Next exact action:** query runs 40617170720/40617170697; nếu failed đọc steps/log và chỉ sửa failure có chứng cứ. Nếu success mở public `https://chuongnguyen89dn-ui.github.io/carplaydsp/Packages`, đảm bảo đúng một `com.duoface.jb.embedded` 0.0.83~manualobserver1 với SHA `ced5f42d...` và public DEB checksum. Sau đó mới báo người dùng refresh Sileo và cập nhật để thử YouTube/FB khi xe đỗ. Không sửa Dock/Zoom/logo, không đổ lỗi AppData khi A/B đã user báo fail.
+
+---
 ## CHECKPOINT 2026-10-28 — USER YÊU CẦU SILEO TEST .83; STAGING BUILD ĐÃ KÍCH HOẠT (ĐANG CHẠY, CHƯA PUBLISH)
 
 **Yêu cầu mới:** “Ko đưa lên sileo thử kiểu j” — yêu cầu có một DEB .83 thật trên nguồn Sileo để kiểm tra CarPlay. Không coi source-test là device test. Chỉ thay đổi DuoFace, không xóa/can thiệp code dự án khác, không copy vendor/license.
