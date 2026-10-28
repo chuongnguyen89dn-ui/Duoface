@@ -1849,3 +1849,7 @@ User confirmed .86 wrong YouTube rotation; freeze native Google Maps. First-part
 
 ## 2026-10-28 — Original SidePlay app orientation IPC receiver investigation run 40646045559
 User .86 orientation remains wrong. Immutable SHA verified original DEB. Scan all original dylibs and LLVM ARM64 callsites around orientation notification, private UIKit geometry and app callback. Exact report: sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_ORIENTATION_IPC_RECEIVER_RUN_40646045559.json. Workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40646045559. Read-only; Maps/Dock/.83 video lifecycle unchanged, no DEB or Sileo. Next: distinguish genuine SidePlay app-process receiver from SpringBoard sender, and implement independent owner-scoped YouTube correction only with proven runtime and ABI.
+
+
+## 2026-10-28 — Original SidePlay app orientation IPC receiver investigation run 40646405095
+User .86 orientation remains wrong. Immutable SHA verified original DEB. Scan all original dylibs and LLVM ARM64 callsites around orientation notification, private UIKit geometry and app callback. Exact report: sideplay/audit/native12-083-rotation-20261028/SIDEPLAY_ORIENTATION_IPC_RECEIVER_RUN_40646405095.json. Workflow https://github.com/chuongnguyen89dn-ui/Duoface/actions/runs/40646405095. Read-only; Maps/Dock/.83 video lifecycle unchanged, no DEB or Sileo. Next: distinguish genuine SidePlay app-process receiver from SpringBoard sender, and implement independent owner-scoped YouTube correction only with proven runtime and ABI.
