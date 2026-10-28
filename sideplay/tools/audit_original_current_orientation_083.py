@@ -7,6 +7,7 @@ import json
 import pathlib
 import re
 import subprocess
+import shutil
 
 P=pathlib.Path
 TARGETS={
@@ -89,6 +90,32 @@ def audit(repo,inputs,out):
      original["setContentReferenceSize:withInterfaceOrientation:"]["present"] and
      original["setContentReferenceSize:withContentOrientation:andContainerOrientation:"]["present"],
  }
+ # Static ARM64 direct replacement IMPs for orientation-related Native12 hooks.
+ # Address ranges are from the verified MSHookMessageEx registration in
+ # sideplay/audit/native12-082-transaction-20261028/TRANSACTION_ARM64.json.
+ tool=shutil.which("llvm-objdump")
+ ranges={
+   "native12_content_reference_2arg":("0x2c895c","0x2c8a50"),
+   "native12_content_reference_3arg":("0x2c8a50","0x2c8b4c"),
+   "native12_mainSceneSupportsInterfaceOrientation":("0x2c8b4c","0x2c8ca8"),
+ }
+ hook_disassembly={}
+ for label,(start,stop) in ranges.items():
+  if tool:
+   cmd=[tool,"--macho","--arch=arm64","--disassemble",
+        "--start-address="+start,"--stop-address="+stop,
+        str(select(out/"native12","DuoFaceDashboard.dylib"))]
+   done=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+   lines=done.stdout.decode("utf8","replace").splitlines()
+   code=[line.strip() for line in lines if re.match(r"^\s*(?:0x)?[0-9a-f]{5,}:\s",line)]
+   hook_disassembly[label]={"status":"PASS" if done.returncode==0 and code else "EMPTY",
+                            "start":start,"stop":stop,"instructions":code[:180],
+                            "error":done.stderr.decode("utf8","replace")[:300]}
+  else:
+   hook_disassembly[label]={"status":"LLVM_OBJDUMP_UNAVAILABLE","instructions":[]}
+ results["orientation_hook_arm64"]=hook_disassembly
+ print("EXACT_ORIGINAL_HOOK_ARM64",
+       json.dumps({k:[v["status"],len(v["instructions"])] for k,v in hook_disassembly.items()}))
  # Compare method-proven ARM64 original with source of exact .83 build,
  # not merely strings that could belong to dead code or comments.
  source=(repo/"sideplay/duoface-native-scene-host/DFSceneHost.m").read_text()
