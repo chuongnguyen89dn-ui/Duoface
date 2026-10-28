@@ -8,6 +8,7 @@
 #import <unistd.h>
 #import <sys/stat.h>
 #import <string.h>
+#import <errno.h>
 #import <stdlib.h>
 
 static NSString *const DFMapOwnerLog = @"/var/mobile/Library/Logs/DuoFaceCarPlayOwnerSnapshot.log";
