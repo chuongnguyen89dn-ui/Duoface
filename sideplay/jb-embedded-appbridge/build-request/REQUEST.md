@@ -1,3 +1,13 @@
+## DuoFace .92 — USER AUTHORIZED INTEGRATED SIGNED DEB, 2026-10-28
+
+- User: “Ko. Đã quét rồi thì tích hợp vào deb luôn”. Supersedes source-only position of checkpoint 96d2d215. Build one NEW rootless integrated DEB from verified feature source; do not ship .91 renamed as .92 or copy vendor binary/license.
+- Integrated Version `0.0.92~logo3s1`, NativeHost `0.1.101~logo3s1`. Source includes `DFLogoHoldGate.h`, `DFNative12Chrome.m` 3-second hold, same split/SOLO, .90 YouTube verified rotation, and .91 Maps opt-in code untouched.
+- Use existing macOS one-DEB packaging pipeline, dpkg-deb version/SHA, provenance, unit tests, YouTube ABI, signed artifact and immutable project-run archive. Preserve .90 rollback and no silent live-system mutation. Source-only run 40705259552 PASS; physical hold and native map pixels NOT tested.
+- Once build passes, publish exact version/hash through existing Sileo workflow and verify remote Packages+DEB hash. Device test parked only. Native12 full parity remains unproven.
+- Build trigger: 092-logo3s-current-source-signed-one-deb-20261028.
+
+---
+
 ## DuoFace .91 single DEB retry 3: all NativeHost .90-version test references reviewed, 2026-10-28
 
 - Run `40689188238` failed before build at `test_youtube_scene_feedback_089.py`: legacy native host 0.1.99 assertion. Updated only native host module expected version to 0.1.100; **retained historical .90 YouTube runtime/hook tests and six .90 protected files**.

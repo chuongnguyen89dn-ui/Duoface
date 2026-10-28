@@ -39,6 +39,6 @@ class PortraitPolicy84(unittest.TestCase):
  def test_versioned_isolated_artifact_not_083_overwrite(self):
   b=source("build.sh")
   control=source("control")
-  self.assertIn("0.1.100~nativemapqa1",b)
-  self.assertIn("Version: 0.1.100~nativemapqa1",control)
+  self.assertIn("0.1.101~logo3s1",b)
+  self.assertIn("Version: 0.1.101~logo3s1",control)
 if __name__=="__main__":unittest.main(verbosity=2)
