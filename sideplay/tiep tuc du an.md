@@ -1,3 +1,14 @@
+## CHECKPOINT 2026-10-28 — USER CÀI CHOICY NHƯNG VẪN CRASH; CHƯA XÁC MINH APPDATA OFF
+
+**Báo cáo mới của chủ thiết bị:** “Cài rồi vx crash” (sau hướng dẫn Choicy). **Phân loại chính xác:** đã cài Choicy và vẫn có crash, nhưng CHƯA BIẾT người dùng đã chọn Deny *AppData.dylib* cụ thể trong SpringBoard/Daemons + respring hay chỉ mới cài Choicy. Chưa thể ghi 'AppData OFF mà vẫn crash' hay 'A/B thất bại'. Choicy chỉ là công cụ cấu hình injection; bản thân cài nó không vô hiệu hóa tweak. Bản thử trên máy cần biết tiến trình SpringBoard thực sự không load AppData.
+
+**Xác minh GitHub ngay khi nhận báo cáo:** nhánh DuoFace HEAD 881da3042507afc52141aa6eedff551c1eb5a7c8; main HEAD 06dee0402cc4bdebcec41992f10797c0d04fc7bf (upload .82 logs lúc 2026-10-28T00:43:04Z), không có IPS/DuoFaceAudit mới hơn trong sideplay/log; active GitHub Actions 0. Vì vậy mọi IPS trên GitHub vẫn thuộc baseline đã phân tích, không chứng minh kết quả A/B Choicy.
+
+**Bước duy nhất người dùng cần xác nhận:** trong Settings > Choicy > Daemons > SpringBoard (tùy phiên bản có thể tên khác) > Custom Tweak Configuration > Deny, AppData.dylib đã được chọn và đã respring chưa? Không được chọn Disable Tweak Injection cho toàn SpringBoard, vì sẽ tắt cả DuoFace. Nếu AppData đã Deny, yêu cầu log/IPS mới sau thử để kiểm stack không có ImmortalizerHooks; nếu AppData còn trong stack thì chưa áp dụng rule; nếu không có mà cùng +720, ưu tiên target first-party lifecycle observer. Giữ cấu hình cũ để khôi phục.
+
+**Không làm:** chưa sửa runtime, chưa tạo DEB mới/Sileo, chưa tuyên bố A/B PASS/FAIL; không quay .37 hay quét lại hàng trăm DEB. Hướng kỹ thuật vẫn ở sideplay/audit/native12-082-transaction-20261028/FULL_DEB_CROSSWALK_20261028.md.
+
+---
 ## CHECKPOINT 2026-10-28 — CHỐT PHÉP THỬ PHÂN BIỆT ROOT CAUSE +720 (CHƯA THỬ)
 
 **Câu hỏi:** “Vậy giờ làm sao?” Sau audit năm họ DEB và 11 Native12 hooks trong sideplay/audit/native12-082-transaction-20261028/FULL_DEB_CROSSWALK_20261028.md, quyết định một phép thử có thể bác bỏ trước khi thêm hook/sửa foreground/ra bản mới. Không quay .37, không sửa UI/zoom/Dock.
