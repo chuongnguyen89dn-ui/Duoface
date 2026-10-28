@@ -72,7 +72,8 @@ static inline BOOL DFYTRotate(id window, NSInteger orientation) {
 // The previous .87 implementation only examined UIWindowScene.windows.
 // Read-only enumeration; mutation still requires exact UIWindowScene owner.
 static inline NSArray *DFYTVisibleInternalWindows(void) {
-    Class cls=UIWindow.class;
+    Class cls=NSClassFromString(@"UIWindow");
+    if(!cls)return nil;
     for(NSString *name in @[@"allWindowsIncludingInternalWindows:onlyVisibleWindows:",
                              @"_allWindowsIncludingInternalWindows:onlyVisibleWindows:"]) {
         SEL sel=NSSelectorFromString(name);
