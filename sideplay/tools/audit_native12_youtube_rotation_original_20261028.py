@@ -91,7 +91,7 @@ def audit_objdump(binary, index, out, expected):
     raw=binary.read_bytes()
     h=sha(raw)
     if expected and h!=expected:raise RuntimeError(binary.name+" SHA256 mismatch "+h)
-    exe=out/"thin-"+binary.name
+    exe=out/("thin-"+binary.name)
     import os
     sys.path.insert(0,os.environ["NATIVE_PARSER_DIR"])
     from audit_native12_license_class_xrefs import select_arm64
