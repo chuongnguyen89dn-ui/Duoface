@@ -9,3 +9,7 @@ Build marker: 088-original-uikitreflow-1.
 ## CI rerun after exact regression failure
 Run 40655833401 FAILED only at unit source assertions with stale .87/.1.96 version literals in test_nativeowner_086.py and test_orientation_policy_084.py; new .88 test itself PASS. Updated expected strings to .88/.1.97 at commits 231abdbb and 2d53ca63. No binary compiled in failed run. Re-run current source full package.
 Build marker: 088-original-uikitreflow-2.
+
+## Re-run archiver version gate
+Run 40655957242 passed source/unit/runtime and signed .88 integrated package before archive, but evidence-saving script failed: `ValueError: expected exactly one staged .87 DEB` from `sideplay/tools/append_086_ci_handoff.py`. Corrected script to match .88 artifact, include physical .87 fail and swipe evidence. Re-run immutable export; no device/Sileo claim.
+Build marker: 088-original-uikitreflow-3.
