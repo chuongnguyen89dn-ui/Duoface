@@ -47,6 +47,19 @@ jobs:
           for f in DFSceneHost.m DFSceneLifecycle.m DFNative12Chrome.m; do
             git show "2a6a92b38f559dcd1e20dccb0a5422b6db9afe2b:sideplay/duoface-native-scene-host/$f" | cmp - "sideplay/duoface-native-scene-host/$f"
           done
+          if ! command -v llvm-objdump >/dev/null; then
+            for ver in 20 19 18 17 16 15 14; do
+              if command -v "llvm-objdump-$ver" >/dev/null; then
+                sudo ln -sf "$(command -v "llvm-objdump-$ver")" /usr/local/bin/llvm-objdump
+                break
+              fi
+            done
+          fi
+          if ! command -v llvm-objdump >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq llvm
+          fi
+          llvm-objdump --version | head -2
           python3 sideplay/tools/audit_original_current_orientation_083.py \
             --repo . --duoface083 "$RUNNER_TEMP/orientation/083.deb" \
             --native12 "$RUNNER_TEMP/orientation/native12.deb" \
