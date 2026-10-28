@@ -21,7 +21,6 @@ EXPECTED_IMPS={
  ("SCPCarSplit","publishCarPlayApps"):0x21b1c,
  ("SCPCarSplit","scene:destroyedForViewController:ownScene:"):0x1ad58,
  ("SCPHostedAppVC","sceneHostView"):0xfdbc,
- ("SCPCarSplit","setBarVisible:forPane:"):0x24330,
 }
 # Group names describe responsibilities, NOT which runtime branch was taken.
 GROUPS={
