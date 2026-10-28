@@ -25,6 +25,10 @@ on:
       - 'sideplay/duoface-native-scene-host/speed8/**'
       - 'sideplay/duoface-native-scene-host/tests/test_speed8_protocol.py'
       - 'sideplay/duoface-native-scene-host/DFAppPickerVC.*'
+      - 'sideplay/duoface-native-scene-host/DFNativeHostRootController.m'
+      - 'sideplay/duoface-native-scene-host/DFEnabledAppsPolicy.h'
+      - 'sideplay/duoface-native-scene-host/tests/test_native12_phone_apps_manager_094.py'
+      - 'sideplay/duoface-native-scene-host/tests/enabled_apps_policy_runtime.m'
       - 'sideplay/duoface-native-scene-host/tests/test_app_tile_original_palette.py'
       - 'sideplay/duoface-native-scene-host/tests/test_scenehost_safety.py'
       - '.github/workflows/duoface-native12-source-only-validation.yml'
@@ -51,6 +55,7 @@ jobs:
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_scenehost_safety.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_viewport_bridge.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_app_tile_original_palette.py' -v
+          python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_native12_phone_apps_manager_094.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_preview_geometry.py' -v
           python3 -m unittest discover -s sideplay/jb-embedded-appbridge/tests -p 'test_integrated_package.py' -v
           python3 -m unittest discover -s sideplay/duoface-native-scene-host/tests -p 'test_speed8_protocol.py' -v
@@ -66,6 +71,12 @@ jobs:
           cd sideplay/duoface-native-scene-host
           xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/youtube_handshake_runtime.m -o "$RUNNER_TEMP/youtube-handshake"
           "$RUNNER_TEMP/youtube-handshake"
+      - name: Execute enabled-apps persisted policy macOS Foundation runtime
+        run: |
+          set -euo pipefail
+          cd sideplay/duoface-native-scene-host
+          xcrun clang -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -I . tests/enabled_apps_policy_runtime.m -o "$RUNNER_TEMP/enabled-apps-runtime"
+          "$RUNNER_TEMP/enabled-apps-runtime"
       - name: Real Objective-C iOS16 SDK syntax checks; do not package or publish
         shell: bash
         run: |
@@ -73,7 +84,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           test -d "$SDK"
           cd sideplay/duoface-native-scene-host
-          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
+          for FILE in DFNativeDiagnostics.m DFNativeHostAppDelegate.m DFNativeHostRootController.m DFAppPickerVC.m DFNative12Chrome.m DFNative12PresetPreview.m DFSceneHost.m DFSceneLifecycle.m DFYouTubeOrientationRelay.m DFYouTubeOrientationVirtualization.m DFAppViewportRelay.m DFDockZoomCoordinator.m DFCarPlayDockOwner.m DFTouchOwnerProbe.m; do
             echo "COMPILING_SOURCE_ONLY $FILE"
             xcrun --sdk iphoneos clang -fsyntax-only -fobjc-arc -fblocks \
               -target arm64-apple-ios16.0 -isysroot "$SDK" \

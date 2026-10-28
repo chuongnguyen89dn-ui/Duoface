@@ -1,0 +1,63 @@
+name: DuoFace .94 iPhone App Manager scope — save existing project handoff
+on:
+  push:
+    branches: [feature/duoface-jb-embedded-appbridge-20261020]
+    paths:
+      - 'sideplay/audit/native12-phone-apps-094/REPORT.md'
+permissions:
+  contents: write
+concurrency:
+  group: duoface-phone-apps-094-handoff
+  cancel-in-progress: false
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append to existing handoff with atomic push and readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feature/duoface-jb-embedded-appbridge-20261020'
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin "$BRANCH"
+            TEMP="$(mktemp -d)"
+            git worktree add --detach "$TEMP" FETCH_HEAD
+            git -C "$TEMP" config user.name 'github-actions[bot]'
+            git -C "$TEMP" config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            python3 - "$TEMP/sideplay/tiep tuc du an.md" <<'PY'
+          from pathlib import Path
+          import sys
+          p=Path(sys.argv[1])
+          if not p.is_file(): raise RuntimeError('missing existing handoff; refuse duplicate')
+          previous=p.read_text(encoding='utf-8')
+          marker='## CHECKPOINT 2026-10-29: iPhone Apps Manager .94 first-party'
+          block=marker+'\\n\\n'+(
+            '- NEW USER SCOPE: implement per-app iPhone enable/disable and Bật đề xuất/Bật tất cả/Tắt tất cả first; compare OmniCar and DuoDash original. This overrides prior .93 rollback only for this one feature.\\n'
+            '- SOURCES: Native12 12+22 original-method ARM64 runs 40699487806 / 40700551205 prove iPhone toggles/menu and ONE CarPlay app/slot. DuoDash 1.1.3 picker _readBridged/_enumerateApps/_persistAndNotify and in-car My Apps verified in docs/duoface-vs-duodash-app-selection-iphone-carplay-20261016.md. OmniCar 1.0.3 scene audit does NOT prove phone app-manager implementation.\\n'
+            '- SOURCE IMPLEMENTED commit d0477263fbe19ad287d8ee84ad74c0d86fd6fce3, full audit sideplay/audit/native12-phone-apps-094/REPORT.md; first-party DFEnabledAppsPolicy.h, DFNativeHostRootController.m, DFAppPickerVC.m. All/none/recommended controls + persisted allowlist, live notify. No YouTube/Dock/Maps/logo changes, no vendor license.\\n'
+            '- TESTS: macOS Foundation executable and iOS16 SDK syntax plus Python source regression added. Await actual CI run; NO claim of signed .94 DEB, Sileo or device success yet. Public verified Sileo remains .92.\\n'
+            '- NEXT: inspect source-only CI, fix exact failed test/build if any, then build signed .94 one-DEB QA with exact hashes, archive, Sileo publish after approval/check, test on parked iPhone X CarPlay toggles and hot refresh + no crash.\\n\\n---\\n\\n')
+          if marker not in previous:
+            p.write_text(block+previous,encoding='utf-8')
+            verified=p.read_text(encoding='utf-8')
+            assert verified.startswith(block) and verified.endswith(previous)
+            print('PHONE_MANAGER_HANDOFF_READBACK_PASS')
+          else:
+            print('PHONE_MANAGER_HANDOFF_ALREADY_PRESENT')
+          PY
+            git -C "$TEMP" add 'sideplay/tiep tuc du an.md'
+            if git -C "$TEMP" diff --cached --quiet; then
+              git worktree remove --force "$TEMP"
+              exit 0
+            fi
+            git -C "$TEMP" commit -m 'handoff: .94 iPhone Apps Manager cross-product source checkpoint [skip ci]'
+            if git -C "$TEMP" push origin "HEAD:refs/heads/$BRANCH"; then
+              git worktree remove --force "$TEMP"
+              echo PHONE_MANAGER_HANDOFF_GITHUB_PUSH_VERIFIED
+              exit 0
+            fi
+            git worktree remove --force "$TEMP"
+          done
+          exit 1
