@@ -2,6 +2,7 @@
 // project's own prior scene-host experiments; no vendor binary or license.
 #import "DFAppLibrary.h"
 #import "DFAppEligibility.h"
+#import "DFAppCatalogPolicy.h"
 
 @implementation DFAppInfo
 @end
@@ -31,22 +32,9 @@
     }
 #pragma clang diagnostic pop
 
-    for (id proxy in proxies) {
-
-        NSString *bundleID=nil, *name=nil;
-        @try {
-            bundleID=[proxy valueForKey:@"applicationIdentifier"];
-            name=[proxy valueForKey:@"localizedName"];
-        } @catch (NSException *exception) {
-            NSLog(@"[DuoFaceScene] event=app-proxy-skipped type=%@",NSStringFromClass(exception.class));
-            continue;
-        }
-        if (!DFIsEligibleAppID(bundleID)) {
-            continue;
-        }
-        if (name.length == 0) {
-            name = bundleID;
-        }
+    for (NSDictionary *record in DFCatalogRecordsFromProxies(proxies)) {
+        NSString *bundleID=record[@"bundle"];
+        NSString *name=record[@"name"];
         DFAppInfo *info = [[DFAppInfo alloc] init];
         info.bundleID = bundleID;
         info.displayName = name;

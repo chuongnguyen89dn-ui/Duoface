@@ -2,6 +2,7 @@
 // Do not draw sample split panes, fake app scenes or inert settings controls.
 #import <UIKit/UIKit.h>
 #import "DFAppEligibility.h"
+#import "DFAppCatalogPolicy.h"
 #import "DFEnabledAppsPolicy.h"
 #import "DFNativeDiagnostics.h"
 #import "DFLayoutEngine.h"
@@ -53,20 +54,7 @@
    if(![workspace respondsToSelector:allApps])return @[];
    id result=((id(*)(id,SEL))objc_msgSend)(workspace,allApps);
    if(![result isKindOfClass:NSArray.class])return @[];
-   NSMutableArray<NSDictionary *> *items=[NSMutableArray new];
-   for(id proxy in (NSArray *)result){
-      id bundle=nil,name=nil;
-      @try {bundle=[proxy valueForKey:@"applicationIdentifier"];
-            name=[proxy valueForKey:@"localizedName"];}
-      @catch(NSException *e){(void)e;continue;}
-      if(!DFIsEligibleAppID(bundle))continue;
-      if(![name isKindOfClass:NSString.class] || ![(NSString *)name length])name=bundle;
-      [items addObject:@{@"name":name,@"bundle":bundle}];
-   }
-   [items sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){
-      return [a[@"name"] localizedCaseInsensitiveCompare:b[@"name"]];
-   }];
-   return items;
+   return DFCatalogRecordsFromProxies((NSArray *)result);
  }@catch(NSException *e) {NSLog(@"[DuoFacePhone] installed-app-list error=%@",e.name);return @[];}
 }
 - (void)viewDidLoad {
